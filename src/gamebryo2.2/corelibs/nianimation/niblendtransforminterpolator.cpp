@@ -23,13 +23,14 @@ bool NiBlendTransformInterpolator::Update(float fTime, NiObjectNET* pkObject, Ni
 
 struct FUN_00a40a40_shell : public NiBlendTransformInterpolator
 {
-    void* FUN_00a40a40();
+    void* NiBlendTransformInterpolator_GetRTTI();
 };
 
 extern "C" const NiRTTI* g_011f3e64;
 
 // @fnv 0x00a40a40
-void* FUN_00a40a40_shell::FUN_00a40a40()
+// src: COMMUNITY 0x00a40a40
+void* FUN_00a40a40_shell::NiBlendTransformInterpolator_GetRTTI()
 {
     return &g_011f3e64;
 }
@@ -224,13 +225,13 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 typedef NiTArray<const char*, NiTMallocInterface<const char*> > AGViewerStrings;
 extern "C" const char* DAT_011f3e64;
 void __stdcall FUN_00a38080(AGViewerStrings* pkStrings);
-const char* __cdecl FUN_00a7d330(const char* pcText);
+const char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 
 // @fnv 0x00a41170
 void __stdcall FUN_00a41170(AGViewerStrings* pkStrings)
 {
     FUN_00a38080(pkStrings);
-    pkStrings->Add(FUN_00a7d330(DAT_011f3e64));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f3e64));
 }
 
 void __cdecl FUN_00a37510();

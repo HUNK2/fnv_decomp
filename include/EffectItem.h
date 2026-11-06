@@ -76,11 +76,11 @@ public:
     void Save();
     void Init(int value);
     void Initialize(EffectSetting* setting);
-    void FUN_00403be0(EffectSetting* setting);
-    bool FUN_004043d0(int magnitude);
-    bool FUN_00404470(int area);
-    bool FUN_00404510(int duration);
-    bool FUN_00404560(unsigned int range);
+    void Initialize_00403be0(EffectSetting* setting);
+    bool SetMagnitude_004043d0(int magnitude);
+    bool SetArea_00404470(int area);
+    bool SetDuration_00404510(int duration);
+    bool SetRange_00404560(unsigned int range);
     bool SetMagnitude(int magnitude);
     bool SetArea(int area);
     bool SetDuration(int duration);

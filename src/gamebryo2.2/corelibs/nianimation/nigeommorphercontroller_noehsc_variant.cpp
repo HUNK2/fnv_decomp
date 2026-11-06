@@ -11,7 +11,7 @@
 namespace fnv_00a3b150 {
 struct MorphMemoryManager
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 extern MorphMemoryManager DAT_011f6238;
 struct BinaryReader
@@ -208,7 +208,7 @@ struct LoadItem
     {}
     static void* operator new[](unsigned int size) throw()
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
 };
 struct MorphLoad : LoadBase

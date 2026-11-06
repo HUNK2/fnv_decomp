@@ -32,7 +32,8 @@ void __cdecl _NiFreeAlias(void* p);
 
 // Clamps param_3 to 0x10, frees the pointer at this_ptr+0x68, stores the clamped byte at +0x6c and param_2 at +0x68.
 // @fnv 0x00a968e0
-void __fastcall FUN_00a968e0(char* this_ptr, int, void* param_2, unsigned char param_3)
+// src: COMMUNITY 0x00a968e0
+void __fastcall NiParticlesData_ReplaceSubTextureOffsets(char* this_ptr, int, void* param_2, unsigned char param_3)
 {
     if (param_3 >= 0x10)
     {
@@ -46,7 +47,8 @@ void __fastcall FUN_00a968e0(char* this_ptr, int, void* param_2, unsigned char p
 extern const char* const g_011f5f0c_arg1;
 
 // @fnv 0x00a967d0
-const char* const* __cdecl FUN_00a967d0()
+// src: COMMUNITY 0x00a967d0
+const char* const* __cdecl NiParticlesData_GetRTTI()
 {
     return &g_011f5f0c_arg1;
 }
@@ -499,7 +501,7 @@ void __cdecl ReadElements(NiStream* stream, float* arr, unsigned int count);
 void __cdecl FUN_00ec61c0(void* p, int val, unsigned int n);
 struct AllocSvc
 {
-    void* __thiscall FUN_00aa3e40(unsigned int n);
+    void* __thiscall Game_DoHeapAlloc(unsigned int n);
     void __thiscall FUN_00aa4060(void* p);
 };
 extern AllocSvc DAT_011f6238;
@@ -507,7 +509,7 @@ struct ArrNew
 {
     static void* operator new[](unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 extern float DAT_011a9ea4;

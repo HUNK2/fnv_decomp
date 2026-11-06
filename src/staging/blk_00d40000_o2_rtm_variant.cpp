@@ -53,13 +53,13 @@ struct FUN_00d53200_class
 void* __cdecl InitAndGetOffset(void*, void*, void*);
 void __cdecl RemoveEntryByKey(void);
 void __cdecl FindOrClaimEntry(void);
-void __cdecl FUN_00d3fde0(void);
+void __cdecl nullsub_16(void);
 void __cdecl ResetEntryAgents(void);
 void __cdecl FUN_00d3fe70(void);
-void __cdecl FUN_00d3fe90(void);
+void __cdecl hkBoxBoxAgent3_process(void);
 void __cdecl hkBoxBoxAgent3_initAgentFunc(void* apObject);
 void __cdecl DispatchInputRecord();
-void __cdecl FUN_00d41a30();
+void __cdecl hkPredGskAgent3_process();
 void __cdecl FUN_00d41930();
 void __cdecl FUN_00d41860();
 void __cdecl RemoveEntryById();
@@ -213,8 +213,8 @@ static FNVDispatchNode* FNVTailOf(FNVDispatchNode* n)
 int __cdecl DispatchToType1dNodes(FNVDispatchNode* pNodeA, FNVDispatchNode* pNodeB, int iCode);
 void __cdecl FUN_00d42800();
 void __cdecl CallVirtualMethod();
-void __cdecl FUN_00d42760();
-void __cdecl FUN_00d42780();
+void __cdecl nullsub_17();
+void __cdecl nullsub_18();
 void __cdecl FUN_00d42960(Agent* apAgent);
 struct S_00d48300_Callee
 {
@@ -551,7 +551,7 @@ struct MemoryContextScope
 struct DataFactory
 {
     void FUN_00c89730(DataObject* object, int id);
-    DataObject* FUN_00d501f0(int id);
+    DataObject* bhkGenericConstraint_Clone(int id);
 };
 class FUN_00d51720_helper
 {
@@ -1367,8 +1367,8 @@ void Owner::AppendPairAndAdvance(int aiValue)
     m_pkWriter->Add();
 }
 }
-void FUN_00d42760();
-void __cdecl FUN_00d42780();
+void nullsub_17();
+void __cdecl nullsub_18();
 class hkListNodeD46D
 {
   public:
@@ -1487,12 +1487,12 @@ class FUN_00dcc160_cls
     void* m_pResource;
 };
 void* __cdecl FUN_00d491b0(void* pvSource, void* pvArg, void* pvArgCur, void* kvArg);
-void FUN_00d4b150();
-void __cdecl FUN_00d4b290();
-void __cdecl FUN_00d4b2b0();
-void FUN_00d4b360();
-void FUN_00d4b370();
-void FUN_00d4bef0();
+void nullsub_97();
+void __cdecl nullsub_99();
+void __cdecl nullsub_101();
+void nullsub_98();
+void nullsub_100();
+void nullsub_102();
 void __cdecl FUN_00c8a230(int* param_1, int param_2);
 void __cdecl FUN_00d50000(int* param_1, int param_2);
 struct FUN_00c89920_cls
@@ -1577,7 +1577,7 @@ struct FnvCpu_FUN_00d54d70_CpuObject
     unsigned int unk10;
     unsigned int unk14;
     float value;
-    float FUN_00d54d70();
+    float hkpMoppCompilerInput_getAbsoluteFitToleranceOfTriangles();
 };
 struct FUN_00d54da0_Class
 {
@@ -1596,7 +1596,7 @@ struct FnvCpu_FUN_00d54db0_CpuObject
     unsigned int unk08;
     unsigned int unk0c;
     float value;
-    float FUN_00d54db0();
+    float hkpMoppCompilerInput_getRelativeFitToleranceOfInternalNodes();
 };
 struct FUN_00d54dc0_cls
 {
@@ -1609,7 +1609,7 @@ struct FUN_00d54dc0_cls
 
     void __thiscall FUN_00d54dc0(float value);
 };
-float __fastcall FUN_00d54dd0(char* self, int);
+float __fastcall hkpMoppCompilerInput_getAbsoluteFitToleranceOfInternalNodes(char* self, int);
 void __cdecl FUN_00d55510();
 typedef unsigned int D57Uint32;
 static __forceinline void D57MemCpy16NonEmpty(void* dst, const void* src, int numQuads)
@@ -1999,7 +1999,7 @@ class HolderD54D
     QuadD54D GetValue() const;
 };
 extern char* DAT_01268f90;
-char* __cdecl FUN_00a7d330(char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 struct FUN_00d54ed0_Obj
 {
     unsigned int unk00, unk04;
@@ -2132,7 +2132,7 @@ struct D502D0_TlsGuard
 };
 struct D502D0_Allocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
+    void* __thiscall Game_DoHeapAlloc(unsigned int size);
 };
 extern D502D0_Allocator DAT_011f6238;
 extern int DAT_010c9f38;
@@ -2150,7 +2150,7 @@ struct D502D0_RefObject
 };
 static __forceinline D502D0_RefData* D502D0_CreateReference()
 {
-    D502D0_RefObject* object = reinterpret_cast<D502D0_RefObject*>(DAT_011f6238.FUN_00aa3e40(sizeof(D502D0_RefObject)));
+    D502D0_RefObject* object = reinterpret_cast<D502D0_RefObject*>(DAT_011f6238.Game_DoHeapAlloc(sizeof(D502D0_RefObject)));
     if (object)
     {
         D502D0_RefData* data = &object->m_data;
@@ -3575,9 +3575,9 @@ struct Arg2Struct
     unsigned char m_1e;
     unsigned char m_1f;
 
-    float FUN_00d54db0();
-    float FUN_00d54dd0();
-    float FUN_00d54d70();
+    float hkpMoppCompilerInput_getRelativeFitToleranceOfInternalNodes();
+    float hkpMoppCompilerInput_getAbsoluteFitToleranceOfInternalNodes();
+    float hkpMoppCompilerInput_getAbsoluteFitToleranceOfTriangles();
     hkQuadReal* GetValue(hkQuadReal* out);
 };
 
@@ -3629,9 +3629,9 @@ void* __cdecl FUN_00d54a40(void* arg0, void* arg1, Arg2Struct* arg2, ::SearchObj
 
     {
         Sub3 sub3;
-        sub3.f0 = arg2->FUN_00d54db0();
-        sub3.f1 = arg2->FUN_00d54dd0();
-        sub3.f2 = arg2->FUN_00d54d70();
+        sub3.f0 = arg2->hkpMoppCompilerInput_getRelativeFitToleranceOfInternalNodes();
+        sub3.f1 = arg2->hkpMoppCompilerInput_getAbsoluteFitToleranceOfInternalNodes();
+        sub3.f2 = arg2->hkpMoppCompilerInput_getAbsoluteFitToleranceOfTriangles();
         hkQuadReal tmp;
         ::D4F2A0Simd::_mm_store_ps((float*)&sub3.v, MoppBuildSimd::_mm_load_ps((const float*)arg2->GetValue(&tmp)));
         sub3.b24 = flag17;

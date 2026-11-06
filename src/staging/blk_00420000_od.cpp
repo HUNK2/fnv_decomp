@@ -45,22 +45,24 @@ struct DefaultTimestamp : CombatTargetTimestamp
 
 struct FUN_004216d0_shell
 {
-    bool FUN_004216d0();
+    bool ExtraDataList_HasLevCreaCalced();
 };
 
 // @fnv 0x004216d0
-bool FUN_004216d0_shell::FUN_004216d0()
+// src: COMMUNITY 0x004216d0
+bool FUN_004216d0_shell::ExtraDataList_HasLevCreaCalced()
 {
     return ((BaseExtraList*)this)->HasExtraData(0x2e);
 }
 
 struct FUN_0042ce90_class
 {
-    bool FUN_0042ce90() const;
+    bool BGSLoadFormBuffer_GetReconstructedForm() const;
 };
 
 // @fnv 0x0042ce90
-bool FUN_0042ce90_class::FUN_0042ce90() const
+// src: COMMUNITY 0x0042ce90
+bool FUN_0042ce90_class::BGSLoadFormBuffer_GetReconstructedForm() const
 {
     return (*(const int*)((const char*)this + 0x28) & 8) ? true : false;
 }
@@ -96,7 +98,7 @@ extern "C" void* __cdecl DAT_010159e8;
 struct FUN_0042f4e0_class
 {
     void* m_vtbl;
-    void __thiscall FUN_0042fe10(void* arg);
+    void __thiscall NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool(void* arg);
     void* __thiscall FUN_0042f4e0(void* arg);
 };
 
@@ -104,7 +106,7 @@ struct FUN_0042f4e0_class
 // @fnv 0x0042f4e0
 void* __thiscall FUN_0042f4e0_class::FUN_0042f4e0(void* arg)
 {
-    FUN_0042fe10(arg);
+    NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool(arg);
     m_vtbl = &DAT_010159e8;
     return this;
 }
@@ -115,7 +117,8 @@ struct FUN_0042ff10_cls
 };
 
 // @fnv 0x0042ff10
-void FUN_0042ff10(FUN_0042ff10_cls* pTarget, int b)
+// src: COMMUNITY 0x0042ff10
+void BSSimpleArray_NavMeshPtr_1024_DefaultEqualFunction_NavMeshPtr(FUN_0042ff10_cls* pTarget, int b)
 {
     pTarget->FUN_0042ff30(b);
 }
@@ -151,11 +154,12 @@ void FUN_00435ef0::FUN_00435ef0_init()
 
 struct FUN_00437dd0_Class
 {
-    void* FUN_00437dd0();
+    void* ExtraFollowerSwimBreadcrumbs_GetFirstCrumb();
 };
 
 // @fnv 0x00437dd0
-void* FUN_00437dd0_Class::FUN_00437dd0()
+// src: COMMUNITY 0x00437dd0
+void* FUN_00437dd0_Class::ExtraFollowerSwimBreadcrumbs_GetFirstCrumb()
 {
     return *(void**)&((Bound*)((char*)this + 0x20))->FUN_006815c0();
 }
@@ -260,12 +264,13 @@ void __cdecl Deallocate(void*);
 
 struct FUN_00438940_Class
 {
-    void __thiscall FUN_00438940(void* p);
+    void __thiscall BSMap_DWORD_bool_DeleteItem(void* p);
 };
 
 // Sets byte 8 of p to 0, then passes p to Deallocate.
 // @fnv 0x00438940
-void __thiscall FUN_00438940_Class::FUN_00438940(void* p)
+// src: COMMUNITY 0x00438940
+void __thiscall FUN_00438940_Class::BSMap_DWORD_bool_DeleteItem(void* p)
 {
     ((char*)p)[8] = 0;
     void* tmp = p;
@@ -339,21 +344,24 @@ void FUN_004392c0_shell::FUN_00439320()
 }
 
 // @fnv 0x00439340
-void NiObjectNET::FUN_00439340(unsigned short a)
+// src: COMMUNITY 0x00439340
+void NiObjectNET::NiAlphaProperty_SetSrcBlendMode(unsigned short a)
 {
-    FUN_00439360(a, 0x1e, 1);
+    SetField_00439360(a, 0x1e, 1);
 }
 
 // Calls FUN_00439360 with the given unsigned short and the constants 0x1e0 and 5.
 // @fnv 0x00439390
-void NiObjectNET::FUN_00439390(unsigned short ausValue)
+// src: COMMUNITY 0x00439390
+void NiObjectNET::NiAlphaProperty_SetDestBlendMode(unsigned short ausValue)
 {
-    FUN_00439360(ausValue, 0x1e0, 5);
+    SetField_00439360(ausValue, 0x1e0, 5);
 }
 
 // Stores the given NiPoint3 into the object at offset 0x18.
 // @fnv 0x00439680
-void Bound::FUN_00439680(const NiPoint3& aPoint)
+// src: COMMUNITY 0x00439680
+void Bound::BSMultiBound_SetHalfExtents(const NiPoint3& aPoint)
 {
     struct PointWords { unsigned int x, y, z; };
     *(PointWords*)((char*)this + 0x18) = *(const PointWords*)&aPoint;
@@ -362,12 +370,13 @@ void Bound::FUN_00439680(const NiPoint3& aPoint)
 struct FUN_0043b260_Class
 {
     unsigned short m_0018;
-    bool __thiscall FUN_0043b260(unsigned short* pArg);
+    bool __thiscall NiZBufferProperty_IsEqualFast(unsigned short* pArg);
 };
 
 // Compares the 16-bit value at offset 0x18 of this object with the same field of pArg and returns whether they are equal.
 // @fnv 0x0043b260
-bool __thiscall FUN_0043b260_Class::FUN_0043b260(unsigned short* pOther)
+// src: COMMUNITY 0x0043b260
+bool __thiscall FUN_0043b260_Class::NiZBufferProperty_IsEqualFast(unsigned short* pOther)
 {
     return *(unsigned short*)((char*)this + 0x18) == *(unsigned short*)((char*)pOther + 0x18);
 }
@@ -375,11 +384,12 @@ bool __thiscall FUN_0043b260_Class::FUN_0043b260(unsigned short* pOther)
 struct TaskQueueInterface
 {
     void SetTaskFlagDWord(bool, unsigned int);
-    void FUN_0043b350(bool enabled);
+    void NiAVObject_SetSelectiveUpdateTransformsOverride(bool enabled);
 };
 
 // @fnv 0x0043b350
-void TaskQueueInterface::FUN_0043b350(bool enabled)
+// src: COMMUNITY 0x0043b350
+void TaskQueueInterface::NiAVObject_SetSelectiveUpdateTransformsOverride(bool enabled)
 {
     SetTaskFlagDWord(enabled, 0x80);
 }
@@ -387,11 +397,12 @@ void TaskQueueInterface::FUN_0043b350(bool enabled)
 
 struct FUN_0043b5b0_shell
 {
-    void FUN_0043b5b0();
+    void hkpWorldObject_markForRead();
 };
 
 // @fnv 0x0043b5b0
-void FUN_0043b5b0_shell::FUN_0043b5b0()
+// src: COMMUNITY 0x0043b5b0
+void FUN_0043b5b0_shell::hkpWorldObject_markForRead()
 {
     ((TESForm*)((TESObjectTREE*)this)->GetData())->Revert(1);
 }
@@ -403,11 +414,12 @@ struct FUN_0043ba10_shell
 
 struct FUN_0043b9f0_shell
 {
-    void FUN_0043b9f0(FUN_0043ba10_shell* p);
+    void NiControllerSequence_SetName(FUN_0043ba10_shell* p);
 };
 
 // @fnv 0x0043b9f0
-void FUN_0043b9f0_shell::FUN_0043b9f0(FUN_0043ba10_shell* p)
+// src: COMMUNITY 0x0043b9f0
+void FUN_0043b9f0_shell::NiControllerSequence_SetName(FUN_0043ba10_shell* p)
 {
     ((FUN_0043ba10_shell*)((char*)this + 8))->FUN_0043ba10(p);
 }
@@ -415,11 +427,12 @@ void FUN_0043b9f0_shell::FUN_0043b9f0(FUN_0043ba10_shell* p)
 
 struct FUN_0043baa0_class
 {
-    void FUN_0043baa0(void* p);
+    void BSAnimGroupSequence_SetAnimGroup(void* p);
 };
 
 // @fnv 0x0043baa0
-void FUN_0043baa0_class::FUN_0043baa0(void* p)
+// src: COMMUNITY 0x0043baa0
+void FUN_0043baa0_class::BSAnimGroupSequence_SetAnimGroup(void* p)
 {
     *(GO*)((char*)this + 0x74) = p;
 }
@@ -751,13 +764,14 @@ struct PointerFlagNode
 };
 struct FUN_004207e0Class
 {
-    PointerFlagNode* FUN_004207e0();
-    void FUN_00420da0(unsigned int);
+    PointerFlagNode* ExtraDataList_GetRoomLinkedRefData();
+    void ExtraDataList_RemovePortalLinkedRoomRef(unsigned int);
 };
 // @fnv 0x00420da0
-void FUN_004207e0Class::FUN_00420da0(unsigned int a1)
+// src: COMMUNITY 0x00420da0
+void FUN_004207e0Class::ExtraDataList_RemovePortalLinkedRoomRef(unsigned int a1)
 {
-    PointerFlagNode* p = FUN_004207e0();
+    PointerFlagNode* p = ExtraDataList_GetRoomLinkedRefData();
     if (p)
         p->_ref_00905330(a1);
 }
@@ -817,11 +831,12 @@ struct FUN_0042cc10_class
     int m0;
     int m4;
     float m8;
-    FUN_0042cc10_class* __thiscall FUN_0042cc10();
+    FUN_0042cc10_class* __thiscall SayOnceTopicInfos_SayOnceTopicInfos_0();
 };
 // Initialises the object's fields to zero, -1 and -1.0f, then returns this.
 // @fnv 0x0042cc10
-FUN_0042cc10_class* __thiscall FUN_0042cc10_class::FUN_0042cc10()
+// src: COMMUNITY 0x0042cc10
+FUN_0042cc10_class* __thiscall FUN_0042cc10_class::SayOnceTopicInfos_SayOnceTopicInfos_0()
 {
     m0 = 0;
     m4 = -1;
@@ -929,11 +944,12 @@ struct FUN_0042fe10_class
     unsigned int m_uiCount;
     void* m_pData;
     unsigned int m_uiSize;
-    void* __thiscall FUN_0042fe10(unsigned int count);
+    void* __thiscall NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool(unsigned int count);
 };
 
 // @fnv 0x0042fe10
-void* FUN_0042fe10_class::FUN_0042fe10(unsigned int count)
+// src: COMMUNITY 0x0042fe10
+void* FUN_0042fe10_class::NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectREFR_bool_TESObjectREFR_bool(unsigned int count)
 {
     m_pName = &DAT_01015a1c;
     m_uiCount = count;
@@ -964,7 +980,7 @@ void* __thiscall FUN_0042ff50_host::FUN_0042ff50(unsigned int flags)
 }
 
 extern void* _EmptyFS;
-void* __cdecl FUN_00438210(void*);
+void* __cdecl NiGlobalStringTable_GetRealBufferStart(void*);
 void __cdecl FinishScriptRunLock(void*);
 
 // If the object at p is not _EmptyFS, obtains a value via FUN_00438210 and passes it to FinishScriptRunLock.
@@ -973,12 +989,13 @@ void FUN_004381d0(void* p)
 {
     if (*(void**)p == _EmptyFS)
         return;
-    void* r = FUN_00438210(p);
+    void* r = NiGlobalStringTable_GetRealBufferStart(p);
     FinishScriptRunLock(r);
 }
 
 // @fnv 0x00438210
-int __cdecl FUN_00438210(int* p)
+// src: COMMUNITY 0x00438210
+int __cdecl NiGlobalStringTable_GetRealBufferStart(int* p)
 {
     return *p - 8;
 }
@@ -1017,7 +1034,7 @@ struct FNStub
     const char* GetFullName();
 };
 void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 void __cdecl FUN_00485950(unsigned int, unsigned int);
 struct FUN_00438c10_Class : public FNStub
@@ -1027,7 +1044,7 @@ struct FUN_00438c10_Class : public FNStub
 // @fnv 0x00438c10
 void __thiscall FUN_00438c10_Class::FUN_00438c10()
 {
-    FUN_004858f0(0x4d414e46, *(unsigned char*)((char*)this + 0xc));
+    TESForm_AddChunk_3(0x4d414e46, *(unsigned char*)((char*)this + 0xc));
     FUN_004856f0(0x4c4c5546, (void*)GetFullName(), ((TESModel*)this)->GetModelLength() + 1);
     FUN_00485950(0x4d414e54, *(unsigned short*)((char*)this + 0xe));
     if (*(void**)((char*)this + 0x10))
@@ -1056,11 +1073,12 @@ struct Unk_00439120
     int m0;
     int m4;
     int m8;
-    void FUN_00439120(Unk_00439120* p);
+    void MultiBoundMarkerData_Copy(Unk_00439120* p);
 };
 // Copies the contents of the object pointed to by p into this object when p is non-null.
 // @fnv 0x00439120
-void Unk_00439120::FUN_00439120(Unk_00439120* apSource)
+// src: COMMUNITY 0x00439120
+void Unk_00439120::MultiBoundMarkerData_Copy(Unk_00439120* apSource)
 {
     if (apSource)
         *this = *apSource;
@@ -1105,7 +1123,8 @@ struct Mat9
 };
 // Copies the 9-element matrix src into the object's m field.
 // @fnv 0x004396b0
-void __thiscall Bound::FUN_004396b0(const Matrix& aMatrix)
+// src: COMMUNITY 0x004396b0
+void __thiscall Bound::BSMultiBoundAABB_SetAxis(const Matrix& aMatrix)
 {
     *(Mat9*)((char*)this + 0x24) = *(const Mat9*)&aMatrix;
 }
@@ -1196,7 +1215,8 @@ struct Flt
 };
 extern Flt DAT_011f4438;
 // @fnv 0x0043b250
-unsigned int __cdecl FUN_0043b250()
+// src: COMMUNITY 0x0043b250
+unsigned int __cdecl NiVertexColorProperty_GetDefault()
 {
     return DAT_011f4438;
 }
@@ -1210,7 +1230,8 @@ struct Flt
 extern Flt DAT_011f4444;
 
 // @fnv 0x0043b2a0
-unsigned int __cdecl FUN_0043b2a0()
+// src: COMMUNITY 0x0043b2a0
+unsigned int __cdecl NiZBufferProperty_GetDefault()
 {
     return DAT_011f4444;
 }
@@ -1220,20 +1241,21 @@ struct S_0043b320
 {
     char _pad0[0x38];
     TaskQueueInterface** arr;
-    void __thiscall FUN_0043b320(unsigned short a, TaskQueueInterface* b);
+    void __thiscall NiMultiTargetTransformController_SetInterpolatorTarget(unsigned short a, TaskQueueInterface* b);
 };
 // Stores b in arr[a] and, when b is non-null, calls b->FUN_0043b350(true).
 // @fnv 0x0043b320
-void __thiscall S_0043b320::FUN_0043b320(unsigned short usIndex, TaskQueueInterface* pTaskQueue)
+// src: COMMUNITY 0x0043b320
+void __thiscall S_0043b320::NiMultiTargetTransformController_SetInterpolatorTarget(unsigned short usIndex, TaskQueueInterface* pTaskQueue)
 {
     arr[usIndex] = pTaskQueue;
     if (pTaskQueue)
-        pTaskQueue->FUN_0043b350(true);
+        pTaskQueue->NiAVObject_SetSelectiveUpdateTransformsOverride(true);
 }
 
 namespace fnv_0043ba60 {
 extern int _EmptyFS;
-void* __cdecl FUN_00438210(void*);
+void* __cdecl NiGlobalStringTable_GetRealBufferStart(void*);
 int __cdecl InitScriptRunLock(void*);
 // @fnv 0x0043ba60
 void __cdecl FUN_0043ba60(int* p)
@@ -1244,7 +1266,7 @@ void __cdecl FUN_0043ba60(int* p)
     }
     else
     {
-        v = FUN_00438210(p);
+        v = NiGlobalStringTable_GetRealBufferStart(p);
         InitScriptRunLock(v);
     }
 }
@@ -1258,11 +1280,12 @@ struct FUN_00435820 : public BSExtraData
 };
 struct FUN_00420e00_cls : public BaseExtraList
 {
-    void FUN_00420e00(void* p);
+    void ExtraDataList_SetPortal(void* p);
 };
 // Stores p in the extra data of type 0x78, creating and adding it if absent, or removes that extra data when p is null.
 // @fnv 0x00420e00
-void FUN_00420e00_cls::FUN_00420e00(void* apData)
+// src: COMMUNITY 0x00420e00
+void FUN_00420e00_cls::ExtraDataList_SetPortal(void* apData)
 {
     if (apData)
     {
@@ -1349,10 +1372,11 @@ FUN_00438820_Class::FUN_00438820_Class(int aiCount)
 
 struct FUN_0042e5a0_class
 {
-    void FUN_0042e5a0(unsigned char type);
+    void ExtraDataList_SetIsModding(unsigned char type);
 };
 // @fnv 0x0042e5a0
-void FUN_0042e5a0_class::FUN_0042e5a0(unsigned char type)
+// src: COMMUNITY 0x0042e5a0
+void FUN_0042e5a0_class::ExtraDataList_SetIsModding(unsigned char type)
 {
     BSExtraData* extra = ((BaseExtraList*)this)->GetExtraData(0x8e);
     if (!extra)
@@ -1406,11 +1430,12 @@ NiPoint3* FUN_00439ef0_class::FUN_00439ef0(NiPoint3* apResult, const NiPoint3& a
 
 struct FUN_0043b3b0_class
 {
-    unsigned short FUN_0043b3b0(unsigned int value);
+    unsigned short NiMultiTargetTransformController_HasTarget(unsigned int value);
 };
 // Scans the array at offset 0x38 up to the count at 0x3c and returns the index of the first element equal to value, or INVALID_INDEX if none matches.
 // @fnv 0x0043b3b0
-unsigned short FUN_0043b3b0_class::FUN_0043b3b0(unsigned int value)
+// src: COMMUNITY 0x0043b3b0
+unsigned short FUN_0043b3b0_class::NiMultiTargetTransformController_HasTarget(unsigned int value)
 {
     unsigned short i = 0;
     for (; i < *(unsigned short*)((char*)this + 0x3c); ++i)
@@ -1433,7 +1458,7 @@ struct LH
 
 struct FUN_00420440_Class
 {
-    void FUN_00420440(void* pObject);
+    void ExtraDataList_SetRoomLinkedRefData(void* pObject);
 };
 
 struct FUN_00416b80
@@ -1449,21 +1474,22 @@ struct FUN_00416b80
 
 struct FUN_00420c10_Class : public FUN_004207e0Class
 {
-    void FUN_00420c10(int value);
+    void ExtraDataList_AddRoomLinkedRoomRef(int value);
 };
 
 void* __cdecl operator new(unsigned int size);
 
 // Ensures the object exists when value is nonzero, then adds value to the list at offset 8 if it is not already present.
 // @fnv 0x00420c10
-void FUN_00420c10_Class::FUN_00420c10(int value)
+// src: COMMUNITY 0x00420c10
+void FUN_00420c10_Class::ExtraDataList_AddRoomLinkedRoomRef(int value)
 {
-    if (!this->FUN_004207e0() && value)
+    if (!this->ExtraDataList_GetRoomLinkedRefData() && value)
     {
-        ((FUN_00420440_Class*)this)->FUN_00420440(new FUN_00416b80());
+        ((FUN_00420440_Class*)this)->ExtraDataList_SetRoomLinkedRefData(new FUN_00416b80());
     }
 
-    void* m_pLinkedReference = this->FUN_004207e0();
+    void* m_pLinkedReference = this->ExtraDataList_GetRoomLinkedRefData();
     if (!((LH*)((char*)m_pLinkedReference + 8))->IsInList(value))
     {
         ((G2*)((char*)m_pLinkedReference + 8))->AddHead(&value);
@@ -1494,11 +1520,12 @@ int FUN_0042dff0_shell::FUN_0042dff0()
 
 struct FUN_0042e130_shell : BaseExtraList
 {
-    void FUN_0042e130();
+    void ExtraDataList_RemoveTalkingActor();
 };
 
 // @fnv 0x0042e130
-void FUN_0042e130_shell::FUN_0042e130()
+// src: COMMUNITY 0x0042e130
+void FUN_0042e130_shell::ExtraDataList_RemoveTalkingActor()
 {
     BaseExtraList::RemoveExtra((unsigned char)0x55);
 }
@@ -1679,10 +1706,11 @@ struct Date
 };
 struct FUN_0043b5f0_cls : TESObjectTREE
 {
-    void FUN_0043b5f0();
+    void hkpWorldObject_unmarkForRead();
 };
 // @fnv 0x0043b5f0
-void FUN_0043b5f0_cls::FUN_0043b5f0()
+// src: COMMUNITY 0x0043b5f0
+void FUN_0043b5f0_cls::hkpWorldObject_unmarkForRead()
 {
     ((Date*)GetData())->Date::~Date();
 }
@@ -1843,7 +1871,7 @@ struct FloatList
     int unk00;
     int FUN_0044ddc0();
     unsigned int* FUN_006a7ad0(int idx);
-    void FUN_00438610(FloatHolder* p);
+    void BSSimpleArray_CombatTimeStamp_1024_Add(FloatHolder* p);
 };
 
 struct FloatGlobal
@@ -1864,11 +1892,12 @@ class FUN_00435d40_cls
     FloatList m_0c;
 
     void Reset();
-    void FUN_00435d40();
+    void ExtraFriendHits_AddHit();
 };
 
 // @fnv 0x00435d40
-void FUN_00435d40_cls::FUN_00435d40()
+// src: COMMUNITY 0x00435d40
+void FUN_00435d40_cls::ExtraFriendHits_AddHit()
 {
     Reset();
     int n = m_0c.FUN_0044ddc0();
@@ -1881,7 +1910,7 @@ void FUN_00435d40_cls::FUN_00435d40()
     }
     FloatHolder h;
     h.FUN_00435de0(FUN_00435dd0());
-    m_0c.FUN_00438610(&h);
+    m_0c.BSSimpleArray_CombatTimeStamp_1024_Add(&h);
 }
 
 struct FUN_00435e40_key
@@ -2824,12 +2853,13 @@ class FUN_00438610_cls
     unsigned int* m_pData;
     unsigned int GetCount();
     void Reserve(unsigned int* slot, int count);
-    int FUN_00438610(unsigned int* value);
+    int BSSimpleArray_CombatTimeStamp_1024_Add(unsigned int* value);
 };
 
 // Appends the value to the end of the array, growing it by one, and returns the index where it was stored.
 // @fnv 0x00438610
-int FUN_00438610_cls::FUN_00438610(unsigned int* value)
+// src: COMMUNITY 0x00438610
+int FUN_00438610_cls::BSSimpleArray_CombatTimeStamp_1024_Add(unsigned int* value)
 {
     unsigned int index = GetCount();
     Reserve(m_pData + index, 1);
@@ -2917,7 +2947,8 @@ struct Matrix
 // shared allocation API supports the original sized-delete cleanup.
 #include "../../include/NiMemObject.h"
 // @fnv 0x00439490
-BSMultiBound* __cdecl FUN_00439490(TESObjectREFR* reference)
+// src: COMMUNITY 0x00439490
+BSMultiBound* __cdecl MultiBoundMarkerData_CreateMultiBoundForRef(TESObjectREFR* reference)
 {
     BSMultiBound* result = 0;
     if (reference)
@@ -2928,23 +2959,24 @@ BSMultiBound* __cdecl FUN_00439490(TESObjectREFR* reference)
             std::abs(reference->GetAngleOnReference().z) < 0.01f)
         {
             pBound = new BSMultiBoundAABB;
-            ((Bound*)pBound)->FUN_00439680(reference->FUN_00569880());
+            ((Bound*)pBound)->BSMultiBound_SetHalfExtents(reference->TESObjectREFR_GetMultiBoundHalfExtent());
         }
         else
         {
             pBound = new BSMultiBoundOBB;
-            ((Bound*)pBound)->FUN_004396b0(reference->FUN_0056fa00());
-            ((Bound*)pBound)->FUN_00439680(reference->FUN_00569880());
+            ((Bound*)pBound)->BSMultiBoundAABB_SetAxis(reference->TESObjectREFR_GetOrientation());
+            ((Bound*)pBound)->BSMultiBound_SetHalfExtents(reference->TESObjectREFR_GetMultiBoundHalfExtent());
         }
         pBound->SetGridPosition(*static_cast<const TESObjectREFR*>(reference)->GetPos());
         result = new BSMultiBound;
-        result->FUN_004addc0((Bound*)pBound);
+        result->BSMultiBound_SetShape((Bound*)pBound);
     }
     return result;
 }
 
 // @fnv 0x0043b290
-int __cdecl FUN_0043b290()
+// src: COMMUNITY 0x0043b290
+int __cdecl NiZBufferProperty_GetType()
 {
     return (int)11u;
 }
@@ -2977,12 +3009,13 @@ struct Host00437df0
 {
     char m_auiShapeKeys[0x20];
     Sub4037 m_sub;
-    void FUN_00437df0();
+    void ExtraFollowerSwimBreadcrumbs_RemoveFirstCrumb();
 };
 
 // Calls FUN_007b3fa0(true) on the object returned by m_sub.FUN_006815c0 if non-null, then FUN_00726c60(&d) and FUN_0063f7b0 on m_sub.
 // @fnv 0x00437df0
-void Host00437df0::FUN_00437df0()
+// src: COMMUNITY 0x00437df0
+void Host00437df0::ExtraFollowerSwimBreadcrumbs_RemoveFirstCrumb()
 {
     ObjB4037* a = *m_sub.FUN_006815c0();
     ObjB4037* b5;
@@ -3144,8 +3177,8 @@ struct AnimSource
     virtual void v1F0();
     virtual void* GetSourceData();
     const AnimPoint3& GetAngleOnReference() const;
-    const AnimPoint3& FUN_00569880();
-    AnimMatrix3 FUN_0056fa00();
+    const AnimPoint3& TESObjectREFR_GetMultiBoundHalfExtent();
+    AnimMatrix3 TESObjectREFR_GetOrientation();
 };
 
 struct AnimInterpolator : AnimMemObject
@@ -3238,7 +3271,8 @@ struct AnimController : AnimMemObject
 };
 
 // @fnv 0x004396e0
-AnimController* __cdecl FUN_004396e0(AnimSource* apSource)
+// src: COMMUNITY 0x004396e0
+AnimController* __cdecl MultiBoundMarkerData_CreateRoomForRef(AnimSource* apSource)
 {
     AnimController* pController = 0;
     if (apSource)
@@ -3249,13 +3283,13 @@ AnimController* __cdecl FUN_004396e0(AnimSource* apSource)
             std::abs(apSource->GetAngleOnReference().y) < 0.01f && std::abs(apSource->GetAngleOnReference().z) < 0.01f)
         {
             pInterp = new AnimPointInterpolator;
-            pInterp->SetPosition(apSource->FUN_00569880());
+            pInterp->SetPosition(apSource->TESObjectREFR_GetMultiBoundHalfExtent());
         }
         else
         {
             pInterp = new AnimTransformInterpolator;
-            pInterp->SetRotation(apSource->FUN_0056fa00());
-            pInterp->SetPosition(apSource->FUN_00569880());
+            pInterp->SetRotation(apSource->TESObjectREFR_GetOrientation());
+            pInterp->SetPosition(apSource->TESObjectREFR_GetMultiBoundHalfExtent());
         }
         pInterp->SetSource(apSource->GetSourceData());
         pController = new AnimController;
@@ -3302,7 +3336,7 @@ class NamedObject
 {
   public:
     NameSource* FUN_00413f40();
-    void FUN_0043b9f0(const NiFixedString& kName);
+    void NiControllerSequence_SetName(const NiFixedString& kName);
 };
 class AttachedNode
 {
@@ -3310,7 +3344,7 @@ class AttachedNode
 class AttachTarget
 {
   public:
-    void FUN_0043baa0(AttachedNode* pkNode);
+    void BSAnimGroupSequence_SetAnimGroup(AttachedNode* pkNode);
 };
 
 class NamedObjectPtr
@@ -3330,7 +3364,7 @@ class AttachedNodePtr
 extern int DAT_011c7d74;
 const char* __cdecl FUN_0043b9d0(const char* pcString, int iChar);
 char* __cdecl FUN_00401460(char* pcDest, const char* pcSrc, int iCount);
-AttachedNode* __cdecl FUN_005f3a20(NamedObject* pkObject, const char* pcName);
+AttachedNode* __cdecl TESAnimGroup_LoadAnimGroup(NamedObject* pkObject, const char* pcName);
 bool __cdecl FUN_0043b300(const void* pvKey, NamedObject* pkObject);
 
 class NamedObjectLoader
@@ -3340,12 +3374,13 @@ class NamedObjectLoader
     NamedObjectPtr m_pReferencedObject;  // +0x04
     AttachedNodePtr m_spNode;            // +0x08
 
-    AttachTarget* FUN_007fa950();
-    void FUN_0043b7e0(const char* pcName);
+    AttachTarget* SkyObject_GetNiNode();
+    void KFModel_InitSequence(const char* pcName);
 };
 
 // @fnv 0x0043b7e0
-void NamedObjectLoader::FUN_0043b7e0(const char* pcName)
+// src: COMMUNITY 0x0043b7e0
+void NamedObjectLoader::KFModel_InitSequence(const char* pcName)
 {
     if (!m_pReferencedObject.FUN_00559450())
         return;
@@ -3358,13 +3393,13 @@ void NamedObjectLoader::FUN_0043b7e0(const char* pcName)
             char acBuffer[260];
             FUN_00401460(acBuffer, pcPath, pcSep - pcPath);
             acBuffer[pcSep - pcPath] = 0;
-            m_pReferencedObject.FUN_00559450()->FUN_0043b9f0(NiFixedString((const char*)acBuffer));
+            m_pReferencedObject.FUN_00559450()->NiControllerSequence_SetName(NiFixedString((const char*)acBuffer));
         }
     }
-    m_spNode.FUN_0066b0d0(FUN_005f3a20(m_pReferencedObject.FUN_00559450(), pcName));
+    m_spNode.FUN_0066b0d0(TESAnimGroup_LoadAnimGroup(m_pReferencedObject.FUN_00559450(), pcName));
     if (FUN_0043b300(&DAT_011c7d74, m_pReferencedObject.FUN_00559450()))
-        FUN_007fa950()->FUN_0043baa0(m_spNode.FUN_00559450());
-    m_pReferencedObject.FUN_00559450()->FUN_0043b9f0(NiFixedString(pcName));
+        SkyObject_GetNiNode()->BSAnimGroupSequence_SetAnimGroup(m_spNode.FUN_00559450());
+    m_pReferencedObject.FUN_00559450()->NiControllerSequence_SetName(NiFixedString(pcName));
 }
 
 class MenuTopic;
@@ -3476,11 +3511,12 @@ struct C42CE30
     int unk28;
     Val42CE30 m_kValue;
 
-    Val42CE30 FUN_0042ce30();
+    Val42CE30 BGSLoadFormBuffer_GetOldChangeFlags();
 };
 
 // @fnv 0x0042ce30
-Val42CE30 C42CE30::FUN_0042ce30()
+// src: COMMUNITY 0x0042ce30
+Val42CE30 C42CE30::BGSLoadFormBuffer_GetOldChangeFlags()
 {
     return m_kValue;
 }

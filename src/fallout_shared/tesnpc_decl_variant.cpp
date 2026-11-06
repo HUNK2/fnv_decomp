@@ -99,7 +99,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
             bool val = true;
             TESBoundObject* p;
             p = item->FUN_0044ddc0();
-            if ((!res || !res->HasBipedModel(i, false, NULL)) && !a2->FUN_00575400(p))
+            if ((!res || !res->HasBipedModel(i, false, NULL)) && !a2->TESObjectREFR_WearingObject(p))
             {
                 if (item->FUN_00559450())
                 {
@@ -140,7 +140,7 @@ void TESNPC::FUN_006047c0(TESObjectREFR* a2, bool a3, bool a4, bool a5, bool a6)
         if (pWeaponExtra)
         {
             bool pItem = true;
-            if (!a2->FUN_00575400(pWeaponExtra->FUN_0044ddc0()))
+            if (!a2->TESObjectREFR_WearingObject(pWeaponExtra->FUN_0044ddc0()))
             {
                 ExtraDataList* fWeight;
                 fWeight = NULL;

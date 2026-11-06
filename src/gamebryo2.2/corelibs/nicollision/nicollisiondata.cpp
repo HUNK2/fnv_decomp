@@ -53,7 +53,8 @@ inline unsigned int StrArr::AddInline(char* pcElement)
 extern void* g_0126fab4;
 
 // @fnv 0x00eacd20
-void* __cdecl FUN_00eacd20()
+// src: COMMUNITY 0x00eacd20
+void* __cdecl NiCollisionData_GetRTTI()
 {
     return &g_0126fab4;
 }
@@ -1049,7 +1050,7 @@ void NiCollisionData::Unk_24(NiUpdateData& arData)
     unk49 = unk48 = true;
 }
 
-char* FUN_00a7d330(char* pcText);
+char* NiViewerStrings_NiGetViewerString_Title(char* pcText);
 char* __stdcall FormatName(const char* name, int mode);
 
 void __cdecl AddCollisionObjectViewerStrings();
@@ -1060,7 +1061,7 @@ void NiCollisionData::AddViewerStrings(NiViewerStringsArray* strings)
 {
     StrArr* pkStrings = (StrArr*)strings;
     ((void (__thiscall*)(NiCollisionData*, StrArr*))AddCollisionObjectViewerStrings)(this, pkStrings);
-    pkStrings->AddInline(FUN_00a7d330((char*)g_0126fab4));
+    pkStrings->AddInline(NiViewerStrings_NiGetViewerString_Title((char*)g_0126fab4));
     // The original callers also supply the collision owner in ECX to these
     // stateless formatters; preserve that calling convention.
     unsigned int propagationMode = m_ePropagationMode;
@@ -1112,11 +1113,11 @@ char* __stdcall FormatName(const char* name, int mode)
 
 struct Allocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int bytes);
+    void* __thiscall Game_DoHeapAlloc(unsigned int bytes);
 };
 void* __cdecl operator new[](unsigned int n)
 {
-    return reinterpret_cast<Allocator&>(DAT_011f6238).FUN_00aa3e40(n);
+    return reinterpret_cast<Allocator&>(DAT_011f6238).Game_DoHeapAlloc(n);
 }
 struct GeometryData
 {

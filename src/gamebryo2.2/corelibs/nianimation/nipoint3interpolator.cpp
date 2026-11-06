@@ -308,13 +308,13 @@ bool NiPoint3Interpolator::RegisterStreamables(NiStream& stream)
 
 struct FUN_00a95ca0_helper
 {
-    void FUN_00a95ca0(NiStream*);
+    void NiKeyBasedInterpolator_LinkObject(NiStream*);
 };
 // @fnv 0x00a495c0
 void NiPoint3Interpolator::SaveBinary(NiStream& kStream)
 {
     NiStream* stream = &kStream;
-    ((FUN_00a95ca0_helper*)this)->FUN_00a95ca0(stream);
+    ((FUN_00a95ca0_helper*)this)->NiKeyBasedInterpolator_LinkObject(stream);
     reinterpret_cast<NiColor*>(reinterpret_cast<char*>(this) + 0xc)->SaveBinary(*stream);
     stream->SaveLinkID(reinterpret_cast<const NiObject*>(*(void**)((char*)this + 0x18)));
 }
@@ -322,7 +322,8 @@ void NiPoint3Interpolator::SaveBinary(NiStream& kStream)
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3f70;
 // @fnv 0x00a49640
-GlobalObjectO2_00a7b610* FUN_00a49640()
+// src: COMMUNITY 0x00a49640
+GlobalObjectO2_00a7b610* NiPoint3Interpolator_GetRTTI()
 {
     return &g_011f3f70;
 }
@@ -479,7 +480,7 @@ struct Sub0cHelper
 };
 
 extern "C" unsigned int DAT_011f3f70;
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 unsigned int __cdecl FUN_00a7d5a0(const char* name, unsigned int v);
 
 // The shared base does not declare its viewer-string helper.
@@ -495,7 +496,7 @@ void NiPoint3Interpolator::GetViewerStrings(NiViewerStringsArray* strings)
     unsigned int value;
 
     reinterpret_cast<InterpolatorViewerHelper*>(this)->GetViewerStrings(list);
-    value = FUN_00a7d330(DAT_011f3f70);
+    value = NiViewerStrings_NiGetViewerString_Title(DAT_011f3f70);
     {
         unsigned int count = list->count;
         if (count >= list->cap)

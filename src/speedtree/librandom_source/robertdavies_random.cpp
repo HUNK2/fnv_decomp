@@ -158,7 +158,7 @@ void* __thiscall Dummy44a3a0::DestroyIfFlagged(unsigned int flags)
     return this;
 }
 
-extern "C" void __cdecl FUN_00b43480(int);
+extern "C" void __cdecl DoNothing(int);
 
 // Throws if RandomSeed is zero, picks an index from Random::Raw()*128, refills that sample slot with a new raw value and returns the old sample.
 // @fnv 0x00b433a0
@@ -167,8 +167,8 @@ float Random::Next()
     if (RandomSeed == 0.0)
         throw std::logic_error("Random number generator not initialised");
     int i = (int)(Random::Raw() * 128.0);
-    FUN_00b43480(i);
-    FUN_00b43480(i);
+    DoNothing(i);
+    DoNothing(i);
     float f = randomSamples[i];
     randomSamples[i] = Random::Raw();
     return f;
@@ -542,7 +542,8 @@ SpawnedPair* __cdecl FUN_00b43230(const SpawnedPair* apSource, const SpawnedPair
 }
 
 // @fnv 0x00b43480
-extern "C" void __cdecl FUN_00b43480(int)
+// src: COMMUNITY 0x00b43480
+extern "C" void __cdecl DoNothing(int)
 {}
 
 struct input_iterator_tagS
@@ -919,7 +920,8 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 // Forwards the range [_First, _Last) and _Dest to _Copy_optS with a range-checked tag and returns its result.
 // @fnv 0x00b42e50
-int* __cdecl FUN_00b42e50(int* _First, int* _Last, int* _Dest)
+// src: COMMUNITY 0x00b42e50
+int* __cdecl std__Move(int* _First, int* _Last, int* _Dest)
 {
     return (_Copy_optS(_Checked_baseS(_First), _Checked_baseS(_Last), _Dest, _Iter_randomS(_First, _Dest),
                        _Ptr_catS(_First, _Dest), _Range_checked_iterator_tagS()));

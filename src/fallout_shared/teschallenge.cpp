@@ -467,8 +467,8 @@ void __thiscall TESChallenge::Initialize()
     TESFullName::FUN_00487010();
     TESIcon::Save(0x4e4f4349);
     BGSMessageIcon::Save(0x4f43494d);
-    TESScriptableForm::FUN_0048cca0();
-    TESDescription::FUN_00482cb0();
+    TESScriptableForm::Save_0048cca0();
+    TESDescription::Save_00482cb0();
     if (FUN_00401500())
         ((ChallengeData*)((char*)this + 0x54))->SwapEndianFields();
     TESForm::FUN_00485e20(&data, 0x18);

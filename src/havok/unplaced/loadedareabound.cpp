@@ -634,7 +634,7 @@ void ThisCls::FUN_00972d30()
                                             {
                                                 if (j->FUN_00891d30() != 0)
                                                 {
-                                                    if (!j->FUN_008a7870())
+                                                    if (!j->IsEating())
                                                     {
                                                         ((Proc*)j->FUN_008d8520())->v288(j, 1);
                                                         j->Unk_80(1);
@@ -725,8 +725,8 @@ struct PickedObj
 
 struct Arg1
 {
-    PickedObj* FUN_00628d10(char* flag, FUN_00437c10* t);
-    int FUN_00628c50(FUN_00437c10* t);
+    PickedObj* hkAabb_contains(char* flag, FUN_00437c10* t);
+    int hkAabb_overlaps(FUN_00437c10* t);
 };
 
 struct ItemObj
@@ -776,7 +776,7 @@ struct Arg3
 struct FUN_00628df0_class
 {
     void FUN_00628df0(Arg1* a1, Arg2* a2, Arg3* a3);
-    void FUN_006295e0(TESObjectREFR* r);
+    void LoadedAreaBound_WarpActor(TESObjectREFR* r);
 };
 
 // For each a2 item with a string, calls a3's target vfunc_0x3c; if the a1 checks fail and the item type is 0x1e, passes its REFR to FUN_006295e0.
@@ -792,7 +792,7 @@ void FUN_00628df0_class::FUN_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
             TargetObj* pTarget = apTarget->FUN_006286d0();
             pTarget->vfunc_0x3c(p38->FUN_007d6bb0(), &tmp);
             char flag;
-            if (!a1->FUN_00628d10(&flag, &tmp)->FUN_005609f0() || !a1->FUN_00628c50(&tmp))
+            if (!a1->hkAabb_contains(&flag, &tmp)->FUN_005609f0() || !a1->hkAabb_overlaps(&tmp))
             {
                 CF845 filter(p38->FUN_0043b540());
                 if (filter.FUN_0043b4d0() == 0x1e)
@@ -801,7 +801,7 @@ void FUN_00628df0_class::FUN_00628df0(Arg1* a1, Arg2* apItems, Arg3* apTarget)
                     if (refr && refr->IsActor())
                     {
                         TESObjectREFR* pRefr = refr;
-                        this->FUN_006295e0(pRefr);
+                        this->LoadedAreaBound_WarpActor(pRefr);
                     }
                 }
             }

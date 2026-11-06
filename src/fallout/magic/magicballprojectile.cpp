@@ -122,11 +122,12 @@ struct RefH
 };
 struct FUN_00811030_shell
 {
-    bool FUN_00811030();
+    bool MagicBallProjectile_IsActive();
 };
 // Returns true when the int at offset 0xac is not 2 and the object is not deleted.
 // @fnv 0x00811030
-bool FUN_00811030_shell::FUN_00811030()
+// src: COMMUNITY 0x00811030
+bool FUN_00811030_shell::MagicBallProjectile_IsActive()
 {
     return *reinterpret_cast<const int*>(reinterpret_cast<const char*>(this) + 0xac) != 2 &&
            !reinterpret_cast<const RefH*>(this)->IsDeleted();
@@ -210,19 +211,20 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 void _Deallocate(void*);
 struct S00932750
 {
-    void FUN_00932750(int);
+    void MobileObject_RevertTES(int);
 };
 struct Owner008cf740
 {
     char _pad[0x88];
     void* f88;
-    void FUN_008cf740(int);
+    void ArrowProjectile_RevertTES(int);
 };
 // Calls FUN_00932750 with a, then if g_TESSaveLoadGame->FUN_0055f5b0() is true, deallocates f88 and sets it to 0.
 // @fnv 0x008cf740
-void Owner008cf740::FUN_008cf740(int a)
+// src: COMMUNITY 0x008cf740
+void Owner008cf740::ArrowProjectile_RevertTES(int a)
 {
-    ((S00932750*)this)->FUN_00932750(a);
+    ((S00932750*)this)->MobileObject_RevertTES(a);
     if (g_TESSaveLoadGame->FUN_0055f5b0())
     {
         if (f88 != 0)
@@ -687,7 +689,7 @@ struct ProjectileFlags
 };
 struct ProjectileInfo
 {
-    ProjectileFlags FUN_0070c440();
+    ProjectileFlags bhkCharacterController_GetCollisionFilter();
     void FUN_00810ff0(unsigned);
 };
 struct ImpactPoint
@@ -711,7 +713,7 @@ struct ImpactHandle
 };
 struct ImpactAudio
 {
-    ImpactHandle FUN_00ad73b0(unsigned, unsigned);
+    ImpactHandle GetSoundHandleByFormID_00ad73b0(unsigned, unsigned);
 };
 ImpactAudio* __cdecl FUN_00453a70();
 struct ProjectileEvent
@@ -900,7 +902,7 @@ struct ProjectileImpact
 void ProjectileImpact::TriggerImpact(int aiUnused1, int aiUnused2, int aiUnused3, int aiUnused4, int aiEventArg,
                                      bool abSuppress)
 {
-    ProjectileFlags a = FUN_009306d0()->FUN_0070c440();
+    ProjectileFlags a = FUN_009306d0()->bhkCharacterController_GetCollisionFilter();
     a.SetFlag4000(true);
     FUN_009306d0()->FUN_00810ff0(a.value);
     mode = 1;
@@ -912,14 +914,14 @@ void ProjectileImpact::TriggerImpact(int aiUnused1, int aiUnused2, int aiUnused3
     if (FUN_004fd400()->GetAreaSound() && !abSuppress)
     {
         unsigned e = FUN_004fd400()->GetAreaSound()->GetFormID();
-        ImpactHandle d = FUN_00453a70()->FUN_00ad73b0(e, 0x102);
+        ImpactHandle d = FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(e, 0x102);
         ImpactPoint c = position();
         d.FUN_00ad8b60(c.x, c.y, c.z);
         d.FUN_00ad8830(false);
     }
 }
 
-void* FUN_00401000(unsigned int);
+void* FormHeap_Allocate(unsigned int);
 extern ActorDeletionQueue_magicballprojectile DAT_011e0e80;
 struct Obj
 {
@@ -1081,10 +1083,11 @@ struct Self
     virtual void s127(int);
     char pad[0x64];
     Obj* m68;
-    bool FUN_008cf7a0();
+    bool ArrowProjectile_MoveToHigh();
 };
 // @fnv 0x008cf7a0
-bool Self::FUN_008cf7a0()
+// src: COMMUNITY 0x008cf7a0
+bool Self::ArrowProjectile_MoveToHigh()
 {
     if (m68 && !m68->FUN_0045cd60())
         return true;
@@ -1161,7 +1164,7 @@ struct Controller
 struct Model
 {
     void FUN_00440460(const NiPoint3*);
-    Controller* FUN_0043b230();
+    Controller* NiObjectNET_GetControllers();
 };
 struct Effect
 {
@@ -1461,7 +1464,7 @@ void AreaProjectile::FUN_008106d0(float afDeltaTime)
         }
         case 2: {
             Model* animation = GetModelFilePath();
-            Controller* ctrl = animation ? animation->FUN_0043b230() : 0;
+            Controller* ctrl = animation ? animation->NiObjectNET_GetControllers() : 0;
             Controller* swapModel = FUN_00653270(&DAT_011f36ac, ctrl);
             if (swapModel)
             {
@@ -1511,7 +1514,7 @@ struct RetObj
 
 struct Ctrl
 {
-    RetObj FUN_0070c440();
+    RetObj bhkCharacterController_GetCollisionFilter();
     void FUN_00810ff0(int);
 };
 
@@ -1660,7 +1663,7 @@ struct CollObj
 
 struct WorldObj
 {
-    Filter FUN_0043b4f0();
+    Filter bhkWorldObject_GetCollisionFilter();
 };
 
 struct SettingObj
@@ -1797,11 +1800,12 @@ struct Cls
     void UpdateFlags(int, int);
     Ctrl* FUN_009306d0();
     Refr* FUN_009185e0();
-    void FUN_008115c0(int a1, int a2);
+    void MagicBallProjectile_FinishInitLoadGameTES(int a1, int a2);
 };
 
 // @fnv 0x008115c0
-void Cls::FUN_008115c0(int aiArg1, int aiArg2)
+// src: COMMUNITY 0x008115c0
+void Cls::MagicBallProjectile_FinishInitLoadGameTES(int aiArg1, int aiArg2)
 {
     UpdateFlags(aiArg1, aiArg2);
     Ctrl* ctrl4 = FUN_009306d0();
@@ -1821,7 +1825,7 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
                 CollObj* co = FUN_004b5260(obj4->tv116());
                 WorldObj* world1;
                 world1 = co ? co->FUN_006fa820() : 0;
-                _result = world1 ? world1->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+                _result = world1 ? world1->bhkWorldObject_GetCollisionFilter().FUN_004a3a20() : FUN_005dbe10();
             }
         }
         else
@@ -1829,9 +1833,9 @@ void Cls::FUN_008115c0(int aiArg1, int aiArg2)
             CollObj* co5 = FUN_004b5260(tv116());
             WorldObj* world3;
             world3 = co5 ? co5->FUN_006fa820() : 0;
-            _result = world3 ? world3->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+            _result = world3 ? world3->bhkWorldObject_GetCollisionFilter().FUN_004a3a20() : FUN_005dbe10();
         }
-        RetObj retObjTmp = ctrl4->FUN_0070c440();
+        RetObj retObjTmp = ctrl4->bhkCharacterController_GetCollisionFilter();
         retObjTmp.FUN_004a39f0(7);
         retObjTmp.FUN_0059ce80(_result);
         ctrl4->FUN_00810ff0(retObjTmp.f0);
@@ -1867,16 +1871,16 @@ struct Controller
 {
     float GetFloatAtOffset53C();
     void FUN_00812b00(NiPoint3&);
-    Flags FUN_0070c440();
+    Flags bhkCharacterController_GetCollisionFilter();
     void FUN_00810ff0(unsigned);
 };
 struct Anim
 {
     unsigned char FUN_00813370();
-    int FUN_008d8b80();
+    int MiddleHighProcess_GetCurrentFurniture();
     float GetFloatAt144();
     void DispatchFloatPair(float, float, float, bool);
-    bool FUN_00ee8990();
+    bool NiObject_StreamCanSkip();
 };
 template <class T> struct Ptr
 {
@@ -1957,7 +1961,7 @@ struct Owner
 };
 struct ParentNode : Node
 {
-    Owner* FUN_009611e0();
+    Owner* NiAVObject_GetParent();
 };
 struct FloatSetting
 {
@@ -2014,11 +2018,11 @@ void Projectile::UpdateMotion(float delta)
         Link* next = 0;
         while (current3)
         {
-            FUN_00812700(delta, current3);
+            MagicBoltProjectile_UpdateBranch(delta, current3);
             next = current3->next;
             if (((Anim*)current3->anim)->FUN_00813370())
             {
-                Owner* owner = ((ParentNode*)(Node*)current3->node)->FUN_009611e0();
+                Owner* owner = ((ParentNode*)(Node*)current3->node)->NiAVObject_GetParent();
                 if (owner)
                     owner->Detach(current3->node);
                 if (previousTmp == 0)
@@ -2046,7 +2050,7 @@ void Projectile::UpdateMotion(float delta)
         {
             NiPoint3 difference2 = ((ParentNode*)reinterpret_cast<Ptr<ParentNode>&>(m_kImpactTransform.m_Translate.y))->FUN_0045bb80() - original;
             if (!moving ||
-                GetField90Float() * reinterpret_cast<NiPoint2&>(kImpacts).x > ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->FUN_008d8b80() * ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->GetFloatAt144())
+                GetField90Float() * reinterpret_cast<NiPoint2&>(kImpacts).x > ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->MiddleHighProcess_GetCurrentFurniture() * ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->GetFloatAt144())
                 ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->DispatchFloatPair(delta, difference2.FUN_00457990(), reinterpret_cast<NiPoint2&>(kImpacts).x, moving);
             Matrix rotation;
             float vertical = difference2.z;
@@ -2062,12 +2066,12 @@ void Projectile::UpdateMotion(float delta)
             FUN_009306d0()->FUN_00812b00(position);
             float length = (original - position).FUN_00457990();
             if (!moving ||
-                GetField90Float() * reinterpret_cast<NiPoint2&>(kImpacts).x > ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->FUN_008d8b80() * ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->GetFloatAt144())
+                GetField90Float() * reinterpret_cast<NiPoint2&>(kImpacts).x > ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->MiddleHighProcess_GetCurrentFurniture() * ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->GetFloatAt144())
                 ((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->DispatchFloatPair(delta, length, reinterpret_cast<NiPoint2&>(kImpacts).x, moving);
-            if (((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->FUN_00ee8990())
+            if (((Anim*)reinterpret_cast<Ptr<Anim>&>(m_kImpactTransform.m_Rotate.m_pEntry[1][2]))->NiObject_StreamCanSkip())
             {
                 FUN_008133d0(2);
-                Flags state = FUN_009306d0()->FUN_0070c440();
+                Flags state = FUN_009306d0()->bhkCharacterController_GetCollisionFilter();
                 state.SetFlag4000(true);
                 FUN_009306d0()->FUN_00810ff0(state.value);
             }
@@ -2091,7 +2095,7 @@ namespace fnv_0081a320 {
 
 struct FUN_008106b0_shell : FUN_00810a80_shell
 {
-    void FUN_008106b0(float strength);
+    void bhkCharacterController_SetFallTime(float strength);
 };
 
 struct FUN_0081c320_shell
@@ -2630,11 +2634,12 @@ struct FUN_0081a320_class
 
     FUN_00817160_shell* FUN_009185e0(int);
 
-    void FUN_0081a320(float dt);
+    void MagicFogProjectile_Update(float dt);
 };
 
 // @fnv 0x0081a320
-void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
+// src: COMMUNITY 0x0081a320
+void FUN_0081a320_class::MagicFogProjectile_Update(float afDeltaTime)
 {
 
     if (afDeltaTime >= DAT_01012638)
@@ -2660,7 +2665,7 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
 
             ((FUN_009306d0_shell*)this)
                 ->FUN_009306d0()
-                ->FUN_008106b0(1.0f - afDeltaTime * *DAT_011d1ad8.FUN_00403e20());
+                ->bhkCharacterController_SetFallTime(1.0f - afDeltaTime * *DAT_011d1ad8.FUN_00403e20());
 
             NiPoint3 start = reinterpret_cast<const NiPoint3&>(*v125());
 
@@ -2754,7 +2759,7 @@ extern unsigned char UNK_0101536c, UNK_010153a0, UNK_01015318, UNK_01085d58;
 
 extern "C" void __cdecl FUN_0040fbe0(const void*, ...);
 
-extern "C" void __cdecl FUN_005b5e40(const void*, const void*, int);
+extern "C" void __cdecl Warning_005b5e40(const void*, const void*, int);
 
 extern "C" int __cdecl FUN_004839c0(int);
 
@@ -3023,7 +3028,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
         if (static_cast<unsigned int>(lengthFieldPointer) > reinterpret_cast<unsigned int>(info) + 0xffffU)
         {
 
-            FUN_005b5e40(&UNK_01015318, &UNK_01085d58, 0x8ea);
+            Warning_005b5e40(&UNK_01015318, &UNK_01085d58, 0x8ea);
         }
 
         *pLength = static_cast<unsigned short>(lengthFieldPointer - reinterpret_cast<int>(info));
@@ -3444,8 +3449,8 @@ struct Mgr85
 };
 unsigned short __cdecl FUN_004b66d0(void*, int, int, int);
 FlagObj* __cdecl FUN_004b6980(void*, int, int, int, int);
-void* __cdecl FUN_004aae30(void*, int);
-int __cdecl FUN_005b5e40(const char*, ...);
+void* __cdecl BSUtilities_GetObjectByName(void*, int);
+int __cdecl Warning_005b5e40(const char*, ...);
 extern char DAT_01085d9c[];
 struct Cls
 {
@@ -3597,7 +3602,7 @@ void Cls::FUN_008cf440(int a1, int a2)
                 wordres = FUN_004b66d0(f88->f28->FUN_0043fcd0(), _flag, _flag, 1);
                 if (hi5 != (int)wordres)
                 {
-                    FUN_005b5e40(DAT_01085d9c, f88->f28->slot76(), f88->f28->FUN_0084e3a0());
+                    Warning_005b5e40(DAT_01085d9c, f88->f28->slot76(), f88->f28->FUN_0084e3a0());
                 }
                 else if (lo_ != -1)
                 {
@@ -3614,7 +3619,7 @@ void Cls::FUN_008cf440(int a1, int a2)
             saved2c5 = f88->f2c;
             if (f88->f28 != 0)
             {
-                f88->f2c = (int)FUN_004aae30(f88->f28->FUN_0043fcd0(), saved2c5);
+                f88->f2c = (int)BSUtilities_GetObjectByName(f88->f28->FUN_0043fcd0(), saved2c5);
             }
             else
             {
@@ -3643,11 +3648,12 @@ extern SpinLock_931710 DAT_011f11a0;
 
 struct Self_931710 : Self
 {
-    bool FUN_00931710();
+    bool MobileObject_MoveToLowProcess();
 };
 
 // @fnv 0x00931710
-bool Self_931710::FUN_00931710()
+// src: COMMUNITY 0x00931710
+bool Self_931710::MobileObject_MoveToLowProcess()
 {
     int level = this->m68->FUN_0045cd60();
     DAT_011f11a0.Lock(0);
@@ -4197,7 +4203,7 @@ struct ProjectileNodeStandin
     int unks_408;
     int unks_40c;
     Sub410 sub410;
-    CustomFlags FUN_0070c440();
+    CustomFlags bhkCharacterController_GetCollisionFilter();
     void FUN_00810ff0(unsigned int);
 };
 
@@ -4262,7 +4268,7 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
         {
             reinterpret_cast<void (__thiscall*)(ContinuousBeamProjectile*)>((*reinterpret_cast<void***>(this))[196])(this);
         }
-        CustomFlags aFlags3 = this->FUN_009306d0()->FUN_0070c440();
+        CustomFlags aFlags3 = this->FUN_009306d0()->bhkCharacterController_GetCollisionFilter();
         aFlags3.SetFlag4000(true);
         this->FUN_009306d0()->FUN_00810ff0(aFlags3.value);
     }
@@ -4296,7 +4302,7 @@ void ContinuousBeamProjectile::ApplyAreaEffect(NiPoint3 point, unsigned int vari
     if (this->FUN_004fd400()->GetAreaSound() && !silent)
     {
         unsigned int soundID3 = this->FUN_004fd400()->GetAreaSound()->GetFormID();
-        ImpactHandle handleA = FUN_00453a70()->FUN_00ad73b0(soundID3, 0x102);
+        ImpactHandle handleA = FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(soundID3, 0x102);
         NiPoint3 aEPos = *static_cast<const TESObjectREFR*>(this)->GetPos();
         handleA.FUN_00ad8b60(aEPos.x, aEPos.y, aEPos.z);
         handleA.FUN_00ad8830(false);
@@ -4307,7 +4313,7 @@ struct NiRTTI;
 extern NiRTTI DAT_011f36ac;
 struct Val
 {
-    float FUN_004d50e0(int);
+    float LipSynchAnim_GetPuppetValue(int);
     unsigned int FUN_00559450();
 };
 struct Sub;
@@ -4975,7 +4981,7 @@ void Host::FUN_00936b20(int aiUnused)
                         uiDiff = (FUN_00825c00(&g_timeGlobal) - FUN_008d8520()->v468()) / 33;
                     if (FUN_008d8520()->v466())
                     {
-                        float fWeight = FUN_008d8520()->v466()->FUN_004d50e0(uiDiff);
+                        float fWeight = FUN_008d8520()->v466()->LipSynchAnim_GetPuppetValue(uiDiff);
                         if (fWeight < (double)0.01f)
                             fWeight = 0.01f;
                         SetSequenceProgress(fWeight, pkCtrl, pkSeq);
@@ -5708,7 +5714,7 @@ struct Handle
 struct V116
 {
     void FUN_00440490(float);
-    int FUN_0043b230();
+    int NiObjectNET_GetControllers();
 };
 struct C0Obj
 {
@@ -5721,7 +5727,7 @@ struct C0Obj
     int c18;
     C0Obj(int, void*);
     void FUN_0081c470(int, float);
-    void FUN_00621b00(float);
+    void ActorPackage_GetPackageStartTime(float);
 };
 struct Ret8d
 {
@@ -5967,7 +5973,7 @@ void Cls8112c0::FUN_008112c0(int aiParam1, int aiParam2)
                 Obj1c* foundEffect;
                 int result;
                 v20 = virt_116();
-                t18 = v20 ? v20->FUN_0043b230() : 0;
+                t18 = v20 ? v20->NiObjectNET_GetControllers() : 0;
                 foundEffect = (Obj1c*)FUN_00653270(&DAT_011f36ac, t18);
                 if (foundEffect)
                 {
@@ -5975,7 +5981,7 @@ void Cls8112c0::FUN_008112c0(int aiParam1, int aiParam2)
                     if (result)
                     {
                         m_c0->FUN_0081c470(0, ((Obj24*)result)->FUN_00508100() * DAT_0101de30);
-                        m_c0->FUN_00621b00(f10);
+                        m_c0->ActorPackage_GetPackageStartTime(f10);
                     }
                 }
             }
@@ -6024,7 +6030,7 @@ struct PackageNodeHandler
 struct MotionController
 {
     float GetFloatAtOffset53C();
-    void FUN_008106b0(float);
+    void bhkCharacterController_SetFallTime(float);
 };
 struct SaveService
 {
@@ -6241,12 +6247,13 @@ struct Controller
     bool ProcessImpact();
     int FUN_008d6f30();
     void FUN_00575830(int);
-    void FUN_008cb3c0(float dt);
+    void ArrowProjectile_Update(float dt);
 };
 
 // Updates elapsed time, position, orientation, and fadeLeft, with phase-dependent calls to v27, v49, and other handlers.
 // @fnv 0x008cb3c0
-void Controller::FUN_008cb3c0(float afDelta)
+// src: COMMUNITY 0x008cb3c0
+void Controller::ArrowProjectile_Update(float afDelta)
 {
     if (pending)
     {
@@ -6286,7 +6293,7 @@ void Controller::FUN_008cb3c0(float afDelta)
                 float stepScale = (lifetime - 1.0f * afDelta) / lifetime;
                 velocity = velocity * stepScale;
                 acceleration = acceleration * stepScale;
-                FUN_009306d0()->FUN_008106b0(stepScale);
+                FUN_009306d0()->bhkCharacterController_SetFallTime(stepScale);
                 lifetime = lifetime - 1.0f * afDelta;
                 if (lifetime < DAT_01011588)
                 {
@@ -6414,17 +6421,18 @@ struct FUN_009ae5d0_shell
     float GetGoalZDelta();
     void UpdateMatchingActors();
     bool IsNotCulled();
-    void FUN_009b13a0();
+    void Explosion_UpdateRadiation();
     void UpdateLightFade();
     float FUN_00507e10();
     FUN_004e3cc0_Class* GetActorBase();
-    void FUN_009ac9a0();
-    void FUN_009ae5d0(int a1);
+    void Explosion_MarkForDeletion();
+    void Explosion_Update(int a1);
 };
 
 // Checks iE4, goal Z delta, bD5, and actor-base values while conditionally calling four functions.
 // @fnv 0x009ae5d0
-void FUN_009ae5d0_shell::FUN_009ae5d0(int a1)
+// src: COMMUNITY 0x009ae5d0
+void FUN_009ae5d0_shell::Explosion_Update(int a1)
 {
     if (iE4 == 0)
     {
@@ -6442,12 +6450,12 @@ void FUN_009ae5d0_shell::FUN_009ae5d0(int a1)
     iE4 = iE4 + 1;
     if (!IsNotCulled())
     {
-        FUN_009b13a0();
+        Explosion_UpdateRadiation();
         UpdateLightFade();
     }
     if (GetGoalZDelta() > FUN_00507e10() && GetGoalZDelta() > GetActorBase()->GetFloatAtOffset9C())
     {
-        FUN_009ac9a0();
+        Explosion_MarkForDeletion();
     }
 }
 }  // namespace fnv_009ae5d0

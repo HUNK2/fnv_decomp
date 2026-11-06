@@ -164,7 +164,7 @@ struct FUN_00b27060_cls
     int unk28;
     int unk2C;
     unsigned char unk30;
-    FUN_00b27060_cls* FUN_00b27060();
+    FUN_00b27060_cls* CSimpleBillboard_CSimpleBillboard();
 };
 struct ResourceBufferOwner
 {
@@ -212,7 +212,7 @@ class FUN_00b276f0_cls
 
     void Reset();
 };
-extern void __cdecl FUN_00401030(void* p);
+extern void __cdecl FormHeapFreeAndLog_00401030(void* p);
 // InitBuffer
 extern "C" int __cdecl FUN_00b2e4a0(unsigned int count, int flag);
 extern "C" void __cdecl FUN_00b0fb80();
@@ -265,7 +265,7 @@ struct FUN_00b335c0_tmp
     unsigned int unk28;
     unsigned int unk2C;
 };
-unsigned int __cdecl FUN_00b42e50(unsigned int a, unsigned int b, unsigned int c);
+unsigned int __cdecl std__Move(unsigned int a, unsigned int b, unsigned int c);
 struct FUN_00b335c0_cls
 {
     unsigned int unk00;
@@ -318,7 +318,7 @@ struct Hldr0044
     void Init(unsigned int* p);
 };
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(unsigned int scaled);
+extern "C" void __cdecl FormHeap_Allocate(unsigned int scaled);
 extern "C" int DAT_01140ef8;
 extern "C" int DAT_010176f8;
 // @fnv 0x00b35f00
@@ -342,7 +342,7 @@ extern "C" void __cdecl FUN_00b35f00(unsigned int n)
         }
     }
 
-    FUN_00401000(n * 2);
+    FormHeap_Allocate(n * 2);
 }
 struct FUN_00b31270
 {
@@ -712,7 +712,7 @@ struct PointOwner
     int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
     VecStandIn<float> m_kPoints;
 
-    float* FUN_00b31020(int index);
+    float* CIndexedGeometry_GetOrigVertexCoord(int index);
 };
 struct SubObj_b3f
 {
@@ -879,7 +879,7 @@ struct B30Owner
     char pad00[0x58];
     B30Vec<B30Vec<void*> > m_kLists;
     unsigned short FUN_00b0a9a0(unsigned short usType);
-    void FUN_00b30c80(unsigned short usType);
+    void CIndexedGeometry_DeleteLodStrip(unsigned short usType);
 };
 unsigned int __cdecl FUN_00ec7c56();
 struct ScalarTag
@@ -1456,7 +1456,7 @@ struct GroupBuilder
     int unk18, unk1c, unk20, unk24;
     unsigned short groupCount;
     BufferGroup* groups;
-    void FUN_00b29380(unsigned short count, PointVector* input);
+    void CLeafGeometry_InitLods(unsigned short count, PointVector* input);
 };
 struct FnvContBase
 {
@@ -1961,7 +1961,7 @@ template <class I, class O, class C> inline O copyLoop(I _First, I _Last, O _Des
     return _Dest;
 }
 }
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -1985,7 +1985,7 @@ inline void Del(FUN_00b2e740* p, unsigned int f)
     StrY* q = &p->s;
     q->FUN_0044a730(true, 0);
     if (f & 1)
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
 }
 inline void DeadX()
 {
@@ -2117,14 +2117,14 @@ struct FUN_00b31480 : public VdVectorImpl<VdElemV>
 {
     ~FUN_00b31480();
 };
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 struct BufferPtr
 {
     void* m_pData;
     __forceinline ~BufferPtr()
     {
         void* pData = m_pData;
-        FUN_00401030(pData);
+        FormHeapFreeAndLog_00401030(pData);
     }
 };
 struct FUN_00b31c00
@@ -3379,7 +3379,7 @@ struct SxOwner
 };
 }
 using namespace setb3f;
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 struct FUN_00b3f0a0
 {
     int m_base[8];
@@ -3411,7 +3411,7 @@ struct B2AE90_Allocator
 {
     void deallocate(void* p)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 };
 struct B2AE90_ArrayBase
@@ -3451,7 +3451,7 @@ struct B2AE90_Object : FUN_00b3f0a0
     FUN_00b3ce30 m_94;
     ~B2AE90_Object();
 };
-extern void __cdecl FUN_00401030(void* p);
+extern void __cdecl FormHeapFreeAndLog_00401030(void* p);
 template <class T> inline void swapq(T& l, T& r)
 {
     if (&l != &r)
@@ -3470,7 +3470,7 @@ struct AuxBaseQ
     AuxQ* m0;
     static void Dealloc(void* p)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     ~AuxBaseQ()
     {

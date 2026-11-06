@@ -139,7 +139,7 @@ public:
     void FUN_0075f910();
     bool IsKeyHandled(int, int);
     bool FUN_0073af60();
-    void FUN_0075fb90();
+    void InitCreditsRoot();
     void AdvanceToNewline();
     void FUN_00760b80();
     void WriteTextUntilDelimiter(OutputA*);

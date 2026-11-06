@@ -250,7 +250,8 @@ extern int DAT_010ef35c;
 extern int DAT_010ef378;
 
 // @fnv 0x00e80020
-void* __fastcall FUN_00e80020(void* pThis, int, unsigned int uiMaxSize, unsigned int uiGrowBy)
+// src: COMMUNITY 0x00e80020
+void* __fastcall NiTObjectArray_NiPointer_NiD3DTextureStage_Init(void* pThis, int, unsigned int uiMaxSize, unsigned int uiGrowBy)
 {
     *(int**)pThis = &DAT_010ef35c;
     unsigned short usMaxSize = (unsigned short)uiMaxSize;
@@ -306,7 +307,8 @@ extern unsigned int* _DAT_0126f72c;
 
 // Allocates a 0x18-byte block, zeroes its first four words, sets words 4 and 5 to 8, and stores it in _DAT_0126f72c (or stores null on failure).
 // @fnv 0x00e80150
-void __cdecl FUN_00e80150()
+// src: COMMUNITY 0x00e80150
+void __cdecl NiD3DPass_InitializePools()
 {
     unsigned int* p = (unsigned int*)g_memoryManager.Allocate(0x18);
     if (p != 0)
@@ -346,7 +348,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_0126f5c4;
 // @fnv 0x00e7d9c0
-GlobalObjectO2_00a7b610* __cdecl FUN_00e7d9c0()
+// src: COMMUNITY 0x00e7d9c0
+GlobalObjectO2_00a7b610* __cdecl NiDX9AdditionalDepthStencilBufferData_GetRTTI()
 {
     return &g_0126f5c4;
 }
@@ -410,21 +413,24 @@ unsigned int __fastcall FUN_00e7f7d0(PassLike* self, int edx, unsigned int uiPas
 
 extern int DAT_011bf558;
 // @fnv 0x00e7f830
-void __cdecl FUN_00e7f830(int v)
+// src: COMMUNITY 0x00e7f830
+void __cdecl NiD3DPass_SetMaxTextureBlendStages(int v)
 {
     DAT_011bf558 = v;
 }
 
 extern int DAT_011bf55c;
 // @fnv 0x00e7f840
-void __cdecl FUN_00e7f840(int v)
+// src: COMMUNITY 0x00e7f840
+void __cdecl NiD3DPass_SetMaxSimultaneousTextures(int v)
 {
     DAT_011bf55c = v;
 }
 
 extern int DAT_011bf560;
 // @fnv 0x00e7f850
-void __cdecl FUN_00e7f850(int v)
+// src: COMMUNITY 0x00e7f850
+void __cdecl NiD3DPass_SetMaxSamplers(int v)
 {
     DAT_011bf560 = v;
 }
@@ -447,7 +453,8 @@ extern int DAT_0126f724;
 extern int DAT_0126f728;
 
 // @fnv 0x00e7f920
-void __cdecl FUN_00e7f920(int pObject)
+// src: COMMUNITY 0x00e7f920
+void __cdecl NiD3DPass_SetD3DRenderer(int pObject)
 {
     DAT_0126f724 = pObject;
     if (pObject)
@@ -488,7 +495,7 @@ extern int DAT_011bf558;
 struct SubArr
 {
     char d[0x10];
-    void FUN_00e80020(unsigned int, unsigned int);
+    void NiTObjectArray_NiPointer_NiD3DTextureStage_Init(unsigned int, unsigned int);
 };
 struct FUN_00e800f0
 {
@@ -510,7 +517,7 @@ FUN_00e800f0::FUN_00e800f0()
     f14 = 0;
     f18 = 0;
     f1c = 0;
-    sub.FUN_00e80020(DAT_011bf558, 4);
+    sub.NiTObjectArray_NiPointer_NiD3DTextureStage_Init(DAT_011bf558, 4);
     f30 = 0;
     f34 = 0;
     f38 = 0;
@@ -630,11 +637,12 @@ struct Outer_00e7ddf0
     void* m4;
     char _8[8];
     Holder_00e89060* m10;
-    void* FUN_00e7ddf0();
+    void* NiD3DTextureStage_GetTexCoordIndex();
 };
 // Calls GetSlotValue with key 11 and returns the resulting pointer if it succeeds, otherwise returns m4.
 // @fnv 0x00e7ddf0
-void* Outer_00e7ddf0::FUN_00e7ddf0()
+// src: COMMUNITY 0x00e7ddf0
+void* Outer_00e7ddf0::NiD3DTextureStage_GetTexCoordIndex()
 {
     void* pResult = 0;
     bool b = false;
@@ -776,10 +784,11 @@ struct DummyStruct
     unsigned int m14;
     unsigned int _pad1;
     unsigned int m1c;
-    unsigned char FUN_00e7f7f0(unsigned int, unsigned int);
+    unsigned char NiD3DPass_CheckFreeStages(unsigned int, unsigned int);
 };
 // @fnv 0x00e7f7f0
-unsigned char DummyStruct::FUN_00e7f7f0(unsigned int a1, unsigned int a2)
+// src: COMMUNITY 0x00e7f7f0
+unsigned char DummyStruct::NiD3DPass_CheckFreeStages(unsigned int a1, unsigned int a2)
 {
     if (DAT_011bf558 < a1 + m14)
         return 0;
@@ -880,12 +889,13 @@ struct TexArray_e7fd20
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void FUN_00e7fd20(unsigned int uiMaxSize);
+    void NiD3DPass_SetAtGrow(unsigned int uiMaxSize);
 };
 
 // Resizes the array to uiMaxSize: releases entries above the new size, reallocates the base, copies existing entries and clears the rest.
 // @fnv 0x00e7fd20
-void TexArray_e7fd20::FUN_00e7fd20(unsigned int uiMaxSize)
+// src: COMMUNITY 0x00e7fd20
+void TexArray_e7fd20::NiD3DPass_SetAtGrow(unsigned int uiMaxSize)
 {
     if (uiMaxSize == m_usMaxSize)
         return;
@@ -927,7 +937,8 @@ extern int DAT_0126f6c4;
 extern int DAT_0126f6c8;
 
 // @fnv 0x00e7e8d0
-void FUN_00e7e8d0(int pObject)
+// src: COMMUNITY 0x00e7e8d0
+void NiD3DTextureStage_SetD3DRenderer(int pObject)
 {
     DAT_0126f6c4 = pObject;
     if (pObject)
@@ -1174,13 +1185,13 @@ struct Device
     virtual void d29();
     virtual void Draw(void*, int, int, int, int, int, int, NiTransform*, Bound*, int, int);
 };
-void __cdecl FUN_00c4c2d0(NiTransform*, int, Matrix4*);
+void __cdecl BSUtilities_GetInverseWorldMatrix(NiTransform*, int, Matrix4*);
 struct Shader
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
     Device* device;
     Texture* GetTextureByIndex(Geometry*, int);
-    void FUN_00b7c750(Geometry*, NiTransform*);
+    void ShadowLightShader_SetupGeometryOpt_WorldViewProj(Geometry*, NiTransform*);
     void UpdateLightShaderConstants(Matrix4*, float);
     void SetupTextureStages(Arg*);
 };
@@ -1200,8 +1211,8 @@ void Shader::SetupTextureStages(Arg* arg)
     Geometry* source = DAT_011f91e0[0];
     NiTransform* transform = &source->transform;
     Matrix4 matrix;
-    FUN_00c4c2d0(transform, 0, &matrix);
-    FUN_00b7c750(source, transform);
+    BSUtilities_GetInverseWorldMatrix(transform, 0, &matrix);
+    ShadowLightShader_SetupGeometryOpt_WorldViewProj(source, transform);
     UpdateLightShaderConstants(&matrix, transform->m_fScale);
     // The draw call receives uninitialized scratch storage; no constructor runs.
     float boundStorage[sizeof(Bound) / sizeof(float)];
@@ -1332,7 +1343,8 @@ class DispatchObject
 
 // For each index from start up to DAT_011bf558, calls v_dc and v30 with fixed arguments; then calls v_dc for remaining indices up to DAT_011bf560.
 // @fnv 0x00e7dd50
-void __cdecl FUN_00e7dd50(int start)
+// src: COMMUNITY 0x00e7dd50
+void __cdecl NiD3DTextureStage_DisableStage(int start)
 {
     unsigned int i = (unsigned int)start;
     if (i < (unsigned int)DAT_011bf558)
@@ -1359,7 +1371,7 @@ void __cdecl FUN_00e7dd50(int start)
 
 struct E7DE90State
 {
-    void FUN_00e890c0(unsigned int uiStage, unsigned int uiValue, unsigned int uiExtra, bool bFlag);
+    void NiD3DTextureStageGroup_SetSamplerState(unsigned int uiStage, unsigned int uiValue, unsigned int uiExtra, bool bFlag);
 };
 
 struct E7DE90Pair
@@ -1387,9 +1399,9 @@ class E7DE90Owner
 void E7DE90Owner::ApplyPairToState(unsigned int uiPairIndex)
 {
     E7DE90Pair kPair = g_aE7DE90Pairs[uiPairIndex];
-    m_pkState->FUN_00e890c0(1, kPair.uiFirst, 0, false);
+    m_pkState->NiD3DTextureStageGroup_SetSamplerState(1, kPair.uiFirst, 0, false);
     kPair = g_aE7DE90Pairs[uiPairIndex];
-    m_pkState->FUN_00e890c0(2, kPair.uiSecond, 0, false);
+    m_pkState->NiD3DTextureStageGroup_SetSamplerState(2, kPair.uiSecond, 0, false);
 }
 
 struct E7DEF0ClampEntry
@@ -1421,13 +1433,14 @@ class E7DEF0TextureStage
     int unk0C;
     E7DEF0TextureState* m_pkState;
 
-    void FUN_00e7def0(int eMode);
+    void NiD3DTextureStage_SetFilterMode(int eMode);
 };
 
 // SetClampMode
 // Sets sampler states 5, 6 and 7 to the U, V and W addresses of the clamp entry for eMode, then stores eMode in m_eClampMode.
 // @fnv 0x00e7def0
-void E7DEF0TextureStage::FUN_00e7def0(int eMode)
+// src: COMMUNITY 0x00e7def0
+void E7DEF0TextureStage::NiD3DTextureStage_SetFilterMode(int eMode)
 {
     m_pkState->SetSamplerState(5, GetClampEntry(eMode).m_uiAddressU, 0, false);
     m_pkState->SetSamplerState(6, GetClampEntry(eMode).m_uiAddressV, 0, false);
@@ -1944,11 +1957,12 @@ struct BloodSplatterHubStub
 extern "C" GeometryDrawContext* DAT_011f91e0;
 extern "C" BloodSplatterStub* DAT_0126f74c;
 
-void __stdcall FUN_00ee6df2(Vec3f* out, Vec3f* in, unsigned int param);
-void __stdcall FUN_00ee6dec(float* a, Vec3f* b);
+void __stdcall D3DXVec3TransformNormal_00ee6df2(Vec3f* out, Vec3f* in, unsigned int param);
+void __stdcall D3DXVec3Normalize_00ee6dec(float* a, Vec3f* b);
 
 // @fnv 0x00b7c7b0
-void __stdcall FUN_00b7c7b0(unsigned int param)
+// src: COMMUNITY 0x00b7c7b0
+void __stdcall BSShader_SetLightDirection(unsigned int param)
 {
     void* owner = DAT_011f91e0->unk0C;
     void** ownerVt = *(void***)owner;
@@ -1963,8 +1977,8 @@ void __stdcall FUN_00b7c7b0(unsigned int param)
     v1.z = scaledZ;
 
     Vec3f out;
-    FUN_00ee6df2(&out, &v1, param);
-    FUN_00ee6dec(&v1.x, &out);
+    D3DXVec3TransformNormal_00ee6df2(&out, &v1, param);
+    D3DXVec3Normalize_00ee6dec(&v1.x, &out);
 
     BloodSplatterHubStub* hub = (BloodSplatterHubStub*)DAT_0126f74c->unk5C;
     void* obj = hub->unk20;
@@ -2317,7 +2331,7 @@ struct SamplerStandIn
     unsigned char unk5d;
     unsigned char m_5e;
 
-    bool FUN_00e7df90(unsigned int masked, void* p);
+    bool NiD3DTextureStage_CalculateTransformationMatrix(unsigned int masked, void* p);
     void BindTexture();
 };
 
@@ -2350,14 +2364,14 @@ void SamplerStandIn::BindTexture()
         else
         {
             void* p = m_18->m_14;
-            if (FUN_00e7df90(flags & 0xfffffff, p))
+            if (NiD3DTextureStage_CalculateTransformationMatrix(flags & 0xfffffff, p))
                 DAT_0126f6c0->SetTexture(m_04 + 0x10, &DAT_0126f6d0);
         }
         break;
     case 0x20000000:
         if (flags & 0xfffffff)
         {
-            if (FUN_00e7df90(flags & 0xfffffff, &m_1c))
+            if (NiD3DTextureStage_CalculateTransformationMatrix(flags & 0xfffffff, &m_1c))
                 DAT_0126f6c0->SetTexture(m_04 + 0x10, &DAT_0126f6d0);
         }
         else
@@ -2585,7 +2599,8 @@ extern float DAT_0126f70c;
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 // For modes 1–6, combines indexed floats from m and the block at DAT_0126f6c4, writes to DAT_0126f6d0–DAT_0126f70c, and returns false otherwise.
 // @fnv 0x00e7df90
-bool __stdcall FUN_00e7df90(int mode, float* m)
+// src: COMMUNITY 0x00e7df90
+bool __stdcall NiD3DTextureStage_CalculateTransformationMatrix(int mode, float* m)
 {
     bool result = true;
     switch (mode)
@@ -3986,18 +4001,19 @@ extern RendererStageContext* DAT_0126f74c;
 extern void* DAT_011f951c;
 extern GeometryData** DAT_011f91e0;
 extern NiPoint3 DAT_011fa2a0;
-void FUN_00c4c2d0(TransformData const*, int, Matrix4*);
-D3dxTransformResult_00ee6df8* __stdcall FUN_00ee6df8(D3dxTransformResult_00ee6df8*, NiPoint3 const*, Matrix4 const*);
+void BSUtilities_GetInverseWorldMatrix(TransformData const*, int, Matrix4*);
+D3dxTransformResult_00ee6df8* __stdcall D3DXVec3TransformCoord_00ee6df8(D3dxTransformResult_00ee6df8*, NiPoint3 const*, Matrix4 const*);
 struct Shell_b7e1
 {
     void* GetTextureByIndex(GeometryData*, int);
-    void FUN_00b7c750(GeometryData*, TransformData*);
-    void FUN_00b7c7b0(Matrix4*);
-    void FUN_00b7e150(DrawArg*);
+    void ShadowLightShader_SetupGeometryOpt_WorldViewProj(GeometryData*, TransformData*);
+    void BSShader_SetLightDirection(Matrix4*);
+    void ShadowLightShader_Setup_ADT_PxOpt(DrawArg*);
 };
 // Sets stage textures and states from the geometry, computes a world transform, and uploads vertex shader constants.
 // @fnv 0x00b7e150
-void Shell_b7e1::FUN_00b7e150(DrawArg* apDrawArg)
+// src: COMMUNITY 0x00b7e150
+void Shell_b7e1::ShadowLightShader_Setup_ADT_PxOpt(DrawArg* apDrawArg)
 {
     GeometryData* geom = apDrawArg->geom;
     StageState* stage = DAT_0126f74c->stages[0];
@@ -4017,14 +4033,14 @@ void Shell_b7e1::FUN_00b7e150(DrawArg* apDrawArg)
     Matrix4 matrix;
     GeometryData* world = *DAT_011f91e0;
     TransformData* transform = &world->world;
-    FUN_00c4c2d0(transform, 0, &matrix);
-    FUN_00b7c750(world, transform);
-    FUN_00b7c7b0(&matrix);
+    BSUtilities_GetInverseWorldMatrix(transform, 0, &matrix);
+    ShadowLightShader_SetupGeometryOpt_WorldViewProj(world, transform);
+    BSShader_SetLightDirection(&matrix);
     float scale = transform->scale;
     // FUN_00ee6df8 fills the vector without a separate constructor call.
     float dataStorage[sizeof(D3dxTransformResult_00ee6df8) / sizeof(float)];
     D3dxTransformResult_00ee6df8& data = *reinterpret_cast<D3dxTransformResult_00ee6df8*>(dataStorage);
-    FUN_00ee6df8(&data, &DAT_011fa2a0, &matrix);
+    D3DXVec3TransformCoord_00ee6df8(&data, &DAT_011fa2a0, &matrix);
     data.w = scale;
     DAT_0126f74c->renderer->SetConstants(&data.x);
 }

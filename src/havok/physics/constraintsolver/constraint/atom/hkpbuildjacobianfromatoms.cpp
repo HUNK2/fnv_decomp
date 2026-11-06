@@ -82,7 +82,7 @@ public:
     void __thiscall FUN_004b4db0(const PacketCallLocal_00d6d450* vector);
     PacketCallLocal_00d6d450& FUN_00e531a0(int parameter);
     PacketCallLocal_00d6d450 FUN_00e53260(int parameter);
-    void FUN_005611c0();
+    void normalize_005611c0();
 
     void operator=(const PacketCallLocal_00d6d450& vector);
     float& operator()(int index);
@@ -2203,8 +2203,8 @@ static void __declspec(noinline)
     V4 rb;
     rb.m = _mm_sub_ps(pb.m, bodyB->center.m);
     hkVector4 wa, wb;
-    wa.FUN_004b4ab0(reinterpret_cast<const hkRotation&>(bodyA->rot), reinterpret_cast<const hkVector4&>(bodyA->linear));
-    wb.FUN_004b4ab0(reinterpret_cast<const hkRotation&>(bodyB->rot), reinterpret_cast<const hkVector4&>(bodyB->linear));
+    wa.hkVector4_setRotatedInverseDir(reinterpret_cast<const hkRotation&>(bodyA->rot), reinterpret_cast<const hkVector4&>(bodyA->linear));
+    wb.hkVector4_setRotatedInverseDir(reinterpret_cast<const hkRotation&>(bodyB->rot), reinterpret_cast<const hkVector4&>(bodyB->linear));
     __m128 scale = _mm_shuffle_ps(inverseV.m, inverseV.m, 0);
     V4 velocity;
     velocity.m =
@@ -3341,9 +3341,9 @@ static __declspec(noinline) void FUN_00d6ced0(const BallSocketAtom* atom, const 
     hkVec4 rB;
     rB.q = _mm_sub_ps(baseB->col(3).q, bodyB->m_kCenterPosition.q);
     hkVector4 mA;
-    mA.FUN_004b4ab0(reinterpret_cast<const hkRotation&>(bodyA->m_rot[0]), reinterpret_cast<const hkVector4&>(bodyA->m_vAngularVelocity));
+    mA.hkVector4_setRotatedInverseDir(reinterpret_cast<const hkRotation&>(bodyA->m_rot[0]), reinterpret_cast<const hkVector4&>(bodyA->m_vAngularVelocity));
     hkVector4 mB;
-    mB.FUN_004b4ab0(reinterpret_cast<const hkRotation&>(bodyB->m_rot[0]), reinterpret_cast<const hkVector4&>(bodyB->m_vAngularVelocity));
+    mB.hkVector4_setRotatedInverseDir(reinterpret_cast<const hkRotation&>(bodyB->m_rot[0]), reinterpret_cast<const hkVector4&>(bodyB->m_vAngularVelocity));
     int handle = in->unk68;
     if (handle)
     {

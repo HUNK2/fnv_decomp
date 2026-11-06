@@ -29,7 +29,7 @@ struct CE5F90QsTransform
     float m_rotation[4];
     float m_vScale[4];
 };
-void __cdecl FUN_00ce5a70(CE5F90QsTransform* out, const CE5F90QsTransform* a, const CE5F90QsTransform* b, int mode,
+void __cdecl hkaSkeletonMapperUtils_computeMappingTransform(CE5F90QsTransform* out, const CE5F90QsTransform* a, const CE5F90QsTransform* b, int mode,
                           float weightA, float weightB);
 void __cdecl hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(CE5F90QsTransform* out, const CE5F90QsTransform* poseA, short boneA,
                           const CE5F90QsTransform* poseB, short boneB, int mode, float weightA, float weightB);
@@ -275,7 +275,8 @@ struct HkQuat
     {
         m_vec.setNeg3(q.getImag());
     }
-    inline void FUN_00c66320(const HkQuat& q0, const HkQuat& q1)
+// src: COMMUNITY 0x00c66320
+    inline void setMul(const HkQuat& q0, const HkQuat& q1)
     {
         HkVec4 vec;
         vec.setCross(q0.getImag(), q1.getImag());
@@ -366,7 +367,7 @@ struct HkQs
         HkVec4 extraTrans;
         extraTrans.SetRotatedDirection(aTb.m_rotation, bTc.m_vTranslation);
         m_vTranslation.setAdd4(aTb.m_vTranslation, extraTrans);
-        m_rotation.FUN_00c66320(aTb.m_rotation, bTc.m_rotation);
+        m_rotation.setMul(aTb.m_rotation, bTc.m_rotation);
         m_vScale.setMul4(aTb.m_vScale, bTc.m_vScale);
     }
     __forceinline void SetMulInverse(const HkQs& a, const HkQs& b)
@@ -1021,7 +1022,8 @@ __forceinline bool __cdecl checkRotation(const HkMapperParams& params, short bon
 }
 
 // @fnv 0x00ce61c0
-__declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalParams, hkaSkeletonMapperData& originalAToB,
+// src: COMMUNITY 0x00ce61c0
+__declspec(nothrow) void __cdecl hkaSkeletonMapperUtils_createMapping(const HkMapperParams& originalParams, hkaSkeletonMapperData& originalAToB,
                                               hkaSkeletonMapperData& originalBToA) throw()
 {
     hkErrorInstance().beginSection(0x54e4323e, "hkaSkeletonMapperUtils::createMapping");
@@ -1894,8 +1896,8 @@ struct HkVec
 struct HkQuat
 {
     HkVec v;
-    void FUN_00c66320(const HkQuat& a, const HkQuat& b) throw();
-    void FUN_00c74ac0(const HkQuat& a, const HkQuat& b) throw();
+    void setMul(const HkQuat& a, const HkQuat& b) throw();
+    void setMulInverse(const HkQuat& a, const HkQuat& b) throw();
 };
 // local form of hkQsTransform: 0x00ce5a70 needs inline SetConjugate/SetProduct and original scalar aliases; shared form gives 667 bytes vs exe 999.
 struct HkQs
@@ -1915,7 +1917,7 @@ struct HkQs
     {
         m_vTranslation.SetRotatedDirection(a.m_rotation, b.m_vTranslation);
         m_vTranslation.m = _mm_add_ps(m_vTranslation.m, a.m_vTranslation.m);
-        m_rotation.FUN_00c66320(a.m_rotation, b.m_rotation);
+        m_rotation.setMul(a.m_rotation, b.m_rotation);
         m_vScale.m = _mm_mul_ps(b.m_vScale.m, a.m_vScale.m);
     }
 };
@@ -2006,7 +2008,8 @@ __forceinline float HkVec::length3() const
     return out;
 }
 
-__declspec(noinline) void HkQuat::FUN_00c66320(const HkQuat& a, const HkQuat& b) throw()
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void HkQuat::setMul(const HkQuat& a, const HkQuat& b) throw()
 {
     LocalM128 av = a.v.m, bv = b.v.m;
     LocalM128 ax = _mm_shuffle_ps(av, av, 0), ay = _mm_shuffle_ps(av, av, 0x55);
@@ -2034,7 +2037,8 @@ static __forceinline void warnAlways(int id, const char* text, int line)
 }
 
 // @fnv 0x00ce5a70
-void __cdecl FUN_00ce5a70(CE5F90QsTransform* mappingType, const CE5F90QsTransform* poseA,
+// src: COMMUNITY 0x00ce5a70
+void __cdecl hkaSkeletonMapperUtils_computeMappingTransform(CE5F90QsTransform* mappingType, const CE5F90QsTransform* poseA,
                           const CE5F90QsTransform* poseB, int outputAddress, float tolerance, float defaultScale)
 {
     int type = reinterpret_cast<int>(mappingType);
@@ -2079,7 +2083,7 @@ void __cdecl FUN_00ce5a70(CE5F90QsTransform* mappingType, const CE5F90QsTransfor
         LocalM128 sv = _mm_load_ss(&scale);
         sv = _mm_shuffle_ps(sv, sv, 0);
         out->m_vScale.m = sv;
-        out->m_rotation.FUN_00c74ac0(b->m_rotation, a->m_rotation);
+        out->m_rotation.setMulInverse(b->m_rotation, a->m_rotation);
         float neg = -scale;
         LocalM128 ns = _mm_load_ss(&neg);
         ns = _mm_shuffle_ps(ns, ns, 0);

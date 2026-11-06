@@ -4,7 +4,8 @@
 extern "C" int __cdecl FUN_00eccbdc(int, int);
 
 // @fnv 0x00aa2d10
-int FUN_00aa2d10(int aiValue1, int aiValue2)
+// src: COMMUNITY 0x00aa2d10
+int NiPath_GetCurrentWorkingDirectory(int aiValue1, int aiValue2)
 {
     int r = FUN_00eccbdc(aiValue1, aiValue2);
     r = !r;

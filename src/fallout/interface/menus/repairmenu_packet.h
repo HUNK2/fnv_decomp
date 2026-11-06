@@ -7,7 +7,7 @@
 
 class BGSPerkEntry;
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 int FUN_007b5720();
 int Warning(const char*, ...);
 float FUN_004a4240();

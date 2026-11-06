@@ -132,7 +132,8 @@ inline float SqrLength3(float a, float b, float c)
 }
 
 // @fnv 0x00a7dc40
-bool __stdcall FUN_00a7dc40(const NiAVObject* pkCamera, const NiPoint3& kPos, NiPoint3& kWorldPosition, NiPoint3& kUp,
+// src: COMMUNITY 0x00a7dc40
+bool __stdcall NiBillboardNode_RotateToCenter(const NiAVObject* pkCamera, const NiPoint3& kPos, NiPoint3& kWorldPosition, NiPoint3& kUp,
                             NiPoint3& kRight)
 {
     NiPoint3 kDelta = pkCamera->m_kWorld.m_Translate - kPos;
@@ -240,14 +241,14 @@ class GlobalObjectO2_00a7b610
     char* m_pString;
 };
 extern GlobalObjectO2_00a7b610 g_011f4aa0;
-char* __cdecl FUN_00a7d330(char* value);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* value);
 char* __cdecl FUN_00a7db60(const char* pName, unsigned int uiValue);
 
 // @fnv 0x00a7e890
 void NiBillboardNode::FUN_00a7e890(StrArr* array)
 {
     NiNode::GetViewerStrings((NiViewerStringsArray*)array);
-    AddViewerString(array, FUN_00a7d330(g_011f4aa0.m_pString));
+    AddViewerString(array, NiViewerStrings_NiGetViewerString_Title(g_011f4aa0.m_pString));
     unsigned int uiFlags = *(unsigned short*)&unkAC & 7;
     AddViewerString(array, FUN_00a7db60("m_eMode", uiFlags));
 }
@@ -420,7 +421,7 @@ void NiBillboardNode::FUN_00a7de40(const BoardObject* cameraObject)
     case 3:
         if (mode == 3)
         {
-            if (!FUN_00a7dc40(cameraObject, world.translate, kWorldPosition, kUp, kRight))
+            if (!NiBillboardNode_RotateToCenter(cameraObject, world.translate, kWorldPosition, kUp, kRight))
                 break;
         }
         else
@@ -490,7 +491,7 @@ void NiBillboardNode::FUN_00a7de40(const BoardObject* cameraObject)
     case 4:
         if (mode == 4)
         {
-            if (!FUN_00a7dc40(cameraObject, world.translate, kRight, kUp, kWorldPosition))
+            if (!NiBillboardNode_RotateToCenter(cameraObject, world.translate, kRight, kUp, kWorldPosition))
                 break;
         }
         else

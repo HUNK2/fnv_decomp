@@ -109,7 +109,8 @@ extern int DAT_010305a8;
 extern int DAT_010ce4bc;
 
 // @fnv 0x00e00b00
-void FUN_00e00b00(int* pObject, int flag)
+// src: COMMUNITY 0x00e00b00
+void hkpMultiSphereShape_hkpMultiSphereShape_0(int* pObject, int flag)
 {
     if (pObject)
     {
@@ -4046,11 +4047,12 @@ struct FUN_00e10a00_cls
 {
     int m_00;
 
-    FUN_00e10a00_cls* FUN_00e10a00();
+    FUN_00e10a00_cls* return_input_and_0_it_1();
 };
 
 // @fnv 0x00e10a00
-FUN_00e10a00_cls* FUN_00e10a00_cls::FUN_00e10a00()
+// src: COMMUNITY 0x00e10a00
+FUN_00e10a00_cls* FUN_00e10a00_cls::return_input_and_0_it_1()
 {
     this->m_00 = 0;
     return this;
@@ -5904,7 +5906,7 @@ struct Context
 void SwapHeaderBytesAndAdvance(Input*);
 void SwapQuadBytes(Input*);
 void hkpSaveContactPointsEndianUtil_swapEndianType(Input*);
-int FUN_00dcd4d0(unsigned int);
+int hkpSaveContactPointsUtil_getSerializedAgentType(unsigned int);
 void SwapHkHeaderE05E(Payload*);
 void SwapHeaderEndianness(Payload*);
 void hkpSaveContactPointsEndianUtil_swapEndianType_00e05fe0(Payload*);
@@ -5954,7 +5956,7 @@ void ProcessInput(Context** context, Input* input, void* argument, bool reverse,
     default:
         return;
     }
-    int operation = FUN_00dcd4d0((*context)->entries[input->selector].key);
+    int operation = hkpSaveContactPointsUtil_getSerializedAgentType((*context)->entries[input->selector].key);
     *type = input->component;
     switch (operation)
     {

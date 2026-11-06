@@ -196,21 +196,21 @@ public:
     bool FUN_0067a700();
     void* FUN_007031c0();
     void FUN_00810610(bool value);
-    void FUN_008879d0(bool far);
+    void bhkCharacterController_SetFarAway(bool far);
     void FUN_008d0600();
     int FUN_00967da0();
     void* FUN_0097d740(unsigned int flags);
     void FUN_0097d770();
-    void FUN_0097d990();
-    void FUN_0097d9d0();
-    void FUN_0097da50();
+    void FirstUpdate();
+    void CalculateAttackerInfo();
+    void Update_0097da50();
     void __thiscall FUN_0097f200();
-    void FUN_0097f390();
+    void UpdateCurrentWeapon();
     void FUN_0097f4d0(int arg);
     bool FUN_0097f4d0(void* arg);
     void FUN_0097f6d0(int arg);
-    void FUN_0097f720(int arg);
-    void FUN_0097f7a0(void* arg, bool value);
+    void FiredProjectile(int arg);
+    void ResetEmbeddedWeaponSwitchTimer(void* arg, bool value);
     void FUN_0097f930(Actor* apTarget, int iPriority, bool abHighPriority,
                       float afDamageDone, float afDamageTaken);
     void FUN_0097f9c0(void* actor);
@@ -220,14 +220,14 @@ public:
     void FUN_009801b0(CombatProcedure* apMovementProcedure);
     void FUN_00980250();
     void FUN_00980270(CombatProcedure* apBackgroundProcedure);
-    void FUN_00980360();
-    bool FUN_00980470();
-    bool FUN_009804d0();
+    void ClearBackgroundProcedures();
+    bool GetProcedureFailed();
+    bool GetProcedureFinished();
     void FUN_00980830(void* arg);
-    void FUN_00980a30(int arg);
+    void ClearReferencePointers(int arg);
     bool FUN_00981300();
     void FUN_00981380();
-    bool FUN_00981450();
+    bool ShouldStopCombat();
     void __thiscall FUN_00981570(int aiCombatMoveMode);
     void FUN_009815f0(unsigned int state);
     unsigned int FUN_00981690(CombatProcedure* apCombatProcedure);
@@ -243,7 +243,7 @@ public:
     void FUN_00981d00(BGSLoadFormBuffer* buffer);
     void FUN_00982080(BGSLoadFormBuffer* buffer);
     void FUN_00982310(BGSLoadFormBuffer* buffer);
-    void FUN_00982350(CombatProcedure** procedure, BGSSaveFormBuffer* buffer);
+    void CombatProcedure_SaveGame_(CombatProcedure** procedure, BGSSaveFormBuffer* buffer);
     void FUN_00984f60(unsigned int flags);
     bool FUN_00998a30();
     bool FUN_0099d030(Arg0Class* a0, Arg1Class* a1, Arg2Class* a2, int a3,

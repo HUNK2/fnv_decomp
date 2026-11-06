@@ -10,7 +10,7 @@
 extern "C" void __cdecl _Deallocate(void*);
 extern int DAT_0104de10;
 extern int DAT_011f942c;
-void FUN_00624bd0();
+void BSShaderManager_ResetMotionBluredObject();
 struct hkVector4;
 struct NiTransform;
 struct TopicH
@@ -18,9 +18,9 @@ struct TopicH
     NiPoint3* GetAddTopicList();
     NiPoint3& _ref_006815c0();
 };
-void FUN_00624b10(NiTransform*, NiPoint3*);
+void HK2NI_00624b10(NiTransform*, NiPoint3*);
 NiPoint3& SetNiPoint3FromHkVector4(NiPoint3&, const hkVector4&);
-NiTransform* FUN_00624ad0(NiTransform* arNiTran, TopicH* arTopicH);
+NiTransform* HK2NI_00624ad0(NiTransform* arNiTran, TopicH* arTopicH);
 
 // FUN_00624be0 : 8-byte MSVC this-adjusting (virtual) thunk.
 //     sub ecx, 0x4 ; jmp FUN_00624190

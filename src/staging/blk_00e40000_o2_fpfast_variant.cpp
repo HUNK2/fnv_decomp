@@ -2035,9 +2035,9 @@ struct GtrStand_
 struct HolderStub;
 HolderStub* __cdecl FUN_00c85750();
 HolderStub* __cdecl FUN_00e4e3f0();
-void FUN_00e52f10();
-void __cdecl FUN_00e52f20();
-void FUN_00e52f30();
+void nullsub_293();
+void __cdecl nullsub_294();
+void nullsub_292();
 struct FUN_00e53180_Obj
 {
     float x;
@@ -2167,7 +2167,7 @@ extern "C" int mm_count(void);
 void mm_caller(void);
 struct SampleField
 {
-    int FUN_00e587a0();
+    int NiD3DShaderProgram_GetShaderProgramName();
     float* GetElementPtr(int index, int component);
     void FillWithValue(float* value);
     float GetFloatAt(int index, int component);

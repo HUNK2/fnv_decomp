@@ -256,7 +256,8 @@ __forceinline void storeResults(Statistics *s, Owner &owner) {
     }
 }
 // @fnv 0x00d93380
-int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
+// src: COMMUNITY 0x00d93380
+int hkCpuAgentSectorJob(Globals *globals, Queue *queue, Job *job) {
     union WorkSlot { Island *savedIsland; int i; }; WorkSlot work;
     // The job initializes this context in place without constructing its time vector.
     __declspec(align(16)) void *contextStorage[sizeof(Context) / sizeof(void *)];

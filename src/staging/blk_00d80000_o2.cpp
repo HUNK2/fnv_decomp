@@ -194,7 +194,8 @@ struct FUN_00d85360_cls {
 };
 
 // @fnv 0x00d85360
-FUN_00d85360_cls* __cdecl FUN_00d85360(int pSource)
+// src: COMMUNITY 0x00d85360
+FUN_00d85360_cls* __cdecl hkpConstraintDataUtils_copyAtoms_hkpBallAndSocketConstraintData_(int pSource)
 {
     hkMemoryRouter* holder = FUN_00c85750();
     FUN_00d85360_cls* obj = (FUN_00d85360_cls*)reinterpret_cast<AllocIface*>(holder->m_heap)->Alloc(0x50);
@@ -508,7 +509,8 @@ void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int size);
 
 // Allocates a 0x50-byte SpawnedObject from the holder's allocator, sets its size, constructs it, and copies 0x38 bytes from pSrc+0x10 into unk10.
 // @fnv 0x00d85530
-SpawnedObject* __cdecl FUN_00d85530(SpawnedSource* pSrc)
+// src: COMMUNITY 0x00d85530
+SpawnedObject* __cdecl hkpConstraintDataUtils_copyAtoms_hkpStiffSpringConstraintData_(SpawnedSource* pSrc)
 {
     hkMemoryRouter* pHolder = FUN_00c85750();
     SpawnedAllocator* pAllocator = reinterpret_cast<SpawnedAllocator*>(pHolder->m_heap);
@@ -1149,7 +1151,7 @@ int __cdecl CountBitsInWords(const unsigned int* puiWords, int iNumWords)
     return iTotalBits;
 }
 
-int __cdecl FUN_00cb0fd0(const char*, const char*, unsigned int);
+int __cdecl j_strncmp(const char*, const char*, unsigned int);
 const char* __cdecl FUN_00cb1150(const char*, int);
 const char* __cdecl FUN_00cb1140(const char*, int);
 
@@ -1207,17 +1209,17 @@ struct StringBuf {
 // Matches typeName against known type prefixes and a type table, returning the corresponding type code or 0.
 // @fnv 0x00d86c00
 int __cdecl GetTypeCode(const char* typeName) {
-    if (FUN_00cb0fd0(typeName, "enum ", 5) == 0)
+    if (j_strncmp(typeName, "enum ", 5) == 0)
         return 0x18;
-    if (FUN_00cb0fd0(typeName, "flags ", 6) == 0)
+    if (j_strncmp(typeName, "flags ", 6) == 0)
         return 0x1f;
-    if (FUN_00cb0fd0(typeName, "hkArray<", 8) == 0)
+    if (j_strncmp(typeName, "hkArray<", 8) == 0)
         return 0x16;
-    if (FUN_00cb0fd0(typeName, "hkSimpleArray<", 14) == 0)
+    if (j_strncmp(typeName, "hkSimpleArray<", 14) == 0)
         return 0x1a;
-    if (FUN_00cb0fd0(typeName, "char*", 5) == 0)
+    if (j_strncmp(typeName, "char*", 5) == 0)
         return 0x1d;
-    if (FUN_00cb0fd0(typeName, "hkStringPtr", 11) == 0)
+    if (j_strncmp(typeName, "hkStringPtr", 11) == 0)
         return 0x21;
 
     const char* star = FUN_00cb1150(typeName, '*');
@@ -1340,11 +1342,12 @@ int hkSetD874::FUN_00d87410() const
 struct FUN_00d87910_cls {
     int m_00;
 
-    FUN_00d87910_cls* FUN_00d87910();
+    FUN_00d87910_cls* hkThread_hkThread();
 };
 
 // @fnv 0x00d87910
-FUN_00d87910_cls* FUN_00d87910_cls::FUN_00d87910()
+// src: COMMUNITY 0x00d87910
+FUN_00d87910_cls* FUN_00d87910_cls::hkThread_hkThread()
 {
     m_00 = 0;
     return this;
@@ -1955,23 +1958,28 @@ void __stdcall FUN_00d9fb40(unsigned char* output, int unused1)
 }
 
 // @fnv 0x00d9fca0
-void __stdcall FUN_00d9fca0(int) {
+// src: COMMUNITY 0x00d9fca0
+void __stdcall nullsub_68(int) {
 }
 
 // @fnv 0x00d9fcb0
-void __stdcall FUN_00d9fcb0(int, int, int) {
+// src: COMMUNITY 0x00d9fcb0
+void __stdcall nullsub_69(int, int, int) {
 }
 
 // @fnv 0x00d9fcc0
-void __stdcall FUN_00d9fcc0(int) {
+// src: COMMUNITY 0x00d9fcc0
+void __stdcall nullsub_70(int) {
 }
 
 // @fnv 0x00d9fcd0
-void __stdcall FUN_00d9fcd0(int) {
+// src: COMMUNITY 0x00d9fcd0
+void __stdcall nullsub_71(int) {
 }
 
 // @fnv 0x00d9fce0
-void __stdcall FUN_00d9fce0(int) {
+// src: COMMUNITY 0x00d9fce0
+void __stdcall nullsub_72(int) {
 }
 
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
@@ -2353,7 +2361,7 @@ struct S00d881a0_Mid {
 struct S00d881a0_Obj {
     S00d881a0_Mid* m00;
 };
-int __cdecl FUN_00d29bf0(void* a0, void* a1, void* a2, void* a3, void* a4, int a5);
+int __cdecl hkRigidMotionUtilApplyAccumulators(void* a0, void* a1, void* a2, void* a3, void* a4, int a5);
 void __cdecl FUN_00d1a330(int a0, void* a1, void* a2);
 
 // Calls FUN_00d29bf0 with eaxv + 0x80 and 0xe0, then FUN_00d1a330 with esi->m00->m08->m78, esi and edi, and returns the first call's result.
@@ -2361,7 +2369,7 @@ void __cdecl FUN_00d1a330(int a0, void* a1, void* a2);
 // src: HAVOK_LIB 0x00d881a0
 static __declspec(noinline) int hkConstraintSolverSetup_integrate2(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi)
 {
-    int r = FUN_00d29bf0(p, ecxv, eaxv + 0x80, esi, edi, 0xe0);
+    int r = hkRigidMotionUtilApplyAccumulators(p, ecxv, eaxv + 0x80, esi, edi, 0xe0);
     FUN_00d1a330(esi->m00->m08->m78, esi, edi);
     return r;
 }
@@ -2923,7 +2931,7 @@ void hkBitField::setSize(int iNumBits, int iInitialValue)
 extern const char DAT_010d3aa0[];
 extern const char DAT_010d3a90[];
 
-int __cdecl FUN_00cb0fd0(const char*, const char*, int) throw();
+int __cdecl j_strncmp(const char*, const char*, int) throw();
 int __cdecl hkString_strLen(const char*) throw();
 const char* __cdecl FUN_00cb1140(const char*, int) throw();
 int __cdecl CallWithZeroMiddleArg(const char*, int) throw();
@@ -2980,12 +2988,12 @@ struct FUN_00d61b10 {
 // @fnv 0x00d86d70
 int __cdecl GetTypeCodeFromString(const char* name) throw()
 {
-    if (FUN_00cb0fd0(name, DAT_010d3aa0, 8) == 0) {
+    if (j_strncmp(name, DAT_010d3aa0, 8) == 0) {
         name += 8;
         FUN_00d61b10 inner(name, hkString_strLen(name) - 1);
         return GetTypeCode(inner.m_kStringBuffer.m_data);
     }
-    if (FUN_00cb0fd0(name, DAT_010d3a90, 14) == 0) {
+    if (j_strncmp(name, DAT_010d3a90, 14) == 0) {
         name += 14;
         FUN_00d61b10 inner(name, hkString_strLen(name) - 1);
         return GetTypeCode(inner.m_kStringBuffer.m_data);
@@ -3682,7 +3690,7 @@ struct SolverObject {
     int unk10, unk14, unk18, unk1c;
     SolverTarget* target;
 };
-void __cdecl FUN_00df0680(TargetObj*, int, int, int);
+void __cdecl hkExportImpulsesAndRhs(TargetObj*, int, int, int);
 
 // Records a profiler timestamp, calls FUN_00df0680 with the object's target fields, records a second timestamp, then calls ProcessCallback on context.
 // @fnv 0x00d94730
@@ -3700,7 +3708,7 @@ void __cdecl hkCpuSolveExportResultsJob(Arg0* world, Arg1* context, SolverObject
         stream->m_end.m_storage = reinterpret_cast<char*>(record + 1);
     }
     SolverTarget* target = object->target;
-    FUN_00df0680(&world->m_pSub->unk1e0, target->unk10, target->unk0c, target->unk08);
+    hkExportImpulsesAndRhs(&world->m_pSub->unk1e0, target->unk10, target->unk0c, target->unk08);
     stream = static_cast<hkMonitorStream*>(TlsGetValue(DAT_0126835c));
     if (stream->m_end.m_storage < stream->m_capacityMinus16.val()) {
         hkTimerCommand_blk_00d80000_o2* record = reinterpret_cast<hkTimerCommand_blk_00d80000_o2*>(stream->m_end.m_storage);
@@ -4594,7 +4602,7 @@ extern unsigned int DAT_0126835c;
 typedef void* (__stdcall *StringCursorGetFn)(unsigned long);
 extern StringCursorGetFn DAT_00fdf044;
 extern const char str_010d3ef4[];
-void __cdecl FUN_00d29830(char* p, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+void __cdecl hkRigidMotionUtilApplyForcesAndBuildAccumulators(char* p, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 struct D94Sub {
     int u00;
     int u04;
@@ -4628,7 +4636,8 @@ struct D94Obj {
 };
 // Records two timing markers in a TLS buffer, calls FUN_00d29830 with a3 fields, then returns a2->ProcessCallback(a3, a3, 0).
 // @fnv 0x00d94df0
-int __cdecl FUN_00d94df0(char* a1, D94Obj* a2, D94Body* a3)
+// src: COMMUNITY 0x00d94df0
+int __cdecl hkCpuBuildAccumulatorsJob(char* a1, D94Obj* a2, D94Body* a3)
 {
     StringCursorGetFn fn = DAT_00fdf044;
     hkMonitorStream* tp = (hkMonitorStream*)fn(DAT_0126835c);
@@ -4642,7 +4651,7 @@ int __cdecl FUN_00d94df0(char* a1, D94Obj* a2, D94Body* a3)
         cur++;
         tp->m_end.m_storage = reinterpret_cast<char*>(cur);
     }
-    FUN_00d29830(a1 + 0xe0, (unsigned int)(a3->p20 + a3->us24), a3->us26, 0xe0, ((a3->us24 + 1) << 7) + a3->m18->m30);
+    hkRigidMotionUtilApplyForcesAndBuildAccumulators(a1 + 0xe0, (unsigned int)(a3->p20 + a3->us24), a3->us26, 0xe0, ((a3->us24 + 1) << 7) + a3->m18->m30);
     hkMonitorStream* tp2 = (hkMonitorStream*)fn(DAT_0126835c);
     hkTimerCommand_blk_00d80000_o2* r = (hkTimerCommand_blk_00d80000_o2*)tp2->m_end.m_storage;
     if (r < (hkTimerCommand_blk_00d80000_o2*)tp2->m_capacityMinus16.m_storage) {
@@ -5257,7 +5266,8 @@ static __forceinline void S00d94a80_Process(Arg0* a1, Arg2* p)
 }
 
 // @fnv 0x00d94a80
-void __cdecl FUN_00d94a80(Arg0* a1, Arg1* a2, Arg2* a3)
+// src: COMMUNITY 0x00d94a80
+void __cdecl hkCpuBuildJacobiansJob(Arg0* a1, Arg1* a2, Arg2* a3)
 {
     hkMonitorStream* stream = (hkMonitorStream*)TlsGetValue(DAT_0126835c);
     char* cur = stream->m_end.m_storage;

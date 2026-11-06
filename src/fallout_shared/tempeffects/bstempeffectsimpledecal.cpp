@@ -112,7 +112,8 @@ void FUN_0068c8b0_shell::SetFieldE8(float value)
 extern NiFixedString* DAT_011c622c;
 
 // @fnv 0x0068c8d0
-NiFixedString* __cdecl FUN_0068c8d0()
+// src: COMMUNITY 0x0068c8d0
+NiFixedString* __cdecl FixedStrings_GetPermanentDecal()
 {
     return DAT_011c622c;
 }
@@ -152,7 +153,8 @@ void* S_0068ace0::FUN_0068ace0(unsigned int flags)
 
 // Returns the larger of the two arguments, comparing the float against the double and returning a double.
 // @fnv 0x0068b050
-double FUN_0068b050(double adValue, float afValue)
+// src: COMMUNITY 0x0068b050
+double BSMAX_0068b050(double adValue, float afValue)
 {
     double dMax;
     if (afValue < adValue)
@@ -170,10 +172,11 @@ struct DecalHolder
 {
     bool FUN_0068b4c0(unsigned int);
     void FUN_00682810();
-    void FUN_0068b1e0();
+    void BSTempEffectSimpleDecal_Initialize();
 };
 // @fnv 0x0068b1e0
-void DecalHolder::FUN_0068b1e0()
+// src: COMMUNITY 0x0068b1e0
+void DecalHolder::BSTempEffectSimpleDecal_Initialize()
 {
     if (!FUN_0068b4c0(*(Flt*)((char*)this + 0x10C)))
         return;
@@ -256,7 +259,8 @@ void NiFree(void* pointer);
 
 // If the flag at offset 0x2d is clear, deallocates the six pointers at 0xcc-0xf4 and nulls them, then deletes each element of the array at 0xf8 and clears it.
 // @fnv 0x0068b220
-void BSTempEffectSimpleDecal::FUN_0068b220()
+// src: COMMUNITY 0x0068b220
+void BSTempEffectSimpleDecal::CleanUpMemory()
 {
     ScrapHeapBuffer* pAllocator;
 
@@ -310,7 +314,7 @@ extern int DAT_0119c298;
 extern float DAT_0119c29c;
 
 float cos(float);
-double FUN_0068b050(double param_1, float param_2);
+double BSMAX_0068b050(double param_1, float param_2);
 
 // Retain the placement layout used by 0x0068ad20: include/DecalData.h
 // defines a different 36-byte record, without pCell (+0x48), kColor (+0x60),
@@ -439,7 +443,7 @@ FUN_0068ad20::FUN_0068ad20(int p1, float m_fParticleParameter5, SimpleDecalParam
     unk1C = 0;
     spNode20 = 0;
     DAT_0119c29c = cos((float)(pData->f58 * 0.01745329238474369));
-    DAT_0119c29c = FUN_0068b050(1.1, DAT_0119c29c);
+    DAT_0119c29c = BSMAX_0068b050(1.1, DAT_0119c29c);
     b125 = pData->b73;
     f128 = pData->f4C;
     b12C = pData->b76;
@@ -467,7 +471,7 @@ struct DecalTarget
 struct DecalState
 {
     DecalEffect* FUN_00a59d30(void* texture);
-    DecalTarget* FUN_009611e0();
+    DecalTarget* NiAVObject_GetParent();
 };
 struct DecalRef
 {
@@ -487,7 +491,7 @@ struct DecalHost
     int unk24;
     DecalRef decalRef;
     bool FUN_006828a0(float alpha);
-    double FUN_00621b00();
+    double ActorPackage_GetPackageStartTime();
     double FUN_00488d50();
     bool UpdateDecalFade(float alpha);
 };
@@ -498,7 +502,7 @@ bool DecalHost::UpdateDecalFade(float alpha)
     DecalTarget* pDecalTarget;
     if (!changed && decalRef.FUN_00559450())
     {
-        float elapsed = (float)(FUN_00621b00() - FUN_00488d50());
+        float elapsed = (float)(ActorPackage_GetPackageStartTime() - FUN_00488d50());
         float intensity;
         if (elapsed >= DAT_01012060 && elapsed <= DAT_01012070)
         {
@@ -509,7 +513,7 @@ bool DecalHost::UpdateDecalFade(float alpha)
                 pEffect->FUN_0068c9f0(intensity);
             return true;
         }
-        pDecalTarget = decalRef.FUN_00559450()->FUN_009611e0();
+        pDecalTarget = decalRef.FUN_00559450()->NiAVObject_GetParent();
         if (pDecalTarget)
             pDecalTarget->FUN_004ee560(this);
     }
@@ -620,7 +624,8 @@ class B68CA90Geometry
 
 // Builds geometry from the decal's secondary vertex and triangle buffers.
 // @fnv 0x0068ca90
-int BSTempEffectSimpleDecal::FUN_0068ca90()
+// src: COMMUNITY 0x0068ca90
+int BSTempEffectSimpleDecal::CreateTriData_0068ca90()
 {
     B68CA90Geometry* pkGeometry = new B68CA90Geometry((unsigned short)m_iFirstValueAfterPlanes, m_pVertexNormals, m_pVertexBitangents, NavMeshGeometryBuffers, m_pSecondaryTextureCoordinates,
                                                       1, 0, (unsigned short)m_iSecondValueAfterPlanes, m_pSecondUnsignedShortArray);
@@ -651,7 +656,7 @@ bool BSTempEffectSimpleDecal::ReleaseTextureObject()
 
 struct DecalNode;
 
-void __cdecl FUN_00b5b0e0(void* pObject);
+void __cdecl ShadowSceneNode_RemoveLightsFromGeom(void* pObject);
 
 struct DecalOwner
 {
@@ -729,7 +734,7 @@ class FUN_0068b080 : public BSTempEffect
 {
   public:
     virtual ~FUN_0068b080();
-    void FUN_0068b220();
+    void CleanUpMemory();
 
     char b18;
     char b19;
@@ -806,14 +811,14 @@ FUN_0068b080::~FUN_0068b080()
     if (!b2C && (DecalNode*)spNode28)
     {
         pNode = spNode28;
-        FUN_00b5b0e0(pNode);
+        ShadowSceneNode_RemoveLightsFromGeom(pNode);
         if (((DecalNode*)spNode28)->GetOwner())
         {
             ((DecalNode*)spNode28)->GetOwner()->DetachDecal(spNode28);
         }
         spNode28 = 0;
     }
-    FUN_0068b220();
+    CleanUpMemory();
     if (b2D)
     {
         DAT_011c57ec--;
@@ -938,7 +943,7 @@ struct Graph
     bool checkFlag();
     NiColorA* GetNextProc();
     unsigned short FUN_00456650();
-    Graph* FUN_009611e0();
+    Graph* NiAVObject_GetParent();
     unsigned int FUN_0043b480();
     Graph* FUN_0043b4a0(unsigned int);
     void* FUN_0043c490();
@@ -1220,8 +1225,8 @@ extern EffectList g_011d6a30;
 extern Manager DAT_011e0e80;
 extern Setting g_011c5904;
 extern int g_011c7d34;
-NiFixedString* __cdecl FUN_0068c8d0();
-void* __cdecl FUN_00688460();
+NiFixedString* __cdecl FixedStrings_GetPermanentDecal();
+void* __cdecl FixedStrings_GetDecal();
 void __cdecl finalize(Graph*, int, int);
 void __cdecl prepare(Graph*);
 void __cdecl tag(Graph*, int);
@@ -1306,9 +1311,9 @@ bool BSTempEffectSimpleDecal::CreateDecalTexture()
             finalize((Graph*)(NiAVObject*)m_pSceneObject, 0, 0);
         }
         if (bPermanent)
-            ((Graph*)(NiAVObject*)m_pSceneObject)->SetParentObject(FUN_0068c8d0());
+            ((Graph*)(NiAVObject*)m_pSceneObject)->SetParentObject(FixedStrings_GetPermanentDecal());
         else
-            ((Graph*)(NiAVObject*)m_pSceneObject)->SetParentObject(FUN_00688460());
+            ((Graph*)(NiAVObject*)m_pSceneObject)->SetParentObject(FixedStrings_GetDecal());
         prepare((Graph*)(NiAVObject*)m_pSceneObject);
         tag((Graph*)(NiAVObject*)m_pSceneObject, 5);
         if (!bPermanent)
@@ -1329,7 +1334,7 @@ bool BSTempEffectSimpleDecal::CreateDecalTexture()
                 }
             }
         }
-        Graph* k = ((Graph*)(NiAVObject*)m_pTargetNode)->FUN_009611e0();
+        Graph* k = ((Graph*)(NiAVObject*)m_pTargetNode)->NiAVObject_GetParent();
         Graph* ba = 0;
         bool b = false;
         if (k)
@@ -1351,7 +1356,7 @@ bool BSTempEffectSimpleDecal::CreateDecalTexture()
             return false;
         }
         if (!b)
-            m_pDecalNode = (BGSDecalNode*)new Attachment(((Graph*)(NiAVObject*)m_pTargetNode)->FUN_009611e0(), 0);
+            m_pDecalNode = (BGSDecalNode*)new Attachment(((Graph*)(NiAVObject*)m_pTargetNode)->NiAVObject_GetParent(), 0);
         else
             m_pDecalNode = (BGSDecalNode*)ba;
         reinterpret_cast<Graph*>(m_pDecalNode)->attach(this, 1);
@@ -1363,7 +1368,7 @@ bool BSTempEffectSimpleDecal::CreateDecalTexture()
         ((Graph*)(NiAVObject*)m_pSceneObject)->update(j);
         ((SceneOps*)scene(0))->add(reinterpret_cast<Graph*>(this)->geometry(0));
         reinterpret_cast<Graph*>(m_pDecalNode)->list->addHead((Graph*)this);
-        FUN_0068b220();
+        CleanUpMemory();
         m_bTextureDirty = false;
         m_bSecondObjectFlag = true;
         bWasPlaying = true;
@@ -1390,7 +1395,7 @@ struct DecalHeap
     void* FUN_00aa54a0(unsigned, unsigned);
 };
 void* FUN_00aa1070(unsigned);
-void* FUN_00403d30(void*, int, unsigned);
+void* ourMemset(void*, int, unsigned);
 bool AreVectorsEqual(const DecalPoint*, const DecalPointRecord*, float);
 extern unsigned DAT_010a2720;
 extern float DAT_0119c29c;
@@ -1414,7 +1419,7 @@ bool BSTempEffectSimpleDecal::AddDecalGeometry(int count, int* paiIndices, Decal
         DecalGeometry* aMesh = reinterpret_cast<DecalGeometryRef&>(m_pTargetNode).FUN_00559450();
         int _numTriangles = aMesh->FUN_004a1ff0();
         m_pSignedShortArray = (short*)FUN_00aa1070(_numTriangles * 3 * 2);
-        FUN_00403d30(m_pSignedShortArray, -1, _numTriangles * 3 * 2);
+        ourMemset(m_pSignedShortArray, -1, _numTriangles * 3 * 2);
     }
     float scale = 1.0f / (1.0f - DAT_0119c29c);
     for (int i = 0; i < count; ++i)
@@ -1502,7 +1507,7 @@ struct Geometry
     FixedName& FUN_00413f40();
     unsigned short FUN_004a1ff0();
 };
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 extern float DAT_0119c29c;
 
 // Iterates triangle strips from the geometry, skips degenerate triangles, and clips those whose face normal faces along direction past a threshold.
@@ -1515,7 +1520,7 @@ void BSTempEffectSimpleDecal::ProcessDecalTriangles(Geometry* input)
     UnsignedShortBuffer* vertices = data->FUN_005495f0();
     if (normals && !geometry)
     {
-        FUN_005b5e40("TEXTURES: Decal Parent '%s' has no normals!", (const char*)input->FUN_00413f40());
+        Warning_005b5e40("TEXTURES: Decal Parent '%s' has no normals!", (const char*)input->FUN_00413f40());
         return;
     }
     if (!vertices)
@@ -1583,7 +1588,7 @@ struct Plane
 };
 extern const double DAT_01012070, DAT_01069ff0, DAT_01012060;
 extern const char DAT_01069f88[];
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 // Clips a polygon against a plane, emitting intersection vertices where edges cross it and dropping vertices outside, and returns the output vertex count.
 // @fnv 0x0068d820
 int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const NiPoint3* positions, const NiPoint3* attributes,
@@ -1620,12 +1625,12 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const NiPoin
                     fraction = 1.0f;
                 if (fraction < DAT_01012060)
                 {
-                    FUN_005b5e40(DAT_01069f88, fraction);
+                    Warning_005b5e40(DAT_01069f88, fraction);
                     fraction = 0.0f;
                 }
                 else if (fraction > DAT_01012070)
                 {
-                    FUN_005b5e40(DAT_01069f88, fraction);
+                    Warning_005b5e40(DAT_01069f88, fraction);
                     fraction = 1.0f;
                 }
                 outIndices[output] = -1;
@@ -1648,12 +1653,12 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const NiPoin
                 float fraction2 = (normal3.DotProduct(start_) + -plane->FUN_0084d030()) / normal3.DotProduct(edge_);
                 if (fraction2 < DAT_01012060)
                 {
-                    FUN_005b5e40(DAT_01069f88, fraction2);
+                    Warning_005b5e40(DAT_01069f88, fraction2);
                     fraction2 = 0.0f;
                 }
                 else if (fraction2 > DAT_01012070)
                 {
-                    FUN_005b5e40(DAT_01069f88, fraction2);
+                    Warning_005b5e40(DAT_01069f88, fraction2);
                     fraction2 = 1.0f;
                 }
                 outIndices[output] = -1;
@@ -1741,7 +1746,7 @@ bool __cdecl FUN_0043b300(const char*, Param*);
 void __cdecl NiMatrix3_TransformVertices(M3*, const char*, int, NiPoint3*, NiPoint3*);
 void __cdecl FUN_00c4b600(M3*, NiPoint3);
 int __cdecl CreateB68CA10Object(int);
-void __cdecl FUN_005b5e40(const char*, const char*);
+void __cdecl Warning_005b5e40(const char*, const char*);
 extern Sing DAT_011c5904;
 
 struct FUN_00452dc0 : V2
@@ -1850,7 +1855,7 @@ bool BSTempEffectSimpleDecal::FUN_0068b4c0(Param* apParam)
             bWasPlaying = 1;
             if (DAT_011c5904.FUN_00408d60()->b0)
             {
-                FUN_005b5e40(&str_01069efc, reinterpret_cast<Obj10c&>(m_pTargetNode).FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
+                Warning_005b5e40(&str_01069efc, reinterpret_cast<Obj10c&>(m_pTargetNode).FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
             }
             resultValue23 = false;
         }
@@ -1897,7 +1902,7 @@ bool BSTempEffectSimpleDecal::FUN_0068b4c0(Param* apParam)
                 }
             }
             ResizeMeshBuffers();
-            tValue0 = FUN_0068ca90();
+            tValue0 = CreateTriData_0068ca90();
             m_pSceneObject = (NiAVObject*)CreateB68CA10Object(tValue0);
             if ((NiAVObject*)m_pSceneObject)
             {

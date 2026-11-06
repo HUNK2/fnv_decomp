@@ -28,7 +28,7 @@ public:
     unsigned int GetThreadId();
     Controls* GetInputControls();
     InputManager* GetInputManager();
-    unsigned int FUN_0044edb0();
+    unsigned int TESMain_GetThread();
     void FUN_0086ff70();
     InputManager* FUN_00877720();
     InputManager* FUN_00877720(int);

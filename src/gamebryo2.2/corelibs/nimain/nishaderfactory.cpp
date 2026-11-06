@@ -252,7 +252,8 @@ NiShaderFactory::~NiShaderFactory() throw()
 }
 
 // @fnv 0x00a38de0
-int __stdcall FUN_00a38de0(int unk08)
+// src: COMMUNITY 0x00a38de0
+int __stdcall _return0(int unk08)
 {
     return 0;
 }
@@ -295,7 +296,8 @@ void* __thiscall NiGlobalConstantEntry::Destroy(int aiFlags)
 
 // Returns 0 regardless of its three arguments.
 // @fnv 0x00b57fc0
-int __stdcall FUN_00b57fc0(int arg0, int arg1, int arg2)
+// src: COMMUNITY 0x00b57fc0
+int __stdcall NiShaderFactory_Func000(int arg0, int arg1, int arg2)
 {
     return 0;
 }
@@ -304,7 +306,7 @@ extern char* _EmptyFS;
 
 struct Stub
 {
-    __declspec(noalias) void FUN_00aa0250(NiFixedString* kKey);
+    __declspec(noalias) void NiTStringPointerMap_NiAVObject_RemoveAt(NiFixedString* kKey);
 };
 
 // Finds the global constant entry for pkName in the shader factory, decrements its ref count, and deletes it when it reaches zero.
@@ -340,7 +342,7 @@ bool RemoveGlobalConstant(const NiFixedString* pkName)
     kLocal.m_kHandle = pcHandle;
     if (pkEntry->m_uiRefCount == 1)
     {
-        ((Stub*)&pkFactory->m_kGlobalConstantEntryMap)->FUN_00aa0250(reinterpret_cast<NiFixedString*>(&kLocal));
+        ((Stub*)&pkFactory->m_kGlobalConstantEntryMap)->NiTStringPointerMap_NiAVObject_RemoveAt(reinterpret_cast<NiFixedString*>(&kLocal));
         if (InterlockedDecrement((long*)&pkEntry->m_uiRefCount) == 0)
             pkEntry->DeleteThis();
     }

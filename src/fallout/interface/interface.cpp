@@ -8,14 +8,14 @@
 #include "../../../include/TESResponse.h"
 #include "../../../include/TESSaveLoadGame.h"
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 float FUN_00715da0();
 float FUN_00706e20();
 float FUN_00706e50();
 bool FUN_00707b50();
-unsigned int FUN_00702440();
+unsigned int NiVertexColorProperty_GetType();
 bool FUN_00705100();
-unsigned int FUN_00706f20();
+unsigned int HudMainMenu_GetMenuID();
 
 extern bool DAT_011d9514;
 extern bool DAT_011c70eb;
@@ -292,35 +292,36 @@ bool InterfaceInterfaceView::IsInterfaceOpen()
 // @fnv 0x00706e70
 float InterfaceInterfaceView::GetInterfaceFloat()
 {
-    return FUN_004b7210()->fScreenAspectRatio;
+    return InterfaceManager_GetSingleton()->fScreenAspectRatio;
 }
 
 // @fnv 0x00706cd0
 void* InterfaceInterfaceView::GetPrimaryInterfaceTile()
 {
-    return FUN_004b7210()->FUN_00586150();
+    return InterfaceManager_GetSingleton()->FUN_00586150();
 }
 
 // @fnv 0x00706cf0
 void* InterfaceInterfaceView::GetSecondaryInterfaceTile()
 {
-    return FUN_004b7210()->FUN_004fd400();
+    return InterfaceManager_GetSingleton()->FUN_004fd400();
 }
 
 // @fnv 0x00706d30
 NiNode* InterfaceInterfaceView::GetInterfaceNode()
 {
-    return FUN_004b7210()->FUN_004fb070();
+    return InterfaceManager_GetSingleton()->FUN_004fb070();
 }
 
 // @fnv 0x00706d70
 bool InterfaceInterfaceView::IsAnyMenuOpen()
 {
-    return FUN_004b7210()->FUN_00706d90();
+    return InterfaceManager_GetSingleton()->GetIsEmergencyTextureRelease();
 }
 
 // @fnv 0x00702440
-unsigned int FUN_00702440()
+// src: COMMUNITY 0x00702440
+unsigned int NiVertexColorProperty_GetType()
 {
     return 10;
 }
@@ -332,7 +333,8 @@ bool FUN_00705100()
 }
 
 // @fnv 0x00706f20
-unsigned int FUN_00706f20()
+// src: COMMUNITY 0x00706f20
+unsigned int HudMainMenu_GetMenuID()
 {
     return 1004;
 }
@@ -543,7 +545,8 @@ extern bool DAT_011c70ee;
 
 // Returns true only when both DAT_011c70ed and DAT_011c70ee are set.
 // @fnv 0x004de080
-bool __cdecl FUN_004de080()
+// src: COMMUNITY 0x004de080
+bool __cdecl IsEyefinity()
 {
     return DAT_011c70ed && DAT_011c70ee;
 }
@@ -583,8 +586,8 @@ bool __fastcall FUN_00644640(void*);
 // @fnv 0x00702360
 bool FUN_00702360()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
-        return FUN_00644640(FUN_004b7210());
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
+        return FUN_00644640(InterfaceManager_GetSingleton());
     return false;
 }
 
@@ -606,8 +609,8 @@ class Modifier
 // @fnv 0x007023c0
 int FUN_007023c0()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return reinterpret_cast<InterfaceManager*>(FUN_004b7210())->GetTopEnterStackEntry();
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return reinterpret_cast<InterfaceManager*>(InterfaceManager_GetSingleton())->GetTopEnterStackEntry();
     return 0;
 }
 }  // namespace fnv_007023c0
@@ -619,10 +622,11 @@ struct Modifier
     int GetMenuStackEntry(int);
 };
 // @fnv 0x00702400
-int FUN_00702400(int a)
+// src: COMMUNITY 0x00702400
+int Interface_GetMenuID(int a)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return reinterpret_cast<Modifier*>(FUN_004b7210())->GetMenuStackEntry(a);
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetMenuStackEntry(a);
     return 0;
 }
 }  // namespace fnv_00702400
@@ -638,9 +642,9 @@ class Modifier
 // @fnv 0x00702450
 bool __cdecl FUN_00702450(InterfaceInterfaceView::enumMenus aeMenuID)
 {
-    if (FUN_004b7210() && (unsigned char)((Modifier*)FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && (unsigned char)((Modifier*)InterfaceManager_GetSingleton())->GetKey())
     {
-        int topid = ((InterfaceManager*)FUN_004b7210())->GetTopEnterStackEntry();
+        int topid = ((InterfaceManager*)InterfaceManager_GetSingleton())->GetTopEnterStackEntry();
         if (topid == InterfaceInterfaceView::eMainFour &&
             (aeMenuID == InterfaceInterfaceView::eStatsMenu || aeMenuID == InterfaceInterfaceView::eInventoryMenu ||
              aeMenuID == InterfaceInterfaceView::eRepairMenu || aeMenuID == InterfaceInterfaceView::eMapMenu ||
@@ -668,8 +672,8 @@ class Modifier
 // @fnv 0x00702640
 int FUN_00702640()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return static_cast<InterfaceManager*>(FUN_004b7210())->GetMenuStackEntry(0);
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return static_cast<InterfaceManager*>(InterfaceManager_GetSingleton())->GetMenuStackEntry(0);
     return 0;
 }
 }  // namespace fnv_00702640
@@ -700,10 +704,11 @@ void __fastcall UpdateStartMenuState(InterfaceManager*);
 
 // If FUN_004b7210 returns a Modifier with a nonzero key, calls UpdateStartMenuState with that manager.
 // @fnv 0x007027e0
-void FUN_007027e0()
+// src: COMMUNITY 0x007027e0
+void Interface_PreIdleStuff()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        UpdateStartMenuState(FUN_004b7210());
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        UpdateStartMenuState(InterfaceManager_GetSingleton());
 }
 }  // namespace fnv_007027e0
 
@@ -718,10 +723,11 @@ void __fastcall UpdateInterface(InterfaceManager*);
 
 // If FUN_004b7210() returns a non-null object whose GetKey() is nonzero, calls UpdateInterface with that object.
 // @fnv 0x00702810
-void FUN_00702810()
+// src: COMMUNITY 0x00702810
+void Interface_Idle()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
-        UpdateInterface(FUN_004b7210());
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
+        UpdateInterface(InterfaceManager_GetSingleton());
 }
 }  // namespace fnv_00702810
 
@@ -736,10 +742,11 @@ void __fastcall UpdateMenuSelection(InterfaceManager* pThis);
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, calls UpdateMenuSelection with that object.
 // @fnv 0x00702840
-void FUN_00702840()
+// src: COMMUNITY 0x00702840
+void Interface_PostIdleStuff()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        UpdateMenuSelection(FUN_004b7210());
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        UpdateMenuSelection(InterfaceManager_GetSingleton());
 }
 }  // namespace fnv_00702840
 
@@ -751,13 +758,14 @@ class Modifier
 };
 
 extern BGSMoviePlayer* DAT_0126fac4;
-void __fastcall FUN_00713f00(InterfaceManager*);
+void __fastcall InterfaceManager_Accumulate(InterfaceManager*);
 
 // @fnv 0x00702870
-void FUN_00702870()
+// src: COMMUNITY 0x00702870
+void Interface_Accumulate()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey() && !DAT_0126fac4->IsPlaying())
-        FUN_00713f00(FUN_004b7210());
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey() && !DAT_0126fac4->IsPlaying())
+        InterfaceManager_Accumulate(InterfaceManager_GetSingleton());
 }
 }  // namespace fnv_00702870
 
@@ -772,8 +780,8 @@ class TaskThreadManager
 {
   public:
     static TaskThreadManager* __cdecl GetSingleton();
-    void FUN_00ba30f0(int, int);
-    void FUN_00ba3130(int, int);
+    void MTRenderingSystem_SetThreadStage(int, int);
+    void MTRenderingSystem_WaitOnThreadStage(int, int);
 };
 
 struct IM_Stub
@@ -788,17 +796,17 @@ extern BGSMoviePlayer* DAT_0126fac4;
 void __cdecl RenderOrFallback(int aiArg1, int aiArg2)
 {
     bool bRendered = false;
-    if (FUN_004b7210() && ((Modifier*)FUN_004b7210())->GetKey() && !DAT_0126fac4->IsPlaying())
+    if (InterfaceManager_GetSingleton() && ((Modifier*)InterfaceManager_GetSingleton())->GetKey() && !DAT_0126fac4->IsPlaying())
     {
-        ((IM_Stub*)FUN_004b7210())->RenderMenu(aiArg1, aiArg2);
+        ((IM_Stub*)InterfaceManager_GetSingleton())->RenderMenu(aiArg1, aiArg2);
         bRendered = true;
     }
     if (!bRendered)
     {
-        TaskThreadManager::GetSingleton()->FUN_00ba30f0(0, 0x17);
-        TaskThreadManager::GetSingleton()->FUN_00ba3130(1, 0x17);
+        TaskThreadManager::GetSingleton()->MTRenderingSystem_SetThreadStage(0, 0x17);
+        TaskThreadManager::GetSingleton()->MTRenderingSystem_WaitOnThreadStage(1, 0x17);
     }
-    ((IM_Stub*)FUN_004b7210())->SetField148(0);
+    ((IM_Stub*)InterfaceManager_GetSingleton())->SetField148(0);
 }
 }  // namespace fnv_007028b0
 
@@ -836,7 +844,7 @@ struct Modifier
 // @fnv 0x00703180
 TESObjectREFR* FUN_00703180()
 {
-    InterfaceManager* pim = FUN_004b7210();
+    InterfaceManager* pim = InterfaceManager_GetSingleton();
     if (pim && reinterpret_cast<Modifier*>(pim)->GetKey())
         return reinterpret_cast<Modifier*>(pim)->FUN_007031c0();
     return 0;
@@ -856,7 +864,7 @@ struct ConsoleManager
 // @fnv 0x00703d50
 bool FUN_00703d50()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey() && ConsoleManager::Instance(false))
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey() && ConsoleManager::Instance(false))
         return ConsoleManager::Instance(true)->IsConsoleActive();
     return false;
 }
@@ -877,11 +885,11 @@ struct ConsoleManager
 // @fnv 0x00703da0
 void FUN_00703da0()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey() && ConsoleManager::Instance(false) &&
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey() && ConsoleManager::Instance(false) &&
         ConsoleManager::Instance(true)->IsConsoleActive())
     {
         ConsoleManager::Instance(true)->FUN_0071d580();
-        reinterpret_cast<Modifier*>(FUN_004b7210())->AddMenuStackEntry(3, false);
+        reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->AddMenuStackEntry(3, false);
     }
 }
 }  // namespace fnv_00703da0
@@ -890,8 +898,8 @@ void FUN_00703da0()
 // @fnv 0x00703fa0
 char ConsumeByteAtE4()
 {
-    char cresult = *reinterpret_cast<char*>(reinterpret_cast<char*>(FUN_004b7210()) + 0xE4);
-    *reinterpret_cast<char*>(reinterpret_cast<char*>(FUN_004b7210()) + 0xE4) = -1;
+    char cresult = *reinterpret_cast<char*>(reinterpret_cast<char*>(InterfaceManager_GetSingleton()) + 0xE4);
+    *reinterpret_cast<char*>(reinterpret_cast<char*>(InterfaceManager_GetSingleton()) + 0xE4) = -1;
     return cresult;
 }
 
@@ -908,7 +916,7 @@ int __cdecl FUN_00796b90();
 // @fnv 0x00704140
 int FUN_00704140()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         return FUN_00796b90();
     return 0;
 }
@@ -927,7 +935,7 @@ int __cdecl FUN_00796b90();
 // @fnv 0x00704490
 int FUN_00704490()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         return FUN_00796b90();
     return 0;
 }
@@ -946,7 +954,7 @@ int __cdecl FUN_00796b90();
 // @fnv 0x007046c0
 int FUN_007046c0()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         return FUN_00796b90();
     return 0;
 }
@@ -963,7 +971,7 @@ class Modifier
 // @fnv 0x007048c0
 void* CreateInventoryMenuIfModifierKey()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         return InventoryMenu::Create();
     return 0;
 }
@@ -982,7 +990,7 @@ int __cdecl FUN_007da2c0();
 // @fnv 0x00704be0
 int FUN_00704be0()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
         return FUN_007da2c0();
     return 0;
 }
@@ -999,7 +1007,7 @@ class Modifier
 // @fnv 0x00704f50
 void FUN_00704f50()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
         ContainerMenu::Close();
 }
 }  // namespace fnv_00704f50
@@ -1020,7 +1028,7 @@ void* FUN_00705070(void* apArg1, void* apArg2, void* apArg3)
 {
     void* r;
     g_timeGlobal.SetGlobalTimeMultiplier(1.0f, true);
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
     {
         r = DialogMenu::Create(apArg1, apArg2, apArg3);
         return r;
@@ -1039,7 +1047,7 @@ class Modifier
 // @fnv 0x007050d0
 bool FUN_007050d0()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
         return FUN_00705100();
     return false;
 }
@@ -1054,9 +1062,10 @@ class Modifier
 
 // If FUN_004b7210() returns a non-null Modifier whose GetKey() is nonzero, calls StartMenu::Create(false, false).
 // @fnv 0x007053f0
-void FUN_007053f0()
+// src: COMMUNITY 0x007053f0
+void Interface_CreateMainMenu()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
         StartMenu::Create(false, false);
 }
 }  // namespace fnv_007053f0
@@ -1068,14 +1077,15 @@ class Modifier
     char GetKey(void);
 };
 
-void __fastcall FUN_00713c70(InterfaceManager*);
+void __fastcall InterfaceManager_LastMinuteUpdate(InterfaceManager*);
 
 // If FUN_004b7210() returns a Modifier whose GetKey() is nonzero, calls FUN_00713c70 with the InterfaceManager from FUN_004b7210().
 // @fnv 0x007058e0
-void FUN_007058e0()
+// src: COMMUNITY 0x007058e0
+void Interface_LastMinuteUpdate()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
-        FUN_00713c70(FUN_004b7210());
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
+        InterfaceManager_LastMinuteUpdate(InterfaceManager_GetSingleton());
 }
 }  // namespace fnv_007058e0
 
@@ -1088,9 +1098,9 @@ struct Modifier
 // @fnv 0x00705910
 int FUN_00705910()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
     {
-        return reinterpret_cast<int>(reinterpret_cast<TESNPC*>(FUN_004b7210())->FUN_00602170());
+        return reinterpret_cast<int>(reinterpret_cast<TESNPC*>(InterfaceManager_GetSingleton())->FUN_00602170());
     }
     else
     {
@@ -1108,9 +1118,9 @@ struct Modifier
 // @fnv 0x00705990
 int FUN_00705990()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
     {
-        return reinterpret_cast<int>(reinterpret_cast<InterfaceInterfaceView*>(FUN_004b7210())->GetPipboyManager());
+        return reinterpret_cast<int>(reinterpret_cast<InterfaceInterfaceView*>(InterfaceManager_GetSingleton())->GetPipboyManager());
     }
     else
     {
@@ -1129,10 +1139,11 @@ void __fastcall ResetWidget(InterfaceManager*);
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, calls ResetWidget with that InterfaceManager.
 // @fnv 0x007059d0
-void FUN_007059d0()
+// src: COMMUNITY 0x007059d0
+void Interface_ReinitialisePipboyManager()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
-        ResetWidget(FUN_004b7210());
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
+        ResetWidget(InterfaceManager_GetSingleton());
 }
 }  // namespace fnv_007059d0
 
@@ -1149,7 +1160,7 @@ bool __cdecl FUN_00709c00();
 // @fnv 0x00705a00
 bool __cdecl FUN_00705a00()
 {
-    if (FUN_004b7210() && (unsigned char)((Modifier*)FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && (unsigned char)((Modifier*)InterfaceManager_GetSingleton())->GetKey())
     {
         return FUN_00709bc0() || FUN_00709c00();
     }
@@ -1171,8 +1182,8 @@ class Modifier
 // @fnv 0x00705a90
 int GetLODMultTypeIfKeySet()
 {
-    if (FUN_004b7210() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey()))
-        return reinterpret_cast<const BSFadeNode*>(FUN_004b7210())->GetLODMultType();
+    if (InterfaceManager_GetSingleton() && static_cast<unsigned char>(reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey()))
+        return reinterpret_cast<const BSFadeNode*>(InterfaceManager_GetSingleton())->GetLODMultType();
     else
         return 0;
 }
@@ -1198,20 +1209,22 @@ struct Modifier
 };
 struct IMStandIn
 {
-    void FUN_00716010(int a);
+    void InterfaceManager_ClearReferencePointers(int a);
 };
 // If FUN_004b7210() returns an object whose GetKey() is true, forwards a to its FUN_00716010 method.
 // @fnv 0x00705b30
-void __cdecl FUN_00705b30(int a)
+// src: COMMUNITY 0x00705b30
+void __cdecl Interface_ClearReferencePointers(int a)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        reinterpret_cast<IMStandIn*>(FUN_004b7210())->FUN_00716010(a);
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        reinterpret_cast<IMStandIn*>(InterfaceManager_GetSingleton())->InterfaceManager_ClearReferencePointers(a);
 }
 }  // namespace fnv_00705b30
 
 // Returns the larger of the two integer arguments.
 // @fnv 0x00705c40
-int FUN_00705c40(int aiValue1, char aiValue2)
+// src: COMMUNITY 0x00705c40
+int _max(int aiValue1, char aiValue2)
 {
     return (aiValue1 > aiValue2) ? aiValue1 : aiValue2;
 }
@@ -1232,7 +1245,8 @@ namespace fnv_007069d0 {
 extern MapMenu* DAT_011da368;
 
 // @fnv 0x007069d0
-void FUN_007069d0(unsigned char acPage)
+// src: COMMUNITY 0x007069d0
+void MapMenu_SetCurrentMapPage(unsigned char acPage)
 {
     if (DAT_011da368)
         DAT_011da368->SetCurrentPage(acPage);
@@ -1250,7 +1264,8 @@ void MapMenu::SetCurrentPage(int aiValue)
 void __cdecl SetInventoryTab(unsigned char);
 
 // @fnv 0x00706a20
-void __cdecl FUN_00706a20(unsigned char acPage)
+// src: COMMUNITY 0x00706a20
+void __cdecl InventoryMenu_SetCurrentInventoryPage(unsigned char acPage)
 {
     SetInventoryTab(acPage);
 }
@@ -1271,14 +1286,15 @@ void __cdecl SetInventoryTab(int aiTab)
 
 namespace fnv_00706a90 {
 
-void __cdecl FUN_007dd710();
+void __cdecl StatsMenu_UpdatePerks();
 void __cdecl UpdateStatsMenuLevelText();
 void __cdecl ClearMapMenuNote();
 
 // @fnv 0x00706a90
-void __cdecl FUN_00706a90()
+// src: COMMUNITY 0x00706a90
+void __cdecl InterfaceManager_FinishLoadGame()
 {
-    FUN_007dd710();
+    StatsMenu_UpdatePerks();
     UpdateStatsMenuLevelText();
     StatsMenu::UpdateStatusEffects();
     MapMenu::SetMapPositionToPlayer();
@@ -1359,12 +1375,13 @@ class NiAVObject_Attach : public NiAVObject
 void AttachFaceGenAnimationData(NiAVObject* apObject)
 {
     reinterpret_cast<NiAVObject_Attach*>(apObject)->AttachProperty(
-        reinterpret_cast<NiObject*>(reinterpret_cast<BSFaceGenNiNode*>(FUN_004b7210())->BSFaceGenNiNode::GetAnimationData()));
+        reinterpret_cast<NiObject*>(reinterpret_cast<BSFaceGenNiNode*>(InterfaceManager_GetSingleton())->BSFaceGenNiNode::GetAnimationData()));
 }
 
 
 // @fnv 0x00706d90
-bool InterfaceManager::FUN_00706d90()
+// src: COMMUNITY 0x00706d90
+bool InterfaceManager::GetIsEmergencyTextureRelease()
 {
     return *reinterpret_cast<bool*>(&byte0EC);
 }
@@ -1372,7 +1389,7 @@ bool InterfaceManager::FUN_00706d90()
 // @fnv 0x00706dd0
 void __cdecl SetFlagAtOffsetDC(bool abValue)
 {
-    *((bool*)FUN_004b7210() + 0xdc) = abValue;
+    *((bool*)InterfaceManager_GetSingleton() + 0xdc) = abValue;
 }
 
 int __cdecl FUN_004dc200();
@@ -1392,7 +1409,7 @@ float __cdecl FUN_00706e50()
 }
 
 NiRenderer* __cdecl FUN_0043c4b0();
-float __cdecl FUN_00706e80();
+float __cdecl retn1280_0();
 
 struct DummyRTG_00706e90
 {
@@ -1492,10 +1509,11 @@ struct DummyRenderer_00706e90
 
 // Returns FUN_00706e80() multiplied by the default render target group's height divided by its width.
 // @fnv 0x00706e90
-float __cdecl FUN_00706e90()
+// src: COMMUNITY 0x00706e90
+float __cdecl CalculateScaledHeight()
 {
     DummyRenderer_00706e90* apRenderer = (DummyRenderer_00706e90*)FUN_0043c4b0();
-    return FUN_00706e80() * ((double)apRenderer->GetDefaultRenderTargetGroup()->GetHeight(0) /
+    return retn1280_0() * ((double)apRenderer->GetDefaultRenderTargetGroup()->GetHeight(0) /
                              (double)apRenderer->GetDefaultRenderTargetGroup()->GetWidth(0));
 }
 
@@ -1512,7 +1530,7 @@ void __fastcall UpdateNodeTimers(InterfaceManager*);
 // @fnv 0x00706f70
 void FUN_00706f70()
 {
-    UpdateNodeTimers(FUN_004b7210());
+    UpdateNodeTimers(InterfaceManager_GetSingleton());
 }
 
 struct FUN_00714d90_struct
@@ -1521,16 +1539,17 @@ struct FUN_00714d90_struct
 };
 
 // @fnv 0x00706fb0
-void FUN_00706fb0(int aiID)
+// src: COMMUNITY 0x00706fb0
+void Interface_AddToEnterStack(int aiID)
 {
-    ((FUN_00714d90_struct*)FUN_004b7210())->PushMenuStackEntry(aiID);
+    ((FUN_00714d90_struct*)InterfaceManager_GetSingleton())->PushMenuStackEntry(aiID);
 }
 
 
 // @fnv 0x00706fd0
 int __cdecl FUN_00706fd0(int aiID, bool abForceRemoval)
 {
-    return reinterpret_cast<InterfaceManager*>(FUN_004b7210())
+    return reinterpret_cast<InterfaceManager*>(InterfaceManager_GetSingleton())
         ->AddMenuStackEntry(aiID, abForceRemoval);
 }
 
@@ -1541,37 +1560,38 @@ struct IMStandIn
 // @fnv 0x00706ff0
 void __cdecl FUN_00706ff0(int a)
 {
-    reinterpret_cast<IMStandIn*>(FUN_004b7210())->FUN_00715860(a, 0xfc3, 1);
+    reinterpret_cast<IMStandIn*>(InterfaceManager_GetSingleton())->FUN_00715860(a, 0xfc3, 1);
 }
 
 // @fnv 0x00707040
-void* FUN_00707040()
+// src: COMMUNITY 0x00707040
+void* InterfaceManager_GetOverTileTarget()
 {
-    return *(Tile**)((char*)FUN_004b7210() + 0xcc);
+    return *(Tile**)((char*)InterfaceManager_GetSingleton() + 0xcc);
 }
 
 // @fnv 0x00707050
 void FUN_00707050(void* apTile)
 {
-    *(Tile**)((char*)FUN_004b7210() + 0xcc) = static_cast<Tile*>(apTile);
+    *(Tile**)((char*)InterfaceManager_GetSingleton() + 0xcc) = static_cast<Tile*>(apTile);
 }
 
 // @fnv 0x00707070
 int __cdecl GetFieldD0()
 {
-    return *(int*)((char*)FUN_004b7210() + 0xd0);
+    return *(int*)((char*)InterfaceManager_GetSingleton() + 0xd0);
 }
 
 // @fnv 0x00707080
 void FUN_00707080(Menu* apMenu)
 {
-    *(Menu**)((char*)FUN_004b7210() + 0xd0) = apMenu;
+    *(Menu**)((char*)InterfaceManager_GetSingleton() + 0xd0) = apMenu;
 }
 
 // @fnv 0x007070a0
 void* GetNextTile()
 {
-    return (Tile*)((TESResponse*)FUN_004b7210())->GetNext();
+    return (Tile*)((TESResponse*)InterfaceManager_GetSingleton())->GetNext();
 }
 
 class ModelLoader
@@ -1596,7 +1616,8 @@ extern S_004431f0* DAT_011d890c;
 
 // Calls FUN_004431f0(1) on DAT_011d890c if it is non-null, then sets DAT_011d890c to null.
 // @fnv 0x00707820
-void FUN_00707820()
+// src: COMMUNITY 0x00707820
+void Interface_ClearTempModel()
 {
     S_004431f0* p0;
     S_004431f0* p1 = DAT_011d890c;
@@ -1613,7 +1634,7 @@ struct Modifier
 // @fnv 0x00707930
 void FUN_00707930(bool a)
 {
-    reinterpret_cast<Modifier*>(FUN_004b7210())->SetNeed(a);
+    reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->SetNeed(a);
 }
 }  // namespace fnv_00707930
 
@@ -1638,7 +1659,7 @@ bool FUN_007079b0()
 {
     if (FUN_00705a00() && !FUN_00705990()->GetInitialized())
         return false;
-    return FUN_007079f0(FUN_004b7210());
+    return FUN_007079f0(InterfaceManager_GetSingleton());
 }
 
 struct FUN_007079f0_shell : public InterfaceManager
@@ -1659,13 +1680,14 @@ FORenderedMenu* __fastcall FUN_00707af0(InterfaceManager*);
 // @fnv 0x00707ad0
 FORenderedMenu* FUN_00707ad0()
 {
-    return FUN_00707af0(FUN_004b7210());
+    return FUN_00707af0(InterfaceManager_GetSingleton());
 }
 
 int __cdecl FUN_004dc200();
 
 // @fnv 0x00707b60
-float FUN_00707b60()
+// src: COMMUNITY 0x00707b60
+float Interface_SizeOfAScreenPixelInCrazyAssMenuCoordinates()
 {
     static float s_val = InterfaceInterfaceView::GetFirstInterfaceFloat() / FUN_004dc200();
     return s_val;
@@ -1683,8 +1705,8 @@ extern int DAT_011d89a4;
 extern int DAT_011d89ac;
 
 bool __cdecl IsConditionMet();
-void __cdecl FUN_007094f0();
-void __cdecl FUN_00709a90();
+void __cdecl Interface_HandleQueuedMenuOpen();
+void __cdecl Interface_ClearMenuQueue();
 
 // @fnv 0x00709470
 void __cdecl FUN_00709470(int param_1, int param_2, int param_3, int param_4, int param_5)
@@ -1707,21 +1729,21 @@ void __cdecl FUN_00709470(int param_1, int param_2, int param_3, int param_4, in
     }
     if (!IsConditionMet())
     {
-        FUN_007094f0();
-        FUN_00709a90();
+        Interface_HandleQueuedMenuOpen();
+        Interface_ClearMenuQueue();
     }
 }
 
 // @fnv 0x00709bc0
 bool FUN_00709bc0()
 {
-    return *(int*)((char*)FUN_004b7210() + 0x4bc) == 2;
+    return *(int*)((char*)InterfaceManager_GetSingleton() + 0x4bc) == 2;
 }
 
 // @fnv 0x00709c00
 bool __cdecl FUN_00709c00()
 {
-    return *(int*)((char*)FUN_004b7210() + 0x4bc) == 3;
+    return *(int*)((char*)InterfaceManager_GetSingleton() + 0x4bc) == 3;
 }
 
 class TESRace;
@@ -1741,10 +1763,11 @@ struct StrOwner
 {
     int pad;
     StrHelper s;
-    const char* FUN_007fa950();
+    const char* SkyObject_GetNiNode();
 };
 // @fnv 0x007fa950
-const char* StrOwner::FUN_007fa950()
+// src: COMMUNITY 0x007fa950
+const char* StrOwner::SkyObject_GetNiNode()
 {
     return s;
 }
@@ -1761,7 +1784,7 @@ struct Modifier
 {
     unsigned char GetKey();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 bool QueueMessage(const char*, const char*, const char*, int, void*, int, int, const char*, char**, int, int, int,
                   float, float, float);
 // Shows a warning message via QueueMessage when the interface manager's modifier key is held, returning the result; otherwise returns false.
@@ -1770,7 +1793,7 @@ bool FUN_00703e80(const char* aText, const char* apcIconFilename, const char* ap
                   int aiFirstButtonResult, int aiWarningContext, float afBackgroundTextureOpacityOverride,
                   float afMenuWidthOverride, const char* axFirst, ...)
 {
-    if (FUN_004b7210() && ((Modifier*)FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && ((Modifier*)InterfaceManager_GetSingleton())->GetKey())
     {
         char* xlist = (char*)&axFirst + 4;
         bool bresult =
@@ -1793,11 +1816,12 @@ struct HUDHelper
     void FUN_00775920();
 };
 extern HUDMainMenu* g_pHudMainMenuInstance;
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 // @fnv 0x007053b0
-void FUN_007053b0()
+// src: COMMUNITY 0x007053b0
+void HUDMainMenu_ResetQueuedMessagesAndSubtitles_()
 {
-    if (FUN_004b7210() && ((Modifier*)FUN_004b7210())->GetKey() && g_pHudMainMenuInstance)
+    if (InterfaceManager_GetSingleton() && ((Modifier*)InterfaceManager_GetSingleton())->GetKey() && g_pHudMainMenuInstance)
         ((HUDHelper*)g_pHudMainMenuInstance)->FUN_00775920();
 }
 }  // namespace fnv_007053b0
@@ -1809,39 +1833,40 @@ struct Modifier
 };
 struct FUN_0070b790_shell
 {
-    void FUN_0070b790(char);
+    void InterfaceManager_SetStatsPageNumbe(char);
 };
 namespace fnv_0070b810 {
 struct FUN_0070b810_shell
 {
-    void FUN_0070b810(char);
+    void InterfaceManager_SetInventoryPageNumber(char);
 };
 }
 namespace fnv_0070b870 {
 struct S0b870
 {
-    void FUN_0070b870(char);
+    void InterfaceManager_SetMapPageNumber(char);
 };
 }
 struct FUN_0070b8d0_shell
 {
-    void FUN_0070b8d0(int);
+    void InterfaceManager_SetCurrentMainMenu(int);
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 int MinInt(int, int);
-int FUN_00705c40(int, char);
+int _max(int, char);
 // If the interface manager exists and a key is pressed, updates the stats, inventory and map tab states and selects the given menu, defaulting to 0x3eb.
 // @fnv 0x00705b70
-void FUN_00705b70(char aiStatsTab, char aiInventoryTab, char aiMapTab, int aiWhichMenu)
+// src: COMMUNITY 0x00705b70
+void Interface_SetMainMenuDefaults(char aiStatsTab, char aiInventoryTab, char aiMapTab, int aiWhichMenu)
 {
-    if (FUN_004b7210() && ((Modifier*)FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && ((Modifier*)InterfaceManager_GetSingleton())->GetKey())
     {
-        ((FUN_0070b790_shell*)FUN_004b7210())->FUN_0070b790(MinInt(4, FUN_00705c40(0, aiStatsTab)));
-        ((fnv_0070b810::FUN_0070b810_shell*)FUN_004b7210())->FUN_0070b810(MinInt(4, FUN_00705c40(0, aiInventoryTab)));
-        ((fnv_0070b870::S0b870*)FUN_004b7210())->FUN_0070b870(MinInt(4, FUN_00705c40(0, aiMapTab)));
+        ((FUN_0070b790_shell*)InterfaceManager_GetSingleton())->InterfaceManager_SetStatsPageNumbe(MinInt(4, _max(0, aiStatsTab)));
+        ((fnv_0070b810::FUN_0070b810_shell*)InterfaceManager_GetSingleton())->InterfaceManager_SetInventoryPageNumber(MinInt(4, _max(0, aiInventoryTab)));
+        ((fnv_0070b870::S0b870*)InterfaceManager_GetSingleton())->InterfaceManager_SetMapPageNumber(MinInt(4, _max(0, aiMapTab)));
         if (aiWhichMenu != 0x3eb && aiWhichMenu != 0x3ea && aiWhichMenu != 0x3ff)
             aiWhichMenu = 0x3eb;
-        ((FUN_0070b8d0_shell*)FUN_004b7210())->FUN_0070b8d0(aiWhichMenu);
+        ((FUN_0070b8d0_shell*)InterfaceManager_GetSingleton())->InterfaceManager_SetCurrentMainMenu(aiWhichMenu);
     }
 }
 }  // namespace fnv_00705b70
@@ -1864,10 +1889,10 @@ struct Im7181
 };
 extern PlayerCharacter* g_thePlayer;
 extern unsigned char DAT_011d8a85;
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 MobileObject* GetDialogCastSound();
-void FUN_007053b0();
-void FUN_00705780();
+void HUDMainMenu_ResetQueuedMessagesAndSubtitles_();
+void VATSCameraData_Accept();
 void FUN_00706320(int);
 void ClearMapMenuNote();
 void __fastcall ResetEntries(void*);
@@ -1880,14 +1905,14 @@ MobileObject* GetDialogCastSound();
 void ResetInterfaceState()
 {
     DAT_011d8a85 = 1;
-    FUN_007053b0();
+    HUDMainMenu_ResetQueuedMessagesAndSubtitles_();
     ResetHUDMainMenu();
     if (DialogH::IsInDialog())
     {
         ((FocusH*)g_thePlayer)->FocusOnActor(GetDialogCastSound(), 0.0f, true);
         FUN_0083e510();
     }
-    FUN_00705780();
+    VATSCameraData_Accept();
     FUN_007f6920();
     FUN_00706320(0);
     fnv_007aa480::ClearAllElements();
@@ -1895,15 +1920,15 @@ void ResetInterfaceState()
     ClearMapMenuNote();
     MapMenu::StopMapMenuSounds();
     FUN_00706fd0(1, 1);
-    ((Im7181*)FUN_004b7210())->SetRenderedMenu(0);
-    *(int*)((char*)FUN_004b7210() + 0x4bc) = 0;
-    ResetEntries((char*)FUN_004b7210() + 0x4d4);
+    ((Im7181*)InterfaceManager_GetSingleton())->SetRenderedMenu(0);
+    *(int*)((char*)InterfaceManager_GetSingleton() + 0x4bc) = 0;
+    ResetEntries((char*)InterfaceManager_GetSingleton() + 0x4d4);
 }
 
 struct NavMesh;
 struct S3de0
 {
-    void FUN_00713de0(NavMesh*);
+    void InterfaceManager_RemoveTileFromUpdateList(NavMesh*);
 };
 struct TESAmmoInitCalls
 {
@@ -1913,11 +1938,11 @@ struct FUN_00706cb0_shell2
 {
     void ResetFieldBC();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 // @fnv 0x00706c20
 void ClearInterfaceRefs(unsigned int a)
 {
-    InterfaceManager* im = FUN_004b7210();
+    InterfaceManager* im = InterfaceManager_GetSingleton();
     if (*(unsigned int*)((char*)im + 0xcc) == a)
     {
         *(unsigned int*)((char*)im + 0xcc) = 0;
@@ -1930,7 +1955,7 @@ void ClearInterfaceRefs(unsigned int a)
     }
     if (((TESAmmoInitCalls*)im)->GetFieldBC() == a)
         ((FUN_00706cb0_shell2*)im)->ResetFieldBC();
-    ((S3de0*)im)->FUN_00713de0((NavMesh*)a);
+    ((S3de0*)im)->InterfaceManager_RemoveTileFromUpdateList((NavMesh*)a);
 }
 
 struct QuantityData
@@ -1939,7 +1964,8 @@ struct QuantityData
 };
 
 // @fnv 0x00707a30
-bool FUN_00707a30(QuantityData* apComponent)
+// src: COMMUNITY 0x00707a30
+bool Menu_ShouldScaleByResolutionRatio(QuantityData* apComponent)
 {
     Tile* pTile = apComponent ? apComponent->GetItem() : 0;
     if (!pTile)
@@ -1960,15 +1986,16 @@ struct MenuHelper
     void UpdateOption(int);
 };
 void __cdecl FUN_00730690(int);
-void __cdecl FUN_00728a30(int);
-void __cdecl FUN_00704bc0();
+void __cdecl RecipeMenu_ForceRecipeUpdate(int);
+void __cdecl ContainerMenu_ForceContainerUpdate();
 
 // @fnv 0x00704af0
-void FUN_00704af0()
+// src: COMMUNITY 0x00704af0
+void Interface_UpdateInventory()
 {
-    if (FUN_004b7210())
+    if (InterfaceManager_GetSingleton())
     {
-        if (reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+        if (reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         {
             if (InterfaceInterfaceView::IsPipBoyOpen())
             {
@@ -1985,11 +2012,11 @@ void FUN_00704af0()
             }
             else if (FUN_00702680(0x435, 0))
             {
-                FUN_00728a30(1);
+                RecipeMenu_ForceRecipeUpdate(1);
             }
             else if (FUN_00702680(0x3f0, 0))
             {
-                FUN_00704bc0();
+                ContainerMenu_ForceContainerUpdate();
             }
         }
     }
@@ -2015,11 +2042,12 @@ struct AttachMsg
 void __cdecl ShowRegionData(AttachMsg*);
 
 // @fnv 0x00705420
-void __cdecl FUN_00705420(int a, ::BSStringT<char> name, bool flag)
+// src: COMMUNITY 0x00705420
+void __cdecl Interface_SetRegionText(int a, ::BSStringT<char> name, bool flag)
 {
-    if (FUN_004b7210())
+    if (InterfaceManager_GetSingleton())
     {
-        if (reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+        if (reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         {
             AttachMsg msg;
             msg.flag = flag;
@@ -2041,14 +2069,15 @@ class Modifier
     unsigned char GetKey(void);
 };
 
-extern "C" void __cdecl FUN_0070a0b0(void);
+extern "C" void __cdecl InterfaceManager_Destroy(void);
 
 // Calls FUN_004b7210, and if it returns non-null and its GetKey result is nonzero, calls FUN_0070a0b0.
 // @fnv 0x00702330
-void FUN_00702330()
+// src: COMMUNITY 0x00702330
+void Interface_Free()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        FUN_0070a0b0();
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        InterfaceManager_Destroy();
 }
 }  // namespace fnv_00702330
 
@@ -2060,7 +2089,7 @@ bool __cdecl FUN_00702680(InterfaceInterfaceView::enumMenus aeMenuID, unsigned i
 {
     Tile* ptile;
 
-    if (FUN_004b7210() && ((InterfaceManager*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         if (aeMenuID == InterfaceInterfaceView::eMainFour)
             return FUN_00709c00() && (FUN_00702680(InterfaceInterfaceView::eStatsMenu, abFadeStatesThatCountAsVisible) ||
@@ -2092,7 +2121,7 @@ extern BGSMoviePlayer* DAT_0126fac4;
 // @fnv 0x00702960
 void FUN_00702960()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         DAT_0126fac4->IsPlaying();
 }
 }  // namespace fnv_00702960
@@ -2108,8 +2137,8 @@ struct Modifier
 // @fnv 0x00703000
 void FUN_00703000()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        reinterpret_cast<Modifier*>(FUN_004b7210())->FUN_00703030();
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->FUN_00703030();
 }
 }  // namespace fnv_00703000
 
@@ -2122,10 +2151,11 @@ struct Modifier
 
 // If FUN_004b7210() returns a Modifier whose GetKey() is nonzero, forwards a1 and a2 to its SetTileValues.
 // @fnv 0x007030c0
-void FUN_007030c0(int aiArg1, int aiArg2)
+// src: COMMUNITY 0x007030c0
+void Interface_UpdateScreenShape(int aiArg1, int aiArg2)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        reinterpret_cast<Modifier*>(FUN_004b7210())->SetTileValues(aiArg1, aiArg2);
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->SetTileValues(aiArg1, aiArg2);
 }
 }  // namespace fnv_007030c0
 
@@ -2146,8 +2176,8 @@ struct FUN_009b4440_holder
 // @fnv 0x00703390
 void* FUN_00703390()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return reinterpret_cast<FUN_009b4440_holder*>(FUN_004b7210())->FUN_009b4440();
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return reinterpret_cast<FUN_009b4440_holder*>(InterfaceManager_GetSingleton())->FUN_009b4440();
     return 0;
 }
 }  // namespace fnv_00703390
@@ -2167,13 +2197,13 @@ struct Modifier
     unsigned char GetKey();
 };
 
-bool FUN_00704400();
+bool GetMapMenuFogOfWar();
 
 // @fnv 0x007043d0
 bool FUN_007043d0()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return FUN_00704400();
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return GetMapMenuFogOfWar();
     return 0;
 }
 }  // namespace fnv_007043d0
@@ -2184,34 +2214,36 @@ struct Modifier
     unsigned char GetKey();
 };
 
-bool FUN_00704450(bool);
+bool SetMapMenuFogOfWar(bool);
 
 // If FUN_004b7210 returns a non-null object whose GetKey is nonzero, forwards abSetTo to FUN_00704450.
 // @fnv 0x00704420
 void FUN_00704420(bool abSetTo)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        FUN_00704450(abSetTo);
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        SetMapMenuFogOfWar(abSetTo);
 }
 }  // namespace fnv_00704420
 
 extern MapMenu* DAT_011da368;
 
 // @fnv 0x00704450
-void FUN_00704450(char bShow)
+// src: COMMUNITY 0x00704450
+void SetMapMenuFogOfWar(char bShow)
 {
     if (DAT_011da368)
         reinterpret_cast<char&>(DAT_011da368->m_bNeedsMapUpdate) = bShow;
 }
 
-extern "C" void __cdecl FUN_0079b430(int);
+extern "C" void __cdecl MapMenu_ResetCurrentNoteIfEqualTo(int);
 
 // @fnv 0x00704470
-void __cdecl FUN_00704470(int arg)
+// src: COMMUNITY 0x00704470
+void __cdecl MapMenu_ResetCurrentNoteIfEqualTo_(int arg)
 {
     if (arg)
     {
-        FUN_0079b430(arg);
+        MapMenu_ResetCurrentNoteIfEqualTo(arg);
     }
 }
 
@@ -2225,9 +2257,10 @@ void CreateRepairServicesMenu(unsigned int);
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, forwards arg to CreateRepairServicesMenu.
 // @fnv 0x00704690
-void FUN_00704690(unsigned int arg)
+// src: COMMUNITY 0x00704690
+void RepairServicesMenu_Create_(unsigned int arg)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         CreateRepairServicesMenu(arg);
 }
 }  // namespace fnv_00704690
@@ -2235,7 +2268,8 @@ void FUN_00704690(unsigned int arg)
 extern ContainerMenu* DAT_011d93f8;
 
 // @fnv 0x00704bc0
-void FUN_00704bc0()
+// src: COMMUNITY 0x00704bc0
+void ContainerMenu_ForceContainerUpdate()
 {
     if (DAT_011d93f8)
         DAT_011d93f8->FUN_0075c280(0);
@@ -2250,9 +2284,10 @@ struct Modifier
 extern "C" void __cdecl InitInventoryMenu(unsigned int, unsigned int);
 
 // @fnv 0x00704f80
-void FUN_00704f80(unsigned int a1, unsigned int a2)
+// src: COMMUNITY 0x00704f80
+void ShowBarterMenu_(unsigned int a1, unsigned int a2)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         InitInventoryMenu(a1, a2);
 }
 }  // namespace fnv_00704f80
@@ -2267,26 +2302,29 @@ class Modifier
 extern "C" void __cdecl CreateRecipeMenu(int, int);
 
 // @fnv 0x00704fc0
-void FUN_00704fc0(int a1, int a2)
+// src: COMMUNITY 0x00704fc0
+void Interface_CreateRecipeMenu(int a1, int a2)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         CreateRecipeMenu(a1, a2);
 }
 }  // namespace fnv_00704fc0
 
-void FUN_00705050();
+void GetContainerMenuMode();
 
 // @fnv 0x00705040
-void FUN_00705040()
+// src: COMMUNITY 0x00705040
+void GetContainerMenuMode_()
 {
-    FUN_00705050();
+    GetContainerMenuMode();
 }
 
 namespace fnv_00705050 {
 extern ContainerMenu* DAT_011d93f8;
 
 // @fnv 0x00705050
-void* FUN_00705050()
+// src: COMMUNITY 0x00705050
+void* GetContainerMenuMode()
 {
     if (DAT_011d93f8)
     {
@@ -2300,7 +2338,8 @@ void* FUN_00705050()
 }  // namespace fnv_00705050
 
 // @fnv 0x00705770
-unsigned int FUN_00705770()
+// src: COMMUNITY 0x00705770
+unsigned int ret_1012()
 {
     return 0x3f4;
 }
@@ -2313,9 +2352,10 @@ class Modifier
 };
 
 // @fnv 0x00705800
-void FUN_00705800()
+// src: COMMUNITY 0x00705800
+void Interface_ForceReload()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         StartMenu::Create(true, true);
 }
 }  // namespace fnv_00705800
@@ -2331,7 +2371,7 @@ void CreateLockpickMenu(int, int, unsigned char);
 // @fnv 0x00705830
 void FUN_00705830(int a1, int a2, unsigned char a3)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         CreateLockpickMenu(a1, a2, a3);
 }
 }  // namespace fnv_00705830
@@ -2344,7 +2384,8 @@ void FUN_00763ff0();
 void GetOrCreateMenuTile(int);
 
 // @fnv 0x00705870
-void FUN_00705870(int arg)
+// src: COMMUNITY 0x00705870
+void Interface_CreateRaceSexMenu(int arg)
 {
     if (FUN_00705100())
         FUN_00763ff0();
@@ -2364,14 +2405,15 @@ namespace fnv_00705a60 {
 struct Modifier
 {
     unsigned char GetKey();
-    void FUN_00717e30();
+    void InterfaceManager_DumpMenuPackingInfo();
 };
 
 // @fnv 0x00705a60
-void FUN_00705a60()
+// src: COMMUNITY 0x00705a60
+void Interface_DumpMenuPackingInfo()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        reinterpret_cast<Modifier*>(FUN_004b7210())->FUN_00717e30();
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->InterfaceManager_DumpMenuPackingInfo();
 }
 }  // namespace fnv_00705a60
 
@@ -2388,10 +2430,11 @@ struct FUN_00705b10_Dummy
 };
 
 // @fnv 0x00705ad0
-void FUN_00705ad0(int arg)
+// src: COMMUNITY 0x00705ad0
+void Interface_SetDragDroppingState(int arg)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        reinterpret_cast<FUN_00705b10_Dummy*>(FUN_004b7210())->Set(arg);
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        reinterpret_cast<FUN_00705b10_Dummy*>(InterfaceManager_GetSingleton())->Set(arg);
 }
 }  // namespace fnv_00705ad0
 
@@ -2399,14 +2442,15 @@ namespace fnv_00705d90 {
 struct Modifier
 {
     unsigned char GetKey();
-    int FUN_00705dd0();
+    int InterfaceManager_GetLastPipboyTab();
 };
 
 // @fnv 0x00705d90
-int FUN_00705d90()
+// src: COMMUNITY 0x00705d90
+int Interface_GetLastPipboyTab()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return reinterpret_cast<Modifier*>(FUN_004b7210())->FUN_00705dd0();
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->InterfaceManager_GetLastPipboyTab();
     return -1;
 }
 }  // namespace fnv_00705d90
@@ -2417,14 +2461,15 @@ struct Modifier
     unsigned char GetKey();
 };
 
-extern "C" void __cdecl FUN_007e41f0(int, int);
+extern "C" void __cdecl SurgeryMenu_SetCursorPos(int, int);
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, forwards a and b to FUN_007e41f0.
 // @fnv 0x00706230
-void FUN_00706230(int aiArg1, int aiArg2)
+// src: COMMUNITY 0x00706230
+void Interface_SetSurgeryCursorPos(int aiArg1, int aiArg2)
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        FUN_007e41f0(aiArg1, aiArg2);
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        SurgeryMenu_SetCursorPos(aiArg1, aiArg2);
 }
 }  // namespace fnv_00706230
 
@@ -2439,9 +2484,10 @@ void FUN_00784c80();
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, calls FUN_00784c80.
 // @fnv 0x00706270
-void FUN_00706270()
+// src: COMMUNITY 0x00706270
+void LevelUpMenu_Create_()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
         FUN_00784c80();
 }
 }  // namespace fnv_00706270
@@ -2450,7 +2496,8 @@ extern MapMenu* DAT_011da368;
 
 // Returns the value at offset 0x80 of DAT_011da368 minus 0x20, or 4 when DAT_011da368 is null.
 // @fnv 0x00706830
-char FUN_00706830()
+// src: COMMUNITY 0x00706830
+char MapMenu_GetCurrentMapPage()
 {
     int v;
     if (DAT_011da368)
@@ -2463,9 +2510,10 @@ char FUN_00706830()
 // Folded 0x005e3fc0 getter, used here on the UI singleton.
 unsigned int __fastcall GetInterfaceAuxiliaryNode(InterfaceManager*);
 // @fnv 0x00706d10
-unsigned int FUN_00706d10()
+// src: COMMUNITY 0x00706d10
+unsigned int Interface_GetDebugTextRoot()
 {
-    return GetInterfaceAuxiliaryNode(FUN_004b7210());
+    return GetInterfaceAuxiliaryNode(InterfaceManager_GetSingleton());
 }
 
 void __cdecl FUN_00717280(int aiSoundIndex);
@@ -2478,9 +2526,10 @@ void FUN_00706f30(int aiSoundIndex)
 
 void __cdecl RemoveNodeById(int);
 // @fnv 0x00706f90
-void __cdecl FUN_00706f90(int aiValue)
+// src: COMMUNITY 0x00706f90
+void __cdecl Interface_ClearTimer(int aiValue)
 {
-    FUN_004b7210();
+    InterfaceManager_GetSingleton();
     RemoveNodeById(aiValue);
 }
 
@@ -2506,7 +2555,7 @@ const char* __fastcall GetTileMenuTypeName(TileMenu* menu)
 // @fnv 0x00709be0
 bool IsSomethingZero()
 {
-    return *(int*)((char*)FUN_004b7210() + 0x4bc) == 0;
+    return *(int*)((char*)InterfaceManager_GetSingleton() + 0x4bc) == 0;
 }
 
 void FUN_0077f2f0(int a1);
@@ -2537,8 +2586,8 @@ extern "C" unsigned char __cdecl FUN_00703150();
 // @fnv 0x00703150
 unsigned char FUN_00703150()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(FUN_004b7210()) + 0xdd);
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return *reinterpret_cast<unsigned char*>(reinterpret_cast<unsigned char*>(InterfaceManager_GetSingleton()) + 0xdd);
     return 0;
 }
 }  // namespace fnv_00703150
@@ -2565,19 +2614,21 @@ class FUN_00714d90_struct
 };
 
 // @fnv 0x00703e10
-void __cdecl FUN_00703e10()
+// src: COMMUNITY 0x00703e10
+void __cdecl Interface_OpenConsole()
 {
-    if (FUN_004b7210() != 0 && ((Modifier*)FUN_004b7210())->GetKey() != 0 && ConsoleManager::Instance(0) != 0 &&
+    if (InterfaceManager_GetSingleton() != 0 && ((Modifier*)InterfaceManager_GetSingleton())->GetKey() != 0 && ConsoleManager::Instance(0) != 0 &&
         !ConsoleManager::Instance(1)->IsConsoleActive())
     {
         ConsoleManager::Instance(1)->FUN_0071d580();
-        ((FUN_00714d90_struct*)FUN_004b7210())->PushMenuStackEntry(3);
+        ((FUN_00714d90_struct*)InterfaceManager_GetSingleton())->PushMenuStackEntry(3);
     }
 }
 }  // namespace fnv_00703e10
 
 // @fnv 0x00704400
-char __cdecl FUN_00704400()
+// src: COMMUNITY 0x00704400
+char __cdecl GetMapMenuFogOfWar()
 {
     if (DAT_011da368 != 0)
     {
@@ -2598,19 +2649,20 @@ class Modifier
 
 // If FUN_004b7210() returns a modifier whose GetKey() is nonzero, returns its IsDone() result; otherwise returns -1.
 // @fnv 0x00705cb0
-char FUN_00705cb0()
+// src: COMMUNITY 0x00705cb0
+char Interface_GetInventoryPageNumber()
 {
-    if (FUN_004b7210() && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return reinterpret_cast<ActiveEffect*>(FUN_004b7210())->IsDone();
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return reinterpret_cast<ActiveEffect*>(InterfaceManager_GetSingleton())->IsDone();
     return -1;
 }
 }  // namespace fnv_00705cb0
 
 extern "C" char __cdecl GetInterfaceManagerResult();
-extern "C" char __cdecl FUN_00705cb0();
-extern "C" char __cdecl FUN_00705d10();
-extern "C" char __cdecl FUN_00705d50();
-extern "C" int __cdecl FUN_00705d90();
+extern "C" char __cdecl Interface_GetInventoryPageNumber();
+extern "C" char __cdecl Interface_GetMagicPageNumber();
+extern "C" char __cdecl Interface_GetMapPageNumber();
+extern "C" int __cdecl Interface_GetLastPipboyTab();
 
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 
@@ -2625,10 +2677,10 @@ void __cdecl SaveMenuTabStates()
     int icurrentMainMenu;
 
     acInventoryTab = GetInterfaceManagerResult();
-    acStatsTab4 = FUN_00705cb0();
-    acMapTab9 = FUN_00705d10();
-    acMagicTab = FUN_00705d50();
-    icurrentMainMenu = FUN_00705d90();
+    acStatsTab4 = Interface_GetInventoryPageNumber();
+    acMapTab9 = Interface_GetMagicPageNumber();
+    acMagicTab = Interface_GetMapPageNumber();
+    icurrentMainMenu = Interface_GetLastPipboyTab();
 
     if (acInventoryTab < 1)
         acInventoryTab = 1;
@@ -2692,10 +2744,11 @@ struct Holder
 };
 // If FUN_004b7210() returns a non-null object whose GetKey() is nonzero, calls UpdateTilePosition(a1, a2) on it.
 // @fnv 0x00703080
-void FUN_00703080(float afValue1, float afValue2)
+// src: COMMUNITY 0x00703080
+void Interface_SetCursorPos(float afValue1, float afValue2)
 {
-    if (FUN_004b7210() && (unsigned char)reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        reinterpret_cast<Holder*>(FUN_004b7210())->UpdateTilePosition(afValue1, afValue2);
+    if (InterfaceManager_GetSingleton() && (unsigned char)reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        reinterpret_cast<Holder*>(InterfaceManager_GetSingleton())->UpdateTilePosition(afValue1, afValue2);
 }
 }  // namespace fnv_00703080
 
@@ -2710,8 +2763,8 @@ class Modifier
 // @fnv 0x007037e0
 void FUN_007037e0()
 {
-    if (FUN_004b7210() && (unsigned char)reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        reinterpret_cast<Modifier*>(FUN_004b7210())->ClearMenuIDs();
+    if (InterfaceManager_GetSingleton() && (unsigned char)reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->ClearMenuIDs();
 }
 }  // namespace fnv_007037e0
 
@@ -2720,15 +2773,16 @@ struct Modifier
 {
     char GetKey();
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 
 // If the interface manager exists and its modifier key is set, culls or unculls the tile's scene node according to abVisible.
 // @fnv 0x00703810
-void FUN_00703810(bool abVisible)
+// src: COMMUNITY 0x00703810
+void Interface_SetMenuSystemVisible(bool abVisible)
 {
-    if (FUN_004b7210() && (unsigned char)((Modifier*)FUN_004b7210())->GetKey())
+    if (InterfaceManager_GetSingleton() && (unsigned char)((Modifier*)InterfaceManager_GetSingleton())->GetKey())
     {
-        ((Tile*)FUN_004b7210()->FUN_00586150())->FUN_0056c7f0()->SetAppCulled(!abVisible);
+        ((Tile*)InterfaceManager_GetSingleton()->FUN_00586150())->FUN_0056c7f0()->SetAppCulled(!abVisible);
     }
 }
 }  // namespace fnv_00703810
@@ -2740,14 +2794,15 @@ struct Modifier
 };
 struct IdleAnimationManager
 {
-    bool FUN_00843150();
+    bool InterfaceManager_GetMagicPageNumber();
 };
 // Returns FUN_00843150's result when FUN_004b7210 is non-null and GetKey is nonzero; otherwise returns -1.
 // @fnv 0x00705d10
-char FUN_00705d10()
+// src: COMMUNITY 0x00705d10
+char Interface_GetMagicPageNumber()
 {
-    if (FUN_004b7210() && (unsigned char)reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return reinterpret_cast<IdleAnimationManager*>(FUN_004b7210())->FUN_00843150();
+    if (InterfaceManager_GetSingleton() && (unsigned char)reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return reinterpret_cast<IdleAnimationManager*>(InterfaceManager_GetSingleton())->InterfaceManager_GetMagicPageNumber();
     return -1;
 }
 }  // namespace fnv_00705d10
@@ -2763,10 +2818,11 @@ struct Byte15Accessor
 };
 // If FUN_004b7210() returns a non-null object whose GetKey() is nonzero, returns the result of GetByte15() on it; otherwise returns -1.
 // @fnv 0x00705d50
-char FUN_00705d50()
+// src: COMMUNITY 0x00705d50
+char Interface_GetMapPageNumber()
 {
-    if (FUN_004b7210() && (unsigned char)reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey())
-        return reinterpret_cast<Byte15Accessor*>(FUN_004b7210())->GetByte15();
+    if (InterfaceManager_GetSingleton() && (unsigned char)reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey())
+        return reinterpret_cast<Byte15Accessor*>(InterfaceManager_GetSingleton())->GetByte15();
     return -1;
 }
 }  // namespace fnv_00705d50
@@ -2775,10 +2831,11 @@ struct UnnamedClass_00705dd0
 {
     char _pad[0x9c];
     Tile* m_9c;
-    int FUN_00705dd0();
+    int InterfaceManager_GetLastPipboyTab();
 };
 // @fnv 0x00705dd0
-int UnnamedClass_00705dd0::FUN_00705dd0()
+// src: COMMUNITY 0x00705dd0
+int UnnamedClass_00705dd0::InterfaceManager_GetLastPipboyTab()
 {
     return (int)m_9c->GetFloat(0x1771);
 }
@@ -2796,11 +2853,12 @@ int __cdecl MinInt(int, int);
 
 struct FUN_00706810_Class
 {
-    int __thiscall FUN_00706810();
+    int __thiscall InterfaceManager_TutorialManager_GetSaveLoadSize();
 };
 
 // @fnv 0x00706810
-int __thiscall FUN_00706810_Class::FUN_00706810()
+// src: COMMUNITY 0x00706810
+int __thiscall FUN_00706810_Class::InterfaceManager_TutorialManager_GetSaveLoadSize()
 {
     return MinInt(1, 1) + 5;
 }
@@ -2812,7 +2870,8 @@ struct Dummy00712450
 Dummy00712450* __stdcall _FUN_004b7210(int, float, float);
 // Calls _FUN_004b7210 with a, b and c, then returns the result of SetNodeAlpha on the returned object.
 // @fnv 0x00707010
-int FUN_00707010(int aiArg, float afArg1, float afArg2)
+// src: COMMUNITY 0x00707010
+int Interface_RecursiveFade(int aiArg, float afArg1, float afArg2)
 {
     return _FUN_004b7210(aiArg, afArg1, afArg2)->SetNodeAlpha();
 }
@@ -2824,13 +2883,13 @@ struct SaveLoadFile;
 
 typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 
 
-void FUN_00706a20(unsigned char);
-void FUN_007069d0(unsigned char);
-void FUN_007a1820(float);
-void FUN_007a1850(float);
+void InventoryMenu_SetCurrentInventoryPage(unsigned char);
+void MapMenu_SetCurrentMapPage(unsigned char);
+void MapMenu_SetLocalMapMagnification(float);
+void MapMenu_SetWorldMapMagnification(float);
 struct TutorialState
 {
     void LoadTutorialSeenFlags(char*);
@@ -2854,16 +2913,16 @@ void LoadMenuState(BGSLoadGameBuffer* apLoadGameBuffer)
     apLoadGameBuffer->ReadDataBlock(&cstatsPage, 1);
     apLoadGameBuffer->ReadDataBlock(&cinventoryPage, 1);
     apLoadGameBuffer->ReadDataBlock(&cmapPage, 1);
-    reinterpret_cast<Tile*>(FUN_004b7210()->FUN_00586150())->Set(0x1771, ifrontMostMenu);
+    reinterpret_cast<Tile*>(InterfaceManager_GetSingleton()->FUN_00586150())->Set(0x1771, ifrontMostMenu);
     StatsMenu::SetStatsPage(cstatsPage);
-    FUN_00706a20(cinventoryPage);
-    FUN_007069d0(cmapPage);
+    InventoryMenu_SetCurrentInventoryPage(cinventoryPage);
+    MapMenu_SetCurrentMapPage(cmapPage);
     flocalMapMagnification = 0;
     fworldMapMagnification = 0;
     apLoadGameBuffer->ReadDataBlock(&flocalMapMagnification, 4);
     apLoadGameBuffer->ReadDataBlock(&fworldMapMagnification, 4);
-    FUN_007a1820(flocalMapMagnification);
-    FUN_007a1850(fworldMapMagnification);
+    MapMenu_SetLocalMapMagnification(flocalMapMagnification);
+    MapMenu_SetWorldMapMagnification(fworldMapMagnification);
     if (apLoadGameBuffer->GetVersion() >= 12)
     {
         unsigned int isettingsSize;
@@ -2872,7 +2931,7 @@ void LoadMenuState(BGSLoadGameBuffer* apLoadGameBuffer)
         isettingsSize = 0;
         apLoadGameBuffer->ReadDataBlock(&isettingsSize, 4);
         apLoadGameBuffer->ReadDataBlock(psettings, isettingsSize);
-        reinterpret_cast<TutorialState*>((char*)FUN_004b7210() + 0x4d4)->LoadTutorialSeenFlags(psettings);
+        reinterpret_cast<TutorialState*>((char*)InterfaceManager_GetSingleton() + 0x4d4)->LoadTutorialSeenFlags(psettings);
     }
     else
     {
@@ -2909,9 +2968,9 @@ void __cdecl FUN_00703610()
     Tile* pmap;
     Tile* pitemmod;
 
-    if (FUN_004b7210() && ((InterfaceManager*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
-        pim = FUN_004b7210();
+        pim = InterfaceManager_GetSingleton();
         pstat = (FindMenuById)(InterfaceInterfaceView::eStatsMenu);
         pinv = (FindMenuById)(InterfaceInterfaceView::eInventoryMenu);
         prepair = (FindMenuById)(InterfaceInterfaceView::eRepairMenu);
@@ -2963,7 +3022,8 @@ Menu* __cdecl FindMenuById(int);
 
 // Checks the current modifier and interface menu, resolves a tile for the active menu, and returns whether its menu's thread ID equals 1.
 // @fnv 0x007024e0
-bool FUN_007024e0()
+// src: COMMUNITY 0x007024e0
+bool Interface_IsTopMenuFadedIn()
 {
     Tile* ptile;
     int topid;
@@ -3044,7 +3104,7 @@ void __cdecl FUN_0079c340(bool);
 // @fnv 0x00704170
 void __cdecl UpdatePipboyMapVisibility(bool abVisibility, bool abAnyVisibleState)
 {
-    if (FUN_004b7210() != 0 && reinterpret_cast<Modifier*>(FUN_004b7210())->GetKey() != 0)
+    if (InterfaceManager_GetSingleton() != 0 && reinterpret_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey() != 0)
     {
         Tile* pinv;
         Tile* prepair;
@@ -3090,7 +3150,7 @@ void __cdecl UpdatePipboyMapVisibility(bool abVisibility, bool abAnyVisibleState
 
             if (pmap != 0)
             {
-                reinterpret_cast<Tile*>(FUN_004b7210()->FUN_00586150())->Set(6001, 1023);
+                reinterpret_cast<Tile*>(InterfaceManager_GetSingleton()->FUN_00586150())->Set(6001, 1023);
             }
 
             if (pmap != 0)
@@ -3109,12 +3169,12 @@ void __cdecl UpdatePipboyMapVisibility(bool abVisibility, bool abAnyVisibleState
 
         if (abVisibility)
         {
-            reinterpret_cast<PipboyAccess*>(reinterpret_cast<ProxyMgr*>(FUN_004b7210())->GetPipboyManager())
+            reinterpret_cast<PipboyAccess*>(reinterpret_cast<ProxyMgr*>(InterfaceManager_GetSingleton())->GetPipboyManager())
                 ->FUN_007f8a80();
 
-            reinterpret_cast<ProxyMgr*>(FUN_004b7210())->GetPipboyManager()->ActivateButton(3);
+            reinterpret_cast<ProxyMgr*>(InterfaceManager_GetSingleton())->GetPipboyManager()->ActivateButton(3);
 
-            if (reinterpret_cast<ProxyMgr*>(FUN_004b7210())->GetPipboyManager()->GetInitialized())
+            if (reinterpret_cast<ProxyMgr*>(InterfaceManager_GetSingleton())->GetPipboyManager()->GetInitialized())
             {
                 FUN_0079c340(false);
             }
@@ -3130,17 +3190,18 @@ class Modifier
     unsigned char GetKey();
 };
 
-unsigned int __cdecl FUN_00705770();
+unsigned int __cdecl ret_1012();
 Menu* __cdecl FindMenuById(int);
 Modifier* __cdecl _FUN_004b7210();
 
 // @fnv 0x007056f0
-bool FUN_007056f0()
+// src: COMMUNITY 0x007056f0
+bool SleepWaitMenu_UpdateSleeping()
 {
     SleepWaitMenu* pSleepWaitMenu;
     Tile* ptile;
 
-    ptile = reinterpret_cast<Tile*>(FindMenuById(FUN_00705770()));
+    ptile = reinterpret_cast<Tile*>(FindMenuById(ret_1012()));
     pSleepWaitMenu = ptile ? static_cast<SleepWaitMenu*>(ptile->GetMenu()) : 0;
 
     return _FUN_004b7210() && _FUN_004b7210()->GetKey() && pSleepWaitMenu && IsSleepWaitMenuActive(pSleepWaitMenu);
@@ -3278,7 +3339,8 @@ void* _FUN_004b7210();
 void UpdateVisibility(void*, bool, bool, bool);
 
 // @fnv 0x00702c80
-void FUN_00702c80(bool abFlag1, bool abFlag2)
+// src: COMMUNITY 0x00702c80
+void Interface_IsolateMenuElements(bool abFlag1, bool abFlag2)
 {
     if (_FUN_004b7210())
     {
@@ -3585,7 +3647,8 @@ void __cdecl B706130UpdateAllTiles(bool bForce);
 extern Setting g_kB706130Setting;
 
 // @fnv 0x00706130
-bool __cdecl FUN_00706130(int m_uiSoundID)
+// src: COMMUNITY 0x00706130
+bool __cdecl Interface_CreateComputerMenu(int m_uiSoundID)
 {
     if (B706130GetManager() && B706130GetManager()->GetKey())
     {
@@ -3629,7 +3692,8 @@ bool __cdecl FUN_004b5bf0(unsigned int a);
 
 // Constructs a temporary with value 1.0 and dispatches it to DAT_011dea10 or to the object at a1 depending on FUN_004b5bf0(a1).
 // @fnv 0x00707870
-unsigned int __cdecl FUN_00707870(unsigned int a1)
+// src: COMMUNITY 0x00707870
+unsigned int __cdecl Interface_CopyOrDeepCopyNode(unsigned int a1)
 {
     unsigned int pad[6];
     FUN_00707870_Temp t(1.0f);
@@ -3648,12 +3712,13 @@ extern "C" __declspec(dllimport) __declspec(noreturn) void __stdcall ExitProcess
 extern "C" void __debugbreak();
 
 char ConsumeByteAtE4();
-void FUN_00703fd0();
+void Interface_MessageMenuYesToAll();
 void FUN_0040fbe0(const char* pcMessage);
 
 // Switches on ConsumeByteAtE4: for 1 or 3 warns and exits the process, for 2 calls FUN_00703fd0.
 // @fnv 0x0086a530
-void FUN_0086a530()
+// src: COMMUNITY 0x0086a530
+void MessageMenuCallback()
 {
     switch (ConsumeByteAtE4())
     {
@@ -3665,7 +3730,7 @@ void FUN_0086a530()
             __debugbreak();
         ExitProcess(0);
     case 2:
-        FUN_00703fd0();
+        Interface_MessageMenuYesToAll();
         break;
     }
 }
@@ -3841,7 +3906,7 @@ struct InterfaceObject
 };
 struct DialogObject
 {
-    void FUN_009ed0d0(Player*, int);
+    void BackUpPackage_InitializeBackUpPackage(Player*, int);
 };
 struct Helper
 {
@@ -4069,7 +4134,7 @@ void Player::OpenDialogMenu()
     DialogObject* dialog = FUN_00ec43fb(menuContext, 0, &DAT_011846a0, &DAT_011a32e0, 0);
     if (dialog)
     {
-        dialog->FUN_009ed0d0(this, FUN_008d6f30(DAT_011dea3c));
+        dialog->BackUpPackage_InitializeBackUpPackage(this, FUN_008d6f30(DAT_011dea3c));
     }
     menuContext->FUN_00984f60(48);
     FUN_008d8520()->Release();
@@ -4397,8 +4462,8 @@ void UpdateVisibility(Tile* tile, bool show, bool alternate, bool queue)
 {
     if (!tile)
         return;
-    Tile* _node = FUN_004b7210()->FUN_00586150();
-    InterfaceManager* current = FUN_004b7210();
+    Tile* _node = InterfaceManager_GetSingleton()->FUN_00586150();
+    InterfaceManager* current = InterfaceManager_GetSingleton();
     bool _unused = false;
     bool _found = false;
     bool _visible = tile->FUN_00a011b0(0xfaa) == 112.0;
@@ -4476,9 +4541,9 @@ public:
 // @fnv 0x00702dd0
 void UpdateMenuTileVisibility()
 {
-    if (FUN_004b7210() && static_cast<InterfaceManager*>(FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && static_cast<InterfaceManager*>(InterfaceManager_GetSingleton())->FUN_009373f0())
     {
-        Tile* pRoot4 = FUN_004b7210()->FUN_00586150();
+        Tile* pRoot4 = InterfaceManager_GetSingleton()->FUN_00586150();
         void* pPosVal = reinterpret_cast<TileChildList_interface*>(&pRoot4->m_kChildTileList)->GetHeadPos();
         while (pPosVal)
         {
@@ -4505,18 +4570,19 @@ void UpdateMenuTileVisibility()
 
 // If FUN_004b7210 returns non-null and its FUN_009373f0 check passes, flips the byte at offset 0xdd of its padding field between 0 and 1.
 // @fnv 0x00703100
-void __cdecl FUN_00703100()
+// src: COMMUNITY 0x00703100
+void __cdecl ToggleFullHelp()
 {
-    if (FUN_004b7210() != 0)
+    if (InterfaceManager_GetSingleton() != 0)
     {
-        if (((InterfaceManager*)FUN_004b7210())->FUN_009373f0())
+        if (((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0())
         {
-            FUN_004b7210()->byte0DD = FUN_004b7210()->byte0DD ? 0 : 1;
+            InterfaceManager_GetSingleton()->byte0DD = InterfaceManager_GetSingleton()->byte0DD ? 0 : 1;
         }
     }
 }
 
-extern "C" void __fastcall FUN_00717600(InterfaceManager*);
+extern "C" void __fastcall InterfaceManager_PreLoadMenus(InterfaceManager*);
 extern "C" void __cdecl UpdatePipboyMapVisibility(int, int);
 extern "C" void __cdecl FUN_007048f0(int, int, int);
 extern "C" void __cdecl ShowStatsMenu(int, int);
@@ -4524,15 +4590,15 @@ extern "C" void __cdecl ShowStatsMenu(int, int);
 // @fnv 0x00703500
 void __cdecl HandleMenuKeyInput(void)
 {
-    if (FUN_004b7210() != 0)
+    if (InterfaceManager_GetSingleton() != 0)
     {
-        if (((InterfaceManager*)FUN_004b7210())->FUN_009373f0())
+        if (((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0())
         {
-            InterfaceManager* iMenu = FUN_004b7210();
+            InterfaceManager* iMenu = InterfaceManager_GetSingleton();
             int pManager = (int)iMenu->FUN_00586150()->GetFloat(0x1771);
             if (pManager == 0)
             {
-                FUN_00717600(FUN_004b7210());
+                InterfaceManager_PreLoadMenus(InterfaceManager_GetSingleton());
                 pManager = 0x3eb;
             }
             switch (pManager)
@@ -4557,9 +4623,10 @@ bool __cdecl QueueMessage(int a1, int a2, int a3, int a4, int a5, int a6, int a7
                           int left, int right, float zero, float x, float y);
 
 // @fnv 0x00703f10
-bool __cdecl FUN_00703f10(int a1, int a2, int a3, int a4, int a5, int a6, int a7, float x, float y, int a10, ...)
+// src: COMMUNITY 0x00703f10
+bool __cdecl Interface_CreateMessageMenuSound(int a1, int a2, int a3, int a4, int a5, int a6, int a7, float x, float y, int a10, ...)
 {
-    if (FUN_004b7210() && ((InterfaceManager*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         bool result5;
         va_list args;
@@ -4581,26 +4648,27 @@ struct InterfaceControl
 extern InterfaceInterfaceView* DAT_011d8804;
 bool __cdecl QueueMessage(const char*, int, int, int, void (*)(), int, int, int, va_list*, bool, int, int, float, float,
                           float);
-void __cdecl FUN_00403d30(void*, int, unsigned int);
+void __cdecl ourMemset(void*, int, unsigned int);
 class InputManager
 {
   public:
-    void FUN_00a23010();
+    void Controls_UpdateValues();
 };
 
 extern OSGlobals* g_osGlobals;
-void FUN_007027e0();
-void FUN_00702810();
-void FUN_00702840();
+void Interface_PreIdleStuff();
+void Interface_Idle();
+void Interface_PostIdleStuff();
 void RenderOrFallback(int, int);
 void FUN_00702960();
 // @fnv 0x00704010
-char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, int aiArg3, ...)
+// src: COMMUNITY 0x00704010
+char __cdecl Interface_CreateModalMessageMenu(const char* text, int aiArg1, int aiArg2, int aiArg3, ...)
 {
     DAT_0119f349 = -1;
     bool success = false;
     ((InterfaceControl*)DAT_011d8804)->FUN_007010e0(true, true);
-    if (FUN_004b7210() && ((InterfaceManager*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         va_list args;
         va_start(args, aiArg3);
@@ -4613,16 +4681,16 @@ char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, int aiArg3, 
         while (DAT_0119f349 == -1)
         {
             WinMessage message;
-            FUN_00403d30(&message, 0, sizeof(message));
+            ourMemset(&message, 0, sizeof(message));
             while (PeekMessageA(&message, 0, 0, 0, 1))
             {
                 TranslateMessage(&message);
                 DispatchMessageA(&message);
             }
-            g_osGlobals->FUN_00877720()->FUN_00a23010();
-            FUN_007027e0();
-            FUN_00702810();
-            FUN_00702840();
+            g_osGlobals->FUN_00877720()->Controls_UpdateValues();
+            Interface_PreIdleStuff();
+            Interface_Idle();
+            Interface_PostIdleStuff();
             RenderOrFallback(0, 0);
             FUN_00702960();
         }
@@ -4639,7 +4707,7 @@ struct MenuProxy
 };
 struct TileProxy
 {
-    MenuProxy* FUN_00a03c90();
+    MenuProxy* Tile_GetMenu();
 };
 TileProxy* FUN_00a09030(int);
 TileProxy* FUN_00704be0();
@@ -4660,7 +4728,7 @@ struct InterfaceProxy
 // @fnv 0x00704c10
 void ShowStatsMenu(bool show, bool fades)
 {
-    if (FUN_004b7210() && ((InterfaceManager*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         TileProxy* stats = FUN_00a09030(1003);
         TileProxy* inv = FUN_00a09030(1002);
@@ -4671,38 +4739,38 @@ void ShowStatsMenu(bool show, bool fades)
         if (show && !visible2)
         {
             if (inv)
-                inv->FUN_00a03c90()->FUN_00a1d910();
+                inv->Tile_GetMenu()->FUN_00a1d910();
             if (repair2)
             {
-                repair2->FUN_00a03c90()->FUN_00a1d910();
+                repair2->Tile_GetMenu()->FUN_00a1d910();
                 ResetRepairMenu();
             }
             if (barterX)
             {
-                barterX->FUN_00a03c90()->FUN_00a1d910();
+                barterX->Tile_GetMenu()->FUN_00a1d910();
                 ResetItemModMenu();
             }
             if (map3)
-                map3->FUN_00a03c90()->FUN_00a1d910();
+                map3->Tile_GetMenu()->FUN_00a1d910();
             if (!stats)
                 stats = FUN_00704be0();
             if (stats)
             {
-                FUN_004b7210()->FUN_00586150()->SetInt(6001, 1003);
-                stats->FUN_00a03c90()->InitializeStatsMenu();
-                stats->FUN_00a03c90()->FUN_00a1db20();
+                InterfaceManager_GetSingleton()->FUN_00586150()->SetInt(6001, 1003);
+                stats->Tile_GetMenu()->InitializeStatsMenu();
+                stats->Tile_GetMenu()->FUN_00a1db20();
             }
         }
         else if (!show && visible2)
         {
             if (stats)
-                stats->FUN_00a03c90()->FUN_00a1d910();
+                stats->Tile_GetMenu()->FUN_00a1d910();
         }
         if (show)
         {
-            ((InterfaceProxy*)FUN_004b7210())->FUN_00704370()->FUN_007f8a80();
-            ((InterfaceProxy*)FUN_004b7210())->FUN_00704370()->FUN_007fa010(1);
-            if (((InterfaceProxy*)FUN_004b7210())->FUN_00704370()->IsUnk28Set())
+            ((InterfaceProxy*)InterfaceManager_GetSingleton())->FUN_00704370()->FUN_007f8a80();
+            ((InterfaceProxy*)InterfaceManager_GetSingleton())->FUN_00704370()->FUN_007fa010(1);
+            if (((InterfaceProxy*)InterfaceManager_GetSingleton())->FUN_00704370()->IsUnk28Set())
                 PlayPipboyPageSound(false);
         }
     }
@@ -4737,7 +4805,7 @@ extern unsigned int DAT_011d96c0;
 bool __cdecl FUN_00705210(int aiArg1, DecompArg12 aArg12, DecompVec3 aVec3, int aiArg4, bool a5)
 {
     AutoMemContext guard(13, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Interface\\Interface.cpp", 0x8ec);
-    if (FUN_004b7210() && ((InterfaceManager*)FUN_004b7210())->FUN_009373f0() && DAT_011d96c0)
+    if (InterfaceManager_GetSingleton() && ((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0() && DAT_011d96c0)
     {
         ((DecompTarget*)DAT_011d96c0)->FUN_00774fd0(aiArg1, aArg12, aVec3, aiArg4, a5);
     }
@@ -4753,9 +4821,9 @@ struct FUN_0047ee30_shell : public InterfaceManager
 // @fnv 0x00705c70
 extern "C" char __cdecl GetInterfaceManagerResult()
 {
-    if (FUN_004b7210() && reinterpret_cast<InterfaceManager*>(FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<InterfaceManager*>(InterfaceManager_GetSingleton())->FUN_009373f0())
     {
-        return reinterpret_cast<FUN_0047ee30_shell*>(FUN_004b7210())->GetAssistance();
+        return reinterpret_cast<FUN_0047ee30_shell*>(InterfaceManager_GetSingleton())->GetAssistance();
     }
     return -1;
 }
@@ -4775,19 +4843,20 @@ struct Buffer
     void SaveData(void*, unsigned, int);
 };
 char GetStatsMenuPage();
-unsigned char FUN_007824b0();
+unsigned char InventoryMenu_GetCurrentInventoryPage();
 float GetMapMenuFloatSetting();
 float GetTileFloatOrDefault();
-void FUN_00403d30(void*, int, unsigned);
+void ourMemset(void*, int, unsigned);
 // @fnv 0x007066d0
-void FUN_007066d0(Buffer* buffer)
+// src: COMMUNITY 0x007066d0
+void Interface_SaveGame(Buffer* buffer)
 {
     char y[100];
     float text;
-    int length = (int)FUN_004b7210()->FUN_00586150()->GetFloat(0x1771);
+    int length = (int)InterfaceManager_GetSingleton()->FUN_00586150()->GetFloat(0x1771);
     char third = GetStatsMenuPage();
-    unsigned char x = FUN_007824b0();
-    char value = FUN_00706830();
+    unsigned char x = InventoryMenu_GetCurrentInventoryPage();
+    char value = MapMenu_GetCurrentMapPage();
     buffer->SaveData(&length, 4, 0);
     buffer->SaveData(&third, 1, 0);
     buffer->SaveData(&x, 1, 0);
@@ -4796,9 +4865,9 @@ void FUN_007066d0(Buffer* buffer)
     text = GetTileFloatOrDefault();
     buffer->SaveData(&first, 4, 0);
     buffer->SaveData(&text, 4, 0);
-    FUN_00403d30(y, 0, 100);
-    int second = FUN_004b7210()->kTutorialManager.GetSaveLoadSize();
-    reinterpret_cast<TutorialState*>(&FUN_004b7210()->kTutorialManager)->GetData(y);
+    ourMemset(y, 0, 100);
+    int second = InterfaceManager_GetSingleton()->kTutorialManager.GetSaveLoadSize();
+    reinterpret_cast<TutorialState*>(&InterfaceManager_GetSingleton()->kTutorialManager)->GetData(y);
     buffer->SaveData(&second, 4, 0);
     buffer->SaveData(y, second, 0);
 }
@@ -4809,9 +4878,10 @@ struct FUN_00703960_Class
 };
 
 // @fnv 0x00706db0
-void FUN_00706db0(unsigned char ucValue)
+// src: COMMUNITY 0x00706db0
+void Interface_SetIsEmergencyTextureRelease(unsigned char ucValue)
 {
-    ((FUN_00703960_Class*)FUN_004b7210())->SetByteAtOffsetEC((char)ucValue);
+    ((FUN_00703960_Class*)InterfaceManager_GetSingleton())->SetByteAtOffsetEC((char)ucValue);
 }
 
 
@@ -4822,7 +4892,7 @@ extern Setting* DAT_0119b364[];
 struct Player_StandIn : public PlayerCharacter
 {
     const char* GetFullName();
-    const char* FUN_0087f6c0();
+    const char* Actor_GetRaceFullName();
     int GetSex();
 };
 
@@ -4871,7 +4941,7 @@ bool __cdecl FUN_007070c0(const char* apName, char* apBuffer, unsigned int auiBu
         }
         if (!bFound && CompareInterfaceStringsIgnoreCase(apName, "PCRace") == 0)
         {
-            CopyInterfaceString(apBuffer, auiBufferSize, ((Player_StandIn*)g_thePlayer)->FUN_0087f6c0());
+            CopyInterfaceString(apBuffer, auiBufferSize, ((Player_StandIn*)g_thePlayer)->Actor_GetRaceFullName());
             bFound = true;
         }
         if (!bFound && CompareInterfaceStringsIgnoreCase(apName, "PCSex") == 0)
@@ -4920,7 +4990,8 @@ class FileFinder
 };
 // Clears the flag, then loads a model from path via the model loader or a BSStream and returns its NiNode, or null on failure.
 // @fnv 0x00707660
-NiNode* FUN_00707660(const char* path, bool* flag)
+// src: COMMUNITY 0x00707660
+NiNode* Interface_LoadModelFile(const char* path, bool* flag)
 {
     *flag = false;
     if (g_modelLoader && !DAT_011d8908)
@@ -5043,13 +5114,13 @@ struct TESObjectREFRMine : TESObjectREFR
     bool CanBeUsed(Actor* apActor, bool abUnk);
 };
 
-int FUN_0075b310(TESObjectREFR* apRef, int aType);
+int ContainerMenu_Create(TESObjectREFR* apRef, int aType);
 
 // If the interface manager key is held, adjusts aType to 2 for owned non-actor refs that cannot be used, then calls FUN_0075b310; otherwise returns 0.
 // @fnv 0x00704ed0
 int FUN_00704ed0(TESObjectREFR* apRef, int aType)
 {
-    if (FUN_004b7210() && ((InterfaceManager*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceManager*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         if (aType == 1)
         {
@@ -5059,7 +5130,7 @@ int FUN_00704ed0(TESObjectREFR* apRef, int aType)
                 aType = 2;
             }
         }
-        return FUN_0075b310(apRef, aType);
+        return ContainerMenu_Create(apRef, aType);
     }
     return 0;
 }
@@ -5077,8 +5148,8 @@ struct MgrQ
 // @fnv 0x00702fc0
 bool FUN_00702fc0()
 {
-    if (FUN_004b7210() && ((MgrQ*)FUN_004b7210())->FUN_009373f0())
-        return ((MgrQ*)FUN_004b7210())->FUN_00644640();
+    if (InterfaceManager_GetSingleton() && ((MgrQ*)InterfaceManager_GetSingleton())->FUN_009373f0())
+        return ((MgrQ*)InterfaceManager_GetSingleton())->FUN_00644640();
     return false;
 }
 
@@ -5090,7 +5161,7 @@ struct M70Tile
 };
 struct M70Menu
 {
-    M70Tile* FUN_00a03c90();
+    M70Tile* Tile_GetMenu();
 };
 struct M70Trait
 {
@@ -5108,7 +5179,7 @@ struct M70Player
     M70Trait* FUN_00586150();
     M70Hud* FUN_00704370();
 };
-M70Player* FUN_004b7210();
+M70Player* InterfaceManager_GetSingleton();
 M70Menu* FUN_00a09030(int id);
 bool FUN_00702680(int id, int a);
 M70Menu* CreateInventoryMenuIfModifierKey();
@@ -5130,7 +5201,7 @@ void FUN_007048f0(bool show, bool fade, bool reset)
     M70Menu* pMenu3ff8;
     bool bOpen;
 
-    if (FUN_004b7210() && FUN_004b7210()->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && InterfaceManager_GetSingleton()->FUN_009373f0())
     {
         pMenu3eb = FUN_00a09030(0x3eb);
         pMenu3ea = FUN_00a09030(0x3ea);
@@ -5148,46 +5219,46 @@ void FUN_007048f0(bool show, bool fade, bool reset)
             {
                 if (pMenu3eb)
                 {
-                    pMenu3eb->FUN_00a03c90()->FUN_00a1d910();
+                    pMenu3eb->Tile_GetMenu()->FUN_00a1d910();
                     FUN_00704390();
                 }
                 if (pMenu3ff8)
                 {
-                    pMenu3ff8->FUN_00a03c90()->FUN_00a1d910();
+                    pMenu3ff8->Tile_GetMenu()->FUN_00a1d910();
                 }
                 if (pMenu40bB)
                 {
-                    pMenu40bB->FUN_00a03c90()->FUN_00a1d910();
+                    pMenu40bB->Tile_GetMenu()->FUN_00a1d910();
                     ResetRepairMenu();
                 }
                 if (aPMenu425)
                 {
-                    aPMenu425->FUN_00a03c90()->FUN_00a1d910();
+                    aPMenu425->Tile_GetMenu()->FUN_00a1d910();
                     ResetItemModMenu();
                 }
                 if (pMenu3ea)
                 {
-                    pMenu3ea->FUN_00a03c90()->FUN_00a1db20();
+                    pMenu3ea->Tile_GetMenu()->FUN_00a1db20();
                 }
             }
             if (pMenu3ea)
             {
                 FUN_00782a90();
-                FUN_004b7210()->FUN_00586150()->FUN_00700320(0x1771, 0x3ea);
+                InterfaceManager_GetSingleton()->FUN_00586150()->FUN_00700320(0x1771, 0x3ea);
             }
             if (reset)
             {
-                FUN_004b7210()->FUN_00704370()->FUN_007f8a80();
-                FUN_004b7210()->FUN_00704370()->FUN_007fa010(2);
+                InterfaceManager_GetSingleton()->FUN_00704370()->FUN_007f8a80();
+                InterfaceManager_GetSingleton()->FUN_00704370()->FUN_007fa010(2);
             }
-            if (FUN_004b7210()->FUN_00704370()->IsUnk28Set())
+            if (InterfaceManager_GetSingleton()->FUN_00704370()->IsUnk28Set())
             {
                 FUN_00782470(0);
             }
         }
         else if (!show && bOpen && pMenu3ea)
         {
-            pMenu3ea->FUN_00a03c90()->FUN_00a1d910();
+            pMenu3ea->Tile_GetMenu()->FUN_00a1d910();
             UpdateCurrentValue();
         }
     }
@@ -5806,7 +5877,7 @@ struct ChainObj
 {
     void FUN_00a59c60(V3Maker*);
     ChainObj* FUN_00586170();
-    ChainObj* FUN_0043b230();
+    ChainObj* NiObjectNET_GetControllers();
     bool FUN_00456610();
     void FUN_00450f90(bool);
     void* FUN_005875a0(int, int);
@@ -5844,8 +5915,8 @@ struct PathSrc
 struct Tile30
 {
     unsigned int FUN_0056c7f0();
-    void FUN_007a1400(int);
-    void FUN_00a07530(int);
+    void Tile_ClearNeedsUpdate(int);
+    void Tile_SetChangeFlag(int);
     void FUN_00700320(int, int);
     void FUN_00a012d0(int, float, int);
 };
@@ -6013,8 +6084,8 @@ struct Obj1C
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     Obj1C();
-    void FUN_00439340(int);
-    void FUN_00439390(int);
+    void NiAlphaProperty_SetSrcBlendMode(int);
+    void NiAlphaProperty_SetDestBlendMode(int);
     void FUN_0049ed90(int);
 };
 
@@ -6022,15 +6093,15 @@ struct Obj1C
 
 int __cdecl FUN_00556870(V3Maker*);
 // free helpers; conventions read from add esp evidence
-extern "C" void* __cdecl FUN_00401000(unsigned int);
+extern "C" void* __cdecl FormHeap_Allocate(unsigned int);
 extern "C" void __stdcall FUN_00401050(void*, unsigned int, unsigned int, void*);
 extern "C" void* __cdecl FUN_00aa1070(unsigned int);
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 extern "C" void __cdecl FUN_006815c0();
 extern "C" void __cdecl FUN_004a7800();
-extern "C" int __cdecl FUN_00406d90(float);
+extern "C" int __cdecl FloatToInt(float);
 extern "C" void __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
-extern "C" void __stdcall FUN_00ee6dc2(char*, int, unsigned int);
+extern "C" void __stdcall NiRenderedTexture_SaveToFile(char*, int, unsigned int);
 extern "C" bool __cdecl FUN_007a1750();
 extern "C" void* __cdecl FUN_007a1480();
 extern "C" void* __cdecl FUN_00653270(unsigned int, unsigned int);
@@ -6148,15 +6219,15 @@ void __cdecl FUN_0079ffb0(char param_1)
     {
         if (static_cast<ChainObj*>(reinterpret_cast<ObjD_11dea3c*>(DAT_011dea3c)->FUN_00575d70())
                 ->FUN_00586170()
-                ->FUN_0043b230() != 0)
+                ->NiObjectNET_GetControllers() != 0)
         {
             cFlag7151 = static_cast<ChainObj*>(reinterpret_cast<ObjD_11dea3c*>(DAT_011dea3c)->FUN_00575d70())
                             ->FUN_00586170()
-                            ->FUN_0043b230()
+                            ->NiObjectNET_GetControllers()
                             ->FUN_00456610();
             static_cast<ChainObj*>(reinterpret_cast<ObjD_11dea3c*>(DAT_011dea3c)->FUN_00575d70())
                 ->FUN_00586170()
-                ->FUN_0043b230()
+                ->NiObjectNET_GetControllers()
                 ->FUN_00450f90(1);
         }
     }
@@ -6184,8 +6255,8 @@ void __cdecl FUN_0079ffb0(char param_1)
             Position adj31 = pos15;
             static_cast<ChainObj*>(pSub10)->FUN_00555b10(reinterpret_cast<NiPt3*>(&pos15),
                                                          reinterpret_cast<NiPt3*>(&adj31), 1);
-            ex62 = (FUN_00406d90(adj31.x) - 0x800) >> 0xc;
-            ey21 = (FUN_00406d90(adj31.y) - 0x800) >> 0xc;
+            ex62 = (FloatToInt(adj31.x) - 0x800) >> 0xc;
+            ey21 = (FloatToInt(adj31.y) - 0x800) >> 0xc;
             insideTileX1 = ex62 + cellX17 - (gridSize13 >> 1);
             int insideTileY1 = ey21 + cellY10 - (gridSize13 >> 1);
             base9c33 =
@@ -6207,8 +6278,8 @@ void __cdecl FUN_0079ffb0(char param_1)
         int outsideTileX2;
         int wy1;
         void* pReg8 = reinterpret_cast<ObjD_11dea3c*>(DAT_011dea3c)->FUN_00575d70();
-        wx5 = FUN_00406d90(pos15.x) >> 0xc;
-        wy1 = FUN_00406d90(pos15.y) >> 0xc;
+        wx5 = FloatToInt(pos15.x) >> 0xc;
+        wy1 = FloatToInt(pos15.y) >> 0xc;
         outsideTileX2 = wx5 + cellX17 - (gridSize13 >> 1);
         outsideTileY1 = wy1 + cellY10 - (gridSize13 >> 1);
         base9c33 = reinterpret_cast<const Position&>(
@@ -6253,11 +6324,11 @@ void __cdecl FUN_0079ffb0(char param_1)
             FUN_00406d00(pathB41, 0x104, DAT_01075468,
                          static_cast<C76a*>(reinterpret_cast<PathSrc*>(DAT_011dea10)->FUN_004fd3e0())->v076(),
                          static_cast<C76a*>(reinterpret_cast<PathSrc*>(DAT_011dea10)->FUN_004fd3e0())->v076(),
-                         (FUN_00406d90(pos15.x) >> 0xc) + cellX17, (FUN_00406d90(pos15.y) >> 0xc) + cellY10);
+                         (FloatToInt(pos15.x) >> 0xc) + cellX17, (FloatToInt(pos15.y) >> 0xc) + cellY10);
         }
         p3925 = static_cast<C39*>(FUN_00653270(reinterpret_cast<unsigned int>(&DAT_011f4418),
                                                reinterpret_cast<ChainObj*>(local1415.FUN_00559450())->FUN_0059bb30()));
-        FUN_00ee6dc2(pathB41, 3, p3925->v039(0));
+        NiRenderedTexture_SaveToFile(pathB41, 3, p3925->v039(0));
         DAT_011da368->m_uiMapMarkerCount =
             DAT_011da368->m_uiMapMarkerCount + 1;
         return;
@@ -6363,8 +6434,8 @@ void __cdecl FUN_0079ffb0(char param_1)
     pMesh14->FUN_00439410(pFx44);
 
     pFx221 = new Obj1C();
-    static_cast<Obj1C*>(pFx221)->FUN_00439340(6);
-    static_cast<Obj1C*>(pFx221)->FUN_00439390(0);
+    static_cast<Obj1C*>(pFx221)->NiAlphaProperty_SetSrcBlendMode(6);
+    static_cast<Obj1C*>(pFx221)->NiAlphaProperty_SetDestBlendMode(0);
     static_cast<Obj1C*>(pFx221)->FUN_0049ed90(1);
     pMesh14->FUN_00439410(pFx221);
     FUN_00b57e30(pMesh14, 0, 0);
@@ -6376,7 +6447,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     static_cast<C55*>(reinterpret_cast<void*>(
                           reinterpret_cast<Tile30*>(DAT_011da368->m_pTiles[2])->FUN_0056c7f0()))
         ->v055(pMesh14, 1);
-    reinterpret_cast<Tile30*>(DAT_011da368->m_pTiles[2])->FUN_007a1400(0x20);
+    reinterpret_cast<Tile30*>(DAT_011da368->m_pTiles[2])->Tile_ClearNeedsUpdate(0x20);
 
     DAT_011ff3a8 = savedColor1;
     DAT_011ff103 = svByte10316;
@@ -6386,13 +6457,13 @@ void __cdecl FUN_0079ffb0(char param_1)
         if (reinterpret_cast<ObjD_11dea3c*>(DAT_011dea3c)->FUN_00575d70() != 0)
             static_cast<ChainObj*>(reinterpret_cast<ObjD_11dea3c*>(DAT_011dea3c)->FUN_00575d70())
                 ->FUN_00586170()
-                ->FUN_0043b230()
+                ->NiObjectNET_GetControllers()
                 ->FUN_00450f90(cFlag7151);
     }
     if (cMenuOk4 == '\0')
         pMenu25->FUN_00450f90(0);
 
-    reinterpret_cast<Tile30*>(DAT_011da368->m_pTiles[2])->FUN_00a07530(0x108);
+    reinterpret_cast<Tile30*>(DAT_011da368->m_pTiles[2])->Tile_SetChangeFlag(0x108);
     reinterpret_cast<Tile30*>(DAT_011da368->m_pTiles[2])->FUN_00700320(0xfcd, size27 * gridSize13);
     reinterpret_cast<Tile30*>(DAT_011da368->m_pTiles[2])->FUN_00700320(0xfce, size27 * gridSize13);
     reinterpret_cast<Tile30*>(DAT_011da368->m_pTiles[2])
@@ -6500,16 +6571,17 @@ class SpawnedObject
     int unke8;
     int unkec;
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 IMHelper* __stdcall Getter2(SpawnedObject* obj);
-ValueHolder* FUN_00765b80(void* a);
+ValueHolder* HackingMenu_Create(void* a);
 void FUN_00a04200(int a);
 // @fnv 0x00705ec0
-bool FUN_00705ec0(void* arg)
+// src: COMMUNITY 0x00705ec0
+bool Interface_CreateHackingMenu(void* arg)
 {
-    if (FUN_004b7210() != 0 && ((IMHelper*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() != 0 && ((IMHelper*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
-        ValueHolder* v = FUN_00765b80(arg);
+        ValueHolder* v = HackingMenu_Create(arg);
         if (*DAT_011db620.FUN_00408d60())
         {
             FUN_00a04200(0);
@@ -6549,7 +6621,7 @@ void FUN_00782470(int);
 // @fnv 0x007046f0
 void FUN_007046f0(bool abShow, bool abInstant, bool abActivate)
 {
-    if (FUN_004b7210() && ((IMQ*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((IMQ*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         Tile* m_pInventoryChangesValue = FUN_00a09030(0x3eb);
         Tile* pStats = FUN_00a09030(0x3ea);
@@ -6565,31 +6637,31 @@ void FUN_007046f0(bool abShow, bool abInstant, bool abActivate)
             {
                 if (m_pInventoryChangesValue)
                 {
-                    m_pInventoryChangesValue->FUN_00a03c90()->LoadMenuData();
+                    m_pInventoryChangesValue->Tile_GetMenu()->LoadMenuData();
                     FUN_00704390();
                 }
                 if (pRepair5)
-                    pRepair5->FUN_00a03c90()->LoadMenuData();
+                    pRepair5->Tile_GetMenu()->LoadMenuData();
                 if (pMap)
-                    pMap->FUN_00a03c90()->LoadMenuData();
+                    pMap->Tile_GetMenu()->LoadMenuData();
                 if (pMenu2)
-                    pMenu2->FUN_00a03c90()->UnloadMenuData();
+                    pMenu2->Tile_GetMenu()->UnloadMenuData();
                 if (pStats)
-                    pStats->FUN_00a03c90()->LoadMenuData();
+                    pStats->Tile_GetMenu()->LoadMenuData();
             }
             if (pMenu2)
-                ((Tile*)FUN_004b7210()->FUN_00586150())->FUN_00700320(0x1771, 0x425);
+                ((Tile*)InterfaceManager_GetSingleton()->FUN_00586150())->FUN_00700320(0x1771, 0x425);
             if (abActivate)
             {
-                ((IMQ*)FUN_004b7210())->FUN_00704370()->FUN_007f8a80();
-                ((IMQ*)FUN_004b7210())->FUN_00704370()->FUN_007fa010(2);
+                ((IMQ*)InterfaceManager_GetSingleton())->FUN_00704370()->FUN_007f8a80();
+                ((IMQ*)InterfaceManager_GetSingleton())->FUN_00704370()->FUN_007fa010(2);
             }
-            if (((IMQ*)FUN_004b7210())->FUN_00704370()->IsUnk28Set())
+            if (((IMQ*)InterfaceManager_GetSingleton())->FUN_00704370()->IsUnk28Set())
                 FUN_00782470(0);
         }
         else if (!abShow && bVisible8 && pMenu2)
         {
-            pMenu2->FUN_00a03c90()->LoadMenuData();
+            pMenu2->Tile_GetMenu()->LoadMenuData();
         }
     }
 }
@@ -6659,14 +6731,14 @@ extern int DAT_011d8964;
 extern int DAT_011d8998;
 extern int DAT_011d899c;
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 int FUN_00704ed0(TESObjectREFR* pkRef, int iArg);
-bool FUN_00705ec0(TESObjectREFR* pkRef);
-bool FUN_00706130(TESObjectREFR* pkRef);
+bool Interface_CreateHackingMenu(TESObjectREFR* pkRef);
+bool Interface_CreateComputerMenu(TESObjectREFR* pkRef);
 int FUN_00705070(TESObjectREFR* pkRef, int iArg0, int iArg1);
 int GetOrCreateMenuTile(int iArg);
 bool InitStartMenu(int iArg0, int iArg1);
-void FUN_00771700(int iArg);
+void HUDMainMenu_UpdateVisibilityState(int iArg);
 bool FUN_007a8ba0();
 bool DestroyCompanionWheelMenu(Actor* pkActor);
 
@@ -6674,10 +6746,11 @@ static const char s_szPlayerNameEntryMenu[] = "Player Name Entry Menu";
 
 // Processes pending action requests stored in DAT_011d8950 and DAT_011d8998, executing the corresponding logic and clearing the flags on success.
 // @fnv 0x007094f0
-void FUN_007094f0()
+// src: COMMUNITY 0x007094f0
+void Interface_HandleQueuedMenuOpen()
 {
     DAT_011d89c0.FUN_0040fbf0(0);
-    if (DAT_011d8950 && (!FUN_004b7210()->uiPipboyMode || DAT_011d8950 == 6 || DAT_011d8950 == 7))
+    if (DAT_011d8950 && (!InterfaceManager_GetSingleton()->uiPipboyMode || DAT_011d8950 == 6 || DAT_011d8950 == 7))
     {
         bool bPickResultFound = false;
         switch (DAT_011d8950)
@@ -6686,13 +6759,13 @@ void FUN_007094f0()
             bPickResultFound = s7094f0::FUN_00704ed0(DAT_011d8954, DAT_011d8964) ? 1 : 0;
             break;
         case 2:
-            bPickResultFound = FUN_00705ec0(DAT_011d8954);
+            bPickResultFound = Interface_CreateHackingMenu(DAT_011d8954);
             break;
         case 3:
-            bPickResultFound = FUN_00706130(DAT_011d8954);
+            bPickResultFound = Interface_CreateComputerMenu(DAT_011d8954);
             break;
         case 4:
-            if (!FUN_004b7210()->FUN_007023a0())
+            if (!InterfaceManager_GetSingleton()->FUN_007023a0())
                 bPickResultFound = FUN_00705070(DAT_011d8954, DAT_011d8958, DAT_011d895c) ? 1 : 0;
             break;
         case 5:
@@ -6701,7 +6774,7 @@ void FUN_007094f0()
         case 6:
             bPickResultFound = InitStartMenu(1, 0);
             if (bPickResultFound)
-                FUN_00771700(4);
+                HUDMainMenu_UpdateVisibilityState(4);
             break;
         case 7:
             bPickResultFound = FUN_007a8ba0();
@@ -6712,7 +6785,7 @@ void FUN_007094f0()
         case 9: {
             NameMenu* pkNameMenu = new NameMenu(0, 0);
             NameTile* pkTile = new NameTile;
-            pkNameMenu->FUN_00a087d0(FUN_004b7210()->FUN_00586150(), 0);
+            pkNameMenu->FUN_00a087d0(InterfaceManager_GetSingleton()->FUN_00586150(), 0);
             pkNameMenu->FUN_00707e10(s_szPlayerNameEntryMenu);
             pkTile->FUN_00a1dc70(pkNameMenu, 1);
             pkNameMenu->FUN_00409480(pkTile);
@@ -6725,7 +6798,7 @@ void FUN_007094f0()
             DAT_011d8954 = 0;
         }
     }
-    if (DAT_011d8998 && (!FUN_004b7210()->uiPipboyMode || DAT_011d8998 == 6 || DAT_011d8998 == 7))
+    if (DAT_011d8998 && (!InterfaceManager_GetSingleton()->uiPipboyMode || DAT_011d8998 == 6 || DAT_011d8998 == 7))
     {
         bool bSuccess2 = false;
         switch (DAT_011d8998)

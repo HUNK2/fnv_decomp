@@ -97,7 +97,7 @@ struct Node
     virtual void vf0c();
     virtual SceneChildListView* GetChildren();
 
-    int FUN_0043b230();
+    int NiObjectNET_GetControllers();
 };
 
 // @fnv 0x004a9240
@@ -106,7 +106,7 @@ int __cdecl FUN_004a9240(Node* node)
     if (node == 0)
         return 0;
     int count = 0;
-    switch (node->FUN_0043b230())
+    switch (node->NiObjectNET_GetControllers())
     {
     case 3:
         return 1;

@@ -21,7 +21,8 @@ char __stdcall FUN_00a51210(char acValue)
 extern "C" void* g_011f4024;
 
 // @fnv 0x00a51770
-void* __cdecl FUN_00a51770()
+// src: COMMUNITY 0x00a51770
+void* __cdecl NiBSplineCompColorInterpolator_GetRTTI()
 {
     return &g_011f4024;
 }

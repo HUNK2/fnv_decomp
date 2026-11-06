@@ -561,7 +561,7 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
             if (DAT_011f4748->unk208 == true)
                 DAT_011f4748->vf64(&color);
         }
-        spr->FUN_00a87790(DAT_011f4748);
+        spr->NiScreenElements_Draw(DAT_011f4748);
         DAT_011ae5d4 = false;
     }
 }

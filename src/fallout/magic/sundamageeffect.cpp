@@ -79,7 +79,7 @@ struct S_00829bb0_Val
 
 struct S_00829bb0_Proc
 {
-    S_00829bb0_Val* FUN_0044edb0();
+    S_00829bb0_Val* TESMain_GetThread();
     S_00829bb0_Val* FUN_00825c00();
     float FUN_006447d0();
 };
@@ -356,7 +356,7 @@ void SunDamageEffect::UpdateEffect(float arg)
                     DAT_011a14f8 = DAT_011a14f8 - arg;
                 }
                 proc = DAT_011dea10->FUN_008d8520();
-                float fValue = proc->FUN_0044edb0() ? proc->FUN_0044edb0()->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
+                float fValue = proc->TESMain_GetThread() ? proc->TESMain_GetThread()->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
                 if (proc->FUN_00825c00())
                 {
                     float w = proc->FUN_006447d0();
@@ -538,7 +538,8 @@ void SunDamageEffect::FUN_00829e00(bool abApply)
 
 // Allocates and constructs a SunDamageEffect from the given caster, item and effect item.
 // @fnv 0x0082a0d0
-SunDamageEffect* FUN_0082a0d0(MagicCaster* apCaster, MagicItem* apItem, EffectItem* apEffect)
+// src: COMMUNITY 0x0082a0d0
+SunDamageEffect* SunDamageEffect_Create(MagicCaster* apCaster, MagicItem* apItem, EffectItem* apEffect)
 {
     return new SunDamageEffect(apCaster, apItem, apEffect);
 }
@@ -683,9 +684,9 @@ struct H_Calls
     bool FUN_00454b10();
     H_Calls* FUN_008d8520();
     float GetFieldEC();
-    float FUN_00595ea0();
-    float FUN_00596030();
-    H_Calls* FUN_0044edb0();
+    float Sky_GetSunriseBegin();
+    float Sky_GetSunsetEnd();
+    H_Calls* TESMain_GetThread();
     float FUN_004ed230(int, float, float);
     H_Calls* FUN_00825c00();
     float FUN_006447d0();
@@ -715,10 +716,10 @@ double SunDamageEffect::FUN_0082a1b0()
         float v_;
         obj = ((H_Calls*)DAT_011dea10)->FUN_008d8520();
         aF1c = obj->GetFieldEC();
-        f4 = obj->FUN_00595ea0();
-        f18 = obj->FUN_00596030();
+        f4 = obj->Sky_GetSunriseBegin();
+        f18 = obj->Sky_GetSunsetEnd();
         b9 = true;
-        vTmp = obj->FUN_0044edb0() ? obj->FUN_0044edb0()->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
+        vTmp = obj->TESMain_GetThread() ? obj->TESMain_GetThread()->FUN_004ed230(5, 1.0f, 0.0f) : 0.0f;
         if (obj->FUN_00825c00())
         {
             v_ = obj->FUN_006447d0();

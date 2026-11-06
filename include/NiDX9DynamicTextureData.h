@@ -18,9 +18,9 @@ public:
     virtual void vf42();
     virtual void vf43();
     virtual void vf44();
-    virtual int FUN_00e902d0();
-    virtual char FUN_00e902e0();
-    virtual void FUN_00e902f0(bool v);
+    virtual int GetTexture_00e902d0();
+    virtual char IsTextureLocked();
+    virtual void SetTextureLocked(bool v);
 
     const NiPixelFormatStandIn* CreateSurf_00e90340(DynamicTextureStandIn* pkTexture, bool bDynamic);
 

@@ -146,9 +146,9 @@ public:
     bool FUN_004c0bf0();
     bool FUN_004ad030();
     bool FUN_0046e8c0();
-    void FUN_0051f4b0(BGSProjectile* projectile);
+    void TESCreature_SetMaterialType(BGSProjectile* projectile);
     void FUN_0051f4f0(SpellItem* effect);
-    void FUN_0051f530(SpellItem* effect);
+    void TESObjectWEAP_SetVATSEffect(SpellItem* effect);
     void FUN_00521580(unsigned char value);
     void FUN_00521650(TESSound* sound);
 

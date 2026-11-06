@@ -7,7 +7,7 @@
 
 struct ResetField
 {
-    void __thiscall FUN_00e10a00();
+    void __thiscall return_input_and_0_it_1();
 };
 struct EmbeddedState
 {
@@ -70,7 +70,7 @@ struct FUN_00de4470_class
 // @fnv 0x00de4470
 void* __thiscall FUN_00de4470_class::InitializeDefaults()
 {
-    reset.FUN_00e10a00();
+    reset.return_input_and_0_it_1();
     unk08 = 0.25f;
     unk18 = 24;
     unk04 = 0.75f;
@@ -195,11 +195,12 @@ struct FUN_00de47d0_cls
     int unk14;
     int unk18;
     float m_fValue;
-    void FUN_00de47d0(float afValue);
+    void hkpConstraintDrawer_setScale(float afValue);
 };
 
 // @fnv 0x00de47d0
-void FUN_00de47d0_cls::FUN_00de47d0(float afValue)
+// src: COMMUNITY 0x00de47d0
+void FUN_00de47d0_cls::hkpConstraintDrawer_setScale(float afValue)
 {
     m_fValue = afValue;
 }
@@ -255,12 +256,13 @@ struct FUN_00de4530Owner
     Vec4 unkb0;
     Struct00e10d50 unkc0;
 
-    void FUN_00de4530(int arg1, int arg2);
+    void hkpConstraintDrawer_drawBodyFrames(int arg1, int arg2);
 };
 
 // Draws two triangles as six lines through unkc0.FUN_00e10d50, with width unk1c * unk0c * 0.2 and fixed or PackColorBigEndian colors.
 // @fnv 0x00de4530
-void FUN_00de4530Owner::FUN_00de4530(int arg1, int arg2)
+// src: COMMUNITY 0x00de4530
+void FUN_00de4530Owner::hkpConstraintDrawer_drawBodyFrames(int arg1, int arg2)
 {
     unsigned int color1 = PackColorBigEndian(1.0f, 1.0f, 0.0f, 1.0f);
     unsigned int color2 = PackColorBigEndian(1.0f, DAT_01016248, 0.0f, 1.0f);
@@ -303,12 +305,13 @@ void FUN_00de4530Owner::FUN_00de4530(int arg1, int arg2)
 class FUN_00de47e0_cls
 {
   public:
-    void FUN_00de47e0(char* a1, __m128* a2, __m128* a3);
+    void hkpConstraintDrawer_updateCommonParameters(char* a1, __m128* a2, __m128* a3);
 };
 
 // Copies 16-byte blocks from two objects at offset 0xf0 into a2 and a3, then stores them into this object at scattered offsets.
 // @fnv 0x00de47e0
-void FUN_00de47e0_cls::FUN_00de47e0(char* a1, __m128* apOutA, __m128* apOutB)
+// src: COMMUNITY 0x00de47e0
+void FUN_00de47e0_cls::hkpConstraintDrawer_updateCommonParameters(char* a1, __m128* apOutA, __m128* apOutB)
 {
     char* pFirst = *(char**)(a1 + 0x18);
     char* pSecond = *(char**)(a1 + 0x14);

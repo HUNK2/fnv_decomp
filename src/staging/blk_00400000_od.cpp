@@ -23,11 +23,12 @@ extern int $SG3295;
 
 struct FUN_00401280_Class
 {
-    int* __thiscall FUN_00401280();
+    int* __thiscall retn_empty_string();
 };
 
 // @fnv 0x00401280
-int* __thiscall FUN_00401280_Class::FUN_00401280()
+// src: COMMUNITY 0x00401280
+int* __thiscall FUN_00401280_Class::retn_empty_string()
 {
     return &$SG3295;
 }
@@ -173,11 +174,12 @@ void FUN_00407860_class::FUN_00407860(float value)
 
 struct FUN_00407880_Class
 {
-    void FUN_00407880(float value);
+    void Explosion_SetOuterRadius(float value);
 };
 
 // @fnv 0x00407880
-void FUN_00407880_Class::FUN_00407880(float value)
+// src: COMMUNITY 0x00407880
+void FUN_00407880_Class::Explosion_SetOuterRadius(float value)
 {
     *(float*)((char*)this + 0x94) = value;
 }
@@ -192,11 +194,12 @@ void* __cdecl GetEntryByIndex(int index)
 
 struct FUN_00409130_Class
 {
-    int __thiscall FUN_00409130();
+    int __thiscall EnchantmentItem_GetChunkID();
 };
 
 // @fnv 0x00409130
-int __thiscall FUN_00409130_Class::FUN_00409130()
+// src: COMMUNITY 0x00409130
+int __thiscall FUN_00409130_Class::EnchantmentItem_GetChunkID()
 {
     return 0x54494e45;
 }
@@ -219,11 +222,12 @@ struct ContainerItemExtraFileData
 
 struct FUN_004098d0_class
 {
-    void FUN_004098d0();
+    void EnchantmentItem_Endian_0();
 };
 
 // @fnv 0x004098d0
-void FUN_004098d0_class::FUN_004098d0()
+// src: COMMUNITY 0x004098d0
+void FUN_004098d0_class::EnchantmentItem_Endian_0()
 {
     ((ContainerItemExtraFileData*)((char*)this + 0x34))->Endian();
 }
@@ -317,14 +321,16 @@ void __thiscall FUN_004181c0_class::SetIndexedValue(int index, int value)
 }
 
 // @fnv 0x00418200
-BSExtraData* __fastcall FUN_00418200(BaseExtraList* extras)
+// src: COMMUNITY 0x00418200
+BSExtraData* __fastcall ExtraDataList_GetAnimSave(BaseExtraList* extras)
 {
     BSExtraData* result = extras->GetExtraData(0x2d);
     return result;
 }
 
 // @fnv 0x0041af30
-void __fastcall FUN_0041af30(BaseExtraList* extras)
+// src: COMMUNITY 0x0041af30
+void __fastcall ExtraDataList_RemovePoison(BaseExtraList* extras)
 {
     extras->RemoveExtra(static_cast<unsigned char>(0x3f));
 }
@@ -405,20 +411,22 @@ void* BSExtraData::FUN_0040ecd0(unsigned int flags)
 
 struct FUN_00401270_Class
 {
-    bool __thiscall FUN_00401270(int, int, int, int, int);
+    bool __thiscall TESForm_ActivateRef(int, int, int, int, int);
 };
 // @fnv 0x00401270
-bool __thiscall FUN_00401270_Class::FUN_00401270(int a, int b, int c, int d, int e)
+// src: COMMUNITY 0x00401270
+bool __thiscall FUN_00401270_Class::TESForm_ActivateRef(int a, int b, int c, int d, int e)
 {
     return 0;
 }
 
 struct FUN_00401290_Class
 {
-    char __thiscall FUN_00401290(int);
+    char __thiscall retn1_(int);
 };
 // @fnv 0x00401290
-char __thiscall FUN_00401290_Class::FUN_00401290(int)
+// src: COMMUNITY 0x00401290
+char __thiscall FUN_00401290_Class::retn1_(int)
 {
     return 1;
 }
@@ -458,12 +466,13 @@ void* __cdecl FUN_004027e0(unsigned int index)
 
 struct FUN_00402a20_class
 {
-    void __thiscall FUN_00402a20(unsigned int flags, bool set);
+    void __thiscall AlchemyItem_SetFlag(unsigned int flags, bool set);
 };
 
 // Sets or clears the given flag bits in the byte at offset 0xbc of this object.
 // @fnv 0x00402a20
-void __thiscall FUN_00402a20_class::FUN_00402a20(unsigned int flags, bool set)
+// src: COMMUNITY 0x00402a20
+void __thiscall FUN_00402a20_class::AlchemyItem_SetFlag(unsigned int flags, bool set)
 {
     set ? ((unsigned char*)(this))[0xbc] |= flags : ((unsigned char*)(this))[0xbc] &= ~flags;
 }
@@ -573,17 +582,18 @@ int* __thiscall FUN_00408da0_Class::FUN_00408da0()
 
 struct Inner0040e230
 {
-    void __thiscall FUN_0040e230(int, bool);
+    void __thiscall SpellItem_SetFlag(int, bool);
 };
 struct Outer00409100
 {
-    void __thiscall FUN_00409100(bool);
+    void __thiscall EnchantmentItem_SetAutoCalc(bool);
 };
 // Calls FUN_0040e230 on the inner object at this-0x18 with 1 and the inverse of b.
 // @fnv 0x00409100
-void __thiscall Outer00409100::FUN_00409100(bool b)
+// src: COMMUNITY 0x00409100
+void __thiscall Outer00409100::EnchantmentItem_SetAutoCalc(bool b)
 {
-    ((Inner0040e230*)((char*)this - 0x18))->FUN_0040e230(1, !b);
+    ((Inner0040e230*)((char*)this - 0x18))->SpellItem_SetFlag(1, !b);
 }
 
 struct TESSound;
@@ -637,12 +647,13 @@ SettingBase_01012120* __thiscall SettingBase_01012120::FUN_0040e130(const char* 
 struct FUN_0040e230_Class
 {
     unsigned char bFlags;
-    void __thiscall FUN_0040e230(unsigned int flags, bool set);
+    void __thiscall SpellItem_SetFlag(unsigned int flags, bool set);
 };
 
 // Sets or clears the given flag bits in the byte at offset 0x40 of this object.
 // @fnv 0x0040e230
-void __thiscall FUN_0040e230_Class::FUN_0040e230(unsigned int flags, bool set)
+// src: COMMUNITY 0x0040e230
+void __thiscall FUN_0040e230_Class::SpellItem_SetFlag(unsigned int flags, bool set)
 {
     set ? ((unsigned char*)this)[0x40] |= flags : ((unsigned char*)this)[0x40] &= ~flags;
 }
@@ -797,7 +808,8 @@ FUN_00411ea0::~FUN_00411ea0()
 }  // namespace fnv_00411ea0
 
 // @fnv 0x0041af50
-void __fastcall FUN_0041af50(BaseExtraList* extras)
+// src: COMMUNITY 0x0041af50
+void __fastcall ExtraDataList_RemoveScript(BaseExtraList* extras)
 {
     extras->RemoveExtra(static_cast<unsigned char>(0xd));
 }
@@ -1086,7 +1098,8 @@ struct ItemExtraList
 };
 // Returns false if object or effect is null; otherwise checks object form type, effect flag bits and extra list; true for form type 43.
 // @fnv 0x00409720
-bool __cdecl FUN_00409720(TESBoundObject* object, ItemExtraList* extra, EffectSetting* effect)
+// src: COMMUNITY 0x00409720
+bool __cdecl EnchantmentItem_IsValidEffectForEnchantment(TESBoundObject* object, ItemExtraList* extra, EffectSetting* effect)
 {
     if (!object || !effect)
         return false;
@@ -1159,7 +1172,8 @@ struct FUN_00480ad0_shell
 };
 
 // @fnv 0x0040dfa0
-bool __cdecl FUN_0040dfa0(EffectItem* timer1, EffectItem* timer2)
+// src: COMMUNITY 0x0040dfa0
+bool __cdecl MagicSystem_CheckBoundItemEffects(EffectItem* timer1, EffectItem* timer2)
 {
     if (timer1 == 0 || timer2 == 0)
         return false;

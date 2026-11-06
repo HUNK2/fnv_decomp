@@ -109,11 +109,11 @@ template <class T> class MyList
     struct Allocator
     {
         unsigned int count;
-        NiTListItem<T>* FUN_0043a010();
+        NiTListItem<T>* NiGeometry_AddProperty();
     } allocator;
     __declspec(noinline) void FUN_00a5a310(const T& value)
     {
-        NiTListItem<T>* node = allocator.FUN_0043a010();
+        NiTListItem<T>* node = allocator.NiGeometry_AddProperty();
         node->m_element = value;
         node->m_pkNext = 0;
         node->m_pkPrev = tail;

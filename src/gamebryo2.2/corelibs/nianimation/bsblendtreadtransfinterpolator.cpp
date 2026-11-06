@@ -26,7 +26,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3ed0;
 
 // @fnv 0x00a42fe0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a42fe0()
+// src: COMMUNITY 0x00a42fe0
+GlobalObjectO2_00a7b610* __cdecl BSBlendTreadTransfInterpolator_GetRTTI()
 {
     return &g_011f3ed0;
 }
@@ -54,7 +55,8 @@ NiObject* BSBlendTreadTransfInterpolator::MakeClone(CloningProcess& kCloning)
 }
 
 // @fnv 0x00a39100
-bool __stdcall FUN_00a39100(NiInterpolator* pkInterpolator)
+// src: COMMUNITY 0x00a39100
+bool __stdcall NiBlendAccumTransformInterpolator_InterpolatorIsCorrectType(NiInterpolator* pkInterpolator)
 {
     return pkInterpolator->IsTransformValueSupported();
 }

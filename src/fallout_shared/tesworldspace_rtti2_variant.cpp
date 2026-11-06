@@ -45,7 +45,7 @@ bool WorldSpaceComparison::FUN_00585250(TESForm* form)
         return true;
     if (fieldD0 != other->fieldD0)
         return true;
-    if (FUN_00585fe0() != other->FUN_00585fe0())
+    if (GetClimate() != other->GetClimate())
         return true;
     if (ImageSpace() != other->ImageSpace())
         return true;
@@ -58,7 +58,7 @@ bool WorldSpaceComparison::FUN_00585250(TESForm* form)
         return true;
     if (Water() != other->Water())
         return true;
-    if (FUN_005860c0() != other->FUN_005860c0())
+    if (GetLODWaterType() != other->GetLODWaterType())
         return true;
     if (Height() != other->Height())
         return true;

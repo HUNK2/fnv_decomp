@@ -27,8 +27,8 @@
 const char* __cdecl FUN_007ab810();
 struct BSAudio_
 {
-    void FUN_00ad8510(int, int);
-    void FUN_007eb8a0();
+    void BSAudio_PauseAllOfType(int, int);
+    void BSAudio_PauseWorldSounds();
 };
 extern "C" void __cdecl FUN_007004e0();
 struct FUN_007f7770_Class
@@ -39,7 +39,7 @@ struct FUN_007f7770_Class
 extern float DAT_012007d0;
 extern float DAT_012007d4;
 extern char DAT_011ae5d4;
-void __cdecl FUN_007f7a50(float a, float b);
+void __cdecl ImageSpaceShaderMenuUnpack_SetOffset(float a, float b);
 struct Flt
 {
     operator unsigned int();
@@ -56,7 +56,7 @@ struct FUN_007fd620_Class
 };
 
 extern ::BSStringT<char> g_011daed8;
-void __cdecl FUN_007e65b0();
+void __cdecl TextInputCloseHook();
 void __cdecl DestroyList(void*);
 struct FUN_007f69d0_Class
 {
@@ -91,7 +91,7 @@ struct Loader_S
 extern Loader_S* g_modelLoader;
 extern int DAT_011a0bb0;
 extern Flt g_011db63c;
-void FUN_007ffe00();
+void PurgeTerminalModel();
 struct FUN_007e0e30_Class
 {
     void* m_p;
@@ -124,7 +124,7 @@ struct SimpleList
     SimpleList* __thiscall GetNext();
 };
 extern SimpleList* DAT_011daec4;
-void FUN_007e65b0();
+void TextInputCloseHook();
 struct ListX
 {
     ~ListX();
@@ -162,7 +162,7 @@ struct FUN_007e0d80_shell : Flt
 };
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 int FUN_007e1970();
-int __cdecl FUN_007e65a0();
+int __cdecl TextEdit_GetMenuID();
 struct SysMgr
 {
     void Init(int a, int b);
@@ -344,7 +344,7 @@ ShadowSceneNode* __cdecl FUN_00450b80(unsigned int uiIndex);
 class Light7FD
 {
   public:
-    void FUN_007fd660(float fScale);
+    void FORenderedMenuRaceSex_SetupLights(float fScale);
 
     int unk000, unk004, unk008, unk00C, unk010, unk014, unk018, unk01C;
     int unk020, unk024, unk028, unk02C, unk030, unk034, unk038, unk03C;
@@ -472,7 +472,7 @@ struct ListOwner
     void Select(Tile*);
     void Update();
     int Mode();
-    Tile* FUN_007e0e70(int data, const char* text, void* compare, const char* name);
+    Tile* StatsMenu_PerksList_Append(int data, const char* text, void* compare, const char* name);
 };
 struct WXObject;
 template <class T> struct WXPointer
@@ -794,9 +794,9 @@ struct RemoveInterface
     void FUN_00715860(RemoveTile*, int, bool);
     Tile* FUN_00586150(const char* path);
 };
-RemoveInterface* FUN_004b7210();
+RemoveInterface* InterfaceManager_GetSingleton();
 int FUN_00a01860(const char*);
-void FUN_00401030(void*);
+void FormHeapFreeAndLog_00401030(void*);
 struct RemoveBase
 {
     int unk00;
@@ -822,23 +822,24 @@ struct TextEditSetting
 
 
 Menu* __cdecl FUN_00a09030(int menuID);
-RemoveInterface* __cdecl FUN_004b7210();
+RemoveInterface* __cdecl InterfaceManager_GetSingleton();
 float __cdecl FUN_00a01530();
 extern TextEditSetting DAT_011d38b8;
 extern TextEditMenu* g_011daec4;
 
 // @fnv 0x007e6320
-bool __cdecl FUN_007e6320(const char* titleText, const char* initialText, void(__cdecl* callback)(const char*))
+// src: COMMUNITY 0x007e6320
+bool __cdecl TextEditMenu_Create(const char* titleText, const char* initialText, void(__cdecl* callback)(const char*))
 {
     Menu* previous = FUN_00a09030(0x41b);
     if (previous)
         delete previous;
 
-    RemoveInterface* interfaceManager = FUN_004b7210();
+    RemoveInterface* interfaceManager = InterfaceManager_GetSingleton();
     float depthA = FUN_00a01530();
     Tile* root2 = interfaceManager->FUN_00586150("Data\\Menus\\Dialog\\TextEditMenu.xml")->FUN_00a01b00();
-    Menu* menu = root2->FUN_00a03c90();
-    if (menu && menu->GetClass() == FUN_007e65a0())
+    Menu* menu = root2->Tile_GetMenu();
+    if (menu && menu->GetClass() == TextEdit_GetMenuID())
     {
         menu->FUN_00a1dc70(dynamic_cast<TileMenu*>(root2), false);
         g_011daec4 = dynamic_cast<TextEditMenu*>(menu);
@@ -847,9 +848,9 @@ bool __cdecl FUN_007e6320(const char* titleText, const char* initialText, void(_
 
         g_011daec4->title->FUN_00a01350(0xfc4, titleText, true);
         g_011daec4->input->FUN_00a01350(0xfc4, initialText, true);
-        g_011daec4->editor.FUN_00716aa0((int)g_011daec4->input->FUN_00a011b0(0xfba));
+        g_011daec4->editor.EditableTextField_SetMaxSize((int)g_011daec4->input->FUN_00a011b0(0xfba));
         g_011daec4->editor.SetBothStrings(g_011daec4->input->FUN_00a011f0(0xfc4));
-        g_011daec4->editor.FUN_00717010(true);
+        g_011daec4->editor.TextEditMenu_Data_SetIsActive(true);
         g_011daec4->editor.FUN_007e6580(true);
         g_011daec4->accept->FUN_00a01350(0xfc4, DAT_011d38b8.FUN_00403df0(), true);
         g_011daec4->callback = callback;

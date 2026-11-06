@@ -418,7 +418,8 @@ bool __fastcall FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
 
 extern const char* const g_011f4a28_arg1;
 // @fnv 0x00a69060
-const char* const* FUN_00a69060()
+// src: COMMUNITY 0x00a69060
+const char* const* NiDynamicEffect_GetRTTI()
 {
     return &g_011f4a28_arg1;
 }
@@ -445,7 +446,8 @@ FUN_00a69e00::FUN_00a69e00(void* apTexture, unsigned short ausLowFlags, short as
 }
 
 // @fnv 0x00a6a000
-int FUN_00a6a000()
+// src: COMMUNITY 0x00a6a000
+int NiShadeProperty_Type()
 {
     return 3;
 }
@@ -453,7 +455,8 @@ int FUN_00a6a000()
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f49a4;
 // @fnv 0x00a6a140
-GlobalObjectO2_00a7b610* FUN_00a6a140()
+// src: COMMUNITY 0x00a6a140
+GlobalObjectO2_00a7b610* NiTexturingProperty_GetRTTI()
 {
     return &g_011f49a4;
 }
@@ -710,7 +713,7 @@ bool S_A69F80::MatchesValue(S_A69F80* pkObject)
 namespace fnv_00a6bac0 {
 struct MapBase
 {
-    void FUN_00a6b830(NiStream&);
+    void NiTexturingProperty_Map_SaveBinary(NiStream&);
 };
 struct Holder
 {
@@ -722,7 +725,7 @@ struct Holder
 // @fnv 0x00a6bac0
 void Holder::WriteToStream(NiStream& aStream)
 {
-    ((MapBase*)this)->FUN_00a6b830(aStream);
+    ((MapBase*)this)->NiTexturingProperty_Map_SaveBinary(aStream);
     NiBinaryStream* __restrict ostr = TexturingOutputStream(aStream);
     unsigned int size = 4;
     ostr->BinaryWrite(&this->_v, 4, &size, 1);
@@ -1181,7 +1184,7 @@ class A6B830Child
 class A6B830Helper
 {
   public:
-    void FUN_00a6b830(A6B830Stream& kStream);
+    void NiTexturingProperty_Map_SaveBinary(A6B830Stream& kStream);
 
     int unk00;
     unsigned short m_usFlags;
@@ -1192,7 +1195,8 @@ class A6B830Helper
 
 // Writes the target link ID, flags, a child-present flag and, if present, the child's binary data to the stream.
 // @fnv 0x00a6b830
-void A6B830Helper::FUN_00a6b830(A6B830Stream& kStream)
+// src: COMMUNITY 0x00a6b830
+void A6B830Helper::NiTexturingProperty_Map_SaveBinary(A6B830Stream& kStream)
 {
     kStream.SaveLinkID(m_pkTarget);
     A6B830SaveBinary(kStream, m_usFlags);
@@ -1206,12 +1210,13 @@ void A6B830Helper::FUN_00a6b830(A6B830Stream& kStream)
 class A6B8C0BumpMap : public NiTexturingProperty::BumpMap
 {
   public:
-    void FUN_00a6b8c0(NiStream& kStream);
+    void NiTexturingProperty_BumpMap_LoadBinary(NiStream& kStream);
 };
 
 // Loads the base map data from kStream, then reads six float values into the bump map's luma and matrix fields.
 // @fnv 0x00a6b8c0
-void A6B8C0BumpMap::FUN_00a6b8c0(NiStream& kStream)
+// src: COMMUNITY 0x00a6b8c0
+void A6B8C0BumpMap::NiTexturingProperty_BumpMap_LoadBinary(NiStream& kStream)
 {
     Map::LoadBinary(kStream);
     ReadBinaryValue(kStream, m_fLumaScale);
@@ -1386,14 +1391,14 @@ struct S_00a6b9a0
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int unk24;
-    void FUN_00a6b830(S_00a6b9a0_Stream*);
+    void NiTexturingProperty_Map_SaveBinary(S_00a6b9a0_Stream*);
     void ReadFromStream(S_00a6b9a0_Stream* s);
 };
 // Calls FUN_00a6b830, then writes six 4-byte values from unk10 through unk24 to the stream.
 // @fnv 0x00a6b9a0
 void S_00a6b9a0::ReadFromStream(S_00a6b9a0_Stream* pStream)
 {
-    FUN_00a6b830(pStream);
+    NiTexturingProperty_Map_SaveBinary(pStream);
     NiBinaryWrite(pStream->unk250, &unk10, 4);
     NiBinaryWrite(pStream->unk250, &unk14, 4);
     NiBinaryWrite(pStream->unk250, &unk18, 4);
@@ -1668,7 +1673,7 @@ extern GlobalObjectO2_00a7b610 g_011f49a4;
 int __cdecl NiSprintf(char*, unsigned int, const char*, ...);
 char* BuildTextureAddressModeString(const char*, int);
 char* BuildFilterModeString(const char*, int);
-char* FUN_00a7d330(char*);
+char* NiViewerStrings_NiGetViewerString_Title(char*);
 char* FUN_00a7d4d0(const char*, int);
 char* FUN_00a7d510(const char*, unsigned int);
 char* FUN_00a7d550(const char*, float);
@@ -1716,7 +1721,7 @@ void __fastcall AppendTexturingPropertyInfo(NiTexturingProperty* self, int, NiTP
 {
     reinterpret_cast<FUN_00a62a40_this*>(self)->AppendString(strings);
     {
-        char* header = FUN_00a7d330(g_011f49a4.m_pcName);
+        char* header = NiViewerStrings_NiGetViewerString_Title(g_011f49a4.m_pcName);
         AppendString(strings, header);
     }
     unsigned int count = self->m_kStringArray.m_usSize;
@@ -1939,7 +1944,8 @@ void __fastcall LinkTexturingProperty(NiTexturingProperty* self, int, NiStream& 
 }
 
 // @fnv 0x00e7cd40
-int __cdecl FUN_00e7cd40()
+// src: COMMUNITY 0x00e7cd40
+int __cdecl Ret0()
 {
     return 0;
 }

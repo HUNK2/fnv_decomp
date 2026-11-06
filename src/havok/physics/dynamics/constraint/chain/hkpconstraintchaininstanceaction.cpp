@@ -13,7 +13,8 @@ void __fastcall hkpConstraintChainInstanceAction_entityRemovedCallback(hkpConstr
 }
 
 // @fnv 0x00e063c0
-void __stdcall FUN_00e063c0(int)
+// src: COMMUNITY 0x00e063c0
+void __stdcall nullsub_82(int)
 {}
 
 // @fnv 0x00e063d0

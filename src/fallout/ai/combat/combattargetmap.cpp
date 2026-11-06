@@ -54,7 +54,8 @@ struct _Node_006f99e0
 };
 
 // @fnv 0x006f99e0
-void* __fastcall FUN_006f99e0(void* _this)
+// src: COMMUNITY 0x006f99e0
+void* __fastcall ImpactImpactMap_NewItem(void* _this)
 {
     return new _Node_006f99e0;
 }

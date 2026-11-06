@@ -2050,7 +2050,7 @@ inline NBool NManifold::ContainsKey(const NFeature& f)
 }
 struct NInverse
 {
-    void FUN_004b4ab0(const NR&, const NV&);
+    void hkVector4_setRotatedInverseDir(const NR&, const NV&);
 };
 unsigned int PackFloatsToUInt(const NV&);
 struct NDetector
@@ -2262,7 +2262,7 @@ __forceinline NBool NDetector::query(NManifold& m) const
     if (!m.normalSet)
     {
         NV n;
-        ((NInverse*)&n)->FUN_004b4ab0(reinterpret_cast<const NR&>(aTb.getRotation()), m.normal);
+        ((NInverse*)&n)->hkVector4_setRotatedInverseDir(reinterpret_cast<const NR&>(aTb.getRotation()), m.normal);
         m.normalSet = true;
         m.packed = PackFloatsToUInt(n);
         return true;

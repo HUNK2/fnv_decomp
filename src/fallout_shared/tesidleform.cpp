@@ -54,7 +54,7 @@ bool TESIdleForm::IsValidForReferences(TESObjectREFR* actionRef, TESObjectREFR* 
 // @fnv 0x005fe400
 void TESIdleForm::ClearData()
 {
-    if (g_dataHandler->FUN_004516b0() && !g_dataHandler->FUN_004226e0() && DAT_011cb6a0->FUN_00843150() &&
+    if (g_dataHandler->FUN_004516b0() && !g_dataHandler->FUN_004226e0() && DAT_011cb6a0->InterfaceManager_GetMagicPageNumber() &&
         GetInitialized())
         UnregisterIdleForm();
     reinterpret_cast<PerkEntryConditionSet*>(reinterpret_cast<TESTopicInfo*>(this)->GetAddTopicList())
@@ -86,7 +86,7 @@ TESIdleForm* TESIdleForm::FindIdleFormForObject(TESObjectREFR* actionRef, TESObj
             if (!delayed)
                 idle = this;
         }
-        else if (FUN_005ff1d0())
+        else if (TESIdleForm_GetAllowNoFile())
             idle = this;
         unsigned int count = GetChildCount();
         if (count)
@@ -317,12 +317,13 @@ void FUN_005ff190_shell::FUN_005ff190(bool set)
 
 struct FUN_005ff1d0_shell : public TESIdleForm
 {
-    bool FUN_005ff1d0();
+    bool TESIdleForm_GetAllowNoFile();
 };
 
 // Returns true when the flag bit 0x80 is set in the byte at offset 0x38 of this TESIdleForm, otherwise false.
 // @fnv 0x005ff1d0
-bool FUN_005ff1d0_shell::FUN_005ff1d0()
+// src: COMMUNITY 0x005ff1d0
+bool FUN_005ff1d0_shell::TESIdleForm_GetAllowNoFile()
 {
     if (*(unsigned char*)((char*)this + 0x38) & 0x80)
         return true;
@@ -363,11 +364,12 @@ void FUN_005ff220_shell::SetFlag40(bool abSet)
 struct FUN_005ff260_shell
 {
     unsigned char m_3e;
-    bool FUN_005ff260();
+    bool TESIdleForm_GetNoAttacking();
 };
 
 // @fnv 0x005ff260
-bool FUN_005ff260_shell::FUN_005ff260()
+// src: COMMUNITY 0x005ff260
+bool FUN_005ff260_shell::TESIdleForm_GetNoAttacking()
 {
     if (reinterpret_cast<unsigned char*>(this)[0x3e] & 1)
         return true;
@@ -377,12 +379,13 @@ bool FUN_005ff260_shell::FUN_005ff260()
 
 struct FUN_005ff4a0_shell : public TESIdleForm
 {
-    unsigned int FUN_005ff4a0();
+    unsigned int TESIdleForm_GetChildCount();
 };
 
 // Returns the form ID of the TESForm pointer stored at offset 0x40, or 0 if that pointer is null.
 // @fnv 0x005ff4a0
-unsigned int FUN_005ff4a0_shell::FUN_005ff4a0()
+// src: COMMUNITY 0x005ff4a0
+unsigned int FUN_005ff4a0_shell::TESIdleForm_GetChildCount()
 {
     unsigned int iretval = 0;
     if (reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x40)[0])

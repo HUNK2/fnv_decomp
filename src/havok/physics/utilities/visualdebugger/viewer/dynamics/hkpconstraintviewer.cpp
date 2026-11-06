@@ -110,11 +110,11 @@ FUN_00d698b0::FUN_00d698b0(void* info) : D698B0Base(info)
 
 extern hkProcessFactory* hkProcessFactory_registerProcess;
 extern void* DAT_0126901c;
-void FUN_00d699c0();
+void hkpConstraintViewer_Create();
 // @fnv 0x00d69a00
 void RegisterConstraintsProcessFactory()
 {
-    DAT_0126901c = hkProcessFactory_registerProcess->RegisterProcess("Constraints", (void*)&FUN_00d699c0);
+    DAT_0126901c = hkProcessFactory_registerProcess->RegisterProcess("Constraints", (void*)&hkpConstraintViewer_Create);
 }
 
 struct S_00d69a20_Base
@@ -356,7 +356,8 @@ struct SpawnedObject
 
 // Allocates a 0x38-byte object from the audio allocator, sets its size, initializes it from apSource, and returns a pointer offset by 8 on success.
 // @fnv 0x00d699c0
-void* __cdecl FUN_00d699c0(void* apSource)
+// src: COMMUNITY 0x00d699c0
+void* __cdecl hkpConstraintViewer_Create(void* apSource)
 {
     hkMemoryRouter* pHolder = FUN_00c85750();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
@@ -926,7 +927,7 @@ struct __declspec(align(16)) Renderer
     int unkc8;
     int unkcc;
     void InitializeDefaults();
-    void FUN_00de47d0(float);
+    void hkpConstraintDrawer_setScale(float);
     void FireMotionEvent(Collidable*, void*, void*, void*);
     void FUN_00de7f20(Collidable*, void*, void*, void*);
     void FUN_00de7730(Collidable*, void*, void*, void*);
@@ -1182,56 +1183,56 @@ void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, En
     {
     case 0: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FireMotionEvent(object, context, position, DAT_0126901c);
         break;
     }
     case 1: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de7f20(object, context, position, DAT_0126901c);
         break;
     }
     case 2: {
         renderer.FUN_00d69a20();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de7a70(object, context, position, DAT_0126901c);
         ((Tail*)&renderer.unk0d0)->FUN_00da2560();
         break;
     }
     case 6: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de7730(object, context, position, DAT_0126901c);
         break;
     }
     case 8: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de7580(object, context, position, DAT_0126901c);
         break;
     }
     case 9: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de71d0(object, context, position, DAT_0126901c);
         break;
     }
     case 3: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de7020(object, context, position, DAT_0126901c);
         break;
     }
     case 14: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de6d80(object, context, position, DAT_0126901c);
         break;
     }
     case 7: {
         complexRenderer.FUN_00d69a40();
-        complexRenderer.FUN_00de47d0(DAT_011b6168);
+        complexRenderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         complexRenderer.FUN_00de6730(object, context, position, DAT_0126901c);
         complexRenderer.FUN_00d69a80();
         break;
@@ -1253,7 +1254,7 @@ void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, En
     }
     case 15: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de6550(object, context, position, DAT_0126901c);
         break;
     }
@@ -1261,20 +1262,20 @@ void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, En
     case 101:
     case 102: {
         renderer.InitializeDefaults();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FireChainConstraints(object, context, position, DAT_0126901c);
         break;
     }
     case 18: {
         renderer.FUN_00d69a20();
-        renderer.FUN_00de47d0(DAT_011b6168);
+        renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         renderer.FUN_00de5fe0(object, context, position, DAT_0126901c);
         ((Tail*)&renderer.unk0d0)->FUN_00da2560();
         break;
     }
     case 19: {
         complexRenderer.FUN_00d69a40();
-        complexRenderer.FUN_00de47d0(DAT_011b6168);
+        complexRenderer.hkpConstraintDrawer_setScale(DAT_011b6168);
         complexRenderer.FUN_00de59f0(object, context, position, DAT_0126901c);
         ((ComplexCleanup*)&complexRenderer)->FUN_00d69a80();
         break;

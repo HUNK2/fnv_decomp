@@ -32,6 +32,6 @@ float __cdecl FUN_0040ebd0(float, float);
 
 #include "../../include/NiBinaryStream.h"
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-bool __cdecl FUN_004d5880(NiBinaryStream*, char*, unsigned int);
+bool __cdecl LipSynchAnim_Decompress(NiBinaryStream*, char*, unsigned int);
 
 #endif

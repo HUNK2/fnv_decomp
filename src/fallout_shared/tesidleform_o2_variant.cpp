@@ -24,7 +24,7 @@ struct FUN_005ff190_shell
 };
 struct FUN_005ff1d0_shell : public TESIdleForm
 {
-    bool FUN_005ff1d0();
+    bool TESIdleForm_GetAllowNoFile();
 };
 struct FUN_005ff200_shell
 {
@@ -38,11 +38,11 @@ struct FUN_005ff220_shell
 struct FUN_005ff260_shell
 {
     unsigned char m_3e;
-    bool FUN_005ff260();
+    bool TESIdleForm_GetNoAttacking();
 };
 struct FUN_005ff4a0_shell : public TESIdleForm
 {
-    unsigned int FUN_005ff4a0();
+    unsigned int TESIdleForm_GetChildCount();
 };
 struct FUN_005ff160_shell : public TESIdleForm
 {

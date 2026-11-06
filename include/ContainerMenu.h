@@ -63,7 +63,7 @@ public:
     void UpdateContainer(TESObjectREFR*, bool);
     void FUN_0075c280(int);
     void FUN_0075c280(MenuForm*);
-    bool FUN_0075b710();
+    bool HasTiles();
     void FUN_0075baf0(TESObjectREFR*, bool);
     void FUN_0075bc80();
     void AttachAndDeliver(void*, void*, void*);

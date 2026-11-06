@@ -774,7 +774,7 @@ bool LowProcess::CheckForNewPackage(Actor* actor, bool force)
                 if (context.previous && context.previous != current &&
                     (!current || !current->IsPackageBlockingGreeting()))
                 {
-                    if (context.previous->FUN_008840f0() && g_thePlayer->GetParentCell() == actor->GetParentCell())
+                    if (context.previous->TESPackage_GetPCContinue() && g_thePlayer->GetParentCell() == actor->GetParentCell())
                     {
                         if (static_cast<const BaseProcess*>(this)->GetPackageInfoValue())
                             SetAnimationEnabled(true);
@@ -1160,7 +1160,7 @@ TESObjectREFR* LowProcess::ResolvePackageTarget(Actor* actor, TESPackage* packag
                     context.search = package;
                     if (package->HasSecondLocation())
                     {
-                        unsigned int distance = context.search->FUN_006758a0(actor);
+                        unsigned int distance = context.search->GetSearchLocationRadius(actor);
                         context.cell = context.search->GetPackageSecondLocationCell(actor);
                         reinterpret_cast<NiPoint3&>(context.location) = context.search->GetPackageSecondLocationPosition(actor);
                         context.radius =
@@ -1791,7 +1791,7 @@ TESObjectREFR* LowProcess::ResolvePackageLocation(Actor* actor, TESPackage* pack
         {
             result = actor->GetLinkedRef();
         }
-        else if (location->FUN_0067f970() && package->FUN_0067efd0())
+        else if (location->PackageLocation_IsLocationGeneric() && package->FUN_0067efd0())
         {
             if (m_kReferenceList68.IsEmpty())
             {
@@ -2018,7 +2018,7 @@ bool LowProcess::SelectNextPackage(Actor* actor)
         CombatController* mover;
         TESPackage* package;
     } context;
-    context.package = actor->FUN_00881450();
+    context.package = actor->GetPackage();
     if (context.package == GetCurrentPackage())
         return false;
     SetCurrentPackageAndTarget(context.package, actor);
@@ -2260,7 +2260,7 @@ void LowProcess::OnPackageStart(Actor* actor, TESPackage* package)
         Script* script = package->GetNextScript();
         if (script && (script->GetData() || reinterpret_cast<BGSMessageInitAccess*>(script)->GetIconFormID()))
             script->Run(actor, actor->GetExtraData()->GetScriptLocalData(), 0, true);
-        TESTopic* topic = package->FUN_00903cd0();
+        TESTopic* topic = package->TESPackage_GetOnChangeTopicInfo();
         if (topic)
             ProcessDialogueTopic(actor, topic, 0, 0, true, false);
     }
@@ -2311,10 +2311,10 @@ void LowProcess::OnPackageChanged(Actor* actor, TESPackage* package)
 {
     if (package)
     {
-        Script* script = package->FUN_00903bd0();
+        Script* script = package->TESPackage_GetOnBeginScript();
         if (script)
             script->Run(actor, actor->GetExtraData()->GetScriptLocalData(), 0, true);
-        TESTopic* topic = package->FUN_00903bb0();
+        TESTopic* topic = package->TESPackage_GetOnBeginTopicInfo();
         if (topic)
             ProcessDialogueTopic(actor, topic, 0, 0, true, false);
     }
@@ -2327,10 +2327,10 @@ void LowProcess::OnPackageEnd(Actor* actor, TESPackage* package)
 {
     if (package)
     {
-        Script* script = package->FUN_00903e20();
+        Script* script = package->TESPackage_GetOnEndScript();
         if (script)
             script->Run(actor, actor->GetExtraData()->GetScriptLocalData(), 0, true);
-        TESTopic* topic = package->FUN_00903e00();
+        TESTopic* topic = package->TESPackage_GetOnEndTopicInfo();
         if (topic)
             ProcessDialogueTopic(actor, topic, 0, 0, true, false);
     }
@@ -2531,7 +2531,8 @@ bool LowProcess::GetFlag(unsigned char uMask) const
 
 
 // @fnv 0x00911ae0
-float LowProcess::FUN_00911ae0(Actor* apActor, Actor* apTarget)
+// src: COMMUNITY 0x00911ae0
+float LowProcess::GetPotentialThreatDamage(Actor* apActor, Actor* apTarget)
 {
     float fPriority = 0.0f;
     return fPriority;
@@ -2862,7 +2863,8 @@ FUN_0090e600::FUN_0090e600()
 
 // Calls the virtual function at offset 298 with the actor, 0, 257 and 0.
 // @fnv 0x00911ed0
-void LowProcess::FUN_00911ed0(void* apActor)
+// src: COMMUNITY 0x00911ed0
+void LowProcess::ProcessSummonCreatureDefend(void* apActor)
 {
     UpdateActorPackage(static_cast<Actor*>(apActor), false, 257, false);
 }
@@ -2888,7 +2890,8 @@ template <int N> struct VT : VT<N - 1>
     virtual void vf(char (*)[N + 1]);
 };
 // @fnv 0x009134c0
-void LowProcess::FUN_009134c0(Actor* apAggressor, float afAmount)
+// src: COMMUNITY 0x009134c0
+void LowProcess::ModTrackedDamage(Actor* apAggressor, float afAmount)
 {
     if (apAggressor && (apAggressor->IsPlayerRef() || apAggressor->IsPlayerTeammate()))
     {
@@ -2899,7 +2902,8 @@ void LowProcess::FUN_009134c0(Actor* apAggressor, float afAmount)
 
 // Copies the float, uint and byte fields at offsets 0x0-0x44 from p into this when p is non-null.
 // @fnv 0x008675e0
-void LowProcess::FUN_008675e0(LowProcess* apSource)
+// src: COMMUNITY 0x008675e0
+void LowProcess::BaseProcess_CachedValues_Copy(LowProcess* apSource)
 {
     if (apSource)
     {
@@ -2960,14 +2964,16 @@ struct GameTimerRecord;
 extern GameTimerRecord g_timeGlobal;
 // Subtracts the value returned by the global time object's accessor from the holder's float field.
 // @fnv 0x00907620
-void LowProcess::FUN_00907620()
+// src: COMMUNITY 0x00907620
+void LowProcess::ModEssentialDownTimer()
 {
     m_fValue88 -= ((Twin_0084d030*)&g_timeGlobal)->GetStoredFloatValue();
 }
 
 // Calls the virtual w with apActor and 1.
 // @fnv 0x00908f40
-void LowProcess::FUN_00908f40(void* apActor)
+// src: COMMUNITY 0x00908f40
+void LowProcess::ProcessAvoidRadiation_00908f40(void* apActor)
 {
     SetProcessTarget(static_cast<Actor*>(apActor), 1);
 }
@@ -2975,7 +2981,8 @@ void LowProcess::FUN_00908f40(void* apActor)
 struct Actor;
 // Calls Func298 on apActor with arguments 1, 0x101 and 0.
 // @fnv 0x009177a0
-void LowProcess::FUN_009177a0(Actor* apActor)
+// src: COMMUNITY 0x009177a0
+void LowProcess::ProcessAccompany_009177a0(Actor* apActor)
 {
     UpdateActorPackage(apActor, true, 0x101, false);
 }
@@ -3094,12 +3101,13 @@ struct P09AV
     static bool __cdecl GetFlag(int, unsigned int);
 };
 
-float __cdecl FUN_0066eea0(void*, int, float);
+float __cdecl Actor_CheckClampDamageModifier(void*, int, float);
 
 
 // If the flag for aiWhich lacks 0x100, computes a value from apActor and afValue and applies it via ModifyModifier for case 0x10.
 // @fnv 0x00907460
-void LowProcess::FUN_00907460(Actor* apActor, int aiWhich, float afValue)
+// src: COMMUNITY 0x00907460
+void LowProcess::GameModActorValueF(Actor* apActor, int aiWhich, float afValue)
 {
     if (P09AV::GetFlag(aiWhich, 0x100))
         return;
@@ -3107,7 +3115,7 @@ void LowProcess::FUN_00907460(Actor* apActor, int aiWhich, float afValue)
     switch (aiWhich)
     {
     case 0x10: {
-        float f = FUN_0066eea0(apActor ? (char*)apActor + 0xa4 : 0, aiWhich, afValue);
+        float f = Actor_CheckClampDamageModifier(apActor ? (char*)apActor + 0xa4 : 0, aiWhich, afValue);
         ((ActorValueModifierList*)((char*)this + 0x94))->ModifyModifier((char)aiWhich, f, ActorValueModifierList::ClampNone);
         break;
     }
@@ -3119,7 +3127,8 @@ typedef int PROCEDURE;
 
 // Returns false for package types 0,1,6,7,13,14,17, and for other types when the procedure at aiIndex equals 0x36; otherwise true.
 // @fnv 0x00907960
-bool LowProcess::FUN_00907960(TESPackage* apPackage, int aiIndex)
+// src: COMMUNITY 0x00907960
+bool LowProcess::ShouldStopCombatControllerToFinishPackage(TESPackage* apPackage, int aiIndex)
 {
     switch (apPackage->GetPackType())
     {
@@ -3156,7 +3165,7 @@ bool LowProcess::FUN_00907960(TESPackage* apPackage, int aiIndex)
 
 struct FUN_004212b0_shell
 {
-    PatrolActorPackageData* FUN_004212b0();
+    PatrolActorPackageData* ExtraDataList_GetActorPackageData();
 };
 
 struct FUN_0041cab0
@@ -3166,12 +3175,13 @@ struct FUN_0041cab0
 
 
 // @fnv 0x009079f0
-bool LowProcess::FUN_009079f0(Actor* apActor, TESPackage* apPackage)
+// src: COMMUNITY 0x009079f0
+bool LowProcess::StartPatrolPackage(Actor* apActor, TESPackage* apPackage)
 {
     switch (apPackage->GetPackType())
     {
     case 0xd: {
-        PatrolActorPackageData* pdata = ((FUN_004212b0_shell*)apActor->GetExtraData())->FUN_004212b0();
+        PatrolActorPackageData* pdata = ((FUN_004212b0_shell*)apActor->GetExtraData())->ExtraDataList_GetActorPackageData();
         if (pdata)
         {
             if (!pdata->eState)
@@ -3705,7 +3715,8 @@ struct ActorPackageGetTarget
 
 
 // @fnv 0x009130f0
-void LowProcess::FUN_009130f0(MobileObject* apMob)
+// src: COMMUNITY 0x009130f0
+void LowProcess::SavePackageToExtraData(MobileObject* apMob)
 {
     TESObjectREFR* ptarget;
     ExtraDataList* pextra;
@@ -3746,7 +3757,8 @@ void LowProcess::FUN_009130f0(MobileObject* apMob)
 
 
 // @fnv 0x00924080
-void* LowProcess::FUN_00924080(void* apActor, bool abSecondLoc)
+// src: COMMUNITY 0x00924080
+void* LowProcess::MiddleHighProcess_SetLocationForPackage(void* apActor, bool abSecondLoc)
 {
     LocationDescriptor* pLoc;
     TESObjectREFR* pLocPack2;
@@ -3773,9 +3785,9 @@ struct ExtraDataListPackageExtra
 
 struct ExtraDataListFunctions
 {
-    int FUN_0041cb40();
-    bool FUN_0041cba0();
-    bool FUN_0041cc00();
+    int ExtraDataList_GetPackageExtraIndex();
+    bool ExtraDataList_GetPackageExtraComplete();
+    bool ExtraDataList_GetPackageExtraActivate();
     bool GetByteAtOffset26();
     void FUN_0041cc60();
     void FUN_004212e0();
@@ -3783,12 +3795,12 @@ struct ExtraDataListFunctions
 
 struct FUN_0041cb70_shell
 {
-    TESObjectREFR* FUN_0041cb70();
+    TESObjectREFR* ExtraDataList_GetPackageExtraTarget();
 };
 
 struct FUN_004212b0_shell
 {
-    ActorPackageData* FUN_004212b0();
+    ActorPackageData* ExtraDataList_GetActorPackageData();
 };
 
 
@@ -3812,11 +3824,11 @@ void LowProcess::InitPackageFromExtraData(MobileObject* apMob)
 
         reinterpret_cast<ActorPackageContext*>(reinterpret_cast<unsigned char*>(this) + 4)
             ->SetPackageAndTarget(reinterpret_cast<ExtraDataListPackageExtra*>(pextra2)->GetPackageOverride(),
-                                  reinterpret_cast<FUN_0041cb70_shell*>(pextra2)->FUN_0041cb70());
+                                  reinterpret_cast<FUN_0041cb70_shell*>(pextra2)->ExtraDataList_GetPackageExtraTarget());
 
         apMob->TESForm::Revert(reinterpret_cast<unsigned int>(GetCurrentPackage()));
 
-        iElementIndex = reinterpret_cast<ExtraDataListFunctions*>(pextra2)->FUN_0041cb40();
+        iElementIndex = reinterpret_cast<ExtraDataListFunctions*>(pextra2)->ExtraDataList_GetPackageExtraIndex();
         eprocType = static_cast<PACKAGE_PROCEDURE_TYPE>(
             reinterpret_cast<TESPackage*>(
                 reinterpret_cast<GO*>(reinterpret_cast<unsigned char*>(this) + 4)->operator TESPackage*())
@@ -3825,13 +3837,13 @@ void LowProcess::InitPackageFromExtraData(MobileObject* apMob)
             iElementIndex = 0;
 
         SetPackageInfoState(iElementIndex);
-        SetTarget(reinterpret_cast<FUN_0041cb70_shell*>(pextra2)->FUN_0041cb70());
-        SetAnimationComplete(reinterpret_cast<ExtraDataListFunctions*>(pextra2)->FUN_0041cba0());
+        SetTarget(reinterpret_cast<FUN_0041cb70_shell*>(pextra2)->ExtraDataList_GetPackageExtraTarget());
+        SetAnimationComplete(reinterpret_cast<ExtraDataListFunctions*>(pextra2)->ExtraDataList_GetPackageExtraComplete());
         SetProcessModeEnabled(reinterpret_cast<ExtraDataListFunctions*>(pextra2)->GetByteAtOffset26());
-        SetProcessConditionMet(reinterpret_cast<ExtraDataListFunctions*>(pextra2)->FUN_0041cc00());
+        SetProcessConditionMet(reinterpret_cast<ExtraDataListFunctions*>(pextra2)->ExtraDataList_GetPackageExtraActivate());
 
         reinterpret_cast<ExtraDataListFunctions*>(pextra2)->FUN_0041cc60();
-        pactorPackData = reinterpret_cast<fnv_00913250::FUN_004212b0_shell*>(pextra2)->FUN_004212b0();
+        pactorPackData = reinterpret_cast<fnv_00913250::FUN_004212b0_shell*>(pextra2)->ExtraDataList_GetActorPackageData();
         if (pactorPackData)
         {
             reinterpret_cast<TESScriptableForm*>(reinterpret_cast<unsigned char*>(this) + 4)
@@ -4680,7 +4692,8 @@ void LowProcess::InitWornForms(Actor* apActor, bool abAddProcedure)
 
 
 // @fnv 0x00909c90
-void LowProcess::FUN_00909c90(Actor* pkTarget)
+// src: COMMUNITY 0x00909c90
+void LowProcess::ProcessFlee_00909c90(Actor* pkTarget)
 {
     if (!GetCurrentPackage()->IsActorWithinPackageRadius(pkTarget, false, -1.0f, false))
     {
@@ -4855,7 +4868,8 @@ struct FUN_0090c360_res
 
 
 // @fnv 0x0090c360
-void LowProcess::FUN_0090c360(SpellItem* spell, float t)
+// src: COMMUNITY 0x0090c360
+void LowProcess::UpdateAlt_0090c360(SpellItem* spell, float t)
 {
     if (spell == 0)
     {
@@ -5412,13 +5426,14 @@ extern const char DAT_01088f50[];
 
 struct ModifierListSize
 {
-    unsigned short FUN_00937ab0();
+    unsigned short ModifierList_GetSaveSize();
 };
 
 
 // Computes a save size by adding the base size from FUN_008d0900 plus version-dependent and flag-dependent extras, optionally logging the delta.
 // @fnv 0x0090f8b0
-unsigned short LowProcess::FUN_0090f8b0(unsigned int auiChangeFlags, unsigned int auiArg)
+// src: COMMUNITY 0x0090f8b0
+unsigned short LowProcess::GetSaveSize_0090f8b0(unsigned int auiChangeFlags, unsigned int auiArg)
 {
     unsigned short uiSaveSize = 0;
     uiSaveSize += BaseProcess::GetSaveSize(auiChangeFlags, reinterpret_cast<MobileObject*>(auiArg));
@@ -5437,7 +5452,7 @@ unsigned short LowProcess::FUN_0090f8b0(unsigned int auiChangeFlags, unsigned in
         uiSaveSize += 4;
     uiSaveSize += 8;
     if (auiChangeFlags & 0x200000)
-        uiSaveSize += ((ModifierListSize*)&m_kActorValueModifiers)->FUN_00937ab0();
+        uiSaveSize += ((ModifierListSize*)&m_kActorValueModifiers)->ModifierList_GetSaveSize();
     if (g_TESSaveLoadGame->FUN_008df040() >= 0x74)
         uiSaveSize += 4;
     if (*g_011de4e8.Bool())
@@ -5716,7 +5731,7 @@ void LowProcess::FUN_00910450(BGSSaveFormBuffer* apBuffer)
     }
     apBuffer->FUN_00865ff0(iNumActors, uiPosition);
     if (apBuffer->FUN_00428110().Test(0x200000))
-        m_kActorValueModifiers.FUN_00937b50(apBuffer);
+        m_kActorValueModifiers.ModifierList_SaveGameBGS(apBuffer);
 }
 
 extern const float DAT_01012054;
@@ -6001,14 +6016,14 @@ void LowProcess::UpdateMoveToTarget(Actor* pkActor)
 
 struct P
 {
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
     int FUN_0041ca90();
 };
 struct E
 {
     P* FUN_0041cb10();
-    int FUN_0041cb40();
-    void FUN_0041cae0(int);
+    int ExtraDataList_GetPackageExtraIndex();
+    void ExtraDataList_SetPackageExtraIndex(int);
     void SetExtraDataFlag(bool);
     void FUN_0041c930(P*, int, int, bool);
     void FUN_004211d0(int);
@@ -6030,7 +6045,7 @@ struct R : Pads<18, Empty>
 {
     virtual void v48(unsigned);
     E* FUN_005d43c0();
-    P* FUN_00881450();
+    P* GetPackage();
 };
 int FUN_0096a820(int);
 bool FUN_005ac750(P*, E*, unsigned);
@@ -6043,20 +6058,20 @@ bool LowProcess::TrySelectTarget(Actor* ref, TESPackage** ppOut)
     P* a = reinterpret_cast<R*>(ref)->FUN_005d43c0()->FUN_0041cb10();
     if (a)
     {
-        int b = reinterpret_cast<R*>(ref)->FUN_005d43c0()->FUN_0041cb40();
-        if (!FUN_00907960(reinterpret_cast<TESPackage*>(a), b))
+        int b = reinterpret_cast<R*>(ref)->FUN_005d43c0()->ExtraDataList_GetPackageExtraIndex();
+        if (!ShouldStopCombatControllerToFinishPackage(reinterpret_cast<TESPackage*>(a), b))
         {
-            if (!FUN_009079f0(ref, reinterpret_cast<TESPackage*>(a)))
+            if (!StartPatrolPackage(ref, reinterpret_cast<TESPackage*>(a)))
             {
-                int c5 = FUN_0096a820(a->FUN_009611e0());
-                reinterpret_cast<R*>(ref)->FUN_005d43c0()->FUN_0041cae0(c5 - 1);
+                int c5 = FUN_0096a820(a->NiAVObject_GetParent());
+                reinterpret_cast<R*>(ref)->FUN_005d43c0()->ExtraDataList_SetPackageExtraIndex(c5 - 1);
                 FUN_005ac750(a, reinterpret_cast<R*>(ref)->FUN_005d43c0(), 0x400);
                 OnPackageEnd(ref, reinterpret_cast<TESPackage*>(a));
                 SetProcessModeEnabled(true);
                 SetProcessConditionMet(true);
                 SetAnimationComplete(true);
                 reinterpret_cast<R*>(ref)->FUN_005d43c0()->SetExtraDataFlag(true);
-                P* d = reinterpret_cast<R*>(ref)->FUN_00881450();
+                P* d = reinterpret_cast<R*>(ref)->GetPackage();
                 if (d && d != a && CanRunPackage(reinterpret_cast<TESPackage*>(d), true))
                 {
                     int g4 = reinterpret_cast<int>(vfn_810(ref, reinterpret_cast<TESPackage*>(d)));
@@ -6073,7 +6088,7 @@ bool LowProcess::TrySelectTarget(Actor* ref, TESPackage** ppOut)
                     if (e)
                         f7->FUN_004211d0(e);
                     OnPackageChanged(ref, reinterpret_cast<TESPackage*>(d));
-                    FUN_009079f0(ref, reinterpret_cast<TESPackage*>(d));
+                    StartPatrolPackage(ref, reinterpret_cast<TESPackage*>(d));
                     reinterpret_cast<R*>(ref)->v48(0x80000000);
                     *ppOut = reinterpret_cast<TESPackage*>(d);
                     return false;
@@ -6285,7 +6300,7 @@ class Pkg
     void* FUN_0055b980();
     Cell* FUN_00675c20(Ref*);
     bool IsFlag4Clear();
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
 };
 
 class Info
@@ -6307,7 +6322,7 @@ TESObjectCELL* LowProcess::GetProcedureCell(Actor* ref)
         pCell = reinterpret_cast<Ref*>(ref)->FUN_008d6f30();
     if (!reinterpret_cast<Pkg*>(GetCurrentPackage()))
         return reinterpret_cast<TESObjectCELL*>(pCell);
-    switch (DAT_011a3ff0[reinterpret_cast<Pkg*>(GetCurrentPackage())->FUN_009611e0()][static_cast<const BaseProcess*>(this)->GetPackageInfoValue()])
+    switch (DAT_011a3ff0[reinterpret_cast<Pkg*>(GetCurrentPackage())->NiAVObject_GetParent()][static_cast<const BaseProcess*>(this)->GetPackageInfoValue()])
     {
     case 0:
     case 0x32:
@@ -6386,7 +6401,7 @@ struct Info
 };
 struct Package
 {
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
     void* FUN_0055b980();
     void* FUN_00675a50(Ref*);
     bool IsFlag4Clear();
@@ -6395,7 +6410,8 @@ extern "C" char DAT_011A3FF0;
 }  // namespace fnv_0090f3f0
 
 // @fnv 0x0090f3f0
-void* LowProcess::FUN_0090f3f0(Actor* apRef)
+// src: COMMUNITY 0x0090f3f0
+void* LowProcess::GetCurrentDestinationWorldSpace(Actor* apRef)
 {
     using namespace fnv_0090f3f0;
     void* result = 0;
@@ -6404,7 +6420,7 @@ void* LowProcess::FUN_0090f3f0(Actor* apRef)
     fnv_0090f3f0::Package* package = reinterpret_cast<fnv_0090f3f0::Package*>(GetCurrentPackage());
     if (!package)
         return result;
-    switch (((unsigned int**)&DAT_011A3FF0)[package->FUN_009611e0()][static_cast<const BaseProcess*>(this)->GetPackageInfoValue()])
+    switch (((unsigned int**)&DAT_011A3FF0)[package->NiAVObject_GetParent()][static_cast<const BaseProcess*>(this)->GetPackageInfoValue()])
     {
     case 0:
     case 50:
@@ -6570,7 +6586,7 @@ struct Sound
 };
 Sound* FUN_004839c0(unsigned int id);
 void FUN_0040fbe0(const char* fmt, ...);
-void FUN_005b5e40(const char* fmt, const char* file, int line);
+void Warning_005b5e40(const char* fmt, const char* file, int line);
 
 
 }  // namespace fnv_0090fa70
@@ -6657,7 +6673,7 @@ void LowProcess::SaveToStream(unsigned int changedFlags, unsigned int arg2)
         unsigned int sz = aBlockStart;
         if (endPos2 > sz + 0xffff)
         {
-            fnv_0090fa70::FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
+            fnv_0090fa70::Warning_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\ai\\LowProcess.cpp", 0xf20);
         }
         *(unsigned short*)aBlockStart = (unsigned short)(endPos2 - sz);
@@ -7621,17 +7637,17 @@ struct AcquirePackage : TESPackage
     PackageTargetData* FUN_0055b980();
     PackageLocationData* FUN_00671d10();
     int FUN_00672930();
-    NiPoint3 FUN_00675de0(Actor* actor);
+    NiPoint3 TESPackage_GetLocationCoord(Actor* actor);
     TESObjectCELL* FUN_00675c20(Actor* actor);
     TESWorldSpace* FUN_00675a50(Actor* actor);
 };
 
 struct AcquireActor : Actor
 {
-    InventoryEntry* FUN_008a2d40();
-    bool FUN_00575450(void* ownerTmp);
+    InventoryEntry* GetObjectBeingEscorted();
+    bool TESObjectREFR_HasObjectId(void* ownerTmp);
     InventoryEntry* FUN_00576260(TESBoundObject* item, int countIn);
-    void FUN_00892e90(void* item);
+    void Actor_PutItemInReference(void* item);
     float FUN_005723b0(TESObjectREFR* ref, int a, int b);
     void FUN_008b3690(const NiPoint3& posVal, TESObjectCELL* cellOld, TESWorldSpace* world, float radius, int flags);
 };
@@ -7891,20 +7907,21 @@ void __cdecl GetObjectFloat(PathingLocation* from, PathingLocation* to, float* d
 
 // Resolves an acquire target, may transfer an inventory entry, and may pass a package position to an actor method.
 // @fnv 0x00909430
-void LowProcess::FUN_00909430(Actor* actor)
+// src: COMMUNITY 0x00909430
+void LowProcess::ProcessEscort(Actor* actor)
 {
     AcquirePackage* packageNum = (AcquirePackage*)static_cast<const BaseProcess*>(this)->GetOneTimePackage();
     if (pTarget == 0)
         FindPackageTarget(actor);
     int locationIndex = 0;
-    InventoryEntry* entry = static_cast<AcquireActor*>(actor)->FUN_008a2d40();
+    InventoryEntry* entry = static_cast<AcquireActor*>(actor)->GetObjectBeingEscorted();
     bool createdEntryIn = false;
 
     if (entry == 0 &&
-        (pTarget == 0 || (!pTarget->IsActor() && !static_cast<AcquireActor*>(actor)->FUN_00575450((void*)((Actor*)pTarget)->FUN_0084e3a0()))))
+        (pTarget == 0 || (!pTarget->IsActor() && !static_cast<AcquireActor*>(actor)->TESObjectREFR_HasObjectId((void*)((Actor*)pTarget)->FUN_0084e3a0()))))
     {
         FindPackageTarget(actor);
-        if (pTarget == 0 || (!pTarget->IsActor() && !static_cast<AcquireActor*>(actor)->FUN_00575450((void*)((Actor*)pTarget)->FUN_0084e3a0())))
+        if (pTarget == 0 || (!pTarget->IsActor() && !static_cast<AcquireActor*>(actor)->TESObjectREFR_HasObjectId((void*)((Actor*)pTarget)->FUN_0084e3a0())))
         {
             SetProcessTarget(actor, 1);
             return;
@@ -7917,7 +7934,7 @@ void LowProcess::FUN_00909430(Actor* actor)
     }
     if (((AcquirePackage*)GetCurrentPackage())->FUN_00671d10())
         locationIndex = ((AcquirePackage*)GetCurrentPackage())->FUN_00672930();
-    if ((pTarget == 0 || (!pTarget->IsActor() && !static_cast<AcquireActor*>(actor)->FUN_00575450((void*)((Actor*)pTarget)->FUN_0084e3a0()))) &&
+    if ((pTarget == 0 || (!pTarget->IsActor() && !static_cast<AcquireActor*>(actor)->TESObjectREFR_HasObjectId((void*)((Actor*)pTarget)->FUN_0084e3a0()))) &&
         !vfn_80c(actor, locationIndex))
     {
         SetProcessTarget(actor, 1);
@@ -7943,7 +7960,7 @@ void LowProcess::FUN_00909430(Actor* actor)
                     location = (AcquireRef*)m_pReference40;
                 if (location != 0 && location->FUN_0055d310())
                 {
-                    static_cast<AcquireActor*>(actor)->FUN_00892e90(entry->FUN_0044ddc0(xData, location, packageNum->FUN_00672930(), ownerTmp));
+                    static_cast<AcquireActor*>(actor)->Actor_PutItemInReference(entry->FUN_0044ddc0(xData, location, packageNum->FUN_00672930(), ownerTmp));
                 }
                 else
                 {
@@ -7986,7 +8003,7 @@ void LowProcess::FUN_00909430(Actor* actor)
         float targetPathLength = 0.0f;
         if (pTarget != 0 && pTarget->IsActor())
         {
-            NiPoint3 destinationVal = packageNum->FUN_00675de0(actor);
+            NiPoint3 destinationVal = packageNum->TESPackage_GetLocationCoord(actor);
             TESObjectCELL* cellOld = packageNum->FUN_00675c20(actor);
             TESWorldSpace* world = packageNum->FUN_00675a50(actor);
             PathingLocation actorLocation(actor);
@@ -8000,7 +8017,7 @@ void LowProcess::FUN_00909430(Actor* actor)
             actorPathLength > targetPathLength)
         {
             if (static_cast<AcquireActor*>(actor)->FUN_008b3bb0())
-                static_cast<AcquireActor*>(actor)->FUN_008b3690(((AcquirePackage*)GetCurrentPackage())->FUN_00675de0(actor),
+                static_cast<AcquireActor*>(actor)->FUN_008b3690(((AcquirePackage*)GetCurrentPackage())->TESPackage_GetLocationCoord(actor),
                                     ((AcquirePackage*)GetCurrentPackage())->FUN_00675c20(actor),
                                     ((AcquirePackage*)GetCurrentPackage())->FUN_00675a50(actor), -1.0f, 0);
         }
@@ -8035,7 +8052,8 @@ struct ListX
 }  // namespace fnv_0090ac40
 
 // @fnv 0x0090ac40
-bool LowProcess::FUN_0090ac40(TESObjectREFR* pkR, int iArg)
+// src: COMMUNITY 0x0090ac40
+bool LowProcess::CheckIfHasObject(TESObjectREFR* pkR, int iArg)
 {
     using namespace fnv_0090ac40;
     BaseX* pkBase = 0;
@@ -8071,7 +8089,8 @@ bool LowProcess::FUN_0090ac40(TESObjectREFR* pkR, int iArg)
 extern int* DAT_011a3ff0[];
 // Returns a float selected by package type, using package results in some cases and otherwise defaulting to 128.0f.
 // @fnv 0x0090f670
-float LowProcess::FUN_0090f670(int iArg)
+// src: COMMUNITY 0x0090f670
+float LowProcess::GetCurrentDestinationRadius(int iArg)
 {
     float fResultTmp = 128.0f;
     if (!GetCurrentPackage())
@@ -8514,7 +8533,8 @@ struct TargetActor : Actor
 
 // Resolves the target reference for a LowProcess package, selecting from the current package, the actor, or a target process based on the procedure index.
 // @fnv 0x0090e970
-TESObjectREFR* LowProcess::FUN_0090e970(Actor* actor, bool useCurrent)
+// src: COMMUNITY 0x0090e970
+TESObjectREFR* LowProcess::GetCurrentDestinationReference(Actor* actor, bool useCurrent)
 {
     TESPackage* package2 = (TESPackage*)GetCurrentPackage();
     TESObjectREFR* target2 = pTarget;
@@ -8610,9 +8630,9 @@ class PkgForm
 {
   public:
     bool FUN_00678610();
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
     int FUN_0055b980();
-    NiPoint3 FUN_00675de0(PosRef* target);
+    NiPoint3 TESPackage_GetLocationCoord(PosRef* target);
     bool IsFlag4Clear();
     PkgSub* FUN_00671d10();
     int FUN_0041ca90();
@@ -8622,8 +8642,8 @@ class ProcHolder
 {
   public:
     PkgForm* FUN_0041cb10();
-    int FUN_0041cb40();
-    PosRef* FUN_0041cb70();
+    int ExtraDataList_GetPackageExtraIndex();
+    PosRef* ExtraDataList_GetPackageExtraTarget();
 };
 
 class PosRef
@@ -8756,7 +8776,7 @@ class PosRef
     virtual void vr1f0();
     virtual NiPoint3* GetPosPtr();
     ProcHolder* FUN_005d43c0();
-    NiPoint3* FUN_0056add0();
+    NiPoint3* Actor_GetStartLocationOrPosition();
     PkgForm* FUN_009344a0();
 };
 
@@ -8765,7 +8785,8 @@ extern NiPoint3 DAT_011f426c;
 
 // Returns a position selected from the target, a referenced object, or package-related data.
 // @fnv 0x0090ec70
-NiPoint3 LowProcess::FUN_0090ec70(Actor* target, bool skip)
+// src: COMMUNITY 0x0090ec70
+NiPoint3 LowProcess::GetCurrentDestinationCoordinate(Actor* target, bool skip)
 {
     NiPoint3 result5 = DAT_011f426c;
     PkgForm* form4 = reinterpret_cast<PkgForm*>(GetCurrentPackage());
@@ -8774,14 +8795,14 @@ NiPoint3 LowProcess::FUN_0090ec70(Actor* target, bool skip)
     if (!skip && form4 && form4->FUN_00678610())
     {
         form4 = reinterpret_cast<PosRef*>(target)->FUN_005d43c0()->FUN_0041cb10();
-        index = reinterpret_cast<PosRef*>(target)->FUN_005d43c0()->FUN_0041cb40();
-        ref = reinterpret_cast<PosRef*>(target)->FUN_005d43c0()->FUN_0041cb70();
+        index = reinterpret_cast<PosRef*>(target)->FUN_005d43c0()->ExtraDataList_GetPackageExtraIndex();
+        ref = reinterpret_cast<PosRef*>(target)->FUN_005d43c0()->ExtraDataList_GetPackageExtraTarget();
     }
     if (!form4)
         return result5;
-    if (form4->FUN_009611e0() == -1)
+    if (form4->NiAVObject_GetParent() == -1)
         return result5;
-    switch (DAT_011a3ff0[form4->FUN_009611e0()][index])
+    switch (DAT_011a3ff0[form4->NiAVObject_GetParent()][index])
     {
     case 27:
         result5 = *reinterpret_cast<PosRef*>(target)->GetPosPtr();
@@ -8790,7 +8811,7 @@ NiPoint3 LowProcess::FUN_0090ec70(Actor* target, bool skip)
             PosRef* actor = ref;
             PkgForm* sub = actor->FUN_009344a0();
             if (sub)
-                result5 = sub->FUN_00675de0(actor);
+                result5 = sub->TESPackage_GetLocationCoord(actor);
         }
         break;
     case 1:
@@ -8818,13 +8839,13 @@ NiPoint3 LowProcess::FUN_0090ec70(Actor* target, bool skip)
     case 7:
     case 50:
         if (form4->FUN_0055b980())
-            result5 = form4->FUN_00675de0(reinterpret_cast<PosRef*>(target));
+            result5 = form4->TESPackage_GetLocationCoord(reinterpret_cast<PosRef*>(target));
         else
             result5 = *reinterpret_cast<PosRef*>(target)->GetPosPtr();
         break;
     case 47:
         if (form4->IsFlag4Clear() && form4->FUN_0055b980())
-            result5 = form4->FUN_00675de0(reinterpret_cast<PosRef*>(target));
+            result5 = form4->TESPackage_GetLocationCoord(reinterpret_cast<PosRef*>(target));
         else if (form4->FUN_00671d10() && form4->FUN_00671d10()->FUN_00680020())
             result5 = *form4->FUN_00671d10()->FUN_00680020()->GetPosPtr();
         else
@@ -8837,9 +8858,9 @@ NiPoint3 LowProcess::FUN_0090ec70(Actor* target, bool skip)
             {
             case 6:
                 if (form4->FUN_0055b980())
-                    result5 = form4->FUN_00675de0(reinterpret_cast<PosRef*>(target));
+                    result5 = form4->TESPackage_GetLocationCoord(reinterpret_cast<PosRef*>(target));
                 else
-                    result5 = *reinterpret_cast<PosRef*>(target)->FUN_0056add0();
+                    result5 = *reinterpret_cast<PosRef*>(target)->Actor_GetStartLocationOrPosition();
                 break;
             default:
                 if (ref)

@@ -353,14 +353,15 @@ bool BGSRagdoll::LoadForm(TESFile* file)
 }
 
 void __fastcall FUN_005ed790(void*);
-void __fastcall FUN_005eee30(void*);
+void __fastcall BSSimpleArray_short_1024_BSSimpleArray_short_1024(void*);
 
 // @fnv 0x005ed760
-void* __fastcall FUN_005ed760(char* pThis)
+// src: COMMUNITY 0x005ed760
+void* __fastcall BGSRagdoll_Feedback_Init(char* pThis)
 {
     *pThis = 0;
     FUN_005ed790(pThis + 4);
-    FUN_005eee30(pThis + 0x40);
+    BSSimpleArray_short_1024_BSSimpleArray_short_1024(pThis + 0x40);
     return pThis;
 }
 
@@ -687,11 +688,12 @@ struct FootIKArrayResize
     unsigned int uiAllocSize;
     void ConstructSpawnItems(FootIK_DATA__FootIK_Leg_DATA* p, unsigned int n);
     void FUN_005ef860(unsigned int newAlloc, unsigned int copy);
-    void FUN_005ef010(unsigned int aiNewSize, bool abFreeMemory);
+    void BSSimpleArray_FootIK_DATA_FootIK_Leg_DATA_1024_SetLength(unsigned int aiNewSize, bool abFreeMemory);
 };
 
 // @fnv 0x005ef010
-void FootIKArrayResize::FUN_005ef010(unsigned int aiNewSize, bool abFreeMemory)
+// src: COMMUNITY 0x005ef010
+void FootIKArrayResize::BSSimpleArray_FootIK_DATA_FootIK_Leg_DATA_1024_SetLength(unsigned int aiNewSize, bool abFreeMemory)
 {
     if (aiNewSize == 0)
     {
@@ -742,11 +744,12 @@ struct LookIKArrayResize
     unsigned int uiAllocSize;
     void ConstructEntries(LookIK_DATA__LookIK_Head_DATA* p, unsigned int n);
     void FUN_005efa80(unsigned int newAlloc, unsigned int copy);
-    void FUN_005ef1f0(unsigned int aiNewSize, bool abFreeMemory);
+    void BSSimpleArray_LookIK_DATA_LookIK_Head_DATA_1024_SetLength(unsigned int aiNewSize, bool abFreeMemory);
 };
 
 // @fnv 0x005ef1f0
-void LookIKArrayResize::FUN_005ef1f0(unsigned int aiNewSize, bool abFreeMemory)
+// src: COMMUNITY 0x005ef1f0
+void LookIKArrayResize::BSSimpleArray_LookIK_DATA_LookIK_Head_DATA_1024_SetLength(unsigned int aiNewSize, bool abFreeMemory)
 {
     if (aiNewSize == 0)
     {
@@ -797,11 +800,12 @@ struct GrabIKArrayResize
     unsigned int uiAllocSize;
     void FUN_005efc90(unsigned int, unsigned int);
     void ConstructItems(GrabIK_DATA__GrabIK_Arm_DATA*, unsigned int);
-    void FUN_005ef3d0(unsigned int aiNewSize, bool abFreeMemory);
+    void BSSimpleArray_GrabIK_DATA_GrabIK_Arm_DATA_1024_SetLength(unsigned int aiNewSize, bool abFreeMemory);
 };
 
 // @fnv 0x005ef3d0
-void GrabIKArrayResize::FUN_005ef3d0(unsigned int aiNewSize, bool abFreeMemory)
+// src: COMMUNITY 0x005ef3d0
+void GrabIKArrayResize::BSSimpleArray_GrabIK_DATA_GrabIK_Arm_DATA_1024_SetLength(unsigned int aiNewSize, bool abFreeMemory)
 {
     if (aiNewSize == 0)
     {

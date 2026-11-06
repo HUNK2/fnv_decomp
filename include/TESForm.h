@@ -119,7 +119,7 @@ class TESForm : public BaseFormComponent
     unsigned int FUN_0084e3a0();
     unsigned int FUN_00401170();
     int FUN_00474cb0();
-    void FUN_00483870();
+    void TESForm_ClearDataAllComponents();
     bool FUN_00460250();
     bool FUN_00440da0();
     TESFile* GetFile(int fileIndex);

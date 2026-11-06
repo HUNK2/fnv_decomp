@@ -162,7 +162,8 @@ struct Node_00b98e20
 };
 
 // @fnv 0x00b98e20
-void __fastcall FUN_00b98e20(Node_00b98e20* pThis, int, const unsigned short* pItem)
+// src: COMMUNITY 0x00b98e20
+void __fastcall BSSimpleList_UInt16_AddHead(Node_00b98e20* pThis, int, const unsigned short* pItem)
 {
     if (*pItem)
     {
@@ -182,7 +183,8 @@ void __fastcall FUN_00b98e20(Node_00b98e20* pThis, int, const unsigned short* pI
 
 // Appends a new node holding *elem to the list, reusing a free node from self[3] or allocating one, and updates head, tail and count.
 // @fnv 0x00b99840
-void __fastcall FUN_00b99840(int* self, int, const int* pElement)
+// src: COMMUNITY 0x00b99840
+void __fastcall PersistentPassList_AddBack(int* self, int, const int* pElement)
 {
     int* node = (int*)self[3];
     if (!node)
@@ -214,7 +216,7 @@ void __fastcall FUN_00b99840(int* self, int, const int* pElement)
     }
 }
 
-void __cdecl FUN_00b988e0();
+void __cdecl BSBatchRenderer_EndPass();
 void __cdecl FUN_00b994f0(void*, unsigned short, int, int, int);
 
 struct PassListElement
@@ -243,7 +245,7 @@ void __cdecl ClearPassList(BSBatchRenderer__PassList* pList, int a2)
 {
     if (pList->Allocator.ItemUpdateArray > 0)
     {
-        FUN_00b988e0();
+        BSBatchRenderer_EndPass();
 
         PassListNode* pNode = static_cast<PassListNode*>(pList->pHead);
         PassListElement* pElement = pNode ? GetNext(pNode) : 0;
@@ -264,7 +266,7 @@ void __cdecl ClearPassList(BSBatchRenderer__PassList* pList, int a2)
         pList->pTail = 0;
         pList->Allocator.ItemUpdateArray = 0;
 
-        FUN_00b988e0();
+        BSBatchRenderer_EndPass();
     }
 }
 
@@ -280,7 +282,8 @@ extern char DAT_011ffe35;
 extern int DAT_011ffe38;
 
 // @fnv 0x00b99a10
-void __fastcall FUN_00b99a10(char* this_ptr, int, int param_1, char param_2)
+// src: COMMUNITY 0x00b99a10
+void __fastcall BSBatchRenderer_SortAlphaPasses(char* this_ptr, int, int param_1, char param_2)
 {
     DAT_011ffe38 = param_1;
     DAT_011ffe35 = param_2;
@@ -388,7 +391,8 @@ void BSBatchRenderer::ClearAllGroups(int unusedArg)
 
 // Returns true when v falls in the ranges 0x1c4-0x1c7, 0x231-0x234, or 0x284-0x287.
 // @fnv 0x00b630f0
-bool __cdecl FUN_00b630f0(unsigned int v)
+// src: COMMUNITY 0x00b630f0
+bool __cdecl BSShaderAccumulator_IsShadowPass(unsigned int v)
 {
     if ((v >= 0x1c4 && v <= 0x1c7) || (v >= 0x231 && v <= 0x234) || (v - 0x284) <= 3)
         return true;
@@ -401,7 +405,8 @@ struct FUN_00e879b0_holder
 };
 extern NiRenderer* DAT_011f9508;
 // @fnv 0x00b984d0
-void __cdecl FUN_00b984d0(int aiValue)
+// src: COMMUNITY 0x00b984d0
+void __cdecl BSRenderState_SetCullMode(int aiValue)
 {
     reinterpret_cast<FUN_00e879b0_holder*>(static_cast<NiDX9Renderer*>(DAT_011f9508)->pRenderState)
         ->CallSlot68WithField(aiValue, 0);
@@ -444,7 +449,8 @@ extern int DAT_011ffa28;
 
 // If no pending count, sets a device state (0xb5 or 0x9a) based on flag and renderer mode, then adds count to DAT_011ffa28.
 // @fnv 0x00b98540
-void __cdecl FUN_00b98540(bool flag, int count)
+// src: COMMUNITY 0x00b98540
+void __cdecl BSRenderState_SetAlphaToCoverageEnable(bool flag, int count)
 {
     if (DAT_011ffa28 == 0)
     {
@@ -657,7 +663,8 @@ struct PassGroup_Layout
 
 
 // @fnv 0x00b9a3c0
-bool __fastcall FUN_00b9a3c0(BSBatchRenderer* pThis, int, unsigned int& auiPass, int& aiBucket, bool& abFlag, bool)
+// src: COMMUNITY 0x00b9a3c0
+bool __fastcall BSBatchRenderer_SkipNextRenderPass(BSBatchRenderer* pThis, int, unsigned int& auiPass, int& aiBucket, bool& abFlag, bool)
 {
     unsigned int idx = 0;
     reinterpret_cast<NiTPointerMap<unsigned int, unsigned int>*>(&pThis->RenderPassMap)->GetAt(auiPass, idx);
@@ -722,7 +729,8 @@ void __cdecl ClearPassList(BSBatchRenderer__PassList*, int);
 
 // If flags bit 0 is set, forwards arg to ClearPassList on passList; otherwise notifies owner with (1, 0x2f1, arg); then clears owner's list and resets count to 0.
 // @fnv 0x00b9a4d0
-void __fastcall FUN_00b9a4d0(FUN_00b9a4d0_Obj* self, int unused, int arg)
+// src: COMMUNITY 0x00b9a4d0
+void __fastcall BSBatchRenderer_GeometryGroup_Render(FUN_00b9a4d0_Obj* self, int unused, int arg)
 {
     if ((self->flags & 1) > 0)
         ClearPassList(&self->passList, arg);
@@ -801,7 +809,7 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00b9aa70()
 
 struct PassListStandin
 {
-    void FUN_00b99840(void*);
+    void PersistentPassList_AddBack(void*);
     void PushFront(void*);
 };
 
@@ -817,7 +825,7 @@ void __fastcall DispatchPass(void* pThis, int dummy, void* pPass, bool bFlag)
         }
         else
         {
-            ((PassListStandin*)(pBytes + 0xc))->FUN_00b99840(&pPass);
+            ((PassListStandin*)(pBytes + 0xc))->PersistentPassList_AddBack(&pPass);
         }
     }
     else
@@ -974,18 +982,18 @@ struct FUN_00b99390_S
 };
 struct FUN_00b7dd50_c
 {
-    void FUN_00b7dd50();
+    void ShadowLightShader_SetupPass_ADT_Opt();
 };
 struct FUN_00b7deb0_c2
 {
-    void FUN_00b7deb0();
+    void ShadowLightShader_SetupPass_ADT4_Opt();
 };
 struct FUN_00b7deb0_class
 {
-    void FUN_00b7deb0();
+    void ShadowLightShader_SetupPass_ADT4_Opt();
 };
-void __cdecl FUN_00b97de0(unsigned int, unsigned int);
-void __cdecl FUN_00b988e0();
+void __cdecl BSRenderState_SetZEnable(unsigned int, unsigned int);
+void __cdecl BSBatchRenderer_EndPass();
 extern short DAT_011ae63c;
 extern unsigned int _DAT_0126f680[16];
 extern unsigned int DAT_011ffe30;
@@ -994,7 +1002,7 @@ extern bool DAT_011ad8ec;
 // @fnv 0x00b99390
 void __cdecl SetShaderPass(unsigned int pass, FUN_00b99390_S* shader)
 {
-    FUN_00b988e0();
+    BSBatchRenderer_EndPass();
     DAT_011ae63c = -1;
     shader->vf0(pass);
     for (int i = 0; i < 16; i++)
@@ -1003,17 +1011,17 @@ void __cdecl SetShaderPass(unsigned int pass, FUN_00b99390_S* shader)
     {
     case 0xfc:
     case 0xfd:
-        ((FUN_00b7dd50_c*)shader)->FUN_00b7dd50();
-        FUN_00b97de0(1, 0);
+        ((FUN_00b7dd50_c*)shader)->ShadowLightShader_SetupPass_ADT_Opt();
+        BSRenderState_SetZEnable(1, 0);
         break;
     case 0x102:
-        ((FUN_00b7dd50_c*)shader)->FUN_00b7dd50();
+        ((FUN_00b7dd50_c*)shader)->ShadowLightShader_SetupPass_ADT_Opt();
         break;
     case 0xca:
-        ((FUN_00b7deb0_class*)shader)->FUN_00b7deb0();
+        ((FUN_00b7deb0_class*)shader)->ShadowLightShader_SetupPass_ADT4_Opt();
         break;
     case 0xd1:
-        ((FUN_00b7deb0_c2*)shader)->FUN_00b7deb0();
+        ((FUN_00b7deb0_c2*)shader)->ShadowLightShader_SetupPass_ADT4_Opt();
         break;
     default:
         shader->vfc(pass);
@@ -1040,8 +1048,8 @@ struct Shader_b994f0
     {
         return iType == 0x11;
     }
-    void FUN_00b7ac20(unsigned int);
-    void FUN_00bb96d0(unsigned int);
+    void ShadowLightShader_DisableNonVolatileConstantsForPass(unsigned int);
+    void Lighting30Shader_DisableNonVolatileConstantsForPass(unsigned int);
 };
 struct Prop_b994f0
 {
@@ -1123,7 +1131,7 @@ struct Pass_b994f0
 
 struct Handler_b994f0
 {
-    bool FUN_00e72c20(Geom_b994f0*, int);
+    bool NiDX9Renderer_IsHardwareSkinned(Geom_b994f0*, int);
 };
 extern Handler_b994f0* DAT_011f9508;
 extern Pass_b994f0* DAT_011f91e0;
@@ -1131,7 +1139,7 @@ extern unsigned int DAT_011f91e4;
 extern bool DAT_011f9421;
 extern Shader_b994f0* DAT_011ffe2c;
 extern unsigned int DAT_011ffe30;
-int __cdecl FUN_00b98540(int, int);
+int __cdecl BSRenderState_SetAlphaToCoverageEnable(int, int);
 void __cdecl SetShaderPass(unsigned int, Shader_b994f0*);
 void __cdecl FUN_00b99110(Pass_b994f0*, bool, bool, bool);
 void __cdecl DrawGeometryPass(Pass_b994f0*, bool, bool, bool);
@@ -1155,11 +1163,11 @@ void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTe
     {
         Prop_b994f0* pProp = prenderpass->pGeom->pProp;
         if (pProp && pProp->GetFlag9())
-            FUN_00b98540(1, 0);
+            BSRenderState_SetAlphaToCoverageEnable(1, 0);
         else
-            FUN_00b98540(0, 0);
+            BSRenderState_SetAlphaToCoverageEnable(0, 0);
     }
-    if (DAT_011f9508->FUN_00e72c20(prenderpass->pGeom, 0))
+    if (DAT_011f9508->NiDX9Renderer_IsHardwareSkinned(prenderpass->pGeom, 0))
     {
         FUN_00b99110(prenderpass, balphaTest, abAlphaPass, abGeometryRenderStates);
     }
@@ -1178,9 +1186,9 @@ void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTe
     if (bfirstpass && DAT_011ffe2c)
     {
         if (DAT_011ffe2c->IsLit())
-            DAT_011ffe2c->FUN_00b7ac20(uiPassId);
+            DAT_011ffe2c->ShadowLightShader_DisableNonVolatileConstantsForPass(uiPassId);
         else if (DAT_011ffe2c->IsType11())
-            DAT_011ffe2c->FUN_00bb96d0(uiPassId);
+            DAT_011ffe2c->Lighting30Shader_DisableNonVolatileConstantsForPass(uiPassId);
     }
 }
 }  // namespace fnv_00b994f0
@@ -1337,10 +1345,10 @@ struct RenderShader
     virtual void v34(), v35(), v36(), v37(), v38(), v39(), v3a(), v3b();
     virtual void v3c(), v3d(), v3e(), v3f(), v40(), v41(), v42(), v43();
     virtual void Reset(RenderTransform*);
-    void FUN_00b7dde0(RenderTransform*);
+    void ShadowLightShader_Setup_ADT_Opt(RenderTransform*);
     void SetupTextureStages(RenderTransform*);
     void SetupShaderPasses(RenderTransform*);
-    void FUN_00b7e150(RenderTransform*);
+    void ShadowLightShader_Setup_ADT_PxOpt(RenderTransform*);
 };
 struct RenderSetup
 {
@@ -1424,7 +1432,7 @@ struct RenderManager
 };
 extern RenderManager* DAT_011f4748;
 extern bool DAT_011ad8ec;
-bool __cdecl FUN_00b630f0(unsigned int);
+bool __cdecl BSShaderAccumulator_IsShadowPass(unsigned int);
 // Exe 0x00b98e80: unit-local ShaderPassEntry view; declarations and layout are preserved.
 
 // Sets the manager's current transform, prepares the shader for the pass id, applies optional updates, draws the geometry and finishes the shader.
@@ -1445,14 +1453,14 @@ void __cdecl DrawGeometryPass(BSShaderProperty::ShaderPassEntry* pass, bool upda
     {
     case 252:
     case 253:
-        shader->FUN_00b7dde0(world);
+        shader->ShadowLightShader_Setup_ADT_Opt(world);
         if (updateB)
             shader->UpdateB(world);
         if (updateA)
             shader->UpdateA(world);
         break;
     case 258:
-        shader->FUN_00b7e150(world);
+        shader->ShadowLightShader_Setup_ADT_PxOpt(world);
         if (updateB)
             shader->UpdateB(world);
         if (updateA)
@@ -1481,12 +1489,12 @@ void __cdecl DrawGeometryPass(BSShaderProperty::ShaderPassEntry* pass, bool upda
         shader->PrepareB(world);
         if (pass->m_bIsBest)
         {
-            if (updateA && !FUN_00b630f0(id))
+            if (updateA && !BSShaderAccumulator_IsShadowPass(id))
                 shader->UpdateA(world);
             if (updateB && !(id >= 4 && id <= 5) && !(id >= 14 && id <= 15) && id != 570)
                 shader->UpdateB(world);
         }
-        else if (DAT_011ad8ec && !FUN_00b630f0(id))
+        else if (DAT_011ad8ec && !BSShaderAccumulator_IsShadowPass(id))
         {
             shader->Reset(world);
             DAT_011ad8ec = false;
@@ -1620,7 +1628,7 @@ struct AlphaNode
 struct NodeAllocator
 {
     unsigned int m_uiCount;
-    AlphaNode* FUN_0043a010();
+    AlphaNode* NiGeometry_AddProperty();
 };
 struct AlphaListCursor
 {
@@ -1719,7 +1727,7 @@ void __fastcall AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound*
             }
             if (pkGroup == 0)
             {
-                AlphaNode* val = pkList->m_kItemCount.FUN_0043a010();
+                AlphaNode* val = pkList->m_kItemCount.NiGeometry_AddProperty();
                 val->m_element = c;
                 val->m_pkNext = 0;
                 val->m_pkPrev = pkList->m_pkTail;
@@ -1744,7 +1752,8 @@ void __fastcall AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound*
 
 // When a list value is in range, removes the head, looks up that value, and calls FUN_00b98ae0.
 // @fnv 0x00b99900
-bool __fastcall FUN_00b99900(BSBatchRenderer* pThis, int, unsigned int& ruiPass, int iSubBucketIndex)
+// src: COMMUNITY 0x00b99900
+bool __fastcall BSBatchRenderer_PrepareNextRenderPass_SetNextPass(BSBatchRenderer* pThis, int, unsigned int& ruiPass, int iSubBucketIndex)
 {
     BSSimpleList<unsigned short>* pkList = &pThis->kActivePassIndexList;
     if (!pkList->m_pkNext && !pkList->m_item)
@@ -1770,7 +1779,7 @@ bool __fastcall FUN_00b99900(BSBatchRenderer* pThis, int, unsigned int& ruiPass,
 }
 
 namespace fnv_00b99110 {
-extern bool __cdecl FUN_00b630f0(unsigned int);
+extern bool __cdecl BSShaderAccumulator_IsShadowPass(unsigned int);
 extern bool DAT_011ad8ec;
 struct DrawPartition
 {
@@ -2517,7 +2526,7 @@ struct DrawRenderer
     unsigned int unk8a0;
     unsigned int unk8a4;
     unsigned int unk8a8;
-    void FUN_00e6d310(void*, DrawPartition*, DrawData*);
+    void NiDX9Renderer_Do_DrawPartition(void*, DrawPartition*, DrawData*);
     DrawContext* context;
     void* driver;
     void SetProperties(void* properties)
@@ -2574,7 +2583,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
             {
                 shader->Begin(properties);
                 shader->State(properties);
-                if (pass->alpha && !FUN_00b630f0(passId))
+                if (pass->alpha && !BSShaderAccumulator_IsShadowPass(passId))
                 {
                     if (alpha)
                         shader->Alpha(properties);
@@ -2591,7 +2600,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
                 first = false;
             }
             void* draw = shader->Draw(geometry, partition, vertexData, properties);
-            renderer->FUN_00e6d310(draw, partition, data);
+            renderer->NiDX9Renderer_Do_DrawPartition(draw, partition, data);
             if (flags)
             {
                 for (unsigned int next = i + 1; next < count && !flags[i + 1].continuation;)
@@ -2605,7 +2614,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
                         draw = shader->Draw(geometry, p, uiVertexData, properties);
                         if (!draw)
                             return;
-                        renderer->FUN_00e6d310(draw, p, data);
+                        renderer->NiDX9Renderer_Do_DrawPartition(draw, p, data);
                     }
                 }
             }
@@ -2620,7 +2629,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
 struct BSBatchRenderer__ActivePassList_b6359Pool
 {
   public:
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 extern BSBatchRenderer__ActivePassList_b6359Pool DAT_011f6238;
 
@@ -2634,14 +2643,14 @@ struct ActivePassNode
 {
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
     ActivePassNode(unsigned short x) : item(x), next(0)
     {}
     unsigned short item;
     ActivePassNode* next;
     void InsertItem(ItemValue volatile item, ActivePassCompare cmp);
-    void FUN_00b98e20(const unsigned short* item);
+    void BSSimpleList_UInt16_AddHead(const unsigned short* item);
 };
 
 // Inserts item.value into the linked list of ActivePassNode items, using cmp to find the sorted position.
@@ -2672,7 +2681,7 @@ void ActivePassNode::InsertItem(ItemValue volatile item, ActivePassCompare afCom
         {
             if (prev == 0)
             {
-                this->FUN_00b98e20((const unsigned short*)&item);
+                this->BSSimpleList_UInt16_AddHead((const unsigned short*)&item);
             }
             else
             {
@@ -2720,7 +2729,7 @@ struct Thing
     void AddNode(int index, int value);
 };
 
-extern "C" Node* __fastcall FUN_0043a010(void* alloc);
+extern "C" Node* __fastcall NiGeometry_AddProperty(void* alloc);
 
 // Allocates or reuses a free node, stores value, and prepends it to the entry's linked list, updating counts.
 // @fnv 0x00b99a90
@@ -2730,7 +2739,7 @@ void Thing::AddNode(int index, int value)
     Node* node;
     if (entry->m_free == 0)
     {
-        node = FUN_0043a010(&entry->m_uiItemCount);
+        node = NiGeometry_AddProperty(&entry->m_uiItemCount);
     }
     else
     {
@@ -2779,7 +2788,7 @@ struct Thing
     void AppendNode(int index, int value);
 };
 
-extern "C" Node* __fastcall FUN_0043a010(void* alloc);
+extern "C" Node* __fastcall NiGeometry_AddProperty(void* alloc);
 
 // Allocates or reuses a Node, sets its value, and appends it to the linked list at the given index.
 // @fnv 0x00b99b00
@@ -2789,7 +2798,7 @@ void Thing::AppendNode(int index, int value)
     Node* node;
     if (entry->m_free == 0)
     {
-        node = FUN_0043a010(&entry->m_uiItemCount);
+        node = NiGeometry_AddProperty(&entry->m_uiItemCount);
     }
     else
     {
@@ -3334,7 +3343,7 @@ extern int DAT_011ffa24;
 extern int DAT_011ff9e8;
 
 void FUN_00bbb840();
-bool FUN_00b630f0(unsigned int);
+bool BSShaderAccumulator_IsShadowPass(unsigned int);
 
 struct RendererState
 {
@@ -3432,11 +3441,11 @@ struct RendererState
 };
 RendererState* FUN_00b4f5c0();
 
-void FUN_00b984d0(int, int);
-void FUN_00b97ed0(int, int);
-int FUN_00b98540(int, int);
+void BSRenderState_SetCullMode(int, int);
+void BSRenderState_SetAlphaTestEnable(int, int);
+int BSRenderState_SetAlphaToCoverageEnable(int, int);
 void FUN_00b994f0(void*, unsigned short, bool, int, int);
-void FUN_00b988e0();
+void BSBatchRenderer_EndPass();
 
 typedef NiTListItem<void* > PassNode;
 
@@ -3496,41 +3505,41 @@ __forceinline void __fastcall RenderGroup(BSBatchRenderer* pThis, int, unsigned 
         bool bAlpha = false;
         if (i == 0)
         {
-            FUN_00b984d0(1, 0);
-            FUN_00b97ed0(0, 0);
+            BSRenderState_SetCullMode(1, 0);
+            BSRenderState_SetAlphaTestEnable(0, 0);
             if (DAT_011f9421)
-                FUN_00b98540(0, 1);
+                BSRenderState_SetAlphaToCoverageEnable(0, 1);
         }
         else if (i == 1)
         {
-            FUN_00b984d0(3, 1);
-            FUN_00b97ed0(0, 0);
+            BSRenderState_SetCullMode(3, 1);
+            BSRenderState_SetAlphaTestEnable(0, 0);
             if (DAT_011f9421)
-                FUN_00b98540(0, 1);
+                BSRenderState_SetAlphaToCoverageEnable(0, 1);
         }
         else if (i == 2)
         {
-            FUN_00b984d0(3, 1);
-            FUN_00b97ed0(1, 1);
+            BSRenderState_SetCullMode(3, 1);
+            BSRenderState_SetAlphaTestEnable(1, 1);
             bAlpha = true;
             if (DAT_011f9421)
-                FUN_00b98540(1, 1);
+                BSRenderState_SetAlphaToCoverageEnable(1, 1);
         }
         else if (i == 3)
         {
-            FUN_00b984d0(1, 1);
-            FUN_00b97ed0(1, 1);
+            BSRenderState_SetCullMode(1, 1);
+            BSRenderState_SetAlphaTestEnable(1, 1);
             bAlpha = true;
             if (DAT_011f9421)
-                FUN_00b98540(1, 1);
+                BSRenderState_SetAlphaToCoverageEnable(1, 1);
         }
         else if (i == 4)
         {
-            FUN_00b984d0(1, 1);
-            FUN_00b97ed0(1, 1);
+            BSRenderState_SetCullMode(1, 1);
+            BSRenderState_SetAlphaTestEnable(1, 1);
             bAlpha = true;
             if (DAT_011f9421)
-                FUN_00b98540(0, 1);
+                BSRenderState_SetAlphaToCoverageEnable(0, 1);
         }
 
         PassBucket& kBucket = static_cast<RenderPassListCollection*>(pThis->pRenderPassA)[uiRenderPassIndex].buckets[i];
@@ -3544,9 +3553,9 @@ __forceinline void __fastcall RenderGroup(BSBatchRenderer* pThis, int, unsigned 
         if (DAT_011f9421)
         {
             DAT_011ffa28--;
-            FUN_00b98540(0, 0);
+            BSRenderState_SetAlphaToCoverageEnable(0, 0);
         }
-        FUN_00b98540(0, 0);
+        BSRenderState_SetAlphaToCoverageEnable(0, 0);
         if (DAT_011ffa24)
             DAT_011ffa24--;
         if (DAT_011ff9e8)
@@ -3585,7 +3594,7 @@ void __fastcall FUN_00b99e20(BSBatchRenderer* pThis, int, unsigned int uiMinPass
                 unsigned int uiValue = 0;
                 reinterpret_cast<NiTPointerMap<unsigned int, unsigned int>*>(&pThis->RenderPassMap)->GetAt(item, uiValue);
 
-                if (FUN_00b630f0(item) && (FUN_00b4f5c0()->bFlag164 || FUN_00b4f5c0()->bFlag165))
+                if (BSShaderAccumulator_IsShadowPass(item) && (FUN_00b4f5c0()->bFlag164 || FUN_00b4f5c0()->bFlag165))
                 {
                     static_cast<RenderPassListCollection*>(pThis->pRenderPassA)[uiValue].ClearPassGroups(false);
                     pPass = pPass->m_pkNext;
@@ -3597,9 +3606,9 @@ void __fastcall FUN_00b99e20(BSBatchRenderer* pThis, int, unsigned int uiMinPass
         }
     }
 
-    FUN_00b984d0(1, 0);
-    FUN_00b97ed0(0, 0);
-    FUN_00b988e0();
+    BSRenderState_SetCullMode(1, 0);
+    BSRenderState_SetAlphaTestEnable(0, 0);
+    BSBatchRenderer_EndPass();
 }
 }  // namespace fnv_00b99e20
 
@@ -3659,13 +3668,14 @@ struct BatchGroup
 };
 extern bool DAT_011f9421;
 extern int DAT_011ffa24, DAT_011ff9e8, DAT_011ffa28;
-void FUN_00b984d0(int, int);
-void FUN_00b97ed0(int, int);
-int FUN_00b98540(int, int);
+void BSRenderState_SetCullMode(int, int);
+void BSRenderState_SetAlphaTestEnable(int, int);
+int BSRenderState_SetAlphaToCoverageEnable(int, int);
 void FUN_00b994f0(void*, unsigned int, bool, int, int);
 // Processes a batch queue by applying state, rendering passes, and removing them until a kind change or empty queue is reached.
 // @fnv 0x00b9a120
-bool __fastcall FUN_00b9a120(BSBatchRenderer* pThis, int, unsigned& key, int& bucket, bool& kind, int flags)
+// src: COMMUNITY 0x00b9a120
+bool __fastcall BSBatchRenderer_RenderNextRenderPass(BSBatchRenderer* pThis, int, unsigned& key, int& bucket, bool& kind, int flags)
 {
     unsigned index = 0;
     reinterpret_cast<NiTPointerMap<unsigned int, unsigned int>*>(&pThis->RenderPassMap)->GetAt(key, index);
@@ -3674,39 +3684,39 @@ bool __fastcall FUN_00b9a120(BSBatchRenderer* pThis, int, unsigned& key, int& bu
 
     if (bucket == 0)
     {
-        FUN_00b984d0(1, 0);
-        FUN_00b97ed0(0, 1);
-        FUN_00b98540(0, 1);
+        BSRenderState_SetCullMode(1, 0);
+        BSRenderState_SetAlphaTestEnable(0, 1);
+        BSRenderState_SetAlphaToCoverageEnable(0, 1);
     }
     if (bucket == 1)
     {
-        FUN_00b984d0(3, 1);
-        FUN_00b97ed0(0, 1);
-        FUN_00b98540(0, 1);
+        BSRenderState_SetCullMode(3, 1);
+        BSRenderState_SetAlphaTestEnable(0, 1);
+        BSRenderState_SetAlphaToCoverageEnable(0, 1);
     }
     if (bucket == 2)
     {
-        FUN_00b984d0(3, 1);
-        FUN_00b97ed0(1, 1);
+        BSRenderState_SetCullMode(3, 1);
+        BSRenderState_SetAlphaTestEnable(1, 1);
         alpha = true;
         if (DAT_011f9421)
-            FUN_00b98540(1, 1);
+            BSRenderState_SetAlphaToCoverageEnable(1, 1);
     }
     if (bucket == 3)
     {
-        FUN_00b984d0(1, 1);
-        FUN_00b97ed0(1, 1);
+        BSRenderState_SetCullMode(1, 1);
+        BSRenderState_SetAlphaTestEnable(1, 1);
         alpha = true;
         if (DAT_011f9421)
-            FUN_00b98540(1, 1);
+            BSRenderState_SetAlphaToCoverageEnable(1, 1);
     }
     if (bucket == 4)
     {
-        FUN_00b984d0(1, 1);
-        FUN_00b97ed0(1, 1);
+        BSRenderState_SetCullMode(1, 1);
+        BSRenderState_SetAlphaTestEnable(1, 1);
         alpha = true;
         if (DAT_011f9421)
-            FUN_00b98540(0, 1);
+            BSRenderState_SetAlphaToCoverageEnable(0, 1);
     }
 
     BatchPass* pass = static_cast<BatchGroup*>(pThis->pRenderPassA)[index].queues[bucket].GetHead();
@@ -3736,9 +3746,9 @@ bool __fastcall FUN_00b9a120(BSBatchRenderer* pThis, int, unsigned& key, int& bu
     if (DAT_011f9421)
     {
         --DAT_011ffa28;
-        FUN_00b98540(0, 0);
+        BSRenderState_SetAlphaToCoverageEnable(0, 0);
     }
-    FUN_00b98540(0, 0);
+    BSRenderState_SetAlphaToCoverageEnable(0, 0);
     bool result = true;
     if (!found)
         result = pThis->FindPassBucket(key, bucket, kind);

@@ -452,7 +452,7 @@ struct S_cbde40_Guard
 };
 struct S_cbde40_Pool
 {
-    void* FUN_00aa3e40(unsigned int n);
+    void* Game_DoHeapAlloc(unsigned int n);
 };
 extern S_cbde40_Pool DAT_011f6238;
 extern int DAT_0108ff98;
@@ -469,7 +469,7 @@ struct S_cbde40_Obj
     int unk10;
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 struct S_cbde40
@@ -955,10 +955,10 @@ struct Obj
     void hkRotation_renormalize();
     void FUN_00c8ef80(PathRef* p);
     void UpdateMatchingNodes(Obj* a);
-    HandleSrc* FUN_0070c440(int* out);
+    HandleSrc* bhkCharacterController_GetCollisionFilter(int* out);
     HandleSrc* FUN_00931ed0(int* out);
     int FUN_0043b4d0();
-    Obj* FUN_0043b4f0(int* out);
+    Obj* bhkWorldObject_GetCollisionFilter(int* out);
     int FUN_00517630();
     void FUN_00c6e390(V5* v);
 };
@@ -1016,7 +1016,7 @@ void FUN_00c69f50(Obj* a, int b, int c);
 void FUN_00c6a350(Obj* a, int b, int c, int d, int e);
 void FUN_00c6a3d0(Obj* a, int b, int c, int d);
 void FUN_00c6a0b0(Obj* a, int b, int c, int d);
-bool FUN_009c5ba0(Big* a, Obj* b, int c, int d);
+bool Projectile_PickSceneGraph(Big* a, Obj* b, int c, int d);
 int FUN_004b5820(int a);
 Obj* FUN_004b5260(Obj* a);
 void FUN_00553fc0(V5* a, V* b);
@@ -1024,7 +1024,7 @@ void FUN_004a3e00(void* a, V* b);
 int FUN_005dbe10();
 int FUN_004b3890(V* a, Color* b, V* c, Color* d, int e);
 int FUN_004b59f0(int a);
-Obj* FUN_004b5a80(int a);
+Obj* bhkEntity_Getbhk(int a);
 Obj* FUN_0056f930(int a);
 void FUN_0062b8d0(Obj* a, V* b, int c);
 
@@ -1164,7 +1164,7 @@ void MissileProjectile::FUN_009b90b0()
                             {
                                 Res res;
                                 big.FUN_004a3fb0(&res);
-                                bool ok = FUN_009c5ba0(&big, p60, 0, 1);
+                                bool ok = Projectile_PickSceneGraph(&big, p60, 0, 1);
                                 if (ok && big.FUN_008cdd90()->FUN_00460140()->FUN_00726070() > 0)
                                     p190 = FUN_004b5820(big.FUN_008cdd90()->FUN_00460140()->GetEntryAt(0)->unk50);
                             }
@@ -1226,7 +1226,7 @@ void MissileProjectile::FUN_009b90b0()
                                     int t8bc;
                                     if (((Obj*)GetPhysicsCharacterController()))
                                     {
-                                        h.val = ((Obj*)GetPhysicsCharacterController())->FUN_0070c440(&t8bc)->val;
+                                        h.val = ((Obj*)GetPhysicsCharacterController())->bhkCharacterController_GetCollisionFilter(&t8bc)->val;
                                     }
                                     else
                                     {
@@ -1261,10 +1261,10 @@ void MissileProjectile::FUN_009b90b0()
                                         Rec rec;
                                         rec.FUN_00696c30(big2.FUN_008cdd90()->FUN_00460140()->GetEntryAt(k));
                                         int pc94 = FUN_004b5820(rec.unk50);
-                                        Obj* pc98 = FUN_004b5a80(FUN_004b59f0(rec.unk50));
+                                        Obj* pc98 = bhkEntity_Getbhk(FUN_004b59f0(rec.unk50));
                                         Obj* pc9c = FUN_0056f930(pc94);
                                         int tca0;
-                                        int type = pc98 ? pc98->FUN_0043b4f0(&tca0)->FUN_0043b4d0() : 0;
+                                        int type = pc98 ? pc98->bhkWorldObject_GetCollisionFilter(&tca0)->FUN_0043b4d0() : 0;
                                         if (pc98 &&
                                             (type == 1 || type == 2 || type == 9 || type == 0x11 || type == 0xd ||
                                              type == 0x14) &&
@@ -1283,14 +1283,14 @@ void MissileProjectile::FUN_009b90b0()
                         owner->unk28 = 1;
                         if (blocked)
                         {
-                            if (FUN_008d8b80())
+                            if (MiddleHighProcess_GetCurrentFurniture())
                                 FUN_008126e0(0);
                             FUN_00c69f50(p60, 1, 1);
                             FUN_00c6a350(p60, 4, 1, 1, 1);
                             if (((Obj*)GetPhysicsCharacterController()))
                             {
                                 int tcac;
-                                FUN_00c6a3d0(p60, ((Obj*)GetPhysicsCharacterController())->FUN_0070c440(&tcac)->FUN_004a3a20(), 1, 1);
+                                FUN_00c6a3d0(p60, ((Obj*)GetPhysicsCharacterController())->bhkCharacterController_GetCollisionFilter(&tcac)->FUN_004a3a20(), 1, 1);
                                 if (!noMove)
                                 {
                                     SetLocationOnReference(*(NiPoint3*)&owner->unk04);
@@ -1320,7 +1320,7 @@ void MissileProjectile::FUN_009b90b0()
                             {
                                 V vcdc;
                                 V vce8;
-                                ((VRes*)((V*)FUN_009b7010((NiPoint3*)&vce8))->ApplyScaled(&vcdc, FUN_009669c0((NiPoint3*)&vcd0, 2.0f)))
+                                ((VRes*)((V*)Projectile_GetMovementDirection((NiPoint3*)&vce8))->ApplyScaled(&vcdc, FUN_009669c0((NiPoint3*)&vcd0, 2.0f)))
                                     ->FUN_0053d280();
                             }
                             FUN_0062b8d0(p28, &vcd0, 1);

@@ -791,9 +791,9 @@ void MidProc::FUN_00918120(Actor* pActor, int a2, int a3, int a4)
             this->v162(pActor, 1);
             return;
         }
-        pPkg->FUN_008db4c0((float)(DAT_011f6394.FUN_0084d030() * -1.0));
+        pPkg->TrespassPackage_ModWarningTimer((float)(DAT_011f6394.FUN_0084d030() * -1.0));
         if (pPkg->FUN_00644790() > *(float*)DAT_011cd2c4.Float())
-            pPkg->FUN_008db4c0((float)(pPkg->FUN_00644790() * -1.0));
+            pPkg->TrespassPackage_ModWarningTimer((float)(pPkg->FUN_00644790() * -1.0));
     }
 
     Character* pChr = dynamic_cast<Character*>(this->pTarget);
@@ -1774,7 +1774,7 @@ struct Package
     float GetField90Float();
     ::Actor* FindNearestRef(::Actor*);
     void FUN_00810530(int);
-    void FUN_00898250(float);
+    void FleePackage_ModFleeTimer(float);
     ::Actor* FUN_005e3fc0();
     void FUN_009f1140(::Actor*, ::Actor*);
     unsigned int FUN_00676280(::Actor*);
@@ -2376,11 +2376,12 @@ struct Process
     int unka0;
     float countdown;
     float FUN_007df1f0();
-    void FUN_00918860(::Actor* actor);
+    void MiddleHighProcess_ProcessFlee(::Actor* actor);
 };
 }
 // @fnv 0x00918860
-void FleeUpdate::Process::FUN_00918860(::Actor* actor)
+// src: COMMUNITY 0x00918860
+void FleeUpdate::Process::MiddleHighProcess_ProcessFlee(::Actor* actor)
 {
     Package* packageTmp = 0;
     packageTmp = (Package*)dynamic_cast<FleePackage*>(v27c());
@@ -2415,7 +2416,7 @@ void FleeUpdate::Process::FUN_00918860(::Actor* actor)
         if (!destinationTmp)
         {
             packageTmp->FUN_00810530(1);
-            packageTmp->FUN_00898250(DAT_011f6394.FUN_0084d030());
+            packageTmp->FleePackage_ModFleeTimer(DAT_011f6394.FUN_0084d030());
             if (elapsed4 >= *DAT_011cd348.FUN_00403e20())
                 v288(actor, 1);
             return;
@@ -2428,7 +2429,7 @@ void FleeUpdate::Process::FUN_00918860(::Actor* actor)
         Weapon* weapon6 = reinterpret_cast<Weapon*>(actor->FUN_008d6f30());
         if (weapon6)
         {
-            packageTmp->FUN_00898250((float)(DAT_011f6394.FUN_0084d030() * -1.0));
+            packageTmp->FleePackage_ModFleeTimer((float)(DAT_011f6394.FUN_0084d030() * -1.0));
             float distance = actor->FUN_005723b0(destinationTmp, 0, 0);
             float threshold = 0;
             if (weapon6->FUN_00425fd0())
@@ -2470,7 +2471,7 @@ void FleeUpdate::Process::FUN_00918860(::Actor* actor)
                         return;
                 }
                 packageTmp->FUN_00810530(0);
-                packageTmp->FUN_00898250((float)(packageTmp->GetField90Float() * -1.0));
+                packageTmp->FleePackage_ModFleeTimer((float)(packageTmp->GetField90Float() * -1.0));
             }
             if (!actor->FUN_008b3bb0())
             {
@@ -2484,7 +2485,7 @@ void FleeUpdate::Process::FUN_00918860(::Actor* actor)
             else
             {
                 packageTmp->FUN_00810530(1);
-                packageTmp->FUN_00898250(DAT_011f6394.FUN_0084d030());
+                packageTmp->FleePackage_ModFleeTimer(DAT_011f6394.FUN_0084d030());
                 if (elapsed4 >= *DAT_011cd348.FUN_00403e20())
                     v288(actor, 1);
             }

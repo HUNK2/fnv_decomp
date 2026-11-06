@@ -66,7 +66,8 @@ class hkMemoryMeshShape : public hkMeshShape
 };
 
 // @fnv 0x00e4a020
-void __stdcall FUN_00e4a020(void* unused)
+// src: COMMUNITY 0x00e4a020
+void __stdcall nullsub_89(void* unused)
 {}
 
 // @fnv 0x00e4a030

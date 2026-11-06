@@ -149,7 +149,7 @@ public:
     void FUN_0096ad30(unsigned int size);
     void FUN_0096ae90(unsigned int index, const unsigned int* value);
     NiObject* FUN_00a63430();
-    void FUN_00a633b0(NiSourceTexture* texture);
+    void NiTexture_SetTexture(NiSourceTexture* texture);
     void FUN_00a64160(const char* name);
     void Read(void* data, unsigned int size, unsigned int count);
     void ReadStreamString(char*& string);

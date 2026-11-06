@@ -106,7 +106,8 @@ extern "C" __declspec(dllimport) int __stdcall setsockopt(unsigned int s, int le
                                                           int optlen);
 
 // @fnv 0x00ee6d9e
-int __stdcall FUN_00ee6d9e(unsigned int s, int level, int optname, const char* optval, int optlen)
+// src: COMMUNITY 0x00ee6d9e
+int __stdcall setsockopt_0(unsigned int s, int level, int optname, const char* optval, int optlen)
 {
     return setsockopt(s, level, optname, optval, optlen);
 }
@@ -186,7 +187,7 @@ bool hkBsdSocket::SetNonBlocking(bool blocking)
 extern char DAT_01269acc;
 extern const char str_010d5004[];
 extern const char str_010d4fdc[];
-int __stdcall FUN_00ee6d86(unsigned short, void*);
+int __stdcall WSAStartup_0(unsigned short, void*);
 
 extern hkError* DAT_01268360;
 
@@ -201,7 +202,7 @@ void InitWinsock()
             int wsa[0x64];
             int buf[0x80];
         } L;
-        if (FUN_00ee6d86(0x202, L.wsa) == -1)
+        if (WSAStartup_0(0x202, L.wsa) == -1)
         {
             unsigned int streamStorage[sizeof(hkOstream) / sizeof(unsigned int)];
             hkOstream& ostr = *reinterpret_cast<hkOstream*>(streamStorage);
@@ -279,10 +280,10 @@ success:
 }
 
 unsigned short __stdcall FUN_00ee6d74(unsigned short usHostShort);
-int __stdcall FUN_00ee6d98(unsigned int s, const void* pvName, int iNameLen);
-int __stdcall FUN_00ee6d92(unsigned int s, int iBacklog);
-int __stdcall FUN_00ee6d8c(char* pcName, int iNameLen);
-extern "C" int __stdcall FUN_00ee6d9e(unsigned int s, int level, int option, const void* value, int size);
+int __stdcall bind_0(unsigned int s, const void* pvName, int iNameLen);
+int __stdcall listen_0(unsigned int s, int iBacklog);
+int __stdcall gethostname_0(char* pcName, int iNameLen);
+extern "C" int __stdcall setsockopt_0(unsigned int s, int level, int option, const void* value, int size);
 
 extern const char str_010d505c[];
 extern const char str_010d5070[];
@@ -307,14 +308,14 @@ int hkBsdSocket::listen_00da30d0(int iPort) throw()
     kName.sin_port = FUN_00ee6d74((unsigned short)iPort);
 
     int iOn = 1;
-    FUN_00ee6d9e(m_pSocket, 0xffff, 4, (const void*)&iOn, sizeof(int));
+    setsockopt_0(m_pSocket, 0xffff, 4, (const void*)&iOn, sizeof(int));
 
-    if (FUN_00ee6d98(m_pSocket, &kName, sizeof(kName)) == -1)
+    if (bind_0(m_pSocket, &kName, sizeof(kName)) == -1)
     {
         CloseSocket();
         return 1;
     }
-    if (FUN_00ee6d92(m_pSocket, 2) == -1)
+    if (listen_0(m_pSocket, 2) == -1)
     {
         CloseSocket();
         return 1;
@@ -322,7 +323,7 @@ int hkBsdSocket::listen_00da30d0(int iPort) throw()
 
     hkStringBuf kHost;
     unsigned int auiHostName[64];
-    FUN_00ee6d8c((char*)auiHostName, sizeof(auiHostName));
+    gethostname_0((char*)auiHostName, sizeof(auiHostName));
     kHost = (const char*)auiHostName;
     {
         unsigned int auiReportBuf[128];

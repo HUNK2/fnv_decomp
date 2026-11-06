@@ -23,7 +23,8 @@ void __fastcall GetAlphaValue(NiAlphaController* self, void*, float& fValue)
 extern int g_011f4084;
 
 // @fnv 0x00a56a80
-int* __cdecl FUN_00a56a80()
+// src: COMMUNITY 0x00a56a80
+int* __cdecl NiAlphaController_GetRTTI()
 {
     return &g_011f4084;
 }
@@ -61,7 +62,8 @@ struct FUN_00bc3050_Obj
 };
 // Checks whether pkTarget's RTTI chain contains g_011f4a5c, returning false for a null target or null RTTI.
 // @fnv 0x00bc3050
-bool __stdcall FUN_00bc3050(FUN_00bc3050_Obj* pkTarget)
+// src: COMMUNITY 0x00bc3050
+bool __stdcall NiMaterialColorController_InterpTargetIsCorrectType(FUN_00bc3050_Obj* pkTarget)
 {
     if (!pkTarget)
         return false;

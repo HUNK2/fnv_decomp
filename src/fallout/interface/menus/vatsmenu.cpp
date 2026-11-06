@@ -143,7 +143,8 @@ extern int* DAT_011db0d4;
 
 // Returns a pointer to the object at offset 0x11C of DAT_011db0d4 if it is non-null and its byte at 0x118 is set, otherwise null.
 // @fnv 0x007f5280
-void* __cdecl FUN_007f5280()
+// src: COMMUNITY 0x007f5280
+void* __cdecl VATSMenu_GetCurrentQueuedAction()
 {
     void* v0;
     if (DAT_011db0d4 != 0 && *(reinterpret_cast<unsigned char*>(DAT_011db0d4) + 0x118) != 0)
@@ -181,13 +182,13 @@ struct FUN_0070ec70_This
 {
     int __thiscall FUN_0070ec70();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 
 // Calls FUN_0070ec70 on the object from FUN_004b7210 and invokes HandleSelection with 2 if that value divided by -120 equals 1, otherwise 3.
 // @fnv 0x007ef760
 void __thiscall VATSMenu::FUN_007ef760(int aiID, Tile* apTarget)
 {
-    if (((FUN_0070ec70_This*)FUN_004b7210())->FUN_0070ec70() / -120 == 1)
+    if (((FUN_0070ec70_This*)InterfaceManager_GetSingleton())->FUN_0070ec70() / -120 == 1)
         HandleSelection(2, 0);
     else
         HandleSelection(3, 0);
@@ -240,7 +241,8 @@ void __cdecl _FNV_Warning(char const*);
 void __cdecl _FUN_007037e0();
 void __cdecl ShutdownVats();
 // @fnv 0x007f4830
-Tile* FUN_007f4830(Tile* apParent, char const* axName)
+// src: COMMUNITY 0x007f4830
+Tile* VATSMenu_VatsMenuRenderTemplate(Tile* apParent, char const* axName)
 {
     Tile* ptile;
     if (DAT_011db0d4 == 0)
@@ -263,7 +265,8 @@ void __cdecl _FNV_Warning(char const*);
 void __cdecl _FUN_007037e0();
 void __cdecl ShutdownVats();
 // @fnv 0x007f4890
-Tile* __cdecl FUN_007f4890(Tile* a1, char const* a2)
+// src: COMMUNITY 0x007f4890
+Tile* __cdecl VATSMenu_VatsMenuGetTileByName(Tile* a1, char const* a2)
 {
     Tile* result = FindNamedTile(a1, a2);
     if (result != 0)
@@ -330,10 +333,11 @@ struct TargetTileListBox
     virtual void v4();
     virtual Tile* v5(int);
     int GetFilteredCount(int);
-    Tile* FUN_007f6fb0();
+    Tile* ListBox_unsigned_int_GetLastItem();
 };
 // @fnv 0x007f6fb0
-Tile* TargetTileListBox::FUN_007f6fb0()
+// src: COMMUNITY 0x007f6fb0
+Tile* TargetTileListBox::ListBox_unsigned_int_GetLastItem()
 {
     return v5(GetFilteredCount(0) - 1);
 }
@@ -407,11 +411,12 @@ struct FUN_00800ed0_This
         int v;
         GO g;
     } arr[32];
-    void FUN_00800ed0();
+    void FOVATSEffectManager_ClearMultiTargets();
 };
 // Resets each of the cnt entries' value and pointer to zero, then sets cnt to 0 and sel to -1.
 // @fnv 0x00800ed0
-void FUN_00800ed0_This::FUN_00800ed0()
+// src: COMMUNITY 0x00800ed0
+void FUN_00800ed0_This::FOVATSEffectManager_ClearMultiTargets()
 {
     for (int i = 0; i < cnt; ++i)
     {
@@ -435,7 +440,8 @@ extern bool DAT_011db0b3;
 extern OSGlobals* g_osGlobals;
 
 // @fnv 0x007eeb50
-bool __cdecl FUN_007eeb50(int aiKey, bool abHeld, int aiEnabled)
+// src: COMMUNITY 0x007eeb50
+bool __cdecl IsDesiredAttackControlPressed(int aiKey, bool abHeld, int aiEnabled)
 {
     _FUN_004b7210();
     if (!_FUN_004b71d0())
@@ -495,7 +501,8 @@ TargetEntryList* FUN_007f3cf0_This::FindEntryForRef()
 extern StartMenu* DAT_01183aa0[];
 
 // @fnv 0x007f0360
-char const* FUN_007f0360(int aiIndex)
+// src: COMMUNITY 0x007f0360
+char const* MagicSystem_GetMagicItemCastName(int aiIndex)
 {
     return static_cast<const StartMenu*>(DAT_01183aa0[aiIndex])->GetMenuTitle();
 }
@@ -509,11 +516,12 @@ struct FUN_005df510_shell
 
 struct FUN_007f51b0_shell
 {
-    void __thiscall FUN_007f51b0(FUN_005df510_shell*);
+    void __thiscall VATSMenu_GetScreenPlaneProjectionMatrix(FUN_005df510_shell*);
 };
 
 // @fnv 0x007f51b0
-void __thiscall FUN_007f51b0_shell::FUN_007f51b0(FUN_005df510_shell* a1)
+// src: COMMUNITY 0x007f51b0
+void __thiscall FUN_007f51b0_shell::VATSMenu_GetScreenPlaneProjectionMatrix(FUN_005df510_shell* a1)
 {
     NiPoint3 direction = reinterpret_cast<NiAVObject*>(FUN_0045c670()->BSFaceGenNiNode::GetAnimationData())->GetWorldTranslation();
 
@@ -717,7 +725,8 @@ extern Actor* _g_thePlayer;
 
 int __fastcall FUN_00874480(char*);
 
-bool __cdecl FUN_007f4f30(FUN_00452370_shell* apTarget)
+// src: COMMUNITY 0x007f4f30
+bool __cdecl VATSMenu_FilterDestructibleObjects(FUN_00452370_shell* apTarget)
 {
     float fDistance = (*reinterpret_cast<NiPoint3*>(static_cast<const TESObjectREFR*>(_g_thePlayer)->GetPos()) - *apTarget->FUN_007f4f30_position()).Length();
 
@@ -1321,10 +1330,10 @@ struct VATS
 struct InputX
 {
     int GetAxisState(int a1, int a2);
-    int FUN_00a24f10(int a1);
+    int Controls_GetKeybind(int a1);
     int FUN_00a24660(int a1, int a2);
     int FUN_00a23a50(int a1, int a2);
-    int FUN_00a24180(int a1, int a2);
+    int Controls_GetKeyboardButton(int a1, int a2);
 };
 
 InterfaceManager* xFUN_004b7210();
@@ -1577,7 +1586,7 @@ void VATSMenu::Update()
     }
     xFUN_007748b0(m_pTiles[18], fAPRatioPtr, 0, 0, 0);
     xFUN_00779070(m_pTiles[23], m_pTiles[20], m_pTiles[21], m_pTiles[22]);
-    int iRawB = pInputA->FUN_00a24f10(0x10);
+    int iRawB = pInputA->Controls_GetKeybind(0x10);
     int iKeyTwo = iRawB >> 16;
     int iMidRes = (iRawB & 0xff00) >> 8;
     int iLowTwo = iRawB & 0xff;
@@ -1607,7 +1616,7 @@ void VATSMenu::Update()
             if (xDAT_011f2250.GetFlags() == 2 && m_bFirstFlag)
             {
                 UpdateQueueEntry(0, 0, 0);
-                xDAT_011db0d4->m_fHitChance = xDAT_011db0d4->FUN_007f48e0();
+                xDAT_011db0d4->m_fHitChance = xDAT_011db0d4->CalculateProbableEnemyHealth();
             }
             UpdateHitChanceDisplay();
         }
@@ -1619,7 +1628,7 @@ void VATSMenu::Update()
     FormX* pEquippedNew = xDAT_011dea3c->FUN_008d8520()->GetEquippedWeapon();
     WeaponX* pWeaponOld = pEquippedNew ? pEquippedNew->FUN_0044ddc0() : 0;
     bool bHasModsM = pWeaponOld ? pWeaponOld->kMods.FUN_00474a80() : 0;
-    FUN_007f3070();
+    VATSMenu_SetTargetLimb();
     if (xDAT_011f2250.GetFlags() != 4)
     {
         xDAT_011dea34 = 0;
@@ -1632,13 +1641,13 @@ void VATSMenu::Update()
         {
             InterfaceManager* pInterfaceTwo31 = xFUN_004b7210();
             int iMenuDepthZ = pInterfaceTwo31->FUN_00747d00();
-            int iMenuModeIn = pInterfaceTwo31->FUN_0073b020();
+            int iMenuModeIn = pInterfaceTwo31->InterfaceManager_GetCursorY();
         }
         static int s_iScreenWidth = xFUN_00715d40();
         static int s_iScreenHeight = xFUN_00715da0();
         static int s_iSafeWidth = xFUN_007177c0();
         static int s_iSafeHeight = xFUN_00717820();
-        if ((pInputA->FUN_00a24180(0x12, 0) && iKeyTwo != 0x12) ||
+        if ((pInputA->Controls_GetKeyboardButton(0x12, 0) && iKeyTwo != 0x12) ||
             (xFUN_004b7210()->FUN_004b71d0() && xFUN_00717a40(9, 1) == 2 &&
              xDAT_011f2250._ref_006815c0()->GetSize() > 0 && xDAT_011f2250.GetFlags() == 2))
         {
@@ -1727,7 +1736,7 @@ void VATSMenu::Update()
                 fCostX = 0.0f;
                 fShownCostOut = 0.0f;
             }
-            FUN_007f28d0();
+            UpdateAmmo();
             static int s_iBrightness = xFUN_00a00940("_Brightness", -1);
             if (xDAT_011f21cc && fShownCostOut > m_fOverrideActionPoints && xDAT_011db180)
             {
@@ -1810,7 +1819,7 @@ void VATSMenu::Update()
                                 }
                                 if (!pWeaponOld && iModeNum76 == 2 && iLimbOld != -1)
                                 {
-                                    pCommandA55->m_iActionValue = FUN_007f3bf0(iLimbOld);
+                                    pCommandA55->m_iActionValue = VATSMenu_GetActorValueFromBodyPart(iLimbOld);
                                     bLimbSetNum = true;
                                 }
                                 else if (iCountB > 0)
@@ -1833,7 +1842,7 @@ void VATSMenu::Update()
                                             if (iCountB == iPickM99)
                                             {
                                                 pCommandA55->m_iActionValue =
-                                                    FUN_007f3bf0(pNodeIn->GetItem()->m_iActionValue);
+                                                    VATSMenu_GetActorValueFromBodyPart(pNodeIn->GetItem()->m_iActionValue);
                                                 bLimbSetNum = true;
                                             }
                                             iCountB++;
@@ -1845,7 +1854,7 @@ void VATSMenu::Update()
                             }
                             if (!bLimbSetNum)
                             {
-                                pCommandA55->m_iActionValue = FUN_007f3bf0(static_cast<ChanceX*>(m_pTargetChance)->m_iActionValue);
+                                pCommandA55->m_iActionValue = VATSMenu_GetActorValueFromBodyPart(static_cast<ChanceX*>(m_pTargetChance)->m_iActionValue);
                             }
                             pCommandA55->m_ucFirstActionCode = xFUN_007f5050(iActionZ, 0);
                             pCommandA55->m_ucSecondActionCode = xFUN_00647b70(xFUN_007f5050(iActionZ, 1) - pCommandA55->m_ucFirstActionCode, 0);
@@ -1921,7 +1930,7 @@ void VATSMenu::Update()
                             pCommandA55->bSuccess =
                                 (*xDAT_011db114.Bool() && FindEntryForRef()) ? true : xFUN_004dff00(fLimbChanceZ);
                             UpdateLimbTiles();
-                            if (FUN_007f28d0() && pWeaponOld && pWeaponOld->GetWeaponType() != 10 &&
+                            if (UpdateAmmo() && pWeaponOld && pWeaponOld->GetWeaponType() != 10 &&
                                 pWeaponOld->GetWeaponType() != 13 &&
                                 pWeaponOld->GetFlaggedValue(0) != pWeaponOld->GetAmmoPerShot() &&
                                 m_fValue5 + m_fValue4 > 0)
@@ -1961,7 +1970,7 @@ void VATSMenu::Update()
                             kSoundIn = AudioX::GetSingleton()->GetSoundHandleByEditorID("UIVATSEnterFail", 0x121);
                             kSoundIn.Play(0);
                         }
-                        xDAT_011db0d4->m_fHitChance = xDAT_011db0d4->FUN_007f48e0();
+                        xDAT_011db0d4->m_fHitChance = xDAT_011db0d4->CalculateProbableEnemyHealth();
                     }
                     else if (!xFUN_004b7210()->FUN_004b71d0() && xDAT_011f2250.GetFlags() == 1 &&
                              !m_bAdditionalStateFlag)
@@ -1981,13 +1990,13 @@ void VATSMenu::Update()
                     }
                 }
             }
-            else if (!xFUN_004b7210()->FUN_004b71d0() && pInputA->FUN_00a24180(0x1e, 1) &&
-                     pInputA->FUN_00a24180(0x1e, 3) && iKeyTwo != 0x1e)
+            else if (!xFUN_004b7210()->FUN_004b71d0() && pInputA->Controls_GetKeyboardButton(0x1e, 1) &&
+                     pInputA->Controls_GetKeyboardButton(0x1e, 3) && iKeyTwo != 0x1e)
             {
                 HandleSelection(2, 0);
             }
-            else if (!xFUN_004b7210()->FUN_004b71d0() && pInputA->FUN_00a24180(0x20, 1) &&
-                     pInputA->FUN_00a24180(0x20, 3) && iKeyTwo != 0x20)
+            else if (!xFUN_004b7210()->FUN_004b71d0() && pInputA->Controls_GetKeyboardButton(0x20, 1) &&
+                     pInputA->Controls_GetKeyboardButton(0x20, 3) && iKeyTwo != 0x20)
             {
                 HandleSelection(3, 0);
             }
@@ -2154,7 +2163,8 @@ float GetAngleBetweenPoints(const NiPoint3& kA, const NiPoint3& kB);
 
 // Compares the player's distance to the objects referenced by pvA and pvB, returning -1, 1 or 0.
 // @fnv 0x007f0500
-int __cdecl FUN_007f0500(const void* pvA, const void* pvB)
+// src: COMMUNITY 0x007f0500
+int __cdecl VATSMenu_SortDirection(const void* pvA, const void* pvB)
 {
     NiPoint3 kPlayerPos = *reinterpret_cast<NiPoint3*>(g_thePlayer->GetPos());
     float fLeftDist = GetAngleBetweenPoints(reinterpret_cast<const NiPoint3&>(kPlayerPos), *(*(C7F0500Ref**)pvA)->GetPos());
@@ -2195,11 +2205,12 @@ void* __stdcall FUN_0045c670(FUN_007f06d0_Tri* t, float* f0, float* f6, float r)
 
 struct FUN_007f06d0_cls
 {
-    bool __thiscall FUN_007f06d0(FUN_007f06d0_Src* a1);
+    bool __thiscall VATSMenu_LimbOnScreen(FUN_007f06d0_Src* a1);
 };
 
 // @fnv 0x007f06d0
-bool FUN_007f06d0_cls::FUN_007f06d0(FUN_007f06d0_Src* pSrc)
+// src: COMMUNITY 0x007f06d0
+bool FUN_007f06d0_cls::VATSMenu_LimbOnScreen(FUN_007f06d0_Src* pSrc)
 {
     FUN_007f06d0_Tri t = pSrc->tri;
     float f0 = 0.0f;
@@ -2260,11 +2271,12 @@ struct VATSLookup
 {
     int unk00;
     VATSLookupList items;
-    bool __thiscall FUN_007f7280(unsigned int index, bool byPosition);
+    bool __thiscall ListBox_unsigned_int_RemoveAt(unsigned int index, bool byPosition);
     bool __thiscall RemoveNodeFromList(VATSLookupList* found, VATSLookupList* previous);
 };
 // @fnv 0x007f7280
-bool VATSLookup::FUN_007f7280(unsigned int index, bool byPosition)
+// src: COMMUNITY 0x007f7280
+bool VATSLookup::ListBox_unsigned_int_RemoveAt(unsigned int index, bool byPosition)
 {
     if (items.FUN_008256d0())
     {
@@ -2624,7 +2636,7 @@ struct WeaponPrompt
     float FUN_007ebd10();
     float FUN_007ebd30();
     int GetUnk15C();
-    const char* FUN_00522be0();
+    const char* TESObjectWEAP_GetVATSAttackName();
     float GetField378();
 };
 struct AVPrompt
@@ -2893,7 +2905,7 @@ void __cdecl FUN_007eb920(WeaponPrompt* weapon)
     if (weapon && weapon->FUN_007ebd10() > 0.0 &&
         weapon->FUN_007ebd30() <= DAT_011dea3c->values.Get(weapon->GetUnk15C()))
     {
-        ((PromptMenu*)DAT_011db0d4)->primary->Set(0xfc4, weapon->FUN_00522be0(), true);
+        ((PromptMenu*)DAT_011db0d4)->primary->Set(0xfc4, weapon->TESObjectWEAP_GetVATSAttackName(), true);
         ((PromptMenu*)DAT_011db0d4)->primary->SetInt(0xfa3, 1);
         DAT_011db0cf = true;
         ((PromptMenu*)DAT_011db0d4)->secondary->SetInt(0xfa3, 0);
@@ -2969,7 +2981,7 @@ struct VatsmenuInterfaceView
 {
     void UpdateActivatePick();
 };
-VatsmenuInterfaceView* FUN_004b7210();
+VatsmenuInterfaceView* InterfaceManager_GetSingleton();
 struct State
 {
     bool FUN_0042ce10();
@@ -2999,7 +3011,7 @@ struct Queue
 struct Wheel
 {
     void FUN_00800ac0(int, int, int);
-    void FUN_00800ed0();
+    void FOVATSEffectManager_ClearMultiTargets();
 };
 Wheel* FUN_00705910();
 void FUN_005e58f0(int, void*, float*);
@@ -3038,7 +3050,7 @@ void ShutdownVats()
     {
         if (!V::DAT_011db124.FUN_008256d0())
             V::DAT_011db124.FUN_00470470();
-        V::FUN_004b7210()->UpdateActivatePick();
+        V::InterfaceManager_GetSingleton()->UpdateActivatePick();
         V::FUN_00453a70()->FUN_00ad8780(256);
         if (!V::DAT_011ddf38->FUN_0042ce10())
         {
@@ -3111,7 +3123,7 @@ void ShutdownVats()
         }
     }
     V::FUN_00705910()->FUN_00800ac0(0, -1, 0);
-    V::FUN_00705910()->FUN_00800ed0();
+    V::FUN_00705910()->FOVATSEffectManager_ClearMultiTargets();
     V::DAT_011db0cd = 0;
 }
 
@@ -3412,15 +3424,15 @@ struct Menu85
     float damage;
     Limb85* current;
     TargetList85* FindListEntryForTarget(Actor85*);
-    int FUN_007f3bf0(int);
-    float FUN_007f48e0();
+    int VATSMenu_GetActorValueFromBodyPart(int);
+    float CalculateProbableEnemyHealth();
 };
 extern Actor85* DAT_011db0d0;
 extern Actor85* DAT_011dea3c;
 extern int DAT_011a0b70;
 struct Audio85
 {
-    BSSoundHandle FUN_00ad7550(const char*, int);
+    BSSoundHandle BSAudio_GetSoundHandleByEditorName(const char*, int);
 };
 Audio85* FUN_00453a70();
 struct Highlight85
@@ -3437,17 +3449,17 @@ void UpdateVatsTargetHighlight(bool force)
     {
         TargetList85* target13 = ((Menu85*)DAT_011db0d4)->FindListEntryForTarget(((Actor85*)DAT_011f21cc));
         if (force || (((Mode85*)&DAT_011f2250)->FUN_0044ddc0() == 2 &&
-                      (((Menu85*)DAT_011db0d4)->FUN_007f3bf0(DAT_011a0b70) !=
-                           ((Menu85*)DAT_011db0d4)->FUN_007f3bf0(((Menu85*)DAT_011db0d4)->current->part) ||
+                      (((Menu85*)DAT_011db0d4)->VATSMenu_GetActorValueFromBodyPart(DAT_011a0b70) !=
+                           ((Menu85*)DAT_011db0d4)->VATSMenu_GetActorValueFromBodyPart(((Menu85*)DAT_011db0d4)->current->part) ||
                        DAT_011db0d0 != ((Actor85*)DAT_011f21cc))))
         {
             if (!force && DAT_011db0d0 == ((Actor85*)DAT_011f21cc) && !DAT_011dea3c->FUN_008d8520()->Busy())
             {
                 BSSoundHandle sound;
-                sound = FUN_00453a70()->FUN_00ad7550("UIVATSSelectTargetPart", 289);
+                sound = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIVATSSelectTargetPart", 289);
                 sound.Play(0);
             }
-            ((Menu85*)DAT_011db0d4)->damage = ((Menu85*)DAT_011db0d4)->FUN_007f48e0();
+            ((Menu85*)DAT_011db0d4)->damage = ((Menu85*)DAT_011db0d4)->CalculateProbableEnemyHealth();
             Actor85* actor4 = 0;
             if (target13 && *target13->FUN_006815c0() && (*target13->FUN_006815c0())->actor->IsActor())
                 actor4 = (*target13->FUN_006815c0())->actor;
@@ -3479,8 +3491,8 @@ void UpdateVatsTargetHighlight(bool force)
                          ->limbs;
                 while (limb && !limb->FUN_008256d0())
                 {
-                    if (((Menu85*)DAT_011db0d4)->FUN_007f3bf0((*limb->FUN_006815c0())->part) ==
-                            ((Menu85*)DAT_011db0d4)->FUN_007f3bf0(((Menu85*)DAT_011db0d4)->current->part) &&
+                    if (((Menu85*)DAT_011db0d4)->VATSMenu_GetActorValueFromBodyPart((*limb->FUN_006815c0())->part) ==
+                            ((Menu85*)DAT_011db0d4)->VATSMenu_GetActorValueFromBodyPart(((Menu85*)DAT_011db0d4)->current->part) &&
                         *limb->FUN_006815c0() != ((Menu85*)DAT_011db0d4)->current)
                         FUN_00705910()->AppendValue((*limb->FUN_006815c0())->part);
                     limb = limb->FUN_00726070();
@@ -3841,8 +3853,8 @@ struct VatsKeyboardState
     TargetsX* FindListEntryForTarget(RefX*);
     void AssignActionTiles(TargetsX*);
     void UpdateQueueEntry(int, int, int);
-    float FUN_007f48e0();
-    void FUN_007f3070();
+    float CalculateProbableEnemyHealth();
+    void VATSMenu_SetTargetLimb();
 };
 
 struct VatsX
@@ -3855,9 +3867,9 @@ struct VatsX
 bool FUN_007f4bb0();
 bool FUN_007f4c00();
 bool _FUN_004b71d0();
-void* FUN_004b7210();
+void* InterfaceManager_GetSingleton();
 void FUN_007f3bd0(int);
-void FUN_00705780();
+void VATSCameraData_Accept();
 extern bool DAT_011db0b2;
 extern bool DAT_011db0b3;
 void FUN_007eb920(unsigned);
@@ -3888,7 +3900,7 @@ void VatsKeyboardState::HandleInput(int key, int held)
         right = false;
     }
     BSSoundHandle sound7;
-    FUN_004b7210();
+    InterfaceManager_GetSingleton();
     if (_FUN_004b71d0() && !targetStick)
         return;
     ItemsX* weapon;
@@ -4023,7 +4035,7 @@ void VatsKeyboardState::HandleInput(int key, int held)
         break;
     case 4:
         if (!closing)
-            FUN_00705780();
+            VATSCameraData_Accept();
         break;
     case 30:
         if (!closing)
@@ -4037,14 +4049,14 @@ void VatsKeyboardState::HandleInput(int key, int held)
         if (!closing && reinterpret_cast<VatsX*>(&DAT_011f2250)->FUN_0044ddc0() == 2 && heading)
         {
             UpdateQueueEntry(0, 0, 0);
-            reinterpret_cast<VatsKeyboardState*>(DAT_011db0d4)->damage = reinterpret_cast<VatsKeyboardState*>(DAT_011db0d4)->FUN_007f48e0();
+            reinterpret_cast<VatsKeyboardState*>(DAT_011db0d4)->damage = reinterpret_cast<VatsKeyboardState*>(DAT_011db0d4)->CalculateProbableEnemyHealth();
         }
         break;
     }
     if (selectedTarget && selectedTarget->v64())
         DAT_011a59f0 = 25;
     FUN_007eb920(flags);
-    FUN_007f3070();
+    VATSMenu_SetTargetLimb();
     if (reinterpret_cast<VatsX*>(&DAT_011f2250)->FUN_005d8710() && selectedTarget)
         reinterpret_cast<VatsX*>(&DAT_011f2250)->FUN_009c9ae0(selectedTarget);
 }
@@ -4497,7 +4509,7 @@ struct Owner7
     LimbX* m_pTargetChance;
     TargetEntryList* FindListEntryForTarget(void*);
     bool HasVisibleMarkerOnScreen();
-    void* FUN_007f3bf0(int);
+    void* VATSMenu_GetActorValueFromBodyPart(int);
     void UpdateLimbTiles();
     void UpdateLimbHighlight();
 };
@@ -4596,8 +4608,8 @@ void Owner7::UpdateLimbHighlight()
                 else
                 {
                     if (m_pTargetChance != (LimbX*)((ChanceX*)*node7->FUN_006815c0()) &&
-                        (int)FUN_007f3bf0(((ChanceX*)*node7->FUN_006815c0())->f20) !=
-                            (int)FUN_007f3bf0(m_pTargetChance->f20))
+                        (int)VATSMenu_GetActorValueFromBodyPart(((ChanceX*)*node7->FUN_006815c0())->f20) !=
+                            (int)VATSMenu_GetActorValueFromBodyPart(m_pTargetChance->f20))
                     {
                         if ((fVal8 == ((ChanceX*)*node7->FUN_006815c0())->tile->AnimValue(0xfa9) &&
                              fVal8 != 255.0) ||
@@ -4628,8 +4640,8 @@ void Owner7::UpdateLimbHighlight()
             ((ChanceX*)*node7->FUN_006815c0())
                 ->tile->FUN_00700320(
                     sLimbNameVisible,
-                    (int)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((Owner7*)DAT_011db0d4)->m_pTargetChance->f20) ==
-                            (int)((Owner7*)DAT_011db0d4)->FUN_007f3bf0(((ChanceX*)*node7->FUN_006815c0())->f20)
+                    (int)((Owner7*)DAT_011db0d4)->VATSMenu_GetActorValueFromBodyPart(((Owner7*)DAT_011db0d4)->m_pTargetChance->f20) ==
+                            (int)((Owner7*)DAT_011db0d4)->VATSMenu_GetActorValueFromBodyPart(((ChanceX*)*node7->FUN_006815c0())->f20)
                         ? 1
                         : 0);
             node7 = node7->FUN_00726070();
@@ -4712,7 +4724,7 @@ void VATSMenu::UpdateHitChanceDisplay()
             while (nextNodeTmp && !nextNodeTmp->IsEmpty())
             {
                 pOtherItem = nextNodeTmp->GetItem();
-                if (this->FUN_007f3bf0(pItem->m_iActionValue) == this->FUN_007f3bf0(pOtherItem->m_iActionValue))
+                if (this->VATSMenu_GetActorValueFromBodyPart(pItem->m_iActionValue) == this->VATSMenu_GetActorValueFromBodyPart(pOtherItem->m_iActionValue))
                 {
                     if (((Tile*)pOtherItem->iHitCount) == 0)
                     {
@@ -4753,7 +4765,7 @@ void VATSMenu::UpdateHitChanceDisplay()
 
         count7 =
             (!((QueueX2*)xDAT_011f2250._ref_006815c0())->IsEmpty() &&
-             ((VATS*)&xDAT_011f2250)->FUN_009c71f0()->m_iActionValue == this->FUN_007f3bf0(pItem->m_iActionValue))
+             ((VATS*)&xDAT_011f2250)->FUN_009c71f0()->m_iActionValue == this->VATSMenu_GetActorValueFromBodyPart(pItem->m_iActionValue))
                 ? this->GetConsecutiveMatchCount() + 1
                 : 0;
 
@@ -4928,7 +4940,7 @@ namespace fnv_007f3d60 {
 
 struct FUN_007f3d60_cls : StandIn
 {
-    unsigned int FUN_007f3bf0(int a);
+    unsigned int VATSMenu_GetActorValueFromBodyPart(int a);
     TargetEntryList* FindListEntryByValue(int a1);
 };
 // @fnv 0x007f3d60
@@ -4944,7 +4956,7 @@ TargetEntryList* FUN_007f3d60_cls::FindListEntryByValue(int aiValue)
         TargetEntryList* cur = (TargetEntryList*)(head + 8);
         while (cur != 0 && !cur->FUN_008256d0())
         {
-            if ((int)this->FUN_007f3bf0(*(int*)((int)*cur->FUN_006815c0() + 0x20)) == aiValue)
+            if ((int)this->VATSMenu_GetActorValueFromBodyPart(*(int*)((int)*cur->FUN_006815c0() + 0x20)) == aiValue)
             {
                 return cur;
             }
@@ -5248,13 +5260,13 @@ struct TimerM
 };
 struct EffectM
 {
-    void FUN_0044ac20(const int*);
+    void FOVATSEffectManager_SetEffectMode(const int*);
     void FUN_00800d50(ActorM*);
-    void FUN_00800e50(ActorM*);
+    void FOVATSEffectManager_SetSelectedMultiTarget(ActorM*);
     void FUN_00800ac0(ActorM*, int, int);
-    void FUN_00800ed0();
+    void FOVATSEffectManager_ClearMultiTargets();
     bool GetByteAtOffset();
-    void FUN_00800700();
+    void FOVATSEffectManager_TriggerScan();
     void FUN_008009d0();
     void FUN_00800a90();
     bool GetRatioByIndex(int, float*);
@@ -5339,13 +5351,13 @@ struct MenuM
     float damage;
     LimbM* current;
     TargetListM* FindListEntryForTarget(ActorM*);
-    void FUN_007f28d0();
+    void UpdateAmmo();
     void UpdateHitChanceDisplay();
     LimbListM* FindListEntryByValue(int);
-    int FUN_007f3bf0(int);
+    int VATSMenu_GetActorValueFromBodyPart(int);
     void UpdateLimbHighlight();
     void UpdateLimbTiles();
-    bool FUN_007f06d0(LimbM*);
+    bool VATSMenu_LimbOnScreen(LimbM*);
     float CalculateVATSChance(LimbListM*);
     bool UpdateVatsTargeting();
 };
@@ -5384,7 +5396,7 @@ bool MenuM::UpdateVatsTargeting()
         if (!lit)
         {
             aBIsOpen = 1;
-            FUN_00705910()->FUN_0044ac20(&aBIsOpen);
+            FUN_00705910()->FOVATSEffectManager_SetEffectMode(&aBIsOpen);
             a9 = &mTargets;
             while (a9 && !a9->FUN_008256d0())
             {
@@ -5393,16 +5405,16 @@ bool MenuM::UpdateVatsTargeting()
             }
             lit = true;
         }
-        FUN_00705910()->FUN_00800e50(mTarget);
+        FUN_00705910()->FOVATSEffectManager_SetSelectedMultiTarget(mTarget);
         return true;
     }
     else if (lit)
     {
         lit = false;
         FUN_00705910()->FUN_00800ac0(0, 0, 0);
-        FUN_00705910()->FUN_00800ed0();
+        FUN_00705910()->FOVATSEffectManager_ClearMultiTargets();
         disabledVal = 0;
-        FUN_00705910()->FUN_0044ac20(&disabledVal);
+        FUN_00705910()->FOVATSEffectManager_SetEffectMode(&disabledVal);
         UpdateVatsTargetHighlight(1);
         return false;
     }
@@ -5415,7 +5427,7 @@ bool MenuM::UpdateVatsTargeting()
         {
             if (!FUN_00705910()->GetByteAtOffset() && !mForce)
             {
-                FUN_00705910()->FUN_00800700();
+                FUN_00705910()->FOVATSEffectManager_TriggerScan();
                 if (!target22->actor->check())
                 {
                     FUN_00705910()->FUN_00800ac0(target22->actor, 1, 1);
@@ -5459,7 +5471,7 @@ bool MenuM::UpdateVatsTargeting()
                     }
                     mTime = mTimer.FUN_00825c00();
                 }
-                FUN_007f28d0();
+                UpdateAmmo();
                 next4 = &target22->limbs;
                 torsoVal = 0;
                 while (next4 && !next4->FUN_008256d0())
@@ -5509,7 +5521,7 @@ bool MenuM::UpdateVatsTargeting()
                             current = torsoVal;
                         }
                         else
-                            mLimb = FUN_007f3bf0(current->limb);
+                            mLimb = VATSMenu_GetActorValueFromBodyPart(current->limb);
                         mLast = target22;
                         target22->done = true;
                         mForce = false;
@@ -5545,7 +5557,7 @@ bool MenuM::UpdateVatsTargeting()
                         limb7->value24 = valueB2;
                         if (limb7->pos == mZero)
                             UpdateLimbTiles();
-                        if (!FUN_007f06d0(limb7))
+                        if (!VATSMenu_LimbOnScreen(limb7))
                         {
                             limb7->failed = true;
                             limb7->started = false;
@@ -5576,7 +5588,7 @@ bool MenuM::UpdateVatsTargeting()
                                 current = torsoVal;
                             }
                             else
-                                mLimb = FUN_007f3bf0(current->limb);
+                                mLimb = VATSMenu_GetActorValueFromBodyPart(current->limb);
                             mLast = target22;
                             mState.FUN_009c6c30(2, false);
                             FUN_00705910()->FUN_008009d0();
@@ -5641,10 +5653,11 @@ struct WeaponTypeCall
 {
     int FUN_00446390();
 };
-float FUN_009b4fe0(VATSMenu::TargetCommand* command);
+float HitData_PredictVATSCommandHealthDamage(VATSMenu::TargetCommand* command);
 
 // @fnv 0x007f48e0
-float VATSMenu::FUN_007f48e0()
+// src: COMMUNITY 0x007f48e0
+float VATSMenu::CalculateProbableEnemyHealth()
 {
     if (!xDAT_011f21cc || !xDAT_011f21cc->IsActor())
         return 0.0f;
@@ -5654,7 +5667,7 @@ float VATSMenu::FUN_007f48e0()
     {
         if ((*nodeA->FUN_006815c0())->pTarget == reinterpret_cast<Actor*>(xDAT_011f21cc))
         {
-            float queuedDamage = FUN_009b4fe0(*nodeA->FUN_006815c0());
+            float queuedDamage = HitData_PredictVATSCommandHealthDamage(*nodeA->FUN_006815c0());
             current -= ((DamageActor*)xDAT_011f21cc)->FUN_008808a0(-queuedDamage, xDAT_011dea3c);
         }
         nodeA = nodeA->FUN_00726070();
@@ -5667,9 +5680,9 @@ float VATSMenu::FUN_007f48e0()
     kItem.eAction = entryVal;
     kItem.bFlag4 = true;
     kItem.pTarget = xDAT_011f21cc;
-    kItem.m_iActionValue = FUN_007f3bf0(static_cast<ChanceX*>(m_pTargetChance)->m_iActionValue);
+    kItem.m_iActionValue = VATSMenu_GetActorValueFromBodyPart(static_cast<ChanceX*>(m_pTargetChance)->m_iActionValue);
     kItem.ucShots = xFUN_007f5050(entryVal, 0);
-    float valueTmp = FUN_009b4fe0((VATSMenu::TargetCommand*)&kItem);
+    float valueTmp = HitData_PredictVATSCommandHealthDamage((VATSMenu::TargetCommand*)&kItem);
     current -= ((DamageActor*)xDAT_011f21cc)->FUN_008808a0(-valueTmp, xDAT_011dea3c);
     if (!((HealthValueOwner*)&xDAT_011f21cc->kAVOwner)->GetCurrentValue(16))
         return 0.0f;
@@ -5730,9 +5743,9 @@ struct ListItemTile;
 struct ListItemValue
 {
     void RemoveFromReactions();
-    void FUN_00a09130(int operation, ListItemTile* tile, int trait);
+    void Tile_Value_AddRefValueAction(int operation, ListItemTile* tile, int trait);
     void AppendFloatAction(int operation, float value);
-    void FUN_00a09410(int mode);
+    void Tile_Value_SetFloat(int mode);
 };
 struct ListItemMenu
 {
@@ -5810,9 +5823,9 @@ ListItemTile* ListBoxInsert::AddItemTile(void* object, const char* text, ListIte
         {
             value7 = parent->FindTraitValue(4016);
             value7->RemoveFromReactions();
-            value7->FUN_00a09130(2000, tile, 4016);
+            value7->Tile_Value_AddRefValueAction(2000, tile, 4016);
             value7->AppendFloatAction(2003, parent->FUN_00a011b0(xFUN_00a00940(_kListBoxNumFiltered, -1)));
-            value7->FUN_00a09410(0);
+            value7->Tile_Value_SetFloat(0);
         }
         return tile;
     }
@@ -5888,8 +5901,8 @@ struct Scene392
 };
 struct Part392
 {
-    const char* FUN_006838b0();
-    const char* FUN_0043b230();
+    const char* NiAVObject_GetCollisionObject();
+    const char* NiObjectNET_GetControllers();
 };
 struct Race392
 {
@@ -6150,7 +6163,7 @@ struct ProjectionResult392
     void ProjectToScreen();
 };
 ProjectionResult392* __stdcall FUN_0045c670(NiPoint3*, float*, float*, float);
-Scene392* FUN_004aae30(Scene392*, const char*);
+Scene392* BSUtilities_GetObjectByName(Scene392*, const char*);
 unsigned int FUN_004873d0(Weapon392*);
 float FUN_00408840(float);
 float FUN_0040ebd0(float, float);
@@ -6200,7 +6213,7 @@ void VATSMenu::UpdateLimbTiles()
             form2 = reinterpret_cast<Ref392*>(xDAT_011f21cc)->FUN_004181e0()->GetRace();
             parts3 = form2->GetValueByIndex(item2->limb);
             if (parts3)
-                object4 = FUN_004aae30(reinterpret_cast<Scene392*>(reinterpret_cast<Actor*>(xDAT_011f21cc)->GetNiNode()), parts3->FUN_0043b230());
+                object4 = BSUtilities_GetObjectByName(reinterpret_cast<Scene392*>(reinterpret_cast<Actor*>(xDAT_011f21cc)->GetNiNode()), parts3->NiObjectNET_GetControllers());
         }
         if (object4)
         {
@@ -6211,7 +6224,7 @@ void VATSMenu::UpdateLimbTiles()
         item2->x *= xFUN_00715d40();
         item2->y = (1.0 - item2->y) * xFUN_00715da0();
         Matrix392 matrix;
-        reinterpret_cast<FUN_007f51b0_shell*>(this)->FUN_007f51b0(reinterpret_cast<FUN_005df510_shell*>(&matrix));
+        reinterpret_cast<FUN_007f51b0_shell*>(this)->VATSMenu_GetScreenPlaneProjectionMatrix(reinterpret_cast<FUN_005df510_shell*>(&matrix));
         item2->projected = matrix * item2->world;
         Form392* ba = reinterpret_cast<Actor*>(xDAT_011f21cc)->IsActor()
                           ? reinterpret_cast<Form392*>(
@@ -6230,12 +6243,12 @@ void VATSMenu::UpdateLimbTiles()
         }
         else if (parts3)
         {
-            item2->tile->FUN_00a01350(xFUN_00a00940("_LimbName", -1), parts3->FUN_006838b0(), true);
+            item2->tile->FUN_00a01350(xFUN_00a00940("_LimbName", -1), parts3->NiAVObject_GetCollisionObject(), true);
             item2->tile->FUN_00a012d0(
                 xFUN_00a00940("_MeterPercent", -1),
                 FUN_0040ebd0(
                     1.0f, FUN_00404010(
-                              0.0f, (float)(xDAT_011f21cc->kAVOwner.GetActorValue((ActorValue::Index)FUN_007f3bf0(item2->limb)) / 100.0))),
+                              0.0f, (float)(xDAT_011f21cc->kAVOwner.GetActorValue((ActorValue::Index)VATSMenu_GetActorValueFromBodyPart(item2->limb)) / 100.0))),
                 true);
         }
         else if (weaponVal)
@@ -6499,13 +6512,13 @@ void __thiscall FUN_007f6e50_This::AssignActionTiles(TargetList* apTargets)
     }
 }
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 bool __cdecl _FUN_004b71d0();
 
 // @fnv 0x007ef7b0
 void __thiscall VATSMenu::FUN_007ef7b0(int aiID, int aiArg)
 {
-    FUN_004b7210();
+    InterfaceManager_GetSingleton();
     if (_FUN_004b71d0())
         return;
 
@@ -6569,7 +6582,7 @@ namespace VatsQueueText {
 
 struct SoundSource
 {
-    BSSoundHandle FUN_00ad7550(const char* apEditorID, int aiFlags);
+    BSSoundHandle BSAudio_GetSoundHandleByEditorName(const char* apEditorID, int aiFlags);
     BSSoundHandle ResolveAudioHandle(const char* apEditorID, int aiFlags);
 };
 SoundSource* FUN_00453a70();
@@ -6602,7 +6615,7 @@ struct Weapon
     bool FUN_006450c0();
     int FUN_00446390();
     int GetUnk15C();
-    const char* FUN_00522be0();
+    const char* TESObjectWEAP_GetVATSAttackName();
 };
 
 struct WeaponHolder
@@ -6622,7 +6635,7 @@ struct LimbInfo
 
 struct LimbName
 {
-    const char* FUN_006838b0();
+    const char* NiAVObject_GetCollisionObject();
 };
 
 struct Process
@@ -6998,8 +7011,8 @@ extern int DAT_011a59f0;
 struct QueueList
 {
     char data[0x30];
-    Tile* FUN_007f6fb0();
-    bool FUN_007f7280(unsigned int auiIndex, bool abByPosition);
+    Tile* ListBox_unsigned_int_GetLastItem();
+    bool ListBox_unsigned_int_RemoveAt(unsigned int auiIndex, bool abByPosition);
     int GetRaceCount();
     Tile* AddItemTile(int aiIndex, int a2, int a3, int a4);
 };
@@ -7010,14 +7023,14 @@ struct LimbSelection
     int m_iLimbIndex;
 };
 
-void FUN_00705780();
+void VATSCameraData_Accept();
 bool FUN_009526b0();
-const char* __cdecl FUN_0066ddc0(int aiType);
+const char* __cdecl ActionPoints_GetActionPointsString(int aiType);
 bool __cdecl FUN_0066dde0(int aiType);
 int __cdecl FUN_00408b20(const char* apA, const char* apB);
 int __cdecl FUN_00406d30(char* apDest, unsigned int auiSize, const char* apSrc);
 int __cdecl FUN_00406d50(char* apDest, unsigned int auiSize, const char* apSrc);
-const char* __cdecl FUN_007f0360(int aiIndex);
+const char* __cdecl MagicSystem_GetMagicItemCastName(int aiIndex);
 
 struct VATSMenuQueue
 {
@@ -7035,7 +7048,7 @@ struct VATSMenuQueue
     int iSelected;
 
     void UpdateLimbTiles();
-    int FUN_007f3bf0(int aiLimb);
+    int VATSMenu_GetActorValueFromBodyPart(int aiLimb);
     void UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool abShowDetail);
 };
 
@@ -7052,7 +7065,7 @@ void VATSMenuQueue::UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool
         DAT_011f2250.PopLastItem(&iType, &bFlag);
         UpdateLimbTiles();
         if (iType == 0x16 && DAT_011f2250.FUN_0044ddc0() == 2)
-            FUN_00705780();
+            VATSCameraData_Accept();
         if (!FUN_009526b0())
         {
             WeaponHolder* pHolder = DAT_011dea3c->FUN_008d8520()->FUN_vt148();
@@ -7064,13 +7077,13 @@ void VATSMenuQueue::UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool
         pQueueTile->FUN_00700320(0xfaf, 1);
         if (iType != 9)
         {
-            Tile* pLast = kQueue.FUN_007f6fb0();
-            if (pLast && !FUN_00408b20(FUN_0066ddc0(9), pLast->FUN_00a011f0(0xfc4)))
-                kQueue.FUN_007f7280(kQueue.GetRaceCount() - 1, false);
+            Tile* pLast = kQueue.ListBox_unsigned_int_GetLastItem();
+            if (pLast && !FUN_00408b20(ActionPoints_GetActionPointsString(9), pLast->FUN_00a011f0(0xfc4)))
+                kQueue.ListBox_unsigned_int_RemoveAt(kQueue.GetRaceCount() - 1, false);
         }
-        kQueue.FUN_007f7280(kQueue.GetRaceCount() - 1, false);
+        kQueue.ListBox_unsigned_int_RemoveAt(kQueue.GetRaceCount() - 1, false);
         BSSoundHandle kSoundCur;
-        kSoundCur = FUN_00453a70()->FUN_00ad7550("UIMenuCancel", 0x121);
+        kSoundCur = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIMenuCancel", 0x121);
         kSoundCur.Play(0);
     }
     else
@@ -7092,13 +7105,13 @@ void VATSMenuQueue::UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool
                 pQueueWeaponTmp->FUN_00446390() != 10)
             {
                 LimbInfo* pLimbInfoTmp = DAT_011f21cc->FUN_004181e0()->FUN_vt180();
-                LimbName* pLimb = (LimbName*)pLimbInfoTmp->FUN_005e5130(FUN_007f3bf0(pLimbs->m_iLimbIndex));
+                LimbName* pLimb = (LimbName*)pLimbInfoTmp->FUN_005e5130(VATSMenu_GetActorValueFromBodyPart(pLimbs->m_iLimbIndex));
                 if (pLimb)
                 {
                     FUN_00406d30(acTextBase, 260, apAction->pTarget->FUN_0055d520());
                     FUN_00406d50(acTextBase, 260, ": ");
-                    if (pLimb->FUN_006838b0())
-                        FUN_00406d50(acTextBase, 260, pLimb->FUN_006838b0());
+                    if (pLimb->NiAVObject_GetCollisionObject())
+                        FUN_00406d50(acTextBase, 260, pLimb->NiAVObject_GetCollisionObject());
                     else
                         FUN_00406d50(acTextBase, 260, "---");
                 }
@@ -7116,7 +7129,7 @@ void VATSMenuQueue::UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool
                     FUN_00406d30(acTextBase, 260, apAction->pTarget->FUN_0055d520());
                     FUN_00406d50(acTextBase, 260, ": ");
                     if (reinterpret_cast<ObjectName*>(pTarget->FUN_00413f40())->FUN_0043b1b0())
-                        FUN_00406d50(acTextBase, 260, FUN_007f0360(2));
+                        FUN_00406d50(acTextBase, 260, MagicSystem_GetMagicItemCastName(2));
                     else
                         FUN_00406d50(acTextBase, 260, "---");
                 }
@@ -7134,7 +7147,7 @@ void VATSMenuQueue::UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool
                 if (pQueueWeaponTmp && pQueueWeaponTmp->GetUnk15C() == 0x26)
                 {
                     FUN_00406d50(acTextBase, 260, ": ");
-                    FUN_00406d50(acTextBase, 260, pQueueWeaponTmp->FUN_00522be0());
+                    FUN_00406d50(acTextBase, 260, pQueueWeaponTmp->TESObjectWEAP_GetVATSAttackName());
                 }
                 else if (apAction->iType == 0x11)
                 {
@@ -7159,13 +7172,13 @@ void VATSMenuQueue::UpdateQueueEntry(VATSAction* apAction, bool abAddEntry, bool
                 pEntry = kQueue.AddItemTile(DAT_011db198, 0, 0, 0);
                 pEntry->FUN_00a01350(0xfc4, acEntry, true);
                 DAT_011db198++;
-                FUN_00406d30(acTextBase, 260, FUN_0066ddc0(9));
+                FUN_00406d30(acTextBase, 260, ActionPoints_GetActionPointsString(9));
             }
         }
         else
         {
             DAT_011db198++;
-            FUN_00406d30(acTextBase, 260, FUN_0066ddc0(apAction->iType));
+            FUN_00406d30(acTextBase, 260, ActionPoints_GetActionPointsString(apAction->iType));
         }
         char acLineTmp[260];
         FUN_00406d30(acLineTmp, 260, acTextBase);
@@ -7223,7 +7236,8 @@ unsigned int FUN_004873d0(WeaponX*);
 
 // Updates VATS ammo meter tiles and returns whether a reload is needed based on the equipped weapon and queued commands.
 // @fnv 0x007f28d0
-bool VATSMenu::FUN_007f28d0()
+// src: COMMUNITY 0x007f28d0
+bool VATSMenu::UpdateAmmo()
 {
     FormX* equipped5 = xDAT_011dea3c->FUN_008d8520()->GetEquippedWeapon();
     AmmoListX* ammoList2 = xDAT_011dea3c->FUN_008d8520()->GetAmmoList();
@@ -7657,7 +7671,7 @@ struct AimTargets
 struct AimInput
 {
     int GetAxisState(int, int);
-    int FUN_00a24180(int, int);
+    int Controls_GetKeyboardButton(int, int);
 };
 struct AimInputOwner
 {
@@ -7741,8 +7755,8 @@ struct AimMenu
     int unk104, unk108;
     bool stickReset;
     AimTargets* FindListEntryForTarget(void*);
-    int FUN_007f3bf0(int);
-    void FUN_007f3070();
+    int VATSMenu_GetActorValueFromBodyPart(int);
+    void VATSMenu_SetTargetLimb();
 };
 extern AimInputOwner* DAT_011dea0c;
 extern AimActor* DAT_011dea3c;
@@ -7751,7 +7765,7 @@ extern int DAT_011f2250;
 extern int DAT_011a59f0;
 extern const float DAT_0106b158, DAT_01016970, DAT_0101df44, DAT_01023cd8;
 extern const double DAT_0102f248, DAT_010357e8, DAT_01012060;
-void* FUN_004b7210();
+void* InterfaceManager_GetSingleton();
 bool FUN_004b71d0();
 BSFaceGenNiNode* FUN_0045c670();
 int FUN_00ec7d40(int);
@@ -7759,7 +7773,8 @@ float FUN_004f6e40(float);
 void UpdateVatsTargetHighlight(int);
 // Updates the current aim limb selection based on aim mode, input stick state, and target body data, cycling through limbs on key input.
 // @fnv 0x007f3070
-void AimMenu::FUN_007f3070()
+// src: COMMUNITY 0x007f3070
+void AimMenu::VATSMenu_SetTargetLimb()
 {
     AimInput* input5 = DAT_011dea0c->FUN_00877720();
     AimEntry* entry1 = DAT_011dea3c->FUN_008d8520()->GetLoadedForm();
@@ -7781,7 +7796,7 @@ void AimMenu::FUN_007f3070()
                 DAT_011a59f0 = -1;
         }
     }
-    else if ((FUN_004b7210(), FUN_004b71d0()))
+    else if ((InterfaceManager_GetSingleton(), FUN_004b71d0()))
     {
         int horizontal8 = 0, vertical3 = 0;
         horizontal8 = input5->GetAxisState(0, 7);
@@ -7817,7 +7832,7 @@ void AimMenu::FUN_007f3070()
                 AimLimbs* scan5 = &(*FindListEntryForTarget(DAT_011f21cc)->FUN_006815c0())->limbs;
                 while (scan5 && !scan5->FUN_008256d0())
                 {
-                    if (FUN_007f3bf0((*scan5->FUN_006815c0())->id) == FUN_007f3bf0((*limb9->FUN_006815c0())->id))
+                    if (VATSMenu_GetActorValueFromBodyPart((*scan5->FUN_006815c0())->id) == VATSMenu_GetActorValueFromBodyPart((*limb9->FUN_006815c0())->id))
                         duplicate12 = scan5;
                     scan5 = scan5->FUN_00726070();
                 }
@@ -7828,7 +7843,7 @@ void AimMenu::FUN_007f3070()
                     found2 = true;
                     bestDistance11 = distance9;
                     bestAngle50 = angle3;
-                    selection8 = FUN_007f3bf0((*limb9->FUN_006815c0())->id);
+                    selection8 = VATSMenu_GetActorValueFromBodyPart((*limb9->FUN_006815c0())->id);
                     stickReset = false;
                     current->tile->RemoveFadeItemsForTile(4009);
                     current->tile->StartFade(4009, current->tile->FUN_00a011b0(4009), DAT_01023cd8, DAT_0101df44, 0);
@@ -7846,7 +7861,7 @@ void AimMenu::FUN_007f3070()
                     AimLimbs* scanB15 = &(*FindListEntryForTarget(DAT_011f21cc)->FUN_006815c0())->limbs;
                     while (scanB15 && !scanB15->FUN_008256d0())
                     {
-                        if (FUN_007f3bf0((*scanB15->FUN_006815c0())->id) == FUN_007f3bf0((*limb9->FUN_006815c0())->id))
+                        if (VATSMenu_GetActorValueFromBodyPart((*scanB15->FUN_006815c0())->id) == VATSMenu_GetActorValueFromBodyPart((*limb9->FUN_006815c0())->id))
                             duplicateB53 = scanB15;
                         scanB15 = scanB15->FUN_00726070();
                     }
@@ -7854,7 +7869,7 @@ void AimMenu::FUN_007f3070()
                         duplicateB53 && *duplicateB53->FUN_006815c0() == *limb9->FUN_006815c0())
                     {
                         bestAngle50 = (*limb9->FUN_006815c0())->angle;
-                        selection8 = FUN_007f3bf0((*limb9->FUN_006815c0())->id);
+                        selection8 = VATSMenu_GetActorValueFromBodyPart((*limb9->FUN_006815c0())->id);
                         stickReset = false;
                         current->tile->RemoveFadeItemsForTile(4009);
                         current->tile->StartFade(4009, current->tile->FUN_00a011b0(4009), DAT_01023cd8, DAT_0101df44,
@@ -7867,7 +7882,7 @@ void AimMenu::FUN_007f3070()
             DAT_011a59f0 = selection8;
         }
     }
-    else if (input5->FUN_00a24180(17, 1) || ((AimManager*)FUN_004b7210())->FUN_0070ec70() > DAT_01012060)
+    else if (input5->Controls_GetKeyboardButton(17, 1) || ((AimManager*)InterfaceManager_GetSingleton())->FUN_0070ec70() > DAT_01012060)
     {
         while (true)
         {
@@ -7883,13 +7898,13 @@ void AimMenu::FUN_007f3070()
                     current = *(*FindListEntryForTarget(DAT_011f21cc)->FUN_006815c0())->limbs.FUN_006815c0();
                 cursor = cursor->FUN_00726070();
             }
-            DAT_011a59f0 = FUN_007f3bf0(current->id);
+            DAT_011a59f0 = VATSMenu_GetActorValueFromBodyPart(current->id);
             if (current->tile->IsTraitNonZero(4003))
                 break;
         }
         UpdateVatsTargetHighlight(0);
     }
-    else if (input5->FUN_00a24180(31, 1) || ((AimManager*)FUN_004b7210())->FUN_0070ec70() < DAT_01012060)
+    else if (input5->Controls_GetKeyboardButton(31, 1) || ((AimManager*)InterfaceManager_GetSingleton())->FUN_0070ec70() < DAT_01012060)
     {
         while (true)
         {
@@ -7905,7 +7920,7 @@ void AimMenu::FUN_007f3070()
                     current = *cursorB->FUN_006815c0();
                 cursorB = cursorB->FUN_00726070();
             }
-            DAT_011a59f0 = FUN_007f3bf0(current->id);
+            DAT_011a59f0 = VATSMenu_GetActorValueFromBodyPart(current->id);
             if (current->tile->IsTraitNonZero(4003))
                 break;
         }
@@ -7937,7 +7952,7 @@ struct GlobD
 };
 struct GlobC
 {
-    TargetEntryList* FUN_00595d10();
+    TargetEntryList* PlayerCharacter_GetCompassTargets();
     GlobD* FUN_008d6f30();
     bool FUN_0088b880(int a1, void* a2, int a3, int a4, int a5);
     void* FUN_00575d70();
@@ -7951,7 +7966,7 @@ struct TargetListResetCalls
 
 struct Chain43
 {
-    int FUN_0043b230();
+    int NiObjectNET_GetControllers();
 };
 struct Obj54
 {
@@ -7962,7 +7977,7 @@ struct Obj6c
 {
     NiPoint3* FUN_0045bb80();
 };
-Obj6c* __cdecl FUN_004aae30(int a1, int a2);
+Obj6c* __cdecl BSUtilities_GetObjectByName(int a1, int a2);
 struct Refr
 {
     virtual void vf000();
@@ -8108,7 +8123,7 @@ struct Refr
     int FUN_007af430();
     Refr* FUN_004181e0();
     Refr* FUN_008d8520();
-    bool FUN_00576070();
+    bool TESObjectREFR_IsVATSTargettable();
     bool FUN_00477ba0();
     bool FUN_00440da0();
     bool FUN_00440d80();
@@ -8153,7 +8168,7 @@ extern double DAT_01012060;
 extern double DAT_01012070;
 extern float DAT_010718c0;
 
-void* __cdecl FUN_00401000(unsigned int a1);
+void* __cdecl FormHeap_Allocate(unsigned int a1);
 extern NiPoint3 DAT_011f426c;
 struct ListHead
 {
@@ -8368,13 +8383,14 @@ struct Obj548
 // Use the storage views from TargetEntry accessors directly: /Od leaves property getter calls out of line.
 // Filters references by probability and screen bounds, adds target-list records, and uses physics raycasts when visibility checks fail.
 // @fnv 0x007f52c0
-bool FUN_007f52c0()
+// src: COMMUNITY 0x007f52c0
+bool VATSMenu_BuildTargetList()
 {
     if (!((TargetEntryList*)&g_011db150)->FUN_008256d0())
         return true;
     bool result = false;
     ((NodeB*)FUN_0045c670()->BSFaceGenNiNode::GetAnimationData())->UpdateWorldToCamera();
-    TargetEntryList* cur = ((GlobC*)DAT_011dea3c)->FUN_00595d10();
+    TargetEntryList* cur = ((GlobC*)DAT_011dea3c)->PlayerCharacter_GetCompassTargets();
     float fBestProb = 0.0f;
     bool flag21 = ((GlobC*)DAT_011dea3c)->FUN_008d6f30()->FUN_00425fd0();
     reinterpret_cast<TargetListResetCalls*>(&g_011db124)->FUN_00470470();
@@ -8384,7 +8400,7 @@ bool FUN_007f52c0()
         bool flag29 = true;
         if (target)
             flag29 = (FUN_00475400((void*)(*reinterpret_cast<Refr**>(target))->FUN_007af430())->FUN_00726070() &&
-                      !(*reinterpret_cast<Refr**>(target))->FUN_00576070())
+                      !(*reinterpret_cast<Refr**>(target))->TESObjectREFR_IsVATSTargettable())
                          ? 1
                          : 0;
         if (!target || (target && (*reinterpret_cast<Refr**>(target))->V22c(0)) || !(*reinterpret_cast<Refr**>(target))->V1d0() ||
@@ -8421,7 +8437,7 @@ bool FUN_007f52c0()
                 {
                     ScreenPoint vScreen;
                     Refr* actor = (*reinterpret_cast<Refr**>((TargetEntry*)*cur->FUN_006815c0()));
-                    Obj6c* pObj6c = FUN_004aae30((int)actor->V1d0(), pObj54->GetValueByIndex(i)->FUN_0043b230());
+                    Obj6c* pObj6c = BSUtilities_GetObjectByName((int)actor->V1d0(), pObj54->GetValueByIndex(i)->NiObjectNET_GetControllers());
                     if (pObj6c)
                     {
                         ((NodeB*)FUN_0045c670()->BSFaceGenNiNode::GetAnimationData())
@@ -8515,7 +8531,7 @@ bool FUN_007f52c0()
             ->ProcessCellsInRadius(
                 ((Refr*)DAT_011dea3c)->V1f4(), *DAT_011cdcbc.FUN_00403e20() * *DAT_011cd7d8.FUN_00403e20(),
                 ((Refr*)DAT_011dea3c)->V1f4(),
-                *DAT_011cdcbc.FUN_00403e20((void*)(bool(__cdecl*)(FUN_00452370_shell*)) & FUN_007f4f30, DAT_011dea3c) *
+                *DAT_011cdcbc.FUN_00403e20((void*)(bool(__cdecl*)(FUN_00452370_shell*)) & VATSMenu_FilterDestructibleObjects, DAT_011dea3c) *
                     *DAT_011cd7d8.FUN_00403e20());
     }
     else
@@ -8525,7 +8541,7 @@ bool FUN_007f52c0()
             ->FUN_0054da20(
                 ((Refr*)DAT_011dea3c)->V1f4(), *DAT_011cdcbc.FUN_00403e20() * *DAT_011cd7d8.FUN_00403e20(),
                 ((Refr*)DAT_011dea3c)->V1f4(),
-                *DAT_011cdcbc.FUN_00403e20((void*)(bool(__cdecl*)(FUN_00452370_shell*)) & FUN_007f4f30, DAT_011dea3c) *
+                *DAT_011cdcbc.FUN_00403e20((void*)(bool(__cdecl*)(FUN_00452370_shell*)) & VATSMenu_FilterDestructibleObjects, DAT_011dea3c) *
                     *DAT_011cd7d8.FUN_00403e20());
     }
     TargetEntryList* pCurNode2 = (TargetEntryList*)&g_011db124;
@@ -8542,7 +8558,7 @@ bool FUN_007f52c0()
                 ((Refr*)*pCurNode2->FUN_006815c0())->FUN_00440d80() ||
                 (flag21 && prob2 > *DAT_011cd7d8.FUN_00403e20()) ||
                 (!flag21 && prob2 > *DAT_011cdcbc.FUN_00403e20() * *DAT_011cd7d8.FUN_00403e20()) ||
-                !((Refr*)*pCurNode2->FUN_006815c0())->FUN_00576070())
+                !((Refr*)*pCurNode2->FUN_006815c0())->TESObjectREFR_IsVATSTargettable())
             {
                 pCurNode2 = pCurNode2->FUN_00726070();
                 continue;
@@ -8853,11 +8869,12 @@ struct ActorView7
 };
 struct FUN_007f3bf0_cls
 {
-    int __thiscall FUN_007f3bf0(int a1);
+    int __thiscall VATSMenu_GetActorValueFromBodyPart(int a1);
 };
 // Returns the value from the actor view's component for a1, or 0x1a if unavailable, or -1 when a1 is 0xe.
 // @fnv 0x007f3bf0
-int FUN_007f3bf0_cls::FUN_007f3bf0(int a1)
+// src: COMMUNITY 0x007f3bf0
+int FUN_007f3bf0_cls::VATSMenu_GetActorValueFromBodyPart(int a1)
 {
     if (DAT_011f21cc == 0 || !((ActorView7*)DAT_011f21cc)->IsReady())
     {

@@ -67,7 +67,8 @@ extern unsigned char DAT_0118c684;
 extern int DAT_011cac64;
 
 // @fnv 0x005b4940
-void FUN_005b4940()
+// src: COMMUNITY 0x005b4940
+void Script_ClearButtonPressed()
 {
     DAT_0118c684 = 0xff;
     DAT_011cac64 = 0;
@@ -77,14 +78,14 @@ extern int g_TES;
 
 struct FUN_00456a60_class
 {
-    void __thiscall FUN_00456a60();
+    void __thiscall TES_ToggleCollisionGeometry();
 };
 
 // @fnv 0x005b9220
 // src: EXE 0x005b9220
 bool Cmd_ToggleCollisionGeometry_Execute()
 {
-    ((FUN_00456a60_class*)g_TES)->FUN_00456a60();
+    ((FUN_00456a60_class*)g_TES)->TES_ToggleCollisionGeometry();
     return true;
 }
 
@@ -92,7 +93,7 @@ extern int g_TES;
 extern char DAT_012680fc;
 struct FUN_00456a60_Class
 {
-    void __thiscall FUN_00456a60();
+    void __thiscall TES_ToggleCollisionGeometry();
 };
 // Sets DAT_012680fc to 1, calls FUN_00456a60 on g_TES, resets DAT_012680fc to 0 and returns 1.
 // @fnv 0x005b9240
@@ -100,7 +101,7 @@ struct FUN_00456a60_Class
 char __cdecl Cmd_ToggleMaterialGeometry_Execute()
 {
     DAT_012680fc = 1;
-    ((FUN_00456a60_Class*)(int)g_TES)->FUN_00456a60();
+    ((FUN_00456a60_Class*)(int)g_TES)->TES_ToggleCollisionGeometry();
     DAT_012680fc = 0;
     return 1;
 }
@@ -168,12 +169,13 @@ struct BSSimpleListBase
 
 struct FUN_005a7c00_class : public BSSimpleListBase
 {
-    char __thiscall FUN_005a7c00(BSSimpleListBase* other);
+    char __thiscall TESRecipeComponent_Compare(BSSimpleListBase* other);
 };
 
 // Compares this list node's value and next pointer against another's, returning 1 if either differs, else 0.
 // @fnv 0x005a7c00
-char __thiscall FUN_005a7c00_class::FUN_005a7c00(BSSimpleListBase* other)
+// src: COMMUNITY 0x005a7c00
+char __thiscall FUN_005a7c00_class::TESRecipeComponent_Compare(BSSimpleListBase* other)
 {
     if (reinterpret_cast<Flt*>(this)->operator unsigned int() != reinterpret_cast<Flt*>(other)->operator unsigned int())
         return 1;
@@ -186,10 +188,11 @@ struct FUN_005a8e20_cls
 {
     int __thiscall FUN_005a90b0(void* param, bool flag);
     void __thiscall AttachScriptLocals(void* param);
-    char __thiscall FUN_005a8ef0(int param_2, int param_3);
+    char __thiscall ScriptLocals_CheckActionFlag(int param_2, int param_3);
 };
 // @fnv 0x005a8ef0
-char __thiscall FUN_005a8e20_cls::FUN_005a8ef0(int param_2, int param_3)
+// src: COMMUNITY 0x005a8ef0
+char __thiscall FUN_005a8e20_cls::ScriptLocals_CheckActionFlag(int param_2, int param_3)
 {
     int result = FUN_005a90b0((void*)param_2, false);
     if (!result)
@@ -202,14 +205,16 @@ char __thiscall FUN_005a8e20_cls::FUN_005a8ef0(int param_2, int param_3)
 char __cdecl ConsumeByteAtE4();
 
 // @fnv 0x005b4a70
-void FUN_005b4a70()
+// src: COMMUNITY 0x005b4a70
+void ShowMessageBox_Callback()
 {
     DAT_0118c684 = ConsumeByteAtE4();
 }
 
 extern unsigned char g_bLimbConditionEffectInitialized;
 // @fnv 0x005b9200
-void FUN_005b9200(unsigned char value)
+// src: COMMUNITY 0x005b9200
+void SetIsMagicStatsEnabled(unsigned char value)
 {
     g_bLimbConditionEffectInitialized = value;
 }
@@ -222,7 +227,8 @@ struct Flt
 extern Flt g_011c786c;
 // Returns false if g_011c786c is null, otherwise returns whether its FUN_00453470 result is greater than zero.
 // @fnv 0x005bac20
-bool __cdecl FUN_005bac20()
+// src: COMMUNITY 0x005bac20
+bool __cdecl ScreenSplatter_IsActiveSplatter()
 {
     if ((unsigned int)g_011c786c == 0)
         return false;
@@ -237,7 +243,8 @@ struct Flt
 };
 extern Flt g_011c786c;
 // @fnv 0x005bac50
-unsigned int FUN_005bac50()
+// src: COMMUNITY 0x005bac50
+unsigned int ScreenSplatter_GetRoot()
 {
     return g_011c786c;
 }
@@ -246,7 +253,8 @@ unsigned int FUN_005bac50()
 extern NiPointer<NiNode> g_011dee84;
 
 // @fnv 0x005bac60
-NiNode* FUN_005bac60()
+// src: COMMUNITY 0x005bac60
+NiNode* TESMain_GetMenuRoot()
 {
     return g_011dee84.operator->();
 }
@@ -257,7 +265,8 @@ struct GlobalObject_00633c90
 };
 extern GlobalObject_00633c90 g_011deca4;
 // @fnv 0x005bac70
-void* FUN_005bac70()
+// src: COMMUNITY 0x005bac70
+void* TESMain_Get3DMenuRoot()
 {
     return g_011deca4.operator->();
 }
@@ -265,7 +274,8 @@ void* FUN_005bac70()
 extern int DAT_011c6f18;
 
 // @fnv 0x005bac80
-void FUN_005bac80(int value)
+// src: COMMUNITY 0x005bac80
+void NiTreeCtrl_SetCallback(int value)
 {
     DAT_011c6f18 = value;
 }
@@ -318,11 +328,12 @@ struct FUN_005bd580_cls
     int m_i12;
     int m_i13;
     float* m_pIntegerData;
-    float FUN_005bd580();
+    float Font_GetFontSize();
 };
 
 // @fnv 0x005bd580
-float FUN_005bd580_cls::FUN_005bd580()
+// src: COMMUNITY 0x005bd580
+float FUN_005bd580_cls::Font_GetFontSize()
 {
     return this->m_pIntegerData != 0 ? *this->m_pIntegerData : 0.0f;
 }
@@ -373,11 +384,12 @@ struct FUN_005a7a90_shell
     int unk34;
     int unk38;
     int unk3c;
-    void FUN_005a7a90();
+    void TESRecipeCategory_SaveAlt();
 };
 
 // @fnv 0x005a7a90
-void FUN_005a7a90_shell::FUN_005a7a90()
+// src: COMMUNITY 0x005a7a90
+void FUN_005a7a90_shell::TESRecipeCategory_SaveAlt()
 {
     ((TESForm*)this)->FUN_004855a0();
     ((TESFullName*)((char*)this + 0x18))->FUN_00487010();
@@ -523,7 +535,7 @@ extern "C" char DAT_01183028;
 extern "C" void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct SubItem
 {
-    unsigned char FUN_005a7c00(SubItem*);
+    unsigned char TESRecipeComponent_Compare(SubItem*);
 };
 struct SubList
 {
@@ -579,7 +591,7 @@ bool SubChallenge::IsNotEqual(void* input)
             return true;
         SubItem* x = *a->FUN_006815c0();
         SubItem* y = *b5->FUN_006815c0();
-        if (x->FUN_005a7c00(y))
+        if (x->TESRecipeComponent_Compare(y))
             return true;
         b5 = b5->FUN_00726070();
         a = a->FUN_00726070();
@@ -592,7 +604,7 @@ bool SubChallenge::IsNotEqual(void* input)
             return true;
         SubItem* x = *c3->FUN_006815c0();
         SubItem* y = *d2->FUN_006815c0();
-        if (x->FUN_005a7c00(y))
+        if (x->TESRecipeComponent_Compare(y))
             return true;
         d2 = d2->FUN_00726070();
         c3 = c3->FUN_00726070();
@@ -682,7 +694,8 @@ struct RecipeData
 void FUN_00485910(unsigned int type, unsigned int value);
 // Stores category and subcategory form IDs, then calls FUN_00485910 with the form ID and count of each ingredient and each output item.
 // @fnv 0x005a8490
-void TESRecipe::FUN_005a8490()
+// src: COMMUNITY 0x005a8490
+void TESRecipe::SaveAlt_005a8490()
 {
     FUN_004855a0();
     TESFullName::FUN_00487010();
@@ -728,7 +741,8 @@ void* memset(void* destination, int value, unsigned int size);
 
 // Reads a short count and that many values from data via Script::GetValue, then formats them into string using format; returns false if any read fails.
 // @fnv 0x005b4960
-bool __cdecl FUN_005b4960(int unused, char const* data, TESObjectREFR* reference1, TESObjectREFR* reference2,
+// src: COMMUNITY 0x005b4960
+bool __cdecl Script_ParseString(int unused, char const* data, TESObjectREFR* reference1, TESObjectREFR* reference2,
                           Script* script, ScriptLocals* locals, int unused2, unsigned int& value, char const* format,
                           BSStringT<char>* string)
 {

@@ -112,9 +112,9 @@ struct Ref
 {
     Cell* FUN_0084e3a0();
     Scene* FUN_00490e40();
-    float FUN_00621b00();
+    float ActorPackage_GetPackageStartTime();
     float FUN_00488d50();
-    Ref* FUN_009611e0();
+    Ref* NiAVObject_GetParent();
     void FUN_004a3fe0(FUN_004a37b0*, int, char);
 };
 struct RefHandle
@@ -135,11 +135,11 @@ struct ImpactData
     float GetModifierValue();
     float FUN_004a40a0();
     void* FUN_006733e0();
-    bool FUN_004a4100();
+    bool BGSImpactData_GetIsParallax();
     float FUN_004a41c0();
-    bool FUN_004a41e0();
+    bool BGSImpactData_GetParallaxPasses();
     bool CallMemberAtOffset54();
-    bool FUN_004a4140();
+    bool BGSImpactData_GetIsAlphaBlend();
     float FUN_004a40e0();
     float FUN_009a9350();
     float FUN_00598040();
@@ -207,7 +207,7 @@ void ImpactTask::FUN_004a2d50()
         finished = true;
         return;
     }
-    if (remaining > 0 && impact && reference.FUN_00559450()->FUN_00621b00() <= reference.FUN_00559450()->FUN_00488d50())
+    if (remaining > 0 && impact && reference.FUN_00559450()->ActorPackage_GetPackageStartTime() <= reference.FUN_00559450()->FUN_00488d50())
     {
         NiPoint3 direction;
         reference.FUN_00559450()->FUN_00490e40()->FUN_006a9540()->FUN_00476930(2, direction);
@@ -230,7 +230,7 @@ void ImpactTask::FUN_004a2d50()
             end.y += FUN_00476b70(DAT_0101e578, DAT_01017868);
             end.z += FUN_00476b70(DAT_0101e578, DAT_01017868);
             float drop = -*DAT_011c584c.FUN_00403e20() *
-                         (reference.FUN_00559450()->FUN_00621b00() / reference.FUN_00559450()->FUN_00488d50());
+                         (reference.FUN_00559450()->ActorPackage_GetPackageStartTime() / reference.FUN_00559450()->FUN_00488d50());
             end.z += drop;
             if (*DAT_011c5868.FUN_0043d4d0() > 0)
             {
@@ -276,8 +276,8 @@ void ImpactTask::FUN_004a2d50()
                     if (landscape)
                     {
                         target = g_TES->FUN_00457620(position);
-                        if (target && target->FUN_009611e0())
-                            target = target->FUN_009611e0();
+                        if (target && target->NiAVObject_GetParent())
+                            target = target->NiAVObject_GetParent();
                     }
                     else
                         target = FUN_00c7fa90(body);
@@ -295,11 +295,11 @@ void ImpactTask::FUN_004a2d50()
                     decal.rotation = (unsigned char)(int)FUN_00406cc0(FUN_00476b70(0, DAT_0101e570));
                     decal.reference = target;
                     decal.texture = texture;
-                    decal.flag73 = impact->FUN_004a4100();
+                    decal.flag73 = impact->BGSImpactData_GetIsParallax();
                     decal.radius = impact->FUN_004a41c0();
-                    decal.flag76 = impact->FUN_004a41e0();
+                    decal.flag76 = impact->BGSImpactData_GetParallaxPasses();
                     decal.flag74 = impact->CallMemberAtOffset54();
-                    decal.flag75 = impact->FUN_004a4140();
+                    decal.flag75 = impact->BGSImpactData_GetIsAlphaBlend();
                     decal.parallax = impact->FUN_004a40e0();
                     decal.shininess = impact->FUN_009a9350();
                     decal.scale = impact->FUN_00598040();
@@ -328,11 +328,12 @@ struct FUN_004b4cf0_shell
 struct FUN_004b4ab0_Class
 {
     __m128 value;
-    void FUN_004b4ad0(FUN_004b4cf0_shell* matrix, __m128* vector);
+    void hkVector4__setRotatedInverseDir(FUN_004b4cf0_shell* matrix, __m128* vector);
 };
 
 // @fnv 0x004b4ad0
-void FUN_004b4ab0_Class::FUN_004b4ad0(FUN_004b4cf0_shell* matrix, __m128* vector)
+// src: COMMUNITY 0x004b4ad0
+void FUN_004b4ab0_Class::hkVector4__setRotatedInverseDir(FUN_004b4cf0_shell* matrix, __m128* vector)
 {
     __m128 row0 = *matrix->FUN_004b4cf0(0);
     __m128 row1 = *matrix->FUN_004b4cf0(1);

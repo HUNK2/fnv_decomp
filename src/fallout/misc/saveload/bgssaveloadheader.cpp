@@ -41,9 +41,9 @@ SaveLoadFile* BGSSaveLoadManager::FUN_00850030(const char* apFileName, int abWri
             DeleteFileA(pfullFileName);
     }
 
-    pfile = (SaveLoadFile*)FUN_00846520(pfullFileName, *reinterpret_cast<bool*>(&abWrite), ibufferSize);
-    ((BGSLoadGameBuffer*)pfile)->FUN_008464f0((SaveLoadFile*)apFileName);
-    ((BGSLoadGameBuffer*)pfile)->FUN_008463c0();
+    pfile = (SaveLoadFile*)BGSSaveLoadFile_Create(pfullFileName, *reinterpret_cast<bool*>(&abWrite), ibufferSize);
+    ((BGSLoadGameBuffer*)pfile)->BGSSaveLoadFile_SetSaveFileName((SaveLoadFile*)apFileName);
+    ((BGSLoadGameBuffer*)pfile)->BGSSaveLoadFile_Open();
 
     return pfile;
 }
@@ -126,7 +126,7 @@ unsigned int __fastcall GetSaveHeaderVersion(BGSSaveLoadManager* manager);
 unsigned int __fastcall GetSaveHeaderNumber(BGSSaveLoadManager* manager);
 extern HeaderPlayer* DAT_011dea3c;
 extern HeaderSetting DAT_011c3cb4, DAT_011de2fc, DAT_011c3f74;
-void* FUN_00403d30(void*, int, unsigned int);
+void* ourMemset(void*, int, unsigned int);
 void* FUN_00ec61c0(void*, int, unsigned int);
 int FUN_00406d50(char*, unsigned int, const char*);
 int FUN_00406d30(char*, unsigned int, const char*);
@@ -135,7 +135,8 @@ int FUN_004dc1f0();
 NiPixelData* FUN_00878f60(int*, int*, const char*);
 const char* FUN_0047e0e0(HeaderPlayer*);
 // @fnv 0x0084d4b0
-void FUN_0084d4b0(HeaderFile* file)
+// src: COMMUNITY 0x0084d4b0
+void BGSSaveLoadHeader_SaveHeader(HeaderFile* file)
 {
     file->WriteToFile(DAT_011a2224, strlen(DAT_011a2224));
     HeaderBuffer buffer_;
@@ -143,7 +144,7 @@ void FUN_0084d4b0(HeaderFile* file)
     unsigned int version = GetSaveHeaderVersion(DAT_011de134);
     stream->FUN_00865e50(&version, 4, false);
     char playerName3[64];
-    FUN_00403d30(playerName3, 0, 64);
+    ourMemset(playerName3, 0, 64);
     FUN_00406d50(playerName3, 64, DAT_011c3cb4.FUN_00403df0());
     stream->FUN_00865e50(playerName3, 64, false);
     bool wide6 = (double)FUN_004dc200() / FUN_004dc1f0() < 0.75;

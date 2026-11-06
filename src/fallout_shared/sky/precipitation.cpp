@@ -5,7 +5,7 @@
 #include "../../../include/NiUpdateData.h"
 #include "../../../include/Precipitation.h"
 #include "precipitation_decls.h"
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 // @fnv 0x00636c40
 void Precipitation::Load(const char* path)
 {
@@ -21,7 +21,7 @@ void Precipitation::Load(const char* path)
         NiNode* model = g_modelLoader->LoadFile(path, ENUM_LOD_MULT_LOD_MULT_NONE, true, false, false, false);
         if (model)
         {
-            bool bIsSnow = FUN_00404dc0(path, DAT_0104ed9c) == 0;
+            bool bIsSnow = BSstricmp(path, DAT_0104ed9c) == 0;
             NiUpdateData kUpdateData(0.0f, false, false);
             model->UpdateDownwardPass(kUpdateData, 0);
             m_pPrecipitationNode = new NiSortAdjustNode(0);
@@ -43,12 +43,12 @@ void Precipitation::Load(const char* path)
     }
 }
 
-NiAVObject* __cdecl FUN_0054f4f0(void);
+NiAVObject* __cdecl TESMain_GetWeatherRoot(void);
 
 // @fnv 0x00636bb0
 void Precipitation::InitParent()
 {
-    pParent = static_cast<NiNode*>(FUN_0054f4f0());
+    pParent = static_cast<NiNode*>(TESMain_GetWeatherRoot());
 }
 
 // @fnv 0x00637800

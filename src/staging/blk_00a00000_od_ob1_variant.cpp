@@ -19,7 +19,7 @@ struct FUN_00a1c020_Class
 };
 struct FUN_00a1e720_class
 {
-    void __thiscall FUN_00a1e720(int a, int b, int c);
+    void __thiscall BSMapBase_unsigned_int_ScrapHeap_SetValue(int a, int b, int c);
 };
 extern void* NiFreeAlias(void*);
 extern int DAT_01095524;
@@ -54,7 +54,7 @@ struct StrA
     bool _Inside(const char*);
     bool _Grow(unsigned int, bool);
     StrA& FUN_00a0c570(const StrA&, unsigned int, unsigned int);
-    StrA& FUN_00a0c430(const char* _Ptr, unsigned int _Count);
+    StrA& std_string_append(const char* _Ptr, unsigned int _Count);
 };
 void* __cdecl _NiMalloc(unsigned int);
 void* __cdecl _fnv_zlib_memset(void* dst, int c, unsigned int n);
@@ -65,7 +65,7 @@ struct FUN_00a0d5f0_class
     int m_iElementCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_00a0d5f0_class* __thiscall FUN_00a0d5f0(unsigned int size);
+    FUN_00a0d5f0_class* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_char_const_int_NiTMapBase_NiTPointerAllocator_unsigned_int_char_const_int(unsigned int size);
 };
 void* _NiMalloc(unsigned int);
 void* _fnv_zlib_memset(void* dest, int val, unsigned int size);
@@ -137,7 +137,7 @@ struct FUN_00a0d710_class
     int m_iElementCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_00a0d710_class* __thiscall FUN_00a0d710(unsigned int size);
+    FUN_00a0d710_class* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_int_int_Init(unsigned int size);
 };
 extern void __cdecl _NiFree(void*);
 struct FUN_00a1ee60_class
@@ -252,7 +252,7 @@ struct S_00a0c9f0_Node
 struct S_00a0c9f0_Pool
 {
     int m_uiCount;
-    S_00a0c9f0_Node* FUN_0043a010();
+    S_00a0c9f0_Node* NiGeometry_AddProperty();
 };
 class S_00a0c9f0
 {
@@ -261,7 +261,7 @@ class S_00a0c9f0
     S_00a0c9f0_Pool m_kNodePool;
 
   public:
-    void __thiscall FUN_00a0c9f0(int* pValue);
+    void __thiscall _NiTListBase_AddHead(int* pValue);
 };
 struct FUN_00a0d790_class : S00a0d390
 {
@@ -580,11 +580,12 @@ struct StringQ
         return (_BUF_SIZE <= _Myres ? _Bx._Ptr : _Bx._Buf);
     }
 
-    unsigned int FUN_00a0c300(const char* _Ptr, unsigned int _Off, unsigned int _Count) const;
+    unsigned int std_string_rfind(const char* _Ptr, unsigned int _Off, unsigned int _Count) const;
 };
 
 // @fnv 0x00a0c300
-unsigned int StringQ::FUN_00a0c300(const char* _Ptr, unsigned int _Off, unsigned int _Count) const
+// src: COMMUNITY 0x00a0c300
+unsigned int StringQ::std_string_rfind(const char* _Ptr, unsigned int _Off, unsigned int _Count) const
 {
     if (_Count == 0)
         return (_Off < _Mysize ? _Off : _Mysize);

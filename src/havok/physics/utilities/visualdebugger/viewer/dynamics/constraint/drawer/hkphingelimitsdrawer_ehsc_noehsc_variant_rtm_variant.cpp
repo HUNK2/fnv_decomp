@@ -216,7 +216,7 @@ class DebugDisplayHandlerHolder
 
   public:
     DebugDisplayHandlerHolder();
-    void FUN_00e10a10(hkDebugDisplayHandler* displayHandler);
+    void hkpPrimitiveDrawer_setDisplayHandler(hkDebugDisplayHandler* displayHandler);
 };
 class ConstraintDrawer
 {
@@ -231,8 +231,8 @@ class ConstraintDrawer
 
   protected:
     void hkpConstraintDrawer_drawPivots(int id, int tag);
-    void FUN_00de4530(int id, int tag);
-    void FUN_00de47e0(const hkpConstraintInstance* constraint, hkTransform& refLocalToWorld,
+    void hkpConstraintDrawer_drawBodyFrames(int id, int tag);
+    void hkpConstraintDrawer_updateCommonParameters(const hkpConstraintInstance* constraint, hkTransform& refLocalToWorld,
                       hkTransform& attLocalToWorld);
 
   private:
@@ -318,13 +318,13 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
                                                     hkDebugDisplayHandler* displayHandler, int id, int tag)
 {
     const hkpHingeLimitsData* lhinge = static_cast<const hkpHingeLimitsData*>(constraint->getData());
-    m_kDisplayGeometry.FUN_00e10a10(displayHandler);
+    m_kDisplayGeometry.hkpPrimitiveDrawer_setDisplayHandler(displayHandler);
     hkTransform refLocalToWorld;
     hkTransform attLocalToWorld;
-    FUN_00de47e0(constraint, refLocalToWorld, attLocalToWorld);
+    hkpConstraintDrawer_updateCommonParameters(constraint, refLocalToWorld, attLocalToWorld);
     m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, hkVector4::getZero());
     m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, hkVector4::getZero());
-    FUN_00de4530(id, tag);
+    hkpConstraintDrawer_drawBodyFrames(id, tag);
     hkpConstraintDrawer_drawPivots(id, tag);
     const hkVector4* baseA = &lhinge->m_kBridgeAtoms.m_kLocalRotations.m_kRotationA.getColumn(0);
     const hkVector4* baseB = &lhinge->m_kBridgeAtoms.m_kLocalRotations.m_kRotationB.getColumn(0);

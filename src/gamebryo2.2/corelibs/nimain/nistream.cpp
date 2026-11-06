@@ -976,7 +976,8 @@ void* NiRotData_CreateObject()
 void __cdecl FUN_00a61c50(NiObject* pkObject, void* pvArg);
 
 // @fnv 0x00a633b0
-void __stdcall FUN_00a633b0(const NiObject* pkObject)
+// src: COMMUNITY 0x00a633b0
+void __stdcall NiTexture_SetTexture(const NiObject* pkObject)
 {
     FUN_00a61c50((NiObject*)pkObject, 0);
 }
@@ -1049,7 +1050,8 @@ void* InvokeNamedFunction(const char* name)
 
 // Searches the array at pThis+0xcc for val and returns its index, or 0 if not found.
 // @fnv 0x00a634f0
-unsigned int __fastcall FUN_00a634f0(char* pThis, int, int aiValue)
+// src: COMMUNITY 0x00a634f0
+unsigned int __fastcall NiStream_GetIDFromGroup(char* pThis, int, int aiValue)
 {
     unsigned int count = *(unsigned short*)(pThis + 0xd2);
     for (unsigned int i = 0; i < count; ++i)
@@ -1064,7 +1066,8 @@ namespace fnv_00a63520 {
 extern void* DAT_011f4784;
 
 // @fnv 0x00a63520
-void __cdecl FUN_00a63520(const char* apKey)
+// src: COMMUNITY 0x00a63520
+void __cdecl NiStream_UnregisterLoader(const char* apKey)
 {
     NiTPointerMap<const char*, NiObject*(__cdecl*)()>* map =
         reinterpret_cast<NiTPointerMap<const char*, NiObject*(__cdecl*)()>*>(DAT_011f4784);
@@ -2781,7 +2784,7 @@ extern "C" char* __cdecl strstr(const char* pStr, const char* pSub);
 extern "C" int __cdecl strcpy_s(char* pDest, unsigned int uiSize, const char* pSrc);
 int __cdecl FUN_00404d80(char* pDest, unsigned int uiSize, const char* pSrc);
 
-bool __cdecl FUN_00aa1d40();
+bool __cdecl NiBinaryStream_GetEndianMatchHint();
 extern unsigned int g_uiNifMinVersion_011a9b08;
 extern unsigned int g_uiNifMaxVersion_011a9b0c;
 extern unsigned int g_uiNifMinUserVersion_011f478c;
@@ -2822,7 +2825,7 @@ bool NiStream::LoadHeader()
     reinterpret_cast<unsigned char&>(m_bSourceIsLittleEndian) = 1;
     if (m_uiNifFileVersion >= 0x14000003)
         fnv_00a65400::FUN_00a643b0(*this, reinterpret_cast<unsigned char&>(m_bSourceIsLittleEndian));
-    if (reinterpret_cast<unsigned char&>(m_bSourceIsLittleEndian) != 1 && fnv_00a65400::FUN_00aa1d40())
+    if (reinterpret_cast<unsigned char&>(m_bSourceIsLittleEndian) != 1 && fnv_00a65400::NiBinaryStream_GetEndianMatchHint())
     {
         m_uiNativeThreadId = 6;
         fnv_00a65400::FUN_00404d80(m_acLastErrorMessage, 0x104, "Endian mismatch.");
@@ -3197,7 +3200,7 @@ struct NiStreamLs;
 
 struct NiSemaphoreLs
 {
-    void FUN_00aa3040();
+    void NiThread_Suspend();
 };
 
 typedef void(__cdecl* PostProcessFunction)(NiStreamLs& kStream, NiObject* pkObject);
@@ -3296,7 +3299,7 @@ bool NiStreamLs::FUN_00a65c60()
         if (m_eStreamThreadStatus == 3)
         {
             m_eStreamThreadStatus = 4;
-            m_pkSemaphore->FUN_00aa3040();
+            m_pkSemaphore->NiThread_Suspend();
         }
         if (bRTTI)
         {
@@ -3323,7 +3326,7 @@ bool NiStreamLs::FUN_00a65c60()
         if (m_eStreamThreadStatus == 3)
         {
             m_eStreamThreadStatus = 4;
-            m_pkSemaphore->FUN_00aa3040();
+            m_pkSemaphore->NiThread_Suspend();
         }
         NiObject* pkObject = m_kThirdFollowingStreamField.m_pBase[m_uiBackgroundLoadState].m_pObject;
         if (pkObject)
@@ -3334,7 +3337,7 @@ bool NiStreamLs::FUN_00a65c60()
         if (m_eStreamThreadStatus == 3)
         {
             m_eStreamThreadStatus = 4;
-            m_pkSemaphore->FUN_00aa3040();
+            m_pkSemaphore->NiThread_Suspend();
         }
         NiObject* pkObject = m_kThirdFollowingStreamField.m_pBase[BackgroundLoadThreadInfo].m_pObject;
         if (pkObject)
@@ -3345,7 +3348,7 @@ bool NiStreamLs::FUN_00a65c60()
     if (m_eStreamThreadStatus == 3)
     {
         m_eStreamThreadStatus = 4;
-        m_pkSemaphore->FUN_00aa3040();
+        m_pkSemaphore->NiThread_Suspend();
     }
     if (g_pkPostProcessFunctions_011f4788->m_usESize > 0)
     {
@@ -3414,7 +3417,8 @@ struct FUN_00a66030_obj
 };
 // Calls the object's cleanup method and, when the low bit of flags is set, deallocates the object through g_memoryManager, then returns the object pointer.
 // @fnv 0x00a66030
-FUN_00a66030_obj* __fastcall FUN_00a66030(FUN_00a66030_obj* apThis, int, unsigned int flags)
+// src: COMMUNITY 0x00a66030
+FUN_00a66030_obj* __fastcall NiTStringTemplateMap_NiTPointerMap_char_const_NiObject_cdecl_void_NiObject_cdecl_void_Destroy(FUN_00a66030_obj* apThis, int, unsigned int flags)
 {
     apThis->FUN_00a63850();
     if (flags & 1)
@@ -3534,7 +3538,8 @@ extern bool DAT_011f4780;
 
 // Allocates a global A660A0Map and the post-process function array, and sets the DAT_011f4780 flag to true.
 // @fnv 0x00a660a0
-void __cdecl FUN_00a660a0()
+// src: COMMUNITY 0x00a660a0
+void __cdecl NiStream__SDMInit()
 {
     DAT_011f4784 = new A660A0Map;
     DAT_011f4788 = new NiTPrimitiveArray<NiStreamPostProcess>(0, 3);

@@ -58,11 +58,12 @@ bool TESHair::LoadForm(TESFile* file)
 
 struct FUN_005fdf60_shell : public TESHair
 {
-    bool FUN_005fdf60();
+    bool TESHair_CanBeMale();
 };
 
 // @fnv 0x005fdf60
-bool FUN_005fdf60_shell::FUN_005fdf60()
+// src: COMMUNITY 0x005fdf60
+bool FUN_005fdf60_shell::TESHair_CanBeMale()
 {
     if (*((char*)this + 0x48) & 2)
         return false;
@@ -88,7 +89,7 @@ bool FUN_005fdfa0_shell::IsHairValidForNPC(TESNPC* apNPC)
             switch (((TESActorBase*)apNPC)->GetSex())
             {
             case SEX_SEX_MALE:
-                if (FUN_005fdf60())
+                if (TESHair_CanBeMale())
                 {
                     bretval = true;
                 }
@@ -110,10 +111,11 @@ struct FUN_005fdf40_shell
 // @fnv 0x005fdf40
     virtual ~FUN_005fdf40_shell()
     {}
-    bool FUN_005fdf40();
+    bool TESHair_GetPlayable();
 };
 
-bool FUN_005fdf40_shell::FUN_005fdf40()
+// src: COMMUNITY 0x005fdf40
+bool FUN_005fdf40_shell::TESHair_GetPlayable()
 {
     return (bool)((*(signed char*)((char*)this + 0x48) & 1) != 0);
 }
@@ -187,7 +189,7 @@ struct FUN_004891d0_holder
 {
     void __thiscall WriteToBuffer(unsigned int a, unsigned int b);
 };
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 
 struct FUN_005fdc50_shell
 {
@@ -201,7 +203,7 @@ void FUN_005fdc50_shell::FUN_005fdc50()
     reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x18)->FUN_00487010();
     reinterpret_cast<FUN_004891d0_holder*>(reinterpret_cast<char*>(this) + 0x24)->WriteToBuffer(0x4c444f4d, 0x54444f4d);
     reinterpret_cast<FUN_0048e370_obj*>(reinterpret_cast<char*>(this) + 0x3c)->FUN_0048e370(0x4e4f4349);
-    FUN_004858f0(0x41544144, reinterpret_cast<char*>(this)[0x48]);
+    TESForm_AddChunk_3(0x41544144, reinterpret_cast<char*>(this)[0x48]);
     reinterpret_cast<FUN_00485680*>(this)->M();
 }
 

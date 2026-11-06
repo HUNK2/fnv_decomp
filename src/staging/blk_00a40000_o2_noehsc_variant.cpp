@@ -105,16 +105,16 @@ struct FUN_00a54160_class
     void* p;
     void* __thiscall FUN_00a54160(unsigned char flags);
 };
-void __cdecl FUN_00a57500(NiFixedString*);
-void __cdecl FUN_00a76960(void*, void*);
+void __cdecl NiStandardizeFilePath(NiFixedString*);
+void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(void*, void*);
 struct FUN_00a5fba0_class
 {
-    void __thiscall FUN_00a5fba0(const NiFixedString* kFilename);
+    void __thiscall NiSourceTexture_SetFilePath(const NiFixedString* kFilename);
 };
 unsigned int __stdcall FUN_00a5b270(const char* s, unsigned int len);
 extern "C" unsigned int __cdecl _strcpy_s(char* dst, unsigned int size, const char* src);
 void __cdecl _fnv_StandardizeFilePath(char*);
-void __cdecl FUN_00a57500(NiFixedString* k);
+void __cdecl NiStandardizeFilePath(NiFixedString* k);
 extern int DAT_0109b00c;
 struct FUN_004a4650_ListBase
 {
@@ -192,12 +192,12 @@ struct CRITICAL_SECTION_STUB
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CRITICAL_SECTION_STUB*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITICAL_SECTION_STUB*);
-void __fastcall FUN_00a5f7b0(int param_1);
+void __fastcall NiTexture_AddTextureToList(int param_1);
 struct ControllerAllocation
 {
     ControllerAllocation* FUN_00a40520(void* target, float value, unsigned int flags);
 };
-ControllerAllocation* __stdcall FUN_00a411c0(unsigned int ReportDiagnostic, void* target, unsigned int unused2,
+ControllerAllocation* __stdcall NiGeomMorpherController_CreateBlendInterpolator(unsigned int ReportDiagnostic, void* target, unsigned int unused2,
                                              float value, unsigned int flags);
 struct FUN_00a413d0_pair
 {
@@ -264,7 +264,7 @@ struct S_00a42290_Cls
     int unk0c;
     S_00a42290_Ptr m10;
     int unk14;
-    void FUN_00a42290(void* a, unsigned int b, int c);
+    void NiFloatInterpolator_SetKeys(void* a, unsigned int b, int c);
 };
 class A42380Owner
 {
@@ -362,13 +362,13 @@ static inline bool IsKindOfRTTI(const NiRTTI* pkTarget, const NiObject* pkObj)
             return true;
     return false;
 }
-void __cdecl FUN_00a427e0(StubController* p);
+void __cdecl NiOldAnimationConverter_ConvertRollController(StubController* p);
 void __cdecl CreateInterpolator(StubController* p);
 void __cdecl ConvertLegacyController(StubController* p);
-void __cdecl FUN_00a42b70(void* pArg, StubAVObject* pkObject);
+void __cdecl NiOldAnimationConverter_RecurseScene(void* pArg, StubAVObject* pkObject);
 extern int DAT_011f4304;
-void __cdecl FUN_00a42b70(void* a1, void* a2);
-void __cdecl FUN_00a42c80(int* param1, NiObject* param2);
+void __cdecl NiOldAnimationConverter_RecurseScene(void* a1, void* a2);
+void __cdecl NiOldAnimationConverter_Convert(int* param1, NiObject* param2);
 struct FUN_00a42f80_base
 {
     virtual ~FUN_00a42f80_base();
@@ -543,7 +543,7 @@ struct FUN_00a575b0_Object
     int unk04;
     int(__cdecl* unk08)(void*, int, int, int*, int);
 };
-void __cdecl FUN_00a575b0(FUN_00a575b0_Object* object, int value);
+void __cdecl NiStreamLoadBinary_00a575b0(FUN_00a575b0_Object* object, int value);
 struct FUN_00a59c60_target
 {
     virtual void v0();
@@ -666,10 +666,10 @@ class FUN_00a59c60_cls
 };
 struct SingletonTarget
 {
-    void __thiscall FUN_00a5b3c0();
+    void __thiscall NiGlobalStringTable_FreeStrings();
 };
 extern SingletonTarget* g_011f42c0;
-void __cdecl FUN_00a5b460();
+void __cdecl NiGlobalStringTable_FreeUnusedStrings();
 extern void __cdecl _NiFree_00aa10f0(char* psz);
 extern int DAT_0102102c;
 struct Ent
@@ -916,7 +916,7 @@ class FUN_00a423f0_cls
     unsigned int unk3c;
     NiRefObject* m_pObject;
 
-    void FUN_00a423f0(NiRefObject* obj);
+    void NiLookAtInterpolator_SetScaleInterpolator(NiRefObject* obj);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern const NiRTTI DAT_011f36ec;
@@ -1126,7 +1126,7 @@ struct Obj
     int unk2c;
     Obj* next;
     Obj* Cast(const NiRTTI*) throw();
-    bool FUN_00a5bf50(unsigned short) throw();
+    bool RemoveExtraDataAt(unsigned short) throw();
     void ClearExtraData() throw();
     void Inc() throw()
     {
@@ -1209,7 +1209,7 @@ void __cdecl NiInterpScalar_AdjustBezier(float a0, float a1, float* p2, float a3
                           float* p9);
 struct FUN_00a44840_stub
 {
-    void* __thiscall FUN_00a44840(unsigned int);
+    void* __thiscall NiObject_CreateClone(unsigned int);
 };
 namespace a47 {
 struct Ptr
@@ -1295,7 +1295,7 @@ struct A5D6E0This : NiRefObject
 {
     void AppendCameraPathEntries(NiTArray<BGSCameraPath*, NiTMallocInterface<BGSCameraPath*> >*);
 };
-extern void* __cdecl FUN_00a7d330(int);
+extern void* __cdecl NiViewerStrings_NiGetViewerString_Title(int);
 extern void* __cdecl FUN_00a7d5a0(const char*, void*);
 extern void* __cdecl FUN_00a7d510(const char*, unsigned int);
 extern void __cdecl FUN_00a5c290();
@@ -1311,7 +1311,7 @@ struct GO633 : public NiPointer<AnimIdle>
 struct S654
 {
     NiTListItem<GO633>* m_pkHead;
-    NP FUN_0057c5d0(GO633& item) throw();
+    NP NiTPointerListBase_NiPropertyPtr_Remove(GO633& item) throw();
 };
 struct ExtraOwner
 {
@@ -1325,7 +1325,7 @@ struct ExtraOwner
     int unk1c;
     int unk20;
     S654 list;
-    void FUN_00a5aac0(int type, NiPointer<AnimIdle>& output);
+    void NiAVObject_RemoveProperty_0(int type, NiPointer<AnimIdle>& output);
 };
 extern int DAT_0101dce4;
 extern char DAT_011f4400;
@@ -1348,8 +1348,8 @@ class CloningProcessA5d6
 };
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
 extern char* __cdecl FUN_00a5b690(const char* text);
-extern void __cdecl FUN_00a57500(void* fixed);
-extern void __cdecl FUN_00a76960(void* fixed, void* out);
+extern void __cdecl NiStandardizeFilePath(void* fixed);
+extern void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(void* fixed, void* out);
 extern int DAT_0109b220;
 extern unsigned char DAT_011a9594;
 extern void(__stdcall* DAT_00fdf1c0)(void*);
@@ -1423,7 +1423,7 @@ struct FnvSourceTexture
 
     FnvSourceTexture* __thiscall NiSourceTexture_NiSourceTexture();
 };
-FnvSourceTexture* __cdecl FUN_00a5fe30(int source, const char* name, const int* size, unsigned char flags);
+FnvSourceTexture* __cdecl NiSourceTexture_CreateTexture(int source, const char* name, const int* size, unsigned char flags);
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);

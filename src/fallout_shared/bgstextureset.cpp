@@ -173,13 +173,15 @@ bool BGSTextureSet::LoadForm(TESFile* file)
 }
 
 // @fnv 0x00593210
-void FUN_00593210()
+// src: COMMUNITY 0x00593210
+void BGSTextureSet_ClearNullTextureSet()
 {
     BGSTextureSet::s_pNullTextureSet = 0;
 }
 
 // @fnv 0x00593220
-BGSTextureSet* __cdecl FUN_00593220()
+// src: COMMUNITY 0x00593220
+BGSTextureSet* __cdecl BGSTextureSet_GetNullTextureSet()
 {
     return BGSTextureSet::s_pNullTextureSet;
 }
@@ -382,12 +384,13 @@ struct Owner
     ValueList m_kList3;
     ValueList m_kList4;
 
-    void FUN_00593030(unsigned int uiType, int iValue);
+    void BGSTextureSet_SetTexturePath(unsigned int uiType, int iValue);
 };
 
 // Dispatches iValue to the ValueList member selected by uiType, calling FUN_00489100 on the matching list.
 // @fnv 0x00593030
-void Owner::FUN_00593030(unsigned int uiType, int iValue)
+// src: COMMUNITY 0x00593030
+void Owner::BGSTextureSet_SetTexturePath(unsigned int uiType, int iValue)
 {
     switch (uiType)
     {

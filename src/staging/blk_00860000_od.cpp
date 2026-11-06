@@ -61,10 +61,11 @@ int* FUN_00863e00_cls::FUN_00863e00(int a, int b)
 struct FUN_008640e0_class
 {
     void __thiscall DestroyAndFreeBuffer();
-    void __thiscall FUN_008640e0();
+    void __thiscall NiTLargePrimitiveArray_unsigned_int_Free();
 };
 // @fnv 0x008640e0
-void __thiscall FUN_008640e0_class::FUN_008640e0()
+// src: COMMUNITY 0x008640e0
+void __thiscall FUN_008640e0_class::NiTLargePrimitiveArray_unsigned_int_Free()
 {
     DestroyAndFreeBuffer();
 }
@@ -76,11 +77,12 @@ struct FUN_00865900_Class
 
 struct FUN_00865870_Class
 {
-    void __thiscall FUN_00865870();
+    void __thiscall NiTMap_TESForm_BGSLoadGameSubBuffer_NewItem();
 };
 
 // @fnv 0x00865870
-void __thiscall FUN_00865870_Class::FUN_00865870()
+// src: COMMUNITY 0x00865870
+void __thiscall FUN_00865870_Class::NiTMap_TESForm_BGSLoadGameSubBuffer_NewItem()
 {
     ((FUN_00865900_Class*)((char*)this + 0xc))->CreateInstance();
 }
@@ -120,11 +122,12 @@ void __fastcall SignalAtOffset18(char*);
 struct FUN_00866dc0_Class
 {
     char** m_pArr;
-    void FUN_00866dc0(int idx);
+    void IOManager_PauseThread(int idx);
 };
 
 // @fnv 0x00866dc0
-void FUN_00866dc0_Class::FUN_00866dc0(int aiIndex)
+// src: COMMUNITY 0x00866dc0
+void FUN_00866dc0_Class::IOManager_PauseThread(int aiIndex)
 {
     SignalAtOffset18(*(*(char***)((char*)this + 0x50) + aiIndex));
 }
@@ -139,13 +142,14 @@ bool __cdecl HasFlags(int flags)
 
 struct FUN_008693f0_Class
 {
-    void __thiscall FUN_008693f0(int aiParam);
+    void __thiscall NiTObjectArray_NiPointer_BSTempEffect_Add(int aiParam);
     void __thiscall SetAtGrow(unsigned short auParam, int aiParam);
 };
 
 // Calls SetAtGrow with the unsigned short at offset 0xa of this object and the given int.
 // @fnv 0x008693f0
-void __thiscall FUN_008693f0_Class::FUN_008693f0(int aiParam)
+// src: COMMUNITY 0x008693f0
+void __thiscall FUN_008693f0_Class::NiTObjectArray_NiPointer_BSTempEffect_Add(int aiParam)
 {
     SetAtGrow(*(unsigned short*)((char*)this + 0xa), aiParam);
 }
@@ -153,14 +157,15 @@ void __thiscall FUN_008693f0_Class::FUN_008693f0(int aiParam)
 extern "C" void __cdecl Deallocate(void*);
 
 // @fnv 0x008696c0
-void __cdecl FUN_008696c0(void* apMemory)
+// src: COMMUNITY 0x008696c0
+void __cdecl NiTNewInterface_Deallocate(void* apMemory)
 {
     void* q = apMemory;
     Deallocate(q);
 }
 
 extern int DAT_010827f0;
-void __cdecl FUN_008696c0(int);
+void __cdecl NiTNewInterface_Deallocate(int);
 
 struct FUN_00869a40_Class
 {
@@ -173,11 +178,11 @@ struct FUN_00869a40_Class
 void FUN_00869a40_Class::FUN_00869a40()
 {
     m_ppVirtualMethodTable = &DAT_010827f0;
-    FUN_008696c0(m_field);
+    NiTNewInterface_Deallocate(m_field);
 }
 
 extern int DAT_01082800;
-void __cdecl FUN_008696c0(int);
+void __cdecl NiTNewInterface_Deallocate(int);
 struct FUN_00869b90_cls
 {
     int vtbl;
@@ -189,7 +194,7 @@ struct FUN_00869b90_cls
 void FUN_00869b90_cls::InitializeAndReleaseNext()
 {
     vtbl = (int)&DAT_01082800;
-    FUN_008696c0(next);
+    NiTNewInterface_Deallocate(next);
 }
 
 extern void* DAT_01082808;
@@ -212,17 +217,18 @@ FUN_00869c60::FUN_00869c60(unsigned int auiFirst, unsigned int auiSecond)
 struct FUN_00869cc0_class
 {
     void FUN_00869ce0();
-    void FUN_00869cc0();
+    void NiTObjectArray_Animation_Free();
 };
 
 // @fnv 0x00869cc0
-void FUN_00869cc0_class::FUN_00869cc0()
+// src: COMMUNITY 0x00869cc0
+void FUN_00869cc0_class::NiTObjectArray_Animation_Free()
 {
     FUN_00869ce0();
 }
 
 extern int DAT_01082810;
-void __cdecl FUN_008696c0(int);
+void __cdecl NiTNewInterface_Deallocate(int);
 struct FUN_00869ce0_cls
 {
     int vtbl;
@@ -234,11 +240,11 @@ struct FUN_00869ce0_cls
 void FUN_00869ce0_cls::FUN_00869ce0()
 {
     vtbl = (int)&DAT_01082810;
-    FUN_008696c0(field4);
+    NiTNewInterface_Deallocate(field4);
 }
 
 extern int DAT_01082820;
-void __cdecl FUN_004b0220(int);
+void __cdecl j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(int);
 
 struct FUN_00869e30_class
 {
@@ -252,7 +258,7 @@ struct FUN_00869e30_class
 void FUN_00869e30_class::FUN_00869e30()
 {
     p = &DAT_01082820;
-    FUN_004b0220(f);
+    j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(f);
 }
 
 struct FUN_0086c600_shell
@@ -282,11 +288,12 @@ void FUN_0086cdd0::Wait()
 
 struct FUN_00876a00_Class
 {
-    void FUN_00876a00();
+    void ImageSpaceEffectDepthOfField_ReturnMaskTexture();
 };
 
 // @fnv 0x00876a00
-void FUN_00876a00_Class::FUN_00876a00()
+// src: COMMUNITY 0x00876a00
+void FUN_00876a00_Class::ImageSpaceEffectDepthOfField_ReturnMaskTexture()
 {
     ((ImageSpaceTexture*)((char*)this + 0x7c))->AddRenderedTexture();
 }
@@ -333,11 +340,12 @@ void __thiscall FUN_00877b60_Class::SetVtable()
 
 struct FUN_00877d30_Class
 {
-    void FUN_00877d30();
+    void BSTaskManager_int64_SetThreadExiting();
 };
 
 // @fnv 0x00877d30
-void FUN_00877d30_Class::FUN_00877d30()
+// src: COMMUNITY 0x00877d30
+void FUN_00877d30_Class::BSTaskManager_int64_SetThreadExiting()
 {
     *(char*)((char*)this + 0x40) = 1;
 }
@@ -377,11 +385,12 @@ FUN_00877df0::FUN_00877df0()
 
 struct FUN_00878110_Class
 {
-    unsigned int __thiscall FUN_00878110();
+    unsigned int __thiscall MemoryManager_GetMainThreadMemoryProblemPassSignal();
 };
 
 // @fnv 0x00878110
-unsigned int __thiscall FUN_00878110_Class::FUN_00878110()
+// src: COMMUNITY 0x00878110
+unsigned int __thiscall FUN_00878110_Class::MemoryManager_GetMainThreadMemoryProblemPassSignal()
 {
     return *(unsigned int*)((char*)this + 0x134);
 }
@@ -408,11 +417,12 @@ struct FUN_0086c600_shell
 
 struct FUN_0087a6f0_shell
 {
-    void* __thiscall FUN_0087a6f0();
+    void* __thiscall TaskQueueInterface_ThreadBeginSecondaryInput();
 };
 
 // @fnv 0x0087a6f0
-void* __thiscall FUN_0087a6f0_shell::FUN_0087a6f0()
+// src: COMMUNITY 0x0087a6f0
+void* __thiscall FUN_0087a6f0_shell::TaskQueueInterface_ThreadBeginSecondaryInput()
 {
     return reinterpret_cast<FUN_0086c600_shell*>(reinterpret_cast<void**>(this)[1])->SignalAtOffset();
 }
@@ -426,10 +436,11 @@ struct FUN_0087a710_shell
 {
     int pad;
     FUN_0086cdd0_shell* p;
-    void FUN_0087a710();
+    void TaskQueueInterface_ThreadEndSecondaryInput();
 };
 // @fnv 0x0087a710
-void __thiscall FUN_0087a710_shell::FUN_0087a710()
+// src: COMMUNITY 0x0087a710
+void __thiscall FUN_0087a710_shell::TaskQueueInterface_ThreadEndSecondaryInput()
 {
     p->FUN_0086cdd0();
 }
@@ -479,11 +490,12 @@ extern int DAT_010840e4;
 struct Caller00822860
 {
     void FUN_00822860(unsigned int, bool);
-    void* FUN_0087d420();
+    void* BSSimpleArray_NiPointer_NiNode_1024_BSSimpleArray_NiPointer_NiNode_1024();
 };
 
 // @fnv 0x0087d420
-void* Caller00822860::FUN_0087d420()
+// src: COMMUNITY 0x0087d420
+void* Caller00822860::BSSimpleArray_NiPointer_NiNode_1024_BSSimpleArray_NiPointer_NiNode_1024()
 {
     *(void**)(this) = (void*)&DAT_010840e4;
     FUN_00822860(0, false);
@@ -520,22 +532,24 @@ void TaskQueueInterface::FUN_0087e100(bool abFlag)
 
 struct FUN_0087e920_class
 {
-    bool FUN_0087e920();
+    bool BGSBodyPart_IsIKBiped();
 };
 
 // @fnv 0x0087e920
-bool FUN_0087e920_class::FUN_0087e920()
+// src: COMMUNITY 0x0087e920
+bool FUN_0087e920_class::BGSBodyPart_IsIKBiped()
 {
     return ((const unsigned char*)this)[0x60] & 4;
 }
 
 struct FUN_0087e940_cls
 {
-    bool FUN_0087e940();
+    bool BGSBodyPart_DoesHeadtracking();
 };
 
 // @fnv 0x0087e940
-bool FUN_0087e940_cls::FUN_0087e940()
+// src: COMMUNITY 0x0087e940
+bool FUN_0087e940_cls::BGSBodyPart_DoesHeadtracking()
 {
     return reinterpret_cast<unsigned char*>(this)[0x60] & 0x20;
 }
@@ -558,22 +572,24 @@ struct Flt
 
 struct FUN_0087e980_class
 {
-    unsigned int FUN_0087e980();
+    unsigned int bhkCharacterController_GetChrPhantom();
 };
 
 // @fnv 0x0087e980
-unsigned int FUN_0087e980_class::FUN_0087e980()
+// src: COMMUNITY 0x0087e980
+unsigned int FUN_0087e980_class::bhkCharacterController_GetChrPhantom()
 {
     return reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x594)->operator unsigned int();
 }
 
 struct FUN_0087ea40_class
 {
-    void FUN_0087ea40(int value);
+    void bhkRagdollController_SetCollisionFilterGroup(int value);
 };
 
 // @fnv 0x0087ea40
-void FUN_0087ea40_class::FUN_0087ea40(int value)
+// src: COMMUNITY 0x0087ea40
+void FUN_0087ea40_class::bhkRagdollController_SetCollisionFilterGroup(int value)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x5c) = value;
 }
@@ -585,11 +601,12 @@ struct ABD_005f92d0
 
 struct FUN_0087f480_Class
 {
-    bool FUN_0087f480();
+    bool TESActorBaseData_GetEssential();
 };
 
 // @fnv 0x0087f480
-bool FUN_0087f480_Class::FUN_0087f480()
+// src: COMMUNITY 0x0087f480
+bool FUN_0087f480_Class::TESActorBaseData_GetEssential()
 {
     return ((ABD_005f92d0*)this)->GetFlag(2);
 }
@@ -617,7 +634,8 @@ NiRenderer* __cdecl FUN_0043c4b0();
 
 // If FUN_0043c4b0 returns a renderer, calls its vfn_8c virtual method, then returns 0.
 // @fnv 0x0086a020
-int __cdecl FUN_0086a020()
+// src: COMMUNITY 0x0086a020
+int __cdecl SystemUtilityDialogIdleCallback()
 {
     if (FUN_0043c4b0())
     {
@@ -654,11 +672,12 @@ struct FUN_00863e30_struct
     unsigned int m_uiCount;
     void** m_pData;
     int m_iPad;
-    void* FUN_00863e30(unsigned int ItemUpdateArray);
+    void* NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData_NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData(unsigned int ItemUpdateArray);
 };
 // Sets the vtable, stores the count, allocates count*4 bytes for m_pData, zeroes them, and returns this.
 // @fnv 0x00863e30
-void* FUN_00863e30_struct::FUN_00863e30(unsigned int auiCount)
+// src: COMMUNITY 0x00863e30
+void* FUN_00863e30_struct::NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData_NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData(unsigned int auiCount)
 {
     m_pVTable = &DAT_01081fa8;
     m_uiCount = auiCount;
@@ -821,7 +840,8 @@ extern void* DAT_0126fac4;
 
 // If DAT_0126fac4 is set, calls its first virtual method with 1, then clears DAT_0126fac4.
 // @fnv 0x00867090
-void __cdecl FUN_00867090()
+// src: COMMUNITY 0x00867090
+void __cdecl BGSMoviePlayer_Destroy()
 {
     void* p = DAT_0126fac4;
     void* RunFourthVirtual = p;
@@ -836,7 +856,8 @@ void __cdecl FUN_00867090()
 void __fastcall FUN_00867a20(void*);
 void __fastcall ZeroSixInts(void*);
 // @fnv 0x008677d0
-void* __fastcall FUN_008677d0(void* p)
+// src: COMMUNITY 0x008677d0
+void* __fastcall Calendar_Calendar(void* p)
 {
     *(int*)p = 0;
     *(int*)((char*)p + 4) = 0;
@@ -864,11 +885,12 @@ void __fastcall ZeroSixInts(int* piValues)
 
 struct FUN_00869600_Class
 {
-    unsigned int __thiscall FUN_00869600();
+    unsigned int __thiscall BSSimpleArray_GetOptimalCapacity();
 };
 
 // @fnv 0x00869600
-unsigned int __thiscall FUN_00869600_Class::FUN_00869600()
+// src: COMMUNITY 0x00869600
+unsigned int __thiscall FUN_00869600_Class::BSSimpleArray_GetOptimalCapacity()
 {
     return *(unsigned int*)((char*)this + 0xc) > 0x800 ? *(unsigned int*)((char*)this + 0xc) - 0x400
                                                        : *(unsigned int*)((char*)this + 0xc) >> 1;
@@ -890,15 +912,16 @@ void* FUN_00869a20_class::FUN_00869a70(unsigned int flags)
 
 struct GlobalObject_00869b10
 {
-    void __thiscall FUN_00869b70();
-    GlobalObject_00869b10* __thiscall FUN_00869b40(unsigned int flags);
+    void __thiscall NiTObjectArray_BipedAnim_Free();
+    GlobalObject_00869b10* __thiscall NiTObjectArray_BipedAnim_Destroy(unsigned int flags);
     ~GlobalObject_00869b10();
 };
 // Calls FUN_00869b70, then deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x00869b40
-GlobalObject_00869b10* __thiscall GlobalObject_00869b10::FUN_00869b40(unsigned int flags)
+// src: COMMUNITY 0x00869b40
+GlobalObject_00869b10* __thiscall GlobalObject_00869b10::NiTObjectArray_BipedAnim_Destroy(unsigned int flags)
 {
-    FUN_00869b70();
+    NiTObjectArray_BipedAnim_Free();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -909,24 +932,25 @@ extern "C" void __cdecl Deallocate(void*);
 struct GlobalObject_00869c60
 {
     virtual void vfn();
-    void __thiscall FUN_00869cc0();
-    GlobalObject_00869c60* __thiscall FUN_00869c90(unsigned int flags);
+    void __thiscall NiTObjectArray_Animation_Free();
+    GlobalObject_00869c60* __thiscall NiTObjectArray_Animation_Destroy(unsigned int flags);
 };
 
 // @fnv 0x00869c90
-GlobalObject_00869c60* GlobalObject_00869c60::FUN_00869c90(unsigned int flags)
+// src: COMMUNITY 0x00869c90
+GlobalObject_00869c60* GlobalObject_00869c60::NiTObjectArray_Animation_Destroy(unsigned int flags)
 {
-    FUN_00869cc0();
+    NiTObjectArray_Animation_Free();
     if (flags & 1)
         Deallocate(this);
     return this;
 }
 
-void __cdecl FUN_008696c0(int);
-void __cdecl FUN_008696c0(int);
-void __cdecl FUN_008696c0(int);
-void __cdecl FUN_008696c0(int);
-void __cdecl FUN_008696c0(int);
+void __cdecl NiTNewInterface_Deallocate(int);
+void __cdecl NiTNewInterface_Deallocate(int);
+void __cdecl NiTNewInterface_Deallocate(int);
+void __cdecl NiTNewInterface_Deallocate(int);
+void __cdecl NiTNewInterface_Deallocate(int);
 struct FUN_00869d10_cls
 {
     void __thiscall FUN_00869ce0();
@@ -978,7 +1002,8 @@ struct GlobalObject_0044f440
 };
 extern GlobalObject_0044f440 g_011c72a0;
 // @fnv 0x0086c0c0
-void FUN_0086c0c0()
+// src: COMMUNITY 0x0086c0c0
+void TESRenderer_GetBlurSunBrightness()
 {
     g_011c72a0.FUN_00450410();
 }
@@ -991,7 +1016,8 @@ struct GlobalObject_0044f440
 extern GlobalObject_0044f440 g_011c774c;
 
 // @fnv 0x0086c0d0
-void __cdecl FUN_0086c0d0()
+// src: COMMUNITY 0x0086c0d0
+void __cdecl TESRenderer_GetBlurSkyBrightness()
 {
     g_011c774c.FUN_00450410();
 }
@@ -1005,7 +1031,8 @@ struct GlobalObject_0044f440
 extern GlobalObject_0044f440 g_011c7314;
 
 // @fnv 0x0086c0e0
-void __cdecl FUN_0086c0e0()
+// src: COMMUNITY 0x0086c0e0
+void __cdecl TESRenderer_GetBlurSpecularMult()
 {
     g_011c7314.FUN_00450410();
 }
@@ -1018,7 +1045,8 @@ struct GlobalObject_0044f440
 };
 extern GlobalObject_0044f440 g_011c768c;
 // @fnv 0x0086c0f0
-void FUN_0086c0f0()
+// src: COMMUNITY 0x0086c0f0
+void TESRenderer_GetBlurEmmisiveMult()
 {
     g_011c768c.FUN_00450410();
 }
@@ -1031,7 +1059,8 @@ struct GlobalObject_0044f440
 };
 extern GlobalObject_0044f440 g_011c7758;
 // @fnv 0x0086c100
-void FUN_0086c100()
+// src: COMMUNITY 0x0086c100
+void TESRenderer_GetBlurSunBrightnessHDR()
 {
     g_011c7758.FUN_00450410();
 }
@@ -1045,7 +1074,8 @@ struct GlobalObject_0044f440
 extern GlobalObject_0044f440 g_011c75bc;
 
 // @fnv 0x0086c110
-void __cdecl FUN_0086c110()
+// src: COMMUNITY 0x0086c110
+void __cdecl TESRenderer_GetBlurSkyBrightnessHDR()
 {
     g_011c75bc.FUN_00450410();
 }
@@ -1059,7 +1089,8 @@ struct GlobalObject_0044f440
 extern GlobalObject_0044f440 g_011c7458;
 
 // @fnv 0x0086c120
-void __cdecl FUN_0086c120()
+// src: COMMUNITY 0x0086c120
+void __cdecl TESRenderer_GetBlurSpecularMultHDR()
 {
     g_011c7458.FUN_00450410();
 }
@@ -1072,7 +1103,8 @@ struct GlobalObject_0044f440
 };
 GlobalObject_0044f440 g_011c74a0;
 // @fnv 0x0086c130
-void FUN_0086c130()
+// src: COMMUNITY 0x0086c130
+void TESRenderer_GetBlurEmmisiveMultHDR()
 {
     g_011c74a0.FUN_00450410();
 }
@@ -1081,14 +1113,16 @@ void FUN_0086c130()
 extern float DAT_011ff8ac;
 
 // @fnv 0x0086c140
-void FUN_0086c140(float value)
+// src: COMMUNITY 0x0086c140
+void SkyShader_SetSunBrightness(float value)
 {
     DAT_011ff8ac = value;
 }
 
 extern float DAT_011ff8b0;
 // @fnv 0x0086c150
-void __cdecl FUN_0086c150(float value)
+// src: COMMUNITY 0x0086c150
+void __cdecl SkyShader_SetSkyBrightness(float value)
 {
     DAT_011ff8b0 = value;
 }
@@ -1105,7 +1139,8 @@ void __cdecl DestroyMessageHandler()
 
 extern unsigned char DAT_011f9fc5;
 // @fnv 0x00872df0
-void FUN_00872df0(unsigned char value)
+// src: COMMUNITY 0x00872df0
+void BSShaderAccumulator_SetDisplayBoundingSpheres(unsigned char value)
 {
     DAT_011f9fc5 = value;
 }
@@ -1168,7 +1203,8 @@ void* GlobalObject_00877f10::FUN_00877f90(unsigned int flags)
 extern int DAT_011a95fc;
 
 // @fnv 0x008781e0
-void FUN_008781e0(int value)
+// src: COMMUNITY 0x008781e0
+void BSTexturePalette_SetMaxTexturesToPurge(int value)
 {
     DAT_011a95fc = value;
 }
@@ -1191,11 +1227,12 @@ unsigned __thiscall FUN_00878f20_shell::DeallocateSound()
 
 struct FUN_00879860_Class
 {
-    void __thiscall FUN_00879860(float a, float b, float c, float d);
+    void __thiscall ImageSpaceManager_SetCustomViewPort(float a, float b, float c, float d);
 };
 // Stores the four float arguments into the object's fields at offsets 0x308, 0x30c, 0x310 and 0x314.
 // @fnv 0x00879860
-void __thiscall FUN_00879860_Class::FUN_00879860(float a, float b, float c, float d)
+// src: COMMUNITY 0x00879860
+void __thiscall FUN_00879860_Class::ImageSpaceManager_SetCustomViewPort(float a, float b, float c, float d)
 {
     *(float*)((char*)this + 0x308) = a;
     *(float*)((char*)this + 0x30c) = b;
@@ -1205,12 +1242,13 @@ void __thiscall FUN_00879860_Class::FUN_00879860(float a, float b, float c, floa
 
 struct FUN_008798a0_Class
 {
-    void __thiscall FUN_008798a0();
+    void __thiscall ImageSpaceManager_ResetViewport();
 };
 
 // Sets four floats at offsets 0x308-0x314 of this object to 0.0, 1.0, 1.0, 0.0.
 // @fnv 0x008798a0
-void __thiscall FUN_008798a0_Class::FUN_008798a0()
+// src: COMMUNITY 0x008798a0
+void __thiscall FUN_008798a0_Class::ImageSpaceManager_ResetViewport()
 {
     *(float*)((char*)this + 0x308) = 0.0f;
     *(float*)((char*)this + 0x30c) = 1.0f;
@@ -1397,12 +1435,13 @@ struct FUN_00867890_shell
     TESForm* f4;
     TESForm* f5;
     int f6;
-    void FUN_00867890();
+    void Calendar_InitGlobals();
     void __fastcall FUN_00867a20();
 };
 // Looks up six forms by id, adds the f3 global's value divided by 24 to the f4 global, stores it, resets f6 and calls FUN_00867a20.
 // @fnv 0x00867890
-void FUN_00867890_shell::FUN_00867890()
+// src: COMMUNITY 0x00867890
+void FUN_00867890_shell::Calendar_InitGlobals()
 {
     f0 = _ref_004839c0(0x35);
     f1 = _ref_004839c0(0x36);
@@ -1431,7 +1470,7 @@ void FUN_00869560(Arr* pArr, FUN_008693f0_Class* pDest)
     {
         GO sp(pArr->GetAt(i));
         if ((unsigned int)sp)
-            pDest->FUN_008693f0((int)&sp);
+            pDest->NiTObjectArray_NiPointer_BSTempEffect_Add((int)&sp);
     }
 }
 
@@ -1864,7 +1903,8 @@ struct BSFadeNodeResult2 : public BSFadeNodeResult
 };
 
 // @fnv 0x0086a050
-float __cdecl FUN_0086a050(BSFadeNode* node)
+// src: COMMUNITY 0x0086a050
+float __cdecl BSFadeNode_GetLinkedActorAlpha(BSFadeNode* node)
 {
     BSFadeNodeResult2* p = (BSFadeNodeResult2*)node->FUN_009ad610();
     if (p != 0 && p->vfn_100())
@@ -1876,7 +1916,7 @@ float __cdecl FUN_0086a050(BSFadeNode* node)
 
 struct FUN_00863f30_shell
 {
-    void __thiscall FUN_008640e0();
+    void __thiscall NiTLargePrimitiveArray_unsigned_int_Free();
     void* __thiscall FUN_00863f30(unsigned int flags);
 };
 
@@ -1884,7 +1924,7 @@ struct FUN_00863f30_shell
 // @fnv 0x00863f30
 void* __thiscall FUN_00863f30_shell::FUN_00863f30(unsigned int flags)
 {
-    FUN_008640e0();
+    NiTLargePrimitiveArray_unsigned_int_Free();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1988,24 +2028,25 @@ struct FUN_00865aa0_shell
 
 struct FUN_00853670_shell
 {
-    void FUN_00853670(int value);
+    void BGSSaveLoadFormInfo_SetFormType(int value);
 };
 
-unsigned int __cdecl FUN_00845d40(unsigned int value);
+unsigned int __cdecl GetSizeTypeForSize(unsigned int value);
 unsigned int __cdecl FUN_00845d70(unsigned int value);
 void __cdecl WriteTypedValue(void* destination, unsigned int source, unsigned int count);
 
 struct FUN_008665d0_class
 {
     void* m_pData;
-    void __thiscall FUN_008665d0(void* source, unsigned int size, int value, unsigned char flag);
+    void __thiscall BGSUnloadedFormBuffer_Initialize(void* source, unsigned int size, int value, unsigned char flag);
 };
 
 // Allocates a buffer sized from size, writes a flag and encoded size/value header, then copies size bytes from source into it.
 // @fnv 0x008665d0
-void FUN_008665d0_class::FUN_008665d0(void* source, unsigned int size, int value, unsigned char flag)
+// src: COMMUNITY 0x008665d0
+void FUN_008665d0_class::BGSUnloadedFormBuffer_Initialize(void* source, unsigned int size, int value, unsigned char flag)
 {
-    unsigned int data4 = FUN_00845d40(size);
+    unsigned int data4 = GetSizeTypeForSize(size);
     unsigned int totalSize = FUN_00845d70(data4);
     unsigned int encodedSize = size + totalSize + 2;
     void* object = operator new(encodedSize);
@@ -2018,7 +2059,7 @@ void FUN_008665d0_class::FUN_008665d0(void* source, unsigned int size, int value
     destination[1] = flag;
 
     reinterpret_cast<FUN_00865aa0_shell*>(destination)->SetFlags(data4);
-    reinterpret_cast<FUN_00853670_shell*>(destination)->FUN_00853670(value);
+    reinterpret_cast<FUN_00853670_shell*>(destination)->BGSSaveLoadFormInfo_SetFormType(value);
 
     headerSize += 2;
     WriteTypedValue(headerSize, size, data4);
@@ -2081,10 +2122,11 @@ struct FUN_00869640_StrArr
 {
     void Resize(int);
     void SetAt(unsigned int, char*&);
-    unsigned int FUN_00869640(unsigned int index, char*& value);
+    unsigned int AddAtIndex(unsigned int index, char*& value);
 };
 // @fnv 0x00869640
-unsigned int FUN_00869640_StrArr::FUN_00869640(unsigned int index, char*& value)
+// src: COMMUNITY 0x00869640
+unsigned int FUN_00869640_StrArr::AddAtIndex(unsigned int index, char*& value)
 {
     if (index >= *(unsigned short*)((char*)this + 8))
         Resize(*(unsigned short*)((char*)this + 0xe) + index);
@@ -2099,11 +2141,12 @@ struct GlobalObject_008699c0
 };
 struct FUN_008699f0_class : public GlobalObject_008699c0
 {
-    void* FUN_008699f0(unsigned int flags);
+    void* NiTObjectArray_TESObjectREFR_Destroy(unsigned int flags);
 };
 // Runs the base destructor, frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x008699f0
-void* FUN_008699f0_class::FUN_008699f0(unsigned int flags)
+// src: COMMUNITY 0x008699f0
+void* FUN_008699f0_class::NiTObjectArray_TESObjectREFR_Destroy(unsigned int flags)
 {
     this->GlobalObject_008699c0::~GlobalObject_008699c0();
     if (flags & 1)
@@ -2127,15 +2170,16 @@ void* FUN_00869bc0_Class::FUN_00869bc0(unsigned int flags)
 
 struct GlobalObject_00869db0
 {
-    void __thiscall FUN_00869e10();
+    void __thiscall NiTObjectArray_NiPointer_BSTempEffect_Free();
     ~GlobalObject_00869db0();
-    void* __thiscall FUN_00869de0(unsigned int flags);
+    void* __thiscall NiTObjectArray_NiPointer_BSTempEffect_Destroy(unsigned int flags);
 };
 // Calls FUN_00869e10, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00869de0
-void* __thiscall GlobalObject_00869db0::FUN_00869de0(unsigned int flags)
+// src: COMMUNITY 0x00869de0
+void* __thiscall GlobalObject_00869db0::NiTObjectArray_NiPointer_BSTempEffect_Destroy(unsigned int flags)
 {
-    FUN_00869e10();
+    NiTObjectArray_NiPointer_BSTempEffect_Free();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2167,13 +2211,13 @@ struct BGSMenuIcon;
 struct TES;
 struct TESSound;
 
-void __cdecl FUN_00aea020();
+void __cdecl BSWin32Audio_Create();
 void __cdecl GetSoundPathAndFlags();
 void __cdecl FindDialogueFile();
 void __cdecl ApplySoundFormToGameSound();
-void __cdecl FUN_00832c40();
+void __cdecl FalloutRadio_RadioSynchPaused();
 void __cdecl FUN_0082f830();
-bool __cdecl FUN_0082d740(TESSound*, int*, int*);
+bool __cdecl GetSoundLoopPoints(TESSound*, int*, int*);
 
 
 
@@ -2209,7 +2253,7 @@ struct FUN_0086ce40_class
 // @fnv 0x0086ce40
 void FUN_0086ce40_class::InitAudioCallbacks()
 {
-    FUN_00aea020();
+    BSWin32Audio_Create();
 
     reinterpret_cast<RegionPointList*>(BSAudio::GetSingleton())
         ->SetDistanceInsideAtMax(reinterpret_cast<unsigned int>(&GetSoundPathAndFlags));
@@ -2223,12 +2267,12 @@ void FUN_0086ce40_class::InitAudioCallbacks()
         ->SetIcon(reinterpret_cast<BGSMenuIcon*>(&ApplySoundFormToGameSound));
 
     reinterpret_cast<BGSCameraPath*>(BSAudio::GetSingleton())
-        ->AssignParentPath(reinterpret_cast<BGSCameraPath*>(&FUN_00832c40));
+        ->AssignParentPath(reinterpret_cast<BGSCameraPath*>(&FalloutRadio_RadioSynchPaused));
 
     reinterpret_cast<TES*>(BSAudio::GetSingleton())
         ->SetDawnSound(reinterpret_cast<TESSound*>(&FalloutRadio::RadioSynchUnPaused));
 
-    BSAudio::GetSingleton()->vfn_0c(reinterpret_cast<AudioCallback>(&FUN_0082d740));
+    BSAudio::GetSingleton()->vfn_0c(reinterpret_cast<AudioCallback>(&GetSoundLoopPoints));
 
     BSAudio::GetSingleton()->vfn_04(value_08);
 
@@ -2307,11 +2351,12 @@ struct FUN_00878360_Class
     int m_08;
     int m_0c;
     unsigned int m_10;
-    bool FUN_00878360();
+    bool MemoryLevelManager_WasLastCheckedMemLevelCloseToLow();
 };
 // Returns true unless m_10 exceeds m_08 and the difference is greater than the address of g_011c5bbc_arg1.
 // @fnv 0x00878360
-bool FUN_00878360_Class::FUN_00878360()
+// src: COMMUNITY 0x00878360
+bool FUN_00878360_Class::MemoryLevelManager_WasLastCheckedMemLevelCloseToLow()
 {
     bool b = true;
     if (m_10 > m_08 && (char const* const)(m_10 - m_08) > (char const* const)&g_011c5bbc_arg1)
@@ -2333,11 +2378,12 @@ struct FUN_0087a790_class
     PackedTaskQueueProcessor* m_pTaskQueueProcessor;
     unsigned int m_uiTaskFlags;
 
-    void __thiscall FUN_0087a790();
+    void __thiscall TaskQueueInterface_ProcessQueue();
 };
 
 // @fnv 0x0087a790
-void FUN_0087a790_class::FUN_0087a790()
+// src: COMMUNITY 0x0087a790
+void FUN_0087a790_class::TaskQueueInterface_ProcessQueue()
 {
     m_pTaskQueueProcessor = m_pSecondaryTaskProcessor;
     m_uiTaskFlags = gm_GetCurrentThreadId();
@@ -2397,10 +2443,11 @@ void FUN_0087d3d0_Class::FUN_0087d3d0(int aiBase, unsigned int count)
 
 struct FUN_0087ea80_shell
 {
-    void FUN_0087ea80(unsigned int a);
+    void bhkRagdollController_Setphkobject090(unsigned int a);
 };
 // @fnv 0x0087ea80
-void FUN_0087ea80_shell::FUN_0087ea80(unsigned int a)
+// src: COMMUNITY 0x0087ea80
+void FUN_0087ea80_shell::bhkRagdollController_Setphkobject090(unsigned int a)
 {
     // The callee is bhkWorldObject::FUN_004ae750 (0x004ae750), not ScriptLocals::GetLocalData (0x00541c80).
     *(unsigned int*)((char*)this + 0x90) = (unsigned int)((bhkWorldObject*)a)->FUN_004ae750();
@@ -2475,7 +2522,7 @@ void FUN_00866140_cls::FUN_00866140(int aiOffset, int aiAmount)
 struct FUN_00866570_Input
 {
     unsigned char FUN_008a81c0();
-    int FUN_008665b0();
+    int GetFormType_008665b0();
     unsigned int FUN_0084e3a0();
     void* FUN_00726070();
 };
@@ -2487,13 +2534,13 @@ struct FUN_00866570_Class : public FUN_008665d0_class
 // @fnv 0x00866570
 void FUN_00866570_Class::InitFromInput(FUN_00866570_Input* input)
 {
-    FUN_008665d0(input->FUN_00726070(), input->FUN_0084e3a0(), input->FUN_008665b0(), input->FUN_008a81c0());
+    BGSUnloadedFormBuffer_Initialize(input->FUN_00726070(), input->FUN_0084e3a0(), input->GetFormType_008665b0(), input->FUN_008a81c0());
 }
 
 // Stand-in for the object stored in the array held by FUN_00866de0_cls::m_pArr.
 struct FUN_004424c0_Element
 {
-    void FUN_004424c0();
+    void BSTaskThread_WaitTask();
 };
 
 // Class owning the array at +0x50; CallElementAt forwards an indexed element
@@ -2527,7 +2574,7 @@ struct FUN_00866de0_cls
 // @fnv 0x00866de0
 void FUN_00866de0_cls::CallElementAt(int aiIndex)
 {
-    m_pArr[aiIndex]->FUN_004424c0();
+    m_pArr[aiIndex]->BSTaskThread_WaitTask();
 }
 
 struct ScopeGuardCtx
@@ -2569,7 +2616,8 @@ ScopeGuardCtx::~ScopeGuardCtx()
 {}
 
 // @fnv 0x00866ff0
-void __cdecl FUN_00866ff0()
+// src: COMMUNITY 0x00866ff0
+void __cdecl BGSMoviePlayer_Create()
 {
     ScopeGuardCtx ctx(0x14, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\BGSMoviePlayer.cpp", 0x1c);
     DAT_0126fac4 = new FUN_00866ff0_cls();
@@ -2647,12 +2695,13 @@ struct FUN_008676d0_Class
     virtual float vfn_3c();
     virtual void vfn_40();
 
-    void __thiscall FUN_008676d0();
+    void __thiscall CachedValuesOwner_CalculateAll();
 };
 
 // Calls the object's virtual functions vfn_00 through vfn_40 in order, skipping vfn_18.
 // @fnv 0x008676d0
-void __thiscall FUN_008676d0_Class::FUN_008676d0()
+// src: COMMUNITY 0x008676d0
+void __thiscall FUN_008676d0_Class::CachedValuesOwner_CalculateAll()
 {
     vfn_00();
     vfn_04();
@@ -2725,8 +2774,8 @@ void __fastcall RendererNoOp(NiRenderer* renderer);
 
 struct FNV_869F30_Manager
 {
-    void __thiscall FUN_00c3e310();
-    void __thiscall FUN_00877d30();
+    void __thiscall IOManager_Pause();
+    void __thiscall BSTaskManager_int64_SetThreadExiting();
     void __thiscall FUN_00c3e340();
 };
 extern FNV_869F30_Manager* DAT_01202d98;
@@ -2742,13 +2791,13 @@ struct FNV_869F30_Service
     virtual void method0();
     virtual void method1();
     virtual void method2();
-    void __thiscall FUN_00b01130();
+    void __thiscall BSFileCache_ForcePauseAndWaitForIdle();
 };
 FNV_869F30_Service* __cdecl FUN_00aff100();
 FNV_869F30_Service* __cdecl FUN_00453a70();
 FNV_869F30_Service* __cdecl FUN_00b00a00();
 void __cdecl FUN_008304a0();
-void __cdecl FUN_0082f9c0();
+void __cdecl FalloutAudioMedia_Shutdown();
 void __cdecl UpdateSystemUtility();
 void __cdecl ResetSystemUtility();
 
@@ -2769,25 +2818,25 @@ void __cdecl RunModeSwitch(int mode)
         {
             RendererNoOp(FUN_0043c4b0());
         }
-        FUN_00867090();
+        BGSMoviePlayer_Destroy();
         if (DAT_01202d98)
         {
-            DAT_01202d98->FUN_00c3e310();
+            DAT_01202d98->IOManager_Pause();
         }
         DAT_011c3b3c->CallMemberFunction();
-        DAT_01202d98->FUN_00877d30();
+        DAT_01202d98->BSTaskManager_int64_SetThreadExiting();
         DAT_01202d98->FUN_00c3e340();
-        FUN_00aff100()->FUN_00b01130();
+        FUN_00aff100()->BSFileCache_ForcePauseAndWaitForIdle();
         FUN_00aff100()->method2();
         FUN_008304a0();
-        FUN_0082f9c0();
+        FalloutAudioMedia_Shutdown();
         FUN_00453a70()->method2();
         UpdateSystemUtility();
         ResetSystemUtility();
         FUN_00b00a00()->method2();
         if (DAT_01202d98)
         {
-            DAT_01202d98->FUN_00c3e310();
+            DAT_01202d98->IOManager_Pause();
         }
         break;
     }
@@ -2812,7 +2861,8 @@ extern double DAT_01012638;
 bool FUN_00702360();
 
 // @fnv 0x0086a480
-float FUN_0086a480(int aiMode)
+// src: COMMUNITY 0x0086a480
+float BSShaderManager_CalculateTime(int aiMode)
 {
     if (aiMode == 3)
     {
@@ -2858,7 +2908,8 @@ float FUN_0086a480(int aiMode)
 
 extern int DAT_011f638c;
 // @fnv 0x0086a820
-int __cdecl FUN_0086a820()
+// src: COMMUNITY 0x0086a820
+int __cdecl MessageHandler_GetWarningContext()
 {
     return DAT_011f638c;
 }
@@ -2887,25 +2938,26 @@ float Sample_0086c100();
 float Sample_0086c110();
 float Sample_0086c120();
 float Sample_0086c130();
-void FUN_0086c140(float value);
-void __cdecl FUN_0086c150(float value);
+void SkyShader_SetSunBrightness(float value);
+void __cdecl SkyShader_SetSkyBrightness(float value);
 ChainNode_004ebbc0* __stdcall Factory_004e3270(int kind, float value);
 
 // @fnv 0x0086c010
-void FUN_0086c010()
+// src: COMMUNITY 0x0086c010
+void TESMain_ImagespaceInit()
 {
     float value;
     if (g_011f941e != 0)
     {
         g_011adbcc = Sample_0086c120();
         g_011adbd0 = Sample_0086c130();
-        FUN_0086c140(Sample_0086c100());
-        FUN_0086c150(Sample_0086c110());
+        SkyShader_SetSunBrightness(Sample_0086c100());
+        SkyShader_SetSkyBrightness(Sample_0086c110());
     }
     else
     {
-        FUN_0086c140(Sample_0086c0c0());
-        FUN_0086c150(Sample_0086c0d0());
+        SkyShader_SetSunBrightness(Sample_0086c0c0());
+        SkyShader_SetSkyBrightness(Sample_0086c0d0());
         g_011adbcc = Sample_0086c0e0();
         g_011adbd0 = Sample_0086c0f0();
     }
@@ -3024,7 +3076,8 @@ struct FUN_0086cdf0_cls
 extern FUN_0086cdf0_cls* DAT_011f35cc;
 
 // @fnv 0x0086cdf0
-void FUN_0086cdf0()
+// src: COMMUNITY 0x0086cdf0
+void Controls_DeleteInstance()
 {
     if (DAT_011f35cc != 0)
     {
@@ -3046,7 +3099,7 @@ void FUN_0086cdf0()
 extern bool DAT_011a9604;
 struct FUN_00876a20_out
 {
-    void FUN_00b65ec0();
+    void BSShaderAccumulator_RenderScreenSplatter();
 };
 struct FUN_00876a20_list
 {
@@ -3056,7 +3109,7 @@ struct FUN_00876a20_arg
 {
     void SetFromCamera(int);
 };
-extern int __cdecl FUN_00874690();
+extern int __cdecl ScreenSplatter_GetCamera();
 struct FUN_00876a20_shell
 {
     int unk00;
@@ -3097,17 +3150,18 @@ struct FUN_00876a20_shell
     int unk8C;
     int unk90;
     FUN_00876a20_list unk94;
-    void FUN_00876a20(FUN_00876a20_arg* apArg);
+    void TESMain_DrawWorld_ScreenSplatter(FUN_00876a20_arg* apArg);
 };
 
 // Clears DAT_011a9604, passes FUN_00874690() to apArg, calls FUN_00b65ec0 on unk94's element, then restores the flag.
 // @fnv 0x00876a20
-void FUN_00876a20_shell::FUN_00876a20(FUN_00876a20_arg* apArg)
+// src: COMMUNITY 0x00876a20
+void FUN_00876a20_shell::TESMain_DrawWorld_ScreenSplatter(FUN_00876a20_arg* apArg)
 {
     bool bOld = DAT_011a9604;
     DAT_011a9604 = false;
-    apArg->SetFromCamera(FUN_00874690());
-    unk94.FUN_00559450()->FUN_00b65ec0();
+    apArg->SetFromCamera(ScreenSplatter_GetCamera());
+    unk94.FUN_00559450()->BSShaderAccumulator_RenderScreenSplatter();
     DAT_011a9604 = bOld;
 }
 
@@ -3345,11 +3399,12 @@ struct FUN_00878030_cls
     unsigned int m_uiFlags2;
     unsigned int m_uiFlags3;
     Member14_b3616 m_Sub14;
-    FUN_00878030_cls* FUN_00878030();
+    FUN_00878030_cls* MemoryLevelManager_MemoryLevelManager();
 };
 
 // @fnv 0x00878030
-FUN_00878030_cls* FUN_00878030_cls::FUN_00878030()
+// src: COMMUNITY 0x00878030
+FUN_00878030_cls* FUN_00878030_cls::MemoryLevelManager_MemoryLevelManager()
 {
     m_Sub14.FUN_0044fae0();
     m_pDatA = &DAT_01400000;
@@ -3379,19 +3434,20 @@ struct FUN_00878080_Class
     int unk0c;
     int unk10;
     StateControl control;
-    void __thiscall FUN_00878080(int unused);
+    void __thiscall MemoryLevelManager_CheckMemoryLevel(int unused);
 };
 // @fnv 0x00878080
-void FUN_00878080_Class::FUN_00878080(int unused)
+// src: COMMUNITY 0x00878080
+void FUN_00878080_Class::MemoryLevelManager_CheckMemoryLevel(int unused)
 {
     if (!control.FUN_0044b130())
         return;
-    if (reinterpret_cast<FUN_00878110_Class*>(FUN_00401020())->FUN_00878110() > 0)
+    if (reinterpret_cast<FUN_00878110_Class*>(FUN_00401020())->MemoryManager_GetMainThreadMemoryProblemPassSignal() > 0)
     {
         bool enabled = true;
         {
             unsigned int index = 0;
-            for (; index <= reinterpret_cast<FUN_00878110_Class*>(FUN_00401020())->FUN_00878110(); ++index)
+            for (; index <= reinterpret_cast<FUN_00878110_Class*>(FUN_00401020())->MemoryManager_GetMainThreadMemoryProblemPassSignal(); ++index)
             {
                 FUN_00401020(0, index, &enabled)->RunStep();
             }
@@ -3404,7 +3460,8 @@ void FUN_00878080_Class::FUN_00878080(int unused)
 extern int DAT_011a95fc;
 
 // @fnv 0x008781f0
-int __cdecl FUN_008781f0()
+// src: COMMUNITY 0x008781f0
+int __cdecl BSTexturePalette_GetMaxTexturesToPurge()
 {
     return DAT_011a95fc;
 }
@@ -3664,12 +3721,13 @@ struct S_0087e9d0_Class : public S_0087e9d0_Base
     bool unk254;
     bool unk255;
 
-    void __thiscall FUN_0087e9d0(bool value);
+    void __thiscall bhkRagdollController_ToggleDeathPoses(bool value);
 };
 
 // Stores the logical AND of unk254 and value into unk255.
 // @fnv 0x0087e9d0
-void __thiscall S_0087e9d0_Class::FUN_0087e9d0(bool value)
+// src: COMMUNITY 0x0087e9d0
+void __thiscall S_0087e9d0_Class::bhkRagdollController_ToggleDeathPoses(bool value)
 {
     unk255 = unk254 && value;
 }
@@ -3767,7 +3825,7 @@ void Array08::Resize(unsigned int newSize)
     }
     else
         data = 0;
-    FUN_008696c0((void*)oldData);
+    NiTNewInterface_Deallocate((void*)oldData);
 }
 
 struct FUN_00aa53f0
@@ -3884,7 +3942,7 @@ class FUN_00a712f0
 
 extern Setting DAT_011c3ea4;
 int FUN_0040fc90();
-void FUN_0087b8d0(FUN_0086c620*, FUN_0086c620*);
+void TaskQueueInterface_Instantiate(FUN_0086c620*, FUN_0086c620*);
 extern const char DAT_0105c2b0[];
 extern const char DAT_010829c4[];
 void FUN_00aa2740(int, const char*);
@@ -3926,10 +3984,10 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     acc88.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
     acc8c.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
     acc8c.FUN_00559450()->FUN_004a1040(12);
-    acc8c.FUN_00559450()->FUN_00936aa0(true);
+    acc8c.FUN_00559450()->MobileObject_SetSoundCallBackSuccess(true);
     acc90.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
     acc90.FUN_00559450()->FUN_004a1040(12);
-    acc90.FUN_00559450()->FUN_00936aa0(true);
+    acc90.FUN_00559450()->MobileObject_SetSoundCallBackSuccess(true);
     acc94.FUN_0066b0d0(new BSShaderAccumulator(100, 1, 4));
     acc94.FUN_00559450()->FUN_004a1040(13);
     acc98.FUN_0066b0d0(new BSShaderAccumulator(99, 1, 759));
@@ -3937,7 +3995,7 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     acca0.FUN_0066b0d0(new FUN_00a712f0);
     if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
     {
-        FUN_0087b8d0(&timer28, &timer60);
+        TaskQueueInterface_Instantiate(&timer28, &timer60);
         timer28.SignalAtOffset();
         timer60.SignalAtOffset();
     }
@@ -5842,7 +5900,7 @@ FUN_0086c880::~FUN_0086c880()
     DAT_011dea14 = 0;
     DAT_011dea18 = 0;
     DAT_011dea1c = 0;
-    FUN_0086cdf0();
+    Controls_DeleteInstance();
     DAT_011deb7c.FUN_00559450()->FUN_00483710();
     DAT_011deb7c.FUN_0066b0d0(0);
     DAT_011d6e5c.FUN_0066b0d0(0);
@@ -6301,7 +6359,7 @@ class SSImage
     virtual ~SSImage();
     static void* operator new(unsigned int uiSize);
     static void operator delete(void* pvMem);
-    unsigned int FUN_0064da80(int iA, int iB);
+    unsigned int NiPixelData_GetWidth(int iA, int iB);
     unsigned int FUN_0070ec90();
     unsigned char* FUN_0064dac0(int iA, int iB);
     unsigned int unk04[28];
@@ -6354,13 +6412,13 @@ extern Setting DAT_011df0f8;
 
 SSRenderer* FUN_004bc3f0();
 int FUN_00e7bd20(SSFormat* pkFormat);
-void FUN_005b5e40(const char* pcFormat, ...);
-bool FUN_004dc310();
+void Warning_005b5e40(const char* pcFormat, ...);
+bool TESRenderer_GetMultiSampleEnabled();
 unsigned int FUN_004dc1f0();
 int FUN_004dc200();
 void* FUN_00401460(void* pvDst, const void* pvSrc, unsigned int uiSize);
-void* FUN_00401000(unsigned int uiSize);
-void FUN_00401030(void* pvMem);
+void* FormHeap_Allocate(unsigned int uiSize);
+void FormHeapFreeAndLog_00401030(void* pvMem);
 int FUN_00406d30(char* pcDst, unsigned int uiSize, const char* pcSrc);
 int FUN_00406d00(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
 int FUN_00ec623a(char* pcBuffer, const char* pcFormat, ...);
@@ -6379,29 +6437,29 @@ void SaveScreenshot(const char* pcPath)
     SSSurface* pkSurfaceInfo;
     if (pkDevicePos->GetBackBuffer(0, 0, 0, &pkSurfaceInfo))
     {
-        FUN_005b5e40("DEFAULT: (ScreenShot) Unable to get back buffer.");
+        Warning_005b5e40("DEFAULT: (ScreenShot) Unable to get back buffer.");
         return;
     }
     SSSurfaceDesc kDescEntry;
     if (pkSurfaceInfo->GetDesc(&kDescEntry))
     {
-        FUN_005b5e40("DEFAULT: (ScreenShot) Unable to acquire BackBuffer Description");
+        Warning_005b5e40("DEFAULT: (ScreenShot) Unable to acquire BackBuffer Description");
         pkSurfaceInfo->Release();
         return;
     }
     SSLockedRect kRectValue;
     if (pkSurfaceInfo->LockRect(&kRectValue, 0, 0x800))
     {
-        if (FUN_004dc310())
-            FUN_005b5e40("DEFAULT: (ScreenShot) Not enabled. Can't lock the backbuffer when multisampling is enabled.");
+        if (TESRenderer_GetMultiSampleEnabled())
+            Warning_005b5e40("DEFAULT: (ScreenShot) Not enabled. Can't lock the backbuffer when multisampling is enabled.");
         else
-            FUN_005b5e40(
+            Warning_005b5e40(
                 "DEFAULT: (ScreenShot) Not enabled. Add 'bAllowScreenShot = 1' to the [Display] section of Fallout.INI file.");
         pkSurfaceInfo->Release();
         return;
     }
     SSImage* pkImageNew = new SSImage(FUN_004dc1f0(), FUN_004dc200(), &kFormatRes, true, true);
-    unsigned int uiRowSize = pkImageNew->FUN_0064da80(0, 0) * pkImageNew->FUN_0070ec90();
+    unsigned int uiRowSize = pkImageNew->NiPixelData_GetWidth(0, 0) * pkImageNew->FUN_0070ec90();
     unsigned char* pucDstPtr = pkImageNew->FUN_0064dac0(0, 0);
     unsigned char* pucSrc = kRectValue.pBits;
     for (int i = 0; i < FUN_004dc200(); i++)
@@ -6420,11 +6478,11 @@ void SaveScreenshot(const char* pcPath)
     SSFile kFileLast(acPathCur, 2, 2, 0);
     if (!kFileLast.FUN_00559450())
     {
-        unsigned int uiWidth = pkImageNew->FUN_0064da80(0, 0);
+        unsigned int uiWidth = pkImageNew->NiPixelData_GetWidth(0, 0);
         unsigned int uiHeightRes = FUN_004dc200();
         unsigned int uiBytesPerPixelOld = pkImageNew->FUN_0070ec90();
         unsigned char* pucPixelsTmp = pkImageNew->FUN_0064dac0(0, 0);
-        unsigned char* pucBuffer = (unsigned char*)FUN_00401000(uiWidth * uiHeightRes * 3);
+        unsigned char* pucBuffer = (unsigned char*)FormHeap_Allocate(uiWidth * uiHeightRes * 3);
         unsigned int uiOutPos = 0;
         SSBitmapHeader kHeader;
         unsigned __int64 uiWritten;
@@ -6458,7 +6516,7 @@ void SaveScreenshot(const char* pcPath)
         *(unsigned int*)kHeader.ausClrImportant = 0;
         kFileLast.SetAndReturnPointer(&kHeader, 0x36, &uiWritten);
         kFileLast.SetAndReturnPointer(pucBuffer, uiWidth * uiHeightRes * uiBytesPerPixelOld, &uiWritten);
-        FUN_00401030(pucBuffer);
+        FormHeapFreeAndLog_00401030(pucBuffer);
         if (!pcPath)
         {
             char acMessage[260];
@@ -6470,7 +6528,7 @@ void SaveScreenshot(const char* pcPath)
     }
     else
     {
-        FUN_005b5e40("DEFAULT: (ScreenShot) Unable to create file '%s'.", acPathCur);
+        Warning_005b5e40("DEFAULT: (ScreenShot) Unable to create file '%s'.", acPathCur);
     }
     delete pkImageNew;
 }
@@ -6501,7 +6559,7 @@ struct ArraySmartRef
     ArraySmartRef(void*);
     ~ArraySmartRef();
     bool IsNotEqual(const ArraySmartRef&) const;
-    bool FUN_004b0460(const ArraySmartRef&) const;
+    bool LightRefData_IsEqual(const ArraySmartRef&) const;
     ArraySmartRef& FUN_006e5cc0(const ArraySmartRef&);
 };
 struct RefArrayOwner
@@ -6509,11 +6567,12 @@ struct RefArrayOwner
     int unk00;
     ArraySmartRef* entries;
     unsigned short capacity, size, used;
-    void FUN_00869870(unsigned int, const ArraySmartRef&);
+    void NiTObjectArray_NiPointer_BSTempEffect_SetAt(unsigned int, const ArraySmartRef&);
 };
 // Stores value at index, growing size if needed and adjusting used when the empty state of the slot changes.
 // @fnv 0x00869870
-void RefArrayOwner::FUN_00869870(unsigned int index, const ArraySmartRef& value)
+// src: COMMUNITY 0x00869870
+void RefArrayOwner::NiTObjectArray_NiPointer_BSTempEffect_SetAt(unsigned int index, const ArraySmartRef& value)
 {
     static ArraySmartRef empty(0);
     if (index >= size)
@@ -6526,7 +6585,7 @@ void RefArrayOwner::FUN_00869870(unsigned int index, const ArraySmartRef& value)
     {
         if (value.IsNotEqual(empty))
         {
-            if (entries[index].FUN_004b0460(empty))
+            if (entries[index].LightRefData_IsEqual(empty))
                 used++;
         }
         else
@@ -6564,19 +6623,20 @@ extern Obj* DAT_011dea0c;
 extern Obj2 DAT_011deb30;
 extern char DAT_011deef4;
 extern unsigned char DAT_011a3014;
-bool FUN_0070ec00();
+bool Interface_IsMenuQueuedToOpen();
 int __cdecl FUN_00a09030(int);
 void __cdecl FUN_00709470(int, int, int, int, int, int);
 int FUN_004bc3f0();
-void __cdecl FUN_004dc6e0(int, int);
-bool FUN_00446e10();
-int FUN_004dc1e0();
-void FUN_004b7210();
+void __cdecl TESRenderer_Reposition(int, int);
+bool TESRenderer_GetFullScreen();
+int TESRenderer_GetHWND();
+void InterfaceManager_GetSingleton();
 bool FUN_004b71d0();
 
 // Handles window messages including activation, cursor visibility, and input by dispatching to DAT_011dea0c and returning DefWindowProcA results.
 // @fnv 0x0086a0a0
-LRESULT CALLBACK FUN_0086a0a0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+// src: COMMUNITY 0x0086a0a0
+LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
     {
@@ -6605,7 +6665,7 @@ LRESULT CALLBACK FUN_0086a0a0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 {
                     if (DAT_011dea0c->E())
                     {
-                        if (!FUN_0070ec00())
+                        if (!Interface_IsMenuQueuedToOpen())
                         {
                             if (!FUN_00a09030(0x3f5))
                             {
@@ -6669,9 +6729,9 @@ LRESULT CALLBACK FUN_0086a0a0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         if (FUN_004bc3f0())
         {
             int* p = (int*)lParam;
-            FUN_004dc6e0(p[2], p[3]);
+            TESRenderer_Reposition(p[2], p[3]);
         }
-        else if (!FUN_00446e10())
+        else if (!TESRenderer_GetFullScreen())
         {
             return 0;
         }
@@ -6683,11 +6743,11 @@ LRESULT CALLBACK FUN_0086a0a0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             DAT_011dea0c->F();
         break;
     case 0x14:
-        if (FUN_004dc1e0() == (int)hWnd)
+        if (TESRenderer_GetHWND() == (int)hWnd)
             return 1;
         break;
     case 0x112:
-        FUN_004b7210();
+        InterfaceManager_GetSingleton();
         if (FUN_004b71d0())
         {
             switch ((WORD)(wParam & 0xffff))
@@ -6709,8 +6769,8 @@ extern int DAT_011e0e80;
 extern int DAT_011f11e0;
 extern void* DAT_011c3f2c;
 
-void __cdecl FUN_00835980(void*);
-void __cdecl FUN_0066e100(void*);
+void __cdecl FalloutRadio_DisableNPCRadio(void*);
+void __cdecl ActorCause_ClearActor(void*);
 void* __cdecl FUN_00b4f5c0();
 
 struct H
@@ -6722,23 +6782,23 @@ struct H
     void FUN_00ad8d10();
     unsigned char FUN_004077c0();
     void FUN_0093a660(void*);
-    void FUN_00967350(void*);
+    void PlayerCharacter_RemovePerceivedActor(void*);
     void RemoveActor(void*);
     void FUN_0087fd20();
-    void FUN_00906050(void*);
-    void FUN_00978660(void*);
+    void LipSyncBackgroundManager_CancelLipFile(void*);
+    void ProcessLists_RemoveReferenceMuzzleFlash(void*);
     unsigned char FUN_004226e0();
     void FUN_00824970();
     void FUN_0092ed60(int);
     void FUN_00881680(int);
     void FUN_00976680(void*);
     void FUN_0096f600(void*, int);
-    void FUN_00975320(void*);
+    void ProcessLists_NullOutActorInCrimeList(void*);
     void FUN_0096f400(void*);
     void FUN_008a06c0(int);
     void DeleteAllItems();
     void FUN_009370b0();
-    void FUN_008b3180();
+    void Actor_DestroyActorMover();
     void FUN_005702e0(int, int);
     void FUN_00483710();
     void FUN_0046ffb0();
@@ -6919,7 +6979,7 @@ FUN_0087dcb0::~FUN_0087dcb0()
         {
             ((H*)&temp)->FUN_00ad8d10();
         }
-        FUN_00835980(this);
+        FalloutRadio_DisableNPCRadio(this);
 
         delete m_12c;
         delete m_130;
@@ -6927,20 +6987,20 @@ FUN_0087dcb0::~FUN_0087dcb0()
         if (!((H*)this)->FUN_004077c0())
         {
             ((H*)DAT_011dea3c)->FUN_0093a660(this);
-            ((H*)DAT_011dea3c)->FUN_00967350(this);
+            ((H*)DAT_011dea3c)->PlayerCharacter_RemovePerceivedActor(this);
             ((H*)&DAT_011e0e80)->RemoveActor(this);
             ((H*)this)->FUN_0087fd20();
-            ((H*)&DAT_011f11e0)->FUN_00906050(this);
-            ((H*)&DAT_011e0e80)->FUN_00978660(this);
+            ((H*)&DAT_011f11e0)->LipSyncBackgroundManager_CancelLipFile(this);
+            ((H*)&DAT_011e0e80)->ProcessLists_RemoveReferenceMuzzleFlash(this);
             if (!((H*)DAT_011c3f2c)->FUN_004226e0())
             {
                 B94::FUN_00824970();
-                FUN_0066e100(this);
+                ActorCause_ClearActor(this);
                 ((H*)this)->FUN_0092ed60(1);
                 ((H*)this)->FUN_00881680(0);
                 ((H*)&DAT_011e0e80)->FUN_00976680(this);
                 ((H*)&DAT_011e0e80)->FUN_0096f600(this, 1);
-                ((H*)&DAT_011e0e80)->FUN_00975320(this);
+                ((H*)&DAT_011e0e80)->ProcessLists_NullOutActorInCrimeList(this);
                 if (m_68)
                 {
                     if (((H*)m_68)->FUN_0045cd60() == 1 || ((H*)m_68)->FUN_0045cd60() == 0)
@@ -6963,7 +7023,7 @@ FUN_0087dcb0::~FUN_0087dcb0()
             ((H*)this)->DeleteAllItems();
             m_d0.FUN_009370b0();
             m_e0.FUN_009370b0();
-            ((H*)this)->FUN_008b3180();
+            ((H*)this)->Actor_DestroyActorMover();
             ((H*)this)->FUN_005702e0(0, 0);
         }
     }
@@ -6981,7 +7041,8 @@ extern "C" __declspec(dllimport) long __stdcall RegCloseKey(void* key);
 
 // Opens the FalloutNV registry key and queries the Installed Path value into pBuffer, closing the key afterwards.
 // @fnv 0x00876a70
-void FUN_00876a70(char* pBuffer, unsigned long cbBuffer)
+// src: COMMUNITY 0x00876a70
+void GetInstalledPathRegistryKey(char* pBuffer, unsigned long cbBuffer)
 {
     void* hKey;
     const char* subKey = "Software\\Bethesda Softworks\\FalloutNV";

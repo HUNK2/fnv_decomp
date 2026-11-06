@@ -8,7 +8,7 @@ extern "C" int __cdecl _strlen(const char*);
 extern "C" int __cdecl _sscanf(const char*, const char*, ...);
 int __cdecl FUN_00ec8965(int);
 extern const char* const DAT_01019f08;
-const char* __cdecl FUN_00b37f50(const char* pInput, char* pToken);
+const char* __cdecl NextToken(const char* pInput, char* pToken);
 unsigned int __cdecl FUN_00ec7c56(void);
 struct Host00b3b050
 {
@@ -92,8 +92,8 @@ struct VecB37
 struct HostB37
 {
     float x, y, z;
-    void FUN_00b380e0(VecB37*, VecB37*, float);
-    void FUN_00b37cc0(InputB37*);
+    void CIdvBezierSpline_AddControlPoint(VecB37*, VecB37*, float);
+    void CIdvBezierSpline_Parse(InputB37*);
 };
 
 unsigned int __cdecl FUN_00ec7c56(void);
@@ -579,7 +579,7 @@ IterQ TreeQ::FUN_00acf120(bool _Addleft, NodeQ* _Wherenode, const ValQ& _Val)
     return (IterQ(_Newnode, this));
 }
 
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 struct FUN_00b31270
 {
     FUN_00b31270();
@@ -607,7 +607,7 @@ struct FUN_00b377c0
 {
     static void* operator new(unsigned int size)
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
     static void operator delete(void* p)
     {}
@@ -633,8 +633,8 @@ struct FUN_00b37660
     FUN_00b31270 unk54;
     FUN_00b31270 unk6c;
     FUN_00b37660(InputB37* name);
-    void FUN_00b37cc0(InputB37* name);
-    void FUN_00b38430(int n);
+    void CIdvBezierSpline_Parse(InputB37* name);
+    void CIdvBezierSpline_CreateEvenlySpacedPoints(int n);
     void FUN_00b1c7a0(FUN_00b377c0* src);
 };
 inline void S00b37660_Pad()
@@ -647,8 +647,8 @@ FUN_00b37660::FUN_00b37660(InputB37* name)
     FUN_00b377c0* pCached = DAT_011f8e2c.FUN_00b39210(name);
     if (!pCached)
     {
-        FUN_00b37cc0(name);
-        FUN_00b38430(500);
+        CIdvBezierSpline_Parse(name);
+        CIdvBezierSpline_CreateEvenlySpacedPoints(500);
         FUN_00b377c0* pNew = new FUN_00b377c0(this);
         DAT_011f8e2c.FUN_00b39210(name) = pNew;
         S00b37660_Pad();
@@ -782,7 +782,7 @@ FUN_00b37880_class::~FUN_00b37880_class()
 {}
 
 namespace fnv_00b37a00 {
-extern "C" void __cdecl FUN_00401030(void* p);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 struct Sound_b37a
 {
@@ -793,7 +793,7 @@ struct Sound_b37a
     }
     static void operator delete(void* p)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 };
 
@@ -903,7 +903,8 @@ inline MapIter_b37a::MapIter_b37a(Node_b37a* _Pnode, const Map_b37a* _Plist) : _
 extern Map_b37a DAT_011f8e2c;
 
 // @fnv 0x00b37a00
-void __cdecl FUN_00b37a00()
+// src: COMMUNITY 0x00b37a00
+void __cdecl CIdvBezierSpline_ClearCache()
 {
     for (MapIter_b37a it = DAT_011f8e2c.GetVtblAndValue(); it.FUN_00b16830(DAT_011f8e2c.end()); it.FUN_00b3b100())
     {
@@ -955,7 +956,7 @@ struct OwnerB380
     VectorB380<float> m3c;
     int m54, m58, m5c, m60, m64, m68;
     VectorB380<ValueB380> m6c;
-    void FUN_00b380e0(VecB37*, VecB37*, float);
+    void CIdvBezierSpline_AddControlPoint(VecB37*, VecB37*, float);
 };
 inline void FrameB380()
 {
@@ -963,7 +964,8 @@ inline void FrameB380()
     (void)&unused;
 }
 // @fnv 0x00b380e0
-void OwnerB380::FUN_00b380e0(VecB37* first, VecB37* second, float scale)
+// src: COMMUNITY 0x00b380e0
+void OwnerB380::CIdvBezierSpline_AddControlPoint(VecB37* first, VecB37* second, float scale)
 {
     ValueB380 a(first->x, first->y);
     ValueB380 direction(second->x, second->y);
@@ -3192,7 +3194,7 @@ ElemB5A0* __cdecl FUN_00b3b5a0(ElemB5A0* _First, ElemB5A0* _Last, ElemB5A0* _Des
 }
 }  // namespace fnv_00b3b5a0
 
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -4315,11 +4317,12 @@ struct FUN_00b37ad0_class
     int unk50;
     SplineVec m_vec;
 
-    float FUN_00b37ad0(float a2);
+    float CIdvBezierSpline_Evaluate(float a2);
 };
 
 // @fnv 0x00b37ad0
-float FUN_00b37ad0_class::FUN_00b37ad0(float a2)
+// src: COMMUNITY 0x00b37ad0
+float FUN_00b37ad0_class::CIdvBezierSpline_Evaluate(float a2)
 {
     float pItem;
     pItem = 0.0f;
@@ -5350,7 +5353,7 @@ struct SplinePath
     SplinePointVector scratch;
     SplinePointVector samples;
     SplinePoint FUN_00b38b50(float);
-    void FUN_00b38430(unsigned int count);
+    void CIdvBezierSpline_CreateEvenlySpacedPoints(unsigned int count);
 };
 __forceinline void padQ()
 {
@@ -5365,7 +5368,8 @@ __forceinline void padQ()
     int pq8;
 }
 // @fnv 0x00b38430
-void SplinePath::FUN_00b38430(unsigned int count)
+// src: COMMUNITY 0x00b38430
+void SplinePath::CIdvBezierSpline_CreateEvenlySpacedPoints(unsigned int count)
 {
     SplinePointVector sampled;
     sampled.resizeA(count);

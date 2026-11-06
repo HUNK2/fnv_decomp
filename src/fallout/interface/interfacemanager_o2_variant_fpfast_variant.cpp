@@ -9,7 +9,7 @@
 #include "../../../include/NiRefObject.h"
 #include "../../../include/NiPointer.h"
 extern "C" __declspec(dllimport) unsigned int __stdcall XInputGetState(unsigned int dwUserIndex, void* pState);
-unsigned int __stdcall FUN_009f996e(unsigned int dwUserIndex, void* pState);
+unsigned int __stdcall XInputGetState_009f996e(unsigned int dwUserIndex, void* pState);
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
@@ -98,7 +98,7 @@ template <class T> struct TPtrList
 #include "../../../include/BSTextureManager.h"
 struct Sub1e0
 {
-    void FUN_00c5b8d0();
+    void BSPortalGraph_ProcessQueue();
 };
 struct GlobalObject_0096a2d0
 {
@@ -146,9 +146,9 @@ struct Owner
     bool flag_1fc;
     void FUN_00b5cd00(Item*);
     void FUN_00b5eca0(Item*);
-    void FUN_00b5d930(Item*);
+    void ShadowSceneNode_UpdateQueuedDynamicLight(Item*);
     void FUN_00b5d300(Item*);
-    void FUN_00b5ef90(NiPointer<Item>&);
+    void ShadowSceneNode_RemoveQueuedLight(NiPointer<Item>&);
     void FUN_00b5fd60();
 };
 void FUN_00b5dac0(Item*, Owner*, int, bool);
@@ -175,7 +175,7 @@ void Owner::FUN_00b5fd60()
         if (item)
         {
             if (item->flag_fc)
-                FUN_00b5d930(item);
+                ShadowSceneNode_UpdateQueuedDynamicLight(item);
             else
                 FUN_00b5d300(item);
         }
@@ -193,13 +193,13 @@ void Owner::FUN_00b5fd60()
                 {
                     DAT_011f91a8->FUN_00b6d4c0(spItem->field_10c);
                     spItem->field_10c = 0;
-                    FUN_00b5ef90(spItem);
+                    ShadowSceneNode_RemoveQueuedLight(spItem);
                 }
             }
             else
             {
                 NiPointer<Item> spItem = item;
-                FUN_00b5ef90(spItem);
+                ShadowSceneNode_RemoveQueuedLight(spItem);
             }
         }
     }
@@ -229,7 +229,7 @@ void Owner::FUN_00b5fd60()
         }
     }
     if (field_1e0)
-        field_1e0->FUN_00c5b8d0();
+        field_1e0->BSPortalGraph_ProcessQueue();
     list0e4.RemoveAll();
     list0f0.RemoveAll();
     list0fc.RemoveAll();

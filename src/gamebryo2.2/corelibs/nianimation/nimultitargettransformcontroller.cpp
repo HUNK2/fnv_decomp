@@ -188,7 +188,8 @@ void __fastcall FUN_00a2fa70(NiMultiTargetTransformController* self, int, float 
 
 extern int DAT_011f36bc;
 // @fnv 0x00a2fbd0
-int* __cdecl FUN_00a2fbd0()
+// src: COMMUNITY 0x00a2fbd0
+int* __cdecl NiMultiTargetTransformController_GetRTTI()
 {
     return &DAT_011f36bc;
 }
@@ -417,7 +418,7 @@ struct FUN_00a304b0_arr
     void FUN_0096ae90(unsigned int uiIndex, void** ppItem);
 };
 
-void* __cdecl FUN_00a7d330(int);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(int);
 void* __cdecl FUN_00a7d490(const char*, unsigned short);
 extern int DAT_011f36bc;
 
@@ -427,7 +428,7 @@ void __fastcall WriteManagerControlledFlag(NiMultiTargetTransformController*, in
 void __fastcall GetMultiTargetViewerStrings(NiMultiTargetTransformController* self, int, FUN_00a304b0_arr* pArr)
 {
     reinterpret_cast<void (__thiscall*)(NiMultiTargetTransformController*, FUN_00a304b0_arr*)>(&WriteManagerControlledFlag)(self, pArr);
-    void* pItem = FUN_00a7d330(DAT_011f36bc);
+    void* pItem = NiViewerStrings_NiGetViewerString_Title(DAT_011f36bc);
     unsigned int usIndex = pArr->m_usElementCount;
     if (usIndex >= pArr->m_usCapacity)
     {

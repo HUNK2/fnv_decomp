@@ -57,7 +57,8 @@ extern SettingT_GameSettingCollection_* DAT_0119b1ac[];
 float __cdecl RandomFloat(float, float);
 // Computes a base duration from settings scaled by energy level and proc index, then returns a random duration within a jittered min/max range.
 // @fnv 0x006435c0
-float FUN_006435c0(int aiEngergyLevel, int aiProcIndex)
+// src: COMMUNITY 0x006435c0
+float AiFormulas_ComputeRandomSandboxSubProcessDuration(int aiEngergyLevel, int aiProcIndex)
 {
     float fenergyMult;
     float fdurationMax;
@@ -92,29 +93,32 @@ struct FUN_006c8980_stand
     int pad;
     int a;
     int b;
-    void FUN_006c8980(int fn);
+    void BSSimpleArray_Sort_0(int fn);
 };
 // Calls FUN_00ec6f20 with the object's a and b fields, 0x10 and fn.
 // @fnv 0x006c8980
-void FUN_006c8980_stand::FUN_006c8980(int fn)
+// src: COMMUNITY 0x006c8980
+void FUN_006c8980_stand::BSSimpleArray_Sort_0(int fn)
 {
     FUN_00ec6f20(a, b, 0x10, fn);
 }
 
-void __cdecl FUN_00643870(int*, float);
+void __cdecl AiFormulas_CalculateDerivedFatigue(int*, float);
 
 // @fnv 0x00643820
-void __cdecl FUN_00643820(int* pObj)
+// src: COMMUNITY 0x00643820
+void __cdecl AiFormulas_AVDeriveFatigue(int* pObj)
 {
     float result = reinterpret_cast<ActorValueOwner*>(pObj)->GetPermanentActorValueAdjustment((ActorValue::Index)7);
     result = ActorValue::ClampValue((ActorValue::Index)7, result);
-    FUN_00643870(pObj, result);
+    AiFormulas_CalculateDerivedFatigue(pObj, result);
 }
 
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting310;
 
 // @fnv 0x00643a50
-float FUN_00643a50()
+// src: COMMUNITY 0x00643a50
+float AiFormulas_AVDeriveBodyPartCondition()
 {
     return originalRuntimeFloatSetting310.Float()->f;
 }
@@ -123,7 +127,8 @@ float __cdecl GetSkillValue(ActorValueOwner*, int, bool);
 
 // Calls GetSkillValue with arg2, arg3 and false, returning the resulting float.
 // @fnv 0x00643bd0
-float __cdecl FUN_00643bd0(void* arg2, int arg3)
+// src: COMMUNITY 0x00643bd0
+float __cdecl callback4C(void* arg2, int arg3)
 {
     float result = GetSkillValue(static_cast<ActorValueOwner*>(arg2), arg3, 0);
     return result;
@@ -163,7 +168,8 @@ extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting312;
 
 // Reads actor value index 7 and returns the float from one of five settings based on the value (6-10), otherwise 0.
 // @fnv 0x00643a70
-float __cdecl FUN_00643a70(ActorValueOwner* apActor)
+// src: COMMUNITY 0x00643a70
+float __cdecl AiFormulas_AVDeriveHealingRate(ActorValueOwner* apActor)
 {
     float fresult = 0.0f;
     switch (apActor->GetActorValueAsInteger(7))
@@ -193,7 +199,8 @@ extern SettingT_GameSettingCollection_ g_011cd7f0;
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting155;
 // Computes a value from two float settings scaled by a, subtracts it from another setting, and halves the result.
 // @fnv 0x006434f0
-float FUN_006434f0(int aiValue)
+// src: COMMUNITY 0x006434f0
+float AiFormulas_ComputeTimeTillNextWander(int aiValue)
 {
     float fResult = g_011cd550.Float()->f + g_011cd7f0.Float()->f * aiValue;
     fResult = (originalRuntimeFloatSetting155.Float()->f - fResult) / 2.0;
@@ -203,7 +210,8 @@ float FUN_006434f0(int aiValue)
 namespace fnv_00643670 {
 void __cdecl ComputeActorLevel(ActorValueOwner*, float);
 // @fnv 0x00643670
-void __cdecl FUN_00643670(ActorValueOwner* p)
+// src: COMMUNITY 0x00643670
+void __cdecl AiFormulas_AVDeriveHealth(ActorValueOwner* p)
 {
     float f = p->GetPermanentActorValueAdjustment((ActorValue::Index)7);
     f = ActorValue::ClampValue((ActorValue::Index)7, f);
@@ -215,7 +223,8 @@ namespace fnv_006439d0 {
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting306;
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting307;
 // @fnv 0x006439d0
-float FUN_006439d0(ActorValueOwner* apActorValueOwner)
+// src: COMMUNITY 0x006439d0
+float AiFormulas_AVDeriveActionPoints(ActorValueOwner* apActorValueOwner)
 {
     return (float)((double)apActorValueOwner->GetActorValueFloatByIndex((ActorValue::Index)10) *
                        originalRuntimeFloatSetting306.Float()->f +
@@ -227,7 +236,8 @@ namespace fnv_00643a10 {
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting308;
 extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting309;
 // @fnv 0x00643a10
-float FUN_00643a10(ActorValueOwner* pActorValueOwner)
+// src: COMMUNITY 0x00643a10
+float AiFormulas_AVDeriveCarryWeight(ActorValueOwner* pActorValueOwner)
 {
     return (double)pActorValueOwner->GetActorValueFloatByIndex((ActorValue::Index)5) *
                originalRuntimeFloatSetting308.Float()->f +
@@ -241,7 +251,8 @@ extern SettingT_GameSettingCollection_ g_011cd12c;
 extern double _DAT_01012060;
 
 // @fnv 0x00643b50
-float FUN_00643b50(ActorValueOwner* owner, int value)
+// src: COMMUNITY 0x00643b50
+float AiFormulas_AVDeriveFromPrimary(ActorValueOwner* owner, int value)
 {
     float fResult = 0.0f;
 
@@ -545,7 +556,7 @@ struct FollowerArray
     FollowerArray(unsigned int);
     ~FollowerArray();
     FollowerEntry& FUN_00558dd0(unsigned int);
-    void FUN_006c8980(int(__cdecl*)(const void*, const void*));
+    void BSSimpleArray_Sort_0(int(__cdecl*)(const void*, const void*));
     unsigned int FUN_0044ddc0();
 };
 extern SettingT_GameSettingCollection_ g_011cde98;
@@ -595,7 +606,7 @@ float __cdecl GetFollowerOffset(Actor* actor, Actor* leader)
                 }
                 followers = followers->GetNext();
             }
-            followerList.FUN_006c8980(CompareObjects);
+            followerList.BSSimpleArray_Sort_0(CompareObjects);
             float distance = 0.0f;
             for (index = 0; index < followerList.FUN_0044ddc0(); ++index)
             {
@@ -620,7 +631,8 @@ extern "C" SettingT_GameSettingCollection_ g_011cdee0;
 extern "C" SettingT_GameSettingCollection_ g_011cdb48;
 // Returns the sum of a base setting value and the owner's actor value 11 multiplied by another setting value.
 // @fnv 0x00643b10
-float __cdecl FUN_00643b10(ActorValueOwner* apActorValueOwner)
+// src: COMMUNITY 0x00643b10
+float __cdecl AiFormulas_AVDeriveCriticalChance(ActorValueOwner* apActorValueOwner)
 {
     float result = g_011cdee0.Float()->f + apActorValueOwner->GetActorValueFloatByIndex(11) * g_011cdb48.Float()->f;
     return result;
@@ -634,7 +646,8 @@ extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting304;
 
 // Computes a float result from afValue and runtime settings based on actor traits, level, and a shell check.
 // @fnv 0x00643870
-float __cdecl FUN_00643870(ActorValueOwner* apObj, float afValue)
+// src: COMMUNITY 0x00643870
+float __cdecl AiFormulas_CalculateDerivedFatigue(ActorValueOwner* apObj, float afValue)
 {
     float fResult = 0.0f;
     Actor* pActor2 = static_cast<Actor*>(apObj);

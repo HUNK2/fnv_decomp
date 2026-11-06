@@ -32,7 +32,7 @@
 extern "C" void* g_01204388;
 struct FUN_00c600f0_Class
 {
-    void* __thiscall FUN_00c600f0();
+    void* __thiscall BSPSysStripUpdateModifier_GetRTTI();
 };
 struct FUN_00c60930_class
 {
@@ -42,11 +42,11 @@ struct FUN_00c60930_class
 extern "C" void* g_01204390;
 struct FUN_00c60d40_Class
 {
-    void* __thiscall FUN_00c60d40();
+    void* __thiscall BSPSysSimpleColorModifier_GetRTTI();
 };
 struct FUN_00c61420_Class
 {
-    void* __thiscall FUN_00c61420(void* p);
+    void* __thiscall BSWArray_CreateClone(void* p);
 };
 struct FUN_00a99870_Class
 {
@@ -90,11 +90,11 @@ extern NiFixedString* DAT_012043a0;
 extern "C" void* g_012043a4;
 struct FUN_00c61810_class
 {
-    void* FUN_00c61810();
+    void* BSWArray_GetRTTI();
 };
 struct FUN_00c61820_class
 {
-    void* FUN_00c61820(int);
+    void* PArrayPoint_Copy(int);
 };
 struct FUN_00c61f60_class
 {
@@ -114,7 +114,7 @@ struct FUN_00c627e0_Class
 extern "C" void* g_012043b8;
 struct FUN_00c632e0_Class
 {
-    void* __thiscall FUN_00c632e0();
+    void* __thiscall PArrayPoint_GetRTTI();
 };
 struct FUN_00c31670_class
 {
@@ -128,7 +128,7 @@ struct GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_012043c8;
 struct FUN_00c63aa0_class
 {
-    GlobalObject_00a7b610* FUN_00c63aa0();
+    GlobalObject_00a7b610* BSParentVelocityModifier_GetRTTI();
 };
 void __cdecl FUN_00c63c30(int, int);
 void __cdecl CallWithSameArgumentTwice(int a);
@@ -224,11 +224,11 @@ struct FUN_00c64610_Class
 };
 struct FUN_00c64930_Class
 {
-    void FUN_00c64930(int a);
+    void BSReference_LinkObject(int a);
 };
 struct FUN_00c64940_Class
 {
-    bool FUN_00c64940(int a);
+    bool BSReference_RegisterStreamables(int a);
 };
 struct FUN_00c64c30_Class
 {
@@ -256,7 +256,7 @@ struct FUN_00c62090_Class
 extern GlobalObject_00a7b610 g_012043b0;
 struct FUN_00c63320_Class
 {
-    GlobalObject_00a7b610* __thiscall FUN_00c63320();
+    GlobalObject_00a7b610* __thiscall BSPSysArrayEmitter_GetRTTI();
 };
 struct FUN_00c65210_class
 {
@@ -441,7 +441,7 @@ struct FUN_00c64dc0_Class
     int m_8;
     int m_iThirdValue;
     int m_10;
-    FUN_0043ba10_shell* FUN_00c64dc0(unsigned int a);
+    FUN_0043ba10_shell* BSAttachPointPair_SetChild(unsigned int a);
 };
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64e70_Class
@@ -574,7 +574,7 @@ struct FUN_00c62140_Pad5
 };
 struct FUN_00c62140_Sub
 {
-    void FUN_00c62f40();
+    void NiTArray_NiPointer_NiAVObject_NiTMallocInterface_NiPointer_NiAVObject_RemoveAll();
 };
 struct FUN_00c62140_cls
 {
@@ -718,7 +718,7 @@ struct FUN_00c63a00_cls
     void FUN_00c319e0(void* a);
     void FUN_00c63a00(ArgObj* a1);
 };
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 unsigned int __cdecl FUN_00a7d550(const char* name, float f);
 struct S_00c643d0_Foo
 {
@@ -773,14 +773,14 @@ class FUN_00c64b90_cls
     int unk10;
     unsigned short m_14;
     void FUN_00c64b90(FUN_00c64b90_target* a1);
-    void FUN_00a89af0(FUN_00c64b90_target* a1);
+    void nullsub_3(FUN_00c64b90_target* a1);
 };
 void __cdecl FUN_0044adf0(FUN_00c64b90_target* a1, unsigned int* p);
 struct FUN_00c64da0_cls
 {
     int unk00;
     void Callee0043ba10(int a);
-    void FUN_00c64da0(int a);
+    void BSAttachPointPair_SetParent(int a);
 };
 struct DispatchStub_c64
 {
@@ -795,7 +795,7 @@ struct DispatchStub_c64
 };
 struct ItemCallee_c64
 {
-    void FUN_00c65490(int a1, int a2);
+    void BSAttachPoints_AddPair(int a1, int a2);
 };
 struct FUN_00c65180_VTable
 {
@@ -858,7 +858,7 @@ struct FUN_00c615a0_class
 extern "C" void* g_012043a4;
 extern const char str_0109df4c[];
 struct GlobalObject_00a7b610;
-char* __cdecl FUN_00a7d330(GlobalObject_00a7b610* value);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObject_00a7b610* value);
 char* __cdecl FUN_00a7d510(const char* format, unsigned int value);
 struct Unused20
 {
@@ -905,7 +905,7 @@ struct TargetVector
 };
 struct Holder
 {
-    TargetVector* FUN_00cda8e0(int);
+    TargetVector* hkaPose_accessBoneLocalSpace(int);
 };
 struct Entry
 {
@@ -1001,22 +1001,22 @@ float Constraint::FUN_00c755e0(unsigned int index, InputRef input)
     if ((_mm_movemask_ps(_mm_cmple_ps(difference, epsilon)) & 7) != 7)
     {
         hkVector4 delta;
-        delta.FUN_00c74ac0(input, &entries[index].position);
+        delta.setMulInverse(input, &entries[index].position);
         distance = delta.GetAngle();
         float limit = enabled ? DAT_01267d30 : DAT_01267d24;
         if (distance > limit * DAT_01023128)
         {
             distance = (float)(limit * DAT_01023128);
             hkVector4 axis;
-            delta.FUN_00c74c90(&axis);
+            delta.hkQuaternion_getAxis(&axis);
             axis.normalize();
             delta.FUN_00cb2450(&axis, distance);
         }
         {
             hkVector4 result;
-            result.FUN_00c66320(&delta, &entries[index].position);
-            result.FUN_005611c0();
-            TargetVector* target = entries[index].holder->FUN_00cda8e0(entries[index].index);
+            result.setMul(&delta, &entries[index].position);
+            result.normalize_005611c0();
+            TargetVector* target = entries[index].holder->hkaPose_accessBoneLocalSpace(entries[index].index);
             __m128 updated = result.m_vComponents;
             target->vector.m_vComponents = updated;
             entries[index].position.m_vComponents = updated;
@@ -1043,7 +1043,8 @@ static __forceinline __m128 blendXYZW(__m128 a, __m128 b)
 {
     return _mm_shuffle_ps(a, _mm_unpackhi_ps(a, b), 0xc4);
 }
-inline void hkVector4::FUN_00c66320(const hkVector4* a, const hkVector4* b)
+// src: COMMUNITY 0x00c66320
+inline void hkVector4::setMul(const hkVector4* a, const hkVector4* b)
 {
     __m128 xyz = cross3(a->m_vComponents, b->m_vComponents);
     xyz = _mm_add_ps(xyz, _mm_mul_ps(_mm_shuffle_ps(a->m_vComponents, a->m_vComponents, 0xff), b->m_vComponents));
@@ -1054,7 +1055,8 @@ inline void hkVector4::FUN_00c66320(const hkVector4* a, const hkVector4* b)
     __m128 w = _mm_sub_ps(p, _mm_shuffle_ps(s, s, 0));
     m_vComponents = blendXYZW(xyz, w);
 }
-inline void hkVector4::FUN_005611c0()
+// src: COMMUNITY 0x005611c0
+inline void hkVector4::normalize_005611c0()
 {
     __m128 s = ::dot4(m_vComponents, m_vComponents);
     __m128 e = _mm_rsqrt_ss(s);

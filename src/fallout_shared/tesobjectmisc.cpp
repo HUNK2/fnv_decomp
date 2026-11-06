@@ -210,7 +210,7 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void Save_0048cca0();
 };
 struct FUN_0047a240_shell
 {
@@ -237,7 +237,7 @@ void FUN_0051ae80_shell::FUN_0051ae80()
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_0048e370_obj*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0x8c))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
+    ((S_0048cca0*)((char*)this + 0x68))->Save_0048cca0();
     ((S_00477f20*)((char*)this + 0x84))->FUN_00477f20();
     ((FUN_0047b560_holder*)((char*)this + 0x9c))->LogFormIDs();
     ((LegacyFormRecordIO*)this)->FinishRecord();
@@ -276,7 +276,7 @@ struct FUN_0051b0d0_holder
 void FUN_0051b0d0_holder::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<TESForm*>(this)->TESForm::SaveGame(buffer);
-    reinterpret_cast<TESValueForm*>(reinterpret_cast<char*>(this) + 0x74)->FUN_0048ea40(buffer);
+    reinterpret_cast<TESValueForm*>(reinterpret_cast<char*>(this) + 0x74)->SaveGameBGS_0048ea40(buffer);
 }
 
 struct FUN_0051b100_owner

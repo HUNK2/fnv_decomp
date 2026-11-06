@@ -16,7 +16,8 @@
 extern char const* const g_0126f9f8_arg1;
 
 // @fnv 0x00e91780
-char const* const* __cdecl FUN_00e91780()
+// src: COMMUNITY 0x00e91780
+char const* const* __cdecl NiPersistentSrcTextureRendererData_GetRTTI()
 {
     return &g_0126f9f8_arg1;
 }
@@ -273,7 +274,7 @@ struct ViewerArray
     }
 };
 
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d510(const char*, unsigned int);
 char* __cdecl FUN_00a7d5e0(const char*, const char*);
 extern const char* DAT_011f5f04;
@@ -308,7 +309,7 @@ inline unsigned int NiPersistentSrcTextureRendererData::GetFaceSizeInBytes() con
 void NiPersistentSrcTextureRendererData::AppendToStrings(ViewerArray* strings)
 {
     NiObject::AddViewerStrings((NiViewerStringsArray*)strings);
-    char* value = FUN_00a7d330(DAT_011f5f04);
+    char* value = NiViewerStrings_NiGetViewerString_Title(DAT_011f5f04);
     strings->Add(value);
     value = FUN_00a7d510("Width", GetWidth());
     strings->Add(value);
@@ -593,9 +594,9 @@ inline void NiFree(void* p) throw()
 extern "C" void __cdecl FUN_00aa1460(void*, unsigned int) throw();
 extern "C" void __cdecl RunRegistryHandlers() throw();
 extern "C" int __cdecl FUN_00e819f0() throw();
-extern "C" void __cdecl FUN_00e7cec0() throw();
+extern "C" void __cdecl NiDX9AdditionalDepthStencilBufferData_ShutdownAll() throw();
 extern "C" void __cdecl ReleaseShaderNodes(void*) throw();
-extern "C" void __cdecl FUN_00a63520(const char*) throw();
+extern "C" void __cdecl NiStream_UnregisterLoader(const char*) throw();
 void __cdecl RegisterNiStreamFactory() throw();
 
 extern int DAT_011bf558;
@@ -1005,7 +1006,7 @@ class FUN_00e75a70 : public Base_00a62b60
   public:
     virtual ~FUN_00e75a70() throw();
 
-    void FUN_00e75380() throw();
+    void NiDX9Renderer_PurgeAllD3DShaders() throw();
     void ClearArrays() throw();
     void ResetPools() throw();
 
@@ -1713,9 +1714,9 @@ FUN_00e75a70::~FUN_00e75a70() throw()
     }
 
     RunRegistryHandlers();
-    FUN_00e75380();
+    NiDX9Renderer_PurgeAllD3DShaders();
     FUN_00e819f0();
-    FUN_00e7cec0();
+    NiDX9AdditionalDepthStencilBufferData_ShutdownAll();
     m_kMap8cc.RemoveAll();
     m_kMap8dc.RemoveAll();
     m_kMap8ec.RemoveAll();
@@ -1836,7 +1837,7 @@ FUN_00e75a70::~FUN_00e75a70() throw()
 
     ClearArrays();
     ResetPools();
-    FUN_00a63520("NiPersistentSrcTextureRendererData");
+    NiStream_UnregisterLoader("NiPersistentSrcTextureRendererData");
     RegisterNiStreamFactory();
 }
 }  // namespace fnv_00e75a70

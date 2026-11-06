@@ -407,11 +407,12 @@ extern int DAT_011b7b88;
 struct FUN_00dc1670_cls
 {
     int m_00;
-    FUN_00dc1670_cls* FUN_00dc1670();
+    FUN_00dc1670_cls* hkStructureLayout_hkStructureLayout();
 };
 
 // @fnv 0x00dc1670
-FUN_00dc1670_cls* FUN_00dc1670_cls::FUN_00dc1670()
+// src: COMMUNITY 0x00dc1670
+FUN_00dc1670_cls* FUN_00dc1670_cls::hkStructureLayout_hkStructureLayout()
 {
     this->m_00 = DAT_011b7b88;
     return this;
@@ -775,10 +776,11 @@ struct FnvCpu_FUN_00dcd480_CpuObject
     unsigned int unk00;
     unsigned short size;
     void FUN_00d4bd60();
-    FnvCpu_FUN_00dcd480_CpuObject* FUN_00dcd480(unsigned int flags);
+    FnvCpu_FUN_00dcd480_CpuObject* hkpMeshShape_Destroy(unsigned int flags);
 };
 // @fnv 0x00dcd480
-FnvCpu_FUN_00dcd480_CpuObject* FnvCpu_FUN_00dcd480_CpuObject::FUN_00dcd480(unsigned int flags)
+// src: COMMUNITY 0x00dcd480
+FnvCpu_FUN_00dcd480_CpuObject* FnvCpu_FUN_00dcd480_CpuObject::hkpMeshShape_Destroy(unsigned int flags)
 {
     FUN_00d4bd60();
     if (flags & 1)
@@ -1762,11 +1764,13 @@ int S_00dcc600_Class::ReadUntilValue(unsigned char* buffer, int length, signed c
 }
 
 // @fnv 0x00dccb20
-void __cdecl FUN_00dccb20()
+// src: COMMUNITY 0x00dccb20
+void __cdecl nullsub_121()
 {}
 
 // @fnv 0x00dccb40
-void __cdecl FUN_00dccb40()
+// src: COMMUNITY 0x00dccb40
+void __cdecl nullsub_122()
 {}
 
 // @fnv 0x00dd4b00

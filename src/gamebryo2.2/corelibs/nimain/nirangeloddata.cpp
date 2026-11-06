@@ -24,7 +24,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f5ef8;
 
 // @fnv 0x00a976f0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a976f0()
+// src: COMMUNITY 0x00a976f0
+GlobalObjectO2_00a7b610* __cdecl NiRangeLODData_GetRTTI()
 {
     return &g_011f5ef8;
 }

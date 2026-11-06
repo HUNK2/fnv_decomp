@@ -34,8 +34,8 @@ public:
     float FUN_0050ebf0();
     float FUN_0084d030();
     NiPoint3& FUN_006815c0();
-    void FUN_00439680(const NiPoint3&);
-    void FUN_004396b0(const Matrix&);
+    void BSMultiBound_SetHalfExtents(const NiPoint3&);
+    void BSMultiBoundAABB_SetAxis(const Matrix&);
     void FUN_00c39270(NiPoint3* out);
     void FUN_00c38b00(Geometry*, Geometry*, Color);
     void Recalculate(unsigned short, RenderPoint3*);

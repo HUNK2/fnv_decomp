@@ -107,20 +107,21 @@ struct S_0048a520_shell
 {
     void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
 };
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_0051b4b0_shell : public FUN_004855a0_shell
 {
-    void FUN_0051b4b0();
+    void TESObjectSTAT_SaveAlt();
 };
 
 // @fnv 0x0051b4b0
-void FUN_0051b4b0_shell::FUN_0051b4b0()
+// src: COMMUNITY 0x0051b4b0
+void FUN_0051b4b0_shell::TESObjectSTAT_SaveAlt()
 {
     ((FUN_004855a0_shell*)this)->M();
     ((S_0048a520_shell*)((char*)this + 0x30))->ProcessAndFreeData(0x4C444F4D, 0x54444F4D, 0x53444F4D);
-    FUN_004858f0(0x53555242, *(unsigned char*)((char*)this + 0x50));
+    TESForm_AddChunk_3(0x53555242, *(unsigned char*)((char*)this + 0x50));
     if (*(unsigned int*)((char*)this + 0x54))
     {
         unsigned int id = ((TESForm*)(*(unsigned int*)((char*)this + 0x54)))->GetFormID();

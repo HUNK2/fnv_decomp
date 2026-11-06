@@ -20,10 +20,10 @@ public:
 
         WorldState()
         {
-            FUN_009aa470();
+            CombatWorldStateArray_CombatWorldStateArray();
         }
-        void* FUN_009aa470();
-        void FUN_009aa4b0();
+        void* CombatWorldStateArray_CombatWorldStateArray();
+        void CombatWorldStateArray_ClearValues();
     };
 
     class StreamAllocator
@@ -50,14 +50,14 @@ public:
 
         PlanStorage()
         {
-            FUN_009958b0();
+            CombatPlannerData_CombatPlannerData();
         }
 
         ~PlanStorage()
         {
             FUN_00995910();
         }
-        PlanStorage* FUN_009958b0();
+        PlanStorage* CombatPlannerData_CombatPlannerData();
         void FUN_00995910();
         void SetQuantity(unsigned int quantity);
     };
@@ -68,14 +68,14 @@ public:
     virtual bool FUN_00995800(const AStarNode<CombatPlanNode *, CombatPlanLink *>* p);
 
     Owner* BuildPlan(void*, int);
-    Owner* FUN_00994bd0(void*, int);
-    Owner* FUN_00994bd0(void*, bool);
+    Owner* CreatePlan_0(void*, int);
+    Owner* CreatePlan_0(void*, bool);
     void* FUN_0097e460(unsigned int flags);
     void FUN_0097e3e0();
     void FUN_00995830();
-    int FUN_009950a0(CombatPlanNode** ppkState);
+    int CombatPlanner_GetNodeKey(CombatPlanNode** ppkState);
     template <class State>
-    int FUN_009950a0(State** ppkState);
+    int CombatPlanner_GetNodeKey(State** ppkState);
     int FUN_006b8fe0(int iState, float m_fPathingCostCur, CPOutItem** ppkItem);
     bool vf02(const AStarNode<CombatPlanNode *, CombatPlanLink *>* p);
 

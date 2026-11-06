@@ -20,8 +20,8 @@ public:
     int GetSpellType();
     int FUN_0044ddc0();
     unsigned int FUN_00401170();
-    void FUN_0050eb90(NiPoint3* point);
-    NiPoint3* FUN_0050ead0(NiPoint3* point);
+    void TESBoundObject_GetBoundMax(NiPoint3* point);
+    NiPoint3* TESBoundObject_GetBoundMin(NiPoint3* point);
     TESBoundObject* FUN_007af430();
     void LoadBoundData(TESFile* file);
     NiAVObject* Get3DObject(TESObjectREFR* reference);

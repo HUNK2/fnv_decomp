@@ -30,15 +30,16 @@ void __thiscall MemoryManager::DoSystemDeallocation(void* p, bool aligned)
 
 struct FUN_00aa4790_Class
 {
-    void __thiscall FUN_00aa4710(int, unsigned char, int);
-    void __thiscall FUN_00aa4790(int a, int b, int c);
+    void __thiscall MemoryManager_GetHeapStats(int, unsigned char, int);
+    void __thiscall MemoryManager_GetDefaultHeapStats(int a, int b, int c);
 };
 
 // Calls FUN_00aa4710 with a, the low byte of b, and c.
 // @fnv 0x00aa4790
-void __thiscall FUN_00aa4790_Class::FUN_00aa4790(int a, int b, int c)
+// src: COMMUNITY 0x00aa4790
+void __thiscall FUN_00aa4790_Class::MemoryManager_GetDefaultHeapStats(int a, int b, int c)
 {
-    FUN_00aa4710(a, (unsigned char)b, c);
+    MemoryManager_GetHeapStats(a, (unsigned char)b, c);
 }
 
 // @fnv 0x00aa4bf0
@@ -52,25 +53,26 @@ struct FUN_00aa4c10_class
     void __thiscall FUN_00aa4c10(int arg);
 };
 
-extern "C" void __cdecl FUN_00aa4be0(int);
+extern "C" void __cdecl BSCoreMessage_IsWarningDisabled(int);
 
 // Passes arg to FUN_00aa4be0 via a local copy.
 // @fnv 0x00aa4c10
 void __thiscall FUN_00aa4c10_class::FUN_00aa4c10(int arg)
 {
     int local = arg;
-    FUN_00aa4be0(local);
+    BSCoreMessage_IsWarningDisabled(local);
 }
 
 extern "C" void __cdecl SetByteAtOffset(int, int);
 
 struct FUN_00aa4c40_class
 {
-    void __thiscall FUN_00aa4c40(int a);
+    void __thiscall BSCoreMessage_DisableContextMessages(int a);
 };
 
 // @fnv 0x00aa4c40
-void __thiscall FUN_00aa4c40_class::FUN_00aa4c40(int a)
+// src: COMMUNITY 0x00aa4c40
+void __thiscall FUN_00aa4c40_class::BSCoreMessage_DisableContextMessages(int a)
 {
     SetByteAtOffset(a, 1);
 }
@@ -80,11 +82,12 @@ extern "C" void* DAT_010a2708;
 struct FUN_00aa4c60_class
 {
     void* m_p;
-    void* FUN_00aa4c60();
+    void* BSCoreMessage_BSCoreMessage();
 };
 
 // @fnv 0x00aa4c60
-void* FUN_00aa4c60_class::FUN_00aa4c60()
+// src: COMMUNITY 0x00aa4c60
+void* FUN_00aa4c60_class::BSCoreMessage_BSCoreMessage()
 {
     m_p = &DAT_010a2708;
     return this;
@@ -182,11 +185,12 @@ extern MemoryManager g_memoryManager;
 
 struct FUN_00aa8b00_Class
 {
-    void* __thiscall FUN_00aa8b00();
+    void* __thiscall BSMap_unsigned_int_ScrapHeap_NewItem();
 };
 
 // @fnv 0x00aa8b00
-void* __thiscall FUN_00aa8b00_Class::FUN_00aa8b00()
+// src: COMMUNITY 0x00aa8b00
+void* __thiscall FUN_00aa8b00_Class::BSMap_unsigned_int_ScrapHeap_NewItem()
 {
     void* result = g_memoryManager.Allocate(0xc);
     return result;
@@ -228,10 +232,11 @@ struct FUN_00aa46a0_holder
 };
 struct FUN_00aa4710_Class
 {
-    char __thiscall FUN_00aa4710(int a, unsigned char b, int c);
+    char __thiscall MemoryManager_GetHeapStats(int a, unsigned char b, int c);
 };
 // @fnv 0x00aa4710
-char __thiscall FUN_00aa4710_Class::FUN_00aa4710(int a, unsigned char b, int c)
+// src: COMMUNITY 0x00aa4710
+char __thiscall FUN_00aa4710_Class::MemoryManager_GetHeapStats(int a, unsigned char b, int c)
 {
     char flag_ = 0;
     void* p2 = ((FUN_00aa46a0_holder*)this)->GetEntryAt((unsigned int)a);
@@ -285,11 +290,12 @@ void* __thiscall FUN_00aa4b50_Class::Destroy(unsigned int flags)
 
 struct FUN_00aa50f0_Class
 {
-    void __thiscall FUN_00aa50f0(unsigned int a);
+    void __thiscall BSTimer_Init(unsigned int a);
 };
 // Zeroes the object's byte, floats and int fields, stores the given value at offset 24, and clears the bytes at offsets 28 and 29.
 // @fnv 0x00aa50f0
-void __thiscall FUN_00aa50f0_Class::FUN_00aa50f0(unsigned int uiValue)
+// src: COMMUNITY 0x00aa50f0
+void __thiscall FUN_00aa50f0_Class::BSTimer_Init(unsigned int uiValue)
 {
     *(unsigned char*)this = 0;
     *(float*)(this + 4) = 0.0f;
@@ -386,19 +392,21 @@ void FUN_00aa8c40_H::PushFront(FUN_00aa8c40_N* pNode)
 
 struct FUN_00aa9d20_Class
 {
-    void __thiscall FUN_00aa9d20(int arg);
+    void __thiscall nullsub_317(int arg);
 };
 
 // @fnv 0x00aa9d20
-void FUN_00aa9d20_Class::FUN_00aa9d20(int arg)
+// src: COMMUNITY 0x00aa9d20
+void FUN_00aa9d20_Class::nullsub_317(int arg)
 {}
 
 struct FUN_00aaa6d0_Class
 {
-    void* __thiscall FUN_00aaa6d0();
+    void* __thiscall return_this();
 };
 // @fnv 0x00aaa6d0
-void* __thiscall FUN_00aaa6d0_Class::FUN_00aaa6d0()
+// src: COMMUNITY 0x00aaa6d0
+void* __thiscall FUN_00aaa6d0_Class::return_this()
 {
     return this;
 }
@@ -426,11 +434,12 @@ struct FUN_00aa47e0_Class
     int m4;
     void* m8;
     int mC;
-    FUN_00aa47e0_Class* __thiscall FUN_00aa47e0(unsigned int count);
+    FUN_00aa47e0_Class* __thiscall BSMapBase_unsigned_int_ScrapHeap_BSMapBase_unsigned_int_ScrapHeap(unsigned int count);
 };
 // Initializes the object with a count, allocates count*4 bytes zeroed into m8, and returns this.
 // @fnv 0x00aa47e0
-FUN_00aa47e0_Class* FUN_00aa47e0_Class::FUN_00aa47e0(unsigned int count)
+// src: COMMUNITY 0x00aa47e0
+FUN_00aa47e0_Class* FUN_00aa47e0_Class::BSMapBase_unsigned_int_ScrapHeap_BSMapBase_unsigned_int_ScrapHeap(unsigned int count)
 {
     unsigned int bytes;
     void* p5;
@@ -524,11 +533,12 @@ struct FUN_00aa4760_Class : public FUN_00aa4710_Class
 // @fnv 0x00aa4760
 char FUN_00aa4760_Class::CallBaseWithOffset(int aiValue, unsigned char b, int c)
 {
-    return FUN_00aa4710(aiValue + *(unsigned short*)((char*)this + 2), b, c);
+    return MemoryManager_GetHeapStats(aiValue + *(unsigned short*)((char*)this + 2), b, c);
 }
 
 // @fnv 0x00aa4be0
-unsigned char __cdecl FUN_00aa4be0(char* p)
+// src: COMMUNITY 0x00aa4be0
+unsigned char __cdecl BSCoreMessage_IsWarningDisabled(char* p)
 {
     return p[0x11f6370];
 }
@@ -587,12 +597,13 @@ struct FUN_00aa8a40_Node
 struct FUN_00aa8a40_Class
 {
     FUN_00aa8c40_H m_kNode;
-    void __thiscall FUN_00aa8a40(FUN_00aa8a40_Node* node);
+    void __thiscall BSList_BSSemaphore_AddHead(FUN_00aa8a40_Node* node);
 };
 
 // Calls v1 to get an object, stores node->pad0 at offset 8, then passes it to PushFront.
 // @fnv 0x00aa8a40
-void __thiscall FUN_00aa8a40_Class::FUN_00aa8a40(FUN_00aa8a40_Node* node)
+// src: COMMUNITY 0x00aa8a40
+void __thiscall FUN_00aa8a40_Class::BSList_BSSemaphore_AddHead(FUN_00aa8a40_Node* node)
 {
     FUN_00aa8c40_N* n = (FUN_00aa8c40_N*)((FUN_00aa8a40_vt*)this)->v1();
     *(int*)((char*)n + 8) = node->pad0;
@@ -679,7 +690,8 @@ IMemoryHeap* MemoryManager::GetHeapForPhysicalPointer(void* pvMem)
 extern unsigned int DAT_011f69f8;
 
 // @fnv 0x00aa4960
-void* FUN_00aa4960(unsigned int size)
+// src: COMMUNITY 0x00aa4960
+void* MemoryPool_GetClosestPoolForSize(unsigned int size)
 {
     unsigned int result = 0;
 
@@ -954,7 +966,8 @@ extern MemoryPool* DAT_011f67b8[];
 extern char DAT_010a2850;
 
 // @fnv 0x00aa7290
-void FUN_00aa7290(int aiIndex)
+// src: COMMUNITY 0x00aa7290
+void MemoryPool_SortFreeBlocks(int aiIndex)
 {
     int pad0;
     int pad1;
@@ -962,7 +975,7 @@ void FUN_00aa7290(int aiIndex)
     if (DAT_011f67b8[aiIndex])
     {
         DAT_011f67b8[aiIndex]->m_kCriticalSection.FUN_0040fbf0(&DAT_010a2850);
-        DAT_011f67b8[aiIndex]->FUN_00aa7260();
+        DAT_011f67b8[aiIndex]->MemoryPool_SortFreeBlockList();
         pool = &DAT_011f67b8[aiIndex]->m_kCriticalSection;
         pool->m_uiRecursionCount = pool->m_uiRecursionCount - 1;
         if (pool->m_uiRecursionCount == 0)
@@ -988,11 +1001,12 @@ void __cdecl FUN_00fdb2b0(void);
 
 struct FUN_00aa7300_Obj
 {
-    void FUN_00aa7300();
+    void MemoryPool_CheckFreeBlocks();
 };
 
 // @fnv 0x00aa7370
-void FUN_00aa7370(void)
+// src: COMMUNITY 0x00aa7370
+void MemoryPool_CheckPools(void)
 {
     if ((DAT_011f6bec & 1) == 0)
     {
@@ -1008,7 +1022,7 @@ void FUN_00aa7370(void)
         MemoryPool* pool = DAT_011f67b8[index];
         if (pool != 0)
         {
-            reinterpret_cast<FUN_00aa7300_Obj*>(pool)->FUN_00aa7300();
+            reinterpret_cast<FUN_00aa7300_Obj*>(pool)->MemoryPool_CheckFreeBlocks();
         }
     }
 
@@ -1155,21 +1169,23 @@ void AbstractHeap::ResetHeap()
 struct FUN_00aa9d00_cls
 {
     int unk00;
-    void FUN_00aa9d00();
+    void nullsub_318();
 };
 
 // @fnv 0x00aa9d00
-void FUN_00aa9d00_cls::FUN_00aa9d00()
+// src: COMMUNITY 0x00aa9d00
+void FUN_00aa9d00_cls::nullsub_318()
 {}
 
 struct FUN_00aaa720_cls
 {
     int unk00;
-    void FUN_00aaa720();
+    void nullsub_321();
 };
 
 // @fnv 0x00aaa720
-void FUN_00aaa720_cls::FUN_00aaa720()
+// src: COMMUNITY 0x00aaa720
+void FUN_00aaa720_cls::nullsub_321()
 {}
 
 struct FrameBlock40
@@ -1267,30 +1283,33 @@ void __cdecl FUN_00aafa30(int a0, int a1, int a2, int a3)
 struct FUN_00aafbd0_cls
 {
     int unk00;
-    void __thiscall FUN_00aafbd0();
+    void __thiscall nullsub_320();
 };
 // @fnv 0x00aafbd0
-void FUN_00aafbd0_cls::FUN_00aafbd0()
+// src: COMMUNITY 0x00aafbd0
+void FUN_00aafbd0_cls::nullsub_320()
 {}
 
 struct FUN_00ab2630_cls
 {
     int unk00;
-    void FUN_00ab2630();
+    void nullsub_322();
 };
 
 // @fnv 0x00ab2630
-void FUN_00ab2630_cls::FUN_00ab2630()
+// src: COMMUNITY 0x00ab2630
+void FUN_00ab2630_cls::nullsub_322()
 {}
 
 struct FUN_00ab46e0_cls
 {
     int unk00;
-    void FUN_00ab46e0();
+    void nullsub_323();
 };
 
 // @fnv 0x00ab46e0
-void FUN_00ab46e0_cls::FUN_00ab46e0()
+// src: COMMUNITY 0x00ab46e0
+void FUN_00ab46e0_cls::nullsub_323()
 {}
 
 // ---------------------------------------------------------------------------
@@ -1416,11 +1435,12 @@ struct FUN_00abc0a0_cls
     unsigned int m_0c;
     unsigned int m_10;
     unsigned int m_14;
-    void FUN_00abc0a0();
+    void std_vector_char_std_allocator_char_Tidy();
 };
 
 // @fnv 0x00abc0a0
-void FUN_00abc0a0_cls::FUN_00abc0a0()
+// src: COMMUNITY 0x00abc0a0
+void FUN_00abc0a0_cls::std_vector_char_std_allocator_char_Tidy()
 {
     if (m_0c != 0)
     {
@@ -1634,11 +1654,12 @@ class FUN_00aa7300_cls
     int m_3c;
     unsigned int m_40;
 
-    void FUN_00aa7300();
+    void MemoryPool_CheckFreeBlocks();
 };
 
 // @fnv 0x00aa7300
-void FUN_00aa7300_cls::FUN_00aa7300()
+// src: COMMUNITY 0x00aa7300
+void FUN_00aa7300_cls::MemoryPool_CheckFreeBlocks()
 {
     int scratch0;
     int scratch1;
@@ -1853,7 +1874,7 @@ struct S_00aae180_Class
 
 struct S_0044a8d0_Class
 {
-    bool __thiscall FUN_0044a8d0(unsigned int newSize, int reserve);
+    bool __thiscall std_basic_string_char_std_char_traits_char_std_allocator_char_Grow(unsigned int newSize, int reserve);
 };
 
 struct S_00aadeb0_pad
@@ -1879,7 +1900,7 @@ S_00aadeb0_Class* S_00aadeb0_Class::AppendChars(unsigned int count, unsigned cha
     if (count > 0)
     {
         newsize = m_14 + count;
-        if (((S_0044a8d0_Class*)this)->FUN_0044a8d0(newsize, 0))
+        if (((S_0044a8d0_Class*)this)->std_basic_string_char_std_char_traits_char_std_allocator_char_Grow(newsize, 0))
         {
             ((S_00aae180_Class*)this)->FUN_00aae180(m_14, count, ch);
             zero = 0;
@@ -1911,7 +1932,7 @@ struct FaceGenCoordinateBasis
     unsigned int m_uiRowCount;
     unsigned int m_uiColumnCount;
     FaceGenCoordinateValue* FUN_0060b370(FaceGenCoordinateValue* out, int index);
-    void FUN_0060b410(unsigned int count, float value);
+    void std_vector_float_std_allocator_float_resize_0060b410(unsigned int count, float value);
 };
 
 struct FaceGenBasisOwner
@@ -1951,7 +1972,7 @@ void FaceGenBasisOwner::FUN_00aad500(float scale, FaceGenCoordinateBasis (*src)[
             nRows6 = ((FaceGenCoordinateBasis*)((char*)dst + ((jB << 5) + (i8 << 6))));
             nRows6->m_uiRowCount = rowsKG;
             nRows6->m_uiColumnCount = colsK8;
-            nRows6->FUN_0060b410(rowsKG * colsK8, 0.0f);
+            nRows6->std_vector_float_std_allocator_float_resize_0060b410(rowsKG * colsK8, 0.0f);
             for (k4 = 0;
                  k4 < (basisPtrD = ((FaceGenCoordinateBasis*)((char*)src + ((jB << 5) + (i8 << 6))))->m_uiRowCount);
                  k4++)
@@ -2327,7 +2348,7 @@ struct FUN_00aba0d0 : VectorVal<char>
     char* last;
     char* limit;
     bool FUN_00ac03a0(unsigned int count);
-    void FUN_00abc0a0();
+    void std_vector_char_std_allocator_char_Tidy();
     void FUN_00abbfc0(unsigned int count, const char& val);
 };
 // If FUN_00ac03a0(count) succeeds, fills count copies of val from first and sets last to first + count; on exception calls FUN_00abc0a0 and rethrows.
@@ -2349,7 +2370,7 @@ void FUN_00aba0d0::FUN_00abbfc0(unsigned int count, const char& val)
         }
         catch (...)
         {
-            FUN_00abc0a0();
+            std_vector_char_std_allocator_char_Tidy();
             throw;
         }
     }
@@ -2444,11 +2465,12 @@ class VirtualReservationSearch
     unsigned int m_48;
     unsigned int m_4C;
     unsigned int m_50;
-    void FUN_00aa65b0();
+    void MemoryPool_PlatformReserveHeap();
 };
 
 // @fnv 0x00aa65b0
-void VirtualReservationSearch::FUN_00aa65b0()
+// src: COMMUNITY 0x00aa65b0
+void VirtualReservationSearch::MemoryPool_PlatformReserveHeap()
 {
     unsigned int i = 1;
     while (m_04 == 0)
@@ -2474,7 +2496,8 @@ int FUN_00ec658f(void(__cdecl* fn)());
 
 // Initializes the lock on first call, then under the lock calls FUN_00aa6f90 on each non-null entry of the 256-entry table DAT_011f67b8.
 // @fnv 0x00aa7030
-void FUN_00aa7030()
+// src: COMMUNITY 0x00aa7030
+void MemoryPool_FreeUnusedPagesForAllPools_00aa7030()
 {
     if ((DAT_011f6bd0 & 1) == 0)
     {
@@ -2497,7 +2520,8 @@ __declspec(dllimport) int __stdcall QueryPerformanceCounter(FNVInt64* counter);
 
 // Reads the high-resolution performance counter via QueryPerformanceCounter and returns the raw tick value.
 // @fnv 0x00aa4d80
-unsigned long long FUN_00aa4d80()
+// src: COMMUNITY 0x00aa4d80
+unsigned long long BSPrecisionTimer_GetTimer()
 {
     FNVInt64 counter = 0;
     QueryPerformanceCounter(&counter);

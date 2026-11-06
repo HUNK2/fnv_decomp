@@ -129,7 +129,8 @@ extern int DAT_011c57e4;
 extern int DAT_011c57e8;
 
 // @fnv 0x004a0010
-void __cdecl FUN_004a0010()
+// src: COMMUNITY 0x004a0010
+void __cdecl BGSDecalManager_ClearDecalsThisFrame()
 {
     DAT_011c57e4 = 0;
     DAT_011c57e8 = 0;
@@ -139,12 +140,13 @@ struct FUN_004a0d60_Class
 {
     char pad[0x40];
     NiPoint3 m_kPoint;
-    NiPoint3& FUN_004a0d60(NiPoint3& arDest);
+    NiPoint3& BSTempEffectSimpleDecal_GetDirection(NiPoint3& arDest);
 };
 
 // Copies the stored point into arDest and returns arDest.
 // @fnv 0x004a0d60
-NiPoint3& FUN_004a0d60_Class::FUN_004a0d60(NiPoint3& arDest)
+// src: COMMUNITY 0x004a0d60
+NiPoint3& FUN_004a0d60_Class::BSTempEffectSimpleDecal_GetDirection(NiPoint3& arDest)
 {
     // Preserve the game's bitwise point copy independently of shared NiPoint3 assignment declarations.
     reinterpret_cast<NiPoint3&>(arDest) = reinterpret_cast<const NiPoint3&>(m_kPoint);
@@ -261,22 +263,24 @@ float FUN_004a40c0_Class::GetModifierValue()
 
 struct FUN_004a4120_class
 {
-    char FUN_004a4120();
+    char ImpactDecalData_GetIsParallax();
 };
 
 // @fnv 0x004a4120
-char FUN_004a4120_class::FUN_004a4120()
+// src: COMMUNITY 0x004a4120
+char FUN_004a4120_class::ImpactDecalData_GetIsParallax()
 {
     return (((const unsigned char*)this)[0x1d] & 1) != 0;
 }
 
 struct FUN_004a4160_Class
 {
-    bool FUN_004a4160();
+    bool ImpactDecalData_GetIsAlphaBlend();
 };
 
 // @fnv 0x004a4160
-bool FUN_004a4160_Class::FUN_004a4160()
+// src: COMMUNITY 0x004a4160
+bool FUN_004a4160_Class::ImpactDecalData_GetIsAlphaBlend()
 {
     return reinterpret_cast<unsigned char*>(this)[0x1d] & 2;
 }
@@ -293,11 +297,12 @@ bool FUN_004a41a0_Class::FUN_004a41a0()
 
 struct FUN_004a4200_class
 {
-    unsigned short FUN_004a4200();
+    unsigned short DecalData_GetParallaxPasses();
 };
 
 // @fnv 0x004a4200
-unsigned short FUN_004a4200_class::FUN_004a4200()
+// src: COMMUNITY 0x004a4200
+unsigned short FUN_004a4200_class::DecalData_GetParallaxPasses()
 {
     return ((unsigned char*)this)[0x1c];
 }
@@ -396,7 +401,7 @@ void __thiscall FUN_004a9950_Class::SetValue(int a, int iValue, char c)
 extern int DAT_0101ed6c;
 struct FUN_004a9bf0_class
 {
-    void FUN_004a9c50(int);
+    void NiTMapBase_DFALL_NiTMapItem_NiTexture_bool_NiTexture_bool_NiTMapBase_DFALL_NiTMapItem_NiTexture_bool_NiTexture_bool(int);
     void* NiTMap_NiTexture_bool_NiTMap(int);
 };
 // Calls FUN_004a9c50 with a, stores the address of DAT_0101ed6c at this, and returns this.
@@ -404,7 +409,7 @@ struct FUN_004a9bf0_class
 // src: EXE 0x004a9bf0
 void* FUN_004a9bf0_class::NiTMap_NiTexture_bool_NiTMap(int a)
 {
-    FUN_004a9c50(a);
+    NiTMapBase_DFALL_NiTMapItem_NiTexture_bool_NiTexture_bool_NiTMapBase_DFALL_NiTMapItem_NiTexture_bool_NiTexture_bool(a);
     *reinterpret_cast<void**>(this) = &DAT_0101ed6c;
     return this;
 }
@@ -450,7 +455,7 @@ extern int DAT_0101edc0;
 struct FUN_004a9e90_cls
 {
     void* m_p;
-    void FUN_004a9ef0(int a);
+    void NiTMapBase_DFALL_NiTMapItem_TESActorBase_bool_TESActorBase_bool_NiTMapBase_DFALL_NiTMapItem_TESActorBase_bool_TESActorBase_bool(int a);
     FUN_004a9e90_cls* NiTMap_TESActorBase_bool_NiTMap(int a);
 };
 // Calls FUN_004a9ef0 with a, sets m_p to DAT_0101edc0, and returns this.
@@ -458,7 +463,7 @@ struct FUN_004a9e90_cls
 // src: EXE 0x004a9e90
 FUN_004a9e90_cls* FUN_004a9e90_cls::NiTMap_TESActorBase_bool_NiTMap(int a)
 {
-    FUN_004a9ef0(a);
+    NiTMapBase_DFALL_NiTMapItem_TESActorBase_bool_TESActorBase_bool_NiTMapBase_DFALL_NiTMapItem_TESActorBase_bool_TESActorBase_bool(a);
     m_p = &DAT_0101edc0;
     return this;
 }
@@ -466,7 +471,7 @@ FUN_004a9e90_cls* FUN_004a9e90_cls::NiTMap_TESActorBase_bool_NiTMap(int a)
 extern int DAT_0101ee00;
 struct FUN_004aa020_class
 {
-    void FUN_004aa080(int);
+    void NiTMapBase_DFALL_NiTMapItem_int_int_int_int_NiTMapBase_DFALL_NiTMapItem_int_int_int_int(int);
     int* m_p;
     FUN_004aa020_class* __thiscall NiTMap_int_int_NiTMap(int a);
 };
@@ -475,17 +480,17 @@ struct FUN_004aa020_class
 // src: EXE 0x004aa020
 FUN_004aa020_class* __thiscall FUN_004aa020_class::NiTMap_int_int_NiTMap(int a)
 {
-    FUN_004aa080(a);
+    NiTMapBase_DFALL_NiTMapItem_int_int_int_int_NiTMapBase_DFALL_NiTMapItem_int_int_int_int(a);
     m_p = &DAT_0101ee00;
     return this;
 }
 
 extern int DAT_0101ee40;
-void __cdecl FUN_004aa210(int);
+void __cdecl NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int_NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int(int);
 
 struct FUN_004aa1b0_class
 {
-    void __thiscall FUN_004aa210(int);
+    void __thiscall NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int_NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int(int);
     int* p;
     FUN_004aa1b0_class* __thiscall NiTMap_ShadowSceneLight_int_NiTMap(int a);
 };
@@ -495,7 +500,7 @@ struct FUN_004aa1b0_class
 // src: EXE 0x004aa1b0
 FUN_004aa1b0_class* __thiscall FUN_004aa1b0_class::NiTMap_ShadowSceneLight_int_NiTMap(int a)
 {
-    FUN_004aa210(a);
+    NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int_NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int(a);
     p = &DAT_0101ee40;
     return this;
 }
@@ -539,7 +544,7 @@ void FUN_004afba0_class::UnlockAtOffset()
 }  // namespace fnv_004afba0
 
 extern "C" void* DAT_0101fbcc;
-void __cdecl FUN_004b0220(int);
+void __cdecl j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(int);
 struct FUN_004afc20
 {
     void* vtbl;
@@ -551,7 +556,7 @@ struct FUN_004afc20
 void FUN_004afc20::Init()
 {
     vtbl = &DAT_0101fbcc;
-    FUN_004b0220(data);
+    j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(data);
 }
 
 struct FUN_004b0130_shell
@@ -575,11 +580,12 @@ void __thiscall FUN_004b0130_shell::ClearAndDeallocate(void* p)
 struct FUN_004b0460_class
 {
     void* m_p;
-    bool FUN_004b0460(const void** other);
+    bool LightRefData_IsEqual(const void** other);
 };
 
 // @fnv 0x004b0460
-bool FUN_004b0460_class::FUN_004b0460(const void** other)
+// src: COMMUNITY 0x004b0460
+bool FUN_004b0460_class::LightRefData_IsEqual(const void** other)
 {
     return m_p == *other;
 }
@@ -599,11 +605,12 @@ void __thiscall FUN_004b0530_Class::FUN_004b0530()
 
 struct FUN_004b1030_Class
 {
-    unsigned short __thiscall FUN_004b1030();
+    unsigned short __thiscall Date_GetDate();
 };
 
 // @fnv 0x004b1030
-unsigned short __thiscall FUN_004b1030_Class::FUN_004b1030()
+// src: COMMUNITY 0x004b1030
+unsigned short __thiscall FUN_004b1030_Class::Date_GetDate()
 {
     return *(unsigned short*)this;
 }
@@ -629,28 +636,31 @@ float __cdecl FUN_004b1500(float a, float b)
 extern int DAT_011aa050;
 
 // @fnv 0x004b4a10
-int __cdecl FUN_004b4a10(unsigned short a1, int a2, int a3, int a4)
+// src: COMMUNITY 0x004b4a10
+int __cdecl NiProcessorSpecificCode_ms_pPointsTransform_(unsigned short a1, int a2, int a3, int a4)
 {
     return ((int(__cdecl*)(unsigned short, int, int, int)) * (&DAT_011aa050))(a1, a2, a3, a4);
 }
 
 struct FUN_004b4ab0_Class
 {
-    void __thiscall FUN_004b4ab0(int a, int b);
-    void __thiscall FUN_004b4ad0(int a, int b);
+    void __thiscall hkVector4_setRotatedInverseDir(int a, int b);
+    void __thiscall hkVector4__setRotatedInverseDir(int a, int b);
 };
 
 // @fnv 0x004b4ab0
-void __thiscall FUN_004b4ab0_Class::FUN_004b4ab0(int a, int b)
+// src: COMMUNITY 0x004b4ab0
+void __thiscall FUN_004b4ab0_Class::hkVector4_setRotatedInverseDir(int a, int b)
 {
-    FUN_004b4ad0(a, b);
+    hkVector4__setRotatedInverseDir(a, b);
 }
 
 extern "C" double __cdecl atan2(double, double);
 
 // Returns the atan2 of a and b, computed in double precision and cast back to float.
 // @fnv 0x004b5590
-float FUN_004b5590(float afY, float afX)
+// src: COMMUNITY 0x004b5590
+float atan2f(float afY, float afX)
 {
     return (float)atan2((double)afY, (double)afX);
 }
@@ -1075,11 +1085,12 @@ void __cdecl FUN_004b0cf0();
 struct FUN_004b08e0_Class
 {
     void __thiscall FUN_004b0cf0();
-    void* __thiscall FUN_004b08e0(unsigned int flags);
+    void* __thiscall BSClonePools_ClonePool_Destroy(unsigned int flags);
 };
 // Calls FUN_004b0cf0, then deletes this if bit 0 of flags is set, and returns this.
 // @fnv 0x004b08e0
-void* __thiscall FUN_004b08e0_Class::FUN_004b08e0(unsigned int flags)
+// src: COMMUNITY 0x004b08e0
+void* __thiscall FUN_004b08e0_Class::BSClonePools_ClonePool_Destroy(unsigned int flags)
 {
     FUN_004b0cf0();
     if (flags & 1)
@@ -1116,11 +1127,12 @@ void* __thiscall FUN_004b9980_Class::FUN_004b9980(unsigned int flags)
 
 struct FUN_004a0e50_Class
 {
-    bool __thiscall FUN_004a0e50();
+    bool __thiscall NiRenderer_GetInsideFrameState();
 };
 // Returns true when the int at offset 0x200 of this object equals 1 or 2.
 // @fnv 0x004a0e50
-bool __thiscall FUN_004a0e50_Class::FUN_004a0e50()
+// src: COMMUNITY 0x004a0e50
+bool __thiscall FUN_004a0e50_Class::NiRenderer_GetInsideFrameState()
 {
     return *(int*)((char*)this + 0x200) == 1 || *(int*)((char*)this + 0x200) == 2;
 }
@@ -1129,7 +1141,8 @@ struct NiRenderer;
 extern NiRenderer* DAT_011f9508;
 
 // @fnv 0x004a0e90
-unsigned int FUN_004a0e90()
+// src: COMMUNITY 0x004a0e90
+unsigned int BSShaderManager_GetRenderer()
 {
     return *(Flt*)&DAT_011f9508;
 }
@@ -1347,10 +1360,11 @@ void* __cdecl NiMalloc(unsigned int);
 void* __cdecl memset(void*, int, unsigned int);
 struct FUN_004a98e0_class
 {
-    int __thiscall FUN_004a98e0(int count);
+    int __thiscall NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool(int count);
 };
 // @fnv 0x004a98e0
-int __thiscall FUN_004a98e0_class::FUN_004a98e0(int count)
+// src: COMMUNITY 0x004a98e0
+int __thiscall FUN_004a98e0_class::NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool(int count)
 {
     *(int*)this = (int)&DAT_0101ed4c;
     *(int*)((char*)this + 4) = count;
@@ -1384,11 +1398,12 @@ struct FUN_004a9c50_class
     unsigned int count;
     void* data;
     unsigned int extra;
-    FUN_004a9c50_class* FUN_004a9c50(unsigned int a);
+    FUN_004a9c50_class* NiTMapBase_DFALL_NiTMapItem_NiTexture_bool_NiTexture_bool_NiTMapBase_DFALL_NiTMapItem_NiTexture_bool_NiTexture_bool(unsigned int a);
 };
 // Sets the vtable, stores the count, allocates count*4 bytes for data, zeroes it, and returns this.
 // @fnv 0x004a9c50
-FUN_004a9c50_class* FUN_004a9c50_class::FUN_004a9c50(unsigned int a)
+// src: COMMUNITY 0x004a9c50
+FUN_004a9c50_class* FUN_004a9c50_class::NiTMapBase_DFALL_NiTMapItem_NiTexture_bool_NiTexture_bool_NiTMapBase_DFALL_NiTMapItem_NiTexture_bool_NiTexture_bool(unsigned int a)
 {
     vtbl = (void*)&DAT_0101ed8c;
     count = a;
@@ -1454,11 +1469,12 @@ struct FUN_004aa210_class
     int count;
     void* data;
     int pad;
-    FUN_004aa210_class* __thiscall FUN_004aa210(int n);
+    FUN_004aa210_class* __thiscall NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int_NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int(int n);
 };
 // Sets the vtable, stores n as count, allocates count*4 bytes with NiMalloc, zeroes them with memset, and returns this.
 // @fnv 0x004aa210
-FUN_004aa210_class* __thiscall FUN_004aa210_class::FUN_004aa210(int aiCount)
+// src: COMMUNITY 0x004aa210
+FUN_004aa210_class* __thiscall FUN_004aa210_class::NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int_NiTMapBase_DFALL_NiTMapItem_ShadowSceneLight_int_ShadowSceneLight_int(int aiCount)
 {
     vtbl = &DAT_0101ee60;
     count = aiCount;
@@ -1517,7 +1533,8 @@ struct S004b0220
 };
 // If param_1 is non-null, calls FUN_00667120 with 3 on it.
 // @fnv 0x004b0220
-void __cdecl FUN_004b0220(int pObject)
+// src: COMMUNITY 0x004b0220
+void __cdecl j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(int pObject)
 {
     S004b0220* q;
     S004b0220* p;
@@ -1547,17 +1564,18 @@ struct FUN_004b0da0_Class
     void* a;
     void* b;
     int c;
-    void __thiscall FUN_004b0eb0();
-    FUN_004b0da0_Class* __thiscall FUN_004b0da0(void* a, void* b);
+    void __thiscall BSCloneReserver_MakeClones();
+    FUN_004b0da0_Class* __thiscall BSCloneReserver_BSCloneReserver(void* a, void* b);
 };
 // Stores the two given pointers into the object, resets the counter to zero, calls FUN_004b0eb0, and returns this.
 // @fnv 0x004b0da0
-FUN_004b0da0_Class* __thiscall FUN_004b0da0_Class::FUN_004b0da0(void* pFirst, void* pSecond)
+// src: COMMUNITY 0x004b0da0
+FUN_004b0da0_Class* __thiscall FUN_004b0da0_Class::BSCloneReserver_BSCloneReserver(void* pFirst, void* pSecond)
 {
     this->a = pFirst;
     this->b = pSecond;
     this->c = 0;
-    FUN_004b0eb0();
+    BSCloneReserver_MakeClones();
     return this;
 }
 
@@ -1608,11 +1626,12 @@ struct FUN_004b0eb0_class
 {
     void* f0;
     void* f4;
-    void __thiscall FUN_004b0eb0();
+    void __thiscall BSCloneReserver_MakeClones();
 };
 // If both f0 and f4 are set, obtains an object via GetOrCreateInstance(1) and calls AddKeyedItems with f0 and f4.
 // @fnv 0x004b0eb0
-void __thiscall FUN_004b0eb0_class::FUN_004b0eb0()
+// src: COMMUNITY 0x004b0eb0
+void __thiscall FUN_004b0eb0_class::BSCloneReserver_MakeClones()
 {
     if (f0 && f4)
         ((FUN_004b0910_This*)GetOrCreateInstance(1))->AddKeyedItems(f0, f4);
@@ -1720,7 +1739,8 @@ void NiMatrix3::MakeZero()
 
 extern const char* DAT_01188f84[];
 // @fnv 0x004b7650
-const char* __cdecl FUN_004b7650(int a1)
+// src: COMMUNITY 0x004b7650
+const char* __cdecl GetLanguageStr(int a1)
 {
     return DAT_01188f84[a1];
 }
@@ -1837,7 +1857,8 @@ struct FUN_004a5280
 
 // Allocates a FUN_004a5280, applies ui via vfn_08, sets fValue and fAdd to half of af[0] and af[1], fMult to 1.0 and type to 3, then returns it.
 // @fnv 0x004a4f80
-FUN_004a5280* FUN_004a4f80(const float* afValues, unsigned int ui)
+// src: COMMUNITY 0x004a4f80
+FUN_004a5280* BGSPrimitivePlane_CreateObject(const float* afValues, unsigned int ui)
 {
     FUN_004a5280* p = new FUN_004a5280;
     p->vfn_08(ui);
@@ -2004,10 +2025,11 @@ struct FUN_004a9ef0_Class
     int m_iElementCount;
     void* m_p;
     int m_auiShapeKeys;
-    FUN_004a9ef0_Class* __thiscall FUN_004a9ef0(int a);
+    FUN_004a9ef0_Class* __thiscall NiTMapBase_DFALL_NiTMapItem_TESActorBase_bool_TESActorBase_bool_NiTMapBase_DFALL_NiTMapItem_TESActorBase_bool_TESActorBase_bool(int a);
 };
 // @fnv 0x004a9ef0
-FUN_004a9ef0_Class* __thiscall FUN_004a9ef0_Class::FUN_004a9ef0(int aiCount)
+// src: COMMUNITY 0x004a9ef0
+FUN_004a9ef0_Class* __thiscall FUN_004a9ef0_Class::NiTMapBase_DFALL_NiTMapItem_TESActorBase_bool_TESActorBase_bool_NiTMapBase_DFALL_NiTMapItem_TESActorBase_bool_TESActorBase_bool(int aiCount)
 {
     unsigned int uiSize;
     m_vtbl = (void*)&DAT_0101ede0;
@@ -2024,7 +2046,7 @@ void* __cdecl memset(void*, int, unsigned int);
 extern int DAT_0101ee20;
 struct FUN_004aa080_t
 {
-    void* __thiscall FUN_004aa080(int a);
+    void* __thiscall NiTMapBase_DFALL_NiTMapItem_int_int_int_int_NiTMapBase_DFALL_NiTMapItem_int_int_int_int(int a);
     void* m_vtbl;
     int m_i;
     void* m_p;
@@ -2032,7 +2054,8 @@ struct FUN_004aa080_t
 };
 // Sets the vtable, stores the count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x004aa080
-void* FUN_004aa080_t::FUN_004aa080(int aiCount)
+// src: COMMUNITY 0x004aa080
+void* FUN_004aa080_t::NiTMapBase_DFALL_NiTMapItem_int_int_int_int_NiTMapBase_DFALL_NiTMapItem_int_int_int_int(int aiCount)
 {
     m_vtbl = &DAT_0101ee20;
     m_i = aiCount;
@@ -2136,7 +2159,8 @@ struct S0042fa20
 };
 extern GlobalObject_0045cfe0 g_011c63cc;
 // @fnv 0x004bc4c0
-void FUN_004bc4c0()
+// src: COMMUNITY 0x004bc4c0
+void GridCellArray_FixGridsToLoadINISetting()
 {
     bool flag = false;
     if (flag && *reinterpret_cast<GlobalObject_0045cfe0*>(&g_011c63cc)->Int() < 3)
@@ -2247,7 +2271,8 @@ bool FUN_004b9b20_class::FUN_004b9b20(int arg, FUN_004b9b20_result* result)
 
 extern int DAT_011f91a8;
 // @fnv 0x004a0ea0
-int __cdecl FUN_004a0ea0()
+// src: COMMUNITY 0x004a0ea0
+int __cdecl BSShaderManager_GetTextureManager()
 {
     return DAT_011f91a8;
 }
@@ -2305,7 +2330,8 @@ struct FUN_004ed900_cls
 };
 
 // @fnv 0x004a42a0
-void __cdecl FUN_004a42a0()
+// src: COMMUNITY 0x004a42a0
+void __cdecl BGSDecalManager_RemoveAllDecals()
 {
     DAT_011c57e4 = 0;
     DAT_011c57e8 = 0;
@@ -2664,14 +2690,14 @@ class Vt_cls
 class Ref_cls
 {
   public:
-    Vt_cls* FUN_009611e0();
+    Vt_cls* NiAVObject_GetParent();
 };
 class Obj2_cls
 {
   public:
     void FUN_00b5b1c0(Ref_cls* p);
 };
-void __cdecl FUN_004b6ce0(Ref_cls* p);
+void __cdecl RecursivelyRemoveAllDecals(Ref_cls* p);
 Obj2_cls* __cdecl FUN_00450b80(int a);
 void __cdecl FUN_00c69ee0(Ref_cls* p, int a, int b);
 
@@ -2681,12 +2707,12 @@ void __cdecl FUN_004ab0c0(Ref_cls* apRef)
     Vt_cls* v;
     if (apRef == 0)
         return;
-    FUN_004b6ce0(apRef);
+    RecursivelyRemoveAllDecals(apRef);
     FUN_00450b80(0)->FUN_00b5b1c0(apRef);
-    if (apRef->FUN_009611e0() != 0)
+    if (apRef->NiAVObject_GetParent() != 0)
     {
         FUN_00c69ee0(apRef, 1, 0);
-        v = (Vt_cls*)apRef->FUN_009611e0();
+        v = (Vt_cls*)apRef->NiAVObject_GetParent();
         v->v3a(apRef);
     }
 }
@@ -2726,7 +2752,7 @@ struct FUN_00658930_cls
     unsigned int GetShortAtOffsetA();
 };
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 struct Guard_b9135
 {
@@ -2756,7 +2782,7 @@ FUN_004b0480_cls::~FUN_004b0480_cls()
     {
         void* p = ((FUN_004b07e0_Class*)((char*)this + 8))->PopElement();
         void* q = p;
-        FUN_00401030(q);
+        FormHeapFreeAndLog_00401030(q);
     }
 }
 
@@ -2822,7 +2848,8 @@ void __cdecl InitGeometryShader(NiAVObject* apObject, int a, int b);
 
 // Builds a three-vertex NiTriShape from three points and a color, optionally attaching a lighting property and initializing the geometry shader.
 // @fnv 0x004b3570
-NiTriShape* __cdecl FUN_004b3570(NiPoint3 kP0, NiPoint3 kP1, NiPoint3 kP2, const NiColorA& kColor,
+// src: COMMUNITY 0x004b3570
+NiTriShape* __cdecl MakeTriangle(NiPoint3 kP0, NiPoint3 kP1, NiPoint3 kP2, const NiColorA& kColor,
                                  bool bEnableLighting)
 {
     NiPoint3* aPVerts = new NiPoint3[3];
@@ -2858,7 +2885,7 @@ struct FUN_004b4910_Source
     int FUN_0049ec60();
 };
 
-int __cdecl FUN_004b4a10(unsigned short a1, int a2, int a3, int a4);
+int __cdecl NiProcessorSpecificCode_ms_pPointsTransform_(unsigned short a1, int a2, int a3, int a4);
 
 // Allocates an array of points sized by source->FUN_00456650() and fills it via FUN_004b4a10, returning null if source is null or its count is zero.
 // @fnv 0x004b4910
@@ -2870,7 +2897,7 @@ NiPoint3* __cdecl CreateElementArray(FUN_004b4910_Source* source)
         return 0;
     }
     elements = new NiPoint3[source->FUN_00456650()];
-    FUN_004b4a10(source->FUN_00456650(), source->FUN_0049ec60(), (int)elements, source->FUN_00461130());
+    NiProcessorSpecificCode_ms_pPointsTransform_(source->FUN_00456650(), source->FUN_0049ec60(), (int)elements, source->FUN_00461130());
     return elements;
 }
 
@@ -2886,7 +2913,8 @@ extern char g_acB4A30ComputerName[];
 
 // Retrieves the computer name, logs the heading, then logs a formatted "Computer Name: %s" line using the prepared script message.
 // @fnv 0x004b4a30
-void __cdecl FUN_004b4a30(const char* pcHeading)
+// src: COMMUNITY 0x004b4a30
+void __cdecl FillUserNameGlobal(const char* pcHeading)
 {
     char acLine[264];
     unsigned long ulSize = 260;
@@ -2962,7 +2990,7 @@ unsigned int __cdecl FindAcceptedForm(FNVNode* root)
 }
 
 void* __cdecl FUN_00aa1070(unsigned int size);
-void __cdecl FUN_00403d30(void* p, int fill, unsigned int size);
+void __cdecl ourMemset(void* p, int fill, unsigned int size);
 extern int DAT_010205d4;
 
 struct FUN_004b99b0_cls
@@ -2983,7 +3011,7 @@ FUN_004b99b0_cls* FUN_004b99b0_cls::FUN_004b99b0(int count)
     m_0C = 0;
     unsigned int size = m_04 << 2;
     m_08 = FUN_00aa1070(size);
-    FUN_00403d30(m_08, 0, m_04 << 2);
+    ourMemset(m_08, 0, m_04 << 2);
     return this;
 }
 
@@ -3141,7 +3169,7 @@ struct Base_4ba280
     unsigned int GetDim_4ba280();
 };
 
-void FUN_004bc4c0();
+void GridCellArray_FixGridsToLoadINISetting();
 void* __cdecl memset(void*, int, unsigned int);
 extern char DAT_01189184;
 
@@ -3158,7 +3186,7 @@ struct FUN_004ba280 : Base_4ba280
 // @fnv 0x004ba280
 FUN_004ba280::FUN_004ba280() : m_pController(0)
 {
-    FUN_004bc4c0();
+    GridCellArray_FixGridsToLoadINISetting();
     SetType_4ba280(*g_011c63cc.Int());
     grid = new int[GetDim_4ba280() * GetDim_4ba280()];
     memset(grid, 0, GetDim_4ba280() * 4 * GetDim_4ba280());
@@ -3565,11 +3593,12 @@ struct Owner4a4
 {
     void* pad[2];
     List4a4 m_kNode;
-    void FUN_004a4340();
+    void BGSDecalManager_ClearPendingQueries();
 };
 
 // @fnv 0x004a4340
-void Owner4a4::FUN_004a4340()
+// src: COMMUNITY 0x004a4340
+void Owner4a4::BGSDecalManager_ClearPendingQueries()
 {
     if (m_kNode.FUN_0044ddc0() > 0)
     {
@@ -3595,7 +3624,7 @@ struct Target004a4d40
 {
     int __thiscall FUN_00726070();
     NiPoint3 __thiscall FUN_00413fc0() const;
-    NiColorA* __thiscall FUN_00413f90(NiColorA* out);
+    NiColorA* __thiscall BGSPrimitive_GetColor(NiColorA* out);
     float __thiscall FUN_004a7bd0() const;
 };
 
@@ -3604,7 +3633,8 @@ extern void* __cdecl FUN_004a5100(float value, NiColorA* color);
 // The game fills these aligned color buffers through its output routine;
 // constructing NiColorA here would add initialization calls absent from the original.
 // @fnv 0x004a4d40
-void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
+// src: COMMUNITY 0x004a4d40
+void* __cdecl BGSPrimitive_Copy(Target004a4d40* pTarget)
 {
     {
         void* bResult = 0;
@@ -3615,13 +3645,13 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
             {
                 NiPoint3 w = pTarget->FUN_00413fc0() * 2.0f;
             }
-            pTarget->FUN_00413f90(reinterpret_cast<NiColorA*>(colorA));
+            pTarget->BGSPrimitive_GetColor(reinterpret_cast<NiColorA*>(colorA));
 
             float kIter[sizeof(NiColorA) / sizeof(float)];
             {
                 NiPoint2 point(pTarget->FUN_00413fc0().x * 2.0, pTarget->FUN_00413fc0().z * 2.0f);
-                pTarget->FUN_00413f90(reinterpret_cast<NiColorA*>(kIter));
-                bResult = FUN_004a4f80((const float*)&point, (unsigned int)&kIter);
+                pTarget->BGSPrimitive_GetColor(reinterpret_cast<NiColorA*>(kIter));
+                bResult = BGSPrimitivePlane_CreateObject((const float*)&point, (unsigned int)&kIter);
             }
         }
 
@@ -3630,7 +3660,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
             float colorA[sizeof(NiColorA) / sizeof(float)];
             {
                 NiPoint3 point = pTarget->FUN_00413fc0() * 2.0f;
-                pTarget->FUN_00413f90(reinterpret_cast<NiColorA*>(colorA));
+                pTarget->BGSPrimitive_GetColor(reinterpret_cast<NiColorA*>(colorA));
                 bResult = CreatePrimitiveBox(&point, (int)&colorA);
             }
         }
@@ -3638,7 +3668,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
         if (pTarget->FUN_00726070() == 2)
         {
             float cnt[sizeof(NiColorA) / sizeof(float)];
-            pTarget->FUN_00413f90(reinterpret_cast<NiColorA*>(cnt));
+            pTarget->BGSPrimitive_GetColor(reinterpret_cast<NiColorA*>(cnt));
             bResult = FUN_004a5100(pTarget->FUN_004a7bd0(), reinterpret_cast<NiColorA*>(cnt));
         }
 

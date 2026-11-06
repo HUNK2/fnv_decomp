@@ -96,7 +96,7 @@ struct TransformInterpolatorKeys : NiTransformInterpolator
 {
     PositionKeyInterpolator* FUN_00a3f990(unsigned int&, NiAnimationKey::KeyType&, unsigned char&);
     TimedRotationKey* FUN_0058cb00(unsigned int&, NiAnimationKey::KeyType&, unsigned char&);
-    TimedAnimationKey* FUN_00a3f9e0(unsigned int&, NiAnimationKey::KeyType&, unsigned char&);
+    TimedAnimationKey* NiTransformInterpolator_GetScaleData(unsigned int&, NiAnimationKey::KeyType&, unsigned char&);
 };
 
 // @fnv 0x00a3fae0
@@ -156,7 +156,7 @@ bool NiTransformInterpolator::Update(float time, NiObjectNET* target, NiQuatTran
             TimedRotationKey::InterpolatePosition(time, pRotateKeys, eKeyType, count, last, size));
         m_usLastPositionKeyIndex = (unsigned short)last;
     }
-    TimedAnimationKey* pScaleKeys = ((TransformInterpolatorKeys*)this)->FUN_00a3f9e0(count, eKeyType, size);
+    TimedAnimationKey* pScaleKeys = ((TransformInterpolatorKeys*)this)->NiTransformInterpolator_GetScaleData(count, eKeyType, size);
     if (count > 0)
     {
         last = m_usLastScaleKeyIndex;
@@ -391,7 +391,8 @@ void NiTransformInterpolator::SetActiveTimeRange(float afArg1, float afArg2)
 
 // Returns the scale key array from the interpolator's transform data, filling in key count, interpolation type and key size, or zeroes if no data exists.
 // @fnv 0x00a3f9e0
-TimedAnimationKey* TransformInterpolatorKeys::FUN_00a3f9e0(unsigned int& uiNumScaleKeys,
+// src: COMMUNITY 0x00a3f9e0
+TimedAnimationKey* TransformInterpolatorKeys::NiTransformInterpolator_GetScaleData(unsigned int& uiNumScaleKeys,
                                                          NiAnimationKey::KeyType& eScaleKeyType,
                                                          unsigned char& ucScaleKeySize)
 {

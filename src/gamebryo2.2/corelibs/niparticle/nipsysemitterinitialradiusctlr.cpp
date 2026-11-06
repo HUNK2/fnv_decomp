@@ -8,7 +8,8 @@
 extern "C" void* g_01202748;
 
 // @fnv 0x00c2b750
-void* __cdecl FUN_00c2b750()
+// src: COMMUNITY 0x00c2b750
+void* __cdecl NiPSysEmitterInitialRadiusCtlr_GetRTTI()
 {
     return &g_01202748;
 }

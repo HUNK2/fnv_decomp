@@ -33,7 +33,7 @@ namespace WheelStateUpdate {
 struct __declspec(align(16)) LcQuat
 {
     float x, y, z, w;
-    void FUN_00c66320(const void* a, const void* b);
+    void setMul(const void* a, const void* b);
 };
 
 
@@ -261,7 +261,7 @@ void WheelCollide::FUN_00e367d0(LcVehicle* vehicle, unsigned char wheelNum)
     LcWheelState& wheelState = m_kWheelStates[wheelNum];
 
     LcQuat rotation;
-    rotation.FUN_00c66320(&vehicle->m_pChassisCollidable->m_rotation, &wheelInfo.m_steeringOrientation);
+    rotation.setMul(&vehicle->m_pChassisCollidable->m_rotation, &wheelInfo.m_steeringOrientation);
 
     LcTransform& transform = wheelState.m_kMotionTransform;
     transform.m_rotation.FUN_00cb2d90(*reinterpret_cast<const hkQuaternion*>(&rotation));

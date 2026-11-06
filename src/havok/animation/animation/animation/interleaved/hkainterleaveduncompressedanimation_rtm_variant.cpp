@@ -218,7 +218,7 @@ struct DataChunk
 struct FUN_005611c0_t
 {
     float x, y, z, w;
-    void FUN_005611c0();
+    void normalize_005611c0();
 };
 
 extern ::__m128 DAT_010ec7f0;
@@ -311,7 +311,7 @@ void FUN_00e3fda0(unsigned int frameIndex, float frameDelta, unsigned int maxNum
                 E3fda0Simd::_mm_store_ps(&quat.x,
                                          E3fda0Simd::_mm_add_ps(E3fda0Simd::_mm_mul_ps(signedAll, pose1->rotation.v),
                                                                 E3fda0Simd::_mm_mul_ps(invAll, r0)));
-                quat.FUN_005611c0();
+                quat.normalize_005611c0();
                 transformTracksOut->rotation.v = E3fda0Simd::_mm_load_ps(&quat.x);
                 pose0++;
                 pose1++;

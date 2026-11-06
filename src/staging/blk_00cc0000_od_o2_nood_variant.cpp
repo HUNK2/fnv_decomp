@@ -257,7 +257,7 @@ struct Sub18
     unsigned int count;
 };
 
-void FUN_00d6b8e0(float t, Params* p, Sub18* s, int a, int b);
+void hkaKeyFrameHierarchyUtility_applyKeyFrame(float t, Params* p, Sub18* s, int a, int b);
 
 struct Obj
 {
@@ -276,7 +276,7 @@ struct Obj
     int unk30;
     int unk34;
     Info* unk38;
-    void FUN_00cdb7c0(float t, Mat* src, const Mat& xf, int a4);
+    void hkaRagdollRigidBodyController_driveToPose(float t, Mat* src, const Mat& xf, int a4);
 };
 
 struct ScratchBuf
@@ -302,7 +302,8 @@ struct ScratchBuf
     }
 };
 // @fnv 0x00cdb7c0
-void Obj::FUN_00cdb7c0(float t, Mat* src, const Mat& xf, int a4)
+// src: COMMUNITY 0x00cdb7c0
+void Obj::hkaRagdollRigidBodyController_driveToPose(float t, Mat* src, const Mat& xf, int a4)
 {
     Params p;
     p.n = unk2c;
@@ -318,13 +319,13 @@ void Obj::FUN_00cdb7c0(float t, Mat* src, const Mat& xf, int a4)
                 buf.data[idx] = src[i];
         }
         p.p = buf.data;
-        FUN_00d6b8e0(t, &p, &unk18, unk00, a4);
+        hkaKeyFrameHierarchyUtility_applyKeyFrame(t, &p, &unk18, unk00, a4);
         buf.Release();
     }
     else
     {
         p.p = src;
-        FUN_00d6b8e0(t, &p, &unk18, unk00, a4);
+        hkaKeyFrameHierarchyUtility_applyKeyFrame(t, &p, &unk18, unk00, a4);
     }
 }
 }  // namespace fnv_00cdb7c0
@@ -418,8 +419,8 @@ class Cc6830Motion
     Cc6830Motion();
 
     void hkpRagdollConstraintData_setMaxFrictionTorque(float f);
-    CloneableMotionReference* FUN_00cdea20();
-    void FUN_00cdea70(CloneableMotionReference* r);
+    CloneableMotionReference* hkpRagdollConstraintData_getTwistMotor();
+    void hkpRagdollConstraintData_setTwistMotor(CloneableMotionReference* r);
     void hkpRagdollConstraintData_setPlaneMotor(CloneableMotionReference* r);
     void hkpRagdollConstraintData_setConeMotor(CloneableMotionReference* r);
 };
@@ -433,7 +434,7 @@ struct Cc6830Src
     float m_vScale;
 };
 
-void FUN_00cbd9e0(float s, Cc6830Motion* m);
+void hkHingeConstraintCinfo_ApplyScale(float s, Cc6830Motion* m);
 
 class Cc6830Self
 {
@@ -470,13 +471,13 @@ void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
     float scale = src->m_vScale;
     if (scale != 1.0f)
     {
-        FUN_00cbd9e0(scale, dst);
+        hkHingeConstraintCinfo_ApplyScale(scale, dst);
     }
-    CloneableMotionReference* r = m->FUN_00cdea20();
+    CloneableMotionReference* r = m->hkpRagdollConstraintData_getTwistMotor();
     if (r)
     {
         CloneableMotionReference* x = r->Clone();
-        dst->FUN_00cdea70(x);
+        dst->hkpRagdollConstraintData_setTwistMotor(x);
         dst->hkpRagdollConstraintData_setPlaneMotor(x);
         dst->hkpRagdollConstraintData_setConeMotor(x);
         x->removeReference();
@@ -817,7 +818,7 @@ struct __declspec(align(16)) PoseVector
 struct PoseQuaternion
 {
     PoseVector vector;
-    void FUN_00c66320(const PoseQuaternion&, const PoseQuaternion&);
+    void setMul(const PoseQuaternion&, const PoseQuaternion&);
 };
 extern "C" unsigned int __security_cookie;
 extern "C" void __fastcall __security_check_cookie(unsigned int);
@@ -825,7 +826,8 @@ struct QuaternionProduct
 {
     LocalM128 quad;
 };
-__declspec(noinline) void PoseQuaternion::FUN_00c66320(const PoseQuaternion& a, const PoseQuaternion& b)
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void PoseQuaternion::setMul(const PoseQuaternion& a, const PoseQuaternion& b)
 {
     unsigned int cookie = __security_cookie;
     PoseVector cross;
@@ -869,7 +871,7 @@ struct PoseTransform
         PoseVector moved;
         moved.rotate(a.rotation.vector, b.translation);
         translation.value = _mm_add_ps(a.translation.value, moved.value);
-        rotation.FUN_00c66320(a.rotation, b.rotation);
+        rotation.setMul(a.rotation, b.rotation);
         scale.value = _mm_mul_ps(a.scale.value, b.scale.value);
     }
     __forceinline void relative(const PoseTransform& a, const PoseTransform& b)
@@ -896,12 +898,12 @@ struct PoseState
     int* flags;
     int unk20, unk24;
     bool synchronized;
-    const PoseTransform& FUN_00cda180(int);
+    const PoseTransform& hkaPose_calculateBoneModelSpace(int);
     __forceinline const PoseTransform& getWorld(int i)
     {
         if (!(flags[i] & 2))
             return world[i];
-        return FUN_00cda180(i);
+        return hkaPose_calculateBoneModelSpace(i);
     }
     __forceinline const PoseTransform& getLocal(int i)
     {
@@ -945,10 +947,11 @@ struct PoseState
             }
         }
     }
-    PoseTransform& FUN_00cda8e0(int index);
+    PoseTransform& hkaPose_accessBoneLocalSpace(int index);
 };
 // @fnv 0x00cda8e0
-PoseTransform& PoseState::FUN_00cda8e0(int index)
+// src: COMMUNITY 0x00cda8e0
+PoseTransform& PoseState::hkaPose_accessBoneLocalSpace(int index)
 {
     prepareChildren(index);
     getLocal(index);
@@ -1272,7 +1275,7 @@ int EntityOwner::FUN_00cc3050(EntityCinfo* info)
 class S_00cd3c20_Obj
 {
   public:
-    void FUN_00c6cba0();
+    void bhkCharacterController_UpdateState();
     int unk000;
     int unk004;
     int unk008;
@@ -1602,11 +1605,12 @@ class S_00cd3c20_Obj
 };
 
 // @fnv 0x00cd3c20
-void __stdcall FUN_00cd3c20(S_00cd3c20_Obj* obj)
+// src: COMMUNITY 0x00cd3c20
+void __stdcall bhkCharacterStateClimbing_Update(S_00cd3c20_Obj* obj)
 {
     if (obj->unk520 != 0xb)
     {
-        obj->FUN_00c6cba0();
+        obj->bhkCharacterController_UpdateState();
         return;
     }
     obj->unk414 |= 0x400;
@@ -2035,7 +2039,7 @@ class PositionText525
 extern void* DAT_01268670;
 extern const char DAT_0101c29c[];
 extern const char DAT_010ca6a4[];
-char* __cdecl FUN_00a7d330(void*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 char* __cdecl FUN_00a7d550(const char*, float);
 void __cdecl FUN_00458620(PositionText525*, const Quaternion525*);
 struct RotationOwner525
@@ -2050,7 +2054,7 @@ void RotationOwner525::FUN_00ccb810(StringArray525* stream)
 {
     AutoMemContext guard(16);
     FUN_00d54ed0(stream);
-    char* value = FUN_00a7d330(DAT_01268670);
+    char* value = NiViewerStrings_NiGetViewerString_Title(DAT_01268670);
     stream->append(value);
     // The SDK quaternion default constructor does not initialize its value.
     // The native owner/source-null branch similarly omits that assignment.
@@ -2693,7 +2697,7 @@ struct Body
 };
 extern Transform identity;
 extern const char nodeName[];
-void FUN_00624b10(Mat*, Transform*);
+void HK2NI_00624b10(Mat*, Transform*);
 void FUN_00458620(NiPoint3*, LocalM128*);
 struct Subject
 {
@@ -2714,7 +2718,7 @@ void Subject::FUN_00ccf150(ConvexShapeNode* parent, void* arg)
     transform.r[2] = src->r[2];
     transform.r[3] = src->r[3];
     NodeTransform converted;
-    FUN_00624b10(&converted.rotation, &transform);
+    HK2NI_00624b10(&converted.rotation, &transform);
     FUN_00458620(&converted.translation, &transform.r[3]);
     ConvexShapeNode* __restrict node = new ConvexShapeNode(0);
     node->SetParentObject(Name("bhkConvexTransformShape"));
@@ -2793,7 +2797,7 @@ class BoundsOwner
     int unk08;
     int unk0c;
     BoundsEntry* m_pEntries;
-    void FUN_00cda340();
+    void hkaPose_syncModelSpace();
     void FUN_00cda610(BoundsBox* out);
 };
 
@@ -2803,7 +2807,7 @@ void BoundsOwner::FUN_00cda610(BoundsBox* out)
     out->m_kMinimumCorner.SetAll(DAT_0104da48);
     out->m_kMaximumCorner.SetAll(DAT_0104e148);
     int count = m_pSub->count;
-    FUN_00cda340();
+    hkaPose_syncModelSpace();
     for (int i = 0; i < count; i++)
     {
         BoundsEntry* entry = &m_pEntries[i];
@@ -3358,7 +3362,7 @@ struct TagObj
     unsigned int FUN_00a59af0(const char* s);
 };
 
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 namespace fnvc_adapt {
 unsigned int __cdecl FUN_00a7d550(const char* s, float f);
 }
@@ -3392,7 +3396,7 @@ void NamedShape::FUN_00ccd960(NameArr* arr)
 {
     TlsFlagGuard guard;
     FUN_00c9fc50(arr);
-    unsigned int item = FUN_00a7d330(DAT_01268694);
+    unsigned int item = NiViewerStrings_NiGetViewerString_Title(DAT_01268694);
     AddName(arr, item);
 
     TagObj t1;
@@ -4376,7 +4380,8 @@ struct ShapeCinfoC97
     float m_vScale;
 };
 
-__declspec(noinline) void __cdecl FUN_00cc96b0(float scale, ShapeC97* shape)
+// src: COMMUNITY 0x00cc96b0
+__declspec(noinline) void __cdecl hkBallAndSocketConstraintCinfo_ApplyScale(float scale, ShapeC97* shape)
 {
     if (shape && scale != 1.0f)
     {
@@ -4410,7 +4415,7 @@ ShapeC97* ShapeClonerC97::FUN_00cc9790(ShapeC97* dst, ShapeCinfoC97* cinfo)
     float scale = cinfo->m_vScale;
     if (scale != 1.0f)
     {
-        FUN_00cc96b0(scale, dst);
+        hkBallAndSocketConstraintCinfo_ApplyScale(scale, dst);
     }
     return ReleaseObject(dst, cinfo);
 }
@@ -4856,7 +4861,8 @@ void* __cdecl FindModifierConstraintAtom(void* p, int type);
 void __cdecl hkpWorldConstraintUtil_addModifier(void* p, FNVSoftContactTarget* target, FNVEffectRec* rec);
 
 // @fnv 0x00cdf850
-void __cdecl FUN_00cdf850(FNVSoftContactSource* a1, int a2, int a3, FNVSoftContactTarget* a4, LocalM128* a5, LocalM128* a6)
+// src: COMMUNITY 0x00cdf850
+void __cdecl hkpResponseModifier_setInvMassScalingForContact_0(FNVSoftContactSource* a1, int a2, int a3, FNVSoftContactTarget* a4, LocalM128* a5, LocalM128* a6)
 {
     volatile DWORD tick;
     void* p = a1->vtbl40();
@@ -4929,7 +4935,8 @@ void* __cdecl FindModifierConstraintAtom(void* p, int type);
 void __cdecl hkpWorldConstraintUtil_addModifier(void* p, FNVSoftContactTarget* target, FNVEffectRec* rec);
 
 // @fnv 0x00cdfac0
-void __cdecl FUN_00cdfac0(FNVSoftContactSource* a1, int a2, int a3, FNVSoftContactTarget* a4, LocalM128* a5, LocalM128* a6)
+// src: COMMUNITY 0x00cdfac0
+void __cdecl hkpResponseModifier_setCenterOfMassDisplacementForContact(FNVSoftContactSource* a1, int a2, int a3, FNVSoftContactTarget* a4, LocalM128* a5, LocalM128* a6)
 {
     volatile DWORD tick;
     void* p = a1->vtbl40();

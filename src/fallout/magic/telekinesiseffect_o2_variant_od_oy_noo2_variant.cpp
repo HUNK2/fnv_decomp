@@ -33,7 +33,7 @@ struct FUN_0082aa90_shell
 {
     unsigned int GetFloatAsUInt();
 };
-void* __cdecl FUN_004b5a80(void const*);
+void* __cdecl bhkEntity_Getbhk(void const*);
 struct FUN_0082aeb0_shell
 {
     void* __thiscall FUN_0082aee0();
@@ -115,7 +115,7 @@ void TelekinesisEffect::FUN_0082afa0()
         g_pkPlayerCameraT->ReleaseGrab();
         if (pvGrabbed)
         {
-            TelekinesisTarget* pkTarget = (TelekinesisTarget*)FUN_004b5a80(pvGrabbed);
+            TelekinesisTarget* pkTarget = (TelekinesisTarget*)bhkEntity_Getbhk(pvGrabbed);
             if (m_bHolding)
             {
                 NiPoint3T kForward;

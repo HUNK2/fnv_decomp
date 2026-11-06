@@ -27,7 +27,7 @@ struct BipedModelSave : TESBipedModelForm
 
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00();
+    void TESForm_SaveData();
 };
 
 // @fnv 0x00515f40
@@ -35,12 +35,12 @@ void TESObjectCLOT::FUN_00515f40()
 {
     TESForm::FUN_004855a0();
     TESFullName::FUN_00487010();
-    TESScriptableForm::FUN_0048cca0();
+    TESScriptableForm::Save_0048cca0();
     TESEnchantableForm::Save();
     reinterpret_cast<BipedModelSave*>(reinterpret_cast<char*>(this) + 0x68)->Save();
     BGSDestructibleObjectForm::Save();
     BGSEquipType::Save();
-    reinterpret_cast<FUN_00485e00_shell*>(this)->FUN_00485e00();
+    reinterpret_cast<FUN_00485e00_shell*>(this)->TESForm_SaveData();
     TESForm::FUN_00485680();
 }
 

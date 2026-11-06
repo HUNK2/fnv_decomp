@@ -633,7 +633,7 @@ struct FnvCpu_FUN_00d65290_CpuObject
     unsigned char value;
     void FUN_00d65290(unsigned char arg0);
 };
-void __cdecl FUN_00d6add0();
+void __cdecl nullsub_103();
 extern "C" void __cdecl FUN_00d72e90();
 void __cdecl FUN_00d73380();
 class FUN_00d733e0
@@ -885,7 +885,7 @@ struct FUN_004b4ab0_Class
         LocalM128 m;
     };
 
-    void __thiscall FUN_004b4ab0(int, int);
+    void __thiscall hkVector4_setRotatedInverseDir(int, int);
 };
 
 struct Obj4
@@ -928,8 +928,8 @@ static __declspec(noinline) void FUN_00d6c080(Obj4* firstObject, F4* second, F4*
     LocalM128 d2 = _mm_sub_ps(_mm_load_ps(&first->x), _mm_load_ps(&secondObject->u40.x));
     FUN_004b4ab0_Class r1;
     FUN_004b4ab0_Class r2;
-    r1.FUN_004b4ab0((int)&firstObject->u50, (int)&firstObject->u20);
-    r2.FUN_004b4ab0((int)&secondObject->u50, (int)&secondObject->u20);
+    r1.hkVector4_setRotatedInverseDir((int)&firstObject->u50, (int)&firstObject->u20);
+    r2.hkVector4_setRotatedInverseDir((int)&secondObject->u50, (int)&secondObject->u20);
     LocalM128 s = _mm_shuffle_ps(s0, s0, 0);
     LocalM128 c2 = cross4(d2, r2.m);
     LocalM128 c1 = cross4(d1, r1.m);

@@ -33,8 +33,8 @@ public:
     void __thiscall RegisterInPool(unsigned int index);
     void __thiscall ClearPoolSlot(unsigned int uiIndex);
     void FUN_0040fbf0(char* name);
-    void FUN_00aa7260();
-    void FUN_00aa7300();
+    void MemoryPool_SortFreeBlockList();
+    void MemoryPool_CheckFreeBlocks();
 
     enum
     {

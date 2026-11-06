@@ -1399,71 +1399,88 @@ void __stdcall CheckFeatureCacheCoverage(FeatureCache* cache, int firstFlags, in
 }
 
 // @fnv 0x00da0600
-void __cdecl FUN_00da0600()
+// src: COMMUNITY 0x00da0600
+void __cdecl nullsub_104()
 {}
 
 // @fnv 0x00da0620
-void __cdecl FUN_00da0620(void)
+// src: COMMUNITY 0x00da0620
+void __cdecl nullsub_106(void)
 {}
 
 // @fnv 0x00da0640
-void FUN_00da0640()
+// src: COMMUNITY 0x00da0640
+void nullsub_105()
 {}
 
 // @fnv 0x00da0650
-void FUN_00da0650()
+// src: COMMUNITY 0x00da0650
+void nullsub_107()
 {}
 
 // @fnv 0x00da0960
-void __cdecl FUN_00da0960()
+// src: COMMUNITY 0x00da0960
+void __cdecl nullsub_109()
 {}
 
 // @fnv 0x00da0980
-void __cdecl FUN_00da0980()
+// src: COMMUNITY 0x00da0980
+void __cdecl nullsub_108()
 {}
 
 // @fnv 0x00da0990
-void __cdecl FUN_00da0990()
+// src: COMMUNITY 0x00da0990
+void __cdecl nullsub_110()
 {}
 
 // @fnv 0x00da09b0
-void __cdecl FUN_00da09b0()
+// src: COMMUNITY 0x00da09b0
+void __cdecl nullsub_111()
 {}
 
 // @fnv 0x00da09d0
-void __cdecl FUN_00da09d0()
+// src: COMMUNITY 0x00da09d0
+void __cdecl nullsub_112()
 {}
 
 // @fnv 0x00da09f0
-void __cdecl FUN_00da09f0()
+// src: COMMUNITY 0x00da09f0
+void __cdecl nullsub_113()
 {}
 
 // @fnv 0x00da0a10
-void FUN_00da0a10()
+// src: COMMUNITY 0x00da0a10
+void nullsub_114()
 {}
 
 // @fnv 0x00da0a30
-void __cdecl FUN_00da0a30()
+// src: COMMUNITY 0x00da0a30
+void __cdecl nullsub_115()
 {}
 
 // @fnv 0x00da0a50
-void __cdecl FUN_00da0a50()
+// src: COMMUNITY 0x00da0a50
+void __cdecl nullsub_116()
 {}
 
 // @fnv 0x00da0a70
-void __cdecl FUN_00da0a70()
+// src: COMMUNITY 0x00da0a70
+void __cdecl nullsub_117()
 {}
 
 // @fnv 0x00da0a90
-void __cdecl FUN_00da0a90()
+// src: COMMUNITY 0x00da0a90
+void __cdecl nullsub_118()
 {}
 
 // @fnv 0x00da0ab0
-void __cdecl FUN_00da0ab0()
+// src: COMMUNITY 0x00da0ab0
+void __cdecl nullsub_119()
 {}
 
 // @fnv 0x00da0ad0
-void __cdecl FUN_00da0ad0()
+// src: COMMUNITY 0x00da0ad0
+void __cdecl nullsub_120()
 {}
 
 struct CallbackHolder
@@ -1551,7 +1568,8 @@ void* DA2D70Object::NotifyAudioListener(int flags)
 }
 
 // @fnv 0x00da2da0
-void __cdecl FUN_00da2da0()
+// src: COMMUNITY 0x00da2da0
+void __cdecl nullsub_21()
 {}
 
 void __cdecl hkAgent1nMachine_VisitAllAgents(int a, int b, void* pvCallback);
@@ -2655,11 +2673,12 @@ struct DBBCBC0Target
     int unk20;
     int unk24;
 
-    int FUN_00dbbc00();
+    int NiRenderTargetGroup_GetRendererData();
 };
 
 // @fnv 0x00dbbc00
-int DBBCBC0Target::FUN_00dbbc00()
+// src: COMMUNITY 0x00dbbc00
+int DBBCBC0Target::NiRenderTargetGroup_GetRendererData()
 {
     return unk24;
 }

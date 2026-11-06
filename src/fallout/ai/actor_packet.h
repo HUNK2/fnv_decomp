@@ -253,7 +253,7 @@ class ActorPacketView
 class ProcessBuffer
 {
   public:
-    float FUN_004d50e0(unsigned int);
+    float LipSynchAnim_GetPuppetValue(unsigned int);
 };
 class ActorProcessView
 {

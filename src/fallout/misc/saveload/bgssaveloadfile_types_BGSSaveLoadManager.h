@@ -100,7 +100,7 @@ class BGSSaveLoadManager
     bool IsAutoSaveFileName(const char*);
     void* ReadHeaderFromFile(const char*, int, int, int);
     bool IsSaveFileNameCustom(const char*);
-    void FUN_00850100(SaveLoadHeader*, int);
+    void CloseSaveFile(SaveLoadHeader*, int);
 };
 #pragma pack(pop)
 FNV_STATIC_ASSERT(sizeof(BGSSaveLoadManager) == 48);

@@ -6,8 +6,8 @@
 #include "../../include/NiPoint3.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
-NiAVObject* FUN_0054f4f0();
+unsigned int TESTerrainLODManager_GetGrassNode();
+NiAVObject* TESMain_GetWeatherRoot();
 
 namespace CellLoading {
 
@@ -228,7 +228,7 @@ struct Manager
     void TESSaveLoadGame_LoadForm(Reference*);
     bool FUN_0047c850();
     void FUN_00859690(Cell*);
-    bool FUN_008727b0();
+    bool TESSaveLoadGame_GetInitArrayExists();
     void FUN_004534f0(bool);
     void FUN_00858af0(int, int, int);
     void FUN_0085f850(int);
@@ -243,7 +243,7 @@ int FUN_0046e8a0();
 void FUN_0043b2b0(int);
 void FUN_004fffe0(int);
 unsigned int FUN_00ec6130(const char*);
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 void ResolveFormID(unsigned int*, int);
 TESForm* FUN_004839c0(unsigned int);
 extern "C" void* __cdecl __RTDynamicCast(void*, int, void*, void*, int);
@@ -287,7 +287,7 @@ void Cell::FUN_00542d40()
         FUN_00484ab0(1);
 
         if (editorName.FUN_00408da0() && FUN_00ec6130(editorName.FUN_00408da0()) > 33)
-            FUN_005b5e40(&DAT_0102ece8, editorName.FUN_00408da0(), Name(), FUN_0084e3a0());
+            Warning_005b5e40(&DAT_0102ece8, editorName.FUN_00408da0(), Name(), FUN_0084e3a0());
 
         FUN_0043b2b0(0);
         int errors = FUN_0046e8a0();
@@ -299,13 +299,13 @@ void Cell::FUN_00542d40()
             if (!FUN_00425fd0())
             {
                 if (other)
-                    FUN_005b5e40(&DAT_0102ec58, Name(), FUN_0084e3a0(), FUN_00544c30(), FUN_00544c60(), other->Name(),
+                    Warning_005b5e40(&DAT_0102ec58, Name(), FUN_0084e3a0(), FUN_00544c30(), FUN_00544c60(), other->Name(),
                                  other->FUN_0084e3a0());
                 else
-                    FUN_005b5e40(&DAT_0102ebd0, Name(), FUN_0084e3a0(), FUN_00544c30(), FUN_00544c60());
+                    Warning_005b5e40(&DAT_0102ebd0, Name(), FUN_0084e3a0(), FUN_00544c30(), FUN_00544c60());
             }
             else
-                FUN_005b5e40(&DAT_0102eb60, Name(), FUN_0084e3a0());
+                Warning_005b5e40(&DAT_0102eb60, Name(), FUN_0084e3a0());
         }
 
         if (GetLightingTemplate())
@@ -315,7 +315,7 @@ void Cell::FUN_00542d40()
             BGSLightingTemplate* resolved = dynamic_cast<BGSLightingTemplate*>(FUN_004839c0(handle));
             FUN_00558b60(resolved);
             if (!resolved && handle)
-                FUN_005b5e40(&DAT_0102eb10, handle, Name(), FUN_0084e3a0());
+                Warning_005b5e40(&DAT_0102eb10, handle, Name(), FUN_0084e3a0());
         }
     }
 
@@ -365,7 +365,7 @@ void Cell::FUN_00542d40()
     if (DAT_011de45c->FUN_0047c850())
     {
         DAT_011de45c->FUN_00859690(this);
-        if (!DAT_011de45c->FUN_0047c850() && DAT_011de45c->FUN_008727b0())
+        if (!DAT_011de45c->FUN_0047c850() && DAT_011de45c->TESSaveLoadGame_GetInitArrayExists())
         {
             bool state = DAT_011de45c->FUN_0047c850();
             DAT_011de45c->FUN_004534f0(true);

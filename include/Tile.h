@@ -63,9 +63,9 @@ class Tile
 
         __forceinline float GetFloat() { return fValue; }
         void SetBooleanValue(bool value);
-        void FUN_00a09130(int trait, Tile* tile, int sourceTrait);
-        void FUN_00a09130(int trait, void* source, int sourceTrait);
-        void FUN_00a09410(int value);
+        void Tile_Value_AddRefValueAction(int trait, Tile* tile, int sourceTrait);
+        void Tile_Value_AddRefValueAction(int trait, void* source, int sourceTrait);
+        void Tile_Value_SetFloat(int value);
     };
 
     class Extra : public NiExtraData
@@ -195,10 +195,10 @@ class Tile
     void FUN_007037c0(int value);
     void FUN_0071aa60(bool value);
     bool FUN_0078a1f0();
-    NodeObj* FUN_007d5280();
+    NodeObj* TileImage_GetShaderProp();
     void FUN_0097cd10(unsigned char value);
     bool FindCombatLocation_0099ac20();
-    void* FUN_004fd3a0();
+    void* TESChallenge_GetFormOne();
     Tile* FUN_0045cd60();
     NiNode* FUN_0056c7f0();
     char* FUN_00671d10();
@@ -215,10 +215,10 @@ class Tile
     void FUN_00a01350(int trait, int value, bool propagate);
     Tile* FUN_00a01b00();
     Tile* FUN_00a01b00(const char* path);
-    Menu* FUN_00a03c90();
+    Menu* Tile_GetMenu();
     Tile* FUN_00a03eb0(int trait);
     void FUN_00a04640(bool enabled);
-    void FUN_00a07530(int trait);
+    void Tile_SetChangeFlag(int trait);
     bool FUN_00a07ed0(int trait);
     bool FUN_00a07fc0(int trait);
     void FUN_00a0b110(int trait);

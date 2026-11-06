@@ -132,7 +132,7 @@ struct Feature
     char pad01;
     short m_idx[3];
 };
-int __cdecl FUN_00d230e0(const hkVector4* p, const hkVector4* a, const hkVector4* b, hkVector4* out);
+int __cdecl hkLineSegmentUtil_closestPointLineSeg(const hkVector4* p, const hkVector4* a, const hkVector4* b, hkVector4* out);
 static __forceinline LocalM128 Dot3(LocalM128 a, LocalM128 b)
 {
     LocalM128 x2 = _mm_mul_ps(a, b);
@@ -224,7 +224,7 @@ int __cdecl FUN_00e62100(const hkVector4* point, const hkVector4* tri, const flo
     if (idx < 0)
     {
         idx += 8;
-        int r = FUN_00d230e0(point, &tri[DAT_010eced6[idx]], &tri[DAT_010eced4[idx]], &bary);
+        int r = hkLineSegmentUtil_closestPointLineSeg(point, &tri[DAT_010eced6[idx]], &tri[DAT_010eced4[idx]], &bary);
         if (feat)
         {
             if (r == 4)
@@ -249,8 +249,8 @@ int __cdecl FUN_00e62100(const hkVector4* point, const hkVector4* tri, const flo
         return 1;
     }
     hkVector4 c1;
-    int r0 = FUN_00d230e0(point, &tri[idx], &tri[DAT_010eced6[idx]], &bary);
-    int r1 = FUN_00d230e0(point, &tri[DAT_010eced4[idx]], &tri[idx], &c1);
+    int r0 = hkLineSegmentUtil_closestPointLineSeg(point, &tri[idx], &tri[DAT_010eced6[idx]], &bary);
+    int r1 = hkLineSegmentUtil_closestPointLineSeg(point, &tri[DAT_010eced4[idx]], &tri[idx], &c1);
     hkVector4 d0v, d1v;
     d0v.m_vComponents = _mm_sub_ps(point->m_vComponents, bary.m_vComponents);
     d1v.m_vComponents = _mm_sub_ps(point->m_vComponents, c1.m_vComponents);

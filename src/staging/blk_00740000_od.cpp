@@ -475,7 +475,8 @@ FUN_0075f070::FUN_0075f070() : unk30(0), unk50(0.0f, 0.0f, 0.0f, 0.0f)
 }  // namespace fnv_0075f070
 
 // @fnv 0x0075f5f0
-int __cdecl FUN_0075f5f0()
+// src: COMMUNITY 0x0075f5f0
+int __cdecl CreditsMenu_GetMenuID_()
 {
     return (int)1047u;
 }
@@ -549,11 +550,12 @@ struct FUN_00752d40_cls
     int unkB10, unkB14, unkB18, unkB1C, unkB20, unkB24, unkB28, unkB2C, unkB30, unkB34, unkB38, unkB3C;
     int unkB40;
     BSSimpleArray<FUN_00752d40_Obj*> slots[8][7];
-    int __thiscall FUN_00752d40(int group, int type);
+    int __thiscall CaravanMenu_GetSumCardsB44WithSuit(int group, int type);
 };
 // Counts, over the filled slots of a group, the sum returned by FUN_008d80e0 for slots whose first entry's FUN_004036b0 equals type.
 // @fnv 0x00752d40
-int __thiscall FUN_00752d40_cls::FUN_00752d40(int group, int type)
+// src: COMMUNITY 0x00752d40
+int __thiscall FUN_00752d40_cls::CaravanMenu_GetSumCardsB44WithSuit(int group, int type)
 {
     int i = 0;
     int count = 0;
@@ -625,7 +627,7 @@ struct CaravanDecision
     void FUN_0041fd00(int);
     void FUN_00437730(int);
     void FUN_00600ab0(int);
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
 };
 struct CaravanCard
 {
@@ -633,7 +635,7 @@ struct CaravanCard
 };
 typedef int(__cdecl* CaravanCompare)(const void*, const void*);
 int __cdecl CompareCalendarDays(const void*, const void*);
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 int __cdecl FUN_00ec7d40(int);
 struct PointerArray
 {
@@ -644,7 +646,7 @@ struct PointerArray
     void** FUN_006a7ad0(unsigned int);
     void** FUN_00877a30(unsigned int);
     int FUN_007cb2e0(void**);
-    void FUN_00729970(CaravanCompare);
+    void BSSimpleArray_Sort(CaravanCompare);
     bool FUN_0076b610();
     void** FUN_006f2270();
     void FUN_00753140();
@@ -1355,17 +1357,18 @@ struct CaravanOwner : Menu
     void UpdateHandStats(int);
     bool FUN_00740f10(unsigned int);
     int CompareToTwentyOneToTwentySix(int);
-    int FUN_0074f600(int, int);
+    int GetRowValue(int, int);
     int FUN_00752cb0(int, int);
-    int FUN_00752d40(int, int);
+    int CaravanMenu_GetSumCardsB44WithSuit(int, int);
     bool CanPlaceCard(int, int, unsigned int, bool);
-    CaravanDecision FUN_0074fdc0();
+    CaravanDecision CaravanMenu_ProcessAI();
 };
 typedef char CaravanDecisionSize[(sizeof(CaravanDecision) == 28) ? 1 : -1];
 typedef char CaravanArraySize[(sizeof(PointerArray) == 16) ? 1 : -1];
 typedef char CaravanChoicesSize[(sizeof(FUN_00753110) == 16) ? 1 : -1];
 // @fnv 0x0074fdc0
-CaravanDecision CaravanOwner::FUN_0074fdc0()
+// src: COMMUNITY 0x0074fdc0
+CaravanDecision CaravanOwner::CaravanMenu_ProcessAI()
 {
     unsigned int local_188Value2;
     unsigned int local_184Value1;
@@ -1727,7 +1730,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                     continue;
                                 }
 
-                                local_b8Value45 = this->FUN_0074f600(local_a8Value19, local_b4Value16) +
+                                local_b8Value45 = this->GetRowValue(local_a8Value19, local_b4Value16) +
                                                   laneTotals[local_a8Value19].total;
 
                                 if (((this->CompareToTwentyOneToTwentySix(local_b8Value45)) < 1) &&
@@ -1814,7 +1817,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                 ->FUN_0044ddc0();
                                         if (local_d8Value0 == 0)
                                             break;
-                                        local_d4Value39 = this->FUN_0074f600(5 - local_a8Value19, local_d0Value6);
+                                        local_d4Value39 = this->GetRowValue(5 - local_a8Value19, local_d0Value6);
                                         if (local_d4Value39 > local_ccValue0)
                                         {
                                             local_dcValue4 =
@@ -1884,7 +1887,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                  local_108Value13 = local_108Value13 + 1)
                                             {
 
-                                                laneLossValue16[local_108Value13] = (this->FUN_00752d40(
+                                                laneLossValue16[local_108Value13] = (this->CaravanMenu_GetSumCardsB44WithSuit(
                                                     local_108Value13,
                                                     (((CaravanCard*)(*(
                                                           ((PointerArray*)((void*)((int)&lanes[local_a8Value19]
@@ -2105,7 +2108,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                          local_140Value41 = local_140Value41 + 1)
                                     {
                                         currentValue29->FUN_00437730(local_140Value41);
-                                        local_144Value42 = this->FUN_0074f600(local_a8Value19, local_140Value41);
+                                        local_144Value42 = this->GetRowValue(local_a8Value19, local_140Value41);
 
                                         if (((this->CompareToTwentyOneToTwentySix(local_acValue61 +
                                                                                   local_144Value42 * 2)) < 1) &&
@@ -2179,7 +2182,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 for (local_154Value1 = 0; local_154Value1 < 7; local_154Value1 = local_154Value1 + 1)
                                 {
                                     currentValue29->FUN_00437730(local_154Value1);
-                                    local_158Value12 = this->FUN_0074f600(local_a8Value19, local_154Value1);
+                                    local_158Value12 = this->GetRowValue(local_a8Value19, local_154Value1);
                                     if ((local_acValue61 - local_158Value12 < 0x1b) &&
                                         ((this->CanPlaceCard(local_a8Value19, local_154Value1, local_14cValue41,
                                                              true))))
@@ -2240,7 +2243,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                         case 12: {
 
                             local_168Value13 = laneTotals[local_15cValue23].total -
-                                               (this->FUN_0074f600(local_15cValue23, local_164Value11));
+                                               (this->GetRowValue(local_15cValue23, local_164Value11));
                             if ((this->CompareToTwentyOneToTwentySix(laneTotals[local_15cValue23].total)) == 0)
                             {
                                 currentValue29->FUN_00984f60((0x1a - local_168Value13) + 0x19);
@@ -2271,7 +2274,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                         case 14: {
 
                             local_16cValue10 = laneTotals[local_15cValue23].total +
-                                               (this->FUN_0074f600(local_15cValue23, local_164Value11));
+                                               (this->GetRowValue(local_15cValue23, local_164Value11));
                             if ((this->CompareToTwentyOneToTwentySix(local_16cValue10)) == 1)
                             {
                                 currentValue29->FUN_00984f60(local_16cValue10 + -1);
@@ -2419,16 +2422,16 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 }
             }
         }
-        ((PointerArray*)(choicesValue1))->FUN_00729970(CompareCalendarDays);
+        ((PointerArray*)(choicesValue1))->BSSimpleArray_Sort(CompareCalendarDays);
 
-        local_3cValue39 = ((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(0))))->FUN_009611e0();
+        local_3cValue39 = ((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(0))))->NiAVObject_GetParent();
         local_38Value22 = 0;
         for (local_188Value2 = 0; local_188Value2 < (((PointerArray*)(choicesValue1))->FUN_0044ddc0());
              local_188Value2 = local_188Value2 + 1)
         {
 
             if ((((CaravanDecision*)(*(((PointerArray*)(choicesValue1))->FUN_006a7ad0(local_188Value2))))
-                     ->FUN_009611e0()) == local_3cValue39)
+                     ->NiAVObject_GetParent()) == local_3cValue39)
             {
                 local_38Value22 = local_38Value22 + 1;
             }

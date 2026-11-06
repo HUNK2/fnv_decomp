@@ -210,17 +210,17 @@ public:
     static bool FUN_004b71d0();
     NiNode* FUN_004fb070();
     Tile* FUN_004fd400();
-    void FUN_00500a20(Tile*);
+    void BGSTerminal_SetPassword(Tile*);
     Tile* FUN_00586150();
     bool FUN_007023a0();
     TESObjectREFR* FUN_007031c0();
-    bool FUN_00706d90();
+    bool GetIsEmergencyTextureRelease();
     void FUN_00714d70(int);
     void FUN_00715860(Tile*, int, int);
     bool FUN_00718840(int);
     TESImageSpaceModifier* FUN_00718ab0();  // 0x00718ab0 (defined in interfacemanager.cpp; called on the singleton by 0x00871dc0)
-    bool FUN_00719ae0();
-    int FUN_0073b020();
+    bool InterfaceManager_GetLockpickControlsDisable();
+    int InterfaceManager_GetCursorY();
     int FUN_00747d00();
     float FUN_007697f0();
     float FUN_00792760();

@@ -34,7 +34,8 @@ void FUN_00a57030_shell::GetKeyTimeRange(float* fBeginKeyTime, float* fEndKeyTim
 extern "C" const char* const g_011f36fc_arg1;
 
 // @fnv 0x00a57070
-const char* const* __cdecl FUN_00a57070()
+// src: COMMUNITY 0x00a57070
+const char* const* __cdecl NiInterpolator_GetRTTI()
 {
     return &g_011f36fc_arg1;
 }
@@ -136,7 +137,8 @@ NiAnimTarget* __stdcall FUN_00a57050(int a, int b)
 }
 
 // @fnv 0x00a57020
-char __stdcall FUN_00a57020(int a, int b, int c)
+// src: COMMUNITY 0x00a57020
+char __stdcall NiInterpolator_Update(int a, int b, int c)
 {
     return 0;
 }

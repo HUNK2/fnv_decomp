@@ -97,7 +97,7 @@ void CombatProcedureSearch::SaveGame(BGSSaveFormBuffer* buffer)
 {
     CombatProcedure::SaveGame(buffer);
     buffer->SaveData(&state, 4, 0);
-    location.FUN_00527b70(buffer);
+    location.BGSWorldLocation_SaveGame(buffer);
     timer1c.SaveGame(buffer);
     timer14.SaveGame(buffer);
     timer24.SaveGame(buffer);
@@ -110,7 +110,7 @@ void CombatProcedureSearch::LoadGame(BGSLoadFormBuffer* buffer)
 {
     CombatProcedure::LoadGame(buffer);
     buffer->ReadTypedData(static_cast<void*>(&state), 4u);
-    location.FUN_00527ba0(buffer);
+    location.BGSLoadGameBuffer_LoadBGSWorldLocation(buffer);
     timer1c.LoadGame(buffer);
     timer14.LoadGame(buffer);
     timer24.LoadGame(buffer);
@@ -254,10 +254,10 @@ struct Range : TimeoutTimer
 struct Context
 {
     Range* FUN_009d9f40();
-    Location FUN_009d9f60();
+    Location CombatGroup_GetSearchCenter();
     float GetAvoidRadius();
     Radius GetValue();
-    double FUN_009442a0();
+    double GetMoveSpeed_009442a0();
     int GetFieldD0();
 };
 struct Owner
@@ -334,7 +334,7 @@ void CombatProcedureSearch::PrintDebugInfo(Output* output, int x, int y)
                       reinterpret_cast<SearchDiagnostics::Range&>(timer1c).FUN_00435e00(),
                       reinterpret_cast<SearchDiagnostics::Range&>(timer1c).FUN_006b9130());
         if (context->FUN_009d9f40()->FUN_006a7f50() < reinterpret_cast<SearchDiagnostics::Range&>(timer1c).FUN_006a7f50() &&
-            context->FUN_009d9f60().FUN_0084e3a0() != actor->FUN_00575ca0())
+            context->CombatGroup_GetSearchCenter().FUN_0084e3a0() != actor->FUN_00575ca0())
             output->Print(x, y, DAT_01091f88, context->FUN_009d9f40()->FUN_00435e00(),
                           context->FUN_009d9f40()->FUN_006b9130());
         break;
@@ -349,7 +349,7 @@ void CombatProcedureSearch::PrintDebugInfo(Output* output, int x, int y)
     }
     float confidence = context->GetAvoidRadius();
     if (confidence >= DAT_01012060)
-        output->Print(x, y, DAT_01091f40, context->GetFieldD0(), context->FUN_009442a0(), confidence * DAT_01017a40,
+        output->Print(x, y, DAT_01091f40, context->GetFieldD0(), context->GetMoveSpeed_009442a0(), confidence * DAT_01017a40,
                       context->GetValue().GetClampedDifference());
 }
 
@@ -409,7 +409,7 @@ struct TileSub
 {
     bool FUN_009a02a0(Location16*, int, int);
     void* GetLODMultType();
-    float FUN_009a0b00();
+    float CombatState_GetLocationTargetDistance();
     void SetNodeBlockAndTimestamp(const Location16&);
 };
 
@@ -426,7 +426,7 @@ struct SearchRef : S00568fa0
     NiPoint3* FUN_00569000();
     void* FUN_00575ca0();
     void* FUN_00568e50();
-    Location16 FUN_00575650();
+    Location16 TESObjectREFR_GetWorldLocation();
     void* FUN_0043a3f0();
     void* FUN_00717e50();
     void FUN_006dd6f0(int);
@@ -444,14 +444,14 @@ struct ContextSub
     SearchRef* FindBestItem(void*, int, int);
     SearchRef* FindNearestCombatNode(void*, float, int);
     void FUN_0098c750(void*);
-    Location16 FUN_009d9f60();
+    Location16 CombatGroup_GetSearchCenter();
     void* GetFieldEC();
     bool CheckOtherEntriesForTarget(void*, Obj0049f1c0*);
     void SetFieldEC(void*);
     void UpdateProximityTimers(Location16*);
     void FUN_0098c710(void*);
     void FUN_0098c6e0(void*);
-    void FUN_00915d20(int);
+    void MiddleHighProcess_SetWantWeaponDrawn(int);
     RangeSub* FUN_009d9f40();
 };
 
@@ -571,7 +571,7 @@ struct ActorBaseImpl
 struct ActorSub : Actor
 {
     void BuildPathingRequest(void*, const void*, void*, float, int);
-    Location16 FUN_00575650();
+    Location16 TESObjectREFR_GetWorldLocation();
     bool FUN_008b3960();
     SearchRef* FUN_008b39d0();
     void FUN_008bcd60();
@@ -649,10 +649,10 @@ void CombatProcedureSearch::UpdateSearchState()
                 }
                 else
                 {
-                    Location16 loc1ac = pContext->FUN_009d9f60();
+                    Location16 loc1ac = pContext->CombatGroup_GetSearchCenter();
                     if (m_pPortalConnectivityGraphInfo == 0 || loc1ac.FUN_0084e3a0() != pActor2->FUN_00575ca0())
                     {
-                        Location16 loc1bc = pActor2->FUN_00575650();
+                        Location16 loc1bc = pActor2->TESObjectREFR_GetWorldLocation();
                         if (loc1bc.FUN_00527a40(&loc1ac) > DAT_0106cd60)
                         {
                             PathingRequestHelper req;
@@ -695,8 +695,8 @@ void CombatProcedureSearch::UpdateSearchState()
                         if (pSearch && (*(unsigned char*)pSearch == 1 || *(unsigned char*)pSearch == 2 ||
                                         *(unsigned char*)pSearch == 3))
                         {
-                            losReq.FUN_006e5a40(*(NiPoint3*)&((SearchRef*)((char*)pSearch + 8))->FUN_006815c0(),
-                                                pTile2->FUN_009a0b00());
+                            losReq.SetSearchCenter(*(NiPoint3*)&((SearchRef*)((char*)pSearch + 8))->FUN_006815c0(),
+                                                pTile2->CombatState_GetLocationTargetDistance());
                         }
                         if (pObj28 && pObj28->FUN_0084e3a0() == pActor2->FUN_00575ca0())
                         {
@@ -741,7 +741,7 @@ void CombatProcedureSearch::UpdateSearchState()
             bool bFlag361 = false;
             if (this->state == 1 && this->timer14.Expired())
             {
-                Location16 loc374 = pActor2->FUN_00575650();
+                Location16 loc374 = pActor2->TESObjectREFR_GetWorldLocation();
                 if (loc374.FUN_00527a40(reinterpret_cast<Location16*>(&this->location)) <
                     originalRuntimeFloatSetting460.Float()[0] * originalRuntimeFloatSetting460.Float()[0])
                 {
@@ -771,7 +771,7 @@ void CombatProcedureSearch::UpdateSearchState()
         {
             if (!pActor2->FUN_008b3960() && this->m_pReference)
             {
-                pTile2->SetNodeBlockAndTimestamp(reinterpret_cast<SearchRef*>(this->m_pReference)->FUN_00575650());
+                pTile2->SetNodeBlockAndTimestamp(reinterpret_cast<SearchRef*>(this->m_pReference)->TESObjectREFR_GetWorldLocation());
                 pContext->FUN_0098c710(this->m_pReference);
             }
             this->FUN_009caac0(pActor2->FUN_008b3960() ? "Pathing failed while moving to search door"
@@ -826,7 +826,7 @@ void CombatProcedureSearch::UpdateSearchState()
                 {
                     p45c->FUN_006dd6f0(0);
                     m_pPortalConnectivityGraphInfo->FUN_006e0bc0(p45c, 1);
-                    pContext->FUN_00915d20(1);
+                    pContext->MiddleHighProcess_SetWantWeaponDrawn(1);
                 }
             }
             this->FUN_009caac0(pActor2->FUN_008b3960() ? "Pathing failed while searching"
@@ -929,7 +929,7 @@ void CombatProcedureSearch::UpdateSearchState()
     case 7:
         if (pContext->FUN_009d9f40()->FUN_006a7f50() < reinterpret_cast<SearchTimer&>(this->timer1c).FUN_006a7f50())
         {
-            if (pContext->FUN_009d9f60().FUN_0084e3a0() != pActor2->FUN_00575ca0())
+            if (pContext->CombatGroup_GetSearchCenter().FUN_0084e3a0() != pActor2->FUN_00575ca0())
             {
                 break;
             }

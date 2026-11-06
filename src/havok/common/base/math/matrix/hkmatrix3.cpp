@@ -664,7 +664,7 @@ class DiagMat
         c2 = v.c2;
     }
     int FUN_00cd56c0(DiagMat& vectors, DiagVec& values, int maxIter, float epsilon) const;
-    void FUN_00cd5680(const DiagMat& other);
+    void hkMatrix3f_mul(const DiagMat& other);
     void FUN_00cd55b0(const DiagMat& a, const DiagMat& b);
     void FUN_00cd4b60();
     float offnorm()
@@ -706,9 +706,9 @@ int DiagMat::FUN_00cd56c0(DiagMat& apEigenvectors, DiagVec& apEigenvalues, int a
         FUN_00cd54d0((Matrix34*)&jacobi, (const SrcRec*)&rotation);
         DiagMat transposed(jacobi);
         transposed.FUN_00cd4b60();
-        current.FUN_00cd5680(jacobi);
+        current.hkMatrix3f_mul(jacobi);
         current.FUN_00cd55b0(transposed, current);
-        apEigenvectors.FUN_00cd5680(jacobi);
+        apEigenvectors.hkMatrix3f_mul(jacobi);
         ++iteration;
         norm = current.offnorm();
     }
@@ -801,7 +801,7 @@ struct FUN_00cd5680_cls
     LocalM128 m_v1;
     LocalM128 m_v2;
 
-    void FUN_00cd5680(int arg);
+    void hkMatrix3f_mul(int arg);
 };
 
 struct __declspec(align(16)) FUN_00cd5680_tmp
@@ -822,7 +822,8 @@ struct __declspec(align(16)) FUN_00cd5680_tmp
 
 // Loads three 16-byte blocks from a temporary populated by FUN_00cd55b0 into m_v0, m_v1, and m_v2.
 // @fnv 0x00cd5680
-void FUN_00cd5680_cls::FUN_00cd5680(int arg)
+// src: COMMUNITY 0x00cd5680
+void FUN_00cd5680_cls::hkMatrix3f_mul(int arg)
 {
     FUN_00cd5680_tmp tmp;
     ((FUN_00cd55b0_cls*)&tmp)->FUN_00cd55b0(this, arg);

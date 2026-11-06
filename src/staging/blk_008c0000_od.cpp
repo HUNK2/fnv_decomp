@@ -95,7 +95,7 @@ public:
     PathPoint_blk_008c0000_od operator*(float fScalar) const;
     void ScaleByInverse(float);
     float GetSquaredXYLength();
-    NiPoint3 FUN_006a6eb0();
+    NiPoint3 FastNavMeshTriLocation_GetLocation();
 };
 
 class TESSound;
@@ -164,14 +164,14 @@ int FlaggedData::FUN_008c2e30()
 
 struct FUN_008c5000_shell
 {
-    int FUN_008c5000(int);
+    int Actor_GetCastPowerItem(int);
     int IsNonZero(int arg);
 };
 
 // @fnv 0x008c4fe0
 int FUN_008c5000_shell::IsNonZero(int arg)
 {
-    return FUN_008c5000(arg) != 0;
+    return Actor_GetCastPowerItem(arg) != 0;
 }
 
 // @fnv 0x008c6c80
@@ -250,12 +250,13 @@ struct T_
 struct FUN_008cd6a0_Class
 {
     void FUN_00cb2d90(void*);
-    void FUN_008cd6a0(void* a, void* b);
+    void hkTransform_set(void* a, void* b);
 };
 
 // Calls FUN_00cb2d90 on a, then calls FUN_004a3f10 on b through the object at this+0x30.
 // @fnv 0x008cd6a0
-void FUN_008cd6a0_Class::FUN_008cd6a0(void* apFirst, void* apSecond)
+// src: COMMUNITY 0x008cd6a0
+void FUN_008cd6a0_Class::hkTransform_set(void* apFirst, void* apSecond)
 {
     FUN_00cb2d90(apFirst);
     ((T_*)((char*)this + 0x30))->FUN_004a3f10(apSecond);
@@ -293,11 +294,12 @@ struct FUN_008cfff0_Class
     int m_iWordAt00;
     int m_cByteAtOffset1;
     int m_cByteAtOffset2;
-    CalleeObj* FUN_008cfff0(CalleeObj* arg);
+    CalleeObj* hkpWorldObject_isAddedToWorld(CalleeObj* arg);
 };
 
 // @fnv 0x008cfff0
-CalleeObj* FUN_008cfff0_Class::FUN_008cfff0(CalleeObj* arg)
+// src: COMMUNITY 0x008cfff0
+CalleeObj* FUN_008cfff0_Class::hkpWorldObject_isAddedToWorld(CalleeObj* arg)
 {
     arg->FUN_00622570(m_cByteAtOffset2 != 0);
     return arg;
@@ -377,7 +379,8 @@ extern float DAT_011dfed4;
 extern float DAT_011dfed8;
 
 // @fnv 0x008d1d10
-void __cdecl FUN_008d1d10(float afValue1, float afValue2)
+// src: COMMUNITY 0x008d1d10
+void __cdecl SetCameraShakeData(float afValue1, float afValue2)
 {
     DAT_011dfed4 = afValue1;
     DAT_011dfed8 = afValue2;
@@ -385,21 +388,23 @@ void __cdecl FUN_008d1d10(float afValue1, float afValue2)
 
 struct FUN_008d5020_class
 {
-    void __thiscall FUN_008d5020();
+    void __thiscall CharacterProgression_AllocateData();
 };
 
-void __thiscall FUN_008d5020_class::FUN_008d5020()
+// src: COMMUNITY 0x008d5020
+void __thiscall FUN_008d5020_class::CharacterProgression_AllocateData()
 {}
 
 struct FUN_008d4360_class
 {
-    FUN_008d4360_class* __thiscall FUN_008d4360();
+    FUN_008d4360_class* __thiscall CharacterProgression_CharacterProgression();
 };
 
 // @fnv 0x008d4360
-FUN_008d4360_class* __thiscall FUN_008d4360_class::FUN_008d4360()
+// src: COMMUNITY 0x008d4360
+FUN_008d4360_class* __thiscall FUN_008d4360_class::CharacterProgression_CharacterProgression()
 {
-    ((FUN_008d5020_class*)this)->FUN_008d5020();
+    ((FUN_008d5020_class*)this)->CharacterProgression_AllocateData();
     return this;
 }
 
@@ -419,18 +424,19 @@ void __thiscall FUN_008d4380_class::FUN_008d4380()
 
 struct FUN_008d5590_shell
 {
-    void FUN_008d55b0();
+    void CharacterProgressionData_InitializeData();
 };
 struct FUN_008d50e0_shell
 {
     FUN_008d5590_shell* m_p;
-    void FUN_008d50e0();
+    void CharacterProgression_InitializeData();
 };
 // @fnv 0x008d50e0
-void FUN_008d50e0_shell::FUN_008d50e0()
+// src: COMMUNITY 0x008d50e0
+void FUN_008d50e0_shell::CharacterProgression_InitializeData()
 {
     if (m_p)
-        m_p->FUN_008d55b0();
+        m_p->CharacterProgressionData_InitializeData();
 }
 
 struct FUN_008d5660_class
@@ -527,12 +533,13 @@ struct FUN_008ca800_Class
     int a;
     int b;
     int c;
-    FUN_008ca800_Class* __thiscall FUN_008ca800();
+    FUN_008ca800_Class* __thiscall BSTFreeList_MobileObjectMessage_BSTFreeList_MobileObjectMessage();
 };
 
 // Sets a to the address of DAT_0108583c and clears b and c, then returns this.
 // @fnv 0x008ca800
-FUN_008ca800_Class* __thiscall FUN_008ca800_Class::FUN_008ca800()
+// src: COMMUNITY 0x008ca800
+FUN_008ca800_Class* __thiscall FUN_008ca800_Class::BSTFreeList_MobileObjectMessage_BSTFreeList_MobileObjectMessage()
 {
     a = (int)&DAT_0108583c;
     b = 0;
@@ -543,13 +550,14 @@ FUN_008ca800_Class* __thiscall FUN_008ca800_Class::FUN_008ca800()
 extern "C" void __cdecl _Deallocate(void*);
 struct FUN_008c4f90_Class
 {
-    void __thiscall FUN_008c4f90(int arg);
+    void __thiscall Actor_RemoveCastPower(int arg);
 };
 void __cdecl _Deallocate(void*);
 // @fnv 0x008c4f90
-void __thiscall FUN_008c4f90_Class::FUN_008c4f90(int arg)
+// src: COMMUNITY 0x008c4f90
+void __thiscall FUN_008c4f90_Class::Actor_RemoveCastPower(int arg)
 {
-    FUN_008c5000_shell* result = (FUN_008c5000_shell*)((FUN_008c5000_shell*)this)->FUN_008c5000(arg);
+    FUN_008c5000_shell* result = (FUN_008c5000_shell*)((FUN_008c5000_shell*)this)->Actor_GetCastPowerItem(arg);
     if (result)
     {
         ((GlobalObject2_0096a2d0*)((char*)this + 0xf4))->_ref_00905330((const void**)&result);
@@ -566,10 +574,11 @@ struct SpringActionHandle
 
 struct FUN_008c5df0_Class
 {
-    void FUN_008c5df0(void* arg);
+    void bhkMouseSpringAction_SetMousePosition_hk(void* arg);
 };
 // @fnv 0x008c5df0
-void FUN_008c5df0_Class::FUN_008c5df0(void* arg)
+// src: COMMUNITY 0x008c5df0
+void FUN_008c5df0_Class::bhkMouseSpringAction_SetMousePosition_hk(void* arg)
 {
     void* p = ((SpringActionHandle*)this)->GetAction();
     if (p)
@@ -642,10 +651,11 @@ struct FUN_008c7990_Class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void __fastcall FUN_008c7990();
+    void __fastcall AILinearTaskThreadManager_WaitForThreads();
 };
 // @fnv 0x008c7990
-void __fastcall FUN_008c7990_Class::FUN_008c7990()
+// src: COMMUNITY 0x008c7990
+void __fastcall FUN_008c7990_Class::AILinearTaskThreadManager_WaitForThreads()
 {
     for (unsigned int i = 0; i < 2; ++i)
     {
@@ -661,10 +671,11 @@ struct FUN_008ca7c0_shell
 {
     bool __thiscall PopNode(int a);
     void __thiscall Reinitialize(int b);
-    bool __thiscall FUN_008ca7c0(int a, int b);
+    bool __thiscall BSTFreeList_Allocate(int a, int b);
 };
 // @fnv 0x008ca7c0
-bool __thiscall FUN_008ca7c0_shell::FUN_008ca7c0(int a, int b)
+// src: COMMUNITY 0x008ca7c0
+bool __thiscall FUN_008ca7c0_shell::BSTFreeList_Allocate(int a, int b)
 {
     if (PopNode(a))
     {
@@ -847,11 +858,12 @@ void __thiscall FUN_008d56c0_class::SaveToBuffer(int pBuffer)
 
 struct FUN_008d56f0_Class
 {
-    void __thiscall FUN_008d56f0(BGSLoadFormBuffer* buffer);
+    void __thiscall CharacterProgressionData_LoadGameBGS(BGSLoadFormBuffer* buffer);
 };
 // Reads 1 byte into this and 4 bytes at offset 4 from the load buffer.
 // @fnv 0x008d56f0
-void __thiscall FUN_008d56f0_Class::FUN_008d56f0(BGSLoadFormBuffer* buffer)
+// src: COMMUNITY 0x008d56f0
+void __thiscall FUN_008d56f0_Class::CharacterProgressionData_LoadGameBGS(BGSLoadFormBuffer* buffer)
 {
     buffer->ReadTypedData(this, 1u);
     buffer->ReadTypedData((void*)((char*)this + 4), 4u);
@@ -890,11 +902,12 @@ extern ProcessLists DAT_011e0e80;
 
 struct FUN_008d6f50_Class
 {
-    void FUN_008d6f50(int arg);
+    void HighActorCuller_Run(int arg);
 };
 
 // @fnv 0x008d6f50
-void FUN_008d6f50_Class::FUN_008d6f50(int pCamera)
+// src: COMMUNITY 0x008d6f50
+void FUN_008d6f50_Class::HighActorCuller_Run(int pCamera)
 {
     if (reinterpret_cast<bool (__thiscall*)(const NiPointer<NiNode>*, NiNode*)>(NiPointerEquals)((NiPointer<NiNode>*)((char*)this + 0xa0), 0))
     {
@@ -946,7 +959,8 @@ extern Loader_S g_modelLoader;
 extern int DAT_011e00e0[12];
 extern int DAT_011e0110[12];
 // @fnv 0x008d68d0
-void __cdecl FUN_008d68d0()
+// src: COMMUNITY 0x008d68d0
+void __cdecl FreeWobbleAnimations()
 {
     for (int i = 0; i < 12; ++i)
     {
@@ -978,20 +992,21 @@ struct FUN_00571550_shell
     int GetReferenceType();
     Model* FUN_00571530(int, int);
 };
-int __cdecl FUN_00571550();
+int __cdecl get_g_bip01();
 struct FUN_008da1a0_Class
 {
-    void FUN_008da1a0(FUN_00571550_shell* actor);
+    void HighProcess_InitBoneLOD(FUN_00571550_shell* actor);
 };
 // Clears the field at offset 0x2e4, then scans the actor's model controllers and stores the first one accepted by g_012031b8.
 // @fnv 0x008da1a0
-void FUN_008da1a0_Class::FUN_008da1a0(FUN_00571550_shell* actor)
+// src: COMMUNITY 0x008da1a0
+void FUN_008da1a0_Class::HighProcess_InitBoneLOD(FUN_00571550_shell* actor)
 {
     *(int*)((char*)this + 0x2e4) = 0;
     int id = actor->GetReferenceType();
     if (!id)
         return;
-    Model* model = actor->FUN_00571530(id, FUN_00571550());
+    Model* model = actor->FUN_00571530(id, get_g_bip01());
     if (!model)
         return;
     NiTimeController* controller = model->GetObject3D();
@@ -1046,7 +1061,7 @@ void* FUN_008d10e0_Class::bhkCharacterListenerArrow_bhkCharacterListenerArrow(in
 
 struct FUN_00929240_Class
 {
-    void FUN_00929240(float);
+    void MagicShaderHitEffect_SetLifeTime(float);
 };
 struct CloneableObj
 {
@@ -1060,7 +1075,7 @@ struct FUN_008d17d0_Class
 void FUN_008d17d0_Class::FUN_008d17d0(BGSAcousticSpace* dst, void* arg)
 {
     dst->SetNoonSound(reinterpret_cast<TESSound*>(reinterpret_cast<TESTopicInfo*>(this)->GetConversationData()));
-    reinterpret_cast<FUN_00929240_Class*>(dst)->FUN_00929240(
+    reinterpret_cast<FUN_00929240_Class*>(dst)->MagicShaderHitEffect_SetLifeTime(
         reinterpret_cast<float (__thiscall*)(BSFaceGenMorphData*)>(FUN_00508120)(reinterpret_cast<BSFaceGenMorphData*>(this)));
     reinterpret_cast<CloneableObj*>(this)->FUN_00a6cfe0(reinterpret_cast<CloneableObj*>(dst), arg);
 }
@@ -1339,16 +1354,17 @@ struct FUN_008c45a0_Result
     virtual void v244();
     virtual void v245();
     virtual void v246();
-    virtual void FUN_008c45a0(unsigned char arg);
+    virtual void Actor_SetShouldCheckMagicNode(unsigned char arg);
 };
 
 // If GetLogDate() returns non-null, forwards arg to the virtual FUN_008c45a0 method on that object.
 // @fnv 0x008c45a0
-void TES::FUN_008c45a0(unsigned char aucValue)
+// src: COMMUNITY 0x008c45a0
+void TES::Actor_SetShouldCheckMagicNode(unsigned char aucValue)
 {
     if (GetLogDate())
     {
-        reinterpret_cast<FUN_008c45a0_Result*>(GetLogDate())->FUN_008c45a0(aucValue);
+        reinterpret_cast<FUN_008c45a0_Result*>(GetLogDate())->Actor_SetShouldCheckMagicNode(aucValue);
     }
 }
 
@@ -1442,11 +1458,12 @@ struct FUN_008caae0_Class
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    void* __thiscall FUN_008caae0();
+    void* __thiscall BSTFreeListElem_MobileObjectMessage_BSTFreeListElem_MobileObjectMessage();
 };
 
 // @fnv 0x008caae0
-void* __thiscall FUN_008caae0_Class::FUN_008caae0()
+// src: COMMUNITY 0x008caae0
+void* __thiscall FUN_008caae0_Class::BSTFreeListElem_MobileObjectMessage_BSTFreeListElem_MobileObjectMessage()
 {
     m_iThirdValue = 0;
     return this;
@@ -1536,12 +1553,13 @@ void __thiscall FUN_008d50a0_Class::FreeAndClear()
 struct FUN_008d5680_Class
 {
     FUN_008d56f0_Class* m_p;
-    void FUN_008d5680(BGSLoadFormBuffer* arg);
+    void CharacterProgression_LoadGameBGS(BGSLoadFormBuffer* arg);
 };
 // @fnv 0x008d5680
-void FUN_008d5680_Class::FUN_008d5680(BGSLoadFormBuffer* apBuffer)
+// src: COMMUNITY 0x008d5680
+void FUN_008d5680_Class::CharacterProgression_LoadGameBGS(BGSLoadFormBuffer* apBuffer)
 {
-    m_p->FUN_008d56f0(apBuffer);
+    m_p->CharacterProgressionData_LoadGameBGS(apBuffer);
 }
 
 struct FUN_008d56a0_Class
@@ -1572,7 +1590,8 @@ void MagicTargetForwarder::SetMagicTarget(MagicTarget* target)
 extern int DAT_011c3580;
 
 // @fnv 0x008c4f00
-int __cdecl FUN_008c4f00()
+// src: COMMUNITY 0x008c4f00
+int __cdecl MagicSystem_GetAbsorbShaderEffect()
 {
     return DAT_011c3580;
 }
@@ -1694,12 +1713,13 @@ struct FUN_008c71d0_cls
     unsigned int m_6c[8];
     unsigned int* m_8c;
     unsigned int* m_90;
-    FUN_008c71d0_cls* FUN_008c71d0();
+    FUN_008c71d0_cls* AILinearTaskThreadManager_AILinearTaskThreadManager();
 };
 
 // Constructs the three m_18 elements, zeroes m_00 and m_0c, points m_8c at m_3c and m_90 at m_6c, and returns this.
 // @fnv 0x008c71d0
-FUN_008c71d0_cls* FUN_008c71d0_cls::FUN_008c71d0()
+// src: COMMUNITY 0x008c71d0
+FUN_008c71d0_cls* FUN_008c71d0_cls::AILinearTaskThreadManager_AILinearTaskThreadManager()
 {
     SpawnedArrayCtor(m_18, 12, 3, SpawnedElemB_Ctor, SpawnedElemB_Dtor);
     for (int i = 0; i < 3; i++)
@@ -1728,7 +1748,7 @@ struct FUN_008c78c0_Class
     int unk14[10];
     int unk3c[12];
     int unk6c[8];
-    void FUN_008c78c0();
+    void AILinearTaskThreadManager_StartThreads();
 };
 
 // Callback slot in the game's global handler table: one int argument, and the
@@ -1737,7 +1757,8 @@ extern void(__stdcall* g_FNV_008c78c0_hook)(int);
 
 // Calls the hook on each entry of unk3c and unk6c, clears unk0c, sets DAT_011dfa19 to 1, then invokes SignalAtOffset30 on each non-null unk00 element.
 // @fnv 0x008c78c0
-void FUN_008c78c0_Class::FUN_008c78c0()
+// src: COMMUNITY 0x008c78c0
+void FUN_008c78c0_Class::AILinearTaskThreadManager_StartThreads()
 {
     // twelve handler slots
     for (int i = 0; i <= 11; i++)
@@ -1882,7 +1903,7 @@ struct Renderer
 };
 void __cdecl FUN_00c69ee0(Renderer*, int, int);
 void __cdecl FUN_0062bc10(Renderer*);
-void __cdecl FUN_005b5e40(const void*);
+void __cdecl Warning_005b5e40(const void*);
 struct GameContext
 {
     void FUN_00b5b1c0(Renderer*);
@@ -2701,7 +2722,7 @@ unsigned char Player::RenderActiveAction(int unused)
     }
     else
     {
-        FUN_005b5e40(&DAT_01085c90);
+        Warning_005b5e40(&DAT_01085c90);
         return 0;
     }
     return 1;
@@ -2857,11 +2878,12 @@ struct Object
     virtual void v114();
     virtual void v115();
     virtual int GetSource();
-    void FUN_008cfad0(float weight, int a, int b, int c, int offset, unsigned char enabled);
+    void ArrowProjectile_PlayArrowCollisionSound(float weight, int a, int b, int c, int offset, unsigned char enabled);
 };
 // If the object's source resolves to a resource with metadata, builds an EventRecord from the arguments and passes it to FUN_00837550.
 // @fnv 0x008cfad0
-void Object::FUN_008cfad0(float weight, int aiParam1, int aiParam2, int aiParam3, int offset, unsigned char enabled)
+// src: COMMUNITY 0x008cfad0
+void Object::ArrowProjectile_PlayArrowCollisionSound(float weight, int aiParam1, int aiParam2, int aiParam3, int offset, unsigned char enabled)
 {
     int source = GetSource();
     if (source != 0 && *reinterpret_cast<int**>(reinterpret_cast<unsigned char*>(this) + 0x88) != 0 &&
@@ -2916,7 +2938,7 @@ bool Holder_cffa0::FUN_008cffa0()
     {
         reinterpret_cast<FUN_00a29680_Obj*>(this)->FUN_00a29680();
         unsigned char tmp;
-        result = reinterpret_cast<FUN_005609f0_shell*>(obj->FUN_008cfff0(reinterpret_cast<CalleeObj*>(&tmp)))
+        result = reinterpret_cast<FUN_005609f0_shell*>(obj->hkpWorldObject_isAddedToWorld(reinterpret_cast<CalleeObj*>(&tmp)))
                      ->FUN_005609f0();
         reinterpret_cast<FUN_00a29680_Obj*>(this)->FUN_00a29680();
     }
@@ -2952,7 +2974,7 @@ struct Arg_cls
     int FUN_00460140();
     int FUN_006815c0();
 };
-void FUN_008d12e0(Target_cls* p, int a, int b, int c);
+void bhkCharacterListenerArrow_ProcessCollision(Target_cls* p, int a, int b, int c);
 struct FUN_008d14e0_cls
 {
     int unk0000;
@@ -3360,11 +3382,12 @@ struct FUN_008d14e0_cls
     int unk0648;
     int unk064C;
     Target_cls* m_650;
-    void FUN_008d14e0(Arg_cls* a1);
+    void bhkCharacterListenerArrow_contactPointAddedCallback(Arg_cls* a1);
 };
 // If m_650 is non-null and its two checks both return zero, calls FUN_008d12e0 with m_650 and values from a1.
 // @fnv 0x008d14e0
-void FUN_008d14e0_cls::FUN_008d14e0(Arg_cls* apArg)
+// src: COMMUNITY 0x008d14e0
+void FUN_008d14e0_cls::bhkCharacterListenerArrow_contactPointAddedCallback(Arg_cls* apArg)
 {
     Target_cls* p = m_650;
     if (p == 0 || p->FUN_008ce390() != 0 || p->FUN_00440d80() != 0)
@@ -3372,14 +3395,15 @@ void FUN_008d14e0_cls::FUN_008d14e0(Arg_cls* apArg)
     }
     else
     {
-        FUN_008d12e0(p, apArg->unk0048, apArg->FUN_006815c0(), apArg->FUN_00460140());
+        bhkCharacterListenerArrow_ProcessCollision(p, apArg->unk0048, apArg->FUN_006815c0(), apArg->FUN_00460140());
     }
 }
 
 extern float DAT_011dfed4;
 
 // @fnv 0x008d1cf0
-float __cdecl FUN_008d1cf0()
+// src: COMMUNITY 0x008d1cf0
+float __cdecl GetCameraShakeMult()
 {
     return DAT_011dfed4;
 }
@@ -3387,7 +3411,8 @@ float __cdecl FUN_008d1cf0()
 extern float DAT_011dfed8;
 
 // @fnv 0x008d1d00
-float __cdecl FUN_008d1d00()
+// src: COMMUNITY 0x008d1d00
+float __cdecl GetCameraShakeCurrentTime()
 {
     return DAT_011dfed8;
 }
@@ -3874,19 +3899,20 @@ class C44C0Primary
 class C44C0Interface
 {
   public:
-    virtual void* FUN_008c44c0();
+    virtual void* Actor_GetDesiredTarget();
 };
 
 class C44C0Actor : public C44C0Primary, public C44C0Interface
 {
   public:
     C44C0Process* GetProcess();
-    virtual void* FUN_008c44c0();
+    virtual void* Actor_GetDesiredTarget();
 };
 
 // Returns the current package from the actor's process, or null if the actor has no process.
 // @fnv 0x008c44c0
-void* C44C0Actor::FUN_008c44c0()
+// src: COMMUNITY 0x008c44c0
+void* C44C0Actor::Actor_GetDesiredTarget()
 {
     return GetProcess() ? GetProcess()->GetCurrentPackage() : 0;
 }
@@ -4383,7 +4409,7 @@ struct CollisionFilterD6
 };
 struct AnimationOutputD6
 {
-    CollisionFilterD6 FUN_0043b4f0();
+    CollisionFilterD6 bhkWorldObject_GetCollisionFilter();
     void FUN_00626cb0(unsigned int);
 };
 struct MovementControllerD6 : MovementController
@@ -4398,7 +4424,7 @@ bool MovementControllerD6::FUN_008cd6d0(AnimationOutputD6* output)
     resetNode();
     getNode()->FUN_00440460(state->position);
     FUN_00575830(state->position);
-    CollisionFilterD6 filter = output->FUN_0043b4f0();
+    CollisionFilterD6 filter = output->bhkWorldObject_GetCollisionFilter();
     filter.FUN_004a39f0(0xf);
     filter.SetFlag4000(false);
     output->FUN_00626cb0(filter.value);
@@ -4623,12 +4649,13 @@ struct FUN_008d6fc0_cls
     char f1e;
     char f1f;
     int f20;
-    void FUN_008d6fc0(const FUN_008d6fc0_cls& rhs);
+    void DetectionData_CopyFrom(const FUN_008d6fc0_cls& rhs);
 };
 
 // Copies all fields from rhs, copying f0c and f18 only when rhs.f18.FUN_006a7f50() exceeds -DAT_01087820.
 // @fnv 0x008d6fc0
-void FUN_008d6fc0_cls::FUN_008d6fc0(const FUN_008d6fc0_cls& rhs)
+// src: COMMUNITY 0x008d6fc0
+void FUN_008d6fc0_cls::DetectionData_CopyFrom(const FUN_008d6fc0_cls& rhs)
 {
     f00 = rhs.f00;
     f04 = rhs.f04;
@@ -4773,11 +4800,12 @@ struct FUN_008d5590_shell_helper
 
 struct FUN_008d5020_class
 {
-    void FUN_008d5020();
+    void CharacterProgression_AllocateData();
 };
 
 // @fnv 0x008d5020
-void FUN_008d5020_class::FUN_008d5020()
+// src: COMMUNITY 0x008d5020
+void FUN_008d5020_class::CharacterProgression_AllocateData()
 {
     *reinterpret_cast<void**>(this) = new FUN_008d5590_shell_helper;
 }

@@ -65,7 +65,7 @@ public:
     virtual void resetPeakMemoryStatistics();
     virtual void quit_00d5ff50();
     virtual void __thiscall PrintStatistics(int);
-    virtual void FUN_00d5fab0(int);
+    virtual void nullsub_80(int);
     virtual void garbageCollect();
     virtual void AllocateBlocks(int iCount);
     virtual void UpdateTotalSize();

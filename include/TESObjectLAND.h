@@ -26,8 +26,8 @@ public:
     bool __thiscall FUN_0053f180(const LandscapeColorData&, float&);
     NiGeometry* __thiscall FUN_0053f120(LandscapeColorData*);
     NiGeometry* __thiscall FUN_0053f0e0(const NiPoint3&);
-    void FUN_005345c0(int m_iGridX, int m_iGridY, NiColorA* color);
-    bool FUN_0053fa10(const LandscapeColorData* cdata, NiColorA* color);
+    void TESObjectLAND_GetColorA(int m_iGridX, int m_iGridY, NiColorA* color);
+    bool GetLandColor_0(const LandscapeColorData* cdata, NiColorA* color);
     void FUN_00534160(int);
     void FUN_005340e0(TESObjectCELL* apCell);
     void FUN_00539010(bool altered);

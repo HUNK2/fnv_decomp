@@ -80,10 +80,10 @@ public:
     void FUN_0079e0a0();
     void FUN_0079f6f0();
     void FUN_0079dbb0();
-    void FUN_007fbee0(Arg*, void*, int);
-    Screen* FUN_00a03c90();
+    void DoEffect(Arg*, void*, int);
+    Screen* Tile_GetMenu();
     void FUN_00700320(int, int);
-    bool FUN_007fe4e0();
+    bool FORenderedMenuRaceSex_OnIdle();
     void FUN_00867a20();
     void FUN_00795e20();
     void FUN_007adc60(int, bool);

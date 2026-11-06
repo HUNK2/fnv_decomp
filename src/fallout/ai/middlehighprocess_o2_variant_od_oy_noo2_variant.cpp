@@ -27,11 +27,12 @@ struct hkpRigidBodyL
 struct RigidBodyOwnerL
 {
     hkpRigidBodyL* FUN_004ae750();
-    void FUN_00926980(const NiPoint3& pos);
+    void bhkCharacterController_SetLinearVelocity_Ni(const NiPoint3& pos);
 };
 
 // @fnv 0x00926980
-void RigidBodyOwnerL::FUN_00926980(const NiPoint3& pos)
+// src: COMMUNITY 0x00926980
+void RigidBodyOwnerL::bhkCharacterController_SetLinearVelocity_Ni(const NiPoint3& pos)
 {
     hkVector4L kPos;
     hkpRigidBodyL* pBody = FUN_004ae750();
@@ -829,11 +830,12 @@ class PlayerL
     int unk144;
     CellRefL m_kCell;
 
-    void FUN_00928a50(BGSLoadFormBufferL* pkBuffer);
+    void BaseProcess_LoadCharController(BGSLoadFormBufferL* pkBuffer);
 };
 
 // @fnv 0x00928a50
-void PlayerL::FUN_00928a50(BGSLoadFormBufferL* pkBuffer)
+// src: COMMUNITY 0x00928a50
+void PlayerL::BaseProcess_LoadCharController(BGSLoadFormBufferL* pkBuffer)
 {
     ActorL* pkActor = pkBuffer->GetForm();
     CharControllerL* pkController = GetPhysicsCharacterController();

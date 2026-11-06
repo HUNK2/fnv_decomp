@@ -5,9 +5,9 @@
 class HighlightValue_listbox
 {
 public:
-    void FUN_00a09130(int trait, Tile* tile, int sourceTrait);
-    void FUN_00a09130(int trait, void* source, int sourceTrait);
-    void FUN_00a09410(int value);
+    void Tile_Value_AddRefValueAction(int trait, Tile* tile, int sourceTrait);
+    void Tile_Value_AddRefValueAction(int trait, void* source, int sourceTrait);
+    void Tile_Value_SetFloat(int value);
 };
 // HighlightTile_listbox: local type (was include/HighlightTile.h, which had no evidence of one real class); its methods are 0x00700320 Tile::Set, 0x0071aa60 Tile::SetSpeechChallengeFailure, 0x0071aa80 Tile::ShouldPaintRed, 0x00a00f30 Tile::GetValue
 
@@ -16,7 +16,7 @@ class HighlightTile_listbox
 public:
     HighlightTile_listbox* FUN_00a03da0(const char* name);
     void FUN_0071aa60(bool value);
-    void FUN_00a07530(int flags);
+    void Tile_SetChangeFlag(int flags);
     bool GetSpeechChallengeFailure();
     float FUN_00a011b0(int trait);
     void FUN_00a012d0(int trait, float value, bool propagate);
@@ -45,7 +45,7 @@ public:
 
     void FUN_007244e0();
     void FUN_00725080();
-    void FUN_007a5e70();
+    void ListBox_ItemChange_ScrollToHighlight();
     void FUN_007a73e0();
     __declspec(dllexport) void UpdateHighlight();
     void FUN_0072c2b0();
@@ -365,22 +365,23 @@ struct ListBoxSortList
 };
 struct FUN_007254d0_t
 {
-    void __thiscall FUN_007254d0();
+    void __thiscall ListBox_StatsMenu_StatusEffect_Synchronize();
 };
 
 struct FUN_00722b20_shell
 {
     void* m_auiShapeKeys;
     ListBoxSortList m_kNode;
-    void __thiscall FUN_00722b20(int(__cdecl* fp)(void*, void*));
+    void __thiscall ListBox_StatsMenu_StatusEffect_Sort(int(__cdecl* fp)(void*, void*));
 };
 
 // Sorts the list using the given comparison function, then calls FUN_007254d0 on this object.
 // @fnv 0x00722b20
-void __thiscall FUN_00722b20_shell::FUN_00722b20(int(__cdecl* fp)(void*, void*))
+// src: COMMUNITY 0x00722b20
+void __thiscall FUN_00722b20_shell::ListBox_StatsMenu_StatusEffect_Sort(int(__cdecl* fp)(void*, void*))
 {
     m_kNode.Sort(fp);
-    reinterpret_cast<FUN_007254d0_t*>(this)->FUN_007254d0();
+    reinterpret_cast<FUN_007254d0_t*>(this)->ListBox_StatsMenu_StatusEffect_Synchronize();
 }
 }  // namespace fnv_00722b20
 
@@ -725,11 +726,12 @@ void __thiscall FUN_007a22a0_shell::FUN_007a22a0(int(__cdecl* cmp)(void*, void*)
 struct FUN_007a30a0_Holder
 {
     int* __thiscall FindNodeValue(int, unsigned char);
-    int __thiscall FUN_007a30a0(int, unsigned char);
+    int __thiscall ListBox_ItemChange_GetTileAt(int, unsigned char);
 };
 // Calls FindNodeValue with the given arguments and returns the pointed-to int, or 0 if the returned pointer is null.
 // @fnv 0x007a30a0
-int __thiscall FUN_007a30a0_Holder::FUN_007a30a0(int param1, unsigned char param2)
+// src: COMMUNITY 0x007a30a0
+int __thiscall FUN_007a30a0_Holder::ListBox_ItemChange_GetTileAt(int param1, unsigned char param2)
 {
     int* p = FindNodeValue(param1, param2);
     return p ? *p : 0;
@@ -849,10 +851,11 @@ struct FUN_007d9000_shell
 };
 struct FUN_007d7a80_shell
 {
-    void __thiscall FUN_007d7a80(int a);
+    void __thiscall ListBox_StartMenu_Option_Select(int a);
 };
 // @fnv 0x007d7a80
-void __thiscall FUN_007d7a80_shell::FUN_007d7a80(int a)
+// src: COMMUNITY 0x007d7a80
+void __thiscall FUN_007d7a80_shell::ListBox_StartMenu_Option_Select(int a)
 {
     ((FUN_007d9000_shell*)this)->ApplySelectionAction(a, 0);
 }
@@ -878,10 +881,11 @@ struct FUN_007a6fa0_shell
 };
 struct FUN_007d86c0_shell
 {
-    int* __thiscall FUN_007d86c0(int* apItem, unsigned char apSelect);
+    int* __thiscall ListBox_BGSSaveLoadFileEntry_GetDataAt(int* apItem, unsigned char apSelect);
 };
 // @fnv 0x007d86c0
-int* __thiscall FUN_007d86c0_shell::FUN_007d86c0(int* apItem, unsigned char apSelect)
+// src: COMMUNITY 0x007d86c0
+int* __thiscall FUN_007d86c0_shell::ListBox_BGSSaveLoadFileEntry_GetDataAt(int* apItem, unsigned char apSelect)
 {
     FUN_007a6fa0_shell* result = (FUN_007a6fa0_shell*)((FUN_007a6fa0_shell*)this)->FindNodeValue(apItem, apSelect);
     return result ? *(int**)((char*)result + 4) : 0;
@@ -1068,11 +1072,12 @@ struct FUN_007d8810_shell
     void* m4;
     void* m8;
     Tile* mC;
-    void __thiscall FUN_007d8810(bool abVal);
+    void __thiscall ListBox_BGSSaveLoadFileEntry_SetEnabled(bool abVal);
 };
 // Sets the _enabled trait on the Tile at mC to abVal using the cached trait ID.
 // @fnv 0x007d8810
-void __thiscall FUN_007d8810_shell::FUN_007d8810(bool abVal)
+// src: COMMUNITY 0x007d8810
+void __thiscall FUN_007d8810_shell::ListBox_BGSSaveLoadFileEntry_SetEnabled(bool abVal)
 {
     static int sTraitID = GetTileValueID("_enabled", -1);
     mC->Set(sTraitID, abVal);
@@ -1258,11 +1263,11 @@ void FUN_00725c20_shell::UpdateHighlightTiles()
             pHighlightY = reinterpret_cast<TileValue*>(highlightTile->GetValue(highlightY));
             pSelectedHeight = reinterpret_cast<TileValue*>(highlightTile->GetValue(selectedHeight));
 
-            ((HighlightValue_listbox*)pHighlightY)->FUN_00a09130(0x7d0, selectedTile, 0xfa2);
-            ((HighlightValue_listbox*)pHighlightY)->FUN_00a09410(0);
+            ((HighlightValue_listbox*)pHighlightY)->Tile_Value_AddRefValueAction(0x7d0, selectedTile, 0xfa2);
+            ((HighlightValue_listbox*)pHighlightY)->Tile_Value_SetFloat(0);
 
-            ((HighlightValue_listbox*)pSelectedHeight)->FUN_00a09130(0x7d0, selectedTile, 0xfb0);
-            ((HighlightValue_listbox*)pSelectedHeight)->FUN_00a09410(0);
+            ((HighlightValue_listbox*)pSelectedHeight)->Tile_Value_AddRefValueAction(0x7d0, selectedTile, 0xfb0);
+            ((HighlightValue_listbox*)pSelectedHeight)->Tile_Value_SetFloat(0);
 
             if (((Tile*)selectedTile)->GetSpeechChallengeFailure())
             {
@@ -1439,10 +1444,11 @@ struct FunctionOwner
     int unk00;
     ListboxListNodeView entries;
     void RemoveTile(int id);
-    void FUN_0071a200(int entryType);
+    void ListBox_ItemChange_RemoveItemGroup(int entryType);
 };
 // @fnv 0x0071a200
-void FunctionOwner::FUN_0071a200(int entryType)
+// src: COMMUNITY 0x0071a200
+void FunctionOwner::ListBox_ItemChange_RemoveItemGroup(int entryType)
 {
     TemporaryList selected;
     {
@@ -2380,13 +2386,14 @@ struct FUN_007a23e0_cls
     bool FUN_007a6550();
     bool __thiscall ContainsKey(Tile* arg);
     void FUN_007a6600();
-    bool FUN_007a23e0(Tile* arg);
+    bool ListBox_TESQuest_Destroy(Tile* arg);
 };
 
 int __cdecl FUN_00a00940(const char* name, int len);
 
 // @fnv 0x007a23e0
-bool FUN_007a23e0_cls::FUN_007a23e0(Tile* arg)
+// src: COMMUNITY 0x007a23e0
+bool FUN_007a23e0_cls::ListBox_TESQuest_Destroy(Tile* arg)
 {
     if (FUN_007a6550() && (arg == 0 || (ContainsKey(arg) && arg->IsTraitNonZero(FUN_00a00940(str_01070244, -1)))))
     {
@@ -2726,12 +2733,13 @@ void* __fastcall FUN_00726070(void* node);
 
 struct FUN_007d8da0_cls
 {
-    void FUN_007d8da0(bool bFlag);
+    void ListBox_BGSSaveLoadFileEntry_DeselectAll(bool bFlag);
 };
 
 // Iterates the list starting at this+4 and calls FUN_007d8d80 on each tile, skipping entries whose byte at offset 8 is set when bFlag is true.
 // @fnv 0x007d8da0
-void FUN_007d8da0_cls::FUN_007d8da0(bool abSkipFlagged)
+// src: COMMUNITY 0x007d8da0
+void FUN_007d8da0_cls::ListBox_BGSSaveLoadFileEntry_DeselectAll(bool abSkipFlagged)
 {
     for (void* cur = (this != 0) ? (void*)((char*)this + 4) : 0; cur != 0 && *FUN_006815c0(cur) != 0;
          cur = FUN_00726070(cur))
@@ -2934,10 +2942,11 @@ struct RecordList
 {
     OwnedRecordList* head;
     unsigned int count;
-    void FUN_00851540();
+    void BGSSaveLoadManager_FreeSavesList();
 };
 // @fnv 0x00851540
-void RecordList::FUN_00851540()
+// src: COMMUNITY 0x00851540
+void RecordList::BGSSaveLoadManager_FreeSavesList()
 {
     OwnedRecordList* current = head;
     while (current != 0)
@@ -2971,7 +2980,7 @@ struct InventoryEntry
     int FUN_00726070();
     TESBoundObject* GetObject();
     bool FUN_004bd820();
-    void FUN_004bc810(InventoryEntry*);
+    void ItemChange_Copy2(InventoryEntry*);
     void FUN_006ecd40(int);
 };
 struct InventoryList
@@ -2980,7 +2989,7 @@ struct InventoryList
 };
 struct InventoryOwner
 {
-    void FUN_00575510(bool, InventoryList**, InventoryChanges**);
+    void TESObjectREFR_StartInventoryIter(bool, InventoryList**, InventoryChanges**);
 };
 struct InventoryListBox
 {
@@ -3017,7 +3026,7 @@ void InventoryListBox::PopulateInventoryList(InventoryOwner* owner, bool(__cdecl
     FUN_007a1950(0, false);
     InventoryList* h;
     InventoryChanges* p;
-    owner->FUN_00575510(include, &h, &p);
+    owner->TESObjectREFR_StartInventoryIter(include, &h, &p);
     if (h && p)
     {
         InventoryEntry* entry = p->GetNextInventoryEntry(h);
@@ -3043,7 +3052,7 @@ void InventoryListBox::PopulateInventoryList(InventoryOwner* owner, bool(__cdecl
                         if (p > 0)
                         {
                             InventoryEntry* single = new InventoryEntry;
-                            single->FUN_004bc810(entry);
+                            single->ItemChange_Copy2(entry);
                             entry = single;
                             entry->FUN_006ecd40(1);
                         }
@@ -3098,7 +3107,7 @@ struct RemovalInterface
 {
     void FUN_00715860(Tile*, int, int);
 };
-RemovalInterface* FUN_004b7210();
+RemovalInterface* InterfaceManager_GetSingleton();
 extern "C" char str_0106f8d0[];
 
 // @fnv 0x0071aaa0
@@ -3111,7 +3120,7 @@ bool RemovalList::RemoveNode(RemovalNode* node, RemovalNode* previous)
             selected = node->FUN_00726070() ? (*node->FUN_00726070()->GetItem())->tile
                                             : ((previous && previous != node) ? (*previous->GetItem())->tile : 0);
             if (selected)
-                FUN_004b7210()->FUN_00715860(selected, 0xfc3, 1);
+                InterfaceManager_GetSingleton()->FUN_00715860(selected, 0xfc3, 1);
         }
         if (container && (*node->GetItem())->counted)
             container->FUN_00a012d0(FUN_00a01860(str_0106f8d0),
@@ -3642,12 +3651,13 @@ struct Class_721c60 : Base_721c60, Node_721c60
     unsigned short m_usItemCount;
 
     bool IsScrollBarTraitEnabled();
-    Tile* FUN_00721c60(int action);
+    Tile* ListBox_PerkRankData_HandleKeyboardInput(int action);
 };
 
 // Computes a target index from the action delta, scans sibling nodes for a matching enabled tile, and returns it unless it equals m_pSelected.
 // @fnv 0x00721c60
-Tile* Class_721c60::FUN_00721c60(int action)
+// src: COMMUNITY 0x00721c60
+Tile* Class_721c60::ListBox_PerkRankData_HandleKeyboardInput(int action)
 {
     Tile* pTargetTile2 = 0;
     int iDelta = 0;
@@ -3787,11 +3797,12 @@ struct ListBox_007228f0 : LBListBox
 {
     void FUN_00725970();
     void UpdateSpeechChallengeTrait();
-    void FUN_007228f0();
+    void ListBox_StatsMenu_StatusEffect_FreeAllTiles();
 };
 
 // @fnv 0x007228f0
-void ListBox_007228f0::FUN_007228f0()
+// src: COMMUNITY 0x007228f0
+void ListBox_007228f0::ListBox_StatsMenu_StatusEffect_FreeAllTiles()
 {
     while (this->pNext != 0 && *this->pNext->GetItem() != 0)
     {
@@ -4141,10 +4152,10 @@ void HighlightList_listbox::FUN_007244e0()
         {
             HighlightValue_listbox* indexValue4 = reinterpret_cast<HighlightValue_listbox*>(container->GetValue(index));
             HighlightValue_listbox* selectedValue6 = reinterpret_cast<HighlightValue_listbox*>(container->GetValue(value));
-            indexValue4->FUN_00a09130(2000, selected, 4002);
-            indexValue4->FUN_00a09410(0);
-            selectedValue6->FUN_00a09130(2000, selected, 4016);
-            selectedValue6->FUN_00a09410(0);
+            indexValue4->Tile_Value_AddRefValueAction(2000, selected, 4002);
+            indexValue4->Tile_Value_SetFloat(0);
+            selectedValue6->Tile_Value_AddRefValueAction(2000, selected, 4016);
+            selectedValue6->Tile_Value_SetFloat(0);
             if (selected->GetSpeechChallengeFailure())
             {
                 Tile* failureBox7 = FindNamedTile(container, str_0106f898);
@@ -4263,10 +4274,10 @@ void FUN_00724930_cls::UpdateTraitDisplay()
         {
             TileValue* selectedValue = reinterpret_cast<TileValue*>(reinterpret_cast<Tile*>(unk0c)->GetValue(selectedTrait));
             TileValue* sVertexIndex = reinterpret_cast<TileValue*>(reinterpret_cast<Tile*>(unk0c)->GetValue(indexTrait));
-            ((HighlightValue_listbox*)selectedValue)->FUN_00a09130(2000, (Tile*)unk10, 4002);
-            ((HighlightValue_listbox*)selectedValue)->FUN_00a09410(0);
-            ((HighlightValue_listbox*)sVertexIndex)->FUN_00a09130(2000, (Tile*)unk10, 4016);
-            ((HighlightValue_listbox*)sVertexIndex)->FUN_00a09410(0);
+            ((HighlightValue_listbox*)selectedValue)->Tile_Value_AddRefValueAction(2000, (Tile*)unk10, 4002);
+            ((HighlightValue_listbox*)selectedValue)->Tile_Value_SetFloat(0);
+            ((HighlightValue_listbox*)sVertexIndex)->Tile_Value_AddRefValueAction(2000, (Tile*)unk10, 4016);
+            ((HighlightValue_listbox*)sVertexIndex)->Tile_Value_SetFloat(0);
             if (((Tile*)unk10)->GetSpeechChallengeFailure())
             {
                 Tile* parent = FindNamedTile((Tile*)unk0c, str_0106f898);
@@ -4418,10 +4429,10 @@ void HighlightList_listbox::FUN_00725080()
         {
             HighlightValue_listbox* pHighlightValue = reinterpret_cast<HighlightValue_listbox*>(container->FUN_00a00f30(highlight));
             HighlightValue_listbox* value = reinterpret_cast<HighlightValue_listbox*>(container->FUN_00a00f30(height));
-            pHighlightValue->FUN_00a09130(2000, (Tile*)selected, 4002);
-            pHighlightValue->FUN_00a09410(0);
-            value->FUN_00a09130(2000, (Tile*)selected, 4016);
-            value->FUN_00a09410(0);
+            pHighlightValue->Tile_Value_AddRefValueAction(2000, (Tile*)selected, 4002);
+            pHighlightValue->Tile_Value_SetFloat(0);
+            value->Tile_Value_AddRefValueAction(2000, (Tile*)selected, 4016);
+            value->Tile_Value_SetFloat(0);
             if (selected->GetSpeechChallengeFailure())
             {
                 Tile* box = FUN_00a08b20(container, str_0106f898);
@@ -4431,19 +4442,19 @@ void HighlightList_listbox::FUN_00725080()
                     if (child)
                     {
                         child->FUN_0071aa60(true);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild(str_0106f88c);
                         child->FUN_0071aa60(true);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild(str_0106f884);
                         child->FUN_0071aa60(true);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild(str_0106f87c);
                         child->FUN_0071aa60(true);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                     }
                     box->FUN_0071aa60(true);
-                    box->FUN_00a07530(8);
+                    box->Tile_SetChangeFlag(8);
                 }
             }
             else
@@ -4455,19 +4466,19 @@ void HighlightList_listbox::FUN_00725080()
                     if (child)
                     {
                         child->FUN_0071aa60(false);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild(str_0106f88c);
                         child->FUN_0071aa60(false);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild(str_0106f884);
                         child->FUN_0071aa60(false);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild(str_0106f87c);
                         child->FUN_0071aa60(false);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                     }
                     box->FUN_0071aa60(false);
-                    box->FUN_00a07530(8);
+                    box->Tile_SetChangeFlag(8);
                 }
             }
         }
@@ -4499,10 +4510,10 @@ void FUN_007254d0_t::UpdateSpeechChallengeTrait()
         {
             void* selectedValue = ((Tile*)container)->FUN_00a00f30(selectedTrait);
             void* pFailedTraitValue = ((Tile*)container)->FUN_00a00f30(failedTrait);
-            ((HighlightValue_listbox*)selectedValue)->FUN_00a09130(0x7d0, selected, 0xfa2);
-            ((HighlightValue_listbox*)selectedValue)->FUN_00a09410(0);
-            ((HighlightValue_listbox*)pFailedTraitValue)->FUN_00a09130(0x7d0, selected, 0xfb0);
-            ((HighlightValue_listbox*)pFailedTraitValue)->FUN_00a09410(0);
+            ((HighlightValue_listbox*)selectedValue)->Tile_Value_AddRefValueAction(0x7d0, selected, 0xfa2);
+            ((HighlightValue_listbox*)selectedValue)->Tile_Value_SetFloat(0);
+            ((HighlightValue_listbox*)pFailedTraitValue)->Tile_Value_AddRefValueAction(0x7d0, selected, 0xfb0);
+            ((HighlightValue_listbox*)pFailedTraitValue)->Tile_Value_SetFloat(0);
             if (((Tile*)selected)->GetSpeechChallengeFailure())
             {
                 Tile* parent = FindNamedTile(container, str_0106f898);
@@ -4512,19 +4523,19 @@ void FUN_007254d0_t::UpdateSpeechChallengeTrait()
                     if (child)
                     {
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)parent)->GetNamedChild(str_0106f88c);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)parent)->GetNamedChild(str_0106f884);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)parent)->GetNamedChild(str_0106f87c);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                     }
                     ((Tile*)parent)->FUN_0071aa60(true);
-                    ((Tile*)parent)->FUN_00a07530(8);
+                    ((Tile*)parent)->Tile_SetChangeFlag(8);
                 }
             }
             else
@@ -4536,19 +4547,19 @@ void FUN_007254d0_t::UpdateSpeechChallengeTrait()
                     if (child)
                     {
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)parent)->GetNamedChild(str_0106f88c);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)parent)->GetNamedChild(str_0106f884);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)parent)->GetNamedChild(str_0106f87c);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                     }
                     ((Tile*)parent)->FUN_0071aa60(false);
-                    ((Tile*)parent)->FUN_00a07530(8);
+                    ((Tile*)parent)->Tile_SetChangeFlag(8);
                 }
             }
         }
@@ -4601,10 +4612,10 @@ void ListBox726210::FUN_00726210()
         {
             TileValue* valHighlightY = reinterpret_cast<TileValue*>(m_pListTile->GetValue(traitHighlightY));
             TileValue* valSelectedHeight = reinterpret_cast<TileValue*>(m_pListTile->GetValue(traitSelectedHeight));
-            ((HighlightValue_listbox*)valHighlightY)->FUN_00a09130(2000, m_pSelectedTile, 4002);
-            ((HighlightValue_listbox*)valHighlightY)->FUN_00a09410(0);
-            ((HighlightValue_listbox*)valSelectedHeight)->FUN_00a09130(2000, m_pSelectedTile, 4016);
-            ((HighlightValue_listbox*)valSelectedHeight)->FUN_00a09410(0);
+            ((HighlightValue_listbox*)valHighlightY)->Tile_Value_AddRefValueAction(2000, m_pSelectedTile, 4002);
+            ((HighlightValue_listbox*)valHighlightY)->Tile_Value_SetFloat(0);
+            ((HighlightValue_listbox*)valSelectedHeight)->Tile_Value_AddRefValueAction(2000, m_pSelectedTile, 4016);
+            ((HighlightValue_listbox*)valSelectedHeight)->Tile_Value_SetFloat(0);
             if (((Tile*)m_pSelectedTile)->GetSpeechChallengeFailure())
             {
                 Tile* box = FindNamedTile(m_pListTile, str_0106f898);
@@ -4614,19 +4625,19 @@ void ListBox726210::FUN_00726210()
                     if (child != 0)
                     {
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f88c);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f884);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f87c);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                     }
                     ((Tile*)box)->FUN_0071aa60(true);
-                    ((Tile*)box)->FUN_00a07530(8);
+                    ((Tile*)box)->Tile_SetChangeFlag(8);
                 }
             }
             else
@@ -4638,19 +4649,19 @@ void ListBox726210::FUN_00726210()
                     if (child != 0)
                     {
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f88c);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f884);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f87c);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                     }
                     ((Tile*)box)->FUN_0071aa60(false);
-                    ((Tile*)box)->FUN_00a07530(8);
+                    ((Tile*)box)->Tile_SetChangeFlag(8);
                 }
             }
         }
@@ -4737,9 +4748,9 @@ void VLList::AccumulateTileHeight(Tile* apTile)
 struct Value050
 {
     void RemoveFromReactions();
-    void FUN_00a09130(int, Tile*, int);
+    void Tile_Value_AddRefValueAction(int, Tile*, int);
     void AppendFloatAction(int, float);
-    void FUN_00a09410(int);
+    void Tile_Value_SetFloat(int);
 };
 // Tile's linear lookup at 0x00a00e90 is absent from the shared header; this extension adds only that declaration.
 struct LinearTraitLookup : Tile
@@ -4807,9 +4818,9 @@ Tile* Owner050::AddListEntry(int data, const char* text, int compare, const char
         {
             Value050* value = reinterpret_cast<LinearTraitLookup*>(container)->FindTraitValue(0xfb0);
             value->RemoveFromReactions();
-            value->FUN_00a09130(0x7d0, tile, 0xfb0);
+            value->Tile_Value_AddRefValueAction(0x7d0, tile, 0xfb0);
             value->AppendFloatAction(0x7d3, container->FUN_00a011b0(FUN_00a00940(kListBoxNumFiltered, -1)));
-            value->FUN_00a09410(0);
+            value->Tile_Value_SetFloat(0);
         }
         return tile;
     }
@@ -4821,9 +4832,9 @@ struct ItemTile;
 struct ItemValue
 {
     void RemoveFromReactions();
-    void FUN_00a09130(int, ItemTile*, int);
+    void Tile_Value_AddRefValueAction(int, ItemTile*, int);
     void AppendFloatAction(int, float);
-    void FUN_00a09410(int);
+    void Tile_Value_SetFloat(int);
 };
 struct ItemMenu
 {
@@ -4902,9 +4913,9 @@ ItemTile* IntListBox::FUN_00764430(int data, const char* text, int(__cdecl* comp
         {
             value = container->FindTraitValue(0xfb0);
             value->RemoveFromReactions();
-            value->FUN_00a09130(0x7d0, tile_2, 0xfb0);
+            value->Tile_Value_AddRefValueAction(0x7d0, tile_2, 0xfb0);
             value->AppendFloatAction(0x7d3, container->FUN_00a011b0(FUN_00a00940(str_0106f860, -1)));
-            value->FUN_00a09410(0);
+            value->Tile_Value_SetFloat(0);
         }
         return tile_2;
     }
@@ -5064,10 +5075,10 @@ void Cls_764ef0::UpdateHighlightTile()
         {
             TileValue* val1 = reinterpret_cast<TileValue*>(highlightTile->GetValue(trait1));
             TileValue* val2 = reinterpret_cast<TileValue*>(highlightTile->GetValue(trait2));
-            ((HighlightValue_listbox*)val1)->FUN_00a09130(0x7d0, selectedTile, 0xfa2);
-            ((HighlightValue_listbox*)val1)->FUN_00a09410(0);
-            ((HighlightValue_listbox*)val2)->FUN_00a09130(0x7d0, selectedTile, 0xfb0);
-            ((HighlightValue_listbox*)val2)->FUN_00a09410(0);
+            ((HighlightValue_listbox*)val1)->Tile_Value_AddRefValueAction(0x7d0, selectedTile, 0xfa2);
+            ((HighlightValue_listbox*)val1)->Tile_Value_SetFloat(0);
+            ((HighlightValue_listbox*)val2)->Tile_Value_AddRefValueAction(0x7d0, selectedTile, 0xfb0);
+            ((HighlightValue_listbox*)val2)->Tile_Value_SetFloat(0);
             if (((Tile*)selectedTile)->GetSpeechChallengeFailure())
             {
                 Tile* box1 = FindNamedTile(highlightTile, str_0106f898);
@@ -5698,7 +5709,8 @@ Tile* NavList::GetNavigationTarget(int action)
 
 void FNV_Warning(const char*);
 // @fnv 0x007a5e70
-void HighlightList_listbox::FUN_007a5e70()
+// src: COMMUNITY 0x007a5e70
+void HighlightList_listbox::ListBox_ItemChange_ScrollToHighlight()
 {
     if (selected && (*reinterpret_cast<HighlightTile_listbox**>(reinterpret_cast<char*>(this) + sizeof(HighlightList_listbox))) && container && reinterpret_cast<HighlightTile_listbox*>(container)->FUN_00a011b0(0xfb0) > 0.0)
     {
@@ -5748,10 +5760,10 @@ void ListBox_7a6600::FUN_007a6600()
         {
             TileValue* val1 = reinterpret_cast<TileValue*>(highlightTile->GetValue(trait1));
             TileValue* val2 = reinterpret_cast<TileValue*>(highlightTile->GetValue(trait2));
-            ((HighlightValue_listbox*)val1)->FUN_00a09130(0x7d0, selectedTile, 0xfa2);
-            ((HighlightValue_listbox*)val1)->FUN_00a09410(0);
-            ((HighlightValue_listbox*)val2)->FUN_00a09130(0x7d0, selectedTile, 0xfb0);
-            ((HighlightValue_listbox*)val2)->FUN_00a09410(0);
+            ((HighlightValue_listbox*)val1)->Tile_Value_AddRefValueAction(0x7d0, selectedTile, 0xfa2);
+            ((HighlightValue_listbox*)val1)->Tile_Value_SetFloat(0);
+            ((HighlightValue_listbox*)val2)->Tile_Value_AddRefValueAction(0x7d0, selectedTile, 0xfb0);
+            ((HighlightValue_listbox*)val2)->Tile_Value_SetFloat(0);
 
             if (((Tile*)selectedTile)->GetSpeechChallengeFailure())
             {
@@ -5855,10 +5867,10 @@ void HighlightList_listbox::FUN_007a73e0()
         {
             HighlightValue_listbox* height = reinterpret_cast<HighlightValue_listbox*>(container->FUN_00a00f30(highlightY));
             HighlightValue_listbox* y = reinterpret_cast<HighlightValue_listbox*>(container->FUN_00a00f30(selectedHeight));
-            height->FUN_00a09130(2000, selected, 4002);
-            height->FUN_00a09410(0);
-            y->FUN_00a09130(2000, selected, 4016);
-            y->FUN_00a09410(0);
+            height->Tile_Value_AddRefValueAction(2000, selected, 4002);
+            height->Tile_Value_SetFloat(0);
+            y->Tile_Value_AddRefValueAction(2000, selected, 4016);
+            y->Tile_Value_SetFloat(0);
             if (selected->GetSpeechChallengeFailure())
             {
                 Tile* box = (Tile*)FindNamedTile((Tile*)container, "lb_highlight_box");
@@ -5868,19 +5880,19 @@ void HighlightList_listbox::FUN_007a73e0()
                     if (child)
                     {
                         child->FUN_0071aa60(true);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild("bottom");
                         child->FUN_0071aa60(true);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild("left");
                         child->FUN_0071aa60(true);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild("right");
                         child->FUN_0071aa60(true);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                     }
                     box->FUN_0071aa60(true);
-                    box->FUN_00a07530(8);
+                    box->Tile_SetChangeFlag(8);
                 }
             }
             else
@@ -5892,19 +5904,19 @@ void HighlightList_listbox::FUN_007a73e0()
                     if (child)
                     {
                         child->FUN_0071aa60(false);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild("bottom");
                         child->FUN_0071aa60(false);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild("left");
                         child->FUN_0071aa60(false);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                         child = box->GetNamedChild("right");
                         child->FUN_0071aa60(false);
-                        child->FUN_00a07530(8);
+                        child->Tile_SetChangeFlag(8);
                     }
                     box->FUN_0071aa60(false);
-                    box->FUN_00a07530(8);
+                    box->Tile_SetChangeFlag(8);
                 }
             }
         }
@@ -6058,11 +6070,12 @@ struct ItemBox
     void Select(ItemTile*);
     void Refresh();
     int GetMode();
-    ItemTile* FUN_007d7da0(int, const char*, int(__cdecl*)(BoxEntry*, BoxEntry*), const char*);
+    ItemTile* SavesListBox_Insert(int, const char*, int(__cdecl*)(BoxEntry*, BoxEntry*), const char*);
 };
 // Creates a tile in the container's menu, sets its values, inserts it into entries (sorted or appended), and updates the filtered-count value when in mode 1.
 // @fnv 0x007d7da0
-ItemTile* ItemBox::FUN_007d7da0(int data, const char* text, int(__cdecl* compare)(BoxEntry*, BoxEntry*),
+// src: COMMUNITY 0x007d7da0
+ItemTile* ItemBox::SavesListBox_Insert(int data, const char* text, int(__cdecl* compare)(BoxEntry*, BoxEntry*),
                                 const char* name)
 {
     if (container && (templateName || name))
@@ -6309,10 +6322,11 @@ struct NavigationList : NavigationBase, NavigationNode
     const char* templateName;
     unsigned short count;
     bool FUN_007d88a0();
-    Tile* FUN_007d89c0(int direction);
+    Tile* ListBox_BGSSaveLoadFileEntry_HandleKeyboardInput(int direction);
 };
 // @fnv 0x007d89c0
-Tile* NavigationList::FUN_007d89c0(int direction)
+// src: COMMUNITY 0x007d89c0
+Tile* NavigationList::ListBox_BGSSaveLoadFileEntry_HandleKeyboardInput(int direction)
 {
     Tile* tile = 0;
     int step = 0;
@@ -6393,8 +6407,8 @@ Tile* NavigationList::FUN_007d89c0(int direction)
 
 struct TileValue
 {
-    void FUN_00a09130(int index, Tile* tile, int value);
-    void FUN_00a09410(int value);
+    void Tile_Value_AddRefValueAction(int index, Tile* tile, int value);
+    void Tile_Value_SetFloat(int value);
 };
 
 struct ListBoxExt
@@ -6422,10 +6436,10 @@ void ListBoxExt::UpdateHighlightBox()
             TileValue* valHighlightY;
             valHighlightY = reinterpret_cast<TileValue*>(tile0c->GetValue(s_highlightY));
             valSelectedHeight = reinterpret_cast<TileValue*>(tile0c->GetValue(s_selectedHeight));
-            valHighlightY->FUN_00a09130(0x7d0, tile10, 0xfa2);
-            valHighlightY->FUN_00a09410(0);
-            valSelectedHeight->FUN_00a09130(0x7d0, tile10, 0xfb0);
-            valSelectedHeight->FUN_00a09410(0);
+            valHighlightY->Tile_Value_AddRefValueAction(0x7d0, tile10, 0xfa2);
+            valHighlightY->Tile_Value_SetFloat(0);
+            valSelectedHeight->Tile_Value_AddRefValueAction(0x7d0, tile10, 0xfb0);
+            valSelectedHeight->Tile_Value_SetFloat(0);
             if (tile10->GetSpeechChallengeFailure())
             {
                 Tile* highlightBox = (Tile*)FindNamedTile(tile0c, "lb_highlight_box");
@@ -6504,10 +6518,10 @@ void ListBoxX::FUN_007d97a0()
         {
             TileValue* valHighlightY = reinterpret_cast<TileValue*>(m_pListTile->GetValue(traitHighlightY));
             TileValue* valSelectedHeight = reinterpret_cast<TileValue*>(m_pListTile->GetValue(traitSelectedHeight));
-            ((HighlightValue_listbox*)valHighlightY)->FUN_00a09130(2000, m_pSelectedTile, 4002);
-            ((HighlightValue_listbox*)valHighlightY)->FUN_00a09410(0);
-            ((HighlightValue_listbox*)valSelectedHeight)->FUN_00a09130(2000, m_pSelectedTile, 4016);
-            ((HighlightValue_listbox*)valSelectedHeight)->FUN_00a09410(0);
+            ((HighlightValue_listbox*)valHighlightY)->Tile_Value_AddRefValueAction(2000, m_pSelectedTile, 4002);
+            ((HighlightValue_listbox*)valHighlightY)->Tile_Value_SetFloat(0);
+            ((HighlightValue_listbox*)valSelectedHeight)->Tile_Value_AddRefValueAction(2000, m_pSelectedTile, 4016);
+            ((HighlightValue_listbox*)valSelectedHeight)->Tile_Value_SetFloat(0);
             if (((Tile*)m_pSelectedTile)->GetSpeechChallengeFailure())
             {
                 Tile* box = FindNamedTile(m_pListTile, str_0106f898);
@@ -6517,19 +6531,19 @@ void ListBoxX::FUN_007d97a0()
                     if (child != 0)
                     {
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f88c);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f884);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f87c);
                         ((Tile*)child)->FUN_0071aa60(true);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                     }
                     ((Tile*)box)->FUN_0071aa60(true);
-                    ((Tile*)box)->FUN_00a07530(8);
+                    ((Tile*)box)->Tile_SetChangeFlag(8);
                 }
             }
             else
@@ -6541,19 +6555,19 @@ void ListBoxX::FUN_007d97a0()
                     if (child != 0)
                     {
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f88c);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f884);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                         child = ((Tile*)box)->GetNamedChild(str_0106f87c);
                         ((Tile*)child)->FUN_0071aa60(false);
-                        ((Tile*)child)->FUN_00a07530(8);
+                        ((Tile*)child)->Tile_SetChangeFlag(8);
                     }
                     ((Tile*)box)->FUN_0071aa60(false);
-                    ((Tile*)box)->FUN_00a07530(8);
+                    ((Tile*)box)->Tile_SetChangeFlag(8);
                 }
             }
         }
@@ -6589,9 +6603,9 @@ struct IMObjX
 {
     void FUN_00715860(int, int, int);
 };
-void* FUN_004b7210();
+void* InterfaceManager_GetSingleton();
 int __cdecl FUN_00a01860(const char*);
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 struct LBThis
 {
@@ -6620,7 +6634,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
                                                      : ((p2 && p2 != pNodeToRemove) ? (*p2->FUN_006815c0())->f0 : 0);
             if (selected)
             {
-                ((IMObjX*)FUN_004b7210())->FUN_00715860((int)selected, 0xfc3, 1);
+                ((IMObjX*)InterfaceManager_GetSingleton())->FUN_00715860((int)selected, 0xfc3, 1);
             }
         }
         if (container && (*pNodeToRemove->FUN_006815c0())->f8)
@@ -6638,7 +6652,7 @@ bool LBThis::RemoveItemNode(FUN_004ee7d0_node* pNodeToRemove, FUN_004ee7d0_node*
             (void)(elemA ? elemA->FUN_004459e0(1) : 0);
         }
         itemB = *pNodeToRemove->FUN_006815c0();
-        FUN_00401030(itemB);
+        FormHeapFreeAndLog_00401030(itemB);
         if (pNodeToRemove == (this ? &head : 0))
         {
             if (head.next)
@@ -6679,9 +6693,9 @@ struct EntryTile;
 struct TileAction
 {
     void RemoveFromReactions();
-    void FUN_00a09130(int trait, EntryTile* tile, int value);
+    void Tile_Value_AddRefValueAction(int trait, EntryTile* tile, int value);
     void AppendFloatAction(int trait, float value);
-    void FUN_00a09410(int value);
+    void Tile_Value_SetFloat(int value);
 };
 struct CreatedTile
 {
@@ -6689,7 +6703,7 @@ struct CreatedTile
 };
 struct EntryTile
 {
-    CreatedTile* FUN_00a03c90(EntryTile* parent, const char* name, int flags);
+    CreatedTile* Tile_GetMenu(EntryTile* parent, const char* name, int flags);
     void* FUN_00a00f30(int trait);
     void FUN_00700320(int trait, int value);
     void FUN_00a01350(int trait, const char* value, bool propagate);
@@ -6725,14 +6739,15 @@ struct LBH
     void AccumulateTileHeight(EntryTile*);
     void FUN_007253a0();
     int GetRaceCount();
-    EntryTile* FUN_007e1190(int data, const char* text, int comparator, const char* name);
+    EntryTile* ListBox_enum_MiscStatManager_MiscStatID_AddItem(int data, const char* text, int comparator, const char* name);
 };
 // @fnv 0x007e1190
-EntryTile* LBH::FUN_007e1190(int data, const char* text, int comparator, const char* name)
+// src: COMMUNITY 0x007e1190
+EntryTile* LBH::ListBox_enum_MiscStatManager_MiscStatID_AddItem(int data, const char* text, int comparator, const char* name)
 {
     if (container && (templateName || name))
     {
-        EntryTile* tile = container->FUN_00a03c90(container, name ? name : templateName, 0)->FUN_00a1ddb0();
+        EntryTile* tile = container->Tile_GetMenu(container, name ? name : templateName, 0)->FUN_00a1ddb0();
         if (!tile->FUN_00a00f30(0xfaa))
             tile->FUN_00700320(0xfaa, -1);
         if (text)
@@ -6757,9 +6772,9 @@ EntryTile* LBH::FUN_007e1190(int data, const char* text, int comparator, const c
         {
             TileAction* value = container->FindTraitValue(0xfb0);
             value->RemoveFromReactions();
-            value->FUN_00a09130(0x7d0, tile, 0xfb0);
+            value->Tile_Value_AddRefValueAction(0x7d0, tile, 0xfb0);
             value->AppendFloatAction(0x7d3, container->FUN_00a011b0(FUN_00a00940(str_0106f860, -1)));
-            value->FUN_00a09410(0);
+            value->Tile_Value_SetFloat(0);
         }
         return tile;
     }
@@ -6968,10 +6983,10 @@ void ListBoxZ::FUN_0071a740()
         {
             TileValue* pkHighlight_zkij = reinterpret_cast<TileValue*>(m_pkTile->FUN_00a00f30(s_iHighlightY));
             TileValue* pkHeight_dxa = reinterpret_cast<TileValue*>(m_pkTile->FUN_00a00f30(s_iSelectedHeight));
-            pkHighlight_zkij->FUN_00a09130(0x7d0, m_pkItem, 0xfa2);
-            pkHighlight_zkij->FUN_00a09410(0);
-            pkHeight_dxa->FUN_00a09130(0x7d0, m_pkItem, 0xfb0);
-            pkHeight_dxa->FUN_00a09410(0);
+            pkHighlight_zkij->Tile_Value_AddRefValueAction(0x7d0, m_pkItem, 0xfa2);
+            pkHighlight_zkij->Tile_Value_SetFloat(0);
+            pkHeight_dxa->Tile_Value_AddRefValueAction(0x7d0, m_pkItem, 0xfb0);
+            pkHeight_dxa->Tile_Value_SetFloat(0);
             if (m_pkItem->GetSpeechChallengeFailure())
             {
                 Tile* pkBox = FUN_00a08b20(m_pkTile, "lb_highlight_box");
@@ -6981,19 +6996,19 @@ void ListBoxZ::FUN_0071a740()
                     if (pkSide)
                     {
                         pkSide->FUN_0071aa60(true);
-                        pkSide->FUN_00a07530(8);
+                        pkSide->Tile_SetChangeFlag(8);
                         pkSide = pkBox->GetNamedChild("bottom");
                         pkSide->FUN_0071aa60(true);
-                        pkSide->FUN_00a07530(8);
+                        pkSide->Tile_SetChangeFlag(8);
                         pkSide = pkBox->GetNamedChild("left");
                         pkSide->FUN_0071aa60(true);
-                        pkSide->FUN_00a07530(8);
+                        pkSide->Tile_SetChangeFlag(8);
                         pkSide = pkBox->GetNamedChild("right");
                         pkSide->FUN_0071aa60(true);
-                        pkSide->FUN_00a07530(8);
+                        pkSide->Tile_SetChangeFlag(8);
                     }
                     pkBox->FUN_0071aa60(true);
-                    pkBox->FUN_00a07530(8);
+                    pkBox->Tile_SetChangeFlag(8);
                 }
             }
             else
@@ -7005,19 +7020,19 @@ void ListBoxZ::FUN_0071a740()
                     if (pkSide)
                     {
                         pkSide->FUN_0071aa60(false);
-                        pkSide->FUN_00a07530(8);
+                        pkSide->Tile_SetChangeFlag(8);
                         pkSide = pkBox->GetNamedChild("bottom");
                         pkSide->FUN_0071aa60(false);
-                        pkSide->FUN_00a07530(8);
+                        pkSide->Tile_SetChangeFlag(8);
                         pkSide = pkBox->GetNamedChild("left");
                         pkSide->FUN_0071aa60(false);
-                        pkSide->FUN_00a07530(8);
+                        pkSide->Tile_SetChangeFlag(8);
                         pkSide = pkBox->GetNamedChild("right");
                         pkSide->FUN_0071aa60(false);
-                        pkSide->FUN_00a07530(8);
+                        pkSide->Tile_SetChangeFlag(8);
                     }
                     pkBox->FUN_0071aa60(false);
-                    pkBox->FUN_00a07530(8);
+                    pkBox->Tile_SetChangeFlag(8);
                 }
             }
         }
@@ -7074,9 +7089,9 @@ struct L71Tile;
 struct L71Value
 {
     void RemoveFromReactions();
-    void FUN_00a09130(int op, L71Tile* tile, int id);
+    void Tile_Value_AddRefValueAction(int op, L71Tile* tile, int id);
     void AppendFloatAction(int op, float value);
-    void FUN_00a09410(int a);
+    void Tile_Value_SetFloat(int a);
 };
 struct L71Created;
 struct L71Tile
@@ -7086,7 +7101,7 @@ struct L71Tile
     void FUN_00a01350(int id, const char* text, int a);
     float FUN_00a011b0(int id);
     L71Value* FindTraitValue(int id);
-    L71Created* FUN_00a03c90(L71Tile* parent, L71Tile* tmpl, int a);
+    L71Created* Tile_GetMenu(L71Tile* parent, L71Tile* tmpl, int a);
 };
 struct L71Created
 {
@@ -7134,7 +7149,7 @@ L71Tile* L71Menu::FUN_0071a320(int data, const char* apLabel, int (*compare)(L71
 
     if (pRoot && (pTemplate || apTemplate))
     {
-        pTile = pRoot->FUN_00a03c90(pRoot, apTemplate ? apTemplate : pTemplate, 0)->FUN_00a1ddb0();
+        pTile = pRoot->Tile_GetMenu(pRoot, apTemplate ? apTemplate : pTemplate, 0)->FUN_00a1ddb0();
         if (!pTile->FUN_00a00f30(0xfaa))
         {
             pTile->FUN_00700320(0xfaa, -1);
@@ -7165,9 +7180,9 @@ L71Tile* L71Menu::FUN_0071a320(int data, const char* apLabel, int (*compare)(L71
         {
             pTraitValue = pRoot->FindTraitValue(0xfb0);
             pTraitValue->RemoveFromReactions();
-            pTraitValue->FUN_00a09130(0x7d0, pTile, 0xfb0);
+            pTraitValue->Tile_Value_AddRefValueAction(0x7d0, pTile, 0xfb0);
             pTraitValue->AppendFloatAction(0x7d3, pRoot->FUN_00a011b0(FUN_00a00940("_number_of_visible_items", -1)));
-            pTraitValue->FUN_00a09410(0);
+            pTraitValue->Tile_Value_SetFloat(0);
         }
         return pTile;
     }
@@ -7206,14 +7221,15 @@ struct S722Menu : public MenuBase, public S722Node
     int unk18;
     unsigned short m_usPassCountLocal;
     bool FUN_007255a0();
-    Tile* FUN_00722bc0(int code);
+    Tile* ListBox_StatsMenu_StatusEffect_HandleKeyboardInput(int code);
 };
 }
 using namespace scroll722;
 
 // Finds a tile at the index offset derived from code and returns it unless it matches pSelected.
 // @fnv 0x00722bc0
-Tile* S722Menu::FUN_00722bc0(int code)
+// src: COMMUNITY 0x00722bc0
+Tile* S722Menu::ListBox_StatsMenu_StatusEffect_HandleKeyboardInput(int code)
 {
     Tile* pFound5 = 0;
     int iDelta = 0;
@@ -7480,11 +7496,12 @@ struct MenuChk_a3f90
     bool FUN_007a7330();
     bool ContainsKey(Tile* tile);
     void FUN_007a73e0();
-    bool FUN_007a3f90(Tile* tile);
+    bool ListBox_TESObjectREFR_Destroy(Tile* tile);
 };
 // If FUN_007a7330 is true and tile is null or contained with a nonzero trait, assigns unk10, calls FUN_007a73e0, and returns true.
 // @fnv 0x007a3f90
-bool MenuChk_a3f90::FUN_007a3f90(Tile* tile)
+// src: COMMUNITY 0x007a3f90
+bool MenuChk_a3f90::ListBox_TESObjectREFR_Destroy(Tile* tile)
 {
     if (FUN_007a7330() && (!tile || (ContainsKey(tile) && tile->IsTraitNonZero(FUN_00a00940(str_01070244, -1)))))
     {

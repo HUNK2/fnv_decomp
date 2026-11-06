@@ -19,7 +19,7 @@ inline CVec3::CVec3(float fX, float fY, float fZ) : x(fX), y(fY), z(fZ)
 }
 struct FUN_00b007d0_shell
 {
-    int FUN_00b007d0();
+    int BSSystemDir_DoClose();
 };
 struct FUN_00b00860_shell
 {
@@ -54,7 +54,7 @@ struct FUN_00b18320_Class
 };
 struct FUN_00b008f0_class
 {
-    int* __thiscall FUN_00b008f0();
+    int* __thiscall return_0_2();
 };
 extern int DAT_011f8250;
 void FUN_00b00970(int value);
@@ -109,7 +109,7 @@ struct FUN_00b00c90_vt
 void __fastcall CallVfn1OnAllEntries(int param_1);
 extern int DAT_011f8af0;
 extern int DAT_011f8af8[16];
-char FUN_00b00d50(int param_1);
+char BSTaskletManager_RegisterOnStartupCallback(int param_1);
 struct FUN_00b01020
 {
     virtual ~FUN_00b01020();
@@ -135,7 +135,7 @@ struct FUN_00b02970
 class FUN_00b004d0_cls
 {
   public:
-    void FUN_00b004d0();
+    void nullsub_328();
 };
 struct FUN_00b00820_tail
 {
@@ -145,7 +145,7 @@ struct FUN_00b00820_tail
 };
 struct FUN_00b00820_shell
 {
-    FUN_00b00820_shell* FUN_00b00820(unsigned int value);
+    FUN_00b00820_shell* BSSystemDir_BSSystemDir(unsigned int value);
     void FUN_00b006b0(unsigned int value);
 };
 struct FUN_00b00880_cls
@@ -157,7 +157,7 @@ struct FUN_00b00880_cls
 struct FUN_00b008a0_cls
 {
     int unk00;
-    void FUN_00b008a0();
+    void nullsub_329();
 };
 struct FUN_00b00ae0_class
 {
@@ -168,7 +168,7 @@ struct FUN_00b00ae0_class
     virtual void virtual4();
     virtual bool virtual5(void* value);
     bool enabled;
-    bool __thiscall FUN_00b00ae0(void** value);
+    bool __thiscall BSTaskletManager_OpenTaskGroup(void** value);
 };
 class FUN_00b00b40_cls
 {
@@ -259,7 +259,7 @@ struct FUN_00b01510_cls
     virtual void vfn_4();
     virtual void vfn_5();
     virtual int vfn_6(char* data);
-    bool __thiscall FUN_00b01510(int arg);
+    bool __thiscall Archive_PlatformGetLastWriteTime(int arg);
 };
 extern "C" void(__stdcall* fnv_EnterCriticalSection)(void* pkSection);
 extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void* pkSection);
@@ -387,7 +387,7 @@ struct ScratchHelper
 {
     ScratchResult* Compute(float* out, CVec3* owner, Vec3f* tmp, float scale);
 };
-float* FUN_00b13000(float* dst, CVec3* p1, ScratchHelper* p2, float s);
+float* VecInterpolate(float* dst, CVec3* p1, ScratchHelper* p2, float s);
 void __cdecl FUN_00b17b40(int, int, int, int, unsigned char, unsigned char);
 struct Flag
 {
@@ -490,14 +490,14 @@ struct FUN_00b01800_shell
     unsigned int unk1C;
     char* m_pString;
     unsigned int ReadAtOffset(void* pDst, unsigned int uiSize, unsigned int uiElapsedMilliseconds);
-    unsigned int FUN_00b01800(void* pDst, unsigned int uiSize);
+    unsigned int ArchiveFile_ReadFromBuffer(void* pDst, unsigned int uiSize);
 };
 struct StripDestination
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     unsigned short unk24;
     unsigned short stripCount;
-    void FUN_00b2fdc0(unsigned short id, unsigned short* step, unsigned short indices);
+    void CIndexedGeometry_AddStrip(unsigned short id, unsigned short* step, unsigned short indices);
 };
 struct StripBuilder
 {
@@ -3675,7 +3675,8 @@ void Mat3Rot::FUN_00b12c00(float a, float b)
 
 
 // @fnv 0x00b13040
-inline CVec3 CVec3::FUN_00b13040(const CVec3& pt) const
+// src: COMMUNITY 0x00b13040
+inline CVec3 CVec3::Diff_00b13040(const CVec3& pt) const
 {
     return CVec3(x - pt.x, y - pt.y, z - pt.z);
 }
@@ -3689,7 +3690,8 @@ inline CVec3 CVec3::ScaleSwizzled(float scale) const
 {
     return CVec3(scale * x, scale * y, scale * z);
 }
-inline void CVec3::FUN_00b12790()
+// src: COMMUNITY 0x00b12790
+inline void CVec3::Normalize_00b12790()
 {
     float lengthSquared = x * x + y * y + z * z;
     float inverseLength = 1.0f / (float)FUN_00ec6054(lengthSquared);
@@ -3768,7 +3770,7 @@ struct TransformData
 }
 struct Curve
 {
-    float FUN_00b37ad0(float);
+    float CIdvBezierSpline_Evaluate(float);
 };
 struct Config
 {
@@ -3837,7 +3839,7 @@ void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, co
     float arc = 60.0f;
     const int samplesCount = 2;
     TransformRecord::TransformData transforms[samplesCount];
-    float distance = profile->GetCurve()->FUN_00b37ad0(time) * amount;
+    float distance = profile->GetCurve()->CIdvBezierSpline_Evaluate(time) * amount;
     float step = max_value(distance / profile->count, 0.01f);
     float randomAngle = DAT_011f8c05.FUN_00b3f130(-180.0f, 180.0f);
     CVec3 rotated = rotation.TransformVector(axis);
@@ -3849,8 +3851,8 @@ void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, co
     from->direction = DAT_011f8c40.FUN_00b12890(from->rotation);
     TransformRecord::TransformData* pOther = &transforms[1];
     pOther->position = from->position.AddVector(from->direction.ScaleSwizzled(step));
-    CVec3 forward = transforms[1].position.FUN_00b13040(transforms[0].position);
-    forward.FUN_00b12790();
+    CVec3 forward = transforms[1].position.Diff_00b13040(transforms[0].position);
+    forward.Normalize_00b12790();
     CVec3 towardParent;
     InitializeVector(&towardParent);
     if (!node || !node->enabled)
@@ -3872,9 +3874,9 @@ void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, co
             if (parent)
                 origin = parent->transform->position;
         }
-        towardParent = transforms[1].position.FUN_00b13040(origin);
+        towardParent = transforms[1].position.Diff_00b13040(origin);
     }
-    towardParent.FUN_00b12790();
+    towardParent.Normalize_00b12790();
     FUN_00b13c10(transforms[1].position, time, this, forward, towardParent, speed, mode, flags);
     DeadEnd();
 }
@@ -3935,15 +3937,16 @@ struct SceneNode
     int unk04;
     NodeVec<ChildNode> children;
 
-    void FUN_00b13820(NodeVec<SceneNode*>* arg);
+    void CIdvBranch_BuildBranchVector(NodeVec<SceneNode*>* arg);
 };
 
 // @fnv 0x00b13820
-void SceneNode::FUN_00b13820(NodeVec<SceneNode*>* arg)
+// src: COMMUNITY 0x00b13820
+void SceneNode::CIdvBranch_BuildBranchVector(NodeVec<SceneNode*>* arg)
 {
     arg->push_back(this);
     for (unsigned int i = 0; i < children.size(); ++i)
-        children[i].child->FUN_00b13820(arg);
+        children[i].child->CIdvBranch_BuildBranchVector(arg);
 }
 }  // namespace fnv_00b13820
 
@@ -4026,7 +4029,8 @@ inline void FUN_00b16950(unsigned int a, unsigned int b, unsigned int c, unsigne
 }
 
 // @fnv 0x00b138c0
-void FUN_00b138c0(CheckedRange* p)
+// src: COMMUNITY 0x00b138c0
+void CIdvBranch_SortBranchVector(CheckedRange* p)
 {
     RangeTag tag = {};
     unsigned int hi = p->end;
@@ -4103,19 +4107,19 @@ struct BadAllocation
     int ownsMessage;
     BadAllocation(const char*);
 };
-void* __cdecl FUN_00401000(unsigned int);
+void* __cdecl FormHeap_Allocate(unsigned int);
 inline Entry24* __cdecl FUN_00b23aa0(unsigned int _Count, unsigned int)
 {
     if (_Count <= 0)
         _Count = 0;
     else if ((unsigned int)(-1) / _Count < sizeof(Entry24))
         throw BadAllocation(0);
-    return static_cast<Entry24*>(FUN_00401000(_Count * sizeof(Entry24)));
+    return static_cast<Entry24*>(FormHeap_Allocate(_Count * sizeof(Entry24)));
 }
 Entry24* __cdecl FUN_00b17790(Entry24*, Entry24*, Entry24*, void*);
 void __cdecl CopyStructArray(Entry24*, unsigned int, const Entry24&, void*, PointerTag, RangeTag);
 
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 template <class T> inline MoveTag MoveCategory(const T&)
 {
     MoveTag _Cat;
@@ -4145,7 +4149,7 @@ struct EntryAllocator
     }
     inline void deallocate(Entry24* _Ptr, unsigned int)
     {
-        FUN_00401030(_Ptr);
+        FormHeapFreeAndLog_00401030(_Ptr);
     }
     inline void destroy(Entry24* _Ptr)
     {
@@ -4459,7 +4463,7 @@ template <class I, class T> inline void FillB160(I _First, I _Last, const T& _Va
 {
     FillRangeB160(CheckedBaseB160(_First), CheckedBaseB160(_Last), _Val);
 }
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct StringB160
 {
     unsigned int allocator;
@@ -4509,7 +4513,7 @@ inline unsigned int* __cdecl FUN_00b16b00(unsigned int _Count, unsigned int)
 }
 inline void AllocB160::deallocate(unsigned int* _Ptr, unsigned int _Count)
 {
-    FUN_00401030(_Ptr);
+    FormHeapFreeAndLog_00401030(_Ptr);
 }
 struct IteratorB160
 {
@@ -4594,7 +4598,7 @@ void ArrayB160::FUN_00b16070(IteratorB160 _Where, unsigned int _Count, const uns
         catch (...)
         {
             _Destroy(_Newvec, _Ptr);
-            FUN_00401030(_Newvec);
+            FormHeapFreeAndLog_00401030(_Newvec);
             throw;
         }
         _Count += size();
@@ -14224,10 +14228,11 @@ class FUN_00b00bc0_cls
     {
         return *value;
     }
-    bool FUN_00b00bc0(void** value);
+    bool BSTaskletManager_CloseTaskGroup(void** value);
 };
 // @fnv 0x00b00bc0
-bool FUN_00b00bc0_cls::FUN_00b00bc0(void** value)
+// src: COMMUNITY 0x00b00bc0
+bool FUN_00b00bc0_cls::BSTaskletManager_CloseTaskGroup(void** value)
 {
     return IsEnabled() && Get(value) ? v1c(Get(value)) : false;
 }

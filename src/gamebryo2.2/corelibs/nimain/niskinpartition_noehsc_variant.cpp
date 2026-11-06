@@ -9,7 +9,7 @@
 #include "../../../../include/NiStream.h"
 #include "../../../../include/NiRenderer.h"
 const void* g_011f5b1c;
-const void* __cdecl FUN_00a820d0();
+const void* __cdecl NiSkinPartition_GetRTTI();
 void __stdcall FUN_00a82600(int a, int b, float c);
 struct Holder
 {
@@ -48,7 +48,7 @@ struct FUN_00a82710_shell
     void* m_p;
     unsigned int m_iElementCount;
     unsigned int m_uiItemCount;
-    void FUN_00a82710(unsigned int n);
+    void NiTSet_UInt16_Add(unsigned int n);
 };
 struct FUN_00a82890_shell
 {
@@ -66,7 +66,7 @@ struct C082d30
     unsigned short* f0;
     unsigned int f4;
     unsigned int f8;
-    void FUN_00a82710(unsigned int);
+    void NiTSet_UInt16_Add(unsigned int);
     void AppendMatchingIndices(int, int*, unsigned int);
 };
 struct Dummy13
@@ -559,7 +559,7 @@ struct SkinBuilder
     int unk04;
     unsigned int count;
     __declspec(nothrow) void BuildBoneLODControllerSets(SkinGeom*, void*, SkinItems*, int*) throw();
-    __declspec(nothrow) void FUN_00a839d0(unsigned int, SkinItems*) throw();
+    __declspec(nothrow) void NiSkinPartition_MergeBoneSets(unsigned int, SkinItems*) throw();
     bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 template <class T> class SkinTArray
@@ -700,7 +700,7 @@ template <class T> inline void ReadBinaryValue(NiStream& kStream, T* ptVal, unsi
 }
 struct PartitionLoader : NiSkinPartition::Partition
 {
-    void FUN_00a82d90(NiStream& kStream);
+    void NiSkinPartition_Partition_LoadBinary(NiStream& kStream);
 };
 template <class T> inline void NiBinaryStreamSave(NiBinaryStream& os, T* pValue, unsigned int uiNumEls)
 {
@@ -715,7 +715,7 @@ template <class T> inline void ReadBinaryValue(NiStream& kStream, T& value)
 class FUN_00a89af0_helper
 {
   public:
-    void FUN_00a89af0(NiStream& kStream);
+    void nullsub_3(NiStream& kStream);
 };
 class ElemA83C
 {

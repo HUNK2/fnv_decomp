@@ -71,7 +71,7 @@ bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, Na
     }
     if (apNode == GetFieldAt2050())
         return false;
-    NiPoint3 nodeCenter = apNode->kNode.FUN_006a6eb0();
+    NiPoint3 nodeCenter = apNode->kNode.FastNavMeshTriLocation_GetLocation();
     float fsqrLength = (pRequest->GetOrigin()->FUN_005c3420() - nodeCenter).GetSquaredXYLength();
     if (fsqrLength < static_cast<const PathingRequest*>(pRequest)->GetFloatAtOffsetB0() *
                         static_cast<const PathingRequest*>(pRequest)->GetFloatAtOffsetB0())
@@ -145,7 +145,7 @@ struct FleePath
 // The shared avoidance array lacks this vector-output overload.
 struct FleeAvoidNodes : PathingAvoidNodeArray
 {
-    float FUN_006dc9f0(NiPoint3&, NiPoint3&);
+    float PathingAvoidNodeArray_ComputeCenter(NiPoint3&, NiPoint3&);
 };
 extern const NiPoint3 NiPoint3_ZERO;
 float FUN_0040ebd0(float, float);
@@ -159,7 +159,7 @@ bool NavMeshSearchFlee::StartFleeSearch(PathingRequest* request, const FleeStart
     reinterpret_cast<NiPoint3&>(kAvoidVector) = NiPoint3_ZERO;
     fFleeRange = static_cast<const PathingRequest*>(request)->GetFloatAtOffsetB0();
     if (static_cast<const PathingRequest*>(pRequest)->GetString())
-        static_cast<FleeAvoidNodes*>(static_cast<const PathingRequest*>(pRequest)->GetString())->FUN_006dc9f0(a, kAvoidVector);
+        static_cast<FleeAvoidNodes*>(static_cast<const PathingRequest*>(pRequest)->GetString())->PathingAvoidNodeArray_ComputeCenter(a, kAvoidVector);
     AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* p =
         FUN_006a7c90(FUN_006a94f0(start->m_pLocationNavMesh, start->m_usTriangleIdentifier), start, 0.0f);
     SetNodeFleeCost(p, start->m_pLocationNavMesh, start->m_usTriangleIdentifier);
@@ -172,7 +172,7 @@ bool NavMeshSearchFlee::StartFleeSearch(PathingRequest* request, const FleeStart
     if (!h && !path->FUN_0076b610())
     {
         const NavMeshTriangleReference* f = path->GetLastElement();
-        NiPoint3 eb = f->FUN_006a6eb0();
+        NiPoint3 eb = f->FastNavMeshTriLocation_GetLocation();
         float s = static_cast<const PathingRequest*>(pRequest)->GetFloatAtOffsetB0() * 0.5;
         s = FUN_0040ebd0(s, 256.0f);
         NiPoint3 i = a - eb;
@@ -222,7 +222,7 @@ struct NodeGeometry
 {
     NavMesh* edgeData;
     unsigned short triangle;
-    NiPoint3 FUN_006a6eb0() const;
+    NiPoint3 FastNavMeshTriLocation_GetLocation() const;
 };
 struct NodeArray
 {
@@ -232,7 +232,7 @@ struct NodeArray
 bool NavMeshSearchFlee::ExpandNode(Node* node, NodeArray* output)
 {
     float position[3];  // Raw storage avoids invoking NiPoint3's default constructor.
-    NiPoint3 direction = ((NodeGeometry*)&node->edgeData)->FUN_006a6eb0();
+    NiPoint3 direction = ((NodeGeometry*)&node->edgeData)->FastNavMeshTriLocation_GetLocation();
     PathingAvoidNodeArray* avoid = static_cast<const PathingRequest*>(pRequest)->GetString();
     reinterpret_cast<NiPoint3&>(position) = *(const NiPoint3*)&pathingrequestZero;
     if (avoid)

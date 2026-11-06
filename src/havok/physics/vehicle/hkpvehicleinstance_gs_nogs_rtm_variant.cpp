@@ -422,7 +422,7 @@ class AxleDataView
     int m_iWheelCount;
 };
 
-extern "C" void __cdecl FUN_00d29830(void* arg1, GroundMotion** motions, int numMotions, int offset,
+extern "C" void __cdecl hkRigidMotionUtilApplyForcesAndBuildAccumulators(void* arg1, GroundMotion** motions, int numMotions, int offset,
                                      Accumulator* accumOut);
 
 class Vehicle : public hkpVehicleInstance
@@ -518,7 +518,7 @@ void Vehicle::FUN_00e37d60(void* arg1, GroundBody** arg2, Accumulator* arg3, Acc
         else
         {
             GroundMotion* motion = &body->m_pMotionState;
-            FUN_00d29830(arg1, &motion, 1, 0, out1);
+            hkRigidMotionUtilApplyForcesAndBuildAccumulators(arg1, &motion, 1, 0, out1);
 
             float invMass1 = inverseMass(reinterpret_cast<GroundBody*>(m_pEntity)->m_pMotionState.unkC0);
             float invMass2 = inverseMass(motion->unkC0);

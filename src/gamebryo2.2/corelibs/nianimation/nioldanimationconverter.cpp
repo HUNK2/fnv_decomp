@@ -40,11 +40,12 @@ struct FUN_00a42460_cls
     unsigned int unk14;
     void* m_18;
     unsigned int m_1c;
-    void FUN_00a42460(unsigned int a1, unsigned int a2, unsigned int a3);
+    void NiPoint3Interpolator_SetKeys(unsigned int a1, unsigned int a2, unsigned int a3);
 };
 
 // @fnv 0x00a42460
-void FUN_00a42460_cls::FUN_00a42460(unsigned int auiArg1, unsigned int auiArg2, unsigned int auiArg3)
+// src: COMMUNITY 0x00a42460
+void FUN_00a42460_cls::NiPoint3Interpolator_SetKeys(unsigned int auiArg1, unsigned int auiArg2, unsigned int auiArg3)
 {
     if (auiArg2 > 0)
     {
@@ -168,7 +169,7 @@ struct LcSourceInterp : LcObject
         return 0;
     }
     void* FUN_00a3f990(unsigned int& uiElementCount, int& eType, unsigned char& ucSize);
-    void* FUN_00a3f9e0(unsigned int& uiElementCount, int& eType, unsigned char& ucSize);
+    void* NiTransformInterpolator_GetScaleData(unsigned int& uiElementCount, int& eType, unsigned char& ucSize);
 };
 
 struct LcCtlr : LcObject
@@ -234,14 +235,14 @@ struct LcKeys
 {
     char pad[0x20];
     LcKeys(int i);
-    void FUN_00a42460(void* pkKeys, unsigned int uiElementCount, int eType);
+    void NiPoint3Interpolator_SetKeys(void* pkKeys, unsigned int uiElementCount, int eType);
 };
 
 struct LcKeys2
 {
     char pad[0x18];
     LcKeys2(int i);
-    void FUN_00a42290(void* pkKeys, unsigned int uiElementCount, int eType);
+    void NiFloatInterpolator_SetKeys(void* pkKeys, unsigned int uiElementCount, int eType);
 };
 
 struct LcInterp : LcCtlr
@@ -252,9 +253,9 @@ struct LcInterp : LcCtlr
     int m_i10;
     char pad14[0x44 - 0x14];
     LcInterp(int a, int b, int c);
-    void FUN_00eea6d0(const LcString& kName);
-    void FUN_00a42310(LcKeys* pkKeys);
-    void FUN_00a423f0(LcKeys2* pkKeys);
+    void SetLookAtName(const LcString& kName);
+    void NiLookAtInterpolator_SetTranslateInterpolator(LcKeys* pkKeys);
+    void NiLookAtInterpolator_SetScaleInterpolator(LcKeys2* pkKeys);
 };
 
 struct LcTarget
@@ -291,7 +292,7 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
 
     LcInterp* pkInterp = new (FUN_00aa13e0(0x44), 0) LcInterp(0, 0, 0);
     pkInterp->m_i10 = pkOld->m_i38;
-    pkInterp->FUN_00eea6d0(DAT_011f49e0);
+    pkInterp->SetLookAtName(DAT_011f49e0);
     if (pkOld->m_uiObjectFlags & 1)
         pkInterp->m_uiObjectFlags |= 1;
     else
@@ -311,9 +312,9 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
                 int eType;
                 unsigned char ucSize;
                 void* pvKeyBuffer = pkData->FUN_00a3f990(uiElementCount, eType, ucSize);
-                pkKeys->FUN_00a42460(pvKeyBuffer, uiElementCount, eType);
+                pkKeys->NiPoint3Interpolator_SetKeys(pvKeyBuffer, uiElementCount, eType);
                 pkData->m_pUserData->FUN_00a4e0b0(0, 0, 0);
-                pkInterp->FUN_00a42310(pkKeys);
+                pkInterp->NiLookAtInterpolator_SetTranslateInterpolator(pkKeys);
             }
             if (pkData->GetNumB())
             {
@@ -321,10 +322,10 @@ extern "C" void __cdecl CreateInterpolator(LcOld* pkOld)
                 unsigned int uiElementCount;
                 int eType;
                 unsigned char ucSize;
-                void* pvKeyBuffer = pkData->FUN_00a3f9e0(uiElementCount, eType, ucSize);
-                pkKeys->FUN_00a42290(pvKeyBuffer, uiElementCount, eType);
+                void* pvKeyBuffer = pkData->NiTransformInterpolator_GetScaleData(uiElementCount, eType, ucSize);
+                pkKeys->NiFloatInterpolator_SetKeys(pvKeyBuffer, uiElementCount, eType);
                 pkData->m_pUserData->InitFromParams(0, 0, 0);
-                pkInterp->FUN_00a423f0(pkKeys);
+                pkInterp->NiLookAtInterpolator_SetScaleInterpolator(pkKeys);
             }
         }
     }

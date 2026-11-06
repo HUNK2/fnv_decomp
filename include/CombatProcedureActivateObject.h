@@ -17,7 +17,7 @@ public:
     virtual void SaveGame(BGSSaveFormBuffer* apBuffer);
     virtual void LoadGame(BGSLoadFormBuffer* apBuffer);
 
-    int FUN_006e4ba0();
+    int Return8();
     void FUN_009ca740();
     void FUN_009ca760();
     void FUN_009caac0(const char* msg);

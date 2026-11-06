@@ -56,11 +56,12 @@ void __thiscall FUN_006e4380_Class::SetFlagCE(bool value)
 
 struct FUN_006e43a0_class
 {
-    void FUN_006e43a0(int b);
+    void _SetByteCF(int b);
 };
 
 // @fnv 0x006e43a0
-void FUN_006e43a0_class::FUN_006e43a0(int b)
+// src: COMMUNITY 0x006e43a0
+void FUN_006e43a0_class::_SetByteCF(int b)
 {
     *(char*)((char*)this + 0xcf) = (char)b;
 }
@@ -115,7 +116,8 @@ bool PathingCoverLocation::FUN_006e4820()
 }
 
 // @fnv 0x006e4500
-void PathingCoverLocation::FUN_006e4500(unsigned short ausValue, unsigned short b, unsigned short c, char e, char f,
+// src: COMMUNITY 0x006e4500
+void PathingCoverLocation::SetCoverData(unsigned short ausValue, unsigned short b, unsigned short c, char e, char f,
                                       char g)
 {
     f04c = (char)ausValue;

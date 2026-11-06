@@ -167,9 +167,10 @@ struct ChildrenOps
     unsigned int SimpleArrayStorage;
     unsigned int unk10;
 
-    unsigned int FUN_00c3d6c0();
+    unsigned int QueuedChildren_GetAppendIndex();
 
-    void FUN_00c3d4f0(const QueuedFileRef& pRef)
+// src: COMMUNITY 0x00c3d4f0
+    void QueuedChildren_Append(const QueuedFileRef& pRef)
     {
         unsigned int iIndex;
         unsigned int iCount;
@@ -186,7 +187,7 @@ struct ChildrenOps
         QueuedFile* pTmp;
         void* pRaw;
 
-        iIndex = FUN_00c3d6c0();
+        iIndex = QueuedChildren_GetAppendIndex();
         iCount = iSize;
         iOldCount = iCount;
         iReserved = SimpleArrayStorage;
@@ -236,17 +237,18 @@ struct FUN_00c3c4e0
 
 struct FUN_00c3c700_cls : public QueuedFile
 {
-    void FUN_00c3c700(QueuedFile* apChild);
+    void QueuedFile_AddChild(QueuedFile* apChild);
 };
 
 // @fnv 0x00c3c700
-void FUN_00c3c700_cls::FUN_00c3c700(QueuedFile* apChild)
+// src: COMMUNITY 0x00c3c700
+void FUN_00c3c700_cls::QueuedFile_AddChild(QueuedFile* apChild)
 {
     if (pChildren == 0)
     {
         pChildren = reinterpret_cast<QueuedChildren*>(new FUN_00c3c4e0);
     }
-    reinterpret_cast<ChildrenOps*>(pChildren)->FUN_00c3d4f0(apChild);
+    reinterpret_cast<ChildrenOps*>(pChildren)->QueuedChildren_Append(apChild);
 }
 
 static __forceinline void DeadQ1()

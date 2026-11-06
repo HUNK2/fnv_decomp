@@ -41,7 +41,7 @@ class ContainerItemExtra
   public:
     unsigned int data[3];
     ContainerItemExtra();
-    void FUN_0040eb90(float);
+    void ContainerItemExtra_AdjustHealthPercent(float);
     void InitItem(TESForm*);
 };
 struct LeveledObject
@@ -456,7 +456,7 @@ void TESLeveledList::LoadGame(BGSLoadFormBuffer* buffer)
                     if (savedItem.health != -1.0)
                     {
                         extra = new ContainerItemExtra;
-                        extra->FUN_0040eb90(savedItem.health);
+                        extra->ContainerItemExtra_AdjustHealthPercent(savedItem.health);
                     }
                     reinterpret_cast<FileEntryList*>(this)->Copy(buffer->GetForm(), level, count, savedItem.form,
                                                                  extra);
@@ -691,11 +691,12 @@ int FUN_00c611d0_shell::GetFour()
 
 struct FUN_00c611e0_shell
 {
-    int __thiscall FUN_00c611e0(int arg1);
+    int __thiscall BSMultiBoundCapsule_CheckBound(int arg1);
 };
 
 // @fnv 0x00c611e0
-int __thiscall FUN_00c611e0_shell::FUN_00c611e0(int arg1)
+// src: COMMUNITY 0x00c611e0
+int __thiscall FUN_00c611e0_shell::BSMultiBoundCapsule_CheckBound(int arg1)
 {
     return 0;
 }
@@ -724,31 +725,34 @@ bool __thiscall FUN_00c61240_shell::FUN_00c61240(int)
 
 struct FUN_00c61250_shell
 {
-    void __thiscall FUN_00c61250(int a);
+    void __thiscall BSMultiBoundCapsule_GetNiBound(int a);
 };
 
 // @fnv 0x00c61250
-void __thiscall FUN_00c61250_shell::FUN_00c61250(int a)
+// src: COMMUNITY 0x00c61250
+void __thiscall FUN_00c61250_shell::BSMultiBoundCapsule_GetNiBound(int a)
 {}
 
 struct FUN_00c61260_shell
 {
-    void FUN_00c61260(int a, int b, int c, int d, int e, int f);
+    void BSMultiBoundCapsule_CreateDebugGeometry(int a, int b, int c, int d, int e, int f);
 };
 
 // @fnv 0x00c61260
-void __thiscall FUN_00c61260_shell::FUN_00c61260(int a, int b, int c, int d, int e, int f)
+// src: COMMUNITY 0x00c61260
+void __thiscall FUN_00c61260_shell::BSMultiBoundCapsule_CreateDebugGeometry(int a, int b, int c, int d, int e, int f)
 {}
 
 extern "C" void* g_01204398;
 
 struct FUN_00c61270_shell
 {
-    void* __thiscall FUN_00c61270();
+    void* __thiscall BSMultiBoundCapsule_GetRTTI();
 };
 
 // @fnv 0x00c61270
-void* __thiscall FUN_00c61270_shell::FUN_00c61270()
+// src: COMMUNITY 0x00c61270
+void* __thiscall FUN_00c61270_shell::BSMultiBoundCapsule_GetRTTI()
 {
     return &g_01204398;
 }
@@ -997,7 +1001,7 @@ void TESLeveledList::ClearScriptAddedLeveledObjects()
     }
 }
 
-extern void __cdecl FUN_004858f0(unsigned int, unsigned int);
+extern void __cdecl TESForm_AddChunk_3(unsigned int, unsigned int);
 extern void __cdecl FUN_00485910(unsigned int, unsigned int);
 extern void __cdecl AppendChunk(unsigned int, const void*, unsigned int);
 extern unsigned char __cdecl FUN_00401500();
@@ -1016,8 +1020,8 @@ struct ExtraSaver_00488400 : ContainerItemExtra
 // @fnv 0x00488400
 void TESLeveledList::Save()
 {
-    FUN_004858f0(0x444c564c, m_pChanceGlobal);
-    FUN_004858f0(0x464c564c, m_ucChanceNone);
+    TESForm_AddChunk_3(0x444c564c, m_pChanceGlobal);
+    TESForm_AddChunk_3(0x464c564c, m_ucChanceNone);
     if (m_pLevelGlobal)
     {
         unsigned int chanceFormID = m_pLevelGlobal->GetFormID();

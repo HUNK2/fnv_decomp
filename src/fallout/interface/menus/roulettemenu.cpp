@@ -55,7 +55,8 @@ public:
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x007b8f30
-int RouletteMenu::FUN_007b8f30()
+// src: COMMUNITY 0x007b8f30
+int RouletteMenu::GetMenuID_007b8f30()
 {
     return 0x43a;
 }
@@ -87,7 +88,8 @@ void* __thiscall RouletteMenu::Destroy(unsigned int flags)
 
 
 // @fnv 0x007bc820
-int __cdecl FUN_007bc820()
+// src: COMMUNITY 0x007bc820
+int __cdecl RouletteMenu_GetMenuID_()
 {
     return 0x43a;
 }
@@ -99,7 +101,7 @@ struct Proc_S
     void* GetNext(void);
 };
 
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_GetSingleton(void);
 
 }
 
@@ -107,8 +109,8 @@ void* __cdecl FUN_004b7210(void);
 void RouletteMenu::FUN_007bed00(int aiID, Tile* apTarget)
 {
     using fnv_007bed00::Proc_S;
-    using fnv_007bed00::FUN_004b7210;
-    static_cast<Tile*>(static_cast<Proc_S*>(FUN_004b7210())->GetNext())->Set(0xfa9, 0.0f, true);
+    using fnv_007bed00::InterfaceManager_GetSingleton;
+    static_cast<Tile*>(static_cast<Proc_S*>(InterfaceManager_GetSingleton())->GetNext())->Set(0xfa9, 0.0f, true);
 }
 
 
@@ -623,7 +625,7 @@ struct Cache
 };
 struct Player
 {
-    void FUN_00969b20();
+    void SetLastAntiCheatTime();
 };
 struct Scene
 {
@@ -832,7 +834,7 @@ struct FUN_007b9020 : Base
 // @fnv 0x007b9020
 FUN_007b9020::~FUN_007b9020()
 {
-    DAT_011dea3c->FUN_00969b20();
+    DAT_011dea3c->SetLastAntiCheatTime();
     DAT_011c3b3c->FUN_0045a5e0(DAT_011da880->FUN_00504e00(9)->Path());
     DAT_011c3b3c->FUN_0045a5e0(DAT_01075ff8);
     DAT_011c3b3c->FUN_0045a5e0(DAT_01075fc4);
@@ -989,7 +991,7 @@ struct SceneHolder
 };
 extern SceneHolder g_011da8d0;
 
-Scene* __cdecl FUN_004aae30(Scene*, const char*);
+Scene* __cdecl BSUtilities_GetObjectByName(Scene*, const char*);
 Scene* __cdecl FUN_00450b80(int);
 void __cdecl FUN_00a6d2d0(Scene*);
 namespace RouletteStrings { int __cdecl strcpy_s(char*, unsigned int, const char*); }
@@ -1004,8 +1006,8 @@ void RouletteMenu::InitRouletteScene()
         g_modelLoader->LoadFile(((PathOwner*)DAT_011da880)->FUN_00504e00(6)->Path(), 0, true, false, false, false);
     reinterpret_cast<Scene*&>(m_pTableNode)->FUN_004bc1f0(0.0f, 0.0f, 0.1f);
     reinterpret_cast<Scene*&>(m_iNode)->FUN_004bc1f0(0.0f, 0.0f, 0.1f);
-    reinterpret_cast<Scene*&>(m_pValidMarker) = FUN_004aae30(reinterpret_cast<Scene*&>(m_iNode), "Bet_Selector:0");
-    reinterpret_cast<Scene*&>(m_pInvalidMarker) = FUN_004aae30(reinterpret_cast<Scene*&>(m_iNode), "Bet_Invalid:0");
+    reinterpret_cast<Scene*&>(m_pValidMarker) = BSUtilities_GetObjectByName(reinterpret_cast<Scene*&>(m_iNode), "Bet_Selector:0");
+    reinterpret_cast<Scene*&>(m_pInvalidMarker) = BSUtilities_GetObjectByName(reinterpret_cast<Scene*&>(m_iNode), "Bet_Invalid:0");
     reinterpret_cast<Scene*&>(m_pInvalidMarker)->FUN_00450f90(true);
     char* dot = 0;
     char path[260];
@@ -1029,7 +1031,7 @@ void RouletteMenu::InitRouletteScene()
         reinterpret_cast<Scene*&>(tilesB[j]) = reinterpret_cast<Scene*&>(tilesB[0])->FUN_00a5d680();
     }
     Scene* object = reinterpret_cast<Scene*&>(m_pRouletteWheel);
-    g_011da8d0 = FUN_004aae30(object, "object4");
+    g_011da8d0 = BSUtilities_GetObjectByName(object, "object4");
     (*(SceneHolder*)&g_011da8a0) = new RouletteSceneNode(0);
     (*(SceneHolder*)&g_011da8a0).FUN_00559450()->Attach(reinterpret_cast<Scene*&>(m_pRouletteWheel), true);
     (*(SceneHolder*)&g_011da8a0).FUN_00559450()->Attach(reinterpret_cast<Scene*&>(m_pTableNode), true);
@@ -1054,7 +1056,7 @@ void RouletteMenu::InitRouletteScene()
         FUN_00a6d2d0(reinterpret_cast<Scene*&>(m_pRouletteWheel));
     }
     if (!g_011da8d0.FUN_00559450())
-        g_011da8d0 = reinterpret_cast<Scene*>(FUN_007c2180());
+        g_011da8d0 = reinterpret_cast<Scene*>(BlackJackMenu_SetupCamera());
     FUN_00450b80(1)->Attach((*(SceneHolder*)&g_011da8a0).FUN_00559450(), true);
     float radius = (*(SceneHolder*)&g_011da8a0).FUN_00559450()->FUN_0043d450()->FUN_0084d030() * 4.0;
     FUN_00450b80(1)->FUN_00b5ca70((*(SceneHolder*)&g_011da8a0).FUN_00559450(), radius);
@@ -1064,14 +1066,14 @@ void RouletteMenu::InitRouletteScene()
 namespace fnv_007bbcf0 {
 struct S148c0
 {
-    void FUN_007148c0(int, int);
+    void RendererClearBufferHook(int, int);
 };
 S148c0* FUN_0043c4b0();
 struct Scene
 {
-    void FUN_00c4f270(int);
-    void FUN_004a0fd0(void*);
-    void FUN_00c4f2d0();
+    void BSCullingProcess_PushCullMode(int);
+    void BSCullingProcess_SetAccumulator(void*);
+    void BSCullingProcess_PopCullMode();
 };
 struct Owner
 {
@@ -1095,27 +1097,28 @@ struct RoulettemenuInterfaceView
 {
     void* FUN_007fd640();
 };
-RoulettemenuInterfaceView* FUN_004b7210();
+RoulettemenuInterfaceView* InterfaceManager_GetSingleton();
 void* FUN_00450b80(int);
-void FUN_00b6bee0(void*, void*, Scene*);
+void BSShaderUtil_AccumulateScene(void*, void*, Scene*);
 void FUN_00b6c0d0(void*, void*, int);
 // @fnv 0x007bbcf0
-void FUN_007bbcf0()
+// src: COMMUNITY 0x007bbcf0
+void RouletteMenu_DrawScene()
 {
-    FUN_0043c4b0()->FUN_007148c0(0, 4);
+    FUN_0043c4b0()->RendererClearBufferHook(0, 4);
     Owner* pOwner = FUN_0045c670();
     Scene* scene = pOwner->FUN_008d80e0();
-    scene->FUN_00c4f270(1);
+    scene->BSCullingProcess_PushCullMode(1);
     void* owner = g_011da8d0.FUN_00559450();
     UpdateCameraFrustum(owner, g_011db5ec_arg1);
-    Holder node(FUN_004b7210()->FUN_007fd640());
-    scene->FUN_004a0fd0(node.FUN_00559450());
+    Holder node(InterfaceManager_GetSingleton()->FUN_007fd640());
+    scene->BSCullingProcess_SetAccumulator(node.FUN_00559450());
     void* existing = owner ? owner : pOwner->FUN_006629f0();
-    FUN_00b6bee0(existing, FUN_00450b80(1), scene);
+    BSShaderUtil_AccumulateScene(existing, FUN_00450b80(1), scene);
     FUN_00b6c0d0(existing, node.FUN_00559450(), 0);
-    scene->FUN_004a0fd0(0);
+    scene->BSCullingProcess_SetAccumulator(0);
     node.FUN_0066b0d0(0);
-    scene->FUN_00c4f2d0();
+    scene->BSCullingProcess_PopCullMode();
 }
 }  // namespace fnv_007bbcf0
 
@@ -1179,9 +1182,9 @@ struct PlayerForRoulette
     int unk09c;
     int unk0a0;
     ActorValueOwner av;
-    BetList* FUN_005a6260();
-    bool FUN_00969b80();
-    int FUN_00969b40();
+    BetList* PlayerCharacter_GetCasinoDataList();
+    bool IsCasinoAntiCheat();
+    int GetAntiCheatTimeRemaining();
     int FUN_00575610(void*);
 };
 extern PlayerForRoulette* DAT_011dea3c;
@@ -1313,17 +1316,18 @@ extern float DAT_010162c0, DAT_0101e704;
 extern double DAT_010704f0, DAT_010704e8;
 MenuVirtual* __cdecl FUN_00a09030(int);
 bool __cdecl QueueUIMessage(const char*, int, const char*, const char*, float, bool);
-void __cdecl FUN_005b5e40(const char*);
+void __cdecl Warning_005b5e40(const char*);
 float __stdcall FUN_00a01530(int);
 Tile* __cdecl FUN_00a08b20(Tile*, const char*);
 
 // @fnv 0x007bbe20
-Tile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int arg3, int exchange)
+// src: COMMUNITY 0x007bbe20
+Tile* __cdecl RouletteMenu_Create(RoulettePlayerStandIn* casino, int bet, int arg3, int exchange)
 {
     MenuVirtual* oldMenu = FUN_00a09030(0x43a);
     InterfaceRoulette* list = (InterfaceRoulette*)_FUN_004b7210();
     DAT_011da880 = casino;
-    BetList* tile = DAT_011dea3c->FUN_005a6260();
+    BetList* tile = DAT_011dea3c->PlayerCharacter_GetCasinoDataList();
     while (tile && *tile->FUN_006815c0())
     {
         if (((CasinoForRoulette*)DAT_011da880)->FUN_0084e3a0() == (*tile->FUN_006815c0())->unk00)
@@ -1340,18 +1344,18 @@ Tile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int arg3, int
         FUN_00733f50* entry = new FUN_00733f50;
         entry->formID = ((CasinoForRoulette*)DAT_011da880)->FUN_0084e3a0();
         entry->amount = 0;
-        tile = DAT_011dea3c->FUN_005a6260();
+        tile = DAT_011dea3c->PlayerCharacter_GetCasinoDataList();
         if (!tile || tile->FUN_008256d0())
             tile->FUN_00726c60(entry);
         else
             tile->FUN_005ae3d0(entry);
         DAT_011da87c = (RouletteBetStandIn*)entry;
     }
-    if (DAT_011dea3c->FUN_00969b80())
+    if (DAT_011dea3c->IsCasinoAntiCheat())
     {
         char message[260];
         FUN_00406d00(message, 260, DAT_01076274, g_011d2d24.String(), g_011d2274.String(),
-                     DAT_011dea3c->FUN_00969b40());
+                     DAT_011dea3c->GetAntiCheatTimeRemaining());
         QueueUIMessage(message, 0, DAT_01049638, 0, DAT_010162c0, false);
         static_cast<RouletteAudio*>(BSAudio::GetSingleton())->GetSoundHandleByEditorID(DAT_01025cc4, 0x121).Play(false);
         return 0;
@@ -1383,8 +1387,8 @@ Tile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int arg3, int
     if (oldMenu)
         delete oldMenu;
     Tile* ui = list->FUN_00586150(DAT_01076254)->FUN_00a01b00();
-    DAT_011da878 = static_cast<RouletteMenu*>(ui->FUN_00a03c90());
-    if (DAT_011da878 && ((MenuVirtual*)DAT_011da878)->GetID() == FUN_007bc820())
+    DAT_011da878 = static_cast<RouletteMenu*>(ui->Tile_GetMenu());
+    if (DAT_011da878 && ((MenuVirtual*)DAT_011da878)->GetID() == RouletteMenu_GetMenuID_())
     {
         ((RouletteMenu*)DAT_011da878)->unk3ffc = bet;
         ((RouletteMenu*)DAT_011da878)->unk4000 = arg3;
@@ -1396,7 +1400,7 @@ Tile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int arg3, int
         DAT_011da878->FUN_00a1dc70(reinterpret_cast<TileMenu*>(ui), false);
         if (!static_cast<unsigned char>(DAT_011da878->HasAllTiles()))
         {
-            FUN_005b5e40(DAT_01076200);
+            Warning_005b5e40(DAT_01076200);
             ((RouletteMenu*)DAT_011da878)->unk0028 = 5;
             return 0;
         }
@@ -1420,7 +1424,7 @@ Tile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int arg3, int
             FUN_00406d00(name, 64, "%s %s", ((PlayerVirtual*)DAT_011da880)->GetName(), g_011d3e08.String());
         ((Tile*)(*reinterpret_cast<Tile**>(reinterpret_cast<char*>(DAT_011da878) + 0x34)))->FUN_00a01350(DAT_011da870, name, true);
         FUN_00a08b20((Tile*)(*reinterpret_cast<Tile**>(reinterpret_cast<char*>(DAT_011da878) + 0x34)), DAT_010761e4)->FUN_00700320(0xfa3, 0);
-        FUN_00a08b20((Tile*)(*reinterpret_cast<Tile**>(reinterpret_cast<char*>(DAT_011da878) + 0x34)), DAT_010761e4)->FUN_00a07530(8);
+        FUN_00a08b20((Tile*)(*reinterpret_cast<Tile**>(reinterpret_cast<char*>(DAT_011da878) + 0x34)), DAT_010761e4)->Tile_SetChangeFlag(8);
         DAT_011da878->UpdateBetTileText();
         ((Tile*)(*reinterpret_cast<Tile**>(reinterpret_cast<char*>(DAT_011da878) + 0x38)))->FUN_00a01350(0xfc4, g_011d41e0.String(), true);
         ((Tile*)(*reinterpret_cast<Tile**>(reinterpret_cast<char*>(DAT_011da878) + 0x3c)))->FUN_00a01350(0xfc4, g_011d2c1c.String(), true);
@@ -1697,7 +1701,7 @@ struct VObj
     virtual void v38();
     virtual NiAVObject* Lookup(NiFixedString*);
 };
-NiAVObject* __cdecl FUN_004aae30(NiAVObject*, char*);
+NiAVObject* __cdecl BSUtilities_GetObjectByName(NiAVObject*, char*);
 struct SubObj
 {
     int unk00;
@@ -1930,7 +1934,7 @@ void RouletteMenu::InitRouletteWheel()
             local2 = '0';
             local1 = '1';
         }
-        local3 = FUN_004aae30((NiAVObject*)reinterpret_cast<VObj*>(m_pTableNode), buf42);
+        local3 = BSUtilities_GetObjectByName((NiAVObject*)reinterpret_cast<VObj*>(m_pTableNode), buf42);
         if (local3 == 0)
         {
             local3 = reinterpret_cast<VObj*>(m_pTableNode)->Lookup(&NiFixedString(static_cast<const char*>(buf42)));
@@ -2063,7 +2067,7 @@ struct InterfaceMgr
 {
     Tile* FUN_0045cd60();
 };
-InterfaceMgr* __cdecl FUN_004b7210();
+InterfaceMgr* __cdecl InterfaceManager_GetSingleton();
 bool __cdecl FUN_004b71d0();
 
 // Exe 0x007bd2a0: unit-local ListNode view; declarations and layout are preserved.
@@ -2162,7 +2166,7 @@ struct NiObj
     void FUN_004bc1f0(float x, float y, float z);
     void FUN_00a59c60(const ColorFlags& arFlags);
 };
-NiObj* __cdecl FUN_004aae30(NiObj* apRoot, const char* apName);
+NiObj* __cdecl BSUtilities_GetObjectByName(NiObj* apRoot, const char* apName);
 
 
 struct AnimSeq
@@ -2341,7 +2345,7 @@ extern CasinoX* DAT_011da880;
 struct GamepadX
 {
     int GetAxisState(int a1, int a2);
-    int FUN_00a239e0(int a1);
+    int Controls_GetMouseAxis(int a1);
 };
 struct InputX
 {
@@ -2375,13 +2379,13 @@ static bool s_bValidBet;
 void RouletteMenu::FUN_007bd2a0()
 {
     using fnv_007bd2a0::InterfaceMgr;
-    using fnv_007bd2a0::FUN_004b7210;
+    using fnv_007bd2a0::InterfaceManager_GetSingleton;
     using fnv_007bd2a0::FUN_004b71d0;
     using fnv_007bd2a0::RouletteBetEntry;
     using fnv_007bd2a0::ColorFlags;
     using fnv_007bd2a0::FixedStr;
     using fnv_007bd2a0::NiObj;
-    using fnv_007bd2a0::FUN_004aae30;
+    using fnv_007bd2a0::BSUtilities_GetObjectByName;
     using fnv_007bd2a0::AnimSeq;
     using fnv_007bd2a0::AnimCtrl;
     using fnv_007bd2a0::FUN_00453a70;
@@ -2453,17 +2457,17 @@ void RouletteMenu::FUN_007bd2a0()
     }
     if (!bActive2)
     {
-        FUN_004b7210()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+        InterfaceManager_GetSingleton()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
     }
     else
     {
-        FUN_004b7210()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 0.0f, true);
+        InterfaceManager_GetSingleton()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 0.0f, true);
     }
     int iStickX3 = 0;
     int iStickY5 = 0;
     int iStickZ4 = 0;
     int iStickMax7 = 0x7fff;
-    FUN_004b7210();
+    InterfaceManager_GetSingleton();
     if (FUN_004b71d0())
     {
         iStickX3 = DAT_011dea0c->FUN_00877720()->GetAxisState(0, 7);
@@ -2485,8 +2489,8 @@ void RouletteMenu::FUN_007bd2a0()
     }
     else
     {
-        fMoveX4 = -DAT_011dea0c->FUN_00877720()->FUN_00a239e0(1) * (FUN_00715d40() / FUN_00706e50()) / 10.0;
-        fMoveY4 = DAT_011dea0c->FUN_00877720()->FUN_00a239e0(2) * (FUN_00715d40() / FUN_00706e50()) / 10.0;
+        fMoveX4 = -DAT_011dea0c->FUN_00877720()->Controls_GetMouseAxis(1) * (FUN_00715d40() / FUN_00706e50()) / 10.0;
+        fMoveY4 = DAT_011dea0c->FUN_00877720()->Controls_GetMouseAxis(2) * (FUN_00715d40() / FUN_00706e50()) / 10.0;
     }
     m_iLastTime = DAT_011f6394.FUN_00825c00();
     s_iLastState = m_iFadeIndex;
@@ -2495,7 +2499,7 @@ void RouletteMenu::FUN_007bd2a0()
     case 5:
         if (FUN_0059bb30() != 2)
         {
-            FUN_004b7210()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+            InterfaceManager_GetSingleton()->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
             FUN_00726070()->FUN_00700320(0x1772, 1);
             FUN_00a1d910();
             int iChipDiff;
@@ -2516,11 +2520,11 @@ void RouletteMenu::FUN_007bd2a0()
                 kChange.AddObject(reinterpret_cast<TESForm*>(DAT_011da880->FUN_007316d0()), iChipDiff, 0);
                 if (DAT_011da87c->iEarnings < DAT_011da880->GetFieldAt210())
                 {
-                    kChange.FUN_004821a0(reinterpret_cast<TESObjectREFR*>(DAT_011dea3c), false);
+                    kChange.AddContainerToReference(reinterpret_cast<TESObjectREFR*>(DAT_011dea3c), false);
                 }
                 else
                 {
-                    kChange.FUN_004821a0(reinterpret_cast<TESObjectREFR*>(DAT_011dea3c), true);
+                    kChange.AddContainerToReference(reinterpret_cast<TESObjectREFR*>(DAT_011dea3c), true);
                     BSString kWonMsg;
                     FUN_00406f60(&kWonMsg, "%i %s%s %s\n%s", iChipDiff, FUN_00482720(DAT_011da880->FUN_007316d0()),
                                  DAT_011d3114.FUN_00403df0(), DAT_011d4e7c.FUN_00403df0(), DAT_011d3abc.FUN_00403df0());
@@ -2819,7 +2823,7 @@ void RouletteMenu::FUN_007bd2a0()
                 {
                     m_pHighlight->FUN_00450f90(true);
                 }
-                m_pHighlight = reinterpret_cast<NiAVObject*>(FUN_004aae30(reinterpret_cast<NiObj*>(m_pTableNode), m_aSlots[iHover].szNodeName));
+                m_pHighlight = reinterpret_cast<NiAVObject*>(BSUtilities_GetObjectByName(reinterpret_cast<NiObj*>(m_pTableNode), m_aSlots[iHover].szNodeName));
                 if (m_pHighlight == 0)
                 {
                     m_pHighlight = m_pTableNode->GetObjectByName(NiFixedString(static_cast<const char*>(m_aSlots[iHover].szNodeName)));

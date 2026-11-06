@@ -35,7 +35,7 @@ struct ElementIterator
 extern unsigned int DAT_010173f0;
 struct FUN_00b04d40_Obj
 {
-    float FUN_00b04d40(int a);
+    float CVec3_Distance(int a);
 };
 extern FUN_00b04d40_Obj DAT_011f8e9c;
 extern double DAT_01012060;
@@ -137,7 +137,7 @@ void* S00b2b490_Elem::FUN_00b2b490(unsigned int flags)
 extern const char* DAT_011ad36c;
 extern unsigned int DAT_010173f0;
 void FUN_00ec7c56();
-void FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);
+void std_Traits_helper_copy_s_std_char_traits_char(char*, unsigned int, const char*, unsigned int);
 unsigned int __cdecl strlen(const char*);
 
 struct SptAllocator
@@ -191,7 +191,7 @@ struct SptString : SptStringBase
         }
         else if (grow(num))
         {
-            FUN_0044ccd0(pointer(), capacity, rhs.pointer() + off, num);
+            std_Traits_helper_copy_s_std_char_traits_char(pointer(), capacity, rhs.pointer() + off, num);
             eos(num);
         }
         return *this;
@@ -227,7 +227,7 @@ struct SptString : SptStringBase
         {
 
             if (n > 0)
-                FUN_0044ccd0(storage.buffer, 16, storage.data, n);
+                std_Traits_helper_copy_s_std_char_traits_char(storage.buffer, 16, storage.data, n);
             deallocate(storage.data, capacity + 1);
         }
         capacity = 15;
@@ -341,7 +341,8 @@ struct CTreeFileAccessImpl : ElementIterator
         return m_pos >= m_buffer.size();
     }
     int GetElementAtOffset();
-    SptString FUN_00b3ee40()
+// src: COMMUNITY 0x00b3ee40
+    SptString CTreeFileAccess_ParseString()
     {
         SptString value;
         int length = GetNextElement();
@@ -362,7 +363,7 @@ bool CTreeEngine::FUN_00b2b550(CTreeFileAccessImpl* file)
         throw SptError("missing begin_file token", false);
     }
 
-    SptString str3 = ((CTreeFileAccessImpl*)file)->FUN_00b3ee40();
+    SptString str3 = ((CTreeFileAccessImpl*)file)->CTreeFileAccess_ParseString();
     if (str3 != SptString(DAT_011ad36c))
     {
         throw SptError("not a valid SpeedTree SPT file", false);
@@ -380,7 +381,7 @@ bool CTreeEngine::FUN_00b2b550(CTreeFileAccessImpl* file)
             m_sub94.FUN_00b3d1b0(file);
             break;
         case 0x3f3:
-            m_sub10c.FUN_00b408b0(file);
+            m_sub10c.SIdvWindInfo_Parse(file);
             break;
         default:
             throw SptError("malformed SpeedTree SPT file", false);
@@ -396,11 +397,11 @@ bool CTreeEngine::FUN_00b2b550(CTreeFileAccessImpl* file)
 
     m_pcFileName = m_pcFileName;
 
-    m_suba4.FUN_00b2db10(&m_suba4);
+    m_suba4.CTreeEngine_SetLeafTextures(&m_suba4);
 
     if (m_actualSize > -1.0f)
     {
-        FUN_00b2bd20(m_actualSize, m_actualVariance);
+        SetSize_00b2bd20(m_actualSize, m_actualVariance);
     }
 
     bSuccess = true;
@@ -1364,7 +1365,8 @@ inline void SetTreeVector(NiPoint3* point, float fX, float fY, float fZ)
 }
 
 // @fnv 0x00b2bc70
-void CTreeEngine::FUN_00b2bc70(float fScale)
+// src: COMMUNITY 0x00b2bc70
+void CTreeEngine::SetWind(float fScale)
 {
     *(float*)((char*)this + 0x124) = fScale;
     float fY = DAT_010a5664 * fScale * TreeVectorComponent((NiPoint3*)&m_sub10c, 1);
@@ -1438,9 +1440,9 @@ struct FUN_00b09480 : S2bde0_ExBase
 };
 struct S2bde0_Parser
 {
-    float FUN_00b3ed20();
+    float CTreeFileAccess_ParseFloat();
     bool FUN_00b06180();
-    S2bde0_RStr FUN_00b3ee40();
+    S2bde0_RStr CTreeFileAccess_ParseString();
 };
 struct S2bde0_Ctx
 {
@@ -1534,7 +1536,7 @@ void CTreeEngine::FUN_00b2bde0(ElementIterator* p)
         {
         case 0x7d0: {
             Gap1();
-            S2bde0_Str kTmp(((S2bde0_Parser*)p)->FUN_00b3ee40());
+            S2bde0_Str kTmp(((S2bde0_Parser*)p)->CTreeFileAccess_ParseString());
             (*(S2bde0_Name*)&m_pcFileName) = kTmp;
         }
             {
@@ -1547,10 +1549,10 @@ void CTreeEngine::FUN_00b2bde0(ElementIterator* p)
             break;
         }
         case 0x7d3:
-            (*(float*)&unk44) = ((S2bde0_Parser*)p)->FUN_00b3ed20();
+            (*(float*)&unk44) = ((S2bde0_Parser*)p)->CTreeFileAccess_ParseFloat();
             break;
         case 0x7d1:
-            (*(float*)&unk40) = ((S2bde0_Parser*)p)->FUN_00b3ed20();
+            (*(float*)&unk40) = ((S2bde0_Parser*)p)->CTreeFileAccess_ParseFloat();
             break;
         case 0x7d4:
             ((ElementIterator*)p)->GetNextElement();
@@ -1559,10 +1561,10 @@ void CTreeEngine::FUN_00b2bde0(ElementIterator* p)
             ((S2bde0_Parser*)p)->FUN_00b06180();
             break;
         case 0x7d6:
-            (*(float*)&unk4c) = ((S2bde0_Parser*)p)->FUN_00b3ed20();
+            (*(float*)&unk4c) = ((S2bde0_Parser*)p)->CTreeFileAccess_ParseFloat();
             break;
         case 0x7d7:
-            (*(float*)&unk50) = ((S2bde0_Parser*)p)->FUN_00b3ed20();
+            (*(float*)&unk50) = ((S2bde0_Parser*)p)->CTreeFileAccess_ParseFloat();
             break;
         case 0x3f6:
             FUN_00b2c790(p);
@@ -1577,8 +1579,8 @@ void CTreeEngine::FUN_00b2bde0(ElementIterator* p)
 
 namespace fnv_00b2c130 {
 void __cdecl FUN_00ec7c56();
-void __cdecl FUN_00b138c0(void* p);
-void __cdecl FUN_00401030(void* p);
+void __cdecl CIdvBranch_SortBranchVector(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 struct Elem
 {
@@ -1630,7 +1632,7 @@ struct VB
     ~VB()
     {
         void* p = m_00;
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 };
 
@@ -1680,16 +1682,16 @@ struct FUN_00b3f100
 
 struct Obj58
 {
-    void FUN_00b13820(FUN_00b17db0* vec);
+    void CIdvBranch_BuildBranchVector(FUN_00b17db0* vec);
 };
 
 struct Obj5c
 {
     int m_00[34];
     FUN_00b17db0 m_88;
-    void FUN_00b30c80(int a);
-    void FUN_00b306d0(unsigned short a);
-    void FUN_00b2fdc0(int a, int b, int c);
+    void CIndexedGeometry_DeleteLodStrip(int a);
+    void CIndexedGeometry_ResetStripCounter(unsigned short a);
+    void CIndexedGeometry_AddStrip(int a, int b, int c);
 };
 
 inline float W(Elem* const& e)
@@ -1725,7 +1727,8 @@ inline float Lerp(CTreeEngine* tree, float t, float a)
 } // namespace fnv_00b2c130
 
 // @fnv 0x00b2c130
-void CTreeEngine::FUN_00b2c130()
+// src: COMMUNITY 0x00b2c130
+void CTreeEngine::BuildBranchLods()
 {
     using namespace fnv_00b2c130;
     int v_j;
@@ -1734,7 +1737,7 @@ void CTreeEngine::FUN_00b2c130()
     if (((Obj58*)unk58))
     {
         if ((unsigned short)(((Obj5c*)unk5c)->m_88.size() / 3) > 0)
-            ((Obj58*)unk58)->FUN_00b13820(&k);
+            ((Obj58*)unk58)->CIdvBranch_BuildBranchVector(&k);
     }
     float v_sum = 0.0f;
     float v_maxA = 0.0f;
@@ -1774,8 +1777,8 @@ void CTreeEngine::FUN_00b2c130()
             k[dir]->Set(v_z);
         }
     }
-    FUN_00b138c0(&k);
-    FUN_00b138c0(&v_cntIn);
+    CIdvBranch_SortBranchVector(&k);
+    CIdvBranch_SortBranchVector(&v_cntIn);
     {
         int v_n;
         for (v_n = 0; v_n < v_cntIn.size(); v_n++)
@@ -1789,7 +1792,7 @@ void CTreeEngine::FUN_00b2c130()
         for (v_p = 0; v_p < v_k; v_p++)
         {
             if (!v_p)
-                ((Obj5c*)unk5c)->FUN_00b30c80(0);
+                ((Obj5c*)unk5c)->CIndexedGeometry_DeleteLodStrip(0);
             float v_acc = (int)v_k < 2 ? 1.0f : Lerp(this, (float)((double)v_p / (double)(int)(v_k - 1)), unkF8);
             float v_target = v_acc * v_sum;
             int lhs = 0;
@@ -1800,10 +1803,10 @@ void CTreeEngine::FUN_00b2c130()
                 w = w + W(k[e]);
                 lhs = 1 + lhs;
             }
-            ((Obj5c*)unk5c)->FUN_00b306d0((unsigned short)v_p);
+            ((Obj5c*)unk5c)->CIndexedGeometry_ResetStripCounter((unsigned short)v_p);
             if (v_p == 0 && lhs == 0)
             {
-                ((Obj5c*)unk5c)->FUN_00b2fdc0(0, 0, 0);
+                ((Obj5c*)unk5c)->CIndexedGeometry_AddStrip(0, 0, 0);
             }
             else
             {
@@ -2296,10 +2299,11 @@ struct Elem54Vector : VecVal
     {
         return unchecked_uninitialized_copy(_First, _Last, _Ptr, this->_Alval);
     }
-    Elem54Vector& FUN_00b2db10(const Elem54Vector& _Right);
+    Elem54Vector& CTreeEngine_SetLeafTextures(const Elem54Vector& _Right);
 };
 // @fnv 0x00b2db10
-Elem54Vector& Elem54Vector::FUN_00b2db10(const Elem54Vector& _Right)
+// src: COMMUNITY 0x00b2db10
+Elem54Vector& Elem54Vector::CTreeEngine_SetLeafTextures(const Elem54Vector& _Right)
 {
     if (this != &_Right)
     {
@@ -2395,10 +2399,10 @@ void __thiscall CTreeEngine::FUN_00b2ceb0(ElementIterator* a)
             this->unk78 = a->GetNextElement();
             break;
         case 0x2330:
-            this->unkF4 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unkF4 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->CTreeFileAccess_ParseFloat();
             break;
         case 0x2332:
-            this->unkFC = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unkFC = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->CTreeFileAccess_ParseFloat();
             if (this->unkFC == 0.0f)
                 this->unkFC = DAT_0101e2bc;
             break;
@@ -2406,13 +2410,13 @@ void __thiscall CTreeEngine::FUN_00b2ceb0(ElementIterator* a)
             this->unkd8 = a->GetNextElement();
             break;
         case 0x2334:
-            this->unkF8 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unkF8 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->CTreeFileAccess_ParseFloat();
             break;
         case 0x2335:
-            this->unk100 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unk100 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->CTreeFileAccess_ParseFloat();
             break;
         case 0x2336:
-            this->unk104 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->FUN_00b3ed20();
+            this->unk104 = static_cast<S2bde0_Parser*>(static_cast<void*>(a))->CTreeFileAccess_ParseFloat();
             break;
         default:
             throw LodErrorDetail::FUN_00b09480("malformed engine lod data", false);
@@ -2443,7 +2447,7 @@ struct S00b2c790_Error
 
 struct S00b2c790_Sub
 {
-    void FUN_00b32350();
+    void std_vector_clear();
     void FUN_00b15390(int* value);
 };
 
@@ -2470,7 +2474,7 @@ void CTreeEngine::FUN_00b2c790(ElementIterator* parser)
     int branchCount;
 
     TreeClear();
-    TreeSub(this)->FUN_00b32350();
+    TreeSub(this)->std_vector_clear();
 
     count_2 = reinterpret_cast<ElementIterator*>(parser)->GetNextElement();
     for (index4 = 0; index4 < count_2; ++index4)

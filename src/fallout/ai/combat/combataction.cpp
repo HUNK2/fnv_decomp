@@ -166,13 +166,13 @@ bool CombatAction::FUN_00979e90(CombatController* apCombatController, CombatWorl
         if (pWorldState4)
         {
             iValue3 = pWorldState4->_ref_00726070() == -1 ? aiActionValue : pWorldState4->_ref_00726070();
-            if (!apWorldStateArray->FUN_009aadc0(*pWorldState4, iValue3))
+            if (!apWorldStateArray->CombatWorldStateArray_IsTrue(*pWorldState4, iValue3))
                 return false;
         }
         pList = pList->GetNext();
     }
     _iCombatLocation = -1;
-    if (FUN_00979f50(1, &_iCombatLocation))
+    if (HasRequirement(1, &_iCombatLocation))
         reinterpret_cast<FUN_00979f70_shell*>(reinterpret_cast<FUN_005e3fc0_shell*>(apCombatController)->Get())
             ->FUN_00979f70(_iCombatLocation);
     return true;
@@ -186,7 +186,8 @@ struct CombatActionStateListAccess : CombatWorldStateListNode
 
 // Calls FindStateByType on the object at offset 0xc of this, passing a and b through.
 // @fnv 0x00979f50
-void CombatAction::FUN_00979f50(int aiArg1, int aiArg2)
+// src: COMMUNITY 0x00979f50
+void CombatAction::HasRequirement(int aiArg1, int aiArg2)
 {
     reinterpret_cast<CombatActionStateListAccess*>(&m_kActionWorldStateNode)->FindStateByType(aiArg1, aiArg2);
 }
@@ -210,7 +211,7 @@ void FUN_00979f70_shell::FUN_00979f70(unsigned int aiQuantity)
 }  // namespace fnv_00979f70
 
 namespace fnv_0097abd0 {
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 
 struct CombatActionEntry
 {
@@ -221,11 +222,12 @@ struct CombatActionEntry
 extern CombatActionEntry DAT_011a4280[];
 
 // @fnv 0x0097abd0
-bool FUN_0097abd0(char* apCombatActionName, float afCost)
+// src: COMMUNITY 0x0097abd0
+bool CombatAction_SetCombatActionCost(char* apCombatActionName, float afCost)
 {
     for (unsigned int i = 0; i < 0x1b; i++)
     {
-        if (!FUN_00404dc0(DAT_011a4280[i].pName, apCombatActionName))
+        if (!BSstricmp(DAT_011a4280[i].pName, apCombatActionName))
         {
             DAT_011a4280[i].m_fPathingCostCur = afCost;
             return true;
@@ -276,7 +278,8 @@ extern float DAT_0108cb00;
 extern double DAT_0108cb08;
 
 // @fnv 0x0097acb0
-float FUN_0097acb0(CombatController* apCombatController, CoordinateTriple* arStartWorldLoc,
+// src: COMMUNITY 0x0097acb0
+float CombatAction_GetMovementCost(CombatController* apCombatController, CoordinateTriple* arStartWorldLoc,
                    CoordinateTriple* arEndWorldLoc)
 {
     float fmovementCost;

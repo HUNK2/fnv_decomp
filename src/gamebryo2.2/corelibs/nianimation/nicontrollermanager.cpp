@@ -99,7 +99,7 @@ void __cdecl CreateVertexRecords();
 void __cdecl FUN_00a2d470();
 void __cdecl FUN_00a2a7b0();
 void __cdecl AllocateTempArray();
-void __cdecl FUN_00a2a600();
+void __cdecl NiStepPosKey_DeleteArray();
 void __cdecl FUN_00a2d5b0(int, int);
 
 // If not already initialized, marks it initialized, stores five function pointers into globals, sets a byte to 0x10, calls FUN_00a2d5b0(1, 5), and returns 1.
@@ -114,7 +114,7 @@ int __cdecl NiStepPosKey_RegisterLoader()
     DAT_011f3a7c = (void*)&FUN_00a2d470;
     DAT_011f39ec = (void*)&FUN_00a2a7b0;
     DAT_011f395c = (void*)&AllocateTempArray;
-    DAT_011f38cc = (void*)&FUN_00a2a600;
+    DAT_011f38cc = (void*)&NiStepPosKey_DeleteArray;
     DAT_011f3763 = 0x10;
     FUN_00a2d5b0(1, 5);
     return 1;
@@ -310,7 +310,8 @@ void NiControllerManager::CloneControllerManager(NiControllerManager* pkDest, Cl
 
 extern const char g_011f4a04_arg1[];
 // @fnv 0x00a2e1e0
-const char* __cdecl FUN_00a2e1e0()
+// src: COMMUNITY 0x00a2e1e0
+const char* __cdecl NiAVObjectPalette_GetRTTI()
 {
     return g_011f4a04_arg1;
 }
@@ -446,7 +447,8 @@ void __fastcall FUN_00a2ebb0(char* self)
 
 extern NiRTTI DAT_011f36ac;
 // @fnv 0x00a2ec40
-const NiRTTI* __cdecl FUN_00a2ec40()
+// src: COMMUNITY 0x00a2ec40
+const NiRTTI* __cdecl NiControllerManager_GetRTTI()
 {
     return &DAT_011f36ac;
 }
@@ -457,7 +459,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f4a04;
 // @fnv 0x00a2ede0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a2ede0()
+// src: COMMUNITY 0x00a2ede0
+GlobalObjectO2_00a7b610* __cdecl NiDefaultAVObjectPalette_GetRTTI()
 {
     return &g_011f4a04;
 }
@@ -470,7 +473,7 @@ void __fastcall FUN_00a2edf0(char* self, int edx, void* scene)
 
 struct Stub
 {
-    void FUN_00aa0250(NiFixedString&);
+    void NiTStringPointerMap_NiAVObject_RemoveAt(NiFixedString&);
 };
 typedef NiTFixedStringMapBase<DFALL<NiTMapItem<NiFixedString, const char*> >, const char*> Map;
 
@@ -480,7 +483,7 @@ void __fastcall NiDefaultAVObjectPalette_SetAVObject(char* self, int edx, NiFixe
 {
     if (!obj)
     {
-        ((Stub*)(self + 8))->FUN_00aa0250(name);
+        ((Stub*)(self + 8))->NiTStringPointerMap_NiAVObject_RemoveAt(name);
         return;
     }
     ((Map*)(self + 8))->SetAt(name, obj);
@@ -779,7 +782,7 @@ extern int DAT_01096144;
 extern int DAT_01096124;
 
 void __cdecl _NiFree_00aa10f0(void* p);
-void __fastcall FUN_00b601a0(void* self);
+void __fastcall NiTPointerMap_RemoveAll_00b601a0(void* self);
 
 struct ItemBinding
 {
@@ -1280,7 +1283,7 @@ void __fastcall FUN_00a2f420(NiControllerManager* self, int, CloneProc& kCloning
 
 struct CtrlSeqOwner
 {
-    void FUN_00a2e7d0(NiRefObject* pkObject, NiRefObject** ppkOut);
+    void NiControllerManager_RemoveSequence(NiRefObject* pkObject, NiRefObject** ppkOut);
     void ReleaseObject(NiRefObject* pkObject);
 };
 
@@ -1289,7 +1292,7 @@ struct CtrlSeqOwner
 void CtrlSeqOwner::ReleaseObject(NiRefObject* pkObject)
 {
     NiRefObject* pkFound = 0;
-    FUN_00a2e7d0(pkObject, &pkFound);
+    NiControllerManager_RemoveSequence(pkObject, &pkFound);
     NiRefObject* pkRef = *(NiRefObject* volatile*)&pkFound;
     if (pkRef)
     {
@@ -1586,7 +1589,7 @@ NiControllerSequence* NiControllerManager::GetTempBlendSequence(NiControllerSequ
         *(S00a2f170_FS*)&sequence->m_kAccumulationRootName = *(S00a2f170_FS*)&m_pkTarget->m_kName;
         reused = true;
     }
-    apSourceSequence->FUN_00a32fa0(sequence, arraySize, option, reused);
+    apSourceSequence->PopulatePoseSequence(sequence, arraySize, option, reused);
     return sequence;
 }
 

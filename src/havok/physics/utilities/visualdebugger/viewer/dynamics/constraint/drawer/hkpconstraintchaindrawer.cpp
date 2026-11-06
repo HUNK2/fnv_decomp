@@ -95,7 +95,7 @@ public:
 
     LocalVec& ScaleByInverse(float divisor);
     float FUN_00457910();
-    LocalVec* FUN_006a6eb0();
+    LocalVec* FastNavMeshTriLocation_GetLocation();
     bool FUN_004390c0(const LocalVec& v);
 
     __m128 get() const;
@@ -144,28 +144,28 @@ public:
     void FUN_00c7f640(const void* matrix, const void* point);
     void FUN_00c7f700(Mat3* matrix, void* point);
     void FUN_00c7f700(const void* matrix, const LocalVec* point);
-    void FUN_00b12790();
-    void FUN_00b13040(LocalVec* out, const LocalVec* v);
+    void Normalize_00b12790();
+    void Diff_00b13040(LocalVec* out, const LocalVec* v);
     LocalVec* ScaleSwizzled(LocalVec* out, float factor);
     void AddVector(LocalVec* out, const LocalVec* v);
     float Dot(const LocalVec& v);
     LocalVec* FUN_004a3c90(const LocalVec* v);
     LocalVec* FUN_0062b0a0(LocalVec* out, LocalVec* v);
-    LocalVec* FUN_0062af00(LocalVec* target);
+    LocalVec* hkVector4_lengthInverse3(LocalVec* target);
 
     void FUN_00cf7690(Elem* value);
     void FUN_00b1e970();
     Iter begin();
     Iter end();
     CIter FUN_00b33030(CIter first, CIter last);
-    void FUN_00b32120();
+    void m_vStrips_clear();
     unsigned int size() const;
     unsigned int capacity() const;
     void FUN_00b2df90();
     void FUN_00b2e140(Elem* first, Elem* last);
     bool InitBuffer(unsigned int count);
     Elem* _Ucopy(Elem* first, Elem* last, Elem* out);
-    LocalVec& FUN_00b2db10(const LocalVec& v);
+    LocalVec& CTreeEngine_SetLeafTextures(const LocalVec& v);
     CMutIter FUN_00aceb80(CMutIter first, CMutIter last);
     void FUN_00acac40();
     LocalVec& FUN_00ad61e0(const LocalVec& v);
@@ -320,7 +320,7 @@ struct ChainInstance
 
 struct Sub
 {
-    void FUN_00e10a10(void* a);
+    void hkpPrimitiveDrawer_setDisplayHandler(void* a);
 };
 struct Listener
 {
@@ -355,7 +355,7 @@ struct Obj
     hkRotation m_kSecondRotation;
     Sub mC0;
     void hkpConstraintDrawer_drawPivots(int a, int b);
-    void FUN_00de4530(int a, int b);
+    void hkpConstraintDrawer_drawBodyFrames(int a, int b);
     void FireChainConstraints(ChainInstance* c, Listener* l, int a, int b);
 };
 
@@ -363,7 +363,7 @@ struct Obj
 void Obj::FireChainConstraints(ChainInstance* apChain, Listener* apListener, int aiArg1, int aiArg2)
 {
     ChainData* data = apChain->m_data;
-    mC0.FUN_00e10a10(apListener);
+    mC0.hkpPrimitiveDrawer_setDisplayHandler(apListener);
     int iPairCount = apChain->m_iActorEntryCount - 1;
     for (int iPair = 0; iPair < iPairCount; iPair++)
     {
@@ -404,7 +404,7 @@ void Obj::FireChainConstraints(ChainInstance* apChain, Listener* apListener, int
         m50.FUN_00c7f640(&transformB, pivotB);
         m40.FUN_00c7f640(&transformA, pivotA);
         hkpConstraintDrawer_drawPivots(aiArg1, aiArg2);
-        FUN_00de4530(aiArg1, aiArg2);
+        hkpConstraintDrawer_drawBodyFrames(aiArg1, aiArg2);
         apListener->Fire(&m40, &m50, 0xffff0000, aiArg1, aiArg2);
     }
 }

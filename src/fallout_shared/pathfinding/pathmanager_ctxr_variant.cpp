@@ -28,7 +28,7 @@ struct ObjA
 // These two operations are not yet declared by the shared header.
 struct PathingTaskData_Ext : public PathingTaskData
 {
-    int FUN_006ea350();
+    int PathingTaskData_ComputeRayCasts();
     void FUN_0060d4b0(int);
 };
 
@@ -54,7 +54,7 @@ struct SubC2C
     int unk0;
     int unk4;
     int unk8;
-    bool FUN_00aa6220();
+    bool BSReadWriteLock_TryLockForWriteAndReserve();
     void FUN_00aa62e0();
 };
 
@@ -88,7 +88,7 @@ struct TaskQueueInterface
     static TaskQueueInterface* GetInstance();
     void FUN_0087ac60(void* p);
     void QueueTaskWithTwoObjects(void* a, void* b, bool c, bool d);
-    void FUN_0087ad50(void* p);
+    void TaskQueueInterface_QueueObjectUpdate(void* p);
 };
 
 extern NiPointer<NiNode> g_011d6e5c;
@@ -1420,7 +1420,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
     switch (m_stateC24)
     {
     case 1:
-        if (m_subC2C.FUN_00aa6220())
+        if (m_subC2C.BSReadWriteLock_TryLockForWriteAndReserve())
         {
             m_stateC24 = 2;
         }
@@ -1444,7 +1444,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
     {
         if (m_sub1480.TryGetNextEntry(&objA6, &pOut_b, &pFound_vv, 1) && pFound_vv->GetByteAtOffset64())
         {
-            count_iagb += pFound_vv->FUN_006ea350();
+            count_iagb += pFound_vv->PathingTaskData_ComputeRayCasts();
             if ((unsigned int)count_iagb > 10)
                 break;
             if (pFound_vv->HasPendingMessages())
@@ -1498,7 +1498,7 @@ void FUN_006eae40_shell::PathManagerImpl_Update()
     {
         if (FUN_008c7aa0())
         {
-            TaskQueueInterface::GetInstance()->FUN_0087ad50(g_011d6e5c);
+            TaskQueueInterface::GetInstance()->TaskQueueInterface_QueueObjectUpdate(g_011d6e5c);
         }
         else
         {

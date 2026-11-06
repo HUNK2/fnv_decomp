@@ -214,9 +214,9 @@ struct Ref
     void ApplyActorSpells();
     Ref* FUN_008d6f30();
     bool FUN_005656d0();
-    bool FUN_00564d80();
+    bool GetTargeted();
     void FUN_0093a660(Ref* a);
-    void FUN_00967350(Ref* a);
+    void PlayerCharacter_RemovePerceivedActor(Ref* a);
     void FUN_00952c30(Ref* a);
     int FUN_00931850();
     bool FUN_00574900();
@@ -224,22 +224,22 @@ struct Ref
     void FUN_0088d640();
     void FUN_00407800(Proc* a);
     void FUN_0056c880(unsigned int a, bool b);
-    void* FUN_0056ac90();
+    void* TESObjectREFR_GetEnableStateChildList();
     bool FUN_0056aa70();
     void FUN_0056c780(int a);
     void FUN_00573f40();
     void FUN_00572270();
     void FUN_00579ac0(bool a);
     Ref* FUN_007af430();
-    void FUN_00574400();
+    void TESObjectREFR_Disable();
     void FUN_008b01c0();
     void FUN_00545560(Ref* a);
     bool FUN_00549580();
 };
 struct ExtraList
 {
-    Ref* FUN_0041e310();
-    bool FUN_0041dbd0();
+    Ref* ExtraDataList_GetAshPileRef();
+    bool ExtraDataList_ShouldPopInWhenEnabledByParent();
     void* FUN_0041df90();
     void FUN_0041de40(Ref* a);
 };
@@ -586,10 +586,11 @@ extern Tes* DAT_011dea10;
 extern GlobalObj DAT_011e0e80;
 void __cdecl FUN_008cddd0(Ref* a, int b);
 int __cdecl FUN_00570f60();
-void __cdecl FUN_00835980(Ref* a);
+void __cdecl FalloutRadio_DisableNPCRadio(Ref* a);
 
 // @fnv 0x00574400
-void Ref::FUN_00574400()
+// src: COMMUNITY 0x00574400
+void Ref::TESObjectREFR_Disable()
 {
     Ref* p;
     Iter* val;
@@ -610,14 +611,14 @@ void Ref::FUN_00574400()
                     return;
                 {
                     vt1cc(0, 0);
-                    var1 = FUN_005d43c0()->FUN_0041e310();
+                    var1 = FUN_005d43c0()->ExtraDataList_GetAshPileRef();
                     if (var1 != 0)
                     {
                         if (FUN_007af430() != DAT_011ca27c)
                         {
                             if (FUN_007af430() != DAT_011ca280)
                             {
-                                var1->FUN_00574400();
+                                var1->TESObjectREFR_Disable();
                             }
                         }
                     }
@@ -641,7 +642,7 @@ void Ref::FUN_00574400()
                                     FUN_008cddd0(this, 1);
                                 }
                                 DAT_011dea3c->FUN_0093a660(q);
-                                DAT_011dea3c->FUN_00967350(q);
+                                DAT_011dea3c->PlayerCharacter_RemovePerceivedActor(q);
                                 DAT_011e0e80.RemoveActor(q);
                                 if (FUN_008d6f30() != 0)
                                 {
@@ -657,7 +658,7 @@ void Ref::FUN_00574400()
                             }
                             p->vt2fc();
                             DAT_011e0e80.FUN_0096d470(p, p->FUN_00931850());
-                            if (vt100() || FUN_00564d80())
+                            if (vt100() || GetTargeted())
                             {
                                 DAT_011e0e80.FUN_0096f600(this, 0);
                             }
@@ -717,13 +718,13 @@ void Ref::FUN_00574400()
                     }
                     FUN_0056c880(1, 0);
                     DAT_011dea3c->FUN_00952c30(this);
-                    it1 = (Iter*)FUN_0056ac90();
+                    it1 = (Iter*)TESObjectREFR_GetEnableStateChildList();
                     while (it1 != 0 && !it1->FUN_008256d0())
                     {
                         procCopy = *it1->FUN_006815c0();
                         if (procCopy->FUN_0056aa70())
                         {
-                            if (procCopy->FUN_005d43c0()->FUN_0041dbd0())
+                            if (procCopy->FUN_005d43c0()->ExtraDataList_ShouldPopInWhenEnabledByParent())
                             {
                                 procCopy->FUN_0056c780(1);
                             }
@@ -731,7 +732,7 @@ void Ref::FUN_00574400()
                         }
                         else
                         {
-                            procCopy->FUN_00574400();
+                            procCopy->TESObjectREFR_Disable();
                         }
                         it1 = it1->FUN_00726070();
                     }
@@ -746,7 +747,7 @@ void Ref::FUN_00574400()
                     FUN_00579ac0(0);
                     if (vt100())
                     {
-                        FUN_00835980(this);
+                        FalloutRadio_DisableNPCRadio(this);
                     }
                 }
             }

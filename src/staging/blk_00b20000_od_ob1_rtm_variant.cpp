@@ -154,7 +154,7 @@ struct FUN_00b27060_cls
     int unk28;
     int unk2C;
     unsigned char unk30;
-    FUN_00b27060_cls* FUN_00b27060();
+    FUN_00b27060_cls* CSimpleBillboard_CSimpleBillboard();
 };
 struct ResourceBufferOwner
 {
@@ -202,7 +202,7 @@ class FUN_00b276f0_cls
 
     void Reset();
 };
-extern void __cdecl FUN_00401030(void* p);
+extern void __cdecl FormHeapFreeAndLog_00401030(void* p);
 // InitBuffer
 extern "C" int __cdecl FUN_00b2e4a0(unsigned int count, int flag);
 extern "C" void __cdecl FUN_00b0fb80();
@@ -255,7 +255,7 @@ struct FUN_00b335c0_tmp
     unsigned int unk28;
     unsigned int unk2C;
 };
-unsigned int __cdecl FUN_00b42e50(unsigned int a, unsigned int b, unsigned int c);
+unsigned int __cdecl std__Move(unsigned int a, unsigned int b, unsigned int c);
 struct FUN_00b335c0_cls
 {
     unsigned int unk00;
@@ -308,7 +308,7 @@ struct Hldr0044
     void Init(unsigned int* p);
 };
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(unsigned int scaled);
+extern "C" void __cdecl FormHeap_Allocate(unsigned int scaled);
 extern "C" int DAT_01140ef8;
 extern "C" int DAT_010176f8;
 // @fnv 0x00b35f00
@@ -332,7 +332,7 @@ extern "C" void __cdecl FUN_00b35f00(unsigned int n)
         }
     }
 
-    FUN_00401000(n * 2);
+    FormHeap_Allocate(n * 2);
 }
 struct FUN_00b31270
 {
@@ -688,9 +688,9 @@ struct Mat
     float m20;
     float m21;
     float m22;
-    void __thiscall FUN_00b12af0();
+    void __thiscall CRotTransform_CRotTransform();
     Mat* __thiscall Multiply(Mat* out, Mat* rhs);
-    void __thiscall FUN_00b273d0(float angle);
+    void __thiscall CRotTransform_RotateY(float angle);
 };
 struct ElemAlloc
 {
@@ -1130,7 +1130,7 @@ struct BxLengthError : public BxLogicError
 struct AsObj;
 struct AsHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 void FUN_00ec7c56();

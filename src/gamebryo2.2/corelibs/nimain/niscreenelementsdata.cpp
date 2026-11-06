@@ -83,7 +83,7 @@ bool NiScreenElementsData::SetRectangleBounds(int iPolygonIndex, unsigned short 
             NiScreenElementsData__Polygon& kPolygon = m_akPolygon[usIndex];
             if (kPolygon.m_usVertexCount == 4 && usTextureSetIndex < (unsigned short)(m_usDataFlags & 1))
             {
-                NiPoint2* pkTexture = FUN_00a66960(usTextureSetIndex) + kPolygon.m_usVertexOffset;
+                NiPoint2* pkTexture = NiGeometryData_GetTextureSet(usTextureSetIndex) + kPolygon.m_usVertexOffset;
                 pkTexture[0].x = fLeft;
                 pkTexture[0].y = fTop;
                 pkTexture[1].x = fLeft;
@@ -104,7 +104,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5b50;
 
 // @fnv 0x00a87a90
-GlobalObjectO2_00a7b610* __cdecl FUN_00a87a90()
+// src: COMMUNITY 0x00a87a90
+GlobalObjectO2_00a7b610* __cdecl NiScreenElementsData_GetRTTI()
 {
     return &g_011f5b50;
 }
@@ -225,18 +226,18 @@ extern void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct NiMemorySystem
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
     void FUN_00aa4060(void*);
 };
 extern NiMemorySystem g_011f6238;
 
 inline void* __cdecl operator new[](unsigned int n)
 {
-    return g_011f6238.FUN_00aa3e40(n);
+    return g_011f6238.Game_DoHeapAlloc(n);
 }
 inline void* NiPoint2::operator new[](size_t n)
 {
-    return g_011f6238.FUN_00aa3e40(n);
+    return g_011f6238.Game_DoHeapAlloc(n);
 }
 inline void __cdecl operator delete[](void* p)
 {

@@ -41,7 +41,8 @@ inline float fabs(float f)
 }
 
 // @fnv 0x00cb2a50
-void hkQuaternion::FUN_00cb2a50(const hkVector4& v)
+// src: COMMUNITY 0x00cb2a50
+void hkQuaternion::removeAxisComponent(const hkVector4& v)
 {
     __m128 q_w = _mm_shuffle_ps((*reinterpret_cast<__m128*>(&unk00)), (*reinterpret_cast<__m128*>(&unk00)), 0xff);
 

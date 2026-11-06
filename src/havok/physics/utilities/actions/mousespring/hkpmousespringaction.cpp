@@ -47,7 +47,8 @@ void FUN_00cbb1b0_Class::FUN_00cbb1b0(hkReal a)
 extern "C" int DAT_01268a14;
 
 // @fnv 0x00cbb8a0
-int __cdecl FUN_00cbb8a0()
+// src: COMMUNITY 0x00cbb8a0
+int __cdecl hkpUnaryAction_getClassType()
 {
     return (int)&DAT_01268a14;
 }
@@ -538,11 +539,12 @@ class hkpPositionTrackerCBB1
     int unk2C;
     hkVector4 m_vContactPosition;
 
-    void FUN_00cbb150(const hkVector4& kPosition);
+    void hkpMouseSpringAction_setMousePosition(const hkVector4& kPosition);
 };
 
 // @fnv 0x00cbb150
-void hkpPositionTrackerCBB1::FUN_00cbb150(const hkVector4& kPosition)
+// src: COMMUNITY 0x00cbb150
+void hkpPositionTrackerCBB1::hkpMouseSpringAction_setMousePosition(const hkVector4& kPosition)
 {
     LocalM128 d = _mm_sub_ps(kPosition.m_vComponents, m_vContactPosition.m_vComponents);
     d = _mm_and_ps(d, DAT_01017d10);

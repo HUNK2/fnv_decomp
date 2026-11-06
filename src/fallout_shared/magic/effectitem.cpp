@@ -219,7 +219,8 @@ bool __cdecl HasEffectArchetypeFlag(int aiIndex, unsigned int aiFlag)
 void* __cdecl _fnv_zlib_memset(void* apDest, int aiValue, unsigned int aCount);
 
 // @fnv 0x00403d30
-void __cdecl FUN_00403d30(void* apDest, int aiValue, unsigned int aCount)
+// src: COMMUNITY 0x00403d30
+void __cdecl ourMemset(void* apDest, int aiValue, unsigned int aCount)
 {
     _fnv_zlib_memset(apDest, aiValue, aCount);
 }
@@ -481,7 +482,8 @@ void EffectItem::Save()
 }
 
 // @fnv 0x00404470
-bool EffectItem::FUN_00404470(int range)
+// src: COMMUNITY 0x00404470
+bool EffectItem::SetArea_00404470(int range)
 {
     bool result = false;
     if (!m_pEffectSetting->IsFlagSet(0x200))
@@ -515,7 +517,8 @@ EffectItem::~EffectItem()
 }
 
 // @fnv 0x004043d0
-bool EffectItem::FUN_004043d0(int a)
+// src: COMMUNITY 0x004043d0
+bool EffectItem::SetMagnitude_004043d0(int a)
 {
     bool result = false;
     if (!m_pEffectSetting->IsFlagSet(0x100))
@@ -532,7 +535,8 @@ bool EffectItem::FUN_004043d0(int a)
 
 // Sets a non-negative duration and invalidates the cached cost when the effect permits a duration.
 // @fnv 0x00404510
-bool EffectItem::FUN_00404510(int aiValue)
+// src: COMMUNITY 0x00404510
+bool EffectItem::SetDuration_00404510(int aiValue)
 {
     bool b = false;
     if (!m_pEffectSetting->IsFlagSet(0x80) && aiValue >= 0)
@@ -650,7 +654,8 @@ extern float DAT_01012054;
 
 // Stores the effect setting, resets the fields, and selects its associated actor value or -1.
 // @fnv 0x00403be0
-void EffectItem::FUN_00403be0(EffectSetting* manager)
+// src: COMMUNITY 0x00403be0
+void EffectItem::Initialize_00403be0(EffectSetting* manager)
 {
     m_pEffectSetting = manager;
     data.m_iArea = 0;
@@ -708,7 +713,8 @@ extern const float DAT_01012054;
 }  // namespace fnv_00404560
 
 // @fnv 0x00404560
-bool __thiscall EffectItem::FUN_00404560(unsigned int value)
+// src: COMMUNITY 0x00404560
+bool __thiscall EffectItem::SetRange_00404560(unsigned int value)
 {
     bool result = false;
 
@@ -760,7 +766,7 @@ bool SettingRegistry::FUN_00405120()
     return isValid;
 }
 
-char* __cdecl FUN_00401000(unsigned int aSize);
+char* __cdecl FormHeap_Allocate(unsigned int aSize);
 const char* __cdecl FUN_00464f30(const char* apString, int aFlag);
 
 struct FUN_004d61b0_sub
@@ -786,8 +792,8 @@ class FUN_004d61b0
     char* m2c;
 
     void CreateTreeWindows(int a5, int a6, int a7, int a8);
-    void FUN_004d6490();
-    void FUN_004d64c0(int aValue, int aFlag);
+    void NiTreeCtrl_SetImageList();
+    void NiTreeCtrl_CreateTree(int aValue, int aFlag);
     FUN_004d61b0(int a1, int a2, int a3, const char* a4, int a5, int a6, int a7, int a8);
 };
 
@@ -797,14 +803,14 @@ FUN_004d61b0::FUN_004d61b0(int a1, int a2, int a3, const char* apName, int a5, i
     m00 = a1;
     m04 = a2;
     m28 = a3;
-    char* pNameBuffer = FUN_00401000(FUN_0044a670(apName) + 1);
+    char* pNameBuffer = FormHeap_Allocate(FUN_0044a670(apName) + 1);
     m2c = pNameBuffer;
     FUN_004046f0(m2c, FUN_00464f30(apName, 0));
     CreateTreeWindows(a5, a6, a7, a8);
-    FUN_004d6490();
+    NiTreeCtrl_SetImageList();
     if (a3 != 0)
     {
-        FUN_004d64c0(a3, 0);
+        NiTreeCtrl_CreateTree(a3, 0);
     }
 }
 

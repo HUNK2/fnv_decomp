@@ -119,8 +119,8 @@ struct ArchiveManager
     static BSFileEntry* FindFileEntry(ARCHIVE_TYPE_INDEX, FileNameHash&, FileNameHash&, const char*);
 };
 
-void FUN_00593210();
-BGSTextureSet* __cdecl FUN_00593220();
+void BGSTextureSet_ClearNullTextureSet();
+BGSTextureSet* __cdecl BGSTextureSet_GetNullTextureSet();
 void __cdecl _Deallocate(void*);
 struct S591140
 {
@@ -195,11 +195,12 @@ struct Owner
     ValueList m_kList3;
     ValueList m_kList4;
 
-    void FUN_00593030(unsigned int uiType, int iValue);
+    void BGSTextureSet_SetTexturePath(unsigned int uiType, int iValue);
 };
 
 // @fnv 0x00593030
-void Owner::FUN_00593030(unsigned int uiType, int iValue)
+// src: COMMUNITY 0x00593030
+void Owner::BGSTextureSet_SetTexturePath(unsigned int uiType, int iValue)
 {
     switch (uiType)
     {

@@ -47,7 +47,7 @@ struct FUN_004d5d40_Class
 extern void(__stdcall* DAT_00fdf28c)(void*, int, int, int);
 struct FUN_004d7490_Class
 {
-    void FUN_004d7490();
+    void NiTreeCtrl_DestroyTree();
 };
 // Exe 0x004dcdf0: local storage view; GetFlags binds the folded DWORD-at-+8 accessor 0x0044ddc0.
 struct BlkOffset08View
@@ -61,7 +61,7 @@ struct FUN_004d7d50_StandIn
 struct FUN_004d8510_StandIn
 {
     void GetResultValue(int);
-    void FUN_004d8510();
+    void bhkBinaryAction_GetRigidBodyB();
 };
 struct TESObjectREFR;
 struct bhkShape;
@@ -70,7 +70,7 @@ void* GetLocalSubValue(TESObjectREFR* p, int a);
 struct FUN_004d85a0_Class
 {
     void* GetLocalSubValue(int a);
-    void* FUN_004d85a0(int a);
+    void* bhkListShape_GetChildShape(int a);
 };
 struct FUN_004d8670_Class
 {
@@ -103,7 +103,7 @@ extern int DAT_01020fe4;
 struct FUN_004d8fa0_StandIn
 {
     int m_p;
-    void FUN_004d9000(int a);
+    void NiTMapBase_DFALL_NiTMapItem_NiAVObject_TREEITEM_NiAVObject_TREEITEM_NiTMapBase_DFALL_NiTMapItem_NiAVObject_TREEITEM_NiAVObject_TREEITEM(int a);
     FUN_004d8fa0_StandIn* NiTMap_NiAVObject_TREEITEM_NiTMap(int a);
 };
 struct FUN_004d9190_Class
@@ -131,7 +131,7 @@ struct Arr
 };
 struct FUN_004dcce0_Class
 {
-    void FUN_004dcce0();
+    void NiDX9AdapterDesc_GetModeCount();
 };
 struct FUN_004dcd60_Class
 {
@@ -245,7 +245,7 @@ struct FUN_004d5dd0_Class
     void* __thiscall FUN_004d5dd0(unsigned int);
 };
 extern void* DAT_011c6d50[43];
-void __cdecl FUN_004d60c0(void);
+void __cdecl MiscStatManager_Revert(void);
 extern void*(__stdcall* DAT_00fdf020)(void*, int, int, int, int, int, int);
 struct FUN_004d6490_Class
 {
@@ -255,7 +255,7 @@ struct FUN_004d6490_Class
     void* m_pC;
     void* m_p10;
     void* m_p14;
-    void __thiscall FUN_004d6490();
+    void __thiscall NiTreeCtrl_SetImageList();
 };
 extern void(__stdcall* DAT_00fdf290)(void*);
 struct FUN_004d7440_Class
@@ -263,11 +263,11 @@ struct FUN_004d7440_Class
     char _0[8];
     void* p8;
     void* pC;
-    void __thiscall FUN_004d7440();
+    void __thiscall NiTreeCtrl_DestroyWindows();
 };
 extern int(__cdecl* DAT_011c6f18)(int, int, int, int);
-int __cdecl FUN_004d7890(int aiArg1, int aiArg2, int aiArg3, int aiArg4);
-void* __cdecl FUN_004b5a80(void const*);
+int __cdecl NiTreeCtrl_Callback(int aiArg1, int aiArg2, int aiArg3, int aiArg4);
+void* __cdecl bhkEntity_Getbhk(void const*);
 struct FUN_004d8530_Class
 {
     virtual void const* f00();
@@ -323,7 +323,7 @@ struct FUN_004d8530_Class
     virtual void const* f50();
     virtual void const* f51();
     virtual void const* f52();
-    void* __thiscall FUN_004d8530();
+    void* __thiscall bhkConstraint_GetEntityB();
 };
 struct FUN_004d8560_StandIn
 {
@@ -337,7 +337,7 @@ struct FUN_004d8fa0_Class
     unsigned int m_i4;
     void* m_p8;
     unsigned int m_iC;
-    FUN_004d8fa0_Class* FUN_004d9000(unsigned int size);
+    FUN_004d8fa0_Class* NiTMapBase_DFALL_NiTMapItem_NiAVObject_TREEITEM_NiAVObject_TREEITEM_NiTMapBase_DFALL_NiTMapItem_NiAVObject_TREEITEM_NiAVObject_TREEITEM(unsigned int size);
 };
 void __cdecl _Deallocate(void*);
 struct FUN_004d9130_Class
@@ -357,37 +357,37 @@ struct FUN_004d9380_Class
     void __thiscall FreeAndClear();
 };
 extern unsigned char DAT_011f4508;
-void FUN_004dc010(unsigned char value);
+void NiTexture_SetMipmapByDefault(unsigned char value);
 extern bool DAT_011a9594;
-void FUN_004dc050(bool value);
+void NiSourceTexture_SetUsePreloading(bool value);
 extern unsigned char DAT_011f9180;
-void FUN_004dc090(unsigned char value);
+void BSShaderManager_EnableUseRefractionShader(unsigned char value);
 extern int DAT_011f91c0;
 extern int DAT_011f948c;
 unsigned int __cdecl BSStringCapacityMaximum(unsigned int a, unsigned int b);
 unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
 void __cdecl SetBSStringCapacity(unsigned int a);
 extern int DAT_011f916c;
-void __cdecl FUN_004dc100(int value);
+void __cdecl BSShaderManager_SetMaxShadowMaps(int value);
 struct TgtOps
 {
     void* GetPosition();
 };
 struct FUN_004dc120_StandIn
 {
-    TgtOps* __thiscall FUN_004dc160(int a);
-    void* __thiscall FUN_004dc120(int a);
+    TgtOps* __thiscall NiDX9AdapterDesc_GetDevice(int a);
+    void* __thiscall NiXAdapaterDesc_GetDeviceCaps_004dc120(int a);
 };
 struct FUN_004dc160_StandIn
 {
-    unsigned int FUN_004dc160(int a);
+    unsigned int NiDX9AdapterDesc_GetDevice(int a);
 };
 struct GlobalObject_004a4a40
 {
     int GetCellStandValue();
 };
 extern GlobalObject_004a4a40 g_011c738c;
-int __cdecl FUN_004dc210();
+int __cdecl TESRenderer_GetAdapterIndex();
 struct CellStand
 {
     int GetCellStandValue();
@@ -397,12 +397,12 @@ struct GlobalObject_0045cfe0
     CellStand m_cell;
 };
 extern GlobalObject_0045cfe0 g_011c7100;
-void __cdecl FUN_004dc2b0();
+void __cdecl TESRenderer_GetNPatchSegments();
 extern float DAT_0118945c;
 extern float DAT_011ad83c;
 extern char DAT_011c6fb8;
 extern double _gModifierZero;
-void __cdecl FUN_004dc2d0(float value);
+void __cdecl Renderer_SetGamma(float value);
 struct Flt
 {
     operator unsigned int();
@@ -413,26 +413,26 @@ struct Date
 };
 struct NiNode;
 extern NiPointer<NiNode> g_011dee84;
-void FUN_004dc560();
-extern "C" unsigned char __cdecl FUN_00446e10(void);
+void InterfaceSceneGraph_Destroy();
+extern "C" unsigned char __cdecl TESRenderer_GetFullScreen(void);
 struct S0042fa20
 {
     S0042fa20* FUN_0045ce80(int);
 };
 extern S0042fa20 g_011c75d4;
 extern S0042fa20 g_011c7654;
-void __cdecl FUN_004dc6e0(int aiFirst, int aiSecond);
+void __cdecl TESRenderer_Reposition(int aiFirst, int aiSecond);
 struct FUN_004dcd30_Class
 {
-    FUN_004dcd60_Class* __thiscall FUN_004dc160(int p);
-    unsigned char __thiscall FUN_004dcd30(int p);
+    FUN_004dcd60_Class* __thiscall NiDX9AdapterDesc_GetDevice(int p);
+    unsigned char __thiscall NiDX9AdapterDesc_CanDeviceRenderWindowed(int p);
 };
 struct G7d1
 {
     bool GetBoolValue();
 };
 G7d1 g_011c726c;
-void FUN_004dcda0();
+void TESRenderer_GetUseShaders();
 struct MyArr_GetAt
 {
     unsigned int* GetAt(int);
@@ -474,7 +474,7 @@ struct FUN_004d4f70
 
     FUN_004d4f70(unsigned int ItemUpdateArray, int iParam);
 };
-extern "C" void __cdecl FUN_00401030(void*);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct FUN_004d5080_Class
 {
     void* unk00;
@@ -549,9 +549,9 @@ struct FUN_004d62a0_Class
     int m_28;
     void* m_p2C;
 
-    void __thiscall FUN_004d7490();
-    void __thiscall FUN_004d7470();
-    void __thiscall FUN_004d7440();
+    void __thiscall NiTreeCtrl_DestroyTree();
+    void __thiscall NiTreeCtrl_DestroyImageList();
+    void __thiscall NiTreeCtrl_DestroyWindows();
     ~FUN_004d62a0_Class();
 };
 struct InitCommonControls4d63
@@ -589,7 +589,7 @@ extern void*(__stdcall* DAT_00fdf2b8)(unsigned long, const char*, const char*, u
 extern int(__stdcall* DAT_00fdf2bc)(void*, Rect4d63*);
 const char* PrepareScriptMessage(const char* pcText, bool bFlag);
 extern char DAT_01189338[];
-long __stdcall FUN_004d75b0(void* hWnd, unsigned int auiMessage, unsigned int wParam, long lParam);
+long __stdcall NiTreeCtrl_WindowProcedure(void* hWnd, unsigned int auiMessage, unsigned int wParam, long lParam);
 struct TreeCtrl4d63
 {
     void* m_hInstance;
@@ -637,18 +637,18 @@ struct Owner64
     ClearMap64 messageMap;
     int unk1c, unk20, unk24, unk28;
     const char* defaultText;
-    void __thiscall FUN_004d66d0(int a, int b);
-    void __thiscall FUN_004d64c0(int value, const char* text);
+    void __thiscall NiTreeCtrl_CreateTreeRecursive(int a, int b);
+    void __thiscall NiTreeCtrl_CreateTree(int value, const char* text);
 };
 extern void(__stdcall* DAT_00fdf01c)(void*);
 struct FUN_004d7470_StandIn
 {
     char _0[20];
     void* p14;
-    void __thiscall FUN_004d7470();
+    void __thiscall NiTreeCtrl_DestroyImageList();
 };
 extern char DAT_011c6e10;
-void __cdecl FUN_00403d30(void* destination, int pNodeValue, unsigned int size);
+void __cdecl ourMemset(void* destination, int pNodeValue, unsigned int size);
 typedef int(__stdcall* SendTreeMessage)(void*, int, int, int);
 struct FUN_004d74c0_Value
 {
@@ -681,7 +681,7 @@ struct FUN_004d74c0_Item
 void __cdecl ExpandTreeItemsRecursively(void* tree, int startingItem, int expandFlags);
 int FUN_00406d30(char* pcDest, unsigned int uiSize, const char* pcSrc);
 int FUN_00406d50(char* pcDest, unsigned int uiSize, const char* pcSrc);
-int FUN_004d78c0(NiObject* pkObject, int iType, int iCommand);
+int TreeCtrlCallback(NiObject* pkObject, int iType, int iCommand);
 extern const NiRTTI DAT_012024e0;
 NiObject* __cdecl FUN_00653270(const NiRTTI*, NiObject*);
 const char* __cdecl PrepareScriptMessage(const char* msg, bool flag);
@@ -744,7 +744,7 @@ struct MsgStruct
     int unk38;
     int unk3C;
 };
-void __cdecl FUN_004add50(char* dst, const char* src, unsigned int count);
+void __cdecl BSstrncpy(char* dst, const char* src, unsigned int count);
 struct ObjClass : public FUN_004d7d50_StandIn
 {
     ItemClass* __thiscall GetByIndex(unsigned int);
@@ -801,7 +801,7 @@ struct FUN_004d9100
 Node7* __cdecl FUN_00653270(void*, Node7*);
 const char* __cdecl FUN_00464f30(const char*, bool);
 const char* __fastcall FUN_00559450(void*);
-void __cdecl FUN_004add50(char*, const char*, unsigned);
+void __cdecl BSstrncpy(char*, const char*, unsigned);
 struct Insert7
 {
     void* parent;
@@ -874,7 +874,7 @@ struct TreeCtrl4d86
     void* m_hWnd;
     void* m_hTreeWnd;
     void AddNameItems(void* hParent, Palette4d86* pkPalette);
-    void FUN_004d8b90(void* hParent, NiControllerSequence* pkSet);
+    void NiTreeCtrl_AddControllerSequence(void* hParent, NiControllerSequence* pkSet);
     void PopulateObjectTree(void* hParent, Object4d86* pkObject);
 };
 struct TreeItem4d88
@@ -937,45 +937,45 @@ struct FUN_004d9210
 };
 class DepthDevice;
 extern DepthDevice* DAT_0126f0d8;
-unsigned int __cdecl FUN_004dc040();
+unsigned int __cdecl NiDX9Renderer_GetDirect3D();
 unsigned char __cdecl FUN_004dc0a0();
 extern int DAT_011f94b8;
-int __cdecl FUN_004dc0b0();
+int __cdecl BSRenderState_GetGPUVendor();
 char* DAT_01202fa0;
-char** FUN_004dc110();
+char** BSUtilities_GetPersonalPath();
 extern int DAT_011c6fbc;
-int __cdecl FUN_004dc1e0();
+int __cdecl TESRenderer_GetHWND();
 extern unsigned int DAT_0118947c;
 unsigned int __cdecl FUN_004dc1f0();
 extern int DAT_01189480;
 int __cdecl FUN_004dc200();
 extern unsigned int DAT_01189478;
-unsigned int __cdecl FUN_004dc220();
+unsigned int __cdecl TESRenderer_GetFlags();
 extern int DAT_011c70d4;
-int FUN_004dc230();
+int TESRenderer_GetDeviceType();
 extern int DAT_011c70d8;
-int __cdecl FUN_004dc240();
+int __cdecl TESRenderer_GetSwapEffect();
 extern int DAT_01189464;
-int __cdecl FUN_004dc250();
+int __cdecl TESRenderer_GetBackBufferCount();
 extern int DAT_011c70d0;
-int FUN_004dc260();
+int TESRenderer_GetRefreshRate();
 extern int DAT_01189470;
-int __cdecl FUN_004dc270();
+int __cdecl TESRenderer_GetFrameBufferFormat();
 extern int DAT_01189474;
-int __cdecl FUN_004dc280();
+int __cdecl TESRenderer_GetDepthStencilFormat();
 extern int DAT_011c70cc;
-int __cdecl FUN_004dc290();
+int __cdecl TESRenderer_GetFrameBufferMode();
 extern int DAT_011c6fb0;
-int __cdecl FUN_004dc2a0();
+int __cdecl TESRenderer_GetPresentInterval();
 extern "C" void* DAT_011c74b8;
-void* __cdecl FUN_004dc2c0();
+void* __cdecl BSShaderManager_kBackgroundColor_Get();
 unsigned int __cdecl MapIndexToValue(unsigned int uiIndex);
 extern int DAT_01189468;
-int __cdecl FUN_004dcd80();
+int __cdecl TESRenderer_GetPixelShaderVersion();
 extern int DAT_0118946c;
-int __cdecl FUN_004dcd90();
+int __cdecl TESRenderer_GetVertexShaderVersion();
 extern float DAT_01189490;
-float FUN_004de0d0();
+float Get_720();
 struct DisplayDevice4de1
 {
     unsigned long cb;
@@ -1020,9 +1020,9 @@ extern float DAT_011c70f0;
 void InitEyefinityDisplayInfo();
 struct FUN_004de2d0_StandIn : FUN_004de2b0_StandIn
 {
-    FUN_004de2b0_StandIn* __thiscall FUN_004de2d0(char c);
+    FUN_004de2b0_StandIn* __thiscall Setting_SetValueB(char c);
 };
-extern "C" void __cdecl FUN_00401030(void*);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct FUN_004de3f0_Class
 {
     void __thiscall FUN_004de420();
@@ -1428,7 +1428,7 @@ struct DoorTeleportArray
 {
     unsigned char count;
     DoorTeleportLoadData* entries;
-    void FUN_004da3f0();
+    void RagDollData_LoadGame();
 };
 extern int DAT_011c70e0;
 extern int DAT_011c70e4;
@@ -1484,7 +1484,7 @@ FUN_00558310_node* FUN_0045c670();
 class E73shell
 {
   public:
-    int FUN_00e73eb0(int, int);
+    int NiDX9Renderer_Recreate_(int, int);
 };
 // Exe 0x004d50e0: unit-local Interface view; declarations and layout are preserved.
 class BlkInterfaceView
@@ -1492,23 +1492,23 @@ class BlkInterfaceView
   public:
     static void Init(bool);
 };
-void FUN_00702330();
-void FUN_004dc560();
-void FUN_004dc590();
-void FUN_00a62030();
-void FUN_00b578a0();
-void FUN_004dc5c0();
+void Interface_Free();
+void InterfaceSceneGraph_Destroy();
+void Interface3DSceneGraph_Destroy();
+void BSTexturePalette_RemoveAll();
+void BSShaderManager_Reinitialize();
+void TESMain_CreateMenuRootNode();
 void FUN_004dc650();
 void FUN_007022c0();
-void FUN_007053f0();
+void Interface_CreateMainMenu();
 void __cdecl CopyStringToGlobal(const char* src);
 void RecreateRenderDevice();
 extern bool DAT_011c70ed;
-bool __cdecl FUN_004de070();
+bool __cdecl is_bEyeFinity();
 extern float g_0118948c;
-float FUN_004de0c0();
+float Get_1280();
 extern float DAT_01189498;
-float __cdecl FUN_004de0f0();
+float __cdecl Get_720_();
 struct FUN_004dfe30_Class
 {
     float x;
@@ -1528,7 +1528,7 @@ class B004de530
     B004de530();
 };
 extern FUN_004de530* DAT_011f35a0;
-void FUN_004de4a0();
+void SettingT_INIPrefSettingCollection_InitCollection();
 extern "C" __declspec(dllimport) void* __stdcall LoadLibraryA(const char* pcFileName);
 extern "C" __declspec(dllimport) void* __stdcall GetProcAddress(void* pvModule, const char* pcProcName);
 extern int(__stdcall* DAT_00fdf0a8)(void* pvModule);
@@ -1774,11 +1774,12 @@ struct Spectrum4d50
     int m_iStart;
     float** m_ppfBands;
     float** m_ppfPeaks;
-    float FUN_004d50e0(int iFrame);
+    float LipSynchAnim_GetPuppetValue(int iFrame);
 };
 
 // @fnv 0x004d50e0
-float Spectrum4d50::FUN_004d50e0(int iFrame)
+// src: COMMUNITY 0x004d50e0
+float Spectrum4d50::LipSynchAnim_GetPuppetValue(int iFrame)
 {
     int iIndex2 = iFrame - m_iStart;
     float fResult = 0.0f;

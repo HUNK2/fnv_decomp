@@ -78,7 +78,7 @@ public:
     void Process(BGSLoadFormBuffer*);
     void Process(float);
     void Process(int);
-    void FUN_0081e730();
+    void KillAreaEffectGeometry();
     void FUN_00570f70(SceneNode*);
     EffectSetting* FUN_004fd400();
 };

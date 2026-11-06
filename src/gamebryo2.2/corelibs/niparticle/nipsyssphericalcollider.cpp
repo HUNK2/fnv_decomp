@@ -92,7 +92,8 @@ inline NiPoint3& NiPoint3::operator-=(const NiPoint3& p)
 extern "C" const void* g_012026a0;
 
 // @fnv 0x00c281f0
-const void* __cdecl FUN_00c281f0()
+// src: COMMUNITY 0x00c281f0
+const void* __cdecl NiPSysSphericalCollider_GetRTTI()
 {
     return &g_012026a0;
 }
@@ -329,7 +330,7 @@ void NiPSysSphericalCollider::ResolveSphericalCollision(float fInitialTime, NiPS
     BaseResolve(fInitialTime, pkData, usCurrentParticle);
 }
 
-char* __cdecl FUN_00a7d330(const void*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const void*);
 char* __cdecl FUN_00a7d5e0(const char*, const char*);
 char* __cdecl FUN_00a7d550(const char*, float);
 extern const char DAT_010be8cc[];
@@ -363,7 +364,7 @@ struct ColliderInfo
 void ColliderInfo::FUN_00c282d0(StrArr* strings)
 {
     AppendProperties(strings);
-    strings->AppendInline(FUN_00a7d330(g_012026a0));
+    strings->AppendInline(NiViewerStrings_NiGetViewerString_Title(g_012026a0));
     strings->AppendInline(FUN_00a7d5e0(DAT_010be8cc, info ? info->name : DAT_0102909c));
     strings->AppendInline(FUN_00a7d550(DAT_01015a9c, radius));
 }

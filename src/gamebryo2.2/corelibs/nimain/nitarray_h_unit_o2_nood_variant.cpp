@@ -28,7 +28,7 @@ struct FUN_0096aca0_shell : Arr
 
 extern __declspec(thread) int g_tlsMemContext;
 extern void* DAT_012685c8;
-void* __cdecl FUN_00a7d330(void*);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 
 struct PrimitiveStringArray
 {
@@ -75,7 +75,7 @@ void HavokOperation::FUN_00cc4070(PrimitiveStringArray* array)
 {
     MemoryContextScope context;
     FUN_00c8ad40(array);
-    void* entry = FUN_00a7d330(DAT_012685c8);
+    void* entry = NiViewerStrings_NiGetViewerString_Title(DAT_012685c8);
     unsigned int index = array->size_at_0a;
     if (index >= array->capacity_at_08)
         array->FUN_0096ad30(index + array->growth_at_0e);

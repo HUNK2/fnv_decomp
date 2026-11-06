@@ -23,13 +23,13 @@ class BSAnimGroupSequence : public NiControllerSequence
     NiObject* __thiscall FUN_004eec20(CloningProcess* arCloneData);
     void FUN_004eec40(NiTPrimitiveArray<const char*>* pkStrings);
     float FUN_004eec60(float afTime);
-    void FUN_004eecb0();
+    void ValidateTargets();
     bool AttachToOwner(NiAVObject* target, int argument);
     unsigned short __thiscall FUN_004efb10();
-    void FUN_004efb20(float afTime);
+    void SaveGameTES_004efb20(float afTime);
     void FUN_004efbc0(float value);
-    void FUN_004efc90(BGSSaveFormBuffer* buffer, float value);
-    void FUN_004efd10(BGSLoadFormBuffer* pBuffer, float fBaseTime);
+    void SaveGameBGS_004efc90(BGSSaveFormBuffer* buffer, float value);
+    void LoadGameBGS_004efd10(BGSLoadFormBuffer* pBuffer, float fBaseTime);
 
     static bool PlayAnimSounds(NiControllerSequence*, TESObjectREFR*);
     static bool __cdecl PlayAnimSounds(NiControllerSequenceX*, TESObjectREFR*);

@@ -28,7 +28,8 @@ int __thiscall BarterMenu::GetClass()
 }
 
 // @fnv 0x0072d6c0
-int __cdecl FUN_0072d6c0()
+// src: COMMUNITY 0x0072d6c0
+int __cdecl BarterMenu_GetClassStatic()
 {
     return 0x41d;
 }
@@ -174,7 +175,7 @@ bool FUN_0072e570(InventoryStackRecord* entry)
     return unavailable;
 }
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 
 struct FUN_0070ec70_This
 {
@@ -187,7 +188,7 @@ void BarterMenu::FUN_0072f680(int aiType, int aiUnused)
 {
     if (aiType == 3 || aiType == 8)
     {
-        if (((FUN_0070ec70_This*)FUN_004b7210())->FUN_0070ec70() < 0)
+        if (((FUN_0070ec70_This*)InterfaceManager_GetSingleton())->FUN_0070ec70() < 0)
             HandleSelection(aiType == 3 ? 2 : 7, 0);
         else
             HandleSelection(aiType == 3 ? 4 : 9, 0);
@@ -248,7 +249,7 @@ struct ObjA
 
 struct ObjB
 {
-    BarterMenu* FUN_00a03c90();
+    BarterMenu* Tile_GetMenu();
     Tile* FUN_00a03da0(const char* a);
     double FUN_00a011b0(int a);
     void FUN_00a012d0(int a, float b);
@@ -285,12 +286,12 @@ struct SubEA
 
 struct ErrLog
 {
-    static void __cdecl FUN_005b5e40(const char* a);
+    static void __cdecl Warning_005b5e40(const char* a);
 };
 
-void* __cdecl FUN_004b7210();
-int __cdecl FUN_005b5e40(int a, const char* b);
-int __cdecl FUN_0072d6c0();
+void* __cdecl InterfaceManager_GetSingleton();
+int __cdecl Warning_005b5e40(int a, const char* b);
+int __cdecl BarterMenu_GetClassStatic();
 ObjA* __cdecl FUN_00a09030(int a);
 int __cdecl FUN_00a01860(const char* a);
 float __stdcall FUN_00a01530(int a);
@@ -313,16 +314,16 @@ int __cdecl InitInventoryMenu(int arg0, int aiValue)
     ObjA* chain2j;
     int xTmp14;
     Tile* tmp10o;
-    void* selfa = FUN_004b7210();
+    void* selfa = InterfaceManager_GetSingleton();
     ObjB* bb;
     ObjA* ah;
 
     if (arg0 == 0)
     {
-        FUN_005b5e40(0x12, str_010707d0);
+        Warning_005b5e40(0x12, str_010707d0);
         return 0;
     }
-    ah = FUN_00a09030(FUN_0072d6c0());
+    ah = FUN_00a09030(BarterMenu_GetClassStatic());
     if (ah != 0)
     {
         aChain1 = ah;
@@ -334,16 +335,16 @@ int __cdecl InitInventoryMenu(int arg0, int aiValue)
     }
     bb = ((SelfObj*)selfa)->FUN_00586150(str_010707b4)->FUN_00a01b00();
     if (bb != 0)
-        t2c15 = bb->FUN_00a03c90();
+        t2c15 = bb->Tile_GetMenu();
     else
         t2c15 = 0;
     DAT_011d8fa4 = (int)t2c15;
-    if (DAT_011d8fa4 != 0 && ((BarterMenu*)DAT_011d8fa4)->GetClass() == FUN_0072d6c0())
+    if (DAT_011d8fa4 != 0 && ((BarterMenu*)DAT_011d8fa4)->GetClass() == BarterMenu_GetClassStatic())
     {
         ((BarterMenu*)DAT_011d8fa4)->FUN_00a1dc70(reinterpret_cast<TileMenu*>(bb), 0);
         if (((BarterMenu*)DAT_011d8fa4)->HasNoZeroEntries() == 0)
         {
-            ErrLog::FUN_005b5e40(str_01070760);
+            ErrLog::Warning_005b5e40(str_01070760);
             return 0;
         }
         if (bb->FUN_00a011b0(0xfa7) == DAT_010704f0 || bb->FUN_00a011b0(0xfa7) == DAT_010704e8)
@@ -351,7 +352,7 @@ int __cdecl InitInventoryMenu(int arg0, int aiValue)
             bb->FUN_00a012d0(0xfad, FUN_00a01530(1));
         }
         FUN_00763ff0();
-        ((SelfObj*)((char*)selfa + 0x4d4))->FUN_00718630(0x17, FUN_0072d6c0(), 0x200);
+        ((SelfObj*)((char*)selfa + 0x4d4))->FUN_00718630(0x17, BarterMenu_GetClassStatic(), 0x200);
         ((BarterMenu*)DAT_011d8fa4)->m_kMerchantList.Initialize(((BarterMenu*)DAT_011d8fa4)->m_apTiles[6], str_010704d4);
         ((BarterMenu*)DAT_011d8fa4)->m_kPlayerList.Initialize(((BarterMenu*)DAT_011d8fa4)->m_apTiles[11], str_010704d4);
         ((BarterMenu*)DAT_011d8fa4)->m_apTiles[3]->FUN_00a01350(0xfc4, DAT_011d4378.FUN_00403df0(), true);
@@ -430,7 +431,7 @@ struct BmFilteredList
 int __cdecl FUN_00a01860(const char* pName);
 int __cdecl TruncateFloatToInt(float f);
 bool __cdecl FUN_00703d50();
-void __cdecl FUN_00703c00(const char* pFormat, ...);
+void __cdecl Interface_PrintLine(const char* pFormat, ...);
 void __cdecl UpdateBarterQuantity(int iCount);
 void __cdecl CreateQuantityMenu(int iCount, void(__cdecl* pfnCallback)(int), int iMax);
 void __cdecl FUN_0072db40();
@@ -465,9 +466,9 @@ void BarterMenu::HandleTileClick(int iTileIndex, Tile* pkTile)
                                     ? ((BmExtraList*)g_pkSelectedItem_011d8fa8->FUN_00559450()->GetItem())->FUN_00418630()
                                     : 0;
                 if (pkOrig)
-                    FUN_00703c00(s_szOrigRef, static_cast<const TESObjectREFR*>(pkOrig)->GetName(), pkOrig->FUN_0084e3a0());
+                    Interface_PrintLine(s_szOrigRef, static_cast<const TESObjectREFR*>(pkOrig)->GetName(), pkOrig->FUN_0084e3a0());
                 else
-                    FUN_00703c00(s_szOrigRefNone);
+                    Interface_PrintLine(s_szOrigRefNone);
             }
             else if (iCount > *g_s_011d2418.FUN_0043d4d0())
             {
@@ -1215,7 +1216,7 @@ struct ListObj
     void* m_24;
     void* m_28;
     void* m_2c;
-    void FUN_0071a200(int a);
+    void ListBox_ItemChange_RemoveItemGroup(int a);
     int FUN_0071a320(void* e, const char* s, int a, int b);
     void PopulateInventoryList(void* a, void* fn, int b, int c, int d, int e);
     void FUN_007314c0(void* fn, int a, int b);
@@ -1242,7 +1243,7 @@ extern int DAT_011d8fb4;
 void* __cdecl FUN_004bf220(void* a);
 bool __cdecl IsFilteredFromBarter(InventoryStackRecord* e);
 unsigned char __cdecl FUN_004b71d0();
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 void __cdecl AddHeadImpl(void* list, void** pp);
 void __cdecl UpdateBarterItemTile();
 void __cdecl CompareF070Entries();
@@ -1272,7 +1273,7 @@ void __thiscall BarterMenu::RebuildInventoryLists(int arg)
         if (n != 0)
         {
             ((DataSource*)n)->FindEntriesByType(arg, &b);
-            reinterpret_cast<ListObj&>(m_kMerchantList).FUN_0071a200(arg);
+            reinterpret_cast<ListObj&>(m_kMerchantList).ListBox_ItemChange_RemoveItemGroup(arg);
             BSSimpleList<InventoryStackRecord*>* kZero = (BSSimpleList<InventoryStackRecord*>*)&b;
             for (; kZero != 0 && kZero->GetItem() != 0; kZero = kZero->GetNext())
             {
@@ -1290,7 +1291,7 @@ void __thiscall BarterMenu::RebuildInventoryLists(int arg)
         if (res != 0)
         {
             ((DataSource*)res)->FindEntriesByType(arg, &b);
-            reinterpret_cast<ListObj&>(m_kPlayerList).FUN_0071a200(arg);
+            reinterpret_cast<ListObj&>(m_kPlayerList).ListBox_ItemChange_RemoveItemGroup(arg);
             BSSimpleList<InventoryStackRecord*>* kZero;
             kZero = (BSSimpleList<InventoryStackRecord*>*)&b;
             for (; kZero != 0 && kZero->GetItem() != 0; kZero = kZero->GetNext())
@@ -1395,7 +1396,7 @@ void __thiscall BarterMenu::RebuildInventoryLists(int arg)
                 HandleMouseover((m_pkActiveList == &m_kMerchantList) ? 1 : 0, 0);
                 if (FUN_004b71d0())
                 {
-                    ((IMObj*)FUN_004b7210())->FUN_00715860(reinterpret_cast<ListObj*>(m_pkActiveList)->CallVirtualZero(0xfc3, 1));
+                    ((IMObj*)InterfaceManager_GetSingleton())->FUN_00715860(reinterpret_cast<ListObj*>(m_pkActiveList)->CallVirtualZero(0xfc3, 1));
                 }
             }
         }
@@ -1506,7 +1507,7 @@ void BarterMenu::CompleteBarterTransaction()
         pChanges = InventoryChanges::GetOrAddInventoryChanges(pTarget3);
         if (pChanges)
             fnv_0072fd10::g_transferMgr_011c3f2c->ProcessInventoryRecords(&kCaps9, fnv_0072fd10::MinInt(iAmount5, unk90), m_merchant);
-        ((BSAudio::GetSingleton()->*reinterpret_cast<BarterSoundFactory>(&BSAudio::FUN_00ad7550))(
+        ((BSAudio::GetSingleton()->*reinterpret_cast<BarterSoundFactory>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(
             "ITMBottlecapsUp", 0x101, false).*reinterpret_cast<BarterSoundPlay>(&BSSoundHandle::Play))();
     }
     else if (m_barterTotal < 0.0)
@@ -1514,7 +1515,7 @@ void BarterMenu::CompleteBarterTransaction()
         pChanges = InventoryChanges::GetOrAddInventoryChanges((TESObjectREFR*)fnv_0072fd10::g_player_011dea3c);
         if (pChanges)
             pChanges->TransferItemToReference((TESObjectREFR*)fnv_0072fd10::g_player_011dea3c, -iAmount5, pTarget3);
-        ((BSAudio::GetSingleton()->*reinterpret_cast<BarterSoundFactory>(&BSAudio::FUN_00ad7550))(
+        ((BSAudio::GetSingleton()->*reinterpret_cast<BarterSoundFactory>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(
             "ITMBottlecapsDown", 0x101, false).*reinterpret_cast<BarterSoundPlay>(&BSSoundHandle::Play))();
     }
 
@@ -1579,7 +1580,7 @@ void BarterMenu::FUN_007306d0()
 struct Holder7313
 {
     Holder7313* FUN_00a03d40();
-    Menu* FUN_00a03c90();
+    Menu* Tile_GetMenu();
 };
 
 struct IM7313
@@ -1614,12 +1615,12 @@ void List7313::UpdateCurrentValueTile(bool abFlag)
         m_14->FUN_00a012d0(FUN_00a01860("_current_value"), m_28, false);
         m_14->SetTraitFloat(FUN_00a01860("_SetInCode"), 1.0f);
         pTile = GetTile7313((unsigned int)FUN_0040ebd0(m_24, (float)(FUN_0071ae60(0) - 1.0)));
-        ((IM7313*)FUN_004b7210())->FUN_00715860(pTile, 0xfc3, abFlag);
+        ((IM7313*)InterfaceManager_GetSingleton())->FUN_00715860(pTile, 0xfc3, abFlag);
         SetSelected7313(pTile);
         if (!FUN_004b71d0())
         {
             if (pTile)
-                m_0c->FUN_00a03d40()->FUN_00a03c90()->HandleMouseoverTileAlt((int)pTile->FUN_00a011b0(0xfaa), pTile);
+                m_0c->FUN_00a03d40()->Tile_GetMenu()->HandleMouseoverTileAlt((int)pTile->FUN_00a011b0(0xfaa), pTile);
             SetSelected7313(0);
         }
     }

@@ -223,7 +223,8 @@ GlobalObject_00680890* __fastcall _ref_00726070(GlobalObject_00680890*);
 
 // Iterates the global form list and calls the virtual operation at slot 0x22.
 // @fnv 0x00408df0
-void FUN_00408df0()
+// src: COMMUNITY 0x00408df0
+void EffectSettingCollection_InitItems()
 {
     TESForm* pItem;
     for (GlobalObject_00680890* pNode = &g_011c3400; pNode && (pItem = *_ref_006815c0(pNode));
@@ -422,7 +423,8 @@ TESFile* TESFile::GetFileByIndex(unsigned int index)
 unsigned int __fastcall GetFieldAt3FC(TESFile*);
 
 // @fnv 0x00471ad0
-unsigned int TESFile::FUN_00471ad0()
+// src: COMMUNITY 0x00471ad0
+unsigned int TESFile::GetIndexCount()
 {
     return GetFieldAt3FC(this);
 }
@@ -1202,7 +1204,8 @@ bool TESFile::HasNextForm()
 }
 
 // @fnv 0x00471a60
-const char* TESFile::FUN_00471a60(unsigned int count)
+// src: COMMUNITY 0x00471a60
+const char* TESFile::GetIndexName(unsigned int count)
 {
     BSSimpleList<BGSPerk*>* list = reinterpret_cast<BSSimpleList<BGSPerk*>*>(FUN_00464df0());
     if (list->GetItem() == 0)
@@ -1297,7 +1300,7 @@ struct FormTypeInfo
 extern FormTypeInfo g_FormTypes[];
 
 unsigned int __fastcall _FNV_GetFormType(TESForm*);
-int __cdecl FUN_00470bb0();
+int __cdecl return15();
 int __fastcall FUN_004720a0(char*);
 extern int DAT_010a2488;
 
@@ -1319,7 +1322,7 @@ int __thiscall TESFile::WriteForm(TESForm* apForm)
     m_kChunkInfo.iFormID =
         reinterpret_cast<TESSound*>(apForm)->Deallocate();
 
-    *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x284) = FUN_00470bb0();
+    *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x284) = return15();
     *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x286) = 0;
     m_kChunkInfo.m_uiVersionControlInfo = 0;
     m_kChunkInfo.length = 0;
@@ -1410,7 +1413,7 @@ int TESFile::WriteFormContents(TESForm* apParam)
 }
 
 int* __cdecl FUN_00ec85e3();
-void __cdecl FUN_005b5e40(const char* message);
+void __cdecl Warning_005b5e40(const char* message);
 extern const char DAT_0101a174[];
 
 // @fnv 0x00473110
@@ -1422,7 +1425,7 @@ int __thiscall TESFile::ReadFileBuffer(void* buffer, unsigned int size)
         {
             int error = *FUN_00ec85e3();
             m_eReturnCode = TES_RETURN_CODE_TES_ERROR_WRITE_FAILURE;
-            FUN_005b5e40(DAT_0101a174);
+            Warning_005b5e40(DAT_0101a174);
             return m_eReturnCode;
         }
     }
@@ -1753,7 +1756,8 @@ struct Probe_B
 };
 
 // @fnv 0x00473270
-void __cdecl FUN_00473270(void* pObject)
+// src: COMMUNITY 0x00473270
+void __cdecl TESFile_DeleteFileList(void* pObject)
 {
     while (!((Probe_A*)pObject)->FUN_008256d0())
     {
@@ -1862,13 +1866,13 @@ struct TagX
 {
 };
 void FUN_00401080(void* p, TagX t);
-void* FUN_00401000(unsigned int n);
-void FUN_00401030(void* p);
+void* FormHeap_Allocate(unsigned int n);
+void FormHeapFreeAndLog_00401030(void* p);
 bool FindFormEnumIndex(int id);
-void FUN_005b5e40(const char* fmt, ...);
+void Warning_005b5e40(const char* fmt, ...);
 extern int g_iDat01187020;
 void* AllocateProduct(void* opaque, unsigned int items, unsigned int size);
-void FUN_00474480(void* opaque, void* p);
+void simpleFree(void* opaque, void* p);
 struct ZStreamX
 {
     char* m_pNextInputByte;
@@ -1903,12 +1907,12 @@ void TESFile::InflateCompressedForm()
         bool bOk = fnv_004740a0::FindFormEnumIndex(m_kRecordInfo.form);
         if (!bOk)
             return;
-        char* pBufferVal = (char*)FUN_00401000(m_kRecordInfo.length + 1);
+        char* pBufferVal = (char*)FormHeap_Allocate(m_kRecordInfo.length + 1);
         if (!pBufferVal)
             return;
         if (m_pFile->Read(pBufferVal, m_kRecordInfo.length) != m_kRecordInfo.length)
         {
-            fnv_004740a0::FUN_005b5e40("TESFile: Failed to read in buffer data for compressed form.");
+            fnv_004740a0::Warning_005b5e40("TESFile: Failed to read in buffer data for compressed form.");
         }
         else
         {
@@ -1917,12 +1921,12 @@ void TESFile::InflateCompressedForm()
             if (IsEndianConversionRequired())
                 FUN_00401080(&uiSize7, TagX());
             pBufferVal[m_kRecordInfo.length] = 0;
-            m_pDecompressedFormBuffer = (char*)FUN_00401000(uiSize7);
+            m_pDecompressedFormBuffer = (char*)FormHeap_Allocate(uiSize7);
             m_uiAuxBufferSize = uiSize7;
             ZStreamX kStream;
             char acState[0x1ba4];
             kStream.m_pAllocateCallback = AllocateProduct;
-            kStream.m_pFreeCallback = FUN_00474480;
+            kStream.m_pFreeCallback = simpleFree;
             kStream.opaque = 0;
             kStream.m_uiAvailableInputBytes = 0;
             kStream.m_pNextInputByte = 0;
@@ -1931,9 +1935,9 @@ void TESFile::InflateCompressedForm()
             if (iRet6)
             {
                 FUN_00b45db0(&kStream);
-                fnv_004740a0::FUN_005b5e40("TESFile: Error initializing ZLib inflate stream.");
+                fnv_004740a0::Warning_005b5e40("TESFile: Error initializing ZLib inflate stream.");
                 ClearDecompressedFormBuffer();
-                FUN_00401030(pBufferVal);
+                FormHeapFreeAndLog_00401030(pBufferVal);
                 return;
             }
             kStream.m_uiAvailableInputBytes = m_kRecordInfo.length - 4;
@@ -1944,28 +1948,28 @@ void TESFile::InflateCompressedForm()
             if (iRet6 == -2 || iRet6 == 2 || iRet6 == -3 || iRet6 == -4)
             {
                 FUN_00b45db0(&kStream);
-                fnv_004740a0::FUN_005b5e40("TESFile: Error inflating ZLib stream.");
+                fnv_004740a0::Warning_005b5e40("TESFile: Error inflating ZLib stream.");
                 ClearDecompressedFormBuffer();
-                FUN_00401030(pBufferVal);
+                FormHeapFreeAndLog_00401030(pBufferVal);
                 return;
             }
             if (iRet6 != 1)
             {
                 FUN_00b45db0(&kStream);
-                fnv_004740a0::FUN_005b5e40("TESFile: Error: ZLib stream did not terminate.");
+                fnv_004740a0::Warning_005b5e40("TESFile: Error: ZLib stream did not terminate.");
                 ClearDecompressedFormBuffer();
-                FUN_00401030(pBufferVal);
+                FormHeapFreeAndLog_00401030(pBufferVal);
                 return;
             }
             FUN_00b45db0(&kStream);
         }
-        FUN_00401030(pBufferVal);
+        FormHeapFreeAndLog_00401030(pBufferVal);
     }
 }
 
 namespace fnv_00472890 {
 
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 void* FUN_00401460(void*, const void*, unsigned int);
 extern unsigned int DAT_010a2480;
 
@@ -1998,7 +2002,7 @@ bool TESFile::GetChunkData(void* data, unsigned int size)
             {
                 char* message;
                 FormatMessageA(0x1300, 0, GetLastError(), 0x400, (char*)&message, 0, 0);
-                fnv_00472890::FUN_005b5e40("MASTERFILE: First ReadFile() in GetChunkData failed with error:\n%s", message);
+                fnv_00472890::Warning_005b5e40("MASTERFILE: First ReadFile() in GetChunkData failed with error:\n%s", message);
                 LocalFree(message);
                 return false;
             }
@@ -2022,7 +2026,7 @@ bool TESFile::GetChunkData(void* data, unsigned int size)
         a[2] = (char)((m_kRecordInfo.form & 0xff0000) >> 16);
         a[3] = (char)((m_kRecordInfo.form & 0xff000000) >> 24);
         a[4] = 0;
-        fnv_00472890::FUN_005b5e40(
+        fnv_00472890::Warning_005b5e40(
             "FORMS: Chunk size %d too big in chunk %s_ID in form %s_ID (%08X).\r\nMax size is %d, data truncated to \"%s\".\r\n",
             m_uiChunkSize, b, a, m_kRecordInfo.iFormID, size, data);
     }
@@ -2035,7 +2039,7 @@ bool TESFile::GetChunkData(void* data, unsigned int size)
             {
                 char* message;
                 FormatMessageA(0x1300, 0, GetLastError(), 0x400, (char*)&message, 0, 0);
-                fnv_00472890::FUN_005b5e40("MASTERFILE: Second ReadFile() in GetChunkData failed with error:\n%s", message);
+                fnv_00472890::Warning_005b5e40("MASTERFILE: Second ReadFile() in GetChunkData failed with error:\n%s", message);
                 LocalFree(message);
                 return false;
             }

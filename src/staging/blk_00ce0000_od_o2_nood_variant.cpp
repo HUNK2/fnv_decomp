@@ -92,7 +92,8 @@ extern "C" LocalM128 _mm_unpackhi_ps(LocalM128, LocalM128);
 struct QuaternionVector
 {
     LocalM128 value;
-    __declspec(noinline) void FUN_00c66320(const QuaternionVector* left, const QuaternionVector* right)
+// src: COMMUNITY 0x00c66320
+    __declspec(noinline) void setMul(const QuaternionVector* left, const QuaternionVector* right)
     {
         LocalM128 a = left->value;
         LocalM128 b = right->value;
@@ -162,7 +163,7 @@ void __cdecl FUN_00ce2d10(const PoseQsTransform* parents, PointerParam<const Pos
                 _mm_add_ps(_mm_mul_ps(cross, w), _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
                                                             _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
             output[i].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), p.translation);
-            output[i].rotation.FUN_00c66320(&p.rotation, &l.rotation);
+            output[i].rotation.setMul(&p.rotation, &l.rotation);
             output[i].scale = _mm_mul_ps(l.scale, p.scale);
         }
     }
@@ -194,7 +195,7 @@ void __cdecl FUN_00ce2d10(const PoseQsTransform* parents, PointerParam<const Pos
                                             _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
                                                        _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
                 output[index].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), parent.translation);
-                output[index].rotation.FUN_00c66320(&parent.rotation, &source->rotation);
+                output[index].rotation.setMul(&parent.rotation, &source->rotation);
                 output[index].scale = _mm_mul_ps(source->scale, parent.scale);
                 ++source;
             }
@@ -244,7 +245,8 @@ typedef char*(__cdecl* SortCmp)(void* tag, const SortRec* lhs, const SortRec* rh
 void __cdecl FUN_00ce245a(SortRec* a, int low, int high, SortCmp cmp);
 
 // @fnv 0x00cf8510
-void __cdecl FUN_00cf8510(SortRec* a, int low, int high, SortCmp cmp)
+// src: COMMUNITY 0x00cf8510
+void __cdecl hkAlgorithm_quickSortRecursive(SortRec* a, int low, int high, SortCmp cmp)
 {
     char tagLo;
     char tagHi;

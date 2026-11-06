@@ -825,11 +825,12 @@ struct TexSet_b68660
     bool* m_pbCC;
 
     void Grow();
-    void FUN_00b68660(unsigned int uiIndex, BSShaderTextureSet* pSource);
+    void BSShaderPPLightingProperty_SetLandscapeTextureSet(unsigned int uiIndex, BSShaderTextureSet* pSource);
 };
 
 // @fnv 0x00b68660
-void TexSet_b68660::FUN_00b68660(unsigned int uiIndex, BSShaderTextureSet* pSource)
+// src: COMMUNITY 0x00b68660
+void TexSet_b68660::BSShaderPPLightingProperty_SetLandscapeTextureSet(unsigned int uiIndex, BSShaderTextureSet* pSource)
 {
     if (m_usCapacity < 10)
         Grow();
@@ -1319,7 +1320,7 @@ class ShaderProp_b68
     float m_fAlpha;
 
     void FUN_00ba8be0(ShaderProp_b68* apOther);
-    void FUN_00b66ad0(float* apAlpha, int aiFlag);
+    void BSShaderPPLightingProperty_LoadTextureSet(float* apAlpha, int aiFlag);
     void FUN_00b68fe0(ShaderProp_b68* apOther);
 };
 
@@ -1348,14 +1349,14 @@ void ShaderProp_b68::FUN_00b68fe0(ShaderProp_b68* apOther)
     {
         if (!m_spTextureSet)
             m_spTextureSet = new BSShaderTextureSet;
-        FUN_00b66ad0(&apOther->m_fAlpha, 0);
+        BSShaderPPLightingProperty_LoadTextureSet(&apOther->m_fAlpha, 0);
     }
     float fCurrentAlpha = m_fAlpha;
     float fTemp = fCurrentAlpha < DAT_01012060 ? 0.0f : fCurrentAlpha;
     m_fAlpha = Min_b68(fTemp, 1.0f);
 }
 
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d370(const char*, bool);
 char* __cdecl FUN_00a7d490(const char*, unsigned short);
 char* __cdecl FUN_00a7d4d0(const char*, int);
@@ -1543,7 +1544,7 @@ void Target::FUN_00b690d0(StrArr* apStrings)
     const char* name;
     FUN_00b71450(apStrings);
     {
-        value = FUN_00a7d330(g_0120043c_arg1);
+        value = NiViewerStrings_NiGetViewerString_Title(g_0120043c_arg1);
         apStrings->AppendReference(value);
     }
     if (!((unk20 & 0x4000) > 0))
@@ -1959,7 +1960,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* p);
 struct Pool
 {
-    void* FUN_00aa3e40(unsigned int uiSize);
+    void* Game_DoHeapAlloc(unsigned int uiSize);
     void FUN_00aa4060(void* p);
 };
 extern Pool DAT_011f6238;
@@ -1995,7 +1996,7 @@ struct NiPtrX
     }
     static void* operator new[](unsigned int s)
     {
-        return DAT_011f6238.FUN_00aa3e40(s);
+        return DAT_011f6238.Game_DoHeapAlloc(s);
     }
     static void operator delete[](void* p)
     {
@@ -2034,9 +2035,9 @@ void OwnerX::GrowArrays()
         m_apArrays[i] = apNew[i];
     }
     DAT_011f6238.FUN_00aa4060(m_pcc);
-    m_pcc = DAT_011f6238.FUN_00aa3e40(10);
+    m_pcc = DAT_011f6238.Game_DoHeapAlloc(10);
     DAT_011f6238.FUN_00aa4060(m_pc4);
-    m_pc4 = DAT_011f6238.FUN_00aa3e40(10);
+    m_pc4 = DAT_011f6238.Game_DoHeapAlloc(10);
     m_usSize = 10;
 }
 
@@ -2149,7 +2150,7 @@ extern int DAT_011f91c0;
 extern char DAT_010ae238;
 extern char DAT_010ae1f0;
 extern void* __cdecl BSShaderManager_CreateTangentSpaceSimple(CallerArg*);
-extern void __cdecl FUN_005b5e40(void*, void*);
+extern void __cdecl Warning_005b5e40(void*, void*);
 struct RefHandle
 {
     void* ptr;
@@ -2338,14 +2339,14 @@ bool SelfObj::FUN_00b67a40(CallerArg* arg)
     {
         if ((flags & 0x10000000) <= 0 && geometry->opaqueTag)
         {
-            FUN_005b5e40(&DAT_010ae238, arg->debugName);
+            Warning_005b5e40(&DAT_010ae238, arg->debugName);
             return true;
         }
     }
     if ((flags & 0x10000000) > 0 || (flags & 0x800) > 0)
     {
         if (!geometry->opaqueTag)
-            FUN_005b5e40(&DAT_010ae1f0, arg->debugName);
+            Warning_005b5e40(&DAT_010ae1f0, arg->debugName);
     }
     return true;
 }
@@ -2430,7 +2431,7 @@ struct Geom
 };
 struct Camera
 {
-    NiPoint3& FUN_005bb9b0(NiPoint3&);
+    NiPoint3& ShadowSceneNode_GetCameraPos(NiPoint3&);
 };
 struct Context
 {
@@ -2765,7 +2766,7 @@ struct ScaleContext
 };
 int FUN_00b4f5c0();
 float LinearInterpolate(float, float, float, float, float);
-bool FUN_005bf7b0();
+bool BSShaderManager_GetShadows();
 bool FUN_00b66760(unsigned int);
 struct Fake_FUN_004a2020
 {
@@ -2879,7 +2880,7 @@ struct Shader
     void CreateSpawnedObjectIfMissing(int);
     void FUN_00ba95e0(int);
     void FUN_00bdf650(Geom*, bool, bool, Context*);
-    void FUN_00bda060(Geom*, bool, bool);
+    void BSShaderProperty_AddConstAlphaPass(Geom*, bool, bool);
     void SetPassEnabled(Geom*, bool, bool);
     void AddPasses(Geom*, bool);
     bool GetFlag(int n)
@@ -2936,7 +2937,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
             if (prop == 0)
                 prop = properties->alpha;
             bool alphaTest = prop && (bool)(int)((unsigned short)(prop->m_usAlphaArg >> 9) & 1);
-            FUN_00bda060(geom, geom->skin != 0, alphaTest);
+            BSShaderProperty_AddConstAlphaPass(geom, geom->skin != 0, alphaTest);
         }
         return special8;
     }
@@ -2970,7 +2971,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
         // These legacy vector operations use three scalar components.
         float posStorage[3];
         NiPoint3& pos = *reinterpret_cast<NiPoint3*>(posStorage);
-        context->camera->FUN_005bb9b0(pos);
+        context->camera->ShadowSceneNode_GetCameraPos(pos);
         float deltaStorage[3];
         NiPoint3& delta = *reinterpret_cast<NiPoint3*>(deltaStorage);
         delta.x = bound.x - pos.x;
@@ -3050,7 +3051,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
             Build1(geom, pass, output, context->renderer, context, updatePasses);
         else if (_fnv_particle_shader_renderer_level >= 2)
             Build2(geom, pass, output, context->renderer, context, updatePasses);
-        if (FUN_005bf7b0())
+        if (BSShaderManager_GetShadows())
         {
             if (updatePasses)
             {

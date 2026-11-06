@@ -885,7 +885,7 @@ struct Track
     int timer;
     int interpolation;
     void FUN_00d76ca0();
-    void FUN_00d77200(void* state, Probe* probe);
+    void hkgpConvexHull_build_00d77200(void* state, Probe* probe);
     int FUN_00d74e10();
     void FUN_00d762f0();
     float GetMass();
@@ -932,7 +932,7 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
     track.FUN_00d76ca0();
     ((Status*)&probe)->hkgpConvexHull_BuildConfig_BuildConfig();
     probe.flag = 1;
-    track.FUN_00d77200(state, &probe);
+    track.hkgpConvexHull_build_00d77200(state, &probe);
     if (track.FUN_00d74e10() != -1)
     {
         float step = (float)(DAT_011b153c / DAT_01020998);
@@ -950,7 +950,7 @@ int __cdecl FUN_00cebbb0(void* state, float value, Receiver2* receiver)
         }
         while (track.FUN_00d74e10() != 3 || track.hkgpConvexHull_getVolume() < DAT_010cbf48)
         {
-            track.FUN_00d77200(state, &probe);
+            track.hkgpConvexHull_build_00d77200(state, &probe);
             track.FUN_00d77be0(step);
             if (track.FUN_00d74e10() == 3)
                 track.FUN_00d762f0();

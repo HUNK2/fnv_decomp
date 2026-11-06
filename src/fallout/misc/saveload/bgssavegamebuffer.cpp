@@ -96,12 +96,13 @@ void BGSSaveGameBuffer::FUN_00865f60(unsigned int aiVariableValue)
 
 struct FUN_00835f10_shell
 {
-    void __thiscall FUN_00835f10(BGSSaveFormBuffer* apBuffer);
+    void __thiscall DynamicRadio_Save(BGSSaveFormBuffer* apBuffer);
 };
 
 // Writes the object's pointer to the save buffer, then saves four consecutive one-byte fields at offsets 0x1c through 0x1f.
 // @fnv 0x00835f10
-void __thiscall FUN_00835f10_shell::FUN_00835f10(BGSSaveFormBuffer* apBuffer)
+// src: COMMUNITY 0x00835f10
+void __thiscall FUN_00835f10_shell::DynamicRadio_Save(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SerializeFormData(*(void**)this, 0);
     apBuffer->SaveData((char*)this + 0x1c, 1, 0);
@@ -147,12 +148,13 @@ struct FUN_006f50b0_shell
 {
     int m_00;
     int m_04;
-    void __thiscall FUN_006f50b0(BGSSaveFormBuffer* apBuffer);
+    void __thiscall VirtualPathingNode_Save(BGSSaveFormBuffer* apBuffer);
 };
 
 // Saves 4 bytes of this object, saves the pointer at offset 0x2c, then calls the virtual save on the sub-object at offset 4.
 // @fnv 0x006f50b0
-void __thiscall FUN_006f50b0_shell::FUN_006f50b0(BGSSaveFormBuffer* apBuffer)
+// src: COMMUNITY 0x006f50b0
+void __thiscall FUN_006f50b0_shell::VirtualPathingNode_Save(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData(this, 4, 0);
     apBuffer->SerializeFormData(*(void**)((char*)this + 0x2c), 0);
@@ -167,11 +169,12 @@ struct Flt
 
 struct FUN_0083d690_shell
 {
-    void __thiscall FUN_0083d690(BGSSaveFormBuffer* apBuffer);
+    void __thiscall DialogueResponse_SaveGame(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x0083d690
-void __thiscall FUN_0083d690_shell::FUN_0083d690(BGSSaveFormBuffer* apBuffer)
+// src: COMMUNITY 0x0083d690
+void __thiscall FUN_0083d690_shell::DialogueResponse_SaveGame(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveGameString((const char*)((Flt*)this)->operator unsigned int(), 0);
     apBuffer->SaveGameString((const char*)((Flt*)((char*)this + 0x10))->operator unsigned int(), 0);

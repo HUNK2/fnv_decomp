@@ -24,7 +24,7 @@
 
 struct FUN_004fc990_t
 {
-    void __thiscall FUN_004fc990(int, bool);
+    void __thiscall BGSPlaceableWater_SetFlag(int, bool);
 };
 
 struct FUN_00580310_t
@@ -35,13 +35,13 @@ struct FUN_00580310_t
 // @fnv 0x00580310
 void __thiscall FUN_00580310_t::SetFlag400(bool abEnabled)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x400, abEnabled);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x400, abEnabled);
 }
 
 namespace fnv_00580540 {
 struct FUN_004fc990_t
 {
-    void FUN_004fc990(int, bool);
+    void BGSPlaceableWater_SetFlag(int, bool);
 };
 
 struct FUN_00580540_t
@@ -52,28 +52,28 @@ struct FUN_00580540_t
 // @fnv 0x00580540
 void FUN_00580540_t::SetValue(int value)
 {
-    reinterpret_cast<FUN_004fc990_t*>(this)->FUN_004fc990(2, reinterpret_cast<bool&>(value));
+    reinterpret_cast<FUN_004fc990_t*>(this)->BGSPlaceableWater_SetFlag(2, reinterpret_cast<bool&>(value));
 }
 }  // namespace fnv_00580540
 
 namespace fnv_00580560 {
 struct FUN_004fc990_t
 {
-    void FUN_004fc990(int, bool);
+    void BGSPlaceableWater_SetFlag(int, bool);
     void SetFlag80(bool argument0);
 };
 
 // @fnv 0x00580560
 void FUN_004fc990_t::SetFlag80(bool abEnabled)
 {
-    FUN_004fc990(0x80, abEnabled);
+    BGSPlaceableWater_SetFlag(0x80, abEnabled);
 }
 }  // namespace fnv_00580560
 
 namespace fnv_00580580 {
 struct FUN_004fc990_t
 {
-    void FUN_004fc990(int, bool);
+    void BGSPlaceableWater_SetFlag(int, bool);
 };
 struct FUN_00580580_t
 {
@@ -82,14 +82,14 @@ struct FUN_00580580_t
 // @fnv 0x00580580
 void FUN_00580580_t::SetFlag100(bool abEnabled)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x100, abEnabled);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x100, abEnabled);
 }
 }  // namespace fnv_00580580
 
 namespace fnv_005805a0 {
 struct FUN_004fc990_t
 {
-    void FUN_004fc990(int, bool);
+    void BGSPlaceableWater_SetFlag(int, bool);
 };
 
 struct FUN_005805a0_t
@@ -100,7 +100,7 @@ struct FUN_005805a0_t
 // @fnv 0x005805a0
 void FUN_005805a0_t::SetFlag8000000(bool abEnabled)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x8000000, abEnabled);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x8000000, abEnabled);
 }
 }  // namespace fnv_005805a0
 
@@ -412,17 +412,18 @@ int __cdecl CompareSecondElement(unsigned int* pFirst, unsigned int* pSecond)
     return iResult;
 }
 
-extern "C" unsigned char __cdecl FUN_005548a0(unsigned char a);
+extern "C" unsigned char __cdecl TESObjectCELL_IsFormTypeCellChild(unsigned char a);
 
 // Returns 1 for characters 0x39 and 0x44, otherwise delegates to FUN_005548a0 with the same character.
 // @fnv 0x00588a60
-unsigned char __cdecl FUN_00588a60(unsigned char a)
+// src: COMMUNITY 0x00588a60
+unsigned char __cdecl TESWorldSpace_IsFormTypeWorldChild(unsigned char a)
 {
     if (a == 0x39)
         return 1;
     if (a == 0x44)
         return 1;
-    return FUN_005548a0(a);
+    return TESObjectCELL_IsFormTypeCellChild(a);
 }
 
 void __cdecl Deallocate(void*);
@@ -630,10 +631,11 @@ struct FUN_004726b0_class
 };
 struct FUN_00589890_Class
 {
-    bool FUN_00589890(FUN_004726b0_class* apData);
+    bool AudioBuoyMarker_Load(FUN_004726b0_class* apData);
 };
 // @fnv 0x00589890
-bool FUN_00589890_Class::FUN_00589890(FUN_004726b0_class* apData)
+// src: COMMUNITY 0x00589890
+bool FUN_00589890_Class::AudioBuoyMarker_Load(FUN_004726b0_class* apData)
 {
     if (!apData)
         return false;
@@ -644,10 +646,11 @@ bool FUN_00589890_Class::FUN_00589890(FUN_004726b0_class* apData)
 
 struct FUN_0058b680_Class
 {
-    unsigned int __thiscall FUN_0058b680(TESForm* form);
+    unsigned int __thiscall BGSCameraPath_GetIndexForChild(TESForm* form);
 };
 // @fnv 0x0058b680
-unsigned int __thiscall FUN_0058b680_Class::FUN_0058b680(TESForm* form)
+// src: COMMUNITY 0x0058b680
+unsigned int __thiscall FUN_0058b680_Class::BGSCameraPath_GetIndexForChild(TESForm* form)
 {
     unsigned int result = 0xFFFFFFFF;
     if (reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x2C)[0])
@@ -682,7 +685,7 @@ void FUN_0058b6c0_shell::RemoveSoundAt(unsigned int index)
 
 struct Holder680
 {
-    int __thiscall FUN_0058b680(int);
+    int __thiscall BGSCameraPath_GetIndexForChild(int);
 };
 struct Holder6c0
 {
@@ -692,16 +695,17 @@ struct Holder730
 {
     char _pad[0x2c];
     int m_2c;
-    void __thiscall FUN_0058b730(int);
+    void __thiscall BGSCameraPath_RemoveChild(int);
 };
 // If a1 and m_2c are both nonzero, calls FUN_0058b680 with a1 and passes its result to RemoveSoundAt.
 // @fnv 0x0058b730
-void __thiscall Holder730::FUN_0058b730(int a1)
+// src: COMMUNITY 0x0058b730
+void __thiscall Holder730::BGSCameraPath_RemoveChild(int a1)
 {
     int v;
     if (a1 != 0 && m_2c != 0)
     {
-        v = ((Holder680*)this)->FUN_0058b680(a1);
+        v = ((Holder680*)this)->BGSCameraPath_GetIndexForChild(a1);
         ((Holder6c0*)this)->RemoveSoundAt(v);
     }
 }
@@ -778,12 +782,13 @@ int __thiscall FUN_0058cb60_Class::FUN_0058cb60(unsigned int* a, int* piValue, u
 
 struct FUN_0058f7f0_Class
 {
-    int* __thiscall FUN_0058f7f0(int a);
+    int* __thiscall ImpactSwap_GetAltFootstepMaterialName(int a);
 };
 
 // Returns a pointer to the entry at offset 0x30 plus a*0x1e if its first byte is nonzero, otherwise returns 0.
 // @fnv 0x0058f7f0
-int* __thiscall FUN_0058f7f0_Class::FUN_0058f7f0(int aiIndex)
+// src: COMMUNITY 0x0058f7f0
+int* __thiscall FUN_0058f7f0_Class::ImpactSwap_GetAltFootstepMaterialName(int aiIndex)
 {
     if (*(char*)((char*)this + 0x30 + aiIndex * 0x1e))
         return (int*)((char*)this + 0x30 + aiIndex * 0x1e);
@@ -1606,7 +1611,8 @@ struct FUN_006ab360_t
 };
 
 // @fnv 0x0059ae10
-int __cdecl FUN_0059ae10(void* apLeft, void* apRight)
+// src: COMMUNITY 0x0059ae10
+int __cdecl TESCaravanCard_Compare_0(void* apLeft, void* apRight)
 {
     int y;
     int x;

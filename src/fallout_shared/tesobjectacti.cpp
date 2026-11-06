@@ -141,11 +141,12 @@ bool TESObjectACTI::Load(TESFile* file)
 
 struct FUN_004fd3a0_shell : public TESObjectACTI
 {
-    TESSound* FUN_004fd3a0();
+    TESSound* TESChallenge_GetFormOne();
 };
 
 // @fnv 0x004fd3a0
-TESSound* FUN_004fd3a0_shell::FUN_004fd3a0()
+// src: COMMUNITY 0x004fd3a0
+TESSound* FUN_004fd3a0_shell::TESChallenge_GetFormOne()
 {
     return *(TESSound**)((char*)this + 0x74);
 }
@@ -162,11 +163,12 @@ void* __fastcall BGSOpenCloseForm_BGSOpenCloseForm(void** pThis)
 
 struct FloatValueProvider : public TESObjectACTI
 {
-    void FUN_00510ea0(BSStringT<char> s);
+    void TESObjectACTI_SetActivationPrompt(BSStringT<char> s);
 };
 // Sets the activation prompt at offset 0x88 to the given string.
 // @fnv 0x00510ea0
-void FloatValueProvider::FUN_00510ea0(BSStringT<char> s)
+// src: COMMUNITY 0x00510ea0
+void FloatValueProvider::TESObjectACTI_SetActivationPrompt(BSStringT<char> s)
 {
     m_kActivationPrompt.Set(s);
 }
@@ -412,7 +414,7 @@ struct Chunk48cca0
     int unk00;
     int unk04;
     int unk08;
-    void FUN_0048cca0();
+    void Save_0048cca0();
 };
 struct Chunk477f20
 {
@@ -462,7 +464,7 @@ void ActiSave::Save()
     FUN_004855a0();
     name30.FUN_00487010();
     model3c.ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    script5c.FUN_0048cca0();
+    script5c.Save_0048cca0();
     destruct68.FUN_00477f20();
     if (m_pSoundEffect)
     {
@@ -669,7 +671,7 @@ class ActiV511
     virtual void v79();
     virtual TESWaterForm* GetWaterForm();
 
-    TESSound* FUN_004fd3a0();
+    TESSound* TESChallenge_GetFormOne();
     TESEffectShader* FUN_00407840();
     TESSound* FUN_00407820();
     TESSound* FUN_004fd3c0();
@@ -692,7 +694,7 @@ void ActiV511::FUN_00511120(TESForm* pkForm)
     if (!pkActi)
         return;
 
-    FUN_004febb0(pkActi->FUN_004fd3a0());
+    FUN_004febb0(pkActi->TESChallenge_GetFormOne());
     FUN_004febd0(pkActi->FUN_00407840());
     FUN_00442a80(pkActi->FUN_00407820());
     SetWaterForm(pkActi->GetWaterForm());

@@ -2162,11 +2162,13 @@ void CollectUnsaturatedObjects(SrcL* pSource, int level, float fValue, unsigned 
 
 // Empty function body that takes three int arguments and does nothing.
 // @fnv 0x00d0bc50
-void __stdcall FUN_00d0bc50(int, int, int) {
+// src: COMMUNITY 0x00d0bc50
+void __stdcall nullsub_66(int, int, int) {
 }
 
 // @fnv 0x00d0bcf0
-void __stdcall FUN_00d0bcf0(int a)
+// src: COMMUNITY 0x00d0bcf0
+void __stdcall nullsub_67(int a)
 {
 }
 
@@ -4971,7 +4973,7 @@ __declspec(nothrow) void hkpWorldAgentUtil_invalidateTim(DynamicNode*,const Coll
 __declspec(nothrow) void FUN_00d0bf30(Resources&,const List<DynamicNode*>&) throw();
 __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources&,const List<SchemaRecord>&,ProcessInput&,List<Violation>*) throw();
 __declspec(nothrow) void FUN_00d8aac0(const ResourceInfo&,Schema*,Accumulator*,SolverElement*) throw();
-__declspec(nothrow) void FUN_00d88580(const ResourceInfo&,const TimeInterval&,const Accumulator*,DynamicNode* const*,int) throw();
+__declspec(nothrow) void hkpConstraintSolverSetup_oneStepIntegrate(const ResourceInfo&,const TimeInterval&,const Accumulator*,DynamicNode* const*,int) throw();
 __declspec(nothrow) void UpdateIslandMotionStates(SolverIsland*,StateTable&,Resources&) throw();
 __declspec(nothrow) void PartitionMotionPairs(List<SchemaRecord>&,int&,int) throw();
 __declspec(nothrow) void hkLs_toiActivateConstraintsLinkingActivatedEntities(List<SchemaRecord>&,int&,StateTable&) throw();
@@ -5206,7 +5208,7 @@ solveFull:
         hkMotionState* state=static_cast<DynamicNode*>(active[i])->getRigidMotion()->GetMotionState();
         FUN_00cf1b10(event.time,*state);
     }
-    FUN_00d88580(*resources.m_pSolverInfo,*resources.m_pStepInfo,resources.m_pVelocityAccumulatorA,active.begin(),active.GetLogicalSize());
+    hkpConstraintSolverSetup_oneStepIntegrate(*resources.m_pSolverInfo,*resources.m_pStepInfo,resources.m_pVelocityAccumulatorA,active.begin(),active.GetLogicalSize());
     UpdateIslandMotionStates(island,states,resources);
     for(int i=0;i<active.GetLogicalSize();++i)hkpWorldAgentUtil_invalidateTim(active[i],*world->getCollisionInputRw());
     if(0) TraceStream::GetMonitorStream().dontPrintf("sub.end","----");
@@ -5731,7 +5733,7 @@ struct Arg0 {
     int unk1d8;
     int unk1dc;
     int m_1e0;
-    float FUN_00c91030();
+    float hkpWorld_getCurrentPsiTime();
 };
 struct Elem {
     int unk00;
@@ -5900,7 +5902,7 @@ __forceinline void Self::process(Arg0* world,Elem** data,int count,void* input) 
 }
 static __forceinline void prepareProbe(Arg0* world,const Entry70& event,float delta,Times& step,BigObj& solver,Obj2& input) {
     step.tA=event.time;
-    step.tB=world->FUN_00c91030();
+    step.tB=world->hkpWorld_getCurrentPsiTime();
     step.diff=step.tB-step.tA;
     step.recip=1.0f/step.diff;
     solver.FUN_00d105b0(&world->m_1e0);

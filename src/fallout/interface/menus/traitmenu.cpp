@@ -45,13 +45,15 @@ public:
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x007e68a0
-int TraitMenu::FUN_007e68a0()
+// src: COMMUNITY 0x007e68a0
+int TraitMenu::GetMenuID_007e68a0()
 {
     return 0x43c;
 }
 
 // @fnv 0x007e6dc0
-int FUN_007e6dc0()
+// src: COMMUNITY 0x007e6dc0
+int TraitMenu_GetMenuID_0()
 {
     return 0x43c;
 }
@@ -135,7 +137,8 @@ namespace fnv_007e76e0 {
 extern int DAT_011daf5c;
 extern PlayerCharacter* g_thePlayer;
 // @fnv 0x007e76e0
-void FUN_007e76e0(Tile* apTile, BGSPerk* apPerk)
+// src: COMMUNITY 0x007e76e0
+void TraitMenu_IncreaseSelectedTraitRank(Tile* apTile, BGSPerk* apPerk)
 {
     if (apTile->ContainsTrait(DAT_011daf5c))
         g_thePlayer->SetPerkRank(apPerk, g_thePlayer->GetPerkRank(apPerk, false) + 1, false);
@@ -190,14 +193,14 @@ struct ListBox_TESObjectREFR
 extern Actor* _g_thePlayer;
 extern void __cdecl _FUN_007df4e0();
 void __cdecl FUN_0077da30();
-void __cdecl FUN_007e76e0(Tile*, void*);
+void __cdecl TraitMenu_IncreaseSelectedTraitRank(Tile*, void*);
 // @fnv 0x007e6e10
 void __cdecl FUN_007e6e10()
 {
     FUN_0077da30();
     if (DAT_011daf74)
     {
-        ((ListBox_TESObjectREFR*)((char*)DAT_011daf74 + 0x54))->Traverse(FUN_007e76e0, 0, 0x7fffffff);
+        ((ListBox_TESObjectREFR*)((char*)DAT_011daf74 + 0x54))->Traverse(TraitMenu_IncreaseSelectedTraitRank, 0, 0x7fffffff);
         if (((NiNodeBooleanState_traitmenu*)((PlayerCharacter*)_g_thePlayer)->FUN_00464e10())->GetBooleanValue())
             _g_thePlayer->ConfigureActorState(true, false);
         _FUN_007df4e0();
@@ -219,7 +222,8 @@ extern int DAT_011daf70;
 int __cdecl FUN_00408b20(char const*, char const*);
 
 // @fnv 0x007e7740
-int FUN_007e7740(TraitMenu::ListBoxItem<BGSPerk*>* apItem1, TraitMenu::ListBoxItem<BGSPerk*>* apItem2)
+// src: COMMUNITY 0x007e7740
+int Trait_CompareForSorting(TraitMenu::ListBoxItem<BGSPerk*>* apItem1, TraitMenu::ListBoxItem<BGSPerk*>* apItem2)
 {
     int iresult;
 
@@ -337,7 +341,7 @@ struct InputManager
 };
 extern OSGlobals* DAT_011dea0c;
 extern unsigned int DAT_011db004;
-bool FUN_00709d40();
+bool Interface_Has360Controller();
 float FUN_00408820(float);
 unsigned int gm_GetTickCount();
 int FUN_00a01860(const char*);
@@ -357,7 +361,7 @@ bool TraitMenu::HandleKey(int key, int unused)
         }
         break;
     }
-    if (FUN_00709d40() && scroll->IsTraitNonZero(0xfa3))
+    if (Interface_Has360Controller() && scroll->IsTraitNonZero(0xfa3))
     {
         int delta = 0;
         int step = 0;
@@ -392,7 +396,7 @@ extern float DAT_0101e704;
 void FUN_007e7670(Tile* pDest, BGSPerk* pPlayer)
 {
     float fValue;
-    if (pPlayer->FUN_00785150(DAT_011dea3c) && pPlayer->GetByteAt39() <= DAT_011dea3c->GetLevel())
+    if (pPlayer->BGSPerk_IsPerkAvailable(DAT_011dea3c) && pPlayer->GetByteAt39() <= DAT_011dea3c->GetLevel())
         fValue = DAT_01023cd8;
     else
         fValue = DAT_0101e704;
@@ -484,7 +488,7 @@ struct ResourceProvider
 {
     Tile* FUN_00586150(const char*);
 };
-ResourceProvider* __cdecl FUN_004b7210();
+ResourceProvider* __cdecl InterfaceManager_GetSingleton();
 TraitMenu* __cdecl FUN_00a09030(int);
 void __cdecl FNV_Warning(const char*);
 float __stdcall FUN_00a01530(int);
@@ -507,12 +511,12 @@ void __cdecl FUN_007e7670(Tile*, void*);
 Tile* __cdecl FUN_007e6990()
 {
     TraitMenu* oldMenu = FUN_00a09030(1084);
-    ResourceProvider* root = FUN_004b7210();
+    ResourceProvider* root = InterfaceManager_GetSingleton();
     if (oldMenu)
         delete oldMenu;
     Tile* manager = root->FUN_00586150("Data\\Menus\\trait_menu.xml")->FUN_00a01b00();
     DAT_011daf74 = (int)manager->GetMenu();
-    if (DAT_011daf74 && ((TraitMenu*)DAT_011daf74)->GetClass() == FUN_007e6dc0())
+    if (DAT_011daf74 && ((TraitMenu*)DAT_011daf74)->GetClass() == TraitMenu_GetMenuID_0())
     {
         ((TraitMenu*)DAT_011daf74)->FUN_00a1dc70((TileMenu*)manager, false);
         if (!((TraitMenu*)DAT_011daf74)->FUN_007e6dd0())
@@ -537,12 +541,12 @@ Tile* __cdecl FUN_007e6990()
         {
             BGSPerk* perk = *node->FUN_006815c0();
             if (perk->Level() > 0 && g_thePlayer->GetPerkRank(perk, false) < perk->FUN_005d4ee0() &&
-                perk->GetByteAtOffset56() && perk->FUN_005eba00(g_thePlayer) && perk->CheckPlayerConditions())
+                perk->GetByteAtOffset56() && perk->IsPerkAttainable(g_thePlayer) && perk->CheckPlayerConditions())
             {
                 bool valid = true;
                 if (*DAT_011da034.Bool())
                 {
-                    if (!perk->FUN_00785150(g_thePlayer) || perk->Level() > g_thePlayer->GetLevel())
+                    if (!perk->BGSPerk_IsPerkAvailable(g_thePlayer) || perk->Level() > g_thePlayer->GetLevel())
                         valid = false;
                 }
                 if (valid)
@@ -554,7 +558,7 @@ Tile* __cdecl FUN_007e6990()
         ((TraitMenu*)DAT_011daf74)->FUN_00726070()->Set(DAT_011daf68, ((TraitMenu*)DAT_011daf74)->count);
         ((TraitMenu*)DAT_011daf74)->UpdateValueDifferenceMessage();
         ((TraitMenu*)DAT_011daf74)->box.Traverse(FUN_007e7670, 0, 0x7fffffff);
-        ((TraitMenu*)DAT_011daf74)->box.Sort(FUN_007e7740);
+        ((TraitMenu*)DAT_011daf74)->box.Sort(Trait_CompareForSorting);
         ((TraitMenu*)DAT_011daf74)->box.UpdateScrollTile(true);
         return manager;
     }

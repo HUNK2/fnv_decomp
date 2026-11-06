@@ -50,13 +50,14 @@ void NiPSysMeshUpdateModifier::LoadBinary(NiStream& stream)
 
 struct FUN_00c206a0_shell : public NiPSysRotationModifier
 {
-    void* FUN_00c206a0();
+    void* NiPSysRotationModifier_GetRTTI();
 };
 
 extern "C" void* g_01202528;
 
 // @fnv 0x00c206a0
-void* FUN_00c206a0_shell::FUN_00c206a0()
+// src: COMMUNITY 0x00c206a0
+void* FUN_00c206a0_shell::NiPSysRotationModifier_GetRTTI()
 {
     return &g_01202528;
 }

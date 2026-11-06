@@ -12,7 +12,8 @@
 extern const void* g_011f3f10;
 
 // @fnv 0x00a45010
-const void* __cdecl FUN_00a45010()
+// src: COMMUNITY 0x00a45010
+const void* __cdecl NiUVData_GetRTTI()
 {
     return &g_011f3f10;
 }

@@ -43,7 +43,7 @@ class HighActorCullerCell : public TESObjectCELL
 class TESWorldSpace
 {
   public:
-    BSPortalGraph* FUN_006698d0();
+    BSPortalGraph* TESPackage_GetOnChangeIdle();
 };
 class TES
 {
@@ -176,7 +176,7 @@ class BSMultiBoundSphere
     virtual void vfn_b0();
     virtual void vfn_b4();
     virtual void SetGridPosition(const NiPoint3& center);
-    void FUN_00819a50(float radius);
+    void CombatLocation_SetRadius(float radius);
     char _pdbpad_4[8];
     char Center[12];
     float Radius;

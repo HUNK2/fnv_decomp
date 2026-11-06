@@ -57,7 +57,7 @@ struct Prop
 {
     char pad[0x20];
     unsigned int flags;
-    void FUN_00ba8d00(bool);
+    void BSShaderProperty_SetMotionBlurred(bool);
     void FUN_00441130(int, int);
 };
 struct PropHelper
@@ -84,7 +84,8 @@ struct Node
     unsigned short count;
 };
 // @fnv 0x00ba90a0
-void FUN_00ba90a0(Obj* apObj)
+// src: COMMUNITY 0x00ba90a0
+void BSShaderProperty_ToggleMotionBlurRecurse(Obj* apObj)
 {
     if (!apObj)
         return;
@@ -92,7 +93,7 @@ void FUN_00ba90a0(Obj* apObj)
     {
         Prop* p = ((PropHelper*)apObj)->GetProperty(3);
         if (p)
-            p->FUN_00ba8d00((p->flags & 0x10) <= 0);
+            p->BSShaderProperty_SetMotionBlurred((p->flags & 0x10) <= 0);
         return;
     }
     Node* n = apObj->v3();
@@ -103,7 +104,7 @@ void FUN_00ba90a0(Obj* apObj)
         {
             Obj* c = n->kids[i];
             if (c)
-                FUN_00ba90a0(c);
+                BSShaderProperty_ToggleMotionBlurRecurse(c);
         }
     }
 }
@@ -113,7 +114,7 @@ struct Prop
 {
     char pad[0x20];
     unsigned char flags;
-    void FUN_00ba8d00(int);
+    void BSShaderProperty_SetMotionBlurred(int);
     void FUN_00441130(int, int);
 };
 struct PropHelper
@@ -140,7 +141,8 @@ struct Node
     unsigned short count;
 };
 // @fnv 0x00ba9120
-void FUN_00ba9120(Obj* pObj, int a)
+// src: COMMUNITY 0x00ba9120
+void BSShaderProperty_SetMotionBlurRecurse(Obj* pObj, int a)
 {
     if (!pObj)
         return;
@@ -148,7 +150,7 @@ void FUN_00ba9120(Obj* pObj, int a)
     {
         Prop* p = ((PropHelper*)pObj)->GetProperty(3);
         if (p)
-            p->FUN_00ba8d00(a);
+            p->BSShaderProperty_SetMotionBlurred(a);
         return;
     }
     Node* n = pObj->v3();
@@ -159,7 +161,7 @@ void FUN_00ba9120(Obj* pObj, int a)
         {
             Obj* c = n->kids[i];
             if (c)
-                FUN_00ba9120(c, a);
+                BSShaderProperty_SetMotionBlurRecurse(c, a);
         }
     }
 }
@@ -170,7 +172,7 @@ struct Prop
 {
     char pad[0x20];
     unsigned char flags;
-    void FUN_00ba8d00(int);
+    void BSShaderProperty_SetMotionBlurred(int);
     void FUN_00441130(int, bool);
 };
 struct PropHelper
@@ -299,7 +301,7 @@ void __stdcall FUN_00bac8d0(unsigned int k)
 namespace fnv_00bac950 {
 struct TextureReceiver
 {
-    void* FUN_004bc320(int);
+    void* BSRenderedTexture_GetTexture(int);
 };
 struct Poly
 {
@@ -464,7 +466,7 @@ int Self::FUN_00bac950(Arg* arg)
     if (k - 0x284 <= 3)
     {
         Slot* b = DAT_0126f74c->t->b;
-        b->f = DAT_011f91e0[3]->in->tr->FUN_004bc320(0);
+        b->f = DAT_011f91e0[3]->in->tr->BSRenderedTexture_GetTexture(0);
     }
     return s66();
 }
@@ -486,12 +488,13 @@ struct NiTexture;
 
 extern ImageSpaceTexture DAT_012005a4;
 // @fnv 0x00bad4a0
-void FUN_00bad4a0()
+// src: COMMUNITY 0x00bad4a0
+void ImageSpaceEffectHDR_ClearAdaptedLight()
 {
     if (DAT_012005a4.GetTexture())
     {
         DAT_012005a4.AddRenderedTexture();
-        DAT_012005a4.FUN_00ba38b0();
+        DAT_012005a4.ImageSpaceTexture_ClearTexture();
     }
 }
 
@@ -957,11 +960,12 @@ struct Shader_bad060 : BSShader
 {
     NiPointer<NiD3DPass> m_aspPass[0x2c];
     void ConfigureBeamPasses();
-    bool FUN_00bad060();
+    bool TallGrassShader_LoadStagesAndPasses();
 };
 
 // @fnv 0x00bad060
-bool Shader_bad060::FUN_00bad060()
+// src: COMMUNITY 0x00bad060
+bool Shader_bad060::TallGrassShader_LoadStagesAndPasses()
 {
     AutoMemContext kContext(0x1c);
     for (int i = 0; i < 0x2c; ++i)
@@ -1100,7 +1104,8 @@ extern Matrix215 DAT_01200470, DAT_012004b0;
 extern NiPoint3 DAT_012004f0;
 // If neither flag is set, copies the renderer's two matrices and the source's x/y/z point into globals and sets DAT_0120045e true and DAT_011adcdc false.
 // @fnv 0x00ba9420
-void FUN_00ba9420(const Source215* source)
+// src: COMMUNITY 0x00ba9420
+void BSShaderProperty_PreviousTransform_SaveCamera(const Source215* source)
 {
     if (!DAT_0120045c && !DAT_0120045d)
     {
@@ -1678,7 +1683,7 @@ struct TallGrassPrograms
     GrassShaderRef pixelPrograms[7];
     GrassShader* FUN_00be0fe0(const char*, GrassMacro*, const char*, const char*);
     GrassShader* FUN_00be1750(const char*, GrassMacro*, const char*, const char*);
-    void FUN_00baafc0();
+    void TallGrassShader_LoadShaders();
 };
 inline GrassMacro* FindGrassMacroEnd(GrassShaderDescriptor* desc)
 {
@@ -1695,7 +1700,8 @@ inline GrassMacro* FindGrassMacroEnd(GrassShaderDescriptor* desc)
 }
 // Builds vertex and pixel shader entries from descriptors, choosing profiles and binary names using global flags.
 // @fnv 0x00baafc0
-void TallGrassPrograms::FUN_00baafc0()
+// src: COMMUNITY 0x00baafc0
+void TallGrassPrograms::TallGrassShader_LoadShaders()
 {
     GrassMemoryScope grassMemoryScope;
     GrassShaderDescriptor vertex[24];
@@ -2186,12 +2192,12 @@ struct Stage_c160
     unsigned int unk58;
     unsigned int unk5c;
     unsigned int unk60;
-    void FUN_00e7ecd0();
+    void NiD3DTextureStage_ReturnStageToPool();
     void DecRefCount()
     {
         --unk60;
         if (unk60 == 0)
-            FUN_00e7ecd0();
+            NiD3DTextureStage_ReturnStageToPool();
     }
 };
 void AssignStageFromPool(Stage_c160**);
@@ -2233,7 +2239,7 @@ struct Pass_c160
     unsigned int unk54;
     unsigned int unk58;
     RefPtr_bacd00 vertex;
-    void FUN_00e802b0(unsigned int, Stage_c160*);
+    void NiD3DPass_SetStage(unsigned int, Stage_c160*);
     void Set(unsigned int key, unsigned int value)
     {
         if (!state)
@@ -2267,7 +2273,7 @@ void Shader_c160::ConfigureBeamPasses()
                 AssignStageFromPool(&stage.object);
                 Stage_c160* current = stage.object;
                 ConfigureBeamStage(current, 0, 3, 2, 0);
-                pass->FUN_00e802b0(pass->unk14, current);
+                pass->NiD3DPass_SetStage(pass->unk14, current);
             }
         }
         int pixelIndex;
@@ -2281,13 +2287,13 @@ void Shader_c160::ConfigureBeamPasses()
                         AssignStageFromPool(&stage.object);
                         Stage_c160* current = stage.object;
                         ConfigureBeamStage(current, 1, 1, 2, 0);
-                        pass->FUN_00e802b0(pass->unk14, current);
+                        pass->NiD3DPass_SetStage(pass->unk14, current);
                     }
                     {
                         AssignStageFromPool(&stage.object);
                         Stage_c160* current = stage.object;
                         ConfigureBeamStage(current, 2, 1, 2, 0);
-                        pass->FUN_00e802b0(pass->unk14, current);
+                        pass->NiD3DPass_SetStage(pass->unk14, current);
                     }
                 }
                 pixelIndex = 2;
@@ -2322,7 +2328,7 @@ void Shader_c160::ConfigureBeamPasses()
                 AssignStageFromPool(&stage.object);
                 Stage_c160* current = stage.object;
                 ConfigureBeamStage(current, 0, 3, 2, 0);
-                pass->FUN_00e802b0(pass->unk14, current);
+                pass->NiD3DPass_SetStage(pass->unk14, current);
             }
             {
                 AssignStageFromPool(&stage.object);
@@ -2330,7 +2336,7 @@ void Shader_c160::ConfigureBeamPasses()
                 ConfigureBeamStage(current, 1, 3, 2, 0);
                 current->unk08 = DAT_011f9534;
                 current->unk0c = 1;
-                pass->FUN_00e802b0(pass->unk14, current);
+                pass->NiD3DPass_SetStage(pass->unk14, current);
             }
         }
         int pixelIndex;
@@ -2344,13 +2350,13 @@ void Shader_c160::ConfigureBeamPasses()
                         AssignStageFromPool(&stage.object);
                         Stage_c160* current = stage.object;
                         ConfigureBeamStage(current, 2, 1, 2, 0);
-                        pass->FUN_00e802b0(pass->unk14, current);
+                        pass->NiD3DPass_SetStage(pass->unk14, current);
                     }
                     {
                         AssignStageFromPool(&stage.object);
                         Stage_c160* current = stage.object;
                         ConfigureBeamStage(current, 3, 1, 2, 0);
-                        pass->FUN_00e802b0(pass->unk14, current);
+                        pass->NiD3DPass_SetStage(pass->unk14, current);
                     }
                 }
                 pixelIndex = 3;
@@ -2386,13 +2392,13 @@ void Shader_c160::ConfigureBeamPasses()
                 AssignStageFromPool(&stage.object);
                 Stage_c160* current = stage.object;
                 ConfigureBeamStage(current, 0, 3, 2, 0);
-                pass->FUN_00e802b0(pass->unk14, current);
+                pass->NiD3DPass_SetStage(pass->unk14, current);
             }
             {
                 AssignStageFromPool(&stage.object);
                 Stage_c160* current = stage.object;
                 ConfigureBeamStage(current, 1, 3, 2, 0);
-                pass->FUN_00e802b0(pass->unk14, current);
+                pass->NiD3DPass_SetStage(pass->unk14, current);
             }
         }
         pass->Set(27, 1);
@@ -2667,11 +2673,11 @@ extern "C"
     extern V4_bacd00 DAT_01200590;
 }
 
-int __cdecl FUN_00b97f20(unsigned int a, unsigned int b, int c);
+int __cdecl BSRenderState_SetAlphaTestFuncRef(unsigned int a, unsigned int b, int c);
 
 struct BSParticleShader : FUN_00bacd00
 {
-    void FUN_00baaf40(GeomStub* geom, Param2* p2);
+    void TallGrassShader_SetupInstanceSize(GeomStub* geom, Param2* p2);
     void SetShaderParams(Param1* p1);
 };
 
@@ -2724,7 +2730,7 @@ void BSParticleShader::SetShaderParams(Param1* p1)
     }
     DAT_01200538 = 1.0f;
 
-    FUN_00baaf40(geom, p2);
+    TallGrassShader_SetupInstanceSize(geom, p2);
 
     if (DAT_011f941e)
     {
@@ -2754,7 +2760,7 @@ void BSParticleShader::SetShaderParams(Param1* p1)
 
     if (_fnv_particle_shader_renderer_level < 2 || !DAT_011f941e)
     {
-        FUN_00b97f20((p1->unk00->word18 >> 10) & 7, p1->unk00->byte1A, 0);
+        BSRenderState_SetAlphaTestFuncRef((p1->unk00->word18 >> 10) & 7, p1->unk00->byte1A, 0);
     }
 
     PassHandler* pass = reinterpret_cast<PassHandler*>(m_spPixelConstantMap.m_pObject);

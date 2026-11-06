@@ -61,10 +61,11 @@ void FUN_00ca88c0_Class::hkpRigidBody_setMass(float afValue)
 
 struct FUN_00ca80c0_Class
 {
-    int __fastcall FUN_00ca80c0();
+    int __fastcall hkpRigidBody_isDeactivationEnabled();
 };
 // @fnv 0x00ca80c0
-int __fastcall FUN_00ca80c0_Class::FUN_00ca80c0()
+// src: COMMUNITY 0x00ca80c0
+int __fastcall FUN_00ca80c0_Class::hkpRigidBody_isDeactivationEnabled()
 {
     return *(unsigned char*)(this + 0xe9) != 0xff;
 }
@@ -1595,7 +1596,7 @@ struct S_00ca8f50_Info
 
 struct S_00ca8f50_Src
 {
-    bool FUN_00ca80c0();
+    bool hkpRigidBody_isDeactivationEnabled();
     void WriteToInfo(S_00ca8f50_Info* info);
     int unk0;
     int unk4;
@@ -1683,7 +1684,7 @@ void S_00ca8f50_Src::WriteToInfo(S_00ca8f50_Info* info)
     info->mB8 = mD0;
     info->mBA = mD1;
     info->mE = mAA;
-    info->mB5 = FUN_00ca80c0();
+    info->mB5 = hkpRigidBody_isDeactivationEnabled();
     info->m8 = m210;
     info->mA0 = m90;
     info->mC = m8C;

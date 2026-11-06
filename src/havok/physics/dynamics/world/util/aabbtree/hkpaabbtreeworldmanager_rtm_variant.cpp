@@ -136,7 +136,7 @@ Derived::Derived()
 struct FUN_00d0a1f0_Class {
     void __thiscall hkpAabbTreeWorldManager_setUpToDate(unsigned char value);
 };
-void __stdcall FUN_00d08380(int);
+void __stdcall nullsub_62(int);
 struct FUN_00cd29f0_cls {
     void hkpWorldObject_setTreeData(int iValue);
 };

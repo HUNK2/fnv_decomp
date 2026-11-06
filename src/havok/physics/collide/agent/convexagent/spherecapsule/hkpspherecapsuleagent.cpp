@@ -278,7 +278,7 @@ struct S_00d3ef70_Collector {
     virtual void AddCdBodyPair(const S_00d3ef70_CdBody& a, const S_00d3ef70_CdBody& b);
 };
 
-int __cdecl FUN_00d230e0(const SphCap_Vector4& pos, const SphCap_Vector4& a, const SphCap_Vector4& b, SphCap_SegResult& out);
+int __cdecl hkLineSegmentUtil_closestPointLineSeg(const SphCap_Vector4& pos, const SphCap_Vector4& a, const SphCap_Vector4& b, SphCap_SegResult& out);
 
 struct Group1 {
     SphCap_Vector4F t0;
@@ -341,7 +341,7 @@ t->m_ticks = ticks; }
     }
 
     {
-        FUN_00d230e0(spherePos, points[0], points[1], closest);
+        hkLineSegmentUtil_closestPointLineSeg(spherePos, points[0], points[1], closest);
 
         float radiusSum = capsule->m_fSphereRadius + sphere->m_fSphereRadius;
         LocalM128 d = _mm_sub_ps(closest.m_kClosestPoint.m_vComponents, spherePos.m_vComponents);

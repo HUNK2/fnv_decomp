@@ -2159,11 +2159,12 @@ void __cdecl FindContRecordByFormId(void* apArg, FUN_00433a00_list* apList);
 struct FUN_00433a00_t : public BSExtraData
 {
     FUN_00433a00_list kList;
-    void FUN_00433a00(void* apArg);
+    void ExtraActivateRef_GetData(void* apArg);
 };
 // Calls FindContRecordByFormId with apArg and the extra data's kList.
 // @fnv 0x00433a00
-void FUN_00433a00_t::FUN_00433a00(void* apArg)
+// src: COMMUNITY 0x00433a00
+void FUN_00433a00_t::ExtraActivateRef_GetData(void* apArg)
 {
     FindContRecordByFormId(apArg, &kList);
 }
@@ -2271,11 +2272,12 @@ struct Str6a70
 struct FUN_00438280_class
 {
     Str6a70 m_str;  // at offset 0x14
-    void FUN_00438280(char const* s);
+    void ExtraSecuritronFace_SetMood(char const* s);
 };
 
 // @fnv 0x00438280
-void FUN_00438280_class::FUN_00438280(char const* acString)
+// src: COMMUNITY 0x00438280
+void FUN_00438280_class::ExtraSecuritronFace_SetMood(char const* acString)
 {
     *(Str6a70*)((char*)this + 0x14) = acString;
 }
@@ -2311,7 +2313,7 @@ struct BSSimpleArrayShell
     virtual ~BSSimpleArrayShell();
     virtual void* Allocate(unsigned int auiCount);
     void FUN_00430000(void* apBuffer, unsigned int auiCount);
-    void FUN_00438a60(unsigned int auiAllocSize, unsigned int auiSize);
+    void BSSimpleArray_CombatTimeStamp_1024_InitialSetup(unsigned int auiAllocSize, unsigned int auiSize);
 
     void* pBuffer;
     unsigned int uiSize;
@@ -2319,7 +2321,8 @@ struct BSSimpleArrayShell
 };
 
 // @fnv 0x00438a60
-void BSSimpleArrayShell::FUN_00438a60(unsigned int auiAllocSize, unsigned int auiSize)
+// src: COMMUNITY 0x00438a60
+void BSSimpleArrayShell::BSSimpleArray_CombatTimeStamp_1024_InitialSetup(unsigned int auiAllocSize, unsigned int auiSize)
 {
     pBuffer = 0;
     uiSize = 0;
@@ -3479,13 +3482,13 @@ ExtraDismemberedLimbs::~ExtraDismemberedLimbs()
     }
 }
 
-extern "C" void __cdecl FUN_00401030(void* p);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 // @fnv 0x00430ca0
 ExtraLock::~ExtraLock()
 {
     void* p = pLock;
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 
 extern char DAT_01183b2c;
@@ -3988,17 +3991,17 @@ bool ExtraLastFinishedSequence::FUN_00435310(BSExtraData* apExtra)
     return false;
 }
 
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 extern int DAT_01015e4c;
-extern "C" void __cdecl FUN_00401030(void*);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 // Sets the vtable pointer, frees ownedSource via FUN_00401030, then calls FUN_0040ecb0.
 // @fnv 0x004355f0
 ExtraMultiBoundData::~ExtraMultiBoundData()
 {
     void* sourceToFree = pBound;
-    FUN_00401030(sourceToFree);
+    FormHeapFreeAndLog_00401030(sourceToFree);
 }
 
 class Point3Offset

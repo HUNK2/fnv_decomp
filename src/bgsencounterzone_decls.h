@@ -18,9 +18,9 @@ class BGSEncounterZone : public TESForm
     bool Load(TESFile* file);
     virtual void InitItem();
     void Save();
-    void FUN_00526070(unsigned int time);
-    void FUN_005260a0(unsigned int time);
-    bool FUN_00526120(TESObjectCELL* cell);
+    void SetDetachTime_00526070(unsigned int time);
+    void SetAttachTime(unsigned int time);
+    bool ShouldCellRecalc(TESObjectCELL* cell);
     void FUN_00526160(unsigned short level);
     void FUN_00526270();
     bool FUN_00526320();

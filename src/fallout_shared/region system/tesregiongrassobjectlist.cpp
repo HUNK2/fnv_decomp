@@ -162,12 +162,13 @@ struct IntOpsX
 
 struct FUN_004f5f80_cls
 {
-    FUN_004f5f80_obj* __thiscall FUN_004f5f80(int a1, int a2);
+    FUN_004f5f80_obj* __thiscall TESRegionGrassObjectList_Find(int a1, int a2);
 };
 
 // Walks the list from this+4 and returns the first object whose unk04 equals a1 and whose unk0c matches a2 (or is null when a2 < 0).
 // @fnv 0x004f5f80
-FUN_004f5f80_obj* FUN_004f5f80_cls::FUN_004f5f80(int a1, int a2)
+// src: COMMUNITY 0x004f5f80
+FUN_004f5f80_obj* FUN_004f5f80_cls::TESRegionGrassObjectList_Find(int a1, int a2)
 {
     ListNodeX* it9 = (char*)this != 0 ? (ListNodeX*)((char*)this + 4) : 0;
     FUN_004f5f80_obj* result = 0;

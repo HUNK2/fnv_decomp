@@ -488,8 +488,8 @@ bool SandboxPackageOperations::IsObjectWithinLocationRadius(MobileObject* object
                 m_uiLastProcedureCheckDay = g_timeGlobal.GetTimeStamp() + (unsigned int)(state.patrol->GetX() * 1000.0);
             if (eProcedure > -1 && eProcedure < 6)
             {
-                state.helper = static_cast<SandboxActorEnergySource*>(state.actor)->FUN_0087f990();
-                m_fProcedureTime = FUN_006435c0(state.helper, eProcedure);
+                state.helper = static_cast<SandboxActorEnergySource*>(state.actor)->Actor_GetActorBaseEnergyLevel();
+                m_fProcedureTime = AiFormulas_ComputeRandomSandboxSubProcessDuration(state.helper, eProcedure);
             }
         }
         return true;
@@ -723,8 +723,8 @@ void SandboxPackageOperations::SelectSandboxActivity(Actor* apActor, TESPackage*
         m_pCurrentTarget = ritem.GetTarget();
         iIndex = m_pCurrentTarget ? reinterpret_cast<FUN_005682c0_caller*>(m_pCurrentTarget)->FUN_005682c0(false) : -1;
         m_ucProcedureIndex = iIndex < 0 ? 0 : (unsigned char)iIndex;
-        iactorEnergy = reinterpret_cast<int>(static_cast<SandboxActorEnergySource*>(apActor)->FUN_0087f990());
-        m_fProcedureTime = FUN_006435c0((void*)iactorEnergy, eProcedure);
+        iactorEnergy = reinterpret_cast<int>(static_cast<SandboxActorEnergySource*>(apActor)->Actor_GetActorBaseEnergyLevel());
+        m_fProcedureTime = AiFormulas_ComputeRandomSandboxSubProcessDuration((void*)iactorEnergy, eProcedure);
         for (i = 0; i < 6; i++)
         {
             unsigned char cweight = m_ucProcedureFlags[i];
@@ -922,7 +922,7 @@ struct FUN_0072ba80_shell
 };
 struct FUN_006c8bd0_Class
 {
-    void __thiscall FUN_006c8bd0(const char*, const char*, unsigned int);
+    void __thiscall BSSimpleArray_NiColorA_1024_CopyItems(const char*, const char*, unsigned int);
 };
 struct FUN_009f63a0_shell
 {
@@ -936,7 +936,7 @@ void __thiscall FUN_009f63a0_shell::FUN_009f63a0(char* apSrcAddr, unsigned int a
 {
     unsigned int i = FUN_0042f5a0(f08 - (unsigned int)apSrcAddr - aiCount, aiCount);
     ((FUN_0072ba80_shell*)this)->FUN_0072ba80(f04 + (unsigned int)apSrcAddr * 16, aiCount);
-    ((FUN_006c8bd0_Class*)this)->FUN_006c8bd0(f04 + (unsigned int)apSrcAddr * 16, f04 + f08 * 16 - i * 16, i);
+    ((FUN_006c8bd0_Class*)this)->BSSimpleArray_NiColorA_1024_CopyItems(f04 + (unsigned int)apSrcAddr * 16, f04 + f08 * 16 - i * 16, i);
     f08 -= aiCount;
 }
 
@@ -1080,7 +1080,7 @@ struct FalloffController
 };
 
 float __cdecl FUN_004e44d0(float value);
-void __cdecl FUN_007f7a50(float first, float second);
+void __cdecl ImageSpaceShaderMenuUnpack_SetOffset(float first, float second);
 
 // @fnv 0x007f7970
 void __thiscall FalloffController::UpdateFalloff(float currentTime)
@@ -1089,7 +1089,7 @@ void __thiscall FalloffController::UpdateFalloff(float currentTime)
     if (elapsed > firstDuration && elapsed > secondDuration)
     {
         active = false;
-        FUN_007f7a50(0.0f, 0.0f);
+        ImageSpaceShaderMenuUnpack_SetOffset(0.0f, 0.0f);
     }
     else
     {
@@ -1483,7 +1483,7 @@ struct ChoiceTargetRef
     bool FUN_004077c0();
     bool FUN_00440da0();
     bool FUN_008859e0(ChoiceTargetRef*);
-    bool FUN_0057b500();
+    bool TESObjectREFR_GetIgnoredBySandbox();
     ChoiceBaseForm* FUN_007af430();
     TESPackage* FUN_009344a0();
     void* FUN_00567790();
@@ -1493,7 +1493,7 @@ struct ChoiceMarkerData
 {
     unsigned GetByte5();
     unsigned FUN_00479e80();
-    bool FUN_00479fb0(ChoiceTargetRef*, ChoiceTargetRef*);
+    bool BGSIdleCollection_HasIdleForActor(ChoiceTargetRef*, ChoiceTargetRef*);
 };
 struct ChoiceBaseForm
 {
@@ -1546,7 +1546,7 @@ bool __cdecl AddActivationChoice(ChoiceTargetRef* target, ChoiceContext* pContex
     TESPackage* permissions = actor->FUN_009344a0();
     if (!permissions)
         return false;
-    if (target->FUN_0057b500())
+    if (target->TESObjectREFR_GetIgnoredBySandbox())
         return false;
     switch (target->FUN_007af430()->FUN_00401170())
     {
@@ -1557,7 +1557,7 @@ bool __cdecl AddActivationChoice(ChoiceTargetRef* target, ChoiceContext* pContex
             unsigned markerCount2 = markerBase->markers.GetByte5();
             unsigned markerFlags = markerBase->markers.FUN_00479e80();
             bool markerUsed = false;
-            if (markerBase->markers.FUN_00479fb0(actor, target))
+            if (markerBase->markers.BGSIdleCollection_HasIdleForActor(actor, target))
                 reinterpret_cast<ChoiceCollection*>(&planner->m_kProcedureList)->AppendElement(FUN_009f3800(reinterpret_cast<TESObjectREFRHelper*>(target), 4, 1));
         }
         break;

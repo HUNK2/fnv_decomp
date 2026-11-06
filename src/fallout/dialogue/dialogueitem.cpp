@@ -230,7 +230,7 @@ void __fastcall ResolveDialogueItemSpeaker(DialogueItem* item)
 
 struct DialogueResponseBufferWriter
 {
-    void FUN_0083d690(BGSSaveGameBuffer*);
+    void DialogueResponse_SaveGame(BGSSaveGameBuffer*);
 };
 struct DialogueSaveBufferArgument
 {
@@ -254,7 +254,7 @@ void __fastcall SaveDialogueItemToBuffer(DialogueItem* item, DialogueSaveBufferA
         ::DialogueResponse* presponse = pCurrentElementNext->GetItem();
         if (presponse)
         {
-            reinterpret_cast<DialogueResponseBufferWriter*>(presponse)->FUN_0083d690(argument.buffer);
+            reinterpret_cast<DialogueResponseBufferWriter*>(presponse)->DialogueResponse_SaveGame(argument.buffer);
             isaveGameCount++;
         }
         pCurrentElementNext = pCurrentElementNext->GetNext();

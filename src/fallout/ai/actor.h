@@ -98,7 +98,7 @@ void Actor::UpdateActorMovement(float delta)
                 steps = ((unsigned int)(pCurrentAnimation->FUN_00453700() * 1000.0) -
                          ((ActorProcessView*)GetProcess())->GetTime()) /
                         33;
-            pCurrentAnimation->SetAnimationAmount(((ActorProcessView*)GetProcess())->GetBuffer()->FUN_004d50e0(steps));
+            pCurrentAnimation->SetAnimationAmount(((ActorProcessView*)GetProcess())->GetBuffer()->LipSynchAnim_GetPuppetValue(steps));
             if (((ActorProcessView*)GetProcess())->GetBuffer() &&
                 steps >
                     (unsigned int)((NiPointer<NiNode>*)((ActorProcessView*)GetProcess())->GetBuffer())->operator->())

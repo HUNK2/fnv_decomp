@@ -606,14 +606,14 @@ class FUN_00cbd650_cls : public FUN_00cbd650_base
   public:
     void FUN_00cbd650(NiViewerStringArray* pkStrings);
 };
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 extern const char* DAT_01268420;
 // @fnv 0x00cbd650
 void FUN_00cbd650_cls::FUN_00cbd650(NiViewerStringArray* pkStrings)
 {
     AutoMemContext kContext;
     FUN_00c86b80(pkStrings);
-    pkStrings->Add(FUN_00a7d330(DAT_01268420));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_01268420));
 }
 
 inline void* operator new(size_t, void* p)
@@ -633,7 +633,7 @@ struct SmallAlignedState
 };
 struct StateAllocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int bytes);
+    void* __thiscall Game_DoHeapAlloc(unsigned int bytes);
 };
 extern StateAllocator DAT_011f6238;
 struct StateOwner
@@ -657,7 +657,7 @@ SmallAlignedState* StateOwner::FUN_00cbcad0(bool* created)
     *created = !unk0c;
     if (*created)
     {
-        unsigned char* raw = (unsigned char*)DAT_011f6238.FUN_00aa3e40(sizeof(SmallAlignedState) + 16);
+        unsigned char* raw = (unsigned char*)DAT_011f6238.Game_DoHeapAlloc(sizeof(SmallAlignedState) + 16);
         unsigned char offset = 16 - ((unsigned int)raw & 15);
         raw += offset;
         raw[-1] = offset;
@@ -893,7 +893,7 @@ void TargetClass::FUN_00cbcbd0(void* p)
         switch ((unsigned int)list)
         {
         case 0: {
-            CauseList* allocated = (CauseList*)DAT_011f6238.FUN_00aa3e40(8);
+            CauseList* allocated = (CauseList*)DAT_011f6238.Game_DoHeapAlloc(8);
             if (allocated != list)
             {
                 allocated->unk00 = list;

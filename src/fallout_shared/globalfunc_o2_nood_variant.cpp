@@ -53,7 +53,7 @@ struct MemoryContextScope
         g_tlsCur = previous;
     }
 };
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d550(const char*, float);
 extern const float DAT_01016248;
 extern const float DAT_01017870;
@@ -92,7 +92,7 @@ void MouseSpringDiagnostic::FUN_00c873d0(StrArr* strings)
     MemoryContextScope scope(16);
     char* str;
     FUN_00c86b80(strings);
-    str = FUN_00a7d330(DAT_0126812c);
+    str = NiViewerStrings_NiGetViewerString_Title(DAT_0126812c);
     AppendString(strings, str);
     SpringInfo info;
     info.unk00 = 0;

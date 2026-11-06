@@ -13,7 +13,7 @@ public:
 
     BSMultiBoundAABB();
     virtual ~BSMultiBoundAABB();
-    virtual int FUN_004a7030();
+    virtual int GetDebugGeomShapeSize();
     virtual void SetGridPosition(const NiPoint3& center);
 
     const Vec57& extent();

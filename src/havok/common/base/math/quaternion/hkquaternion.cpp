@@ -10,7 +10,7 @@
 class FUN_005611c0_t
 {
   public:
-    void FUN_005611c0();
+    void normalize_005611c0();
     void hkQuaternion_setAndNormalize(float* pts);
 };
 
@@ -22,7 +22,8 @@ extern "C" double cb2550_clobber(double x);
 // pts stays live across an ABI-clobbering call, so it gets a callee-saved
 // register home and the private convention passes it in esi; obj is read
 // exactly once, late, so it stays on the stack.
-static __declspec(noinline) void FUN_00cb2550(FUN_005611c0_t* obj, float* pts)
+// src: COMMUNITY 0x00cb2550
+static __declspec(noinline) void quaternionFromRotatation(FUN_005611c0_t* obj, float* pts)
 {
     float s = pts[0] * pts[1];
     s = (float)cb2550_clobber(s);
@@ -36,8 +37,8 @@ static __declspec(noinline) void FUN_00cb2550(FUN_005611c0_t* obj, float* pts)
 // src: HAVOK_LIB 0x00cb2830
 void FUN_005611c0_t::hkQuaternion_setAndNormalize(float* apPoints)
 {
-    FUN_00cb2550(this, apPoints);
-    FUN_005611c0();
+    quaternionFromRotatation(this, apPoints);
+    normalize_005611c0();
 }
 
 #include <xmmintrin.h>
@@ -142,7 +143,8 @@ struct S00cb2550_Quat
 
 // Converts a rotation matrix to a quaternion and stores the quaternion in self->q.
 // @fnv 0x00cb2550
-static __declspec(noinline) void FUN_00cb2550(S00cb2550_Quat* apQuat, const S00cb2550_Rot& arRot)
+// src: COMMUNITY 0x00cb2550
+static __declspec(noinline) void quaternionFromRotatation(S00cb2550_Quat* apQuat, const S00cb2550_Rot& arRot)
 {
     S00cb2550_V4 v;
     float trace = arRot(0, 0) + arRot(1, 1) + arRot(2, 2);
@@ -181,5 +183,5 @@ static __declspec(noinline) void FUN_00cb2550(S00cb2550_Quat* apQuat, const S00c
 
 void S00cb2550_caller(S00cb2550_Quat* q, const S00cb2550_Rot& r)
 {
-    FUN_00cb2550(q, r);
+    quaternionFromRotatation(q, r);
 }

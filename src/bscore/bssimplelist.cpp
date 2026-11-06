@@ -170,11 +170,12 @@ struct ObsList
 {
     void* m_item;
     ObsList* m_pkNext;
-    bool FUN_004a4460();
+    bool BSSimpleList_NiRefObjectPtr_IsEmpty();
 };
 // Returns true when m_pkNext is null and this object compares equal to a null NiNode pointer.
 // @fnv 0x004a4460
-bool ObsList::FUN_004a4460()
+// src: COMMUNITY 0x004a4460
+bool ObsList::BSSimpleList_NiRefObjectPtr_IsEmpty()
 {
     return (m_pkNext == 0 && *reinterpret_cast<NiPointer<NiNode>*>(this) == 0) ? 1 : 0;
 }
@@ -249,11 +250,12 @@ struct GNode
 };
 struct GList
 {
-    GObj* FUN_004f35b0(int key);
+    GObj* TESRegionDataList_Find(int key);
 };
 // Walks nodes from this pointer and returns the first object whose vtable slot 4 returns key, or null if none match.
 // @fnv 0x004f35b0
-GObj* GList::FUN_004f35b0(int key)
+// src: COMMUNITY 0x004f35b0
+GObj* GList::TESRegionDataList_Find(int key)
 {
     GNode* node = reinterpret_cast<GNode*>(this);
     GObj* pObj = 0;
@@ -356,12 +358,13 @@ struct TargetClass
     NodePointerWithRawComparison m_item;
     TargetClass* m_pkNext;
 
-    void FUN_0052a9b0(const NiPointer<NiNode>& item);
+    void BSSimpleList_NiRefObjectPtr_AddTail(const NiPointer<NiNode>& item);
 };
 
 // Appends a NiNode reference to the end of the linked list, reusing an empty slot or allocating a new node.
 // @fnv 0x0052a9b0
-void TargetClass::FUN_0052a9b0(const NiPointer<NiNode>& item)
+// src: COMMUNITY 0x0052a9b0
+void TargetClass::BSSimpleList_NiRefObjectPtr_AddTail(const NiPointer<NiNode>& item)
 {
     if (item == 0)
         return;
@@ -630,12 +633,13 @@ FUN_0066e590::FUN_0066e590()
 
 struct FUN_007653f0_class
 {
-    void FUN_007653f0(void** apArray, int(__cdecl* apCompareFn)(const void*, const void*), int aiCount);
+    void BSSimpleList_ShellSort(void** apArray, int(__cdecl* apCompareFn)(const void*, const void*), int aiCount);
 };
 
 // Sorts apArray in place using a shell sort algorithm with a compare function apCompareFn over aiCount elements.
 // @fnv 0x007653f0
-void FUN_007653f0_class::FUN_007653f0(void** apArray, int(__cdecl* apCompareFn)(const void*, const void*), int aiCount)
+// src: COMMUNITY 0x007653f0
+void FUN_007653f0_class::BSSimpleList_ShellSort(void** apArray, int(__cdecl* apCompareFn)(const void*, const void*), int aiCount)
 {
     int igap = 0;
     int ileft = 0;
@@ -718,9 +722,9 @@ struct ItemChangeList : BSSimpleList<InventoryStackRecord*>
 
     int ItemsInList();
 
-    void FUN_007653f0(InventoryStackRecord**, int(__cdecl*)(InventoryStackRecord*, InventoryStackRecord*), int);
+    void BSSimpleList_ShellSort(InventoryStackRecord**, int(__cdecl*)(InventoryStackRecord*, InventoryStackRecord*), int);
 
-    void FUN_007a8790(int(__cdecl*)(InventoryStackRecord*, InventoryStackRecord*));
+    void BSSimpleList_BubbleSort(int(__cdecl*)(InventoryStackRecord*, InventoryStackRecord*));
 
     void SortItems(int(__cdecl* compare)(InventoryStackRecord*, InventoryStackRecord*));
 };
@@ -737,7 +741,7 @@ void ItemChangeList::SortItems(int(__cdecl* compare)(InventoryStackRecord*, Inve
     if (!puStack_10)
     {
 
-        FUN_007a8790(compare);
+        BSSimpleList_BubbleSort(compare);
 
         return;
     }
@@ -752,7 +756,7 @@ void ItemChangeList::SortItems(int(__cdecl* compare)(InventoryStackRecord*, Inve
         puStack_10[iStack_20] = _puStack_18->m_item;
     }
 
-    FUN_007653f0(puStack_10, compare, iStack6);
+    BSSimpleList_ShellSort(puStack_10, compare, iStack6);
 
     RemoveAll();
 
@@ -848,11 +852,12 @@ struct FUN_00967290_struct
     char pad[0xd48];
     List_009e03e0* m_kNode;
 
-    void FUN_00967290();
+    void PlayerCharacter_FreeCompassTargets();
 };
 
 // @fnv 0x00967290
-void FUN_00967290_struct::FUN_00967290()
+// src: COMMUNITY 0x00967290
+void FUN_00967290_struct::PlayerCharacter_FreeCompassTargets()
 {
     if (m_kNode)
     {
@@ -871,7 +876,7 @@ void FUN_00967290_struct::FUN_00967290()
 
 struct S_00aa3e40
 {
-    void* FUN_00aa3e40(unsigned int n);
+    void* Game_DoHeapAlloc(unsigned int n);
 };
 
 extern S_00aa3e40 DAT_011f6238;
@@ -898,7 +903,7 @@ void S_00a0c7c0_List::AddToHead(void** apItem)
         return;
     if (m_item)
     {
-        S_00a0c7c0_Node* p2 = (S_00a0c7c0_Node*)DAT_011f6238.FUN_00aa3e40(8);
+        S_00a0c7c0_Node* p2 = (S_00a0c7c0_Node*)DAT_011f6238.Game_DoHeapAlloc(8);
         S_00a0c7c0_Node* a = p2 ? (p2->m_item = m_item, p2->m_pkNext = 0, p2) : 0;
         S_00a0c7c0_Node* b5 = a;
         b5->m_pkNext = m_pkNext;

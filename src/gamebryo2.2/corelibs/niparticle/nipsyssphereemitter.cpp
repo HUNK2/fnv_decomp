@@ -16,7 +16,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01202510;
 
 // @fnv 0x00c1fe10
-GlobalObjectO2_00a7b610* __cdecl FUN_00c1fe10()
+// src: COMMUNITY 0x00c1fe10
+GlobalObjectO2_00a7b610* __cdecl NiPSysSphereEmitter_GetRTTI()
 {
     return &g_01202510;
 }
@@ -128,7 +129,7 @@ struct FUN_00c200c0_Arr
 };
 
 extern "C" void __stdcall FUN_00c31db0(FUN_00c200c0_Arr* p);
-extern "C" unsigned int __cdecl FUN_00a7d330(unsigned int v);
+extern "C" unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 extern "C" unsigned int __cdecl FUN_00a7d550(const void* p, float f);
 extern "C" unsigned int DAT_01202510;
 extern "C" int UNK_01015a9c;
@@ -145,7 +146,7 @@ struct Emitter00c200c0
 void __thiscall Emitter00c200c0::AppendTwoValues(FUN_00c200c0_Arr* p)
 {
     FUN_00c31db0(p);
-    unsigned int uiValue = FUN_00a7d330(DAT_01202510);
+    unsigned int uiValue = NiViewerStrings_NiGetViewerString_Title(DAT_01202510);
     unsigned int n = p->m_usSize;
     if (n >= p->m_usMax)
     {

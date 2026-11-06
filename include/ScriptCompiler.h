@@ -15,5 +15,5 @@ public:
     bool FUN_005aeb90(Script*, CStringArgument*);
     unsigned int ParseLine(CStringArgument*);
     bool FUN_005b1180(CStringArgument*);
-    bool FUN_005aff40(Script*, CStringArgument*, ScriptLineBuffer*);
+    bool ScriptCompiler_CompileLine(Script*, CStringArgument*, ScriptLineBuffer*);
 };

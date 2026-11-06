@@ -15,13 +15,13 @@
 #include "../../include/bhkRefObject.h"
 #include "../../include/bhkSphereShape.h"
 #include "../../include/bhkWorldObject.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
+GarbageCollectorUpdateState* MemoryLevelManager_GetSingleton();
+void* DecalData_GetDefaultDecalData();
+void FalloutRadio_NewCellEntered();
+void TESWaterSystem_SetPlayerForceUnderwater(unsigned char value);
+float BSAudio_GetMinDialogDist();
+float BSAudio_GetMaxDialogDist();
+void CheckWithinMultiBoundTask_CancelAttachment(unsigned int index);
 struct FUN_00c9c240_holder
 {
     void* m0;
@@ -966,7 +966,7 @@ class C9F270MemContext
     int m_iPrevious;
 };
 extern const char* g_pcC9F270ClassName;
-extern "C" char* __cdecl FUN_00a7d330(const char* pcName);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcName);
 class C9F270StrArray
 {
   public:
@@ -1387,7 +1387,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > BC9F970StringArray;
 extern const char* g_pcC9F970Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class FUN_00c9f970_cls
 {
   public:
@@ -1676,7 +1676,7 @@ struct TlsGuard_ca0090
 };
 struct MemMgr_ca0090
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 struct Sub_ca0090
 {
@@ -1722,7 +1722,7 @@ struct BCA05B0AllocTagScope
 };
 typedef NiTArray<char*, NiTMallocInterface<char*> > BCA05B0StringArray;
 extern const char* g_pcCA05B0Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class FUN_00ca05b0_cls
 {
   public:
@@ -1807,7 +1807,7 @@ class FUN_00caacf0 : public CAACF0Base
     static unsigned int ms_uiInstances;
 };
 extern int DAT_012683c8;
-void* FUN_00cb3060();
+void* bhkRigidBodyT_GetRTTI();
 class CC2350Base
 {
   public:
@@ -2100,11 +2100,12 @@ struct VtblHolder
 
 struct FUN_005610f0_cls : VtblHolder
 {
-    void FUN_005610f0(int a1);
+    void bhkRigidBody_SetNiPosition(int a1);
 };
 
 // @fnv 0x005610f0
-void FUN_005610f0_cls::FUN_005610f0(int a1)
+// src: COMMUNITY 0x005610f0
+void FUN_005610f0_cls::bhkRigidBody_SetNiPosition(int a1)
 {
     __declspec(align(16)) TmpObj tmp;
     this->v55(FUN_004a3e00(&tmp, a1));

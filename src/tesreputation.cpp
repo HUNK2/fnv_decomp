@@ -117,7 +117,8 @@ char __cdecl ConsumeByteAtE4(void);
 extern char DAT_0119a0bc;
 
 // @fnv 0x00615720
-void __cdecl FUN_00615720(void)
+// src: COMMUNITY 0x00615720
+void __cdecl FakeModalMessageMenuCallback(void)
 {
     DAT_0119a0bc = ConsumeByteAtE4();
 }
@@ -201,7 +202,8 @@ void __thiscall ReputationOperations::SaveRecord()
 
 // Stores the selected reputation value and marks the form as modified.
 // @fnv 0x00615580
-void TESReputation::FUN_00615580(int a, float afValue)
+// src: COMMUNITY 0x00615580
+void TESReputation::SetReputation_00615580(int a, float afValue)
 {
     if (a == 1)
         m_fFirstReputationValue = afValue;
@@ -235,7 +237,7 @@ extern char g_011d38b8;
 
 unsigned char* __cdecl _FUN_004b7210(void);
 int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
-void __cdecl FUN_00703f10(const char*, const char*, const char*, const char*, void(__cdecl*)(), int, int, float, float,
+void __cdecl Interface_CreateMessageMenuSound(const char*, const char*, const char*, const char*, void(__cdecl*)(), int, int, float, float,
                           const char*, int);
 
 // @fnv 0x006155f0
@@ -250,14 +252,14 @@ void TESReputation::ShowMessageBox(void)
 
     if (m_eReputationType == ReputationType_REPUTATION_POSITIVE)
     {
-        FUN_00703f10(buffer, FUN_006167d0(), TESFullName::GetFullName(),
-                     reinterpret_cast<Setting*>(&g_011cbcb0)->String(), FUN_00615720, 1, 0x17, 0.0f, 0.0f,
+        Interface_CreateMessageMenuSound(buffer, TESReputation_GetThresholdIcon(), TESFullName::GetFullName(),
+                     reinterpret_cast<Setting*>(&g_011cbcb0)->String(), FakeModalMessageMenuCallback, 1, 0x17, 0.0f, 0.0f,
                      reinterpret_cast<Setting*>(&g_011d38b8)->String(), 0);
     }
     else
     {
-        FUN_00703f10(buffer, FUN_006167d0(), TESFullName::GetFullName(),
-                     reinterpret_cast<Setting*>(&g_011cba30)->String(), FUN_00615720, 1, 0x17, 0.0f, 0.0f,
+        Interface_CreateMessageMenuSound(buffer, TESReputation_GetThresholdIcon(), TESFullName::GetFullName(),
+                     reinterpret_cast<Setting*>(&g_011cba30)->String(), FakeModalMessageMenuCallback, 1, 0x17, 0.0f, 0.0f,
                      reinterpret_cast<Setting*>(&g_011d38b8)->String(), 0);
     }
 }
@@ -387,7 +389,8 @@ bool __cdecl IsInDialog();
 bool __cdecl QueueUIMessage(const char*, int, const char*, const char*, float, bool);
 int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 // @fnv 0x00615a00
-void TESReputation::FUN_00615a00(int kind, float amount)
+// src: COMMUNITY 0x00615a00
+void TESReputation::RemoveReputationExact(int kind, float amount)
 {
     bool changed = false;
     char oldRank = 0;
@@ -496,7 +499,8 @@ int _sprintf_s(char*, unsigned int, const char*, ...);
 }  // namespace fnv_00615fa0
 
 // @fnv 0x00615fa0
-void TESReputation::FUN_00615fa0(int kind, int amount)
+// src: COMMUNITY 0x00615fa0
+void TESReputation::RemoveReputation(int kind, int amount)
 {
     bool changed = false;
     char oldRank = 0;

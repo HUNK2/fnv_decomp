@@ -12,8 +12,8 @@ int FlaggedData::ContainsAnyFlag(unsigned int mask)
 // @fnv 0x00703350
 int FlaggedData::GetPlayerValue()
 {
-    if (FUN_004b7210() && reinterpret_cast<QuestStage*>(FUN_004b7210())->GetIndex())
-        return reinterpret_cast<int>(FUN_004b7210()->FUN_00874480());
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<QuestStage*>(InterfaceManager_GetSingleton())->GetIndex())
+        return reinterpret_cast<int>(InterfaceManager_GetSingleton()->FUN_00874480());
     return 0;
 }
 
@@ -50,7 +50,8 @@ float FUN_006494b0(float afA, float afB)
 extern double g_d100;
 // Returns 0 if either input is at least g_d100, otherwise computes 1 - ((1 - a/g_d100) * (b/g_d100) + a/g_d100).
 // @fnv 0x006492a0
-float FUN_006492a0(float a, float b)
+// src: COMMUNITY 0x006492a0
+float MagicFormulas_GetMagicTargetResistance(float a, float b)
 {
     if (a >= g_d100 || b >= g_d100)
         return 0.0f;

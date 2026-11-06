@@ -23,14 +23,14 @@ void TESBoundObject::LoadBoundData(TESFile* file)
     {
         file->GetChunkData(&TESBoundObjectBounds, 12);
         if (file->IsEndianConversionRequired())
-            ((TESObjectBound*)&TESBoundObjectBounds)->FUN_0050ed30();
+            ((TESObjectBound*)&TESBoundObjectBounds)->TESBoundObject_BOUND_DATA_SwapEndian();
     }
 }
 
 // @fnv 0x0050e820
 TESBoundObject::TESBoundObject()
 {
-    ((TESObjectBound*)&TESBoundObjectBounds)->FUN_0050e9c0();
+    ((TESObjectBound*)&TESBoundObjectBounds)->TESBoundObject_BOUND_DATA_BOUND_DATA();
     ((TESObjectBound*)&TESBoundObjectBounds)->min.FUN_0050e8b0(GetActorValueShortVector());
     ((TESObjectBound*)&TESBoundObjectBounds)->max.FUN_0050e8b0(GetActorValueShortVector());
 }
@@ -53,7 +53,7 @@ TESObject* TESFormList::InsertObjectAfter(TESObject* after, TESObject* object)
     {
         object->nod_SetNext(0);
     }
-    if (!FUN_00510360(object))
+    if (!TESObjectList_lnk_GetNext(object))
         m_pSecondObject = object;
     if (!GetTerrainMinLevel(object))
         m_pFirstObject = object;
@@ -82,7 +82,7 @@ bool TESObject::HasLoaded3D()
             return true;
         break;
     case 21:
-        if (!FUN_00404dc0(TESModel::GetModelFilePath(this), "EditorMarker.NIF"))
+        if (!BSstricmp(TESModel::GetModelFilePath(this), "EditorMarker.NIF"))
             return true;
         break;
     case 30:
@@ -170,7 +170,7 @@ NiNode* TESObjectDOOR::Create3DModel(TESObjectREFR* reference)
             if (!controller)
             {
                 TESObjectDoorController* doorController = new TESObjectDoorController;
-                doorController->FUN_00929240(
+                doorController->MagicShaderHitEffect_SetLifeTime(
                     ((SettingT_GameSettingCollection_*)&originalRuntimeFloatSetting35)->Float()->f);
                 ((BGSAcousticSpace*)doorController)->SetNoonSound((TESSound*)&TESObjectDOOR::UpdateDoorNode);
                 doorController->SetTarget(node);
@@ -242,7 +242,8 @@ template <class _Elem, class _Traits, class _Ax> class basic_string
 }
 
 // @fnv 0x0044a540
-void __fastcall FUN_0044a540(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* apString)
+// src: COMMUNITY 0x0044a540
+void __fastcall std_string_destroy(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* apString)
 {
     apString->_Tidy(true, 0);
 }
@@ -270,7 +271,7 @@ template <class C, class T, class A> class basic_string
 }
 void FUN_00ec30e8();
 extern unsigned int DAT_010173f0;
-void __cdecl FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);
+void __cdecl std_Traits_helper_copy_s_std_char_traits_char(char*, unsigned int, const char*, unsigned int);
 typedef std::basic_string<char, std::char_traits<char>, std::allocator<char> > Str;
 struct FUN_0044a580_cls : public Str
 {
@@ -292,7 +293,7 @@ FUN_0044a580_cls* FUN_0044a580_cls::AssignSubstring(Str& _Right, unsigned int _R
     }
     else if (_Grow(_Num, false))
     {
-        FUN_0044ccd0(_Myptr(), Res, _Right._Myptr() + _Roff, _Num);
+        std_Traits_helper_copy_s_std_char_traits_char(_Myptr(), Res, _Right._Myptr() + _Roff, _Num);
         _Eos(_Num);
     }
     return this;
@@ -318,7 +319,7 @@ template <class C, class T, class A> class basic_string
     void FUN_0064df10(char*, unsigned int);
 };
 }
-void __cdecl FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);
+void __cdecl std_Traits_helper_copy_s_std_char_traits_char(char*, unsigned int, const char*, unsigned int);
 struct FUN_0044a730_cls : public std::basic_string<char, std::char_traits<char>, std::allocator<char> >
 {
     void FUN_0044a730(bool, unsigned int);
@@ -333,7 +334,7 @@ void FUN_0044a730_cls::FUN_0044a730(bool _Built, unsigned int _Newsize)
     {
         char* _Ptr = this->Ptr;
         if (_Newsize > 0)
-            FUN_0044ccd0((char*)&this->Ptr, 16, _Ptr, _Newsize);
+            std_Traits_helper_copy_s_std_char_traits_char((char*)&this->Ptr, 16, _Ptr, _Newsize);
         FUN_0064df10(_Ptr, Res + 1);
     }
     Res = 15;
@@ -353,7 +354,7 @@ template <class _Elem, class _Traits, class _Ax> class basic_string
 };
 }
 
-void __cdecl FUN_0044a8c0(char&, const char&);
+void __cdecl std_char_traits_char_assign(char&, const char&);
 
 // Sets the string's size field to _Newsize and writes a null terminator at the new end of the buffer.
 // @fnv 0x0044a880
@@ -362,20 +363,21 @@ void std::basic_string<char, std::char_traits<char>, std::allocator<char> >::Res
 {
     char c = 0;
     *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x14) = _Newsize;
-    FUN_0044a8c0(_Myptr()[_Newsize], c);
+    std_char_traits_char_assign(_Myptr()[_Newsize], c);
 }
 }  // namespace fnv_0044a880
 
 struct _DummyTag
 {
 };
-_DummyTag __cdecl FUN_0065e750();
-char* __cdecl FUN_0044e420(char*, unsigned int, const char*, unsigned int, _DummyTag);
+_DummyTag __cdecl std_Move_cat_unsigned_char();
+char* __cdecl std_Traits_helper_copy_s_std_char_traits_char_0044e420(char*, unsigned int, const char*, unsigned int, _DummyTag);
 
 // @fnv 0x0044ccd0
-char* __cdecl FUN_0044ccd0(char* _First1, unsigned int _Size_in_bytes, const char* _First2, unsigned int _Count)
+// src: COMMUNITY 0x0044ccd0
+char* __cdecl std_Traits_helper_copy_s_std_char_traits_char(char* _First1, unsigned int _Size_in_bytes, const char* _First2, unsigned int _Count)
 {
-    return FUN_0044e420(_First1, _Size_in_bytes, _First2, _Count, FUN_0065e750());
+    return std_Traits_helper_copy_s_std_char_traits_char_0044e420(_First1, _Size_in_bytes, _First2, _Count, std_Move_cat_unsigned_char());
 }
 
 typedef char _sizecheck_NiNPShortPoint3[sizeof(ShortPoint3) == 6 ? 1 : -1];
@@ -406,7 +408,8 @@ void __fastcall _ref_006815c0(void* pThis);
 
 // Calls _ref_006815c0 on pThis and on pThis + 6, then returns pThis.
 // @fnv 0x0050e9c0
-void* __fastcall FUN_0050e9c0(char* pThis)
+// src: COMMUNITY 0x0050e9c0
+void* __fastcall TESBoundObject_BOUND_DATA_BOUND_DATA(char* pThis)
 {
     _ref_006815c0(pThis);
     _ref_006815c0(pThis + 6);
@@ -436,24 +439,26 @@ struct FUN_0050ea10_class
     NiPoint3 m_kExtents;
     // Computes the box minimum corner by subtracting m_kExtents from m_kCenter and stores it in arPoint.
 // @fnv 0x0050ea10
-    void FUN_0050ea10(NiPoint3& arMinCorner) const
+// src: COMMUNITY 0x0050ea10
+    void BSBound_GetBoundMin(NiPoint3& arMinCorner) const
     {
         arMinCorner = m_kCenter - m_kExtents;
     }
 };
 
-static void (__thiscall FUN_0050ea10_class::*volatile p)(NiPoint3&) const = &FUN_0050ea10_class::FUN_0050ea10;
+static void (__thiscall FUN_0050ea10_class::*volatile p)(NiPoint3&) const = &FUN_0050ea10_class::BSBound_GetBoundMin;
 
 struct FUN_0050eaa0_shell : public TESBoundObject
 {
-    void FUN_0050eaa0(TESBoundObject*);
+    void TESBoundObject_CopyBoundData(TESBoundObject*);
 };
 
 void* __cdecl memcpy(void*, const void*, unsigned int);
 
 // Copies 0xc bytes from offset 0x24 of apCopy into offset 0x24 of this object.
 // @fnv 0x0050eaa0
-void FUN_0050eaa0_shell::FUN_0050eaa0(TESBoundObject* apCopy)
+// src: COMMUNITY 0x0050eaa0
+void FUN_0050eaa0_shell::TESBoundObject_CopyBoundData(TESBoundObject* apCopy)
 {
     memcpy((char*)this + 0x24, (char*)apCopy + 0x24, 0xc);
 }
@@ -575,19 +580,20 @@ struct TESObjectREFR_s
 {
     const char* GetModelFilePath();
 };
-const char* __cdecl FUN_00480e60(void*, TESObject*);
+const char* __cdecl TESBipedModelForm_GetWorldModel(void*, TESObject*);
 struct FUN_0050fd90_cls
 {
-    const char* FUN_0050fd90(TESObject* apObject);
+    const char* GetModelPathHook(TESObject* apObject);
 };
 // @fnv 0x0050fd90
-const char* FUN_0050fd90_cls::FUN_0050fd90(TESObject* apObject)
+// src: COMMUNITY 0x0050fd90
+const char* FUN_0050fd90_cls::GetModelPathHook(TESObject* apObject)
 {
     const char* result = 0;
     if (apObject)
         result = ((TESObjectREFR_s*)apObject)->GetModelFilePath();
     if (!result)
-        result = FUN_00480e60(this, apObject);
+        result = TESBipedModelForm_GetWorldModel(this, apObject);
     if (!result)
         result = TESModel::GetModelFilePath((TESObject*)this);
     return result;
@@ -595,7 +601,7 @@ const char* FUN_0050fd90_cls::FUN_0050fd90(TESObject* apObject)
 
 struct FUN_0050fd90_stub
 {
-    const char* FUN_0050fd90(PlayerCharacter*);
+    const char* GetModelPathHook(PlayerCharacter*);
 };
 extern double g_d100;
 int __cdecl TruncateFloatToInt(float);
@@ -607,7 +613,7 @@ struct FUN_0050fdf0_cls
 // @fnv 0x0050fdf0
 void FUN_0050fdf0_cls::FormatScaledName(PlayerCharacter* apPlayer, char* apBuffer)
 {
-    const char* name = ((FUN_0050fd90_stub*)this)->FUN_0050fd90(apPlayer);
+    const char* name = ((FUN_0050fd90_stub*)this)->GetModelPathHook(apPlayer);
     sprintf_s(apBuffer, 260, "%s%i", name, TruncateFloatToInt((float)(apPlayer->GetScale() * g_d100)));
 }
 
@@ -658,17 +664,17 @@ void FUN_0064df10_helper::deallocate(void* _Ptr, unsigned int uiUnused)
 namespace fnv_0044d580 {
 struct FUN_0065e750_struct
 {
-    char FUN_0065e750();
+    char std_Move_cat_unsigned_char();
 };
-extern char __cdecl FUN_0065e750();
-extern void __cdecl FUN_0044e460(void*, void*, void*, void*, char);
+extern char __cdecl std_Move_cat_unsigned_char();
+extern void __cdecl std_Traits_helper_move_s_std_char_traits_char(void*, void*, void*, void*, char);
 
 // Calls FUN_0065e750 and passes its returned char as the fifth argument to FUN_0044e460 along with a, b, c and d.
 // @fnv 0x0044d580
 void __cdecl FUN_0044d580(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
-    char v = FUN_0065e750();
-    FUN_0044e460(apArg1, apArg2, apArg3, apArg4, v);
+    char v = std_Move_cat_unsigned_char();
+    std_Traits_helper_move_s_std_char_traits_char(apArg1, apArg2, apArg3, apArg4, v);
 }
 }  // namespace fnv_0044d580
 
@@ -699,11 +705,12 @@ int FUN_0050ea90()
 
 struct FUN_0050f5a0_struct
 {
-    void FUN_0050f5a0();
+    void NiAVObject_DetachParent();
 };
 
 // @fnv 0x0050f5a0
-void FUN_0050f5a0_struct::FUN_0050f5a0()
+// src: COMMUNITY 0x0050f5a0
+void FUN_0050f5a0_struct::NiAVObject_DetachParent()
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) = 0;
 }
@@ -711,7 +718,8 @@ void FUN_0050f5a0_struct::FUN_0050f5a0()
 extern NiFixedString* DAT_011c6218;
 
 // @fnv 0x0050f5c0
-NiFixedString* FUN_0050f5c0()
+// src: COMMUNITY 0x0050f5c0
+NiFixedString* get_ni_Unequip()
 {
     return DAT_011c6218;
 }
@@ -721,11 +729,12 @@ struct BaseProcess;
 class FUN_008d0560_class
 {
   public:
-    NiNode* FUN_008d0560(BipedAnim* apBiped);
+    NiNode* ThisCall_Ret0_OneArg(BipedAnim* apBiped);
 };
 
 // @fnv 0x008d0560
-NiNode* FUN_008d0560_class::FUN_008d0560(BipedAnim* apBiped)
+// src: COMMUNITY 0x008d0560
+NiNode* FUN_008d0560_class::ThisCall_Ret0_OneArg(BipedAnim* apBiped)
 {
     return 0;
 }
@@ -835,26 +844,28 @@ void __thiscall FUN_00aca4b0_class::FUN_00aca4b0()
 
 struct S_4029f0
 {
-    void __thiscall FUN_00402a20(int, bool);
-    void __thiscall FUN_004029f0(bool);
+    void __thiscall AlchemyItem_SetFlag(int, bool);
+    void __thiscall AlchemyItem_SetAutoCalc(bool);
 };
 // Calls FUN_00402a20 with index 1 and the inverse of b.
 // @fnv 0x004029f0
-void __thiscall S_4029f0::FUN_004029f0(bool b)
+// src: COMMUNITY 0x004029f0
+void __thiscall S_4029f0::AlchemyItem_SetAutoCalc(bool b)
 {
-    FUN_00402a20(1, !b);
+    AlchemyItem_SetFlag(1, !b);
 }
 
 struct FUN_00409aa0_shell
 {
-    void FUN_00409aa0(unsigned int, bool);
-    void FUN_00409a70(bool);
+    void IngredientItem_SetFlag(unsigned int, bool);
+    void IngredientItem_SetAutoCalc_0(bool);
 };
 // Calls FUN_00409aa0 with 1 and the inverse of b.
 // @fnv 0x00409a70
-void FUN_00409aa0_shell::FUN_00409a70(bool b)
+// src: COMMUNITY 0x00409a70
+void FUN_00409aa0_shell::IngredientItem_SetAutoCalc_0(bool b)
 {
-    FUN_00409aa0(1, !b);
+    IngredientItem_SetFlag(1, !b);
 }
 
 struct Holder
@@ -973,10 +984,11 @@ struct FUN_0044a8d0_Class : FUN_0044a9d0_Class
     unsigned int ResizeBuffer(unsigned int, unsigned int);
     void _Tidy(bool, unsigned int);
     void _Eos(unsigned int);
-    bool FUN_0044a8d0(unsigned int, bool);
+    bool std_basic_string_char_std_char_traits_char_std_allocator_char_Grow(unsigned int, bool);
 };
 // @fnv 0x0044a8d0
-bool FUN_0044a8d0_Class::FUN_0044a8d0(unsigned int uiNewSize, bool bTrim)
+// src: COMMUNITY 0x0044a8d0
+bool FUN_0044a8d0_Class::std_basic_string_char_std_char_traits_char_std_allocator_char_Grow(unsigned int uiNewSize, bool bTrim)
 {
     if (FUN_0044a9d0() < uiNewSize)
         FUN_00ec30b0();
@@ -997,11 +1009,12 @@ void __cdecl BSEndian(unsigned char*, EndianSizeTag<10>);
 
 struct FUN_0050ed30_class
 {
-    void FUN_0050ed30();
+    void TESBoundObject_BOUND_DATA_SwapEndian();
 };
 
 // @fnv 0x0050ed30
-void FUN_0050ed30_class::FUN_0050ed30()
+// src: COMMUNITY 0x0050ed30
+void FUN_0050ed30_class::TESBoundObject_BOUND_DATA_SwapEndian()
 {
     BSEndian((unsigned char*)this + 6, EndianSizeTag<10>());
     BSEndian((unsigned char*)this + 8, EndianSizeTag<10>());
@@ -1047,10 +1060,10 @@ void __cdecl AppendChunk(char*, char*, int);
 void FUN_0050ece0_class::FUN_0050ece0()
 {
     if (FUN_00401500())
-        bound.FUN_0050ed30();
+        bound.TESBoundObject_BOUND_DATA_SwapEndian();
     AppendChunk((char*)0x444e424f, (char*)&bound, 0xc);
     if (FUN_00401500())
-        bound.FUN_0050ed30();
+        bound.TESBoundObject_BOUND_DATA_SwapEndian();
 }
 
 namespace fnv_0050ea50 {
@@ -1062,12 +1075,13 @@ class Target_0050ea50
     NiPoint3 point1;
     NiPoint3 point2;
 
-    void FUN_0050ea50(NiPoint3& result);
+    void BSBound_GetBoundMax(NiPoint3& result);
 };
 
 // Adds point1 and point2 and stores the sum in result.
 // @fnv 0x0050ea50
-void Target_0050ea50::FUN_0050ea50(NiPoint3& result)
+// src: COMMUNITY 0x0050ea50
+void Target_0050ea50::BSBound_GetBoundMax(NiPoint3& result)
 {
     result = point1 + point2;
 }
@@ -1205,7 +1219,7 @@ extern Setting g_011c846c;
 struct Parent503;
 struct Child503
 {
-    Parent503* FUN_009611e0();
+    Parent503* NiAVObject_GetParent();
 };
 struct Parent503
 {
@@ -1312,8 +1326,8 @@ struct Root503
     virtual void v38();
     virtual Child503* get(const NiFixedString&);
 };
-const NiFixedString& FUN_005039e0();
-void FUN_00c8ecf0(Root503*);
+const NiFixedString& FixedStrings_GetArrowQuiver();
+void bhkRigidBody_RemoveAllActionConstraints(Root503*);
 struct Shell503
 {
     Root503* FUN_0050ee50(Ref503*, bool);
@@ -1329,10 +1343,10 @@ Root503* Shell503::GetRootAndRemoveChildren(Ref503* ref, bool flag)
         Child503* child;
         if (root == 1)
         {
-            child = count->get(FUN_005039e0());
+            child = count->get(FixedStrings_GetArrowQuiver());
             if (child)
-                child->FUN_009611e0()->remove(child);
-            FUN_00c8ecf0(count);
+                child->NiAVObject_GetParent()->remove(child);
+            bhkRigidBody_RemoveAllActionConstraints(count);
         }
         else
         {
@@ -1342,7 +1356,7 @@ Root503* Shell503::GetRootAndRemoveChildren(Ref503* ref, bool flag)
                 name.PrintfString("Arrow%d", i);
                 child = count->get(NiFixedString(name));
                 if (child)
-                    child->FUN_009611e0()->remove(child);
+                    child->NiAVObject_GetParent()->remove(child);
             }
         }
     }
@@ -1405,12 +1419,13 @@ struct FUN_0050e960_cls
     unsigned short m_00;
     unsigned short m_02;
     unsigned short m_04;
-    FUN_0050e960_cls* FUN_0050e960(unsigned short a, unsigned short b, unsigned short c);
+    FUN_0050e960_cls* NiNPShortPoint3_NiNPShortPoint3(unsigned short a, unsigned short b, unsigned short c);
 };
 
 // Stores the three unsigned short arguments into m_00, m_02 and m_04 and returns this.
 // @fnv 0x0050e960
-FUN_0050e960_cls* FUN_0050e960_cls::FUN_0050e960(unsigned short ausFirst, unsigned short ausSecond,
+// src: COMMUNITY 0x0050e960
+FUN_0050e960_cls* FUN_0050e960_cls::NiNPShortPoint3_NiNPShortPoint3(unsigned short ausFirst, unsigned short ausSecond,
                                                  unsigned short ausThird)
 {
     m_00 = ausFirst;
@@ -1438,12 +1453,13 @@ class Bound24
 class FUN_0050ead0_cls
 {
   public:
-    Vec3Ret FUN_0050ead0();
+    Vec3Ret TESBoundObject_GetBoundMin();
 };
 
 // Returns a Vec3Ret built from the A, B and C values of the Bound24 at offset 0x24 of this object.
 // @fnv 0x0050ead0
-Vec3Ret FUN_0050ead0_cls::FUN_0050ead0()
+// src: COMMUNITY 0x0050ead0
+Vec3Ret FUN_0050ead0_cls::TESBoundObject_GetBoundMin()
 {
     Vec3Ret r(((Bound24*)((char*)this + 0x24))->GetA(), ((Bound24*)((char*)this + 0x24))->GetB(),
               ((Bound24*)((char*)this + 0x24))->GetC());
@@ -1547,7 +1563,7 @@ struct Record
 };
 struct Param
 {
-    void FUN_00569350(void*);
+    void TESObjectREFR_SetExtraSeed(void*);
 };
 struct FUN_00664f50_class
 {
@@ -1669,7 +1685,7 @@ Record* Owner::CreateRecord(Param* target, int unused)
     }
     Notify(created);
     if (created && created->GetSecondary() && target)
-        target->FUN_00569350(created->GetSecondary()->FUN_008d6f30());
+        target->TESObjectREFR_SetExtraSeed(created->GetSecondary()->FUN_008d6f30());
     return created;
 }
 
@@ -1716,7 +1732,7 @@ struct ModelReference
 struct CachedModel
 {
     void FUN_0092c870();
-    NiNode* FUN_0043b230();
+    NiNode* NiObjectNET_GetControllers();
 };
 struct CachedModelPointer
 {
@@ -1734,7 +1750,7 @@ extern ModelCache* DAT_011c3b3c;
 extern unsigned int DAT_011c90ac;
 struct ModelOwner
 {
-    const char* FUN_0050fd90(ModelReference*);
+    const char* GetModelPathHook(ModelReference*);
     void FormatScaledName(ModelReference*, char*);
     NiNode* GetModelNode(ModelReference*);
 };
@@ -1742,7 +1758,7 @@ unsigned int FUN_0045c6b0(ModelOwner*);
 // @fnv 0x0050fe50
 NiNode* ModelOwner::GetModelNode(ModelReference* reference)
 {
-    const char* pModelName = FUN_0050fd90(reference);
+    const char* pModelName = GetModelPathHook(reference);
     NiNode* pNode = 0;
     if (reference && reference->FUN_00444ed0() && reference->FUN_007af430()->FUN_00401170() != 30)
     {
@@ -1764,7 +1780,7 @@ NiNode* ModelOwner::GetModelNode(ModelReference* reference)
             if (cachedScaled.FUN_00559450())
             {
                 cachedScaled.FUN_00559450()->FUN_0092c870();
-                pNode = cachedScaled.FUN_00559450()->FUN_0043b230();
+                pNode = cachedScaled.FUN_00559450()->NiObjectNET_GetControllers();
                 ++DAT_011c90ac;
             }
         }
@@ -2249,8 +2265,8 @@ struct NodeOps
     void FUN_00450f90(int);
     void FUN_0043fa80(void*);
     void FUN_00440460(void*);
-    int FUN_009611e0();
-    void FUN_0050f5a0();
+    int NiAVObject_GetParent();
+    void NiAVObject_DetachParent();
 };
 struct ChildOps
 {
@@ -2263,7 +2279,7 @@ class Model
     unsigned int a, b, c, d;
     Model(const char*, NiAVObject*);
     ~Model();
-    NiAVObject* FUN_0043b230();
+    NiAVObject* NiObjectNET_GetControllers();
     void FUN_0092c870();
     void* FUN_004431f0(unsigned int);
 };
@@ -2403,10 +2419,10 @@ extern char DAT_011a9448;
 extern char DAT_011f426c;
 bool FUN_004b5bf0(NiNode*);
 bool FUN_0062c3c0(TESObjectREFR*, NiNode*);
-bool FUN_0048b310(TESBoundObject*, TESObjectREFR*);
+bool TESModelTextureSwap_HasTextureSwap(TESBoundObject*, TESObjectREFR*);
 bool FUN_00569410(NiNode*);
 void* FUN_00653270(void*, NiAVObject*);
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 struct CloneObject17 : TESBoundObject
 {
     NiAVObject* FUN_0050ee50(TESObjectREFR*, bool);
@@ -2445,11 +2461,11 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
             case 28: {
                 canReuse = true;
                 NiNode* node = ((NodeOps*)h)->asNode();
-                if (node && ((ChildOps*)node)->FUN_0045bc00(0) && ((ChildOps*)node)->FUN_0043b4a0(0)->FUN_0043b230())
+                if (node && ((ChildOps*)node)->FUN_0045bc00(0) && ((ChildOps*)node)->FUN_0043b4a0(0)->NiObjectNET_GetControllers())
                 {
-                    NiAVObject* p = ((ChildOps*)node)->FUN_0043b4a0(0)->FUN_0043b230();
+                    NiAVObject* p = ((ChildOps*)node)->FUN_0043b4a0(0)->NiObjectNET_GetControllers();
                     NamedObjectOps* h = (NamedObjectOps*)FUN_00653270(&DAT_011f36ac, p);
-                    if (h && h->FUN_0047a520(FUN_0050f5c0()))
+                    if (h && h->FUN_0047a520(get_ni_Unequip()))
                         canReuse = false;
                 }
                 break;
@@ -2468,7 +2484,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                         canReuse = false;
                 }
             }
-            if (canReuse && FUN_0048b310(this, reference))
+            if (canReuse && TESModelTextureSwap_HasTextureSwap(this, reference))
                 canReuse = false;
             if (canReuse && FUN_00569410(h))
                 canReuse = false;
@@ -2487,7 +2503,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                 scale = 1.0f;
             if (scale == 0.0)
             {
-                FUN_005b5e40("MODELS: %s has a scale of 0.  Change it in the editor.",
+                Warning_005b5e40("MODELS: %s has a scale of 0.  Change it in the editor.",
                              ((RefOps*)reference)->FUN_0055d520());
                 scale = 1.0f;
             }
@@ -2530,15 +2546,15 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                 }
                 else
                 {
-                    if (((ModelPointerOps*)&model)->FUN_00559450()->FUN_0043b230() &&
-                        ((NodeOps*)((ModelPointerOps*)&model)->FUN_00559450()->FUN_0043b230())->GetFloatAt64() ==
+                    if (((ModelPointerOps*)&model)->FUN_00559450()->NiObjectNET_GetControllers() &&
+                        ((NodeOps*)((ModelPointerOps*)&model)->FUN_00559450()->NiObjectNET_GetControllers())->GetFloatAt64() ==
                             ((RefOps*)reference)->FUN_00567400())
                     {
                         NiAVObject* replacement = _CreateNiNode(reference, forceClone);
                         return replacement;
                     }
                     else
-                        FUN_005b5e40("Invalid scale found on ModelLoader copy of file '%s'", filename);
+                        Warning_005b5e40("Invalid scale found on ModelLoader copy of file '%s'", filename);
                 }
             }
         }
@@ -2548,8 +2564,8 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
             ((NodeOps*)p)->FUN_00450f90(0);
             ((NodeOps*)p)->FUN_0043fa80(&DAT_011a9448);
             ((NodeOps*)p)->FUN_00440460(&DAT_011f426c);
-            if (((NodeOps*)p)->FUN_009611e0())
-                ((NodeOps*)p)->FUN_0050f5a0();
+            if (((NodeOps*)p)->NiAVObject_GetParent())
+                ((NodeOps*)p)->NiAVObject_DetachParent();
         }
     }
     return p;
@@ -2583,7 +2599,7 @@ class ModelForm0050fbf0
     const char* GetModelPath(PlayerCharacter* apPlayer);
     void GetScaledModelPath(PlayerCharacter* apPlayer, char* apBuffer);
     int GetFormType();
-    void FUN_00603bb0();
+    void TESNPC_ClearFaceGenModels();
     void FUN_0050fbf0(PlayerCharacter* apPlayer);
 };
 
@@ -2625,7 +2641,7 @@ void ModelForm0050fbf0::FUN_0050fbf0(PlayerCharacter* apPlayer)
     }
 
     if (GetFormType() == 0x2a)
-        FUN_00603bb0();
+        TESNPC_ClearFaceGenModels();
 }
 
 void __cdecl StrMoveS(char* apDest, unsigned int auiDestSize, const char* apSrc, unsigned int auiCount);
@@ -2717,11 +2733,12 @@ struct FUN_0050eb90_Class
     unsigned int unk18, unk1c, unk20, unk24;
     unsigned short unk28;
     FUN_0050eb90_Component component;
-    FUN_0050eb90_Point3 FUN_0050eb90();
+    FUN_0050eb90_Point3 TESBoundObject_GetBoundMax();
 };
 // Builds a Point3 from the component's three float accessors and returns it.
 // @fnv 0x0050eb90
-FUN_0050eb90_Point3 FUN_0050eb90_Class::FUN_0050eb90()
+// src: COMMUNITY 0x0050eb90
+FUN_0050eb90_Point3 FUN_0050eb90_Class::TESBoundObject_GetBoundMax()
 {
     FUN_0050eb90_Point3 result;
     result.FUN_00416870(component.FUN_0050eb30(), component.FUN_0050eb50(), component.GetShortValueAsFloat());
@@ -2756,7 +2773,7 @@ struct InsertVector
     InsertValue* end;
     unsigned int FUN_0064e300();
     unsigned int FUN_0064dc30();
-    unsigned int FUN_0064de90();
+    unsigned int max_size_0064de90();
     InsertValue* FUN_0064e480(InsertValue*, InsertValue*, InsertValue*);
     InsertValue* FUN_0064e340(InsertValue*, unsigned int, const InsertValue&);
     void ForwardToHelper(InsertValue*, InsertValue*);
@@ -2769,11 +2786,11 @@ void InsertVector::Insert(InsertIterator _Where, unsigned int _Count, const Inse
     unsigned int _Capacity = FUN_0064e300();
     if (_Count == 0)
         ;
-    else if (FUN_0064de90() - FUN_0064dc30() < _Count)
+    else if (max_size_0064de90() - FUN_0064dc30() < _Count)
         ThrowVectorTooLong();
     else if (_Capacity < FUN_0064dc30() + _Count)
     {
-        _Capacity = FUN_0064de90() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
+        _Capacity = max_size_0064de90() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
         if (_Capacity < FUN_0064dc30() + _Count)
             _Capacity = FUN_0064dc30() + _Count;
         InsertValue* _Newvec = allocator.FUN_0064df30(_Capacity);
@@ -2836,9 +2853,9 @@ struct GrowString
     unsigned int size;
     unsigned int capacity;
     unsigned int FUN_0044a9d0();
-    char* FUN_0065f7a0(unsigned int);
+    char* std_allocator_char_allocate(unsigned int);
     void FUN_0044a730(bool, unsigned int);
-    char* FUN_0044a970();
+    char* std_string__Myptr();
     void ResizeString(unsigned int);
     void ResizeBuffer(unsigned int requested, unsigned int oldSize);
 };
@@ -2854,14 +2871,14 @@ void GrowString::ResizeBuffer(unsigned int requested, unsigned int oldSize)
     char* pNewData = 0;
     try
     {
-        pNewData = FUN_0065f7a0(uiNewCapacity + 1);
+        pNewData = std_allocator_char_allocate(uiNewCapacity + 1);
     }
     catch (...)
     {
         uiNewCapacity = requested;
         try
         {
-            pNewData = FUN_0065f7a0(uiNewCapacity + 1);
+            pNewData = std_allocator_char_allocate(uiNewCapacity + 1);
         }
         catch (...)
         {
@@ -2870,7 +2887,7 @@ void GrowString::ResizeBuffer(unsigned int requested, unsigned int oldSize)
         }
     }
     if (oldSize > 0)
-        FUN_0044ccd0(pNewData, uiNewCapacity + 1, FUN_0044a970(), oldSize);
+        std_Traits_helper_copy_s_std_char_traits_char(pNewData, uiNewCapacity + 1, std_string__Myptr(), oldSize);
     FUN_0044a730(true, 0);
     data = pNewData;
     capacity = uiNewCapacity;
@@ -2880,7 +2897,7 @@ void GrowString::ResizeBuffer(unsigned int requested, unsigned int oldSize)
 namespace fnv_004fd440 {
 struct NiModelData
 {
-    const char* FUN_0050fd90(int a);
+    const char* GetModelPathHook(int a);
 };
 struct BaseModelForm
 {
@@ -2913,7 +2930,7 @@ void ProjectileShell::LoadModel(RefTarget* apRef)
             RefTarget* ref = apRef;
             if (ref && ref->FUN_009d9f00() && ref->FUN_009d9f00()->FUN_0044ddc0())
             {
-                const char* name = ref->FUN_009d9f00()->FUN_0044ddc0()->FUN_0050fd90(0);
+                const char* name = ref->FUN_009d9f00()->FUN_0044ddc0()->GetModelPathHook(0);
                 DAT_011c3b3c->QueueModelLoad(name);
             }
             else
@@ -2960,7 +2977,7 @@ extern unsigned int DAT_010173f0;
 extern void __cdecl FUN_00ec30e8();
 extern void __cdecl FUN_00ec30b0();
 extern void __cdecl FUN_0044d580(char*, unsigned int, const char*, unsigned int);
-extern void __cdecl FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);
+extern void __cdecl std_Traits_helper_copy_s_std_char_traits_char(char*, unsigned int, const char*, unsigned int);
 
 // Replaces a substring at pos with src, handling internal pointers, bounds checks, and buffer growth.
 // @fnv 0x007ab0a0
@@ -2988,7 +3005,7 @@ std::basic_string<char, std::char_traits<char>, std::allocator<char> >* std::bas
         {
             if (count < srcCount)
                 FUN_0044d580(_Myptr() + pos + srcCount, _Myres - pos - srcCount, _Myptr() + pos + count, tail);
-            FUN_0044ccd0(_Myptr() + pos, _Myres - pos, src, srcCount);
+            std_Traits_helper_copy_s_std_char_traits_char(_Myptr() + pos, _Myres - pos, src, srcCount);
             _Eos(newSize);
         }
     }

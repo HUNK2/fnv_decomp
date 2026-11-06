@@ -207,23 +207,23 @@ void MemoryLevelManager::ResetActorReferences()
 class IOManager;
 
 NiRenderer* __cdecl FUN_0043c4b0(void);
-void __cdecl FUN_00652190(void);
-void __cdecl FUN_008781e0(int);
-void __cdecl FUN_00a5b460(void);
-void __cdecl FUN_00aa7030(void);
+void __cdecl BSFaceGenManager_UnlockFaceGenAccess(void);
+void __cdecl BSTexturePalette_SetMaxTexturesToPurge(int);
+void __cdecl NiGlobalStringTable_FreeUnusedStrings(void);
+void __cdecl MemoryPool_FreeUnusedPagesForAllPools_00aa7030(void);
 void __fastcall FUN_00c3e340(IOManager*);
 extern IOManager* DAT_01202d98;
 
 // @fnv 0x00878200
 void __cdecl FUN_00878200(unsigned char* aFreeData)
 {
-    FUN_00a5b460();
-    FUN_00aa7030();
+    NiGlobalStringTable_FreeUnusedStrings();
+    MemoryPool_FreeUnusedPagesForAllPools_00aa7030();
     if (aFreeData[5])
     {
-        FUN_00652190();
+        BSFaceGenManager_UnlockFaceGenAccess();
     }
-    FUN_008781e0(*(int*)(aFreeData + 8));
+    BSTexturePalette_SetMaxTexturesToPurge(*(int*)(aFreeData + 8));
     if (aFreeData[3])
     {
         FUN_0043c4b0()->FinishScene();

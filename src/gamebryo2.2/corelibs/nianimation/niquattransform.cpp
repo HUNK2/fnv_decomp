@@ -249,11 +249,12 @@ struct QXform2
     {
         return m_kTranslate.x != -3.4028234663852886e38;
     }
-    QXform2 FUN_00a38830(const QXform2& kXform) const;
+    QXform2 NiQuatTransform_HierApply(const QXform2& kXform) const;
 };
 
 // @fnv 0x00a38830
-QXform2 QXform2::FUN_00a38830(const QXform2& kXform) const
+// src: COMMUNITY 0x00a38830
+QXform2 QXform2::NiQuatTransform_HierApply(const QXform2& kXform) const
 {
     QXform2 kRes;
     float fScale = 1.0f;

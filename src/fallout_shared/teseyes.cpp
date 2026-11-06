@@ -86,14 +86,14 @@ void* TESEyes::ReleaseIfFlagged(unsigned int flags)
     return this;
 }
 
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 // @fnv 0x005fc1d0
 void TESEyes::SaveEyes()
 {
     TESForm::FUN_004855a0();
     TESFullName::FUN_00487010();
     TESTexture::Save(0x4E4F4349);
-    FUN_004858f0(0x41544144, cFlags);
+    TESForm_AddChunk_3(0x41544144, cFlags);
     TESForm::FUN_00485680();
 }
 

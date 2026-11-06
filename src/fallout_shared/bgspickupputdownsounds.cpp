@@ -15,7 +15,7 @@ public:
     signed char GetByteAtOffset8C();
     bool HasCombatFlag(int);
     signed char FUN_0073cb80();
-    signed char FUN_00505c00();
+    signed char TESCombatStyle_GetPowerAttackF();
     signed char GetByteAtOffset9A();
     signed char GetByteAtOffset9B();
     signed char FUN_009e8670();

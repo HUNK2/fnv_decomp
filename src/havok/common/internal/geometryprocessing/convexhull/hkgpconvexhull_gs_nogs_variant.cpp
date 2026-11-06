@@ -701,7 +701,7 @@ struct Vec4i
 struct FUN_00d81510_Class
 {
     Vec4i m_00;
-    void FUN_00d81510(int a, int b, int c, int d);
+    void hkgpConvexHullImpl_build(int a, int b, int c, int d);
 };
 struct FUN_00d771c0_Owner
 {
@@ -1613,7 +1613,7 @@ struct D76250Shape
 };
 struct FUN_00d81510_cls
 {
-    void FUN_00d81510(int a1, int a2, int a3, int a4);
+    void hkgpConvexHullImpl_build(int a1, int a2, int a3, int a4);
 };
 struct FUN_00d77320_cls
 {
@@ -2012,7 +2012,7 @@ struct S00d7d1c0_Derived : S00d7d1c0_Base
         m08.FreeAll();
         m08.ClearAndFlush();
     }
-    S00d7d1c0_Derived* FUN_00d7d1c0(int flags);
+    S00d7d1c0_Derived* hkgpAbstractMesh_hkgpConvexHullImpl_Edge_hkgpConvexHullImpl_Vertex_hkgpConvexHullImpl_Triangle_hkContainerHeapAllocator_Destroy(int flags);
 };
 
 struct H77Allocator
@@ -2094,11 +2094,12 @@ struct H77StridedVertices
 struct H77ConvexHull
 {
     int hkgpConvexHull_build(const hkVector4* points, int numPoints, int config) throw();
-    int FUN_00d77200(const H77StridedVertices& points, int config);
+    int hkgpConvexHull_build_00d77200(const H77StridedVertices& points, int config);
 };
 
 // @fnv 0x00d77200
-int H77ConvexHull::FUN_00d77200(const H77StridedVertices& points, int config)
+// src: COMMUNITY 0x00d77200
+int H77ConvexHull::hkgpConvexHull_build_00d77200(const H77StridedVertices& points, int config)
 {
     if (points.m_iVertexStride == sizeof(hkVector4))
     {

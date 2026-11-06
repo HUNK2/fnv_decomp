@@ -24,10 +24,10 @@ void FUN_008c1be0_shell::FUN_008c1be0(int param_1)
 {}
 struct FUN_004898c0_shell
 {
-    void FUN_004898c0(int param_1);
+    void BSArchive_GetFlag_(int param_1);
 };
 extern bool DAT_011acdf8;
-bool FUN_004898e0();
+bool ArchiveManager_ArchivesEnabled();
 struct FUN_00489860_shell
 {
     unsigned char b0;
@@ -35,7 +35,7 @@ struct FUN_00489860_shell
     unsigned char b2;
     unsigned char b3;
     int i4;
-    unsigned char* __thiscall FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
+    unsigned char* __thiscall BSHash_BSHash_0(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
 };
 struct BGSLoadFormBuffer;
 struct BGSSaveFormBuffer;
@@ -68,8 +68,8 @@ struct G2
 void __cdecl _Deallocate(void*);
 struct FUN_004898a0_shell : public FUN_004898c0_shell
 {
-    int FUN_004898c0(int param_1);
-    bool FUN_004898a0();
+    int BSArchive_GetFlag_(int param_1);
+    bool BSArchive_HasEmbeddedFileNames();
 };
 struct FUN_004f9ec0_shell
 {
@@ -101,7 +101,7 @@ class B479FB0IdleList
     short unk06;
     B479FB0Idle** m_ppkIdles;
 
-    bool FUN_00479fb0(B479FB0Actor* pkActor, int iArg);
+    bool BGSIdleCollection_HasIdleForActor(B479FB0Actor* pkActor, int iArg);
 };
 int __cdecl B489480Stricmp(const char* pcA, const char* pcB);
 struct FUN_004898a0_shell;
@@ -134,9 +134,9 @@ struct Cls
 extern char DAT_011c5574;
 extern char DAT_011c555c;
 FUN_004898a0_shell* __cdecl GetFltValue(int);
-bool __cdecl FUN_004898e0();
+bool __cdecl ArchiveManager_ArchivesEnabled();
 unsigned int __cdecl FindFileEntryInArchives(int, FUN_00489860_shell*, FUN_00489860_shell*, int);
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 
 class String;
 #include "../../include/BSSimpleList.h"
@@ -183,7 +183,7 @@ struct DestructionStageChunk
 };
 extern "C" void* __cdecl _alloca(unsigned int);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 void __cdecl FUN_004893e0(TESModel*, TESFile*);
 
 // @fnv 0x004781e0
@@ -201,7 +201,7 @@ void __cdecl FUN_004781e0(BGSDestructibleObjectForm* component, TESFile* file)
         if (file->GetChunkSize() != 8)
         {
             TESForm* form = dynamic_cast<TESForm*>(component);
-            FUN_005b5e40("MASTERFILE: Old Destruction data found on form %08X %s.  It needs to be resaved.",
+            Warning_005b5e40("MASTERFILE: Old Destruction data found on form %08X %s.  It needs to be resaved.",
                          static_cast<const TESForm*>(form)->GetFormID(), form->GetName());
             component->FUN_00478690();
             return;

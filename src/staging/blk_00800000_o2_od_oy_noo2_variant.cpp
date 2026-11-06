@@ -133,7 +133,7 @@ struct xCell;
 xWorld* __fastcall xFUN_004543c0(xCell*);
 struct xOwner
 {
-    xFilter FUN_0070c440();
+    xFilter bhkCharacterController_GetCollisionFilter();
 };
 struct xActor;
 float __fastcall xFUN_0070c3b0(xActor*);
@@ -378,7 +378,7 @@ void xActor::FUN_0081eba0()
     xOwner* OWNER = FUN_009306d0();
     xFilter FILTER(0);
     if (OWNER)
-        FILTER = OWNER->FUN_0070c440();
+        FILTER = OWNER->bhkCharacterController_GetCollisionFilter();
     else
         FILTER = xg_player_11dea3c->FUN_00931ed0();
     PICK.FUN_004a3f70(FILTER);
@@ -478,7 +478,7 @@ struct ImpactObject
     virtual void unknown_0090();
     virtual void unknown_0094();
     virtual ImpactState* unknown_0098();
-    void __thiscall FUN_0043b4f0(ImpactType*);
+    void __thiscall bhkWorldObject_GetCollisionFilter(ImpactType*);
     float __thiscall FUN_004b5400();
     ImpactResult* __thiscall FUN_004ae750(ImpactVector*, ImpactVector*);
 };
@@ -496,7 +496,7 @@ void ImpactOwner::FUN_0081f000(float x, float y, float z, float dx, float dy, fl
     {
         float scale = DAT_010546cc;
         ImpactType type;
-        object->FUN_0043b4f0(&type);
+        object->bhkWorldObject_GetCollisionFilter(&type);
         switch (type.FUN_0043b4d0())
         {
         case 14:

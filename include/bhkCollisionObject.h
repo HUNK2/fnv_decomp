@@ -22,5 +22,5 @@ class bhkCollisionObject : public bhkNiCollisionObject
 
     bhkWorldObjectV* GetWorldObject();
     bhkWorldObject* FUN_006fa820();
-    void FUN_004d9fa0(bool);
+    void bhkNiCollisionObject_SetReset(bool);
 };

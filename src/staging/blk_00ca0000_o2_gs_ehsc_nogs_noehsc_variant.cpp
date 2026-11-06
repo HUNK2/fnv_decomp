@@ -246,7 +246,7 @@ struct HC1Base
     bool FUN_00ca54c0(NiStream*);
 };
 float __fastcall FUN_00ca6620(void* p, int);
-float __cdecl FUN_00ca98e0();
+float __cdecl hkpConstraintData_getMaxLinearImpulse();
 extern int DAT_0102e388;
 void __fastcall FUN_00ca9900(int* p);
 void __cdecl _delete(void* p, int size);
@@ -655,7 +655,7 @@ struct SceneWalker_cls
 struct FNVTaskElement
 {
 };
-extern "C" void __fastcall FUN_00d1fa10(FNVTaskElement* element);
+extern "C" void __fastcall nullsub_14(FNVTaskElement* element);
 struct FNVTaskAllocator
 {
     virtual void fn00();
@@ -780,7 +780,7 @@ struct FUN_00ca3b10_cls
     unsigned char m_iWordAt04;
     int m_8;
 
-    bool FUN_00ca3b10();
+    bool hkpMeshShape_isWeldingEnabled();
 };
 void __cdecl _NiFree_00aa10f0(void*);
 struct PrimaryPart
@@ -886,7 +886,7 @@ struct FUN_00ca4780_cls
     int unk32;
     int unk33;
     FUN_00ca4780_tableEntry* m_pTable;
-    void* FUN_00ca4780(unsigned int a1);
+    void* hkNiTriStripsShape_getCollisionFilterInfo(unsigned int a1);
 };
 struct S_00ca49a0_Obj
 {
@@ -1032,7 +1032,7 @@ class HandleManager
     int m_8C;
     int m_90;
 
-    int __thiscall FUN_00ca4ac0(int handle);
+    int __thiscall hkNiTriStripsShape_getNextKey(int handle);
 };
 struct RefEntryObject
 {
@@ -1192,7 +1192,7 @@ struct FUN_00ca5290 : FUN_00cd2de0
     void FUN_00c876a0();
 };
 extern int DAT_012682dc;
-int* __cdecl FUN_00ca5300();
+int* __cdecl bhkPackedNiTriStripsShape_GetRTTI();
 struct MatchData
 {
     int unk00;
@@ -1733,7 +1733,7 @@ struct FUN_00ca5a80_cls
 };
 // FUN_00ca6600 : a one-line function - getter
 extern int g_target_00ca6600;
-void* FUN_00ca6600();
+void* bhkNiTriStripsShape_GetRTTI();
 extern int DAT_012680f8;
 extern int DAT_012686d0;
 extern int DAT_012682e4;
@@ -2195,9 +2195,9 @@ struct S_00ca9940_Obj
     int unk08;
     S_00ca9940_Child* m_pChildObject;
 };
-void __cdecl FUN_00cc96b0(float f, S_00ca9940_Child* c);
-void __cdecl FUN_00cbd9e0(float f, S_00ca9940_Child* c);
-void __cdecl FUN_00ca9940(float f, S_00ca9940_Obj* o);
+void __cdecl hkBallAndSocketConstraintCinfo_ApplyScale(float f, S_00ca9940_Child* c);
+void __cdecl hkHingeConstraintCinfo_ApplyScale(float f, S_00ca9940_Child* c);
+void __cdecl hkMalleableConstraintCinfo_ApplyScale(float f, S_00ca9940_Obj* o);
 struct FUN_00ca9aa0;
 struct State
 {
@@ -2491,7 +2491,7 @@ struct FUN_00cabfd0_Obj
     int unk04;
     FUN_00cac9a0_Obj* unk08;
 
-    void __thiscall FUN_00cabfd0(int value);
+    void __thiscall bhkCharacterProxy_GetCinfo(int value);
 };
 struct FUN_00cabff0_res
 {
@@ -2645,7 +2645,7 @@ struct FUN_00cac110_Class
     virtual void vf8C();
     virtual void vf90();
     virtual void vf94();
-    virtual void FUN_00cac110();
+    virtual void bhkCharacterController_UnMarkWrite();
 };
 class CAC680World
 {
@@ -2848,7 +2848,7 @@ extern int DAT_01268250;
 extern int DAT_01268324;
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126864c;
-GlobalObjectO2_00a7b610* __cdecl FUN_00cb9b50();
+GlobalObjectO2_00a7b610* __cdecl bhkBallAndSocketConstraint_GetRTTI();
 struct CB9B80Header
 {
     int unk00;
@@ -3249,15 +3249,15 @@ class FUN_00cba110 : public CBaseOwner
     FUN_00cba110();
 };
 extern int DAT_01268400;
-void* __cdecl FUN_00cba1c0();
+void* __cdecl bhkRagdollTemplateData_GetRTTI();
 extern unsigned int DAT_01268418;
-void FUN_00cbbfb0(unsigned int a1);
+void hkMemorySystem_replaceInstance(unsigned int a1);
 // FUN_00cbd960 registers the 0x00cbd7a0 comparison helper in the global
 // callback slot at 0x01268430, which is later called indirectly with two
 // arguments (see the indirect call through 0x01268430).
 extern void(__cdecl* DAT_01268430)(void*, void*);
 void __cdecl InsertIntoContext(void* pList, void* pContext);
-void __cdecl FUN_00cbd960(void);
+void __cdecl hkpFixedBufferCdPointCollector_registerDefaultAddCdPointFunction(void);
 extern int DAT_01268434;
 struct PrimaryBase
 {
@@ -4067,7 +4067,7 @@ class CA6E60Owner
     void ReleaseData(bool bRelease);
 };
 extern char* DAT_012682e8;
-char* __cdecl FUN_00a7d330(char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 char* __cdecl FUN_00a7d510(const char*, unsigned int);
 char* __cdecl FUN_00a7d4d0(const char*, int);
 struct PartFlags
@@ -4251,7 +4251,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > BCBEA40StringArray;
 extern const char* g_pcCBEA40Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class BCBEA40Owner
 {
   public:
@@ -4367,7 +4367,7 @@ struct NodePtr046
     void AppendToViewerStrings(SArr046* arr);
 };
 extern int DAT_012682dc;
-char* __cdecl FUN_00a7d330(char* a);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* a);
 char* __cdecl FUN_00a7d510(const char* s, unsigned int n);
 char* __cdecl FUN_00a7d4d0(const char* s, int n);
 struct ThisCls046
@@ -4471,7 +4471,7 @@ struct FUN_00a641f0_class
 {
     void __thiscall WriteObjectLink(void* object);
 };
-void __stdcall FUN_00a89af0(void* context);
+void __stdcall nullsub_3(void* context);
 struct FUN_00cb9d80_class
 {
     int unk00;
@@ -4714,7 +4714,7 @@ struct TlsFlagGuard_ca57
 class Pool_ca57
 {
   public:
-    void* __thiscall FUN_00aa3e40(unsigned int);
+    void* __thiscall Game_DoHeapAlloc(unsigned int);
 };
 class Node_ca57
 {
@@ -4725,7 +4725,7 @@ class Node_ca57
     {}
     void* operator new(unsigned int size) throw()
     {
-        unsigned char* raw = (unsigned char*)((Pool_ca57*)&DAT_011f6238)->FUN_00aa3e40(size);
+        unsigned char* raw = (unsigned char*)((Pool_ca57*)&DAT_011f6238)->Game_DoHeapAlloc(size);
         unsigned char lo = (unsigned char)raw;
         lo &= 0x0f;
         unsigned char pad = 0x10;
@@ -4867,7 +4867,7 @@ struct SomeClass
     int unk6C;
     int unk70;
 };
-int* __fastcall FUN_00cac900(SomeClass* pThis);
+int* __fastcall ahkpCharacterProxy_GetCdPoints(SomeClass* pThis);
 struct FnvCpu_FUN_00cac950_CpuObject
 {
     char* FUN_00cac950();
@@ -4927,9 +4927,9 @@ struct FUN_00cb0a70_Class
 int __cdecl FUN_00ec6cc4(char*, const char*, char*);
 void __cdecl hkString_sprintf(char* a, const char* b, char* c);
 extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
-int __cdecl FUN_00cb0fd0(const char* s1, const char* s2, unsigned int count);
+int __cdecl j_strncmp(const char* s1, const char* s2, unsigned int count);
 void __stdcall isOk_00cd4af0(int a1);
-unsigned int __stdcall FUN_00cb2d70(unsigned int param_1);
+unsigned int __stdcall hkRotation_isOk(unsigned int param_1);
 void __cdecl FUN_00c87f60(void);
 void __cdecl FUN_00cb75f0(void);
 void __cdecl FUN_00c87f80();
@@ -4950,7 +4950,7 @@ struct FUN_00cb83f0 : FUN_00c86720
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_012683ec;
-CpuOpaque* __cdecl FUN_00cb8460();
+CpuOpaque* __cdecl bhkOrientHingedBodyAction_GetRTTI();
 void __cdecl FUN_00c86800();
 void __cdecl FUN_00cb8470();
 extern "C" void __cdecl FUN_00aa1460(void* self, int size);
@@ -4988,7 +4988,7 @@ struct FUN_00cb88d0_owner : CAC300Owner
     void __thiscall CreateShapeAndApply(void* parameters);
 };
 extern GlobalObjectO2_00a7b610 g_012683ec;
-char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610* p);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObjectO2_00a7b610* p);
 struct FUN_00cb89c0_cls
 {
     void FUN_00c86b80(SArr046* arr);
@@ -4996,7 +4996,7 @@ struct FUN_00cb89c0_cls
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_012683f4;
-CpuOpaque* __cdecl FUN_00cb9250();
+CpuOpaque* __cdecl bhkForceController_GetRTTI();
 void __cdecl FUN_00a7b3d0();
 void __cdecl FUN_00cb9920();
 class CBADDynamicArray : public CA0E60Array
@@ -5008,7 +5008,7 @@ class CBADDynamicArray : public CA0E60Array
 };
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01268408;
-GlobalObjectO2_00a7b610* __cdecl FUN_00cbaf80();
+GlobalObjectO2_00a7b610* __cdecl bhkRagdollTemplate_GetRTTI();
 struct FUN_00cbaf90_Obj
 {
     void FUN_00cbaf90();
@@ -5473,7 +5473,7 @@ struct Holder_ca9e60
 };
 struct Host_ca9e60
 {
-    void* __thiscall FUN_00ca9e60(void* arg);
+    void* __thiscall bhkMalleableConstraint_Clone(void* arg);
     void __thiscall FUN_00c89730(void* a, void* b);
 };
 void __cdecl DispatchToTarget();
@@ -5809,7 +5809,8 @@ struct VecNode
 };
 
 // @fnv 0x00cac890
-void __stdcall FUN_00cac890(VecNode* nodes, int count, const __m128* axis)
+// src: COMMUNITY 0x00cac890
+void __stdcall hkpCharacterProxy_convertFractionToDistance(VecNode* nodes, int count, const __m128* axis)
 {
     VecNode* cur = nodes;
 
@@ -5920,7 +5921,7 @@ struct WorkState
 };
 struct S00cbf950_Target
 {
-    void FUN_00cbf860(S00cbf950_Body*, const S00cbf950_Input*, int, unsigned char*, int);
+    void hkpWorldRayCaster_castRay(S00cbf950_Body*, const S00cbf950_Input*, int, unsigned char*, int);
     void FUN_00cbf950(S00cbf950_Body*, const S00cbf950_Input*, int, int, int, int);
 };
 // @fnv 0x00cbf950
@@ -5950,7 +5951,7 @@ void S00cbf950_Target::FUN_00cbf950(S00cbf950_Body* body, const S00cbf950_Input*
     state.offset = offset;
     for (state.remaining = count - 1; state.remaining >= 0; state.remaining--)
     {
-        state.owner->FUN_00cbf860(body, walk, mode, saved, state.offset);
+        state.owner->hkpWorldRayCaster_castRay(body, walk, mode, saved, state.offset);
         *(volatile int*)&state.offset += step;
         walk++;
     }

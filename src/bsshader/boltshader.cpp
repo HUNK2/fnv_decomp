@@ -481,7 +481,8 @@ void __cdecl FUN_00b57e30(Obj_bc18d0* pkObj, int a2, int a3);
 
 // Clones a node from FUN_00bc15a0, attaches it to pkNode, gets property type 3, and if its m_iType1c is 0xf increments DAT_01201f54 and calls v39 on it.
 // @fnv 0x00bc18d0
-Prop_bc18d0* __cdecl FUN_00bc18d0(Obj_bc18d0* pkNode)
+// src: COMMUNITY 0x00bc18d0
+Prop_bc18d0* __cdecl BoltShader_Start(Obj_bc18d0* pkNode)
 {
     if (pkNode)
     {
@@ -645,7 +646,8 @@ extern Fn1470Ref* DAT_01201f58;
 
 // Calls Slot3c for each matching result; when the counter is nonpositive, releases and clears the global reference and resets the counter.
 // @fnv 0x00bc1470
-void __cdecl FUN_00bc1470(Fn1470Owner* pOwner, Fn1470Result* pWanted)
+// src: COMMUNITY 0x00bc1470
+void __cdecl BoltShader_Stop(Fn1470Owner* pOwner, Fn1470Result* pWanted)
 {
     if (pOwner == 0 || pWanted == 0)
     {
@@ -726,8 +728,8 @@ class FUN_00ba63e0 : public NiObject
     int unk28;
     FUN_00ba63e0(unsigned short, unsigned int);
     void FUN_00a72ca0(unsigned int);
-    void FUN_00a72bb0(unsigned int, void*, unsigned int, unsigned int);
-    void FUN_00a726a0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+    void NiAdditionalGeometryData_SetDataBlock(unsigned int, void*, unsigned int, unsigned int);
+    void NiAdditionalGeometryData_SetDataStream(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 };
 
 class FUN_00a7b630 : public NiObject
@@ -952,8 +954,8 @@ Obj_bc18d0* FUN_00bc15a0()
 
     FUN_00ba63e0* pkExt = new FUN_00ba63e0(usNumVertices, 1);
     pkExt->FUN_00a72ca0(1);
-    pkExt->FUN_00a72bb0(0, GetOrCreateTable(), (unsigned short)usNumVertices * 4, 1);
-    pkExt->FUN_00a726a0(0, 0, 0, 1, usNumVertices, 4, 4);
+    pkExt->NiAdditionalGeometryData_SetDataBlock(0, GetOrCreateTable(), (unsigned short)usNumVertices * 4, 1);
+    pkExt->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 1, usNumVertices, 4, 4);
 
     pkData->FUN_00a67260(pkExt);
 

@@ -24,13 +24,13 @@ void BSTempEffectDebris::SetIsForegroundEffect(bool foregroundElement)
 
 struct FUN_0050e620_S
 {
-    void FUN_004405d0(unsigned char);
+    void IOTask_SetPriority(unsigned char);
     void FUN_0050e620(unsigned char p);
 };
 // @fnv 0x0050e620
 void FUN_0050e620_S::FUN_0050e620(unsigned char p)
 {
-    FUN_004405d0(p);
+    IOTask_SetPriority(p);
 }
 
 void __fastcall FUN_0061bcf0(void* param_1);
@@ -46,11 +46,12 @@ struct TESFile;
 struct TESForm;
 struct FUN_009b3120_shell : public BSTempEffectDebris
 {
-    int FUN_009b3120();
+    int retn2();
 };
 
 // @fnv 0x009b3120
-int FUN_009b3120_shell::FUN_009b3120()
+// src: COMMUNITY 0x009b3120
+int FUN_009b3120_shell::retn2()
 {
     return 2;
 }
@@ -70,16 +71,17 @@ void* FUN_00682ac0_shell::GetGlobalPtr() const
 
 struct GlobalObject_006836f0
 {
-    void __thiscall FUN_006834e0(void** p);
+    void __thiscall BSPointerListBase_BSTempEffectDebris_AddHead(void** p);
 };
 
 extern GlobalObject_006836f0 g_011d6a74;
 
 // @fnv 0x00683310
-void FUN_00683310(void* p)
+// src: COMMUNITY 0x00683310
+void BSTempEffectDebris_AddtoDebrisCounter(void* p)
 {
     if (p)
-        g_011d6a74.FUN_006834e0(&p);
+        g_011d6a74.BSPointerListBase_BSTempEffectDebris_AddHead(&p);
 }
 
 struct FUN_00683460_shell
@@ -147,11 +149,12 @@ struct Holder
     virtual Limit* f0();
     virtual Limit* f1();
     void AppendBlock(Limit* p);
-    void FUN_006834e0(int* p);
+    void BSPointerListBase_BSTempEffectDebris_AddHead(int* p);
 };
 // Gets a Limit via f1(), stores the int pointed to by a into its f2 field, then passes it to AppendBlock.
 // @fnv 0x006834e0
-void Holder::FUN_006834e0(int* aiValue)
+// src: COMMUNITY 0x006834e0
+void Holder::BSPointerListBase_BSTempEffectDebris_AddHead(int* aiValue)
 {
     Limit* p = f1();
     p->f2 = *aiValue;
@@ -467,7 +470,7 @@ extern float DAT_011c3c08;
 void ProcessPropertyTree(SceneObject*, int);
 void FUN_0062b8d0(SceneObject*, int, bool);
 void FUN_0062ba80(SceneObject*, int, bool);
-void FUN_006833b0();
+void BSTempEffectDebris_LimitDebrisObjects();
 struct DebrisEffect : FUN_00682c40
 {
     void FUN_007e6580(bool);
@@ -510,8 +513,8 @@ void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9,
     g_011e0e80.FUN_00973fd0(this);
     if ((unsigned char)m_20)
     {
-        FUN_00683310(this);
-        FUN_006833b0();
+        BSTempEffectDebris_AddtoDebrisCounter(this);
+        BSTempEffectDebris_LimitDebrisObjects();
     }
 }
 
@@ -865,7 +868,8 @@ struct FUN_00683190_shell
     void AttachCollisionObject(WorldActor* pkActor);
 };
 // @fnv 0x006830a0
-bool BSFaceGenKeyframe::FUN_006830a0(float fArg)
+// src: COMMUNITY 0x006830a0
+bool BSFaceGenKeyframe::BSTempEffectDebris_Update(float fArg)
 {
     bool result5 = FUN_006828a0(fArg);
     if (reinterpret_cast<BSTempEffectDebris*>(this)->bForceDelete)
@@ -874,7 +878,7 @@ bool BSFaceGenKeyframe::FUN_006830a0(float fArg)
     }
     if (result5)
     {
-        float delta8 = GetTime() - FUN_00621b00();
+        float delta8 = GetTime() - ActorPackage_GetPackageStartTime();
         if (delta8 >= _gModifierZero)
         {
             if (delta8 <= *g_011cfbfc.Float())
@@ -959,7 +963,8 @@ struct FUN_006833b0_item
 };
 
 // @fnv 0x006833b0
-void FUN_006833b0()
+// src: COMMUNITY 0x006833b0
+void BSTempEffectDebris_LimitDebrisObjects()
 {
     int n;
     void* p2;

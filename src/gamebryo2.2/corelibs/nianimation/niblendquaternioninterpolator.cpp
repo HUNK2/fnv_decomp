@@ -85,7 +85,8 @@ void NiBlendQuaternionInterpolator::SaveBinary(NiStream& kStream)
 extern int g_011f4064;
 
 // @fnv 0x00a55500
-int* __cdecl FUN_00a55500()
+// src: COMMUNITY 0x00a55500
+int* __cdecl NiBlendQuaternionInterpolator_GetRTTI()
 {
     return &g_011f4064;
 }

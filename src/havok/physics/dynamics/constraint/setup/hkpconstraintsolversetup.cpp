@@ -161,7 +161,7 @@ struct hkpSolverSumVelocities
     hkVector4 m_vAngularVelocity;
 };
 
-hkpVelocityAccumulator* __cdecl FUN_00d29830(const hkStepInfo* pkInfo, hkpEntity* const* ppkEntities,
+hkpVelocityAccumulator* __cdecl hkRigidMotionUtilApplyForcesAndBuildAccumulators(const hkStepInfo* pkInfo, hkpEntity* const* ppkEntities,
                                                  unsigned int uiNumEntities, int iMotionOffset,
                                                  hkpVelocityAccumulator* pkAccumulatorsOut);
 
@@ -194,7 +194,7 @@ void __cdecl FUN_00d88670(hkpConstraintSolverResources& kResources, hkpEntity* c
     hkpSolverSumVelocities* pkSumVel =
         kResources.m_sumVelocities + ppkEntities[0]->m_uiFilterInfo / sizeof(hkpVelocityAccumulator);
     kResources.m_pVelocityAccumulatorC =
-        FUN_00d29830(kResources.m_pStepInfo, ppkEntities, uiNumEntities, 0xe0, pkAccumulator);
+        hkRigidMotionUtilApplyForcesAndBuildAccumulators(kResources.m_pStepInfo, ppkEntities, uiNumEntities, 0xe0, pkAccumulator);
 
     for (unsigned int i = 0; i < uiNumEntities; i++)
     {
@@ -936,9 +936,9 @@ template <typename T> inline T S88b50_max2(T x, T y)
     return x > y ? x : y;
 }
 
-int __cdecl FUN_00d8d030(const void* solverInfo, char* schemas, hkpVelocityAccumulator* accum, char* elemTemps);
-void __cdecl FUN_00df0680(const void* solverInfo, char* elemTemps, char* schemas, hkpVelocityAccumulator* accum);
-int __cdecl FUN_00d29bf0(const void* solverInfo, const hkStepInfo* stepInfo,
+int __cdecl hkSolveConstraints(const void* solverInfo, char* schemas, hkpVelocityAccumulator* accum, char* elemTemps);
+void __cdecl hkExportImpulsesAndRhs(const void* solverInfo, char* elemTemps, char* schemas, hkpVelocityAccumulator* accum);
+int __cdecl hkRigidMotionUtilApplyAccumulators(const void* solverInfo, const hkStepInfo* stepInfo,
                          const hkpVelocityAccumulator* accums, hkpEntity* const* bodies, int numBodies,
                          int offset);
 void __cdecl FUN_00d1a330(const void* input, hkpEntity* const* bodies, int numBodies);
@@ -987,7 +987,7 @@ static __forceinline void S88b50_buildAccumulators(const hkStepInfo& info, hkpEn
         }
     }
     hkpVelocityAccumulator* accumEnd =
-        FUN_00d29830(&info, bodies, numBodies, 0xe0, accumulators + 1);
+        hkRigidMotionUtilApplyForcesAndBuildAccumulators(&info, bodies, numBodies, 0xe0, accumulators + 1);
     accumEnd->m_type = 3;
 }
 
@@ -1110,7 +1110,7 @@ static __forceinline int S88b50_integrate2(const void* solverInfo, const hkStepI
                                            const hkpVelocityAccumulator* accumulators, hkpEntity* const* bodies,
                                            int numBodies)
 {
-    int numInactiveFrames = FUN_00d29bf0(solverInfo, &stepInfo, accumulators + 1, bodies, numBodies, 0xe0);
+    int numInactiveFrames = hkRigidMotionUtilApplyAccumulators(solverInfo, &stepInfo, accumulators + 1, bodies, numBodies, 0xe0);
     FUN_00d1a330(((S88b50_World*)bodies[0]->m_pOwningWorld)->getCollisionInput(), bodies, numBodies);
     return numInactiveFrames;
 }
@@ -1171,7 +1171,7 @@ redoElemTemp:
         S88b50_buildJacobianElements(constraintQueryIn, bodies, numBodies, accumulators, (S88_Schema*)schemas,
                                      (S88_Schema*)schemasEnd, (S88_Schema*)schemasB);
 
-        int solveResult = FUN_00d8d030(solverInfo, schemas, accumulators, elemTemp);
+        int solveResult = hkSolveConstraints(solverInfo, schemas, accumulators, elemTemp);
         {
             S88b50_MonitorStream& mStream = S88b50_MonitorStream::GetMonitorStream();
             if (mStream.memoryAvailable())
@@ -1194,7 +1194,7 @@ redoElemTemp:
         }
         if (solveResult == 1)
         {
-            FUN_00df0680(solverInfo, elemTemp, schemas, accumulators);
+            hkExportImpulsesAndRhs(solverInfo, elemTemp, schemas, accumulators);
             result = S88b50_integrate2(solverInfo, stepInfo, accumulators, bodies, numBodies);
             S88b50_BreachedHeader* h = (S88b50_BreachedHeader*)schemas;
             if (h->m_iBreachCount != 0)

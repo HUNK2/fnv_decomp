@@ -71,7 +71,7 @@ public:
     virtual void LoadGame(BGSLoadFormBuffer* buffer);
 
     int FUN_005f0b00();
-    void FUN_005f0b30(int value);
+    void SetHealth_005f0b30(int value);
     bool FUN_005f0b50();
     bool FUN_005f0ba0();
     bool FUN_005f0bf0();
@@ -83,7 +83,7 @@ public:
     void FUN_005f18c0(unsigned int flags);
     void FUN_005f1b30(unsigned int flags, unsigned int arg);
     void FUN_005f1f30(unsigned int buffer);
-    void FUN_005f20a0(bool value);
+    void Reset3DForLoadedActors(bool value);
     void* FUN_004fd3c0();
 
     void LimbRTTIAnchor();

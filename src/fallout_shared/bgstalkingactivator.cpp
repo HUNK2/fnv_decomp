@@ -365,7 +365,8 @@ Elem12& __fastcall FUN_006a1440(ArrayObj* pThis, StackIdx aiIndex)
 }
 
 // @fnv 0x004ff190
-void FUN_004ff190()
+// src: COMMUNITY 0x004ff190
+void BGSTalkingActivator_ClearRadioStationList()
 {
     BGSTalkingActivator::ms_kRadioStations.RemoveAll();
 }
@@ -489,7 +490,7 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void Save_0048cca0();
 };
 void FUN_00485910(unsigned int, unsigned int);
 struct FUN_004fec10_shell
@@ -503,7 +504,7 @@ void FUN_004fec10_shell::FUN_004fec10()
     reinterpret_cast<S_00487010*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00487010();
     reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x3c)
         ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x5c)->FUN_0048cca0();
+    reinterpret_cast<S_0048cca0*>(reinterpret_cast<char*>(this) + 0x5c)->Save_0048cca0();
     reinterpret_cast<S_00477f20*>(reinterpret_cast<char*>(this) + 0x68)->FUN_00477f20();
     if (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x74))
     {
@@ -635,11 +636,12 @@ struct FUN_004534f0_shell
 TESForm* __cdecl FUN_004839c0(unsigned int a);
 struct FUN_004ff8a0_shell : public BGSTalkingActivator
 {
-    void FUN_004ff8a0(BGSLoadFormBuffer* arg);
+    void BGSTalkingActivator_InitLoadGame(BGSLoadFormBuffer* arg);
 };
 // Calls FUN_004534f0, then conditionally replaces m_pTempRef with an Actor cast of the form returned by FUN_004839c0.
 // @fnv 0x004ff8a0
-void FUN_004ff8a0_shell::FUN_004ff8a0(BGSLoadFormBuffer* arg)
+// src: COMMUNITY 0x004ff8a0
+void FUN_004ff8a0_shell::BGSTalkingActivator_InitLoadGame(BGSLoadFormBuffer* arg)
 {
     ((FUN_004534f0_shell*)this)->FUN_004534f0(arg);
     if (arg->GetChangeFlags(0x800000).operator bool())

@@ -19,7 +19,7 @@ struct ArrowPoint
 {
     float x, y, z;
     float Length() const;
-    ArrowPoint* FUN_00c5a800(ArrowPoint* result) const;
+    ArrowPoint* NiPoint3_Perpendicular(ArrowPoint* result) const;
 };
 struct ArrowColor
 {
@@ -126,7 +126,7 @@ __forceinline void PerpendicularScale(ArrowPoint& out, const ArrowPoint& n, Arro
 {
     ArrowMatrix coordinateFrame;
     {
-        const ArrowPoint* point = n.FUN_00c5a800(&temp);
+        const ArrowPoint* point = n.NiPoint3_Perpendicular(&temp);
         ArrowPoint v6 = {point->x * factor, point->y * factor, point->z * factor};
         out.x = v6.x;
         out.y = v6.y;

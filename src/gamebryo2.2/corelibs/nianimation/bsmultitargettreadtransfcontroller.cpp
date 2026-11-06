@@ -15,18 +15,19 @@ NiInterpolator* BSMultiTargetTreadTransfController::GetInterpolator(unsigned sho
 GlobalObject_00a2e180::GlobalObject_00a2e180()
 {
     if (DAT_011f36a0++ == 0)
-        FUN_00aa2080(&DAT_00a2d8a0, &DAT_00a2de70);
+        NiStaticDataManager_AddLibrary(&DAT_00a2d8a0, &DAT_00a2de70);
 }
 
 struct FUN_00a35950_shell : public BSMultiTargetTreadTransfController
 {
-    void* FUN_00a35950();
+    void* BSMultiTargetTreadTransfController_GetRTTI();
 };
 
 extern int g_011f36e4;
 
 // @fnv 0x00a35950
-void* FUN_00a35950_shell::FUN_00a35950()
+// src: COMMUNITY 0x00a35950
+void* FUN_00a35950_shell::BSMultiTargetTreadTransfController_GetRTTI()
 {
     return &g_011f36e4;
 }
@@ -281,7 +282,8 @@ struct InterpStub_00a2fac0
 };
 
 // @fnv 0x00a2fac0
-bool __stdcall FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex)
+// src: COMMUNITY 0x00a2fac0
+bool __stdcall NiMultiTargetTransformController_InterpolatorIsCorrectType(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex)
 {
     return apInterpolator->IsCorrectType();
 }
@@ -550,7 +552,7 @@ struct Holder
     Entry* m_14;
     Entry2* m_18;
     void AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) throw();
-    void FUN_00a32b80(unsigned int idx);
+    void NiControllerSequence_RemoveInterpolator_0(unsigned int idx);
 };
 
 void Holder::AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) throw()
@@ -563,7 +565,8 @@ void Holder::AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) thro
 
 // Clears the entry at idx by moving its RefObj into a temporary SmartPtr, which releases it when the pointer goes out of scope.
 // @fnv 0x00a32b80
-void Holder::FUN_00a32b80(unsigned int uiIndex)
+// src: COMMUNITY 0x00a32b80
+void Holder::NiControllerSequence_RemoveInterpolator_0(unsigned int uiIndex)
 {
     SmartPtr<RefObj> sp;
     AssignInterpolatorRef(uiIndex, sp);

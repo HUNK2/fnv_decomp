@@ -69,7 +69,8 @@ void NiPSysData::vf41(unsigned short usParticle)
 extern const char* const g_01202680_arg1;
 
 // @fnv 0x00c24e90
-const char* const* __cdecl FUN_00c24e90()
+// src: COMMUNITY 0x00c24e90
+const char* const* __cdecl NiPSysData_GetRTTI()
 {
     return &g_01202680_arg1;
 }
@@ -280,7 +281,7 @@ inline void StrArr::AppendInline(char* value)
         SetSize(index + m_usGrowBy);
     SetAt(index, value);
 }
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d5a0(const char*, void*);
 char* __cdecl FUN_00a7d490(const char*, unsigned short);
 extern const char* const g_01202680_arg1;
@@ -293,7 +294,7 @@ void NiPSysData::GetViewerStrings(NiViewerStringsArray* viewerStrings)
 {
     StrArr* strings = reinterpret_cast<StrArr*>(viewerStrings);
     NiParticlesData::GetViewerStrings(viewerStrings);
-    strings->AppendInline(FUN_00a7d330(g_01202680_arg1));
+    strings->AppendInline(NiViewerStrings_NiGetViewerString_Title(g_01202680_arg1));
     strings->AppendInline(FUN_00a7d5a0(DAT_010be340, m_pkParticleInfo));
     strings->AppendInline(FUN_00a7d5a0(DAT_010be32c, m_pfRotationSpeeds));
     strings->AppendInline(FUN_00a7d490(DAT_010be318, m_usNumActive));

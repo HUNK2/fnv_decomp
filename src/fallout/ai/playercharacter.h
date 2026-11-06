@@ -47,7 +47,7 @@ void PlayerCharacter::ResetActorValueModifiers()
 {
     for (int i = 0; i < 77; ++i)
     {
-        if (ActorValueModifierData[i] != 0.0 && !FUN_00822f70(static_cast<ActorValue::Index>(i)))
+        if (ActorValueModifierData[i] != 0.0 && !HasRecoverableActorValueEffect(static_cast<ActorValue::Index>(i)))
             ActorValueModifierData[i] = 0.0f;
     }
 }

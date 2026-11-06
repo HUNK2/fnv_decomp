@@ -56,7 +56,7 @@ extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
 extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
 extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
 extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d40d80(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskCylinderAgent3_process(int a, int b, int c, int d);
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
 // 16 byte aligned, which is what makes the compiler emit the aligned frame
 // prologue of this function.

@@ -81,7 +81,7 @@ struct Input
 };
 struct SubC0
 {
-    void FUN_00e10a10(Renderer* a);
+    void hkpPrimitiveDrawer_setDisplayHandler(Renderer* a);
     void FUN_00e10d50(void* a, void* b, void* c, int d, float e, int a2, int a3);
 };
 
@@ -275,7 +275,7 @@ struct Cls
     int unk27c;
     int unk280;
     void FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3);
-    void FUN_00de47e0(void* a0, void* b, void* c);
+    void hkpConstraintDrawer_updateCommonParameters(void* a0, void* b, void* c);
     void hkpConstraintDrawer_drawPivots(int a2, int a3);
     void FUN_00de5370(float angle, float scale, int flags, void* point, void* source);
     void SetFromVectors(void* a, void* b, void* c, void* d);
@@ -467,8 +467,8 @@ void Cls::FUN_00de6730(Input* a0, Renderer* a1, int a2, int a3)
     Source* srcHome = a0->source;
     Geometry geometry;  // Normalization constants and draw groups have disjoint lifetimes.
 
-    ((SubC0*)&unkc0)->FUN_00e10a10(a1);
-    FUN_00de47e0(a0, &geometry.tD0, &geometry.t110);
+    ((SubC0*)&unkc0)->hkpPrimitiveDrawer_setDisplayHandler(a1);
+    hkpConstraintDrawer_updateCommonParameters(a0, &geometry.tD0, &geometry.t110);
     Vec4* object50 = (Vec4*)(&unk50);
     object50->FUN_00c7f640((const Buf40*)&geometry.tD0, &srcHome->body.rows50[3]);
     ((Vec4*)(&unk40))->FUN_00c7f640((const Buf40*)&geometry.t110, &srcHome->body.rows10[3]);

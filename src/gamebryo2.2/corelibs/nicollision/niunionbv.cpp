@@ -54,7 +54,8 @@ S* __fastcall NiUnionBV_Clone(void* self)
 extern int g_fnv_00e9ecc0_value_anchor;
 
 // @fnv 0x00e9ecc0
-int FUN_00e9ecc0()
+// src: COMMUNITY 0x00e9ecc0
+int bhkCharacterStateFlying_Update()
 {
     return (int)(&g_fnv_00e9ecc0_value_anchor) + 4;
 }

@@ -32,13 +32,13 @@
 #include "../../include/NiRTTI.h"
 #include "../../include/hkReferencedObject.h"
 #include "../../include/hkVector4.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
+GarbageCollectorUpdateState* MemoryLevelManager_GetSingleton();
+void* DecalData_GetDefaultDecalData();
+void FalloutRadio_NewCellEntered();
+void TESWaterSystem_SetPlayerForceUnderwater(unsigned char value);
+float BSAudio_GetMinDialogDist();
+float BSAudio_GetMaxDialogDist();
+void CheckWithinMultiBoundTask_CancelAttachment(unsigned int index);
 struct FUN_00c9c240_holder
 {
     void* m0;
@@ -971,7 +971,7 @@ class C9F270MemContext
     int m_iPrevious;
 };
 extern const char* g_pcC9F270ClassName;
-extern "C" char* __cdecl FUN_00a7d330(const char* pcName);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcName);
 class C9F270StrArray
 {
   public:
@@ -1381,7 +1381,7 @@ struct BC9F970AllocTagScope
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > BC9F970StringArray;
 extern const char* g_pcC9F970Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class FUN_00c9f970_cls
 {
   public:
@@ -1666,7 +1666,7 @@ struct TlsGuard_ca0090
 };
 struct MemMgr_ca0090
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 struct Sub_ca0090
 {
@@ -1712,7 +1712,7 @@ struct BCA05B0AllocTagScope
 };
 typedef NiTArray<char*, NiTMallocInterface<char*> > BCA05B0StringArray;
 extern const char* g_pcCA05B0Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class FUN_00ca05b0_cls
 {
   public:
@@ -1797,7 +1797,7 @@ class FUN_00caacf0 : public CAACF0Base
     static unsigned int ms_uiInstances;
 };
 extern int DAT_012683c8;
-void* FUN_00cb3060();
+void* bhkRigidBodyT_GetRTTI();
 class CC2350Base
 {
   public:
@@ -1951,7 +1951,7 @@ class S00561150_Value
 {
   public:
     S00561150_Value();  // FUN_006240d0
-    void FUN_005611c0();
+    void normalize_005611c0();
     __m128 m_vComponents;
 };
 
@@ -2018,15 +2018,16 @@ class S00561150_Object
     virtual void vfD8();
     virtual void vfDC();
     virtual void vfE0(const S00561150_Value* pValue);
-    void FUN_00561150(const S00561150_Source* pSource);
+    void bhkRigidBody_SetNiRotation(const S00561150_Source* pSource);
 };
 
 // @fnv 0x00561150
-void S00561150_Object::FUN_00561150(const S00561150_Source* pSource)
+// src: COMMUNITY 0x00561150
+void S00561150_Object::bhkRigidBody_SetNiRotation(const S00561150_Source* pSource)
 {
     S00561150_Value kValue;
     FUN_00561500(&kValue, pSource);
-    kValue.FUN_005611c0();
+    kValue.normalize_005611c0();
     vfE0(&kValue);
 }
 
@@ -2034,27 +2035,29 @@ struct S005611e0_Vector
 {
     __m128 m_vComponents;
     S005611e0_Vector* FUN_005612a0(S005611e0_Vector* pOut) const;  // inverse length, as a vector
-    S005611e0_Vector* FUN_00561240(S005611e0_Vector* pOut) const;  // broadcast x
-    void FUN_005611e0();                                           // normalize3
+    S005611e0_Vector* hkSimdReal_broadcast(S005611e0_Vector* pOut) const;  // broadcast x
+    void hkVector4_normalize4();                                           // normalize3
 };
 
 // @fnv 0x005611e0
-void S005611e0_Vector::FUN_005611e0()
+// src: COMMUNITY 0x005611e0
+void S005611e0_Vector::hkVector4_normalize4()
 {
     S005611e0_Vector kScale;
     S005611e0_Vector kInvLength;
-    FUN_005612a0(&kInvLength)->FUN_00561240(&kScale);
+    FUN_005612a0(&kInvLength)->hkSimdReal_broadcast(&kScale);
     m_vComponents = _mm_mul_ps(kScale.m_vComponents, m_vComponents);
 }
 
 struct S00561240_Vector
 {
     __m128 m_vComponents;
-    S00561240_Vector* FUN_00561240(S00561240_Vector* pOut) const;  // broadcast x
+    S00561240_Vector* hkSimdReal_broadcast(S00561240_Vector* pOut) const;  // broadcast x
 };
 
 // @fnv 0x00561240
-S00561240_Vector* S00561240_Vector::FUN_00561240(S00561240_Vector* pOut) const
+// src: COMMUNITY 0x00561240
+S00561240_Vector* S00561240_Vector::hkSimdReal_broadcast(S00561240_Vector* pOut) const
 {
     pOut->m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0);
     return pOut;
@@ -2093,14 +2096,14 @@ struct AlignedLocal5615
 void* FUN_004a3e00(AlignedLocal5615* local, int value);
 struct Owner5615
 {
-    void FUN_00561690(void* p);
+    void bhkRigidBody_SetLinearVelocity_00561690(void* p);
     void FUN_005615d0(int value);
 };
 // @fnv 0x005615d0
 void Owner5615::FUN_005615d0(int value)
 {
     AlignedLocal5615 local;
-    FUN_00561690(FUN_004a3e00(&local, value));
+    bhkRigidBody_SetLinearVelocity_00561690(FUN_004a3e00(&local, value));
 }
 
 
@@ -2117,13 +2120,13 @@ void* __cdecl FUN_00553fc0(void* pFrom, const NiPoint3& vec);
 void bhkCharacterController::FUN_00561630(const NiPoint3& param_1)
 {
     HKVector4 local;
-    FUN_005617c0(FUN_00553fc0(&local, param_1));
+    bhkRigidBody_SetAngularVelocity_005617c0(FUN_00553fc0(&local, param_1));
 }
 
 class S00561730_Comparison
 {
   public:
-    bool FUN_00458990(int mask) const;  // allAreSet
+    bool hkVector4Comparison_allAreSet(int mask) const;  // allAreSet
     __m128 m_uiMask;
 };
 
@@ -2132,9 +2135,9 @@ class S00561730_Vector
   public:
     S00561730_Vector();                                                       // FUN_006815c0
     void FUN_00458a10(const S00561730_Vector* a, const S00561730_Vector* b);  // setSub4
-    void FUN_00458ad0(const S00561730_Vector* v);                             // setAbs4
-    void FUN_004589c0(float f);
-    S00561730_Comparison FUN_00458a60(const S00561730_Vector* v) const;  // compareLessThan4
+    void hkVector4_setAbs4(const S00561730_Vector* v);                             // setAbs4
+    void hkVector4_setAll(float f);
+    S00561730_Comparison hkVector4_compareLessThanEqual4(const S00561730_Vector* v) const;  // compareLessThan4
     bool FUN_00561730(const S00561730_Vector* v, float epsilon) const;   // equals4
     __m128 m_vComponents;
 };
@@ -2144,10 +2147,10 @@ bool S00561730_Vector::FUN_00561730(const S00561730_Vector* v, float epsilon) co
 {
     S00561730_Vector kDiff;
     kDiff.FUN_00458a10(this, v);
-    kDiff.FUN_00458ad0(&kDiff);
+    kDiff.hkVector4_setAbs4(&kDiff);
     S00561730_Vector kEpsilon;
-    kEpsilon.FUN_004589c0(epsilon);
-    return kDiff.FUN_00458a60(&kEpsilon).FUN_00458990(0xf);
+    kEpsilon.hkVector4_setAll(epsilon);
+    return kDiff.hkVector4_compareLessThanEqual4(&kEpsilon).hkVector4Comparison_allAreSet(0xf);
 }
 
 class S005620e0_Vector
@@ -2732,7 +2735,7 @@ class CellQ
 class ListQ;
 extern ListQ g_kWaterListQ;
 
-NodeQ* __cdecl FUN_00c812d0(void* pvName, int iFlag);
+NodeQ* __cdecl bhkUtilFunctions_FindCollisionObjectBFS(void* pvName, int iFlag);
 BodyRefQ* __cdecl FUN_004b5260(void* pvTarget);
 void __cdecl FUN_00c6a350(void* pvRoot, int a, int b, int c, int d);
 void* __cdecl FUN_00458b20();
@@ -2931,7 +2934,7 @@ void ReferencePhysicsAttachment::FUN_005768b0()
         NodeQ* pkNode = 0;
         if (!IsActor())
         {
-            pkNode = FUN_00c812d0(pvName, 1);
+            pkNode = bhkUtilFunctions_FindCollisionObjectBFS(pvName, 1);
             pkTarget = pkNode ? pkNode->GetObject() : pkTarget;
         }
         if (pkTarget)

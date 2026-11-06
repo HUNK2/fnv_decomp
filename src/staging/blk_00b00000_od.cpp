@@ -11,7 +11,7 @@
 
 struct FUN_00b007d0_shell
 {
-    int FUN_00b007d0();
+    int BSSystemDir_DoClose();
 };
 
 struct FUN_00b00860_shell
@@ -22,7 +22,7 @@ struct FUN_00b00860_shell
 // @fnv 0x00b00860
 void FUN_00b00860_shell::FUN_00b00860()
 {
-    ((FUN_00b007d0_shell*)this)->FUN_00b007d0();
+    ((FUN_00b007d0_shell*)this)->BSSystemDir_DoClose();
 }
 
 extern int DAT_010a47b3;
@@ -98,11 +98,12 @@ char FUN_00b18320_Class::GetByteAtOffset4C()
 
 struct FUN_00b008f0_class
 {
-    int* __thiscall FUN_00b008f0();
+    int* __thiscall return_0_2();
 };
 
 // @fnv 0x00b008f0
-int* __thiscall FUN_00b008f0_class::FUN_00b008f0()
+// src: COMMUNITY 0x00b008f0
+int* __thiscall FUN_00b008f0_class::return_0_2()
 {
     return 0;
 }
@@ -282,7 +283,8 @@ extern int DAT_011f8af0;
 extern int DAT_011f8af8[16];
 
 // @fnv 0x00b00d50
-char FUN_00b00d50(int param_1)
+// src: COMMUNITY 0x00b00d50
+char BSTaskletManager_RegisterOnStartupCallback(int param_1)
 {
     char local2;
     int* piVar2 = (int*)((char*)&GetTaskletManager() + 8);
@@ -399,11 +401,12 @@ void FUN_00b0e7f0_class::Clear()
 class FUN_00b004d0_cls
 {
   public:
-    void FUN_00b004d0();
+    void nullsub_328();
 };
 
 // @fnv 0x00b004d0
-void FUN_00b004d0_cls::FUN_00b004d0()
+// src: COMMUNITY 0x00b004d0
+void FUN_00b004d0_cls::nullsub_328()
 {}
 
 struct FUN_00b00820_tail
@@ -414,13 +417,14 @@ struct FUN_00b00820_tail
 };
 struct FUN_00b00820_shell
 {
-    FUN_00b00820_shell* FUN_00b00820(unsigned int value);
+    FUN_00b00820_shell* BSSystemDir_BSSystemDir(unsigned int value);
     void FUN_00b006b0(unsigned int value);
 };
 
 // Clears pendingState and sequence at offset 0x248, calls FUN_00b006b0 with value, and returns this.
 // @fnv 0x00b00820
-FUN_00b00820_shell* FUN_00b00820_shell::FUN_00b00820(unsigned int value)
+// src: COMMUNITY 0x00b00820
+FUN_00b00820_shell* FUN_00b00820_shell::BSSystemDir_BSSystemDir(unsigned int value)
 {
     reinterpret_cast<FUN_00b00820_tail*>(reinterpret_cast<char*>(this) + 0x248)->pendingState = 0;
     reinterpret_cast<FUN_00b00820_tail*>(reinterpret_cast<char*>(this) + 0x248)->sequence = 0;
@@ -445,11 +449,12 @@ FUN_00b00880_cls* FUN_00b00880_cls::ClearFlag()
 struct FUN_00b008a0_cls
 {
     int unk00;
-    void FUN_00b008a0();
+    void nullsub_329();
 };
 
 // @fnv 0x00b008a0
-void FUN_00b008a0_cls::FUN_00b008a0()
+// src: COMMUNITY 0x00b008a0
+void FUN_00b008a0_cls::nullsub_329()
 {}
 
 // If the low byte of _04 is set, obtains a value through virtual slot 0x10 and stores it through result.
@@ -496,11 +501,12 @@ struct FUN_00b00ae0_class
     virtual void virtual4();
     virtual bool virtual5(void* value);
     bool enabled;
-    bool __thiscall FUN_00b00ae0(void** value);
+    bool __thiscall BSTaskletManager_OpenTaskGroup(void** value);
 };
 // Returns true only if enabled is set and the pointed-to value is non-null and passes virtual5.
 // @fnv 0x00b00ae0
-bool FUN_00b00ae0_class::FUN_00b00ae0(void** value)
+// src: COMMUNITY 0x00b00ae0
+bool FUN_00b00ae0_class::BSTaskletManager_OpenTaskGroup(void** value)
 {
     bool flag = enabled;
     {
@@ -665,11 +671,12 @@ struct FUN_00b01510_cls
     virtual void vfn_4();
     virtual void vfn_5();
     virtual int vfn_6(char* data);
-    bool __thiscall FUN_00b01510(int arg);
+    bool __thiscall Archive_PlatformGetLastWriteTime(int arg);
 };
 
 // @fnv 0x00b01510
-bool FUN_00b01510_cls::FUN_00b01510(int aiUnused)
+// src: COMMUNITY 0x00b01510
+bool FUN_00b01510_cls::Archive_PlatformGetLastWriteTime(int aiUnused)
 {
     char data[0x140];
     int handle = FindFirstFileA((const char*)vfn_6(data));
@@ -879,7 +886,7 @@ void* __cdecl AllocatePoolArray(unsigned int count)
             FUN_00ec7894(&err2, DAT_01140ef8);
         }
     }
-    return DAT_011f6238.FUN_00aa3e40(count * 0x1c);
+    return DAT_011f6238.Game_DoHeapAlloc(count * 0x1c);
 }
 
 // Multiplies this 3x3 matrix by rhs and returns the resulting matrix.
@@ -955,7 +962,8 @@ struct ScratchHelper
 };
 
 // @fnv 0x00b13000
-float* FUN_00b13000(float* dst, FUN_00b0cf90_class* pOwner, ScratchHelper* pHelper, float fScale)
+// src: COMMUNITY 0x00b13000
+float* VecInterpolate(float* dst, FUN_00b0cf90_class* pOwner, ScratchHelper* pHelper, float fScale)
 {
     Vec3f blk;
     float c3;
@@ -1198,11 +1206,12 @@ struct FUN_00b01800_shell
     unsigned int unk1C;
     char* m_pString;
     unsigned int ReadAtOffset(void* pDst, unsigned int uiSize, unsigned int uiElapsedMilliseconds);
-    unsigned int FUN_00b01800(void* pDst, unsigned int uiSize);
+    unsigned int ArchiveFile_ReadFromBuffer(void* pDst, unsigned int uiSize);
 };
 
 // @fnv 0x00b01800
-unsigned int FUN_00b01800_shell::FUN_00b01800(void* pDst, unsigned int uiSize)
+// src: COMMUNITY 0x00b01800
+unsigned int FUN_00b01800_shell::ArchiveFile_ReadFromBuffer(void* pDst, unsigned int uiSize)
 {
     unsigned int uiDone = 0;
     unsigned int uiAvail = m_uiBufferFill - m_uiBufferPos;
@@ -1242,7 +1251,7 @@ struct StripDestination
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     unsigned short unk24;
     unsigned short stripCount;
-    void FUN_00b2fdc0(unsigned short id, unsigned short* step, unsigned short indices);
+    void CIndexedGeometry_AddStrip(unsigned short id, unsigned short* step, unsigned short indices);
 };
 struct StripBuilder
 {
@@ -1263,7 +1272,7 @@ void StripBuilder::BuildStripIndices(unsigned short ausStripId, StripDestination
         unsigned short* step;
         int indices = (rows - 1) * (2 * position + 4);
         step = new unsigned short[indices];
-        destination->FUN_00b2fdc0(ausStripId, step, (unsigned short)indices);
+        destination->CIndexedGeometry_AddStrip(ausStripId, step, (unsigned short)indices);
         int count = 0;
         float index = 0.0f;
         for (int row = 0; row < rows - 1; row++)
@@ -1320,7 +1329,7 @@ struct WStr
     wchar_t* pString;
     unsigned short sLen;
     unsigned short sMaxLen;
-    bool FUN_00afff50(const wchar_t* text, unsigned int length);
+    bool BSStringT_wchar_t_Set(const wchar_t* text, unsigned int length);
     WStr& Append(const wchar_t* text);
 };
 
@@ -1341,7 +1350,7 @@ WStr& WStr::Append(const wchar_t* awcText)
             {
                 Pad36 pad1;
                 wchar_t* s2 = pString;
-                FUN_00afff50(s2, newLen);
+                BSStringT_wchar_t_Set(s2, newLen);
             }
             {
                 Pad36 pad;
@@ -1354,7 +1363,7 @@ WStr& WStr::Append(const wchar_t* awcText)
         }
         else
         {
-            FUN_00afff50(awcText, 0);
+            BSStringT_wchar_t_Set(awcText, 0);
         }
     }
     return *this;
@@ -1446,7 +1455,7 @@ void __cdecl FUN_00b10830(unsigned int count)
             FUN_00ec7894(&value, DAT_01140ef8);
         }
     }
-    DAT_011f6238.FUN_00aa3e40(count << 2);
+    DAT_011f6238.Game_DoHeapAlloc(count << 2);
 }
 
 typedef struct B10C20Elem
@@ -1790,7 +1799,7 @@ void __cdecl FUN_00b10940(unsigned int first, unsigned int last, unsigned int de
     FUN_00b10c20(val.lo, n, dest, al, tag, kind);
 }
 
-void __cdecl FUN_00401030(int block);
+void __cdecl FormHeapFreeAndLog_00401030(int block);
 
 struct FUN_00b15600_cls
 {
@@ -1828,7 +1837,7 @@ void FUN_00b15600_cls::FUN_00b15600()
         int kCount;
         kCount = (m_14 - m_0c) / 0x18;
         long block = m_0c;
-        FUN_00401030(block);
+        FormHeapFreeAndLog_00401030(block);
     }
     m_0c = 0;
     m_10 = 0;
@@ -1866,12 +1875,13 @@ struct FUN_00afd390_class
 struct DirectoryArchive
 {
     bool FindHashEntry(FUN_00afd390_class*, int*, int);
-    bool FUN_00afac90(int, FUN_00afd390_class*, int);
-    int FUN_00b01590(const char* root, const char* directory, const _FILETIME* since);
+    bool Archive_InvalidateFile_(int, FUN_00afd390_class*, int);
+    int Archive_InvalidateOlderFilesByPath(const char* root, const char* directory, const _FILETIME* since);
 };
 // Recursively walks root plus directory with FindFirstFileA, counting files written after since for which FUN_00afac90 returns true.
 // @fnv 0x00b01590
-int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, const _FILETIME* since)
+// src: COMMUNITY 0x00b01590
+int DirectoryArchive::Archive_InvalidateOlderFilesByPath(const char* root, const char* directory, const _FILETIME* since)
 {
     int count3 = 0;
     char next[260];
@@ -1905,7 +1915,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
             strcpy_s(next, 260, directory);
             strcat_s(next, 260, data5.cFileName);
             strcat_s(next, 260, "\\");
-            count3 += FUN_00b01590(root, next, since);
+            count3 += Archive_InvalidateOlderFilesByPath(root, next, since);
         }
         else if (value)
         {
@@ -1913,7 +1923,7 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
             {
                 FUN_00afd390_class fileName;
                 fileName.FUN_00afd390(data5.cFileName, 0);
-                if (FUN_00afac90(countB, &fileName, 0))
+                if (Archive_InvalidateFile_(countB, &fileName, 0))
                     count3++;
             }
         }
@@ -1944,7 +1954,8 @@ typedef int(__stdcall* FindFirstFileA1Fn)(const char* pattern);
 
 // Checks whether a file matching the given pattern exists by calling FindFirstFileA and closing the handle immediately.
 // @fnv 0x00b01af0
-bool __cdecl FUN_00b01af0(const char* pattern)
+// src: COMMUNITY 0x00b01af0
+bool __cdecl FileFinder_PlatformFindSingleFile(const char* pattern)
 {
     _WIN32_FIND_DATAA findData;
     HANDLE handle = (HANDLE)((FindFirstFileAFn)(FindFirstFileA1Fn)&FindFirstFileA)(pattern, &findData);
@@ -1970,11 +1981,12 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volati
 
 struct FUN_00b02920_class
 {
-    void __thiscall FUN_00b02920(int unused);
+    void __thiscall BSWin32TaskletGroupData_WaitForCompletion(int unused);
 };
 
 // @fnv 0x00b02920
-void __thiscall FUN_00b02920_class::FUN_00b02920(int unused)
+// src: COMMUNITY 0x00b02920
+void __thiscall FUN_00b02920_class::BSWin32TaskletGroupData_WaitForCompletion(int unused)
 {
     if (*(int*)((char*)this + 0x38) != *(int*)((char*)this + 0x34))
     {

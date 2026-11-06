@@ -53,7 +53,7 @@ struct TesscriptfunctionsInterfaceView
 extern char DAT_011d424c;
 extern Actor* g_thePlayer;
 
-void FUN_00704af0();
+void Interface_UpdateInventory();
 
 // @fnv 0x005d0300
 // src: EXE 0x005d0300
@@ -97,7 +97,7 @@ bool Cmd_UnequipItem_Execute(const ScriptParameter* param, const char* desc, TES
                                                    0, 2.0f, false);
                             g_thePlayer->FUN_00950030();
                             g_thePlayer->GetProcess()->UpdateActorAppearance(true, false, false);
-                            FUN_00704af0();
+                            Interface_UpdateInventory();
                         }
                     }
                 }

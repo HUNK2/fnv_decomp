@@ -187,7 +187,7 @@ extern int DAT_011b7b88;
 struct FUN_00dc1670_cls
 {
     int m_00;
-    FUN_00dc1670_cls* FUN_00dc1670();
+    FUN_00dc1670_cls* hkStructureLayout_hkStructureLayout();
 };
 void __stdcall hkIArchive_readArrayGeneric(float* out, int a, int b);
 float hkIArchive_readFloat32();
@@ -699,8 +699,8 @@ struct S_00dcc600_Class
 
     int __thiscall ReadUntilValue(unsigned char* buffer, int length, signed char value);
 };
-void __cdecl FUN_00dccb20();
-void __cdecl FUN_00dccb40();
+void __cdecl nullsub_121();
+void __cdecl nullsub_122();
 void __cdecl FUN_00dd4b00();
 struct Bool388
 {

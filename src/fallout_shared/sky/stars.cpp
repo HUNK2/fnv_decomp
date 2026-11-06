@@ -37,7 +37,8 @@ struct blob16
 typedef char _sizecheck_NiQuaternion[sizeof(NiQuaternion) == 16 ? 1 : -1];
 
 // @fnv 0x004f0160
-void NiAVObject::FUN_004f0160(const NiQuaternion& rotation)
+// src: COMMUNITY 0x004f0160
+void NiAVObject::NiNode_SetRotate(const NiQuaternion& rotation)
 {
     const_cast<NiQuaternion&>(rotation).ToRotationMatrix(&m_kLocal.m_Rotate);
 }
@@ -90,10 +91,10 @@ void Stars::Update(Sky* apSky, float afSecondsPassed)
             ((NiAVObject*)(NiNode*)m_pRootNode)->SetAppCulled(true);
             return;
         }
-        float fSunsetBegin = apSky->FUN_00595fc0();
-        float fSunsetEnd = apSky->FUN_0063ba30();
-        float fSunriseEnd = apSky->FUN_00595f50();
-        float fSunriseBegin = apSky->FUN_0063b9b0();
+        float fSunsetBegin = apSky->Sky_GetSunsetBegin();
+        float fSunsetEnd = apSky->GetEndSunsetColors();
+        float fSunriseEnd = apSky->Sky_GetSunriseEnd();
+        float fSunriseBegin = apSky->GetBeginSunriseColors();
         float fBeginFadeIn = fSunsetEnd - (fSunsetEnd - fSunsetBegin) * 0.5f;
         float fEndFadeOut = fSunriseEnd - (fSunriseEnd - fSunriseBegin) * 0.5f;
         if (fSunriseBegin < fhour && fhour < fEndFadeOut)

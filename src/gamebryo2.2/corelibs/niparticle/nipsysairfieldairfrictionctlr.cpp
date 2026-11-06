@@ -12,7 +12,8 @@
 extern int g_012027b8;
 
 // @fnv 0x00c307c0
-int* __cdecl FUN_00c307c0()
+// src: COMMUNITY 0x00c307c0
+int* __cdecl NiPSysAirFieldAirFrictionCtlr_GetRTTI()
 {
     return &g_012027b8;
 }

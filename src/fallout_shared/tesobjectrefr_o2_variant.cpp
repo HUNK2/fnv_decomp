@@ -16,13 +16,13 @@
 #include "../../include/hkpCollidable.h"
 #include "../../include/hkpShape.h"
 #include "../../include/hkpWorldObject.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
+GarbageCollectorUpdateState* MemoryLevelManager_GetSingleton();
+void* DecalData_GetDefaultDecalData();
+void FalloutRadio_NewCellEntered();
+void TESWaterSystem_SetPlayerForceUnderwater(unsigned char value);
+float BSAudio_GetMinDialogDist();
+float BSAudio_GetMaxDialogDist();
+void CheckWithinMultiBoundTask_CancelAttachment(unsigned int index);
 
 struct FUN_00c9c240_holder
 {
@@ -1321,7 +1321,7 @@ class C9F270MemContext
 };
 
 extern const char* g_pcC9F270ClassName;
-extern "C" char* __cdecl FUN_00a7d330(const char* pcName);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcName);
 
 class C9F270StrArray
 {
@@ -1358,7 +1358,7 @@ void C9F270Object::FUN_00c9f270(C9F270StrArray* pkStrings)
 {
     C9F270MemContext kContext(0x10);
     GetViewerStringsBase(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_pcC9F270ClassName));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_pcC9F270ClassName));
 }
 
 __declspec(thread) int tlsMode = 0x3b;
@@ -1803,7 +1803,7 @@ typedef NiTArray<char*, NiTMallocInterface<char*> > BC9F970StringArray;
 
 extern const char* g_pcC9F970Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 
 class FUN_00c9f970_cls
 {
@@ -1817,7 +1817,7 @@ void FUN_00c9f970_cls::FUN_00c9f970(BC9F970StringArray* pkArray)
 {
     BC9F970AllocTagScope kScope(0x10);
     FUN_00c9f480(pkArray);
-    char* pcName = FUN_00a7d330(g_pcC9F970Name);
+    char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcC9F970Name);
     pkArray->Add(pcName);
 }
 
@@ -2147,7 +2147,7 @@ struct TlsGuard_ca0090
 
 struct MemMgr_ca0090
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 
 struct Sub_ca0090
@@ -2173,7 +2173,7 @@ void* FUN_00ca0090_cls::FUN_00ca0090(unsigned char* out)
     *out = GetObjectKind;
     if (GetObjectKind)
     {
-        unsigned char* raw = (unsigned char*)reinterpret_cast<MemMgr_ca0090*>(&DAT_011f6238)->FUN_00aa3e40(0x30);
+        unsigned char* raw = (unsigned char*)reinterpret_cast<MemMgr_ca0090*>(&DAT_011f6238)->Game_DoHeapAlloc(0x30);
         unsigned char adj = (unsigned char)(0x10 - ((unsigned int)raw & 0xf));
         raw[adj - 1] = adj;
         *(unsigned int*)(raw + adj) = 0;
@@ -2335,7 +2335,7 @@ typedef NiTArray<char*, NiTMallocInterface<char*> > BCA05B0StringArray;
 
 extern const char* g_pcCA05B0Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 
 class FUN_00ca05b0_cls
 {
@@ -2349,7 +2349,7 @@ void FUN_00ca05b0_cls::FUN_00ca05b0(BCA05B0StringArray* pkArray)
 {
     BCA05B0AllocTagScope kScope(0x10);
     FUN_00c851c0(pkArray);
-    char* pcName = FUN_00a7d330(g_pcCA05B0Name);
+    char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcCA05B0Name);
     pkArray->Add(pcName);
 }
 
@@ -2471,7 +2471,8 @@ FUN_00caacf0::~FUN_00caacf0()
 extern int DAT_012683c8;
 
 // @fnv 0x00cb3060
-void* FUN_00cb3060()
+// src: COMMUNITY 0x00cb3060
+void* bhkRigidBodyT_GetRTTI()
 {
     return &DAT_012683c8;
 }
@@ -2482,7 +2483,7 @@ void FUN_00c87700() throw();
 extern __declspec(thread) int threadMode;
 struct MemoryAllocator
 {
-    void* FUN_00aa3e40(unsigned int bytes);
+    void* Game_DoHeapAlloc(unsigned int bytes);
 };
 extern MemoryAllocator DAT_011f6238;
 struct FUN_00cb3860
@@ -2500,7 +2501,7 @@ struct FUN_00cb3860
     }
     static void* operator new(unsigned int)
     {
-        return align((unsigned char*)DAT_011f6238.FUN_00aa3e40(0x50));
+        return align((unsigned char*)DAT_011f6238.Game_DoHeapAlloc(0x50));
     }
 };
 struct ThreadRouterScope
@@ -2745,7 +2746,7 @@ void FUN_00c9f970_cls::FUN_00c9f480(BC9F970StringArray* pkArray)
     TlsGuard_t kGuard;
     typedef void (__thiscall* AppendStrings)(bhkWorldObject*, DebugStrArray*);
     ((AppendStrings)FUN_00c86190)((bhkWorldObject*)this, (DebugStrArray*)pkArray);
-    pkArray->Add(FUN_00a7d330(DAT_0126823c));
+    pkArray->Add(NiViewerStrings_NiGetViewerString_Title(DAT_0126823c));
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
@@ -3006,7 +3007,7 @@ void FUN_00ca0ac0_class::FUN_00ca0ac0(ViewerStringArray* strings)
 {
     TlsGuard_t context;
     FUN_00c9fc50(strings);
-    char* text = FUN_00a7d330(DAT_01268288);
+    char* text = NiViewerStrings_NiGetViewerString_Title(DAT_01268288);
     strings->Add(text);
 }
 
@@ -5575,7 +5576,7 @@ struct StringArray
     }
 };
 extern const char* DAT_01268200;
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d370(const char*, bool);
 char* __cdecl FUN_00a7d5e0(const char*, const char*);
 struct Body
@@ -5672,7 +5673,7 @@ void Object::FUN_00c9d6b0(StringArray* strings)
     AllocationScope scope;
     bool active;
     FUN_00c86190(strings);
-    strings->Add(FUN_00a7d330(DAT_01268200));
+    strings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_01268200));
     strings->Add(FUN_00a7d370("Active", (this && body) ? (*body->isActive_00c9bff0(&active) ? true : false) : false));
     strings->Add(FUN_00a7d370("Fixed", (this && body) ? (body->motionType == 5 ? true : false) : false));
     char buffer[64];
@@ -5894,7 +5895,7 @@ extern __declspec(thread) unsigned int tlsMode;
 extern void* DAT_012683c8;
 extern const char str_010c88a8[];
 extern const char str_010c889c[];
-void* FUN_00a7d330(void*);
+void* NiViewerStrings_NiGetViewerString_Title(void*);
 struct OutputList
 {
     void* field_00;
@@ -5948,7 +5949,7 @@ void Target::FUN_00cb3b20(OutputList* out)
 {
     ModeScope scope;
     FUN_00c8f870(out);
-    out->append(FUN_00a7d330(DAT_012683c8));
+    out->append(NiViewerStrings_NiGetViewerString_Title(DAT_012683c8));
     const float* rotation = reinterpret_cast<const float*>(reinterpret_cast<const char*>(this) + RotationOffset);
     RotationValue value;
     value.x = rotation[0];
@@ -5972,14 +5973,15 @@ struct B00c9fde0
     B00c9fde0();
 };
 // @fnv 0x00c9fe30
-B00c9fde0* __cdecl FUN_00c9fe30()
+// src: COMMUNITY 0x00c9fe30
+B00c9fde0* __cdecl bhkBoxShape_CreateObject()
 {
     return new B00c9fde0;
 }
 
 struct S00cb39d0_S_00aa3e40
 {
-    void* __thiscall FUN_00aa3e40(int size);
+    void* __thiscall Game_DoHeapAlloc(int size);
 };
 
 struct S00cb39d0_S_00cb3860
@@ -5989,7 +5991,7 @@ struct S00cb39d0_S_00cb3860
 
 void* __cdecl operator new(unsigned int size, S00cb39d0_S_00aa3e40& manager, unsigned int allocationSize)
 {
-    unsigned char* ptr = static_cast<unsigned char*>(manager.FUN_00aa3e40(allocationSize));
+    unsigned char* ptr = static_cast<unsigned char*>(manager.Game_DoHeapAlloc(allocationSize));
     unsigned int address = reinterpret_cast<unsigned int>(ptr);
     unsigned char alignment = static_cast<unsigned char>(0x10 - (address & 0x0f));
     ptr += alignment;
@@ -6033,7 +6035,7 @@ void ShapeViewerFields::FUN_00c851c0(BCA05B0StringArray* output)
     DebugStrArray* strings = reinterpret_cast<DebugStrArray*>(output);
     typedef void (__thiscall* AppendStrings)(bhkRefObject*, DebugStrArray*);
     ((AppendStrings)AppendHavokViewerStrings)((bhkRefObject*)this, strings);
-    strings->Add(FUN_00a7d330(DAT_01268100));
+    strings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_01268100));
     strings->Add(FUN_00a7d4d0(DAT_010c59cc, reinterpret_cast<ShapeViewerFields*>(this)->Layer()));
 }
 

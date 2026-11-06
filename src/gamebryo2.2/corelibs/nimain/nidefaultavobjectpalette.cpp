@@ -99,7 +99,8 @@ void NiDefaultAVObjectPalette::LoadBinary(NiStream& stream)
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00a6ef50
-void* __cdecl FUN_00a6ef50()
+// src: COMMUNITY 0x00a6ef50
+void* __cdecl NiTFixedStringMap_NiGlobalConstantEntry_NewItem()
 {
     void* p = g_memoryManager.Allocate(0xC);
     if (!p)
@@ -219,7 +220,8 @@ void __cdecl AddObjectToPaletteRecursive(NiAVObject* apObject, NiDefaultAVObject
 }
 
 // @fnv 0x00a6e8e0
-void __cdecl FUN_00a6e8e0(NiAVObject* object, NiDefaultAVObjectPalette* palette)
+// src: COMMUNITY 0x00a6e8e0
+void __cdecl RecurseAndRemoveObjectsFromPalette(NiAVObject* object, NiDefaultAVObjectPalette* palette)
 {
     if (object == 0)
         return;
@@ -231,7 +233,7 @@ void __cdecl FUN_00a6e8e0(NiAVObject* object, NiDefaultAVObjectPalette* palette)
     if (children == 0)
         return;
     for (unsigned int i = 0; i < children->m_usArraySize; ++i)
-        FUN_00a6e8e0((NiAVObject*)children->m_children[i], palette);
+        RecurseAndRemoveObjectsFromPalette((NiAVObject*)children->m_children[i], palette);
 }
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -455,7 +457,7 @@ struct PaletteMap
     int unk04;
     void* unk08;
     unsigned int m_uiItemCount;
-    void* FUN_00ee8ac0();
+    void* NiTMapIterator_GetFirstPos();
     void FUN_00a8f770(void** iterator, char** key, void** object);
 };
 // Keep the equality implementation here until the shared class declares its override and base call.
@@ -474,7 +476,7 @@ bool PaletteEquality::Equals(PaletteEquality* other)
         return false;
     if (num)
     {
-        void* iterator = reinterpret_cast<PaletteMap&>(m_kObjectMap).FUN_00ee8ac0();
+        void* iterator = reinterpret_cast<PaletteMap&>(m_kObjectMap).NiTMapIterator_GetFirstPos();
         if (iterator)
         {
             void(__stdcall * deallocate)(void*) = DAT_00fdf1c4;
@@ -506,7 +508,7 @@ struct MapNoAlias : PaletteObjectMapView
 struct PaletteSaveShell : public NiDefaultAVObjectPalette
 {
     void FUN_00a6e6c0(NiStream& kStream);
-    void FUN_00a724d0(NiStream& kStream);
+    void NiInterpolator_LinkObject(NiStream& kStream);
 };
 
 template <class T> void WriteBinaryArray(NiBinaryStream& kOstr, const T* pValue, unsigned int uiNumValues)
@@ -518,7 +520,7 @@ template <class T> void WriteBinaryArray(NiBinaryStream& kOstr, const T* pValue,
 // @fnv 0x00a6e6c0
 void PaletteSaveShell::FUN_00a6e6c0(NiStream& kStream)
 {
-    FUN_00a724d0(kStream);
+    NiInterpolator_LinkObject(kStream);
 
     kStream.SaveLinkID(m_pkScene);
 
@@ -556,7 +558,7 @@ void __cdecl FUN_00aa1000()
 
 extern MemoryManager g_viewerMemoryManager;
 extern "C" int __cdecl sprintf(char*, const char*, ...);
-char* FUN_00a7d330(const char* pcName);
+char* NiViewerStrings_NiGetViewerString_Title(const char* pcName);
 extern const char* g_011f4a04;
 extern char* g_nullFixedStringHandle;
 struct ViewerStrings
@@ -637,7 +639,7 @@ struct NiDefaultAVObjectPaletteViewer : public NiDefaultAVObjectPalette
 void NiDefaultAVObjectPaletteViewer::FUN_00a6ed90(ViewerStrings* pkStrings)
 {
     ((PaletteBaseViewer*)this)->GetViewerStrings(pkStrings);
-    char* pcRTTI = FUN_00a7d330(g_011f4a04);
+    char* pcRTTI = NiViewerStrings_NiGetViewerString_Title(g_011f4a04);
     pkStrings->Add(pcRTTI);
     char* pcScene = (char*)g_viewerMemoryManager.Allocate(0x60);
     sprintf(pcScene, "m_pkScene = %s", m_pkScene->m_kName.m_kHandle ? m_pkScene->m_kName.m_kHandle : "UNKNOWN");

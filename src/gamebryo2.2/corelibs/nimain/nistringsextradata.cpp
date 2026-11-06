@@ -10,7 +10,8 @@
 extern "C" void* g_011f5ebc;
 
 // @fnv 0x00a94820
-void* __cdecl FUN_00a94820()
+// src: COMMUNITY 0x00a94820
+void* __cdecl NiStringsExtraData_GetRTTI()
 {
     return &g_011f5ebc;
 }
@@ -128,7 +129,7 @@ void NiStringsExtraData::LoadStringArray(NiStream* stream)
 
 extern "C" void* g_011f5ebc;
 
-char* __cdecl FUN_00a7d330(const char* pcText);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 char* __cdecl FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
 char* __cdecl ViewerStringStr(const char* pcPrefix, const char* pcValue);
 
@@ -165,7 +166,7 @@ struct ExtraDataViewerBase : NiExtraData
 void NiStringsExtraData::FUN_00a94ae0(ViewerStringArray* pViewerStrings)
 {
     reinterpret_cast<ExtraDataViewerBase*>(this)->ExtraDataViewerBase::GetViewerStrings(pViewerStrings);
-    pViewerStrings->Add(FUN_00a7d330((const char*)g_011f5ebc));
+    pViewerStrings->Add(NiViewerStrings_NiGetViewerString_Title((const char*)g_011f5ebc));
     pViewerStrings->Add(FUN_00a7d510("m_uiSize", m_uiSize));
     for (unsigned int i = 0; i < m_uiSize; i++)
     {

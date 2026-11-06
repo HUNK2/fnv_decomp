@@ -261,7 +261,7 @@ struct Body {
     unsigned int unk0a4;
     unsigned int unk0a8;
     int mode;
-    HitArray* FUN_00cac900();
+    HitArray* ahkpCharacterProxy_GetCdPoints();
     S00c73170_Vec* FUN_00cac910();
     void hkpCharacterProxy_setPosition(S00c73170_Vec*);
     void FUN_00cac960(S00c73170_Vec*);
@@ -823,22 +823,22 @@ struct MovementController {
     void FUN_005620e0(NiPoint3*);
     void ClearList();
     Inspect* FUN_00621ad0();
-    void FUN_00c6d150();
+    void bhkCharacterController_ClearPush();
     void FUN_00c70940(float);
     float Evaluate(float,float);
-    unsigned char FUN_009306b0();
-    unsigned char FUN_00c6d120();
+    unsigned char bhkCharacterController_GetIsSwimming();
+    unsigned char bhkCharacterController_GetUseZ();
     void FUN_00c6e420(Rotation*);
     S00c73170_Vec* FUN_00807080();
     Action* FUN_00933810();
     void FUN_0080fb00(S00c73170_Vec*);
-    void FUN_00c72250(float);
-    void FUN_00c6e820();
+    void bhkCharacterController_MoveAsProjectile(float);
+    void bhkCharacterController_InitFrontBack();
     void CallTargetWithArgs(S00c73170_Vec*,unsigned int*);
-    void FUN_00c6cf30(unsigned int*);
-    void FUN_00cac110();
+    void bhkCharacterProxy_Integrate(unsigned int*);
+    void bhkCharacterController_UnMarkWrite();
     Body* FUN_004ae750();
-    void FUN_00c70060();
+    void bhkCharacterController_CalculatePitchAndRoll();
 };
 // @fnv 0x00c73170
 extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, MovementInput* in) {
@@ -888,7 +888,7 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
     bool idle=AreVectorsEqual(&in->displacement,&DAT_011f426c,DAT_010181bc);
     bool mode20=self->fl.Bit(20);
     bool mode19=self->fl.Bit(19);
-    if(!idle) { self->FUN_00c6d150(); self->value528=0;self->value52c=0; }
+    if(!idle) { self->bhkCharacterController_ClearPush(); self->value528=0;self->value52c=0; }
     idle &= self->extraVelocity.equals3(S00c73170_Zero());
     if(!idle) self->fl.Or(8); else self->fl.Clear(8);
     Trace(str_010c4ac0);
@@ -905,14 +905,14 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
     {
         NiPoint3 tempStore=*displacement;
         NiPoint3& temp=tempStore;
-        if(!self->FUN_009306b0() && !self->fl.Bit(11)) temp.z=0;
+        if(!self->bhkCharacterController_GetIsSwimming() && !self->fl.Bit(11)) temp.z=0;
         temp.y=temp.y;
         float& reciprocal=speedTrace.value;
         reciprocal=self->inverse4ec;
         temp*=reciprocal;
         FUN_004a3e00(&self->desiredVelocity,&temp);
     }
-    if(self->FUN_00c6d120() && in->angle!=0) {
+    if(self->bhkCharacterController_GetUseZ() && in->angle!=0) {
         S00c73170_Vec axisAngle; axisAngle.set(-1.0f,0.0f,0.0f,0.0f);
         Rotation q;
         q.FUN_00cb2450(&axisAngle,in->angle);
@@ -933,7 +933,7 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         self->FUN_00933810()->update(self);
         Trace(str_010c41f8);
         self->FUN_0080fb00(&self->velocity);
-        self->FUN_00c72250(self->time4e8);
+        self->bhkCharacterController_MoveAsProjectile(self->time4e8);
     } else {
         DAT_01267bb4=0;
         self->velocity=*self->FUN_00807080();
@@ -941,7 +941,7 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         if(in->active || self->state.FUN_00ca9600()!=0 || !displacement->FUN_004390c0(DAT_011f426c) || self->value450.equals4(S00c73170_Zero())) {
             self->fl.Clear(0x600);
             self->fl.Or(0x10000);
-            self->FUN_00c6e820();
+            self->bhkCharacterController_InitFrontBack();
             self->CallTargetWithArgs(&negAxis,&self->value480);
             self->fl.Clear(0x10000);
             bool contact=self->value480==2 && !self->byte478;
@@ -968,22 +968,22 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         Trace(str_010c41f8);
         if(self->body) self->body->FUN_00cac960(&self->velocity);
         bool changed=true;
-        if(idle && self->state.FUN_00ca9600()!=2 && (self->state.FUN_00ca9600()!=5 || self->velocity(2)==0) && savedBody->FUN_00cac900()->size<=self->hits.size) {
+        if(idle && self->state.FUN_00ca9600()!=2 && (self->state.FUN_00ca9600()!=5 || self->velocity(2)==0) && savedBody->ahkpCharacterProxy_GetCdPoints()->size<=self->hits.size) {
             changed=false;
             for(int i=0;!changed;++i) {
-                HitArray* loopArray=savedBody->FUN_00cac900();
+                HitArray* loopArray=savedBody->ahkpCharacterProxy_GetCdPoints();
                 if(i>=loopArray->size) break;
- HitArray* currentArray=savedBody->FUN_00cac900();
+ HitArray* currentArray=savedBody->ahkpCharacterProxy_GetCdPoints();
  if(!EqualsV(currentArray->data[i].normal.m_vComponents,self->hits.data[i].normal.m_vComponents)) changed=true;
  else {
- currentArray=savedBody->FUN_00cac900();
+ currentArray=savedBody->ahkpCharacterProxy_GetCdPoints();
  BooleanFloatQuery* previous=&self->hits.data[i];
  S00c73170_Vec pos=self->hits.data[i].position;
  if(!pos.equals4(currentArray->data[i].position) ||
-                       previous->material!=savedBody->FUN_00cac900()->data[i].material) changed=true;
+                       previous->material!=savedBody->ahkpCharacterProxy_GetCdPoints()->data[i].material) changed=true;
                     else {
                         BooleanFloatQuery& previousObject=self->hits.data[i];
-                        if(previousObject.object!=savedBody->FUN_00cac900()->data[i].object) changed=true;
+                        if(previousObject.object!=savedBody->ahkpCharacterProxy_GetCdPoints()->data[i].object) changed=true;
                     }
                 }
             }
@@ -991,34 +991,34 @@ extern "C" int __fastcall FUN_00c73170(MovementController* self, void*, Movement
         if(changed) {
             if(mode20) savedBody->mode=1;
             else savedBody->mode=4;
-            self->FUN_00c6cf30(&self->value4e0);
+            self->bhkCharacterProxy_Integrate(&self->value4e0);
             savedBody->mode=4;
         } else {
             self->velocity=S00c73170_Zero();
             if(self->body) self->body->FUN_00cac960(&self->velocity);
         }
         if(DAT_01267bb4 && !(self->fl.value&0x2000)) {
-            self->FUN_00cac110();
+            self->bhkCharacterController_UnMarkWrite();
             Body* target=self->FUN_004ae750();
             S00c73170_Vec position=*target->FUN_00cac910();
             float gravity=DAT_01267bb4->acceleration*self->time4e8;
             position(2)=self->value578+DAT_01267bb0+gravity;
             target->hkpCharacterProxy_setPosition(&position);
             position(2)=gravity+DAT_01267bb0;
-            self->FUN_00cac110();
+            self->bhkCharacterController_UnMarkWrite();
         }
         self->value520=11;
-        int size=savedBody->FUN_00cac900()->size;
+        int size=savedBody->ahkpCharacterProxy_GetCdPoints()->size;
         int n=size>5?5:size;
         for(int i=0;i<n;++i) {
-            if(i<self->hits.size) self->hits.data[i].FUN_006212c0(&savedBody->FUN_00cac900()->data[i]);
+            if(i<self->hits.size) self->hits.data[i].FUN_006212c0(&savedBody->ahkpCharacterProxy_GetCdPoints()->data[i]);
             else {
-                self->hits.Append(&savedBody->FUN_00cac900()->data[i]);
+                self->hits.Append(&savedBody->ahkpCharacterProxy_GetCdPoints()->data[i]);
             }
         }
     }
     }
-    if(self->fl.Bit(25) || self->fl.Bit(26)) self->FUN_00c70060();
+    if(self->fl.Bit(25) || self->fl.Bit(26)) self->bhkCharacterController_CalculatePitchAndRoll();
     if(self->fl.value&0xc0) SetInt(result,2);
     Trace(str_010c41f8);
     if(self->value524>0) {

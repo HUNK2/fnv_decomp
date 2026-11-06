@@ -427,7 +427,8 @@ extern void* DAT_011f9508;
 extern unsigned int _data_011c16bc;
 
 // @fnv 0x00bd5920
-FUN_00bd5670* FUN_00bd5920()
+// src: COMMUNITY 0x00bd5920
+FUN_00bd5670* DistantLODShader_CreateShader()
 {
     NiD3DVertexDeclaration* declaration = NiD3DVertexDeclaration::Create((NiRenderer*)DAT_011f9508, 4, 1);
 
@@ -453,11 +454,12 @@ FUN_00bd5670* FUN_00bd5920()
 struct FUN_00bd5a40_shell
 {
     void __thiscall SetupRenderPass();
-    bool __thiscall FUN_00bd5a40();
+    bool __thiscall DistantLODShader_Func_80();
 };
 
 // @fnv 0x00bd5a40
-bool FUN_00bd5a40_shell::FUN_00bd5a40()
+// src: COMMUNITY 0x00bd5a40
+bool FUN_00bd5a40_shell::DistantLODShader_Func_80()
 {
     NiD3DPass::CreateD3DPass(*(NiD3DPass**)((char*)this + 0x6c));
     SetupRenderPass();
@@ -651,7 +653,7 @@ void RSShader::SetupRenderPass()
     RSTexturePtr spTexture;
     RSGetTexture(&spTexture);
     RSSetupTexture(spTexture.m_pObject, 0, 3, 2, 1);
-    m_pRenderPass->FUN_00e802b0(m_pRenderPass->m_uiCurrentStage, reinterpret_cast<BeamStage*>(spTexture.m_pObject));
+    m_pRenderPass->NiD3DPass_SetStage(m_pRenderPass->m_uiCurrentStage, reinterpret_cast<BeamStage*>(spTexture.m_pObject));
     m_pRenderPass->SetVertexShader(m_pkVertexShader);
     m_pRenderPass->SetPixelShader(m_pkPixelShader);
     D3DRenderStateGroup* pkRS;

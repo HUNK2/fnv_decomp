@@ -111,7 +111,8 @@ void FUN_00cd06a0_class::ResetVftableAndDeleteCriticalSection()
 }
 
 // @fnv 0x00c661c0
-int __stdcall FUN_00c661c0(unsigned int arg0, unsigned int arg1)
+// src: COMMUNITY 0x00c661c0
+int __stdcall hkMemoryAllocator_getAllocatedSize(unsigned int arg0, unsigned int arg1)
 {
     return (int)arg1;
 }
@@ -134,13 +135,15 @@ void S_00d5e8f0::hkSolverAllocator_resetPeakMemoryStatistics()
 }
 
 // @fnv 0x00d5e880
-int __stdcall FUN_00d5e880(int arg0)
+// src: COMMUNITY 0x00d5e880
+int __stdcall hkSolverAllocator_blockAlloc(int arg0)
 {
     return 0;
 }
 
 // @fnv 0x00d5e890
-void __stdcall FUN_00d5e890(void* context, unsigned int flags)
+// src: COMMUNITY 0x00d5e890
+void __stdcall nullsub_79(void* context, unsigned int flags)
 {}
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* cs);

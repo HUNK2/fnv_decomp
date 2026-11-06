@@ -33,9 +33,10 @@ void FlameProjectile::FUN_009b3f00(BGSLoadFormBuffer* apLoadGameBuffer)
 
 // Calls the base Projectile load routine, then zeroes the two floats at offsets 0x150 and 0x154.
 // @fnv 0x009b3f50
-void FlameProjectile::FUN_009b3f50(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x009b3f50
+void FlameProjectile::RevertBGS_009b3f50(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    Projectile::FUN_009c58e0(apLoadGameBuffer);
+    Projectile::RevertBGS_009c58e0(apLoadGameBuffer);
     *(float*)((char*)this + 0x150) = 0.0f;
     *(float*)((char*)this + 0x154) = 0.0f;
 }

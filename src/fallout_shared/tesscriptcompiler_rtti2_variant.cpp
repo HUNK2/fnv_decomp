@@ -125,9 +125,9 @@ int FUN_005af5f0(EncodeCompiler*, EncodeWord*, char*, unsigned*, unsigned char, 
 
 void FUN_005aea90(EncodeCompiler*, const char*, ...);
 
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 
 void* FUN_00401460(void*, const void*, unsigned);
 
@@ -858,7 +858,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
             break;
 
             default:
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SCRIPTS: Param type '%d' (referenced object) unimplemented in ScriptCompiler::StandardCompile.",
                     parameters[index4].type);
                 return false;
@@ -1001,7 +1001,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
 
                 for (value = 0; value < 5; ++value)
                 {
-                    if (!FUN_00404dc0(DAT_01186cf4[value], word7.text))
+                    if (!BSstricmp(DAT_01186cf4[value], word7.text))
                         break;
                 }
 
@@ -1027,7 +1027,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
 
                 for (value = 0; value < 5; ++value)
                 {
-                    if (!FUN_00404dc0(DAT_0119bbb0[value], word7.text))
+                    if (!BSstricmp(DAT_0119bbb0[value], word7.text))
                         break;
                 }
 
@@ -1053,7 +1053,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
 
                 for (value = 0; value < 14; ++value)
                 {
-                    if (!FUN_00404dc0(DAT_011869bc[value], word7.text))
+                    if (!BSstricmp(DAT_011869bc[value], word7.text))
                         break;
                 }
 
@@ -1142,10 +1142,10 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
 
                 int value = 2;
 
-                if (!FUN_00404dc0(word7.text, DAT_01199e8c))
+                if (!BSstricmp(word7.text, DAT_01199e8c))
                     value = 0;
 
-                else if (!FUN_00404dc0(word7.text, DAT_01199e90))
+                else if (!BSstricmp(word7.text, DAT_01199e90))
                     value = 1;
 
                 if (value == 2)
@@ -1170,7 +1170,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
 
                 for (jProbe3 = 0; jProbe3 < 245; ++jProbe3)
                 {
-                    if (!FUN_00404dc0(word7.text, DAT_011977d8[jProbe3].name))
+                    if (!BSstricmp(word7.text, DAT_011977d8[jProbe3].name))
                     {
                         value = jProbe3;
                         break;
@@ -1197,7 +1197,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
 
                 for (int j = 0; j < 87; ++j)
                 {
-                    if (!FUN_00404dc0(word7.text, DAT_0118a2d8[j]))
+                    if (!BSstricmp(word7.text, DAT_0118a2d8[j]))
                     {
                         value = DAT_0118a598[j];
                         break;
@@ -1218,7 +1218,7 @@ bool __cdecl ScriptCompiler_StandardCompile(unsigned short count, const EncodePa
             break;
 
             default:
-                FUN_005b5e40("SCRIPTS: Param type '%d' unimplemented in ScriptCompiler::StandardCompile.",
+                Warning_005b5e40("SCRIPTS: Param type '%d' unimplemented in ScriptCompiler::StandardCompile.",
                              parameters[index4].type);
                 return false;
             }

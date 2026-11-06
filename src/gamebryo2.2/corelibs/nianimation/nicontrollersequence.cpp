@@ -49,7 +49,8 @@ inline NiFixedString::operator const char*() const
 extern const char* const g_011c7d74_arg1;
 
 // @fnv 0x00a31730
-const char* const* __cdecl FUN_00a31730()
+// src: COMMUNITY 0x00a31730
+const char* const* __cdecl NiControllerSequence_GetRTTI()
 {
     return &g_011c7d74_arg1;
 }
@@ -226,7 +227,8 @@ unsigned char NiControllerSequence::SetEaseOut(float fEaseOutTime, bool bTransit
 
 
 // @fnv 0x00a30900
-void NiControllerSequence::FUN_00a30900(char cDefaultPriority)
+// src: COMMUNITY 0x00a30900
+void NiControllerSequence::AttachInterpolators(char cDefaultPriority)
 {
     unsigned int ui;
     NiControllerSequence__InterpArrayItem* kItem;
@@ -271,12 +273,12 @@ extern int(__stdcall* DAT_00fdf1c4)(void*);
 
 struct FUN_00a31500_shell
 {
-    void __thiscall FUN_00a31500(int);
+    void __thiscall NiControllerSequence_InterpArrayItem_Free(int);
 };
 
 struct FUN_00a315b0_shell
 {
-    void __thiscall FUN_00a315b0(int);
+    void __thiscall NiControllerSequence_IDTag_Free(int);
 };
 
 struct FUN_00a31740_shell
@@ -298,13 +300,13 @@ void NiControllerSequence::FUN_00a35640()
     if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x14) != 0)
     {
         reinterpret_cast<FUN_00a31500_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x14))
-            ->FUN_00a31500(3);
+            ->NiControllerSequence_InterpArrayItem_Free(3);
     }
 
     if (*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x18) != 0)
     {
         reinterpret_cast<FUN_00a315b0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x18))
-            ->FUN_00a315b0(3);
+            ->NiControllerSequence_IDTag_Free(3);
     }
 
     if (*reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(this) + 0x70) > 0 &&
@@ -491,7 +493,8 @@ float NiControllerSequence::FUN_00a30970(float time, bool update)
 
 bool __stdcall MatchesTextKeys(void* arg);
 // @fnv 0x00a30c80
-bool NiControllerSequence::FUN_00a30c80(void* arg)
+// src: COMMUNITY 0x00a30c80
+bool NiControllerSequence::CanSyncTo(void* arg)
 {
     if (arg)
     {
@@ -664,7 +667,7 @@ struct FUN_00a315b0_Elem
 class FUN_00a315b0_Base
 {
   public:
-    void FUN_00a30750();
+    void NiControllerSequence_IDTag_Destroy();
 };
 
 class FUN_00a315b0_cls
@@ -676,11 +679,12 @@ class FUN_00a315b0_cls
     char* m_0c;
     char* m_10;
 
-    FUN_00a315b0_cls* FUN_00a315b0(unsigned char acFlags);
+    FUN_00a315b0_cls* NiControllerSequence_IDTag_Free(unsigned char acFlags);
 };
 
 // @fnv 0x00a315b0
-FUN_00a315b0_cls* FUN_00a315b0_cls::FUN_00a315b0(unsigned char acFlags)
+// src: COMMUNITY 0x00a315b0
+FUN_00a315b0_cls* FUN_00a315b0_cls::NiControllerSequence_IDTag_Free(unsigned char acFlags)
 {
     if (acFlags & 2)
     {
@@ -723,7 +727,7 @@ FUN_00a315b0_cls* FUN_00a315b0_cls::FUN_00a315b0(unsigned char acFlags)
         return (FUN_00a315b0_cls*)base;
     }
 
-    ((FUN_00a315b0_Base*)this)->FUN_00a30750();
+    ((FUN_00a315b0_Base*)this)->NiControllerSequence_IDTag_Destroy();
     if (acFlags & 1)
     {
         DAT_011f6238.FUN_00aa4060(this);
@@ -898,7 +902,7 @@ struct SlotInfo
     unsigned int m_unk08;
     unsigned int m_unk0c;
     unsigned int m_unk10;
-    void FUN_00a31400(unsigned int value);
+    void NiControllerSequence_IDTag_Operator_Set(unsigned int value);
 };
 
 
@@ -916,7 +920,7 @@ int NiControllerSequence::AssignSlot(NiRefObject* apRef, unsigned int auiValue, 
     }
     if (idx == count)
     {
-        if (!FUN_00a32330())
+        if (!NiControllerSequence_ReallocateArrays())
         {
             return -1;
         }
@@ -938,7 +942,7 @@ int NiControllerSequence::AssignSlot(NiRefObject* apRef, unsigned int auiValue, 
             InterlockedIncrement((long*)&apRef->m_uiRefCount);
         }
     }
-    ((SlotInfo*)m_pkIDTags)[idx].FUN_00a31400(auiValue);
+    ((SlotInfo*)m_pkIDTags)[idx].NiControllerSequence_IDTag_Operator_Set(auiValue);
     ((SlotEntry*)m_pInterpArray)[idx].m_flag0d = aucFlag;
     return idx;
 }
@@ -1037,7 +1041,7 @@ struct TagItem
     const char* fifth;
 };
 
-void* __cdecl FUN_00a7d330(void*);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 void* __cdecl FormatStringWithType(const char*, void*);
 void* __cdecl FUN_00a7d510(const char*, unsigned int);
 void* __cdecl FUN_00a7d550(const char*, float);
@@ -1058,7 +1062,7 @@ void NiControllerSequence::AddViewerStrings(NiViewerStringsArray* strings)
 {
     OutputArray* output = (OutputArray*)strings;
     NiObject::AddViewerStrings(strings);
-    output->Append(FUN_00a7d330(DAT_011f36dc));
+    output->Append(NiViewerStrings_NiGetViewerString_Title(DAT_011f36dc));
     output->Append(FormatStringWithType(&DAT_01044a7c, (void*)m_eAnimationState));
     output->Append(FUN_00a7d510(&DAT_01096678, m_uiNumControlledBlocks));
     output->Append(FUN_00a7d550(&DAT_0105ac84, m_fWeight));
@@ -1260,13 +1264,14 @@ void __cdecl _NiFree_00aa10f0(void* pv)
 struct FUN_00a30750_shell
 {
     char* m_kPointA[5];
-    void FUN_00a30750();
+    void NiControllerSequence_IDTag_Destroy();
 };
 
 extern int EmptyFS;
 
 // @fnv 0x00a30750
-void FUN_00a30750_shell::FUN_00a30750()
+// src: COMMUNITY 0x00a30750
+void FUN_00a30750_shell::NiControllerSequence_IDTag_Destroy()
 {
     char* p;
     p = m_kPointA[4];
@@ -1360,13 +1365,13 @@ extern const char str_01020f94[];
 extern const char str_0109655c[];
 struct S_00a31140_Allocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int);
+    void* __thiscall Game_DoHeapAlloc(unsigned int);
 };
 extern "C" void __cdecl FUN_00ec623a(void*, const char*, const char*, const char*);
 // @fnv 0x00a31140
 void* __cdecl FormatStringWithType(const char* pcText, void* arg2)
 {
-    void* esi = ((S_00a31140_Allocator&)DAT_011f6238).FUN_00aa3e40((unsigned int)strlen(pcText) + 0x20);
+    void* esi = ((S_00a31140_Allocator&)DAT_011f6238).Game_DoHeapAlloc((unsigned int)strlen(pcText) + 0x20);
     const char* eax = 0;
     switch ((unsigned int)arg2)
     {
@@ -1413,12 +1418,13 @@ class A1400StringGroup
     NiFixedString m_kName3;
     NiFixedString m_kName4;
 
-    A1400StringGroup& FUN_00a31400(const A1400StringGroup& kOther);
+    A1400StringGroup& NiControllerSequence_IDTag_Operator_Set(const A1400StringGroup& kOther);
 };
 
 // Assigns each of the five fixed-string members from kOther and returns *this.
 // @fnv 0x00a31400
-A1400StringGroup& A1400StringGroup::FUN_00a31400(const A1400StringGroup& kOther)
+// src: COMMUNITY 0x00a31400
+A1400StringGroup& A1400StringGroup::NiControllerSequence_IDTag_Operator_Set(const A1400StringGroup& kOther)
 {
     m_kName0 = kOther.m_kName0;
     m_kName1 = kOther.m_kName1;
@@ -1874,12 +1880,13 @@ struct A31500Item
     }
 
     void ReleaseRefs();
-    A31500Item* FUN_00a31500(unsigned char m_ucEntryType);
+    A31500Item* NiControllerSequence_InterpArrayItem_Free(unsigned char m_ucEntryType);
 };
 
 // Releases references for this item or preceding items, conditionally calls another function, and returns this or the count address.
 // @fnv 0x00a31500
-A31500Item* A31500Item::FUN_00a31500(unsigned char m_ucEntryType)
+// src: COMMUNITY 0x00a31500
+A31500Item* A31500Item::NiControllerSequence_InterpArrayItem_Free(unsigned char m_ucEntryType)
 {
     if (m_ucEntryType & 2)
     {
@@ -2191,7 +2198,8 @@ static __forceinline unsigned short AddTarget31910(NiMultiTargetTransformControl
     return DAT_01096320;
 }
 // @fnv 0x00a31910
-bool NiControllerSequence::FUN_00a31910(NiAVObject* targetObject, NiAVObject* rootObject, int unused)
+// src: COMMUNITY 0x00a31910
+bool NiControllerSequence::ResolveTransformInterpolators(NiAVObject* targetObject, NiAVObject* rootObject, int unused)
 {
     Node31910* target = (Node31910*)targetObject;
     Node31910* root = (Node31910*)rootObject;
@@ -2612,8 +2620,8 @@ void NiControllerSequence::ProcessClone(CloningProcess& cloning)
 
 struct Ctl43c
 {
-    void FUN_00a31500(int iFlags);
-    void FUN_00a315b0(int iFlags);
+    void NiControllerSequence_InterpArrayItem_Free(int iFlags);
+    void NiControllerSequence_IDTag_Free(int iFlags);
 };
 
 
@@ -2631,9 +2639,9 @@ void NiControllerSequence::ClearInterpolatorRefs(NiControllerSequence* pkSrc, in
             pObj->DecRefCount();
     }
     if (pkSrc->m_pInterpArray)
-        ((Ctl43c*)pkSrc->m_pInterpArray)->FUN_00a31500(3);
+        ((Ctl43c*)pkSrc->m_pInterpArray)->NiControllerSequence_InterpArrayItem_Free(3);
     if (pkSrc->m_pkIDTags)
-        ((Ctl43c*)pkSrc->m_pkIDTags)->FUN_00a315b0(3);
+        ((Ctl43c*)pkSrc->m_pkIDTags)->NiControllerSequence_IDTag_Free(3);
     FUN_00a33570(pkSrc, iArg);
 }
 
@@ -3667,7 +3675,8 @@ extern unsigned short DAT_01096320;
 
 // Copies cycleType, frequency, beginTime, endTime and interpolator slots from this sequence into destination, optionally clearing destination slots first.
 // @fnv 0x00a32fa0
-void NiControllerSequence::FUN_00a32fa0(NiControllerSequence* destination, int, int, bool remove)
+// src: COMMUNITY 0x00a32fa0
+void NiControllerSequence::PopulatePoseSequence(NiControllerSequence* destination, int, int, bool remove)
 {
     if (remove)
     {
@@ -3702,7 +3711,7 @@ void NiControllerSequence::FUN_00a32fa0(NiControllerSequence* destination, int, 
                         FUN_00a312d0((NiFixedString&)DAT_011f49e0, (NiFixedString&)DAT_011f49e0, (NiFixedString&)DAT_011f49e0,
                                      (NiFixedString&)DAT_011f49e0, (NiFixedString&)DAT_011f49e0),
                     0xff);
-                ((FUN_00a30750_shell*)&tag)->FUN_00a30750();
+                ((FUN_00a30750_shell*)&tag)->NiControllerSequence_IDTag_Destroy();
                 S00a32fa0_Item& newItem = ((S00a32fa0_Item*)destination->m_pInterpArray)[newIndex];
                 newItem.blend = item.blend;
                 newItem.controller = item.controller;

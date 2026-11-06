@@ -68,7 +68,8 @@ void NightEyeEffect::Revert(Actor* apActor)
 }
 
 // @fnv 0x008258a0
-NightEyeEffect* FUN_008258a0(void* apArg0, void* apArg1, void* apArg2)
+// src: COMMUNITY 0x008258a0
+NightEyeEffect* NightEyeEffect_Create(void* apArg0, void* apArg1, void* apArg2)
 {
     return new NightEyeEffect(apArg0, apArg1, apArg2);
 }

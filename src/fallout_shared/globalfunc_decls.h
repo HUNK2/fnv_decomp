@@ -86,7 +86,7 @@ extern NiFixedString* DAT_011c6270;
 extern NiFixedString* DAT_011c6274;
 extern NiFixedString* DAT_011c6278;
 #include "../../include/LANGUAGE.h"
-int FUN_004b71a0();
+int GetIsControllerConnected_();
 LANGUAGE GetConfiguredLanguage();
 const char* LocateString(const char*, const char*);
 template <class T> unsigned int BSStringLength(const T*);
@@ -108,11 +108,11 @@ extern NiNode* DAT_011c6328;
 extern NiControllerManager* DAT_011c6324;
 extern NiRTTI DAT_011f36ac;
 const NiFixedString& FUN_00448a80();
-const NiFixedString& FUN_004b5f60();
-const NiFixedString& FUN_004b5f70();
-const NiFixedString& FUN_004b5f80();
-const NiFixedString& FUN_004b5f90();
-int FUN_00404dc0(const char*, const char*);
+const NiFixedString& get_g_EditorMarker();
+const NiFixedString& get_g_EditorMarker0();
+const NiFixedString& get_g_EditorMarker1();
+const NiFixedString& get_g_EditorMarker2();
+int BSstricmp(const char*, const char*);
 extern "C" int _strnicmp(const char*, const char*, unsigned int);
 
 extern NiRTTI DAT_012024e0;
@@ -131,8 +131,8 @@ struct CollisionObjectCountContext
     unsigned int uiFilterFlags;
 };
 class NiCollisionObject;
-void FUN_004b6740(NiCollisionObject*, CollisionObjectCountContext*);
-void FUN_00c68900(NiAVObject*, CollisionObjectCountContext*,
+void GetCollisionObjectByIndex(NiCollisionObject*, CollisionObjectCountContext*);
+void bhkWorld_DoObjectRec(NiAVObject*, CollisionObjectCountContext*,
                   void (*)(NiCollisionObject*, CollisionObjectCountContext*));
 
 class RecipeCraftingInfo

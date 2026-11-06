@@ -9,10 +9,11 @@ struct AlphaColor
 };
 struct FUN_006a7d30_shell
 {
-    void FUN_006a7d30(float f);
+    void AStarSearch_NavMeshSearchNode_NavMeshSearchLink_SetMaxFitness(float f);
 };
 // @fnv 0x006a7d30
-void FUN_006a7d30_shell::FUN_006a7d30(float afValue)
+// src: COMMUNITY 0x006a7d30
+void FUN_006a7d30_shell::AStarSearch_NavMeshSearchNode_NavMeshSearchLink_SetMaxFitness(float afValue)
 {
     ((AlphaColor*)((char*)this + 0x1ff4))->FUN_0052ce20(afValue);
 }

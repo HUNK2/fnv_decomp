@@ -15,7 +15,7 @@ struct DecalcasterOffset08View
 const void* __fastcall FUN_004b59d0(const char*);
 struct DecalCaster
 {
-    const RootContactPoint* FUN_006232f0(unsigned int);
+    const RootContactPoint* DecalCaster_GetCollision(unsigned int);
     unsigned int GetCollisionFlags(unsigned int);
 };
 // Looks up the entry at aiIndex, resolves its name to a collision object, casts it to NiAVObject and returns its flags, or 0 if absent.
@@ -26,7 +26,7 @@ unsigned int DecalCaster::GetCollisionFlags(unsigned int aiIndex)
     uiFlags = 0;
     {
         const RootContactPoint* pEntry;
-        pEntry = FUN_006232f0(aiIndex);
+        pEntry = DecalCaster_GetCollision(aiIndex);
         if (pEntry->m_pRootCollidableB)
         {
             {

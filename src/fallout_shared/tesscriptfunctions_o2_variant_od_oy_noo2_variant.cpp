@@ -98,7 +98,7 @@ struct __declspec(align(16)) ObjA
     void FUN_004a3f70(int);
     void FUN_004a3da0(NiPoint3*);
     void FUN_004a3eb0(NiPoint3*);
-    void FUN_005dbe60(NiPoint3*);
+    void bhkPickData_NiCalcHitPoint(NiPoint3*);
 };
 struct S36
 {
@@ -121,7 +121,7 @@ struct NodeS
     S36* FUN_00461130();
 };
 unsigned int FUN_0045c670();
-NiPoint3* __fastcall FUN_005df5b0(void*);
+NiPoint3* __fastcall PlayerCharacter_GetCameraPosition(void*);
 struct StrSrc
 {
     void* FUN_00931ed0(int*);
@@ -590,7 +590,7 @@ bool Cmd_PlaceAtReticle_Execute(const ScriptParameter* a0, const char* a1, TESOb
     p134.FUN_005df510(1, &p140);
     s36.GetRowFloats(2, &p140.y, &p140.z, &p140.x);
     p134.FUN_005df510(2, &p140);
-    reinterpret_cast<NiPoint3&>(posStorage) = *FUN_005df5b0(g_thePlayer);
+    reinterpret_cast<NiPoint3&>(posStorage) = *PlayerCharacter_GetCameraPosition(g_thePlayer);
     pt = p134.FUN_004b4500(&pt) + reinterpret_cast<NiPoint3&>(posStorage);
     int out15c;
     ((StrSrc*)g_thePlayer)->FUN_00931ed0(&out15c);
@@ -604,7 +604,7 @@ bool Cmd_PlaceAtReticle_Execute(const ScriptParameter* a0, const char* a1, TESOb
     int res168 = g_TES->FUN_00458420(&objA);
     (void)res168;
     NiPoint3 pt174;
-    objA.FUN_005dbe60(&pt174);
+    objA.bhkPickData_NiCalcHitPoint(&pt174);
     float pos180Storage[3];
     reinterpret_cast<NiPoint3&>(pos180Storage) = *g_thePlayer->GetPos1f4();
     if (((TESForm*)form)->IsActor_InEditor())
@@ -649,15 +649,16 @@ void __cdecl FUN_00458620(NiPoint3* pTarget, const S005dbe60_Vector* pValue);
 class S005dbe60_Object
 {
   public:
-    void FUN_005dbec0(S005dbe60_Vector* pOut) const;
-    void FUN_005dbe60(NiPoint3* pTarget) const;
+    void bhkPickData_CalcHitPoint(S005dbe60_Vector* pOut) const;
+    void bhkPickData_NiCalcHitPoint(NiPoint3* pTarget) const;
 };
 
 // @fnv 0x005dbe60
-void S005dbe60_Object::FUN_005dbe60(NiPoint3* pTarget) const
+// src: COMMUNITY 0x005dbe60
+void S005dbe60_Object::bhkPickData_NiCalcHitPoint(NiPoint3* pTarget) const
 {
     S005dbe60_Vector kValue;
-    FUN_005dbec0(&kValue);
+    bhkPickData_CalcHitPoint(&kValue);
     FUN_00458620(pTarget, &kValue);
 }
 
@@ -686,7 +687,7 @@ class S005dbec0_Result
 class S005dbec0_Object
 {
   public:
-    void FUN_005dbec0(S005dbec0_Result* pOut) const;
+    void bhkPickData_CalcHitPoint(S005dbec0_Result* pOut) const;
 
     LocalM128 unk00;
     S005dbec0_Vector m_kPoint;
@@ -696,7 +697,8 @@ class S005dbec0_Object
 };
 
 // @fnv 0x005dbec0
-void S005dbec0_Object::FUN_005dbec0(S005dbec0_Result* pOut) const
+// src: COMMUNITY 0x005dbec0
+void S005dbec0_Object::bhkPickData_CalcHitPoint(S005dbec0_Result* pOut) const
 {
     S005dbec0_SimdReal kScale(m_fScale);
     pOut->FUN_005dbf70(this, &m_kPoint, &kScale);
@@ -715,7 +717,7 @@ extern "C"
 extern const N::LocalM128 DAT_010ec7f0;
 struct BlendSource
 {
-    void FUN_00561240(N::LocalM128* pOut);
+    void hkSimdReal_broadcast(N::LocalM128* pOut);
 };
 struct BlendTarget
 {
@@ -726,7 +728,7 @@ struct BlendTarget
 void BlendTarget::FUN_005dbf70(const N::LocalM128* pA, const N::LocalM128* pB, BlendSource* pSource)
 {
     N::LocalM128 pos;
-    pSource->FUN_00561240(&pos);
+    pSource->hkSimdReal_broadcast(&pos);
     N::LocalM128 delta = N::_mm_sub_ps(DAT_010ec7f0, pos);
     m_uiFilterValue = N::_mm_add_ps(N::_mm_mul_ps(delta, *pA), N::_mm_mul_ps(pos, *pB));
 }
@@ -774,7 +776,7 @@ bool Cmd_PlaceAtReticle_Execute(const ScriptParameter* a0, const char* a1, TESOb
     p134.FUN_005df510(1, &p140);
     s36.GetRowFloats(2, &p140.y, &p140.z, &p140.x);
     p134.FUN_005df510(2, &p140);
-    reinterpret_cast<NiPoint3&>(posStorage) = *FUN_005df5b0(g_thePlayer);
+    reinterpret_cast<NiPoint3&>(posStorage) = *PlayerCharacter_GetCameraPosition(g_thePlayer);
     pt = p134.FUN_004b4500(&pt) + reinterpret_cast<NiPoint3&>(posStorage);
     int out15c;
     ((StrSrc*)g_thePlayer)->FUN_00931ed0(&out15c);
@@ -788,7 +790,7 @@ bool Cmd_PlaceAtReticle_Execute(const ScriptParameter* a0, const char* a1, TESOb
     int res168 = g_TES->FUN_00458420(&objA);
     (void)res168;
     NiPoint3 pt174;
-    objA.FUN_005dbe60(&pt174);
+    objA.bhkPickData_NiCalcHitPoint(&pt174);
     float pos180Storage[3];
     reinterpret_cast<NiPoint3&>(pos180Storage) = *g_thePlayer->GetPos1f4();
     if (((TESForm*)form)->IsActor_InEditor())

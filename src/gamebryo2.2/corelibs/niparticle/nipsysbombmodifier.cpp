@@ -73,7 +73,7 @@ static inline void AddBombString(StrArr* strings, char* str)
 namespace fnv_00c2ed00 {
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610* g_01202790;
-char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObjectO2_00a7b610*);
 char* __cdecl FUN_00a7d5e0(const char*, const char*);
 char* __cdecl FUN_00a7d550(const char*, float);
 
@@ -116,7 +116,7 @@ void NiPSysBombModifier::AppendToStrings(StrArr* pkStrings)
     using namespace fnv_00c2ed00;
     FUN_00c319e0(pkStrings);
 
-    AddBombString(pkStrings, FUN_00a7d330(g_01202790));
+    AddBombString(pkStrings, NiViewerStrings_NiGetViewerString_Title(g_01202790));
     AddBombString(pkStrings, FUN_00a7d5e0("Bomb Object", m_pkBombObject ? ((NiAVObject*)m_pkBombObject)->m_kName.m_kHandle : "None"));
     AddBombString(pkStrings, m_kBombDirection.FUN_00a59af0("Bomb Axis"));
     AddBombString(pkStrings, FUN_00a7d550("Decay", m_fDistanceDecay));

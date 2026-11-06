@@ -26,7 +26,7 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void Save_0048cca0();
 };
 struct FUN_0048b5c0_shell
 {

@@ -229,7 +229,7 @@ void TESModel::LoadModelData(TESModel* model, TESFile* file)
     case 0x44534f4d: {
         unsigned char flags;
         file->GetChunkData(&flags, 1);
-        model->FUN_004893c0(flags);
+        model->SetFlags_004893c0(flags);
     }
     break;
     }
@@ -329,12 +329,13 @@ bool FUN_0048af90_shell::Equals(const char* apOther)
 
 struct FUN_00409aa0_shell
 {
-    void FUN_00409aa0(unsigned int flags, bool set);
+    void IngredientItem_SetFlag(unsigned int flags, bool set);
 };
 
 // Sets or clears the given flag bits in the byte at offset 0xa0 of this object.
 // @fnv 0x00409aa0
-void FUN_00409aa0_shell::FUN_00409aa0(unsigned int flags, bool set)
+// src: COMMUNITY 0x00409aa0
+void FUN_00409aa0_shell::IngredientItem_SetFlag(unsigned int flags, bool set)
 {
     set ? ((unsigned char*)this)[0xa0] |= flags : ((unsigned char*)this)[0xa0] &= ~flags;
 }
@@ -522,7 +523,7 @@ struct TextureSwapCount
 {
     int GetSize();
 };
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 
 // @fnv 0x0048ac40
 bool TESModelTextureSwap::CompareTextureSwaps(BaseFormComponent* other)
@@ -544,7 +545,7 @@ bool TESModelTextureSwap::CompareTextureSwaps(BaseFormComponent* other)
             return true;
         if (pMine->formID != pSwap->formID)
             return true;
-        if (pMine->objectName[0] && pSwap->objectName[0] && FUN_00404dc0(pMine->objectName, pSwap->objectName))
+        if (pMine->objectName[0] && pSwap->objectName[0] && BSstricmp(pMine->objectName, pSwap->objectName))
             return true;
         pNode = pNode->FUN_00726070();
     }
@@ -565,7 +566,7 @@ class ObjectRef
     int FUN_0084e3a0();
 };
 
-char* __cdecl FUN_00401000(unsigned int);
+char* __cdecl FormHeap_Allocate(unsigned int);
 unsigned int __cdecl FUN_0044a670(unsigned int);
 bool __cdecl FUN_00401500();
 struct FUN_00401080_tag
@@ -601,7 +602,7 @@ bool TESModelTextureSwap::SerializeList(char** apBuffer, unsigned int* auiSize)
             count++;
             iT = iT->FUN_00726070();
         }
-        *apBuffer = FUN_00401000(*auiSize);
+        *apBuffer = FormHeap_Allocate(*auiSize);
         _w = *apBuffer;
         loA2 = count;
         if (FUN_00401500())

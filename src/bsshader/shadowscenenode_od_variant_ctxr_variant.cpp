@@ -8,7 +8,7 @@
 
 struct FUN_00c5b5a0_cls
 {
-    int __thiscall FUN_00c5b5a0(int idx);
+    int __thiscall BSPortalGraph_GetAlwaysRenderAt(int idx);
 };
 extern "C" char DAT_01203144, DAT_01203150, DAT_011f9426, DAT_011f9434, DAT_01016264, DAT_01023128, DAT_01070c80,
     DAT_01070c70;
@@ -116,13 +116,13 @@ struct FUN_00a712f0
     void FUN_00507700(float);
     void FUN_00a6faf0(const Frustum2180&);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
-    void FUN_00733fd0(float);
+    void NiCamera_SetMinNearPlaneDist(float);
     void FUN_00a59c60(const Update2180&);
     void AssignFixedString(const String2180&);
 };
 struct Target2180
 {
-    FUN_00a712f0* FUN_007c2180();
+    FUN_00a712f0* BlackJackMenu_SetupCamera();
 };
 extern "C" int __cdecl strncmp_r006056f0(const char*, const char*, unsigned int);
 
@@ -134,7 +134,7 @@ struct UpdateList
     unsigned size;
     unsigned capacity;
     void FUN_0096a610(const unsigned&);
-    void FUN_0060ba10(const struct LocalNodePtr&);
+    void NiTObjectArray_NiPointer_NiTexture_Add(const struct LocalNodePtr&);
 };
 struct LocalNodePtr
 {
@@ -304,7 +304,7 @@ struct UpdateObject
     UpdateObject* FUN_00503650();
     bool FUN_008256d0();
     unsigned* FUN_006815c0();
-    unsigned FUN_00613970(unsigned, unsigned);
+    unsigned GetHeadPartModel_00613970(unsigned, unsigned);
     unsigned GetBodyPartTexture(unsigned, unsigned);
 };
 struct NodePointer
@@ -436,18 +436,18 @@ struct UpdateOwner
     NodePointer previous;
     NodePointer current;
     unsigned FUN_00603b50();
-    float FUN_00602130();
+    float GetHairLength();
     unsigned FUN_00602150();
     unsigned FUN_005f0cc0();
-    unsigned FUN_004169d0();
+    unsigned TESDataHandler_GetRegionList();
     void FUN_00603ad0(UpdatePacket&);
     void CreatePartTexture(unsigned, LocalNodePtr&);
-    void FUN_006056f0(UpdateObject* object);
+    void TESNPC_FixNPCNormals(UpdateObject* object);
 };
 bool FUN_00605d20();
 const void* FUN_00605d40(unsigned);
-bool FUN_00605d50();
-UpdateObject* FUN_004aae30(UpdateObject*, const void*);
+bool General_bFaceGenTexturing_Get();
+UpdateObject* BSUtilities_GetObjectByName(UpdateObject*, const void*);
 UpdateObject* FUN_00653270(void*, unsigned);
 bool MatchGeometryVertices(UpdateObject*, UpdateObject*, float, bool, unsigned);
 void ApplyFaceGenTextures(UpdateObject*, UpdatePacket&);
@@ -457,14 +457,15 @@ extern char DAT_0104a7bc;
 extern float DAT_01016248;
 extern "C" int __cdecl strncmp_r006056f0(const char*, const char*, unsigned);
 // @fnv 0x006056f0
-void UpdateOwner::FUN_006056f0(UpdateObject* object)
+// src: COMMUNITY 0x006056f0
+void UpdateOwner::TESNPC_FixNPCNormals(UpdateObject* object)
 {
     if (!object || !FUN_00605d20())
         return;
     UpdateObject* rootNode = object->GetRoot();
     unsigned entry = 0;
     UpdateObject* currentNode = current.FUN_0066b0d0(object->GetRenderNode(0)).FUN_00559450();
-    UpdateObject* found = FUN_004aae30(rootNode, FUN_00605d40(0));
+    UpdateObject* found = BSUtilities_GetObjectByName(rootNode, FUN_00605d40(0));
     UpdateObject* node = found ? found->GetNode() : 0;
     if (!node || !currentNode)
         return;
@@ -475,7 +476,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
     UpdateObject* key;
     if (!currentNode->IsReady())
     {
-        found = FUN_004aae30(rootNode, &DAT_0101f5f8);
+        found = BSUtilities_GetObjectByName(rootNode, &DAT_0101f5f8);
         if (found)
         {
             nested = found->GetList();
@@ -537,30 +538,30 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
     {
         UpdatePacket packet;
         packet.identity = FUN_00603b50();
-        packet.weight = FUN_00602130();
+        packet.weight = GetHairLength();
         packet.flags = FUN_00602150();
         packet.sex = FUN_005f0cc0();
-        packet.region = FUN_004169d0();
+        packet.region = TESDataHandler_GetRegionList();
         FUN_00603ad0(packet);
         if (!packet.flags && references.FUN_00726070()->FUN_00503650() &&
             !references.FUN_00726070()->FUN_00503650()->FUN_008256d0())
             packet.flags = *references.FUN_00726070()->FUN_00503650()->FUN_006815c0();
         for (unsigned k = 0; k < 8; k++)
         {
-            packet.primary.FUN_0096a610(references.FUN_00726070()->FUN_00613970(FUN_005f0cc0(), k));
+            packet.primary.FUN_0096a610(references.FUN_00726070()->GetHeadPartModel_00613970(FUN_005f0cc0(), k));
             packet.secondary.FUN_0096a610(references.FUN_00726070()->GetBodyPartTexture(FUN_005f0cc0(), k));
             references.FUN_00726070();
             packet.names.FUN_0096a610((unsigned)FUN_00605d40(k));
             references.FUN_00726070();
-            if (FUN_00605d50())
+            if (General_bFaceGenTexturing_Get())
             {
                 LocalNodePtr ptr(0);
                 CreatePartTexture(k, ptr);
-                packet.nodes.FUN_0060ba10(ptr);
+                packet.nodes.NiTObjectArray_NiPointer_NiTexture_Add(ptr);
             }
         }
         references.FUN_00726070();
-        packet.enabled = FUN_00605d50();
+        packet.enabled = General_bFaceGenTexturing_Get();
         ApplyFaceGenTextures(previous.FUN_00559450(), packet);
         ApplyFaceGenTextures(current.FUN_00559450(), packet);
     }

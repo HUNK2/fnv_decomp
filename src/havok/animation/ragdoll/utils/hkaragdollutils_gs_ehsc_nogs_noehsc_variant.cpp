@@ -130,12 +130,13 @@ struct Quaternion
     {
         return value;
     }
-    __declspec(noinline) void FUN_00c66320(const Quaternion*, const Quaternion*) throw();
+    __declspec(noinline) void setMul(const Quaternion*, const Quaternion*) throw();
 };
 
 extern unsigned int DAT_011c16bc;
 extern "C" void __fastcall FUN_00ec408c(unsigned int);
-void Quaternion::FUN_00c66320(const Quaternion* first, const Quaternion* second) throw()
+// src: COMMUNITY 0x00c66320
+void Quaternion::setMul(const Quaternion* first, const Quaternion* second) throw()
 {
     unsigned int cookie = DAT_011c16bc;
     __m128 a = first->value;
@@ -166,7 +167,7 @@ struct RagdollQsTransform
     {
         return scale;
     }
-    void FUN_00ce5070(const RagdollQsTransform*) throw();
+    void setFromTransformNoScale(const RagdollQsTransform*) throw();
 };
 extern const __m128 DAT_010c71e0;
 extern const __m128 DAT_010c7170;
@@ -202,7 +203,7 @@ static __forceinline void composeTransforms(RagdollQsTransform& destination, con
     tForward = _mm_add_ps(tForward, _mm_mul_ps(_mm_shuffle_ps(dForward, dForward, 0), qForward));
     tForward = _mm_add_ps(crossForward, tForward);
     destination.translation = _mm_add_ps(_mm_add_ps(tForward, tForward), parent.translation);
-    destination.rotation.FUN_00c66320(&parent.rotation, &child.rotation);
+    destination.rotation.setMul(&parent.rotation, &child.rotation);
     destination.scale = _mm_mul_ps(child.scale, parent.scale);
 }
 template <class T> struct ArrayLocalForm
@@ -379,7 +380,8 @@ struct ConstraintList
 };
 
 // @fnv 0x00ceb2c0
-Skeleton* __cdecl FUN_00ceb2c0(BodyList* bodies, ConstraintList* constraints) throw()
+// src: COMMUNITY 0x00ceb2c0
+Skeleton* __cdecl hkaRagdollUtils_constructSkeletonForRagdoll(BodyList* bodies, ConstraintList* constraints) throw()
 {
     Skeleton* result = new Skeleton;
     int count = bodies->size;
@@ -408,8 +410,8 @@ Skeleton* __cdecl FUN_00ceb2c0(BodyList* bodies, ConstraintList* constraints) th
         {
             RigidBody* parent = bodies->data[parentIndex];
             RagdollQsTransform childPose, parentPose;
-            childPose.FUN_00ce5070(&body->transform);
-            parentPose.FUN_00ce5070(&parent->transform);
+            childPose.setFromTransformNoScale(&body->transform);
+            parentPose.setFromTransformNoScale(&parent->transform);
             RagdollQsTransform& output = result->pose.data[i];
             const __m128& q = parentPose.rotation.value;
             SimdVector w = _mm_shuffle_ps(q, q, 0xff);
@@ -439,7 +441,7 @@ Skeleton* __cdecl FUN_00ceb2c0(BodyList* bodies, ConstraintList* constraints) th
         }
         else
         {
-            result->pose.data[i].FUN_00ce5070(&body->transform);
+            result->pose.data[i].setFromTransformNoScale(&body->transform);
         }
         const char* name = reinterpret_cast<const char*>(reinterpret_cast<unsigned int>(body->name) & ~1u);
         if (name)

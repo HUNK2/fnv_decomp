@@ -203,12 +203,12 @@ struct BoxSet
     BoxEntry* m_boxes;
     int unk14, unk18;
     int* m_flags;
-    const hkVector4& FUN_00cda180(int idx) throw();
+    const hkVector4& hkaPose_calculateBoneModelSpace(int idx) throw();
     __forceinline const hkVector4& GetBoxVector(int idx)
     {
         if (!(m_flags[idx] & 2))
             return m_boxes[idx].m_kPoint;
-        return FUN_00cda180(idx);
+        return hkaPose_calculateBoneModelSpace(idx);
     }
 };
 
@@ -249,12 +249,13 @@ struct PairFinder : RefObj
     int m_uiItemCount;
     hkIntArrayLocalForm m_aiIndexedValues;
     bool m_flag;
-    hkBool FUN_00d1fb00(BoxSet* boxes, hkArray<PairRecord>* out);
+    hkBool hkaDetectRagdollPenetration_detectPenetration(BoxSet* boxes, hkArray<PairRecord>* out);
 };
 
 // Tests box pairs against m_tester, collects matching PairRecords into out, and marks reachable nodes in m_aiIndexedValues.
 // @fnv 0x00d1fb00
-hkBool PairFinder::FUN_00d1fb00(BoxSet* boxes, hkArray<PairRecord>* out)
+// src: COMMUNITY 0x00d1fb00
+hkBool PairFinder::hkaDetectRagdollPenetration_detectPenetration(BoxSet* boxes, hkArray<PairRecord>* out)
 {
     out->m_iElementCount = 0;
     if (!m_flag)

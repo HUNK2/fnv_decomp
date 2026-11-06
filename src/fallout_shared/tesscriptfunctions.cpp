@@ -508,12 +508,12 @@ typedef ::TESObject SharedObject;
 class ScriptActorActions : public Actor {
 public:
     void FUN_0088b740(int, float);
-    void FUN_008b8f20(void*);
+    void Actor_RemoveFaction(void*);
     bool FUN_0087f4e0();
     int FUN_004f8960();
     void FUN_0087faa0();
-    void FUN_008ace50(bool);
-    void FUN_008bbf40(int, int, int, int, int, bool, bool, bool, bool);
+    void Actor_SetRestrained(bool);
+    void Actor_InitiateUseWeaponPackage(int, int, int, int, int, bool, bool, bool, bool);
     void FUN_008bca90(bool);
     void FUN_008a73e0(int, BSAnimGroupSequence*);
     void FUN_008bd630(NiAVObject*, float);
@@ -1515,13 +1515,13 @@ void FUN_0043b2b0(bool abTF) {
 }
 
 struct S0042fa20 {
-    void FUN_0042fd40(int);
+    void NiPointer_NavMesh_NiPointer_NavMesh(int);
     S0042fa20* FUN_0045ce80(int a);
 };
 // @fnv 0x0045ce80
 S0042fa20* S0042fa20::FUN_0045ce80(int a)
 {
-    FUN_0042fd40(a);
+    NiPointer_NavMesh_NiPointer_NavMesh(a);
     return this;
 }
 
@@ -1622,7 +1622,8 @@ bool __cdecl FUN_005b59f0(const ScriptParameter* apParameters, const char* apCom
 }
 
 // @fnv 0x005b5e40
-int __cdecl FUN_005b5e40()
+// src: COMMUNITY 0x005b5e40
+int __cdecl Warning_005b5e40()
 {
     int ret = 0;
     return ret;
@@ -1702,7 +1703,8 @@ unsigned int FUN_005be5c0_shell::FUN_005be5c0(int aProcessLevel)
 }
 
 // @fnv 0x005bf9a0
-void __fastcall FUN_005bf9a0(char* pThis, float afStart, float afEnd)
+// src: COMMUNITY 0x005bf9a0
+void __fastcall BSFogProperty_SetDistance(char* pThis, float afStart, float afEnd)
 {
     *(float*)(pThis + 0x2c) = afStart;
     *(float*)(pThis + 0x30) = afEnd;
@@ -1727,11 +1729,11 @@ public:
 extern DataHandler* g_dataHandler;
 extern GlobalObject2_0040c150 g_011c3ea4;
 
-bool __fastcall FUN_00572c80(TESObjectREFR*);
+bool __fastcall TESObjectREFR_CanBeMoved(TESObjectREFR*);
 void __cdecl DebugLog(const char*, ...);
 void __cdecl _FNV_Warning(const char*, ...);
 void __cdecl FUN_0087a8b0(TaskQueueInterface*, int, TESObjectREFR*, ...);
-void __cdecl FUN_005c0740(TESObjectREFR*, unsigned char, float);
+void __cdecl Script_SetPosBase(TESObjectREFR*, unsigned char, float);
 
 struct TLSData_005c05f0 {
     char pad[0x268];
@@ -1750,7 +1752,7 @@ bool __cdecl Cmd_SetPos_Execute(const ScriptParameter* paramInfo, const char* sc
     if (!ExtractArgs(paramInfo, scriptData, &opcodeOffsetPtr, thisObj, containingObj, scriptObj, locals, &axis, &value))
         return false;
 
-    if (thisObj && !FUN_00572c80(thisObj))
+    if (thisObj && !TESObjectREFR_CanBeMoved(thisObj))
     {
         if (tls_005c05f0.bConsoleEcho)
         {
@@ -1773,7 +1775,7 @@ bool __cdecl Cmd_SetPos_Execute(const ScriptParameter* paramInfo, const char* sc
     }
     else
     {
-        FUN_005c0740(thisObj, axis, value);
+        Script_SetPosBase(thisObj, axis, value);
     }
 
     return true;
@@ -1838,12 +1840,13 @@ public:
     static bool __cdecl IsSaveLoadActive(void);
 };
 
-bool __cdecl FUN_005c42d0();
+bool __cdecl TESMain_GetIsInPauseFade();
 
 // @fnv 0x005c42a0
-bool __cdecl FUN_005c42a0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
+// src: COMMUNITY 0x005c42a0
+bool __cdecl Script_GameMode(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
 {
-    if (TesscriptfunctionsInterfaceView::IsSaveLoadActive() || FUN_005c42d0())
+    if (TesscriptfunctionsInterfaceView::IsSaveLoadActive() || TESMain_GetIsInPauseFade())
         result = 0.0;
     else
         result = 1.0;
@@ -1851,7 +1854,8 @@ bool __cdecl FUN_005c42a0(const ScriptParameter* paramInfo, const char* scriptDa
 }
 
 // @fnv 0x005c42e0
-bool __cdecl FUN_005c42e0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int& opcodeOffsetPtr)
+// src: COMMUNITY 0x005c42e0
+bool __cdecl Script_ScriptEffectStart(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int& opcodeOffsetPtr)
 {
     result = 0.0;
     if (eventList && *((unsigned char**)eventList + 4) && **((unsigned char**)eventList + 4))
@@ -1862,7 +1866,8 @@ bool __cdecl FUN_005c42e0(const ScriptParameter* paramInfo, const char* scriptDa
 }
 
 // @fnv 0x005c4320
-bool __cdecl FUN_005c4320(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
+// src: COMMUNITY 0x005c4320
+bool __cdecl Script_ScriptEffectFinish(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
 {
     result = 0.0;
     if (locals && *(void**)((char*)locals + 0x10) && *((unsigned char*)*(void**)((char*)locals + 0x10) + 1))
@@ -1909,22 +1914,23 @@ bool __cdecl Cmd_SetAlert_Execute(const ScriptParameter* paramInfo, const char* 
     {
         Actor* pActor = dynamic_cast<Actor*>(thisObj);
         if (pActor)
-            pActor->FUN_008a5e40(val > 0);
+            pActor->SetAlert_008a5e40(val > 0);
     }
     return true;
 }
 
 struct FUN_005a8ef0_helper {
-    bool FUN_005a8ef0(TESForm*, unsigned int);
+    bool ScriptLocals_CheckActionFlag(TESForm*, unsigned int);
 };
 
 // @fnv 0x005ca1c0
-void __cdecl FUN_005ca1c0(unsigned int aiFlag, TESObjectREFR* apRefObject, TESForm* apActionForm, ScriptLocals* apScriptLocals, double& afReturnValue)
+// src: COMMUNITY 0x005ca1c0
+void __cdecl Script_CheckFlagFunction(unsigned int aiFlag, TESObjectREFR* apRefObject, TESForm* apActionForm, ScriptLocals* apScriptLocals, double& afReturnValue)
 {
     afReturnValue = 0.0;
     if (apRefObject && apScriptLocals)
     {
-        if (((FUN_005a8ef0_helper*)apScriptLocals)->FUN_005a8ef0(apActionForm, aiFlag))
+        if (((FUN_005a8ef0_helper*)apScriptLocals)->ScriptLocals_CheckActionFlag(apActionForm, aiFlag))
         {
             afReturnValue = 1.0;
         }
@@ -1979,11 +1985,12 @@ struct RegionObjectEntry {
 };
 typedef char _sizecheck_TESQuestTarget[sizeof(RegionObjectEntry) == 72 ? 1 : -1];
 struct FUN_005cbb70_shell : public RegionObjectEntry {
-    TESObjectREFR* FUN_005cbb70();
+    TESObjectREFR* TESQuestTarget_GetTrackingRef();
 };
 
 // @fnv 0x005cbb70
-TESObjectREFR* FUN_005cbb70_shell::FUN_005cbb70()
+// src: COMMUNITY 0x005cbb70
+TESObjectREFR* FUN_005cbb70_shell::TESQuestTarget_GetTrackingRef()
 {
     return reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(reinterpret_cast<char*>(this) + 0x20)->GetSize() > 0 ?
         reinterpret_cast<BSSimpleArray<TESObjectREFR*, 1024>*>(reinterpret_cast<char*>(this) + 0x20)->GetAt(0) :
@@ -2015,7 +2022,7 @@ extern PlayerCharacter* pPlayer;
 extern __declspec(thread) bool g_tlsFlag;
 void __cdecl DebugLog(char const*, ...);
 void __cdecl _FNV_Warning(const char*);
-char* __fastcall FUN_004f2770(PlayerCharacter*);
+char* __fastcall PlayerCharacter_GetAllOccupiedRegions(PlayerCharacter*);
 TESSound** __fastcall _ref_006815c0(char*);
 char* __fastcall _ref_00726070(char*);
 
@@ -2028,7 +2035,7 @@ bool __cdecl FUN_005cf490(const ScriptParameter* apParameters, const char* apCom
     } else {
         *afReturnValue = 0.0;
         if (region) {
-            char* rlist = FUN_004f2770(pPlayer);
+            char* rlist = PlayerCharacter_GetAllOccupiedRegions(pPlayer);
             while (rlist && *_ref_006815c0(rlist + 4)) {
                 if ((*_ref_006815c0(rlist + 4))->Deallocate() == region->Deallocate()) {
                     *afReturnValue = 1.0;
@@ -2048,7 +2055,8 @@ bool __cdecl FUN_005cf490(const ScriptParameter* apParameters, const char* apCom
 }  // namespace fnv_005cf490
 
 // @fnv 0x005d10f0
-float __fastcall FUN_005d10f0(const char* pThis)
+// src: COMMUNITY 0x005d10f0
+float __fastcall bhkCharacterController_GetFallStartHeight(const char* pThis)
 {
     return *(const float*)(pThis + 0x544);
 }
@@ -2065,14 +2073,16 @@ struct FUN_005d14d0_arg
 };
 
 // @fnv 0x005d14d0
-void __fastcall FUN_005d14d0(char* pThis, FUN_005d14d0_arg a)
+// src: COMMUNITY 0x005d14d0
+void __fastcall PlayerCharacter_SetHasScriptNotDisabledFastTravel(char* pThis, FUN_005d14d0_arg a)
 {
     a.b ? (pThis[0x66d] |= 1) : (pThis[0x66d] &= ~1);
 }
 
-struct S1530 { char pad[0x66d]; char f; void FUN_005d1530(bool e); };
+struct S1530 { char pad[0x66d]; char f; void PlayerCharacter_SetDisableFastTravelResetsOnCellChange(bool e); };
 // @fnv 0x005d1530
-void S1530::FUN_005d1530(bool e)
+// src: COMMUNITY 0x005d1530
+void S1530::PlayerCharacter_SetDisableFastTravelResetsOnCellChange(bool e)
 {
     e ? (f |= 2) : (f &= ~2);
 }
@@ -2144,7 +2154,7 @@ class ScriptActorPackageActions : public TESObjectREFR
 {
 public:
 
-    void FUN_008b8e20(void* arg1, int arg2);
+    void Actor_AddFaction(void* arg1, int arg2);
 };
 
 // @fnv 0x005d5390
@@ -2160,7 +2170,7 @@ bool __cdecl Cmd_AddToFaction_Execute(const ScriptParameter* paramInfo, const ch
     if (arg1 && thisObj->IsActor())
     {
         ScriptActorPackageActions* actor = thisObj;
-        actor->FUN_008b8e20(arg1, arg2);
+        actor->Actor_AddFaction(arg1, arg2);
     }
     return true;
 }
@@ -2178,7 +2188,7 @@ bool __cdecl Cmd_RemoveFromFaction_Execute(const ScriptParameter* paramInfo, con
     if (pPackage && ((ScriptActorActions*)thisObj)->IsActor())
     {
         ScriptActorActions* pActor = (ScriptActorActions*)thisObj;
-        pActor->FUN_008b8f20(pPackage);
+        pActor->Actor_RemoveFaction(pPackage);
     }
 
     return true;
@@ -2298,7 +2308,8 @@ void NiMatrix3::SetRow(unsigned int uiRow, const float* pRow)
 }
 
 // @fnv 0x005df5b0
-void* __fastcall FUN_005df5b0(char* pThis)
+// src: COMMUNITY 0x005df5b0
+void* __fastcall PlayerCharacter_GetCameraPosition(char* pThis)
 {
     return pThis + 0xde0;
 }
@@ -2702,18 +2713,20 @@ bool Cmd_GetObjectiveDisplayed_Execute(const ScriptParameter* apParameters, cons
 extern char* __cdecl __strlwr_s(char*, unsigned int);
 
 // @fnv 0x004afb00
-char* __cdecl FUN_004afb00(char* a1, unsigned int a2)
+// src: COMMUNITY 0x004afb00
+char* __cdecl BSstrlwr(char* a1, unsigned int a2)
 {
     return __strlwr_s(a1, a2);
 }
 
 struct FUN_004b1050Class
 {
-    short __thiscall FUN_004b1050();
+    short __thiscall Date_GetYear();
 };
 
 // @fnv 0x004b1050
-short __thiscall FUN_004b1050Class::FUN_004b1050()
+// src: COMMUNITY 0x004b1050
+short __thiscall FUN_004b1050Class::Date_GetYear()
 {
     return *reinterpret_cast<short*>(this + 2);
 }
@@ -2775,11 +2788,12 @@ bool __cdecl Cmd_Shared_Execute_5b5e20(const ScriptParameter*, const char*, TESO
 
 struct FUN_005b6cb0_Class
 {
-    void FUN_005b6cb0();
+    void kExitGameViaQQQRetnAddr();
 };
 
 // @fnv 0x005b6cb0
-void FUN_005b6cb0_Class::FUN_005b6cb0()
+// src: COMMUNITY 0x005b6cb0
+void FUN_005b6cb0_Class::kExitGameViaQQQRetnAddr()
 {
     ((char*)this)[1] = 1;
 }
@@ -2797,7 +2811,8 @@ bool Cmd_RevertWorld_Execute()
 extern unsigned char DAT_011f158c;
 
 // @fnv 0x005b6f60
-void FUN_005b6f60(unsigned char value)
+// src: COMMUNITY 0x005b6f60
+void CombatController_SetShowVerboseMessages(unsigned char value)
 {
     DAT_011f158c = value;
 }
@@ -2821,7 +2836,8 @@ unsigned char __cdecl FUN_005b7470()
 extern unsigned char DAT_0119b4e0;
 
 // @fnv 0x005b7480
-void FUN_005b7480(unsigned char value)
+// src: COMMUNITY 0x005b7480
+void SetNPCEmotionsEnabled(unsigned char value)
 {
     DAT_0119b4e0 = value;
 }
@@ -2829,7 +2845,8 @@ void FUN_005b7480(unsigned char value)
 extern unsigned char DAT_011cbeac;
 
 // @fnv 0x005b9150
-void FUN_005b9150(unsigned char value)
+// src: COMMUNITY 0x005b9150
+void SetbIsConversationStats(unsigned char value)
 {
     DAT_011cbeac = value;
 }
@@ -2837,12 +2854,13 @@ void FUN_005b9150(unsigned char value)
 extern unsigned char DAT_011cbeac;
 
 // @fnv 0x005b9160
-unsigned char __cdecl FUN_005b9160()
+// src: COMMUNITY 0x005b9160
+unsigned char __cdecl GetIsConversationsStatsEnabled()
 {
     return DAT_011cbeac;
 }
 
-void __cdecl FUN_00703100();
+void __cdecl ToggleFullHelp();
 bool __cdecl FUN_00703150();
 void __cdecl DebugLog(const char*, ...);
 
@@ -2851,7 +2869,7 @@ void __cdecl DebugLog(const char*, ...);
 bool __cdecl Cmd_ToggleFullHelp_Execute()
 {
     char* s;
-    FUN_00703100();
+    ToggleFullHelp();
     if (FUN_00703150())
     {
         s = "shown.";
@@ -2864,13 +2882,13 @@ bool __cdecl Cmd_ToggleFullHelp_Execute()
     return true;
 }
 
-extern "C" void __cdecl FUN_007038e0(int);
+extern "C" void __cdecl Interface_ToggleSafeZone(int);
 
 // @fnv 0x005b9520
 // src: EXE 0x005b9520
 char __cdecl Cmd_ToggleSafeZone_Execute()
 {
-    FUN_007038e0(2);
+    Interface_ToggleSafeZone(2);
     return 1;
 }
 
@@ -2990,14 +3008,14 @@ char __thiscall FUN_005ba540_Class::FUN_005ba540()
 }
 
 bool __cdecl FUN_005b9b00();
-void __cdecl FUN_005ba6b0();
+void __cdecl BSShaderAccumulator_ToggleRefractionDebugTexture();
 
 // @fnv 0x005ba690
 // src: EXE 0x005ba690
 bool __cdecl Cmd_ToggleRefractionDebug_Execute()
 {
     if (FUN_005b9b00())
-        FUN_005ba6b0();
+        BSShaderAccumulator_ToggleRefractionDebugTexture();
     return true;
 }
 
@@ -3057,7 +3075,8 @@ bool __cdecl Cmd_GetCauseofDeath_Execute(const ScriptParameter* a, const char* b
 extern unsigned int DAT_011f91d8;
 
 // @fnv 0x005bf770
-void __cdecl FUN_005bf770(bool set)
+// src: COMMUNITY 0x005bf770
+void __cdecl BSShaderManager_EnableShadows(bool set)
 {
     unsigned int v;
     if (set)
@@ -3075,7 +3094,8 @@ void __cdecl FUN_005bf770(bool set)
 extern int DAT_011f91b4;
 
 // @fnv 0x005bf7f0
-void FUN_005bf7f0(int value)
+// src: COMMUNITY 0x005bf7f0
+void BSShaderManager_SetDebugMode(int value)
 {
     DAT_011f91b4 = value;
 }
@@ -3090,15 +3110,16 @@ void FUN_005bf800_Class::FUN_005bf800(bool value) {
 }
 
 struct G7d1 {
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
 };
 
 extern G7d1 g_011c75a4;
 
 // @fnv 0x005bf840
-void FUN_005bf840(bool param)
+// src: COMMUNITY 0x005bf840
+void Renderer_SetDoCanopyShadowPass(bool param)
 {
-    g_011c75a4.FUN_004de2d0(param);
+    g_011c75a4.Setting_SetValueB(param);
 }
 
 extern unsigned char DAT_0118c000;
@@ -3114,7 +3135,8 @@ bool Cmd_ToggleGrassUpdate_Execute()
 extern unsigned char DAT_011f91dc;
 
 // @fnv 0x005bf8b0
-unsigned char __cdecl FUN_005bf8b0()
+// src: COMMUNITY 0x005bf8b0
+unsigned char __cdecl BSShaderManager_GetVisibleShadowVolumes()
 {
     return DAT_011f91dc;
 }
@@ -3122,7 +3144,8 @@ unsigned char __cdecl FUN_005bf8b0()
 extern unsigned char DAT_011f91dc;
 
 // @fnv 0x005bf8c0
-void FUN_005bf8c0(unsigned char value)
+// src: COMMUNITY 0x005bf8c0
+void BSShaderManager_SetVisibleShadowVolumes(unsigned char value)
 {
     DAT_011f91dc = value;
 }
@@ -3154,43 +3177,46 @@ struct FUN_005bf9c0_class
     unsigned char m_16;
     unsigned char m_17;
     unsigned char m_18;
-    void FUN_005bf9c0(unsigned char bFlag);
+    void Atmosphere_SetUpdateFogDistance(unsigned char bFlag);
 };
 
 // @fnv 0x005bf9c0
-void __thiscall FUN_005bf9c0_class::FUN_005bf9c0(unsigned char bFlag)
+// src: COMMUNITY 0x005bf9c0
+void __thiscall FUN_005bf9c0_class::Atmosphere_SetUpdateFogDistance(unsigned char bFlag)
 {
     m_18 = bFlag;
 }
 
 struct FUN_005bfbb0_Class {
-    void FUN_005bfbb0(float value);
+    void FOHUDEffectManager_SetBlurRadiusHUD(float value);
 };
 
 // @fnv 0x005bfbb0
-void FUN_005bfbb0_Class::FUN_005bfbb0(float value)
+// src: COMMUNITY 0x005bfbb0
+void FUN_005bfbb0_Class::FOHUDEffectManager_SetBlurRadiusHUD(float value)
 {
     *(float*)((char*)this + 0x58) = value;
 }
 
 struct FUN_005bfbd0_Class
 {
-    void FUN_005bfbd0(float value);
+    void FOHUDEffectManager_SetBlurIntensityHUD(float value);
 };
 
 // @fnv 0x005bfbd0
-void __thiscall FUN_005bfbd0_Class::FUN_005bfbd0(float value)
+// src: COMMUNITY 0x005bfbd0
+void __thiscall FUN_005bfbd0_Class::FOHUDEffectManager_SetBlurIntensityHUD(float value)
 {
     *(float*)((char*)this + 0x60) = value;
 }
 
-extern "C" void __cdecl FUN_00705a60();
+extern "C" void __cdecl Interface_DumpMenuPackingInfo();
 
 // @fnv 0x005bfd40
 // src: EXE 0x005bfd40
 bool __cdecl Cmd_DumpMenuPackingInfo_Execute()
 {
-    FUN_00705a60();
+    Interface_DumpMenuPackingInfo();
     return true;
 }
 
@@ -3213,11 +3239,12 @@ void FUN_005c1a00::Set(int param1, char param2)
 }
 
 struct FUN_005c1a30_Class {
-    void FUN_005c1a30(unsigned char value);
+    void PlayerCharacter_SetBeingChased(unsigned char value);
 };
 
 // @fnv 0x005c1a30
-void FUN_005c1a30_Class::FUN_005c1a30(unsigned char value)
+// src: COMMUNITY 0x005c1a30
+void FUN_005c1a30_Class::PlayerCharacter_SetBeingChased(unsigned char value)
 {
     *(unsigned char*)((char*)this + 0x7c4) = value;
 }
@@ -3245,7 +3272,8 @@ void FUN_005c4210Class::FUN_005c4210(unsigned char a)
 extern bool DAT_011dea2d;
 
 // @fnv 0x005c42d0
-bool FUN_005c42d0()
+// src: COMMUNITY 0x005c42d0
+bool TESMain_GetIsInPauseFade()
 {
     return DAT_011dea2d;
 }
@@ -3273,40 +3301,42 @@ bool Cmd_Autosave_Execute()
 {
     if (*g_011de29c.GetLifeStateControlFlag())
     {
-        DAT_011de134->FUN_00851d30();
+        DAT_011de134->QueueAutosave();
     }
     return true;
 }
 
 struct FUN_005c59e0_Class {
-    void FUN_005c59e0(float value);
+    void PlayerCharacter_Set1stPersonFOV(float value);
 };
 
 // @fnv 0x005c59e0
-void FUN_005c59e0_Class::FUN_005c59e0(float value) { ((float*)this)[0x19D] = value; }
+// src: COMMUNITY 0x005c59e0
+void FUN_005c59e0_Class::PlayerCharacter_Set1stPersonFOV(float value) { ((float*)this)[0x19D] = value; }
 
 char const* __cdecl PrepareScriptMessage(char const*, bool);
 void __cdecl DebugLog(char const*, ...);
 
 // @fnv 0x005c5a00
-void __cdecl FUN_005c5a00(const char* message)
+// src: COMMUNITY 0x005c5a00
+void __cdecl ConsoleShaderError(const char* message)
 {
     DebugLog(PrepareScriptMessage(message, false));
 }
 
 namespace fnv_005c5a20 {
-void* FUN_005c5a50();
-void* FUN_005c5a00();
+void* BSShaderManager_GetShaderErrorCallback();
+void* ConsoleShaderError();
 void FUN_005c5a60(int);
-void FUN_00b557d0();
+void BSShaderManager_ReloadShaders();
 
 // @fnv 0x005c5a20
 // src: EXE 0x005c5a20
 char __cdecl Cmd_RefreshShaders_Execute()
 {
-    void* v = FUN_005c5a50();
-    FUN_005c5a60((int)&FUN_005c5a00);
-    FUN_00b557d0();
+    void* v = BSShaderManager_GetShaderErrorCallback();
+    FUN_005c5a60((int)&ConsoleShaderError);
+    BSShaderManager_ReloadShaders();
     FUN_005c5a60((int)v);
     return 1;
 }
@@ -3315,7 +3345,8 @@ char __cdecl Cmd_RefreshShaders_Execute()
 extern int DAT_011f91f4;
 
 // @fnv 0x005c5a50
-int FUN_005c5a50()
+// src: COMMUNITY 0x005c5a50
+int BSShaderManager_GetShaderErrorCallback()
 {
     return DAT_011f91f4;
 }
@@ -3329,11 +3360,12 @@ void FUN_005c5a60(int value)
 }
 
 struct FUN_005c6b40_Class {
-    void FUN_005c6b40(bool b);
+    void PlayerCharacter_SetShowQuestItems(bool b);
 };
 
 // @fnv 0x005c6b40
-void FUN_005c6b40_Class::FUN_005c6b40(bool b) {
+// src: COMMUNITY 0x005c6b40
+void FUN_005c6b40_Class::PlayerCharacter_SetShowQuestItems(bool b) {
     *reinterpret_cast<char*>(this + 0x240) = b;
 }
 
@@ -3400,7 +3432,8 @@ float FUN_005c9c90::Method()
 }
 
 // @fnv 0x005ca390
-bool FUN_005ca390(const ScriptParameter* pParams, const char* pName, TESObjectREFR* pSource, TESObjectREFR* pTarget, Script* pScript, ScriptLocals* pLocals, double& fResult, unsigned int& uFlags)
+// src: COMMUNITY 0x005ca390
+bool Event_OnDrop(const ScriptParameter* pParams, const char* pName, TESObjectREFR* pSource, TESObjectREFR* pTarget, Script* pScript, ScriptLocals* pLocals, double& fResult, unsigned int& uFlags)
 {
     TESForm* pForm = 0;
     if (!ExtractArgs(pParams, pName, &uFlags, pSource, pTarget, pScript, pLocals, &pForm))
@@ -3425,7 +3458,8 @@ bool Cmd_GetWeaponAnimType_Execute(const ScriptParameter* param, const char* str
 extern "C" void __cdecl FUN_00eca903(void*, void*, void*);
 
 // @fnv 0x005cbd90
-void __cdecl FUN_005cbd90(void* c, void* b, void* a)
+// src: COMMUNITY 0x005cbd90
+void __cdecl _mbsnbcpy_(void* c, void* b, void* a)
 {
     FUN_00eca903(c, b, a);
 }
@@ -3456,21 +3490,23 @@ bool Cmd_CanHaveFlames_Execute(const ScriptParameter* p, const char* name, TESOb
 class FUN_005cde20Class
 {
 public:
-    unsigned int __thiscall FUN_005cde20();
+    unsigned int __thiscall PlayerCharacter_GetSleepHours();
 };
 
 // @fnv 0x005cde20
-unsigned int __thiscall FUN_005cde20Class::FUN_005cde20()
+// src: COMMUNITY 0x005cde20
+unsigned int __thiscall FUN_005cde20Class::PlayerCharacter_GetSleepHours()
 {
     return *(unsigned int*)((char*)this + 0x654);
 }
 
 struct FUN_005cdf20_Class {
-    void FUN_005cdf20(int a);
+    void PlayerCharacter_ModAmountSoldStolen(int a);
 };
 
 // @fnv 0x005cdf20
-void FUN_005cdf20_Class::FUN_005cdf20(int a)
+// src: COMMUNITY 0x005cdf20
+void FUN_005cdf20_Class::PlayerCharacter_ModAmountSoldStolen(int a)
 {
     *(int*)((char*)this + 0x6dc) += a;
 }
@@ -3486,20 +3522,20 @@ bool Cmd_GetVatsTargetHeight_Execute(const ScriptParameter* apParam, const char*
 
 class PC7d;
 extern PC7d* g_thePlayer;
-extern "C" void __cdecl FUN_00705870(int);
+extern "C" void __cdecl Interface_CreateRaceSexMenu(int);
 
 // @fnv 0x005cee30
 // src: EXE 0x005cee30
 bool Cmd_ShowBarberMenu_Execute()
 {
     if (g_thePlayer) {
-        FUN_00705870(2);
+        Interface_CreateRaceSexMenu(2);
     }
     return true;
 }
 
 class PC7d;
-extern "C" void __cdecl FUN_00705870(int);
+extern "C" void __cdecl Interface_CreateRaceSexMenu(int);
 extern PC7d* g_thePlayer;
 
 // @fnv 0x005cee50
@@ -3507,7 +3543,7 @@ extern PC7d* g_thePlayer;
 bool __cdecl Cmd_ShowPlasticSurgeonMenu_Execute()
 {
     if (g_thePlayer) {
-        FUN_00705870(3);
+        Interface_CreateRaceSexMenu(3);
     }
     return true;
 }
@@ -3515,14 +3551,14 @@ bool __cdecl Cmd_ShowPlasticSurgeonMenu_Execute()
 class PC7d;
 extern PC7d* g_thePlayer;
 
-void __cdecl FUN_007e7b60();
+void __cdecl TraitSelectMenu_Create();
 
 // @fnv 0x005cf640
 // src: EXE 0x005cf640
 char __cdecl Cmd_ShowTraitSelectMenu_Execute()
 {
     if (g_thePlayer)
-        FUN_007e7b60();
+        TraitSelectMenu_Create();
     return 1;
 }
 
@@ -3543,7 +3579,8 @@ char Cmd_ShowTraitMenu_Execute()
 extern HUDMainMenu* g_pHudMainMenuInstance;
 
 // @fnv 0x005cfcb0
-void __cdecl FUN_005cfcb0(bool b)
+// src: COMMUNITY 0x005cfcb0
+void __cdecl HUDMainMenu_SetAutoDisplayObjectives(bool b)
 {
     if (g_pHudMainMenuInstance)
         ((unsigned char*)g_pHudMainMenuInstance)[0x205] = b;
@@ -3560,7 +3597,8 @@ bool __cdecl Cmd_GetCannibal_Execute(TESObjectREFR* p1, void* p2, TESObjectREFR*
 
 
 // @fnv 0x005d0b80
-void FleePackage::FUN_005d0b80(int value)
+// src: COMMUNITY 0x005d0b80
+void FleePackage::SetEvaluatePoint(int value)
 {
     ((char*)this)[0x80] = static_cast<unsigned char>(value);
 }
@@ -3574,7 +3612,8 @@ bool TESActorBaseData::GetNoRumors()
 extern "C" void* DAT_011da368;
 
 // @fnv 0x005d45c0
-void __cdecl FUN_005d45c0()
+// src: COMMUNITY 0x005d45c0
+void __cdecl MapMenu_ClearCount128()
 {
     if (DAT_011da368)
         *(int*)((char*)DAT_011da368 + 0x128) = 0;
@@ -3586,7 +3625,8 @@ extern MapMenu* DAT_011da368;
 void __cdecl FUN_0079ffb0(bool);
 
 // @fnv 0x005d45e0
-void __cdecl FUN_005d45e0()
+// src: COMMUNITY 0x005d45e0
+void __cdecl DumpLocalMapTextures()
 {
     if (DAT_011da368) {
         FUN_0079ffb0(true);
@@ -3594,7 +3634,7 @@ void __cdecl FUN_005d45e0()
 }
 }  // namespace fnv_005d45e0
 
-extern "C" void __cdecl FUN_00bad4a0(void);
+extern "C" void __cdecl ImageSpaceEffectHDR_ClearAdaptedLight(void);
 extern unsigned char _DAT_011F941E;
 
 // @fnv 0x005d47c0
@@ -3602,14 +3642,15 @@ extern unsigned char _DAT_011F941E;
 bool __cdecl Cmd_ClearAdaptedLight_Execute()
 {
     if (_DAT_011F941E)
-        FUN_00bad4a0();
+        ImageSpaceEffectHDR_ClearAdaptedLight();
     return 1;
 }
 
 extern unsigned char DAT_011dea2a;
 
 // @fnv 0x005d4a30
-void FUN_005d4a30(unsigned char value)
+// src: COMMUNITY 0x005d4a30
+void TESMain_SetIsSceneComplex(unsigned char value)
 {
     DAT_011dea2a = value;
 }
@@ -3652,7 +3693,8 @@ char __cdecl Cmd_ResetPerformanceTimers_Execute()
 extern unsigned char DAT_0118abb0;
 
 // @fnv 0x005d7930
-void FUN_005d7930(unsigned char value)
+// src: COMMUNITY 0x005d7930
+void SetImageSpaceModifiersEnable(unsigned char value)
 {
     DAT_0118abb0 = value;
 }
@@ -3700,18 +3742,19 @@ char __cdecl Cmd_CloseAllMenus_Execute()
     return 1;
 }
 
-extern "C" void __cdecl FUN_00705870(int);
+extern "C" void __cdecl Interface_CreateRaceSexMenu(int);
 
 // @fnv 0x005d9350
 // src: EXE 0x005d9350
 char __cdecl Cmd_TestRaceSexTerimnal_Execute()
 {
-    FUN_00705870(0);
+    Interface_CreateRaceSexMenu(0);
     return 1;
 }
 
 // @fnv 0x005d9660
-int __cdecl FUN_005d9660()
+// src: COMMUNITY 0x005d9660
+int __cdecl NiStencilProperty_GetType()
 {
     return 4;
 }
@@ -3743,40 +3786,43 @@ char __cdecl Cmd_GetPlayerName_Execute()
 
 struct FUN_005dac10_Class
 {
-    void FUN_005dac10(bool set);
+    void BGSEncounterZone_SetNeverReset(bool set);
 };
 
 // @fnv 0x005dac10
-void FUN_005dac10_Class::FUN_005dac10(bool set)
+// src: COMMUNITY 0x005dac10
+void FUN_005dac10_Class::BGSEncounterZone_SetNeverReset(bool set)
 {
     set ? ((char*)this)[0x1e] |= 1 : ((char*)this)[0x1e] &= ~1;
 }
 
 struct FUN_005dadd0_Class {
     unsigned char m_0xdf2;
-    void FUN_005dadd0(unsigned char value);
+    void PlayerCharacter_SetMegatonDestroyed(unsigned char value);
 };
 
 // @fnv 0x005dadd0
-void FUN_005dadd0_Class::FUN_005dadd0(unsigned char value) {
+// src: COMMUNITY 0x005dadd0
+void FUN_005dadd0_Class::PlayerCharacter_SetMegatonDestroyed(unsigned char value) {
     *(unsigned char*)((char*)this + 0xdf2) = value;
 }
 
 extern TESSound* DAT_011dcfa8;
 
 // @fnv 0x005db260
-void FUN_005db260(TESSound* value)
+// src: COMMUNITY 0x005db260
+void TESAudio_SetNoActivationSound(TESSound* value)
 {
     DAT_011dcfa8 = value;
 }
 
-extern "C" int __cdecl FUN_005db280();
+extern "C" int __cdecl TESAudio_ClearNoActivationSound();
 
 // @fnv 0x005db270
 // src: EXE 0x005db270
 char __cdecl Cmd_ClearNoActivationSound_Execute()
 {
-    FUN_005db280();
+    TESAudio_ClearNoActivationSound();
     return 1;
 }
 
@@ -3785,7 +3831,8 @@ namespace fnv_005db280 {
 extern TESSound* DAT_011dcfa8;
 
 // @fnv 0x005db280
-void FUN_005db280()
+// src: COMMUNITY 0x005db280
+void TESAudio_ClearNoActivationSound()
 {
     DAT_011dcfa8 = 0;
 }
@@ -3818,14 +3865,14 @@ bool __cdecl Cmd_ResetPipboyManager_Execute()
 }  // namespace fnv_005db490
 
 namespace fnv_005db6c0 {
-extern "C" bool __cdecl FUN_005db6e0(int);
+extern "C" bool __cdecl bDumpNextFrame_Set(int);
 extern "C" void __cdecl FUN_00703da0(void);
 
 // @fnv 0x005db6c0
 // src: EXE 0x005db6c0
 bool __cdecl Cmd_DumpNiUpdates_Execute()
 {
-    FUN_005db6e0(1);
+    bDumpNextFrame_Set(1);
     FUN_00703da0();
     return 1;
 }
@@ -3834,7 +3881,8 @@ bool __cdecl Cmd_DumpNiUpdates_Execute()
 extern unsigned char DAT_011f5af1;
 
 // @fnv 0x005db6e0
-void FUN_005db6e0(unsigned char value)
+// src: COMMUNITY 0x005db6e0
+void bDumpNextFrame_Set(unsigned char value)
 {
     DAT_011f5af1 = value;
 }
@@ -3846,11 +3894,12 @@ struct FUN_005dbe40_Class
     unsigned int m_pad8;
     unsigned int m_padC;
     unsigned int m_actionFlags;
-    bool FUN_005dbe40(OBJECT_ACTION aAction);
+    bool bhkShape_GetMaterialVarType(OBJECT_ACTION aAction);
 };
 
 // @fnv 0x005dbe40
-bool __thiscall FUN_005dbe40_Class::FUN_005dbe40(OBJECT_ACTION aAction)
+// src: COMMUNITY 0x005dbe40
+bool __thiscall FUN_005dbe40_Class::bhkShape_GetMaterialVarType(OBJECT_ACTION aAction)
 {
     return (m_actionFlags & (unsigned int)aAction) != 0;
 }
@@ -3897,11 +3946,12 @@ void FUN_005dc710_class::FUN_005dc710(unsigned char value)
 struct FUN_005dd810_Class
 {
     void FUN_005e02e0();
-    void FUN_005dd810();
+    void NiTObjectArray_NiPointer_NiTexture_Free();
 };
 
 // @fnv 0x005dd810
-void FUN_005dd810_Class::FUN_005dd810()
+// src: COMMUNITY 0x005dd810
+void FUN_005dd810_Class::NiTObjectArray_NiPointer_NiTexture_Free()
 {
     FUN_005e02e0();
 }
@@ -3941,7 +3991,8 @@ void FUN_005dd860(unsigned char value)
 extern short DAT_011ae75c;
 
 // @fnv 0x005de240
-void FUN_005de240(short value)
+// src: COMMUNITY 0x005de240
+void NiPSysEmitterCtlr_SetParticlesLimit(short value)
 {
     DAT_011ae75c = value;
 }
@@ -3949,7 +4000,8 @@ void FUN_005de240(short value)
 extern unsigned short DAT_011afa9c;
 
 // @fnv 0x005de2c0
-void FUN_005de2c0(unsigned short value)
+// src: COMMUNITY 0x005de2c0
+void BSPSysMultiTargetEmitterCtlr_SetMaxParticlesPerEmitter(unsigned short value)
 {
     DAT_011afa9c = value;
 }
@@ -3966,7 +4018,7 @@ bool __cdecl Cmd_KillQuestUpdates_Execute()
     bool result = true;
     if (g_pHudMainMenuInstance != 0)
     {
-        g_pHudMainMenuInstance->FUN_005de380();
+        g_pHudMainMenuInstance->HUDMainMenu_KillQuestUpdates();
     }
     return result;
 }
@@ -4020,7 +4072,8 @@ int FUN_005def70_Class::FUN_005def70()
 extern unsigned char DAT_011dd437;
 
 // @fnv 0x005e0080
-void FUN_005e0080(unsigned char value)
+// src: COMMUNITY 0x005e0080
+void FalloutRadio_SetIsDialogueOnlyRadio(unsigned char value)
 {
     DAT_011dd437 = value;
 }
@@ -4047,26 +4100,28 @@ struct Modifier {
     unsigned char GetKey();
 };
 
-void* __cdecl FUN_004b7210(void);
-void FUN_00753420(int a1, int a2, unsigned char a3, unsigned char a4);
+void* __cdecl InterfaceManager_GetSingleton(void);
+void CharGenMenu_Create(int a1, int a2, unsigned char a3, unsigned char a4);
 
 // @fnv 0x007062a0
-void __cdecl FUN_007062a0(int a1, int a2, unsigned char a3, unsigned char a4)
+// src: COMMUNITY 0x007062a0
+void __cdecl CharGenMenu_Create_(int a1, int a2, unsigned char a3, unsigned char a4)
 {
-    if (FUN_004b7210() != 0) {
-        if (static_cast<Modifier*>(FUN_004b7210())->GetKey() != 0) {
-            FUN_00753420(a1, a2, a3, a4);
+    if (InterfaceManager_GetSingleton() != 0) {
+        if (static_cast<Modifier*>(InterfaceManager_GetSingleton())->GetKey() != 0) {
+            CharGenMenu_Create(a1, a2, a3, a4);
         }
     }
 }
 
 struct FUN_00aa47c0_Class
 {
-    int __thiscall FUN_00aa47c0(int, int);
+    int __thiscall MemoryManager_OutputDebugInfo(int, int);
 };
 
 // @fnv 0x00aa47c0
-int __thiscall FUN_00aa47c0_Class::FUN_00aa47c0(int, int)
+// src: COMMUNITY 0x00aa47c0
+int __thiscall FUN_00aa47c0_Class::MemoryManager_OutputDebugInfo(int, int)
 {
     int unused = 0;
     return unused;
@@ -4074,19 +4129,19 @@ int __thiscall FUN_00aa47c0_Class::FUN_00aa47c0(int, int)
 
 void __cdecl DebugLog(char const*, ...);
 void __cdecl FUN_009526a0(bool);
-void __cdecl FUN_009526e0(bool);
-unsigned char __cdecl FUN_009526f0(void);
+void __cdecl SetDemiGodMode(bool);
+unsigned char __cdecl GetDemigodeMode(void);
 
 // @fnv 0x005b7000
 // src: EXE 0x005b7000
 char __cdecl Cmd_ToggleDemigodMode_Execute()
 {
-    unsigned char bIsDemigod = FUN_009526f0();
-    FUN_009526e0(!bIsDemigod);
+    unsigned char bIsDemigod = GetDemigodeMode();
+    SetDemiGodMode(!bIsDemigod);
     FUN_009526a0(!bIsDemigod);
     {
         const char* pszState;
-        if (FUN_009526f0())
+        if (GetDemigodeMode())
             pszState = "enabled.";
         else
             pszState = "disabled.";
@@ -4135,14 +4190,14 @@ int g_TES;
 
 struct FUN_00456aa0_Class
 {
-    void FUN_00456aa0();
+    void TES_TogglePrimitive();
 };
 
 // @fnv 0x005b9500
 // src: EXE 0x005b9500
 bool __cdecl Cmd_TogglePrimitives_Execute()
 {
-    ((FUN_00456aa0_Class*)g_TES)->FUN_00456aa0();
+    ((FUN_00456aa0_Class*)g_TES)->TES_TogglePrimitive();
     return true;
 }
 
@@ -4171,15 +4226,15 @@ void Cmd_HasFriendDisposition_Execute(void* a1, void* a2, void* a3, void* a4, vo
 }
 
 namespace fnv_005bf880 {
-extern "C" unsigned char __cdecl FUN_005bf8b0(void);
-extern "C" void __cdecl FUN_005bf8c0(unsigned char);
+extern "C" unsigned char __cdecl BSShaderManager_GetVisibleShadowVolumes(void);
+extern "C" void __cdecl BSShaderManager_SetVisibleShadowVolumes(unsigned char);
 
 // @fnv 0x005bf880
 // src: EXE 0x005bf880
 unsigned char __cdecl Cmd_ToggleShadowVolumes_Execute()
 {
-    unsigned char result = FUN_005bf8b0() != 1;
-    FUN_005bf8c0(result);
+    unsigned char result = BSShaderManager_GetVisibleShadowVolumes() != 1;
+    BSShaderManager_SetVisibleShadowVolumes(result);
     return 1;
 }
 }  // namespace fnv_005bf880
@@ -4301,8 +4356,8 @@ char __cdecl Cmd_ShowNameMenu_Execute(const ScriptParameter* param1, const char*
     return 1;
 }
 
-extern "C" void FUN_007c5fb0();
-extern "C" void FUN_007c5fc0(unsigned int);
+extern "C" void SPECIALBookMenu_Create35();
+extern "C" void SPECIALBookMenu_Create(unsigned int);
 struct PC7d;
 extern PC7d* g_thePlayer;
 
@@ -4318,9 +4373,9 @@ bool __cdecl Cmd_Shared_Execute_5cefe0(const ScriptParameter* parameters, const 
         count = 0;
         if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container,
                          script, locals, &count)) {
-            FUN_007c5fb0();
+            SPECIALBookMenu_Create35();
         } else {
-            FUN_007c5fc0(count);
+            SPECIALBookMenu_Create(count);
         }
     }
     return true;
@@ -4346,11 +4401,12 @@ bool __cdecl Cmd_IsTimePassing_Execute(const ScriptParameter* a1, const char* a2
 
 struct FUN_005d1590_Class {
     unsigned char m_byte;
-    void FUN_005d1590(unsigned char bValue);
+    void PlayerCharacter_SetCanWait(unsigned char bValue);
 };
 
 // @fnv 0x005d1590
-void FUN_005d1590_Class::FUN_005d1590(unsigned char bValue)
+// src: COMMUNITY 0x005d1590
+void FUN_005d1590_Class::PlayerCharacter_SetCanWait(unsigned char bValue)
 {
     ((unsigned char*)this)[0x66e] = bValue;
 }
@@ -4407,7 +4463,7 @@ void RigidBodyTimeScaleAccess::SetTimeScale(float f) {
         ((FUN_00ca88c0_T*)obj)->Method(f);
 }
 
-extern "C" void __cdecl FUN_004dc2d0(float);
+extern "C" void __cdecl Renderer_SetGamma(float);
 
 // @fnv 0x005d4600
 // src: EXE 0x005d4600
@@ -4416,7 +4472,7 @@ bool __cdecl Cmd_SetGamma_Execute(const ScriptParameter* params, const char* nam
     float f = 0.0f;
     if (!ExtractArgs(params, name, &index, refr, refr2, script, locals, &f))
         return false;
-    FUN_004dc2d0(f);
+    Renderer_SetGamma(f);
     return true;
 }
 
@@ -4531,11 +4587,12 @@ class FUN_005da7d0_Class
 {
 public:
     unsigned int m_508;
-    unsigned int FUN_005da7d0();
+    unsigned int TESRace_GetYoungerRace();
 };
 
 // @fnv 0x005da7d0
-unsigned int FUN_005da7d0_Class::FUN_005da7d0()
+// src: COMMUNITY 0x005da7d0
+unsigned int FUN_005da7d0_Class::TESRace_GetYoungerRace()
 {
     return ((unsigned int*)this)[0x508 / 4];
 }
@@ -4552,13 +4609,13 @@ bool Cmd_GetRadiationLevel_Execute(const ScriptParameter* apParams, const char* 
 namespace fnv_005dad70 {
 // Call surface of BGSTerrainManager; the shared header cannot be read in this unit (its own layout_support template copies).
 struct BGSTerrainManagerApi {
-    void FUN_006fd060();
+    void TriggerLODApocalypse();
 };
 struct BGSSound {
     BGSTerrainManagerApi* GetWorldTerrainManager();
 };
 struct PC7d {
-    void FUN_005dadd0(unsigned char);
+    void PlayerCharacter_SetMegatonDestroyed(unsigned char);
 };
 
 
@@ -4569,12 +4626,12 @@ extern TES* g_TES;
 // src: EXE 0x005dad70
 char Cmd_TriggerLODApocalypse_Execute()
 {
-    g_thePlayer->FUN_005dadd0(1);
+    g_thePlayer->PlayerCharacter_SetMegatonDestroyed(1);
     if (g_TES->GetHitSound())
     {
         if (g_TES->GetHitSound()->GetWorldTerrainManager())
         {
-            ((BGSTerrainManagerApi*)g_TES->GetHitSound()->GetWorldTerrainManager())->FUN_006fd060();
+            ((BGSTerrainManagerApi*)g_TES->GetHitSound()->GetWorldTerrainManager())->TriggerLODApocalypse();
         }
     }
     return 1;
@@ -4601,11 +4658,12 @@ extern void* _pme;
 
 struct FUN_005de380_Class
 {
-    void __thiscall FUN_005de380();
+    void __thiscall HUDMainMenu_KillQuestUpdates();
 };
 
 // @fnv 0x005de380
-void __thiscall FUN_005de380_Class::FUN_005de380()
+// src: COMMUNITY 0x005de380
+void __thiscall FUN_005de380_Class::HUDMainMenu_KillQuestUpdates()
 {
     if (_pme)
         *(char*)((char*)_pme + 0x254) = 1;
@@ -4669,11 +4727,12 @@ struct FUN_005b9870_This
 {
     unsigned char _padding[0x131];
     bool flag;
-    void FUN_005b9870();
+    void ShadowSceneNode_ToggleWireframe();
 };
 
 // @fnv 0x005b9870
-void FUN_005b9870_This::FUN_005b9870()
+// src: COMMUNITY 0x005b9870
+void FUN_005b9870_This::ShadowSceneNode_ToggleWireframe()
 {
     flag = !flag;
 }
@@ -4682,7 +4741,8 @@ namespace fnv_005b9f50 {
 struct S5 { void FUN_005b9f80(float); };
 struct S4 { S5* FUN_004ebbc0(int); };
 // @fnv 0x005b9f50
-void __fastcall FUN_005b9f50(S4* self, float value)
+// src: COMMUNITY 0x005b9f50
+void __fastcall ImageSpaceManager_SetMotionBlur(S4* self, float value)
 {
     self->FUN_004ebbc0(0xc)->FUN_005b9f80(value);
 }
@@ -4733,11 +4793,12 @@ struct Flt {
 struct FUN_005bf820_Class {
     char pad[0x128];
     Flt f;
-    unsigned int FUN_005bf820() const;
+    unsigned int ShadowSceneLight_GetShadowScene() const;
 };
 
 // @fnv 0x005bf820
-unsigned int FUN_005bf820_Class::FUN_005bf820() const
+// src: COMMUNITY 0x005bf820
+unsigned int FUN_005bf820_Class::ShadowSceneLight_GetShadowScene() const
 {
     return static_cast<unsigned int>(f);
 }
@@ -4767,11 +4828,12 @@ bool Cmd_GetIsLockBroken_Execute(const ScriptParameter* parameters, const char* 
 struct FUN_005c59c0_Class {
     char pad[0x670];
     float f670;
-    void FUN_005c59c0(float value);
+    void PlayerCharacter_SetWorldFOV(float value);
 };
 
 // @fnv 0x005c59c0
-void FUN_005c59c0_Class::FUN_005c59c0(float value) {
+// src: COMMUNITY 0x005c59c0
+void FUN_005c59c0_Class::PlayerCharacter_SetWorldFOV(float value) {
     f670 = value;
 }
 
@@ -5400,11 +5462,12 @@ class FUN_005da7f0_Class
 public:
     char padding[0x504];
     unsigned int memberAt0x504;
-    unsigned int FUN_005da7f0();
+    unsigned int TESRace_GetOlderRace();
 };
 
 // @fnv 0x005da7f0
-unsigned int FUN_005da7f0_Class::FUN_005da7f0()
+// src: COMMUNITY 0x005da7f0
+unsigned int FUN_005da7f0_Class::TESRace_GetOlderRace()
 {
     return memberAt0x504;
 }
@@ -5471,10 +5534,11 @@ struct FUN_005e0460_class {
     void FUN_005e0460();
 };
 struct FUN_005dd7f0_class : public FUN_005e0460_class {
-    void FUN_005dd7f0();
+    void NiTPrimitiveArray_char_const_Free();
 };
 // @fnv 0x005dd7f0
-void FUN_005dd7f0_class::FUN_005dd7f0()
+// src: COMMUNITY 0x005dd7f0
+void FUN_005dd7f0_class::NiTPrimitiveArray_char_const_Free()
 {
     FUN_005e0460();
 }
@@ -5490,7 +5554,8 @@ bool __cdecl Cmd_IsHardcore_Execute(TESObjectREFR* a, TESObjectREFR* b, TESObjec
 
 
 // @fnv 0x005defe0
-void TESChallenge::FUN_005defe0(bool b)
+// src: COMMUNITY 0x005defe0
+void TESChallenge::RemoveRecurringFromChallenge(bool b)
 {
     !b ? nFlags &= ~8 : nFlags |= 8;
     MarkForSave();
@@ -5518,29 +5583,31 @@ FUN_005e0430* __thiscall FUN_005e0430::Init(void* a, void* b)
     return this;
 }
 
-__int64 __cdecl FUN_004b1190(int);
+__int64 __cdecl Date_CalculateFullDate(int);
 struct S_004b1070
 {
     unsigned short f0;
-    unsigned short __thiscall FUN_004b1070();
+    unsigned short __thiscall Date_GetDay();
 };
 // @fnv 0x004b1070
-unsigned short __thiscall S_004b1070::FUN_004b1070()
+// src: COMMUNITY 0x004b1070
+unsigned short __thiscall S_004b1070::Date_GetDay()
 {
-    __int64 q = FUN_004b1190(f0);
+    __int64 q = Date_CalculateFullDate(f0);
     return ((unsigned short*)&q)[2];
 }
 
-__int64 __cdecl FUN_004b1190(int);
+__int64 __cdecl Date_CalculateFullDate(int);
 struct Str004b10a0
 {
     unsigned short f0;
-    int FUN_004b10a0();
+    int Date_GetMonth();
 };
 // @fnv 0x004b10a0
-int Str004b10a0::FUN_004b10a0()
+// src: COMMUNITY 0x004b10a0
+int Str004b10a0::Date_GetMonth()
 {
-    __int64 v = FUN_004b1190(f0);
+    __int64 v = Date_CalculateFullDate(f0);
     return (int)v;
 }
 
@@ -5630,9 +5697,10 @@ bool Cmd_TestSeenData_Execute(const ScriptParameter* paramInfo, const char* scri
 }  // namespace fnv_005b78a0
 
 struct MyVec005bb9b0 { float x; float y; float z; };
-struct UnknownClass005bb9b0 { MyVec005bb9b0& FUN_005bb9b0(MyVec005bb9b0&); };
+struct UnknownClass005bb9b0 { MyVec005bb9b0& ShadowSceneNode_GetCameraPos(MyVec005bb9b0&); };
 // @fnv 0x005bb9b0
-MyVec005bb9b0& UnknownClass005bb9b0::FUN_005bb9b0(MyVec005bb9b0& akDest)
+// src: COMMUNITY 0x005bb9b0
+MyVec005bb9b0& UnknownClass005bb9b0::ShadowSceneNode_GetCameraPos(MyVec005bb9b0& akDest)
 {
     akDest = *reinterpret_cast<const MyVec005bb9b0*>(reinterpret_cast<const char*>(this) + 0x1f0);
     return akDest;
@@ -5689,10 +5757,11 @@ struct CalleeObj
     unsigned char _0[0x50];
     int m50;
     void FUN_00622570(bool);
-    CalleeObj* FUN_005c53f0(CalleeObj*);
+    CalleeObj* hkpWorldRayCastOutput_hasHit(CalleeObj*);
 };
 // @fnv 0x005c53f0
-CalleeObj* CalleeObj::FUN_005c53f0(CalleeObj* a)
+// src: COMMUNITY 0x005c53f0
+CalleeObj* CalleeObj::hkpWorldRayCastOutput_hasHit(CalleeObj* a)
 {
     a->FUN_00622570(m50 != 0);
     return a;
@@ -5791,7 +5860,7 @@ namespace fnv_005cb8e0 {
 class RegionObjectEntry {
 public:
     TESObjectREFR* GetReference(bool);
-    TESObjectREFR* FUN_005cbb70();
+    TESObjectREFR* TESQuestTarget_GetTrackingRef();
 };
 struct BSSimpleListTESRaceSize {
     int GetSize();
@@ -5800,7 +5869,7 @@ struct BSSimpleListTESRaceSize {
 };
 struct FUN_005cb8e0_Player {
     TESQuest* FUN_005cbb50();
-    BSSimpleListTESRaceSize* FUN_00952ba0();
+    BSSimpleListTESRaceSize* PlayerCharacter_GetCurrentQuestTargets();
 };
 extern FUN_005cb8e0_Player* g_thePlayer;
 void DebugLog(const char*, ...);
@@ -5814,7 +5883,7 @@ bool Cmd_ShowQuestTargets_Execute(const ScriptParameter* apParameters, const cha
     if (g_thePlayer->FUN_005cbb50())
     {
         DebugLog("Active quest: %s", g_thePlayer->FUN_005cbb50()->GetEditorName());
-        BSSimpleListTESRaceSize* pActiveTargetList = g_thePlayer->FUN_00952ba0();
+        BSSimpleListTESRaceSize* pActiveTargetList = g_thePlayer->PlayerCharacter_GetCurrentQuestTargets();
         if (!pActiveTargetList)
             DebugLog("No current targets");
         else
@@ -5836,7 +5905,7 @@ bool Cmd_ShowQuestTargets_Execute(const ScriptParameter* apParameters, const cha
                 else
                     cRefName.PrintfString("%s (%08X) (carrying %s (%08X))", ((TESForm*)ptargref)->GetName(), ((SoundH*)ptargref)->Deallocate(), ((TESForm*)porigtargref)->GetName(), ((SoundH*)porigtargref)->Deallocate());
             }
-            TESObjectREFR* ptrackingRef = pItem->FUN_005cbb70();
+            TESObjectREFR* ptrackingRef = pItem->TESQuestTarget_GetTrackingRef();
             if (ptrackingRef && ((TESForm*)((TESObject*)ptrackingRef)->GetNext())->GetFormType() == 0x1c)
                 cDoorName.PrintfString("%s (%08X)", ((TESForm*)ptrackingRef)->GetName(), ((SoundH*)ptrackingRef)->Deallocate());
             DebugLog("Target %d:  Reference: %s, load door: %s", iTargetCount, cRefName.String(), cDoorName.String());
@@ -5871,13 +5940,13 @@ bool __cdecl FUN_005ccaf0(const ScriptParameter*, const char*, TESObjectREFR* p,
 }
 
 namespace fnv_005cde00 {
-struct FUN_005cde20Class { unsigned int FUN_005cde20(); };
+struct FUN_005cde20Class { unsigned int PlayerCharacter_GetSleepHours(); };
 extern FUN_005cde20Class * _g_thePlayer;
 // @fnv 0x005cde00
 // src: EXE 0x005cde00
 bool Cmd_GetPCSleepHours_Execute(const ScriptParameter * a1, const char * a2, TESObjectREFR * a3, TESObjectREFR * a4, Script * a5, ScriptLocals * a6, double & a7, unsigned int & a8)
 {
-    int v = _g_thePlayer->FUN_005cde20();
+    int v = _g_thePlayer->PlayerCharacter_GetSleepHours();
     a7 = v;
     return true;
 }
@@ -5893,9 +5962,9 @@ struct S1740 {
 };
 // 0x00ec2320 is the BSMovieThread playback entry, not a MoviePlayer method.
 struct MoviePlaybackThread {
-    void FUN_00ec2320(char*, bool, int, int, int, bool, int, bool, bool);
+    void MoviePlayer_Play(char*, bool, int, int, int, bool, int, bool, bool);
 };
-void __fastcall FUN_00c3e310(IOManager*);
+void __fastcall IOManager_Pause(IOManager*);
 void __fastcall FUN_00c3e340(IOManager*);
 extern IOManager* DAT_01202d98;
 extern MoviePlaybackThread* DAT_0126fac4;
@@ -5920,8 +5989,8 @@ bool Cmd_PlayBink_Execute(const ScriptParameter* paramInfo, const char* scriptDa
         ((S5d*)BSAudio::GetSingleton())->FUN_005d1720(0, 6000);
     else if (!bThreaded)
         BSAudio::GetSingleton()->SetUseMultipleThreads(true);
-    FUN_00c3e310(DAT_01202d98);
-    DAT_0126fac4->FUN_00ec2320(cFileName, iSkippable != 0, 0, 0, 0, iBorders != 0, 0, iPauseAudio != 0, iFade != 0);
+    IOManager_Pause(DAT_01202d98);
+    DAT_0126fac4->MoviePlayer_Play(cFileName, iSkippable != 0, 0, 0, 0, iBorders != 0, 0, iPauseAudio != 0, iFade != 0);
     FUN_00c3e340(DAT_01202d98);
     if (iPauseAudio)
         ((S1740*)BSAudio::GetSingleton())->FUN_005d1740(0);
@@ -6103,7 +6172,7 @@ bool __cdecl Cmd_Abs_Execute(const ScriptParameter* parameters, const char* scri
 }
 
 // Call surface of BGSSaveLoadUI; the shared header cannot be read in this unit (its own layout_support template copies).
-struct BGSSaveLoadUIApi { void FUN_00a26120(char*); };
+struct BGSSaveLoadUIApi { void XGamerProfile_RevokeCode(char*); };
 BGSSaveLoadUIApi* FUN_00a25920();
 // @fnv 0x005dda00
 // src: EXE 0x005dda00
@@ -6116,7 +6185,7 @@ bool Cmd_RevokeCode_Execute(const ScriptParameter* parameters, const char* scrip
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject,
                      container, script, locals, buffer))
         return false;
-    FUN_00a25920()->FUN_00a26120(buffer);
+    FUN_00a25920()->XGamerProfile_RevokeCode(buffer);
     return true;
 }
 
@@ -6134,7 +6203,7 @@ void S005e0460::FUN_005e0460()
 }
 
 struct BaseFor_5e0490 {
-    void __thiscall FUN_005e0a30(unsigned int, unsigned int);
+    void __thiscall NiTArray_char_const_NiTMallocInterface_char_const_Init(unsigned int, unsigned int);
 };
 extern int DAT_0103d420;
 struct Holder {
@@ -6144,7 +6213,7 @@ struct Holder {
 // src: EXE 0x005e0490
 Holder* __thiscall Holder::NiTPrimitiveArray_char_const_NiTPrimitiveArray(unsigned int a, unsigned int b)
 {
-    ((BaseFor_5e0490*)this)->FUN_005e0a30(a, b);
+    ((BaseFor_5e0490*)this)->NiTArray_char_const_NiTMallocInterface_char_const_Init(a, b);
     *(int*)this = (int)&DAT_0103d420;
     return (Holder*)this;
 }
@@ -6180,7 +6249,7 @@ bool Cmd_GetButtonPressed_Execute(const ScriptParameter* p1, const char* p2, TES
 namespace fnv_005b72f0 {
 void __cdecl _DebugLog(const char*, ...);
 int __cdecl strcat_s(char*, unsigned int, const char*);
-char* __cdecl FUN_004dc110();
+char* __cdecl BSUtilities_GetPersonalPath();
 extern const char* const DAT_011a2ff0;
 extern const char* const DAT_011a2ff4;
 extern const char* DAT_011a2ff8;
@@ -6195,21 +6264,21 @@ bool __cdecl Cmd_RefreshINI_Execute(const ScriptParameter* apParameters, const c
 {
     if (DAT_011a2ff0) {
         char buf[260];
-        TaskQueueInterface::CopyStringToBuffer(buf, 260, FUN_004dc110());
+        TaskQueueInterface::CopyStringToBuffer(buf, 260, BSUtilities_GetPersonalPath());
         strcat_s(buf, 260, DAT_011a2ff0);
-        SettingT<INISettingCollection>::GetCollection()->FUN_005e0200(buf);
+        SettingT<INISettingCollection>::GetCollection()->j_ReadSettingsFromFile_SettingCollection_VSetting_QEAA_NPEBD_Z(buf);
     }
     if (DAT_011a2ff4) {
         char buf[260];
-        TaskQueueInterface::CopyStringToBuffer(buf, 260, FUN_004dc110());
+        TaskQueueInterface::CopyStringToBuffer(buf, 260, BSUtilities_GetPersonalPath());
         strcat_s(buf, 260, DAT_011a2ff4);
-        SettingT<INISettingCollection>::GetCollection()->FUN_005e0200(buf);
+        SettingT<INISettingCollection>::GetCollection()->j_ReadSettingsFromFile_SettingCollection_VSetting_QEAA_NPEBD_Z(buf);
     }
     if (DAT_011a2ff8) {
         char buf[260];
-        TaskQueueInterface::CopyStringToBuffer(buf, 260, FUN_004dc110());
+        TaskQueueInterface::CopyStringToBuffer(buf, 260, BSUtilities_GetPersonalPath());
         strcat_s(buf, 260, DAT_011a2ff8);
-        SettingT<INIPrefSettingCollection>::GetCollection()->FUN_005e0200(buf);
+        SettingT<INIPrefSettingCollection>::GetCollection()->j_ReadSettingsFromFile_SettingCollection_VSetting_QEAA_NPEBD_Z(buf);
     }
     _DebugLog("The in-game settings have been refreshed from the Fallout.ini file.");
     return true;
@@ -6353,8 +6422,8 @@ struct FUN_0056aac0_t { TESObjectREFR* GetEnableParent(); };
 
 
 struct FUN_00705b10_Dummy { void Set(int); };
-struct FUN_00565090_shell { bool FUN_00565090(); };
-struct FUN_005650d0_s { void FUN_005650d0(bool); };
+struct FUN_00565090_shell { bool TESObjectREFR_GetIsInvisibleLODMultType(); };
+struct FUN_005650d0_s { void TESObjectREFR_SetIsInvisible(bool); };
 struct DisableLocalsFlagsView { void* m_pOwnerScript; char m_cActionFlags; };
 void __cdecl FUN_005aa500(TESObjectREFR*, bool);
 void __cdecl _FNV_Warning(const char*, ...);
@@ -6387,8 +6456,8 @@ bool __cdecl Cmd_Disable_Execute(const ::ScriptParameter* apParameters, const ch
                 FUN_005c45e0_AV* pfade = pav ? pav->v10() : 0;
                 if (pfade)
                     ((FUN_00705b10_Dummy*)pfade)->Set(9);
-                if (!((FUN_00565090_shell*)apRefObject)->FUN_00565090())
-                    ((FUN_005650d0_s*)apRefObject)->FUN_005650d0(true);
+                if (!((FUN_00565090_shell*)apRefObject)->TESObjectREFR_GetIsInvisibleLODMultType())
+                    ((FUN_005650d0_s*)apRefObject)->TESObjectREFR_SetIsInvisible(true);
             }
             FUN_005aa500(apRefObject, iFade != 0);
         }
@@ -6424,7 +6493,7 @@ extern ::Actor* _g_thePlayer;
 extern const char* DAT_01199e8c[];
 extern __declspec(thread) bool g_bLogSexChange[0x269];
 void __cdecl _DebugLog(const char*);
-void __cdecl FUN_00603280(TESRace*, int, FUN_005e0560*);
+void __cdecl TESNPC_FillCharGenPresetList(TESRace*, int, FUN_005e0560*);
 
 // @fnv 0x005c65a0
 bool __cdecl FUN_005c65a0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int& opcodeOffsetPtr)
@@ -6458,7 +6527,7 @@ bool __cdecl FUN_005c65a0(const ScriptParameter* paramInfo, const char* scriptDa
         if (pTarget3->IsPlayerRef() && bResetHead)
         {
             FUN_005e0560 list2;
-            FUN_00603280(((FUN_004ac110_shell*)pNpc7)->FUN_004ac110(), ((TESActorBase*)pNpc7)->GetSex(), &list2);
+            TESNPC_FillCharGenPresetList(((FUN_004ac110_shell*)pNpc7)->FUN_004ac110(), ((TESActorBase*)pNpc7)->GetSex(), &list2);
             pNpc7->CopyActorBaseData((TESNPC*)*((Arr*)&list2)->GetAt(0));
         }
         ((Character*)pTarget3)->Reset3D();
@@ -6620,7 +6689,7 @@ extern GlobalObject_0045cfe0 g_011c3ea4;
 struct TaskQueue5ccf50 { static TaskQueue5ccf50* __cdecl GetInstance(); };
 
 void __cdecl FUN_0087a8b0(TaskQueue5ccf50*, int, Actor*, ...);
-bool __fastcall FUN_00572c80(TESObjectREFR*);
+bool __fastcall TESObjectREFR_CanBeMoved(TESObjectREFR*);
 void DebugLog(const char*, ...);
 void _FNV_Warning(const char*, ...);
 struct ScriptMoveHelper { static void __cdecl MoveReferenceToPosition(TESObjectREFR*, TESObjectREFR*, float, float, float); };
@@ -6636,7 +6705,7 @@ bool Cmd_MoveToMarker_Execute(const ScriptParameter* paramInfo, const char* scri
     float fZ = 0;
     if (!ExtractArgs(paramInfo, scriptData, &opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList, &pTeleportMarker, &fX, &fY, &fZ))
         return false;
-    if (thisObj && !::FUN_00572c80(thisObj)) {
+    if (thisObj && !::TESObjectREFR_CanBeMoved(thisObj)) {
         if (g_bTlsDebugMove)
             DebugLog("%s cannot be moved.", ((RefVT*)thisObj)->GetEditorName());
         if (!((DataHandler5ccf50*)g_dataHandler)->FormIDExists(((FormIDView5ccf50*)scriptObj)->Deallocate()))
@@ -7147,7 +7216,7 @@ public:
 };
 struct TESLog005d0760 { void* GetLogDate(); };
 
-struct S_008ace10 { void FUN_008ace10(bool); };
+struct S_008ace10 { void Actor_SetUnconscious(bool); };
 
 
 // @fnv 0x005d0760
@@ -7168,7 +7237,7 @@ bool Cmd_SetUnconscious_Execute(const ScriptParameter* paramInfo, const char* sc
                     ((VProc005d0760*)((TESLog005d0760*)pActor)->GetLogDate())->Slot614(0x800);
                     ((VProc005d0760*)((TESLog005d0760*)pActor)->GetLogDate())->Slot71c(0);
                 }
-                ((S_008ace10*)pActor)->FUN_008ace10(true);
+                ((S_008ace10*)pActor)->Actor_SetUnconscious(true);
                 ((ScriptActorActions*)pActor)->FUN_0087faa0();
                 if (((TESLog005d0760*)pActor)->GetLogDate())
                     ((VProc005d0760*)((TESLog005d0760*)pActor)->GetLogDate())->Slot338(-1.0f);
@@ -7177,7 +7246,7 @@ bool Cmd_SetUnconscious_Execute(const ScriptParameter* paramInfo, const char* sc
                     ((VProc005d0760*)((TESLog005d0760*)pActor)->GetLogDate())->Slot614(0x800);
                     ((VProc005d0760*)((TESLog005d0760*)pActor)->GetLogDate())->Slot71c(0);
                 }
-                ((S_008ace10*)pActor)->FUN_008ace10(false);
+                ((S_008ace10*)pActor)->Actor_SetUnconscious(false);
             }
         }
     }
@@ -7221,7 +7290,7 @@ extern GlobalObject_0045cfe0 g_011c3ea4;
 
 struct TaskQueueInterface { static TaskQueueInterface* __cdecl GetInstance(); };
 void __cdecl FUN_0087a8b0(TaskQueueInterface*, int, Actor*, ...);
-void __cdecl FUN_005d3c20(TESObjectREFR*, float);
+void __cdecl Script_SetRigidBodyMassBase(TESObjectREFR*, float);
 // @fnv 0x005d3b90
 // src: EXE 0x005d3b90
 bool Cmd_SetRigidBodyMass_Execute(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
@@ -7234,7 +7303,7 @@ bool Cmd_SetRigidBodyMass_Execute(const ScriptParameter* parameters, const char*
     if (*g_011c3ea4.Int() > 1)
         FUN_0087a8b0(TaskQueueInterface::GetInstance(), 0x1156, (Actor*)thisObject, value);
     else
-        FUN_005d3c20(thisObject, value);
+        Script_SetRigidBodyMassBase(thisObject, value);
     return true;
 }
 }  // namespace fnv_005d3b90
@@ -7308,7 +7377,7 @@ namespace fnv_005d4b90 {
 struct GlobalObject_0045cfe0 { int* Int(); };
 extern GlobalObject_0045cfe0 g_011c3ea4;
 struct TaskQueueInterface { static TaskQueueInterface* GetInstance(); };
-void FUN_005d4c20(TESObjectREFR*, float);
+void Script_DamageObjectBase(TESObjectREFR*, float);
 void FUN_0087a8b0(TaskQueueInterface*, int, Actor*, ...);
 
 // @fnv 0x005d4b90
@@ -7327,14 +7396,14 @@ bool Cmd_DamageObject_Execute(const ScriptParameter* parameters, const char* scr
         FUN_0087a8b0(TaskQueueInterface::GetInstance(), 0x116c,
                       (Actor*)thisObject, damage);
     else
-        FUN_005d4c20(thisObject, damage);
+        Script_DamageObjectBase(thisObject, damage);
     return true;
 }
 }  // namespace fnv_005d4b90
 
 namespace fnv_005d9170 {
 struct ConsoleManager { static ConsoleManager* __cdecl Instance(bool); };
-struct Holder { void FUN_0071dd50(const char*); };
+struct Holder { void MenuConsole_SetFileOutputName(const char*); };
 extern "C" void _DebugLog(const char*, ...);
 __declspec(thread) bool _gOutputDisabled;
 // @fnv 0x005d9170
@@ -7351,9 +7420,9 @@ bool __cdecl Cmd_SetConsoleOuputFile_Execute(const ScriptParameter* parameters, 
     if (filename[0] == 0 || filename[0] == '0') {
         if (_gOutputDisabled)
             _DebugLog("SetConsoleOutputFilename >> OUTPUT_DISABLED");
-        ((Holder*)ConsoleManager::Instance(true))->FUN_0071dd50(0);
+        ((Holder*)ConsoleManager::Instance(true))->MenuConsole_SetFileOutputName(0);
     } else {
-        ((Holder*)ConsoleManager::Instance(true))->FUN_0071dd50(filename);
+        ((Holder*)ConsoleManager::Instance(true))->MenuConsole_SetFileOutputName(filename);
         if (_gOutputDisabled)
             _DebugLog("SetConsoleOutputFilename >> '%s'", filename);
     }
@@ -7538,10 +7607,10 @@ bool __cdecl Cmd_PlaceLeveledActorAtMe_Execute(const ScriptParameter* apParamete
 }  // namespace fnv_005d9810
 
 struct FUN_00452370_shell { bool FUN_00452370() const; };
-struct FUN_004846e0_shell { void FUN_004846e0(bool); };
+struct FUN_004846e0_shell { void TESForm_SetVATSTargetOverride(bool); };
 struct FUN_004759a0_First;
 FUN_004759a0_First* __cdecl FUN_00475400(void*);
-struct FUN_00576100_Class { bool FUN_00576100(); };
+struct FUN_00576100_Class { bool BGSDestructibleObjectForm_GetTargetableInVATS(); };
 
 
 // @fnv 0x005daae0
@@ -7561,16 +7630,16 @@ bool Cmd_SetVATSTarget_Execute(const ScriptParameter* parameters, const char* sc
         FUN_004759a0_First* form3 = FUN_00475400(
             (void*)((TESObject*)thisObject)->GetNext());
         if (form3)
-            isParameter = ((FUN_00576100_Class*)form3)->FUN_00576100();
+            isParameter = ((FUN_00576100_Class*)form3)->BGSDestructibleObjectForm_GetTargetableInVATS();
         if (isParameter == hasParameter)
-            ((FUN_004846e0_shell*)thisObject)->FUN_004846e0(false);
+            ((FUN_004846e0_shell*)thisObject)->TESForm_SetVATSTargetOverride(false);
         else
-            ((FUN_004846e0_shell*)thisObject)->FUN_004846e0(true);
+            ((FUN_004846e0_shell*)thisObject)->TESForm_SetVATSTargetOverride(true);
     }
     return true;
 }
 
-float FUN_005dc440(float);
+float log_005dc440(float);
 extern float DAT_0103d018;
 
 // @fnv 0x005dc3b0
@@ -7587,7 +7656,7 @@ bool __cdecl Cmd_Log_Execute(const ScriptParameter* parameters, const char* scri
     if (base == 1.0)
         result = 0.0;
     else
-        result = FUN_005dc440(value) / FUN_005dc440(base);
+        result = log_005dc440(value) / log_005dc440(base);
     return true;
 }
 
@@ -7700,7 +7769,7 @@ typedef BSSimpleList<ContentMountRecord*> PkgList;
 struct FUN_00b008d0_StandIn { const wchar_t* FUN_00b008d0(); };
 struct FUN_00b008e0_class { const char* FUN_00b008e0(); };
 int _sprintf_s(char*, unsigned int, const char*, ...);
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 int FUN_00ecad86(unsigned int*, char*, unsigned int, const wchar_t*, unsigned int);
 
 // @fnv 0x005dfa20
@@ -7724,7 +7793,7 @@ bool FUN_005dfa20(const ScriptParameter* apParameters, const char* apCompiledPar
             _sprintf_s(tmp, 200, "     Examining '%S' [%s]", ((FUN_00b008d0_StandIn*)package)->FUN_00b008d0(), ((FUN_00b008e0_class*)package)->FUN_00b008e0());
             unsigned int num = 0;
             FUN_00ecad86(&num, tmp, 200, ((FUN_00b008d0_StandIn*)package)->FUN_00b008d0(), 200);
-            if (FUN_00404dc0(tmp, pName) == 0)
+            if (BSstricmp(tmp, pName) == 0)
             {
                 *afReturnValue = 1;
                 return true;
@@ -7746,8 +7815,8 @@ struct TesscriptfunctionsInterfaceView { static bool __cdecl ShowButtonDialog(co
 struct TESSaveLoadGameApi { unsigned int FUN_005a9460(); };
 extern TESSaveLoadGameApi* g_TESSaveLoadGame;
 extern SettingString g_011d38b8;
-void __cdecl FUN_0095ee60();
-void __cdecl FUN_0095ee70();
+void __cdecl PlayerCharacter_ForceReload();
+void __cdecl PlayerCharacter_ForceRestart();
 // @fnv 0x005b4550
 // src: EXE 0x005b4550
 bool Cmd_EssentialDeathReload_Execute(const ScriptParameter* params, const char* script, TESObjectREFR* form1, TESObjectREFR* form2, Script* scriptPtr, ScriptLocals* locals, double& result, unsigned int& time)
@@ -7756,9 +7825,9 @@ bool Cmd_EssentialDeathReload_Execute(const ScriptParameter* params, const char*
     if (!ExtractArgs(params, script, &time, form1, form2, scriptPtr, locals, buffer))
         return false;
     if (g_TESSaveLoadGame->FUN_005a9460())
-        TesscriptfunctionsInterfaceView::ShowButtonDialog(buffer, 0, 0, FUN_0095ee60, 1, 0, 0.0f, 0.0f, g_011d38b8.GetString(), 0);
+        TesscriptfunctionsInterfaceView::ShowButtonDialog(buffer, 0, 0, PlayerCharacter_ForceReload, 1, 0, 0.0f, 0.0f, g_011d38b8.GetString(), 0);
     else
-        TesscriptfunctionsInterfaceView::ShowButtonDialog(buffer, 0, 0, FUN_0095ee70, 1, 0, 0.0f, 0.0f, g_011d38b8.GetString(), 0);
+        TesscriptfunctionsInterfaceView::ShowButtonDialog(buffer, 0, 0, PlayerCharacter_ForceRestart, 1, 0, 0.0f, 0.0f, g_011d38b8.GetString(), 0);
     return true;
 }
 }  // namespace fnv_005b4550
@@ -7821,7 +7890,7 @@ bool __cdecl FUN_005b5dd0()
     return true;
 }
 
-void __cdecl FUN_005b6f60(unsigned char);
+void __cdecl CombatController_SetShowVerboseMessages(unsigned char);
 unsigned char __cdecl FUN_005b6f70(void);
 void __cdecl _DebugLog(const char*, const char*);
 
@@ -7829,7 +7898,7 @@ void __cdecl _DebugLog(const char*, const char*);
 // src: EXE 0x005b6f10
 bool __cdecl Cmd_Verbose_Execute()
 {
-    FUN_005b6f60(!FUN_005b6f70());
+    CombatController_SetShowVerboseMessages(!FUN_005b6f70());
     _DebugLog("Verbose messages %s", FUN_005b6f70() ? "shown." : "hidden.");
     return true;
 }
@@ -7839,16 +7908,16 @@ void _DebugLog(const char*);
 void _DebugLog(const char*, const char*);
 void FUN_009526a0(bool);
 bool FUN_009526b0();
-void FUN_009526e0(bool);
-unsigned char FUN_009526f0();
+void SetDemiGodMode(bool);
+unsigned char GetDemigodeMode();
 // @fnv 0x005b6f80
 // src: EXE 0x005b6f80
 bool Cmd_ToggleGodMode_Execute()
 {
     FUN_009526a0(!FUN_009526b0());
-    if (!FUN_009526b0() && FUN_009526f0())
+    if (!FUN_009526b0() && GetDemigodeMode())
     {
-        FUN_009526e0(false);
+        SetDemiGodMode(false);
         _DebugLog("Demigod Mode disabled");
     }
     _DebugLog("God Mode %s", FUN_009526b0() ? "enabled." : "disabled.");
@@ -7894,7 +7963,7 @@ namespace fnv_005b7250 {
 
 extern BSOcclusionPlane* _g_thePlayer;
 void _DebugLog(const char*);
-void FUN_00557dd0(int, int, int);
+void TESObjectCELL_RenderTestCell(int, int, int);
 
 // @fnv 0x005b7250
 // src: EXE 0x005b7250
@@ -7902,7 +7971,7 @@ bool Cmd_RenderTestCell_Execute()
 {
     if (_g_thePlayer->GetCullResult())
     {
-        FUN_00557dd0(_g_thePlayer->GetCullResult(), 0, 1);
+        TESObjectCELL_RenderTestCell(_g_thePlayer->GetCullResult(), 0, 1);
         _DebugLog("RenderTestCell complete. Check warnings file for more info.");
     }
     else
@@ -7915,12 +7984,12 @@ bool Cmd_RenderTestCell_Execute()
 
 struct DebugLogStub { static void _DebugLog(const char*, const char*); };
 unsigned char __cdecl FUN_005b7470(void);
-void __cdecl FUN_005b7480(unsigned char);
+void __cdecl SetNPCEmotionsEnabled(unsigned char);
 // @fnv 0x005b7420
 // src: EXE 0x005b7420
 bool Cmd_ToggleEmotions_Execute()
 {
-    FUN_005b7480(!FUN_005b7470());
+    SetNPCEmotionsEnabled(!FUN_005b7470());
     DebugLogStub::_DebugLog("NPC Facial Emotions %s", FUN_005b7470() ? "Enabled." : "Disabled.");
     return true;
 }
@@ -7976,27 +8045,27 @@ bool Cmd_RemoveImageSpaceModifier_Execute(const ScriptParameter* a, const char* 
 }
 }  // namespace fnv_005b7760
 
-void __cdecl FUN_005b9150(unsigned char);
-unsigned char __cdecl FUN_005b9160(void);
+void __cdecl SetbIsConversationStats(unsigned char);
+unsigned char __cdecl GetIsConversationsStatsEnabled(void);
 void __cdecl _DebugLog(const char*, const char*);
 
 // @fnv 0x005b9100
 // src: EXE 0x005b9100
 bool __cdecl Cmd_ToggleConversations_Execute()
 {
-    FUN_005b9150(!FUN_005b9160());
-    _DebugLog("Conversation stats %s", FUN_005b9160() ? "shown." : "hidden.");
+    SetbIsConversationStats(!GetIsConversationsStatsEnabled());
+    _DebugLog("Conversation stats %s", GetIsConversationsStatsEnabled() ? "shown." : "hidden.");
     return true;
 }
 
-void __cdecl FUN_005b9200(unsigned char);
+void __cdecl SetIsMagicStatsEnabled(unsigned char);
 bool __cdecl GetLimbConditionEffectInitialized();
 void __cdecl _DebugLog(const char*, ...);
 // @fnv 0x005b91b0
 // src: EXE 0x005b91b0
 bool Cmd_ToggleMagicStats_Execute()
 {
-    FUN_005b9200(!GetLimbConditionEffectInitialized());
+    SetIsMagicStatsEnabled(!GetLimbConditionEffectInitialized());
     _DebugLog("Magic stats %s", GetLimbConditionEffectInitialized() ? "shown." : "hidden.");
     return true;
 }
@@ -8023,7 +8092,7 @@ bool FUN_005b9400()
 
 namespace fnv_005b97f0 {
 unsigned int __cdecl FUN_0045c670();
-struct FUN_005b9870_This { void FUN_005b9870(); };
+struct FUN_005b9870_This { void ShadowSceneNode_ToggleWireframe(); };
 extern "C" void __cdecl _DebugLog(const char*, ...);
 extern unsigned char DAT_011cae46;
 __declspec(thread) unsigned char g_bDebugLogEnabled;
@@ -8035,7 +8104,7 @@ bool Cmd_ToggleWireframe_Execute()
     DAT_011cae46 ^= 1;
     FUN_005b9870_This* pRoot = (FUN_005b9870_This*)FUN_0045c670();
     FUN_005b9870_This* pScene = (FUN_005b9870_This*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
-    pScene->FUN_005b9870();
+    pScene->ShadowSceneNode_ToggleWireframe();
     if (g_bDebugLogEnabled) {
         _DebugLog("Wireframe -> %s", DAT_011cae46 ? "On" : "Off");
     }
@@ -8057,7 +8126,7 @@ bool Cmd_SetMotionBlur_Execute(const ScriptParameter* parameters, const char* sc
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container,
                      script, locals, &value))
         return false;
-    FUN_004e3270()->FUN_005b9f50(value);
+    FUN_004e3270()->ImageSpaceManager_SetMotionBlur(value);
     return true;
 }
 
@@ -8460,7 +8529,7 @@ bool Cmd_SetFactionReaction_Execute(const ScriptParameter* parameters, const cha
 }
 
 namespace fnv_005c9610 {
-struct FUN_00952830_Class { bool FUN_00952830(BSAudio*, unsigned int, unsigned int); };
+struct FUN_00952830_Class { bool PlayerCharacter_AddTopic(BSAudio*, unsigned int, unsigned int); };
 extern FUN_00952830_Class* _g_thePlayer;
 // @fnv 0x005c9610
 // src: EXE 0x005c9610
@@ -8469,13 +8538,14 @@ bool __cdecl Cmd_AddTopic_Execute(const ScriptParameter* parameters, const char*
     BSAudio* form = 0;
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, &form))
         return false;
-    _g_thePlayer->FUN_00952830(form, 1, 0);
+    _g_thePlayer->PlayerCharacter_AddTopic(form, 1, 0);
     return true;
 }
 }  // namespace fnv_005c9610
 
 // @fnv 0x005ca8d0
-bool FUN_005ca8d0(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
+// src: COMMUNITY 0x005ca8d0
+bool Event_OnMurder(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
 {
     unsigned int formID = 0;
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, &formID))
@@ -8621,7 +8691,7 @@ bool FUN_005ce6b0(const ScriptParameter* apParameters, const char* apCompiledPar
 }  // namespace fnv_005ce6b0
 
 namespace fnv_005cedf0 {
-extern "C" void __cdecl FUN_00705870(int);
+extern "C" void __cdecl Interface_CreateRaceSexMenu(int);
 extern TESObjectREFR* g_thePlayer;
 __declspec(thread) bool tls_0268;
 // @fnv 0x005cedf0
@@ -8631,9 +8701,9 @@ bool Cmd_ShowRaceMenu_Execute()
     if (g_thePlayer)
     {
         if (tls_0268)
-            FUN_00705870(0);
+            Interface_CreateRaceSexMenu(0);
         else
-            FUN_00705870(1);
+            Interface_CreateRaceSexMenu(1);
     }
     return true;
 }
@@ -8696,7 +8766,7 @@ bool __cdecl FUN_005d2970(const ScriptParameter*, const char*, TESObjectREFR* ap
 }
 
 struct IdleSystem { static IdleSystem& GetRandomGenerator(); };
-struct FUN_00af2420_class { bool FUN_00af2420(int); };
+struct FUN_00af2420_class { bool BSAwardsSystemUtility_Unlock(int); };
 extern bool DAT_011d8ce4;
 // @fnv 0x005d3b20
 // src: EXE 0x005d3b20
@@ -8712,7 +8782,7 @@ bool Cmd_AddAchievement_Execute(const ScriptParameter* apParameters, const char*
     {
         bool bStuff;
         if (!DAT_011d8ce4)
-            bStuff = ((FUN_00af2420_class&)IdleSystem::GetRandomGenerator()).FUN_00af2420(iachivement);
+            bStuff = ((FUN_00af2420_class&)IdleSystem::GetRandomGenerator()).BSAwardsSystemUtility_Unlock(iachivement);
     }
     return true;
 }
@@ -8735,7 +8805,7 @@ bool FUN_005d4510()
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 extern unsigned char DAT_012682f8;
-void FUN_005d4a30(unsigned char);
+void TESMain_SetIsSceneComplex(unsigned char);
 
 // @fnv 0x005d49c0
 // src: EXE 0x005d49c0
@@ -8746,12 +8816,12 @@ bool Cmd_SetSceneIsComplex_Execute(const ScriptParameter* parameters, const char
         return false;
     if (value)
     {
-        FUN_005d4a30(1);
+        TESMain_SetIsSceneComplex(1);
         DAT_012682f8 = 1;
     }
     else
     {
-        FUN_005d4a30(0);
+        TESMain_SetIsSceneComplex(0);
         DAT_012682f8 = 0;
     }
     return true;
@@ -8773,7 +8843,7 @@ bool __cdecl FUN_005d4aa0(const ScriptParameter*, const char*, TESObjectREFR* ap
 
 namespace fnv_005d52a0 {
 struct FNStub { char* GetFullName(); };
-struct PlayerStub { void FUN_00966b80(void*); };
+struct PlayerStub { void PlayerCharacter_RemoveNote(void*); };
 extern PlayerStub* _g_thePlayer;
 struct DebugStub { bool bDebug; };
 extern __declspec(thread) DebugStub _g_theDebugStub;
@@ -8786,7 +8856,7 @@ bool __cdecl Cmd_RemoveNote_Execute(const ScriptParameter* apParameters, const c
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &pNote))
         return false;
     if (pNote)
-        _g_thePlayer->FUN_00966b80(pNote);
+        _g_thePlayer->PlayerCharacter_RemoveNote(pNote);
     if (_g_theDebugStub.bDebug)
         _DebugLog("Removed Note %s from Player ", ((FNStub*)((char*)pNote + 0x48))->GetFullName());
     return true;
@@ -8827,7 +8897,7 @@ bool __cdecl Cmd_ShowLockpickMenuDebug_Execute(const ScriptParameter* parameters
     return true;
 }
 
-extern void FUN_005d7930(unsigned char);
+extern void SetImageSpaceModifiersEnable(unsigned char);
 
 // @fnv 0x005d78c0
 // src: EXE 0x005d78c0
@@ -8840,9 +8910,9 @@ bool Cmd_SetImageSpaceModifiersEnable_Execute(const ScriptParameter* parameters,
                      script, locals, &argument))
         return false;
     if (argument == 0)
-        FUN_005d7930(0);
+        SetImageSpaceModifiersEnable(0);
     if (argument == 1)
-        FUN_005d7930(1);
+        SetImageSpaceModifiersEnable(1);
     return true;
 }
 
@@ -8904,14 +8974,14 @@ bool Cmd_Exists_Execute(const ScriptParameter* parameters, const char* scriptDat
 
 struct FUN_0056a9b0_host
 {
-    void FUN_0056a9b0(int);
+    void TESObjectREFR_SetMerchantContainer(int);
 };
 
 // @fnv 0x005d83b0
 // src: EXE 0x005d83b0
 bool Cmd_RemoveMerchantContainer_Execute(const ScriptParameter*, const char*, TESObjectREFR* callingRef, TESObjectREFR*, Script*, ScriptLocals*, double&, unsigned int&)
 {
-    ((FUN_0056a9b0_host*)callingRef)->FUN_0056a9b0(0);
+    ((FUN_0056a9b0_host*)callingRef)->TESObjectREFR_SetMerchantContainer(0);
     return true;
 }
 
@@ -9091,7 +9161,7 @@ bool Cmd_ToggleDepthBias_Execute()
 namespace fnv_005dd960 {
 // Call surface of BGSSaveLoadUIApi; the shared header cannot be read in this unit (its own layout_support template copies).
 struct BGSSaveLoadUIApi {
-    bool FUN_00a26090(char*);
+    bool XGamerProfile_RedeemCode(char*);
 };
 BGSSaveLoadUIApi* __cdecl FUN_00a25920(void);
 // @fnv 0x005dd960
@@ -9101,7 +9171,7 @@ bool Cmd_RedeemCode_Execute(const ScriptParameter* parameters, const char* scrip
     char buffer[0x100];
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, buffer))
         return false;
-    bool success = FUN_00a25920()->FUN_00a26090(buffer);
+    bool success = FUN_00a25920()->XGamerProfile_RedeemCode(buffer);
     result = success ? 1.0 : 0.0;
     return success;
 }
@@ -9116,7 +9186,7 @@ struct ReputationState
 
 struct ReputationHelper
 {
-    void FUN_00615fa0(int a, int b);
+    void RemoveReputation(int a, int b);
 };
 
 // @fnv 0x005dde10
@@ -9135,7 +9205,7 @@ bool Cmd_RemoveReputation_Execute(const ScriptParameter* parameters, const char*
         return false;
     if (state.count >= 0 && state.count <= 1)
     {
-        reinterpret_cast<ReputationHelper*>(state.result)->FUN_00615fa0(state.count, state.value);
+        reinterpret_cast<ReputationHelper*>(state.result)->RemoveReputation(state.count, state.value);
     }
     else
     {
@@ -9145,7 +9215,7 @@ bool Cmd_RemoveReputation_Execute(const ScriptParameter* parameters, const char*
 }
 
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
-void FUN_005de240(short);
+void NiPSysEmitterCtlr_SetParticlesLimit(short);
 
 // @fnv 0x005de1d0
 // src: EXE 0x005de1d0
@@ -9156,7 +9226,7 @@ bool Cmd_SetEmitterParticleMax_Execute(const ScriptParameter* params, const char
         return false;
     if ((int)value < 0 || (int)value > 0xffff)
         return false;
-    FUN_005de240((short)value);
+    NiPSysEmitterCtlr_SetParticlesLimit((short)value);
     return true;
 }
 
@@ -9252,7 +9322,7 @@ bool __cdecl Cmd_IsNoHumanGoreExe_Execute(const ScriptParameter*, const char*, T
     return true;
 }
 
-void __cdecl FUN_005e0080(unsigned char);
+void __cdecl FalloutRadio_SetIsDialogueOnlyRadio(unsigned char);
 
 // @fnv 0x005e0020
 // src: EXE 0x005e0020
@@ -9262,9 +9332,9 @@ bool __cdecl Cmd_SetRadioToDialogueOnlyMode_Execute(const ScriptParameter* a, co
     if (!ExtractArgs(a, b, &h, c, d, e, f, &v))
         return false;
     if (v == 1)
-        FUN_005e0080(1);
+        FalloutRadio_SetIsDialogueOnlyRadio(1);
     else
-        FUN_005e0080(0);
+        FalloutRadio_SetIsDialogueOnlyRadio(0);
     return true;
 }
 
@@ -9330,7 +9400,7 @@ int __cdecl _sscanf(const char*, const char*, ...);
 void __cdecl _ref_00485d50(unsigned int*, void*);
 // Call surface of NavMeshObstacleManager; the shared header cannot be read in this unit (its own layout_support template copies).
 struct NavMeshObstacleManagerApi { static NavMeshObstacleManagerApi* GetSingleton(); };
-struct FUN_006c1150_shell { void FUN_006c1150(int*); };
+struct FUN_006c1150_shell { void Cmd_DisableNavMeshAlt_Execute(int*); };
 
 // @fnv 0x005bd240
 // src: EXE 0x005bd240
@@ -9345,7 +9415,7 @@ bool Cmd_DisableNavMesh_Execute(const ScriptParameter* params, const char* scrip
     {
         if (owner && ((TESForm*)owner)->GetFile(-1))
             _ref_00485d50(&id, ((TESForm*)owner)->GetFile(-1));
-        ((FUN_006c1150_shell*)NavMeshObstacleManagerApi::GetSingleton())->FUN_006c1150((int*)id);
+        ((FUN_006c1150_shell*)NavMeshObstacleManagerApi::GetSingleton())->Cmd_DisableNavMeshAlt_Execute((int*)id);
     }
     return true;
 }
@@ -9353,7 +9423,7 @@ bool Cmd_DisableNavMesh_Execute(const ScriptParameter* params, const char* scrip
 namespace fnv_005bd300 {
 // Call surface of NavMeshObstacleManagerApi; the shared header cannot be read in this unit (its own layout_support template copies).
 struct NavMeshObstacleManagerApi { static NavMeshObstacleManagerApi* GetSingleton(); };
-struct NavMeshObstacleHelper { void FUN_006c1130(int); };
+struct NavMeshObstacleHelper { void Cmd_EnableNavMeshAlt_Execute(int); };
 extern int _ref_00485d50(int*, TESFile*);
 extern int _sscanf(char*, const char*, ...);
 
@@ -9375,7 +9445,7 @@ bool Cmd_EnableNavMesh_Execute(const ScriptParameter* parameters, const char* sc
                 _ref_00485d50(&formID, ((TESForm*)script)->GetFile(-1));
             }
         }
-        ((NavMeshObstacleHelper*)NavMeshObstacleManagerApi::GetSingleton())->FUN_006c1130(formID);
+        ((NavMeshObstacleHelper*)NavMeshObstacleManagerApi::GetSingleton())->Cmd_EnableNavMeshAlt_Execute(formID);
     }
     return true;
 }
@@ -9477,7 +9547,7 @@ struct Descriptor {
     const char* FUN_00511840();
 };
 
-void FUN_005db260(TESSound*);
+void TESAudio_SetNoActivationSound(TESSound*);
 
 // @fnv 0x005db1b0
 // src: EXE 0x005db1b0
@@ -9491,7 +9561,7 @@ bool Cmd_SetNoActivationSound_Execute(const ScriptParameter* apScriptParameters,
             BSAudio::GetSingleton()->Precache(SoundAssetTmp->FUN_00511840(), 0x20000121, SoundAssetTmp);
             BSAudio::GetSingleton()->Precache(SoundAssetTmp->FUN_00511840(), 0x20000121, SoundAssetTmp);
             BSAudio::GetSingleton()->Precache(SoundAssetTmp->FUN_00511840(), 0x20000121, SoundAssetTmp);
-            fnv_005db1b0::FUN_005db260(SoundAssetTmp);
+            fnv_005db1b0::TESAudio_SetNoActivationSound(SoundAssetTmp);
         }
     }
     return true;
@@ -9501,7 +9571,7 @@ bool Cmd_SetNoActivationSound_Execute(const ScriptParameter* apScriptParameters,
 namespace fnv_005b5500 {
 struct XCont
 {
-    void FUN_004cd9c0(TESObjectREFR*, TESObjectREFR*);
+    void ExtraContainerChangeData_DuplicateAllItem(TESObjectREFR*, TESObjectREFR*);
 };
 
 struct XExtraList
@@ -9540,7 +9610,7 @@ bool __cdecl Cmd_DuplicateAllItems_Execute(const ScriptParameter* scriptParamete
                 reinterpret_cast<XActor*>(reference)->GetExtra())->GetContainerChangeData();
 
             if (pChanges)
-                pChanges->FUN_004cd9c0(reference, pTarget);
+                pChanges->ExtraContainerChangeData_DuplicateAllItem(reference, pTarget);
         }
     }
 
@@ -9558,7 +9628,7 @@ struct XActor
 
 struct FUN_004ce340_stand
 {
-    float FUN_004ce380(int, int, bool, bool, bool, bool, int, int);
+    float InventoryChanges_RemoveAllItems(int, int, bool, bool, bool, bool, int, int);
 };
 
 struct XCont : public FUN_004ce340_stand
@@ -9603,7 +9673,7 @@ bool Cmd_RemoveAllItems_Execute(const ScriptParameter* scriptParameter, const ch
         pContainerChanges = static_cast<XExtraList*>(
             reinterpret_cast<XActor*>(actorRef)->GetExtra())->GetContainerChangeData();
         if (pContainerChanges) {
-            pContainerChanges->FUN_004ce380(
+            pContainerChanges->InventoryChanges_RemoveAllItems(
                 reinterpret_cast<int>(actorRef), iItem, false,
                 bItemFoundTmp, false, iCount8 != 0, -1, 0);
             _g_thePlayer->FUN_00952c30(actorRef);
@@ -9721,7 +9791,7 @@ class ScriptINISettingActions : public INISettingCollection
 {
 public:
     void* GetPosition();
-    bool FUN_005e01b0(char const*);
+    bool INISettingCollection_SaveAll(char const*);
 };
 
 
@@ -9731,11 +9801,11 @@ using ::SettingT;
 // src: EXE 0x005b6c50
 bool Cmd_SaveIniFiles_Execute()
 {
-    reinterpret_cast<ScriptINISettingActions*>(SettingT<INISettingCollection>::GetCollection())->FUN_005e01b0(
+    reinterpret_cast<ScriptINISettingActions*>(SettingT<INISettingCollection>::GetCollection())->INISettingCollection_SaveAll(
         static_cast<const char*>(
             reinterpret_cast<ScriptINISettingActions*>(SettingT<INISettingCollection>::GetCollection())->GetPosition()));
 
-    reinterpret_cast<ScriptINISettingActions*>(SettingT<INIPrefSettingCollection>::GetCollection())->FUN_005e01b0(
+    reinterpret_cast<ScriptINISettingActions*>(SettingT<INIPrefSettingCollection>::GetCollection())->INISettingCollection_SaveAll(
         static_cast<const char*>(
             reinterpret_cast<ScriptINISettingActions*>(SettingT<INIPrefSettingCollection>::GetCollection())->GetPosition()));
 
@@ -9745,7 +9815,7 @@ bool Cmd_SaveIniFiles_Execute()
 namespace fnv_005b72a0 {
 extern void* _g_thePlayer;
 extern void _DebugLog(const char*);
-int __cdecl FUN_00557dd0(int, int, int);
+int __cdecl TESObjectCELL_RenderTestCell(int, int, int);
 
 
 
@@ -9755,7 +9825,7 @@ bool Cmd_RenderTestHere_Execute(const ScriptParameter*, const char*, TESObjectRE
 {
     if (reinterpret_cast<int>(reinterpret_cast<Actor*>(_g_thePlayer)->FUN_008d6f30()))
     {
-        FUN_00557dd0(reinterpret_cast<int>(reinterpret_cast<Actor*>(_g_thePlayer)->FUN_008d6f30()), 0, 0);
+        TESObjectCELL_RenderTestCell(reinterpret_cast<int>(reinterpret_cast<Actor*>(_g_thePlayer)->FUN_008d6f30()), 0, 0);
         _DebugLog("RenderTestCell complete. Check warnings file for more info.");
     }
     else
@@ -9855,9 +9925,9 @@ bool Cmd_SetImageSpace_Execute(const ScriptParameter* parameter, const char* nam
         return false;
 
     if (parameters)
-        FUN_004e3270()->FUN_00b8cb00(parameters->GetParameters());
+        FUN_004e3270()->ImageSpaceManager_SetActiveImageSpaceParams(parameters->GetParameters());
     else
-        FUN_004e3270()->FUN_00b8cb00(0);
+        FUN_004e3270()->ImageSpaceManager_SetActiveImageSpaceParams(0);
 
     FUN_00b8b500(FUN_004e3270());
     return true;
@@ -10087,18 +10157,18 @@ extern BSAudio* g_osGlobals;
 
 
 unsigned int __cdecl FUN_0045c670();
-void __cdecl FUN_004d78c0();
-void __cdecl FUN_005bac80(void (__cdecl *)(void));
-NiNode* __cdecl FUN_005bac60();
-void* __cdecl FUN_005bac70();
-bool __cdecl FUN_005bac20();
-NiNode* __cdecl FUN_005bac50();
+void __cdecl TreeCtrlCallback();
+void __cdecl NiTreeCtrl_SetCallback(void (__cdecl *)(void));
+NiNode* __cdecl TESMain_GetMenuRoot();
+void* __cdecl TESMain_Get3DMenuRoot();
+bool __cdecl ScreenSplatter_IsActiveSplatter();
+NiNode* __cdecl ScreenSplatter_GetRoot();
 
 class FUN_004d61b0
 {
 public:
     FUN_004d61b0(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, unsigned int, unsigned int);
-    void FUN_004d64c0(void*, const char*);
+    void NiTreeCtrl_CreateTree(void*, const char*);
     void FUN_004d65a0(unsigned int);
 
 private:
@@ -10115,7 +10185,7 @@ FUN_004d61b0::FUN_004d61b0(unsigned int, unsigned int, unsigned int, const char*
 // src: EXE 0x005bac90
 bool Cmd_ShowScenegraph_Execute_005bac90(const ScriptParameter*, const char*, TESObjectREFR* object)
 {
-    FUN_005bac80(FUN_004d78c0);
+    NiTreeCtrl_SetCallback(TreeCtrlCallback);
 
     FUN_004d61b0* sceneGraph = new FUN_004d61b0(
         g_osGlobals->Deallocate(),
@@ -10130,17 +10200,17 @@ bool Cmd_ShowScenegraph_Execute_005bac90(const ScriptParameter*, const char*, TE
     if(object)
         sceneGraph->FUN_004d65a0(reinterpret_cast<unsigned int>(object->GetNiNode()));
 
-    sceneGraph->FUN_004d64c0(FUN_005bac60(), "Fallout Interface Scene Graph");
-    sceneGraph->FUN_004d64c0(FUN_005bac70(), "Fallout Interface 3D Object Scene Graph");
+    sceneGraph->NiTreeCtrl_CreateTree(TESMain_GetMenuRoot(), "Fallout Interface Scene Graph");
+    sceneGraph->NiTreeCtrl_CreateTree(TESMain_Get3DMenuRoot(), "Fallout Interface 3D Object Scene Graph");
 
     if(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))
-        sceneGraph->FUN_004d64c0(
+        sceneGraph->NiTreeCtrl_CreateTree(
             NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1),
             "Fallout Rendered Menu 3D Scene Graph");
 
-    if(FUN_005bac20())
-        sceneGraph->FUN_004d64c0(
-            FUN_005bac50(),
+    if(ScreenSplatter_IsActiveSplatter())
+        sceneGraph->NiTreeCtrl_CreateTree(
+            ScreenSplatter_GetRoot(),
             "Fallout Screen Splatter Scene Graph");
 
     return true;
@@ -10151,14 +10221,14 @@ namespace fnv_005bb610 {
 class FUN_0044ac20_class
 {
 public:
-    void FUN_0044ac20(int const*);
+    void FOVATSEffectManager_SetEffectMode(int const*);
 };
 
 class FUN_00800e50_Class : public FUN_0044ac20_class
 {
 public:
     void FUN_00800d50(int);
-    void FUN_00800e50(int);
+    void FOVATSEffectManager_SetSelectedMultiTarget(int);
 };
 
 class ShadowLightData : public FUN_00800e50_Class
@@ -10195,10 +10265,10 @@ bool Cmd_HighlightAdditionalReference_Execute(const ScriptParameter* parameter, 
     {
         TesscriptfunctionsInterfaceView::GetVATSEffect()->FUN_00800d50(
             reinterpret_cast<int>(reference));
-        TesscriptfunctionsInterfaceView::GetVATSEffect()->FUN_00800e50(
+        TesscriptfunctionsInterfaceView::GetVATSEffect()->FOVATSEffectManager_SetSelectedMultiTarget(
             reinterpret_cast<int>(reference));
         fParam = 1;
-        TesscriptfunctionsInterfaceView::GetVATSEffect()->FUN_0044ac20(&fParam);
+        TesscriptfunctionsInterfaceView::GetVATSEffect()->FOVATSEffectManager_SetEffectMode(&fParam);
     }
 
     return true;
@@ -10383,7 +10453,8 @@ namespace fnv_005bf7b0 {
 int DAT_011f91d8;
 
 // @fnv 0x005bf7b0
-unsigned char FUN_005bf7b0()
+// src: COMMUNITY 0x005bf7b0
+unsigned char BSShaderManager_GetShadows()
 {
     int result;
     if (BSShaderManager::GetSupportedShaderLevel(0) >= 3)
@@ -10404,13 +10475,13 @@ extern Setting g_011db25c;
 class FUN_005bfbb0_Class
 {
 public:
-    void FUN_005bfbb0(float);
+    void FOHUDEffectManager_SetBlurRadiusHUD(float);
 };
 
 class FUN_005bfbd0_Class
 {
 public:
-    void FUN_005bfbd0(float);
+    void FOHUDEffectManager_SetBlurIntensityHUD(float);
 };
 
 
@@ -10435,8 +10506,8 @@ bool Cmd_SetHudGlowConstants_Execute(const ScriptParameter* parameter, const cha
                                  &f1, &f2, &f3, &p))
                     return false;
 
-                ((FUN_005bfbb0_Class*)FUN_00705950())->FUN_005bfbb0(f1);
-                ((FUN_005bfbd0_Class*)FUN_00705950())->FUN_005bfbd0(f2);
+                ((FUN_005bfbb0_Class*)FUN_00705950())->FOHUDEffectManager_SetBlurRadiusHUD(f1);
+                ((FUN_005bfbd0_Class*)FUN_00705950())->FOHUDEffectManager_SetBlurIntensityHUD(f2);
                 ((EffectSetting*)FUN_00705950())->FUN_004ee4b0(f3);
             }
         }
@@ -10535,7 +10606,7 @@ bool Cmd_SaveGame_Execute(const ScriptParameter* parameter, const char* function
         return false;
     }
 
-    ((BGSSaveLoadManager*)DAT_011de134)->FUN_008503b0(
+    ((BGSSaveLoadManager*)DAT_011de134)->SaveGame_008503b0(
         saveGameName, -1, saveGameType != 0);
     return true;
 }
@@ -10551,7 +10622,7 @@ struct GlobalObject_0045cf30
 extern GlobalObject_0045cf30 g_011de2b8;
 extern void* DAT_011de134;
 
-void __fastcall FUN_00851d50(void*);
+void __fastcall BGSSaveLoadManager_SetForceSaveTimer(void*);
 
 // @fnv 0x005c5590
 // src: EXE 0x005c5590
@@ -10561,7 +10632,7 @@ bool Cmd_ForceSave_Execute()
         static_cast<ActorValueInfo*>(DAT_011de134)->SetScriptName(
             reinterpret_cast<const char*>(-1)))
     {
-        FUN_00851d50(DAT_011de134);
+        BGSSaveLoadManager_SetForceSaveTimer(DAT_011de134);
     }
 
     return true;
@@ -10569,14 +10640,14 @@ bool Cmd_ForceSave_Execute()
 }  // namespace fnv_005c5590
 
 bool __cdecl _FUN_0054ee20();
-void __cdecl FUN_0054ee60(bool);
+void __cdecl BSTreeManager_SetTreesEnabled(bool);
 void __cdecl _DebugLog(const char*, const char*);
 
 // @fnv 0x005c57f0
 // src: EXE 0x005c57f0
 bool __cdecl Cmd_ToggleTrees_Execute(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
-    FUN_0054ee60(!_FUN_0054ee20());
+    BSTreeManager_SetTreesEnabled(!_FUN_0054ee20());
     const char* result;
     if (_FUN_0054ee20())
         result = "NOT CULLED";
@@ -10590,7 +10661,7 @@ namespace fnv_005c6ad0 {
 class FUN_005c6b40_Class
 {
 public:
-    void FUN_005c6b40(bool);
+    void PlayerCharacter_SetShowQuestItems(bool);
 };
 
 extern void* _g_thePlayer;
@@ -10603,9 +10674,9 @@ bool Cmd_SetShowQuestItems_Execute(const ScriptParameter* param1, const char* pa
     if (!ExtractArgs(param1, param2, (unsigned int*)&param8, param3, param4, param5, param6, &showItems))
         return false;
     if (showItems > 0)
-        ((FUN_005c6b40_Class*)_g_thePlayer)->FUN_005c6b40(true);
+        ((FUN_005c6b40_Class*)_g_thePlayer)->PlayerCharacter_SetShowQuestItems(true);
     else
-        ((FUN_005c6b40_Class*)_g_thePlayer)->FUN_005c6b40(false);
+        ((FUN_005c6b40_Class*)_g_thePlayer)->PlayerCharacter_SetShowQuestItems(false);
     return true;
 }
 }  // namespace fnv_005c6ad0
@@ -10798,7 +10869,7 @@ namespace fnv_005cf1a0 {
 
 
 void __cdecl _FNV_Warning(const char*);
-void __cdecl FUN_007bbe20(TESCasino*, int, int, int, int);
+void __cdecl RouletteMenu_Create(TESCasino*, int, int, int, int);
 
 TESObjectREFR* _g_thePlayer;
 
@@ -10824,7 +10895,7 @@ bool Cmd_Shared_Execute_5cf1a0(const ScriptParameter* apParameters, const char* 
         }
         else if (pCasinoObjectCur)
         {
-            FUN_007bbe20(pCasinoObjectCur, iFirstCasinoValue, iOtherCasinoValue, iMinWinnings, 0);
+            RouletteMenu_Create(pCasinoObjectCur, iFirstCasinoValue, iOtherCasinoValue, iMinWinnings, 0);
         }
         else
         {
@@ -11203,7 +11274,7 @@ bool __cdecl Cmd_IsPlayerActionActive_Execute(const ScriptParameter* apParameter
     FUN_005a3b20(apRefObject, iAction, 0, afReturnValue);
 }
 
-void __cdecl FUN_007062a0(int, int, unsigned char, unsigned char);
+void __cdecl CharGenMenu_Create_(int, int, unsigned char, unsigned char);
 
 // @fnv 0x005d71f0
 // src: EXE 0x005d71f0
@@ -11221,9 +11292,9 @@ bool Cmd_ShowChargenMenuModValues_Execute(const ScriptParameter* parameter, cons
         bSuccess = false;
     } else {
         if (iValue > 0) {
-            FUN_007062a0(0, iValue, 1, 1);
+            CharGenMenu_Create_(0, iValue, 1, 1);
         } else if (iValue2 > 0) {
-            FUN_007062a0(1, iValue2, 1, 1);
+            CharGenMenu_Create_(1, iValue2, 1, 1);
         }
     }
 
@@ -11551,7 +11622,7 @@ bool Cmd_UseWeapon_Execute(const ScriptParameter* parameter, const char* format,
 
         reinterpret_cast<VFinal*>(object)->V269(false);
 
-        reinterpret_cast<ScriptActorActions*>(object)->FUN_008bbf40(
+        reinterpret_cast<ScriptActorActions*>(object)->Actor_InitiateUseWeaponPackage(
             d, i, b, a, e, static_cast<bool>(g), static_cast<bool>(c),
             static_cast<bool>(h), static_cast<bool>(f));
     }
@@ -11562,7 +11633,7 @@ bool Cmd_UseWeapon_Execute(const ScriptParameter* parameter, const char* format,
 namespace fnv_005d90a0 {
 
 
-extern TESSound* __cdecl FUN_005c4b30(TESObjectREFR*, int, int, int, int, float);
+extern TESSound* __cdecl PlaceAtMe(TESObjectREFR*, int, int, int, int, float);
 extern void __cdecl CopyIdentifierBitsToValue(unsigned int const&, double&);
 
 // @fnv 0x005d90a0
@@ -11587,7 +11658,7 @@ bool Cmd_PlaceAtMeHealthPercent_Execute(const ScriptParameter* parameter, const 
                      &numericID, &healthScale, &flags))
         return false;
 
-    sound = FUN_005c4b30(reference, count, numericID, healthScale,
+    sound = PlaceAtMe(reference, count, numericID, healthScale,
                          flags, objectType);
     if (sound)
     {
@@ -11647,7 +11718,7 @@ bool Cmd_ForceActiveQuest_Execute(const ScriptParameter* param, const char* para
 
 struct Controller
 {
-    void FUN_00444020(float);
+    void TESQuest_SetScriptProcessingDelay(float);
 };
 
 // @fnv 0x005da1e0
@@ -11660,7 +11731,7 @@ bool Cmd_SetQuestDelay_Execute(const ScriptParameter* param1, const char* param2
         return false;
     if (pController != 0)
     {
-        pController->FUN_00444020(m_fDelay);
+        pController->TESQuest_SetScriptProcessingDelay(m_fDelay);
         (*(void (__thiscall**)(Controller*, int))(*(int*)pController + 0x48))(pController, 4);
     }
     return true;
@@ -11983,7 +12054,7 @@ struct ContainerItemExtra
     unsigned char padding[12];
 
     ContainerItemExtra();
-    void FUN_0040eb90(float);
+    void ContainerItemExtra_AdjustHealthPercent(float);
 };
 
 
@@ -12011,7 +12082,7 @@ bool Cmd_AddItemToLeveledList_Execute(const ScriptParameter* parameter, const ch
         destination = destination / 100.0;
 
         ContainerItemExtra* extra = new ContainerItemExtra();
-        extra->FUN_0040eb90(destination);
+        extra->ContainerItemExtra_AdjustHealthPercent(destination);
 
         reinterpret_cast<FileEntryList*>(
             reinterpret_cast<unsigned char*>(itemID) + 0x30)->Copy(
@@ -12099,14 +12170,14 @@ namespace fnv_005bb6c0 {
 class FUN_00800ed0_This
 {
 public:
-    void FUN_00800ed0();
+    void FOVATSEffectManager_ClearMultiTargets();
 };
 
 class FUN_0044ac20_class : public FUN_00800ed0_This
 {
 public:
     void FUN_00800ac0(int, int, int);
-    void FUN_0044ac20(int const*);
+    void FOVATSEffectManager_SetEffectMode(int const*);
 };
 
 // Exe 0x005bb6c0: unit-local Interface view; declarations and layout are preserved.
@@ -12260,9 +12331,9 @@ bool Cmd_DeactivateAllHighlights_Execute(const ScriptParameter* parameter, const
         reinterpret_cast<VirtualOffsetBase*>(referenceOne)->DeactivateAllHighlights())
     {
         TesscriptfunctionsInterfaceView::GetVATSEffect()->FUN_00800ac0(0, 0, 0);
-        TesscriptfunctionsInterfaceView::GetVATSEffect()->FUN_00800ed0();
+        TesscriptfunctionsInterfaceView::GetVATSEffect()->FOVATSEffectManager_ClearMultiTargets();
         zero = 0;
-        TesscriptfunctionsInterfaceView::GetVATSEffect()->FUN_0044ac20(&zero);
+        TesscriptfunctionsInterfaceView::GetVATSEffect()->FOVATSEffectManager_SetEffectMode(&zero);
     }
 
     return true;
@@ -12278,7 +12349,8 @@ struct S_004b1190_Pair {
 };
 
 // @fnv 0x004b1190
-__int64 __cdecl FUN_004b1190(int param)
+// src: COMMUNITY 0x004b1190
+__int64 __cdecl Date_CalculateFullDate(int param)
 {
     unsigned short d = (unsigned short)param;
     S_004b1190_Pair r;
@@ -12417,13 +12489,13 @@ struct ContextStack17 {
  Context17* FUN_009c71c0();
 };
 extern ContextStack17 DAT_011f2250;
-Context17* FUN_007f5280();
+Context17* VATSMenu_GetCurrentQueuedAction();
 struct FormListData17 { bool FUN_005f65d0(Form17*const&); };
 struct FormList17 { FormListData17* FUN_00500940(); };
 extern void* DAT_011dea3c;
 float FUN_009a64d0(void*,TESObjectREFR*,int);
 bool FUN_00703d50();
-void FUN_00703c00(const char*,...);
+void Interface_PrintLine(const char*,...);
 extern const char DAT_01034044[];
 // @fnv 0x00594e40
 // src: EXE 0x00594e40
@@ -12431,7 +12503,7 @@ bool Cmd_GetVATSValue_Eval(void* unused,int value,void* parameter,double& result
  result=0;
  bool h=true;
  h=false;
- Context17* p=DAT_011f2250.FUN_0044ddc0()==4 ? DAT_011f2250.FUN_009c71c0() : ((DAT_011f2250.FUN_0044ddc0()==2 || DAT_011f2250.FUN_0044ddc0()==3) ? FUN_007f5280() : 0);
+ Context17* p=DAT_011f2250.FUN_0044ddc0()==4 ? DAT_011f2250.FUN_009c71c0() : ((DAT_011f2250.FUN_0044ddc0()==2 || DAT_011f2250.FUN_0044ddc0()==3) ? VATSMenu_GetCurrentQueuedAction() : 0);
  if(p) {
   int a=value;
   if(a>=0 && a<18) {
@@ -12525,7 +12597,7 @@ bool Cmd_GetVATSValue_Eval(void* unused,int value,void* parameter,double& result
    h=true;
   }
  }
- if(FUN_00703d50()) FUN_00703c00(DAT_01034044,value,parameter,result);
+ if(FUN_00703d50()) Interface_PrintLine(DAT_01034044,value,parameter,result);
  return h;
 }
 
@@ -12568,7 +12640,7 @@ public:
 
 extern RefManager* DAT_011dea3c;
 bool __cdecl FUN_00702360();
-void __cdecl FUN_00704af0();
+void __cdecl Interface_UpdateInventory();
 
 // @fnv 0x005b5860
 // src: EXE 0x005b5860
@@ -12580,7 +12652,7 @@ bool __cdecl Cmd_DropMe_Execute(const ScriptParameter*, const char*,
         reinterpret_cast<void (__thiscall*)(TESObjectREFR*, void*)>((*reinterpret_cast<void***>(target))[0x5F])(target, source->FUN_007af430(0, 1, 0, 1, 0, 0, 0, 1, 0));
         DAT_011dea3c->FUN_00952c30(source);
         if (FUN_00702360()) {
-            FUN_00704af0();
+            Interface_UpdateInventory();
         }
         return false;
     }
@@ -12950,17 +13022,17 @@ public:
     Vec3f* GetVec();
 };
 
-void* FUN_0054f4c0();
+void* TESTerrainLODManager_GetGrassNode();
 void* FUN_0045c670();
 void FUN_00b62a20();
-void FUN_00703c00(const char* fmt, const char* s);
+void Interface_PrintLine(const char* fmt, const char* s);
 void FUN_0057d0a0(Vec3f a, Vec3f b, float c);
 
 // @fnv 0x005b70c0
 // src: EXE 0x005b70c0
 bool Cmd_ToggleGrass_Execute()
 {
-    GrassProbe* obj = (GrassProbe*)FUN_0054f4c0();
+    GrassProbe* obj = (GrassProbe*)TESTerrainLODManager_GetGrassNode();
     if (obj != 0) {
         unsigned char flag = (unsigned char)(((obj->Probe()) != 0 ? -1 : 0) + 1);
         obj->SetFlag(flag);
@@ -12973,7 +13045,7 @@ bool Cmd_ToggleGrass_Execute()
                 FUN_0057d0a0(*((GrassItem*)r)->GetVec(), DAT_011f426c, 0.0f);
             }
         }
-        FUN_00703c00("Grass Display %s", (flag == 0) ? "Enabled." : "Disabled.");
+        Interface_PrintLine("Grass Display %s", (flag == 0) ? "Enabled." : "Disabled.");
     }
     return true;
 }
@@ -13002,7 +13074,7 @@ bool __cdecl Cmd_SetCellImageSpace_Execute(void* pvParamInfo, void* pvScriptData
 
 namespace fnv_005b9300 {
 struct ConsoleOutput {
-    void FUN_00456b10(char* buffer);
+    void TES_SaveWorld(char* buffer);
 };
 extern ConsoleOutput* DAT_011dea10;
 bool __cdecl Script_ParseParameters(const void* parameters, const char* scriptText, unsigned int& offset, void* subject, void* target, void* script, void* locals, char* message);
@@ -13013,7 +13085,7 @@ bool __cdecl Cmd_SaveWorld_Execute(const void* parameters, const char* scriptTex
     if (!Script_ParseParameters(parameters, scriptText, offset, subject, target, script, locals, message)) {
         return false;
     }
-    DAT_011dea10->FUN_00456b10(message);
+    DAT_011dea10->TES_SaveWorld(message);
     return true;
 }
 }  // namespace fnv_005b9300
@@ -13038,14 +13110,14 @@ struct ObjHolder19
     unsigned char m_19;
 };
 
-bool __cdecl FUN_0054ee20();
+bool __cdecl BSTreeManager_GetTreesEnabled();
 ObjHolder19* __cdecl FUN_00664840(int);
 
 // @fnv 0x005b9790
 unsigned char __cdecl FUN_005b9790()
 {
     int result;
-    if (FUN_0054ee20() && FUN_00664840(1)->m_19 != 0)
+    if (BSTreeManager_GetTreesEnabled() && FUN_00664840(1)->m_19 != 0)
         result = 1;
     else
         result = 0;
@@ -13068,7 +13140,8 @@ struct FUN_00664840_Class
 FUN_00664840_Class* __cdecl FUN_00664840(int a1);
 
 // @fnv 0x005b97d0
-void __cdecl FUN_005b97d0(bool a1)
+// src: COMMUNITY 0x005b97d0
+void __cdecl BSTreeManager_SetLeavesEnabled(bool a1)
 {
     FUN_00664840(1)->unk19 = a1;
 }
@@ -13195,7 +13268,7 @@ struct VirtualTarget
     virtual void* v116();
 };
 
-void __cdecl FUN_00ba90a0(void* p);
+void __cdecl BSShaderProperty_ToggleMotionBlurRecurse(void* p);
 
 // @fnv 0x005b9fa0
 // src: EXE 0x005b9fa0
@@ -13206,7 +13279,7 @@ bool __cdecl Cmd_ToggleMotionBlur_Execute(int a, int b, VirtualTarget* p)
         void* r = p->v116();
         if (r != 0)
         {
-            FUN_00ba90a0(r);
+            BSShaderProperty_ToggleMotionBlurRecurse(r);
         }
     }
     return true;
@@ -13272,14 +13345,15 @@ void A4F0Menu::FUN_005ba4f0(bool bActive)
 extern bool DAT_011f9fc2;
 
 // @fnv 0x005ba6b0
-void FUN_005ba6b0()
+// src: COMMUNITY 0x005ba6b0
+void BSShaderAccumulator_ToggleRefractionDebugTexture()
 {
     DAT_011f9fc2 = !DAT_011f9fc2;
 }
 
 void __cdecl FUN_00703000();
 bool __cdecl FUN_00702fc0();
-void __cdecl FUN_00703c00(const char* fmt, const char* text);
+void __cdecl Interface_PrintLine(const char* fmt, const char* text);
 
 struct DebugTextTlsBlock005ba760 {
     unsigned int unk0000;
@@ -13456,13 +13530,13 @@ bool __cdecl FUN_005ba760()
         {
             text = "Off";
         }
-        FUN_00703c00("Debug Text -> %s", text);
+        Interface_PrintLine("Debug Text -> %s", text);
     }
     return true;
 }
 
 bool __cdecl Script_ParseParameters(void*,void*,void*,void*,void*,void*,void*,float*,float*,float*,unsigned int*);
-void __cdecl FUN_007e4fe0(float,float,float);
+void __cdecl SetTerminalMenuPos(float,float,float);
 // @fnv 0x005bb4f0
 // src: EXE 0x005bb4f0
 bool __cdecl Cmd_SetTerminalMenuPos_Execute(void* context,void* scriptData,void* firstValue,void* secondValue,void* thirdValue,void* fourthValue,void* unusedArgument,void* lastArgument)
@@ -13475,7 +13549,7 @@ bool __cdecl Cmd_SetTerminalMenuPos_Execute(void* context,void* scriptData,void*
     d = 0.0f;
     c = 1.0f;
     if (!Script_ParseParameters(context,scriptData,lastArgument,firstValue,secondValue,thirdValue,fourthValue,&a,&d,&c,&b)) return false;
-    FUN_007e4fe0(a,d,c);
+    SetTerminalMenuPos(a,d,c);
     return true;
 }
 
@@ -13605,7 +13679,7 @@ bool __cdecl Script_ParseParameters(void* p0, void* p1, void* p2, void* p3, void
 void* __stdcall FUN_00705910(void* a, int b, int c);
 void* __stdcall FUN_00705910(void* a);
 void __fastcall FUN_00800ac0(void* self);
-void __fastcall FUN_0044ac20(void* self);
+void __fastcall FOVATSEffectManager_SetEffectMode(void* self);
 
 // @fnv 0x005bb570
 // src: EXE 0x005bb570
@@ -13625,7 +13699,7 @@ bool __cdecl Cmd_HighlightBodyPart_Execute(void* p0, void* p1, ScriptRefPlacehol
     {
         FUN_00800ac0(FUN_00705910(p2, (int)fVal2, 0));
         zero = 0;
-        FUN_0044ac20(FUN_00705910(&zero));
+        FOVATSEffectManager_SetEffectMode(FUN_00705910(&zero));
     }
     return true;
 }
@@ -13822,12 +13896,12 @@ bool Cmd_SetAllVisible_Execute(int a1, int a2, int a3, int a4, int a5, int a6, i
 namespace fnv_005bc260 {
 class FUN_005bc260_cls {
 public:
-    bool FUN_00961e30(bool flag);
+    bool PlayerCharacter_ToggleFlyCam(bool flag);
 };
 
 extern FUN_005bc260_cls* DAT_011dea3c;
 extern "C" bool __cdecl Script_ParseParameters(ScriptParameter* parameter, const char* name, unsigned int* argument, TESObjectREFR* reference, TESObjectREFR* actor, Script* script, ScriptLocals* locals, int* count);
-extern "C" void __cdecl FUN_00ba8b60(bool flag);
+extern "C" void __cdecl BSShaderProperty_PreviousTransform_SetFreeze(bool flag);
 
 // @fnv 0x005bc260
 // src: EXE 0x005bc260
@@ -13845,7 +13919,7 @@ bool __cdecl Cmd_ToggleFlyCam_Execute(ScriptParameter* parameter, const char* na
         } else {
             flag4 = true;
         }
-        ok5 = DAT_011dea3c->FUN_00961e30(flag4);
+        ok5 = DAT_011dea3c->PlayerCharacter_ToggleFlyCam(flag4);
     }
     {
     bool flag10;
@@ -13854,7 +13928,7 @@ bool __cdecl Cmd_ToggleFlyCam_Execute(ScriptParameter* parameter, const char* na
     } else {
         flag10 = false;
     }
-    FUN_00ba8b60(flag10);
+    BSShaderProperty_PreviousTransform_SetFreeze(flag10);
     }
     return true;}
 }  // namespace fnv_005bc260
@@ -13887,7 +13961,7 @@ void FUN_00703000();
 struct PathingHandle {
     void Shutdown();
 };
-PathingHandle* __stdcall FUN_005ba8d0(const char* name, int flags);
+PathingHandle* __stdcall DebugTextManager_GetSingleton(const char* name, int flags);
 
 // @fnv 0x005bd3c0
 // src: EXE 0x005bd3c0
@@ -13898,7 +13972,7 @@ bool __cdecl Cmd_TogglePathingInfoFunction_Execute()
         if ((int)FUN_00702fc0() == 0) {
             FUN_00703000();
         }
-        FUN_005ba8d0("Pathing", 0)->Shutdown();
+        DebugTextManager_GetSingleton("Pathing", 0)->Shutdown();
     } else {
         DAT_011d73cc = 0;
     }
@@ -14411,7 +14485,7 @@ bool __cdecl Script_ParseParameters(const ScriptParameter* apParameters, const c
 ScriptEditTarget* __cdecl FUN_00ec43fb(TESObjectREFR* apRef, int aUnk1, const char* aStr1, const char* aStr2, int aUnk2);
 bool __cdecl FUN_00406d70(unsigned int uiA, unsigned int uiB);
 const char* __cdecl FUN_0066eac0(unsigned int uiA);
-void __cdecl FUN_00703c00(const char* apFmt, ...);
+void __cdecl Interface_PrintLine(const char* apFmt, ...);
 
 // @fnv 0x005bdcd0
 // src: EXE 0x005bdcd0
@@ -14428,7 +14502,7 @@ bool __cdecl Cmd_SetActorValue_Execute(const ScriptParameter* apParameters, cons
             pTarget->Apply(uiA, uiB);
         } else {
             if (g_scriptDebugTls.bDebugIsActor) {
-                FUN_00703c00("Actor Value '%s' cannot be modified in scripts or the console.", FUN_0066eac0(uiA));
+                Interface_PrintLine("Actor Value '%s' cannot be modified in scripts or the console.", FUN_0066eac0(uiA));
             }
         }
     }
@@ -14867,7 +14941,8 @@ public:
 };
 
 // @fnv 0x005c0b10
-void __cdecl FUN_005c0b10(ScriptReferenceRotationActions* pkRef, char cAxis, float fDegrees)
+// src: COMMUNITY 0x005c0b10
+void __cdecl Script_SetAngleBase(ScriptReferenceRotationActions* pkRef, char cAxis, float fDegrees)
 {
     if (pkRef) {
         float fRadians = fDegrees * 0.01745329238474369;
@@ -15153,7 +15228,7 @@ bool Cmd_GetLocked_Execute(const ScriptParameter* parameters, const char* script
 }
 
 class B9Obj { public: int Get(); };
-B9Obj* __cdecl FUN_005c4b30(int a, int b, int c, int d, int e, float f);
+B9Obj* __cdecl PlaceAtMe(int a, int b, int c, int d, int e, float f);
 bool __cdecl Script_ParseParameters(int a, int b, int c, int d, int e, int f, int g, int* p8, int* p9, int* p10, int* p11);
 void __cdecl FUN_005acc70(int* out, double* d);
 
@@ -15168,7 +15243,7 @@ bool __cdecl Cmd_PlaceAtMe_Execute(int a8, int a0c, int a10, int a14, int a18, i
     int l3 = 0;
     if (!Script_ParseParameters(a8, a0c, a24, a10, a14, a18, a1c, &l4, &l14, &l0c, &l3))
         return false;
-    B9Obj* obj = FUN_005c4b30(a10, l4, l14, l0c, l3, 1.0f);
+    B9Obj* obj = PlaceAtMe(a10, l4, l14, l0c, l3, 1.0f);
     if (obj != 0)
     {
         int l2 = obj->Get();
@@ -15321,7 +15396,7 @@ extern char DAT_0103b270;
 extern char DAT_01039690;
 extern bool __cdecl Script_ParseParameters(void*, void*, void*, void*, void*, void*, void*, char*);
 extern void __cdecl FUN_0043b2b0(bool);
-extern void __cdecl FUN_005b5e40(const char*);
+extern void __cdecl Warning_005b5e40(const char*);
 extern void __cdecl FUN_00406d00(char*, unsigned int, const char*, const char*);
 extern Service* __cdecl FUN_00652110();
 // @fnv 0x005c6430
@@ -15333,14 +15408,14 @@ bool __cdecl Cmd_DumpModelMap_Execute(void* p1,void* p2,void* p3,void* p4,void* 
     if (p1 && !Script_ParseParameters(p1,p2,p8,p3,p4,p5,p6,buffer))
         return false;
     FUN_0043b2b0(true);
-    FUN_005b5e40(&DAT_0103b294);
+    Warning_005b5e40(&DAT_0103b294);
     FUN_00406d00(filename,0x104,&DAT_01039690,buffer);
     FileThing stream(filename,1,0x4000,0);
     stream.FUN_00aff300(0,0);
     if (DAT_011c3b3c) DAT_011c3b3c->FUN_00443270(&stream,0);
     if (FUN_00652110()) FUN_00652110()->FUN_0064fe80(&stream);
     stream.FUN_00affd10();
-    FUN_005b5e40(&DAT_0103b270);
+    Warning_005b5e40(&DAT_0103b270);
     FUN_0043b2b0(false);
     return true;
 }
@@ -15443,7 +15518,7 @@ bool Cmd_GetInCellParam_Execute(const ScriptParameter* parameters, const char* s
 namespace fnv_005c7790 {
 class FUN_005c7790_dat {
 public:
-    void FUN_00950010(int value);
+    void PlayerCharacter_SetInCharGen(int value);
 };
 
 extern FUN_005c7790_dat* DAT_011dea3c;
@@ -15458,9 +15533,9 @@ bool Cmd_SetInChargen_Execute(int a0, int a1, int a2, int a3, int a4, int a5, in
         return false;
     }
     if (flag != 0) {
-        DAT_011dea3c->FUN_00950010(1);
+        DAT_011dea3c->PlayerCharacter_SetInCharGen(1);
     } else {
-        DAT_011dea3c->FUN_00950010(0);
+        DAT_011dea3c->PlayerCharacter_SetInCharGen(0);
     }
     return true;
 }
@@ -15571,7 +15646,7 @@ class ScriptParameter;
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 struct CommandTarget {
     int FUN_004181e0();
-    void FUN_008b86e0(TESForm*, unsigned char, bool);
+    void Actor_ModFactionRank(TESForm*, unsigned char, bool);
 };
 extern CommandTarget* __cdecl FUN_00ec43fb(TESObjectREFR*, int, const char*, const char*, int);
 extern const char DAT_011841cc[];
@@ -15599,7 +15674,7 @@ bool __cdecl Cmd_ModFactionRank_Execute(const ScriptParameter* parameters,
 
     int target = status->FUN_004181e0();
     if (status && form)
-        status->FUN_008b86e0(form, (unsigned char)value, status == DAT_011dea3c);
+        status->Actor_ModFactionRank(form, (unsigned char)value, status == DAT_011dea3c);
     return true;
 }
 }  // namespace fnv_005c7f10
@@ -15659,7 +15734,7 @@ bool __cdecl Cmd_GetIsAlerted_Execute(void* pParamInfo, void* pScriptData, void*
 
 class FUN_005c9740_obj {
 public:
-    void FUN_0060c950(int value);
+    void SetAllObjectivesComplete(int value);
 };
 
 extern unsigned char Script_ParseParameters(int a0, int a1, int a2, int a3, int a4, int a5, int a6, FUN_005c9740_obj** out);
@@ -15672,7 +15747,7 @@ bool Cmd_CompleteAllObjectives_Execute(int a0, int a1, int a2, int a3, int a4, i
     if (Script_ParseParameters(a0, a1, a7, a2, a3, a4, a5, &obj) == 0) {
         return false;
     }
-    obj->FUN_0060c950(1);
+    obj->SetAllObjectivesComplete(1);
     return true;
 }
 
@@ -16184,7 +16259,7 @@ public:
     virtual void V133();
     virtual void V134();
     virtual bool V135();
-    int FUN_008a8010(int);
+    int Actor_SetCombatStyle(int);
     bool FUN_00566950();
     BSFormObj* FUN_007af430();
     void FUN_005f9e00(BSFormObj*, int, int, int);
@@ -16208,7 +16283,7 @@ bool __cdecl Cmd_SetCombatStyle_Execute(int a1, int a2, void* a3, int a4, int a5
     if (a3 != 0) {
         BSFormObj* obj = FUN_00ec43fb(a3, 0, DAT_011841cc, DAT_011846d4, 0);
         if (obj != 0) {
-            obj->FUN_008a8010(outVal);
+            obj->Actor_SetCombatStyle(outVal);
             if (obj->FUN_00566950()) {
                 if (obj->V135()) {
                     BSFormObj* p = obj->FUN_007af430();
@@ -16529,7 +16604,7 @@ extern unsigned int _tls_index;
 void* __fastcall FUN_0056a9f0(void* ecx);
 unsigned int __fastcall FUN_0084e3a0(void* ecx);
 void __cdecl FUN_005acc70(unsigned int* out, double* value);
-void __cdecl FUN_00703c00(const char* fmt, unsigned int value);
+void __cdecl Interface_PrintLine(const char* fmt, unsigned int value);
 
 // @fnv 0x005ce630
 bool __cdecl FUN_005ce630(unsigned int a0, unsigned int a1, void* apRef, unsigned int a3, unsigned int a4, unsigned int a5, double* afOut)
@@ -16546,7 +16621,7 @@ bool __cdecl FUN_005ce630(unsigned int a0, unsigned int a1, void* apRef, unsigne
     }
     if (g_tlsBlock.unk268 != 0)
     {
-        FUN_00703c00("GetParentRef >> (%08x)", result);
+        Interface_PrintLine("GetParentRef >> (%08x)", result);
     }
     return true;
 }
@@ -18177,7 +18252,7 @@ bool Cmd_WaterReflectionColor_Execute(const ScriptParameter* parameters, const c
 void __fastcall FUN_0055f970(void* p);
 void* __fastcall FUN_005d43c0(void* p);
 void __fastcall FUN_00422aa0(void* p);
-void __fastcall FUN_00422c20(void* p);
+void __fastcall ExtraDataList_RemoveSavedHavokData(void* p);
 
 // @fnv 0x005d3ae0
 // src: EXE 0x005d3ae0
@@ -18187,14 +18262,14 @@ bool __cdecl Cmd_Reset3DState_Execute(int a, int b, void* p)
     {
         FUN_0055f970(p);
         FUN_00422aa0(FUN_005d43c0(p));
-        FUN_00422c20(FUN_005d43c0(p));
+        ExtraDataList_RemoveSavedHavokData(FUN_005d43c0(p));
     }
     return true;
 }
 
 typedef void (__cdecl *S_005d3c70_Callback)();
 
-void __cdecl FUN_005d3c70();
+void __cdecl SetRBMass();
 
 struct S_005d3c20_Local
 {
@@ -18209,10 +18284,11 @@ struct S_005d3c20_Local
 
 
 
-int __cdecl FUN_00c68ec0(int, S_005d3c20_Local*, S_005d3c70_Callback);
+int __cdecl _bhkWorld_DoObjects(int, S_005d3c20_Local*, S_005d3c70_Callback);
 
 // @fnv 0x005d3c20
-void __cdecl FUN_005d3c20(TESObjectREFR* apObject, float afValue)
+// src: COMMUNITY 0x005d3c20
+void __cdecl Script_SetRigidBodyMassBase(TESObjectREFR* apObject, float afValue)
 {
     S_005d3c20_Local local;
 
@@ -18221,7 +18297,7 @@ void __cdecl FUN_005d3c20(TESObjectREFR* apObject, float afValue)
     local.unk04 = 1;
     local.unk0c = afValue;
 
-    FUN_00c68ec0(reinterpret_cast<int>(apObject->GetNiNode()), &local, FUN_005d3c70);
+    _bhkWorld_DoObjects(reinterpret_cast<int>(apObject->GetNiNode()), &local, SetRBMass);
 }
 
 struct FUN_005d3c70_Owner
@@ -18253,7 +18329,8 @@ extern "C" void* __cdecl FUN_00653270(void* a, void* b);
 extern char DAT_012681c0;
 
 // @fnv 0x005d3c70
-void __cdecl FUN_005d3c70(FUN_005d3c70_Owner* a1, FUN_005d3c70_Src* a2)
+// src: COMMUNITY 0x005d3c70
+void __cdecl SetRBMass(FUN_005d3c70_Owner* a1, FUN_005d3c70_Src* a2)
 {
     void* p = a1->FUN_006fa820();
     FUN_005d3c70_Holder* h = (FUN_005d3c70_Holder*)FUN_00653270(&DAT_012681c0, p);
@@ -18274,7 +18351,7 @@ struct ThreadScriptFlags_005d3dc0 {
 };
 extern __declspec(thread) ThreadScriptFlags_005d3dc0 g_threadScriptFlags_005d3dc0;
 bool __cdecl FUN_005a3760(TESObjectREFR*, unsigned int, int, double*);
-void __cdecl FUN_00703c00(const char* apFmt, ...);
+void __cdecl Interface_PrintLine(const char* apFmt, ...);
 
 // @fnv 0x005d3dc0
 bool __cdecl FUN_005d3dc0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
@@ -18287,24 +18364,24 @@ bool __cdecl FUN_005d3dc0(const ScriptParameter* apParameters, const char* apCom
         } else {
             pMsg = "Actor counts friendly hits";
         }
-        FUN_00703c00("%s", pMsg);
+        Interface_PrintLine("%s", pMsg);
     }
     return bResult;
 }
 
 extern bool DAT_012004fc;
-void __cdecl FUN_005d45c0();
-void __cdecl FUN_005d45e0();
+void __cdecl MapMenu_ClearCount128();
+void __cdecl DumpLocalMapTextures();
 
 // @fnv 0x005d4580
 // src: EXE 0x005d4580
 bool __cdecl Cmd_OutputLocalMapPictures_Execute()
 {
     DAT_012004fc = true;
-    FUN_005d45c0();
+    MapMenu_ClearCount128();
 
     for (unsigned int i = 0; i < 0x19; ++i) {
-        FUN_005d45e0();
+        DumpLocalMapTextures();
     }
 
     DAT_012004fc = false;
@@ -18331,14 +18408,15 @@ unsigned char __cdecl Cmd_WasteMemory_Execute(unsigned int first, unsigned int s
 
 
 // @fnv 0x005d4c20
-void __cdecl FUN_005d4c20(TESObjectREFR* p, float f)
+// src: COMMUNITY 0x005d4c20
+void __cdecl Script_DamageObjectBase(TESObjectREFR* p, float f)
 {
     p->DamageObject(f, true);
 }
 
 struct SpecialActorState {
     int FUN_00401170();
-    void FUN_004ff0e0(unsigned int index);
+    void BGSTalkingActivator_SetTempRef(unsigned int index);
 };
 struct RefActor {
     SpecialActorState* FUN_007af430();
@@ -18361,7 +18439,7 @@ bool __cdecl Cmd_SetTalkingActivatorActor_Execute(
     if (target != 0) {
         if (target->FUN_007af430()->FUN_00401170() == 22) {
             SpecialActorState* state = target->FUN_007af430();
-            state->FUN_004ff0e0(itemIndex);
+            state->BGSTalkingActivator_SetTempRef(itemIndex);
         }
     }
     return true;
@@ -18718,8 +18796,8 @@ struct DebugPageOwner
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 extern "C" bool __cdecl Script_ParseParameters(int, int, int, int, int, int, int, DebugTextBuffer*);
 extern "C" bool __cdecl FUN_00702fc0();
-extern "C" void __cdecl FUN_00703c00(const char*);
-extern "C" DebugPageOwner* __cdecl FUN_005ba8d0();
+extern "C" void __cdecl Interface_PrintLine(const char*);
+extern "C" DebugPageOwner* __cdecl DebugTextManager_GetSingleton();
 extern "C" DebugPageOwner* __stdcall FUN_005ba8d1(unsigned char*, int);
 extern int DAT_011dea3c;
 
@@ -18739,13 +18817,13 @@ bool __cdecl Cmd_SendSherlockDebugText_Execute(int a1, int a2, int a3, int a4, i
     {
         if (!FUN_00702fc0() && buf.first == 0)
         {
-            FUN_00703c00("You must supply a debug page name if debug text is not showing");
+            Interface_PrintLine("You must supply a debug page name if debug text is not showing");
         }
         else
         {
             if (FUN_00702fc0() && buf.first == 0)
             {
-                page = FUN_005ba8d0()->GetPage();
+                page = DebugTextManager_GetSingleton()->GetPage();
             }
             else
             {
@@ -18830,7 +18908,7 @@ struct Obj {
     virtual void v63();
     virtual bool Query();
 };
-void FUN_00704690(void* p);
+void RepairServicesMenu_Create_(void* p);
 
 // @fnv 0x005d5200
 // src: EXE 0x005d5200
@@ -18840,7 +18918,7 @@ bool Cmd_ShowRepairMenu_Execute(int a1, int a2, Obj* p)
     {
         if (p->Query())
         {
-            FUN_00704690(p);
+            RepairServicesMenu_Create_(p);
         }
     }
     return true;
@@ -19200,7 +19278,7 @@ virtual void Unk3f(); virtual unsigned char IsActive();};
 struct ScriptNode { unsigned char m_iWordAt00[0xbc]; unsigned char m_flag; int __thiscall FUN_0055d520(); };
 extern "C" bool __cdecl Script_ParseParameters(int, int, int, ScriptContextObject*, int, int, int, int*);
 extern "C" ScriptNode* __cdecl FUN_00ec43fb(ScriptContextObject*, int, const void*, const void*, int);
-extern "C" void __cdecl FUN_00703c00(void*, int, const void*);
+extern "C" void __cdecl Interface_PrintLine(void*, int, const void*);
 extern const char DAT_011841cc;
 extern const char DAT_011846d4;
 extern const char DAT_010399b8;
@@ -19227,7 +19305,7 @@ bool __cdecl Cmd_SetActorsAI_Execute(int a, int b, ScriptContextObject* context,
                     statusString = &DAT_010399bc;
                 else
                     statusString = &DAT_010399b8;
-                FUN_00703c00((void*)&DAT_01039f58, scriptNode->FUN_0055d520(), statusString);
+                Interface_PrintLine((void*)&DAT_01039f58, scriptNode->FUN_0055d520(), statusString);
             }
         }
     }
@@ -19459,7 +19537,7 @@ bool __cdecl FUN_005d6b60(const ScriptParameter* apParameters, const char* apCom
 }
 
 bool __cdecl Script_ParseParameters(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* pOut);
-void __cdecl FUN_007062a0(int, int, unsigned char, unsigned char);
+void __cdecl CharGenMenu_Create_(int, int, unsigned char, unsigned char);
 
 // @fnv 0x005d72f0
 // src: EXE 0x005d72f0
@@ -19473,14 +19551,14 @@ bool __cdecl Cmd_AddSPECIALPoints_Execute(int a1, int a2, int a3, int a4, int a5
     }
     else
     {
-        FUN_007062a0(0, out, 1, 1);
+        CharGenMenu_Create_(0, out, 1, 1);
     }
     return result;
 }
 
 namespace fnv_005d7350 {
 extern "C" bool __cdecl Script_ParseParameters(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8, int* a9);
-void __cdecl FUN_007062a0(int, int, unsigned char, unsigned char);
+void __cdecl CharGenMenu_Create_(int, int, unsigned char, unsigned char);
 
 // @fnv 0x005d7350
 // src: EXE 0x005d7350
@@ -19492,14 +19570,14 @@ bool __cdecl Cmd_SetTagSkills_Execute(int a1, int a2, int a3, int a4, int a5, in
     if (!Script_ParseParameters(a1, a2, a8, a3, a4, a5, a6, &var_ch, &var_4h)) {
         result3 = false;
     } else {
-        FUN_007062a0(1, var_ch, 0, var_4h == 1);
+        CharGenMenu_Create_(1, var_ch, 0, var_4h == 1);
     }
     return result3;
 }
 }  // namespace fnv_005d7350
 
 extern bool __cdecl Script_ParseParameters(int a, int b, int extra, int c, int d, int e, int f, int* result);
-extern void __cdecl FUN_007062a0(int a, int b, int c, int d);
+extern void __cdecl CharGenMenu_Create_(int a, int b, int c, int d);
 
 // @fnv 0x005d73d0
 // src: EXE 0x005d73d0
@@ -19510,7 +19588,7 @@ bool __cdecl Cmd_AddTagSkills_Execute(int a1, int a2, int a3, int a4, int a5, in
     if (!Script_ParseParameters(a1, a2, a8, a3, a4, a5, a6, &result)) {
         success = false;
     } else {
-        FUN_007062a0(1, result, 1, 1);
+        CharGenMenu_Create_(1, result, 1, 1);
     }
     return success;
 }
@@ -19641,8 +19719,8 @@ public:
 };
 
 bool Script_ParseParameters(int a1, int a2, int a3, NiCallbackHost* a4, int a5, int a6, int a7, int* a8, unsigned int* a9);
-void FUN_00835810(NiCallbackHost* a1, unsigned int a2);
-void FUN_00835980(NiCallbackHost* a1);
+void FalloutRadio_EnableNPCRadio(NiCallbackHost* a1, unsigned int a2);
+void FalloutRadio_DisableNPCRadio(NiCallbackHost* a1);
 // @fnv 0x005d8100
 // src: EXE 0x005d8100
 bool Cmd_SetNPCRadio_Execute(int a1, int a2, NiCallbackHost* a3, int a4, int a5, int a6, int a7, int a8)
@@ -19661,9 +19739,9 @@ bool Cmd_SetNPCRadio_Execute(int a1, int a2, NiCallbackHost* a3, int a4, int a5,
         return false;
     }
     if (status == 1) {
-        FUN_00835810(a3, ptrOut);
+        FalloutRadio_EnableNPCRadio(a3, ptrOut);
     } else if (status == 0) {
-        FUN_00835980(a3);
+        FalloutRadio_DisableNPCRadio(a3);
     }
     }
     return true;
@@ -19872,7 +19950,7 @@ bool __cdecl Cmd_ResetDialogueFlags_Execute()
 }  // namespace fnv_005d8930
 
 bool __cdecl Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, char*);
-bool __cdecl FUN_005b4960(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, double&, unsigned int&, const char*, BSStringT<char>&);
+bool __cdecl Script_ParseString(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, double&, unsigned int&, const char*, BSStringT<char>&);
 // @fnv 0x005d8bf0
 // src: EXE 0x005d8bf0
 bool __cdecl Cmd_ShowWarning_Execute(const ScriptParameter* parameters, const char* compiled, TESObjectREFR* reference, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& offset)
@@ -19881,7 +19959,7 @@ bool __cdecl Cmd_ShowWarning_Execute(const ScriptParameter* parameters, const ch
     if (!Script_ParseParameters(parameters, compiled, &offset, reference, container, script, locals, text))
         return false;
     BSStringT<char> value;
-    if (!FUN_005b4960(parameters, compiled, reference, container, script, locals, result, offset, text, value))
+    if (!Script_ParseString(parameters, compiled, reference, container, script, locals, result, offset, text, value))
         return false;
     return true;
 }
@@ -20347,7 +20425,7 @@ struct FUN_005dc010_obj
     virtual void v62();
     virtual void v63();
     virtual bool v64();
-    void FUN_008a1a40(unsigned int a);
+    void Actor_SetCriticalStage(unsigned int a);
 };
 
 // @fnv 0x005dc010
@@ -20362,7 +20440,7 @@ bool __cdecl Cmd_SetCriticalStage_Execute(int a0, int a1, FUN_005dc010_obj* a2, 
     if (a2 != 0 && a2->v64())
     {
         FUN_005dc010_obj* tmp = a2;
-        tmp->FUN_008a1a40(out);
+        tmp->Actor_SetCriticalStage(out);
     }
     return true;
 }
@@ -20587,7 +20665,7 @@ bool __cdecl Cmd_EnableWeaponMod_Execute(const ScriptParameter* param, const cha
 
 class GameValue {
 public:
-    double FUN_00616a60(int component);
+    double TESReputation_GetReputationPct(int component);
 };
 
 bool __cdecl func_0x005accb0(
@@ -20609,14 +20687,14 @@ bool __cdecl Cmd_GetReputationPct_Execute(
                          &value, &component))
         return false;
     if (component >= 0 && component <= 1) {
-        *result = value->FUN_00616a60(component);
+        *result = value->TESReputation_GetReputationPct(component);
     } else {
         return false;
     }
     return true;
 }
 
-struct FUN_00616a90_Obj { char FUN_00616a90(unsigned char a1); };
+struct FUN_00616a90_Obj { char TESReputation_GetReputationThreshold(unsigned char a1); };
 bool __cdecl Script_ParseParameters(int a1, int a2, int a3, int a4, int a5, int a6, int a7, FUN_00616a90_Obj** a8, int* a9);
 // @fnv 0x005ddc90
 // src: EXE 0x005ddc90
@@ -20627,7 +20705,7 @@ bool __cdecl Cmd_GetReputationThreshold_Execute(int a1, int a2, int a3, int a4, 
         return false;
     }
     if (opcode >= 0 && opcode <= 2) {
-        int value2 = kObj->FUN_00616a90((unsigned char)opcode);
+        int value2 = kObj->TESReputation_GetReputationThreshold((unsigned char)opcode);
         *a7 = value2;
     } else {
         return false;
@@ -20694,7 +20772,7 @@ bool Cmd_AddReputationExact_Execute(const ScriptParameter* apParameters, const c
 }
 
 struct S_005dde90_Obj {
-    void FUN_00615a00(int index, float value);
+    void RemoveReputationExact(int index, float value);
 };
 
 bool __cdecl Script_ParseParameters(const ScriptParameter* param, const char* name, unsigned int* opcode, TESObjectREFR* ref1, TESObjectREFR* ref2, Script* script, ScriptLocals* locals, S_005dde90_Obj** obj, int* index, float* value);
@@ -20709,7 +20787,7 @@ bool __cdecl Cmd_RemoveReputationExact_Execute(const ScriptParameter* param, con
         return false;
     }
     if (index >= 0 && index <= 1) {
-        kObj->FUN_00615a00(index, value);
+        kObj->RemoveReputationExact(index, value);
     } else {
         return false;
     }
@@ -20718,7 +20796,7 @@ bool __cdecl Cmd_RemoveReputationExact_Execute(const ScriptParameter* param, con
 
 struct FUN_00615580_Class
 {
-    void FUN_00615580(int mode, float value);
+    void SetReputation_00615580(int mode, float value);
 };
 
 // @fnv 0x005ddf10
@@ -20731,7 +20809,7 @@ bool __cdecl Cmd_SetReputation_Execute(const ScriptParameter* apParameters, cons
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &iStack_10, &uStack_8, &uStack_c))
         return false;
     if (uStack_8 >= 0 && uStack_8 <= 1) {
-        ((FUN_00615580_Class*)iStack_10)->FUN_00615580(uStack_8, uStack_c);
+        ((FUN_00615580_Class*)iStack_10)->SetReputation_00615580(uStack_8, uStack_c);
     } else {
         return false;
     }
@@ -20741,7 +20819,7 @@ bool __cdecl Cmd_SetReputation_Execute(const ScriptParameter* apParameters, cons
 namespace fnv_005de250 {
 unsigned char Script_ParseParameters(int param_1, int param_2, int param_3, int param_4,
                   int param_5, int param_6, int param_7, int* param_8);
-void FUN_005de2c0(unsigned short param_1);
+void BSPSysMultiTargetEmitterCtlr_SetMaxParticlesPerEmitter(unsigned short param_1);
 
 // @fnv 0x005de250
 // src: EXE 0x005de250
@@ -20756,7 +20834,7 @@ bool Cmd_SetMPSParticleMax_Execute(int param_1, int param_2, int param_3, int pa
     if (uStack_8 < 0 || uStack_8 > 0xffff) {
         return false;
     }
-    FUN_005de2c0((unsigned short)uStack_8);
+    BSPSysMultiTargetEmitterCtlr_SetMaxParticlesPerEmitter((unsigned short)uStack_8);
     return true;
 }
 }  // namespace fnv_005de250
@@ -20816,7 +20894,7 @@ struct IdleManager {
 extern IdleManager* DAT_011dea10;
 extern const char DAT_0103d174[];
 extern const char DAT_0103d158[];
-extern void __cdecl FUN_00703c00(const char*);
+extern void __cdecl Interface_PrintLine(const char*);
 
 // @fnv 0x005de4a0
 bool __cdecl FUN_005de4a0(
@@ -20845,9 +20923,9 @@ bool __cdecl FUN_005de4a0(
         node = node->FUN_00726070();
     }
     if (result != 0.0)
-        FUN_00703c00(DAT_0103d174);
+        Interface_PrintLine(DAT_0103d174);
     else
-        FUN_00703c00(DAT_0103d158);
+        Interface_PrintLine(DAT_0103d158);
     return true;
 }
 }  // namespace fnv_005de4a0
@@ -20859,7 +20937,7 @@ class ScriptParameter;
 extern TESObjectREFR* _g_thePlayer;
 extern const char str_0103d21c[];
 void __cdecl Script_ParseParameters(const ScriptParameter*, const char*, unsigned int&, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*);
-int __cdecl FUN_005b5e40();
+int __cdecl Warning_005b5e40();
 
 struct PlayerActor {
     virtual void Unknown0();
@@ -21104,7 +21182,7 @@ bool __cdecl FUN_005de9f0(const ScriptParameter* parameters, const char* scriptD
         float currentValue = reinterpret_cast<ActorValueOwner*>(reinterpret_cast<char*>(_g_thePlayer) + 0xa4)->GetCurrentActorValue((ActorValue::Index)0x18);
         reinterpret_cast<PlayerActor*>(_g_thePlayer)->ChangeActorValue(0x18, -currentValue, 0);
     } else {
-        (reinterpret_cast<int (__cdecl*)(const char*)>(FUN_005b5e40))(str_0103d21c);
+        (reinterpret_cast<int (__cdecl*)(const char*)>(Warning_005b5e40))(str_0103d21c);
         return false;
     }
     return true;
@@ -21189,7 +21267,7 @@ struct DeaaSource
     virtual void v3e();
     virtual void v3f();
     virtual bool IsReady();
-    DeaaHolder* FUN_008a51a0();
+    DeaaHolder* TESMobileObject_GetLastTargetInfo();
 };
 
 void __cdecl FUN_005acc70(int* v, double* out);
@@ -21202,7 +21280,7 @@ bool __cdecl Cmd_GetOwnerLastTarget_Execute(int arg0, int arg1, int arg2, DeaaSo
     if (a != 0 && a->IsReady())
     {
         DeaaSource* p = a;
-        DeaaHolder* h = p->FUN_008a51a0();
+        DeaaHolder* h = p->TESMobileObject_GetLastTargetInfo();
         if (h != 0 && h->m_04 != 0)
         {
             int v = h->m_04->FUN_0084e3a0();
@@ -21229,7 +21307,7 @@ struct FNV_ListNode {
     FNV_ListNode* FUN_00726070();
 };
 struct FNV_ListOwner {
-    FNV_ListNode* FUN_005a6260();
+    FNV_ListNode* PlayerCharacter_GetCasinoDataList();
 };
 struct FNV_ScriptResult {
     int FUN_0084e3a0();
@@ -21252,7 +21330,7 @@ bool __cdecl Cmd_GetCasinoWinningsLevel_Execute(unsigned int p1, unsigned int p2
     parsed.status = 0;
     Script_ParseParameters(p1,p2,p8,p3,p4,p5,p6,&parsed);
     if (parsed.script != 0) {
-        FNV_ListNode* node = DAT_011dea3c->FUN_005a6260();
+        FNV_ListNode* node = DAT_011dea3c->PlayerCharacter_GetCasinoDataList();
         while (node != 0 && node->FUN_006815c0()->object != 0) {
             if (node->FUN_006815c0()->object->formID == static_cast<FNV_ScriptResult*>(parsed.script)->FUN_0084e3a0()) {
                 int amount;
@@ -21300,7 +21378,7 @@ bool __cdecl Cmd_ChallengeLocked_Execute(int arg1, int arg2, int arg3, int arg4,
 namespace fnv_005def90 {
 class FUN_005def90_cls {
 public:
-    void FUN_005defe0(bool b);
+    void RemoveRecurringFromChallenge(bool b);
 };
 
 extern void Script_ParseParameters(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int* out);
@@ -21312,7 +21390,7 @@ bool __cdecl Cmd_RemoveRecurringFromChallenge_Execute(int a1, int a2, int a3, in
     int local = 0;
     Script_ParseParameters(a1, a2, a8, a3, a4, a5, a6, &local);
     if (local != 0) {
-        ((FUN_005def90_cls*)local)->FUN_005defe0(true);
+        ((FUN_005def90_cls*)local)->RemoveRecurringFromChallenge(true);
     } else {
         return false;
     }
@@ -21325,8 +21403,8 @@ extern char DAT_011841cc;
 extern char DAT_011846d4;
 extern __declspec(thread) bool g_bDebugIsActor;
 void* __cdecl FUN_00ec43fb(TESObjectREFR* apRef, int aUnk1, const char* aStr1, const char* aStr2, int aUnk2);
-bool __fastcall FUN_008c1b30(void* apObj);
-void __cdecl FUN_00703c00(const char* apFmt, ...);
+bool __fastcall Actor_GetRefEssential(void* apObj);
+void __cdecl Interface_PrintLine(const char* apFmt, ...);
 
 
 // @fnv 0x005dfc70
@@ -21337,14 +21415,14 @@ bool __cdecl Cmd_IsActorRefEssential_Execute(const ScriptParameter* apParameters
     if (apRefObject->IsActor()) {
         int iResult;
         void* pRef2 = FUN_00ec43fb(apRefObject, 0, &DAT_011841cc, &DAT_011846d4, 0);
-        iResult = FUN_008c1b30(pRef2) ? 1 : 0;
+        iResult = Actor_GetRefEssential(pRef2) ? 1 : 0;
         afReturnValue = (double)iResult;
         if (g_bDebugIsActor) {
-            FUN_00703c00("IsActorRefEssential >> %0.f", afReturnValue);
+            Interface_PrintLine("IsActorRefEssential >> %0.f", afReturnValue);
         }
     } else {
         if (g_bDebugIsActor) {
-            FUN_00703c00("IsActorRefEssential >> Invalid actor reference ");
+            Interface_PrintLine("IsActorRefEssential >> Invalid actor reference ");
         }
     }
     return true;
@@ -21354,7 +21432,7 @@ bool __cdecl Cmd_IsActorRefEssential_Execute(const ScriptParameter* apParameters
 class ScriptParameter;
 
 extern bool __cdecl ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
-extern void __cdecl FUN_005f6110(unsigned int, unsigned int);
+extern void __cdecl IncrementScriptedChallenge(unsigned int, unsigned int);
 // @fnv 0x005dfe30
 // src: EXE 0x005dfe30
 bool __cdecl Cmd_IncrementScriptedChallenge_Execute(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* reference, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
@@ -21364,7 +21442,7 @@ bool __cdecl Cmd_IncrementScriptedChallenge_Execute(const ScriptParameter* param
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, reference, container, script, locals, &parsedArgument)) {
         return false;
     }
-    FUN_005f6110(parsedArgument, actionFlag);
+    IncrementScriptedChallenge(parsedArgument, actionFlag);
     return true;
 }
 
@@ -21427,11 +21505,12 @@ struct ResponseOwner {
     unsigned int uiFileOffset;
     unsigned char ucResponseIndex;
 
-    const char* FUN_0060fdb0(RecForm* form);
+    const char* TESQuestStageItem_GetLogEntry(RecForm* form);
 };
 
 // @fnv 0x0060fdb0
-const char* ResponseOwner::FUN_0060fdb0(RecForm* form)
+// src: COMMUNITY 0x0060fdb0
+const char* ResponseOwner::TESQuestStageItem_GetLogEntry(RecForm* form)
 {
     if (!form)
         return 0;
@@ -21509,13 +21588,13 @@ struct MessageForm {
     MessageFullName fullName;
     MessageDescription description;
     MessageButtonNode* FUN_00436aa0();
-    bool FUN_00590d00();
+    bool GetIsMessageBox();
     MessageFullNameRecord* FUN_0055b980();
     unsigned int FUN_00639b40();
 };
 bool __cdecl Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, MessageForm**, int*);
-void FUN_005b4940();
-void FUN_005b4a70();
+void Script_ClearButtonPressed();
+void ShowMessageBox_Callback();
 bool __fastcall FUN_004077c0(const TESObjectREFR*);
 unsigned int __fastcall FUN_0084e3a0(void*);
 extern int DAT_011cac64;
@@ -21536,9 +21615,9 @@ bool __cdecl Cmd_ShowMessage_Execute(const ScriptParameter* parameters, const ch
     if (!i)
         return false;
     BSStringT<char> p; // rendered message text
-    if (!FUN_005b4960(parameters, compiled, reference, container, script, locals, result, offset, i->description.GetDescription(0, 0x43534544), p))
+    if (!Script_ParseString(parameters, compiled, reference, container, script, locals, result, offset, i->description.GetDescription(0, 0x43534544), p))
         return false;
-    FUN_005b4940();
+    Script_ClearButtonPressed();
     if (reference && !FUN_004077c0(reference))
         DAT_011cac64 = FUN_0084e3a0(reference);
     else if (script)
@@ -21564,8 +21643,8 @@ bool __cdecl Cmd_ShowMessage_Execute(const ScriptParameter* parameters, const ch
     }
     if (f)
         a[0] = DAT_0103934c;
-    if (i->FUN_00590d00()) {
-        FUN_00703e80(PrepareScriptMessage(p.String(), false), 0, i->fullName.FUN_00408da0(), FUN_005b4a70, 0, 23, 0.0f, 0.0f,
+    if (i->GetIsMessageBox()) {
+        FUN_00703e80(PrepareScriptMessage(p.String(), false), 0, i->fullName.FUN_00408da0(), ShowMessageBox_Callback, 0, 23, 0.0f, 0.0f,
             a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], 0);
     } else if (p.Length()) {
         QueueUIMessage(PrepareScriptMessage(p.String(), false), 0,
@@ -21626,13 +21705,13 @@ struct ContainerB {
     int data[3];
     ContainerB(); ~ContainerB();
     void FUN_004818e0(ObjB*, int, void*);
-    void FUN_00482090(float);
-    void FUN_004821a0(ObjB*, bool);
+    void ApplyHealthPercentToContainer(float);
+    void AddContainerToReference(ObjB*, bool);
     void FUN_00487f70(unsigned short, unsigned short, ContainerB*, int);
 };
 struct HelpersB {
     static bool Script_ParseParameters(void*, void*, void*, ObjB*, unsigned*, ObjB*, void*, FormB**, int*, int*);
-    static void FUN_005b5e40(char*, int);
+    static void Warning_005b5e40(char*, int);
     static bool Cmd_AddItem_Execute(void*, void*, ObjB*, unsigned*, ObjB*, void*, void*, void*);
 };
 extern "C" char DAT_01039358;
@@ -21670,13 +21749,13 @@ bool HelpersB::Cmd_AddItem_Execute(void* a, void* b, ObjB* c, unsigned* d, ObjB*
         } else if (itemB && count) {
             container.FUN_004818e0(itemB,count,0);
         } else {
-            FUN_005b5e40(&DAT_01039358,e->v76());
+            Warning_005b5e40(&DAT_01039358,e->v76());
         }
         if (weapon_) {
             ObjB* weapVal = form_;
-            if (weapVal->FUN_00446390() < 10) container.FUN_00482090(*(float*)&DAT_010231e0);
+            if (weapVal->FUN_00446390() < 10) container.ApplyHealthPercentToContainer(*(float*)&DAT_010231e0);
         }
-        container.FUN_004821a0(c,mode_ == 1);
+        container.AddContainerToReference(c,mode_ == 1);
         if (c->v64() && c != *(ObjB**)&DAT_011dea3c) {
             ObjB* actor6 = c;
             if (actor6->v134()) actor6->FUN_007af430()->FUN_00606540(actor6,actor6->v122(1));
@@ -21732,7 +21811,7 @@ bool __cdecl Cmd_RemoveMe_Execute(const ScriptParameter* apParamInfo, const char
 }
 
 namespace fnv_005b55a0 {
-struct PerkTarget { float FUN_004ce340(TESObjectREFR* ref, int first, bool unusedA, bool hasSecond, bool unusedB, bool hasThird, int fourth, int fifth); };
+struct PerkTarget { float InventoryChanges_RemoveAllTypedItems(TESObjectREFR* ref, int first, bool unusedA, bool hasSecond, bool unusedB, bool hasThird, int fourth, int fifth); };
 struct ScriptTargetBase { PerkTarget* FUN_00418520(); };
 struct ScriptReference { ScriptTargetBase* FUN_005d43c0(); };
 struct ActorUpdateQueue { void FUN_00952c30(TESObjectREFR* reference); };
@@ -21756,7 +21835,7 @@ bool __cdecl Cmd_RemoveAllTypedItems_Execute(const ScriptParameter* args, const 
         PerkTarget* target = reinterpret_cast<ScriptReference*>(reference)->FUN_005d43c0()->FUN_00418520();
         if (target)
         {
-            target->FUN_004ce340(reference, firstValue, false, hasSecondValue, false, thirdValue != 0, fourthOutput, fifthInput);
+            target->InventoryChanges_RemoveAllTypedItems(reference, firstValue, false, hasSecondValue, false, thirdValue != 0, fourthOutput, fifthInput);
             DAT_011dea3c->FUN_00952c30(reference);
         }
     }
@@ -21778,8 +21857,8 @@ extern "C" void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" unsigned int __cdecl _strlen(const char*);
 char* __cdecl FUN_004812f0(char*, const char*);
-char* __cdecl FUN_004afb00(char*, unsigned int);
-int __cdecl FUN_005b5e40(void*);
+char* __cdecl BSstrlwr(char*, unsigned int);
+int __cdecl Warning_005b5e40(void*);
 bool __cdecl FUN_0043b300(const void*, void*);
 void* __fastcall FUN_00559450(void*);
 void* __fastcall FUN_00413f40(void*);
@@ -21789,13 +21868,13 @@ void* __fastcall FUN_0055b980(void*);
 void* __fastcall FUN_007d6bb0(void*);
 int __cdecl FUN_00e7bd20(void*);
 char* __cdecl FUN_00e7a9a0(int);
-int __fastcall FUN_0043c430(void*);
+int __fastcall NiTexture_GetTextureQualityLevel(void*);
 struct TextureManager { void FUN_0064fe80(void*); };
-void* __cdecl FUN_00456510();
+void* __cdecl NiTexture_GetListHead();
 TextureManager* __cdecl FUN_00652110();
 extern int DAT_011f444c;
 extern ModelLoader* g_pModelLoader;
-struct FUN_00aa47c0_Class { int __thiscall FUN_00aa47c0(int, int); };
+struct FUN_00aa47c0_Class { int __thiscall MemoryManager_OutputDebugInfo(int, int); };
 MemoryManager* __cdecl FUN_00401020();
 struct MLdr { void FUN_00443270(void*, int); };
 
@@ -21878,7 +21957,7 @@ bool __cdecl Cmd_OutputMemStats_Execute(const ScriptParameter* apParameters, con
                 _sprintf_s(buf11, 0x200, "MemStats%s.mhd", tmp);
             }
             FUN_008783c0 helper(buf11);
-            ((FUN_00aa47c0_Class*)FUN_00401020())->FUN_00aa47c0((int)&helper, 0);
+            ((FUN_00aa47c0_Class*)FUN_00401020())->MemoryManager_OutputDebugInfo((int)&helper, 0);
             _sprintf_s(buf11, 0x200, "ModelDump%s.txt", tmp);
             BSFile file41(buf11, true, 0x4000, false);
             file41.FUN_00aff300(false, false);
@@ -21899,13 +21978,13 @@ bool __cdecl Cmd_OutputMemStats_Execute(const ScriptParameter* apParameters, con
             memset(arr19, 0, 0x2000);
             int total14cA = 0;
             count2 = 0;
-            void* node3 = FUN_00456510();
+            void* node3 = NiTexture_GetListHead();
             while (node3 != 0)
             {
                 count2 = count2 + 1;
                 if (FUN_0059bb30(node3) != 0)
                 {
-                    int key = FUN_005b5e40(node3);
+                    int key = Warning_005b5e40(node3);
                     total14cA = total14cA + key;
                     int found = -1;
                     int j;
@@ -21917,7 +21996,7 @@ bool __cdecl Cmd_OutputMemStats_Execute(const ScriptParameter* apParameters, con
                         }
                         else
                         {
-                            int k2 = FUN_005b5e40(FUN_00559450(&arr19[j]));
+                            int k2 = Warning_005b5e40(FUN_00559450(&arr19[j]));
                             if ((unsigned int)k2 < (unsigned int)key)
                             {
                                 found = j;
@@ -21972,7 +22051,7 @@ bool __cdecl Cmd_OutputMemStats_Execute(const ScriptParameter* apParameters, con
                             _sprintf_s(nameVal, 0x104, "RENDERED_TEXTURE (none)");
                         }
                     }
-                    FUN_004afb00(nameVal, 0x104);
+                    BSstrlwr(nameVal, 0x104);
                     const char* category7 = "SYSTEM";
                     if (!isUnnamedX)
                     {
@@ -22005,15 +22084,15 @@ bool __cdecl Cmd_OutputMemStats_Execute(const ScriptParameter* apParameters, con
                             category7 = "MISCREF";
                         }
                     }
-                    unsigned int sz9 = (unsigned int)FUN_005b5e40(FUN_00559450(&arr19[i]));
+                    unsigned int sz9 = (unsigned int)Warning_005b5e40(FUN_00559450(&arr19[i]));
                     int t18 = FUN_00e7bd20(FUN_007d6bb0(FUN_0059bb30(FUN_00559450(&arr19[i]))));
                     char* t2620 = FUN_00e7a9a0(t18);
                     char* s261c3 = (char*)FUN_00559450(((FormV*)FUN_00559450(&arr19[i]))->V08());
                     char line6[0x200];
                     _sprintf_s(line6, 0x200, "TEXTURES: %d:\t%s\t%s\t%dx%d\t%d\t%s\trefcount %d\t%s\t%s\r\n",
                     i + 1, category7, nameVal, ((FormV*)FUN_00559450(&arr19[i]))->V94(), ((FormV*)FUN_00559450(&arr19[i]))->V98(), sz9 >> 10, t2620,
-                    ((FormR*)FUN_00559450(&arr19[i]))->FUN_00726070() - 1, (FUN_0043c430(FUN_00559450(&arr19[i])) == 3) ? "L" : "H", s261c3);
-                    FUN_005b5e40(line6);
+                    ((FormR*)FUN_00559450(&arr19[i]))->FUN_00726070() - 1, (NiTexture_GetTextureQualityLevel(FUN_00559450(&arr19[i])) == 3) ? "L" : "H", s261c3);
+                    Warning_005b5e40(line6);
                     file33.FUN_00aff950(line6, _strlen(line6) + 1);
                 }
             }
@@ -22201,7 +22280,7 @@ bool __cdecl FUN_005b6800(const ScriptParameter* apParameters, const char* apCom
 }  // namespace fnv_005b6800
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-void FUN_004add50(char* dst, const char* src, unsigned int size);
+void BSstrncpy(char* dst, const char* src, unsigned int size);
 
 struct MemStatsFile
 {
@@ -22228,9 +22307,9 @@ bool __cdecl Cmd_OutputMemStats_Execute_005b6a30(const ScriptParameter* apParame
     char fileName4[0x200];
     fileName4[0] = 0;
     fnv_zlib_memset(fileName4 + 1, 0, 0x1ff);
-    FUN_004add50(fileName4, "OutputMemStats.mhd", 0x1ff);
+    BSstrncpy(fileName4, "OutputMemStats.mhd", 0x1ff);
     if (!Script_ParseParameters(apParameters, apCompiledParams, auiOffset, apRefObject, apContainer, apScript, apScriptLocals, fileName4))
-        FUN_004add50(fileName4, "OutputMemStats.mhd", 0x1ff);
+        BSstrncpy(fileName4, "OutputMemStats.mhd", 0x1ff);
     MemStatsFile file(fileName4);
     GetMemStatsWriter()->Write(&file, 1);
     return true;
@@ -22498,11 +22577,11 @@ namespace fnv_005b7590 {
 struct TlsData { char pad[0x268]; bool bDebug; char p2[3]; void* pTarget; };
 extern __declspec(thread) TlsData DAT_0126fd98;
 bool __cdecl Script_ParseParameters(void* paramInfo, void* scriptData, unsigned int* opcodeOffsetPtr, void* thisObj, void* containingObj, void* scriptObj, void* eventList, ...);
-struct MgrQ { void FUN_0093a7a0(int); };
+struct MgrQ { void PlayerCharacter_SetOccupiedRegion(int); };
 extern MgrQ* DAT_011dea3c;
 struct SkyQ {
   int unk00, unk04, unk08, unk0c, unk10, unk14; int iVal18; int iVal1c;
-  int FUN_0044edb0(); void FUN_0063e860(unsigned char); void FUN_0063d0e0(int, bool);
+  int TESMain_GetThread(); void FUN_0063e860(unsigned char); void FUN_0063d0e0(int, bool);
 };
 SkyQ* FUN_0046dd00();
 // @fnv 0x005b7590
@@ -22513,11 +22592,11 @@ bool Cmd_SetWeather_Execute(void* paramInfo, void* scriptData, void* thisObj, vo
   if (!Script_ParseParameters(paramInfo, scriptData, opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList, &iValue, &iFlag_xafirk))
     return false;
   SkyQ* pWeatherSky = FUN_0046dd00();
-  if (pWeatherSky->FUN_0044edb0()) {
+  if (pWeatherSky->TESMain_GetThread()) {
     if (iFlag_xafirk) pWeatherSky->iVal1c = iValue;
     else {
       pWeatherSky->iVal18 = iValue;
-      DAT_011dea3c->FUN_0093a7a0(0);
+      DAT_011dea3c->PlayerCharacter_SetOccupiedRegion(0);
     }
     if (!DAT_0126fd98.bDebug) pWeatherSky->FUN_0063e860(1);
   } else {
@@ -22680,9 +22759,9 @@ extern const double DAT_01020758,DAT_01011590,DAT_0101db80,DAT_01017a10;
 extern const float DAT_01016088,DAT_01016248,DAT_0102295c,DAT_01018f5c;
 extern NiPoint3 DAT_011f426c; extern NiColorA DAT_011a9be0; extern GridRotation DAT_011a9448;
 bool Script_ParseParameters(int,int,int,int,int,int,int,int*);
-float FUN_00879d90(); int FUN_00406d90(float); int FUN_00556870(const NiPoint3*);
+float FUN_00879d90(); int FloatToInt(float); int FUN_00556870(const NiPoint3*);
 void* FUN_00aa1070(unsigned int);
-NiAVObject* FUN_004b3570(NiPoint3,NiPoint3,NiPoint3,NiColorA*,bool);
+NiAVObject* MakeTriangle(NiPoint3,NiPoint3,NiPoint3,NiColorA*,bool);
 
 // @fnv 0x005b7b40
 // src: EXE 0x005b7b40
@@ -22715,8 +22794,8 @@ bool Cmd_TestLocalMap_Execute(int form,int flags,int option,int source,int desti
    if(process23) {
     NiPoint3 baseCamera32=camera3;
     process23->FUN_00555b10(&camera3,&baseCamera32,1);
-    int baseX=(FUN_00406d90(baseCamera32.x)-2048)>>12;
-    int baseY31=(FUN_00406d90(baseCamera32.y)-2048)>>12;
+    int baseX=(FloatToInt(baseCamera32.x)-2048)>>12;
+    int baseY31=(FloatToInt(baseCamera32.y)-2048)>>12;
     int centerX2=baseX+cellX2-(cellCount7>>1);
     int centerY18=baseY31+cellY2-(cellCount7>>1);
     origin=NiPoint3(float(centerX2*4096+2048),float(centerY18*4096+2048),0);
@@ -22725,8 +22804,8 @@ bool Cmd_TestLocalMap_Execute(int form,int flags,int option,int source,int desti
    }
   } else {
    GridProcess* cell5=DAT_011dea3c->FUN_00575d70();
-   int baseX27=FUN_00406d90(camera3.x)>>12;
-   int baseY2=FUN_00406d90(camera3.y)>>12;
+   int baseX27=FloatToInt(camera3.x)>>12;
+   int baseY2=FloatToInt(camera3.y)>>12;
    int centerX2=baseX27+cellX2-(cellCount7>>1);
    int centerY2=baseY2+cellY2-(cellCount7>>1);
    origin=NiPoint3(float(centerX2*4096),float(centerY2*4096),0);
@@ -22782,7 +22861,7 @@ bool Cmd_TestLocalMap_Execute(int form,int flags,int option,int source,int desti
   if(region63.operator NiTexture*()) {
    NiTexturingProperty* regionNode=new NiTexturingProperty;
    regionNode->FUN_005b8fc0(region63.operator NiTexture*());
-   regionNode->FUN_004f3200(0); regionNode->FUN_00533fb0(2);
+   regionNode->FUN_004f3200(0); regionNode->NiStencilProperty_SetStencilFailAction(2);
    shape9->FUN_00439410(regionNode); region63.operator=(static_cast<NiTexture*>(0));
   }
  }
@@ -22791,13 +22870,13 @@ bool Cmd_TestLocalMap_Execute(int form,int flags,int option,int source,int desti
  if(DAT_011dea3c->FUN_00575d10()) {
   NiPoint3 adjusted16;
   DAT_011dea3c->FUN_008d6f30()->FUN_00555b10(DAT_011dea3c->GetPosition(),&adjusted16,1);
-  int x15=(FUN_00406d90(adjusted16.x)-2048)>>12;
-  int y=(FUN_00406d90(adjusted16.y)-2048)>>12;
+  int x15=(FloatToInt(adjusted16.x)-2048)>>12;
+  int y=(FloatToInt(adjusted16.y)-2048)>>12;
   center23=NiPoint3(float(x15*4096+4096),float(y*4096+4096),0);
   player=adjusted16;
  } else {
-  int x26=FUN_00406d90(DAT_011dea3c->GetPosition()->x)>>12;
-  int y2=FUN_00406d90(DAT_011dea3c->GetPosition()->y)>>12;
+  int x26=FloatToInt(DAT_011dea3c->GetPosition()->x)>>12;
+  int y2=FloatToInt(DAT_011dea3c->GetPosition()->y)>>12;
   center23=NiPoint3(float(x26*4096+2048),float(y2*4096+2048),0);
  }
  player.z=0;
@@ -22807,7 +22886,7 @@ bool Cmd_TestLocalMap_Execute(int form,int flags,int option,int source,int desti
  NiPoint3 axisX5(0,DAT_01016088,1);
  NiPoint3 axisY22(DAT_01016248,DAT_0102295c,1);
  NiPoint3 axisZ22(DAT_0102295c,DAT_0102295c,1);
- NiAVObject* mapMesh=FUN_004b3570(axisX5,axisY22,axisZ22,&NiColorA(1,0,0,0),1);
+ NiAVObject* mapMesh=MakeTriangle(axisX5,axisY22,axisZ22,&NiColorA(1,0,0,0),1);
  mapMesh->FUN_00440460(reinterpret_cast<const ::NiPoint3&>(cameraOffset38));
  GridRotation placement7=DAT_011a9448;
  placement7.FUN_004a0c90(float(DAT_011dea3c->FUN_008d6f30()->FUN_00555ad0()+DAT_011dea3c->FUN_00430830()->z));
@@ -22822,7 +22901,7 @@ bool Cmd_TestLocalMap_Execute(int form,int flags,int option,int source,int desti
 }  // namespace fnv_005b7b40
 
 extern bool DAT_0118c6f0;   // menus visible
-void __cdecl FUN_00703810(bool bShow);
+void __cdecl Interface_SetMenuSystemVisible(bool bShow);
 
 // Script command: ToggleMenus.
 // @fnv 0x005b9490
@@ -22832,15 +22911,15 @@ bool __cdecl Cmd_ToggleMenus_Execute(const ScriptParameter* apParameters, const 
                           unsigned int* apOffset)
 {
     DAT_0118c6f0 ^= 1;
-    FUN_00703810(DAT_0118c6f0);
+    Interface_SetMenuSystemVisible(DAT_0118c6f0);
     if (tlsData.bConsoleEcho)
-        static_cast<void (__cdecl*)(const char*, ...)>(FUN_00703c00)("Menus -> %s", DAT_0118c6f0 ? "On" : "Off");
+        static_cast<void (__cdecl*)(const char*, ...)>(Interface_PrintLine)("Menus -> %s", DAT_0118c6f0 ? "On" : "Off");
     return true;
 }
 
 extern unsigned char __cdecl FUN_005b9790(void);
-extern void __cdecl FUN_005b97d0(bool);
-extern void __cdecl FUN_00703c00(const char*, const char*);
+extern void __cdecl BSTreeManager_SetLeavesEnabled(bool);
+extern void __cdecl Interface_PrintLine(const char*, const char*);
 extern const char str_010399afc[];
 extern const char str_010399b8[];
 extern const char str_010399bc[];
@@ -22851,14 +22930,14 @@ bool __cdecl Cmd_ToggleLeaves_Execute(void)
 {
     const char* puStack_8;
 
-    FUN_005b97d0(FUN_005b9790() == 0);
+    BSTreeManager_SetLeavesEnabled(FUN_005b9790() == 0);
     if (tlsData.bConsoleEcho) {
         if (FUN_005b9790()) {
             puStack_8 = str_010399bc;
         } else {
             puStack_8 = str_010399b8;
         }
-        FUN_00703c00(str_010399afc, puStack_8);
+        Interface_PrintLine(str_010399afc, puStack_8);
     }
     return true;
 }
@@ -23276,20 +23355,20 @@ bool __cdecl FUN_005ba1a0(const ScriptParameter* paramInfo, const char* scriptDa
     if (!thisObj) {
         FUN_005ba2f0(FUN_005ba2d0() ^ true);
         if (tlsData.bConsoleEcho)
-            FUN_00703c00("GrabIK %s", FUN_005ba2d0() ? "On" : "Off");
+            Interface_PrintLine("GrabIK %s", FUN_005ba2d0() ? "On" : "Off");
     } else {
         Actor* pActor = dynamic_cast<Actor*>(thisObj);
         if (pActor && reinterpret_cast<GrabIKController*>(pActor->m_pRagdollController)) {
             reinterpret_cast<GrabIKController*>(pActor->m_pRagdollController)->SetEnabled(reinterpret_cast<GrabIKController*>(pActor->m_pRagdollController)->IsEnabled() ^ true);
             if (tlsData.bConsoleEcho)
-                FUN_00703c00("GrabIK on REF %s %s", ((GrabIKRefView*)thisObj)->GetName(),
+                Interface_PrintLine("GrabIK on REF %s %s", ((GrabIKRefView*)thisObj)->GetName(),
                     reinterpret_cast<GrabIKController*>(pActor->m_pRagdollController)->IsEnabled() ? "On" : "Off");
         }
     }
     return true;
 }
 
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 bool FUN_005ba4b0();
 struct LookIKState { bool FUN_005ba540(); void FUN_005ba4f0(unsigned char); };
 
@@ -23456,12 +23535,12 @@ extern __declspec(thread) LookTls lookTls;
 bool FUN_005ba380(const ScriptParameter*,const char*,TESObjectREFR* reference,TESObjectREFR*,Script*,ScriptLocals*,double&,unsigned int&) {
  if (!reference) {
   FUN_005ba4d0(FUN_005ba4b0() ^ 1);
-  if (lookTls.console) FUN_00703c00("LookIK %s",FUN_005ba4b0()?"On":"Off");
+  if (lookTls.console) Interface_PrintLine("LookIK %s",FUN_005ba4b0()?"On":"Off");
  } else {
   Actor* actor = dynamic_cast<Actor*>(reference);
   if (actor && reinterpret_cast<LookIKState*>(actor->m_pRagdollController)) {
    reinterpret_cast<LookIKState*>(actor->m_pRagdollController)->FUN_005ba4f0(reinterpret_cast<LookIKState*>(actor->m_pRagdollController)->FUN_005ba540() ^ 1);
-   if (lookTls.console) FUN_00703c00("LookIK on REF %s %s",((TESForm*)reference)->GetName(),reinterpret_cast<LookIKState*>(actor->m_pRagdollController)->FUN_005ba540()?"On":"Off");
+   if (lookTls.console) Interface_PrintLine("LookIK on REF %s %s",((TESForm*)reference)->GetName(),reinterpret_cast<LookIKState*>(actor->m_pRagdollController)->FUN_005ba540()?"On":"Off");
   }
  }
  return true;
@@ -23608,18 +23687,18 @@ int unk2C;
 SceneViewer(unsigned int, unsigned int, void*, const char*, int, int, int, int);
 void AddScene(void*, const char*);
 };
-void FUN_004d78c0();
-void FUN_005bac80(void (*)());
+void TreeCtrlCallback();
+void NiTreeCtrl_SetCallback(void (*)());
 void* FUN_0045c670();
-void* FUN_005bac60();
-void* FUN_005bac70();
+void* TESMain_GetMenuRoot();
+void* TESMain_Get3DMenuRoot();
 void* FUN_00450b80(int);
-bool FUN_005bac20();
-void* FUN_005bac50();
+bool ScreenSplatter_IsActiveSplatter();
+void* ScreenSplatter_GetRoot();
 // @fnv 0x005ba8f0
 // src: EXE 0x005ba8f0
 bool __cdecl Cmd_ShowScenegraph_Execute(int arg0, int arg1, ViewerRef* ref) {
-FUN_005bac80(FUN_004d78c0);
+NiTreeCtrl_SetCallback(TreeCtrlCallback);
 SceneViewer* viewer;
 if (ref && ref->GetScene()) {
 const char* name = 0;
@@ -23633,11 +23712,11 @@ new SceneViewer(g_osGlobals->FUN_0084e3a0(), g_osGlobals->FUN_0044ddc0(), ref->G
 }
 } else {
 viewer = new SceneViewer(g_osGlobals->FUN_0084e3a0(), g_osGlobals->FUN_0044ddc0(), FUN_0045c670(), "Fallout World Scene Graph", (-2147483647-1), (-2147483647-1), 800, 600);
-viewer->AddScene(FUN_005bac60(), "Fallout Interface Scene Graph");
-viewer->AddScene(FUN_005bac70(), "Fallout Interface 3D Object Scene Graph");
+viewer->AddScene(TESMain_GetMenuRoot(), "Fallout Interface Scene Graph");
+viewer->AddScene(TESMain_Get3DMenuRoot(), "Fallout Interface 3D Object Scene Graph");
 if (FUN_00450b80(1)) viewer->AddScene(FUN_00450b80(1), "Fallout Menu Object 3D Scene Graph");
 if (FUN_00450b80(3)) viewer->AddScene(FUN_00450b80(3), "Fallout Menu Player 3D Scene Graph");
-if (FUN_005bac20()) viewer->AddScene(FUN_005bac50(), "Fallout Screen Splatter Scene Graph");
+if (ScreenSplatter_IsActiveSplatter()) viewer->AddScene(ScreenSplatter_GetRoot(), "Fallout Screen Splatter Scene Graph");
 }
 return true;
 }
@@ -23850,10 +23929,10 @@ bool __cdecl Cmd_ShowViewerStrings_Execute(const ScriptParameter* params, const 
 
 
 struct LODModel {
-    NiAVObject* FUN_004ea9e0();
-    NiAVObject* FUN_004ea9a0();
-    NiAVObject* FUN_004ea9c0();
-    NiAVObject* FUN_0043b230();
+    NiAVObject* BGSTerrainManager_GetTreeNode();
+    NiAVObject* BGSTerrainManager_GetLODLandRoot();
+    NiAVObject* BGSTerrainManager_GetLODObjectRoot();
+    NiAVObject* NiObjectNET_GetControllers();
 };
 struct LODWorld {
     LODModel* FUN_00586170();
@@ -23903,14 +23982,14 @@ bool __cdecl Cmd_ToggleLODLand_Execute(int parameters, int scriptData, int refer
         DebugLog("Invalid parameter.  Please specify land, objects, trees, water, or all.");
         return true;
     }
-    if (l->FUN_004ea9e0() && c)
-        l->FUN_004ea9e0()->FUN_00450f90(!l->FUN_004ea9e0()->FUN_00456610());
-    if (l->FUN_004ea9a0() && e)
-        l->FUN_004ea9a0()->FUN_00450f90(!l->FUN_004ea9a0()->FUN_00456610());
-    if (l->FUN_004ea9c0() && k)
-        l->FUN_004ea9c0()->FUN_00450f90(!l->FUN_004ea9c0()->FUN_00456610());
-    if (l->FUN_0043b230() && j)
-        l->FUN_0043b230()->FUN_00450f90(!l->FUN_0043b230()->FUN_00456610());
+    if (l->BGSTerrainManager_GetTreeNode() && c)
+        l->BGSTerrainManager_GetTreeNode()->FUN_00450f90(!l->BGSTerrainManager_GetTreeNode()->FUN_00456610());
+    if (l->BGSTerrainManager_GetLODLandRoot() && e)
+        l->BGSTerrainManager_GetLODLandRoot()->FUN_00450f90(!l->BGSTerrainManager_GetLODLandRoot()->FUN_00456610());
+    if (l->BGSTerrainManager_GetLODObjectRoot() && k)
+        l->BGSTerrainManager_GetLODObjectRoot()->FUN_00450f90(!l->BGSTerrainManager_GetLODObjectRoot()->FUN_00456610());
+    if (l->NiObjectNET_GetControllers() && j)
+        l->NiObjectNET_GetControllers()->FUN_00450f90(!l->NiObjectNET_GetControllers()->FUN_00456610());
     return true;
 }
 
@@ -24078,7 +24157,7 @@ bool Cmd_SetLODObjectDistance_Execute(const ScriptParameter* params, const char*
 }  // namespace fnv_005bb390
 
 struct FogColor {float r,g,b;};
-struct FogRenderer {FogColor FUN_005bb9b0();void FUN_00b5a8c0(unsigned char,FogColor,float,float);};
+struct FogRenderer {FogColor ShadowSceneNode_GetCameraPos();void ShadowSceneNode_EnableTestLight(unsigned char,FogColor,float,float);};
 namespace FogAccess {FogRenderer* FUN_00450b80(int);}
 extern unsigned char DAT_011cae47;
 bool Script_ParseParameters(int,int,int,int,int,int,int,float*,float*);
@@ -24090,8 +24169,8 @@ bool Cmd_ToggleTestLight_Execute(int p1,int p2,int reference,int container,int s
  if(!Script_ParseParameters(p1,p2,offset,reference,container,script,locals,&start2,&end))return false;
  if(start2<=0.0 && end<=0.0)DAT_011cae47=!DAT_011cae47;
  else DAT_011cae47=true;
- FogColor color=FogAccess::FUN_00450b80(0)->FUN_005bb9b0();
- FogAccess::FUN_00450b80(0)->FUN_00b5a8c0(DAT_011cae47,color,start2,end);
+ FogColor color=FogAccess::FUN_00450b80(0)->ShadowSceneNode_GetCameraPos();
+ FogAccess::FUN_00450b80(0)->ShadowSceneNode_EnableTestLight(DAT_011cae47,color,start2,end);
  return true;
 }
 
@@ -24329,7 +24408,7 @@ class Script;
 namespace fnv_005bc3b0 {
 struct TlsData { char pad[0x268]; bool bDebug; char p2[3]; void* pTarget; };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class ScriptParameter;   
 class ProcMgr { public: void FUN_00971ba0(); };
 extern ProcMgr DAT_011e0e80;
@@ -24339,7 +24418,7 @@ bool FUN_005bc3b0(const ScriptParameter* paramInfo, const char* scriptData, TESO
 {
     DAT_011f1228 = !DAT_011f1228;
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("AI Processing for actors in high is  %s", DAT_011f1228 ? "On" : "Off");
+        Interface_PrintLine("AI Processing for actors in high is  %s", DAT_011f1228 ? "On" : "Off");
     if (!DAT_011f1228)
         DAT_011e0e80.FUN_00971ba0();
     return true;
@@ -24350,7 +24429,7 @@ extern bool DAT_011f122c;
 extern const char DAT_010399b8[];
 extern const char DAT_010399bc[];
 extern const char DAT_0103a094[];
-void __cdecl FUN_00703c00(const char* format, const char* value);
+void __cdecl Interface_PrintLine(const char* format, const char* value);
 
 // @fnv 0x005bc580
 bool __cdecl FUN_005bc580()
@@ -24359,7 +24438,7 @@ bool __cdecl FUN_005bc580()
 
     if (tlsData.bConsoleEcho)
     {
-        FUN_00703c00(DAT_0103a094,
+        Interface_PrintLine(DAT_0103a094,
                       DAT_011f122c ? DAT_010399bc : DAT_010399b8);
     }
     return true;
@@ -24726,12 +24805,12 @@ struct ModeCell {
 };
 struct CellHandle { ModeCell* FUN_005875a0(); };
 struct ModeManager {
-    bool FUN_00552bb0();
-    void FUN_006a36e0(bool enabled);
-    void FUN_006a5ee0(bool enabled);
+    bool NavMeshRender_GetDraw();
+    void NavMeshRender_SetDraw(bool enabled);
+    void NavMeshRender_SetTransparentOverLayMode(bool enabled);
     void FUN_006a37a0(ModeCell* cell, bool enabled);
 };
-ModeManager* FUN_00552ba0();
+ModeManager* NavMeshRender_GetSingleton();
 struct CellWorld { ModeCell* FUN_00457070(); };
 struct CellRangeSetting { int* FUN_0043d4d0(); };
 extern CellRangeSetting DAT_011c63cc;
@@ -24751,14 +24830,14 @@ bool __cdecl Cmd_ToggleNavMesh_Execute(const ScriptParameter* parameters, const 
         return false;
     if (uiMode > 6)
         uiMode = 4;
-    bool bActive = FUN_00552ba0()->FUN_00552bb0();
+    bool bActive = NavMeshRender_GetSingleton()->NavMeshRender_GetDraw();
     if (uiMode == 4)
         uiMode = !bActive;
     if (uiMode == 5) {
         DAT_011d6e28 = !DAT_011d6e28;
         if (bActive) {
             uiMode = DAT_011d6e24;
-            FUN_00552ba0()->FUN_006a36e0(false);
+            NavMeshRender_GetSingleton()->NavMeshRender_SetDraw(false);
             bActive = false;
         } else {
             uiMode = 0;
@@ -24768,7 +24847,7 @@ bool __cdecl Cmd_ToggleNavMesh_Execute(const ScriptParameter* parameters, const 
         DAT_011d6e29 = !DAT_011d6e29;
         if (bActive) {
             uiMode = DAT_011d6e24;
-            FUN_00552ba0()->FUN_006a36e0(false);
+            NavMeshRender_GetSingleton()->NavMeshRender_SetDraw(false);
             bActive = false;
         }
         uiMode = 3;
@@ -24776,9 +24855,9 @@ bool __cdecl Cmd_ToggleNavMesh_Execute(const ScriptParameter* parameters, const 
     if (uiMode != 0) {
         DAT_011d6ec4 = true;
         if (uiMode == 2)
-            FUN_00552ba0()->FUN_006a5ee0(true);
+            NavMeshRender_GetSingleton()->NavMeshRender_SetTransparentOverLayMode(true);
         else if (uiMode == 1 || uiMode == 3)
-            FUN_00552ba0()->FUN_006a5ee0(false);
+            NavMeshRender_GetSingleton()->NavMeshRender_SetTransparentOverLayMode(false);
         DAT_011d6e24 = uiMode;
         if (!bActive) {
             ModeCell* cell = ((CellWorld*)DAT_011dea10)->FUN_00457070();
@@ -24788,18 +24867,18 @@ bool __cdecl Cmd_ToggleNavMesh_Execute(const ScriptParameter* parameters, const 
                     for (int x = cell->FUN_00544c30() - radius; x <= cell->FUN_00544c30() + radius; ++x) {
                         for (int y = cell->FUN_00544c60() - radius; y <= cell->FUN_00544c60() + radius; ++y) {
                             ModeCell* nearby = cell->FUN_0054ddd0(x, y)->FUN_005875a0();
-                            FUN_00552ba0()->FUN_006a37a0(nearby, false);
+                            NavMeshRender_GetSingleton()->FUN_006a37a0(nearby, false);
                         }
                     }
                 } else {
-                    FUN_00552ba0()->FUN_006a37a0(cell, false);
+                    NavMeshRender_GetSingleton()->FUN_006a37a0(cell, false);
                 }
             }
-            FUN_00552ba0()->FUN_006a36e0(true);
+            NavMeshRender_GetSingleton()->NavMeshRender_SetDraw(true);
         }
     } else {
         DAT_011d6ec4 = false;
-        FUN_00552ba0()->FUN_006a36e0(false);
+        NavMeshRender_GetSingleton()->NavMeshRender_SetDraw(false);
     }
     return true;
 }
@@ -24813,7 +24892,7 @@ bool Script_ParseParameters(void*,void*,void*,void*,void*,void*,void*,CommandFor
 
 struct IntSetting { int* Int(); };
 extern IntSetting DAT_011f33c8;
-struct FontInfo { float FUN_005bd580(); };
+struct FontInfo { float Font_GetFontSize(); };
 struct FontCollection { FontInfo* FUN_005bd5c0(int); };
 FontCollection* FUN_005bd5b0();
 struct CommandDebugText {
@@ -24830,7 +24909,7 @@ bool Cmd_PickRefByID_Execute(void* p1,void* p2,void* p3,void* p4,void* p5,void* 
         switch(form->FUN_00401170()) { case 58: case 59: case 60: case 61: case 62: case 63: case 64: case 105: {
             BSStringT<char> type;
             type.PrintfString("\"%s\" (%08x)",form->FUN_0055d520(),form->FUN_0084e3a0());
-            int height=(int)(FUN_005bd5b0()->FUN_005bd5c0(*DAT_011f33c8.Int()-1)->FUN_005bd580()+3.0);
+            int height=(int)(FUN_005bd5b0()->FUN_005bd5c0(*DAT_011f33c8.Int()-1)->Font_GetFontSize()+3.0);
             int text=height-5;
             CommandDebugText::Instance(true)->Print((const char*)type,640.0f,(float)text,2,-1,-1.0f,0,0);
             FUN_007031e0(form);
@@ -25117,7 +25196,7 @@ class ScriptParameter;
 extern bool __cdecl ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 extern bool __cdecl FUN_00406d70(unsigned int, unsigned int);
 extern const char* __cdecl FUN_0066eac0(unsigned int);
-extern void __cdecl FUN_00703c00(const char*, const char*);
+extern void __cdecl Interface_PrintLine(const char*, const char*);
 extern const char DAT_0103a310[];
 typedef void (__thiscall *ActorValueChange)(Actor*, unsigned int, float, int);
 // @fnv 0x005be190
@@ -25134,7 +25213,7 @@ bool __cdecl Cmd_ForceActorValue_Execute(const ScriptParameter* parameters, cons
             float amount = (float)((double)newValue - (double)(reinterpret_cast<ActorValueOwner*>((char*)pActor + 0xa4))->GetCurrentActorValue((ActorValue::Index)actorValue));
             ((ActorValueChange)(*(void***)pActor)[0x3a4 / 4])(pActor, actorValue, amount, 0);
         } else if (g_tls.bDebug) {
-            FUN_00703c00(DAT_0103a310, FUN_0066eac0(actorValue));
+            Interface_PrintLine(DAT_0103a310, FUN_0066eac0(actorValue));
         }
     }
     return true;
@@ -25300,7 +25379,7 @@ public:
     int FUN_004f8960();
     void FUN_008a1800(int);
     void Kill(TESObjectREFR* apKiller, float afDelay);
-    void FUN_008b51b0(int, int, TESObjectREFR*);
+    void Actor_GibLimb(int, int, TESObjectREFR*);
 };
 
 class KillPlayer {
@@ -25599,7 +25678,7 @@ public:
 };
 
 struct KillTaskQueue {
-    void FUN_0087aff0(KillActor* apActor, float* apDelay, KillData* apData);
+    void TaskQueueInterface_QueueActorKill(KillActor* apActor, float* apDelay, KillData* apData);
 };
 
 bool __cdecl FUN_008c7aa0();
@@ -25633,7 +25712,7 @@ bool __cdecl Cmd_KillActor_Execute(const ScriptParameter* paramInfo, const char*
         if (!bFadeQueuedCur) {
             actor->Kill(pKillerRef, 0.0f);
             if (iBodyPart != -1)
-                actor->FUN_008b51b0(iDismembermentOption, iBodyPart, pKillerRef);
+                actor->Actor_GibLimb(iDismembermentOption, iBodyPart, pKillerRef);
         } else {
             KillData* data = 0;
             if (iBodyPart != -1) {
@@ -25645,7 +25724,7 @@ bool __cdecl Cmd_KillActor_Execute(const ScriptParameter* paramInfo, const char*
             float* delay = new float;
             *delay = 0.0f;
             actor->unkc0 = pKillerRef;
-            FUN_004537b0()->FUN_0087aff0(actor, delay, data);
+            FUN_004537b0()->TaskQueueInterface_QueueActorKill(actor, delay, data);
         }
     }
     return true;
@@ -25761,8 +25840,8 @@ namespace fnv_005bf8d0 {
 class ScriptParameter;   
 bool Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 // 0x005bf9a0 is bound as the BSFogProperty fog-range helper in other units.
-class ScriptFogControls { public: void FUN_005bf9a0(float, float); };
-class Mgr2 { public: ScriptFogControls* FUN_0043b230(); int FUN_005bf9c0(bool); };
+class ScriptFogControls { public: void BSFogProperty_SetDistance(float, float); };
+class Mgr2 { public: ScriptFogControls* NiObjectNET_GetControllers(); int Atmosphere_SetUpdateFogDistance(bool); };
 class Mgr1 { public: Mgr2* FUN_007af430(); };
 class Player { public: Mgr1* FUN_008d8520(); };
 extern Player* DAT_011dea10;
@@ -25775,11 +25854,11 @@ bool Cmd_SetFog_Execute(const ScriptParameter* paramInfo, const char* scriptData
     ScriptFogControls* fB;
     if (!Script_ParseParameters(paramInfo, scriptData, opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList, &a, &b))
         return false;
-    fB = DAT_011dea10->FUN_008d8520()->FUN_007af430()->FUN_0043b230();
+    fB = DAT_011dea10->FUN_008d8520()->FUN_007af430()->NiObjectNET_GetControllers();
     if (fB) {
         bool f = (a == 0 && b == 0);
-        DAT_011dea10->FUN_008d8520()->FUN_007af430()->FUN_005bf9c0(f);
-        fB->FUN_005bf9a0((float)a, (float)b);
+        DAT_011dea10->FUN_008d8520()->FUN_007af430()->Atmosphere_SetUpdateFogDistance(f);
+        fB->BSFogProperty_SetDistance((float)a, (float)b);
     }
     return true;
 }
@@ -25796,7 +25875,7 @@ struct FaceGenNodeStandIn
 
 struct LODStandIn
 {
-    void FUN_005bf9c0(unsigned char bFlag);
+    void Atmosphere_SetUpdateFogDistance(unsigned char bFlag);
 };
 
 struct GridStandIn
@@ -25839,7 +25918,7 @@ bool __cdecl Cmd_SetClipDist_Execute(void* paramInfo, void* scriptData, void* th
             kFrustum.m_fFarPlane = fDistance6;
             pCamera5->FUN_00507700(fDistance6 / kFrustum.m_fNearPlane);
             pCamera5->UpdateViewFrustum(kFrustum);
-            ((TesStandIn5bf*)g_TES)->GetGrid()->GetLOD()->FUN_005bf9c0(bReset);
+            ((TesStandIn5bf*)g_TES)->GetGrid()->GetLOD()->Atmosphere_SetUpdateFogDistance(bReset);
         }
     }
     return true;
@@ -25974,7 +26053,7 @@ virtual void v120();
 virtual void* getOther();
 RotationAngles* FUN_00430830();
 void FUN_00575770(float); void FUN_005757a0(float); void FUN_005757d0(float);
-RotationMatrix FUN_0056fa00();
+RotationMatrix TESObjectREFR_GetOrientation();
 };
 struct TimeGlobal { float FUN_0084d030(); };
 extern TimeGlobal g_timeGlobal;
@@ -26002,7 +26081,7 @@ bool __cdecl Cmd_Rotate_Execute(void* info,const char* data,RotationReference* r
     case 'Y': reference->FUN_005757a0(rotation); break;
     case 'Z': reference->FUN_005757d0(rotation); break;
    }
-   object->FUN_0043fa80(reference->FUN_0056fa00());
+   object->FUN_0043fa80(reference->TESObjectREFR_GetOrientation());
    if(!reference || !reference->getOther()) {
     UpdateLocal update(0.0f,false,false);
     object->Update(update);
@@ -26930,7 +27009,7 @@ struct CommandActor : CommandActorBody, CommandMagicTarget, CommandValueOwner {
     bool FUN_00493bb0();
     bool FUN_0094df60();
     void FUN_005c1a00(bool, int);
-    void FUN_005c1a30(int);
+    void PlayerCharacter_SetBeingChased(int);
 };
 struct CommandManager { void FUN_0096f400(CommandActor*); };
 void __cdecl FNV_Warning(const char*, ...);
@@ -26963,7 +27042,7 @@ bool __cdecl FUN_005c1750(const ScriptParameter* parameters, const char* data,
                 actor->FUN_008d8520()->Start(actor, target, 1, 1, 0, 0, 0, force, 0, 1, 0, 1, 0);
             }
             if (!force) {
-                static_cast<CommandActor*>(DAT_011dea3c)->FUN_005c1a30(1);
+                static_cast<CommandActor*>(DAT_011dea3c)->PlayerCharacter_SetBeingChased(1);
                 actor->FUN_008d8520()->Finish(actor, target);
             }
             if (actor->GetAssignedPackage() && actor->FUN_008d8520()->GetAssignedPackage()) {
@@ -27604,7 +27683,7 @@ struct List5c3bf0 {
     ListNode5c3bf0* FUN_00455600();
 };
 extern List5c3bf0* DAT_011c3f2c;
-void FUN_00703c00(const char* fmt, ...);
+void Interface_PrintLine(const char* fmt, ...);
 
 // @fnv 0x005c3bf0
 bool FUN_005c3bf0()
@@ -27614,7 +27693,7 @@ bool FUN_005c3bf0()
         Obj5c3bf0* obj = *node->FUN_006815c0();
         node = node->FUN_00726070();
         if (obj) {
-            FUN_00703c00("%s (%s) -- Stage %d", obj->GetName(), obj->FUN_00455620() ? "On" : "Off", obj->FUN_0060d700());
+            Interface_PrintLine("%s (%s) -- Stage %d", obj->GetName(), obj->FUN_00455620() ? "On" : "Off", obj->FUN_0060d700());
         }
     }
     return true;
@@ -28026,8 +28105,8 @@ public:
     bool GetDisabled();
     void FUN_0056c780(int);
     int FUN_0056a9f0();
-    bool FUN_00565090();
-    void FUN_005650d0(int);
+    bool TESObjectREFR_GetIsInvisibleLODMultType();
+    void TESObjectREFR_SetIsInvisible(int);
     void* GetObjectReference();
 };
 
@@ -28114,7 +28193,7 @@ public:
 };
 
 bool __cdecl Script_ParseParameters(int, int, int, Ref*, int, ScriptObj*, Extra*, int*);
-int __cdecl FUN_005b5e40(const char*, ...);
+int __cdecl Warning_005b5e40(const char*, ...);
 void __cdecl FUN_005aa5d0(void*);
 void __cdecl FUN_005aa580(int);
 int __cdecl FUN_0045c6b0(void*);
@@ -28143,14 +28222,14 @@ bool __cdecl FUN_005c43d0(int a1, int a2, Ref* ref, int a4, Ref* scr, Extra* ex,
                 } else {
                     name = ref->GetFullName();
                 }
-                FUN_005b5e40(&DAT_0103aef0, ref->GetFormID(), name, ((ScriptObj*)scr)->GetFormID(), ((ScriptObj*)scr)->v130());
+                Warning_005b5e40(&DAT_0103aef0, ref->GetFormID(), name, ((ScriptObj*)scr)->GetFormID(), ((ScriptObj*)scr)->v130());
             } else {
                 if (ref->HasNameForWarning()) {
                     name2 = ref->v130();
                 } else {
                     name2 = ref->GetFullName();
                 }
-                FUN_005b5e40(&DAT_0103ae48, ref->GetFormID(), name2, ((ScriptObj*)scr)->GetFormID(), ((ScriptObj*)scr)->v130());
+                Warning_005b5e40(&DAT_0103ae48, ref->GetFormID(), name2, ((ScriptObj*)scr)->GetFormID(), ((ScriptObj*)scr)->v130());
             }
             return true;
         } else {
@@ -28163,8 +28242,8 @@ bool __cdecl FUN_005c43d0(int a1, int a2, Ref* ref, int a4, Ref* scr, Extra* ex,
             if (RunSeventhVirtualOperation != 0 && RunSeventhVirtualOperation->GetLODMultType() == 9) {
                 RunSeventhVirtualOperation->Set(FUN_0045c6b0(ref->GetObjectReference()));
             }
-            if (ref->FUN_00565090() == 1) {
-                ref->FUN_005650d0(0);
+            if (ref->TESObjectREFR_GetIsInvisibleLODMultType() == 1) {
+                ref->TESObjectREFR_SetIsInvisible(0);
             }
         }
     }
@@ -28280,11 +28359,11 @@ extern int __cdecl FUN_00406d00(char*,...);
 extern int __cdecl FUN_00406d30(char*,...);
 extern int __cdecl FUN_004046f0(const char*,const char*);
 extern int __cdecl FUN_0043b2b0(int);
-extern unsigned int __cdecl FUN_005b5e40(void*,...);
-extern void __cdecl FUN_00403d30(void*,int,unsigned int);
-extern NiTexture* __cdecl FUN_00456510();
+extern unsigned int __cdecl Warning_005b5e40(void*,...);
+extern void __cdecl ourMemset(void*,int,unsigned int);
+extern NiTexture* __cdecl NiTexture_GetListHead();
 extern bool __cdecl FUN_0043b300(void*,NiTexture*);
-extern char* __cdecl FUN_004afb00(char*,unsigned int);
+extern char* __cdecl BSstrlwr(char*,unsigned int);
 extern int __cdecl FUN_004812f0(const char*, const char*);
 extern unsigned int __cdecl FUN_00e7bd20(unsigned int);
 extern unsigned int __cdecl FUN_00e7a9a0(unsigned int);
@@ -28316,27 +28395,27 @@ unsigned char __cdecl Cmd_DumpTexturePalette_Execute(void* source, void* callbac
     if (!outPath[0])
         FUN_004046f0(outPath,&DAT_0103b228);
     FUN_0043b2b0(1);
-    FUN_005b5e40((void*)&DAT_0103b1fc);
+    Warning_005b5e40((void*)&DAT_0103b1fc);
     BSFile output(outPath,1,0x4000,0);
     output.FUN_00aff300(0,0);
     const int iMax=2048;
     NiPointer<NiTexture> largest[2048];
-    FUN_00403d30(largest,0,0x2000);
+    ourMemset(largest,0,0x2000);
     unsigned int uiTotalSize=0;
     unsigned int numItems=0;
     NiTexture* pTileTexture;
-    pTileTexture=FUN_00456510();
+    pTileTexture=NiTexture_GetListHead();
     while (pTileTexture) {
         ++numItems;
         if (pTileTexture->FUN_0059bb30()) {
-            unsigned int size=FUN_005b5e40((void*)pTileTexture);
+            unsigned int size=Warning_005b5e40((void*)pTileTexture);
             uiTotalSize+=size;
             int insertion=-1;
             for (int slot=0;slot<2048 && insertion==-1;++slot) {
                 if (!largest[slot].operator NiTexture*()) {
                     insertion=slot;
                 } else {
-                    unsigned int existingSize=FUN_005b5e40((void*)largest[slot].operator NiTexture*());
+                    unsigned int existingSize=Warning_005b5e40((void*)largest[slot].operator NiTexture*());
                     if (existingSize<size) insertion=slot;
                 }
             }
@@ -28348,7 +28427,7 @@ unsigned char __cdecl Cmd_DumpTexturePalette_Execute(void* source, void* callbac
         }
         pTileTexture=pTileTexture->FUN_0055b980();
     }
-    FUN_005b5e40((void*)&DAT_0103b1d4,numItems,(double)uiTotalSize/DAT_0101ece0);
+    Warning_005b5e40((void*)&DAT_0103b1d4,numItems,(double)uiTotalSize/DAT_0101ece0);
     for (int i=0;i<2048;++i) {
         if (largest[i].operator NiTexture*()) {
             const char* category;
@@ -28367,7 +28446,7 @@ unsigned char __cdecl Cmd_DumpTexturePalette_Execute(void* source, void* callbac
                 if (label && label[0]) FUN_00406d00(temp,0x104,&DAT_0103964c,label);
                 else FUN_00406d00(temp,0x104,&DAT_01039634);
             }
-            FUN_004afb00(temp,0x104);
+            BSstrlwr(temp,0x104);
             category=&DAT_0103962c;
             if (!bUnnamed) {
                 if (FUN_004812f0(temp,&DAT_01039624) || FUN_004812f0(temp,&DAT_01039618) || FUN_004812f0(temp,&DAT_01039608) || FUN_004812f0(temp,&DAT_010395f8) || FUN_004812f0(temp,&DAT_010395ec) || FUN_004812f0(temp,&DAT_010395e0) || FUN_004812f0(temp,&DAT_010395d0)) category=&DAT_010395c8;
@@ -28378,7 +28457,7 @@ unsigned char __cdecl Cmd_DumpTexturePalette_Execute(void* source, void* callbac
                 else if (FUN_004812f0(temp,&DAT_01039570)) category=&DAT_01023014;
                 else category=&DAT_01039568;
             }
-            unsigned int count=FUN_005b5e40((void*)largest[i].operator NiTexture*());
+            unsigned int count=Warning_005b5e40((void*)largest[i].operator NiTexture*());
             unsigned int rawFormat=FUN_00e7bd20(reinterpret_cast<TextureAccessor*>(largest[i].operator NiTexture*()->FUN_0059bb30())->FUN_007d6bb0());
             unsigned int uiBits=FUN_00e7a9a0(rawFormat);
             const char* pkImage=largest[i].operator NiTexture*()->GetRTTI()->GetName();
@@ -28386,13 +28465,13 @@ unsigned char __cdecl Cmd_DumpTexturePalette_Execute(void* source, void* callbac
                          largest[i].operator NiTexture*()->GetWidth(),
                          largest[i].operator NiTexture*()->GetHeight(),
                          count>>10,uiBits,largest[i].operator NiTexture*()->FUN_00726070()-1,
-                         largest[i].operator NiTexture*()->FUN_0043c430()==3?&DAT_01039564:&DAT_01039560,pkImage);
-            FUN_005b5e40((void*)line);
+                         largest[i].operator NiTexture*()->NiTexture_GetTextureQualityLevel()==3?&DAT_01039564:&DAT_01039560,pkImage);
+            Warning_005b5e40((void*)line);
             output.FUN_00aff950(line,FUN_00ec6130(line)+1);
         }
     }
     output.FUN_00affd10();
-    FUN_005b5e40((void*)&DAT_0103b1a8);
+    Warning_005b5e40((void*)&DAT_0103b1a8);
     FUN_0043b2b0(0);
     return 1;
 }
@@ -28493,7 +28572,7 @@ bool __cdecl Cmd_GetFactionRankDifference_Execute(B5C72E0ParamInfo* pkParamInfo,
 }
 
 struct FUN_00544340_Obj {
-    void FUN_00544340(bool a1);
+    void TESObjectCELL_SetPublic(bool a1);
 };
 
 bool __cdecl Script_ParseParameters(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8, int* a9);
@@ -28511,7 +28590,7 @@ bool __cdecl Cmd_SetCellPublicFlag_Execute(int a1, int a2, int a3, int a4, int a
         return false;
     }
     if (v4 != 0) {
-        ((FUN_00544340_Obj*)v4)->FUN_00544340(v8 > 0);
+        ((FUN_00544340_Obj*)v4)->TESObjectCELL_SetPublic(v8 > 0);
     }
     return true;
 }
@@ -28523,7 +28602,7 @@ class ScriptParameter;
 bool Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 extern char DAT_011846d4, DAT_011841cc;
 void* FUN_00ec43fb(void*, int, void*, void*, int);
-class FormX { public: int FUN_004181e0(); void FUN_008b8580(void*, unsigned char); };
+class FormX { public: int FUN_004181e0(); void Actor_SetFactionRank(void*, unsigned char); };
 // @fnv 0x005c7e60
 // src: EXE 0x005c7e60
 bool Cmd_SetFactionRank_Execute(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int* opcodeOffsetPtr)
@@ -28540,7 +28619,7 @@ bool Cmd_SetFactionRank_Execute(const ScriptParameter* paramInfo, const char* sc
         return true;
     v = h->FUN_004181e0();
     if (h && a)
-        h->FUN_008b8580(a, (unsigned char)b);
+        h->Actor_SetFactionRank(a, (unsigned char)b);
     return true;
 }
 }  // namespace fnv_005c7e60
@@ -28823,7 +28902,7 @@ struct ResultList {
 namespace ScriptIdle {
 using ::Actor;
 struct Process;struct Idle;struct Event;
-void FUN_005790f0(unsigned int);
+void TESObjectREFR_SayToCallBack(unsigned int);
 
 struct Process {
 virtual void slot0();
@@ -29248,7 +29327,7 @@ if(DAT_011dea3c->FUN_0094df60() || reinterpret_cast<Process*>(actor->FUN_008d852
 Event* event=idleSlot10->FUN_0061b320(actor,target,0,0,1);if(event){event->FUN_0083c7b0();int old=event->FUN_0083c820();event->FUN_0083c850(0);event->FUN_0083c850(1);FUN_005ac750(idleSlot10,actor->FUN_005d43c0(),0x40000);delete event;}}
 else{actor->FUN_0057bd60(target);reinterpret_cast<Process*>(actor->FUN_008d8520())->Start(actor,idleSlot10,enabledSlot10,0,1,1);}
 }}
-else if(object && (object->GetNiNode() || (object->IsMobileObject() && object->FUN_005e3fa0()->GetNiNode()))){object->FUN_0057ad20(reinterpret_cast<ScriptAnimation::Idle*>(idleSlot10));Event* event2Slot0=idleSlot10->FUN_0061b320(object,0,0,0,0);if(event2Slot0)object->FUN_0057ace0(event2Slot0->FUN_0084e3a0());ScriptAnimation::ResultList outcomeSlot1=object->PlayIdle(reinterpret_cast<ScriptAnimation::Idle*>(idleSlot10),target,0,0,0,0,enabledSlot10);outcomeSlot1.FUN_00ad8e60(FUN_005790f0,object->FUN_0084e3a0());}
+else if(object && (object->GetNiNode() || (object->IsMobileObject() && object->FUN_005e3fa0()->GetNiNode()))){object->FUN_0057ad20(reinterpret_cast<ScriptAnimation::Idle*>(idleSlot10));Event* event2Slot0=idleSlot10->FUN_0061b320(object,0,0,0,0);if(event2Slot0)object->FUN_0057ace0(event2Slot0->FUN_0084e3a0());ScriptAnimation::ResultList outcomeSlot1=object->PlayIdle(reinterpret_cast<ScriptAnimation::Idle*>(idleSlot10),target,0,0,0,0,enabledSlot10);outcomeSlot1.FUN_00ad8e60(TESObjectREFR_SayToCallBack,object->FUN_0084e3a0());}
 DAT_011cd378.FUN_0045ce80(savedSlot16);return true;
 }
 }
@@ -30064,7 +30143,8 @@ public:
 };
 
 // @fnv 0x005ca470
-bool __cdecl FUN_005ca470(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
+// src: COMMUNITY 0x005ca470
+bool __cdecl Cmd_OnNPCActivate_Execute(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
 {
     result = 0.0;
     int found = 0;
@@ -30980,9 +31060,9 @@ struct ChalTarget5cb
 
 struct ChalValue5cb
 {
-    unsigned short FUN_004b1050();
-    int FUN_004b10a0();
-    unsigned short FUN_004b1070();
+    unsigned short Date_GetYear();
+    int Date_GetMonth();
+    unsigned short Date_GetDay();
 };
 
 struct ChalSetting5cb
@@ -30994,7 +31074,7 @@ extern ChalSetting5cb* DAT_01189588[];
 struct Challenge5cb
 {
     ChalTarget5cb* FUN_005e3fa0();
-    char* FUN_0060fdb0(ChalTarget5cb* pkTarget);
+    char* TESQuestStageItem_GetLogEntry(ChalTarget5cb* pkTarget);
     ChalValue5cb* FUN_008d8520();
 };
 
@@ -31005,8 +31085,8 @@ struct ChalNode5cb
 };
 
 void __cdecl FUN_0060d8f0(BSSimpleList<const char*>* pkList, int iA, bool bAll, int iB, int iC);
-void __cdecl FUN_00403d30(void* pvDest, int iValue, unsigned int uiSize);
-void __cdecl FUN_005cbd90(char* pcDest, const char* pcSrc, unsigned int uiSize);
+void __cdecl ourMemset(void* pvDest, int iValue, unsigned int uiSize);
+void __cdecl _mbsnbcpy_(char* pcDest, const char* pcSrc, unsigned int uiSize);
 
 // @fnv 0x005cbbb0
 // src: EXE 0x005cbbb0
@@ -31025,11 +31105,11 @@ bool __cdecl Cmd_ShowQuestLog_Execute(const ScriptParameter* paramInfo, const ch
         ChalTarget5cb* pkTargetVal = pkChallengeTmp->FUN_005e3fa0();
         pkNodeX = pkNodeX->FUN_00726070();
         char acText[260];
-        FUN_00403d30(acText, 0, sizeof(acText));
-        FUN_005cbd90(acText, pkChallengeTmp->FUN_0060fdb0(pkTargetVal), 0x103);
+        ourMemset(acText, 0, sizeof(acText));
+        _mbsnbcpy_(acText, pkChallengeTmp->TESQuestStageItem_GetLogEntry(pkTargetVal), 0x103);
         ChalValue5cb* pkValue = pkChallengeTmp->FUN_008d8520();
         DebugLog("------------------------------------------------");
-        DebugLog("%d of %s, %d", pkValue->FUN_004b1070(), DAT_01189588[pkValue->FUN_004b10a0()]->FUN_00403df0(), pkValue->FUN_004b1050());
+        DebugLog("%d of %s, %d", pkValue->Date_GetDay(), DAT_01189588[pkValue->Date_GetMonth()]->FUN_00403df0(), pkValue->Date_GetYear());
         DebugLog("%s", pkChallengeTmp->FUN_005e3fa0()->kFullName.FUN_00408da0());
         DebugLog("%s", acText);
     }
@@ -31045,13 +31125,13 @@ struct BaseItem {
  FullNameView fullName;
 };
 struct ExtraInfo {
- unsigned short FUN_004b1050();
- unsigned short FUN_004b1070();
- int FUN_004b10a0();
+ unsigned short Date_GetYear();
+ unsigned short Date_GetDay();
+ int Date_GetMonth();
 };
 struct InventoryEntry {
  BaseItem* FUN_005e3fa0();
- const char* FUN_0060fdb0(BaseItem*);
+ const char* TESQuestStageItem_GetLogEntry(BaseItem*);
  ExtraInfo* FUN_008d8520();
 };
 struct InventoryList {
@@ -31063,7 +31143,7 @@ struct InventoryList {
  InventoryList* FUN_00726070();
 };
 void __cdecl FUN_0060d8f0(InventoryList*,TESObjectREFR*,int,int,int);
-void __cdecl FUN_00403d30(void*,int,unsigned int);
+void __cdecl ourMemset(void*,int,unsigned int);
 // @fnv 0x005cbdb0
 // src: EXE 0x005cbdb0
 bool __cdecl Cmd_ShowFullQuestLog_Execute(const ScriptParameter* param,const char* text,TESObjectREFR* reference,TESObjectREFR* target,Script* script,ScriptLocals* locals,double& result,unsigned int& offset) {
@@ -31080,11 +31160,11 @@ bool __cdecl Cmd_ShowFullQuestLog_Execute(const ScriptParameter* param,const cha
   item=node->FUN_005e3fa0();
   base=base->FUN_00726070();
   char buffer[260];
-  FUN_00403d30(buffer,0,260);
-  FUN_005cbd90(buffer,(void*)node->FUN_0060fdb0(item),(void*)259);
+  ourMemset(buffer,0,260);
+  _mbsnbcpy_(buffer,(void*)node->TESQuestStageItem_GetLogEntry(item),(void*)259);
   object=node->FUN_008d8520();
   DebugLog("------------------------------------------------");
-  DebugLog("%d of %s, %d",object->FUN_004b1070(),DAT_01189588[object->FUN_004b10a0()]->FUN_00403df0(),object->FUN_004b1050());
+  DebugLog("%d of %s, %d",object->Date_GetDay(),DAT_01189588[object->Date_GetMonth()]->FUN_00403df0(),object->Date_GetYear());
   DebugLog("%s",node->FUN_005e3fa0()->fullName.GetFullName());
   DebugLog("%s",buffer);
  }
@@ -32166,7 +32246,7 @@ virtual void v224();
 virtual void v228();
 virtual bool v22c(int);
 Process* FUN_008d8520(); void FUN_0088d640(); Cell* FUN_008d6f30(); World* FUN_00575d70(); const NiPoint3& FUN_00430830();
-void FUN_0093be30(MoveRequest*); void FUN_00575830(NiPoint3*); void FUN_005757d0(float); void FUN_00575770(float); Matrix FUN_0056fa00();
+void FUN_0093be30(MoveRequest*); void FUN_00575830(NiPoint3*); void FUN_005757d0(float); void FUN_00575770(float); Matrix TESObjectREFR_GetOrientation();
 Motion* FUN_009306d0(); void FUN_008b3ab0(); void FUN_008bcd20(); void FUN_008c4640(); void FUN_00952c30(Reference*);
 };
 extern Reference* DAT_011dea3c;
@@ -32176,7 +32256,7 @@ struct WorldManager { bool FUN_004511e0(Cell*,int); };
 extern WorldManager* DAT_011dea10;
 void __cdecl FUN_00703da0();
 void __cdecl FUN_00573800(Reference*,Cell*,World*);
-void __cdecl FUN_005b5e40(const char*);
+void __cdecl Warning_005b5e40(const char*);
 // @fnv 0x005ccb20
 void __cdecl FUN_005ccb20(Reference* moved,Reference* destination,float dx,float dy,float dz) {
  if(moved==DAT_011dea3c && DAT_011dea3c->v22c(0)) return;
@@ -32213,7 +32293,7 @@ void __cdecl FUN_005ccb20(Reference* moved,Reference* destination,float dx,float
        SceneNode* node=moved->v1d0();
        if(node) {
          node->FUN_00440460(moved->v1f4());
-         node->FUN_0043fa80(moved->FUN_0056fa00());
+         node->FUN_0043fa80(moved->TESObjectREFR_GetOrientation());
          FUN_00c6bd00(node,1);
          Update update(0.0f,false,false);
          node->FUN_00a59c60(&update);
@@ -32234,7 +32314,7 @@ void __cdecl FUN_005ccb20(Reference* moved,Reference* destination,float dx,float
          actorSource->FUN_008d8520()->v024(actorSource,1);
          actorSource->FUN_008bcd20();
          actorSource->FUN_008c4640();
-       } else FUN_005b5e40("AI: Actor being moved is Disabled he has no process");
+       } else Warning_005b5e40("AI: Actor being moved is Disabled he has no process");
      }
    }
    DAT_011dea3c->FUN_00952c30(moved);
@@ -32271,7 +32351,7 @@ struct RefCD {
     virtual void v68(); virtual void v69(); virtual void v70(); virtual void v71();
     virtual void v72(); virtual void v73(); virtual void v74(); virtual void v75();
     virtual const char* v76();
-    bool FUN_00572c80();
+    bool TESObjectREFR_CanBeMoved();
     unsigned FUN_0084e3a0();
 };
 struct ProcCD { void FUN_008fe9e0(RefCD*, int, float, float, float); };
@@ -32281,8 +32361,8 @@ struct SettingCD { int* FUN_0043d4d0(); };
 struct TLSCD { char pad[0x268]; bool logging; };
 extern "C" __declspec(thread) TLSCD tlsCD;
 extern bool Script_ParseParameters(void*, void*, void*, RefCD*, RefCD*, RefCD*, void*, int*, float*, float*, float*);
-extern void FUN_00703c00(const char*, ...);
-extern void FUN_005b5e40(const char*, ...);
+extern void Interface_PrintLine(const char*, ...);
+extern void Warning_005b5e40(const char*, ...);
 extern void* FUN_004537b0();
 extern void FUN_0087a8b0(void*, int, RefCD*, ...);
 extern void FUN_005ccb20(RefCD*, int, float, float, float);
@@ -32295,11 +32375,11 @@ bool CmdCD::Cmd_MoveToMarkerWithFade_Execute(void* p1, void* p2, RefCD* p3, RefC
     float a = 0.0f;
     float i = 0.0f;
     if (!Script_ParseParameters(p1,p2,p8,p3,p4,p5,p6,&p,&h,&a,&i)) return false;
-    if (p3 && !p3->FUN_00572c80()) {
+    if (p3 && !p3->TESObjectREFR_CanBeMoved()) {
         if (tlsCD.logging)
-            FUN_00703c00(&DAT_0103a598,p3->v76());
+            Interface_PrintLine(&DAT_0103a598,p3->v76());
         if (!(*(ManagerCD**)&DAT_011c3f2c)->FUN_00469860(p5->FUN_0084e3a0()))
-            FUN_005b5e40(&DAT_0103a538,p5->v76(),p5->FUN_0084e3a0(),p3->v76(),p3->FUN_0084e3a0());
+            Warning_005b5e40(&DAT_0103a538,p5->v76(),p5->FUN_0084e3a0(),p3->v76(),p3->FUN_0084e3a0());
         return true;
     }
     if (p) {
@@ -32509,7 +32589,7 @@ bool __cdecl Cmd_ModAmountSoldStolen_Execute(int a0, int a1, int a2, int a3, int
     {
         return false;
     }
-    ((FUN_005cdf20_Class*)_g_thePlayer)->FUN_005cdf20(nOut);
+    ((FUN_005cdf20_Class*)_g_thePlayer)->PlayerCharacter_ModAmountSoldStolen(nOut);
     return true;
 }
 
@@ -32544,7 +32624,7 @@ struct ValueContext {
     int FUN_0084e3a0();
 };
 extern void __cdecl FUN_005acc70(int* value, double* result);
-extern void __cdecl FUN_00703c00(const char* label, int value);
+extern void __cdecl Interface_PrintLine(const char* label, int value);
 extern char DAT_0103b76c;
 typedef ValueContext* (__thiscall *ActorContextMethod)(Actor*);
 // @fnv 0x005ce480
@@ -32561,7 +32641,7 @@ bool __cdecl FUN_005ce480(const ScriptParameter* parameters, const char* compile
         }
     }
     if (tlsData.bConsoleEcho)
-        FUN_00703c00(&DAT_0103b76c, value);
+        Interface_PrintLine(&DAT_0103b76c, value);
     return true;
 }
 
@@ -32729,7 +32809,7 @@ struct CommandExtraData {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
     CommandExtraData();
     void FUN_00438260(const char* value);
-    void FUN_00438280(const char* value);
+    void ExtraSecuritronFace_SetMood(const char* value);
     void FUN_00437f90(void* node);
 };
 struct CommandAttachResult { void BaseExtraList_AddExtra(); };
@@ -32873,7 +32953,7 @@ bool Cmd_SetSecuritronExpression_Execute(const ScriptParameter* parameters, cons
             }
             if (extra6) {
                 extra6->FUN_00438260(firstPath2);
-                extra6->FUN_00438280(secondPath);
+                extra6->ExtraSecuritronFace_SetMood(secondPath);
                 extra6->FUN_00437f90(node3);
                 target->NotifyFormIDChanged(0x10000000);
                 target->NotifyFormIDChanged(0xa4061840);
@@ -32896,7 +32976,7 @@ bool __cdecl Cmd_AutoDisplayObjectives_Execute(int a1, int a2, int a3, int a4, i
         int result = 0;
         if (Script_ParseParameters(a1, a2, a8, a3, a4, a5, a6, &result))
         {
-            FUN_005cfcb0(result > 0);
+            HUDMainMenu_SetAutoDisplayObjectives(result > 0);
         }
     }
     return true;
@@ -33296,8 +33376,8 @@ bool Cmd_PlayMagicEffectVisuals_Execute(const ScriptParameter* parameters, const
   EffectInstance* position = FUN_006890b0(reference->FUN_008d6f30(),1.0f,applied->model.v5(),direction,angles,1.0f,7,0);
   position->FUN_00689920("SpecialIdle_HitEffect");
   if (g_tlsDebug.flag) {
-   if (reference->FUN_0055d520()) FUN_00703c00("Visual effect has been applied to %s",reference->FUN_0055d520());
-   else FUN_00703c00("Visual effect has been applied to reference");
+   if (reference->FUN_0055d520()) Interface_PrintLine("Visual effect has been applied to %s",reference->FUN_0055d520());
+   else Interface_PrintLine("Visual effect has been applied to reference");
   }
   return true;
  }
@@ -33306,14 +33386,14 @@ bool Cmd_PlayMagicEffectVisuals_Execute(const ScriptParameter* parameters, const
  if (effect && effect->v49()) {
   ((EffectManager*)&DAT_011e0e80)->FUN_00973fd0(effect);
   if (g_tlsDebug.flag) {
-   if (reference->FUN_0055d520()) FUN_00703c00("Visual effect has been applied to %s",reference->FUN_0055d520());
-   else FUN_00703c00("Visual effect has been applied to reference");
+   if (reference->FUN_0055d520()) Interface_PrintLine("Visual effect has been applied to %s",reference->FUN_0055d520());
+   else Interface_PrintLine("Visual effect has been applied to reference");
   }
  } else {
   delete effect;
   if (g_tlsDebug.flag) {
-   if (reference->FUN_0055d520()) FUN_00703c00("Visual effect initialization failed for %s",reference->FUN_0055d520());
-   else FUN_00703c00("Visual effect initialization failed for reference");
+   if (reference->FUN_0055d520()) Interface_PrintLine("Visual effect initialization failed for %s",reference->FUN_0055d520());
+   else Interface_PrintLine("Visual effect initialization failed for reference");
   }
  }
  return true;
@@ -33346,13 +33426,13 @@ bool __cdecl Cmd_IsRidingHorse_Execute(const ScriptParameter* apParameters, cons
 {
     bool bResult = Cmd_IsRidingHorse_Eval(apThisObject, 0, 0, apResult);
     if (tlsData.bConsoleEcho)
-        static_cast<void (__cdecl*)(const char*, ...)>(FUN_00703c00)("Is actor riding horse >> %0.2f", *apResult);
+        static_cast<void (__cdecl*)(const char*, ...)>(Interface_PrintLine)("Is actor riding horse >> %0.2f", *apResult);
     return bResult;
 }
 
 namespace fnv_005d2910 {
 extern "C" bool __cdecl Cmd_Shared_Eval_5a2a50(void*, int, int, double*);
-extern "C" void __cdecl FUN_00703c00(const char*, ...);
+extern "C" void __cdecl Interface_PrintLine(const char*, ...);
 extern const char DAT_0103bed4[];
 extern __declspec(thread) unsigned char g_debugLoggingFlag;
 
@@ -33361,7 +33441,7 @@ extern "C" bool __cdecl FUN_005d2910(void* first, void* second, void* condition,
 {
     bool success = Cmd_Shared_Eval_5a2a50(condition, 0, 0, result);
     if (g_debugLoggingFlag) {
-        FUN_00703c00(DAT_0103bed4, *result);
+        Interface_PrintLine(DAT_0103bed4, *result);
     }
     return success;
 }
@@ -33459,7 +33539,7 @@ struct ObjA {
     void FUN_004e65d0();
 };
 struct HostMid {
-    const char* FUN_00451cb0();
+    const char* TESObjectCELL_GetCellName();
 };
 struct Host5d {
     ObjA* FUN_0070ec90();
@@ -33471,7 +33551,7 @@ struct Host5d {
 union PerfCount { long long quad; struct { unsigned int low; unsigned int high; }; };
 struct SettingObj {
     unsigned char* FUN_00408d60();
-    void FUN_004de2d0(int);
+    void Setting_SetValueB(int);
 };
 extern SettingObj DAT_011c7b6c;
 extern SettingObj DAT_011c7c60;
@@ -33494,8 +33574,8 @@ extern float DAT_01200010;
 extern unsigned char DAT_011c7a65;
 
 bool __cdecl Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, char*, float*);
-int __cdecl FUN_00404dc0(const char*, const char*);
-void __cdecl FUN_00703c00(const char*, ...);
+int __cdecl BSstricmp(const char*, const char*);
+void __cdecl Interface_PrintLine(const char*, ...);
 void __cdecl FUN_0049c860(void*);
 bool __cdecl FUN_005d2a40();
 void __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
@@ -33507,12 +33587,12 @@ extern "C" __declspec(dllimport) int __stdcall QueryPerformanceFrequency(long lo
 // src: EXE 0x005d2a80
 bool __cdecl Cmd_ModWaterShader_Execute(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
 {
-    extern void __cdecl FUN_00703c00(const char*, ...);
+    extern void __cdecl Interface_PrintLine(const char*, ...);
     WaterObj* p;
     float value = 0.0f;
     char buf[512];
     if (!Script_ParseParameters(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, buf, &value)) {
-        FUN_00703c00("reflectamt, fresnel, opacity, speed, noise, reflect, refract, lod");
+        Interface_PrintLine("reflectamt, fresnel, opacity, speed, noise, reflect, refract, lod");
         return false;
     }
     p = 0;
@@ -33521,196 +33601,196 @@ bool __cdecl Cmd_ModWaterShader_Execute(const ScriptParameter* parameters, const
         WaterObj* waterNode = water->FUN_00a59d30(3);
         p = waterNode;
     }
-    if (!FUN_00404dc0(buf, "velocity")) {
-    } else if (!FUN_00404dc0(buf, "direction")) {
+    if (!BSstricmp(buf, "velocity")) {
+    } else if (!BSstricmp(buf, "direction")) {
         if (value >= 0.0f && value <= 360.0f) { }
-    } else if (!FUN_00404dc0(buf, "amplitude")) {
-    } else if (!FUN_00404dc0(buf, "frequency")) {
-    } else if (!FUN_00404dc0(buf, "reflectamt")) {
+    } else if (!BSstricmp(buf, "amplitude")) {
+    } else if (!BSstricmp(buf, "frequency")) {
+    } else if (!BSstricmp(buf, "reflectamt")) {
         if (value >= 0.0f && value <= 1.0f) {
             if (p) {
                 p->fbc = value;
-                FUN_00703c00("set water reflectivity amount to %f", (double)value);
+                Interface_PrintLine("set water reflectivity amount to %f", (double)value);
                 p->f7f = 0;
             } else {
                 DAT_011ff3ec = value;
-                FUN_00703c00("set water reflectivity amount to %f", (double)value);
+                Interface_PrintLine("set water reflectivity amount to %f", (double)value);
                 DAT_011c7a65 = 1;
             }
         } else {
-            FUN_00703c00("usage : mws reflectamt (0.0 - 1.0)", (double)value);
+            Interface_PrintLine("usage : mws reflectamt (0.0 - 1.0)", (double)value);
         }
-    } else if (!FUN_00404dc0(buf, "distort")) {
+    } else if (!BSstricmp(buf, "distort")) {
         if (p) {
             p->fc4 = value;
-            FUN_00703c00("set water distortion amount to %f", (double)value);
+            Interface_PrintLine("set water distortion amount to %f", (double)value);
             p->f7f = 0;
         } else {
             DAT_011ff3f4 = value;
-            FUN_00703c00("set water distortion amount to %f", (double)value);
+            Interface_PrintLine("set water distortion amount to %f", (double)value);
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "fresnel")) {
+    } else if (!BSstricmp(buf, "fresnel")) {
         if (value >= 0.0f && value <= 1.0f) {
             if (p) {
                 p->f118 = value;
-                FUN_00703c00("set fresnel term to %f", (double)value);
+                Interface_PrintLine("set fresnel term to %f", (double)value);
                 p->f7f = 0;
             } else {
                 DAT_011ff10c = value;
-                FUN_00703c00("set fresnel term to %f", (double)value);
+                Interface_PrintLine("set fresnel term to %f", (double)value);
                 DAT_011c7a65 = 1;
             }
         } else {
-            FUN_00703c00("usage : mws fresnel (0.0 - 1.0)", (double)value);
+            Interface_PrintLine("usage : mws fresnel (0.0 - 1.0)", (double)value);
         }
-    } else if (!FUN_00404dc0(buf, "opacity")) {
+    } else if (!BSstricmp(buf, "opacity")) {
         if (value >= 0.0f && value <= 100.0f) {
             if (p) {
                 p->fc0 = value / 100.0f;
-                FUN_00703c00("set water opacity to %d", (int)value);
+                Interface_PrintLine("set water opacity to %d", (int)value);
                 p->f7f = 0;
             } else {
                 DAT_011ff3f0 = value / 100.0f;
-                FUN_00703c00("set water opacity to %d", (int)value);
+                Interface_PrintLine("set water opacity to %d", (int)value);
                 DAT_011c7a65 = 1;
             }
         } else {
-            FUN_00703c00("usage : mws opacity (0.0 - 100.0)", (double)value);
+            Interface_PrintLine("usage : mws opacity (0.0 - 100.0)", (double)value);
         }
-    } else if (!FUN_00404dc0(buf, "blend")) {
-    } else if (!FUN_00404dc0(buf, "noise")) {
+    } else if (!BSstricmp(buf, "blend")) {
+    } else if (!BSstricmp(buf, "noise")) {
         if (value >= 0.0f && value <= 100.0f) {
             if (p) {
                 p->f11c = value;
-                FUN_00703c00("set noise scale to %f", (double)value);
+                Interface_PrintLine("set noise scale to %f", (double)value);
                 p->f7f = 0;
             } else {
                 DAT_011ffe48 = value;
-                FUN_00703c00("set noise to %f", (double)value);
+                Interface_PrintLine("set noise to %f", (double)value);
                 DAT_011c7a65 = 1;
             }
         } else {
-            FUN_00703c00("usage : mws noise (0.0 - 100.0)", (double)value);
+            Interface_PrintLine("usage : mws noise (0.0 - 100.0)", (double)value);
         }
-    } else if (!FUN_00404dc0(buf, "off")) {
+    } else if (!BSstricmp(buf, "off")) {
         if (p) {
             p->f7f = 1;
         } else {
             DAT_011c7a65 = 0;
         }
-    } else if (!FUN_00404dc0(buf, "displaceforce")) {
+    } else if (!BSstricmp(buf, "displaceforce")) {
         if (value >= 0.0f && value <= 1.0f) {
             DAT_01200014 = value;
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "displacevelocity")) {
+    } else if (!BSstricmp(buf, "displacevelocity")) {
         if (value >= 0.0f && value <= 1.0f) {
             DAT_01200018 = value;
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "displacefalloff")) {
+    } else if (!BSstricmp(buf, "displacefalloff")) {
         if (value >= 0.0f && value <= 1.0f) {
             DAT_0120001c = value;
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "displacedampener")) {
+    } else if (!BSstricmp(buf, "displacedampener")) {
         if (value >= 0.0f && value <= 20.0f) {
             DAT_011ffff0 = value;
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "rainforce")) {
+    } else if (!BSstricmp(buf, "rainforce")) {
         if (value >= 0.0f && value <= 1.0f) {
             DAT_01200004 = value;
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "rainvelocity")) {
+    } else if (!BSstricmp(buf, "rainvelocity")) {
         if (value >= 0.0f && value <= 1.0f) {
             DAT_01200008 = value;
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "rainfalloff")) {
+    } else if (!BSstricmp(buf, "rainfalloff")) {
         if (value >= 0.0f && value <= 1.0f) {
             DAT_0120000c = value;
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "rainsize")) {
+    } else if (!BSstricmp(buf, "rainsize")) {
         if (value >= 0.0f && value <= 1.0f) {
             DAT_01200010 = value;
             DAT_011c7a65 = 1;
         }
-    } else if (!FUN_00404dc0(buf, "reflect")) {
+    } else if (!BSstricmp(buf, "reflect")) {
         if (p) {
             if (p->f80) {
                 p->f80 = 0;
-                FUN_00703c00("Toggle Reflections : OFF");
+                Interface_PrintLine("Toggle Reflections : OFF");
             } else {
                 p->f80 = 1;
-                FUN_00703c00("Toggle Reflections : ON");
+                Interface_PrintLine("Toggle Reflections : ON");
             }
         } else {
             if (*DAT_011c7b6c.FUN_00408d60()) {
-                DAT_011c7b6c.FUN_004de2d0(0);
-                FUN_00703c00("Toggle Global Water Reflections : OFF");
+                DAT_011c7b6c.Setting_SetValueB(0);
+                Interface_PrintLine("Toggle Global Water Reflections : OFF");
             } else {
-                DAT_011c7b6c.FUN_004de2d0(1);
-                FUN_00703c00("Toggle Global Water Reflections : ON");
+                DAT_011c7b6c.Setting_SetValueB(1);
+                Interface_PrintLine("Toggle Global Water Reflections : ON");
             }
         }
-    } else if (!FUN_00404dc0(buf, "refract")) {
+    } else if (!BSstricmp(buf, "refract")) {
         if (p) {
             if (p->f81) {
                 p->f81 = 0;
-                FUN_00703c00("Toggle Refractions : OFF");
+                Interface_PrintLine("Toggle Refractions : OFF");
             } else {
                 p->f80 = 1;
-                FUN_00703c00("Toggle Refractions : ON");
+                Interface_PrintLine("Toggle Refractions : ON");
             }
         } else {
             if (*DAT_011c7c60.FUN_00408d60()) {
-                DAT_011c7c60.FUN_004de2d0(0);
-                FUN_00703c00("Toggle Global Water Refractions : OFF");
+                DAT_011c7c60.Setting_SetValueB(0);
+                Interface_PrintLine("Toggle Global Water Refractions : OFF");
             } else {
-                DAT_011c7c60.FUN_004de2d0(1);
-                FUN_00703c00("Toggle Global Water Refractions : ON");
+                DAT_011c7c60.Setting_SetValueB(1);
+                Interface_PrintLine("Toggle Global Water Refractions : ON");
             }
         }
-    } else if (!FUN_00404dc0(buf, "depth")) {
+    } else if (!BSstricmp(buf, "depth")) {
         if (p) {
             if (p->f63) {
                 p->f63 = 0;
-                FUN_00703c00("Toggle Depth : OFF");
+                Interface_PrintLine("Toggle Depth : OFF");
             } else {
                 p->f63 = 1;
-                FUN_00703c00("Toggle Depth : ON");
+                Interface_PrintLine("Toggle Depth : ON");
             }
         } else {
             if (*DAT_011c7bbc.FUN_00408d60()) {
-                DAT_011c7bbc.FUN_004de2d0(0);
-                FUN_00703c00("Toggle Global Water Depth : OFF");
+                DAT_011c7bbc.Setting_SetValueB(0);
+                Interface_PrintLine("Toggle Global Water Depth : OFF");
             } else {
-                DAT_011c7bbc.FUN_004de2d0(1);
-                FUN_00703c00("Toggle Global Water Depth : ON");
+                DAT_011c7bbc.Setting_SetValueB(1);
+                Interface_PrintLine("Toggle Global Water Depth : ON");
             }
         }
-    } else if (!FUN_00404dc0(buf, "fog")) {
+    } else if (!BSstricmp(buf, "fog")) {
         if (value >= 0.0f && value <= 100.0f) {
             if (p) {
                 p->f120 = value / 100.0f;
-                FUN_00703c00("set fog amount to %d", (int)value);
+                Interface_PrintLine("set fog amount to %d", (int)value);
                 p->f7f = 0;
             } else {
                 DAT_011ff414 = value / 100.0f;
-                FUN_00703c00("set fog amount to %d", (int)value);
+                Interface_PrintLine("set fog amount to %d", (int)value);
                 DAT_011c7a65 = 1;
             }
         }
-    } else if (!FUN_00404dc0(buf, "lod")) {
+    } else if (!BSstricmp(buf, "lod")) {
         if (((Host5d*)DAT_011dea10)->FUN_0070ec90()) {
             ((Host5d*)DAT_011dea10)->FUN_0070ec90()->FUN_004e6370(1, 1, 1);
         }
-        FUN_00703c00("Toggle LOD Water");
-    } else if (!FUN_00404dc0(buf, "autowater")) {
+        Interface_PrintLine("Toggle LOD Water");
+    } else if (!BSstricmp(buf, "autowater")) {
         double secondsPerTick = 1000.0;
         long long freq;
         reinterpret_cast<unsigned int&>(freq) = 0;
@@ -33725,7 +33805,7 @@ bool __cdecl Cmd_ModWaterShader_Execute(const ScriptParameter* parameters, const
         QueryPerformanceCounter(&end);
         dt = end - freq;
         FUN_00406d00(msg, 0xff, "GeneratePlaceableWaterForCell() for cell %s: Ticks: %I64d, Microseconds: %f",
-                     ((Host5d*)DAT_011dea10)->FUN_00457070()->FUN_00451cb0(), dt, (double)dt / secondsPerTick);
+                     ((Host5d*)DAT_011dea10)->FUN_00457070()->TESObjectCELL_GetCellName(), dt, (double)dt / secondsPerTick);
         FUN_0040fbe0(msg, 0);
         if (!FUN_005d2a40()) {
             ((Host5d*)DAT_011dea10)->FUN_0070ec90()->FUN_004e65d0();
@@ -33836,7 +33916,7 @@ namespace s5d4a50 {
 extern __declspec(thread) bool tls_bEchoConsole;
 
 void FUN_005a3980(void* pvRef, int iArg0, int iArg1, double* pdResult);
-void FUN_00703c00(const char* pcFormat, ...);
+void Interface_PrintLine(const char* pcFormat, ...);
 
 static const char s_szIsEssentialFormat[] = "IsEssential >> %0.2f";
 
@@ -33846,7 +33926,7 @@ bool FUN_005d4a50(void* pvParamInfo, void* pvScriptData, void* pvThisObj, void* 
 {
     FUN_005a3980(pvThisObj, 0, 0, pdResult);
     if (tls_bEchoConsole)
-        FUN_00703c00(s_szIsEssentialFormat, *pdResult);
+        Interface_PrintLine(s_szIsEssentialFormat, *pdResult);
     return true;
 }
 
@@ -34252,7 +34332,7 @@ struct ToggleSetting_005d5850 {
 
     bool* FUN_00408d60();
 
-    void FUN_004de2d0(bool value);
+    void Setting_SetValueB(bool value);
 
     float* FUN_00403e20();
 
@@ -34410,10 +34490,10 @@ void __cdecl FUN_004046f0(char* dest, const char* src);
 
 unsigned int __cdecl FUN_00ec6130(const char* str);
 
-int __cdecl FUN_00404dc0(const char* a, const char* b);
+int __cdecl BSstricmp(const char* a, const char* b);
 
-void __cdecl FUN_00703c00(const char* format, ...);
-void __cdecl FUN_00703c00(const char* format, double val);
+void __cdecl Interface_PrintLine(const char* format, ...);
+void __cdecl Interface_PrintLine(const char* format, double val);
 
 // @fnv 0x005d5850
 // src: EXE 0x005d5850
@@ -34465,157 +34545,157 @@ bool __cdecl Cmd_ToggleCombatDebug_Execute(const ScriptParameter* apParameters, 
 
             *DAT_011f15ec.FUN_00408d60();
 
-        DAT_011f1680.FUN_004de2d0(!anyOn);
+        DAT_011f1680.Setting_SetValueB(!anyOn);
 
-        DAT_011f1ba0.FUN_004de2d0(!anyOn);
+        DAT_011f1ba0.Setting_SetValueB(!anyOn);
 
-        DAT_011f1878.FUN_004de2d0(!anyOn);
+        DAT_011f1878.Setting_SetValueB(!anyOn);
 
-        DAT_011f1858.FUN_004de2d0(!anyOn);
+        DAT_011f1858.Setting_SetValueB(!anyOn);
 
-        DAT_011f1b24.FUN_004de2d0(!anyOn);
+        DAT_011f1b24.Setting_SetValueB(!anyOn);
 
-        DAT_011f1674.FUN_004de2d0(!anyOn);
+        DAT_011f1674.Setting_SetValueB(!anyOn);
 
-        DAT_011f168c.FUN_004de2d0(!anyOn);
+        DAT_011f168c.Setting_SetValueB(!anyOn);
 
-        DAT_011f1814.FUN_004de2d0(!anyOn);
+        DAT_011f1814.Setting_SetValueB(!anyOn);
 
-        DAT_011f16e0.FUN_004de2d0(!anyOn);
+        DAT_011f16e0.Setting_SetValueB(!anyOn);
 
-        DAT_011f16c0.FUN_004de2d0(!anyOn);
+        DAT_011f16c0.Setting_SetValueB(!anyOn);
 
-        DAT_011f15a4.FUN_004de2d0(!anyOn);
+        DAT_011f15a4.Setting_SetValueB(!anyOn);
 
-        DAT_011f15b0.FUN_004de2d0(!anyOn);
+        DAT_011f15b0.Setting_SetValueB(!anyOn);
 
-        DAT_011f1824.FUN_004de2d0(!anyOn);
+        DAT_011f1824.Setting_SetValueB(!anyOn);
 
-        DAT_011f15d0.FUN_004de2d0(!anyOn);
+        DAT_011f15d0.Setting_SetValueB(!anyOn);
 
-        DAT_011f197c.FUN_004de2d0(!anyOn);
+        DAT_011f197c.Setting_SetValueB(!anyOn);
 
-        DAT_011f1c4c.FUN_004de2d0(!anyOn);
+        DAT_011f1c4c.Setting_SetValueB(!anyOn);
 
-        DAT_011f15ec.FUN_004de2d0(!anyOn);
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103cad4, anyOn ? DAT_010399b8 : DAT_010399bc);
-
-    } else if (!FUN_00404dc0(name, DAT_0103cacc)) {
-
-        DAT_011f1680.FUN_004de2d0(!*DAT_011f1680.FUN_00408d60());
+        DAT_011f15ec.Setting_SetValueB(!anyOn);
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103ca9c, *DAT_011f1680.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103cad4, anyOn ? DAT_010399b8 : DAT_010399bc);
 
-    } else if (!FUN_00404dc0(name, DAT_0103ca90)) {
+    } else if (!BSstricmp(name, DAT_0103cacc)) {
 
-        DAT_011f16c0.FUN_004de2d0(!*DAT_011f16c0.FUN_00408d60());
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103ca60, *DAT_011f16c0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
-
-    } else if (!FUN_00404dc0(name, DAT_0103ca58) || !FUN_00404dc0(name, DAT_0103ca4c)) {
-
-        DAT_011f1674.FUN_004de2d0(!*DAT_011f1674.FUN_00408d60());
+        DAT_011f1680.Setting_SetValueB(!*DAT_011f1680.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103ca24, *DAT_011f1674.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103ca9c, *DAT_011f1680.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (!FUN_00404dc0(name, DAT_0103ca18) || !FUN_00404dc0(name, DAT_0103ca08)) {
+    } else if (!BSstricmp(name, DAT_0103ca90)) {
 
-        DAT_011f16e0.FUN_004de2d0(!*DAT_011f16e0.FUN_00408d60());
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103c9dc, *DAT_011f16e0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
-
-    } else if (!FUN_00404dc0(name, DAT_0103c9d4) || !FUN_00404dc0(name, DAT_0103c9c4)) {
-
-        DAT_011f168c.FUN_004de2d0(!*DAT_011f168c.FUN_00408d60());
+        DAT_011f16c0.Setting_SetValueB(!*DAT_011f16c0.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c990, *DAT_011f168c.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103ca60, *DAT_011f16c0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (!FUN_00404dc0(name, DAT_0103c988)) {
+    } else if (!BSstricmp(name, DAT_0103ca58) || !BSstricmp(name, DAT_0103ca4c)) {
 
-        DAT_011f1ba0.FUN_004de2d0(!*DAT_011f1ba0.FUN_00408d60());
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103c964, *DAT_011f1ba0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
-
-    } else if (!FUN_00404dc0(name, DAT_0103c95c)) {
-
-        DAT_011f1878.FUN_004de2d0(!*DAT_011f1878.FUN_00408d60());
+        DAT_011f1674.Setting_SetValueB(!*DAT_011f1674.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c938, *DAT_011f1878.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103ca24, *DAT_011f1674.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (!FUN_00404dc0(name, DAT_0103c930)) {
+    } else if (!BSstricmp(name, DAT_0103ca18) || !BSstricmp(name, DAT_0103ca08)) {
 
-        DAT_011f1858.FUN_004de2d0(!*DAT_011f1858.FUN_00408d60());
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103c90c, *DAT_011f1858.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
-
-    } else if (!FUN_00404dc0(name, DAT_0103c904)) {
-
-        DAT_011f1b24.FUN_004de2d0(!*DAT_011f1b24.FUN_00408d60());
+        DAT_011f16e0.Setting_SetValueB(!*DAT_011f16e0.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c8e0, *DAT_011f1b24.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103c9dc, *DAT_011f16e0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (!FUN_00404dc0(name, DAT_0103c8d8)) {
+    } else if (!BSstricmp(name, DAT_0103c9d4) || !BSstricmp(name, DAT_0103c9c4)) {
 
-        DAT_011f1814.FUN_004de2d0(!*DAT_011f1814.FUN_00408d60());
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103c8b4, *DAT_011f1814.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
-
-    } else if (!FUN_00404dc0(name, DAT_0103c8ac)) {
-
-        DAT_011f15b0.FUN_004de2d0(!*DAT_011f15b0.FUN_00408d60());
+        DAT_011f168c.Setting_SetValueB(!*DAT_011f168c.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c884, *DAT_011f15b0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103c990, *DAT_011f168c.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (!FUN_00404dc0(name, DAT_0103c87c) || !FUN_00404dc0(name, DAT_0103c870)) {
+    } else if (!BSstricmp(name, DAT_0103c988)) {
 
-        DAT_011f1824.FUN_004de2d0(!*DAT_011f1824.FUN_00408d60());
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103c844, *DAT_011f1824.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
-
-    } else if (!FUN_00404dc0(name, DAT_0103c83c)) {
-
-        DAT_011f15a4.FUN_004de2d0(!*DAT_011f15a4.FUN_00408d60());
+        DAT_011f1ba0.Setting_SetValueB(!*DAT_011f1ba0.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c810, *DAT_011f15a4.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103c964, *DAT_011f1ba0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (!FUN_00404dc0(name, DAT_0103c808)) {
+    } else if (!BSstricmp(name, DAT_0103c95c)) {
 
-        DAT_011f1c30.FUN_004de2d0(!*DAT_011f1c30.FUN_00408d60());
+        DAT_011f1878.Setting_SetValueB(!*DAT_011f1878.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c7d8, *DAT_011f1c30.FUN_00408d60() ? DAT_0103c800 : DAT_01011f58);
+            Interface_PrintLine(DAT_0103c938, *DAT_011f1878.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (!FUN_00404dc0(name, DAT_0103c7d0)) {
+    } else if (!BSstricmp(name, DAT_0103c930)) {
+
+        DAT_011f1858.Setting_SetValueB(!*DAT_011f1858.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c90c, *DAT_011f1858.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+
+    } else if (!BSstricmp(name, DAT_0103c904)) {
+
+        DAT_011f1b24.Setting_SetValueB(!*DAT_011f1b24.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c8e0, *DAT_011f1b24.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+
+    } else if (!BSstricmp(name, DAT_0103c8d8)) {
+
+        DAT_011f1814.Setting_SetValueB(!*DAT_011f1814.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c8b4, *DAT_011f1814.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+
+    } else if (!BSstricmp(name, DAT_0103c8ac)) {
+
+        DAT_011f15b0.Setting_SetValueB(!*DAT_011f15b0.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c884, *DAT_011f15b0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+
+    } else if (!BSstricmp(name, DAT_0103c87c) || !BSstricmp(name, DAT_0103c870)) {
+
+        DAT_011f1824.Setting_SetValueB(!*DAT_011f1824.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c844, *DAT_011f1824.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+
+    } else if (!BSstricmp(name, DAT_0103c83c)) {
+
+        DAT_011f15a4.Setting_SetValueB(!*DAT_011f15a4.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c810, *DAT_011f15a4.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+
+    } else if (!BSstricmp(name, DAT_0103c808)) {
+
+        DAT_011f1c30.Setting_SetValueB(!*DAT_011f1c30.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c7d8, *DAT_011f1c30.FUN_00408d60() ? DAT_0103c800 : DAT_01011f58);
+
+    } else if (!BSstricmp(name, DAT_0103c7d0)) {
 
         DAT_011f1c70.FUN_004ed780((float)(*DAT_011f1c70.FUN_00403e20() - DAT_0101ffa0));
 
@@ -34625,43 +34705,43 @@ bool __cdecl Cmd_ToggleCombatDebug_Execute(const ScriptParameter* apParameters, 
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c7a0, *DAT_011f1c70.FUN_00403e20());
+            Interface_PrintLine(DAT_0103c7a0, *DAT_011f1c70.FUN_00403e20());
 
-    } else if (!FUN_00404dc0(name, DAT_0103c798) || !FUN_00404dc0(name, DAT_0103c78c)) {
+    } else if (!BSstricmp(name, DAT_0103c798) || !BSstricmp(name, DAT_0103c78c)) {
 
-        DAT_011f15d0.FUN_004de2d0(!*DAT_011f15d0.FUN_00408d60());
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103c758, *DAT_011f15d0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
-
-    } else if (!FUN_00404dc0(name, DAT_0103c750)) {
-
-        DAT_011f197c.FUN_004de2d0(!*DAT_011f197c.FUN_00408d60());
+        DAT_011f15d0.Setting_SetValueB(!*DAT_011f15d0.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c724, *DAT_011f197c.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103c758, *DAT_011f15d0.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
-    } else if (!FUN_00404dc0(name, DAT_0103c71c)) {
+    } else if (!BSstricmp(name, DAT_0103c750)) {
 
-        DAT_011f1c4c.FUN_004de2d0(!*DAT_011f1c4c.FUN_00408d60());
-
-        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
-
-            FUN_00703c00(DAT_0103c6f0, *DAT_011f1c4c.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
-
-    } else if (!FUN_00404dc0(name, DAT_0103c6e8)) {
-
-        DAT_011f15ec.FUN_004de2d0(!*DAT_011f15ec.FUN_00408d60());
+        DAT_011f197c.Setting_SetValueB(!*DAT_011f197c.FUN_00408d60());
 
         if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
 
-            FUN_00703c00(DAT_0103c6c8, *DAT_011f15ec.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+            Interface_PrintLine(DAT_0103c724, *DAT_011f197c.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+
+    } else if (!BSstricmp(name, DAT_0103c71c)) {
+
+        DAT_011f1c4c.Setting_SetValueB(!*DAT_011f1c4c.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c6f0, *DAT_011f1c4c.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
+
+    } else if (!BSstricmp(name, DAT_0103c6e8)) {
+
+        DAT_011f15ec.Setting_SetValueB(!*DAT_011f15ec.FUN_00408d60());
+
+        if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268])
+
+            Interface_PrintLine(DAT_0103c6c8, *DAT_011f15ec.FUN_00408d60() ? DAT_010399bc : DAT_010399b8);
 
     } else if (reinterpret_cast<const unsigned char*>(&tls_005d5850)[0x268]) {
 
-        FUN_00703c00(DAT_0103c6b4, name);
+        Interface_PrintLine(DAT_0103c6b4, name);
 
     }
 
@@ -34673,12 +34753,12 @@ namespace fnv_005d67f0 {
 #include <string.h>
 
 struct CombatStrategy {
-    const char* FUN_0098fdd0();
+    const char* CombatGroupStrategy_GetName();
 };
 // Call surface of ActorCombatGroup; the shared header cannot be read in this unit (its own layout_support template copies).
 struct ActorCombatGroupApi {
     unsigned int FUN_00990890();
-    void FUN_009862e0(CombatStrategy* strategy);
+    void CombatGroup_ForceGroupStrategy(CombatStrategy* strategy);
 };
 
 struct StrategyReference : ScriptActorPackageActions {
@@ -34810,7 +34890,7 @@ struct StrategyReference : ScriptActorPackageActions {
     virtual CombatController* GetCombatController();
 };
 void __cdecl FUN_004046f0(char*, const char*);
-CombatStrategy* __cdecl FUN_00990250(const char*);
+CombatStrategy* __cdecl CombatGroupStrategy_LookupByName(const char*);
 
 // @fnv 0x005d67f0
 // src: EXE 0x005d67f0
@@ -34845,15 +34925,15 @@ bool __cdecl Cmd_ForceGroupStrategy_Execute(const ScriptParameter* parameters, c
         return true;
     }
     if (!strlen(strategyName)) {
-        group->FUN_009862e0(0);
+        group->CombatGroup_ForceGroupStrategy(0);
         if (tlsData.bConsoleEcho)
             DebugLog("Group strategy cleared");
     } else {
-        CombatStrategy* strategy = FUN_00990250(strategyName);
+        CombatStrategy* strategy = CombatGroupStrategy_LookupByName(strategyName);
         if (strategy) {
-            group->FUN_009862e0(strategy);
+            group->CombatGroup_ForceGroupStrategy(strategy);
             if (tlsData.bConsoleEcho)
-                DebugLog("Group strategy set to: %s", strategy->FUN_0098fdd0());
+                DebugLog("Group strategy set to: %s", strategy->CombatGroupStrategy_GetName());
         } else if (tlsData.bConsoleEcho) {
             DebugLog("Unknown strategy '%s'", strategyName);
         }
@@ -34970,7 +35050,7 @@ struct InventoryDiagnosticEnchant {
 };
 InventoryDiagnosticEnchant* FUN_00475020(InventoryDiagnosticForm*);
 const char* FUN_00482720(InventoryDiagnosticForm*);
-void FUN_00703c00(const char*,...);
+void Interface_PrintLine(const char*,...);
 extern const char DAT_0103cc6c[];
 extern const char DAT_0103cc5c[];
 extern const char DAT_01011584[];
@@ -34988,20 +35068,20 @@ bool FUN_005d6d40(const ScriptParameter* parameters,const char* data,InventoryDi
         if(reference->IsActor()) actor_11=reference;
         int count=reference->FUN_00575590(0,1);
         if(count>0) {
-            FUN_00703c00(DAT_0103cc6c,reference->FUN_00474cb0()?reference->GetName():reference->FUN_0055d520(),reference->FUN_0084e3a0(),count);
+            Interface_PrintLine(DAT_0103cc6c,reference->FUN_00474cb0()?reference->GetName():reference->FUN_0055d520(),reference->FUN_0084e3a0(),count);
             for(unsigned int index=0;index<(unsigned int)count;index++) {
                 InventoryDiagnosticEntry* entry=reference->FUN_005754a0(index,0);
                 if(entry && entry->FUN_0044ddc0()) {
                     InventoryDiagnosticForm* form3=entry->FUN_0044ddc0();
                     switch(form3->FUN_00401170()) {
                     case 40:
-                        FUN_00703c00(DAT_0103cc30,entry->FUN_00726070(),form3->FUN_00474cb0()?form3->GetName():FUN_00482720(form3),form3->FUN_0084e3a0(),entry->FUN_004bcdb0(0),entry->FUN_004bcdb0(1),entry->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584,actor_11&&!actor_11->FUN_008bc9d0(form3,true)?DAT_0103cc5c:DAT_01011584);
+                        Interface_PrintLine(DAT_0103cc30,entry->FUN_00726070(),form3->FUN_00474cb0()?form3->GetName():FUN_00482720(form3),form3->FUN_0084e3a0(),entry->FUN_004bcdb0(0),entry->FUN_004bcdb0(1),entry->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584,actor_11&&!actor_11->FUN_008bc9d0(form3,true)?DAT_0103cc5c:DAT_01011584);
                         break;
                     case 24:
-                        FUN_00703c00(DAT_0103cc10,entry->FUN_00726070(),form3->FUN_00474cb0()?form3->GetName():FUN_00482720(form3),form3->FUN_0084e3a0(),entry->FUN_004bcdb0(0),entry->FUN_004bcdb0(1),entry->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
+                        Interface_PrintLine(DAT_0103cc10,entry->FUN_00726070(),form3->FUN_00474cb0()?form3->GetName():FUN_00482720(form3),form3->FUN_0084e3a0(),entry->FUN_004bcdb0(0),entry->FUN_004bcdb0(1),entry->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
                         break;
                     default:
-                        FUN_00703c00(DAT_0103cbfc,entry->FUN_00726070(),form3->FUN_00474cb0()?form3->GetName():FUN_00482720(form3),form3->FUN_0084e3a0(),entry->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
+                        Interface_PrintLine(DAT_0103cbfc,entry->FUN_00726070(),form3->FUN_00474cb0()?form3->GetName():FUN_00482720(form3),form3->FUN_0084e3a0(),entry->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
                         break;
                     }
                     InventoryDiagnosticEnchant* enchant=FUN_00475020(form3);
@@ -35009,10 +35089,10 @@ bool FUN_005d6d40(const ScriptParameter* parameters,const char* data,InventoryDi
                         InventoryDiagnosticForm* effect=enchant->FUN_00726070();
                         if(effect) {
                             InventoryDiagnosticList* list=effect->FUN_00500940();
-                            FUN_00703c00(DAT_0103cbe8,effect->FUN_00474cb0()?effect->GetName():FUN_00482720(effect),effect->FUN_0084e3a0());
+                            Interface_PrintLine(DAT_0103cbe8,effect->FUN_00474cb0()?effect->GetName():FUN_00482720(effect),effect->FUN_0084e3a0());
                             while(list) {
                                 InventoryDiagnosticForm* detail=*list->FUN_006815c0();
-                                FUN_00703c00(DAT_0103cbd4,detail->FUN_00474cb0()?detail->GetName():FUN_00482720(detail),detail->FUN_0084e3a0());
+                                Interface_PrintLine(DAT_0103cbd4,detail->FUN_00474cb0()?detail->GetName():FUN_00482720(detail),detail->FUN_0084e3a0());
                                 list=list->FUN_00726070();
                             }
                         }
@@ -35070,14 +35150,14 @@ bool __cdecl Cmd_SetSPECIALPoints_Execute(int p1, int p2, int p3, int p4, int p5
     if (!unkCb0(p1, p2, p8, p3, p4, p5, p6, &out)) {
         result = false;
     } else {
-        FUN_007062a0(0, out, 0, 1);
+        CharGenMenu_Create_(0, out, 0, 1);
     }
     return result;
 }
 
 extern unsigned int DAT_011c57f4;
 extern bool DAT_011f9442;
-extern void FUN_00703c00(const char*, ...);
+extern void Interface_PrintLine(const char*, ...);
 
 // @fnv 0x005d7610
 // src: EXE 0x005d7610
@@ -35091,57 +35171,57 @@ bool Cmd_ToggleDebugDecal_Execute(const ScriptParameter* paramInfo, const char* 
             case 0:
                 if (DAT_011c57f4 & 1) {
                     DAT_011c57f4 &= ~1;
-                    FUN_00703c00("Wireframe Decal Clipping Planes : DISABLED");
+                    Interface_PrintLine("Wireframe Decal Clipping Planes : DISABLED");
                 } else {
                     DAT_011c57f4 |= 1;
-                    FUN_00703c00("Wireframe Decal Clipping Planes : ENABLED");
+                    Interface_PrintLine("Wireframe Decal Clipping Planes : ENABLED");
                 }
                 break;
             case 1:
                 if (DAT_011c57f4 & 2) {
                     DAT_011c57f4 &= ~2;
-                    FUN_00703c00("Decal Clipping Planes : DISABLED");
+                    Interface_PrintLine("Decal Clipping Planes : DISABLED");
                 } else {
                     DAT_011c57f4 |= 2;
-                    FUN_00703c00("Decal Clipping Planes : ENABLED");
+                    Interface_PrintLine("Decal Clipping Planes : ENABLED");
                 }
                 break;
             case 2:
                 if (DAT_011c57f4 & 4) {
                     DAT_011c57f4 &= ~4;
-                    FUN_00703c00("Occlusion query camera direction : DISABLED");
+                    Interface_PrintLine("Occlusion query camera direction : DISABLED");
                 } else {
                     DAT_011c57f4 |= 4;
-                    FUN_00703c00("Occlusion query camera direction : ENABLED");
+                    Interface_PrintLine("Occlusion query camera direction : ENABLED");
                 }
                 break;
             case 3:
                 if (DAT_011c57f4 & 8) {
                     DAT_011c57f4 &= ~8;
-                    FUN_00703c00("Decal Transform : DISABLED");
+                    Interface_PrintLine("Decal Transform : DISABLED");
                 } else {
                     DAT_011c57f4 |= 8;
-                    FUN_00703c00("Decal Transform : ENABLED");
+                    Interface_PrintLine("Decal Transform : ENABLED");
                 }
                 break;
             case 4:
                 if (DAT_011c57f4 & 16) {
                     DAT_011c57f4 &= ~16;
-                    FUN_00703c00("Failed Decals : DISABLED");
+                    Interface_PrintLine("Failed Decals : DISABLED");
                 } else {
                     DAT_011c57f4 |= 16;
-                    FUN_00703c00("Failed Decals : ENABLED");
+                    Interface_PrintLine("Failed Decals : ENABLED");
                 }
                 break;
             case 5:
                 if (DAT_011c57f4 & 32) {
                     DAT_011c57f4 &= ~32;
                     DAT_011f9442 = false;
-                    FUN_00703c00("Wireframe Decals : DISABLED");
+                    Interface_PrintLine("Wireframe Decals : DISABLED");
                 } else {
                     DAT_011c57f4 |= 32;
                     DAT_011f9442 = true;
-                    FUN_00703c00("Wireframe Decals : ENABLED");
+                    Interface_PrintLine("Wireframe Decals : ENABLED");
                 }
                 break;
         }
@@ -35256,7 +35336,7 @@ class Script;
 namespace fnv_005d7d30 {
 class ScriptParameter;   
 bool Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 class Objective { public: bool FUN_005a5e70(); void FUN_005ec5d0(bool); };
 class QuestX { public: virtual void V0();virtual void V1();virtual void V2();virtual void V3();virtual void V4();virtual void V5();virtual void V6();virtual void V7();virtual void V8();virtual void V9();virtual void V10();virtual void V11();virtual void V12();virtual void V13();virtual void V14();virtual void V15();virtual void V16();virtual void V17();virtual void V18();virtual void V19();virtual void V20();virtual void V21();virtual void V22();virtual void V23();virtual void V24();virtual void V25();virtual void V26();virtual void V27();virtual void V28();virtual void V29();virtual void V30();virtual void V31();virtual void V32();virtual void V33();virtual void V34();virtual void V35();virtual void V36();virtual void V37();virtual void V38();virtual void V39();virtual void V40();virtual void V41();virtual void V42();virtual void V43();virtual void V44();virtual void V45();virtual void V46();virtual void V47();virtual void V48();virtual void V49();virtual void V50();virtual void V51();virtual void V52();virtual void V53();virtual void V54();virtual void V55();virtual void V56();virtual void V57();virtual void V58();virtual void V59();virtual void V60();virtual void V61();virtual void V62();virtual void V63();virtual void V64();virtual void V65();virtual void V66();virtual void V67();virtual void V68();virtual void V69();virtual void V70();virtual void V71();virtual void V72();virtual void V73();virtual void V74();virtual void V75();virtual void V76();virtual void V77(); virtual const char* GetName();
   Objective* FUN_0060c8e0(int); bool FUN_0059e400(); unsigned int FUN_0084e3a0(); };
@@ -35280,9 +35360,9 @@ bool Cmd_SetObjectiveDisplayed_Execute(const ScriptParameter* paramInfo, const c
                     pObj->FUN_005ec5d0(false);
             }
         } else
-            FUN_005b5e40("Script error: objective %d does not exist in quest %s (%08X)", iObjective, pQuest->GetName(), pQuest->FUN_0084e3a0());
+            Warning_005b5e40("Script error: objective %d does not exist in quest %s (%08X)", iObjective, pQuest->GetName(), pQuest->FUN_0084e3a0());
     } else
-        FUN_005b5e40("Script error: quest %s (%08X) does not exist.", pQuest->GetName(), pQuest->FUN_0084e3a0());
+        Warning_005b5e40("Script error: quest %s (%08X) does not exist.", pQuest->GetName(), pQuest->FUN_0084e3a0());
     return true;
 }
 }  // namespace fnv_005d7d30
@@ -35843,8 +35923,8 @@ bool __cdecl Cmd_AddItemHealthPercent_Execute(const ScriptParameter* parameters,
             _FNV_Warning("SCRIPTS: AddItem in script '%s' failed to generate an item.",
                 static_cast<TESForm*>(script)->GetName());
         }
-        items.FUN_00482090(condition);
-        items.FUN_004821a0(reference, silent == 1);
+        items.ApplyHealthPercentToContainer(condition);
+        items.AddContainerToReference(reference, silent == 1);
         }
         }
         }
@@ -35930,17 +36010,18 @@ struct FaceGenArray
 
 
 
-void __cdecl FUN_00603280(void* race, int sex, FaceGenArray* outArr);
-void __cdecl FUN_00652e00(void* p1, void* p2, void* p3, int p4);
-float __cdecl FUN_00652440(void* p1, int p2, int p3);
+void __cdecl TESNPC_FillCharGenPresetList(void* race, int sex, FaceGenArray* outArr);
+void __cdecl BSFaceGenManager_OffsetFaceGenCoord(void* p1, void* p2, void* p3, int p4);
+float __cdecl BSFaceGenManager_GetFaceCoordAttribute(void* p1, int p2, int p3);
 void __cdecl FUN_006521f0(void* p1);
-void __cdecl FUN_00653000(float p1, void* p2, int p3);
+void __cdecl BSFaceGenManager_ScaleFaceCoord(float p1, void* p2, int p3);
 void __cdecl FUN_00652af0(void* p1, void* p2, void* p3, int p4, float p5);
-void __cdecl FUN_00652470(void* p1, int p2, int p3, float p4);
-void __cdecl FUN_006529a0(void* p1, void* p2, int p3, int p4);
+void __cdecl BSFaceGenManager_SetFaceCoordAttribute(void* p1, int p2, int p3, float p4);
+void __cdecl BSFaceGenManager_CopyFaceGenCoord(void* p1, void* p2, int p3, int p4);
 
 // @fnv 0x005d9bc0
-void __cdecl FUN_005d9bc0(TESObjectREFR* apTarget, TESObjectREFR* apSource, int aiPercent)
+// src: COMMUNITY 0x005d9bc0
+void __cdecl Script_MatchFaceGeometryBase(TESObjectREFR* apTarget, TESObjectREFR* apSource, int aiPercent)
 {
     if (!apTarget || !apSource)
         return;
@@ -35951,7 +36032,7 @@ void __cdecl FUN_005d9bc0(TESObjectREFR* apTarget, TESObjectREFR* apSource, int 
     FUN_00449610 arr1_[4];
     FUN_00449610 arr2_[4];
     FaceGenArray faceArr;
-    FUN_00603280(pSourceNPCC->GetRaceData(), pSourceNPCC->GetActorSex(), &faceArr);
+    TESNPC_FillCharGenPresetList(pSourceNPCC->GetRaceData(), pSourceNPCC->GetActorSex(), &faceArr);
     TESNPC* DefaultNPCY = NULL;
     if (faceArr.GetAt(0))
         DefaultNPCY = faceArr.GetAt(0);
@@ -35968,17 +36049,17 @@ void __cdecl FUN_005d9bc0(TESObjectREFR* apTarget, TESObjectREFR* apSource, int 
     void* faceSourceB = pSourceNPCC->GetFaceGen();
     void* fgDefaultY = DefaultNPCY->GetFaceGen();
 
-    FUN_00652e00(fgDefaultY, faceSourceB, arr2_, 0);
-    float fscaleD = FUN_00652440(fgTargetZ, 0, 0);
+    BSFaceGenManager_OffsetFaceGenCoord(fgDefaultY, faceSourceB, arr2_, 0);
+    float fscaleD = BSFaceGenManager_GetFaceCoordAttribute(fgTargetZ, 0, 0);
     FUN_006521f0(arr1_);
-    FUN_00653000(fPercentB, arr2_, 1);
+    BSFaceGenManager_ScaleFaceCoord(fPercentB, arr2_, 1);
     FUN_00652af0(fgTargetZ, arr2_, arr1_, 1, 0.0f);
-    FUN_00652470(arr1_, 0, 0, fscaleD);
+    BSFaceGenManager_SetFaceCoordAttribute(arr1_, 0, 0, fscaleD);
 
     pmorphsData = new FUN_00449610[4];
     FUN_006521f0(pmorphsData);
-    FUN_00652e00(reinterpret_cast<S9fb0*>(pTargetNPC_->GetRaceData())->FUN_005d9fb0(0), arr1_, pmorphsData, 0);
-    FUN_006529a0(fgTargetZ, pmorphsData, 0, 1);
+    BSFaceGenManager_OffsetFaceGenCoord(reinterpret_cast<S9fb0*>(pTargetNPC_->GetRaceData())->FUN_005d9fb0(0), arr1_, pmorphsData, 0);
+    BSFaceGenManager_CopyFaceGenCoord(fgTargetZ, pmorphsData, 0, 1);
     pTargetNPC_->SetMorphData(reinterpret_cast<FaceGenMatrix<float> (*)[2]>(pmorphsData));
     pTargetNPC_->MarkAsModified(0x800);
 
@@ -36427,15 +36508,15 @@ bool __cdecl Cmd_AgeRace_Execute(const ScriptParameter* apParams, const char* ap
         pNode = pStart;
         while (iSteps) {
             if (0 > iSteps) {
-                if (((FUN_005da7d0_Class*)pNode)->FUN_005da7d0()) {
-                    pNode = (PackageNode*)((FUN_005da7d0_Class*)pNode)->FUN_005da7d0();
+                if (((FUN_005da7d0_Class*)pNode)->TESRace_GetYoungerRace()) {
+                    pNode = (PackageNode*)((FUN_005da7d0_Class*)pNode)->TESRace_GetYoungerRace();
                     iSteps += 1;
                 } else {
                     iSteps = 0;
                 }
             } else {
-                if (((FUN_005da7f0_Class*)pNode)->FUN_005da7f0()) {
-                    pNode = (PackageNode*)((FUN_005da7f0_Class*)pNode)->FUN_005da7f0();
+                if (((FUN_005da7f0_Class*)pNode)->TESRace_GetOlderRace()) {
+                    pNode = (PackageNode*)((FUN_005da7f0_Class*)pNode)->TESRace_GetOlderRace();
                     iSteps--;
                 } else {
                     iSteps = 0;
@@ -36452,7 +36533,7 @@ bool __cdecl Cmd_AgeRace_Execute(const ScriptParameter* apParams, const char* ap
     return true;
 }
 
-struct FUN_00969820_Obj { void FUN_00969820(bool bValue); };
+struct FUN_00969820_Obj { void PlayerCharacter_SetPCYoung(bool bValue); };
 bool __cdecl Script_ParseParameters(int, int, int, int, int, int, int, int*);
 // @fnv 0x005da980
 // src: EXE 0x005da980
@@ -36461,7 +36542,7 @@ bool __cdecl Cmd_SetPCYoung_Execute(int a08, int a0c, int a10, int a14, int a18,
     if (!Script_ParseParameters(a08, a0c, a24, a10, a14, a18, a1c, &bResult)) {
         return false;
     }
-    ((FUN_00969820_Obj*)_g_thePlayer)->FUN_00969820(bResult != 0);
+    ((FUN_00969820_Obj*)_g_thePlayer)->PlayerCharacter_SetPCYoung(bResult != 0);
     return true;
 }
 
@@ -37773,7 +37854,7 @@ bool Cmd_DetonatePlacedExplosives_Execute(int a0, int a1, RefLike* param) {
 }
 }  // namespace fnv_005ddf90
 
-void __cdecl FUN_00704fc0(RefStub*, int);
+void __cdecl Interface_CreateRecipeMenu(RefStub*, int);
 
 // @fnv 0x005deb10
 // src: EXE 0x005deb10
@@ -37797,7 +37878,7 @@ bool __cdecl Cmd_ShowRecipeMenu_Execute(const ScriptParameter* paramInfo, const 
             }
         }
         if (target2) {
-            FUN_00704fc0(target2, arg);
+            Interface_CreateRecipeMenu(target2, arg);
         }
     }
     return true;
@@ -37823,7 +37904,7 @@ struct Node5de
 
 struct Player5de
 {
-    Node5de* FUN_005a6260();
+    Node5de* PlayerCharacter_GetCasinoDataList();
 };
 
 struct Info5de
@@ -37854,7 +37935,7 @@ bool Cmd_SetCasinoWinningsLevel_Execute(const ScriptParameter* paramInfo, const 
     Script_ParseParameters(paramInfo, scriptData, &opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList, &pForm, &iLevel);
     if (pForm)
     {
-        Node5de* pNode = DAT_011dea3c->FUN_005a6260();
+        Node5de* pNode = DAT_011dea3c->PlayerCharacter_GetCasinoDataList();
         while (pNode && *pNode->FUN_006815c0())
         {
             if ((*pNode->FUN_006815c0())->uiKey == pForm->FUN_0084e3a0() && iLevel >= 0 && iLevel <= 4)
@@ -37876,14 +37957,14 @@ bool Cmd_SetCasinoWinningsLevel_Execute(const ScriptParameter* paramInfo, const 
 
 namespace fnv_005dee30 {
 void __cdecl Script_ParseParameters(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7, void** out);
-void __cdecl FUN_005f64f0(void* p);
+void __cdecl TESChallengeManager_UnlockChallenge(void* p);
 // @fnv 0x005dee30
 // src: EXE 0x005dee30
 bool __cdecl Cmd_UnlockChallenge_Execute(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7, void* a8)
 {
     void* p = 0;
     Script_ParseParameters(a1, a2, a8, a3, a4, a5, a6, &p);
-    if (p) { FUN_005f64f0(p); } else return false;
+    if (p) { TESChallengeManager_UnlockChallenge(p); } else return false;
     return true;
 }
 }  // namespace fnv_005dee30
@@ -37933,7 +38014,7 @@ namespace fnv_005dfd30 {
 
 
 struct ScriptResult {
-    void FUN_008c1ac0(bool positive);
+    void Actor_SetActorRefEssential(bool positive);
 };
 
 extern bool __cdecl Script_ParseParameters(
@@ -37945,7 +38026,7 @@ extern ScriptResult* __cdecl FUN_00ec43fb(
     TESForm* form, int zero, const void* a,
     const void* b, int flags);
 
-extern void __cdecl FUN_00703c00(const void* value);
+extern void __cdecl Interface_PrintLine(const void* value);
 extern const int DAT_011841cc;
 extern const int DAT_011846d4;
 extern const int DAT_0103d31c;
@@ -37963,9 +38044,9 @@ bool __cdecl Cmd_SetActorRefEssential_Execute(
 
     if (form->IsActor()) {
         ScriptResult* result = FUN_00ec43fb(form, 0, &DAT_011841cc, &DAT_011846d4, 0);
-        result->FUN_008c1ac0(outcome > 0);
+        result->Actor_SetActorRefEssential(outcome > 0);
     } else if (__tls_index[0x268]) {
-        FUN_00703c00(&DAT_0103d31c);
+        Interface_PrintLine(&DAT_0103d31c);
     }
 
     return true;
@@ -38067,17 +38148,17 @@ struct S_00703c80_Ctx {
 };
 struct S_00703c80_Mgr {
     bool FUN_004a4020();
-    void FUN_0071d0a0(const char* e, int* b);
+    void Console_Print(const char* e, int* b);
 };
 S_00703c80_Mgr* __cdecl FUN_0071b160(int which);
 
 // @fnv 0x00703c80
 void __cdecl FUN_00703c80(BSStringT<char> a, int b)
 {
-    if (FUN_004b7210() && ((S_00703c80_Ctx*)FUN_004b7210())->FUN_009373f0()) {
+    if (InterfaceManager_GetSingleton() && ((S_00703c80_Ctx*)InterfaceManager_GetSingleton())->FUN_009373f0()) {
         if ((FUN_0071b160(0) && FUN_0071b160(1)->FUN_004a4020()) || FUN_005b6f70()) {
             int* p = &b;
-            FUN_0071b160(1)->FUN_0071d0a0(a.String(), p);
+            FUN_0071b160(1)->Console_Print(a.String(), p);
             p = 0;
         }
     }
@@ -38373,9 +38454,9 @@ struct Process8d3f {
 
 struct Cell8d3f {
     void* FUN_0045cd60();
-    void FUN_008854b0(float);
+    void HighProcess_SetActorHeight(float);
 };
-struct Queue8d3f { void FUN_0087b5c0(Target8d3f*); };
+struct Queue8d3f { void TaskQueueInterface_QueueCharacterReset3D(Target8d3f*); };
 bool __cdecl FUN_008c7aa0();
 Queue8d3f* __cdecl FUN_004537b0();
 FOPipboyManager* __cdecl FUN_00705990();
@@ -38410,23 +38491,24 @@ struct Target8d3f {
     Cell8d3f* cell;
     void* FUN_0043fcd0();
     Process8d3f* FUN_008d8520();
-    void FUN_008d3fa0();
+    void Hook_Update3D_Execute();
 };
 // @fnv 0x008d3fa0
-void Target8d3f::FUN_008d3fa0() {
+// src: COMMUNITY 0x008d3fa0
+void Target8d3f::Hook_Update3D_Execute() {
     void* object = FUN_0043fcd0();
     if (object) {
         if (FUN_008c7aa0()) {
-            FUN_004537b0()->FUN_0087b5c0(this);
+            FUN_004537b0()->TaskQueueInterface_QueueCharacterReset3D(this);
         } else {
-            if (this == DAT_011dea3c) FUN_00705990()->FUN_007fadf0();
+            if (this == DAT_011dea3c) FUN_00705990()->ResetNifs();
             FUN_008d8520()->Clear(1);
             FUN_008d8520()->Clear(2);
             FUN_008d8520()->Clear(4);
             FUN_008d8520()->Clear(16);
             FUN_008d8520()->Reset(this);
             if (this == DAT_011dea3c) FUN_00705990()->OnMenuOpen();
-            if (!cell->FUN_0045cd60()) cell->FUN_008854b0(0.0f);
+            if (!cell->FUN_0045cd60()) cell->HighProcess_SetActorHeight(0.0f);
         }
     }
 }
@@ -39453,23 +39535,23 @@ void __cdecl FUN_0040fbe0(const char*,...);
 
 class ScriptProjectile : public Projectile {
 public:
-    ItemListContainer* FUN_008d8b80();
+    ItemListContainer* MiddleHighProcess_GetCurrentFurniture();
     void FUN_009bc8f0();
 };
 void __cdecl FUN_007f6a20(Projectile*);
 // @fnv 0x009bc8f0
 void ScriptProjectile::FUN_009bc8f0() {
- if(*((SettingAccess*)&g_011f20b8)->FUN_00408d60() && reinterpret_cast<TargetList*>(&kImpacts)->FUN_008256d0() && FUN_008d8b80()) {
-  PartLookup* part = FUN_004b5260(FUN_008d8b80()->name.String());
+ if(*((SettingAccess*)&g_011f20b8)->FUN_00408d60() && reinterpret_cast<TargetList*>(&kImpacts)->FUN_008256d0() && MiddleHighProcess_GetCurrentFurniture()) {
+  PartLookup* part = FUN_004b5260(MiddleHighProcess_GetCurrentFurniture()->name.String());
   NamedPart* reference = part ? part->FUN_0044ddc0() : 0;
-  TargetRef* lookup = FUN_008d8b80()->ref;
+  TargetRef* lookup = MiddleHighProcess_GetCurrentFurniture()->ref;
   FUN_0040fbe0("Targetted VATS Projectile Result: %s","FAILURE");
   FUN_0040fbe0("Target Ref ID:	%s %08X",lookup->FUN_00474cb0() ? lookup->GetEditorName() : lookup->FUN_0055d520(),lookup->FUN_0084e3a0());
   FUN_0040fbe0("Target Part:	%s",reference ? reference->FUN_00413f40().FUN_0043b1b0() : "");
  }
  if(FUN_00401170()==62) FUN_007f6a20(this);
  if(((HandlerAccess*)g_dataHandler)->FUN_00469860(FUN_0084e3a0())) MarkForDeletion(true);
- else FUN_00574400();
+ else TESObjectREFR_Disable();
 }
 
 namespace fnv_005b6b50 {
@@ -39658,14 +39740,14 @@ public:
 class StringFormattingUtility
 {
 public:
-    void FUN_00802880();
-    void FUN_008029c0();
+    void DebugTextManager_OutputDebugPageNames();
+    void DebugTextManager_SetScreenDebugPage();
 };
 
 int __cdecl strcat_s(char*, unsigned int, char const*);
-char* __cdecl FUN_004dc110(void);
-StringFormattingUtility* __stdcall FUN_005ba8d0(char*);
-StringFormattingUtility* __stdcall FUN_005ba8d0(char*, unsigned int);
+char* __cdecl BSUtilities_GetPersonalPath(void);
+StringFormattingUtility* __stdcall DebugTextManager_GetSingleton(char*);
+StringFormattingUtility* __stdcall DebugTextManager_GetSingleton(char*, unsigned int);
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 
 extern char _DebugLog;
@@ -39702,12 +39784,12 @@ bool __cdecl Cmd_SetDebugText_Execute(
     }
 
     if (debugText[0] == 0) {
-        FUN_005ba8d0(&_DebugLog)->FUN_00802880();
+        DebugTextManager_GetSingleton(&_DebugLog)->DebugTextManager_OutputDebugPageNames();
     } else {
-        FUN_005ba8d0(debugText, value)->FUN_008029c0();
+        DebugTextManager_GetSingleton(debugText, value)->DebugTextManager_SetScreenDebugPage();
 
         TaskQueueInterface::CopyStringToBuffer(
-            customIni, 0x104, FUN_004dc110());
+            customIni, 0x104, BSUtilities_GetPersonalPath());
         strcat_s(customIni, 0x104, str_01039c8c);
 
         WritePrivateProfileStringA(
@@ -40167,7 +40249,7 @@ void __fastcall _ref_00ec408c(unsigned int);
 
 struct FUN_00852080_StandIn
 {
-    void FUN_00852080(bool);
+    void BGSSaveLoadManager_CopySaveGames(bool);
 };
 
 extern void* DAT_011de134;
@@ -40203,9 +40285,9 @@ bool __cdecl Cmd_CopySaves_Execute(
     if (DAT_011de134)
     {
         if (_stricmp(buffer, "ms") == 0)
-            reinterpret_cast<FUN_00852080_StandIn*>(DAT_011de134)->FUN_00852080(true);
+            reinterpret_cast<FUN_00852080_StandIn*>(DAT_011de134)->BGSSaveLoadManager_CopySaveGames(true);
         else
-            reinterpret_cast<FUN_00852080_StandIn*>(DAT_011de134)->FUN_00852080(false);
+            reinterpret_cast<FUN_00852080_StandIn*>(DAT_011de134)->BGSSaveLoadManager_CopySaveGames(false);
     }
 
     return true;
@@ -40334,7 +40416,7 @@ namespace fnv_005cf040 {
 extern TESObjectREFR* _g_thePlayer;
 
 void __cdecl _FNV_Warning(const char*);
-void __cdecl FUN_007c0a40(TESCasino*, int, int, int, int);
+void __cdecl SlotMachineMenu_Create(TESCasino*, int, int, int, int);
 
 // @fnv 0x005cf040
 // src: EXE 0x005cf040
@@ -40370,7 +40452,7 @@ bool Cmd_Shared_Execute_5cf040(const ScriptParameter* apParameters,
         }
         else if (pCasinoObjectCur)
         {
-            FUN_007c0a40(pCasinoObjectCur, iFirstCasinoValue, iOtherCasinoValue, iMinWinnings, 0);
+            SlotMachineMenu_Create(pCasinoObjectCur, iFirstCasinoValue, iOtherCasinoValue, iMinWinnings, 0);
         }
         else
         {
@@ -40385,7 +40467,7 @@ bool Cmd_Shared_Execute_5cf040(const ScriptParameter* apParameters,
 namespace fnv_005cf0f0 {
 extern TESObjectREFR* _g_thePlayer;
 void __cdecl _FNV_Warning(const char*);
-void __cdecl FUN_00733630(unsigned int, int, int, int, int);
+void __cdecl BlackJackMenu_Create(unsigned int, int, int, int, int);
 
 // @fnv 0x005cf0f0
 // src: EXE 0x005cf0f0
@@ -40427,7 +40509,7 @@ bool __cdecl Cmd_Shared_Execute_5cf0f0(
         }
         else if (pCasinoObjectCur)
         {
-            FUN_00733630(pCasinoObjectCur, iFirstCasinoValue, iOtherCasinoValue, 0, 0);
+            BlackJackMenu_Create(pCasinoObjectCur, iFirstCasinoValue, iOtherCasinoValue, 0, 0);
         }
         else
         {
@@ -40528,7 +40610,7 @@ extern GlobalObject_0040c150 g_011d2a0c;
 
 
 extern bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
-extern void FUN_00704af0();
+extern void Interface_UpdateInventory();
 extern int DAT_011846d4, DAT_011841cc;
 extern void* __cdecl FNV_DynamicCast(void*, int, const void*, const void*, int);
 extern void FNV_Warning(const char*, ...);
@@ -40594,7 +40676,7 @@ bool Cmd_EquipItem_Execute(
                         QueueUIMessage(str.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds", 0, 2.0f, 0);
                         reinterpret_cast<ScriptPlayerActions*>(_g_thePlayer)->FUN_00950030();
                         reinterpret_cast<BaseProcess*>(_g_thePlayer->GetCurrentProcess())->UpdateActorAppearance(1, 0, 0);
-                        FUN_00704af0();
+                        Interface_UpdateInventory();
                     }
                 }
             }
@@ -40618,17 +40700,17 @@ bool Cmd_SetRestrained_Execute(const ScriptParameter* parameters, const char* sc
         Actor* actor = dynamic_cast<Actor*>(thisObject);
         if (actor) {
             if (formID) {
-                ((ScriptActorActions*)actor)->FUN_008ace50(true);
+                ((ScriptActorActions*)actor)->Actor_SetRestrained(true);
                 ((ScriptActorActions*)actor)->FUN_0087faa0();
             } else {
-                ((ScriptActorActions*)actor)->FUN_008ace50(false);
+                ((ScriptActorActions*)actor)->Actor_SetRestrained(false);
             }
         }
     }
     return true;
 }
 
-float __fastcall FUN_005d10f0(char const*);
+float __fastcall bhkCharacterController_GetFallStartHeight(char const*);
 
 // @fnv 0x005d10a0
 // src: EXE 0x005d10a0
@@ -40637,7 +40719,7 @@ bool Cmd_ResetFallDamageTimer_Execute(const ScriptParameter* a, const char* b, T
     float result;
     Actor* actor = dynamic_cast<Actor*>(c);
     if (actor && actor->GetPhysicsCharacterController())
-        result = actor->GetPhysicsCharacterController()->FUN_005d10f0();
+        result = actor->GetPhysicsCharacterController()->bhkCharacterController_GetFallStartHeight();
     return true;
 }
 
@@ -40648,9 +40730,9 @@ struct ExecutionContext;
 struct EventVars;
 struct Reference;
 struct GameFlags {
-    void FUN_005d14d0(bool value);
-    void FUN_005d1590(bool value);
-    void FUN_005d1530(bool value);
+    void PlayerCharacter_SetHasScriptNotDisabledFastTravel(bool value);
+    void PlayerCharacter_SetCanWait(bool value);
+    void PlayerCharacter_SetDisableFastTravelResetsOnCellChange(bool value);
 };
 extern GameFlags* DAT_011dea3c;
 bool __cdecl Script_ParseParameters(
@@ -40683,20 +40765,20 @@ bool __cdecl Cmd_EnableFastTravel_Execute(
                      script, variables, &secondFlag, &thirdFlag, &firstFlag))
         return false;
     if (secondFlag == 0) {
-        DAT_011dea3c->FUN_005d14d0(false);
+        DAT_011dea3c->PlayerCharacter_SetHasScriptNotDisabledFastTravel(false);
         if (thirdFlag == 0)
-            DAT_011dea3c->FUN_005d1590(false);
+            DAT_011dea3c->PlayerCharacter_SetCanWait(false);
         else
-            DAT_011dea3c->FUN_005d1590(true);
+            DAT_011dea3c->PlayerCharacter_SetCanWait(true);
         if (firstFlag == 1)
-            DAT_011dea3c->FUN_005d1530(true);
+            DAT_011dea3c->PlayerCharacter_SetDisableFastTravelResetsOnCellChange(true);
     } else {
-        DAT_011dea3c->FUN_005d14d0(true);
-        DAT_011dea3c->FUN_005d1590(true);
+        DAT_011dea3c->PlayerCharacter_SetHasScriptNotDisabledFastTravel(true);
+        DAT_011dea3c->PlayerCharacter_SetCanWait(true);
         if (firstFlag == 1)
-            DAT_011dea3c->FUN_005d1530(true);
+            DAT_011dea3c->PlayerCharacter_SetDisableFastTravelResetsOnCellChange(true);
         else
-            DAT_011dea3c->FUN_005d1530(false);
+            DAT_011dea3c->PlayerCharacter_SetDisableFastTravelResetsOnCellChange(false);
     }
     return true;
 }
@@ -40992,7 +41074,7 @@ bool Cmd_SetDisposition_Execute(const ScriptParameter* scriptParameter,
 
 extern "C" __declspec(thread) unsigned char __tls_array[0x269];
 
-bool __cdecl FUN_0097abd0(const char*, float);
+bool __cdecl CombatAction_SetCombatActionCost(const char*, float);
 void __cdecl _DebugLog(const char*, ...);
 
 // @fnv 0x005d5780
@@ -41015,7 +41097,7 @@ bool __cdecl Cmd_SetCombatActionCost_Execute(const ScriptParameter* apParameters
                      &pactionName, &fcost))
         return false;
 
-    bsuccess = FUN_0097abd0(pactionName, fcost);
+    bsuccess = CombatAction_SetCombatActionCost(pactionName, fcost);
 
     if (__tls_array[0x268])
     {
@@ -41138,7 +41220,7 @@ bool __cdecl Cmd_PipboyRadio_Execute(
 }
 }  // namespace fnv_005d7fb0
 
-void __cdecl FUN_004de8e0(unsigned int, float, int, float, float);
+void __cdecl ScreenCustomSplatter_Activate(unsigned int, float, int, float, float);
 
 // @fnv 0x005d87a0
 // src: EXE 0x005d87a0
@@ -41173,7 +41255,7 @@ bool Cmd_TriggerScreenSplatter_Execute(
         return false;
     }
 
-    FUN_004de8e0(fBlue, fGreen, 0, m_iPayloadInteger, fRed);
+    ScreenCustomSplatter_Activate(fBlue, fGreen, 0, m_iPayloadInteger, fRed);
     return true;
 }
 
@@ -41407,11 +41489,11 @@ bool FUN_005de840(const ScriptParameter* apParameters,
 class ScriptParameter;
 
 struct PlayerMethods {
-    void FUN_00969fa0();
+    void PlayerCharacter_CanPassTime();
 };
 extern TESObjectREFR* _g_thePlayer;
 extern bool __cdecl Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, int*, int*);
-extern void __cdecl FUN_007054f0(bool);
+extern void __cdecl Interface_CreateSleepMenu(bool);
 
 // @fnv 0x005e0090
 // src: EXE 0x005e0090
@@ -41431,9 +41513,9 @@ bool __cdecl Cmd_ShowSleepWaitMenu_Execute(const ScriptParameter* parameters,
         return false;
 
     if (mode == 1)
-        reinterpret_cast<PlayerMethods*>(_g_thePlayer)->FUN_00969fa0();
+        reinterpret_cast<PlayerMethods*>(_g_thePlayer)->PlayerCharacter_CanPassTime();
     else
-        FUN_007054f0(selected == 1);
+        Interface_CreateSleepMenu(selected == 1);
 
     return true;
 }
@@ -41648,8 +41730,8 @@ struct FX;
 
 struct EffSrc { Mat3* FUN_00461130(); };
 struct EffSrc2 { EffSrc* FUN_006629f0(); };
-struct Mgr2 { void FUN_00c5ae70(FX*); };
-struct Mgr1 { Mgr2* FUN_00454b30(); void FUN_005bb9b0(MyVec005bb9b0&); };
+struct Mgr2 { void BSPortalGraph_AddOccluder(FX*); };
+struct Mgr1 { Mgr2* FUN_00454b30(); void ShadowSceneNode_GetCameraPos(MyVec005bb9b0&); };
 Mgr1* __cdecl FUN_00450b80(int);
 struct FX;
 
@@ -41676,13 +41758,13 @@ bool __cdecl Cmd_AddOcclusionPlane_Execute(const ScriptParameter* params, const 
         if (_v.y <= 0.0) _v.y = 50.0f;
     }
     MyVec005bb9b0 _pos;
-    ((UnknownClass005bb9b0*)FUN_00450b80(0))->FUN_005bb9b0(_pos);
+    ((UnknownClass005bb9b0*)FUN_00450b80(0))->ShadowSceneNode_GetCameraPos(_pos);
     Mat3 mat4 = *((EffSrc2*)FUN_0045c670())->FUN_006629f0()->FUN_00461130();
     Mat3 rot;
     rot.FUN_004a0c90(1.5707963f);
     mat4 = mat4.FUN_0043f8d0(rot);
     NiPointer<FX> sp(new FX(_pos, _v, mat4));
-    FUN_00450b80(0)->FUN_00454b30()->FUN_00c5ae70(sp);
+    FUN_00450b80(0)->FUN_00454b30()->BSPortalGraph_AddOccluder(sp);
     return true;
 }
 }  // namespace fnv_005bb9e0
@@ -42544,17 +42626,17 @@ struct GameState;
 struct StateComponent;
 extern bool __cdecl Script_ParseParameters(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, char*);
 extern void __cdecl FUN_00b4f450(int);
-extern void __cdecl FUN_005bf7f0(int);
+extern void __cdecl BSShaderManager_SetDebugMode(int);
 extern int __cdecl FUN_0044a670(char*);
 extern int __cdecl FUN_004dc060(int);
-extern bool __cdecl FUN_005bf7b0();
-extern void __cdecl FUN_005bf770(bool);
-extern int __cdecl FUN_004bc3e0();
-extern void __cdecl FUN_004bc3d0(int);
+extern bool __cdecl BSShaderManager_GetShadows();
+extern void __cdecl BSShaderManager_EnableShadows(bool);
+extern int __cdecl BSShaderManager_GetEnabledPasses();
+extern void __cdecl BSShaderManager_SetEnabledPasses(int);
 extern int __cdecl FUN_004a8f20(int, int);
 extern int __cdecl FUN_00647b70(int,int);
-extern void __cdecl FUN_00b557d0();
-extern void __cdecl FUN_005bf840(bool);
+extern void __cdecl BSShaderManager_ReloadShaders();
+extern void __cdecl Renderer_SetDoCanopyShadowPass(bool);
 extern void __cdecl FUN_00451570(int);
 extern int __cdecl FUN_00ec7ec0(const char*, const char*, unsigned int);
 extern int __cdecl FUN_00eca6d3(const char*);
@@ -42572,7 +42654,7 @@ extern const char DAT_0103a460[];
 extern const char DAT_0103a45c[];
 extern const char DAT_0103a454[];
 struct SelectedEntry {
-    int FUN_005bf820();
+    int ShadowSceneLight_GetShadowScene();
     bool FUN_008d8220();
     void FUN_005bf800(bool);
 };
@@ -42581,7 +42663,7 @@ struct FormIterator {
     SelectedEntry* FUN_00b5b010();
 };
 struct StateComponent {
-    void FUN_004baf10();
+    void RecreateCanopyShadowMaskTexture();
 };
 struct GameState {
     StateComponent* FUN_0044ddc0();
@@ -42604,7 +42686,7 @@ bool __cdecl Cmd_SetLightingPasses_Execute(
     if (command && command[0] == '1') {
         flags |= 1;
         FUN_00b4f450(0);
-        FUN_005bf7f0(0);
+        BSShaderManager_SetDebugMode(0);
         if (FUN_0044a670(extracted) == 1) {
             flags |= 2;
             flags |= 4;
@@ -42613,14 +42695,14 @@ bool __cdecl Cmd_SetLightingPasses_Execute(
         }
     } else if (command && command[0] == '2') {
         flags = 1;
-        FUN_005bf7f0(1);
+        BSShaderManager_SetDebugMode(1);
     } else if (command && command[0] == '3') {
         flags = 1;
-        FUN_005bf7f0(2);
+        BSShaderManager_SetDebugMode(2);
     } else if (command && command[0] == '4') {
         flags |= 1;
         FUN_00b4f450(3);
-        FUN_005bf7f0(0);
+        BSShaderManager_SetDebugMode(0);
         if (FUN_0044a670(extracted) == 1) {
             flags |= 2;
             flags |= 4;
@@ -42630,15 +42712,15 @@ bool __cdecl Cmd_SetLightingPasses_Execute(
     } else if (command && command[0] == '5') {
     } else if (FUN_00ec7ec0(DAT_0103a478, command, 3) == 0) {
         flags = 1;
-        FUN_005bf7f0(4);
+        BSShaderManager_SetDebugMode(4);
     } else if (FUN_00ec7ec0(DAT_0103a470, command, 7) == 0) {
         flags = 1;
-        FUN_005bf7f0(5);
+        BSShaderManager_SetDebugMode(5);
     } else if (FUN_00ec7ec0(DAT_0103a46c, command, 2) == 0) {
         if (command[2] == '\0') {
-            bool enabled = FUN_005bf7b0();
-            FUN_005bf770(!enabled);
-            flags = FUN_004bc3e0();
+            bool enabled = BSShaderManager_GetShadows();
+            BSShaderManager_EnableShadows(!enabled);
+            flags = BSShaderManager_GetEnabledPasses();
             if ((flags & 0x80) == 0)
                 flags |= 0x80;
             else
@@ -42648,28 +42730,28 @@ bool __cdecl Cmd_SetLightingPasses_Execute(
             if (state == 1 || state == 2)
                 state = 3;
             DAT_011f91b0 = FUN_00647b70(0, FUN_004a8f20(3, state));
-            FUN_00b557d0();
-            flags = FUN_004bc3e0();
+            BSShaderManager_ReloadShaders();
+            flags = BSShaderManager_GetEnabledPasses();
             flags |= 0x80;
         }
     } else if (FUN_00ec7ec0(DAT_0103a468, command, 2) == 0) {
         unsigned char priorToggle = DAT_011f9441;
         DAT_011f9441 = priorToggle ? 0 : 1;
-        flags = FUN_004bc3e0();
+        flags = BSShaderManager_GetEnabledPasses();
     } else if (FUN_00ec7ec0(DAT_0103a464, command, 2) == 0) {
-        bool isEnabled = (FUN_004bc3e0() & 0x20) > 0;
+        bool isEnabled = (BSShaderManager_GetEnabledPasses() & 0x20) > 0;
         if (!isEnabled) {
-            FUN_005bf840(1);
-            ((GameState*)DAT_011dea10)->FUN_0044ddc0()->FUN_004baf10();
-            unsigned short activeFlags = FUN_004bc3e0();
+            Renderer_SetDoCanopyShadowPass(1);
+            ((GameState*)DAT_011dea10)->FUN_0044ddc0()->RecreateCanopyShadowMaskTexture();
+            unsigned short activeFlags = BSShaderManager_GetEnabledPasses();
             activeFlags |= 0x20;
-            FUN_004bc3d0(activeFlags);
+            BSShaderManager_SetEnabledPasses(activeFlags);
         } else {
-            FUN_005bf840(0);
+            Renderer_SetDoCanopyShadowPass(0);
             FUN_00451570(0);
-            unsigned short activeFlags = FUN_004bc3e0();
+            unsigned short activeFlags = BSShaderManager_GetEnabledPasses();
             activeFlags &= ~0x20;
-            FUN_004bc3d0(activeFlags);
+            BSShaderManager_SetEnabledPasses(activeFlags);
         }
         return true;
     } else if (command[0] == 't') {
@@ -42680,7 +42762,7 @@ bool __cdecl Cmd_SetLightingPasses_Execute(
             FormIterator* iterator = (FormIterator*)FUN_00450b80(0);
             SelectedEntry* current = iterator->FUN_00b5afc0();
             while (current) {
-                if (current->FUN_005bf820() == ((GetRefValueFn*)(*(void***)reference))[116](reference))
+                if (current->ShadowSceneLight_GetShadowScene() == ((GetRefValueFn*)(*(void***)reference))[116](reference))
                     current->FUN_005bf800(!current->FUN_008d8220());
                 current = iterator->FUN_00b5b010();
             }
@@ -42688,7 +42770,7 @@ bool __cdecl Cmd_SetLightingPasses_Execute(
         return true;
     } else if (FUN_00ec7ec0(DAT_0103a45c, command, 3) == 0) {
         DAT_011ad80d = DAT_011ad80d ? 0 : 1;
-        flags = FUN_004bc3e0();
+        flags = BSShaderManager_GetEnabledPasses();
         flags |= 0x100;
     } else if (FUN_00ec7ec0(DAT_0103a454, command, 5) == 0) {
         return true;
@@ -42707,7 +42789,7 @@ bool __cdecl Cmd_SetLightingPasses_Execute(
         if (!command || command[0] != '0')
             flags |= 0x20;
     }
-    FUN_004bc3d0(flags);
+    BSShaderManager_SetEnabledPasses(flags);
     return true;
 }
 
@@ -42769,7 +42851,7 @@ bool FUN_005da570(const ScriptParameter* paramInfo, const char* scriptData, TESO
         }
         else
         {
-            FUN_005b5e40("SCRIPTS: FireWeapon in script '%s' called with non-weapon parameter.", ((ScriptV5da*)scriptObj)->GetEditorID());
+            Warning_005b5e40("SCRIPTS: FireWeapon in script '%s' called with non-weapon parameter.", ((ScriptV5da*)scriptObj)->GetEditorID());
         }
     }
     return true;
@@ -42789,13 +42871,13 @@ extern "C" DbgCheck* DAT_011c3f2c;
 }
 extern DbgLog DAT_011c3ea4;
 
-bool __fastcall FUN_00572c80(TESObjectREFR* ref);
+bool __fastcall TESObjectREFR_CanBeMoved(TESObjectREFR* ref);
 int __fastcall FUN_0084e3a0(void* obj);
-int FUN_00703c00(const char* fmt, int arg);
-int FUN_005b5e40(const char* fmt, int a, int b, int c, int d);
+int Interface_PrintLine(const char* fmt, int arg);
+int Warning_005b5e40(const char* fmt, int a, int b, int c, int d);
 int FUN_004537b0();
 int FUN_0087a8b0(int v, int id, TESObjectREFR* r, int b, double f);
-int FUN_005c0b10(TESObjectREFR* r, unsigned char b, float f);
+int Script_SetAngleBase(TESObjectREFR* r, unsigned char b, float f);
 
 // @fnv 0x005c09c0
 // src: EXE 0x005c09c0
@@ -42807,13 +42889,13 @@ bool Cmd_SetAngle_Execute(const ScriptParameter* p1, const char* p2, TESObjectRE
     if (!ExtractArgs(p1, p2, &a8, a3, a4, a5, a6, &b, &f))
         return false;
 
-    if (a3 != 0 && !(FUN_00572c80)(a3)) {
+    if (a3 != 0 && !(TESObjectREFR_CanBeMoved)(a3)) {
         if (tlsFlag268 != 0) {
-            FUN_00703c00("%s cannot be moved.",
+            Interface_PrintLine("%s cannot be moved.",
                          ((int (__thiscall*)(TESObjectREFR*))(*(void***)a3)[0x130 / 4])(a3));
         }
         if (!FUN_005c09c0_ns::DAT_011c3f2c->FUN_00469860((FUN_0084e3a0)(a5))) {
-            FUN_005b5e40("SCRIPTS: Script '%s' (%08X) is attempting to move reference '%s' (%08X), but it cannot be moved",
+            Warning_005b5e40("SCRIPTS: Script '%s' (%08X) is attempting to move reference '%s' (%08X), but it cannot be moved",
                          ((int (__thiscall*)(Script*))(*(void***)a5)[0x130 / 4])(a5),
                          (FUN_0084e3a0)(a5),
                          ((int (__thiscall*)(TESObjectREFR*))(*(void***)a3)[0x130 / 4])(a3),
@@ -42825,7 +42907,7 @@ bool Cmd_SetAngle_Execute(const ScriptParameter* p1, const char* p2, TESObjectRE
     if (*DAT_011c3ea4.FUN_0043d4d0() > 1) {
         (FUN_0087a8b0)(FUN_004537b0(), 0x1009, a3, b, f);
     } else {
-        (FUN_005c0b10)(a3, (unsigned char)b, f);
+        (Script_SetAngleBase)(a3, (unsigned char)b, f);
     }
     return true;
 }
@@ -42997,10 +43079,10 @@ bool Cmd_ForceFlee_Execute(const ScriptParameter* paramInfo, const char* scriptD
                     PackageLocationAccess* pkPackageTarget = reinterpret_cast<PackageLocationAccess*>(pkPackage->FUN_0055b980());
                     if (pkCurrentObject) {
                         pkPackageTarget->FUN_0067f3c0(pkCurrentObject);
-                        pkPackage->FUN_005d0b80(0);
+                        pkPackage->SetEvaluatePoint(0);
                     } else if (pkSecond) {
                         pkPackageTarget->FUN_0067f410(pkSecond);
-                        pkPackage->FUN_005d0b80(0);
+                        pkPackage->SetEvaluatePoint(0);
                     }
                 }
             } else {
@@ -43523,7 +43605,7 @@ struct ClassChangeRefAccess {
     TESBoundObject* __thiscall FUN_007af430();
 };
 struct ClassChangeNPCAccess {
-    void __thiscall FUN_00601c70(unsigned int value);
+    void __thiscall SetClass(unsigned int value);
     void __thiscall FUN_00603be0(int flags);
 };
 
@@ -43539,7 +43621,7 @@ bool __cdecl Cmd_SetClass_Execute(const ScriptParameter* apParameters, const cha
         if (pActor && uiValue) {
             TESNPC* pNPC = dynamic_cast<TESNPC*>(((ClassChangeRefAccess*)pActor)->FUN_007af430());
             if (pNPC) {
-                ((ClassChangeNPCAccess*)pNPC)->FUN_00601c70(uiValue);
+                ((ClassChangeNPCAccess*)pNPC)->SetClass(uiValue);
                 ((ClassChangeNPCAccess*)pNPC)->FUN_00603be0(0);
             }
         }
@@ -43550,7 +43632,7 @@ bool __cdecl Cmd_SetClass_Execute(const ScriptParameter* apParameters, const cha
 class ActorSV;
 class PackageSV {
 public:
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
     void FUN_006777b0(TESObjectREFR*);
     void FUN_00674e00(bool);
 };
@@ -44014,7 +44096,7 @@ bool Cmd_AddScriptPackage_Execute(const ScriptParameter* params, const char* dat
         actor->GetProcess()->SetPackageState(0);
         FUN_005ac750(package, actor->FUN_005d43c0(), 0x200);
         actor->GetProcess()->SetPackage(actor, package);
-        if (package->FUN_009611e0() == -1)
+        if (package->NiAVObject_GetParent() == -1)
             package->FUN_006777b0(actor->FUN_00569b80());
         actor->FUN_0056ae10(actor->FUN_00575d70(), actor->FUN_008d6f30(),
             static_cast<const TESObjectREFR*>(actor)->GetPos(), actor->FUN_00430830().z);
@@ -44054,7 +44136,7 @@ bool Cmd_SendTrespassAlarm_Execute(const ScriptParameter* paramInfo, const char*
 
 class ScriptReferenceSetterView {
 public:
-    void FUN_0056a9b0(int value);
+    void TESObjectREFR_SetMerchantContainer(int value);
 };
 
 
@@ -44067,7 +44149,7 @@ bool __cdecl Cmd_SetMerchantContainer_Execute(const ScriptParameter* apParameter
     {
         return false;
     }
-    ((ScriptReferenceSetterView*)apRefObject)->FUN_0056a9b0(value);
+    ((ScriptReferenceSetterView*)apRefObject)->TESObjectREFR_SetMerchantContainer(value);
     return true;
 }
 
@@ -44094,7 +44176,7 @@ public:
 };
 
 bool Script_ParseParameters(int a0, int a1, int a2, int a3, int a4, int a5, int a6, unsigned short* out);
-void FUN_00703c00(const char* fmt, unsigned int v);
+void Interface_PrintLine(const char* fmt, unsigned int v);
 
 // @fnv 0x005d0d30
 bool FUN_005d0d30(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7) {
@@ -44109,7 +44191,7 @@ bool FUN_005d0d30(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7
             ((BarterSub_b10016*)((char*)obj2 + 0x30))->FUN_0047e240((unsigned short)wordSlot);
         }
         if (g_tlsBlock.unk268 != 0) {
-            FUN_00703c00(" Actor's base barter gold is  %d ",
+            Interface_PrintLine(" Actor's base barter gold is  %d ",
                 ((BarterSub_b10016*)((char*)obj2 + 0x30))->FUN_0047d3f0());
         }
     }
@@ -44165,7 +44247,7 @@ struct UnlockRefAccess {
 };
 struct UnlockBaseAccess { TESForm* FUN_007af430(); };
 struct UnlockNameAccess { const char* FUN_0055d520(); };
-struct UnlockTerminalAccess { void FUN_00501b40(Script*); };
+struct UnlockTerminalAccess { void BGSTerminal_SetUnlocked(Script*); };
 void __fastcall FUN_005789b0(void*);
 void __cdecl FUN_00501930(Script*, bool);
 void DebugLog(const char*, ...);
@@ -44192,7 +44274,7 @@ bool Cmd_UnLock_Execute(const ScriptParameter* apParameters, const char* apCompi
         apRefObject->SetAltered(true);
     } else if (((UnlockBaseAccess*)apRefObject)->FUN_007af430()->GetFormType() == 0x17) {
         UnlockTerminalAccess* pNextTerm = (UnlockTerminalAccess*)((UnlockBaseAccess*)apRefObject)->FUN_007af430();
-        pNextTerm->FUN_00501b40((Script*)apRefObject);
+        pNextTerm->BGSTerminal_SetUnlocked((Script*)apRefObject);
         FUN_00501930((Script*)apRefObject, false);
     }
     if (bDebugLogEnabled)
@@ -44436,7 +44518,7 @@ public:
 };
 
 extern void* DAT_011dea3c;
-int __cdecl FUN_005d9660(void);
+int __cdecl NiStencilProperty_GetType(void);
 
 // @fnv 0x005d95d0
 // src: EXE 0x005d95d0
@@ -44469,7 +44551,7 @@ bool __cdecl Cmd_SetPlayerTagSkill_Execute(
 
     if (ActorValue::IsSkill(eskill) &&
         itagindex >= 0 &&
-        itagindex < FUN_005d9660())
+        itagindex < NiStencilProperty_GetType())
     {
         ((TagSkillPlayerAccess*)DAT_011dea3c)->FUN_00884350()->FUN_005f6e80(itagindex, eskill);
     }
@@ -45074,7 +45156,7 @@ bool Cmd_RewardKarma_Execute(const ::ScriptParameter* a, const char* b, ::TESObj
 bool __cdecl Cmd_QuitGame_Execute()
 {
     DebugLog("Bye.");
-    reinterpret_cast<FUN_005b6cb0_Class*>(g_osGlobals)->FUN_005b6cb0();
+    reinterpret_cast<FUN_005b6cb0_Class*>(g_osGlobals)->kExitGameViaQQQRetnAddr();
     return true;
 }
 
@@ -45491,7 +45573,7 @@ using ::Actor;
 
 struct CC_00931f80
 {
-    void FUN_00c708a0(float);
+    void bhkCharacterController_SetSize(float);
 };
 
 // @fnv 0x005bddb0
@@ -45507,7 +45589,7 @@ bool __cdecl Cmd_SetSize_Execute(const ScriptParameter* pParams, const char* pNa
     {
         CC_00931f80* pCC = (CC_00931f80*)pActor->GetPhysicsCharacterController();
         if (pCC)
-            pCC->FUN_00c708a0(fValue);
+            pCC->bhkCharacterController_SetSize(fValue);
     }
     return true;
 }
@@ -45934,7 +46016,8 @@ struct Mob_005c0740 { Ctl_005c0740* GetPhysicsCharacterController(); };
 
 
 // @fnv 0x005c0740
-extern "C" void __cdecl FUN_005c0740(::TESObjectREFR* apRef, char acAxis, float afValue)
+// src: COMMUNITY 0x005c0740
+extern "C" void __cdecl Script_SetPosBase(::TESObjectREFR* apRef, char acAxis, float afValue)
 {
     if (apRef)
     {

@@ -23,7 +23,7 @@ NiObject* NiSpecularProperty::MakeClone(CloningProcess& kCloning)
 
 extern unsigned int DAT_011f5ecc;
 
-unsigned int __cdecl FUN_00a7d330(unsigned int key);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int key);
 unsigned int __cdecl FUN_00a7d370(const char* name, unsigned int value);
 
 struct FUN_00a951f0_list
@@ -47,7 +47,7 @@ void __fastcall NiSpecularProperty_GetViewerStrings(NiSpecularProperty* property
                                                    FUN_00a951f0_list* list)
 {
     NiProperty_GetViewerStrings(property, unusedEDX, list);
-    unsigned int item = FUN_00a7d330(DAT_011f5ecc);
+    unsigned int item = NiViewerStrings_NiGetViewerString_Title(DAT_011f5ecc);
     unsigned int count = list->m_0a;
     if (count >= list->m_08)
         list->FUN_0096ad30(count + list->m_0e);

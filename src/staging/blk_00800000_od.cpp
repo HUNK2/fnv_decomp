@@ -171,11 +171,12 @@ void __thiscall FUN_00810640_class::FUN_00810640(int aiValue)
 
 struct FUN_008106b0_Class
 {
-    void FUN_008106b0(float value);
+    void bhkCharacterController_SetFallTime(float value);
 };
 
 // @fnv 0x008106b0
-void FUN_008106b0_Class::FUN_008106b0(float value)
+// src: COMMUNITY 0x008106b0
+void FUN_008106b0_Class::bhkCharacterController_SetFallTime(float value)
 {
     *(float*)((char*)this + 0x548) = value;
 }
@@ -224,11 +225,12 @@ void FUN_00802c50::Init()
 
 struct FUN_00800700_Class
 {
-    void __thiscall FUN_00800700();
+    void __thiscall FOVATSEffectManager_TriggerScan();
 };
 // If the byte at offset 0x2b4 is clear, sets it to 1 and initializes the floats at 0x2b8 to -1.0 and 0x2bc to 0.0.
 // @fnv 0x00800700
-void __thiscall FUN_00800700_Class::FUN_00800700()
+// src: COMMUNITY 0x00800700
+void __thiscall FUN_00800700_Class::FOVATSEffectManager_TriggerScan()
 {
     if (!((unsigned char*)this)[0x2b4])
     {
@@ -240,10 +242,11 @@ void __thiscall FUN_00800700_Class::FUN_00800700()
 
 struct FUN_00800740_Class
 {
-    void FUN_00800740(float f);
+    void FOVATSEffectManager_UpdateBurst(float f);
 };
 // @fnv 0x00800740
-void FUN_00800740_Class::FUN_00800740(float f)
+// src: COMMUNITY 0x00800740
+void FUN_00800740_Class::FOVATSEffectManager_UpdateBurst(float f)
 {
     float v = f - *(float*)((char*)this + 0x29c);
     float r;
@@ -464,10 +467,11 @@ struct FUN_00800e50_Class
     int f0c;
     int f10;
     void __thiscall FUN_00800d50(int a);
-    void __thiscall FUN_00800e50(int a);
+    void __thiscall FOVATSEffectManager_SetSelectedMultiTarget(int a);
 };
 // @fnv 0x00800e50
-void __thiscall FUN_00800e50_Class::FUN_00800e50(int aiValue)
+// src: COMMUNITY 0x00800e50
+void __thiscall FUN_00800e50_Class::FOVATSEffectManager_SetSelectedMultiTarget(int aiValue)
 {
     int result = -1;
     for (int i = 0; i < f0c; i++)
@@ -596,11 +600,12 @@ struct FUN_008006b0_Class
     unsigned char f284;
     float f288;
     float f28c;
-    void FUN_008006b0();
+    void FOVATSEffectManager_TriggerDistort();
 };
 // Sets f284 to 1, stores the current time from g_timeGlobal into f288, and resets f28c to 0.0f.
 // @fnv 0x008006b0
-void FUN_008006b0_Class::FUN_008006b0()
+// src: COMMUNITY 0x008006b0
+void FUN_008006b0_Class::FOVATSEffectManager_TriggerDistort()
 {
     f284 = 1;
     f288 = g_timeGlobal.GetTime();
@@ -613,11 +618,12 @@ extern double DAT_01011588;
 float __cdecl FUN_004e44d0(float);
 struct FUN_00800820_Class
 {
-    void __thiscall FUN_00800820(float a);
+    void __thiscall FOVATSEffectManager_UpdateTargetPulse(float a);
 };
 // Computes (FUN_004e44d0(a * g_011db78c.Float()[0]) + 1.0) * DAT_01011588 and stores the result at this+0x2c0.
 // @fnv 0x00800820
-void __thiscall FUN_00800820_Class::FUN_00800820(float afValue)
+// src: COMMUNITY 0x00800820
+void __thiscall FUN_00800820_Class::FOVATSEffectManager_UpdateTargetPulse(float afValue)
 {
     float f = (FUN_004e44d0(afValue * g_011db78c.Float()[0]) + 1.0) * DAT_01011588;
     *(float*)((char*)this + 0x2c0) = f;
@@ -630,7 +636,8 @@ struct FUN_0080a900
 };
 // Allocates and constructs a new FUN_0080a900 object from the three arguments and returns it.
 // @fnv 0x0080ac70
-FUN_0080a900* FUN_0080ac70(void* apArg1, void* apArg2, void* apArg3)
+// src: COMMUNITY 0x0080ac70
+FUN_0080a900* CalmEffect_Create(void* apArg1, void* apArg2, void* apArg3)
 {
     return new FUN_0080a900(apArg1, apArg2, apArg3);
 }
@@ -658,7 +665,8 @@ struct FUN_0080cd30_t
 };
 // Allocates and constructs a FUN_0080cd30_t from three int arguments, returning the new object.
 // @fnv 0x0080d120
-FUN_0080cd30_t* __cdecl FUN_0080d120(int aiArg1, int aiArg2, int aiArg3)
+// src: COMMUNITY 0x0080d120
+FUN_0080cd30_t* __cdecl DetectLifeEffect_Create(int aiArg1, int aiArg2, int aiArg3)
 {
     return new FUN_0080cd30_t(aiArg1, aiArg2, aiArg3);
 }
@@ -739,7 +747,8 @@ struct S_0080b3a0_Obj
 
 // Allocates a new S_0080b3a0_Obj, forwarding the three integer arguments to its constructor, and returns the pointer.
 // @fnv 0x0080b4e0
-S_0080b3a0_Obj* FUN_0080b4e0(int aiArg1, int aiArg2, int aiArg3)
+// src: COMMUNITY 0x0080b4e0
+S_0080b3a0_Obj* CommandCreatureEffect_Create(int aiArg1, int aiArg2, int aiArg3)
 {
     return new S_0080b3a0_Obj(aiArg1, aiArg2, aiArg3);
 }
@@ -771,32 +780,37 @@ extern unsigned int _data_011c16bc;
 
 // Allocates and constructs an S_0080bac0_Obj with the three given int arguments, returning the new object.
 // @fnv 0x0080bbf0
-S_0080bac0_Obj* __cdecl FUN_0080bbf0(int aiArg1, int aiArg2, int aiArg3)
+// src: COMMUNITY 0x0080bbf0
+S_0080bac0_Obj* __cdecl CommandHumanoidEffect_Create(int aiArg1, int aiArg2, int aiArg3)
 {
     return new S_0080bac0_Obj(aiArg1, aiArg2, aiArg3);
 }
 
 // @fnv 0x0080c260
-FUN_0080c070* __cdecl FUN_0080c260(MagicCaster* apCaster, MagicItem* apMagicItem, EffectItem* apEffectItem)
+// src: COMMUNITY 0x0080c260
+FUN_0080c070* __cdecl CureEffect_Create(MagicCaster* apCaster, MagicItem* apMagicItem, EffectItem* apEffectItem)
 {
     return new FUN_0080c070(apCaster, apMagicItem, apEffectItem, 1);
 }
 
 // @fnv 0x0080c2e0
-FUN_0080c0b0* FUN_0080c2e0(MagicCaster* apCaster, MagicItem* apMagicItem, EffectItem* apEffectItem)
+// src: COMMUNITY 0x0080c2e0
+FUN_0080c0b0* CureParalysis_Create(MagicCaster* apCaster, MagicItem* apMagicItem, EffectItem* apEffectItem)
 {
     return new FUN_0080c0b0(apCaster, apMagicItem, apEffectItem, 0x18);
 }
 
 // @fnv 0x0080c360
-FUN_0080c070* __cdecl FUN_0080c360(MagicCaster* apCaster, MagicItem* apMagicItem, EffectItem* apEffectItem)
+// src: COMMUNITY 0x0080c360
+FUN_0080c070* __cdecl CureAddition_Create(MagicCaster* apCaster, MagicItem* apMagicItem, EffectItem* apEffectItem)
 {
     return new FUN_0080c070(apCaster, apMagicItem, apEffectItem, 10);
 }
 
 // Allocates and returns a new FUN_0080c070 constructed from the caster, magic item and effect item with a value of 5.
 // @fnv 0x0080c3e0
-FUN_0080c070* __cdecl FUN_0080c3e0(MagicCaster* apCaster, MagicItem* apMagicItem, EffectItem* apEffectItem)
+// src: COMMUNITY 0x0080c3e0
+FUN_0080c070* __cdecl CurePoision_CurePoision(MagicCaster* apCaster, MagicItem* apMagicItem, EffectItem* apEffectItem)
 {
     return new FUN_0080c070(apCaster, apMagicItem, apEffectItem, 5);
 }
@@ -877,7 +891,7 @@ struct Calendar
 
 struct FUN_0050f5a0_struct
 {
-    void FUN_0050f5a0();
+    void NiAVObject_DetachParent();
 };
 
 extern char DAT_011a9448;
@@ -907,7 +921,7 @@ NiAVObject* LoadAndCloneModel(char const* path)
             scale->FUN_00440460(_NiPoint3_ZERO);
 
             if (reinterpret_cast<Calendar*>(scale)->GetDaysPassed())
-                reinterpret_cast<FUN_0050f5a0_struct*>(scale)->FUN_0050f5a0();
+                reinterpret_cast<FUN_0050f5a0_struct*>(scale)->NiAVObject_DetachParent();
 
             scale->UpdateSceneObject();
         }
@@ -927,11 +941,12 @@ class FUN_00800170_cls
   public:
     int unk00;
     FUN_00800170_sub m_04;
-    FUN_00800170_cls* FUN_00800170();
+    FUN_00800170_cls* VATSEffectTarget_VATSEffectTarget();
 };
 
 // @fnv 0x00800170
-FUN_00800170_cls* FUN_00800170_cls::FUN_00800170()
+// src: COMMUNITY 0x00800170
+FUN_00800170_cls* FUN_00800170_cls::VATSEffectTarget_VATSEffectTarget()
 {
     m_04.Init(0);
     return this;
@@ -1229,11 +1244,12 @@ struct FUN_00800900_cls
     float m_f2B8;
     float m_f2BC;
     void Notify(float a, float b, int c);
-    void FUN_00800900(float value);
+    void FOVATSEffectManager_UpdateScan(float value);
 };
 
 // @fnv 0x00800900
-void FUN_00800900_cls::FUN_00800900(float value)
+// src: COMMUNITY 0x00800900
+void FUN_00800900_cls::FOVATSEffectManager_UpdateScan(float value)
 {
     if (this->m_f2B8 == b4225_kCompareConst)
         this->m_f2B8 = value;
@@ -1278,7 +1294,7 @@ bool FUN_00800a00_cls::GetRatioByIndex(unsigned int uiIndex, float* pfOut)
     }
 }
 
-void __cdecl FUN_005b5e40(const char* value);
+void __cdecl Warning_005b5e40(const char* value);
 void __cdecl FUN_00ba91a0(void* value, int a, const void* b);
 typedef NiNode*(__thiscall* FUN_00800d50_getter)(NiNode*);
 extern char DAT_01078e78;
@@ -1297,7 +1313,7 @@ void FUN_00800e50_Class::FUN_00800d50(int pNode)
     }
     if (this->f0c + 1 >= 0x20)
     {
-        FUN_005b5e40(&DAT_01078e78);
+        Warning_005b5e40(&DAT_01078e78);
         return;
     }
     *(int*)((char*)this + this->f0c * 8 + 0x14) = pNode;
@@ -1491,13 +1507,13 @@ struct FUN_0080fb30 : DestructorBase
 };
 extern Actor* g_thePlayer;
 extern GlobalObject_0044f440 g_011d1c28;
-void FUN_0080fc90(float);
+void _11DC778_Subtract(float);
 // @fnv 0x0080fb30
 FUN_0080fb30::~FUN_0080fb30()
 {
     Actor* actor = FUN_009185e0() ? FUN_009185e0()->f11() : 0;
     if (actor != g_thePlayer)
-        FUN_0080fc90(*g_011d1c28.Float());
+        _11DC778_Subtract(*g_011d1c28.Float());
     if (sound.FUN_00ad8ce0())
     {
         sound.FUN_00ad88f0();
@@ -1554,11 +1570,12 @@ struct EffectBase
     int unkC8, unkCC, unkD0;
     float fD4;
     float GetTime();
-    void FUN_00812700(float a, EffectParams* p);
+    void MagicBoltProjectile_UpdateBranch(float a, EffectParams* p);
 };
 
 // @fnv 0x00812700
-void EffectBase::FUN_00812700(float a, EffectParams* pParams)
+// src: COMMUNITY 0x00812700
+void EffectBase::MagicBoltProjectile_UpdateBranch(float a, EffectParams* pParams)
 {
     SceneObj* node5 = pParams->m_pController;
     if (pParams->aspObstacleData)
@@ -1945,7 +1962,7 @@ struct EquipGeometry
 struct EquipNode;
 struct EquipSlot
 {
-    const char* FUN_007fa950();
+    const char* SkyObject_GetNiNode();
 };
 struct EquipBase;
 struct EquipTable
@@ -2330,8 +2347,8 @@ struct EquipVisibility
     int current;
     int extraCount;
     int extraSlots[15];
-    void FUN_00802220(void*, int, bool);
-    void FUN_00802260(EquipObject*, int, int);
+    void VATSEffect_SetBodyPartEnabled(void*, int, bool);
+    void FOVATSEffectManager_ShowBipedObjectOnActor(EquipObject*, int, int);
     void UpdateEquipmentVisibility();
 };
 // Toggles shader visibility for the owner's equipment slots based on the current slot, hiding non-selected slots and showing extras.
@@ -2368,11 +2385,11 @@ void EquipVisibility::UpdateEquipmentVisibility()
                     {
                         for (int slot = 0; slot < 15; slot++)
                         {
-                            FUN_00802220(shader1, slot, slot == current);
+                            VATSEffect_SetBodyPartEnabled(shader1, slot, slot == current);
                             for (int extra = 0; extra < extraCount; extra++)
                             {
                                 if (slot == extraSlots[extra])
-                                    FUN_00802220(shader1, slot, 1);
+                                    VATSEffect_SetBodyPartEnabled(shader1, slot, 1);
                             }
                         }
                     }
@@ -2393,7 +2410,7 @@ void EquipVisibility::UpdateEquipmentVisibility()
             EquipSlot* entry3 = table->GetValueByIndex(current);
             if (entry3)
             {
-                EquipObject* node9 = actor->GetRoot()->Find(NiFixedString(entry3->FUN_007fa950()));
+                EquipObject* node9 = actor->GetRoot()->Find(NiFixedString(entry3->SkyObject_GetNiNode()));
                 if (node9 && slotIndex == current)
                     node9->FUN_00450f90(0);
                 else if (node9)
@@ -2402,21 +2419,21 @@ void EquipVisibility::UpdateEquipmentVisibility()
         }
     }
     if (current != 3 && current != 4)
-        FUN_00802260(actor, 3, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 3, 0);
     if (current != 5 && current != 6)
-        FUN_00802260(actor, 4, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 4, 0);
     if (current != 1 && current != 2)
     {
-        FUN_00802260(actor, 10, 0);
-        FUN_00802260(actor, 11, 0);
-        FUN_00802260(actor, 12, 0);
-        FUN_00802260(actor, 13, 0);
-        FUN_00802260(actor, 9, 0);
-        FUN_00802260(actor, 14, 0);
-        FUN_00802260(actor, 15, 0);
-        FUN_00802260(actor, 16, 0);
-        FUN_00802260(actor, 1, 0);
-        FUN_00802260(actor, 0, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 10, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 11, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 12, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 13, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 9, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 14, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 15, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 16, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 1, 0);
+        FOVATSEffectManager_ShowBipedObjectOnActor(actor, 0, 0);
     }
 }
 

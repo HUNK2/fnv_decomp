@@ -9,7 +9,8 @@
 
 extern BGSMoviePlayer* DAT_0126fac4;
 // @fnv 0x00ec16b0
-int __stdcall FUN_00ec16b0(int a)
+// src: COMMUNITY 0x00ec16b0
+int __stdcall MoviePlayer_PlaySequenceThread(int a)
 {
     DAT_0126fac4->SetPlaybackOption(a);
     return 0;
@@ -61,27 +62,28 @@ int __thiscall FUN_00ec1dc0_Class::IsStringEqualIgnoreCase(const char* pcStringA
 
 struct FUN_00ec1f20Class
 {
-    void FUN_00ec1570();
-    void* FUN_00ec1f20();
+    void Movie_ClearData();
+    void* Movie_Movie();
 };
 
 // @fnv 0x00ec1f20
-void* FUN_00ec1f20Class::FUN_00ec1f20()
+// src: COMMUNITY 0x00ec1f20
+void* FUN_00ec1f20Class::Movie_Movie()
 {
-    FUN_00ec1570();
+    Movie_ClearData();
     return this;
 }
 
 struct FUN_00ec1f40Class
 {
-    void __thiscall FUN_00ec1020();
+    void __thiscall Movie_Stop();
     void __thiscall FUN_00ec1f40();
 };
 
 // @fnv 0x00ec1f40
 void __thiscall FUN_00ec1f40Class::FUN_00ec1f40()
 {
-    FUN_00ec1020();
+    Movie_Stop();
 }
 
 namespace fnv_00ec20a0 {
@@ -139,7 +141,8 @@ struct FUN_00ec1570_t
 };
 // Resets all fields of the structure: integer fields to 0, f to 1.0, g and h to 0.0, and j to false.
 // @fnv 0x00ec1570
-void __fastcall FUN_00ec1570(FUN_00ec1570_t* p)
+// src: COMMUNITY 0x00ec1570
+void __fastcall Movie_ClearData(FUN_00ec1570_t* p)
 {
     p->a = 0;
     p->b = 0;
@@ -317,11 +320,12 @@ struct FUN_00ec2a60_class
     int m_0008;
     int m_000c;
     int m_0010;
-    void __thiscall FUN_00ec2a60();
+    void __thiscall MoviePlayer_Resume();
 };
 // If m_000c is clear and m_0010 is set, moves m_0010 into m_000c, clears m_0010 and calls UnpauseBink on it.
 // @fnv 0x00ec2a60
-void __thiscall FUN_00ec2a60_class::FUN_00ec2a60()
+// src: COMMUNITY 0x00ec2a60
+void __thiscall FUN_00ec2a60_class::MoviePlayer_Resume()
 {
     if (m_000c)
         return;
@@ -347,12 +351,13 @@ struct FUN_00ec2bb0_Class
     virtual void v9();
     virtual unsigned int v10();
     virtual unsigned int v11();
-    float FUN_00ec2bb0(float, unsigned int, bool);
+    float MoviePlayer_CalculateYOffset(float, unsigned int, bool);
 };
 
 // If c is set, returns half of the difference between v11() and b times a; otherwise returns 0.0f.
 // @fnv 0x00ec2bb0
-float FUN_00ec2bb0_Class::FUN_00ec2bb0(float afValue, unsigned int b, bool abEnabled)
+// src: COMMUNITY 0x00ec2bb0
+float FUN_00ec2bb0_Class::MoviePlayer_CalculateYOffset(float afValue, unsigned int b, bool abEnabled)
 {
     if (!abEnabled)
         return 0.0f;
@@ -565,7 +570,8 @@ struct FUN_00ec0460_cls
 };
 
 // @fnv 0x00ec0460
-void __cdecl FUN_00ec0460(FUN_00ec0460_cls* p)
+// src: COMMUNITY 0x00ec0460
+void __cdecl Setup_Renderstate(FUN_00ec0460_cls* p)
 {
     p->v57(0x1b, 0);
     p->v67(0, 4, 2);
@@ -716,11 +722,12 @@ struct FUN_00ec1020_cls
     int m_00;
     int m_04;
     int m_08;
-    void FUN_00ec1020();
+    void Movie_Stop();
 };
 
 // @fnv 0x00ec1020
-void FUN_00ec1020_cls::FUN_00ec1020()
+// src: COMMUNITY 0x00ec1020
+void FUN_00ec1020_cls::Movie_Stop()
 {
     if (m_00 != 0)
     {
@@ -730,7 +737,7 @@ void FUN_00ec1020_cls::FUN_00ec1020()
     {
         ReleaseInterfaceArray(m_08);
     }
-    FUN_00ec1570((FUN_00ec1570_t*)this);
+    Movie_ClearData((FUN_00ec1570_t*)this);
 }
 
 struct FUN_00ec14d0_bink
@@ -837,16 +844,17 @@ class BEC16D0MoviePlayerThread
     BEC16D0Semaphore m_kStartSemaphore;
 
     void SetPriority(int iPriority);
-    void FUN_00ec16d0(void* pvParam, bool bFlag22, int iPriority, bool bFlag23, bool bFlag24, float fValue28);
+    void MoviePlayer_StartSequence(void* pvParam, bool bFlag22, int iPriority, bool bFlag23, bool bFlag24, float fValue28);
 };
 
 // Creates the movie player thread, stores the flags and value, sets its priority, resumes it and waits on the start semaphore.
 // @fnv 0x00ec16d0
-void BEC16D0MoviePlayerThread::FUN_00ec16d0(void* pvParam, bool bFlag22, int iPriority, bool bFlag23, bool bFlag24,
+// src: COMMUNITY 0x00ec16d0
+void BEC16D0MoviePlayerThread::MoviePlayer_StartSequence(void* pvParam, bool bFlag22, int iPriority, bool bFlag23, bool bFlag24,
                                             float fValue28)
 {
     unsigned long ulThreadId3;
-    m_hThread = CreateThread(0, 0, (unsigned long(__stdcall*)(void*))FUN_00ec16b0, pvParam, 4, &ulThreadId3);
+    m_hThread = CreateThread(0, 0, (unsigned long(__stdcall*)(void*))MoviePlayer_PlaySequenceThread, pvParam, 4, &ulThreadId3);
     FUN_00aa2740(ulThreadId3, "MoviePlayer");
     m_bFlag22 = bFlag22;
     m_bFlag23 = bFlag23;
@@ -980,13 +988,14 @@ struct FUN_00ec25e0_cls
     int m_0004;
     int m_0008;
     FUN_00ec1f40Class* m_000c;
-    void __thiscall FUN_00ec2a60();
-    void __thiscall FUN_00ec25e0();
+    void __thiscall MoviePlayer_Resume();
+    void __thiscall MoviePlayer_Stop();
 };
 
 // If m_000c is set, calls FUN_00ec1f40 and DAT_011f6238.FUN_00aa4060 on it, clears m_000c, then calls FUN_00ec2a60.
 // @fnv 0x00ec25e0
-void __thiscall FUN_00ec25e0_cls::FUN_00ec25e0()
+// src: COMMUNITY 0x00ec25e0
+void __thiscall FUN_00ec25e0_cls::MoviePlayer_Stop()
 {
     if (m_000c != 0)
     {
@@ -995,7 +1004,7 @@ void __thiscall FUN_00ec25e0_cls::FUN_00ec25e0()
         p != 0 ? (p->FUN_00ec1f40(), (((0, 1) & 1) ? DAT_011f6238.FUN_00aa4060(p) : (void)0), p) : 0;
         m_000c = 0;
     }
-    FUN_00ec2a60();
+    MoviePlayer_Resume();
 }
 }  // namespace fnv_00ec25e0
 
@@ -1045,12 +1054,13 @@ struct FUN_00ec2c40_cls
     int m_0028;
     int m_002c;
     void __thiscall SetThreadPriorityLevel(int);
-    void FUN_00ec2c40();
+    void MoviePlayer_DecreaseSequenceThreadPriority();
 };
 
 // If m_002c exceeds the current limit (DAT_0126fae4 or DAT_01202800), calls SetThreadPriorityLevel with m_002c - 1.
 // @fnv 0x00ec2c40
-void FUN_00ec2c40_cls::FUN_00ec2c40()
+// src: COMMUNITY 0x00ec2c40
+void FUN_00ec2c40_cls::MoviePlayer_DecreaseSequenceThreadPriority()
 {
     int* q = (&DAT_0126fae0 != 0) ? &DAT_0126fae4 : (DAT_01202800 = 0, &DAT_01202800);
     if (m_002c > *q)
@@ -1067,7 +1077,7 @@ struct S_00ec2f00_Class
 
 struct S_00aa3e40_Class
 {
-    char* __thiscall FUN_00aa3e40(char* a);
+    char* __thiscall Game_DoHeapAlloc(char* a);
 };
 
 struct S_00ec2d80_Class
@@ -1110,7 +1120,7 @@ void __thiscall S_00ec2d80_Class::FUN_00ec2d80(int a, int b)
     char* j;
 
     oB = FUN_00ec6130(b);
-    n = DAT_011f6238.FUN_00aa3e40(oB + 1);
+    n = DAT_011f6238.Game_DoHeapAlloc(oB + 1);
     p = n;
 
     FUN_00ec65a6(p, oB + 1, b);
@@ -2165,7 +2175,7 @@ extern "C" __declspec(dllimport) int __stdcall BinkWait(void*);
 extern "C" __declspec(dllimport) void __stdcall BinkNextFrame(void*);
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long);
 void __cdecl FUN_0040fbe0(const char*, ...);
-void __cdecl FUN_00ebff30(unsigned int, float, float, float, float);
+void __cdecl Blit_RAD_3D_image_pow2(unsigned int, float, float, float, float);
 struct EC1060Bink
 {
     int a, b;
@@ -2226,7 +2236,7 @@ bool EC1060File::Update(bool arg1, bool abLoop, bool abNoClip)
     }
     if (!((EC1060Player*)DAT_0126fac4)->v12())
         device->v41();
-    FUN_00ebff30(texture, x, y, scale, scale);
+    Blit_RAD_3D_image_pow2(texture, x, y, scale, scale);
     if (!((EC1060Player*)DAT_0126fac4)->v12())
         device->v42();
     if (!(unsigned char)(state == 2))
@@ -2379,7 +2389,7 @@ unsigned int FUN_00ec1d50_class::HashString(const char* apString)
 namespace fnv_00ec1940 {
 #include <windows.h>
 
-DWORD WINAPI FUN_00ec2ca0(LPVOID param);
+DWORD WINAPI MoviePlayer_MovieLoadingThread(LPVOID param);
 void FUN_00aa2740(DWORD threadId, const char* name);
 
 class FUN_00ec1940_cls
@@ -2393,16 +2403,17 @@ class FUN_00ec1940_cls
     int unk14;
     int unk18;
     int m_1c;
-    void FUN_00ec1940(void* param, int value);
+    void MoviePlayer_ThreadLoadMovie(void* param, int value);
 };
 
 // Stores value in m_1c, creates a suspended thread running FUN_00ec2ca0 with param, names it MovieLoader, then resumes it.
 // @fnv 0x00ec1940
-void FUN_00ec1940_cls::FUN_00ec1940(void* apThreadArg, int value)
+// src: COMMUNITY 0x00ec1940
+void FUN_00ec1940_cls::MoviePlayer_ThreadLoadMovie(void* apThreadArg, int value)
 {
     DWORD threadId;
     m_1c = value;
-    m_04 = CreateThread(NULL, 0, FUN_00ec2ca0, apThreadArg, CREATE_SUSPENDED, &threadId);
+    m_04 = CreateThread(NULL, 0, MoviePlayer_MovieLoadingThread, apThreadArg, CREATE_SUSPENDED, &threadId);
     FUN_00aa2740(threadId, "MovieLoader");
     ResumeThread(m_04);
     threadId = 0;
@@ -2416,12 +2427,13 @@ struct MovieSignalState : BEC16D0MoviePlayerThread
     int unk38;
     unsigned char signaled;
 
-    void FUN_00ec1a00();
+    void MoviePlayer_SignalBinkOpen();
 };
 
 // Releases m_kStartSemaphore, increments its m_lCount, and sets the signaled flag to 1.
 // @fnv 0x00ec1a00
-void MovieSignalState::FUN_00ec1a00()
+// src: COMMUNITY 0x00ec1a00
+void MovieSignalState::MoviePlayer_SignalBinkOpen()
 {
     BEC16D0Semaphore* semaphore = &m_kStartSemaphore;
     ReleaseSemaphore(semaphore->m_pSemaphore, 1, 0);

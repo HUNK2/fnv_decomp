@@ -22,10 +22,11 @@ struct CpuObject
     unsigned int unk00;
     unsigned short size;
     void InitGroupFilterPointers();
-    CpuObject* FUN_00e00c40(unsigned int flags);
+    CpuObject* hkpGroupFilter_Destroy(unsigned int flags);
 };
 // @fnv 0x00e00c40
-CpuObject* CpuObject::FUN_00e00c40(unsigned int flags)
+// src: COMMUNITY 0x00e00c40
+CpuObject* CpuObject::hkpGroupFilter_Destroy(unsigned int flags)
 {
     InitGroupFilterPointers();
     if (flags & 1)

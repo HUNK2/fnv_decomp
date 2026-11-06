@@ -19,7 +19,8 @@ inline void hkVector4::operator=(const hkVector4& vector)
 }
 
 // @fnv 0x00de1d10
-void __cdecl FUN_00de1d10()
+// src: COMMUNITY 0x00de1d10
+void __cdecl nullsub_84()
 {}
 
 // local form of hkMatrix3: 0x00de1d20 needs implicit ctor and inline setIdentity; shared form gives 81 bytes vs exe 72.

@@ -27,7 +27,8 @@ void NiQuaternionInterpolator::FUN_00a48960(float m_fStartTime, float m_fMaximum
 extern "C" const void* g_011f3f60;
 
 // @fnv 0x00a48ab0
-const void* __cdecl FUN_00a48ab0()
+// src: COMMUNITY 0x00a48ab0
+const void* __cdecl NiQuaternionInterpolator_GetRTTI()
 {
     return &g_011f3f60;
 }
@@ -272,7 +273,7 @@ struct Stream
     void __thiscall FUN_0096ae90(unsigned int index, void** value);
 };
 
-void* __cdecl FUN_00a7d330(const void* value);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(const void* value);
 void* __cdecl FUN_00a7d5a0(const void* key, void* value);
 
 // The shared base does not declare its viewer-string override.
@@ -283,7 +284,7 @@ void NiQuaternionInterpolator::GetViewerStrings(NiViewerStringsArray* strings)
 {
     Stream* stream = (Stream*)strings;
     reinterpret_cast<void (__thiscall*)(NiKeyBasedInterpolator*, NiViewerStringsArray*)>(&GetKeyBasedViewerStrings)(this, strings);
-    void* value = FUN_00a7d330(g_011f3f60);
+    void* value = NiViewerStrings_NiGetViewerString_Title(g_011f3f60);
     unsigned int index = stream->unk0a;
     if (index >= stream->unk08)
         stream->FUN_0096ad30(index + stream->unk0e);

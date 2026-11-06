@@ -375,7 +375,7 @@ struct Track
     int timer;
     int interpolation;
     void FUN_00d76ca0();
-    void FUN_00d77200(void* state, Probe* probe);
+    void hkgpConvexHull_build_00d77200(void* state, Probe* probe);
     int FUN_00d74e10();
     void FUN_00d762f0();
     float GetMass();

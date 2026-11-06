@@ -321,17 +321,18 @@ struct S819
 // @fnv 0x00819250
 int S819::FUN_00819250()
 {
-    return ((bhkWorldObject*)s) ? ((bhkWorldObject*)s)->FUN_0043b4f0().FUN_004a3a20() : 0;
+    return ((bhkWorldObject*)s) ? ((bhkWorldObject*)s)->bhkWorldObject_GetCollisionFilter().FUN_004a3a20() : 0;
 }
 
 struct MagicCaster_shell : MagicCaster
 {
     MagicTarget* pTarget;
-    MagicTarget* FUN_0044edb0();
+    MagicTarget* TESMain_GetThread();
 };
 
 // @fnv 0x0044edb0
-MagicTarget* MagicCaster_shell::FUN_0044edb0()
+// src: COMMUNITY 0x0044edb0
+MagicTarget* MagicCaster_shell::TESMain_GetThread()
 {
     return *(MagicTarget**)((char*)this + 0x10);
 }
@@ -936,11 +937,12 @@ void* __cdecl FUN_00ec43fb(void* a0, int a1, int* a2, int* a3, int a4);
 
 struct FUN_00818be0_cls
 {
-    void* FUN_00818be0();
+    void* MagicCaster_GetMagicCasterFormID();
 };
 
 // @fnv 0x00818be0
-void* FUN_00818be0_cls::FUN_00818be0()
+// src: COMMUNITY 0x00818be0
+void* FUN_00818be0_cls::MagicCaster_GetMagicCasterFormID()
 {
     void* a = ((Callee00815410*)this)->FUN_00815410();
     OuterB* b = (OuterB*)FUN_00ec43fb(this, 0, &DAT_011a1224, &DAT_01184638, 0);
@@ -4391,7 +4393,7 @@ extern const char DAT_0107acfc[];
 extern const char DAT_0102054c[];
 float FUN_00404010(float, float);
 float FUN_009a64d0(Object*, Object*, bool);
-bool FUN_00409720(Source*, int, EffectSettings*, bool);
+bool EnchantmentItem_IsValidEffectForEnchantment(Source*, int, EffectSettings*, bool);
 void ComputeDerivedValues(float*, float*, float, float, int, int, float, float, float, int);
 void ComputeScaledResult(float*, float, float, int, int, float, float, float, int);
 void ComputeSettingAdjustedValue(float*, float, float, int, int, float, float, float, int);
@@ -4495,7 +4497,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
     while (cursorA)
     {
         EffectItem* effect = *cursorA->FUN_006815c0();
-        if (effect && spellB->GetSpellType() == 6 && source && !FUN_00409720(source, 0, reinterpret_cast<EffectSettings*>(effect->GetEffectSetting()), false))
+        if (effect && spellB->GetSpellType() == 6 && source && !EnchantmentItem_IsValidEffectForEnchantment(source, 0, reinterpret_cast<EffectSettings*>(effect->GetEffectSetting()), false))
             effect = 0;
         if (effect)
         {

@@ -59,7 +59,7 @@ struct NavMeshTriRef
 {
     NavMesh* m_pMesh;
     unsigned short m_usTri;
-    NiPoint3 FUN_006a6eb0();
+    NiPoint3 FastNavMeshTriLocation_GetLocation();
 };
 
 struct NavSearchNodeInfo
@@ -104,7 +104,7 @@ float __cdecl FUN_00404010(float fA, float fB);
 // @fnv 0x006aa000
 bool NavMeshSearchHide::ExpandNeighbors(NavSearchNodeInfo* pkInfo, NavSearchNodeList* pkList)
 {
-    NiPoint3 kPosX = pkInfo->FUN_0045cd60() ? pkInfo->m_kRef.FUN_006a6eb0() : reinterpret_cast<PathingRequest*>(m_pActor)->GetOffsetC().FUN_005c3420();
+    NiPoint3 kPosX = pkInfo->FUN_0045cd60() ? pkInfo->m_kRef.FastNavMeshTriLocation_GetLocation() : reinterpret_cast<PathingRequest*>(m_pActor)->GetOffsetC().FUN_005c3420();
     for (int i9 = 0; i9 < 3; i9++)
     {
         NavMesh* pMesh5;
@@ -191,7 +191,7 @@ struct InfoF
     float m_fVectorZ;
     float m_fScalarPart;
 
-    NiPoint3* FUN_006a6eb0(NiPoint3* pOut);
+    NiPoint3* FastNavMeshTriLocation_GetLocation(NiPoint3* pOut);
 };
 
 struct ParamX
@@ -226,7 +226,7 @@ int NavMeshSearchHide::SetupActorTarget(ActorX* pkActor, TriRef20* pkInfo, Param
 
     // This output buffer is populated by FUN_006a6eb0 without default construction.
     float kTriPt2[3];
-    NiPoint3 kDiff = kInfo3.FUN_006a6eb0(reinterpret_cast<NiPoint3*>(kTriPt2))->FUN_00439ef0(m_kStartPoint);
+    NiPoint3 kDiff = kInfo3.FastNavMeshTriLocation_GetLocation(reinterpret_cast<NiPoint3*>(kTriPt2))->FUN_00439ef0(m_kStartPoint);
     float fVal6 = m_fFirstLightParameter - kDiff.FUN_00457990();
     FUN_005330e0(&fVal6, 0.0f, m_fFirstLightParameter);
 
@@ -272,7 +272,7 @@ bool NavMeshSearchHide::FUN_006aa470(NavData6aa4* pkData)
     if (!pkInfo7->HasFlags())
         return false;
 
-    NiPoint3 kPos = pkData->m_kRef.FUN_006a6eb0();
+    NiPoint3 kPos = pkData->m_kRef.FastNavMeshTriLocation_GetLocation();
     float aFLength = m_kTargetPos.FUN_00439ef0(kPos).FUN_00589850();
     if (aFLength < reinterpret_cast<HideRequestTargetAccess*>(m_pkActor)->FUN_00885bd0())
         return false;

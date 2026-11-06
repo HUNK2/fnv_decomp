@@ -14,7 +14,7 @@ public:
     float m_fCenterY;
     float m_fCenterZ;
 
-    NiPoint3 FUN_006a6eb0() const;
+    NiPoint3 FastNavMeshTriLocation_GetLocation() const;
     NavMeshTriangle* FUN_006a78d0() const;
     NavMeshTriangle* GetTriangle();
     void SetGridPosition(void*);

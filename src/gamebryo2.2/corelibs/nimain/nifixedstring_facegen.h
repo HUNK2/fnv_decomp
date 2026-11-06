@@ -83,10 +83,10 @@ class BSFaceGenTexture
 };
 #include "../../../../include/BSFaceGenModel.h"
 NiTexture* GetFaceGenManagerValue();
-FaceGenTextureFile* FUN_00659780(const char*);
-bool FUN_00652040(BSFaceGenModel*);
+FaceGenTextureFile* BSFaceGenModel_EGTData_Create(const char*);
+bool BSFaceGenManager_LoadEGTData(BSFaceGenModel*);
 void FUN_00652140();
-void FUN_00652190();
+void BSFaceGenManager_UnlockFaceGenAccess();
 int Warning(const char*, ...);
 void ReportAssertionViolation(const char*, unsigned int);
 extern double DAT_010231d8;

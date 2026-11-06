@@ -42,11 +42,11 @@ public:
 
     void ReadTypedData();
     char* FUN_007d5140();
-    NiTexture* FUN_007d5280();
+    NiTexture* TileImage_GetShaderProp();
     bool IsAutoSave();
     bool IsSaveEntryValid();
     NiTexture* ReadScreenshotFromFile();
-    void* FUN_00851ef0();
-    void* FUN_00851f10();
-    void* FUN_00851f30();
+    void* GetScreenshotWidth();
+    void* GetScreenshotHeight();
+    void* GetScreenshotOffset();
 };

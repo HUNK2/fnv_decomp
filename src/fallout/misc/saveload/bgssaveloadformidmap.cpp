@@ -212,12 +212,13 @@ void __cdecl ReadFileIntoBuffer(SaveLoadFile*, unsigned int*, unsigned int);
 
 struct FUN_00846e00_cls : public FormIDConverter
 {
-    void FUN_00846e00(SaveLoadFile* file);
+    void BGSSaveLoadFormIDMap_Save(SaveLoadFile* file);
 };
 
 // Passes the count minus one and each converted index value to FUN_00845d20 with file and size 4.
 // @fnv 0x00846e00
-void FUN_00846e00_cls::FUN_00846e00(SaveLoadFile* file)
+// src: COMMUNITY 0x00846e00
+void FUN_00846e00_cls::BGSSaveLoadFormIDMap_Save(SaveLoadFile* file)
 {
     unsigned int count = this->m_uiFormIDCount - 1;
     ReadFileIntoBuffer(file, &count, 4);

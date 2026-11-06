@@ -173,12 +173,12 @@ struct FUN_00e91f40_shell : public NiD3DShaderFactory
     char* FUN_00e91f40(void**);
 };
 
-NiD3DShaderProgramFactory* __cdecl FUN_00e92eb0();
+NiD3DShaderProgramFactory* __cdecl NiD3DShaderProgramFactory_GetInstance();
 
 // @fnv 0x00e91f40
 char* FUN_00e91f40_shell::FUN_00e91f40(void** kIter)
 {
-    NiD3DShaderProgramFactory* pkSPFactory = FUN_00e92eb0();
+    NiD3DShaderProgramFactory* pkSPFactory = NiD3DShaderProgramFactory_GetInstance();
     if (!pkSPFactory)
         return 0;
     return (char*)pkSPFactory->GetNextName(*kIter);
@@ -190,13 +190,13 @@ struct FUN_00e91fa0_shell : public NiD3DShaderFactory
     void FUN_00e91fa0();
 };
 
-void* __cdecl FUN_00e92eb0();
+void* __cdecl NiD3DShaderProgramFactory_GetInstance();
 void __fastcall FUN_00e93cc0(void* pThis);
 
 // @fnv 0x00e91fa0
 void FUN_00e91fa0_shell::FUN_00e91fa0()
 {
-    void* pkFactory = FUN_00e92eb0();
+    void* pkFactory = NiD3DShaderProgramFactory_GetInstance();
     if (pkFactory)
         FUN_00e93cc0(pkFactory);
 }
@@ -204,7 +204,7 @@ void FUN_00e91fa0_shell::FUN_00e91fa0()
 
 struct NiConsoleRendererStub
 {
-    void FUN_00e75380();
+    void NiDX9Renderer_PurgeAllD3DShaders();
 };
 struct FUN_00e91ea0_cls
 {
@@ -216,7 +216,7 @@ struct FUN_00e91ea0_cls
 void __fastcall NiD3DShaderFactory_PurgeAllShaderRendererData(FUN_00e91ea0_cls* self, int)
 {
     if (self->renderer)
-        self->renderer->FUN_00e75380();
+        self->renderer->NiDX9Renderer_PurgeAllD3DShaders();
 }
 
 // @fnv 0x00e91eb0
@@ -256,12 +256,12 @@ struct FUN_00e91f20_shell : public NiD3DShaderFactory
     char* FUN_00e91f20(void**);
 };
 
-extern NiD3DShaderProgramFactory* __cdecl FUN_00e92eb0(void);
+extern NiD3DShaderProgramFactory* __cdecl NiD3DShaderProgramFactory_GetInstance(void);
 
 // @fnv 0x00e91f20
 char* FUN_00e91f20_shell::FUN_00e91f20(void** kIter)
 {
-    NiD3DShaderProgramFactory* pkSPFactory = FUN_00e92eb0();
+    NiD3DShaderProgramFactory* pkSPFactory = NiD3DShaderProgramFactory_GetInstance();
     if (!pkSPFactory)
         return 0;
     // The shared factory does not yet declare the first-name lookup.
@@ -271,12 +271,12 @@ char* FUN_00e91f20_shell::FUN_00e91f20(void** kIter)
 }  // namespace fnv_00e91f20
 
 namespace fnv_00e91f60 {
-NiD3DShaderProgramFactory* __cdecl FUN_00e92eb0(void);
+NiD3DShaderProgramFactory* __cdecl NiD3DShaderProgramFactory_GetInstance(void);
 
 // @fnv 0x00e91f60
 void __stdcall FUN_00e91f60(const char* pacDirectory)
 {
-    NiD3DShaderProgramFactory* pkFactory = FUN_00e92eb0();
+    NiD3DShaderProgramFactory* pkFactory = NiD3DShaderProgramFactory_GetInstance();
     if (pkFactory)
         pkFactory->AddDirectory(pacDirectory);
 }
@@ -284,19 +284,20 @@ void __stdcall FUN_00e91f60(const char* pacDirectory)
 
 namespace fnv_00e91f80 {
 
-NiD3DShaderProgramFactory* __cdecl FUN_00e92eb0();
+NiD3DShaderProgramFactory* __cdecl NiD3DShaderProgramFactory_GetInstance();
 
 // @fnv 0x00e91f80
 void __stdcall FUN_00e91f80(char* pacDirectory)
 {
-    NiD3DShaderProgramFactory* pkFactory = FUN_00e92eb0();
+    NiD3DShaderProgramFactory* pkFactory = NiD3DShaderProgramFactory_GetInstance();
     if (pkFactory)
         pkFactory->LoadProgramByName(pacDirectory);
 }
 }  // namespace fnv_00e91f80
 
 // @fnv 0x00e91fc0
-const char* __cdecl FUN_00e91fc0()
+// src: COMMUNITY 0x00e91fc0
+const char* __cdecl NiD3DGPUProgramCache_GetPlatform()
 {
     return "DX9";
 }
@@ -687,7 +688,7 @@ extern "C" void(__stdcall* fnv_EnterCriticalSection)(void* pkSection);
 extern "C" void(__stdcall* fnv_LeaveCriticalSection)(void* pkSection);
 
 // The shared shader does not yet declare its implementation getter.
-extern unsigned int FUN_00cc0760();
+extern unsigned int NiD3DShaderProgram_GetName();
 typedef unsigned int (__thiscall* GetShaderImplementation)(NiShader*);
 
 struct E92270CriticalSection
@@ -776,7 +777,7 @@ bool E92270Library::HasEntry(const char* pcName, unsigned int uiID)
     if (!FindProgram(pcName, uiID))
     {
         NiShader* pkProgram = FindProgram(pcName, 0xffffffff);
-        if (!pkProgram || reinterpret_cast<GetShaderImplementation>(&FUN_00cc0760)(pkProgram) != uiID)
+        if (!pkProgram || reinterpret_cast<GetShaderImplementation>(&NiD3DShaderProgram_GetName)(pkProgram) != uiID)
             return false;
     }
 
@@ -1550,7 +1551,7 @@ bool FUN_00e92330_cls::FUN_00e92330(unsigned int apItem)
     unsigned int key = reinterpret_cast<unsigned int>(((NiShader*)apItem)->GetFilename().m_kHandle);
     void** pVTable = *(void***)this;
     void** pMatchSlot = pVTable + 3;
-    unsigned int ref = reinterpret_cast<GetShaderImplementation>(&FUN_00cc0760)((NiShader*)apItem);
+    unsigned int ref = reinterpret_cast<GetShaderImplementation>(&NiD3DShaderProgram_GetName)((NiShader*)apItem);
     FUN_00e92330_item* r = ((FUN_00e92330_match)*pMatchSlot)(this, key, ref);
     if (!(r && (unsigned int)r == apItem))
     {

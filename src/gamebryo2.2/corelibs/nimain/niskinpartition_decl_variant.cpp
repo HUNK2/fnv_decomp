@@ -8,7 +8,7 @@
 #include "../../../../include/NiRenderer.h"
 #include "../../../../include/Pair.h"
 const void* g_011f5b1c;
-const void* __cdecl FUN_00a820d0();
+const void* __cdecl NiSkinPartition_GetRTTI();
 void __stdcall FUN_00a82600(int a, int b, float c);
 struct Holder
 {
@@ -47,7 +47,7 @@ struct FUN_00a82710_shell
     void* m_p;
     unsigned int m_iElementCount;
     unsigned int m_uiItemCount;
-    void FUN_00a82710(unsigned int n);
+    void NiTSet_UInt16_Add(unsigned int n);
 };
 struct FUN_00a82890_shell
 {
@@ -65,7 +65,7 @@ struct C082d30
     unsigned short* f0;
     unsigned int f4;
     unsigned int f8;
-    void FUN_00a82710(unsigned int);
+    void NiTSet_UInt16_Add(unsigned int);
     void AppendMatchingIndices(int, int*, unsigned int);
 };
 struct Dummy13
@@ -558,7 +558,7 @@ struct SkinBuilder
     int unk04;
     unsigned int count;
     __declspec(nothrow) void BuildBoneLODControllerSets(SkinGeom*, void*, SkinItems*, int*) throw();
-    __declspec(nothrow) void FUN_00a839d0(SkinItems*) throw();
+    __declspec(nothrow) void NiSkinPartition_MergeBoneSets(SkinItems*) throw();
     bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 template <class T> class SkinTArray
@@ -694,7 +694,8 @@ inline Pair::Pair() throw()
 {}
 
 // @fnv 0x00a839d0
-void __stdcall FUN_00a839d0(unsigned char threshold, MergeItems* items)
+// src: COMMUNITY 0x00a839d0
+void __stdcall NiSkinPartition_MergeBoneSets(unsigned char threshold, MergeItems* items)
 {
     // One equivalence id per bounded skin set; 50 entries inferred from the frame.
     int cls[50];

@@ -72,7 +72,8 @@ struct FUN_0067fb60_holder
 }  // namespace fnv_0067bf40
 
 // @fnv 0x0067bf40
-void TESEscortPackageData::FUN_0067bf40(BGSSaveFormBuffer* buffer)
+// src: COMMUNITY 0x0067bf40
+void TESEscortPackageData::SaveGame_0067bf40(BGSSaveFormBuffer* buffer)
 {
     buffer->SaveData(reinterpret_cast<char*>(&m_iValue), 4, 0);
     bool hasLocation = (m_pPackageTarget != 0) ? true : false;
@@ -105,7 +106,8 @@ struct LocationDescriptor
 }  // namespace fnv_0067c330
 
 // @fnv 0x0067c330
-void TESEscortPackageData::FUN_0067c330(BGSLoadFormBuffer* buffer)
+// src: COMMUNITY 0x0067c330
+void TESEscortPackageData::TESFollowPackageData_LoadGame(BGSLoadFormBuffer* buffer)
 {
     buffer->ReadTypedData((void*)&m_iValue, 4u);
     unsigned char hasLocation = 0;

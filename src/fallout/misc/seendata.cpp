@@ -75,7 +75,8 @@ bool SeenData::IsBitSet(unsigned int aiBit)
 
 // Reads the bit at idx from the bit array, sets or clears it depending on set, and returns the previous bit value.
 // @fnv 0x00879a40
-bool SeenData::FUN_00879a40(unsigned int auiIndex, bool set)
+// src: COMMUNITY 0x00879a40
+bool SeenData::SetSeenBit(unsigned int auiIndex, bool set)
 {
     unsigned int aWord;
     unsigned int bBit;
@@ -126,7 +127,7 @@ bool SeenData::HasEnoughSeenPoints(const NiPoint3& aPoint, const NiPoint3& aOffs
                 NiPoint3 delta = *reinterpret_cast<const NiPoint3*>(diffStorage) - aPoint;
                 if (static_cast<const NiPoint3&>(delta).Length() < GetRuntimeFloatSetting37())
                 {
-                    FUN_00879a40(uiIndex, true);
+                    SetSeenBit(uiIndex, true);
                     iSeenCount++;
                 }
             }

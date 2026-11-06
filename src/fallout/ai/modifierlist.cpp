@@ -168,7 +168,8 @@ int** __fastcall FUN_00937d70(int** apArrayOut)
 }
 
 // @fnv 0x009375e0
-void ActorValueModifierList::FUN_009375e0(char key, float value)
+// src: COMMUNITY 0x009375e0
+void ActorValueModifierList::ModifierList_SetModifier(char key, float value)
 {
     Modifier* modifier = GetModifierItem(key);
     if (!modifier)
@@ -250,10 +251,11 @@ void* Unk3713::ReleaseIfFlagged(unsigned int flags)
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct Host37870
 {
-    bool FUN_00937870(Modifier* p);
+    bool ModifierList_WriteModifier(Modifier* p);
 };
 // @fnv 0x00937870
-bool Host37870::FUN_00937870(Modifier* apModifier)
+// src: COMMUNITY 0x00937870
+bool Host37870::ModifierList_WriteModifier(Modifier* apModifier)
 {
     if (apModifier == 0)
         return false;
@@ -296,7 +298,7 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct Host37870
 {
-    bool FUN_00937870(Modifier*);
+    bool ModifierList_WriteModifier(Modifier*);
 };
 
 extern int DAT_011e0750;
@@ -312,7 +314,7 @@ void __fastcall CountModifiers(ActorValueModifierList* list)
     while (pmodlist && *((BSSimpleList_helper*)pmodlist)->_ref_006815c0())
     {
         Modifier* pmod = *((BSSimpleList_helper*)pmodlist)->_ref_006815c0();
-        if (((Host37870*)list)->FUN_00937870(pmod))
+        if (((Host37870*)list)->ModifierList_WriteModifier(pmod))
             icount++;
         pmodlist = pmodlist->GetNext();
     }
@@ -322,7 +324,7 @@ void __fastcall CountModifiers(ActorValueModifierList* list)
     {
         for (int i = 0; i < ifastCount; i++)
         {
-            ((Host37870*)list)->FUN_00937870((Modifier*)list->m_ppModifiedActorValues->m_ppModifiers[i]);
+            ((Host37870*)list)->ModifierList_WriteModifier((Modifier*)list->m_ppModifiedActorValues->m_ppModifiers[i]);
             icount++;
         }
     }
@@ -397,12 +399,13 @@ extern int DAT_011e0750;
 struct ModifierListCalc : public ActorValueModifierList
 {
     int GetSlotCount();
-    unsigned short FUN_00937ab0();
+    unsigned short ModifierList_GetSaveSize();
 };
 
 // Computes a total from key4 times GetSlotCount() plus 2, plus key4 times a mask derived from DAT_011e0750, and returns it.
 // @fnv 0x00937ab0
-unsigned short ModifierListCalc::FUN_00937ab0()
+// src: COMMUNITY 0x00937ab0
+unsigned short ModifierListCalc::ModifierList_GetSaveSize()
 {
     unsigned short total = 0;
     int mask;

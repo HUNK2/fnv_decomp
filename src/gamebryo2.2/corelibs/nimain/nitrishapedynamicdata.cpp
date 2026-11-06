@@ -25,7 +25,8 @@ void __thiscall NiTriShapeDynamicData::FUN_00a81730(unsigned short& usStrips, co
 extern void* g_011f5af4;
 
 // @fnv 0x00a81800
-void* __cdecl FUN_00a81800()
+// src: COMMUNITY 0x00a81800
+void* __cdecl NiTriShapeDynamicData_GetRTTI()
 {
     return &g_011f5af4;
 }
@@ -118,7 +119,7 @@ void FUN_00a818b0_cls::FUN_00a818b0(void* pOther)
 }
 
 extern void* g_011f5af4;
-void* __cdecl FUN_00a7d330(void* p);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
 void* __cdecl FUN_00a7d490(const char* name, unsigned int value);
 
 struct NiArr
@@ -182,7 +183,7 @@ struct FUN_00a81910_cls
 void FUN_00a81910_cls::AddActiveCounts(NiArr* a)
 {
     AppendTriListInfo(a);
-    a->Add(FUN_00a7d330(g_011f5af4));
+    a->Add(NiViewerStrings_NiGetViewerString_Title(g_011f5af4));
     a->Add(FUN_00a7d490("m_usActiveVertices", m_58));
     a->Add(FUN_00a7d490("m_usActiveTriangles", m_5a));
 }

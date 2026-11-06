@@ -49,12 +49,13 @@ struct FileSizeInfo
 {
     unsigned int m_eErrorCode;
     unsigned int __thiscall GetValue(LARGE_INTEGER* liFileSize);
-    unsigned int __thiscall FUN_0065c290(LARGE_INTEGER& auiSize);
+    unsigned int __thiscall BSSystemFile_GetSize(LARGE_INTEGER& auiSize);
 };
 
 // Stores the result of GetValue into m_eErrorCode and returns it.
 // @fnv 0x0065c290
-unsigned int __thiscall FileSizeInfo::FUN_0065c290(LARGE_INTEGER& auiSize)
+// src: COMMUNITY 0x0065c290
+unsigned int __thiscall FileSizeInfo::BSSystemFile_GetSize(LARGE_INTEGER& auiSize)
 {
     m_eErrorCode = GetValue(&auiSize);
     return m_eErrorCode;

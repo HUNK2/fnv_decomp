@@ -438,11 +438,12 @@ struct FUN_00b27060_cls
     int unk28;
     int unk2C;
     unsigned char unk30;
-    FUN_00b27060_cls* FUN_00b27060();
+    FUN_00b27060_cls* CSimpleBillboard_CSimpleBillboard();
 };
 
 // @fnv 0x00b27060
-FUN_00b27060_cls* FUN_00b27060_cls::FUN_00b27060()
+// src: COMMUNITY 0x00b27060
+FUN_00b27060_cls* FUN_00b27060_cls::CSimpleBillboard_CSimpleBillboard()
 {
     unk30 = 0;
     return this;
@@ -530,21 +531,21 @@ class FUN_00b276f0_cls
     void Reset();
 };
 
-extern void __cdecl FUN_00401030(void* p);
+extern void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 // Releases the objects held in m_20, m_24, m_2c and m_18, calls Destroy(3) on m_2c, then zeroes m_0c, m_14, m_20, m_24, m_2c and m_18.
 // @fnv 0x00b276f0
 void FUN_00b276f0_cls::Reset()
 {
     void* a = (void*)m_20;
-    FUN_00401030(a);
+    FormHeapFreeAndLog_00401030(a);
     void* b = (void*)m_24;
-    FUN_00401030(b);
+    FormHeapFreeAndLog_00401030(b);
     void* t = (void*)m_2c;
     FUN_00b276f0_sub* c = (FUN_00b276f0_sub*)t;
     c != 0 ? c->Destroy(3) : 0;
     void* d7 = (void*)m_18;
-    FUN_00401030(d7);
+    FormHeapFreeAndLog_00401030(d7);
     m_0c = 0;
     m_14 = 0;
     m_20 = 0;
@@ -562,7 +563,7 @@ struct FUN_00b277b0_cls
 
 extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_00b277b0_cls::*callback)());
 
-extern "C" void __cdecl FUN_00401030(void* apMemory);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void* apMemory);
 
 // @fnv 0x00b277b0
 void* FUN_00b277b0_cls::Destroy(unsigned int flags)
@@ -573,7 +574,7 @@ void* FUN_00b277b0_cls::Destroy(unsigned int flags)
 
         if (flags & 1)
         {
-            FUN_00401030(reinterpret_cast<char*>(this) - 4);
+            FormHeapFreeAndLog_00401030(reinterpret_cast<char*>(this) - 4);
         }
 
         return reinterpret_cast<char*>(this) - 4;
@@ -583,7 +584,7 @@ void* FUN_00b277b0_cls::Destroy(unsigned int flags)
 
     if (flags & 1)
     {
-        FUN_00401030(this);
+        FormHeapFreeAndLog_00401030(this);
     }
 
     return this;
@@ -712,7 +713,7 @@ struct FUN_00b335c0_tmp
     unsigned int unk2C;
 };
 
-unsigned int __cdecl FUN_00b42e50(unsigned int a, unsigned int b, unsigned int c);
+unsigned int __cdecl std__Move(unsigned int a, unsigned int b, unsigned int c);
 
 struct FUN_00b335c0_cls
 {
@@ -748,7 +749,7 @@ ProbePair FUN_00b335c0_cls::FUN_00b335c0(unsigned int auiUnused, unsigned int a3
         key.m_04 = a5;
         if (result.FUN_00b16830(&key))
         {
-            r = FUN_00b42e50(key.m_04, this->m_10, result.m_04);
+            r = std__Move(key.m_04, this->m_10, result.m_04);
             {
                 FUN_00b335c0_tmp tmp;
                 tmp.unk00 = this->m_10;
@@ -846,7 +847,7 @@ struct Hldr0044
 };
 
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(unsigned int scaled);
+extern "C" void __cdecl FormHeap_Allocate(unsigned int scaled);
 extern "C" int DAT_01140ef8;
 extern "C" int DAT_010176f8;
 
@@ -871,7 +872,7 @@ extern "C" void __cdecl FUN_00b35f00(unsigned int n)
         }
     }
 
-    FUN_00401000(n * 2);
+    FormHeap_Allocate(n * 2);
 }
 
 struct FUN_00b31270
@@ -1398,21 +1399,22 @@ struct Mat
     float m20;
     float m21;
     float m22;
-    void __thiscall FUN_00b12af0();
+    void __thiscall CRotTransform_CRotTransform();
     Mat* __thiscall Multiply(Mat* out, Mat* rhs);
-    void __thiscall FUN_00b273d0(float angle);
+    void __thiscall CRotTransform_RotateY(float angle);
 };
 
 // Builds a 2D rotation matrix from angle and multiplies it into the current matrix.
 // @fnv 0x00b273d0
-void __thiscall Mat::FUN_00b273d0(float angle)
+// src: COMMUNITY 0x00b273d0
+void __thiscall Mat::CRotTransform_RotateY(float angle)
 {
     Mat hold;
     Mat buf;
     Mat rot;
     float fCos;
     float fSin;
-    rot.FUN_00b12af0();
+    rot.CRotTransform_CRotTransform();
     fCos = (float)(double)(float)FUN_00ec9f30((double)(float)(angle / DAT_010a4d90));
     fSin = (float)(double)(float)FUN_00eca060((double)(float)(angle / DAT_010a4d90));
     rot.m00 = fCos;
@@ -1881,7 +1883,7 @@ void OwnerB3ff90::FUN_00b3ff90(FUN_00b37880_class* a)
     {
         FUN_00b37880_class* saved = m_6c;
         FUN_00b37880_class* old = saved;
-        old ? ((((old->FUN_00b37880(), 1) & 1) ? FUN_00401030(old) : (void)0), old) : 0;
+        old ? ((((old->FUN_00b37880(), 1) & 1) ? FormHeapFreeAndLog_00401030(old) : (void)0), old) : 0;
         m_6c = a;
     }
 }

@@ -36,12 +36,12 @@ public:
 
     struct SubA4
     {
-        void FUN_00b2db10(SubA4* a);
+        void CTreeEngine_SetLeafTextures(SubA4* a);
     };
 
     struct Sub10c
     {
-        void FUN_00b408b0(ElementIterator* a);
+        void SIdvWindInfo_Parse(ElementIterator* a);
     };
 
     float* m_pfTreeSize;
@@ -106,9 +106,9 @@ public:
     CTreeEngine(int param);
     virtual ~CTreeEngine();
 
-    void FUN_00b2bc70(float v);
-    void FUN_00b2bcf0(float* a, float* b);
-    void FUN_00b2bd20(float fSize, float fVariance);
+    void SetWind(float v);
+    void CTreeEngine_GetSize(float* a, float* b);
+    void SetSize_00b2bd20(float fSize, float fVariance);
     float GetNormalizedValue();
     void FUN_00b2bdc0(float a, float b);
     void InitSeed(unsigned int seed);
@@ -116,10 +116,10 @@ public:
     bool FUN_00b2b550(CTreeFileAccessImpl* file);
     void FUN_00b2bde0(ElementIterator* a);
     void FUN_00b2cbc0(ElementIterator* a);
-    void FUN_00b2daf0(ElementIterator* a);
+    void CTreeEngine_ParseFlareSeed(ElementIterator* a);
     void FUN_00b2ceb0(ElementIterator* a);
     void FUN_00b2c790(ElementIterator* a);
-    void FUN_00b2c130();
+    void BuildBranchLods();
     void FUN_00b2d090(TreeFileAccess* file);
     void FUN_00b2d2e0(Reader* a);
 };

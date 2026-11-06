@@ -65,13 +65,13 @@ struct SoundListView
     void AddTail(char* const&);
 };
 extern SoundListView g_011d970c;
-int __cdecl FUN_0076bb00(WeatherEntry*, WeatherEntry*);
+int __cdecl QuestUpdateManager_SortQuestNamesByPriorityFunction(WeatherEntry*, WeatherEntry*);
 // Appends name to g_011d970c and re-sorts the list using FUN_0076bb00 as the comparison.
 // @fnv 0x0076bad0
 void FUN_0076bad0(char* name)
 {
     g_011d970c.AddTail(name);
-    ((BSSimpleList<WeatherEntry*>*)&g_011d970c)->Sort(FUN_0076bb00);
+    ((BSSimpleList<WeatherEntry*>*)&g_011d970c)->Sort(QuestUpdateManager_SortQuestNamesByPriorityFunction);
 }
 
 struct FUN_008c8190_shell
@@ -631,21 +631,22 @@ void FUN_008ca2e0_shell::CallAt(int iIndex)
 
 struct GlobalObject_008caae0
 {
-    void __thiscall FUN_008ca330(int a);
+    void __thiscall AITaskThreadManager_WaitForThread(int a);
 };
 extern GlobalObject_008caae0 g_011dfc24;
 
 struct FUN_008ca300_shell
 {
-    void __thiscall FUN_008ca300();
+    void __thiscall AITaskManager_WaitForTasksDuringRendering();
 };
 
 // @fnv 0x008ca300
-void __thiscall FUN_008ca300_shell::FUN_008ca300()
+// src: COMMUNITY 0x008ca300
+void __thiscall FUN_008ca300_shell::AITaskManager_WaitForTasksDuringRendering()
 {
     if (*(unsigned char*)((char*)this + 0x10180))
     {
-        g_011dfc24.FUN_008ca330(2);
+        g_011dfc24.AITaskThreadManager_WaitForThread(2);
         *(unsigned char*)((char*)this + 0x10180) = 0;
     }
 }
@@ -653,10 +654,11 @@ void __thiscall FUN_008ca300_shell::FUN_008ca300()
 void __fastcall FUN_008c7490(void* p);
 struct FUN_008ca330_shell
 {
-    void FUN_008ca330(int a);
+    void AITaskThreadManager_WaitForThread(int a);
 };
 // @fnv 0x008ca330
-void FUN_008ca330_shell::FUN_008ca330(int aiIndex)
+// src: COMMUNITY 0x008ca330
+void FUN_008ca330_shell::AITaskThreadManager_WaitForThread(int aiIndex)
 {
     FUN_008c7490(((void**)this)[aiIndex]);
 }
@@ -793,7 +795,7 @@ struct FUN_008ca5a0_node
 };
 struct FUN_008ca5a0_pool
 {
-    bool FUN_008ca7c0(FUN_008ca5a0_node** out, unsigned int arg);
+    bool BSTFreeList_Allocate(FUN_008ca5a0_node** out, unsigned int arg);
 };
 struct FUN_008ca5a0_mgr
 {
@@ -809,7 +811,7 @@ bool FUN_008ca5a0_mgr::AppendNode(unsigned int arg)
 {
     bool result;
     FUN_008ca5a0_node* node;
-    if (pool && pool->FUN_008ca7c0(&node, arg))
+    if (pool && pool->BSTFreeList_Allocate(&node, arg))
     {
         if (!head)
             tail = &head;
@@ -1596,7 +1598,7 @@ struct Completion
 struct ContextBlock
 {
     unsigned int unk00;
-    ResourceHandle* FUN_0044edb0();
+    ResourceHandle* TESMain_GetThread();
     Completion* FUN_006815c0(int first, int second);
 };
 struct TaskToken
@@ -1631,7 +1633,7 @@ struct TaskOwner
 // @fnv 0x008c9e40
 void TaskOwner::DispatchTask()
 {
-    context.FUN_0044edb0()->Dispatch(payload, 0x16800);
+    context.TESMain_GetThread()->Dispatch(payload, 0x16800);
     hkBaseSystem_quitThread();
     FUN_00cbbfc0()->Queue(&context, TaskToken(1));
     context.FUN_006815c0(0, 0)->FUN_008c70c0();
@@ -1983,8 +1985,8 @@ public:
     PROJ* GetProjectileBase();
     unsigned char FUN_008bc700(ActorProjectileMethods* a);
     int FUN_008a0d10(int a, ActorProjectileMethods* b, unsigned char* c, unsigned char d, int e, int f, unsigned char* g);
-    void FUN_00966f20(ActorProjectileMethods* a, unsigned char b, int c);
-    void FUN_00967350(ActorProjectileMethods* a);
+    void PlayerCharacter_InsertPerceivedActor(ActorProjectileMethods* a, unsigned char b, int c);
+    void PlayerCharacter_RemovePerceivedActor(ActorProjectileMethods* a);
 };
 
 class TG
@@ -2081,15 +2083,15 @@ void Owner::UpdateProjectile(ActorProjectileMethods* arg)
                             }
                             if ((double)aV14 >= *DAT_011d13c8.Float())
                             {
-                                DAT_011dea3c->FUN_00966f20(p, v15, 0);
+                                DAT_011dea3c->PlayerCharacter_InsertPerceivedActor(p, v15, 0);
                             }
                             else if (v1d || v16)
                             {
-                                DAT_011dea3c->FUN_00966f20(p, v15, 1);
+                                DAT_011dea3c->PlayerCharacter_InsertPerceivedActor(p, v15, 1);
                             }
                             else
                             {
-                                DAT_011dea3c->FUN_00967350(p);
+                                DAT_011dea3c->PlayerCharacter_RemovePerceivedActor(p);
                             }
                         }
                     }
@@ -2097,7 +2099,7 @@ void Owner::UpdateProjectile(ActorProjectileMethods* arg)
                 else
                 {
                     if (reinterpret_cast<float (__thiscall*)(ActorProjectileMethods*)>((*reinterpret_cast<void***>(p))[0xad])(p) < 0.0)
-                        DAT_011dea3c->FUN_00967350(p);
+                        DAT_011dea3c->PlayerCharacter_RemovePerceivedActor(p);
                     p->Unk_AE();
                 }
             }
@@ -2270,13 +2272,14 @@ extern Store DAT_011dfb98;
 extern Mode DAT_011dfc24;
 struct Obj
 {
-    void FUN_008ca070();
+    void AITaskManager_StartTasksDuringRendering();
     void ForwardToInner(Temp*);
     void CallMidVirtualB();
     void FUN_008c8240(int);
 };
 // @fnv 0x008ca070
-void Obj::FUN_008ca070()
+// src: COMMUNITY 0x008ca070
+void Obj::AITaskManager_StartTasksDuringRendering()
 {
     if (*DAT_011c3ea4.FUN_0043d4d0() == 1)
     {
@@ -2370,7 +2373,7 @@ struct BufQ
 };
 struct MemQ
 {
-    HeapQ* FUN_0044edb0();
+    HeapQ* TESMain_GetThread();
     void FUN_0041fd00(HeapQ* p);
     void FUN_00984f60(HeapQ* p);
     BufQ* FUN_006815c0();
@@ -2393,9 +2396,9 @@ void OwnQ::InitMemory()
 {
     FUN_00cbbfc0()->Create(&kMem, "AITaskThread", FUN_008c71b0(1));
     FUN_00cbb930(&kMem);
-    kMem.FUN_0041fd00(kMem.FUN_0044edb0());
-    kMem.FUN_00984f60(kMem.FUN_0044edb0());
-    unk74 = kMem.FUN_0044edb0()->Alloc(0x16800);
+    kMem.FUN_0041fd00(kMem.TESMain_GetThread());
+    kMem.FUN_00984f60(kMem.TESMain_GetThread());
+    unk74 = kMem.TESMain_GetThread()->Alloc(0x16800);
     kMem.FUN_006815c0()->FUN_008c70c0(unk74, 0x16800);
     DAT_011c3f2c->FUN_00462ee0();
 }

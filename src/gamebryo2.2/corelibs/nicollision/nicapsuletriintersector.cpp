@@ -40,7 +40,7 @@ inline void AccumulateContactPoint(NiPoint3& point, const NiPoint3& displacement
 struct CollisionTriangle
 {
     NiPoint3 origin, edge0, edge1;
-    NiPoint3 FUN_00eb3830() const;
+    NiPoint3 NiTrigon_GetNormal() const;
 };
 struct S_eb5ce0_Obj
 {
@@ -67,7 +67,7 @@ struct S_eb5ce0_Obj
 void S_eb5ce0_Obj::NiCapsuleTriIntersector_ComputeContactInformation(int unused, const NiPoint3* d)
 {
     p20 = (triangle.origin + triangle.edge0 * s64) + triangle.edge1 * s68;
-    p2c = -triangle.FUN_00eb3830();
+    p2c = -triangle.NiTrigon_GetNormal();
     if (mode == 2)
     {
         AccumulateContactPoint(p20, *d * unk1c);

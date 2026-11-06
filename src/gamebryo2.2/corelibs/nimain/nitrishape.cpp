@@ -66,7 +66,8 @@ NiObject* NiTriShape::CreateObject()
 
 extern const char g_011f5b34_arg1[];
 // @fnv 0x00a74520
-const char* __cdecl FUN_00a74520()
+// src: COMMUNITY 0x00a74520
+const char* __cdecl NiTriShape_GetRTTI()
 {
     return g_011f5b34_arg1;
 }
@@ -110,7 +111,7 @@ void NiTriShape::RenderImmediate(NiRenderer* apkRenderer)
 }
 
 namespace fnv_00a74690 {
-char* FUN_00a7d330(const char*);
+char* NiViewerStrings_NiGetViewerString_Title(const char*);
 extern const char* const g_011f5b34_arg1;
 }  // namespace fnv_00a74690
 
@@ -120,7 +121,7 @@ void NiTriShape::GetViewerStrings(NiViewerStringsArray* strings)
 {
     StrArr* pkStrings = reinterpret_cast<StrArr*>(strings);
     NiTriBasedGeom::GetViewerStrings(strings);
-    char* pStr = fnv_00a74690::FUN_00a7d330(fnv_00a74690::g_011f5b34_arg1);
+    char* pStr = fnv_00a74690::NiViewerStrings_NiGetViewerString_Title(fnv_00a74690::g_011f5b34_arg1);
     unsigned int uiIndex = *(unsigned short*)((char*)pkStrings + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)pkStrings + 8))
         pkStrings->SetSize(uiIndex + *(unsigned short*)((char*)pkStrings + 0xe));

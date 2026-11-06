@@ -24,7 +24,7 @@ void NiIntegersExtraData::LoadBinary(NiStream& stream)
         NiIntegerStreamEntry streamEntry;
         for (unsigned int i = 0; i < count; ++i)
         {
-            streamEntry.FUN_00c545d0(stream);
+            streamEntry.FurnitureMark_LoadBinary(stream);
             entries.Add(streamEntry);
             // Preserve the original frame's 176-byte unused local region.
             struct ReservedStreamLocals
@@ -82,11 +82,12 @@ extern NiFixedString* DAT_012031c0;
 
 struct NiExtraDataNameInitializer : NiExtraData
 {
-    void FUN_00c543e0();
+    void BSFurnitureMarker_SetName();
 };
 
 // @fnv 0x00c543e0
-void NiExtraDataNameInitializer::FUN_00c543e0()
+// src: COMMUNITY 0x00c543e0
+void NiExtraDataNameInitializer::BSFurnitureMarker_SetName()
 {
     reinterpret_cast<NiAVObject*>(this)->SetName(*DAT_012031c0);
 }
@@ -95,22 +96,24 @@ extern int g_012031c4;
 
 struct FUN_00c54d60_shell
 {
-    int* __thiscall FUN_00c54d60();
+    int* __thiscall BSFurnitureMarker_GetRTTI();
 };
 
 // @fnv 0x00c54d60
-int* __thiscall FUN_00c54d60_shell::FUN_00c54d60()
+// src: COMMUNITY 0x00c54d60
+int* __thiscall FUN_00c54d60_shell::BSFurnitureMarker_GetRTTI()
 {
     return &g_012031c4;
 }
 
 struct FUN_00c54030_shell
 {
-    int __thiscall FUN_00c54030(int param_1);
+    int __thiscall BSFurnitureMarker_CreateClone(int param_1);
 };
 
 // @fnv 0x00c54030
-int __thiscall FUN_00c54030_shell::FUN_00c54030(int param_1)
+// src: COMMUNITY 0x00c54030
+int __thiscall FUN_00c54030_shell::BSFurnitureMarker_CreateClone(int param_1)
 {
     return (int)this;
 }
@@ -321,11 +324,12 @@ struct FUN_00c545d0_cls
     unsigned short fldC;
     unsigned short fldE;
     void __thiscall FUN_00c54550(float);
-    void __thiscall FUN_00c545d0(NiStream& s);
+    void __thiscall FurnitureMark_LoadBinary(NiStream& s);
 };
 
 // @fnv 0x00c545d0
-void FUN_00c545d0_cls::FUN_00c545d0(NiStream& aStream)
+// src: COMMUNITY 0x00c545d0
+void FUN_00c545d0_cls::FurnitureMark_LoadBinary(NiStream& aStream)
 {
     unsigned char flag;
     FUN_00a59be0(aStream);
@@ -349,11 +353,12 @@ struct FUN_00c54b70_cls
     unsigned short m_0e;
     void FUN_00c54850(unsigned int n);
     void FUN_00c54a30(unsigned int idx, NiIntegerStreamEntry& e);
-    unsigned int FUN_00c54b70(NiIntegerStreamEntry& e);
+    unsigned int NiTArray_FurnitureMark_NiTNewInterface_FurnitureMark_Add(NiIntegerStreamEntry& e);
 };
 
 // @fnv 0x00c54b70
-unsigned int FUN_00c54b70_cls::FUN_00c54b70(NiIntegerStreamEntry& aEntry)
+// src: COMMUNITY 0x00c54b70
+unsigned int FUN_00c54b70_cls::NiTArray_FurnitureMark_NiTNewInterface_FurnitureMark_Add(NiIntegerStreamEntry& aEntry)
 {
     unsigned int scratch[0x16];
     unsigned int tmp;
@@ -471,7 +476,7 @@ struct FUN_00c542a0_shell : NiExtraData
 };
 
 extern int g_012031c4;
-extern char* __cdecl FUN_00a7d330(int);
+extern char* __cdecl NiViewerStrings_NiGetViewerString_Title(int);
 extern char* __cdecl FUN_00a7d510(char const*, unsigned int);
 extern char* __cdecl FUN_00a7d550(char const*, float);
 
@@ -494,7 +499,7 @@ void FUN_00c542a0_shell::FUN_00c542a0(ViewerStringsArray* strings)
     FUN_00a7b580(strings);
 
     aNameValue = g_012031c4;
-    aRtti = FUN_00a7d330(aNameValue);
+    aRtti = NiViewerStrings_NiGetViewerString_Title(aNameValue);
     strings->AddFirstEmpty(aRtti);
 
     iMarkers = count;

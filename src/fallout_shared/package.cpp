@@ -612,7 +612,8 @@ struct VTable0x11c
 
 // Returns true when apActor is non-null and its log date object's v71 virtual call returns true; otherwise false.
 // @fnv 0x00677760
-bool TESPackage::FUN_00677760(Actor* apActor)
+// src: COMMUNITY 0x00677760
+bool TESPackage::HasActorCompletedPackage(Actor* apActor)
 {
     bool bHasResultObj = false;
     if (apActor && reinterpret_cast<TES*>(apActor)->GetLogDate())
@@ -929,7 +930,7 @@ char FUN_00678ce0_shell::FUN_00678ce0()
 
 struct FUN_00678d00_shell : public TESPackage
 {
-    bool FUN_00678d00();
+    bool TESPackage_GetShouldReserveTarget();
 };
 
 class Calendar
@@ -940,7 +941,8 @@ class Calendar
 
 // Returns true when GetDaysPassed() is 2-5 or 26, false otherwise.
 // @fnv 0x00678d00
-bool FUN_00678d00_shell::FUN_00678d00()
+// src: COMMUNITY 0x00678d00
+bool FUN_00678d00_shell::TESPackage_GetShouldReserveTarget()
 {
     switch ((int)reinterpret_cast<Calendar*>(this)->GetDaysPassed())
     {
@@ -1181,7 +1183,8 @@ struct DummyForm3C
 };
 
 // @fnv 0x00679ba0
-int __cdecl FUN_00679ba0(void* pForm)
+// src: COMMUNITY 0x00679ba0
+int __cdecl TESPackage_GetObjectTypeFromForm(void* pForm)
 {
     int res = 0;
     if (pForm)
@@ -1375,55 +1378,60 @@ bool TESPackage::IsNotFlag8000000()
 
 struct FUN_0067a850_shell : public TESPackage
 {
-    bool FUN_0067a850();
+    bool TESPackage_GetFOEnableHellosToPlayer();
 };
 
 // @fnv 0x0067a850
-bool FUN_0067a850_shell::FUN_0067a850()
+// src: COMMUNITY 0x0067a850
+bool FUN_0067a850_shell::TESPackage_GetFOEnableHellosToPlayer()
 {
     return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 1) ? true : false;
 }
 
 struct FUN_0067a8d0_shell : public TESPackage
 {
-    bool FUN_0067a8d0();
+    bool TESPackage_GetFOEnableRandomConversations();
 };
 
 // @fnv 0x0067a8d0
-bool FUN_0067a8d0_shell::FUN_0067a8d0()
+// src: COMMUNITY 0x0067a8d0
+bool FUN_0067a8d0_shell::TESPackage_GetFOEnableRandomConversations()
 {
     return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 2) ? true : false;
 }
 
 struct FUN_0067a950_shell : public TESPackage
 {
-    bool FUN_0067a950();
+    bool TESPackage_GetFOEnableObserveCombatBehavior();
 };
 
 // @fnv 0x0067a950
-bool FUN_0067a950_shell::FUN_0067a950()
+// src: COMMUNITY 0x0067a950
+bool FUN_0067a950_shell::TESPackage_GetFOEnableObserveCombatBehavior()
 {
     return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 4) ? true : false;
 }
 
 struct FUN_0067aa50_shell : public TESPackage
 {
-    bool FUN_0067aa50();
+    bool TESPackage_GetFOEnableReactionToPlayerActions();
 };
 
 // @fnv 0x0067aa50
-bool FUN_0067aa50_shell::FUN_0067aa50()
+// src: COMMUNITY 0x0067aa50
+bool FUN_0067aa50_shell::TESPackage_GetFOEnableReactionToPlayerActions()
 {
     return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 0x10) ? true : false;
 }
 
 struct FUN_0067aad0_shell : public TESPackage
 {
-    bool FUN_0067aad0();
+    bool TESPackage_GetFOEnableFriendlyFireComments();
 };
 
 // @fnv 0x0067aad0
-bool FUN_0067aad0_shell::FUN_0067aad0()
+// src: COMMUNITY 0x0067aad0
+bool FUN_0067aad0_shell::TESPackage_GetFOEnableFriendlyFireComments()
 {
     return (*reinterpret_cast<const unsigned short*>(reinterpret_cast<const char*>(this) + 0x22) & 0x20) ? true : false;
 }
@@ -3060,12 +3068,13 @@ void FUN_00671e10_shell::FUN_00671e10(LocationDescriptor* apPackLoc)
 class FUN_00675980_shell : public TESPackage
 {
   public:
-    TESObjectREFR* FUN_00675980();
+    TESObjectREFR* TESPackage_GetGuardData();
 };
 
 // Returns the reference stored at offset 0x28 when the package type is 0xe, otherwise returns null.
 // @fnv 0x00675980
-TESObjectREFR* FUN_00675980_shell::FUN_00675980()
+// src: COMMUNITY 0x00675980
+TESObjectREFR* FUN_00675980_shell::TESPackage_GetGuardData()
 {
     if (GetPackType() == (PTYPE)0xe)
         return (TESObjectREFR*)*(unsigned int*)((char*)this + 0x28);
@@ -3073,7 +3082,8 @@ TESObjectREFR* FUN_00675980_shell::FUN_00675980()
 }
 
 // @fnv 0x0067a560
-bool __fastcall FUN_0067a560(int pObject)
+// src: COMMUNITY 0x0067a560
+bool __fastcall TESPackage_GetAllowsSwim(int pObject)
 {
     return (*(int*)(pObject + 0x1c) & 0x40000) ? true : false;
 }
@@ -3088,17 +3098,19 @@ struct FUN_0067a5d0_class
 {
     int _0, _4, _8, _c, _10, _14, _18;
     unsigned int flags;  // +0x1c
-    bool __thiscall FUN_0067a5d0();
+    bool __thiscall TESPackage_GetAllowFalls();
 };
 
 // @fnv 0x0067a5d0
-bool __thiscall FUN_0067a5d0_class::FUN_0067a5d0()
+// src: COMMUNITY 0x0067a5d0
+bool __thiscall FUN_0067a5d0_class::TESPackage_GetAllowFalls()
 {
     return (flags & 0x80000) ? true : false;
 }
 
 // @fnv 0x0067a9d0
-bool __fastcall FUN_0067a9d0(void* pObject)
+// src: COMMUNITY 0x0067a9d0
+bool __fastcall TESPackage_GetFOEnableGreetCorpseBehavior(void* pObject)
 {
     return (*reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pObject) + 0x22) & 8) ? true : false;
 }
@@ -3283,12 +3295,13 @@ struct FUN_0067aa70_shell
 {
     unsigned char m_00[0x22];
     unsigned short m_22;
-    void FUN_0067aa70(bool show);
+    void TESPackage_SetFOEnableReactionToPlayerActions(bool show);
 };
 
 // Sets or clears bit 0x10 in m_22 according to show.
 // @fnv 0x0067aa70
-void FUN_0067aa70_shell::FUN_0067aa70(bool show)
+// src: COMMUNITY 0x0067aa70
+void FUN_0067aa70_shell::TESPackage_SetFOEnableReactionToPlayerActions(bool show)
 {
     show ? m_22 |= 0x10 : m_22 &= ~0x10;
 }
@@ -3297,12 +3310,13 @@ struct FUN_0067ab70_shell
 {
     unsigned char mPad0[0x22];
     unsigned short mFlags;
-    void FUN_0067ab70(bool flag);
+    void TESPackage_SetFOEnableAggroRadiusBehavior(bool flag);
 };
 
 // Sets or clears bit 0x40 in mFlags according to flag.
 // @fnv 0x0067ab70
-void FUN_0067ab70_shell::FUN_0067ab70(bool abSet)
+// src: COMMUNITY 0x0067ab70
+void FUN_0067ab70_shell::TESPackage_SetFOEnableAggroRadiusBehavior(bool abSet)
 {
     abSet ? mFlags |= 0x40 : mFlags &= ~0x40;
 }
@@ -3441,11 +3455,12 @@ struct LocationDescriptor
 };
 struct FUN_00675670_shell : TESPackage
 {
-    unsigned int __thiscall FUN_00675670();
+    unsigned int __thiscall TESPackage_GetSecondLocationRadius();
 };
 // Calls FUN_00672dd0 to get an object and, if non-null, returns the result of its FUN_0067f1c0; otherwise returns 0.
 // @fnv 0x00675670
-unsigned int __thiscall FUN_00675670_shell::FUN_00675670()
+// src: COMMUNITY 0x00675670
+unsigned int __thiscall FUN_00675670_shell::TESPackage_GetSecondLocationRadius()
 {
     LocationDescriptor* loc = reinterpret_cast<LocationDescriptor*>(GetPackageSecondLocation());
     if (loc)
@@ -3461,14 +3476,15 @@ struct PkgProxy
 };
 struct F5670
 {
-    unsigned int FUN_00675670();
+    unsigned int TESPackage_GetSecondLocationRadius();
 };
 // @fnv 0x006758a0
-unsigned int TESPackage::FUN_006758a0(MobileObject* apMobile)
+// src: COMMUNITY 0x006758a0
+unsigned int TESPackage::GetSearchLocationRadius(MobileObject* apMobile)
 {
     int loc = ((PkgProxy*)this)->HasSecondLocation();
     return loc == reinterpret_cast<int>(((Script*)this)->GetText()) ? ((TESPackage*)this)->FUN_00676280(apMobile)
-                                             : ((F5670*)this)->FUN_00675670();
+                                             : ((F5670*)this)->TESPackage_GetSecondLocationRadius();
 }
 
 struct FUN_00675950_host : public TESPackage
@@ -3500,10 +3516,11 @@ TESPatrolPackageData* StandIn006759b0::FUN_006759b0()
 
 struct FUN_006784c0_shell
 {
-    int FUN_006784c0();
+    int TESPackage_GetEscortFollowDistance();
 };
 // @fnv 0x006784c0
-int FUN_006784c0_shell::FUN_006784c0()
+// src: COMMUNITY 0x006784c0
+int FUN_006784c0_shell::TESPackage_GetEscortFollowDistance()
 {
     TESEscortPackageData* pdata;
     if (reinterpret_cast<TESPackage*>(this)->GetPackType() != 2)
@@ -3553,10 +3570,11 @@ struct S
 {
     unsigned char pad[0x1C];
     unsigned int flags;
-    void FUN_0067a800(bool);
+    void TESPackage_SetNoWarnAttackBehavior(bool);
 };
 // @fnv 0x0067a800
-void S::FUN_0067a800(bool b)
+// src: COMMUNITY 0x0067a800
+void S::TESPackage_SetNoWarnAttackBehavior(bool b)
 {
     !b ? flags |= 0x10000000 : flags &= ~0x10000000;
 }
@@ -3564,11 +3582,12 @@ void S::FUN_0067a800(bool b)
 
 struct FUN_0067aaf0_Holder
 {
-    void FUN_0067aaf0(bool);
+    void TESPackage_SetFOEnableFriendlyFireComments(bool);
 };
 // Sets or clears bit 0x20 in the 16-bit flags field at offset 0x22 based on show.
 // @fnv 0x0067aaf0
-void FUN_0067aaf0_Holder::FUN_0067aaf0(bool show)
+// src: COMMUNITY 0x0067aaf0
+void FUN_0067aaf0_Holder::TESPackage_SetFOEnableFriendlyFireComments(bool show)
 {
     show ? *(unsigned short*)((char*)this + 0x22) |= 0x20 : *(unsigned short*)((char*)this + 0x22) &= ~0x20;
 }
@@ -3799,7 +3818,7 @@ extern DH* g_dataHandler;
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 struct S_00970810
 {
-    void FUN_00970810(void*);
+    void ProcessLists_NullOutActorsPackage(void*);
 };
 extern S_00970810 DAT_011e0e80;
 struct Base5a
@@ -3839,7 +3858,7 @@ FUN_006708b0::~FUN_006708b0()
         m_uiRefCount++;
         if (g_BGSSaveLoadGame->FUN_0042ce10() || ((TESPackage*)this)->GetPackType() == 0x15 ||
             ((TESPackage*)this)->GetPackType() == 0x17)
-            DAT_011e0e80.FUN_00970810(this);
+            DAT_011e0e80.ProcessLists_NullOutActorsPackage(this);
         m_uiRefCount--;
     }
     ((TESPackage*)this)->SetTrespassEnabled(false);
@@ -4954,7 +4973,7 @@ struct FUN_0067a3a0_shell
 };
 struct FUN_0067a850_shell
 {
-    bool FUN_0067a850();
+    bool TESPackage_GetFOEnableHellosToPlayer();
 };
 struct Dummy0067a870
 {
@@ -4962,7 +4981,7 @@ struct Dummy0067a870
 };
 struct FUN_0067a8d0_shell
 {
-    bool FUN_0067a8d0();
+    bool TESPackage_GetFOEnableRandomConversations();
 };
 struct FUN_0067a8f0_shell
 {
@@ -4970,7 +4989,7 @@ struct FUN_0067a8f0_shell
 };
 struct FUN_0067a950_shell
 {
-    bool FUN_0067a950();
+    bool TESPackage_GetFOEnableObserveCombatBehavior();
 };
 struct FUN_0067a970_shell
 {
@@ -4978,7 +4997,7 @@ struct FUN_0067a970_shell
 };
 struct Get0067a9d0_r1b0
 {
-    bool FUN_0067a9d0();
+    bool TESPackage_GetFOEnableGreetCorpseBehavior();
 };
 struct FUN_0067a9f0_shell
 {
@@ -4986,19 +5005,19 @@ struct FUN_0067a9f0_shell
 };
 struct FUN_0067aa50_shell
 {
-    bool FUN_0067aa50();
+    bool TESPackage_GetFOEnableReactionToPlayerActions();
 };
 struct FUN_0067aa70_shell
 {
-    void FUN_0067aa70(bool);
+    void TESPackage_SetFOEnableReactionToPlayerActions(bool);
 };
 struct FUN_0067aad0_shell
 {
-    bool FUN_0067aad0();
+    bool TESPackage_GetFOEnableFriendlyFireComments();
 };
 struct FUN_0067aaf0_Holder
 {
-    void FUN_0067aaf0(bool);
+    void TESPackage_SetFOEnableFriendlyFireComments(bool);
 };
 struct FUN_0067ab50_shell
 {
@@ -5006,7 +5025,7 @@ struct FUN_0067ab50_shell
 };
 struct FUN_0067ab70_shell
 {
-    void FUN_0067ab70(bool);
+    void TESPackage_SetFOEnableAggroRadiusBehavior(bool);
 };
 struct Get0067abd0_r1b0
 {
@@ -5071,13 +5090,13 @@ struct FUN_0067a720_shell
 };
 struct FUN_0067a5d0_class
 {
-    bool FUN_0067a5d0();
+    bool TESPackage_GetAllowFalls();
 };
 struct FUN_0067a5f0_shell
 {
     void SetFlag80000(bool);
 };
-bool __fastcall FUN_0067a560(int);
+bool __fastcall TESPackage_GetAllowsSwim(int);
 struct FUN_0067a580_shell
 {
     void SetFlag40000(bool);
@@ -5088,7 +5107,7 @@ struct FUN_0067a7e0_shell
 };
 struct FUN_0067a800_shell
 {
-    void FUN_0067a800(bool);
+    void TESPackage_SetNoWarnAttackBehavior(bool);
 };
 
 // @fnv 0x0067a1b0
@@ -5098,13 +5117,13 @@ void TESPackage::FUN_0067a1b0(TESPackage* apCopy)
 {
     using namespace fnv_0067a1b0;
     ((fnv_0067a1b0::FUN_0067a3a0_shell*)this)->FUN_0067a3a0(((fnv_0067a1b0::FUN_0067a380_shell*)apCopy)->FUN_0067a380());
-    ((fnv_0067a1b0::Dummy0067a870*)this)->SetFlag(((fnv_0067a1b0::FUN_0067a850_shell*)apCopy)->FUN_0067a850());
-    ((fnv_0067a1b0::FUN_0067a8f0_shell*)this)->SetFlag2(((fnv_0067a1b0::FUN_0067a8d0_shell*)apCopy)->FUN_0067a8d0());
-    ((fnv_0067a1b0::FUN_0067a970_shell*)this)->SetFlag4(((fnv_0067a1b0::FUN_0067a950_shell*)apCopy)->FUN_0067a950());
-    ((fnv_0067a1b0::FUN_0067a9f0_shell*)this)->SetFlag8(((fnv_0067a1b0::Get0067a9d0_r1b0*)apCopy)->FUN_0067a9d0());
-    ((fnv_0067a1b0::FUN_0067aa70_shell*)this)->FUN_0067aa70(((fnv_0067a1b0::FUN_0067aa50_shell*)apCopy)->FUN_0067aa50());
-    ((fnv_0067a1b0::FUN_0067aaf0_Holder*)this)->FUN_0067aaf0(((fnv_0067a1b0::FUN_0067aad0_shell*)apCopy)->FUN_0067aad0());
-    ((fnv_0067a1b0::FUN_0067ab70_shell*)this)->FUN_0067ab70(((fnv_0067a1b0::FUN_0067ab50_shell*)apCopy)->HasFlag40());
+    ((fnv_0067a1b0::Dummy0067a870*)this)->SetFlag(((fnv_0067a1b0::FUN_0067a850_shell*)apCopy)->TESPackage_GetFOEnableHellosToPlayer());
+    ((fnv_0067a1b0::FUN_0067a8f0_shell*)this)->SetFlag2(((fnv_0067a1b0::FUN_0067a8d0_shell*)apCopy)->TESPackage_GetFOEnableRandomConversations());
+    ((fnv_0067a1b0::FUN_0067a970_shell*)this)->SetFlag4(((fnv_0067a1b0::FUN_0067a950_shell*)apCopy)->TESPackage_GetFOEnableObserveCombatBehavior());
+    ((fnv_0067a1b0::FUN_0067a9f0_shell*)this)->SetFlag8(((fnv_0067a1b0::Get0067a9d0_r1b0*)apCopy)->TESPackage_GetFOEnableGreetCorpseBehavior());
+    ((fnv_0067a1b0::FUN_0067aa70_shell*)this)->TESPackage_SetFOEnableReactionToPlayerActions(((fnv_0067a1b0::FUN_0067aa50_shell*)apCopy)->TESPackage_GetFOEnableReactionToPlayerActions());
+    ((fnv_0067a1b0::FUN_0067aaf0_Holder*)this)->TESPackage_SetFOEnableFriendlyFireComments(((fnv_0067a1b0::FUN_0067aad0_shell*)apCopy)->TESPackage_GetFOEnableFriendlyFireComments());
+    ((fnv_0067a1b0::FUN_0067ab70_shell*)this)->TESPackage_SetFOEnableAggroRadiusBehavior(((fnv_0067a1b0::FUN_0067ab50_shell*)apCopy)->HasFlag40());
     ((fnv_0067a1b0::FUN_0067abf0_shell*)this)->FUN_0067abf0(((fnv_0067a1b0::Get0067abd0_r1b0*)apCopy)->IsPackageFlag80Set());
     ((fnv_0067a1b0::FUN_0067ac70_shell*)this)->SetFlag100(((fnv_0067a1b0::FUN_0067ac50_shell*)apCopy)->FUN_0067ac50());
     ((TESPackage*)this)->FUN_00671a20(((fnv_0067a1b0::FUN_0067a460_shell*)apCopy)->FUN_0067a460());
@@ -5116,9 +5135,9 @@ void TESPackage::FUN_0067a1b0(TESPackage* apCopy)
     ((BGSAcousticSpace*)this)->SetRegion((::TESRegion*)((TESTopicInfo*)apCopy)->GetParentQuest());
     ((fnv_0067a1b0::FUN_0067a720_shell*)this)->SetFlag4000000(((fnv_0067a1b0::FUN_0067a700_shell*)apCopy)->FUN_0067a700());
     ((TESPackage*)this)->SetFlag400000(((TESPackage*)apCopy)->HasFlag400000());
-    ((fnv_0067a1b0::FUN_0067a5f0_shell*)this)->SetFlag80000(((fnv_0067a1b0::FUN_0067a5d0_class*)apCopy)->FUN_0067a5d0());
-    ((fnv_0067a1b0::FUN_0067a580_shell*)this)->SetFlag40000(fnv_0067a1b0::FUN_0067a560((int)apCopy));
-    ((fnv_0067a1b0::FUN_0067a800_shell*)this)->FUN_0067a800(((fnv_0067a1b0::FUN_0067a7e0_shell*)apCopy)->IsFlag28Clear());
+    ((fnv_0067a1b0::FUN_0067a5f0_shell*)this)->SetFlag80000(((fnv_0067a1b0::FUN_0067a5d0_class*)apCopy)->TESPackage_GetAllowFalls());
+    ((fnv_0067a1b0::FUN_0067a580_shell*)this)->SetFlag40000(fnv_0067a1b0::TESPackage_GetAllowsSwim((int)apCopy));
+    ((fnv_0067a1b0::FUN_0067a800_shell*)this)->TESPackage_SetNoWarnAttackBehavior(((fnv_0067a1b0::FUN_0067a7e0_shell*)apCopy)->IsFlag28Clear());
 }
 
 
@@ -5244,12 +5263,13 @@ struct FUN_00673200_shell
     unsigned char padding[0x40];
     FUN_00680a70_shell member;
 
-    void FUN_00673200(BGSIdleCollection*);
+    void TESPackage_SetConditions(BGSIdleCollection*);
 };
 
 // If apIdles is non-null, passes it to CopyConditions with null; otherwise passes a default-constructed CondS and null.
 // @fnv 0x00673200
-void FUN_00673200_shell::FUN_00673200(BGSIdleCollection* apIdles)
+// src: COMMUNITY 0x00673200
+void FUN_00673200_shell::TESPackage_SetConditions(BGSIdleCollection* apIdles)
 {
     if (apIdles)
     {
@@ -5399,7 +5419,7 @@ extern TESSaveLoadGame* DAT_011de45c;
 
 struct FUN_0067f990_object
 {
-    unsigned short FUN_0067f990();
+    unsigned short PackageLocation_GetSaveSize();
 };
 
 struct FUN_00680520_object
@@ -5456,7 +5476,7 @@ unsigned short FUN_00678fd0_shell::FUN_00678fd0()
 
         if (pObject2c)
         {
-            size += reinterpret_cast<FUN_0067f990_object*>(pObject2c)->FUN_0067f990();
+            size += reinterpret_cast<FUN_0067f990_object*>(pObject2c)->PackageLocation_GetSaveSize();
         }
 
         if (pObject30)
@@ -5744,18 +5764,19 @@ TESPackage* CreatePackageByType(int type)
 
 struct FUN_006757e0_shell : TESPackage
 {
-    int FUN_00672f20();
+    int TESPackage_GetPackageSearchLocation();
     int FUN_0055b980();
     int FUN_00675c20(MobileObject* actor);
     int FUN_006751a0(MobileObject* actor);
-    int FUN_006757e0(MobileObject* actor);
+    int TESPackage_GetSearchLocationCell(MobileObject* actor);
 };
 
 // Calls FUN_00672f20 and FUN_0055b980; if equal, calls FUN_00675c20(actor), otherwise FUN_006751a0(actor), returning that result.
 // @fnv 0x006757e0
-int FUN_006757e0_shell::FUN_006757e0(MobileObject* actor)
+// src: COMMUNITY 0x006757e0
+int FUN_006757e0_shell::TESPackage_GetSearchLocationCell(MobileObject* actor)
 {
-    int firstResult = FUN_00672f20();
+    int firstResult = TESPackage_GetPackageSearchLocation();
     return firstResult == FUN_0055b980() ? FUN_00675c20(actor) : FUN_006751a0(actor);
 }
 
@@ -5767,20 +5788,21 @@ struct PackValue12
 };
 struct FUN_00675830_shell : TESPackage
 {
-    int FUN_00672f20();
+    int TESPackage_GetPackageSearchLocation();
     int FUN_0055b980();
-    PackValue12* FUN_00675de0(PackValue12* destination, void* actor);
-    PackValue12* FUN_00675360(PackValue12* destination, void* actor);
-    PackValue12* FUN_00675830(PackValue12* output, void* actor);
+    PackValue12* TESPackage_GetLocationCoord(PackValue12* destination, void* actor);
+    PackValue12* TESPackage_GetSecondLocationCoord(PackValue12* destination, void* actor);
+    PackValue12* TESPackage_GetSearchLocationCoord(PackValue12* output, void* actor);
 };
 // @fnv 0x00675830
-PackValue12* FUN_00675830_shell::FUN_00675830(PackValue12* output, void* actor)
+// src: COMMUNITY 0x00675830
+PackValue12* FUN_00675830_shell::TESPackage_GetSearchLocationCoord(PackValue12* output, void* actor)
 {
-    int packageType = FUN_00672f20();
+    int packageType = TESPackage_GetPackageSearchLocation();
     PackValue12 successful;
     PackValue12 fallback;
     const PackValue12* sourceValue =
-        packageType == FUN_0055b980() ? FUN_00675de0(&successful, actor) : FUN_00675360(&fallback, actor);
+        packageType == FUN_0055b980() ? TESPackage_GetLocationCoord(&successful, actor) : TESPackage_GetSecondLocationCoord(&fallback, actor);
     *output = *sourceValue;
     return output;
 }
@@ -5987,7 +6009,7 @@ struct Package
     Location* FUN_0055b980();
     int FUN_00676280(PackageRadiusActor*);
     Reference* FUN_00676140(PackageRadiusActor*);
-    NiPoint3 FUN_00675de0(PackageRadiusActor*);
+    NiPoint3 TESPackage_GetLocationCoord(PackageRadiusActor*);
     bool IsTargetWithinRadius(PackageRadiusActor*, int);
 };
 // @fnv 0x006773a0
@@ -6032,7 +6054,7 @@ bool Package::IsTargetWithinRadius(PackageRadiusActor* actor, int extra)
         radius = *g_011cde98.FUN_0043d4d0();
     radius += extra;
     bool result4 = false;
-    NiPoint3 delta7 = FUN_00675de0(actor) - target2->GetPosition();
+    NiPoint3 delta7 = TESPackage_GetLocationCoord(actor) - target2->GetPosition();
     if ((int)delta7.FUN_00589850() <= radius)
         result4 = true;
     return result4;
@@ -6356,13 +6378,13 @@ struct PackageResetOps
     void* FUN_00671d10();
     void* FUN_00672dd0();
     void FUN_00671a20(bool);
-    void FUN_00671ad0(bool);
-    void FUN_00671b30(bool);
-    void FUN_00671b90(bool);
-    void FUN_00671bf0(bool);
-    void FUN_00671c50(bool);
+    void SandboxSetAllowEating(bool);
+    void SandboxSetAllowSleeping(bool);
+    void SandboxSetAllowConversation(bool);
+    void SandboxSetAllowIdleMarkers(bool);
+    void SandboxSetAllowFurniture(bool);
     void SetFlag20(bool);
-    void FUN_00671a70(bool);
+    void SandboxSetLocationIsLinkedRef(bool);
 };
 struct TargetResetOps
 {
@@ -6472,13 +6494,13 @@ void TESPackage::SetPackageType(int newType)
         switch (newType)
         {
         case 12:
-            reinterpret_cast<PackageResetOps*>(this)->FUN_00671ad0(true);
-            reinterpret_cast<PackageResetOps*>(this)->FUN_00671b30(true);
-            reinterpret_cast<PackageResetOps*>(this)->FUN_00671b90(true);
-            reinterpret_cast<PackageResetOps*>(this)->FUN_00671bf0(true);
-            reinterpret_cast<PackageResetOps*>(this)->FUN_00671c50(true);
+            reinterpret_cast<PackageResetOps*>(this)->SandboxSetAllowEating(true);
+            reinterpret_cast<PackageResetOps*>(this)->SandboxSetAllowSleeping(true);
+            reinterpret_cast<PackageResetOps*>(this)->SandboxSetAllowConversation(true);
+            reinterpret_cast<PackageResetOps*>(this)->SandboxSetAllowIdleMarkers(true);
+            reinterpret_cast<PackageResetOps*>(this)->SandboxSetAllowFurniture(true);
             reinterpret_cast<PackageResetOps*>(this)->SetFlag20(true);
-            reinterpret_cast<PackageResetOps*>(this)->FUN_00671a70(false);
+            reinterpret_cast<PackageResetOps*>(this)->SandboxSetLocationIsLinkedRef(false);
         }
         type = (char)newType;
         switch (newType)
@@ -6503,7 +6525,7 @@ struct PackageAccessor
     int FUN_0087eaa0();
     int FUN_005f36f0();
     int FUN_006733e0();
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
 };
 struct CopyItem
 {
@@ -6517,7 +6539,7 @@ struct PackageCopy : TESPackage
     void FUN_00672fc0(int);
     void FUN_00673180(int);
     void FUN_0050f9a0(int);
-    void FUN_00673200(int);
+    void TESPackage_SetConditions(int);
     void CallOrResetObject(int);
     void FUN_00673400(int);
     void SetPackageType(::PTYPE);
@@ -6536,7 +6558,7 @@ void PackageCopy::CopyFromPackage(TESForm* form)
     FUN_00673180(((PackageAccessor*)p)->FUN_0041d8a0());
     FUN_0050f9a0(((PackageAccessor*)p)->FUN_00441110());
     behaviorFlags = p->behaviorFlags;
-    FUN_00673200(((PackageAccessor*)p)->FUN_0087eaa0());
+    TESPackage_SetConditions(((PackageAccessor*)p)->FUN_0087eaa0());
     CallOrResetObject(((PackageAccessor*)p)->FUN_005f36f0());
     FUN_00673400(((PackageAccessor*)p)->FUN_006733e0());
     SetPackageType(static_cast<::PTYPE>(p->GetPackType()));
@@ -6546,11 +6568,11 @@ void PackageCopy::CopyFromPackage(TESForm* form)
     reinterpret_cast<CopyItem*>(&onBeginAction)->FUN_0067dad0(reinterpret_cast<CopyItem*>(&((PackageCopy*)form)->onBeginAction));
     reinterpret_cast<CopyItem*>(&onEndAction)->FUN_0067dad0(reinterpret_cast<CopyItem*>(&((PackageCopy*)form)->onEndAction));
     reinterpret_cast<CopyItem*>(&onChangeAction)->FUN_0067dad0(reinterpret_cast<CopyItem*>(&((PackageCopy*)form)->onChangeAction));
-    procedureArrayIndex = ((PackageAccessor*)p)->FUN_009611e0();
+    procedureArrayIndex = ((PackageAccessor*)p)->NiAVObject_GetParent();
 }
 
 extern "C" void* _alloca(unsigned int);
-void* FUN_00403d30(void*, int, unsigned int);
+void* ourMemset(void*, int, unsigned int);
 struct PkgFile
 {
     unsigned char FUN_00472660();
@@ -6814,7 +6836,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
             break;
         case 0x54444b50: {
             PkgGeneral record;
-            FUN_00403d30(&record, 0, 12);
+            ourMemset(&record, 0, 12);
             file->FUN_00472890(&record, 12);
             if (file->FUN_00401680())
                 record.FUN_00670760();
@@ -6824,7 +6846,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x54444c50: {
             PkgLocationRecord locationRecord2;
-            FUN_00403d30(&locationRecord2, 0, 12);
+            ourMemset(&locationRecord2, 0, 12);
             file->FUN_00472890(&locationRecord2, 12);
             if (file->FUN_00401680())
                 locationRecord2.FUN_0067eff0();
@@ -6834,7 +6856,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x44444b50: {
             PkgDialogueRecord record;
-            FUN_00403d30(&record, 0, 24);
+            ourMemset(&record, 0, 24);
             file->FUN_00472890(&record, 24);
             if (file->FUN_00401680())
                 record.FUN_0067b100();
@@ -6845,7 +6867,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x44464b50: {
             PkgFindRecord record;
-            FUN_00403d30(&record, 0, 4);
+            ourMemset(&record, 0, 4);
             file->FUN_00472890(&record, 4);
             if (file->FUN_00401680())
                 record.FUN_00503210();
@@ -6856,7 +6878,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x32454b50: {
             PkgEscortRecord record;
-            FUN_00403d30(&record, 0, 4);
+            ourMemset(&record, 0, 4);
             file->FUN_00472890(&record, 4);
             if (file->FUN_00401680())
                 record.FUN_00503210();
@@ -6867,7 +6889,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x32574b50: {
             PkgWanderRecord2 record;
-            FUN_00403d30(&record, 0, 20);
+            ourMemset(&record, 0, 20);
             file->FUN_00472890(&record, 20);
             if (file->FUN_00401680())
                 record.FUN_0067ca10();
@@ -6877,7 +6899,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x33574b50: {
             PkgWanderRecord3 record;
-            FUN_00403d30(&record, 0, 24);
+            ourMemset(&record, 0, 24);
             file->FUN_00472890(&record, 24);
             if (file->FUN_00401680())
                 record.FUN_0067ca10();
@@ -6887,7 +6909,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x54504b50: {
             PkgPatrolRecord record;
-            FUN_00403d30(&record, 0, 2);
+            ourMemset(&record, 0, 2);
             file->FUN_00472890(&record, 2);
             if (file->FUN_00401680())
                 record.FUN_00483710();
@@ -6897,7 +6919,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x32444c50: {
             PkgLocationRecord record;
-            FUN_00403d30(&record, 0, 12);
+            ourMemset(&record, 0, 12);
             file->FUN_00472890(&record, 12);
             if (file->FUN_00401680())
                 record.FUN_0067eff0();
@@ -6923,7 +6945,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x32445450: {
             PkgTargetRecord record;
-            FUN_00403d30(&record, 0, 16);
+            ourMemset(&record, 0, 16);
             file->FUN_00472890(&record, 16);
             if (file->FUN_00401680())
                 record.FUN_0067ff10();
@@ -6940,7 +6962,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x54445350: {
             PkgScheduleRecord scheduleRecord;
-            FUN_00403d30(&scheduleRecord, 0, 8);
+            ourMemset(&scheduleRecord, 0, 8);
             file->FUN_00472890(&scheduleRecord, 8);
             if (file->FUN_00401680())
                 scheduleRecord.FUN_0060ce80();
@@ -6950,7 +6972,7 @@ bool PkgLoad::LoadFromFile(PkgFile* file)
         }
         case 0x54445450: {
             PkgTargetRecord record;
-            FUN_00403d30(&record, 0, 16);
+            ourMemset(&record, 0, 16);
             file->FUN_00472890(&record, 16);
             if (file->FUN_00401680())
                 record.FUN_0067ff10();
@@ -7744,7 +7766,7 @@ struct Ref
     virtual const NiPoint3& Position();
     Ref* GetLinkedRef();
     Proc* FUN_008d8520();
-    const NiPoint3& FUN_0056add0();
+    const NiPoint3& Actor_GetStartLocationOrPosition();
 };
 struct Proc
 {
@@ -8094,7 +8116,7 @@ struct PHost
 {
     Loc* FUN_00672dd0();
     int GetPackType();
-    NiPoint3 FUN_00675360(Ref* actor);
+    NiPoint3 TESPackage_GetSecondLocationCoord(Ref* actor);
 };
 struct Special : PHost
 {
@@ -8142,7 +8164,8 @@ struct Special : PHost
 extern Ref* _g_thePlayer;
 
 // @fnv 0x00675360
-NiPoint3 PHost::FUN_00675360(Ref* actor)
+// src: COMMUNITY 0x00675360
+NiPoint3 PHost::TESPackage_GetSecondLocationCoord(Ref* actor)
 {
     Loc* location = FUN_00672dd0();
     NiPoint3 position = NiPoint3_ZERO;
@@ -8198,7 +8221,7 @@ NiPoint3 PHost::FUN_00675360(Ref* actor)
         }
     }
     else if (actor)
-        position = actor->FUN_0056add0();
+        position = actor->Actor_GetStartLocationOrPosition();
     return position;
 }
 
@@ -8545,11 +8568,12 @@ struct PkgLocStub
 struct PkgLocShell : public TESPackage
 {
     PkgLocStub* FUN_00672dd0();
-    TESObjectREFR* FUN_006756a0(PkgActorStub* actor);
+    TESObjectREFR* TESPackage_GetSecondLocationRef(PkgActorStub* actor);
 };
 
 // @fnv 0x006756a0
-TESObjectREFR* PkgLocShell::FUN_006756a0(PkgActorStub* actor)
+// src: COMMUNITY 0x006756a0
+TESObjectREFR* PkgLocShell::TESPackage_GetSecondLocationRef(PkgActorStub* actor)
 {
     PkgLocStub* loc = FUN_00672dd0();
     TESObjectREFR* result = 0;
@@ -9109,9 +9133,9 @@ struct P070Package
     P070Location* FUN_00672dd0();
     TESWorldSpace* FUN_00674fd0(P070Ref*);
     TESObjectCELL* FUN_006751a0(P070Ref*);
-    int FUN_00675670();
-    NiPoint3 FUN_00675360(P070Ref*);
-    P070Ref* FUN_006756a0(P070Ref*);
+    int TESPackage_GetSecondLocationRadius();
+    NiPoint3 TESPackage_GetSecondLocationCoord(P070Ref*);
+    P070Ref* TESPackage_GetSecondLocationRef(P070Ref*);
     int FUN_0041ca90();
     bool IsWithinPackageLocation(P070Ref*, P070Ref*, bool, float, bool);
 };
@@ -9159,7 +9183,7 @@ bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool 
     bool locationResult3 = false;
     if (loc3 && loc3->LookupAndStore(actor, object, locationResult3))
         return locationResult3;
-    int radius2 = FUN_00675670();
+    int radius2 = TESPackage_GetSecondLocationRadius();
     if (radius2 > 0)
         useProcess = false;
     if (ignoreRadius)
@@ -9167,12 +9191,12 @@ bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool 
     else if (customRadius != -1.0)
         radius2 = (int)customRadius;
     bool exact2 = false;
-    NiPoint3 position = FUN_00675360(actor);
+    NiPoint3 position = TESPackage_GetSecondLocationCoord(actor);
     P070Ref* target8 = 0;
     P070Ref* targetActor;
     float extra6;
     if (loc3)
-        target8 = FUN_006756a0(actor);
+        target8 = TESPackage_GetSecondLocationRef(actor);
     if (radius2 == 0 && loc3)
     {
         if (target8)
@@ -9227,7 +9251,7 @@ bool P070Package::IsWithinPackageLocation(P070Ref* object, P070Ref* actor, bool 
     bool result3 = false;
     if (FUN_0041ca90() == 5 && objectCell4)
     {
-        if (std::abs(object->GetPosition()->z - FUN_00675360(actor).z) > 100.0)
+        if (std::abs(object->GetPosition()->z - TESPackage_GetSecondLocationCoord(actor).z) > 100.0)
             return false;
     }
     bool excluded = false;
@@ -9969,10 +9993,11 @@ struct FUN_00672f20_cls
     int FUN_0041ca90();
     void* FUN_0055b980();
     fnv_006777b0::LocationDescriptor* FUN_00672dd0();
-    void* FUN_00672f20();
+    void* TESPackage_GetPackageSearchLocation();
 };
 // @fnv 0x00672f20
-void* FUN_00672f20_cls::FUN_00672f20()
+// src: COMMUNITY 0x00672f20
+void* FUN_00672f20_cls::TESPackage_GetPackageSearchLocation()
 {
     fnv_006777b0::LocationDescriptor* pkSchedule;
     switch (FUN_0041ca90())
@@ -10819,12 +10844,13 @@ class xPkg
 {
   public:
     xLoc* GetLocation();
-    xPt3 FUN_00675de0(xRefP* pActor);
+    xPt3 TESPackage_GetLocationCoord(xRefP* pActor);
 };
 
 // Computes and returns the target position for a package based on its location type, falling back to the actor's position or start position when needed.
 // @fnv 0x00675de0
-xPt3 xPkg::FUN_00675de0(xRefP* pActor)
+// src: COMMUNITY 0x00675de0
+xPt3 xPkg::TESPackage_GetLocationCoord(xRefP* pActor)
 {
     xLoc* qsSDDgz = GetLocation();
     xPt3 qfTOqo = xZero;
@@ -11378,7 +11404,7 @@ V* TESPackageExt::FUN_006780e0(V* targetObj, bool option)
 }  // namespace fnv_006780e0
 
 namespace fnv_009ecbe0 {
-void FUN_005b5e40(const char* fmt, ...);
+void Warning_005b5e40(const char* fmt, ...);
 struct FormX
 {
     virtual void v0();
@@ -11436,14 +11462,14 @@ void PackX::FUN_009ecbe0()
             if (pkRec)
             {
                 NamedX* pkForm = FUN_004839c0(pkRec->auiFormId);
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp", 0x216, pkRec->auiFormId,
                     pkForm->GetName(), pkRec->ucVersion, *(unsigned int*)&pkRec->c5);
             }
             else
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp", 0x216,
                     DAT_011de45c->FUN_008df040());
@@ -11469,13 +11495,13 @@ void PackX::FUN_009ecbe0()
         {
             NamedX* pkForm2 = FUN_004839c0(pkRec_z->auiFormId);
             if (uiBlockEnd_etwkfv > usBlockSize_yfuyr + uiBlockStart_u)
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     uiBlockEnd_etwkfv - (usBlockSize_yfuyr + uiBlockStart_u),
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp", 0x22a, pkRec_z->auiFormId,
                     pkForm2->GetName(), pkRec_z->ucVersion, *(unsigned int*)&pkRec_z->c5);
             else if (uiBlockEnd_etwkfv < usBlockSize_yfuyr + uiBlockStart_u)
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     (usBlockSize_yfuyr + uiBlockStart_u) - uiBlockEnd_etwkfv,
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp", 0x22a, pkRec_z->auiFormId,
@@ -11484,13 +11510,13 @@ void PackX::FUN_009ecbe0()
         else
         {
             if (uiBlockEnd_etwkfv > usBlockSize_yfuyr + uiBlockStart_u)
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
                     uiBlockEnd_etwkfv - (usBlockSize_yfuyr + uiBlockStart_u),
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp", 0x22a,
                     DAT_011de45c->FUN_008df040());
             else if (uiBlockEnd_etwkfv < usBlockSize_yfuyr + uiBlockStart_u)
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
                     (usBlockSize_yfuyr + uiBlockStart_u) - uiBlockEnd_etwkfv,
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\AlarmPackage.cpp", 0x22a,

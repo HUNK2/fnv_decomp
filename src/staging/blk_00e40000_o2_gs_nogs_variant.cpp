@@ -1645,9 +1645,9 @@ struct GtrStand_ {
 struct HolderStub;
 HolderStub* __cdecl FUN_00c85750();
 HolderStub* __cdecl FUN_00e4e3f0();
-void FUN_00e52f10();
-void __cdecl FUN_00e52f20();
-void FUN_00e52f30();
+void nullsub_293();
+void __cdecl nullsub_294();
+void nullsub_292();
 struct FUN_00e53180_Obj {
     float x;
     float y;
@@ -1745,7 +1745,7 @@ extern "C" const float* mm_vals(void);
 extern "C" int mm_count(void);
 void mm_caller(void);
 struct SampleField {
-    int FUN_00e587a0();
+    int NiD3DShaderProgram_GetShaderProgramName();
     float* GetElementPtr(int index, int component);
     void FillWithValue(float* value);
     float GetFloatAt(int index, int component);
@@ -2104,7 +2104,7 @@ struct ThresholdArray {
 inline float ThresholdFloat(unsigned int value) { return (float)value; }
 inline float ThresholdAbs(float value) { return (float)fabs(value); }
 void __cdecl ThresholdValues(float* values, unsigned int count, float threshold, ThresholdCompare relative);
-struct Q { __m128 m_vComponents; void FUN_005611c0(); };
+struct Q { __m128 m_vComponents; void normalize_005611c0(); };
 struct QRef { Q* p; Q* operator->() const { return p; } };
 void FUN_00e52880(const unsigned char* src, QRef out);
 class Quat4
@@ -2615,7 +2615,7 @@ struct FUN_00cdf2f0 : Se5b160_Data {
     Se5b160_RagdollAtoms m_kBridgeAtoms;
     int unkec; int unkf0; int unkf4; int unkf8; int unkfc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; 
     FUN_00cdf2f0() throw();
-    void FUN_00cdea70(Se5b160_Motor* motor);
+    void hkpRagdollConstraintData_setTwistMotor(Se5b160_Motor* motor);
     void hkpRagdollConstraintData_setPlaneMotor(Se5b160_Motor* motor);
     void hkpRagdollConstraintData_setConeMotor(Se5b160_Motor* motor);
     void SetFlagAndClearFloats(void* info, bool enabled);

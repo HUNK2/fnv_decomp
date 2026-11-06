@@ -276,7 +276,7 @@ struct Havok
 
 struct Ragdoll
 {
-    void FUN_00ca2ad0(NiNode* apRoot, int aiValue);
+    void bhkRagdollPenetrationUtil_Initialize(NiNode* apRoot, int aiValue);
 };
 
 struct AnimSequence
@@ -310,15 +310,15 @@ struct ActorListNodeView
 
 struct ShaderProp
 {
-    struct ShaderData* FUN_00887a10();
-    void FUN_00887a80(int aiValue);
-    void FUN_00887ac0(float afValue);
+    struct ShaderData* bhkLimitedHingeConstraint_GetMotor();
+    void bhkLimitedHingeConstraint_SetMotorActive(int aiValue);
+    void bhkLimitedHingeConstraint_SetMotorTargetAngle(float afValue);
 };
 
 struct ShaderData
 {
     float GetFloatAt0xC8();
-    float FUN_00644a50();
+    float TESCombatStyle_GetDodgeDuringAttackMult();
 };
 
 struct PropertyHolder
@@ -346,7 +346,7 @@ struct PropertyHolder
 struct FaceProp
 {
     void ForwardToScriptLocals(int aiValue);
-    void FUN_00887af0(AlignedRotation* apRot);
+    void bhkOrientHingedBodyAction_SetTargetDir(AlignedRotation* apRot);
 };
 
 struct GeomData
@@ -392,8 +392,8 @@ struct GeomData
     ActorListNodeView* FUN_007d6bb0();
     int FUN_00517630();
     void UpdateMatchingNodes(int aiValue);
-    FormType FUN_0043b4f0();
-    void FUN_00561580(int aiValue);
+    FormType bhkWorldObject_GetCollisionFilter();
+    void bhkRigidBody_SetActive(int aiValue);
 };
 
 struct Geometry
@@ -421,18 +421,18 @@ extern int DAT_012683ec;
 extern const double DAT_01012060;
 extern const double DAT_01021798;
 
-float __cdecl FUN_007d1d00(int aiSetting);
+float __cdecl BSFadeNode_GetFadeOutMultiplier(int aiSetting);
 LodManager* __cdecl FUN_00b4f5c0();
 bool __cdecl FUN_00525420();
 void __cdecl FUN_00c9b670(NiNode* apRoot, NiPoint3* apDir, int aiA, float afB, int aiC);
 const char* __cdecl FUN_0087e9a0();
-const char* __cdecl FUN_00887a00();
+const char* __cdecl FixedStrings_QBip01Pitch();
 NiAVObject* __cdecl FUN_004ade00(NiNode* apRoot, const char* apName);
 void* __cdecl FUN_00653270(int* apType, int aiObject);
 bool __cdecl FUN_00c8cce0(int* apValue);
 void __cdecl FUN_00c6a350(NiAVObject* apObject, int a, int b, int c, int d);
 int __cdecl FUN_00621480(int aiValue);
-void __cdecl FUN_00c804d0(NiNode* apRoot, int aiValue);
+void __cdecl bhkUtilFunctions_SetLayer(NiNode* apRoot, int aiValue);
 float __cdecl FUN_005b9e80(float afValue);
 float __cdecl FUN_005c53d0(float afValue);
 void __cdecl FUN_005330e0(float* apValue, float afMin, float afMax);
@@ -511,7 +511,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
             NiObject* pFade = reinterpret_cast<NiObject*>(p3D->IsFadeNode());
             if (pFade)
             {
-                float fRatio = fDistance / FUN_007d1d00(3);
+                float fRatio = fDistance / BSFadeNode_GetFadeOutMultiplier(3);
                 bFar = fRatio > pFade->GetFloatAtOffsetB0();
             }
             LodManager* pLod = FUN_00b4f5c0();
@@ -521,7 +521,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                 pLod->UpdateOrAddItem(FUN_0084e3a0(), reinterpret_cast<NiBound*>(boundStorage), bVisible);
             }
             if (pCombat)
-                pCombat->FUN_008879d0(bFar);
+                pCombat->bhkCharacterController_SetFarAway(bFar);
         }
     }
     if (pCombat)
@@ -540,7 +540,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
             if (m_pRagdollController && ((Havok*)m_pRagdollController)->FUN_00552490())
                 ((Havok*)m_pRagdollController)->FUN_00c7c150(1);
             if (m_pRagdollPenetrationUtil)
-                ((Ragdoll*)m_pRagdollPenetrationUtil)->FUN_00ca2ad0(pRoot, FUN_00931ed0().FUN_004a3a20());
+                ((Ragdoll*)m_pRagdollPenetrationUtil)->bhkRagdollPenetrationUtil_Initialize(pRoot, FUN_00931ed0().FUN_004a3a20());
             FUN_008a1800(1);
             Unk_A8();
             if (bUpright)
@@ -579,8 +579,8 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
         bool bChanged = false;
         if (pObject)
         {
-            NiObject* iObject = pObject->FUN_006838b0();
-            Geometry* m_pShaderGeometry = (Geometry*)FUN_00653270(&DAT_01267e64, (int)pObject->FUN_006838b0());
+            NiObject* iObject = pObject->NiAVObject_GetCollisionObject();
+            Geometry* m_pShaderGeometry = (Geometry*)FUN_00653270(&DAT_01267e64, (int)pObject->NiAVObject_GetCollisionObject());
             if (m_pShaderGeometry)
             {
                 GeomData* pData = m_pShaderGeometry->FUN_006fa820();
@@ -593,10 +593,10 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                     pData->UpdateMatchingNodes(iNewSkin);
                     bChanged = true;
                 }
-                FormType kType = pData->FUN_0043b4f0();
+                FormType kType = pData->bhkWorldObject_GetCollisionFilter();
                 if (kType.FUN_0043b4d0() == 0x1d)
-                    FUN_00c804d0(pFaceRoot, 8);
-                pData->FUN_00561580(1);
+                    bhkUtilFunctions_SetLayer(pFaceRoot, 8);
+                pData->bhkRigidBody_SetActive(1);
                 while (pIter && pIter->FUN_006815c0()->FUN_00559450())
                 {
                     FaceProp* pFace =
@@ -606,7 +606,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                         float fDesiredHeadingAngle = GetCurrentTargetDistance(0);
                         AlignedRotation kRotationBasis(FUN_005c53d0(fDesiredHeadingAngle), FUN_005b9e80(fDesiredHeadingAngle), 0.0f, 0.0f);
                         pFace->ForwardToScriptLocals(1);
-                        pFace->FUN_00887af0(&kRotationBasis);
+                        pFace->bhkOrientHingedBodyAction_SetTargetDir(&kRotationBasis);
                         break;
                     }
                     pIter = pIter->FUN_00726070();
@@ -617,11 +617,11 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                     SetTlsValueAndReset(pObject, 2);
             }
         }
-        pObject = FUN_004ade00(pFaceRoot, FUN_00887a00());
+        pObject = FUN_004ade00(pFaceRoot, FixedStrings_QBip01Pitch());
         if (pObject)
         {
-            NiObject* iObject = pObject->FUN_006838b0();
-            Geometry* m_pShaderGeometry = (Geometry*)FUN_00653270(&DAT_01267e64, (int)pObject->FUN_006838b0());
+            NiObject* iObject = pObject->NiAVObject_GetCollisionObject();
+            Geometry* m_pShaderGeometry = (Geometry*)FUN_00653270(&DAT_01267e64, (int)pObject->NiAVObject_GetCollisionObject());
             if (m_pShaderGeometry)
             {
                 GeomData* pData = m_pShaderGeometry->FUN_006fa820();
@@ -634,21 +634,21 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                     pData->UpdateMatchingNodes(iNewSkin);
                     bChanged = true;
                 }
-                FormType kType = pData->FUN_0043b4f0();
+                FormType kType = pData->bhkWorldObject_GetCollisionFilter();
                 if (kType.FUN_0043b4d0() == 0x1d)
-                    FUN_00c804d0(pFaceRoot, 8);
-                pData->FUN_00561580(1);
+                    bhkUtilFunctions_SetLayer(pFaceRoot, 8);
+                pData->bhkRigidBody_SetActive(1);
                 while (pIter && pIter->FUN_006815c0()->FUN_00559450())
                 {
                     PropertyHolder* pProps = (PropertyHolder*)pIter->FUN_006815c0()->FUN_00559450();
                     ShaderProp* pShader = pProps->FUN_vt44();
                     if (pShader)
                     {
-                        ShaderData* m_pSPData = pShader->FUN_00887a10();
+                        ShaderData* m_pSPData = pShader->bhkLimitedHingeConstraint_GetMotor();
                         float fScale = data.Angle.x;
-                        FUN_005330e0(&fScale, m_pSPData->FUN_00644a50(), m_pSPData->GetFloatAt0xC8());
-                        pShader->FUN_00887a80(1);
-                        pShader->FUN_00887ac0(fScale);
+                        FUN_005330e0(&fScale, m_pSPData->TESCombatStyle_GetDodgeDuringAttackMult(), m_pSPData->GetFloatAt0xC8());
+                        pShader->bhkLimitedHingeConstraint_SetMotorActive(1);
+                        pShader->bhkLimitedHingeConstraint_SetMotorTargetAngle(fScale);
                         break;
                     }
                     pIter = pIter->FUN_00726070();
@@ -718,7 +718,7 @@ struct ActorLoadGame : Actor
 {
     void FUN_008ab3a0(P164Buffer*);
     void FUN_00932a00(P164Buffer*);
-    void FUN_008c1ac0(bool);
+    void Actor_SetActorRefEssential(bool);
     void SetFlag40000000(bool);
     bool FUN_00566950();
     int FUN_004f8960();
@@ -1065,7 +1065,7 @@ void ActorLoadGame::FUN_008ab3a0(P164Buffer* buffer)
         buffer->FUN_00864980(&ActorStatusData, 1);
         buffer->FUN_00864980(&m_uiFirstValueAfterInteger, 4);
         buffer->FUN_00864980(&m_uiActorFlags, 4);
-        FUN_008c1ac0(false);
+        Actor_SetActorRefEssential(false);
         SetFlag40000000(false);
     }
     if (buffer->GetVersion() >= 13)

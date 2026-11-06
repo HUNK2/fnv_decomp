@@ -34,21 +34,23 @@ unsigned char FUN_00505c20_class::GetByteAtOffset9A()
 
 struct FUN_00507550_Class
 {
-    void FUN_00507550(void* p);
+    void ParticleShaderProperty_SetTexture0x118(void* p);
 };
 // @fnv 0x00507550
-void FUN_00507550_Class::FUN_00507550(void* p)
+// src: COMMUNITY 0x00507550
+void FUN_00507550_Class::ParticleShaderProperty_SetTexture0x118(void* p)
 {
     *(GO*)((char*)this + 0x118) = p;
 }
 
 struct FUN_00507570_Class
 {
-    void FUN_00507570(float value);
+    void ParticleShaderProperty_SetLifetimeVar(float value);
 };
 
 // @fnv 0x00507570
-void FUN_00507570_Class::FUN_00507570(float value)
+// src: COMMUNITY 0x00507570
+void FUN_00507570_Class::ParticleShaderProperty_SetLifetimeVar(float value)
 {
     *(float*)((char*)this + 0x80) = value;
 }
@@ -94,22 +96,24 @@ void __thiscall FUN_00507720_Class::FUN_00507720(float value)
 
 struct FUN_00507740_Class
 {
-    void FUN_00507740(int value);
+    void ParticleShaderProperty_SetBlendOp(int value);
 };
 
 // @fnv 0x00507740
-void FUN_00507740_Class::FUN_00507740(int value)
+// src: COMMUNITY 0x00507740
+void FUN_00507740_Class::ParticleShaderProperty_SetBlendOp(int value)
 {
     *(int*)((char*)this + 0x110) = value;
 }
 
 struct FUN_00507760_Class
 {
-    void FUN_00507760(int value);
+    void ParticleShaderProperty_SetZTestFunc(int value);
 };
 
 // @fnv 0x00507760
-void FUN_00507760_Class::FUN_00507760(int value)
+// src: COMMUNITY 0x00507760
+void FUN_00507760_Class::ParticleShaderProperty_SetZTestFunc(int value)
 {
     *(int*)((char*)this + 0x114) = value;
 }
@@ -205,11 +209,12 @@ bool FUN_0050d1d0_class::IsFlag8Set() const
 
 struct FUN_0050d1f0_Class
 {
-    bool __thiscall FUN_0050d1f0() const;
+    bool __thiscall TESObjectLIGH_GetFlickerSlow() const;
 };
 
 // @fnv 0x0050d1f0
-bool __thiscall FUN_0050d1f0_Class::FUN_0050d1f0() const
+// src: COMMUNITY 0x0050d1f0
+bool __thiscall FUN_0050d1f0_Class::TESObjectLIGH_GetFlickerSlow() const
 {
     return (*reinterpret_cast<const unsigned int*>(reinterpret_cast<const char*>(this) + 0xa8) & 0x40) ? true : false;
 }
@@ -227,11 +232,12 @@ bool FUN_0050d210_Class::IsFlag80Set() const
 
 struct FUN_0050d230_class
 {
-    bool FUN_0050d230() const;
+    bool TESObjectLIGH_GetPulseSlow() const;
 };
 
 // @fnv 0x0050d230
-bool FUN_0050d230_class::FUN_0050d230() const
+// src: COMMUNITY 0x0050d230
+bool FUN_0050d230_class::TESObjectLIGH_GetPulseSlow() const
 {
     return (*(const unsigned int*)((char*)this + 0xa8) & 0x100) ? true : false;
 }
@@ -249,10 +255,11 @@ void FUN_00510110_class::FUN_00510110()
 
 struct FUN_00510360_Class
 {
-    void* FUN_00510360(TESObject* p);
+    void* TESObjectList_lnk_GetNext(TESObject* p);
 };
 // @fnv 0x00510360
-void* FUN_00510360_Class::FUN_00510360(TESObject* apObject)
+// src: COMMUNITY 0x00510360
+void* FUN_00510360_Class::TESObjectList_lnk_GetNext(TESObject* apObject)
 {
     return apObject->GetNext();
 }
@@ -284,7 +291,8 @@ void __thiscall FUN_005103a0_class::FUN_005103a0(const char* a, const char* b)
 extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
 
 // @fnv 0x005104b0
-void __cdecl FUN_005104b0(const void* apFirst, const void* apSecond, unsigned int auiLength)
+// src: COMMUNITY 0x005104b0
+void __cdecl std_char_traits_char_compare(const void* apFirst, const void* apSecond, unsigned int auiLength)
 {
     _memcmp(apFirst, apSecond, auiLength);
 }
@@ -292,7 +300,8 @@ void __cdecl FUN_005104b0(const void* apFirst, const void* apSecond, unsigned in
 extern "C" void* __cdecl FUN_00eca2e0(void* p, int c, size_t n);
 
 // @fnv 0x005104d0
-void __cdecl FUN_005104d0(void* p, size_t n, char* pcValue)
+// src: COMMUNITY 0x005104d0
+void __cdecl std_char_traits_char_assign_005104d0(void* p, size_t n, char* pcValue)
 {
     FUN_00eca2e0(p, *pcValue, n);
 }
@@ -404,11 +413,12 @@ void FUN_0051f4f0_Class::FUN_0051f4f0(int value)
 
 struct FUN_0051f530_class
 {
-    void __thiscall FUN_0051f530(int value);
+    void __thiscall TESObjectWEAP_SetVATSEffect(int value);
 };
 
 // @fnv 0x0051f530
-void __thiscall FUN_0051f530_class::FUN_0051f530(int value)
+// src: COMMUNITY 0x0051f530
+void __thiscall FUN_0051f530_class::TESObjectWEAP_SetVATSEffect(int value)
 {
     *(int*)((char*)this + 0x370) = value;
 }
@@ -453,12 +463,13 @@ void* __thiscall FUN_005010c0_class::FUN_005010c0(unsigned int flags)
 
 struct FUN_00507660_class
 {
-    void FUN_00507660(NiPoint4 p);
+    void ParticleShaderProperty_SetColor2(NiPoint4 p);
 };
 
 // Stores the given NiPoint4 into the object at offset 0xd4.
 // @fnv 0x00507660
-void FUN_00507660_class::FUN_00507660(NiPoint4 aPoint)
+// src: COMMUNITY 0x00507660
+void FUN_00507660_class::ParticleShaderProperty_SetColor2(NiPoint4 aPoint)
 {
     *(NiPoint4*)((char*)this + 0xd4) = aPoint;
 }
@@ -552,11 +563,12 @@ struct Vec12_5075c0
 };
 struct S5075c0
 {
-    void __thiscall FUN_005075c0(Vec12_5075c0 v);
+    void __thiscall ParticleShaderProperty_SetAcceleration(Vec12_5075c0 v);
 };
 // Stores the three-int vector v into the object at offset 0x9c.
 // @fnv 0x005075c0
-void __thiscall S5075c0::FUN_005075c0(Vec12_5075c0 v)
+// src: COMMUNITY 0x005075c0
+void __thiscall S5075c0::ParticleShaderProperty_SetAcceleration(Vec12_5075c0 v)
 {
     *(Vec12_5075c0*)((char*)this + 0x9c) = v;
 }
@@ -578,11 +590,12 @@ struct FUN_00507690_Class
 {
     char _pad[0xe4];
     NiPoint4 m_0xe4;
-    void __thiscall FUN_00507690(NiPoint4 v);
+    void __thiscall ParticleShaderProperty_SetColor3(NiPoint4 v);
 };
 // Stores the passed NiPoint4 value into the member at offset 0xe4.
 // @fnv 0x00507690
-void __thiscall FUN_00507690_Class::FUN_00507690(NiPoint4 aPoint)
+// src: COMMUNITY 0x00507690
+void __thiscall FUN_00507690_Class::ParticleShaderProperty_SetColor3(NiPoint4 aPoint)
 {
     m_0xe4 = aPoint;
 }
@@ -608,12 +621,13 @@ struct FUN_00508090_shell
     float FUN_00508120();
     float FUN_00759450();
     void UpdateEnvelope(float, float, float, unsigned char, float, float, float, float, float);
-    void FUN_00508090(float a, float b, float c, unsigned char d);
+    void TESEffectShader_AnimateFillEffectAlpha(float a, float b, float c, unsigned char d);
 };
 
 // Forwards a, b, c and d to UpdateEnvelope together with the results of FUN_009a9350, GetActorRadius, FUN_00508100, FUN_00508120 and FUN_00759450.
 // @fnv 0x00508090
-void __thiscall FUN_00508090_shell::FUN_00508090(float a, float b, float c, unsigned char d)
+// src: COMMUNITY 0x00508090
+void __thiscall FUN_00508090_shell::TESEffectShader_AnimateFillEffectAlpha(float a, float b, float c, unsigned char d)
 {
     UpdateEnvelope(a, b, c, d, FUN_009a9350(), GetActorRadius(), FUN_00508100(), FUN_00508120(), FUN_00759450());
 }
@@ -646,10 +660,11 @@ struct AVH
 };
 struct FUN_00514fd0_class
 {
-    int __thiscall FUN_00514fd0();
+    int __thiscall TESObjectBOOK_GetTeaches();
 };
 // @fnv 0x00514fd0
-int __thiscall FUN_00514fd0_class::FUN_00514fd0()
+// src: COMMUNITY 0x00514fd0
+int __thiscall FUN_00514fd0_class::TESObjectBOOK_GetTeaches()
 {
     if (reinterpret_cast<const signed char*>(this)[0xc1] == -1)
         return -1;
@@ -903,7 +918,8 @@ bool __thiscall FUN_00516cd0_class::CanUseLockedRef(TESObjectREFR* ref, Actor* a
 
 int DAT_011c6200;
 // @fnv 0x005039e0
-int FUN_005039e0()
+// src: COMMUNITY 0x005039e0
+int FixedStrings_GetArrowQuiver()
 {
     return DAT_011c6200;
 }
@@ -912,7 +928,7 @@ struct FUN_00505b80_cls
 {
     unsigned char DispatchByType(int aType);
     unsigned char FUN_0073cb80();
-    unsigned char FUN_00505c00();
+    unsigned char TESCombatStyle_GetPowerAttackF();
     unsigned char GetByteAtOffset9A();
     unsigned char GetByteAtOffset9B();
     unsigned char FUN_009e8670();
@@ -927,7 +943,7 @@ unsigned char FUN_00505b80_cls::DispatchByType(int aType)
     case 0x5c:
         return FUN_0073cb80();
     case 0x5d:
-        return FUN_00505c00();
+        return TESCombatStyle_GetPowerAttackF();
     case 0x5e:
         return GetByteAtOffset9A();
     case 0x5f:
@@ -1078,12 +1094,13 @@ class FUN_00507da0_cls
     float GetField90Float(float value);
     float FUN_0051b8e0(float value);
     void UpdateEnvelope(float a, float b, float c, unsigned char flag, float value);
-    void FUN_00507da0(float a, float b, float c, unsigned char flag);
+    void TESEffectShader_BirthParticles(float a, float b, float c, unsigned char flag);
 };
 
 // Computes a value by chaining FUN_008d01e0, FUN_00644930, FUN_00507e10, GetField90Float and FUN_0051b8e0, then passes it with a, b, c and flag to UpdateEnvelope.
 // @fnv 0x00507da0
-void FUN_00507da0_cls::FUN_00507da0(float a, float b, float c, unsigned char flag)
+// src: COMMUNITY 0x00507da0
+void FUN_00507da0_cls::TESEffectShader_BirthParticles(float a, float b, float c, unsigned char flag)
 {
     UpdateEnvelope(a, b, c, flag, FUN_0051b8e0(GetField90Float(FUN_00507e10(FUN_00644930(FUN_008d01e0())))));
 }
@@ -1099,11 +1116,12 @@ class B5081D0Actor
     float GetFloatAt64();
     float GetFloatAtOffset68() const;
 
-    float FUN_005081d0(float fTime);
+    float TESEffectShader_CalculateEdgeAlphaPulse(float fTime);
 };
 
 // @fnv 0x005081d0
-float B5081D0Actor::FUN_005081d0(float fTime)
+// src: COMMUNITY 0x005081d0
+float B5081D0Actor::TESEffectShader_CalculateEdgeAlphaPulse(float fTime)
 {
     if (GetFloatAt64() > gModifierZero)
         return GetFloatAt64() * FUN_004e44b0(fTime * runtimeInitializationFloat2255 * GetFloatAtOffset68());
@@ -1122,11 +1140,12 @@ class C508240Ref
     float GetScale();
     float GetHeight();
 
-    float FUN_00508240(float fDistance);
+    float TESEffectShader_CalculateFillAlphaPulse(float fDistance);
 };
 
 // @fnv 0x00508240
-float C508240Ref::FUN_00508240(float afValue)
+// src: COMMUNITY 0x00508240
+float C508240Ref::TESEffectShader_CalculateFillAlphaPulse(float afValue)
 {
     if (GetScale() > gModifierZero)
         return GetScale() * C508240Curve(afValue * runtimeInitializationFloat2255 * GetHeight());
@@ -1389,11 +1408,12 @@ class Obj50DDB0
     int unk0A4;
     unsigned int m_uiValue1;
 
-    void FUN_0050ddb0(bool bSet);
+    void TESObjectLIGH_SetDynamic(bool bSet);
 };
 
 // @fnv 0x0050ddb0
-void Obj50DDB0::FUN_0050ddb0(bool bSet)
+// src: COMMUNITY 0x0050ddb0
+void Obj50DDB0::TESObjectLIGH_SetDynamic(bool bSet)
 {
     bSet ? (m_uiValue1 |= 1) : (m_uiValue1 &= ~1);
 }
@@ -1401,7 +1421,8 @@ void Obj50DDB0::FUN_0050ddb0(bool bSet)
 extern int DAT_011c620c;
 
 // @fnv 0x0050de10
-int __cdecl FUN_0050de10()
+// src: COMMUNITY 0x0050de10
+int __cdecl FixedStrings_GetAttachLight()
 {
     return DAT_011c620c;
 }
@@ -1420,20 +1441,22 @@ struct S_0050de20_A
 };
 struct S_0050de20_Class
 {
-    bool __thiscall FUN_0050de60(NiPointer<S_0050de20_Obj> p, int* q, int b);
-    bool __thiscall FUN_0050de20(S_0050de20_A* a, int b);
+    bool __thiscall TESObjectLIGH_Update_(NiPointer<S_0050de20_Obj> p, int* q, int b);
+    bool __thiscall TESObjectLIGH_Update(S_0050de20_A* a, int b);
 };
 // Forwards the object pointer and the int field of the given entry to FUN_0050de60 along with b and returns its result.
 // @fnv 0x0050de20
-bool __thiscall S_0050de20_Class::FUN_0050de20(S_0050de20_A* a, int b)
+// src: COMMUNITY 0x0050de20
+bool __thiscall S_0050de20_Class::TESObjectLIGH_Update(S_0050de20_A* a, int b)
 {
-    return FUN_0050de60(a->unk00, &a->unk04, b);
+    return TESObjectLIGH_Update_(a->unk00, &a->unk04, b);
 }
 
 extern int DAT_011f81dc;
 
 // @fnv 0x0050f6e0
-int FUN_0050f6e0()
+// src: COMMUNITY 0x0050f6e0
+int FileFinder_GetSingleton()
 {
     return DAT_011f81dc;
 }
@@ -1659,8 +1682,8 @@ struct FUN_0051cf00_NiBillboardNode : public NiBillboardBase
     unsigned short m_0ac;
     float m_0b0;
     virtual void vfunc_node();
-    void FUN_0051d000(int flags);
-    void FUN_0051d060(int flags);
+    void SetMode_0051d000(int flags);
+    void NiBillboardNode_SetUpdateControllers(int flags);
     FUN_0051cf00_NiBillboardNode();
     ~FUN_0051cf00_NiBillboardNode();
 };
@@ -1671,8 +1694,8 @@ FUN_0051cf00_NiBillboardNode::FUN_0051cf00_NiBillboardNode() : NiBillboardBase(0
 {
     m_0ac = 0;
     m_0b0 = 0.0f;
-    FUN_0051d000(1);
-    FUN_0051d060(1);
+    SetMode_0051d000(1);
+    NiBillboardNode_SetUpdateControllers(1);
 }
 
 class FormPart508
@@ -1855,7 +1878,7 @@ struct Obj
     void FUN_0050c690(float v);
     void FUN_004bc1f0(float a, float b, float c);
     void FUN_00a59c60(NiUpdateData& u);
-    float FUN_00644a50();
+    float TESCombatStyle_GetDodgeDuringAttackMult();
     void FUN_0050dd20(float v);
 };
 struct Ptr
@@ -1872,7 +1895,7 @@ extern TimeGlobal DAT_011f6394;
 extern Setting DAT_011c8fcc;
 struct TQ
 {
-    void FUN_0087ad50();
+    void TaskQueueInterface_QueueObjectUpdate();
 };
 TQ* __stdcall FUN_004537b0(void* p);
 bool __cdecl FUN_008c7aa0();
@@ -1924,10 +1947,11 @@ struct Host
     int unkAC;
     int unkB0;
     float m_b4;
-    bool FUN_0050de60(Ptr p1, float* p2, NiPoint3* p3);
+    bool TESObjectLIGH_Update_(Ptr p1, float* p2, NiPoint3* p3);
 };
 // @fnv 0x0050de60
-bool Host::FUN_0050de60(Ptr p1, float* apTime, NiPoint3* p3)
+// src: COMMUNITY 0x0050de60
+bool Host::TESObjectLIGH_Update_(Ptr p1, float* apTime, NiPoint3* p3)
 {
     Obj* s;
     s = p1.FUN_00559450();
@@ -1979,7 +2003,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, NiPoint3* p3)
             p1.FUN_00559450()->FUN_004bc1f0((float)(idx * unk24), (float)(a2 * unk24), (float)(cost * unk24));
             if (FUN_008c7aa0())
             {
-                FUN_004537b0(p1.FUN_00559450())->FUN_0087ad50();
+                FUN_004537b0(p1.FUN_00559450())->TaskQueueInterface_QueueObjectUpdate();
             }
             else
             {
@@ -2001,7 +2025,7 @@ bool Host::FUN_0050de60(Ptr p1, float* apTime, NiPoint3* p3)
             if ((m_a8 & 0x80) || (m_a8 & 0x100) || (p3 && *reinterpret_cast<const float*>(reinterpret_cast<const char*>(p3) + 0x0C) == 0.0))
             {
                 float tim2;
-                tim2 = p1.FUN_00559450()->FUN_00644a50();
+                tim2 = p1.FUN_00559450()->TESCombatStyle_GetDodgeDuringAttackMult();
                 float cnt;
                 cnt = DAT_011f6394.FUN_0084d030();
                 float fin = DAT_0101e2bc;

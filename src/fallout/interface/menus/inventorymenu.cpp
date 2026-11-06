@@ -68,7 +68,7 @@ extern InventoryMenuSetting DAT_011d3810;
 extern InventoryMenuSetting DAT_011d1e18;
 extern bool DAT_011d9f38;
 bool FUN_004b71d0();
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 int Warning(const char*, ...);
 extern InventoryMenuSetting DAT_011d3258;
 extern InventoryMenuSetting DAT_011d2acc;
@@ -245,7 +245,7 @@ void InventoryMenu::UpdateDialog()
 // @fnv 0x0077fc10
 Tile* InventoryMenu::Create()
 {
-    InterfaceManager* pMenuInterfaceManager = FUN_004b7210();
+    InterfaceManager* pMenuInterfaceManager = InterfaceManager_GetSingleton();
     float m_fProjectionDepth = Tile::GetInterfaceScale();
     Menu* oldMenu = Tile::FindMenuById(FUN_0077ff80());
     if (oldMenu)
@@ -265,7 +265,7 @@ Tile* InventoryMenu::Create()
         if (pTile->GetFloat(0xfa7) == 6006.0 ||
             pTile->GetFloat(0xfa7) == 102.0)
             pTile->Set(0xfad, Tile::GetInterfaceScale(), true);
-        FUN_004b7210()->kTutorialManager.ShowMessage(34, FUN_0077ff80(), 512);
+        InterfaceManager_GetSingleton()->kTutorialManager.ShowMessage(34, FUN_0077ff80(), 512);
         ms_pInventoryMenu->m_kItemList.Initialize(ms_pInventoryMenu->m_pTiles[4], "IM_InventoryListTemplate");
         ms_pInventoryMenu->m_kItemList.FUN_007a1930(false);
         InventoryInterface::SetTileFormattedText(ms_pInventoryMenu->m_pTiles[13], 24, DAT_011d29b8.FUN_00403df0(),
@@ -363,11 +363,12 @@ void __thiscall FUN_00781620_shell::FUN_00781620(int aiID, Tile* apTarget)
 void FUN_00782470(bool a1)
 {
     if (InventoryMenu::ms_pInventoryMenu)
-        FUN_004b7210()->GetPipboyManagerInstance()->SetValue(InventoryMenu::ms_pInventoryMenu->m_iCurrentTab, a1);
+        InterfaceManager_GetSingleton()->GetPipboyManagerInstance()->SetValue(InventoryMenu::ms_pInventoryMenu->m_iCurrentTab, a1);
 }
 
 // @fnv 0x007824b0
-unsigned char FUN_007824b0()
+// src: COMMUNITY 0x007824b0
+unsigned char InventoryMenu_GetCurrentInventoryPage()
 {
     int currTab;
     if (InventoryMenu::ms_pInventoryMenu)
@@ -532,7 +533,8 @@ struct FUN_004bddd0_t
 int __cdecl FUN_00408b20(char const*, char const*);
 
 // @fnv 0x007824e0
-int __cdecl FUN_007824e0(ListBoxItem<InventoryStackRecord*>* apItem1, ListBoxItem<InventoryStackRecord*>* apItem2)
+// src: COMMUNITY 0x007824e0
+int __cdecl InventoryMenu_CompareForSorting(ListBoxItem<InventoryStackRecord*>* apItem1, ListBoxItem<InventoryStackRecord*>* apItem2)
 {
     int iresult;
 
@@ -738,7 +740,7 @@ struct Camera
 {
     void FUN_007f8610(int, float, float, bool);
 };
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 extern Setting DAT_011db2f0, DAT_011db358, DAT_011d3dcc, DAT_011d1f2c, DAT_011d33f0;
 extern Setting* DAT_011d5168;
 extern int DAT_011d9f34, DAT_011d9ebc;
@@ -771,7 +773,7 @@ void InventoryMenu::UpdateItemDisplay(int action, Tile* changed)
             int selectedSlot11 = (int)reinterpret_cast<Tile* (__thiscall*)(ListBox_ItemChange___*, int)>((*reinterpret_cast<void***>(&m_kItemList))[1])(&m_kItemList, 0xfac)->FUN_00a011b0();
             if (InventorySelection::DAT_011d9f34 != selectedSlot11)
             {
-                reinterpret_cast<InventorySelection::Camera*>(InventorySelection::FUN_004b7210()->GetPipboyManagerInstance())->FUN_007f8610(
+                reinterpret_cast<InventorySelection::Camera*>(InventorySelection::InterfaceManager_GetSingleton()->GetPipboyManagerInstance())->FUN_007f8610(
                     0, InventorySelection::DAT_011d9f34 < selectedSlot11 ? *InventorySelection::DAT_011db2f0.FUN_00403e20() : -*InventorySelection::DAT_011db2f0.FUN_00403e20(),
                     *InventorySelection::DAT_011db358.FUN_00403e20(), 1);
                 InventorySelection::DAT_011d9f34 = selectedSlot11;
@@ -817,7 +819,7 @@ void InventoryMenu::UpdateItemDisplay(int action, Tile* changed)
                 m_pTiles[11]->FUN_00a012d0(0xfb1, InventorySelection::DAT_01072e3c, 1);
                 m_pTiles[11]->FUN_00a012d0(0xfb0, InventorySelection::DAT_01072e3c, 1);
             }
-            m_pTiles[11]->FUN_00a07530(17);
+            m_pTiles[11]->Tile_SetChangeFlag(17);
             char path[260];
             InventorySelection::FUN_00406d30(path, 260, InventorySelection::DAT_0106eb24);
             unsigned int prefixLengthSlot0 = InventorySelection::FUN_0044a670(path);
@@ -996,7 +998,7 @@ extern "C" int DAT_011d9ebc;
 
 void* __fastcall FUN_00559450(void* obj);
 void __cdecl FUN_00782a90();
-void __cdecl FUN_007832a0(void* tile, int index);
+void __cdecl InventoryMenu_AddToChangedItemsListIfWorn(void* tile, int index);
 
 struct Sh006815c0
 {
@@ -1032,7 +1034,7 @@ void __fastcall RefreshInventorySelection(InventoryMenu* menu)
 
     if (static_cast<Menu*>(menu)->FUN_00726070()->IsTraitNonZero(DAT_011d9ebc))
     {
-        menu->m_kItemList.FUN_007314c0(FUN_007832a0, 0, 0x7fffffff);
+        menu->m_kItemList.FUN_007314c0(InventoryMenu_AddToChangedItemsListIfWorn, 0, 0x7fffffff);
     }
 
     void* c = (void*)FUN_0044ddc0(DAT_011d9ea8);
@@ -1547,7 +1549,7 @@ class VTAudio
 {
   public:
     static VTAudio* FUN_00453a70();
-    VTSoundHandle FUN_00ad7550(const char* pcName, int iFlags);
+    VTSoundHandle BSAudio_GetSoundHandleByEditorName(const char* pcName, int iFlags);
 };
 
 extern VTTarget* DAT_011d9ea8;
@@ -1574,7 +1576,7 @@ bool FUN_004b71d0();
 void FUN_00782a90();
 void DispatchMessageToSink(const char* pcText, int iA, const char* pcIcon, const char* pcSound, float fTime, int iB);
 void CreateQuantityMenu(Tile* pkTile, void (*pfnCallback)(int), int iMax);
-void FUN_00782620();
+void InventoryMenu_FilterFunc();
 void UpdateItemLabel(Tile* pkTile);
 void IsNotFormType2E();
 
@@ -1604,9 +1606,9 @@ void InventoryMenu::Select(int m_uiSoundID, int pkTile)
             UpdateCurrentValue();
             m_iCurrentTab = m_uiSoundID - 0x18;
             m_pTiles[13]->FUN_00700320(DAT_011d9eac, m_iCurrentTab);
-            ::FUN_004b7210()->GetPipboyManagerInstance()->StartBurst(*DAT_011db458.FUN_00403e20(), *DAT_011db37c.FUN_00403e20(), 0.5f);
-            ::FUN_004b7210()->SetInventoryPageNumber(m_uiSoundID);
-            m_kItemList.ApplyFilter(fnv_00780140::FUN_00782620);
+            ::InterfaceManager_GetSingleton()->GetPipboyManagerInstance()->StartBurst(*DAT_011db458.FUN_00403e20(), *DAT_011db37c.FUN_00403e20(), 0.5f);
+            ::InterfaceManager_GetSingleton()->SetInventoryPageNumber(m_uiSoundID);
+            m_kItemList.ApplyFilter(fnv_00780140::InventoryMenu_FilterFunc);
             m_kItemList.FUN_007314c0(FUN_00780c00, -1, 0x7fffffff);
             fnv_00780140::FUN_007800c0();
             fnv_00780140::FUN_00782470(1);
@@ -1615,13 +1617,13 @@ void InventoryMenu::Select(int m_uiSoundID, int pkTile)
             m_pTiles[19]->FUN_00700320(0xfa3, 1);
         else if (m_uiSoundID == 0x1c)
         {
-            ::FUN_004b7210()->kTutorialManager.ShowMessage(0x24, FUN_0077ff80(), 0x1f4);
+            ::InterfaceManager_GetSingleton()->kTutorialManager.ShowMessage(0x24, FUN_0077ff80(), 0x1f4);
             ((InventoryMenu*)DAT_011d9ea4)->m_kItemList.FUN_007314c0(fnv_00780140::UpdateItemLabel, 0, 0x7fffffff);
         }
         else
         {
             if (m_uiSoundID == 0x19)
-                ::FUN_004b7210()->kTutorialManager.ShowMessage(0x23, FUN_0077ff80(), 0x200);
+                ::InterfaceManager_GetSingleton()->kTutorialManager.ShowMessage(0x23, FUN_0077ff80(), 0x200);
             m_pTiles[19]->FUN_00700320(0xfa3, 0);
             m_pTiles[20]->FUN_00700320(0xfa3, 0);
             m_pTiles[22]->FUN_00700320(0xfa3, 0);
@@ -1722,7 +1724,7 @@ void InventoryMenu::Select(int m_uiSoundID, int pkTile)
     case 10:
         UpdateCurrentValue();
         FUN_00726070()->FUN_00700320(DAT_011d9eb8, 0);
-        m_kItemList.ApplyFilter(fnv_00780140::FUN_00782620);
+        m_kItemList.ApplyFilter(fnv_00780140::InventoryMenu_FilterFunc);
         m_kItemList.FUN_007314c0(FUN_00780c00, -1, 0x7fffffff);
         fnv_00780140::FUN_007800c0();
         break;
@@ -1733,7 +1735,7 @@ void InventoryMenu::Select(int m_uiSoundID, int pkTile)
             VTForm* pkRefOut = fnv_00780140::DAT_011d9ea8->FUN_0044ddc0();
             VTItemData* pkItem = fnv_00780140::DAT_011d9ea8->FUN_00559450() ? *fnv_00780140::DAT_011d9ea8->FUN_00559450()->FUN_006815c0() : 0;
             if (FUN_00726070()->IsTraitNonZero(DAT_011d9eb8))
-                VTAudio::FUN_00453a70()->FUN_00ad7550("UIVATSInsufficientAP", 0x121).FUN_00ad8830(false);
+                VTAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIVATSInsufficientAP", 0x121).FUN_00ad8830(false);
             else if (pkRefOut->IsDeleted())
                 DispatchMessageToSink(DAT_011d47a4.FUN_00403df0(), 2, 0, 0, 2.0f, 0);
             else if (((PlayerCharacter*)DAT_011dea3c)->FUN_008a7570() != -1 && fnv_00780140::DAT_011d9ea8->FUN_004bddd0(0))
@@ -1812,7 +1814,8 @@ FilterList* __cdecl FUN_00483a00(int*);
 
 // Returns whether a form fails the current tab's checks, including type, item, and condition-index checks.
 // @fnv 0x00782620
-bool __cdecl FUN_00782620(Entry* entry)
+// src: COMMUNITY 0x00782620
+bool __cdecl InventoryMenu_FilterFunc(Entry* entry)
 {
     if (DAT_011d9ea4)
     {

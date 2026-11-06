@@ -44,7 +44,7 @@ bool __cdecl Cmd_DuplicateNPCStats_Execute(const ScriptParameter* paramInfo, con
 
         if (npc1 != 0 && npc4 != 0)
         {
-            npc1->FUN_00601c70(npc4->TESActorBase::GetClass());
+            npc1->SetClass(npc4->TESActorBase::GetClass());
             npc1->SetLevel(npc4->FUN_0047ded0());
             npc1->AutoCalcStats(false);
         }

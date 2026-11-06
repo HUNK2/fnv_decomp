@@ -46,8 +46,8 @@ public:
     int unk30;
     VBSetLocal_00e94b00();
     ~VBSetLocal_00e94b00();
-    VbNode* FUN_00e94650(unsigned int size, bool flag);
-    void FUN_00e94490(unsigned int uiArrayIndex, unsigned int uiChipIndex);
+    VbNode* NiVBSet_AllocateChip(unsigned int size, bool flag);
+    void FreeChip(unsigned int uiArrayIndex, unsigned int uiChipIndex);
 };
 
 typedef NiTMapBase<NiTPointerAllocator<unsigned int>, unsigned int, NiVBSet*> GeometryMapBase;
@@ -76,7 +76,8 @@ struct NiVBChip
     void* m_pkOwningStream;
 };
 // @fnv 0x00e94770
-void __stdcall FUN_00e94770(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
+// src: COMMUNITY 0x00e94770
+void __stdcall NiStaticGeometryGroup_ReleaseChip(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 {
     NiVBChip* pkChip;
     NiVBBlock* pkBlock;
@@ -88,7 +89,7 @@ void __stdcall FUN_00e94770(NiGeometryBufferData* pkBuffData, unsigned int uiStr
             if (pkChip->m_pkOwningStream)
             {
                 pkBlock = pkChip->m_pkTreeBlock;
-                reinterpret_cast<VBSetLocal_00e94b00*>(pkBlock->m_pBuffer)->FUN_00e94490(pkBlock->m_04, pkChip->m_uiPosition);
+                reinterpret_cast<VBSetLocal_00e94b00*>(pkBlock->m_pBuffer)->FreeChip(pkBlock->m_04, pkChip->m_uiPosition);
             }
             if (uiStream < pkBuffData->m_uiRegisterStreamCount)
                 pkBuffData->m_ppkVertexBuffers[uiStream] = 0;
@@ -107,7 +108,7 @@ extern int DAT_010f0fd4;
 void* NiStaticGeometryGroup::Destroy(unsigned int flag)
 {
     *reinterpret_cast<void**>(this) = &DAT_010f0fd4;
-    FUN_00e946b0();
+    Purge_00e946b0();
     GeometryMapBase* pSets = reinterpret_cast<GeometryMapBase*>(&map);
     *reinterpret_cast<void**>(pSets) = &DAT_010f0fb4;
     pSets->RemoveAll();
@@ -202,7 +203,8 @@ NiStaticGeometryGroup* __cdecl FUN_00e94c00()
 }  // namespace fnv_00e94c00
 
 // @fnv 0x00e946b0
-void NiStaticGeometryGroup::FUN_00e946b0()
+// src: COMMUNITY 0x00e946b0
+void NiStaticGeometryGroup::Purge_00e946b0()
 {
     GeometryMapItem* pFirstNode = 0;
     GeometryMapBase* pMap = reinterpret_cast<GeometryMapBase*>(&map);
@@ -280,7 +282,7 @@ struct S_00e948f0_Rtti
 
 struct S_00e948f0_Pool
 {
-    void* FUN_00aa3e40(unsigned int n);
+    void* Game_DoHeapAlloc(unsigned int n);
 };
 extern S_00e948f0_Pool DAT_011f6238;
 
@@ -345,7 +347,7 @@ void __fastcall InitStaticGeometryData(NiStaticGeometryGroup* group, void*, S_00
         {
             return;
         }
-        d = ::new (DAT_011f6238.FUN_00aa3e40(sizeof(NiGeometryBufferData))) NiGeometryBufferData;
+        d = ::new (DAT_011f6238.Game_DoHeapAlloc(sizeof(NiGeometryBufferData))) NiGeometryBufferData;
         d->m_eRequestType = (apY->m_22 != 0) + 4;
         apY->m_28 = d;
     }
@@ -355,7 +357,7 @@ void __fastcall InitStaticGeometryData(NiStaticGeometryGroup* group, void*, S_00
         {
             return;
         }
-        d = ::new (DAT_011f6238.FUN_00aa3e40(sizeof(NiGeometryBufferData))) NiGeometryBufferData;
+        d = ::new (DAT_011f6238.Game_DoHeapAlloc(sizeof(NiGeometryBufferData))) NiGeometryBufferData;
         bool found = false;
         for (S_00e948f0_Rtti* r = apObj->GetRTTI(); r; r = r->m_base)
         {
@@ -426,7 +428,7 @@ struct VbNode
     unsigned int m_0c;
 };
 
-void* __cdecl FUN_00e94b80(unsigned int a, void* b, unsigned int key, unsigned int usage, unsigned int c);
+void* __cdecl NiVBSet_Create(unsigned int a, void* b, unsigned int key, unsigned int usage, unsigned int c);
 
 struct VbDesc
 {
@@ -498,17 +500,17 @@ VbNode* __fastcall GetOrCreateNode(NiStaticGeometryGroup* group, void*, VbDesc* 
     }
     if (!owner->map.GetAt(key, reinterpret_cast<NiVBSet*&>(pNode)) || !(object = pNode))
     {
-        object = (VBSetLocal_00e94b00*)FUN_00e94b80(0x10000, owner->m_pD3DDevice, key, usage, 0);
+        object = (VBSetLocal_00e94b00*)NiVBSet_Create(0x10000, owner->m_pD3DDevice, key, usage, 0);
         owner->map.SetAt(key, reinterpret_cast<NiVBSet*>(object));
     }
     unsigned int count = apDesc->GetCount();
-    VbNode* r = object->FUN_00e94650(apDesc->GetVertexCount() * stride, count > 1);
+    VbNode* r = object->NiVBSet_AllocateChip(apDesc->GetVertexCount() * stride, count > 1);
     apDesc->m_38 = r->m_0c / stride;
     return r;
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int n);
-void __cdecl FUN_00e941a0(void* object);
+void __cdecl NiVBSet_DetermineUsageAndPool(void* object);
 struct S00e94b80_Unknown
 {
     virtual long __stdcall QueryInterface(void* riid, void** out);
@@ -525,7 +527,8 @@ inline void* operator new(unsigned int n, S00e94b80_Heap) throw()
 }
 // Allocates a FUN_00e94b00, assigns its fields, AddRefs b when nonnull, releases the prior stored pointer otherwise, and calls FUN_00e941a0.
 // @fnv 0x00e94b80
-void* __cdecl FUN_00e94b80(unsigned int a, void* apUnknown, unsigned int key, unsigned int usage, unsigned int c)
+// src: COMMUNITY 0x00e94b80
+void* __cdecl NiVBSet_Create(unsigned int a, void* apUnknown, unsigned int key, unsigned int usage, unsigned int c)
 {
     VBSetLocal_00e94b00* object = new (s00e94b80_heap) VBSetLocal_00e94b00;
     if (object)
@@ -547,7 +550,7 @@ void* __cdecl FUN_00e94b80(unsigned int a, void* apUnknown, unsigned int key, un
         object->unk04 = key;
         object->unk08 = usage;
         object->unk00 = c;
-        FUN_00e941a0(object);
+        NiVBSet_DetermineUsageAndPool(object);
     }
     return object;
 }

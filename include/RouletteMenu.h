@@ -135,9 +135,9 @@ public:
     void FUN_007bf840();
     void FUN_007bed00(int, Tile*);
     void FUN_007bd2a0();
-    int FUN_007b8f30();
+    int GetMenuID_007b8f30();
     void FUN_007b9000();
-    NiNode* FUN_007c2180();
+    NiNode* BlackJackMenu_SetupCamera();
     int FUN_0059bb30();
     Tile* FUN_00726070();
     void FUN_00a1d910();

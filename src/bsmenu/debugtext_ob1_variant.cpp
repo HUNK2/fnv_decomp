@@ -85,7 +85,7 @@ int __cdecl InvokeVFuncWithVarArgs(FUN_00a0e6d0_this* p0, int p1, void* p2, int 
 extern "C" unsigned char __cdecl FUN_00702fc0();
 extern int DAT_011f33dc;
 extern void (__stdcall *DAT_00fdf05c)(int*);
-void __cdecl FUN_00a11820();
+void __cdecl DebugText_Lock();
 
 struct P03MM {
     void* __thiscall Allocate(unsigned int size);
@@ -93,7 +93,7 @@ struct P03MM {
 extern P03MM g_memoryManager;
 struct ChangeData;
 struct FUN_00a11c00_shell {
-    void FUN_00a11c00(NiTMapItem<unsigned int, void*>* item);
+    void NiTList_AddTail(NiTMapItem<unsigned int, void*>* item);
 };
 
 struct PendingObj {
@@ -727,7 +727,7 @@ PendingD9* FUN_00a0d9e0(bool bCreate)
 }
 
 bool FUN_00702360();
-void FUN_00a11820();
+void DebugText_Lock();
 void ReleaseLock();
 extern float DAT_011f63a0;
 inline float GetElapsed() { float value=DAT_011f63a0; return value; }
@@ -878,9 +878,10 @@ struct DebugState {
  TextList list;
  static DebugState* FUN_00a0d9e0(bool);
 };
-Owner* FUN_00706d10();
+Owner* Interface_GetDebugTextRoot();
 // @fnv 0x00a0df80
-void FUN_00a0df80() {
+// src: COMMUNITY 0x00a0df80
+void DebugText_Idle() {
  if (FUN_00702360()) return;
  DebugState* _debug = DebugState::FUN_00a0d9e0(true);
  for (int index=0; index<200; ++index) {
@@ -888,8 +889,8 @@ void FUN_00a0df80() {
    _debug->entries[index].lifetime -= GetElapsed();
    if (_debug->entries[index].lifetime <= 0.0) {
     if (_debug->entries[index].node) {
-     FUN_00a11820();
-     FUN_00706d10()->Remove(_debug->entries[index].node);
+     DebugText_Lock();
+     Interface_GetDebugTextRoot()->Remove(_debug->entries[index].node);
      _debug->entries[index].node.FUN_0066b0d0(0);
      _debug->entries[index].active=0;
      _debug->entries[index].x=0.0f;
@@ -909,7 +910,7 @@ void FUN_00a0df80() {
   } else if (entry2->lifetime>0.0) {
    entry2->lifetime-=GetElapsed();
    if (entry2->lifetime<0.0) {
-    FUN_00a11820();
+    DebugText_Lock();
     ((SceneNode*)entry2->node)->GetParent()->Remove(entry2->node);
     entry2->node.FUN_0066b0d0(0);
     ReleaseLock();
@@ -928,7 +929,7 @@ extern "C" unsigned long __readfsdword(unsigned long);
 
 unsigned char __cdecl FUN_00703d50();
 float __cdecl FUN_00706df0();
-int __cdecl FUN_00706d10();
+int __cdecl Interface_GetDebugTextRoot();
 void __cdecl ReleaseLock();
 
 inline int A0FE20GetState() { return DAT_00a0fe20_tlsstate; }
@@ -1041,11 +1042,12 @@ public:
 inline Font** A0FE20RecTable() { Font** p = (Font**)DAT_011f33f8; return p; }
 inline Font* A0FE20RecAt(int i) { return A0FE20RecTable()[i - 1]; }
 struct A0FE20Cls {
-    TESObjectDoorController* FUN_00a0fe20(char*, float, float, int, int, NiColorA*);
+    TESObjectDoorController* DebugText_CreateDebugText(char*, float, float, int, int, NiColorA*);
 };
 
 // @fnv 0x00a0fe20
-TESObjectDoorController* A0FE20Cls::FUN_00a0fe20(char* pcText, float fX, float fY, int iMode, int iSlot, NiColorA* pkColor)
+// src: COMMUNITY 0x00a0fe20
+TESObjectDoorController* A0FE20Cls::DebugText_CreateDebugText(char* pcText, float fX, float fY, int iMode, int iSlot, NiColorA* pkColor)
 {
     A0FE20StateGuard ao(13);
 
@@ -1079,7 +1081,7 @@ TESObjectDoorController* A0FE20Cls::FUN_00a0fe20(char* pcText, float fX, float f
 
     int ak = iSlot;
     if (!ak) ak = A0FE20DefSlotRef();
-    NiAVObject* ab = reinterpret_cast<NiAVObject*>(A0FE20RecAt(ak)->FUN_00a12460(0.0f, 0.0f, 0.0f, &an, &ae, ad, &aa, 1, 1));
+    NiAVObject* ab = reinterpret_cast<NiAVObject*>(A0FE20RecAt(ak)->Font_MakeString(0.0f, 0.0f, 0.0f, &an, &ae, ad, &aa, 1, 1));
     ab->SetPosition(0.0f, 0.0f, 0.0f);
     ((NiNode*)aw)->AttachChildInAvailableSlot(ab, true);
 
@@ -1089,9 +1091,9 @@ TESObjectDoorController* A0FE20Cls::FUN_00a0fe20(char* pcText, float fX, float f
     if (0) aw->m_flags |= A0FE20Bit();
     else aw->m_flags &= ~A0FE20Bit();
 
-    FUN_00a11820();
-    if (FUN_00706d10()) {
-        ((NiNode*)FUN_00706d10())->AttachChildInAvailableSlot((NiAVObject*)aw, true);
+    DebugText_Lock();
+    if (Interface_GetDebugTextRoot()) {
+        ((NiNode*)Interface_GetDebugTextRoot())->AttachChildInAvailableSlot((NiAVObject*)aw, true);
     }
     aw->SetPosition(fX, -50.0f, fY);
     aw->FUN_00a5a040();
@@ -1138,7 +1140,8 @@ template <> inline void NiTMapBase<NiTPointerAllocator<unsigned int>, unsigned i
 // @fnv 0x00a1c800
 extern NiTPointerMap<unsigned int, FUN_00a1c800_A*> DAT_011f34e0;
 extern NiTPointerMap<unsigned int, FUN_00a1c800_B*> DAT_011f34f4;
-void FUN_00a1c800()
+// src: COMMUNITY 0x00a1c800
+void Menu_FreeXMLArchive()
 {
     void* pos2;
     void* iter;
@@ -1305,13 +1308,13 @@ int MgrQ::FUN_00a0f730(const char* name, int key)
         n->key = key;
         n->ent = e;
         n->unk4 = 0;
-        m_kNode.FUN_00a11d20((void*&)n);
+        m_kNode.BSSimpleArray_Add((void*&)n);
     }
  DeadQ3();     return key;
 }
 
 extern NiRTTI DAT_011f4428;
-unsigned char __cdecl FUN_00a10c00(NiObject* pkObject, int a, int b, float c);
+unsigned char __cdecl DebugText_AddFloatingText(NiObject* pkObject, int a, int b, float c);
 
 __forceinline bool KindOfRTTI(const NiRTTI& kRTTI, const NiObject* pkObject)
 {
@@ -1348,7 +1351,7 @@ unsigned char __cdecl FUN_00a11470(NiObject* pkObject, int a, int b, float c)
     if (pkCast == 0 && pkObject != 0)
         pkCast = CastParentIfKind<NiObject>(DAT_011f4428, pkObject);
     if (pkCast != 0)
-        return FUN_00a10c00(pkCast, a, b, c);
+        return DebugText_AddFloatingText(pkCast, a, b, c);
     else
         return 0;
 }
@@ -1427,7 +1430,8 @@ inline unsigned char A11740HasMarker(const NiRTTI*& p)
 }
 
 // @fnv 0x00a11740
-DebugTextExtraData* __cdecl FUN_00a11740(NiAVObject* input, int unused, int expected, int* outValue)
+// src: COMMUNITY 0x00a11740
+DebugTextExtraData* __cdecl DebugText_GetFloatingText(NiAVObject* input, int unused, int expected, int* outValue)
 {
     DebugTextExtraData* res;
     unsigned int indexB;
@@ -1776,16 +1780,16 @@ struct FUN_00a0dcc0 {
     DebugItem items[200];
     TextList list;
     Helper2270 tail;
-    void FUN_00a0de80();
+    void DebugText_DeleteAllDebugText();
     virtual ~FUN_00a0dcc0();
 };
 
 // @fnv 0x00a0dcc0
 FUN_00a0dcc0::~FUN_00a0dcc0()
 {
-    FUN_00a0de80();
+    DebugText_DeleteAllDebugText();
     Link* pos = list.GetFirst();
-    FUN_00a11820();
+    DebugText_Lock();
     while (pos) {
         DebugItem* item = list.Next(pos);
         if (item->node->GetRefs() > 2) {
@@ -1861,7 +1865,7 @@ struct ObjVT {
     virtual void v58(void* aItem);
 };
 
-ObjVT* __cdecl FUN_00706d10();
+ObjVT* __cdecl Interface_GetDebugTextRoot();
 void __cdecl ReleaseLock();
 
 
@@ -1885,7 +1889,7 @@ struct ArrayItem {
 
 struct FUN_00a0de80_cls {
     ArrayItem m_items[200];
-    void FUN_00a0de80();
+    void DebugText_DeleteAllDebugText();
 };
 
 extern float DAT_01012054;
@@ -1897,14 +1901,15 @@ struct Scratch10 {
 __forceinline void* Store(void*& out, ItemHolder& h) { return out = h.m_p; }
 
 // @fnv 0x00a0de80
-void FUN_00a0de80_cls::FUN_00a0de80() {
-    FUN_00a11820();
+// src: COMMUNITY 0x00a0de80
+void FUN_00a0de80_cls::DebugText_DeleteAllDebugText() {
+    DebugText_Lock();
     for (int i = 0; i < 200; i++) {
         void* item = m_items[i].m_10.m_p;
         if (item != 0) {
             Scratch10 buf;
             void* elem;
-            FUN_00706d10()->v58(Store(elem, m_items[i].m_10));
+            Interface_GetDebugTextRoot()->v58(Store(elem, m_items[i].m_10));
             m_items[i].m_10.Free(0);
             m_items[i].m_0c = 0;
             m_items[i].m_04 = 0.0f;
@@ -2145,25 +2150,26 @@ struct AudioManager {
     AudioSlot slots[200];
     int unk2264,unk2268,unk226c;
     RequestQueue pending;
-    Playback* FUN_00a0fe20(const char*,float,float,int,int,const NiColorA*);
-    void FUN_00a0e770();
+    Playback* DebugText_CreateDebugText(const char*,float,float,int,int,const NiColorA*);
+    void DebugText_HandleQueuedPrints();
 };
 struct TextRecord {
-    void FUN_00a160c0(BSStringT<char>*,int*,int*,int,int);
+    void Font_LineBreakText(BSStringT<char>*,int*,int*,int,int);
 };
 inline TextRecord** Records() { TextRecord** p=(TextRecord**)DAT_011f33f8; return p; }
 inline TextRecord* RecordAt(int i) { return Records()[i-1]; }
-void __cdecl FUN_005b5e40(const char*);
+void __cdecl Warning_005b5e40(const char*);
 extern char DAT_01094f60;
 // @fnv 0x00a0e770
-void AudioManager::FUN_00a0e770() {
+// src: COMMUNITY 0x00a0e770
+void AudioManager::DebugText_HandleQueuedPrints() {
     for(unsigned i=0;i<pending.size();++i) {
         switch(pending[i]->kind) {
         case 0:
             {
                 if(slots[pending[i]->slot].playback) {
-                    FUN_00a11820();
-                    FUN_00706d10()->Remove(slots[pending[i]->slot].playback);
+                    DebugText_Lock();
+                    Interface_GetDebugTextRoot()->Remove(slots[pending[i]->slot].playback);
                     slots[pending[i]->slot].playback.FUN_0066b0d0(0);
                     slots[pending[i]->slot].identifier=0;
                     slots[pending[i]->slot].x=0.0f;
@@ -2177,8 +2183,8 @@ void AudioManager::FUN_00a0e770() {
                     if(!strcmp(slots[pending[i]->slot].filename,pending[i]->source->filename)) changed=true;
                 }
                 if(!changed) {
-                    FUN_00a11820();
-                    slots[pending[i]->slot].playback.FUN_0066b0d0(FUN_00a0fe20(pending[i]->source->filename,
+                    DebugText_Lock();
+                    slots[pending[i]->slot].playback.FUN_0066b0d0(DebugText_CreateDebugText(pending[i]->source->filename,
                         slots[pending[i]->slot].x,slots[pending[i]->slot].y,slots[pending[i]->slot].identifier,0,0));
                     ReleaseLock();
                 }
@@ -2187,7 +2193,7 @@ void AudioManager::FUN_00a0e770() {
         case 1:
             {
                 ScopedThreadState state3(13);
-                if(!FUN_00706d10()) return;
+                if(!Interface_GetDebugTextRoot()) return;
                 bool reuse=false;
                 unsigned end3=0;
                 bool failed4=false;
@@ -2199,7 +2205,7 @@ void AudioManager::FUN_00a0e770() {
                     int style=1200;
                     int option=0;
                     if(DAT_011c70eb) style=(int)(style*DAT_01094f90);
-                    RecordAt(voice)->FUN_00a160c0(&text4,&style,&option,0,10);
+                    RecordAt(voice)->Font_LineBreakText(&text4,&style,&option,0,10);
                 } else {
                     failed4=true;
                     pending[i]->line=0;
@@ -2231,7 +2237,7 @@ void AudioManager::FUN_00a0e770() {
                     for(slotX=0;slotX<200;++slotX) {
                         if(!slots[slotX].identifier) break;
                     }
-                    if(slotX==200) { FUN_005b5e40(&DAT_01094f60); return; }
+                    if(slotX==200) { Warning_005b5e40(&DAT_01094f60); return; }
                 } else {
                     if(!failed4) {
                         if(slots[slotX].playback && StringEquals(slots[slotX].filename,text4)) {
@@ -2240,17 +2246,17 @@ void AudioManager::FUN_00a0e770() {
                     } else reuse=false;
                     if(!reuse) {
                         if(slots[slotX].playback) {
-                            FUN_00a11820();
-                            FUN_00706d10()->Remove(slots[slotX].playback);
+                            DebugText_Lock();
+                            Interface_GetDebugTextRoot()->Remove(slots[slotX].playback);
                             slots[slotX].playback.FUN_0066b0d0(0);
                             ReleaseLock();
                         }
                     }
                 }
                 if(!reuse) {
-                    FUN_00a11820();
+                    DebugText_Lock();
                     if(!failed4) {
-                        slots[slotX].playback.FUN_0066b0d0(FUN_00a0fe20(text4,pending[i]->source->x,pending[i]->source->y,
+                        slots[slotX].playback.FUN_0066b0d0(DebugText_CreateDebugText(text4,pending[i]->source->x,pending[i]->source->y,
                             pending[i]->source->identifier,voice,&pending[i]->source->color));
                     } else slots[slotX].playback.FUN_0066b0d0(0);
                     if(slots[slotX].playback) {
@@ -2305,7 +2311,7 @@ struct A0F8List {
     int m_00;
     A0F8Item** m_04;
     unsigned int m_08;
-    unsigned int FUN_00a11d20(A0F8Item*& aValue);
+    unsigned int BSSimpleArray_Add(A0F8Item*& aValue);
     unsigned int GetCount() { return m_08; }
 };
 
@@ -2393,7 +2399,7 @@ int A0F8Self::FUN_00a0f8b0(const char* pcText, float fX, float fY, int iFlags,
         pItem->m_0C = m_iPayloadInteger;
         pItem->m_10 = fScale;
         pItem->m_14 = iUnused;
-        this->m_kNode.FUN_00a11d20(pItem);
+        this->m_kNode.BSSimpleArray_Add(pItem);
     }
     return 0;
 }
@@ -2482,7 +2488,8 @@ __forceinline Font* GetFont(int idx) {
     Font* selected=fonts[idx]; return selected;
 }
 // @fnv 0x00a10770
-NiAVObject* __cdecl FUN_00a10770(const char* text,float x,float y,float scale,int idx,int p1,int p2,bool flag) {
+// src: COMMUNITY 0x00a10770
+NiAVObject* __cdecl FloatingText_FloatingText(const char* text,float x,float y,float scale,int idx,int p1,int p2,bool flag) {
     NiAVObject* a;
     { a = new NiBillboardNode; }
     a->SetName((const NiFixedString&)S107(&DAT_01094f9c));
@@ -2490,7 +2497,7 @@ NiAVObject* __cdecl FUN_00a10770(const char* text,float x,float y,float scale,in
     BSStringT<char> s(text);
     NiAVObject* h;
     {
-        h=reinterpret_cast<NiAVObject*>(GetFont(idx)->FUN_00a12460(x,y,0.0f,&s,&eb,p1,reinterpret_cast<void*>(p2),0,flag));
+        h=reinterpret_cast<NiAVObject*>(GetFont(idx)->Font_MakeString(x,y,0.0f,&s,&eb,p1,reinterpret_cast<void*>(p2),0,flag));
     }
     if (!h) return 0;
     static_cast<NiNode*>(a)->AttachChildInAvailableSlot(h,true);
@@ -2542,11 +2549,12 @@ extern "C" void __cdecl FUN_00b57e30(NiAVObject*,int,int);
 extern "C" void __cdecl SetExtraDataName();
 typedef bool (__thiscall *ExtraAttach)(NiObject*,DebugTextExtraData*);
 // @fnv 0x00a10c00
-unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float duration) {
+// src: COMMUNITY 0x00a10c00
+unsigned char __cdecl DebugText_AddFloatingText(NiObject* root,int text,int height,float duration) {
  if(!root) return false;
  bool found=false;
  int zt=(int)static_cast<NiAVObject*>(root)->GetBound().m_kCenter.z;
- DebugTextExtraData* extra34=(DebugTextExtraData*)FUN_00a11740((NiAVObject*)root,text,height,&zt);
+ DebugTextExtraData* extra34=(DebugTextExtraData*)DebugText_GetFloatingText((NiAVObject*)root,text,height,&zt);
  NiAVObject* nodeB;
  if(extra34) {
   Link* pos=DebugState::FUN_00a0d9e0(true)->list.GetFirst();
@@ -2567,7 +2575,7 @@ unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float dura
  int limit3=10000;
  StringConstructionScratch();
  BSStringT<char> str1((const char*)text);
- NiAVObject* mesh6=reinterpret_cast<NiAVObject*>(FontSystem::GetSingleton()->GetFont(1)->FUN_00a12460(0,0,0,&str1,&limit3,2,&DAT_011a9be0,0,1));
+ NiAVObject* mesh6=reinterpret_cast<NiAVObject*>(FontSystem::GetSingleton()->GetFont(1)->Font_MakeString(0,0,0,&str1,&limit3,2,&DAT_011a9be0,0,1));
  if(!mesh6) return false;
  static_cast<NiNode*>(nodeB)->AttachChildInAvailableSlot(mesh6,true);
  extra34->text=(const char*)text;
@@ -2597,6 +2605,6 @@ unsigned char __cdecl FUN_00a10c00(NiObject* root,int text,int height,float dura
  entry7->duration=duration;
  entry7->text=(const char*)text;
  entry7->node.FUN_0066b0d0(nodeB);
- reinterpret_cast<FUN_00a11c00_shell*>(&DebugState::FUN_00a0d9e0(true)->list)->FUN_00a11c00(reinterpret_cast<NiTMapItem<unsigned int, void*>*>(&entry7));
+ reinterpret_cast<FUN_00a11c00_shell*>(&DebugState::FUN_00a0d9e0(true)->list)->NiTList_AddTail(reinterpret_cast<NiTMapItem<unsigned int, void*>*>(&entry7));
  return true;
 }

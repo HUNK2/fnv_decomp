@@ -30,14 +30,14 @@ void hkaSkeletonUtils_unlockTranslations(hkaSkeleton* pEntries)
         pEntries->m_kBones.m_data[i].m_bLockTranslation.m_cBooleanValue = 0;
 }
 
-extern "C" void __cdecl FUN_00cddad0(int, int, int*, int, int);
+extern "C" void __cdecl hkaSkeletonUtils_transformLocalPoseToWorldPose(int, int, int*, int, int);
 extern int DAT_01268700;
 
 // Calls FUN_00cddad0 with a, b, the address of DAT_01268700, c and d.
 // @fnv 0x00cddcf0
 void __cdecl CallWithGlobal(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    FUN_00cddad0(aiArg1, aiArg2, &DAT_01268700, aiArg3, aiArg4);
+    hkaSkeletonUtils_transformLocalPoseToWorldPose(aiArg1, aiArg2, &DAT_01268700, aiArg3, aiArg4);
 }
 
 extern "C" void __cdecl FUN_00cddd20(void* a, void* b, void* c, void* d, void* e);
@@ -45,7 +45,8 @@ extern int DAT_01268700;
 
 // Calls FUN_00cddd20 with a, b, the address of DAT_01268700, c and d.
 // @fnv 0x00cddef0
-void FUN_00cddef0(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
+// src: COMMUNITY 0x00cddef0
+void hkaSkeletonUtils_transformModelPoseToLocalPose(void* apArg1, void* apArg2, void* apArg3, void* apArg4)
 {
     FUN_00cddd20(apArg1, apArg2, &DAT_01268700, apArg3, apArg4);
 }

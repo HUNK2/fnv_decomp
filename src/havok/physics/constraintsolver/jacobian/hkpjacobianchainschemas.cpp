@@ -29,7 +29,8 @@ int __cdecl FUN_00dd13b0(unsigned int arg0)
 }
 
 // @fnv 0x00dd13d0
-char* FUN_00dd13d0(char* base)
+// src: COMMUNITY 0x00dd13d0
+char* _tolower_00dd13d0(char* base)
 {
     return base + 0x20;
 }

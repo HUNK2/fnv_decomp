@@ -182,7 +182,7 @@ void ConstructibleObjectOperations::Copy(unsigned int a1)
 
 TESForm* __cdecl FUN_004839c0(unsigned int id);
 void __cdecl ResolveFormID(unsigned int* id, void* file);
-int __cdecl FUN_005b5e40(const char* fmt, ...);
+int __cdecl Warning_005b5e40(const char* fmt, ...);
 
 // @fnv 0x004f95a0
 void ConstructibleObjectOperations::LoadFormReferences()
@@ -196,7 +196,7 @@ void ConstructibleObjectOperations::LoadFormReferences()
         ResolveFormID(&id, FUN_00484e60(-1));
         m_pCreatedObject = dynamic_cast<BGSListForm*>(FUN_004839c0(id));
         if (!m_pCreatedObject)
-            FUN_005b5e40("MASTERFILE: Could not find item list (%08X) on constructible object '%s' (%08X).", id, GetName(),
+            Warning_005b5e40("MASTERFILE: Could not find item list (%08X) on constructible object '%s' (%08X).", id, GetName(),
                          FUN_0084e3a0());
     }
     id = (unsigned int)m_pWorkbenchKeyword;
@@ -205,7 +205,7 @@ void ConstructibleObjectOperations::LoadFormReferences()
         ResolveFormID(&id, FUN_00484e60(-1));
         m_pWorkbenchKeyword = dynamic_cast<TESBoundObject*>(FUN_004839c0(id));
         if (!m_pWorkbenchKeyword)
-            FUN_005b5e40("MASTERFILE: Could not find created item (%08X) on constructible object '%s' (%08X).", id,
+            Warning_005b5e40("MASTERFILE: Could not find created item (%08X) on constructible object '%s' (%08X).", id,
                          GetName(), FUN_0084e3a0());
     }
     SetInitializationState(true);

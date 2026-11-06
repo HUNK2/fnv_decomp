@@ -32,7 +32,7 @@ class BSAudioS_
 class BSAudio2
 {
   public:
-    BSAudioSoundHandle FUN_00ad73b0(unsigned int);
+    BSAudioSoundHandle GetSoundHandleByFormID_00ad73b0(unsigned int);
 };
 class TaskQ2
 {
@@ -148,12 +148,12 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                             if (apActor == _g_thePlayer)
                             {
                                 h.FUN_00418890(&((BSAudio2*)BSAudioS_::GetSingleton())
-                                                    ->FUN_00ad73b0(p28->FUN_0084e3a0(0x80000121u)));
+                                                    ->GetSoundHandleByFormID_00ad73b0(p28->FUN_0084e3a0(0x80000121u)));
                             }
                             else
                             {
                                 h.FUN_00418890(
-                                    &((BSAudio2*)BSAudioS_::GetSingleton())->FUN_00ad73b0(p28->FUN_0084e3a0(0x102)));
+                                    &((BSAudio2*)BSAudioS_::GetSingleton())->GetSoundHandleByFormID_00ad73b0(p28->FUN_0084e3a0(0x102)));
                                 NiPoint3 pt = *static_cast<const TESObjectREFR*>(apRefr)->GetPos();
                                 h.FUN_00ad8b60(pt.x, pt.y, pt.z);
                             }

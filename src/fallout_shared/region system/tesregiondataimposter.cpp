@@ -157,7 +157,7 @@ struct ContNode;
 ContNode* __fastcall FUN_00726070(ContNode*);
 struct Item4f11
 {
-    bool FUN_004f81e0(int);
+    bool TESRegionPointList_Validate(int);
 };
 struct Node4f11
 {
@@ -188,7 +188,7 @@ bool Obj4f11::FUN_004f11e0()
         return false;
     while (pNode && *((Node4f11*)pNode)->FUN_006815c0())
     {
-        if (!(*((Node4f11*)pNode)->FUN_006815c0())->FUN_004f81e0(1))
+        if (!(*((Node4f11*)pNode)->FUN_006815c0())->TESRegionPointList_Validate(1))
             return false;
         pNode = FUN_00726070(pNode);
     }

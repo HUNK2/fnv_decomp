@@ -367,10 +367,10 @@ public:
     void FUN_004515a0(const NiPoint3*, bool);
     void FUN_00452490(int);
     void FUN_00452e50();
-    void FUN_00453900();
+    void TES_UpdateDeferredCellAnimationTransforms();
     void FUN_004539a0(int, int);
     bool FUN_00453a80();
-    void FUN_00455690();
+    void TES_UpdateRefSounds();
     int FUN_00456cb0(int);
     void FUN_004568c0(const char*, SourcePtr*, bool, bool);
     GridCell* FUN_00457050(int, int);
@@ -382,14 +382,14 @@ public:
     void FUN_00459920();
     void FUN_00459a00();
     BSSimpleList<TESObjectCELL*>* FUN_0045bb80();
-    void FUN_0045cac0();
+    void TES_InitDistantTextureBlending();
     void FUN_0045cda0();
     BSSimpleList<ImageSpaceModifierInstance*>* FUN_0043b5d0();
     MgrNode* FUN_0055ac00();
     bool FUN_008843a0();
     void FUN_008b3690(void*, void*, void*, float, void*);
     bool FUN_008bb520(P3X, bool);
-    void FUN_008c45a0(unsigned char);
+    void Actor_SetShouldCheckMagicNode(unsigned char);
 };
 
 #undef TES_ADD_DEAD_COUNT

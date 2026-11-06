@@ -71,7 +71,7 @@ class TimedTextEntry
 extern const float DAT_01023850;
 const NiFixedString& FUN_004ef990();
 extern "C" int _strnicmp(const char*, const char*, unsigned int);
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 extern "C" char* strchr(const char*, int);
 extern "C" char* __insecure_strcpy(char*, const char*);
 int Warning(const char*, ...);
@@ -86,7 +86,7 @@ unsigned char BSAnimGroupSequence::GetPriority(const char* objectName, unsigned 
         if (!name)
             Warning("NULL object name found in tag array for sequence '%s'.",
                     GetName().operator const char*());
-        if (name && !FUN_00404dc0(name, objectName))
+        if (name && !BSstricmp(name, objectName))
         {
             if (indexOut)
                 *indexOut = i;
@@ -149,7 +149,8 @@ float BSAnimGroupSequence::FUN_004eec60(float afTime)
 
 // Reads a time, a byte, and three ints from the buffer, stores fTime minus fBase into f48, sets f4c and f50 to -DAT_01023850, then calls FUN_004eec60 with fBase.
 // @fnv 0x004efd10
-void BSAnimGroupSequence::FUN_004efd10(BGSLoadFormBuffer* pBuffer, float fBaseTime)
+// src: COMMUNITY 0x004efd10
+void BSAnimGroupSequence::LoadGameBGS_004efd10(BGSLoadFormBuffer* pBuffer, float fBaseTime)
 {
     float fTime = 0.0f;
     pBuffer->ReadTypedData(&fTime, 4u);
@@ -194,7 +195,8 @@ void NiAVObject::FUN_004ef970(bool enabled)
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 // @fnv 0x004efaa0
-unsigned short FUN_004efaa0()
+// src: COMMUNITY 0x004efaa0
+unsigned short BSAnimGroupSequence_GetSequenceSaveSize()
 {
     unsigned short v = 0;
     v += 4;
@@ -208,7 +210,8 @@ unsigned short FUN_004efaa0()
 }
 
 // @fnv 0x004efb20
-void BSAnimGroupSequence::FUN_004efb20(float afTime)
+// src: COMMUNITY 0x004efb20
+void BSAnimGroupSequence::SaveGameTES_004efb20(float afTime)
 {
     float foffset = m_fSequenceOffset + afTime;
     g_TESSaveLoadGame->FUN_008579b0(&foffset, 4u);
@@ -226,15 +229,15 @@ void BSAnimGroupSequence::FUN_004efb20(float afTime)
 // @fnv 0x004eedd0
 bool BSAnimGroupSequence::AttachToOwner(NiAVObject* target, int argument)
 {
-    return FUN_00a31910(target, reinterpret_cast<NiAVObject*>(m_pkOwnerManager->GetStringAtOffset()), argument);
+    return ResolveTransformInterpolators(target, reinterpret_cast<NiAVObject*>(m_pkOwnerManager->GetStringAtOffset()), argument);
 }
 
-unsigned short __cdecl FUN_004efaa0();
+unsigned short __cdecl BSAnimGroupSequence_GetSequenceSaveSize();
 
 // @fnv 0x004efb10
 unsigned short __thiscall BSAnimGroupSequence::FUN_004efb10()
 {
-    return FUN_004efaa0();
+    return BSAnimGroupSequence_GetSequenceSaveSize();
 }
 
 // The shared sequence lacks the block-count accessor at 0x0084e3a0 and the
@@ -250,7 +253,8 @@ void __fastcall ClearSequenceBlendInterpolators(NiControllerSequence* sequence)
 
 // Adds value to m_0x48 and saves the sum, m_0x44, m_0x34, m_0x38 and m_0x54 into the save buffer.
 // @fnv 0x004efc90
-void __thiscall BSAnimGroupSequence::FUN_004efc90(BGSSaveFormBuffer* buffer, float value)
+// src: COMMUNITY 0x004efc90
+void __thiscall BSAnimGroupSequence::SaveGameBGS_004efc90(BGSSaveFormBuffer* buffer, float value)
 {
     float temp = m_fSequenceOffset + value;
     buffer->SaveData(&temp, 4, 0);
@@ -303,7 +307,8 @@ void BSAnimGroupSequence::FUN_004efbc0(float value)
 
 extern unsigned char DAT_01096968;
 // @fnv 0x004eecb0
-void BSAnimGroupSequence::FUN_004eecb0()
+// src: COMMUNITY 0x004eecb0
+void BSAnimGroupSequence::ValidateTargets()
 {
     if (!m_pkOwnerManager)
         return;

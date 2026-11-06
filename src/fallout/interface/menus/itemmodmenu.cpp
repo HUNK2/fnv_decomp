@@ -26,7 +26,7 @@ Tile* __cdecl ItemModMenu::Create()
         Tile* menuTile;
     } state;
 
-    state.resourceProvider = FUN_004b7210();
+    state.resourceProvider = InterfaceManager_GetSingleton();
     state.menuTile = (Tile*)Tile::FindMenuById(FUN_00783640());
     if (state.menuTile != 0)
     {
@@ -860,7 +860,7 @@ struct Data78
 struct Entry78
 {
     bool FUN_004bddd0(bool);
-    void FUN_004bdb40();
+    void ItemChange_SetIsModding();
     Data78* FUN_00559450();
     int FUN_00726070();
     Form78* FUN_0044ddc0();
@@ -1238,7 +1238,7 @@ void FUN_00784710(Entry78* pEntry, bool b)
             g_011d9f58 = pEntry;
         if (g_011d9f58 && b && g_011d9f58->FUN_004bddd0(false))
         {
-            g_011d9f58->FUN_004bdb40();
+            g_011d9f58->ItemChange_SetIsModding();
             _g_thePlayer->FUN_0088c790(g_011d9f58->FUN_0044ddc0(), g_011d9f58->FUN_00726070(),
                                        *g_011d9f58->FUN_00559450()->FUN_006815c0(), 0, 0, 1);
             DAT_011d9f40 = 1;
@@ -1272,12 +1272,12 @@ void FUN_00784710(Entry78* pEntry, bool b)
         (*reinterpret_cast<Box78*>(&static_cast<ItemModMenu*>(DAT_011d9f54)->m_kItemList)).FUN_007314c0(UpdateTileFromObject, 0, 0x7fffffff);
         (*reinterpret_cast<Box78*>(&static_cast<ItemModMenu*>(DAT_011d9f54)->m_kItemList)).sort(CompareItemVisibility);
         if (pEntry && FUN_004b71d0())
-            ((Manager78*)FUN_004b7210())->FUN_00715860((*reinterpret_cast<Box78*>(&static_cast<ItemModMenu*>(DAT_011d9f54)->m_kItemList)).selected(1, 0, 0xfc3, 1));
+            ((Manager78*)InterfaceManager_GetSingleton())->FUN_00715860((*reinterpret_cast<Box78*>(&static_cast<ItemModMenu*>(DAT_011d9f54)->m_kItemList)).selected(1, 0, 0xfc3, 1));
         ((ItemModMenu*)DAT_011d9f54)->HandleMouseover(15, reinterpret_cast<Tile*>((*reinterpret_cast<Box78*>(&static_cast<ItemModMenu*>(DAT_011d9f54)->m_kItemList)).count()));
         if (pEntry)
         {
             FUN_007046f0(1, 0, 0);
-            ((Manager78*)FUN_004b7210())->unk4d4.FUN_00718630(6, FUN_00783640(), 500);
+            ((Manager78*)InterfaceManager_GetSingleton())->unk4d4.FUN_00718630(6, FUN_00783640(), 500);
         }
     }
 }

@@ -64,7 +64,7 @@ class ModelLoader
 {
   public:
     void CallContainedObject();
-    void FUN_004aaf10();
+    void ModelLoader_UnlockModelMap();
     void QueueModelFilePath(const char*, IO_TASK_PRIORITY, QueuedFile*);
     void ProcessModelRequest(TESModel*, IO_TASK_PRIORITY, QueuedFile*, int, bool, bool, bool);
     void QueueFile(const char*, IO_TASK_PRIORITY, QueuedFile*, int, bool, bool, bool);
@@ -123,7 +123,7 @@ class BipedAnim
     static BIPED_OBJECT GetBipedObjectFromShaderProperty(NiAVObject*, BSShaderPPLightingProperty*);
     bool IsModelPathMatch(TESModel*, char*);
     TESModel* GetModelForSlot(BIPED_OBJECT, TESModel*);
-    TESModel* FUN_004afa20(BIPED_OBJECT, char*);
+    TESModel* BipedAnim_Store1stPersonModel(BIPED_OBJECT, char*);
     void RemovePart(BIPED_OBJECT, bool, TESForm*);
     void RemovePartsByParent(TESForm*);
     void SetBipedObject(TESForm*, TESModel*, BIPED_OBJECT);

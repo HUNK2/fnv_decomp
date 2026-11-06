@@ -73,10 +73,11 @@ struct FUN_00527b70_shell
 {
     char _pad[12];
     void* m_pPathingCell;
-    void FUN_00527b70(BGSSaveGameBuffer*);
+    void BGSWorldLocation_SaveGame(BGSSaveGameBuffer*);
 };
 // @fnv 0x00527b70
-void FUN_00527b70_shell::FUN_00527b70(BGSSaveGameBuffer* apSaveGameBuffer)
+// src: COMMUNITY 0x00527b70
+void FUN_00527b70_shell::BGSWorldLocation_SaveGame(BGSSaveGameBuffer* apSaveGameBuffer)
 {
     apSaveGameBuffer->SaveData(this, 0xC, 0);
     apSaveGameBuffer->SerializeFormData(m_pPathingCell, 0);
@@ -88,10 +89,11 @@ struct FUN_00527ba0_This
 {
     char _pad[12];
     void* m_pPathingCell;
-    void FUN_00527ba0(BGSLoadGameBuffer* apLoadGameBuffer);
+    void BGSLoadGameBuffer_LoadBGSWorldLocation(BGSLoadGameBuffer* apLoadGameBuffer);
 };
 // @fnv 0x00527ba0
-void FUN_00527ba0_This::FUN_00527ba0(BGSLoadGameBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x00527ba0
+void FUN_00527ba0_This::BGSLoadGameBuffer_LoadBGSWorldLocation(BGSLoadGameBuffer* apLoadGameBuffer)
 {
     apLoadGameBuffer->ReadTypedData(this, 12);
     m_pPathingCell = _ref_004839c0(apLoadGameBuffer->ReadFormIdentifier());

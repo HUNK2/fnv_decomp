@@ -54,7 +54,7 @@ public:
         return m_pucPixels + m_puiOffsetInBytes[0];
     }
     void AddString();
-    void FUN_00a76a60(NiPalette* palette);
+    void NiPixelData_SetPalette(NiPalette* palette);
     NiPixelData* NiPixelData_00a7c030(const NiPixelData& source);
     unsigned char* FUN_0064dac0(unsigned int level, unsigned int face);
     unsigned char* FUN_0064dac0(int level, int face);

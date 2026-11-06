@@ -6,7 +6,8 @@
 extern "C" void* g_012026e8;
 
 // @fnv 0x00c2a080
-void* __cdecl FUN_00c2a080()
+// src: COMMUNITY 0x00c2a080
+void* __cdecl NiPSysInitialRotAngleVarCtlr_GetRTTI()
 {
     return &g_012026e8;
 }
@@ -69,7 +70,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > C2A110StringArray;
 
-extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 
 struct C2A110Base
 {
@@ -101,6 +102,6 @@ struct C2A110Object : C2A110Base
 void C2A110Object::AppendRTTIName(C2A110StringArray* pkStrings)
 {
     C2A110Base::FUN_00c32f60(pkStrings);
-    char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(ms_kRTTI.GetName());
     pkStrings->Add(pcString);
 }

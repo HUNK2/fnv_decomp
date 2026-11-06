@@ -197,11 +197,12 @@ void CombatController::FUN_00980250()
 
 struct FUN_00980700_shell
 {
-    int __thiscall FUN_00980700(int index);
+    int __thiscall CombatPlannerData_GetLocation(int index);
 };
 
 // @fnv 0x00980700
-int __thiscall FUN_00980700_shell::FUN_00980700(int index)
+// src: COMMUNITY 0x00980700
+int __thiscall FUN_00980700_shell::CombatPlannerData_GetLocation(int index)
 {
     return ((int*)this)[index + 2];
 }
@@ -258,13 +259,14 @@ typedef void (__thiscall* CombatStateInitAmmoStateFn)(CombatState*);
 }  // namespace fnv_0097d990
 
 // @fnv 0x0097d990
-void CombatController::FUN_0097d990()
+// src: COMMUNITY 0x0097d990
+void CombatController::FirstUpdate()
 {
     using namespace fnv_0097d990;
-    FUN_0097f390();
+    UpdateCurrentWeapon();
     reinterpret_cast<CombatStateInitAmmoStateFn>(CombatStateInitAmmoState)(m_pModifier);
     if (!static_cast<MobileObject*>(actor)->GetCurrentProcessLevel())
-        FUN_0097d9d0();
+        CalculateAttackerInfo();
 }
 
 void __cdecl Deallocate(void*);
@@ -283,7 +285,8 @@ extern "C" void CombatStateNotifyReference();
 typedef void (__thiscall* CombatStateNotifyReferenceFn)(CombatState*, void*, bool);
 
 // @fnv 0x0097f7a0
-void CombatController::FUN_0097f7a0(void* apArg, bool b)
+// src: COMMUNITY 0x0097f7a0
+void CombatController::ResetEmbeddedWeaponSwitchTimer(void* apArg, bool b)
 {
     reinterpret_cast<CombatStateNotifyReferenceFn>(CombatStateNotifyReference)(m_pModifier, apArg, b);
 }
@@ -338,12 +341,13 @@ void* __thiscall FUN_00980720_shell::GetEntryAt(unsigned int index)
 
 struct FUN_00980740_shell
 {
-    void FUN_00980740(int index);
+    void CombatPlannerData_ClearLocation(int index);
 };
 
 // Sets the two int fields at offsets 8 and 0x60 for the given index to zero.
 // @fnv 0x00980740
-void __thiscall FUN_00980740_shell::FUN_00980740(int index)
+// src: COMMUNITY 0x00980740
+void __thiscall FUN_00980740_shell::CombatPlannerData_ClearLocation(int index)
 {
     *(int*)((char*)this + index * 4 + 8) = 0;
     *(int*)((char*)this + index * 4 + 0x60) = 0;
@@ -397,7 +401,8 @@ char CombatController::GetModifierKey(void)
 extern int DAT_011f1420[];
 
 // @fnv 0x00982070
-int __cdecl FUN_00982070(int index)
+// src: COMMUNITY 0x00982070
+int __cdecl CombatPlan_GetCombatAction(int index)
 {
     return DAT_011f1420[index];
 }
@@ -412,9 +417,9 @@ void CombatController::FUN_00982310(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     using namespace fnv_00982310;
     ((TESNPC*)this)->TESNPC::Revert(apLoadGameBuffer);
-    this->FUN_0097f390();
+    this->UpdateCurrentWeapon();
     this->UpdatePointer();
-    this->FUN_0097d9d0();
+    this->CalculateAttackerInfo();
     this->UpdateActorValues();
 }
 
@@ -514,7 +519,8 @@ struct FUN_00666f00_shell
 };
 
 // @fnv 0x009804d0
-bool CombatController::FUN_009804d0()
+// src: COMMUNITY 0x009804d0
+bool CombatController::GetProcedureFinished()
 {
     if (*((int*)this + 0x21) && ((FUN_00666f00_shell*)*((int*)this + 0x21))->FUN_00666f00())
         return true;
@@ -553,7 +559,8 @@ char __fastcall HasControllerWeapon(CombatController* controller)
 struct TESObjectWEAP;
 
 // @fnv 0x0097f390
-void CombatController::FUN_0097f390()
+// src: COMMUNITY 0x0097f390
+void CombatController::UpdateCurrentWeapon()
 {
     BSAudio* tmp;
     (*reinterpret_cast<void**>(&unkF0)) = 0;
@@ -664,7 +671,8 @@ bool FUN_0097e310_holder::IsField8One()
 
 // Returns true if field_84 or field_88 is set and its IsField8One check returns true; otherwise false.
 // @fnv 0x00980470
-bool CombatController::FUN_00980470()
+// src: COMMUNITY 0x00980470
+bool CombatController::GetProcedureFailed()
 {
     if (reinterpret_cast<FUN_0097e310_holder*>(m_pkCurrentProcedure) && reinterpret_cast<FUN_0097e310_holder*>(m_pkCurrentProcedure)->IsField8One())
         return true;
@@ -809,8 +817,8 @@ void CombatController::FUN_009819f0(BGSSaveFormBuffer* apSaveGameBuffer)
     unsigned int icombatGroupID = static_cast<const GridArray*>(reinterpret_cast<GridArray*>(m_pCombatData))->GetCenterX();
     apSaveGameBuffer->SaveData((void*)&icombatGroupID, 4, 0);
     m_pModifier->SaveToStream(apSaveGameBuffer);
-    FUN_00982350(&pProc84, apSaveGameBuffer);
-    FUN_00982350(&pProc88, apSaveGameBuffer);
+    CombatProcedure_SaveGame_(&pProc84, apSaveGameBuffer);
+    CombatProcedure_SaveGame_(&pProc88, apSaveGameBuffer);
     {
         unsigned int uiProcedureCount = (fnv_009819f0::CombatcontrollerOffset08View*)(&unk8C) ? ((fnv_009819f0::CombatcontrollerOffset08View*)(&unk8C))->GetFlags() : 0;
         reinterpret_cast<SaveBufferElementCountFn>(SaveBufferElementCount)(apSaveGameBuffer, uiProcedureCount);
@@ -818,7 +826,7 @@ void CombatController::FUN_009819f0(BGSSaveFormBuffer* apSaveGameBuffer)
         {
             CombatProcedure** pbackgroundProcedure =
                 (CombatProcedure**)&((BSSimpleArray<unsigned int, 2>*)(&unk8C))->GetAt(i);
-            FUN_00982350(pbackgroundProcedure, apSaveGameBuffer);
+            CombatProcedure_SaveGame_(pbackgroundProcedure, apSaveGameBuffer);
         }
     }
     bool bhasPlan = m_pCombatPlan;
@@ -979,7 +987,7 @@ struct Owner
 void __fastcall PlanControllerActions(CombatController* controller)
 {
     CombatPlanner planner;
-    Owner* ptr = (Owner*)planner.FUN_00994bd0(controller, 1);
+    Owner* ptr = (Owner*)planner.CreatePlan_0(controller, 1);
     delete ptr;
 }
 }  // namespace fnv_0097fb80
@@ -1110,7 +1118,8 @@ struct Item
 
 // Calls Func_0c on each item in targets, deletes it, then clears the array.
 // @fnv 0x00980360
-void CombatController::FUN_00980360()
+// src: COMMUNITY 0x00980360
+void CombatController::ClearBackgroundProcedures()
 {
     for (unsigned int i = 0; i < ((CombatcontrollerOffset08View*)&(*reinterpret_cast<BSSimpleArray<Item*, 1024>*>(&unk8C)))->GetFlags(); i++)
     {
@@ -1131,7 +1140,8 @@ struct C99
 }  // namespace fnv_00980a30
 
 // @fnv 0x00980a30
-void CombatController::FUN_00980a30(int arg)
+// src: COMMUNITY 0x00980a30
+void CombatController::ClearReferencePointers(int arg)
 {
     using namespace fnv_00980a30;
     if (reinterpret_cast<C99*>(field_9c))
@@ -1393,7 +1403,8 @@ struct AIProcess
 }  // namespace fnv_00981450
 
 // @fnv 0x00981450
-bool CombatController::FUN_00981450()
+// src: COMMUNITY 0x00981450
+bool CombatController::ShouldStopCombat()
 {
     using namespace fnv_00981450;
     if (byte_125)
@@ -1525,9 +1536,9 @@ namespace fnv_009805b0 {
 
 struct FUN_00980700_shell
 {
-    int FUN_00980700(int);
+    int CombatPlannerData_GetLocation(int);
     void* GetEntryAt(unsigned int);
-    void FUN_00980740(int);
+    void CombatPlannerData_ClearLocation(int);
 };
 
 extern "C" void CombatStateSetCoverValue();
@@ -1558,7 +1569,7 @@ void __fastcall RemoveControllerTopic(CombatController* controller)
 
     if (topic != -1)
     {
-        int scriptVar = (*(FUN_00980700_shell**)((char*)controller + 0xa4))->FUN_00980700(topic);
+        int scriptVar = (*(FUN_00980700_shell**)((char*)controller + 0xa4))->CombatPlannerData_GetLocation(topic);
 
         if (scriptVar != 0)
         {
@@ -1573,7 +1584,7 @@ void __fastcall RemoveControllerTopic(CombatController* controller)
                 reinterpret_cast<CombatStateSetCoverValueFn>(CombatStateSetCoverValue)(controller->m_pModifier, (int)data);
             }
 
-            (*(FUN_00980700_shell**)((char*)controller + 0xa4))->FUN_00980740(topic);
+            (*(FUN_00980700_shell**)((char*)controller + 0xa4))->CombatPlannerData_ClearLocation(topic);
         }
         else
         {
@@ -1660,7 +1671,7 @@ CombatController::~CombatController()
         reinterpret_cast<ActorSetActiveFn>(ActorSetCombatActive)(reinterpret_cast<Actor*>(GetFieldBC()), 0, 0, 0);
         FUN_00980110(0);
     }
-    FUN_00980360();
+    ClearBackgroundProcedures();
     DestroyOwnedObject();
     if (unk80)
     {
@@ -1686,7 +1697,8 @@ class Target0097d9d0
 
 // Copies values from m_pSub into m_cc, m_d0, m_d4 and sets m_d5 to the inverse of the sub target's Query005f0c80 result.
 // @fnv 0x0097d9d0
-void CombatController::FUN_0097d9d0()
+// src: COMMUNITY 0x0097d9d0
+void CombatController::CalculateAttackerInfo()
 {
     floatCC = reinterpret_cast<ActorFloatQueryFn>(ActorGetFirstCombatValue)(actor);
     floatD0 = actor->FUN_008854d0(0);
@@ -1704,7 +1716,8 @@ struct Container
 };
 
 // @fnv 0x0097f310
-bool __cdecl FUN_0097f310(Actor* pOwner, int value)
+// src: COMMUNITY 0x0097f310
+bool __cdecl CombatController_CheckHasEquip(Actor* pOwner, int value)
 {
     bool result = false;
     unsigned short handle = reinterpret_cast<ActorCombatAnimGroupFn>(ActorCombatAnimGroup)(pOwner, 0x18, value, value == 0, 0);
@@ -1741,7 +1754,8 @@ struct FUN_0097f720_target
 
 // Forwards pParam to field_9c, then calls v8(pParam) on field_84 and field_88 when they are non-null.
 // @fnv 0x0097f720
-void CombatController::FUN_0097f720(int pParam)
+// src: COMMUNITY 0x0097f720
+void CombatController::FiredProjectile(int pParam)
 {
     reinterpret_cast<CombatStateNotifyParameterFn>(CombatStateNotifyParameter)(m_pModifier, pParam);
 
@@ -1863,7 +1877,8 @@ struct FUN_00982350_sink
 };
 
 // @fnv 0x00982350
-void CombatController::FUN_00982350(CombatProcedure** pHolder, BGSSaveFormBuffer* pSink)
+// src: COMMUNITY 0x00982350
+void CombatController::CombatProcedure_SaveGame_(CombatProcedure** pHolder, BGSSaveFormBuffer* pSink)
 {
     char flag = (char)((*reinterpret_cast<FUN_00982350_target**>(pHolder)) != 0 ? (*reinterpret_cast<FUN_00982350_target**>(pHolder))->v13() : -1);
     reinterpret_cast<FUN_00982350_sink*>(pSink)->FUN_00865e50(&flag, 1, 0);
@@ -2294,13 +2309,13 @@ struct DurationTracker
 };
 struct UpdatePlan
 {
-    bool FUN_0097e490();
+    bool CombatPlan_IsFinished();
     unsigned int FUN_0084e3a0();
     void AdvanceActions(CombatController*);
 };
 struct UpdateGroup
 {
-    void FUN_009891d0(CombatController*, unsigned int);
+    void CombatGroup_NotifyMemberPlanFinished(CombatController*, unsigned int);
     int SelectActor(void*);
 };
 // These state operations are not yet declared by CombatState.h.
@@ -2328,7 +2343,8 @@ extern UpdateClock DAT_011f15cc;
 struct SearchNode;
 
 // @fnv 0x0097da50
-void CombatController::FUN_0097da50()
+// src: COMMUNITY 0x0097da50
+void CombatController::Update_0097da50()
 {
     if (!DAT_011a4880)
         return;
@@ -2337,7 +2353,7 @@ void CombatController::FUN_0097da50()
     Actor* actor2 = reinterpret_cast<Actor*>(GetFieldBC());
     if (!actor2 || !reinterpret_cast<UpdateProcess*>(actor2->FUN_008d8520()))
         return;
-    if (FUN_00981450())
+    if (ShouldStopCombat())
     {
         actor2->Unk_10D(0);
         return;
@@ -2353,7 +2369,7 @@ void CombatController::FUN_0097da50()
         return;
     if (!byteE4)
     {
-        FUN_0097d990();
+        FirstUpdate();
         byteE4 = 1;
     }
     if (actor2->GetIsDying())
@@ -2363,7 +2379,7 @@ void CombatController::FUN_0097da50()
         actor2->Unk_10D(0);
         return;
     }
-    FUN_0097f390();
+    UpdateCurrentWeapon();
     Actor* actor = reinterpret_cast<Actor*>(FUN_004030b0());
     if (actor && ((actor->HasHealth(false) && !actor->GetIsDying()) || actor->FUN_00440da0() || actor->FUN_00440d80()))
     {
@@ -2387,7 +2403,7 @@ void CombatController::FUN_0097da50()
     if (reinterpret_cast<ActorCombatStateFn>(ActorCombatState)(actor2))
         return;
     bool changed = false;
-    if (FUN_00980470())
+    if (GetProcedureFailed())
     {
         changed = true;
         if (reinterpret_cast<UpdateAction*>(m_pkCurrentProcedure) && reinterpret_cast<UpdateAction*>(m_pkCurrentProcedure)->IsField8One())
@@ -2397,11 +2413,11 @@ void CombatController::FUN_0097da50()
     }
     if (unkB4.FUN_008d7f80())
         changed = true;
-    if (!changed && FUN_009804d0() && (*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan)))
+    if (!changed && GetProcedureFinished() && (*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan)))
     {
-        if ((*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan))->FUN_0097e490())
+        if ((*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan))->CombatPlan_IsFinished())
         {
-            reinterpret_cast<UpdateGroup*>(m_pCombatData)->FUN_009891d0(this, (*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan))->FUN_0084e3a0());
+            reinterpret_cast<UpdateGroup*>(m_pCombatData)->CombatGroup_NotifyMemberPlanFinished(this, (*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan))->FUN_0084e3a0());
             changed = true;
         }
         else
@@ -2412,7 +2428,7 @@ void CombatController::FUN_0097da50()
     if (changed)
     {
         DestroyOwnedObject();
-        FUN_00980360();
+        ClearBackgroundProcedures();
         FUN_00980830(reinterpret_cast<void*>(reinterpret_cast<UpdateGroup*>(m_pCombatData)->SelectActor(this->actor)));
         if (reinterpret_cast<UpdateAction*>(m_pkQueuedProcedure))
             reinterpret_cast<UpdateAction*>(m_pkQueuedProcedure)->Slot2c();
@@ -2420,7 +2436,7 @@ void CombatController::FUN_0097da50()
             reinterpret_cast<UpdateAction*>(m_pkCurrentProcedure)->Slot2c();
         DAT_011f15cc.FUN_00483710();
         CombatPlanner search;
-        (*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan)) = (UpdatePlan*)search.FUN_00994bd0(this, 0);
+        (*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan)) = (UpdatePlan*)search.CreatePlan_0(this, 0);
         unkAC = (*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan)) ? (*reinterpret_cast<UpdatePlan**>(&m_pCombatPlan))->FUN_0084e3a0() : 0;
         reinterpret_cast<ControllerRemoveTopicFn>(ControllerRemoveTopic)(this);
         search.FUN_00995830();
@@ -2441,7 +2457,7 @@ void CombatController::FUN_0097da50()
         if (reinterpret_cast<UpdateAction*>(m_pkCurrentProcedure))
             reinterpret_cast<UpdateAction*>(m_pkCurrentProcedure)->Slot30();
         reinterpret_cast<CombatStateVoidFn>(CombatStateUpdateStageHolders)(m_pModifier);
-        FUN_0097f390();
+        UpdateCurrentWeapon();
     }
     if (reinterpret_cast<UpdateAction*>(m_pkQueuedProcedure))
         reinterpret_cast<UpdateAction*>(m_pkQueuedProcedure)->Update();
@@ -2615,7 +2631,7 @@ void __fastcall NotifyControllerDamage(CombatController* controller, ControllerS
 {
     if (!(*reinterpret_cast<bool*>(&controller->byteE4)))
     {
-        controller->FUN_0097d990();
+        controller->FirstUpdate();
         (*reinterpret_cast<bool*>(&controller->byteE4)) = true;
     }
     if (reinterpret_cast<CSTracker*>(controller->m_pCombatData))
@@ -3104,7 +3120,7 @@ struct WorldStand
     void* FindByKey(unsigned int);
 };
 extern WorldStand* DAT_011f1958;
-void* __cdecl FUN_00982070(int);
+void* __cdecl CombatPlan_GetCombatAction(int);
 struct TimerStand
 {
     float unk00, unk04;
@@ -3149,7 +3165,7 @@ void CombatController::FUN_00981d00(BGSLoadFormBuffer* buffer)
     signed char action5 = -1;
     buffer->ReadTypedData((void*)&action5, (unsigned int)1);
     if (action5 != -1)
-        (*reinterpret_cast<void**>(&m_pCombatThread)) = fnv_00981d00::FUN_00982070(action5);
+        (*reinterpret_cast<void**>(&m_pCombatThread)) = fnv_00981d00::CombatPlan_GetCombatAction(action5);
     buffer->ReadTypedData((void*)&unkB0, (unsigned int)4);
     (*reinterpret_cast<fnv_00981d00::TimerStand*>(&unkB4)).FUN_009a5f20(buffer);
     buffer->ReadTypedData((void*)&byteC7, (unsigned int)1);
@@ -3400,14 +3416,14 @@ struct Context
     void UpdateWorldState(void*);
     void ResetState(Context*);
     Item* GetCombatGoal(Item*);
-    bool FUN_009aadc0(void*);
+    bool CombatWorldStateArray_IsTrue(void*);
     void AppendPair(Entry*, Context*);
 };
 struct Input
 {
     void FUN_00994ef0(void*);
 };
-extern Goal* FUN_00994a80(unsigned);
+extern Goal* CombatGoal_GetGoal(unsigned);
 extern bool IsValidCode(Item*);
 extern "C" char DAT_010a2720;
 
@@ -3419,7 +3435,8 @@ typedef void* (__thiscall* BuildPlannerResultFn)(CombatPlanner*, Input*, Goal*, 
 }  // namespace fnv_00994bd0
 
 // @fnv 0x00994bd0
-Owner* CombatPlanner::FUN_00994bd0(void* apInput, bool flag)
+// src: COMMUNITY 0x00994bd0
+Owner* CombatPlanner::CreatePlan_0(void* apInput, bool flag)
 {
     using namespace fnv_00994bd0;
     field_2058 = (int)apInput;
@@ -3427,7 +3444,7 @@ Owner* CombatPlanner::FUN_00994bd0(void* apInput, bool flag)
     (*(fnv_00994bd0::Context*)&field_205c).UpdateWorldState((fnv_00994bd0::Input*)apInput);
     for (unsigned i8 = 0; i8 < 16; i8++)
     {
-        fnv_00994bd0::Goal* goal = FUN_00994a80(i8);
+        fnv_00994bd0::Goal* goal = CombatGoal_GetGoal(i8);
         if (goal->Test(&(*(fnv_00994bd0::Context*)&field_205c)))
         {
             void* node2;
@@ -3441,7 +3458,7 @@ Owner* CombatPlanner::FUN_00994bd0(void* apInput, bool flag)
                 fnv_00994bd0::Item* itemB = owner->FUN_00726070();
                 if (IsValidCode(itemB))
                     itemB = ctx.GetCombatGoal(itemB);
-                if (!ctx.FUN_009aadc0(owner->FUN_00559450(itemB)))
+                if (!ctx.CombatWorldStateArray_IsTrue(owner->FUN_00559450(itemB)))
                 {
                     ctx.AppendPair(
                         new (field_20b8.FUN_00aa54a0(8, *(unsigned*)&DAT_010a2720))

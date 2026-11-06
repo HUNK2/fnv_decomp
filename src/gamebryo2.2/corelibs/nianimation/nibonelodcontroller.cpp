@@ -64,7 +64,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f405c;
 
 // @fnv 0x00a55120
-GlobalObjectO2_00a7b610* __cdecl FUN_00a55120()
+// src: COMMUNITY 0x00a55120
+GlobalObjectO2_00a7b610* __cdecl NiBoneLODController_GetRTTI()
 {
     return &g_011f405c;
 }
@@ -494,7 +495,7 @@ typedef NiTArray<char*, NiTMallocInterface<char*> > BA55320StringArray;
 
 extern const char* g_pcA55320ClassName;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 char* __cdecl A55320GetViewerStringInt(const char* pcPrefix, int iValue);
 char* __cdecl A55320GetViewerStringUInt(const char* pcPrefix, unsigned int uiValue);
 
@@ -503,7 +504,7 @@ char* __cdecl A55320GetViewerStringUInt(const char* pcPrefix, unsigned int uiVal
 void NiBoneLODController::AppendViewerStrings(NiViewerStringsArray* strings)
 {
     BA55320StringArray* pkStrings = reinterpret_cast<BA55320StringArray*>(strings);
-    pkStrings->Add(FUN_00a7d330(g_pcA55320ClassName));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_pcA55320ClassName));
     pkStrings->Add(A55320GetViewerStringInt("m_iLOD", m_iLOD));
     pkStrings->Add(A55320GetViewerStringUInt("m_uiNumLODs", m_uiNumLODs));
 }
@@ -638,7 +639,7 @@ static inline void ReadLOD32(NiStream& stream, void* data)
 
 struct LODPool
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 extern LODPool DAT_011f6238;
 template <class T> struct LinkGroup
@@ -648,7 +649,7 @@ template <class T> struct LinkGroup
     unsigned int count;
     static void* operator new(unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
     LinkGroup() : data(0), capacity(0), count(0)
     {}
@@ -684,7 +685,7 @@ struct LinkSkinInfo
     void* skin;
     static void* operator new(unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
     LinkSkinInfo() : skin(0)
     {}
@@ -916,14 +917,14 @@ struct A54440Remap
 };
 struct A54440Heap : MemoryAllocator
 {
-    void* FUN_00aa3e40(unsigned int bytes);
+    void* Game_DoHeapAlloc(unsigned int bytes);
 };
 void* __cdecl FUN_00aa1070(unsigned int);
 struct A54440PointerGroup
 {
     static void* operator new(unsigned int bytes)
     {
-        return ((A54440Heap*)&g_011f6238)->FUN_00aa3e40(bytes);
+        return ((A54440Heap*)&g_011f6238)->Game_DoHeapAlloc(bytes);
     }
     A54440PointerGroup() : elements(0), capacity(0), count(0)
     {}
@@ -978,7 +979,7 @@ struct A54440LinkGroup
 {
     static void* operator new(unsigned int bytes)
     {
-        return ((A54440Heap*)&g_011f6238)->FUN_00aa3e40(bytes);
+        return ((A54440Heap*)&g_011f6238)->Game_DoHeapAlloc(bytes);
     }
     A54440LinkGroup() : entries(0), capacity(0), count(0)
     {}
@@ -1069,7 +1070,7 @@ struct A54440SourceLink
 {
     static void* operator new(unsigned int bytes)
     {
-        return ((A54440Heap*)&g_011f6238)->FUN_00aa3e40(bytes);
+        return ((A54440Heap*)&g_011f6238)->Game_DoHeapAlloc(bytes);
     }
     A54440SourceLink() : ref(0)
     {}

@@ -288,7 +288,7 @@ void* FUN_00906130_Class::FUN_00906130(unsigned int flags)
 #include "../../include/RecursiveSpinLock.h"
 struct FUN_00449f80_Class
 {
-    void* FUN_00449f80(void* a, void* b, void* c, bool d);
+    void* LockFreeMap_GetInterface_0(void* a, void* b, void* c, bool d);
 };
 struct FUN_0044d070_Class
 {
@@ -313,7 +313,7 @@ bool FUN_009063b0_Class::LockedCall(void* apArg1, void* apArg2, void* apArg3, bo
 {
     m_20.Lock(0);
     bool r = reinterpret_cast<FUN_0044d070_Class*>(
-                 reinterpret_cast<FUN_00449f80_Class*>(this)->FUN_00449f80(apArg1, apArg2, apArg3, d))
+                 reinterpret_cast<FUN_00449f80_Class*>(this)->LockFreeMap_GetInterface_0(apArg1, apArg2, apArg3, d))
                  ->InsertOrReplace();
     m_20.Unlock();
     return r;
@@ -501,11 +501,12 @@ struct FUN_00906400_Owner
 {
     int m_iWordAt00;
     int* m_iWordAt04;
-    FUN_00906400_Sub* FUN_00906400(int a);
+    FUN_00906400_Sub* LockFreeMap_AllocateInterface(int a);
 };
 
 // @fnv 0x00906400
-FUN_00906400_Sub* FUN_00906400_Owner::FUN_00906400(int aiIndex)
+// src: COMMUNITY 0x00906400
+FUN_00906400_Sub* FUN_00906400_Owner::LockFreeMap_AllocateInterface(int aiIndex)
 {
     FUN_00906400_Guard guard(6, 1, "d:\\_fallout3\\platforms\\common\\code\\bsmain\\ThreadSafeStructures.h", 0x18e);
     return new FUN_00906400_Sub(this, &m_iWordAt04[aiIndex * 3], &m_iWordAt04[aiIndex * 3 + 1],
@@ -538,7 +539,7 @@ struct FUN_00906570_Class
     int unk18;
     int unk1C;
     RecursiveSpinLock lock;
-    Iterator9065* FUN_00449f80(unsigned int, void**, void*);
+    Iterator9065* LockFreeMap_GetInterface_0(unsigned int, void**, void*);
     unsigned int FUN_0044ddc0();
     bool AdvanceRequest(Request9065*, void**, void*, bool);
 };
@@ -557,12 +558,12 @@ bool FUN_00906570_Class::AdvanceRequest(Request9065* request, void** ppOut, void
         {
             if (!request->IsFlagSet())
             {
-                success = FUN_00449f80(request->index, &request->element, context)->ProcessEntry();
+                success = LockFreeMap_GetInterface_0(request->index, &request->element, context)->ProcessEntry();
                 request->FUN_0044de40(true);
             }
             else
             {
-                success = FUN_00449f80(request->index, &request->element, context)->FUN_00906c10();
+                success = LockFreeMap_GetInterface_0(request->index, &request->element, context)->FUN_00906c10();
             }
             if (!success)
             {
@@ -708,7 +709,7 @@ struct TargetClass
     Member14_18 m_18;
 
     bool ProcessNode(int a, void* b);
-    void FUN_00529000();
+    void LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
 
     bool FUN_00906c10(int a, void** b, QHeadPtrDest* c);
 };
@@ -771,13 +772,13 @@ bool TargetClass::FUN_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
             }
         }
     }
-    this->FUN_00529000();
+    this->LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
     return bResult;
 }
 
 struct FUN_00528bb0_Class
 {
-    bool FUN_00528bb0();
+    bool LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_RemoveAt();
 };
 
 struct FUN_009062e0_Class
@@ -791,16 +792,17 @@ struct FUN_009062e0_Class
     int unk18;
     int unk1C;
     BSSpinLockUnlock_blk_00900000_od lock;
-    void* FUN_00449f80(void*);
-    bool FUN_009062e0(void* a);
+    void* LockFreeMap_GetInterface_0(void*);
+    bool LockFreeMap_T_Key_NiPointer_IOTask_RemoveAt(void* a);
 };
 
 // Locks the spin lock, calls FUN_00528bb0 on the object returned by FUN_00449f80(a), unlocks, and returns the result.
 // @fnv 0x009062e0
-bool FUN_009062e0_Class::FUN_009062e0(void* a)
+// src: COMMUNITY 0x009062e0
+bool FUN_009062e0_Class::LockFreeMap_T_Key_NiPointer_IOTask_RemoveAt(void* a)
 {
     lock.Lock(0);
-    bool r = ((FUN_00528bb0_Class*)FUN_00449f80(a))->FUN_00528bb0();
+    bool r = ((FUN_00528bb0_Class*)LockFreeMap_GetInterface_0(a))->LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_RemoveAt();
     lock.Unlock();
     return r;
 }
@@ -814,7 +816,7 @@ struct FUN_00528cb0_Guard
 };
 struct FUN_0044ac40_Service
 {
-    void __thiscall FUN_0044ac40(unsigned int value);
+    void __thiscall BSTaskManager_CancelTask(unsigned int value);
 };
 extern FUN_0044ac40_Service* DAT_01202d98;
 struct FUN_00906050_Class
@@ -823,17 +825,18 @@ struct FUN_00906050_Class
     virtual void v1();
     virtual unsigned char v2(int value, FUN_00528cb0_Guard* guard);
     void __thiscall CallVirtual5(int value);
-    void __thiscall FUN_00906050(int value);
+    void __thiscall LipSyncBackgroundManager_CancelLipFile(int value);
 };
 // Creates a guard, calls v2 with the value and guard; if it succeeds, calls CallVirtual5 and passes the guard's flag result to DAT_01202d98.
 // @fnv 0x00906050
-void FUN_00906050_Class::FUN_00906050(int value)
+// src: COMMUNITY 0x00906050
+void FUN_00906050_Class::LipSyncBackgroundManager_CancelLipFile(int value)
 {
     FUN_00528cb0_Guard guard(0);
     if (v2(value, &guard))
     {
         CallVirtual5(value);
-        DAT_01202d98->FUN_0044ac40(guard.FUN_00559450(0));
+        DAT_01202d98->BSTaskManager_CancelTask(guard.FUN_00559450(0));
     }
 }
 
@@ -859,7 +862,7 @@ FUN_00913880::~FUN_00913880()
     RemoveAll();
 }
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 struct _Base_009064e0
 {
@@ -881,7 +884,7 @@ FUN_009064e0::~FUN_009064e0()
 {
     unk04(1);
     void* a = m_iThirdValue;
-    FUN_00401030(a);
+    FormHeapFreeAndLog_00401030(a);
     void* b = m_iWordAt04;
-    FUN_00401030(b);
+    FormHeapFreeAndLog_00401030(b);
 }

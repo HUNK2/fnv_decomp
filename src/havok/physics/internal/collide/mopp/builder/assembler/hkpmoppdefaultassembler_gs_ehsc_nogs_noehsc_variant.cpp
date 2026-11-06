@@ -1267,7 +1267,7 @@ struct FUN_00e065f0
     hkArrayBase<BvFixup> m_buffer;
 
     void FillWithPattern(int);
-    void FUN_00e06480();
+    void nullsub_26();
     FUN_00e065f0(unsigned int id) throw();
     void Destroy();
     void* operator new(unsigned int n)

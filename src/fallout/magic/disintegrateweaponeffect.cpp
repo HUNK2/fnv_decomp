@@ -451,7 +451,7 @@ struct EffectOwner
 };
 
 bool __cdecl FUN_005b6f70();
-void __cdecl FUN_00703c00(const char* apFormat, ...);
+void __cdecl Interface_PrintLine(const char* apFormat, ...);
 
 // Gets the effect's target and applies disintegrate weapon damage to it, then logs the damage if FUN_005b6f70 is true.
 // @fnv 0x0080d7b0
@@ -466,6 +466,6 @@ void DisintegrateWeaponEffect::ApplyDisintegrateWeaponDamage()
         pEffect->ApplyDamage(pTarget, GetFloatAtOffset1C(), 0);
 
     if (FUN_005b6f70())
-        FUN_00703c00("%s's %s takes %0.2f disintegrate weapon damage!", pEffect->FUN_0055d520(),
+        Interface_PrintLine("%s's %s takes %0.2f disintegrate weapon damage!", pEffect->FUN_0055d520(),
                      pTarget->GetTargetFullName(), GetFloatAtOffset1C());
 }

@@ -77,9 +77,9 @@ unsigned __cdecl FUN_0044a670(const char*);
 
 unsigned __cdecl FUN_00403940(unsigned, unsigned);
 
-void* __cdecl FUN_00401000(unsigned);
+void* __cdecl FormHeap_Allocate(unsigned);
 
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 void __cdecl FUN_00401460(void*, const void*, unsigned);
 
@@ -207,7 +207,7 @@ inline FontManager* FontManager::Get()
 }
 
 int __cdecl FUN_004019a0(void*);
-int __cdecl FUN_0040b460(void*);
+int __cdecl NiAtomicIncrement_0040b460(void*);
 
 struct TextNode
 {
@@ -385,12 +385,12 @@ struct TextNode
     }
     int IncRefCount()
     {
-        return FUN_0040b460(&unk04);
+        return NiAtomicIncrement_0040b460(&unk04);
     }
 
     void FUN_00a5a040();
     bool SetExtraDataName(TileExtra*);
-    bool FUN_00a5ba40(TileExtra*);
+    bool NiObjectNET_AddExtraData(TileExtra*);
 
     void SetFlag(unsigned mask, bool enabled)
     {
@@ -612,7 +612,7 @@ inline bool TextNode::SetExtraDataName(TileExtra* extra)
             _NiFree_00aa10f0(newName);
         }
     }
-    return FUN_00a5ba40(extra);
+    return NiObjectNET_AddExtraData(extra);
 }
 
 float __cdecl FUN_00706e00();
@@ -741,7 +741,7 @@ NiNode* TileText::CalculateNode()
 
         reinterpret_cast<NodePtr&>(m_pRenderedNodeEntry) = (TextNode*)new NewTextNode(0);
 
-        fontA->FUN_00a12880(current, &maximumX, &countVal, 0, maximumTmp, kIndex, 10, &colorX, &first, &second);
+        fontA->Font_CreateText(current, &maximumX, &countVal, 0, maximumTmp, kIndex, 10, &colorX, &first, &second);
 
         SetPosition(first->GetPosition());
 
@@ -764,10 +764,10 @@ NiNode* TileText::CalculateNode()
 
     FUN_00a012d0(0xfb0, ParseFloatValue(countVal), true);
 
-    FUN_00a07530(9);
+    Tile_SetChangeFlag(9);
 
     if (IsTraitNonZero(0xfae))
-        FUN_00a07530(0x100);
+        Tile_SetChangeFlag(0x100);
 
     if (!kFirst)
         kFirst = FUN_00706d30();

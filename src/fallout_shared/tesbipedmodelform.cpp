@@ -97,11 +97,12 @@ TESModelRDT::TESModelRDT()
 
 struct FUN_00480d30_shell : public TESBipedModelForm
 {
-    bool FUN_00480d30();
+    bool TESBipedModelForm_HasBackpack();
 };
 
 // @fnv 0x00480d30
-bool FUN_00480d30_shell::FUN_00480d30()
+// src: COMMUNITY 0x00480d30
+bool FUN_00480d30_shell::TESBipedModelForm_HasBackpack()
 {
     if (*((unsigned char*)this + 8) & 4)
         return true;
@@ -188,11 +189,12 @@ struct FUN_00481190_standin
 {
     unsigned char _pad[0x4C];
     TESModelTextureSwap models[2];
-    BSFaceGenModel* FUN_00481190(int idx);
+    BSFaceGenModel* _TESBipedModelForm_GetWorldModel(int idx);
 };
 // Returns the model from models[idx], falling back to index 0 when index 1 has no model length.
 // @fnv 0x00481190
-BSFaceGenModel* FUN_00481190_standin::FUN_00481190(int aiIndex)
+// src: COMMUNITY 0x00481190
+BSFaceGenModel* FUN_00481190_standin::_TESBipedModelForm_GetWorldModel(int aiIndex)
 {
     if (!models[aiIndex].GetModelLength() && aiIndex == 1)
         aiIndex = 0;

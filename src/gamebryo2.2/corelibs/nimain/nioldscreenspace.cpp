@@ -86,7 +86,8 @@ template <class T> inline T& ScreenPolygonMember(ScreenReference*& member)
 extern NiRTTI g_011f5e5c;
 // Returns the address of the global object g_011f5e5c.
 // @fnv 0x00a8ff70
-NiRTTI* __cdecl FUN_00a8ff70()
+// src: COMMUNITY 0x00a8ff70
+NiRTTI* __cdecl NiScreenGeometry_GetRTTI()
 {
     return &g_011f5e5c;
 }
@@ -112,7 +113,8 @@ extern NiRTTI g_011f5e64;
 
 // Returns the address of the global object g_011f5e64.
 // @fnv 0x00a8ffb0
-NiRTTI* __cdecl FUN_00a8ffb0()
+// src: COMMUNITY 0x00a8ffb0
+NiRTTI* __cdecl NiScreenPolygon_GetRTTI()
 {
     return &g_011f5e64;
 }
@@ -162,7 +164,8 @@ void* __fastcall DestroyScreenGeometry(NiScreenGeometry* self, void*, unsigned i
 extern "C" void* g_011f5e54;
 
 // @fnv 0x00a90ab0
-void* __cdecl FUN_00a90ab0()
+// src: COMMUNITY 0x00a90ab0
+void* __cdecl NiScreenGeometryData_GetRTTI()
 {
     return &g_011f5e54;
 }
@@ -171,7 +174,8 @@ void* __cdecl FUN_00a90ab0()
 extern NiRTTI g_011f5e6c;
 
 // @fnv 0x00a91690
-NiRTTI* FUN_00a91690()
+// src: COMMUNITY 0x00a91690
+NiRTTI* NiScreenSpaceCamera_GetRTTI()
 {
     return &g_011f5e6c;
 }
@@ -180,10 +184,11 @@ NiRTTI* FUN_00a91690()
 
 struct Holder
 {
-    void FUN_00ba4530(int);
+    void ImageSpaceEffectFullScreenBlur_BorrowTextures(int);
 };
 // @fnv 0x00ba4530
-void Holder::FUN_00ba4530(int)
+// src: COMMUNITY 0x00ba4530
+void Holder::ImageSpaceEffectFullScreenBlur_BorrowTextures(int)
 {
     ImageSpaceTexture* p = (ImageSpaceTexture*)((char*)this + 0x58);
     p->CreateRenderTargetTexture((BSTextureManager::RenderTargetType)0x18);
@@ -734,7 +739,7 @@ SpawnedObj_a905c0* OwnerCls_a905c0::CreateSpawnedObj(unsigned int arg)
 {
     SpawnedObj_a905c0* p = new SpawnedObj_a905c0();
     CreateVertexBufferSet(p, arg);
-    void* pAlloc = DAT_011f6238.FUN_00aa3e40(0x1c);
+    void* pAlloc = DAT_011f6238.Game_DoHeapAlloc(0x1c);
     p->m_08 = pAlloc ? ((Sub_a905c0*)pAlloc)->FUN_00a89810(m_08) : 0;
     return p;
 }
@@ -750,7 +755,7 @@ struct FUN_00a90640_cls
     int unk00;
     int unk04;
     NiProperty** m_08;
-    void FUN_00a89af0(PropSrc* src);
+    void nullsub_3(PropSrc* src);
     void AddPropsFromSource(PropSrc* src);
 };
 
@@ -758,7 +763,7 @@ struct FUN_00a90640_cls
 // @fnv 0x00a90640
 void FUN_00a90640_cls::AddPropsFromSource(PropSrc* pSource)
 {
-    FUN_00a89af0(pSource);
+    nullsub_3(pSource);
     unsigned int n = pSource->Count();
     if (n == 0)
         return;
@@ -867,7 +872,7 @@ inline unsigned int StrArr::AddInline(char* element)
 }
 
 void __stdcall AppendCameraPathEntries(StrArr* apViewerStrings);
-char* __cdecl FUN_00a7d330(const char* pcText);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 char* __cdecl FUN_00a7d490(const char* pcPrefix, unsigned short usValue);
 char* __cdecl FUN_00a7d5a0(const char* pcPrefix, const void* pvValue);
 
@@ -880,7 +885,7 @@ extern NiRTTI ms_RTTI_ScreenPolygon;
 void __fastcall AppendScreenPolygonStrings(NiScreenPolygon* self, void*, StrArr* apViewerStrings)
 {
     AppendCameraPathEntries(apViewerStrings);
-    apViewerStrings->AddInline(FUN_00a7d330(ms_RTTI_ScreenPolygon.m_pcName));
+    apViewerStrings->AddInline(NiViewerStrings_NiGetViewerString_Title(ms_RTTI_ScreenPolygon.m_pcName));
     apViewerStrings->AddInline(FUN_00a7d490("m_usVertices", ScreenPolygonMember<unsigned short>(self->unk0C)));
     apViewerStrings->AddInline(FUN_00a7d5a0("m_pkVertex", self->unk10));
     apViewerStrings->AddInline(FUN_00a7d5a0("m_pkTexture", self->unk14));
@@ -1352,7 +1357,7 @@ class A72BB0_DataStreamOwner
     int unk18;
     NiTPrimitiveArray<A72BB0_DataStream*> m_kStreams;
 
-    bool __thiscall FUN_00a72bb0(unsigned int uiIndex, void* pvData, unsigned int uiSize, bool bCopy);
+    bool __thiscall NiAdditionalGeometryData_SetDataBlock(unsigned int uiIndex, void* pvData, unsigned int uiSize, bool bCopy);
 };
 
 template <> __declspec(noinline) void NiTArray<A72BB0_DataStream*, NiTMallocInterface<A72BB0_DataStream*> >::SetAt(unsigned int index, A72BB0_DataStream* const& value)
@@ -1378,7 +1383,8 @@ template <> __declspec(noinline) void NiTArray<A72BB0_DataStream*, NiTMallocInte
 
 // Uses or creates the stream at uiIndex, optionally allocates a buffer and copies pvData, then stores the stream and bCopy flag.
 // @fnv 0x00a72bb0
-bool A72BB0_DataStreamOwner::FUN_00a72bb0(unsigned int uiIndex, void* pvData, unsigned int uiSize, bool bCopy)
+// src: COMMUNITY 0x00a72bb0
+bool A72BB0_DataStreamOwner::NiAdditionalGeometryData_SetDataBlock(unsigned int uiIndex, void* pvData, unsigned int uiSize, bool bCopy)
 {
     A72BB0_DataStream* pkStream = 0;
     if (uiIndex < m_kStreams.GetSize())

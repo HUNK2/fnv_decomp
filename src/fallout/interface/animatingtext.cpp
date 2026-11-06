@@ -27,7 +27,7 @@ struct TwTile
     void FUN_00a0a270(float fValue, int iPropagate);
     void SetString(const char* pcText, int iPropagate);
 };
-unsigned int __cdecl FUN_00457fe0();
+unsigned int __cdecl Cmd_GetSessionTime_Execute();
 int __cdecl FUN_0044a670(const char* pcStr);
 void __cdecl FUN_00401460(char* pcDest, const char* pcSrc, unsigned int uiCountZ);
 
@@ -57,7 +57,7 @@ struct TwTypewriter
 // @fnv 0x006ffea0
 void TwTypewriter::FUN_006ffea0()
 {
-    if (FUN_007000b0() && FUN_00457fe0() >= m_uiNextTime && !m_bDone)
+    if (FUN_007000b0() && Cmd_GetSessionTime_Execute() >= m_uiNextTime && !m_bDone)
     {
         if (m_pkCursor && !FUN_007000d0())
             m_pkCursor->FUN_00a0a270(1.0f, 1);
@@ -66,7 +66,7 @@ void TwTypewriter::FUN_006ffea0()
         if (m_pkText && m_pString && FUN_00700270(m_pString))
         {
             int iStartTmp = FUN_0044a670(m_pString);
-            unsigned int uiCountZ = m_uiNextTime ? (FUN_00457fe0() - m_uiNextTime) / m_uiInterval + 1 : 1;
+            unsigned int uiCountZ = m_uiNextTime ? (Cmd_GetSessionTime_Execute() - m_uiNextTime) / m_uiInterval + 1 : 1;
             if (uiCountZ > FUN_004048e0() - iStartTmp)
             {
                 uiCountZ = FUN_004048e0() - iStartTmp;
@@ -79,19 +79,19 @@ void TwTypewriter::FUN_006ffea0()
         {
             m_bDone = true;
         }
-        m_uiNextTime = FUN_00457fe0() + m_uiInterval;
+        m_uiNextTime = Cmd_GetSessionTime_Execute() + m_uiInterval;
     }
-    if (FUN_007000d0() && FUN_00457fe0() >= m_uiNextBlink)
+    if (FUN_007000d0() && Cmd_GetSessionTime_Execute() >= m_uiNextBlink)
     {
         if (m_pkCursor->m_fAlpha == 1.0)
         {
             m_pkCursor->FUN_00a0a270(0.0f, 1);
-            m_uiNextBlink = FUN_00457fe0() + m_uiBlinkOff;
+            m_uiNextBlink = Cmd_GetSessionTime_Execute() + m_uiBlinkOff;
         }
         else
         {
             m_pkCursor->FUN_00a0a270(1.0f, 1);
-            m_uiNextBlink = FUN_00457fe0() + m_uiBlinkOn;
+            m_uiNextBlink = Cmd_GetSessionTime_Execute() + m_uiBlinkOn;
         }
     }
 }

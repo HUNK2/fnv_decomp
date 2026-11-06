@@ -40,9 +40,10 @@ void __thiscall FUN_0049ed90_shell::FUN_0049ed90(bool bAlpha)
 
 // Forwards the given texture slot to FUN_00439360 with flags 0xf000 and value 0xc.
 // @fnv 0x0049edb0
-void NiObjectNET::FUN_0049edb0(unsigned short argument0)
+// src: COMMUNITY 0x0049edb0
+void NiObjectNET::NiStencilProperty_SetStencilFunction(unsigned short argument0)
 {
-    FUN_00439360(argument0, 0xf000, 0xc);
+    SetField_00439360(argument0, 0xf000, 0xc);
 }
 
 // Calls FUN_00439360 with argument0, 0x380 and 7.
@@ -54,20 +55,22 @@ struct AutoWaterStencilFlags : NiObjectNET
 // @fnv 0x0049ede0
 void AutoWaterStencilFlags::SetStencilFunction(unsigned short argument0)
 {
-    FUN_00439360(argument0, 0x380, 7);
+    SetField_00439360(argument0, 0x380, 7);
 }
 
 // @fnv 0x0049ee10
-void NiObjectNET::FUN_0049ee10(unsigned short ausValue)
+// src: COMMUNITY 0x0049ee10
+void NiObjectNET::NiStencilProperty_SetStencilPassZFailAction(unsigned short ausValue)
 {
-    FUN_00439360(ausValue, 0x70, 4);
+    SetField_00439360(ausValue, 0x70, 4);
 }
 
 // Calls FUN_00439360 with the given unsigned short and the constants 0xc00 and 0xa.
 // @fnv 0x0049ee30
-void NiObjectNET::FUN_0049ee30(unsigned short a)
+// src: COMMUNITY 0x0049ee30
+void NiObjectNET::NiStencilProperty_SetDrawMode(unsigned short a)
 {
-    FUN_00439360(a, 0xc00, 0xa);
+    SetField_00439360(a, 0xc00, 0xa);
 }
 
 struct TaskQueueInterface
@@ -96,14 +99,16 @@ void NiStencilProperty::Destroy()
 
 // Clears the bits in flags at offset 0x18 and inserts value shifted by shift into them.
 // @fnv 0x00439360
-void NiObjectNET::FUN_00439360(unsigned short value, unsigned int uiMask, unsigned int shift)
+// src: COMMUNITY 0x00439360
+void NiObjectNET::SetField_00439360(unsigned short value, unsigned int uiMask, unsigned int shift)
 {
     *(unsigned short*)((char*)this + 0x18) =
         (*(unsigned short*)((char*)this + 0x18) & ~(unsigned short)uiMask) | (value << (unsigned short)shift);
 }
 
 // @fnv 0x0049ee60
-void BSFadeNode::FUN_0049ee60(bool enabled)
+// src: COMMUNITY 0x0049ee60
+void BSFadeNode::SetIgnoreFade(bool enabled)
 {
     reinterpret_cast<TaskQueueInterface*>(this)->SetEnabledFlag(enabled);
 }
@@ -211,9 +216,9 @@ struct FUN_0049f640
 struct ScriptProgram
 {
     bool FUN_0045cb90();
-    void FUN_00535b90(int);
+    void TESObjectLAND_LoadVertices(int);
     void FUN_00536d80();
-    float FUN_0049db00();
+    float TESObjectLAND_GetBaseHeight();
     MeshPoint** GetSecondPointer();
 };
 struct MeshMode
@@ -231,7 +236,7 @@ extern unsigned short DAT_0118ae90[];
 extern unsigned short DAT_0118ae92[];
 extern unsigned short DAT_0118ae94[];
 extern int __cdecl GetCellCornerFlags(MeshInput*, MeshPoint);
-extern int __cdecl FUN_006b9a10(const MeshPoint&, const MeshPoint&, const MeshPoint&, const MeshPoint&, MeshPoint&);
+extern int __cdecl NavMeshMath_SegmentPlaneIntersection(const MeshPoint&, const MeshPoint&, const MeshPoint&, const MeshPoint&, MeshPoint&);
 extern bool __cdecl FUN_0049c800(const MeshPoint&, const MeshPoint&);
 extern bool __cdecl FUN_0049c7b0(const MeshPoint&, const MeshPoint&);
 // Builds triangle geometry from the mesh's vertex data, clipping against a plane and collecting boundary edges into DAT_011c57ac.
@@ -248,7 +253,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
     {
         bool active8 = mesh->FUN_0045cb90();
         if (!active8)
-            mesh->FUN_00535b90(0);
+            mesh->TESObjectLAND_LoadVertices(0);
         FUN_0049f640 _list1;
         for (int i = 0; i < 4; i++)
         {
@@ -259,7 +264,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
         float _saved = 0.0f;
         if (pMeshInput->FUN_0054ddd0() && pMeshInput->FUN_0054ddd0()->IsFlag80Set())
         {
-            _saved = mesh->FUN_0049db00();
+            _saved = mesh->TESObjectLAND_GetBaseHeight();
             offset6 = true;
         }
         MeshPoint** _readObject = mesh->GetSecondPointer();
@@ -294,7 +299,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                     int _current = GetCellCornerFlags(pMeshInput, _point);
                     MeshPoint _orient;
                     _orient.FUN_006815c0();
-                    int result3 = FUN_006b9a10(_cross, _delta, origin6, normalVal, _orient);
+                    int result3 = NavMeshMath_SegmentPlaneIntersection(_cross, _delta, origin6, normalVal, _orient);
                     if (result3 == 1)
                     {
                         if (_cross.FUN_004390c0(_orient) || _delta.FUN_004390c0(_orient))
@@ -317,7 +322,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         DAT_011c57ac->AddItem(_delta);
                         count8 += 2;
                     }
-                    result3 = FUN_006b9a10(_cross, _point, origin6, normalVal, _orient);
+                    result3 = NavMeshMath_SegmentPlaneIntersection(_cross, _point, origin6, normalVal, _orient);
                     if (result3 == 1)
                     {
                         bool add = true;
@@ -351,7 +356,7 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                         DAT_011c57ac->AddItem(_point);
                         count8 = 2;
                     }
-                    result3 = FUN_006b9a10(_delta, _point, origin6, normalVal, _orient);
+                    result3 = NavMeshMath_SegmentPlaneIntersection(_delta, _point, origin6, normalVal, _orient);
                     if (result3 == 1)
                     {
                         bool addThird = true;
@@ -547,7 +552,7 @@ struct Pt
 };
 struct CellOrigin
 {
-    NiPoint3 FUN_00535b30(bool interior);
+    NiPoint3 TESObjectLAND_GetWorldOffsetForBlock(bool interior);
 };
 struct Cell
 {
@@ -561,7 +566,7 @@ unsigned int __cdecl GetCellCornerFlags(Cell* cell, Pt point)
 {
     unsigned int f = 0;  // Edge mask: west=1, east=2, north=4, south=8.
     // Translate the point into the cell's coordinate system.
-    NiPoint3 i = cell->FUN_00546fb0()->FUN_00535b30(false);
+    NiPoint3 i = cell->FUN_00546fb0()->TESObjectLAND_GetWorldOffsetForBlock(false);
     point += i;
     // Cell corners: p=southwest, a=southeast, s=northwest, h=northeast.
     NiPoint2 p(float(cell->FUN_00544c30() << 12), float(cell->FUN_00544c60() << 12));
@@ -615,7 +620,7 @@ struct BufObj
     float x;
     float y;
     float z;
-    NiPoint3* FUN_00535b30();
+    NiPoint3* TESObjectLAND_GetWorldOffsetForBlock();
 };
 struct WaterForm
 {
@@ -625,7 +630,7 @@ struct ParamObj
 {
     float FUN_005471e0();
     BufObj FUN_00546fb0(int);
-    WaterForm* FUN_00547770();
+    WaterForm* Actor_GetRadiationLevel();
     void FUN_00548230(void*, bool);
 };
 struct Mgr
@@ -948,7 +953,7 @@ struct FUN_00c37ec0 : NiMemObject
     int m_18;
     int m_1c;
     int m_20;
-    void FUN_00439680(const NiPoint3&);
+    void BSMultiBound_SetHalfExtents(const NiPoint3&);
 };
 struct FUN_00c46970 : NiMemObject
 {
@@ -1075,7 +1080,7 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
             NodeObj* nodeX;
             if (0 != DAT_011c57b0)
             {
-                (*reinterpret_cast<NiPoint3*>(&origin.position)).Set(a0->FUN_00546fb0(0).FUN_00535b30()->x, a0->FUN_00546fb0(0).FUN_00535b30()->y,
+                (*reinterpret_cast<NiPoint3*>(&origin.position)).Set(a0->FUN_00546fb0(0).TESObjectLAND_GetWorldOffsetForBlock()->x, a0->FUN_00546fb0(0).TESObjectLAND_GetWorldOffsetForBlock()->y,
                                  a0->FUN_005471e0());
                 origin.hasWaterForm = false;
                 s = DAT_011c57b0->FUN_00559450();
@@ -1152,18 +1157,18 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 0, 0);
                                                                                                             minY =
                                                                                                                 new NiStencilProperty;
-                                                                                                            minY->FUN_0049ee30(
+                                                                                                            minY->NiStencilProperty_SetDrawMode(
                                                                                                                 3);
                                                                                                             nodeX
                                                                                                                 ->FUN_004a8a90()
                                                                                                                 ->FUN_00439410(
                                                                                                                     minY);
                                                                                                             p84->FUN_00575690(
-                                                                                                                a0->FUN_00547770()
+                                                                                                                a0->Actor_GetRadiationLevel()
                                                                                                                     ->FUN_00580130());
                                                                                                             p80 =
                                                                                                                 new AutoWaterFadeNode;
-                                                                                                            p80->FUN_0049ee60(
+                                                                                                            p80->SetIgnoreFade(
                                                                                                                 true);
                                                                                                             p84->FUN_vt1cc(
                                                                                                                 p80,
@@ -1268,11 +1273,11 @@ void __cdecl CreateAutoWaterNode(ParamObj* a0)
                                                                                                                 (*reinterpret_cast<NiPoint3*>(&origin.position)));
                                                                                                             p7c->FUN_vtb8(
                                                                                                                 &(*reinterpret_cast<NiPoint3*>(&nStorage)));
-                                                                                                            p7c->FUN_00439680(
+                                                                                                            p7c->BSMultiBound_SetHalfExtents(
                                                                                                                 (*reinterpret_cast<NiPoint3*>(&pt44Storage)));
                                                                                                             p6c =
                                                                                                                 new BSMultiBound;
-                                                                                                            p6c->FUN_004addc0(
+                                                                                                            p6c->BSMultiBound_SetShape(
                                                                                                                 p7c);
                                                                                                             oldNode2 =
                                                                                                                 new FUN_00c46970;
@@ -1348,7 +1353,8 @@ NiPoint3 __cdecl FUN_004a3760(float t, const NiPoint3& point);
 
 // Computes the intersection of the line through p0 and p1 with the plane defined by (*reinterpret_cast<NiPoint3*>(&p2Storage)) and p3, writing the result to out.
 // @fnv 0x006b9a10
-int __cdecl FUN_006b9a10(const NiPoint3& apStart, const NiPoint3& apEnd, const NiPoint3& apPlanePoint,
+// src: COMMUNITY 0x006b9a10
+int __cdecl NavMeshMath_SegmentPlaneIntersection(const NiPoint3& apStart, const NiPoint3& apEnd, const NiPoint3& apPlanePoint,
                          const NiPoint3& apPlaneNormal, NiPoint3& out)
 {
     float f3 = DAT_0106c288;

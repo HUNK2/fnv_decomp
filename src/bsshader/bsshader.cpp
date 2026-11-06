@@ -175,30 +175,32 @@ int __stdcall FUN_00be0e30(void* apUnused, void* apBlock)
 
 
 extern unsigned int DAT_011f91e4;
-void __cdecl FUN_00b97e30(unsigned int, unsigned int);
-void __cdecl FUN_00b97e80(unsigned int, unsigned int);
+void __cdecl BSRenderState_SetZWriteEnable(unsigned int, unsigned int);
+void __cdecl BSRenderState_SetZFunc(unsigned int, unsigned int);
 
 // @fnv 0x00be0e50
-void __stdcall FUN_00be0e50(int)
+// src: COMMUNITY 0x00be0e50
+void __stdcall BSShader_SetupGeometryNonFirstPass(int)
 {
     if (DAT_011f91e4 < 0x252 || DAT_011f91e4 > 0x256)
     {
         BSRenderStateManager_bsshader::SetDepthBufferEnabled(true, BSRENDERSTATE_LOCK_BSRS_NOLOCK);
-        FUN_00b97e30(0, 0);
-        FUN_00b97e80(2, 0);
+        BSRenderState_SetZWriteEnable(0, 0);
+        BSRenderState_SetZFunc(2, 0);
     }
 }
 
 namespace fnv_00be0e90 {
-void __cdecl FUN_00b97e30(unsigned int, unsigned int);
-void __cdecl FUN_00b97e80(unsigned int, unsigned int);
+void __cdecl BSRenderState_SetZWriteEnable(unsigned int, unsigned int);
+void __cdecl BSRenderState_SetZFunc(unsigned int, unsigned int);
 
 // @fnv 0x00be0e90
-void __cdecl FUN_00be0e90()
+// src: COMMUNITY 0x00be0e90
+void __cdecl BSShader_RestoreGeometryNonFirstPass()
 {
     BSRenderStateManager_bsshader::SetDepthBufferEnabled(false, BSRENDERSTATE_LOCK_BSRS_NOLOCK);
-    FUN_00b97e30(1, 0);
-    FUN_00b97e80(3, 0);
+    BSRenderState_SetZWriteEnable(1, 0);
+    BSRenderState_SetZFunc(3, 0);
 }
 }  // namespace fnv_00be0e90
 
@@ -210,17 +212,18 @@ struct Node_00be0eb0
 };
 
 extern int DAT_0126f74c;
-void __cdecl FUN_00b97d90(int, int, int);
+void __cdecl BSRenderState_SetRenderState(int, int, int);
 
 // Walks the linked list at DAT_0126f74c+0x30+0x10 and calls FUN_00b97d90 on each node's a and b fields with 0.
 // @fnv 0x00be0eb0
-void __stdcall FUN_00be0eb0(int)
+// src: COMMUNITY 0x00be0eb0
+void __stdcall BSShader_SetupPassRenderStates(int)
 {
     int ecx_val = *(int*)(DAT_0126f74c + 0x30);
     Node_00be0eb0* pNode = *(Node_00be0eb0**)(ecx_val + 0x10);
     while (pNode)
     {
-        FUN_00b97d90(pNode->a, pNode->b, 0);
+        BSRenderState_SetRenderState(pNode->a, pNode->b, 0);
         pNode = pNode->next;
     }
 }
@@ -233,17 +236,18 @@ struct Node_00be0ee0
 };
 
 extern int DAT_0126f74c;
-void __cdecl FUN_00b98610(int, int);
+void __cdecl BSRenderState_RestoreState(int, int);
 
 // Walks the linked list at DAT_0126f74c+0x30's +0x10 and calls FUN_00b98610 with each node's m_val and 0.
 // @fnv 0x00be0ee0
-void __stdcall FUN_00be0ee0(int)
+// src: COMMUNITY 0x00be0ee0
+void __stdcall BSShader_RestorePassRenderStates(int)
 {
     int p1 = *(int*)(DAT_0126f74c + 0x30);
     Node_00be0ee0* node = *(Node_00be0ee0**)(p1 + 0x10);
     while (node)
     {
-        FUN_00b98610(node->m_val, 0);
+        BSRenderState_RestoreState(node->m_val, 0);
         node = node->m_next;
     }
 }
@@ -373,13 +377,13 @@ struct GlobalMgr
 };
 
 extern GlobalMgr* DAT_0126f74c;
-ObjA* __fastcall FUN_00e7f7c0(GlobalMgr*);
+ObjA* __fastcall NiD3DPass_GetD3DRenderState(GlobalMgr*);
 
 // Gets an ObjA from DAT_0126f74c and sets its v35 from p5c->v33_get(0), and if p44 is non-null sets its v31 from p44->v31_get(0).
 // @fnv 0x00be1f90
 void __fastcall SetFromGlobalManager(void* this_ptr, int edx_unused, int aiUnused)
 {
-    ObjA* pObjA = FUN_00e7f7c0(DAT_0126f74c);
+    ObjA* pObjA = NiD3DPass_GetD3DRenderState(DAT_0126f74c);
     pObjA->v35_set(DAT_0126f74c->p5c->v33_get(0));
     ObjB* p44 = DAT_0126f74c->p44;
     if (p44)
@@ -389,21 +393,23 @@ void __fastcall SetFromGlobalManager(void* this_ptr, int edx_unused, int aiUnuse
 }
 }  // namespace fnv_00be1f90
 
-int __cdecl FUN_00b97f20(unsigned int, unsigned int, int);
+int __cdecl BSRenderState_SetAlphaTestFuncRef(unsigned int, unsigned int, int);
 
 // Reads a byte array from param, extracts a 3-bit value from offset 0x18 and a byte at 0x1a, and passes them to FUN_00b97f20.
 // @fnv 0x00be20b0
-int __stdcall FUN_00be20b0(unsigned char** apData)
+// src: COMMUNITY 0x00be20b0
+int __stdcall BSShader_SetupGeometryAlphaTesting(unsigned char** apData)
 {
     unsigned char* p = *apData;
-    return FUN_00b97f20((*(unsigned short*)(p + 0x18) >> 10) & 7, p[0x1a], 0);
+    return BSRenderState_SetAlphaTestFuncRef((*(unsigned short*)(p + 0x18) >> 10) & 7, p[0x1a], 0);
 }
 
 extern int DAT_0126f74c;
 
 // Iterates the pass list at DAT_0126f74c and calls ApplyRenderStateChanges(false) on each non-null pass that is flagged and has a nonzero field at offset 8.
 // @fnv 0x00be2170
-void __cdecl FUN_00be2170()
+// src: COMMUNITY 0x00be2170
+void __cdecl BSShader_ApplyTextureStages()
 {
     int p = DAT_0126f74c;
     unsigned int count = *(unsigned int*)(p + 0x18);
@@ -421,7 +427,8 @@ extern int DAT_011ae640[];
 extern int DAT_0126f74c;
 
 // @fnv 0x00be21b0
-void __cdecl FUN_00be21b0()
+// src: COMMUNITY 0x00be21b0
+void __cdecl BSShader_ApplyTextureStagesFlags()
 {
     int p = DAT_0126f74c;
     unsigned int count = *(unsigned int*)(p + 0x18);
@@ -448,7 +455,7 @@ void BSShader::ClearAllTextureStages()
 struct BeamTextureState
 {
     void SetStageValue(unsigned int, unsigned int, bool);
-    void FUN_00e890c0(unsigned int, unsigned int, unsigned int, bool);
+    void NiD3DTextureStageGroup_SetSamplerState(unsigned int, unsigned int, unsigned int, bool);
 };
 
 struct BeamStage
@@ -461,7 +468,7 @@ struct BeamStage
     unsigned char m_byte5e;
 
     void ApplyPairToState(unsigned int);
-    void FUN_00e7def0(unsigned int);
+    void NiD3DTextureStage_SetFilterMode(unsigned int);
 };
 
 // @fnv 0x00be0cf0
@@ -480,10 +487,10 @@ void __cdecl ConfigureBeamStage(BeamStage* stage, unsigned int uiValue, unsigned
         stage->ApplyPairToState(0);
     else
         stage->ApplyPairToState(3);
-    stage->m_pTextureState->FUN_00e890c0(5, arg4, 0, false);
-    stage->m_pTextureState->FUN_00e890c0(6, arg4, 0, false);
-    stage->m_pTextureState->FUN_00e890c0(7, arg4, 0, false);
-    stage->FUN_00e7def0(bFlag ? 6 : 2);
+    stage->m_pTextureState->NiD3DTextureStageGroup_SetSamplerState(5, arg4, 0, false);
+    stage->m_pTextureState->NiD3DTextureStageGroup_SetSamplerState(6, arg4, 0, false);
+    stage->m_pTextureState->NiD3DTextureStageGroup_SetSamplerState(7, arg4, 0, false);
+    stage->NiD3DTextureStage_SetFilterMode(bFlag ? 6 : 2);
 }
 
 struct M64Inner
@@ -501,7 +508,8 @@ struct M64Outer
 };
 // For each item in o->items, if the item's fc is not 1, sets its f8 to 0.
 // @fnv 0x00be0fb0
-void __stdcall FUN_00be0fb0(M64Outer* pOuter)
+// src: COMMUNITY 0x00be0fb0
+void __stdcall BSShader_ClearPass(M64Outer* pOuter)
 {
     if (pOuter)
     {
@@ -515,8 +523,8 @@ void __stdcall FUN_00be0fb0(M64Outer* pOuter)
     }
 }
 
-void __cdecl FUN_00b984d0(int, int);
-void __cdecl FUN_00b97ed0(bool, int);
+void __cdecl BSRenderState_SetCullMode(int, int);
+void __cdecl BSRenderState_SetAlphaTestEnable(bool, int);
 extern unsigned int DAT_011f91e4;
 
 struct Obj
@@ -534,7 +542,8 @@ struct StructA
 
 // Derives two booleans from param_1's prop10/prop0 flags and DAT_011f91e4, then calls FUN_00b984d0 and FUN_00b97ed0 with them.
 // @fnv 0x00be20e0
-void __stdcall FUN_00be20e0(StructA* pStruct, bool bCheckProp0)
+// src: COMMUNITY 0x00be20e0
+void __stdcall NiD3DShader_SetupGeometryRenderStates(StructA* pStruct, bool bCheckProp0)
 {
     unsigned int v = DAT_011f91e4;
     bool bFlagA = false;
@@ -559,8 +568,8 @@ void __stdcall FUN_00be20e0(StructA* pStruct, bool bCheckProp0)
         }
     }
 
-    FUN_00b984d0(bFlagA ? 3 : 1, 0);
-    FUN_00b97ed0(bFlagB, 0);
+    BSRenderState_SetCullMode(bFlagA ? 3 : 1, 0);
+    BSRenderState_SetAlphaTestEnable(bFlagB, 0);
 }
 
 struct StageReturn
@@ -1322,7 +1331,8 @@ void __cdecl FUN_00b97fa0(int, int);
 void __cdecl AddToTwoCounters(int, int, int);
 // Reads alpha and data from input, checks flags and alpha values, then calls FUN_00b97fa0 and AddToTwoCounters with blend or default counters.
 // @fnv 0x00be1ff0
-void __stdcall FUN_00be1ff0(NiPropertyState* input)
+// src: COMMUNITY 0x00be1ff0
+void __stdcall NiD3DShader_SetupGeometryAlphaBlending(NiPropertyState* input)
 {
     NiAlphaProperty* alpha = (NiAlphaProperty*)input->m_aspProps[NiProperty::ALPHA];
     BSShaderProperty* data = (BSShaderProperty*)input->m_aspProps[NiProperty::SHADE];

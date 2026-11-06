@@ -158,7 +158,7 @@ struct CreatedShell
 struct HolderStatus
 {
     bool GetDone();
-    void FUN_0067fdb0(unsigned char value);
+    void PackageSchedule_SetStartDayOfWeek(unsigned char value);
 };
 // @fnv 0x00983280
 void FUN_00983280_holder::FUN_00983280(int value, StageHolder* pStageHolder)
@@ -172,7 +172,7 @@ void FUN_00983280_holder::FUN_00983280(int value, StageHolder* pStageHolder)
         ((HolderLookup*)this)->FUN_00844700(*(unsigned int*)((char*)pStageHolder + 0x68), pCreatedShell);
     }
     ((CreatedShell*)pCreatedShell)->AddItem(value, pStageHolder);
-    ((HolderStatus*)pStageHolder)->FUN_0067fdb0(1);
+    ((HolderStatus*)pStageHolder)->PackageSchedule_SetStartDayOfWeek(1);
     ((MapMember*)((char*)this + 0x14))->FUN_00aa62e0();
 }
 
@@ -182,10 +182,10 @@ struct FUN_009836d0_class
     int unk04;
     int unk08;
     int unk0C;
-    FUN_009836d0_class* __thiscall FUN_009836d0();
+    FUN_009836d0_class* __thiscall BSSimpleArray_CoverReservation_1024_BSSimpleArray_CoverReservation_1024();
     FUN_009836d0_class()
     {
-        FUN_009836d0();
+        BSSimpleArray_CoverReservation_1024_BSSimpleArray_CoverReservation_1024();
     }
     ~FUN_009836d0_class()
     {}
@@ -220,7 +220,7 @@ struct Arg2
     void* unk68;
 
     bool FUN_00678ce0();
-    void FUN_0067fdb0(bool);
+    void PackageSchedule_SetStartDayOfWeek(bool);
 };
 
 struct Lock
@@ -260,7 +260,7 @@ bool FUN_00983420_class::GetOrCreateCoverItem(void* arg1, Arg2* arg2)
         FUN_00844700(arg2->unk68, pItem);
     }
     bool kRet = pItem->RegisterEvent(arg1, arg2);
-    arg2->FUN_0067fdb0(kRet);
+    arg2->PackageSchedule_SetStartDayOfWeek(kRet);
     lock.Leave();
     return kRet;
 }
@@ -599,7 +599,7 @@ bool FUN_009835d0_cls::TryUseCoverItem(unsigned int key, unsigned int p2, unsign
 
 struct CoverReservationUnreserveCalls
 {
-    bool FUN_00982ff0(void* owner, Arg2* location);
+    bool ReservedCoverLocation_UnreserveCoverLocation(void* owner, Arg2* location);
 };
 
 struct CoverMapUnreserveReceiver : FUN_00983420_class
@@ -621,14 +621,14 @@ void CoverMapUnreserveReceiver::FUN_00983520(void* apOwner, Arg2* apLocation)
         CoverItem* item = 0;
         if (this->FUN_00853130(apLocation->unk68, &item))
         {
-            if (((CoverReservationUnreserveCalls*)item)->FUN_00982ff0(apOwner, apLocation))
+            if (((CoverReservationUnreserveCalls*)item)->ReservedCoverLocation_UnreserveCoverLocation(apOwner, apLocation))
             {
                 CoverItem* b = item;
                 CoverItem* a = b;
                 a != 0 ? ((FUN_00983250_shell*)a)->DestroyIfFlagged(1) : 0;
                 this->RemoveKey(apLocation->unk68);
             }
-            apLocation->FUN_0067fdb0(false);
+            apLocation->PackageSchedule_SetStartDayOfWeek(false);
         }
         this->lock.Leave();
     }

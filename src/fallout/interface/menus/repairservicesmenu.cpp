@@ -12,20 +12,23 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x007b74c0
-int RepairServicesMenu::FUN_007b74c0()
+// src: COMMUNITY 0x007b74c0
+int RepairServicesMenu::GetMenuID_007b74c0()
 {
     return 0x422;
 }
 
 // @fnv 0x007b7890
-int __cdecl FUN_007b7890()
+// src: COMMUNITY 0x007b7890
+int __cdecl RepairServicesMenu_GetMenuID_()
 {
     return 0x422;
 }
 
 // Returns true only if all 16 menu tiles are non-null.
 // @fnv 0x007b78a0
-bool __thiscall RepairServicesMenu::FUN_007b78a0()
+// src: COMMUNITY 0x007b78a0
+bool __thiscall RepairServicesMenu::CompanionWheelMenu_IsWellFormedMenu()
 {
     for (int i = 0; i < 16; ++i)
     {
@@ -84,7 +87,8 @@ struct ListBoxItem
 extern int DAT_011da7dc;
 
 // @fnv 0x007b7c40
-int __cdecl FUN_007b7c40(ListBoxItem* apItem1, ListBoxItem* apItem2)
+// src: COMMUNITY 0x007b7c40
+int __cdecl RepairServicesMenu_Compare(ListBoxItem* apItem1, ListBoxItem* apItem2)
 {
     bool bisGreyedOut1;
     bool bisGreyedOut2;
@@ -219,7 +223,8 @@ int __cdecl GetHealthForm(Obj*);
 
 // Checks the holder's object and its state, comparing a value against config thresholds and returning whether the condition holds.
 // @fnv 0x007b7b40
-bool __cdecl FUN_007b7b40(Holder* pHolder)
+// src: COMMUNITY 0x007b7b40
+bool __cdecl RepairServicesMenu_ShouldHideItem(Holder* pHolder)
 {
     bool result2 = true;
     Obj* a7 = pHolder->FUN_0044ddc0();
@@ -307,7 +312,7 @@ struct RSMActor
     RSMExtraList kExtraList;
 };
 
-int __cdecl FUN_007b7890();
+int __cdecl RepairServicesMenu_GetMenuID_();
 RepairServicesMenu* __cdecl FUN_00a09030(int aiMenuID);
 
 extern RepairServicesMenu* g_pRepairServicesMenu;
@@ -337,16 +342,16 @@ Tile* __cdecl CreateRepairServicesMenu(RSMActor* apVendor)
     }
 
     pInterfaceMgr2 = RSMInterfaceManager::GetSingleton();
-    pOldMenu5 = FUN_00a09030(FUN_007b7890());
+    pOldMenu5 = FUN_00a09030(RepairServicesMenu_GetMenuID_());
     if (pOldMenu5)
         delete pOldMenu5;
 
     pTile = pInterfaceMgr2->GetMenuRoot()->ReadFile("Data\\Menus\\repair_services_menu.xml");
     g_pRepairServicesMenu = reinterpret_cast<RepairServicesMenu*>(pTile->GetMenu());
-    if (g_pRepairServicesMenu && g_pRepairServicesMenu->GetClass() == FUN_007b7890())
+    if (g_pRepairServicesMenu && g_pRepairServicesMenu->GetClass() == RepairServicesMenu_GetMenuID_())
     {
         g_pRepairServicesMenu->SetTileMenu(reinterpret_cast<TileMenu*>(pTile), false);
-        if (!g_pRepairServicesMenu->FUN_007b78a0())
+        if (!g_pRepairServicesMenu->CompanionWheelMenu_IsWellFormedMenu())
         {
             FNV_Warning("MENUS: Repair Services Menu Creation Failed... Are your menu and art resources up to date?");
             return 0;
@@ -464,9 +469,9 @@ void RepairServicesMenu::RefreshRepairMenu()
     {
         ((RepairServicesMenu*)DAT_011da7f0)->totalCost = 0;
         ((RepairServicesMenu*)DAT_011da7f0)->HandleMouseoverTileAlt(17, 0);
-        DAT_011da7f0->kRepairList.PopulateInventoryList(DAT_011dea3c, FUN_007b7b40, 0, 0, 1, 0);
+        DAT_011da7f0->kRepairList.PopulateInventoryList(DAT_011dea3c, RepairServicesMenu_ShouldHideItem, 0, 0, 1, 0);
         DAT_011da7f0->kRepairList.FUN_007314c0(UpdateRepairMenuTile, -1, 0x7fffffff);
-        ((RepairListView*)&((RepairServicesMenu*)DAT_011da7f0)->kRepairList)->Sort(FUN_007b7c40);
+        ((RepairListView*)&((RepairServicesMenu*)DAT_011da7f0)->kRepairList)->Sort(RepairServicesMenu_Compare);
         if (((RepairPlayerView*)DAT_011dea3c)->FUN_00891d70() > *DAT_011d3a08.FUN_0043d4d0())
             FUN_00406d00(szText, 64, &DAT_01075f34, DAT_011d25b0.FUN_00403df0(), *DAT_011d3a08.FUN_0043d4d0());
         else

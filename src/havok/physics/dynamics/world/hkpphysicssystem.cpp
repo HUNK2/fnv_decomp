@@ -556,7 +556,7 @@ struct FUN_00cf30f0_Class
     void FUN_00cf30f0(const hkTransform* t);
 };
 
-void FUN_00d05df0(void* phantom, const hkTransform* t);
+void tranformPhantom(void* phantom, const hkTransform* t);
 
 // The original transform input is copied as four scalar words per column before the aligned SIMD copy.
 struct TransformColumnFields
@@ -592,7 +592,7 @@ void PhysicsSystemWrapper::ApplyMotionTransform(const hkTransform* a2)
     }
     for (int i = 0; i < m_kPhantoms.m_iElementCount; ++i)
     {
-        FUN_00d05df0(m_kPhantoms.m_data[i], a2);
+        tranformPhantom(m_kPhantoms.m_data[i], a2);
     }
 }
 

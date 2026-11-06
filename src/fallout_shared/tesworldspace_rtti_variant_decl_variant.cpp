@@ -13,7 +13,7 @@
 struct WorldSpaceCloneMethods : TESWorldSpace
 {
     TESForm* FUN_004867a0(bool, TESFile*);
-    void FUN_00588120();
+    void TESWorldSpace_AddPersistentReferences();
     TESWorldSpace* FUN_00584e60(bool temporary, TESFile* file);
 };
 // @fnv 0x00584e60
@@ -47,6 +47,6 @@ TESWorldSpace* WorldSpaceCloneMethods::FUN_00584e60(bool temporary, TESFile* fil
             copy->SetAltered(true);
         }
     }
-    static_cast<WorldSpaceCloneMethods*>(world)->FUN_00588120();
+    static_cast<WorldSpaceCloneMethods*>(world)->TESWorldSpace_AddPersistentReferences();
     return world;
 }

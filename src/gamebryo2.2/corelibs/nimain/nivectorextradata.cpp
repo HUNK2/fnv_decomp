@@ -10,7 +10,8 @@
 extern int g_011f5e84;
 
 // @fnv 0x00a92070
-int* __cdecl FUN_00a92070()
+// src: COMMUNITY 0x00a92070
+int* __cdecl NiVectorExtraData_GetRTTI()
 {
     return &g_011f5e84;
 }

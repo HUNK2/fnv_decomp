@@ -246,7 +246,7 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_012026c8;
 
-char* FUN_00a7d330(const char* pcText);
+char* NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 char* FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
 char* FUN_00a7d550(const char* pcPrefix, float fValue);
 
@@ -281,7 +281,7 @@ struct PlanarColliderViewerStrings
 void __fastcall GetPlanarColliderViewerStrings(NiPSysPlanarCollider* self, void*, PlanarColliderViewerStrings* pkStrings)
 {
     self->NiPSysCollider::GetViewerStrings(reinterpret_cast<NiViewerStringsArray*>(pkStrings));
-    pkStrings->Add(FUN_00a7d330(g_012026c8.m_pcName));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_012026c8.m_pcName));
     NiAVObject* pkObj = self->m_pkColliderObject;
     pkStrings->Add(FUN_00a7d5e0("Collider Object", pkObj ? pkObj->m_kName.m_kHandle : "None"));
     pkStrings->Add(FUN_00a7d550("Width", self->m_fOriginX));

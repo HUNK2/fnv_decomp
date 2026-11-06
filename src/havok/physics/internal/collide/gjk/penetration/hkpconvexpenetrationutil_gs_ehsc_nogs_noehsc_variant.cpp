@@ -259,7 +259,7 @@ struct Edges
 
 struct Result4 : hkVector4
 {
-    __declspec(noalias) void FUN_004b4ab0(const Edges* edges, const Tri* tri);
+    __declspec(noalias) void hkVector4_setRotatedInverseDir(const Edges* edges, const Tri* tri);
 };
 
 struct Shape
@@ -304,7 +304,7 @@ int Tester::FUN_00df9c90(Shape* shape, const Tri* tri, const hkVector4* pos, int
     *(__m128*)&edges.e1 = _mm_sub_ps(p, *(const __m128*)tri->m_p1);
     *(__m128*)&edges.e2 = _mm_sub_ps(p, *(const __m128*)tri->m_p2);
     Result4 bary;
-    bary.FUN_004b4ab0(&edges, tri);
+    bary.hkVector4_setRotatedInverseDir(&edges, tri);
     if (_mm_movemask_ps(_mm_cmplt_ps(*(__m128*)&bary, *(__m128*)&m_40)) & 7)
     {
         *result = 0;

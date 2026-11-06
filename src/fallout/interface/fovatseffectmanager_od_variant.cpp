@@ -16,38 +16,40 @@ void ApplyPerkModifiers(int entryPoint, Actor* actor, ...);
 struct Struct801420
 {
     int f0;
-    void FUN_00801420(unsigned char a, int b);
-    void FUN_00801450(unsigned char a, int b);
-    void FUN_00801880();
+    void FOVATSEffectManager_DrawTarget(unsigned char a, int b);
+    void FOVATSEffectManager_DrawSingleTarget(unsigned char a, int b);
+    void FOVATSEffectManager_DrawMultipleTargets();
 };
 // @fnv 0x00801420
-void Struct801420::FUN_00801420(unsigned char a, int b)
+// src: COMMUNITY 0x00801420
+void Struct801420::FOVATSEffectManager_DrawTarget(unsigned char a, int b)
 {
     if (f0 == 0)
-        FUN_00801450(a, b);
+        FOVATSEffectManager_DrawSingleTarget(a, b);
     else
-        FUN_00801880();
+        FOVATSEffectManager_DrawMultipleTargets();
 }
 
-extern "C" unsigned char __cdecl FUN_00709d00();
+extern "C" unsigned char __cdecl Interface_GetIsVATSRescanning();
 
 // Retained with this unit's FOVATSEffectManager stand-ins: the shared header lacks
 // FUN_00801420, FUN_00801450, FUN_00801880, FUN_00800f30 and OnIdle's helper methods.
 
 // @fnv 0x00801a60
-void FOVATSEffectManager::FUN_00801a60(int a, int b, int c, unsigned char d)
+// src: COMMUNITY 0x00801a60
+void FOVATSEffectManager::PrepareEffect(int a, int b, int c, unsigned char d)
 {
-    if (FUN_00709d00())
+    if (Interface_GetIsVATSRescanning())
         return;
     if (reinterpret_cast<unsigned char*>(this)[0x129])
     {
         if (reinterpret_cast<unsigned char*>(this)[0x2b4])
         {
-            FUN_00801ad0(a, b, c, d);
+            PrepareScanEffect(a, b, c, d);
         }
         else
         {
-            FUN_00801bb0(a, b, c, d);
+            FOVATSEffectManager_PrepareHighlightEffect(a, b, c, d);
         }
     }
 }
@@ -67,7 +69,8 @@ public:
 extern int DAT_012007fc;
 
 // @fnv 0x008019d0
-void FOVATSEffectManager::FUN_008019d0()
+// src: COMMUNITY 0x008019d0
+void FOVATSEffectManager::VATSEffect_ShutdownEffect()
 {
     ImageSpaceManager::FUN_004e3270()->FUN_004ebbc0(0x0A)->SetFormType(0);
     ImageSpaceManager::FUN_004e3270()->FUN_004ebbc0(0x0B)->SetFormType(0);
@@ -107,7 +110,7 @@ struct FilterHolder
 
 struct CellLike
 {
-    unsigned int FUN_009611e0();
+    unsigned int NiAVObject_GetParent();
 };
 
 struct TESLike
@@ -126,8 +129,8 @@ void* FUN_004b59f0(const void* p);
 void* FUN_004b5950(const void* p);
 RefLike* FUN_004b5a20(void* p);
 void FUN_00458620(NiPoint3* out, int v);
-void* FUN_004b5ad0(NiAVObject* p);
-void* FUN_004b5a80(const void* p);
+void* bhkUtilFunctions_IsbhkPCollisionObject(NiAVObject* p);
+void* bhkEntity_Getbhk(const void* p);
 
 // @fnv 0x004b5820
 unsigned int FUN_004b5820(FormLike* form)
@@ -149,22 +152,22 @@ unsigned int FUN_004b5820(FormLike* form)
                 NiPoint3 pos4;
                 FUN_00458620(&pos4, ((NodeLike*)node_)->FUN_004b4ec0());
                 CellLike* cellA = g_TES->FUN_00457620(&pos4);
-                if (cellA && cellA->FUN_009611e0())
+                if (cellA && cellA->NiAVObject_GetParent())
                 {
-                    result5 = cellA->FUN_009611e0();
+                    result5 = cellA->NiAVObject_GetParent();
                 }
             }
         }
         else
         {
-            RefLike* ref2 = (RefLike*)FUN_004b5ad0((NiAVObject*)objTmp);
+            RefLike* ref2 = (RefLike*)bhkUtilFunctions_IsbhkPCollisionObject((NiAVObject*)objTmp);
             if (ref2)
             {
                 result5 = ref2->GetFlags();
             }
             if (!result5)
             {
-                ExtraLike* extra5 = (ExtraLike*)FUN_004b5a80(objTmp);
+                ExtraLike* extra5 = (ExtraLike*)bhkEntity_Getbhk(objTmp);
                 if (extra5)
                 {
                     result5 = extra5->FUN_00c85c80(0);
@@ -474,18 +477,19 @@ struct VATSEffectStub
     int unk2c4;
     unsigned int unk2c8;
 
-    void FUN_00800370();
-    void FUN_008006b0();
-    void FUN_00800740(float t);
+    void FOVATSEffectManager_OnIdle();
+    void FOVATSEffectManager_TriggerDistort();
+    void FOVATSEffectManager_UpdateBurst(float t);
     void SetScaledValues(float t);
-    void FUN_00800820(float t);
+    void FOVATSEffectManager_UpdateTargetPulse(float t);
     void UpdateProgress(float t);
-    void FUN_00800900(float t);
+    void FOVATSEffectManager_UpdateScan(float t);
     void FUN_00800ac0(int a, int b, int c);
 };
 
 // @fnv 0x00800370
-void VATSEffectStub::FUN_00800370()
+// src: COMMUNITY 0x00800370
+void VATSEffectStub::FOVATSEffectManager_OnIdle()
 {
     if (!node)
     {
@@ -496,7 +500,7 @@ void VATSEffectStub::FUN_00800370()
     float time = (float)g_timeGlobal.FUN_00825c00();
     if (unk2b4)
     {
-        FUN_00800900(time);
+        FOVATSEffectManager_UpdateScan(time);
     }
     else
     {
@@ -506,17 +510,17 @@ void VATSEffectStub::FUN_00800370()
         }
         else if (time > unk294)
         {
-            FUN_008006b0();
+            FOVATSEffectManager_TriggerDistort();
         }
         SetScaledValues(time);
         if (state == 1 && unk10 != -1)
         {
-            FUN_00800820(time);
+            FOVATSEffectManager_UpdateTargetPulse(time);
         }
     }
     if (unk298)
     {
-        FUN_00800740(time);
+        FOVATSEffectManager_UpdateBurst(time);
     }
     if (target && target->v22c(0))
     {
@@ -599,11 +603,12 @@ struct S801880
     int unk2C4;
     int unk2C8;
     Str8 name;
-    void FUN_00801880();
+    void FOVATSEffectManager_DrawMultipleTargets();
 };
 
 // @fnv 0x00801880
-void S801880::FUN_00801880()
+// src: COMMUNITY 0x00801880
+void S801880::FOVATSEffectManager_DrawMultipleTargets()
 {
     if (this->count > 0)
     {
@@ -668,7 +673,7 @@ struct Obj0664_00801ad0
 // 0x004bc320 selects a rendered texture (also bound by imagespacetexture and watershader), not an Actor method.
 struct RenderedTextureSource
 {
-    void* FUN_004bc320(int a);
+    void* BSRenderedTexture_GetTexture(int a);
 };
 
 extern Holder_00801ad0 DAT_011db7b4;
@@ -686,7 +691,8 @@ extern float DAT_011ae618;
 Obj719_00801ad0* __stdcall FUN_00718b60(int, Vec4Tmp_00801ad0*);
 
 // @fnv 0x00801ad0
-void FOVATSEffectManager::FUN_00801ad0(int a0, int a1, int a2, unsigned char a3)
+// src: COMMUNITY 0x00801ad0
+void FOVATSEffectManager::PrepareScanEffect(int a0, int a1, int a2, unsigned char a3)
 {
     Vec4Tmp_00801ad0 tmp;
     tmp.FUN_00414430(0.0f, 0.0f, 0.0f, 0.0f);
@@ -699,7 +705,7 @@ void FOVATSEffectManager::FUN_00801ad0(int a0, int a1, int a2, unsigned char a3)
     DAT_01201f38 = tmp.d2;
     DAT_01201f3c = tmp.d3;
     ((Obj6e5_00801ad0*)&DAT_01201f40)->FUN_006e5cc0((char*)this + 0x2c4);
-    ((Obj0664_00801ad0*)&DAT_01201f44)->FUN_0066b0d0(((RenderedTextureSource*)a1)->FUN_004bc320(0));
+    ((Obj0664_00801ad0*)&DAT_01201f44)->FUN_0066b0d0(((RenderedTextureSource*)a1)->BSRenderedTexture_GetTexture(0));
     ImageSpaceManager::FUN_004e3270()->FUN_004ebbc0(0xb)->SetFormType(1);
 }
 
@@ -1039,8 +1045,8 @@ struct FUN_004a4410
 {
     int handle;
     ~FUN_004a4410();
-    void FUN_00c4ed70();
-    void FUN_00c4edb0();
+    void BSOcclusionQuery_Begin();
+    void BSOcclusionQuery_End();
 };
 struct FUN_00c4ecf0
 {
@@ -1062,19 +1068,20 @@ struct RenderTexture
 };
 extern unsigned char DAT_01200bf6, DAT_011fd86c;
 extern Actor* DAT_011dea3c;
-bool FUN_004e9510();
-void FUN_00b6b8d0(int, void*);
+bool BSRenderedTexture_IsOutsideFrame();
+void BSRenderedTexture_StartOffscreen(int, void*);
 void FUN_00b6b790();
 void FUN_00b4f450(int);
-void FUN_005b5e40(const char*);
+void Warning_005b5e40(const char*);
 struct VATSRender : VATSEffectStub
 {
     AccumulatorPtr accumulator;
-    void FUN_00801420(unsigned char, int);
-    void FUN_00800f30(RenderTexture*, int, unsigned char, int, int, unsigned char);
+    void FOVATSEffectManager_DrawTarget(unsigned char, int);
+    void FOVATSEffectManager_DrawTargetToTexture(RenderTexture*, int, unsigned char, int, int, unsigned char);
 };
 // @fnv 0x00800f30
-void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char draw, int flags, int view,
+// src: COMMUNITY 0x00800f30
+void VATSRender::FOVATSEffectManager_DrawTargetToTexture(RenderTexture* texture, int mode, unsigned char draw, int flags, int view,
                               unsigned char finish)
 {
     if (((RenderActor*)target)->IsHidden(0))
@@ -1083,8 +1090,8 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
     FUN_00414430 enabled(0.0f, 0.0f, 0.0f, 0.0f);
     restore->GetColor(&enabled);
     restore->SetColor(&FUN_00414430(0.0f, 0.0f, 0.0f, 0.0f));
-    if (FUN_004e9510())
-        FUN_00b6b8d0(view, texture->FUN_00b6b260());
+    if (BSRenderedTexture_IsOutsideFrame())
+        BSRenderedTexture_StartOffscreen(view, texture->FUN_00b6b260());
     DAT_01200bf6 = 1;
     DAT_011fd86c = 1;
     unsigned char refraction;
@@ -1114,7 +1121,7 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
                 delete (FUN_004a4410*)queriesB[unk23c];
             queriesB[unk23c] = (VQueryObj*)new FUN_00c4ecf0;
             refraction = 1;
-            ((FUN_004a4410*)queriesB[unk23c])->FUN_00c4ed70();
+            ((FUN_004a4410*)queriesB[unk23c])->BSOcclusionQuery_Begin();
         }
         else if (mode == 1)
         {
@@ -1122,12 +1129,12 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
                 delete (FUN_004a4410*)queriesA[unk23c];
             queriesA[unk23c] = (VQueryObj*)new FUN_00c4ecf0;
             refraction = 1;
-            ((FUN_004a4410*)queriesA[unk23c])->FUN_00c4ed70();
+            ((FUN_004a4410*)queriesA[unk23c])->BSOcclusionQuery_Begin();
         }
     }
     accumulator.FUN_00559450()->FUN_004a1040(8);
     FUN_00b4f450(8);
-    FUN_00801420(draw, flags);
+    FOVATSEffectManager_DrawTarget(draw, flags);
     FUN_00b4f450(0);
     accumulator.FUN_00559450()->FUN_004a1040(0);
     if (refraction)
@@ -1136,18 +1143,18 @@ void VATSRender::FUN_00800f30(RenderTexture* texture, int mode, unsigned char dr
         {
             if (queriesB[unk23c])
             {
-                ((FUN_004a4410*)queriesB[unk23c])->FUN_00c4edb0();
+                ((FUN_004a4410*)queriesB[unk23c])->BSOcclusionQuery_End();
                 pending[unk23c] = 1;
             }
             else
-                FUN_005b5e40("pPartialLimbQuery is NULL even though we just issued one.  This should be impossible.");
+                Warning_005b5e40("pPartialLimbQuery is NULL even though we just issued one.  This should be impossible.");
         }
         else if (mode == 1)
         {
             if (queriesA[unk23c])
-                ((FUN_004a4410*)queriesA[unk23c])->FUN_00c4edb0();
+                ((FUN_004a4410*)queriesA[unk23c])->BSOcclusionQuery_End();
             else
-                FUN_005b5e40("pEntireLimbQuery is NULL even though we just issued one.  This should be impossible.");
+                Warning_005b5e40("pEntireLimbQuery is NULL even though we just issued one.  This should be impossible.");
         }
     }
     if (finish)
@@ -1359,17 +1366,18 @@ struct EffectModeSetup
     int unk2bc;
     float value2c0;
     int unk2c4;
-    void FUN_00801bb0(int, RenderedTextureSource*, int, unsigned char);
+    void FOVATSEffectManager_PrepareHighlightEffect(int, RenderedTextureSource*, int, unsigned char);
 };
 // @fnv 0x00801bb0
-void EffectModeSetup::FUN_00801bb0(int unused, RenderedTextureSource* actor, int unused2, unsigned char flag)
+// src: COMMUNITY 0x00801bb0
+void EffectModeSetup::FOVATSEffectManager_PrepareHighlightEffect(int unused, RenderedTextureSource* actor, int unused2, unsigned char flag)
 {
     Vec4Tmp_00801ad0 vector;
     vector.FUN_00414430(0.0f, 0.0f, 0.0f, 0.0f);
     FUN_00718b60(1, &vector)->FUN_00719060();
     DAT_012007fc = 1;
     ImageSpaceManager::FUN_004e3270()->FUN_004ebbc0(10)->SetFormType(1);
-    DAT_01200818.FUN_0066b0d0(actor->FUN_004bc320(0));
+    DAT_01200818.FUN_0066b0d0(actor->BSRenderedTexture_GetTexture(0));
     if (enabled)
     {
         DAT_012007f0 = *DAT_011db6e4.FUN_00403e20();
@@ -1405,7 +1413,7 @@ struct Obj9
 {
     bool FUN_00456610();
     void FUN_00450f90(int);
-    int FUN_007fa950();
+    int SkyObject_GetNiNode();
 };
 struct Mid9
 {
@@ -1804,7 +1812,7 @@ struct Svc9
 };
 struct X10
 {
-    void FUN_004a0fd0(int);
+    void BSCullingProcess_SetAccumulator(int);
     void FUN_004fb0b0(int);
 };
 struct Sub9
@@ -1999,14 +2007,15 @@ struct This9
     int unk2c8;
     Sub9 sub2cc;
     void UpdateEquipmentVisibility();
-    void FUN_008022c0();
+    void FOVATSEffectManager_RestoreBodyParts();
 };
 P2Obj* __cdecl FUN_0045c670();
-void __cdecl FUN_00b6bee0(Svc9*, void*, X10*);
+void __cdecl BSShaderUtil_AccumulateScene(Svc9*, void*, X10*);
 void __cdecl FUN_00b6c0d0(Svc9*, int, int);
 
 // @fnv 0x00801450
-void Struct801420::FUN_00801450(unsigned char a, int b)
+// src: COMMUNITY 0x00801450
+void Struct801420::FOVATSEffectManager_DrawSingleTarget(unsigned char a, int b)
 {
     if (((This9*)this)->actor)
     {
@@ -2016,7 +2025,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
         P2Obj* q23 = FUN_0045c670();
         Actor9* actor_ = ((This9*)this)->actor;
         X10* x102 = q23->FUN_008d80e0();
-        x102->FUN_004a0fd0(((This9*)this)->sub2cc.FUN_00559450());
+        x102->BSCullingProcess_SetAccumulator(((This9*)this)->sub2cc.FUN_00559450());
         x102->FUN_004fb0b0(1);
         Svc9* svcX = q23->FUN_006629f0();
         Mgr9* mgr2X = 0;
@@ -2032,7 +2041,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                 if (!(((This9*)this)->b2b4) || a)
                 {
                     if (o1z && mgr2X)
-                        FUN_00b6bee0(svcX, o1z, x102);
+                        BSShaderUtil_AccumulateScene(svcX, o1z, x102);
                 }
             }
         }
@@ -2044,7 +2053,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                 flag_ = !o1z->FUN_00456610();
                 o1z->FUN_00450f90(1);
             }
-            FUN_00b6bee0(svcX, (void*)((This9*)this)->sub08.FUN_00559450(), x102);
+            BSShaderUtil_AccumulateScene(svcX, (void*)((This9*)this)->sub08.FUN_00559450(), x102);
             if (((This9*)this)->actor->vt100())
             {
                 Actor9* formA = ((This9*)this)->actor;
@@ -2053,9 +2062,9 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                 void* res3cA;
                 if (rAX)
                 {
-                    res3cA = formA->vt1d0()->vt9c((int)&PtrObj9(rAX->FUN_007fa950()));
+                    res3cA = formA->vt1d0()->vt9c((int)&PtrObj9(rAX->SkyObject_GetNiNode()));
                     if (res3cA)
-                        FUN_00b6bee0(svcX, res3cA, x102);
+                        BSShaderUtil_AccumulateScene(svcX, res3cA, x102);
                 }
                 if (((This9*)this)->f240 > 0)
                 {
@@ -2066,9 +2075,9 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                         void* res4c_;
                         if (ares44C)
                         {
-                            res4c_ = formA->vt1d0()->vt9c((int)&PtrObj9(ares44C->FUN_007fa950()));
+                            res4c_ = formA->vt1d0()->vt9c((int)&PtrObj9(ares44C->SkyObject_GetNiNode()));
                             if (res4c_)
-                                FUN_00b6bee0(svcX, res4c_, x102);
+                                BSShaderUtil_AccumulateScene(svcX, res4c_, x102);
                         }
                     }
                 }
@@ -2077,10 +2086,10 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
                 o1z->FUN_00450f90(0);
         }
         FUN_00b6c0d0(svcX, ((This9*)this)->sub2cc.FUN_00559450(), 0);
-        x102->FUN_004a0fd0(0);
+        x102->BSCullingProcess_SetAccumulator(0);
         x102->FUN_004fb0b0(0);
         if ((((This9*)this)->b129 && !(((This9*)this)->b2b4) || a) && b != 1)
-            ((This9*)this)->FUN_008022c0();
+            ((This9*)this)->FOVATSEffectManager_RestoreBodyParts();
         (void)ptr12;
     }
 }

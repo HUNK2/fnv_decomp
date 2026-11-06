@@ -30,7 +30,7 @@ void __cdecl operator delete(void*);
 void __cdecl ResolveFormID(unsigned*, File*);
 TESForm* __cdecl FUN_004839c0(unsigned);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 struct List
 {
     int pad[3];
@@ -61,14 +61,14 @@ void List::FUN_00405760(File* file, const char* name)
                 FUN_00405d20(actorValue);
             else
             {
-                FUN_005b5e40(&DAT_010125c0, static_cast<const char*>(effect->GetEffectName()), name == 0 ? &DAT_010120d8 : name);
+                Warning_005b5e40(&DAT_010125c0, static_cast<const char*>(effect->GetEffectName()), name == 0 ? &DAT_010120d8 : name);
                 delete actorValue;
                 actorValue = 0;
             }
             *(Item**)&DAT_011c33d4 = actorValue;
         }
         else
-            FUN_005b5e40(&DAT_01012578, id, name == 0 ? &DAT_010120d8 : name);
+            Warning_005b5e40(&DAT_01012578, id, name == 0 ? &DAT_010120d8 : name);
         break;
     case 0x41445443:
         if (*(Item**)&DAT_011c33d4)
@@ -78,7 +78,7 @@ void List::FUN_00405760(File* file, const char* name)
                 count++;
         }
         else
-            FUN_005b5e40(&DAT_01012520, name == 0 ? &DAT_010120d8 : name);
+            Warning_005b5e40(&DAT_01012520, name == 0 ? &DAT_010120d8 : name);
         break;
     }
 }

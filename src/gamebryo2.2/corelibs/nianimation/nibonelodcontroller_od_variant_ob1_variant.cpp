@@ -26,7 +26,7 @@ struct GlobalObjectO2_00a7b610
 {
 };
 extern GlobalObjectO2_00a7b610 g_011f405c;
-GlobalObjectO2_00a7b610* __cdecl FUN_00a55120();
+GlobalObjectO2_00a7b610* __cdecl NiBoneLODController_GetRTTI();
 struct Unknown_00c536a0
 {
     bool FUN_00a6d0f0(int);
@@ -35,7 +35,7 @@ struct Unknown_00c536a0
 extern GlobalObjectO2_00a7b610 g_012031b8;
 struct FUN_00c53e00_shell
 {
-    GlobalObjectO2_00a7b610* __thiscall FUN_00c53e00();
+    GlobalObjectO2_00a7b610* __thiscall NiBSBoneLODController_GetRTTI();
 };
 class CloningProcess
 {
@@ -291,7 +291,7 @@ struct ArrW
     static void* operator new(unsigned int n)
     {
         int aiD[2];
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
     ArrW(unsigned int uiMax = 0)
     {

@@ -87,7 +87,8 @@ TESForm* __cdecl FUN_004839c0(unsigned int);
 // 0x0098e990 fixes up a combat group's saved actors; the shared group header has no declaration yet.
 extern "C" void ActorCombatGroup_UpdateElements();
 // @fnv 0x00993600
-void CombatManager::FUN_00993600(void* stream)
+// src: COMMUNITY 0x00993600
+void CombatManager::InitLoadGame_00993600(void* stream)
 {
     NiTMap<Actor*, unsigned __int64>* oldMapX = m_pActorCombatGroupMap;
     m_pActorCombatGroupMap = new NiTMap<Actor*, unsigned __int64>(0x25);

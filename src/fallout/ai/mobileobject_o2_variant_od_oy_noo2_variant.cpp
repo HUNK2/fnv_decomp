@@ -62,7 +62,7 @@ struct bhkRigidBody_shell
 {
     int FUN_00517630();
     void* FUN_00560d80();
-    void FUN_00561690(void*);
+    void bhkRigidBody_SetLinearVelocity_00561690(void*);
 };
 bhkCollisionObject* __cdecl FUN_0043b610(NiAVObject*);
 bool __cdecl FUN_00c8cce0(int*);
@@ -81,7 +81,8 @@ struct Vec3Arg
 };
 
 // @fnv 0x0062b930
-void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
+// src: COMMUNITY 0x0062b930
+void __cdecl TESHavokUtilities_AddVelocity_0(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
 {
     if (apObject)
     {
@@ -100,7 +101,7 @@ void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
                     {
                         l.FUN_00553f70(e->FUN_00560d80());
                     }
-                    e->FUN_00561690(&l);
+                    e->bhkRigidBody_SetLinearVelocity_00561690(&l);
                 }
             }
         }
@@ -110,7 +111,7 @@ void __cdecl FUN_0062b930(NiAVObject* apObject, Vec3Arg* apVec, bool abFlag)
             for (unsigned int ba = 0; ba < k->FUN_0043b480(); ba++)
             {
                 NiAVObject* b = k->FUN_0043b4a0(ba);
-                FUN_0062b930(b, apVec, abFlag);
+                TESHavokUtilities_AddVelocity_0(b, apVec, abFlag);
             }
         }
     }
@@ -127,7 +128,7 @@ struct xDH;
 struct xCinfoSub
 {
     void FUN_0056e120();
-    void FUN_009ae4a0(xDH*);
+    void bhkTransform_NI2HK(xDH*);
     int m_q[12];
 };
 struct __declspec(align(16)) xCinfo
@@ -338,11 +339,12 @@ struct xRef
     xPtr m_a0;
     xCell* FUN_008d6f30();
     float FUN_00644930();
-    void FUN_009ae280();
+    void Explosion_InitHavok();
 };
 
 // @fnv 0x009ae280
-void xRef::FUN_009ae280()
+// src: COMMUNITY 0x009ae280
+void xRef::Explosion_InitHavok()
 {
     if (m_a0 == 0 && FUN_008d6f30() && xFUN_004543c0(FUN_008d6f30()))
     {
@@ -351,7 +353,7 @@ void xRef::FUN_009ae280()
         CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);
         CINFO.m_uiFilterInfo = xFilter(0x29, xFUN_005dbe10(), 0).FUN_00559450();
         if (FUN_1d0())
-            CINFO.m_20.FUN_009ae4a0(FUN_1d0()->FUN_00461130());
+            CINFO.m_20.bhkTransform_NI2HK(FUN_1d0()->FUN_00461130());
         else
             CINFO.m_20.FUN_0056e120();
         m_a0.FUN_0066b0d0(new xBody(&CINFO));
@@ -1483,7 +1485,7 @@ class ProjectilePhysicsReference
     bool IsFlagSet(int iFlag);
     Base9BE* GetBaseObject();
     Target9BE* GetOwner();
-    void FUN_009be0a0();
+    void Projectile_InitHavok();
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -1556,7 +1558,7 @@ extern const float g_fMaxValue9BE;
 
 bhkCollisionObject* __cdecl FUN_004a8b00(NiAVObject* pkNode);
 bhkCollisionObject* __cdecl FUN_004b5260(NiAVObject* pkNode);
-WorldObject9BE* __cdecl FUN_004b5a80(Entity9BE* pkEntity);
+WorldObject9BE* __cdecl bhkEntity_Getbhk(Entity9BE* pkEntity);
 bool __cdecl FUN_00525420();
 float __cdecl FUN_00716440();
 void __cdecl NiMatrix3_TransformVertices(const Matrix9BE& kRot, const NiPoint3& kIn, int iFlag, NiPoint3& kA, NiPoint3& kB);
@@ -1571,7 +1573,8 @@ void __cdecl FUN_00c69ee0(NiAVObject* pkNode, int iA, int iB);
 void __cdecl FUN_00c69f50(NiAVObject* pkNode, int iA, int iB);
 
 // @fnv 0x009be0a0
-void ProjectilePhysicsReference::FUN_009be0a0()
+// src: COMMUNITY 0x009be0a0
+void ProjectilePhysicsReference::Projectile_InitHavok()
 {
     NiAVObject* pkNode = Get3D();
     if (!pkNode || !m_pkProcess || m_pkProcess->IsDead())
@@ -1620,7 +1623,7 @@ void ProjectilePhysicsReference::FUN_009be0a0()
             pkWorld->HandleNode(pkNode, 1, 1, 0, 0);
             if (pkCollision)
             {
-                pkWorldObject = FUN_004b5a80(((WorldObject9BE*)pkCollision->FUN_006fa820())->GetEntity());
+                pkWorldObject = bhkEntity_Getbhk(((WorldObject9BE*)pkCollision->FUN_006fa820())->GetEntity());
             }
             else if (pkNode->IsFadeNode())
             {
@@ -1633,7 +1636,7 @@ void ProjectilePhysicsReference::FUN_009be0a0()
                         pkCollision = FUN_004a8b00(pkChild);
                         if (pkCollision)
                         {
-                            pkWorldObject = FUN_004b5a80(((WorldObject9BE*)pkCollision->FUN_006fa820())->GetEntity());
+                            pkWorldObject = bhkEntity_Getbhk(((WorldObject9BE*)pkCollision->FUN_006fa820())->GetEntity());
                             break;
                         }
                     }

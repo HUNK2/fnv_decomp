@@ -347,7 +347,8 @@ bool BGSCameraPath::IsFlag80Set()
 
 // Returns true when neither bit 0 nor bit 1 of cFlags is set, otherwise false.
 // @fnv 0x0058b4a0
-bool BGSCameraPath::FUN_0058b4a0()
+// src: COMMUNITY 0x0058b4a0
+bool BGSCameraPath::GetZoomDefault()
 {
     if (data.cFlags & 1 || data.cFlags & 2)
         return false;
@@ -355,7 +356,8 @@ bool BGSCameraPath::FUN_0058b4a0()
 }
 
 // @fnv 0x0058b4d0
-bool BGSCameraPath::FUN_0058b4d0()
+// src: COMMUNITY 0x0058b4d0
+bool BGSCameraPath::GetZoomDisable()
 {
     if (data.cFlags & 1)
         return true;
@@ -623,7 +625,8 @@ struct CameraFlag
 };
 
 // @fnv 0x0058b510
-BGSCameraPath* BGSCameraPath::FUN_0058b510(unsigned int context, unsigned int flags)
+// src: COMMUNITY 0x0058b510
+BGSCameraPath* BGSCameraPath::GetCameraPathToPlay(unsigned int context, unsigned int flags)
 {
     BGSCameraPath* result = 0;
     if (!FUN_00440d80())
@@ -642,7 +645,7 @@ BGSCameraPath* BGSCameraPath::FUN_0058b510(unsigned int context, unsigned int fl
                 {
                     BGSCameraPath* child = GetCameraPathAt(i);
                     if (child != 0)
-                        descendant = child->FUN_0058b510(context, flags);
+                        descendant = child->GetCameraPathToPlay(context, flags);
                     if (descendant != 0)
                         break;
                 }

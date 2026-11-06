@@ -43,12 +43,12 @@ struct NiCombatArray
 };
 extern GlobalObjectO2_00a7b610* g_011f4a48;
 void __stdcall FUN_00a80e70(NiCombatArray*);
-ActorCombatGroup* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610*);
+ActorCombatGroup* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObjectO2_00a7b610*);
 // @fnv 0x00a74830
 void __stdcall FUN_00a74830(NiCombatArray* pkStrings)
 {
     FUN_00a80e70(pkStrings);
-    ActorCombatGroup* pkGroup = FUN_00a7d330(g_011f4a48);
+    ActorCombatGroup* pkGroup = NiViewerStrings_NiGetViewerString_Title(g_011f4a48);
     unsigned int uiIndex = pkStrings->m_usESize;
     if (uiIndex >= pkStrings->m_usMaxSize)
         pkStrings->SetSize(uiIndex + pkStrings->m_usGrowBy);
@@ -56,7 +56,8 @@ void __stdcall FUN_00a74830(NiCombatArray* pkStrings)
 }
 
 // @fnv 0x00e68810
-NiLines* __fastcall FUN_00e68810(NiLines* self, int)
+// src: COMMUNITY 0x00e68810
+NiLines* __fastcall ReturnThis2(NiLines* self, int)
 {
     return self;
 }

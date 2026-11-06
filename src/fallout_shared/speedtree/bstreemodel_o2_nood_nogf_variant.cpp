@@ -30,7 +30,7 @@ struct GlobalObject_0044f440
     }* Float();
 };
 extern GlobalObject_0044f440 g_011d5d14;
-float FUN_00666f20();
+float SpeedTree_fTreeForceCS_Get();
 struct FUN_006684d0_shell
 {
     void FUN_006684d0(int param1, unsigned short param2);
@@ -71,14 +71,14 @@ struct FUN_0066a630_shell
     void ConvertFloatToUInt();
 };
 GlobalObject_0044f440 g_011d5c80;
-float FUN_00666fa0();
+float SpeedTree_fTreeForceMaxBudAngle_Get();
 struct S_00666910
 {
     void FUN_00b03b30();
     void* FUN_00666910(unsigned int);
 };
 void _Deallocate(void*);
-NiAlphaProperty* FUN_006698f0();
+NiAlphaProperty* BSTreeModel_CreateAlphaProperty();
 struct RefBase
 {
     virtual ~RefBase();
@@ -214,7 +214,7 @@ struct TreeModelX
 struct ModelHolder_b5531
 {
     void FUN_00633c90(unsigned int flags);
-    void FUN_006694e0();
+    void NiPointer_Empty();
 };
 struct GlobalObject_0044fae0
 {
@@ -403,9 +403,9 @@ struct Property
     virtual Shader* CreateShader(Geometry*);
     void FUN_004393c0(int);
     void FUN_00baa000();
-    void FUN_00b66ad0(const char*, Object*);
+    void BSShaderPPLightingProperty_LoadTextureSet(const char*, Object*);
 };
-Property* FUN_006698f0();
+Property* BSTreeModel_CreateAlphaProperty();
 void* FUN_00b55560(int);
 struct Geometry
 {
@@ -463,7 +463,7 @@ struct Geometry
     Geometry(GeometryData*);
     void FUN_00439410(Property*);
     ShaderState* FUN_005495f0();
-    void FUN_00539ef0(Shader*);
+    void NiGeometry_SetAdditionalGeometryData(Shader*);
     void FUN_00874460(void*);
 };
 struct Leaves : Geometry
@@ -734,7 +734,7 @@ Tree* Model::CreateTree(float scale)
             if (!branches[i].FUN_00559450())
                 continue;
             geometryX = new Geometry(branches[i].FUN_00559450());
-            alpha = FUN_006698f0();
+            alpha = BSTreeModel_CreateAlphaProperty();
             if (alpha)
             {
                 alpha->FUN_004393c0(0);
@@ -747,7 +747,7 @@ Tree* Model::CreateTree(float scale)
                 if (!geometryX->FUN_005495f0()->FUN_004a8a90())
                 {
                     Shader* created = branchProperties[i].FUN_00559450()->CreateShader(geometryX);
-                    geometryX->FUN_00539ef0(created);
+                    geometryX->NiGeometry_SetAdditionalGeometryData(created);
                 }
             }
             if (FUN_00666f00())
@@ -761,9 +761,9 @@ Tree* Model::CreateTree(float scale)
                 geometryX = tree5->GetBranch(i);
                 if (!geometryX)
                     continue;
-                branchProperties[i].FUN_00559450()->FUN_00b66ad0(DAT_01066830, extra.FUN_00559450());
+                branchProperties[i].FUN_00559450()->BSShaderPPLightingProperty_LoadTextureSet(DAT_01066830, extra.FUN_00559450());
                 FUN_00b57e30(geometryX, 0, 0);
-                geometryX->FUN_00539ef0(branchProperties[i].FUN_00559450()->CreateShader(geometryX));
+                geometryX->NiGeometry_SetAdditionalGeometryData(branchProperties[i].FUN_00559450()->CreateShader(geometryX));
                 if (!geometryX->FUN_005495f0()->FUN_005f36f0())
                     FUN_0043c4b0()->Prepare(geometryX, 0, 0, 0);
             }
@@ -778,7 +778,7 @@ Tree* Model::CreateTree(float scale)
             if (!leaves[i].FUN_00559450())
                 continue;
             geometryX = new Leaves(leaves[i].FUN_00559450());
-            alpha = FUN_006698f0();
+            alpha = BSTreeModel_CreateAlphaProperty();
             if (alpha)
                 geometryX->FUN_00439410(alpha);
             if (leafProperties[i].FUN_00559450())

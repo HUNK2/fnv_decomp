@@ -154,7 +154,8 @@ class D6A140Object : public D6A140ReferencedObject, public D6A140Interface
 
 // Allocates a D6A140Object with the given info and returns it as a D6A140Interface pointer.
 // @fnv 0x00d6a140
-D6A140Interface* __cdecl FUN_00d6a140(const void* info)
+// src: COMMUNITY 0x00d6a140
+D6A140Interface* __cdecl hkpRigidBodyCentreOfMassViewer_Create(const void* info)
 {
     return new D6A140Object(info);
 }
@@ -394,12 +395,12 @@ class RegistryOwner
 extern RegistryOwner* DAT_01269cd0;
 extern void* DAT_01269020;
 
-extern void FUN_00d6a140();
+extern void hkpRigidBodyCentreOfMassViewer_Create();
 
 // @fnv 0x00d6a180
 void RegisterCenterOfMass()
 {
-    DAT_01269020 = DAT_01269cd0->Register("Center of Mass", FUN_00d6a140);
+    DAT_01269020 = DAT_01269cd0->Register("Center of Mass", hkpRigidBodyCentreOfMassViewer_Create);
 }
 
 struct DwordList

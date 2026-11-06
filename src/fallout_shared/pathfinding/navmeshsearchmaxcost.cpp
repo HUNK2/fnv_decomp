@@ -67,11 +67,12 @@ struct FUN_006abcb0_shell
 {
     char _pad[16];
     ScrapHeapBuffer* heap;
-    void* __thiscall FUN_006abcb0(unsigned int);
+    void* __thiscall BSScrapArray_NavMeshSearchNode_1024_Allocate(unsigned int);
 };
 // Allocates n blocks of 0x14 bytes from the heap and returns the pointer.
 // @fnv 0x006abcb0
-void* __thiscall FUN_006abcb0_shell::FUN_006abcb0(unsigned int auiCount)
+// src: COMMUNITY 0x006abcb0
+void* __thiscall FUN_006abcb0_shell::BSScrapArray_NavMeshSearchNode_1024_Allocate(unsigned int auiCount)
 {
     void* tmp;
     tmp = heap->Allocate(auiCount * 0x14, DAT_010a2720);
@@ -95,11 +96,12 @@ struct FUN_006abce0_shell
 {
     char _pad[0x10];
     ScrapHeapBuffer* heap;
-    void* __thiscall FUN_006abce0(void*, unsigned int);
+    void* __thiscall BSScrapArray_NavMeshSearchNode_1024_Reallocate(void*, unsigned int);
 };
 // Allocates count*0x14 bytes, copies GetFlags()*0x14 bytes from src into it, frees src, and returns the new buffer.
 // @fnv 0x006abce0
-void* __thiscall FUN_006abce0_shell::FUN_006abce0(void* pSource, unsigned int count)
+// src: COMMUNITY 0x006abce0
+void* __thiscall FUN_006abce0_shell::BSScrapArray_NavMeshSearchNode_1024_Reallocate(void* pSource, unsigned int count)
 {
     void* dst = heap->Allocate(count * 0x14, DAT_010a2720);
     __memcpy(dst, pSource, ((NavmeshsearchmaxcostOffset08View*)this)->GetFlags() * 0x14);
@@ -234,14 +236,14 @@ struct FUN_006abd40 : NavMeshSearchGraphBase
     void* m_10;
 
     FUN_006abd40();
-    void FUN_006b3f40(unsigned int a, unsigned int b);
+    void BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(unsigned int a, unsigned int b);
 };
 
 // @fnv 0x006abd40
 FUN_006abd40::FUN_006abd40()
 {
     m_10 = ((NavMeshSearchHeapObj*)FUN_00401020())->FUN_00aa42e0();
-    FUN_006b3f40(0, 0);
+    BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(0, 0);
 }
 }  // namespace fnv_006abd40
 
@@ -250,8 +252,8 @@ struct NavMeshSearchLocation
     NavMesh* m_pLocationNavMesh;
     unsigned short m_usTriangleID;
     NiPoint3 kPosition;
-    NiPoint3* FUN_006a6eb0(NiPoint3* apResult);
-    NiPoint3 FUN_006a6eb0();
+    NiPoint3* FastNavMeshTriLocation_GetLocation(NiPoint3* apResult);
+    NiPoint3 FastNavMeshTriLocation_GetLocation();
 };
 // @fnv 0x006ab4a0
 bool NavMeshSearchMaxCost::StartSearch(int aiSearchType, NavMeshSearchLocation* apStart, PathingLocation* apGoal,
@@ -282,7 +284,7 @@ bool NavMeshSearchMaxCost::StartSearch(int aiSearchType, NavMeshSearchLocation* 
         float kStartPos[3];
         float kTmpGoalPos[3];
         FUN_006a7c90(FUN_006a94f0(apStart->m_pLocationNavMesh, apStart->m_usTriangleID), apStart,
-                     (*(*(NavMeshSearchLocation*)&unk205c).FUN_006a6eb0((NiPoint3*)kStartPos) - *(*(NavMeshSearchLocation*)&unk2070).FUN_006a6eb0((NiPoint3*)kTmpGoalPos)).Length());
+                     (*(*(NavMeshSearchLocation*)&unk205c).FastNavMeshTriLocation_GetLocation((NiPoint3*)kStartPos) - *(*(NavMeshSearchLocation*)&unk2070).FastNavMeshTriLocation_GetLocation((NiPoint3*)kTmpGoalPos)).Length());
     }
     bool bFoundPath = FUN_006a7d60(apInfos, apAltInfos, false);
     return bFoundPath;
@@ -406,7 +408,7 @@ bool NavMeshSearchMaxCost::ExpandNeighborNodes(NavMeshTriangleReference* source,
             if (edge && edge->type == 1)
                 continue;
             NiPoint3 center = mesh->FUN_00558220(triangle);
-            float cost = (center - reinterpret_cast<NavMeshAStarNode*>(source)->location.FUN_006a6eb0()).FUN_00589850() + reinterpret_cast<NavMeshAStarNode*>(source)->cost;
+            float cost = (center - reinterpret_cast<NavMeshAStarNode*>(source)->location.FastNavMeshTriLocation_GetLocation()).FUN_00589850() + reinterpret_cast<NavMeshAStarNode*>(source)->cost;
             if (cost > maxCost)
                 continue;
             if (((fnv_006ab8e0::NavMeshTriangleView*)mesh->FUN_005582f0(triangle))->FUN_00691140(0x1000))

@@ -242,7 +242,7 @@ struct FUN_00a62a40_this
     void AppendString(StrArr*);
 };
 extern char* DAT_011f4a0c;
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d370(const char*, bool);
 char* __cdecl FUN_00a7d510(const char*, unsigned int);
 char* __cdecl FUN_00a6f0b0(const char*, int);
@@ -252,7 +252,7 @@ char* __cdecl FUN_00a6f2d0(const char*, int);
 void NiStencilProperty::FUN_00a6f7d0(StrArr* strings)
 {
     ((FUN_00a62a40_this*)this)->AppendString(strings);
-    strings->Append(FUN_00a7d330(DAT_011f4a0c));
+    strings->Append(NiViewerStrings_NiGetViewerString_Title(DAT_011f4a0c));
     bool enabled = (mode & 1) != 0;
     strings->Append(FUN_00a7d370("Enabled", enabled));
     unsigned int ref = reference;

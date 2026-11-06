@@ -588,7 +588,8 @@ _ReadWriteBarrier();
         job->pitch = (u16)pitch;
 }
 // @fnv 0x00d93ba0
-void* __cdecl FUN_00d93ba0(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job* nextJobOut) throw()
+// src: COMMUNITY 0x00d93ba0
+void* __cdecl hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(S93ba0_Owner* owner, S93ba0_Output* output, S93ba0_Job* nextJobOut) throw()
 {
     S93ba0_Job* job = nextJobOut;
 

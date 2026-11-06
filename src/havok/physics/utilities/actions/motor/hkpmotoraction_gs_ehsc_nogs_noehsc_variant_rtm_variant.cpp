@@ -112,7 +112,7 @@ void MotorAction::hkpMotorAction_applyAction(const TimeInterval& stepInfo)
     hkVector4 currentAngVel;
     const hkRotation& rotation = reinterpret_cast<const hkRotation&>(
         rb->m_pMotionState.m_kMotionState.m_kMotionTransform);
-    currentAngVel.FUN_004b4ab0(rotation, rb->m_pMotionState.m_kAngularVelocity);
+    currentAngVel.hkVector4_setRotatedInverseDir(rotation, rb->m_pMotionState.m_kAngularVelocity);
 
     const hkVector4& axis = m_kAxisEndPoints;
     float currentRate = currentAngVel.dot3(axis);

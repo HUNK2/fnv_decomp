@@ -105,7 +105,7 @@ void __cdecl hkpMoppBvTreeStreamAgent_registerAgent(Agent* pAgent);
 void ReplaceEntry(int pList, int pOldEntry, int pNewEntry, unsigned short usValue);
 struct FUN_00d27f50_Obj {
     void __thiscall Insert(int a, int b, int c);
-    void __thiscall FUN_00d27f50(int param_1, int param_2);
+    void __thiscall hkSmallArray_hkConstraintInternal_insertAt(int param_1, int param_2);
 };
 struct FUN_00d27f70 {
     int** m_ppIndices;
@@ -514,7 +514,7 @@ struct FUN_00d219e0_cls
 };
 extern int DAT_0101e594;
 struct VtblStub_0101e594 { void* m_ppVirtualMethodTable; };
-extern "C" void __cdecl FUN_00401030(VtblStub_0101e594*);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(VtblStub_0101e594*);
 struct FUN_00d26210
 {
     void* m_ppVirtualMethodTable;
@@ -603,7 +603,7 @@ struct FUN_00d2cd80_Obj
 
     FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80();
 };
-struct SubA { void FUN_00d87910(); };
+struct SubA { void hkThread_hkThread(); };
 struct SubB { void Create(int a, int b); };
 struct C_d2cda0 {
     int m_iWordAt00;
@@ -653,7 +653,7 @@ struct FnvCpu_FUN_00d34b00_CpuObject {
 };
 void RemoveKeyFromTable(int, unsigned short* table, unsigned short key);
 void __cdecl InsertIntoSlotArray(void* unused, unsigned short* slots, unsigned short value);
-void FUN_00d39090();
+void nullsub_15();
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void FUN_00d3d3e0();
@@ -733,7 +733,7 @@ public:
     void AddSpawnEntry(D3FD30Funcs* pkFuncs, int iA, int iB);
 };
 void __cdecl DispatchFuncs(D3FD30Dispatcher* pkDispatcher);
-void FUN_00d3fde0();
+void nullsub_16();
 extern int DAT_0102e388;
 struct Foo00d24660 {
     void FUN_00d24660();

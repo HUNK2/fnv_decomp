@@ -45,7 +45,7 @@ public:
     void CopySettingsTo(ParticleShaderProperty*, NiSourceTexture*);
     ParticleShaderProperty* CreateParticleShaderProperty(
         NiAVObject*, NiAVObject*, NiSourceTexture*, float);
-    void FUN_00507810(NiAVObject*, ParticleShaderProperty*);
+    void StopParticleShader(NiAVObject*, ParticleShaderProperty*);
     BSShaderPPLightingProperty::TextureEffectData* CreateEffectData(
         NiAVObject*, NiSourceTexture*, NiSourceTexture*);
     void ApplyShaderToTree(NiAVObject*, BSShaderPPLightingProperty::TextureEffectData*);

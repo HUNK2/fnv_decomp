@@ -146,7 +146,8 @@ bool S::InvokeCallback(int aiUnused, void(__cdecl* b)(int, int, int), int aiValu
 }
 
 // @fnv 0x00af2c20
-void __fastcall FUN_00af2c20(int ecx)
+// src: COMMUNITY 0x00af2c20
+void __fastcall nullsub_(int ecx)
 {}
 
 namespace fnv_00af2850 {
@@ -357,12 +358,13 @@ struct SteamFriendsObj
 
 struct FUN_00af28f0_cls
 {
-    int FUN_00af28f0(int a1);
+    int BSDLCSystemUtility_ShowMarketplace(int a1);
 };
 
 // If both SteamFriends and SteamUtils are available, returns the friends interface's v22 called with the utils interface's v9 value.
 // @fnv 0x00af28f0
-int FUN_00af28f0_cls::FUN_00af28f0(int a1)
+// src: COMMUNITY 0x00af28f0
+int FUN_00af28f0_cls::BSDLCSystemUtility_ShowMarketplace(int a1)
 {
     if (SteamFriends() != 0)
     {
@@ -400,7 +402,7 @@ struct OwnQ
 {
     int unk00, unk04, unk08;
     LstQ kList;
-    void FUN_00af2c20();
+    void nullsub_();
     void ClearItems(bool bFlag);
 };
 // Optionally calls FUN_00af2c20 when bFlag is set, then deletes every item in kList and resets the list via FUN_00ae83e0.
@@ -408,7 +410,7 @@ struct OwnQ
 void OwnQ::ClearItems(bool bFlag)
 {
     if (bFlag)
-        FUN_00af2c20();
+        nullsub_();
     NodQ* pNode = &kList.kHead;
     while (pNode && !pNode->IsEmpty())
     {

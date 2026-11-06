@@ -78,12 +78,13 @@ int* DecrementInt(int* value)
     return value;
 }
 
-extern "C" void __cdecl FUN_007c5fc0(int);
+extern "C" void __cdecl SPECIALBookMenu_Create(int);
 
 // @fnv 0x007c5fb0
-void __cdecl FUN_007c5fb0()
+// src: COMMUNITY 0x007c5fb0
+void __cdecl SPECIALBookMenu_Create35()
 {
-    FUN_007c5fc0(0x23);
+    SPECIALBookMenu_Create(0x23);
 }
 
 extern int* DAT_011daa38;
@@ -128,18 +129,19 @@ void FUN_007cc680_Class::SetFlag80(bool set)
 
 struct FUN_00570f40_Class
 {
-    bool FUN_00570f40() const;
+    bool BGSSaveLoadGame_GetGlobalAllowChanges() const;
 };
 struct FUN_007d6bd0_Class : FUN_00570f40_Class
 {
     unsigned int m_uiInitializationFlags;
-    bool FUN_007d6bd0(bool abValue);
+    bool BGSSaveLoadGame_SetGlobalAllowChanges(bool abValue);
 };
 // Calls FUN_00570f40, then sets or clears bit 0 at offset 0x244 based on abValue, returning the earlier result.
 // @fnv 0x007d6bd0
-bool FUN_007d6bd0_Class::FUN_007d6bd0(bool abValue)
+// src: COMMUNITY 0x007d6bd0
+bool FUN_007d6bd0_Class::BGSSaveLoadGame_SetGlobalAllowChanges(bool abValue)
 {
-    bool bret = FUN_00570f40();
+    bool bret = BGSSaveLoadGame_GetGlobalAllowChanges();
     if (!abValue)
         ((unsigned int*)((char*)this + 0x244))[0] |= 1;
     else
@@ -172,7 +174,7 @@ void BSSimpleArray<StartMenuVideoRes>::_InitialSetup(unsigned int uiRequestedSiz
 
 extern StartMenu* DAT_011daac0;
 bool __cdecl FUN_004b71d0();
-void __cdecl FUN_007d30b0(char);
+void __cdecl Controls_EnableRumble(char);
 void __cdecl HandleBackAction();
 
 int __cdecl FUN_00408b20(char const* a, char const* b);
@@ -552,7 +554,7 @@ void UpdateLodVisibility(FUN_007ca5f0_Argument* p)
 }  // namespace fnv_007ca5f0
 
 // The shared header lacks this no-argument member. Its only argument is this in ECX.
-void __fastcall FUN_0070bbe0(BSAudio*);
+void __fastcall BSAudio_PauseWorldVoices(BSAudio*);
 
 int __fastcall FUN_00794d80(void* object);
 void __cdecl FUN_007c6120();
@@ -805,12 +807,12 @@ void BookMenu::InvokeCallbacksForSlot()
 extern int DAT_011daab4;
 extern char DAT_01070244;
 void* __cdecl FUN_00a00940(const char*, int);
-void __cdecl FUN_00403d30(void*, int, unsigned);
+void __cdecl ourMemset(void*, int, unsigned);
 // @fnv 0x007cb330
 StartMenu::StartMenu() : unk1b8(0)
 {
     unk1d0 = FUN_00a00940(&DAT_01070244, -1);
-    FUN_00403d30(m_pTiles, 0, 0x5c);
+    ourMemset(m_pTiles, 0, 0x5c);
     uiFlags = 0;
     m_pUserOption = 0;
     m_fMenuTimer = 0.0f;
@@ -822,7 +824,7 @@ StartMenu::StartMenu() : unk1b8(0)
     unk1cc = 0;
     DAT_011daab4 = 0;
     unk1b4 = 0;
-    FUN_0070bbe0(BSAudio::GetSingleton());
+    BSAudio_PauseWorldVoices(BSAudio::GetSingleton());
 }
 
 // If DAT_011daac0 exists, sets its next tile to (0x1009, FUN_004b71d0()), calls FUN_007d30b0 with that value, and calls HandleBackAction when flag 0x1000 is set.
@@ -832,14 +834,15 @@ void __cdecl UpdateStartMenuTile()
     if (DAT_011daac0)
     {
         ((Tile*)DAT_011daac0->FUN_00726070())->Set(0x1009, FUN_004b71d0());
-        FUN_007d30b0(FUN_004b71d0());
+        Controls_EnableRumble(FUN_004b71d0());
         if (DAT_011daac0->IsFlagSet(0x1000))
             HandleBackAction();
     }
 }
 
 // @fnv 0x007cc5f0
-bool __cdecl FUN_007cc5f0(int id)
+// src: COMMUNITY 0x007cc5f0
+bool __cdecl ShouldHideMenuBehindPauseMenu(int id)
 {
     switch (id)
     {
@@ -1024,7 +1027,7 @@ struct FUN_00a712f0
     void FUN_004bc1f0(float, float, float);
     void FUN_00a59c60(NiUpdateData&);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
-    void FUN_00733fd0(float);
+    void NiCamera_SetMinNearPlaneDist(float);
     void AssignFixedString(const NiFixedString&);
 };
 struct Renderer
@@ -1138,7 +1141,7 @@ void* BookMenu::CreateSurgery3DCamera()
     NiUpdateData aspect(0.0f, false, false);  // Initial scene update.
     distance->FUN_00a59c60(aspect);
     distance->SetLookAt(NiPoint3(0.0f, 0.0f, 0.0f), NiPoint3(0.0f, 1.0f, 0.0f));
-    distance->FUN_00733fd0(1.0f);
+    distance->NiCamera_SetMinNearPlaneDist(1.0f);
     distance->AssignFixedString(NiFixedString("Surgery3DCamera"));
     return distance;
 }
@@ -1675,7 +1678,7 @@ class Mgr
   public:
     int FUN_00559450();
     void FUN_004037f0(int v);
-    void FUN_007b52a0();
+    void BSStringT_MakeUpper();
     int FUN_00403df0(int v);
     int FUN_00403df0();
     char* FUN_004c69f0();
@@ -1737,7 +1740,7 @@ class FUN_007d6350
     FUN_007d6350(char*, char*, int, ...);
 };
 void __cdecl ClearStartMenuEntries();
-void* __cdecl FUN_00401000(int size);
+void* __cdecl FormHeap_Allocate(int size);
 extern char DAT_007d0440[];
 extern char DAT_007d0490[];
 extern char DAT_007d04d0[];
@@ -1846,14 +1849,15 @@ extern Mgr DAT_011d4abc;
 extern Mgr DAT_011d4e40;
 extern Mgr DAT_011d5074;
 // @fnv 0x007cc6e0
-void __cdecl FUN_007cc6e0()
+// src: COMMUNITY 0x007cc6e0
+void __cdecl StartMenu_CreateMenuElements()
 {
     if (!DAT_011dabcc.FUN_00559450())
     {
         DAT_011dabcc.FUN_004037f0(DAT_011d4630.FUN_00403df0(0));
-        DAT_011dabcc.FUN_007b52a0();
+        DAT_011dabcc.BSStringT_MakeUpper();
         DAT_011daad0.FUN_004037f0(DAT_011d4354.FUN_00403df0(0));
-        DAT_011daad0.FUN_007b52a0();
+        DAT_011daad0.BSStringT_MakeUpper();
     }
     ClearStartMenuEntries();
     DAT_011dab88.FUN_007cb2e0(new FUN_007ce620(DAT_011d3564.FUN_004c69f0(), DAT_007d0440, 3));
@@ -1943,11 +1947,11 @@ struct BookInterface
 {
     Tile* FUN_00586150();
 };
-BookInterface* FUN_004b7210();
+BookInterface* InterfaceManager_GetSingleton();
 int FUN_007c6110();
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 void FUN_007037e0();
-void FUN_005cfcb0(bool);
+void HUDMainMenu_SetAutoDisplayObjectives(bool);
 struct BookNodePointer
 {
     void FUN_0066b0d0(void*);
@@ -1955,10 +1959,11 @@ struct BookNodePointer
 extern BookNodePointer DAT_011daa9c;
 // Creates the SPECIAL book menu from its XML, checks its ID, stores the value, and reports a missing index on failure.
 // @fnv 0x007c5fc0
-extern "C" void FUN_007c5fc0(int value)
+// src: COMMUNITY 0x007c5fc0
+extern "C" void SPECIALBookMenu_Create(int value)
 {
-    Tile* menu = FUN_004b7210()->FUN_00586150()->FUN_00a01b00("Data\\Menus\\CharGen\\SPECIALBookMenu.xml");
-    BookMenu* tile = static_cast<BookMenu*>(menu->FUN_00a03c90());
+    Tile* menu = InterfaceManager_GetSingleton()->FUN_00586150()->FUN_00a01b00("Data\\Menus\\CharGen\\SPECIALBookMenu.xml");
+    BookMenu* tile = static_cast<BookMenu*>(menu->Tile_GetMenu());
     if (tile && tile->GetClass() == FUN_007c6110())
     {
         tile->SetTileMenu(reinterpret_cast<TileMenu*>(menu), false);
@@ -1966,7 +1971,7 @@ extern "C" void FUN_007c5fc0(int value)
         int index;
         if (!reinterpret_cast<BookMenu*>(DAT_011daa38)->HasAllFlagsSet(&index))
         {
-            FUN_005b5e40("MENUS:  Special book menu creation failed... Missing index = #%d", index);
+            Warning_005b5e40("MENUS:  Special book menu creation failed... Missing index = #%d", index);
             delete menu;
             FUN_007037e0();
             return;
@@ -1975,7 +1980,7 @@ extern "C" void FUN_007c5fc0(int value)
         *reinterpret_cast<int*>(reinterpret_cast<char*>(DAT_011daa38) + 0x58) = value;
         reinterpret_cast<BookMenu*>(DAT_011daa38)->InitMenu();
         DAT_011daa9c.FUN_0066b0d0(reinterpret_cast<BookMenu*>(DAT_011daa38)->CreateSurgery3DCamera());
-        FUN_005cfcb0(true);
+        HUDMainMenu_SetAutoDisplayObjectives(true);
         tile->FUN_00a1dc20(false);
     }
     else if (tile && tile->FUN_00726070())
@@ -2005,7 +2010,7 @@ void __cdecl FUN_007ca960(void* apSelf)
         if (iCount > 1)
         {
             BSSoundHandle kSound;
-            kSound = BSAudio::GetSingleton()->FUN_00ad7550("OBJBookSpecialNumber", 0x121);
+            kSound = BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("OBJBookSpecialNumber", 0x121);
             kSound.Play(false);
         }
         ((FUN_007ca960_Owner*)DAT_011dea3c)->FUN_0093a7c0(m_uiSoundID, FUN_00647b70(iCount - 1, 1));

@@ -29,7 +29,8 @@ void* NiFlipController::GetEntryAt(int uiIndex)
 extern "C" const void* g_011f3fd4;
 
 // @fnv 0x00a4f5d0
-const void* __cdecl FUN_00a4f5d0()
+// src: COMMUNITY 0x00a4f5d0
+const void* __cdecl NiFlipController_GetRTTI()
 {
     return &g_011f3fd4;
 }
@@ -99,7 +100,7 @@ void __thiscall NiFlipController::CopyMembers_00a4f920(NiAlphaController* dst, C
     for (unsigned int i = 0; i < m_kTextureSwapList.m_usSize; ++i)
     {
         void* e = this->GetSrc(i);
-        ((NiFlipController*)dst)->FUN_00a4f8a0(e, i);
+        ((NiFlipController*)dst)->AttachTexture(e, i);
     }
 }
 
@@ -391,13 +392,13 @@ void NiFlipController::UpdateFlipController(NiUpdateDataF& kUpdate)
 }
 
 void __cdecl NiFree(void* pkData) throw();
-void __cdecl FUN_004b0220(void* pkData) throw();
+void __cdecl j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(void* pkData) throw();
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* plCount);
 
 template <class T, class A>
 inline NiTArray<T, A>::~NiTArray()
 {
-    FUN_004b0220(m_pBase);
+    j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(m_pBase);
 }
 
 extern const void* g_NiFlipControllerVTable;
@@ -479,7 +480,8 @@ void* operator new[](unsigned int size)
 
 // Grows the array if needed, increments the reference count of p, stores a copy of p in the array slot, then decrements the count and releases if zero.
 // @fnv 0x00a4f8a0
-void __thiscall NiFlipController::FUN_00a4f8a0(void* apRef, unsigned int aiIndex)
+// src: COMMUNITY 0x00a4f8a0
+void __thiscall NiFlipController::AttachTexture(void* apRef, unsigned int aiIndex)
 {
     if (m_kTextureSwapList.m_usSize <= aiIndex)
         m_kTextureSwapList.SetSize(aiIndex + 1);

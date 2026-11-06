@@ -1149,7 +1149,7 @@ struct MatchPoint
     float x;
     float y;
     float z;
-    float FUN_00b04d40(const MatchPoint& other) const;
+    float CVec3_Distance(const MatchPoint& other) const;
 };
 
 struct MatchNode
@@ -1203,7 +1203,7 @@ void Matcher::FUN_00b41110(stl::vector<MatchNode*> nodes)
         {
             if (!used2[idx])
             {
-                float d = (*i)->GetPosition().FUN_00b04d40((*j2)->GetPosition());
+                float d = (*i)->GetPosition().CVec3_Distance((*j2)->GetPosition());
                 if (d < limit && d < best4)
                 {
                     best4 = d;
@@ -1934,7 +1934,7 @@ template <class I> inline I checked_base(I& _It)
     return checked_base2(_It, _Base_tag);
 }
 // VC-style vector insertion, with scalar record destruction and exception rollback.
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 FUN_00b42980* __cdecl FUN_00b431e0(const FUN_00b42980*, const FUN_00b42980*, FUN_00b42980*, void*);
 void __cdecl FUN_00b42f40(FUN_00b42980*, unsigned, const FUN_00b42980*, void*, ValueTag, RangeTag);
 FUN_00b42980* __cdecl FUN_00b43010(const FUN_00b42980*, const FUN_00b42980*, FUN_00b42980*, void*);
@@ -1971,7 +1971,7 @@ struct RecordAllocator
     }
     inline void deallocate(FUN_00b42980* _Ptr, unsigned)
     {
-        FUN_00401030(_Ptr);
+        FormHeapFreeAndLog_00401030(_Ptr);
     }
 };
 template <class A> inline void destroy_range(FUN_00b42980* _First, FUN_00b42980* _Last, A& _Al, ValueTag)
@@ -2121,7 +2121,7 @@ void RecordVector::FUN_00b42180(void* iteratorState, FUN_00b42980* _Where, unsig
         catch (...)
         {
             destroy(_Newvec, _Ptr);
-            FUN_00401030(_Newvec);
+            FormHeapFreeAndLog_00401030(_Newvec);
             throw;
         }
         _Count += size();
@@ -3773,8 +3773,8 @@ struct P133Camera
     {
         return kind / 2;
     }
-    NiPoint3 FUN_00b40430();
-    void FUN_00b404c0(NiPoint3 const&, bool);
+    NiPoint3 CBillboardLeaf_GetColor();
+    void CBillboardLeaf_SetColor(NiPoint3 const&, bool);
     void SetPos(NiPoint3 const& p)
     {
         position = p;
@@ -3971,7 +3971,7 @@ P133List P133Owner::FUN_00b40c80()
             float offset = (frameTmp->height - 0.5) * (scale * frameTmp->scale * 0.5);
             position3[2] += offset;
             camera->SetPos(position3);
-            camera->FUN_00b404c0((iter->first->FUN_00b40430() + iter->second->FUN_00b40430()) * 0.5f, false);
+            camera->CBillboardLeaf_SetColor((iter->first->CBillboardLeaf_GetColor() + iter->second->CBillboardLeaf_GetColor()) * 0.5f, false);
             output9.FUN_00b15390(camera);
         }
     }

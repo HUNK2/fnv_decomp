@@ -155,7 +155,8 @@ extern NiShadeProperty* DAT_011f5ae8;
 
 // If the global object pointer is set, decrements its reference count and clears the pointer.
 // @fnv 0x00a81590
-void FUN_00a81590()
+// src: COMMUNITY 0x00a81590
+void NiShadeProperty__SDMShutdown()
 {
     if (DAT_011f5ae8)
     {
@@ -166,7 +167,7 @@ void FUN_00a81590()
 }  // namespace fnv_00a81590
 
 extern void* DAT_011f5ae0;
-void* __cdecl FUN_00a7d330(void* p);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
 void* __cdecl FUN_00a7d370(const char* name, bool value);
 struct NiArr
 {
@@ -191,7 +192,7 @@ void NiShadeProperty::GetViewerStrings(NiViewerStringsArray* strings)
 {
     NiArr* a = reinterpret_cast<NiArr*>(strings);
     reinterpret_cast<PropertyRoutines*>(this)->GetViewerStrings(a);
-    a->Add(FUN_00a7d330(DAT_011f5ae0));
+    a->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f5ae0));
     bool b = (m_uFlags & 1) != 0;
     a->Add(FUN_00a7d370("m_bSmooth", b));
 }

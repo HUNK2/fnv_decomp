@@ -79,7 +79,7 @@ public:
     void RemoveEntry(hkpAction* action);
     void AddItem(hkpAction* action) throw();
     __declspec(nothrow) void RemoveItem(hkpEntity* entity);
-    void FUN_00d070b0();
+    void nullsub_30();
     void hkpSimulationIsland_internalAddEntity(hkpEntity* entity);
-    void FUN_00d07120();
+    void nullsub_10();
 };

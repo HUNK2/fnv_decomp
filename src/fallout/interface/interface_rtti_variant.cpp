@@ -10,9 +10,9 @@
 #include "../../../include/SleepWaitMenu.h"
 
 const char kMeshesFolder[] = "Meshes";
-unsigned int FUN_00702440();
+unsigned int NiVertexColorProperty_GetType();
 bool FUN_00705100();
-unsigned int FUN_00706f20();
+unsigned int HudMainMenu_GetMenuID();
 bool FUN_00707b50();
 
 class InterfaceManagerKey
@@ -21,18 +21,19 @@ class InterfaceManagerKey
     bool FUN_009373f0();
 };
 Tile* __cdecl FUN_00a09030(unsigned int eLine);
-void __cdecl FUN_007e9200();
+void __cdecl VATSMenu_Create();
 
 // @fnv 0x00705640
-void __cdecl FUN_00705640()
+// src: COMMUNITY 0x00705640
+void __cdecl Interface_CreateVATSMenu()
 {
-    if (FUN_004b7210() && ((InterfaceManagerKey*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((InterfaceManagerKey*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         const Tile* pkTileMenu = FUN_00a09030(1056u);
         VATSMenu* pkMenu = pkTileMenu ? dynamic_cast<VATSMenu*>(pkTileMenu->GetMenu()) : 0;
         if (pkMenu)
             delete pkMenu;
-        FUN_007e9200();
+        VATSMenu_Create();
     }
 }
 
@@ -46,7 +47,7 @@ void FUN_007c01b0();
 // @fnv 0x007055c0
 void FUN_007055c0()
 {
-    if (FUN_004b7210() && ((Iface2*)FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && ((Iface2*)InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         const Tile* a = FUN_00a09030(0x3f4);
         SleepWaitMenu* b = a ? dynamic_cast<SleepWaitMenu*>(a->GetMenu()) : 0;

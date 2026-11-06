@@ -77,7 +77,8 @@ const NiRTTI* NiPSysBoundUpdateModifier::GetRTTI() const
 extern "C" const NiRTTI g_01202550;
 
 // @fnv 0x00c23ce0
-const NiRTTI* __cdecl FUN_00c23ce0()
+// src: COMMUNITY 0x00c23ce0
+const NiRTTI* __cdecl NiPSysSpawnModifier_GetRTTI()
 {
     return &g_01202550;
 }

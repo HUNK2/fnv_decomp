@@ -6,7 +6,7 @@
 #include "../../../../include/NiTStringPointerMap.h"
 struct Program;
 extern Program* DAT_0126fa10;
-Program* FUN_00e92eb0();
+Program* NiD3DShaderProgramFactory_GetInstance();
 struct Program
 {
     virtual void Destroy(int);
@@ -26,7 +26,7 @@ struct Lst
     Nd* head;
 };
 int __fastcall NiD3D10ShaderProgramFactory_GetFirstProgramDirectory(Lst* l, int, Nd** pos);
-void FUN_00e93df0();
+void NiD3DShaderProgramFactory__SDMInit();
 extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 void __cdecl FUN_00e93e00();
 struct P03MM

@@ -21,7 +21,8 @@ extern "C"
 }
 
 // @fnv 0x00c28400
-void* __cdecl FUN_00c28400()
+// src: COMMUNITY 0x00c28400
+void* __cdecl NiPSysResetOnLoopCtlr_GetRTTI()
 {
     return &g_012026a8;
 }

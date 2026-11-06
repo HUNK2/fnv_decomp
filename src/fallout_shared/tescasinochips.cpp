@@ -206,11 +206,12 @@ FUN_00504480::FUN_00504480()
 
 struct FUN_005046e0_shell : public TESCasino
 {
-    void FUN_005046e0();
+    void TESCasino_InitItem();
 };
 
 // @fnv 0x005046e0
-void FUN_005046e0_shell::FUN_005046e0()
+// src: COMMUNITY 0x005046e0
+void FUN_005046e0_shell::TESCasino_InitItem()
 {
     TESForm::RemapFormIDForFile(*(unsigned int*)((char*)this + 0x214), GetFile(-1));
 }
@@ -262,11 +263,12 @@ struct FUN_00504e20_shell
 {
     unsigned char _pad[0x164];
     unsigned char m_aiIndexedValues[0x200];
-    unsigned char* __thiscall FUN_00504e20(int idx);
+    unsigned char* __thiscall TESCasino_GetNthSlotReel(int idx);
 };
 
 // @fnv 0x00504e20
-unsigned char* __thiscall FUN_00504e20_shell::FUN_00504e20(int aiIndex)
+// src: COMMUNITY 0x00504e20
+unsigned char* __thiscall FUN_00504e20_shell::TESCasino_GetNthSlotReel(int aiIndex)
 {
     return &m_aiIndexedValues[aiIndex * 0xc];
 }
@@ -359,7 +361,7 @@ struct FUN_00504e00_shell
 };
 struct FUN_00504e20_shell
 {
-    unsigned char* FUN_00504e20(int);
+    unsigned char* TESCasino_GetNthSlotReel(int);
 };
 struct FUN_00504e40_shell
 {
@@ -409,7 +411,7 @@ void Casino_504cc0::CopyFromCasino(TESForm* apCopy)
     }
     for (int i = 0; i < 11; i++)
     {
-        m_kIconTextures[i].SetFullName(((FNStub*)((FUN_00504e20_shell*)pSourceCasino)->FUN_00504e20(i))->GetFullName());
+        m_kIconTextures[i].SetFullName(((FNStub*)((FUN_00504e20_shell*)pSourceCasino)->TESCasino_GetNthSlotReel(i))->GetFullName());
     }
     if (((FUN_00504e40_shell*)pSourceCasino)->FUN_00504e40())
         data.uiChunkType = ((FUN_00504e40_shell*)pSourceCasino)->FUN_00504e40()->GetFormID();
@@ -541,12 +543,13 @@ struct FUN_00504640_shell
     Texture m_kIconTextures[11];
     char data[0x38];
 
-    void FUN_00504640();
+    void TESCasino_SetDefault();
 };
 
 // Zeroes the data block, then calls Init on all 10 Model entries and all 11 Texture entries.
 // @fnv 0x00504640
-void FUN_00504640_shell::FUN_00504640()
+// src: COMMUNITY 0x00504640
+void FUN_00504640_shell::TESCasino_SetDefault()
 {
     memset(this->data, 0, sizeof(this->data));
 
@@ -802,7 +805,7 @@ struct TextureAccess : TESTexture
 };
 struct CasinoAccess : TESCasino
 {
-    TESTexture* FUN_00504e20(int);
+    TESTexture* TESCasino_GetNthSlotReel(int);
     TESModelTextureSwap* FUN_00504e00(int);
     TESForm* FUN_00504e40();
     void* FUN_00504e60();
@@ -821,7 +824,7 @@ bool CasinoAccess::FUN_00504e80(TESForm* form)
     for (int i = 0; i < 11; i++)
     {
         if (FUN_00408b20(reinterpret_cast<TextureAccess*>(&m_kIconTextures[i])->FUN_00408da0(),
-                         reinterpret_cast<TextureAccess*>(reinterpret_cast<CasinoAccess*>(other)->FUN_00504e20(i))
+                         reinterpret_cast<TextureAccess*>(reinterpret_cast<CasinoAccess*>(other)->TESCasino_GetNthSlotReel(i))
                              ->FUN_00408da0()))
             return true;
     }

@@ -60,8 +60,8 @@ public:
     virtual bool LoadCacheFile();
     virtual bool CanCreateDirectory();
     virtual bool vf28();
-    virtual char FUN_00ee8aa0();
-    virtual unsigned char FUN_00ee8ab0();
+    virtual char IsLoaded_00ee8aa0();
+    virtual unsigned char IsLocked_00ee8ab0();
     virtual bool RemoveMissingKeys(void* keys, void* entries);
     virtual void UpdatePathString() throw();
     virtual bool FUN_00ee8d60(void* pvArg, void* pvArgCur);

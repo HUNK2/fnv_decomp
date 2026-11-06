@@ -72,7 +72,7 @@ struct blob12
 // Exe 0x00709fd0 allocates the full 0x580-byte shared InterfaceManager.
 struct FUN_0073b020_shell : public InterfaceManager
 {
-    int FUN_0073b020();
+    int InterfaceManager_GetCursorY();
 };
 float __cdecl FUN_00715da0();
 struct FUN_0073b460_shell
@@ -428,7 +428,7 @@ struct BookMenu_Shell
 };
 extern const char DAT_01070fa8[];
 extern const char DAT_01070f84[];
-extern void __cdecl FUN_00703c00(const char*, ...);
+extern void __cdecl Interface_PrintLine(const char*, ...);
 struct LoadBook
 {
     Tile* FUN_00726070();
@@ -467,7 +467,7 @@ struct MenuH
     void SetMenuVisibility(bool);
 };
 Menu* __cdecl FindMenuById(int);
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_GetSingleton();
 void __cdecl FNV_Warning(const char*, ...);
 void __cdecl FUN_00717280(int);
 void* __fastcall FUN_00726070(Menu*);
@@ -488,11 +488,11 @@ Tile* __cdecl FUN_0073ad50(TESObjectBOOK* apBook, TESObjectREFR* apRef)
     pbook = apBook;
     if (!pbook)
         return 0;
-    pin = FUN_004b7210();
+    pin = InterfaceManager_GetSingleton();
     ftop_depth = Tile::GetInterfaceScale();
     ptile = 0;
     ptile = ((IMH*)pin)->FUN_00586150()->FUN_00a01b00("Data\\Menus\\book_menu.xml");
-    pmenu = ptile->FUN_00a03c90();
+    pmenu = ptile->Tile_GetMenu();
     g_pHudMainMenuInstance = (BookMenu*)pmenu;
     ((BookMenuData*)g_pHudMainMenuInstance)->m_pObjectToUpdateMenuTile = apBook;
     if (pmenu && ((MenuH*)pmenu)->GetID() == 0x402)

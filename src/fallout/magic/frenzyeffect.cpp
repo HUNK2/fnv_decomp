@@ -28,7 +28,8 @@ extern float DAT_011dc778;
 
 // Subtracts FUN_00404010(0.0f, value) from DAT_011dc778 and stores the result back into DAT_011dc778.
 // @fnv 0x0080fc90
-void FUN_0080fc90(float value)
+// src: COMMUNITY 0x0080fc90
+void _11DC778_Subtract(float value)
 {
     DAT_011dc778 = DAT_011dc778 - FUN_00404010(0.0f, value);
 }

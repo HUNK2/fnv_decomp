@@ -172,10 +172,11 @@ void* __thiscall FUN_0062e230_shell::FUN_0062e230(unsigned int a, unsigned int b
 struct TrapEventList
 {
     TrapEventList* GetNext();
-    TrapEventList* FUN_006207a0(TrapEventList* target);
+    TrapEventList* bhkTTNode_RemoveFromList(TrapEventList* target);
 };
 // @fnv 0x006207a0
-TrapEventList* TrapEventList::FUN_006207a0(TrapEventList* pHead)
+// src: COMMUNITY 0x006207a0
+TrapEventList* TrapEventList::bhkTTNode_RemoveFromList(TrapEventList* pHead)
 {
     if (this == pHead)
         pHead = this->GetNext();
@@ -212,7 +213,7 @@ void* FUN_0062c720_shell::FUN_0062c720(unsigned int flags)
 extern int DAT_0104e308;
 struct FUN_0062dfa0_shell
 {
-    void FUN_0062dfa0();
+    void BSListBase_TriggerEntry_TriggerEvent_BSListBase_TriggerEntry_TriggerEvent();
 };
 struct FUN_0062c750_shell : FUN_0062dfa0_shell
 {
@@ -222,7 +223,7 @@ struct FUN_0062c750_shell : FUN_0062dfa0_shell
 // @fnv 0x0062c750
 FUN_0062c750_shell::FUN_0062c750_shell()
 {
-    FUN_0062dfa0();
+    BSListBase_TriggerEntry_TriggerEvent_BSListBase_TriggerEntry_TriggerEvent();
     vtbl = (void*)&DAT_0104e308;
 }
 
@@ -282,11 +283,12 @@ struct FUN_0062cb60_shell
     int m_kPointB;
     int m_iThirdValue;
     FUN_0062e0a0_List m_map;
-    void* FUN_0062cb60();
+    void* TriggerEntry_RefList_GetNewEvent();
 };
 // Returns null if m_map is empty, otherwise returns the result of m_map.RemoveFirstNode().
 // @fnv 0x0062cb60
-void* FUN_0062cb60_shell::FUN_0062cb60()
+// src: COMMUNITY 0x0062cb60
+void* FUN_0062cb60_shell::TriggerEntry_RefList_GetNewEvent()
 {
     if (m_map.IsEmpty())
         return 0;
@@ -393,11 +395,12 @@ struct FUN_0062df20_shell
 {
     char _pad[32];
     FUN_0062df60_shell* m_32;
-    bool FUN_0062df20(int a1, int a2);
+    bool TESTrapListener_IsRefInTrigger(int a1, int a2);
 };
 // Looks up the entry for a2 via m_32 and returns whether it satisfies the check for a1, or false if not found.
 // @fnv 0x0062df20
-bool FUN_0062df20_shell::FUN_0062df20(int a1, int a2)
+// src: COMMUNITY 0x0062df20
+bool FUN_0062df20_shell::TESTrapListener_IsRefInTrigger(int a1, int a2)
 {
     FUN_0062d550_shell* t = m_32->FUN_0062df60(a2);
     if (!t)
@@ -447,7 +450,7 @@ struct C62
 {
     virtual void f0();
     virtual Data62* f1();
-    void FUN_0062e2f0(Data62* p);
+    void BSListBase_TriggerEntry_TriggerEvent_AddNodeTail(Data62* p);
     void SetC(int* p);
 };
 // Gets a Data62 via f1(), stores the int pointed to by p into its c field, then passes it to FUN_0062e2f0.
@@ -456,7 +459,7 @@ void C62::SetC(int* piValue)
 {
     Data62* iVar1 = f1();
     iVar1->c = *piValue;
-    FUN_0062e2f0(iVar1);
+    BSListBase_TriggerEntry_TriggerEvent_AddNodeTail(iVar1);
 }
 
 struct CalleeObj
@@ -467,11 +470,12 @@ struct FUN_0062e120_shell
 {
     int _pad;
     int _flag;
-    void* FUN_0062e120(void*);
+    void* hkArrayBase_hkpEntity_isEmpty(void*);
 };
 // Calls FUN_00622570 on the passed object with true when _flag is zero, then returns the object.
 // @fnv 0x0062e120
-void* FUN_0062e120_shell::FUN_0062e120(void* pObject)
+// src: COMMUNITY 0x0062e120
+void* FUN_0062e120_shell::hkArrayBase_hkpEntity_isEmpty(void* pObject)
 {
     ((CalleeObj*)pObject)->FUN_00622570(_flag == 0);
     return pObject;
@@ -540,11 +544,12 @@ struct FUN_0062e2f0_shell
     void* m_pFirstNode;
     void* m_pTail;
     int m_uiItemCount;
-    void FUN_0062e2f0(void* block);
+    void BSListBase_TriggerEntry_TriggerEvent_AddNodeTail(void* block);
 };
 
 // @fnv 0x0062e2f0
-void FUN_0062e2f0_shell::FUN_0062e2f0(void* block)
+// src: COMMUNITY 0x0062e2f0
+void FUN_0062e2f0_shell::BSListBase_TriggerEntry_TriggerEvent_AddNodeTail(void* block)
 {
     ((int*)block)[0] = 0;
     ((int*)block)[1] = (int)m_pTail;
@@ -765,10 +770,11 @@ struct FUN_00620810_shell
 };
 struct FUN_0062db40_shell
 {
-    void FUN_0062db40(int a);
+    void TriggerEntry_GetTriggerEntry(int a);
 };
 // @fnv 0x0062db40
-void FUN_0062db40_shell::FUN_0062db40(int aiValue)
+// src: COMMUNITY 0x0062db40
+void FUN_0062db40_shell::TriggerEntry_GetTriggerEntry(int aiValue)
 {
     ((FUN_00620810_shell*)this)->FindByFlags(aiValue);
 }
@@ -776,12 +782,13 @@ void FUN_0062db40_shell::FUN_0062db40(int aiValue)
 namespace fnv_0062dfa0 {
 struct FUN_0062dfa0_shell
 {
-    void* FUN_0062dfa0();
+    void* BSListBase_TriggerEntry_TriggerEvent_BSListBase_TriggerEntry_TriggerEvent();
 };
 
 // Sets the vtable pointer and clears the three pointer fields at offsets 4, 8 and 12, then returns this.
 // @fnv 0x0062dfa0
-void* __thiscall FUN_0062dfa0_shell::FUN_0062dfa0()
+// src: COMMUNITY 0x0062dfa0
+void* __thiscall FUN_0062dfa0_shell::BSListBase_TriggerEntry_TriggerEvent_BSListBase_TriggerEntry_TriggerEvent()
 {
     *(void**)this = &DAT_0104e3f4;
     *(int**)((char*)this + 0xc) = 0;
@@ -816,24 +823,25 @@ TESObject* __cdecl GetOcclusionPlaneObject(BSOcclusionPlane* pOcclusionPlane)
 
 struct FUN_0062d510_shell
 {
-    void FUN_0062d510();
+    void TriggerEntry_ClearCurrentRefs();
 };
 struct FUN_0062de90_shell
 {
     char _pad[0x20];
     CombatWorldStateListNode* m_20;
-    void FUN_0062de90(CombatWorldStateListNode* target);
+    void TESTrapListener_ClearCurrentRefs(CombatWorldStateListNode* target);
 };
 // Walks the linked list from m_20 and, when a node's _ref_0084e3a0() equals target, calls FUN_0062d510 on it and stops.
 // @fnv 0x0062de90
-void FUN_0062de90_shell::FUN_0062de90(CombatWorldStateListNode* target)
+// src: COMMUNITY 0x0062de90
+void FUN_0062de90_shell::TESTrapListener_ClearCurrentRefs(CombatWorldStateListNode* target)
 {
     CombatWorldStateListNode* node = m_20;
     while (node)
     {
         if (_ref_0084e3a0(node) == (int)target)
         {
-            ((FUN_0062d510_shell*)node)->FUN_0062d510();
+            ((FUN_0062d510_shell*)node)->TriggerEntry_ClearCurrentRefs();
             break;
         }
         else
@@ -862,14 +870,15 @@ FUN_0062d840_shell* FUN_0062d7c0_shell::FUN_0062d7c0(unsigned int a, unsigned in
 TESObjectREFR* __cdecl FUN_0062b4e0(void*);
 struct FUN_00620340_shell
 {
-    void* FUN_00620340(RootContactPoint*, TESObjectREFR*, TESObjectREFR*, int, int);
+    void* BGSZoneTargetListener_AddZoneTargetPair(RootContactPoint*, TESObjectREFR*, TESObjectREFR*, int, int);
 };
 struct FUN_0062dc80_shell
 {
-    bool FUN_0062dc80(RootContactPoint* arPoint);
+    bool TESTrapListener_contactPointAddedCallback(RootContactPoint* arPoint);
 };
 // @fnv 0x0062dc80
-bool FUN_0062dc80_shell::FUN_0062dc80(RootContactPoint* arPoint)
+// src: COMMUNITY 0x0062dc80
+bool FUN_0062dc80_shell::TESTrapListener_contactPointAddedCallback(RootContactPoint* arPoint)
 {
     bool bres = false;
     TESObjectREFR* ptrapRef = 0;
@@ -879,7 +888,7 @@ bool FUN_0062dc80_shell::FUN_0062dc80(RootContactPoint* arPoint)
     if (ptrapRef && m_pReference && m_pReference->IsActor())
     {
         ZoneEntry* ptrap =
-            (ZoneEntry*)((FUN_00620340_shell*)((char*)this - 8))->FUN_00620340(arPoint, ptrapRef, m_pReference, 0, 1);
+            (ZoneEntry*)((FUN_00620340_shell*)((char*)this - 8))->BGSZoneTargetListener_AddZoneTargetPair(arPoint, ptrapRef, m_pReference, 0, 1);
         bres = ptrap != 0;
     }
     return bres;
@@ -994,7 +1003,8 @@ struct FUN_0062c860_shell
 
 // If the save/load game check fails, calls ApplyEntriesToRef with _ref_0084e3a0(this) on the object at offset 0x10, then calls ClearMap on it.
 // @fnv 0x0062d510
-void FUN_0062d510_shell::FUN_0062d510()
+// src: COMMUNITY 0x0062d510
+void FUN_0062d510_shell::TriggerEntry_ClearCurrentRefs()
 {
     if (!g_BGSSaveLoadGame->FUN_0042ce10())
     {
@@ -1019,11 +1029,12 @@ struct FUN_0062dc50_shell
     void* m_iWordAt04;
     void* m_8;
     void* m_iThirdValue;
-    void* FUN_0062dc50(unsigned int a, unsigned int b);
+    void* TriggerEntry_TriggerEntry(unsigned int a, unsigned int b);
 };
 // Calls FUN_00620720 with a and b, then FUN_0062c640 on the object at offset 0x10, and returns this.
 // @fnv 0x0062dc50
-void* FUN_0062dc50_shell::FUN_0062dc50(unsigned int auiArg1, unsigned int auiArg2)
+// src: COMMUNITY 0x0062dc50
+void* FUN_0062dc50_shell::TriggerEntry_TriggerEntry(unsigned int auiArg1, unsigned int auiArg2)
 {
     ((FUN_00620720_shell*)this)->FUN_00620720(auiArg1, auiArg2);
     ((FUN_0062c640_shell*)((char*)this + 0x10))->FUN_0062c640();
@@ -1032,17 +1043,18 @@ void* FUN_0062dc50_shell::FUN_0062dc50(unsigned int auiArg1, unsigned int auiArg
 
 struct FUN_00620680_Class
 {
-    void* FUN_00620680(void*, void*);
+    void* BGSZoneTargetListener_RemoveTargetFromZone(void*, void*);
 };
 
 struct FUN_0062dd20_shell
 {
-    bool FUN_0062dd20(RootContactPoint& arPoint);
+    bool TESTrapListener_contactPointRemovedCallback(RootContactPoint& arPoint);
 };
 
 // Looks up two TESObjectREFRs from arPoint, and if both exist and the second passes a vtable check, resolves a ZoneEntry via FUN_00620680 and returns true.
 // @fnv 0x0062dd20
-bool FUN_0062dd20_shell::FUN_0062dd20(RootContactPoint& arPoint)
+// src: COMMUNITY 0x0062dd20
+bool FUN_0062dd20_shell::TESTrapListener_contactPointRemovedCallback(RootContactPoint& arPoint)
 {
     bool bres = false;
     TESObjectREFR* ptrapRef = 0;
@@ -1057,7 +1069,7 @@ bool FUN_0062dd20_shell::FUN_0062dd20(RootContactPoint& arPoint)
             ZoneEntry* ptrap;
             ptrap = reinterpret_cast<ZoneEntry*>(
                 reinterpret_cast<FUN_00620680_Class*>(reinterpret_cast<char*>(this) - 8)
-                    ->FUN_00620680(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x48), m_pReference));
+                    ->BGSZoneTargetListener_RemoveTargetFromZone(*reinterpret_cast<void**>(reinterpret_cast<char*>(&arPoint) + 0x48), m_pReference));
         }
         bres = true;
     }
@@ -1307,7 +1319,7 @@ struct Array62
     void* data;
     int size;
     int capacity;
-    Check62 FUN_0062e120();
+    Check62 hkArrayBase_hkpEntity_isEmpty();
     int FUN_00726070();
     ArrayEntry62* FUN_0062e150(int);
     ArrayEntry62* FUN_00629ab0(int);
@@ -1350,7 +1362,7 @@ Array62* __fastcall GetCollectedBodyPairs(hkpAllCdBodyPairCollector* collector);
 struct Registry62 : CollisionRegistry
 {
     void CompactEntries();
-    CollisionState* FUN_0062cb60();
+    CollisionState* TriggerEntry_RefList_GetNewEvent();
 };
 struct Subject62
 {
@@ -1364,7 +1376,7 @@ struct Subject62
     bool ProcessCollisionPairs(int);
 };
 void* FUN_004b59f0(void*);
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 // @fnv 0x0062cc90
 bool Subject62::ProcessCollisionPairs(int arg)
 {
@@ -1383,7 +1395,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
     if (changed == 1)
     {
         CollisionObject62* shape = kind;
-        if (!shape->GetOffset160()->FUN_0062e120().FUN_005609f0())
+        if (!shape->GetOffset160()->hkArrayBase_hkpEntity_isEmpty().FUN_005609f0())
         {
             hkpAllCdBodyPairCollector collector;
             collector.reset_0062d310();
@@ -1393,7 +1405,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
             if (broad)
                 broad->FUN_00483710();
             Array62* array = GetCollectedBodyPairs(&collector);
-            if (!array->FUN_0062e120().FUN_005609f0())
+            if (!array->hkArrayBase_hkpEntity_isEmpty().FUN_005609f0())
             {
                 int count = array->FUN_00726070();
                 for (int i = 0; i < count; i++)
@@ -1425,7 +1437,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
     {
         CollisionObject62* shape = kind;
         Array62* array = shape->FUN_0045c650();
-        if (!array->FUN_0062e120().FUN_005609f0())
+        if (!array->hkArrayBase_hkpEntity_isEmpty().FUN_005609f0())
         {
             int count = array->FUN_00726070();
             for (int i = 0; i < count; i++)
@@ -1453,7 +1465,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
         }
     }
     registry.CompactEntries();
-    CollisionState* object = registry.FUN_0062cb60();
+    CollisionState* object = registry.TriggerEntry_RefList_GetNewEvent();
     if (object)
     {
         unsigned int ref;
@@ -1491,8 +1503,8 @@ struct EventCode
 };
 struct TrapEventHandler
 {
-    void FUN_00576800(TESObjectREFR* reference);
-    void FUN_00620130(TESObjectREFR* reference);
+    void BGSZoneTargetListener_RemoveZone(TESObjectREFR* reference);
+    void BGSZoneTargetListener_RemoveTarget(TESObjectREFR* reference);
 };
 struct FUN_0062da00_Class
 {
@@ -1513,11 +1525,11 @@ void FUN_0062da00_Class::HandleTrapEvent(InputBody* pInputBody)
         {
             if (category == 14 || category == 16)
             {
-                reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)->FUN_00576800(reference);
+                reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)->BGSZoneTargetListener_RemoveZone(reference);
             }
             else
             {
-                reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)->FUN_00620130(reference);
+                reinterpret_cast<TrapEventHandler*>(reinterpret_cast<char*>(this) - 8)->BGSZoneTargetListener_RemoveTarget(reference);
             }
         }
     }
@@ -1551,7 +1563,7 @@ struct FUN_0062d9b0_Class : TrapEventList
 
 struct ListHead : TrapEventList
 {
-    FUN_0062d9b0_Class* FUN_0062db40(int);
+    FUN_0062d9b0_Class* TriggerEntry_GetTriggerEntry(int);
 };
 
 struct TargetClass
@@ -1574,10 +1586,10 @@ void TargetClass::RemoveMatchingListEntry(ArgClass* arg)
         int vc = v4.FUN_0043b4d0();
         if (vc == 12 || vc == 22 || vc == 24)
         {
-            FUN_0062d9b0_Class* v10 = unk04->FUN_0062db40((int)v8);
+            FUN_0062d9b0_Class* v10 = unk04->TriggerEntry_GetTriggerEntry((int)v8);
             if (v10)
             {
-                unk04 = (ListHead*)v10->FUN_006207a0(unk04);
+                unk04 = (ListHead*)v10->bhkTTNode_RemoveFromList(unk04);
                 delete v10;
             }
         }
@@ -1669,12 +1681,13 @@ struct Updater62DE
     int unk00[6];
     Child62DE* m_children;
 
-    void FUN_0062de20(float f);
+    void TESTrapListener_Update(float f);
 };
 
 // Iterates m_children calling ProcessCollisionPairs, then iterates the owner's m_items list calling vfn_04 on each.
 // @fnv 0x0062de20
-void Updater62DE::FUN_0062de20(float f)
+// src: COMMUNITY 0x0062de20
+void Updater62DE::TESTrapListener_Update(float f)
 {
     {
         Child62DE* child = m_children;

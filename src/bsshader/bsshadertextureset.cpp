@@ -83,12 +83,13 @@ void __cdecl FUN_00a81fe0(int a)
     _MyHelper00a5d2f0(a);
 }
 
-void FUN_00a89af0();
+void nullsub_3();
 
 // @fnv 0x00a724d0
-void FUN_00a724d0()
+// src: COMMUNITY 0x00a724d0
+void NiInterpolator_LinkObject()
 {
-    FUN_00a89af0();
+    nullsub_3();
 }
 
 template <class T> inline void NiStreamSaveBinaryBA89(NiBinaryStream* pkStream, const T& value)

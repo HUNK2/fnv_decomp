@@ -12,7 +12,8 @@
 extern const NiRTTI g_011f3f50;
 
 // @fnv 0x00a48150
-const NiRTTI* __cdecl FUN_00a48150()
+// src: COMMUNITY 0x00a48150
+const NiRTTI* __cdecl NiRotData_GetRTTI()
 {
     return &g_011f3f50;
 }
@@ -162,11 +163,12 @@ struct SelfStub
     virtual void v51();
     virtual void v52(char*);
     void FUN_00b702b0(char*, void*);
-    void FUN_00b665d0(char*, void*);
+    void Lighting30ShaderProperty_CopyMembers(char*, void*);
 };
 // Calls FUN_00b702b0 with the given arguments, then invokes v52 on the same char pointer.
 // @fnv 0x00b665d0
-void SelfStub::FUN_00b665d0(char* a, void* b)
+// src: COMMUNITY 0x00b665d0
+void SelfStub::Lighting30ShaderProperty_CopyMembers(char* a, void* b)
 {
     FUN_00b702b0(a, b);
     v52(a);

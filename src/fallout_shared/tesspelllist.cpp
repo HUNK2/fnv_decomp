@@ -527,11 +527,12 @@ bool __fastcall IsDeleted(const TESForm* form);
 struct TESSpellListShell : TESSpellList
 {
     TesspelllistListNodeView* _ref_00717e50();
-    void FUN_0048d330();
+    void TESSpellList_SaveSubRecord();
 };
 void __cdecl FUN_00485910(unsigned int type, unsigned int formId);
 // @fnv 0x0048d330
-void TESSpellListShell::FUN_0048d330()
+// src: COMMUNITY 0x0048d330
+void TESSpellListShell::TESSpellList_SaveSubRecord()
 {
     TesspelllistListNodeView* currentLeveledSpell = _ref_00717e50();
     unsigned int currentSpell;

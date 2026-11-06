@@ -54,7 +54,8 @@ bool NiD3DShaderProgramFactory::RegisterCreator(const char* pcName, NiD3DShaderP
 struct Program;
 extern Program* DAT_0126fa10;
 // @fnv 0x00e92eb0
-Program* FUN_00e92eb0()
+// src: COMMUNITY 0x00e92eb0
+Program* NiD3DShaderProgramFactory_GetInstance()
 {
     return DAT_0126fa10;
 }
@@ -99,7 +100,8 @@ int __fastcall NiD3D10ShaderProgramFactory_GetFirstProgramDirectory(Lst* l, int,
 }
 
 // @fnv 0x00e93df0
-void FUN_00e93df0()
+// src: COMMUNITY 0x00e93df0
+void NiD3DShaderProgramFactory__SDMInit()
 {
     if (DAT_0126fa14 == 0)
         NiD3DShaderProgramFactory::CreateFactoryInstance();
@@ -301,7 +303,8 @@ extern int DAT_0126fa1c;
 extern int DAT_0126fa20;
 
 // @fnv 0x00e92f70
-void FUN_00e92f70(int param_1)
+// src: COMMUNITY 0x00e92f70
+void NiD3DShaderProgramFactory_SetD3DRenderer(int param_1)
 {
     DAT_0126fa1c = param_1;
     if (param_1 != 0)
@@ -474,7 +477,7 @@ extern int(__stdcall* DAT_00fdf1c4)(void*);
 struct ShaderProgramStandIn_00e93e00
 {
     virtual void __thiscall vf00(int);
-    void __thiscall FUN_00b601a0();
+    void __thiscall NiTPointerMap_RemoveAll_00b601a0();
 };
 
 struct FUN_00e93cc0_Obj
@@ -507,13 +510,13 @@ void FUN_00e93e00_Obj::FUN_00e93e00()
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010f0f70);
 
     if (unk14 != 0)
-        unk14->FUN_00b601a0();
+        unk14->NiTPointerMap_RemoveAll_00b601a0();
 
     if (unk14 != 0)
         unk14->vf00(1);
 
     if (unk18 != 0)
-        unk18->FUN_00b601a0();
+        unk18->NiTPointerMap_RemoveAll_00b601a0();
 
     if (unk18 != 0)
         unk18->vf00(1);
@@ -549,7 +552,8 @@ class CreatorMapView
 
 // Removes pkCreator from the global CreatorMapView at DAT_0126fa14 if found, iterating entries and calling RemoveAt on a matching key.
 // @fnv 0x00e93260
-void __cdecl FUN_00e93260(NiD3DShaderProgramCreator* pkCreator)
+// src: COMMUNITY 0x00e93260
+void __cdecl NiD3DShaderProgramFactory_UnregisterShaderCreator(NiD3DShaderProgramCreator* pkCreator)
 {
     if (DAT_0126fa14 == 0)
         return;
@@ -814,7 +818,7 @@ ShaderArg* FUN_00e93850(const char* p0, const char* p1, const char* apCreatorNam
 bool __cdecl FUN_00aa1a30(const char* pcName, int eMode);
 extern "C" int __cdecl FUN_00ec65a6(char* d, unsigned int n, const char* s);
 int __cdecl FUN_00aa0020(int, bool, const char*, ...);
-void __cdecl FUN_00e983f0(const char* pcPath, char* pcDrive, char* pcDir, char* pcFName, char* pcExt);
+void __cdecl NiD3DUtility_GetSplitPath(const char* pcPath, char* pcDrive, char* pcDir, char* pcFName, char* pcExt);
 int __cdecl FUN_00a305b0(char* d, unsigned int n, const char* fmt, ...);
 typedef NiTListItem<const char* > ShPF_Node;
 struct ShPF_Factory
@@ -868,7 +872,7 @@ bool FindShaderProgramFile(const char* pcShaderName, char* pcResolvedPath, unsig
     char acDir[260];
     char acFileName[260];
     char acExt[256];
-    FUN_00e983f0(pcShaderName, acDrive, acDir, acFileName, acExt);
+    NiD3DUtility_GetSplitPath(pcShaderName, acDrive, acDir, acFileName, acExt);
     ShPF_Node* kIter;
     const char* pcDir = ShPF_Get()->GetFirstDir(kIter);
     while (pcDir)

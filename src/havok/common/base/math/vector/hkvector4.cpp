@@ -207,7 +207,8 @@ extern double DAT_0102f070;
 
 // Casts rays between transformed points, adjusts both z coordinates by advance, and returns true when a cast fraction is below 1.
 // @fnv 0x00c6fa20
-bool bhkCharacterController::FUN_00c6fa20()
+// src: COMMUNITY 0x00c6fa20
+bool bhkCharacterController::CheckInsideOfObject()
 {
     Node* node = *(Node**)((char*)this + 0x594);
     State* state = node ? node->state : 0;
@@ -700,7 +701,7 @@ __declspec(noinline) void* __cdecl GetValidatedPointer(void* obj)
 void __cdecl ComputeInverseLengths(const QueryVector* triangle, Plane* plane);
 void __cdecl FUN_00cd6520(const QueryVector* ray, float tolerance, const QueryVector* triangle, float radius,
                           const Plane* plane, float zero, int flags, Contacts* contacts, void* extra);
-char __cdecl FUN_00c6d7e0(BoundingVolumeNode* obj, int one, char v, int id);
+char __cdecl bhkCharacterController_IsShapeConsideredPenetrating(BoundingVolumeNode* obj, int one, char v, int id);
 typedef char(__cdecl* PredFn)(int v);
 extern PredFn DAT_01267bc8;
 extern "C" void _ReadWriteBarrier();
@@ -759,7 +760,8 @@ struct CastWorkspace
 // @fnv 0x00c6eb00
 // The shared controller has no declaration for this routine yet. The unused
 // EDX argument preserves its original thiscall stack argument layout.
-char __fastcall FUN_00c6eb00(bhkCharacterController* controller, void*, ArgObj* arg)
+// src: COMMUNITY 0x00c6eb00
+char __fastcall bhkCharacterController_IsStep(bhkCharacterController* controller, void*, ArgObj* arg)
 {
     ArgObj* a = arg;
     VarObj* o20 = a->f20;
@@ -938,7 +940,7 @@ char __fastcall FUN_00c6eb00(bhkCharacterController* controller, void*, ArgObj* 
                         break;
                     uiLastKey = key;
                 }
-                flag = FUN_00c6d7e0(shape, 1, side, uiLastKey) == 0;
+                flag = bhkCharacterController_IsShapeConsideredPenetrating(shape, 1, side, uiLastKey) == 0;
             }
             else
             {

@@ -10,7 +10,8 @@
 extern void* g_011f5f48;
 
 // @fnv 0x00a9a5e0
-void* __cdecl FUN_00a9a5e0()
+// src: COMMUNITY 0x00a9a5e0
+void* __cdecl NiDitherProperty_GetRTTI()
 {
     return &g_011f5f48;
 }
@@ -59,7 +60,7 @@ NiCullingProperty* NiCullingProperty::FUN_00a9a5f0(CloningProcess& process)
     return copy;
 }
 
-char* __cdecl FUN_00a7d330(char const*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char const*);
 char* __cdecl FUN_00a7d370(char const*, bool);
 // The base property viewer helper is not declared with StrArr in NiProperty.h.
 struct NiDitherProperty : NiProperty
@@ -79,7 +80,7 @@ void NiDitherProperty::AppendDitherSettings(StrArr* array)
 {
     AppendString(array);
     Temporary value;
-    value.text = FUN_00a7d330((char const*)g_011f5f48);
+    value.text = NiViewerStrings_NiGetViewerString_Title((char const*)g_011f5f48);
     unsigned int index = array->m_usSize;
     if (index >= array->m_usMaxSize)
         array->SetSize(index + array->m_usGrowBy);

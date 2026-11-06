@@ -27,7 +27,7 @@ struct StandIn
 extern float DAT_011afe74;
 extern float DAT_011afe78;
 extern unsigned char DAT_012677cc;
-float __cdecl FUN_009c8ef0();
+float __cdecl bhkWorld_GetMaxPickTime();
 struct SoundListEntry;
 struct SoundListView
 {
@@ -47,9 +47,9 @@ struct MyList
     VATSCommand** _ref_006815c0();
     VATSCommand* FUN_009c71f0();
 };
-float __cdecl FUN_009c8ef0();
+float __cdecl bhkWorld_GetMaxPickTime();
 extern float DAT_012677c4;
-bool __cdecl FUN_009c8ea0();
+bool __cdecl bhkWorld_GetPickTimeOverMax();
 struct FUN_009c9900_shell
 {
     void SetByteAt76(unsigned char param_2);
@@ -340,11 +340,12 @@ RefL8* __cdecl FUN_0056f930(void* pvCollidable);
 class CheckerL8
 {
   public:
-    bool FUN_009c8f20(PackageL8* pkPackage);
+    bool VATS_GetLineOfSight(PackageL8* pkPackage);
 };
 
 // @fnv 0x009c8f20
-bool CheckerL8::FUN_009c8f20(PackageL8* pkPackage)
+// src: COMMUNITY 0x009c8f20
+bool CheckerL8::VATS_GetLineOfSight(PackageL8* pkPackage)
 {
     RefL8* pkTarget = 0;
     if (pkPackage->m_pkTarget->IsActor())

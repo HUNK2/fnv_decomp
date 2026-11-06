@@ -90,7 +90,8 @@ struct FUN_00e41090
 
 
 
-__declspec(noinline) void hkQuaternion::FUN_00c74ac0(const void* pa, const void* pb) throw()
+// src: COMMUNITY 0x00c74ac0
+__declspec(noinline) void hkQuaternion::setMulInverse(const void* pa, const void* pb) throw()
 {
     const __m128 a = *(const __m128*)pa;
     const __m128 b = *(const __m128*)pb;
@@ -295,7 +296,7 @@ FUN_00e41830::FUN_00e41830(const Config& config) throw() : m_ppVirtualMethodTabl
         hkQsTransform curTransform;
         FUN_00e41bf0(&curTransform, time, config.m_kTransforms, config.m_numQsTransforms, config.m_fAnimationDuration);
         hkQsTransform qh;
-        qh.m_rotation.FUN_00c74ac0(&curTransform.m_rotation, &startTransform.m_rotation);
+        qh.m_rotation.setMulInverse(&curTransform.m_rotation, &startTransform.m_rotation);
         qh.m_vTranslation.v = _mm_sub_ps(curTransform.m_vTranslation.v, startTransform.m_vTranslation.v);
         qh.m_vScale.v = unitScale;
         hkVector4 sampleOut;

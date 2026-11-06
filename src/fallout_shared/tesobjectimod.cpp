@@ -189,7 +189,7 @@ void TESObjectIMOD::SaveGameLegacy(unsigned int aiFlags)
 void TESObjectIMOD::SaveGame(BGSSaveFormBuffer* buffer)
 {
     TESForm::SaveGame(buffer);
-    TESValueForm::FUN_0048ea40(buffer);
+    TESValueForm::SaveGameBGS_0048ea40(buffer);
 }
 
 // @fnv 0x0051a420

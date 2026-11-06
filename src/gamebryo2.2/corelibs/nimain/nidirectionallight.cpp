@@ -44,7 +44,8 @@ struct GlobalObjectO2_00a7b610
 GlobalObjectO2_00a7b610 g_011f4a68;
 
 // @fnv 0x00a75c70
-void* __fastcall FUN_00a75c70(NiDirectionalLight*)
+// src: COMMUNITY 0x00a75c70
+void* __fastcall NiDirectionalLight_GetRTTI(NiDirectionalLight*)
 {
     return &g_011f4a68;
 }

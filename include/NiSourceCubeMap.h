@@ -27,11 +27,11 @@ class NiSourceCubeMap : public NiSourceTexture
     void Load(void*, void*, void*, void*, void*, void*, LoadBuffer*);
     void CreateFaces(char*, char*, char*, char*, char*, char*, int);
     void FUN_00a612a0(NiStream&);
-    void FUN_00a60940(NiRefObject*, NiRefObject*, NiRefObject*,
+    void LoadFromPixelData(NiRefObject*, NiRefObject*, NiRefObject*,
                       NiRefObject*, NiRefObject*, NiRefObject*);
     void LoadResources(char*, char*, char*, char*, char*, char*, CubeMapLoader*);
     void* FUN_00a61250(unsigned int);
-    void FUN_00a60940(Pixels*, Pixels*, Pixels*, Pixels*, Pixels*, Pixels*);
+    void LoadFromPixelData(Pixels*, Pixels*, Pixels*, Pixels*, Pixels*, Pixels*);
 
     unsigned int m_uiFace;
 };

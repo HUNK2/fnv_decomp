@@ -86,7 +86,8 @@ extern SettingT_GameSettingCollection_ originalRuntimeFloatSetting862;
 
 // Returns the sum of the base float setting and aiEndurance multiplied by the per-point float setting.
 // @fnv 0x00648a10
-float __cdecl FUN_00648a10(int aiEndurance)
+// src: COMMUNITY 0x00648a10
+float __cdecl GamePlayFormulas_SwimBreathTime(int aiEndurance)
 {
     return originalRuntimeFloatSetting861.Float()->f +
            (float)aiEndurance *
@@ -307,7 +308,8 @@ int __cdecl ComputeIntelligenceResult(int, int);
 
 // Computes the intelligence result from the capped permanent actor value and owner type.
 // @fnv 0x00648bc0
-int __cdecl FUN_00648bc0(ActorValueOwner* apActorValueOwner)
+// src: COMMUNITY 0x00648bc0
+int __cdecl GamePlayFormulas_GetLevelUpSkillPoints_0(ActorValueOwner* apActorValueOwner)
 {
     int v;
     v = ComputeIntelligenceResult(MinInt(apActorValueOwner->GetPermanentActorValue((ActorValue::Index)9), 10),
@@ -530,7 +532,8 @@ extern SettingT_GameSettingCollection_ DAT_011d0fd8;
 
 // Returns the sum of two setting values, with the second multiplied by fValue times 10.0f.
 // @fnv 0x00648050
-float __cdecl FUN_00648050(float fValue)
+// src: COMMUNITY 0x00648050
+float __cdecl GamePlayFormulas_CalcFatigueReturn(float fValue)
 {
     return DAT_011d05ec.Float()->f + DAT_011d0fd8.Float()->f * (fValue * 10.0f);
 }

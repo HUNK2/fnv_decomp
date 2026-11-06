@@ -530,7 +530,8 @@ extern float DAT_011adcd4;
 extern float DAT_011adcd8;
 
 // @fnv 0x00ba5320
-void __cdecl FUN_00ba5320()
+// src: COMMUNITY 0x00ba5320
+void __cdecl ParticleShader_UpdateFov()
 {
     S_00ba5320_Inner* pRenderTarget = DAT_011f4748->GetRenderTarget();
     unsigned int uiWidth = pRenderTarget->GetWidth(0);
@@ -629,7 +630,7 @@ NiProperty* __cdecl FUN_00ba68d0(NiAVObject* apObject, ArgObj* apArg)
 struct Q64_Pool
 {
     int unk00;
-    void* __thiscall FUN_00aa3e40(unsigned int size);
+    void* __thiscall Game_DoHeapAlloc(unsigned int size);
 };
 struct Q64_Pt2
 {
@@ -646,7 +647,7 @@ unsigned int __cdecl GetFloatQuadTable();
 
 inline void* operator new[](unsigned int n, Q64_Pool& p)
 {
-    return p.FUN_00aa3e40(n);
+    return p.Game_DoHeapAlloc(n);
 }
 
 inline unsigned short* Q64_allocIdx(unsigned short t)
@@ -698,8 +699,8 @@ struct Q64_Buf : Q64_Obj
     int unk24;
     int unk28;
     void __thiscall FUN_00a72ca0(int a);
-    void __thiscall FUN_00a72bb0(int a, unsigned int b, unsigned int c, int d);
-    void __thiscall FUN_00a726a0(int a, int b, int c, int d, unsigned short e, int f, int g);
+    void __thiscall NiAdditionalGeometryData_SetDataBlock(int a, unsigned int b, unsigned int c, int d);
+    void __thiscall NiAdditionalGeometryData_SetDataStream(int a, int b, int c, int d, unsigned short e, int f, int g);
     Q64_Buf(unsigned short nv, int a);
 };
 struct Q64_Geo : Q64_Obj
@@ -939,8 +940,8 @@ NiObject* __cdecl FUN_00ba64e0()
     Q64_Geo* geo = new Q64_Geo(nv, verts, 0, 0, uv, 1, 0, tris, idx);
     Q64_Buf* buf = new Q64_Buf(nv, 1);
     buf->FUN_00a72ca0(1);
-    buf->FUN_00a72bb0(0, GetFloatQuadTable(), nv * 4, 1);
-    buf->FUN_00a726a0(0, 0, 0, 1, nv, 4, 4);
+    buf->NiAdditionalGeometryData_SetDataBlock(0, GetFloatQuadTable(), nv * 4, 1);
+    buf->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 1, nv, 4, 4);
     geo->FUN_00a67260(buf);
 
     Q64_Top* top = new Q64_Top(geo);
@@ -966,7 +967,7 @@ extern void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct ParticleMemoryManager
 {
-    void* __thiscall FUN_00aa3e40(unsigned int);
+    void* __thiscall Game_DoHeapAlloc(unsigned int);
 };
 extern ParticleMemoryManager particleMemoryManager;
 
@@ -1026,7 +1027,7 @@ struct Particle
     float x, y, z, w, a, b, c, d, e, f, g, h;
     static void* operator new[](unsigned int size)
     {
-        return particleMemoryManager.FUN_00aa3e40(size);
+        return particleMemoryManager.Game_DoHeapAlloc(size);
     }
 };
 class FUN_00ba53f0 : public BSShader

@@ -37,7 +37,7 @@ public:
 // @fnv 0x007a8a10
 MessageMenu_007a8a10::MessageMenu_007a8a10()
 {
-    FUN_004b7210()->ucMsgBoxButton = 255;
+    InterfaceManager_GetSingleton()->ucMsgBoxButton = 255;
     messageCount = 0;
 }
 
@@ -49,16 +49,17 @@ int CompanionWheelMenu::GetClass()
 
 struct FUN_00884480_shell
 {
-    bool __thiscall FUN_00884480(void);
+    bool __thiscall Actor_CanSpeak(void);
 };
 extern Actor* g_thePlayer;
 
 // @fnv 0x00754d90
-bool FUN_00754d90(Actor* apActor)
+// src: COMMUNITY 0x00754d90
+bool CompanionWheelMenu_GetShouldCompanionWheelOpen(Actor* apActor)
 {
     if (!apActor)
         return false;
-    if (!static_cast<FUN_00884480_shell*>(static_cast<void*>(apActor))->FUN_00884480())
+    if (!static_cast<FUN_00884480_shell*>(static_cast<void*>(apActor))->Actor_CanSpeak())
         return false;
     int tmp;
     if (apActor->IsHostileToActor(g_thePlayer, 0, &tmp, false))
@@ -67,7 +68,8 @@ bool FUN_00754d90(Actor* apActor)
 }
 
 // @fnv 0x00755260
-int __cdecl FUN_00755260()
+// src: COMMUNITY 0x00755260
+int __cdecl return_1075()
 {
     return 0x433;
 }
@@ -398,7 +400,7 @@ void CompanionWheelMenu::UpdateDialog()
 
 struct MenuFactory
 {
-    Menu* FUN_00a03c90();
+    Menu* Tile_GetMenu();
 };
 MenuFactory* __cdecl FUN_00a09030(int id);
 int __cdecl OpenCompanionMenu(int value);
@@ -408,7 +410,7 @@ int __cdecl OpenCompanionMenu(int value);
 bool __cdecl DestroyCompanionWheelMenu(int value)
 {
     MenuFactory* factory = FUN_00a09030(0x433);
-    CompanionWheelMenu* menu = factory ? dynamic_cast<CompanionWheelMenu*>(factory->FUN_00a03c90()) : 0;
+    CompanionWheelMenu* menu = factory ? dynamic_cast<CompanionWheelMenu*>(factory->Tile_GetMenu()) : 0;
     if (menu)
         delete menu;
     if (OpenCompanionMenu(value))
@@ -433,20 +435,20 @@ bool __fastcall ValidateLoadedMenu(CompanionWheelMenu*);
 CompanionWheelMenu* FUN_00a09030(int);
 BSAudio* FUN_00453a70();
 float __stdcall FUN_00a01530(bool);
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 extern const char DAT_01071d58[];
 extern const char DAT_01025cc4[];
 extern const char DAT_01071db4[];
 // @fnv 0x00754de0
 Tile* OpenCompanionMenu(Actor* actor)
 {
-    ResourceProvider* a = (ResourceProvider*)FUN_004b7210();
-    CompanionWheelMenu* p = FUN_00a09030(FUN_00755260());
+    ResourceProvider* a = (ResourceProvider*)InterfaceManager_GetSingleton();
+    CompanionWheelMenu* p = FUN_00a09030(return_1075());
     if (p)
         delete p;
     Tile* h = a->FUN_00586150()->ReadFile(DAT_01071dfc);
     companionMenu = (CompanionWheelMenu*)h->GetMenu();
-    if (companionMenu && companionMenu->GetClass() == FUN_00755260())
+    if (companionMenu && companionMenu->GetClass() == return_1075())
     {
         companionMenu->companion = actor;
         if (companionMenu->companion)
@@ -477,7 +479,7 @@ Tile* OpenCompanionMenu(Actor* actor)
         companionMenu->FUN_00a1dc70((TileMenu*)h, false);
         if (!ValidateLoadedMenu(companionMenu))
         {
-            FUN_005b5e40(DAT_01071d58);
+            Warning_005b5e40(DAT_01071d58);
             return 0;
         }
         FUN_00453a70()->GetSoundHandleByEditorID(DAT_01025cc4, 0x121).Play(false);
@@ -1037,7 +1039,7 @@ struct InteractionActor
     bool FUN_008b3bb0();
     bool FUN_008b3c30();
     void FUN_008a8e50();
-    void FUN_008a7a90();
+    void Actor_ForceIdleAnimation();
     const char* FUN_0055d520();
 };
 extern InteractionActor* interactionPlayer;
@@ -1234,11 +1236,11 @@ void InteractionMenu::UpdateCompanionInteraction()
                                     player2->FUN_008d8520()->SetPackage(player2, 1);
                                 aTarget->extras.FUN_00815b00();
                                 if (aTarget == interactionPlayer)
-                                    aTarget->FUN_008a7a90();
+                                    aTarget->Actor_ForceIdleAnimation();
                                 else
                                     aTarget->FUN_008d8520()->SetFlags(1024);
                                 if (player2 == interactionPlayer)
-                                    player2->FUN_008a7a90();
+                                    player2->Actor_ForceIdleAnimation();
                                 else
                                     player2->FUN_008d8520()->SetFlags(1024);
                                 dialogueDisplay.FUN_009c8950(0, 0);
@@ -1565,7 +1567,7 @@ extern CRandom_757690 DAT_011d2178;
 extern double DAT_01012060;
 extern double DAT_01017b70;
 unsigned __cdecl FUN_00ec6130(int);
-unsigned __cdecl FUN_00457fe0();
+unsigned __cdecl Cmd_GetSessionTime_Execute();
 // The CompanionWheelMenu's text-and-timeout setter.
 struct CWheelMenu_757690
 {
@@ -1590,7 +1592,7 @@ void __thiscall CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, B
                 shift =
                     (float)((double)FUN_00ec6130(text.FUN_00559450()) * (*DAT_011d2178.FUN_00403e20()) * DAT_01017b70);
             }
-            reinterpret_cast<CompanionWheelMenu*>(this)->textClearTime = (unsigned)((double)FUN_00457fe0() + shift);
+            reinterpret_cast<CompanionWheelMenu*>(this)->textClearTime = (unsigned)((double)Cmd_GetSessionTime_Execute() + shift);
         }
     }
 }
@@ -1606,7 +1608,7 @@ struct ResultList
     ~ResultList();
     void FUN_00ad8e60(void (*)(unsigned int), unsigned int);
 };
-void FUN_005790f0(unsigned int);
+void TESObjectREFR_SayToCallBack(unsigned int);
 struct Sequence
 {
     unsigned int FUN_0084e3a0();
@@ -2365,7 +2367,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
                     if (chosen)
                         source->FUN_0057ace0(chosen->FUN_0084e3a0());
                     ResultList events = actor->PlayActor(idleVal, actor, immediateFlag4, priorityFlag, 0, 0);
-                    events.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+                    events.FUN_00ad8e60(TESObjectREFR_SayToCallBack, source->FUN_0084e3a0());
                     return true;
                 }
                 if (DAT_011dea3c->FUN_0094df60() || ((Process*)actor->FUN_008d8520())->FUN_0045cd60() != 0 ||
@@ -2402,7 +2404,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
             if (chosen2)
                 source->FUN_0057ace0(chosen2->FUN_0084e3a0());
             ResultList events7 = created->Play(idleVal, created, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            events7.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+            events7.FUN_00ad8e60(TESObjectREFR_SayToCallBack, source->FUN_0084e3a0());
             delete created;
         }
         else if (source->GetNode() || (source->IsSpecial() && source->FUN_005e3fa0()->GetNode()))
@@ -2412,7 +2414,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
             if (chosen3)
                 source->FUN_0057ace0(chosen3->FUN_0084e3a0());
             ResultList events3 = source->Play(idleVal, 0, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            events3.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+            events3.FUN_00ad8e60(TESObjectREFR_SayToCallBack, source->FUN_0084e3a0());
         }
     }
     DAT_011cd378.FUN_0045ce80(previous);
@@ -3118,7 +3120,7 @@ struct CompanionStatsActorQueries : CompanionStatsPrimaryObject, ActorValueOwner
     float FUN_008a0c20();
 };
 
-float __cdecl FUN_008a0cd0(ActorValueOwner* owner, int value);
+float __cdecl Actor_GetInventoryWeight(ActorValueOwner* owner, int value);
 
 struct InvEntry755d
 {
@@ -3212,7 +3214,7 @@ void Wheel755d::FUN_00755dc0(int mode)
         case 6:
             if (actor)
             {
-                rlA5 = (int)FUN_008a0cd0(actor, 0xd);
+                rlA5 = (int)Actor_GetInventoryWeight(actor, 0xd);
                 a2 = (int)actor->FUN_008a0c20();
                 sprintf_s(rltxt, 260, "%s  %d/%d", DAT_011d1e60.String(), rlA5, a2);
             }

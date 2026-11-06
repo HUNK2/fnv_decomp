@@ -58,7 +58,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026d0;
 
 // @fnv 0x00c29d40
-GlobalObjectO2_00a7b610* __cdecl FUN_00c29d40()
+// src: COMMUNITY 0x00c29d40
+GlobalObjectO2_00a7b610* __cdecl NiPSysModifierActiveCtlr_GetRTTI()
 {
     return &g_012026d0;
 }
@@ -66,7 +67,8 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00c29d40()
 extern char const* const g_012026d0_arg1;
 
 // @fnv 0x00c32be0
-const char* __cdecl FUN_00c32be0()
+// src: COMMUNITY 0x00c32be0
+const char* __cdecl NiPSysModifierBoolCtlr_GetRTTI()
 {
     return reinterpret_cast<const char*>(&g_012026d0_arg1);
 }
@@ -93,7 +95,7 @@ bool StandIn::FUN_00c29dd0(NiObjectNET* pkTarget)
     return pkModifier;
 }
 
-extern "C" void* __cdecl FUN_00a7d330(const void*);
+extern "C" void* __cdecl NiViewerStrings_NiGetViewerString_Title(const void*);
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026d0;
 class NiPSysModifierActiveCtlr : public NiPSysModifierBoolCtlr
@@ -111,7 +113,7 @@ public:
 void __thiscall NiPSysModifierActiveCtlr::FUN_00c29e00(StrArr* pArray)
 {
     AppendModifierInfo(pArray);
-    char* p = (char*)FUN_00a7d330((const void*)*(void**)(void*)&g_012026d0);
+    char* p = (char*)NiViewerStrings_NiGetViewerString_Title((const void*)*(void**)(void*)&g_012026d0);
     unsigned int uiIndex = pArray->m_usSize;
     unsigned int n = pArray->m_usMaxSize;
     if (uiIndex >= n)

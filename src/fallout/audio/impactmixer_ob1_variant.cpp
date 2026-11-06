@@ -29,9 +29,9 @@ inline NiPoint3 operator*(float scalar, const NiPoint3& point)
 // src/fallout/audio/impactmixer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/audio/impactmixer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern int DAT_011dd878;
-bool FUN_00839da0();
+bool ImpactMixer_GetGunshotsInitialized();
 extern int DAT_011dd878;
-void FUN_00839dc0(bool b);
+void ImpactMixer_SetGunshotsInitialized(bool b);
 extern int DAT_011a17f8[0x24];
 int GetTypeValue(int aiType);
 void FUN_00837520();
@@ -42,7 +42,7 @@ struct DummyFlags
 };
 struct FUN_00838750_shell
 {
-    bool FUN_00838750();
+    bool bhkCharacterController_GetOnStairs();
 };
 struct FUN_00541570_shell
 {
@@ -50,7 +50,7 @@ struct FUN_00541570_shell
     unsigned char m_0x1c;
     unsigned int GetField1C();
 };
-void __cdecl FUN_00839dc0(bool b);
+void __cdecl ImpactMixer_SetGunshotsInitialized(bool b);
 extern float DAT_01016970;
 void __cdecl InitializeSlots();
 struct FUN_0063a3c0_cls
@@ -639,7 +639,7 @@ struct SkinOps
     int unk408;
     int unk40c;
     MaterialOps material;
-    bool FUN_00838750();
+    bool bhkCharacterController_GetOnStairs();
 };
 extern S_0083a930_Setting DAT_011dd988;
 extern SoundOps* DAT_011dd860;
@@ -671,7 +671,7 @@ inline void operator delete[](void*, void*)
 extern MemoryManager DAT_011f6238;
 inline void* operator new[](unsigned int size)
 {
-    return DAT_011f6238.FUN_00aa3e40(size);
+    return DAT_011f6238.Game_DoHeapAlloc(size);
 }
 void operator delete[](void* memory);
 // The original's point type here is NiPoint3: operator- 0x439ef0, Cross 0x4b3800, Unitize 0x4a0c10 and operator+
@@ -708,7 +708,7 @@ struct FilterData
 
     static __forceinline void* operator new[](unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
     static void operator delete[](void*);
 };
@@ -723,7 +723,7 @@ struct FilterArray
     FilterData values[8];
     static __forceinline void* operator new(unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
     static void operator delete(void*);
     __forceinline FilterArray()
@@ -852,7 +852,8 @@ struct CollisionGenerator : CollisionShape
                        int d, void* data);
 };
 // @fnv 0x00c55d50
-CollisionShape* __cdecl FUN_00c55d50(NiPoint3* start, NiPoint3* end, float forwardExtent, float backwardExtent,
+// src: COMMUNITY 0x00c55d50
+CollisionShape* __cdecl BSTestObjects_CreateBox(NiPoint3* start, NiPoint3* end, float forwardExtent, float backwardExtent,
                                      float upExtent, float downExtent, FilterData* nearFilter, FilterData* farFilter)
 {
     NiPoint3* verticesX;

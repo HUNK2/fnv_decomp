@@ -27,7 +27,7 @@ public:
 
     void FUN_007244e0();
     void FUN_00725080();
-    void FUN_007a5e70();
+    void ListBox_ItemChange_ScrollToHighlight();
     void FUN_007a73e0();
     __declspec(dllexport) void UpdateHighlight();
     void FUN_0072c2b0();
@@ -39,9 +39,9 @@ public:
 class HighlightValue_computersmenu
 {
 public:
-    void FUN_00a09130(int trait, Tile* tile, int sourceTrait);
-    void FUN_00a09130(int trait, void* source, int sourceTrait);
-    void FUN_00a09410(int value);
+    void Tile_Value_AddRefValueAction(int trait, Tile* tile, int sourceTrait);
+    void Tile_Value_AddRefValueAction(int trait, void* source, int sourceTrait);
+    void Tile_Value_SetFloat(int value);
 };
 // InterfaceH_computersmenu: local type (was include/InterfaceH.h, which had no evidence of one real class); its methods are 0x00702360 Interface::IsInMenuMode, 0x00702450 Interface::IsTopMenuID, 0x00703860 HUDMainMenu::HandleHealthbarForCrosshairActor_, 0x00705e00 Interface::CreateLoadingMenu
 class TESForm;
@@ -64,7 +64,8 @@ public:
 
 // Stores apTile into the tile slot at index aiID when aiID is in [0, 0x10).
 // @fnv 0x00754c00
-void ComputersMenu::FUN_00754c00(int aiID, Tile* apTile)
+// src: COMMUNITY 0x00754c00
+void ComputersMenu::CompanionWheelMenu_AttachTileByID(int aiID, Tile* apTile)
 {
     if (aiID >= 0 && aiID < 0x10)
     {
@@ -125,7 +126,8 @@ extern int __cdecl GetTileValueID(const char*, int);
 extern char $SG7172[];
 
 // @fnv 0x007596a0
-void __cdecl FUN_007596a0(Tile* apTile, void* apMenuItem)
+// src: COMMUNITY 0x007596a0
+void __cdecl ComputersMenu_PostDisplay(Tile* apTile, void* apMenuItem)
 {
     if (apTile)
         apTile->Set(GetTileValueID($SG7172, -1), 1);
@@ -444,7 +446,7 @@ struct FUN_006ffe80_shell
 
 struct FUN_00726db0_class
 {
-    bool __thiscall FUN_00726db0(bool);
+    bool __thiscall AnimatingText_SetVisibility(bool);
 };
 
 struct FUN_00759eb0
@@ -456,7 +458,7 @@ struct FUN_00759eb0
 
 struct FUN_007b5330_shell
 {
-    void __thiscall FUN_007b5330(void*, void*);
+    void __thiscall NiTPointerListBase_InsertBefore_0(void*, void*);
 };
 
 struct FUN_00759da0_shell : FUN_007b5330_shell
@@ -487,7 +489,7 @@ void FUN_00759da0_shell::InsertAtPosition(char const* aParam1, int aParam2, int 
 
         if (pNode != 0)
         {
-            this->FUN_007b5330(reinterpret_cast<void*>(pNode), reinterpret_cast<void*>(&pNewObject));
+            this->NiTPointerListBase_InsertBefore_0(reinterpret_cast<void*>(pNode), reinterpret_cast<void*>(&pNewObject));
         }
         else
         {
@@ -495,7 +497,7 @@ void FUN_00759da0_shell::InsertAtPosition(char const* aParam1, int aParam2, int 
         }
     }
 
-    reinterpret_cast<FUN_00726db0_class*>(pNewObject)->FUN_00726db0(false);
+    reinterpret_cast<FUN_00726db0_class*>(pNewObject)->AnimatingText_SetVisibility(false);
 }
 
 struct SysColorMgr
@@ -804,13 +806,13 @@ void RefreshF57EA0TerminalMenu()
 }
 
 namespace fnv_00758470 {
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 struct HH84
 {
     unsigned int GetReferenceFlags();
     void ProcessQueue();
 };
-void FUN_007596a0(Tile*, TESObjectREFR*);
+void ComputersMenu_PostDisplay(Tile*, TESObjectREFR*);
 unsigned int __cdecl gm_GetTickCount();
 extern unsigned int DAT_011d93c4;
 }  // namespace fnv_00758470
@@ -819,7 +821,7 @@ extern unsigned int DAT_011d93c4;
 void ComputersMenu::FUN_00758470()
 {
     using namespace fnv_00758470;
-    if ((unkc0 && !FUN_004b7210()->kTutorialManager.HasBeenShown(0x18)) || m_eFadeState == 2)
+    if ((unkc0 && !InterfaceManager_GetSingleton()->kTutorialManager.HasBeenShown(0x18)) || m_eFadeState == 2)
         return;
     reinterpret_cast<HH84*>(manager)->ProcessQueue();
     UpdateBlink();
@@ -840,7 +842,7 @@ void ComputersMenu::FUN_00758470()
         }
         else if (bRefreshed)
         {
-            entries.Traverse(FUN_007596a0, 0, 0x7fffffff);
+            entries.Traverse(ComputersMenu_PostDisplay, 0, 0x7fffffff);
             bRefreshed = 0;
         }
     }
@@ -1035,7 +1037,7 @@ void ComputersMenu::FUN_007586e0(bool abAddRecent)
 
 struct FUN_00ad73b0_t
 {
-    BSSoundHandle FUN_00ad73b0(unsigned int auiFormID, unsigned int auiFlags);
+    BSSoundHandle GetSoundHandleByFormID_00ad73b0(unsigned int auiFormID, unsigned int auiFlags);
 };
 
 
@@ -1043,7 +1045,7 @@ struct FUN_00ad73b0_t
 void ComputersMenu::PlayNoteSound(BGSNote* apNote)
 {
     ((FUN_00ad73b0_t*)BSAudio::GetSingleton())
-        ->FUN_00ad73b0(apNote->FUN_005e9100()->GetFormID(), 0x101)
+        ->GetSoundHandleByFormID_00ad73b0(apNote->FUN_005e9100()->GetFormID(), 0x101)
         .Play(false);
 }
 
@@ -1136,7 +1138,7 @@ struct QueueText
     bool FUN_00759d80();
     const char* FUN_00458b50();
     const char* FUN_0059bb30();
-    unsigned int FUN_0044edb0();
+    unsigned int TESMain_GetThread();
     Tile* FUN_007001f0();
     void FUN_006ffea0();
 };
@@ -1195,7 +1197,7 @@ void TextQueue::ProcessQueue()
                             for (unsigned int index = 0; index < newLength - oldLength; index++)
                             {
                                 unsigned int offset =
-                                    (*FUN_0073ac90())->FUN_0044edb0() * index / (newLength - oldLength);
+                                    (*FUN_0073ac90())->TESMain_GetThread() * index / (newLength - oldLength);
                                 FUN_00ad9060()
                                     ->ResolveAudioHandle("UIHackingCharSingle", 0x121)
                                     .PlayAfter(offset, 0);
@@ -1267,9 +1269,9 @@ int __cdecl TraitNameToID(const char* apName, int aiDefault);
 struct LBTileValue
 {
     void RemoveFromReactions();
-    void FUN_00a09130(int aiOperator, Tile* apTile, int aiID);
+    void Tile_Value_AddRefValueAction(int aiOperator, Tile* apTile, int aiID);
     void AppendFloatAction(int aiOperator, float afValue);
-    void FUN_00a09410(int aiFlag);
+    void Tile_Value_SetFloat(int aiFlag);
 };
 
 struct LBTileMenu
@@ -1344,9 +1346,9 @@ Tile* LBListBox::AddItem(int aiObject, const char* apText, int(__cdecl* apSort)(
         {
             LBTileValue* pAction = static_cast<LBTileValue*>(reinterpret_cast<TileCompatibility*>(pParentTile)->FindTraitValue(0xfb0));
             pAction->RemoveFromReactions();
-            pAction->FUN_00a09130(0x7d0, pTile, 0xfb0);
+            pAction->Tile_Value_AddRefValueAction(0x7d0, pTile, 0xfb0);
             pAction->AppendFloatAction(0x7d3, pParentTile->GetFloat(TraitNameToID("_number_of_visible_items", -1)));
-            pAction->FUN_00a09410(0);
+            pAction->Tile_Value_SetFloat(0);
         }
         return pTile;
     }
@@ -2037,10 +2039,10 @@ __declspec(dllexport) __declspec(noinline) inline void HighlightList_computersme
         {
             HighlightValue_computersmenu* heightValue = static_cast<HighlightValue_computersmenu*>(container->FUN_00a00f30(reinterpret_cast<int>(highlightY)));
             HighlightValue_computersmenu* yValue = static_cast<HighlightValue_computersmenu*>(container->FUN_00a00f30(reinterpret_cast<int>(selectedHeight)));
-            heightValue->FUN_00a09130(2000, selected, 4002);
-            heightValue->FUN_00a09410(0);
-            yValue->FUN_00a09130(2000, selected, 4016);
-            yValue->FUN_00a09410(0);
+            heightValue->Tile_Value_AddRefValueAction(2000, selected, 4002);
+            heightValue->Tile_Value_SetFloat(0);
+            yValue->Tile_Value_AddRefValueAction(2000, selected, 4016);
+            yValue->Tile_Value_SetFloat(0);
             if (selected->GetSpeechChallengeFailure())
             {
                 Tile* box = FUN_00a08b20(container, "lb_highlight_box");
@@ -2050,19 +2052,19 @@ __declspec(dllexport) __declspec(noinline) inline void HighlightList_computersme
                     if (edge)
                     {
                         edge->FUN_0071aa60(true);
-                        edge->FUN_00a07530(8);
+                        edge->Tile_SetChangeFlag(8);
                         edge = box->GetNamedChild("bottom");
                         edge->FUN_0071aa60(true);
-                        edge->FUN_00a07530(8);
+                        edge->Tile_SetChangeFlag(8);
                         edge = box->GetNamedChild("left");
                         edge->FUN_0071aa60(true);
-                        edge->FUN_00a07530(8);
+                        edge->Tile_SetChangeFlag(8);
                         edge = box->GetNamedChild("right");
                         edge->FUN_0071aa60(true);
-                        edge->FUN_00a07530(8);
+                        edge->Tile_SetChangeFlag(8);
                     }
                     box->FUN_0071aa60(true);
-                    box->FUN_00a07530(8);
+                    box->Tile_SetChangeFlag(8);
                 }
             }
             else
@@ -2074,19 +2076,19 @@ __declspec(dllexport) __declspec(noinline) inline void HighlightList_computersme
                     if (edge)
                     {
                         edge->FUN_0071aa60(false);
-                        edge->FUN_00a07530(8);
+                        edge->Tile_SetChangeFlag(8);
                         edge = box->GetNamedChild("bottom");
                         edge->FUN_0071aa60(false);
-                        edge->FUN_00a07530(8);
+                        edge->Tile_SetChangeFlag(8);
                         edge = box->GetNamedChild("left");
                         edge->FUN_0071aa60(false);
-                        edge->FUN_00a07530(8);
+                        edge->Tile_SetChangeFlag(8);
                         edge = box->GetNamedChild("right");
                         edge->FUN_0071aa60(false);
-                        edge->FUN_00a07530(8);
+                        edge->Tile_SetChangeFlag(8);
                     }
                     box->FUN_0071aa60(false);
-                    box->FUN_00a07530(8);
+                    box->Tile_SetChangeFlag(8);
                 }
             }
         }
@@ -2220,7 +2222,7 @@ extern Player* DAT_011dea3c;
 extern Setting DAT_011d3ca0;
 extern Setting DAT_011d3e50;
 extern unsigned char DAT_011d93c0;
-unsigned int __cdecl FUN_00457fe0();
+unsigned int __cdecl Cmd_GetSessionTime_Execute();
 int __cdecl FUN_00406f60(BStr*, const char*, ...);
 bool __cdecl DispatchMessageToSink(const char*, int, const char*, const char*, float, bool);
 void __cdecl UpdateNoteTile(Tile*, void*);
@@ -2298,7 +2300,7 @@ void __thiscall ComputersMenu::FUN_00757f70(int aiTileIndex, Tile* apTile)
                 {
                     reinterpret_cast<Mgr*>(manager)->InsertAtPosition(obj->m_str.FUN_00559450(), m_pTiles[5]->FUN_00a00f30(0xfc4),
                                                  reinterpret_cast<TileCompatibility*>(m_pTiles[5])->FindTraitValue(0xfa3), 0);
-                    unka0 = FUN_00457fe0() + *DAT_011d3e50.FUN_0043d4d0() * 1000;
+                    unka0 = Cmd_GetSessionTime_Execute() + *DAT_011d3e50.FUN_0043d4d0() * 1000;
                 }
                 if (obj->m_note)
                 {
@@ -2343,7 +2345,7 @@ struct TerminalReference
     unsigned int FUN_00501270(void*);
 };
 int __cdecl FUN_00406f60(StrMem*, const char*, ...);
-void __cdecl FUN_00403d30(void*, int, unsigned int);
+void __cdecl ourMemset(void*, int, unsigned int);
 
 }  // namespace fnv_00758ad0
 
@@ -2369,8 +2371,8 @@ void ComputersMenu::BuildAnimation()
                                     (int)reinterpret_cast<TileCompatibility*>(tile54)->FindTraitValue(0xfa3), -1);
         fnv_00758ad0::DAT_0119f278 = promptDelay;
         char password[16];
-        FUN_00403d30(password, 0, 16);
-        FUN_00403d30(password, '*', reinterpret_cast<TerminalReference*>(terminal)->FUN_00501270(reference));
+        ourMemset(password, 0, 16);
+        ourMemset(password, '*', reinterpret_cast<TerminalReference*>(terminal)->FUN_00501270(reference));
         FUN_00406f60(&text, "%s%s", "> ", password);
         reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(text.FUN_00559450(), (int)tile58->FUN_00a00f30(0xfc4),
                                     (int)reinterpret_cast<TileCompatibility*>(tile58)->FindTraitValue(0xfa3), -1);

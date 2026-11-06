@@ -222,10 +222,11 @@ struct Fake845
 };
 struct S845
 {
-    CF845 FUN_00845760(unsigned int aiFormID);
+    CF845 BGSSaveLoadChangesMap_GetChangeBuffer(unsigned int aiFormID);
 };
 // @fnv 0x00845760
-CF845 S845::FUN_00845760(unsigned int aiFormID)
+// src: COMMUNITY 0x00845760
+CF845 S845::BGSSaveLoadChangesMap_GetChangeBuffer(unsigned int aiFormID)
 {
     FormChangeRecord* pEntry;
     pEntry = (FormChangeRecord*)((CombatTargetMap*)this)->GetTargetsForActor((Actor*)aiFormID);

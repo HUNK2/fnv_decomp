@@ -2648,7 +2648,7 @@ struct Resource
     virtual void slot1cc();
     virtual void* GetUnderlyingObject();
     Handle* FUN_00931ed0(Handle*);
-    Handle* FUN_0043b4f0(Handle*);
+    Handle* bhkWorldObject_GetCollisionFilter(Handle*);
     Resource* FUN_006fa820();
 };
 struct Scene
@@ -3288,7 +3288,7 @@ struct Visual
     Visual(FxState*, Actor*);
     static void* operator new(unsigned int);
     static void operator delete(void*);
-    void FUN_008106b0(float);
+    void bhkCharacterController_SetFallTime(float);
     void FUN_00810610(bool);
     void FUN_008105e0(int);
     void FUN_00810640(Actor*);
@@ -3298,7 +3298,7 @@ struct Visual
     void* FUN_00810660();
     void FUN_00c6d7a0(void*);
     void FUN_005620e0(NiPoint3*);
-    Handle FUN_0070c440();
+    Handle bhkCharacterController_GetCollisionFilter();
 };
 
 struct RenderGlobals
@@ -3364,7 +3364,7 @@ void Actor::FUN_00819ca0()
                     Resource* material = base ? base->FUN_006fa820() : 0;
                     Handle temporary;
                     state.FUN_00810590(7,
-                                       material ? material->FUN_0043b4f0(&temporary)->FUN_004a3a20() : FUN_005dbe10());
+                                       material ? material->bhkWorldObject_GetCollisionFilter(&temporary)->FUN_004a3a20() : FUN_005dbe10());
                 }
             }
             else
@@ -3372,14 +3372,14 @@ void Actor::FUN_00819ca0()
                 Resource* base = FUN_004b5260(GetNiNode());
                 Resource* material = base ? base->FUN_006fa820() : 0;
                 Handle temporary;
-                state.FUN_00810590(7, material ? material->FUN_0043b4f0(&temporary)->FUN_004a3a20() : FUN_005dbe10());
+                state.FUN_00810590(7, material ? material->bhkWorldObject_GetCollisionFilter(&temporary)->FUN_004a3a20() : FUN_005dbe10());
             }
         }
         else
             state.FUN_00810590(7, 0);
         state.SetAssociatedActorValue(6);
         active = new Visual(&state, this);
-        active->FUN_008106b0(1.0f);
+        active->bhkCharacterController_SetFallTime(1.0f);
         active->FUN_00810610(FUN_00525420());
         active->FUN_008105e0(1);
         reinterpret_cast<Scene*>(m_pBaseProcess)->add(active);
@@ -3421,7 +3421,7 @@ void Actor::FUN_00819ca0()
             active->FUN_005620e0(&position);
             if (dirty)
             {
-                Handle appearanceHandle = active->FUN_0070c440();
+                Handle appearanceHandle = active->bhkCharacterController_GetCollisionFilter();
                 int appearance = appearanceHandle.FUN_004a3a20();
                 target->apply(expected, 1, 0, appearance, 0);
             }

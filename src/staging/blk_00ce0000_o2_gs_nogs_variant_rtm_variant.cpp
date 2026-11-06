@@ -56,7 +56,7 @@ unsigned short hkMath_min2_unsigned_short(unsigned short a, unsigned short b);
 extern int DAT_010cb864;
 struct FUN_00ce4ae0_cls {
     int __thiscall FUN_00ce4ae0(int);
-    void __thiscall FUN_00ce5310();
+    void __thiscall hkaSkeletonMapperData_hkaSkeletonMapperData();
 };
 struct FUN_00ce4a20_cls {
     int m_kPointA;
@@ -75,7 +75,7 @@ struct FUN_00cf69c0_class {
 };
 int __cdecl hkString_strCmp(int a, int b);
 struct FUN_00cf86e0_class {
-    void FUN_00cf86e0(float f);
+    void hkpSimulation_setFrameTimeMarker(float f);
 };
 extern int DAT_010cc2e0;
 struct FUN_00cf4820_class {
@@ -166,7 +166,7 @@ struct FUN_00cf4490_cls {
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268740;
-CpuOpaque* __cdecl FUN_00cf45f0();
+CpuOpaque* __cdecl bhkSpringDamperConstraintMotor_GetRTTI();
 struct SerializedObject { int base00,base04,base08,base0C,base10,word14,word18;void __thiscall SerializeToStream(int source); };
 extern "C" void __cdecl FUN_00d86160(int,SerializedObject*);
 // Save a Havok-wrapped object: write its type id, then let a type-specific saver write the rest.
@@ -493,7 +493,7 @@ struct FUN_00cf4190 : FUN_00cdf560 {
     FUN_00cf4190();
 };
 extern int DAT_01268730;
-int* FUN_00cf41b0();
+int* bhkPositionConstraintMotor_GetRTTI();
 extern "C" void __cdecl FUN_00d86100(void* view, void* object);
 struct SerializedRecord {
     unsigned int unk00, unk04, unk08, unk0c, unk10;
@@ -502,7 +502,7 @@ struct SerializedRecord {
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268738;
-CpuOpaque* __cdecl FUN_00cf43f0();
+CpuOpaque* __cdecl bhkVelocityConstraintMotor_GetRTTI();
 template <class T>
 inline void NiStreamSaveBinaryCF46(NiBinaryStream& kStream, const T& kValue)
 {
@@ -536,10 +536,10 @@ struct CC9F10Shape {
     void FUN_00c90510();
 };
 struct FUN_00cf7490_class {
-    void FUN_00cf7490();
+    void j_hkReferencedObject_addReference();
 };
 void __cdecl FUN_00c905b0(void);
-void __cdecl FUN_00cf74a0(void);
+void __cdecl j_hkReferencedObject_removeReference(void);
 struct hkOwnerCF74;
 // 0x00cf74b0 sorts by owner->m_d4, then the subindex at +0x08: an owner/subindex record.
 struct OwnerSubindexEntry {
@@ -627,9 +627,9 @@ struct hkPairCF74 {
 };
 hkBool __cdecl LessThanPairPriority(const hkPairCF74& x, const hkPairCF74& y);
 void* __cdecl FUN_00cfb050(void* pvUnused, bool* pbOut, void* pvResult);
-void FUN_00cfb060();
+void nullsub_7();
 int __cdecl FUN_00cfb070(int a, int b, int c);
-void __stdcall FUN_00cfc580(int, int, int, int, int);
+void __stdcall nullsub_59(int, int, int, int, int);
 extern int DAT_0102e388;
 struct FUN_00cfc590_class {
     int* vtable;
@@ -1046,9 +1046,9 @@ struct RotationX {
     void flipped(const hkVector4&);
     __forceinline const hkVector4& imag() const { return vec; }
     void FUN_00cd9d10(const hkVector4&, const hkVector4&) throw();
-    void FUN_00c74ac0(const RotationX&, const RotationX&) throw();
+    void setMulInverse(const RotationX&, const RotationX&) throw();
     void FUN_00ce0ca0(const RotationX&) throw();
-    void FUN_00c66320(const RotationX&, const RotationX&) throw();
+    void setMul(const RotationX&, const RotationX&) throw();
 };
 static __forceinline void RotateVector(hkVector4& out,const RotationX& q,const hkVector4& dir) {
     hkVector4 half; half.getQuad()=DAT_010c71e0;
@@ -1094,7 +1094,8 @@ __declspec(noinline) void RotationX::FUN_00cd9d10(const hkVector4& from,const hk
         vec.getQuad()=_mm_shuffle_ps(perpendicular.getQuad(),_mm_unpackhi_ps(perpendicular.getQuad(),real),0xc4);
     }
 }
-inline void RotationX::FUN_00c66320(const RotationX& a,const RotationX& b) throw() {
+// src: COMMUNITY 0x00c66320
+inline void RotationX::setMul(const RotationX& a,const RotationX& b) throw() {
     hkVector4 result; result.setCross(a.imag(),b.imag());
     result.addMul4(a.vec.getSimdAt(3),b.imag());
     result.addMul4(b.vec.getSimdAt(3),a.imag());
@@ -1110,7 +1111,8 @@ inline void RotationX::FUN_00ce0ca0(const RotationX& b) throw() {
     hkVector4 real; real.setMul4(vec,b.vec); real.sub4(d);
     vec.setXYZW(result,real);
 }
-inline void RotationX::FUN_00c74ac0(const RotationX& a,const RotationX& b) throw() {
+// src: COMMUNITY 0x00c74ac0
+inline void RotationX::setMulInverse(const RotationX& a,const RotationX& b) throw() {
     hkVector4 result; result.setCross(b.imag(),a.imag());
     result.subMul4(a.vec.getSimdAt(3),b.imag());
     result.addMul4(b.vec.getSimdAt(3),a.imag());
@@ -1322,9 +1324,9 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             FUN_00ce2a50(posA,posB);
             RotationX shortest; shortest.FUN_00cd9d10(posB,posA);
             RotationX offset; offset.vec=r.end.translation;
-            RotationX applied; applied.FUN_00c74ac0(shortest,offset);
+            RotationX applied; applied.setMulInverse(shortest,offset);
             output[c].rotation.FUN_00ce0ca0(applied);
-            output[d].rotation.FUN_00c66320(r.end.rotation,input[b].rotation);
+            output[d].rotation.setMul(r.end.rotation,input[b].rotation);
         }
     }
     if(additive) FUN_00ce2f40(output,second->reference.begin(),mapB,second->bones.count(),output);

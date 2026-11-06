@@ -350,14 +350,15 @@ void MobileObjectFlagSetter::SetThirdActorFlag(bool bVal)
 
 struct FUN_00978f10_shell
 {
-    void __thiscall FUN_0077eac0();
-    void __thiscall FUN_00978f10();
+    void __thiscall Projectile_IsEditorCreated();
+    void __thiscall Projectile_IsPermanent();
 };
 
 // @fnv 0x00978f10
-void __thiscall FUN_00978f10_shell::FUN_00978f10()
+// src: COMMUNITY 0x00978f10
+void __thiscall FUN_00978f10_shell::Projectile_IsPermanent()
 {
-    FUN_0077eac0();
+    Projectile_IsEditorCreated();
 }
 
 struct FUN_009bb940
@@ -394,10 +395,11 @@ NiPoint3& __cdecl SetNiPoint3FromHkVector4(NiPoint3&, hkVector4 const&);
 struct Proxy
 {
     hkVector4 const& _ref_006815c0();
-    NiPoint3& FUN_004585f0(NiPoint3&);
+    NiPoint3& bhkPickData_NiGetFrom(NiPoint3&);
 };
 // @fnv 0x004585f0
-NiPoint3& Proxy::FUN_004585f0(NiPoint3& aPoint)
+// src: COMMUNITY 0x004585f0
+NiPoint3& Proxy::bhkPickData_NiGetFrom(NiPoint3& aPoint)
 {
     return SetNiPoint3FromHkVector4(aPoint, _ref_006815c0());
 }
@@ -408,26 +410,28 @@ NiPoint3& __cdecl SetNiPoint3FromHkVector4(NiPoint3&, hkVector4 const&);
 
 struct FUN_004587f0_shell
 {
-    hkVector4& FUN_00458820();
-    NiPoint3& FUN_004587f0(NiPoint3& a);
+    hkVector4& bhkPickData_GethkTo();
+    NiPoint3& bhkPickData_NiGetTo(NiPoint3& a);
 };
 
 // @fnv 0x004587f0
-NiPoint3& FUN_004587f0_shell::FUN_004587f0(NiPoint3& aPoint)
+// src: COMMUNITY 0x004587f0
+NiPoint3& FUN_004587f0_shell::bhkPickData_NiGetTo(NiPoint3& aPoint)
 {
-    return SetNiPoint3FromHkVector4(aPoint, FUN_00458820());
+    return SetNiPoint3FromHkVector4(aPoint, bhkPickData_GethkTo());
 }
 
 struct FUN_00458820_shell
 {
-    void FUN_00458840();
-    void* FUN_00458820();
+    void bhkPickData_CalcTo();
+    void* bhkPickData_GethkTo();
 };
 
 // @fnv 0x00458820
-void* FUN_00458820_shell::FUN_00458820()
+// src: COMMUNITY 0x00458820
+void* FUN_00458820_shell::bhkPickData_GethkTo()
 {
-    FUN_00458840();
+    bhkPickData_CalcTo();
     return (void*)((char*)this + 0x10);
 }
 
@@ -482,10 +486,11 @@ struct Holder
 {
     char _pad[0x114];
     Flt m;
-    void FUN_009c3e10();
+    void Projectile_FreeLight();
 };
 // @fnv 0x009c3e10
-void Holder::FUN_009c3e10()
+// src: COMMUNITY 0x009c3e10
+void Holder::Projectile_FreeLight()
 {
     if ((unsigned int)m)
     {
@@ -883,10 +888,11 @@ struct FUN_009baba0_shell
 {
     char pad[0x150];
     unsigned int val;
-    bool FUN_009baba0();
+    bool MissileProjectile_IsPermanent();
 };
 // @fnv 0x009baba0
-bool FUN_009baba0_shell::FUN_009baba0()
+// src: COMMUNITY 0x009baba0
+bool FUN_009baba0_shell::MissileProjectile_IsPermanent()
 {
     return val == 4 || ((Projectile*)this)->Projectile::IsProximityDetonationTriggered();
 }
@@ -917,11 +923,12 @@ struct FUN_009bba90_shell
     short m_2a;
     short m_2c;
 
-    void FUN_009bba90(BGSLoadFormBuffer* apLoadGameBuffer);
+    void Projectile_ImpactData_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // @fnv 0x009bba90
-void FUN_009bba90_shell::FUN_009bba90(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x009bba90
+void FUN_009bba90_shell::Projectile_ImpactData_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     apLoadGameBuffer->ReadTypedData(static_cast<void*>(&m_04), 12u);
     apLoadGameBuffer->ReadTypedData(static_cast<void*>(&m_10), 12u);
@@ -938,7 +945,7 @@ void FUN_009bba90_shell::FUN_009bba90(BGSLoadFormBuffer* apLoadGameBuffer)
 
 namespace fnv_009bbb40 {
 
-int __cdecl FUN_004b6ae0(NiAVObject*);
+int __cdecl GetHavokWorldObjectCountInSceneGraph(NiAVObject*);
 hkReferencedObject* __cdecl FindCollisionObjectByIndex(NiAVObject*, int);
 void __cdecl _fnv_call_845cc0(const char*, ...);
 
@@ -963,7 +970,7 @@ void FUN_009bbb40_shell::ValidateWorldObjectCount(void* apLoadGameBuffer)
 {
     if (m_2a && m_2c != -1 && m_00)
     {
-        short count = FUN_004b6ae0(reinterpret_cast<NiAVObject*>(m_00->GetNiNode()));
+        short count = GetHavokWorldObjectCountInSceneGraph(reinterpret_cast<NiAVObject*>(m_00->GetNiNode()));
         if (m_2a != count)
         {
             _fnv_call_845cc0("AI: World object count has changed on object %s %08 from %i to %i", m_00->GetName(),
@@ -1507,12 +1514,12 @@ struct _ref_006815c0
 
 struct Proxy
 {
-    NiPoint3& FUN_004585f0(NiPoint3&);
+    NiPoint3& bhkPickData_NiGetFrom(NiPoint3&);
 };
 
 struct FUN_004587f0_shell
 {
-    NiPoint3& FUN_004587f0(NiPoint3&);
+    NiPoint3& bhkPickData_NiGetTo(NiPoint3&);
 };
 
 
@@ -1529,9 +1536,9 @@ bool FUN_009c5af0_shell::GetWaterPlaneIntersection(Proxy* apProxy, float* apWate
     {
         float fRate = FUN_005471e0(cell5);
         _ref_006815c0 kPos9;
-        apProxy->FUN_004585f0(*(NiPoint3*)&kPos9);
+        apProxy->bhkPickData_NiGetFrom(*(NiPoint3*)&kPos9);
         _ref_006815c0 kPos2;
-        ((FUN_004587f0_shell*)apProxy)->FUN_004587f0(*(NiPoint3*)&kPos2);
+        ((FUN_004587f0_shell*)apProxy)->bhkPickData_NiGetTo(*(NiPoint3*)&kPos2);
 
         if (kPos9.z > fRate && kPos2.z <= fRate)
         {
@@ -1697,8 +1704,8 @@ void XActor::FUN_009c3d90()
 namespace fnv_009bb970 {
 
 
-int __cdecl FUN_004b6ae0(NiAVObject*);
-int __cdecl FUN_004b6b60(NiAVObject*, void*);
+int __cdecl GetHavokWorldObjectCountInSceneGraph(NiAVObject*);
+int __cdecl GetHavokWorldObjectIndexInSceneGraph(NiAVObject*, void*);
 
 struct FUN_009bb970_shell
 {
@@ -1731,8 +1738,8 @@ void FUN_009bb970_shell::SaveToBuffer(BGSSaveFormBuffer* buffer)
 
     if (m_object && m_field1c)
     {
-        m_field2a = FUN_004b6ae0(m_object->GetNiNode());
-        m_field2c = FUN_004b6b60(m_object->GetNiNode(), m_field1c);
+        m_field2a = GetHavokWorldObjectCountInSceneGraph(m_object->GetNiNode());
+        m_field2c = GetHavokWorldObjectIndexInSceneGraph(m_object->GetNiNode(), m_field1c);
     }
 
     buffer->SaveData(&m_field2a, 2, 0);
@@ -2792,11 +2799,12 @@ struct Mob9c
     int unk60;
     int unk64;
     BaseProcess* process;
-    bool FUN_009c47d0();
+    bool Projectile_MoveToHigh();
 };
 
 // @fnv 0x009c47d0
-bool Mob9c::FUN_009c47d0()
+// src: COMMUNITY 0x009c47d0
+bool Mob9c::Projectile_MoveToHigh()
 {
     g_lock9c.Lock(0);
     if (process)
@@ -2861,11 +2869,12 @@ struct Owner_9c4a40
     int unk60;
     int unk64;
     BaseProcess* process;
-    bool FUN_009c4a40();
+    bool Projectile_MoveToMiddleLow();
 };
 
 // @fnv 0x009c4a40
-bool Owner_9c4a40::FUN_009c4a40()
+// src: COMMUNITY 0x009c4a40
+bool Owner_9c4a40::Projectile_MoveToMiddleLow()
 {
     g_projectileLock_9c4a40.Lock(0);
     if (process)
@@ -3810,9 +3819,9 @@ struct P062Object
     void SetObject(void*);
     void FUN_00567ad0(void*);
     bool FUN_004c0bf0();
-    float FUN_009bd540();
-    void FUN_00586130(float);
-    void FUN_0097f720(P062Object*);
+    float PlayerCharacter_GetProjectileReleaseTimer();
+    void Projectile_SetPower(float);
+    void FiredProjectile(P062Object*);
     bool FUN_00444d00(int);
 };
 struct P062Ammo
@@ -3869,9 +3878,9 @@ struct FUN_0066e010
 
 struct P062Audio
 {
-    BSSoundHandle FUN_00ad7480(int, int, P062Ammo*);
+    BSSoundHandle BSAudio_GetSoundHandleByFilename(int, int, P062Ammo*);
     // BSAudio's shared declaration still returns a legacy sound handle for this overload.
-    BSSoundHandle FUN_00ad7480(const char*, unsigned int, void*);
+    BSSoundHandle BSAudio_GetSoundHandleByFilename(const char*, unsigned int, void*);
 };
 P062Audio* __cdecl FUN_00453a70();
 P062Object* __cdecl FindProjectObject(P062Object*, P062Ammo*);
@@ -3986,11 +3995,11 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
             if (effect)
                 projectile->FUN_00567ad0(effect);
             if (weapon->FUN_004c0bf0())
-                projectile->FUN_00586130(FUN_0040ebd0(
-                    1.0f, *DAT_011cf32c.FUN_00403e20() + *DAT_011cee00.FUN_00403e20() * DAT_011dea3c->FUN_009bd540()));
+                projectile->Projectile_SetPower(FUN_0040ebd0(
+                    1.0f, *DAT_011cf32c.FUN_00403e20() + *DAT_011cee00.FUN_00403e20() * DAT_011dea3c->PlayerCharacter_GetProjectileReleaseTimer()));
         }
         if (parent)
-            parent->FUN_0097f720(projectile);
+            parent->FiredProjectile(projectile);
         if (word100)
             projectile->unk100 = word100;
         if (flag1000)
@@ -4004,7 +4013,7 @@ P062Object* __cdecl CreateProjectile(P062Ammo* ammo, P062Object* owner, P062Obje
         if (!ammo->FUN_009bc870() && !(ammo->FUN_00975300() && !(ammo->FUN_0045cd80() <= 0.0)))
         {
             projectile->sound.operator=(
-                FUN_00453a70()->FUN_00ad7480(ammo->FUN_004fd3e0()->FUN_00511840(), 0x40000012, ammo->FUN_004fd3e0()));
+                FUN_00453a70()->BSAudio_GetSoundHandleByFilename(ammo->FUN_004fd3e0()->FUN_00511840(), 0x40000012, ammo->FUN_004fd3e0()));
             projectile->sound.SetPosition(*reinterpret_cast<const NiPoint3*>(owner->soundContext()));
             projectile->sound.SetObjectToFollow(reinterpret_cast<::NiAVObject*>(projectile->scene()));
             projectile->soundPercent = ammo->FUN_004fd3e0()->GetField45() * 100;
@@ -4616,7 +4625,7 @@ struct ProjectileRuntime : Projectile
     bool FUN_00444d00(unsigned int);
     int FUN_00476c90();
     TimingState* FUN_004181e0();
-    void FUN_009bdf60(void*);
+    void InterfaceManager_SetCrosshairRef(void*);
     StateFlags* FUN_007af430();
     void FUN_004846a0(int);
     void FUN_00484ab0(int);
@@ -4641,7 +4650,7 @@ void ProjectileRuntime::FUN_009bda10()
     bool inactive = DAT_011ddf38->FUN_0042ce10() || FUN_00576d30() || FUN_00444d00(0x10000);
     if (!FUN_00476c90())
     {
-        FUN_009bdf60(FUN_004181e0()->FUN_004fd400());
+        InterfaceManager_SetCrosshairRef(FUN_004181e0()->FUN_004fd400());
     }
     if (FUN_004753d0(FUN_007af430()))
     {
@@ -5116,7 +5125,7 @@ struct Collision
 };
 struct BodyPart
 {
-    Collision* FUN_006838b0();
+    Collision* NiAVObject_GetCollisionObject();
 };
 struct NodeName
 {
@@ -5741,7 +5750,7 @@ struct ProjectileHit
     Obj* target;
     NiPoint3 position;
     bool FUN_00444d00(int);
-    RefPair* FUN_008d8b80();
+    RefPair* MiddleHighProcess_GetCurrentFurniture();
     int FUN_009c0070();
     void SetField(int);
     float FUN_00885bd0();
@@ -5772,7 +5781,7 @@ bool ProjectileHit::ProcessHit(Obj* object, NiPoint3 const& point, NiPoint3 cons
             if (body)
             {
                 hit->part = actor->FUN_008b3ef0(body);
-                Collision* collision = body->FUN_006838b0();
+                Collision* collision = body->NiAVObject_GetCollisionObject();
                 hit->collision = collision->FUN_006fa820() ? collision->FUN_006fa820()->GetReferenceFlags() : 0;
             }
             if (hit->collision)
@@ -5821,12 +5830,12 @@ bool ProjectileHit::ProcessHit(Obj* object, NiPoint3 const& point, NiPoint3 cons
         }
     }
     bool valid = true;
-    if (*g_011f20b8.FUN_00408d60() && FUN_008d8b80())
+    if (*g_011f20b8.FUN_00408d60() && MiddleHighProcess_GetCurrentFurniture())
     {
         Body* expectedObject = FUN_004b5820(buffer);
-        Ref* ref = FUN_004b5260(FUN_008d8b80()->node.FUN_00559450());
+        Ref* ref = FUN_004b5260(MiddleHighProcess_GetCurrentFurniture()->node.FUN_00559450());
         Node* expected = ref ? ref->FUN_0044ddc0() : 0;
-        Obj* actual = FUN_008d8b80()->ref;
+        Obj* actual = MiddleHighProcess_GetCurrentFurniture()->ref;
         valid = object == actual && (void*)expectedObject == (void*)expected;
         FUN_0040fbe0("Targetted VATS Projectile Result: %s", valid ? "SUCCESS" : "FAILURE");
         FUN_0040fbe0("Target Ref ID:\t%s %08X", actual->FUN_00474cb0() ? actual->GetName() : actual->FUN_0055d520(),
@@ -6631,8 +6640,8 @@ struct ZObject
 extern ZObject* _g_thePlayer;
 struct ZResult
 {
-    void FUN_0089d640(ZPoint);
-    void FUN_00476c70(unsigned int);
+    void Explosion_SetClosestPointNormal(ZPoint);
+    void Explosion_SetSourceWeapon(unsigned int);
 };
 struct ZProjectile : ZObject
 {
@@ -6707,7 +6716,7 @@ struct ZProjectile : ZObject
     ZObject* FUN_009b4440();
     void UpdateDetonation(float elapsed);
 };
-ZScene* FUN_004aae30(ZScene*, int*);
+ZScene* BSUtilities_GetObjectByName(ZScene*, int*);
 float FUN_004a4240();
 ZMatrix FUN_00c4b8a0(ZPoint);
 ZResult* CreateProjectileRef(ZExplosion*, ZObject*, int, void*, ZPoint, ZMatrix);
@@ -6730,7 +6739,7 @@ void ZProjectile::UpdateDetonation(float elapsed)
                     timere8 -= elapsed;
                     if (timere8 <= 0.0)
                     {
-                        ZScene* marker = FUN_004aae30(GetScene(), &DAT_01030e48);
+                        ZScene* marker = BSUtilities_GetObjectByName(GetScene(), &DAT_01030e48);
                         if (marker)
                             FUN_005726e0(GetScene(), marker->FUN_00456610());
                         if (timere4 > *originalRuntimeFloatSetting686.Float())
@@ -6775,9 +6784,9 @@ void ZProjectile::UpdateDetonation(float elapsed)
                 CreateProjectileRef(FUN_004181e0()->FUN_004fd3c0(), !FUN_00444d00(0x400) ? FUN_00874480() : 0, 0, cell6,
                                     position8, rotationX);
             if (result3 && !impacts._ref_008256d0() && FUN_004181e0()->FUN_004fd4f0() == 0x10000)
-                result3->FUN_0089d640((*impacts._ref_006815c0())->normal);
+                result3->Explosion_SetClosestPointNormal((*impacts._ref_006815c0())->normal);
             if (result3 && FUN_00476c90())
-                result3->FUN_00476c70(FUN_00476c90());
+                result3->Explosion_SetSourceWeapon(FUN_00476c90());
             if (FUN_00444d00(0x8000))
             {
                 if (DAT_011f2250.FUN_0044ddc0() == 4)
@@ -6863,11 +6872,12 @@ extern RecursiveSpinLock DAT_011f11a0;
 extern ActorDeletionQueue_projectile DAT_011e0e80;
 struct MobileObjectProcessReplacement : public MobileObject
 {
-    bool FUN_009c4b60();
+    bool Projectile_MoveToLow();
 };
 
 // @fnv 0x009c4b60
-bool MobileObjectProcessReplacement::FUN_009c4b60()
+// src: COMMUNITY 0x009c4b60
+bool MobileObjectProcessReplacement::Projectile_MoveToLow()
 {
     DAT_011f11a0.Lock(0);
     if (this->m_pBaseProcess != 0)
@@ -6953,7 +6963,7 @@ struct RemOwner
     bool FUN_00444d00(int aiFlag);
     void FUN_009bc8f0();
     RemForm* FUN_00874480();
-    RemPending* FUN_008d8b80();
+    RemPending* MiddleHighProcess_GetCurrentFurniture();
     void SetWhich(RemPending* apPending);
     void FUN_009c4c80(RemForm* apForm);
 };
@@ -6987,9 +6997,9 @@ void RemOwner::FUN_009c4c80(RemForm* apForm)
     if (FUN_00874480() == apForm)
         FUN_009bc8f0();
 
-    if (FUN_008d8b80() && FUN_008d8b80()->pForm == apForm)
+    if (MiddleHighProcess_GetCurrentFurniture() && MiddleHighProcess_GetCurrentFurniture()->pForm == apForm)
     {
-        delete FUN_008d8b80();
+        delete MiddleHighProcess_GetCurrentFurniture();
         SetWhich(0);
     }
 }
@@ -7010,7 +7020,7 @@ struct FUN_0076b630
     int unk08;
     FUN_0076b630();
     ~FUN_0076b630();
-    void FUN_004bee00(LoadBuf52*);
+    void ItemChange_LoadGame_(LoadBuf52*);
     unsigned int FUN_0044ddc0();
     void ClearExtraDataList();
     void* FUN_004459e0(unsigned int);
@@ -7068,7 +7078,7 @@ void LoadProjectile52::LoadProjectile(LoadBuf52* buffer)
         if (hasExtra)
         {
             word144 = (unsigned int)new FUN_0076b630;
-            ((FUN_0076b630*)word144)->FUN_004bee00(buffer);
+            ((FUN_0076b630*)word144)->ItemChange_LoadGame_(buffer);
             if (!((FUN_0076b630*)word144)->FUN_0044ddc0())
             {
                 ((FUN_0076b630*)word144)->ClearExtraDataList();
@@ -7083,7 +7093,7 @@ void LoadProjectile52::LoadProjectile(LoadBuf52* buffer)
         for (unsigned int index = 0; index < count; ++index)
         {
             FUN_009bffb0* item = new FUN_009bffb0;
-            ((FUN_009bba90_shell*)item)->FUN_009bba90(buffer);
+            ((FUN_009bba90_shell*)item)->Projectile_ImpactData_LoadGame(buffer);
             if (!GetNiNode())
                 item->m_28 = 0;
             ((List52*)&kImpacts)->FUN_00905820(item);
@@ -7179,7 +7189,7 @@ struct FUN_00444d00_Class
 };
 struct FUN_009b7010_shell
 {
-    NiPoint3& FUN_009b7010(NiPoint3&);
+    NiPoint3& Projectile_GetMovementDirection(NiPoint3&);
 };
 void* __fastcall FUN_006a9540(char*);
 float __cdecl FUN_004b54c0(float);
@@ -7338,7 +7348,7 @@ void Ref9bf::UpdateNodeTransform(bool bRotate, bool bAlign)
             float fX, fNewY, fZ;
             ((ST_00a59400*)&kAlign_)->NiMatrix3_ToEulerAnglesZXY(&fX, &fNewY, &fZ);
             float kNewPos[3];
-            fNewY = -FUN_004b54c0(((Pt9bf&)((FUN_009b7010_shell*)this)->FUN_009b7010(*reinterpret_cast<NiPoint3*>(kNewPos))).z);
+            fNewY = -FUN_004b54c0(((Pt9bf&)((FUN_009b7010_shell*)this)->Projectile_GetMovementDirection(*reinterpret_cast<NiPoint3*>(kNewPos))).z);
             kAlign_.FUN_00a59660(fX, fNewY, fZ);
             pkNodeX->FUN_0043fa80(&kAlign_);
         }
@@ -7867,8 +7877,8 @@ extern PVOwner* DAT_011dea3c;
 
 struct PVWeaponStats
 {
-    float FUN_00524b80(bool bFlag);
-    float FUN_00524be0(bool bFlag);
+    float TESObjectWEAP_GetMinSpread(bool bFlag);
+    float TESObjectWEAP_GetSpread(bool bFlag);
     bool IsFlag4Set();
 };
 struct PVFloatSetting
@@ -7886,7 +7896,7 @@ class PVModel
 {
   public:
     void FUN_0051b840(float fValue);
-    void FUN_005bfbd0(float fValue);
+    void FOHUDEffectManager_SetBlurIntensityHUD(float fValue);
 };
 struct PVModelPtr
 {
@@ -8197,11 +8207,12 @@ class PVProjectile
     void UpdateNodeTransform(int iA, int iB);
     void FUN_009795c0(float fValue);
     float GetFirstLightParameter();
-    void FUN_009ab390(float fTimeSinceScaleStart);
+    void ContinuousBeamProjectile_UpdateProjectile(float fTimeSinceScaleStart);
 };
 
 // @fnv 0x009ab390
-void PVProjectile::FUN_009ab390(float fTimeSinceScaleStart)
+// src: COMMUNITY 0x009ab390
+void PVProjectile::ContinuousBeamProjectile_UpdateProjectile(float fTimeSinceScaleStart)
 {
     if (FUN_00440d80())
         return;
@@ -8246,7 +8257,7 @@ void PVProjectile::FUN_009ab390(float fTimeSinceScaleStart)
                 if (pkActor && pkActor->FUN_008d8520() && pkWeaponCur && pkWeaponCur->HasEffect(3))
                     bScopedVal = true;
                 float fBodyPartChance =
-                    (FUN_00476c90()->FUN_00524b80(bScopedVal) + FUN_00476c90()->FUN_00524be0(bScopedVal) * fSkill) *
+                    (FUN_00476c90()->TESObjectWEAP_GetMinSpread(bScopedVal) + FUN_00476c90()->TESObjectWEAP_GetSpread(bScopedVal) * fSkill) *
                     0.017453292f;
                 float fUnusedTmp = pkActor->GetCachedSpeed(2);
                 float fExtraOut = pkActor->FUN_008d8520()->GetSpread();
@@ -8283,7 +8294,7 @@ void PVProjectile::FUN_009ab390(float fTimeSinceScaleStart)
     if (m_spModel.FUN_00559450())
     {
         m_spModel.FUN_00559450()->FUN_0051b840(GetE0());
-        m_spModel.FUN_00559450()->FUN_005bfbd0(GetFirstLightParameter());
+        m_spModel.FUN_00559450()->FOHUDEffectManager_SetBlurIntensityHUD(GetFirstLightParameter());
     }
 }
 }  // namespace fnv_009ab390
@@ -8614,7 +8625,8 @@ struct Owned9c58
 
 // Reverts the mobile object, clears impacts and owned data, and restores projectile defaults.
 // @fnv 0x009c58e0
-void Projectile::FUN_009c58e0(BGSLoadFormBuffer* pkBuffer)
+// src: COMMUNITY 0x009c58e0
+void Projectile::RevertBGS_009c58e0(BGSLoadFormBuffer* pkBuffer)
 {
     MobileObject::Revert(pkBuffer);
     while (!kImpacts.IsEmpty())
@@ -8845,7 +8857,7 @@ void S9b41b0::Update(float afTime)
         if (FUN_004181e0() && FUN_004181e0()->FUN_004fd3e0() &&
             !GetFlagMask(reinterpret_cast<SoundObj*>(FUN_004181e0()->FUN_004fd3e0())->CopyBig().v4))
         {
-            BSSoundHandle h = FUN_00453a70()->FUN_00ad7480(reinterpret_cast<SoundObj*>(FUN_004181e0()->FUN_004fd3e0())->FUN_00511840(),
+            BSSoundHandle h = FUN_00453a70()->BSAudio_GetSoundHandleByFilename(reinterpret_cast<SoundObj*>(FUN_004181e0()->FUN_004fd3e0())->FUN_00511840(),
                                                                     0x102, reinterpret_cast<void*>(FUN_004181e0()->FUN_004fd3e0()));
             h.SetPosition(*v1f4());
             h.Play(false);
@@ -9264,7 +9276,7 @@ class FUN_009b4440_shell
 class Holder
 {
   public:
-    void FUN_009c3e10();
+    void Projectile_FreeLight();
 };
 
 class DH
@@ -9362,7 +9374,7 @@ Projectile::~Projectile()
             reinterpret_cast<TESForm*>(reinterpret_cast<Actor*>(this)->GetActorBase()), 0, 1, 0, 0, 0, 0, 0, 1, 0);
     }
 
-    reinterpret_cast<fnv_009bc470::Holder*>(this)->FUN_009c3e10();
+    reinterpret_cast<fnv_009bc470::Holder*>(this)->Projectile_FreeLight();
 
     while (!reinterpret_cast<BSSimpleList<InventoryStackRecord*>*>(&kImpacts)->IsEmpty())
     {

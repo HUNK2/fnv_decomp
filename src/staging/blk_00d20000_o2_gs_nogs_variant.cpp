@@ -73,7 +73,7 @@ public:
     void __thiscall FUN_004b4db0(const Agent3PacketCallLocal_00d39390* vector);
     Agent3PacketCallLocal_00d39390& FUN_00e531a0(int parameter);
     Agent3PacketCallLocal_00d39390 FUN_00e53260(int parameter);
-    void FUN_005611c0();
+    void normalize_005611c0();
 
     void operator=(const Agent3PacketCallLocal_00d39390& vector);
     float& operator()(int index);
@@ -183,7 +183,7 @@ void __cdecl hkpMoppBvTreeStreamAgent_registerAgent(Agent* a);
 void ReplaceEntry(int param_1, int param_2, int param_3, unsigned short param_4);
 struct FUN_00d27f50_Obj {
     void __thiscall Insert(int a, int b, int c);
-    void __thiscall FUN_00d27f50(int param_1, int param_2);
+    void __thiscall hkSmallArray_hkConstraintInternal_insertAt(int param_1, int param_2);
 };
 struct LinkedIndexArray { int** entries; int count; void hkUnionFind_collapseTree(); };
 inline void* __cdecl operator new(unsigned int, void* p) { return p; }
@@ -533,7 +533,7 @@ struct FUN_00d219e0_cls
 };
 extern int DAT_0101e594;
 struct VtblStub_0101e594 { void* m_ppVirtualMethodTable; };
-extern "C" void __cdecl FUN_00401030(VtblStub_0101e594*);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(VtblStub_0101e594*);
 struct FUN_00d26210
 {
     void* m_ppVirtualMethodTable;
@@ -622,7 +622,7 @@ struct FUN_00d2cd80_Obj
 
     FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80();
 };
-struct SubA { void FUN_00d87910(); };
+struct SubA { void hkThread_hkThread(); };
 struct SubB { void Create(int a, int b); };
 struct C_d2cda0 {
     int m_iWordAt00;
@@ -672,7 +672,7 @@ struct FnvCpu_FUN_00d34b00_CpuObject {
 };
 void RemoveKeyFromTable(int, unsigned short* table, unsigned short key);
 void __cdecl InsertIntoSlotArray(void* unused, unsigned short* slots, unsigned short value);
-void FUN_00d39090();
+void nullsub_15();
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void FUN_00d3d3e0();
@@ -752,7 +752,7 @@ public:
     void AddSpawnEntry(D3FD30Funcs* pkFuncs, int iA, int iB);
 };
 void __cdecl DispatchFuncs(D3FD30Dispatcher* pkDispatcher);
-void FUN_00d3fde0();
+void nullsub_16();
 extern int DAT_0102e388;
 struct Foo00d24660 {
     void FUN_00d24660();
@@ -987,7 +987,8 @@ __forceinline void TransformPoints(const Transform& matrix, const Agent3PacketCa
 __forceinline unsigned short AddContact(Manager* m,Body* a,Body* b,Threshold* in,Context* out,ContactPair* cp){return m->Add(*a,*b,*in,*out,0,*cp);}
 struct ContactWorkspace {Agent3PacketCallLocal_00d39390 pointsA[2];Agent3PacketCallLocal_00d39390 pointsB[3];ContactPair contacts[3];};
 // @fnv 0x00d39390
-unsigned short* FUN_00d39390(Agent3ProcessInput* pair,Header* header,unsigned short* ids,Agent3PacketCallLocal_00d39390* normal,Context* context) {
+// src: COMMUNITY 0x00d39390
+unsigned short* hkCapsuleTriangleAgent3_process(Agent3ProcessInput* pair,Header* header,unsigned short* ids,Agent3PacketCallLocal_00d39390* normal,Context* context) {
  unsigned int count;
  ProfileState* profile=(ProfileState*)TlsGetValue(DAT_0126835c);
  ProfileSample* event=profile->next;

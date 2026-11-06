@@ -45,11 +45,11 @@ void ZoneLink::SetValue(int flags, bool set)
         unk00 &= ~flags;
 }
 
-void FUN_00553380(int param);
+void ourMemalignFree(int param);
 // @fnv 0x0087e9b0
 void CallWithParam(int param)
 {
-    FUN_00553380(param);
+    ourMemalignFree(param);
 }
 
 struct FUN_0061fc10_shell
@@ -235,7 +235,7 @@ struct NodeBase0
 };
 struct NodeBase16
 {
-    NodeBase16* __thiscall FUN_006207a0(NodeBase16* previous);
+    NodeBase16* __thiscall bhkTTNode_RemoveFromList(NodeBase16* previous);
 };
 struct Node : NodeBase0, NodeBase16
 {
@@ -248,16 +248,17 @@ struct Holder
     int unk0c;
     int unk10;
     Node* node14;
-    void __thiscall FUN_0061ff30(Node* node);
+    void __thiscall ZoneEntry_RemoveTargetEntry(Node* node);
 };
 void CallWithParam(int value);
 
 // @fnv 0x0061ff30
-void Holder::FUN_0061ff30(Node* node)
+// src: COMMUNITY 0x0061ff30
+void Holder::ZoneEntry_RemoveTargetEntry(Node* node)
 {
     if (node == 0)
         return;
-    node14 = static_cast<Node*>(node->FUN_006207a0(node14));
+    node14 = static_cast<Node*>(node->bhkTTNode_RemoveFromList(node14));
     Node* toRelease = node;
     CallWithParam((int)toRelease);
 }
@@ -381,12 +382,13 @@ struct FUN_0057b700_class
     int unk0c;
     int unk10;
     ZoneNode* unk14;
-    ZoneNode* __thiscall FUN_0061fd70(unsigned int key, unsigned int arg2, unsigned int arg3);
+    ZoneNode* __thiscall ZoneEntry_AddTrapTarget(unsigned int key, unsigned int arg2, unsigned int arg3);
 };
 
 // Finds a ZoneNode by key in the list, or creates and attaches a new FUN_0061fe70 node with the given key, arg2, and arg3 values.
 // @fnv 0x0061fd70
-ZoneNode* FUN_0057b700_class::FUN_0061fd70(unsigned int key, unsigned int auiData, unsigned int auiValue)
+// src: COMMUNITY 0x0061fd70
+ZoneNode* FUN_0057b700_class::ZoneEntry_AddTrapTarget(unsigned int key, unsigned int auiData, unsigned int auiValue)
 {
     ZoneNode* result = (unk14 != 0) ? ((ZoneList*)this)->Find(key) : 0;
     if (result == 0)

@@ -155,7 +155,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f3e58;
 // @fnv 0x00a405e0
-void* __cdecl FUN_00a405e0()
+// src: COMMUNITY 0x00a405e0
+void* __cdecl NiBlendFloatInterpolator_GetRTTI()
 {
     return &g_011f3e58;
 }
@@ -193,14 +194,14 @@ struct M76Glob
     int pad;
 };
 extern M76Glob* g_011f3e58;
-char* __cdecl FUN_00a7d330(M76Glob*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(M76Glob*);
 char* __cdecl FUN_00a7d550(const char*, float);
 // Appends the base interpolator strings, type name, and formatted float value.
 // @fnv 0x00a408f0
 void __fastcall AppendFloatValueStrings(NiBlendFloatInterpolator* self, int, M76Arr* pkStrings)
 {
     self->NiBlendInterpolator::AppendInterpolatorStrings(reinterpret_cast<StrArr*>(pkStrings));
-    pkStrings->Add(FUN_00a7d330(g_011f3e58));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_011f3e58));
     pkStrings->Add(FUN_00a7d550("m_fFloatValue", self->m_fFloatValue));
 }
 }  // namespace fnv_00a408f0

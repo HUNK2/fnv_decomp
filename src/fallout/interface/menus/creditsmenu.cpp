@@ -36,7 +36,7 @@ void CreditsMenu::AssignTileByID(int aiID, Tile* apTile)
 }
 
 // placeholder declarations
-void __cdecl FUN_0075f600(void);
+void __cdecl CreditsMenu_DoClose(void);
 // StartMenu.h lacks these credits-mode operations; storage comes entirely from StartMenu.
 struct CreditsModeOperations : StartMenu
 {
@@ -44,8 +44,8 @@ struct CreditsModeOperations : StartMenu
     void FUN_007d6c90();
 };
 char __cdecl ConsumeByteAtE4(void);
-void __cdecl FUN_00761460(bool);
-void __cdecl FUN_008304f0(void);
+void __cdecl FalloutAudio_SetMainMenuMusic(bool);
+void __cdecl FalloutAudioMedia_MediaStop(void);
 struct FUN_008467b0_shell
 {
     bool __thiscall LoadSaveEntry(void);
@@ -54,16 +54,17 @@ extern int DAT_011d9474;
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x00761410
-void __cdecl FUN_00761410()
+// src: COMMUNITY 0x00761410
+void __cdecl ContinuePlayingAfterCreditsCallback()
 {
-    FUN_0075f600();
+    CreditsMenu_DoClose();
     static_cast<CreditsModeOperations*>(DAT_011daac0)->FUN_0075f6f0(0x40000000, 0);
     if (!ConsumeByteAtE4())
     {
         if (DAT_011d9474 != 0)
         {
-            FUN_00761460(false);
-            FUN_008304f0();
+            FalloutAudio_SetMainMenuMusic(false);
+            FalloutAudioMedia_MediaStop();
             ((FUN_008467b0_shell*)DAT_011d9474)->LoadSaveEntry();
         }
     }
@@ -72,7 +73,8 @@ void __cdecl FUN_00761410()
 extern unsigned char DAT_011dcfa5;
 
 // @fnv 0x00761460
-void FUN_00761460(unsigned char value)
+// src: COMMUNITY 0x00761460
+void FalloutAudio_SetMainMenuMusic(unsigned char value)
 {
     DAT_011dcfa5 = value;
 }
@@ -234,7 +236,7 @@ struct CallbackTarget
 };
 struct ValueSource
 {
-    CallbackTarget* FUN_009611e0();
+    CallbackTarget* NiAVObject_GetParent();
 };
 struct InputState
 {
@@ -268,21 +270,22 @@ Menu* __cdecl FUN_00a09030(int);
 GlobalView* __cdecl FUN_004bc3f0();
 
 // @fnv 0x0075f600
-void __cdecl FUN_0075f600()
+// src: COMMUNITY 0x0075f600
+void __cdecl CreditsMenu_DoClose()
 {
     Menu* menu = FUN_00a09030(0x417);
     if (menu == 0)
         return;
     {
-        Screen* screen = menu->FUN_00a03c90();
+        Screen* screen = menu->Tile_GetMenu();
         if (screen != 0)
         {
             FUN_004bc3f0()->FUN_004a0370();
             if (screen->input.FUN_0052aa80(0))
             {
-                if (screen->input.FUN_00559450()->FUN_009611e0() != 0)
+                if (screen->input.FUN_00559450()->NiAVObject_GetParent() != 0)
                 {
-                    CallbackTarget* pCallbackTarget = screen->input.FUN_00559450()->FUN_009611e0();
+                    CallbackTarget* pCallbackTarget = screen->input.FUN_00559450()->NiAVObject_GetParent();
                     pCallbackTarget->HandleValue(screen->input.FUN_00559450());
                 }
             }
@@ -422,7 +425,7 @@ struct SaveNode
 struct SaveMgr
 {
     SaveNode* FUN_00559450();
-    void FUN_00851330();
+    void BGSSaveLoadManager_SetupSavesList();
     int unk00;
     int unk04;
     int unk08;
@@ -458,7 +461,7 @@ void __cdecl CheckSaveNameConflict()
     DAT_011c3f3c->SetValue(0.0f);
     if (DAT_011daac0->IsFlagSet(static_cast<StartMenu::Flag>(0x40000000)) && FUN_0044a670(DAT_011de134->kName.FUN_00559450()))
     {
-        DAT_011de134->FUN_00851330();
+        DAT_011de134->BGSSaveLoadManager_SetupSavesList();
         if (DAT_011de134 && DAT_011de134->FUN_00559450())
         {
             SaveNode* pkNode = DAT_011de134->FUN_00559450();
@@ -470,7 +473,7 @@ void __cdecl CheckSaveNameConflict()
                     FUN_004b75a0(DAT_011de134->kName.FUN_00559450(),
                                  ((ValueReferencePair*)DAT_011d9474)->FUN_00559450()))
                 {
-                    FUN_00703e80(DAT_011d39b4.FUN_004c69f0(), 0, 0, FUN_00761410, 0, 0x12, 0.0f, 0.0f,
+                    FUN_00703e80(DAT_011d39b4.FUN_004c69f0(), 0, 0, ContinuePlayingAfterCreditsCallback, 0, 0x12, 0.0f, 0.0f,
                                  DAT_011d34f8.FUN_00403df0(), DAT_011d3684.FUN_00403df0(), 0);
                     return;
                 }
@@ -479,7 +482,7 @@ void __cdecl CheckSaveNameConflict()
         }
     }
     static_cast<CreditsModeOperations*>(DAT_011daac0)->FUN_0075f6f0(0x40000000, 0);
-    FUN_0075f600();
+    CreditsMenu_DoClose();
 }
 
 struct CreditVertex
@@ -524,7 +527,7 @@ struct CreditTextureEffect : CreditMemObject
     CreditTextureEffect(int aiType);
     char data[0xb0];
     void FUN_00bb7a10(CreditTexture* apTexture);
-    void FUN_00821600(float afScroll);
+    void TileShaderProperty_SetTileAlpha(float afScroll);
 };
 
 struct CreditAlphaProperty : CreditMemObject
@@ -675,7 +678,7 @@ CreditNode* CreditsMenu::FUN_00760cf0(CreditTextureSource* apSource, int aiWidth
 
     CreditTextureEffect* pEffectInfo = new CreditTextureEffect(0);
     pEffectInfo->FUN_00bb7a10(pTextureOld);
-    pEffectInfo->FUN_00821600(afScroll);
+    pEffectInfo->TileShaderProperty_SetTileAlpha(afScroll);
     pShapeCur->FUN_00439410(pEffectInfo);
 
     CreditAlphaProperty* pAlpha = new CreditAlphaProperty();
@@ -695,7 +698,7 @@ struct CreditPathPrefix
 };
 struct CreditInput
 {
-    int FUN_00a24180(int, int);
+    int Controls_GetKeyboardButton(int, int);
 };
 struct CreditInputManager
 {
@@ -1005,7 +1008,7 @@ extern CreditInputManager* DAT_011dea0c;
 extern CreditPlayer* DAT_011dea3c;
 TESForm* FUN_004839c0(unsigned int);
 int FUN_004b7220();
-const char* FUN_004b7650(int);
+const char* GetLanguageStr(int);
 void FUN_00406d50(char*, unsigned int, const char*);
 void FUN_00406d30(char*, unsigned int, const char*);
 extern char DAT_01013444[], DAT_010724d4[], DAT_010724c8[], DAT_010724b0[], DAT_0107249c[], DAT_01072484[],
@@ -1289,7 +1292,7 @@ __forceinline void CreditMaterial::operator delete(void* p, unsigned int)
 struct CreditFont
 {
     float FUN_00759450();
-    CreditSceneNode* FUN_00a12460(float, float, float, const CreditString&, unsigned int*, int, const CreditsMenu::CreditColor&,
+    CreditSceneNode* Font_MakeString(float, float, float, const CreditString&, unsigned int*, int, const CreditsMenu::CreditColor&,
                                   bool, bool);
 };
 struct CreditFontManager
@@ -1302,24 +1305,25 @@ void FUN_00406f60(CreditString*, const char*, ...);
 void FUN_00b57e30(CreditSceneNode*, int, int);
 // Reads a credit text file, parses markup tags for position, font, color, images and backgrounds, and builds the credit scene node graph.
 // @fnv 0x0075fb90
-void CreditsMenu::FUN_0075fb90()
+// src: COMMUNITY 0x0075fb90
+void CreditsMenu::InitCreditsRoot()
 {
     CreditInput* input9 = DAT_011dea0c->FUN_00877720();
     BGSPerk* perk3 = dynamic_cast<BGSPerk*>(FUN_004839c0(0xed568));
-    bool wacky = input9->FUN_00a24180(0x1d, 0) || input9->FUN_00a24180(0x9d, 0) || DAT_011dea3c->HasPerk(perk3, 0);
+    bool wacky = input9->Controls_GetKeyboardButton(0x1d, 0) || input9->Controls_GetKeyboardButton(0x9d, 0) || DAT_011dea3c->HasPerk(perk3, 0);
     if (DAT_011c3f3c && DAT_011c3f3c->GetValue() == 2.0)
         wacky = true;
     char path_40[260];
     reinterpret_cast<CreditPathPrefix&>(path_40) = *reinterpret_cast<const CreditPathPrefix*>(DAT_010724e8);
     FUN_00ec61c0(path_40 + 6, 0, 254);
     int language6 = FUN_004b7220();
-    FUN_00406d50(path_40, 260, FUN_004b7650(language6));
+    FUN_00406d50(path_40, 260, GetLanguageStr(language6));
     FUN_00406d50(path_40, 260, DAT_01013444);
     FUN_00406d50(path_40, 260, wacky ? DAT_010724d4 : DAT_010724c8);
     CreditFile local(path_40, 0, 0x4000, 0);
     CreditFile fallback(wacky ? DAT_010724b0 : DAT_0107249c, 0, 0x4000, 0);
     FUN_00406d30(path_40, 260, DAT_010724e8);
-    FUN_00406d50(path_40, 260, FUN_004b7650(language6));
+    FUN_00406d50(path_40, 260, GetLanguageStr(language6));
     FUN_00406d50(path_40, 260, DAT_01013444);
     FUN_00406d50(path_40, 260, wacky ? DAT_01072484 : DAT_01072470);
     CreditFile localExtra(path_40, 0, 0x4000, 0);
@@ -1433,7 +1437,7 @@ void CreditsMenu::FUN_0075fb90()
                 WriteTextUntilDelimiter(token_10);
                 unsigned int options = 0x500;
                 CreditSceneNode* text =
-                    face8->FUN_00a12460(0.0f, 0.0f, 0.0f, token_10, &options, align, color, true, true);
+                    face8->Font_MakeString(0.0f, 0.0f, 0.0f, token_10, &options, align, color, true, true);
                 text->FUN_004bc1f0((float)x, 0.0f, (float)y);
                 root.FUN_00559450()->Attach(text, true);
                 y -= (int)face8->FUN_00759450();
@@ -1469,9 +1473,9 @@ struct CreditsCreateInterface
     bool FUN_007023a0();
 };
 
-CreditsCreateInterface* __cdecl FUN_004b7210();
+CreditsCreateInterface* __cdecl InterfaceManager_GetSingleton();
 float __cdecl FUN_00a01530();
-int __cdecl FUN_0075f5f0();
+int __cdecl CreditsMenu_GetMenuID_();
 void __cdecl FNV_Warning(const char* apFmt, ...);
 int __cdecl FUN_004dc200();
 int __cdecl FUN_004dc1f0();
@@ -1480,18 +1484,19 @@ int __cdecl FUN_004dc1f0();
 
 // Creates the credits menu from credits_menu.xml, computes line scroll delay, and adjusts the first tile position for non-4:3 aspect ratios.
 // @fnv 0x0075f2a0
-bool __cdecl FUN_0075f2a0()
+// src: COMMUNITY 0x0075f2a0
+bool __cdecl CreditsMenu_Create()
 {
     using namespace CreditsCreateDetail;
     Menu* pOldMenu5 = reinterpret_cast<Menu*>(FUN_00a09030(0x417));
     if (pOldMenu5)
         delete pOldMenu5;
 
-    CreditsCreateInterface* pIM = CreditsCreateDetail::FUN_004b7210();
+    CreditsCreateInterface* pIM = CreditsCreateDetail::InterfaceManager_GetSingleton();
     float fSafeZoneVal = CreditsCreateDetail::FUN_00a01530();
     Tile* pTileX = pIM->FUN_00586150()->ReadFile("Data\\Menus\\Options\\credits_menu.xml");
     Menu* pMenu6 = reinterpret_cast<Menu*>(pTileX->GetMenu());
-    if (pMenu6 && pMenu6->GetClass() == CreditsCreateDetail::FUN_0075f5f0())
+    if (pMenu6 && pMenu6->GetClass() == CreditsCreateDetail::CreditsMenu_GetMenuID_())
     {
         pMenu6->FUN_00a1dc70(reinterpret_cast<TileMenu*>(FUN_00ec43fb(pTileX, 0, &DAT_0119f4cc, &DAT_0119f49c, 0)), false);
         CreditsMenu* pCreditsMenu =
@@ -1507,7 +1512,7 @@ bool __cdecl FUN_0075f2a0()
             pTileX->Set(0xfad, fSafeZoneVal, true);
         }
         pTileX->Set(0x1004, pIM->FUN_007023a0());
-        pCreditsMenu->FUN_0075fb90();
+        pCreditsMenu->InitCreditsRoot();
         if (pCreditsMenu->kLines.GetSize())
         {
             pCreditsMenu->fLineDelay =

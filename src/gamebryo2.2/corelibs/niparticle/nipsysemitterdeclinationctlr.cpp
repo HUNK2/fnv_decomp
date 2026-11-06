@@ -17,7 +17,8 @@ void __thiscall NiPSysEmitterDeclinationCtlr::FUN_00c2a1b0(float& fValue)
 extern "C" void* g_01202758;
 
 // @fnv 0x00c2b9a0
-void* __cdecl FUN_00c2b9a0()
+// src: COMMUNITY 0x00c2b9a0
+void* __cdecl NiPSysEmitterDeclinationCtlr_GetRTTI()
 {
     return &g_01202758;
 }
@@ -38,7 +39,7 @@ void NiPSysEmitterDeclinationCtlr::FUN_00c2b9b0(float fValue)
 
 struct NiObject;
 
-__declspec(nothrow) NiObject* __cdecl FUN_00a7d330(void* p);
+__declspec(nothrow) NiObject* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
 
 struct ObjArray
 {
@@ -69,7 +70,7 @@ struct FUN_00c2ba10_class
 void FUN_00c2ba10_class::FUN_00c2ba10(ObjArray* pArray)
 {
     FUN_00c32f60(pArray);
-    NiObject* obj = FUN_00a7d330(g_01202758);
+    NiObject* obj = NiViewerStrings_NiGetViewerString_Title(g_01202758);
     pArray->Add(obj);
 }
 

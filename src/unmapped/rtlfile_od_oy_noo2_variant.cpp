@@ -13,11 +13,12 @@ struct FUN_0078d200_cls
 {
     unsigned int m_pOwnerObject;
     unsigned int m_uiItemCount;
-    bool FUN_0078d200();
+    bool BSSpinLock_TryLock();
 };
 
 // @fnv 0x0078d200
-bool FUN_0078d200_cls::FUN_0078d200()
+// src: COMMUNITY 0x0078d200
+bool FUN_0078d200_cls::BSSpinLock_TryLock()
 {
     __declspec(align(32)) unsigned int tid;
     bool ok = false;

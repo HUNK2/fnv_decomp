@@ -9,7 +9,8 @@
 extern "C" void* g_01202720;
 
 // @fnv 0x00c2b230
-void* __cdecl FUN_00c2b230()
+// src: COMMUNITY 0x00c2b230
+void* __cdecl NiPSysFieldAttenuationCtlr_GetRTTI()
 {
     return &g_01202720;
 }
@@ -108,14 +109,14 @@ NiPSysFieldAttenuationCtlr* Owner::CreateFieldAttenuationController(NiObjectNET*
     return (NiPSysFieldAttenuationCtlr*)pCtlr;
 }
 
-char* __cdecl FUN_00a7d330(char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 void __stdcall FUN_00c32f60(StrArr*);
 // Appends the string returned by FUN_00a7d330(g_01202720) to the array, growing it if the index reaches capacity.
 // @fnv 0x00c2b2e0
 void __stdcall FUN_00c2b2e0(StrArr* array)
 {
     FUN_00c32f60(array);
-    char* value = FUN_00a7d330(static_cast<char*>(g_01202720));
+    char* value = NiViewerStrings_NiGetViewerString_Title(static_cast<char*>(g_01202720));
     unsigned int index = array->m_usSize;
     unsigned int capacity = array->m_usMaxSize;
     if (index >= capacity)

@@ -55,7 +55,8 @@ int MalleableConstraintDataStandIn::hkpMalleableConstraintData_isValid(int aiVal
 }
 
 // @fnv 0x00cdf6b0
-int FUN_00cdf6b0()
+// src: COMMUNITY 0x00cdf6b0
+int hkpMalleableConstraintData_getType()
 {
     return 13;
 }

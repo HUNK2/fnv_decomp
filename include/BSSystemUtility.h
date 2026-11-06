@@ -9,7 +9,7 @@ public:
     virtual int ResetSystemUtility(int);
     virtual void Initialize(const char*, const char*, unsigned int);
     virtual void Destroy();
-    virtual void FUN_00af3340();
+    virtual void Update_00af3340();
     virtual bool vf10(void*);
 
     unsigned char storage[0x94];

@@ -872,7 +872,7 @@ struct Vec4i {
 
 struct FUN_00d81510_Class {
     Vec4i m_00;
-    void FUN_00d81510(int a, int b, int c, int d);
+    void hkgpConvexHullImpl_build(int a, int b, int c, int d);
 };
 
 struct FUN_00d771c0_Owner {
@@ -888,7 +888,7 @@ struct FUN_00d771c0_Owner {
 void FUN_00d771c0_Owner::hkgpConvexHull_build(int a, int b, const Vec4i& v)
 {
     unk08->m_00 = v;
-    unk08->FUN_00d81510(a, b, 0, 0);
+    unk08->hkgpConvexHullImpl_build(a, b, 0, 0);
 }
 
 struct FUN_00d83430_class {
@@ -2162,7 +2162,7 @@ void D76250Shape::CopyVerticesToArray(hkArrayBase<hkVector4>& vertices) const
 }
 
 struct FUN_00d81510_cls {
-    void FUN_00d81510(int a1, int a2, int a3, int a4);
+    void hkgpConvexHullImpl_build(int a1, int a2, int a3, int a4);
 };
 
 struct FUN_00d77320_cls {
@@ -2183,7 +2183,7 @@ void FUN_00d77320_cls::CopyAndDispatch(int* a1, int a2, const __m128* pVec, cons
     dst[2] = pUInts[2];
     dst[3] = pUInts[3];
     *(__m128*)((char*)m_08 + 0xe0) = *pVec;
-    m_08->FUN_00d81510((int)a1, a2, 1, 0);
+    m_08->hkgpConvexHullImpl_build((int)a1, a2, 1, 0);
 }
 
 struct FnvCpu_FUN_00d74e00_CpuObject {
@@ -2497,10 +2497,11 @@ struct S00d7d1c0_Derived : S00d7d1c0_Base {
         m08.FreeAll();
         m08.ClearAndFlush();
     }
-    S00d7d1c0_Derived* FUN_00d7d1c0(int flags);
+    S00d7d1c0_Derived* hkgpAbstractMesh_hkgpConvexHullImpl_Edge_hkgpConvexHullImpl_Vertex_hkgpConvexHullImpl_Triangle_hkContainerHeapAllocator_Destroy(int flags);
 };
 // @fnv 0x00d7d1c0
-S00d7d1c0_Derived* S00d7d1c0_Derived::FUN_00d7d1c0(int flags)
+// src: COMMUNITY 0x00d7d1c0
+S00d7d1c0_Derived* S00d7d1c0_Derived::hkgpAbstractMesh_hkgpConvexHullImpl_Edge_hkgpConvexHullImpl_Vertex_hkgpConvexHullImpl_Triangle_hkContainerHeapAllocator_Destroy(int flags)
 {
     this->~S00d7d1c0_Derived();
     new (static_cast<S00d7d1c0_Base*>(this)) S00d7d1c0_Base();

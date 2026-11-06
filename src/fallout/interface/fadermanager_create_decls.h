@@ -16,7 +16,7 @@ struct FaderSurfaceParameters
     NiPoint2* pTexCoords;
 };
 
-bool FUN_004de070();
+bool is_bEyeFinity();
 
 extern NiTexture::TextureFormatPreferences DAT_011a9598;
 

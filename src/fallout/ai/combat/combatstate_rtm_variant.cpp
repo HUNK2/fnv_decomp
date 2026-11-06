@@ -115,7 +115,7 @@ struct LoadInfo
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     LoadInfo();
-    void FUN_009a31b0(CombatLoadBuffer*);
+    void CombatState_LocationTarget_LoadGame(CombatLoadBuffer*);
 };
 
 struct LoadBoundPair
@@ -128,7 +128,7 @@ struct LoadBoundPair
 struct LoadArea
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
-    void FUN_009a3050(CombatLoadBuffer*);
+    void CombatCoverSearch_LoadGameBGS(CombatLoadBuffer*);
 };
 
 struct LoadA
@@ -353,11 +353,12 @@ struct CombatLoadState
 
     void FUN_009a0510(CombatCoverPointData_combatstate_rtm_variant*);
 
-    void FUN_009a2040(CombatLoadBuffer*);
+    void CombatState_LoadGameBGS(CombatLoadBuffer*);
 };
 
 // @fnv 0x009a2040
-void CombatLoadState::FUN_009a2040(CombatLoadBuffer* buffer)
+// src: COMMUNITY 0x009a2040
+void CombatLoadState::CombatState_LoadGameBGS(CombatLoadBuffer* buffer)
 
 {
 
@@ -511,14 +512,14 @@ void CombatLoadState::FUN_009a2040(CombatLoadBuffer* buffer)
         if (presence & 32)
         {
             info = new LoadInfo;
-            info->FUN_009a31b0(buffer);
+            info->CombatState_LocationTarget_LoadGame(buffer);
         }
 
         if (presence & 2)
-            area1.FUN_009a3050(buffer);
+            area1.CombatCoverSearch_LoadGameBGS(buffer);
 
         if (presence & 8)
-            area2.FUN_009a3050(buffer);
+            area2.CombatCoverSearch_LoadGameBGS(buffer);
 
         {
 

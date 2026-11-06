@@ -42,7 +42,8 @@ inline void NiRangeLODData::SetRange(unsigned int i, float fNear, float fFar)
 extern "C" const void* g_011f5f1c;
 
 // @fnv 0x00a994c0
-const void* __cdecl FUN_00a994c0()
+// src: COMMUNITY 0x00a994c0
+const void* __cdecl NiLODNode_GetRTTI()
 {
     return &g_011f5f1c;
 }
@@ -102,7 +103,7 @@ void __thiscall NiLODNode::FUN_00a99110(NiUpdateData& UpdateData)
 
 // NiSwitchNode's stream and copy overrides are not declared in the shared header yet.
 extern "C" void FUN_00a94610();
-extern "C" void FUN_00a93c00();
+extern "C" void NiSwitchNode_CopyMembers();
 extern "C" void FUN_00a94570();
 extern "C" void FUN_00a94680();
 // @fnv 0x00a99310
@@ -176,7 +177,7 @@ void NiLODNode::UpdateChildrenWorldData()
 // @fnv 0x00a99390
 void NiLODNode::FUN_00a99390(NiSwitchNode* pkDest, CloningProcess& kCloning)
 {
-    reinterpret_cast<void(__thiscall*)(NiSwitchNode*, NiSwitchNode*, CloningProcess&)>(&FUN_00a93c00)(
+    reinterpret_cast<void(__thiscall*)(NiSwitchNode*, NiSwitchNode*, CloningProcess&)>(&NiSwitchNode_CopyMembers)(
         this, pkDest, kCloning);
 
     NiLODData* pObj = m_spLODData.m_pObject;
@@ -271,7 +272,7 @@ NiLODNode* NiLODNode::CreateCloneLODNode(CloningProcess& process)
 }
 
 extern "C" const void* g_011f5f1c;
-extern "C" char* __cdecl FUN_00a7d330(const void* pvName);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const void* pvName);
 
 inline unsigned int LODAddViewerString(StrArr* strings, const char* const& value)
 {
@@ -288,7 +289,7 @@ void NiLODNode::FUN_00a99760(NiViewerStringsArray* strings)
     StrArr* pkStrings = reinterpret_cast<StrArr*>(strings);
     reinterpret_cast<void(__thiscall*)(NiSwitchNode*, NiViewerStringsArray*)>(&FUN_00a94680)(
         reinterpret_cast<NiSwitchNode*>(this), strings);
-    LODAddViewerString(pkStrings, FUN_00a7d330(g_011f5f1c));
+    LODAddViewerString(pkStrings, NiViewerStrings_NiGetViewerString_Title(g_011f5f1c));
     NiObject* pkLODData = static_cast<NiObject*>(m_spLODData.m_pObject);
     if (pkLODData)
     {

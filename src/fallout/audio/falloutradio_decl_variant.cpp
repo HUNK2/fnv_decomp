@@ -24,7 +24,7 @@ extern unsigned char DAT_011dd436;
 extern BSSoundHandle DAT_011dd5bc;
 extern BSSimpleList<FalloutRadio::RadioStationState*> DAT_011dd554;
 
-void FUN_008325a0(bool);
+void FalloutAudioMedia_MediaSetRadio(bool);
 
 class Conversation
 {
@@ -41,7 +41,7 @@ TESTopic* GetTopicSubTypeName(int, int);
 FalloutRadio::RadioStationState* CreateRadioStationState(BGSTalkingActivator*, bool);
 void FalloutRadio_UpdateStation(FalloutRadio::RadioStationState*);
 void AdvanceConversation(FalloutRadio::RadioStationState*, TESTopic*);
-bool FUN_00833ce0();
+bool FalloutRadio_GetIsDialogueOnlyRadio();
 void FUN_008304a0();
 void FUN_008304c0();
 class ATM
@@ -90,10 +90,10 @@ void FalloutRadio_StartRadioConversation(BGSTalkingActivator* form, TESTopic* to
     {
         DAT_011dd5bc.Stop();
         DAT_011dd5bc.Release();
-        if (FUN_00833ce0())
+        if (FalloutRadio_GetIsDialogueOnlyRadio())
         {
             FUN_008304a0();
-            FUN_008325a0(true);
+            FalloutAudioMedia_MediaSetRadio(true);
             FalloutAudioMedia::PlayMedia(MEDIATYPE_MEDIA_RADIO, 0, 1000, false, false, 0.0f, 0);
             FUN_008304c0();
         }
@@ -122,10 +122,10 @@ void FalloutRadio_StartRadioConversation(BGSTalkingActivator* form, TESTopic* to
         {
             DAT_011dd5bc.Stop();
             DAT_011dd5bc.Release();
-            if (FUN_00833ce0())
+            if (FalloutRadio_GetIsDialogueOnlyRadio())
             {
                 FUN_008304a0();
-                FUN_008325a0(true);
+                FalloutAudioMedia_MediaSetRadio(true);
                 FalloutAudioMedia::PlayMedia(MEDIATYPE_MEDIA_RADIO, 0, 1000, false, false, 0.0f, 0);
                 FUN_008304c0();
             }

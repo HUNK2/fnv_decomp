@@ -23,7 +23,8 @@ void* __fastcall FUN_00a57c20(void* self, int, unsigned short usIndex)
 
 extern const char* const g_011f3f88_arg1;
 // @fnv 0x00a57ca0
-const char* const* FUN_00a57ca0()
+// src: COMMUNITY 0x00a57ca0
+const char* const* NiPoint3InterpController_GetRTTI()
 {
     return &g_011f3f88_arg1;
 }
@@ -50,13 +51,13 @@ struct ActorCombatGroup;
 typedef NiTArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*> > CombatGroupArray;
 extern const char* const g_011f3f88_arg1;
 void __stdcall FUN_00a390a0(CombatGroupArray* a);
-ActorCombatGroup* __cdecl FUN_00a7d330(const char* s);
+ActorCombatGroup* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* s);
 
 // @fnv 0x00a57d10
 void __stdcall FUN_00a57d10(CombatGroupArray* pCombatGroups)
 {
     FUN_00a390a0(pCombatGroups);
-    ActorCombatGroup* pGroup = FUN_00a7d330(g_011f3f88_arg1);
+    ActorCombatGroup* pGroup = NiViewerStrings_NiGetViewerString_Title(g_011f3f88_arg1);
     unsigned int uiIndex = *(unsigned short*)((char*)pCombatGroups + 0xa);
     if (uiIndex >= *(unsigned short*)((char*)pCombatGroups + 8))
         pCombatGroups->SetSize(*(unsigned short*)((char*)pCombatGroups + 0xe) + uiIndex);
@@ -66,7 +67,8 @@ void __stdcall FUN_00a57d10(CombatGroupArray* pCombatGroups)
 extern unsigned int DAT_011f404c;
 
 // @fnv 0x00a532c0
-unsigned int* __cdecl FUN_00a532c0()
+// src: COMMUNITY 0x00a532c0
+unsigned int* __cdecl NiBoolInterpolator_GetRTTI()
 {
     return &DAT_011f404c;
 }

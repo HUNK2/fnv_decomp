@@ -12,16 +12,16 @@ struct FUN_00dce8d0_class
     unsigned long LookupHashEntry(unsigned long key, unsigned long def);
     unsigned long GetValueOrDefault(unsigned long key);
 };
-void __cdecl FUN_00d3fe90(void);
-void __cdecl FUN_00d39390(void);
-void __cdecl FUN_00d41a30(void);
-void __cdecl FUN_00d40d80(void);
-void __cdecl FUN_00d32cd0(void);
+void __cdecl hkBoxBoxAgent3_process(void);
+void __cdecl hkCapsuleTriangleAgent3_process(void);
+void __cdecl hkPredGskAgent3_process(void);
+void __cdecl hkPredGskCylinderAgent3_process(void);
+void __cdecl hkConvexListAgent3_process(void);
 void __cdecl BuildEventIndex(void);
 void __fastcall hkBvTreeAgent3_process(void*, int, void*, int);
 void __cdecl FUN_00d35770(void);
 void __cdecl hkpCollectionAgent3_process(void);
-int __cdecl FUN_00dcd4d0(void* p);
+int __cdecl hkpSaveContactPointsUtil_getSerializedAgentType(void* p);
 struct D10710Object
 {
     void Search(void* a, void* b, void* c, int flag);

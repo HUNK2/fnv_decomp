@@ -9,8 +9,8 @@
 #include "../../include/NiUpdateData.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
-NiAVObject* FUN_0054f4f0();
+unsigned int TESTerrainLODManager_GetGrassNode();
+NiAVObject* TESMain_GetWeatherRoot();
 
 // 0x00452440 queries TESForm's 0x40000000 flag; TESForm.h lacks this out-of-line query.
 struct FormCollisionQuery : TESForm

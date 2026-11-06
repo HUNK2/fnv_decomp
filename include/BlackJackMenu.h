@@ -152,13 +152,13 @@ public:
     virtual int GetClass();
 
     void SetTile(int aiID, Tile* apTile);
-    int __thiscall FUN_00731790();
+    int __thiscall GetMenuID_00731790();
     void ClearField();
     int __thiscall HasFlag(int flag);
     bool HasFlag(unsigned int flag);
     void SetFlag(int flag, bool value);
     void* __thiscall DestroyIfFlagged(unsigned int flags);
-    char __thiscall FUN_00733f90();
+    char __thiscall BlackJackMenu_HasTiles();
     int GetAdjustedValue(int value);
     bool LoadCardDeckResources();
     void InitBlackjackScene();
@@ -176,7 +176,7 @@ public:
     void Shuffle();
     bool FUN_007395a0();
     bool FUN_00739650(bool split);
-    void FUN_007396e0(int hand, int index, Card* card);
+    void BlackJackMenu_SwapCardTextures(int hand, int index, Card* card);
     void FUN_00738c30(int index, float value);
     void FUN_00739970(int index);
     void FUN_00739970(bool split);
@@ -186,7 +186,7 @@ public:
     void UpdateCulledNodes();
     void UncullCardObjects();
     void HideArrowNodes();
-    NiNode* FUN_007c2180();
+    NiNode* BlackJackMenu_SetupCamera();
     void FUN_00734db0();
     int GetID();
     int FUN_0059bb30();

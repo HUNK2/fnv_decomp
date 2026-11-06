@@ -70,7 +70,7 @@ void TESActorBase::NotifyFormIDChanged(int changeFlags)
 void TESActorBase::LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<TESForm*>(this)->TESForm::LoadGame(buffer);
-    reinterpret_cast<TESActorBaseData*>(reinterpret_cast<char*>(this) + 0x30)->FUN_0047ea70(buffer);
+    reinterpret_cast<TESActorBaseData*>(reinterpret_cast<char*>(this) + 0x30)->LoadGame_0047ea70(buffer);
     reinterpret_cast<Crime*>(reinterpret_cast<char*>(this) + 0x7c)->LoadGame(buffer);
     reinterpret_cast<TESAttributes*>(reinterpret_cast<char*>(this) + 0xb8)->LoadDataIfChanged(buffer);
     reinterpret_cast<TESAIForm*>(reinterpret_cast<char*>(this) + 0x90)->LoadGame(buffer);
@@ -90,7 +90,8 @@ Reset3DMobIterator::Reset3DMobIterator()
 
 // If reset is set, runs the 3D mob iterator over this actor base twice and resets the player's process 3D when this is the player's base.
 // @fnv 0x005f20a0
-void TESActorBase::FUN_005f20a0(bool reset)
+// src: COMMUNITY 0x005f20a0
+void TESActorBase::Reset3DForLoadedActors(bool reset)
 {
     if (!reset)
         return;
@@ -182,7 +183,8 @@ bool TESActorBase::FUN_005f0c80()
 }
 
 // @fnv 0x005f0f80
-BGSBodyPartData* __fastcall FUN_005f0f80(TESActorBase* apActorBase)
+// src: COMMUNITY 0x005f0f80
+BGSBodyPartData* __fastcall TESActorBase_GetBodyPartData(TESActorBase* apActorBase)
 {
     if (BGSBodyPartData::ms_pBodyPartDataInstance && apActorBase == g_thePlayer->GetActorBase())
         return BGSBodyPartData::ms_pBodyPartDataInstance;
@@ -191,7 +193,8 @@ BGSBodyPartData* __fastcall FUN_005f0f80(TESActorBase* apActorBase)
 
 
 // @fnv 0x005f0b30
-void TESActorBase::FUN_005f0b30(int aiValue)
+// src: COMMUNITY 0x005f0b30
+void TESActorBase::SetHealth_005f0b30(int aiValue)
 {
     ((Reset3DMobIterator*)((char*)this + 0xb0))->FUN_006ecd40(aiValue);
 }
@@ -266,14 +269,14 @@ struct FUN_00484d60_holder
 };
 struct FUN_0048e040_holder
 {
-    void FUN_0048e040(unsigned int);
+    void TESSpellList_SaveGameBGS(unsigned int);
 };
 // @fnv 0x005f1f30
 void TESActorBase::FUN_005f1f30(unsigned int buffer)
 {
     ((FUN_00484d60_holder*)this)->SaveIfChanged(buffer);
     ((TESActorBaseData*)((char*)this + 0x30))->SaveGame((BGSSaveFormBuffer*)buffer);
-    ((FUN_0048e040_holder*)((char*)this + 0x7c))->FUN_0048e040(buffer);
+    ((FUN_0048e040_holder*)((char*)this + 0x7c))->TESSpellList_SaveGameBGS(buffer);
     ((TESAttributes*)((char*)this + 0xb8))->SaveGame((BGSSaveFormBuffer*)buffer);
     ((TESAIForm*)((char*)this + 0x90))->SaveGame((BGSSaveFormBuffer*)buffer);
     if (((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x20u).operator bool())
@@ -716,7 +719,7 @@ void TESActorBase::FUN_005f18c0(unsigned int flags)
 
 namespace fnv_005f1b30 {
 void* __cdecl memset(void*, int, unsigned int);
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 
 struct LoadHdr
 {
@@ -859,14 +862,14 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
             if (hdrB != 0)
             {
                 form5 = FUN_004839c0(hdrB->id);
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp", 596, hdrB->id,
                     form5->GetName(), hdrB->ver, *(int*)((char*)hdrB + 5));
             }
             else
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp", 596,
                     fnv_005f1b30::g_TESSaveLoadGame->FUN_008df040());
@@ -909,7 +912,7 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
             form25 = FUN_004839c0(hdr2A->id);
             if (endPos0 > usVarZ + curPosC)
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     endPos0 - (usVarZ + curPosC),
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp", 628, hdr2A->id,
@@ -917,7 +920,7 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
             }
             else if (endPos0 < usVarZ + curPosC)
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     (usVarZ + curPosC) - endPos0,
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp", 628, hdr2A->id,
@@ -928,7 +931,7 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
         {
             if (endPos0 > usVarZ + curPosC)
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
                     endPos0 - (usVarZ + curPosC),
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp", 628,
@@ -936,7 +939,7 @@ void TESActorBase::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
             }
             else if (endPos0 < usVarZ + curPosC)
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
                     (usVarZ + curPosC) - endPos0,
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBase.cpp", 628,

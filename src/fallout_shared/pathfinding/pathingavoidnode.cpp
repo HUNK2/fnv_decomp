@@ -40,11 +40,12 @@ struct AvoidNodeList
 {
     unsigned int GetCount();
     PathingAvoidNode* GetAt(unsigned int);
-    float FUN_006dc9f0(const NiPoint3& point, NiPoint3& outDir);
+    float PathingAvoidNodeArray_ComputeCenter(const NiPoint3& point, NiPoint3& outDir);
 };
 
 // @fnv 0x006dc9f0
-float AvoidNodeList::FUN_006dc9f0(const NiPoint3& point, NiPoint3& outDir)
+// src: COMMUNITY 0x006dc9f0
+float AvoidNodeList::PathingAvoidNodeArray_ComputeCenter(const NiPoint3& point, NiPoint3& outDir)
 {
     float fValueSum = 0.0f;
     outDir = NiPoint3_ZERO;

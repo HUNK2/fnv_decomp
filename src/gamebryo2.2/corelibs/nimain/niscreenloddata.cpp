@@ -61,13 +61,14 @@ void NiScreenLODData::UpdateScreenBound(NiBound& bound)
 
 struct FUN_00a95cb0_shell : public NiScreenLODData
 {
-    void* FUN_00a95cb0();
+    void* NiScreenLODData_GetRTTI();
 };
 
 extern "C" void* g_011f5ee8;
 
 // @fnv 0x00a95cb0
-void* FUN_00a95cb0_shell::FUN_00a95cb0()
+// src: COMMUNITY 0x00a95cb0
+void* FUN_00a95cb0_shell::NiScreenLODData_GetRTTI()
 {
     return &g_011f5ee8;
 }
@@ -615,16 +616,17 @@ struct S_00a58160_Stream
 };
 struct S_00a58160_Foo
 {
-    void FUN_00a724d0(S_00a58160_Stream&);
+    void NiInterpolator_LinkObject(S_00a58160_Stream&);
 };
 struct FUN_00a95ca0_shell : public S_00a58160_Foo
 {
-    void FUN_00a95ca0(S_00a58160_Stream& s);
+    void NiKeyBasedInterpolator_LinkObject(S_00a58160_Stream& s);
 };
 // @fnv 0x00a95ca0
-void FUN_00a95ca0_shell::FUN_00a95ca0(S_00a58160_Stream& s)
+// src: COMMUNITY 0x00a95ca0
+void FUN_00a95ca0_shell::NiKeyBasedInterpolator_LinkObject(S_00a58160_Stream& s)
 {
-    FUN_00a724d0(s);
+    NiInterpolator_LinkObject(s);
 }
 
 struct FUN_00a95f40_cls
@@ -900,7 +902,7 @@ struct StrArray
         return uiIndex;
     }
 };
-char* FUN_00a7d330(const char* p);
+char* NiViewerStrings_NiGetViewerString_Title(const char* p);
 void* FUN_00aa1070(unsigned int size);
 int FUN_00a305b0(char* buf, unsigned int size, const char* fmt, ...);
 struct Obj96270
@@ -917,7 +919,7 @@ struct Obj96270
 // @fnv 0x00a96270
 void Obj96270::FUN_00a96270(StrArray* pkStrings)
 {
-    pkStrings->AddCall(FUN_00a7d330(*(const char**)&g_011f5ee8));
+    pkStrings->AddCall(NiViewerStrings_NiGetViewerString_Title(*(const char**)&g_011f5ee8));
     pkStrings->AddCall(m_08.FUN_00a7fb20("Bound"));
     pkStrings->AddCall(m_18.FUN_00a7fb20("World Bound"));
     for (unsigned int i = 0; i < m_28; i++)

@@ -41,7 +41,7 @@ struct S_00878f60_RendererData
 
 struct S_00878f60_Texture
 {
-    S_00878f60_RendererData* FUN_004bc320(int i);
+    S_00878f60_RendererData* BSRenderedTexture_GetTexture(int i);
 };
 
 struct S_00878f60_TexPtr
@@ -58,22 +58,22 @@ struct S_00878f60_RenderedTexture;
 
 struct S_00878f60_MTRender
 {
-    void FUN_00ba2f30();
-    void FUN_00ba30f0(int a, int b);
-    void FUN_00ba3130(int a, int b);
-    void FUN_00ba2fa0();
+    void MTRenderingSystem_StartThreads();
+    void MTRenderingSystem_SetThreadStage(int a, int b);
+    void MTRenderingSystem_WaitOnThreadStage(int a, int b);
+    void MTRenderingSystem_WaitForThreads();
 };
 
 struct S_00878f60_ImageSpaceManager
 {
     static S_00878f60_ImageSpaceManager* FUN_004e3270();
-    void FUN_00879860(float a, float b, float c, float d);
-    void FUN_008798a0();
+    void ImageSpaceManager_SetCustomViewPort(float a, float b, float c, float d);
+    void ImageSpaceManager_ResetViewport();
 };
 
 struct S_00878f60_Player
 {
-    void FUN_0094ae40(bool a, bool b);
+    void PlayerCharacter_UpdateCamera(bool a, bool b);
     void FUN_009466d0(float f, int b);
 };
 
@@ -88,7 +88,7 @@ S_00878f60_Texture* FUN_00b6b610(const S_00878f60_FixedString& name, unsigned in
 S_00878f60_MTRender* FUN_004ea970();
 int FUN_004dc200();
 int FUN_004dc1f0();
-void FUN_005b5e40(const char* fmt, ...);
+void Warning_005b5e40(const char* fmt, ...);
 unsigned int FUN_0044a670(const char* s);
 int FUN_00aff0b0(const char* path);
 
@@ -375,7 +375,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
     S_00878f60_AutoMem theMemContext(0x11, true,
                                      "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\ScreenShot.cpp", 0x139);
     S_00878f60_Renderer* r = FUN_004bc3f0();
-    FUN_004ea970()->FUN_00ba2f30();
+    FUN_004ea970()->MTRenderingSystem_StartThreads();
     IDirect3DDevice9* pDevice = r->FUN_004dc020();
     S_00878f60_Cam frustum = *r->vfD4()->FUN_00878f20();
     S_00878f60_FormatPrefs prefs2;
@@ -385,23 +385,23 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
         FUN_00b6b610(S_00878f60_FixedString("Screenshot RT"), *pWidth, *pHeight, &prefs2, 0, 1, 0, 0, 0));
     if (!eTex)
     {
-        FUN_005b5e40("DEFAULT: (ScreenShot) Unable to create render texture.");
+        Warning_005b5e40("DEFAULT: (ScreenShot) Unable to create render texture.");
         return 0;
     }
 
     float aspect = (double)FUN_004dc200() / FUN_004dc1f0();
     int outHeight = (int)(*pHeight * aspect);
-    DAT_011dea3c->FUN_0094ae40(false, false);
-    S_00878f60_ImageSpaceManager::FUN_004e3270()->FUN_00879860(0.0f, 1.0f, 1.0f, 1.0f - aspect);
+    DAT_011dea3c->PlayerCharacter_UpdateCamera(false, false);
+    S_00878f60_ImageSpaceManager::FUN_004e3270()->ImageSpaceManager_SetCustomViewPort(0.0f, 1.0f, 1.0f, 1.0f - aspect);
     DAT_011dea0c->FUN_008706b0(eTex, 0, 0);
-    S_00878f60_ImageSpaceManager::FUN_004e3270()->FUN_008798a0();
+    S_00878f60_ImageSpaceManager::FUN_004e3270()->ImageSpaceManager_ResetViewport();
     if (DAT_011dea0c->FUN_005bb4d0())
         DAT_011dea3c->FUN_009466d0(0.0f, 1);
-    FUN_004ea970()->FUN_00ba30f0(0, 0x17);
-    FUN_004ea970()->FUN_00ba3130(1, 0x17);
-    FUN_004ea970()->FUN_00ba2fa0();
+    FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, 0x17);
+    FUN_004ea970()->MTRenderingSystem_WaitOnThreadStage(1, 0x17);
+    FUN_004ea970()->MTRenderingSystem_WaitForThreads();
 
-    S_00878f60_TexData* localTexData = eTex->FUN_004bc320(0)->FUN_0059bb30();
+    S_00878f60_TexData* localTexData = eTex->BSRenderedTexture_GetTexture(0)->FUN_0059bb30();
     localTexData = localTexData->vfA4();
     IDirect3DTexture9* d3dTexture = localTexData->vf9C();
     D3DSURFACE_DESC d3dDesc;
@@ -411,7 +411,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
     IDirect3DSurface9* destSurface;
     if (pDevice->CreateOffscreenPlainSurface(*pHeight, *pWidth, d3dDesc.Format, D3DPOOL_SYSTEMMEM, &destSurface, 0))
     {
-        FUN_005b5e40("DEFAULT: (ScreenShot) Unable to create image surface.");
+        Warning_005b5e40("DEFAULT: (ScreenShot) Unable to create image surface.");
         return 0;
     }
     pDevice->GetRenderTargetData(rtSurface, destSurface);
@@ -485,7 +485,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
         }
         else
         {
-            FUN_005b5e40("SAVELOAD: (ScreenShot) Unable to create file '%s'.", filename);
+            Warning_005b5e40("SAVELOAD: (ScreenShot) Unable to create file '%s'.", filename);
         }
         delete file;
     }

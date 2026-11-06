@@ -248,8 +248,8 @@ struct FUN_00cacf10_cls {
     int m_74;
     int m_78;
 
-    float FUN_00cafd90(void* a, void* b);
-    int FUN_00cacf10(void* arg);
+    float hkpCharacterProxy_surfaceDistance(void* a, void* b);
+    int hkpCharacterProxy_findSurface(void* arg);
 };
 struct ArgminState {
     volatile float best;
@@ -503,7 +503,7 @@ struct S00cacaa0_World {
     S00cacaa0_Src* m_src;
     unsigned int unk7c;
     S00cacaa0_Disp* m_disp;
-    void FUN_00c92430(S00cacaa0_Coll* a, float* b, void* c, void* d);
+    void hkpWorld_linearCast(S00cacaa0_Coll* a, float* b, void* c, void* d);
 };
 struct S00cacaa0_Agent {
     virtual void v00();
@@ -539,7 +539,7 @@ struct S00cacaa0_cls {
     unsigned int unk00; unsigned int unk04; unsigned int unk08; unsigned int unk0c; unsigned int unk10; unsigned int unk14; unsigned int unk18; unsigned int unk1c;
     S00cacaa0_Vec m_v20;
     S00cacaa0_Phantom* m_pPhantom;
-    void FUN_00cacaa0(bool flag, float* a2, void* a3, void* a4);
+    void hkpCharacterProxy_linearCast(bool flag, float* a2, void* a3, void* a4);
 };
 struct HkEntity289 {
     void removeEntityListener_00c9c670(void* listener) throw();
@@ -619,7 +619,7 @@ struct FUN_00cadb00 : HkReferencedObject289, HkEntityListener289, HkPhantomListe
 extern float DAT_0104da48;
 struct S00cafbf0_Obj {
     void FUN_00cade20(int, int, hkpAllCdPointCollector*, hkpAllCdPointCollector*, int, int) throw();
-    void FUN_00cafbf0(int a, int b, int c, int d) throw();
+    void hkpCharacterProxy_integrateMultithreaded(int a, int b, int c, int d) throw();
 };
 // fires added/removed notifications and keeps entity/phantom listeners attached to the touched objects.
 struct S_00caf4d0_Heap {
@@ -807,16 +807,16 @@ struct S_00caf4d0_Tracker : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, S
     S_00caf4d0_Array<S_00caf4d0_Entity*> m_kActorEntries;  // 0x8c
     S_00caf4d0_Array<S_00caf4d0_Phantom*> m_kPhantoms; // 0x98
 
-    float FUN_00cafd90(const S_00caf4d0_Point* a, const S_00caf4d0_Point* b) throw();
+    float hkpCharacterProxy_surfaceDistance(const S_00caf4d0_Point* a, const S_00caf4d0_Point* b) throw();
     void hkpCharacterProxy_fireContactRemoved(const S_00caf4d0_Point* p) throw();
     void hkpCharacterProxy_fireContactAdded(const S_00caf4d0_Point* p) throw();
-    int FUN_00cacf10(const S_00caf4d0_Point* p) throw();
+    int hkpCharacterProxy_findSurface(const S_00caf4d0_Point* p) throw();
 
     void FUN_00caf4d0(const hkpAllCdPointCollector* input, const hkpAllCdPointCollector* extra, bool keepListeners) throw();
 };
 struct ContactQuery {
-    void FUN_00cae900(void*, unsigned, hkpAllCdPointCollector*) throw();
-    void FUN_00cafd00(void*, unsigned);
+    void ahkpCharacterProxy_checkSupportWithCollector(void*, unsigned, hkpAllCdPointCollector*) throw();
+    void ahkpCharacterProxy_checkSupport(void*, unsigned);
 };
 struct CadColl {
     int unk00;
@@ -849,7 +849,7 @@ struct CadPoint {
 };
 struct CadPhantomListener {
     virtual void plUnk00();
-    virtual void FUN_00cad820(struct CadPhantom* p) throw();
+    virtual void hkpPhantomListener_phantomRemovedCallback(struct CadPhantom* p) throw();
 };
 struct CadPhantom {
     void RemoveListener(CadPhantomListener* l) throw();
@@ -886,7 +886,7 @@ struct Cad820Cls : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, CadPhantom
     S_00caf4d0_Array<S_00caf4d0_Entity*> m_kActorEntries;
     hkArrayBase<CadPhantom*> m_kPhantoms;
 
-    void FUN_00cad820(CadPhantom* phantom) throw();
+    void hkpPhantomListener_phantomRemovedCallback(CadPhantom* phantom) throw();
 };
 extern "C" LocalM128 _mm_sub_ps(LocalM128 a, LocalM128 b);
 extern "C" LocalM128 _mm_setzero_ps(void);
@@ -1093,7 +1093,7 @@ struct PPose {PVec axis0,axis1,axis2,position;void SetWorldPosition(const PVec& 
 struct PPhantom {virtual void f0();virtual void f1();virtual void f2();virtual void f3();virtual PPose* pose();virtual void f5();virtual void f6();virtual void f7();virtual void f8();virtual void f9();virtual void fa();virtual void fb();virtual void fc();virtual void fd();virtual void cast(const PVec&,const PCast&,hkpAllCdPointCollector&,hkpAllCdPointCollector*) throw();void FUN_00c9e990(const PVec&,float) throw();};
 struct PBody {void hkpEntity_addEntityListener(void*) throw();};
 struct POther {void AddItem(void*) throw();};
-void FUN_00d24360(const PSolver&,PResult&) throw();
+void hkSimplexSolverSolve(const PSolver&,PResult&) throw();
 struct PBase {virtual void f0();virtual void f1();virtual void f2();unsigned short memoryFlags;short references;};
 struct PEntityListener {virtual void callback();};
 struct PPhantomListener {virtual void callback();};
@@ -1101,13 +1101,13 @@ struct POwner:PBase,PEntityListener,PPhantomListener {
     virtual void update(hkpAllCdPointCollector&,hkpAllCdPointCollector&,PBool) throw();virtual void convert(const PContact&,PPlane&,float) const throw();
     PVec velocity,oldDisplacement;PPhantom* phantom;float friction,staticFriction;int m3c;PVec up;float extraUp,extraDown,keepDistance,keepTolerance,angle;int userPlanes;float maxSpeed,strength,mass;PArray<PContact> manifold;PArray<void*> listeners;PArray<PBody*> bodies;PArray<POther*> phantoms;float slope,recovery;int maxIterations;bool refresh;
     const PVec& FUN_00cac910() const throw();
-    void FUN_00cacaa0(PBool,const PCast&,hkpAllCdPointCollector&,hkpAllCdPointCollector*) throw();
-    void FUN_00cac890(const PContact*,int,const PVec&) const throw();
+    void hkpCharacterProxy_linearCast(PBool,const PCast&,hkpAllCdPointCollector&,hkpAllCdPointCollector*) throw();
+    void hkpCharacterProxy_convertFractionToDistance(const PContact*,int,const PVec&) const throw();
     void hkpCharacterProxy_fireConstraintsProcessed(const PArray<PContact>&,PSolver&) const throw();
-    void FUN_00cacf80(const PStep&,const PVec&,void*,int) throw();
-    int FUN_00cacf10(const PContact&) const throw();
+    void ahkpCharacterProxy_ResolveContacts(const PStep&,const PVec&,void*,int) throw();
+    int hkpCharacterProxy_findSurface(const PContact&) const throw();
     void hkpCharacterProxy_fireContactAdded(const PContact&) const throw();
-    float FUN_00cacc50(const PResult&,const hkpAllCdPointCollector&,const PCast&,PVec&) throw();
+    float hkpCharacterProxy_moveToLinearCastHitPosition(const PResult&,const hkpAllCdPointCollector&,const PCast&,PVec&) throw();
     void FUN_00cade20(const PStep&,const PVec&,hkpAllCdPointCollector&,hkpAllCdPointCollector&,void*,int) throw();
 };
 struct PTimer {const char* tag;unsigned time,time1;__forceinline void stamp() throw(){
@@ -1156,11 +1156,11 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,hkpAllCdPointCol
         cast.reset();start.reset();
         if(threaded) {
             phantom->pose()->SetWorldPosition(position);
-            FUN_00cacaa0(iter!=0,query,cast,&start);
+            hkpCharacterProxy_linearCast(iter!=0,query,cast,&start);
         } else phantom->cast(position,query,cast,&start);
         if(collectorHit(cast)) {
             cast.sortHits();
-            FUN_00cac890(collectorBegin(cast),collectorCount(cast),oldDisplacement);
+            hkpCharacterProxy_convertFractionToDistance(collectorBegin(cast),collectorCount(cast),oldDisplacement);
         }
         {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84dc;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
         update(start,cast,threaded);
@@ -1186,9 +1186,9 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,hkpAllCdPointCol
         input.maxVelocity.all(maxSpeed);
         hkpCharacterProxy_fireConstraintsProcessed(manifold,input);
         solved.interactions=interactions.begin();
-        FUN_00d24360(input,solved);
+        hkSimplexSolverSolve(input,solved);
         {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84c4;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
-        FUN_00cacf80(step,gravity,command,maxInteractions);
+        ahkpCharacterProxy_ResolveContacts(step,gravity,command,maxInteractions);
         {PStream& s=*static_cast<PStream*>(TlsGetValue(DAT_0126835c));if(s.available()){PTimer* p=reinterpret_cast<PTimer*>(s.GetStreamEnd());p->tag=str_010c84b8;p->stamp();s.end(reinterpret_cast<char*>(p+1));}}
         int ok=oldDisplacement.equal(solved.position,0.001f);
         if(!ok) {
@@ -1196,12 +1196,12 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,hkpAllCdPointCol
             cast.reset();
             if(threaded) {
                 phantom->pose()->SetWorldPosition(position);
-                FUN_00cacaa0(true,query,cast,0);
+                hkpCharacterProxy_linearCast(true,query,cast,0);
             } else phantom->cast(position,query,cast,0);
             if(collectorHit(cast)) {
                 cast.sortHits();
-                FUN_00cac890(collectorBegin(cast),collectorCount(cast),solved.position);
-                while(FUN_00cacf10(collectorContact(cast,0))!=-1) {
+                hkpCharacterProxy_convertFractionToDistance(collectorBegin(cast),collectorCount(cast),solved.position);
+                while(hkpCharacterProxy_findSurface(collectorContact(cast,0))!=-1) {
                     removeFirst(cast);
                     if(!collectorHit(cast)) {ok=1;break;}
                 }
@@ -1227,7 +1227,7 @@ void POwner::FUN_00cade20(const PStep& step,const PVec& gravity,hkpAllCdPointCol
         if(ok) {
             position.add(solved.position);
             remaining-=solved.time;
-        } else remaining-=FUN_00cacc50(solved,cast,query,position);
+        } else remaining-=hkpCharacterProxy_moveToLinearCastHitPosition(solved,cast,query,position);
         oldDisplacement=solved.position;
     }
     velocity=solved.velocity;

@@ -29,8 +29,8 @@ public:
     void SetShape(BSMultiBoundShape* shape);
     void FUN_00c35fe0(BSMultiBound*, int);
     void v_8c();
-    void FUN_004addc0(void*);
-    void FUN_004addc0(Bound*);
+    void BSMultiBound_SetShape(void*);
+    void BSMultiBound_SetShape(Bound*);
     bool IsKindOfType(const NiRTTI* type);
 
 

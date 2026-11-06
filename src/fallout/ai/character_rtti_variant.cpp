@@ -37,10 +37,11 @@ struct ExtraList536
 // all object layout and base-class conversions come from Character.
 struct CharacterEquipmentWeight : Character
 {
-    float FUN_008d2110();
+    float Character_GetArmorDamageThreshold();
 };
 // @fnv 0x008d2110
-float CharacterEquipmentWeight::FUN_008d2110()
+// src: COMMUNITY 0x008d2110
+float CharacterEquipmentWeight::Character_GetArmorDamageThreshold()
 {
     int count = 0;
     ::TESObjectARMO* forms3[20];
@@ -105,11 +106,12 @@ extern ::Setting originalRuntimeFloatSetting1016;
 
 struct CharacterArmorWeight : public Character
 {
-    float FUN_008d22b0();
+    float Character_GetArmorDamageResistance();
 };
 
 // @fnv 0x008d22b0
-float CharacterArmorWeight::FUN_008d22b0()
+// src: COMMUNITY 0x008d22b0
+float CharacterArmorWeight::Character_GetArmorDamageResistance()
 {
     int iCount = 0;
     ::TESObjectARMO* armors[20];

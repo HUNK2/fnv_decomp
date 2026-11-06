@@ -124,10 +124,10 @@ public:
 
     void BaseExtraList_RemoveAll(bool flag);
     InventoryChanges* FUN_0041db00();
-    bool FUN_0041d030();
-    void* FUN_0041db50(unsigned char type);
-    void FUN_00554960(bool flag);
-    bool FUN_00554910();
+    bool ExtraDataList_HasOnlyOwnershipNonDefault();
+    void* ExtraDataList_SetEnableStateInverse(unsigned char type);
+    void TESObjectCELL_SetCollisionGeometryDisplay(bool flag);
+    bool TESObjectCELL_ToggleCollisionGeometry();
 
     ExtraContainerChanges* FUN_00418520();
     SeenData* FUN_00421910();
@@ -146,8 +146,8 @@ public:
     ScriptLocals* FUN_00418830();
     void FUN_00418940(BSSoundHandle* handle);
     void FUN_0041a090(BSSoundHandle* handle);
-    void FUN_0041f4c0(TESForm* form, bool flag);
-    void FUN_0041f650(TESForm* form, bool flag);
+    void ExtraDataList_SetReflectsRef(TESForm* form, bool flag);
+    void ExtraDataList_SetRefractsRef(TESForm* form, bool flag);
     TESModel* FUN_0042e250();
     float FUN_00422450();
     void FUN_0041f840();

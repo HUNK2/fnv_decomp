@@ -18,7 +18,7 @@
 class PortalEntry
 {
   public:
-    void FUN_00c5dea0();
+    void BSMasterParticleSystem_ResetSystems();
 };
 class ScreenCustomSplatter
 {
@@ -72,7 +72,7 @@ void __fastcall ClearPortalEntries(BSPortal* portal)
         slot = entry;
         value = slot;
         if (value)
-            value->FUN_00c5dea0();
+            value->BSMasterParticleSystem_ResetSystems();
     }
 }
 // @fnv 0x004defb0
@@ -139,7 +139,8 @@ void CreateCSDFadeNode()
 }
 
 // @fnv 0x004de890
-NiFixedString* FUN_004de890()
+// src: COMMUNITY 0x004de890
+NiFixedString* BSCustomSplatterExtraData_GetTag()
 {
     return DAT_011c77e4;
 }
@@ -147,7 +148,8 @@ NiFixedString* FUN_004de890()
 extern float DAT_011feda4;
 
 // @fnv 0x004de8a0
-void FUN_004de8a0(float value)
+// src: COMMUNITY 0x004de8a0
+void BSShaderBloodSplatter_SetFlareOffsetScale(float value)
 {
     DAT_011feda4 = value;
 }
@@ -155,7 +157,8 @@ void FUN_004de8a0(float value)
 extern float DAT_011ad874;
 
 // @fnv 0x004de8b0
-void FUN_004de8b0(float value)
+// src: COMMUNITY 0x004de8b0
+void BSShaderBloodSplatter_SetFlareMult(float value)
 {
     DAT_011ad874 = value;
 }
@@ -163,7 +166,8 @@ void FUN_004de8b0(float value)
 extern float DAT_011ad878;
 
 // @fnv 0x004de8c0
-void FUN_004de8c0(float f)
+// src: COMMUNITY 0x004de8c0
+void BSShaderBloodSplatter_SetGlobalAlpha(float f)
 {
     DAT_011ad878 = f;
 }
@@ -171,7 +175,8 @@ void FUN_004de8c0(float f)
 extern float DAT_011ad878;
 
 // @fnv 0x004de8d0
-float FUN_004de8d0()
+// src: COMMUNITY 0x004de8d0
+float BSShaderBloodSplatter_GetGlobalAlpha()
 {
     return DAT_011ad878;
 }
@@ -191,7 +196,7 @@ void BSCustomSplatterExtraData::FUN_004deb10()
 }
 
 // @fnv 0x004dea80
-BSCustomSplatterExtraData::BSCustomSplatterExtraData(SplatterWordsView* apSource) : NiExtraData(*FUN_004de890())
+BSCustomSplatterExtraData::BSCustomSplatterExtraData(SplatterWordsView* apSource) : NiExtraData(*BSCustomSplatterExtraData_GetTag())
 {
     q = *apSource;
 }
@@ -224,7 +229,8 @@ float FUN_0040ebd0(float, float);
 
 // Advances each splatter child's elapsed time, removes expired ones, updates opacity and NiUpdateData, then advances the fade value toward 1.
 // @fnv 0x004de600
-void FUN_004de600()
+// src: COMMUNITY 0x004de600
+void ScreenCustomSplatter_Update()
 {
     if (DAT_011c77e8)
     {
@@ -237,7 +243,7 @@ void FUN_004de600()
             if (child)
             {
                 BSCustomSplatterExtraData* extra = static_cast<BSCustomSplatterExtraData*>(
-                    child->FUN_00a5bdd0(*FUN_004de890()));
+                    child->FUN_00a5bdd0(*BSCustomSplatterExtraData_GetTag()));
                 OpacityFadeState* data = extra->GetOffsetC();
                 data->elapsed += elapsed;
                 if (data->elapsed >= data->duration)
@@ -263,14 +269,14 @@ void FUN_004de600()
                 }
             }
         }
-        FUN_004de8a0(DAT_011ceeb4.Float()->f);
-        FUN_004de8b0(DAT_011cf6a8.Float()->f);
-        float fade = FUN_004de8d0();
+        BSShaderBloodSplatter_SetFlareOffsetScale(DAT_011ceeb4.Float()->f);
+        BSShaderBloodSplatter_SetFlareMult(DAT_011cf6a8.Float()->f);
+        float fade = BSShaderBloodSplatter_GetGlobalAlpha();
         if (fade < 1.0)
         {
             fade += elapsed / 0.4;
             fade = FUN_0040ebd0(1.0f, fade);
-            FUN_004de8c0(fade);
+            BSShaderBloodSplatter_SetGlobalAlpha(fade);
         }
     }
 }
@@ -358,7 +364,8 @@ SplatterGeometry* CreateDebrisNode(unsigned int ItemUpdateArray, float fSizeMin,
 void FUN_00b81420(SplatterGeometry* pGeom, void* pList);
 
 // @fnv 0x004de8e0
-void FUN_004de8e0(unsigned int ItemUpdateArray, float fAlpha, int iUnused, float fSizeMin, float fSizeMax)
+// src: COMMUNITY 0x004de8e0
+void ScreenCustomSplatter_Activate(unsigned int ItemUpdateArray, float fAlpha, int iUnused, float fSizeMin, float fSizeMax)
 {
     if (DAT_011c77e8)
     {

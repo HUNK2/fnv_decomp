@@ -70,7 +70,8 @@ extern Pool00a91290* DAT_011f5e50;
 
 // Allocates a Pool00a91290, zeroes its first four fields, sets the last two to 8, and stores it in DAT_011f5e50 (or null on failure).
 // @fnv 0x00a91290
-void __cdecl FUN_00a91290()
+// src: COMMUNITY 0x00a91290
+void __cdecl NiScreenGeometryData__SDMInit()
 {
     Pool00a91290* p = (Pool00a91290*)g_memoryManager.Allocate(sizeof(Pool00a91290));
     if (p)
@@ -91,7 +92,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3f38;
 // Returns a pointer to the global object g_011f3f38, ignoring both arguments.
 // @fnv 0x00a47370
-GlobalObjectO2_00a7b610* __fastcall FUN_00a47370(void*, int)
+// src: COMMUNITY 0x00a47370
+GlobalObjectO2_00a7b610* __fastcall NiSequenceStreamHelper_GetRTTI(void*, int)
 {
     return &g_011f3f38;
 }
@@ -123,13 +125,13 @@ typedef ViewerFieldArray<ActorCombatGroup*, NiTMallocInterface<ActorCombatGroup*
 extern const char* const g_011f444c_arg1;
 // NiObjectNET's viewer routine is not yet declared by the shared header.
 void __fastcall FUN_00a5ca80(NiObjectNET*, int, CGArray*);
-ActorCombatGroup* __cdecl FUN_00a7d330(const char*);
+ActorCombatGroup* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 ActorCombatGroup* __cdecl FUN_00a7d4d0(const char*, unsigned int);
 // @fnv 0x00a62a40
 void __fastcall FUN_00a62a40(NiTexture* self, int unused, CGArray* apArray)
 {
     FUN_00a5ca80(self, unused, apArray);
-    ActorCombatGroup* pEntry = FUN_00a7d330(g_011f444c_arg1);
+    ActorCombatGroup* pEntry = NiViewerStrings_NiGetViewerString_Title(g_011f444c_arg1);
     unsigned int n = apArray->m_usESize;
     if (n >= apArray->m_usMaxSize)
         apArray->SetSize(n + apArray->m_usGrowBy);
@@ -303,7 +305,7 @@ template <class T> class ViewerArray
 typedef ViewerArray<char*> ViewerStrings;
 
 extern const char* DAT_011f5e54;
-char* FUN_00a7d330(const char* pcClassName);
+char* NiViewerStrings_NiGetViewerString_Title(const char* pcClassName);
 char* FUN_00a7d370(const char* pcPrefix, bool bValue);
 char* FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
 
@@ -356,7 +358,7 @@ class Elements : public ElementsBase
 void Elements::FUN_00a912d0(ViewerStrings* pkStrings)
 {
     ElementsBase::RegisterFields(pkStrings);
-    pkStrings->Add(FUN_00a7d330(DAT_011f5e54));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f5e54));
     pkStrings->Add(FUN_00a7d370("m_bPixelAccurate", m_bPixelAccurate));
     unsigned int n = m_usNumElements;
     pkStrings->Add(FUN_00a7d510("Num Elements", n));

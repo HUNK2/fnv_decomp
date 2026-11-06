@@ -11,11 +11,12 @@ extern int __cdecl _FUN_00ecbf20(const char*, const char*);
 
 struct FUN_00a88c00_shell : StringPointerRecord
 {
-    bool FUN_00a88c00(float* out);
+    bool NiString_ToFloat(float* out);
 };
 
 // @fnv 0x00a88c00
-bool FUN_00a88c00_shell::FUN_00a88c00(float* out)
+// src: COMMUNITY 0x00a88c00
+bool FUN_00a88c00_shell::NiString_ToFloat(float* out)
 {
     if (!m_kHandle)
         return false;

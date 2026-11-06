@@ -17,10 +17,10 @@ extern const NiPixelFormat DAT_011aa2a0;
 extern int DAT_011a9598;
 
 double FUN_00404040(float v);
-bool FUN_0064d870();
-void FUN_00b6b940(void* p);
+bool BSShaderManager_GetTintMipMaps();
+void BSShaderUtil_TintUncompressedPixelDataByMipMap(void* p);
 NiTexture* FUN_00a5ff10(void* p, int a, void* b);
-NiTexture* FUN_00b6bbd0(NiTexture* t, void* p);
+NiTexture* BSShaderUtil_ConvertTexture(NiTexture* t, void* p);
 
 extern Setting g_011d59ac;
 
@@ -61,7 +61,8 @@ struct FaceGenImage
 
 
 // @fnv 0x0064ceb0
-NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
+// src: COMMUNITY 0x0064ceb0
+NiTexture* NiTexture::BSFaceGenImage_GetCompressedImage(float lo, float hi, float scale, void* srcv)
 {
     if (((NiPtrTex*)&m_kName)->FUN_00559450() == 0 && ((FaceGenImage*)&m_spControllers)->FUN_0064db00() == 0 && (*(int*)&m_pkRendererData) != 0 && (*(int*)&m_pkPrev) != 0 && lo < hi)
     {
@@ -122,14 +123,14 @@ NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
         {
             createdTex = creator.GenerateMipmaps(pixelData, 0);
             delete pixelData;
-            if (FUN_0064d870())
-                FUN_00b6b940(createdTex);
+            if (BSShaderManager_GetTintMipMaps())
+                BSShaderUtil_TintUncompressedPixelDataByMipMap(createdTex);
             result.FUN_0066b0d0(FUN_00a5ff10(createdTex, 0, &DAT_011a9598));
         }
         else
         {
-            if (FUN_0064d870())
-                FUN_00b6b940(pixelData);
+            if (BSShaderManager_GetTintMipMaps())
+                BSShaderUtil_TintUncompressedPixelDataByMipMap(pixelData);
             result.FUN_0066b0d0(FUN_00a5ff10(pixelData, 0, &DAT_011a9598));
         }
 
@@ -139,7 +140,7 @@ NiTexture* NiTexture::FUN_0064ceb0(float lo, float hi, float scale, void* srcv)
         }
         else
         {
-            ((NiPtrTex*)&m_kName)->FUN_0066b0d0(FUN_00b6bbd0(result.FUN_00559450(), srcv));
+            ((NiPtrTex*)&m_kName)->FUN_0066b0d0(BSShaderUtil_ConvertTexture(result.FUN_00559450(), srcv));
         }
 
         if (!((NiPtrTex*)&m_kName)->FUN_00559450())

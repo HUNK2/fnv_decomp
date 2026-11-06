@@ -62,7 +62,8 @@ void NiTriBasedGeomData::SaveBinary(NiStream& kStream)
 extern char const* const g_011f4a70_arg1;
 
 // @fnv 0x00a8a9f0
-char const* const* __cdecl FUN_00a8a9f0()
+// src: COMMUNITY 0x00a8a9f0
+char const* const* __cdecl NiTriBasedGeomData_GetRTTI()
 {
     return &g_011f4a70_arg1;
 }

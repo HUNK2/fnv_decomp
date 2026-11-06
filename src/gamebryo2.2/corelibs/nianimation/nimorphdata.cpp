@@ -20,7 +20,8 @@ extern "C" void* g_011f3e74;
 
 // Returns the address of the global g_011f3e74.
 // @fnv 0x00a415e0
-void* __cdecl FUN_00a415e0()
+// src: COMMUNITY 0x00a415e0
+void* __cdecl NiMorphData_GetRTTI()
 {
     return &g_011f3e74;
 }
@@ -300,7 +301,7 @@ struct ViewerStrings
 
 extern "C" void* g_011f3e74;
 
-char* FUN_00a7d330(const char* pcName);
+char* NiViewerStrings_NiGetViewerString_Title(const char* pcName);
 char* FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
 char* FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
 
@@ -321,10 +322,10 @@ inline const char* MorphTargetName(const NiMorphData::MorphTarget* target)
 void __fastcall AppendMorphViewerStrings(NiMorphData* self, int, ViewerStrings* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
-    pkStrings->Add(FUN_00a7d330((const char*)g_011f3e74));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title((const char*)g_011f3e74));
     pkStrings->Add(FUN_00a7d510("m_uiNumTargets", self->m_uiNumTargets));
     pkStrings->Add(FUN_00a7d510("m_uiNumVertsPerTarget", self->m_uiNumVertsPerTarget));
-    pkStrings->Add(FUN_00a7d330("MorphTargets"));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title("MorphTargets"));
     for (unsigned int i = 0; i < self->m_uiNumTargets; i++)
         pkStrings->AddInl(FUN_00a7d5e0("m_pcName", MorphTargetName(self->GetTarget(i))));
 }

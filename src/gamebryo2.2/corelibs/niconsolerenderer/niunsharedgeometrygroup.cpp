@@ -45,7 +45,7 @@ __forceinline void* __cdecl operator new(unsigned int, void* p)
 struct S
 {
     void __thiscall CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture);
-    void __thiscall FUN_00e98730(NiGeometryBufferData* pkBuffData);
+    void __thiscall NiGeometryGroup_AddObject(NiGeometryBufferData* pkBuffData);
 };
 // @fnv 0x00e94de0
 void __thiscall S::CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture)
@@ -57,7 +57,7 @@ void __thiscall S::CreateScreenTextureBufferData(NiScreenTexture* pkScreenTextur
         pkBuffData->m_eRequestType = 4;
         *(NiGeometryBufferData**)((char*)pkScreenTexture + 0x1c) = pkBuffData;
         pkBuffData->m_uiValue1 = (unsigned int)&DAT_01400000;
-        FUN_00e98730(pkBuffData);
+        NiGeometryGroup_AddObject(pkBuffData);
     }
 }
 

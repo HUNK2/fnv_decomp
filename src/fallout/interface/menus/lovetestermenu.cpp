@@ -370,14 +370,14 @@ void __cdecl FUN_00795ce0(void* apButton)
 
 struct RendererHelper
 {
-    void FUN_007148c0(int, int);
+    void RendererClearBufferHook(int, int);
 };
 RendererHelper* FUN_0043c4b0();
 struct CameraHelper
 {
-    void FUN_00c4f270(bool);
-    void FUN_004a0fd0(int);
-    void FUN_00c4f2d0();
+    void BSCullingProcess_PushCullMode(bool);
+    void BSCullingProcess_SetAccumulator(int);
+    void BSCullingProcess_PopCullMode();
 };
 struct ManagerHelper
 {
@@ -388,29 +388,30 @@ struct InterfaceHelper
 {
     int FUN_007fd640();
 };
-InterfaceHelper* FUN_004b7210();
+InterfaceHelper* InterfaceManager_GetSingleton();
 extern Flt DAT_011da2f4;
 void UpdateCameraFrustum(unsigned int, float);
 void* FUN_00450b80(int);
-void FUN_00b6bee0(unsigned int, void*, CameraHelper*);
+void BSShaderUtil_AccumulateScene(unsigned int, void*, CameraHelper*);
 void FUN_00b6c0d0(unsigned int, int, int);
 // @fnv 0x007948d0
-void FUN_007948d0()
+// src: COMMUNITY 0x007948d0
+void LoveTesterMenu_Draw3DElements()
 {
     if (!DAT_011da2c8 || !(unsigned int)DAT_011da2f4)
         return;
-    FUN_0043c4b0()->FUN_007148c0(0, 4);
+    FUN_0043c4b0()->RendererClearBufferHook(0, 4);
     ManagerHelper* manager = FUN_0045c670();
     CameraHelper* camera = manager->FUN_008d80e0();
-    camera->FUN_00c4f270(true);
+    camera->BSCullingProcess_PushCullMode(true);
     unsigned int localNode = (unsigned int)DAT_011da2f4;
     UpdateCameraFrustum(localNode, 0.65f);
-    NP node(FUN_004b7210()->FUN_007fd640());
-    camera->FUN_004a0fd0((int)node);
-    FUN_00b6bee0(localNode, FUN_00450b80(1), camera);
+    NP node(InterfaceManager_GetSingleton()->FUN_007fd640());
+    camera->BSCullingProcess_SetAccumulator((int)node);
+    BSShaderUtil_AccumulateScene(localNode, FUN_00450b80(1), camera);
     FUN_00b6c0d0(localNode, (int)node, 0);
-    camera->FUN_004a0fd0(0);
-    camera->FUN_00c4f2d0();
+    camera->BSCullingProcess_SetAccumulator(0);
+    camera->BSCullingProcess_PopCullMode();
 }
 
 
@@ -615,7 +616,7 @@ extern TES* g_TES;
 int __cdecl _sprintf_s(char* aBuf, int aSize, const char* aFmt, ...);
 int __cdecl strcpy_s(char* aDst, unsigned int aSize, const char* aSrc);
 void __cdecl FUN_004b7240(char* aDst, char* aSrc, unsigned int aSize);
-bool __cdecl FUN_00709d40();
+bool __cdecl Interface_Has360Controller();
 extern const char str_0101996c[];
 extern const char str_01074cc0[];
 extern const char str_01074c9c[];
@@ -642,7 +643,8 @@ extern const char str_01074bb8[];
 // @fnv 0x00796100
 }  // namespace fnv_00796100
 
-void LoveTesterMenu::FUN_00796100()
+// src: COMMUNITY 0x00796100
+void LoveTesterMenu::VigorTester_InitTextures()
 {
     using namespace fnv_00796100;
     char bufB[0x104];
@@ -668,7 +670,7 @@ void LoveTesterMenu::FUN_00796100()
         FUN_004b7240(bufA5, bufB, 0x104);
         g_TES->CreateTextureImage(static_cast<const char*>(bufB), tex[j + 10], false, false);
     }
-    if (FUN_00709d40())
+    if (Interface_Has360Controller())
     {
         strcpy_s(plat, 5, str_0101fd1c);
     }
@@ -784,7 +786,7 @@ void __cdecl FUN_007917a0()
 class InputManager
 {
 public:
-    int FUN_00a24180(int, int);
+    int Controls_GetKeyboardButton(int, int);
 };
 extern OSGlobals* g_osGlobals;
 struct InventoryMenuSetting
@@ -823,7 +825,7 @@ void LoveTesterMenu::UpdateAnimation()
     int input = 30;
     if (!FUN_00408b20(DAT_011c3cb4.FUN_00403df0(), DAT_0101fd00))
         input = 16;
-    if (current->FUN_00a24180(input, 1))
+    if (current->Controls_GetKeyboardButton(input, 1))
     {
         HandleSelection(4, 0);
         return;
@@ -1115,7 +1117,7 @@ struct FUN_00a712f0
     void FUN_004bc1f0(float, float, float);
     void FUN_00a59c60(NiUpdateData&);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
-    void FUN_00733fd0(float);
+    void NiCamera_SetMinNearPlaneDist(float);
     void AssignFixedString(const NiFixedString&);
 };
 int FUN_004dc200();
@@ -1152,7 +1154,7 @@ FUN_00a712f0* SurgeryCameraMenu::CreateSurgeryCamera()
     NiUpdateData b(0.0f, false, false);
     k->FUN_00a59c60(b);
     k->SetLookAt(NiPoint3(0.0f, 0.0f, 0.0f), NiPoint3(0.0f, 1.0f, 0.0f));
-    k->FUN_00733fd0(1.0f);
+    k->NiCamera_SetMinNearPlaneDist(1.0f);
     k->AssignFixedString(NiFixedString("Surgery3DCamera"));
     return k;
 }
@@ -1328,34 +1330,35 @@ RendererHelper* FUN_0043c4b0();
 
 ManagerHelper* FUN_0045c670();
 
-InterfaceHelper* FUN_004b7210();
+InterfaceHelper* InterfaceManager_GetSingleton();
 
 extern int* DAT_011daa38;
 extern Flt DAT_011daa9c;
 void UpdateCameraFrustum(unsigned int, float);
 void* FUN_00450b80(int);
-void FUN_00b6bee0(unsigned int, void*, CameraHelper*);
+void BSShaderUtil_AccumulateScene(unsigned int, void*, CameraHelper*);
 void FUN_00b6c0d0(unsigned int, int, int);
 
 // If DAT_011daa38 and DAT_011daa9c are set, configures the camera for scene DAT_011daa9c with a node from FUN_007fd640 and calls FUN_00b6bee0/FUN_00b6c0d0.
 // @fnv 0x007c9ca0
-void __cdecl FUN_007c9ca0()
+// src: COMMUNITY 0x007c9ca0
+void __cdecl SPECIALBookMenu_Draw3DElements()
 {
     if (!DAT_011daa38 || !DAT_011daa9c)
         return;
     {
-        FUN_0043c4b0()->FUN_007148c0(0, 4);
+        FUN_0043c4b0()->RendererClearBufferHook(0, 4);
         ManagerHelper* mgr = FUN_0045c670();
         CameraHelper* cam = mgr->FUN_008d80e0();
-        cam->FUN_00c4f270(true);
+        cam->BSCullingProcess_PushCullMode(true);
         unsigned int scene = DAT_011daa9c;
         UpdateCameraFrustum(scene, 0.15f);
-        NP node(FUN_004b7210()->FUN_007fd640());
-        cam->FUN_004a0fd0(node);
-        FUN_00b6bee0(scene, FUN_00450b80(1), cam);
+        NP node(InterfaceManager_GetSingleton()->FUN_007fd640());
+        cam->BSCullingProcess_SetAccumulator(node);
+        BSShaderUtil_AccumulateScene(scene, FUN_00450b80(1), cam);
         FUN_00b6c0d0(scene, node, 0);
-        cam->FUN_004a0fd0(0);
-        cam->FUN_00c4f2d0();
+        cam->BSCullingProcess_SetAccumulator(0);
+        cam->BSCullingProcess_PopCullMode();
     }
 }
 
@@ -1848,7 +1851,7 @@ void LoveTesterMenu::Init()
     adjustments.FUN_007cb2e0(increase7);
     button12 = new Button109((void*)FUN_00795ce0, (void*)SetTargetFromGlobalState, "AllDone_Btn:0");
     adjustments.FUN_007cb2e0(button12);
-    FUN_00796100();
+    VigorTester_InitTextures();
     DAT_011da2c8->FUN_00795e20();
     fnv_007928e0::FUN_00795c60(0);
 }
@@ -2118,7 +2121,7 @@ void LoveTesterMenu::HandleButton(int button, int unused)
         if (mode <= 8)
         {
             int local879956;
-            Cursor* local97635 = (Cursor*)FUN_004b7210();
+            Cursor* local97635 = (Cursor*)InterfaceManager_GetSingleton();
             local879956 = (int)local97635->FUN_009a9350();
             int local866269 = (int)local97635->FUN_00792760();
             if (DAT_011f9426)

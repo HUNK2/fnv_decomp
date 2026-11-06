@@ -19,12 +19,12 @@
 class BGSSaveLoadUI_startmenu
 {
 public:
-    void FUN_007d0bb0();
-    void FUN_007d0bd0(bool);
-    bool FUN_007d3170();
-    bool FUN_00a26090(char*);
+    void XGamerProfile_ForcePresenceUpdate();
+    void XGamerProfile_SetPlayingFlag(bool);
+    bool XGamerProfile_GetRumbleDefault();
+    bool XGamerProfile_RedeemCode(char*);
     bool FUN_00a26020(char const*);
-    void FUN_00a26120(char*);
+    void XGamerProfile_RevokeCode(char*);
 };
 #include "../../../../include/BSAudio.h"
 #include "../../../../include/BSSystemUtility.h"
@@ -72,7 +72,7 @@ struct FloatOptionAccess : Setting
 struct OptionMenuOperations : StartMenu
 {
     void FUN_0075f6f0(int, int);
-    void FUN_007d48a0(int, int);
+    void StartMenu_PopulateConfirmationListBox(int, int);
     void FadeTile(int, int, unsigned int, float);
     void PopulateList(int);
     void FUN_007d3b60();
@@ -93,7 +93,7 @@ bool __fastcall IsLegacyAutosaveFileName(BGSSaveLoadFileEntry*);
 bool __fastcall FUN_00846ad0(BGSSaveLoadFileEntry*);
 bool __fastcall FUN_00846b10(BGSSaveLoadFileEntry*);
 bool __fastcall LoadSaveEntry(BGSSaveLoadFileEntry*);
-bool __fastcall FUN_00846710(BGSSaveLoadFileEntry*);
+bool __fastcall BGSSaveLoadFileEntry_DeleteSave(BGSSaveLoadFileEntry*);
 void __fastcall DispatchSaveEntryEvent(BGSSaveLoadFileEntry*);
 char* __fastcall FUN_005a8080(BGSSaveLoadFileEntry*);
 void* __fastcall FUN_008d8520(BGSSaveLoadUI_startmenu*);
@@ -173,43 +173,50 @@ bool StartMenu::IsInGame()
 }
 
 // @fnv 0x007d1b30
-void FUN_007d1b30()
+// src: COMMUNITY 0x007d1b30
+void Get_fGamma()
 {
     g_011c71ac.FUN_00450410();
 }
 
 // @fnv 0x007d1d00
-float FUN_007d1d00(int type)
+// src: COMMUNITY 0x007d1d00
+float BSFadeNode_GetFadeOutMultiplier(int type)
 {
     return DAT_011ad7b8[type];
 }
 
 // @fnv 0x007d30d0
-void FUN_007d30d0()
+// src: COMMUNITY 0x007d30d0
+void GetIsControllerDisabled()
 {
     g_011d8c4c.GetBoolValue();
 }
 
 // @fnv 0x007d1340
-int PlayerCharacter::FUN_007d1340()
+// src: COMMUNITY 0x007d1340
+int PlayerCharacter::GetKillCamMode()
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x7C0);
 }
 
 // @fnv 0x007d3170
-bool BGSSaveLoadUI_startmenu::FUN_007d3170()
+// src: COMMUNITY 0x007d3170
+bool BGSSaveLoadUI_startmenu::XGamerProfile_GetRumbleDefault()
 {
     return *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x85);
 }
 
 // @fnv 0x007d0bb0
-void BGSSaveLoadUI_startmenu::FUN_007d0bb0()
+// src: COMMUNITY 0x007d0bb0
+void BGSSaveLoadUI_startmenu::XGamerProfile_ForcePresenceUpdate()
 {
     *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x87) = true;
 }
 
 // @fnv 0x007d0bd0
-void BGSSaveLoadUI_startmenu::FUN_007d0bd0(bool bSet)
+// src: COMMUNITY 0x007d0bd0
+void BGSSaveLoadUI_startmenu::XGamerProfile_SetPlayingFlag(bool bSet)
 {
     *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0x88) = bSet;
 }
@@ -222,7 +229,8 @@ char* BGSSaveLoadFileEntry::FUN_007d5140()
 }
 
 // @fnv 0x007d5280
-NiTexture* BGSSaveLoadFileEntry::FUN_007d5280()
+// src: COMMUNITY 0x007d5280
+NiTexture* BGSSaveLoadFileEntry::TileImage_GetShaderProp()
 {
     return spScreenshot.operator->();
 }
@@ -357,12 +365,13 @@ extern GlobalObject_0040c150 g_011d3b50;
 extern StartMenu* DAT_011daac0;
 // If the start menu exists, sets tile 0xfc4 to the string from g_011d3b50 and calls FUN_007d48a0(0x80, 0).
 // @fnv 0x007d0490
-void FUN_007d0490()
+// src: COMMUNITY 0x007d0490
+void StartMenu_ChooseNew()
 {
     if (DAT_011daac0)
     {
         DAT_011daac0->m_pTiles[8]->Set(0xfc4, g_011d3b50.GetMenuTitle(1));
-        static_cast<OptionMenuOperations*>(DAT_011daac0)->FUN_007d48a0(0x80, 0);
+        static_cast<OptionMenuOperations*>(DAT_011daac0)->StartMenu_PopulateConfirmationListBox(0x80, 0);
     }
 }
 }  // namespace fnv_007d0490
@@ -373,7 +382,8 @@ namespace fnv_007d0680 {
 extern StartMenu* DAT_011daac0;
 // If DAT_011daac0 is set, resets its tile via Set(0x1004, 0), calls FUN_0075f6f0(8, 0), then FUN_007d3b60.
 // @fnv 0x007d0680
-void FUN_007d0680()
+// src: COMMUNITY 0x007d0680
+void StartMenu_ChooseLoad()
 {
     if (DAT_011daac0)
     {
@@ -392,7 +402,7 @@ extern GlobalObject2_0040c150 g_011e0940;
 struct PC7d
 {
     int FUN_005be4d0();
-    void FUN_007d1240(int);
+    void PlayerCharacter_SetGameDifficulty(int);
 };
 extern PC7d* g_thePlayer;
 extern StartMenu* DAT_011daac0;
@@ -403,13 +413,14 @@ struct Arg7d
     int f18;
 };
 // @fnv 0x007d11d0
-void FUN_007d11d0(Arg7d* a)
+// src: COMMUNITY 0x007d11d0
+void SettingsMenu_Difficulty(Arg7d* a)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet((StartMenu::Flag)0x20))
     {
         int* p = g_011e0940.Int();
         *p = a->f14;
-        g_thePlayer->FUN_007d1240(*p);
+        g_thePlayer->PlayerCharacter_SetGameDifficulty(*p);
     }
     else
     {
@@ -427,7 +438,7 @@ extern GlobalObject2_0040c150 g_011e0940;
 struct PC7d
 {
     int FUN_005be4d0();
-    void FUN_007d1240(int);
+    void PlayerCharacter_SetGameDifficulty(int);
 };
 extern PC7d* g_thePlayer;
 extern StartMenu* DAT_011daac0;
@@ -438,13 +449,14 @@ struct Arg7d
     int f18;
 };
 // @fnv 0x007d1260
-void FUN_007d1260(Arg7d* a)
+// src: COMMUNITY 0x007d1260
+void SettingsMenu_ToggleKillCamMode(Arg7d* a)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet((StartMenu::Flag)0x20))
     {
         int* p = g_011e0940.Int();
         *p = a->f14;
-        g_thePlayer->FUN_007d1240(*p);
+        g_thePlayer->PlayerCharacter_SetGameDifficulty(*p);
     }
     else
     {
@@ -458,7 +470,7 @@ namespace fnv_007d13a0 {
 struct PC13a0
 {
     bool FUN_004d1360();
-    void FUN_007d1400(int);
+    void PlayerCharacter_SetHardcore_(int);
 };
 struct P13a0
 {
@@ -470,11 +482,12 @@ extern PC13a0* g_thePlayer;
 extern StartMenu* DAT_011daac0;
 // If the start menu has the save-options flag set, forwards p->a to the player; otherwise stores the player's boolean result in p->a and clears p->b.
 // @fnv 0x007d13a0
-void FUN_007d13a0(P13a0* pState)
+// src: COMMUNITY 0x007d13a0
+void SettingsMenu_ToggleHardcore(P13a0* pState)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        g_thePlayer->FUN_007d1400(pState->a);
+        g_thePlayer->PlayerCharacter_SetHardcore_(pState->a);
     }
     else
     {
@@ -486,7 +499,7 @@ void FUN_007d13a0(P13a0* pState)
 
 struct G7d1
 {
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
     bool GetBoolValue();
 };
 struct CellStand
@@ -495,14 +508,14 @@ struct CellStand
 };
 extern StartMenu* DAT_011daac0;
 extern GlobalObject_00709f00 g_011d8a38;
-void __cdecl FUN_007d14c0(int, int);
+void __cdecl HUDMainMenu_SetVisibilityFlag(int, int);
 // @fnv 0x007d1440
 void __cdecl UpdateSaveOptionsMenu(Menu* menu)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        ((G7d1*)&g_011d8a38)->FUN_004de2d0(menu->m_iModalMenuId == 1);
-        FUN_007d14c0(0x40, ((CellStand*)&g_011d8a38)->GetCellStandValue());
+        ((G7d1*)&g_011d8a38)->Setting_SetValueB(menu->m_iModalMenuId == 1);
+        HUDMainMenu_SetVisibilityFlag(0x40, ((CellStand*)&g_011d8a38)->GetCellStandValue());
     }
     else
     {
@@ -513,7 +526,7 @@ void __cdecl UpdateSaveOptionsMenu(Menu* menu)
 
 struct GlobalObject_00709f00_ext
 {
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
     unsigned char GetBoolValue();
 };
 
@@ -522,11 +535,12 @@ extern GlobalObject_00709f00_ext g_011d89f0;
 
 // If the start menu has FLAG_SAVE_OPTIONS set, updates the global from param_1[5]==1; otherwise sets param_1[5] from the global and marks param_1[6]=1.
 // @fnv 0x007d1510
-void __cdecl FUN_007d1510(int* param_1)
+// src: COMMUNITY 0x007d1510
+void __cdecl SettingsMenu_SaveOnRest(int* param_1)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        g_011d89f0.FUN_004de2d0(param_1[5] == 1);
+        g_011d89f0.Setting_SetValueB(param_1[5] == 1);
     }
     else
     {
@@ -538,7 +552,7 @@ void __cdecl FUN_007d1510(int* param_1)
 namespace fnv_007d1570 {
 struct GlobalObject_00709f00_ext : GlobalObject_00709f00
 {
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
     bool GetBoolValue();
 };
 
@@ -554,11 +568,12 @@ struct UnknownParam_007d1570
 
 // If the start menu has the save-options flag, sets g_011d8974 from param->field_14 == 1; otherwise reads g_011d8974 into field_14 and sets field_18 to 1.
 // @fnv 0x007d1570
-void __cdecl FUN_007d1570(UnknownParam_007d1570* param)
+// src: COMMUNITY 0x007d1570
+void __cdecl SettingsMenu_SaveOnWait(UnknownParam_007d1570* param)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        reinterpret_cast<GlobalObject_00709f00_ext*>(&g_011d8974)->FUN_004de2d0(param->field_14 == 1);
+        reinterpret_cast<GlobalObject_00709f00_ext*>(&g_011d8974)->Setting_SetValueB(param->field_14 == 1);
     }
     else
     {
@@ -571,7 +586,7 @@ void __cdecl FUN_007d1570(UnknownParam_007d1570* param)
 namespace fnv_007d15d0 {
 struct GlobalObject_00709f00_ext
 {
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
     unsigned char GetBoolValue();
 };
 
@@ -579,11 +594,12 @@ extern StartMenu* DAT_011daac0;
 extern GlobalObject_00709f00_ext g_011d89f0;
 
 // @fnv 0x007d15d0
-void __cdecl FUN_007d15d0(int* param_1)
+// src: COMMUNITY 0x007d15d0
+void __cdecl SettingsMenu_SaveOnTravel(int* param_1)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        g_011d89f0.FUN_004de2d0(param_1[5] == 1);
+        g_011d89f0.Setting_SetValueB(param_1[5] == 1);
     }
     else
     {
@@ -598,7 +614,7 @@ extern GlobalObject_00709f00 g_011d8934;
 
 struct GlobalObject_00709f00_Compat
 {
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
     bool GetBoolValue();
 };
 
@@ -610,11 +626,12 @@ struct Param_007d1630
 };
 
 // @fnv 0x007d1630
-void FUN_007d1630(Param_007d1630* pParams)
+// src: COMMUNITY 0x007d1630
+void SettingsMenu_ToggleDialogueSubtitles(Param_007d1630* pParams)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        reinterpret_cast<GlobalObject_00709f00_Compat*>(&g_011d8934)->FUN_004de2d0(pParams->field_14 == 1);
+        reinterpret_cast<GlobalObject_00709f00_Compat*>(&g_011d8934)->Setting_SetValueB(pParams->field_14 == 1);
     }
     else
     {
@@ -626,7 +643,7 @@ void FUN_007d1630(Param_007d1630* pParams)
 struct G1690
 {
     bool GetBoolValue();
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
 };
 struct P1690
 {
@@ -638,11 +655,12 @@ extern GlobalObject_00709f00 g_011d8928;
 extern StartMenu* DAT_011daac0;
 // If the StartMenu has FLAG_SAVE_OPTIONS set, pushes p->a==1 to g_011d8928; otherwise reads g_011d8928's flag into p->a and clears p->b.
 // @fnv 0x007d1690
-void FUN_007d1690(P1690* pData)
+// src: COMMUNITY 0x007d1690
+void SettingsMenu_GeneralSubtitles(P1690* pData)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        ((G1690*)&g_011d8928)->FUN_004de2d0(pData->a == 1);
+        ((G1690*)&g_011d8928)->Setting_SetValueB(pData->a == 1);
     }
     else
     {
@@ -654,7 +672,7 @@ void FUN_007d1690(P1690* pData)
 namespace fnv_007d16f0 {
 struct GlobalObject_00709f00_ext
 {
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
     unsigned char GetBoolValue();
 };
 
@@ -663,11 +681,12 @@ extern GlobalObject_00709f00_ext g_011d89f0;
 
 // If the start menu has FLAG_SAVE_OPTIONS set, updates g_011d89f0 from param_1[5]==1; otherwise sets param_1[5] from g_011d89f0 and param_1[6] to 1.
 // @fnv 0x007d16f0
-void __cdecl FUN_007d16f0(int* param_1)
+// src: COMMUNITY 0x007d16f0
+void __cdecl SettingsMenu_TrueIronSights(int* param_1)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        g_011d89f0.FUN_004de2d0(param_1[5] == 1);
+        g_011d89f0.Setting_SetValueB(param_1[5] == 1);
     }
     else
     {
@@ -692,7 +711,8 @@ struct StartMenu_Wrap : public StartMenu
 };
 
 // @fnv 0x007d1b40
-void __cdecl FUN_007d1b40(int* pOptions)
+// src: COMMUNITY 0x007d1b40
+void __cdecl SettingsMenu_TextureSize(int* pOptions)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
@@ -720,21 +740,22 @@ struct UserOptionLayout_007d28b0
 };
 
 // @fnv 0x007d28b0
-void __cdecl FUN_007d28b0(UserOptionLayout_007d28b0* pOption)
+// src: COMMUNITY 0x007d28b0
+void __cdecl SettingsMenu_FootstepsVolume(UserOptionLayout_007d28b0* pOption)
 {
     if (!pOption)
     {
-        BSAudio::GetSingleton()->FUN_00ad7b40(g_011f6e20.FUN_00450410());
+        BSAudio::GetSingleton()->SetFootstepVolume(g_011f6e20.FUN_00450410());
     }
     else if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        BSAudio::GetSingleton()->FUN_00ad7b40(
+        BSAudio::GetSingleton()->SetFootstepVolume(
             g_011f6e20.FUN_004ed780((float)pOption->iOptionId / (pOption->uiNumStates - 1))->FUN_00450410());
     }
     else
     {
         pOption->iOptionId = (int)InventoryStackRecord::RoundToNearestStep(
-            BSAudio::GetSingleton()->FUN_00ad7a20() * (pOption->uiNumStates - 1), 1.0f);
+            BSAudio::GetSingleton()->GetFootVolume() * (pOption->uiNumStates - 1), 1.0f);
         pOption->iDefaultValue = (int)InventoryStackRecord::RoundToNearestStep((pOption->uiNumStates - 1) * 0.5, 1.0f);
     }
 }
@@ -756,21 +777,22 @@ struct UserOptionLayout_007d29d0
 };
 
 // @fnv 0x007d29d0
-void FUN_007d29d0(UserOptionLayout_007d29d0* pOption)
+// src: COMMUNITY 0x007d29d0
+void SettingsMenu_MusicVolume(UserOptionLayout_007d29d0* pOption)
 {
     if (!pOption)
     {
-        BSAudio::GetSingleton()->FUN_00ad7bd0(g_011f6e44.FUN_00450410());
+        BSAudio::GetSingleton()->SetMusicVolume(g_011f6e44.FUN_00450410());
     }
     else if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        BSAudio::GetSingleton()->FUN_00ad7bd0(
+        BSAudio::GetSingleton()->SetMusicVolume(
             g_011f6e44.FUN_004ed780((float)pOption->i14 / (float)(pOption->ui20 - 1))->FUN_00450410());
     }
     else
     {
         pOption->i14 = (int)InventoryStackRecord::RoundToNearestStep(
-            BSAudio::GetSingleton()->FUN_00ad7ab0() * (float)(pOption->ui20 - 1), 1.0f);
+            BSAudio::GetSingleton()->GetMusicVolume_00ad7ab0() * (float)(pOption->ui20 - 1), 1.0f);
         pOption->i18 = (int)InventoryStackRecord::RoundToNearestStep((float)(pOption->ui20 - 1) * DAT_010290b8, 1.0f);
     }
 }
@@ -778,7 +800,7 @@ void FUN_007d29d0(UserOptionLayout_007d29d0* pOption)
 
 struct G7d2
 {
-    void FUN_004de2d0(bool);
+    void Setting_SetValueB(bool);
     bool GetBoolValue();
 };
 extern StartMenu* DAT_011daac0;
@@ -788,7 +810,7 @@ void __cdecl UpdateMenuSaveOptions(Menu* menu)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        ((G7d2*)&g_011e0a5c)->FUN_004de2d0(menu->m_iModalMenuId == 1);
+        ((G7d2*)&g_011e0a5c)->Setting_SetValueB(menu->m_iModalMenuId == 1);
     }
     else
     {
@@ -828,7 +850,8 @@ void SyncSliderWithSetting(int pSlider)
 extern char* DAT_011f35cc;
 
 // @fnv 0x007d30b0
-void __cdecl FUN_007d30b0(char acValue)
+// src: COMMUNITY 0x007d30b0
+void __cdecl Controls_EnableRumble(char acValue)
 {
     if (DAT_011f35cc)
     {
@@ -838,13 +861,13 @@ void __cdecl FUN_007d30b0(char acValue)
 
 extern StartMenu* DAT_011daac0;
 BGSSaveLoadUI_startmenu* __cdecl FUN_00a25920();
-void __cdecl FUN_007d30b0(bool);
+void __cdecl Controls_EnableRumble(bool);
 
 namespace N {
 class GlobalObject_00709f00
 {
   public:
-    GlobalObject_00709f00* FUN_004de2d0(bool);
+    GlobalObject_00709f00* Setting_SetValueB(bool);
     bool GetBoolValue();
 };
 }
@@ -859,23 +882,25 @@ struct Struct_007d30e0
 };
 
 // @fnv 0x007d30e0
-void __cdecl FUN_007d30e0(Struct_007d30e0* pState)
+// src: COMMUNITY 0x007d30e0
+void __cdecl StartMenu_SetRumble(Struct_007d30e0* pState)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        FUN_007d30b0(g_011e0850.FUN_004de2d0(pState->field_14 == 1)->GetBoolValue());
+        Controls_EnableRumble(g_011e0850.Setting_SetValueB(pState->field_14 == 1)->GetBoolValue());
     }
     else
     {
         pState->field_14 = g_011e0850.GetBoolValue() != 0;
-        pState->field_18 = FUN_00a25920()->FUN_007d3170() != 0;
+        pState->field_18 = FUN_00a25920()->XGamerProfile_GetRumbleDefault() != 0;
     }
 }
 
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x007d4040
-bool __cdecl FUN_007d4040(int param_1)
+// src: COMMUNITY 0x007d4040
+bool __cdecl StartMenu_SaveLoadFilterFn(int param_1)
 {
     return !DAT_011daac0 ||
            (!DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_MODE) && !param_1 &&
@@ -900,10 +925,11 @@ double __cdecl FUN_007177c0();
 struct OptionPlacement : StartMenu
 {
     void PopulateListBoxTiles(void*, int, int, int, bool);
-    void FUN_007d48a0(void*, unsigned char);
+    void StartMenu_PopulateConfirmationListBox(void*, unsigned char);
 };
 // @fnv 0x007d48a0
-void OptionPlacement::FUN_007d48a0(void* arg, unsigned char flags)
+// src: COMMUNITY 0x007d48a0
+void OptionPlacement::StartMenu_PopulateConfirmationListBox(void* arg, unsigned char flags)
 {
     int y;
     int x;
@@ -936,27 +962,28 @@ struct N7d
 };
 struct SM7d
 {
-    void FUN_00851330();
+    void BGSSaveLoadManager_SetupSavesList();
     N7d* Head();
 };
 extern SM7d* DAT_011de134;
 struct L7d
 {
-    void FUN_007d7da0(int, int, int, int);
+    void SavesListBox_Insert(int, int, int, int);
 };
 // The save-list operation at 0x007d4b40 is absent from StartMenu.h.
 struct SaveListPopulation : StartMenu
 {
-    void FUN_007d4b40();
+    void StartMenu_InitSavesListBox();
 };
 // @fnv 0x007d4b40
-void SaveListPopulation::FUN_007d4b40()
+// src: COMMUNITY 0x007d4b40
+void SaveListPopulation::StartMenu_InitSavesListBox()
 {
     if (BSSystemUtility::s_iUpdateEnabled)
         BSSystemUtility::GetRandomGenerator();
-    DAT_011de134->FUN_00851330();
+    DAT_011de134->BGSSaveLoadManager_SetupSavesList();
     for (N7d* n = DAT_011de134->Head(); n && *n->Data(); n = n->Next())
-        reinterpret_cast<L7d*>(&m_kOptionHelper)->FUN_007d7da0(*n->Data(), 0, 0, 0);
+        reinterpret_cast<L7d*>(&m_kOptionHelper)->SavesListBox_Insert(*n->Data(), 0, 0, 0);
 }
 }  // namespace fnv_007d4b40
 
@@ -1065,7 +1092,8 @@ extern StartMenu* DAT_011daac0;
 
 // For action 0, if DAT_011daac0 is set and its field at offset 0x1bc is nonzero, calls IsFlagSet with StartMenu::FLAG_INGAME.
 // @fnv 0x007d6990
-void __cdecl FUN_007d6990(int param_1)
+// src: COMMUNITY 0x007d6990
+void __cdecl StartMenu_OnNetworkEvent(int param_1)
 {
     switch (param_1)
     {
@@ -1246,7 +1274,8 @@ struct MenuCtl
 };
 
 // @fnv 0x007d1750
-void FUN_007d1750(MenuCtl* pMenuCtl)
+// src: COMMUNITY 0x007d1750
+void SettingsMenu_HUDOpacity(MenuCtl* pMenuCtl)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(0x20))
     {
@@ -1265,17 +1294,17 @@ struct SystemColorManager
 {
     static SystemColorManager* __stdcall GetSingleton(int);
     void DispatchToTarget(int);
-    int FUN_007190a0();
+    int SystemColorManager_GetColor();
 };
 struct TileOps
 {
-    void FUN_00a0b350();
+    void Cmd_SetSystemColor_Execute();
 };
 struct IMH
 {
     TileOps* FUN_00586150();
 };
-IMH* __stdcall FUN_004b7210(int, float);
+IMH* __stdcall InterfaceManager_GetSingleton(int, float);
 
 extern StartMenu* DAT_011daac0;
 extern int DAT_011dac50[];
@@ -1293,13 +1322,13 @@ void UpdateColorSlotIndex(ColorSlot* slot)
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         SystemColorManager::GetSingleton(1)->DispatchToTarget(DAT_011dac50[slot->index]);
-        FUN_004b7210(1, 0.0f)->FUN_00586150()->FUN_00a0b350();
+        InterfaceManager_GetSingleton(1, 0.0f)->FUN_00586150()->Cmd_SetSystemColor_Execute();
     }
     else
     {
         slot->defaultIndex = 2;
         slot->index = 0;
-        while (DAT_011dac50[slot->index] != SystemColorManager::GetSingleton(1)->FUN_007190a0())
+        while (DAT_011dac50[slot->index] != SystemColorManager::GetSingleton(1)->SystemColorManager_GetColor())
         {
             slot->index = slot->index + 1;
             if (slot->index >= slot->count)
@@ -1316,17 +1345,17 @@ struct SystemColorManager
 {
     static SystemColorManager* __stdcall GetSingleton(int);
     void DispatchToTarget(int);
-    int FUN_007190a0();
+    int SystemColorManager_GetColor();
 };
 struct TileOps
 {
-    void FUN_00a0b350();
+    void Cmd_SetSystemColor_Execute();
 };
 struct IMH
 {
     TileOps* FUN_00586150();
 };
-IMH* __stdcall FUN_004b7210(int, float);
+IMH* __stdcall InterfaceManager_GetSingleton(int, float);
 
 extern StartMenu* DAT_011daac0;
 extern int DAT_011dac50[];
@@ -1344,13 +1373,13 @@ void ApplyOrSyncColorSlot(ColorSlot* slot)
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         SystemColorManager::GetSingleton(4)->DispatchToTarget(DAT_011dac50[slot->index]);
-        FUN_004b7210(4, 0.0f)->FUN_00586150()->FUN_00a0b350();
+        InterfaceManager_GetSingleton(4, 0.0f)->FUN_00586150()->Cmd_SetSystemColor_Execute();
     }
     else
     {
         slot->defaultIndex = 2;
         slot->index = 0;
-        while (DAT_011dac50[slot->index] != SystemColorManager::GetSingleton(4)->FUN_007190a0())
+        while (DAT_011dac50[slot->index] != SystemColorManager::GetSingleton(4)->SystemColorManager_GetColor())
         {
             slot->index = slot->index + 1;
             if (slot->index >= slot->count)
@@ -1366,16 +1395,16 @@ void ApplyOrSyncColorSlot(ColorSlot* slot)
 namespace fnv_007d2fc0 {
 struct IM
 {
-    void FUN_00719740(bool);
+    void InterfaceManager_SetXBOXController(bool);
 };
-IM* __cdecl FUN_004b7210();
+IM* __cdecl InterfaceManager_GetSingleton();
 
 struct Hot
 {
     void FUN_005407b0(bool);
 };
 
-void __cdecl FUN_007d30b0(bool);
+void __cdecl Controls_EnableRumble(bool);
 extern OSGlobals* g_osGlobals;
 extern StartMenu* DAT_011daac0;
 struct SaveOpt
@@ -1390,20 +1419,20 @@ void UpdateSaveOption(SaveOpt* pSaveOpt)
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
         bool bOn = pSaveOpt->state == 1;
-        FUN_004b7210()->FUN_00719740(!bOn);
+        InterfaceManager_GetSingleton()->InterfaceManager_SetXBOXController(!bOn);
         if (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(DAT_011daac0) + 0x1cc))
             (*reinterpret_cast<Tile**>(reinterpret_cast<char*>(DAT_011daac0) + 0x1cc))
                 ->Set(*reinterpret_cast<int*>(reinterpret_cast<char*>(DAT_011daac0) + 0x1d0), bOn);
     }
     else
     {
-        FUN_004b7210();
-        pSaveOpt->state = !reinterpret_cast<bool(__cdecl*)()>(FUN_007d30d0)();
-        FUN_004b7210();
-        reinterpret_cast<Hot*>(g_osGlobals->FUN_00877720())->FUN_005407b0(reinterpret_cast<bool(__cdecl*)()>(FUN_007d30d0)());
+        InterfaceManager_GetSingleton();
+        pSaveOpt->state = !reinterpret_cast<bool(__cdecl*)()>(GetIsControllerDisabled)();
+        InterfaceManager_GetSingleton();
+        reinterpret_cast<Hot*>(g_osGlobals->FUN_00877720())->FUN_005407b0(reinterpret_cast<bool(__cdecl*)()>(GetIsControllerDisabled)());
         g_osGlobals->FUN_00877720();
-        FUN_004b7210();
-        FUN_007d30b0(!reinterpret_cast<bool(__cdecl*)()>(FUN_007d30d0)());
+        InterfaceManager_GetSingleton();
+        Controls_EnableRumble(!reinterpret_cast<bool(__cdecl*)()>(GetIsControllerDisabled)());
         pSaveOpt->mode = 1;
     }
 }
@@ -1427,7 +1456,7 @@ struct FUN_007d51a0_shell : public StartMenu
 struct NodeObj
 {
     int FUN_009c8660();
-    void FUN_007700b0(unsigned int);
+    void TileShaderProperty_SetAlphaTexture(unsigned int);
 };
 
 struct ListOps
@@ -1451,8 +1480,8 @@ bool FUN_007d51a0_shell::FUN_007d51a0(BGSSaveLoadFileEntry* apSaveGame)
         pTileImage->SetTexture(pTexture);
         pTileImage->Set(0xfb0, pTexture->GetHeight());
         pTileImage->Set(0xfb1, pTexture->GetWidth());
-        if (!reinterpret_cast<NodeObj*>(pTileImage->FUN_007d5280())->FUN_009c8660())
-            reinterpret_cast<NodeObj*>(pTileImage->FUN_007d5280())->FUN_007700b0(*reinterpret_cast<FltOps*>(reinterpret_cast<char*>(this) + 0x1b8));
+        if (!reinterpret_cast<NodeObj*>(pTileImage->TileImage_GetShaderProp())->FUN_009c8660())
+            reinterpret_cast<NodeObj*>(pTileImage->TileImage_GetShaderProp())->TileShaderProperty_SetAlphaTexture(*reinterpret_cast<FltOps*>(reinterpret_cast<char*>(this) + 0x1b8));
         return true;
     }
     return false;
@@ -1467,7 +1496,8 @@ void SetFloatAt(int index, float value)
 
 void CleanupGlobalObject();
 // @fnv 0x00704000
-void FUN_00704000()
+// src: COMMUNITY 0x00704000
+void Interface_CloseMessageMenu()
 {
     CleanupGlobalObject();
 }
@@ -1492,7 +1522,7 @@ void* FUN_007cb580_Class::FUN_007cb580(unsigned int flags)
 
 namespace fnv_007cb5b0 {
 bool __cdecl FUN_0070edf0(void);
-void __cdecl FUN_00761460(bool abEnable);
+void __cdecl FalloutAudio_SetMainMenuMusic(bool abEnable);
 void __cdecl FUN_0077e430(float afOpacity);
 struct FalloutAudioMedia
 {
@@ -1512,7 +1542,7 @@ extern M788 g_011dabd8;
 // BGSSaveLoadManager.h does not yet declare the cleanup at 0x00851540.
 struct StartMenuSaveLoadCleanup : BGSSaveLoadManager
 {
-    void FUN_00851540();
+    void BGSSaveLoadManager_FreeSavesList();
 };
 extern BGSSaveLoadManager* DAT_011de134;
 extern StartMenu* DAT_011daac0;
@@ -1529,10 +1559,10 @@ StartMenu::~StartMenu()
     BSAudio::GetSingleton()->FUN_0070bc00();
     if (fnv_007cb5b0::FUN_0070edf0())
     {
-        fnv_007cb5b0::FUN_00761460(false);
+        fnv_007cb5b0::FalloutAudio_SetMainMenuMusic(false);
         fnv_007cb5b0::FalloutAudioMedia::FadeOutMedia(2000, 0);
     }
-    static_cast<fnv_007cb5b0::StartMenuSaveLoadCleanup*>(fnv_007cb5b0::DAT_011de134)->FUN_00851540();
+    static_cast<fnv_007cb5b0::StartMenuSaveLoadCleanup*>(fnv_007cb5b0::DAT_011de134)->BGSSaveLoadManager_FreeSavesList();
     fnv_007cb5b0::DAT_011daac0 = 0;
     fnv_007cb5b0::g_011dabd8.FUN_004ed900();
     fnv_007cb5b0::OptionManager::Instance()->FUN_007cb7a0();
@@ -1687,11 +1717,12 @@ Flt& TESFile::GetField418()
 
 struct FUN_007d0b90_cls
 {
-    void FUN_007d0b90();
+    void kMainMenuFromIngameMenuRetnAddr();
 };
 
 // @fnv 0x007d0b90
-void FUN_007d0b90_cls::FUN_007d0b90()
+// src: COMMUNITY 0x007d0b90
+void FUN_007d0b90_cls::kMainMenuFromIngameMenuRetnAddr()
 {
     ((unsigned char*)this)[2] = 1;
 }
@@ -1706,7 +1737,8 @@ struct VObj
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x007d0dc0
-void FUN_007d0dc0()
+// src: COMMUNITY 0x007d0dc0
+void StartMenu_ChooseAudio()
 {
     if (DAT_011daac0)
     {
@@ -1725,7 +1757,7 @@ extern FloatOptionAccess g_011dab1c;
 extern FloatOptionAccess g_011dac38;
 extern StartMenu* DAT_011daac0;
 void __cdecl SetFloatAt(int, float);
-float __cdecl FUN_007d1d00(int);
+float __cdecl BSFadeNode_GetFadeOutMultiplier(int);
 
 // @fnv 0x007d1bb0
 void SyncOptionWithSettings(StartMenu::UserOption* apOption)
@@ -1745,7 +1777,7 @@ void SyncOptionWithSettings(StartMenu::UserOption* apOption)
     }
     else
     {
-        float fRatio = (FUN_007d1d00(3) - fLow) / (fHigh - fLow);
+        float fRatio = (BSFadeNode_GetFadeOutMultiplier(3) - fLow) / (fHigh - fLow);
         *(int*)((char*)apOption + 0x14) =
             (int)InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
         fRatio = (*((Setting*)&g_011dac38)->Float() - fLow) / (fHigh - fLow);
@@ -1764,10 +1796,11 @@ extern FloatOptionAccess g_011dabf0;
 extern FloatOptionAccess g_011dabc0;
 extern StartMenu* DAT_011daac0;
 void __cdecl SetFloatAt(int, float);
-float __cdecl FUN_007d1d00(int);
+float __cdecl BSFadeNode_GetFadeOutMultiplier(int);
 
 // @fnv 0x007d1d10
-void FUN_007d1d10(StartMenu::UserOption* apOption)
+// src: COMMUNITY 0x007d1d10
+void SettingsMenu_ItemFade(StartMenu::UserOption* apOption)
 {
     float fHigh;
     float fLow;
@@ -1784,7 +1817,7 @@ void FUN_007d1d10(StartMenu::UserOption* apOption)
     }
     else
     {
-        float fRatio = (FUN_007d1d00(2) - fLow) / (fHigh - fLow);
+        float fRatio = (BSFadeNode_GetFadeOutMultiplier(2) - fLow) / (fHigh - fLow);
         *(int*)((char*)apOption + 0x14) =
             (int)InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
         fRatio = (*((Setting*)&g_011dabc0)->Float() - fLow) / (fHigh - fLow);
@@ -1803,7 +1836,7 @@ extern FloatOptionAccess g_011dab30;
 extern FloatOptionAccess g_011dab6c;
 extern StartMenu* DAT_011daac0;
 void __cdecl SetFloatAt(int, float);
-float __cdecl FUN_007d1d00(int);
+float __cdecl BSFadeNode_GetFadeOutMultiplier(int);
 
 // @fnv 0x007d1e60
 void SyncUserOptionSetting(StartMenu::UserOption* apOption)
@@ -1823,7 +1856,7 @@ void SyncUserOptionSetting(StartMenu::UserOption* apOption)
     }
     else
     {
-        float fRatio = (FUN_007d1d00(1) - fLow) / (fHigh - fLow);
+        float fRatio = (BSFadeNode_GetFadeOutMultiplier(1) - fLow) / (fHigh - fLow);
         *(int*)((char*)apOption + 0x14) =
             (int)InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * fRatio, 1.0f);
         fRatio = (*((Setting*)&g_011dab6c)->Float() - fLow) / (fHigh - fLow);
@@ -1879,7 +1912,8 @@ extern StartMenu* DAT_011daac0;
 
 // Converts a UserOption's slider index to a float setting value, or back-converts the float settings to slider indices, depending on the save-options flag.
 // @fnv 0x007d2510
-void FUN_007d2510(StartMenu::UserOption* pOption)
+// src: COMMUNITY 0x007d2510
+void SettingsMenu_ObjectLODFade(StartMenu::UserOption* pOption)
 {
     float fLow = *g_011d86c4.Float();
     float fHigh = *g_011d86ec.Float();
@@ -1941,7 +1975,8 @@ extern FloatOptionAccess g_011f6e14;
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x007d2790
-void FUN_007d2790(StartMenu::UserOption* apOption)
+// src: COMMUNITY 0x007d2790
+void SettingsMenu_MasterVolume(StartMenu::UserOption* apOption)
 {
     if (!apOption)
     {
@@ -1970,15 +2005,16 @@ extern FloatOptionAccess g_011f6e2c;
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x007d2af0
-void FUN_007d2af0(StartMenu::UserOption* apOption)
+// src: COMMUNITY 0x007d2af0
+void SettingsMenu_VoiceVolume(StartMenu::UserOption* apOption)
 {
     if (!apOption)
     {
-        BSAudio::GetSingleton()->FUN_00ad7b70(g_011f6e2c.FUN_00450410());
+        BSAudio::GetSingleton()->SetVoiceVolume(g_011f6e2c.FUN_00450410());
     }
     else if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        BSAudio::GetSingleton()->FUN_00ad7b70(
+        BSAudio::GetSingleton()->SetVoiceVolume(
             ((FloatOptionAccess*)&g_011f6e2c)
                 ->FUN_004ed780((float)*(int*)((char*)apOption + 0x14) / (*(unsigned int*)((char*)apOption + 0x20) - 1))
                 ->FUN_00450410());
@@ -1986,7 +2022,7 @@ void FUN_007d2af0(StartMenu::UserOption* apOption)
     else
     {
         *(int*)((char*)apOption + 0x14) = (int)InventoryStackRecord::RoundToNearestStep(
-            BSAudio::GetSingleton()->FUN_00ad7a50() * (*(unsigned int*)((char*)apOption + 0x20) - 1), 1.0f);
+            BSAudio::GetSingleton()->GetVoiceVolume() * (*(unsigned int*)((char*)apOption + 0x20) - 1), 1.0f);
         *(int*)((char*)apOption + 0x18) =
             (int)InventoryStackRecord::RoundToNearestStep((*(unsigned int*)((char*)apOption + 0x20) - 1) * 0.6f, 1.0f);
     }
@@ -1999,15 +2035,16 @@ extern FloatOptionAccess g_011f6e38;
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x007d2c10
-void FUN_007d2c10(StartMenu::UserOption* pUserOption)
+// src: COMMUNITY 0x007d2c10
+void SettingsMenu_EffectsVolume(StartMenu::UserOption* pUserOption)
 {
     if (pUserOption == 0)
     {
-        BSAudio::GetSingleton()->FUN_00ad7ba0(g_011f6e38.FUN_00450410());
+        BSAudio::GetSingleton()->SetEffectsVolume(g_011f6e38.FUN_00450410());
     }
     else if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
-        BSAudio::GetSingleton()->FUN_00ad7ba0(((FloatOptionAccess*)&g_011f6e38)
+        BSAudio::GetSingleton()->SetEffectsVolume(((FloatOptionAccess*)&g_011f6e38)
                                                   ->FUN_004ed780((float)*(int*)((char*)pUserOption + 0x14) /
                                                                  (*(unsigned int*)((char*)pUserOption + 0x20) - 1))
                                                   ->FUN_00450410());
@@ -2015,7 +2052,7 @@ void FUN_007d2c10(StartMenu::UserOption* pUserOption)
     else
     {
         *(int*)((char*)pUserOption + 0x14) = (int)InventoryStackRecord::RoundToNearestStep(
-            BSAudio::GetSingleton()->FUN_00ad7a80() * (*(unsigned int*)((char*)pUserOption + 0x20) - 1), 1.0f);
+            BSAudio::GetSingleton()->GetEffectsVolume() * (*(unsigned int*)((char*)pUserOption + 0x20) - 1), 1.0f);
         *(int*)((char*)pUserOption + 0x18) =
             (int)InventoryStackRecord::RoundToNearestStep(1.0f * (*(unsigned int*)((char*)pUserOption + 0x20) - 1), 1.0f);
     }
@@ -2040,7 +2077,8 @@ extern FloatOptionAccess g_011f6e50;
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x007d2d30
-void FUN_007d2d30(UserOptionStandIn* pOption)
+// src: COMMUNITY 0x007d2d30
+void SettingsMenu_RadioVolume(UserOptionStandIn* pOption)
 {
     if (pOption == 0)
     {
@@ -2079,20 +2117,20 @@ struct SaveListPointer
 };
 struct SaveLoadManagerStandIn : SaveListPointer
 {
-    void FUN_00851330();
+    void BGSSaveLoadManager_SetupSavesList();
 };
 extern SaveLoadManagerStandIn* DAT_011de134;
 extern InventoryMenuSetting g_011d1f14;
 extern InventoryMenuSetting g_011d38b8;
 extern InventoryMenuSetting g_011d48ac;
-void __cdecl FUN_00af59e0();
+void __cdecl nullsub_330();
 void HandleBackAction();
 
 // @fnv 0x007d3190
 void HandleSaveLoadMenuAction()
 {
     if (!(SaveEntryNode*)*DAT_011de134 || !*((SaveEntryNode*)*DAT_011de134)->FUN_006815c0())
-        DAT_011de134->FUN_00851330();
+        DAT_011de134->BGSSaveLoadManager_SetupSavesList();
     if ((SaveEntryNode*)*DAT_011de134 && *((SaveEntryNode*)*DAT_011de134)->FUN_006815c0())
     {
         if ((*((SaveEntryNode*)*DAT_011de134)->FUN_006815c0())->IsSaveEntryValid())
@@ -2102,7 +2140,7 @@ void HandleSaveLoadMenuAction()
         }
         else
         {
-            FUN_00af59e0();
+            nullsub_330();
             LoadSaveEntry(*((SaveEntryNode*)*DAT_011de134)->FUN_006815c0());
         }
     }
@@ -2121,7 +2159,7 @@ struct UserOptionArray
     StartMenu::UserOption** FUN_00877a30(unsigned int);
 };
 extern UserOptionArray g_011dab50;
-void __cdecl FUN_007d19c0(StartMenu::UserOption*);
+void __cdecl SettingsMenu_Brightness(StartMenu::UserOption*);
 struct StartMenu_Wrap : StartMenu
 {
     void FUN_0075f6f0(StartMenu::Flag, bool);
@@ -2137,7 +2175,7 @@ void StartMenu_Wrap::ApplyUserOptions()
     {
         if (*(UserOptionCallback*)((char*)*g_011dab50.FUN_00877a30(i) + 0x2c))
             (*(UserOptionCallback*)((char*)*g_011dab50.FUN_00877a30(i) + 0x2c))(*g_011dab50.FUN_00877a30(i));
-        if (*(UserOptionCallback*)((char*)*g_011dab50.FUN_00877a30(i) + 0x2c) == FUN_007d19c0)
+        if (*(UserOptionCallback*)((char*)*g_011dab50.FUN_00877a30(i) + 0x2c) == SettingsMenu_Brightness)
             *(StartMenu::UserOption**)((char*)this + 0x1b4) = *g_011dab50.FUN_00877a30(i);
     }
     FUN_0075f6f0(FLAG_SAVE_OPTIONS, true);
@@ -2147,16 +2185,17 @@ void StartMenu_Wrap::ApplyUserOptions()
 namespace fnv_007d5f50 {
 
 void __cdecl ClearAllElements();
-void __cdecl FUN_00704000();
+void __cdecl Interface_CloseMessageMenu();
 void __cdecl HandleBackAction();
 
 // @fnv 0x007d5f50
-void FUN_007d5f50()
+// src: COMMUNITY 0x007d5f50
+void StartMenu_FailedSaveCallbackFunction()
 {
     extern StartMenu* DAT_011daac0;
     static_cast<OptionMenuOperations*>(DAT_011daac0)->FUN_0075f6f0(0x8000000, 0);
     ClearAllElements();
-    FUN_00704000();
+    Interface_CloseMessageMenu();
     HandleBackAction();
 }
 }  // namespace fnv_007d5f50
@@ -2185,10 +2224,11 @@ struct FUN_007d6120_Class
 {
     int m_00, m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24, m_28;
     int m_2c;
-    int FUN_007d6120();
+    int Controls_HasKeyboard();
 };
 // @fnv 0x007d6120
-int FUN_007d6120_Class::FUN_007d6120()
+// src: COMMUNITY 0x007d6120
+int FUN_007d6120_Class::Controls_HasKeyboard()
 {
     return m_2c != 0;
 }
@@ -2208,10 +2248,11 @@ struct FUN_007d6140_Class
     int m_0x28;
     int m_0x2c;
     int m_0x30;
-    int FUN_007d6140();
+    int Controls_HasMouse();
 };
 // @fnv 0x007d6140
-int FUN_007d6140_Class::FUN_007d6140()
+// src: COMMUNITY 0x007d6140
+int FUN_007d6140_Class::Controls_HasMouse()
 {
     return m_0x30 != 0;
 }
@@ -2220,7 +2261,8 @@ namespace fnv_007d69d0 {
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x007d69d0
-void FUN_007d69d0()
+// src: COMMUNITY 0x007d69d0
+void StartMenu_SysUtilSaveCompleteCallback()
 {
     if (DAT_011daac0)
         static_cast<OptionMenuOperations*>(DAT_011daac0)->FUN_0075f6f0(0x800, 1);
@@ -2238,7 +2280,7 @@ class FalloutAudioMedia
 };
 void* memset(void*, int, unsigned int);
 int _sprintf_s(char*, unsigned int, const char*, ...);
-void __cdecl FUN_00761460(bool);
+void __cdecl FalloutAudio_SetMainMenuMusic(bool);
 extern TESGlobal* DAT_011c3f3c;
 extern bool DAT_011daacd;
 struct StartMenu_Wrap : StartMenu
@@ -2257,7 +2299,7 @@ void StartMenu_Wrap::FUN_007d6c90()
     {
         memset(szMusicPath, 0, 64);
         _sprintf_s(szMusicPath, 64, "Data\\Music\\Special\\MainTitle.mp3");
-        FUN_00761460(true);
+        FalloutAudio_SetMainMenuMusic(true);
         FalloutAudioMedia::PlayMedia((MEDIATYPE)8, szMusicPath, 1000, true, true, 0.0f, 0);
         FalloutAudioMedia::EndMediaUpdate();
     }
@@ -2276,9 +2318,9 @@ struct TgtOps
 };
 struct SettingCollectionStandIn
 {
-    bool FUN_005e01b0(const char*);
+    bool INISettingCollection_SaveAll(const char*);
 };
-SettingCollectionStandIn* __cdecl FUN_0045d180();
+SettingCollectionStandIn* __cdecl SettingT_RendererSettingCollection_GetCollection();
 struct INIPrefSettingCollectionHelper
 {
     static SettingCollectionStandIn* __cdecl GetCollection();
@@ -2310,8 +2352,8 @@ extern SettingString g_011d493c;
 // @fnv 0x007d6d70
 void FUN_007d6d70()
 {
-    FUN_0045d180()->FUN_005e01b0(((TgtOps*)FUN_0045d180())->GetPosition());
-    if (INIPrefSettingCollectionHelper::GetCollection()->FUN_005e01b0(
+    SettingT_RendererSettingCollection_GetCollection()->INISettingCollection_SaveAll(((TgtOps*)SettingT_RendererSettingCollection_GetCollection())->GetPosition());
+    if (INIPrefSettingCollectionHelper::GetCollection()->INISettingCollection_SaveAll(
             ((TgtOps*)INIPrefSettingCollectionHelper::GetCollection())->GetPosition()))
     {
         reinterpret_cast<InputManagerStandIn*>(g_osGlobals->FUN_00877720())->FUN_00a22e10();
@@ -2386,11 +2428,12 @@ struct ListBoxItemList
 struct ListBoxSaveLoad : ListBoxBase, ListBoxItemList
 {
     bool RemoveItemNode(const ListBoxItemList* pnode, const ListBoxItemList* plast);
-    bool FUN_007d80f0(unsigned int aiIndex, bool abLiteral);
+    bool ListBox_BGSSaveLoadFileEntry_RemoveAt(unsigned int aiIndex, bool abLiteral);
 };
 
 // @fnv 0x007d80f0
-bool ListBoxSaveLoad::FUN_007d80f0(unsigned int aiIndex, bool abLiteral)
+// src: COMMUNITY 0x007d80f0
+bool ListBoxSaveLoad::ListBox_BGSSaveLoadFileEntry_RemoveAt(unsigned int aiIndex, bool abLiteral)
 {
     if (FUN_008256d0())
         return false;
@@ -2669,7 +2712,8 @@ struct SM7d6
 SM7d6* DAT_011daac0;
 
 // @fnv 0x007d0700
-void FUN_007d0700()
+// src: COMMUNITY 0x007d0700
+void StartMenu_ChooseSettings()
 {
     if (DAT_011daac0 != 0)
     {
@@ -2693,20 +2737,21 @@ struct IMH
 
 struct FUN_005b6cb0_Class
 {
-    void FUN_005b6cb0(void);
+    void kExitGameViaQQQRetnAddr(void);
 };
 
-extern "C" void* __cdecl FUN_004b7210(void);
+extern "C" void* __cdecl InterfaceManager_GetSingleton(void);
 extern BSAudio* g_osGlobals;
 
 // @fnv 0x007d0bf0
-void FUN_007d0bf0()
+// src: COMMUNITY 0x007d0bf0
+void MenuButton_ConfirmExitGame()
 {
-    void* p = FUN_004b7210();
+    void* p = InterfaceManager_GetSingleton();
     reinterpret_cast<NiAVObject*>(((IMH*)p)->FUN_00586150()->FUN_0056c7f0())->SetAppCulled(true);
     reinterpret_cast<NiAVObject*>(((IMH*)p)->GetNext()->FUN_0056c7f0())->SetAppCulled(true);
     ((IMH*)p)->RenderMenu(0, 0);
-    ((FUN_005b6cb0_Class*)g_osGlobals)->FUN_005b6cb0();
+    ((FUN_005b6cb0_Class*)g_osGlobals)->kExitGameViaQQQRetnAddr();
 }
 }  // namespace fnv_007d0bf0
 
@@ -2730,7 +2775,8 @@ struct FUN_007d6030_shell
 extern SM7d6* DAT_011daac0;
 
 // @fnv 0x007d0c50
-void FUN_007d0c50()
+// src: COMMUNITY 0x007d0c50
+void StartMenu_ChooseActionMap()
 {
     if (DAT_011daac0)
     {
@@ -2756,7 +2802,8 @@ extern StartMenu* DAT_011daac0;
 
 // If DAT_011daac0 is set, calls FUN_007d74f0(0) on the VObj at offset 0xb4 and then PopulateList(8) on DAT_011daac0.
 // @fnv 0x007d0d40
-void FUN_007d0d40()
+// src: COMMUNITY 0x007d0d40
+void StartMenu_ChooseGameplay()
 {
     if (DAT_011daac0)
     {
@@ -2770,7 +2817,8 @@ extern void* _pme;
 
 // Sets or clears bits in the flags field at offset 0x1c0 of _pme when _pme is non-null.
 // @fnv 0x007d14c0
-void FUN_007d14c0(int aFlags, int aSet)
+// src: COMMUNITY 0x007d14c0
+void HUDMainMenu_SetVisibilityFlag(int aFlags, int aSet)
 {
     if (_pme)
     {
@@ -2809,22 +2857,24 @@ void FUN_007ce690_cls::InitPointer()
 
 struct FUN_007d1240_Class
 {
-    void __thiscall FUN_007d1240(int value);
+    void __thiscall PlayerCharacter_SetGameDifficulty(int value);
 };
 
 // @fnv 0x007d1240
-void __thiscall FUN_007d1240_Class::FUN_007d1240(int value)
+// src: COMMUNITY 0x007d1240
+void __thiscall FUN_007d1240_Class::PlayerCharacter_SetGameDifficulty(int value)
 {
     *(int*)((char*)this + 0x7b8) = value;
 }
 
 struct FUN_007d1320_Class
 {
-    void FUN_007d1320(int value);
+    void PlayerCharacter_SetKillCamMode(int value);
 };
 
 // @fnv 0x007d1320
-void FUN_007d1320_Class::FUN_007d1320(int value)
+// src: COMMUNITY 0x007d1320
+void FUN_007d1320_Class::PlayerCharacter_SetKillCamMode(int value)
 {
     *(int*)((char*)this + 0x7c0) = value;
 }
@@ -2978,9 +3028,9 @@ struct TGF
 struct P03Value
 {
     void AppendFloatAction(int, float);
-    void FUN_00a09130(int, Tile*, int);
+    void Tile_Value_AddRefValueAction(int, Tile*, int);
     void RemoveFromReactions();
-    void FUN_00a09410(int);
+    void Tile_Value_SetFloat(int);
 };
 int __cdecl GetTileValueID(const char*, int);
 extern double _gModifierZero;
@@ -3035,9 +3085,9 @@ void* FUN_007d6ff0_shell::CreateListItem(int aAssociatedData, const char* apcIte
         {
             P03Value* pheight = (P03Value*)static_cast<StartMenuTileTraits*>(pParent)->FindTraitValue(0xfb0);
             pheight->RemoveFromReactions();
-            pheight->FUN_00a09130(0x7d0, pTile, 0xfb0);
+            pheight->Tile_Value_AddRefValueAction(0x7d0, pTile, 0xfb0);
             pheight->AppendFloatAction(0x7d3, ((TGF*)pParent)->GetFloat(GetTileValueID(_kListBoxNumFiltered, -1)));
-            pheight->FUN_00a09410(0);
+            pheight->Tile_Value_SetFloat(0);
         }
         return pTile;
     }
@@ -3138,12 +3188,13 @@ class StartMenuUserOptionFields
 
 // 0x007d1b30 is a free gamma-query thunk; it never receives a StartMenu.
 float __cdecl ReadMenuGamma();
-void __cdecl FUN_004dc2d0(float afValue);
+void __cdecl Renderer_SetGamma(float afValue);
 extern Setting g_011dab98;
 extern Setting g_011dab60;
 extern StartMenu* DAT_011daac0;
 // @fnv 0x007d19c0
-void __cdecl FUN_007d19c0(StartMenu::UserOption* apOption)
+// src: COMMUNITY 0x007d19c0
+void __cdecl SettingsMenu_Brightness(StartMenu::UserOption* apOption)
 {
     if (DAT_011daac0 && DAT_011daac0->IsFlagSet(StartMenu::FLAG_SAVE_OPTIONS))
     {
@@ -3151,7 +3202,7 @@ void __cdecl FUN_007d19c0(StartMenu::UserOption* apOption)
         float fScaledValue = *g_011dab60.Float();
         float fRatio = ((StartMenuUserOptionFields*)apOption)->iValue /
                        (float)(((StartMenuUserOptionFields*)apOption)->ItemUpdateArray - 1);
-        FUN_004dc2d0((fScaledValue - fMinimum) * fRatio + fMinimum);
+        Renderer_SetGamma((fScaledValue - fMinimum) * fRatio + fMinimum);
     }
     else
     {
@@ -3189,7 +3240,8 @@ extern float DAT_011f944c;
 extern float DAT_011f9450;
 extern StartMenu* DAT_011daac0;
 // @fnv 0x007d20f0
-void __cdecl FUN_007d20f0(StartMenu::UserOption* apOption)
+// src: COMMUNITY 0x007d20f0
+void __cdecl SettingsMenu_ShadowFade(StartMenu::UserOption* apOption)
 {
     float fLow = *g_011c7294.Float();
     float fHigh = *g_011c71b8.Float();
@@ -3242,7 +3294,8 @@ extern float DAT_011f944c;
 extern float DAT_011f9450;
 extern StartMenu* DAT_011daac0;
 // @fnv 0x007d2250
-void __cdecl FUN_007d2250(StartMenu::UserOption* apOption)
+// src: COMMUNITY 0x007d2250
+void __cdecl SettingsMenu_LightFade(StartMenu::UserOption* apOption)
 {
     float fLow = *g_011c7294.Float();
     float fHigh = *g_011c71b8.Float();
@@ -3293,7 +3346,8 @@ extern float DAT_011f9454;
 extern float DAT_011f9458;
 extern StartMenu* DAT_011daac0;
 // @fnv 0x007d23b0
-void __cdecl FUN_007d23b0(UserOptionView_007d23b0* apOption)
+// src: COMMUNITY 0x007d23b0
+void __cdecl SettingsMenu_SpecularityFade(UserOptionView_007d23b0* apOption)
 {
     float fLow = *g_011c7440.Float();
     float fHigh = *g_011c71d0.Float();
@@ -3319,8 +3373,8 @@ void __cdecl FUN_007d23b0(UserOptionView_007d23b0* apOption)
 
 struct PC_r7d32b0
 {
-    void FUN_005d1530(bool abFlag);
-    void FUN_005d14d0(bool abFlag);
+    void PlayerCharacter_SetDisableFastTravelResetsOnCellChange(bool abFlag);
+    void PlayerCharacter_SetHasScriptNotDisabledFastTravel(bool abFlag);
     void SetAllow(bool abFlag);
     TESBoundObject* GetNext();
 };
@@ -3354,13 +3408,13 @@ struct TutorialState
     bool ShowMessage(int aiType, int aiMessage, unsigned int auiFlags);
 };
 class InterfaceManager;
-InterfaceManager* __cdecl FUN_004b7210(void);
+InterfaceManager* __cdecl InterfaceManager_GetSingleton(void);
 unsigned int __cdecl FUN_00ec8d08(const char* apString, char** appEnd, int aiRadix);
 void __cdecl CloseStartMenu(int aiReason);
-void __cdecl FUN_00af59e0();
+void __cdecl nullsub_330();
 void __cdecl FUN_004581c0(bool abFlag);
-void __cdecl FUN_00761460(bool abFlag);
-void __cdecl FUN_00788a90(unsigned char aucFlag);
+void __cdecl FalloutAudio_SetMainMenuMusic(bool abFlag);
+void __cdecl FalloutAudio_SetNewGameMusic(unsigned char aucFlag);
 int __cdecl Warning(const char* apFormat, ...);
 // @fnv 0x007d32b0
 void __cdecl StartCharacterGeneration()
@@ -3373,15 +3427,15 @@ void __cdecl StartCharacterGeneration()
     pcharGenQuest = 0;
     if (g_thePlayer)
     {
-        ((PC_r7d32b0*)g_thePlayer)->FUN_005d1530(false);
-        ((PC_r7d32b0*)g_thePlayer)->FUN_005d14d0(true);
+        ((PC_r7d32b0*)g_thePlayer)->PlayerCharacter_SetDisableFastTravelResetsOnCellChange(false);
+        ((PC_r7d32b0*)g_thePlayer)->PlayerCharacter_SetHasScriptNotDisabledFastTravel(true);
     }
     if (pform && pform->GetFormType() == 0x47)
         pcharGenQuest = dynamic_cast<TESQuest*>(pform);
     if (pcharGenQuest)
     {
         CloseStartMenu(0);
-        FUN_00af59e0();
+        nullsub_330();
         DAT_011d8907 = true;
         ((PC_r7d32b0*)g_thePlayer)->SetAllow(false);
         pplayerBase = dynamic_cast<TESNPC*>(((PC_r7d32b0*)g_thePlayer)->GetNext());
@@ -3390,16 +3444,16 @@ void __cdecl StartCharacterGeneration()
         DAT_011da0c0->m_pTiles[11]->Set(0xfa3, 1);
         FUN_004581c0(true);
         Interface_r7d32b0::PrintDebugMessage();
-        FUN_00761460(false);
+        FalloutAudio_SetMainMenuMusic(false);
         FalloutAudioMedia::BeginMediaUpdate();
         if (FUN_00a25920())
         {
-            FUN_00a25920()->FUN_007d0bd0(true);
-            FUN_00a25920()->FUN_007d0bb0();
+            FUN_00a25920()->XGamerProfile_SetPlayingFlag(true);
+            FUN_00a25920()->XGamerProfile_ForcePresenceUpdate();
         }
-        FUN_00788a90(1);
-        ((TutorialState*)((char*)FUN_004b7210() + 0x4d4))->ShowMessage(0x19, 0x3eb, 0x200);
-        ((TutorialState*)((char*)FUN_004b7210() + 0x4d4))->ShowMessage(0x1a, 0x3ff, 0x200);
+        FalloutAudio_SetNewGameMusic(1);
+        ((TutorialState*)((char*)InterfaceManager_GetSingleton() + 0x4d4))->ShowMessage(0x19, 0x3eb, 0x200);
+        ((TutorialState*)((char*)InterfaceManager_GetSingleton() + 0x4d4))->ShowMessage(0x1a, 0x3ff, 0x200);
     }
     else
     {
@@ -3510,11 +3564,12 @@ struct SystemColorManager
 };
 struct FUN_007190a0_shell : SystemColorManager
 {
-    void* FUN_007190a0(int);
+    void* SystemColorManager_GetColor(int);
 };
 // Looks up a SystemColor by id and returns the result of its v1() virtual call, or null if not found.
 // @fnv 0x007190a0
-void* FUN_007190a0_shell::FUN_007190a0(int aiColorId)
+// src: COMMUNITY 0x007190a0
+void* FUN_007190a0_shell::SystemColorManager_GetColor(int aiColorId)
 {
     SystemColor* c = Find(aiColorId);
     return c ? c->v1() : 0;
@@ -3532,7 +3587,7 @@ extern GlobalObject_0040c150 g_011d2be0;
 
 struct S7d8
 {
-    void FUN_007d48a0(void*, unsigned char);
+    void StartMenu_PopulateConfirmationListBox(void*, unsigned char);
 };
 struct SM7d6
 {
@@ -3547,7 +3602,7 @@ void FUN_007d0440()
     if (FUN_0070edf0())
     {
         (*(Tile**)((char*)DAT_011daac0 + 0x48))->Set(0xfc4, g_011d2be0.GetMenuTitle(), true);
-        ((S7d8*)DAT_011daac0)->FUN_007d48a0((void*)0x100, 0);
+        ((S7d8*)DAT_011daac0)->StartMenu_PopulateConfirmationListBox((void*)0x100, 0);
     }
     else
     {
@@ -3580,7 +3635,7 @@ struct GlobalObject_0040c150
 extern GlobalObject_0040c150 g_011d3984;
 struct S7d8
 {
-    void FUN_007d48a0(void*, unsigned char);
+    void StartMenu_PopulateConfirmationListBox(void*, unsigned char);
 };
 
 extern StartMenu* DAT_011daac0;
@@ -3591,9 +3646,9 @@ void FUN_007d0a10()
     {
         DAT_011daac0->m_pTiles[8]->Set(0xfc4, g_011d3984.GetMenuTitle(), true);
         if (PlayerCharacter::UpdatePlayerStatus())
-            ((S7d8*)DAT_011daac0)->FUN_007d48a0((void*)0x2000, 3);
+            ((S7d8*)DAT_011daac0)->StartMenu_PopulateConfirmationListBox((void*)0x2000, 3);
         else
-            ((S7d8*)DAT_011daac0)->FUN_007d48a0((void*)0x1000, 1);
+            ((S7d8*)DAT_011daac0)->StartMenu_PopulateConfirmationListBox((void*)0x1000, 1);
     }
 }
 }  // namespace fnv_007d0a10
@@ -3609,7 +3664,8 @@ extern StartMenu* DAT_011daac0;
 
 // If DAT_011daac0 is set, sets tile slot 20 to 0xfa3/1, calls FUN_007d74f0(0) on the object at offset 0xb4, and calls PopulateList(0x10).
 // @fnv 0x007d0d70
-void FUN_007d0d70()
+// src: COMMUNITY 0x007d0d70
+void StartMenu_ChooseDisplay()
 {
     if (DAT_011daac0)
     {
@@ -3629,7 +3685,8 @@ struct VObj
 extern StartMenu* DAT_011daac0;
 
 // @fnv 0x007d0df0
-void FUN_007d0df0()
+// src: COMMUNITY 0x007d0df0
+void StartMenu_ChooseControls()
 {
     if (DAT_011daac0)
     {
@@ -3643,7 +3700,7 @@ void FUN_007d0df0()
 namespace fnv_007d12d0 {
 struct FUN_007d1320_Class
 {
-    void FUN_007d1320(int);
+    void PlayerCharacter_SetKillCamMode(int);
 };
 struct VATS
 {
@@ -3651,18 +3708,19 @@ struct VATS
 };
 struct FUN_007d1360_Class
 {
-    unsigned char FUN_007d1360();
+    unsigned char PlayerCharacter_IsInSlowMo();
 };
 struct FUN_007d12d0_Class : PlayerCharacter
 {
-    void FUN_007d12d0(int arg);
+    void PlayerCharacter_ToggleKillCamMode(int arg);
 };
 // @fnv 0x007d12d0
-void FUN_007d12d0_Class::FUN_007d12d0(int arg)
+// src: COMMUNITY 0x007d12d0
+void FUN_007d12d0_Class::PlayerCharacter_ToggleKillCamMode(int arg)
 {
-    int oldValue = FUN_007d1340();
-    ((FUN_007d1320_Class*)this)->FUN_007d1320(arg);
-    if (oldValue != FUN_007d1340() && ((FUN_007d1360_Class*)this)->FUN_007d1360())
+    int oldValue = GetKillCamMode();
+    ((FUN_007d1320_Class*)this)->PlayerCharacter_SetKillCamMode(arg);
+    if (oldValue != GetKillCamMode() && ((FUN_007d1360_Class*)this)->PlayerCharacter_IsInSlowMo())
         ((VATS*)this)->Update(oldValue, true);
 }
 }  // namespace fnv_007d12d0
@@ -3674,11 +3732,11 @@ struct FUN_007d6100_class
 };
 struct FUN_007d6120_Class
 {
-    int FUN_007d6120();
+    int Controls_HasKeyboard();
 };
 struct FUN_007d6140_Class
 {
-    int FUN_007d6140();
+    int Controls_HasMouse();
 };
 }  // namespace fnv_007d60b0
 
@@ -3689,9 +3747,9 @@ int HotkeyWheelDisplay::DispatchByType(int type)
     switch (type)
     {
     case 0:
-        return ((fnv_007d60b0::FUN_007d6120_Class*)this)->FUN_007d6120();
+        return ((fnv_007d60b0::FUN_007d6120_Class*)this)->Controls_HasKeyboard();
     case 1:
-        return ((fnv_007d60b0::FUN_007d6140_Class*)this)->FUN_007d6140();
+        return ((fnv_007d60b0::FUN_007d6140_Class*)this)->Controls_HasMouse();
     case 2:
         return ((fnv_007d60b0::FUN_007d6100_class*)this)->GetField18F4();
     default:
@@ -4789,12 +4847,13 @@ class C7D1360Actor
     int unkE14;
     float m_fValue;
 
-    bool FUN_007d1360();
+    bool PlayerCharacter_IsInSlowMo();
 };
 
 // Returns whether m_fValue is greater than gModifierZero.
 // @fnv 0x007d1360
-bool C7D1360Actor::FUN_007d1360()
+// src: COMMUNITY 0x007d1360
+bool C7D1360Actor::PlayerCharacter_IsInSlowMo()
 {
     return m_fValue > gModifierZero;
 }
@@ -4802,12 +4861,13 @@ bool C7D1360Actor::FUN_007d1360()
 struct FUN_007d1400_Class
 {
     void __thiscall FUN_00969e90(int, int);
-    void __thiscall FUN_007d1400(int);
+    void __thiscall PlayerCharacter_SetHardcore_(int);
 };
 
 // Calls FUN_00969e90 with the given argument and 0 when the argument is 0 or 1.
 // @fnv 0x007d1400
-void FUN_007d1400_Class::FUN_007d1400(int arg)
+// src: COMMUNITY 0x007d1400
+void FUN_007d1400_Class::PlayerCharacter_SetHardcore_(int arg)
 {
     if (arg == 1)
     {
@@ -4829,13 +4889,13 @@ class FUN_007d5eb0_cls
     int FUN_007d5eb0();
 };
 
-int FUN_00457fe0();
+int Cmd_GetSessionTime_Execute();
 
 // Returns m_04 - m_00 when Check1 and Check2 pass, FUN_00457fe0() - m_00 when only Check1 passes, otherwise 0.
 // @fnv 0x007d5eb0
 int FUN_007d5eb0_cls::FUN_007d5eb0()
 {
-    return Check1() ? (Check2() ? m_04 - m_00 : FUN_00457fe0() - m_00) : 0;
+    return Check1() ? (Check2() ? m_04 - m_00 : Cmd_GetSessionTime_Execute() - m_00) : 0;
 }
 
 class FUN_007d5f10_Class
@@ -4994,7 +5054,7 @@ struct UserOpt
 };
 struct ChainB
 {
-    void FUN_00af28f0();
+    void BSDLCSystemUtility_ShowMarketplace();
 };
 struct ChainA
 {
@@ -5002,16 +5062,16 @@ struct ChainA
 };
 ChainA* __stdcall FUN_00af2640(void*);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
-unsigned int __cdecl FUN_00457fe0();
+unsigned int __cdecl Cmd_GetSessionTime_Execute();
 void __cdecl HandleBackAction();
-void __cdecl FUN_007d0700();
+void __cdecl StartMenu_ChooseSettings();
 void __cdecl FUN_007d6d70();
 void __cdecl FUN_00703e80(const char*, const char*, const char*, void(__cdecl*)(), int, int, float, float, const char*,
                           const char*, int);
-void __cdecl FUN_007d3a30();
+void __cdecl StartMenu_ConfirmResetToDefaults();
 void __cdecl ApplyConfigEntry();
 void __cdecl FUN_007ce970();
-void __cdecl FUN_007d0c50();
+void __cdecl StartMenu_ChooseActionMap();
 extern unsigned int DAT_011daab4;
 extern int DAT_011a0960;
 extern int DAT_011a0980;
@@ -5032,7 +5092,7 @@ struct LBOpt
     bool ContainsKey(Tile*);
     void FUN_007d74f0(int);
     void ForEachEntry(int);
-    void FUN_007d7a80(Tile*);
+    void ListBox_StartMenu_Option_Select(Tile*);
     void FUN_007314c0(void(__cdecl*)(), int, int);
     bool FUN_007d7630();
     char rest[0x2c];
@@ -5052,7 +5112,7 @@ struct LBSave
     BGSSaveLoadFileEntry* FindItemData(Tile*);
     bool ContainsKey(Tile*);
     bool FUN_007d88a0();
-    void FUN_007d8810(int);
+    void ListBox_BGSSaveLoadFileEntry_SetEnabled(int);
     unsigned int GetRaceCount();
     void FUN_007d8d60(Tile*);
     char rest[0x2c];
@@ -5063,7 +5123,7 @@ struct ClickMenuOperations : StartMenu
     void UpdateLayout();
     void FUN_007d6160();
     void BuildMenuList();
-    void FUN_007d5f80();
+    void StartMenu_HideOptionsContainer();
     void FadeTile(int, int, unsigned int, float);
     void FUN_007ce9b0(int, Tile*);
 };
@@ -5089,7 +5149,7 @@ void ClickMenuOperations::FUN_007ce9b0(int reason, Tile* tile)
         {
             if (((StartMenu*)this)->IsFlagSet((StartMenu::Flag)0x1000))
             {
-                FUN_00703e80(DAT_011d29dc.GetString(), (const char*)0, (const char*)0, FUN_007d3a30, 0, 0x12, 0.0f,
+                FUN_00703e80(DAT_011d29dc.GetString(), (const char*)0, (const char*)0, StartMenu_ConfirmResetToDefaults, 0, 0x12, 0.0f,
                              0.0f, DAT_011d3684.String(), DAT_011d34f8.String(), 0);
             }
             else
@@ -5109,14 +5169,14 @@ void ClickMenuOperations::FUN_007ce9b0(int reason, Tile* tile)
     }
     else if (reason == 1)
     {
-        FUN_007d5f80();
-        FUN_007d0700();
+        StartMenu_HideOptionsContainer();
+        StartMenu_ChooseSettings();
     }
     else if (reason == 0)
     {
         if (!((StartMenu*)this)->IsFlagSet((StartMenu::Flag)0x100000))
         {
-            FUN_007d5f80();
+            StartMenu_HideOptionsContainer();
             if (reinterpret_cast<LBInt&>(DAT_011daac0->m_kOptionIndexList).FUN_00764e40())
             {
                 ((ClickMenuOperations*)DAT_011daac0)->FadeTile(14, 0, 0x80000000, -1.0f);
@@ -5125,11 +5185,11 @@ void ClickMenuOperations::FUN_007ce9b0(int reason, Tile* tile)
             FadeTile(1, 0, 0x80000000, -1.0f);
             reinterpret_cast<LBOpt&>(m_kSecondOptionListBox).FUN_007d74f0(0);
             reinterpret_cast<LBOpt&>(m_kSecondOptionListBox).ForEachEntry(1);
-            reinterpret_cast<LBSave&>(m_kOptionHelper).FUN_007d8810(1);
+            reinterpret_cast<LBSave&>(m_kOptionHelper).ListBox_BGSSaveLoadFileEntry_SetEnabled(1);
             reinterpret_cast<LBSave&>(m_kOptionHelper).Highlight((Tile*)0);
             ((StartMenu_Wrap*)this)->FUN_0075f6f0((StartMenu::Flag)0x40000, false);
             UpdateTargetInfo(this);
-            reinterpret_cast<LBSave&>(m_kOptionHelper).FUN_007d8810(0);
+            reinterpret_cast<LBSave&>(m_kOptionHelper).ListBox_BGSSaveLoadFileEntry_SetEnabled(0);
             FadeTile(6, 0, 0x80000000, -1.0f);
             reinterpret_cast<LBOpt&>(m_kThirdOptionListBox).FUN_007d74f0(0);
             FadeTile(7, 0, 0x80000000, -1.0f);
@@ -5145,7 +5205,7 @@ void ClickMenuOperations::FUN_007ce9b0(int reason, Tile* tile)
     }
     if (tile)
     {
-        if ((unsigned int)(FUN_00457fe0() - DAT_011daab4) > 0x1f4)
+        if ((unsigned int)(Cmd_GetSessionTime_Execute() - DAT_011daab4) > 0x1f4)
         {
             LBOpt* arr5[4];
             arr5[0] = &reinterpret_cast<LBOpt&>(m_kFirstOptionListBox);
@@ -5158,12 +5218,12 @@ void ClickMenuOperations::FUN_007ce9b0(int reason, Tile* tile)
                 StartMenu::Option* hit2 = arr5[i]->FindItemData(tile);
                 if (hit2 && hit2->m_pActionCallback)
                 {
-                    if (hit2->m_pActionCallback != FUN_007d0c50)
-                        arr5[i]->FUN_007d7a80(tile);
+                    if (hit2->m_pActionCallback != StartMenu_ChooseActionMap)
+                        arr5[i]->ListBox_StartMenu_Option_Select(tile);
                     if (arr5[i] != &reinterpret_cast<LBOpt&>(m_kThirdOptionListBox) && hit2->m_pActionCallback != HandleBackAction)
                         arr5[i]->FUN_007d74f0(0);
                     hit2->m_pActionCallback();
-                    DAT_011daab4 = FUN_00457fe0();
+                    DAT_011daab4 = Cmd_GetSessionTime_Execute();
                     return;
                 }
             }
@@ -5188,7 +5248,7 @@ void ClickMenuOperations::FUN_007ce9b0(int reason, Tile* tile)
                     if (reinterpret_cast<LBInt&>(m_kOptionIndexList).ContainsKey(tile) && reinterpret_cast<LBInt&>(m_kOptionIndexList).FindItemData(tile) == -1)
                     {
                         void* tmp = FUN_008d8520(FUN_00a25920());
-                        FUN_00af2640(tmp)->FUN_005dfa10()->FUN_00af28f0();
+                        FUN_00af2640(tmp)->FUN_005dfa10()->BSDLCSystemUtility_ShowMarketplace();
                     }
                 }
             }
@@ -5245,7 +5305,7 @@ void __cdecl FUN_00717280(int);
 int __cdecl FUN_00a09030(int);
 void __cdecl FUN_00703e80(const char*, int, int, int, int, int, float, float, const char*, int);
 float __cdecl FUN_004bd510(float, float);
-void FUN_007d0c50();
+void StartMenu_ChooseActionMap();
 struct OptionList151 : StartMenu::OptionListBox
 {
     StartMenu::Option* FUN_007a1910();
@@ -5353,7 +5413,7 @@ bool Candidate151::HandleButtonInput(int button, int unused)
                     return true;
                 }
                 else if (id == 101 && ((OptionList151*)&m_kDownloadOptions)->FUN_007a1910() &&
-                         ((OptionList151*)&m_kDownloadOptions)->FUN_007a1910()->m_pActionCallback == FUN_007d0c50)
+                         ((OptionList151*)&m_kDownloadOptions)->FUN_007a1910()->m_pActionCallback == StartMenu_ChooseActionMap)
                 {
                     ((MenuDispatch151*)this)->Click(-1, (KeyTile*)m_kDownloadOptions.GetHighlightedItem());
                     tile->FUN_00a0b110(0xfcb);
@@ -5398,7 +5458,7 @@ struct TileSI
     float GetFloat(int aiID);
     float GetAbsoluteX();
 };
-InterfaceManager* __cdecl FUN_004b7210(void);
+InterfaceManager* __cdecl InterfaceManager_GetSingleton(void);
 float __cdecl FUN_004e4430(float afValue);
 
 
@@ -5412,7 +5472,7 @@ void StartMenu::HandleSliderTileInput(int aiID, void* apTile)
         {
             int iPreviousValue = pOption->iVal;
             pOption->iVal = FUN_004e4430(((TileSI*)apTile)->GetParent()->GetFloat(0x1007) *
-                                         (FUN_004b7210()->GetPickCursorX() - ((TileSI*)apTile)->GetAbsoluteX()) /
+                                         (InterfaceManager_GetSingleton()->GetPickCursorX() - ((TileSI*)apTile)->GetAbsoluteX()) /
                                          ((TileSI*)apTile)->GetFloat(0xfb1));
             if (pOption->iVal < 0)
             {
@@ -5479,10 +5539,10 @@ struct FUN_00af2640_cls
     FUN_005dfa10_cls* FUN_005dfa10();
 };
 FUN_00af2640_cls* __stdcall FUN_00af2640(int a, void (*pfn)());
-void FUN_007d4c50();
+void StartMenu_MountDLCCallback();
 
 void FUN_0078d020();
-void FUN_0075f2a0();
+void CreditsMenu_Create();
 void FUN_007d6d70();
 unsigned int GetCurrentArrayElement();
 extern unsigned int DAT_011dac60;
@@ -5490,9 +5550,9 @@ extern unsigned int DAT_011dac60;
 struct FUN_007cf9a0_shell : public StartMenu
 {
     void FUN_0075f6f0(int iFlag, bool bSet);
-    void FUN_007d5830();
+    void StartMenu_MainMenuIdle();
     bool HandleBindingInput();
-    bool FUN_007d5af0();
+    bool StartMenu_SaveLoadIdle();
     void FUN_007d4ce0(StartMenu::UserOption* pkOption, int a2);
     void FUN_007cf9a0();
 };
@@ -5524,7 +5584,7 @@ void FUN_007cf9a0_shell::FUN_007cf9a0()
         }
     }
 
-    FUN_007d5830();
+    StartMenu_MainMenuIdle();
     if (HandleBindingInput())
         return;
 
@@ -5534,18 +5594,18 @@ void FUN_007cf9a0_shell::FUN_007cf9a0()
             !FUN_00a09030(0x417))
         {
             FUN_0078d020();
-            FUN_0075f2a0();
+            CreditsMenu_Create();
         }
         return;
     }
 
-    bool bBusy = FUN_007d5af0();
+    bool bBusy = StartMenu_SaveLoadIdle();
     if (!bBusy && IsFlagSet((Flag)(FLAG_SAVE_WAIT_MESSAGE | FLAG_SAVE_WAIT_SAVING)))
     {
         if (IsFlagSet(FLAG_SAVE_WAIT_MESSAGE))
         {
             Tile* pkMessage = FUN_00a09030(0x3e9);
-            if (pkMessage && reinterpret_cast<FUN_0059bb30_Menu*>(pkMessage->FUN_00a03c90())->FUN_0059bb30() == 1)
+            if (pkMessage && reinterpret_cast<FUN_0059bb30_Menu*>(pkMessage->Tile_GetMenu())->FUN_0059bb30() == 1)
             {
                 FUN_0075f6f0(FLAG_SAVE_WAIT_MESSAGE, false);
                 FUN_0075f6f0(FLAG_SAVE_WAIT_SAVING, true);
@@ -5561,7 +5621,7 @@ void FUN_007cf9a0_shell::FUN_007cf9a0()
         }
         else if (gm_GetTickCount() >= DAT_011dac60)
         {
-            FUN_00704000();
+            Interface_CloseMessageMenu();
             FUN_0075f6f0(FLAG_SAVE_WAIT_SAVING, false);
             FUN_0075f6f0(FLAG_OPTIONS_DIRTY, false);
         }
@@ -5581,12 +5641,12 @@ void FUN_007cf9a0_shell::FUN_007cf9a0()
     if (IsFlagSet(FLAG_MOUNT_DLC))
     {
         Tile* pkDLCTile = FUN_00a09030(0x3e9);
-        FUN_0059bb30_Menu* pkDLCMenu = pkDLCTile ? reinterpret_cast<FUN_0059bb30_Menu*>(pkDLCTile->FUN_00a03c90()) : 0;
+        FUN_0059bb30_Menu* pkDLCMenu = pkDLCTile ? reinterpret_cast<FUN_0059bb30_Menu*>(pkDLCTile->Tile_GetMenu()) : 0;
         if (pkDLCMenu && pkDLCMenu->FUN_0059bb30() == 1)
         {
             ((FUN_007cf9a0_shell*)DAT_011daac0)->FUN_0075f6f0(FLAG_MOUNT_DLC, false);
             int iZero = 0;
-            FUN_00af2640(iZero, FUN_007d4c50)->FUN_005dfa10()->FUN_00af2b10();
+            FUN_00af2640(iZero, StartMenu_MountDLCCallback)->FUN_005dfa10()->FUN_00af2b10();
         }
     }
 }
@@ -5595,7 +5655,7 @@ void FUN_007cf9a0_shell::FUN_007cf9a0()
 struct BindingInput
 {
     unsigned char GetByteAt(int action, int device);
-    int FUN_00a236b0(int device);
+    int Controls_GetButtonCount(int device);
 };
 extern MenuSetting* DAT_011d52f0[];
 extern MenuSetting* DAT_011d5240[];
@@ -5626,7 +5686,7 @@ void UpdateBindingText(MenuTile* tile, MenuItem* item)
     }
     else if (DAT_011daac0->unk1c8 == 2)
     {
-        if (key < ((BindingInput*)g_osGlobals->FUN_00877720())->FUN_00a236b0(0))
+        if (key < ((BindingInput*)g_osGlobals->FUN_00877720())->Controls_GetButtonCount(0))
         {
             text.PrintfString("%s %d", g_011d2e14.FUN_00403df0(), key + 1);
         }
@@ -5699,7 +5759,8 @@ struct SM7d06c0_menu : public StartMenu
 };
 
 // @fnv 0x007d06c0
-void __cdecl FUN_007d06c0()
+// src: COMMUNITY 0x007d06c0
+void __cdecl StartMenu_ChooseSave()
 {
     if (DAT_011daac0 != 0)
     {
@@ -5722,7 +5783,7 @@ void ShowSelectedMenuMessage()
     BGSMessage* kSelected = 0;
     for (int index = 0; !kSelected && index < 10; ++index)
     {
-        int menu = ((InterfaceManager*)FUN_004b7210())->GetMenuStackEntry(index);
+        int menu = ((InterfaceManager*)InterfaceManager_GetSingleton())->GetMenuStackEntry(index);
         if (menu == FUN_0070ede0())
         {
             break;
@@ -5733,16 +5794,16 @@ void ShowSelectedMenuMessage()
             if (menu == 1)
             {
                 if (FUN_00702680(1003, 0))
-                    entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)FUN_004b7210())->kTutorialManager)->Find(1003);
+                    entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)InterfaceManager_GetSingleton())->kTutorialManager)->Find(1003);
                 else if (FUN_00702680(1035, 0))
-                    entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)FUN_004b7210())->kTutorialManager)->Find(1035);
+                    entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)InterfaceManager_GetSingleton())->kTutorialManager)->Find(1035);
                 else if (FUN_00702680(1002, 0))
-                    entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)FUN_004b7210())->kTutorialManager)->Find(1002);
+                    entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)InterfaceManager_GetSingleton())->kTutorialManager)->Find(1002);
                 else if (FUN_00702680(1023, 0))
-                    entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)FUN_004b7210())->kTutorialManager)->Find(1023);
+                    entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)InterfaceManager_GetSingleton())->kTutorialManager)->Find(1023);
             }
             else
-                entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)FUN_004b7210())->kTutorialManager)->Find(menu);
+                entry5 = static_cast<TutorialIndexQuery*>(&((InterfaceManager*)InterfaceManager_GetSingleton())->kTutorialManager)->Find(menu);
             if (entry5 < 41)
             {
                 BGSMessage* message = dynamic_cast<BGSMessage*>(TESForm::GetFormByID(entry5 + 0x168));
@@ -5781,15 +5842,15 @@ struct BackListActions
     bool FUN_007d88a0();
     void FUN_007d74f0(bool enabled);
     void ForEachEntry(bool highlight);
-    void FUN_007d8810(bool enabled);
+    void ListBox_BGSSaveLoadFileEntry_SetEnabled(bool enabled);
 };
 struct BackMenuActions
 {
-    void FUN_007d5f80();
+    void StartMenu_HideOptionsContainer();
     void SetTileValues();
 };
 extern InventoryMenuSetting g_011d2b14;
-void FUN_007d0700();
+void StartMenu_ChooseSettings();
 void FUN_007d6d70();
 
 // Handles the back action on the start menu: checks the back list state and flags, then triggers the matching menu transition or returns early.
@@ -5809,8 +5870,8 @@ void HandleBackAction()
         if (((BackListActions*)&DAT_011daac0->m_kDownloadOptions)->FUN_007d7580() ||
             DAT_011daac0->IsFlagSet(StartMenu::FLAG_ACTION_MAPPING))
         {
-            ((BackMenuActions*)DAT_011daac0)->FUN_007d5f80();
-            FUN_007d0700();
+            ((BackMenuActions*)DAT_011daac0)->StartMenu_HideOptionsContainer();
+            StartMenu_ChooseSettings();
             return;
         }
         else if (((BackListActions*)&DAT_011daac0->m_kThirdOptionListBox)->FUN_007d7580())
@@ -5838,7 +5899,7 @@ void HandleBackAction()
             ((BackMenuActions*)DAT_011daac0)->SetTileValues();
             DAT_011daac0->m_kOptionHelper.Highlight(0);
             UpdateTargetInfo(DAT_011daac0);
-            ((BackListActions*)&DAT_011daac0->m_kOptionHelper)->FUN_007d8810(false);
+            ((BackListActions*)&DAT_011daac0->m_kOptionHelper)->ListBox_BGSSaveLoadFileEntry_SetEnabled(false);
             ((MenuSI*)DAT_011daac0)->FadeTile(6, 0, 0x80000000, -1.0f);
             DAT_011daac0->m_kOptionHelper.RemoveAll();
         }
@@ -5881,8 +5942,8 @@ struct SaveListOps
     Tile* FUN_00825c00();
     void FUN_007314c0(void (*)(Tile*, BGSSaveLoadFileEntry*), int, int);
     unsigned GetRaceCount();
-    BGSSaveLoadFileEntry* FUN_007d86c0(unsigned, bool);
-    void FUN_007d80f0(unsigned, bool);
+    BGSSaveLoadFileEntry* ListBox_BGSSaveLoadFileEntry_GetDataAt(unsigned, bool);
+    void ListBox_BGSSaveLoadFileEntry_RemoveAt(unsigned, bool);
     Tile* CallVirtualZero();
 };
 struct MenuOpsLocal
@@ -5930,17 +5991,17 @@ void UpdateSaveListSelection()
                      first7++)
                 {
                     Tile* tile3 = ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->tileAt(first7, false);
-                    BGSSaveLoadFileEntry* entry5 = ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->FUN_007d86c0(first7, false);
+                    BGSSaveLoadFileEntry* entry5 = ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->ListBox_BGSSaveLoadFileEntry_GetDataAt(first7, false);
                     if (tile3 && entry5)
                     {
                         if (::IsLegacyAutosaveFileName(entry5))
                         {
-                            ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->FUN_007d80f0(first7, false);
+                            ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->ListBox_BGSSaveLoadFileEntry_RemoveAt(first7, false);
                             count--;
                         }
                         else if (::FUN_00846b10(entry5))
                         {
-                            ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->FUN_007d80f0(first7, false);
+                            ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->ListBox_BGSSaveLoadFileEntry_RemoveAt(first7, false);
                             count--;
                         }
                     }
@@ -5959,7 +6020,7 @@ void UpdateSaveListSelection()
                      second3++)
                 {
                     Tile* entry2 = ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->tileAt(second3, false);
-                    BGSSaveLoadFileEntry* tile2 = ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->FUN_007d86c0(second3, false);
+                    BGSSaveLoadFileEntry* tile2 = ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->ListBox_BGSSaveLoadFileEntry_GetDataAt(second3, false);
                     if (entry2 && tile2)
                     {
                         if (::IsLegacyAutosaveFileName(tile2))
@@ -5973,7 +6034,7 @@ void UpdateSaveListSelection()
             char text_2[64];
             FUN_00406d00(text_2, 64, "%s %u/%i %s", g_011d2c4c.FUN_00403df0(), count, 1000, g_011d25d4.FUN_00403df0());
             ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->CallVirtualZero()->FUN_00a01350(0xfc4, text_2, true);
-            ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->CallVirtualZero()->FUN_00a07530(8);
+            ((SaveListOps*)&DAT_011daac0->m_kOptionHelper)->CallVirtualZero()->Tile_SetChangeFlag(8);
         }
     }
 }
@@ -5985,7 +6046,7 @@ struct OSGlobalsKeyed
 };
 struct WheelAction
 {
-    void FUN_00a24b70();
+    void Controls_InitDefaultKeybinds();
 };
 struct OptionsListSort
 {
@@ -5994,7 +6055,8 @@ struct OptionsListSort
 void __cdecl UpdateBindingText();
 // If the menu exists and ConsumeByteAtE4 returns 1, invokes the wheel action for the stored key, marks the options dirty and re-sorts the options list.
 // @fnv 0x007d3a30
-void __cdecl FUN_007d3a30()
+// src: COMMUNITY 0x007d3a30
+void __cdecl StartMenu_ConfirmResetToDefaults()
 {
     if (DAT_011daac0)
     {
@@ -6003,7 +6065,7 @@ void __cdecl FUN_007d3a30()
             reinterpret_cast<WheelAction*>(
                 reinterpret_cast<OSGlobalsKeyed*>(g_osGlobals)
                     ->FUN_00877720(*reinterpret_cast<int*>(reinterpret_cast<char*>(DAT_011daac0) + 0x1c8)))
-                ->FUN_00a24b70();
+                ->Controls_InitDefaultKeybinds();
             reinterpret_cast<StartMenu_Wrap*>(DAT_011daac0)->FUN_0075f6f0(StartMenu::FLAG_OPTIONS_DIRTY, true);
             reinterpret_cast<OptionsListSort*>(&DAT_011daac0->m_kDownloadOptions)
                 ->FUN_007314c0(&UpdateBindingText, 0, 0x7fffffff);
@@ -6066,7 +6128,7 @@ int __cdecl SaveFormat(char*, unsigned int, const char*, ...);
 static const char currentTrait[] = "_current_value";
 int __cdecl Trait(const char*, int);
 bool __cdecl FUN_004b71d0();
-bool __cdecl FUN_007d4040(int);
+bool __cdecl StartMenu_SaveLoadFilterFn(int);
 void __cdecl SaveVisit(SaveTile*, int);
 struct SaveInterface
 {
@@ -6126,7 +6188,7 @@ void SaveModeOperations::UpdateSaveList()
     }
     reinterpret_cast<SaveList&>(m_kOptionHelper).Enable(true);
     reinterpret_cast<SaveList&>(m_kOptionHelper).Restore(true);
-    reinterpret_cast<SaveList&>(m_kOptionHelper).Filter(FUN_007d4040);
+    reinterpret_cast<SaveList&>(m_kOptionHelper).Filter(StartMenu_SaveLoadFilterFn);
     if (FUN_004b71d0())
     {
         SaveManager()->Highlight(reinterpret_cast<SaveList&>(m_kOptionHelper).Parent(), 0xfc3, 1);
@@ -6158,7 +6220,7 @@ struct SaveLoadTile : Tile
 struct SaveLoadList : ListBox<BGSSaveLoadFileEntry*>
 {
     bool FUN_007d8d60(Tile*);
-    void FUN_007d8810(bool);
+    void ListBox_BGSSaveLoadFileEntry_SetEnabled(bool);
     Tile* FUN_00825c00();
 };
 extern InventoryMenuSetting DAT_011d4fb4;
@@ -6197,7 +6259,7 @@ void SaveLoadMenu::UpdateLayout()
     if (m_kOptionHelper.GetHighlightedItem())
     {
         ((SaveLoadList*)&m_kOptionHelper)->FUN_007d8d60(m_kOptionHelper.GetHighlightedItem());
-        ((SaveLoadList*)&m_kOptionHelper)->FUN_007d8810(false);
+        ((SaveLoadList*)&m_kOptionHelper)->ListBox_BGSSaveLoadFileEntry_SetEnabled(false);
         m_pTiles[6]->Set(0x1004, 0);
         ((SaveLoadTile*)m_pTiles[8])->FUN_00a01350(0xfc4, flags, true);
         ((SaveLoadTile*)m_pTiles[8])->FUN_00a04640(0);
@@ -6279,11 +6341,11 @@ extern PlayerT* DAT_011dea3c;
 
 bool __cdecl FUN_004b71d0();
 bool __cdecl FUN_0070edf0();
-int __stdcall FUN_009f996e(int a, Scratch* s);
+int __stdcall XInputGetState_009f996e(int a, Scratch* s);
 float __cdecl FUN_00404010(float a, float b);
 int __cdecl FUN_00a00940(const char* s, int a);
 void __cdecl UpdateSaveOption();
-void __cdecl FUN_007d13a0();
+void __cdecl SettingsMenu_ToggleHardcore();
 
 // StartMenu.h lacks the option-population operations.
 struct OptionListPopulation : StartMenu
@@ -6321,9 +6383,9 @@ void OptionListPopulation::PopulateList(int flags)
                 if ((*DAT_011dab50.FUN_00877a30(p))->FUN_007cc5d0(flags))
                 {
                     if ((*DAT_011dab50.FUN_00877a30(p))->f2c == (int)UpdateSaveOption ||
-                        (*DAT_011dab50.FUN_00877a30(p))->f2c == (int)FUN_007d30e0)
+                        (*DAT_011dab50.FUN_00877a30(p))->f2c == (int)StartMenu_SetRumble)
                     {
-                        if (FUN_009f996e(0, &v30))
+                        if (XInputGetState_009f996e(0, &v30))
                         {
                             unk1cc = 0;
                             continue;
@@ -6332,12 +6394,12 @@ void OptionListPopulation::PopulateList(int flags)
                     res = reinterpret_cast<LbT&>(m_kDownloadOptions).CreateListItem(*DAT_011dab50.FUN_00877a30(p),
                                             (int)(*DAT_011dab50.FUN_00877a30(p))->GetValueText, 0,
                                             (int)(*DAT_011dab50.FUN_00877a30(p))->pTemplate);
-                    if ((*DAT_011dab50.FUN_00877a30(p))->f2c == (int)FUN_007d30e0)
+                    if ((*DAT_011dab50.FUN_00877a30(p))->f2c == (int)StartMenu_SetRumble)
                     {
                         unk1cc = (int)res;
                         res->FUN_00700320((int)DAT_011daac0->unk1d0, (int)FUN_004b71d0());
                     }
-                    if ((*DAT_011dab50.FUN_00877a30(p))->f2c == (int)FUN_007d13a0)
+                    if ((*DAT_011dab50.FUN_00877a30(p))->f2c == (int)SettingsMenu_ToggleHardcore)
                     {
                         node = !FUN_0070edf0() && 0 != DAT_011dea3c && !DAT_011dea3c->FUN_005a03f0(4);
                         res->FUN_00700320(0xfaf, (int)node);
@@ -6431,7 +6493,7 @@ extern bool __cdecl FUN_00703d50();
 
 extern void __cdecl FUN_00717280(int);
 
-extern unsigned int __cdecl FUN_00457fe0();
+extern unsigned int __cdecl Cmd_GetSessionTime_Execute();
 
 extern int __cdecl FUN_0072fa60(int);
 
@@ -6446,7 +6508,7 @@ extern "C" __declspec(dllimport) unsigned long __stdcall GetTickCount();
 struct InputDevice_7d
 {
 
-    int FUN_00a24180(unsigned int, int);
+    int Controls_GetKeyboardButton(unsigned int, int);
 
     bool BindInputKey(unsigned int, int, unsigned char);
 
@@ -6454,17 +6516,17 @@ struct InputDevice_7d
 
     int FUN_00a23a50(unsigned int, int);
 
-    int FUN_00a236b0(int);
+    int Controls_GetButtonCount(int);
 
-    int FUN_00a234c0(int, unsigned int, int);
+    int Controls_GetJoyStickButton(int, unsigned int, int);
 
-    int FUN_00a236d0(int);
+    int Controls_GetHatCount(int);
 
-    unsigned int FUN_00a235f0(int, int);
+    unsigned int Controls_GetJoystickHat(int, int);
 
     int FUN_00a24660(int, int);
 
-    void FUN_00a25180(unsigned int, int, unsigned char);
+    void Controls_SetActionMapping(unsigned int, int, unsigned char);
 
     int GetAxisState(int, int);
 };
@@ -6591,7 +6653,7 @@ bool StartMenuInput_7d::HandleBindingInput()
                     while ((key & 0x100) == 0)
                     {
 
-                        if ((reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->FUN_00a24180(key, 1))
+                        if ((reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->Controls_GetKeyboardButton(key, 1))
                         {
 
                             mapped = (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))
@@ -6637,7 +6699,7 @@ bool StartMenuInput_7d::HandleBindingInput()
 
                         mapped = true;
 
-                        (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->FUN_00a25180(action, 1, 0xff);
+                        (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->Controls_SetActionMapping(action, 1, 0xff);
 
                         FUN_00717280(10);
                     }
@@ -6647,11 +6709,11 @@ bool StartMenuInput_7d::HandleBindingInput()
 
                     for (int key = 0;
                          !mapped &&
-                         key < (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->FUN_00a236b0(0);
+                         key < (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->Controls_GetButtonCount(0);
                          ++key)
                     {
 
-                        if ((reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->FUN_00a234c0(0, key, 1))
+                        if ((reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->Controls_GetJoyStickButton(0, key, 1))
                         {
 
                             mapped = (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))
@@ -6663,16 +6725,16 @@ bool StartMenuInput_7d::HandleBindingInput()
 
                     for (int key = 0;
                          !mapped &&
-                         key < (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->FUN_00a236d0(0);
+                         key < (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->Controls_GetHatCount(0);
                          ++key)
                     {
 
                         unsigned int mappedKey =
-                            (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->FUN_00a235f0(0, key);
+                            (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->Controls_GetJoystickHat(0, key);
 
                         mapped = mappedKey != 0xffffffff &&
 
-                                 FUN_00457fe0() >= DAT_011dac64 &&
+                                 Cmd_GetSessionTime_Execute() >= DAT_011dac64 &&
 
                                  (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))
                                      ->BindInputKey(action, 2, static_cast<unsigned char>(mappedKey));
@@ -6689,7 +6751,7 @@ bool StartMenuInput_7d::HandleBindingInput()
 
                         mapped = true;
 
-                        (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->FUN_00a25180(action, 2, 0xff);
+                        (reinterpret_cast<InputDevice_7d*>(g_osGlobals->FUN_00877720()))->Controls_SetActionMapping(action, 2, 0xff);
 
                         FUN_00717280(10);
                     }
@@ -6767,7 +6829,7 @@ void FUN_007d62e0_shell::EnableAndRemoveHighlightedItem()
 
 extern int DAT_0107704c;
 
-void __cdecl FUN_00401030(int value);
+void __cdecl FormHeapFreeAndLog_00401030(int value);
 
 struct FUN_007d64d0_cls
 {
@@ -6792,7 +6854,7 @@ void FUN_007d64d0_cls::Initialize()
 {
     m_vptr = (int)&DAT_0107704c;
     int value = m_28;
-    FUN_00401030(value);
+    FormHeapFreeAndLog_00401030(value);
     ((FUN_007ce690_cls*)this)->InitPointer();
 }
 
@@ -7033,7 +7095,7 @@ struct StartMenuSaveDirectory : BGSSaveLoadManager
     int CreateScriptMessageDirectory(char* lpPathName);
 };
 
-char* __cdecl FUN_004dc110(void);
+char* __cdecl BSUtilities_GetPersonalPath(void);
 int __cdecl CopyStartMenuPath(char* Destination, unsigned int SizeInBytes, const char* Source);
 int __cdecl AppendStartMenuPath(char* Destination, unsigned int SizeInBytes, const char* Source);
 const char* __cdecl PrepareScriptMessage(const char*, bool);
@@ -7044,7 +7106,7 @@ extern GlobalObject2_0045cfe0 g_011c3f74;
 // @fnv 0x0084ff30
 int StartMenuSaveDirectory::CreateScriptMessageDirectory(char* pcPathBuffer)
 {
-    CopyStartMenuPath(pcPathBuffer, 0x104u, FUN_004dc110());
+    CopyStartMenuPath(pcPathBuffer, 0x104u, BSUtilities_GetPersonalPath());
     AppendStartMenuPath(pcPathBuffer, 0x104u, PrepareScriptMessage(((InventoryMenuSetting*)&g_011c3f74)->FUN_00403df0(), false));
     return CreateDirectoryA(pcPathBuffer, 0);
 }
@@ -7102,7 +7164,7 @@ void __fastcall FUN_00465040(TESDataHandler*);
 
 struct SLG_007d69f0
 {
-    bool FUN_007d6bd0(bool b);
+    bool BGSSaveLoadGame_SetGlobalAllowChanges(bool b);
 };
 
 struct PL_007d69f0
@@ -7112,7 +7174,7 @@ struct PL_007d69f0
 
 struct TIM_007d69f0
 {
-    void FUN_006003c0();
+    void TESIdleManager_InitRootIdleArrays();
 };
 
 struct InvSetting_007d69f0
@@ -7130,7 +7192,7 @@ extern InvSetting_007d69f0 DAT_011d3ad4;
 extern int DAT_01000000;
 
 void __cdecl ClearAllElements();
-void __cdecl FUN_00704000();
+void __cdecl Interface_CloseMessageMenu();
 void __cdecl FUN_00ecacb2(char* dst, void* src, unsigned int size);
 
 // @fnv 0x007d69f0
@@ -7141,16 +7203,16 @@ void __cdecl FUN_007d69f0()
     FUN_00af2640()->FUN_005dfa10()->FUN_00af2b10(zero, 0);
     if (FUN_0046fdf0(DAT_011c3f2c))
     {
-        bool bOld4 = DAT_011ddf38->FUN_007d6bd0(false);
+        bool bOld4 = DAT_011ddf38->BGSSaveLoadGame_SetGlobalAllowChanges(false);
         reinterpret_cast<void (__thiscall*)(TESDataHandler*, int)>(FUN_00463070)(DAT_011c3f2c, 1);
         FUN_00465040(DAT_011c3f2c);
-        DAT_011ddf38->FUN_007d6bd0(bOld4);
+        DAT_011ddf38->BGSSaveLoadGame_SetGlobalAllowChanges(bOld4);
         DAT_011e0e80.FUN_00970d50();
         DAT_011c3f2c->GetRegions();
     }
-    DAT_011cb6a0->FUN_006003c0();
+    DAT_011cb6a0->TESIdleManager_InitRootIdleArrays();
     ClearAllElements();
-    FUN_00704000();
+    Interface_CloseMessageMenu();
     DLC_007d69f0* kPDLC = FUN_00af2640()->FUN_005dfa10();
     if (!kPDLC->FUN_007d6bb0()->FUN_008256d0())
     {
@@ -7293,7 +7355,7 @@ struct SMTile
     float FUN_00a011b0(int aiTrait);
 };
 
-int __fastcall FUN_0046fe10(TESDataHandler*);
+int __fastcall GetNumDLCs(TESDataHandler*);
 struct SMIntSetting
 {
     int* Int();
@@ -7312,7 +7374,7 @@ struct SMMessageMenu
 };
 struct SMMessageTile
 {
-    SMMessageMenu* FUN_00a03c90();
+    SMMessageMenu* Tile_GetMenu();
 };
 
 extern SMOSGlobals* g_pkSMOSGlobals;
@@ -7339,13 +7401,14 @@ struct SMStartMenu : StartMenu
     void SetFlag(Flag aFlag, bool abSet);
     void FadeTile(int aiA, int aiB, int aiTrait, float afValue);
     void UpdatePanelState();
-    bool FUN_007d5830();
+    bool StartMenu_MainMenuIdle();
 };
 extern SMStartMenu* g_pkSMStartMenu;
 
 // Updates start menu fade-in, HUD opacity, and DLC wait/corrupt message flags, returning false only when in-game.
 // @fnv 0x007d5830
-bool SMStartMenu::FUN_007d5830()
+// src: COMMUNITY 0x007d5830
+bool SMStartMenu::StartMenu_MainMenuIdle()
 {
     if (IsFlagSet(FLAG_INGAME))
         return false;
@@ -7366,7 +7429,7 @@ bool SMStartMenu::FUN_007d5830()
             int iMinOpacity;
             int iValue = *g_kSMHudOpacity.Int();
             iMinOpacity = 30;
-            iValue += FUN_0046fe10(g_pkSMDataHandler) * 5;
+            iValue += GetNumDLCs(g_pkSMDataHandler) * 5;
             iValue = MinInt(FUN_00647b70(iValue, iMinOpacity), 50);
             *g_kSMHudOpacity.Int() = iValue;
             g_bSMFlag = false;
@@ -7380,7 +7443,7 @@ bool SMStartMenu::FUN_007d5830()
         {
             FUN_00703e80(g_kSMDLCWaitText.GetString(), 0, 0, 0, 0, 18, 0.0f, 0.0f, DAT_01011584);
         }
-        else if (pkMessage->FUN_00a03c90()->FUN_0059bb30() == 1)
+        else if (pkMessage->Tile_GetMenu()->FUN_0059bb30() == 1)
         {
             SetFlag(FLAG_DLC_WAIT_MESSAGE, false);
             ProcessArcList();
@@ -7419,7 +7482,7 @@ struct SettingOpsLocal
 extern SettingOpsLocal g_011d38b8, g_011d4420;
 struct SaveManagerOps
 {
-    bool FUN_008503b0(const char*, int, bool);
+    bool SaveGame_008503b0(const char*, int, bool);
 };
 extern SaveManagerOps* DAT_011de134;
 extern unsigned DAT_011dac68;
@@ -7441,7 +7504,7 @@ InterfaceOps* FUN_007cb710();
 unsigned gm_GetTickCount();
 int FUN_00a00940(const char*, int);
 void InitSaveLoadTile(Tile*, BGSSaveLoadFileEntry*);
-void FUN_007d5f50();
+void StartMenu_FailedSaveCallbackFunction();
 void FUN_00703e80(const char*, int, int, void (*)(), int, int, float, float, const char*, int);
 void CloseStartMenu(bool);
 bool FUN_004b71d0();
@@ -7455,17 +7518,18 @@ struct MenuVirtualOps
 struct StartSaveMenu : StartMenu
 {
     void FUN_0075f6f0(int, bool);
-    void FUN_007d4b40();
+    void StartMenu_InitSavesListBox();
     void UpdateSaveList();
     void EnableAndRemoveHighlightedItem();
     bool FUN_007d51a0(bool);
     void FadeTile(int, int, unsigned, float);
-    bool FUN_007d5af0();
+    bool StartMenu_SaveLoadIdle();
 };
 
 // Processes save/load flags, updates the save list, may activate an entry, and may fade tile 11 after the interface timer reaches 500.
 // @fnv 0x007d5af0
-bool StartSaveMenu::FUN_007d5af0()
+// src: COMMUNITY 0x007d5af0
+bool StartSaveMenu::StartMenu_SaveLoadIdle()
 {
     if (m_kOptionHelper.IsEnabled())
     {
@@ -7478,13 +7542,13 @@ bool StartSaveMenu::FUN_007d5af0()
         else if (IsFlagSet(FLAG_SAVE_WAIT_SAVING))
         {
             if (!IsFlagSet(FLAG_SAVE_SAVING) &&
-                ((reinterpret_cast<BGSSaveLoadFileEntry*>(unk1b0) && ::FUN_00846710(reinterpret_cast<BGSSaveLoadFileEntry*>(unk1b0))) || (!reinterpret_cast<BGSSaveLoadFileEntry*>(unk1b0) && DAT_011de134->FUN_008503b0(0, -1, false))))
+                ((reinterpret_cast<BGSSaveLoadFileEntry*>(unk1b0) && ::BGSSaveLoadFileEntry_DeleteSave(reinterpret_cast<BGSSaveLoadFileEntry*>(unk1b0))) || (!reinterpret_cast<BGSSaveLoadFileEntry*>(unk1b0) && DAT_011de134->SaveGame_008503b0(0, -1, false))))
             {
                 FUN_0075f6f0(0x10000000, true);
             }
             else if (!IsFlagSet(FLAG_SAVE_SAVING))
             {
-                FUN_00703e80(g_011d4420.FUN_00403df0(), 0, 0, FUN_007d5f50, 1, 0, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
+                FUN_00703e80(g_011d4420.FUN_00403df0(), 0, 0, StartMenu_FailedSaveCallbackFunction, 1, 0, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
                              0);
                 FUN_0075f6f0(0x8000000, true);
                 FUN_0075f6f0(0x8000, false);
@@ -7503,7 +7567,7 @@ bool StartSaveMenu::FUN_007d5af0()
         else if (IsFlagSet(FLAG_LOADING_SAVEGAMES) &&
                  !((Tile*)m_pTiles[6])->FUN_00a07ed0(FUN_00a00940("_alpha", -1)))
         {
-            FUN_007d4b40();
+            StartMenu_InitSavesListBox();
             UpdateSaveList();
             FUN_0075f6f0(0x100000, false);
         }
@@ -7546,7 +7610,8 @@ namespace fnv_007d1b30 {
 GlobalObject_004de370 g_011c71ac;
 
 // @fnv 0x007d1b30
-void FUN_007d1b30()
+// src: COMMUNITY 0x007d1b30
+void Get_fGamma()
 {
     g_011c71ac.FUN_00450410();
 }
@@ -7554,7 +7619,8 @@ void FUN_007d1b30()
 
 namespace fnv_007d30d0 {
 // @fnv 0x007d30d0
-void FUN_007d30d0()
+// src: COMMUNITY 0x007d30d0
+void GetIsControllerDisabled()
 {
     g_011d8c4c.GetBoolValue();
 }
@@ -7570,19 +7636,20 @@ extern PC7d* g_thePlayer;
 extern TES* g_TES;
 extern StartMenu* DAT_011daac0;
 int __cdecl FUN_00408b20(const char*, const char*);
-void __cdecl FUN_00af59e0();
+void __cdecl nullsub_330();
 void __cdecl CloseStartMenu(bool);
 void HandleBackAction();
 
 // Loads a save game from the start menu, refreshes world state if the player name matches, and closes the menu or handles back action based on the result.
 // @fnv 0x007d3470
-void FUN_007d3470()
+// src: COMMUNITY 0x007d3470
+void StartMenu_ConfirmLoadGame()
 {
     BGSSaveLoadFileEntry* psavegame;
     bool bresult;
     if (DAT_011daac0 && *(BGSSaveLoadFileEntry**)((char*)DAT_011daac0 + 0x1b0))
     {
-        FUN_00af59e0();
+        nullsub_330();
         psavegame = *(BGSSaveLoadFileEntry**)((char*)DAT_011daac0 + 0x1b0);
         if (g_thePlayer && PlayerCharacter::UpdatePlayerStatus())
         {
@@ -7604,7 +7671,8 @@ void FUN_007d3470()
 }
 
 // @fnv 0x007d5280
-const char* __fastcall FUN_007d5280(void* p)
+// src: COMMUNITY 0x007d5280
+const char* __fastcall TileImage_GetShaderProp(void* p)
 {
     return *reinterpret_cast<BSStringT<char>*>((char*)p + 0x40);
 }
@@ -7682,7 +7750,7 @@ struct TileAccess
     float FUN_00a011b0(int);
     void FUN_00a012d0(int, float, bool);
     NiAVObject* FUN_0056c7f0();
-    Menu* FUN_00a03c90();
+    Menu* Tile_GetMenu();
 };
 
 struct OptionAccess : StartMenu::Option
@@ -7741,13 +7809,13 @@ struct SaveGameAccess
 extern SaveGameAccess* g_BGSSaveLoadGame;
 struct SettingOpsLocal;
 extern SettingOpsLocal g_011c3f74, g_011d2eec, g_011d48a0, g_011d2070, g_011d1fec;
-char* FUN_004dc110();
+char* BSUtilities_GetPersonalPath();
 const char* PrepareScriptMessage(const char*, bool);
 int __cdecl FUN_00406d30(char*, unsigned int, const char*);
 int __cdecl FUN_00406d50(char*, unsigned int, const char*);
-void FUN_007d06c0();
+void StartMenu_ChooseSave();
 void FUN_007d0440();
-void FUN_007d0680();
+void StartMenu_ChooseLoad();
 void ShowSelectedMenuMessage();
 void PopulateFileList();
 int FUN_007cc6d0();
@@ -7756,7 +7824,7 @@ int FUN_00a00940(const char*, int);
 double FUN_00706e50();
 double FUN_00706e70();
 int FUN_0070ede0();
-bool FUN_007cc5f0(int);
+bool ShouldHideMenuBehindPauseMenu(int);
 bool FUN_007079b0();
 bool FUN_00702450(int);
 bool FUN_0070edf0();
@@ -7781,19 +7849,20 @@ extern OptionArray g_011dab88;
 extern StartMenu* DAT_011daac0;
 extern SaveManagerAccess* DAT_011de134;
 extern OSGlobals* g_osGlobals;
-InterfaceAccess* FUN_004b7210();
-void FUN_007d6990(int);
-void FUN_005b5e40(int, const char*);
+InterfaceAccess* InterfaceManager_GetSingleton();
+void StartMenu_OnNetworkEvent(int);
+void Warning_005b5e40(int, const char*);
 
 struct StartMenuInit : StartMenu
 {
-    void FUN_007cbaf0(bool inGame, bool forceReload);
+    void StartMenu__Create(bool inGame, bool forceReload);
     void ApplyUserOptions();
     void FUN_00a1dc20(int);
 };
 // Initializes the start menu by creating the screenshot frame, configuring option lists, populating tiles, and handling in-game versus out-of-game state.
 // @fnv 0x007cbaf0
-void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
+// src: COMMUNITY 0x007cbaf0
+void StartMenuInit::StartMenu__Create(bool inGame, bool forceReload)
 {
     AutoMemContext f((MEM_CONTEXT)13, true,
                      "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Interface\\Menus\\StartMenu.cpp", 426);
@@ -7813,7 +7882,7 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
         ((SaveManagerAccess*)DAT_011de134)->CreateScriptMessageDirectory(s);
     else
     {
-        FUN_00406d30(s, 260, FUN_004dc110());
+        FUN_00406d30(s, 260, BSUtilities_GetPersonalPath());
         FUN_00406d50(s, 260, PrepareScriptMessage(g_011c3f74.FUN_00403df0(), false));
     }
     FUN_00406d50(s, 260, "*");
@@ -7825,11 +7894,11 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
     for (unsigned int i = 0; i < g_011dab88.FUN_0044ddc0(); ++i)
     {
         Tile* tile = 0;
-        bool disabled = (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == FUN_007d06c0 &&
+        bool disabled = (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == StartMenu_ChooseSave &&
                          !((SaveManagerAccess*)DAT_011de134)->FUN_00850fe0(false)) ||
                         (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == FUN_007d0440 &&
                          ((inGame && forceReload) || (!inGame && !eb))) ||
-                        (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == FUN_007d0680 && !eb) ||
+                        (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == StartMenu_ChooseLoad && !eb) ||
                         (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == ShowSelectedMenuMessage &&
                          FUN_00a09030(FUN_007cc6d0()));
         if ((inGame && ((OptionArray*)&g_011dab88)->FUN_00877a30(i)->FUN_007cc5d0(2)) ||
@@ -7843,7 +7912,7 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
             reinterpret_cast<Tile*&>(unk1bc) = tile;
         else if (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == FUN_007d0440)
             reinterpret_cast<Tile*&>(unk1c4) = tile;
-        else if (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == FUN_007d0680)
+        else if (((OptionArray*)&g_011dab88)->FUN_00877a30(i)->m_pActionCallback == StartMenu_ChooseLoad)
             reinterpret_cast<Tile*&>(unk1c0) = tile;
         if (tile)
         {
@@ -7879,17 +7948,17 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
         if (((TileAccess*)m_pTiles[13])->FUN_0056c7f0())
             ((TileAccess*)m_pTiles[13])->FUN_0056c7f0()->FUN_00440490(1.333299994468689f);
         else
-            FUN_005b5e40(18, "Pause Menu: Background tile's model was NULL");
+            Warning_005b5e40(18, "Pause Menu: Background tile's model was NULL");
         for (int j = 0; j < 10; ++j)
         {
-            int menuID = ((InterfaceAccess*)FUN_004b7210())->FUN_00714f70(j);
+            int menuID = ((InterfaceAccess*)InterfaceManager_GetSingleton())->FUN_00714f70(j);
             if (FUN_0070ede0() == menuID)
                 break;
-            else if (FUN_007cc5f0(menuID))
+            else if (ShouldHideMenuBehindPauseMenu(menuID))
             {
                 TileAccess* menuTile = FUN_00a09030(menuID);
-                if (menuTile && menuTile->FUN_00a03c90() &&
-                    ((MenuAccess*)menuTile->FUN_00a03c90())->FUN_0059bb30() == 1)
+                if (menuTile && menuTile->Tile_GetMenu() &&
+                    ((MenuAccess*)menuTile->Tile_GetMenu())->FUN_0059bb30() == 1)
                 {
                     menuTile->FUN_00700320(0xfa3, 0);
                     g_011dabd8.FUN_004ed8c0(&menuTile);
@@ -7910,7 +7979,7 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
         ((MenuOpsLocal*)this)->FUN_0075f6f0(32, true);
     }
     if (IsFlagSet(FLAG_FORCE_RELOAD))
-        FUN_007d0680();
+        StartMenu_ChooseLoad();
     if (FUN_0070edf0())
         FUN_00703fe0(false);
     else
@@ -7930,7 +7999,7 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
     if (!DAT_011daac0->IsFlagSet(FLAG_INGAME))
         ((TileAccess*)m_pTiles[0])->FUN_00700320(FUN_00a00940("_xbox_extra", -1), 25);
     FUN_00a1dc20(0);
-    FUN_00af2c90()->FUN_00af2d70(FUN_007d6990);
+    FUN_00af2c90()->FUN_00af2d70(StartMenu_OnNetworkEvent);
     if (g_BGSSaveLoadGame)
         g_BGSSaveLoadGame->SetFlag80(false);
 }
@@ -7976,25 +8045,26 @@ class FileEnumerator
 
     unsigned int currentIndex;
 
-    void FUN_00851540();
+    void BGSSaveLoadManager_FreeSavesList();
 
     void CreateScriptMessageDirectory(char*);
 
     void AddFileToList(const char*, int, bool);
 
-    void FUN_00851330();
+    void BGSSaveLoadManager_SetupSavesList();
 };
 
 // Scans matching files, adds entries with nonzero low file size, sorts them, then initializes currentIndex from the first entry and may increment it.
 // @fnv 0x00851330
-void FileEnumerator::FUN_00851330()
+// src: COMMUNITY 0x00851330
+void FileEnumerator::BGSSaveLoadManager_SetupSavesList()
 
 {
 
     if (entries)
     {
 
-        FUN_00851540();
+        BGSSaveLoadManager_FreeSavesList();
     }
 
     entries = new StartMenuList<BGSSaveLoadFileEntry*>;
@@ -8090,9 +8160,9 @@ struct PrepSaveMenu : public StartMenu
 struct SaveLoadListBox
 {
     bool CallOnMemberAtOffset4();
-    Tile* FUN_007d7da0(BGSSaveLoadFileEntry*, int, int, const char*);
+    Tile* SavesListBox_Insert(BGSSaveLoadFileEntry*, int, int, const char*);
     void ApplyFilter(bool);
-    void FUN_007d8810(bool);
+    void ListBox_BGSSaveLoadFileEntry_SetEnabled(bool);
 };
 
 struct PrepSaveSettingOps
@@ -8115,10 +8185,10 @@ void PrepSaveMenu::FUN_007d3b60()
     Tile* pNewTile;
     if (((SaveLoadListBox*)&m_kOptionHelper)->CallOnMemberAtOffset4())
     {
-        pNewTile = ((SaveLoadListBox*)&m_kOptionHelper)->FUN_007d7da0(0, 0, 0, "lb_newsave_template");
+        pNewTile = ((SaveLoadListBox*)&m_kOptionHelper)->SavesListBox_Insert(0, 0, 0, "lb_newsave_template");
         ((Tile*)pNewTile)->Set(4036, ((PrepSaveSettingOps*)&g_011d39c0)->FUN_00403df0(), true);
         ((Tile*)pNewTile)->Set(reinterpret_cast<unsigned int&>(unk1d0), 0);
-        ((SaveLoadListBox*)&m_kOptionHelper)->FUN_007d8810(true);
+        ((SaveLoadListBox*)&m_kOptionHelper)->ListBox_BGSSaveLoadFileEntry_SetEnabled(true);
         ((MenuSI*)this)->FadeTile(6, 1, 0x80000000, -1.0f);
         ((MenuSI*)this)->FadeTile(5, 1, 0x80000000, -1.0f);
         ((Tile*)m_pTiles[4])->Set(4036, ((PrepSaveSettingOps*)&g_011d29e8)->FUN_00403df0(), true);
@@ -8146,14 +8216,15 @@ struct ListBox4bc0
 struct FileListActivation : StartMenu
 {
     void FadeTile(int, int, unsigned int, float);
-    void FUN_007d4bc0();
+    void StartMenu_ShowDLCList();
 };
 
 int __fastcall GetRaceCount(ListBox4bc0* apList);
 
 // Adds an item using the menu title when the list check is false, then calls the list and option methods with fixed arguments.
 // @fnv 0x007d4bc0
-void FileListActivation::FUN_007d4bc0()
+// src: COMMUNITY 0x007d4bc0
+void FileListActivation::StartMenu_ShowDLCList()
 {
     if (!GetRaceCount(reinterpret_cast<ListBox4bc0*>(&m_kOptionIndexList)))
         reinterpret_cast<ListBox4bc0&>(m_kOptionIndexList).AddItem(-1, g_011d3ad4.GetMenuTitle(), 0, 0);
@@ -8163,7 +8234,7 @@ void FileListActivation::FUN_007d4bc0()
 }
 
 namespace fnv_007d4c50 {
-void __cdecl FUN_00704000();
+void __cdecl Interface_CloseMessageMenu();
 char* __cdecl FUN_00ecacb2(char* dest, const char* src, unsigned int count);
 struct DLCEntry
 {
@@ -8171,17 +8242,18 @@ struct DLCEntry
 };
 struct StartMenuDLC : StartMenu
 {
-    void FUN_007d4bc0();
+    void StartMenu_ShowDLCList();
 };
 extern StartMenuDLC* DAT_011daac0;
 // For the (-1, -1) case, calls two functions; otherwise copies the entry name into a buffer and adds it to the option list.
 // @fnv 0x007d4c50
-void __cdecl FUN_007d4c50(int index, int count, int unused, DLCEntry* entry)
+// src: COMMUNITY 0x007d4c50
+void __cdecl StartMenu_MountDLCCallback(int index, int count, int unused, DLCEntry* entry)
 {
     if (index == -1 && count == -1)
     {
-        FUN_00704000();
-        DAT_011daac0->FUN_007d4bc0();
+        Interface_CloseMessageMenu();
+        DAT_011daac0->StartMenu_ShowDLCList();
     }
     else
     {
@@ -8248,12 +8320,13 @@ struct StartMenu_Wrap : StartMenu
 {
     void FUN_0075f6f0(StartMenu::Flag, bool);
     void FadeTile(int, int, unsigned int, float);
-    void FUN_007d5f80();
+    void StartMenu_HideOptionsContainer();
 };
 
 // Sets traits on two tiles and calls methods on download options; when FLAG_ACTION_MAPPING is set, it traverses options and clears the flag.
 // @fnv 0x007d5f80
-void StartMenu_Wrap::FUN_007d5f80()
+// src: COMMUNITY 0x007d5f80
+void StartMenu_Wrap::StartMenu_HideOptionsContainer()
 {
     m_pTiles[10]->Set(0xfa3, 0);
     ((VObj*)&m_kDownloadOptions)->FUN_007d74f0(0);
@@ -8281,7 +8354,7 @@ struct EnterListOps
 };
 struct EnterInterfaceOps
 {
-    int FUN_0073b020();
+    int InterfaceManager_GetCursorY();
 };
 
 struct EnterMenuView : public ::StartMenu
@@ -8300,7 +8373,7 @@ void EnterMenuView::FUN_007cf7e0(int aiID, void* apTile)
     }
     if (((EnterListOps*)&m_kOptionHelper)->ContainsKey(static_cast<Tile*>(apTile)))
     {
-        if (::FUN_004b71d0() || (double)((EnterInterfaceOps*)::FUN_004b7210())->FUN_0073b020() >=
+        if (::FUN_004b71d0() || (double)((EnterInterfaceOps*)::InterfaceManager_GetSingleton())->InterfaceManager_GetCursorY() >=
                                     ((EnterTileOps*)m_pTiles[6])->GetAccumulatedFloat())
             ::UpdateTargetInfo(this);
     }
@@ -8340,7 +8413,7 @@ bool StartMenuGamepadRelease::FUN_007cf5e0(int aiButton, float afValue)
         }
         if (((TileMethods*)m_pTiles[5])->IsTraitNonZero(0xfaf) && gm_GetTickCount() - DAT_011daab4 > 500)
         {
-            ((InterfaceMethods*)::FUN_004b7210())->FUN_00717de0(10);
+            ((InterfaceMethods*)::InterfaceManager_GetSingleton())->FUN_00717de0(10);
             HandleBackAction();
             DAT_011daab4 = gm_GetTickCount();
             return true;

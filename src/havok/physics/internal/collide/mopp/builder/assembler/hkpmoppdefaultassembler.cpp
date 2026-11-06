@@ -2518,7 +2518,7 @@ struct FUN_00e065f0
     hkArrayBase<BvFixup> m_buffer;
 
     void FillWithPattern(int);
-    void FUN_00e06480();
+    void nullsub_26();
     FUN_00e065f0(unsigned int id) throw();
     void Destroy();
     void* operator new(unsigned int n)
@@ -2644,9 +2644,9 @@ static int copyCodeAndEmbedTerminals(BvTree* tree, FUN_00e065f0* source, hkArray
     destination->FillWithPattern(source->m_offset + padding);
     FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
                  source->m_data + source->m_pRayCursor - source->m_offset, source->m_offset);
-    source->FUN_00e06480();
+    source->nullsub_26();
     copyJumpCommandInfo(&destination->m_buffer, &source->m_buffer, destination->m_offset - source->m_offset);
-    destination->FUN_00e06480();
+    destination->nullsub_26();
     return destination->m_offset - before;
 }
 
@@ -3175,7 +3175,7 @@ struct S_00e08470_Data
     hkMemoryRouter* unk10;
     S_00e08470_Vector unk14;
 
-    void __thiscall FUN_00e06480();
+    void __thiscall nullsub_26();
 };
 
 extern "C" void __cdecl ResizeAudioStream(void*, S_00e08470_Vector*, int);
@@ -3221,7 +3221,7 @@ int __thiscall S_00e08470_Class::hkpMoppDefaultAssembler_assembleJumpChunkComman
     entry->unk04 = context->unk40;
     entry->unk00 = current;
 
-    this->unk10->FUN_00e06480();
+    this->unk10->nullsub_26();
 
     return (unsigned int)current - (unsigned int)saved;
 }
@@ -3257,9 +3257,9 @@ static __declspec(noinline) int copyCodeAndEmbedTerminals(BvTree* tree, CodeCopy
     destination->FillWithPattern(source->m_offset + padding);
     FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
                  source->m_data + source->m_pRayCursor - source->m_offset, source->m_offset);
-    source->FUN_00e06480();
+    source->nullsub_26();
     copyJumpCommandInfo(&destination->m_buffer, &source->m_buffer, destination->m_offset - source->m_offset);
-    destination->FUN_00e06480();
+    destination->nullsub_26();
     return destination->m_offset - before;
 }
 

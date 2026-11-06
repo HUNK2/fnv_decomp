@@ -56,8 +56,8 @@ void BGSMoviePlayer::EndMoviePlayback()
 // @fnv 0x008672f0
 unsigned int BGSMoviePlayer::UpdateInterfaceState()
 {
-    if (FUN_004de070() && FUN_004de080())
-        return (unsigned int)FUN_004de0e0();
+    if (is_bEyeFinity() && IsEyefinity())
+        return (unsigned int)Get_1280_();
     return FUN_004dc1f0();
 }
 
@@ -65,8 +65,8 @@ unsigned int BGSMoviePlayer::UpdateInterfaceState()
 // @fnv 0x00867340
 unsigned int BGSMoviePlayer::GetFirstInterfaceFloat()
 {
-    if (FUN_004de070() && FUN_004de080())
-        return (unsigned int)FUN_004de0f0();
+    if (is_bEyeFinity() && IsEyefinity())
+        return (unsigned int)Get_720_();
     return FUN_004dc200();
 }
 
@@ -78,7 +78,7 @@ void BGSMoviePlayer::BeginMoviePlayback()
         FUN_00453a70()->SetUseMultipleThreads(true);
         DAT_011de714 = 1;
     }
-    FUN_00453a70()->FUN_007eb8a0();
+    FUN_00453a70()->BSAudio_PauseWorldSounds();
     if (!FUN_00453a70()->FUN_005bb4d0())
     {
         DAT_011de714 = 0;
@@ -102,12 +102,12 @@ bool BGSMoviePlayer::UpdateMoviePlayback(bool continuePlaying)
     if (continuePlaying || field_20)
     {
         InputManager* wheel = g_osGlobals->FUN_00877720();
-        wheel->FUN_00a23010();
+        wheel->Controls_UpdateValues();
         if (wheel->FUN_00a24660(5, true) || wheel->FUN_00a24660(0x1c, true))
         {
             if (FUN_00ec17c0())
                 FUN_00ec29b0();
-            wheel->FUN_00a23010();
+            wheel->Controls_UpdateValues();
             return false;
         }
     }
@@ -118,15 +118,16 @@ bool BGSMoviePlayer::UpdateMoviePlayback(bool continuePlaying)
 // @fnv 0x00867390
 unsigned int BGSMoviePlayer::GetScreenWidthOverride()
 {
-    if (FUN_004de070() && FUN_004de080())
-        return (unsigned int)FUN_004de0e0();
+    if (is_bEyeFinity() && IsEyefinity())
+        return (unsigned int)Get_1280_();
     return 0;
 }
 
 extern "C" float DAT_01189494;
 
 // @fnv 0x004de0e0
-float FUN_004de0e0()
+// src: COMMUNITY 0x004de0e0
+float Get_1280_()
 {
     return DAT_01189494;
 }

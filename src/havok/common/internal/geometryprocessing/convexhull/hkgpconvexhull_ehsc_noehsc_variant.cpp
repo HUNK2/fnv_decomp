@@ -701,7 +701,7 @@ struct Vec4i
 struct FUN_00d81510_Class
 {
     Vec4i m_00;
-    void FUN_00d81510(int a, int b, int c, int d);
+    void hkgpConvexHullImpl_build(int a, int b, int c, int d);
 };
 struct FUN_00d771c0_Owner
 {
@@ -1616,7 +1616,7 @@ struct D76250Shape
 };
 struct FUN_00d81510_cls
 {
-    void FUN_00d81510(int a1, int a2, int a3, int a4);
+    void hkgpConvexHullImpl_build(int a1, int a2, int a3, int a4);
 };
 struct FUN_00d77320_cls
 {
@@ -2015,7 +2015,7 @@ struct S00d7d1c0_Derived : S00d7d1c0_Base
         m08.FreeAll();
         m08.ClearAndFlush();
     }
-    S00d7d1c0_Derived* FUN_00d7d1c0(int flags);
+    S00d7d1c0_Derived* hkgpAbstractMesh_hkgpConvexHullImpl_Edge_hkgpConvexHullImpl_Vertex_hkgpConvexHullImpl_Triangle_hkContainerHeapAllocator_Destroy(int flags);
 };
 
 class Ostream_d751

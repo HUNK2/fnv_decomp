@@ -25,8 +25,8 @@ public:
     void AddExtraPart(BGSHeadPart* part);
     BSSimpleList<BGSHeadPart*>* GetExtraParts();
     void* FUN_00624700();
-    unsigned char FUN_005e7a60();
-    void FUN_005e7460();
+    unsigned char IsPlayable_005e7a60();
+    void ClearData_005e7460();
     bool FUN_005e7530(TESFile* file);
     void FUN_005e7790(BGSHeadPart* part);
     void FUN_005e77b0();

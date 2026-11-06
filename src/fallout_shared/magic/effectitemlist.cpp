@@ -188,7 +188,8 @@ struct EffectItemDeleter
 };
 
 // @fnv 0x00406340
-void EffectItemList::FUN_00406340()
+// src: COMMUNITY 0x00406340
+void EffectItemList::RemoveAllEffects()
 {
     EffectItemList* pCurrentElementNext = this;
     while (pCurrentElementNext)
@@ -226,14 +227,14 @@ struct FUN_00403ca0
     float m_fCost;
     PerkEntryConditionSet Conditions;
     FUN_00403ca0(EffectItem* other);
-    void FUN_00403be0(EffectSetting* setting);
+    void Initialize_00403be0(EffectSetting* setting);
     void CopyFrom(EffectItem* other);
 };
 
 // @fnv 0x00403ca0
 FUN_00403ca0::FUN_00403ca0(EffectItem* pEffectItem)
 {
-    FUN_00403be0(pEffectItem->GetEffectSetting());
+    Initialize_00403be0(pEffectItem->GetEffectSetting());
     m_pEffectSetting = 0;
     CopyFrom(pEffectItem);
 }
@@ -412,7 +413,7 @@ bool EffectItemListOperations::Compare(EffectItemList* apOther)
     return false;
 }
 
-void* __cdecl FUN_00401000(unsigned int uiSize);
+void* __cdecl FormHeap_Allocate(unsigned int uiSize);
 
 class B5B10ItemCopy
 {
@@ -421,7 +422,7 @@ class B5B10ItemCopy
 
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00401000(uiSize);
+        return FormHeap_Allocate(uiSize);
     }
     static void operator delete(void* pvMem);
 
@@ -440,7 +441,7 @@ class B5B10ItemCopy
 // @fnv 0x00405b10
 void EffectItemListOperations::CopyItemsFromList(EffectItemList* pkList)
 {
-    FUN_00406340();
+    RemoveAllEffects();
     EffectItemList* pkNode = pkList;
     while (pkNode)
     {

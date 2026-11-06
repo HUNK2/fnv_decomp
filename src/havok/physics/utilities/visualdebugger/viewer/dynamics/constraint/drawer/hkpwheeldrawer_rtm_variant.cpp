@@ -38,7 +38,7 @@ struct Dbg
 
 struct Sub
 {
-    void FUN_00e10a10(Dbg* d);
+    void hkpPrimitiveDrawer_setDisplayHandler(Dbg* d);
 };
 struct Ops
 {
@@ -47,8 +47,8 @@ struct Ops
 };
 struct Ex
 {
-    void FUN_00de47e0(void* a, Matrix* b, Matrix* c);
-    void FUN_00de4530(int a, int b);
+    void hkpConstraintDrawer_updateCommonParameters(void* a, Matrix* b, Matrix* c);
+    void hkpConstraintDrawer_drawBodyFrames(int a, int b);
     void hkpConstraintDrawer_drawPivots(int a, int b);
 };
 
@@ -101,11 +101,11 @@ void DrawObject::FUN_00de71d0(Input* a, Dbg* dbg, int p3, int p4)
     Matrix t0, t1;
     LocalM128 q1, vc, vd, x2;
 
-    ((Sub*)&mc0)->FUN_00e10a10(dbg);
-    ((Ex*)this)->FUN_00de47e0(a, &t0, &t1);
+    ((Sub*)&mc0)->hkpPrimitiveDrawer_setDisplayHandler(dbg);
+    ((Ex*)this)->hkpConstraintDrawer_updateCommonParameters(a, &t0, &t1);
     ((Ops*)&m50)->FUN_00c7f640(&t0, &b->v90);
     ((Ops*)&m40)->FUN_00c7f640(&t1, &b->v50);
-    ((Ex*)this)->FUN_00de4530(p3, p4);
+    ((Ex*)this)->hkpConstraintDrawer_drawBodyFrames(p3, p4);
     ((Ex*)this)->hkpConstraintDrawer_drawPivots(p3, p4);
     dbg->Line(&m40, &m50, 0xffff0000, p3, p4);
 

@@ -37,7 +37,8 @@ extern "C" void* DAT_011d8a80;
 
 // Returns byte at offset 0x4cd of DAT_011d8a80, or 0 if DAT_011d8a80 is null.
 // @fnv 0x00944270
-char __cdecl FUN_00944270()
+// src: COMMUNITY 0x00944270
+char __cdecl InterfaceManager_GetContainerMenuQueued()
 {
     char result;
     if (DAT_011d8a80)
@@ -50,11 +51,12 @@ char __cdecl FUN_00944270()
 struct Animation
 {
     float m_fMovementRate;
-    float FUN_009442a0() const;
+    float GetMoveSpeed_009442a0() const;
 };
 
 // @fnv 0x009442a0
-float Animation::FUN_009442a0() const
+// src: COMMUNITY 0x009442a0
+float Animation::GetMoveSpeed_009442a0() const
 {
     return *(const float*)((const char*)this + 0x10c);
 }
@@ -74,11 +76,12 @@ bool FUN_009442c0_Class::IsFlagSet() const
 
 struct FUN_009442e0_class
 {
-    void FUN_009442e0(float value);
+    void PlayerCharacter_SetTimeSinceLastAmmoRegenTick(float value);
 };
 
 // @fnv 0x009442e0
-void FUN_009442e0_class::FUN_009442e0(float value)
+// src: COMMUNITY 0x009442e0
+void FUN_009442e0_class::PlayerCharacter_SetTimeSinceLastAmmoRegenTick(float value)
 {
     *(float*)((char*)this + 0x1f4) = value;
 }
@@ -154,12 +157,13 @@ extern bool DAT_011dea2b;
 
 struct FUN_009443c0_Class
 {
-    bool FUN_009443c0();
+    bool TESMain_IsInMenuMode();
 };
 
 // Returns true if either DAT_011dea2b or DAT_011dea29 is set, otherwise false.
 // @fnv 0x009443c0
-bool FUN_009443c0_Class::FUN_009443c0()
+// src: COMMUNITY 0x009443c0
+bool FUN_009443c0_Class::TESMain_IsInMenuMode()
 {
     if (DAT_011dea2b || DAT_011dea29)
         return true;
@@ -205,7 +209,8 @@ extern char* _pme;
 
 // Returns byte at offset 0x204 of _pme, or 0 if _pme is null.
 // @fnv 0x009444a0
-char FUN_009444a0()
+// src: COMMUNITY 0x009444a0
+char HUDMainMenu_IsXPMeterFinishedMoving()
 {
     char result;
     if (_pme)
@@ -217,12 +222,13 @@ char FUN_009444a0()
 
 struct FUN_0094c380_Class
 {
-    void __thiscall FUN_0094c380();
+    void __thiscall CameraCaster_Remove();
     void __thiscall FUN_00621370(int);
 };
 
 // @fnv 0x0094c380
-void __thiscall FUN_0094c380_Class::FUN_0094c380()
+// src: COMMUNITY 0x0094c380
+void __thiscall FUN_0094c380_Class::CameraCaster_Remove()
 {
     FUN_00621370(0);
 }
@@ -264,11 +270,12 @@ int PlayerCharacter::FUN_00950b00(bool firstPerson)
 struct FUN_0095f6a0_Class
 {
     void FUN_00961280();
-    void FUN_0095f6a0();
+    void PlayerCharacter_ForcePhysicsGrabDrop();
 };
 
 // @fnv 0x0095f6a0
-void FUN_0095f6a0_Class::FUN_0095f6a0()
+// src: COMMUNITY 0x0095f6a0
+void FUN_0095f6a0_Class::PlayerCharacter_ForcePhysicsGrabDrop()
 {
     FUN_00961280();
 }
@@ -276,12 +283,13 @@ void FUN_0095f6a0_Class::FUN_0095f6a0()
 
 struct FUN_0094df30_Class
 {
-    NiPoint3& FUN_0094df30(NiPoint3& akDest);
+    NiPoint3& PlayerCharacter_GetLastBorderRegionPos(NiPoint3& akDest);
 };
 
 // Copies the NiPoint3 stored at offset 0x7a0 of this object into akDest and returns akDest.
 // @fnv 0x0094df30
-NiPoint3& FUN_0094df30_Class::FUN_0094df30(NiPoint3& akDest)
+// src: COMMUNITY 0x0094df30
+NiPoint3& FUN_0094df30_Class::PlayerCharacter_GetLastBorderRegionPos(NiPoint3& akDest)
 {
     akDest = *reinterpret_cast<const NiPoint3*>(reinterpret_cast<const char*>(this) + 0x7a0);
     return akDest;
@@ -311,14 +319,15 @@ struct FUN_00952a20_shell
     char pad6bc[8];
     char kTargetList[8];
     QuestObjectiveNode* GetOffset6BC();
-    void FUN_00952a20(BGSQuestObjective* apObjective);
+    void PlayerCharacter_AddQuestObjective(BGSQuestObjective* apObjective);
 };
 
 // @fnv 0x00952a20
-void FUN_00952a20_shell::FUN_00952a20(BGSQuestObjective* apObjective)
+// src: COMMUNITY 0x00952a20
+void FUN_00952a20_shell::PlayerCharacter_AddQuestObjective(BGSQuestObjective* apObjective)
 {
     QuestObjectiveNode* pIter = GetOffset6BC();
-    TESQuest* pObjQuest = apObjective->FUN_0044edb0();
+    TESQuest* pObjQuest = apObjective->TESMain_GetThread();
     bool bFound = false;
     bool bSameQuest = false;
     while (pIter && pIter->FUN_006815c0())
@@ -329,15 +338,15 @@ void FUN_00952a20_shell::FUN_00952a20(BGSQuestObjective* apObjective)
             bSameQuest = true;
             break;
         }
-        if (!bFound && pObjective->FUN_0044edb0() == pObjQuest)
+        if (!bFound && pObjective->TESMain_GetThread() == pObjQuest)
             bFound = true;
         pIter = pIter->FUN_00726070();
     }
     bool bHasObjectives =
-        apObjective->FUN_0044edb0()->FUN_005d43e0() && !apObjective->FUN_0044edb0()->FUN_005d43e0()->FUN_008256d0();
+        apObjective->TESMain_GetThread()->FUN_005d43e0() && !apObjective->TESMain_GetThread()->FUN_005d43e0()->FUN_008256d0();
     if (bHasObjectives && !bSameQuest)
         ((G2*)GetOffset6BC())->AddHead((int*)&apObjective);
-    if (apObjective->FUN_0044edb0() == pQuest)
+    if (apObjective->TESMain_GetThread() == pQuest)
         apObjective->AddMatchingTargetsToList(kTargetList);
 }
 
@@ -364,7 +373,7 @@ int PlayerCharacter::FindAudioEntry()
 
 struct FUN_00952830_Class
 {
-    bool FUN_00952830(BSAudio*, unsigned int, unsigned int);
+    bool PlayerCharacter_AddTopic(BSAudio*, unsigned int, unsigned int);
 };
 void __cdecl SortTopicList(unsigned int, BSSimpleList<TESTopic*>*);
 // Iterates the given topic list, calls FUN_00952830 on each entry, and if any returns true calls SortTopicList with 1 and the result of GetSelfOffset6A8.
@@ -378,7 +387,7 @@ void __thiscall PlayerCharacter::AddTopics(BSSimpleList<TESTopic*>* apAddTopicLi
         while (pNode && ((BSAudio**)pNode->_ref_006815c0())[0])
         {
             if (((FUN_00952830_Class*)this)
-                    ->FUN_00952830((BSAudio*)(((BSAudio**)pNode->_ref_006815c0())[0]), 0, 1))
+                    ->PlayerCharacter_AddTopic((BSAudio*)(((BSAudio**)pNode->_ref_006815c0())[0]), 0, 1))
                 bNeedsResort = true;
             pNode = pNode->GetNext();
         }
@@ -396,11 +405,12 @@ struct FUN_00952830_BSSimpleList
 void SortTopicList(int, BSSimpleList<TESTopic*>*);
 struct FUN_00952830_Class
 {
-    bool FUN_00952830(int param_2, unsigned char param_3, int pad);
+    bool PlayerCharacter_AddTopic(int param_2, unsigned char param_3, int pad);
 };
 // Returns false if param_2 is zero or already present in the list; otherwise adds it to the head of the list at offset 0x6a8 and optionally calls SortTopicList.
 // @fnv 0x00952830
-bool FUN_00952830_Class::FUN_00952830(int aiValue, unsigned char param_3, int pad)
+// src: COMMUNITY 0x00952830
+bool FUN_00952830_Class::PlayerCharacter_AddTopic(int aiValue, unsigned char param_3, int pad)
 {
     FUN_00952830_BSSimpleList* pEntry;
     if (aiValue == 0)
@@ -452,7 +462,7 @@ struct FUN_0094c950_shell
     char pad[0x6f0];
     ArgObj* field_6f0;
 
-    void FUN_0094c8e0(BaseB* p);
+    void PlayerCharacter_SetSelectedSpell(BaseB* p);
     void SetArg(ArgObj* pArg);
 };
 
@@ -471,22 +481,23 @@ void FUN_0094c950_shell::SetArg(ArgObj* pArg)
     }
     if (field_6f0 && !pArg)
     {
-        FUN_0094c8e0(0);
+        PlayerCharacter_SetSelectedSpell(0);
     }
     field_6f0 = pArg;
     if (field_6f0)
     {
-        FUN_0094c8e0(field_6f0->list.FUN_00726070());
+        PlayerCharacter_SetSelectedSpell(field_6f0->list.FUN_00726070());
     }
     else
     {
-        FUN_0094c8e0(0);
+        PlayerCharacter_SetSelectedSpell(0);
     }
 }
 
 extern unsigned char DAT_011c7a5a;
 // @fnv 0x0094dba0
-unsigned char __cdecl FUN_0094dba0()
+// src: COMMUNITY 0x0094dba0
+unsigned char __cdecl TESWaterSystem_GetCameraInPlaceableWater()
 {
     return DAT_011c7a5a;
 }
@@ -1349,10 +1360,11 @@ class PlayerStub
 extern PlayerStub* _g_thePlayer;
 char __cdecl ConsumeByteAtE4();
 void __cdecl FUN_005f5950(int a, int b, void* c, int d, int e, int f, int g);
-void __cdecl FUN_00704af0();
+void __cdecl Interface_UpdateInventory();
 
 // @fnv 0x0095e900
-void __cdecl FUN_0095e900()
+// src: COMMUNITY 0x0095e900
+void __cdecl PlayerCharacter_PoisonWeapon()
 {
     if (!_g_thePlayer->unk758)
         return;
@@ -1367,7 +1379,7 @@ void __cdecl FUN_0095e900()
             FUN_005f5950(9, 1, _g_thePlayer->unk758, 0, 0, 0, 0);
             entry3->SetPerkExtra(_g_thePlayer->unk758);
             _g_thePlayer->Equip(_g_thePlayer->unk758, 0, 1, 0, 0, 0, 0, 0, 1, 0);
-            FUN_00704af0();
+            Interface_UpdateInventory();
         }
     }
     _g_thePlayer->unk758 = 0;
@@ -2771,7 +2783,7 @@ struct Other97
 struct Manager97
 {
     Other97* FUN_006629f0();
-    float FUN_0099e040();
+    float BSSceneGraph_GetCameraFOV();
 };
 Manager97* __stdcall FUN_0045c670(void* unused);
 Manager97* __cdecl FUN_0045c670();
@@ -3322,7 +3334,7 @@ struct Update97
     unsigned char FUN_008bbc10();
     void SetActiveState(int, int, int);
     int FUN_008a7570();
-    float FUN_00950610(float);
+    float PlayerCharacter_SetFOV(float);
     void UpdateScopeZoom(float elapsed);
 };
 // @fnv 0x0095de30
@@ -3358,8 +3370,8 @@ void Update97::UpdateScopeZoom(float elapsed)
         }
         else if (DAT_011e07b8 && DAT_011a3b31)
         {
-            if (normalVertical != FUN_0045c670()->FUN_0099e040())
-                FUN_00950610(normalVertical);
+            if (normalVertical != FUN_0045c670()->BSSceneGraph_GetCameraFOV())
+                PlayerCharacter_SetFOV(normalVertical);
         }
         else
         {
@@ -3502,7 +3514,7 @@ struct InputManager
 };
 extern InputManager* DAT_011dea0c;
 extern bool DAT_011e0d5c;
-void __cdecl FUN_00705ad0(int);
+void __cdecl Interface_SetDragDroppingState(int);
 int __cdecl GetLODMultTypeIfKeySet();
 struct Item;
 struct ItemEntry
@@ -4093,23 +4105,24 @@ struct Owner
     int mode;
     void FUN_00960520(float);
     void FUN_00961280();
-    void FUN_0095f930(ActorRef*, int, float);
-    void FUN_0095f6c0(float);
+    void PlayerCharacter_CreateMouseSpring(ActorRef*, int, float);
+    void PlayerCharacter_HandlePhysicsGrab(float);
 };
 // @fnv 0x0095f6c0
-void Owner::FUN_0095f6c0(float delta)
+// src: COMMUNITY 0x0095f6c0
+void Owner::PlayerCharacter_HandlePhysicsGrab(float delta)
 {
     InputState* input = DAT_011dea0c->FUN_00877720();
     unsigned char pressed = input->FUN_00a24660(27, 1) != 0;
     if (pressed)
-        FUN_00705ad0(0);
+        Interface_SetDragDroppingState(0);
     int status = GetLODMultTypeIfKeySet();
     bool second;
     {
         bool first = status == 1;
         second = status == 2;
         if (status == 1)
-            FUN_00705ad0(2);
+            Interface_SetDragDroppingState(2);
         if (!pressed && !DAT_011e0d5c && !state.FUN_00559450() && !first && !second)
             return;
         if (state.FUN_00559450())
@@ -4140,7 +4153,7 @@ void Owner::FUN_0095f6c0(float delta)
                     float value = item->FUN_004b5400();
                     if (*DAT_011d1230.FUN_00403e20() >= value)
                     {
-                        FUN_0095f930(actor, 1, 1000.0f);
+                        PlayerCharacter_CreateMouseSpring(actor, 1, 1000.0f);
                         if (state.FUN_00559450())
                             actor->FUN_SLOT48(4);
                         pressed = false;

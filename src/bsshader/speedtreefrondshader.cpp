@@ -123,11 +123,12 @@ void SpeedTreeFrondShader_s::CreateConstantMap()
     SpeedTreeLeafShaderConstantMapSetup::ConfigureShaderConstantMap(m_spConstantMap, 0x11);
 }
 
-extern "C" void __cdecl FUN_00b7b450();
+extern "C" void __cdecl ShadowLightShader_SetupPassConstants();
 // @fnv 0x00bd3270
-void FUN_00bd3270()
+// src: COMMUNITY 0x00bd3270
+void SpeedTreeBranchShader_SetupPassConstants()
 {
-    FUN_00b7b450();
+    ShadowLightShader_SetupPassConstants();
 }
 
 struct ShaderProgram
@@ -152,10 +153,11 @@ struct BranchShader
     NiPointer_s<NiRefObject_s> vertexShaders1[10];
     NiPointer_s<NiRefObject_s> vertexShaders2[20];
     NiRefObject_s* FUN_00be0fe0(const char*, const char* const*, const char*, const char*);
-    void FUN_00bd3280();
+    void SpeedTreeBranchShader_LoadVertexShaders();
 };
 // @fnv 0x00bd3280
-void BranchShader::FUN_00bd3280()
+// src: COMMUNITY 0x00bd3280
+void BranchShader::SpeedTreeBranchShader_LoadVertexShaders()
 {
     ShaderProgram shaderPrograms1x[10] = {{"lighting\\1x\\v\\base.v.hlsl", {"TREE", "", 0}},
                                           {"lighting\\1x\\v\\ambDiffuseDirTexture.v.hlsl", {"TREE", "", "VC", "", 0}},

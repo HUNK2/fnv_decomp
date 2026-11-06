@@ -53,9 +53,9 @@ struct AtmoShaderMgr
     AtmoPropertyList* FUN_00558310();
 };
 AtmoShaderMgr* __cdecl FUN_0045c670();
-void __cdecl FUN_00b899a0(NiPointer<NiNode>* pspNode);
+void __cdecl SkyShader_CreateSkyQuad(NiPointer<NiNode>* pspNode);
 void __cdecl FUN_00b55540(int iUnk, NiFogProperty* pkFog);
-void __cdecl FUN_005b5e40(const char* pFormat, ...);
+void __cdecl Warning_005b5e40(const char* pFormat, ...);
 extern unsigned char g_bNoSky_011f941e;
 extern char g_kNiNodeRTTI_011f4a40[];
 bool __cdecl FUN_0043b300(void* pkRTTI, AtmoObject* pkObject);
@@ -82,7 +82,7 @@ struct AtmoLoadedModel
     int unk00[4];
     AtmoLoadedModel(const char* pPath, AtmoStream* pkStream, int a3, int a4);
     ~AtmoLoadedModel();
-    AtmoObject* FUN_0043b230();
+    AtmoObject* NiObjectNET_GetControllers();
 };
 
 // @fnv 0x00633260
@@ -91,7 +91,7 @@ void Atmosphere::SetAtmosphere(NiNode* pkRoot, NiFogProperty* pkFog)
     CreateSortAdjustNode(pkRoot);
     if (!g_bNoSky_011f941e)
     {
-        FUN_00b899a0(&m_spSkyShape);
+        SkyShader_CreateSkyQuad(&m_spSkyShape);
         m_spSkyShape->FUN_004902f0(true);
         m_spSkyShape->FUN_00440460((const NiPoint3*)FUN_0045c670()->FUN_00558310()->FUN_0043c490());
         m_spSkyNode = new AtmosphereModelNode(0);
@@ -104,9 +104,9 @@ void Atmosphere::SetAtmosphere(NiNode* pkRoot, NiFogProperty* pkFog)
     if (kStream.FUN_00c3a8a0("Meshes\\Sky\\Atmosphere.nif", 0))
     {
         AtmoLoadedModel kModel_("Meshes\\Sky\\Atmosphere.nif", &kStream, 0, 0);
-        AtmoObject* pkFirstVal2 = kModel_.FUN_0043b230();
+        AtmoObject* pkFirstVal2 = kModel_.NiObjectNET_GetControllers();
         NiNode* pkMeshRes = 0;
-        AtmoObject* pkObjectOut = kModel_.FUN_0043b230();
+        AtmoObject* pkObjectOut = kModel_.NiObjectNET_GetControllers();
         if (pkObjectOut)
         {
             if (pkObjectOut->IsGeometry())
@@ -116,7 +116,7 @@ void Atmosphere::SetAtmosphere(NiNode* pkRoot, NiFogProperty* pkFog)
         }
         if (!pkMeshRes)
         {
-            FUN_005b5e40("Cannot load the atmosphere model.");
+            Warning_005b5e40("Cannot load the atmosphere model.");
             return;
         }
         m_spAtmosphere = pkMeshRes;
@@ -145,25 +145,25 @@ struct Light
 };
 struct FUN_00633bf0_Class
 {
-    void FUN_00633bf0(const NiPoint3* v);
+    void NiFogProperty_SetFogColor(const NiPoint3* v);
 };
 struct FUN_00633c20_Class : FUN_00633bf0_Class
 {
-    void FUN_00633c20(float a, float b);
+    void BSFogProperty_SetWaterDistance(float a, float b);
 };
 struct FUN_00633c40_Class : FUN_00633c20_Class
 {
-    void FUN_00633c40(float a);
+    void BSFogProperty_SetFogHeight(float a);
 };
 struct FUN_00633c60_Class : FUN_00633c40_Class
 {
-    void FUN_00633c60(const NiPoint3& v);
+    void BSFogProperty_SetWaterColor(const NiPoint3& v);
 };
 struct Fog : FUN_00633c60_Class
 {
     void FUN_0049ed90(bool b);
-    void FUN_005bf9a0(float a, float b);
-    void FUN_005bfbd0(float a);
+    void BSFogProperty_SetDistance(float a, float b);
+    void FOHUDEffectManager_SetBlurIntensityHUD(float a);
 };
 struct Node : BSMultiBoundRoom
 {
@@ -341,23 +341,23 @@ void Atmosphere::UpdateAtmosphere(Sky* node, float f)
                                             reinterpret_cast<Fog*>(m_spFog.operator->())->FUN_0049ed90(p1->unk04 > p1->unk00);
                                             if (unk18)
                                             {
-                                                reinterpret_cast<Fog*>(m_spFog.operator->())->FUN_005bf9a0(p1->unk00, p1->unk04);
-                                                reinterpret_cast<Fog*>(m_spFog.operator->())->FUN_005bfbd0(reinterpret_cast<Node*>(node)->GetFieldE8Float());
+                                                reinterpret_cast<Fog*>(m_spFog.operator->())->BSFogProperty_SetDistance(p1->unk00, p1->unk04);
+                                                reinterpret_cast<Fog*>(m_spFog.operator->())->FOHUDEffectManager_SetBlurIntensityHUD(reinterpret_cast<Node*>(node)->GetFieldE8Float());
                                             }
                                             if (!(DAT_011f941e))
                                             {
                                                 p3 = DAT_011f9190 / 3.75f;
-                                                reinterpret_cast<Fog*>(m_spFog.operator->())->FUN_00633bf0(
+                                                reinterpret_cast<Fog*>(m_spFog.operator->())->NiFogProperty_SetFogColor(
                                                     reinterpret_cast<Node*>(node)->FUN_00624700()->ScaleTo(reinterpret_cast<NiPoint3*>(pNode), p3));
                                             }
                                             else
                                             {
-                                                reinterpret_cast<Fog*>(m_spFog.operator->())->FUN_00633bf0(reinterpret_cast<Node*>(node)->FUN_00624700());
+                                                reinterpret_cast<Fog*>(m_spFog.operator->())->NiFogProperty_SetFogColor(reinterpret_cast<Node*>(node)->FUN_00624700());
                                             }
                                             len = reinterpret_cast<Node*>(node)->GetFieldE4Float();
-                                            reinterpret_cast<Fog*>(m_spFog.operator->())->FUN_00633c40(reinterpret_cast<Node*>(node)->GetFieldE4Float());
-                                            reinterpret_cast<Fog*>(m_spFog.operator->())->FUN_00633c20(p1->unk08, p1->unk0c);
-                                            reinterpret_cast<Fog*>(m_spFog.operator->())->FUN_00633c60(*(NiPoint3*)reinterpret_cast<Node*>(node)->FUN_006ab360());
+                                            reinterpret_cast<Fog*>(m_spFog.operator->())->BSFogProperty_SetFogHeight(reinterpret_cast<Node*>(node)->GetFieldE4Float());
+                                            reinterpret_cast<Fog*>(m_spFog.operator->())->BSFogProperty_SetWaterDistance(p1->unk08, p1->unk0c);
+                                            reinterpret_cast<Fog*>(m_spFog.operator->())->BSFogProperty_SetWaterColor(*(NiPoint3*)reinterpret_cast<Node*>(node)->FUN_006ab360());
                                         }
                                     }
                                 }

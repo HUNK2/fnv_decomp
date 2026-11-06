@@ -19,7 +19,7 @@ public:
 
     bhkFilter GetFilter();
     bhkShape* FUN_004ae6a0();
-    bhkFilter FUN_0043b4f0();
+    bhkFilter bhkWorldObject_GetCollisionFilter();
     void FUN_00c85790();
     void* FUN_0056d4c0(unsigned int flags);
     void* FUN_004ae750();

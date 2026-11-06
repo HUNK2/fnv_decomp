@@ -15,7 +15,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void* g_012026b0;
-void* __cdecl FUN_00c285c0();
+void* __cdecl NiPSysRadialFieldModifier_GetRTTI();
 extern int DAT_010c0b5c;
 struct FUN_00c31ff0 : NiPSysPositionModifier
 {
@@ -57,7 +57,7 @@ struct S_00c28a90_Base
     void FUN_00c322b0(S_00c28a90_Arr* a);
 };
 extern const char* DAT_012026b0;
-char* __cdecl FUN_00a7d330(const char* s);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* s);
 char* __cdecl FUN_00a7d550(const char* name, float value);
 struct S_00c28a90 : S_00c28a90_Base
 {

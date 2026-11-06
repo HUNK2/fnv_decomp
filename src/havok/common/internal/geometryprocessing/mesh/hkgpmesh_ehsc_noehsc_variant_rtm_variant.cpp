@@ -112,7 +112,7 @@ public:
 
     LocalVecArray& ScaleByInverse(float divisor);
     float FUN_00457910();
-    LocalVecArray* FUN_006a6eb0();
+    LocalVecArray* FastNavMeshTriLocation_GetLocation();
     bool FUN_004390c0(const LocalVecArray& v);
 
     LocalM128 get() const;
@@ -161,28 +161,28 @@ public:
     void FUN_00c7f640(const void* matrix, const void* point);
     void FUN_00c7f700(Mat3* matrix, void* point);
     void FUN_00c7f700(const void* matrix, const LocalVecArray* point);
-    void FUN_00b12790();
-    void FUN_00b13040(LocalVecArray* out, const LocalVecArray* v);
+    void Normalize_00b12790();
+    void Diff_00b13040(LocalVecArray* out, const LocalVecArray* v);
     LocalVecArray* ScaleSwizzled(LocalVecArray* out, float factor);
     void AddVector(LocalVecArray* out, const LocalVecArray* v);
     float Dot(const LocalVecArray& v);
     LocalVecArray* FUN_004a3c90(const LocalVecArray* v);
     LocalVecArray* FUN_0062b0a0(LocalVecArray* out, LocalVecArray* v);
-    LocalVecArray* FUN_0062af00(LocalVecArray* target);
+    LocalVecArray* hkVector4_lengthInverse3(LocalVecArray* target);
 
     void FUN_00cf7690(Elem* value);
     void FUN_00b1e970();
     Iter begin();
     Iter end();
     CIter FUN_00b33030(CIter first, CIter last);
-    void FUN_00b32120();
+    void m_vStrips_clear();
     unsigned int size() const;
     unsigned int capacity() const;
     void FUN_00b2df90();
     void FUN_00b2e140(Elem* first, Elem* last);
     bool InitBuffer(unsigned int count);
     Elem* _Ucopy(Elem* first, Elem* last, Elem* out);
-    LocalVecArray& FUN_00b2db10(const LocalVecArray& v);
+    LocalVecArray& CTreeEngine_SetLeafTextures(const LocalVecArray& v);
     CMutIter FUN_00aceb80(CMutIter first, CMutIter last);
     void FUN_00acac40();
     LocalVecArray& FUN_00ad61e0(const LocalVecArray& v);
@@ -249,7 +249,7 @@ void __cdecl ProcessEntries();
 void __cdecl hkgpAbstractMeshDefinitions_List_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Triangle_struct_hkgpAbstractMeshDefinitions_List_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Vertex_struct_hkgpTriangulatorBase_VertexBase_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Vertex_32_struct_hkContainerHeapAllocator_Item_struct_hkGeometryProcessing_PoolAllocator_struct_hkgpTriangulatorType_struct_hkgpTriangulatorBase_VertexBase_struct_hkgpTriangulatorBase_TriangleBase_struct_hkgpTriangulatorBase_DefaultEdgeData_struct_hkContainerHeapAllocator_struct_hkContainerHeapAllocator_1_Triangle_32_struct_hkContainerHeapAllocator_reset();
 struct FUN_00e24a80_Class
 {
-    void __thiscall FUN_00e24a80();
+    void __thiscall hkgpAbstractMesh_hkgpTriangulatorType_hkgpTriangulatorBase_VertexBase_hkgpTriangulatorBase_TriangleBase_hkgpTriangulatorBase_DefaultEdgeData_hkContainerHeapAllocator_hkContainerHeapAllocator_1_Edge_hkgpTriangulatorType_hkgpTriangulatorBase_VertexBase_hkgpTriangulatorBase_TriangleBase_hkgpTriangulatorBase_DefaultEdgeData_hkContainerHeapAllocator_hkContainerHeapAllocator_1_Vertex_hkgpTriangulatorType_hkgpTriangulatorBase_VertexBase_hkgpTriangulatorBase_TriangleBase_hkgpTriangulatorBase_();
 };
 struct Subobject
 {
@@ -651,11 +651,11 @@ struct ArrayPair
 };
 struct Builder
 {
-    void FUN_00d76410(int aiFlag, ArrayPair* apPair) throw();
+    void hkgpConvexHull_generateGeometry(int aiFlag, ArrayPair* apPair) throw();
 };
 struct FUN_00e1d900_cls
 {
-    void FUN_00e1ce10(ArrayPair* apPair, int* apGlobal, int aiValue) throw();
+    void hkgpMesh_appendFromGeometry(ArrayPair* apPair, int* apGlobal, int aiValue) throw();
     void hkgpMesh_appendFromConvexHull(Builder* apBuilder);
 };
 struct QueryObject
@@ -3569,7 +3569,7 @@ struct FUN_00d76ca0
         FUN_00d76940();
     }
     void FUN_00d76940() throw();
-    int FUN_00d77200(const BuildInput&, const BuildOptions*) throw();
+    int hkgpConvexHull_build_00d77200(const BuildInput&, const BuildOptions*) throw();
     bool hkgpConvexHull_isPointInside(const CellVec&, int, float) throw();
 };
 }

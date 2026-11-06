@@ -109,7 +109,8 @@ void* hkpDisableEntityCollisionFilter::DeleteInstance(unsigned char uiFlags)
 
 // Empty function that takes an unsigned int argument and does nothing.
 // @fnv 0x00e467c0
-void __stdcall FUN_00e467c0(unsigned int a1)
+// src: COMMUNITY 0x00e467c0
+void __stdcall nullsub_87(unsigned int a1)
 {}
 
 // 0x00e467d0 uses this at the +0x08 collidable-filter base: its +0x2c array is the complete object's +0x34 disabled entities.

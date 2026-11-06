@@ -48,7 +48,7 @@ struct FUN_00a41520_cls
     void FUN_00a90180(unsigned int auiNewSize);
     void FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry);
 
-    bool FUN_00a41520(void* apFirst, void* apSecond);
+    bool BSAnimNoteListener_Register(void* apFirst, void* apSecond);
 };
 void* __cdecl FUN_00aa1070(unsigned int auiSize);
 void __cdecl _NiFree_00aa10f0(void* apMemory);
@@ -87,7 +87,8 @@ struct FUN_00c89cf0_cls
 typedef NiPointer<NiRefObject> NiRefObjectPtr;
 
 // @fnv 0x00869420
-void __cdecl FUN_00869420(NiTObjectArray<NiPointer<NiAVObject> >* apSource, NiTObjectArray<NiPointer<NiAVObject> >* apTarget)
+// src: COMMUNITY 0x00869420
+void __cdecl j_CopyArrays_V_NiTObjectArray_V_NiPointer_VNiAVObject_GarbageCollector_KAXPBV_NiTObjectArray_V_NiPointer_VNiAVObject_PAV1_Z(NiTObjectArray<NiPointer<NiAVObject> >* apSource, NiTObjectArray<NiPointer<NiAVObject> >* apTarget)
 {
     for (unsigned int i = 0; i < apSource->GetSize(); i = i + 1)
     {
@@ -154,10 +155,11 @@ struct SpawnedObject
 struct FUN_009a5a70_cls
 {
     void Dispatch(void* item, SpawnedObject* object);
-    void FUN_009a5a70(ItemList* list);
+    void CombatThreatMap_LoadGame(ItemList* list);
 };
 // @fnv 0x009a5a70
-void FUN_009a5a70_cls::FUN_009a5a70(ItemList* list)
+// src: COMMUNITY 0x009a5a70
+void FUN_009a5a70_cls::CombatThreatMap_LoadGame(ItemList* list)
 {
     unsigned int count = list->GetCount();
     for (unsigned int index = 0; index < count; ++index)

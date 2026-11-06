@@ -31,7 +31,7 @@ public:
     void* GetEntryAt(int index);
     const char* __thiscall GetFormattedValue();
     void* GetSrc(unsigned int index);
-    void __thiscall FUN_00a4f8a0(void* texture, unsigned int index);
+    void __thiscall AttachTexture(void* texture, unsigned int index);
     void __thiscall CopyMembers_00a4f920(NiAlphaController* clone, CloningProcess& process);
     bool __thiscall FUN_00a4f350(NiStream& stream);
     void* CreateFlipController(CloningProcess& process);

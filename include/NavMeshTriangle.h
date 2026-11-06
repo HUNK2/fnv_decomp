@@ -18,7 +18,7 @@ class NavMeshTriangle
     void SetEdge(int edge, unsigned short value);          // 0x006907d0 (same function)
     bool GetFlag(int flag);                                // 0x00691140 m_uiTriangleFlags & flag
     bool FUN_00691140(unsigned int flag);                  // 0x00691140 (same function)
-    void FUN_00691570(unsigned int flag);                  // 0x00691570 m_uiTriangleFlags |= flag
+    void SetFlag_00691570(unsigned int flag);                  // 0x00691570 m_uiTriangleFlags |= flag
     bool HasFlag40();                                      // 0x00693b70 m_uiTriangleFlags & 0x40
     bool FUN_00693b90();                                   // 0x00693b90 GetFlag(0x10)
     unsigned short GetBits13To15();                        // 0x00699790 (m_uiTriangleFlags & 0xE000) >> 13

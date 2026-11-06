@@ -56,8 +56,8 @@ class TESObjectBound
 {
   public:
     TESBoundPoint min, max;
-    void FUN_0050e9c0();
-    void FUN_0050ed30();
+    void TESBoundObject_BOUND_DATA_BOUND_DATA();
+    void TESBoundObject_BOUND_DATA_SwapEndian();
 };
 // The skeleton/biped data the reference keeps through vftable slots 0x7A/0x7C (0x2b4 bytes).
 class BipedAnim
@@ -204,7 +204,7 @@ class TESFormList
     TESObject* m_pFirstObject;
     TESObject* m_pSecondObject;
     void* pOwner;
-    TESObject* FUN_00510360(TESObject*);
+    TESObject* TESObjectList_lnk_GetNext(TESObject*);
     TESObject* GetTerrainMinLevel(TESObject*);
     TESObject* AddToObjectList(TESObject* object);
     TESObject* InsertObjectAfter(TESObject* object, TESObject* after);
@@ -212,7 +212,7 @@ class TESFormList
 
 extern BSSimpleList<BGSPerkEntry*>* g_dataHandler;
 
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 extern TESObjectDOOR* DAT_011ca258;
 extern TESObjectSTAT* DAT_011ca220;
 extern TESObjectSTAT* DAT_011ca250;
@@ -251,7 +251,7 @@ class TESObjectDoorController : public NiTimeController
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     TESObjectDoorController();
-    void FUN_00929240(float);
+    void MagicShaderHitEffect_SetLifeTime(float);
 };
 extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)

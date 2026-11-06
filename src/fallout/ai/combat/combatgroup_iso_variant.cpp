@@ -94,7 +94,7 @@ struct FUN_00986c40_shell
 {
     char pad[0x18];
     ArrHelper arr;
-    bool FUN_00986c40() const;
+    bool CombatGroup_IsEmpty() const;
 };
 struct FUN_0096a2b0_stub
 {
@@ -167,7 +167,7 @@ struct FUN_009865f0_shell
 
 struct FUN_0098a360_shell
 {
-    void __thiscall FUN_0098a360(int a1, int a2);
+    void __thiscall CombatGroup_SetMemberGroupStrategyAssignment(int a1, int a2);
 };
 struct FUN_0098de60_shell
 {
@@ -198,15 +198,15 @@ struct FUN_00985a50_shell
     float f8;
     float fc;
     void* p10;
-    void FUN_00985a50(BGSLoadFormBuffer* buffer, FUN_0098de60_shell* obj);
+    void CombatMember_LoadGame(BGSLoadFormBuffer* buffer, FUN_0098de60_shell* obj);
 };
 struct FUN_00985ae0_shell
 {
-    void __thiscall FUN_00985ae0(BGSSaveFormBuffer* buffer, int a1);
+    void __thiscall CombatGroupCluster_SaveGame(BGSSaveFormBuffer* buffer, int a1);
 };
 struct FUN_00985b10_shell
 {
-    void __thiscall FUN_00985b10(BGSLoadFormBuffer* buffer, int a2);
+    void __thiscall Lst0044_PathingLocation_Load(BGSLoadFormBuffer* buffer, int a2);
 };
 extern int DAT_0108d708;
 struct FUN_0098fbe0_shell
@@ -296,11 +296,11 @@ struct FUN_009891d0_class
 {
     char _pad[0x28];
     int m28;
-    void __thiscall FUN_009891d0(TESAmmoInitCalls* p1, Calendar* p2);
+    void __thiscall CombatGroup_NotifyMemberPlanFinished(TESAmmoInitCalls* p1, Calendar* p2);
 };
 struct Ref_997440
 {
-    int __thiscall FUN_00575650(void* a, Ref_997440* b, float c);
+    int __thiscall TESObjectREFR_GetWorldLocation(void* a, Ref_997440* b, float c);
 };
 struct S989970
 {
@@ -325,7 +325,7 @@ struct FUN_0098a410_shell
     void* FindByValue(unsigned int value);
 };
 extern int DAT_011f18b4[];
-int __cdecl FUN_0098e980(int index);
+int __cdecl CombatGroupStrategies_GetStrategy(int index);
 struct CombatClusterMember
 {
     void* pActor;
@@ -381,7 +381,7 @@ struct C00986670
 };
 struct FUN_00986b70_shell : ActorCombatGroup
 {
-    void __thiscall FUN_00986b70();
+    void __thiscall CombatGroup_StopCombat();
 };
 struct Actor_vfn
 {
@@ -666,7 +666,7 @@ struct FUN_0098a3c0_shell
 {
     char pad[0x18];
     MyArr_0098a3c0 arr;
-    void __thiscall FUN_0098a3c0();
+    void __thiscall CombatGroup_ResetMembers();
 };
 struct FUN_0098c590_shell
 {
@@ -715,11 +715,11 @@ struct RegionPoint
 extern float DAT_0108d540;
 struct FUN_0098de30_class
 {
-    unsigned char FUN_0098de30(unsigned int*);
+    unsigned char CombatGroup_GetClusterIndex(unsigned int*);
 };
 struct FUN_009859c0_shell
 {
-    void __thiscall FUN_009859c0(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
+    void __thiscall CombatMember_SaveGame(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
 };
 struct ActorV
 {
@@ -905,17 +905,17 @@ struct FUN_00986bd0_shell : ActorCombatGroup
 {
     Actor* GetIntAt(int);
     unsigned int GetCount();
-    void FUN_00986bd0();
+    void CombatGroup_RemoveAllMembers();
 };
 class CoordinateTriple
 {
   public:
-    void FUN_00527b70(void* pBuffer);
+    void BGSWorldLocation_SaveGame(void* pBuffer);
 };
 struct FUN_00527ba0_Class
 {
     char pad[0x10];
-    void __thiscall FUN_00527ba0(void* pBuffer);
+    void __thiscall BGSLoadGameBuffer_LoadBGSWorldLocation(void* pBuffer);
 };
 struct CombatTimeStampLoadGame
 {
@@ -1065,7 +1065,7 @@ extern float _DAT_010162c0;
 struct FUN_00989eb0_shell
 {
     void __thiscall UpdateBoundsFromActors(NiPoint3* points, int index);
-    void __thiscall FUN_00989eb0(NiPoint3* result);
+    void __thiscall CombatGroup_ComputeTargetBoundingSphere(NiPoint3* result);
 };
 struct FUN_0098a390_shell
 {
@@ -1387,12 +1387,12 @@ struct FUN_0097fa50_Class
 };
 struct FUN_00986150_shell
 {
-    void FUN_00986150();
+    void CombatGroup_Update();
     void RecountActors();
     void FUN_0098d030();
     void UpdateChoiceSelection();
     void FUN_0098a580();
-    void FUN_0098c870();
+    void CombatGroup_UpdateCombatStrength();
     void UpdateGroups();
     unsigned int GetCount();
 };
@@ -1440,7 +1440,7 @@ float __cdecl FUN_00435dd0();
 extern float DAT_0108d540;
 struct EventSource
 {
-    EventVector FUN_00575650();
+    EventVector TESObjectREFR_GetWorldLocation();
 };
 struct EventRecord
 {
@@ -1533,18 +1533,18 @@ struct FUN_00986760_cls
 {
     char pad[8];
     FUN_00986760_sub m_08;
-    void __thiscall FUN_00986760(int a1);
+    void __thiscall CombatGroup_AddCombatTargets(int a1);
 };
 struct Ctrl_987820
 {
-    void FUN_00980a30(Actor* apTarget);
+    void ClearReferencePointers(Actor* apTarget);
 };
 struct Group_987820
 {
     unsigned int GetCount();
     Actor* GetAt(int idx);
     void RemoveByTarget(Actor* apTarget);
-    void FUN_00987820(Actor* apTarget);
+    void CombatGroup_ClearReferencePointers(Actor* apTarget);
 };
 struct ResultQuad
 {
@@ -1620,7 +1620,7 @@ struct AvoidPosition
 };
 struct AvoidActor
 {
-    AvoidPosition FUN_00575650();
+    AvoidPosition TESObjectREFR_GetWorldLocation();
 };
 struct AvoidanceVectorData
 {
@@ -1832,7 +1832,7 @@ struct Blk_00989e20_cls
 struct FUN_00989e20_cls
 {
     void ExpandBounds(NiPoint3* arr, int n);
-    void FUN_00989e20(NiPoint3* out);
+    void CombatGroup_ComputeMemberBoundingSphere(NiPoint3* out);
 };
 struct BoundsVector
 {
@@ -2728,8 +2728,8 @@ struct SimpleArrayRemove
     unsigned int uiAllocSize;
 
     void Clear(bool bFree);
-    bool FUN_006f3170();
-    unsigned int FUN_00869600();
+    bool BSSimpleArray_HasSufficientCapacity();
+    unsigned int BSSimpleArray_GetOptimalCapacity();
     void FUN_0042fb60(void* pDest, void* pSrc, unsigned int ItemUpdateArray);
     void FUN_0072ba80(void* pStart, unsigned int ItemUpdateArray);
     void FUN_006a8500();
@@ -2740,7 +2740,7 @@ unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
 struct RemovalOperations
 {
     void FUN_0072ba80(void*, unsigned int);
-    void FUN_0098f960(void*, void*, unsigned int);
+    void BSSimpleArray_CombatTarget_1024_MoveItems(void*, void*, unsigned int);
 };
 struct RemovalArray : RemovalOperations
 {
@@ -3352,7 +3352,7 @@ struct DebugNode
     DebugNode(int);
     static void* operator new(unsigned int);
     static void operator delete(void*);
-    DebugNode* FUN_009611e0();
+    DebugNode* NiAVObject_GetParent();
     void FUN_004bc1f0(float, float, float);
     void FUN_00440460(const DebugPoint&);
     void FUN_00439410(DebugMaterial*);
@@ -3391,7 +3391,7 @@ bool FUN_008c7aa0();
 DebugDetach* __stdcall FUN_004537b0(DebugNode*);
 struct DebugScene
 {
-    DebugNode* FUN_00524cf0();
+    DebugNode* TESObjectCELL_GetMarkerNode();
 };
 struct DebugGroup;
 struct DebugActor
@@ -3750,8 +3750,8 @@ struct DebugSearchPtr
     DebugSearch* FUN_00559450();
 };
 const DebugColor& FUN_005d8550(int);
-DebugNode* FUN_00c5a0f0(const DebugPoint&, const DebugPoint&, float, float, const DebugColor*, const DebugColor*);
-DebugNode* FUN_00c58f00(float, int, const DebugColor*);
+DebugNode* BSTestObjects_Create3DArrow(const DebugPoint&, const DebugPoint&, float, float, const DebugColor*, const DebugColor*);
+DebugNode* BSTestObjects_CreateCircle(float, int, const DebugColor*);
 DebugNode* FUN_00c58d30(float, float, float, int, int, const DebugColor*);
 DebugNode* FUN_00c56680(float, int, int, const DebugColor*);
 void AttachLightingPropertyRecursive(DebugNode*);
@@ -4375,8 +4375,8 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                 fallbackLocal15.FUN_0066e590();
                 if (memberLocal19->FUN_00931850() && subject->FUN_00931850())
                 {
-                    memberLocal19->FUN_00575650(reinterpret_cast<::Position*>(&originLocal30));
-                    subject->FUN_00575650(reinterpret_cast<::Position*>(&destinationLocal23));
+                    memberLocal19->TESObjectREFR_GetWorldLocation(reinterpret_cast<::Position*>(&originLocal30));
+                    subject->TESObjectREFR_GetWorldLocation(reinterpret_cast<::Position*>(&destinationLocal23));
                     if (originLocal30.FUN_00527a40(&destinationLocal23) < 67108864.0)
                     {
                         fallbackLocal15.score = 1;
@@ -4450,7 +4450,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                 temp1Local7.FUN_00435de0(FUN_00435dd0());
                 targetLocal40->updateTime = temp1Local7;
             }
-            subject->FUN_00575650(reinterpret_cast<::Position*>(&currentLocal8));
+            subject->TESObjectREFR_GetWorldLocation(reinterpret_cast<::Position*>(&currentLocal8));
             if (maximumLocal6 > 0)
             {
                 temp2Local6.FUN_00435de0(FUN_00435dd0());
@@ -4765,7 +4765,7 @@ struct Shape
     {}
     float FUN_004a7bd0();
     void Reset();
-    void FUN_006e0320(const Region&, float);
+    void Initialize_006e0320(const Region&, float);
     void FUN_0098adb0(float);
 };
 void* FUN_00aa13e0(unsigned int);
@@ -4963,7 +4963,7 @@ void Group::FUN_0098a580()
                                 region.FUN_006f4ed0(location.FUN_006815c0());
                                 if (!shape.FUN_00559450())
                                     shape.FUN_0066b0d0(new Shape);
-                                shape.FUN_00559450()->FUN_006e0320(region, radius);
+                                shape.FUN_00559450()->Initialize_006e0320(region, radius);
                                 shape.FUN_00559450()->FUN_0098adb0(*DAT_011cf42c.FUN_00403e20());
                                 changed = 1;
                             }
@@ -5130,7 +5130,7 @@ struct LoadItem
 {
     int x00, x04, x08, x0c, x10;
     LoadItem();
-    void FUN_00985b10(BGSLoadFormBuffer*, void*);
+    void Lst0044_PathingLocation_Load(BGSLoadFormBuffer*, void*);
 };
 struct LoadNode
 {
@@ -5138,7 +5138,7 @@ struct LoadNode
 };
 struct MemberNode
 {
-    void FUN_00985a50(BGSLoadFormBuffer*, void*);
+    void CombatMember_LoadGame(BGSLoadFormBuffer*, void*);
 };
 struct LoadExtra
 {
@@ -5146,7 +5146,7 @@ struct LoadExtra
     LoadRef ref;
     int id;
     int value;
-    void FUN_00527ba0(BGSLoadFormBuffer*);
+    void BGSLoadGameBuffer_LoadBGSWorldLocation(BGSLoadFormBuffer*);
 };
 struct ParentNode
 {
@@ -5179,7 +5179,7 @@ struct LoadAnim
     int x50;
     LoadAnim();
     static void* operator new(unsigned int);
-    void FUN_006e0d20(BGSLoadFormBuffer*);
+    void Lst0044_Data00D4_Load(BGSLoadFormBuffer*);
 };
 struct LoadPtr
 {
@@ -5220,7 +5220,7 @@ struct ArrParents
 struct LoadHandle
 {
     int x0, x4, x8, xc;
-    void FUN_00527ba0(BGSLoadFormBuffer*);
+    void BGSLoadGameBuffer_LoadBGSWorldLocation(BGSLoadFormBuffer*);
 };
 struct GroupLoad
 {
@@ -5270,7 +5270,7 @@ struct GroupLoad
     int unk14c;
     int unk150;
     char flag154;
-    void FUN_0098e3d0(BGSLoadFormBuffer* buffer);
+    void CombatGroup_LoadGame(BGSLoadFormBuffer* buffer);
 };
 struct UpdateOwner;
 struct UpdateElement
@@ -5686,7 +5686,7 @@ struct ActorSelect
     int FUN_00567d90();
     bool FUN_00566950();
     bool IsHostileTo(ActorSelect*, int, int*, int);
-    void FUN_00575650(PoseData*);
+    void TESObjectREFR_GetWorldLocation(PoseData*);
     bool FUN_008a6650(int);
 };
 struct CandidateLink
@@ -5816,9 +5816,9 @@ struct TargetAssessmentGroup
     unsigned int FUN_005a4320();
     AssessmentActor* FUN_00968630(unsigned int idx);
 
-    void FUN_0098c870();
+    void CombatGroup_UpdateCombatStrength();
 };
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 struct ActQ
 {
     virtual void v000(), v001(), v002(), v003(), v004(), v005(), v006(), v007(), v008(), v009(), v010(), v011(), v012(),
@@ -5904,8 +5904,8 @@ struct Owner_9862e0
     int unk3c;
     int m40;
     TimeValue m44;
-    void FUN_0098a3c0();
-    void FUN_009862e0(Target_9862e0* target);
+    void CombatGroup_ResetMembers();
+    void CombatGroup_ForceGroupStrategy(Target_9862e0* target);
 };
 extern const float DAT_01012054;
 struct FUN_00906f60
@@ -6016,7 +6016,7 @@ struct AvoidNode9894 : AvoidanceVectorData
 struct FUN_00989490_shell
 {
     float GetBoundsSq(NiPoint3* apCenter);
-    PathingAvoidNodeArray* __thiscall FUN_00989490(int a1, int a2, int a3, PathingAvoidNodeArray* apArray);
+    PathingAvoidNodeArray* __thiscall CombatGroup_CreateFlankingAvoidNodeArray(int a1, int a2, int a3, PathingAvoidNodeArray* apArray);
 };
 
 struct FUN_0096a330_shell

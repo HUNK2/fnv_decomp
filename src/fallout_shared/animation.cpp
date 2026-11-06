@@ -336,8 +336,8 @@ class Animation
     bool AddAnimation(KFModel*, bool);
     void UpdateFlags(unsigned char, unsigned char, unsigned char);
     NiControllerManager* FUN_00496940();
-    bool FUN_00498170();
-    bool FUN_00498290();
+    bool SpecialIdleReplace_0();
+    bool SpecialIdlePlay_0();
     BSAnimGroupSequence* FUN_00494740(unsigned int, int, int, int);
 };
 
@@ -688,7 +688,7 @@ NiAVObject* FUN_00490310_shell::FUN_00490310(NiAVObject* apRoot, NiFixedString* 
 namespace fnv_00490d90 {
 struct AnimationManagerRootAccess : public NiControllerManager
 {
-    NiAVObject* FUN_00490d90();
+    NiAVObject* NiControllerManager_GetAccumRoot();
 };
 
 class GlobalObject_004aff00
@@ -714,7 +714,8 @@ template <class T> class BSStringTView
 
 
 // @fnv 0x00490d90
-NiAVObject* AnimationManagerRootAccess::FUN_00490d90()
+// src: COMMUNITY 0x00490d90
+NiAVObject* AnimationManagerRootAccess::NiControllerManager_GetAccumRoot()
 {
     if (m_bUseCumulativeAnimation)
     {
@@ -834,7 +835,8 @@ bool __cdecl FUN_004910d0(NiAVObject* apAVObject)
 
 
 // @fnv 0x00493750
-int __fastcall FUN_00493750(const TESAnimGroup* apHelper)
+// src: COMMUNITY 0x00493750
+int __fastcall GetByte10(const TESAnimGroup* apHelper)
 {
     return (char)apHelper->sType;
 }
@@ -859,7 +861,7 @@ float AnimationSequenceTimingAccess::FUN_00493770()
 namespace fnv_004937a0 {
 struct AnimationSequenceInterpolatorAccess : public NiControllerSequence
 {
-    NiInterpolator* FUN_004937a0(unsigned int);
+    NiInterpolator* NiControllerSequence_GetInterpolatorAt(unsigned int);
 };
 
 // @fnv 0x004937a0
@@ -869,7 +871,8 @@ template <class T> class BSStringTView
   public:
     operator const T*() const;
 };
-NiInterpolator* AnimationSequenceInterpolatorAccess::FUN_004937a0(unsigned int i)
+// src: COMMUNITY 0x004937a0
+NiInterpolator* AnimationSequenceInterpolatorAccess::NiControllerSequence_GetInterpolatorAt(unsigned int i)
 {
     return (NiInterpolator*)(const char*)*(BSStringTView<char>*)((char*)(*(char**)((char*)this + 0x14)) + (i << 4));
 }
@@ -1001,7 +1004,7 @@ bool NiQuatTransform::IsTranslateXNotNegatedConstant()
 
 struct FUN_00494300_shell : public Animation
 {
-    short FUN_00494300(unsigned short);
+    short Animation_GetGroupSpeed(unsigned short);
 };
 
 
@@ -1018,7 +1021,8 @@ struct AnimSequenceBase_vtable
 TESAnimGroup* __fastcall FUN_0048f7f0(const BSAnimGroupSequence*);
 
 // @fnv 0x00494300
-short FUN_00494300_shell::FUN_00494300(unsigned short asAnimGroup)
+// src: COMMUNITY 0x00494300
+short FUN_00494300_shell::Animation_GetGroupSpeed(unsigned short asAnimGroup)
 {
     AnimSequenceBase* panimSeq;
     TESAnimGroup* panimGroup;
@@ -1047,7 +1051,7 @@ short FUN_00494300_shell::FUN_00494300(unsigned short asAnimGroup)
 
 struct FUN_004946a0_shell : public Animation
 {
-    void FUN_004946a0(TESAnimGroup*);
+    void Animation_AddGroup(TESAnimGroup*);
 };
 
 
@@ -1058,7 +1062,8 @@ struct FUN_00493d50_helper
 };
 
 // @fnv 0x004946a0
-void FUN_004946a0_shell::FUN_004946a0(TESAnimGroup* pAnimGroup)
+// src: COMMUNITY 0x004946a0
+void FUN_004946a0_shell::Animation_AddGroup(TESAnimGroup* pAnimGroup)
 {
     if (!pAnimGroup)
         return;
@@ -1158,7 +1163,8 @@ struct blob1
 };
 
 // @fnv 0x004955a0
-bool __fastcall FUN_004955a0(bhkRagdollController* pThis)
+// src: COMMUNITY 0x004955a0
+bool __fastcall bhkRagdollController_GetsFootIKActive(bhkRagdollController* pThis)
 {
     return *((bool*)pThis + 0x222);
 }
@@ -1514,10 +1520,11 @@ struct FUN_00496fe0_cls
     AnimationPointer<NiNode> node;
     char pad2[0x34 - 0x1c];
     FUN_00496fe0_tgt* tgt;
-    bool FUN_00496fe0(NiNode* n);
+    bool AnimIdle_PlayAnim(NiNode* n);
 };
 // @fnv 0x00496fe0
-bool FUN_00496fe0_cls::FUN_00496fe0(NiNode* apNode)
+// src: COMMUNITY 0x00496fe0
+bool FUN_00496fe0_cls::AnimIdle_PlayAnim(NiNode* apNode)
 {
     if (state != 1)
         return false;
@@ -1634,7 +1641,7 @@ struct FUN_00497f20_shell : public Animation
 
 
 void __fastcall FUN_004965d0(void* pThis, int, TESIdleForm*, int, int, Actor*, int, Animation*);
-void __fastcall FUN_00498290(Animation* pThis);
+void __fastcall SpecialIdlePlay_0(Animation* pThis);
 
 
 struct VTable0x390
@@ -1887,7 +1894,7 @@ void FUN_00497f20_shell::FUN_00497f20(TESIdleForm* apIdleForm, Actor* apActor, i
     *(AnimationPointer<NiNode>*)((char*)this + 0x128) =
         (NiNode*)new LocalAnimIdle(apIdleForm, aeSection, etype, apActor, 0, this);
     ((VTable0x390*)((TES*)apActor)->GetLogDate())->v390(apIdleForm);
-    ::FUN_00498290(this);
+    ::SpecialIdlePlay_0(this);
 }
 
 class bhkWorldObject;
@@ -1911,7 +1918,8 @@ struct TESObjectREFR_GetFlags_Helper
 }  // namespace fnv_00498170
 
 // @fnv 0x00498170
-bool Animation::FUN_00498170()
+// src: COMMUNITY 0x00498170
+bool Animation::SpecialIdleReplace_0()
 {
     if (reinterpret_cast<fnv_00498170::BSStringTView<char>*>(&LocalStateValue)->operator const char*() &&
         reinterpret_cast<fnv_00498170::TESObjectREFR_GetFlags_Helper*>(
@@ -2372,7 +2380,7 @@ struct AnimIdle_Helper : public NiControllerSequence
 {
     unsigned int Deallocate();
     int GetItemIconFormID(unsigned int);
-    NiInterpolator* FUN_004937a0(unsigned int);
+    NiInterpolator* NiControllerSequence_GetInterpolatorAt(unsigned int);
 };
 
 struct Animation_Layout
@@ -2437,7 +2445,7 @@ void FUN_00493d50_shell::CheckAnimGroupMovement(TESAnimGroup* apAnimGroup)
         return;
     if (eanimGroup == 1 || eanimGroup == 2)
         return;
-    NiAVObject* pbip01 = ((fnv_00490d90::AnimationManagerRootAccess*)(unsigned int)((Animation_Layout*)this)->m_acReservedBytes)->FUN_00490d90();
+    NiAVObject* pbip01 = ((fnv_00490d90::AnimationManagerRootAccess*)(unsigned int)((Animation_Layout*)this)->m_acReservedBytes)->NiControllerManager_GetAccumRoot();
     if (!pbip01)
     {
         Warning("ANIMATION: Could not find AccumRoot in animation '%s'.",
@@ -2500,7 +2508,7 @@ void FUN_00493d50_shell::CheckAnimGroupMovement(TESAnimGroup* apAnimGroup)
             if (((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))->GetItemIconFormID(n) ==
                 ((TESChallenge*)(unsigned int)(*(Flt*)&spseq))->GetInterval())
             {
-                NiInterpolator* pinterp = ((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))->FUN_004937a0(n);
+                NiInterpolator* pinterp = ((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))->NiControllerSequence_GetInterpolatorAt(n);
                 float fstartTime = ((NiControllerSequence*)(unsigned int)(*(Flt*)&spseq))->FUN_00759450();
                 float fstopTime = ((NiControllerSequence*)(unsigned int)(*(Flt*)&spseq))->FUN_00508100();
                 NiQuatTransform quatStart;
@@ -2768,7 +2776,7 @@ FUN_004969b0::~FUN_004969b0()
 
 struct AnimationIdleStateAccess : public LocalAnimIdle
 {
-    void FUN_00497040(Animation*);
+    void AnimIdle_Update(Animation*);
 };
 
 struct Flt
@@ -2781,7 +2789,8 @@ struct HA
     void FUN_008a73e0(int, int);
 };
 // @fnv 0x00497040
-void AnimationIdleStateAccess::FUN_00497040(Animation* apAnimation)
+// src: COMMUNITY 0x00497040
+void AnimationIdleStateAccess::AnimIdle_Update(Animation* apAnimation)
 {
     if (*(int*)((char*)this + 8) == 2)
     {
@@ -2922,7 +2931,8 @@ NiFixedString* __cdecl FUN_00499b70()
 extern NiFixedString* DAT_011c61c0;
 
 // @fnv 0x00499b80
-NiFixedString* __cdecl FUN_00499b80()
+// src: COMMUNITY 0x00499b80
+NiFixedString* __cdecl get_g_SpecialIdle_Cast()
 {
     return DAT_011c61c0;
 }
@@ -2971,12 +2981,13 @@ struct FileListNode
 };
 struct FUN_00490330_t : public Animation
 {
-    void FUN_00490330(AnimationList<const char*>* apFileList, const char* apPath);
+    void Animation_AddSpecialAnimations(AnimationList<const char*>* apFileList, const char* apPath);
 };
 
 // Builds a path from apPath, "SpecialAnims" and each file name, loads the KF model and adds it as an animation.
 // @fnv 0x00490330
-void FUN_00490330_t::FUN_00490330(AnimationList<const char*>* apFileList, const char* apPath)
+// src: COMMUNITY 0x00490330
+void FUN_00490330_t::Animation_AddSpecialAnimations(AnimationList<const char*>* apFileList, const char* apPath)
 {
     AnimationList<const char*>* pfileList;
     if (!apFileList)
@@ -3136,11 +3147,12 @@ float VATS::FUN_009c8d60()
 
 struct FUN_0048ef90_shell
 {
-    unsigned int __thiscall FUN_0048ef90(unsigned int dummy);
+    unsigned int __thiscall AnimSequenceSingle_GetSequenceToPlay(unsigned int dummy);
 };
 
 // @fnv 0x0048ef90
-unsigned int __thiscall FUN_0048ef90_shell::FUN_0048ef90(unsigned int dummy)
+// src: COMMUNITY 0x0048ef90
+unsigned int __thiscall FUN_0048ef90_shell::AnimSequenceSingle_GetSequenceToPlay(unsigned int dummy)
 {
     return *(unsigned int*)((char*)this + 4);
 }
@@ -3248,7 +3260,7 @@ void FUN_004970e0_shell::AssignGO(void* apValue)
 
 struct FUN_0049bd90_shell : KFModel
 {
-    void FUN_0049bd90(void* a1);
+    void Animation_RemoveObject(void* a1);
 };
 
 struct FUN_004f05c0_shell
@@ -3260,7 +3272,8 @@ void FUN_004f05c0_shell::ApplyFlagsToEntries(void* a1)
 {}
 
 // @fnv 0x0049bd90
-void FUN_0049bd90_shell::FUN_0049bd90(void* a1)
+// src: COMMUNITY 0x0049bd90
+void FUN_0049bd90_shell::Animation_RemoveObject(void* a1)
 {
     void* seq = GetControllerSequence();
     if (seq)
@@ -3397,7 +3410,7 @@ struct HA
 {
     void FUN_008a73e0(int, void*);
 };
-bool __fastcall FUN_00498290(void*);
+bool __fastcall SpecialIdlePlay_0(void*);
 struct Holder
 {
     bool FUN_00498230(void*);
@@ -3405,7 +3418,7 @@ struct Holder
 // @fnv 0x00498230
 bool Holder::FUN_00498230(void* apActor)
 {
-    if (FUN_00498290(this))
+    if (SpecialIdlePlay_0(this))
     {
         ((LowProcess*)(unsigned int)*(Flt*)((char*)this + 0x124))->LowProcess::SetCurrentBoundObject(static_cast<TESObject*>(apActor));
         ((HA*)apActor)
@@ -3625,11 +3638,12 @@ struct HackAnim
 {
     char _pad[0xdc];
     AnimationSequenceMap<unsigned short, AnimSequenceBase*>* m_pOwnerReference;
-    TESAnimGroup* FUN_00496500(unsigned short asGroup);
+    TESAnimGroup* Animation_LookupGroup(unsigned short asGroup);
 };
 // Looks up the sequence for asGroup in the map and returns the anim group from its sequence, or null if not found.
 // @fnv 0x00496500
-TESAnimGroup* HackAnim::FUN_00496500(unsigned short asGroup)
+// src: COMMUNITY 0x00496500
+TESAnimGroup* HackAnim::Animation_LookupGroup(unsigned short asGroup)
 {
     AnimSequenceBase* panimSeq;
     if (m_pOwnerReference->GetAt(asGroup, panimSeq))
@@ -3931,11 +3945,12 @@ struct FUN_004efb10_shell
 };
 struct FUN_00497100_shell
 {
-    unsigned short FUN_00497100();
+    unsigned short AnimIdle_GetSaveSize();
 };
 // Computes a size: sums 4+4+4+1, and if the field at offset 0x18 is nonzero adds its FUN_004efb10 result plus 1.
 // @fnv 0x00497100
-unsigned short FUN_00497100_shell::FUN_00497100()
+// src: COMMUNITY 0x00497100
+unsigned short FUN_00497100_shell::AnimIdle_GetSaveSize()
 {
     unsigned short v = 0;
     v += 4;
@@ -4112,7 +4127,7 @@ struct SaveLoadStub
 };
 extern SaveLoadStub* g_TESSaveLoadGame;
 
-unsigned short FUN_004efaa0();
+unsigned short BSAnimGroupSequence_GetSequenceSaveSize();
 
 struct AnimGroupStub
 {
@@ -4206,7 +4221,7 @@ void QueuedAnimStub::LoadQueuedAnim(float afTime, AnimStub* apAnimation)
         {
             static_cast<GroupSeqStub*>(pListSequence)->SetTime(afTime);
         }
-        g_TESSaveLoadGame->SetVersion(FUN_004efaa0());
+        g_TESSaveLoadGame->SetVersion(BSAnimGroupSequence_GetSequenceSaveSize());
     }
     else if (iState == 0)
     {
@@ -4223,7 +4238,7 @@ extern "C" ActiveManager* DAT_011de45c;
 struct ParameterObject
 {
     int __thiscall FUN_0055b980();
-    unsigned short __thiscall FUN_00497100();
+    unsigned short __thiscall AnimIdle_GetSaveSize();
 };
 struct StringManager
 {
@@ -4335,7 +4350,7 @@ unsigned short __cdecl GetMessageSize(void* unused, ParameterObject* param)
     if (param != 0 && param->FUN_0055b980())
     {
         count += 2;
-        count += param->FUN_00497100();
+        count += param->AnimIdle_GetSaveSize();
     }
     if (*DAT_011de4e8.FUN_00408d60())
     {
@@ -6262,7 +6277,7 @@ struct BlendSequence
     void SetNegatedGlobal();
     BlendGroup* FUN_0048f7f0();
     unsigned int FUN_0084e3a0();
-    bool FUN_00a30c80(BlendSequence*);
+    bool CanSyncTo(BlendSequence*);
     void FUN_00a328b0(float, int);
 };
 struct BlendProcess
@@ -6272,7 +6287,7 @@ struct BlendProcess
 };
 struct BlendRagdoll
 {
-    bool FUN_004955a0();
+    bool bhkRagdollController_GetsFootIKActive();
     void UpdateBoneLocalTransforms();
 };
 struct BlendActor
@@ -6435,7 +6450,7 @@ bool FUN_00702360();
 bool FUN_00705a00();
 bool FUN_00702680(int, int);
 bool FUN_00495580();
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 struct BlendAnimation
 {
     int unk00;
@@ -6605,21 +6620,21 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
             {
                 if (previous2->FUN_0084e3a0() == apSequence->FUN_0084e3a0())
                 {
-                    if (apSequence->FUN_00a30c80(previous2))
+                    if (apSequence->CanSyncTo(previous2))
                         synchronize = true;
                     else
-                        FUN_005b5e40(DAT_0101dc58, previous2->FUN_00413f40()->FUN_0043b1b0(),
+                        Warning_005b5e40(DAT_0101dc58, previous2->FUN_00413f40()->FUN_0043b1b0(),
                                      apSequence->FUN_00413f40()->FUN_0043b1b0(),
                                      node.FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
                 }
                 else
-                    FUN_005b5e40(DAT_0101dbe8, previous2->FUN_00413f40()->FUN_0043b1b0(), previous2->FUN_0084e3a0(),
+                    Warning_005b5e40(DAT_0101dbe8, previous2->FUN_00413f40()->FUN_0043b1b0(), previous2->FUN_0084e3a0(),
                                  apSequence->FUN_00413f40()->FUN_0043b1b0(), apSequence->FUN_0084e3a0(),
                                  node.FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
             }
             if (synchronize && apSequence == previous2)
             {
-                FUN_005b5e40(DAT_0101db90, previous2->FUN_00413f40()->FUN_0043b1b0(),
+                Warning_005b5e40(DAT_0101db90, previous2->FUN_00413f40()->FUN_0043b1b0(),
                              node.FUN_00559450()->FUN_00413f40()->FUN_0043b1b0());
                 synchronize = false;
             }
@@ -6676,7 +6691,7 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
                     if (actor && actor->IsActor())
                     {
                         BlendActor* blendActor = actor;
-                        if (FUN_00495580() && blendActor->ragdoll && blendActor->ragdoll->FUN_004955a0())
+                        if (FUN_00495580() && blendActor->ragdoll && blendActor->ragdoll->bhkRagdollController_GetsFootIKActive())
                             blendActor->ragdoll->UpdateBoneLocalTransforms();
                     }
                     manager.FUN_00559450()->FUN_00a2f800(apSequence, 0.0f, duration, 0, 0);
@@ -6773,10 +6788,11 @@ char __cdecl FUN_00ec67aa(int character);
 
 struct AnimationInterface : Animation
 {
-    char FUN_00495f50(int sequenceIndex, int actionId, float* outTime);
+    char Animation_FindNextNoteKey(int sequenceIndex, int actionId, float* outTime);
 };
 // @fnv 0x00495f50
-char AnimationInterface::FUN_00495f50(int sequenceIndex, int actionId, float* outTime)
+// src: COMMUNITY 0x00495f50
+char AnimationInterface::Animation_FindNextNoteKey(int sequenceIndex, int actionId, float* outTime)
 {
     if (outTime != 0)
         *outTime = 0.0f;
@@ -6828,7 +6844,7 @@ class AnimIdleAccess : public LocalAnimIdle
     int FUN_0044ddc0();
     IdleModelAccess* FUN_006fa820();
     TESIdleForm* FUN_0055b980();
-    void FUN_00496fe0(BSAnimGroupSequence*);
+    void AnimIdle_PlayAnim(BSAnimGroupSequence*);
     void FUN_00403550(int);
     int FUN_0084e3a0();
 };
@@ -6956,7 +6972,7 @@ struct FUN_004965d0 : NiMemObject
 };
 typedef struct FUN_004965d0 IdleLoadTask;
 extern TESForm* __cdecl FUN_004839c0(unsigned int);
-extern void __cdecl FUN_005b5e40(const char*, ...);
+extern void __cdecl Warning_005b5e40(const char*, ...);
 extern const char DAT_0101d930[], DAT_01015718[], DAT_010156a8[], DAT_0101dcec[], DAT_01015588[], DAT_01015500[],
     DAT_010154a0[], DAT_01015440[];
 // Reads an idle block from the stream, creates an IdleLoadTask for the matching TESIdleForm and logs block-size mismatches.
@@ -6977,11 +6993,11 @@ IdleLoadTask* __cdecl LoadIdleAnimation(Actor* actor, Animation* animation, floa
             if (log)
             {
                 IdleLogName* name = (IdleLogName*)FUN_004839c0(log->id);
-                FUN_005b5e40(DAT_01015718, DAT_0101d930, 0x121c, log->id, name->Name(), log->index,
+                Warning_005b5e40(DAT_01015718, DAT_0101d930, 0x121c, log->id, name->Name(), log->index,
                              *(unsigned int*)&log->flags);
             }
             else
-                FUN_005b5e40(DAT_010156a8, DAT_0101d930, 0x121c, ((IdleStream*)DAT_011de45c)->FUN_008df040());
+                Warning_005b5e40(DAT_010156a8, DAT_0101d930, 0x121c, ((IdleStream*)DAT_011de45c)->FUN_008df040());
         }
         start = ((IdleStream*)DAT_011de45c)->FUN_00825c00();
         ((IdleStream*)DAT_011de45c)->FUN_008579e0(&blockSize4, 2);
@@ -7002,7 +7018,7 @@ IdleLoadTask* __cdecl LoadIdleAnimation(Actor* actor, Animation* animation, floa
         }
         else
         {
-            FUN_005b5e40(DAT_0101dcec, id4, ((IdleLogName*)actor)->Name());
+            Warning_005b5e40(DAT_0101dcec, id4, ((IdleLogName*)actor)->Name());
             ((IdleStream*)DAT_011de45c)->FUN_00857bd0(size);
         }
     }
@@ -7014,19 +7030,19 @@ IdleLoadTask* __cdecl LoadIdleAnimation(Actor* actor, Animation* animation, floa
         {
             IdleLogName* nameEnd = (IdleLogName*)FUN_004839c0(logEndA->id);
             if (position > start + blockSize4)
-                FUN_005b5e40(DAT_01015588, position - (start + blockSize4), DAT_0101d930, 0x1237, logEndA->id,
+                Warning_005b5e40(DAT_01015588, position - (start + blockSize4), DAT_0101d930, 0x1237, logEndA->id,
                              nameEnd->Name(), logEndA->index, *(unsigned int*)&logEndA->flags);
             else if (position < start + blockSize4)
-                FUN_005b5e40(DAT_01015500, start + blockSize4 - position, DAT_0101d930, 0x1237, logEndA->id,
+                Warning_005b5e40(DAT_01015500, start + blockSize4 - position, DAT_0101d930, 0x1237, logEndA->id,
                              nameEnd->Name(), logEndA->index, *(unsigned int*)&logEndA->flags);
         }
         else
         {
             if (position > start + blockSize4)
-                FUN_005b5e40(DAT_010154a0, position - (start + blockSize4), DAT_0101d930, 0x1237,
+                Warning_005b5e40(DAT_010154a0, position - (start + blockSize4), DAT_0101d930, 0x1237,
                              ((IdleStream*)DAT_011de45c)->FUN_008df040());
             else if (position < start + blockSize4)
-                FUN_005b5e40(DAT_01015440, start + blockSize4 - position, DAT_0101d930, 0x1237,
+                Warning_005b5e40(DAT_01015440, start + blockSize4 - position, DAT_0101d930, 0x1237,
                              ((IdleStream*)DAT_011de45c)->FUN_008df040());
         }
     }
@@ -7095,14 +7111,15 @@ namespace fnv_00498030 {
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 struct AnimationFinish
 {
-    void FUN_00498170();
+    void SpecialIdleReplace_0();
 };
 struct WorkerAnimation : Animation
 {
-    void FUN_00498030(TESIdleForm*, Actor*, int);
+    void Animation_SpecialIdleReplace(TESIdleForm*, Actor*, int);
 };
 // @fnv 0x00498030
-void WorkerAnimation::FUN_00498030(TESIdleForm* idle, Actor* actor, int section)
+// src: COMMUNITY 0x00498030
+void WorkerAnimation::Animation_SpecialIdleReplace(TESIdleForm* idle, Actor* actor, int section)
 {
     AutoMemContext h(MEM_CONTEXT_MEM_CONTEXT_ANIMATION, true,
                      "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Animation.cpp", 4797);
@@ -7115,21 +7132,22 @@ void WorkerAnimation::FUN_00498030(TESIdleForm* idle, Actor* actor, int section)
     {
         LocalStateValue = (LocalAnimIdle*)new LocalAnimIdle(idle, section, 0, actor, 1, 0);
     }
-    ((AnimationFinish*)p)->FUN_00498170();
+    ((AnimationFinish*)p)->SpecialIdleReplace_0();
 }
 }  // namespace fnv_00498030
 
 namespace fnv_00499080 {
 struct FUN_00499080_shell : public Animation
 {
-    void FUN_00499080();
+    void Animation_ClearBlendInterps();
 };
 
 void __fastcall ClearItemField2(NiObject* object);
 extern NiRTTI DAT_011c7d74;
 
 // @fnv 0x00499080
-void FUN_00499080_shell::FUN_00499080()
+// src: COMMUNITY 0x00499080
+void FUN_00499080_shell::Animation_ClearBlendInterps()
 {
     if (!m_acReservedBytes)
         return;
@@ -7564,7 +7582,7 @@ struct ControllerView
 
 struct SceneProperty
 {
-    NiObject* FUN_0043b230();
+    NiObject* NiObjectNET_GetControllers();
 };
 struct SceneObject
 {
@@ -7634,11 +7652,11 @@ unsigned short FakeAnim::GetSerializedSize(void* apRef)
                 SceneProperty* pSceneProperty = node->FUN_0045bc00(0);
                 if (pSceneProperty)
                 {
-                    NiObject* object = pSceneProperty->FUN_0043b230();
+                    NiObject* object = pSceneProperty->NiObjectNET_GetControllers();
                     SequenceController* controller = (SequenceController*)FUN_00653270(&DAT_011f36ac, object);
                     if (controller)
                     {
-                        SequenceSize* sequence = controller->FUN_0047a520(FUN_00499b80());
+                        SequenceSize* sequence = controller->FUN_0047a520(get_g_SpecialIdle_Cast());
                         if (sequence)
                         {
                             p += sequence->FUN_004efb10();
@@ -7679,7 +7697,7 @@ extern char UNK_0101536c;
 extern char UNK_010153a0;
 extern char UNK_01015318;
 
-void __cdecl FUN_004975e0(void* pA, unsigned int uB, void* pC, float fD);
+void __cdecl AnimIdle_SaveAnimIdle(void* pA, unsigned int uB, void* pC, float fD);
 void* __cdecl FUN_00653270(void* pKey, unsigned int uVal);
 void* __cdecl FUN_004839c0(unsigned int uVal);
 struct Stream_00499b90
@@ -7700,7 +7718,7 @@ struct Lookup_00499b90
 };
 struct Elem_00499b90
 {
-    void FUN_004efb20(float fVal);
+    void SaveGameTES_004efb20(float fVal);
 };
 struct Span_00499b90
 {
@@ -7724,7 +7742,7 @@ struct Bc_00499b90
 };
 struct Chan2_00499b90
 {
-    unsigned int FUN_0043b230();
+    unsigned int NiObjectNET_GetControllers();
 };
 struct Chan3_00499b90
 {
@@ -7732,7 +7750,7 @@ struct Chan3_00499b90
 };
 struct Anim_00499b90
 {
-    float FUN_00621b00();
+    float ActorPackage_GetPackageStartTime();
 };
 struct OutObj_00499b90
 {
@@ -8020,7 +8038,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
     char bMask7;
     unsigned char bFlagVal;
     Class2_00499b90* pPi14;
-    void __cdecl FUN_005b5e40(void*, ...);
+    void __cdecl Warning_005b5e40(void*, ...);
     lengthA5 = 0;
     uMark2 = 0;
     uStart7 = ((Stream_00499b90*)DAT_011de45c)->FUN_00825c00();
@@ -8068,14 +8086,14 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
             }
             if (this->fe0[cb_] == 0)
             {
-                FUN_005b5e40(&UNK_0101ddc8, pClass2->FUN_0130(), pClass2->FUN_0084e3a0(), (int)cb_, (int)this->f4c[cb_],
+                Warning_005b5e40(&UNK_0101ddc8, pClass2->FUN_0130(), pClass2->FUN_0084e3a0(), (int)cb_, (int)this->f4c[cb_],
                              this->f5c[cb_]);
                 bId = 0xfe;
             }
             ((Stream_00499b90*)DAT_011de45c)->FUN_008579b0(&bId, 1);
             if (this->fe0[cb_] != 0)
             {
-                ((Elem_00499b90*)this->fe0[cb_])->FUN_004efb20(*(float*)&this->fd0);
+                ((Elem_00499b90*)this->fe0[cb_])->SaveGameTES_004efb20(*(float*)&this->fd0);
             }
         }
     }
@@ -8089,11 +8107,11 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
     }
     if (((Span_00499b90*)&this->f128)->FUN_00559450() != 0)
     {
-        FUN_004975e0(pPi14, ((Span_00499b90*)&this->f128)->FUN_00559450(), ((void*)this), *(float*)&this->fd0);
+        AnimIdle_SaveAnimIdle(pPi14, ((Span_00499b90*)&this->f128)->FUN_00559450(), ((void*)this), *(float*)&this->fd0);
     }
     else
     {
-        FUN_004975e0(pPi14, ((Span_00499b90*)&this->f124)->FUN_00559450(), ((void*)this), *(float*)&this->fd0);
+        AnimIdle_SaveAnimIdle(pPi14, ((Span_00499b90*)&this->f124)->FUN_00559450(), ((void*)this), *(float*)&this->fd0);
     }
     ((Stream_00499b90*)DAT_011de45c)->FUN_008579b0(&this->f120, 1);
     bFlagVal = 0;
@@ -8115,12 +8133,12 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
                 {
                     unsigned int u38;
                     unsigned int u3c3;
-                    u38 = ((Chan2_00499b90*)p38)->FUN_0043b230();
+                    u38 = ((Chan2_00499b90*)p38)->NiObjectNET_GetControllers();
                     u3c3 = (unsigned int)FUN_00653270(&DAT_011f36ac, u38);
                     if (u3c3 != 0)
                     {
                         unsigned int u40;
-                        u40 = ((Chan3_00499b90*)u3c3)->FUN_0047a520((unsigned int)FUN_00499b80());
+                        u40 = ((Chan3_00499b90*)u3c3)->FUN_0047a520((unsigned int)get_g_SpecialIdle_Cast());
                         if (u40 != 0)
                         {
                             bFlagVal = 1;
@@ -8128,14 +8146,14 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
                             {
                                 ((Stream_00499b90*)DAT_011de45c)->FUN_008579b0(&bFlagVal, 1);
                             }
-                            ((Elem_00499b90*)u40)->FUN_004efb20(*(float*)&this->fd0);
+                            ((Elem_00499b90*)u40)->SaveGameTES_004efb20(*(float*)&this->fd0);
                             float f44;
                             void* pSequence3;
                             pSequence3 = pPi14->m_88.FUN_00726070();
                             f44 = 0.0f;
                             if (pSequence3 != 0)
                             {
-                                f44 = ((Anim_00499b90*)pSequence3)->FUN_00621b00();
+                                f44 = ((Anim_00499b90*)pSequence3)->ActorPackage_GetPackageStartTime();
                             }
                             ((Stream_00499b90*)DAT_011de45c)->FUN_008579b0(&f44, 4);
                         }
@@ -8175,7 +8193,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
         u5c = uMark2;
         if (u58 > u5c + 0xffff)
         {
-            FUN_005b5e40(&UNK_01015318, (unsigned int)&UNK_0101d930, 0x1628);
+            Warning_005b5e40(&UNK_01015318, (unsigned int)&UNK_0101d930, 0x1628);
         }
         *(unsigned short*)uMark2 = (unsigned short)(u58 - u5c);
     }
@@ -8512,7 +8530,7 @@ struct Manager496
 struct Anim496
 {
     Manager496* FUN_00496940();
-    void FUN_0049bd90(void*);
+    void Animation_RemoveObject(void*);
 };
 
 struct Node496 : Slots496<58>
@@ -8521,8 +8539,8 @@ struct Node496 : Slots496<58>
 };
 struct Object496
 {
-    Node496* FUN_009611e0();
-    void FUN_004eecb0();
+    Node496* NiAVObject_GetParent();
+    void ValidateTargets();
 };
 struct Ref496
 {
@@ -8533,7 +8551,7 @@ struct Ref496
 struct Queue496
 {
     static Queue496* FUN_004537b0();
-    void FUN_0087ad00(void*, int);
+    void TaskQueueInterface_QueueSSNRemoveObject(void*, int);
     void FUN_0087ac60(void*);
 };
 struct Shadow496
@@ -8542,7 +8560,7 @@ struct Shadow496
 };
 bool FUN_008c7aa0();
 Shadow496* FUN_00450b80(unsigned);
-void FUN_00a6e8e0(void*, void*);
+void RecurseAndRemoveObjectsFromPalette(void*, void*);
 
 
 // Pending idle record: count +0x08, object refs +0x24, actor +0x34; Data is a 0x10-byte record.
@@ -8560,7 +8578,7 @@ struct PendingIdleRecord
 struct Loader496
 {
     void FUN_0045a5e0(const char*);
-    void FUN_004454d0(PendingIdleRecord*);
+    void ModelLoader_CancelAnimIdle(PendingIdleRecord*);
 };
 struct Save496
 {
@@ -8584,31 +8602,31 @@ void Target496::DetachObjectModels(PendingIdleRecord* data)
             if (data->actor)
             {
                 if (FUN_008c7aa0())
-                    Queue496::FUN_004537b0()->FUN_0087ad00(data->objects[i].FUN_00559450(), 0);
+                    Queue496::FUN_004537b0()->TaskQueueInterface_QueueSSNRemoveObject(data->objects[i].FUN_00559450(), 0);
                 else
                     FUN_00450b80(0)->FUN_00b5b1c0(data->objects[i].FUN_00559450());
                 void* anim = ((Anim496*)data->actor->GetAnimData())->FUN_00496940()->GetStringAtOffset();
                 void* copy7 = anim;
-                FUN_00a6e8e0(data->objects[i].FUN_00559450(), copy7);
+                RecurseAndRemoveObjectsFromPalette(data->objects[i].FUN_00559450(), copy7);
                 Anim496* manager5 = ((Anim496*)data->actor->GetAnimData());
                 if (manager5)
-                    manager5->FUN_0049bd90(data->objects[i].FUN_00559450());
+                    manager5->Animation_RemoveObject(data->objects[i].FUN_00559450());
             }
             if (FUN_008c7aa0())
                 Queue496::FUN_004537b0()->FUN_0087ac60(data->objects[i].FUN_00559450());
             else
             {
-                Node496* nodeB = data->objects[i].FUN_00559450()->FUN_009611e0();
+                Node496* nodeB = data->objects[i].FUN_00559450()->NiAVObject_GetParent();
                 nodeB->remove(data->objects[i].FUN_00559450());
             }
             (*(Loader496**)&DAT_011c3b3c)->FUN_0045a5e0(data->models[i]->GetModelFilePath());
             data->objects[i].FUN_0066b0d0(0);
             if (data->root.FUN_00559450())
-                data->root.FUN_00559450()->FUN_004eecb0();
+                data->root.FUN_00559450()->ValidateTargets();
         }
     }
     if (!data->count)
-        (*(Loader496**)&DAT_011c3b3c)->FUN_004454d0(data);
+        (*(Loader496**)&DAT_011c3b3c)->ModelLoader_CancelAnimIdle(data);
     if (!(*(Save496**)&DAT_011de45c)->FUN_0047c850() && data->actor && data->actor->FUN_008a7570() == 13)
     {
         Process496* process = (Process496*)data->actor->FUN_008d8520();
@@ -8705,7 +8723,7 @@ void FUN_00496cd0_cls::InitFromModel(KFModel* m_kModelObjectsItem)
                 delete this;
                 return;
             }
-            if (pkAnim->FUN_00498290())
+            if (pkAnim->SpecialIdlePlay_0())
             {
                 if (iType == 3)
                     ((AnimationActorOperations*)pActor)->SetAnimAction(0xd, kName.FUN_00559450());
@@ -8725,7 +8743,7 @@ void FUN_00496cd0_cls::InitFromModel(KFModel* m_kModelObjectsItem)
                 delete this;
                 return;
             }
-            if (pkAnim->FUN_00498170())
+            if (pkAnim->SpecialIdleReplace_0())
                 return;
         }
     }
@@ -9251,7 +9269,7 @@ namespace fnv_00497180 {
 namespace save497 {
 struct S49Obj
 {
-    void FUN_004efb20(float value);
+    void SaveGameTES_004efb20(float value);
 };
 struct S49Checker
 {
@@ -9297,7 +9315,7 @@ struct S49Entry
     S49Ptr<S49Base> kBase;
     int iC;
     S49Ptr<S49Obj> kObj;
-    void FUN_00497180(float value, S49Map* map);
+    void AnimIdle_SaveGameTES(float value, S49Map* map);
 };
 }
 using namespace save497;
@@ -9305,7 +9323,8 @@ extern S49Save* DAT_011de45c;
 
 // Writes iA, iB, iC, and an object flag; if an object exists, writes a checker result or -1, then calls kObj's FUN_004efb20.
 // @fnv 0x00497180
-void S49Entry::FUN_00497180(float value, S49Map* map)
+// src: COMMUNITY 0x00497180
+void S49Entry::AnimIdle_SaveGameTES(float value, S49Map* map)
 {
     bool bHasObj;
     DAT_011de45c->FUN_008579b0(&iA, 4);
@@ -9326,7 +9345,7 @@ void S49Entry::FUN_00497180(float value, S49Map* map)
             cCheckResult = pChecker->Check18(kObj.FUN_00559450());
         }
         DAT_011de45c->FUN_008579b0(&cCheckResult, 1);
-        kObj.FUN_00559450()->FUN_004efb20(value);
+        kObj.FUN_00559450()->SaveGameTES_004efb20(value);
     }
 }
 }  // namespace fnv_00497180
@@ -9524,7 +9543,8 @@ void LogWarning(const char* apFormat, ...);
 
 // Writes the animation save block to the save buffer, including the target refID, save group, and animation state, then patches the block size.
 // @fnv 0x004975e0
-void FUN_004975e0(void* apUnused, SavedAnim* apAnim, int aiState, float afTime)
+// src: COMMUNITY 0x004975e0
+void AnimIdle_SaveAnimIdle(void* apUnused, SavedAnim* apAnim, int aiState, float afTime)
 {
     unsigned short usBlockSize4 = 0;
     char* pSizePos8 = 0;
@@ -9582,7 +9602,8 @@ void FUN_004975e0(void* apUnused, SavedAnim* apAnim, int aiState, float afTime)
 
 // May free an idle, add a model, obtain a sequence, and pass it to an idle method.
 // @fnv 0x00498290
-bool Animation::FUN_00498290()
+// src: COMMUNITY 0x00498290
+bool Animation::SpecialIdlePlay_0()
 {
     if ((LocalAnimIdle*)LocalStateValue)
     {
@@ -9620,7 +9641,7 @@ bool Animation::FUN_00498290()
                     pDelay->delay = static_cast<AnimIdleAccess*>((LocalAnimIdle*)LocalInput)->FUN_0055b980()->GetField3C();
                     m_acTrailingData.AddTail(reinterpret_cast<IdleReplayDelayEntry*&>(pDelay));
                 }
-                static_cast<AnimIdleAccess*>((LocalAnimIdle*)LocalInput)->FUN_00496fe0(pkSequence);
+                static_cast<AnimIdleAccess*>((LocalAnimIdle*)LocalInput)->AnimIdle_PlayAnim(pkSequence);
                 return true;
             }
             else

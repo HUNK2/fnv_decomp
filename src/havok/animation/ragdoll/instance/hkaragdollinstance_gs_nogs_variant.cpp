@@ -7,8 +7,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include "havok/hkaRagdollInstance.h"
 extern int DAT_01268700;
-void __stdcall FUN_00ce1760(int, int, int);
-void __stdcall FUN_00ce18d0(int a);
+void __stdcall hkaRagdollInstance_getPoseWorldSpace(int, int, int);
+void __stdcall hkaRagdollInstance_getPoseWorldSpace_00ce18d0(int a);
 struct FUN_00ce2430_Transform
 {
     unsigned char pad[0x30];
@@ -126,7 +126,7 @@ struct FUN_00ce26f0_Class
     int unk04;
     FUN_00ce26f0_ObjectA* unk08;
 
-    void FUN_00ce18d0(FUN_00ce2430_Transform* a);
+    void hkaRagdollInstance_getPoseWorldSpace_00ce18d0(FUN_00ce2430_Transform* a);
     void ApplyValueToTransforms(float a, FUN_00ce2430_Transform* b);
     void hkaRagdollInstance_getApproxCurrentPoseWorldSpace(FUN_00ce2430_Transform* a);
 };

@@ -35,13 +35,13 @@ bool TESCreature::FUN_005f9b90(TESForm* otherForm)
         return true;
     if (memcmp(&dataPadding, other->GetOffset12C(), 4))
         return true;
-    if (FUN_005f9ad0() != other->FUN_005f9ad0())
+    if (ShadowSceneNode_GetDisableLightUpdate() != other->ShadowSceneNode_GetDisableLightUpdate())
         return true;
     if (FUN_00821640() != other->FUN_00821640())
         return true;
     if (FUN_00567470() != other->FUN_00567470())
         return true;
-    if (FUN_00821660() != other->FUN_00821660())
+    if (GetFootWeight() != other->GetFootWeight())
         return true;
     if (static_cast<const TESCreature*>(this)->GetBloodImpactMaterial() !=
         static_cast<const TESCreature*>(other)->GetBloodImpactMaterial())

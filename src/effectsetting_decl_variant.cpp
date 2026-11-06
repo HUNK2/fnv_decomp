@@ -30,11 +30,12 @@ void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 
 // @fnv 0x00407300
-void EffectSetting::FUN_00407300()
+// src: COMMUNITY 0x00407300
+void EffectSetting::SaveAlt()
 {
     FUN_004855a0();
     TESFullName::FUN_00487010();
-    TESDescription::FUN_00482cb0();
+    TESDescription::Save_00482cb0();
     TESIcon::Save(CHUNK_ICON);
     TESModel::WriteToBuffer(CHUNK_MODL, CHUNK_MODT);
 

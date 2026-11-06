@@ -7,11 +7,12 @@
 
 struct FUN_00c5b5a0_cls
 {
-    int __thiscall FUN_00c5b5a0(int idx);
+    int __thiscall BSPortalGraph_GetAlwaysRenderAt(int idx);
 };
 
 // @fnv 0x00c5b5a0
-int __thiscall FUN_00c5b5a0_cls::FUN_00c5b5a0(int idx)
+// src: COMMUNITY 0x00c5b5a0
+int __thiscall FUN_00c5b5a0_cls::BSPortalGraph_GetAlwaysRenderAt(int idx)
 {
     int* p = *(int**)((char*)this + 0x40) + idx;
     int result = *p;
@@ -124,16 +125,17 @@ struct FUN_00a712f0
     void FUN_00507700(float);
     void FUN_00a6faf0(const Frustum2180&);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
-    void FUN_00733fd0(float);
+    void NiCamera_SetMinNearPlaneDist(float);
     void FUN_00a59c60(const Update2180&);
     void AssignFixedString(const String2180&);
 };
 struct Target2180
 {
-    FUN_00a712f0* FUN_007c2180();
+    FUN_00a712f0* BlackJackMenu_SetupCamera();
 };
 // @fnv 0x007c2180
-FUN_00a712f0* Target2180::FUN_007c2180()
+// src: COMMUNITY 0x007c2180
+FUN_00a712f0* Target2180::BlackJackMenu_SetupCamera()
 {
     FUN_00a712f0* camera5 = new FUN_00a712f0;
     Rect2180 rect(0.0f, 1.0f, 1.0f, 0.0f);
@@ -152,7 +154,7 @@ FUN_00a712f0* Target2180::FUN_007c2180()
     frustum5.ortho = false;
     camera5->FUN_00a6faf0(frustum5);
     camera5->SetLookAt(NiPoint3(0.0f, 0.0f, 1.0f), NiPoint3(0.0f, 0.0f, 1.0f));
-    camera5->FUN_00733fd0(1.0f);
+    camera5->NiCamera_SetMinNearPlaneDist(1.0f);
     Update2180 update2;
     update2.FUN_0043d410(0.0f, false, false);
     camera5->FUN_00a59c60(update2);

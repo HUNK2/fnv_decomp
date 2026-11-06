@@ -117,7 +117,7 @@ public:
     const NiPoint2* FUN_00891170();
     Record* FUN_00968670(unsigned int);
     NiPickResults* GetResults();
-    void FUN_00632d20(bool bValue);
+    void RadioEntry_Data_SetLastSignalStrength(bool bValue);
     void* ScalarDeletingDestructor(unsigned int flags);
     void InvokeCallbacks();
     void FindHighestPriorityCallback();

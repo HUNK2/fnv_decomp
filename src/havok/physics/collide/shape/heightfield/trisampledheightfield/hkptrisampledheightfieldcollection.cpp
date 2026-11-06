@@ -77,12 +77,13 @@ FUN_00d26880_MemoryRouter* _D1A0E0GetMemoryRouter();
 
 struct FUN_00d26880_StandIn : public hkpTriSampledHeightFieldCollection
 {
-    hkpTriSampledHeightFieldCollection* FUN_00d26880(unsigned int flags);
+    hkpTriSampledHeightFieldCollection* hkpTriSampledHeightFieldCollection_Destroy(unsigned int flags);
 };
 
 // Runs FUN_00d26760 on this, then if flags bit 0 is set, frees this through the memory router's manager using the size at offset 4, and returns this.
 // @fnv 0x00d26880
-hkpTriSampledHeightFieldCollection* FUN_00d26880_StandIn::FUN_00d26880(unsigned int flags)
+// src: COMMUNITY 0x00d26880
+hkpTriSampledHeightFieldCollection* FUN_00d26880_StandIn::hkpTriSampledHeightFieldCollection_Destroy(unsigned int flags)
 {
     reinterpret_cast<FUN_00d26760_StandIn*>(this)->FUN_00d26760();
 

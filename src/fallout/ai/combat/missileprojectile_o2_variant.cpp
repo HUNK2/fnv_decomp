@@ -21,7 +21,7 @@ extern "C" void __cdecl FUN_00c89640(void*);
 extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 struct FUN_009b7c90_shell : BGSProjectile
 {
-    bool FUN_009b7c90();
+    bool BGSProjectile_GetPinsLimbs();
 };
 extern "C" void __cdecl _delete(void*, unsigned int);
 
@@ -477,7 +477,7 @@ struct S_cbde40_Guard
 };
 struct S_cbde40_Pool
 {
-    void* FUN_00aa3e40(unsigned int n);
+    void* Game_DoHeapAlloc(unsigned int n);
 };
 extern S_cbde40_Pool DAT_011f6238;
 extern int DAT_0108ff98;
@@ -494,7 +494,7 @@ struct S_cbde40_Obj
     int unk10;
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 struct S_cbde40
@@ -552,7 +552,7 @@ struct CollisionObjectCountContext
 };
 
 typedef void (*CollisionObjectCountCallback)(NiCollisionObject*, CollisionObjectCountContext*);
-void FUN_00c68900(NiAVObject* pkObject, CollisionObjectCountContext* pkContext,
+void bhkWorld_DoObjectRec(NiAVObject* pkObject, CollisionObjectCountContext* pkContext,
                   CollisionObjectCountCallback pfnCallback);
 extern CollisionObjectCountCallback DAT_011afec0;
 
@@ -583,7 +583,7 @@ bool FUN_00c6a0b0(NiAVObject* pkObject, bool bValue, bool bRecurse, bool bForce)
         kContext.uiTraversalFlags = 0xe;
         kContext.uiValue = bValue;
         if (DAT_011afec0)
-            FUN_00c68900(pkObject, &kContext, DAT_011afec0);
+            bhkWorld_DoObjectRec(pkObject, &kContext, DAT_011afec0);
     }
     return bResult;
 }

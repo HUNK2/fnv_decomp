@@ -131,10 +131,10 @@ struct FUN_00c42da0_Class
     virtual void vfn_0000();
     virtual void vfn_0004();
 };
-int __stdcall FUN_00c42da0(FUN_00c42da0_Class* p);
+int __stdcall BSTaskThread_ThreadProc(FUN_00c42da0_Class* p);
 struct FUN_00c430a0_class
 {
-    int __thiscall FUN_00c430a0(int);
+    int __thiscall BSXFlags_CreateClone(int);
 };
 struct FUN_00c430b0_class
 {
@@ -158,7 +158,7 @@ extern NiFixedString* DAT_01202ddc;
 extern "C" void* g_01202de0;
 struct FUN_00c43650_Class
 {
-    void* __thiscall FUN_00c43650();
+    void* __thiscall BSXFlags_GetRTTI();
 };
 struct FUN_00c43900_class
 {
@@ -167,7 +167,7 @@ struct FUN_00c43900_class
 extern "C" void* g_01202de8;
 struct FUN_00c43cf0_Class
 {
-    void* __thiscall FUN_00c43cf0();
+    void* __thiscall BSValueNode_GetRTTI();
 };
 struct FUN_00c43d60_cls
 {
@@ -215,10 +215,10 @@ struct FUN_00c452c0_class
 extern char const* const g_01202e7c_arg1;
 struct FUN_00c457d0_Class
 {
-    char const* const* __thiscall FUN_00c457d0();
+    char const* const* __thiscall BSRangeNode_GetRTTI();
 };
 extern unsigned short DAT_01202e2c;
-bool FUN_00c45ab0();
+bool NiObjectGarbage_IsEmpty();
 struct FUN_00c46810_Class
 {
     void __thiscall FUN_00c31670(int);
@@ -227,7 +227,7 @@ struct FUN_00c46810_Class
 extern "C" void* g_01202e74;
 struct FUN_00c47650_Class
 {
-    void* __thiscall FUN_00c47650();
+    void* __thiscall BSMultiBoundNode_GetRTTI();
 };
 struct P03MM
 {
@@ -268,7 +268,7 @@ struct FUN_00c4abd0_class
 extern "C" void* g_01202e7c;
 struct FUN_00c4ac90_Class
 {
-    void* __thiscall FUN_00c4ac90();
+    void* __thiscall BSBlastNode_GetRTTI();
 };
 struct FUN_00c4ad40_class
 {
@@ -298,7 +298,7 @@ struct FUN_00c4ae30_class
 extern int g_01202e84;
 struct FUN_00c4aef0_Class
 {
-    int* __thiscall FUN_00c4aef0();
+    int* __thiscall BSDebrisNode_GetRTTI();
 };
 struct FUN_00c4afa0_class
 {
@@ -329,7 +329,7 @@ struct GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_01202e8c;
 struct FUN_00c4b210_Class
 {
-    GlobalObject_00a7b610* FUN_00c4b210();
+    GlobalObject_00a7b610* BSDamageStage_GetRTTI();
 };
 struct FUN_00c51550 : NiNode
 {
@@ -351,16 +351,16 @@ struct FUN_00c516d0 : BaseT
 extern void* g_01203110;
 struct FUN_00c516f0_Class
 {
-    void* __thiscall FUN_00c516f0();
+    void* __thiscall BSParticleSystemManager_GetRTTI();
 };
 extern const char* const g_011df0c0_arg1;
 struct FUN_00c52870_class
 {
-    const char* const* FUN_00c52870();
+    const char* const* BSSceneGraph_GetRTTI();
 };
 struct FUN_00c54dc0_class
 {
-    int __thiscall FUN_00c54dc0(int);
+    int __thiscall BSBound_CreateClone(int);
 };
 struct FUN_00a7b290_shell
 {
@@ -370,11 +370,11 @@ struct FUN_00a7b290_shell
 extern "C" void* g_012031e8;
 struct FUN_00c55320_Class
 {
-    void* __thiscall FUN_00c55320();
+    void* __thiscall BSBound_GetRTTI();
 };
 struct FUN_00c5b5d0_class
 {
-    unsigned int FUN_00c5b5d0();
+    unsigned int BSPortalGraph_GetAlwaysRenderArrayCount();
 };
 struct FUN_00c1be10_shell
 {
@@ -384,7 +384,7 @@ struct FUN_00c1be10_shell
 extern int g_01203340;
 struct FUN_00c5cea0_Class
 {
-    int* __thiscall FUN_00c5cea0();
+    int* __thiscall BSPSysMultiTargetEmitterCtlr_GetRTTI();
 };
 extern int DAT_010c2e7c;
 struct FUN_00a744a0
@@ -415,7 +415,7 @@ struct Caller74690
 extern "C" void* g_01203348;
 struct FUN_00c5d2a0_Class
 {
-    void* __thiscall FUN_00c5d2a0();
+    void* __thiscall BSScissorTriShape_GetRTTI();
 };
 struct FUN_00c5dcb0_class
 {
@@ -443,7 +443,7 @@ struct FUN_00c5faa0
 extern const char* const g_01201f84_arg1;
 struct FUN_00c5fc60_class
 {
-    const char* const* FUN_00c5fc60();
+    const char* const* BSNiNode_GetRTTI();
 };
 extern void* DAT_010c32c4;
 struct FUN_00c5fd30 : NiPSysPositionModifier
@@ -497,12 +497,12 @@ struct FUN_00c448f0_Class
 };
 struct FUN_00c44cd0_class
 {
-    void __thiscall FUN_00c44cd0();
+    void __thiscall BSParallelTaskManager_StartThreads();
     void __thiscall WaitForWorkers();
 };
 struct FUN_00c44c40_class
 {
-    void __thiscall FUN_00c44c40(int a1, int a2);
+    void __thiscall BSParallelTaskManager_RunTask_0(int a1, int a2);
 };
 struct FUN_00c455a0_Class
 {
@@ -517,10 +517,10 @@ struct FUN_00c451b0_class
     void __thiscall CopyStateTo(int a, int b);
 };
 extern int DAT_011af758;
-void FUN_00c45820(int value);
-int FUN_00c45ad0();
+void NiObjectGarbage_Init(int value);
+int NiObjectGarbage_GetCount();
 extern unsigned short DAT_01202e2e;
-void __cdecl FUN_00c45b10(unsigned short value);
+void __cdecl NiObjectGarbage_SetIncreaseSize(unsigned short value);
 struct CloningProcess;
 struct SStream;
 struct SObj;
@@ -533,10 +533,10 @@ struct FUN_00c46830_class
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_00c4a640_class
 {
-    void __thiscall FUN_00c4a640(char* dst, char* src, unsigned int count);
+    void __thiscall BSSimpleArray_NiFrustumPlanes_1024_CopyItems(char* dst, char* src, unsigned int count);
 };
 extern "C" void* g_01202e7c;
-extern "C" void* __cdecl FUN_00a7d330(void*);
+extern "C" void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 struct FUN_00c4ab00_Class
 {
     void __thiscall FUN_00c454c0(int);
@@ -544,11 +544,11 @@ struct FUN_00c4ab00_Class
 };
 struct FUN_00c4f2d0_class
 {
-    void __thiscall FUN_00c4f2d0();
+    void __thiscall BSCullingProcess_PopCullMode();
 };
 struct FUN_00c5dcd0_Class
 {
-    void __thiscall FUN_00c5dcd0(void* a);
+    void __thiscall BSMasterParticleSystem_AddEmitterObj(void* a);
 };
 struct FUN_00c50f30_Class
 {
@@ -573,7 +573,7 @@ struct FUN_00c51640_Class
     int d;
     unsigned char c;
     int p;
-    void* __thiscall FUN_00c51640();
+    void* __thiscall UpdateMasterPsysTaskletData_UpdateMasterPsysTaskletData();
 };
 struct FUN_00878690_shell
 {
@@ -639,15 +639,15 @@ struct FUN_00c5cfd0_class
 {
     void __thiscall FUN_00c5cfd0(int a, int b, int c, int d);
 };
-extern "C" void __cdecl FUN_00c65530();
-extern "C" void __cdecl FUN_00c55200();
-extern "C" void __cdecl FUN_00c546c0();
-extern "C" void __cdecl FUN_00c618f0();
-extern "C" void __cdecl FUN_00c5f240();
-extern "C" void __cdecl FUN_00c616c0();
-extern "C" void __cdecl FUN_00c43500();
+extern "C" void __cdecl BSAttachPoints_InitSDM();
+extern "C" void __cdecl BSBound_InitSDM();
+extern "C" void __cdecl BSFurnitureMarker_InitSDM();
+extern "C" void __cdecl PArrayPoint_InitSDM();
+extern "C" void __cdecl BSTextureData_InitSDM();
+extern "C" void __cdecl BSWArray_InitSDM();
+extern "C" void __cdecl BSXFlags_InitSDM();
 extern "C" unsigned char DAT_01204364;
-void __cdecl FUN_00c5d4e0();
+void __cdecl BSMain_InitSDM();
 extern unsigned char DAT_01204364;
 void __cdecl FUN_00c655d0();
 void __cdecl FUN_00c552a0();
@@ -665,7 +665,7 @@ struct FUN_00c5dea0_Class
 {
     int* pData;
     unsigned short mCount;
-    void __thiscall FUN_00c5dea0();
+    void __thiscall BSMasterParticleSystem_ResetSystems();
 };
 struct FUN_00c5e560_class : public NiNode
 {
@@ -724,7 +724,7 @@ struct RefCountedObject
 extern GlobalObject_00a7b610 g_01202e60;
 struct FUN_00c46960_Class
 {
-    GlobalObject_00a7b610* FUN_00c46960();
+    GlobalObject_00a7b610* BSWindModifier_GetRTTI();
 };
 struct Elem_00c48a10
 {
@@ -925,7 +925,7 @@ struct FUN_00c4a5a0_class
     void* m1;
     unsigned int m2;
     unsigned int m3;
-    void __thiscall FUN_00c4a5a0(unsigned int a, unsigned int b);
+    void __thiscall BSSimpleArray_BSCompoundFrustum_FunctionOp_1024_InitialSetup(unsigned int a, unsigned int b);
 };
 struct CloningProcess;
 struct NiBinaryExtraData;
@@ -974,7 +974,7 @@ struct FUN_00c5cc30_class
     void LoadBinary(NiStream&);
     void FUN_00c5cc30(NiStream&);
 };
-char* __cdecl FUN_00a7d330(char const*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char const*);
 char* __cdecl FUN_00a7d510(char const*, unsigned int);
 struct FUN_00c5d610_StandIn
 {
@@ -1103,11 +1103,11 @@ struct FUN_00c47a00_Class
     int m20;  // +0x20
     char pad2[0x4];
     int m28;  // +0x28
-    void FUN_00c47a00();
+    void BSCompoundFrustum_StartGroupIntersection();
 };
 struct FUN_00c47a70_Class
 {
-    void FUN_00c47a70();
+    void BSCompoundFrustum_StartGroupUnion();
 };
 struct FUN_006dc6e0_Class
 {
@@ -1166,7 +1166,7 @@ struct FUN_00c4f270_Class
     char pad2[0x28];
     int m_uiItemCount;
     int m_aiEntries[1];
-    void __thiscall FUN_00c4f270(int aeType);
+    void __thiscall BSCullingProcess_PushCullMode(int aeType);
 };
 struct FUN_00c5ce40_Class
 {
@@ -1184,7 +1184,7 @@ struct FUN_00c5d260 : FUN_00c5d260_view
 extern double runtimeInitializationDouble5;
 extern double DAT_01034208;
 float __cdecl EvaluateQuinticPolynomial(float x);
-float FUN_00c5d300(float a, float b, float c);
+float BSNoise1D_lerp(float a, float b, float c);
 struct NiObjectNET_stub
 {
     void FUN_00a5c6a0(int);
@@ -1455,7 +1455,7 @@ extern "C" __declspec(dllimport) void __stdcall fnv_Import_LeaveCriticalSection(
 class GameLockA
 {
   public:
-    bool FUN_0078d200();
+    bool BSSpinLock_TryLock();
     void FUN_0040fbf0(int a);
 };
 class GameLockB
@@ -1920,7 +1920,7 @@ struct FNV_Holder
 };
 struct FNV_Plane
 {
-    void FUN_00c33870(FNV_Vec3 pt, FNV_Local* pObj);
+    void BSOcclusionPlane_UpdateFrustumPlanes(FNV_Vec3 pt, FNV_Local* pObj);
 };
 struct FNV_Owner
 {
@@ -2260,16 +2260,16 @@ struct FUN_00c47ae0_cls
     int m_20;
     int unk24;
     int m_28;
-    void FUN_00c47ae0();
+    void BSCompoundFrustum_EndGroup();
 };
 extern NavHolder_blk_00c40000_od_ob1_variant_rtm_variant g_navHolder;
 extern unsigned int g_navTag;
 extern NiPoint3 DAT_011f426c;
 struct SSNode
 {
-    bool __thiscall FUN_00c344c0(void*, void*);
-    bool __thiscall FUN_00c33cf0(void*, int, NiPoint3);
-    bool __thiscall FUN_00c347d0(void*);
+    bool __thiscall BSOcclusionPlane_WithinFrustumDistFirst(void*, void*);
+    bool __thiscall BSOcclusionPlane_WithinFrustum(void*, int, NiPoint3);
+    bool __thiscall BSOcclusionPlane_CompletelyWithinFrustum(void*);
 };
 struct DecisionNode
 {
@@ -2520,9 +2520,9 @@ struct FUN_00c4cdc0_child
 struct FUN_00c4cdc0_cls
 {
     FUN_00c4cdc0_child* m_pChildObject;
-    double FUN_00c4d9d0();
-    void FUN_00c4db20();
-    void FUN_00c4cdc0();
+    double BSPolygon2D_Area();
+    void BSPolygon2D_StoreConcaveVertices();
+    void BSPolygon2D_Initialize();
 };
 struct FUN_00c4cf00_Entry
 {
@@ -2548,7 +2548,7 @@ struct FUN_00c4cf00_cls
     int unk20;
     int m_iArrayLength;
 
-    void FUN_00c4cf00();
+    void BSPolygon2D_RemoveZ();
 };
 struct S_00c4dcf0
 {
@@ -2573,7 +2573,7 @@ struct S_00c4e0a0_Class
     int unk24;
     int m_iArrayLength;
 
-    bool __thiscall FUN_00c4de80(int arg1, int arg2, int arg3, int arg4, int arg5);
+    bool __thiscall BSPolygon2D_IsPointInsideTri(int arg1, int arg2, int arg3, int arg4, int arg5);
     bool __thiscall ContainsMatchingTriple(int arg1, int arg2);
 };
 struct S_00c4e900_Elem
@@ -2603,7 +2603,7 @@ struct S_00c4ed70_Object
 struct S_00c4ed70_Class
 {
     S_00c4ed70_Object* m_pObject;
-    bool __thiscall FUN_00c4ed70();
+    bool __thiscall BSOcclusionQuery_Begin();
 };
 void S_00c4ed70_Object::vfn_0000()
 {}
@@ -2637,7 +2637,7 @@ struct FUN_00c4edb0_Virt
 struct FUN_00c4edb0_Class
 {
     FUN_00c4edb0_Virt* m_p;
-    void FUN_00c4edb0();
+    void BSOcclusionQuery_End();
 };
 struct S_00c4edf0_Obj
 {
@@ -2669,7 +2669,7 @@ struct DispatchObject
 struct DispatchOwner
 {
     DispatchObject* object;
-    bool __thiscall FUN_00c4ee40(int code, unsigned char enabled);
+    bool __thiscall BSOcclusionQuery_GetResultNoWait(int code, unsigned char enabled);
 };
 struct FUN_00c509a0_Class
 {
@@ -2678,7 +2678,7 @@ struct FUN_00c509a0_Class
     void __thiscall FUN_00c509a0(int);
 };
 extern "C" char DAT_010c2580;
-extern "C" void __cdecl FUN_005b5e40(void*, int);
+extern "C" void __cdecl Warning_005b5e40(void*, int);
 // FUN_00c50dd0: clears (releases) the pointer held by the second argument's
 // smart-pointer holder. The two dword locals reproduce the original /Od frame
 // layout (named locals above the hidden 'this' spill at [ebp-0xc]).
@@ -3045,7 +3045,7 @@ struct S_00c5ae70_Inner2
     int unk04;
     int unk08;
 
-    S_00c5ae70_Result* __thiscall FUN_0043a010();
+    S_00c5ae70_Result* __thiscall NiGeometry_AddProperty();
 };
 struct S_00c5ae70_Inner1
 {
@@ -3061,7 +3061,7 @@ struct S_00c5ae70_Class
     int unk04;
     S_00c5ae70_Inner1 m_inner1;
 
-    void __thiscall FUN_00c5ae70(int param);
+    void __thiscall BSPortalGraph_AddOccluder(int param);
 };
 struct FUN_00c3a250_Obj
 {
@@ -3073,7 +3073,7 @@ struct FUN_00c5aec0_Class
 {
     int unk00;
     int unk04;
-    void __thiscall FUN_00c5aec0(int a1);
+    void __thiscall BSPortalGraph_RemoveOccluder(int a1);
 };
 struct FUN_00c5b190_Sub
 {
@@ -3087,7 +3087,7 @@ struct FUN_00c5b190_cls
     int unk0c;
     int unk10;
     FUN_00c5b190_Sub m_14;
-    void FUN_00c5b190(int a1);
+    void BSPortalGraph_RemovePortal(int a1);
 };
 // Constructor: member routine that installs the class vtable pointer into
 // the object, clears the flag member at +0x5c and then hands the object to
@@ -4560,8 +4560,8 @@ struct NodeQueue
     TaggedNodePtr m_kSecond;
     TaggedNodePtr m_kFirst;
 
-    bool __thiscall FUN_00c416a0(int arg, NodeKey key);
-    bool FUN_00c42560(int arg, NodeKey* pKey, RefPtr* pOut);
+    bool __thiscall LockFreeMapInterface_Find_0(int arg, NodeKey key);
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_LockFreeMapInterface_GetNext(int arg, NodeKey* pKey, RefPtr* pOut);
 };
 struct FUN_00c42560_pad
 {
@@ -4692,7 +4692,7 @@ struct FUN_00c40aa0 : FNV_Base_c40aa0
     int unk08;
     int unk0c;
     void* m_pData;
-    void __thiscall FUN_00c41330(int clearAll);
+    void __thiscall LockFreeQueue_NiPointer_IOTask_RemoveAll_00c41330(int clearAll);
     virtual ~FUN_00c40aa0();
 };
 typedef void* HANDLE;
@@ -4792,7 +4792,7 @@ inline unsigned int CleanupDeadline354()
     unsigned int start = GetTickCount();
     return start + DAT_011af758;
 }
-void FUN_00c458f0();
+void NiObjectGarbage_Update();
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 struct Ref351
@@ -5012,7 +5012,7 @@ struct C4F320Obj
     {
         return m_pc4;
     }
-    void FUN_00c4f320(int a);
+    void BSCullingProcess_AddShared(int a);
 };
 struct Mgr_00c50b80
 {
@@ -5338,7 +5338,7 @@ inline void* __cdecl operator new[](unsigned int size)
 {
     return g_memoryManager.Allocate(size);
 }
-NiTriShape* __cdecl FUN_00c55360(float extent, NiPoint3* center, ColorA* color);
+NiTriShape* __cdecl BSTestObjects_CreateSquare(float extent, NiPoint3* center, ColorA* color);
 struct RefObj5b
 {
 
@@ -5447,7 +5447,7 @@ struct Owner5b
 
     unsigned short m_usSize;
 
-    void FUN_00c5b740(RefObj5b* pkObj);
+    void BSPortalGraph_DetachQAlwaysRenderChild(RefObj5b* pkObj);
 };
 struct EmptyBase332
 {
@@ -5455,7 +5455,7 @@ struct EmptyBase332
     {}
 };
 int FUN_004019a0(long*);
-unsigned int FUN_0040b460(void*);
+unsigned int NiAtomicIncrement_0040b460(void*);
 struct PathReference332
 {
     PathingSolution* value;
@@ -5747,8 +5747,8 @@ struct Iter40
 };
 struct Bucket40
 {
-    bool FUN_00c42380(__int64* k, int arg);
-    bool FUN_00c42560(__int64* k, int arg);
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_LockFreeMapInterface_GetFirst(__int64* k, int arg);
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_LockFreeMapInterface_GetNext(__int64* k, int arg);
 };
 class Map40
 {
@@ -5758,12 +5758,12 @@ class Map40
     unsigned int cap;
     int u0C, u10, u14, u18, u1C;
     Lock40 lock;
-    Bucket40* FUN_00c3f750(unsigned int idx);
+    Bucket40* LockFreeMap_GetInterface(unsigned int idx);
     unsigned int GetCap()
     {
         return cap;
     }
-    bool FUN_00c40e70(Iter40* it, __int64* out, int arg, bool b);
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(Iter40* it, __int64* out, int arg, bool b);
 };
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct MM
@@ -5934,7 +5934,7 @@ struct Queue
     int unk18;
     int unk1C;
     Lock lock;
-    void FUN_00c41330(bool keep);
+    void LockFreeQueue_NiPointer_IOTask_RemoveAll_00c41330(bool keep);
 };
 struct RttiX
 {
@@ -6005,7 +6005,7 @@ struct FUN_00c4a070
     unsigned int m_uiCapacity;
     void ReleaseBuffer(bool bFree);
     void UpdateCachedRef(unsigned int uiNewSize, unsigned int uiCopy);
-    void FUN_00c4a360(ElemX* pkItems, unsigned int uiElementCount);
+    void BSSimpleArray_NiFrustumPlanes_1024_ConstructItems(ElemX* pkItems, unsigned int uiElementCount);
     void DestructItems(ElemX* pkItems, unsigned int uiElementCount)
     {
         int aiA[9];
@@ -6649,7 +6649,7 @@ struct NodeMap
         ReleaseKey(node->unk00, node->unk04);
         delete node;
     }
-    void FUN_00c40b70(bool keepPool);
+    void LockFreeMap_int64_NiPointer_BSTask_int64_RemoveAll(bool keepPool);
 };
 typedef unsigned int U32;
 int __cdecl FUN_004019a0(void*);
@@ -6731,7 +6731,7 @@ struct C41Link
     {
         return m_00 == r.m_00;
     }
-    void FUN_0044e010(bool);
+    void LockFreeMap_MarkedPointer_SetMark(bool);
 };
 struct C41ObjectSlot
 {
@@ -6777,8 +6777,9 @@ struct C41Owner
     C41Link m_14, m_18;
     C41Node* retired;
     U32 retiredCount;
-    void FUN_00c42960();
-    inline void FUN_00c41f40(C41Node* node)
+    void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_ScanForDeletedNodes();
+// src: COMMUNITY 0x00c41f40
+    inline void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_DeleteNode(C41Node* node)
     {
         node->m_08 = 0;
         C41Node* head = retired;
@@ -6787,7 +6788,7 @@ struct C41Owner
         ++retiredCount;
         U32 threshold = m_00->m_10;
         if (retiredCount == threshold)
-            FUN_00c42960();
+            LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_ScanForDeletedNodes();
     }
     bool FUN_00c41ac0(int, C41Object**);
 };
@@ -6836,7 +6837,7 @@ class C41FE0_Owner
     virtual void v09();
     virtual void v10(Pair pair);
 
-    void FUN_00c41fe0(Arg41fe0* p);
+    void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_DeleteNode(Arg41fe0* p);
 };
 extern char DAT_011f6238;
 inline int S00c420d0_One()
@@ -6946,7 +6947,7 @@ struct Iterator
     MapEntry** hazard2;
     TaggedPointer* slot;
     TaggedPointer current;
-    bool FUN_00c42380(unsigned int, int, ObjectRef&);
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_LockFreeMapInterface_GetFirst(unsigned int, int, ObjectRef&);
 };
 struct AllocationTLS
 {
@@ -7149,7 +7150,7 @@ struct S_00c42960_Scope
 extern "C" char DAT_011f6238;
 struct S_00c42960_Heap
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
+    void* __thiscall Game_DoHeapAlloc(unsigned int size);
     void __thiscall FUN_00aa4060(void* p);
 };
 struct ReleaseObject
@@ -7195,7 +7196,7 @@ struct S_00c42960_Slot
     S_00c42960_Node* m_pReferencedNode;
     static void* operator new[](unsigned int bytes)
     {
-        return reinterpret_cast<S_00c42960_Heap*>(&DAT_011f6238)->FUN_00aa3e40(bytes);
+        return reinterpret_cast<S_00c42960_Heap*>(&DAT_011f6238)->Game_DoHeapAlloc(bytes);
     }
     static void operator delete[](void* p)
     {
@@ -7236,7 +7237,8 @@ struct S_00c42960_Owner
     {
         return m_pCounter;
     }
-    inline void FUN_00c41fe0(S_00c42960_Node* node)
+// src: COMMUNITY 0x00c41fe0
+    inline void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_DeleteNode(S_00c42960_Node* node)
     {
         FreePair(node->unk00, node->unk04);
         delete node;
@@ -7254,7 +7256,7 @@ struct S_00c42960
     int unk18;
     S_00c42960_Node* m_pHead;
     unsigned int m_uiItemCount;
-    void FUN_00c42960();
+    void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_ScanForDeletedNodes();
 };
 struct ExtraBase_c42ff0
 {
@@ -7283,7 +7285,7 @@ struct FUN_00c42ff0 : IntData_c42ff0
     void FUN_00c43470();
 };
 extern void* DAT_01202de8;
-extern "C" void* __cdecl FUN_00a7d330(void*);
+extern "C" void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 extern "C" void* __cdecl FUN_00a7d4d0(const char*, void*);
 extern "C" void* __cdecl FUN_00a7d5e0(const char*, const char*);
 inline bool TestBit(unsigned char value, unsigned mask, unsigned zero)
@@ -7832,9 +7834,9 @@ struct CommandPolygon
     int unkc0, unkc4, unkc8, unkcc, unkd0, unkd4, unkd8, unkdc;
     int unke0, unke4, unke8;
     CommandPolygon* neighbors[4];
-    int FUN_00c35980();
-    void FUN_00c33870(GeometryPoint, void*);
-    void FUN_00c35c10(GeometryPoint*);
+    int BSOcclusionPlane_GetJoinedPlaneType();
+    void BSOcclusionPlane_UpdateFrustumPlanes(GeometryPoint, void*);
+    void BSOcclusionPlane_GetVertices(GeometryPoint*);
     __forceinline CommandPolygon* NeighborAt(int i) const
     {
         return neighbors[i];
@@ -7906,7 +7908,7 @@ struct GeometryCommands
     int recordCount, commandCount, unknown2c;
     FNV_Local workingRecord;
     GeometryPoint origin;
-    void FUN_00c47d20(CommandPolygon* polygon);
+    void BSCompoundFrustum_AddOcclusionPlane(CommandPolygon* polygon);
 };
 struct Elem_c48800
 {
@@ -7945,7 +7947,7 @@ struct FUN_00c48800_cls
     int m_24;
     int m_28;
 
-    void FUN_00c48800(FUN_00c48800_cls* arg);
+    void BSCompoundFrustum_AddCompoundFrustum(FUN_00c48800_cls* arg);
 };
 struct Q48Tok
 {
@@ -7976,7 +7978,7 @@ struct Q48Obj
     int m_24;
     int m_uiItemCount;
     void ShiftElements(bool a, bool b);
-    void FUN_00c48b90();
+    void BSCompoundFrustum_MakeIntoUnion();
 };
 struct TreeVector;
 struct TreePlane
@@ -8088,7 +8090,8 @@ class TreeEvaluator
         }
         return false;
     }
-    bool FUN_00c4a790(TreeVector* pkVector, TreeEntry* pkEntry)
+// src: COMMUNITY 0x00c4a790
+    bool BSCompoundFrustum_TestNotContained(TreeVector* pkVector, TreeEntry* pkEntry)
     {
         if (!pkEntry->activePlanes)
             return false;
@@ -8111,7 +8114,7 @@ class TreeEvaluator
         }
         return true;
     }
-    bool FUN_00c491a0(TreeQuery* pkQuery);
+    bool BSCompoundFrustum_Process(TreeQuery* pkQuery);
 };
 struct ObjC4aa40 : FUN_00c450d0
 {
@@ -8270,7 +8273,8 @@ struct FUN_00546780_shell
     unsigned short unkA4;
     unsigned short count;
 
-    void FUN_00546780(bool b)
+// src: COMMUNITY 0x00546780
+    void NiAVObject_SetAlwaysDraw(bool b)
     {
         int a = b ? 1 : 2;
         int c = a + 1;
@@ -8315,7 +8319,7 @@ inline FUN_00546780_shell* ChildAtShell(FUN_00546780_shell* node, unsigned int i
     FUN_00546780_shell** slot = &node->children[i];
     return *slot;
 }
-void __cdecl FUN_00c4b220(FUN_00546780_shell* obj);
+void __cdecl BSUtilities_SetAlwaysDraw(FUN_00546780_shell* obj);
 #include <math.h>
 extern const double DAT_01017cf8;
 float __cdecl FUN_004579e0(float);
@@ -8473,7 +8477,7 @@ struct FUN_00438690
         data[index] = *value;
         return index;
     }
-    void FUN_00c4e9b0(unsigned int, unsigned int);
+    void BSSimpleArray_unsigned_int_1024_Remove(unsigned int, unsigned int);
     __forceinline FUN_00438690()
     {
         table = &DAT_01016024;
@@ -8583,7 +8587,7 @@ struct Shorts086
         data[index] = value;
         return index;
     }
-    void FUN_00c4eb50(unsigned int, unsigned int);
+    void BSSimpleArray_unsigned_short_1024_Remove(unsigned int, unsigned int);
     __forceinline unsigned int Find(const unsigned int& value)
     {
         for (unsigned int i = 0; i < size; i++)
@@ -8596,7 +8600,7 @@ struct Shorts086
 };
 struct Alloc086
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 extern "C" char DAT_011f6238;
 struct NewShorts086 : Shorts086
@@ -8608,7 +8612,7 @@ struct NewShorts086 : Shorts086
     }
     __forceinline static void* operator new(unsigned int n)
     {
-        return ((Alloc086*)&DAT_011f6238)->FUN_00aa3e40(n);
+        return ((Alloc086*)&DAT_011f6238)->Game_DoHeapAlloc(n);
     }
     static void operator delete(void*);
 };
@@ -8769,9 +8773,9 @@ struct Triangulator086
     Holder086 node, mesh;
     bool IsKeyValid(unsigned int, unsigned int, unsigned int);
     int GetPointSide(Vertex086, Vertex086, Vertex086);
-    unsigned int FUN_00c4e1e0();
+    unsigned int BSPolygon2D_CreateTriData();
     void* CreateInstance(unsigned int);
-    void FUN_00c4cf80();
+    void BSPolygon2D_Triangulate();
 };
 __forceinline void WrapIndex(int& index, const int& size)
 {
@@ -8837,7 +8841,7 @@ struct S00c4db20_Self
     int unk20;
     int m_iArrayLength;
 
-    void FUN_00c4db20();
+    void BSPolygon2D_StoreConcaveVertices();
     void RemovePt(int n)
     {
         S00c4db20_Pt u;
@@ -8955,7 +8959,7 @@ struct C4E1E0
     int m20;
     int m24;
     int m28;
-    TESObjectDoorController* FUN_00c4e1e0();
+    TESObjectDoorController* BSPolygon2D_CreateTriData();
 };
 struct Q4E9
 {
@@ -9002,7 +9006,7 @@ struct Q4E9
         {
         }
     }
-    void FUN_00c4e9b0(unsigned idx, bool resize);
+    void BSSimpleArray_unsigned_int_1024_Remove(unsigned idx, bool resize);
 };
 struct Q4E
 {
@@ -9012,7 +9016,7 @@ struct Q4E
     short* m_data;
     unsigned m_iElementCount;
     unsigned m_alloc;
-    void FUN_005efdd0(short* dst, short* src, unsigned n);
+    void BSSimpleArray_MoveItems_0(short* dst, short* src, unsigned n);
     inline bool ShouldShrink()
     {
         if (m_alloc > 0x400)
@@ -9049,7 +9053,7 @@ struct Q4E
         {
         }
     }
-    void FUN_00c4eb50(unsigned idx, bool resize);
+    void BSSimpleArray_unsigned_short_1024_Remove(unsigned idx, bool resize);
 };
 class QueryTarget
 {
@@ -9153,7 +9157,7 @@ class QueryOwner
     {
         return m_pkTarget;
     }
-    void FUN_00c4f360();
+    void BSCullingProcess_ClearSharedMap();
 };
 struct FUN_00c504e0_pool
 {
@@ -9638,11 +9642,12 @@ struct Owner
             return pkChild;
         }
     }
-    void FUN_00c51f20();
+    void BSSceneGraph_SetCameraScene();
 };
 
 // @fnv 0x00c51f20
-void Owner::FUN_00c51f20()
+// src: COMMUNITY 0x00c51f20
+void Owner::BSSceneGraph_SetCameraScene()
 {
     if (GetKey() != GetChild(0))
     {
@@ -9733,7 +9738,7 @@ struct Q5Obj
         return FUN_00aa13e0(amount);
     }
     Q5Obj();
-    bool FUN_00c52d80(Q5Item* it);
+    bool InitializeData_00c52d80(Q5Item* it);
     bool FUN_00c52960(unsigned idx);
 };
 struct Q5Item
@@ -9741,7 +9746,7 @@ struct Q5Item
     void NiObjectNET_RemoveController(Q5Obj* o);
 };
 void __cdecl FUN_00c52c30(void* p, Q5Hold* h);
-bool __cdecl FUN_00c52a80(void* param);
+bool __cdecl NiBSBoneLODController_ProcessScene(void* param);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 extern int DAT_011f4400;
 namespace reconstruct_c5a9d0 {
@@ -9884,7 +9889,7 @@ struct OwnerB06
     int unk1c;
     RefSetB06 m_kSet;
 
-    void FUN_00c5b060(RefObjectB06* pkObject);
+    void BSPortalGraph_RemoveRoom(RefObjectB06* pkObject);
 };
 struct S_C5B4D0_Node
 {
@@ -10116,11 +10121,12 @@ struct Owner_c5b5f0
     int unk34;
     int unk38;
     PtrArray m_kArray;
-    void FUN_00c5b5f0(RefObj* pkObj);
+    void BSPortalGraph_AttachQAlwaysRenderChild(RefObj* pkObj);
 };
 
 // @fnv 0x00c5b5f0
-void Owner_c5b5f0::FUN_00c5b5f0(RefObj* pkObj)
+// src: COMMUNITY 0x00c5b5f0
+void Owner_c5b5f0::BSPortalGraph_AttachQAlwaysRenderChild(RefObj* pkObj)
 {
     if (pkObj == 0)
         return;
@@ -10249,7 +10255,7 @@ struct OwnerC5
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     int unk60, unk64;
     S2f850 unk68;
-    void __thiscall FUN_00c5b9a0(NavObject* arg);
+    void __thiscall BSPortalGraph_AddUnboundNode(NavObject* arg);
 };
 inline bool ElemEq(unsigned int a, unsigned int b)
 {
@@ -10378,7 +10384,7 @@ struct S_00c5ba50_Class
     unsigned int unk64;
     FUN_00c5bef0_class unk68;
 
-    void __thiscall FUN_00c5ba50(unsigned int value);
+    void __thiscall BSPortalGraph_RemoveUnboundNode(unsigned int value);
 };
 struct RefC5BB
 {
@@ -11147,8 +11153,8 @@ struct Pool41f40_cls
         unsigned int u = m_pkOwnerManager->m_uiMaxFree;
         return u;
     }
-    void FUN_00c42960();
-    void FUN_00c41f40(Pool41f40_node* pkNode);
+    void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_ScanForDeletedNodes();
+    void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_DeleteNode(Pool41f40_node* pkNode);
 };
 static __forceinline void Dead23()
 {
@@ -11345,7 +11351,7 @@ struct RemovalMapLink
         RemovalMapLink* source = this;
         return (source->bits & 1) != 0;
     }
-    void FUN_0044e010(bool);
+    void LockFreeMap_MarkedPointer_SetMark(bool);
     RemovalMapLink()
     {}
     inline RemovalMapLink(long pointer)
@@ -11430,7 +11436,7 @@ struct RemovalMapState
             current.bits = *head;
             *slot08 = current.Pointer();
             RemovalMapLink observed(current.Pointer());
-            observed.FUN_0044e010(false);
+            observed.LockFreeMap_MarkedPointer_SetMark(false);
             if (((RemovalMapLink*)head)->Value() != observed.Raw())
                 continue;
             while (true)
@@ -11446,7 +11452,7 @@ struct RemovalMapState
                 }
                 RemovalMapHold hold(((RemovalMapNode*)current.Pointer())->object);
                 RemovalMapLink previous(current.Pointer());
-                previous.FUN_0044e010(false);
+                previous.LockFreeMap_MarkedPointer_SetMark(false);
                 if (((RemovalMapLink*)head)->Value() != previous.Raw())
                 {
                     retry = true;
@@ -11463,7 +11469,7 @@ struct RemovalMapState
                 {
                     RemovalMapLink replacement(next.Pointer(), false);
                     if (((RemovalMapLink*)head)->Compare(replacement.Value(), previous.Value()))
-                        FUN_00c41f40((RemovalMapNode*)current.Pointer());
+                        LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_DeleteNode((RemovalMapNode*)current.Pointer());
                     else
                     {
                         retry = true;
@@ -11477,7 +11483,8 @@ struct RemovalMapState
                 continue;
         }
     }
-    inline void FUN_00c41f40(RemovalMapNode* node)
+// src: COMMUNITY 0x00c41f40
+    inline void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_DeleteNode(RemovalMapNode* node)
     {
         RemovalMapObject** object = &node->object;
         if (*object)
@@ -11653,7 +11660,7 @@ struct WorkerQueue
     WorkerQueueLock lock;
     int unk28, unk2c, unk30, unk34, unk38, unk3c;
     unsigned char stopping;
-    bool FUN_00c40e70(WorkerEvent*, unsigned __int64*, WorkerJobRef*, bool);
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(WorkerEvent*, unsigned __int64*, WorkerJobRef*, bool);
     inline WorkerJobContainer* Container()
     {
         unsigned long index = tls->index;
@@ -11661,7 +11668,8 @@ struct WorkerQueue
         return value ? value : tls->Create(this);
     }
 };
-inline bool WorkerQueue::FUN_00c40e70(WorkerEvent* event, unsigned __int64* output, WorkerJobRef* job, bool wait)
+// src: COMMUNITY 0x00c40e70
+inline bool WorkerQueue::LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(WorkerEvent* event, unsigned __int64* output, WorkerJobRef* job, bool wait)
 {
     lock.Lock(0);
     bool found = false;
@@ -11847,7 +11855,7 @@ struct C52520Camera
     {
         return m_ac;
     }
-    void FUN_00c52020(float m_fFirstFloat, unsigned char ucFlag, C52020Obj* pObj, unsigned char ucArg4);
+    void SceneGraph_SetCameraFOV(float m_fFirstFloat, unsigned char ucFlag, C52020Obj* pObj, unsigned char ucArg4);
     void FUN_00c52520();
 };
 struct BoxColor
@@ -11950,7 +11958,7 @@ __forceinline void buildBox(NiPoint3* boxCorners, const NiPoint3& size, const Bo
         }
     }
 }
-NiTriShape* __cdecl FUN_00c55920(const NiPoint3& size, const BoxColor* color);
+NiTriShape* __cdecl BSTestObjects_CreateBox_0(const NiPoint3& size, const BoxColor* color);
 struct S00c59660_Pt3 : public NiPoint3
 {
     S00c59660_Pt3()
@@ -11964,7 +11972,7 @@ struct S00c59660_Pt3 : public NiPoint3
 };
 inline void* operator new[](unsigned int size, S_00c42960_Heap& pool)
 {
-    return pool.FUN_00aa3e40(size);
+    return pool.Game_DoHeapAlloc(size);
 }
 inline void operator delete[](void*, S_00c42960_Heap&)
 {}
@@ -12320,7 +12328,7 @@ struct C5Base
         C5List& propertyList = properties;
         propertyList.Remove(property);
     }
-    bool FUN_00a5bf50(unsigned short usValue);
+    bool RemoveExtraDataAt(unsigned short usValue);
 };
 typedef C5Base C5Src;
 __forceinline bool SafeSource(C5Src* source)
@@ -12410,7 +12418,7 @@ FUN_00c5f680::FUN_00c5f680(C5Src* pkSource, bool bCopy) : C5Base(0)
         {
             void* pkExtra = pkSource->GetExtra(0);
             AddExtraData(pkExtra);
-            pkSource->FUN_00a5bf50(0);
+            pkSource->RemoveExtraDataAt(0);
         }
         FUN_00fdf100(&DAT_011f4380);
 
@@ -12658,7 +12666,7 @@ struct ProcessOwner_j61
     unsigned short capacity, count;
     int unka8, unkac, unkb0;
     EventRef_j61* event;
-    void FUN_00c50610(void* context);
+    void BSParticleSystemManager_UpdateParallel(void* context);
 };
 
 #include <string.h>
@@ -12781,11 +12789,12 @@ struct FrustumPlaneSet : ::NiMemObject
 
 struct FrustumArrayConstruction
 {
-    void FUN_00c4a360(void* elements, int count);
+    void BSSimpleArray_NiFrustumPlanes_1024_ConstructItems(void* elements, int count);
 };
 
 // @fnv 0x00c4a360
-void FrustumArrayConstruction::FUN_00c4a360(void* elements, int count)
+// src: COMMUNITY 0x00c4a360
+void FrustumArrayConstruction::BSSimpleArray_NiFrustumPlanes_1024_ConstructItems(void* elements, int count)
 {
     for (unsigned int index = 0; index < static_cast<unsigned int>(count); ++index)
     {

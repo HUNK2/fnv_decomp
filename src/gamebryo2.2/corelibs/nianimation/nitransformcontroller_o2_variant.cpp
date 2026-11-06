@@ -78,7 +78,8 @@ void FakeTransformController::FUN_00a36190(NiStream& kStream)
 extern int g_011f371c;
 
 // @fnv 0x00a36480
-int* __cdecl FUN_00a36480()
+// src: COMMUNITY 0x00a36480
+int* __cdecl NiBlendAccumTransformInterpolator_GetRTTI()
 {
     return &g_011f371c;
 }
@@ -101,20 +102,21 @@ void* __thiscall S_00a36490::FUN_00a36490(unsigned int flag)
 extern "C" void* g_011f36ec;
 
 // @fnv 0x00a36580
-void* __cdecl FUN_00a36580()
+// src: COMMUNITY 0x00a36580
+void* __cdecl NiTransformController_GetRTTI()
 {
     return &g_011f36ec;
 }
 
 namespace fnv_00a36840 {
 void __stdcall FUN_00a390a0(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 extern const char* g_011f36ec;
 // @fnv 0x00a36840
 void __stdcall FUN_00a36840(StrArr* pkStrings)
 {
     FUN_00a390a0(pkStrings);
-    char* pszString = FUN_00a7d330(g_011f36ec);
+    char* pszString = NiViewerStrings_NiGetViewerString_Title(g_011f36ec);
     unsigned int uiSize = pkStrings->m_usSize;
     if (uiSize >= pkStrings->m_usMaxSize)
         pkStrings->SetSize(uiSize + pkStrings->m_usGrowBy);

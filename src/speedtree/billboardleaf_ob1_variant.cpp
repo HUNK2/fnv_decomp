@@ -28,11 +28,12 @@ struct FUN_00b404c0_cls
     int unk14;
     unsigned char unk18;
 
-    void FUN_00b404c0(const FUN_00b28440_Class* src, bool flag);
+    void CBillboardLeaf_SetColor(const FUN_00b28440_Class* src, bool flag);
 };
 
 // @fnv 0x00b404c0
-void FUN_00b404c0_cls::FUN_00b404c0(const FUN_00b28440_Class* src, bool flag)
+// src: COMMUNITY 0x00b404c0
+void FUN_00b404c0_cls::CBillboardLeaf_SetColor(const FUN_00b28440_Class* src, bool flag)
 {
     FUN_00b28440_Class v = *src;
     int i;
@@ -102,7 +103,7 @@ struct Parser
     unsigned uiPos;
     ByteVec kData;
     int GetNextElement();
-    float FUN_00b3ed20();
+    float CTreeFileAccess_ParseFloat();
     int FUN_00b3ede0();
     unsigned char GetNextChar();
     V3 GetVector3();
@@ -169,7 +170,7 @@ LeafQ* FUN_00b405c0(Parser* p)
             pLeaf->SetA(p->GetVector3());
             break;
         case 0x1b68:
-            p->FUN_00b3ed20();
+            p->CTreeFileAccess_ParseFloat();
             break;
         default:
             throw FUN_00b09480("malformed billboard leaf", false);

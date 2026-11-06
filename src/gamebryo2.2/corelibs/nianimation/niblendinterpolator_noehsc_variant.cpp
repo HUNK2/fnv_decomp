@@ -140,7 +140,7 @@ struct FUN_00a370a0
     {}
     static void* operator new[](unsigned int n) throw()
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
     void LoadFromStream(Stream100&);
 };

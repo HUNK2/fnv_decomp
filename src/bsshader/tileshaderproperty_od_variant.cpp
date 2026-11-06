@@ -9,7 +9,8 @@ void* __cdecl FUN_00bb7d60();
 extern float DAT_0106ec38;
 
 // @fnv 0x00706e80
-float FUN_00706e80()
+// src: COMMUNITY 0x00706e80
+float retn1280_0()
 {
     return DAT_0106ec38;
 }

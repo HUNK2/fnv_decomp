@@ -107,7 +107,7 @@ struct InventorymenuInterfaceView
 {
     Camera* FUN_00704370();
 };
-InventorymenuInterfaceView* FUN_004b7210();
+InventorymenuInterfaceView* InterfaceManager_GetSingleton();
 extern Setting DAT_011db2f0, DAT_011db358, DAT_011d3dcc, DAT_011d1f2c, DAT_011d33f0;
 extern Setting* DAT_011d5168;
 extern int DAT_011d9f34, DAT_011d9ebc;
@@ -140,7 +140,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             int selectedSlot11 = (int)((List*)&static_cast<InventoryMenu*>(this)->m_kItemList)->Value(0xfac)->FUN_00a011b0();
             if (DAT_011d9f34 != selectedSlot11)
             {
-                InventorySelection::FUN_004b7210()->FUN_00704370()->FUN_007f8610(
+                InventorySelection::InterfaceManager_GetSingleton()->FUN_00704370()->FUN_007f8610(
                     0, DAT_011d9f34 < selectedSlot11 ? *DAT_011db2f0.FUN_00403e20() : -*DAT_011db2f0.FUN_00403e20(),
                     *DAT_011db358.FUN_00403e20(), 1);
                 DAT_011d9f34 = selectedSlot11;
@@ -186,7 +186,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
                 static_cast<InventoryMenu*>(this)->m_pTiles[11]->FUN_00a012d0(0xfb1, DAT_01072e3c, 1);
                 static_cast<InventoryMenu*>(this)->m_pTiles[11]->FUN_00a012d0(0xfb0, DAT_01072e3c, 1);
             }
-            static_cast<InventoryMenu*>(this)->m_pTiles[11]->FUN_00a07530(17);
+            static_cast<InventoryMenu*>(this)->m_pTiles[11]->Tile_SetChangeFlag(17);
             char path[260];
             FUN_00406d30(path, 260, DAT_0106eb24);
             unsigned int prefixLengthSlot0 = FUN_0044a670(path);
@@ -226,7 +226,7 @@ struct InventoryMenuListOperations : ListBoxBase
     virtual void q8(int);
     Tile* FUN_0071a320(int, const char*, int, int);
     void FUN_0071a320(void*, const char*, void*, int);
-    void FUN_0071a200(void*);
+    void ListBox_ItemChange_RemoveItemGroup(void*);
     void UpdateItems();
     void FUN_007314c0(void*, int, int);
     void PopulateInventoryList(void*, int, int, void*, int, int);
@@ -263,7 +263,7 @@ extern int DAT_011d3b20;
 extern int DAT_011c3cb4;
 void* __cdecl FUN_00705990();
 
-int __cdecl FUN_00406d90(float);
+int __cdecl FloatToInt(float);
 int __cdecl FUN_00406d00(char*, int, const char*, ...);
 int __cdecl FUN_00406d30(char*, unsigned int, const char*);
 int __cdecl FUN_00406d50(char*, unsigned int, const char*);
@@ -274,8 +274,8 @@ unsigned int __fastcall FUN_0044ddc0(void*);
 int __cdecl FUN_004839c0(int);
 unsigned int __cdecl FUN_0044a670(const char*);
 
-void __cdecl FUN_007824e0();
-void __cdecl FUN_00782620();
+void __cdecl InventoryMenu_CompareForSorting();
+void __cdecl InventoryMenu_FilterFunc();
 static const char kStr_IM_Headline_Title[] = "IM_Headline_Title";
 // @fnv 0x00782a90
 void FUN_00782a90()
@@ -294,13 +294,13 @@ void FUN_00782a90()
     if (DAT_011d9ea4 && ((FOPipboyManager*)FUN_00705990())->IsUnk28Set())
     {
         ea = (InventoryMenuChanges*)FUN_004bf220(g_thePlayer);
-        ca = FUN_00406d90(reinterpret_cast<ActorValueOwner*>(reinterpret_cast<char*>(g_thePlayer) + kActorValueOwnerOffset)->GetCurrentActorValue((ActorValue::Index)0x12));
+        ca = FloatToInt(reinterpret_cast<ActorValueOwner*>(reinterpret_cast<char*>(g_thePlayer) + kActorValueOwnerOffset)->GetCurrentActorValue((ActorValue::Index)0x12));
         ak = (int)(*((Setting*)&DAT_011d1020)->FUN_00403e20());
         if (ca > ak)
             ca = ak;
         FUN_00406d00(ba, 0x40, "%d", ca);
         ((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_pTiles[2]->FUN_00a01350(DAT_011d9eb4, ba, true);
-        bl = (float)FUN_00406d90(reinterpret_cast<ActorValueOwner*>(reinterpret_cast<char*>(g_thePlayer) + kActorValueOwnerOffset)->GetCurrentActorValue((ActorValue::Index)0x4c));
+        bl = (float)FloatToInt(reinterpret_cast<ActorValueOwner*>(reinterpret_cast<char*>(g_thePlayer) + kActorValueOwnerOffset)->GetCurrentActorValue((ActorValue::Index)0x4c));
         cn = (int)g_thePlayer->GetCurrentAIProcess()->GetActiveWeapon();
         ck = 0;
         if (cn)
@@ -364,7 +364,7 @@ void FUN_00782a90()
                     BSSimpleList<void*>* am;
                     BSSimpleList<InventoryStackRecord*> ah;
                     ea->FindEntriesByType(pInventoryChangeNode->GetItem(), &ah);
-                    ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->FUN_0071a200(pInventoryChangeNode->GetItem());
+                    ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->ListBox_ItemChange_RemoveItemGroup(pInventoryChangeNode->GetItem());
                     for (am = (BSSimpleList<void*>*)&ah; am && am->GetItem(); am = am->GetNext())
                     {
                         bb = dynamic_cast<TESFullName*>(
@@ -373,7 +373,7 @@ void FUN_00782a90()
                         FUN_00406d30(bo, 0x80, ((TESFullName*)bb)->GetFullName());
                         if (((InventoryItemQueries*)am->GetItem())->FUN_004bd820())
                             FUN_00406d50(bo, 0x80, "+");
-                        ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->FUN_0071a320(am->GetItem(), bo, (void*)&FUN_007824e0, 0);
+                        ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->FUN_0071a320(am->GetItem(), bo, (void*)&InventoryMenu_CompareForSorting, 0);
                     }
                 }
             }
@@ -394,9 +394,9 @@ void FUN_00782a90()
                     tt->FUN_00700320(0xfaa, 0x1e);
                 }
             }
-            ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->ApplyFilter((void*)&FUN_00782620);
+            ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->ApplyFilter((void*)&InventoryMenu_FilterFunc);
             ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->FUN_007314c0((void*)&FUN_00780c00, -1, 0x7fffffff);
-            ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->q8((int)&FUN_007824e0);
+            ((InventoryMenuListOperations*)&((InventoryMenu*)(void*)(unsigned int)DAT_011d9ea4)->m_kItemList)->q8((int)&InventoryMenu_CompareForSorting);
         }
         ((Menu*)DAT_011d9ea4)->ClearActionPointSource();
         FUN_007800c0();

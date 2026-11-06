@@ -108,7 +108,7 @@ struct RTTI_Stub
 };
 extern RTTI_Stub g_0120436c;
 
-char* __cdecl FUN_00a7d330(const char* name);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* name);
 char* __cdecl FUN_00a7d510(const char* label, unsigned int value);
 char* __cdecl FUN_00a7d490(const char* label, unsigned short value);
 char* __cdecl FUN_00a7d5a0(const char* label, void* value);
@@ -217,10 +217,10 @@ struct MeshEmitter : EmitterBase
 void MeshEmitter::FUN_00c5e9f0(ViewerStrings* pkStrings)
 {
     EmitterBase::GetViewerStrings(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_0120436c.GetName()));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_0120436c.GetName()));
     pkStrings->Add(FUN_00a7d510("Index", m_uiMax));
     pkStrings->Add(FUN_00a7d490("Max Emitter Objs", m_usIndex));
-    pkStrings->Add(FUN_00a7d330("Emitter Objs"));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title("Emitter Objs"));
     ListItem* kPos = m_kThirdFollowingStreamField.GetHeadPos();
     while (kPos)
     {

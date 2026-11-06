@@ -13,9 +13,9 @@
 #include "../../../include/VATSMenu.h"
 #include "../../../include/SleepWaitMenu.h"
 const char kMeshesFolder[] = "Meshes";
-unsigned int FUN_00702440();
+unsigned int NiVertexColorProperty_GetType();
 bool FUN_00705100();
-unsigned int FUN_00706f20();
+unsigned int HudMainMenu_GetMenuID();
 bool FUN_00707b50();
 class InterfaceManagerKey
 {
@@ -23,16 +23,17 @@ class InterfaceManagerKey
     bool FUN_009373f0();
 };
 Tile* __cdecl FUN_00a09030(unsigned int eLine);
-void __cdecl FUN_007e9200();
-void __cdecl FUN_00705640();
+void __cdecl VATSMenu_Create();
+void __cdecl Interface_CreateVATSMenu();
 
 Tile* __cdecl FUN_00a09030(unsigned int);
 bool __cdecl IsSomethingZero();
 void __cdecl CreateSleepWaitMenu(bool);
 // @fnv 0x007054f0
-void __cdecl FUN_007054f0(bool sleep)
+// src: COMMUNITY 0x007054f0
+void __cdecl Interface_CreateSleepMenu(bool sleep)
 {
-    if (FUN_004b7210() && FUN_004b7210()->FUN_009373f0() && IsSomethingZero())
+    if (InterfaceManager_GetSingleton() && InterfaceManager_GetSingleton()->FUN_009373f0() && IsSomethingZero())
     {
         Tile* menu = FUN_00a09030(1012);
         SleepWaitMenu* tile = menu ? dynamic_cast<SleepWaitMenu*>(static_cast<const Tile*>(menu)->GetMenu()) : 0;

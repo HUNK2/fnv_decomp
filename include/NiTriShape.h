@@ -79,7 +79,7 @@ class NiTriShape : public NiTriBasedGeom
     using NiTriBasedGeom::FUN_004f00e0;
     void* FUN_005495f0(ObjC* data, int a, int b, int d, int e, int f, int g);
     void FUN_00635fe0(bool value);
-    void FUN_00688430(NineDw* transform);
+    void NiAVObject_SetWorldRotate(NineDw* transform);
     void FUN_00a5a040();
     void SetValue(float value);
     NiBound* GetSourceFilesFromForm();

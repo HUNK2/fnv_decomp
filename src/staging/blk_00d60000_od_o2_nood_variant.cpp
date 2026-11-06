@@ -204,7 +204,8 @@ static __forceinline void buildBasis(const MotionInput* input, __m128 normal, Ba
 }
 
 // @fnv 0x00d6aef0
-void __cdecl FUN_00d6aef0(const MotionInput* input, float outputBits)
+// src: COMMUNITY 0x00d6aef0
+void __cdecl hkpCharacterMovementUtil_calculateMovement(const MotionInput* input, float outputBits)
 {
     __m128 a = input->directionA, b = input->directionB;
     __m128 t = _mm_mul_ps(_mm_shuffle_ps(b, b, 0xc9), _mm_shuffle_ps(a, a, 0xd2));
@@ -224,7 +225,7 @@ void __cdecl FUN_00d6aef0(const MotionInput* input, float outputBits)
         } workspace;
         buildBasis(input, normal, workspace.basis);
         (*reinterpret_cast<__m128*>(&workspace.position)) = _mm_sub_ps(input->position, input->translation);
-        workspace.position.FUN_004b4ab0(reinterpret_cast<const Rot&>(workspace.basis), workspace.position);
+        workspace.position.hkVector4_setRotatedInverseDir(reinterpret_cast<const Rot&>(workspace.basis), workspace.position);
         workspace.delta = _mm_sub_ps(input->target, (*reinterpret_cast<__m128*>(&workspace.position)));
         float distanceSquared;
         _mm_store_ss(&distanceSquared, dot3(workspace.delta));
@@ -280,7 +281,8 @@ struct BodyOut
 };
 
 // @fnv 0x00d6b4b0
-void FUN_00d6b4b0(BodyList* list, BodyOut* out)
+// src: COMMUNITY 0x00d6b4b0
+void hkaKeyFrameHierarchyUtility_initialize(BodyList* list, BodyOut* out)
 {
     for (int i = 0; i < list->m_iElementCount; i++)
     {

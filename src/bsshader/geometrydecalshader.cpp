@@ -439,12 +439,13 @@ struct DecalCls : public BSShader
     PassReference m_pkPass1;
     PassReference m_pkPass2;
 
-    void FUN_00bcb7f0();
+    void GeometryDecalShader_PresetPasses();
 };
 
 // Configures both passes: builds missing stages, assigns shaders, and sets map constants via SetNodeValue.
 // @fnv 0x00bcb7f0
-void DecalCls::FUN_00bcb7f0()
+// src: COMMUNITY 0x00bcb7f0
+void DecalCls::GeometryDecalShader_PresetPasses()
 {
     PtrPass spRenderPass;
     StagePtr stagePtr;
@@ -578,7 +579,7 @@ void __stdcall ApplyShaderInputToPass(ShaderInput* apInput)
 
 struct NiRenderer;
 extern NiRenderer* DAT_011f9508;
-NiGPUProgram* __cdecl FUN_00e76700(NiRenderer*, unsigned int, unsigned int);
+NiGPUProgram* __cdecl NiDX9ShaderDeclaration_Create(NiRenderer*, unsigned int, unsigned int);
 struct ProgramView : NiGPUProgram
 {
     virtual void Slot2();
@@ -641,8 +642,8 @@ inline void SetProgram(NiGPUProgram*& destination, NiGPUProgram* object)
 // @fnv 0x00bcc0a0
 GeometryDecalShader* __cdecl CreateGeometryDecalShader()
 {
-    SetProgram(DAT_012021e0, FUN_00e76700(DAT_011f9508, 2, 1));
-    SetProgram(DAT_012021e4, FUN_00e76700(DAT_011f9508, 4, 1));
+    SetProgram(DAT_012021e0, NiDX9ShaderDeclaration_Create(DAT_011f9508, 2, 1));
+    SetProgram(DAT_012021e4, NiDX9ShaderDeclaration_Create(DAT_011f9508, 4, 1));
     static_cast<ProgramView*>(DAT_012021e0)->SetEntry(0, 0, 0, 2, 0);
     static_cast<ProgramView*>(DAT_012021e0)->SetEntry(1, 3, 3, 2, 0);
     static_cast<ProgramView*>(DAT_012021e0)->Finish();

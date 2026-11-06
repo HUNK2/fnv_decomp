@@ -158,7 +158,7 @@ struct FUN_00b27060_cls
     int unk28;
     int unk2C;
     unsigned char unk30;
-    FUN_00b27060_cls* FUN_00b27060();
+    FUN_00b27060_cls* CSimpleBillboard_CSimpleBillboard();
 };
 struct ResourceBufferOwner
 {
@@ -206,7 +206,7 @@ class FUN_00b276f0_cls
 
     void Reset();
 };
-extern void __cdecl FUN_00401030(void* p);
+extern void __cdecl FormHeapFreeAndLog_00401030(void* p);
 // InitBuffer
 extern "C" int __cdecl FUN_00b2e4a0(unsigned int count, int flag);
 extern "C" void __cdecl FUN_00b0fb80();
@@ -259,7 +259,7 @@ struct FUN_00b335c0_tmp
     unsigned int unk28;
     unsigned int unk2C;
 };
-unsigned int __cdecl FUN_00b42e50(unsigned int a, unsigned int b, unsigned int c);
+unsigned int __cdecl std__Move(unsigned int a, unsigned int b, unsigned int c);
 struct FUN_00b335c0_cls
 {
     unsigned int unk00;
@@ -312,7 +312,7 @@ struct Hldr0044
     void Init(unsigned int* p);
 };
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(unsigned int scaled);
+extern "C" void __cdecl FormHeap_Allocate(unsigned int scaled);
 extern "C" int DAT_01140ef8;
 extern "C" int DAT_010176f8;
 // @fnv 0x00b35f00
@@ -336,7 +336,7 @@ extern "C" void __cdecl FUN_00b35f00(unsigned int n)
         }
     }
 
-    FUN_00401000(n * 2);
+    FormHeap_Allocate(n * 2);
 }
 
 struct FUN_00b31270
@@ -709,11 +709,12 @@ struct PointOwner
     int unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c;
     VecStandIn<float> m_kPoints;
 
-    float* FUN_00b31020(int index);
+    float* CIndexedGeometry_GetOrigVertexCoord(int index);
 };
 
 // @fnv 0x00b31020
-float* PointOwner::FUN_00b31020(int index)
+// src: COMMUNITY 0x00b31020
+float* PointOwner::CIndexedGeometry_GetOrigVertexCoord(int index)
 {
     return &m_kPoints[0] + index * 3;
 }
@@ -915,10 +916,11 @@ struct B30Owner
     char pad00[0x58];
     B30Vec<B30Vec<void*> > m_kLists;
     unsigned short FUN_00b0a9a0(unsigned short usType);
-    void FUN_00b30c80(unsigned short usType);
+    void CIndexedGeometry_DeleteLodStrip(unsigned short usType);
 };
 // @fnv 0x00b30c80
-void B30Owner::FUN_00b30c80(unsigned short usType)
+// src: COMMUNITY 0x00b30c80
+void B30Owner::CIndexedGeometry_DeleteLodStrip(unsigned short usType)
 {
     int p;
     void* a;
@@ -928,7 +930,7 @@ void B30Owner::FUN_00b30c80(unsigned short usType)
     for (p = 0; p < FUN_00b0a9a0(usType); p++)
     {
         a = m_kLists[usType][p];
-        FUN_00401030(a);
+        FormHeapFreeAndLog_00401030(a);
         m_kLists[usType][p] = 0;
     }
 }
@@ -1788,10 +1790,11 @@ struct GroupBuilder
     int unk18, unk1c, unk20, unk24;
     unsigned short groupCount;
     BufferGroup* groups;
-    void FUN_00b29380(unsigned short count, PointVector* input);
+    void CLeafGeometry_InitLods(unsigned short count, PointVector* input);
 };
 // @fnv 0x00b29380
-void GroupBuilder::FUN_00b29380(unsigned short count, PointVector* input)
+// src: COMMUNITY 0x00b29380
+void GroupBuilder::CLeafGeometry_InitLods(unsigned short count, PointVector* input)
 {
     if (input && matrices && range && auxiliary)
     {
@@ -2741,7 +2744,7 @@ record_model::FUN_00b2e680* __cdecl FUN_00b2e500(record_model::FUN_00b2e680* _Fi
     return _Result;
 }
 
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -2765,7 +2768,7 @@ inline void Del(FUN_00b2e740* p, unsigned int f)
     StrY* q = &p->s;
     q->FUN_0044a730(true, 0);
     if (f & 1)
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
 }
 inline void DeadX()
 {
@@ -2856,13 +2859,14 @@ struct PtOwner
     int unk80;
     int unk84;
     PtVector kPoints;
-    float* FUN_00b30f80(int index);
+    float* CIndexedGeometry_GetVertexCoord(int index);
 };
 }
 using namespace ptb30;
 
 // @fnv 0x00b30f80
-float* PtOwner::FUN_00b30f80(int index)
+// src: COMMUNITY 0x00b30f80
+float* PtOwner::CIndexedGeometry_GetVertexCoord(int index)
 {
     return &kPoints[0] + index * 3;
 }
@@ -3348,7 +3352,7 @@ struct VcVector : VcContainer
         }
         return _First;
     }
-    void FUN_00b319e0();
+    void m_vStripLengths_clear();
 };
 inline VcConstIterator::VcConstIterator(VcElem* _Ptr, const VcContainer* _Pvector)
 {
@@ -3371,13 +3375,14 @@ inline VcConstIterator& VcConstIterator::operator+=(int _Off)
 using namespace vecb319;
 
 // @fnv 0x00b319e0
-void VcVector::FUN_00b319e0()
+// src: COMMUNITY 0x00b319e0
+void VcVector::m_vStripLengths_clear()
 {
     erase(begin(), end());
 }
 }  // namespace fnv_00b319e0
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 struct BufferPtr
 {
@@ -3385,7 +3390,7 @@ struct BufferPtr
     __forceinline ~BufferPtr()
     {
         void* pData = m_pData;
-        FUN_00401030(pData);
+        FormHeapFreeAndLog_00401030(pData);
     }
 };
 
@@ -3959,7 +3964,7 @@ void FUN_00b32540_Vector::FUN_00b32540()
 namespace fnv_00b32880 {
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VB2Q
 {
@@ -4576,17 +4581,17 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b23aa0(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b36bf0(ElQ* f, ElQ* l, ElQ* d, AlQ& al, MoveCatQ c, TagQ t);
@@ -5651,7 +5656,7 @@ struct BxLengthError : public BxLogicError
 struct AsObj;
 struct AsHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 void FUN_00ec7c56();
@@ -6443,7 +6448,7 @@ struct BxLengthError : public BxLogicError
 struct AsObj;
 struct AsHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 void FUN_00ec7c56();
@@ -7317,7 +7322,7 @@ struct BxLengthError : public BxLogicError
 struct AsObj;
 struct AsHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 void FUN_00ec7c56();
@@ -7648,7 +7653,7 @@ asgnb36::AsVector* __cdecl FUN_00b35f60(asgnb36::AsVector* _First, asgnb36::AsVe
 }  // namespace fnv_00b35f60
 
 namespace fnv_00b361b0 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -7657,7 +7662,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -7716,14 +7721,14 @@ inline void* __cdecl operator new(size_t, void* p) throw()
 }
 inline void __cdecl operator delete(void*, void*) throw()
 {}
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 struct S00b368d0_Buf
 {
     void* p;
     ~S00b368d0_Buf()
     {
         void* tmp = p;
-        FUN_00401030(tmp);
+        FormHeapFreeAndLog_00401030(tmp);
     }
 };
 struct S00b368d0_Elem : S00b368d0_Buf
@@ -7794,7 +7799,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -7881,7 +7886,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -7973,7 +7978,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -8841,9 +8846,9 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 ElQ* __cdecl FUN_00b3e450(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
 ElQ* __cdecl FUN_00b3e4a0(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
@@ -10560,7 +10565,7 @@ void SxOwner::FUN_00b3feb0(SxObj* obj)
 }
 }  // namespace fnv_00b3feb0
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 struct FUN_00b3f0a0
 {
     int m_base[8];
@@ -10592,7 +10597,7 @@ struct B2AE90_Allocator
 {
     void deallocate(void* p)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 };
 struct B2AE90_ArrayBase
@@ -11131,17 +11136,17 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b23aa0(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b36d70(ElQ* f, ElQ* l, ElQ* d, AlQ& al, MoveCatQ c, TagQ t);
@@ -11675,7 +11680,7 @@ struct BxLengthError : public BxLogicError
 struct AsObj;
 struct AsHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 void FUN_00ec7c56();
@@ -12058,7 +12063,7 @@ void __cdecl FUN_00b36b10(unsigned int* first, unsigned count, const unsigned in
 }
 }  // namespace fnv_00b36b10
 
-extern void __cdecl FUN_00401030(void* p);
+extern void __cdecl FormHeapFreeAndLog_00401030(void* p);
 template <class T> inline void swapq(T& l, T& r)
 {
     if (&l != &r)
@@ -12077,7 +12082,7 @@ struct AuxBaseQ
     AuxQ* m0;
     static void Dealloc(void* p)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     ~AuxBaseQ()
     {
@@ -12137,7 +12142,7 @@ void __thiscall FUN_00b357d0::FUN_00b36f60(FUN_00b357d0& o)
 }
 
 namespace fnv_00b37190 {
-extern void __cdecl FUN_00401030(void* p);
+extern void __cdecl FormHeapFreeAndLog_00401030(void* p);
 template <class T> inline void swapq(T& l, T& r)
 {
     if (&l != &r)
@@ -12156,7 +12161,7 @@ struct AuxBaseQ
     AuxQ* m0;
     static void Dealloc(void* p)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     ~AuxBaseQ()
     {
@@ -15779,7 +15784,7 @@ struct S00b360a0_Base
     ~S00b360a0_Base()
     {
         void* p = allocation;
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 };
 struct S00b360a0_Vec : S00b360a0_Base
@@ -17679,7 +17684,7 @@ struct FloatVector18
         return begin[index];
     }
 };
-bool __cdecl FUN_00b0d7a0();
+bool __cdecl CSpeedTreeRT_GetTextureFlip();
 struct Params18
 {
     float x;
@@ -17764,23 +17769,24 @@ struct Target18
     int unk114;
     FloatVector18 values;
     ByteVector18 types;
-    void __thiscall FUN_00b301f0(float* values, int flags);
-    void __thiscall FUN_00b31070(unsigned char type, Params18* params);
+    void __thiscall CIndexedGeometry_AddVertexTexCoord0(float* values, int flags);
+    void __thiscall CIndexedGeometry_ChangeTexCoord(unsigned char type, Params18* params);
 };
 static __forceinline float Lerp18(const float& t, float a, float b)
 {
     return a + (b - a) * t;
 }
 // @fnv 0x00b31070
-void Target18::FUN_00b31070(unsigned char type, Params18* params)
+// src: COMMUNITY 0x00b31070
+void Target18::CIndexedGeometry_ChangeTexCoord(unsigned char type, Params18* params)
 {
     float result[2];
     if (type == types.at(index))
     {
         result[0] = Lerp18(values.at(2 * index), params->z, params->x);
         result[1] = Lerp18(values.at(2 * index + 1), params->w, params->y);
-        if (FUN_00b0d7a0())
+        if (CSpeedTreeRT_GetTextureFlip())
             result[1] = -result[1];
-        FUN_00b301f0(result, -1);
+        CIndexedGeometry_AddVertexTexCoord0(result, -1);
     }
 }

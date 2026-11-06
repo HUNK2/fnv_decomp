@@ -78,11 +78,12 @@ class Flag512Receiver
 {
   public:
     void FUN_00633ba0(bool, unsigned int);
-    void FUN_00636000(bool enabled);
+    void NiAlphaProperty_SetNoSorter(bool enabled);
 };
 
 // @fnv 0x00636000
-void Flag512Receiver::FUN_00636000(bool enabled)
+// src: COMMUNITY 0x00636000
+void Flag512Receiver::NiAlphaProperty_SetNoSorter(bool enabled)
 {
     FUN_00633ba0(enabled, 0x2000);
 }
@@ -94,15 +95,15 @@ struct Calendar
 extern Calendar g_calendar;
 extern unsigned int DAT_011cca80;
 void* __fastcall _ref_0084e3a0(const Sky*);
-unsigned int __fastcall FUN_00636980(void*);
+unsigned int __fastcall TESClimate_GetMoonPhaseDays(void*);
 
 // @fnv 0x006368f0
 bool __cdecl Moon::IsMoonVisible(const Sky* apSky)
 {
-    if (_ref_0084e3a0(apSky) && FUN_00636980(_ref_0084e3a0(apSky)))
+    if (_ref_0084e3a0(apSky) && TESClimate_GetMoonPhaseDays(_ref_0084e3a0(apSky)))
     {
-        unsigned int eNewPhase = (g_calendar.GetGameDaysPassed() % (FUN_00636980(_ref_0084e3a0(apSky)) * 8)) /
-                                 FUN_00636980(_ref_0084e3a0(apSky));
+        unsigned int eNewPhase = (g_calendar.GetGameDaysPassed() % (TESClimate_GetMoonPhaseDays(_ref_0084e3a0(apSky)) * 8)) /
+                                 TESClimate_GetMoonPhaseDays(_ref_0084e3a0(apSky));
         if (eNewPhase != DAT_011cca80)
         {
             DAT_011cca80 = eNewPhase;
@@ -116,11 +117,12 @@ struct FUN_00636980_Helper
 {
     char pad[0x55];
     unsigned char f55;
-    unsigned char FUN_00636980();
+    unsigned char TESClimate_GetMoonPhaseDays();
 };
 
 // @fnv 0x00636980
-unsigned char FUN_00636980_Helper::FUN_00636980()
+// src: COMMUNITY 0x00636980
+unsigned char FUN_00636980_Helper::TESClimate_GetMoonPhaseDays()
 {
     return f55 & ~0xc0;
 }

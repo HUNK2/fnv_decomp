@@ -40,13 +40,13 @@ class ImageSpaceTexture
     BSRenderedTexture* FUN_00ba3770();                     // 0x00ba3770
     NiTexture* GetTexture();                               // 0x00ba3780
     NiTexture* GetTexture() const;                         // 0x00ba3780
-    void FUN_00ba37a0(BSRenderedTexture* texture);         // 0x00ba37a0 set rendered texture
+    void ImageSpaceTexture_SetTexture(BSRenderedTexture* texture);         // 0x00ba37a0 set rendered texture
     void FUN_00ba3760(unsigned int value);                 // 0x00ba3760 stores +0x0C (m_eClampMode); imagespacetexture_o2_variant.cpp
     void SetTexture(NiTexture* texture);                   // 0x00ba37f0
     void CreateRenderTargetTexture(BSTextureManager::RenderTargetType type); // 0x00ba3840
-    void FUN_00ba3840(unsigned int type);                  // 0x00ba3840
-    void FUN_00ba38b0();                                   // 0x00ba38b0 release texture, clear fields
+    void ImageSpaceTexture_BorrowRenderedTexture(unsigned int type);                  // 0x00ba3840
+    void ImageSpaceTexture_ClearTexture();                                   // 0x00ba38b0 release texture, clear fields
     void FUN_00ba3940(ImageSpaceTexture* other);           // 0x00ba3940 copy (operator=)
     void AddRenderedTexture();                             // 0x00ba39a0 hand the rendered texture back
-    void FUN_00ba39a0();                                   // 0x00ba39a0
+    void ImageSpaceTexture_ReturnRenderedTexture();                                   // 0x00ba39a0
 };

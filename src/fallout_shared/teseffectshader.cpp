@@ -200,12 +200,13 @@ TESTexture* TESEffectShader::GetFieldAt164()
     return reinterpret_cast<TESTexture*>(&m_kHolesTexture);
 }
 
-extern "C" void __cdecl FUN_00ba6290(NiAVObject*, ParticleShaderProperty*);
+extern "C" void __cdecl ParticleShader_Stop(NiAVObject*, ParticleShaderProperty*);
 
 // @fnv 0x00507810
-void TESEffectShader::FUN_00507810(NiAVObject* aiArg1, ParticleShaderProperty* aiArg2)
+// src: COMMUNITY 0x00507810
+void TESEffectShader::StopParticleShader(NiAVObject* aiArg1, ParticleShaderProperty* aiArg2)
 {
-    FUN_00ba6290(aiArg1, aiArg2);
+    ParticleShader_Stop(aiArg1, aiArg2);
 }
 
 // @fnv 0x00507b00
@@ -225,15 +226,15 @@ class ParticleShaderProperty
 {
   public:
     void SetParticleTime(float);
-    void FUN_00507550(void*);
-    void FUN_00584150(float);
-    void FUN_00507570(float);
-    void FUN_0051b8c0(float);
+    void ParticleShaderProperty_SetTexture0x118(void*);
+    void SetWaterLODHeight(float);
+    void ParticleShaderProperty_SetLifetimeVar(float);
+    void SkyShaderProperty_SetBlendValue(float);
     void FUN_00810550(float);
     void FUN_006e29d0(float);
     void SetData(NiPoint3);
-    void FUN_005075c0(NiPoint3);
-    void FUN_005075f0(float);
+    void ParticleShaderProperty_SetAcceleration(NiPoint3);
+    void LowProcess_SetDeathTime(float);
     void FUN_009314d0(float);
     void FUN_00507610(float);
     void FUN_006e5ee0(float);
@@ -241,19 +242,19 @@ class ParticleShaderProperty
     void SetBoltSmallWidth(float);
     void FUN_005077a0(float);
     void SetPoint(Color);
-    void FUN_00507660(Color);
-    void FUN_00507690(Color);
+    void ParticleShaderProperty_SetColor2(Color);
+    void ParticleShaderProperty_SetColor3(Color);
     void FUN_006e4ef0(float);
     void FUN_006e4320(float);
     void FUN_005076c0(float);
     void FUN_005076e0(float);
-    void FUN_00733fd0(float);
+    void NiCamera_SetMinNearPlaneDist(float);
     void FUN_00507700(float);
     void FUN_00507720(float);
     void FUN_006d30e0(int);
     void FUN_00505e50(int);
-    void FUN_00507740(int);
-    void FUN_00507760(int);
+    void ParticleShaderProperty_SetBlendOp(int);
+    void ParticleShaderProperty_SetZTestFunc(int);
 };
 ParticleShaderProperty* __cdecl FUN_00ba68d0(NiAVObject*, NiAVObject*);
 // @fnv 0x005077c0
@@ -518,15 +519,15 @@ struct Color
 // @fnv 0x00507060
 void TESEffectShader::CopySettingsTo(ParticleShaderProperty* apDestination, NiSourceTexture* apTexture)
 {
-    apDestination->FUN_00507550(apTexture);
-    apDestination->FUN_00584150(Data.m_fShaderFloatParameter3);
-    apDestination->FUN_00507570(Data.m_fShaderFloatParameter4);
-    apDestination->FUN_0051b8c0(Data.m_fShaderFloatParameter5);
+    apDestination->ParticleShaderProperty_SetTexture0x118(apTexture);
+    apDestination->SetWaterLODHeight(Data.m_fShaderFloatParameter3);
+    apDestination->ParticleShaderProperty_SetLifetimeVar(Data.m_fShaderFloatParameter4);
+    apDestination->SkyShaderProperty_SetBlendValue(Data.m_fShaderFloatParameter5);
     apDestination->FUN_00810550(Data.m_fShaderFloatParameter6);
     apDestination->FUN_006e29d0(Data.m_fShaderFloatParameter17);
     apDestination->SetData(Data.VelocityState);
-    apDestination->FUN_005075c0(Data.m_kVectorState2);
-    apDestination->FUN_005075f0(Data.m_fShaderFloatParameter18);
+    apDestination->ParticleShaderProperty_SetAcceleration(Data.m_kVectorState2);
+    apDestination->LowProcess_SetDeathTime(Data.m_fShaderFloatParameter18);
     apDestination->FUN_009314d0(Data.m_fShaderFloatParameter19);
     apDestination->FUN_00507610(Data.m_fShaderFloatParameter20);
     apDestination->FUN_006e5ee0(Data.m_fShaderFloatParameter21);
@@ -549,19 +550,19 @@ void TESEffectShader::CopySettingsTo(ParticleShaderProperty* apDestination, NiSo
     color2.a = Data.m_fShaderFloatParameter12;
     color3.a = Data.m_fShaderFloatParameter13;
     apDestination->SetPoint(color1);
-    apDestination->FUN_00507660(color2);
-    apDestination->FUN_00507690(color3);
+    apDestination->ParticleShaderProperty_SetColor2(color2);
+    apDestination->ParticleShaderProperty_SetColor3(color3);
     apDestination->FUN_006e4ef0(Data.m_fShaderFloatParameter14);
     apDestination->FUN_006e4320(Data.m_fShaderFloatParameter15);
     apDestination->FUN_005076c0(Data.m_fShaderFloatParameter16);
     apDestination->FUN_005076e0(Data.m_fShaderFloatParameter7);
-    apDestination->FUN_00733fd0(Data.m_fShaderFloatParameter8);
+    apDestination->NiCamera_SetMinNearPlaneDist(Data.m_fShaderFloatParameter8);
     apDestination->FUN_00507700(Data.m_fShaderFloatParameter9);
     apDestination->FUN_00507720(Data.m_fShaderFloatParameter10);
     apDestination->FUN_006d30e0(Data.m_eAlphaSourceBlend);
     apDestination->FUN_00505e50(Data.m_eAlphaDestinationBlend);
-    apDestination->FUN_00507740(Data.m_eAlphaBlendOperation);
-    apDestination->FUN_00507760(Data.m_eAlphaDepthCompareFunction);
+    apDestination->ParticleShaderProperty_SetBlendOp(Data.m_eAlphaBlendOperation);
+    apDestination->ParticleShaderProperty_SetZTestFunc(Data.m_eAlphaDepthCompareFunction);
 }
 
 struct ColorValue

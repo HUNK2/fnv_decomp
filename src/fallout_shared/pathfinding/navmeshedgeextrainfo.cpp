@@ -18,10 +18,11 @@ struct PortalHolder
 };
 struct EdgeHolder
 {
-    void FUN_0069d240(void* a, void* b);
+    void EdgeExtraInfo_LoadV5(void* a, void* b);
 };
 // @fnv 0x0069d240
-void EdgeHolder::FUN_0069d240(void* apArg1, void* apArg2)
+// src: COMMUNITY 0x0069d240
+void EdgeHolder::EdgeExtraInfo_LoadV5(void* apArg1, void* apArg2)
 {
     *(int*)this = 0;
     ((PortalHolder*)((char*)this + 4))->LoadFormRef(g_TES->GetActiveCell(apArg1, apArg2));

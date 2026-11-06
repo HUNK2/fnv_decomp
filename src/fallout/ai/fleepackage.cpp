@@ -24,7 +24,8 @@ struct BSSimpleListTESRaceSize
 
 // Returns true if the list at offset 0x98 has one entry that is the player and FUN_00953c50 fails; otherwise false.
 // @fnv 0x009f1990
-bool FleePackage::FUN_009f1990()
+// src: COMMUNITY 0x009f1990
+bool FleePackage::ShouldShutDown()
 {
     if (((BSSimpleListTESRaceSize*)((char*)&AvoidedRefList))->GetSize() == 1)
     {

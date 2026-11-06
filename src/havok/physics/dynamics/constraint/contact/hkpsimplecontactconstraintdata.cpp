@@ -189,7 +189,7 @@ struct S_00d92fd0_Atom
     unsigned short unk02;
     int unk04, unk08, unk0c, unk10;
     S_00d92fd0_Atom* next;
-    void FUN_00d21d00(int a, float b, int c, int d, int e, int f);
+    void nullsub_31(int a, float b, int c, int d, int e, int f);
     void FUN_00d21d10(int a, float b, int c, int d, int e, int f);
     void FUN_00d21fc0(int a, float b, int c, int d, int e, int f);
     void FUN_00d22260(int a, float b, int c, int d, int e, int f);
@@ -249,7 +249,7 @@ void S_00d92fd0_This::DispatchAtomHandlers(int aiArg1, float afArg2, int aiArg3,
         switch (x->type)
         {
         case 0x18:
-            x->FUN_00d21d00(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
+            x->nullsub_31(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
             break;
         case 0x17:
             x->FUN_00d21d10(aiArg1, afArg2, aiArg3, aiArg4, aiArg5, aiArg6);
@@ -1002,7 +1002,7 @@ struct __declspec(align(16)) S00d92900_BreachInfo
     }
 };
 
-extern float FUN_00df2510(const S00d92900_Body* a, const S00d92900_Body* b, const float* comA, const float* comB,
+extern float hkpSimpleContactConstraintUtil_calculateSeparatingVelocity(const S00d92900_Body* a, const S00d92900_Body* b, const float* comA, const float* comB,
                           const hkContactPoint* cp);
 extern void hkpWorldCallbackUtil_fireContactPointCallback(S00d92900_World* world, S00d92900_Event& event);
 extern void hkpEntityCallbackUtil_fireContactPointCallbackInternal(S00d92900_Body* entity, S00d92900_Event& event);
@@ -1053,7 +1053,7 @@ static __forceinline void dispatchContacts(S00d92900_Data* constraintData, const
         unsigned char& flags = cpp->asProperties()->m_flags;
         if (flags & 1)
         {
-            float projectedVel = FUN_00df2510(rbA, rbB, in->m_pBodyA->getCenterOfMassInWorld(),
+            float projectedVel = hkpSimpleContactConstraintUtil_calculateSeparatingVelocity(rbA, rbB, in->m_pBodyA->getCenterOfMassInWorld(),
                                               in->m_pBodyB->getCenterOfMassInWorld(), cp);
             {
                 unsigned int* extendedUserData = cpp->asProperties()->getStartOfExtendedUserData(atom);

@@ -241,7 +241,7 @@ class InventoryStackRecord;
 struct ModelLoaderIOOperations
 {
     void FUN_00c3df40(void*, int);
-    void FUN_0044adb0();
+    void BSTaskManager_int64_ForceSignal();
     void FUN_0057bd60(void*);
     void FUN_004febb0(void*);
     void FUN_00442a80(void*);
@@ -753,7 +753,8 @@ NiNode* BSStream::GetStringAt(unsigned int auiIndex)
 namespace fnv_0043b230 {
 
 // @fnv 0x0043b230
-const char* __fastcall FUN_0043b230(const char* pThis)
+// src: COMMUNITY 0x0043b230
+const char* __fastcall NiObjectNET_GetControllers(const char* pThis)
 {
     return *(const BSStringT<char>*)(pThis + 0x0c);
 }
@@ -800,11 +801,12 @@ struct Col_0043b4f0
 struct W_0043b4f0
 {
     Col_0043b4f0* GetSourceFilesFromObject();
-    FormChangeMask* FUN_0043b4f0(FormChangeMask* result);
+    FormChangeMask* bhkWorldObject_GetCollisionFilter(FormChangeMask* result);
 };
 // @fnv 0x0043b4f0
 // Use explicit return storage to preserve the original ABI with the shared mask destructor.
-FormChangeMask* W_0043b4f0::FUN_0043b4f0(FormChangeMask* result)
+// src: COMMUNITY 0x0043b4f0
+FormChangeMask* W_0043b4f0::bhkWorldObject_GetCollisionFilter(FormChangeMask* result)
 {
     Col_0043b4f0* pc = GetSourceFilesFromObject();
     result->FormChangeMask::FormChangeMask(pc ? pc->FUN_0043b540() : 0);
@@ -856,7 +858,7 @@ struct _LogStub0043bd00
 void __cdecl _FNV_Warning(const char*, ...);
 int __cdecl _sprintf(char*, const char*, ...);
 bool __cdecl IsHeapLoggerPresent();
-_LogStub0043bd00* __cdecl FUN_0043bd00();
+_LogStub0043bd00* __cdecl BSCoreMessage_GetInstance();
 
 // @fnv 0x0043bb80
 void FUN_0043bb80_shell::DestroyLoadedFile()
@@ -877,7 +879,7 @@ void FUN_0043bb80_shell::DestroyLoadedFile()
                  *reinterpret_cast<int*>(this));
         if (IsHeapLoggerPresent())
         {
-            FUN_0043bd00()->vfn_14(4, szMessage, 0, 0, 0);
+            BSCoreMessage_GetInstance()->vfn_14(4, szMessage, 0, 0, 0);
         }
     }
     delete pFileName;
@@ -916,7 +918,7 @@ struct ML_0043c050
 struct Q_0043c050 : public QueuedTexture
 {
     bool ForwardByteToMember(bool);
-    void FUN_0043c100(bool);
+    void QueuedTexture_SetInQueuedTextureMap(bool);
     void FUN_0043c050();
 };
 // @fnv 0x0043c050
@@ -925,7 +927,7 @@ void Q_0043c050::FUN_0043c050()
     if (GetFileEntry())
     {
         bool bresult = reinterpret_cast<ML_0043c050*>(g_modelLoader)->InsertQueuedTexture(GetFileEntry(), this);
-        FUN_0043c100(bresult);
+        QueuedTexture_SetInQueuedTextureMap(bresult);
     }
     if (reinterpret_cast<ML_0043c050*>(g_modelLoader)->IsLoadTexturesDegraded())
         ForwardByteToMember(true);
@@ -934,14 +936,15 @@ void Q_0043c050::FUN_0043c050()
 
 struct FUN_0043c100_shell : public QueuedTexture
 {
-    void FUN_0043c100(bool);
+    void QueuedTexture_SetInQueuedTextureMap(bool);
 };
 
 void __cdecl FUN_0044aea0(bool, void*);
 
 // Forwards abValue and the object's field at offset 0x34 to FUN_0044aea0.
 // @fnv 0x0043c100
-void FUN_0043c100_shell::FUN_0043c100(bool abValue)
+// src: COMMUNITY 0x0043c100
+void FUN_0043c100_shell::QueuedTexture_SetInQueuedTextureMap(bool abValue)
 {
     FUN_0044aea0(abValue, reinterpret_cast<char*>(this) + 0x34);
 }
@@ -968,13 +971,14 @@ bool FUN_0043c130_shell::IsLoadTexturesDegraded()
 
 struct FUN_0043c3d0_shell : public QueuedTexture
 {
-    bool FUN_0043c3d0();
+    bool QueuedTexture_GetLoadDegraded();
 };
 
 bool __cdecl FUN_0044ae50(unsigned char);
 
 // @fnv 0x0043c3d0
-bool FUN_0043c3d0_shell::FUN_0043c3d0()
+// src: COMMUNITY 0x0043c3d0
+bool FUN_0043c3d0_shell::QueuedTexture_GetLoadDegraded()
 {
     return FUN_0044ae50(*(unsigned char*)((char*)this + 0x34));
 }
@@ -987,13 +991,15 @@ struct _TLS_0043c3f0
 extern __declspec(thread) _TLS_0043c3f0 _tls_0043c3f0;
 
 // @fnv 0x0043c3f0
-void __cdecl FUN_0043c3f0(unsigned int aiLoadMethod)
+// src: COMMUNITY 0x0043c3f0
+void __cdecl NiTexture_SetLoadMethod(unsigned int aiLoadMethod)
 {
     _tls_0043c3f0.val = aiLoadMethod;
 }
 
 // @fnv 0x0043c410
-int FUN_0043c410()
+// src: COMMUNITY 0x0043c410
+int NiTexture_GetLoadMethod()
 {
     static __declspec(thread) int tls_data[0x29c / 4 + 1];
     return tls_data[0x29c / 4];
@@ -1002,7 +1008,7 @@ int FUN_0043c410()
 class BSFileEntryMap
 {
   public:
-    void FUN_0043c4f0(NiNode*, NiPointer<NiNode>&);
+    void BSEntryMap_GetAt(NiNode*, NiPointer<NiNode>&);
 };
 BSFileEntryMap* DAT_011f4468;
 
@@ -1010,27 +1016,29 @@ BSFileEntryMap* DAT_011f4468;
 void GetNodePointer(NiNode* apNode, NiPointer<NiNode>& apNodePtr)
 {
     apNodePtr = 0;
-    DAT_011f4468->FUN_0043c4f0(apNode, apNodePtr);
+    DAT_011f4468->BSEntryMap_GetAt(apNode, apNodePtr);
 }
 
-int __cdecl FUN_0043c530(int);
+int __cdecl BSEntryMap_KeyToHashIndex(int);
 
 struct FUN_0043c4f0_shell
 {
     void GetByKey(int, int, int);
-    void FUN_0043c4f0(int a1, int a2);
+    void BSEntryMap_GetAt(int a1, int a2);
 };
 
 // Computes a value from a1 via FUN_0043c530, then calls GetByKey with that value, a1 and a2.
 // @fnv 0x0043c4f0
-void FUN_0043c4f0_shell::FUN_0043c4f0(int a1, int aiArg)
+// src: COMMUNITY 0x0043c4f0
+void FUN_0043c4f0_shell::BSEntryMap_GetAt(int a1, int aiArg)
 {
-    int v = FUN_0043c530(a1);
+    int v = BSEntryMap_KeyToHashIndex(a1);
     GetByKey(v, a1, aiArg);
 }
 
 // @fnv 0x0043c530
-unsigned int __cdecl FUN_0043c530(unsigned int uiValue)
+// src: COMMUNITY 0x0043c530
+unsigned int __cdecl BSEntryMap_KeyToHashIndex(unsigned int uiValue)
 {
     return (uiValue >> 4) % 1001;
 }
@@ -1048,13 +1056,14 @@ void FUN_0043c610_shell::RunVirtualMethod28()
 
 struct FUN_0043c630_shell : public QueuedTexture
 {
-    bool FUN_0043c630();
+    bool QueuedTexture_GetInQueuedTextureMap();
 };
 
 bool __cdecl FUN_0044ae90(unsigned char);
 
 // @fnv 0x0043c630
-bool FUN_0043c630_shell::FUN_0043c630()
+// src: COMMUNITY 0x0043c630
+bool FUN_0043c630_shell::QueuedTexture_GetInQueuedTextureMap()
 {
     return FUN_0044ae90(*((unsigned char*)this + 0x34));
 }
@@ -1115,13 +1124,13 @@ struct FUN_0043caa0_shell : public QueuedFile
 };
 
 unsigned int __fastcall FUN_0044ddc0(void*);
-unsigned int __fastcall FUN_0044edb0(void*);
+unsigned int __fastcall TESMain_GetThread(void*);
 
 // @fnv 0x0043caa0
 bool FUN_0043caa0_shell::FUN_0043caa0()
 {
     return *(void**)((char*)this + 0x20)
-               ? FUN_0044ddc0(*(void**)((char*)this + 0x20)) == FUN_0044edb0(*(void**)((char*)this + 0x20))
+               ? FUN_0044ddc0(*(void**)((char*)this + 0x20)) == TESMain_GetThread(*(void**)((char*)this + 0x20))
                : true;
 }
 
@@ -1178,52 +1187,56 @@ void FUN_0043ccc0_shell::FUN_0043ccc0(bool abValue)
 
 struct FUN_0043cf40_shell : public QueuedModel
 {
-    bool FUN_0043cf40();
+    bool QueuedModel_GetPrepareAfterLoad();
 };
 
 bool __cdecl FUN_0044ae10(unsigned char);
 
 // @fnv 0x0043cf40
-bool FUN_0043cf40_shell::FUN_0043cf40()
+// src: COMMUNITY 0x0043cf40
+bool FUN_0043cf40_shell::QueuedModel_GetPrepareAfterLoad()
 {
     return FUN_0044ae10(*((unsigned char*)this + 0x3c));
 }
 
 struct FUN_0043cf60_shell : public QueuedModel
 {
-    void FUN_0043cf60(bool);
+    void QueuedModel_SetAlreadyInModelMap(bool);
 };
 
 void __cdecl SetFlag8(bool, void*);
 
 // @fnv 0x0043cf60
-void FUN_0043cf60_shell::FUN_0043cf60(bool abValue)
+// src: COMMUNITY 0x0043cf60
+void FUN_0043cf60_shell::QueuedModel_SetAlreadyInModelMap(bool abValue)
 {
     SetFlag8(abValue, (char*)this + 0x3c);
 }
 
 struct FUN_0043cf90_shell : public QueuedModel
 {
-    bool FUN_0043cf90();
+    bool QueuedModel_GetForceLoad();
 };
 
 bool __cdecl FUN_0044af60(unsigned char);
 
 // @fnv 0x0043cf90
-bool FUN_0043cf90_shell::FUN_0043cf90()
+// src: COMMUNITY 0x0043cf90
+bool FUN_0043cf90_shell::QueuedModel_GetForceLoad()
 {
     return FUN_0044af60(*((unsigned char*)this + 0x3c));
 }
 
 struct FUN_0043cfb0_shell : public QueuedModel
 {
-    bool FUN_0043cfb0();
+    bool QueuedModel_GetFaceGenModel();
 };
 
 bool __cdecl FUN_0044afa0(unsigned char);
 
 // @fnv 0x0043cfb0
-bool FUN_0043cfb0_shell::FUN_0043cfb0()
+// src: COMMUNITY 0x0043cfb0
+bool FUN_0043cfb0_shell::QueuedModel_GetFaceGenModel()
 {
     return FUN_0044afa0(*((unsigned char*)this + 0x3c));
 }
@@ -1243,15 +1256,16 @@ bool FUN_0043d490_shell::FUN_0043d490()
 
 struct FUN_0043d4b0_shell : public QueuedModel
 {
-    bool FUN_0043d4b0();
+    bool QueuedModel_GetCachedModel();
 };
 
-bool __cdecl FUN_0044af20(unsigned char);
+bool __cdecl HasFlag8_0044af20(unsigned char);
 
 // @fnv 0x0043d4b0
-bool FUN_0043d4b0_shell::FUN_0043d4b0()
+// src: COMMUNITY 0x0043d4b0
+bool FUN_0043d4b0_shell::QueuedModel_GetCachedModel()
 {
-    return FUN_0044af20(*((unsigned char*)this + 0x3c));
+    return HasFlag8_0044af20(*((unsigned char*)this + 0x3c));
 }
 
 struct FUN_0043dbb0_shell : public IOTask
@@ -1467,13 +1481,14 @@ void FUN_00440490_shell::FUN_00440490(float fScale)
 
 struct FUN_004405b0_S
 {
-    void FUN_004405d0(unsigned char);
-    void FUN_004405b0(unsigned char p);
+    void IOTask_SetPriority(unsigned char);
+    void IOTask_SetIOTaskPriority(unsigned char p);
 };
 // @fnv 0x004405b0
-void FUN_004405b0_S::FUN_004405b0(unsigned char p)
+// src: COMMUNITY 0x004405b0
+void FUN_004405b0_S::IOTask_SetIOTaskPriority(unsigned char p)
 {
-    FUN_004405d0(p);
+    IOTask_SetPriority(p);
 }
 
 struct QR2;
@@ -1583,7 +1598,8 @@ extern __declspec(thread) void* DAT_00441780_260;
 
 // Stores apRef and ap3D into the thread-local pointers DAT_00441780_264 and DAT_00441780_260.
 // @fnv 0x00441780
-void __cdecl FUN_00441780(void* apRef, void* ap3D)
+// src: COMMUNITY 0x00441780
+void __cdecl TESObjectREFR_SetBackgroundLoadingRef(void* apRef, void* ap3D)
 {
     DAT_00441780_264 = apRef;
     DAT_00441780_260 = ap3D;
@@ -1600,7 +1616,8 @@ __declspec(thread) _TLS_Pad_004417c0 tls_004417c0;
 
 // Clears the two int fields at offsets 0x260 and 0x264 in the thread-local block.
 // @fnv 0x004417c0
-void FUN_004417c0()
+// src: COMMUNITY 0x004417c0
+void TESObjectREFR_ClearBackgroundLoadingRef()
 {
     tls_004417c0.v264 = 0;
     tls_004417c0.v260 = 0;
@@ -1809,7 +1826,8 @@ struct BSSemaphore_
 };
 
 // @fnv 0x004424c0
-void __fastcall FUN_004424c0(char* this_ptr)
+// src: COMMUNITY 0x004424c0
+void __fastcall BSTaskThread_WaitTask(char* this_ptr)
 {
     ((BSSemaphore_*)(this_ptr + 0xc))->Wait();
 }
@@ -1822,7 +1840,8 @@ struct FUN_00442510_Cl
 };
 
 // @fnv 0x00442510
-void __fastcall FUN_00442510(FUN_00442510_Cl* pThis)
+// src: COMMUNITY 0x00442510
+void __fastcall BSTaskThread_WaitPause(FUN_00442510_Cl* pThis)
 {
     reinterpret_cast<void (CountingSemaphore::*)()>(&FUN_00442510_Cl::Wait);
     ((FUN_00442510_Cl*)((char*)pThis + 0x18))->Wait();
@@ -1859,7 +1878,7 @@ struct GlobalObject_00528cb0
 };
 struct Sub
 {
-    void FUN_00449240(GlobalObject_00528cb0*);
+    void LockFreeQueue_NiPointer_IOTask_Push(GlobalObject_00528cb0*);
 };
 struct ML2
 {
@@ -1873,7 +1892,7 @@ void ML2::FUN_00442580(int a)
 {
     {
         GlobalObject_00528cb0 g(a);
-        p->FUN_00449240(&g);
+        p->LockFreeQueue_NiPointer_IOTask_Push(&g);
     }
     ProcessQueuedFile();
 }
@@ -1907,7 +1926,8 @@ void __fastcall InitScriptRunLockForObject(char* pThis)
 int __cdecl InitScriptRunLock(void*);
 
 // @fnv 0x00444ce0
-void __fastcall FUN_00444ce0(char* pThis)
+// src: COMMUNITY 0x00444ce0
+void __fastcall TESObjectCELL_IncCriticalQueuedRefCount(char* pThis)
 {
     InitScriptRunLock(pThis + 0xa0);
 }
@@ -2154,7 +2174,7 @@ __int64* __fastcall ClearPair(__int64* param_1)
     return param_1;
 }
 
-__int64 __cdecl FUN_00aa4d80();
+__int64 __cdecl BSPrecisionTimer_GetTimer();
 extern float DAT_011ac39c;
 
 struct FUN_00448e30_this
@@ -2168,16 +2188,17 @@ struct FUN_00448e30_this
 // @fnv 0x00448e30
 void FUN_00448e30_this::init(float afValue)
 {
-    a = FUN_00aa4d80();
+    a = BSPrecisionTimer_GetTimer();
     b = (__int64)(afValue * DAT_011ac39c);
 }
 
-__int64 __cdecl FUN_00aa4d80();
+__int64 __cdecl BSPrecisionTimer_GetTimer();
 
 // @fnv 0x00448e70
-bool __fastcall FUN_00448e70(__int64* pThis)
+// src: COMMUNITY 0x00448e70
+bool __fastcall BSPrecisionTimer_Check(__int64* pThis)
 {
-    return (FUN_00aa4d80() - pThis[0]) > pThis[1];
+    return (BSPrecisionTimer_GetTimer() - pThis[0]) > pThis[1];
 }
 
 namespace fnv_00448f50 {
@@ -2206,7 +2227,8 @@ void FUN_00448f50_shell::ForwardToVTableSlot(BSFileEntry* apFileEntry)
 }  // namespace fnv_00448f50
 
 // @fnv 0x00449050
-int __cdecl FUN_00449050(int aeIOFileIndex)
+// src: COMMUNITY 0x00449050
+int __cdecl ModelLoader_GetArchiveTypeIndexForIOFileIndex(int aeIOFileIndex)
 {
     switch (aeIOFileIndex)
     {
@@ -2288,7 +2310,7 @@ bool __cdecl FUN_004491c0(long volatile* pVolatile, long param_2, long param_3)
 
 struct E_00449210
 {
-    void FUN_00449240(int);
+    void LockFreeQueue_NiPointer_IOTask_Push(int);
 };
 struct C_00449210
 {
@@ -2301,7 +2323,7 @@ struct C_00449210
 // @fnv 0x00449210
 void C_00449210::FUN_00449210(int aiIndex, int val)
 {
-    arr[aiIndex]->FUN_00449240(val);
+    arr[aiIndex]->LockFreeQueue_NiPointer_IOTask_Push(val);
     v1();
 }
 
@@ -2313,15 +2335,16 @@ struct Q449
 {
     char pad[0x20];
     RecursiveSpinLock lock;
-    R449* FUN_00449f80(void*);
-    bool FUN_00449280(void*);
+    R449* LockFreeMap_GetInterface_0(void*);
+    bool LockFreeQueue_NiPointer_IOTask_Pop(void*);
 };
 // Locks the object, calls Pop on the result of FUN_00449f80(arData), unlocks, and returns that bool.
 // @fnv 0x00449280
-bool Q449::FUN_00449280(void* arData)
+// src: COMMUNITY 0x00449280
+bool Q449::LockFreeQueue_NiPointer_IOTask_Pop(void* arData)
 {
     lock.Lock(0);
-    bool bResult = FUN_00449f80(arData)->Pop();
+    bool bResult = LockFreeMap_GetInterface_0(arData)->Pop();
     lock.Unlock();
     return bResult;
 }
@@ -2347,11 +2370,12 @@ FUN_004492c0_shell* FUN_004492c0_shell::LockFreeCaseInsensitiveStringMap_Model_L
 
 struct FUN_00449500_shell
 {
-    void FUN_00449500(const char* param_1, char** param_2);
+    void LockFreeStringMap_Model_CopyKey(const char* param_1, char** param_2);
 };
 
 // @fnv 0x00449500
-void FUN_00449500_shell::FUN_00449500(const char* param_1, char** param_2)
+// src: COMMUNITY 0x00449500
+void FUN_00449500_shell::LockFreeStringMap_Model_CopyKey(const char* param_1, char** param_2)
 {
     TaskQueueInterface::CopyStringToBuffer(*param_2, 0x100, param_1);
 }
@@ -2366,14 +2390,15 @@ struct FUN_00449530_S
 {
     char pad[0x20];
     RecursiveSpinLock lock;
-    R530* FUN_00449f80(int, int);
-    bool FUN_00449530(int a, int b);
+    R530* LockFreeMap_GetInterface_0(int, int);
+    bool LockFreeMap_char_const_T_Data_Lookup(int a, int b);
 };
 // @fnv 0x00449530
-bool FUN_00449530_S::FUN_00449530(int a, int b)
+// src: COMMUNITY 0x00449530
+bool FUN_00449530_S::LockFreeMap_char_const_T_Data_Lookup(int a, int b)
 {
     lock.Lock(0);
-    bool r = FUN_00449f80(a, b)->InvokeWithArgs();
+    bool r = LockFreeMap_GetInterface_0(a, b)->InvokeWithArgs();
     lock.Unlock();
     return r;
 }
@@ -2383,20 +2408,21 @@ namespace fnv_00449580 {
 
 struct R449b
 {
-    bool FUN_0044a130();
+    bool LockFreeMapInterface_SetAt_0();
 };
 struct Q449b
 {
     char pad[0x20];
     RecursiveSpinLock lock;
-    R449b* FUN_00449f80(void*, void*, bool);
-    bool FUN_00449580(void*, void*, bool);
+    R449b* LockFreeMap_GetInterface_0(void*, void*, bool);
+    bool LockFreeMap_char_const_T_Data_SetAtAlt(void*, void*, bool);
 };
 // @fnv 0x00449580
-bool Q449b::FUN_00449580(void* a, void* b, bool c)
+// src: COMMUNITY 0x00449580
+bool Q449b::LockFreeMap_char_const_T_Data_SetAtAlt(void* a, void* b, bool c)
 {
     lock.Lock(0);
-    bool bResult = FUN_00449f80(a, b, c)->FUN_0044a130();
+    bool bResult = LockFreeMap_GetInterface_0(a, b, c)->LockFreeMapInterface_SetAt_0();
     lock.Unlock();
     return bResult;
 }
@@ -2412,14 +2438,15 @@ struct Q449
 {
     char pad[0x20];
     RecursiveSpinLock lock;
-    R449* FUN_00449f80(void*);
-    bool FUN_004495d0(void*);
+    R449* LockFreeMap_GetInterface_0(void*);
+    bool LockFreeMap_char_const_T_Data_RemoveAt(void*);
 };
 // @fnv 0x004495d0
-bool Q449::FUN_004495d0(void* arData)
+// src: COMMUNITY 0x004495d0
+bool Q449::LockFreeMap_char_const_T_Data_RemoveAt(void* arData)
 {
     lock.Lock(0);
-    bool bResult = FUN_00449f80(arData)->Pop();
+    bool bResult = LockFreeMap_GetInterface_0(arData)->Pop();
     lock.Unlock();
     return bResult;
 }
@@ -2493,12 +2520,13 @@ int __cdecl FUN_00ec6da0(const char* a, const char* b);
 
 struct FUN_00449880_Class
 {
-    bool FUN_00449880(const char* a, const char* b);
+    bool LockFreeStringMap_Model_IsKeyEqual(const char* a, const char* b);
 };
 
 // Returns true when the comparison of the two strings via FUN_00ec6da0 yields zero.
 // @fnv 0x00449880
-bool FUN_00449880_Class::FUN_00449880(const char* pcStringA, const char* pcStringB)
+// src: COMMUNITY 0x00449880
+bool FUN_00449880_Class::LockFreeStringMap_Model_IsKeyEqual(const char* pcStringA, const char* pcStringB)
 {
     return FUN_00ec6da0(pcStringA, pcStringB) == 0;
 }
@@ -2591,12 +2619,13 @@ FUN_00449f50_shell* FUN_00449f50_shell::LockFreeStringMap_Model_LockFreeStringMa
 }
 }  // namespace fnv_00449f50
 
-void __fastcall FUN_0044d5c0(int pThis, int edx, void* pArg);
+void __fastcall ThreadSpecificInterfaceManager_GetInterface(int pThis, int edx, void* pArg);
 
 // @fnv 0x00449f80
-void __fastcall FUN_00449f80(int* pThis)
+// src: COMMUNITY 0x00449f80
+void __fastcall LockFreeMap_GetInterface_0(int* pThis)
 {
-    reinterpret_cast<void(__thiscall*)(int, void*)>(&FUN_0044d5c0)(pThis[5], pThis);
+    reinterpret_cast<void(__thiscall*)(int, void*)>(&ThreadSpecificInterfaceManager_GetInterface)(pThis[5], pThis);
 }
 
 namespace fnv_00449fa0 {
@@ -2657,18 +2686,19 @@ struct S130
 {
     V130* p;
     void InsertOrReplaceNode(int);
-    void FUN_0044a130(int a, int b, unsigned char c);
+    void LockFreeMapInterface_SetAt_0(int a, int b, unsigned char c);
 };
 // Calls the virtual method v9 on p with a, a, b and c, then passes the result to InsertOrReplaceNode.
 // @fnv 0x0044a130
-void S130::FUN_0044a130(int a, int aiArg, unsigned char c)
+// src: COMMUNITY 0x0044a130
+void S130::LockFreeMapInterface_SetAt_0(int a, int aiArg, unsigned char c)
 {
     InsertOrReplaceNode(p->v9(a, a, aiArg, c));
 }
 
 struct _Out_0044a170
 {
-    void FUN_0065e000(int d, void* self);
+    void FaceGenData_Iterator_Set(int d, void* self);
 };
 
 struct _Dummy_0044a170
@@ -2680,7 +2710,7 @@ struct _Dummy_0044a170
 // @fnv 0x0044a170
 _Out_0044a170* _Dummy_0044a170::FUN_0044a170(_Out_0044a170* out)
 {
-    out->FUN_0065e000(this->d, this);
+    out->FaceGenData_Iterator_Set(this->d, this);
     return out;
 }
 
@@ -2830,14 +2860,15 @@ struct LoadedFile : public NiMemObject
 typedef char _sizecheck_LoadedFile[sizeof(LoadedFile) == 16 ? 1 : -1];
 struct FUN_0044b0f0_shell : public LoadedFile
 {
-    void FUN_0044b0f0();
+    void LoadedFile_IncRefCount();
 };
 
 extern RecursiveLock g_011c3b6c;
 bool __fastcall FUN_0044b130(RecursiveLock*);
 
 // @fnv 0x0044b0f0
-void FUN_0044b0f0_shell::FUN_0044b0f0()
+// src: COMMUNITY 0x0044b0f0
+void FUN_0044b0f0_shell::LoadedFile_IncRefCount()
 {
     while (!FUN_0044b130(&g_011c3b6c))
     {
@@ -3047,14 +3078,15 @@ struct S_004a0e10
 {
     char pad[0x208];
     unsigned char f208;
-    bool FUN_004a0e50();
-    bool FUN_004a0e10(int a, unsigned char b);
+    bool NiRenderer_GetInsideFrameState();
+    bool NiRenderer_Check_RenderTargetGroupActive(int a, unsigned char b);
 };
 // Returns false if FUN_004a0e50 fails; otherwise returns whether f208 equals b.
 // @fnv 0x004a0e10
-bool S_004a0e10::FUN_004a0e10(int aiUnused, unsigned char b)
+// src: COMMUNITY 0x004a0e10
+bool S_004a0e10::NiRenderer_Check_RenderTargetGroupActive(int aiUnused, unsigned char b)
 {
-    if (!FUN_004a0e50())
+    if (!NiRenderer_GetInsideFrameState())
         return false;
     if (f208 == b)
         return true;
@@ -3072,7 +3104,7 @@ const char* __fastcall FUN_004a8a90(char* apObject)
 
 struct AC_0042f730
 {
-    void FUN_0044bbc0();
+    void ActorCause_IncRefCount();
 };
 struct S_0042f730
 {
@@ -3085,7 +3117,7 @@ S_0042f730* S_0042f730::FUN_00528cb0(AC_0042f730* pObject)
 {
     m_pObject = pObject;
     if (m_pObject)
-        m_pObject->FUN_0044bbc0();
+        m_pObject->ActorCause_IncRefCount();
     return this;
 }
 
@@ -3156,12 +3188,13 @@ class NiCollisionObject;
 namespace fnv_006838b0 {
 struct FUN_006838b0_shell : public NiAVObject
 {
-    NiCollisionObject* FUN_006838b0();
+    NiCollisionObject* NiAVObject_GetCollisionObject();
 };
 
 
 // @fnv 0x006838b0
-NiCollisionObject* FUN_006838b0_shell::FUN_006838b0()
+// src: COMMUNITY 0x006838b0
+NiCollisionObject* FUN_006838b0_shell::NiAVObject_GetCollisionObject()
 {
     return (NiCollisionObject*)((const BSStringT<char>*)((const char*)this + 0x1c))->operator const char*();
 }
@@ -3234,23 +3267,25 @@ void FUN_00ad8570_S::FUN_00ad8570(int a, float b, int c)
     BSAudioManager::GetRandomGenerator().FUN_00adb690(a, b, c);
 }
 
-void __cdecl FUN_00af4070(void*, int);
+void __cdecl WildCard_MakeString(void*, int);
 int __cdecl WildcardMatch(void*, void*);
 
 // @fnv 0x00af3bd0
-int FUN_00af3bd0(int param1, int param2)
+// src: COMMUNITY 0x00af3bd0
+int WildCard_Match(int param1, int param2)
 {
     char buf1[0x108];
     char buf2[0x108];
-    FUN_00af4070(buf2, param1);
-    FUN_00af4070(buf1, param2);
+    WildCard_MakeString(buf2, param1);
+    WildCard_MakeString(buf1, param2);
     return WildcardMatch(buf2, buf1) == 1;
 }
 
 __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 
 // @fnv 0x00c3f8a0
-long __fastcall FUN_00c3f8a0(char* pObject)
+// src: COMMUNITY 0x00c3f8a0
+long __fastcall LockFreeMap_int64_NiPointer_BSTask_int64_DecrementCount(char* pObject)
 {
     return InterlockedDecrement((volatile long*)(pObject + 0x18));
 }
@@ -3268,8 +3303,8 @@ struct TextureFileEntrySetter
 struct H0 : public LocationDescriptor
 {
     bool FUN_0043e530();
-    bool FUN_0043c630();
-    void FUN_0043c100(int);
+    bool QueuedTexture_GetInQueuedTextureMap();
+    void QueuedTexture_SetInQueuedTextureMap(int);
     void RunVirtualMethod28();
 };
 struct HM
@@ -3287,9 +3322,9 @@ void FUN_0043c550_shell::ApplyQueuedTexture()
         else if (((Tile*)this)->GetParent())
             TextureFileEntrySetter::SetTexture((const char*)(*(BSStringT<char>*)((char*)this + 0x30)), 0);
     }
-    if (((H0*)this)->SetLocRef() && ((H0*)this)->FUN_0043c630())
+    if (((H0*)this)->SetLocRef() && ((H0*)this)->QueuedTexture_GetInQueuedTextureMap())
     {
-        ((H0*)this)->FUN_0043c100(0);
+        ((H0*)this)->QueuedTexture_SetInQueuedTextureMap(0);
         ((HM*)g_modelLoader)->ForwardToVTableSlot(((H0*)this)->SetLocRef());
     }
     ((H0*)this)->RunVirtualMethod28();
@@ -3331,7 +3366,7 @@ struct PC7d;
 extern PC7d* g_thePlayer;
 struct A9
 {
-    int FUN_00936ef0();
+    int Actor_CheckHighDetail();
     void FUN_008b7360(int, void*);
 };
 struct Hx
@@ -3350,7 +3385,7 @@ void __fastcall FUN_00441200(char* self)
     bool b;
     ((void(__thiscall*)(void*))(*(void***)a)[0x260 / 4])(a);
     b = ((MLa*)g_modelLoader)->IsLoadTexturesDegraded();
-    if ((void*)a != g_thePlayer && !((A9*)a)->FUN_00936ef0())
+    if ((void*)a != g_thePlayer && !((A9*)a)->Actor_CheckHighDetail())
         ((MLa*)g_modelLoader)->SetTlsFlag(true);
     if (FUN_008b7b70((Struct_008b7b70*)a))
         ((A9*)a)->FUN_008b7360(1, self);
@@ -3687,7 +3722,7 @@ struct FUN_00449610 : public FUN_00449fd0
     void* p18;
     void* p1c;
     FUN_00449610();
-    void FUN_0044a0a0();
+    void std_vector_float_std_allocator_float_clear();
 };
 
 // Initializes p18 and p1c to null, then calls FUN_0044a0a0.
@@ -3696,7 +3731,7 @@ FUN_00449610::FUN_00449610()
 {
     p18 = 0;
     p1c = 0;
-    FUN_0044a0a0();
+    std_vector_float_std_allocator_float_clear();
 }
 
 namespace fnv_00449fd0 {
@@ -3741,14 +3776,15 @@ struct FaceGenImage
 struct VecStandIn
 {
     FaceGenImageView CallWithSelf();
-    FaceGenImageView FUN_0044a1a0(ConstIterStandIn, ConstIterStandIn);
-    void FUN_0044a0a0();
+    FaceGenImageView std_vector_float_std_allocator_float_erase(ConstIterStandIn, ConstIterStandIn);
+    void std_vector_float_std_allocator_float_clear();
 };
 // Calls FUN_0044a1a0 with the results of _Doraise and CallWithSelf, discarding the returned iterator.
 // @fnv 0x0044a0a0
-void VecStandIn::FUN_0044a0a0()
+// src: COMMUNITY 0x0044a0a0
+void VecStandIn::std_vector_float_std_allocator_float_clear()
 {
-    FUN_0044a1a0(((FaceGenImage*)this)->_Doraise(), CallWithSelf());
+    std_vector_float_std_allocator_float_erase(((FaceGenImage*)this)->_Doraise(), CallWithSelf());
 }
 
 // 0x0065ded0 constructs a container iterator; 0x0065dfd0 compares iterators, unlike Pair.h.
@@ -3758,25 +3794,26 @@ struct EraseRangeIterator
     int second;
     bool FUN_0065dfd0(const EraseRangeIterator&);
 };
-int __cdecl FUN_0044d600(int, int, int);
+int __cdecl std_Move_float_float(int, int, int);
 // 0x0044a1a0 erases an iterator range and updates the container end at 0x10; this is not ModelLoader.
 struct IteratorRangeStorage
 {
     char pad[0x10];
     int field10;
-    EraseRangeIterator FUN_0065ded0(int, int);
-    void FUN_0065f2b0(int, int);
-    EraseRangeIterator FUN_0044a1a0(int, int, int, int);
+    EraseRangeIterator std_vector_float_std_allocator_float_Make_iter(int, int);
+    void std_vector_float_std_allocator_float_Destroy(int, int);
+    EraseRangeIterator std_vector_float_std_allocator_float_erase(int, int, int, int);
 };
 // @fnv 0x0044a1a0
-EraseRangeIterator IteratorRangeStorage::FUN_0044a1a0(int aiFirstA, int aiFirstB, int aiSecondA, int aiSecondB)
+// src: COMMUNITY 0x0044a1a0
+EraseRangeIterator IteratorRangeStorage::std_vector_float_std_allocator_float_erase(int aiFirstA, int aiFirstB, int aiSecondA, int aiSecondB)
 {
-    EraseRangeIterator r1 = FUN_0065ded0(aiFirstA, aiFirstB);
-    EraseRangeIterator r2 = FUN_0065ded0(aiSecondA, aiSecondB);
+    EraseRangeIterator r1 = std_vector_float_std_allocator_float_Make_iter(aiFirstA, aiFirstB);
+    EraseRangeIterator r2 = std_vector_float_std_allocator_float_Make_iter(aiSecondA, aiSecondB);
     if (r1.FUN_0065dfd0(r2))
     {
-        int tmp = FUN_0044d600(r2.second, field10, r1.second);
-        FUN_0065f2b0(tmp, field10);
+        int tmp = std_Move_float_float(r2.second, field10, r1.second);
+        std_vector_float_std_allocator_float_Destroy(tmp, field10);
         field10 = tmp;
     }
     return r1;
@@ -4073,7 +4110,7 @@ struct FUN_0043ecb0_shell : public QueuedHead
 int __fastcall FUN_0084e3a0(const void*);
 void* __fastcall FUN_00726070(void*);
 void __cdecl FUN_00652140();
-void __cdecl FUN_00652190();
+void __cdecl BSFaceGenManager_UnlockFaceGenAccess();
 
 struct HeadLayout
 {
@@ -4099,7 +4136,7 @@ void FUN_0043ecb0_shell::FUN_0043ecb0()
         TESRace* prace = (TESRace*)FUN_00726070((char*)((HeadLayout*)this)->npc + 0x10c);
         prace->ClearFaceGenUndo();
     }
-    FUN_00652190();
+    BSFaceGenManager_UnlockFaceGenAccess();
 }
 }  // namespace fnv_0043ecb0
 
@@ -4231,7 +4268,7 @@ typedef char _sizecheck_TESDescription[sizeof(TESDescription) == 8 ? 1 : -1];
 typedef char _sizecheck_EffectSetting[sizeof(EffectSetting) == 176 ? 1 : -1];
 struct FUN_00444f10_shell : public ModelLoader
 {
-    void FUN_00444f10(MagicItem*, EffectSetting*, int);
+    void ModelLoader_QueueMagicItem(MagicItem*, EffectSetting*, int);
 };
 
 struct GlobalObject_00528cb0Ptr
@@ -4243,7 +4280,8 @@ struct GlobalObject_00528cb0Ptr
 };
 
 // @fnv 0x00444f10
-void FUN_00444f10_shell::FUN_00444f10(MagicItem* apMagicItem, EffectSetting* apAVEffectSetting, int aePriority)
+// src: COMMUNITY 0x00444f10
+void FUN_00444f10_shell::ModelLoader_QueueMagicItem(MagicItem* apMagicItem, EffectSetting* apAVEffectSetting, int aePriority)
 {
     if (!apMagicItem || !apAVEffectSetting)
         return;
@@ -4450,7 +4488,7 @@ KFModel* FUN_004471c0_shell::LoadKFModel(char* apFilename)
 
 struct FUN_00447850_shell : public ModelLoader
 {
-    void* FUN_00447850(void*, void*);
+    void* ModelLoader_CopyFilenameList(void*, void*);
 };
 
 void* __cdecl operator new(unsigned int);
@@ -4464,7 +4502,8 @@ struct StrList
     int pad[2];
 };
 // @fnv 0x00447850
-void* FUN_00447850_shell::FUN_00447850(void* apList, void* apDestList)
+// src: COMMUNITY 0x00447850
+void* FUN_00447850_shell::ModelLoader_CopyFilenameList(void* apList, void* apDestList)
 {
     StrList* pList = (StrList*)apList;
     StrList* pBaseList = (StrList*)apDestList;
@@ -4508,11 +4547,11 @@ struct Obj
 bool __fastcall ReleaseAllObjects(char* self)
 {
     GlobalObject_00528cb0 iter(0);
-    ((Q449*)*(void**)(self + 0x1c))->FUN_00449280(&iter);
+    ((Q449*)*(void**)(self + 0x1c))->LockFreeQueue_NiPointer_IOTask_Pop(&iter);
     while (iter)
     {
         ((Obj*)(unsigned int)iter)->Release();
-        ((Q449*)*(void**)(self + 0x1c))->FUN_00449280(&iter);
+        ((Q449*)*(void**)(self + 0x1c))->LockFreeQueue_NiPointer_IOTask_Pop(&iter);
     }
     return true;
 }
@@ -4571,13 +4610,14 @@ struct Target
 };
 struct Holder
 {
-    unsigned int FUN_00448f80(void* arg);
+    unsigned int ModelLoader_GetQueuedTextureFromMap(void* arg);
     char pad[0x20];
     Target* pTarget;
 };
 
 // @fnv 0x00448f80
-unsigned int Holder::FUN_00448f80(void* arg)
+// src: COMMUNITY 0x00448f80
+unsigned int Holder::ModelLoader_GetQueuedTextureFromMap(void* arg)
 {
     GlobalObject_00528cb0 iter(0);
     if (pTarget->Test(arg, &iter))
@@ -4599,7 +4639,7 @@ struct VecAlloc
     int* pBegin;
     int* pCur;
     int* pEnd;
-    unsigned int FUN_0044a2c0();
+    unsigned int FaceGenData_Return1();
     bool FUN_0044a240(unsigned int);
 };
 // Resets the vector to empty, then allocates space for n elements if n is nonzero and the capacity allows; returns true on success.
@@ -4615,7 +4655,7 @@ bool VecAlloc::FUN_0044a240(unsigned int n)
     }
     else
     {
-        if (FUN_0044a2c0() < n)
+        if (FaceGenData_Return1() < n)
         {
             ThrowVectorTooLong();
         }
@@ -4652,7 +4692,7 @@ struct FlagSink
     void FUN_0044b300(unsigned int);
 };
 void __cdecl FUN_00652140();
-void __cdecl FUN_00652190();
+void __cdecl BSFaceGenManager_UnlockFaceGenAccess();
 struct GetAtArgs
 {
     const char* apcKey;
@@ -4674,7 +4714,7 @@ bool __fastcall LookupModelAndGetFlags(Map62d0* self, GetAtArgs aLookupArgs)
             ((TESObjectREFR_GetFlags_Helper*)(unsigned int)*(Flt*)aLookupArgs.aspModel)->GetFlags());
         bFound = true;
     }
-    FUN_00652190();
+    BSFaceGenManager_UnlockFaceGenAccess();
     return bFound;
 }
 }  // namespace fnv_006502f0
@@ -4699,7 +4739,8 @@ struct AbstractHeapLogger;
 extern AbstractHeapLogger* DAT_011f6388;
 
 // @fnv 0x0043bd00
-AbstractHeapLogger* FUN_0043bd00()
+// src: COMMUNITY 0x0043bd00
+AbstractHeapLogger* BSCoreMessage_GetInstance()
 {
     return DAT_011f6388;
 }
@@ -4819,10 +4860,11 @@ struct FUN_00442630Class
 {
     char m_auiShapeKeys[0x30];
     char m_flag;
-    void FUN_00442630();
+    void BackgroundCloneThread_SetExiting();
 };
 // @fnv 0x00442630
-void FUN_00442630Class::FUN_00442630()
+// src: COMMUNITY 0x00442630
+void FUN_00442630Class::BackgroundCloneThread_SetExiting()
 {
     m_flag = 1;
 }
@@ -4947,7 +4989,8 @@ void FUN_00449ea0_cls::FUN_00449ea0()
 extern unsigned char DAT_01202df0;
 
 // @fnv 0x0044ada0
-void FUN_0044ada0(unsigned char value)
+// src: COMMUNITY 0x0044ada0
+void BSTaskThread_SetPauseSleepEnabled(unsigned char value)
 {
     DAT_01202df0 = value;
 }
@@ -5006,7 +5049,8 @@ void FUN_0044aea0(bool abSet, unsigned char* flags)
 
 namespace fnv_0044af20 {
 // @fnv 0x0044af20
-char FUN_0044af20(unsigned char a)
+// src: COMMUNITY 0x0044af20
+char HasFlag8_0044af20(unsigned char a)
 {
     return (a & 8) != 0;
 }
@@ -5093,7 +5137,8 @@ void __thiscall FUN_0044b2e0::Method(void)
 }
 
 // @fnv 0x0044dff0
-bool __fastcall FUN_0044dff0(int* piValue)
+// src: COMMUNITY 0x0044dff0
+bool __fastcall LockFreeMap_MarkedPointer_GetMark(int* piValue)
 {
     return (*piValue & 1) ? true : false;
 }
@@ -5305,13 +5350,14 @@ namespace fnv_00449a80 {
 struct FUN_00449d40_class
 {
     void FUN_00449d40();
-    void* FUN_00449a80(unsigned int flags);
+    void* LockFreeCaseInsensitiveStringMap_KFModel_Destroy(unsigned int flags);
 };
 void _Deallocate(void*);
 
 // Calls FUN_00449d40, then frees this object with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00449a80
-void* FUN_00449d40_class::FUN_00449a80(unsigned int flags)
+// src: COMMUNITY 0x00449a80
+void* FUN_00449d40_class::LockFreeCaseInsensitiveStringMap_KFModel_Destroy(unsigned int flags)
 {
     FUN_00449d40();
     if (flags & 1)
@@ -5599,7 +5645,7 @@ typedef char _sizecheck_QueuedFileEntry[sizeof(QueuedFileEntry) == 48 ? 1 : -1];
 
 typedef char _sizecheck_QueuedFileLoad[sizeof(QueuedFileLoad) == 56 ? 1 : -1];
 
-int __cdecl FUN_00449050(int);
+int __cdecl ModelLoader_GetArchiveTypeIndexForIOFileIndex(int);
 // Retained: QueuedFileLoad.h lacks the file-name/priority/index constructor
 // and an owning loaded-file member for its constructor/destructor unwind paths.
 struct FUN_00441c50 : QueuedFileEntry
@@ -5613,7 +5659,7 @@ FUN_00441c50::FUN_00441c50(char const* a, int b, int c)
     : QueuedFileEntry(b), sp((LoadedFile*)0), m_iLoadPriority(c)
 {
     FUN_00c3cee0(a);
-    LookupFileEntryByArchive(FUN_00449050(m_iLoadPriority));
+    LookupFileEntryByArchive(ModelLoader_GetArchiveTypeIndexForIOFileIndex(m_iLoadPriority));
 }
 }  // namespace fnv_00441c50
 
@@ -5665,19 +5711,20 @@ bool __thiscall FUN_00444d00_Class::FUN_00444d00(int mask)
 namespace fnv_00446f70 {
 struct FUN_00442510_Cl
 {
-    void FUN_00442510();
+    void BSTaskThread_WaitPause();
 };
 
 struct FUN_00446f70_Cl : ModelLoader
 {
-    void FUN_00446f70();
+    void BSTaskThread_Sleep();
 };
 
 // @fnv 0x00446f70
-void FUN_00446f70_Cl::FUN_00446f70()
+// src: COMMUNITY 0x00446f70
+void FUN_00446f70_Cl::BSTaskThread_Sleep()
 {
     ProcessQueuedFile();
-    ((FUN_00442510_Cl*)this)->FUN_00442510();
+    ((FUN_00442510_Cl*)this)->BSTaskThread_WaitPause();
 }
 }  // namespace fnv_00446f70
 
@@ -5711,7 +5758,7 @@ bool FUN_00448a20_class::FUN_00448a20() const
 namespace fnv_00449030 {
 struct FUN_00442630Class
 {
-    void FUN_00442630(void);
+    void BackgroundCloneThread_SetExiting(void);
 };
 
 struct FUN_00449030Class
@@ -5724,7 +5771,7 @@ struct FUN_00449030Class
 // @fnv 0x00449030
 void FUN_00449030Class::CallMemberFunction(void)
 {
-    m_p->FUN_00442630();
+    m_p->BackgroundCloneThread_SetExiting();
 }
 }  // namespace fnv_00449030
 
@@ -5778,7 +5825,7 @@ void __thiscall FUN_0044f870::FUN_0044f870_0044f870(void* ap)
 void* GO::FUN_006ecba0(bool abFlag, void* apValue)
 {
     p = apValue;
-    FUN_0044e010(abFlag);
+    LockFreeMap_MarkedPointer_SetMark(abFlag);
     return this;
 }
 
@@ -5800,7 +5847,7 @@ struct FUN_0043b640
     int BackgroundTask;
     int m_iActualRefCount;
     FUN_0043b640(const char* apFilename, void* apStream);
-    void FUN_0043b7e0(const char*);
+    void KFModel_InitSequence(const char*);
 };
 
 // @fnv 0x0043b640
@@ -5814,7 +5861,7 @@ FUN_0043b640::FUN_0043b640(const char* apFilename, void* apStream)
     AssignNewObjectFromValue(apStream, 0, &pListSequence);
     if (*(Flt*)&pListSequence)
     {
-        FUN_0043b7e0(apFilename);
+        KFModel_InitSequence(apFilename);
     }
     else
     {
@@ -6192,7 +6239,7 @@ struct DecalList
 };
 struct FUN_0041f050_shell
 {
-    DecalList* FUN_0041f050();
+    DecalList* ExtraDataList_GetDecalRefs();
 };
 
 struct FUN_0043cc80_shell
@@ -6214,7 +6261,7 @@ void FUN_0043fed0_shell::FUN_0043fed0()
         ((QRV*)this)->v12();
     if ((*(RefV**)((char*)this + 0x28)))
     {
-        pdecallist = ((FUN_0041f050_shell*)(*(RefV**)((char*)this + 0x28))->FUN_005d43c0())->FUN_0041f050();
+        pdecallist = ((FUN_0041f050_shell*)(*(RefV**)((char*)this + 0x28))->FUN_005d43c0())->ExtraDataList_GetDecalRefs();
         while (pdecallist && !pdecallist->FUN_008256d0())
         {
             ReferenceIntersectionData* pdata = *pdecallist->FUN_006815c0();
@@ -7088,7 +7135,7 @@ struct LoadedFile
     char data[0x10];
     LoadedFile(void*, BSFile*);
 };
-int FUN_00449050(int);
+int ModelLoader_GetArchiveTypeIndexForIOFileIndex(int);
 void _FNV_Warning(const char*, ...);
 
 // Loads the next queued file via the model loader; if none, opens the file by index and creates a LoadedFile, otherwise warns.
@@ -7103,9 +7150,9 @@ struct ModelloaderInterfaceView
 {
     static void __cdecl PrintDebugMessage();
 };
-void __fastcall FUN_004424c0(char*);
+void __fastcall BSTaskThread_WaitTask(char*);
 struct FUN_00442510_Cl;
-void __fastcall FUN_00442510(FUN_00442510_Cl*);
+void __fastcall BSTaskThread_WaitPause(FUN_00442510_Cl*);
 void __fastcall SignalAtOffset18(char*);
 bool __fastcall FUN_00449130(int*);
 int __fastcall _ref_0084e3a0(void*);
@@ -7149,15 +7196,15 @@ void BackgroundCloneThread::RunBackgroundClone()
 {
     while (m_bThirdThreadFlag != true)
     {
-        fnv_00442350::FUN_004424c0((char*)this);
+        fnv_00442350::BSTaskThread_WaitTask((char*)this);
         fnv_00442350::InitScriptRunLock((char*)this + 0x34);
         fnv_00442350::QHeadPtr spqueuedReference(0);
-        m_pCloneQueue->FUN_00449280(&spqueuedReference);
+        m_pCloneQueue->LockFreeQueue_NiPointer_IOTask_Pop(&spqueuedReference);
         if (*(fnv_00442350::Flt*)&spqueuedReference)
         {
             while (*(fnv_00442350::Flt*)&spqueuedReference)
             {
-                fnv_00442350::FUN_00442510((fnv_00442350::FUN_00442510_Cl*)this);
+                fnv_00442350::BSTaskThread_WaitPause((fnv_00442350::FUN_00442510_Cl*)this);
                 fnv_00442350::ModelloaderInterfaceView::PrintDebugMessage();
                 QueuedReference* pqueuedRef = (QueuedReference*)(unsigned int)*(fnv_00442350::Flt*)&spqueuedReference;
                 int estate = fnv_00442350::_ref_0084e3a0(pqueuedRef);
@@ -7167,14 +7214,14 @@ void BackgroundCloneThread::RunBackgroundClone()
                         ((IOTask*)pqueuedRef)->AddToPostProcessQueue();
                     ((fnv_00442350::FUN_00449190_cls*)pqueuedRef)->SetState(3, 5);
                 }
-                m_pCloneQueue->FUN_00449280(&spqueuedReference);
+                m_pCloneQueue->LockFreeQueue_NiPointer_IOTask_Pop(&spqueuedReference);
                 fnv_00442350::ModelloaderInterfaceView::PrintDebugMessage();
                 fnv_00442350::SignalAtOffset18((char*)this);
             }
         }
         else
         {
-            fnv_00442350::FUN_00442510((fnv_00442350::FUN_00442510_Cl*)this);
+            fnv_00442350::BSTaskThread_WaitPause((fnv_00442350::FUN_00442510_Cl*)this);
             fnv_00442350::SignalAtOffset18((char*)this);
         }
         fnv_00442350::FinishScriptRunLock((char*)this + 0x34);
@@ -7185,7 +7232,7 @@ namespace fnv_00443540 {
 typedef char _sizecheck_BSFileEntry[sizeof(BSFileEntry) == 16 ? 1 : -1];
 struct FUN_00443540_shell : public ModelLoader
 {
-    bool FUN_00443540(BSFileEntry*, int, QueuedFile*);
+    bool ModelLoader_ReuseQueuedTexture(BSFileEntry*, int, QueuedFile*);
 };
 
 struct QHeadPtr
@@ -7203,7 +7250,7 @@ struct QueueObj : Flt
 };
 struct S_00448f80
 {
-    int FUN_00448f80(BSFileEntry*);
+    int ModelLoader_GetQueuedTextureFromMap(BSFileEntry*);
 };
 struct S_0084e3a0
 {
@@ -7215,7 +7262,7 @@ struct FUN_00449190_cls
 };
 struct FUN_0043c3d0_shell
 {
-    bool FUN_0043c3d0();
+    bool QueuedTexture_GetLoadDegraded();
 };
 struct MLa
 {
@@ -7227,7 +7274,7 @@ struct Q_0043c050
 };
 struct S_00c3c7e0
 {
-    void FUN_00c3c7e0(QueuedFile*);
+    void QueuedFile_AddAdditionalParent(QueuedFile*);
 };
 struct V_00443540
 {
@@ -7242,25 +7289,26 @@ struct V_00443540
 };
 
 // @fnv 0x00443540
-bool FUN_00443540_shell::FUN_00443540(BSFileEntry* apTextureFileEntry, int aePriority, QueuedFile* apParent)
+// src: COMMUNITY 0x00443540
+bool FUN_00443540_shell::ModelLoader_ReuseQueuedTexture(BSFileEntry* apTextureFileEntry, int aePriority, QueuedFile* apParent)
 {
-    QueueObj spexistingQueuedTexture(((S_00448f80*)this)->FUN_00448f80(apTextureFileEntry));
+    QueueObj spexistingQueuedTexture(((S_00448f80*)this)->ModelLoader_GetQueuedTextureFromMap(apTextureFileEntry));
     if (spexistingQueuedTexture)
     {
         int estate = ((S_0084e3a0*)(unsigned int)spexistingQueuedTexture)->_ref_0084e3a0();
         if (estate < 3 && ((FUN_00449190_cls*)(unsigned int)spexistingQueuedTexture)->SetState(estate, 2))
         {
-            if (((FUN_0043c3d0_shell*)(unsigned int)spexistingQueuedTexture)->FUN_0043c3d0() &&
+            if (((FUN_0043c3d0_shell*)(unsigned int)spexistingQueuedTexture)->QueuedTexture_GetLoadDegraded() &&
                 !((MLa*)this)->IsLoadTexturesDegraded())
                 ((Q_0043c050*)(unsigned int)spexistingQueuedTexture)->ForwardByteToMember(false);
             if (apParent)
-                ((S_00c3c7e0*)(unsigned int)spexistingQueuedTexture)->FUN_00c3c7e0(apParent);
+                ((S_00c3c7e0*)(unsigned int)spexistingQueuedTexture)->QueuedFile_AddAdditionalParent(apParent);
             if (((FUN_00449190_cls*)(unsigned int)spexistingQueuedTexture)->SetState(2, estate))
             {
                 if (((IOTask*)(unsigned int)spexistingQueuedTexture)->FUN_0043cc60() > aePriority)
                     ((V_00443540*)(unsigned int)spexistingQueuedTexture)->SetPriority(aePriority);
                 else
-                    ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_0044adb0();
+                    ((ModelLoaderIOOperations*)DAT_01202d98)->BSTaskManager_int64_ForceSignal();
                 return true;
             }
         }
@@ -7450,9 +7498,9 @@ struct ObjA
 };
 struct FUN_0043b230_s
 {
-    NiNode* FUN_0043b230();
+    NiNode* NiObjectNET_GetControllers();
 };
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 struct ModelMapStand
 {
     virtual void v0();
@@ -7475,13 +7523,13 @@ NiNode* FUN_00447080_shell::FUN_00447080(char* apFilename, int aeLODFadeMult, bo
     }
     else if (!reinterpret_cast<FUN_00443190_s*>(pmodel)->GetCombinedValue())
     {
-        FUN_005b5e40("MODELS: LoadFile retrieved model %s with a zero ref count", apFilename);
+        Warning_005b5e40("MODELS: LoadFile retrieved model %s with a zero ref count", apFilename);
     }
     if (pmodel)
     {
         if (!abDontIncrementRefCount)
             reinterpret_cast<ObjA*>(pmodel)->FUN_0092c870();
-        return reinterpret_cast<FUN_0043b230_s*>(pmodel)->FUN_0043b230();
+        return reinterpret_cast<FUN_0043b230_s*>(pmodel)->NiObjectNET_GetControllers();
     }
     return 0;
 }
@@ -7490,7 +7538,7 @@ NiNode* FUN_00447080_shell::FUN_00447080(char* apFilename, int aeLODFadeMult, bo
 namespace fnv_00447a40 {
 struct FUN_00447a40_shell : public ModelLoader
 {
-    void FUN_00447a40(char*, int, QueuedFile*, int);
+    void ModelLoader_QueueFaceGenFile(char*, int, QueuedFile*, int);
 };
 
 struct LoadedFile;
@@ -7536,7 +7584,8 @@ struct FUN_00441f80
 
 // Loads the file via GetHolderValue; if loaded, queues a FUN_004420b0 task with the parent, otherwise queues a FUN_00441f80 task and sets its parent.
 // @fnv 0x00447a40
-void FUN_00447a40_shell::FUN_00447a40(char* apFileName, int aePriority, QueuedFile* apParent, int aeFileIndex)
+// src: COMMUNITY 0x00447a40
+void FUN_00447a40_shell::ModelLoader_QueueFaceGenFile(char* apFileName, int aePriority, QueuedFile* apParent, int aeFileIndex)
 {
     FUN_0044b160 m_pLoadedFile(((FUN_004483a0_S*)this)->GetHolderValue(apFileName));
     if (*(Flt*)&m_pLoadedFile)
@@ -7589,7 +7638,7 @@ struct FUN_00448e30_this
     void init(float);
 };
 bool __fastcall IsNotStateSix(int);
-bool __fastcall FUN_00448e70(__int64*);
+bool __fastcall BSPrecisionTimer_Check(__int64*);
 extern float DAT_01017130;
 struct FUN_004499c0
 {
@@ -7654,7 +7703,7 @@ bool ModelLoaderStand_00448cc0::ProcessQueuedTasks()
         ((FUN_00448e30_this*)&kTimer)->init(5.0f);
     {
         FUN_0044cc10 kTaskList;
-        while (!((FUN_006ebde0_shell*)&kTaskList)->FUN_006ebde0() && !FUN_00448e70((__int64*)&kTimer))
+        while (!((FUN_006ebde0_shell*)&kTaskList)->FUN_006ebde0() && !BSPrecisionTimer_Check((__int64*)&kTimer))
         {
             int iCount = 0;
             QueueObj kTask(0);
@@ -7721,14 +7770,15 @@ struct V40
 struct FUN_00528ce0_shell
 {
     V40* pObject;
-    bool FUN_00528ce0(void* apA, void* apB);
+    bool LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_RemoveAt_00528ce0(void* apA, void* apB);
     bool ProcessNode(void* apA, void* apB);
     void FUN_005292a0(int);
-    void FUN_00529000();
+    void LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
 };
 
 // @fnv 0x00528ce0
-bool FUN_00528ce0_shell::FUN_00528ce0(void* apA, void* apB)
+// src: COMMUNITY 0x00528ce0
+bool FUN_00528ce0_shell::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_RemoveAt_00528ce0(void* apA, void* apB)
 {
     bool bResult = false;
     while (1)
@@ -7757,7 +7807,7 @@ bool FUN_00528ce0_shell::FUN_00528ce0(void* apA, void* apB)
             break;
         }
     }
-    FUN_00529000();
+    LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
     return bResult;
 }
 }  // namespace fnv_00528ce0
@@ -7933,9 +7983,9 @@ void TextureCancellationOperations::CancelTexture(int aePreviousState, void* apT
     FUN_00c3cb70(aePreviousState, reinterpret_cast<RefObj*>(apTaskOwner));
     if (GetFileEntry())
     {
-        if (reinterpret_cast<FUN_0043c630_shell*>(this)->FUN_0043c630())
+        if (reinterpret_cast<FUN_0043c630_shell*>(this)->QueuedTexture_GetInQueuedTextureMap())
         {
-            reinterpret_cast<FUN_0043c100_shell*>(this)->FUN_0043c100(false);
+            reinterpret_cast<FUN_0043c100_shell*>(this)->QueuedTexture_SetInQueuedTextureMap(false);
             g_modelLoader->ForwardToVTableSlot(GetFileEntry());
         }
     }
@@ -8012,7 +8062,7 @@ struct QueueObj
 };
 struct E_00449210
 {
-    void FUN_00449240(QueueObj*);
+    void LockFreeQueue_NiPointer_IOTask_Push(QueueObj*);
 };
 struct FUN_00440710_t
 {
@@ -8025,7 +8075,7 @@ struct FUN_00440710_t
 void FUN_00440710_t::DispatchToQueue(int aiValue)
 {
     QueueObj o(aiValue);
-    q->FUN_00449240(&o);
+    q->LockFreeQueue_NiPointer_IOTask_Push(&o);
 }
 }  // namespace fnv_00440710
 
@@ -8036,7 +8086,8 @@ struct Loader_S
 };
 // Calls ReleaseAllObjects and ProcessQueuedTasks on g_modelLoader and returns 1 only if both return nonzero.
 // @fnv 0x00446e40
-char FUN_00446e40()
+// src: COMMUNITY 0x00446e40
+char ModelLoader_UpdateSecondaryQueueCallback()
 {
     unsigned char a = 1;
     unsigned char b = 1;
@@ -8433,13 +8484,14 @@ namespace fnv_00449ab0 {
 struct FUN_00449ea0_cls
 {
     void FUN_00449ea0(void);
-    void* FUN_00449ab0(unsigned int flags);
+    void* LockFreeCaseInsensitiveStringMap_LoadedFile_Destroy(unsigned int flags);
 };
 
 void _Deallocate(void* p);
 
 // @fnv 0x00449ab0
-void* FUN_00449ea0_cls::FUN_00449ab0(unsigned int flags)
+// src: COMMUNITY 0x00449ab0
+void* FUN_00449ea0_cls::LockFreeCaseInsensitiveStringMap_LoadedFile_Destroy(unsigned int flags)
 {
     FUN_00449ea0();
     if (flags & 1)
@@ -8516,11 +8568,12 @@ struct FUN_0044adb0_class
     unsigned int count;
     ModelLoader** entries;
 
-    void FUN_0044adb0();
+    void BSTaskManager_int64_ForceSignal();
 };
 
 // @fnv 0x0044adb0
-void FUN_0044adb0_class::FUN_0044adb0()
+// src: COMMUNITY 0x0044adb0
+void FUN_0044adb0_class::BSTaskManager_int64_ForceSignal()
 {
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -8543,7 +8596,7 @@ class QHeadPtr
 class FUN_009066d0_Class
 {
   public:
-    bool FUN_009066d0();
+    bool LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_Remove();
 };
 
 struct FUN_00906320_Class
@@ -8551,16 +8604,17 @@ struct FUN_00906320_Class
     unsigned char _padding[0x20];
     RecursiveSpinLock _spinLock;
 
-    FUN_009066d0_Class* FUN_00449f80(int*, QHeadPtr*);
-    bool FUN_00906320(int*, QHeadPtr);
+    FUN_009066d0_Class* LockFreeMap_GetInterface_0(int*, QHeadPtr*);
+    bool LockFreeMap_T_Key_NiPointer_IOTask_Remove(int*, QHeadPtr);
 };
 
 // Locks the spin lock, calls FUN_009066d0 on the object returned by FUN_00449f80, unlocks, and returns the result.
 // @fnv 0x00906320
-bool FUN_00906320_Class::FUN_00906320(int* a, QHeadPtr q)
+// src: COMMUNITY 0x00906320
+bool FUN_00906320_Class::LockFreeMap_T_Key_NiPointer_IOTask_Remove(int* a, QHeadPtr q)
 {
     _spinLock.Lock(0);
-    bool result = FUN_00449f80(a, &q)->FUN_009066d0();
+    bool result = LockFreeMap_GetInterface_0(a, &q)->LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_Remove();
     _spinLock.Unlock();
     return result;
 }
@@ -8594,11 +8648,12 @@ unsigned int _BSStringLength(char const*);
 
 struct FUN_00449dc0_Class
 {
-    char* FUN_00449dc0(char const*);
+    char* LockFreeStringMap_Model_GenerateKey(char const*);
 };
 
 // @fnv 0x00449dc0
-char* FUN_00449dc0_Class::FUN_00449dc0(char const* apString)
+// src: COMMUNITY 0x00449dc0
+char* FUN_00449dc0_Class::LockFreeStringMap_Model_GenerateKey(char const* apString)
 {
     AutoMemHelper helper(6, true, "d:\\_fallout3\\platforms\\common\\code\\bsmain\\ThreadSafeStructures.h", 0x1d7);
 
@@ -8618,7 +8673,7 @@ struct FUN_0044df00Class
 
 struct FUN_00529000_Class
 {
-    void FUN_00529000();
+    void LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
 };
 
 int __fastcall ClearLowBit(int*);
@@ -8631,19 +8686,20 @@ struct FUN_009066d0_Class : public FUN_00529000_Class
     FUN_0044df00Class member14;
     int* member18;
 
-    bool FUN_009066d0(int, int);
-    bool FUN_00906820(int, int);
+    bool LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_Remove(int, int);
+    bool LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_FindValue(int, int);
     void FUN_005292a0(int);
 };
 
 // @fnv 0x009066d0
-bool FUN_009066d0_Class::FUN_009066d0(int arg1, int arg2)
+// src: COMMUNITY 0x009066d0
+bool FUN_009066d0_Class::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_Remove(int arg1, int arg2)
 {
     bool result = false;
 
     while (true)
     {
-        if (!FUN_00906820(arg1, arg2))
+        if (!LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_FindValue(arg1, arg2))
         {
             result = false;
             break;
@@ -8671,14 +8727,14 @@ bool FUN_009066d0_Class::FUN_009066d0(int arg1, int arg2)
         }
         else
         {
-            FUN_00906820(arg1, arg2);
+            LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_FindValue(arg1, arg2);
         }
 
         result = true;
         break;
     }
 
-    FUN_00529000();
+    LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
     return result;
 }
 }  // namespace fnv_009066d0
@@ -9376,12 +9432,13 @@ struct PriorityKey
     unsigned int unk08;
     unsigned int unk0c;
     unsigned __int64 key;
-    void __thiscall FUN_004405d0(unsigned char priority);
+    void __thiscall IOTask_SetPriority(unsigned char priority);
 };
 
 // Replaces the priority byte stored in bits 16-23 of key, preserving all other bits.
 // @fnv 0x004405d0
-void PriorityKey::FUN_004405d0(unsigned char priority)
+// src: COMMUNITY 0x004405d0
+void PriorityKey::IOTask_SetPriority(unsigned char priority)
 {
     key = (key & 0xffffffffff00ffffui64) + ((__int64)priority << 16);
 }
@@ -9801,7 +9858,7 @@ struct Base3D
 struct Proc
 {
     void InitScriptRunLockForObject();
-    void FUN_00444ce0();
+    void TESObjectCELL_IncCriticalQueuedRefCount();
 };
 struct Ref
 {
@@ -9967,7 +10024,7 @@ struct Mgr
 };
 struct G1
 {
-    int FUN_0044edb0();
+    int TESMain_GetThread();
 };
 struct TaskA
 {
@@ -10069,7 +10126,7 @@ void ML::FUN_00444850(Ref* ref, int aiValue, bool a3)
     if (q8->Add(ref, &p, false))
     {
         bool b = false;
-        if (a3 && FUN_0040fc90() == DAT_011dea0c->FUN_0044edb0() && !FUN_00702360())
+        if (a3 && FUN_0040fc90() == DAT_011dea0c->TESMain_GetThread() && !FUN_00702360())
             b = true;
         if (b)
             qc->Add(ref, &p, true);
@@ -10079,7 +10136,7 @@ void ML::FUN_00444850(Ref* ref, int aiValue, bool a3)
         {
             ref->FUN_008d6f30()->InitScriptRunLockForObject();
             if (ref->FUN_00572350())
-                ref->FUN_008d6f30()->FUN_00444ce0();
+                ref->FUN_008d6f30()->TESObjectCELL_IncCriticalQueuedRefCount();
         }
     }
     else
@@ -10179,16 +10236,17 @@ class SaveOwner_b9539
     unsigned int m_08;
     unsigned int m_0c;
     SaveCaller_b9539* m_10;
-    void FUN_004454d0(int a);
+    void ModelLoader_CancelAnimIdle(int a);
 };
 
 // @fnv 0x004454d0
-void SaveOwner_b9539::FUN_004454d0(int a)
+// src: COMMUNITY 0x004454d0
+void SaveOwner_b9539::ModelLoader_CancelAnimIdle(int a)
 {
     SaveTmp_b9539 tmp(0);
     if (this->m_10->v2(a, &tmp))
     {
-        DAT_01202d98->FUN_0044ac40(tmp.Get(0));
+        DAT_01202d98->BSTaskManager_CancelTask(tmp.Get(0));
     }
 }
 
@@ -10286,11 +10344,12 @@ struct ModelLoaderHelper445
 {
     void QueueKFPathsFromList(int a, int b, int c, int d, char* path);
     void FUN_00444d40(int v);
-    void FUN_004457d0(TESModel* model, int a, int b, void* ref);
+    void ModelLoader_QueueCreatureParts(TESModel* model, int a, int b, void* ref);
 };
 
 // @fnv 0x004457d0
-void ModelLoaderHelper445::FUN_004457d0(TESModel* model, int aiArg1, int aiArg2, void* ref)
+// src: COMMUNITY 0x004457d0
+void ModelLoaderHelper445::ModelLoader_QueueCreatureParts(TESModel* model, int aiArg1, int aiArg2, void* ref)
 {
     TESCreature* creature = dynamic_cast<TESCreature*>(reinterpret_cast<TESModel*>(model));
     char path[0x104];
@@ -10486,7 +10545,7 @@ struct B449Entry
 class B449Map
 {
   public:
-    B449Entry* FUN_00449f80(void* pKey, int iIndex);
+    B449Entry* LockFreeMap_GetInterface_0(void* pKey, int iIndex);
     bool FUN_004498b0(void* pKey, int iIndex);
 };
 
@@ -10494,11 +10553,11 @@ class B449Map
 // @fnv 0x004498b0
 bool B449Map::FUN_004498b0(void* pKey, int iIndex)
 {
-    bool bResult = FUN_00449f80(pKey, iIndex)->InvokeWithArgs();
+    bool bResult = LockFreeMap_GetInterface_0(pKey, iIndex)->InvokeWithArgs();
     return bResult;
 }
 
-void FUN_0044ada0(unsigned char value);
+void BSTaskThread_SetPauseSleepEnabled(unsigned char value);
 void __cdecl FUN_0040fca0(unsigned long);
 
 struct QueuedTask
@@ -10517,14 +10576,15 @@ struct QueuedTask
 
 struct TaskProcessor
 {
-    void FUN_0044e050(void* pTask);
-    void FUN_0044ac40(QueuedTask* pTask, int arg);
+    void BSTaskManager_int64_RemoveTask(void* pTask);
+    void BSTaskManager_CancelTask(QueuedTask* pTask, int arg);
 };
 
 // @fnv 0x0044ac40
-void TaskProcessor::FUN_0044ac40(QueuedTask* pTask, int arg)
+// src: COMMUNITY 0x0044ac40
+void TaskProcessor::BSTaskManager_CancelTask(QueuedTask* pTask, int arg)
 {
-    FUN_0044ada0(0);
+    BSTaskThread_SetPauseSleepEnabled(0);
     while (true)
     {
         int eState = pTask->eState;
@@ -10541,7 +10601,7 @@ void TaskProcessor::FUN_0044ac40(QueuedTask* pTask, int arg)
             if (pTask->SetState(eState, 6))
             {
                 pTask->FUN_0092c870();
-                FUN_0044e050(pTask);
+                BSTaskManager_int64_RemoveTask(pTask);
                 pTask->Run(eState, arg);
                 pTask->FUN_0044dd60();
                 return;
@@ -10816,12 +10876,13 @@ class FUN_00529000_cls
     unsigned int* m_04;
     unsigned int* m_08;
     unsigned int* m_0C;
-    void FUN_00529000();
+    void LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
 };
 
 // Sets the three unsigned int values pointed to by m_04, m_08 and m_0C to zero.
 // @fnv 0x00529000
-void FUN_00529000_cls::FUN_00529000()
+// src: COMMUNITY 0x00529000
+void FUN_00529000_cls::LockFreeMap_LockFreeMapInterface_ClearReferencedNodes()
 {
     *m_04 = 0;
     *m_08 = 0;
@@ -10830,7 +10891,7 @@ void FUN_00529000_cls::FUN_00529000()
 
 struct Z_00626c50
 {
-    void FUN_0043b4f0();
+    void bhkWorldObject_GetCollisionFilter();
 };
 
 struct Y_00626c50
@@ -11095,7 +11156,7 @@ struct FUN_00626c50_cls
 void FUN_00626c50_cls::FUN_00626c50(unsigned int auiValue)
 {
     Local_00626c50 local;
-    reinterpret_cast<Z_00626c50*>(m_3a0.FUN_00559450((unsigned int)&local))->FUN_0043b4f0();
+    reinterpret_cast<Z_00626c50*>(m_3a0.FUN_00559450((unsigned int)&local))->bhkWorldObject_GetCollisionFilter();
     local.FUN_0059ce80(auiValue);
     m_3a8 = auiValue;
     reinterpret_cast<Y_00626c50*>(m_3a0.FUN_00559450(local.v))->FUN_00626cb0();
@@ -11149,15 +11210,16 @@ struct QueryObject
     QueryResult* __thiscall FUN_004ac110(QueryObject*, char*);
     QueryResult* __thiscall FUN_004ac110(QueryObject*, char*, char*);
 };
-extern "C" void __cdecl FUN_00a61fb0(char*);
+extern "C" void __cdecl BSTexturePalette_RemoveTexture_0(char*);
 // @fnv 0x006570e0
-void __cdecl FUN_006570e0(QueryObject* apQueryObject)
+// src: COMMUNITY 0x006570e0
+void __cdecl BSFaceGenManager_ClearBodyTexturesFromPalette(QueryObject* apQueryObject)
 {
     char firstPath[264];
     char secondPath[264];
     apQueryObject->FUN_004ac110(apQueryObject, secondPath)->FUN_006147e0();
     apQueryObject->FUN_004ac110(apQueryObject, secondPath, firstPath)->BuildBodyModTexturePath();
-    FUN_00a61fb0(firstPath);
+    BSTexturePalette_RemoveTexture_0(firstPath);
 }
 
 struct SyncNode
@@ -11209,7 +11271,7 @@ struct Worker
     NodeLink pending;
     bool ProcessNodeChain(int, int);
     void AddRace(SyncNode*);
-    void FUN_00529000();
+    void LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
     bool AdvanceState(int, int);
 };
 bool __cdecl FUN_004491c0(int*, int, int);
@@ -11241,7 +11303,7 @@ bool Worker::AdvanceState(int aiArg1, int aiArg2)
         result = true;
         break;
     }
-    FUN_00529000();
+    LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
     return result;
 }
 
@@ -11406,23 +11468,23 @@ bool NiStream::FUN_00c3a8a0(const char* a1, BSFile* a2)
 
 // FUN_0043ace0 worker2 a2run3 A1: NiSortAdjustNode drop m_a8 (pack NiMemObject is 1B, +4 align -> 42 fields = 0xac alloc like ORIG)
 int __cdecl FUN_0044a670(const char*);
-void* __cdecl FUN_00401000(unsigned int);
+void* __cdecl FormHeap_Allocate(unsigned int);
 int __cdecl FUN_00406d30(char*, unsigned int, const char*);
-void __fastcall FUN_00c3b370(void*);
+void __fastcall BSStream_FreeAllObjects(void*);
 void* __fastcall FUN_00413f40(void*);
 void* __fastcall FUN_0043b1b0(void*);
-bool __cdecl FUN_00af3bd0(int, const char*);
+bool __cdecl WildCard_Match(int, const char*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 void __cdecl FUN_004b5d10(void*);
-void* __fastcall FUN_0043b230(void*);
+void* __fastcall NiObjectNET_GetControllers(void*);
 void* __cdecl FUN_00653270(void*, void*);
 void* __fastcall GetStringAtOffset(void*);
 void __cdecl FUN_0043b2b0(bool);
-unsigned int __cdecl FUN_0043b290();
-void* __cdecl FUN_0043b2a0();
-unsigned int __cdecl FUN_00702440();
-void* __cdecl FUN_0043b250();
-int __cdecl FUN_005b5e40(const char*, ...);
+unsigned int __cdecl NiZBufferProperty_GetType();
+void* __cdecl NiZBufferProperty_GetDefault();
+unsigned int __cdecl NiVertexColorProperty_GetType();
+void* __cdecl NiVertexColorProperty_GetDefault();
+int __cdecl Warning_005b5e40(const char*, ...);
 bool __cdecl FUN_004b5bf0(void*);
 void __cdecl FUN_00b57e30(void*, unsigned char, unsigned char);
 extern char DAT_0101667c[];
@@ -11448,7 +11510,7 @@ struct PropObj
 };
 struct Cls260
 {
-    bool FUN_0043b260(unsigned short*);
+    bool NiZBufferProperty_IsEqualFast(unsigned short*);
 };
 struct ElemV
 {
@@ -11642,12 +11704,12 @@ void ThisS::FUN_0043ace0(const char* apName, BSStream* apSource, unsigned char a
                                                                     m_04 = 0;
                                                                     m_08 = 0;
                                                                     count = FUN_0044a670(apName) + 1;
-                                                                    c = (char*)FUN_00401000(count);
+                                                                    c = (char*)FormHeap_Allocate(count);
                                                                     m_buf = c;
                                                                     FUN_00406d30(m_buf, count, apName);
                                                                     if (apSource->GetRefAt21C() == 0)
                                                                     {
-                                                                        FUN_00c3b370(apSource);
+                                                                        BSStream_FreeAllObjects(apSource);
                                                                         if (!((Arg1V*)apSource)->v60(DAT_0101667c, 0))
                                                                         {
                                                                             m_buf = 0;
@@ -11660,7 +11722,7 @@ void ThisS::FUN_0043ace0(const char* apName, BSStream* apSource, unsigned char a
                                                                     {
                                                                         x1 = FUN_0043b1b0(FUN_00413f40(elem));
                                                                         if (x1 != 0 &&
-                                                                            FUN_00af3bd0((int)x1, DAT_0101666c))
+                                                                            WildCard_Match((int)x1, DAT_0101666c))
                                                                         {
                                                                             m_sub.FUN_0066b0d0(
                                                                                 (SortObj*)new NiSortAdjustNode(0));
@@ -11706,7 +11768,7 @@ void ThisS::FUN_0043ace0(const char* apName, BSStream* apSource, unsigned char a
                                                                         FUN_004b5d10((void*)FUN_00559450((int*)&m_sub));
                                                                         if (DAT_01185520)
                                                                         {
-                                                                            z = FUN_0043b230(
+                                                                            z = NiObjectNET_GetControllers(
                                                                                 (void*)FUN_00559450((int*)&m_sub));
                                                                             ctrlObj = FUN_00653270(&DAT_011f36ac, z);
                                                                             if (ctrlObj != 0)
@@ -11731,30 +11793,30 @@ void ThisS::FUN_0043ace0(const char* apName, BSStream* apSource, unsigned char a
                                                                         flagB = false;
                                                                         FUN_0043b2b0(true);
                                                                         tmp = ((PropObj*)FUN_00559450((int*)&m_sub))
-                                                                                  ->FUN_00a59d30(FUN_0043b290());
+                                                                                  ->FUN_00a59d30(NiZBufferProperty_GetType());
                                                                         if (tmp != 0)
                                                                         {
                                                                             pPropA = tmp;
                                                                             if (((Cls260*)pPropA)
-                                                                                    ->FUN_0043b260((
-                                                                                        unsigned short*)FUN_0043b2a0()))
+                                                                                    ->NiZBufferProperty_IsEqualFast((
+                                                                                        unsigned short*)NiZBufferProperty_GetDefault()))
                                                                             {
                                                                                 ((PropObj*)FUN_00559450((int*)&m_sub))
-                                                                                    ->FUN_00a5b230(FUN_0043b290());
+                                                                                    ->FUN_00a5b230(NiZBufferProperty_GetType());
                                                                                 flagB = true;
                                                                             }
                                                                         }
                                                                         tmp = ((PropObj*)FUN_00559450((int*)&m_sub))
-                                                                                  ->FUN_00a59d30(FUN_00702440());
+                                                                                  ->FUN_00a59d30(NiVertexColorProperty_GetType());
                                                                         if (0 != tmp)
                                                                         {
                                                                             pPropB = tmp;
                                                                             if (((Cls260*)pPropB)
-                                                                                    ->FUN_0043b260((
-                                                                                        unsigned short*)FUN_0043b250()))
+                                                                                    ->NiZBufferProperty_IsEqualFast((
+                                                                                        unsigned short*)NiVertexColorProperty_GetDefault()))
                                                                             {
                                                                                 ((PropObj*)FUN_00559450((int*)&m_sub))
-                                                                                    ->FUN_00a5b230(FUN_00702440());
+                                                                                    ->FUN_00a5b230(NiVertexColorProperty_GetType());
                                                                                 flagB = true;
                                                                             }
                                                                         }
@@ -11762,13 +11824,13 @@ void ThisS::FUN_0043ace0(const char* apName, BSStream* apSource, unsigned char a
                                                                         {
                                                                             if (((char*)apSource)[8])
                                                                             {
-                                                                                FUN_005b5e40(DAT_01016618,
+                                                                                Warning_005b5e40(DAT_01016618,
                                                                                              (char*)apSource + 8,
                                                                                              apName);
                                                                             }
                                                                             else
                                                                             {
-                                                                                FUN_005b5e40(DAT_010165c8, apName);
+                                                                                Warning_005b5e40(DAT_010165c8, apName);
                                                                             }
                                                                         }
                                                                         FUN_0043b2b0(false);
@@ -12358,7 +12420,7 @@ struct FnvSceneNode
     virtual void vfn14();
     virtual int vfn18();
     FnvSceneNode* FUN_004a8a90();
-    FnvSceneNode* FUN_0043b230();
+    FnvSceneNode* NiObjectNET_GetControllers();
     FnvSceneNode* FUN_0043fad0();
     FnvSceneNode* FUN_005495f0();
     FnvSceneNode* FUN_005495f0(void*);
@@ -12429,7 +12491,7 @@ struct FnvMaster
 {
     FnvRenderSelector* FUN_0043f010();
     FnvSceneNode* FUN_004a8a90();
-    FnvSceneNode* FUN_004ae790(int);
+    FnvSceneNode* BipedAnim_LoadFaceGenModel(int);
     FnvSceneNode* LoadSlotObject();
 };
 struct FnvRefPtr
@@ -12446,7 +12508,7 @@ struct FnvList
 };
 struct FnvLink
 {
-    FnvSceneNode* FUN_0043b230();
+    FnvSceneNode* NiObjectNET_GetControllers();
 };
 struct FnvGuard
 {
@@ -12540,10 +12602,10 @@ void FnvRoot::FUN_0043f2f0()
             for (int index = 0; index < 20; ++index)
             {
                 if (references[index].FUN_00559450() && references[index].FUN_00559450()->FUN_004a8a90() &&
-                    references[index].FUN_00559450()->FUN_004a8a90()->FUN_0043b230())
+                    references[index].FUN_00559450()->FUN_004a8a90()->NiObjectNET_GetControllers())
                 {
                     children[index].FUN_0066b0d0(master28->LoadSlotObject(), attachments[index].FUN_00559450(),
-                                                 references[index].FUN_00559450()->FUN_004a8a90()->FUN_0043b230(),
+                                                 references[index].FUN_00559450()->FUN_004a8a90()->NiObjectNET_GetControllers(),
                                                  index);
                     if (children[index].FUN_00559450())
                     {
@@ -12570,7 +12632,7 @@ void FnvRoot::FUN_0043f2f0()
                         {
                             FnvSceneNode* fallback = attachments[index].FUN_00559450()
                                                          ? attachments[index].FUN_00559450()
-                                                         : master28->FUN_004ae790(index);
+                                                         : master28->BipedAnim_LoadFaceGenModel(index);
                             if (fallback)
                             {
                                 for (unsigned int j = 0; j < ((FnvList*)children[index].FUN_00559450())->FUN_0043b480();
@@ -12748,13 +12810,13 @@ struct AttachRef
     virtual void v123();
     virtual void v124();
     virtual const NiPoint3* GetPos();
-    NiMatrix3 FUN_0056fa00();
+    NiMatrix3 TESObjectREFR_GetOrientation();
     void FUN_00570f70(AttachNode* pkNode);
     void FUN_00565210(bool bArg);
 };
 struct OSGlobals;
 extern OSGlobals* g_osGlobals;
-unsigned int __fastcall FUN_0044edb0(OSGlobals* pkGlobals);
+unsigned int __fastcall TESMain_GetThread(OSGlobals* pkGlobals);
 unsigned int gm_GetCurrentThreadId();
 extern int g_TES;
 struct AttachTES
@@ -12776,9 +12838,9 @@ struct FUN_00440310_shell : QueuedReference
 void FUN_00440310_shell::FUN_00440310(AttachNode* pkNode)
 {
     pkNode->FUN_00440460(m_pkRef->GetPos());
-    pkNode->FUN_0043fa80(m_pkRef->FUN_0056fa00());
+    pkNode->FUN_0043fa80(m_pkRef->TESObjectREFR_GetOrientation());
     pkNode->FUN_00440490(((ActorV_S*)m_pkRef)->GetScale());
-    if (FUN_0044edb0(g_osGlobals) == gm_GetCurrentThreadId())
+    if (TESMain_GetThread(g_osGlobals) == gm_GetCurrentThreadId())
     {
         m_pkRef->FUN_00570f70(pkNode);
         ((AttachTES*)g_TES)->FUN_00451ef0(m_pkRef, ((BSOcclusionPlane*)m_pkRef)->GetCullResult(), 0, 0);
@@ -13160,7 +13222,7 @@ struct MLModelLoader
 {
     void QueueModelAnimations(MLAttachTarget* apTarget, int aiPriority, MLLoadTask* apTask, MLActor* apActor,
                               bool abFlag1, bool abFlag2);
-    void FUN_004457d0(MLAttachTarget* apTarget, int aiPriority, MLLoadTask* apTask, MLActor* apActor);
+    void ModelLoader_QueueCreatureParts(MLAttachTarget* apTarget, int aiPriority, MLLoadTask* apTask, MLActor* apActor);
 };
 
 extern MLModelLoader* g_pMLModelLoader;
@@ -13204,7 +13266,7 @@ void MLLoadTask::ProcessLoadTask()
 
     MLAttachTarget* pTarget5 = pCell4;
     g_pMLModelLoader->QueueModelAnimations(pTarget5, GetPriority(), this, pActor, true, false);
-    g_pMLModelLoader->FUN_004457d0(pTarget5, GetPriority(), this, pActor);
+    g_pMLModelLoader->ModelLoader_QueueCreatureParts(pTarget5, GetPriority(), this, pActor);
     QueueDismemberedLimbLoads();
 }
 
@@ -13390,13 +13452,13 @@ struct Cls497c0
 };
 struct ShellTask28
 {
-    void FUN_00c42f50();
+    void BSTaskThread_StartThread();
 };
 void FUN_00446e30();
-void FUN_00446ea0();
-void FUN_00446f00();
-void FUN_00446f10();
-void FUN_00446f90();
+void ModelLoader_LoadQueuedPriorityCallback();
+void ModelLoader_GetExternalCountCallback();
+void ModelLoader_PauseCallback();
+void ModelLoader_ResumeCallback();
 struct Mgr442650
 {
     void* m_00;
@@ -13411,10 +13473,11 @@ struct Mgr442650
     void* m_24;
     BackgroundCloneThread* m_28;
     char m_2c;
-    Mgr442650* FUN_00442650();
+    Mgr442650* ModelLoader_ModelLoader();
 };
 // @fnv 0x00442650
-Mgr442650* Mgr442650::FUN_00442650()
+// src: COMMUNITY 0x00442650
+Mgr442650* Mgr442650::ModelLoader_ModelLoader()
 {
     m_00 = new Cls492c0(10, 1009, 12);
     m_04 = new Cls496a0(10, 1009, 12);
@@ -13427,16 +13490,16 @@ Mgr442650* Mgr442650::FUN_00442650()
     m_20 = new Cls4c760(10, 1009, 12);
     m_24 = new Cls497c0(10, 1009, 12);
     m_28 = new BackgroundCloneThread(10);
-    ((ShellTask28*)m_28)->FUN_00c42f50();
+    ((ShellTask28*)m_28)->BSTaskThread_StartThread();
     m_2c = 0;
     if (DAT_01202d98)
     {
         ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_0057bd60((void*)FUN_00446e30);
-        ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_004febb0((void*)FUN_00446e40);
-        ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_00442a80((void*)FUN_00446ea0);
-        ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_004fbf00((void*)FUN_00446f00);
-        ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_004febd0((void*)FUN_00446f10);
-        ((ModelLoaderIOOperations*)DAT_01202d98)->SetWaterForm((void*)FUN_00446f90);
+        ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_004febb0((void*)ModelLoader_UpdateSecondaryQueueCallback);
+        ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_00442a80((void*)ModelLoader_LoadQueuedPriorityCallback);
+        ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_004fbf00((void*)ModelLoader_GetExternalCountCallback);
+        ((ModelLoaderIOOperations*)DAT_01202d98)->FUN_004febd0((void*)ModelLoader_PauseCallback);
+        ((ModelLoaderIOOperations*)DAT_01202d98)->SetWaterForm((void*)ModelLoader_ResumeCallback);
     }
     return this;
 }
@@ -13724,7 +13787,7 @@ struct FUN_00445430_cls
     int unk0c;
     int unk10;
     FUN_00445430_obj* m_14;
-    void FUN_00445430(unsigned int a1);
+    void ModelLoader_CancelReplacementKFList(unsigned int a1);
 };
 
 
@@ -13734,12 +13797,13 @@ LoadScopeGuard::~LoadScopeGuard()
 }
 
 // @fnv 0x00445430
-void FUN_00445430_cls::FUN_00445430(unsigned int a1)
+// src: COMMUNITY 0x00445430
+void FUN_00445430_cls::ModelLoader_CancelReplacementKFList(unsigned int a1)
 {
     LoadScopeGuard guard(0);
     if (m_14->v2(a1, &guard))
     {
-        DAT_01202d98->FUN_0044ac40(guard.FUN_00559450(0));
+        DAT_01202d98->BSTaskManager_CancelTask(guard.FUN_00559450(0));
     }
 }
 
@@ -13795,13 +13859,13 @@ void FUN_00445570_cls::FUN_00445570(unsigned int a1)
     LoadScopeGuard guardA(0);
     if (m_08->v2(a1, &guardA))
     {
-        DAT_01202d98->FUN_0044ac40(guardA.FUN_00559450(0));
+        DAT_01202d98->BSTaskManager_CancelTask(guardA.FUN_00559450(0));
         m_0c->v5(a1);
     }
     LoadScopeGuard guardB(0);
     if (m_18->v2(a1, &guardB))
     {
-        DAT_01202d98->FUN_0044ac40(guardB.FUN_00559450(0));
+        DAT_01202d98->BSTaskManager_CancelTask(guardB.FUN_00559450(0));
     }
 }
 }  // namespace fnv_00445570
@@ -14143,11 +14207,12 @@ void __cdecl _Deallocate(void*);
 
 struct FUN_00447330_shell : public ModelLoader
 {
-    void* FUN_00447330(char* arg0, bool arg1, bool arg2, int arg3);
+    void* ModelLoader_BuildKFFileList(char* arg0, bool arg1, bool arg2, int arg3);
 };
 
 // @fnv 0x00447330
-void* FUN_00447330_shell::FUN_00447330(char* apPath, bool abLoadLocomotion, bool arg2, int aiIndex)
+// src: COMMUNITY 0x00447330
+void* FUN_00447330_shell::ModelLoader_BuildKFFileList(char* apPath, bool abLoadLocomotion, bool arg2, int aiIndex)
 {
     AutoMemHelper helper2(0x33, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp",
                           0x108e);
@@ -14165,22 +14230,22 @@ void* FUN_00447330_shell::FUN_00447330(char* apPath, bool abLoadLocomotion, bool
             {
                 if (retVal_2 != 0)
                 {
-                    ((FUN_00447850_shell*)this)->FUN_00447850(DAT_011cb6a0->FUN_00600700(apPath, i5), retVal_2);
+                    ((FUN_00447850_shell*)this)->ModelLoader_CopyFilenameList(DAT_011cb6a0->FUN_00600700(apPath, i5), retVal_2);
                 }
                 else
                 {
-                    retVal_2 = ((FUN_00447850_shell*)this)->FUN_00447850(DAT_011cb6a0->FUN_00600700(apPath, i5), 0);
+                    retVal_2 = ((FUN_00447850_shell*)this)->ModelLoader_CopyFilenameList(DAT_011cb6a0->FUN_00600700(apPath, i5), 0);
                 }
             }
         }
         else if (aiIndex != 0 && arg2)
         {
-            retVal_2 = ((FUN_00447850_shell*)this)->FUN_00447850(DAT_011cb6a0->FUN_00600700(apPath, 0), 0);
-            ((FUN_00447850_shell*)this)->FUN_00447850(DAT_011cb6a0->FUN_00600700(apPath, aiIndex), retVal_2);
+            retVal_2 = ((FUN_00447850_shell*)this)->ModelLoader_CopyFilenameList(DAT_011cb6a0->FUN_00600700(apPath, 0), 0);
+            ((FUN_00447850_shell*)this)->ModelLoader_CopyFilenameList(DAT_011cb6a0->FUN_00600700(apPath, aiIndex), retVal_2);
         }
         else
         {
-            retVal_2 = ((FUN_00447850_shell*)this)->FUN_00447850(DAT_011cb6a0->FUN_00600700(apPath, aiIndex), 0);
+            retVal_2 = ((FUN_00447850_shell*)this)->ModelLoader_CopyFilenameList(DAT_011cb6a0->FUN_00600700(apPath, aiIndex), 0);
         }
         return retVal_2;
     }
@@ -14327,7 +14392,7 @@ int FUN_00406d50(char*, unsigned int, const char*);
 void* operator new(unsigned int);
 struct MeshLoader
 {
-    void FUN_00447a40(const char*, int, void*, int);
+    void ModelLoader_QueueFaceGenFile(const char*, int, void*, int);
     void LoadMesh(MeshSource*, int, void*, int);
 };
 // Builds a Meshes\ path from source->Path(), looks up cached mesh data for each variant and queues a MeshTask, otherwise loads it via FUN_00447a40.
@@ -14356,7 +14421,7 @@ void MeshLoader::LoadMesh(MeshSource* source, int priority, void* parent, int ki
                 }
                 continue;
             }
-            FUN_00447a40(name, priority, parent, 1);
+            ModelLoader_QueueFaceGenFile(name, priority, parent, 1);
         }
     }
     else
@@ -14374,7 +14439,7 @@ void MeshLoader::LoadMesh(MeshSource* source, int priority, void* parent, int ki
             }
             return;
         }
-        FUN_00447a40(other5, priority, parent, 1);
+        ModelLoader_QueueFaceGenFile(other5, priority, parent, 1);
     }
 }
 
@@ -14475,7 +14540,7 @@ struct Q449_b
     int unk18;
     int unk1c;
     RecursiveSpinLock lock;
-    R449_b* FUN_00449f80(void* a1, int* a2);
+    R449_b* LockFreeMap_GetInterface_0(void* a1, int* a2);
     bool FUN_00449700(void* a1, int a2);
 };
 
@@ -14484,7 +14549,7 @@ struct Q449_b
 bool Q449_b::FUN_00449700(void* a1, int iValue)
 {
     lock.Lock(0);
-    bool res = FUN_00449f80(a1, &iValue)->TryInsertAndFinish();
+    bool res = LockFreeMap_GetInterface_0(a1, &iValue)->TryInsertAndFinish();
     lock.Unlock();
     return res;
 }
@@ -14589,7 +14654,7 @@ bool Traversal::FindKeyInTraversal(int index, const int* key)
                 initial = true;
                 break;
             }
-            if (!FUN_0044dff0(reinterpret_cast<int*>(&pending)))
+            if (!LockFreeMap_MarkedPointer_GetMark(reinterpret_cast<int*>(&pending)))
             {
                 if (observed == *key)
                     return true;
@@ -14757,7 +14822,7 @@ bool SearchWorker::ProcessNode(int key, int output)
                 p = true;
                 break;
             }
-            if (!FUN_0044dff0((int*)&pending))
+            if (!LockFreeMap_MarkedPointer_GetMark((int*)&pending))
             {
                 if (controller->Accept(e, output))
                     return controller->Finish(e, output);
@@ -15804,7 +15869,7 @@ bool FUN_008c7aa0();
 Queue3* FUN_004537b0();
 Scene3* FUN_00450b80(int);
 BaseState3* FUN_00475400(Form3*);
-void FUN_00578250(Obj3*);
+void TESObjectREFR_RemoveSounds(Obj3*);
 bool FUN_005784b0(Obj3*);
 void FUN_00578300(Obj3*);
 int FUN_00570f60();
@@ -15894,7 +15959,7 @@ void Ref3::FUN_005702e0(Obj3* replacement, bool warn)
                 cleaned = otherObj->Cleanup();
             }
             if (((Obj3*)oldVar)->HasCollision())
-                FUN_00578250(((Obj3*)oldVar)->AsNode());
+                TESObjectREFR_RemoveSounds(((Obj3*)oldVar)->AsNode());
             CleanupState();
             DAT_011f2250.Remove(this);
             if (!IsDeleted() && g_BGSSaveLoadGame->GetAllowChanges())
@@ -16080,7 +16145,7 @@ bool Worker::ProcessNodeChain(int a1, int a2)
                 flag_ = 1;
                 break;
             }
-            if (!FUN_0044dff0((int*)&pending))
+            if (!LockFreeMap_MarkedPointer_GetMark((int*)&pending))
             {
                 if (((ControllerV*)controller)->Call34(nodeVal, a2))
                     return ((ControllerV*)controller)->Call38(nodeVal, a2);
@@ -16117,7 +16182,7 @@ struct FUN_006ecba0
     MatchNode* ClearLowBit();
     MatchNode* FUN_0044df00();
     unsigned int FUN_00559450();
-    bool FUN_0044dff0();
+    bool LockFreeMap_MarkedPointer_GetMark();
     FUN_006ecba0(bool, MatchNode*);
 };
 struct FUN_0044e370
@@ -16125,7 +16190,7 @@ struct FUN_0044e370
     void* value;
     FUN_0044e370(void*);
     ~FUN_0044e370();
-    bool FUN_004b0460(void*);
+    bool LightRefData_IsEqual(void*);
 };
 struct MatchNode
 {
@@ -16149,10 +16214,11 @@ struct MatchOwner
     FUN_006ecba0 current;
     FUN_006ecba0 next;
     void FUN_005292a0(MatchNode*);
-    bool FUN_00906820(unsigned int key, void* output);
+    bool LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_FindValue(unsigned int key, void* output);
 };
 // @fnv 0x00906820
-bool MatchOwner::FUN_00906820(unsigned int key, void* output)
+// src: COMMUNITY 0x00906820
+bool MatchOwner::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_FindValue(unsigned int key, void* output)
 {
     FUN_006ecba0* bucket = map->GetElementAddress(key);
     while (true)
@@ -16184,9 +16250,9 @@ bool MatchOwner::FUN_00906820(unsigned int key, void* output)
                 first = true;
                 break;
             }
-            if (!next.FUN_0044dff0())
+            if (!next.LockFreeMap_MarkedPointer_GetMark())
             {
-                if (observed.FUN_004b0460(output))
+                if (observed.LightRefData_IsEqual(output))
                     return true;
                 cursor = &current.FUN_0044df00()->next;
                 *hazardRemoved = current.ClearLowBit();
@@ -16292,7 +16358,7 @@ void FUN_0043fc40_t::FUN_0043fc40()
 // DestroyAllStreams
 struct MyAVObject : NiAVObject
 {
-    bool FUN_005f26c0();
+    bool IsPowerAttack_005f26c0();
 };
 
 struct ModelEntry
@@ -16415,7 +16481,7 @@ void Self::DestroyAllStreams()
         KFModelEntry* t = 0;
         if (m_04->TryGetNextEntry(&iterB, &c, &t, 1) && t)
         {
-            if (!t->GetNode() || t->GetNode()->FUN_005f26c0())
+            if (!t->GetNode() || t->GetNode()->IsPowerAttack_005f26c0())
             {
                 m_04->processEntry(c);
                 delete t;
@@ -16494,14 +16560,14 @@ struct Obj43
 struct Model43
 {
     void FUN_0092c870();
-    Obj43* FUN_0043b230();
+    Obj43* NiObjectNET_GetControllers();
 };
 struct Ptr43
 {
     Model43* FUN_00559450();
 };
 // Returns a NiPoint3 by value (hidden result pointer first, as the original pushes it).
-NiPoint3 __cdecl FUN_0056fc30(Obj43*);
+NiPoint3 __cdecl TESObjectREFR_GetBoundMax(Obj43*);
 struct Loader43
 {
     unsigned char CallFoo(int, Model43*);
@@ -16516,7 +16582,7 @@ struct C43
     int field34;
     int field38;
     bool FUN_0043d490();
-    bool FUN_0043d4b0();
+    bool QueuedModel_GetCachedModel();
     float FUN_00792760();
     int FUN_0045cd60();
     void RunVirtualMethod28();
@@ -16531,9 +16597,9 @@ void C43::FUN_0043d180()
     {
         if (FUN_0043d490())
             ptr.FUN_00559450()->FUN_0092c870();
-        if (!FUN_0043d4b0() && ptr.FUN_00559450()->FUN_0043b230())
+        if (!QueuedModel_GetCachedModel() && ptr.FUN_00559450()->NiObjectNET_GetControllers())
         {
-            Fade43* node2 = ptr.FUN_00559450()->FUN_0043b230()->v4();
+            Fade43* node2 = ptr.FUN_00559450()->NiObjectNET_GetControllers()->v4();
             if (node2)
             {
                 Update43 update4;
@@ -16541,7 +16607,7 @@ void C43::FUN_0043d180()
                 node2->FUN_00a59c60(update4);
                 float radius = node2->FUN_0043d450().FUN_0084d030();
                 if (radius < 0.0010000000474974513)
-                    radius = FUN_0056fc30(ptr.FUN_00559450()->FUN_0043b230()).z * 0.5;
+                    radius = TESObjectREFR_GetBoundMax(ptr.FUN_00559450()->NiObjectNET_GetControllers()).z * 0.5;
                 float maximum = 3.402823466e+38f;
                 maximum = (*reinterpret_cast<unsigned int*>(reinterpret_cast<Setting*>(&DAT_011c63cc)->FUN_0043d4d0()) << 12) * 0.5 - (radius + 2048.0);
                 float scaled5 = radius * *((Setting*)&DAT_011c3be4)->FUN_00403e20();
@@ -16591,7 +16657,7 @@ class TextureTaskPointer
 class TextureNodeInfo
 {
   public:
-    int FUN_0043c430();
+    int NiTexture_GetTextureQualityLevel();
 };
 void __cdecl GetNodePointer(BSFileEntry*, NodePointer&);
 void* __cdecl operator new(unsigned int);
@@ -16599,7 +16665,7 @@ class TextureLoader
 {
   public:
     bool IsLoadTexturesDegraded();
-    bool FUN_00443540(BSFileEntry*, int, QueuedFile*);
+    bool ModelLoader_ReuseQueuedTexture(BSFileEntry*, int, QueuedFile*);
     bool QueueTextureLoad(BSFileEntry*, int, QueuedFile*);
 };
 // Loads the file's node; if it is a usable model it queues a TextureTask for the node, otherwise falls back to FUN_00443540 or queues a TextureTask for the file.
@@ -16611,7 +16677,7 @@ bool TextureLoader::QueueTextureLoad(BSFileEntry* file, int priority, QueuedFile
     if ((NiNode*)node)
     {
         bool skip = false;
-        if (((TextureNodeInfo*)(NiNode*)node)->FUN_0043c430() == 3 && !IsLoadTexturesDegraded())
+        if (((TextureNodeInfo*)(NiNode*)node)->NiTexture_GetTextureQualityLevel() == 3 && !IsLoadTexturesDegraded())
             skip = true;
         if (!skip)
         {
@@ -16625,7 +16691,7 @@ bool TextureLoader::QueueTextureLoad(BSFileEntry* file, int priority, QueuedFile
             return false;
         }
     }
-    if (FUN_00443540(file, priority, parent))
+    if (ModelLoader_ReuseQueuedTexture(file, priority, parent))
         return true;
     TextureTaskPointer request(new TextureTask(file, priority));
     request->SetParent(parent);
@@ -16637,7 +16703,7 @@ namespace fnv_00443dc0 {
 class QHeadLocal
 {
   public:
-    void FUN_0044bbc0();
+    void ActorCause_IncRefCount();
 };
 
 class QNewFile;
@@ -16681,7 +16747,7 @@ class QNewFile
     virtual void v28();
     QNewFile(QHeadLocal* p, int a);
     QNewFile(void* p, int a, int b, bool c, bool d);
-    void FUN_00444020(float f);
+    void TESQuest_SetScriptProcessingDelay(float f);
     void SetParent(QNewFile* p);
     void FUN_00443ff0(unsigned char b);
     char pad[0x44];
@@ -16703,12 +16769,12 @@ void QueueModelHolder::FUN_00443dc0(int pQueueObj, QueueObj* a2, int a3, int pPa
     {
         if (bFlag2)
         {
-            pHead->FUN_0044bbc0();
+            pHead->ActorCause_IncRefCount();
         }
         if (pParent)
         {
             NiPointer<QNewFile> sp(new QNewFile(pHead, a3));
-            ((QNewFile*)sp)->FUN_00444020(fValue);
+            ((QNewFile*)sp)->TESQuest_SetScriptProcessingDelay(fValue);
             ((QNewFile*)sp)->SetParent((QNewFile*)pParent);
             ((QNewFile*)sp)->v28();
             a2->FUN_0092c820(sp);
@@ -16718,7 +16784,7 @@ void QueueModelHolder::FUN_00443dc0(int pQueueObj, QueueObj* a2, int a3, int pPa
         return;
     }
     NiPointer<QNewFile> sp(new QNewFile((void*)pQueueObj, a3, a5, bFlag1, bFlag2));
-    ((QNewFile*)sp)->FUN_00444020(fValue);
+    ((QNewFile*)sp)->TESQuest_SetScriptProcessingDelay(fValue);
     ((QNewFile*)sp)->SetParent((QNewFile*)pParent);
     ((QNewFile*)sp)->FUN_00443ff0(bFlag3);
     ((QNewFile*)sp)->v20();
@@ -16785,7 +16851,7 @@ void BuildEgmFilename(String448*, char*, int);
 void BuildTriPathAndSet(String448*, char*, int);
 struct Owner448
 {
-    void FUN_00447a40(void*, int, void*, int);
+    void ModelLoader_QueueFaceGenFile(void*, int, void*, int);
     void LoadTaskFromPath(Task448*, int, void*, int);
 };
 // @fnv 0x00448080
@@ -16811,7 +16877,7 @@ void Owner448::LoadTaskFromPath(Task448* pTask, int x, void* parent, int unused)
     }
     String448 t2;
     BuildTriPathAndSet(&t2, pathX, -1);
-    FUN_00447a40(t2.FUN_00559450(), x, parent, 1);
+    ModelLoader_QueueFaceGenFile(t2.FUN_00559450(), x, parent, 1);
 }
 }  // namespace fnv_00448080
 
@@ -16942,7 +17008,7 @@ struct NiObjQ
     virtual void v24();
     virtual void v28();
     void FUN_00443aa0(void* p);
-    int FUN_0043c430();
+    int NiTexture_GetTextureQualityLevel();
 };
 struct SPBaseQ
 {
@@ -16988,7 +17054,7 @@ class FUN_004436c0_Class
 {
   public:
     bool IsLoadTexturesDegraded();
-    bool FUN_00443540(void* p, void* q, void* r);
+    bool ModelLoader_ReuseQueuedTexture(void* p, void* q, void* r);
     bool LoadTexture(const char* pcName, void* p2, void* p3);
 };
 // Looks up pcName, then either configures a found object or searches archives and constructs another object.
@@ -17000,7 +17066,7 @@ bool FUN_004436c0_Class::LoadTexture(const char* pcName, void* p2, void* p3)
     if (spA5.FUN_00559450())
     {
         bool bSkip = false;
-        if (spA5.FUN_00559450()->FUN_0043c430() == 3 && !IsLoadTexturesDegraded())
+        if (spA5.FUN_00559450()->NiTexture_GetTextureQualityLevel() == 3 && !IsLoadTexturesDegraded())
             bSkip = true;
         if (!bSkip)
         {
@@ -17020,7 +17086,7 @@ bool FUN_004436c0_Class::LoadTexture(const char* pcName, void* p2, void* p3)
     FUN_006815c0 kB;
     HashPathComponents(acPath7, &kA, &kB);
     void* pRes_ = FindFileEntryInArchives(1, &kA, &kB, acPath7);
-    if (pRes_ && FUN_00443540(pRes_, p2, p3))
+    if (pRes_ && ModelLoader_ReuseQueuedTexture(pRes_, p2, p3))
         return true;
     FUN_00528cb0 spC4(0);
     if (pRes_)
@@ -17130,7 +17196,7 @@ struct QueueX
     ListX* m_pkList;
     NodeX** m_ppkHazard0;
     NodeX** m_ppkHazard1;
-    void FUN_0044e4f0(NodeX* pkNode);
+    void LockFreeQueue_Interface_NiPointer_IOTask_DeleteNode(NodeX* pkNode);
     bool Pop(PtrX& kOut);
 };
 // Atomically removes the head node from the lock-free list, copies its data into kOut, and returns false when the queue is empty.
@@ -17170,7 +17236,7 @@ bool QueueX::Pop(PtrX& kOut)
     }
     *m_ppkHazard0 = 0;
     *m_ppkHazard1 = 0;
-    FUN_0044e4f0(pkHead);
+    LockFreeQueue_Interface_NiPointer_IOTask_DeleteNode(pkHead);
     return true;
 }
 
@@ -17312,12 +17378,13 @@ void FUN_00449a20_cls::FUN_00440640()
 #include <ctype.h>
 struct LockFreeCaseInsensitiveStringMap_t
 {
-    void FUN_00449530(const char* apKey, void* apValue);
-    void FUN_004493d0(const char* apKey, void* apValue);
+    void LockFreeMap_char_const_T_Data_Lookup(const char* apKey, void* apValue);
+    void LockFreeCaseInsensitiveStringMap_Model_GetAt(const char* apKey, void* apValue);
 };
 // Lowercases apKey into acLowerKey and calls FUN_00449530 with the lowercased key and apValue.
 // @fnv 0x004493d0
-void LockFreeCaseInsensitiveStringMap_t::FUN_004493d0(const char* apKey, void* apValue)
+// src: COMMUNITY 0x004493d0
+void LockFreeCaseInsensitiveStringMap_t::LockFreeCaseInsensitiveStringMap_Model_GetAt(const char* apKey, void* apValue)
 {
     char acLowerKey[1000];
     char* pDest = acLowerKey;
@@ -17326,18 +17393,19 @@ void LockFreeCaseInsensitiveStringMap_t::FUN_004493d0(const char* apKey, void* a
         *pDest++ = tolower(*apKey++);
     }
     *pDest = 0;
-    FUN_00449530(acLowerKey, apValue);
+    LockFreeMap_char_const_T_Data_Lookup(acLowerKey, apValue);
 }
 
 namespace fnv_00449460 {
 struct LockFreeCaseInsensitiveStringMap_t
 {
-    void FUN_00449580(const char* apKey, void* apValue, bool abFlag);
-    void FUN_00449460(const char* apKey, void* apValue, bool abFlag);
+    void LockFreeMap_char_const_T_Data_SetAtAlt(const char* apKey, void* apValue, bool abFlag);
+    void LockFreeCaseInsensitiveStringMap_Model_SetAtAlt(const char* apKey, void* apValue, bool abFlag);
 };
 // Lowercases apKey into a 1000-byte buffer and forwards it with apValue and abFlag to FUN_00449580.
 // @fnv 0x00449460
-void LockFreeCaseInsensitiveStringMap_t::FUN_00449460(const char* apKey, void* apValue, bool abFlag)
+// src: COMMUNITY 0x00449460
+void LockFreeCaseInsensitiveStringMap_t::LockFreeCaseInsensitiveStringMap_Model_SetAtAlt(const char* apKey, void* apValue, bool abFlag)
 {
     char acLowerKey[1000];
     char* pDest = acLowerKey;
@@ -17346,7 +17414,7 @@ void LockFreeCaseInsensitiveStringMap_t::FUN_00449460(const char* apKey, void* a
         *pDest++ = tolower(*apKey++);
     }
     *pDest = 0;
-    FUN_00449580(acLowerKey, apValue, abFlag);
+    LockFreeMap_char_const_T_Data_SetAtAlt(acLowerKey, apValue, abFlag);
 }
 }  // namespace fnv_00449460
 
@@ -17372,12 +17440,13 @@ unsigned int LockFreeCaseInsensitiveStringMap_t::GetBucketIndex(const char* apKe
 namespace fnv_004497f0 {
 struct LockFreeCaseInsensitiveStringMap_t
 {
-    void FUN_004495d0(const char* apKey);
-    void FUN_004497f0(const char* apKey);
+    void LockFreeMap_char_const_T_Data_RemoveAt(const char* apKey);
+    void LockFreeCaseInsensitiveStringMap_Model_RemoveAt(const char* apKey);
 };
 // Lowercases apKey into acLowerKey and calls FUN_004495d0 with the lowercased key.
 // @fnv 0x004497f0
-void LockFreeCaseInsensitiveStringMap_t::FUN_004497f0(const char* apKey)
+// src: COMMUNITY 0x004497f0
+void LockFreeCaseInsensitiveStringMap_t::LockFreeCaseInsensitiveStringMap_Model_RemoveAt(const char* apKey)
 {
     char acLowerKey[1000];
     char* pDest = acLowerKey;
@@ -17386,7 +17455,7 @@ void LockFreeCaseInsensitiveStringMap_t::FUN_004497f0(const char* apKey)
         *pDest++ = tolower(*apKey++);
     }
     *pDest = 0;
-    FUN_004495d0(acLowerKey);
+    LockFreeMap_char_const_T_Data_RemoveAt(acLowerKey);
 }
 }  // namespace fnv_004497f0
 
@@ -17497,7 +17566,7 @@ void FUN_0043ccf0_shell::FUN_0043ccf0()
                                   *(NiPointer<Model>*)&m_model30);
         if (((NiPointerShell_MLd*)((char*)this + 0x30))->_ref_00726070() != 0)
         {
-            ((FUN_0043cf60_shell*)this)->FUN_0043cf60(true);
+            ((FUN_0043cf60_shell*)this)->QueuedModel_SetAlreadyInModelMap(true);
             return;
         }
 
@@ -17508,12 +17577,12 @@ void FUN_0043ccf0_shell::FUN_0043ccf0()
 
         if ((pFile5 != 0 && ((NiStream*)&stream)
                                 ->FUN_00c3a8a0((const char*)((HighProcess_MLd*)this)->GetProcessLevel(), (BSFile*)pFile5)) ||
-            ((FUN_0043cf90_shell*)this)->FUN_0043cf90())
+            ((FUN_0043cf90_shell*)this)->QueuedModel_GetForceLoad())
         {
             ((SetterHelper_MLd*)((char*)this + 0x30))
                 ->FUN_0044aed0(new Model((const char*)((HighProcess_MLd*)this)->GetProcessLevel(), (BSStream*)&stream,
-                                         ((FUN_0043cf40_shell*)this)->FUN_0043cf40(),
-                                         ((FUN_0043cfb0_shell*)this)->FUN_0043cfb0()));
+                                         ((FUN_0043cf40_shell*)this)->QueuedModel_GetPrepareAfterLoad(),
+                                         ((FUN_0043cfb0_shell*)this)->QueuedModel_GetFaceGenModel()));
         }
         else
         {
@@ -17544,12 +17613,13 @@ class SemaphoreFields
 
 struct SemaphoreWaitReceiver
 {
-    void FUN_004424e0();
+    void BSSemaphore_Wait();
 };
 
 // Blocks indefinitely on m_pSemaphore via WaitForSingleObject, then releases the script run lock with FinishScriptRunLock.
 // @fnv 0x004424e0
-void SemaphoreWaitReceiver::FUN_004424e0()
+// src: COMMUNITY 0x004424e0
+void SemaphoreWaitReceiver::BSSemaphore_Wait()
 {
     WaitForSingleObject(((SemaphoreFields*)this)->m_pSemaphore, 0xffffffffUL);
     FinishScriptRunLock(this);
@@ -17594,12 +17664,13 @@ NiNode* __fastcall FUN_0059bb30(NiAVObject* object);
 struct ParentByteQuery : NiAVObject
 {
 
-    int FUN_0043c430();
+    int NiTexture_GetTextureQualityLevel();
 };
 
 // Returns FUN_0043c470() on the parent returned by FUN_0059bb30, or 0 if no parent exists.
 // @fnv 0x0043c430
-int ParentByteQuery::FUN_0043c430()
+// src: COMMUNITY 0x0043c430
+int ParentByteQuery::NiTexture_GetTextureQualityLevel()
 
 {
 
@@ -17621,8 +17692,8 @@ struct Helper_00440a90
 {
     bool FUN_00440a90();
 };
-void __cdecl FUN_00441780(void*, void*);
-void __cdecl FUN_004417c0();
+void __cdecl TESObjectREFR_SetBackgroundLoadingRef(void*, void*);
+void __cdecl TESObjectREFR_ClearBackgroundLoadingRef();
 
 // Creates an AutoMemContext, checks a helper and clone accessor, then calls FUN_00441780, FUN_004418b0 and FUN_004417c0 when both checks pass.
 // @fnv 0x004416c0
@@ -17633,9 +17704,9 @@ bool CharacterClone::FUN_004416c0()
     bool bresult = ((Helper_00440a90*)this)->FUN_00440a90();
     if (bresult && ((CloneObjectAccessor*)this)->FUN_005d8710())
     {
-        FUN_00441780(cloneTarget, ((CloneObjectAccessor*)this)->FUN_005d8710());
+        TESObjectREFR_SetBackgroundLoadingRef(cloneTarget, ((CloneObjectAccessor*)this)->FUN_005d8710());
         AttachHeadAndFaceParts(this);
-        FUN_004417c0();
+        TESObjectREFR_ClearBackgroundLoadingRef();
     }
     return bresult;
 }
@@ -17656,7 +17727,7 @@ struct LockedReceiver
     unsigned int unk18;
     unsigned int unk1c;
     RecursiveSpinLock lock;
-    LockedResult* FUN_00449f80(void*);
+    LockedResult* LockFreeMap_GetInterface_0(void*);
 };
 
 struct ReceiverArgument
@@ -17666,10 +17737,11 @@ struct ReceiverArgument
 
 // Locks the receiver, calls FUN_0044cd40 on the result of FUN_00449f80 with argument.value, then unlocks the receiver.
 // @fnv 0x00449240
-void __fastcall FUN_00449240(LockedReceiver* receiver, ReceiverArgument argument)
+// src: COMMUNITY 0x00449240
+void __fastcall LockFreeQueue_NiPointer_IOTask_Push(LockedReceiver* receiver, ReceiverArgument argument)
 {
     receiver->lock.Lock(0);
-    receiver->FUN_00449f80(argument.value)->Enqueue();
+    receiver->LockFreeMap_GetInterface_0(argument.value)->Enqueue();
     receiver->lock.Unlock();
 }
 
@@ -17912,7 +17984,7 @@ void QueuedFileLoad::Run()
         ((fnv_00441e40::FUN_004483a0_t*)g_modelLoader)->GetHolderValue(((fnv_00441e40::Proc_S*)this)->GetNext());
     if (*(fnv_00441e40::Flt*)m_pLoadedFile)
         return;
-    pfile = GetFile(fnv_00441e40::FUN_00449050(m_iLoadPriority), 0xffff);
+    pfile = GetFile(fnv_00441e40::ModelLoader_GetArchiveTypeIndexForIOFileIndex(m_iLoadPriority), 0xffff);
     if (pfile)
         *(NiPointer<fnv_00441e40::LoadedFile>*)m_pLoadedFile = (fnv_00441e40::LoadedFile*)new fnv_00441e40::LoadedFile(((fnv_00441e40::Proc_S*)this)->GetNext(), pfile);
     else

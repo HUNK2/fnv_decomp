@@ -21,7 +21,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern MemoryManager g_memoryManager;
 extern "C" void* g_012685f8;
-void* __cdecl FUN_00c7fa60();
+void* __cdecl bhkStiffSpringConstraint_GetRTTI();
 extern "C" void __cdecl _delete(void*, int);
 void __cdecl FUN_00cc58c0();
 struct FUN_00c7fa70_Class
@@ -34,20 +34,20 @@ struct FUN_00cb9900_cls
 {
     void __thiscall FUN_00cb9900();
 };
-void __cdecl FUN_00cda340();
+void __cdecl hkaPose_syncModelSpace();
 void __cdecl FUN_00cd9fe0();
 struct FUN_00cda4b0_cls
 {
-    void __thiscall FUN_00cda4b0();
+    void __thiscall hkaPose_accessSyncedPoseModelSpace();
 };
 struct FUN_00cda8d0_class
 {
-    void FUN_00cda340();
+    void hkaPose_syncModelSpace();
     void* hkaPose_getSyncedPoseModelSpace();
 };
 struct FUN_00cdb290
 {
-    void __thiscall FUN_00cda690();
+    void __thiscall syncLocalSpace();
     void* __thiscall GetPlus4();
 };
 struct VObj
@@ -82,7 +82,7 @@ struct MyNode
     char _pad2[2];
     unsigned short count;
 };
-MyNode* __cdecl FUN_00c802d0(MyNode* p);
+MyNode* __cdecl bhkUtilFunctions_FindNextCollisionObject(MyNode* p);
 struct MyRef
 {
     virtual ~MyRef();
@@ -169,8 +169,8 @@ struct Target
 };
 struct FUN_00c6ffc0_Class
 {
-    Target* FUN_00c6e0b0();
-    void FUN_00c6ffc0();
+    Target* bhkCharacterController_GetCollisionDebugNode();
+    void bhkCharacterController_RemoveCollisionDebug();
 };
 extern char* EmptyFS;
 struct FixedStr
@@ -237,15 +237,15 @@ struct RArr
 };
 struct RCtx;
 RObj* __cdecl FUN_00c4b470(RCtx*, RKey*, int);
-void __cdecl FUN_00c7bcb0(RCtx* ctx, RObj* obj, RArr* arr);
+void __cdecl CopyPoseFunctor(RCtx* ctx, RObj* obj, RArr* arr);
 void __cdecl SetFlagRecursive(int, void*);
-void __cdecl FUN_00c7bcb0(void*, void*, void*);
+void __cdecl CopyPoseFunctor(void*, void*, void*);
 inline unsigned char GetFlag6(unsigned short w)
 {
     return (unsigned char)(w >> 6) & 1;
 }
 void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5);
-void FUN_00c74dd0(void*, NiTransform*);
+void NI2HK_00c74dd0(void*, NiTransform*);
 extern bool DAT_01267c28;
 extern bool DAT_01267c34;
 extern bool DAT_01267c40;
@@ -308,15 +308,15 @@ struct FUN_00c7d630_t
     char pad5c[4];
     NiMatrix3 m_kRot;
     void FUN_00c7d630(float);
-    void FUN_00c79680();
-    void FUN_00c7cb50(int);
+    void bhkRagdollController_GetSGPoseLocalSpace();
+    void bhkRagdollController_UpdateDebugLines(int);
     void FUN_00c76350(void*);
-    void FUN_00c751f0(void*);
+    void bhkRagdollController_DoGrabIK(void*);
     void FUN_00c7aa60(void*);
-    void FUN_00c7ba50(void*, void*, bool*);
+    void bhkRagdollController_DoPoseMatching(void*, void*, bool*);
     void FUN_00c7d030(void*);
-    void FUN_00c7c870();
-    void FUN_00c79a50();
+    void bhkRagdollController_DoRagdollFeedback();
+    void bhkRagdollController_SetSGPoseLocalSpace();
 };
 struct FUN_00cb0c00_class
 {
@@ -335,8 +335,8 @@ struct FUN_00c7d890_cls
     void FUN_00c7d890();
 };
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
-void __cdecl FUN_00d6b4b0(void*, unsigned int);
+void __stdcall BSSimpleArray_bhkUtilFunctions_AVLevel_1024_CopyItems(char* dst, char* src, unsigned int count);
+void __cdecl hkaKeyFrameHierarchyUtility_initialize(void*, unsigned int);
 struct FUN_00cdb3e0_cls
 {
     char pad[0x2c];
@@ -356,7 +356,7 @@ struct S_c6a200_Ev
 };
 extern void* DAT_011afecc;
 S_c6a200_Info* __cdecl GetExtraDataChecked(void* obj);
-void __cdecl FUN_00c68900(void* obj, S_c6a200_Ev* ev, void* extra);
+void __cdecl bhkWorld_DoObjectRec(void* obj, S_c6a200_Ev* ev, void* extra);
 bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3);
 struct FlagController
 {
@@ -667,8 +667,8 @@ struct S
     virtual void v37();
     virtual void v38();
     virtual void SetMode(int iMode);
-    void FUN_00561690(int);
-    void FUN_005617c0(float* pf);
+    void bhkRigidBody_SetLinearVelocity_00561690(int);
+    void bhkRigidBody_SetAngularVelocity_005617c0(float* pf);
 };
 struct Cast_c9b
 {
@@ -705,7 +705,7 @@ __forceinline bool IsNode_c9b(Obj_c9b* pkObj)
     return false;
 }
 void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f);
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
+void __stdcall BSSimpleArray_bhkUtilFunctions_AVLevel_1024_CopyItems(char* dst, char* src, unsigned int count);
 class FUN_00c7f970_cls
 {
   public:
@@ -717,7 +717,7 @@ class FUN_00c7f970_cls
     char* m_pData;
     void* unk;
     unsigned int m_uiSize;
-    void FUN_00c7f970(unsigned int uiNew, unsigned int uiOld);
+    void BSSimpleArray_bhkUtilFunctions_AVLevel_1024_ReallocateBuffer(unsigned int uiNew, unsigned int uiOld);
 };
 
 #include <xmmintrin.h>
@@ -904,7 +904,7 @@ class BodyT8
     const void* GetNavMeshData();
 };
 BodyT8* __cdecl FUN_004b59f0(ObjT8* pkObj);
-int __cdecl FUN_004b5a80(BodyT8* pkBody);
+int __cdecl bhkEntity_Getbhk(BodyT8* pkBody);
 
 class WeapT8
 {
@@ -1328,7 +1328,7 @@ void RefT8::FUN_00890610(HitT8* pkHit, WeapT8* pkWeap)
                 if (!bContinuous && pkBody && pkWeap->GetFormType() != 0x24)
                 {
                     NiPoint3T8 kPos = FUN_00458620(kPos, kSource);
-                    int iOffset = FUN_004b5a80(pkBody);
+                    int iOffset = bhkEntity_Getbhk(pkBody);
                     EventT8 kEvent;
                     kEvent.m_fScale = 0.5f;
                     kEvent.m_i1c = 0;
@@ -1406,7 +1406,7 @@ struct SettingString
     const char* GetString();
 };
 extern SettingString DAT_011cc83c;
-NiAVObject* __cdecl FUN_004aae30(NiAVObject* a, NiFixedString* b);
+NiAVObject* __cdecl BSUtilities_GetObjectByName(NiAVObject* a, NiFixedString* b);
 struct GetterObj
 {
     float FUN_00450410();
@@ -1659,7 +1659,7 @@ struct Sub410
 {
     bool FUN_008a5170();
 };
-void __cdecl FUN_00c9b250(void* mgr, float z, bool flag);
+void __cdecl bhkBlendController_DoHit(void* mgr, float z, bool flag);
 struct GlobalCount
 {
     int FUN_004503f0();
@@ -1731,15 +1731,16 @@ struct ImpactNode
 };
 struct HostShell : Actor
 {
-    void FUN_008a4af0(ParamObj* source, float strength, float secondary, int start, int end);
+    void Actor_HitMeAlt(ParamObj* source, float strength, float secondary, int start, int end);
 };
 // @fnv 0x008a4af0
-void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, int start, int end)
+// src: COMMUNITY 0x008a4af0
+void HostShell::Actor_HitMeAlt(ParamObj* source, float strength, float secondary, int start, int end)
 {
     void* scene = ((ImpactNode*)this)->GetScene();
     if (((ImpactNode*)this)->IsGhost())
         return;
-    void* manager = FUN_004aae30((NiAVObject*)scene, (NiFixedString*)DAT_011cc83c.GetString());
+    void* manager = BSUtilities_GetObjectByName((NiAVObject*)scene, (NiFixedString*)DAT_011cc83c.GetString());
     ImpactPoint origin;
     ImpactPoint target;
     NodeObj* node = (NodeObj*)source->GetNode116();
@@ -1773,7 +1774,7 @@ void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, 
                 void* sub = ((SubObjSrc*)this)->FUN_009306d0();
                 if (sub)
                     special = ((Sub410*)((char*)sub + 0x410))->FUN_008a5170();
-                FUN_00c9b250(manager, 0.0f, special);
+                bhkBlendController_DoHit(manager, 0.0f, special);
             }
             if (primary != 0.0)
             {
@@ -1806,7 +1807,7 @@ void HostShell::FUN_008a4af0(ParamObj* source, float strength, float secondary, 
                             part = identity->GetIndex();
                     }
                     if (!part)
-                        part = (int)FUN_004aae30((NiAVObject*)scene,
+                        part = (int)BSUtilities_GetObjectByName((NiAVObject*)scene,
                                                  (NiFixedString*)((SettingString*)&DAT_011cc8cc)->GetString());
                     if (part)
                     {
@@ -4522,13 +4523,13 @@ struct kE
     bool FUN_004f1540();
     unsigned char FUN_005bb4d0();
     kNodeT<kRef>* GetOffsetC();
-    void FUN_004f2480(int a, int b);
+    void TESRegionDataImposter_SetImpostersVisible(int a, int b);
     kNodeT<kRef>* FUN_00413f40();
 };
 
 struct kExt
 {
-    kE* FUN_004f35b0();
+    kE* TESRegionDataList_Find();
 };
 
 struct kRef
@@ -4536,13 +4537,13 @@ struct kRef
     bool FUN_00440d80();
     void* FUN_007af430();
     kNodeT<kShape>* FUN_00441110();
-    kExt* FUN_009611e0(int k);
+    kExt* NiAVObject_GetParent(int k);
     bool FUN_00549580();
 };
 
 struct kShape
 {
-    bool FUN_004f8360(kP2* p);
+    bool TESRegionPointList_IsInsideRegion(kP2* p);
     bool FUN_008256d0();
 };
 
@@ -4554,7 +4555,7 @@ struct kRefList
 
 struct kPA2
 {
-    void FUN_004893c0(int a);
+    void SetFlags_004893c0(int a);
 };
 struct kPA
 {
@@ -4577,16 +4578,16 @@ struct kProc
     void FUN_0063c8f0();
 };
 kProc* __stdcall FUN_0046dd00(void* p);
-void __cdecl FUN_00b4f430(int a);
+void __cdecl BSShaderManager_SetImageSpaceParameters(int a);
 
 struct kActor
 {
     bool FUN_004518e0();
     float FUN_005471e0();
     bool FUN_00425fd0();
-    int FUN_005474b0(int a);
+    int TESObjectCELL_GetMusicType(int a);
     kPA* FUN_004543c0();
-    void* FUN_005475b0(int a);
+    void* TESObjectCELL_GetClimate(int a);
     kU2* FUN_00547680();
     kCell* FUN_0054ddd0();
     int FUN_00544c30();
@@ -4595,9 +4596,9 @@ struct kActor
     void FUN_00548230(kRef* r, int a);
 };
 
-bool __cdecl FUN_0094dba0();
-void __cdecl FUN_0062f8f0(float f);
-void __cdecl FUN_005743f0();
+bool __cdecl TESWaterSystem_GetCameraInPlaceableWater();
+void __cdecl TESWaterSystem_SetCameraRelevantWaterHeight(float f);
+void __cdecl FalloutRadio_NewCellEntered();
 struct kQ2
 {
     void FUN_006231a0(kPA* a);
@@ -4605,7 +4606,7 @@ struct kQ2
 kQ2* __cdecl FUN_00622a70(float f, int a);
 float __cdecl FUN_00622bb0();
 float __cdecl FUN_00622ba0();
-void __cdecl FUN_004f24e0(kRef* r, int a, int b);
+void __cdecl TESRegionDataImposter_SetImposterVisible(kRef* r, int a, int b);
 
 struct kZ
 {
@@ -4675,8 +4676,8 @@ struct __declspec(align(16)) kH
     int unkdc;
     kH();
     ~kH();
-    void FUN_0056f110(kZ* z);
-    void FUN_0056f0f0(int f);
+    void bhkRigidBodyCinfo_SetShape(kZ* z);
+    void bhkRigidBodyCinfo_SetCollisionFilter(int f);
 };
 
 struct kW
@@ -4746,8 +4747,8 @@ struct kVV
     virtual void v0dc();
     virtual void v0e0();
     virtual void ve4(int a);
-    void FUN_00561580(int a);
-    void FUN_005610f0(kP3* p);
+    void bhkRigidBody_SetActive(int a);
+    void bhkRigidBody_SetNiPosition(kP3* p);
     struct kVV3* FUN_004ae700();
 };
 struct kVV3
@@ -4831,7 +4832,7 @@ struct kS8
     kS8(const kS8& o);
     ~kS8();
 };
-void __cdecl FUN_00705420(kRef* r, kS8 s, int a);
+void __cdecl Interface_SetRegionText(kRef* r, kS8 s, int a);
 void __cdecl FUN_0082d7c0();
 
 struct kArea
@@ -6029,7 +6030,7 @@ struct kSelf
 
     kActor* FUN_008d6f30();
     void SetParentCellAndUpdateController(kActor* p);
-    void FUN_0093a7a0(kRef* r);
+    void PlayerCharacter_SetOccupiedRegion(kRef* r);
     struct X5
     {
         void FUN_00421e40();
@@ -6039,31 +6040,32 @@ struct kSelf
     bool FUN_005a1e50();
     kArea* FUN_00891170();
     void* FUN_00575d70();
-    void FUN_00947d80();
-    void FUN_009480c0();
-    void FUN_0094cae0(kActor* p);
+    void PlayerCharacter_ResetAudioMarkerList();
+    void PlayerCharacter_ResetMapMarkerStructList();
+    void PlayerCharacter_SetParentCell(kActor* p);
 };
 
 // @fnv 0x0094cae0
-void kSelf::FUN_0094cae0(kActor* p)
+// src: COMMUNITY 0x0094cae0
+void kSelf::PlayerCharacter_SetParentCell(kActor* p)
 {
     if (p == FUN_008d6f30())
         return;
-    if (!FUN_0094dba0())
-        FUN_0062f8f0((p && p->FUN_004518e0()) ? p->FUN_005471e0() : DAT_01015f5c);
+    if (!TESWaterSystem_GetCameraInPlaceableWater())
+        TESWaterSystem_SetCameraRelevantWaterHeight((p && p->FUN_004518e0()) ? p->FUN_005471e0() : DAT_01015f5c);
     FUN_005d43c0(0)->FUN_00421e40();
     SetParentCellAndUpdateController(p);
     if (p)
     {
         if (!p->FUN_00425fd0())
-            FUN_0093a7a0(0);
-        FUN_005743f0();
-        m7b4 = p->FUN_005474b0(0);
+            PlayerCharacter_SetOccupiedRegion(0);
+        FalloutRadio_NewCellEntered();
+        m7b4 = p->TESObjectCELL_GetMusicType(0);
         kPA* pa = p->FUN_004543c0();
         if (pa)
         {
             kPA2* pa2 = pa->FUN_0045cd60();
-            pa2->FUN_004893c0(1);
+            pa2->SetFlags_004893c0(1);
         }
         v1fc(0);
         if (FUN_008d6f30() && FUN_008d6f30()->FUN_004543c0() && FUN_00622a70(FUN_00622bb0(), 0))
@@ -6075,18 +6077,18 @@ void kSelf::FUN_0094cae0(kActor* p)
             kZ* z = new kZ;
             z->FUN_0056ea00(DAT_01017d00);
             kH h;
-            h.FUN_0056f110(z);
+            h.bhkRigidBodyCinfo_SetShape(z);
             int flags = 0x30000;
             flags |= 0x21;
-            h.FUN_0056f0f0(flags);
+            h.bhkRigidBodyCinfo_SetCollisionFilter(flags);
             mdec.FUN_0066b0d0(new kW(&h));
-            mdec.FUN_00559450()->FUN_00561580(1);
+            mdec.FUN_00559450()->bhkRigidBody_SetActive(1);
             mdec.FUN_00559450()->ve4(4);
             mdec.FUN_00559450()->FUN_004ae700()->FUN_0094db80(9);
             kP4 q;
             kP3 r = *v1f4();
             FUN_004a3e00(&q, &r);
-            mdec.FUN_00559450()->FUN_005610f0(&r);
+            mdec.FUN_00559450()->bhkRigidBody_SetNiPosition(&r);
         }
         mdec.FUN_00559450()->v9c(FUN_008d6f30()->FUN_004543c0());
         bool busy = FUN_00437bd0() || v22c(0) || v2e8() || v230();
@@ -6094,8 +6096,8 @@ void kSelf::FUN_0094cae0(kActor* p)
         if (idle)
             v494();
         DAT_011c3b3c->UpdateRelationStates(0);
-        FUN_0046dd00(p->FUN_005475b0(0))->FUN_0063c8f0();
-        FUN_00b4f430(p->FUN_00547680()->FUN_00500940());
+        FUN_0046dd00(p->TESObjectCELL_GetClimate(0))->FUN_0063c8f0();
+        BSShaderManager_SetImageSpaceParameters(p->FUN_00547680()->FUN_00500940());
         kCell* cell = p->FUN_0054ddd0();
         bool found = false;
         m79c = 0;
@@ -6141,12 +6143,12 @@ void kSelf::FUN_0094cae0(kActor* p)
             kShape* sh;
             for (kNodeT<kShape>* m = ref->FUN_00441110(); !done && m && (sh = *m->Get()) != 0; m = m->Next())
             {
-                if (sh->FUN_004f8360(&pos))
+                if (sh->TESRegionPointList_IsInsideRegion(&pos))
                 {
                     m764.AddRegion(ref);
                     if (list.FUN_005f65d0(&ref))
                         list.FUN_00905330(&ref);
-                    kE* e = ref->FUN_009611e0(7)->FUN_004f35b0();
+                    kE* e = ref->NiAVObject_GetParent(7)->TESRegionDataList_Find();
                     if (e)
                     {
                         if (e->FUN_004f1540() && (!best || (best != e && best->FUN_005bb4d0() < e->FUN_005bb4d0())))
@@ -6169,21 +6171,21 @@ void kSelf::FUN_0094cae0(kActor* p)
                     if (ref->FUN_00549580())
                     {
                         found = true;
-                        if (sh->FUN_004f8360(&c0) && sh->FUN_004f8360(&c1) && sh->FUN_004f8360(&c2) &&
-                            sh->FUN_004f8360(&c3))
+                        if (sh->TESRegionPointList_IsInsideRegion(&c0) && sh->TESRegionPointList_IsInsideRegion(&c1) && sh->TESRegionPointList_IsInsideRegion(&c2) &&
+                            sh->TESRegionPointList_IsInsideRegion(&c3))
                             m79c = 1;
                     }
                     if (m760)
                     {
-                        kE* a = m760->FUN_009611e0(3)->FUN_004f35b0();
-                        kE* b = ref->FUN_009611e0(3)->FUN_004f35b0();
+                        kE* a = m760->NiAVObject_GetParent(3)->TESRegionDataList_Find();
+                        kE* b = ref->NiAVObject_GetParent(3)->TESRegionDataList_Find();
                         if (b && (!a || (b->FUN_004f1540() && !a->FUN_004f1540()) ||
                                   (b->FUN_004f1540() == a->FUN_004f1540() && b->FUN_005bb4d0() > a->FUN_005bb4d0())))
-                            FUN_0093a7a0(ref);
+                            PlayerCharacter_SetOccupiedRegion(ref);
                     }
                     else
                     {
-                        FUN_0093a7a0(ref);
+                        PlayerCharacter_SetOccupiedRegion(ref);
                     }
                     done = true;
                 }
@@ -6223,21 +6225,21 @@ void kSelf::FUN_0094cae0(kActor* p)
                     m79d = 1;
             }
         }
-        kE* e4 = m760 ? m760->FUN_009611e0(4)->FUN_004f35b0() : 0;
-        FUN_00705420(m760, e4 ? e4->v2c() : 0, 1);
-        FUN_00947d80();
-        FUN_009480c0();
+        kE* e4 = m760 ? m760->NiAVObject_GetParent(4)->TESRegionDataList_Find() : 0;
+        Interface_SetRegionText(m760, e4 ? e4->v2c() : 0, 1);
+        PlayerCharacter_ResetAudioMarkerList();
+        PlayerCharacter_ResetMapMarkerStructList();
         kNodeT<kRef>* n2 = &list.head;
         while (n2 && *n2->Get())
         {
             kRef* x = *n2->Get();
             if (x)
             {
-                kE* e = x->FUN_009611e0(8)->FUN_004f35b0();
+                kE* e = x->NiAVObject_GetParent(8)->TESRegionDataList_Find();
                 if (e)
                 {
                     kE* e2 = e;
-                    e2->FUN_004f2480(0, 0);
+                    e2->TESRegionDataImposter_SetImpostersVisible(0, 0);
                 }
             }
             n2 = n2->Next();
@@ -6248,7 +6250,7 @@ void kSelf::FUN_0094cae0(kActor* p)
             kRef* x = *n2->Get();
             if (x)
             {
-                kE* e = x->FUN_009611e0(8)->FUN_004f35b0();
+                kE* e = x->NiAVObject_GetParent(8)->TESRegionDataList_Find();
                 if (e)
                 {
                     kE* e2 = e;
@@ -6258,7 +6260,7 @@ void kSelf::FUN_0094cae0(kActor* p)
                         if (*k->Get())
                         {
                             FUN_008d6f30()->FUN_00548230(*k->Get(), 0);
-                            FUN_004f24e0(*k->Get(), 1, 0);
+                            TESRegionDataImposter_SetImposterVisible(*k->Get(), 1, 0);
                         }
                         k = k->Next();
                     }

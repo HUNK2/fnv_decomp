@@ -135,7 +135,7 @@ void __thiscall CombatProcedure::FUN_00996e40()
 }
 
 void* operator new(unsigned int);
-void __cdecl FUN_005b5e40(int, const char*, int);
+void __cdecl Warning_005b5e40(int, const char*, int);
 extern char DAT_0108ddac;
 // Returns a new CombatProcedure subclass for kind values 0 through 12; otherwise calls FUN_005b5e40 and returns null.
 // @fnv 0x00996f10
@@ -170,7 +170,7 @@ CombatProcedure* __cdecl CreateCombatProcedure(int kind)
     case 12:
         return new CombatProcedureEngageTarget();
     default:
-        FUN_005b5e40(1, &DAT_0108ddac, kind);
+        Warning_005b5e40(1, &DAT_0108ddac, kind);
         return 0;
     }
 }

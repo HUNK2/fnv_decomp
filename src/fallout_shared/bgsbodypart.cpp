@@ -141,7 +141,7 @@ void BGSBodyPart::InitItem(TESForm* form)
     {
         TESForm::RemapFormIDForFile(formID, form->GetFile(-1));
         ((InterfaceManager*)this)
-            ->FUN_00500a20((Tile*)dynamic_cast<BGSImpactDataSet*>(TESForm::GetFormByID(formID)));
+            ->BGSTerminal_SetPassword((Tile*)dynamic_cast<BGSImpactDataSet*>(TESForm::GetFormByID(formID)));
     }
     formID = FUN_005e3fc0();
     if (formID)

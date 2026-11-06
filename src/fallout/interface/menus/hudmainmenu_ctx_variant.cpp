@@ -32,12 +32,12 @@ class HudCreationMethods : public HUDMainMenu
 {
   public:
     bool FUN_00770070();
-    NiNode* FUN_0077ee50();
+    NiNode* HUDMainMenu_Create3DCamera();
 };
 class CompassStub
 {
   public:
-    void FUN_007700b0(NiSourceTexture* texture);
+    void TileShaderProperty_SetAlphaTexture(NiSourceTexture* texture);
     void FUN_007700d0(bool enable);
 };
 
@@ -82,8 +82,8 @@ extern SettingString DAT_011d300c;
 extern SettingInt DAT_011d32d0;
 extern SettingFloat DAT_011d9774;
 extern float DAT_011d979c;
-InterfaceManager* __cdecl FUN_004b7210();
-unsigned int __cdecl FUN_00706f20();
+InterfaceManager* __cdecl InterfaceManager_GetSingleton();
+unsigned int __cdecl HudMainMenu_GetMenuID();
 TileMenu* __cdecl FUN_00a09030(unsigned int id);
 float __cdecl FUN_00a01530();
 ATMStub* __cdecl FUN_00713d70();
@@ -99,7 +99,7 @@ void __cdecl FUN_0040fbe0(const char* message);
 void __cdecl FUN_007037e0();
 void __cdecl FUN_00a04200(bool value);
 void __cdecl FUN_0077e430(float value);
-void __cdecl FUN_00771700(int value);
+void __cdecl HUDMainMenu_UpdateVisibilityState(int value);
 static const char kTemplateRightBracket[] = "template_right_bracket";
 static const char kTemplateMeter3[] = "template_meter";
 static const char kTemplateJustifyRightText6[] = "template_justify_right_text";
@@ -138,7 +138,8 @@ static const char kTemplateJustifyRightText[] = "template_justify_right_text";
 static const char kTemplateJustifyCenterText[] = "template_justify_center_text";
 static const char kHokeys[] = "Hokeys";
 // @fnv 0x0076bfe0
-Tile* FUN_0076bfe0()
+// src: COMMUNITY 0x0076bfe0
+Tile* HUDMainMenu_Create()
 {
     InterfaceManager* pInterfaceMgrY;
     Menu* pMenuXB;
@@ -146,17 +147,17 @@ Tile* FUN_0076bfe0()
     Tile* pMenuTileN;
     TileMenu* pOldMenuT;
 
-    if (!FUN_004b7210())
+    if (!InterfaceManager_GetSingleton())
         return 0;
-    pOldMenuT = FUN_00a09030(FUN_00706f20());
+    pOldMenuT = FUN_00a09030(HudMainMenu_GetMenuID());
     if (pOldMenuT)
         delete pOldMenuT;
-    pInterfaceMgrY = FUN_004b7210();
+    pInterfaceMgrY = InterfaceManager_GetSingleton();
     fTileAlphaM = FUN_00a01530();
     FUN_00713d70()->FUN_004538a0(0);
     pMenuTileN = pInterfaceMgrY->FUN_00586150()->FUN_00a01b00("Data\\Menus\\Main\\hud_main_menu.xml");
-    pMenuXB = (Menu*)pMenuTileN->FUN_00a03c90();
-    if (pMenuXB && pMenuXB->GetClass() == FUN_00706f20())
+    pMenuXB = (Menu*)pMenuTileN->Tile_GetMenu();
+    if (pMenuXB && pMenuXB->GetClass() == HudMainMenu_GetMenuID())
     {
         pMenuXB->SetTileMenu(static_cast<TileMenu*>(pMenuTileN), false);
         int iInfoRowY;
@@ -703,7 +704,7 @@ Tile* FUN_0076bfe0()
         NiPointer<NiSourceTexture> spCompassAlphaB(0);
         spCompassAlphaB = NiSourceTexture::Create(NiFixedString("Textures\\Interface\\HUD\\hud_compass_alphamap.dds"),
                                        DAT_011a9598, true, false);
-        ((CompassStub*)HUDMainMenu_pme->m_pTiles[6]->GetShaderProperty())->FUN_007700b0(spCompassAlphaB);
+        ((CompassStub*)HUDMainMenu_pme->m_pTiles[6]->GetShaderProperty())->TileShaderProperty_SetAlphaTexture(spCompassAlphaB);
         ((CompassStub*)HUDMainMenu_pme->m_pTiles[6]->GetShaderProperty())->FUN_007700d0(true);
         DAT_011d9770 = new NiNode(0);
         NiMatrix3 kRotZXB;
@@ -715,7 +716,7 @@ Tile* FUN_0076bfe0()
         DAT_011d9770->FUN_004bc1f0(380.0f, 0.0f, 0.0f);
         NiUpdateData kUpdateSceneY(0.0f, false, false);
         DAT_011d9770->FUN_00a59c60(kUpdateSceneY);
-        DAT_011d975c = static_cast<HudCreationMethods*>(HUDMainMenu_pme)->FUN_0077ee50();
+        DAT_011d975c = static_cast<HudCreationMethods*>(HUDMainMenu_pme)->HUDMainMenu_Create3DCamera();
         DAT_011d96bc = new HUDEmptyStub;
         FUN_00450b80(1)->AttachChildInAvailableSlot(static_cast<NiAVObject*>(static_cast<NiNode*>(DAT_011d9770)), true);
         fShadowRadiusXB = DAT_011d9770->FUN_0043d450()->FUN_0084d030() * 3.0;
@@ -736,7 +737,7 @@ Tile* FUN_0076bfe0()
         }
         pMenuXB->SetMenuVisibility(true);
         FUN_0077e430(*DAT_011d9774.FUN_00403e20());
-        FUN_00771700(5);
+        HUDMainMenu_UpdateVisibilityState(5);
         FUN_00713d70()->FUN_004538c0();
         return pMenuTileN;
     }

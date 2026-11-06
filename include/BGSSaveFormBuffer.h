@@ -73,8 +73,8 @@ public:
     BGSChangeFlags FUN_00428110();
     void FUN_0048c9d0(BGSSaveFormBuffer* buffer);
     void FUN_0050f9c0(TESForm* form);
-    void FUN_005621f0(int value);
-    void FUN_005621f0(unsigned int value);
+    void BGSSaveFormBuffer_RemoveChange(int value);
+    void BGSSaveFormBuffer_RemoveChange(unsigned int value);
     unsigned int FUN_0084e3a0();
     void FUN_00865db0(unsigned int value, int flags);
     void FUN_00865db0(unsigned int value, unsigned int flags);

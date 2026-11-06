@@ -377,7 +377,8 @@ bool TESFaction_RankDataView::FUN_00455620()
 extern int DAT_011c56e8;
 
 // @fnv 0x00455680
-void FUN_00455680()
+// src: COMMUNITY 0x00455680
+void ClearAnimationCloneCount()
 {
     DAT_011c56e8 = 0;
 }
@@ -398,11 +399,12 @@ extern const void* const g_01202e00;
 
 struct FUN_00458f20_shell
 {
-    const void* const* FUN_00458f20() const;
+    const void* const* BSTempNode_GetRTTI() const;
 };
 
 // @fnv 0x00458f20
-const void* const* __thiscall FUN_00458f20_shell::FUN_00458f20() const
+// src: COMMUNITY 0x00458f20
+const void* const* __thiscall FUN_00458f20_shell::BSTempNode_GetRTTI() const
 {
     return &g_01202e00;
 }
@@ -606,18 +608,19 @@ void FUN_0045a5e0_shell::FUN_0045a5e0(char* apModelFileName)
 
 void __cdecl CreateCSDFadeNode(void);
 void __cdecl CreateSpdFadeNode(void);
-void __cdecl FUN_004f92e0(void);
-void __cdecl FUN_00649e40(void);
-void __cdecl FUN_0065c570(void);
-void __cdecl FUN_00662760(void);
+void __cdecl BGSAddonNodeSoundHandleExtra_InitTag(void);
+void __cdecl BSFaceGenAnimationData_InitTag(void);
+void __cdecl BSFaceGenModelExtraData_InitTag(void);
+void __cdecl BSFaceGenBaseMorphExtraData_InitTag(void);
 
 // @fnv 0x0045b020
-void __cdecl FUN_0045b020(void)
+// src: COMMUNITY 0x0045b020
+void __cdecl TES_InitSDM(void)
 {
-    FUN_00649e40();
-    FUN_0065c570();
-    FUN_00662760();
-    FUN_004f92e0();
+    BSFaceGenAnimationData_InitTag();
+    BSFaceGenModelExtraData_InitTag();
+    BSFaceGenBaseMorphExtraData_InitTag();
+    BGSAddonNodeSoundHandleExtra_InitTag();
     CreateSpdFadeNode();
     CreateCSDFadeNode();
 }
@@ -652,7 +655,8 @@ void FUN_00578170(TESObjectREFR* self);
 
 // Calls FUN_00578060 on arg when flag is true, otherwise calls FUN_00578170 on arg.
 // @fnv 0x0045c680
-void FUN_0045c680(TESObjectREFR* apRefr, bool flag)
+// src: COMMUNITY 0x0045c680
+void TES_RangedNodeVisibilityChangedCB(TESObjectREFR* apRefr, bool flag)
 {
     if (flag)
     {
@@ -728,7 +732,7 @@ struct TESActivityQuery : TES
     bool __thiscall GetByteB5(void);
 };
 void __cdecl FUN_00a61cd0(void);
-void __cdecl FUN_00452530(void);
+void __cdecl BSTexturePalette_Unlock(void);
 
 // @fnv 0x00452490
 } // namespace fnv_00452490
@@ -744,7 +748,7 @@ void TES::SetTESActive(bool abWaitForCompletion)
         FUN_00a61cd0();
     }
     FUN_00664cd0(1);
-    FUN_00452530();
+    BSTexturePalette_Unlock();
 }
 namespace fnv_00452490 {
 
@@ -802,10 +806,11 @@ void __thiscall CellLoadFinalizer::FUN_00459840(unsigned int a)
 
 struct FUN_0045a730_shell
 {
-    char* FUN_0045a730();
+    char* TESDataHandler_GetWaterForms();
 };
 // @fnv 0x0045a730
-char* FUN_0045a730_shell::FUN_0045a730()
+// src: COMMUNITY 0x0045a730
+char* FUN_0045a730_shell::TESDataHandler_GetWaterForms()
 {
     return reinterpret_cast<char*>(this) + 0x130;
 }
@@ -879,16 +884,17 @@ bool PendingCellState::FUN_00451530()
 
 struct FUN_00401280_shell
 {
-    void FUN_00401280();
+    void retn_empty_string();
 };
 struct FUN_00451cb0_shell
 {
-    void FUN_00451cb0();
+    void TESObjectCELL_GetCellName();
 };
 // @fnv 0x00451cb0
-void FUN_00451cb0_shell::FUN_00451cb0()
+// src: COMMUNITY 0x00451cb0
+void FUN_00451cb0_shell::TESObjectCELL_GetCellName()
 {
-    ((FUN_00401280_shell*)this)->FUN_00401280();
+    ((FUN_00401280_shell*)this)->retn_empty_string();
 }
 
 struct RefH
@@ -998,14 +1004,14 @@ int FUN_00454400_shell::GetRaceListSize()
     return ((BSSimpleListTESRaceSize*)((char*)this + 0xac))->GetSize();
 }
 
-void __cdecl FUN_00455680(void);
+void __cdecl ClearAnimationCloneCount(void);
 struct FUN_004baba0_shell
 {
-    void FUN_004baba0();
+    void RunAnimations_004baba0();
 };
 struct FUN_00553820_shell
 {
-    void FUN_00553820();
+    void TESObjectCELL_RunAnimations();
 };
 struct CP_008c48d0
 {
@@ -1016,20 +1022,21 @@ struct FUN_00455640_shell
     void* m0;
     void* m4;
     void* m8;
-    void FUN_00455640();
+    void TES_RunAnimations();
 };
 // Calls FUN_00455680, then invokes FUN_00553820 on the previous path if one exists, otherwise calls FUN_004baba0 on m8.
 // @fnv 0x00455640
-void FUN_00455640_shell::FUN_00455640()
+// src: COMMUNITY 0x00455640
+void FUN_00455640_shell::TES_RunAnimations()
 {
-    FUN_00455680();
+    ClearAnimationCloneCount();
     if (((CP_008c48d0*)this)->GetPrevPath())
     {
-        ((FUN_00553820_shell*)((CP_008c48d0*)this)->GetPrevPath())->FUN_00553820();
+        ((FUN_00553820_shell*)((CP_008c48d0*)this)->GetPrevPath())->TESObjectCELL_RunAnimations();
     }
     else
     {
-        ((FUN_004baba0_shell*)m8)->FUN_004baba0();
+        ((FUN_004baba0_shell*)m8)->RunAnimations_004baba0();
     }
 }
 
@@ -1060,7 +1067,7 @@ struct blob12
 
 struct CellSoundUpdate : TES
 {
-    void FUN_00455690();
+    void TES_UpdateRefSounds();
 };
 
 struct CP_008c48d0
@@ -1073,15 +1080,16 @@ struct S_005538e0
 };
 struct CellGridSoundUpdate : GridCellArray
 {
-    void FUN_004bac20();
+    void UpdateRefSounds_004bac20();
 };
 // @fnv 0x00455690
-void CellSoundUpdate::FUN_00455690()
+// src: COMMUNITY 0x00455690
+void CellSoundUpdate::TES_UpdateRefSounds()
 {
     if (((CP_008c48d0*)this)->GetPrevPath())
         ((S_005538e0*)((CP_008c48d0*)this)->GetPrevPath())->PlayCellSoundEffects();
     else
-        ((CellGridSoundUpdate*)*(void**)((char*)this + 8))->FUN_004bac20();
+        ((CellGridSoundUpdate*)*(void**)((char*)this + 8))->UpdateRefSounds_004bac20();
 }
 }  // namespace fnv_00455690
 
@@ -1130,7 +1138,7 @@ struct CP_008c48d0
 };
 struct CellGridLandBorders : GridCellArray
 {
-    void FUN_004baca0(bool);
+    void ShowLandBorders(bool);
 };
 
 // @fnv 0x00456cb0
@@ -1143,7 +1151,7 @@ void TES::SetShowLandBorders(bool abShow)
         *(bool*)((char*)this + 0x60) = abShow;
         if (!g_dataHandler || ((fnv_00456cb0::CP_008c48d0*)this)->GetPrevPath())
             return;
-        (*(CellGridLandBorders**)((char*)this + 8))->FUN_004baca0(abShow);
+        (*(CellGridLandBorders**)((char*)this + 8))->ShowLandBorders(abShow);
     }
 }
 
@@ -1203,14 +1211,15 @@ NiAVObject* CellSceneAccess::GetCellNodeAt(unsigned int index)
 
 struct FUN_00557090_shell
 {
-    void FUN_00557090();
+    void TESObjectCELL_IsRefListLocked();
 };
 struct FUN_005570b0_shell
 {
     void __thiscall IsSet();
 };
 // @fnv 0x00557090
-void FUN_00557090_shell::FUN_00557090()
+// src: COMMUNITY 0x00557090
+void FUN_00557090_shell::TESObjectCELL_IsRefListLocked()
 {
     ((FUN_005570b0_shell*)((char*)this + 0x80))->IsSet();
 }
@@ -1473,7 +1482,7 @@ struct WorldCellRegistration : TESWorldSpace
 };
 struct CellReferenceInit : TESObjectCELL
 {
-    void FUN_00551440(bool);
+    void TESObjectCELL_SetHasTempData(bool);
 };
 struct ExteriorGridOccupancy : GridCellArray
 {
@@ -1485,7 +1494,7 @@ struct ExteriorGridAssignment : GridCellArray
 };
 struct ExteriorGridAttachment : GridCellArray
 {
-    void FUN_004ba960(NiNode*, unsigned int, unsigned int);
+    void AttachToWorld(NiNode*, unsigned int, unsigned int);
 };
 struct S454b90
 {
@@ -1495,15 +1504,15 @@ struct S454b90
 
 struct CellDisplayNameQuery : TESObjectCELL
 {
-    const char* FUN_00451cb0();
+    const char* TESObjectCELL_GetCellName();
 };
 
 struct LAND_x
 {
-    bool FUN_00535b90(bool);
-    void FUN_0053a090(int, int);
-    void FUN_0053f440(NiPoint2*);
-    void FUN_0053fa40(bool);
+    bool TESObjectLAND_LoadVertices(bool);
+    void TESObjectLAND_UpdateMesh(int, int);
+    void TESObjectLAND_GetMinMaxLandHeight(NiPoint2*);
+    void TESObjectLAND_DrawLandBorder(bool);
 };
 float __fastcall FUN_005471e0(void*);
 struct CellWaterFlagUpdate : TESObjectCELL
@@ -1524,11 +1533,12 @@ int _sprintf(char*, const char*, ...);
 
 struct ExteriorGridLoader : TES
 {
-    void FUN_00451a50(int, int, int, int);
+    void TES_LoadGridCell(int, int, int, int);
 };
 
 // @fnv 0x00451a50
-void ExteriorGridLoader::FUN_00451a50(int aiGridX, int aiGridY, int aiCellX, int aiCellY)
+// src: COMMUNITY 0x00451a50
+void ExteriorGridLoader::TES_LoadGridCell(int aiGridX, int aiGridY, int aiCellX, int aiCellY)
 {
     if (!((WorldSpaceQuery*)this)->GetHitSound())
         return;
@@ -1542,25 +1552,25 @@ void ExteriorGridLoader::FUN_00451a50(int aiGridX, int aiGridY, int aiCellX, int
         pcell = g_dataHandler->GetCellAtGridPosition(
             aiCellX, aiCellY, ((WorldSpaceQuery*)this)->GetHitSound(), true);
         ((WorldCellRegistration*)((WorldSpaceQuery*)this)->GetHitSound())->AddCellReferences(pcell);
-        ((CellReferenceInit*)pcell)->FUN_00551440(true);
+        ((CellReferenceInit*)pcell)->TESObjectCELL_SetHasTempData(true);
     }
     if (((ExteriorGridOccupancy*)(*(void**)((char*)this + 0x8)))->IsOutdoorCell(aiGridX, aiGridY))
     {
         ((S454b90*)this)->AddCellToBuffer(pcell);
         return;
     }
-    _sprintf(pmessage, "Loading cell...%s (%i, %i) (%08X)", ((CellDisplayNameQuery*)pcell)->FUN_00451cb0(),
+    _sprintf(pmessage, "Loading cell...%s (%i, %i) (%08X)", ((CellDisplayNameQuery*)pcell)->TESObjectCELL_GetCellName(),
              ((TESObjectCELL*)pcell)->GetCellGridX(), ((TESObjectCELL*)pcell)->GetCellGridY(), ((TESForm*)pcell)->GetFormID());
     ((ExteriorGridAssignment*)(*(void**)((char*)this + 0x8)))->SetCellAt(aiGridX, aiGridY, pcell);
-    ((ExteriorGridAttachment*)(*(void**)((char*)this + 0x8)))->FUN_004ba960((*(NiNode**)((char*)this + 0xc)), aiGridX, aiGridY);
+    ((ExteriorGridAttachment*)(*(void**)((char*)this + 0x8)))->AttachToWorld((*(NiNode**)((char*)this + 0xc)), aiGridX, aiGridY);
     pLand = ((TESObjectCELL*)pcell)->GetLandscape();
-    if (!((LAND_x*)pLand)->FUN_00535b90(true))
-        ((LAND_x*)pLand)->FUN_0053a090(0, 0);
-    ((LAND_x*)((TESObjectCELL*)pcell)->GetLandscape())->FUN_0053f440((NiPoint2*)extents);
+    if (!((LAND_x*)pLand)->TESObjectLAND_LoadVertices(true))
+        ((LAND_x*)pLand)->TESObjectLAND_UpdateMesh(0, 0);
+    ((LAND_x*)((TESObjectCELL*)pcell)->GetLandscape())->TESObjectLAND_GetMinMaxLandHeight((NiPoint2*)extents);
     ((CellWaterFlagUpdate*)pcell)->SetFlag2(FUN_005471e0(pcell) > extents[0]);
     if (*g_011c7adc.Bool() && ((TESObjectCELL*)pcell)->HasWater() && !((CellFlagQuery*)pcell)->FUN_00451cd0())
         FUN_0049c860(pcell);
-    ((LAND_x*)pLand)->FUN_0053fa40((*(bool*)((char*)this + 0x60)));
+    ((LAND_x*)pLand)->TESObjectLAND_DrawLandBorder((*(bool*)((char*)this + 0x60)));
 }
 
 
@@ -1574,7 +1584,7 @@ struct TaskQueueInterface
 };
 struct FUN_0087aa90_shell
 {
-    void FUN_0087aa90();
+    void TaskQueueInterface_QueueParallelTaskProcessing();
 };
 struct DialogH
 {
@@ -1596,10 +1606,10 @@ struct Zt5Listener
 {
     void ProcessRequests();
 };
-Zt5Listener* FUN_00453720();
+Zt5Listener* FOCollisionListener_GetSingleton();
 void __cdecl FUN_00c468c0(float, float);
 void __cdecl FUN_00c74550(float, float);
-void __fastcall FUN_00975080(char*);
+void __fastcall ProcessLists_PostProcessProjectiles(char*);
 extern float DAT_011c3c08;
 extern GlobalObject_0045cfe0 g_011c3ea4;
 extern Setting g_011c5724;
@@ -1637,7 +1647,7 @@ struct Zt5TES
     bool m_bHasCurrentRegion;
     void* m_pCurrentClimate;
     Sky* pWeatherSky;
-    void FUN_00453860(bool);
+    void TES_LockHavokUpdateMT(bool);
     void FUN_004537c0();
     void FUN_00453550(float afTime);
 };
@@ -1660,23 +1670,23 @@ void Zt5TES::FUN_00453550(float afTime)
         FUN_00c74550(fwindSpeed, fwindAngle);
     }
     DAT_011c3c08 += afTime;
-    FUN_00453860(true);
+    TES_LockHavokUpdateMT(true);
     if (pcell)
         pcell->FUN_00551890(DAT_011c3c08, false);
     else
         m_pGridCells->UpdateCellGrid(DAT_011c3c08);
-    FUN_00453860(false);
+    TES_LockHavokUpdateMT(false);
     if (*g_011c3ea4.Int() > 1)
     {
         TaskQueueInterface* pTaskQueue = TaskQueueInterface::GetInstance();
-        ((FUN_0087aa90_shell*)pTaskQueue)->FUN_0087aa90();
+        ((FUN_0087aa90_shell*)pTaskQueue)->TaskQueueInterface_QueueParallelTaskProcessing();
     }
-    FUN_00453720()->ProcessRequests();
+    FOCollisionListener_GetSingleton()->ProcessRequests();
     if (*g_011c3ea4.Int() == 1)
         pWeatherSky->Update(DialogH::IsInDialog() ? g_timeGlobal.GetStoredFloatValue() * *g_011c5724.Float() : afTime);
     if (*g_011c3ea4.Int() == 1)
         FUN_004537c0();
-    FUN_00975080((char*)&DAT_011e0e80);
+    ProcessLists_PostProcessProjectiles((char*)&DAT_011e0e80);
 }
 
 
@@ -1788,10 +1798,11 @@ struct CellExt
 };
 struct CellCollisionUpdate : TES
 {
-    void FUN_00451cf0();
+    void TES_UpdateGridLights();
 };
 // @fnv 0x00451cf0
-void CellCollisionUpdate::FUN_00451cf0()
+// src: COMMUNITY 0x00451cf0
+void CellCollisionUpdate::TES_UpdateGridLights()
 {
     for (unsigned int x = 0; x < *g_011c63cc.Int(); x++)
     {
@@ -2149,7 +2160,7 @@ struct FUN_0045c780_shell
     TESForm* sound;
 
     void InitSoundGrid();
-    void FUN_0045c8d0(unsigned int index1, unsigned int index2, unsigned char value);
+    void TES_SetHideLandBlendPassForGridCell(unsigned int index1, unsigned int index2, unsigned char value);
 };
 
 extern bool DAT_011c3c0c;
@@ -2177,7 +2188,7 @@ void FUN_0045c780_shell::InitSoundGrid()
                     value = DAT_01017830[index1][index2];
                 }
 
-                this->FUN_0045c8d0(index1, index2, value);
+                this->TES_SetHideLandBlendPassForGridCell(index1, index2, value);
             }
         }
     }
@@ -2189,7 +2200,7 @@ struct FUN_0045c840_shell
     void* field_04;
     void* field_08;
 
-    void FUN_0045c9e0(unsigned int index1, unsigned int index2, unsigned char value);
+    void TES_SetSkipNormalMapsForGridCell(unsigned int index1, unsigned int index2, unsigned char value);
     void InitFromMatrix();
 };
 
@@ -2206,7 +2217,7 @@ void FUN_0045c840_shell::InitFromMatrix()
             for (unsigned int index2 = 0; index2 < _ref_0084e3a0(this->field_08); ++index2)
             {
                 unsigned char value = DAT_0101784c[index1 * 5 + index2];
-                this->FUN_0045c9e0(index1, index2, value);
+                this->TES_SetSkipNormalMapsForGridCell(index1, index2, value);
             }
         }
     }
@@ -2494,13 +2505,14 @@ struct LookupResult
     LookupEntry* FUN_00559450();
 };
 void __cdecl FindTextureByPath(void* object, LookupResult* result);
-void __cdecl FUN_00a61f30(LookupEntry* entry);
+void __cdecl BSTexturePalette_RemoveTexture(LookupEntry* entry);
 struct LookupHandler
 {
-    bool FUN_00456800(void* object, unsigned int limit);
+    bool TES_FreeTexture(void* object, unsigned int limit);
 };
 // @fnv 0x00456800
-bool LookupHandler::FUN_00456800(void* object, unsigned int limit)
+// src: COMMUNITY 0x00456800
+bool LookupHandler::TES_FreeTexture(void* object, unsigned int limit)
 {
     LookupResult result(0);
     FindTextureByPath(object, &result);
@@ -2508,7 +2520,7 @@ bool LookupHandler::FUN_00456800(void* object, unsigned int limit)
     {
         if (result.FUN_00559450()->FUN_00726070() <= limit + 2)
         {
-            FUN_00a61f30(result.FUN_00559450());
+            BSTexturePalette_RemoveTexture(result.FUN_00559450());
             return true;
         }
     }
@@ -2529,7 +2541,7 @@ struct FUN_004570d0_lst
 
 struct FUN_004570d0_node
 {
-    bool FUN_00553bf0(void* a1, int a2, int a3, float f);
+    bool TESObjectCELL_PickWater(void* a1, int a2, int a3, float f);
 };
 
 extern InteriorCellQuery* DAT_011dea10;
@@ -2538,19 +2550,20 @@ extern FUN_004570d0_lst DAT_011c63cc;
 struct CellObjectQuery : TES
 {
     FUN_004570d0_node** FUN_00457050(unsigned int i, unsigned int j);
-    bool FUN_004570d0(void* a1, int a2, int a3, float f);
+    bool TES_PickWaterOnly(void* a1, int a2, int a3, float f);
 };
 
 // If a1 is non-null, forwards it to the manager's node or, failing that, to every node in the grid, returning whether any call succeeded.
 // @fnv 0x004570d0
-bool CellObjectQuery::FUN_004570d0(void* a1, int aiArg2, int aiArg3, float afValue)
+// src: COMMUNITY 0x004570d0
+bool CellObjectQuery::TES_PickWaterOnly(void* a1, int aiArg2, int aiArg3, float afValue)
 {
     bool result = false;
     if (a1 != 0)
     {
         if (DAT_011dea10->FUN_005f36f0() != 0)
         {
-            result = DAT_011dea10->FUN_005f36f0()->FUN_00553bf0(a1, aiArg2, aiArg3, afValue);
+            result = DAT_011dea10->FUN_005f36f0()->TESObjectCELL_PickWater(a1, aiArg2, aiArg3, afValue);
         }
         else
         {
@@ -2561,7 +2574,7 @@ bool CellObjectQuery::FUN_004570d0(void* a1, int aiArg2, int aiArg3, float afVal
                     FUN_004570d0_node* n = *this->FUN_00457050(i, j);
                     if (n != 0)
                     {
-                        if (n->FUN_00553bf0(a1, aiArg2, aiArg3, afValue))
+                        if (n->TESObjectCELL_PickWater(a1, aiArg2, aiArg3, afValue))
                         {
                             result = true;
                         }
@@ -2574,7 +2587,7 @@ bool CellObjectQuery::FUN_004570d0(void* a1, int aiArg2, int aiArg3, float afVal
 }
 
 namespace fnv_00457620 {
-extern int __cdecl FUN_00406d90(float value);
+extern int __cdecl FloatToInt(float value);
 
 struct CellAvailabilityQuery : TES
 {
@@ -2600,8 +2613,8 @@ struct TerrainMaterialQuery : TES
 // @fnv 0x00457620
 int TerrainMaterialQuery::FUN_00457620(const float* pos)
 {
-    int cellX = FUN_00406d90(pos[0]);
-    int cellY2 = FUN_00406d90(pos[1]);
+    int cellX = FloatToInt(pos[0]);
+    int cellY2 = FloatToInt(pos[1]);
     if (cellX % 4096 == 0 && (float)cellX > pos[0])
     {
         cellX--;
@@ -2678,7 +2691,7 @@ struct OwnerProxy
     int unk84;
     WorldProxy* world;
     WorldProxy* FUN_004fd3e0();
-    void FUN_00457d70(int, WorldProxy*, int);
+    void TES_ShowLoadingMenu(int, WorldProxy*, int);
     void FUN_00457be0(int);
 };
 // Scans a grid-sized area around x/y, skipping cells by mode, and sums cell values into a total that triggers FUN_00457d70 when nonzero.
@@ -2716,7 +2729,7 @@ void OwnerProxy::FUN_00457be0(int mode)
         }
     }
     if (a)
-        FUN_00457d70(1, world, 0);
+        TES_ShowLoadingMenu(1, world, 0);
 }
 }  // namespace fnv_00457be0
 
@@ -3250,7 +3263,7 @@ struct NavMeshHolder
     virtual void* unkV4(unsigned int flags);
 };
 
-extern "C" void __cdecl FUN_005b5e40(const char*);
+extern "C" void __cdecl Warning_005b5e40(const char*);
 
 struct FUN_0045afb0_cls
 {
@@ -3313,7 +3326,7 @@ void FUN_0045afb0_cls::SetNavMeshMaps(NavMeshHolder* pNavMeshMaps)
     {
         if (pNavMeshMaps != 0)
         {
-            FUN_005b5e40("AI: Multiple NavMeshInfoMaps loaded");
+            Warning_005b5e40("AI: Multiple NavMeshInfoMaps loaded");
         }
         NavMeshHolder* pOldMaps = m_pNavMeshMaps;
         NavMeshHolder* first = pOldMaps;
@@ -3450,7 +3463,7 @@ struct Obj
     unsigned int FUN_0043b480();
     Obj* FUN_0043b4a0(unsigned int);
     Obj* FUN_006629f0();
-    Obj* FUN_0043b230();
+    Obj* NiObjectNET_GetControllers();
     void ClearField();
     Obj* FUN_00586170();
     void FUN_006fd130();
@@ -3462,7 +3475,7 @@ struct Obj
     Obj* FUN_00559450();
     Obj* FUN_0057cbe0(Obj**);
     void ClearField40();
-    Obj* FUN_0045c570(int);
+    Obj* BSMultiBoundRoom_SetCullResult(int);
     Obj* SetFieldCC(int);
     Obj* FUN_006ab360();
     Obj* FUN_00514f30();
@@ -3471,7 +3484,7 @@ struct Obj
     Obj* AddEight(Obj*);
     int FUN_007af430();
     Obj* FUN_006733e0();
-    Obj* FUN_0045c4c0();
+    Obj* BSPortal_GetSharedGeometry();
     Obj* FUN_004f9bf0();
     void InitFromArg(int);
     Obj* FUN_0045bc00(int);
@@ -3492,10 +3505,11 @@ struct ThisC
     Obj* m_08;
     char pad0c[0x28];
     Obj* m_34;
-    void FUN_0045bc80(unsigned char a1, unsigned char a2);
+    void TES_ResetAllMultiBoundNodes(unsigned char a1, unsigned char a2);
 };
 // @fnv 0x0045bc80
-void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
+// src: COMMUNITY 0x0045bc80
+void ThisC::TES_ResetAllMultiBoundNodes(unsigned char a1, unsigned char a2)
 {
     Obj* list;
     Obj* formPtr;
@@ -3515,7 +3529,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                         head = formPtr;
                         if (((BigV*)head)->v65chk() == 0)
                         {
-                            head->FUN_006629f0()->FUN_0043b230()->ClearField();
+                            head->FUN_006629f0()->NiObjectNET_GetControllers()->ClearField();
                         }
                     }
                 }
@@ -3548,7 +3562,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                                 {
                                     Obj* m = e2;
                                     ((BigV*)m)->v47bc();
-                                    m->FUN_006629f0()->FUN_0043b230()->ClearField();
+                                    m->FUN_006629f0()->NiObjectNET_GetControllers()->ClearField();
                                 }
                             }
                         }
@@ -3562,7 +3576,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                                 if (e3 != 0)
                                 {
                                     Obj* h3 = e3;
-                                    h3->FUN_006629f0()->FUN_0043b230()->ClearField();
+                                    h3->FUN_006629f0()->NiObjectNET_GetControllers()->ClearField();
                                 }
                             }
                         }
@@ -3582,7 +3596,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
             if (cell != 0)
             {
                 Obj* h4 = cell;
-                h4->FUN_006629f0()->FUN_0043b230()->ClearField();
+                h4->FUN_006629f0()->NiObjectNET_GetControllers()->ClearField();
             }
         }
     }
@@ -3607,7 +3621,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                     if (((Obj*)(void*)&smart)->FUN_00559450() != 0)
                     {
                         ((BigV*)((Obj*)(void*)&smart)->FUN_00559450())->v47bc();
-                        ((Obj*)(void*)&smart)->FUN_00559450()->FUN_0045c570(3);
+                        ((Obj*)(void*)&smart)->FUN_00559450()->BSMultiBoundRoom_SetCullResult(3);
                         ((Obj*)(void*)&smart)->FUN_00559450()->SetFieldCC(0);
                         Obj* v = ((Obj*)(void*)&smart)->FUN_00559450()->FUN_006ab360()->FUN_00559450();
                         while (!!v)
@@ -3616,9 +3630,9 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                             if (nxt != 0)
                             {
                                 nxt->ClearField40();
-                                if (nxt->FUN_0045c4c0()->FUN_004f9bf0() != 0)
+                                if (nxt->BSPortal_GetSharedGeometry()->FUN_004f9bf0() != 0)
                                 {
-                                    nxt->FUN_0045c4c0()->FUN_004f9bf0()->InitFromArg(0);
+                                    nxt->BSPortal_GetSharedGeometry()->FUN_004f9bf0()->InitFromArg(0);
                                 }
                             }
                         }
@@ -3663,7 +3677,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                             if (FUN_0045bad0(&DAT_01202e74, vTmp->FUN_0043b4a0(0)))
                             {
                                 Obj* res = vTmp->FUN_0043b4a0(0);
-                                res->FUN_006629f0()->FUN_0043b230()->ClearField();
+                                res->FUN_006629f0()->NiObjectNET_GetControllers()->ClearField();
                             }
                         }
                         lst = (Obj*)nxtL;
@@ -3687,7 +3701,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                         if (FUN_0045bad0(&DAT_01202e74, top->FUN_0043b4a0(0)))
                         {
                             Obj* sub = top->FUN_0043b4a0(0);
-                            sub->FUN_006629f0()->FUN_0043b230()->ClearField();
+                            sub->FUN_006629f0()->NiObjectNET_GetControllers()->ClearField();
                         }
                     }
                     lst2 = (Obj*)nxt2;
@@ -3740,10 +3754,11 @@ struct S_0045c8d0
     int unk0;
     int unk4;
     S_0045c8d0_A* unk8;
-    void FUN_0045c8d0(unsigned int a, unsigned int b, unsigned char c);
+    void TES_SetHideLandBlendPassForGridCell(unsigned int a, unsigned int b, unsigned char c);
 };
 // @fnv 0x0045c8d0
-void S_0045c8d0::FUN_0045c8d0(unsigned int a, unsigned int b, unsigned char c)
+// src: COMMUNITY 0x0045c8d0
+void S_0045c8d0::TES_SetHideLandBlendPassForGridCell(unsigned int a, unsigned int b, unsigned char c)
 {
     S_0045c8d0_R* r7 = unk8->FUN_004ba490(a, b);
     if (r7 && r7->unk0)
@@ -3796,11 +3811,12 @@ struct FUN_0045c9e0_shell
     void* unk00;
     void* unk04;
     GridCellArray* cells;
-    void FUN_0045c9e0(int x, int y, bool flag);
+    void TES_SetSkipNormalMapsForGridCell(int x, int y, bool flag);
 };
 
 // @fnv 0x0045c9e0
-void FUN_0045c9e0_shell::FUN_0045c9e0(int x, int y, bool flag)
+// src: COMMUNITY 0x0045c9e0
+void FUN_0045c9e0_shell::TES_SetSkipNormalMapsForGridCell(int x, int y, bool flag)
 {
     TESObjectCELL** cell = (TESObjectCELL**)cells->Get(x, y);
     if (cell && *cell)
@@ -4239,7 +4255,7 @@ struct AttachRoot
 AttachRoot* __cdecl FUN_00450b80(int);
 struct AttachNode
 {
-    struct NodeOwner* FUN_009611e0();
+    struct NodeOwner* NiAVObject_GetParent();
 };
 struct NodeOwner
 {
@@ -4583,8 +4599,8 @@ void AttachmentHandler::FUN_00451ef0(AttachRef* ref, AttachCell* cell, AttachRef
         {
             if (type == 44 || type == 45)
             {
-                if (chosen->FUN_009611e0())
-                    chosen->FUN_009611e0()->Release(chosen);
+                if (chosen->NiAVObject_GetParent())
+                    chosen->NiAVObject_GetParent()->Release(chosen);
             }
             else
             {
@@ -4686,8 +4702,8 @@ struct Game
 {
     void FUN_004534f0(bool);
     bool FUN_0047c850();
-    void FUN_00861ea0();
-    bool FUN_008727b0();
+    void TESSaveLoadGame_StartLoadingSequence();
+    bool TESSaveLoadGame_GetInitArrayExists();
     void FUN_00858af0(int, int, int);
     void FUN_0085f850(int);
 };
@@ -4730,7 +4746,7 @@ struct Grid
     int unk1c;
     int unk20;
     int centerX, centerY;
-    void FUN_00451a50(unsigned int, unsigned int, int, int);
+    void TES_LoadGridCell(unsigned int, unsigned int, int, int);
     World* FUN_004fd3e0();
     void AddCellToBuffer(Cell*);
     CellHandle* FUN_0045bb80(Cell**);
@@ -4759,7 +4775,7 @@ void Grid::RefreshGrid()
     {
         for (unsigned int y = 0; y < *DAT_011c63cc.GetPtr(); ++y)
         {
-            FUN_00451a50(x, y, originX + x, originY + y);
+            TES_LoadGridCell(x, y, originX + x, originY + y);
             Cell* cell = (Cell*)DAT_011c3f2c->GetCellAtGridPosition(originX + x, originY + y, (TESWorldSpace*)FUN_004fd3e0(), false);
             if (DAT_011dea10->FUN_00453490(cell))
                 AddCellToBuffer(cell);
@@ -4769,14 +4785,14 @@ void Grid::RefreshGrid()
                 float percent =
                     (double)count / (*DAT_011c63cc.GetPtr() * *DAT_011c63cc.GetPtr()) * DAT_01017a40;
                 if (DAT_011de45c->FUN_0047c850() && DAT_011de45c->FUN_0047c850())
-                    DAT_011de45c->FUN_00861ea0();
+                    DAT_011de45c->TESSaveLoadGame_StartLoadingSequence();
             }
         }
     }
     if (FUN_00451010())
         FUN_00451010()->FUN_00c6b540(0);
     DAT_011de45c->FUN_004534f0(false);
-    if (DAT_011de45c->FUN_008727b0())
+    if (DAT_011de45c->TESSaveLoadGame_GetInitArrayExists())
     {
         bool first = DAT_011de45c->FUN_0047c850();
         bool second6 = DAT_011de45c->FUN_0047c850();
@@ -4835,7 +4851,7 @@ struct S_004537c0_Mgr
 };
 struct S_004537c0_Tes : Zt5TES
 {
-    S_004537c0_Mgr* FUN_009611e0();
+    S_004537c0_Mgr* NiAVObject_GetParent();
 };
 struct S_004537c0_Fade
 {
@@ -4861,7 +4877,7 @@ void Zt5TES::FUN_004537c0()
     ((S_004537c0_Sky*)pWeatherSky)
         ->FUN_0063ac70(FUN_007050d0() ? g_timeGlobal.GetStoredFloatValue() * *g_011c5724.Float() : FUN_00453850());
     fadeData.FUN_0043d410(DAT_011c3c08, 0, 0);
-    ((S_004537c0_Tes*)this)->FUN_009611e0()->FUN_00a59c60(&fadeData);
+    ((S_004537c0_Tes*)this)->NiAVObject_GetParent()->FUN_00a59c60(&fadeData);
 }
 
 struct CellBufferPurge : TES
@@ -4912,7 +4928,7 @@ void CellBufferPurge::FUN_004539a0(unsigned char a1, unsigned char a2)
 
 struct BufferedCell : TESObjectCELL
 {
-    bool FUN_00557090();
+    bool TESObjectCELL_IsRefListLocked();
 };
 struct BufferMap
 {
@@ -4972,7 +4988,7 @@ bool CellBufferManager::FUN_00453a80()
             {
                 if (exteriorBuffer[i])
                 {
-                    if (!FUN_004511e0(exteriorBuffer[i], true) && !exteriorBuffer[i]->FUN_00557090())
+                    if (!FUN_004511e0(exteriorBuffer[i], true) && !exteriorBuffer[i]->TESObjectCELL_IsRefListLocked())
                     {
                         cell = exteriorBuffer[i];
                         exteriorBuffer[i] = 0;
@@ -4987,7 +5003,7 @@ bool CellBufferManager::FUN_00453a80()
         unsigned int count = grid->GetFormID() * grid->GetFormID();
         for (unsigned int i = *DAT_011c3c90.Int() - 1; i >= count; --i)
         {
-            if (exteriorBuffer[i] && !FUN_004511e0(exteriorBuffer[i], true) && !exteriorBuffer[i]->FUN_00557090())
+            if (exteriorBuffer[i] && !FUN_004511e0(exteriorBuffer[i], true) && !exteriorBuffer[i]->TESObjectCELL_IsRefListLocked())
             {
                 cell = exteriorBuffer[i];
                 exteriorBuffer[i] = 0;
@@ -5010,7 +5026,7 @@ bool CellBufferManager::FUN_00453a80()
         {
             for (unsigned int i = 0; i < count; ++i)
             {
-                if (exteriorBuffer[i] && !FUN_004511e0(exteriorBuffer[i], true) && !exteriorBuffer[i]->FUN_00557090())
+                if (exteriorBuffer[i] && !FUN_004511e0(exteriorBuffer[i], true) && !exteriorBuffer[i]->TESObjectCELL_IsRefListLocked())
                 {
                     cell = exteriorBuffer[i];
                     exteriorBuffer[i] = 0;
@@ -5060,16 +5076,16 @@ struct ReloadGrid
 };
 struct ReloadTexture
 {
-    void* FUN_0044edb0();
+    void* TESMain_GetThread();
     void* FUN_00825c00();
-    void FUN_0063ddb0(void*);
+    void Sky_ActivateWeatherSounds(void*);
 };
 struct ReloadInterior;
 struct ReloadRoot;
 struct ReloadObject;
 struct ReloadInterior
 {
-    ReloadGrid* FUN_009611e0();
+    ReloadGrid* NiAVObject_GetParent();
     void FUN_00526270();
 };
 struct ReloadInterior;
@@ -5145,7 +5161,7 @@ struct ReloadObject
 };
 struct ReloadShader
 {
-    void FUN_004ba7d0();
+    void AttachAllLand3D();
 };
 struct ReloadSetting
 {
@@ -5278,7 +5294,7 @@ struct ReloadManager
     int FUN_00457620(ReloadPoint*);
     void FUN_00452580(ReloadPoint*, bool);
     ReloadCell* FUN_00451900(int, int);
-    void FUN_00457d70(int, ReloadCell*, int);
+    void TES_ShowLoadingMenu(int, ReloadCell*, int);
     ReloadShader* FUN_0044ddc0();
     void InitFromMatrix();
     void InitSoundGrid();
@@ -5286,7 +5302,7 @@ struct ReloadManager
     void GetLandHeightAt(ReloadPoint*, float&);
     bool FUN_00451530();
     void ProcessItemNodes();
-    void FUN_00451cf0();
+    void TES_UpdateGridLights();
     void UpdateSkyModeForCell(int);
     void FUN_00452490(int);
     void FUN_00454450(ReloadPoint*);
@@ -5521,7 +5537,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
             modeA = reloadMode->FUN_0042ce10();
             _state = reloadState->FUN_0047c850();
             if (cellB->GetRaceListSize() && !cellB->FUN_00450fb0())
-                FUN_00457d70(1, reinterpret_cast<ReloadCell*>(cellB), 0);
+                TES_ShowLoadingMenu(1, reinterpret_cast<ReloadCell*>(cellB), 0);
             cellB->UpdateCellScene(object);
             ReloadRoot* root = cellB->FUN_004543c0();
             if (loadedNode.FUN_00559450())
@@ -5530,7 +5546,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
                 root->FUN_00c66300();
             cellB->FUN_0054bcf0(true);
             if (reloadCells->FUN_00447950(reinterpret_cast<ReloadCell*>(cellB)))
-                FUN_00457d70(1, reinterpret_cast<ReloadCell*>(cellB), 0);
+                TES_ShowLoadingMenu(1, reinterpret_cast<ReloadCell*>(cellB), 0);
             UpdateSkyModeForCell(cellB);
             if (!modeA)
                 reloadAudio->FUN_00c3dfa0(1);
@@ -5567,7 +5583,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
             camera->FUN_004baec0();
         }
         if (FUN_00451530())
-            FUN_00457d70(0, 0, 0);
+            TES_ShowLoadingMenu(0, 0, 0);
         FUN_00452490(0);
         ReloadDropResources(0);
         if (*cellB->FUN_004543a0())
@@ -5615,13 +5631,13 @@ struct ReloadGrid
 };
 struct ReloadTexture
 {
-    void* FUN_0044edb0();
+    void* TESMain_GetThread();
     void* FUN_00825c00();
-    void FUN_0063ddb0(void*);
+    void Sky_ActivateWeatherSounds(void*);
 };
 struct ReloadInterior
 {
-    ReloadGrid* FUN_009611e0();
+    ReloadGrid* NiAVObject_GetParent();
 };
 struct ReloadScene
 {
@@ -5679,7 +5695,7 @@ struct ReloadObject
 };
 struct ReloadShader
 {
-    void FUN_004ba7d0();
+    void AttachAllLand3D();
 };
 struct ReloadSetting
 {
@@ -5784,7 +5800,7 @@ struct ReloadManager
     int FUN_00457620(ReloadPoint*);
     void FUN_00452580(ReloadPoint*, bool);
     ReloadCell* FUN_00451900(int, int);
-    void FUN_00457d70(int, ReloadCell*, int);
+    void TES_ShowLoadingMenu(int, ReloadCell*, int);
     ReloadShader* FUN_0044ddc0();
     void InitFromMatrix();
     void InitSoundGrid();
@@ -5792,7 +5808,7 @@ struct ReloadManager
     void GetLandHeightAt(ReloadPoint*, float&);
     bool FUN_00451530();
     void ProcessItemNodes();
-    void FUN_00451cf0();
+    void TES_UpdateGridLights();
     void UpdateSkyModeForCell(int);
     void FUN_00452490(int);
     void FUN_00454450(ReloadPoint*);
@@ -5855,7 +5871,7 @@ void ReloadManager::FUN_00454450(ReloadPoint* point)
     }
     if (interior)
     {
-        ReloadGrid* grid6 = interior->FUN_009611e0();
+        ReloadGrid* grid6 = interior->NiAVObject_GetParent();
         if (grid6)
             grid6->FUN_00450f90(0);
         ReloadGlobalUpdate(1);
@@ -5869,12 +5885,12 @@ void ReloadManager::FUN_00454450(ReloadPoint* point)
     FUN_00452580(point, !stateB);
     ReloadCell* cellA = FUN_00451900(gridX, gridY);
     if (reloadCells->FUN_00447950(cellA))
-        FUN_00457d70(1, cellA, 0);
+        TES_ShowLoadingMenu(1, cellA, 0);
     if (ReloadGetRoot())
         ReloadGetRoot()->FUN_00c66300();
     if (!mode)
         reloadAudio->FUN_00c3dfa0(4);
-    FUN_0044ddc0()->FUN_004ba7d0();
+    FUN_0044ddc0()->AttachAllLand3D();
     InitFromMatrix();
     InitSoundGrid();
     if (ReloadGetRoot())
@@ -5896,15 +5912,15 @@ void ReloadManager::FUN_00454450(ReloadPoint* point)
     }
     if (sceneTmp && !sceneTmp->FUN_00454b10())
     {
-        texture->FUN_0063ddb0(texture->FUN_0044edb0());
-        texture->FUN_0063ddb0(texture->FUN_00825c00());
+        texture->Sky_ActivateWeatherSounds(texture->TESMain_GetThread());
+        texture->Sky_ActivateWeatherSounds(texture->FUN_00825c00());
     }
-    FUN_00451cf0();
+    TES_UpdateGridLights();
     UpdateSkyModeForCell(0);
     object->FUN_00a5a040();
     ReloadDropResources(0);
     if (FUN_00451530())
-        FUN_00457d70(0, 0, 0);
+        TES_ShowLoadingMenu(0, 0, 0);
     FUN_00452490(0);
     if (name && *name->FUN_00454b50())
     {
@@ -5937,7 +5953,7 @@ struct FUN_004503f0_obj
 };
 struct FUN_00557090_obj
 {
-    bool FUN_00557090(void);
+    bool TESObjectCELL_IsRefListLocked(void);
 };
 extern int DAT_011c3e38;
 extern TESDataHandler* DAT_011c3f2c;
@@ -5956,7 +5972,7 @@ unsigned int TES::GetInteriorBufferCount(bool abSkipCurrent)
         {
             if (!(abSkipCurrent && GetInteriorCell() != 0 && (*(TESObjectCELL***)((char*)this + 0x38))[i] == GetInteriorCell()))
             {
-                if (!((FUN_00557090_obj*)(*(TESObjectCELL***)((char*)this + 0x38))[i])->FUN_00557090())
+                if (!((FUN_00557090_obj*)(*(TESObjectCELL***)((char*)this + 0x38))[i])->TESObjectCELL_IsRefListLocked())
                 {
                     fnv_00454d50::DAT_011c3f2c->RemoveCell((*(TESObjectCELL***)((char*)this + 0x38))[i]);
                     (*(TESObjectCELL***)((char*)this + 0x38))[i] = 0;
@@ -6319,7 +6335,7 @@ extern GlobalObject_0045cf30 g_011c3d40;
 void __cdecl FUN_0058eeb0(WS458200_Quest*);
 void __cdecl FUN_007043c0();
 void __cdecl FUN_00709d20(WorldTextureSource*);
-void __cdecl FUN_004583f0(bool);
+void __cdecl BSShaderManager_SetUseNoiseMap(bool);
 
 struct WorldSpaceAssignment : TES
 {
@@ -6368,7 +6384,7 @@ void WorldSpaceAssignment::FUN_00458200(WorldTextureSource* apWorld)
         {
             g_pWS458200TES->GetSky()->SetColorData(0);
         }
-        FUN_004583f0(!apWorld->IsFlag4C20Set());
+        BSShaderManager_SetUseNoiseMap(!apWorld->IsFlag4C20Set());
     }
 }
 
@@ -6654,7 +6670,7 @@ struct TestWorld
     float FUN_004565f0();
     float GetUnka4();
     float FUN_009b88a0();
-    float FUN_009b88c0();
+    float LowProcess_GetPlayerDamageDealt();
     unsigned int FUN_0084e3a0();
     EmptyStructPlaceholder* FUN_005875a0(int, int);
     EmptyStructPlaceholder* FUN_00585b30(int, int);
@@ -6674,7 +6690,7 @@ extern TestStep testStep;
 void FUN_009526a0(bool);
 void FUN_0040fbe0(const char*, ...);
 void FUN_007037e0();
-int FUN_00457fe0();
+int Cmd_GetSessionTime_Execute();
 unsigned int FUN_0044a670(const char*);
 struct CellTest
 {
@@ -6712,7 +6728,7 @@ void CellTest::FUN_00459ae0(unsigned int flags)
     FUN_009526a0(true);
     FUN_0040fbe0("Running Cell Test");
     FUN_007037e0();
-    int state3 = FUN_00457fe0();
+    int state3 = Cmd_GetSessionTime_Execute();
     TestWorldList* worlds5 = (TestWorldList*)testDataHandler->GetTESWorldSpaceList();
     while (worlds5 && !worlds5->FUN_008256d0())
     {
@@ -6723,7 +6739,7 @@ void CellTest::FUN_00459ae0(unsigned int flags)
             int minX = ((int)world->FUN_004565f0()) >> 12;
             int minY5 = ((int)world->GetUnka4()) >> 12;
             int maxX6 = ((int)world->FUN_009b88a0()) >> 12;
-            int maxY6 = ((int)world->FUN_009b88c0()) >> 12;
+            int maxY6 = ((int)world->LowProcess_GetPlayerDamageDealt()) >> 12;
             const char* name3 = world->name.FUN_00408da0();
             if (!name3 || !FUN_0044a670(name3))
                 name3 = world->DebugName();
@@ -6767,7 +6783,7 @@ struct AddonParticleNode : NiNode
 };
 struct AddonParticleManager
 {
-    void FUN_0045a160(AddonParticleNode* node);
+    void BSParticleSystemManager_AddMasterParticleSystem(AddonParticleNode* node);
 };
 AddonParticleManager* FUN_0045a190();
 extern ModelLoader* g_modelLoader;
@@ -6779,11 +6795,12 @@ struct AddonOwner
     unsigned int unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C;
     unsigned int unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C, unkA0;
     AddonQueuePointer queuedFile;
-    void FUN_00459f10();
+    void TES_PreloadAddonNodes();
 };
 // Queues a priority-5 file, then for each addon node loads its model, configures the particle node and registers it, or queues the model for loading.
 // @fnv 0x00459f10
-void AddonOwner::FUN_00459f10()
+// src: COMMUNITY 0x00459f10
+void AddonOwner::TES_PreloadAddonNodes()
 {
     if (queuedFile.FUN_00559450())
         return;
@@ -6804,7 +6821,7 @@ void AddonOwner::FUN_00459f10()
                     particle->SetSound(addon->GetGrass());
                     particle->FUN_00705b10(addon->FUN_0059e300());
                     particle->SetShortAtOffsetBC(addon->GetShortAtOffset58());
-                    FUN_0045a190()->FUN_0045a160(particle);
+                    FUN_0045a190()->BSParticleSystemManager_AddMasterParticleSystem(particle);
                 }
                 g_modelLoader->QueueModelLoad((char*)addon->GetModelFilePath(), true, 1);
             }
@@ -7276,7 +7293,7 @@ void C6760Ref::FUN_00576760()
     }
 }
 
-int __cdecl FUN_00406d90(float f);
+int __cdecl FloatToInt(float f);
 namespace n451 {
 struct Pt
 {
@@ -7297,8 +7314,8 @@ bool n451::Grid::ContainsPoint(const Pt& aPoint)
 {
     if (FUN_005f36f0())
         return true;
-    int iMinY = FUN_00406d90(aPoint.iMinY) >> 12;
-    int nX = FUN_00406d90(aPoint.nX) >> 12;
+    int iMinY = FloatToInt(aPoint.iMinY) >> 12;
+    int nX = FloatToInt(aPoint.nX) >> 12;
     int ix = m_24 - (*DAT_011c63cc.FUN_0043d4d0() >> 1);
     int px = m_28 - (*DAT_011c63cc.FUN_0043d4d0() >> 1);
     if (iMinY < ix || iMinY >= ix + (int)*DAT_011c63cc.FUN_0043d4d0() || nX < px ||
@@ -7309,7 +7326,7 @@ bool n451::Grid::ContainsPoint(const Pt& aPoint)
 
 struct FUN_005400e0_obj : FUN_0045cb90_cls
 {
-    void FUN_005400e0();
+    void TESObjectLAND_InitDistantTextureBlending();
 };
 
 struct FUN_00546fb0_cell : B45CDA0Cell
@@ -7319,12 +7336,13 @@ struct FUN_00546fb0_cell : B45CDA0Cell
 
 struct LandscapeUpdate : LandscapeReset
 {
-    void FUN_0045cac0();
+    void TES_InitDistantTextureBlending();
 };
 
 // Iterates the grid cells, and for each cell with an entry object that passes FUN_0045cb90, calls FUN_005400e0 on it.
 // @fnv 0x0045cac0
-void LandscapeUpdate::FUN_0045cac0()
+// src: COMMUNITY 0x0045cac0
+void LandscapeUpdate::TES_InitDistantTextureBlending()
 {
     FUN_00546fb0_cell* pCell = 0;
     FUN_005400e0_obj* pEntryObj;
@@ -7337,7 +7355,7 @@ void LandscapeUpdate::FUN_0045cac0()
             pCell = static_cast<FUN_00546fb0_cell*>((*(LandscapeCellGrid**)((char*)this + 0x8))->Get(i, j)->m_pkCell);
             pEntryObj = pCell ? pCell->FUN_00546fb0() : 0;
             if (pCell && pEntryObj && pEntryObj->FUN_0045cb90())
-                pCell->FUN_00546fb0()->FUN_005400e0();
+                pCell->FUN_00546fb0()->TESObjectLAND_InitDistantTextureBlending();
         }
     }
 }
@@ -7358,12 +7376,13 @@ struct TESCellLookup
 struct SurfaceNormalQuery : TES
 {
     TESObjectCELL* FUN_00451900(int, int);
-    bool FUN_004573f0(const NiPoint3*, NiPoint3*, int);
+    bool TES_GetLandNormal(const NiPoint3*, NiPoint3*, int);
 };
 
 // Computes the cell coordinates from pos, sets normal to (0,0,1), and if the cell passes a lookup test returns the result of a probe hit test.
 // @fnv 0x004573f0
-bool SurfaceNormalQuery::FUN_004573f0(const NiPoint3* pos, NiPoint3* normal, int flags)
+// src: COMMUNITY 0x004573f0
+bool SurfaceNormalQuery::TES_GetLandNormal(const NiPoint3* pos, NiPoint3* normal, int flags)
 {
     int cellX = _TruncateFloatToInt(pos->x);
     int cellY2 = _TruncateFloatToInt(pos->y);
@@ -7403,12 +7422,13 @@ class xWorldC
 {
   public:
     xCellC* GetContainingCell(int x, int y);
-    bool FUN_00457520(const xPt3C* pPos, int i);
+    bool TES_GetLandColor(const xPt3C* pPos, int i);
 };
 
 // Truncates pPos to cell coordinates, checks if the containing cell is loaded, and returns whether the cell's test at pPos passes.
 // @fnv 0x00457520
-bool xWorldC::FUN_00457520(const xPt3C* pPos, int i)
+// src: COMMUNITY 0x00457520
+bool xWorldC::TES_GetLandColor(const xPt3C* pPos, int i)
 {
     int qrEZrs = xTruncate(pPos->x);
     int qsSDDgz = xTruncate(pPos->y);
@@ -7472,7 +7492,7 @@ struct Cell
 struct CellGrid
 {
     Cell** FUN_004ba490(unsigned int uiX, unsigned int uiY);
-    void FUN_004ba960(int iWorld, unsigned int uiX, unsigned int uiY);
+    void AttachToWorld(int iWorld, unsigned int uiX, unsigned int uiY);
 };
 
 struct GridSettings
@@ -7554,7 +7574,7 @@ void World::Pause(bool bPause, int iUnused)
             {
                 if (pkCell && pkCell->FUN_00450fb0())
                 {
-                    m_pkGrid->FUN_004ba960(m_iWorldSpace, uiRow, j);
+                    m_pkGrid->AttachToWorld(m_iWorldSpace, uiRow, j);
                     pkCell->FUN_0054bcf0(0);
                 }
             }
@@ -7604,20 +7624,20 @@ TESObjectCELL* FnCls::FUN_004519d0(float afX, float afY, int a3)
 }
 
 bool __cdecl FUN_00705e80();
-bool __cdecl FUN_00458140();
+bool __cdecl LoadingMenu_GetResetFlagged();
 void __cdecl UpdateIfEnabled(void*);
 void __cdecl FUN_00705e00(void*, bool);
-bool __cdecl FUN_004580e0();
-void __cdecl FUN_00458060(int);
+bool __cdecl LoadingMenu_IsInScriptMode();
+void __cdecl LoadingMenu_SetScriptMode(int);
 void __cdecl FUN_00705e30();
 int __cdecl FUN_00458030();
-void __cdecl FUN_00771700(int);
+void __cdecl HUDMainMenu_UpdateVisibilityState(int);
 extern unsigned int DAT_011c3efc;
 
 
 struct Tex457
 {
-    void FUN_0063e010();
+    void Sky_StopPlayingAllWeatherSounds();
 };
 
 struct Mgr457
@@ -7635,8 +7655,8 @@ struct Mgr457
     virtual void v28();
     virtual void v2c();
     virtual void v30();
-    void FUN_00458010();
-    void FUN_00457ff0();
+    void BSFileCache_ResumeFileCaching();
+    void BSFileCache_PauseFileCaching();
 };
 Mgr457* __cdecl FUN_00aff100();
 
@@ -7657,16 +7677,17 @@ struct S457d70
     int u60, u64;
     Tex457* pTex68;
     bool FUN_00451530();
-    bool FUN_00457d70(bool abFlag1, Form457* apForm, bool abFlag2);
+    bool TES_ShowLoadingMenu(bool abFlag1, Form457* apForm, bool abFlag2);
 };
 
 // On the abFlag1 path, may pass apForm to FUN_00705e00 and call manager methods; otherwise updates DAT_011c3efc and may run cleanup calls.
 // @fnv 0x00457d70
-bool S457d70::FUN_00457d70(bool abFlag1, Form457* apForm, bool abFlag2)
+// src: COMMUNITY 0x00457d70
+bool S457d70::TES_ShowLoadingMenu(bool abFlag1, Form457* apForm, bool abFlag2)
 {
     if (abFlag1)
     {
-        if (FUN_00705e80() && !FUN_00458140())
+        if (FUN_00705e80() && !LoadingMenu_GetResetFlagged())
         {
             UpdateIfEnabled(apForm);
             return false;
@@ -7675,7 +7696,7 @@ bool S457d70::FUN_00457d70(bool abFlag1, Form457* apForm, bool abFlag2)
         {
             return false;
         }
-        pTex68->FUN_0063e010();
+        pTex68->Sky_StopPlayingAllWeatherSounds();
         FUN_00453a70()->SetAudioState(0x14);
         Form457* v8 = 0;
         Form457* v4 = 0;
@@ -7717,37 +7738,37 @@ bool S457d70::FUN_00457d70(bool abFlag1, Form457* apForm, bool abFlag2)
             }
         }
         FUN_00705e00(apForm, abFlag2);
-        FUN_00aff100()->FUN_00458010();
+        FUN_00aff100()->BSFileCache_ResumeFileCaching();
         FUN_00aff100()->v30();
-        FUN_00aff100()->FUN_00457ff0();
+        FUN_00aff100()->BSFileCache_PauseFileCaching();
         return true;
     }
     else
     {
-        if (!FUN_004580e0() || (FUN_004580e0() && abFlag2))
+        if (!LoadingMenu_IsInScriptMode() || (LoadingMenu_IsInScriptMode() && abFlag2))
         {
             DAT_011c3efc = 0;
-            FUN_00458060(0);
+            LoadingMenu_SetScriptMode(0);
             FUN_00705e30();
             if (FUN_00458030() != 0x18)
             {
-                FUN_00771700(2);
+                HUDMainMenu_UpdateVisibilityState(2);
             }
         }
         else
         {
             if (DAT_011c3efc == 0)
             {
-                DAT_011c3efc = FUN_00457fe0() + 0x1388;
+                DAT_011c3efc = Cmd_GetSessionTime_Execute() + 0x1388;
             }
-            if (FUN_00457fe0() > DAT_011c3efc)
+            if (Cmd_GetSessionTime_Execute() > DAT_011c3efc)
             {
                 DAT_011c3efc = 0;
-                FUN_00458060(0);
+                LoadingMenu_SetScriptMode(0);
                 FUN_00705e30();
                 if (FUN_00458030() != 0x18)
                 {
-                    FUN_00771700(2);
+                    HUDMainMenu_UpdateVisibilityState(2);
                 }
             }
         }
@@ -8503,11 +8524,12 @@ struct TextureLoader
     int unka4;
     void* texture;
     void FUN_004568c0(const char*, void**, bool, bool);
-    void FUN_0045a370();
+    void TES_PreloadDefaultModels();
 };
 // Queues each nonempty setting string and loads a texture using a path built under Data\Textures.
 // @fnv 0x0045a370
-void TextureLoader::FUN_0045a370()
+// src: COMMUNITY 0x0045a370
+void TextureLoader::TES_PreloadDefaultModels()
 {
     AutoMemHelper context(7, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TES.cpp", 7152);
     if (*DAT_011d14c4.String())

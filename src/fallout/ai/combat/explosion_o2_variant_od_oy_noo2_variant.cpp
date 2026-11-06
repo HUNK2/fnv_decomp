@@ -800,11 +800,11 @@ struct Host810
     NiPoint3 array;
     Object810* FUN_004181e0();
     Test810* GetFieldC8();
-    bool FUN_009b1810(NiPoint3, Actor*);
+    bool Explosion_RunLOSPick(NiPoint3, Actor*);
 };
 void __cdecl FUN_00c82870(int, unsigned __int64);
 void* __cdecl FUN_005dbe10();
-void __cdecl FUN_005b5e40(const char*);
+void __cdecl Warning_005b5e40(const char*);
 void* __cdecl FUN_004b3890(const NiPoint3&, const Color810&, const NiPoint3&, const Color810&, int);
 struct Debug810
 {
@@ -812,7 +812,8 @@ struct Debug810
 };
 extern Debug810* DAT_011dea10;
 // @fnv 0x009b1810
-bool Host810::FUN_009b1810(NiPoint3 pos, Actor* actor)
+// src: COMMUNITY 0x009b1810
+bool Host810::Explosion_RunLOSPick(NiPoint3 pos, Actor* actor)
 {
     Object810* base = FUN_004181e0();
     if (base->HasAnyFlags(16))
@@ -876,7 +877,7 @@ bool Host810::FUN_009b1810(NiPoint3 pos, Actor* actor)
             if (!GetFieldC8() || !GetFieldC8()->FUN_00452370())
             {
                 if (*DAT_011d0a78.FUN_0043d4d0() > 0)
-                    FUN_005b5e40("EXPLOSION BLOCKED");
+                    Warning_005b5e40("EXPLOSION BLOCKED");
                 blocked = true;
             }
         }
@@ -1034,7 +1035,7 @@ struct ProjList
     int i14;
     ProjList(void* a, int b);
     ~ProjList();
-    Flag1Ptr* FUN_009afc70(Flag1* out);
+    Flag1Ptr* hkpFixedBufferCdPointCollector_hasHit(Flag1* out);
     int FUN_009afc50();
     Elem70* FUN_009afc30();
 };
@@ -1122,7 +1123,7 @@ struct Hand8
 struct Sub
 {
     void* FUN_00559450();
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
 };
 
 struct Proc
@@ -1256,11 +1257,11 @@ struct Weap
     float GetModifierValue();
     float FUN_004a40a0();
     float GetNestedValue();
-    char FUN_004a4140();
+    char BGSImpactData_GetIsAlphaBlend();
     char CallMemberAtOffset54();
-    char FUN_004a4100();
+    char BGSImpactData_GetIsParallax();
     float FUN_004a41c0();
-    char FUN_004a41e0();
+    char BGSImpactData_GetParallaxPasses();
     float FUN_004a40e0();
     float FUN_009a9350();
     unsigned int GetNextFromSubobject();
@@ -1565,7 +1566,7 @@ struct PlayerX
 struct Cell
 {
     void FUN_00c9f1e0(ProjList* l);
-    Hand4* FUN_0043b4f0(Hand4* out);
+    Hand4* bhkWorldObject_GetCollisionFilter(Hand4* out);
 };
 
 struct CellPtr
@@ -1574,7 +1575,7 @@ struct CellPtr
     Cell* FUN_00559450();
 };
 
-extern "C" void __cdecl FUN_00cbd960();
+extern "C" void __cdecl hkpFixedBufferCdPointCollector_registerDefaultAddCdPointFunction();
 extern "C" void __cdecl FUN_009b2e00(void* a, int b);
 extern "C" void __cdecl FUN_00458620(NiPoint3* out, const NiPoint3* in);
 extern "C" void __cdecl FUN_004a3970(NiPoint3* out, const NiPoint3* in);
@@ -1679,7 +1680,7 @@ struct ProjCls
     NiPoint3 unkE8;
     NiPoint3 unkF4;
     void FUN_009ae6e0();
-    void FUN_009afef0();
+    void Explosion_ApplyForces();
     void ProcessHits();
     Proc2* FUN_008d6f30();
     WeapHolder* FUN_004181e0(int id);
@@ -1951,16 +1952,16 @@ void ProjCls::FUN_009ae6e0()
     if (unkA0.FUN_00559450() == 0)
         return;
     if (unkE4 > 0 && unkD6 && !unkD7)
-        FUN_009afef0();
+        Explosion_ApplyForces();
     if (unkD5 && !unkD4)
     {
         unkD4 = 1;
         ResList res(*g_setA.FUN_0043d4d0());
         ProjList list(res.FUN_00559450(), *g_setA.FUN_0043d4d0());
-        FUN_00cbd960();
+        hkpFixedBufferCdPointCollector_registerDefaultAddCdPointFunction();
         unkA0.FUN_00559450()->FUN_00c9f1e0(&list);
         Flag1 fl;
-        if (list.FUN_009afc70(&fl)->FUN_005609f0())
+        if (list.hkpFixedBufferCdPointCollector_hasHit(&fl)->FUN_005609f0())
             FUN_009b2e00(res.FUN_00559450(), list.FUN_009afc50());
         if (*g_setB.FUN_0043d4d0() > 1)
         {
@@ -2009,7 +2010,7 @@ void ProjCls::FUN_009ae6e0()
                     p.FUN_004a3da0(&v);
                     p.FUN_007f68a0(&w);
                     Hand4 h4;
-                    p.FUN_004a3f70(unkA0.FUN_00559450()->FUN_0043b4f0(&h4)->p);
+                    p.FUN_004a3f70(unkA0.FUN_00559450()->bhkWorldObject_GetCollisionFilter(&h4)->p);
                     p.FUN_004a3fb0(&q);
                     int target = 0x24;
                     bool found = false;
@@ -2132,8 +2133,8 @@ void ProjCls::FUN_009ae6e0()
                                                     {
                                                         Hand8 hh;
                                                         node = (Sub*)FUN_00c85ef0(&hh, a, &g_rtti)->FUN_00559450();
-                                                        if (node && node->FUN_009611e0())
-                                                            node = (Sub*)node->FUN_009611e0();
+                                                        if (node && node->NiAVObject_GetParent())
+                                                            node = (Sub*)node->NiAVObject_GetParent();
                                                     }
                                                 }
                                                 else
@@ -2154,11 +2155,11 @@ void ProjCls::FUN_009ae6e0()
                                                 prm.unk30 = proj;
                                                 prm.unk44 = fade;
                                                 prm.unk70 = cc;
-                                                prm.unk75 = wt->FUN_004a4140();
+                                                prm.unk75 = wt->BGSImpactData_GetIsAlphaBlend();
                                                 prm.unk74 = wt->CallMemberAtOffset54();
-                                                prm.unk73 = wt->FUN_004a4100();
+                                                prm.unk73 = wt->BGSImpactData_GetIsParallax();
                                                 prm.unk4C = wt->FUN_004a41c0();
-                                                prm.unk76 = wt->FUN_004a41e0();
+                                                prm.unk76 = wt->BGSImpactData_GetParallaxPasses();
                                                 prm.unk54 = wt->FUN_004a40e0();
                                                 prm.unk58 = wt->FUN_009a9350();
                                                 Color3 col;

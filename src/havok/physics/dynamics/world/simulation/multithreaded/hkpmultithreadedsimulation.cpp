@@ -1159,12 +1159,14 @@ void __stdcall FUN_00d020f0(Pair* pair)
 }
 
 // @fnv 0x00d02200
-void __stdcall FUN_00d02200(int)
+// src: COMMUNITY 0x00d02200
+void __stdcall hkpMultiThreadedSimulation_61(int)
 {}
 
 // Empty function that takes three int arguments and does nothing.
 // @fnv 0x00d02210
-void __stdcall FUN_00d02210(int, int, int)
+// src: COMMUNITY 0x00d02210
+void __stdcall hkpMultiThreadedSimulation_assertThereIsNoCollisionInformationForEntities(int, int, int)
 {}
 
 struct OwnerD020;
@@ -2280,7 +2282,7 @@ struct RuntimeBase
 
 struct Job
 {
-    int FUN_00d04440();
+    int hkJobQueue_getMasterThreadFinishingFlags();
     void SetSimulationEnabled(int);
     void SetValue(int);
 };
@@ -3316,7 +3318,7 @@ struct StepWorld
     PendingConstraints* f1b8;
 
     void IncrementCounter();
-    void FUN_00c910b0();
+    void nullsub_6();
     void FUN_00c91120();
     void FUN_00c91140();
     void FUN_00c91190();
@@ -3593,7 +3595,7 @@ int Stepper::hkpMultiThreadedSimulation_finishMtStep(Job* job, Jobs* jobs)
 
     if (job && jobs)
     {
-        jobState.prior = job->FUN_00d04440();
+        jobState.prior = job->hkJobQueue_getMasterThreadFinishingFlags();
         job->SetSimulationEnabled(1);
         job->SetValue(2);
         jobs->start(job, 11);
@@ -3607,7 +3609,7 @@ int Stepper::hkpMultiThreadedSimulation_finishMtStep(Job* job, Jobs* jobs)
     for (int i = f0b8; i < f00c->f02c; ++i)
         f00c->f028[i]->storageIndex = (short)i;
 
-    f00c->FUN_00c910b0();
+    f00c->nullsub_6();
 
     if (removed.size() + added.size())
     {
@@ -3849,7 +3851,7 @@ int Stepper::hkpMultiThreadedSimulation_finishMtStep(Job* job, Jobs* jobs)
             }
         }
 
-        f00c->FUN_00c910b0();
+        f00c->nullsub_6();
         {
             TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
             TraceRecord* r = p->next;

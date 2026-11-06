@@ -84,7 +84,7 @@ typedef char tileimage_texture_check[offsetof(TileImage, spTexture) == 0x3c ? 1 
 class TextureReceiver
 {
   public:
-    void FUN_004bc320();
+    void BSRenderedTexture_GetTexture();
 };
 class GlobalObject_00633c90
 {
@@ -115,7 +115,7 @@ Tile* TileImage::SetTraitValue(int trait, float value, const char* text)
 // @fnv 0x0078cdf0
 void TileImage::UpdateTileImage()
 {
-    ((ExtraDataList*)&g_011ded3c)->GetStartingAngle(0)->FUN_004bc320();
+    ((ExtraDataList*)&g_011ded3c)->GetStartingAngle(0)->BSRenderedTexture_GetTexture();
 }
 
 // @fnv 0x00a1f6e0
@@ -404,7 +404,7 @@ inline NiPoint3::NiPoint3(float vx, float vy, float vz) : x(vx), y(vy), z(vz)
 
 __forceinline void* __cdecl operator new[](size_t n)
 {
-    return ImageNodeBuild::g_GameAllocator.FUN_00aa3e40((unsigned)n);
+    return ImageNodeBuild::g_GameAllocator.Game_DoHeapAlloc((unsigned)n);
 }
 
 inline NiPoint2::NiPoint2(float vx, float vy) : x(vx), y(vy)
@@ -412,7 +412,7 @@ inline NiPoint2::NiPoint2(float vx, float vy) : x(vx), y(vy)
 
 __forceinline void* NiPoint2::operator new[](size_t n)
 {
-    return ImageNodeBuild::g_GameAllocator.FUN_00aa3e40((unsigned)n);
+    return ImageNodeBuild::g_GameAllocator.Game_DoHeapAlloc((unsigned)n);
 }
 
 namespace ImageNodeBuild {
@@ -545,7 +545,7 @@ NiNode* TileImage::CalculateNode()
 
     FUN_00a037e0(0xfad, FUN_00a011b0(0xfad, 0));
     if (IsTraitNonZero(0xfae))
-        FUN_00a07530(0x100);
-    FUN_00a07530(0x3d);
+        Tile_SetChangeFlag(0x100);
+    Tile_SetChangeFlag(0x3d);
     return (NiNode*)m_pRenderedNodeEntry;
 }

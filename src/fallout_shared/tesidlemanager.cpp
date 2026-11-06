@@ -141,7 +141,7 @@ TESIdleForm* IdleAnimationManager::FindIdleFormForObject(TESObjectREFR* action, 
             }
         }
     }
-    if (result && result->FUN_005ff1d0() && !result->IsIdleFile())
+    if (result && result->TESIdleForm_GetAllowNoFile() && !result->IsIdleFile())
         result = 0;
     return result;
 }
@@ -231,7 +231,8 @@ const char** __fastcall _ref_006815c0(BSSimpleList<const char*>*);
 void __fastcall _ref_0063f7b0(BSSimpleList<const char*>*);
 
 // @fnv 0x006003c0
-void __fastcall FUN_006003c0(void* thisPtr)
+// src: COMMUNITY 0x006003c0
+void __fastcall TESIdleManager_InitRootIdleArrays(void* thisPtr)
 {
     void* pIter = ((NiTPointerMap<unsigned int, void*>*)thisPtr)->GetFirstPos();
     while (pIter)
@@ -373,11 +374,12 @@ void* S005fff90::FUN_005fff90(unsigned int flags)
 
 struct FUN_006005c0_shell : public IdleAnimationManager
 {
-    NiFormArray* FUN_006005c0(const char* path);
+    NiFormArray* _TESIdleManager_GetIdleAnimRoot(const char* path);
 };
 
 // @fnv 0x006005c0
-NiFormArray* FUN_006005c0_shell::FUN_006005c0(const char* path)
+// src: COMMUNITY 0x006005c0
+NiFormArray* FUN_006005c0_shell::_TESIdleManager_GetIdleAnimRoot(const char* path)
 {
     NiFormArray* result = 0;
     if (path)

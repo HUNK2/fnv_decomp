@@ -95,7 +95,7 @@ __forceinline void hkQsTransform::setInterpolate4(const hkQsTransform& a, const 
     v.setMul4(hkSimdReal(signedT), reinterpret_cast<const hkVector4&>(b.m_rotation));
     v.addMul4(hkSimdReal(oneMinusT), reinterpret_cast<const hkVector4&>(a.m_rotation));
     reinterpret_cast<hkVector4&>(out) = v;
-    out.FUN_005611c0();
+    out.normalize_005611c0();
 
     m_rotation = out;
 }

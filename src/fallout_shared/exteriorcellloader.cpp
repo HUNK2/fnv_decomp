@@ -47,11 +47,12 @@ struct FUN_005287e0_shell
     int m_04;
     int m_08;
     int m_0c;
-    bool FUN_005287e0();
+    bool BSTask_IsCompleted();
 };
 
 // @fnv 0x005287e0
-bool FUN_005287e0_shell::FUN_005287e0()
+// src: COMMUNITY 0x005287e0
+bool FUN_005287e0_shell::BSTask_IsCompleted()
 {
     return m_0c == 5;
 }
@@ -179,9 +180,9 @@ struct WorldSpaceAccess : TESWorldSpace
 // FUN_00546fb0 returns landscape data, not a scene node.
 struct LandscapeEffects
 {
-    void __thiscall FUN_00535b90(bool value);
-    void __thiscall FUN_0053fa40(unsigned char value);
-    void __thiscall FUN_0053f440();
+    void __thiscall TESObjectLAND_LoadVertices(bool value);
+    void __thiscall TESObjectLAND_DrawLandBorder(unsigned char value);
+    void __thiscall TESObjectLAND_GetMinMaxLandHeight();
 };
 // Supplemental method declarations absent from the shared TESObjectCELL header.
 // This adds no fields or virtual functions to the shared cell layout.
@@ -231,14 +232,14 @@ void CellLoader::FUN_00528620(CellLoadData* pLoadData)
         LandscapeEffects* pLandscape = pLoadData->cell->FUN_00546fb0();
         if (pLandscape != 0)
         {
-            pLandscape->FUN_00535b90(true);
-            pLandscape->FUN_0053fa40(GetTESRegionState(DAT_011dea10));
+            pLandscape->TESObjectLAND_LoadVertices(true);
+            pLandscape->TESObjectLAND_DrawLandBorder(GetTESRegionState(DAT_011dea10));
         }
         if (!pLoadData->cell->FUN_00451cd0())
         {
             // Avoid invoking NiPoint2's out-of-line default constructor.
             float position[2];
-            pLoadData->cell->FUN_00546fb0((NiPoint2*)position)->FUN_0053f440();
+            pLoadData->cell->FUN_00546fb0((NiPoint2*)position)->TESObjectLAND_GetMinMaxLandHeight();
             pLoadData->cell->SetFlag2(position[0] < pLoadData->cell->FUN_005471e0());
             if (*DAT_011c7adc.FUN_00408d60() && pLoadData->cell->FUN_004518e0() && !pLoadData->cell->FUN_00451cd0())
             {
@@ -266,7 +267,7 @@ struct QueuedTask
 };
 struct FUN_00528870_shell
 {
-    void FUN_0044e050(QueuedTask* pTask);
+    void BSTaskManager_int64_RemoveTask(QueuedTask* pTask);
     bool RunQueuedTask(QueuedTask* pTask, void* pArg);
 };
 
@@ -289,7 +290,7 @@ bool FUN_00528870_shell::RunQueuedTask(QueuedTask* pTask, void* pArg)
             if (pTask->SetState(eState, 6))
             {
                 pTask->FUN_0092c870();
-                FUN_0044e050(pTask);
+                BSTaskManager_int64_RemoveTask(pTask);
                 pTask->Run(eState, pArg);
                 pTask->FUN_0044dd60();
                 return true;

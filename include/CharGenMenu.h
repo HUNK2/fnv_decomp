@@ -48,7 +48,7 @@ public:
     CharGenMenu();
     void SetTile(int id, Tile* tile);
     int __thiscall vf13();
-    int __thiscall FUN_00753340();
+    int __thiscall GetMenuID_00753340();
     void UpdateValueString(Tile*);
     void UpdatePointsDisplay();
     bool HasAllSlotsSet();

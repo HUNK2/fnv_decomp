@@ -15,7 +15,8 @@
 extern NiRTTI* g_011f3f80;
 
 // @fnv 0x00a49e00
-NiRTTI* __cdecl FUN_00a49e00()
+// src: COMMUNITY 0x00a49e00
+NiRTTI* __cdecl NiPathController_GetRTTI()
 {
     return reinterpret_cast<NiRTTI*>(&g_011f3f80);
 }

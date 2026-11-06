@@ -94,7 +94,7 @@ public:
 
     LocalVec& ScaleByInverse(float divisor);
     float FUN_00457910();
-    LocalVec* FUN_006a6eb0();
+    LocalVec* FastNavMeshTriLocation_GetLocation();
     bool FUN_004390c0(const LocalVec& v);
 
     __m128 get() const;
@@ -143,28 +143,28 @@ public:
     void FUN_00c7f640(const void* matrix, const void* point);
     void FUN_00c7f700(Mat3* matrix, void* point);
     void FUN_00c7f700(const void* matrix, const LocalVec* point);
-    void FUN_00b12790();
-    void FUN_00b13040(LocalVec* out, const LocalVec* v);
+    void Normalize_00b12790();
+    void Diff_00b13040(LocalVec* out, const LocalVec* v);
     LocalVec* ScaleSwizzled(LocalVec* out, float factor);
     void AddVector(LocalVec* out, const LocalVec* v);
     float Dot(const LocalVec& v);
     LocalVec* FUN_004a3c90(const LocalVec* v);
     LocalVec* FUN_0062b0a0(LocalVec* out, LocalVec* v);
-    LocalVec* FUN_0062af00(LocalVec* target);
+    LocalVec* hkVector4_lengthInverse3(LocalVec* target);
 
     void FUN_00cf7690(Elem* value);
     void FUN_00b1e970();
     Iter begin();
     Iter end();
     CIter FUN_00b33030(CIter first, CIter last);
-    void FUN_00b32120();
+    void m_vStrips_clear();
     unsigned int size() const;
     unsigned int capacity() const;
     void FUN_00b2df90();
     void FUN_00b2e140(Elem* first, Elem* last);
     bool InitBuffer(unsigned int count);
     Elem* _Ucopy(Elem* first, Elem* last, Elem* out);
-    LocalVec& FUN_00b2db10(const LocalVec& v);
+    LocalVec& CTreeEngine_SetLeafTextures(const LocalVec& v);
     CMutIter FUN_00aceb80(CMutIter first, CMutIter last);
     void FUN_00acac40();
     LocalVec& FUN_00ad61e0(const LocalVec& v);
@@ -223,7 +223,8 @@ float FUN_00b2a180::Dot(const NiPoint3& point)
 double __cdecl FUN_00ec6054(double);
 // Normalizes the vector by dividing x, y and z by the square root of the sum of their squares.
 // @fnv 0x00b12790
-void LocalVec::FUN_00b12790()
+// src: COMMUNITY 0x00b12790
+void LocalVec::Normalize_00b12790()
 {
     float fSumOfSquares;
     float fInvSquareRoot;
@@ -257,11 +258,12 @@ NiPoint3* FUN_00b0cff0_class::ScaleSwizzled(NiPoint3* output, float factor)
 extern double __cdecl FUN_00eca190(double value);
 struct This : FUN_00b2a180
 {
-    float FUN_00b12720(const NiPoint3& point);
+    float CVec3_AngleBetween(const NiPoint3& point);
 };
 // Computes the dot product of point with this object, clamps it to [-1, 1], and returns the result of FUN_00eca190 on the clamped value.
 // @fnv 0x00b12720
-float This::FUN_00b12720(const NiPoint3& point)
+// src: COMMUNITY 0x00b12720
+float This::CVec3_AngleBetween(const NiPoint3& point)
 {
     float value = Dot(point);
     if (value < -1.0f)
@@ -367,7 +369,7 @@ float FUN_00b14b10_class::FUN_00b14b10(float value, float factor)
 struct b14_sub
 {
     float x, y, z;
-    float FUN_00b04d40(b14_sub* other);
+    float CVec3_Distance(b14_sub* other);
 };
 
 struct b14_elem
@@ -385,11 +387,12 @@ struct b14_ctx
     int unk24;
     char unk28[8];
     float unk30;
-    void FUN_00b14b40();
+    void CIdvBranch_ComputeVolume();
 };
 
 // @fnv 0x00b14b40
-void b14_ctx::FUN_00b14b40()
+// src: COMMUNITY 0x00b14b40
+void b14_ctx::CIdvBranch_ComputeVolume()
 {
     if (this->unk20 != 0)
     {
@@ -404,7 +407,7 @@ void b14_ctx::FUN_00b14b40()
                 {
                     int t1;
                     int t2;
-                    sum = pCurrent->sub.FUN_00b04d40(&m_pActionSuccessor->sub);
+                    sum = pCurrent->sub.CVec3_Distance(&m_pActionSuccessor->sub);
                     this->unk30 = (pCurrent->unk18 + m_pActionSuccessor->unk18) * sum + this->unk30;
                 }
             }
@@ -532,9 +535,9 @@ LocalVec* MyThis::ProjectOntoLine(LocalVec* out, LocalVec* a, LocalVec* pLineSta
         *out = *a;
         return out;
     }
-    pLineStart->FUN_00b13040((LocalVec*)ejne, a);
-    ((LocalVec*)ejne)->FUN_00b12790();
-    c->FUN_00b13040((LocalVec*)z, a);
+    pLineStart->Diff_00b13040((LocalVec*)ejne, a);
+    ((LocalVec*)ejne)->Normalize_00b12790();
+    c->Diff_00b13040((LocalVec*)z, a);
     dir = ((LocalVec*)z)->Dot(*(LocalVec*)ejne);
     a->AddVector(out, ((LocalVec*)ejne)->ScaleSwizzled((LocalVec*)e, dir));
     return out;
@@ -656,16 +659,17 @@ struct AngleState
 struct FacingTint
 {
     int unk00;
-    LocalVec* FUN_00b40430(LocalVec* out);
-    void FUN_00b404c0(LocalVec* point, int flag);
-    void FUN_00b40210(LocalVec* point, LocalVec* other, float t);
+    LocalVec* CBillboardLeaf_GetColor(LocalVec* out);
+    void CBillboardLeaf_SetColor(LocalVec* point, int flag);
+    void CBillboardLeaf_AdjustStaticLighting(LocalVec* point, LocalVec* other, float t);
 };
 
 extern double __cdecl FUN_00ec9f30(double value);
 extern double DAT_01011588;
 
 // @fnv 0x00b40210
-void FacingTint::FUN_00b40210(LocalVec* point, LocalVec* other, float t)
+// src: COMMUNITY 0x00b40210
+void FacingTint::CBillboardLeaf_AdjustStaticLighting(LocalVec* point, LocalVec* other, float t)
 {
     // Avoid invoking LocalVec constructors for the original uninitialized scratch storage.
     float goal[sizeof(LocalVec) / sizeof(float)];
@@ -675,14 +679,14 @@ void FacingTint::FUN_00b40210(LocalVec* point, LocalVec* other, float t)
     float scaled[sizeof(LocalVec) / sizeof(float)];
     float dest[sizeof(LocalVec) / sizeof(float)];
     float basis[sizeof(AngleState) / sizeof(float)];
-    ((LocalVec*)((char*)this + 4))->FUN_00b13040((LocalVec*)sample, point);
-    ((LocalVec*)sample)->FUN_00b12790();
-    other->FUN_00b13040((LocalVec*)goal, point);
-    ((LocalVec*)goal)->FUN_00b12790();
-    ((AngleState*)basis)->radians = ((This*)sample)->FUN_00b12720(*(NiPoint3*)goal);
+    ((LocalVec*)((char*)this + 4))->Diff_00b13040((LocalVec*)sample, point);
+    ((LocalVec*)sample)->Normalize_00b12790();
+    other->Diff_00b13040((LocalVec*)goal, point);
+    ((LocalVec*)goal)->Normalize_00b12790();
+    ((AngleState*)basis)->radians = ((This*)sample)->CVec3_AngleBetween(*(NiPoint3*)goal);
     length = (float)(double)(float)FUN_00ec9f30(((AngleState*)basis)->radians);
     scale = (float)((length + 1.0) * DAT_01011588) * (1.0f - t) + t;
-    this->FUN_00b404c0(this->FUN_00b40430((LocalVec*)scaled)->ScaleSwizzled((LocalVec*)dest, scale), 1);
+    this->CBillboardLeaf_SetColor(this->CBillboardLeaf_GetColor((LocalVec*)scaled)->ScaleSwizzled((LocalVec*)dest, scale), 1);
 }
 
 #include <stdlib.h>

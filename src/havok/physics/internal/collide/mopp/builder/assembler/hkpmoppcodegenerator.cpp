@@ -114,7 +114,8 @@ FUN_00e065f0::FUN_00e065f0(int iSize)
 }
 
 // @fnv 0x00e06480
-extern "C" void __cdecl FUN_00e06480()
+// src: COMMUNITY 0x00e06480
+extern "C" void __cdecl nullsub_26()
 {}
 
 #include <xmmintrin.h>

@@ -144,7 +144,7 @@ public:
     void __thiscall FUN_00c7f700(const RotationColumns& rotation, const Vec4& value);
     void FUN_00c7f700(const Rot& rotation, const Vec4& value);
     void FUN_00c7f700(const void* rotation, const Vec4& value);
-    void FUN_004b4ab0(const Rot& rotation, const Vec4& value);
+    void hkVector4_setRotatedInverseDir(const Rot& rotation, const Vec4& value);
     void FUN_00c7f750(const void* matrix, const Vec4& value);
     void FUN_0066c930();
 

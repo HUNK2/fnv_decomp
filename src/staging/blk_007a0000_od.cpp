@@ -13,11 +13,12 @@
 
 struct FUN_007a1400_class
 {
-    void FUN_007a1400(int flags);
+    void Tile_ClearNeedsUpdate(int flags);
 };
 
 // @fnv 0x007a1400
-void FUN_007a1400_class::FUN_007a1400(int flags)
+// src: COMMUNITY 0x007a1400
+void FUN_007a1400_class::Tile_ClearNeedsUpdate(int flags)
 {
     if (*(int*)((char*)this + 0x30) & flags)
         *(int*)((char*)this + 0x30) ^= flags;
@@ -113,11 +114,12 @@ struct FUN_007b52a0_class
 {
     char* m_ptr;
     unsigned short m_uiItemCount;
-    void __thiscall FUN_007b52a0();
+    void __thiscall BSStringT_MakeUpper();
 };
 
 // @fnv 0x007b52a0
-void __thiscall FUN_007b52a0_class::FUN_007b52a0()
+// src: COMMUNITY 0x007b52a0
+void __thiscall FUN_007b52a0_class::BSStringT_MakeUpper()
 {
     if (m_ptr)
         FUN_00730490(m_ptr, m_uiItemCount + 1);
@@ -426,7 +428,7 @@ class ManagedSubObject
     ~ManagedSubObject();
 };
 
-extern "C" void __cdecl FUN_00401030(void* p);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 class FUN_007a8960_cls : public ManagedSubObject
 {
@@ -450,7 +452,7 @@ class FUN_007a8960_cls : public ManagedSubObject
 FUN_007a8960_cls::~FUN_007a8960_cls()
 {
     void* p = m_08;
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
     m_08 = 0;
 }
 
@@ -620,12 +622,13 @@ struct FUN_007b5330_Class
 {
     FUN_0049fa80_Result* __thiscall FUN_0049fa80();
     void __thiscall InsertBefore(int arg1, FUN_0049fa80_Result* arg2);
-    void __thiscall FUN_007b5330(int arg1, int* arg2);
+    void __thiscall NiTPointerListBase_InsertBefore_0(int arg1, int* arg2);
 };
 
 // Gets a result object, stores the int pointed to by arg2 into its unk08 field, then passes it with arg1 to InsertBefore.
 // @fnv 0x007b5330
-void __thiscall FUN_007b5330_Class::FUN_007b5330(int arg1, int* arg2)
+// src: COMMUNITY 0x007b5330
+void __thiscall FUN_007b5330_Class::NiTPointerListBase_InsertBefore_0(int arg1, int* arg2)
 {
     FUN_0049fa80_Result* result = this->FUN_0049fa80();
     result->unk08 = *arg2;

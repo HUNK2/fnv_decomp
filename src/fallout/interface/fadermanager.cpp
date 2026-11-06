@@ -217,7 +217,7 @@ void FaderManager::AddRoot(NiNode* pParent, float m_fProjectionDepth, bool abBel
         fScale = 4.0f / 3.0f;
     if (m_fGlyphWidthInPixels != 1280.0)
         fScale *= 1280.0 / m_fGlyphWidthInPixels;
-    if (FUN_004de070())
+    if (is_bEyeFinity())
         fScale = 1.0f;
     pSortAdjustNode->FUN_00440490(fScale);
     pSortAdjustNode->FUN_00440460(NiPoint3(0.0f, m_fProjectionDepth, 0.0f));
@@ -268,11 +268,12 @@ struct FaderRec7
 };
 struct FM7
 {
-    bool FUN_007014a0(int);
+    bool FaderManager_IsFaderActive(int);
 };
 // Returns true when the fader record at idx has a nonzero f10 and a nonzero f8.
 // @fnv 0x007014a0
-bool FM7::FUN_007014a0(int aiIndex)
+// src: COMMUNITY 0x007014a0
+bool FM7::FaderManager_IsFaderActive(int aiIndex)
 {
     FaderRec7* f = (FaderRec7*)&s_faders[aiIndex];
     if (f->f10 && f->f8)

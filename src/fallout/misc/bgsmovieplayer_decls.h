@@ -22,10 +22,10 @@ NiRenderer* FUN_0043c4b0();
 BSAudio* FUN_00453a70();
 extern unsigned char DAT_011de714;
 
-bool FUN_004de070();
-bool FUN_004de080();
-float FUN_004de0e0();
-float FUN_004de0f0();
+bool is_bEyeFinity();
+bool IsEyefinity();
+float Get_1280_();
+float Get_720_();
 unsigned int FUN_004dc1f0();
 unsigned int FUN_004dc200();
 
@@ -34,7 +34,7 @@ unsigned int FUN_004dc200();
 class InputManager
 {
   public:
-    void FUN_00a23010();
+    void Controls_UpdateValues();
     int FUN_00a24660(unsigned int, bool);
 };
 

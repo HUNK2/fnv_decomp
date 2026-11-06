@@ -131,10 +131,11 @@ struct FUN_00dee6f0_class
     int m_iFourthElementInteger;
     int m_usTrailingValue;
     RefObj* m_pObject;
-    void FUN_00dee6f0(RefObj* pObject);
+    void hkpPointToPathConstraintData_setPath(RefObj* pObject);
 };
 // @fnv 0x00dee6f0
-void FUN_00dee6f0_class::FUN_00dee6f0(RefObj* pNewObject)
+// src: COMMUNITY 0x00dee6f0
+void FUN_00dee6f0_class::hkpPointToPathConstraintData_setPath(RefObj* pNewObject)
 {
     if (pNewObject)
         pNewObject->FUN_00c90510();
@@ -227,7 +228,8 @@ FUN_00e3e840_result* FUN_00e3e840_class::FindWorldByKey(FUN_00e3e840_result* res
 extern int DAT_012681d4;
 
 // @fnv 0x00c90480
-int __cdecl FUN_00c90480()
+// src: COMMUNITY 0x00c90480
+int __cdecl hkReferencedObject_getLockMode()
 {
     return *(int*)(DAT_012681d4 + 8);
 }

@@ -26,7 +26,8 @@ struct DummyClass_00aa6db0
 };
 
 // @fnv 0x00aa6db0
-unsigned int __fastcall FUN_00aa6db0(DummyClass_00aa6db0* pThis)
+// src: COMMUNITY 0x00aa6db0
+unsigned int __fastcall MemoryPool_GetFreePageIndex(DummyClass_00aa6db0* pThis)
 {
     for (unsigned int i = 0; i < pThis->ItemUpdateArray; ++i)
     {
@@ -68,12 +69,12 @@ void FUN_00aa6e60_shell::UnlinkNode(Node_00aa6e60* node)
 
 struct FUN_00aa6eb0_shell : public MemoryPool
 {
-    void FUN_00aa6eb0(unsigned int, bool);
+    void MemoryPool_FreePage(unsigned int, bool);
 };
 
 struct Helper_00aa6eb0
 {
-    void FUN_00aa7260();
+    void MemoryPool_SortFreeBlockList();
     void FreeMemory(unsigned int, void*);
 };
 
@@ -84,12 +85,13 @@ struct DoublyLinkedListNode
 };
 
 // @fnv 0x00aa6eb0
-void FUN_00aa6eb0_shell::FUN_00aa6eb0(unsigned int aiPageIndex, bool abSortRequired)
+// src: COMMUNITY 0x00aa6eb0
+void FUN_00aa6eb0_shell::MemoryPool_FreePage(unsigned int aiPageIndex, bool abSortRequired)
 {
     char* ppageAddress = *(char**)((char*)this + 0x4) + (aiPageIndex << 12);
     if (abSortRequired)
     {
-        ((Helper_00aa6eb0*)this)->FUN_00aa7260();
+        ((Helper_00aa6eb0*)this)->MemoryPool_SortFreeBlockList();
     }
     DoublyLinkedListNode* pfirstFreeBlock = (DoublyLinkedListNode*)ppageAddress;
     unsigned int ientriesPerPage = 0x1000 / *(unsigned int*)((char*)this + 0x40);
@@ -176,11 +178,11 @@ struct FUN_00aa6f90_shell : public MemoryPool
 
 struct FUN_00aa6eb0_shell
 {
-    void FUN_00aa6eb0(unsigned int, bool);
+    void MemoryPool_FreePage(unsigned int, bool);
 };
 struct Helper_00aa6eb0
 {
-    void FUN_00aa7260();
+    void MemoryPool_SortFreeBlockList();
 };
 // @fnv 0x00aa6f90
 // src: EXE 0x00aa6f90
@@ -196,10 +198,10 @@ void FUN_00aa6f90_shell::MemoryPool_FreeUnusedPagesForAllPools()
             int u1, u2;
             if (!blistSorted)
             {
-                ((Helper_00aa6eb0*)this)->FUN_00aa7260();
+                ((Helper_00aa6eb0*)this)->MemoryPool_SortFreeBlockList();
                 blistSorted = true;
             }
-            ((FUN_00aa6eb0_shell*)this)->FUN_00aa6eb0(i, false);
+            ((FUN_00aa6eb0_shell*)this)->MemoryPool_FreePage(i, false);
         }
     }
     {
@@ -223,7 +225,7 @@ struct FUN_00aa6e60_shell
     void UnlinkNode(Node_00aa6e60*);
 };
 struct DummyClass_00aa6db0;
-unsigned int __fastcall FUN_00aa6db0(DummyClass_00aa6db0*);
+unsigned int __fastcall MemoryPool_GetFreePageIndex(DummyClass_00aa6db0*);
 struct MemoryPool_PCP
 {
     bool CommitPage(unsigned int, char*&);
@@ -259,7 +261,7 @@ void* FUN_00aa6aa0_shell::MemoryPool_Allocate(unsigned int requested)
                                                 m_kCriticalSection.Lock("MemoryPool::Allocate");
                                                 if (!m_pFreeBlockHead)
                                                 {
-                                                    inewPageIndex = FUN_00aa6db0((DummyClass_00aa6db0*)this);
+                                                    inewPageIndex = MemoryPool_GetFreePageIndex((DummyClass_00aa6db0*)this);
                                                     if (inewPageIndex == -1)
                                                     {
                                                         l1 = &m_kCriticalSection;
@@ -396,12 +398,13 @@ struct FUN_00aa7260_holder
     char pad1[0x48];
     unsigned int count;
     void* SortList(void* p);
-    void FUN_00aa7260();
+    void MemoryPool_SortFreeBlockList();
 };
 
 // If count is greater than 1, replaces ptr with the result of SortList(ptr).
 // @fnv 0x00aa7260
-void FUN_00aa7260_holder::FUN_00aa7260()
+// src: COMMUNITY 0x00aa7260
+void FUN_00aa7260_holder::MemoryPool_SortFreeBlockList()
 {
     if (count > 1)
     {
@@ -495,7 +498,7 @@ struct FUN_00aa66a0
     unsigned int iFirstReserve;
     unsigned int iSecondReserve;
     FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, const char* apDesc);
-    void FUN_00aa65b0();
+    void MemoryPool_PlatformReserveHeap();
     void RegisterInPools();
 };
 
@@ -511,7 +514,7 @@ FUN_00aa66a0::FUN_00aa66a0(unsigned int aiBlockSize, unsigned int aiPoolSize, co
     m_uiAllocationSize = aiBlockSize;
     if (m_uiAllocationSize)
         m_uiAllocationSize = (m_uiAllocationSize + 3) & ~3;
-    FUN_00aa65b0();
+    MemoryPool_PlatformReserveHeap();
     if (!m_pPoolBase)
         return;
     m_pPageBlockCounts = (unsigned short*)new PageRefCount66a0[aiPoolSize >> 12];

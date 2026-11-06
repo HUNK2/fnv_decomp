@@ -5,7 +5,8 @@
 extern "C" void* g_012026d8;
 
 // @fnv 0x00c29e90
-void* __cdecl FUN_00c29e90()
+// src: COMMUNITY 0x00c29e90
+void* __cdecl NiPSysInitialRotSpeedVarCtlr_GetRTTI()
 {
     return &g_012026d8;
 }
@@ -27,7 +28,7 @@ FUN_00c32d80::FUN_00c32d80()
 
 extern "C" void* g_012026d8;
 void __stdcall FUN_00c32f60(void* p);
-void* __cdecl FUN_00a7d330(void* p);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
 
 struct FUN_00c29f00_Array
 {
@@ -46,7 +47,7 @@ struct FUN_00c29f00_Array
 void __stdcall FUN_00c29f00(FUN_00c29f00_Array* arr)
 {
     FUN_00c32f60(arr);
-    void* item = FUN_00a7d330(g_012026d8);
+    void* item = NiViewerStrings_NiGetViewerString_Title(g_012026d8);
     unsigned int count = arr->unk0A;
     if (count >= arr->unk08)
         arr->FUN_0096ad30(count + arr->unk0E);

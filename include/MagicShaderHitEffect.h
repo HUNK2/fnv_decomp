@@ -41,12 +41,12 @@ class MagicShaderHitEffect : public MagicHitEffect
     void ApplyAndCleanup();
     unsigned short GetEffectSaveSize(ActiveEffect* apEffect, TESObjectREFR* apTarget);
     unsigned short FUN_00822060();
-    bool FUN_00822010();
-    void FUN_008220c0();
+    bool CheckShouldSave_00822010();
+    void SaveGameTES_008220c0();
     bool FUN_00822130();
-    void FUN_00821e40(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    void SaveGame_00821e40(ActiveEffect* apEffect, TESObjectREFR* apTarget);
     void FUN_00821ed0(ActiveEffect* apEffect, TESObjectREFR* apTarget);
-    void FUN_00822250(BGSSaveFormBuffer* apBuffer);
+    void SaveGameBGS_00822250(BGSSaveFormBuffer* apBuffer);
     void FUN_008222f0(BGSLoadGameBuffer* apBuffer);
     void FUN_008223d0(unsigned int a1);
 

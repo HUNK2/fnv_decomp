@@ -169,7 +169,7 @@ public:
     Tile* FUN_00767bb0(int iColumn, int iNewRow);
     bool HandleKey(int iKey, int iUnused);
     void HandleClick(int m_uiSoundID, int iUnk);
-    int __thiscall FUN_00765870();
+    int __thiscall GetClass_00765870();
     void FUN_00767ff0(int, void*);
     void __thiscall FUN_0076a510();
     void __thiscall TransitionToComputersMenu();

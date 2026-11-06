@@ -73,7 +73,8 @@ NiInterpolator* NiSingleInterpController::GetInterpolator(unsigned short usIndex
 extern const char* const g_011f36bc_arg1;
 
 // @fnv 0x00a2f8e0
-const NiRTTI* __fastcall FUN_00a2f8e0(const NiInterpController*)
+// src: COMMUNITY 0x00a2f8e0
+const NiRTTI* __fastcall NiInterpController_GetRTTI(const NiInterpController*)
 {
     return reinterpret_cast<const NiRTTI*>(&g_011f36bc_arg1);
 }

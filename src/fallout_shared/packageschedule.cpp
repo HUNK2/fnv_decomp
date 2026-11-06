@@ -81,12 +81,13 @@ struct DurationData
 typedef char _sizecheck_PackageSchedule[sizeof(DurationData) == 8 ? 1 : -1];
 struct FUN_0067fd40_shell : public DurationData
 {
-    void FUN_0067fd40(DurationData*);
+    void PackageSchedule_Copy(DurationData*);
 };
 
 // Copies the start month, day of week, date, time and duration from apCopy into this schedule when apCopy is non-null.
 // @fnv 0x0067fd40
-void FUN_0067fd40_shell::FUN_0067fd40(DurationData* apCopy)
+// src: COMMUNITY 0x0067fd40
+void FUN_0067fd40_shell::PackageSchedule_Copy(DurationData* apCopy)
 {
     if (apCopy)
     {
@@ -157,11 +158,12 @@ public:
 typedef char _sizecheck_CombatCoverLocation[sizeof(CombatCoverPointData_packageschedule) == 120 ? 1 : -1];
 struct FUN_0067fdb0_shell : public CombatCoverPointData_packageschedule
 {
-    void FUN_0067fdb0(bool);
+    void PackageSchedule_SetStartDayOfWeek(bool);
 };
 
 // @fnv 0x0067fdb0
-void FUN_0067fdb0_shell::FUN_0067fdb0(bool abValue)
+// src: COMMUNITY 0x0067fdb0
+void FUN_0067fdb0_shell::PackageSchedule_SetStartDayOfWeek(bool abValue)
 {
     *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 1) = abValue;  // bReserved (+0x1); the shared CombatCoverPointData_packageschedule names no fields
 }

@@ -197,7 +197,7 @@ void ShadowSceneLight::AddShadowObject(NiAVObject* object)
         NiLight* light = spLight.m_pObject;
         if (!bound)
             bound = reinterpret_cast<NiPoint3*>(&DAT_011f4288);
-        if (!FUN_00b9dae0(bound, light, 1.0f))
+        if (!BoundWithinLightRadius(bound, light, 1.0f))
             goto done;
     }
     {
@@ -636,13 +636,13 @@ struct LightView : NiCamera
     void* unk138;
     BSShaderAccumulator* unk13C;
     void RenderFaces();
-    void FUN_00bd7200(int);
+    void BSCubeMapCamera_SetupTransformation(int);
     void CullScene(ShadowSceneLight*);
 };
-void FUN_00b6b8d0(unsigned int, void*);
-void FUN_00b6bee0(LightView*, void*, BSCullingProcess*);
+void BSRenderedTexture_StartOffscreen(unsigned int, void*);
+void BSShaderUtil_AccumulateScene(LightView*, void*, BSCullingProcess*);
 void FUN_00b6c0d0(LightView*, BSShaderAccumulator*, int);
-void FUN_00b71360(unsigned int, ShadowSceneLight*, float);
+void BSShaderLightingProperty_SetLight(unsigned int, ShadowSceneLight*, float);
 void FUN_00b6b790();
 // @fnv 0x00bd77c0
 void LightView::RenderFaces()
@@ -658,13 +658,13 @@ void LightView::RenderFaces()
     }
     for (int face = 0; face < 6; ++face)
     {
-        FUN_00bd7200(face);
+        BSCubeMapCamera_SetupTransformation(face);
         NiRenderedTexture* texture = (unk130 ? reinterpret_cast<NiPointer<NiRenderedTexture>&>(unk130->spTexture[0])
                                       : NiPointer<NiRenderedTexture>());
         NiRenderedCubeMap* pTextureView = static_cast<NiRenderedCubeMap*>(texture);
         pTextureView->unk48 = face;
         pTextureView->m_spRenderTargetBuffer = reinterpret_cast<NiPointer<Ni2DBuffer>&>(pTextureView->m_ppCubeMapFaces[face]);
-        FUN_00b6b8d0(7, unk130->GetGroup());
+        BSRenderedTexture_StartOffscreen(7, unk130->GetGroup());
         int uiFaceBit = 0;
         switch (face)
         {
@@ -713,7 +713,7 @@ void LightView::RenderFaces()
                             pAccumulator->NiRefObject::IncRefCount();
                     }
                     void* scene = unk138;
-                    FUN_00b6bee0(this, scene, &cullingProcess);
+                    BSShaderUtil_AccumulateScene(this, scene, &cullingProcess);
                     BSShaderAccumulator* pCurrentAccumulator = unk13C;
                     FUN_00b6c0d0(this, pCurrentAccumulator, 0);
                     if (cullingProcess.m_acRendererDataA.m_pObject)
@@ -725,7 +725,7 @@ void LightView::RenderFaces()
             }
             else if (unk134)
             {
-                FUN_00b71360(0, unk134, 1.0f);
+                BSShaderLightingProperty_SetLight(0, unk134, 1.0f);
                 unk130 = (BSRenderedTexture*)unk134->spDynamicShadowMap;
                 CullScene(unk134);
             }
@@ -914,8 +914,8 @@ struct ShadowAccumulator : BSShaderAccumulator
 };
 struct ShadowEvents
 {
-    void FUN_00ba30f0(int, unsigned char*);
-    void FUN_00ba3390(NiCamera*, int, NiAVObject*, int, int, BSShaderAccumulator*, int, unsigned char*, int);
+    void MTRenderingSystem_SetThreadStage(int, unsigned char*);
+    void MTRenderingSystem_AddAccumTask(NiCamera*, int, NiAVObject*, int, int, BSShaderAccumulator*, int, unsigned char*, int);
 };
 extern ShadowTextureManager* DAT_011f91a8;
 extern int DAT_011f91c0, DAT_011f91b0;
@@ -937,7 +937,7 @@ inline float ShadowRadius(const NiBound& b)
 }
 extern float __cdecl FUN_00404010(float, float);
 extern float __cdecl FUN_0040ebd0(float, float);
-extern bool __cdecl FUN_005bf7b0();
+extern bool __cdecl BSShaderManager_GetShadows();
 extern BSShaderAccumulator* __cdecl PopNextInt();
 inline void ShadowEnabled(int& result)
 {
@@ -1051,7 +1051,7 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
         viewport.m_fMaximumV = viewport.m_fMinimumU = 0.0f;
         viewport.m_fMinimumV = viewport.m_fMaximumU = 1.0f;
 
-        if (bCastShadow && FUN_005bf7b0())
+        if (bCastShadow && BSShaderManager_GetShadows())
         {
             reinterpret_cast<NiPointer<NiRefObject>&>(spShadowAccumulator) = static_cast<NiRefObject*>(PopNextInt());
             reinterpret_cast<ShadowAccumulator*>(spShadowAccumulator.m_pObject)->SetPass(7);
@@ -1104,7 +1104,7 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
             const NiBound* bound = reinterpret_cast<NiBound*>(boundSource->m_kWorldBound);
             if (!bound)
                 bound = &DAT_011f4288;
-            GetShadowCamera()->FUN_00a70080(*bound);
+            GetShadowCamera()->FitNearAndFarToBound(*bound);
             static_cast<NiFrustum&>(frustum) = GetShadowCamera()->m_kViewFrustum;
             frustum.m_fFarPlane = float(frustum.m_fFarPlane + DAT_0106b178);
             if (!DAT_011f91b0)
@@ -1114,7 +1114,7 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
             frustum.m_fFarPlane = farPlane;
             GetShadowCamera()->FUN_00a6faf0(frustum);
             reinterpret_cast<ShadowAccumulator*>(spShadowAccumulator.m_pObject)->AssignRefCounted(this);
-            DAT_01200088.FUN_00ba3390(spShadowCamera.m_pObject, 0, spShadowScene.m_pObject, 0, 0,
+            DAT_01200088.MTRenderingSystem_AddAccumTask(spShadowCamera.m_pObject, 0, spShadowScene.m_pObject, 0, 0,
                                       spShadowAccumulator.m_pObject, 0, renderFlags + 0x11, 0);
         }
     }
@@ -1124,7 +1124,7 @@ void ShadowSceneCameraUpdate::UpdateShadow(void* unused, unsigned char* renderFl
         spDynamicShadowMap = 0;
         spShadowAccumulator = 0;
     }
-    DAT_01200088.FUN_00ba30f0(0, renderFlags + 0x11);
+    DAT_01200088.MTRenderingSystem_SetThreadStage(0, renderFlags + 0x11);
 }
 }  // namespace fnv_00b9dfc0
 
@@ -1179,7 +1179,7 @@ __declspec(noinline) inline void ShadowSceneLight::AddGeometry(NiTriBasedGeom* a
 namespace fnv_00b9f780 {
 struct RenderPassSetup
 {
-    void FUN_00ba3130(int, int);
+    void MTRenderingSystem_WaitOnThreadStage(int, int);
 };
 extern RenderPassSetup g_01200088;
 
@@ -1188,11 +1188,11 @@ extern NiColorA DAT_011a9bd0;
 extern NiRenderer* DAT_011f4748;
 // This call passes a texture index; the shared declaration currently omits it.
 typedef void* (__thiscall BSRenderedTexture::*RenderedTextureAt)(int);
-void FUN_00b6b8d0(unsigned int, void*);
+void BSRenderedTexture_StartOffscreen(unsigned int, void*);
 
 extern NiDX9Renderer* DAT_011f9508;
 void FUN_00b6c0d0(NiCamera*, BSShaderAccumulator*, int);
-void __stdcall FUN_00ee6de0(D3DXMATRIX*, D3DXMATRIX*, D3DXMATRIX*);
+void __stdcall D3DXMatrixMultiply_00ee6de0(D3DXMATRIX*, D3DXMATRIX*, D3DXMATRIX*);
 void FUN_00b6b790();
 extern int DAT_011f91b0;
 
@@ -1224,20 +1224,21 @@ struct PassDebug
 PassDebug* __cdecl FUN_00b55560(int);
 struct ShadowPass : ShadowSceneLight
 {
-    void FUN_00b9f780(BSCullingProcess*, int);
+    void ShadowSceneLight_MTRenderFrustumDepthMap(BSCullingProcess*, int);
 };
 // Renders the shadow pass by setting up the shadow matrices from the light and camera, then applies the image space effect to the light rendered texture.
 // @fnv 0x00b9f780
-void ShadowPass::FUN_00b9f780(BSCullingProcess* context, int pass)
+// src: COMMUNITY 0x00b9f780
+void ShadowPass::ShadowSceneLight_MTRenderFrustumDepthMap(BSCullingProcess* context, int pass)
 {
-    g_01200088.FUN_00ba3130(1, pass + 17);
+    g_01200088.MTRenderingSystem_WaitOnThreadStage(1, pass + 17);
     NiColorA previous = DAT_011a9bd0;
     DAT_011f4748->GetBackgroundColor(reinterpret_cast<NiVector4*>(&previous));
     {
         NiColorA white(1.0f, 1.0f, 1.0f, 1.0f);
         DAT_011f4748->SetBackgroundColor(reinterpret_cast<NiVector4*>(&white));
     }
-    FUN_00b6b8d0(7, static_cast<void*>(spDynamicShadowMap.m_pObject->GetGroup()));
+    BSRenderedTexture_StartOffscreen(7, static_cast<void*>(spDynamicShadowMap.m_pObject->GetGroup()));
     DAT_011f4748->SetBackgroundColor(reinterpret_cast<NiVector4*>(&previous));
     context->m_acRendererDataA = reinterpret_cast<BSShaderAccumulator*>(spShadowAccumulator.m_pObject);
     BSShaderAccumulator* renderAccum = reinterpret_cast<BSShaderAccumulator*>(spShadowAccumulator.m_pObject);
@@ -1280,14 +1281,14 @@ void ShadowPass::FUN_00b9f780(BSCullingProcess* context, int pass)
     kShadowView._42 = -transform.m_Translate.Dot(right);
     kShadowView._43 = -transform.m_Translate.Dot(dir);
     kShadowProj = proj;
-    FUN_00ee6de0(&proj, &kShadowView, &kShadowProj);
+    D3DXMatrixMultiply_00ee6de0(&proj, &kShadowView, &kShadowProj);
     kViewProjection = proj;
     FUN_00b6b790();
     if (!DAT_011f91b0)
     {
         BSRenderedTexture* texture = DAT_011f91a8->ActivatePending();
         ImageSpaceTexture input;
-        input.FUN_00ba37a0(texture);
+        input.ImageSpaceTexture_SetTexture(texture);
         ShadowEffectParamLocal_00b9f780 param;
         DAT_012003c4 = DAT_010162c0;
         PassEffect* effect = reinterpret_cast<PassEffect**>(*reinterpret_cast<void**>(GetImageManager()->pEffectList + 4))[17];
@@ -1300,7 +1301,7 @@ void ShadowPass::FUN_00b9f780(BSCullingProcess* context, int pass)
     if (bShowDebugTexture)
     {
         void* texture =
-            (spDynamicShadowMap.m_pObject->*reinterpret_cast<RenderedTextureAt>(&BSRenderedTexture::FUN_004bc320))(0);
+            (spDynamicShadowMap.m_pObject->*reinterpret_cast<RenderedTextureAt>(&BSRenderedTexture::BSRenderedTexture_GetTexture))(0);
         PassDebug* debug = FUN_00b55560(9);
         debug->AddTexture(texture);
     }
@@ -1348,13 +1349,14 @@ extern "C" BSTextureManager* DAT_011f91a8;
 
 struct ShadowSceneCulling : ShadowSceneLight
 {
-    __declspec(noalias) bool FUN_00b9c020(const NiCamera*, NiCamera*);
-    bool FUN_00b9de90(NiSphere, NiCullingProcess*, unsigned short);
-    void FUN_00b9e970(NiCullingProcess*);
+    __declspec(noalias) bool ShadowSceneLight_FrustumFrustumIntersection(const NiCamera*, NiCamera*);
+    bool ShadowSceneLight_CubeFaceFrustumFrustumIntersection(NiSphere, NiCullingProcess*, unsigned short);
+    void ShadowSceneLight_TestFrustumCull(NiCullingProcess*);
 };
 // Culls the shadow light against the camera frustum, computes distance-based fade factors, and marks lighting shaders dirty when state changes.
 // @fnv 0x00b9e970
-void ShadowSceneCulling::FUN_00b9e970(NiCullingProcess* camera)
+// src: COMMUNITY 0x00b9e970
+void ShadowSceneCulling::ShadowSceneLight_TestFrustumCull(NiCullingProcess* camera)
 {
     NiLight* light = spLight.m_pObject;
     unsigned uiCullMask = 0;
@@ -1366,7 +1368,7 @@ void ShadowSceneCulling::FUN_00b9e970(NiCullingProcess* camera)
     bool contained = true;
     if (castShadow && spShadowCamera.m_pObject)
     {
-        uiCullMask = FUN_00b9c020(camera->GetCamera(), spShadowCamera.m_pObject) ? 0 : 255;
+        uiCullMask = ShadowSceneLight_FrustumFrustumIntersection(camera->GetCamera(), spShadowCamera.m_pObject) ? 0 : 255;
     }
     else
     {
@@ -1392,7 +1394,7 @@ void ShadowSceneCulling::FUN_00b9e970(NiCullingProcess* camera)
         if (!contained && castShadow && CanCube_b9e() && bCubeShadowMap)
         {
             for (unsigned short face = 0; face < 6; ++face)
-                if (!FUN_00b9de90(bound, camera, face))
+                if (!ShadowSceneLight_CubeFaceFrustumFrustumIntersection(bound, camera, face))
                     uiCullMask |= 1 << face;
         }
     }

@@ -8,7 +8,8 @@
 extern "C" void* g_01202730;
 
 // @fnv 0x00c2b460
-void* __cdecl FUN_00c2b460()
+// src: COMMUNITY 0x00c2b460
+void* __cdecl NiPSysEmitterPlanarAngleVarCtlr_GetRTTI()
 {
     return &g_01202730;
 }

@@ -81,7 +81,7 @@ public:
     void __thiscall FUN_004b4db0(const VehiclePacketLocal_00e2* vector);
     VehiclePacketLocal_00e2& FUN_00e531a0(int parameter);
     VehiclePacketLocal_00e2 FUN_00e53260(int parameter);
-    void FUN_005611c0();
+    void normalize_005611c0();
 
     void operator=(const VehiclePacketLocal_00e2& vector);
     float& operator()(int index);

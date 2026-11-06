@@ -18,7 +18,7 @@ struct MemoryContextGuard
 };
 struct AllocationManager
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 extern AllocationManager DAT_011f6238;
 struct FUN_00c8f510
@@ -29,7 +29,7 @@ struct FUN_00c8f510
 };
 __forceinline void* __cdecl operator new(unsigned int size, AllocationManager& allocator)
 {
-    unsigned char* storage = static_cast<unsigned char*>(allocator.FUN_00aa3e40(0xf0));
+    unsigned char* storage = static_cast<unsigned char*>(allocator.Game_DoHeapAlloc(0xf0));
     unsigned char adjustment = static_cast<unsigned char>(16 - (reinterpret_cast<unsigned int>(storage) & 15));
     storage += adjustment;
     storage[-1] = adjustment;

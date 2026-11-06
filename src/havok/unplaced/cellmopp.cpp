@@ -86,10 +86,11 @@ void FUN_006222c0_class::SetPackedValue(unsigned int auiLow, unsigned int auiHig
 
 struct FUN_006222f0_Class
 {
-    void FUN_006222f0(int a);
+    void bhkRigidBodyCinfo_SetShape_0(int a);
 };
 // @fnv 0x006222f0
-void FUN_006222f0_Class::FUN_006222f0(int aiValue)
+// src: COMMUNITY 0x006222f0
+void FUN_006222f0_Class::bhkRigidBodyCinfo_SetShape_0(int aiValue)
 {
     *(int*)((char*)this + 4) = aiValue;
     *(int*)((char*)this + 0x24) = aiValue;
@@ -218,7 +219,7 @@ void* __thiscall FUN_00622440_Class::FUN_00622440(unsigned int flags)
 
 struct This5380d0
 {
-    bool FUN_005380d0(unsigned int);
+    bool bhkWorld_RemoveBody(unsigned int);
 };
 struct Flt
 {
@@ -239,7 +240,7 @@ void CellMopp::Kill()
         {
             unsigned int p = *(Flt*)((Arr*)((char*)this + 8))->GetAt(i);
             if (p)
-                ((This5380d0*)pArray)->FUN_005380d0(p);
+                ((This5380d0*)pArray)->bhkWorld_RemoveBody(p);
         }
     }
 }
@@ -379,13 +380,13 @@ struct FUN_00622730_S : public B006815c0
     float unk04;
     float unk08;
     float unk0c;
-    void FUN_00622730(float angle);
+    void NiQuaternion_FromAngleAxisX(float angle);
 };
 
 struct FUN_005610f0_Class
 {
-    void FUN_005610f0(NiPoint3* pos);
-    void FUN_00561150(FUN_00622730_S* rot);
+    void bhkRigidBody_SetNiPosition(NiPoint3* pos);
+    void bhkRigidBody_SetNiRotation(FUN_00622730_S* rot);
 };
 
 struct FUN_0056d2c0_Class
@@ -403,7 +404,7 @@ bool CellMopp::PlaceGridObjects(bhkWorld* p1, const NiPoint3* pPos, int p3)
     if (p1 && IsCreated())
     {
         FUN_00622730_S kRot;
-        kRot.FUN_00622730(1.5707964f);
+        kRot.NiQuaternion_FromAngleAxisX(1.5707964f);
         float offsetY2 = 0.0f;
         int kIdx = 0;
         for (unsigned int aI = 0; aI < 2; aI++)
@@ -415,8 +416,8 @@ bool CellMopp::PlaceGridObjects(bhkWorld* p1, const NiPoint3* pPos, int p3)
                 NiPoint3 kPos = *pPos;
                 kPos.x += _offsetX;
                 kPos.y += offsetY2;
-                pObj4->FUN_005610f0(&kPos);
-                pObj4->FUN_00561150(&kRot);
+                pObj4->bhkRigidBody_SetNiPosition(&kPos);
+                pObj4->bhkRigidBody_SetNiRotation(&kRot);
                 _offsetX += 2048.0;
             }
             offsetY2 += 2048.0;

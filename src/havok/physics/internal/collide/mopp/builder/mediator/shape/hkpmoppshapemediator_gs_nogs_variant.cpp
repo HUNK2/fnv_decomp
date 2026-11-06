@@ -72,7 +72,7 @@ struct CpuObject
     void FUN_00dd51d0();
     CpuObject* FUN_00dd55a0(unsigned int flags);
 };
-void __stdcall FUN_00dd51e0(int, int);
+void __stdcall nullsub_83(int, int);
 struct FnvCpu_FUN_00dd5290_CpuObject
 {
     unsigned int unk00;

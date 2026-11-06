@@ -38,7 +38,7 @@ struct StrX
     } bx;
     unsigned size;
     unsigned res;
-    unsigned FUN_00a0c300(const char* p, unsigned off, unsigned n) const;
+    unsigned std_string_rfind(const char* p, unsigned off, unsigned n) const;
     StrX Substr(unsigned off, unsigned n) const;
     StrX& AssignSubstring(const StrX& rR_igxcnj, unsigned off, unsigned n);
     void FUN_0044a730(bool b, unsigned n);
@@ -56,7 +56,7 @@ struct StrX
     }
     unsigned rfind(const char* p, unsigned off = DAT_010173f0) const
     {
-        return FUN_00a0c300(p, off, LenX(p));
+        return std_string_rfind(p, off, LenX(p));
     }
     static unsigned LenX(const char* p)
     {
@@ -131,7 +131,7 @@ inline G16 GetG()
 {
     return FUN_00ec38a9();
 }
-void* FUN_00401000(unsigned n);
+void* FormHeap_Allocate(unsigned n);
 struct StrX
 {
     char buf[0x1c];
@@ -204,7 +204,7 @@ struct ObjX : B1
     G16 m8;
     static void* operator new(unsigned n)
     {
-        return FUN_00401000(n);
+        return FormHeap_Allocate(n);
     }
     static void operator delete(void* p)
     {}
@@ -1833,7 +1833,7 @@ struct BxLengthError : public BxLogicError
 
 struct GvHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
@@ -1846,7 +1846,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -4136,7 +4136,7 @@ FUN_00b2e740::FUN_00b2e740(const FUN_00b2e740& kOther)
 {}
 
 void* __cdecl FUN_00ad5370(int count, int flags);
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 struct SubObj0C
 {
@@ -4184,7 +4184,7 @@ Entry48* Owner::FUN_00ad1960(int a, int b, int c, int d, bool e)
     }
     catch (...)
     {
-        FUN_00401030(mem);
+        FormHeapFreeAndLog_00401030(mem);
         throw;
     }
     return (Entry48*)mem;
@@ -4267,12 +4267,12 @@ void FUN_00ad6990(CopyStr* ptr, const CopyStr& val)
 
 struct StringAssignmentOps
 {
-    bool FUN_0044a8d0(unsigned int, bool);
-    char* FUN_0044a970();
+    bool std_basic_string_char_std_char_traits_char_std_allocator_char_Grow(unsigned int, bool);
+    char* std_string__Myptr();
     void ResizeString(unsigned int);
     GameString& EraseRange(unsigned int, unsigned int);
 };
-extern void __cdecl FUN_0044ccd0(char*, unsigned int, const char*, unsigned int);
+extern void __cdecl std_Traits_helper_copy_s_std_char_traits_char(char*, unsigned int, const char*, unsigned int);
 struct InsertText : BxStringVal
 {
     BxQ_ad6bb0 storage;
@@ -4330,13 +4330,13 @@ struct InsertText : BxStringVal
             reinterpret_cast<StringAssignmentOps*>(this)->EraseRange(off + num, ~0u);
             reinterpret_cast<StringAssignmentOps*>(this)->EraseRange(0, off);
         }
-        else if (reinterpret_cast<StringAssignmentOps*>(this)->FUN_0044a8d0(num, false))
+        else if (reinterpret_cast<StringAssignmentOps*>(this)->std_basic_string_char_std_char_traits_char_std_allocator_char_Grow(num, false))
         {
-            char* destination = reinterpret_cast<StringAssignmentOps*>(this)->FUN_0044a970();
+            char* destination = reinterpret_cast<StringAssignmentOps*>(this)->std_string__Myptr();
             const char* source =
-                reinterpret_cast<StringAssignmentOps*>(const_cast<InsertText*>(&right))->FUN_0044a970() + off;
+                reinterpret_cast<StringAssignmentOps*>(const_cast<InsertText*>(&right))->std_string__Myptr() + off;
             unsigned int destinationCapacity = capacity;
-            FUN_0044ccd0(destination, destinationCapacity, source, num);
+            std_Traits_helper_copy_s_std_char_traits_char(destination, destinationCapacity, source, num);
             reinterpret_cast<StringAssignmentOps*>(this)->ResizeString(num);
         }
         return *this;
@@ -6476,7 +6476,7 @@ struct BxStrTraits
 {
     static char* _Copy_s(char* _First1, unsigned int _Size, const char* _First2, unsigned int _Count)
     {
-        ::FUN_0044ccd0(_First1, _Size, _First2, _Count);
+        ::std_Traits_helper_copy_s_std_char_traits_char(_First1, _Size, _First2, _Count);
         return _First1;
     }
     static char* _Move_s(char* _First1, unsigned int _Size, const char* _First2, unsigned int _Count)
@@ -6746,11 +6746,12 @@ struct FaceBinaryReadReceiver
     virtual void v0c();
     virtual bool v10(void* data, unsigned int size, unsigned int count);
     void ClearHolders();
-    __declspec(noinline) bool FUN_00ac5e00(void* data, unsigned int size, unsigned int count);
+    __declspec(noinline) bool BSFaceGenBinaryFile_readHeader(void* data, unsigned int size, unsigned int count);
 };
 
 // @fnv 0x00ac5e00
-bool FaceBinaryReadReceiver::FUN_00ac5e00(void* data, unsigned int size, unsigned int count)
+// src: COMMUNITY 0x00ac5e00
+bool FaceBinaryReadReceiver::BSFaceGenBinaryFile_readHeader(void* data, unsigned int size, unsigned int count)
 {
     if (pData == 0)
     {
@@ -7206,7 +7207,7 @@ struct BxLengthError : public BxLogicError
 
 struct GvHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
@@ -7219,7 +7220,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -8297,7 +8298,7 @@ struct BxLengthError : public BxLogicError
 
 struct GvHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
@@ -8310,7 +8311,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -9420,7 +9421,7 @@ struct BxLengthError : public BxLogicError
 
 struct GvHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
@@ -9433,7 +9434,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -10251,7 +10252,7 @@ template <class C> struct InputFilebuf : InputStreambuf<C>
 {
     InputFilebuf(_iobuf* _File = 0) : InputStreambuf<C>()
     {
-        FUN_00acfc10(_File, NewFile);
+        std_basic_filebuf_char_std_char_traits_char_Init(_File, NewFile);
     }
     virtual ~InputFilebuf();
     void* codec;
@@ -10266,7 +10267,8 @@ template <class C> struct InputFilebuf : InputStreambuf<C>
         OpenFile,
         ClosedFile
     };
-    void FUN_00acfc10(_iobuf* _File, InitKind _Which)
+// src: COMMUNITY 0x00acfc10
+    void std_basic_filebuf_char_std_char_traits_char_Init(_iobuf* _File, InitKind _Which)
     {
         static int _Stinit;
         ownsFile = _Which == OpenFile;
@@ -10299,7 +10301,7 @@ template <class C> struct InputFilebuf : InputStreambuf<C>
         _iobuf* opened;
         if (file != 0 || (opened = OpenStream(name, mode, prot)) == 0)
             return 0;
-        FUN_00acfc10(opened, OpenFile);
+        std_basic_filebuf_char_std_char_traits_char_Init(opened, OpenFile);
         initializeCodec((Codec*)&UseCodec(getloc()));
         return this;
     }

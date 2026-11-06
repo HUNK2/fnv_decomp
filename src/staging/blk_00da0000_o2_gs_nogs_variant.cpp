@@ -658,23 +658,23 @@ __forceinline void addEdge(int& mask, int value)
         addCell(mask, x + 2 * y + 8);
 }
 void __stdcall CheckFeatureCacheCoverage(FeatureCache* cache, int firstFlags, int secondFlags);
-void __cdecl FUN_00da0600();
-void __cdecl FUN_00da0620(void);
-void FUN_00da0640();
-void FUN_00da0650();
-void __cdecl FUN_00da0960();
-void __cdecl FUN_00da0980();
-void __cdecl FUN_00da0990();
-void __cdecl FUN_00da09b0();
-void __cdecl FUN_00da09d0();
-void __cdecl FUN_00da09f0();
-void FUN_00da0a10();
-void __cdecl FUN_00da0a30();
-void __cdecl FUN_00da0a50();
-void __cdecl FUN_00da0a70();
-void __cdecl FUN_00da0a90();
-void __cdecl FUN_00da0ab0();
-void __cdecl FUN_00da0ad0();
+void __cdecl nullsub_104();
+void __cdecl nullsub_106(void);
+void nullsub_105();
+void nullsub_107();
+void __cdecl nullsub_109();
+void __cdecl nullsub_108();
+void __cdecl nullsub_110();
+void __cdecl nullsub_111();
+void __cdecl nullsub_112();
+void __cdecl nullsub_113();
+void nullsub_114();
+void __cdecl nullsub_115();
+void __cdecl nullsub_116();
+void __cdecl nullsub_117();
+void __cdecl nullsub_118();
+void __cdecl nullsub_119();
+void __cdecl nullsub_120();
 struct CallbackHolder
 {
     int unk00;
@@ -729,7 +729,7 @@ struct DA2D70Object
     void* __thiscall NotifyAudioListener(int flags);
 };
 extern BSAudio* __cdecl FUN_00c85750();
-void __cdecl FUN_00da2da0();
+void __cdecl nullsub_21();
 void __cdecl hkAgent1nMachine_VisitAllAgents(int a, int b, void* pvCallback);
 void __cdecl ProcessCollisionEntry();
 void __cdecl FUN_00da4900(int a, int b);

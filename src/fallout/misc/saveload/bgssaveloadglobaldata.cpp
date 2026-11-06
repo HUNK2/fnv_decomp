@@ -61,11 +61,11 @@ class GlobalObject_0096d020
 {
 };
 extern GlobalObject_0096d020 g_011e0e80;
-void FUN_004d60c0(BGSLoadGameBuffer*);
+void MiscStatManager_Revert(BGSLoadGameBuffer*);
 void ResetRadioGlobals(BGSLoadGameBuffer*);
 class MagicItem;
 
-void FUN_0084cd40(BGSLoadGameBuffer*);
+void BGSSaveLoadGlobalData_LoadGlobals(BGSLoadGameBuffer*);
 void ReadSavedSettings(BGSLoadGameBuffer*);
 void FUN_008368b0(BGSLoadGameBuffer*);
 class SoundPlaybackManager
@@ -230,7 +230,7 @@ bool SaveGameLoader::LoadFormRange(unsigned int type, BGSLoadGameBuffer* buffer,
         UnloadGameData();
         return true;
     case 0:
-        FUN_004d60c0(buffer);
+        MiscStatManager_Revert(buffer);
         return true;
     case 8:
         return false;
@@ -265,7 +265,7 @@ bool SaveGameLoader::LoadGlobalDataRange(unsigned int type, BGSLoadGameBuffer* b
         g_TES->LoadGame(buffer);
         return true;
     case 3:
-        FUN_0084cd40(buffer);
+        BGSSaveLoadGlobalData_LoadGlobals(buffer);
         return true;
     case 4:
         ((FalloutRadio*)&g_011e0e80)->LoadGame(buffer);
@@ -352,7 +352,7 @@ bool __cdecl FUN_0084c030(unsigned int type, BGSLoadGameBuffer* buffer)
         ((G975*)&g_011e0e80)->fnv_call_975af0(buffer);
         return true;
     case 5:
-        ((CombatManager*)BGSSaveLoadGlobalDataWorldspacePtr)->FUN_00993600(buffer);
+        ((CombatManager*)BGSSaveLoadGlobalDataWorldspacePtr)->InitLoadGame_00993600(buffer);
         return true;
     case 6:
         return false;
@@ -432,7 +432,8 @@ unsigned int __fastcall GetDataHandlerField208(TESDataHandler* handler)
 extern TESDataHandler* g_dataHandler;
 
 // @fnv 0x0084cc90
-void FUN_0084cc90(BGSSaveFormBuffer* apBuffer)
+// src: COMMUNITY 0x0084cc90
+void BGSSaveLoadGlobalData_SaveGlobals(BGSSaveFormBuffer* apBuffer)
 {
     BSSimpleList<TESGlobal*>* pList = g_dataHandler->GetTESGlobalList();
     int iCount = 0;
@@ -496,11 +497,12 @@ void __cdecl WriteValueByType(SaveLoadFile* apFile, unsigned int auiValue, int a
 struct FUN_00866200_owner
 {
     char* pBuffer;
-    void FUN_00866200(SaveLoadFile* apFile, unsigned int auiFormID, BGSSaveLoadChangeFlags aChangeFlags);
+    void BGSUnloadedFormBuffer_Save(SaveLoadFile* apFile, unsigned int auiFormID, BGSSaveLoadChangeFlags aChangeFlags);
 };
 
 // @fnv 0x00866200
-void FUN_00866200_owner::FUN_00866200(SaveLoadFile* apFile, unsigned int auiFormID, BGSSaveLoadChangeFlags aChangeFlags)
+// src: COMMUNITY 0x00866200
+void FUN_00866200_owner::BGSUnloadedFormBuffer_Save(SaveLoadFile* apFile, unsigned int auiFormID, BGSSaveLoadChangeFlags aChangeFlags)
 {
     char* pData = pBuffer;
     char* pCurrent = pBuffer + 2;
@@ -534,11 +536,12 @@ struct ItemListNode
 
 struct FUN_00975840_owner
 {
-    void FUN_00975840(BGSSaveFormBuffer* apBuffer);
+    void ProcessLists_SaveGame(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x00975840
-void FUN_00975840_owner::FUN_00975840(BGSSaveFormBuffer* apBuffer)
+// src: COMMUNITY 0x00975840
+void FUN_00975840_owner::ProcessLists_SaveGame(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData((char*)this + 0x154, 4, 0);
     apBuffer->SaveData((char*)this + 0x158, 4, 0);
@@ -659,7 +662,7 @@ class LLD_LoadingMenu
 };
 int __fastcall FNV_GetFormType(TESForm*);
 int __cdecl TruncateFloatToInt(float);
-void __cdecl FUN_0084cbd0(const char*, ...);
+void __cdecl BSprintf(const char*, ...);
 char* __cdecl FUN_00ec7750(const char*, const char*);
 unsigned int __cdecl FUN_00ec8d08(const char*, char**, int);
 void __cdecl GarbageCollector_ClearAll(int);
@@ -756,7 +759,7 @@ void LoadPlayerLocation(BGSLoadGameBuffer* apLoadGameBuffer)
         BSSimpleList<LLD_Quest*>* pIter = (BSSimpleList<LLD_Quest*>*)g_dataHandler->GetTESQuestList();
         while (pIter && pIter->GetItem())
         {
-            FUN_0084cbd0("Quest %s (%08x) compared to Patch04Debug\n",
+            BSprintf("Quest %s (%08x) compared to Patch04Debug\n",
                          ((LLD_FullName*)((char*)pIter->GetItem() + 0x30))->GetFullName(),
                          pIter->GetItem()->GetFormID());
             if (((LLD_FullNameLen*)((char*)pIter->GetItem() + 0x30))->GetModelLength() > 8 &&
@@ -835,23 +838,24 @@ void __cdecl SavePlayerLocation(BGSSaveFormBuffer* pkBuffer)
 }
 
 void __cdecl SavePlayerLocation(BGSSaveFormBuffer*);
-void __cdecl FUN_007066d0(BGSSaveFormBuffer*);
+void __cdecl Interface_SaveGame(BGSSaveFormBuffer*);
 void __cdecl SaveImageSpaceModifierInstances(BGSSaveFormBuffer*);
 void __cdecl SaveMiscStats(BGSSaveFormBuffer*);
 void __cdecl SaveE6D0Items(BGSSaveFormBuffer*);
-void __cdecl FUN_008366e0(BGSSaveFormBuffer*);
-void __cdecl FUN_0082ec40(BGSSaveFormBuffer*);
+void __cdecl FalloutRadio_SaveGame(BGSSaveFormBuffer*);
+void __cdecl TESAudio_SaveGame(BGSSaveFormBuffer*);
 void __cdecl FUN_00845cc0(const char*, ...);
 struct Manager84
 {
-    void FUN_00975840(BGSSaveFormBuffer*);
+    void ProcessLists_SaveGame(BGSSaveFormBuffer*);
     void FUN_004534f0(BGSSaveFormBuffer*);
 };
 // Sky saving is absent from the shared interface; preserve the thiscall ABI.
 extern "C" void SaveSkyGame();
 // Dispatches saving of global data to a handler based on the type id, logging an error and returning false for unknown types.
 // @fnv 0x0084bcd0
-bool __cdecl FUN_0084bcd0(unsigned int type, BGSSaveFormBuffer* buffer)
+// src: COMMUNITY 0x0084bcd0
+bool __cdecl BGSSaveLoadGlobalData_SaveGlobalData(unsigned int type, BGSSaveFormBuffer* buffer)
 {
     switch (type)
     {
@@ -862,16 +866,16 @@ bool __cdecl FUN_0084bcd0(unsigned int type, BGSSaveFormBuffer* buffer)
         g_TES->SaveGame(buffer);
         return true;
     case 3:
-        FUN_0084cc90(buffer);
+        BGSSaveLoadGlobalData_SaveGlobals(buffer);
         return true;
     case 4:
-        ((Manager84*)&g_011e0e80)->FUN_00975840(buffer);
+        ((Manager84*)&g_011e0e80)->ProcessLists_SaveGame(buffer);
         return true;
     case 5:
         ((CombatManager*)BGSSaveLoadGlobalDataWorldspacePtr)->SaveGame(buffer);
         return true;
     case 6:
-        FUN_007066d0(buffer);
+        Interface_SaveGame(buffer);
         return true;
     case 7:
         SaveImageSpaceModifierInstances(buffer);
@@ -886,10 +890,10 @@ bool __cdecl FUN_0084bcd0(unsigned int type, BGSSaveFormBuffer* buffer)
         SaveE6D0Items(buffer);
         return true;
     case 10:
-        FUN_008366e0(buffer);
+        FalloutRadio_SaveGame(buffer);
         return true;
     case 11:
-        FUN_0082ec40(buffer);
+        TESAudio_SaveGame(buffer);
         return true;
     case 1000:
         ((Manager84*)&g_011e0e80)->FUN_004534f0(buffer);
@@ -920,7 +924,8 @@ struct GlobalSeenMap
 };
 
 // @fnv 0x0084cd40
-void FUN_0084cd40(BGSLoadGameBuffer* pLoadBuffer)
+// src: COMMUNITY 0x0084cd40
+void BGSSaveLoadGlobalData_LoadGlobals(BGSLoadGameBuffer* pLoadBuffer)
 {
     SaveLoadChangeHistory* history5 = g_BGSSaveLoadGame->GetHistory();
     GlobalSeenMap unchanged2(37);
@@ -1004,7 +1009,8 @@ void __cdecl SaveImageSpaceModifierInstances(int pBuffer)
 void __cdecl FUN_00ecbe60(const char* fmt, va_list args);
 
 // @fnv 0x0084cbd0
-void __cdecl FUN_0084cbd0(const char* apFormat, ...)
+// src: COMMUNITY 0x0084cbd0
+void __cdecl BSprintf(const char* apFormat, ...)
 {
     va_list args;
     va_start(args, apFormat);

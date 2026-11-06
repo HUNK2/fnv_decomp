@@ -154,13 +154,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -456,7 +456,8 @@ extern "C" int __cdecl tolower(int);
 
 // Hashes the lowercased characters of str (stopping before a trailing 3-character extension after a dot) and returns the hash modulo 713.
 // @fnv 0x00a61530
-unsigned int FUN_00a61530(const char* str)
+// src: COMMUNITY 0x00a61530
+unsigned int BSTexturePalette_GetContainerNumber(const char* str)
 {
     unsigned int hash = 0;
     while (*str)
@@ -495,11 +496,12 @@ void __thiscall FUN_00a755f0_Class::CopyCullingData(void* dst, CloningProcess& p
 
 struct FUN_00a72590_Class
 {
-    int FUN_00a72590(unsigned int index, int* out);
+    int NiAdditionalGeometryData_LockDataBlock(unsigned int index, int* out);
 };
 
 // @fnv 0x00a72590
-int FUN_00a72590_Class::FUN_00a72590(unsigned int index, int* out)
+// src: COMMUNITY 0x00a72590
+int FUN_00a72590_Class::NiAdditionalGeometryData_LockDataBlock(unsigned int index, int* out)
 {
     *out = 0;
     unsigned short count = *(unsigned short*)((char*)this + 0x26);
@@ -785,7 +787,8 @@ extern A616E0Pool* DAT_011f4464;
 
 // Scans the seven buckets of DAT_011f4464 from the last to the first and returns whether GetFirst found an entry, filling it.
 // @fnv 0x00a616e0
-bool __cdecl FUN_00a616e0(A616E0Iter* it)
+// src: COMMUNITY 0x00a616e0
+bool __cdecl BSTexturePalette_GetFirstPos(A616E0Iter* it)
 {
     int i = 7;
     bool found;
@@ -860,7 +863,7 @@ unsigned int GetTextureSizeLevel(A61750Texture* pkTexture)
     return uiTreeBlockIndex;
 }
 
-extern bool __cdecl FUN_00a614d0(int, int);
+extern bool __cdecl BSTexturePalette_ArePathsEqual(int, int);
 
 // The shared header does not name the hash callback used by this table.
 static inline int* ShaderHash(NiShader* shader)
@@ -899,7 +902,7 @@ bool __thiscall FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, int iHash
             int* hash = ShaderHash(node->m_pObject);
             int value = static_cast<int>(node->unk0e) + *hash;
 
-            if (FUN_00a614d0(iHashKey, value))
+            if (BSTexturePalette_ArePathsEqual(iHashKey, value))
             {
                 NiShader* pOldShader = *ppOutShader;
 
@@ -1128,7 +1131,8 @@ void __stdcall Init_b9725(void* p, unsigned int size, int count, void* cb);
 
 // Allocates two blocks via the TLS heap, zeroes the first and initializes the second with Init_b9725, storing both in globals and restoring the TLS field.
 // @fnv 0x00a61ad0
-void FUN_00a61ad0()
+// src: COMMUNITY 0x00a61ad0
+void BSTexturePalette_Init()
 {
     int iSavedTlsValue = g_tlsCtx_b9725.m_2b4;
     g_tlsCtx_b9725.m_2b4 = 0xf;
@@ -1234,13 +1238,14 @@ struct ShaderEntry
 };
 extern ShaderState* DAT_011f4468;
 extern unsigned char* DAT_011f4464;
-void __cdecl FUN_00a62030();
+void __cdecl BSTexturePalette_RemoveAll();
 
 // Calls FUN_00a62030, deletes DAT_011f4468, destroys each ShaderEntry in the DAT_011f4464 array, frees it, and nulls both globals.
 // @fnv 0x00a62090
-void __cdecl FUN_00a62090()
+// src: COMMUNITY 0x00a62090
+void __cdecl BSTexturePalette_Kill()
 {
-    FUN_00a62030();
+    BSTexturePalette_RemoveAll();
 
     delete DAT_011f4468;
 
@@ -1422,11 +1427,12 @@ struct FUN_00a66960_cls
     int m_24;
     int m_28;
     int m_2C;
-    int FUN_00a66960(int a1);
+    int NiGeometryData_GetTextureSet(int a1);
 };
 
 // @fnv 0x00a66960
-int FUN_00a66960_cls::FUN_00a66960(int a1)
+// src: COMMUNITY 0x00a66960
+int FUN_00a66960_cls::NiGeometryData_GetTextureSet(int a1)
 {
     return m_2C;
 }
@@ -1513,7 +1519,7 @@ struct Obj_a674
     unsigned int unk24;
     unsigned int unk28;
     unsigned char m_2c;
-    void __thiscall FUN_00a72720(int flag, int* a, int* f, int* c, int* e, int* d, int* b);
+    void __thiscall NiAdditionalGeometryData_GetDataStream(int flag, int* a, int* f, int* c, int* e, int* d, int* b);
 };
 
 struct FUN_00a674b0_cls
@@ -1553,7 +1559,7 @@ void FUN_00a674b0_cls::GetOutRec(OutRec674* out)
         if (obj != 0 && obj->v35() && (obj->m_2c & 1) != 0)
         {
             int d = 0;
-            obj->FUN_00a72720(1, &a, &f, &c, &e, &d, &b);
+            obj->NiAdditionalGeometryData_GetDataStream(1, &a, &f, &c, &e, &d, &b);
         }
         out->a = a;
         out->b = b;
@@ -1719,7 +1725,7 @@ class A6DB70ColorA
     A6DB70ColorA(float fR, float fG, float fB, float fA) : r(fR), g(fG), b(fB), a(fA)
     {}
 
-    A6DB70ColorA FUN_00a6db70(const A6DB70ColorA& kColor) const;
+    A6DB70ColorA NiQuaternion_Sum(const A6DB70ColorA& kColor) const;
 
     float r;
     float g;
@@ -1730,7 +1736,8 @@ class A6DB70ColorA
 // operator+
 // Returns a new color whose components are this color's components plus the corresponding components of the given color.
 // @fnv 0x00a6db70
-A6DB70ColorA A6DB70ColorA::FUN_00a6db70(const A6DB70ColorA& kColor) const
+// src: COMMUNITY 0x00a6db70
+A6DB70ColorA A6DB70ColorA::NiQuaternion_Sum(const A6DB70ColorA& kColor) const
 {
     return A6DB70ColorA(r + kColor.r, g + kColor.g, b + kColor.b, a + kColor.a);
 }
@@ -1985,13 +1992,14 @@ class FUN_00a726a0_cls
     unsigned short unk24;
     unsigned short m_usMaxCount;
 
-    bool FUN_00a726a0(unsigned int uiIndex, unsigned int ItemUpdateArray, unsigned int uiStart, void* pvData,
+    bool NiAdditionalGeometryData_SetDataStream(unsigned int uiIndex, unsigned int ItemUpdateArray, unsigned int uiStart, void* pvData,
                       unsigned short usFormat, unsigned int uiStride, unsigned int uiElapsedMilliseconds);
 };
 
 // Validates format, index, count and entry pointer, then fills the entry at uiIndex with the data pointer, count, start, stride and size.
 // @fnv 0x00a726a0
-bool FUN_00a726a0_cls::FUN_00a726a0(unsigned int uiIndex, unsigned int ItemUpdateArray, unsigned int uiStart, void* pvData,
+// src: COMMUNITY 0x00a726a0
+bool FUN_00a726a0_cls::NiAdditionalGeometryData_SetDataStream(unsigned int uiIndex, unsigned int ItemUpdateArray, unsigned int uiStart, void* pvData,
                                     unsigned short usFormat, unsigned int uiStride, unsigned int uiElapsedMilliseconds)
 {
     if (usFormat != m_usFormat)
@@ -2038,12 +2046,13 @@ struct ColorState
     unsigned int threshold;
     unsigned int blendMode;
 
-    void FUN_00a72cb0(BinaryStream* stream);
+    void NiAdditionalGeometryData_NiAGDDataStream_LoadBinary(BinaryStream* stream);
 };
 
 // Writes red, green, blue, alpha, threshold and blendMode as 4-byte values, then format as 1 byte, to the stream's writer.
 // @fnv 0x00a72cb0
-void ColorState::FUN_00a72cb0(BinaryStream* stream)
+// src: COMMUNITY 0x00a72cb0
+void ColorState::NiAdditionalGeometryData_NiAGDDataStream_LoadBinary(BinaryStream* stream)
 {
     ObjectWriter* __restrict writer = stream->Writer();
     {
@@ -2141,7 +2150,8 @@ SceneFactoryObject* CreateSceneFactoryObject()
 extern int DAT_011aa04c;
 
 // @fnv 0x00a74d80
-void __cdecl FUN_00a74d80(int param_1)
+// src: COMMUNITY 0x00a74d80
+void __cdecl NiProcessorSpecificCode_SetVectorTransformFunction(int param_1)
 {
     DAT_011aa04c = param_1;
 }
@@ -2160,7 +2170,8 @@ void __cdecl FUN_00a74d80(int param_1)
 extern void* DAT_011aa050;
 
 // @fnv 0x00a74d90
-void __cdecl FUN_00a74d90(void* callback)
+// src: COMMUNITY 0x00a74d90
+void __cdecl NiProcessorSpecificCode_SetPointTransformFunction(void* callback)
 {
     DAT_011aa050 = callback;
 }
@@ -2171,10 +2182,11 @@ struct CallTarget_00a74e10
 };
 struct SearchObject
 {
-    int FUN_00a755d0(unsigned int arg0);
+    int NiFrustumPlanes_Set_(unsigned int arg0);
 };
 // @fnv 0x00a755d0
-int SearchObject::FUN_00a755d0(unsigned int arg0)
+// src: COMMUNITY 0x00a755d0
+int SearchObject::NiFrustumPlanes_Set_(unsigned int arg0)
 {
     unsigned int callResult0 =
         (unsigned int)((CallTarget_00a74e10*)this)->SetFromFrustum((int)(arg0 + 220u), (int)(104u + arg0));
@@ -2523,7 +2535,8 @@ void FUN_00a7d1a0_Class::FUN_00a7d1a0(NiStream& stream)
 void* __cdecl BuildSqrtLut();
 
 // @fnv 0x00a7e930
-void FUN_00a7e930()
+// src: COMMUNITY 0x00a7e930
+void NiPoint3__SDMInit()
 {
     DAT_011f4aa8 = BuildSqrtLut();
 }
@@ -2715,7 +2728,8 @@ extern RecursiveSpinLock DAT_011f4480;
 extern int DAT_011f4484;
 
 // @fnv 0x00a62030
-void __cdecl FUN_00a62030()
+// src: COMMUNITY 0x00a62030
+void __cdecl BSTexturePalette_RemoveAll()
 {
     if (DAT_011f4468 != 0)
     {
@@ -2776,7 +2790,7 @@ void Q67530Cls::FillOutRec674(OutRec674* out)
         if (p && p->v35() && (p->m_2c & 1))
         {
             q.d = 0;
-            ((BSFaceGenModel*)p)->FUN_00a72720(2, &q.a, &q.f, &q.c, &q.e, &q.d, &q.b);
+            ((BSFaceGenModel*)p)->NiAdditionalGeometryData_GetDataStream(2, &q.a, &q.f, &q.c, &q.e, &q.d, &q.b);
         }
         out->a = q.a;
         out->b = q.b;
@@ -2945,7 +2959,8 @@ void __cdecl NiDevImageConverter_ConvertBUMPLUMA32To32(unsigned int uiWidth, uns
 extern "C" int __cdecl tolower(int);
 
 // @fnv 0x00a614d0
-bool __cdecl FUN_00a614d0(const char* a, const char* b)
+// src: COMMUNITY 0x00a614d0
+bool __cdecl BSTexturePalette_ArePathsEqual(const char* a, const char* b)
 {
     while (*a != 0)
     {
@@ -3116,7 +3131,7 @@ void ControllerA606::FUN_00a60600(NiStream& kStream)
 class FUN_00a5e3a0_Helper
 {
   public:
-    void* FUN_00aa3e40(unsigned int uiSize);
+    void* Game_DoHeapAlloc(unsigned int uiSize);
 };
 
 struct EntryA616
@@ -3135,7 +3150,7 @@ struct NodeA616
 
     static void* operator new(unsigned int uiSize)
     {
-        return ((FUN_00a5e3a0_Helper*)&_g_memoryManager)->FUN_00aa3e40(uiSize);
+        return ((FUN_00a5e3a0_Helper*)&_g_memoryManager)->Game_DoHeapAlloc(uiSize);
     }
     static void operator delete(void* p);
 };
@@ -3146,11 +3161,12 @@ class HashA616
     NodeA616* m_buckets[1001];
     unsigned int m_uiItemCount;
 
-    void FUN_00a61610(unsigned int key, EntryA616* entry);
+    void BSEntryMap_SetAt(unsigned int key, EntryA616* entry);
 };
 
 // @fnv 0x00a61610
-void HashA616::FUN_00a61610(unsigned int key, EntryA616* entry)
+// src: COMMUNITY 0x00a61610
+void HashA616::BSEntryMap_SetAt(unsigned int key, EntryA616* entry)
 {
     unsigned int uiBucket = (key >> 4) % 1001;
     entry->m_key = key;
@@ -3224,7 +3240,7 @@ struct A61E60Node
 
 unsigned int __cdecl FUN_00af4170(const char* s, int n);
 
-unsigned int FUN_00a61530(const char* str);
+unsigned int BSTexturePalette_GetContainerNumber(const char* str);
 
 struct NodeList
 {
@@ -3245,7 +3261,7 @@ struct NodeList
 void* __cdecl FindNodeByObject(A61E60Obj* obj)
 {
     const char* pcName = *obj->GetNameRef();
-    unsigned int idx = FUN_00a61530(pcName + FUN_00af4170(pcName, 1));
+    unsigned int idx = BSTexturePalette_GetContainerNumber(pcName + FUN_00af4170(pcName, 1));
     A61E60Node* n;
     for (unsigned int i = 0; i < 7; ++i)
     {
@@ -3509,7 +3525,7 @@ enum SourceAlphaFormat
 
 
 extern bool DAT_011f4780;
-void __cdecl FUN_00a76960(void*, void*);
+void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(void*, void*);
 bool __cdecl FUN_00aa1a30(const char*, int);
 
 // Reads texture metadata and file references from a TextureLoadStream, resolving the texture name and registering the texture object.
@@ -3566,7 +3582,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
         stream.ReadLinkIDStub();
     }
     if (m_kFilename.m_kHandle)
-        FUN_00a76960(&m_kFilename, &m_kPlatformFilename);
+        NiImageConverter_ConvertFilenameToPlatformSpecific_(&m_kFilename, &m_kPlatformFilename);
     if (bOldVersion)
     {
         stream.SetStreamPath(m_kPlatformFilename.m_kHandle);
@@ -3652,7 +3668,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
 
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f444c;
-char* __cdecl FUN_00a7d330(char* pcText);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* pcText);
 char* __cdecl FUN_00a7d5e0(const char* pcPrefix, const char* pcText);
 
 inline void StrArr::AppendReference(char*& element)
@@ -3690,7 +3706,7 @@ struct FUN_00a60770_shell : FUN_00a62a40_this
 void FUN_00a60770_shell::GetFileStrings(StrArr* pkStrings)
 {
     FUN_00a62a40(pkStrings);
-    char* pcString = FUN_00a7d330(*(char**)&g_011f444c);
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(*(char**)&g_011f444c);
     pkStrings->AppendReference(pcString);
     const char* pcFile = m_pcFileName;
     pcString = FUN_00a7d5e0("File:", pcFile);
@@ -3719,11 +3735,12 @@ class NiPointer_A61F
 
 
 extern "C" bool __cdecl fnv_NiStreamGetTexture(const char* pcName, A61F::NiPointer_A61F* apTextureOutput) throw();
-bool __cdecl FUN_00a61f30(const void* pvTexture) throw();
+bool __cdecl BSTexturePalette_RemoveTexture(const void* pvTexture) throw();
 
 // If DAT_011f4468 is set, locks DAT_011f4480, looks up pcName via fnv_NiStreamGetTexture, and returns FUN_00a61f30 of the result if found, else false.
 // @fnv 0x00a61fb0
-bool __cdecl FUN_00a61fb0(const char* pcName)
+// src: COMMUNITY 0x00a61fb0
+bool __cdecl BSTexturePalette_RemoveTexture_0(const char* pcName)
 {
     bool bResult = false;
     if (DAT_011f4468)
@@ -3733,7 +3750,7 @@ bool __cdecl FUN_00a61fb0(const char* pcName)
         bool bFound = fnv_NiStreamGetTexture(pcName, &spTexture);
         NiRefObject* pkTexture = spTexture.m_pObject;
         if (bFound)
-            bResult = FUN_00a61f30(pkTexture);
+            bResult = BSTexturePalette_RemoveTexture(pkTexture);
         DAT_011f4480.Unlock();
         if (pkTexture)
             pkTexture->DecRefCount();
@@ -3822,7 +3839,7 @@ struct FUN_00a7fb80_Class
 };
 struct Z2Setup
 {
-    void* __thiscall FUN_00a5f7b0();
+    void* __thiscall NiTexture_AddTextureToList();
 };
 // @fnv 0x00a7fb80
 // src: GAMEBRYO_LIB 0x00a7fb80
@@ -3834,7 +3851,7 @@ void* FUN_00a7fb80_Class::NiRenderedTexture_NiRenderedTexture()
     m_1C = 3;
     m_20 = 2;
     m_24 = 0;
-    ((Z2Setup*)this)->FUN_00a5f7b0();
+    ((Z2Setup*)this)->NiTexture_AddTextureToList();
     m_ppVirtualMethodTable = &DAT_0109df8c;
     m_30 = 0;
     return this;

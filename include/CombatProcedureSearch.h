@@ -20,8 +20,8 @@ public:
         void* FUN_006815c0();
         void* FUN_0084e3a0();
         double FUN_00527a40(const Location*);
-        void FUN_00527b70(BGSSaveFormBuffer*);
-        void FUN_00527ba0(BGSLoadFormBuffer*);
+        void BGSWorldLocation_SaveGame(BGSSaveFormBuffer*);
+        void BGSLoadGameBuffer_LoadBGSWorldLocation(BGSLoadFormBuffer*);
     };
 
     CombatProcedureSearch();

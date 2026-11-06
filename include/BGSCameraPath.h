@@ -55,12 +55,12 @@ public:
 
     bool IsFlag2Set();
     bool IsFlag80Set();
-    bool FUN_0058b4a0();
-    bool FUN_0058b4d0();
+    bool GetZoomDefault();
+    bool GetZoomDisable();
     bool FUN_00440d80();
     CameraResponse* FUN_00500940(unsigned int context, unsigned int flags);
     CameraFlag* FUN_00891170();
-    BGSCameraPath* FUN_0058b510(unsigned int context, unsigned int flags);
+    BGSCameraPath* GetCameraPathToPlay(unsigned int context, unsigned int flags);
 
     BGSCameraPath* GetParentPath();
     void RemoveChild(BGSCameraPath* child);

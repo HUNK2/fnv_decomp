@@ -157,7 +157,7 @@ void __cdecl hkpWorldOperationUtil_removeConstraintImmediately(hkpWorld* world, 
 // The shared island header does not yet declare FUN_00d070b0().
 struct FUN_00d070b0_class
 {
-    void FUN_00d070b0();
+    void nullsub_30();
 };
 
 // Calls FUN_00d070b0 on every object in firstObjects and secondObjects in reverse order, then on finalObject.
@@ -168,16 +168,16 @@ void __cdecl hkpWorldOperationUtil_validateWorld(hkpWorld* apCleanupList)
     int i = apCleanupList->m_kActiveSimulationIslands.m_iElementCount - 1;
     while (i >= 0)
     {
-        static_cast<FUN_00d070b0_class*>(apCleanupList->m_kActiveSimulationIslands.m_data[i])->FUN_00d070b0();
+        static_cast<FUN_00d070b0_class*>(apCleanupList->m_kActiveSimulationIslands.m_data[i])->nullsub_30();
         --i;
     }
     i = apCleanupList->m_kInactiveSimulationIslands.m_iElementCount - 1;
     while (i >= 0)
     {
-        static_cast<FUN_00d070b0_class*>(apCleanupList->m_kInactiveSimulationIslands.m_data[i])->FUN_00d070b0();
+        static_cast<FUN_00d070b0_class*>(apCleanupList->m_kInactiveSimulationIslands.m_data[i])->nullsub_30();
         --i;
     }
-    static_cast<FUN_00d070b0_class*>(apCleanupList->m_pFixedIsland)->FUN_00d070b0();
+    static_cast<FUN_00d070b0_class*>(apCleanupList->m_pFixedIsland)->nullsub_30();
 }
 
 struct Obj;
@@ -2833,9 +2833,9 @@ void __cdecl hkpWorldOperationUtil_internalMergeTwoIslands(hkpWorld* apWorld, hk
         }
     }
     apTarget->flags25 |= (apSource->flags25 & 0xc);
-    apTarget->FUN_00d07120();
-    apSource->FUN_00d07120();
-    static_cast<hkpSimulationIsland*>(o->m_pFixedIsland)->FUN_00d07120();
+    apTarget->nullsub_10();
+    apSource->nullsub_10();
+    static_cast<hkpSimulationIsland*>(o->m_pFixedIsland)->nullsub_10();
     _hkAgentNnMachine_AppendTrack(&apTarget->unk58, &apSource->unk58);
     int iTargetCount = apTarget->entities.count;
     unsigned short idx = (unsigned short)iTargetCount;
@@ -2920,7 +2920,7 @@ void __cdecl hkpWorldOperationUtil_internalMergeTwoIslands(hkpWorld* apWorld, hk
             pActiveList->data[w] = pFirstIsland;
         }
     }
-    apWorld->FUN_00c910a0(apTarget);
+    apWorld->nullsub_5(apTarget);
     if (--o->m_iCriticalOperationsLockCount == 0 && o->m_bBlockExecutingPendingOperations.m_cBooleanValue == 0)
     {
         if (o->m_iPendingOperationCount != 0)
@@ -4001,7 +4001,7 @@ struct S00cb4230_MotionStateData
     {
         return m_kSweptTransform;
     }
-    void FUN_00c86660(void* p);
+    void hkMotionState_Copy(void* p);
     S00cb4230_Transform m_kMotionTransform;
     S00cb4230_Swept m_kSweptTransform;
     S00cb4230_Vec4 m_kDeltaAngle;
@@ -4413,7 +4413,7 @@ void __cdecl hkpWorldOperationUtil_replaceMotionObject(ThisObj* self, hkpMotion:
         if (mode == hkpMotion::MOTION_FIXED)
         {
             pObj = new (&self->m_pMotionState) BoxMotion(self->getPosition(), self->getRotation());
-            pObj->m_kMotionState.FUN_00c86660(&localState.m_kMotionState);
+            pObj->m_kMotionState.hkMotionState_Copy(&localState.m_kMotionState);
             pObj->m_09 = localState.m_09;
             float c = localState.GetMotionState()->getSweptTransform().getInvDeltaTime();
             if (c != 0.0f)
@@ -4910,7 +4910,7 @@ struct S55Owner
 
     unsigned char m_c8;
 
-    void __thiscall FUN_00c910b0();
+    void __thiscall nullsub_6();
 };
 
 void __cdecl hkpWorldOperationUtil_internalActivateIsland(S55Owner* owner, hkpSimulationIsland* item, hkBool b);
@@ -5038,7 +5038,7 @@ void __cdecl hkpWorldOperationUtil_cleanupDirtyIslands(S55Owner* owner)
         }
     }
 
-    owner->FUN_00c910b0();
+    owner->nullsub_6();
 }
 
 extern "C" void _ReadWriteBarrier();

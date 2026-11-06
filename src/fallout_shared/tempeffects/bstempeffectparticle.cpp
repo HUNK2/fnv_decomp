@@ -57,7 +57,8 @@ const NiRTTI* __thiscall BSTempEffectParticle::GetRTTI() const
 
 // Returns true when pFilename is non-null and m_flt converts to a non-zero unsigned int, otherwise false.
 // @fnv 0x00689af0
-bool BSTempEffectParticle::FUN_00689af0()
+// src: COMMUNITY 0x00689af0
+bool BSTempEffectParticle::CheckShouldSave()
 {
     if (!(pFilename && (unsigned int)m_flt))
         return false;
@@ -67,7 +68,8 @@ bool BSTempEffectParticle::FUN_00689af0()
 void __cdecl FUN_00578170(NiNode*);
 // Gets the node from m_flt via f3 and, if non-null, passes it to FUN_00578170.
 // @fnv 0x006896c0
-void BSTempEffectParticle::FUN_006896c0()
+// src: COMMUNITY 0x006896c0
+void BSTempEffectParticle::Detach_006896c0()
 {
     NiNode* pnode = m_flt ? ((NiNode*)(unsigned int)m_flt)->IsSceneNode() : 0;
     if (pnode)
@@ -75,7 +77,8 @@ void BSTempEffectParticle::FUN_006896c0()
 }
 
 // @fnv 0x0068a8d0
-void __thiscall BSTempEffectParticle::FUN_0068a8d0(void* pValue)
+// src: COMMUNITY 0x0068a8d0
+void __thiscall BSTempEffectParticle::PlayImpactDataSounds(void* pValue)
 {
     m_58 = pValue;
     InitLoopSounds();
@@ -194,7 +197,7 @@ struct Mgr
 extern Mgr* DAT_011c3b3c;
 struct Fn
 {
-    Yv* FUN_009611e0();
+    Yv* NiAVObject_GetParent();
 };
 // @fnv 0x00689720
 BSTempEffectParticle::~BSTempEffectParticle()
@@ -204,9 +207,9 @@ BSTempEffectParticle::~BSTempEffectParticle()
         DAT_011c3b3c->FUN_00445300((Tgt*)pFilename, 0, 1);
     if (reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450())
     {
-        if (((Fn*)reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450())->FUN_009611e0())
+        if (((Fn*)reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450())->NiAVObject_GetParent())
         {
-            ((Fn*)reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450())->FUN_009611e0()->v3a(reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450());
+            ((Fn*)reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450())->NiAVObject_GetParent()->v3a(reinterpret_cast<Sub18*>(&m_flt)->FUN_00559450());
         }
     }
     reinterpret_cast<Sub18*>(&m_flt)->FUN_0066b0d0(0);
@@ -228,7 +231,7 @@ struct TraversalItem
     virtual void v1();
     virtual void v2();
     virtual TraversalItem* v3();
-    TrailEntry* FUN_0043b230();
+    TrailEntry* NiObjectNET_GetControllers();
     int FUN_00453470();
     TraversalItem* FUN_0043b4a0(int index);
 };
@@ -237,7 +240,7 @@ struct TraversalItem
 float BSTempEffectParticle::ComputeTraversalValue(TraversalItem* entry)
 {
     float accumulator = DAT_01012054;
-    TrailEntry* pTrail = entry->FUN_0043b230();
+    TrailEntry* pTrail = entry->NiObjectNET_GetControllers();
     while (pTrail != 0)
     {
         accumulator = FUN_00404010(accumulator, static_cast<float>(pTrail->FUN_004a7bd0() - pTrail->FUN_0047c860()));
@@ -260,7 +263,7 @@ float BSTempEffectParticle::ComputeTraversalValue(TraversalItem* entry)
 
 struct DataModel
 {
-    void* __thiscall FUN_0043b230();
+    void* __thiscall NiObjectNET_GetControllers();
 };
 struct DataHandle
 {
@@ -307,7 +310,7 @@ unsigned short BSTempEffectParticle::GetSaveSize()
     previous += 0xc;
     previous += 4;
     previous += 2;
-    void* active = FUN_00653270(&DAT_011f36ac, reinterpret_cast<DataHandle*>(&m_flt)->FUN_00559450()->FUN_0043b230());
+    void* active = FUN_00653270(&DAT_011f36ac, reinterpret_cast<DataHandle*>(&m_flt)->FUN_00559450()->NiObjectNET_GetControllers());
     if (active != 0)
     {
         previous += FUN_0055fdb0(active);
@@ -606,7 +609,7 @@ struct ArrP
 };
 struct ObjQ
 {
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
 };
 struct ArrQ
 {
@@ -632,12 +635,12 @@ void __thiscall BSTempEffectParticle::CollectUniqueChildValues(NiNode* apNode, A
                     int iExisting;
                     for (iExisting = *apiCount - 1; bUnique && iExisting >= 0; --iExisting)
                     {
-                        if (*apValues->FUN_00877a30(iExisting) == pObj->FUN_009611e0())
+                        if (*apValues->FUN_00877a30(iExisting) == pObj->NiAVObject_GetParent())
                             bUnique = false;
                     }
                     if (bUnique)
                     {
-                        apValues->FUN_0096ae90(*apiCount, pObj->FUN_009611e0());
+                        apValues->FUN_0096ae90(*apiCount, pObj->NiAVObject_GetParent());
                         ++*apiCount;
                     }
                 }
@@ -701,7 +704,7 @@ struct R01Node
     void FUN_0043fa80(R01Matrix3*);
     void FUN_00440490(float);
     void FUN_00a5a040();
-    void* FUN_0043b230();
+    void* NiObjectNET_GetControllers();
     void FUN_00a59c60(NiUpdateData*);
 };
 
@@ -884,7 +887,7 @@ struct R01Rand
 extern R01Rand DAT_011f6394;
 extern const double DAT_01017b70;
 extern const float DAT_01012054;
-extern void __cdecl FUN_005b5e40(const char*, ...);
+extern void __cdecl Warning_005b5e40(const char*, ...);
 extern R01Form* __cdecl FUN_004839c0(int);
 extern void __cdecl FUN_0055ffa0(void*, R01Node*, float);
 extern void __cdecl FUN_00a6d2d0(R01Node*);
@@ -914,7 +917,7 @@ bool BSTempEffectParticle::LoadFromSave()
                 if (diag)
                 {
                     R01Form* form = FUN_004839c0(diag->m_formID);
-                    FUN_005b5e40(
+                    Warning_005b5e40(
                         "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectParticle.cpp",
                         0x1a4, diag->m_formID, form->GetDebugName(), diag->m_grade,
@@ -922,7 +925,7 @@ bool BSTempEffectParticle::LoadFromSave()
                 }
                 else
                 {
-                    FUN_005b5e40(
+                    Warning_005b5e40(
                         "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectParticle.cpp",
                         0x1a4, reinterpret_cast<R01SaveReader*>(DAT_011de45c)->FUN_008df040());
@@ -966,7 +969,7 @@ bool BSTempEffectParticle::LoadFromSave()
                     FUN_00a6d2d0(reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450());
                     if (a3_2)
                     {
-                        void* a1c4 = FUN_00653270(&DAT_011f36ac, reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450()->FUN_0043b230());
+                        void* a1c4 = FUN_00653270(&DAT_011f36ac, reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450()->NiObjectNET_GetControllers());
                         if (a1c4)
                         {
                             FUN_0055ffa0(a1c4, reinterpret_cast<R01NodeRef*>(&m_flt)->FUN_00559450(), DAT_01012054);
@@ -1000,7 +1003,7 @@ bool BSTempEffectParticle::LoadFromSave()
                 R01Form* form = FUN_004839c0(diag->m_formID);
                 if (a1cTmp > a1c2 + (unsigned int)aA2)
                 {
-                    FUN_005b5e40(
+                    Warning_005b5e40(
                         "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                         a1cTmp - (a1c2 + (unsigned int)aA2),
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectParticle.cpp",
@@ -1009,7 +1012,7 @@ bool BSTempEffectParticle::LoadFromSave()
                 }
                 else if (a1cTmp < a1c2 + (unsigned int)aA2)
                 {
-                    FUN_005b5e40(
+                    Warning_005b5e40(
                         "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                         (a1c2 + (unsigned int)aA2) - a1cTmp,
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectParticle.cpp",
@@ -1021,7 +1024,7 @@ bool BSTempEffectParticle::LoadFromSave()
             {
                 if (a1cTmp > a1c2 + (unsigned int)aA2)
                 {
-                    FUN_005b5e40(
+                    Warning_005b5e40(
                         "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
                         a1cTmp - (a1c2 + (unsigned int)aA2),
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectParticle.cpp",
@@ -1029,7 +1032,7 @@ bool BSTempEffectParticle::LoadFromSave()
                 }
                 else if (a1cTmp < a1c2 + (unsigned int)aA2)
                 {
-                    FUN_005b5e40(
+                    Warning_005b5e40(
                         "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
                         (a1c2 + (unsigned int)aA2) - a1cTmp,
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectParticle.cpp",
@@ -1209,7 +1212,7 @@ struct SGAVObject
     const SGMatrix3& FUN_006a9540();
     SGPoint3& FUN_0043c490();
     float GetFloatAt64();
-    SGObject* FUN_0043b230();
+    SGObject* NiObjectNET_GetControllers();
 };
 
 struct SGNodePtr
@@ -1223,7 +1226,7 @@ void __cdecl FUN_0055fe70(SGControllerManager* apManager, float afTime);
 extern const float DAT_01012054;
 SGForm* __cdecl FUN_004839c0(unsigned int auiFormID);
 void __cdecl FUN_0040fbe0(const char* apFormat, ...);
-void __cdecl FUN_005b5e40(const char* apFormat, ...);
+void __cdecl Warning_005b5e40(const char* apFormat, ...);
 unsigned int __cdecl FUN_0044a670(const char* apString);
 
 static const char s_szParticleFile[] =
@@ -1265,7 +1268,7 @@ void BSTempEffectParticle::SaveGame()
     fnv_00689cb0::DAT_011de45c->FUN_008579b0(&fLocScale, 4);
 
     unsigned short usSequence = 0;
-    SGControllerManager* pController = fnv_00689cb0::FUN_00653270(&DAT_011f36ac, ((SGAVObject*)reinterpret_cast<SGNodePtr&>(m_flt))->FUN_0043b230());
+    SGControllerManager* pController = fnv_00689cb0::FUN_00653270(&DAT_011f36ac, ((SGAVObject*)reinterpret_cast<SGNodePtr&>(m_flt))->NiObjectNET_GetControllers());
     if (pController)
     {
         usSequence = fnv_00689cb0::FUN_0055fdb0(pController);
@@ -1298,7 +1301,7 @@ void BSTempEffectParticle::SaveGame()
         unsigned int uiStart = (unsigned int)pSizeLoc;
         if (uiEnd > uiStart + 0xFFFF)
         {
-            fnv_00689cb0::FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
+            fnv_00689cb0::Warning_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                          s_szParticleFile, 411);
         }
         *pSizeLoc = (unsigned short)(uiEnd - uiStart);

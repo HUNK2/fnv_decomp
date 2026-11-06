@@ -110,7 +110,7 @@ bool TESLevCharacter::LoadForm(TESFile* file)
 namespace fnv_0050b3c0 {
 struct FUN_0050b3c0_shell : public TESLevItem
 {
-    void FUN_0050b3c0(BGSLoadFormBuffer*);
+    void TESLevCharacter_Revert(BGSLoadFormBuffer*);
 };
 
 struct TESLeveledList_Revert_Access
@@ -120,7 +120,8 @@ struct TESLeveledList_Revert_Access
 
 // Reverts the TESForm base and then the leveled list at offset 0x30 using the load game buffer.
 // @fnv 0x0050b3c0
-void FUN_0050b3c0_shell::FUN_0050b3c0(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x0050b3c0
+void FUN_0050b3c0_shell::TESLevCharacter_Revert(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::Revert(reinterpret_cast<unsigned int>(apLoadGameBuffer));
     reinterpret_cast<TESLeveledList_Revert_Access*>(reinterpret_cast<char*>(this) + 0x30)->Revert(apLoadGameBuffer);

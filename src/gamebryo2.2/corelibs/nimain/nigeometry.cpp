@@ -705,7 +705,7 @@ bool NiGeometry::IsEqual(NiObject* object) const
 }
 
 extern const char* DAT_011f4acc;
-char* FUN_00a7d330(const char*);
+char* NiViewerStrings_NiGetViewerString_Title(const char*);
 char* FUN_00a7d5a0(const char*, const void*);
 char* FUN_00a7d5e0(const char*, const char*);
 char* FUN_00a7d510(const char*, unsigned int);
@@ -744,7 +744,7 @@ void NiGeometry::GetViewerStrings(NiViewerStringsArray* array)
 {
     ViewerStrings* strings = (ViewerStrings*)array;
     FUN_00a5ad00(strings);
-    strings->Add(FUN_00a7d330(DAT_011f4acc));
+    strings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f4acc));
     strings->Add(FUN_00a7d5a0("GeomData", static_cast<NiGeometryData*>(m_spModelData)));
     NiD3DShaderInterface* shader = (NiD3DShaderInterface*)m_spShader;
     if (shader)

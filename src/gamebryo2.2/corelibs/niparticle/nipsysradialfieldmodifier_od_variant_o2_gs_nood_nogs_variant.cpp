@@ -11,7 +11,7 @@
 #include <string.h>
 
 extern "C" void* g_012026b0;
-void* __cdecl FUN_00c285c0();
+void* __cdecl NiPSysRadialFieldModifier_GetRTTI();
 
 inline NiPoint3::NiPoint3(float fX, float fY, float fZ)
 {

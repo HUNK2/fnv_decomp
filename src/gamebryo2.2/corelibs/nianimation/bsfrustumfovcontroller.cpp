@@ -17,7 +17,8 @@
 extern "C" void* g_011f3ec8;
 
 // @fnv 0x00a42e80
-void* __cdecl FUN_00a42e80()
+// src: COMMUNITY 0x00a42e80
+void* __cdecl BSFrustumFOVController_GetRTTI()
 {
     return &g_011f3ec8;
 }

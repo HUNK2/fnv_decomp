@@ -221,7 +221,7 @@ struct QuestObjectiveFlags : TESQuest
 extern PlayerCharacter* _g_thePlayer;
 
 void __cdecl FUN_0077a480(void*);
-void __cdecl FUN_0077a5b0(char const*, int, int);
+void __cdecl HUDMainMenu_ShowQuestObjective(char const*, int, int);
 
 }  // namespace fnv_005ec5d0
 
@@ -229,7 +229,7 @@ void __cdecl FUN_0077a5b0(char const*, int, int);
 void BGSQuestObjective::SetState(QUEST_OBJECTIVE_STATE aeNewState)
 {
     using namespace fnv_005ec5d0;
-    TESQuest* powner = FUN_0044edb0();
+    TESQuest* powner = TESMain_GetThread();
 
     powner->MarkAsModified(0x20000000);
 
@@ -246,7 +246,7 @@ void BGSQuestObjective::SetState(QUEST_OBJECTIVE_STATE aeNewState)
                 }
             }
 
-            FUN_0077a5b0(GetDisplayText(), 0, 0);
+            HUDMainMenu_ShowQuestObjective(GetDisplayText(), 0, 0);
 
             if (!static_cast<QuestObjectiveFlags*>(powner)->HasFlag20())
             {
@@ -260,7 +260,7 @@ void BGSQuestObjective::SetState(QUEST_OBJECTIVE_STATE aeNewState)
 
     if (aeNewState == QOS_COMPLETED_DISPLAYED && eState == QOS_DISPLAYED && !powner->GetCompleted())
     {
-        FUN_0077a5b0(GetDisplayText(), 1, 0);
+        HUDMainMenu_ShowQuestObjective(GetDisplayText(), 1, 0);
     }
 
     eState = aeNewState;

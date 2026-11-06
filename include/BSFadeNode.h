@@ -63,7 +63,7 @@ class BSFadeNode : public NiNode
     void DecRefCount();
     bool IsVisible();
 
-    void FUN_0049ee60(bool enabled);
+    void SetIgnoreFade(bool enabled);
     using NiNode::FUN_00440460;
     void FUN_00440460(const NiPoint3& position);
     using NiNode::FUN_00a59c60;

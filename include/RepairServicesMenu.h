@@ -62,8 +62,8 @@ public:
     virtual void HandleMouseoverTileAlt(unsigned int, Tile*);
     virtual int GetClass();
 
-    int FUN_007b74c0();
-    bool FUN_007b78a0();
+    int GetMenuID_007b74c0();
+    bool CompanionWheelMenu_IsWellFormedMenu();
     void UpdateRepairServiceTiles(int aiID, Tile* apTarget);
     void RefreshRepairMenu();
     void ApplyRepair(void*);

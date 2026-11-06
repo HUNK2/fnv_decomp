@@ -154,7 +154,8 @@ extern NiFixedString* DAT_011c8058;
 
 // Allocates the "ASH" extra-data name and stores it in DAT_011c8058.
 // @fnv 0x004f92e0
-void __cdecl FUN_004f92e0()
+// src: COMMUNITY 0x004f92e0
+void __cdecl BGSAddonNodeSoundHandleExtra_InitTag()
 {
     DAT_011c8058 = ::new NiFixedString("ASH");
 }
@@ -237,10 +238,11 @@ struct FUN_00485680
 };
 struct FUN_004f8fe0_shell : public BGSAddonNode
 {
-    void FUN_004f8fe0();
+    void BGSAddonNode_SaveAlt();
 };
 // @fnv 0x004f8fe0
-void FUN_004f8fe0_shell::FUN_004f8fe0()
+// src: COMMUNITY 0x004f8fe0
+void FUN_004f8fe0_shell::BGSAddonNode_SaveAlt()
 {
     reinterpret_cast<::FUN_004855a0*>(this)->M();
     reinterpret_cast<S_0048a520*>(reinterpret_cast<char*>(this) + 0x30)

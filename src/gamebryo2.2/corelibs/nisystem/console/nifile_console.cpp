@@ -235,7 +235,8 @@ unsigned int AA1F10BinaryStream::ReadLine(char* pcLineBuffer, unsigned int uiMax
 
 #include <windows.h>
 // @fnv 0x00aa1650
-unsigned char __cdecl FUN_00aa1650(char* path)
+// src: COMMUNITY 0x00aa1650
+unsigned char __cdecl _CreateDirectoryA(char* path)
 {
     return CreateDirectoryA(path, 0) != 0;
 }

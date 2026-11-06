@@ -46,7 +46,8 @@ void NiBSplineCompPoint3Interpolator::LoadBinary(NiStream& stream)
 extern "C" void* g_011f4014;
 
 // @fnv 0x00a51270
-void* __cdecl FUN_00a51270()
+// src: COMMUNITY 0x00a51270
+void* __cdecl NiBSplineCompPoint3Interpolator_GetRTTI()
 {
     return &g_011f4014;
 }

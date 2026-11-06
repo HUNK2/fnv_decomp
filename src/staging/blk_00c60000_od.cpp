@@ -29,11 +29,12 @@ extern "C" void* g_01204388;
 
 struct FUN_00c600f0_Class
 {
-    void* __thiscall FUN_00c600f0();
+    void* __thiscall BSPSysStripUpdateModifier_GetRTTI();
 };
 
 // @fnv 0x00c600f0
-void* __thiscall FUN_00c600f0_Class::FUN_00c600f0()
+// src: COMMUNITY 0x00c600f0
+void* __thiscall FUN_00c600f0_Class::BSPSysStripUpdateModifier_GetRTTI()
 {
     return &g_01204388;
 }
@@ -60,22 +61,24 @@ extern "C" void* g_01204390;
 
 struct FUN_00c60d40_Class
 {
-    void* __thiscall FUN_00c60d40();
+    void* __thiscall BSPSysSimpleColorModifier_GetRTTI();
 };
 
 // @fnv 0x00c60d40
-void* __thiscall FUN_00c60d40_Class::FUN_00c60d40()
+// src: COMMUNITY 0x00c60d40
+void* __thiscall FUN_00c60d40_Class::BSPSysSimpleColorModifier_GetRTTI()
 {
     return &g_01204390;
 }
 
 struct FUN_00c61420_Class
 {
-    void* __thiscall FUN_00c61420(void* p);
+    void* __thiscall BSWArray_CreateClone(void* p);
 };
 
 // @fnv 0x00c61420
-void* __thiscall FUN_00c61420_Class::FUN_00c61420(void* apUnused)
+// src: COMMUNITY 0x00c61420
+void* __thiscall FUN_00c61420_Class::BSWArray_CreateClone(void* apUnused)
 {
     return this;
 }
@@ -168,7 +171,8 @@ char FUN_00c614e0_Class::FUN_00c614e0(int arg)
 extern NiFixedString* DAT_012043a0;
 
 // @fnv 0x00c61610
-void NiAVObject::FUN_00c61610()
+// src: COMMUNITY 0x00c61610
+void NiAVObject::BSWArray_SetName()
 {
     SetName(*DAT_012043a0);
 }
@@ -177,22 +181,24 @@ extern "C" void* g_012043a4;
 
 struct FUN_00c61810_class
 {
-    void* FUN_00c61810();
+    void* BSWArray_GetRTTI();
 };
 
 // @fnv 0x00c61810
-void* FUN_00c61810_class::FUN_00c61810()
+// src: COMMUNITY 0x00c61810
+void* FUN_00c61810_class::BSWArray_GetRTTI()
 {
     return &g_012043a4;
 }
 
 struct FUN_00c61820_class
 {
-    void* FUN_00c61820(int);
+    void* PArrayPoint_Copy(int);
 };
 
 // @fnv 0x00c61820
-void* FUN_00c61820_class::FUN_00c61820(int)
+// src: COMMUNITY 0x00c61820
+void* FUN_00c61820_class::PArrayPoint_Copy(int)
 {
     return this;
 }
@@ -278,11 +284,12 @@ extern "C" void* g_012043b8;
 
 struct FUN_00c632e0_Class
 {
-    void* __thiscall FUN_00c632e0();
+    void* __thiscall PArrayPoint_GetRTTI();
 };
 
 // @fnv 0x00c632e0
-void* __thiscall FUN_00c632e0_Class::FUN_00c632e0()
+// src: COMMUNITY 0x00c632e0
+void* __thiscall FUN_00c632e0_Class::PArrayPoint_GetRTTI()
 {
     return &g_012043b8;
 }
@@ -320,11 +327,12 @@ extern GlobalObject_00a7b610 g_012043c8;
 
 struct FUN_00c63aa0_class
 {
-    GlobalObject_00a7b610* FUN_00c63aa0();
+    GlobalObject_00a7b610* BSParentVelocityModifier_GetRTTI();
 };
 
 // @fnv 0x00c63aa0
-GlobalObject_00a7b610* FUN_00c63aa0_class::FUN_00c63aa0()
+// src: COMMUNITY 0x00c63aa0
+GlobalObject_00a7b610* FUN_00c63aa0_class::BSParentVelocityModifier_GetRTTI()
 {
     return &g_012043c8;
 }
@@ -605,19 +613,21 @@ void FUN_00c64710_Class::FUN_00c64710()
 
 struct FUN_00c64930_Class
 {
-    void FUN_00c64930(int a);
+    void BSReference_LinkObject(int a);
 };
 
 // @fnv 0x00c64930
-void FUN_00c64930_Class::FUN_00c64930(int a)
+// src: COMMUNITY 0x00c64930
+void FUN_00c64930_Class::BSReference_LinkObject(int a)
 {}
 
 struct FUN_00c64940_Class
 {
-    bool FUN_00c64940(int a);
+    bool BSReference_RegisterStreamables(int a);
 };
 // @fnv 0x00c64940
-bool FUN_00c64940_Class::FUN_00c64940(int a)
+// src: COMMUNITY 0x00c64940
+bool FUN_00c64940_Class::BSReference_RegisterStreamables(int a)
 {
     return true;
 }
@@ -721,11 +731,12 @@ extern GlobalObject_00a7b610 g_012043b0;
 
 struct FUN_00c63320_Class
 {
-    GlobalObject_00a7b610* __thiscall FUN_00c63320();
+    GlobalObject_00a7b610* __thiscall BSPSysArrayEmitter_GetRTTI();
 };
 
 // @fnv 0x00c63320
-GlobalObject_00a7b610* FUN_00c63320_Class::FUN_00c63320()
+// src: COMMUNITY 0x00c63320
+GlobalObject_00a7b610* FUN_00c63320_Class::BSPSysArrayEmitter_GetRTTI()
 {
     return &g_012043b0;
 }
@@ -1203,10 +1214,11 @@ struct FUN_00c64dc0_Class
     int m_8;
     int m_iThirdValue;
     int m_10;
-    FUN_0043ba10_shell* FUN_00c64dc0(unsigned int a);
+    FUN_0043ba10_shell* BSAttachPointPair_SetChild(unsigned int a);
 };
 // @fnv 0x00c64dc0
-FUN_0043ba10_shell* FUN_00c64dc0_Class::FUN_00c64dc0(unsigned int a)
+// src: COMMUNITY 0x00c64dc0
+FUN_0043ba10_shell* FUN_00c64dc0_Class::BSAttachPointPair_SetChild(unsigned int a)
 {
     int v0;
     int v1;
@@ -1635,7 +1647,7 @@ struct FUN_00c63a00_cls
     void FUN_00c63a00(ArgObj* a1);
 };
 
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 unsigned int __cdecl FUN_00a7d550(const char* name, float f);
 
 // @fnv 0x00c63a00
@@ -1647,7 +1659,7 @@ void FUN_00c63a00_cls::FUN_00c63a00(ArgObj* a1)
     Pad32 pad;
     FUN_00c319e0(a1);
     g = *(unsigned int*)&g_012043c8;
-    r1 = FUN_00a7d330(g);
+    r1 = NiViewerStrings_NiGetViewerString_Title(g);
     a1->FUN_0096a610(&r1);
     r2 = FUN_00a7d550("Damping", *(float*)((char*)this + 0x20));
     a1->FUN_0096a610(&r2);
@@ -1734,7 +1746,7 @@ class FUN_00c64b90_cls
     int unk10;
     unsigned short m_14;
     void FUN_00c64b90(FUN_00c64b90_target* a1);
-    void FUN_00a89af0(FUN_00c64b90_target* a1);
+    void nullsub_3(FUN_00c64b90_target* a1);
 };
 
 void __cdecl FUN_0044adf0(FUN_00c64b90_target* a1, unsigned int* p);
@@ -1747,7 +1759,7 @@ void FUN_00c64b90_cls::FUN_00c64b90(FUN_00c64b90_target* apTarget)
     FUN_00c64b90_item* item3;
     unsigned int v2;
     unsigned int bytes;
-    FUN_00a89af0(apTarget);
+    nullsub_3(apTarget);
     count = m_14;
     bytes = count * 2;
     FUN_0044adf0(apTarget, &bytes);
@@ -1767,11 +1779,12 @@ struct FUN_00c64da0_cls
 {
     int unk00;
     void Callee0043ba10(int a);
-    void FUN_00c64da0(int a);
+    void BSAttachPointPair_SetParent(int a);
 };
 
 // @fnv 0x00c64da0
-void FUN_00c64da0_cls::FUN_00c64da0(int a)
+// src: COMMUNITY 0x00c64da0
+void FUN_00c64da0_cls::BSAttachPointPair_SetParent(int a)
 {
     int unkLoc0;
     int unkLoc1;
@@ -1792,7 +1805,7 @@ struct DispatchStub_c64
 };
 struct ItemCallee_c64
 {
-    void FUN_00c65490(int a1, int a2);
+    void BSAttachPoints_AddPair(int a1, int a2);
 };
 
 // Calls FUN_00a7b330 with a8 and cc, then for each of m18 entries in m10 calls FUN_00c65490 on the item and item+4.
@@ -1804,7 +1817,7 @@ void DispatchStub_c64::DispatchToItems(int pTarget, int cc)
     for (unsigned int i = 0; i < count; i++)
     {
         int item = (int)m10[i];
-        reinterpret_cast<ItemCallee_c64*>(pTarget)->FUN_00c65490(item, item + 4);
+        reinterpret_cast<ItemCallee_c64*>(pTarget)->BSAttachPoints_AddPair(item, item + 4);
     }
 }
 
@@ -1994,7 +2007,7 @@ struct FUN_00c615a0_class
 extern "C" void* g_012043a4;
 extern const char str_0109df4c[];
 struct GlobalObject_00a7b610;
-char* __cdecl FUN_00a7d330(GlobalObject_00a7b610* value);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObject_00a7b610* value);
 char* __cdecl FUN_00a7d510(const char* format, unsigned int value);
 
 struct Unused20
@@ -2007,7 +2020,7 @@ void FUN_00c615a0_class::AppendGlobalAndFormatValues(NiTPrimitiveArray<unsigned 
 {
     FUN_00a99b20(values);
     void* global_ptr = g_012043a4;
-    unsigned int first = (unsigned int)FUN_00a7d330((GlobalObject_00a7b610*)global_ptr);
+    unsigned int first = (unsigned int)NiViewerStrings_NiGetViewerString_Title((GlobalObject_00a7b610*)global_ptr);
     values->AddFirstEmpty(first);
     unsigned int second = (unsigned int)FUN_00a7d510(str_0109df4c, unk0c);
     values->AddFirstEmpty(second);
@@ -2084,7 +2097,7 @@ struct FUN_00c61fc0_cls
     void Serialize(void* a1);
 };
 
-void* __cdecl FUN_00a7d330(int value);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(int value);
 int __cdecl FUN_00a7d5e0(int* dat, int value);
 extern int DAT_01063e84;
 
@@ -2109,7 +2122,7 @@ void FUN_00c61fc0_cls::Serialize(void* apTarget)
     long gb;
     FUN_00c31db0(apTarget);
     v1 = *(int*)&g_012043b0;
-    mb = FUN_00a7d330(v1);
+    mb = NiViewerStrings_NiGetViewerString_Title(v1);
     ((FUN_0096a610_Target*)apTarget)->FUN_0096a610(&mb);
     xa = unk58;
     ib = BuildAttachTypeString("ArrayType", xa);
@@ -2177,7 +2190,7 @@ void __thiscall Mod600::FUN_00c60050(NiTPrimitiveArray<unsigned int>* pkStrings)
     Base00c319e0::FUN_00c319e0(pkStrings);
 
     GlobalObject_00a7b610* obj = (GlobalObject_00a7b610*)g_01204388;
-    unsigned int uiName = (unsigned int)FUN_00a7d330(obj);
+    unsigned int uiName = (unsigned int)NiViewerStrings_NiGetViewerString_Title(obj);
     pkStrings->AddFirstEmpty(uiName);
 
     unsigned int uiValue = FUN_00a7d550("fUpdateDeltaTime", m_fValue);
@@ -2395,7 +2408,8 @@ struct FUN_00c64de0 : BSFaceGenMorphData
 
 // Allocates a FUN_00c64de0 object, sets its name to DAT_011f49e0, and returns the new pointer.
 // @fnv 0x00c652c0
-FUN_00c64de0* __cdecl FUN_00c652c0()
+// src: COMMUNITY 0x00c652c0
+FUN_00c64de0* __cdecl BSAttachPoints_CreateObject()
 {
     FUN_00c64de0* object = new FUN_00c64de0;
     reinterpret_cast<NiAVObject*>(object)->SetName(DAT_011f49e0);

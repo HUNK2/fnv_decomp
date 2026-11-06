@@ -59,7 +59,7 @@ extern "C"
     extern Menu* DAT_011d9f54;
 }
 
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_GetSingleton();
 int __cdecl FUN_00783640();
 int __cdecl Warning(const char* message, ...);
 

@@ -332,12 +332,13 @@ extern "C" char __cdecl FUN_00ec379c(char, char*);
 
 struct FUN_00ad3f50_class
 {
-    char* __thiscall FUN_00ad3f50(char* p, char* end);
+    char* __thiscall std_ctype_char_do_tolower_00ad3f50(char* p, char* end);
 };
 
 // Applies FUN_00ec379c to each character from p up to end, writing the result back in place, and returns the end pointer.
 // @fnv 0x00ad3f50
-char* __thiscall FUN_00ad3f50_class::FUN_00ad3f50(char* pBegin, char* end)
+// src: COMMUNITY 0x00ad3f50
+char* __thiscall FUN_00ad3f50_class::std_ctype_char_do_tolower_00ad3f50(char* pBegin, char* end)
 {
     for (; pBegin != end; ++pBegin)
         *pBegin = FUN_00ec379c(*pBegin, (char*)this + 8);
@@ -348,10 +349,11 @@ void __cdecl Deallocate(void*);
 void __cdecl free(void*);
 struct FUN_00ad41c0_Class
 {
-    void __thiscall FUN_00ad41c0();
+    void __thiscall std_ctype_char_Tidy();
 };
 // @fnv 0x00ad41c0
-void __thiscall FUN_00ad41c0_Class::FUN_00ad41c0()
+// src: COMMUNITY 0x00ad41c0
+void __thiscall FUN_00ad41c0_Class::std_ctype_char_Tidy()
 {
     if (((int*)this)[5] > 0)
         free((void*)((int*)this)[4]);
@@ -404,12 +406,13 @@ void __fastcall FUN_00adc160(void* p);
 
 struct FUN_00ad87d0_Class
 {
-    void FUN_00ad87d0();
+    void BSAudioManager_ClearSecondaryVolumes();
 };
 
 // Sets six consecutive floats at offsets 0x158-0x16c to 1.0 and then calls FUN_00adc160 on this.
 // @fnv 0x00ad87d0
-void FUN_00ad87d0_Class::FUN_00ad87d0()
+// src: COMMUNITY 0x00ad87d0
+void FUN_00ad87d0_Class::BSAudioManager_ClearSecondaryVolumes()
 {
     *(float*)((char*)this + 0x158) = 1.0f;
     *(float*)((char*)this + 0x15c) = 1.0f;
@@ -468,11 +471,12 @@ extern "C" char __cdecl FUN_00ec3909(char, char*);
 
 struct FUN_00ad3fc0_Class
 {
-    char* __thiscall FUN_00ad3fc0(char* p, char* pEnd);
+    char* __thiscall std_ctype_char_do_toupper_00ad3fc0(char* p, char* pEnd);
 };
 
 // @fnv 0x00ad3fc0
-char* __thiscall FUN_00ad3fc0_Class::FUN_00ad3fc0(char* pBegin, char* pEnd)
+// src: COMMUNITY 0x00ad3fc0
+char* __thiscall FUN_00ad3fc0_Class::std_ctype_char_do_toupper_00ad3fc0(char* pBegin, char* pEnd)
 {
     for (; pBegin != pEnd; ++pBegin)
         *pBegin = FUN_00ec3909(*pBegin, (char*)this + 8);
@@ -654,11 +658,12 @@ struct FUN_00ad3f20_Class
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    char __thiscall FUN_00ad3f20(char c);
+    char __thiscall std_ctype_char_do_tolower(char c);
 };
 // Calls FUN_00ec379c with c and a pointer to this object's offset 8, returning its result.
 // @fnv 0x00ad3f20
-char FUN_00ad3f20_Class::FUN_00ad3f20(char acChar)
+// src: COMMUNITY 0x00ad3f20
+char FUN_00ad3f20_Class::std_ctype_char_do_tolower(char acChar)
 {
     return FUN_00ec379c(acChar, (char*)this + 8);
 }
@@ -675,11 +680,12 @@ struct FUN_00ad3f90_Class
     char m5;
     char m6;
     char m7;
-    char FUN_00ad3f90(char c);
+    char std_ctype_char_do_toupper(char c);
 };
 
 // @fnv 0x00ad3f90
-char FUN_00ad3f90_Class::FUN_00ad3f90(char acValue)
+// src: COMMUNITY 0x00ad3f90
+char FUN_00ad3f90_Class::std_ctype_char_do_toupper(char acValue)
 {
     return FUN_00ec3909(acValue, (char*)this + 8);
 }
@@ -794,7 +800,7 @@ void InitRange(SpawnEntry* first, SpawnEntry* last, SpawnEntry* src)
 
 struct FUN_00ac1720_pool
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 
 extern "C" FUN_00ac1720_pool DAT_011f6238;
@@ -829,7 +835,7 @@ void __cdecl FUN_00ac1720(unsigned int count)
             FUN_00ec7894(&err2, DAT_01140ef8);
         }
     }
-    DAT_011f6238.FUN_00aa3e40(count * 4);
+    DAT_011f6238.Game_DoHeapAlloc(count * 4);
 }
 
 struct FUN_00ac2760_Frame
@@ -1000,7 +1006,8 @@ struct ZeroFlagByte
 
 // Copies len bytes from src to dst using a byte-by-byte loop.
 // @fnv 0x00ac3300
-void __cdecl FUN_00ac3300(char* dst, unsigned int len, char* src)
+// src: COMMUNITY 0x00ac3300
+void __cdecl memset_(char* dst, unsigned int len, char* src)
 {
     ZeroFlagByte a = {};
     char b9;
@@ -1959,7 +1966,7 @@ void FUN_00acb1a0_cls::ResetListSentinel()
 }
 
 extern int DAT_010a30fc;
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 class Sub_00acb6b0
 {
@@ -2011,7 +2018,7 @@ void FUN_00acb6b0_cls::FUN_00acb6b0()
     m_vft = &DAT_010a30fc;
     cur = m_38;
     prev = cur;
-    prev != 0 ? (prev->FUN_00acb720(), (((prev, 1) & 1) ? FUN_00401030(prev) : (void)0), prev) : 0;
+    prev != 0 ? (prev->FUN_00acb720(), (((prev, 1) & 1) ? FormHeapFreeAndLog_00401030(prev) : (void)0), prev) : 0;
     ((FUN_00ec3260_cls*)((char*)this + 4))->FUN_00ec3260();
 }
 
@@ -2027,7 +2034,7 @@ class CB770Lockit
 class CB770Facet
 {
   public:
-    CB770Facet* FUN_00acb770();
+    CB770Facet* std_locale_facet__Decref();
 
     void* m_ppVirtualMethodTable;
     unsigned int m_uiRefs;
@@ -2035,7 +2042,8 @@ class CB770Facet
 
 // Takes a lock, decrements m_uiRefs when it is between 1 and UINT_MAX-1, and returns this if the count reached zero, otherwise null.
 // @fnv 0x00acb770
-CB770Facet* CB770Facet::FUN_00acb770()
+// src: COMMUNITY 0x00acb770
+CB770Facet* CB770Facet::std_locale_facet__Decref()
 {
     CB770Lockit kLock(0);
     if (0 < m_uiRefs && m_uiRefs < (unsigned int)(-1))
@@ -2325,7 +2333,7 @@ void FUN_00acde90_class::FUN_00acde90()
                               (*reinterpret_cast<int**>(reinterpret_cast<char*>(this) - 4))[1] - 4) = &DAT_010a318c;
 }
 
-void __cdecl FUN_00401030(void* apMemory);
+void __cdecl FormHeapFreeAndLog_00401030(void* apMemory);
 
 struct FUN_00acdff0_prim
 {
@@ -2351,7 +2359,7 @@ FUN_00acdff0_prim* FUN_00acdff0_cls::FUN_00acdff0(unsigned int auiFlags)
     ((FUN_00acdff0_prim*)((char*)this - 8))->BaseCleanup();
     if (auiFlags & 1)
     {
-        FUN_00401030((char*)this - 8);
+        FormHeapFreeAndLog_00401030((char*)this - 8);
     }
     return (FUN_00acdff0_prim*)((char*)this - 8);
 }
@@ -2472,12 +2480,13 @@ struct FUN_00ace930_cls
     void* m_2c;
     int* m_30;
 
-    int FUN_00ace930();
+    int std_basic_streambuf_char_std_char_traits_char_Gndec();
 };
 
 // Increments the counter at m_30 and returns the pre-decremented value of the counter at m_20.
 // @fnv 0x00ace930
-int FUN_00ace930_cls::FUN_00ace930()
+// src: COMMUNITY 0x00ace930
+int FUN_00ace930_cls::std_basic_streambuf_char_std_char_traits_char_Gndec()
 {
     (*this->m_30)++;
     return --(*this->m_20);
@@ -2645,7 +2654,7 @@ struct S_00acfb90_Class
     void* unk4c;
 
     bool __thiscall FUN_00acfcd0();
-    void __thiscall FUN_00acfc10(int param_1, int param_2);
+    void __thiscall std_basic_filebuf_char_std_char_traits_char_Init(int param_1, int param_2);
     void* __thiscall FUN_00acfb90();
 };
 
@@ -2716,7 +2725,7 @@ void* __thiscall S_00acfb90_Class::FUN_00acfb90()
         }
     }
 
-    this->FUN_00acfc10(0, 2);
+    this->std_basic_filebuf_char_std_char_traits_char_Init(0, 2);
     return result;
 }
 
@@ -2839,7 +2848,7 @@ struct FUN_00ad0550_cls
     void Initialize();
 };
 
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 int __cdecl FUN_00ec36a6();
 
 // @fnv 0x00ad0550
@@ -2856,7 +2865,7 @@ void FUN_00ad0550_cls::Initialize()
     m_1c = 0;
     m_20 = 0;
     ((FUN_00ac9ff0_Class*)this)->FUN_00ac9ff0(0, 0);
-    int* p = (int*)FUN_00401000(4);
+    int* p = (int*)FormHeap_Allocate(4);
     m_24 = (p != 0) ? (*p = FUN_00ec36a6(), ((FUN_00ace790_class*)FUN_00ec34d4())->IncrementCounter(), (void*)p) : 0;
 }
 
@@ -2923,7 +2932,7 @@ struct PadBlock
     unsigned int unk1C;
 };
 
-extern "C" void __cdecl FUN_00ac3300(int a1, int a2, int a3);
+extern "C" void __cdecl memset_(int a1, int a2, int a3);
 
 class FUN_00ad1740_cls
 {
@@ -2942,7 +2951,7 @@ int FUN_00ad1740_cls::CallAndSum(int a1, int aiAddend, int a3)
     PadBlock nn;
     ByteBox ii = h;
     int dd = b;
-    FUN_00ac3300(dd, aiAddend, a3);
+    memset_(dd, aiAddend, a3);
     return a1 + aiAddend;
 }
 }  // namespace fnv_00ad1740
@@ -3349,7 +3358,7 @@ struct FUN_0044d6c0_class
     void* __thiscall FUN_00ec78f1(void*** a);
 };
 
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 extern void* DAT_010176f8;
 
 // Checks that n * 0x1c does not overflow, throws an exception if it would, and otherwise allocates n * 0x1c bytes via FUN_00401000.
@@ -3374,7 +3383,7 @@ void* __cdecl FUN_00ad5310(unsigned int n)
             _CxxThrowException(&obj, (_ThrowInfo*)0x1140ef8);
         }
     }
-    return FUN_00401000(n * 0x1c);
+    return FormHeap_Allocate(n * 0x1c);
 }
 }  // namespace fnv_00ad5310
 
@@ -3659,11 +3668,12 @@ struct S_ad8700
     int unk28;
     int unk2c;
     void(__cdecl* unk30)();
-    void FUN_00ad8700();
+    void BSWin32Audio_Pause();
 };
 // Calls the callback stored in unk30 if set, then sets bit 0 of sub14.unk08.
 // @fnv 0x00ad8700
-void S_ad8700::FUN_00ad8700()
+// src: COMMUNITY 0x00ad8700
+void S_ad8700::BSWin32Audio_Pause()
 {
     if (unk30)
         unk30();
@@ -4350,7 +4360,7 @@ struct FUN_00ad5430_err
 extern "C" char DAT_010176f8[];
 extern "C" char DAT_01140ef8[];
 extern "C" void __stdcall FUN_00ec7894(void* err2, const char* msg);
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 
 // Clamps count to zero, reports an error if count*0x18 would overflow, then allocates count*0x18 bytes and returns the pointer.
 // @fnv 0x00ad5430
@@ -4370,7 +4380,7 @@ void* __cdecl AllocateCountedBlocks(unsigned int count)
         err3.m_vptr = DAT_010176f8;
         FUN_00ec7894(&err3, DAT_01140ef8);
     }
-    return FUN_00401000(count * 0x18);
+    return FormHeap_Allocate(count * 0x18);
 }
 
 struct ByteFlag
@@ -4756,7 +4766,7 @@ struct S00aca220_Base
 {
     void FUN_00ec79a1();
 };
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 extern char DAT_010a307c;
 struct S00aca220_Obj : public S00aca220_Base
 {
@@ -4779,7 +4789,7 @@ S00aca220_Obj* S00aca220_Obj::FUN_00aca220(int flags)
     m_sub.FUN_0044a730(1, 0);
     FUN_00ec79a1();
     if (flags & 1)
-        FUN_00401030(this);
+        FormHeapFreeAndLog_00401030(this);
     return this;
 }
 
@@ -4828,7 +4838,7 @@ struct S00aca340_Base
 {
     void FUN_00ec79a1();
 };
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 extern char DAT_010a3070;
 extern char DAT_010a307c;
 struct S00aca340_Obj : public S00aca340_Base
@@ -4853,7 +4863,7 @@ S00aca340_Obj* S00aca340_Obj::FUN_00aca340(int aiFlags)
     m_str.Clear(true, 0);
     FUN_00ec79a1();
     if (aiFlags & 1)
-        FUN_00401030(this);
+        FormHeapFreeAndLog_00401030(this);
     return this;
 }
 
@@ -5007,11 +5017,11 @@ void S00acede0_Obj::FUN_00acede0()
         for (; hhX != theta4; hhX = hhX + 1)
         {
             if (1 & (hhX->FUN_0044a730(1, 0), 0))
-                FUN_00401030(hhX);
+                FormHeapFreeAndLog_00401030(hhX);
         }
         p5 = m_14 - m_0c;
         p6 = m_0c;
-        FUN_00401030(p6);
+        FormHeapFreeAndLog_00401030(p6);
     }
     m_0c = 0;
     m_10 = 0;
@@ -5064,7 +5074,8 @@ enum FileInitKind
 
 // Initializes the file buffer state, sets closef based on whether param_2 is FileOpen, and wires up CStream pointers when param_1 is non-null.
 // @fnv 0x00acfc10
-void __thiscall S_00acfb90_Class::FUN_00acfc10(int apStream, int aiInitKind)
+// src: COMMUNITY 0x00acfc10
+void __thiscall S_00acfb90_Class::std_basic_filebuf_char_std_char_traits_char_Init(int apStream, int aiInitKind)
 {
     int t3;
     int t1;
@@ -5205,7 +5216,7 @@ void* S00ace060_Obj::FUN_00ace060(int flags)
     return reinterpret_cast<char*>(this) - 0x50;
 }
 
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 void __cdecl FUN_00ec3205(void*);
 extern int DAT_010a2fa4;
 extern int DAT_010a2f9c;
@@ -5243,7 +5254,7 @@ StreamOwner* StreamComponent::FUN_00ace150(unsigned int flags)
     e->vtable = &DAT_010a2f9c;
     FUN_00ec3205(e);
     if (flags & 1)
-        FUN_00401030((char*)this - 0x58);
+        FormHeapFreeAndLog_00401030((char*)this - 0x58);
     return (StreamOwner*)((char*)this - 0x58);
 }
 

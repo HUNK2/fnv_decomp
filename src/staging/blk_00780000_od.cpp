@@ -105,12 +105,13 @@ void* __thiscall FUN_0078d8d0_Class::FUN_0078d8d0(unsigned int flags)
 
 struct FUN_0078e090_class
 {
-    char __thiscall FUN_0078e090();
+    char __thiscall LockPickMenu_HasTiles();
 };
 
 // Checks the 16 int slots at offset 0x2c and returns 1 only if every one is non-zero, otherwise 0.
 // @fnv 0x0078e090
-char __thiscall FUN_0078e090_class::FUN_0078e090()
+// src: COMMUNITY 0x0078e090
+char __thiscall FUN_0078e090_class::LockPickMenu_HasTiles()
 {
     for (int i = 0; i < 16; ++i)
     {
@@ -270,11 +271,12 @@ struct FUN_004bddd0_t : public BlkOffset08View
 
 struct FUN_007832a0_class
 {
-    void __cdecl FUN_007832a0(FUN_004bddd0_t* a);
+    void __cdecl InventoryMenu_AddToChangedItemsListIfWorn(FUN_004bddd0_t* a);
 };
 
 // @fnv 0x007832a0
-void __cdecl FUN_007832a0_class::FUN_007832a0(FUN_004bddd0_t* a)
+// src: COMMUNITY 0x007832a0
+void __cdecl FUN_007832a0_class::InventoryMenu_AddToChangedItemsListIfWorn(FUN_004bddd0_t* a)
 {
     if (a != 0 && a->FUN_004bddd0(false))
     {
@@ -866,11 +868,12 @@ extern int(__stdcall* DAT_00fdf1b0)(void*);
 class CriticalSectionEntry
 {
   public:
-    void FUN_0078d1d0();
+    void NiCriticalSection_TryEnterCriticalSection();
 };
 
 // @fnv 0x0078d1d0
-void CriticalSectionEntry::FUN_0078d1d0()
+// src: COMMUNITY 0x0078d1d0
+void CriticalSectionEntry::NiCriticalSection_TryEnterCriticalSection()
 {
     DAT_00fdf1b0(this);
 }

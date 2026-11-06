@@ -39,7 +39,7 @@ class SoundResult
 class SoundSystem
 {
   public:
-    SoundResult FUN_00ae5a50(int a, int b, int c);
+    SoundResult BSAudioManager_InitSoundPath(int a, int b, int c);
 };
 
 SoundSystem* FUN_00ad9060();
@@ -47,12 +47,13 @@ SoundSystem* FUN_00ad9060();
 class SoundWrapper
 {
   public:
-    SoundResult FUN_00ad7480(int a, int b, int c);
+    SoundResult BSAudio_GetSoundHandleByFilename(int a, int b, int c);
 };
 
 // @fnv 0x00ad7480
-SoundResult SoundWrapper::FUN_00ad7480(int a, int b, int c)
+// src: COMMUNITY 0x00ad7480
+SoundResult SoundWrapper::BSAudio_GetSoundHandleByFilename(int a, int b, int c)
 {
     MemContextGuard kGuard(11);
-    return FUN_00ad9060()->FUN_00ae5a50(a, b, c);
+    return FUN_00ad9060()->BSAudioManager_InitSoundPath(a, b, c);
 }

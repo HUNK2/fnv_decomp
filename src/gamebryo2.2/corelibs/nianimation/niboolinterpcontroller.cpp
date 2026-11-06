@@ -21,13 +21,13 @@ NiBlendInterpolator* __stdcall FUN_00a57750(int aiUnused, int aiArg, int aiUnuse
 
 extern char const* const g_011f3f08_arg1;
 void __stdcall FUN_00a390a0(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 // Appends the string returned by FUN_00a7d330(g_011f3f08_arg1) to the StrArr at index e, growing it by the value at offset 14 plus e when e >= c.
 // @fnv 0x00a57800
 void __stdcall FUN_00a57800(StrArr* apStrings)
 {
     FUN_00a390a0(apStrings);
-    char* pString = FUN_00a7d330(g_011f3f08_arg1);
+    char* pString = NiViewerStrings_NiGetViewerString_Title(g_011f3f08_arg1);
     unsigned int e = apStrings->m_usSize;
     unsigned int c = apStrings->m_usMaxSize;
     if (e >= c)

@@ -164,13 +164,16 @@ int __cdecl CallVirtualMethod(int a1, int a2, int aiUnused, FUN_00d42730_obj* ap
 }
 
 // @fnv 0x00d42700
-void __stdcall FUN_00d42700(int, int, int, int)
+// src: COMMUNITY 0x00d42700
+void __stdcall nullsub_77(int, int, int, int)
 {}
 
 // @fnv 0x00d42750
-void __stdcall FUN_00d42750(int, int, int, int)
+// src: COMMUNITY 0x00d42750
+void __stdcall nullsub_75(int, int, int, int)
 {}
 
 // @fnv 0x00d42770
-void __stdcall FUN_00d42770(int, int, int, int, int)
+// src: COMMUNITY 0x00d42770
+void __stdcall nullsub_76(int, int, int, int, int)
 {}

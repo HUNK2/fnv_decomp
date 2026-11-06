@@ -58,7 +58,7 @@ ConsoleManager* ConsoleManager::Instance(bool bCreate)
 // @fnv 0x0071b210
 bool ConsoleManager::Idle(int aiKeyCode)
 {
-    if (cVisible <= 0 || !FUN_004b7210()->FUN_007023a0())
+    if (cVisible <= 0 || !InterfaceManager_GetSingleton()->FUN_007023a0())
         return false;
 
     struct InputState
@@ -72,8 +72,8 @@ bool ConsoleManager::Idle(int aiKeyCode)
         char text[2048];
         int cursor;
         char rawText[2048];
-        DebugText::Instance(true)->FUN_00a103e0(rawText, (float)m_iConsoleX, (float)m_iConsoleY, 1);
-        FUN_005cbd90(text, rawText, 2046);
+        DebugText::Instance(true)->GetDebugText_0(rawText, (float)m_iConsoleX, (float)m_iConsoleY, 1);
+        _mbsnbcpy_(text, rawText, 2046);
         state.length = 0;
         while (text[state.length])
             state.length++;
@@ -120,16 +120,16 @@ bool ConsoleManager::Idle(int aiKeyCode)
             if (text[0])
             {
                 DAT_011d8ce4 = true;
-                InterfaceManager* manager = FUN_004b7210();
+                InterfaceManager* manager = InterfaceManager_GetSingleton();
                 reinterpret_cast<InterfaceManager*>(this)->SetNamedMenuOption(
                     reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kOutputLines)->GetSize());
-                FUN_0071d030(this, text);
+                _MenuConsole_PrintLine(this, text);
                 BSStringT<char> line(text);
                 m_kCommandHistory.AssignString(line);
                 m_iCommandHistoryPosition = 0;
                 DebugText::Instance(true)->Print("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
                                                  DAT_011d8d38.Int()->i);
-                if (!FUN_0071cff0(text, "dof", 3))
+                if (!_mbsnbicmp_(text, "dof", 3))
                 {
                     float distance = 0.0f;
                     sscanf(text, "dof %f", &distance);
@@ -144,7 +144,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                             ->BSFaceGenNiNode::GetAnimationData())
                         ->UpdateViewFrustum(frustum);
                 }
-                else if (!FUN_0071cff0(text, "usz", 3))
+                else if (!_mbsnbicmp_(text, "usz", 3))
                 {
                     struct ConsoleSize
                     {
@@ -154,7 +154,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     size.x = 0;
                     size.y = 0;
                     sscanf(text, "usz %i %i", &size.x, &size.y);
-                    FUN_007030c0(size.x, size.y);
+                    Interface_UpdateScreenShape(size.x, size.y);
                 }
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"clr") ||
                          !_mbscmp((const unsigned char*)text, (const unsigned char*)"cls"))
@@ -173,23 +173,23 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         void* node = DynamicCastByRTTI(&DAT_011f4428, reference->GetNiNode());
                         if (!node)
                             node = DynamicCastByRTTI(&DAT_011f4428, reference->GetNiNode()->GetParent());
-                        DebugText::FUN_00a10c00(node, label.String(), 0, -1.0f);
+                        DebugText::DebugText_AddFloatingText(node, label.String(), 0, -1.0f);
                     }
                 }
-                else if (!FUN_0071cff0(text, "reload strings", 14))
+                else if (!_mbsnbicmp_(text, "reload strings", 14))
                 {
                     delete manager->FUN_004fd400();
                     Menu::ReadMenuDefinition("Data\\Menus\\globals.xml", 0);
                     Tile* tile = manager->FUN_00586150()->ReadFile("Data\\Menus\\globals.xml");
                     tile->SetParent(0, 0);
-                    manager->FUN_00500a20(tile);
+                    manager->BGSTerminal_SetPassword(tile);
                 }
-                else if (!FUN_0071cff0(text, "reload HUDReticle", 17))
+                else if (!_mbsnbicmp_(text, "reload HUDReticle", 17))
                     DebugText::ClearDebugText();
-                else if (!FUN_0071cff0(text, "reload HUDSafeZone", 18))
+                else if (!_mbsnbicmp_(text, "reload HUDSafeZone", 18))
                 {
                     DebugText::ClearDebugText();
-                    FUN_007038e0(3);
+                    Interface_ToggleSafeZone(3);
                 }
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"reload mainmenu"))
                 {
@@ -197,7 +197,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     delete FindMenuById(FUN_0070ede0());
                     StartMenu::Create(false, false);
                 }
-                else if (!FUN_0071cff0(text, "reload ", 7))
+                else if (!_mbsnbicmp_(text, "reload ", 7))
                 {
                     DebugText::ClearDebugText();
                     char menuName[1024];
@@ -218,31 +218,31 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     }
                     MenuSystem::Instance(true)->TileReloadContext(Tile::GetTraitID(menuName));
                 }
-                else if (!FUN_0071cff0(text, "delete ", 7))
+                else if (!_mbsnbicmp_(text, "delete ", 7))
                 {
                     char menuName[1024];
                     sscanf(text, "delete %s", menuName);
                     MenuSystem::Instance(true)->DeleteMenu(Tile::GetTraitID(menuName));
                 }
-                else if (!FUN_0071cfd0(text, "front", 5))
-                    FUN_0071d030(this, "Frontmost: %s",
+                else if (!_mbsnbcmp_(text, "front", 5))
+                    _MenuConsole_PrintLine(this, "Frontmost: %s",
                                  reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESObjectREFR*>*>(
                                                              MenuSystem::Instance(true)->GetFrontmostMenu())
                                                              ->GetNext())
                                      ->FUN_00700300());
-                else if (!FUN_0071cfd0(text, "stack", 5))
+                else if (!_mbsnbcmp_(text, "stack", 5))
                 {
                     int i = 0;
                     while (manager->GetMenuStackEntry(i++))
-                        FUN_0071d030(this, "%i: %i", i, manager->GetMenuStackEntry(i));
+                        _MenuConsole_PrintLine(this, "%i: %i", i, manager->GetMenuStackEntry(i));
                 }
-                else if (!FUN_0071cfd0(text, "visible", 7))
+                else if (!_mbsnbcmp_(text, "visible", 7))
                 {
                     int menu = 0;
                     sscanf(text, "visible %i", &menu);
-                    FUN_0071d030(this, "Is Visible: %i", MenuSystem::Instance(true)->IsMenuClassVisible(menu));
+                    _MenuConsole_PrintLine(this, "Is Visible: %i", MenuSystem::Instance(true)->IsMenuClassVisible(menu));
                 }
-                else if (!FUN_0071cfd0(text, "exit menus", 10))
+                else if (!_mbsnbcmp_(text, "exit menus", 10))
                 {
                     int menu = manager->GetTopEnterStackEntry();
                     while (menu)
@@ -251,12 +251,12 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         menu = manager->GetTopEnterStackEntry();
                     }
                 }
-                else if (!FUN_0071cfd0(text, "emergency texture release", 25))
+                else if (!_mbsnbcmp_(text, "emergency texture release", 25))
                 {
-                    FUN_00703920();
-                    FUN_0071d030(this, "First change release of hidden textures activated.");
+                    Interface_SetFirstChanceTextureRelease();
+                    _MenuConsole_PrintLine(this, "First change release of hidden textures activated.");
                 }
-                else if (!FUN_0071cfd0(text, "set trait", 9))
+                else if (!_mbsnbcmp_(text, "set trait", 9))
                 {
                     struct TileTraitEdit
                     {
@@ -273,7 +273,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         edit.trait = Tile::GetTraitID(traitName);
                         if (edit.tile && edit.trait > 0)
                         {
-                            FUN_0071d030(this, "Trait set.");
+                            _MenuConsole_PrintLine(this, "Trait set.");
                             edit.tile->Set(edit.trait, edit.value, true);
                         }
                         else if (edit.tile)
@@ -282,19 +282,19 @@ bool ConsoleManager::Idle(int aiKeyCode)
                             Print("Can't find tile '%s'", tileName);
                     }
                 }
-                else if (!FUN_0071cfd0(text, "depth", 5))
+                else if (!_mbsnbcmp_(text, "depth", 5))
                 {
-                    FUN_0071d030(this, "Max Depth: %i", (int)Tile::GetInterfaceScale());
-                    FUN_0071d030(this, "Cursor Depth: %i",
+                    _MenuConsole_PrintLine(this, "Max Depth: %i", (int)Tile::GetInterfaceScale());
+                    _MenuConsole_PrintLine(this, "Cursor Depth: %i",
                                  (int)reinterpret_cast<TileListBoxCalls_menuconsole*>(
-                                     reinterpret_cast<TESResponse*>(FUN_004b7210())->GetNext())
+                                     reinterpret_cast<TESResponse*>(InterfaceManager_GetSingleton())->GetNext())
                                      ->GetFloat(4013));
                 }
-                else if (!FUN_0071cfd0(text, "new fonts", 9))
+                else if (!_mbsnbcmp_(text, "new fonts", 9))
                     FontManager::GetFontManager(true)->SetByteAtOffset20();
-                else if (!FUN_0071cfd0(text, "old fonts", 9))
+                else if (!_mbsnbcmp_(text, "old fonts", 9))
                     FontManager::GetFontManager(false)->SetByteAtOffset20();
-                else if (!FUN_0071cfd0(text, "iso", 3))
+                else if (!_mbsnbcmp_(text, "iso", 3))
                 {
                     bool first = false;
                     bool second = false;
@@ -302,11 +302,11 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         first = true;
                     if (text[4] == '1')
                         second = true;
-                    FUN_00702c80(first, second);
+                    Interface_IsolateMenuElements(first, second);
                 }
-                else if (!FUN_0071cfd0(text, "restore menus", 13))
+                else if (!_mbsnbcmp_(text, "restore menus", 13))
                     UpdateMenuTileVisibility();
-                else if (!FUN_0071cfd0(text, "use workbook", 12))
+                else if (!_mbsnbcmp_(text, "use workbook", 12))
                 {
                     TileMenu* tileMenu = dynamic_cast<TileMenu*>(reinterpret_cast<Tile*>(FindMenuById(1026)));
                     if (tileMenu)
@@ -317,11 +317,11 @@ bool ConsoleManager::Idle(int aiKeyCode)
                             book->ReadBook();
                     }
                     else
-                        FUN_0071d030(this, "You must open a book (or scroll) before using the workbook.");
+                        _MenuConsole_PrintLine(this, "You must open a book (or scroll) before using the workbook.");
                 }
-                else if (!FUN_0071cfd0(text, "dump textures", 13))
+                else if (!_mbsnbcmp_(text, "dump textures", 13))
                     DumpTextureList();
-                else if (!FUN_0071cfd0(text, "bat", 3))
+                else if (!_mbsnbcmp_(text, "bat", 3))
                 {
                     char filename[128];
                     filename[0] = ""[0];
@@ -382,7 +382,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                             script.NotifySaveLoadGameOfFormChange();
                                             script.SetText(batchLine);
                                             script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER,
-                                                                     FUN_004b7210()->FUN_007031c0());
+                                                                     InterfaceManager_GetSingleton()->FUN_007031c0());
                                         }
                                     }
                                 }
@@ -392,7 +392,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                         }
                     }
                 }
-                else if (!FUN_0071cfd0(text, "rbat", 3))
+                else if (!_mbsnbcmp_(text, "rbat", 3))
                 {
                     if (!m_bRecordingBatch)
                     {
@@ -454,7 +454,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     Script script;
                     script.NotifySaveLoadGameOfFormChange();
                     script.SetText(text);
-                    script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER, FUN_004b7210()->FUN_007031c0());
+                    script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER, InterfaceManager_GetSingleton()->FUN_007031c0());
                 }
             }
         }
@@ -730,16 +730,17 @@ void ListHead::Clear()
 struct FUN_0071b020_shell
 {
     void __thiscall FUN_0071dec0();
-    void __thiscall FUN_0071b020();
+    void __thiscall ClearConsoleOutput_();
 };
 
 // @fnv 0x0071b020
-void __thiscall FUN_0071b020_shell::FUN_0071b020()
+// src: COMMUNITY 0x0071b020
+void __thiscall FUN_0071b020_shell::ClearConsoleOutput_()
 {
     FUN_0071dec0();
 }
 
-void FUN_00703310(int);
+void Interface_SetCrosshairRef(int);
 // Exe 0x0071d770: local storage view; GetFlags binds the folded DWORD-at-+8 accessor 0x0044ddc0.
 struct MenuconsoleOffset08View
 {
@@ -747,10 +748,11 @@ struct MenuconsoleOffset08View
 };
 struct FUN_0071d770_shell : public ConsoleManager
 {
-    void FUN_0071d770();
+    void MenuConsole_OnEnterMenuMode();
 };
 // @fnv 0x0071d770
-void FUN_0071d770_shell::FUN_0071d770()
+// src: COMMUNITY 0x0071d770
+void FUN_0071d770_shell::MenuConsole_OnEnterMenuMode()
 {
     if (cVisible > 0)
     {
@@ -758,7 +760,7 @@ void FUN_0071d770_shell::FUN_0071d770()
                                          DAT_011d8d38.Int()->i, 0);
         ((InterfaceManager*)this)->SetNamedMenuOption(((MenuconsoleOffset08View*)((char*)this + 4))->GetFlags());
         ResetOutputState();
-        FUN_00703310(0);
+        Interface_SetCrosshairRef(0);
     }
 }
 
@@ -796,11 +798,12 @@ struct FUN_0071d620_shell
     int m_iConsoleY;
     char cVisible;
 
-    void FUN_0071d620(char acState);
+    void MenuConsole_SetVisible(char acState);
 };
 
 // @fnv 0x0071d620
-void FUN_0071d620_shell::FUN_0071d620(char acState)
+// src: COMMUNITY 0x0071d620
+void FUN_0071d620_shell::MenuConsole_SetVisible(char acState)
 {
     char cold_state;
     cold_state = cVisible;
@@ -969,10 +972,10 @@ bool FUN_0071d580_cls::FUN_0071d580()
     }
     else
     {
-        if (m_38 == 1 && ((FUN_0071d580_probe*)FUN_004b7210())->Probe_0070ecf0())
+        if (m_38 == 1 && ((FUN_0071d580_probe*)InterfaceManager_GetSingleton())->Probe_0070ecf0())
         {
-            if (((FUN_0071d580_probe*)FUN_004b7210())->Probe_00714f70(0) == 3 &&
-                ((FUN_0071d580_probe*)FUN_004b7210())->Probe_00714f70(1) == 0)
+            if (((FUN_0071d580_probe*)InterfaceManager_GetSingleton())->Probe_00714f70(0) == 3 &&
+                ((FUN_0071d580_probe*)InterfaceManager_GetSingleton())->Probe_00714f70(1) == 0)
             {
                 Call_0071d620(2);
             }
@@ -1038,7 +1041,7 @@ struct DumpTexture
     unsigned int FUN_0059bb30();
     DumpTexture* FUN_0055b980();
 };
-DumpTexture* FUN_00456510();
+DumpTexture* NiTexture_GetListHead();
 struct DumpRTTI
 {
 };
@@ -1083,7 +1086,7 @@ void DumpConsole::DumpLoadedTextures()
         BSFile* a8;
         DumpTexture* a9;
         memset(a0, 0, sizeof(a0));
-        a1 = FUN_00456510();
+        a1 = NiTexture_GetListHead();
         while (a1)
         {
             if (FUN_0043b300(&DAT_011f444c, a1))

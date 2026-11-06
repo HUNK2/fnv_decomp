@@ -212,7 +212,8 @@ void FORenderedMenu::OnMenuOpen()
 }
 
 // @fnv 0x007fc2d0
-void FOPipboyManager::FUN_007fc2d0(NiAVObject* object)
+// src: COMMUNITY 0x007fc2d0
+void FOPipboyManager::FORenderedMenu_SetupScreen(NiAVObject* object)
 {
     NiProperty* material;
     {
@@ -222,8 +223,8 @@ void FOPipboyManager::FUN_007fc2d0(NiAVObject* object)
         {
             NiAlphaProperty* alpha = new NiAlphaProperty;
             alpha->FUN_0049ed90(false);
-            alpha->FUN_00439340(6);
-            alpha->FUN_00439390(0);
+            alpha->NiAlphaProperty_SetSrcBlendMode(6);
+            alpha->NiAlphaProperty_SetDestBlendMode(0);
             object->AttachProperty((NiObject*)alpha);
         }
     }
@@ -244,7 +245,7 @@ void FORenderedMenu::SetDefaultTexture(NiTexture* texture)
 // @fnv 0x007fad10
 FORenderedMenu::~FORenderedMenu()
 {
-    FORenderedMenu::FUN_007fadf0();
+    FORenderedMenu::ResetNifs();
 }
 
 struct Flt
@@ -340,7 +341,8 @@ void FUN_007f8160(char value)
 
 // Calls the base FORenderedMenu function, then zeroes several fields at offsets 4 through 0xd4 and a byte at 0x28.
 // @fnv 0x007fadf0
-void FORenderedMenu::FUN_007fadf0()
+// src: COMMUNITY 0x007fadf0
+void FORenderedMenu::ResetNifs()
 {
     FUN_007fc6f0();
     m_pMenuBackgroundScreenGeometry = 0;
@@ -368,7 +370,8 @@ char* FUN_007fdf30()
 }
 
 // @fnv 0x0087d6c0
-float __thiscall FORenderedMenu::FUN_0087d6c0()
+// src: COMMUNITY 0x0087d6c0
+float __thiscall FORenderedMenu::BaseProcess_GetActorAlpha()
 {
     return 1.0f;
 }
@@ -425,7 +428,8 @@ void __fastcall StartRenderedMenuShudder(FORenderedMenu* menu, float afDuration,
 }
 
 // @fnv 0x007fb420
-void FORenderedMenu::FUN_007fb420(float afTime)
+// src: COMMUNITY 0x007fb420
+void FORenderedMenu::HandleStaticEffect(float afTime)
 {
     float fintensityValue = afTime - m_fBurstElapsedTime;
     if (fintensityValue > fBurstDuration)
@@ -495,7 +499,8 @@ struct RenderedMenuTile : Tile
 }  // namespace fnv_007fb040
 
 // @fnv 0x007fb040
-void FORenderedMenu::FUN_007fb040()
+// src: COMMUNITY 0x007fb040
+void FORenderedMenu::OnMenuOpen_007fb040()
 {
     using namespace fnv_007fb040;
     if (reinterpret_cast<NiAVObject*>(this)->GetParent())
@@ -566,7 +571,8 @@ void RenderedMenuAccumulatorAccess::SetGo(void* apValue)
 
 float __cdecl FUN_004e44d0(float);
 // @fnv 0x007fb3a0
-void FORenderedMenu::FUN_007fb3a0(float afTime)
+// src: COMMUNITY 0x007fb3a0
+void FORenderedMenu::HandleShudderEffect(float afTime)
 {
     float fdelta = afTime - m_fVerticalHoldSpeed;
     if (fdelta > m_fVerticalHoldRate)
@@ -587,7 +593,8 @@ extern Setting g_011db408;
 extern Setting g_011db424;
 
 // @fnv 0x007fb530
-void FORenderedMenu::FUN_007fb530(float afDuration)
+// src: COMMUNITY 0x007fb530
+void FORenderedMenu::HandlePulseEffect(float afDuration)
 {
     float f04 = ApplyNoise(afDuration * *g_011db408.Float()) * 2.0f;
     m_fPulseBrightenIntensity = f04 * *g_011db3a4.Float();
@@ -604,8 +611,8 @@ struct PipboyMenuTransitions : FOPipboyManager
     void ClosePipboyMenu();
 };
 
-void __cdecl FUN_00702c80(bool, bool);
-void __cdecl FUN_004de8c0(float);
+void __cdecl Interface_IsolateMenuElements(bool, bool);
+void __cdecl BSShaderBloodSplatter_SetGlobalAlpha(float);
 
 extern char DAT_011d890a;
 extern Setting g_011db43c;
@@ -623,7 +630,7 @@ void PipboyMenuTransitions::OpenPipboyMenu()
     DAT_011d890a = 1;
     g_burstSoundEnabled = 1;
 
-    FUN_00702c80(true, true);
+    Interface_IsolateMenuElements(true, true);
 
     reinterpret_cast<BSSoundHandle&>(m_kPipBoyLightData).Stop();
     reinterpret_cast<BSSoundHandle&>(m_kPipBoyLightData).Release();
@@ -634,12 +641,12 @@ void PipboyMenuTransitions::OpenPipboyMenu()
 
     StartBurst(*g_011db480.Float(), *g_011db43c.Float(), 0.5f);
 
-    FUN_007fb040();
+    OnMenuOpen_007fb040();
 
     ImageSpaceModifierInstanceForm::Stop(TESImageSpaceModifier::GetGetHit());
 
     FUN_007f8160(0);
-    FUN_004de8c0(0.0f);
+    BSShaderBloodSplatter_SetGlobalAlpha(0.0f);
 }
 
 // @fnv 0x007fae70
@@ -696,15 +703,15 @@ bool FORenderedMenu::UpdateScreenEffect()
     UpdateNodePosition(fappTime);
 
     if (m_bBurstActive)
-        FUN_007fb420(fappTime);
+        HandleStaticEffect(fappTime);
 
     if (m_bBurstSoundPlayed)
         FUN_007fb480(fappTime);
 
     if (m_bVerticalHoldActive)
-        FUN_007fb3a0(fappTime);
+        HandleShudderEffect(fappTime);
 
-    FUN_007fb530(fappTime);
+    HandlePulseEffect(fappTime);
 
     if (m_bShudderActive)
     {
@@ -814,7 +821,7 @@ struct NodeView : NiNode
 {
     void FUN_0043fa80(const void*);
     FloatMatrix3& FUN_006a9540();
-    void* FUN_009611e0();
+    void* NiAVObject_GetParent();
     bool FUN_00456610();
     void FUN_006404b0(float, float, float, float);
     void FUN_004bc1f0(float, float, float);
@@ -822,7 +829,7 @@ struct NodeView : NiNode
 struct CameraView : NiAVObject
 {
     void FUN_00712e60(const Rect4&);
-    void FUN_00733fd0(float);
+    void NiCamera_SetMinNearPlaneDist(float);
     void SetLookAt(const PodPoint3&, const PodPoint3&);
     void FUN_00507700(float);
     void FUN_00a6faf0(const Frustum&);
@@ -1551,10 +1558,10 @@ struct FUN_007fd6c0_Class
     bool savedCull;
     bool IsUnk28Set();
     NiAVObject* FUN_005585e0();
-    void* FUN_009611e0();
-    NiAVObject* FUN_006838b0();
+    void* NiAVObject_GetParent();
+    NiAVObject* NiAVObject_GetCollisionObject();
     void UpdateSlotSelection(int);
-    void FUN_007fb040();
+    void OnMenuOpen_007fb040();
     void UpdatePlayerFaceScene();
 };
 // @fnv 0x007fd6c0
@@ -1567,10 +1574,10 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
     NiAVObject* frustum = FUN_005585e0();
     NiUpdateData viewport(0.0f, false, false);
     frustum->Update(viewport);
-    RenderedMenuController* radius = (RenderedMenuController*)((Tile*)FUN_009611e0())->FUN_00a03c90();
-    if (FUN_006838b0())
-        FUN_006838b0()->SetAppCulled(false);
-    FUN_007fb040();
+    RenderedMenuController* radius = (RenderedMenuController*)((Tile*)NiAVObject_GetParent())->Tile_GetMenu();
+    if (NiAVObject_GetCollisionObject())
+        NiAVObject_GetCollisionObject()->SetAppCulled(false);
+    OnMenuOpen_007fb040();
     ((NiNode*)FUN_00450b80(1))->AttachChildInAvailableSlot(FUN_005585e0(), true);
     ((InputControlState*)FUN_007fdf30())->FUN_00a253d0();
     DAT_011dea3c->FUN_008d8520()->SetState(DAT_011dea3c, 0);
@@ -1584,7 +1591,7 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
     savedPosition = root->FUN_0043c490();
     savedRotation = root->FUN_006a9540();
     savedHead = ((NiAVObject*)(NodeView*)root)->GetObjectByName(NiFixedString("Bip01"))->FUN_0043c490();
-    savedTile = root->FUN_009611e0();
+    savedTile = root->NiAVObject_GetParent();
     savedCull = root->FUN_00456610();
     scene = (NiNode*)new NewScene(0);
     ((NiNode*)FUN_00450b80(3))->AttachChildInAvailableSlot((NiAVObject*)(NiNode*)scene, true);
@@ -1603,7 +1610,7 @@ void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
     camera = (CameraView*)new NewCamera;
     Rect4 up(0.0f, 1.0f, 1.0f, 0.0f);
     camera->FUN_00712e60(up);
-    camera->FUN_00733fd0(1.0f);
+    camera->NiCamera_SetMinNearPlaneDist(1.0f);
     PodPoint3 rootUpdate;
     rootUpdate.FUN_00416870(0.0f, 1.0f, 0.0f);
     // NiPoint3 supplies the same initializer for an expression temporary.
@@ -1714,25 +1721,26 @@ struct FUN_007ff650_cls : public FORenderedMenu
     unsigned char unkEC;
 
     FUN_007ff650_p* FUN_005585e0();
-    FUN_007ff650_q* FUN_006838b0();
-    void FUN_007ff650();
+    FUN_007ff650_q* NiAVObject_GetCollisionObject();
+    void FORenderedTerminal_OnMenuOpen();
 };
 
 ShadowSceneNode* FUN_00450b80(unsigned int);
 
 // @fnv 0x007ff650
-void FUN_007ff650_cls::FUN_007ff650()
+// src: COMMUNITY 0x007ff650
+void FUN_007ff650_cls::FORenderedTerminal_OnMenuOpen()
 {
     FUN_007ff650_h local2;
     FUN_007ff650_p* a = this->FUN_005585e0();
     FUN_00450b80(1)->AttachChildInAvailableSlot((NiAVObject*)this->FUN_005585e0(), true);
     local2.FUN_0043d410(0.0f, 0, 0);
     a->FUN_00a59c60(&local2);
-    if (this->FUN_006838b0() != 0)
+    if (this->NiAVObject_GetCollisionObject() != 0)
     {
-        this->FUN_006838b0()->FUN_00450f90(0);
+        this->NiAVObject_GetCollisionObject()->FUN_00450f90(0);
     }
-    this->FUN_007fb040();
+    this->OnMenuOpen_007fb040();
     this->unkEC = 0;
     this->unkE8 = 0.0f;
     if (DAT_011db63c.FUN_00559450() != 0)
@@ -1776,9 +1784,9 @@ struct Camera82
 };
 struct Accumulator82
 {
-    void FUN_004a0fd0(void*);
-    void FUN_00c4f270(int);
-    void FUN_00c4f2d0();
+    void BSCullingProcess_SetAccumulator(void*);
+    void BSCullingProcess_PushCullMode(int);
+    void BSCullingProcess_PopCullMode();
 };
 struct Scene82
 {
@@ -1789,7 +1797,7 @@ struct Interface82
 {
     bool FUN_00644640();
     Obj82* FUN_005e3fc0();
-    Scene82* FUN_007fa950();
+    Scene82* SkyObject_GetNiNode();
     void* FUN_0045cd60();
 };
 struct Target82
@@ -1798,7 +1806,7 @@ struct Target82
 };
 struct TargetManager82
 {
-    Target82* FUN_00b6e110(int, int, int, int);
+    Target82* BSTextureManager_BorrowRenderedTexture(int, int, int, int);
     void FUN_00b6da10();
 };
 struct Pointer82
@@ -1815,13 +1823,13 @@ struct ObjectPointer82
     Obj82* FUN_00559450();
 };
 NiRenderer* FUN_0043c4b0();
-Interface82* FUN_004b7210();
-TargetManager82* __stdcall FUN_004a0ea0(void*);
-bool FUN_004e9510();
-void FUN_00b6b8d0(void*, void*);
-Obj82* FUN_00706d10();
+Interface82* InterfaceManager_GetSingleton();
+TargetManager82* __stdcall BSShaderManager_GetTextureManager(void*);
+bool BSRenderedTexture_IsOutsideFrame();
+void BSRenderedTexture_StartOffscreen(void*, void*);
+Obj82* Interface_GetDebugTextRoot();
 FORenderedMenu* FUN_00705990();
-void FUN_00b6bee0(Camera82*, Obj82*, Accumulator82*);
+void BSShaderUtil_AccumulateScene(Camera82*, Obj82*, Accumulator82*);
 void FUN_00b6c0d0(Camera82*, Obj82*, int);
 void FUN_00b6b790();
 struct Partial82
@@ -1831,31 +1839,32 @@ struct Partial82
 Partial82* FUN_004e3270();
 // Renders the scene through the accumulator with a temporary orthographic frustum, restoring UI visibility, rect and camera state afterwards.
 // @fnv 0x007fba00
-void FORenderedMenu::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pSuppliedTarget)
+// src: COMMUNITY 0x007fba00
+void FORenderedMenu::Render_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pSuppliedTarget)
 {
     if (!bInitialized)
         return;
     if (!((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450())
         return;
     NiRenderer* renderer5 = FUN_0043c4b0();
-    Interface82* interface23 = FUN_004b7210();
+    Interface82* interface23 = InterfaceManager_GetSingleton();
     if (interface23->FUN_00644640())
         interface23->FUN_005e3fc0()->FUN_00450f90(true);
-    Scene82* scene3 = interface23->FUN_007fa950();
+    Scene82* scene3 = interface23->SkyObject_GetNiNode();
     Accumulator82* render4 = scene3->FUN_008d80e0();
-    render4->FUN_004a0fd0(((ObjectPointer82*)&m_pMenuLightNode)->FUN_00559450());
+    render4->BSCullingProcess_SetAccumulator(((ObjectPointer82*)&m_pMenuLightNode)->FUN_00559450());
     Rect82 rect2(0.0f, 0.0f, 0.0f, 0.0f);
     renderer5->GetBackgroundColor(reinterpret_cast<NiVector4*>(&rect2));
     renderer5->SetBackgroundColor(reinterpret_cast<NiVector4*>(&BackgroundColor));
     Camera82* camera23 = scene3->FUN_006629f0();
     Pointer82 target31(0);
     if (!pSuppliedTarget)
-        target31.FUN_0066b0d0(FUN_004a0ea0(FUN_0043c4b0())->FUN_00b6e110(49, 0, 0, 0));
+        target31.FUN_0066b0d0(BSShaderManager_GetTextureManager(FUN_0043c4b0())->BSTextureManager_BorrowRenderedTexture(49, 0, 0, 0));
     else
         target31.FUN_0066b0d0(pSuppliedTarget);
-    if (FUN_004e9510())
+    if (BSRenderedTexture_IsOutsideFrame())
     {
-        FUN_00b6b8d0(pRenderArg2, target31.FUN_00559450()->FUN_00b6b260());
+        BSRenderedTexture_StartOffscreen(pRenderArg2, target31.FUN_00559450()->FUN_00b6b260());
         camera23->FUN_00712e60(Rect82(0.0f, 1.0f, 1.0f, 0.0f));
     }
     Frustum82 frustum12 = camera23->FUN_0045bbe0();
@@ -1876,7 +1885,7 @@ void FORenderedMenu::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82
         oldTile23 = ((NiAVObject*)tile16->FUN_0056c7f0())->FUN_00456610();
         ((NiAVObject*)tile16->FUN_0056c7f0())->FUN_00450f90(true);
     }
-    Obj82* object4 = FUN_00706d10();
+    Obj82* object4 = Interface_GetDebugTextRoot();
     bool oldObject25 = object4 ? object4->FUN_00456610() : false;
     if (object4)
         object4->FUN_00450f90(true);
@@ -1886,12 +1895,12 @@ void FORenderedMenu::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82
     if (this != FUN_00705990())
         ((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450()->FUN_00450f90(false);
     HideRenderedMenuTiles(this);
-    render4->FUN_00c4f270(1);
-    FUN_00b6bee0(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450(), render4);
+    render4->BSCullingProcess_PushCullMode(1);
+    BSShaderUtil_AccumulateScene(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450(), render4);
     FUN_00b6c0d0(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pMenuLightNode)->FUN_00559450(), 0);
-    render4->FUN_00c4f2d0();
+    render4->BSCullingProcess_PopCullMode();
     RestoreRenderedMenuVisibility(this);
-    render4->FUN_004a0fd0(0);
+    render4->BSCullingProcess_SetAccumulator(0);
     if (this != FUN_00705990())
         ((ObjectPointer82*)&m_pRenderedMenuObject)->FUN_00559450()->FUN_00450f90(true);
     ((NiAVObject*)((Tile*)menu1->FUN_00a03d40())->FUN_0056c7f0())->FUN_00450f90(oldMenu21);
@@ -1900,9 +1909,9 @@ void FORenderedMenu::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82
     if (object4)
         object4->FUN_00450f90(oldObject25);
     FUN_00b6b790();
-    FUN_007fbee0((Arg*)target31.FUN_00559450(), pRenderArg1, (int)pRenderArg2);
+    DoEffect((Arg*)target31.FUN_00559450(), pRenderArg1, (int)pRenderArg2);
     if (!pSuppliedTarget)
-        FUN_004a0ea0(target31.FUN_00559450())->FUN_00b6da10();
+        BSShaderManager_GetTextureManager(target31.FUN_00559450())->FUN_00b6da10();
     renderer5->SetBackgroundColor(reinterpret_cast<NiVector4*>(&rect2));
     camera23->FUN_00a6faf0(saved14);
     if (m_bEnableFlicker)
@@ -2142,7 +2151,7 @@ class GlobalObject_00e98f20
 
 struct Calls7fb7
 {
-    static Input7fb7* __cdecl FUN_004b7210();
+    static Input7fb7* __cdecl InterfaceManager_GetSingleton();
     static View7fb7* __cdecl FUN_0045c670();
     static NiRenderer* __cdecl FUN_0043c4b0();
     static bool __cdecl FUN_00702680(int iMenu, int iUnused);
@@ -2152,11 +2161,12 @@ struct Calls7fb7
 Camera7fb7* __fastcall GetRenderedMenuCamera(FORenderedMenu* menu);
 
 // @fnv 0x007fb790
-bool FORenderedMenu::FUN_007fb790(void* pkUnused, float* pfX, float* pfY)
+// src: COMMUNITY 0x007fb790
+bool FORenderedMenu::Pick_007fb790(void* pkUnused, float* pfX, float* pfY)
 {
     bool bResult = false;
     m_pRenderedMenuObject->SetAppCulled(false);
-    Input7fb7* pkInput = Calls7fb7::FUN_004b7210();
+    Input7fb7* pkInput = Calls7fb7::InterfaceManager_GetSingleton();
     if (!m_pMenuBackgroundScreenGeometry)
         return false;
     PodPoint3 kSource;
@@ -2201,7 +2211,7 @@ bool FORenderedMenu::FUN_007fb790(void* pkUnused, float* pfX, float* pfY)
 class Arg
 {
 public:
-    void* FUN_004bc320(int);
+    void* BSRenderedTexture_GetTexture(int);
 };
 
 namespace recon7fbee0 {
@@ -2221,11 +2231,11 @@ struct Manager
 {
     void FUN_00b8c3b0(float, float, Node*);
     void SetValueAndAssign(char, void*);
-    void FUN_00b97550(int, void*, Arg*, void*, int, int);
+    void ImageSpaceManager_RenderEffect(int, void*, Arg*, void*, int, int);
 };
-void* FUN_004b7210();
+void* InterfaceManager_GetSingleton();
 void* FUN_00705990();
-float FUN_00717860();
+float InterfaceManager_GetMenuHeight();
 Manager* FUN_004e3270();
 void* FUN_0043c4b0();
 struct Four
@@ -2235,18 +2245,19 @@ struct Four
 }
 
 // @fnv 0x007fbee0
-void FORenderedMenu::FUN_007fbee0(Arg* a, void* pData, int iValue)
+// src: COMMUNITY 0x007fbee0
+void FORenderedMenu::DoEffect(Arg* a, void* pData, int iValue)
 {
     using namespace recon7fbee0;
-    void* pUnused = recon7fbee0::FUN_004b7210();
+    void* pUnused = recon7fbee0::InterfaceManager_GetSingleton();
     *(float*)&DAT_011ae5e8 = fBlurRadius;
     *(float*)&DAT_011ae5ec = fBlurIntensity;
     *(float*)&DAT_011ae5f0 = m_fScanlineScale;
     *(float*)&DAT_012007e8 = 0.0f;
     ((Ptr*)&DAT_01200810)->FUN_006e5cc0(*(Ptr*)&m_pMenuLightShadowNode);
-    ((Ptr*)&DAT_01200818)->FUN_0066b0d0(a->FUN_004bc320(0));
+    ((Ptr*)&DAT_01200818)->FUN_0066b0d0(a->BSRenderedTexture_GetTexture(0));
     if (this == recon7fbee0::FUN_00705990())
-        *(float*)&DAT_011ae5f4 = recon7fbee0::FUN_00717860();
+        *(float*)&DAT_011ae5f4 = recon7fbee0::InterfaceManager_GetMenuHeight();
     else
         *(float*)&DAT_011ae5f4 = m_pFourthMenuObject->FUN_00a011b0(0xfb0);
     if (m_bBurstActive)
@@ -2255,9 +2266,9 @@ void FORenderedMenu::FUN_007fbee0(Arg* a, void* pData, int iValue)
         *(float*)&DAT_011ae5e8 *= 1.0f + m_fBurstSoundChance;
     }
     if (m_bBurstSoundPlayed)
-        *(float*)&DAT_012007e8 = recon7fbee0::FUN_00717860() * m_fVerticalHoldDuration;
+        *(float*)&DAT_012007e8 = recon7fbee0::InterfaceManager_GetMenuHeight() * m_fVerticalHoldDuration;
     if (m_bVerticalHoldActive)
-        *(float*)&DAT_012007e8 += recon7fbee0::FUN_00717860() * m_fPulseRadiusIntensity;
+        *(float*)&DAT_012007e8 += recon7fbee0::InterfaceManager_GetMenuHeight() * m_fPulseRadiusIntensity;
     *(float*)&DAT_011ae5ec += m_fPulseBrightenIntensity;
     *(float*)&DAT_011ae5e8 += m_fPulseRate;
     if (m_bShudderActive)
@@ -2275,11 +2286,11 @@ void FORenderedMenu::FUN_007fbee0(Arg* a, void* pData, int iValue)
     }
     *(Four*)&DAT_01200800 = *(Four*)&m_kMenuLightColor;
     if (m_bEnableFlicker && !((Node*)&m_pScreenGeometry)->FUN_00559450())
-        recon7fbee0::FUN_004e3270()->FUN_00b8c3b0(recon7fbee0::FUN_00717860(), recon7fbee0::FUN_00717860(), (Node*)&m_pScreenGeometry);
+        recon7fbee0::FUN_004e3270()->FUN_00b8c3b0(recon7fbee0::InterfaceManager_GetMenuHeight(), recon7fbee0::InterfaceManager_GetMenuHeight(), (Node*)&m_pScreenGeometry);
     if (m_bEnableFlicker)
         recon7fbee0::FUN_004e3270()->SetValueAndAssign(1, ((Node*)&m_pScreenGeometry)->FUN_00559450());
     *(int*)&DAT_012007ec = iValue;
-    recon7fbee0::FUN_004e3270()->FUN_00b97550(10, recon7fbee0::FUN_0043c4b0(), a, pData, 0, 1);
+    recon7fbee0::FUN_004e3270()->ImageSpaceManager_RenderEffect(10, recon7fbee0::FUN_0043c4b0(), a, pData, 0, 1);
     ((Ptr*)&DAT_01200818)->FUN_0066b0d0(0);
 }
 
@@ -2376,23 +2387,24 @@ struct Owner007f
     char p140[12];
     bool b14C;
     bool IsUnk28Set();
-    Node007f* FUN_006838b0();
+    Node007f* NiAVObject_GetCollisionObject();
     Node007f* FUN_005585e0();
     void ResetMenuState();
     void UpdateSlotSelection(int);
-    void FUN_007fdf40();
+    void FORenderedMenuRaceSex_OnMenuClose();
 };
 // @fnv 0x007fdf40
-void Owner007f::FUN_007fdf40()
+// src: COMMUNITY 0x007fdf40
+void Owner007f::FORenderedMenuRaceSex_OnMenuClose()
 {
     DAT_011ad884 = 1;
     if (!IsUnk28Set())
         return;
-    if (FUN_006838b0())
+    if (NiAVObject_GetCollisionObject())
     {
-        FUN_006838b0()->FUN_00450f90(true);
+        NiAVObject_GetCollisionObject()->FUN_00450f90(true);
         NiUpdateData ud(0.0f, false, false);
-        FUN_006838b0()->FUN_00a59c60(ud);
+        NiAVObject_GetCollisionObject()->FUN_00a59c60(ud);
     }
     r100.FUN_00559450()->v3a(r108.FUN_00559450());
     r100.FUN_00559450()->v3a(rFC.FUN_00559450());
@@ -2415,18 +2427,18 @@ void Owner007f::FUN_007fdf40()
 
 struct FUN_007ff740_shell : public FORenderedMenu
 {
-    NiAVObject* FUN_006838b0();
+    NiAVObject* NiAVObject_GetCollisionObject();
     void UpdateBodyPart();
 };
 // If the rendered-menu scene getter returns an object, calls FUN_00450f90(true) and Update on it, then calls v3a with the menu root and resets menu state.
 // @fnv 0x007ff740
 void FUN_007ff740_shell::UpdateBodyPart()
 {
-    if (FUN_006838b0())
+    if (NiAVObject_GetCollisionObject())
     {
-        FUN_006838b0()->FUN_00450f90(true);
+        NiAVObject_GetCollisionObject()->FUN_00450f90(true);
         NiUpdateData upd(0.0f, false, false);
-        FUN_006838b0()->Update(upd);
+        NiAVObject_GetCollisionObject()->Update(upd);
     }
     FUN_00450b80(1)->RemoveObject(this->GetMenuRoot());
     ResetMenuState();

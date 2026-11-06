@@ -10,7 +10,8 @@
 #include "../../../../include/Setting.h"
 
 // @fnv 0x009d60e0
-CombatProcedure::COMBAT_PROCEDURES CombatProcedureHideFromTarget::FUN_009d60e0()
+// src: COMMUNITY 0x009d60e0
+CombatProcedure::COMBAT_PROCEDURES CombatProcedureHideFromTarget::GetType_009d60e0()
 {
     return HIDE_FROM_TARGET;
 }

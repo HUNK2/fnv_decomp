@@ -30,28 +30,29 @@ unsigned long FUN_00dce8d0_class::GetValueOrDefault(unsigned long key)
     return ((FUN_00dce8d0_class*)((char*)this + 4))->LookupHashEntry(key, 0);
 }
 
-void __cdecl FUN_00d3fe90(void);
-void __cdecl FUN_00d39390(void);
-void __cdecl FUN_00d41a30(void);
-void __cdecl FUN_00d40d80(void);
-void __cdecl FUN_00d32cd0(void);
+void __cdecl hkBoxBoxAgent3_process(void);
+void __cdecl hkCapsuleTriangleAgent3_process(void);
+void __cdecl hkPredGskAgent3_process(void);
+void __cdecl hkPredGskCylinderAgent3_process(void);
+void __cdecl hkConvexListAgent3_process(void);
 void __cdecl BuildEventIndex(void);
 void __fastcall hkBvTreeAgent3_process(void*, int, void*, int);
 void __cdecl FUN_00d35770(void);
 void __cdecl hkpCollectionAgent3_process(void);
 
 // @fnv 0x00dcd4d0
-int __cdecl FUN_00dcd4d0(void* p)
+// src: COMMUNITY 0x00dcd4d0
+int __cdecl hkpSaveContactPointsUtil_getSerializedAgentType(void* p)
 {
-    if (p == (void*)&FUN_00d3fe90)
+    if (p == (void*)&hkBoxBoxAgent3_process)
         return 1;
-    if (p == (void*)&FUN_00d39390)
+    if (p == (void*)&hkCapsuleTriangleAgent3_process)
         return 2;
-    if (p == (void*)&FUN_00d41a30)
+    if (p == (void*)&hkPredGskAgent3_process)
         return 3;
-    if (p == (void*)&FUN_00d40d80)
+    if (p == (void*)&hkPredGskCylinderAgent3_process)
         return 4;
-    if (p == (void*)&FUN_00d32cd0)
+    if (p == (void*)&hkConvexListAgent3_process)
         return 5;
     if (p == (void*)&BuildEventIndex)
         return 6;
@@ -1911,17 +1912,18 @@ namespace fnv_00dcde10 {
 void* __cdecl FUN_00cb1260(void*, const void*, unsigned int);
 void* __cdecl FUN_00d32ac0(void*, void*);
 int __cdecl CopyAudioNodeTree(void*, void*, void*);
-int FUN_00dcd4d0(void* p)
+// src: COMMUNITY 0x00dcd4d0
+int hkpSaveContactPointsUtil_getSerializedAgentType(void* p)
 {
-    if (p == reinterpret_cast<void*>(&FUN_00d3fe90))
+    if (p == reinterpret_cast<void*>(&hkBoxBoxAgent3_process))
         return 1;
-    if (p == reinterpret_cast<void*>(&FUN_00d39390))
+    if (p == reinterpret_cast<void*>(&hkCapsuleTriangleAgent3_process))
         return 2;
-    if (p == reinterpret_cast<void*>(&FUN_00d41a30))
+    if (p == reinterpret_cast<void*>(&hkPredGskAgent3_process))
         return 3;
-    if (p == reinterpret_cast<void*>(&FUN_00d40d80))
+    if (p == reinterpret_cast<void*>(&hkPredGskCylinderAgent3_process))
         return 4;
-    if (p == reinterpret_cast<void*>(&FUN_00d32cd0))
+    if (p == reinterpret_cast<void*>(&hkConvexListAgent3_process))
         return 5;
     if (p == reinterpret_cast<void*>(&BuildEventIndex))
         return 6;
@@ -1964,7 +1966,7 @@ int DispatchInstruction(char* source, int kind, void* context, char** ppRegistry
     default:
         return 1;
     }
-    if (FUN_00dcd4d0(*reinterpret_cast<void**>(*ppRegistry + 0x16dc + instruction[1] * 80)) != kind)
+    if (hkpSaveContactPointsUtil_getSerializedAgentType(*reinterpret_cast<void**>(*ppRegistry + 0x16dc + instruction[1] * 80)) != kind)
         return 1;
     switch (kind)
     {
@@ -3186,17 +3188,18 @@ struct AgentKey
 {
     void* value;
 };
-__declspec(noinline) int __cdecl FUN_00dcd4d0(AgentKey key)
+// src: COMMUNITY 0x00dcd4d0
+__declspec(noinline) int __cdecl hkpSaveContactPointsUtil_getSerializedAgentType(AgentKey key)
 {
-    if (key.value == (void*)FUN_00d3fe90)
+    if (key.value == (void*)hkBoxBoxAgent3_process)
         return 1;
-    if (key.value == (void*)FUN_00d39390)
+    if (key.value == (void*)hkCapsuleTriangleAgent3_process)
         return 2;
-    if (key.value == (void*)FUN_00d41a30)
+    if (key.value == (void*)hkPredGskAgent3_process)
         return 3;
-    if (key.value == (void*)FUN_00d40d80)
+    if (key.value == (void*)hkPredGskCylinderAgent3_process)
         return 4;
-    if (key.value == (void*)FUN_00d32cd0)
+    if (key.value == (void*)hkConvexListAgent3_process)
         return 5;
     if (key.value == (void*)BuildEventIndex)
         return 6;
@@ -3234,7 +3237,7 @@ int __cdecl hkpSaveContactPointsUtil_serializeEntry(CollisionRecordHeader* apRec
         data = (unsigned char*)apRecord + (abOffset ? 32 : 16);
     process: {
         AgentKey key = {(void*)(*context)->m_entries[apRecord->unk01].m_key};
-        int t = FUN_00dcd4d0(key);
+        int t = hkpSaveContactPointsUtil_getSerializedAgentType(key);
         *type = t;
         switch (t)
         {

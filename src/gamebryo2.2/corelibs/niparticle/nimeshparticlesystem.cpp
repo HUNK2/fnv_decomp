@@ -47,7 +47,8 @@ inline NiObject** NiObject::Children() const
 extern "C" void* g_01202538;
 
 // @fnv 0x00c21e10
-void* __cdecl FUN_00c21e10()
+// src: COMMUNITY 0x00c21e10
+void* __cdecl NiMeshParticleSystem_GetRTTI()
 {
     return &g_01202538;
 }

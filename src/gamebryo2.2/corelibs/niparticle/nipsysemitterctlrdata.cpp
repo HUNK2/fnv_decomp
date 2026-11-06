@@ -10,7 +10,8 @@
 extern "C" void* g_01202760;
 
 // @fnv 0x00c2baa0
-void* __cdecl FUN_00c2baa0()
+// src: COMMUNITY 0x00c2baa0
+void* __cdecl NiPSysEmitterCtlrData_GetRTTI()
 {
     return &g_01202760;
 }

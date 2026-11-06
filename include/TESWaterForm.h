@@ -44,17 +44,17 @@ public:
     WaterShaderSettings* GetShaderSettings();
     WaterShaderSettings* FUN_0057eef0();
     bool HasFlag1();
-    bool FUN_00580060();
+    bool IsDangerous();
     void __thiscall FUN_00580680(int);
     void FUN_0057f890(SpellItem*);
     unsigned int GetMember();
-    const char* FUN_0057fda0();
-    void FUN_0057fef0(const char*);
-    unsigned int FUN_00580080();
-    const char* FUN_005800a0() const;
+    const char* GetMaterialName();
+    void SetMaterialName(const char*);
+    unsigned int GetNoiseTextureNameLength();
+    const char* GetNoiseTextureName() const;
     void SetNP(void*);
-    void FUN_005800e0(NiPointer<NiTexture>&);
-    float FUN_00580100();
+    void GetNoiseTexture(NiPointer<NiTexture>&);
+    float GetOpacity_00580100();
     BGSPlaceableWater* FUN_00580130();
     BGSPlaceableWater* FUN_00580330();
     void SaveWaterForm();
@@ -62,7 +62,7 @@ public:
     bool FUN_0057ff10(TESForm*);
     void FUN_005806e0(BGSSaveFormBuffer*);
     void FUN_00580730(BGSLoadFormBuffer*);
-    void FUN_005807a0(BGSLoadFormBuffer*);
+    void Revert_005807a0(BGSLoadFormBuffer*);
 
     bool m_bNeedsUpdate;
     unsigned char layoutPadding2D[3];

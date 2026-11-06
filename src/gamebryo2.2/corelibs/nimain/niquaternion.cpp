@@ -129,7 +129,8 @@ float NiQuaternion_CounterWarp(float t, float fCos)
 
 // Interpolates p to q and a to b by t, then slerps between those two results by 2*t*(1-t) into self.
 // @fnv 0x00a6e430
-void __fastcall FUN_00a6e430(NiQuaternion* self, int edx, float afTime, const NiQuaternion& aStart,
+// src: COMMUNITY 0x00a6e430
+void __fastcall NiQuaternion_Squad(NiQuaternion* self, int edx, float afTime, const NiQuaternion& aStart,
                              const NiQuaternion& aStart2, const NiQuaternion& aEnd2, const NiQuaternion& aEnd)
 {
     NiQuaternion q1;
@@ -142,7 +143,8 @@ void __fastcall FUN_00a6e430(NiQuaternion* self, int edx, float afTime, const Ni
 extern unsigned char DAT_011F3FE4;
 
 // @fnv 0x00a4ffe0
-unsigned char* __cdecl FUN_00a4ffe0()
+// src: COMMUNITY 0x00a4ffe0
+unsigned char* __cdecl NiBSplineTransformInterpolator_GetRTTI()
 {
     return &DAT_011F3FE4;
 }
@@ -285,7 +287,8 @@ extern const double DAT_0109c9e0;
 
 // Combines two results from FUN_00a6dc90, scales their sum, passes it to FUN_00a88970, then multiplies by current.
 // @fnv 0x00a6dd50
-Quaternion* __cdecl FUN_00a6dd50(Quaternion* output, const Quaternion* previous, Quaternion* current,
+// src: COMMUNITY 0x00a6dd50
+Quaternion* __cdecl NiQuaternion_Intermediate(Quaternion* output, const Quaternion* previous, Quaternion* current,
                                  const Quaternion* next)
 {
     Quaternion inverse;

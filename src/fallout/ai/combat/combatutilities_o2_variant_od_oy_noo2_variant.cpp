@@ -16,7 +16,7 @@
 extern "C" float __cdecl FUN_005b9e80(float);
 float __cdecl FUN_009a7dd0(float a, float b, float c);
 extern int DAT_011a558c;
-char FUN_009a97b0(char a1, char a2);
+char RotateSlot(char a1, char a2);
 extern "C" double DAT_0103c348;
 extern "C" int DAT_011a558c;
 float ScaleCharToFloat(char arg);

@@ -111,7 +111,7 @@ bool NavMeshSearch::Search(PathingRequest* request, NavMeshNodeInfo* start, Path
 
 struct GetCenterX_006a6eb0
 {
-    NiPoint3* FUN_006a6eb0(NiPoint3* apOut);
+    NiPoint3* FastNavMeshTriLocation_GetLocation(NiPoint3* apOut);
 };
 
 struct EdgeExtraInfo
@@ -191,7 +191,7 @@ struct FUN_006a8dc0_shell
 bool FUN_006a8dc0_shell::AddAdjacentNodes(NMNode* apNode, NMNodeArray* apNodes)
 {
     struct { float x, y, z; } kTargetCenter;
-    ((GetCenterX_006a6eb0*)&apNode->pMesh)->FUN_006a6eb0((NiPoint3*)&kTargetCenter);
+    ((GetCenterX_006a6eb0*)&apNode->pMesh)->FastNavMeshTriLocation_GetLocation((NiPoint3*)&kTargetCenter);
     int iPick = DialogueRandom() % 6;
     int iBegin = iPick / 2;
     int iNext = (iPick & 1) + 1;
@@ -288,7 +288,7 @@ struct FUN_006a90a0_Class : NavMeshSearch
 bool FUN_006a90a0_Class::IsNodeWithinSearchCriteria(NavMeshAStarNode* apNode)
 {
     struct { float x, y, z; } pt;
-    ((GetCenterX_006a6eb0*)&apNode->pMesh)->FUN_006a6eb0((NiPoint3*)&pt);
+    ((GetCenterX_006a6eb0*)&apNode->pMesh)->FastNavMeshTriLocation_GetLocation((NiPoint3*)&pt);
 
     float fDist = ((NiPoint3_Sub*)&(static_cast<const PathingLocation*>((*reinterpret_cast<PathingRequest**>(&this->unk2058))->GetStartLoc())->GetLocation() - *reinterpret_cast<const NiPoint3*>(&pt)))->GetLen();
     if (fDist < reinterpret_cast<float&>(this->unk2070))

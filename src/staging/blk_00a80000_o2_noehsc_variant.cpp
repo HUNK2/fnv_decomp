@@ -24,8 +24,8 @@
 extern "C" void __cdecl _Call_a5d3a0();
 extern const void* NiCollisionObject_vftable;
 extern unsigned char* DAT_011f5b04;
-void __cdecl FUN_00714960(int);
-void __cdecl FUN_00a81a20();
+void __cdecl NiParallelUpdateTaskManager_WaitRenderSema(int);
+void __cdecl NiParallelUpdateTaskManager_BeginUpdate();
 int __cdecl NiSkinData_BoneVertData_Compare(const unsigned short* a, const unsigned short* b);
 struct FUN_00a744a0
 {
@@ -39,8 +39,8 @@ struct FUN_00a87900_class
 };
 extern int DAT_011f5b84;
 void __cdecl InitializeGameSystems();
-void __cdecl FUN_00a8a280();
-void __cdecl FUN_00aa2060(void*, void*);
+void __cdecl NiMainSDM_Shutdown();
+void __cdecl NiStaticDataManager_SetRootLibrary(void*, void*);
 struct FUN_00a8a5f0_class
 {
     void* FUN_00a8a5f0();
@@ -92,19 +92,19 @@ struct FUN_00a96460_class
 {
     char pad[0x54];
     void* m_0x54;
-    void FUN_00a96460(void* p);
+    void NiParticlesData_ReplaceSizes(void* p);
 };
 void NiFreeAlias(void*);
 struct FUN_00a96480_Class
 {
     void* m_5c;
-    void FUN_00a96480(void* p);
+    void NiParticlesData_ReplaceRotationAngles(void* p);
 };
 extern "C" void __cdecl NiFreeAlias(void*);
 struct FUN_00a964a0_Class
 {
     void* m_p;
-    void FUN_00a964a0(void* p);
+    void NiParticlesData_ReplaceTextureIndices(void* p);
 };
 struct NiBinaryExtraData;
 struct NiFloatsExtraData;
@@ -183,7 +183,7 @@ extern int DAT_011f5ff0;
 extern int DAT_011f5ff4;
 extern int DAT_011f5ff8;
 extern unsigned char DAT_011f6000;
-void __cdecl FUN_00a9b8b0();
+void __cdecl NiShaderConstantMapEntry_InitializeAttribTable();
 struct FUN_00a85520_class
 {
     void FUN_00a85520(float* dst, float scale);
@@ -290,7 +290,7 @@ struct FUN_00a81bd0_class
 };
 struct Stub
 {
-    void FUN_00aa0250(void* p);
+    void NiTStringPointerMap_NiAVObject_RemoveAt(void* p);
 };
 extern int DAT_0109f73c;
 extern void* _EmptyFS;
@@ -334,9 +334,9 @@ struct FUN_00a5a390_shell
     FUN_00a5a390_shell* FUN_00a950f0(bool bDel);
 };
 void __cdecl operator delete(void* p, unsigned int);
-void __cdecl FUN_00a9b8b0();
-void __cdecl FUN_00a9b9b0();
-void __cdecl FUN_00a9ba80();
+void __cdecl NiShaderConstantMapEntry_InitializeAttribTable();
+void __cdecl NiShaderConstantMapEntry_SDMInit_NiShaderConstantMapEntry_InitializeObjectTable();
+void __cdecl NiShaderConstantMapEntry__SDMInit();
 extern int DAT_0109e04c;
 struct FUN_00a80580_sub
 {
@@ -430,7 +430,7 @@ struct S_a819e0_O
     virtual void v38();
     virtual void v39();
 };
-void FUN_00a819e0();
+void NiParallelUpdateTaskManager_Shutdown();
 // FUN_00a81ba0 : constructor of a plain object whose first member is the
 // class vtable pointer. Clears the dword fields at +4..+0x18, a word at +0x22
 // and a dword at +0x28.
@@ -604,7 +604,7 @@ struct FUN_00a87790_cls
     virtual void vd4();
     virtual void vd8();
     virtual void Tail(int a);
-    void FUN_00a87790(int a);
+    void NiScreenElements_Draw(int a);
 };
 struct FUN_00a88c60_Point2
 {
@@ -880,7 +880,7 @@ extern int DAT_011f5fa8;
 extern int DAT_011f5fac;
 extern int DAT_011f5fb0;
 extern unsigned char DAT_011f6001;
-void __cdecl FUN_00a9b9b0();
+void __cdecl NiShaderConstantMapEntry_SDMInit_NiShaderConstantMapEntry_InitializeObjectTable();
 extern "C" void* DAT_0109b220;
 struct ReferenceHandle
 {
@@ -1063,7 +1063,8 @@ struct SkinData
 };
 
 // @fnv 0x00a84810
-WeightArray* __stdcall FUN_00a84810(unsigned int vertexCount, SkinData* skin)
+// src: COMMUNITY 0x00a84810
+WeightArray* __stdcall NiSkinPartition_CreateVertexInteractions(unsigned int vertexCount, SkinData* skin)
 {
     WeightArray* arrays = new WeightArray[vertexCount];
     unsigned int boneCount = skin->boneCount;
@@ -1591,11 +1592,11 @@ struct GeometryBuilder
 {
     unsigned int unk00, unk04, count;
     OutputRecord* output;
-    TempRecord* FUN_00a84810(unsigned int, SkinBuildData*);
+    TempRecord* NiSkinPartition_CreateVertexInteractions(unsigned int, SkinBuildData*);
     bool ReduceGroupWeights(SourceGeometry*, unsigned char, unsigned char, TempRecord*);
     bool BuildTriangleSetMapping(SourceGeometry*, SkinBuildData*, unsigned char, TempRecord*, HolderArray*, void**,
                       OutputRecord**);
-    bool FUN_00a84980(SourceGeometry*, SkinBuildData*, unsigned char, unsigned char, bool, OutputRecord**,
+    bool NiSkinPartition_MakePartitions(SourceGeometry*, SkinBuildData*, unsigned char, unsigned char, bool, OutputRecord**,
                       unsigned short*, unsigned char*);
 };
 
@@ -1704,13 +1705,14 @@ __declspec(noinline) void FUN_00a81ba0::PopulateSkinData(C082d30* triangles, Hol
 }
 
 // @fnv 0x00a84980
-bool GeometryBuilder::FUN_00a84980(SourceGeometry* source, SkinBuildData* other, unsigned char first,
+// src: COMMUNITY 0x00a84980
+bool GeometryBuilder::NiSkinPartition_MakePartitions(SourceGeometry* source, SkinBuildData* other, unsigned char first,
                                    unsigned char second, bool mode, OutputRecord** outputs, unsigned short* indices,
                                    unsigned char* changes)
 {
     HolderArray holders = {0, 0, 0};
     void* data;
-    TempRecord* records = FUN_00a84810(source->GetCount(), other);
+    TempRecord* records = NiSkinPartition_CreateVertexInteractions(source->GetCount(), other);
     if (!records)
     {
         NiFree(records);

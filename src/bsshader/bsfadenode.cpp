@@ -232,7 +232,8 @@ double(__cdecl* DAT_011f9134)(void*);
 
 // Returns the result of calling the DAT_011f9134 function pointer on param_1, or 1.0f if the pointer is null.
 // @fnv 0x00b4df80
-float __fastcall FUN_00b4df80(void* param_1)
+// src: COMMUNITY 0x00b4df80
+float __fastcall BSFadeNode_GetMaxAlpha(void* param_1)
 {
     float f;
     if (DAT_011f9134)
@@ -407,7 +408,7 @@ struct Extra
 };
 extern const char* DAT_011f9140;
 extern void* DAT_01202ddc;
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d550(const char*, float);
 char* __cdecl FUN_00a7d4d0(const char*, int);
 struct ViewerBool
@@ -473,7 +474,7 @@ void FadeViewer::FUN_00b4ed70(Strings* strings)
 {
     FUN_00a5ea70(strings);
     {
-        char* text = FUN_00a7d330(DAT_011f9140);
+        char* text = NiViewerStrings_NiGetViewerString_Title(DAT_011f9140);
         strings->Add(text);
         float fNearDist = nearDist;
         float fFarDist = farDist;
@@ -931,7 +932,7 @@ struct FadeNodeObj
         return (m_uiValue1 >> 28) & 1;
     }
     void FUN_00a5dbe0(FadeCuller& culler);
-    float FUN_00b4df80();
+    float BSFadeNode_GetMaxAlpha();
     void FUN_00b4e490(FadeCuller& culler);
 };
 
@@ -1010,7 +1011,7 @@ void FadeNodeObj::FUN_00b4e490(FadeCuller& culler)
     }
     iFrameCounter = DAT_011f9138;
 
-    float fTarget = FUN_00b4df80();
+    float fTarget = BSFadeNode_GetMaxAlpha();
     bool bFadeQueuedCur = false;
     if (IsFadedIn() && fTarget > 0.0f && fTarget < 1.0f)
     {

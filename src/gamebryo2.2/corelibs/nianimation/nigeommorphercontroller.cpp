@@ -372,7 +372,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f3728;
 // @fnv 0x00a3afd0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a3afd0()
+// src: COMMUNITY 0x00a3afd0
+GlobalObjectO2_00a7b610* __cdecl NiGeomMorpherController_GetRTTI()
 {
     return &g_011f3728;
 }

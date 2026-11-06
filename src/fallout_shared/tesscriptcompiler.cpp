@@ -182,33 +182,33 @@ void __cdecl FUN_005b1b60(const char* apExpLine, int* apOffset)
     }
 }
 
-int __cdecl FUN_005b3cd0(unsigned short arg1, void* arg2, void* arg3, void* arg4, int arg5, int arg6);
+int __cdecl Cmd_NonDefault_Parse(unsigned short arg1, void* arg2, void* arg3, void* arg4, int arg5, int arg6);
 
 // Calls FUN_005b3cd0 with the first four arguments and zero for the last two.
 // @fnv 0x005b3c70
 // src: EXE 0x005b3c70
 int __cdecl Cmd_ShowMessage_Parse(unsigned short arg1, void* arg2, void* arg3, void* arg4)
 {
-    return FUN_005b3cd0(arg1, arg2, arg3, arg4, 0, 0);
+    return Cmd_NonDefault_Parse(arg1, arg2, arg3, arg4, 0, 0);
 }
 
-int __cdecl FUN_005b3cd0(unsigned short, void*, void*, void*, int, int);
+int __cdecl Cmd_NonDefault_Parse(unsigned short, void*, void*, void*, int, int);
 
 // @fnv 0x005b3c40
 // src: EXE 0x005b3c40
 int __cdecl Cmd_EssentialDeathReload_Parse(unsigned short param1, void* param2, void* param3, void* param4)
 {
-    return FUN_005b3cd0(param1, param2, param3, param4, 1, 0);
+    return Cmd_NonDefault_Parse(param1, param2, param3, param4, 1, 0);
 }
 
-int __cdecl FUN_005b3cd0(unsigned short, void*, void*, void*, int, int);
+int __cdecl Cmd_NonDefault_Parse(unsigned short, void*, void*, void*, int, int);
 
 // Calls FUN_005b3cd0 with the given arguments plus 0 and 1, returning its result.
 // @fnv 0x005b3ca0
 // src: EXE 0x005b3ca0
 int __cdecl Cmd_ShowWarning_Parse(unsigned short arg1, void* arg2, void* arg3, void* arg4)
 {
-    return FUN_005b3cd0(arg1, arg2, arg3, arg4, 0, 1);
+    return Cmd_NonDefault_Parse(arg1, arg2, arg3, arg4, 0, 1);
 }
 
 void __cdecl _Deallocate(void*);
@@ -270,7 +270,8 @@ struct ScriptVariableData
 };
 bool __cdecl ResolveScriptCommand(char*);
 // @fnv 0x005afeb0
-bool __cdecl FUN_005afeb0(const char* apVarName)
+// src: COMMUNITY 0x005afeb0
+bool __cdecl ScriptCompiler_IsValidVariableName(const char* apVarName)
 {
     if (!apVarName || !apVarName[0])
         return false;
@@ -412,7 +413,7 @@ struct ListX
 
 void __cdecl _Deallocate(void* ptr);
 void __fastcall ClearList(void* ptr);
-void __fastcall FUN_005ae730(void* ptr);
+void __fastcall ScriptCompileData_ClearAllVariables(void* ptr);
 
 struct FUN_005ae5c0
 {
@@ -435,7 +436,7 @@ FUN_005ae5c0::~FUN_005ae5c0()
 {
     ((TESDataHandler*)this)->ClearHairList();
     ClearList(this);
-    FUN_005ae730(this);
+    ScriptCompileData_ClearAllVariables(this);
     _Deallocate(pOutput);
 }
 }  // namespace fnv_005ae5c0
@@ -595,7 +596,7 @@ struct ScriptWordView
     unsigned int functionCode;
 };
 extern ScriptCommandView DAT_0118cb50[];
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 
 // Matches word->text against the long or short names of three command tables and, on a hit, stores 'X' in variableType and the command opcode in functionCode.
 // @fnv 0x005b1910
@@ -604,8 +605,8 @@ bool __cdecl ResolveScriptCommand(ScriptWordView* word)
     int index;
     for (index = 0; index < 16; ++index)
     {
-        if (FUN_00404dc0(DAT_0118cb50[index].longName, word->text) == 0 ||
-            FUN_00404dc0(DAT_0118cb50[index].shortName, word->text) == 0)
+        if (BSstricmp(DAT_0118cb50[index].longName, word->text) == 0 ||
+            BSstricmp(DAT_0118cb50[index].shortName, word->text) == 0)
         {
             word->variableType = 'X';
             word->functionCode = DAT_0118cb50[index].opcode;
@@ -614,8 +615,8 @@ bool __cdecl ResolveScriptCommand(ScriptWordView* word)
     }
     for (index = 0; index < 640; ++index)
     {
-        if (FUN_00404dc0(word->text, reinterpret_cast<ScriptCommandView*>(g_scriptCommands)[index].longName) == 0 ||
-            FUN_00404dc0(word->text, reinterpret_cast<ScriptCommandView*>(g_scriptCommands)[index].shortName) == 0)
+        if (BSstricmp(word->text, reinterpret_cast<ScriptCommandView*>(g_scriptCommands)[index].longName) == 0 ||
+            BSstricmp(word->text, reinterpret_cast<ScriptCommandView*>(g_scriptCommands)[index].shortName) == 0)
         {
             word->variableType = 'X';
             word->functionCode = reinterpret_cast<ScriptCommandView*>(g_scriptCommands)[index].opcode;
@@ -624,8 +625,8 @@ bool __cdecl ResolveScriptCommand(ScriptWordView* word)
     }
     for (index = 0; index < 205; ++index)
     {
-        if (FUN_00404dc0(word->text, reinterpret_cast<ScriptCommandView*>(DAT_0118e8e0)[index].longName) == 0 ||
-            FUN_00404dc0(word->text, reinterpret_cast<ScriptCommandView*>(DAT_0118e8e0)[index].shortName) == 0)
+        if (BSstricmp(word->text, reinterpret_cast<ScriptCommandView*>(DAT_0118e8e0)[index].longName) == 0 ||
+            BSstricmp(word->text, reinterpret_cast<ScriptCommandView*>(DAT_0118e8e0)[index].shortName) == 0)
         {
             word->variableType = 'X';
             word->functionCode = reinterpret_cast<ScriptCommandView*>(DAT_0118e8e0)[index].opcode;
@@ -637,7 +638,8 @@ bool __cdecl ResolveScriptCommand(ScriptWordView* word)
 
 // Scans text from start to the null terminator, counting '(' and ')', and returns whether the final depth is zero.
 // @fnv 0x005b1a90
-bool __cdecl FUN_005b1a90(const char* text, unsigned int start)
+// src: COMMUNITY 0x005b1a90
+bool __cdecl ScriptCompiler_CheckParentheses(const char* text, unsigned int start)
 {
     int depth_ = 0;
     unsigned int i = start;
@@ -685,7 +687,7 @@ bool __cdecl HasBalancedQuotes(const char* pcString, int offset)
 struct FUN_005ae730_shell
 {
     List* FUN_005a8080();
-    void FUN_005ae730();
+    void ScriptCompileData_ClearAllVariables();
 };
 struct HairObject
 {
@@ -693,7 +695,8 @@ struct HairObject
 };
 // Walks the list from FUN_005a8080 and, while the list is non-null and its check fails, calls DestroyAndFree(1) on each item and advances with FUN_0063f7b0.
 // @fnv 0x005ae730
-void FUN_005ae730_shell::FUN_005ae730()
+// src: COMMUNITY 0x005ae730
+void FUN_005ae730_shell::ScriptCompileData_ClearAllVariables()
 {
     List* list = FUN_005a8080();
     while (list && !list->_ref_008256d0())
@@ -893,8 +896,8 @@ struct ScriptNameRef
 void __cdecl FUN_00407000(char* buf, const char* fmt, void* args);
 void __cdecl FUN_00406f60(StrBuf8* out, const char* fmt, char* name, unsigned int line, char* msg);
 int __cdecl FUN_00464f30(char* a, int b);
-void __cdecl FUN_00703c00(int a);
-void __cdecl FUN_005b5e40(int a);
+void __cdecl Interface_PrintLine(int a);
+void __cdecl Warning_005b5e40(int a);
 
 // @fnv 0x005aea90
 void __cdecl ReportScriptError(CStringArgument* self, const char* pcFormat, ...)
@@ -908,11 +911,11 @@ void __cdecl ReportScriptError(CStringArgument* self, const char* pcFormat, ...)
                  self->m_uiLastLineNumber, msg);
     if (self->m_eCompilerIndex == 1)
     {
-        FUN_00703c00(FUN_00464f30(strBuf.GetText(), 0));
+        Interface_PrintLine(FUN_00464f30(strBuf.GetText(), 0));
     }
     else
     {
-        FUN_005b5e40(FUN_00464f30(strBuf.GetText(), 0));
+        Warning_005b5e40(FUN_00464f30(strBuf.GetText(), 0));
     }
 }
 
@@ -978,7 +981,7 @@ bool ScriptCompiler::FUN_005aeb90(Script* script, CStringArgument* pSource)
         currentLine = (ScriptLineBuffer*)*buffer->_ref_006815c0();
         opcode = currentLine->unk410;
         pSource->m_uiLastLineNumber = currentLine->m_uiValueBeforeData;
-        if (!FUN_005aff40(script, pSource, currentLine))
+        if (!ScriptCompiler_CompileLine(script, pSource, currentLine))
             return false;
         previous = buffer;
         buffer = buffer->_ref_00726070();
@@ -2008,7 +2011,8 @@ void __cdecl ReportScriptError(void*, const char*, ...);
 
 // Parses and compiles a MessageBox script line into binary output, handling literal text, parameters, variables, buttons, and duration.
 // @fnv 0x005b3cd0
-bool __cdecl FUN_005b3cd0(unsigned short opcode, MessageParameter_5b3c* apParameter, ScriptLineBuffer* line,
+// src: COMMUNITY 0x005b3cd0
+bool __cdecl Cmd_NonDefault_Parse(unsigned short opcode, MessageParameter_5b3c* apParameter, ScriptLineBuffer* line,
                           CompileMessageContext_5b3c* context, bool hasButtons, bool literal)
 {
     int size;

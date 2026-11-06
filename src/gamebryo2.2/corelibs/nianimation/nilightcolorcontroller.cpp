@@ -48,7 +48,7 @@ void __cdecl FUN_00a6d290();
 void __cdecl FUN_00a38e00();
 void __cdecl FUN_00a57c70();
 void __cdecl FUN_00a645b0();
-void __cdecl FUN_004bc280();
+void __cdecl NiLight_SetAmbientColor();
 extern int DAT_0109ad74;
 __declspec(noinline) NiPoint3InterpController* __fastcall InitializePoint3Controller(NiPoint3InterpController* self);
 
@@ -76,7 +76,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3fa8;
 
 // @fnv 0x00a4d200
-GlobalObjectO2_00a7b610* __cdecl FUN_00a4d200()
+// src: COMMUNITY 0x00a4d200
+GlobalObjectO2_00a7b610* __cdecl NiLightColorController_GetRTTI()
 {
     return &g_011f3fa8;
 }
@@ -190,12 +191,12 @@ void* __fastcall FUN_00a4d4b0(NiLightColorController* self, void*, CloningProces
 }
 
 void __stdcall FUN_00a57d10(StrArr*);
-char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObjectO2_00a7b610*);
 // @fnv 0x00a4d5a0
 void __stdcall FUN_00a4d5a0(StrArr* pkStrings)
 {
     FUN_00a57d10(pkStrings);
-    char* p = FUN_00a7d330(*(GlobalObjectO2_00a7b610**)&g_011f3fa8);
+    char* p = NiViewerStrings_NiGetViewerString_Title(*(GlobalObjectO2_00a7b610**)&g_011f3fa8);
     unsigned int uiIndex = ((unsigned short*)pkStrings)[5];
     if (uiIndex >= ((unsigned short*)pkStrings)[4])
         pkStrings->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);
@@ -354,12 +355,12 @@ void NiTimeController::EvaluateAndApplyOutput(float& parameter)
     NiLight* pOutput = (NiLight*)m_pkTarget->DynamicCast(&g_011f4a28);
     if ((LightColorFlags((NiLightColorController*)this) & 1) != 0)
     {
-        ((void(__thiscall*)(NiLight*, const NiPoint3&))FUN_004bc280)(pOutput, kClampedValues);
+        ((void(__thiscall*)(NiLight*, const NiPoint3&))NiLight_SetAmbientColor)(pOutput, kClampedValues);
         pOutput->SetEffectColor(DAT_011f4998);
     }
     else
     {
-        ((void(__thiscall*)(NiLight*, const NiPoint3&))FUN_004bc280)(pOutput, (const NiPoint3&)DAT_011f4998);
+        ((void(__thiscall*)(NiLight*, const NiPoint3&))NiLight_SetAmbientColor)(pOutput, (const NiPoint3&)DAT_011f4998);
         pOutput->SetEffectColor((const NiColor&)kClampedValues);
     }
 }

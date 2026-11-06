@@ -44,10 +44,10 @@ public:
     void UpdateCombatState();
     void FUN_009cc510();
     void FUN_009cce70(int attack, int arg2);
-    void FUN_009cced0();
-    void FUN_009ccfb0();
-    void FUN_009cd150();
-    void FUN_009cd3d0();
+    void CombatProcedureAttackMelee_HandleAttack();
+    void CombatProcedureAttackMelee_HandleBlock();
+    void CombatProcedureAttackMelee_CheckStopBlocking();
+    void CombatProcedureAttackMelee_HandleHold();
     void FUN_009cd410();
     void FUN_009cd430();
     void FUN_009cd5e0();
@@ -78,7 +78,7 @@ public:
     void FUN_009cfc60();
     float GetModifierValue();
     bool IsTargetOutOfRange();
-    float FUN_009cfe90();
+    float CombatProcedureAttackMelee_GetMovingTargetVelocity();
     void StopIfSpeakerOutOfRange();
 
     Actor* FUN_00996de0();
@@ -88,7 +88,7 @@ public:
     void SetLookAtPoint(NiPoint3*, int);
     void FUN_009caac0(const char*);
     int FUN_00825c00();
-    int FUN_0044edb0();
+    int TESMain_GetThread();
     int GetSection();
     int GetAudioBackendData();
 

@@ -185,7 +185,7 @@ void TESObjectDOOR::InitItem()
     TESScriptableForm::InitItem(this);
     BGSDestructibleObjectForm::InitItem(this);
     TESModelTextureSwap::InitItem(this);
-    BSSimpleList<TESForm*>* current = FUN_00871a30();
+    BSSimpleList<TESForm*>* current = TESDataHandler_GetFactions();
     BSSimpleList<TESForm*>* previous = 0;
     while (current && !current->IsEmpty())
     {
@@ -569,7 +569,7 @@ void TESObjectDOOR::FUN_00518030(bool abSet)
 }
 
 void __cdecl FUN_00485910(unsigned int, unsigned int);
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 struct DoorFormNode
 {
     bool FUN_008256d0();
@@ -593,7 +593,7 @@ struct DoorSave_shell
     unsigned char flags;
     void FUN_004855a0();
     void FUN_00485680();
-    DoorFormNode* FUN_00871a30();
+    DoorFormNode* TESDataHandler_GetFactions();
     void WriteSaveData();
 };
 // Writes the door save record: calls each part's writer, emits form IDs for form78/form7c/form80 and flags, then walks the node list emitting each form ID.
@@ -606,7 +606,7 @@ void DoorSave_shell::WriteSaveData()
     part30.FUN_00487010();
     ((void(__thiscall*)(TESModel*, unsigned int, unsigned int, unsigned int)) & WriteDoorModelChunks)(
         &part3c, 0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    part5c.FUN_0048cca0();
+    part5c.Save_0048cca0();
     part68.Save();
     if (form78)
     {
@@ -623,8 +623,8 @@ void DoorSave_shell::WriteSaveData()
         itempint = form80->GetFormID();
         FUN_00485910(0x4d414e42, itempint);
     }
-    FUN_004858f0(0x4d414e46, flags);
-    pCurrentElementNext = FUN_00871a30();
+    TESForm_AddChunk_3(0x4d414e46, flags);
+    pCurrentElementNext = TESDataHandler_GetFactions();
     while (pCurrentElementNext && !pCurrentElementNext->FUN_008256d0())
     {
         itempint = (*pCurrentElementNext->FUN_006815c0())->GetFormID();
@@ -757,7 +757,7 @@ struct DoorCopy
     TESSound *openSound, *closeSound, *loopSound;
     unsigned char flags;
     void FUN_00519550();
-    DoorCopyNode* FUN_00871a30();
+    DoorCopyNode* TESDataHandler_GetFactions();
     TESSound* FUN_00407820();
     TESSound* FUN_00407840();
     TESSound* FUN_004fb070();
@@ -773,8 +773,8 @@ void DoorCopy::CopyFromDoor(TESForm* form)
         return;
     DoorCopyNode* destination = 0;
     FUN_00519550();
-    DoorCopyNode* node2 = source3->FUN_00871a30();
-    destination = FUN_00871a30();
+    DoorCopyNode* node2 = source3->TESDataHandler_GetFactions();
+    destination = TESDataHandler_GetFactions();
     while (node2 && !node2->FUN_008256d0())
     {
         destination->FUN_00905820(node2->FUN_006815c0());
@@ -1435,9 +1435,9 @@ bool DoorActivation::ActivateDoor(TESObjectREFR* reference, TESObjectREFR* activ
             {
                 BSSoundHandle sound;
                 if (actor == (TESObjectREFR*)DAT_011dea3c)
-                    sound = BSAudio::GetSingleton()->FUN_00ad73b0(FUN_00407820()->FUN_0084e3a0(), 0x80000121);
+                    sound = BSAudio::GetSingleton()->GetSoundHandleByFormID_00ad73b0(FUN_00407820()->FUN_0084e3a0(), 0x80000121);
                 else
-                    sound = BSAudio::GetSingleton()->FUN_00ad73b0(FUN_00407820()->FUN_0084e3a0(), 0x102u);
+                    sound = BSAudio::GetSingleton()->GetSoundHandleByFormID_00ad73b0(FUN_00407820()->FUN_0084e3a0(), 0x102u);
                 if (actor != (TESObjectREFR*)DAT_011dea3c)
                 {
                     NiPoint3 position = *static_cast<const TESObjectREFR*>(reference)->GetPos();
@@ -1478,7 +1478,7 @@ bool DoorActivation::ActivateDoor(TESObjectREFR* reference, TESObjectREFR* activ
                 activator->FUN_00575770(FLT_MAX);
             Actor* actorAgain = dynamic_cast<Actor*>(activator);
             if (actorAgain)
-                actorAgain->FUN_008ae640(0);
+                actorAgain->Actor_SetForceUpdateQuest(0);
             FUN_00573800(activator, cell, world);
         }
     }
@@ -1567,7 +1567,7 @@ struct Proc
 {
     bool FUN_00425fd0();
     void LockAndProcessPerks();
-    void FUN_00557be0();
+    void TESObjectCELL_ForceLODFadeInLoadedCells();
 };
 
 struct FUN_0084e3a0_Class
@@ -1721,7 +1721,7 @@ struct GlobalObj
 
 struct Other
 {
-    void FUN_00851d30();
+    void QueueAutosave();
 };
 
 extern GlobalObj DAT_011d8980;
@@ -1749,7 +1749,7 @@ void __cdecl PlaySoundForRef(unsigned int id)
                 if (ref->FUN_00568e50()->FUN_00559450()->Gate1d0())
                 {
                     BSSoundHandle soundHandle =
-                        BSAudio::GetSingleton()->FUN_00ad73b0(obj->FUN_00407840()->FUN_0084e3a0(), 0x121);
+                        BSAudio::GetSingleton()->GetSoundHandleByFormID_00ad73b0(obj->FUN_00407840()->FUN_0084e3a0(), 0x121);
                     soundHandle.Play(0);
                 }
             }
@@ -1758,11 +1758,11 @@ void __cdecl PlaySoundForRef(unsigned int id)
     Proc* tailProc = reinterpret_cast<Proc*>(DAT_011dea3c->FUN_008d6f30());
     if (tailProc && !tailProc->FUN_00425fd0())
     {
-        tailProc->FUN_00557be0();
+        tailProc->TESObjectCELL_ForceLODFadeInLoadedCells();
     }
     if (*DAT_011d8980.FUN_00408d60() && tailProc)
     {
-        DAT_011de134->FUN_00851d30();
+        DAT_011de134->QueueAutosave();
     }
 }
 }  // namespace fnv_00518cf0

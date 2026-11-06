@@ -23,12 +23,12 @@ public:
 
     void FUN_00ce1560(const hkQsTransform* pose);
     int addToWorld(void* world, unsigned char flag);
-    void FUN_00ce1760(hkQsTransform* poseOut, const hkQsTransform& root,
+    void hkaRagdollInstance_getPoseWorldSpace(hkQsTransform* poseOut, const hkQsTransform& root,
                       const hkQsTransform* localPose);
-    void FUN_00ce18d0(hkQsTransform* poseOut);
+    void hkaRagdollInstance_getPoseWorldSpace_00ce18d0(hkQsTransform* poseOut);
     void getWorldPose(hkQsTransform* poseOut);
-    void FUN_00ce18f0(hkQsTransform* poseOut, const hkQsTransform& worldFromModel);
-    void FUN_00ce1ad0(const hkQsTransform* pose, const hkQsTransform& worldFromModel);
+    void hkaRagdollInstance_getPoseModelSpace(hkQsTransform* poseOut, const hkQsTransform& worldFromModel);
+    void hkaRagdollInstance_setPoseWorldSpace(const hkQsTransform* pose, const hkQsTransform& worldFromModel);
     void FUN_00ce1ca0(const hkQsTransform* poseA, const hkQsTransform& worldFromModelA,
                       const hkQsTransform* poseB, const hkQsTransform& worldFromModelB,
                       float deltaTime);

@@ -216,8 +216,8 @@ struct ParticleSystem
     void FUN_005533f0(void*);
     void FUN_00553480(CurveBase*);
     void SetField(void*);
-    void FUN_005534f0(void*);
-    void FUN_00553440(void*);
+    void bhkWorld_AppendAcousticSpaceListener(void*);
+    void bhkWorld_AddContactListener(void*);
     void FUN_00c68750(FUN_006815c0*);
     void FUN_00454380(bool);
     void SetProcessEnabled(int);
@@ -277,7 +277,7 @@ extern "C"
 }
 extern float __cdecl FUN_004a3e90(float);
 extern void* __cdecl FUN_0062f3d0();
-extern void* __cdecl FUN_00453720();
+extern void* __cdecl FOCollisionListener_GetSingleton();
 extern bool __cdecl FUN_00456c70();
 // @fnv 0x00554010
 ParticleSystem* __cdecl FUN_00554010(const FUN_006815c0* origin)
@@ -304,8 +304,8 @@ ParticleSystem* __cdecl FUN_00554010(const FUN_006815c0* origin)
     system->FUN_005533f0(new FUN_00554590());
     system->FUN_00553480(new FUN_0062d5c0());
     system->SetField(FUN_0062f3d0());
-    system->FUN_005534f0(new FUN_0061f460());
-    system->FUN_00553440(FUN_00453720());
+    system->bhkWorld_AppendAcousticSpaceListener(new FUN_0061f460());
+    system->bhkWorld_AddContactListener(FOCollisionListener_GetSingleton());
     system->FUN_005533f0(new FUN_0062a460());
     if (!DAT_011ca088)
         DAT_011ca088 = new FUN_00624150();

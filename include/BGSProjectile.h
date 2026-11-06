@@ -48,10 +48,10 @@ public:
     bool FUN_00975300();
     float FUN_0045cd80();
     bool FUN_005de080();
-    bool FUN_004fdf20() const;
-    bool FUN_009b88e0();
+    bool GetCanTurnOff() const;
+    bool GetHasRotation();
     bool FUN_009bc870();
-    bool FUN_004fdf40();
+    bool GetCanPickup();
     bool FUN_009a7f80() const;
     float FUN_00966980();
     float FUN_009a7c40();

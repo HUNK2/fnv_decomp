@@ -60,10 +60,11 @@ struct CollisionPair
 {
     CollisionPointer first;
     CollisionPointer second;
-    void FUN_00620930(float radius, unsigned int filter);
+    void CameraCaster_Init(float radius, unsigned int filter);
 };
 // @fnv 0x00620930
-void CollisionPair::FUN_00620930(float radius, unsigned int filter)
+// src: COMMUNITY 0x00620930
+void CollisionPair::CameraCaster_Init(float radius, unsigned int filter)
 {
     bhkSphereShape* sphere = new bhkSphereShape(radius, true);
     CollisionInfo firstInfo;
@@ -144,11 +145,12 @@ class xPick
     xSP<xPhantom> m_spPhantom;
     bool m_b3a4;
     unsigned int m_ui3a8;
-    void FUN_006269a0(float fRadius, unsigned int uiLayer);
+    void HitCaster_Init(float fRadius, unsigned int uiLayer);
 };
 
 // @fnv 0x006269a0
-void xPick::FUN_006269a0(float fRadius, unsigned int uiLayer)
+// src: COMMUNITY 0x006269a0
+void xPick::HitCaster_Init(float fRadius, unsigned int uiLayer)
 {
     bhkSphereShape* qfTOqo = new bhkSphereShape(fRadius, true);
     xCinfo qsSDDgz;
@@ -429,10 +431,11 @@ class WorkOwner
     int unk30;
     WorkList list;
     void FUN_0062fc70(WorkItem* item);
-    void FUN_00631370(WorkActor* actor, bool checkDist, bool skip);
+    void TESWaterListener_HandleQueuedRemovals(WorkActor* actor, bool checkDist, bool skip);
 };
 // @fnv 0x00631370
-void WorkOwner::FUN_00631370(WorkActor* actor, bool checkDist, bool skip)
+// src: COMMUNITY 0x00631370
+void WorkOwner::TESWaterListener_HandleQueuedRemovals(WorkActor* actor, bool checkDist, bool skip)
 {
     void* it = list.FUN_00559450();
     void* next = 0;
@@ -653,20 +656,21 @@ class ImpactHandler620
 void* __cdecl FUN_004b5820(void* pvBody);
 void* __cdecl FUN_0056f930(void* pvObject);
 CollisionBodyVectorSource* __cdecl FUN_004b59f0(void* pvForm);
-void* __cdecl FUN_004b5a80(const void* pvRef);
+void* __cdecl bhkEntity_Getbhk(const void* pvRef);
 
 class ImpactManager620
 {
   public:
     ImpactHandler620* FindHandler(void* pvSource, void* pvBody);
-    ImpactHandler620* FUN_00620340(CollisionInfo620* pkInfo, void* pvSource, void* pvTarget, void* pvData,
+    ImpactHandler620* BGSZoneTargetListener_AddZoneTargetPair(CollisionInfo620* pkInfo, void* pvSource, void* pvTarget, void* pvData,
                                    bool bDirect);
 };
 
 // Preserve the original stack-cookie instrumentation with the shared vector layout.
 #pragma strict_gs_check(push, on)
 // @fnv 0x00620340
-ImpactHandler620* ImpactManager620::FUN_00620340(CollisionInfo620* pkInfo, void* pvSource, void* pvTarget, void* pvData,
+// src: COMMUNITY 0x00620340
+ImpactHandler620* ImpactManager620::BGSZoneTargetListener_AddZoneTargetPair(CollisionInfo620* pkInfo, void* pvSource, void* pvTarget, void* pvData,
                                                  bool bDirect)
 {
     void* pvObjA = FUN_004b5820(pkInfo->m_pvBodyA);
@@ -693,7 +697,7 @@ ImpactHandler620* ImpactManager620::FUN_00620340(CollisionInfo620* pkInfo, void*
             {
                 kPos = *static_cast<const hkVector4*>(pkRef->GetPosition());
                 // 0x004ae6a0 is bhkWorldObject::FUN_004ae6a0, which returns the shape wrapper.
-                bhkWorldObject* pkWorldObject = (bhkWorldObject*)FUN_004b5a80(pkRef);
+                bhkWorldObject* pkWorldObject = (bhkWorldObject*)bhkEntity_Getbhk(pkRef);
                 bhkNode620* pkNode = pkWorldObject ? reinterpret_cast<bhkNode620*>(pkWorldObject->FUN_004ae6a0()) : 0;
                 bhkCharacter620* pkCharacter = pkNode ? pkNode->GetCharacter() : 0;
                 if (pkCharacter && pkInfo->m_iBodyIndex != -1)
@@ -1191,13 +1195,13 @@ struct xCollector
 {
     xCollector();
     ~xCollector();
-    xTag FUN_00621210();
+    xTag hkpAllCdPointCollector_hasHit();
     int m_q[0xe8];
 };
 struct xNode;
 struct xModel
 {
-    xNode* FUN_0043b230();
+    xNode* NiObjectNET_GetControllers();
 };
 struct xModelPtr
 {
@@ -1206,11 +1210,11 @@ struct xModelPtr
 struct xBody
 {
     xModelPtr* GetSourceFilesFromObject();
-    void FUN_006219f0(hkVector4*);
+    void bhkShapePhantom_SetPosition(hkVector4*);
 };
 struct xMotion
 {
-    float FUN_00621b00();
+    float ActorPackage_GetPackageStartTime();
     void FUN_00621b20(float);
 };
 xMotion* __fastcall xFUN_004ae6c0(xBody*);
@@ -1299,16 +1303,16 @@ bool xCaster::FUN_006214d0(xRef* apRef, const NiPoint3& akPos, float afA, float 
             CAST->DestroyDate();
             EV.m_iThirdValue.FUN_00537e90(CAST->FUN_00541c80()->FUN_00407840());
             CAST->DestroyDate();
-            BODY->FUN_006219f0(&POSV);
+            BODY->bhkShapePhantom_SetPosition(&POSV);
             xMotion* MOTION = xFUN_004ae6c0(BODY);
             xCastFn FN =
-                EFF->GetIndexedValue(WMODEL->FUN_00559450()->FUN_0043b230(), SMODEL->FUN_00559450()->FUN_0043b230());
+                EFF->GetIndexedValue(WMODEL->FUN_00559450()->NiObjectNET_GetControllers(), SMODEL->FUN_00559450()->NiObjectNET_GetControllers());
             if (FN)
             {
-                float SAVED = MOTION->FUN_00621b00();
+                float SAVED = MOTION->ActorPackage_GetPackageStartTime();
                 MOTION->FUN_00621b20(afA);
                 FN(WMODEL, SMODEL, &EV, &COL);
-                RESULT = COL.FUN_00621210().FUN_005609f0();
+                RESULT = COL.hkpAllCdPointCollector_hasHit().FUN_005609f0();
                 MOTION->FUN_00621b20(SAVED);
             }
         }
@@ -1470,18 +1474,19 @@ struct MotionOwner
     int unk384, unk388, unk38c, unk390;
     int unk394, unk398, unk39c;
     MotionPointer world;
-    void FUN_00623310(float);
+    void DecalCaster_SetRadius(float);
     void FUN_006233c0(int);
-    MotionStatus* FUN_00621210(bool&);
-    void FUN_00623070();
-    void FUN_00622f80(const void*, const void*, float);
+    MotionStatus* hkpAllCdPointCollector_hasHit(bool&);
+    void DecalCaster_GetNumCollisions();
+    void DecalCaster_Pick(const void*, const void*, float);
 };
 // @fnv 0x00622f80
-void MotionOwner::FUN_00622f80(const void* origin, const void* rotation, float time)
+// src: COMMUNITY 0x00622f80
+void MotionOwner::DecalCaster_Pick(const void* origin, const void* rotation, float time)
 {
     bool result = false;
     if (time != 0.0)
-        FUN_00623310(time);
+        DecalCaster_SetRadius(time);
     FUN_006233c0(0);
     Update();
     if (world.FUN_00559450())
@@ -1492,9 +1497,9 @@ void MotionOwner::FUN_00622f80(const void* origin, const void* rotation, float t
         FUN_004a3e00(&frame, rotation);
         world.FUN_00559450()->InvokeInterfaceCall(vector, frame, this, 0);
         bool temporary;
-        result = FUN_00621210(temporary)->FUN_005609f0();
+        result = hkpAllCdPointCollector_hasHit(temporary)->FUN_005609f0();
     }
-    FUN_00623070();
+    DecalCaster_GetNumCollisions();
 }
 
 
@@ -1503,17 +1508,18 @@ const hkVector4* __cdecl FUN_004a3e00(hkVector4* pOut, const NiPoint3* pSource);
 class S006230f0_Object
 {
   public:
-    void FUN_006219f0(const hkVector4* pValue);
-    void FUN_006230f0(const NiPoint3* pSource);
+    void bhkShapePhantom_SetPosition(const hkVector4* pValue);
+    void bhkShapePhantom_setPositionNi(const NiPoint3* pSource);
 };
 
 // Preserve the original stack-cookie instrumentation with the shared vector layout.
 #pragma strict_gs_check(push, on)
 // @fnv 0x006230f0
-void S006230f0_Object::FUN_006230f0(const NiPoint3* pSource)
+// src: COMMUNITY 0x006230f0
+void S006230f0_Object::bhkShapePhantom_setPositionNi(const NiPoint3* pSource)
 {
     hkVector4 kValue;
-    FUN_006219f0(FUN_004a3e00(&kValue, pSource));
+    bhkShapePhantom_SetPosition(FUN_004a3e00(&kValue, pSource));
 }
 #pragma strict_gs_check(pop)
 
@@ -1603,7 +1609,7 @@ struct Node
     void* FUN_00460140();
     int FUN_00517670();
     const hkVector4* FUN_00560d80();
-    void FUN_00561690(hkVector4*);
+    void bhkRigidBody_SetLinearVelocity_00561690(hkVector4*);
 };
 struct Filter
 {
@@ -1622,14 +1628,14 @@ struct ObjArray
     ~ObjArray();
     int FUN_00726070();
     Node*& FUN_00629ab0(unsigned);
-    void FUN_00629a20(int);
+    void hkLocalArray_hkpRigidBody_hkLocalArray_hkpRigidBody(int);
     void FUN_006299c0(Node**);
     int FUN_00629f10(Node**, int, int);
 };
 struct ItemList
 {
     int FUN_00726070();
-    void* FUN_0062e120(char*);
+    void* hkArrayBase_hkpEntity_isEmpty(char*);
     Node*& FUN_00629ab0(unsigned);
 };
 struct Test
@@ -1669,7 +1675,7 @@ struct Scrap
 };
 Node* FUN_004b59f0(Node*);
 Node* FUN_004b5950(Node*);
-Node* FUN_004b5a80(Node*);
+Node* bhkEntity_Getbhk(Node*);
 Ref* FUN_0062b4e0(void*);
 struct Owner
 {
@@ -1683,7 +1689,7 @@ struct Owner
     void BuildWalls(Cell*, FUN_00437c10*);
     void FUN_006286f0();
     void FUN_00628da0();
-    void FUN_006295e0(Ref*);
+    void LoadedAreaBound_WarpActor(Ref*);
     void MoveToDestination(Node*, ObjArray*);
     void FUN_006271b0(Cell*, int);
 };
@@ -1713,12 +1719,12 @@ void Owner::FUN_006271b0(Cell* next, int flag)
         Layer* layer = layers[i].FUN_00559450()->GetReferenceFlags();
         ItemList* list = layer->FUN_0045c650();
         char dummy;
-        if (!((Test*)list->FUN_0062e120(&dummy))->FUN_005609f0())
+        if (!((Test*)list->hkArrayBase_hkpEntity_isEmpty(&dummy))->FUN_005609f0())
         {
             int count = list->FUN_00726070();
             ObjArray first;
             ObjArray second;
-            second.FUN_00629a20(list->FUN_00726070());
+            second.hkLocalArray_hkpRigidBody_hkLocalArray_hkpRigidBody(list->FUN_00726070());
             for (int j = 0; j < count; j++)
             {
                 Node* a = FUN_004b59f0(list->FUN_00629ab0(j));
@@ -1740,7 +1746,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                     if (filter.FUN_0043b4d0() == 30 && ref && ref->IsValid())
                     {
                         Ref* r = ref;
-                        FUN_006295e0(r);
+                        LoadedAreaBound_WarpActor(r);
                     }
                 }
             }
@@ -1753,7 +1759,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                     Ref* ref = FUN_0062b4e0(node->FUN_00460140());
                     if (node && node->FUN_00517670() != 4 && node->FUN_00517670() != 5 && node->FUN_00517670() != 7)
                     {
-                        Node* other = FUN_004b5a80(node);
+                        Node* other = bhkEntity_Getbhk(node);
                         if (!interior)
                         {
                             unsigned short old;
@@ -1766,7 +1772,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                                 box.FUN_00627920(v);
                                 float& z = box(2);
                                 z = z * -1.0;
-                                other->FUN_00561690(&box);
+                                other->bhkRigidBody_SetLinearVelocity_00561690(&box);
                             }
                             unsigned short bits = mask;
                             if (fresh.LookupValue(other, &bits))
@@ -2221,7 +2227,7 @@ struct Owner628980
     void FUN_00628980(Filter628980*, List628980*);
 };
 void* __cdecl FUN_004b59f0(const void*);
-void* __cdecl FUN_004b5a80(const void*);
+void* __cdecl bhkEntity_Getbhk(const void*);
 int __fastcall FUN_00517670(void*);
 
 // @fnv 0x00628980
@@ -2257,7 +2263,7 @@ void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
     {
         if (visited.Find(&collected.At(k), 0, -1) == -1)
         {
-            void* item = FUN_004b5a80(collected.At(k));
+            void* item = bhkEntity_Getbhk(collected.At(k));
             List628980 expanded;
             Expand(item, &expanded);
             for (int n = 0; n < expanded.Count(); ++n)
@@ -2269,30 +2275,31 @@ void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
 struct S00628c50_Vector
 {
     LocalM128 m_vComponents;
-    void FUN_00628cc0(const S00628c50_Vector* a, const S00628c50_Vector* b);  // setAnd
-    bool FUN_00458990(int mask) const;
+    void hkVector4Comparison_setAnd(const S00628c50_Vector* a, const S00628c50_Vector* b);  // setAnd
+    bool hkVector4Comparison_allAreSet(int mask) const;
 };
 
 class S00628c50_Box
 {
   public:
-    void FUN_00458a60(S00628c50_Vector* out, const S00628c50_Vector* point) const;
-    bool FUN_00628c50(const S00628c50_Box* other) const;
+    void hkVector4_compareLessThanEqual4(S00628c50_Vector* out, const S00628c50_Vector* point) const;
+    bool hkAabb_overlaps(const S00628c50_Box* other) const;
 
     LocalM128 unk00;
     S00628c50_Vector m_kCenter;
 };
 
 // @fnv 0x00628c50
-bool S00628c50_Box::FUN_00628c50(const S00628c50_Box* other) const
+// src: COMMUNITY 0x00628c50
+bool S00628c50_Box::hkAabb_overlaps(const S00628c50_Box* other) const
 {
     S00628c50_Vector a;
-    FUN_00458a60(&a, &other->m_kCenter);
+    hkVector4_compareLessThanEqual4(&a, &other->m_kCenter);
     S00628c50_Vector b;
-    other->FUN_00458a60(&b, &m_kCenter);
+    other->hkVector4_compareLessThanEqual4(&b, &m_kCenter);
     S00628c50_Vector c;
-    c.FUN_00628cc0(&a, &b);
-    return c.FUN_00458990(7);
+    c.hkVector4Comparison_setAnd(&a, &b);
+    return c.hkVector4Comparison_allAreSet(7);
 }
 
 
@@ -2553,11 +2560,12 @@ class SpawnPlacerP
     BodyPtrP m_spBodyB;
     TESObjectCELLP* m_pkCell;
 
-    void FUN_006296d0(TESObjectREFRP* pkRef, const NiPoint3* pkPos, NiPoint3* pkOut);
+    void LoadedAreaBound_GetGroundPos(TESObjectREFRP* pkRef, const NiPoint3* pkPos, NiPoint3* pkOut);
 };
 
 // @fnv 0x006296d0
-void SpawnPlacerP::FUN_006296d0(TESObjectREFRP* pkRef, const NiPoint3* pkPos, NiPoint3* pkOut)
+// src: COMMUNITY 0x006296d0
+void SpawnPlacerP::LoadedAreaBound_GetGroundPos(TESObjectREFRP* pkRef, const NiPoint3* pkPos, NiPoint3* pkOut)
 {
     int iCell = 0;
     TESObjectCELLP* pkCell = m_pkCell;
@@ -2604,30 +2612,31 @@ void SpawnPlacerP::FUN_006296d0(TESObjectREFRP* pkRef, const NiPoint3* pkPos, Ni
 struct S00629930_Vector
 {
     LocalM128 m_vComponents;
-    void FUN_00628cc0(const S00629930_Vector* a, const S00629930_Vector* b);  // setAnd
-    bool FUN_00458990(int mask) const;
+    void hkVector4Comparison_setAnd(const S00629930_Vector* a, const S00629930_Vector* b);  // setAnd
+    bool hkVector4Comparison_allAreSet(int mask) const;
 };
 
 class S00629930_Box
 {
   public:
-    void FUN_00458a60(S00629930_Vector* out, const S00629930_Vector* point) const;
-    bool FUN_00629930(const S00629930_Box* other) const;
+    void hkVector4_compareLessThanEqual4(S00629930_Vector* out, const S00629930_Vector* point) const;
+    bool hkAabb_containsPoint(const S00629930_Box* other) const;
 
     S00629930_Vector m_kStartPoint;
     S00629930_Vector m_kCenter;
 };
 
 // @fnv 0x00629930
-bool S00629930_Box::FUN_00629930(const S00629930_Box* other) const
+// src: COMMUNITY 0x00629930
+bool S00629930_Box::hkAabb_containsPoint(const S00629930_Box* other) const
 {
     S00629930_Vector a;
-    FUN_00458a60(&a, &other->m_kStartPoint);
+    hkVector4_compareLessThanEqual4(&a, &other->m_kStartPoint);
     S00629930_Vector b;
-    other->FUN_00458a60(&b, &m_kCenter);
+    other->hkVector4_compareLessThanEqual4(&b, &m_kCenter);
     S00629930_Vector c;
-    c.FUN_00628cc0(&a, &b);
-    return c.FUN_00458990(7);
+    c.hkVector4Comparison_setAnd(&a, &b);
+    return c.hkVector4Comparison_allAreSet(7);
 }
 
 
@@ -2637,7 +2646,7 @@ class hkQuaternionV
   public:
     LocalM128 m_vec;
 };
-const hkQuaternionV& __cdecl FUN_0062aad0();
+const hkQuaternionV& __cdecl hkQuaternion_getIdentity();
 
 
 #include "../../include/hkTransform.h"
@@ -2753,7 +2762,8 @@ class SmoothListV
 extern SmoothListV g_kSmoothListV;
 
 // @fnv 0x0062a7e0
-void __cdecl FUN_0062a7e0(const hkVector4& kTarget, void* pvRef)
+// src: COMMUNITY 0x0062a7e0
+void __cdecl TESArrowTargetListener_AddArrowTarget(const hkVector4& kTarget, void* pvRef)
 {
     NodeV* pkNode = pvRef ? FUN_0043b610(pvRef) : 0;
     BodyV* pkBody = pkNode ? pkNode->GetBody() : 0;
@@ -2783,7 +2793,7 @@ void __cdecl FUN_0062a7e0(const hkVector4& kTarget, void* pvRef)
     float fTime = pkEntry->m_fTime;
     hkTransform kBodyTransform;
     hkTransform kInverse;
-    hkTransform kTargetTransform(reinterpret_cast<const hkQuaternion&>(FUN_0062aad0()), kTarget);
+    hkTransform kTargetTransform(reinterpret_cast<const hkQuaternion&>(hkQuaternion_getIdentity()), kTarget);
     hkTransform kDelta;
     pkBody->GetTransform(kBodyTransform);
     kInverse.SetConjugate(kBodyTransform);
@@ -2815,7 +2825,7 @@ class hkQuaternionV
   public:
     LocalM128 m_vec;
 };
-const hkQuaternionV& __cdecl FUN_0062aad0();
+const hkQuaternionV& __cdecl hkQuaternion_getIdentity();
 
 
 
@@ -2956,7 +2966,7 @@ void __cdecl FUN_0062ab60(const hkVector4& kTarget, void* pvRef)
     float fTime = pkEntry->m_fTime;
     hkTransform kBodyTransform;
     hkTransform kInverse;
-    hkTransform kTargetTransform(reinterpret_cast<const hkQuaternion&>(FUN_0062aad0()), kTarget);
+    hkTransform kTargetTransform(reinterpret_cast<const hkQuaternion&>(hkQuaternion_getIdentity()), kTarget);
     hkTransform kDelta;
     pkBody->GetTransform(kBodyTransform);
     kInverse.SetConjugate(kBodyTransform);
@@ -2992,7 +3002,7 @@ void __cdecl FUN_0062ab60(const hkVector4& kTarget, void* pvRef)
 
 
 hkVector4& FUN_004a3e00(hkVector4& out, const NiPoint3& in);
-void FUN_0062bae0(void* obj, hkVector4& v, int flag);
+void TESHavokUtilities_AddAngularVelocity_0062bae0(void* obj, hkVector4& v, int flag);
 
 // Preserve the original stack-cookie instrumentation with the shared vector layout.
 #pragma strict_gs_check(push, on)
@@ -3001,14 +3011,14 @@ void FUN_0062ba80(void* obj, const NiPoint3& pos, bool flag)
 {
     hkVector4 v;
     FUN_004a3e00(v, pos);
-    FUN_0062bae0(obj, v, flag);
+    TESHavokUtilities_AddAngularVelocity_0062bae0(obj, v, flag);
 }
 #pragma strict_gs_check(pop)
 
 struct WorldObject62BAE0
 {
-    void* FUN_00560e10();
-    void FUN_005617c0(hkVector4& kVector);
+    void* bhkRigidBody_GetAngularVelocity();
+    void bhkRigidBody_SetAngularVelocity_005617c0(hkVector4& kVector);
 };
 struct Collision62BAE0
 {
@@ -3032,7 +3042,8 @@ Collision62BAE0* __cdecl FUN_0043b610(Object62BAE0* pkObject);
 // Preserve the original stack-cookie instrumentation with the shared vector layout.
 #pragma strict_gs_check(push, on)
 // @fnv 0x0062bae0
-void __cdecl FUN_0062bae0(Object62BAE0* pkObject, hkVector4* pkPoint, bool bLocal)
+// src: COMMUNITY 0x0062bae0
+void __cdecl TESHavokUtilities_AddAngularVelocity_0062bae0(Object62BAE0* pkObject, hkVector4* pkPoint, bool bLocal)
 {
     if (pkObject)
     {
@@ -3045,8 +3056,8 @@ void __cdecl FUN_0062bae0(Object62BAE0* pkObject, hkVector4* pkPoint, bool bLoca
                 hkVector4 kVector;
                 kVector.set((*pkPoint)(0), (*pkPoint)(1), (*pkPoint)(2), 0.0f);
                 if (!bLocal)
-                    kVector.add4(*static_cast<const hkVector4*>(pkWorldObject->FUN_00560e10()));
-                pkWorldObject->FUN_005617c0(kVector);
+                    kVector.add4(*static_cast<const hkVector4*>(pkWorldObject->bhkRigidBody_GetAngularVelocity()));
+                pkWorldObject->bhkRigidBody_SetAngularVelocity_005617c0(kVector);
             }
         }
         Node62BAE0* pkNode = pkObject->GetAsNode();
@@ -3055,7 +3066,7 @@ void __cdecl FUN_0062bae0(Object62BAE0* pkObject, hkVector4* pkPoint, bool bLoca
             for (unsigned int i = 0; i < pkNode->FUN_0043b480(); i++)
             {
                 Object62BAE0* pkChild = pkNode->FUN_0043b4a0(i);
-                FUN_0062bae0(pkChild, pkPoint, bLocal);
+                TESHavokUtilities_AddAngularVelocity_0062bae0(pkChild, pkPoint, bLocal);
             }
         }
     }
@@ -3113,10 +3124,11 @@ struct xCaster
     xPtr m_iWordAt00;
     bool m_iWordAt04;
     unsigned int m_8;
-    void FUN_00631ab0(float afRadius, unsigned int auiLayer);
+    void ViewCaster_Init(float afRadius, unsigned int auiLayer);
 };
 // @fnv 0x00631ab0
-void xCaster::FUN_00631ab0(float afRadius, unsigned int auiLayer)
+// src: COMMUNITY 0x00631ab0
+void xCaster::ViewCaster_Init(float afRadius, unsigned int auiLayer)
 {
     xAutoMem MEM(0x10, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Havok\\ViewCaster.cpp", 0x49);
     bhkSphereShape* SHAPE = new bhkSphereShape(afRadius, true);
@@ -3432,8 +3444,8 @@ class ShapeCaster
     unsigned int unk398;
     unsigned int unk39c;
     ShapeCastPointer<ShapePhantom> m_spWorld;
-    void FUN_00626da0();
-    xHitRes* FUN_00621210(xHitFlag* pFlag);
+    void HitCaster_SetCustomPickCollisions();
+    xHitRes* hkpAllCdPointCollector_hasHit(xHitFlag* pFlag);
     void FUN_00cabad0();
     bool FUN_00626b30(const NiPoint3& kFrom, const NiPoint3& kWorldPosition, float fDist);
 };
@@ -3444,7 +3456,7 @@ class ShapeCaster
 bool ShapeCaster::FUN_00626b30(const NiPoint3& kFrom, const NiPoint3& kWorldPosition, float fDist)
 {
     NiPoint3 qfTOqo = kFrom + kWorldPosition * fDist;
-    FUN_00626da0();
+    HitCaster_SetCustomPickCollisions();
     if (m_spWorld.FUN_00559450())
     {
         hkVector4 qxQHW;
@@ -3456,7 +3468,7 @@ bool ShapeCaster::FUN_00626b30(const NiPoint3& kFrom, const NiPoint3& kWorldPosi
         Reset2();
         m_spWorld.FUN_00559450()->InvokeInterfaceCall(&qxQHW, &qAhbO, this, 0);
         xHitFlag qArxcFu;
-        if (FUN_00621210(&qArxcFu)->FUN_005609f0())
+        if (hkpAllCdPointCollector_hasHit(&qArxcFu)->FUN_005609f0())
         {
             FUN_00cabad0();
             return true;
@@ -3492,7 +3504,7 @@ extern float DAT_01011d78;
 // Local operation declarations for the normalization helper absent from hkVector4.h.
 struct VectorNormalizeOperations
 {
-    hkSimdReal* FUN_0062af00(hkSimdReal* target) const;
+    hkSimdReal* hkVector4_lengthInverse3(hkSimdReal* target) const;
 };
 struct VectorComponentConstruction
 {
@@ -3500,7 +3512,8 @@ struct VectorComponentConstruction
 };
 
 // @fnv 0x0062af00
-hkSimdReal* VectorNormalizeOperations::FUN_0062af00(hkSimdReal* target) const
+// src: COMMUNITY 0x0062af00
+hkSimdReal* VectorNormalizeOperations::hkVector4_lengthInverse3(hkSimdReal* target) const
 {
     LocalM128 first = _mm_set_ss(DAT_01016248);
     LocalM128 second = _mm_set_ss(DAT_01017718);
@@ -3536,11 +3549,12 @@ struct S_00628cc0_Class
 {
     N::LocalM128 unk00;
 
-    void __thiscall FUN_00628cc0(N::LocalM128* arg1, N::LocalM128* arg2);
+    void __thiscall hkVector4Comparison_setAnd(N::LocalM128* arg1, N::LocalM128* arg2);
 };
 
 // @fnv 0x00628cc0
-void __thiscall S_00628cc0_Class::FUN_00628cc0(N::LocalM128* arg1, N::LocalM128* arg2)
+// src: COMMUNITY 0x00628cc0
+void __thiscall S_00628cc0_Class::hkVector4Comparison_setAnd(N::LocalM128* arg1, N::LocalM128* arg2)
 {
     unk00 = N::_mm_and_ps(*arg1, *arg2);
 }

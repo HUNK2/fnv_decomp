@@ -178,7 +178,7 @@ extern MemoryManager DAT_011f6238;
 extern char DAT_01400000;
 // NiGeometryGroup's buffer-registration operation is not in the shared
 // declaration yet.  Give the external entry point its original member ABI.
-void __cdecl FUN_00e98730();
+void __cdecl NiGeometryGroup_AddObject();
 typedef void(__thiscall* RegisterBuffer)(NiGeometryGroup*, NiGeometryBufferData*);
 // Creates and registers renderer data for a screen texture on first use.
 // @fnv 0x00e95500
@@ -186,12 +186,12 @@ void __fastcall EnsureBuffer(NiDynamicGeometryGroup* group, void*, NiScreenTextu
 {
     if (destination->m_pkGeometryRendererData == 0)
     {
-        NiGeometryBufferData* ptr = static_cast<NiGeometryBufferData*>(DAT_011f6238.FUN_00aa3e40(sizeof(NiGeometryBufferData)));
+        NiGeometryBufferData* ptr = static_cast<NiGeometryBufferData*>(DAT_011f6238.Game_DoHeapAlloc(sizeof(NiGeometryBufferData)));
         NiGeometryBufferData* newBuffer = ptr ? ::new (ptr) NiGeometryBufferData : 0;
         newBuffer->m_eRequestType = 4;
         destination->m_pkGeometryRendererData = newBuffer;
         newBuffer->m_uiValue1 = reinterpret_cast<unsigned int>(&DAT_01400000);
-        reinterpret_cast<RegisterBuffer>(&FUN_00e98730)(group, newBuffer);
+        reinterpret_cast<RegisterBuffer>(&NiGeometryGroup_AddObject)(group, newBuffer);
         destination->flags = 0xffff;
     }
 }
@@ -265,7 +265,7 @@ void __fastcall CreateBufferData(NiDynamicGeometryGroup* group, void*, NiGeometr
     if (bBinormals)
         uiFlags |= 0x200000;
     pkBuffData->m_uiValue1 = (uiT << 24) | uiFlags;
-    reinterpret_cast<fnv_00e95500::RegisterBuffer>(&fnv_00e95500::FUN_00e98730)(group, pkBuffData);
+    reinterpret_cast<fnv_00e95500::RegisterBuffer>(&fnv_00e95500::NiGeometryGroup_AddObject)(group, pkBuffData);
     reinterpret_cast<SetConsistencyMaskFn>(&SetConsistencyMaskEntry)(pkData, 0xffff);
 }
 

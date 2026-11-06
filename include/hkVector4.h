@@ -201,7 +201,7 @@ class hkVector4
     void FUN_0062aea0();
     void FUN_00627920(const hkSimdReal& scalar);
     void FUN_00630df0(const hkVector4& a, const hkVector4& b);
-    hkSimdReal& FUN_00458700(hkSimdReal& value, int index) const;
+    hkSimdReal& hkVector4_getSimdAt(hkSimdReal& value, int index) const;
     int FUN_00e4dc70(const hkVector4& vector, const hkVector4* vectors, void* data);
 
 #ifdef FNV64_HKVECTOR4_PACKET_BODIES
@@ -277,8 +277,8 @@ class hkVector4
     void SetTransformedPoint(const hkTransform& transform, const hkVector4& vector);
     void setRotatedCached(const hkQuaternion& quaternion, const hkVector4& vector,
                           const __m128& yz, const __m128& zx) throw();
-    void FUN_004b4ab0(const hkRotation& rotation, const hkVector4& vector);
-    void FUN_005611c0();
+    void hkVector4_setRotatedInverseDir(const hkRotation& rotation, const hkVector4& vector);
+    void normalize_005611c0();
     void FUN_006815c0();
     void FUN_00c7f640(const hkTransform& transform, const hkVector4& vector);
     void FUN_00c7f700(const hkRotation& rotation, const hkVector4& vector);
@@ -344,9 +344,9 @@ class hkVector4
     hkVector4 FUN_00439e90(const hkVector4& vector);
     void FUN_00439180(float value);
     void FUN_004a0c10();
-    void FUN_00c66320(const hkVector4* a, const hkVector4* b);
-    void FUN_00c74ac0(const hkVector4* a, const hkVector4* b);
-    void FUN_00c74c90(hkVector4* vector);
+    void setMul(const hkVector4* a, const hkVector4* b);
+    void setMulInverse(const hkVector4* a, const hkVector4* b);
+    void hkQuaternion_getAxis(hkVector4* vector);
     void FUN_00c7f640(const Transform& transform, const hkVector4& point);
     void FUN_00cb2450(const hkVector4* vector, float value);
     void FUN_00cb26e0(const hkRotation* rotation);

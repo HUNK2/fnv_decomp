@@ -12,7 +12,7 @@ struct StaticHelper
 {
     static void HandleObjectEvent(void* a, void* b, float c, void* d, void* e, void* f, void* g);
 };
-void __stdcall FUN_00d22db0(int, int);
+void __stdcall nullsub_74(int, int);
 
 #include <xmmintrin.h>
 extern float DAT_0104ffb8;

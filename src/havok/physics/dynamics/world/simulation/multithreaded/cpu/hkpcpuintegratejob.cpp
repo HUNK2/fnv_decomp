@@ -963,9 +963,9 @@ struct Queue {
     int __thiscall FUN_00d05190(JobQueueEntry& cmd, int waitMode);
     void __thiscall hkJobQueue_addJob(JobQueueEntry& cmd, int priority);
     void __thiscall hkJobQueue_finishJob(const JobQueueEntry* cmd, int flag);
-    void* __thiscall FUN_00d04400(void* storage);
+    void* __thiscall hkJobQueue_lockQueue(void* storage);
     void __thiscall FUN_00d04b00(void* token, const PacketBase& cmd, int priority);
-    void __thiscall FUN_00d04420(void* token);
+    void __thiscall hkJobQueue_unlockQueue(void* token);
     int __thiscall hkJobQueue_finishAddAndGetNextJob(int kind, int priority, JobQueueEntry& next, int waitMode);
     int __thiscall ProcessCallback(const PacketBase* prev, JobQueueEntry& next, int waitMode);
 };
@@ -1207,7 +1207,8 @@ __forceinline int estimateIslandSize(int numEntities, int numConstraints) { retu
 __forceinline bool checkIslandSparse(Settings* world, int size) { return size < int(world->minIslandSize); }
 
 // @fnv 0x00d95cf0
-int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, JobQueueEntry& nextJobOut)
+// src: COMMUNITY 0x00d95cf0
+int __cdecl integrateJob(TaskOwner& owner, Queue& queue, JobQueueEntry& nextJobOut)
 {
     const DynamicsPacket& currentJob = reinterpret_cast<DynamicsPacket&>(nextJobOut);
     SceneIsland* island = currentJob.island;
@@ -1404,13 +1405,13 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, JobQueueEntry& nextJobO
             }
 
             QueueStorage tempStorage;
-            void* token = queue.FUN_00d04400(&tempStorage);
+            void* token = queue.hkJobQueue_lockQueue(&tempStorage);
             if (splitRequested)
             {
                 SplitPacket splitJob(currentJob, 0x20, 5);
                 queue.FUN_00d04b00(token, splitJob, 0);
             }
-            queue.FUN_00d04420(token);
+            queue.hkJobQueue_unlockQueue(token);
             return queue.hkJobQueue_finishAddAndGetNextJob(0, 0, nextJobOut, 0);
         }
 

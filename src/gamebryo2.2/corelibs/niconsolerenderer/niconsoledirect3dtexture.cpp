@@ -8,7 +8,8 @@
 extern "C" const char* const g_011f444c_arg1;
 
 // @fnv 0x00a5fc00
-const char* const* __cdecl FUN_00a5fc00()
+// src: COMMUNITY 0x00a5fc00
+const char* const* __cdecl NiTexture_GetRTTI()
 {
     return &g_011f444c_arg1;
 }

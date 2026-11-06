@@ -54,7 +54,8 @@ bool FUN_00666f00_shell::FUN_00666f00()
 extern Setting g_011d5d14;
 
 // @fnv 0x00666f20
-float FUN_00666f20()
+// src: COMMUNITY 0x00666f20
+float SpeedTree_fTreeForceCS_Get()
 {
     return *g_011d5d14.Float();
 }
@@ -63,7 +64,8 @@ namespace fnv_00666f40 {
 extern Setting g_011d5db8;
 
 // @fnv 0x00666f40
-float FUN_00666f40()
+// src: COMMUNITY 0x00666f40
+float SpeedTree_fTreeForceBranchDimming_Get()
 {
     return *g_011d5db8.Float();
 }
@@ -73,7 +75,8 @@ namespace fnv_00666f60 {
 extern Setting g_011d5d24;
 
 // @fnv 0x00666f60
-float FUN_00666f60()
+// src: COMMUNITY 0x00666f60
+float SpeedTree_fTreeForceLeafDimming_Get()
 {
     return *g_011d5d24.Float();
 }
@@ -83,7 +86,8 @@ namespace fnv_00666f80 {
 extern Setting g_011d5c9c;
 
 // @fnv 0x00666f80
-float FUN_00666f80()
+// src: COMMUNITY 0x00666f80
+float SpeedTree_fTreeForceMinBudAngle_Get()
 {
     return g_011d5c9c.Float()[0];
 }
@@ -177,7 +181,8 @@ void FUN_0066a630_shell::ConvertFloatToUInt()
 extern Setting g_011d5c80;
 
 // @fnv 0x00666fa0
-float FUN_00666fa0()
+// src: COMMUNITY 0x00666fa0
+float SpeedTree_fTreeForceMaxBudAngle_Get()
 {
     return *g_011d5c80.Float();
 }
@@ -200,7 +205,8 @@ void* S_00666910::FUN_00666910(unsigned int flags)
 
 // The shared unsized operator delete changes the constructor-failure unwind at 0x00f001c0.
 // @fnv 0x006698f0
-NiAlphaProperty* FUN_006698f0()
+// src: COMMUNITY 0x006698f0
+NiAlphaProperty* BSTreeModel_CreateAlphaProperty()
 {
     NiAlphaProperty* pAlphaProperty = new NiAlphaProperty;
     pAlphaProperty->FUN_0049ed90(false);
@@ -514,11 +520,12 @@ void TreeModelX::FUN_00667470()
 struct ModelHolder_b5531
 {
     void FUN_00633c90(unsigned int flags);
-    void FUN_006694e0();
+    void NiPointer_Empty();
 };
 
 // @fnv 0x006694e0
-void ModelHolder_b5531::FUN_006694e0()
+// src: COMMUNITY 0x006694e0
+void ModelHolder_b5531::NiPointer_Empty()
 {
     FUN_00633c90(0);
 }
@@ -1116,10 +1123,10 @@ namespace fnv_0066ac40 {
 extern const char treePrefix[];
 int CopyTreeString(char*, unsigned int, const char*);
 int AppendTreeString(char*, unsigned int, const char*);
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 float FUN_0066b0b0();
-float FUN_006655c0();
-float FUN_00665570();
+float fTreeFarDistanceBase_Get();
+float fTreeNearDistance_Get();
 struct FUN_00b02e20
 {
     unsigned int unk00;
@@ -1177,8 +1184,8 @@ struct CSpeedTreeRT_Load
     void GetTextures_00b0d040(FUN_00b02e20*);
     void CSpeedTreeRT_SetLeafRockingState(int);
     void SetField14(bool);
-    void FUN_00b06260(float*, float*);
-    void FUN_00b06280(float, float);
+    void CSpeedTreeRT_GetTreeSize(float*, float*);
+    void CSpeedTreeRT_SetTreeSize(float, float);
     float CSpeedTreeRT_SetWindStrength(float, float, float);
     void CSpeedTreeRT_SetLocalMatrices(int, int);
     void FUN_00984f60(bool);
@@ -1188,10 +1195,10 @@ struct CSpeedTreeRT_Load
     void CSpeedTreeRT_SetBranchLightingMethod(int);
     void CSpeedTreeRT_SetFrondLightingMethod(int);
     void CSpeedTreeRT_SetLeafLightingMethod(int);
-    void FUN_00b08500(float, float);
+    void CSpeedTreeRT_SetNearFarDists(float, float);
     bool CSpeedTreeRT_Compute(int, int, bool);
     void FUN_00b087d0();
-    unsigned int FUN_00b06440();
+    unsigned int CSpeedTreeRT_GetSeed();
     float FUN_00b07440();
     float FUN_00b073f0();
     void FUN_00b053e0();
@@ -1239,10 +1246,11 @@ struct TreeModelLoader
     unsigned int unk40;
     unsigned int unk44;
     float unk48, unk4c;
-    bool FUN_0066ac40(TreeModelInput*, int);
+    bool BSTreeModel_InitFromBase(TreeModelInput*, int);
 };
 // @fnv 0x0066ac40
-bool TreeModelLoader::FUN_0066ac40(TreeModelInput* model, int seed)
+// src: COMMUNITY 0x0066ac40
+bool TreeModelLoader::BSTreeModel_InitFromBase(TreeModelInput* model, int seed)
 {
     if (model && model->name.Name() && *model->name.Name() && !initialized)
     {
@@ -1262,14 +1270,14 @@ bool TreeModelLoader::FUN_0066ac40(TreeModelInput* model, int seed)
             {
                 pTree->CSpeedTreeRT_SetLeafRockingState(1);
                 if (treeInfo.leafMaps > 6)
-                    FUN_005b5e40(
+                    Warning_005b5e40(
                         "MODELS: Tree %s has too many leaf maps (greater than six).  Leaves may not display properly.",
                         model->name.Name());
             }
             pTree->SetField14(true);
             float sizeB, variance;
-            pTree->FUN_00b06260(&sizeB, &variance);
-            pTree->FUN_00b06280(sizeB * FUN_0066b0b0(), variance * FUN_0066b0b0());
+            pTree->CSpeedTreeRT_GetTreeSize(&sizeB, &variance);
+            pTree->CSpeedTreeRT_SetTreeSize(sizeB * FUN_0066b0b0(), variance * FUN_0066b0b0());
             pTree->CSpeedTreeRT_SetWindStrength(0.0f, -1.0f, -1.0f);
             pTree->CSpeedTreeRT_SetLocalMatrices(0, 4);
             pTree->FUN_00984f60(true);
@@ -1279,7 +1287,7 @@ bool TreeModelLoader::FUN_0066ac40(TreeModelInput* model, int seed)
             pTree->CSpeedTreeRT_SetBranchLightingMethod(0);
             pTree->CSpeedTreeRT_SetFrondLightingMethod(0);
             pTree->CSpeedTreeRT_SetLeafLightingMethod(0);
-            pTree->FUN_00b08500(FUN_00665570(), FUN_006655c0());
+            pTree->CSpeedTreeRT_SetNearFarDists(fTreeNearDistance_Get(), fTreeFarDistanceBase_Get());
         }
         else
         {
@@ -1292,7 +1300,7 @@ bool TreeModelLoader::FUN_0066ac40(TreeModelInput* model, int seed)
         if (!pTree->CSpeedTreeRT_Compute(0, seed, true))
             return false;
         pTree->FUN_00b087d0();
-        unk40 = pTree->FUN_00b06440();
+        unk40 = pTree->CSpeedTreeRT_GetSeed();
         unk48 = pTree->FUN_00b07440();
         unk4c = pTree->FUN_00b073f0();
         Finish(model);
@@ -1523,9 +1531,9 @@ struct Property
     virtual Shader* CreateShader(Geometry*);
     void FUN_004393c0(int);
     void FUN_00baa000();
-    void FUN_00b66ad0(const char*, Object*);
+    void BSShaderPPLightingProperty_LoadTextureSet(const char*, Object*);
 };
-Property* FUN_006698f0();
+Property* BSTreeModel_CreateAlphaProperty();
 void* FUN_00b55560(int);
 struct Geometry
 {
@@ -1583,7 +1591,7 @@ struct Geometry
     Geometry(GeometryData*);
     void FUN_00439410(Property*);
     ShaderState* FUN_005495f0();
-    void FUN_00539ef0(Shader*);
+    void NiGeometry_SetAdditionalGeometryData(Shader*);
     void FUN_00874460(void*);
 };
 struct Leaves : Geometry
@@ -1855,7 +1863,7 @@ Tree* Model::CreateTree(float scale)
             if (!branches[i].FUN_00559450())
                 continue;
             geometryX = new Geometry(branches[i].FUN_00559450());
-            alpha = FUN_006698f0();
+            alpha = BSTreeModel_CreateAlphaProperty();
             if (alpha)
             {
                 alpha->FUN_004393c0(0);
@@ -1868,7 +1876,7 @@ Tree* Model::CreateTree(float scale)
                 if (!geometryX->FUN_005495f0()->FUN_004a8a90())
                 {
                     Shader* created = branchProperties[i].FUN_00559450()->CreateShader(geometryX);
-                    geometryX->FUN_00539ef0(created);
+                    geometryX->NiGeometry_SetAdditionalGeometryData(created);
                 }
             }
             if (FUN_00666f00())
@@ -1882,9 +1890,9 @@ Tree* Model::CreateTree(float scale)
                 geometryX = tree5->GetBranch(i);
                 if (!geometryX)
                     continue;
-                branchProperties[i].FUN_00559450()->FUN_00b66ad0(DAT_01066830, extra.FUN_00559450());
+                branchProperties[i].FUN_00559450()->BSShaderPPLightingProperty_LoadTextureSet(DAT_01066830, extra.FUN_00559450());
                 FUN_00b57e30(geometryX, 0, 0);
-                geometryX->FUN_00539ef0(branchProperties[i].FUN_00559450()->CreateShader(geometryX));
+                geometryX->NiGeometry_SetAdditionalGeometryData(branchProperties[i].FUN_00559450()->CreateShader(geometryX));
                 if (!geometryX->FUN_005495f0()->FUN_005f36f0())
                     FUN_0043c4b0()->Prepare(geometryX, 0, 0, 0);
             }
@@ -1899,7 +1907,7 @@ Tree* Model::CreateTree(float scale)
             if (!leaves[i].FUN_00559450())
                 continue;
             geometryX = new Leaves(leaves[i].FUN_00559450());
-            alpha = FUN_006698f0();
+            alpha = BSTreeModel_CreateAlphaProperty();
             if (alpha)
                 geometryX->FUN_00439410(alpha);
             if (leafProperties[i].FUN_00559450())
@@ -2105,9 +2113,9 @@ struct TreeTarget
 };
 
 extern TES* g_TES;
-float FUN_00666f40();
-float FUN_00666f60();
-float FUN_00666f80();
+float SpeedTree_fTreeForceBranchDimming_Get();
+float SpeedTree_fTreeForceLeafDimming_Get();
+float SpeedTree_fTreeForceMinBudAngle_Get();
 int CopyTreeString(char*, unsigned int, const char*);
 int AppendTreeString(char*, unsigned int, const char*);
 unsigned int FUN_0044a670(const char*);
@@ -2118,23 +2126,23 @@ void TreeTarget::ApplyInput(TreeInput* input)
     NP a(0);
     if (!input || !runtime || FUN_00666f00())
         return;
-    float valueHolder = FUN_00666f40();
+    float valueHolder = SpeedTree_fTreeForceBranchDimming_Get();
     if (valueHolder < 0.0 || valueHolder > 1.0)
         valueHolder = input->Get1ac();
     if (valueHolder >= 0.0 && valueHolder <= 1.0)
         runtime->SetField9C(valueHolder);
-    valueHolder = FUN_00666f60();
+    valueHolder = SpeedTree_fTreeForceLeafDimming_Get();
     if (valueHolder < 0.0 || valueHolder > 1.0)
         valueHolder = input->Get1b4();
     if (valueHolder >= 0.0 && valueHolder <= 1.0)
         runtime->SetField98(valueHolder);
-    valueHolder = FUN_00666f20();
+    valueHolder = SpeedTree_fTreeForceCS_Get();
     if (valueHolder < 0.0)
         valueHolder = input->Get194();
     if (valueHolder >= 0.0)
         scale = valueHolder;
-    float b = FUN_00666f80();
-    float c = FUN_00666fa0();
+    float b = SpeedTree_fTreeForceMinBudAngle_Get();
+    float c = SpeedTree_fTreeForceMaxBudAngle_Get();
     if (b < 0.0 || b > 90.0 || c < 0.0 || c > 90.0 || b > c)
     {
         b = input->Get19c();
@@ -2298,7 +2306,7 @@ struct FUN_00414430
 };
 void* NiMalloc(unsigned int uiSize);
 int FUN_00408b20(const char* pA, const char* pB);
-unsigned int __fastcall FUN_0044edb0(void* pTree);
+unsigned int __fastcall TESMain_GetThread(void* pTree);
 void __fastcall FUN_00804cb0(void* pObject, float fValue);
 
 struct FUN_00792760_shell
@@ -2348,7 +2356,7 @@ struct SpeedTreeRT
     float* CSpeedTreeRT_GetLeafLodSizeAdjustments();
     void GetTextures_00b0d040(FUN_00b02e20* pTextures);
     void CSpeedTreeRT_GetGeometry(FUN_00b029f0* m_pShaderGeometry, unsigned int uiBits, short sBranch, short sFrond, short sLeaf);
-    void FUN_00b088b0();
+    void FreeLeafLODDataArrays();
 };
 struct FUN_00bb3950 : public NiMemObject
 {
@@ -2584,15 +2592,15 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
 
     m_spLeafMaterial = (NiAVObject*)new FUN_00bb3950;
     ((FUN_0063f790_shell*)(NiAVObject*)m_spLeafMaterial)->FUN_0063f790(m_fLeafScale);
-    if (m_pLeafTreeRuntime && FUN_0044edb0(m_pLeafTreeRuntime))
+    if (m_pLeafTreeRuntime && TESMain_GetThread(m_pLeafTreeRuntime))
     {
         ((FUN_00621b20_Class*)(NiAVObject*)m_spLeafMaterial)
-            ->FUN_00621b20(((TESObjectREFR*)FUN_0044edb0(m_pLeafTreeRuntime))->GetScale());
+            ->FUN_00621b20(((TESObjectREFR*)TESMain_GetThread(m_pLeafTreeRuntime))->GetScale());
         ((FUN_006694c0_shell*)(NiAVObject*)m_spLeafMaterial)
-            ->SetPad5(((FUN_00792760_shell*)FUN_0044edb0(m_pLeafTreeRuntime))->FUN_00792760());
+            ->SetPad5(((FUN_00792760_shell*)TESMain_GetThread(m_pLeafTreeRuntime))->FUN_00792760());
         if (pRef)
         {
-            ((BSMultiBoundSphere*)(NiAVObject*)m_spLeafMaterial)->FUN_00819a50(pRef->GetWidth());
+            ((BSMultiBoundSphere*)(NiAVObject*)m_spLeafMaterial)->CombatLocation_SetRadius(pRef->GetWidth());
             FUN_00804cb0((NiAVObject*)m_spLeafMaterial, pRef->GetHeight());
         }
     }
@@ -2668,7 +2676,7 @@ void TreeLeafModel::FUN_00668500(TreeLeafRef* pRef)
         ((NiAVObject*)m_pspLeafGeometry[usI])->FUN_004410f0(1);
     }
 
-    m_pLeafTreeRuntime->FUN_00b088b0();
+    m_pLeafTreeRuntime->FreeLeafLODDataArrays();
 }
 }  // namespace fnv_00668500
 
@@ -2769,7 +2777,7 @@ struct RuntimeOps
     float FUN_00b08440();
     short GetIndexFromLevel(float);
     void FUN_00b0ad00(TreeEval*, float);
-    RuntimeOps* FUN_00b051e0();
+    RuntimeOps* CSpeedTreeRT_InstanceOf();
     RuntimeOps* CSpeedTreeRT_GetLeafBillboardTable(void*);
 };
 struct SceneNode
@@ -2864,7 +2872,7 @@ struct TreeCallback
     virtual void SetTopAlpha(unsigned char);
     NiPoint3* FUN_0045bb80();
 };
-unsigned char __cdecl FUN_0054ee20();
+unsigned char __cdecl BSTreeManager_GetTreesEnabled();
 unsigned char __cdecl FUN_005b9790();
 struct TreeActor
 {
@@ -2892,7 +2900,7 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
             return;
         if (!runtime)
             return;
-        if (!FUN_0054ee20())
+        if (!BSTreeManager_GetTreesEnabled())
             return;
         worldPos = *pCallback->FUN_0045bb80();
         runtime->FUN_00b065e0(worldPos.x, worldPos.y, worldPos.z);
@@ -2971,7 +2979,7 @@ void TreeActor::UpdateTreeLod(TreeCallback* pCallback)
             }
             if (handle.FUN_00559450())
             {
-                void* lightPtr = runtime->FUN_00b051e0() ? runtime->FUN_00b051e0()->CSpeedTreeRT_GetLeafBillboardTable(&pNode)
+                void* lightPtr = runtime->CSpeedTreeRT_InstanceOf() ? runtime->CSpeedTreeRT_InstanceOf()->CSpeedTreeRT_GetLeafBillboardTable(&pNode)
                                                          : runtime->CSpeedTreeRT_GetLeafBillboardTable(&pNode);
                 handle.FUN_00559450()->FUN_00bb39e0(lightPtr, pNode);
             }

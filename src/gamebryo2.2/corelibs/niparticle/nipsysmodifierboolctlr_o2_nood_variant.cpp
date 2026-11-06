@@ -9,7 +9,8 @@
 void NiPSysModifierCtlr_NiPSysModifierCtlr();
 
 // @fnv 0x00c31290
-void* __cdecl FUN_00c31290()
+// src: COMMUNITY 0x00c31290
+void* __cdecl NiPSysModifierCtlr_GetRTTI()
 {
     return &DAT_012027c8;
 }

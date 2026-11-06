@@ -217,7 +217,7 @@ struct S_00bc2f30_Base
     void FUN_00a5ea70(S_00bc2f30_Arr* a);
 };
 extern const char* DAT_01201f84;
-char* __cdecl FUN_00a7d330(const char* s);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* s);
 char* __cdecl FUN_00a7d370(const char* fmt, ...);
 struct S_00bc2f30_Cls : S_00bc2f30_Base
 {
@@ -267,7 +267,7 @@ __forceinline void S_00bc2f30_Add(S_00bc2f30_Arr* a, char* s)
 void S_00bc2f30_Cls::AppendAlphaSortBound(S_00bc2f30_Arr* a)
 {
     FUN_00a5ea70(a);
-    S_00bc2f30_Add(a, FUN_00a7d330(DAT_01201f84));
+    S_00bc2f30_Add(a, NiViewerStrings_NiGetViewerString_Title(DAT_01201f84));
     S_00bc2f30_Add(a, FUN_00a7d370("bHasStaticBound", mBC));
     NiPoint3 sortVec;
     m68.FUN_00524c40(&sortVec, reinterpret_cast<const NiSphere*>(&mAC));

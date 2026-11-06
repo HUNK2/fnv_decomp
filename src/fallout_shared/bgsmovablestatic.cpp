@@ -374,11 +374,12 @@ struct FUN_005e78f0_t
 
 struct FUN_004fbfe0_shell : public TESObjectSTAT  // TESForm vftable slot 66 of BGSMovableStatic: this = TESObjectSTAT subobject (+0x14)
 {
-    void FUN_004fbfe0(int);
+    void BGSMovableStatic_Copy(int);
 };
 
 // @fnv 0x004fbfe0
-void FUN_004fbfe0_shell::FUN_004fbfe0(int arg)
+// src: COMMUNITY 0x004fbfe0
+void FUN_004fbfe0_shell::BGSMovableStatic_Copy(int arg)
 {
     int result = (int)FUN_00ec43fb(arg, 0, &DAT_01183028, &DAT_01189d4c, 0);
 
@@ -412,11 +413,12 @@ struct MovableStaticSoundComparison
 };
 struct MovableStaticFormComparison : ::TESObjectSTAT  // TESForm vftable slot 67 of BGSMovableStatic: this = TESObjectSTAT subobject (+0x14)
 {
-    bool FUN_004fc080(::TESForm* apCompare);
+    bool BGSMovableStatic_TESObjectSTAT_Compare(::TESForm* apCompare);
 };
 // Returns true if apCompare is not a BGSMovableStatic, either comparison helper returns true, or the sound results differ.
 // @fnv 0x004fc080
-bool MovableStaticFormComparison::FUN_004fc080(::TESForm* apCompare)
+// src: COMMUNITY 0x004fc080
+bool MovableStaticFormComparison::BGSMovableStatic_TESObjectSTAT_Compare(::TESForm* apCompare)
 {
     ::BGSMovableStatic* pMovableStatic = dynamic_cast< ::BGSMovableStatic*>(apCompare);
     if (!pMovableStatic)

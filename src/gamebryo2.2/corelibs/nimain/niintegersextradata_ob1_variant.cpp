@@ -33,7 +33,7 @@ struct FUN_00c54b70_cls
     unsigned short m_0e;
     void FUN_00c54850(unsigned int n);
     void FUN_00c54a30(unsigned int idx, NiIntegerStreamEntry& e);
-    unsigned int FUN_00c54b70(NiIntegerStreamEntry& e);
+    unsigned int NiTArray_FurnitureMark_NiTNewInterface_FurnitureMark_Add(NiIntegerStreamEntry& e);
 };
 struct FUN_00c54cc0_cls
 {
@@ -216,11 +216,12 @@ class NiIntegerStreamExtraData : public NiExtraData
 {
   public:
     NiIntegerStreamEntryArray m_kEntries;
-    void FUN_00c54490(const NiIntegerStreamEntryData& kEntry);
+    void BSFurnitureMarker_Add(const NiIntegerStreamEntryData& kEntry);
 };
 
 // @fnv 0x00c54490
-void NiIntegerStreamExtraData::FUN_00c54490(const NiIntegerStreamEntryData& kEntry)
+// src: COMMUNITY 0x00c54490
+void NiIntegerStreamExtraData::BSFurnitureMarker_Add(const NiIntegerStreamEntryData& kEntry)
 {
     unsigned int uiSize = m_kEntries.GetEffectiveSize();
     unsigned int i;
@@ -350,13 +351,13 @@ struct IntegersExtraData : ExtraDataBase
 
     IntegersExtraData();
     virtual ~IntegersExtraData();
-    void FUN_00c543e0();
+    void BSFurnitureMarker_SetName();
 };
 
 // @fnv 0x00c53f10
 IntegersExtraData::IntegersExtraData()
 {
-    FUN_00c543e0();
+    BSFurnitureMarker_SetName();
 }
 
 
@@ -368,7 +369,8 @@ __forceinline void* NiFixedString::operator new(size_t size)
 
 namespace fnv_00c546c0 {
 // @fnv 0x00c546c0
-void __cdecl FUN_00c546c0()
+// src: COMMUNITY 0x00c546c0
+void __cdecl BSFurnitureMarker_InitSDM()
 {
     DAT_012031c0 = new NiFixedString((const char*)"FRN");
 }

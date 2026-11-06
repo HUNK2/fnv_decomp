@@ -292,13 +292,13 @@ namespace fnv_00a3a6b0 {
 void __fastcall AppendQuatTransformStrings(NiQuatTransform*, int, NiTArray<char*, NiTMallocInterface<char*> >*);
 void __fastcall AppendBlendInterpolatorStrings(NiBlendInterpolator*, int, NiTArray<char*, NiTMallocInterface<char*> >*);
 extern int g_011f371c;
-char* FUN_00a7d330(int);
+char* NiViewerStrings_NiGetViewerString_Title(int);
 // Append base strings, the class name and the accumulated transform strings.
 // @fnv 0x00a3a6b0
 void __fastcall FUN_00a3a6b0(NiBlendAccumTransformInterpolator* self, int unused, NiTArray<char*, NiTMallocInterface<char*> >* strs)
 {
     reinterpret_cast<void (__thiscall*)(NiBlendInterpolator*, NiTArray<char*, NiTMallocInterface<char*> >*)>(&AppendBlendInterpolatorStrings)(self, strs);
-    char* s = FUN_00a7d330(g_011f371c);
+    char* s = NiViewerStrings_NiGetViewerString_Title(g_011f371c);
     unsigned int n = strs->m_usSize;
     if (n >= strs->m_usMaxSize)
         strs->SetSize(n + strs->m_usGrowBy);

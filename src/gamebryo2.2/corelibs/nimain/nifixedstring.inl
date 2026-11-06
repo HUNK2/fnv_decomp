@@ -37,21 +37,21 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
     if (!coord)
         return false;
     FUN_00652140();
-    if (!FUN_00652040(this)) {
+    if (!BSFaceGenManager_LoadEGTData(this)) {
         if (!m_kTextureSlots->m_pTextureData) {
             if (!m_kTextureSlots->GetCharacterSex()) {
-                FUN_00652190();
+                BSFaceGenManager_UnlockFaceGenAccess();
                 return false;
             }
-            m_kTextureSlots->m_pTextureData = FUN_00659780(m_kTextureSlots->m_kEGTFileName.String());
+            m_kTextureSlots->m_pTextureData = BSFaceGenModel_EGTData_Create(m_kTextureSlots->m_kEGTFileName.String());
         }
         if (!m_kTextureSlots->m_pTextureData) {
-            FUN_00652190();
+            BSFaceGenManager_UnlockFaceGenAccess();
             return false;
         }
     }
     if (!m_kTextureSlots->m_pTextureData) {
-        FUN_00652190();
+        BSFaceGenManager_UnlockFaceGenAccess();
         return false;
     }
     unsigned int kColor = 0; // texture width
@@ -61,14 +61,14 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
         uiHeight = m_kTextureSlots->m_pTextureData->basis[0].FUN_0065cec0(0)->height;
     }
     if (!kColor || !uiHeight) {
-        FUN_00652190();
+        BSFaceGenManager_UnlockFaceGenAccess();
         return false;
     }
     unsigned int uiBasis;
     for (uiBasis = 0; uiBasis < 2; ++uiBasis) {
         if (reinterpret_cast<unsigned int>(reinterpret_cast<NiAVObject*>(&reinterpret_cast<FaceGenCoordinateBasis*>(coord->data + 64)[uiBasis])->GetParent()) < m_kTextureSlots->m_pTextureData->basis[uiBasis].FUN_0065cea0()) {
             Warning("MODELS: FaceGen - Tried to apply a coordinate that did not match the EGT basis.");
-            FUN_00652190();
+            BSFaceGenManager_UnlockFaceGenAccess();
             return false;
         }
     }
@@ -128,8 +128,8 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
         }
     }
     delete[] uiOutWidth;
-    texture = static_cast<NiTexture*>(spTexture)->FUN_0064ceb0(DAT_01065b98, 255.0f, 0.5f, &gNiPoint3StartupSrc);
-    FUN_00652190();
+    texture = static_cast<NiTexture*>(spTexture)->BSFaceGenImage_GetCompressedImage(DAT_01065b98, 255.0f, 0.5f, &gNiPoint3StartupSrc);
+    BSFaceGenManager_UnlockFaceGenAccess();
     return true;
 }
 

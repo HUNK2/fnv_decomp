@@ -210,21 +210,22 @@ extern DebugFlag DAT_011de4e8;
 extern SaveLock DAT_011c3920;
 extern PackageMgr* DAT_011c3f2c;
 void __cdecl FUN_0040fbe0(const char* fmt, ...);
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 SForm* __cdecl FUN_004839c0(unsigned int id);
 unsigned char __cdecl FUN_0044a670(char* s);
-void __cdecl FUN_00805b40(void* p, int a);
+void __cdecl ActiveEffect_SaveActiveEffectList(void* p, int a);
 
 struct SaveShell : public ExtraDataList
 {
-    void FUN_004235e0(unsigned int flags, SForm* form);
+    void ExtraDataList_SaveGameTES(unsigned int flags, SForm* form);
 };
 
 }
 namespace extra_save {
 
 // @fnv 0x004235e0
-void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
+// src: COMMUNITY 0x004235e0
+void SaveShell::ExtraDataList_SaveGameTES(unsigned int flags, SForm* form)
 {
     unsigned int blkA4;
     GenericExtra* extra;
@@ -472,7 +473,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             }
             else
             {
-                FUN_005b5e40("SAVELOAD: Saving package start location on %08X %s, but the location is NULL.",
+                Warning_005b5e40("SAVELOAD: Saving package start location on %08X %s, but the location is NULL.",
                              form->FUN_0084e3a0(), form->vf130());
             }
             DAT_011de45c->FUN_00857a10(&iD, 4);
@@ -537,7 +538,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
                     iD = x->GetMagicTargetReference()->FUN_0084e3a0();
                 }
                 DAT_011de45c->FUN_00857a10(&iD, 4);
-                FUN_00805b40(x->GetActiveEffectList(), 0);
+                ActiveEffect_SaveActiveEffectList(x->GetActiveEffectList(), 0);
             }
             break;
         case 43:
@@ -689,7 +690,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         unsigned int blk = blkA4;
         if (_end > blk + 0xffff)
         {
-            FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
+            Warning_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ExtraDataList.cpp", 0x2c1f);
         }
         *(short*)blkA4 = (short)(_end - blk);

@@ -189,7 +189,8 @@ bool FormRecordAccess::HasFlag10()
 }
 
 // @fnv 0x0050dd90
-bool TESObjectLIGH::FUN_0050dd90()
+// src: COMMUNITY 0x0050dd90
+bool TESObjectLIGH::GetDynamic()
 {
     return (data.flags & 1) ? true : false;
 }
@@ -250,7 +251,7 @@ void LightRecordAccess::MarkUnchanged(unsigned int a1, unsigned int a2)
 void LightRecordAccess::SaveChanged(unsigned int aiFlags)
 {
     reinterpret_cast<FormRecordAccess*>(this)->SaveIfChanged(aiFlags);
-    reinterpret_cast<TESValueForm*>(reinterpret_cast<char*>(this) + 0x8c)->FUN_0048ea40(reinterpret_cast<BGSSaveFormBuffer*>(aiFlags));
+    reinterpret_cast<TESValueForm*>(reinterpret_cast<char*>(this) + 0x8c)->SaveGameBGS_0048ea40(reinterpret_cast<BGSSaveFormBuffer*>(aiFlags));
 }
 
 // Loads the TESForm base and the TESValueForm subobject at offset 0x8c from the buffer.
@@ -352,7 +353,7 @@ void LightRecordAccess::SaveLight()
     TESForm::FUN_004855a0();
 
     TESModelTextureSwap::ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    TESScriptableForm::FUN_0048cca0();
+    TESScriptableForm::Save_0048cca0();
     BGSDestructibleObjectForm::Save();
 
     if (data.flags & 2)
@@ -554,7 +555,7 @@ struct Scene
     virtual void slotd4();
     virtual void slotd8();
     virtual void Attach(Light*, bool);
-    Parent* FUN_0043b230();
+    Parent* NiObjectNET_GetControllers();
 };
 struct Parent
 {
@@ -610,7 +611,7 @@ struct EntryListNode
 };
 struct ObjectPointerProvider
 {
-    EntryListNode* FUN_0041f810();
+    EntryListNode* ExtraDataList_GetLitWaterRefs();
 };
 struct Reference
 {
@@ -744,8 +745,8 @@ struct Reference
     int FUN_008d6f30();
     float FUN_0057b0a0();
     void FUN_00484a70(bool);
-    void FUN_00572610(Light*);
-    float FUN_00568cb0();
+    void TESObjectREFR_SetLight(Light*);
+    float TESObjectREFR_GetRadius();
     ObjectPointerProvider* FUN_005d43c0();
 };
 struct Manager
@@ -755,7 +756,7 @@ struct Manager
 Manager* __cdecl FUN_00450b80(int);
 bool __cdecl FUN_00578400(Scene*);
 void __cdecl ProcessListItems(Scene*);
-const char* __cdecl FUN_0050de10();
+const char* __cdecl FixedStrings_GetAttachLight();
 Light* __cdecl FUN_0050d6d0(Scene*);
 void __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
 void __cdecl ConfigurePointLight(Light*, unsigned int);
@@ -793,7 +794,7 @@ NiLight* TESObjectLIGH::CreateLight(TESObjectREFR* reference, NiAVObject* pScene
     if (data.flags & 4)
         tintSlot1 = tintSlot1.FUN_004a0bd0();
     Scene* rootSlot19 = 0;
-    Extra* extra = reinterpret_cast<Scene*>(pScene)->GetExtra(FUN_0050de10());
+    Extra* extra = reinterpret_cast<Scene*>(pScene)->GetExtra(FixedStrings_GetAttachLight());
     if (extra)
         rootSlot19 = extra->GetScene();
     if (!rootSlot19)
@@ -808,16 +809,16 @@ NiLight* TESObjectLIGH::CreateLight(TESObjectREFR* reference, NiAVObject* pScene
         rootSlot19->Attach(lightSlot12, true);
     }
     if (reinterpret_cast<Reference*>(reference))
-        reinterpret_cast<Reference*>(reference)->FUN_00572610(lightSlot12);
+        reinterpret_cast<Reference*>(reference)->TESObjectREFR_SetLight(lightSlot12);
     reinterpret_cast<AmbientLightColorAccess*>(lightSlot12)->SetAmbientColor(DAT_011f4998);
     lightSlot12->SetSpecularColor(reinterpret_cast<const NiPoint3&>(DAT_011f4998));
     float radiusValueSlot21 = (float)data.radius;
     if (reinterpret_cast<Reference*>(reference))
-        radiusValueSlot21 = reinterpret_cast<Reference*>(reference)->FUN_00568cb0();
+        radiusValueSlot21 = reinterpret_cast<Reference*>(reference)->TESObjectREFR_GetRadius();
     lightSlot12->SetSpecularColor(NiPoint3(radiusValueSlot21, radiusValueSlot21, radiusValueSlot21));
     lightSlot12->SetEffectColor(reinterpret_cast<const NiPoint3&>(tintSlot1));
     Parent* parentSlot6;
-    for (parentSlot6 = reinterpret_cast<Scene*>(pScene)->FUN_0043b230(); parentSlot6; parentSlot6 = parentSlot6->FUN_004a8a90())
+    for (parentSlot6 = reinterpret_cast<Scene*>(pScene)->NiObjectNET_GetControllers(); parentSlot6; parentSlot6 = parentSlot6->FUN_004a8a90())
     {
         if (parentSlot6->IsSpecial())
         {
@@ -825,10 +826,10 @@ NiLight* TESObjectLIGH::CreateLight(TESObjectREFR* reference, NiAVObject* pScene
             break;
         }
     }
-    if (!(reinterpret_cast<Reference*>(reference) && reinterpret_cast<Reference*>(reference)->FUN_005d43c0()->FUN_0041f810()) ||
-        (reinterpret_cast<Reference*>(reference) && reinterpret_cast<Reference*>(reference)->FUN_005d43c0()->FUN_0041f810() &&
-         reinterpret_cast<Reference*>(reference)->FUN_005d43c0()->FUN_0041f810()->FUN_008256d0()))
-        FUN_00450b80(0)->FUN_00b5c940(lightSlot12, force ? true : FUN_0050dd90());
+    if (!(reinterpret_cast<Reference*>(reference) && reinterpret_cast<Reference*>(reference)->FUN_005d43c0()->ExtraDataList_GetLitWaterRefs()) ||
+        (reinterpret_cast<Reference*>(reference) && reinterpret_cast<Reference*>(reference)->FUN_005d43c0()->ExtraDataList_GetLitWaterRefs() &&
+         reinterpret_cast<Reference*>(reference)->FUN_005d43c0()->ExtraDataList_GetLitWaterRefs()->FUN_008256d0()))
+        FUN_00450b80(0)->FUN_00b5c940(lightSlot12, force ? true : GetDynamic());
     if (lightSlot12)
     {
         ConfigurePointLight(lightSlot12, (unsigned int)radiusValueSlot21);

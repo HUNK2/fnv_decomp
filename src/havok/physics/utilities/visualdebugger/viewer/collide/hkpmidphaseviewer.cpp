@@ -145,7 +145,8 @@ inline void* hkAlloc(int n)
 }
 
 // @fnv 0x00d6a810
-void* __cdecl FUN_00d6a810(int a)
+// src: COMMUNITY 0x00d6a810
+void* __cdecl hkpMidphaseViewer_Create(int a)
 {
     hkpMidphaseViewer* o = ::new (hkAlloc(sizeof(hkpMidphaseViewer))) hkpMidphaseViewer(a);
     return o ? (char*)o + 8 : 0;
@@ -160,12 +161,12 @@ struct Registry_00dd9380
 extern Registry_00dd9380* DAT_01269cd0;
 extern char DAT_010d22e0[];
 extern void* DAT_01269024;
-void FUN_00d6a810();
+void hkpMidphaseViewer_Create();
 
 // @fnv 0x00d6a850
 void FUN_00d6a850()
 {
-    DAT_01269024 = DAT_01269cd0->Register(DAT_010d22e0, FUN_00d6a810);
+    DAT_01269024 = DAT_01269cd0->Register(DAT_010d22e0, hkpMidphaseViewer_Create);
 }
 
 struct Target

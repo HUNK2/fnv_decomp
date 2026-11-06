@@ -220,7 +220,7 @@ void MagicItem::Preload(bool immediate)
     {
         if (bLoad && pSelfEffectSetting->TESModel::GetModelLength() > 0)
             g_modelLoader->LoadFile(pSelfEffectSetting->GetModelFilePath(), 0, true, false, false, false);
-        pSelfEffectSetting->FUN_004088c0();
+        pSelfEffectSetting->IncEffectLoadedCount();
     }
     EffectItemList* pIter = this;
     if (!pIter->IsEmpty())

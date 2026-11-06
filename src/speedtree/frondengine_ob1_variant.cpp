@@ -90,7 +90,7 @@ struct FUN_00b1ff50
 };
 struct FUN_00b12af0_shell
 {
-    void FUN_00b12af0();
+    void CRotTransform_CRotTransform();
 };
 struct FUN_00b18b20
 {
@@ -191,14 +191,14 @@ struct CopyableStateBlock
 };
 void __cdecl FUN_00b269d0(char* a, char* b, char* c, bool d);
 void __cdecl FUN_00b26160(char* a, char* b, char* c, bool d);
-extern int* __cdecl FUN_0044d600(int*, int*, int*);
+extern int* __cdecl std_Move_float_float(int*, int*, int*);
 extern int* __cdecl UninitCopyChecked(int*, int*, int*, void*);
-extern void __cdecl FUN_00401030(void*);
+extern void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct C00b1d5d0
 {
     int a, b, alloc;
     int *first, *last, *limit;
-    void FUN_0044a0a0();
+    void std_vector_float_std_allocator_float_clear();
     bool FUN_0044a240(unsigned);
     C00b1d5d0& FUN_00b1d5d0(const C00b1d5d0& rhs);
 };
@@ -387,11 +387,12 @@ struct FrondPoint
         z = c;
     }
     FrondPoint FUN_00b12890(const FrondMatrix&) const;
-    FrondPoint FUN_00b13040(const FrondPoint&) const;
+    FrondPoint Diff_00b13040(const FrondPoint&) const;
     FrondPoint AddVector(const FrondPoint&) const;
     FrondPoint ScaleSwizzled(float) const;
     FrondPoint FUN_00b12810(const FrondPoint&) const;
-    inline void FUN_00b12790()
+// src: COMMUNITY 0x00b12790
+    inline void Normalize_00b12790()
     {
         float lengthSquared = x * x + y * y + z * z;
         float reciprocal = 1.0f / (float)FUN_00ec6054(lengthSquared);
@@ -412,7 +413,7 @@ struct FrondPoint
         estimate.i = (estimate.i >> 1) + 0x1fc00000;
         return estimate.f;
     }
-    float FUN_00b04d40(const FrondPoint&) const;
+    float CVec3_Distance(const FrondPoint&) const;
     FrondPoint* FUN_00b1ada0(float, float, float);
     void Set(float, float, float);
 };
@@ -508,13 +509,13 @@ struct FrondOutput
         count = (unsigned short)n;
     }
     void FUN_00b300c0(const FrondPoint&);
-    void FUN_00b301f0(const float*, unsigned short);
+    void CIndexedGeometry_AddVertexTexCoord0(const float*, unsigned short);
     void FUN_00b30020(const float*);
     void FUN_00b30190(const float*);
     void FUN_00b305f0(const FrondPoint&);
     void FUN_00b30660(const FrondPoint&);
     void FUN_00b30560(float, unsigned char);
-    FrondPoint* FUN_00b30f80(unsigned int);
+    FrondPoint* CIndexedGeometry_GetVertexCoord(unsigned int);
     float* FUN_00b30fd0(unsigned int);
 };
 struct FrondInput
@@ -572,15 +573,15 @@ void FrondBuilder::FUN_00b19ad0(FrondInput* input)
                 directionX.FUN_00b1e4c0(direction);
                 FrondPoint tangentVal;
                 if (i == 0)
-                    tangentVal = (*input)[i + 1].FUN_00b13040((*input)[0]);
+                    tangentVal = (*input)[i + 1].Diff_00b13040((*input)[0]);
                 else
-                    tangentVal = (*input)[i].FUN_00b13040((*input)[0]);
-                tangentVal.FUN_00b12790();
+                    tangentVal = (*input)[i].Diff_00b13040((*input)[0]);
+                tangentVal.Normalize_00b12790();
                 FrondPoint left2, right8;
                 if (i == input->size() - 1 && input->size() > 0)
                 {
                     left2 = (*input)[i].AddVector(directionX[i - 1].ScaleSwizzled(input->width));
-                    right8 = (*input)[i].FUN_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
+                    right8 = (*input)[i].Diff_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
                 }
                 else if (i > 0 && i < input->size() - 1)
                 {
@@ -588,21 +589,21 @@ void FrondBuilder::FUN_00b19ad0(FrondInput* input)
                     prior = (*input)[i].AddVector(directionX[i - 1].ScaleSwizzled(input->width));
                     left2 = (*input)[i].AddVector(direction.ScaleSwizzled(input->width));
                     left2 = left2.AddVector(prior).ScaleSwizzled(DAT_01016248);
-                    prior = (*input)[i].FUN_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
-                    right8 = (*input)[i].FUN_00b13040(direction.ScaleSwizzled(input->width));
+                    prior = (*input)[i].Diff_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
+                    right8 = (*input)[i].Diff_00b13040(direction.ScaleSwizzled(input->width));
                     right8 = right8.AddVector(prior).ScaleSwizzled(DAT_01016248);
                 }
                 else
                 {
                     left2 = (*input)[i].AddVector(direction.ScaleSwizzled(input->width));
-                    right8 = (*input)[i].FUN_00b13040(direction.ScaleSwizzled(input->width));
+                    right8 = (*input)[i].Diff_00b13040(direction.ScaleSwizzled(input->width));
                 }
                 float v3 = i / (input->size() - 1.0);
                 output->FUN_00b300c0(left2);
                 float uv1[2];
                 uv1[0] = 1.0f;
                 uv1[1] = v3;
-                output->FUN_00b301f0(uv1, (unsigned short)input->layer);
+                output->CIndexedGeometry_AddVertexTexCoord0(uv1, (unsigned short)input->layer);
                 colorAlloc2[0] = colorAlloc2[1] = colorAlloc2[2] = colorAlloc2[3] = 1.0f;
                 output->FUN_00b30020(colorAlloc2);
                 output->FUN_00b30190(&tangentVal.x);
@@ -611,14 +612,14 @@ void FrondBuilder::FUN_00b19ad0(FrondInput* input)
                 if (static_cast<const FrondPoint&>(normalChild3).FastSqrt() < DAT_010a54ec)
                     normalChild3 = tangentVal;
                 else
-                    normalChild3.FUN_00b12790();
+                    normalChild3.Normalize_00b12790();
                 output->FUN_00b30660(normalChild3);
                 if (output->isEnabled())
                     output->FUN_00b30560((*input)[i].scale, (*input)[i].material);
                 output->advance();
                 output->FUN_00b300c0(right8);
                 uv1[0] = 0.0f;
-                output->FUN_00b301f0(uv1, (unsigned short)input->layer);
+                output->CIndexedGeometry_AddVertexTexCoord0(uv1, (unsigned short)input->layer);
                 colorAlloc2[0] = colorAlloc2[1] = colorAlloc2[2] = colorAlloc2[3] = 1.0f;
                 output->FUN_00b30020(colorAlloc2);
                 output->FUN_00b30190(&tangentVal.x);
@@ -627,7 +628,7 @@ void FrondBuilder::FUN_00b19ad0(FrondInput* input)
                 if (normalChild3.FastSqrt() < DAT_010a54ec)
                     normalChild3 = tangentVal;
                 else
-                    normalChild3.FUN_00b12790();
+                    normalChild3.Normalize_00b12790();
                 output->FUN_00b30660(normalChild3);
                 if (output->isEnabled())
                     output->FUN_00b30560(input->FUN_00b1db00(i)->scale, (*input)[i].material);
@@ -638,18 +639,18 @@ void FrondBuilder::FUN_00b19ad0(FrondInput* input)
             unsigned int count30 = input->size();
             for (unsigned int i = 0; i < count30 - 1; ++i)
             {
-                FrondPoint* firstLocalVal = output->FUN_00b30f80(input->start + i * 2);
-                FrondPoint* secondValue3 = output->FUN_00b30f80(input->start + i * 2 + 2);
+                FrondPoint* firstLocalVal = output->CIndexedGeometry_GetVertexCoord(input->start + i * 2);
+                FrondPoint* secondValue3 = output->CIndexedGeometry_GetVertexCoord(input->start + i * 2 + 2);
                 FrondPoint aA1(firstLocalVal->x, firstLocalVal->y, firstLocalVal->z);
                 FrondPoint b111(0);
                 b111.FUN_00b1ada0(secondValue3->x, secondValue3->y, secondValue3->z);
-                totalLeft6 += aA1.FUN_00b04d40(b111);
+                totalLeft6 += aA1.CVec3_Distance(b111);
                 LeftX.PushBack(totalLeft6);
-                firstLocalVal = output->FUN_00b30f80(input->start + i * 2 + 1);
-                secondValue3 = output->FUN_00b30f80(input->start + i * 2 + 3);
+                firstLocalVal = output->CIndexedGeometry_GetVertexCoord(input->start + i * 2 + 1);
+                secondValue3 = output->CIndexedGeometry_GetVertexCoord(input->start + i * 2 + 3);
                 aA1.Set(firstLocalVal->x, firstLocalVal->y, firstLocalVal->z);
                 b111.Set(secondValue3->x, secondValue3->y, secondValue3->z);
-                totalRight9 += aA1.FUN_00b04d40(b111);
+                totalRight9 += aA1.CVec3_Distance(b111);
                 rightVal.PushBack(totalRight9);
             }
             output->setCount(begin4 + 2);
@@ -659,13 +660,13 @@ void FrondBuilder::FUN_00b19ad0(FrondInput* input)
                 float uv3[2];
                 uv3[0] = *original4;
                 uv3[1] = *LeftX.FUN_006578b0(i - 1) / totalLeft6 * DAT_010a54e8;
-                output->FUN_00b301f0(uv3, (unsigned short)input->layer);
+                output->CIndexedGeometry_AddVertexTexCoord0(uv3, (unsigned short)input->layer);
                 output->advance();
                 original4 = output->FUN_00b30fd0(input->start + i * 2 + 1);
                 float uvs5[2];
                 uvs5[0] = *original4;
                 uvs5[1] = *rightVal.FUN_006578b0(i - 1) / totalRight9 * DAT_010a54e8;
-                output->FUN_00b301f0(uvs5, (unsigned short)input->layer);
+                output->CIndexedGeometry_AddVertexTexCoord0(uvs5, (unsigned short)input->layer);
                 output->advance();
             }
             output->advance();
@@ -800,7 +801,7 @@ GlobalObject_00b3f100* __cdecl FUN_00b25a90(GlobalObject_00b3f100* pkCurrentObje
     return pkDest;
 }
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 template <class T> inline void Swp(T& a, T& b)
 {
     if (&a != &b)
@@ -822,7 +823,7 @@ struct VecBase
     }
     inline void Dealloc(void* q)
     {
-        FUN_00401030(q);
+        FormHeapFreeAndLog_00401030(q);
     }
     ~VecBase()
     {
@@ -2328,10 +2329,10 @@ struct Parser
     unsigned uiPos;
     ByteVec kData;
     int GetNextElement();
-    float FUN_00b3ed20();
-    int FUN_00b13970();
+    float CTreeFileAccess_ParseFloat();
+    int CTreeFileAccess_ParseBranchParameter();
     bool FUN_00b06180();
-    FUN_0044a4c0 FUN_00b3ee40();
+    FUN_0044a4c0 CTreeFileAccess_ParseString();
 };
 struct PQ : FUN_0044a4c0
 {
@@ -2380,10 +2381,11 @@ struct Frond
     float f6c, f70, f74, f78;
     int i7c, i80;
     void FUN_00b18f60(int);
-    void FUN_00b18340(Parser* p);
+    void CFrondEngine_Parse(Parser* p);
 };
 // @fnv 0x00b18340
-void Frond::FUN_00b18340(Parser* p)
+// src: COMMUNITY 0x00b18340
+void Frond::CFrondEngine_Parse(Parser* p)
 {
     DeadTop();
     int iToken = p->GetNextElement();
@@ -2401,7 +2403,7 @@ void Frond::FUN_00b18340(Parser* p)
             i3c = p->GetNextElement();
             break;
         case 0x32cd:
-            FUN_00b18f60(p->FUN_00b13970());
+            FUN_00b18f60(p->CTreeFileAccess_ParseBranchParameter());
             break;
         case 0x32ce:
             i44 = p->GetNextElement();
@@ -2413,16 +2415,16 @@ void Frond::FUN_00b18340(Parser* p)
             i68 = p->GetNextElement();
             break;
         case 0x32d2:
-            f6c = p->FUN_00b3ed20();
+            f6c = p->CTreeFileAccess_ParseFloat();
             break;
         case 0x32d3:
-            f70 = p->FUN_00b3ed20();
+            f70 = p->CTreeFileAccess_ParseFloat();
             break;
         case 0x32d4:
-            f74 = p->FUN_00b3ed20();
+            f74 = p->CTreeFileAccess_ParseFloat();
             break;
         case 0x32d5:
-            f78 = p->FUN_00b3ed20();
+            f78 = p->CTreeFileAccess_ParseFloat();
             break;
         case 0x36b7:
             i7c = p->GetNextElement();
@@ -2443,22 +2445,22 @@ void Frond::FUN_00b18340(Parser* p)
                     switch (iToken)
                     {
                     case 0x36b2: {
-                        PQ kName(p->FUN_00b3ee40());
+                        PQ kName(p->CTreeFileAccess_ParseString());
                         (FUN_0044a4c0&)kInfo.strName = kName;
                     }
                         (FUN_0044a4c0&)kInfo.strName = kInfo.strName.FUN_00b09f90();
                         break;
                     case 0x36b3:
-                        kInfo.fA = p->FUN_00b3ed20();
+                        kInfo.fA = p->CTreeFileAccess_ParseFloat();
                         break;
                     case 0x36b4:
-                        kInfo.fB = p->FUN_00b3ed20();
+                        kInfo.fB = p->CTreeFileAccess_ParseFloat();
                         break;
                     case 0x36b5:
-                        kInfo.fC = p->FUN_00b3ed20();
+                        kInfo.fC = p->CTreeFileAccess_ParseFloat();
                         break;
                     case 0x36b6:
-                        kInfo.fD = p->FUN_00b3ed20();
+                        kInfo.fD = p->CTreeFileAccess_ParseFloat();
                         break;
                     default:
                         throw FUN_00b09480(FUN_00b18860("malformed frond texture information (token %d)", iToken),
@@ -2522,7 +2524,7 @@ struct TargetS
     {
         m_usBatches++;
     }
-    void FUN_00b2fdc0(unsigned short usId, unsigned short* pusIdx, unsigned short usNum);
+    void CIndexedGeometry_AddStrip(unsigned short usId, unsigned short* pusIdx, unsigned short usNum);
 };
 struct MeshS
 {
@@ -2560,7 +2562,7 @@ void MeshS::FUN_00b1aed0(unsigned short usId, int iBase, VecS* pkVec)
                 pusIdx[k5] = (unsigned short)(i * 2 * (pkVec->m_pRecordEnd - pkVec->m_pBegin) + iBase + j);
                 k5++;
             }
-            m_pkTarget->FUN_00b2fdc0(usId, pusIdx, usNum);
+            m_pkTarget->CIndexedGeometry_AddStrip(usId, pusIdx, usNum);
             m_pkTarget->AddBatch();
         }
     }
@@ -2574,7 +2576,7 @@ struct FUN_00b2fdc0_obj
     {
         w26++;
     }
-    void FUN_00b2fdc0(unsigned short a, unsigned short* p, unsigned short n);
+    void CIndexedGeometry_AddStrip(unsigned short a, unsigned short* p, unsigned short n);
 };
 struct LodVert
 {
@@ -2674,7 +2676,7 @@ void FUN_00b1b960_class::FUN_00b1b960(unsigned int uiLod, int iOffset, LodGrid* 
                 }
             }
         }
-        m_pEntryObject->FUN_00b2fdc0((unsigned short)uiLod, pIndices_gg, (unsigned short)uiNumIndicesws);
+        m_pEntryObject->CIndexedGeometry_AddStrip((unsigned short)uiLod, pIndices_gg, (unsigned short)uiNumIndicesws);
         m_pEntryObject->Inc();
     }
 }
@@ -2705,17 +2707,17 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b23e80(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
 ElQ* __cdecl FUN_00b236a0(ElQ* f, ElQ* l, ElQ* d);
@@ -4061,7 +4063,7 @@ void __thiscall FUN_00b1df10_obj::FUN_00b1df10()
     }
     {
         void* p = *(void**)this;
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 }
 
@@ -5088,7 +5090,7 @@ void S00b1e170_cls::FUN_00b1e170()
     }
     {
         void* p = m_pHeadNode;
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 }
 
@@ -6415,7 +6417,7 @@ void __thiscall S00b1e5d0_Obj::FUN_00b1e5d0()
     }
     {
         int v = this->m0;
-        FUN_00401030((void*)v);
+        FormHeapFreeAndLog_00401030((void*)v);
     }
 }
 
@@ -6672,9 +6674,9 @@ struct T1Alloc
     {}
     void deallocate(T1Elem* ptr, unsigned int count)
     {
-        FUN_00401030(ptr);
+        FormHeapFreeAndLog_00401030(ptr);
     }
-    static void FUN_00401030(void* ptr);
+    static void FormHeapFreeAndLog_00401030(void* ptr);
 };
 inline void T1DestroyRange(T1Elem* first, T1Elem* last, T1Alloc& al, T1NonscalarTag)
 {
@@ -7027,17 +7029,17 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b23980(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b26450(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
@@ -9207,9 +9209,9 @@ struct T1Alloc
     {}
     void deallocate(T1Elem* ptr, unsigned int count)
     {
-        FUN_00401030(ptr);
+        FormHeapFreeAndLog_00401030(ptr);
     }
-    static void FUN_00401030(void* ptr);
+    static void FormHeapFreeAndLog_00401030(void* ptr);
 };
 inline void T1DestroyRange(T1Elem* first, T1Elem* last, T1Alloc& al, T1NonscalarTag)
 {
@@ -9276,11 +9278,11 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     void destroy(ElQ* p)
     {}
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 ElQ* __cdecl FUN_00b23980(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b264a0(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
@@ -10644,17 +10646,17 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b23aa0(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b25ca0(ElQ* f, ElQ* l, ElQ* d, AlQ& al, MoveCatQ c, TagQ t);
@@ -10890,17 +10892,17 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->DelQ(0);
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b23b50(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b23f10(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
@@ -11112,11 +11114,11 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     void destroy(ElQ* p)
     {}
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 ElQ* __cdecl FUN_00b23980(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b264a0(ElQ* f, ElQ* l, ElQ* d, AlQ& al);
@@ -11499,17 +11501,17 @@ struct AlQ
     }
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b23aa0(unsigned n, ElQ* p);
 ElQ* __cdecl FUN_00b25e20(ElQ* f, ElQ* l, ElQ* d, AlQ& al, MoveCatQ c, TagQ t);
@@ -16630,17 +16632,17 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b264f0(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
 ElQ* __cdecl FUN_00b260c0(ElQ* f, ElQ* l, ElQ* d);
@@ -16835,17 +16837,17 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b253f0(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
 ElQ* __cdecl FUN_00b23760(ElQ* f, ElQ* l, ElQ* d);
@@ -22342,17 +22344,17 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b35f60(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
 ElQ* __cdecl FUN_00b35a90(ElQ* f, ElQ* l, ElQ* d);
@@ -22458,7 +22460,7 @@ struct VecQ
     {
         Destroy_range(f, l, m_al);
     }
-    void FUN_00b319e0();
+    void m_vStripLengths_clear();
     void FUN_00b32bb0(ElQ* f, ElQ* l);
     bool FUN_00b1f590(unsigned n);
     VecQ& FUN_00b314f0(const VecQ& _Right);
@@ -22471,7 +22473,7 @@ VecQ& VecQ::FUN_00b314f0(const VecQ& _Right)
         if (_Right.size() == 0)
         {
             Dead12();
-            FUN_00b319e0();
+            m_vStripLengths_clear();
         }
         else if (_Right.size() <= size())
         {
@@ -22549,17 +22551,17 @@ struct AlQ
 {
     void deallocate(ElQ* p, unsigned)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     __forceinline void destroy(ElQ* p)
     {
         p->~ElQ();
     }
-    static void FUN_00401030(void*);
+    static void FormHeapFreeAndLog_00401030(void*);
 };
 inline void FreeQ(void* p)
 {
-    AlQ::FUN_00401030(p);
+    AlQ::FormHeapFreeAndLog_00401030(p);
 }
 ElQ* __cdecl FUN_00b36000(ElQ* f, ElQ* l, ElQ* d, RandQ, PtrCatQ, TagQ);
 ElQ* __cdecl FUN_00b35b60(ElQ* f, ElQ* l, ElQ* d);
@@ -22665,7 +22667,7 @@ struct VecQ
     {
         Destroy_range(f, l, m_al);
     }
-    void FUN_00b32120();
+    void m_vStrips_clear();
     void FUN_00b33110(ElQ* f, ElQ* l);
     bool FUN_00b1f590(unsigned n);
     VecQ& FUN_00b31c70(const VecQ& _Right);
@@ -22678,7 +22680,7 @@ VecQ& VecQ::FUN_00b31c70(const VecQ& _Right)
         if (_Right.size() == 0)
         {
             Dead12();
-            FUN_00b32120();
+            m_vStrips_clear();
         }
         else if (_Right.size() <= size())
         {
@@ -24125,7 +24127,7 @@ double __cdecl FUN_00eca060(double);
 struct RotMat
 {
     float m_fComponents[3][3];
-    void FUN_00b12af0();
+    void CRotTransform_CRotTransform();
     RotMat Multiply(const RotMat& b) const;
 };
 inline void Unused()
@@ -24140,7 +24142,7 @@ struct FUN_00b1ae00_class : RotMat
 void FUN_00b1ae00_class::FUN_00b1ae00(float fAngleDifference)
 {
     RotMat cRotMatrix;
-    cRotMatrix.FUN_00b12af0();
+    cRotMatrix.CRotTransform_CRotTransform();
     float fCosine = (float)(double)(float)FUN_00ec9f30((float)(fAngleDifference / DAT_010a4d90));
     float fSine = (float)(double)(float)FUN_00eca060((float)(fAngleDifference / DAT_010a4d90));
     cRotMatrix.m_fComponents[0][0] = 1.0f;
@@ -24265,7 +24267,7 @@ struct PointVecQ
 };
 struct CurveQ
 {
-    float FUN_00b37ad0(float t);
+    float CIdvBezierSpline_Evaluate(float t);
 };
 struct ScaleQ
 {
@@ -24304,7 +24306,7 @@ struct FUN_00b1be50_Owner
 // @fnv 0x00b1be50
 void FUN_00b1be50_Owner::FUN_00b1be50(ScaleQ* scale, PointVecQ& points, PointVecQ& normals)
 {
-    float base = m_profile->FUN_00b37ad0(0.0f) * scale->m_height;
+    float base = m_profile->CIdvBezierSpline_Evaluate(0.0f) * scale->m_height;
     for (unsigned i = 0; i < m_uiItemCount; i++)
     {
         float t = 1.0 - i / (m_uiItemCount - 1.0);
@@ -24312,7 +24314,7 @@ void FUN_00b1be50_Owner::FUN_00b1be50(ScaleQ* scale, PointVecQ& points, PointVec
         InitializeProfileCoordinate(p);
         p[0] = 0.0f;
         p[1] = -t * scale->m_height;
-        p[2] = m_profile->FUN_00b37ad0(t) * scale->m_height - base;
+        p[2] = m_profile->CIdvBezierSpline_Evaluate(t) * scale->m_height - base;
         points.FUN_00b1e4c0(p);
     }
     for (int j = m_uiItemCount - 2; j >= 0; j--)
@@ -24347,7 +24349,7 @@ void FUN_00b1be50_Owner::FUN_00b1be50(ScaleQ* scale, PointVecQ& points, PointVec
         }
         CVec3 n(0.0f, cosQ(angle), sinQ(angle));
         padQ();
-        n.FUN_00b12790();
+        n.Normalize_00b12790();
         normals.FUN_00b1e4c0(n);
     }
 }
@@ -25303,14 +25305,14 @@ SA4830* __cdecl FUN_00b23b00(SA4830* _First, SA4830* _Last, SA4830* _Dest)
 }  // namespace fnv_00b23b00
 
 namespace fnv_00b24180 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -25363,7 +25365,7 @@ void FUN_00b24180(ElemQ* first, unsigned int n, const ElemQ& val)
 }  // namespace fnv_00b24180
 
 namespace fnv_00b243a0 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -25383,7 +25385,7 @@ inline void Del(FUN_00b22f80* p, unsigned int f)
 {
     p->s.FUN_0044a730(true, 0);
     if (f & 1)
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
 }
 inline void DeadX()
 {
@@ -25414,14 +25416,14 @@ void FUN_00b243a0(FUN_00b22f80* first, unsigned int n, const FUN_00b22f80& val)
 }  // namespace fnv_00b243a0
 
 namespace fnv_00b24580 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -27220,7 +27222,7 @@ E48C0* __cdecl FUN_00b248c0(E48C0* _First, E48C0* _Last, E48C0* _Dest, random_ac
 }  // namespace fnv_00b248c0
 
 namespace fnv_00b25ba0 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -27240,7 +27242,7 @@ inline void Del(FUN_00b22f80* p, unsigned int f)
 {
     p->s.FUN_0044a730(true, 0);
     if (f & 1)
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
 }
 inline void DeadX()
 {
@@ -27272,14 +27274,14 @@ FUN_00b22f80* FUN_00b25ba0(FUN_00b22f80* first, FUN_00b22f80* last, FUN_00b22f80
 }  // namespace fnv_00b25ba0
 
 namespace fnv_00b25ca0 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -27348,14 +27350,14 @@ ElemQ* FUN_00b25ca0(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25ca0
 
 namespace fnv_00b25e20 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -27424,14 +27426,14 @@ ElemQ* FUN_00b25e20(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25e20
 
 namespace fnv_00b25fa0 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
 }
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -27485,7 +27487,7 @@ ElemQ* FUN_00b25fa0(ElemQ* first, ElemQ* last, ElemQ* dest)
 }  // namespace fnv_00b25fa0
 
 namespace fnv_00b267a0 {
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 template <class T> inline void Swp(T& a, T& b)
 {
     if (&a != &b)
@@ -27507,7 +27509,7 @@ struct VecBase
     }
     inline void Dealloc(void* q)
     {
-        FUN_00401030(q);
+        FormHeapFreeAndLog_00401030(q);
     }
     ~VecBase()
     {
@@ -28343,7 +28345,7 @@ Iterator GlobalObjectVector::FUN_00b1ffd0(ConstIterator _First_arg, ConstIterato
     return _First;
 }
 
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 
 struct AuxCont_b189f0
 {
@@ -28358,7 +28360,7 @@ struct AllocQ_b189f0
     }
     void deallocate(AuxCont_b189f0* p, unsigned int)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 };
 
@@ -28395,12 +28397,12 @@ extern double FUN_00eca060(double);
 struct FloatMatrix3
 {
     float xx, xy, xz, yx, yy, yz, zx, zy, zz;
-    void FUN_00b12af0();
+    void CRotTransform_CRotTransform();
     FloatMatrix3 Multiply(const FloatMatrix3&) const;
     void FUN_00b1ae00(float angle)
     {
         FloatMatrix3 rotation;
-        rotation.FUN_00b12af0();
+        rotation.CRotTransform_CRotTransform();
         float cosine = (float)FUN_00ec9f30(angle / DAT_010a4d90);
         float sine = (float)FUN_00eca060(angle / DAT_010a4d90);
         rotation.xx = 1.0f;
@@ -28523,7 +28525,7 @@ struct Geometry
             windPositions.PushBack(pz);
         }
     }
-    void FUN_00b301f0(const TexCoord&, unsigned short);
+    void CIndexedGeometry_AddVertexTexCoord0(const TexCoord&, unsigned short);
     unsigned int FUN_00b30060(const Color4& color)
     {
         return (unsigned int)(color.r * 255.0) + ((unsigned int)(color.g * 255.0) << 8) +
@@ -28538,7 +28540,7 @@ struct Geometry
     void FUN_00b305f0(const CVec3&);
     void FUN_00b30660(const CVec3&);
     void FUN_00b30560(float, unsigned char);
-    float* FUN_00b30f80(unsigned int);
+    float* CIndexedGeometry_GetVertexCoord(unsigned int);
     float* FUN_00b30fd0(unsigned int);
     unsigned short GetVertex() const
     {
@@ -28561,7 +28563,7 @@ struct Geometry
 struct DistancePoint : CVec3
 {
     DistancePoint(float x, float y, float z);
-    float FUN_00b04d40(const DistancePoint&) const;
+    float CVec3_Distance(const DistancePoint&) const;
 };
 struct B1FrondBuilder
 {
@@ -28595,23 +28597,23 @@ void B1FrondBuilder::FUN_00b1b000(FrondInput* frond)
                 CVec3 midPoint =
                     (*(CVec3*)&(*frond)[guide]).AddVector(point7.AddVector(priority_2).ScaleSwizzled(0.5f));
                 CVec3 tangentsB = point7.AddVector(priority_2);
-                tangentsB.FUN_00b12790();
+                tangentsB.Normalize_00b12790();
                 geometry->FUN_00b300c0(midPoint);
                 TexCoord uvB;
                 uvB.u = across_2;
                 uvB.v = along;
-                geometry->FUN_00b301f0(uvB, (unsigned short)frond->layer);
+                geometry->CIndexedGeometry_AddVertexTexCoord0(uvB, (unsigned short)frond->layer);
                 CVec3 normal_0 = normals[vertex].FUN_00b12890(current2X);
                 CVec3 priorNormal = normals[vertex].FUN_00b12890(previousA);
                 CVec3 localA = normal_0.AddVector(priorNormal).ScaleSwizzled(0.5f);
-                localA.FUN_00b12790();
+                localA.Normalize_00b12790();
                 Color4 colorSlot5;
                 colorSlot5.r = colorSlot5.g = colorSlot5.b = colorSlot5.a = 1.0f;
                 geometry->FUN_00b30020(colorSlot5);
                 geometry->FUN_00b30190(localA);
                 geometry->FUN_00b305f0(tangentsB);
                 CVec3 binormalVal = localA.FUN_00b12810(tangentsB);
-                binormalVal.FUN_00b12790();
+                binormalVal.Normalize_00b12790();
                 geometry->FUN_00b30660(binormalVal);
                 if (geometry->HasWind())
                     geometry->FUN_00b30560(frond->FUN_00b1db00(guide)->scale, frond->FUN_00b1db00(guide)->material);
@@ -28629,11 +28631,11 @@ void B1FrondBuilder::FUN_00b1b000(FrondInput* frond)
             {
                 unsigned int indexA6 = frond->start + row * frond->stride + column;
                 unsigned int priorIndex8 = frond->start + (row - 1) * frond->stride + column;
-                float* coordinates = geometry->FUN_00b30f80(indexA6);
-                float* local7 = geometry->FUN_00b30f80(priorIndex8);
+                float* coordinates = geometry->CIndexedGeometry_GetVertexCoord(indexA6);
+                float* local7 = geometry->CIndexedGeometry_GetVertexCoord(priorIndex8);
                 DistancePoint point21(coordinates[0], coordinates[1], coordinates[2]);
                 DistancePoint priorVal(local7[0], local7[1], local7[2]);
-                total += point21.FUN_00b04d40(priorVal);
+                total += point21.CVec3_Distance(priorVal);
                 cumulative.PushBack(total);
             }
             cumulativeLengths.FUN_00b1e640(cumulative);
@@ -28651,7 +28653,7 @@ void B1FrondBuilder::FUN_00b1b000(FrondInput* frond)
                 static const float textureScale = 0.999f;
                 uv3.v = *cumulativeLengths.FUN_00b319a0(column).FUN_006578b0(row) / *local2.FUN_006578b0(column) *
                         textureScale;
-                geometry->FUN_00b301f0(uv3, (unsigned short)frond->layer);
+                geometry->CIndexedGeometry_AddVertexTexCoord0(uv3, (unsigned short)frond->layer);
                 geometry->AdvanceVertex();
             }
         }
@@ -28894,11 +28896,12 @@ struct Processor
     int i38, i3c, i40, i44, i48, i4c, i50, i54, i58, i5c, i60, i64;
     unsigned count;
     float low, high, randomness, cutoff;
-    void FUN_00b1c850();
+    void CFrondEngine_BuildGuideLods();
 };
 
 // @fnv 0x00b1c850
-void Processor::FUN_00b1c850()
+// src: COMMUNITY 0x00b1c850
+void Processor::CFrondEngine_BuildGuideLods()
 {
     float sum;
     sum = 0.0f;
@@ -29871,7 +29874,8 @@ template <typename T> struct MyVector
 
 struct FinalizerGuidePoint : FrondGuidePoint
 {
-    inline float FUN_00b04d40(const FrondPoint& other) const
+// src: COMMUNITY 0x00b04d40
+    inline float CVec3_Distance(const FrondPoint& other) const
     {
         union FloatBits
         {
@@ -29944,17 +29948,18 @@ struct FrondGuideFinalizer
     int unk4c;
     MyVector<Field50Item> m_field50;
 
-    void FUN_00b18b70(float a1);
+    void CFrondEngine_EndGuide(float a1);
 };
 
 // @fnv 0x00b18b70
-void FrondGuideFinalizer::FUN_00b18b70(float a1)
+// src: COMMUNITY 0x00b18b70
+void FrondGuideFinalizer::CFrondEngine_EndGuide(float a1)
 {
     MyFrondGuide* guide = &m_guides[m_guides.size() - 1];
     unsigned int i;
     for (i = 0; i < guide->m_kPoints.size() - 1; ++i)
     {
-        guide->f18 += guide->m_kPoints[i].FUN_00b04d40(guide->m_kPoints[i + 1]);
+        guide->f18 += guide->m_kPoints[i].CVec3_Distance(guide->m_kPoints[i + 1]);
     }
     FUN_00b3f100 rng;
     if (m_field50.size() == 0)
@@ -30200,8 +30205,8 @@ struct FrondGuide
 };
 struct FrondGeometry
 {
-    void FUN_00b2fb30(unsigned short);
-    void FUN_00b306d0(unsigned short);
+    void CIndexedGeometry_SetNumLodLevels(unsigned short);
+    void CIndexedGeometry_ResetStripCounter(unsigned short);
 };
 struct FrondEngine
 {
@@ -30215,7 +30220,7 @@ struct FrondEngine
     int extrusionCount;
     int state48, state4c, state50, state54, state58, state5c, state60, state64;
     unsigned short geometryType;
-    void FUN_00b1c850();
+    void CFrondEngine_BuildGuideLods();
     void FUN_00b19ad0(FrondGuide&);
     void FUN_00b1aed0(unsigned short, int, FrondGuide&);
     void FUN_00b1b000(FrondGuide&);
@@ -30231,7 +30236,7 @@ void FrondEngine::CFrondEngine_Compute(FrondGeometry* output, void* context)
     geometry = output;
     auxiliary = context;
     int vertexCount = 0;
-    FUN_00b1c850();
+    CFrondEngine_BuildGuideLods();
     for (unsigned i = 0; i < guides[0].size(); ++i)
     {
         switch (mode)
@@ -30250,7 +30255,7 @@ void FrondEngine::CFrondEngine_Compute(FrondGeometry* output, void* context)
     }
     if (vertexCount > 65535)
         throw std::runtime_error(*(const std::string*)&FUN_00b18860(vertexLimitMessage, 65535));
-    geometry->FUN_00b2fb30(geometryType);
+    geometry->CIndexedGeometry_SetNumLodLevels(geometryType);
     switch (mode)
     {
     case 0: {
@@ -30260,7 +30265,7 @@ void FrondEngine::CFrondEngine_Compute(FrondGeometry* output, void* context)
         }
         for (unsigned short level = 0; level < guides.size(); ++level)
         {
-            geometry->FUN_00b306d0(level);
+            geometry->CIndexedGeometry_ResetStripCounter(level);
             for (unsigned j = 0; j < guides[level].size(); ++j)
             {
                 FUN_00b1aed0(level, guides[0][j].i30, guides[level][j]);
@@ -30275,7 +30280,7 @@ void FrondEngine::CFrondEngine_Compute(FrondGeometry* output, void* context)
         }
         for (unsigned short level = 0; level < guides.size(); ++level)
         {
-            geometry->FUN_00b306d0(level);
+            geometry->CIndexedGeometry_ResetStripCounter(level);
             for (unsigned j = 0; j < guides[level].size(); ++j)
             {
                 guides[level][j].i34 = guides[0][j].i34;

@@ -43,7 +43,7 @@ public:
     hkQsTransform& CopyFromFloatArray(const hkQsTransform& t);
 
     void SetFromTransform(const hkTransform& transform);
-    void FUN_00ce5070(const hkTransform& transform);
+    void setFromTransformNoScale(const hkTransform& transform);
 
     void setIdentity();
     void SetConjugate(const hkQsTransform& t);

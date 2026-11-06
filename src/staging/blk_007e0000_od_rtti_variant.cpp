@@ -15,8 +15,8 @@ struct FUN_007e6760_cls
 };
 struct BSAudio_
 {
-    void FUN_00ad8510(int, int);
-    void FUN_007eb8a0();
+    void BSAudio_PauseAllOfType(int, int);
+    void BSAudio_PauseWorldSounds();
 };
 extern "C" void __cdecl FUN_007004e0();
 struct FUN_007f7770_Class
@@ -27,7 +27,7 @@ struct FUN_007f7770_Class
 extern float DAT_012007d0;
 extern float DAT_012007d4;
 extern char DAT_011ae5d4;
-void __cdecl FUN_007f7a50(float a, float b);
+void __cdecl ImageSpaceShaderMenuUnpack_SetOffset(float a, float b);
 struct FOPipboyManager
 {
     void InitializeMenuLight();
@@ -62,11 +62,11 @@ struct NavMeshPtr
 };
 
 extern ::BSStringT<char> g_011daed8;
-void __cdecl FUN_007e65b0();
+void __cdecl TextInputCloseHook();
 struct FUN_007e66a0_cls
 {
     char _0[0x28];
-    void __thiscall FUN_007e66a0(int a, int b);
+    void __thiscall TextEditMenu_HandleClick(int a, int b);
 };
 void __cdecl DestroyList(void*);
 struct FUN_007f69d0_Class
@@ -106,7 +106,7 @@ struct Loader_S
 extern Loader_S* g_modelLoader;
 extern int DAT_011a0bb0;
 extern Flt g_011db63c;
-void FUN_007ffe00();
+void PurgeTerminalModel();
 struct FUN_007e0e30_Class
 {
     void* m_p;
@@ -149,7 +149,7 @@ struct SimpleList
     SimpleList* __thiscall GetNext();
 };
 extern SimpleList* DAT_011daec4;
-void FUN_007e65b0();
+void TextInputCloseHook();
 struct ListX
 {
     ~ListX();
@@ -192,7 +192,7 @@ struct FUN_007e0d80_shell : Flt
 };
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 int FUN_007e1970();
-int __cdecl FUN_007e65a0();
+int __cdecl TextEdit_GetMenuID();
 struct SysMgr
 {
     void Init(int a, int b);
@@ -594,7 +594,7 @@ ShadowSceneNode7FD* __cdecl FUN_00450b80(unsigned int uiIndex);
 class Light7FD
 {
   public:
-    void FUN_007fd660(float fScale);
+    void FORenderedMenuRaceSex_SetupLights(float fScale);
 
     int unk000, unk004, unk008, unk00C, unk010, unk014, unk018, unk01C;
     int unk020, unk024, unk028, unk02C, unk030, unk034, unk038, unk03C;
@@ -736,7 +736,7 @@ struct ListOwner
     void Select(TileX*);
     void Update();
     int Mode();
-    TileX* FUN_007e0e70(int data, const char* text, void* compare, const char* name);
+    TileX* StatsMenu_PerksList_Append(int data, const char* text, void* compare, const char* name);
 };
 struct WXObject;
 template <class T> struct WXPointer
@@ -1156,9 +1156,9 @@ struct RemoveInterface
 {
     void FUN_00715860(RemoveTile*, int, bool);
 };
-RemoveInterface* FUN_004b7210();
+RemoveInterface* InterfaceManager_GetSingleton();
 int FUN_00a01860(const char*);
-void FUN_00401030(void*);
+void FormHeapFreeAndLog_00401030(void*);
 struct RemoveBase
 {
     int unk00;

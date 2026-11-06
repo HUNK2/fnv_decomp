@@ -51,13 +51,13 @@ unsigned int __cdecl gm_GetTickCount();
 struct FUN_0076bda0_class
 {
     FUN_0076bda0_class* __thiscall FUN_0076bda0();
-    void __thiscall FUN_00aa50f0(unsigned int);
+    void __thiscall BSTimer_Init(unsigned int);
 };
 
 // @fnv 0x0076bda0
 FUN_0076bda0_class* __thiscall FUN_0076bda0_class::FUN_0076bda0()
 {
-    FUN_00aa50f0(gm_GetTickCount());
+    BSTimer_Init(gm_GetTickCount());
     return this;
 }
 
@@ -189,18 +189,20 @@ struct G2
     void __thiscall AddHead(WeatherEntry*&);
 };
 extern int g_011d970c;
-int __cdecl FUN_0076bb00(WeatherEntry*, WeatherEntry*);
+int __cdecl QuestUpdateManager_SortQuestNamesByPriorityFunction(WeatherEntry*, WeatherEntry*);
 // Adds a WeatherEntry to the list at g_011d970c and sorts it using FUN_0076bb00 as the comparison.
 // @fnv 0x0076baa0
-void __cdecl FUN_0076baa0(WeatherEntry* apEntry)
+// src: COMMUNITY 0x0076baa0
+void __cdecl QuestUpdateManager_AddQuestNamesHead(WeatherEntry* apEntry)
 {
     ((G2*)&g_011d970c)->AddHead(apEntry);
-    ((BSSimpleList<WeatherEntry*>*)&g_011d970c)->Sort(&FUN_0076bb00);
+    ((BSSimpleList<WeatherEntry*>*)&g_011d970c)->Sort(&QuestUpdateManager_SortQuestNamesByPriorityFunction);
 }
 
 // Compares the int at offset 0x214 of two objects, returning 1 if the first is greater, -1 if less, else 0.
 // @fnv 0x0076bb00
-int __cdecl FUN_0076bb00(void* pLeft, void* pRight)
+// src: COMMUNITY 0x0076bb00
+int __cdecl QuestUpdateManager_SortQuestNamesByPriorityFunction(void* pLeft, void* pRight)
 {
     if (*((int*)((char*)pLeft + 0x214)) > *((int*)((char*)pRight + 0x214)))
         return 1;
@@ -225,7 +227,8 @@ bool __cdecl ClearPmeIfMatches(int aiValue)
 }
 
 // @fnv 0x0077f9c0
-int __cdecl FUN_0077f9c0(int a)
+// src: COMMUNITY 0x0077f9c0
+int __cdecl sqr_int(int a)
 {
     return a * a;
 }
@@ -472,12 +475,13 @@ struct Owner : BSSoundHandle
 {
     FUN_0076b900* first;
 
-    void FUN_0076b6a0(const BSSoundHandle* value);
+    void BSSimpleList_BSSoundHandle_AddHead(const BSSoundHandle* value);
 };
 
 // If value has a nonzero sound ID, saves the current nonzero handle in a new node, then copies value.
 // @fnv 0x0076b6a0
-void Owner::FUN_0076b6a0(const BSSoundHandle* value)
+// src: COMMUNITY 0x0076b6a0
+void Owner::BSSimpleList_BSSoundHandle_AddHead(const BSSoundHandle* value)
 {
     if (*value == 0)
     {
@@ -835,7 +839,7 @@ struct WeatherEntry
 };
 void* __cdecl operator new(unsigned int);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
-void __cdecl FUN_005b5e40(int, const char*, ...);
+void __cdecl Warning_005b5e40(int, const char*, ...);
 void __cdecl FUN_0076bad0(char*);
 // Allocates a WeatherEntry, copies the title, subtitle and icon strings, validates the fonts, and queues the entry by priority.
 // @fnv 0x0076b960
@@ -851,7 +855,7 @@ void __cdecl QuestUpdateManager_SetCustomQuestText(const char* title, const char
     entry->priority = priority;
     if (titleFont == 0)
     {
-        FUN_005b5e40(
+        Warning_005b5e40(
             7,
             "QuestUpdateManager::SetCustomQuestText() - FONT_1 is an invalid value for aiCustomTextTitleFont.  Setting to FONT_NONE.");
         titleFont = -1;
@@ -859,7 +863,7 @@ void __cdecl QuestUpdateManager_SetCustomQuestText(const char* title, const char
     entry->titleFont = titleFont;
     if (subtitleFont == 0)
     {
-        FUN_005b5e40(
+        Warning_005b5e40(
             7,
             "QuestUpdateManager::SetCustomQuestText() - FONT_1 is an invalid value for aiCustomTextSubtitleFont.  Setting to FONT_NONE.");
         subtitleFont = -1;
@@ -873,10 +877,10 @@ void __cdecl QuestUpdateManager_SetCustomQuestText(const char* title, const char
         FUN_0076bad0((char*)entry);
         break;
     case 0:
-        FUN_0076baa0(entry);
+        QuestUpdateManager_AddQuestNamesHead(entry);
         break;
     default:
-        FUN_005b5e40(
+        Warning_005b5e40(
             7,
             "QuestUpdateManager::SetCustomQuestText() - Invalid aiCustomQueuePriority (%i)!  Setting to HCQQP_NORMAL.",
             priority);
@@ -1385,7 +1389,7 @@ struct HKWordSet
 {
     bool FUN_0076a3d0(const char* pcWord);
     void AssignString(const char* pcWord);
-    unsigned int FUN_0044edb0(int iFlag);
+    unsigned int TESMain_GetThread(int iFlag);
 };
 
 struct HKOffsetMap
@@ -1401,7 +1405,7 @@ struct HKSoundNode
 struct HKSoundList : HKSoundNode
 {
     void ClearQueue();
-    void FUN_0076b6a0(const BSSoundHandle& kSound);
+    void BSSimpleList_BSSoundHandle_AddHead(const BSSoundHandle& kSound);
 };
 extern HKSoundList DAT_011d9604;
 
@@ -1413,7 +1417,7 @@ class HKAudio
 };
 
 int FUN_00ec86e1(int iChar);
-void* FUN_00403d30(void* pvDst, int iValue, unsigned int uiSize);
+void* ourMemset(void* pvDst, int iValue, unsigned int uiSize);
 void* FUN_00401460(void* pvDst, const void* pvSrc, unsigned int uiSize);
 unsigned int FUN_0044a670(const char* pcString);
 
@@ -1485,7 +1489,7 @@ void HKMenu::UpdateHighlight()
             pkNodeTmp = pkNodeTmp->FUN_00726070();
     }
     char acWordNext[32];
-    FUN_00403d30(acWordNext, 0, 0x20);
+    ourMemset(acWordNext, 0, 0x20);
     if (pkNodeTmp)
         FUN_00401460(acWordNext, *pkNodeTmp->FUN_006815c0(), m_uiWordLength);
     else if (!m_kSymbols.FUN_0049c680(&uiElapsedMilliseconds, 0))
@@ -1503,11 +1507,11 @@ void HKMenu::UpdateHighlight()
         while (ItemUpdateArray--)
         {
             BSSoundHandle kSound = HKAudio::FUN_00ad9060()->ResolveAudioHandle("UIHackingCharSingle", 0x121);
-            DAT_011d9604.FUN_0076b6a0(kSound);
+            DAT_011d9604.BSSimpleList_BSSoundHandle_AddHead(kSound);
             if (ItemUpdateArray)
                 // This original call to 0x00ad8870 passes only the delay; preserve its one-argument ABI.
                 (kSound.*reinterpret_cast<void (BSSoundHandle::*)(int)>(&BSSoundHandle::PlayAfter))(
-                    (int)(m_kGuessed.FUN_0044edb0(0) * ItemUpdateArray * 1.5));
+                    (int)(m_kGuessed.TESMain_GetThread(0) * ItemUpdateArray * 1.5));
             else
                 kSound.Play(false);
         }

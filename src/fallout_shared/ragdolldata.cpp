@@ -56,7 +56,7 @@ bool RagDollData::FindBoneIndex(NiNode* node, unsigned int& ruiIndex)
         if (collision)
         {
             {
-                int id = collision->FUN_006fa820()->FUN_0043b4f0().FUN_004d9da0();
+                int id = collision->FUN_006fa820()->bhkWorldObject_GetCollisionFilter().FUN_004d9da0();
                 if (bones[ruiIndex].id != id)
                     return false;
             }
@@ -64,7 +64,7 @@ bool RagDollData::FindBoneIndex(NiNode* node, unsigned int& ruiIndex)
             NiMatrix3 rotation;
             rotation.FromEulerAnglesXYZ(bones[ruiIndex].rotate.x, bones[ruiIndex].rotate.y, bones[ruiIndex].rotate.z);
             node->FUN_0043fa80(&rotation);
-            collision->FUN_004d9fa0(true);
+            collision->bhkNiCollisionObject_SetReset(true);
             reinterpret_cast<RagdollCollisionUpdate>((*reinterpret_cast<void***>(collision))[0xb0 / 4])(collision, 1, 0, 0);
             ++ruiIndex;
         }
@@ -122,7 +122,8 @@ unsigned int FUN_004d9da0_shell::FUN_004d9da0()
 }
 
 // @fnv 0x004d9fa0
-void bhkCollisionObject::FUN_004d9fa0(bool abTF)
+// src: COMMUNITY 0x004d9fa0
+void bhkCollisionObject::bhkNiCollisionObject_SetReset(bool abTF)
 {
     static_cast<RagdollCollisionFlags*>(this)->SetFlags(abTF, 0x40);
 }
@@ -297,12 +298,13 @@ struct FUN_004d9670_shell
     DoorTeleportLoadData* items;
     Payload0C data;
 
-    void FUN_004d9670(const FUN_004d9670_shell* source);
+    void RagDollData_Copy(const FUN_004d9670_shell* source);
 };
 
 // Copies count, data and the items array from source into this object, reallocating the items buffer.
 // @fnv 0x004d9670
-void FUN_004d9670_shell::FUN_004d9670(const FUN_004d9670_shell* source)
+// src: COMMUNITY 0x004d9670
+void FUN_004d9670_shell::RagDollData_Copy(const FUN_004d9670_shell* source)
 {
     if (source)
     {
@@ -338,7 +340,7 @@ struct FUN_004d93c0_cls
     unsigned char m_uiItemCount;
     FUN_004d93c0_bone* m_kBones;
     FUN_004d93c0_name m_name;
-    void FUN_004d93c0();
+    void RagDollData_Save();
 };
 
 bool __cdecl FUN_00401500();
@@ -347,7 +349,8 @@ void __cdecl FUN_00485710(unsigned int tag, void* p, unsigned int n);
 extern char DAT_011f426c[];
 
 // @fnv 0x004d93c0
-void FUN_004d93c0_cls::FUN_004d93c0()
+// src: COMMUNITY 0x004d93c0
+void FUN_004d93c0_cls::RagDollData_Save()
 {
     if (m_uiItemCount != 0)
     {
@@ -465,9 +468,9 @@ bool RagDollWalker::CollectBoneTransforms(NiNode* apNode, unsigned int& arIndex,
         {
             if (abSet)
             {
-                bones[arIndex].id = pCollision->FUN_006fa820()->FUN_0043b4f0().FUN_004d9da0();
+                bones[arIndex].id = pCollision->FUN_006fa820()->bhkWorldObject_GetCollisionFilter().FUN_004d9da0();
             }
-            else if (bones[arIndex].id != pCollision->FUN_006fa820()->FUN_0043b4f0().FUN_004d9da0())
+            else if (bones[arIndex].id != pCollision->FUN_006fa820()->bhkWorldObject_GetCollisionFilter().FUN_004d9da0())
             {
                 return false;
             }

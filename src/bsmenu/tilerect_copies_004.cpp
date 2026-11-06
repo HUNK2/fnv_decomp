@@ -20,7 +20,8 @@ struct TraitValueArguments
 };
 
 // @fnv 0x00a1f600
-Tile* __fastcall FUN_00a1f600(TileRect*, TraitValueArguments)
+// src: COMMUNITY 0x00a1f600
+Tile* __fastcall TileRect_PostParse(TileRect*, TraitValueArguments)
 {
     return 0;
 }

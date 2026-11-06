@@ -150,7 +150,7 @@ struct FUN_00c3a090_Class
 extern "C" void* g_01202828;
 struct FUN_00c3a610_Class
 {
-    void* __thiscall FUN_00c3a610();
+    void* __thiscall BSMultiBoundRoom_GetRTTI();
 };
 extern MemoryManager g_memoryManager;
 struct FUN_00c3a640_Class
@@ -165,7 +165,7 @@ struct FUN_00c3b9e0_Class
 extern "C" void* g_012043e4;
 struct FUN_00c3ba70_Class
 {
-    void* __thiscall FUN_00c3ba70();
+    void* __thiscall BSNodeReferences_GetRTTI();
 };
 int __cdecl FUN_00c3c200();
 extern const void* DAT_010c14e8;
@@ -179,7 +179,7 @@ extern int DAT_010c1510;
 extern int DAT_010c14fc;
 struct FUN_00c3f6f0_Class
 {
-    void FUN_00c3f6f0();
+    void LockFreeMap_int64_NiPointer_BSTask_int64_IncrementCount();
 };
 struct FUN_00c3fc80_class
 {
@@ -187,13 +187,13 @@ struct FUN_00c3fc80_class
 };
 struct FUN_00c35980_Class
 {
-    int FUN_00c35980();
+    int BSOcclusionPlane_GetJoinedPlaneType();
 };
 struct FUN_00c3a080_Class
 {
-    void* __thiscall FUN_00c3a080(int arg);
+    void* __thiscall BSMultiBoundRoom_CreateClone(int arg);
 };
-void* __cdecl FUN_00a7d330(void*);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 struct FUN_00c3a0c0_Class
 {
     void* __thiscall FUN_00c46e70(unsigned int a);
@@ -201,19 +201,19 @@ struct FUN_00c3a0c0_Class
 };
 struct FUN_00c3a100_Class
 {
-    void __thiscall FUN_00c3a100(int);
+    void __thiscall BSMultiBoundRoom_LinkObject(int);
 };
 struct FUN_00c3a110_Class
 {
-    void __thiscall FUN_00c3a110(int arg);
+    void __thiscall BSMultiBoundRoom_LoadBinary(int arg);
 };
 struct FUN_00c3a120_Class
 {
-    void __thiscall FUN_00c3a120(int);
+    void __thiscall BSMultiBoundRoom_SaveBinary(int);
 };
 struct FUN_00c3a130_Class
 {
-    char __thiscall FUN_00c3a130(void* arg);
+    char __thiscall BSMultiBoundRoom_RegisterStreamables(void* arg);
 };
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3a140_Class
@@ -231,44 +231,44 @@ struct FUN_00c3a6a0_Class
 };
 extern char DAT_01202c50[260];
 extern char DAT_01202fa0[];
-void FUN_00c3bb90(const char* src);
+void MessageHandler_SetAllWarningFileNames(const char* src);
 extern char DAT_01202a40[0x104];
 extern char DAT_01202fa0[0x104];
-void __cdecl FUN_00c3bc30(const char* p);
+void __cdecl MessageHandler_SetProgrammerOutputFileName(const char* p);
 extern const void* DAT_010c14a8;
 MessageHandler* MessageHandler::pHandler;
 struct FUN_00c3c070_Class
 {
-    void* __thiscall FUN_00c3c070(int arg);
+    void* __thiscall std__Ref_count_base__Get_deleter(int arg);
 };
 extern "C" unsigned char DAT_011af49c;
 void __cdecl FUN_00c3c0c0();
 struct FUN_00c3fca0_Class
 {
-    void __thiscall FUN_0044e050(void* a);
+    void __thiscall BSTaskManager_int64_RemoveTask(void* a);
     void __thiscall FUN_00c3fca0(void* p);
 };
 struct FUN_00c3fe00_Class
 {
-    void* __thiscall FUN_00c3fe00(int a, int b, int c, int d);
+    void* __thiscall LockFreeMapInterface_LockFreeMapInterface(int a, int b, int c, int d);
 };
 void __fastcall FUN_0044dd60(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00c416a0_Class
 {
-    bool __thiscall FUN_00c416a0(int a, int b, int c);
+    bool __thiscall LockFreeMapInterface_Find_0(int a, int b, int c);
 };
 struct FUN_00c3fe80_Class : FUN_00c416a0_Class
 {
-    bool __thiscall FUN_00c3fe80(int a, int b, int c, void** out);
+    bool __thiscall LockFreeMapInterface_GetAt(int a, int b, int c, void** out);
 };
 int __cdecl FUN_00c33090(const char* p);
 typedef void*(__cdecl* PFN_00c3c100)(void*, void*, unsigned int);
 extern PFN_00c3c100 DAT_01202d5c;
 extern int DAT_01202d70;
-void __cdecl FUN_00c3c250();
-void __cdecl FUN_00c3c280();
-void* __cdecl FUN_00c3c100(void* a, void* b, unsigned int c);
+void __cdecl MessageHandler_InstallMessageBoxHook();
+void __cdecl MessageHandler_RemoveMessageBoxHook();
+void* __cdecl MessageHandler_DoMessageBox(void* a, void* b, unsigned int c);
 struct FUN_00c465a0;
 struct FUN_00c4fb10_shell;
 struct FUN_00c61b10;
@@ -323,7 +323,7 @@ extern char const g_01203108_arg0[];
 extern char const g_01204390_arg0[];
 extern char const g_01202e84_arg0[];
 extern char const g_01204388_arg0[];
-void FUN_00c3a6d0();
+void BSStream_InitLoaders();
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3ba80_Class
 {
@@ -332,10 +332,10 @@ struct FUN_00c3ba80_Class
     int a, b, c, d;
 };
 extern "C" unsigned char DAT_01202d55;
-void* __cdecl FUN_00c3c100(void*, void*, unsigned int);
-void* __cdecl FUN_00c3c180(void* a);
+void* __cdecl MessageHandler_DoMessageBox(void*, void*, unsigned int);
+void* __cdecl MessageHandler_MenuMessageBoxYesNo(void* a);
 extern unsigned char DAT_01202d55;
-void* __cdecl FUN_00c3c1c0(void* a);
+void* __cdecl MessageHandler_MenuMessageBoxYesNoAll(void* a);
 struct GlobalObject_00c3bcf0
 {
     ~GlobalObject_00c3bcf0();
@@ -479,7 +479,7 @@ struct FUN_00c347d0_Obj
 struct FUN_00c347d0_cls
 {
     void Init(FUN_00c347d0_Elem* res);
-    bool FUN_00c347d0(FUN_00c347d0_Obj* obj);
+    bool BSOcclusionPlane_CompletelyWithinFrustum(FUN_00c347d0_Obj* obj);
 };
 class Node
 {
@@ -635,7 +635,7 @@ extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileStringA(
     const char* lpAppName, const char* lpKeyName, const char* lpDefault, char* lpReturnedString, unsigned long nSize,
     const char* lpFileName);
-PFN_NiObjectLoader __cdecl FUN_00c3b3c0(const char* name);
+PFN_NiObjectLoader __cdecl BSStream_GetCreatorFunction(const char* name);
 static const char kLoadersSection[] = "Loaders";
 static const char kNoDefault[] = "";
 static const char kBackslash[] = "\\";
@@ -645,22 +645,22 @@ void __cdecl LoadObjectLoadersFromIni(const char* dir);
 extern "C" int __cdecl _strnicmp(const char* a, const char* b, unsigned int n);
 void __cdecl BuildDataPath(char* out, const char* path, const char* suffix);
 extern "C" unsigned char DAT_01202b48;
-void* __cdecl FUN_00c3bbd0();
+void* __cdecl GetProgramFlowTextPath();
 extern char DAT_01202a40[0x104];
-char* __cdecl FUN_00c3bc20();
+char* __cdecl MessageHandler_GetProgrammerOutputFileName();
 // FUN_00c3bc70 returns the address of the 0x104-byte scratch buffer that the
 // sibling helpers FUN_00c3bc80 (strcpy_s/strcat_s on it) operate on.
 extern char DAT_01202938[0x104];
-char* __cdecl FUN_00c3bc70();
-int __cdecl FUN_00c3bcd0();
+char* __cdecl MessageHandler_GetCrashTraceFileName();
+int __cdecl return_0_8();
 extern "C" unsigned char DAT_011af49d;
 extern "C" unsigned char DAT_011af49e;
 extern "C" unsigned char DAT_011af49f;
 extern unsigned char DAT_011f6370[0x18];
 extern unsigned int DAT_01202d74;
 extern unsigned int DAT_011f6388;
-void __cdecl FUN_00c3c460();
-void __cdecl FUN_00c3bd30(unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned int e);
+void __cdecl MessageHandler_InitSDM();
+void __cdecl MessageHandler_Init(unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned int e);
 int* __cdecl FUN_00c3bb80();
 int __cdecl FUN_00aff0b0(const char* p);
 int __cdecl GetFileSize(int* buf, int* out);
@@ -673,8 +673,8 @@ int __cdecl FUN_00c3c220();
 extern "C" __declspec(dllimport) DWORD __stdcall GetCurrentThreadId();
 extern "C" void __cdecl CbtHookProc(int code, WPARAM wParam, LPARAM lParam);
 extern int DAT_01202d70;
-void __cdecl FUN_00c3c250();
-void __cdecl FUN_00c3c280();
+void __cdecl MessageHandler_InstallMessageBoxHook();
+void __cdecl MessageHandler_RemoveMessageBoxHook();
 extern "C" void* fnv_zlib_memset(void* pvDest, int iValue, int iSize);
 typedef void* C3C2B0HWND;
 extern int(__stdcall* g_pfnC3C2B0GetClassName)(C3C2B0HWND hWnd, char* pcClassName, int m_iMaximumCount);
@@ -687,7 +687,7 @@ struct FUN_00c3c540_Class
 {
     int* unk00;
     void __thiscall Resize(int a, int b);
-    int* __thiscall FUN_00c3c540();
+    int* __thiscall QueuedParents_00c3c540();
 };
 struct C3D3E0Heap
 {
@@ -726,7 +726,7 @@ class FUN_00c3d870_cls
     virtual void v2(void* a);
     virtual void* v3(void* a, void* b);
     void Helper(void* a, void* b, void* c);
-    void FUN_00c3d870(void* a1, void* a2);
+    void QueuedChildren_SetLength(void* a1, void* a2);
 
     void* m_04;
     unsigned int unk08;
@@ -741,7 +741,7 @@ struct FUN_00c3f650_cls
 };
 struct C3F670Timer
 {
-    unsigned __int64 FUN_00c3f670(unsigned __int64 uiTicks);
+    unsigned __int64 LockFreeMap_int64_NiPointer_BSTask_int64_GenerateKey(unsigned __int64 uiTicks);
 };
 struct FUN_00c3f690_pair
 {
@@ -896,13 +896,14 @@ struct FNVPlaneSet
 };
 struct FNVClip
 {
-    bool FUN_00c35ae0(NiPoint3* begin, NiPoint3* end, FNVPlane* face, FNVPlaneSet* region);
+    bool BSOcclusionShape_TestLineSegmentAllPlanes(NiPoint3* begin, NiPoint3* end, FNVPlane* face, FNVPlaneSet* region);
 };
 extern const double DAT_01012060;
 extern const double DAT_01012070;
 extern const double DAT_010c0f58;
 // @fnv 0x00c35ae0
-bool FNVClip::FUN_00c35ae0(NiPoint3* begin, NiPoint3* end, FNVPlane* face, FNVPlaneSet* region)
+// src: COMMUNITY 0x00c35ae0
+bool FNVClip::BSOcclusionShape_TestLineSegmentAllPlanes(NiPoint3* begin, NiPoint3* end, FNVPlane* face, FNVPlaneSet* region)
 {
     NiPoint3 direction = end->FUN_00439ef0(*begin);
     NiPoint3 normal = face->normal;
@@ -967,7 +968,8 @@ template <class TVAL> class NiTStringPointerMapL
 extern NiTStringPointerMapL<PFN_NiObjectLoader>* DAT_011f4784;
 
 // @fnv 0x00c3b3c0
-PFN_NiObjectLoader __cdecl FUN_00c3b3c0(const char* pcName)
+// src: COMMUNITY 0x00c3b3c0
+PFN_NiObjectLoader __cdecl BSStream_GetCreatorFunction(const char* pcName)
 {
     PFN_NiObjectLoader pfnLoader = 0;
     DAT_011f4784->GetAt(pcName, pfnLoader);
@@ -1013,7 +1015,8 @@ struct Builder
     bool cornersDirty;
     bool dirty;
     unsigned char disabled[4];
-    inline void FUN_00c35c10(LocalPoint* out)
+// src: COMMUNITY 0x00c35c10
+    inline void BSOcclusionPlane_GetVertices(LocalPoint* out)
     {
         if (!cornersDirty)
         {
@@ -1032,10 +1035,11 @@ struct Builder
         memcpy(cachedCorners, out, 48);
         cornersDirty = false;
     }
-    void FUN_00c33870(LocalPoint eye, FUN_00a699d0s* out);
+    void BSOcclusionPlane_UpdateFrustumPlanes(LocalPoint eye, FUN_00a699d0s* out);
 };
 // @fnv 0x00c33870
-void Builder::FUN_00c33870(LocalPoint eye, FUN_00a699d0s* out)
+// src: COMMUNITY 0x00c33870
+void Builder::BSOcclusionPlane_UpdateFrustumPlanes(LocalPoint eye, FUN_00a699d0s* out)
 {
     if (!dirty && last == eye)
     {
@@ -1043,7 +1047,7 @@ void Builder::FUN_00c33870(LocalPoint eye, FUN_00a699d0s* out)
         return;
     }
     LocalPoint corners5[4];
-    FUN_00c35c10(corners5);
+    BSOcclusionPlane_GetVertices(corners5);
     out->active = 63;
     FUN_00a699d0 test7(corners5[0], corners5[1], corners5[2]);
     if (test7.ClassifyPoint(&eye) != 1)
@@ -1183,10 +1187,11 @@ char* __cdecl FUN_00a5b690(const char*);
 TextureObject* __cdecl FUN_00a5fd70(const NiFixedString&, int&, bool, bool);
 struct TextureLoader
 {
-    void __thiscall FUN_00c3b5e0(const char* path);
+    void __thiscall BSStream_LoadShaderTextures(const char* path);
 };
 // @fnv 0x00c3b5e0
-void TextureLoader::FUN_00c3b5e0(const char* path)
+// src: COMMUNITY 0x00c3b5e0
+void TextureLoader::BSStream_LoadShaderTextures(const char* path)
 {
     char filename[260];
     for (const char** suffix = DAT_011af484; *suffix; ++suffix)
@@ -1273,7 +1278,7 @@ FUN_00c3c4e0::FUN_00c3c4e0()
 
 struct PoolShell
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
+    void* __thiscall Game_DoHeapAlloc(unsigned int size);
 };
 struct TlsBlock_t
 {
@@ -1484,7 +1489,7 @@ struct Child10
     Child10(int count);
     static void* operator new(unsigned int sz)
     {
-        return reinterpret_cast<PoolShell*>(&DAT_011f6238)->FUN_00aa3e40(sz);
+        return reinterpret_cast<PoolShell*>(&DAT_011f6238)->Game_DoHeapAlloc(sz);
     }
 };
 
@@ -1509,12 +1514,12 @@ struct Pair8
     {}
     static void* operator new(unsigned int sz)
     {
-        return reinterpret_cast<PoolShell*>(&DAT_011f6238)->FUN_00aa3e40(sz);
+        return reinterpret_cast<PoolShell*>(&DAT_011f6238)->Game_DoHeapAlloc(sz);
     }
 };
 inline void* operator new[](unsigned int sz)
 {
-    return reinterpret_cast<PoolShell*>(&DAT_011f6238)->FUN_00aa3e40(sz);
+    return reinterpret_cast<PoolShell*>(&DAT_011f6238)->Game_DoHeapAlloc(sz);
 }
 struct TwoInts
 {
@@ -1613,11 +1618,12 @@ struct Owner_c3f530
 {
     int unk00;
     float* pElementBuffer;
-    Item_c3f530* FUN_00c3f530(int i);
+    Item_c3f530* LockFreeMap_int64_NiPointer_BSTask_int64_AllocateInterface(int i);
 };
 
 // @fnv 0x00c3f530
-Item_c3f530* Owner_c3f530::FUN_00c3f530(int i)
+// src: COMMUNITY 0x00c3f530
+Item_c3f530* Owner_c3f530::LockFreeMap_int64_NiPointer_BSTask_int64_AllocateInterface(int i)
 {
     ScopedHeap_c3f530 heap(6);
     return new Item_c3f530(this, &pElementBuffer[i * 3], &pElementBuffer[i * 3 + 1], &pElementBuffer[i * 3 + 2]);
@@ -1671,10 +1677,11 @@ struct ListQ
     unsigned int m_uiCount;
     char pad0c[0x14];
     LockX m_kLock;
-    bool FUN_00c3f960(SPX pSceneObject);
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_Func07(SPX pSceneObject);
 };
 // @fnv 0x00c3f960
-bool ListQ::FUN_00c3f960(SPX pSceneObject)
+// src: COMMUNITY 0x00c3f960
+bool ListQ::LockFreeMap_int64_NiPointer_BSTask_int64_Func07(SPX pSceneObject)
 {
     bool bFound = false;
     m_kLock.FUN_0040fbf0(0);
@@ -1760,7 +1767,8 @@ struct RectangleClip
     int unkdc;
     int unke0;
     bool dirty, unkE5, edge0, edge1, edge2, edge3;
-    inline void FUN_00c35c10(NiPoint3* out)
+// src: COMMUNITY 0x00c35c10
+    inline void BSOcclusionPlane_GetVertices(NiPoint3* out)
     {
         if (!dirty)
         {
@@ -1778,14 +1786,15 @@ struct RectangleClip
         memcpy(cached, out, sizeof(cached));
         dirty = false;
     }
-    bool FUN_00c35ae0(NiPoint3*, NiPoint3*, void*, void*);
-    bool FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 point);
+    bool BSOcclusionShape_TestLineSegmentAllPlanes(NiPoint3*, NiPoint3*, void*, void*);
+    bool BSOcclusionPlane_WithinFrustum(ClipVolume* volume, bool testCenter, NiPoint3 point);
 };
 // @fnv 0x00c33cf0
-bool RectangleClip::FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 point)
+// src: COMMUNITY 0x00c33cf0
+bool RectangleClip::BSOcclusionPlane_WithinFrustum(ClipVolume* volume, bool testCenter, NiPoint3 point)
 {
     NiPoint3 corners[4];
-    FUN_00c35c10(corners);
+    BSOcclusionPlane_GetVertices(corners);
     int masks[4];
     masks[0] = masks[1] = masks[2] = masks[3] = 0;
     for (int plane = 0; plane < 6; plane++)
@@ -1820,7 +1829,7 @@ bool RectangleClip::FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 p
         bool hit0 = false;
         for (int plane0 = 2; plane0 < 6; plane0++)
         {
-            if (FUN_00c35ae0(&corners[0], &corners[1], &volume->planes[plane0], volume))
+            if (BSOcclusionShape_TestLineSegmentAllPlanes(&corners[0], &corners[1], &volume->planes[plane0], volume))
             {
                 hit0 = true;
                 break;
@@ -1834,7 +1843,7 @@ bool RectangleClip::FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 p
         bool hit1 = false;
         for (int plane1 = 2; plane1 < 6; plane1++)
         {
-            if (FUN_00c35ae0(&corners[3], &corners[2], &volume->planes[plane1], volume))
+            if (BSOcclusionShape_TestLineSegmentAllPlanes(&corners[3], &corners[2], &volume->planes[plane1], volume))
             {
                 hit1 = true;
                 break;
@@ -1848,7 +1857,7 @@ bool RectangleClip::FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 p
         bool hit2 = false;
         for (int plane2 = 2; plane2 < 6; plane2++)
         {
-            if (FUN_00c35ae0(&corners[0], &corners[3], &volume->planes[plane2], volume))
+            if (BSOcclusionShape_TestLineSegmentAllPlanes(&corners[0], &corners[3], &volume->planes[plane2], volume))
             {
                 hit2 = true;
                 break;
@@ -1862,7 +1871,7 @@ bool RectangleClip::FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 p
         bool hit3 = false;
         for (int plane3 = 2; plane3 < 6; plane3++)
         {
-            if (FUN_00c35ae0(&corners[2], &corners[1], &volume->planes[plane3], volume))
+            if (BSOcclusionShape_TestLineSegmentAllPlanes(&corners[2], &corners[1], &volume->planes[plane3], volume))
             {
                 hit3 = true;
                 break;
@@ -1875,8 +1884,8 @@ bool RectangleClip::FUN_00c33cf0(ClipVolume* volume, bool testCenter, NiPoint3 p
     {
         for (int planeLast = 2; planeLast < 6; planeLast++)
         {
-            if (FUN_00c35ae0(&corners[0], &corners[2], &volume->planes[planeLast], volume) ||
-                FUN_00c35ae0(&corners[1], &corners[3], &volume->planes[planeLast], volume))
+            if (BSOcclusionShape_TestLineSegmentAllPlanes(&corners[0], &corners[2], &volume->planes[planeLast], volume) ||
+                BSOcclusionShape_TestLineSegmentAllPlanes(&corners[1], &corners[3], &volume->planes[planeLast], volume))
                 return true;
         }
         if (testCenter)
@@ -1925,7 +1934,8 @@ struct RectangleClip
     NiPoint3 cached[4];
     int unkd8, unkdc, unke0;
     bool dirty, unkE5, edge0, edge1, edge2, edge3;
-    inline void FUN_00c35c10(NiPoint3* out)
+// src: COMMUNITY 0x00c35c10
+    inline void BSOcclusionPlane_GetVertices(NiPoint3* out)
     {
         if (!dirty)
         {
@@ -1942,13 +1952,14 @@ struct RectangleClip
         memcpy(cached, out, sizeof(cached));
         dirty = false;
     }
-    unsigned char FUN_00c34350(ClipVolume* volume);
+    unsigned char BSPortal_WithinFrustumFullTest(ClipVolume* volume);
 };
 // @fnv 0x00c34350
-unsigned char RectangleClip::FUN_00c34350(ClipVolume* volume)
+// src: COMMUNITY 0x00c34350
+unsigned char RectangleClip::BSPortal_WithinFrustumFullTest(ClipVolume* volume)
 {
     NiPoint3 corners[4];
-    FUN_00c35c10(corners);
+    BSOcclusionPlane_GetVertices(corners);
     int masks[4];
     masks[0] = masks[1] = masks[2] = masks[3] = 0;
     unsigned char needsTest = 1;
@@ -2026,7 +2037,8 @@ struct SSNode
     NiPoint3 cache[4];
     int unkd8, unkdc, unke0;
     bool dirty;
-    inline void FUN_00c35c10(NiPoint3* out)
+// src: COMMUNITY 0x00c35c10
+    inline void BSOcclusionPlane_GetVertices(NiPoint3* out)
     {
         if (!dirty)
             memmove(out, cache, 48);
@@ -2044,8 +2056,8 @@ struct SSNode
             dirty = false;
         }
     }
-    bool FUN_00c33cf0(void*, int, NiPoint3);
-    bool FUN_00c344c0(void*, const NiPoint3&);
+    bool BSOcclusionPlane_WithinFrustum(void*, int, NiPoint3);
+    bool BSOcclusionPlane_WithinFrustumDistFirst(void*, const NiPoint3&);
     inline bool IsExactType()
     {
         if (!this)
@@ -2063,10 +2075,11 @@ inline float DistanceFromFirst(void* data, int index, const NiPoint3& point)
     return selected->Distance(point);
 }
 // @fnv 0x00c344c0
-bool SSNode::FUN_00c344c0(void* planes, const NiPoint3& point)
+// src: COMMUNITY 0x00c344c0
+bool SSNode::BSOcclusionPlane_WithinFrustumDistFirst(void* planes, const NiPoint3& point)
 {
     NiPoint3 verticesTmp[4];
-    FUN_00c35c10(verticesTmp);
+    BSOcclusionPlane_GetVertices(verticesTmp);
     ClipPlane plane3(verticesTmp[0], verticesTmp[1], verticesTmp[2]);
     float distance2 = plane3.Distance(point);
     NiPoint3 projected8 = point + (-distance2 * plane3.normal);
@@ -2087,7 +2100,7 @@ bool SSNode::FUN_00c344c0(void* planes, const NiPoint3& point)
                 return false;
         }
     }
-    return FUN_00c33cf0(planes, 1, projected8);
+    return BSOcclusionPlane_WithinFrustum(planes, 1, projected8);
 }
 }  // namespace fnv_00c344c0
 
@@ -2207,11 +2220,12 @@ class FUN_00c39560_Class
     int unk08;
     NiPoint3 center;
     NiPoint3 extents;
-    bool FUN_00c39560(NiPoint3 point);
+    bool BSMultiBoundAABB_FastPointWithin(NiPoint3 point);
 };
 
 // @fnv 0x00c39560
-bool FUN_00c39560_Class::FUN_00c39560(NiPoint3 point)
+// src: COMMUNITY 0x00c39560
+bool FUN_00c39560_Class::BSMultiBoundAABB_FastPointWithin(NiPoint3 point)
 {
     NiPoint3 pointDelta = point.Sub(center);
     float uX;
@@ -3226,7 +3240,8 @@ MH::MH(bool b)
 {}
 
 // @fnv 0x00c3c460
-void __cdecl FUN_00c3c460()
+// src: COMMUNITY 0x00c3c460
+void __cdecl MessageHandler_InitSDM()
 {
     MessageHandler::pHandler = (MessageHandler*)new MH(false);
 }
@@ -3264,7 +3279,7 @@ QueuedFile::~QueuedFile()
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct MemMgr2
 {
-    void* FUN_00aa3e40(unsigned);
+    void* Game_DoHeapAlloc(unsigned);
 };
 struct RefObj
 {
@@ -3276,7 +3291,7 @@ struct RefObj
         InterlockedIncrement(&m_08);
     }
     void FUN_0044dd60();
-    void FUN_00c3c700(void*);
+    void QueuedFile_AddChild(void*);
 };
 struct RefPtr
 {
@@ -3325,7 +3340,7 @@ struct OwnArr
     OwnArr();
     static void* operator new(unsigned s)
     {
-        return ((MemMgr2*)&DAT_011f6238)->FUN_00aa3e40(s);
+        return ((MemMgr2*)&DAT_011f6238)->Game_DoHeapAlloc(s);
     }
     static void operator delete(void* p)
     {
@@ -3345,7 +3360,8 @@ struct OwnArr
     virtual void Deallocate(RefObj**);
     virtual RefObj** Reallocate(RefObj**, unsigned);
     void FUN_0042fb60(RefObj**, RefObj**, unsigned);
-    inline void FUN_00c3d870(unsigned capacity, unsigned count)
+// src: COMMUNITY 0x00c3d870
+    inline void QueuedChildren_SetLength(unsigned capacity, unsigned count)
     {
         if (m_data)
         {
@@ -3368,7 +3384,8 @@ struct OwnArr
             m_0c = capacity;
         }
     }
-    __forceinline unsigned FUN_00c3d6c0()
+// src: COMMUNITY 0x00c3d6c0
+    __forceinline unsigned QueuedChildren_GetAppendIndex()
     {
         unsigned oldCapacity = m_0c;
         unsigned oldSize = m_uiItemCount;
@@ -3384,16 +3401,17 @@ struct OwnArr
             else
             {
                 unsigned capacity = oldCapacity > 1024 ? oldCapacity + 1024 : oldCapacity * 2;
-                FUN_00c3d870(capacity, oldSize);
+                QueuedChildren_SetLength(capacity, oldSize);
                 m_0c = capacity;
             }
         }
         ++m_uiItemCount;
         return m_uiItemCount - 1;
     }
-    inline unsigned FUN_00c3d4f0(const RefPtr& item)
+// src: COMMUNITY 0x00c3d4f0
+    inline unsigned QueuedChildren_Append(const RefPtr& item)
     {
-        unsigned index = FUN_00c3d6c0();
+        unsigned index = QueuedChildren_GetAppendIndex();
         RefPtr* first = (RefPtr*)(m_data + index);
         unsigned count = 1;
         ConstructRefs(first, count);
@@ -3404,7 +3422,8 @@ struct OwnArr
 };
 // The legacy IOTask entry points operate on QueuedFile parent-link storage.
 // @fnv 0x00c3c7e0
-void IOTask::FUN_00c3c7e0(RefObj* obj)
+// src: COMMUNITY 0x00c3c7e0
+void IOTask::QueuedFile_AddAdditionalParent(RefObj* obj)
 {
     if (!((OwnArr*&)((QueuedFile*)this)->pAdditionalParents))
     {
@@ -3414,8 +3433,8 @@ void IOTask::FUN_00c3c7e0(RefObj* obj)
     {
         return;
     }
-    ((OwnArr*&)((QueuedFile*)this)->pAdditionalParents)->FUN_00c3d4f0(obj);
-    obj->FUN_00c3c700(this);
+    ((OwnArr*&)((QueuedFile*)this)->pAdditionalParents)->QueuedChildren_Append(obj);
+    obj->QueuedFile_AddChild(this);
 }
 
 namespace fnv_00c3cb70 {
@@ -3548,7 +3567,7 @@ void IOTask::FUN_00c3cb70(int state, RefObj* obj)
         {
             RefObj* o = ((fnv_00c3cb70::PtrArr*&)((QueuedFile*)this)->pChildren)->ElementAt(j);
             if (o)
-                DAT_01202d98->FUN_0044ac40(o, this);
+                DAT_01202d98->BSTaskManager_CancelTask(o, this);
         }
     }
     FUN_0044dd60();
@@ -3701,7 +3720,8 @@ struct ArrayC3D6C0
     void* data;
     unsigned int size;
     unsigned int cap;
-    inline void FUN_00c3d870(unsigned int neu, unsigned int count)
+// src: COMMUNITY 0x00c3d870
+    inline void QueuedChildren_SetLength(unsigned int neu, unsigned int count)
     {
         unsigned int i = neu;
         unsigned int s = count;
@@ -3737,11 +3757,12 @@ struct ArrayC3D6C0
         data = (void*)(i + s + u + count);
         cap = neu;
     }
-    int FUN_00c3d6c0();
+    int QueuedChildren_GetAppendIndex();
 };
 
 // @fnv 0x00c3d6c0
-int ArrayC3D6C0::FUN_00c3d6c0()
+// src: COMMUNITY 0x00c3d6c0
+int ArrayC3D6C0::QueuedChildren_GetAppendIndex()
 {
     unsigned int first;
     unsigned int high;
@@ -3762,7 +3783,7 @@ int ArrayC3D6C0::FUN_00c3d6c0()
         else
         {
             high = cap > 0x400 ? cap + 0x400 : cap * 2;
-            FUN_00c3d870(high, size);
+            QueuedChildren_SetLength(high, size);
             cap = high;
         }
     }
@@ -3836,7 +3857,7 @@ struct IOQueue
     virtual void v04();
     virtual void v08();
     virtual unsigned Count();
-    void FUN_00c3e420(fnv_00c3dbf0::TaskPtr& out);
+    void LockFreePriorityQueue_NiPointer_IOTask_Pop(fnv_00c3dbf0::TaskPtr& out);
 };
 inline unsigned IOManager::QueuedCount()
 {
@@ -3863,7 +3884,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern unsigned DAT_01202800;
 extern unsigned char DAT_01202dd8;
 extern float DAT_011ac39c;
-__int64 FUN_00aa4d80();
+__int64 BSPrecisionTimer_GetTimer();
 extern Setting DAT_01202da8;
 extern Setting DAT_01202db4;
 struct TaskPtr
@@ -3911,7 +3932,8 @@ inline unsigned Setting::GetUInt()
     return *p;
 }
 // @fnv 0x00c3dbf0
-bool IOManager::FUN_00c3dbf0()
+// src: COMMUNITY 0x00c3dbf0
+bool IOManager::UpdateQueue()
 {
     using namespace fnv_00c3dbf0;
     if (DAT_01202dd8)
@@ -3925,21 +3947,21 @@ bool IOManager::FUN_00c3dbf0()
         ms = DAT_01202db4.GetUInt();
     __int64 start = 0;
     __int64 limit5 = 0;
-    start = FUN_00aa4d80();
+    start = BSPrecisionTimer_GetTimer();
     limit5 = (__int64)(ms * DAT_011ac39c);
     if (m_canRunFn)
         result2 = m_canRunFn();
     TaskPtr taskA(0);
-    m_queue->FUN_00c3e420(taskA);
+    m_queue->LockFreePriorityQueue_NiPointer_IOTask_Pop(taskA);
     while (taskA)
     {
         Dead16();
         taskA->ProcessLoadedAnimIdle();
         if (m_idleFn)
             m_idleFn();
-        if (!(bool)(FUN_00aa4d80() - start > limit5 ? 1 : 0))
+        if (!(bool)(BSPrecisionTimer_GetTimer() - start > limit5 ? 1 : 0))
         {
-            m_queue->FUN_00c3e420(taskA);
+            m_queue->LockFreePriorityQueue_NiPointer_IOTask_Pop(taskA);
         }
         else
         {
@@ -3964,12 +3986,13 @@ inline int S00c3de80_Zero()
 // Keep their thiscall ABI here while using the shared manager and task storage.
 struct TaskSubmissionEntry
 {
-    bool __thiscall FUN_00c3fb50(IOTask* object);
-    bool __thiscall FUN_00c3de80(IOTask* object);
+    bool __thiscall BSTaskManager_int64_AddTask(IOTask* object);
+    bool __thiscall IOManager_AddTask(IOTask* object);
 };
 
 // @fnv 0x00c3de80
-bool TaskSubmissionEntry::FUN_00c3de80(IOTask* object)
+// src: COMMUNITY 0x00c3de80
+bool TaskSubmissionEntry::IOManager_AddTask(IOTask* object)
 {
     IOTask* self = object;
     if (((IOManager*)this)->m_uiContentCount != 6)
@@ -3982,7 +4005,7 @@ bool TaskSubmissionEntry::FUN_00c3de80(IOTask* object)
 
     self->GenerateKey();
 
-    while (!FUN_00c3fb50(self))
+    while (!BSTaskManager_int64_AddTask(self))
     {
         __declspec(align(2)) unsigned short serial = (unsigned short)InterlockedIncrement(&DAT_01202d9c);
 
@@ -4007,7 +4030,7 @@ void IOManager::FUN_00c3dfa0(int mode)
         return;
     }
     m_uiContentCount = mode;
-    FUN_00c3e1b0(mode, 0);
+    RequeuePrioritiesToNewPriority(mode, 0);
     unsigned queued9 = m_queue->Count();
     unsigned total2 = SumArrayUpToCount(mode * 4 + 3) + queued9 + (m_pendingFn ? m_pendingFn() : 0);
     float pctVal;
@@ -4021,7 +4044,7 @@ void IOManager::FUN_00c3dfa0(int mode)
         unsigned limit = m_18;
         if (limit > m_queue->Count())
             Sleep(50);
-        done7 = FUN_00c3dbf0();
+        done7 = UpdateQueue();
         unsigned queued4 = m_queue->Count();
         remaining = SumArrayUpToCount(mode * 4 + 3) + queued4 + (m_pendingFn ? m_pendingFn() : 0);
     }
@@ -4246,7 +4269,8 @@ struct TaskManagerQueueState
 };
 
 // @fnv 0x00c3e1b0
-void IOManager::FUN_00c3e1b0(int maxPriority, int arg)
+// src: COMMUNITY 0x00c3e1b0
+void IOManager::RequeuePrioritiesToNewPriority(int maxPriority, int arg)
 {
     if (maxPriority <= arg)
         return;
@@ -4286,7 +4310,7 @@ struct Q
 struct TaskMapHandle
 {
     Q* q;
-    bool __thiscall FUN_00c3fe80(int key, int a, int b, int c);
+    bool __thiscall LockFreeMapInterface_GetAt(int key, int a, int b, int c);
 };
 
 struct LockObj
@@ -4306,22 +4330,23 @@ struct Owner
 {
     int u0, u1, u2, u3, u4, u5, u6, u7;
     LockObj lock;
-    TaskMapHandle* __thiscall FUN_00c3f750();
+    TaskMapHandle* __thiscall LockFreeMap_GetInterface();
     __forceinline bool pass(TaskMapHandle* node, int a, int b, int c)
     {
-        return node->FUN_00c3fe80(node->q->v9(a, b), a, b, c);
+        return node->LockFreeMapInterface_GetAt(node->q->v9(a, b), a, b, c);
     }
-    bool __thiscall FUN_00c3f160(int a, int b, int c);
+    bool __thiscall LockFreeMap_int64_NiPointer_BSTask_int64_GetAt(int a, int b, int c);
 };
 
 // @fnv 0x00c3f160
-bool Owner::FUN_00c3f160(int a, int b, int c)
+// src: COMMUNITY 0x00c3f160
+bool Owner::LockFreeMap_int64_NiPointer_BSTask_int64_GetAt(int a, int b, int c)
 {
     int local4, local5, local6, receiver, answer;
     int extra14, done, status, extra4, extra5;
     int slot2, spare4, spare5, spare6, spare8, spare9, extra15;
     lock.FUN_0040fbf0(0);
-    TaskMapHandle* node = FUN_00c3f750();
+    TaskMapHandle* node = LockFreeMap_GetInterface();
     bool found = pass(node, a, b, c);
     lock.Unlock();
     return found;
@@ -4399,14 +4424,15 @@ struct Obj
     int unk18;
     int unk1c;
     RecursiveSpinLock lock;
-    WeightedMapNode* FUN_00c3f750();
-    bool FUN_00c3f2b0(int a, int b);
+    WeightedMapNode* LockFreeMap_GetInterface();
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_RemoveAt(int a, int b);
 };
 // @fnv 0x00c3f2b0
-bool Obj::FUN_00c3f2b0(int a, int b)
+// src: COMMUNITY 0x00c3f2b0
+bool Obj::LockFreeMap_int64_NiPointer_BSTask_int64_RemoveAt(int a, int b)
 {
     lock.Lock(0);
-    bool result = Call(FUN_00c3f750(), a, b);
+    bool result = Call(LockFreeMap_GetInterface(), a, b);
     lock.Unlock();
     return result;
 }
@@ -4489,7 +4515,7 @@ struct Spin360
 
 struct Helper360
 {
-    void* __thiscall FUN_00c3f750(void* a, Ref360* b);
+    void* __thiscall LockFreeMap_GetInterface(void* a, Ref360* b);
 };
 
 struct Result360
@@ -4508,14 +4534,15 @@ struct Obj360
     int unk18;
     int unk1c;
     Spin360 lock;
-    char __thiscall FUN_00c3f360(void* a, Ref360 b);
+    char __thiscall LockFreeMap_int64_NiPointer_BSTask_int64_Func06(void* a, Ref360 b);
 };
 
 // @fnv 0x00c3f360
-char __thiscall Obj360::FUN_00c3f360(void* a, Ref360 b)
+// src: COMMUNITY 0x00c3f360
+char __thiscall Obj360::LockFreeMap_int64_NiPointer_BSTask_int64_Func06(void* a, Ref360 b)
 {
     lock.Lock(0);
-    char r = ((Result360*)((Helper360*)this)->FUN_00c3f750(a, &b))->FUN_00c40680();
+    char r = ((Result360*)((Helper360*)this)->LockFreeMap_GetInterface(a, &b))->FUN_00c40680();
     lock.Unlock();
     return r;
 }
@@ -4543,16 +4570,17 @@ struct C3F4C0_Holder : FUN_00c416a0_Class
     int unk10;
     unsigned int m_uSlot14;
 
-    inline bool FUN_00c3fe80(int x, int a, int b, void** out);
+    inline bool LockFreeMapInterface_GetAt(int x, int a, int b, void** out);
     bool Lookup(int a, int b, void** out)
     {
-        return FUN_00c3fe80(obj->unk24(a, b), a, b, out);
+        return LockFreeMapInterface_GetAt(obj->unk24(a, b), a, b, out);
     }
 };
 
-inline bool C3F4C0_Holder::FUN_00c3fe80(int x, int a, int b, void** out)
+// src: COMMUNITY 0x00c3fe80
+inline bool C3F4C0_Holder::LockFreeMapInterface_GetAt(int x, int a, int b, void** out)
 {
-    bool ok = FUN_00c416a0(x, a, b);
+    bool ok = LockFreeMapInterface_Find_0(x, a, b);
     if (ok)
     {
         unsigned int* pSlot1 = &m_uSlot14;
@@ -4595,14 +4623,15 @@ inline bool C3F4C0_Holder::FUN_00c3fe80(int x, int a, int b, void** out)
 
 struct C3F4C0_Cls
 {
-    C3F4C0_Holder* FUN_00c3f750();
-    bool FUN_00c3f4c0(int a, int b, void** out);
+    C3F4C0_Holder* LockFreeMap_GetInterface();
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_Func08(int a, int b, void** out);
 };
 
 // @fnv 0x00c3f4c0
-bool C3F4C0_Cls::FUN_00c3f4c0(int a, int b, void** out)
+// src: COMMUNITY 0x00c3f4c0
+bool C3F4C0_Cls::LockFreeMap_int64_NiPointer_BSTask_int64_Func08(int a, int b, void** out)
 {
-    bool res = FUN_00c3f750()->Lookup(a, b, out);
+    bool res = LockFreeMap_GetInterface()->Lookup(a, b, out);
     return res;
 }
 
@@ -4613,7 +4642,7 @@ struct FUN_00c3f7a0_Class
     int unk08;
     int unk0c;
     int* m_pValues10;
-    void* __thiscall FUN_00c3f7a0(int index);
+    void* __thiscall LockFreeQueue_NiPointer_IOTask_AllocateInterface(int index);
 };
 
 extern __declspec(thread) int DAT_tls_field;
@@ -4646,7 +4675,8 @@ struct Item_00c3f7a0
 };
 
 // @fnv 0x00c3f7a0
-void* FUN_00c3f7a0_Class::FUN_00c3f7a0(int index)
+// src: COMMUNITY 0x00c3f7a0
+void* FUN_00c3f7a0_Class::LockFreeQueue_NiPointer_IOTask_AllocateInterface(int index)
 {
     AutoMemContext kContext(6);
     return new Item_00c3f7a0(this, m_pValues10 + index * 2, m_pValues10 + index * 2 + 1);
@@ -4713,7 +4743,7 @@ struct TaggedC3
         const TaggedC3* self = this;
         return (NodeC3*)(self->bits & ~1u);
     }
-    void FUN_0044e010(bool);
+    void LockFreeMap_MarkedPointer_SetMark(bool);
     inline void Mark(bool mark)
     {
         TaggedC3* self = this;
@@ -4816,8 +4846,9 @@ struct SearchC3
     AtomicC3* link;
     TaggedC3 current;
     TaggedC3 observed;
-    void FUN_00c41f40(NodeC3*);
-    inline bool FUN_00c416a0(int index, KeyC3 key)
+    void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_DeleteNode(NodeC3*);
+// src: COMMUNITY 0x00c416a0
+    inline bool LockFreeMapInterface_Find_0(int index, KeyC3 key)
     {
         AtomicC3* start = &handler->buckets[index];
         while (true)
@@ -4827,7 +4858,7 @@ struct SearchC3
             current.bits = link->bits;
             *out2 = current.Get();
             TaggedC3 safe(current.Get());
-            safe.FUN_0044e010(false);
+            safe.LockFreeMap_MarkedPointer_SetMark(false);
             if (link->bits != safe.Value())
                 continue;
             while (true)
@@ -4861,7 +4892,7 @@ struct SearchC3
                     TaggedC3 desired(observed.Get());
                     desired.Mark(false);
                     if (link->Compare(desired.Value(), expected.Value()))
-                        FUN_00c41f40(current.Get());
+                        LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_DeleteNode(current.Get());
                     else
                     {
                         restart = true;
@@ -4875,17 +4906,18 @@ struct SearchC3
                 continue;
         }
     }
-    bool FUN_00c3ffb0(int index, KeyC3 key, RefC3* value, bool replace);
+    bool LockFreeMapInterface_SetAt(int index, KeyC3 key, RefC3* value, bool replace);
 };
 // @fnv 0x00c3ffb0
-bool SearchC3::FUN_00c3ffb0(int index, KeyC3 key, RefC3* value, bool replace)
+// src: COMMUNITY 0x00c3ffb0
+bool SearchC3::LockFreeMapInterface_SetAt(int index, KeyC3 key, RefC3* value, bool replace)
 {
     ContextC3 context4(g_tlsMemContext);
     bool result2 = true;
     NodeC3* node7 = 0;
     while (true)
     {
-        if (FUN_00c416a0(index, key))
+        if (LockFreeMapInterface_Find_0(index, key))
         {
             delete node7;
             if (replace)
@@ -4897,7 +4929,7 @@ bool SearchC3::FUN_00c3ffb0(int index, KeyC3 key, RefC3* value, bool replace)
         if (!node7)
             node7 = new NodeC3(handler->Key(key), *value);
         TaggedC3 next4(current.Get());
-        next4.FUN_0044e010(false);
+        next4.LockFreeMap_MarkedPointer_SetMark(false);
         TaggedC3 desired5(node7);
         desired5.Mark(false);
         node7->next = next4;
@@ -4938,10 +4970,11 @@ struct Target
     Result cached;
     int unkD8, unkDC, unkE0;
     bool dirty;
-    void FUN_00c35c10(Result* out);
+    void BSOcclusionPlane_GetVertices(Result* out);
 };
 // @fnv 0x00c35c10
-void Target::FUN_00c35c10(Result* out)
+// src: COMMUNITY 0x00c35c10
+void Target::BSOcclusionPlane_GetVertices(Result* out)
 {
     if (!dirty)
     {
@@ -5025,14 +5058,15 @@ struct PtrArray_c3d4
     NiPointer<RefObj_c3d4>* m_pBase;
     unsigned int m_uiSize;
     unsigned int m_uiMax;
-    unsigned int FUN_00c3d6c0();
-    unsigned int FUN_00c3d4f0(const NiPointer<RefObj_c3d4>& element);
+    unsigned int QueuedChildren_GetAppendIndex();
+    unsigned int QueuedChildren_Append(const NiPointer<RefObj_c3d4>& element);
 };
 
 // @fnv 0x00c3d4f0
-unsigned int PtrArray_c3d4::FUN_00c3d4f0(const NiPointer<RefObj_c3d4>& element)
+// src: COMMUNITY 0x00c3d4f0
+unsigned int PtrArray_c3d4::QueuedChildren_Append(const NiPointer<RefObj_c3d4>& element)
 {
-    unsigned int uiIndex = FUN_00c3d6c0();
+    unsigned int uiIndex = QueuedChildren_GetAppendIndex();
     ConstructC3D4(m_pBase + uiIndex, 1);
     m_pBase[uiIndex] = element;
     return uiIndex;
@@ -5230,10 +5264,10 @@ struct F1f0Inner
 struct F1f0Obj
 {
     F1f0Inner* m_00;
-    bool __thiscall FUN_00c3ffb0(void* p);
+    bool __thiscall LockFreeMapInterface_SetAt(void* p);
     bool Test(int a1, int a2, int a3, bool a4)
     {
-        return FUN_00c3ffb0(m_00->v24(a1, a2, a1, a2, a3, a4));
+        return LockFreeMapInterface_SetAt(m_00->v24(a1, a2, a1, a2, a3, a4));
     }
 };
 
@@ -5248,16 +5282,17 @@ struct F1f0Cls
     int unk18;
     int unk1c;
     F1f0Lock m_lock;
-    F1f0Obj* __thiscall FUN_00c3f750();
-    bool __thiscall FUN_00c3f1f0(int a1, int a2, int a3, bool a4);
+    F1f0Obj* __thiscall LockFreeMap_GetInterface();
+    bool __thiscall LockFreeMap_int64_NiPointer_BSTask_int64_SetAtAlt(int a1, int a2, int a3, bool a4);
 };
 
 // @fnv 0x00c3f1f0
-bool F1f0Cls::FUN_00c3f1f0(int a1, int a2, int a3, bool a4)
+// src: COMMUNITY 0x00c3f1f0
+bool F1f0Cls::LockFreeMap_int64_NiPointer_BSTask_int64_SetAtAlt(int a1, int a2, int a3, bool a4)
 {
     m_lock.FUN_0040fbf0(0);
     Dead34();
-    bool r = FUN_00c3f750()->Test(a1, a2, a3, a4);
+    bool r = LockFreeMap_GetInterface()->Test(a1, a2, a3, a4);
     m_lock.Unlock();
     return r;
 }
@@ -5298,7 +5333,7 @@ struct SpinLockS
 
 struct WorkerS
 {
-    bool __thiscall FUN_00c3ffb0(int a, int b, int c, int d, unsigned char e);
+    bool __thiscall LockFreeMapInterface_SetAt(int a, int b, int c, int d, unsigned char e);
 };
 
 struct ManagerS
@@ -5312,8 +5347,8 @@ struct ManagerS
     int unk18;
     int unk1C;
     SpinLockS lock;
-    WorkerS* __thiscall FUN_00c3f750();
-    bool __thiscall FUN_00c3f430(int a, int b, int c, int d, unsigned char e);
+    WorkerS* __thiscall LockFreeMap_GetInterface();
+    bool __thiscall LockFreeMap_int64_NiPointer_BSTask_int64_SetAt(int a, int b, int c, int d, unsigned char e);
 };
 
 static __forceinline void Dead35()
@@ -5322,10 +5357,11 @@ static __forceinline void Dead35()
 }
 
 // @fnv 0x00c3f430
-bool ManagerS::FUN_00c3f430(int a, int b, int c, int d, unsigned char e)
+// src: COMMUNITY 0x00c3f430
+bool ManagerS::LockFreeMap_int64_NiPointer_BSTask_int64_SetAt(int a, int b, int c, int d, unsigned char e)
 {
     lock.FUN_0040fbf0(0);
-    bool result = FUN_00c3f750()->FUN_00c3ffb0(a, b, c, d, e);
+    bool result = LockFreeMap_GetInterface()->LockFreeMapInterface_SetAt(a, b, c, d, e);
     Dead35();
     lock.Unlock();
     return result;
@@ -5345,7 +5381,7 @@ class FUN_00c3f8c0 : public SpawnedBase
 {
   public:
     virtual ~FUN_00c3f8c0();
-    void FUN_00c40b70(int flags);
+    void LockFreeMap_int64_NiPointer_BSTask_int64_RemoveAll(int flags);
     int unk08;
     int unk0c;
 };
@@ -5353,7 +5389,7 @@ class FUN_00c3f8c0 : public SpawnedBase
 // @fnv 0x00c3f8c0
 FUN_00c3f8c0::~FUN_00c3f8c0()
 {
-    this->FUN_00c40b70(1);
+    this->LockFreeMap_int64_NiPointer_BSTask_int64_RemoveAll(1);
     {
         int unk10 = this->unk0c;
         DAT_011f6238.FUN_00aa4060((void*)unk10);
@@ -5409,7 +5445,8 @@ struct OccluderC358
     unsigned char disabled2;
     unsigned char disabled3;
     unsigned char unkEA;
-    inline void FUN_00c35c10(LocalPoint* out)
+// src: COMMUNITY 0x00c35c10
+    inline void BSOcclusionPlane_GetVertices(LocalPoint* out)
     {
         if (!cornersDirty)
         {
@@ -5432,18 +5469,19 @@ struct OccluderC358
         memcpy(&corner0, out, 48);
         cornersDirty = false;
     }
-    bool FUN_00c358a0(LocalPoint point);
+    bool BSOcclusionPlane_ViewerOnCorrectSide(LocalPoint point);
 };
 
 // @fnv 0x00c358a0
-bool OccluderC358::FUN_00c358a0(LocalPoint point)
+// src: COMMUNITY 0x00c358a0
+bool OccluderC358::BSOcclusionPlane_ViewerOnCorrectSide(LocalPoint point)
 {
     if (unkEA != 0)
         return true;
     LocalPoint verts[4];
     FUN_0045c620 frustum;
-    ((Builder*)this)->FUN_00c33870(point, (FUN_00a699d0s*)&frustum);
-    FUN_00c35c10(verts);
+    ((Builder*)this)->BSOcclusionPlane_UpdateFrustumPlanes(point, (FUN_00a699d0s*)&frustum);
+    BSOcclusionPlane_GetVertices(verts);
     FUN_00a699d0 plane(verts[0], verts[1], verts[2]);
     if (plane.ClassifyPoint(&point) != 2)
         return false;

@@ -61,14 +61,15 @@ typedef unsigned int SIZE_TYPE;
 SIZE_TYPE __fastcall FUN_00864520(void*);
 
 // @fnv 0x00866430
-SIZE_TYPE __fastcall FUN_00866430(void* a)
+// src: COMMUNITY 0x00866430
+SIZE_TYPE __fastcall BGSUnloadedFormBuffer_GetSizeType(void* a)
 {
     return FUN_00864520(*(void**)a);
 }
 
 struct FUN_00866450_shell
 {
-    unsigned int __thiscall FUN_00866430();
+    unsigned int __thiscall BGSUnloadedFormBuffer_GetSizeType();
     unsigned int __thiscall GetAdjustedValue();
 };
 
@@ -78,7 +79,7 @@ unsigned int __cdecl FUN_00845d70(unsigned int);
 // @fnv 0x00866450
 unsigned int __thiscall FUN_00866450_shell::GetAdjustedValue()
 {
-    unsigned int result = FUN_00845d70(FUN_00866430());
+    unsigned int result = FUN_00845d70(BGSUnloadedFormBuffer_GetSizeType());
     return result + 9;
 }
 
@@ -86,16 +87,17 @@ void __cdecl ReadValueBySizeType(void* a1, unsigned int* a2, unsigned int a3);
 struct FUN_008663e0_shell
 {
     char* pBuffer;
-    unsigned int FUN_008663e0();
+    unsigned int BGSUnloadedFormBuffer_GetSize();
 };
 // @fnv 0x008663e0
-unsigned int FUN_008663e0_shell::FUN_008663e0()
+// src: COMMUNITY 0x008663e0
+unsigned int FUN_008663e0_shell::BGSUnloadedFormBuffer_GetSize()
 {
     unsigned int uiOut;
     if (pBuffer == 0)
         return 0;
     {
-        unsigned int uiSize = FUN_00866430(this);
+        unsigned int uiSize = BGSUnloadedFormBuffer_GetSizeType(this);
         char* pData = pBuffer + 2;
         uiOut = 0;
         ReadValueBySizeType(pData, &uiOut, uiSize);
@@ -109,17 +111,18 @@ unsigned int _data_011c16bc;
 
 struct FUN_0084b450_Class
 {
-    unsigned char FUN_0084b450();
+    unsigned char BGSUnloadedFormBuffer_GetVersion();
 };
 
 struct FUN_00866480_shell : FormBufferContext
 {
-    unsigned int FUN_00866430();
-    BGSLoadFormBuffer* FUN_00866480();
+    unsigned int BGSUnloadedFormBuffer_GetSizeType();
+    BGSLoadFormBuffer* BGSUnloadedFormBuffer_FillLoadFormBuffer();
 };
 
 // @fnv 0x00866480
-BGSLoadFormBuffer* FUN_00866480_shell::FUN_00866480()
+// src: COMMUNITY 0x00866480
+BGSLoadFormBuffer* FUN_00866480_shell::BGSUnloadedFormBuffer_FillLoadFormBuffer()
 {
     SIZE_TYPE esizeType;
     char* padvancedBuffer;
@@ -128,8 +131,8 @@ BGSLoadFormBuffer* FUN_00866480_shell::FUN_00866480()
     BGSLoadFormBuffer* ploadFormBuffer;
 
     ploadFormBuffer = new BGSLoadFormBuffer;
-    ploadFormBuffer->FUN_008a8150(reinterpret_cast<FUN_0084b450_Class*>(this)->FUN_0084b450());
-    esizeType = this->FUN_00866430();
+    ploadFormBuffer->FUN_008a8150(reinterpret_cast<FUN_0084b450_Class*>(this)->BGSUnloadedFormBuffer_GetVersion());
+    esizeType = this->BGSUnloadedFormBuffer_GetSizeType();
     iposition = 2;
     padvancedBuffer = this->pBuffer + 2;
     isize = 0;

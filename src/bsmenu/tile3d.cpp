@@ -86,7 +86,8 @@ void __fastcall FUN_0078bb60(DummyClass_0078a9f0* pThis);
 typedef void(__thiscall* FUN_0078bb60_t)(void*, int);
 
 // @fnv 0x0078a9f0
-void __fastcall FUN_0078a9f0(char* pThis)
+// src: COMMUNITY 0x0078a9f0
+void __fastcall LoadingMenu_AdvanceScreen(char* pThis)
 {
     *(int*)(pThis + 0x1dc) = *_ref_006815c0(*(void**)(pThis + 0x1d8));
     *(void**)(pThis + 0x1d8) = _ref_00726070(*(void**)(pThis + 0x1d8));
@@ -297,11 +298,12 @@ struct FUN_00a20cc0_t : public Tile3D
     {
         return (NiControllerManager*)m_pParent;
     }
-    bool FUN_00a20cc0(const char* apSequenceName);
+    bool Tile3D_PlaySequence(const char* apSequenceName);
 };
 // Looks up a controller sequence by name and activates it, deactivating the current sequence first, then sets a manager flag and stores the new sequence.
 // @fnv 0x00a20cc0
-bool FUN_00a20cc0_t::FUN_00a20cc0(const char* apSequenceName)
+// src: COMMUNITY 0x00a20cc0
+bool FUN_00a20cc0_t::Tile3D_PlaySequence(const char* apSequenceName)
 {
     if (!GetNode() || !m_pParent || !apSequenceName)
         return false;
@@ -339,7 +341,7 @@ template <class T> inline BSStringT<T>::~BSStringT()
 
 
 void __cdecl FUN_00707640(unsigned int value);
-void __fastcall FUN_009ff690(void* pThis);
+void __fastcall Tile_Release(void* pThis);
 
 struct FUN_00a20650_pad
 {
@@ -364,7 +366,7 @@ Tile3D::~Tile3D()
     }
     if (!TestFlag(0x2000))
     {
-        FUN_009ff690(this);
+        Tile_Release(this);
     }
 }
 
@@ -853,10 +855,10 @@ long FinishScriptRunLock(void* p);
 long InitScriptRunLock(void* p);
 
 const char* FUN_00707860();
-NiAVObject* FUN_00707660(const char* path, bool* flag);
-NiAVObject* FUN_00707870(NiAVObject* obj);
+NiAVObject* Interface_LoadModelFile(const char* path, bool* flag);
+NiAVObject* Interface_CopyOrDeepCopyNode(NiAVObject* obj);
 void FUN_00707930(int a);
-void FUN_00707820();
+void Interface_ClearTempModel();
 
 }  // namespace fnv_00a20980
 
@@ -884,7 +886,7 @@ void Tile3D::LoadTile()
     else
         strFilename.PrintfString("%s\\%s", FUN_00707860(), pszName);
     bool flag = false;
-    NiAVObject* m_kModelObjectsItem = FUN_00707660(strFilename.String(), &flag);
+    NiAVObject* m_kModelObjectsItem = Interface_LoadModelFile(strFilename.String(), &flag);
     if (!m_kModelObjectsItem)
     {
         m_pRenderedNodeEntry = 0;
@@ -892,7 +894,7 @@ void Tile3D::LoadTile()
     }
     SetModelLoaded(this, flag);
     if (m_kModelObjectsItem->GetParent())
-        m_kModelObjectsItem = FUN_00707870(m_kModelObjectsItem);
+        m_kModelObjectsItem = Interface_CopyOrDeepCopyNode(m_kModelObjectsItem);
     AttachController(m_kModelObjectsItem);
     ((Tile3DArrayAccess<NiPointer<NiAVObject> >*)&m_pRenderedNodeEntry->m_kChildren)->RemoveAll();
     RemovePropertyRecursive(m_kModelObjectsItem);
@@ -903,8 +905,8 @@ void Tile3D::LoadTile()
     m_pRenderedNodeEntry->FUN_00a5a040();
     if (uiFlags & 0x40)
         uiFlags ^= 0x40;
-    FUN_00a07530(9);
+    Tile_SetChangeFlag(9);
     FUN_00707930(1);
-    FUN_00707820();
+    Interface_ClearTempModel();
 }
 

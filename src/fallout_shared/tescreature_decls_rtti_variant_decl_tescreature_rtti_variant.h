@@ -362,10 +362,10 @@ class TESCreature : public TESActorBase, public TESAttackDamageForm, public TESM
     bool FUN_005f9b90(TESForm* otherForm);
     bool FUN_00485270(TESCreature* other);
     const void* GetOffset12C();
-    bool FUN_005f9ad0();
+    bool ShadowSceneNode_GetDisableLightUpdate();
     float FUN_00821640();
     float FUN_00567470();
-    float FUN_00821660();
+    float GetFootWeight();
     int FUN_009c0070();
     CreatureSounds* GetCreatureSounds();
     TESCreature* GetSoundCreature();

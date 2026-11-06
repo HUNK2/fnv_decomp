@@ -25,12 +25,13 @@ void IngredientItem::InitItem()
 
 struct FUN_00409a30_shell
 {
-    bool FUN_00409a30(unsigned int aFlag);
+    bool IngredientItem_GetFlag(unsigned int aFlag);
 };
 
 // Returns true if the byte at offset 0xa0 has any of the bits in aFlag set.
 // @fnv 0x00409a30
-bool FUN_00409a30_shell::FUN_00409a30(unsigned int aFlag)
+// src: COMMUNITY 0x00409a30
+bool FUN_00409a30_shell::IngredientItem_GetFlag(unsigned int aFlag)
 {
     return (reinterpret_cast<unsigned char*>(this)[0xa0] & aFlag) != 0;
 }
@@ -53,23 +54,25 @@ void __thiscall FUN_0040a0f0_shell::EndianAtOffset9C(void)
 
 struct FUN_00409a10_shell : public FUN_00409a30_shell
 {
-    void FUN_00409a10();
+    void IngredientItem_IsFood();
 };
 // @fnv 0x00409a10
-void FUN_00409a10_shell::FUN_00409a10()
+// src: COMMUNITY 0x00409a10
+void FUN_00409a10_shell::IngredientItem_IsFood()
 {
-    ((FUN_00409a30_shell*)((char*)this - 0x3C))->FUN_00409a30(2);
+    ((FUN_00409a30_shell*)((char*)this - 0x3C))->IngredientItem_GetFlag(2);
 }
 
 struct FUN_00409a50_shell : FUN_00409a30_shell
 {
-    bool FUN_00409a50();
+    bool IngredientItem_EffectItemList_GetIngredientFlag1();
 };
 
 // @fnv 0x00409a50
-bool FUN_00409a50_shell::FUN_00409a50()
+// src: COMMUNITY 0x00409a50
+bool FUN_00409a50_shell::IngredientItem_EffectItemList_GetIngredientFlag1()
 {
-    return !FUN_00409a30(1);
+    return !IngredientItem_GetFlag(1);
 }
 
 void _Deallocate(void*);
@@ -98,15 +101,15 @@ struct S_0048a520
 };
 struct S_0048cca0
 {
-    void __thiscall FUN_0048cca0();
+    void __thiscall Save_0048cca0();
 };
 struct FUN_00479350_shell
 {
-    void __thiscall FUN_00479350();
+    void __thiscall BGSEquipType_Save();
 };
 struct FUN_00485e00_shell
 {
-    void __thiscall FUN_00485e00();
+    void __thiscall TESForm_SaveData();
 };
 
 struct FUN_00409c70_shell
@@ -119,10 +122,10 @@ void __thiscall FUN_00409c70_shell::FUN_00409c70()
 {
     ((S_0048a520*)((char*)this + 0x1c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((TESIcon*)((char*)this + 0x3c))->Save(0x4e4f4349);
-    ((S_0048cca0*)((char*)this + 0x48))->FUN_0048cca0();
+    ((S_0048cca0*)((char*)this + 0x48))->Save_0048cca0();
     ((S_00477f20*)((char*)this + 0x64))->FUN_00477f20();
-    ((FUN_00479350_shell*)((char*)this + 0x5c))->FUN_00479350();
-    ((FUN_00485e00_shell*)((char*)this - 0x30))->FUN_00485e00();
+    ((FUN_00479350_shell*)((char*)this + 0x5c))->BGSEquipType_Save();
+    ((FUN_00485e00_shell*)((char*)this - 0x30))->TESForm_SaveData();
 }
 
 struct P0_004098
@@ -309,11 +312,12 @@ struct FUN_0040a040_cls
     char unk00[0x70];
     unsigned char m_70;
 
-    void FUN_0040a040(unsigned int aFlag);
+    void IngredientItem_CopyMagicItemData(unsigned int aFlag);
 };
 
 // @fnv 0x0040a040
-void FUN_0040a040_cls::FUN_0040a040(unsigned int aFlag)
+// src: COMMUNITY 0x0040a040
+void FUN_0040a040_cls::IngredientItem_CopyMagicItemData(unsigned int aFlag)
 {
     S_00586150_obj* obj = (S_00586150_obj*)FUN_00ec43fb(aFlag, 0, DAT_01183140, DAT_011839dc, 0);
     if (obj == 0)
@@ -356,7 +360,7 @@ struct LCForm
 
 struct LCLoader
 {
-    virtual void FUN_00409da0(LCFile* apFile, int aiChunk);
+    virtual void IngredientItem_LoadMagicItemChunk(LCFile* apFile, int aiChunk);
     int unk04;
     int unk08;
     int unk0C;
@@ -410,11 +414,12 @@ void __cdecl LCLoadDestructible(LCDestructible* apDestructible, LCFile* apFile);
 
 struct LCItem : LCForm, LCLoader, LCModel, TESIcon, LCScriptable, LCEquipType, LCDestructible
 {
-    virtual void FUN_00409da0(LCFile* apFile, int aiChunk);
+    virtual void IngredientItem_LoadMagicItemChunk(LCFile* apFile, int aiChunk);
 };
 
 // @fnv 0x00409da0
-void LCItem::FUN_00409da0(LCFile* apFile, int aiChunk)
+// src: COMMUNITY 0x00409da0
+void LCItem::IngredientItem_LoadMagicItemChunk(LCFile* apFile, int aiChunk)
 {
     switch (aiChunk)
     {
@@ -485,7 +490,7 @@ class StreamIface409
     virtual void v7();
     virtual void v8();
     virtual void* v9();
-    virtual void FUN_00409ce0();
+    virtual void IngredientItem_Endian();
 };
 
 class Obj409 : public PrimaryBase409, public StreamIface409
@@ -496,11 +501,12 @@ class Obj409 : public PrimaryBase409, public StreamIface409
     int pad48, pad4c, pad50, pad54, pad58, pad5c, pad60, pad64;
     int pad68, pad6c;
     n40::Blk m_70;
-    virtual void FUN_00409ce0();
+    virtual void IngredientItem_Endian();
 };
 
 // @fnv 0x00409ce0
-void Obj409::FUN_00409ce0()
+// src: COMMUNITY 0x00409ce0
+void Obj409::IngredientItem_Endian()
 {
     if (FUN_00401500())
         m_70.FUN_00503210();
@@ -520,7 +526,7 @@ struct BaseTwelve
 {
     virtual void v0();
     ~BaseTwelve();
-    void FUN_00406340();
+    void RemoveAllEffects();
 };
 struct FUN_0040a140 : BaseZero, BaseTwelve
 {
@@ -530,5 +536,5 @@ struct FUN_0040a140 : BaseZero, BaseTwelve
 // @fnv 0x0040a140
 FUN_0040a140::~FUN_0040a140()
 {
-    BaseTwelve::FUN_00406340();
+    BaseTwelve::RemoveAllEffects();
 }

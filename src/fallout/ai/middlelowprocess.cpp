@@ -290,10 +290,11 @@ struct FUN_0092cf10_shell
 {
     char _pad[0xB8];
     ML_0092ce00 _m;
-    float FUN_0092cf10(char);
+    float MiddleLowProcess_GetMagicModifier(char);
 };
 // @fnv 0x0092cf10
-float FUN_0092cf10_shell::FUN_0092cf10(char aWhich)
+// src: COMMUNITY 0x0092cf10
+float FUN_0092cf10_shell::MiddleLowProcess_GetMagicModifier(char aWhich)
 {
     return _m.GetActorValueModifierAmount(aWhich);
 }
@@ -301,16 +302,17 @@ float FUN_0092cf10_shell::FUN_0092cf10(char aWhich)
 
 struct LowHolder
 {
-    void FUN_0090c360(void*, float);
+    void UpdateAlt_0090c360(void*, float);
 };
 struct Holder
 {
-    void FUN_0092e400(void*, float);
+    void MiddleLowProcess_UpdateAlt(void*, float);
 };
 // @fnv 0x0092e400
-void Holder::FUN_0092e400(void* a, float afValue)
+// src: COMMUNITY 0x0092e400
+void Holder::MiddleLowProcess_UpdateAlt(void* a, float afValue)
 {
-    ((LowHolder*)this)->FUN_0090c360(a, afValue);
+    ((LowHolder*)this)->UpdateAlt_0090c360(a, afValue);
 }
 
 struct FUN_00910310_shell
@@ -377,11 +379,12 @@ extern Setting originalRuntimeSetting236;
 
 struct FUN_0092cc90_shell
 {
-    bool FUN_0092cc90(Actor* apActor, float afTimeDelta);
+    bool MiddleLowProcess_ProcessCombatOneHour(Actor* apActor, float afTimeDelta);
 };
 
 // @fnv 0x0092cc90
-bool FUN_0092cc90_shell::FUN_0092cc90(Actor* apActor, float afTimeDelta)
+// src: COMMUNITY 0x0092cc90
+bool FUN_0092cc90_shell::MiddleLowProcess_ProcessCombatOneHour(Actor* apActor, float afTimeDelta)
 {
     int iCount = (int)(*originalRuntimeSetting236.Float() * 4.0);
     Actor* ptarget = 0;
@@ -412,7 +415,7 @@ struct P09AV
     static bool __cdecl GetFlag(int, unsigned int);
 };
 
-float __cdecl FUN_0066eea0(void*, int, float);
+float __cdecl Actor_CheckClampDamageModifier(void*, int, float);
 
 struct ModHack
 {
@@ -421,16 +424,17 @@ struct ModHack
 
 struct FUN_0092cf30_shell
 {
-    void FUN_0092cf30(Actor* apActor, int aiWhich, float afValue);
+    void MiddleLowProcess_GameModActorValueF(Actor* apActor, int aiWhich, float afValue);
 };
 
 // @fnv 0x0092cf30
-void FUN_0092cf30_shell::FUN_0092cf30(Actor* apActor, int aiWhich, float afValue)
+// src: COMMUNITY 0x0092cf30
+void FUN_0092cf30_shell::MiddleLowProcess_GameModActorValueF(Actor* apActor, int aiWhich, float afValue)
 {
     if (P09AV::GetFlag(aiWhich, 0x100))
         return;
 
-    float fclamped = FUN_0066eea0(apActor ? (char*)apActor + 0xa4 : 0, aiWhich, afValue);
+    float fclamped = Actor_CheckClampDamageModifier(apActor ? (char*)apActor + 0xa4 : 0, aiWhich, afValue);
     int eclampStyle = P09AV::GetFlag(aiWhich, 0x200) ? 1 : 0;
 
     ((ModHack*)((char*)this + 0x94))->ModifyModifier((char)aiWhich, fclamped, eclampStyle);
@@ -456,28 +460,29 @@ TESForm* _GetFormByNumericID(unsigned int);
 
 struct FUN_0092e420_shell
 {
-    unsigned short FUN_0090f8b0(unsigned int, int);
+    unsigned short GetSaveSize_0090f8b0(unsigned int, int);
 
     struct SaveSizePart
     {
-        unsigned short FUN_00937ab0();
+        unsigned short ModifierList_GetSaveSize();
     };
 
     unsigned char pad[0xb8];
     SaveSizePart saveSizePart;
 
-    unsigned short FUN_0092e420(unsigned int, int);
+    unsigned short MiddleLowProcess_GetSaveSize(unsigned int, int);
 };
 
 // @fnv 0x0092e420
-unsigned short FUN_0092e420_shell::FUN_0092e420(unsigned int flags, int value)
+// src: COMMUNITY 0x0092e420
+unsigned short FUN_0092e420_shell::MiddleLowProcess_GetSaveSize(unsigned int flags, int value)
 {
     unsigned short usSize = 0;
     unsigned short usInitialSize;
     HitSoundData_0092e420* hitSound;
     TESForm* form;
 
-    usSize += this->FUN_0090f8b0(flags, value);
+    usSize += this->GetSaveSize_0090f8b0(flags, value);
     usInitialSize = usSize;
 
     if (DAT_011de45c->FUN_00862110())
@@ -490,7 +495,7 @@ unsigned short FUN_0092e420_shell::FUN_0092e420(unsigned int flags, int value)
 
     if (flags & 0x100000)
     {
-        usSize += this->saveSizePart.FUN_00937ab0();
+        usSize += this->saveSizePart.ModifierList_GetSaveSize();
     }
 
     if (*g_011de4e8.Bool())
@@ -650,7 +655,7 @@ struct FUN_00865e50_shell
 };
 struct TemporaryModifiers_shell
 {
-    void FUN_00937b50(FUN_00865e50_shell* a);
+    void ModifierList_SaveGameBGS(FUN_00865e50_shell* a);
 };
 struct FUN_0092ea30_shell : public LowProcess
 {
@@ -667,7 +672,7 @@ void FUN_0092ea30_shell::LoadFromStream(FUN_00865e50_shell* a)
     a->FUN_00865e50(&m_iValueB4, 4, 0);
     if (a->FUN_00428110(&flags)->Test(0x100000))
     {
-        m_kProcessModifierList.FUN_00937b50(a);
+        m_kProcessModifierList.ModifierList_SaveGameBGS(a);
     }
 }
 
@@ -695,7 +700,7 @@ struct Sub92
     void LoadModifiers();
 };
 TESForm* __cdecl FUN_004839c0(unsigned);
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 struct Target92
 {
     char pad[0xb4];
@@ -720,12 +725,12 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
             if (pRecord)
             {
                 TESForm* pVirtual = FUN_004839c0(pRecord->id);
-                FUN_005b5e40(&DAT_01015718, &DAT_0108a3f0, 0x287, pRecord->id, pVirtual->GetName(), pRecord->kind,
+                Warning_005b5e40(&DAT_01015718, &DAT_0108a3f0, 0x287, pRecord->id, pVirtual->GetName(), pRecord->kind,
                              *(unsigned*)pRecord->value);
             }
             else
             {
-                FUN_005b5e40(&DAT_010156a8, &DAT_0108a3f0, 0x287, ::DAT_011de45c->FUN_008df040());
+                Warning_005b5e40(&DAT_010156a8, &DAT_0108a3f0, 0x287, ::DAT_011de45c->FUN_008df040());
             }
         }
         b = ::DAT_011de45c->FUN_00825c00();
@@ -743,12 +748,12 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
             TESForm* pVirtual2 = FUN_004839c0(pRecord2->id);
             if (uiNewPos > b + a)
             {
-                FUN_005b5e40(&DAT_01015588, uiNewPos - (b + a), &DAT_0108a3f0, 0x290, pRecord2->id, pVirtual2->GetName(),
+                Warning_005b5e40(&DAT_01015588, uiNewPos - (b + a), &DAT_0108a3f0, 0x290, pRecord2->id, pVirtual2->GetName(),
                              pRecord2->kind, *(unsigned*)pRecord2->value);
             }
             else if (uiNewPos < b + a)
             {
-                FUN_005b5e40(&DAT_01015500, (b + a) - uiNewPos, &DAT_0108a3f0, 0x290, pRecord2->id, pVirtual2->GetName(),
+                Warning_005b5e40(&DAT_01015500, (b + a) - uiNewPos, &DAT_0108a3f0, 0x290, pRecord2->id, pVirtual2->GetName(),
                              pRecord2->kind, *(unsigned*)pRecord2->value);
             }
         }
@@ -756,12 +761,12 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, unsigned arg3)
         {
             if (uiNewPos > b + a)
             {
-                FUN_005b5e40(&DAT_010154a0, uiNewPos - (b + a), &DAT_0108a3f0, 0x290,
+                Warning_005b5e40(&DAT_010154a0, uiNewPos - (b + a), &DAT_0108a3f0, 0x290,
                              ::DAT_011de45c->FUN_008df040());
             }
             else if (uiNewPos < b + a)
             {
-                FUN_005b5e40(&DAT_01015440, (b + a) - uiNewPos, &DAT_0108a3f0, 0x290,
+                Warning_005b5e40(&DAT_01015440, (b + a) - uiNewPos, &DAT_0108a3f0, 0x290,
                              ::DAT_011de45c->FUN_008df040());
             }
         }
@@ -826,12 +831,13 @@ struct Owner0092cec0
     int unkB4;
     Sub0092cec0 unkB8;
 
-    void FUN_0092cec0(int aiUnused, int aiIndex, float afValue);
+    void MiddleLowProcess_MagicModActorValueF(int aiUnused, int aiIndex, float afValue);
 };
 
 // Returns when FUN_00406d70(aiIndex, 0x100) is true; otherwise calls unkB8.FUN_00937480(aiIndex, afValue, 2).
 // @fnv 0x0092cec0
-void Owner0092cec0::FUN_0092cec0(int aiUnused, int aiIndex, float afValue)
+// src: COMMUNITY 0x0092cec0
+void Owner0092cec0::MiddleLowProcess_MagicModActorValueF(int aiUnused, int aiIndex, float afValue)
 {
     if (FUN_00406d70(aiIndex, 0x100))
         return;
@@ -1563,7 +1569,7 @@ void FUN_0090d570();
 Ref* FUN_00703180();
 const char* FUN_00464f30(int a, int b);
 int FUN_00ec623a(char* buf, const char* fmt, ...);
-void FUN_00703c00(const char* s);
+void Interface_PrintLine(const char* s);
 void FUN_005ac750(Pkg* p, int a, int b);
 
 struct ProcStandIn
@@ -2294,7 +2300,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     {
                         FUN_00ec623a(acBuffer, "%s is sleeping with %s", pActor->GetName(),
                                      FUN_00464f30(DAT_0119bcb0[GetAssignedPackage()->GetProcType()], 0));
-                        FUN_00703c00(acBuffer);
+                        Interface_PrintLine(acBuffer);
                     }
                     break;
                 case 5:
@@ -2302,7 +2308,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     {
                         FUN_00ec623a(acBuffer, "%s is eating with %s", pActor->GetName(),
                                      FUN_00464f30(DAT_0119bcb0[GetAssignedPackage()->GetProcType()], 0));
-                        FUN_00703c00(acBuffer);
+                        Interface_PrintLine(acBuffer);
                     }
                     break;
                 case 6:
@@ -2405,7 +2411,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     {
                         FUN_00ec623a(acBuffer, "%s is done with %s", pActor->GetName(),
                                      FUN_00464f30(DAT_0119bcb0[GetAssignedPackage()->GetProcType()], 0));
-                        FUN_00703c00(acBuffer);
+                        Interface_PrintLine(acBuffer);
                     }
                     delete m_pInventoryEntryData;
                     m_pInventoryEntryData = 0;

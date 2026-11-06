@@ -6,7 +6,8 @@
 #include "../../../../../../include/hkThreadMemory.h"
 
 // @fnv 0x00cbc440
-int __stdcall FUN_00cbc440(int a, int b)
+// src: COMMUNITY 0x00cbc440
+int __stdcall hkMemorySystem_debugTagAddress(int a, int b)
 {
     return 1;
 }
@@ -85,7 +86,8 @@ MyCls* MyCls::FUN_00cbc450(int arg)
 }
 
 // @fnv 0x00cbbff0
-void __cdecl FUN_00cbbff0()
+// src: COMMUNITY 0x00cbbff0
+void __cdecl nullsub_54()
 {}
 
 void __cdecl hkOstream_printf(int handle, const char* fmt, ...);

@@ -108,7 +108,7 @@ bool TopicMenuController::Initialize(MobileObject* speaker, TESTopic* requestedT
             locals.quest = locals.topic->GetParentQuest(locals.info);
             locals.menuTopic =
                 new MenuTopic(locals.quest, locals.topic, locals.info, (MobileObject*)m_pDialogueSpeaker, false);
-            locals.menuTopic->FUN_0045cd60(2147483648.0f)->FUN_00965250();
+            locals.menuTopic->FUN_0045cd60(2147483648.0f)->ImageSpaceModifierInstanceDOF_SetMaskConst();
             locals.menuTopic->FillResponseList();
             FUN_0083f260()->AddTail(locals.menuTopic);
         }
@@ -183,7 +183,7 @@ MenuTopic::MenuTopic(TESQuest* quest, TESTopic* topic, TESTopicInfo* info, Mobil
             m_kPrompt.Set(info->GetPrompt());
         else
             m_kPrompt.Set(topic->GetFullName());
-        m_kPrompt.Set(FUN_0083d8b0());
+        m_kPrompt.Set(BSStringT_char_RemoveCurlyContent());
         if (!m_bIsRemappedRumor)
             m_bFirstFlag = pInfo->GetConversationData() && !pInfo->GetConversationData()->GetLinkToList()->IsEmpty();
         if (topic->IsPersuasion())
@@ -216,7 +216,8 @@ TopicMenuController* TopicMenuController::GetInstance()
 }
 
 // @fnv 0x0083ec10
-bool TESTopicInfo::FUN_0083ec10()
+// src: COMMUNITY 0x0083ec10
+bool TESTopicInfo::IsRunForRumors()
 {
     return m_Data.flags & 0x40;
 }
@@ -234,7 +235,7 @@ void TopicMenuController::RunTopicResultScript()
     locals.info = 0;
     if (locals.topic)
     {
-        if (!locals.topic->GetTopicInfo()->FUN_0083ec10())
+        if (!locals.topic->GetTopicInfo()->IsRunForRumors())
             locals.info = locals.topic->GetTopicInfo();
     }
     if (locals.info)
@@ -256,12 +257,13 @@ bool FUN_0083de40_shell::FUN_0083de40()
 
 struct FUN_0083de60_shell : public TESTopic
 {
-    bool FUN_0083de60();
+    bool TESTopic_IsPersuasion();
 };
 
 // Returns true when the form ID is 0xFD or 0x118.
 // @fnv 0x0083de60
-bool FUN_0083de60_shell::FUN_0083de60()
+// src: COMMUNITY 0x0083de60
+bool FUN_0083de60_shell::TESTopic_IsPersuasion()
 {
     return GetFormID() == 0xFD || GetFormID() == 0x118;
 }
@@ -300,11 +302,12 @@ void FUN_0083e230_shell::FUN_0083e230()
 
 struct FUN_0083e430_shell : public TopicMenuController
 {
-    bool FUN_0083e430(int);
+    bool DialogMenu_SetClickedMenuItem(int);
 };
 
 // @fnv 0x0083e430
-bool FUN_0083e430_shell::FUN_0083e430(int aiIndex)
+// src: COMMUNITY 0x0083e430
+bool FUN_0083e430_shell::DialogMenu_SetClickedMenuItem(int aiIndex)
 {
     int a = 0;
     BSSimpleList<MenuTopic*>* pMenuTopicEntry = FUN_0083f260();
@@ -341,11 +344,12 @@ void* FUN_0083f260_shell::FUN_0083f260()
 
 struct FUN_00965250_shell : public TESTopic
 {
-    void FUN_00965250(float);
+    void ImageSpaceModifierInstanceDOF_SetMaskConst(float);
 };
 
 // @fnv 0x00965250
-void FUN_00965250_shell::FUN_00965250(float afValue)
+// src: COMMUNITY 0x00965250
+void FUN_00965250_shell::ImageSpaceModifierInstanceDOF_SetMaskConst(float afValue)
 {
     *(float*)((char*)this + 0x28) = afValue;
 }
@@ -431,7 +435,7 @@ void FUN_0083ec30_shell::UpdateTopicList()
     }
 }
 
-float __fastcall FUN_00526ae0(TESTopic*);
+float __fastcall TESTopic_GetPriority_GetUnk28(TESTopic*);
 struct FUN_0083f110_topic : MenuTopic
 {
     TESTopic* GetAudioBackendData();
@@ -441,9 +445,9 @@ struct FUN_0083f110_topic : MenuTopic
 // @fnv 0x0083f110
 int FUN_0083f110(FUN_0083f110_topic* apTopicA, FUN_0083f110_topic* apTopicB)
 {
-    return FUN_00526ae0(apTopicA->GetAudioBackendData()) > FUN_00526ae0(apTopicB->GetAudioBackendData())
+    return TESTopic_GetPriority_GetUnk28(apTopicA->GetAudioBackendData()) > TESTopic_GetPriority_GetUnk28(apTopicB->GetAudioBackendData())
                ? -1
-               : (FUN_00526ae0(apTopicA->GetAudioBackendData()) < FUN_00526ae0(apTopicB->GetAudioBackendData()) ? 1
+               : (TESTopic_GetPriority_GetUnk28(apTopicA->GetAudioBackendData()) < TESTopic_GetPriority_GetUnk28(apTopicB->GetAudioBackendData()) ? 1
                                                                                                                 : 0);
 }
 
@@ -494,12 +498,13 @@ unsigned int BSStringLength(const char*);
 TESForm* GetFormByID(unsigned int);
 struct FUN_0083f280_t : MenuTopic
 {
-    unsigned short FUN_0083f280();
+    unsigned short MenuTopic_GetSaveSize();
 };
 
 // Computes the save size of a MenuTopic by summing field sizes and optionally logs the size and form header details.
 // @fnv 0x0083f280
-unsigned short FUN_0083f280_t::FUN_0083f280()
+// src: COMMUNITY 0x0083f280
+unsigned short FUN_0083f280_t::MenuTopic_GetSaveSize()
 {
     unsigned short isize = 0;
     {
@@ -587,11 +592,12 @@ struct FUN_0083f0d0_shell
 {
     char _pad[0x25];
     char f25;
-    int FUN_0083f0d0();
+    int TESTopic_GetDummyNodeState();
 };
 // Returns 1 if bit 0x10 of f25 is set, otherwise 2 plus 1 when bit 0x20 is set.
 // @fnv 0x0083f0d0
-int FUN_0083f0d0_shell::FUN_0083f0d0()
+// src: COMMUNITY 0x0083f0d0
+int FUN_0083f0d0_shell::TESTopic_GetDummyNodeState()
 {
     return (f25 & 0x10) ? 1 : (((f25 & 0x20) != 0) + 2);
 }
@@ -645,7 +651,7 @@ struct FUN_00619b20_shell
 
 struct FUN_009611e0_shell
 {
-    FUN_00619b20_shell* FUN_009611e0();
+    FUN_00619b20_shell* NiAVObject_GetParent();
 };
 
 struct FUN_005f65d0_list
@@ -697,12 +703,12 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
     {
         TESTopic* pTopic = apList->GetItem();
         apList = apList->GetNext();
-        if (abFlag && !((FUN_0083de60_shell*)pTopic)->FUN_0083de60())
+        if (abFlag && !((FUN_0083de60_shell*)pTopic)->TESTopic_IsPersuasion())
             continue;
-        if (!abFlag && ((FUN_0083de60_shell*)pTopic)->FUN_0083de60())
+        if (!abFlag && ((FUN_0083de60_shell*)pTopic)->TESTopic_IsPersuasion())
             continue;
 
-        int iTypeValue = ((FUN_0083f0d0_shell*)pTopic)->FUN_0083f0d0();
+        int iTypeValue = ((FUN_0083f0d0_shell*)pTopic)->TESTopic_GetDummyNodeState();
         if (((Actor*)g_thePlayer)->GetActorValue((ActorValue::Index)9) <= *g_011d0dc8.Int())
         {
             if (iTypeValue == 3)
@@ -755,7 +761,7 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
                 delete (FUN_00425ff0*)pMenuTopic;
                 pMenuTopic = 0;
             }
-            if (bSave && pMenuTopic && !((FUN_009611e0_shell*)pMenuTopic)->FUN_009611e0()->FUN_00619b20())
+            if (bSave && pMenuTopic && !((FUN_009611e0_shell*)pMenuTopic)->NiAVObject_GetParent()->FUN_00619b20())
             {
                 FUN_005d43c0(m_pDialogueSpeaker)->FUN_0042dee0(pMenuTopic);
                 ((FUN_0083ed50_ref*)m_pDialogueSpeaker)->v12(0x80000000);
@@ -1200,7 +1206,7 @@ extern FloatSetting g_011d0a24;
 
 int FUN_006705b0(int a, int b);
 unsigned int DialogueRandom();
-int FUN_005b5e40(int a, const char* b);
+int Warning_005b5e40(int a, const char* b);
 int FUN_004d5c60(int a);
 TESTopic* GetTopicSubTypeName(int a, int b);
 float FUN_00648f60(int a);
@@ -1243,7 +1249,7 @@ bool Mgr::CheckTopicInfoChance(MenuTopic* pTopic)
                                                      ((ProcShell*)pTopic)->GetProcessLevel(), 0);
             if (!pInfo)
             {
-                FUN_005b5e40(6, (const char*)&DAT_0107dd28);
+                Warning_005b5e40(6, (const char*)&DAT_0107dd28);
             }
             else
             {
@@ -1291,7 +1297,7 @@ extern GlobalObject_0045cf30 g_011de4e8;
 
 TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
 void __cdecl FUN_0040fbe0(const char* pcFormat, ...);
-void __cdecl FUN_005b5e40(const char* pcFormat, ...);
+void __cdecl Warning_005b5e40(const char* pcFormat, ...);
 
 }  // namespace fnv_0083f3e0
 
@@ -1352,7 +1358,7 @@ void MenuTopic::SaveTopic()
         char* pcNow = (char*)fnv_0083f3e0::g_TESSaveLoadGame->FUN_00825c00();
         char* pcMark = pcSizeLoc;
         if (pcNow > pcMark + 0xffff)
-            FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
+            Warning_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Dialogue\\MenuTopic.cpp", 0x2ff);
         *(unsigned short*)pcSizeLoc = pcNow - pcMark;
     }

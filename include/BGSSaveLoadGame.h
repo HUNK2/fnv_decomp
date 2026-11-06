@@ -118,12 +118,12 @@ public:
     void SetFlag4(bool enable);
     bool IsLoading();
     bool FUN_0042ce10();
-    bool FUN_00469570();
+    bool BGSSaveLoadGame_GetLoadingMovedRefs();
     SavedEntryMap* FUN_00559450();
     bool FUN_0063ef00();
     void __thiscall FUN_00848e70(int, int);
     void FUN_00849730(void*, int);
-    void FUN_00849c00(bool);
+    void SetLoadingMovedRefs_00849c00(bool);
     void FUN_0084a810(int, BGSLoadFormBuffer*, int);
     void FUN_0084ab00(const char* apMessage, char* varArgs);
     void FUN_0084cc40(bool);

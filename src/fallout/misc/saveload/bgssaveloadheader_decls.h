@@ -28,7 +28,7 @@ class FUN_004f31d0_holder
 };
 
 int __cdecl FUN_00ecbf05(const char* path, int mode);
-void* __cdecl FUN_00846520(char* path, bool temporary, unsigned int size);
+void* __cdecl BGSSaveLoadFile_Create(char* path, bool temporary, unsigned int size);
 int __cdecl FUN_00408b20(const char* path, const char* prefix);
 NiTexture* __cdecl FUN_00a5ff10(void* pixelData, void* renderedTexture);
 extern int(__cdecl* DAT_00fdf0d4)(char* path);

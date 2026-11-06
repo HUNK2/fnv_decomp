@@ -138,7 +138,7 @@ public:
     bool HandleSpecialBookKey(unsigned int key, int unused);
     bool FUN_007c9dc0(bool forward);
     void InitMenu();
-    void FUN_007cadd0();
+    void LoadBBTextures();
     void InvokeCallbacksForSlot();
     void HandleKey(unsigned int key, int unused);
 };

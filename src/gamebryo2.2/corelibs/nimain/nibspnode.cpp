@@ -39,7 +39,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f5f54;
 
 // @fnv 0x00a9adc0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a9adc0()
+// src: COMMUNITY 0x00a9adc0
+GlobalObjectO2_00a7b610* __cdecl NiBSPNode_GetRTTI()
 {
     return &g_011f5f54;
 }

@@ -150,7 +150,7 @@ extern int DAT_010cb864;
 struct FUN_00ce4ae0_cls
 {
     int __thiscall FUN_00ce4ae0(int);
-    void __thiscall FUN_00ce5310();
+    void __thiscall hkaSkeletonMapperData_hkaSkeletonMapperData();
 };
 struct FUN_00ce4a20_cls
 {
@@ -165,7 +165,7 @@ int __thiscall FUN_00ce4a20_cls::FUN_00ce4a20(int a)
 {
     m_iThirdValue = 1;
     m_kPointA = (int)&DAT_010cb864;
-    ((FUN_00ce4ae0_cls*)((char*)this + 0x10))->FUN_00ce5310();
+    ((FUN_00ce4ae0_cls*)((char*)this + 0x10))->hkaSkeletonMapperData_hkaSkeletonMapperData();
     ((FUN_00ce4ae0_cls*)((char*)this + 0x10))->FUN_00ce4ae0(a);
     return (int)this;
 }
@@ -205,10 +205,11 @@ int __thiscall FUN_00cf69c0_class::hkSingletonInitNode_findByName(int a)
 
 struct FUN_00cf86e0_class
 {
-    void FUN_00cf86e0(float f);
+    void hkpSimulation_setFrameTimeMarker(float f);
 };
 // @fnv 0x00cf86e0
-void FUN_00cf86e0_class::FUN_00cf86e0(float f)
+// src: COMMUNITY 0x00cf86e0
+void FUN_00cf86e0_class::hkpSimulation_setFrameTimeMarker(float f)
 {
     *(float*)((char*)this + 0x20) = *(float*)((char*)this + 0x14) + f;
 }
@@ -486,7 +487,8 @@ void FUN_00cf4490_cls::FUN_00cf4490(void* stream)
 struct CpuOpaque;
 extern CpuOpaque DAT_01268740;
 // @fnv 0x00cf45f0
-CpuOpaque* __cdecl FUN_00cf45f0()
+// src: COMMUNITY 0x00cf45f0
+CpuOpaque* __cdecl bhkSpringDamperConstraintMotor_GetRTTI()
 {
     return &DAT_01268740;
 }
@@ -1223,7 +1225,8 @@ FUN_00cf4190::FUN_00cf4190() : FUN_00cdf560(0.0f)
 extern int DAT_01268730;
 
 // @fnv 0x00cf41b0
-int* FUN_00cf41b0()
+// src: COMMUNITY 0x00cf41b0
+int* bhkPositionConstraintMotor_GetRTTI()
 {
     return &DAT_01268730;
 }
@@ -1250,7 +1253,8 @@ void SerializedRecord::FUN_00cf41c0(NiStream* view)
 struct CpuOpaque;
 extern CpuOpaque DAT_01268738;
 // @fnv 0x00cf43f0
-CpuOpaque* __cdecl FUN_00cf43f0()
+// src: COMMUNITY 0x00cf43f0
+CpuOpaque* __cdecl bhkVelocityConstraintMotor_GetRTTI()
 {
     return &DAT_01268738;
 }
@@ -1372,18 +1376,20 @@ struct CC9F10Shape
 
 struct FUN_00cf7490_class
 {
-    void FUN_00cf7490();
+    void j_hkReferencedObject_addReference();
 };
 
 // @fnv 0x00cf7490
-void FUN_00cf7490_class::FUN_00cf7490()
+// src: COMMUNITY 0x00cf7490
+void FUN_00cf7490_class::j_hkReferencedObject_addReference()
 {
     ((CC9F10Shape*)this)->FUN_00c90510();
 }
 
 void __cdecl FUN_00c905b0(void);
 // @fnv 0x00cf74a0
-void __cdecl FUN_00cf74a0(void)
+// src: COMMUNITY 0x00cf74a0
+void __cdecl j_hkReferencedObject_removeReference(void)
 {
     FUN_00c905b0();
 }
@@ -1509,7 +1515,8 @@ void* __cdecl FUN_00cfb050(void* pvUnused, bool* pbOut, void* pvResult)
 }
 
 // @fnv 0x00cfb060
-void FUN_00cfb060()
+// src: COMMUNITY 0x00cfb060
+void nullsub_7()
 {}
 
 // @fnv 0x00cfb070
@@ -1519,7 +1526,8 @@ int __cdecl FUN_00cfb070(int a, int b, int c)
 }
 
 // @fnv 0x00cfc580
-void __stdcall FUN_00cfc580(int, int, int, int, int)
+// src: COMMUNITY 0x00cfc580
+void __stdcall nullsub_59(int, int, int, int, int)
 {}
 
 extern int DAT_0102e388;
@@ -3142,11 +3150,12 @@ struct MapperInitialization
     int unk58;
     int unk5C;
     unsigned char unk60;
-    void __thiscall FUN_00ce5310();
+    void __thiscall hkaSkeletonMapperData_hkaSkeletonMapperData();
 };
 
 // @fnv 0x00ce5310
-void MapperInitialization::FUN_00ce5310()
+// src: COMMUNITY 0x00ce5310
+void MapperInitialization::hkaSkeletonMapperData_hkaSkeletonMapperData()
 {
     MapperInitialization* data = reinterpret_cast<MapperInitialization*>(this);
 

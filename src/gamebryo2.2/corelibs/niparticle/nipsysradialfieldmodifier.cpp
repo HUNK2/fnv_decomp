@@ -15,7 +15,8 @@
 extern "C" void* g_012026b0;
 
 // @fnv 0x00c285c0
-void* __cdecl FUN_00c285c0()
+// src: COMMUNITY 0x00c285c0
+void* __cdecl NiPSysRadialFieldModifier_GetRTTI()
 {
     return &g_012026b0;
 }
@@ -96,7 +97,7 @@ struct FieldModifierViewerStrings
     void GetViewerStrings(NiViewerStringsArray* strings);
 };
 extern const char* DAT_012026b0;
-char* __cdecl FUN_00a7d330(const char* s);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* s);
 char* __cdecl FUN_00a7d550(const char* name, float value);
 __forceinline void S_00c28a90_Add(S_00c28a90_Arr* a, char* s)
 {
@@ -110,7 +111,7 @@ void NiPSysRadialFieldModifier::GetViewerStrings(NiViewerStringsArray* strings)
 {
     reinterpret_cast<FieldModifierViewerStrings*>(this)->GetViewerStrings(strings);
     S_00c28a90_Arr* pArray = reinterpret_cast<S_00c28a90_Arr*>(strings);
-    S_00c28a90_Add(pArray, FUN_00a7d330(DAT_012026b0));
+    S_00c28a90_Add(pArray, NiViewerStrings_NiGetViewerString_Title(DAT_012026b0));
     S_00c28a90_Add(pArray, FUN_00a7d550("RadialType", m_fBoundRadius));
 }
 

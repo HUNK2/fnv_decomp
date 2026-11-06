@@ -20,11 +20,11 @@ struct FUN_00aa7c00_shell
 };
 struct FUN_00aa7c30_shell
 {
-    int FUN_00aa7c30();
+    int return_0_7();
 };
 struct FUN_00aa7c50_s
 {
-    int FUN_00aa7c50();
+    int return_0_0();
 };
 struct FUN_00aa7c60_cls
 {
@@ -53,7 +53,7 @@ struct FakeHeap
 void __fastcall FUN_00aa9d10(void* this_ptr);
 struct FUN_00b02710_Cls
 {
-    void FUN_00b02710(void*, int);
+    void AbstractHeap_CommitPages(void*, int);
 };
 struct FUN_00aa79a0_shell
 {

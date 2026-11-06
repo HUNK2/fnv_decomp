@@ -10,7 +10,8 @@
 extern "C" void* g_011f5b60;
 
 // @fnv 0x00a89120
-void* __cdecl FUN_00a89120()
+// src: COMMUNITY 0x00a89120
+void* __cdecl NiFloatsExtraData_GetRTTI()
 {
     return &g_011f5b60;
 }
@@ -327,7 +328,7 @@ void NiFloatsExtraData::FUN_00a89210(NiStream& stream)
 }
 
 extern "C" void* g_011f5b60;
-char* __cdecl FUN_00a7d330(const char* pcText);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 char* __cdecl FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
 char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
 
@@ -381,7 +382,7 @@ void NiFloatsExtraData::FUN_00a89280(NiFloatsViewerStringsArray* pkStrings)
 {
     typedef void (__thiscall* GetViewerStringsFunction)(NiExtraData*, NiFloatsViewerStringsArray*);
     reinterpret_cast<GetViewerStringsFunction>(&GetExtraDataViewerStrings)(this, pkStrings);
-    pkStrings->Add(FUN_00a7d330((const char*)g_011f5b60));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title((const char*)g_011f5b60));
     pkStrings->Add(FUN_00a7d510("m_uiSize", m_uiSize));
     for (unsigned int i = 0; i < m_uiSize; i++)
         pkStrings->Add(FUN_00a7d550("m_pfValue[i]", m_pfValue[i]));

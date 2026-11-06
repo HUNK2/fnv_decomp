@@ -151,7 +151,8 @@ static __declspec(noinline) void FUN_00d23f50(SolverMotionState& info)
 }
 
 // @fnv 0x00d24360
-extern "C" void __cdecl FUN_00d24360(const SolverMotionInput& input, SolverMotionOutput& output)
+// src: COMMUNITY 0x00d24360
+extern "C" void __cdecl hkSimplexSolverSolve(const SolverMotionInput& input, SolverMotionOutput& output)
 {
     SolverMotionState info;
     info.m_iActivePlaneCount = 0;

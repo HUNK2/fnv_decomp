@@ -829,12 +829,13 @@ class C8EC60World
     {
         return &m_kIterator;
     }
-    void FUN_00c8ec60();
+    void bhkRigidBody_RemoveActionConstraints();
 };
 
 // Iterates the world's objects and calls ResetWorldObject on constraints and ref objects that hold a non-null constraint or referenced data.
 // @fnv 0x00c8ec60
-void C8EC60World::FUN_00c8ec60()
+// src: COMMUNITY 0x00c8ec60
+void C8EC60World::bhkRigidBody_RemoveActionConstraints()
 {
     C8EC60Iterator* pkIter = GetIterator();
     while (pkIter && pkIter->m_pkCurrent)
@@ -1775,7 +1776,8 @@ void FUN_00c88990_cls::PopAndRelease()
 
 // Recursively visits child nodes, calling FUN_00c8ec60 on the linked shape found via FUN_00653290 on each object's property when present.
 // @fnv 0x00c8ecf0
-void __cdecl FUN_00c8ecf0(HavokObject* object)
+// src: COMMUNITY 0x00c8ecf0
+void __cdecl bhkRigidBody_RemoveAllActionConstraints(HavokObject* object)
 {
     if (!object)
         return;
@@ -1784,14 +1786,14 @@ void __cdecl FUN_00c8ecf0(HavokObject* object)
     {
         HavokLookup* link = object->property->FUN_00653290(&DAT_012043f8);
         if (link && link->shape)
-            reinterpret_cast<C8EC60World*>(link->shape)->FUN_00c8ec60();
+            reinterpret_cast<C8EC60World*>(link->shape)->bhkRigidBody_RemoveActionConstraints();
     }
 
     NiNode* node = object->GetCellChildAt();
     if (node)
     {
         for (unsigned int i = 0; i < node->m_kChildren.m_usSize; ++i)
-            FUN_00c8ecf0(((HavokObject**)node->m_kChildren.m_pBase)[i]);
+            bhkRigidBody_RemoveAllActionConstraints(((HavokObject**)node->m_kChildren.m_pBase)[i]);
     }
 }
 
@@ -2313,7 +2315,7 @@ struct BodyBuild
     BodyNative* native;
     void FUN_00a29680();
     void GetAabb(hkAabb* bounds);
-    float FUN_00577b50();
+    float bhkRigidBody_GethkMaxLinearVelocity();
     BodyMotion* GetMotion()
     {
         BodyNative* p = native;
@@ -2387,7 +2389,7 @@ void BodyBuild::ConfigureBody(BuildSettings* settings)
                 axis = extent.m128_f32[0] > extent.m128_f32[2] ? 2 : 0;
             if (!(extent.m128_f32[axis] > DAT_012677bc))
             {
-                float scale = FUN_00577b50();
+                float scale = bhkRigidBody_GethkMaxLinearVelocity();
                 scale *= DAT_011b0c48;
                 if (!(scale < DAT_012677c0))
                 {
@@ -3630,7 +3632,7 @@ struct IntegerTriple
     void* unk350;
 };
 
-Obj* __cdecl FUN_00cc81c0(Obj*, float);
+Obj* __cdecl bhkFixedConstraint_FixConstraint(Obj*, float);
 struct ParentData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
@@ -3703,7 +3705,7 @@ void Target::FUN_00c8f080()
                 if (sub == 17 || (sub >= 21 && sub <= 22))
                     scale = DAT_01017870;
             }
-            Obj* replacement = FUN_00cc81c0(body, scale);
+            Obj* replacement = bhkFixedConstraint_FixConstraint(body, scale);
             if (replacement)
             {
                 ((bhkRigidBody*)this)->FUN_00c8ef80((NiObject*)replacement);

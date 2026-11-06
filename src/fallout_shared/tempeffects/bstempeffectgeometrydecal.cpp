@@ -37,7 +37,8 @@ inline bool NiPoint3::operator==(const NiPoint3& other) const
 extern const NiRTTI g_011d6b04;
 
 // @fnv 0x006838a0
-const NiRTTI* __thiscall BSTempEffectGeometryDecal::FUN_006838a0() const
+// src: COMMUNITY 0x006838a0
+const NiRTTI* __thiscall BSTempEffectGeometryDecal::GetRTTI_006838a0() const
 {
     return &g_011d6b04;
 }
@@ -45,7 +46,8 @@ const NiRTTI* __thiscall BSTempEffectGeometryDecal::FUN_006838a0() const
 extern unsigned char* DAT_011f5b04;
 
 // @fnv 0x00683a60
-unsigned char* FUN_00683a60()
+// src: COMMUNITY 0x00683a60
+unsigned char* NiParallelUpdateTaskManager_Get()
 {
     return DAT_011f5b04;
 }
@@ -61,7 +63,8 @@ void __cdecl ForwardFloatAndInt(float afValue, int aiValue)
 extern NiFixedString* DAT_011c6228;
 
 // @fnv 0x00688460
-NiFixedString* __cdecl FUN_00688460()
+// src: COMMUNITY 0x00688460
+NiFixedString* __cdecl FixedStrings_GetDecal()
 {
     return DAT_011c6228;
 }
@@ -92,11 +95,12 @@ void* __thiscall BSDismemberSkinInstance::FUN_006885e0(unsigned int flags)
 
 struct FUN_00685e60_shell
 {
-    void __thiscall FUN_00685e60(unsigned int, unsigned int);
+    void __thiscall NiSkinPartition_ReplacePartitions(unsigned int, unsigned int);
 };
 
 // @fnv 0x00685e60
-void __thiscall FUN_00685e60_shell::FUN_00685e60(unsigned int a, unsigned int b)
+// src: COMMUNITY 0x00685e60
+void __thiscall FUN_00685e60_shell::NiSkinPartition_ReplacePartitions(unsigned int a, unsigned int b)
 {
     *(unsigned int*)(this + 0x0C) = a;
     *(unsigned int*)(this + 0x08) = b;
@@ -145,7 +149,7 @@ struct RefObj
 };
 struct Class87d40
 {
-    void __thiscall FUN_00a855f0(void*, unsigned int, unsigned int, int, int, int, int, int);
+    void __thiscall NiSkinInstance_Deform(void*, unsigned int, unsigned int, int, int, int, int, int);
     void __thiscall ForwardActorBaseData(void*, int, int, int, int, int);
 };
 // Calls FUN_00a855f0 with the object reference, thread ID and fatigue obtained from a1, plus a2 through a6.
@@ -153,7 +157,7 @@ struct Class87d40
 void __thiscall Class87d40::ForwardActorBaseData(void* apObject, int aiArg2, int aiArg3, int aiArg4, int aiArg5,
                                                  int aiArg6)
 {
-    FUN_00a855f0(((RefObj*)apObject)->_FNV_GetObjectReference(), ((BSThread*)apObject)->GetThreadID(),
+    NiSkinInstance_Deform(((RefObj*)apObject)->_FNV_GetObjectReference(), ((BSThread*)apObject)->GetThreadID(),
                  ((TESActorBaseData*)apObject)->GetFatigue(), aiArg2, aiArg3, aiArg4, aiArg5, aiArg6);
 }
 
@@ -173,7 +177,8 @@ struct NineDw
 
 // Copies the nine dwords from src into the data member at offset 0x68.
 // @fnv 0x00688430
-void __thiscall NiTriShape::FUN_00688430(NineDw* apSource)
+// src: COMMUNITY 0x00688430
+void __thiscall NiTriShape::NiAVObject_SetWorldRotate(NineDw* apSource)
 {
     *reinterpret_cast<NineDw*>(&m_kWorld) = *apSource;
 }
@@ -228,7 +233,8 @@ CtlV* FUN_00688730_shell::GetNextIfSet()
 }
 
 // @fnv 0x00683a70
-bool BSTempEffectGeometryDecal::FUN_00683a70(int triangle, int base, bool strip, const unsigned short* indices, const NiPoint3* vertices,
+// src: COMMUNITY 0x00683a70
+bool BSTempEffectGeometryDecal::ShouldAddTriangle(int triangle, int base, bool strip, const unsigned short* indices, const NiPoint3* vertices,
                          const unsigned short* remap)
 {
     int flags;
@@ -552,7 +558,7 @@ struct Obj_cls
     virtual void v57();
     virtual void v58(void* p);
     Obj_cls* FUN_00559450();
-    Obj_cls* FUN_009611e0();
+    Obj_cls* NiAVObject_GetParent();
     int FUN_00453470();
     void RemoveEffect(void* p);
 };
@@ -564,7 +570,8 @@ struct Node_cls
 
 // If m_28 is clear, runs FUN_006828a0(f), sets a node's 0xbc float to m_10/m_08, and when m_10 > m_08 links m_34/m_1c objects and sets m_28.
 // @fnv 0x006888a0
-bool BSTempEffectGeometryDecal::FUN_006888a0(float afValue)
+// src: COMMUNITY 0x006888a0
+bool BSTempEffectGeometryDecal::Update_006888a0(float afValue)
 {
     Obj_cls* outTmp;
     bool ok5;
@@ -586,9 +593,9 @@ bool BSTempEffectGeometryDecal::FUN_006888a0(float afValue)
         if (((Obj_cls*)m_sp34.operator->()) != 0)
         {
             ((Obj_cls*)m_sp34.operator->())->v58(((Obj_cls*)m_spGeometry.operator->()));
-            if (((Obj_cls*)m_sp34.operator->())->FUN_009611e0() != 0)
+            if (((Obj_cls*)m_sp34.operator->())->NiAVObject_GetParent() != 0)
             {
-                outTmp = ((Obj_cls*)m_sp34.operator->())->FUN_009611e0();
+                outTmp = ((Obj_cls*)m_sp34.operator->())->NiAVObject_GetParent();
                 outTmp->RemoveEffect(this);
             }
         }
@@ -596,7 +603,7 @@ bool BSTempEffectGeometryDecal::FUN_006888a0(float afValue)
         {
             if (((Obj_cls*)m_sp34.operator->())->FUN_00453470() == 0)
             {
-                ((Obj_cls*)m_sp34.operator->())->FUN_009611e0()->v58(((Obj_cls*)m_sp34.operator->()));
+                ((Obj_cls*)m_sp34.operator->())->NiAVObject_GetParent()->v58(((Obj_cls*)m_sp34.operator->()));
                 DAT_011c57f0 = DAT_011c57f0 - 1;
             }
         }
@@ -756,15 +763,15 @@ struct Obj18c
     Obj18c();
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
-    void FUN_00685e60(void* p, int n);
+    void NiSkinPartition_ReplacePartitions(void* p, int n);
 };
 void __cdecl FUN_00401460(void* dst, void* src, unsigned int n);
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 extern double DAT_01012060;
 extern void(__cdecl* DAT_00fdf0c8)();
 extern GlobalObjectO2_00a7b610 g_011f49d8;
 unsigned char __cdecl FUN_0045bad0(GlobalObjectO2_00a7b610* g, void* p);
-void __cdecl FUN_00403d30(void* p, int v, unsigned int n);
+void __cdecl ourMemset(void* p, int v, unsigned int n);
 struct GeomObj
 {
     NiSkinInstance* FUN_0043fad0();
@@ -775,7 +782,7 @@ struct CtrlObj
 };
 struct SkinBase
 {
-    CtrlObj* FUN_0043b230();
+    CtrlObj* NiObjectNET_GetControllers();
 };
 struct ThirteenDw
 {
@@ -875,22 +882,22 @@ struct Small
     int m_00;
     int m_04;
     int m_08;
-    void FUN_00534550();
+    void NiTConvertingStrideIterator_NiTConvertingStrideIterator();
     void ReadWeights(int idx, void* p);
     void GetCellAt(int idx, void* p);
-    void FUN_00534570(int idx, void* p);
+    void NiGeometryDataIteratorNiPoint3_Get(int idx, void* p);
 };
 struct ChainObj
 {
     void* FUN_004a8a90();
     unsigned short FUN_0047d370();
     unsigned char FUN_00a67360(int a);
-    void FUN_00a67410(Small* p);
+    void NiGeometryData_GetVerticesIterator(Small* p);
     void GetBounds(Small* p);
     void GetKeyAndMode(int a, Small* p);
     void GetOutRec(Small* p);
     void FillOutRec674(Small* p);
-    void FUN_00a673d0();
+    void NiGeometryData_UnlockPackedVertexData();
 };
 struct MidObj
 {
@@ -931,7 +938,7 @@ struct CtrlHolder
 struct SkinMid
 {
     void* FUN_005585e0();
-    void FUN_00a85510(Small* a, Small* b, Small* c, Small* d, int n, Pt3Arr* p1, Pt3Obj* p2, int m);
+    void nullsub_2(Small* a, Small* b, Small* c, Small* d, int n, Pt3Arr* p1, Pt3Obj* p2, int m);
 };
 struct XD8Obj
 {
@@ -1016,7 +1023,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
         savedLocalAB = skinInstLocalAA;
     else
         return;
-    flagsLocalBC = ((SkinBase*)skinInstLocalAA)->FUN_0043b230()->FUN_0044ddc0();
+    flagsLocalBC = ((SkinBase*)skinInstLocalAA)->NiObjectNET_GetControllers()->FUN_0044ddc0();
 
     sph1LocalAC.m_afExtents.FUN_006815c0();
 
@@ -1034,11 +1041,11 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     thirteenLocalAI = *((ConvObjB*)((const char*)m_sp2C.operator->()))->FUN_00461130();
     ((Obj160*)&thirteenLocalAI.m_24)->Subtract((Src38*)&m_38);
 
-    s1LocalBB.FUN_00534550();
-    s2LocalAK.FUN_00534550();
-    s3LocalBN.FUN_00534550();
-    s4LocalAA.FUN_00534550();
-    s5LocalAF.FUN_00534550();
+    s1LocalBB.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
+    s2LocalAK.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
+    s3LocalBN.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
+    s4LocalAA.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
+    s5LocalAF.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
     p144LocalEF = ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->FUN_004a8a90();
     z140LocalBM = 0;
     data38LocalAM = 0;
@@ -1052,7 +1059,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
         return;
     cntFcLocalBB = (int)((ChainObj*)p144LocalEF)->FUN_0047d370();
     byteE9LocalBH = ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->FUN_00a67360(0);
-    ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->FUN_00a67410(&s1LocalBB);
+    ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->NiGeometryData_GetVerticesIterator(&s1LocalBB);
     ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->GetBounds(&s2LocalAK);
     ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->GetKeyAndMode(0, &s3LocalBN);
     ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->GetOutRec(&s4LocalAA);
@@ -1060,7 +1067,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     word110LocalBC = 0;
     byte89LocalAD = 0;
     count194LocalBA = 0;
-    ctrl150LocalAG = ((CtrlHolder*)((SkinBase*)skinInstLocalAA)->FUN_0043b230())->FUN_0084e3a0();
+    ctrl150LocalAG = ((CtrlHolder*)((SkinBase*)skinInstLocalAA)->NiObjectNET_GetControllers())->FUN_0084e3a0();
     flag13cLocalAL = ctrl150LocalAG->m_22 > 0;
     (void)flag13cLocalAL;
     for (int iValueDA = 0; iValueDA < (int)flagsLocalBC; iValueDA = iValueDA + 1)
@@ -1106,7 +1113,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     a148LocalAD = new unsigned short[count194LocalBA];
     a1c0LocalAN = new float[cntFcLocalBB * 4];
     a114LocalBI = new unsigned char[cntFcLocalBB * 4];
-    FUN_00403d30(aD4LocalAA, -1, cntFcLocalBB << 2);
+    ourMemset(aD4LocalAA, -1, cntFcLocalBB << 2);
     arr54LocalAD = new BigObj2c[count194LocalBA];
     arr34LocalCA = new Pt3Arr[cntFcLocalBB];
     arr10LocalCD = new Obj16[cntFcLocalBB];
@@ -1115,7 +1122,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     arr10cLocalAB = new Pt3Arr[cntFcLocalBB];
     arrE8LocalFA = (Pt3Obj*)new ArrayPoint[cntFcLocalBB];
     ((SkinMid*)skinInstLocalAA)
-        ->FUN_00a85510(&s1LocalBB, &s4LocalAA, &s5LocalAF, &s2LocalAK, cntFcLocalBB, arr10cLocalAB, arrE8LocalFA, 0xc);
+        ->nullsub_2(&s1LocalBB, &s4LocalAA, &s5LocalAF, &s2LocalAK, cntFcLocalBB, arr10cLocalAB, arrE8LocalFA, 0xc);
     xD8LocalDC = ((SkinMid*)skinInstLocalAA)->FUN_005585e0();
     data38LocalAM = (void*)((XD8Obj*)xD8LocalDC)->FUN_008d6f30();
     z140LocalBM = ((XD8Obj*)xD8LocalDC)->FUN_008041a0();
@@ -1207,9 +1214,9 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
                     word224ValueAP = 0;
                     (void)word218ValueAB;
                     (void)word224ValueAP;
-                    FUN_00403d30(a190LocalAI, -1, cntFcLocalBB << 2);
-                    FUN_00403d30(a1c0LocalAN, 0, (cntFcLocalBB << 2) << 2);
-                    FUN_00403d30(a114LocalBI, 0, cntFcLocalBB << 2);
+                    ourMemset(a190LocalAI, -1, cntFcLocalBB << 2);
+                    ourMemset(a1c0LocalAN, 0, (cntFcLocalBB << 2) << 2);
+                    ourMemset(a114LocalBI, 0, cntFcLocalBB << 2);
                     x220ValueAE = 0;
                     for (int nValueEC = 0; nValueEC < (int)word110LocalBC; nValueEC = nValueEC + 1)
                     {
@@ -1243,7 +1250,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
                                     x220ValueAE = (x220ValueAE == 0);
                                 continue;
                             }
-                            byte235ValueBC = FUN_00683a70(nValueEC, cntC0LocalBB, flag13cLocalAL != 0, x214ValueAG,
+                            byte235ValueBC = ShouldAddTriangle(nValueEC, cntC0LocalBB, flag13cLocalAL != 0, x214ValueAG,
                                                           (Pt3Obj*)arr34LocalCA, 0);
                             if (byte235ValueBC && byte236ValueBG)
                             {
@@ -1398,7 +1405,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     if (count194LocalBA > 0)
     {
         x18cLocalCE = new Obj18c;
-        x18cLocalCE->FUN_00685e60(arr54LocalAD, count194LocalBA);
+        x18cLocalCE->NiSkinPartition_ReplacePartitions(arr54LocalAD, count194LocalBA);
     }
     if ((int)word14LocalBL > 0)
     {
@@ -1421,8 +1428,8 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
                 t2a0ValueAI.FUN_006815c0();
                 if (aD4LocalAA[pValueFC] != -1)
                 {
-                    s1LocalBB.FUN_00534570(pValueFC, &t294ValueAJ);
-                    s2LocalAK.FUN_00534570(pValueFC, &t2a0ValueAI);
+                    s1LocalBB.NiGeometryDataIteratorNiPoint3_Get(pValueFC, &t294ValueAJ);
+                    s2LocalAK.NiGeometryDataIteratorNiPoint3_Get(pValueFC, &t2a0ValueAI);
                     x280ValueAD[aD4LocalAA[pValueFC]] = t294ValueAJ;
                     x27cValueBB[aD4LocalAA[pValueFC]] = *(Pt3Obj*)&arr34LocalCA[pValueFC];
                 }
@@ -1473,7 +1480,7 @@ void BSTempEffectGeometryDecal::BuildSkinPartitions()
     delete a114LocalBI;
     delete a148LocalAD;
     if (byteE9LocalBH)
-        ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->FUN_00a673d0();
+        ((MidObj*)((const char*)m_sp2C.operator->()))->FUN_005495f0()->NiGeometryData_UnlockPackedVertexData();
     (void)cnt88LocalFB;
     (void)arr54LocalAD;
     (void)(*reinterpret_cast<NiPoint3*>(ptE4LocalAB));
@@ -1543,7 +1550,7 @@ struct DSkinData
 };
 struct DSkin
 {
-    DPartitionData* FUN_0043b230();
+    DPartitionData* NiObjectNET_GetControllers();
     DSkinData* FUN_005585e0();
     void ForwardActorBaseData(void*, DPoint*, DPoint*, int, int, int);
 };
@@ -1565,7 +1572,7 @@ struct DNewPartition
     DNewPartition();
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
-    void FUN_00685e60(DPartition*, int);
+    void NiSkinPartition_ReplacePartitions(DPartition*, int);
 };
 extern GlobalObjectO2_00a7b610 g_011f49d8;
 extern DPoint NiPoint3_ZERO;
@@ -1627,7 +1634,7 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
         dismember_9 = skin_1;
     else
         return;
-    partitionCount_10 = skin_1->FUN_0043b230()->FUN_0044ddc0();
+    partitionCount_10 = skin_1->NiObjectNET_GetControllers()->FUN_0044ddc0();
     DMatrix basis_6;
     DMatrix worldRotation_4 = ((DGeometry*)m_sp2C.operator->())->FUN_00461130().rotation;
     DMatrix inverse_11 = worldRotation_4.FUN_004b45b0();
@@ -1652,7 +1659,7 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
     vertexMap_22 = 0;
     selected_21 = false;
     selectedCount_12 = 0;
-    partitions_15 = skin_1->FUN_0043b230()->FUN_0084e3a0();
+    partitions_15 = skin_1->NiObjectNET_GetControllers()->FUN_0084e3a0();
     strips_17 = partitions_15->stripCount > 0;
     for (int scanPartitionIndex = 0; scanPartitionIndex < partitionCount_10; scanPartitionIndex++)
     {
@@ -1772,7 +1779,7 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
                         cursor_15 += 3;
                     continue;
                 }
-                accepted_3 = FUN_00683a70(triangleIndex, 0, strips_17 != 0, triangleData_17, texcoords_0, vertexMap_22);
+                accepted_3 = ShouldAddTriangle(triangleIndex, 0, strips_17 != 0, triangleData_17, texcoords_0, vertexMap_22);
                 if (accepted_3 && valid_1)
                 {
                     for (int corner = 0; corner < 3; corner++)
@@ -1872,7 +1879,7 @@ void BSTempEffectGeometryDecal::BuildDecalGeometry()
     if (selectedCount_12 > 0)
     {
         newPartition_14 = new DNewPartition;
-        newPartition_14->FUN_00685e60(outputPartitions_22, selectedCount_12);
+        newPartition_14->NiSkinPartition_ReplacePartitions(outputPartitions_22, selectedCount_12);
     }
     if (outputVertexCount_4 > 0)
     {
@@ -2077,7 +2084,7 @@ struct SkinX
 {
     SkinDataX* FUN_005585e0();
     int* FUN_00825c00();
-    int FUN_0044edb0();
+    int TESMain_GetThread();
 };
 struct ObjC
 {
@@ -2113,7 +2120,7 @@ struct ObjE
     static void* operator new(unsigned int n);
     static void operator delete(void*, unsigned int);
     ObjE();
-    unsigned char FUN_00a84980(void* p);
+    unsigned char NiSkinPartition_MakePartitions(void* p);
 };
 struct GeomX
 {
@@ -2133,7 +2140,7 @@ void BSTempEffectGeometryDecal::CreateDecalGeometry(DGeometry* geom, unsigned sh
 {
     NiTriShape* objA =
         new NiTriShape(ausVertexCount, (NiPoint3*)apVertices, (NiPoint3*)d, (void*)0, (NiPoint2*)0, 0, 0, ausIndexCount / 3, apIndices);
-    objA->AssignFixedString(*FUN_00688460());
+    objA->AssignFixedString(*FixedStrings_GetDecal());
     ObjB* entries;
     entries = new ObjB();
     objA->FUN_00439410(entries);
@@ -2191,19 +2198,19 @@ void BSTempEffectGeometryDecal::CreateDecalGeometry(DGeometry* geom, unsigned sh
                 kIter[j].w = (unsigned short)vertexMap[j];
         }
     }
-    BSDismemberSkinInstance* arr1 = new BSDismemberSkinInstance(textObj, count->FUN_0044edb0(), partList, kIter, skin);
+    BSDismemberSkinInstance* arr1 = new BSDismemberSkinInstance(textObj, count->TESMain_GetThread(), partList, kIter, skin);
     if (apNewPartition)
     {
-        arr1->FUN_004addc0((NiSkinPartition*)apNewPartition);
+        arr1->BSMultiBound_SetShape((NiSkinPartition*)apNewPartition);
         objA->SetSkinInstance(arr1);
     }
     else
     {
         ObjE* val;
         val = new ObjE();
-        if (val->FUN_00a84980(objA->FUN_005495f0(textObj, 0x12, 4, 1, 0, 0, 0)))
+        if (val->NiSkinPartition_MakePartitions(objA->FUN_005495f0(textObj, 0x12, 4, 1, 0, 0, 0)))
         {
-            arr1->FUN_004addc0((NiSkinPartition*)val);
+            arr1->BSMultiBound_SetShape((NiSkinPartition*)val);
             objA->SetSkinInstance(arr1);
         }
         else
@@ -2216,7 +2223,7 @@ void BSTempEffectGeometryDecal::CreateDecalGeometry(DGeometry* geom, unsigned sh
     objA->FUN_0043fa80(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_006a9540());
     objA->FUN_00440490(((GeomX*)((DGeometry*)m_sp2C.operator->()))->GetFloatAt64());
     objA->FUN_004f00e0(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_0045bb80());
-    objA->FUN_00688430(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_00461130());
+    objA->NiAVObject_SetWorldRotate(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_00461130());
     objA->SetValue(((GeomX*)((DGeometry*)m_sp2C.operator->()))->FUN_008d01e0());
     objA->UpdateWorldBound();
     objA->FUN_00a5a040();
@@ -2326,11 +2333,12 @@ struct SaveForm688
     virtual void v75();
     virtual const char* GetName();
 };
-void __cdecl FUN_005b5e40(const char* pcMessage, const char* pcFile, int iLine);
+void __cdecl Warning_005b5e40(const char* pcMessage, const char* pcFile, int iLine);
 
 // Writes a BLOK-tagged save block for the decal, logs the record size and form info, and back-patches the block size.
 // @fnv 0x00688b00
-void BSTempEffectGeometryDecal::FUN_00688b00()
+// src: COMMUNITY 0x00688b00
+void BSTempEffectGeometryDecal::SaveGameTES_00688b00()
 {
     unsigned short usSize = 0;
     char* pcSizePos = 0;
@@ -2369,7 +2377,7 @@ void BSTempEffectGeometryDecal::FUN_00688b00()
         char* pCur = ((SaveGameBuffer688*)DAT_011de45c)->FUN_00825c00();
         char* pBlock = pcSizePos;
         if (pCur > pBlock + 0xffff)
-            FUN_005b5e40(
+            Warning_005b5e40(
                 "SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                 "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TempEffects\\BSTempEffectGeometryDecal.cpp",
                 0x783);
@@ -2450,11 +2458,12 @@ struct DecalLoad688Runtime
 {
     DecalLoad688Header* FUN_004fd3c0();
 };
-void __cdecl FUN_005b5e40(const char* format, ...);
+void __cdecl Warning_005b5e40(const char* format, ...);
 
 // Reads a four-byte marker and two-byte value, then logs when the current buffer position differs from their sum.
 // @fnv 0x00688c90
-bool BSTempEffectGeometryDecal::FUN_00688c90()
+// src: COMMUNITY 0x00688c90
+bool BSTempEffectGeometryDecal::LoadGameTES_00688c90()
 {
     bool result5 = 1;
     unsigned short count = 0;
@@ -2469,12 +2478,12 @@ bool BSTempEffectGeometryDecal::FUN_00688c90()
             if (form7)
             {
                 SaveForm688* obj_2 = (SaveForm688*)FUN_004839c0((void*)(form7->formID));
-                FUN_005b5e40(str_01015718, &str_01069ba0, 1932, form7->formID, obj_2->GetName(), form7->version,
+                Warning_005b5e40(str_01015718, &str_01069ba0, 1932, form7->formID, obj_2->GetName(), form7->version,
                              *(int*)&form7->dataSize);
             }
             else
             {
-                FUN_005b5e40(str_010156a8, &str_01069ba0, 1932, ((DecalLoad688Version*)DAT_011de45c)->FUN_008df040());
+                Warning_005b5e40(str_010156a8, &str_01069ba0, 1932, ((DecalLoad688Version*)DAT_011de45c)->FUN_008df040());
             }
         }
         base = ((DecalLoad688Buffer*)DAT_011de45c)->FUN_00825c00();
@@ -2489,12 +2498,12 @@ bool BSTempEffectGeometryDecal::FUN_00688c90()
             SaveForm688* obj3 = (SaveForm688*)FUN_004839c0((void*)(form2->formID));
             if (cur4 > count + base)
             {
-                FUN_005b5e40(str_01015588, cur4 - (count + base), &str_01069ba0, 2104, form2->formID, obj3->GetName(),
+                Warning_005b5e40(str_01015588, cur4 - (count + base), &str_01069ba0, 2104, form2->formID, obj3->GetName(),
                              form2->version, *(int*)&form2->dataSize);
             }
             else if (cur4 < count + base)
             {
-                FUN_005b5e40(str_01015500, (count + base) - cur4, &str_01069ba0, 2104, form2->formID, obj3->GetName(),
+                Warning_005b5e40(str_01015500, (count + base) - cur4, &str_01069ba0, 2104, form2->formID, obj3->GetName(),
                              form2->version, *(int*)&form2->dataSize);
             }
         }
@@ -2502,12 +2511,12 @@ bool BSTempEffectGeometryDecal::FUN_00688c90()
         {
             if (cur4 > count + base)
             {
-                FUN_005b5e40(str_010154a0, cur4 - (count + base), &str_01069ba0, 2104,
+                Warning_005b5e40(str_010154a0, cur4 - (count + base), &str_01069ba0, 2104,
                              ((DecalLoad688Version*)DAT_011de45c)->FUN_008df040());
             }
             else if (cur4 < count + base)
             {
-                FUN_005b5e40(str_01015440, (count + base) - cur4, &str_01069ba0, 2104,
+                Warning_005b5e40(str_01015440, (count + base) - cur4, &str_01069ba0, 2104,
                              ((DecalLoad688Version*)DAT_011de45c)->FUN_008df040());
             }
         }

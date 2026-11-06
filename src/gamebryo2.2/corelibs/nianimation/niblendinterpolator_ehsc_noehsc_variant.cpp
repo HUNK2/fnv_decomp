@@ -40,7 +40,7 @@ struct S_00a370b0_Class
 
 struct S_00a370b0_Allocator
 {
-    void* FUN_00aa3e40(unsigned int nSize);
+    void* Game_DoHeapAlloc(unsigned int nSize);
 };
 
 extern float DAT_0109696c;
@@ -59,7 +59,7 @@ struct BlendItem
     ~BlendItem() throw();
     static void* operator new[](unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
 };
 

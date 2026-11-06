@@ -87,14 +87,14 @@ public:
     PathingAvoidNodeArray* GetAvoidNodes() const;
 
     void FUN_00507610(float);
-    bool FUN_00505c00();
+    bool TESCombatStyle_GetPowerAttackF();
     float FUN_00507e10();
     int FUN_006377e0();
     float FUN_006a78f0() const;
-    NiPoint3 FUN_006a7910();
-    NiPoint3 FUN_006a7910() const;
-    bool FUN_006a7940() const;
-    bool FUN_006a7980() const;
+    NiPoint3 GetTargetPoint();
+    NiPoint3 GetTargetPoint() const;
+    bool GetCanSwim() const;
+    bool GetTryToUseCurvedPath() const;
     bool FUN_006a79a0() const;
     PathingLocation* FUN_006a9540();
     PathingActorData* FUN_006c9900();
@@ -108,7 +108,7 @@ public:
     void FUN_006d61e0(void*);
     void FUN_006e2980(NiPoint3&, float);
     void FUN_006e2980(NiPoint3*, float);
-    void FUN_006e29b0(PathingActorData*);
+    void SetActorLockData(PathingActorData*);
     void FUN_006e2b20(void*);
     void FUN_006e3230(BGSSaveFormBuffer*);
     void FUN_006e4320(float);

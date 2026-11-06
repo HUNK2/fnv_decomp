@@ -64,7 +64,8 @@ void __fastcall FUN_0048cc80(void* pThis)
 
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 // @fnv 0x0048cca0
-void TESScriptableForm::FUN_0048cca0()
+// src: COMMUNITY 0x0048cca0
+void TESScriptableForm::Save_0048cca0()
 {
     if (m_pFormScript)
     {

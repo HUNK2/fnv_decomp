@@ -87,10 +87,11 @@ struct FUN_004799f0_shell
 };
 struct FUN_005e7ed0_shell
 {
-    void FUN_005e7ed0();
+    void BGSIdleMarker_SaveAlt();
 };
 // @fnv 0x005e7ed0
-void FUN_005e7ed0_shell::FUN_005e7ed0()
+// src: COMMUNITY 0x005e7ed0
+void FUN_005e7ed0_shell::BGSIdleMarker_SaveAlt()
 {
     ((FUN_004855a0*)this)->M();
     ((FUN_004799f0_shell*)((char*)this + 0x30))->FUN_004799f0();
@@ -142,12 +143,13 @@ struct BGSIdleMarkerImpl : public TESForm
     TESIdleForm** unk38;
     unsigned int unk3c;
 
-    bool FUN_005e7bf0(TESFile* file);
+    bool BGSIdleMarker_Load(TESFile* file);
 };
 
 // Reads record chunks from the file, updates fields for handled chunks, and constructs a wrapper for the payload chunk.
 // @fnv 0x005e7bf0
-bool BGSIdleMarkerImpl::FUN_005e7bf0(TESFile* file)
+// src: COMMUNITY 0x005e7bf0
+bool BGSIdleMarkerImpl::BGSIdleMarker_Load(TESFile* file)
 {
     this->LoadRecordHeader(file);
     this->SetInitializationState(false);

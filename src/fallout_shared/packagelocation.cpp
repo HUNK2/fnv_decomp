@@ -287,11 +287,12 @@ void FUN_0067f410_shell::FUN_0067f410(TESObjectCELL* apCell)
 
 struct FUN_0067f970_shell : public LocationDescriptor
 {
-    bool FUN_0067f970();
+    bool PackageLocation_IsLocationGeneric();
 };
 
 // @fnv 0x0067f970
-bool FUN_0067f970_shell::FUN_0067f970()
+// src: COMMUNITY 0x0067f970
+bool FUN_0067f970_shell::PackageLocation_IsLocationGeneric()
 {
     if (GetLocType() > PLT_EDITORLOC)
         return true;
@@ -851,12 +852,13 @@ class FUN_0067f990_C
   public:
     char m_eRequestType;
 
-    unsigned short FUN_0067f990();
+    unsigned short PackageLocation_GetSaveSize();
 };
 
 // Returns 5 plus 4 when m_eRequestType is between 0 and 5 inclusive.
 // @fnv 0x0067f990
-unsigned short FUN_0067f990_C::FUN_0067f990()
+// src: COMMUNITY 0x0067f990
+unsigned short FUN_0067f990_C::PackageLocation_GetSaveSize()
 {
     unsigned short usSize = 0;
     usSize += 1;

@@ -50,11 +50,11 @@ void NiD3DShaderInterface::SetShaderObject(GraphicsRenderer* renderer)
 unsigned int NiD3DShaderInterface::InitializeShaderRenderer(GraphicsRenderer* renderer)
 {
     Direct3DDeviceInterface* device = renderer->m_pD3DDevice;
-    FUN_00e7f920(renderer);
-    FUN_00e7e8d0(renderer);
+    NiD3DPass_SetD3DRenderer(renderer);
+    NiD3DTextureStage_SetD3DRenderer(renderer);
     DAT_0126f99c = device;
-    FUN_00e92f70(renderer);
-    FUN_00e93f50(renderer);
+    NiD3DShaderProgramFactory_SetD3DRenderer(renderer);
+    NiD3DShaderProgramCreator_SetD3DRenderer(renderer);
     NiD3DPass::SetActiveRenderer(renderer);
     device->vfn_100();
     NiD3DShaderFactory* factory = NiD3DShaderFactory::GetShaderFactory();
@@ -93,19 +93,21 @@ void* __fastcall NiShader_NiShader(void* apObject)
 
 extern const char* const g_011f603c_arg1;
 // @fnv 0x00a8f1b0
-const char* const* __fastcall FUN_00a8f1b0(void* p, int)
+// src: COMMUNITY 0x00a8f1b0
+const char* const* __fastcall Ni2DBuffer_GetRTTI(void* p, int)
 {
     return &g_011f603c_arg1;
 }
 
 extern const char* const g_0126f75c_arg1;
 // @fnv 0x00a8f480
-const char* const* __fastcall FUN_00a8f480(void* p, int)
+// src: COMMUNITY 0x00a8f480
+const char* const* __fastcall NiShader_GetRTTI(void* p, int)
 {
     return &g_0126f75c_arg1;
 }
 
-void FUN_00aa0000();
+void NiShaderFactory_ReleaseAllShaders();
 void DestroyProgram();
 // @fnv 0x00e819f0
 int FUN_00e819f0()
@@ -113,15 +115,15 @@ int FUN_00e819f0()
     NiD3DShaderFactory* pShaderFactory = NiD3DShaderFactory::GetShaderFactory();
     if (pShaderFactory)
     {
-        FUN_00aa0000();
+        NiShaderFactory_ReleaseAllShaders();
         pShaderFactory->vfn_70(0);
     }
-    FUN_00e7f920(0);
-    FUN_00e7e8d0(0);
+    NiD3DPass_SetD3DRenderer(0);
+    NiD3DTextureStage_SetD3DRenderer(0);
     DAT_0126f99c = 0;
     DestroyProgram();
-    FUN_00e92f70(0);
-    FUN_00e93f50(0);
+    NiD3DShaderProgramFactory_SetD3DRenderer(0);
+    NiD3DShaderProgramCreator_SetD3DRenderer(0);
     NiD3DPass::SetActiveRenderer(0);
     return 0;
 }
@@ -185,7 +187,8 @@ extern void* DAT_0126fa2c;
 extern Rf* DAT_0126fa28;
 // Stores r in DAT_0126fa2c and, if r is non-null, releases the old DAT_0126fa28 and AddRefs the object at r+0x288; otherwise releases and clears DAT_0126fa28.
 // @fnv 0x00e93f50
-void FUN_00e93f50(void* apObject)
+// src: COMMUNITY 0x00e93f50
+void NiD3DShaderProgramCreator_SetD3DRenderer(void* apObject)
 {
     DAT_0126fa2c = apObject;
     if (apObject)

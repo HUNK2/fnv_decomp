@@ -7,11 +7,12 @@
 
 struct FUN_00c25dd0_shell
 {
-    short __thiscall FUN_00c25dd0();
+    short __thiscall BSStripPSysData_GetMaxPointCount();
 };
 
 // @fnv 0x00c25dd0
-short __thiscall FUN_00c25dd0_shell::FUN_00c25dd0()
+// src: COMMUNITY 0x00c25dd0
+short __thiscall FUN_00c25dd0_shell::BSStripPSysData_GetMaxPointCount()
 {
     return *reinterpret_cast<short*>(this + 0x80);
 }
@@ -19,7 +20,8 @@ short __thiscall FUN_00c25dd0_shell::FUN_00c25dd0()
 extern "C" void* g_01202680;
 
 // @fnv 0x00c25ee0
-void* __cdecl FUN_00c25ee0()
+// src: COMMUNITY 0x00c25ee0
+void* __cdecl BSStripPSysData_GetRTTI()
 {
     return &g_01202680;
 }
@@ -57,10 +59,11 @@ void* __thiscall FUN_00c26380_shell::DestroyIfFlagged(unsigned int flags)
 
 struct FUN_00c25db0_shell
 {
-    unsigned short __thiscall FUN_00c25db0(unsigned short index);
+    unsigned short __thiscall BSStripPSysData_GetPointCount(unsigned short index);
 };
 // @fnv 0x00c25db0
-unsigned short __thiscall FUN_00c25db0_shell::FUN_00c25db0(unsigned short index)
+// src: COMMUNITY 0x00c25db0
+unsigned short __thiscall FUN_00c25db0_shell::BSStripPSysData_GetPointCount(unsigned short index)
 {
     return *reinterpret_cast<unsigned short*>(reinterpret_cast<unsigned char*>(*reinterpret_cast<unsigned int**>(
                                                   reinterpret_cast<unsigned char*>(this) + 0x7c)) +
@@ -134,7 +137,7 @@ float __thiscall FUN_00c25e20_shell::GetInnerValue(unsigned short ausOuterIndex,
 
 struct FUN_00c25e40_shell
 {
-    float __thiscall FUN_00c25e40(unsigned short a, unsigned short b);
+    float __thiscall BSStripPSysData_GetPointRadii(unsigned short a, unsigned short b);
 };
 struct FUN_00c25e40_Inner
 {
@@ -148,7 +151,8 @@ struct FUN_00c25e40_Outer
 };
 // Reads a pointer from this+0x7c, indexes it by a, then indexes that object's p by b and returns the float v.
 // @fnv 0x00c25e40
-float __thiscall FUN_00c25e40_shell::FUN_00c25e40(unsigned short a, unsigned short b)
+// src: COMMUNITY 0x00c25e40
+float __thiscall FUN_00c25e40_shell::BSStripPSysData_GetPointRadii(unsigned short a, unsigned short b)
 {
     return (*(FUN_00c25e40_Outer**)((char*)this + 0x7c))[a].p[b].v;
 }
@@ -162,22 +166,24 @@ struct FUN_00c25e90_shell
 {
     char _pad[124];
     FUN_00c25e90_entry* arr;
-    void* __thiscall FUN_00c25e90(unsigned short a, unsigned short b);
+    void* __thiscall BSStripPSysData_GetPointNorms(unsigned short a, unsigned short b);
 };
 // Returns a pointer into the entry at index a, offset by b * 0x84 + 0x48 from its ptr.
 // @fnv 0x00c25e90
-void* __thiscall FUN_00c25e90_shell::FUN_00c25e90(unsigned short ausIndex, unsigned short b)
+// src: COMMUNITY 0x00c25e90
+void* __thiscall FUN_00c25e90_shell::BSStripPSysData_GetPointNorms(unsigned short ausIndex, unsigned short b)
 {
     return (char*)arr[ausIndex].ptr + b * 0x84 + 0x48;
 }
 
 struct FUN_00c25eb0_shell
 {
-    float __thiscall FUN_00c25eb0(unsigned short a);
+    float __thiscall BSStripPSysData_GetTexCoordDelta(unsigned short a);
 };
 // Returns 1.0 divided by (the unsigned short at offset 6 of the entry at this+0x7c indexed by a, minus 1.0).
 // @fnv 0x00c25eb0
-float __thiscall FUN_00c25eb0_shell::FUN_00c25eb0(unsigned short ausIndex)
+// src: COMMUNITY 0x00c25eb0
+float __thiscall FUN_00c25eb0_shell::BSStripPSysData_GetTexCoordDelta(unsigned short ausIndex)
 {
     return 1.0f / ((float)*(unsigned short*)(*(char**)((char*)this + 0x7c) + (ausIndex << 5) + 6) - 1.0f);
 }
@@ -670,7 +676,7 @@ struct ArrHdr
     }
 };
 extern "C" void* g_01202680;
-extern "C" void* __cdecl FUN_00a7d330(void*);
+extern "C" void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 extern "C" void* __cdecl FUN_00a7d490(const char*, unsigned int);
 extern "C" void* __cdecl FUN_00a7d550(const char*, float);
 extern "C" void* __cdecl FUN_00a7d370(const char*, unsigned int);
@@ -689,7 +695,7 @@ void FUN_00c26630_cls::FUN_00c26630(void* pArray)
 {
     ArrHdr* a = (ArrHdr*)pArray;
     NiPSysData::GetViewerStrings(reinterpret_cast<NiViewerStringsArray*>(a));
-    pArray = FUN_00a7d330(g_01202680);
+    pArray = NiViewerStrings_NiGetViewerString_Title(g_01202680);
     a->Add(pArray);
     pArray = FUN_00a7d490(str_010be5ec, m80);
     a->Add(pArray);

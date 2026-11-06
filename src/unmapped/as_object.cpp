@@ -50,7 +50,7 @@ struct FUN_008d0370_shell
     bool FUN_008d0370(TESObjectREFR*);
 };
 int __fastcall GetReferenceFlags(void*);
-void FUN_00867f90(TESObjectREFR*);
+void GarbageCollector_Add_TESObjectREFR(TESObjectREFR*);
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 extern FUN_008d0370_shell* g_TESSaveLoadGame;
 extern BGSLoadedReferenceCollection* DAT_011c95c8;
@@ -105,10 +105,10 @@ void TESObjectCELL::RemoveNonPersistentRefs()
                     {
                         FUN_00452440_shell* pBase = (FUN_00452440_shell*)((P01ObjA*)pRef)->GetNext();
                         if (pBase->FUN_00452440())
-                            FUN_00558ba0(pRef);
+                            RemoveAutoWaterReferenceFromReferencesCurrentWater(pRef);
                     }
                     if (bPrint && pRef != g_thePlayer)
-                        FUN_00867f90(pRef);
+                        GarbageCollector_Add_TESObjectREFR(pRef);
                 }
                 else
                 {
@@ -147,5 +147,5 @@ void TESObjectCELL::RemoveNonPersistentRefs()
             }
         }
     }
-    FUN_00551440(false);
+    TESObjectCELL_SetHasTempData(false);
 }

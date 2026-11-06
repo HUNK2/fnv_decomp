@@ -91,5 +91,5 @@ public:
     void FUN_00991dc0();
     ActorCombatGroup* FindByKey(unsigned int key);
     void FUN_00993800(BGSLoadGameBuffer*);
-    void FUN_00993600(void* stream);
+    void InitLoadGame_00993600(void* stream);
 };

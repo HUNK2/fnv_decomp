@@ -33,11 +33,11 @@ struct ChangedFormRecord
 // The shared FormChangeMap exposes the storage; additional operations stay method-only.
 struct FormChangeMapOperations : FormChangeMap
 {
-    void FUN_00843240();
-    void FUN_00843be0(unsigned int count);
-    ChangedFormRecord* FUN_008432e0(unsigned int index);
+    void BGSConstructedForms_Clear();
+    void BGSReconstructedForms_SetAllocSize(unsigned int count);
+    ChangedFormRecord* BGSReconstructedForms_GetAt(unsigned int index);
     unsigned int GetElementAt(unsigned int index);
-    void FUN_00843270(ChangedFormRecord* data);
+    void BGSReconstructedForms_AddFormData(ChangedFormRecord* data);
 };
 
 struct FormChangeArrayOperations : nitmapbase_FormMap
@@ -113,7 +113,7 @@ void BGSReconstructFormsInAllFilesMap::BuildMap()
     } state;
 
     g_BGSSaveLoadGame->SetFlag4(true);
-    static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->FUN_00843be0(iCount);
+    static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->BGSReconstructedForms_SetAllocSize(iCount);
     state.wasLocked = g_dataHandler->FUN_004516b0();
     g_dataHandler->SetBoolAt61a(true);
 
@@ -132,7 +132,7 @@ void BGSReconstructFormsInAllFilesMap::BuildMap()
     state.removeIndex = 0;
     for (; state.removeIndex < m_kFormChangeMap.GetCombinedFlags(); ++state.removeIndex)
     {
-        state.removedForm = static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->FUN_008432e0(state.removeIndex);
+        state.removedForm = static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->BGSReconstructedForms_GetAt(state.removeIndex);
         if (state.removedForm->pForm->GetIsReference())
         {
             state.form = state.removedForm->pForm;
@@ -148,7 +148,7 @@ void BGSReconstructFormsInAllFilesMap::BuildMap()
     state.initializeIndex = 0;
     for (; state.initializeIndex < state.size; ++state.initializeIndex)
     {
-        state.initializeForm = static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->FUN_008432e0(state.initializeIndex);
+        state.initializeForm = static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->BGSReconstructedForms_GetAt(state.initializeIndex);
         if (!reinterpret_cast<TESFormInitFlag*>(state.initializeForm->pForm)->IsFormInitialized())
             state.initializeForm->pForm->InitItem();
     }
@@ -156,7 +156,7 @@ void BGSReconstructFormsInAllFilesMap::BuildMap()
     state.reconstructIndex = 0;
     for (; state.reconstructIndex < state.size; ++state.reconstructIndex)
     {
-        state.reconstructForm = static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->FUN_008432e0(state.reconstructIndex);
+        state.reconstructForm = static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->BGSReconstructedForms_GetAt(state.reconstructIndex);
         AddFormFlagEntry(state.reconstructForm);
     }
 
@@ -176,13 +176,14 @@ void BGSReconstructFormsInAllFilesMap::Clear()
         delete reinterpret_cast<BGSCellNumericIDArrayMap*>(map);
     }
     RemoveAll();
-    static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->FUN_00843240();
+    static_cast<FormChangeMapOperations*>(&m_kFormChangeMap)->BGSConstructedForms_Clear();
     iCount = 0;
 }
 
 // Calls Resize(0, 1) on each change array.
 // @fnv 0x00843240
-void FormChangeMapOperations::FUN_00843240()
+// src: COMMUNITY 0x00843240
+void FormChangeMapOperations::BGSConstructedForms_Clear()
 {
     reinterpret_cast<FormChangeArrayOperations*>(&first)->Resize(0, 1);
     reinterpret_cast<FormChangeArrayOperations*>(&second)->Resize(0, 1);
@@ -309,12 +310,13 @@ BGSReconstructFormsInFileMap::BGSReconstructFormsInFileMap()
 
 struct FUN_00844fc0_shell
 {
-    void* __thiscall FUN_00844fc0(int arg);
+    void* __thiscall BSSimpleArray_Alloc8BytesMembers(int arg);
 };
 
 // Allocates arg << 3 bytes via operator new and returns the pointer.
 // @fnv 0x00844fc0
-void* __thiscall FUN_00844fc0_shell::FUN_00844fc0(int arg)
+// src: COMMUNITY 0x00844fc0
+void* __thiscall FUN_00844fc0_shell::BSSimpleArray_Alloc8BytesMembers(int arg)
 {
     void* p = operator new(arg << 3);
     return p;
@@ -581,7 +583,8 @@ void* BGSReconstructFormsInFileMap::ScalarDeletingDestructor(unsigned int flags)
 }
 
 // @fnv 0x008432e0
-ChangedFormRecord* FormChangeMapOperations::FUN_008432e0(unsigned int auiIndex)
+// src: COMMUNITY 0x008432e0
+ChangedFormRecord* FormChangeMapOperations::BGSReconstructedForms_GetAt(unsigned int auiIndex)
 {
     unsigned int flags = reinterpret_cast<FormChangeArrayOperations*>(&first)->CallGetFlags();
     if (auiIndex < flags)
@@ -955,7 +958,8 @@ FUN_00844db0_shell* __thiscall FUN_00844db0_shell::NiTMapBase_DFALL_NiTMapItem_T
 
 // Sets the capacity of both change arrays.
 // @fnv 0x00843be0
-void FormChangeMapOperations::FUN_00843be0(unsigned int auiValue)
+// src: COMMUNITY 0x00843be0
+void FormChangeMapOperations::BGSReconstructedForms_SetAllocSize(unsigned int auiValue)
 {
     reinterpret_cast<FormChangeArrayOperations*>(&first)->SetCount(auiValue);
     reinterpret_cast<FormChangeArrayOperations*>(&second)->SetCount(auiValue);
@@ -1373,7 +1377,7 @@ struct FUN_006c8a30_Class
 
 struct FUN_006f3170_Class
 {
-    bool FUN_006f3170();
+    bool BSSimpleArray_HasSufficientCapacity();
 };
 
 struct FUN_0072ba80_shell
@@ -1383,7 +1387,7 @@ struct FUN_0072ba80_shell
 
 struct FUN_00869600_Class
 {
-    unsigned int FUN_00869600();
+    unsigned int BSSimpleArray_GetOptimalCapacity();
 };
 
 struct FUN_00844c90_shell
@@ -1398,16 +1402,17 @@ struct FUN_00844c90_shell
     unsigned int m_uiItemCount;
     unsigned int m_uiFilterValue;
 
-    void FUN_00844c90(unsigned int, bool);
+    void BSSimpleArray_RemoveAt(unsigned int, bool);
 };
 
-void FUN_00844c90_shell::FUN_00844c90(unsigned int index, bool useArray)
+// src: COMMUNITY 0x00844c90
+void FUN_00844c90_shell::BSSimpleArray_RemoveAt(unsigned int index, bool useArray)
 {
     char* array;
 
-    if (useArray && reinterpret_cast<FUN_006f3170_Class*>(this)->FUN_006f3170())
+    if (useArray && reinterpret_cast<FUN_006f3170_Class*>(this)->BSSimpleArray_HasSufficientCapacity())
     {
-        unsigned int count = reinterpret_cast<FUN_00869600_Class*>(this)->FUN_00869600();
+        unsigned int count = reinterpret_cast<FUN_00869600_Class*>(this)->BSSimpleArray_GetOptimalCapacity();
         array = GetArray(count);
 
         reinterpret_cast<FUN_00692480*>(this)->Method(array, m_items, index);
@@ -1582,7 +1587,8 @@ struct FUN_00844eb0_shell
 
 // Dispatches apData to one of two handlers depending on whether its form is a reference or has type 0x39 or 0x41.
 // @fnv 0x00843270
-void FormChangeMapOperations::FUN_00843270(ChangedFormRecord* apData)
+// src: COMMUNITY 0x00843270
+void FormChangeMapOperations::BGSReconstructedForms_AddFormData(ChangedFormRecord* apData)
 {
     if (!apData->pForm->GetIsReference() && ((FUN_00401170_shell*)apData->pForm)->FUN_00401170() != 0x39 &&
         ((FUN_00401170_shell*)apData->pForm)->FUN_00401170() != 0x41)
@@ -1789,7 +1795,7 @@ struct FormTypeReader
 };
 
 void __cdecl ResolveFormID(unsigned int* numericID, TESFile* file);
-extern "C" void __cdecl FUN_005b5e40(const char* format, ...);
+extern "C" void __cdecl Warning_005b5e40(const char* format, ...);
 extern char DAT_01014168[];
 extern char DAT_01014100[];
 
@@ -1811,7 +1817,7 @@ void FUN_0040e7f0_owner::ResolveFormReferences(FormContext* context)
         primary = _ref_004839c0(numericID);
         if (primary == 0)
         {
-            FUN_005b5e40(DAT_01014168, numericID, context->GetDisplayName(), context->FUN_0084e3a0());
+            Warning_005b5e40(DAT_01014168, numericID, context->GetDisplayName(), context->FUN_0084e3a0());
         }
     }
 
@@ -1824,7 +1830,7 @@ void FUN_0040e7f0_owner::ResolveFormReferences(FormContext* context)
             secondary = dynamic_cast<TESGlobal*>(_ref_004839c0(uiSecondaryID));
             if (secondary == 0)
             {
-                FUN_005b5e40(DAT_01014100, uiSecondaryID, context->GetDisplayName(), context->FUN_0084e3a0());
+                Warning_005b5e40(DAT_01014100, uiSecondaryID, context->GetDisplayName(), context->FUN_0084e3a0());
             }
         }
     }
@@ -1908,7 +1914,7 @@ BGSReconstructFormsInFileMap::~BGSReconstructFormsInFileMap()
 }
 
 
-int __cdecl FUN_00406d90(float afValue);
+int __cdecl FloatToInt(float afValue);
 
 struct RegPoint
 {
@@ -2105,8 +2111,8 @@ void RegManager::FUN_00842310(RegRef* apRef, int aiArg)
             pWorldX = pRef6->FUN_008d6f30();
         if (pCellB)
         {
-            int iX8 = FUN_00406d90(_kPos.x) >> 12;
-            int kIY = FUN_00406d90(_kPos.y) >> 12;
+            int iX8 = FloatToInt(_kPos.x) >> 12;
+            int kIY = FloatToInt(_kPos.y) >> 12;
             EnsureObjectAndCall(pCellB, iX8, kIY, apRef, 0, aiArg);
         }
         else if (pWorldX)
@@ -2536,9 +2542,9 @@ struct RebuildMap
 
     bool HasFlagInAnyFile(int);
     bool FUN_00452420(unsigned int);
-    bool FUN_00843150();
+    bool InterfaceManager_GetMagicPageNumber();
 
-    RebuildMap* FUN_0044edb0();
+    RebuildMap* TESMain_GetThread();
     void FUN_00841320(unsigned int);
     bool Lookup(unsigned int, RebuildResult*);
 };
@@ -2566,7 +2572,7 @@ struct RebuildCoordinates
 
 struct RebuildOutput
 {
-    void FUN_00843270(RebuildResult*);
+    void BGSReconstructedForms_AddFormData(RebuildResult*);
 };
 
 
@@ -2576,7 +2582,7 @@ unsigned int PackShortPair(unsigned short, unsigned short);
 
 RebuildForm* FUN_004839c0(unsigned int);
 
-void* FUN_00403d30(void*, int, unsigned int);
+void* ourMemset(void*, int, unsigned int);
 
 void FUN_00845cc0(const char*, ...);
 
@@ -2805,12 +2811,12 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
 
                 unsigned int key = formId4;
 
-                if (world8 && world8->FUN_00843150())
+                if (world8 && world8->InterfaceManager_GetMagicPageNumber())
                 {
 
                     RebuildCoordinates coords9;
 
-                    FUN_00403d30(&coords9, 0, 12);
+                    ourMemset(&coords9, 0, 12);
 
                     unsigned int type3 = file->FUN_004726b0();
 
@@ -2852,9 +2858,9 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                         if (form)
                         {
 
-                            RebuildResult cell(form, recordC->FUN_0044edb0());
+                            RebuildResult cell(form, recordC->TESMain_GetThread());
 
-                            reinterpret_cast<RebuildOutput*>(output)->FUN_00843270(&cell);
+                            reinterpret_cast<RebuildOutput*>(output)->BGSReconstructedForms_AddFormData(&cell);
                         }
                         else
                             FUN_00845cc0("Cell with Form ID %08X was not able to be reconstructed", formId4);
@@ -2870,7 +2876,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
             else
             {
 
-                recordC = world8->FUN_0044edb0();
+                recordC = world8->TESMain_GetThread();
 
                 formId4 = pData7->group;
 
@@ -2923,7 +2929,7 @@ void BGSReconstructFormsInFileMap::BuildMap(TESFile* file, FormChangeMap* output
                     item.form = FUN_004839c0(id);
 
                 if (item.form)
-                    reinterpret_cast<RebuildOutput*>(output)->FUN_00843270(&item);
+                    reinterpret_cast<RebuildOutput*>(output)->BGSReconstructedForms_AddFormData(&item);
 
                 else
                     FUN_00845cc0("Form %08X with type %s was not able to be reconstructed", id,

@@ -460,11 +460,11 @@ void TESImageSpaceModifier::Apply(float startTime, float strength, NiAVObject* t
         for (int j = 0; j < 2; ++j)
             m_akFloatInterpolators[i][j].UpdateFloat(effectTime, 0, pfParameterValues[j]);
         if (i >= 0 && i <= 13)
-            pManager->FUN_00b8cb30(1, i, pfParameterValues, strength);
+            pManager->ApplyParamModifier_00b8cb30(1, i, pfParameterValues, strength);
         if (i >= 14 && i <= 16)
-            pManager->FUN_00b8cb30(0, i - 14, pfParameterValues, strength);
+            pManager->ApplyParamModifier_00b8cb30(0, i - 14, pfParameterValues, strength);
         if (i >= 17 && i <= 20)
-            pManager->FUN_00b8cb30(3, i - 17, pfParameterValues, strength);
+            pManager->ApplyParamModifier_00b8cb30(3, i - 17, pfParameterValues, strength);
     }
     NiColorA kCurrentColor(0.0f, 0.0f, 0.0f, 0.0f);
     m_kColorInterpolatorOne.UpdateColorA(effectTime, 0, kCurrentColor);
@@ -500,7 +500,7 @@ void TESImageSpaceModifier::Apply(float startTime, float strength, NiAVObject* t
     interpolatedBlur *= strength;
     FUN_005330e0(interpolatedBlur, 0.0f, DAT_01018f98);
     pManager->RaiseHighestBlurRadius(interpolatedBlur);
-    pManager->FUN_00b8afb0(localDouble * strength);
+    pManager->ApplyDoubleVisionParamModifier_00b8afb0(localDouble * strength);
     if (Data.m_bUseRadialBlur && target)
     {
         target->UpdateWorldBound();
@@ -581,14 +581,14 @@ void TESImageSpaceModifier::EvaluateInterpolators(float startTime, float strengt
     m_kFloatInterpolatorSeven.UpdateFloat(effectTime, 0, fCurrentDepthOfFieldRange);
     float motionBlurSample;
     m_kFloatInterpolatorEight.UpdateFloat(effectTime, 0, motionBlurSample);
-    pManager->FUN_00b8af40(interpolatedBlur * strength);
+    pManager->ApplyBlurRadiusParamModifierWeather_00b8af40(interpolatedBlur * strength);
     pManager->AddDoubleVision(localDouble * strength);
     pManager->FUN_00b8b6e0(interpolatedRadialBlurStrength * strength, fRadialBlurRampupResult * strength,
                            radialBlurStartOutput * strength, fRadialBlurRampDownSample * strength,
                            radialBlurDownStartParameter * strength, Data.m_kRadialBlurCenter * strength);
     pManager->FUN_00b8b130(sampledDepthOfFieldStrength * strength, Data.m_ucEffectMode, 0.0f,
                            fDepthOfFieldDistanceOutput * strength, fCurrentDepthOfFieldRange * strength);
-    pManager->FUN_00b8af90(motionBlurSample * strength);
+    pManager->ApplyMotionBlurStrengthParamModifierWeather_00b8af90(motionBlurSample * strength);
 }
 
 // Sets the form type to IMAD, calls the initializer, and if this is the global instance DAT_011c9750 calls the second initializer.
@@ -809,10 +809,11 @@ void* __thiscall ImageSpaceModifierDeleting::Destroy(unsigned int flags)
 
 struct FUN_00533060_shell
 {
-    void* __thiscall FUN_00533060(void** a, void** b, char* c);
+    void* __thiscall NiFloatData_GetAnim(void** a, void** b, char* c);
 };
 // @fnv 0x00533060
-void* __thiscall FUN_00533060_shell::FUN_00533060(void** apFirst, void** apSecond, char* c)
+// src: COMMUNITY 0x00533060
+void* __thiscall FUN_00533060_shell::NiFloatData_GetAnim(void** apFirst, void** apSecond, char* c)
 {
     *apFirst = *(void**)((char*)this + 8);
     *apSecond = *(void**)((char*)this + 0x10);
@@ -827,20 +828,21 @@ struct Flt
 };
 struct FUN_00533060_shell
 {
-    void* FUN_00533060(void**, void**, char*);
+    void* NiFloatData_GetAnim(void**, void**, char*);
 };
 struct FUN_00533000_shell
 {
     char _pad[16];
     Flt m_kHandle;
-    void* FUN_00533000(void**, void**, char*);
+    void* NiFloatInterpolator_GetKeys_0(void**, void**, char*);
 };
 // If the stored pointer is non-null, forwards to FUN_00533060; otherwise zeroes the three output pointers and returns null.
 // @fnv 0x00533000
-void* FUN_00533000_shell::FUN_00533000(void** a, void** b, char* c)
+// src: COMMUNITY 0x00533000
+void* FUN_00533000_shell::NiFloatInterpolator_GetKeys_0(void** a, void** b, char* c)
 {
     if ((unsigned int)m_kHandle)
-        return ((FUN_00533060_shell*)(unsigned int)m_kHandle)->FUN_00533060(a, b, c);
+        return ((FUN_00533060_shell*)(unsigned int)m_kHandle)->NiFloatData_GetAnim(a, b, c);
     *a = 0;
     *b = 0;
     *c = 0;
@@ -1507,11 +1509,11 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
             values[j] = first + blend * (second6 - first);
         }
         if (i >= 0 && i <= 13)
-            manager4->FUN_00b8cb30(1, i, values, strength_15);
+            manager4->ApplyParamModifier_00b8cb30(1, i, values, strength_15);
         if (i >= 14 && i <= 16)
-            manager4->FUN_00b8cb30(0, i - 14, values, strength_15);
+            manager4->ApplyParamModifier_00b8cb30(0, i - 14, values, strength_15);
         if (i >= 17 && i <= 20)
-            manager4->FUN_00b8cb30(3, i - 17, values, strength_15);
+            manager4->ApplyParamModifier_00b8cb30(3, i - 17, values, strength_15);
     }
     BlendColor color(0, 0, 0, 0), aFirstColor(0, 0, 0, 0), secondColor(0, 0, 0, 0);
     pPreviousModifier->m_kColorInterpolatorOne.UpdateColorA(time, 0, (NiColorA&)aFirstColor);
@@ -1562,7 +1564,7 @@ void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* p
     blur2 *= strength_15;
     FUN_005330e0(blur2, 0.0f, 7.0f);
     manager4->RaiseHighestBlurRadius(blur2);
-    manager4->FUN_00b8afb0(doubleVision * strength_15);
+    manager4->ApplyDoubleVisionParamModifier_00b8afb0(doubleVision * strength_15);
     BlendPoint aFirstCenter(0.5f, 0.5f), secondCenter5(0.5f, 0.5f), center7;
     if (pPreviousModifier->Data.m_bUseRadialBlur && previousTarget)
     {

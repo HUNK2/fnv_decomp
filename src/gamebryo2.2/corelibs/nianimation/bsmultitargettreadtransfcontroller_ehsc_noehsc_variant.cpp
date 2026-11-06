@@ -10,7 +10,7 @@
 #include "../../../../include/NiInterpController.h"
 struct FUN_00a35950_shell : public BSMultiTargetTreadTransfController
 {
-    void* FUN_00a35950();
+    void* BSMultiTargetTreadTransfController_GetRTTI();
 };
 extern int g_011f36e4;
 struct FUN_00a35e90_shell : public BSMultiTargetTreadTransfController
@@ -172,7 +172,7 @@ struct InterpStub_00a2fac0
     virtual void v45() = 0;
     virtual bool IsCorrectType() = 0;  // +0xB8
 };
-bool __stdcall FUN_00a2fac0(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex);
+bool __stdcall NiMultiTargetTransformController_InterpolatorIsCorrectType(InterpStub_00a2fac0* apInterpolator, unsigned short ausIndex);
 // FUN_00a35900 : BSMultiTargetTreadTransfController entry getter.
 // Returns &m_pEntries[usIndex]; the stride is sizeof(TreadEntry) = 0x34.
 struct FUN_00a35900_cls
@@ -350,7 +350,7 @@ struct Holder
     Entry* m_14;
     Entry2* m_18;
     void AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) throw();
-    void FUN_00a32b80(unsigned int idx);
+    void NiControllerSequence_RemoveInterpolator_0(unsigned int idx);
 };
 void Holder::AssignInterpolatorRef(unsigned int idx, SmartPtr<RefObj>& out) throw()
 {

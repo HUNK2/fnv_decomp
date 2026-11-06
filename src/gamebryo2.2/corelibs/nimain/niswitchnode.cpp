@@ -19,7 +19,8 @@
 extern char const* const g_011f5f1c_arg1;
 
 // @fnv 0x00a943f0
-char const* const* __cdecl FUN_00a943f0()
+// src: COMMUNITY 0x00a943f0
+char const* const* __cdecl NiSwitchNode_GetNiRTTI()
 {
     return &g_011f5f1c_arg1;
 }
@@ -41,7 +42,8 @@ extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 
 // Locks DAT_011f4380, deletes the extra data at index a1 if it is below the count at offset 0x14, and returns whether it was removed.
 // @fnv 0x00a5bf50
-bool __thiscall NiObjectNET::FUN_00a5bf50(unsigned short ausIndex)
+// src: COMMUNITY 0x00a5bf50
+bool __thiscall NiObjectNET::RemoveExtraDataAt(unsigned short ausIndex)
 {
     EnterCriticalSection(&DAT_011f4380);
     if (ausIndex < m_usExtraDataSize)
@@ -56,10 +58,11 @@ bool __thiscall NiObjectNET::FUN_00a5bf50(unsigned short ausIndex)
 
 struct FUN_00a93c00_shell : NiSwitchNode
 {
-    void __thiscall FUN_00a93c00(NiSwitchNode*, CloningProcess&);
+    void __thiscall NiSwitchNode_CopyMembers(NiSwitchNode*, CloningProcess&);
 };
 // @fnv 0x00a93c00
-void __thiscall FUN_00a93c00_shell::FUN_00a93c00(NiSwitchNode* pkDest, CloningProcess& kCloning)
+// src: COMMUNITY 0x00a93c00
+void __thiscall FUN_00a93c00_shell::NiSwitchNode_CopyMembers(NiSwitchNode* pkDest, CloningProcess& kCloning)
 {
     NiNode::CopyMemberData(pkDest, kCloning);
     pkDest->m_usFlags = m_usFlags;
@@ -602,7 +605,7 @@ void FUN_00a94570_Node::FUN_00a94570(NiStream& kStream)
 }
 
 extern char* DAT_011f5eb4;
-char* __cdecl FUN_00a7d330(char const*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char const*);
 char* __cdecl FUN_00a7d4d0(char const*, int);
 char* __cdecl FUN_00a7d370(char const*, bool);
 
@@ -630,7 +633,7 @@ struct FUN_00a94680_shell : public NiSwitchNode
 void FUN_00a94680_shell::AppendDebugStrings(StrArr* pkStrings)
 {
     reinterpret_cast<FUN_00a5ea70_Obj*>(this)->FUN_00a5ea70(pkStrings);
-    AddString(pkStrings, FUN_00a7d330(DAT_011f5eb4));
+    AddString(pkStrings, NiViewerStrings_NiGetViewerString_Title(DAT_011f5eb4));
     AddString(pkStrings, FUN_00a7d4d0("m_iIndex", m_iIndex));
     bool bUpdateOnlyActive = m_0ac & 1;
     AddString(pkStrings, FUN_00a7d370("m_bUpdateOnlyActive", bUpdateOnlyActive));

@@ -188,7 +188,7 @@ struct FUN_00dbdb10_buf
 
 struct FUN_00dc1670_Obj
 {
-    void FUN_00dc1670();
+    void hkStructureLayout_hkStructureLayout();
 };
 
 struct FUN_00e02bb0_Obj
@@ -216,7 +216,7 @@ void __cdecl FUN_00dbdb10(void* apArg1, void* apArg2, void* apArg3)
 {
     FUN_00dbdb10_buf buf;
 
-    reinterpret_cast<FUN_00dc1670_Obj*>(&buf.unk00)->FUN_00dc1670();
+    reinterpret_cast<FUN_00dc1670_Obj*>(&buf.unk00)->hkStructureLayout_hkStructureLayout();
     reinterpret_cast<FUN_00e02bb0_Obj*>(&buf.unk14)->FUN_00e02bb0(&buf);
     reinterpret_cast<FUN_00e02ef0_Obj*>(&buf.unk04)->FUN_00e02ef0();
     reinterpret_cast<FUN_00e02a80_Obj*>(&buf.unk14)->hkPlatformObjectWriter_writeObject(&buf.unk04, apArg1, apArg2, apArg3);

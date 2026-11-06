@@ -96,13 +96,13 @@ struct S009afc70
 {
     char m_auiShapeKeys[0x14];
     NavMeshPtr m_navMeshPtr;
-    void* __thiscall FUN_009afc70(void*);
+    void* __thiscall hkpFixedBufferCdPointCollector_hasHit(void*);
 };
 class BGSRagdoll;
 struct FUN_009b0d30_shell
 {
     void __thiscall activate_00c9c1d0();
-    void __thiscall FUN_009b0d30(int);
+    void __thiscall hkpRigidBody_applyAngularImpulse(int);
 };
 struct RetObj
 {
@@ -446,7 +446,7 @@ struct FUN_005762b0_cls
     {
         return 0;
     }
-    int FUN_005762b0(int a1);
+    int TESObjectREFR_GetLookingAtLocation(int a1);
 };
 struct FUN_009ac550_cls : Standin77900
 {
@@ -749,7 +749,7 @@ struct IdFlagState
 };
 struct AudioX
 {
-    IdFlagState FUN_00ad7550(const char*, unsigned);
+    IdFlagState BSAudio_GetSoundHandleByEditorName(const char*, unsigned);
 };
 AudioX* FUN_00453a70();
 extern Setting DAT_011d0520, DAT_011d0280, DAT_011d0da4, DAT_011d0ce4, DAT_011d0a78, DAT_011c7ae8;

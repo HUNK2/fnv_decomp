@@ -5,20 +5,20 @@
 #include "tesobjectrefr_decls.h"
 #include "../../include/BSExtraData.h"
 #include "../../include/NonActorMagicTarget.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
+GarbageCollectorUpdateState* MemoryLevelManager_GetSingleton();
+void* DecalData_GetDefaultDecalData();
+void FalloutRadio_NewCellEntered();
+void TESWaterSystem_SetPlayerForceUnderwater(unsigned char value);
+float BSAudio_GetMinDialogDist();
+float BSAudio_GetMaxDialogDist();
+void CheckWithinMultiBoundTask_CancelAttachment(unsigned int index);
 
 struct ExtraList
 {
     BSExtraData* BaseExtraList_GetExtraData(int type);
     void BaseExtraList_AddExtra(BSExtraData* p);
 };
-bool __cdecl FUN_00576040(int x);
+bool __cdecl TESMagicTargetForm_CanBeMagicTarget(int x);
 class Owner
 {
   public:
@@ -43,13 +43,14 @@ class Owner
     virtual void v18(unsigned int flag);
     int FUN_007af430();
     ExtraList* FUN_005d43c0();
-    MagicTarget* FUN_00575f30();
+    MagicTarget* TESObjectREFR_GetMagicTarget();
 };
 // @fnv 0x00575f30
-MagicTarget* Owner::FUN_00575f30()
+// src: COMMUNITY 0x00575f30
+MagicTarget* Owner::TESObjectREFR_GetMagicTarget()
 {
     NonActorMagicTarget* p = 0;
-    if (FUN_00576040(FUN_007af430()))
+    if (TESMagicTargetForm_CanBeMagicTarget(FUN_007af430()))
     {
         p = dynamic_cast<NonActorMagicTarget*>(FUN_005d43c0()->BaseExtraList_GetExtraData(0x33));
         if (!p)

@@ -143,10 +143,10 @@ public:
     GskVectorCallLocal_00da8500 FUN_00439e90(const GskVectorCallLocal_00da8500& vector);
     void FUN_00439180(float value);
     void FUN_004a0c10();
-    void FUN_005611c0();
-    void FUN_00c66320(const GskVectorCallLocal_00da8500* a, const GskVectorCallLocal_00da8500* b);
-    void FUN_00c74ac0(const GskVectorCallLocal_00da8500* a, const GskVectorCallLocal_00da8500* b);
-    void FUN_00c74c90(GskVectorCallLocal_00da8500* vector);
+    void normalize_005611c0();
+    void setMul(const GskVectorCallLocal_00da8500* a, const GskVectorCallLocal_00da8500* b);
+    void setMulInverse(const GskVectorCallLocal_00da8500* a, const GskVectorCallLocal_00da8500* b);
+    void hkQuaternion_getAxis(GskVectorCallLocal_00da8500* vector);
     void FUN_00c7f640(const Transform& transform, const GskVectorCallLocal_00da8500& point);
     void FUN_00cb2450(const GskVectorCallLocal_00da8500* vector, float value);
     void FUN_00cb26e0(const hkRotation* rotation);

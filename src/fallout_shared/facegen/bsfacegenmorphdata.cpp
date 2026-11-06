@@ -22,13 +22,13 @@ void* __cdecl operator new(unsigned int);
 void* __cdecl operator new[](unsigned int);
 void __cdecl operator delete(void*);
 extern "C" void* __cdecl memset(void*, int, unsigned int);
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 const char* __cdecl PrepareScriptMessage(const char*, bool);
 int __cdecl Warning(const char*, ...);
 const char* __cdecl FUN_005dd830(unsigned int);
 const char* __cdecl FUN_005dd840(unsigned int);
 const char* __cdecl FUN_005dd850(unsigned int);
-const char* __cdecl FUN_00661da0(unsigned int);
+const char* __cdecl BSFaceGenManager_GetCustomMorphText(unsigned int);
 extern const char DAT_01065e40[];
 extern const char DAT_01065dd0[];
 extern const char DAT_01065d60[];
@@ -38,7 +38,7 @@ class BGSPerkEntry;
 class MorphName
 {
   public:
-    const char* FUN_0044a560();
+    const char* std_string_debug_c_str();
     unsigned int data[7];
 };
 class DifferentialEntry : public MorphName
@@ -72,7 +72,7 @@ class FaceGenTriData
     unsigned char prefix[0xc0];
     DifferentialArray differential;
     StatisticalArray statistical;
-    unsigned int FUN_0065c700();
+    unsigned int std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
     NiPoint3& FUN_0065c720(unsigned int);
 };
 
@@ -109,14 +109,14 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
         local.found = false;
         for (local.expression = 0; local.expression < 15; local.expression++)
         {
-            if (!FUN_00404dc0(FUN_005dd830(local.expression), tri->differential.FUN_00662860(local.i)->FUN_0044a560()))
+            if (!BSstricmp(FUN_005dd830(local.expression), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
             {
                 if (!expressions)
                 {
                     expressions = new BSFaceGenMorph*[15];
                     memset(expressions, 0, 60);
                 }
-                local.count = ((FaceGenTriData*)&tri->differential.FUN_00662860(local.i)->vertexData)->FUN_0065c700();
+                local.count = ((FaceGenTriData*)&tri->differential.FUN_00662860(local.i)->vertexData)->std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
                 expressions[local.expression] = new BSFaceGenMorphDifferential(local.count);
                 local.differentialMorph = expressions[local.expression];
                 local.points = (NiPoint3*)((BSSimpleList<BGSPerkEntry*>*)local.differentialMorph)->GetNext();
@@ -141,14 +141,14 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.modifier = 0; local.modifier < 17; local.modifier++)
         {
-            if (!FUN_00404dc0(FUN_005dd840(local.modifier), tri->differential.FUN_00662860(local.i)->FUN_0044a560()))
+            if (!BSstricmp(FUN_005dd840(local.modifier), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
             {
                 if (!modifiers)
                 {
                     modifiers = new BSFaceGenMorph*[17];
                     memset(modifiers, 0, 68);
                 }
-                local.count = ((FaceGenTriData*)&tri->differential.FUN_00662860(local.i)->vertexData)->FUN_0065c700();
+                local.count = ((FaceGenTriData*)&tri->differential.FUN_00662860(local.i)->vertexData)->std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
                 modifiers[local.modifier] = new BSFaceGenMorphDifferential(local.count);
                 local.differentialMorph = modifiers[local.modifier];
                 local.points = (NiPoint3*)((BSSimpleList<BGSPerkEntry*>*)local.differentialMorph)->GetNext();
@@ -173,14 +173,14 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.phoneme = 0; local.phoneme < 16; local.phoneme++)
         {
-            if (!FUN_00404dc0(FUN_005dd850(local.phoneme), tri->differential.FUN_00662860(local.i)->FUN_0044a560()))
+            if (!BSstricmp(FUN_005dd850(local.phoneme), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
             {
                 if (!phonemes)
                 {
                     phonemes = new BSFaceGenMorph*[16];
                     memset(phonemes, 0, 64);
                 }
-                local.count = ((FaceGenTriData*)&tri->differential.FUN_00662860(local.i)->vertexData)->FUN_0065c700();
+                local.count = ((FaceGenTriData*)&tri->differential.FUN_00662860(local.i)->vertexData)->std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
                 phonemes[local.phoneme] = new BSFaceGenMorphDifferential(local.count);
                 local.differentialMorph = phonemes[local.phoneme];
                 local.points = (NiPoint3*)((BSSimpleList<BGSPerkEntry*>*)local.differentialMorph)->GetNext();
@@ -205,14 +205,14 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.customIndex = 0; local.customIndex < 1; local.customIndex++)
         {
-            if (!FUN_00404dc0(FUN_00661da0(local.customIndex), tri->differential.FUN_00662860(local.i)->FUN_0044a560()))
+            if (!BSstricmp(BSFaceGenManager_GetCustomMorphText(local.customIndex), tri->differential.FUN_00662860(local.i)->std_string_debug_c_str()))
             {
                 if (!custom)
                 {
                     custom = new BSFaceGenMorph*[1];
                     memset(custom, 0, 4);
                 }
-                local.count = ((FaceGenTriData*)&tri->differential.FUN_00662860(local.i)->vertexData)->FUN_0065c700();
+                local.count = ((FaceGenTriData*)&tri->differential.FUN_00662860(local.i)->vertexData)->std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
                 custom[local.customIndex] = new BSFaceGenMorphDifferential(local.count);
                 local.differentialMorph = custom[local.customIndex];
                 local.points = (NiPoint3*)((BSSimpleList<BGSPerkEntry*>*)local.differentialMorph)->GetNext();
@@ -242,7 +242,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
         local.found = false;
         for (local.expression = 0; local.expression < 15; local.expression++)
         {
-            if (!FUN_00404dc0(FUN_005dd830(local.expression), tri->statistical.FUN_00662890(local.i)->FUN_0044a560()))
+            if (!BSstricmp(FUN_005dd830(local.expression), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
             {
                 if (!expressions)
                 {
@@ -252,11 +252,11 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
                 if (expressions[local.expression])
                 {
                     Warning(DAT_01065e40,
-                            PrepareScriptMessage(tri->statistical.FUN_00662890(local.i)->FUN_0044a560(), false));
+                            PrepareScriptMessage(tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str(), false));
                     delete expressions[local.expression];
                 }
                 local.entry = tri->statistical.FUN_00662890(local.i);
-                local.count = local.entry->matrix.FUN_00662820();
+                local.count = local.entry->matrix.std_vector_float_std_allocator_float_size();
                 expressions[local.expression] = new BSFaceGenMorphStatistical(local.count, local.entry->columns);
                 local.statisticalMorph = expressions[local.expression];
                 local.values = (float*)((BSSimpleList<BGSPerkEntry*>*)local.statisticalMorph)->GetNext();
@@ -272,7 +272,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.modifier = 0; local.modifier < 17; local.modifier++)
         {
-            if (!FUN_00404dc0(FUN_005dd840(local.modifier), tri->statistical.FUN_00662890(local.i)->FUN_0044a560()))
+            if (!BSstricmp(FUN_005dd840(local.modifier), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
             {
                 if (!modifiers)
                 {
@@ -282,11 +282,11 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
                 if (modifiers[local.modifier])
                 {
                     Warning(DAT_01065dd0,
-                            PrepareScriptMessage(tri->statistical.FUN_00662890(local.i)->FUN_0044a560(), false));
+                            PrepareScriptMessage(tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str(), false));
                     delete modifiers[local.modifier];
                 }
                 local.entry = tri->statistical.FUN_00662890(local.i);
-                local.count = local.entry->matrix.FUN_00662820();
+                local.count = local.entry->matrix.std_vector_float_std_allocator_float_size();
                 modifiers[local.modifier] = new BSFaceGenMorphStatistical(local.count, local.entry->columns);
                 local.statisticalMorph = modifiers[local.modifier];
                 local.values = (float*)((BSSimpleList<BGSPerkEntry*>*)local.statisticalMorph)->GetNext();
@@ -302,7 +302,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.phoneme = 0; local.phoneme < 16; local.phoneme++)
         {
-            if (!FUN_00404dc0(FUN_005dd850(local.phoneme), tri->statistical.FUN_00662890(local.i)->FUN_0044a560()))
+            if (!BSstricmp(FUN_005dd850(local.phoneme), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
             {
                 if (!phonemes)
                 {
@@ -312,11 +312,11 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
                 if (phonemes[local.phoneme])
                 {
                     Warning(DAT_01065d60,
-                            PrepareScriptMessage(tri->statistical.FUN_00662890(local.i)->FUN_0044a560(), false));
+                            PrepareScriptMessage(tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str(), false));
                     delete phonemes[local.phoneme];
                 }
                 local.entry = tri->statistical.FUN_00662890(local.i);
-                local.count = local.entry->matrix.FUN_00662820();
+                local.count = local.entry->matrix.std_vector_float_std_allocator_float_size();
                 phonemes[local.phoneme] = new BSFaceGenMorphStatistical(local.count, local.entry->columns);
                 local.statisticalMorph = phonemes[local.phoneme];
                 local.values = (float*)((BSSimpleList<BGSPerkEntry*>*)local.statisticalMorph)->GetNext();
@@ -332,7 +332,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
         for (local.customIndex = 0; local.customIndex < 1; local.customIndex++)
         {
-            if (!FUN_00404dc0(FUN_00661da0(local.customIndex), tri->statistical.FUN_00662890(local.i)->FUN_0044a560()))
+            if (!BSstricmp(BSFaceGenManager_GetCustomMorphText(local.customIndex), tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str()))
             {
                 if (!custom)
                 {
@@ -342,11 +342,11 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
                 if (custom[local.customIndex])
                 {
                     Warning(DAT_01065ce8,
-                            PrepareScriptMessage(tri->statistical.FUN_00662890(local.i)->FUN_0044a560(), false));
+                            PrepareScriptMessage(tri->statistical.FUN_00662890(local.i)->std_string_debug_c_str(), false));
                     delete custom[local.customIndex];
                 }
                 local.entry = tri->statistical.FUN_00662890(local.i);
-                local.count = local.entry->matrix.FUN_00662820();
+                local.count = local.entry->matrix.std_vector_float_std_allocator_float_size();
                 custom[local.customIndex] = new BSFaceGenMorphStatistical(local.count, local.entry->columns);
                 local.statisticalMorph = custom[local.customIndex];
                 local.values = (float*)((BSSimpleList<BGSPerkEntry*>*)local.statisticalMorph)->GetNext();
@@ -368,7 +368,7 @@ void __cdecl FUN_00ec7c56();
 // @fnv 0x006578b0
 template <> float* FaceGenMatrix<float>::FUN_006578b0(unsigned int _Pos)
 {
-    if (_Pos >= FUN_00662820())
+    if (_Pos >= std_vector_float_std_allocator_float_size())
         FUN_00ec7c56();
     do
     {
@@ -393,7 +393,8 @@ extern char const* const g_011d37c8_arg1;
 extern NiFixedString* DAT_011d5b8c;
 
 // @fnv 0x00662760
-void __cdecl FUN_00662760()
+// src: COMMUNITY 0x00662760
+void __cdecl BSFaceGenBaseMorphExtraData_InitTag()
 {
     DAT_011d5b8c = new NiFixedString((char const*)&g_011d37c8_arg1);
 }
@@ -445,7 +446,8 @@ BSFaceGenMorphData::~BSFaceGenMorphData()
 }
 
 // @fnv 0x00662820
-template <> unsigned int FaceGenMatrix<float>::FUN_00662820()
+// src: COMMUNITY 0x00662820
+template <> unsigned int FaceGenMatrix<float>::std_vector_float_std_allocator_float_size()
 {
     return (reinterpret_cast<int>(m_pLast) - reinterpret_cast<int>(m_pFirst)) >> 2;
 }
@@ -463,21 +465,24 @@ void* BSFaceGenMorphDataHead::FUN_00661db0(unsigned int flags)
 
 // Returns modifiers[idx] when modifiers is set and idx is in [0,16], otherwise returns 0.
 // @fnv 0x00662110
-int BSFaceGenMorphDataHead::FUN_00662110(int aiIndex)
+// src: COMMUNITY 0x00662110
+int BSFaceGenMorphDataHead::GetModifierMorph(int aiIndex)
 {
     return modifiers && aiIndex > -1 && aiIndex < 0x11 ? (int)modifiers[aiIndex] : 0;
 }
 
 // Returns phonemes[idx] when phonemes is set and idx is in [0, 16), otherwise returns 0.
 // @fnv 0x00662150
-int BSFaceGenMorphDataHead::FUN_00662150(int aiIndex)
+// src: COMMUNITY 0x00662150
+int BSFaceGenMorphDataHead::GetPhonemeMorph(int aiIndex)
 {
     return phonemes && aiIndex > -1 && aiIndex < 0x10 ? (int)phonemes[aiIndex] : 0;
 }
 
 // Returns custom[a] when custom is non-null and a is in [0,1), otherwise returns 0.
 // @fnv 0x00662190
-int BSFaceGenMorphDataHead::FUN_00662190(int aiIndex)
+// src: COMMUNITY 0x00662190
+int BSFaceGenMorphDataHead::GetCustomMorph(int aiIndex)
 {
     return custom && aiIndex > -1 && aiIndex < 1 ? (int)custom[aiIndex] : 0;
 }
@@ -559,7 +564,8 @@ BSFaceGenMorphData::BSFaceGenMorphData()
 
 // Returns the element at idx from the array, or 0 if the array is null or idx is out of range (0..14).
 // @fnv 0x006620d0
-int __thiscall BSFaceGenMorphDataHead::FUN_006620d0(int aiIndex)
+// src: COMMUNITY 0x006620d0
+int __thiscall BSFaceGenMorphDataHead::GetExpressionMorph(int aiIndex)
 {
     return expressions == 0 || aiIndex <= -1 || aiIndex >= 0xf ? 0 : (int)expressions[aiIndex];
 }
@@ -568,15 +574,16 @@ extern double _gModifierZero;
 struct FUN_00662460_iface
 {
     virtual void v0();
-    virtual void FUN_00662460(int a, int b, float c);
+    virtual void ApplyMorph_00662460(int a, int b, float c);
 };
 // Forwards a, b and c to the hair morph when it and a are set and c is not below _gModifierZero.
 // @fnv 0x00662460
-void BSFaceGenMorphDataHair::FUN_00662460(int aiArg1, int aiArg2, float c)
+// src: COMMUNITY 0x00662460
+void BSFaceGenMorphDataHair::ApplyMorph_00662460(int aiArg1, int aiArg2, float c)
 {
     if (!hairMorph || !aiArg1 || c < _gModifierZero)
         return;
-    ((FUN_00662460_iface*)hairMorph)->FUN_00662460(aiArg1, aiArg2, c);
+    ((FUN_00662460_iface*)hairMorph)->ApplyMorph_00662460(aiArg1, aiArg2, c);
 }
 
 // @fnv 0x006623d0
@@ -623,22 +630,23 @@ BSFaceGenMorphDataHead::~BSFaceGenMorphDataHead()
 typedef void (__thiscall* MorphApplyFunction)(BSFaceGenMorph*, int, int, float);
 // Dispatches on sel to one of four lookup functions with p2, then if the result is non-null calls v1(p3, p4, p5) on it.
 // @fnv 0x00662030
-void BSFaceGenMorphDataHead::FUN_00662030(int aiSelector, int aiIndex, int aiArg1, int aiArg2, float p5)
+// src: COMMUNITY 0x00662030
+void BSFaceGenMorphDataHead::ApplyMorph(int aiSelector, int aiIndex, int aiArg1, int aiArg2, float p5)
 {
     int pMorph = 0;
     switch (aiSelector)
     {
     case 1:
-        pMorph = FUN_006620d0(aiIndex);
+        pMorph = GetExpressionMorph(aiIndex);
         break;
     case 2:
-        pMorph = FUN_00662110(aiIndex);
+        pMorph = GetModifierMorph(aiIndex);
         break;
     case 0:
-        pMorph = FUN_00662150(aiIndex);
+        pMorph = GetPhonemeMorph(aiIndex);
         break;
     case 3:
-        pMorph = FUN_00662190(aiIndex);
+        pMorph = GetCustomMorph(aiIndex);
         break;
     }
     if (pMorph != 0)
@@ -651,10 +659,10 @@ BSFaceGenMorphDataHair::BSFaceGenMorphDataHair(FaceGenTriData* pkTriData)
     hairMorph = 0;
     if (!pkTriData)
         return;
-    if (!FUN_00404dc0("HairMorph", pkTriData->differential.FUN_00662860(0)->FUN_0044a560()))
+    if (!BSstricmp("HairMorph", pkTriData->differential.FUN_00662860(0)->std_string_debug_c_str()))
     {
         unsigned int uiCountCur =
-            ((FaceGenTriData*)&pkTriData->differential.FUN_00662860(0)->vertexData)->FUN_0065c700();
+            ((FaceGenTriData*)&pkTriData->differential.FUN_00662860(0)->vertexData)->std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
         hairMorph = new BSFaceGenMorphDifferential(uiCountCur);
         NiPoint3* pkPointsTmp = (NiPoint3*)((BSSimpleList<BGSPerkEntry*>*)hairMorph)->GetNext();
         for (unsigned int i = 0; i < uiCountCur; i++)
@@ -665,7 +673,7 @@ BSFaceGenMorphDataHair::BSFaceGenMorphDataHair(FaceGenTriData* pkTriData)
     }
 }
 
-const NiFixedString& __cdecl FUN_00653460();
+const NiFixedString& __cdecl BSFaceGenBaseMorphExtraData_GetTag();
 class GeometryBufferView
 {
   public:
@@ -680,11 +688,11 @@ void* __cdecl _memcpy(void*, const void*, unsigned int);
 // Copies the geometry's vertex stream into a new NiPoint3 array, appending extra vertices when provided, and stores the counts.
 // @fnv 0x006624c0
 BSFaceGenBaseMorphExtraData::BSFaceGenBaseMorphExtraData(NiGeometry* geometry, NiPoint3* apExtraVertices, unsigned int extraCount)
-    : NiExtraData(FUN_00653460())
+    : NiExtraData(BSFaceGenBaseMorphExtraData_GetTag())
 {
     GeometryBufferView geometryStream;
     if (geometry && geometry->GetModelData() && geometry->GetModelData()->IsGeometryDataStreamable(true))
-        geometry->GetModelData()->FUN_00a67410(geometryStream);
+        geometry->GetModelData()->NiGeometryData_GetVerticesIterator(geometryStream);
     if (geometryStream.FUN_00559450())
     {
         originalCount = geometry->GetVertexCount();
@@ -704,7 +712,7 @@ BSFaceGenBaseMorphExtraData::BSFaceGenBaseMorphExtraData(NiGeometry* geometry, N
         }
         if (apExtraVertices && extraCount)
             _memcpy(vertices + originalCount, apExtraVertices, extraCount * sizeof(NiPoint3));
-        geometry->GetModelData()->FUN_00a673d0();
+        geometry->GetModelData()->NiGeometryData_UnlockPackedVertexData();
     }
     else
     {

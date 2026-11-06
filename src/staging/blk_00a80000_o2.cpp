@@ -63,15 +63,16 @@ NiCollisionObject* NiCollisionObject::Construct()
 }
 
 extern unsigned char* DAT_011f5b04;
-void __cdecl FUN_00714960(int);
+void __cdecl NiParallelUpdateTaskManager_WaitRenderSema(int);
 
 // @fnv 0x00a81a20
-void __cdecl FUN_00a81a20()
+// src: COMMUNITY 0x00a81a20
+void __cdecl NiParallelUpdateTaskManager_BeginUpdate()
 {
     if (DAT_011f5b04)
     {
         DAT_011f5b04[0x1b0] = 1;
-        FUN_00714960(-1);
+        NiParallelUpdateTaskManager_WaitRenderSema(-1);
     }
 }
 
@@ -114,8 +115,8 @@ void FUN_00a87900_class::FUN_00a87900()
 
 extern int DAT_011f5b84;
 void __cdecl InitializeGameSystems();
-void __cdecl FUN_00a8a280();
-void __cdecl FUN_00aa2060(void*, void*);
+void __cdecl NiMainSDM_Shutdown();
+void __cdecl NiStaticDataManager_SetRootLibrary(void*, void*);
 struct FUN_00a8a5f0_class {
     void* FUN_00a8a5f0();
 };
@@ -125,7 +126,7 @@ void* FUN_00a8a5f0_class::FUN_00a8a5f0()
     void* old = (void*)DAT_011f5b84;
     ++DAT_011f5b84;
     if (!old)
-        FUN_00aa2060((void*)&InitializeGameSystems, (void*)&FUN_00a8a280);
+        NiStaticDataManager_SetRootLibrary((void*)&InitializeGameSystems, (void*)&NiMainSDM_Shutdown);
     return this;
 }
 
@@ -229,10 +230,11 @@ void NiFree(void*);
 struct FUN_00a96460_class {
     char pad[0x54];
     void* m_0x54;
-    void FUN_00a96460(void* p);
+    void NiParticlesData_ReplaceSizes(void* p);
 };
 // @fnv 0x00a96460
-void FUN_00a96460_class::FUN_00a96460(void* apPointer)
+// src: COMMUNITY 0x00a96460
+void FUN_00a96460_class::NiParticlesData_ReplaceSizes(void* apPointer)
 {
     NiFree(m_0x54);
     m_0x54 = apPointer;
@@ -242,11 +244,12 @@ void NiFreeAlias(void*);
 
 struct FUN_00a96480_Class {
     void* m_5c;
-    void FUN_00a96480(void* p);
+    void NiParticlesData_ReplaceRotationAngles(void* p);
 };
 
 // @fnv 0x00a96480
-void FUN_00a96480_Class::FUN_00a96480(void* p)
+// src: COMMUNITY 0x00a96480
+void FUN_00a96480_Class::NiParticlesData_ReplaceRotationAngles(void* p)
 {
     NiFreeAlias(*(void**)((char*)this + 0x5c));
     *(void**)((char*)this + 0x5c) = p;
@@ -256,11 +259,12 @@ extern "C" void __cdecl NiFreeAlias(void*);
 
 struct FUN_00a964a0_Class {
     void* m_p;
-    void FUN_00a964a0(void* p);
+    void NiParticlesData_ReplaceTextureIndices(void* p);
 };
 
 // @fnv 0x00a964a0
-void FUN_00a964a0_Class::FUN_00a964a0(void* apValue) {
+// src: COMMUNITY 0x00a964a0
+void FUN_00a964a0_Class::NiParticlesData_ReplaceTextureIndices(void* apValue) {
     NiFreeAlias(*(void**)((char*)this + 0x64));
     *(void**)((char*)this + 0x64) = apValue;
 }
@@ -502,7 +506,8 @@ extern int DAT_011f5ff8;
 extern unsigned char DAT_011f6000;
 
 // @fnv 0x00a9b8b0
-void __cdecl FUN_00a9b8b0()
+// src: COMMUNITY 0x00a9b8b0
+void __cdecl NiShaderConstantMapEntry_InitializeAttribTable()
 {
     int v = 1;
     int w = 12;
@@ -697,7 +702,7 @@ void FUN_00a81bd0_class::FUN_00a81bd0()
 }
 
 struct Stub {
-    void FUN_00aa0250(void* p);
+    void NiTStringPointerMap_NiAVObject_RemoveAt(void* p);
 };
 extern int DAT_0109f73c;
 extern void* _EmptyFS;
@@ -713,7 +718,7 @@ void FUN_00a8f810_class::FUN_00a8f810()
 {
     *(const void**)this = &DAT_0109f73c;
     Stub* s = (Stub*)DAT_011f5e34;
-    s->FUN_00aa0250((char*)this + 8);
+    s->NiTStringPointerMap_NiAVObject_RemoveAt((char*)this + 8);
     void* p = *(void**)((char*)this + 8);
     int (__stdcall* fn)(void*) = DAT_00fdf1c4;
     if (p != _EmptyFS)
@@ -828,13 +833,14 @@ void NiCullingProperty::NiFogProperty_CopyMembers(
     *(NiCullingData*)((char*)dest + 0x20) = *(NiCullingData*)((char*)this + 0x20);
 }
 
-void __cdecl FUN_00a9b8b0();
-void __cdecl FUN_00a9b9b0();
+void __cdecl NiShaderConstantMapEntry_InitializeAttribTable();
+void __cdecl NiShaderConstantMapEntry_SDMInit_NiShaderConstantMapEntry_InitializeObjectTable();
 // @fnv 0x00a9ba80
-void __cdecl FUN_00a9ba80()
+// src: COMMUNITY 0x00a9ba80
+void __cdecl NiShaderConstantMapEntry__SDMInit()
 {
-    FUN_00a9b8b0();
-    FUN_00a9b9b0();
+    NiShaderConstantMapEntry_InitializeAttribTable();
+    NiShaderConstantMapEntry_SDMInit_NiShaderConstantMapEntry_InitializeObjectTable();
 }
 
 extern int DAT_0109e04c;
@@ -1026,7 +1032,8 @@ virtual void v38();
 virtual void v39();
 };
 // @fnv 0x00a819e0
-void FUN_00a819e0() {
+// src: COMMUNITY 0x00a819e0
+void NiParallelUpdateTaskManager_Shutdown() {
     if (DAT_011f5b04) {
         ((S_a819e0_O*)DAT_011f5b04)->v39();
         if (DAT_011f5b04) delete (S_a819e0_O*)DAT_011f5b04;
@@ -1299,11 +1306,12 @@ struct FUN_00a87790_cls
     virtual void vd4();
     virtual void vd8();
     virtual void Tail(int a);
-    void FUN_00a87790(int a);
+    void NiScreenElements_Draw(int a);
 };
 
 // @fnv 0x00a87790
-void FUN_00a87790_cls::FUN_00a87790(int a)
+// src: COMMUNITY 0x00a87790
+void FUN_00a87790_cls::NiScreenElements_Draw(int a)
 {
     this->Tail(a);
 }
@@ -1632,14 +1640,14 @@ FUN_00a910f0_class* FUN_00a910f0_class::FUN_00a910f0(unsigned char flags) {
 }
 
 namespace fnv_00a91120 {
-struct S_a91120_Alloc { void* FUN_00aa3e40(unsigned int size); };
+struct S_a91120_Alloc { void* Game_DoHeapAlloc(unsigned int size); };
 extern S_a91120_Alloc DAT_011f6238;
 void* __cdecl FUN_00a90290(unsigned int count);
 struct S_a91120_Blk {
     unsigned char* unk00;
     unsigned int unk04;
     S_a91120_Blk* unk08;
-    static void* operator new(unsigned int size) { return DAT_011f6238.FUN_00aa3e40(size); }
+    static void* operator new(unsigned int size) { return DAT_011f6238.Game_DoHeapAlloc(size); }
     S_a91120_Blk(unsigned int n) throw() {
         unk04 = n;
         unk08 = 0;
@@ -1863,7 +1871,8 @@ extern int DAT_011f5fb0;
 extern unsigned char DAT_011f6001;
 
 // @fnv 0x00a9b9b0
-void __cdecl FUN_00a9b9b0()
+// src: COMMUNITY 0x00a9b9b0
+void __cdecl NiShaderConstantMapEntry_SDMInit_NiShaderConstantMapEntry_InitializeObjectTable()
 {
     DAT_011f5f90 = 0;
     DAT_011f5f94 = 1;
@@ -2036,7 +2045,7 @@ NiDepthStencilBuffer* __cdecl ProcessArgWithObj(Ni2DBuffer* a, FUN_00a9ff00_Obj*
 }
 
 extern unsigned char* DAT_011f5b04;
-int __cdecl FUN_00714900();
+int __cdecl NiParallelUpdateTaskManager_SignalRenderSema();
 
 struct FnvRing {
     unsigned int unk00;
@@ -2197,7 +2206,8 @@ struct FnvQueueState {
 };
 
 // @fnv 0x00a81a80
-void __cdecl FUN_00a81a80()
+// src: COMMUNITY 0x00a81a80
+void __cdecl NiParallelUpdateTaskManager_EndUpdate()
 {
     FnvQueueState* s = (FnvQueueState*)DAT_011f5b04;
     if (s == 0) {
@@ -2207,7 +2217,7 @@ void __cdecl FUN_00a81a80()
         s->Probe(2) != 0 || s->Probe(3) != 0) {
         s->va0(1, &s->m_19c, 0, 0);
     } else {
-        FUN_00714900();
+        NiParallelUpdateTaskManager_SignalRenderSema();
     }
     ((FnvQueueState*)DAT_011f5b04)->m_1b0 = 0;
 }
@@ -2797,7 +2807,8 @@ void RleDecoder::Decode(NiBinaryStream& stream,unsigned char* dest,unsigned int 
 
 // 0x00a85510  ret 0x20
 // @fnv 0x00a85510
-void __stdcall FUN_00a85510(int, int, int, int, int, int, int, int) {
+// src: COMMUNITY 0x00a85510
+void __stdcall nullsub_2(int, int, int, int, int, int, int, int) {
 }
 
 extern void __cdecl FUN_00a98ea0();
@@ -2823,17 +2834,18 @@ void __cdecl FUN_00a88a40()
 
 // 0x00a89af0  ret 4
 // @fnv 0x00a89af0
-void __stdcall FUN_00a89af0(int) {
+// src: COMMUNITY 0x00a89af0
+void __stdcall nullsub_3(int) {
 }
 
 struct S_00a8d8b0;
 void __cdecl AdvancePosition(S_00a8d8b0*, void*, unsigned int);
-struct FUN_00a5e3a0_Helper { void* FUN_00aa3e40(unsigned int); };
+struct FUN_00a5e3a0_Helper { void* Game_DoHeapAlloc(unsigned int); };
 struct PixelRow4 {
     unsigned char rgba[4];
     PixelRow4() {}
     static void* operator new[](unsigned int size) {
-        return ((FUN_00a5e3a0_Helper*)&DAT_011f6238)->FUN_00aa3e40(size);
+        return ((FUN_00a5e3a0_Helper*)&DAT_011f6238)->Game_DoHeapAlloc(size);
     }
 };
 struct ImageConverter {
@@ -3183,7 +3195,8 @@ void ByteDecoder::DecodeBytes(unsigned char* src, unsigned char* dst)
 #include <string.h>
 // Returns 1 if a is null, -1 if b is null, otherwise returns the result of comparing the two strings pointed to by a and b.
 // @fnv 0x00a86280
-int __cdecl FUN_00a86280(const char** apStrA, const char** apStrB)
+// src: COMMUNITY 0x00a86280
+int __cdecl CompareBoneNames(const char** apStrA, const char** apStrB)
 {
     if (apStrA == 0)
         return 1;
@@ -3559,7 +3572,7 @@ struct SkinInstance {
     void* partition;
     SkinObject* root;
     SkinObject** bones;
-    void FUN_00a855f0(const NiPoint3* positions, const NiPoint3* normals,
+    void NiSkinInstance_Deform(const NiPoint3* positions, const NiPoint3* normals,
         unsigned int count, NiPoint3* dstPos, NiPoint3* dstNorm,
         NiPoint3* dstTan, NiPoint3* dstBin, unsigned int stride) const;
 };
@@ -3568,7 +3581,8 @@ void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 void __cdecl NormalizePoints(NiPoint3*, unsigned int, unsigned int);
 // Applies per-bone weighted transforms to positions, normals, tangents and binormals, accumulating results into the destination arrays.
 // @fnv 0x00a855f0
-void SkinInstance::FUN_00a855f0(const NiPoint3* positions, const NiPoint3* normals,
+// src: COMMUNITY 0x00a855f0
+void SkinInstance::NiSkinInstance_Deform(const NiPoint3* positions, const NiPoint3* normals,
     unsigned int count, NiPoint3* dstPos, NiPoint3* dstNorm,
     NiPoint3* dstTan, NiPoint3* dstBin, unsigned int stride) const
 {

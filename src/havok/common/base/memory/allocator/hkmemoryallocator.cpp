@@ -221,7 +221,8 @@ void __fastcall CBF260::hkMemoryAllocator_canAllocSingleBlock(void* arg)
 }
 
 // @fnv 0x00cbf270
-bool __stdcall FUN_00cbf270(int arg0)
+// src: COMMUNITY 0x00cbf270
+bool __stdcall hkMemoryAllocator_canAllocTotal(int arg0)
 {
     return true;
 }

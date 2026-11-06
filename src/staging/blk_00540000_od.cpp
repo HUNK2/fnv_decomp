@@ -26,11 +26,12 @@
 struct FUN_00540700_Class
 {
     int NiTPointerMap_unsigned_int_TESGrassAreaParam_NiTPointerMap(int);
-    int FUN_00540700();
+    int GrassAreaParamsMap_GrassAreaParamsMap();
 };
 
 // @fnv 0x00540700
-int FUN_00540700_Class::FUN_00540700()
+// src: COMMUNITY 0x00540700
+int FUN_00540700_Class::GrassAreaParamsMap_GrassAreaParamsMap()
 {
     return NiTPointerMap_unsigned_int_TESGrassAreaParam_NiTPointerMap(0x25);
 }
@@ -148,7 +149,8 @@ void __thiscall FUN_00554650_Class::FUN_00554650()
 void __cdecl WriteRenderStatsFile(int);
 
 // @fnv 0x005586c0
-void __cdecl FUN_005586c0(int a)
+// src: COMMUNITY 0x005586c0
+void __cdecl TESObjectCELL_DefaultRenderTestCallback(int a)
 {
     WriteRenderStatsFile(a);
 }
@@ -673,10 +675,11 @@ struct DoorH
 };
 struct FUN_00547440_Class
 {
-    void FUN_00547440(float f);
+    void TESObjectCELL_SetWaterHeight(float f);
 };
 // @fnv 0x00547440
-void FUN_00547440_Class::FUN_00547440(float afValue)
+// src: COMMUNITY 0x00547440
+void FUN_00547440_Class::TESObjectCELL_SetWaterHeight(float afValue)
 {
     Sky* p = ((DoorH*)this)->GetParentWorldSpace();
     if (p && FUN_0040eb10(p->GetFieldCC(), afValue, 0.001f))
@@ -686,8 +689,8 @@ void FUN_00547440_Class::FUN_00547440(float afValue)
 }
 
 extern int DAT_011ca080;
-int __cdecl FUN_005510f0();
-void __cdecl FUN_00551100(int a);
+int __cdecl TESObjectCELL_GetLastWaterCell();
+void __cdecl TESObjectCELL_SetLastWaterCell(int a);
 // If a is nonzero, clears DAT_011ca080 when it equals a, and calls FUN_00551100(0) when FUN_005510f0() returns a.
 // @fnv 0x005510b0
 void __cdecl ClearGlobalIfMatches(int aiValue)
@@ -696,14 +699,15 @@ void __cdecl ClearGlobalIfMatches(int aiValue)
     {
         if (aiValue == DAT_011ca080)
             DAT_011ca080 = 0;
-        if (FUN_005510f0() == aiValue)
-            FUN_00551100(0);
+        if (TESObjectCELL_GetLastWaterCell() == aiValue)
+            TESObjectCELL_SetLastWaterCell(0);
     }
 }
 
 extern int DAT_011c7a60;
 // @fnv 0x00551100
-void FUN_00551100(int v)
+// src: COMMUNITY 0x00551100
+void TESObjectCELL_SetLastWaterCell(int v)
 {
     DAT_011c7a60 = v;
 }
@@ -727,7 +731,8 @@ void FUN_005516f0_Class::SetFlag400(bool set)
 MemoryManager* __cdecl FUN_00401020(void);
 // If a is non-null, backs up by the size byte stored before it and deallocates the resulting block through the memory manager.
 // @fnv 0x00553380
-void __cdecl FUN_00553380(void* apBlock)
+// src: COMMUNITY 0x00553380
+void __cdecl ourMemalignFree(void* apBlock)
 {
     unsigned char* p;
     if (apBlock != 0)
@@ -811,7 +816,8 @@ void __cdecl CallIfPresent()
 
 bool __fastcall FUN_004bae00(char const*);
 // @fnv 0x00554910
-bool __thiscall ExtraDataList::FUN_00554910()
+// src: COMMUNITY 0x00554910
+bool __thiscall ExtraDataList::TESObjectCELL_ToggleCollisionGeometry()
 {
     bool result = false;
     {
@@ -819,7 +825,7 @@ bool __thiscall ExtraDataList::FUN_00554910()
         if (master)
         {
             result = !FUN_004bae00((char const*)master);
-            FUN_00554960(result);
+            TESObjectCELL_SetCollisionGeometryDisplay(result);
         }
     }
     return result;
@@ -1042,7 +1048,8 @@ void __thiscall FUN_0055a1e0_Class::FUN_0055a1e0(FUN_0055a240_Obj* pObj)
 
 // Returns true for the listed type codes (0x3a-0x40, 0x42, 0x43, 0x69) and false otherwise.
 // @fnv 0x005548a0
-bool __cdecl FUN_005548a0(unsigned char type)
+// src: COMMUNITY 0x005548a0
+bool __cdecl TESObjectCELL_IsFormTypeCellChild(unsigned char type)
 {
     switch (type)
     {
@@ -1076,13 +1083,14 @@ extern int DAT_011f9ff0;
 
 struct FUN_00558600_Class
 {
-    void __thiscall FUN_00558600(int* a, int* b, int* c, int* d, int* e, int* f, int* g, int* h, int* i, int* j,
+    void __thiscall BSShaderAccumulator_GetDebugStats(int* a, int* b, int* c, int* d, int* e, int* f, int* g, int* h, int* i, int* j,
                                  int* k);
 };
 
 // Writes eleven global values from DAT_011f9fc8 through DAT_011f9ff0 into the eleven output pointers.
 // @fnv 0x00558600
-void __thiscall FUN_00558600_Class::FUN_00558600(int* a, int* b, int* c, int* d, int* e, int* f, int* g, int* h, int* i,
+// src: COMMUNITY 0x00558600
+void __thiscall FUN_00558600_Class::BSShaderAccumulator_GetDebugStats(int* a, int* b, int* c, int* d, int* e, int* f, int* g, int* h, int* i,
                                                  int* j, int* k)
 {
     *a = DAT_011f9fc8;
@@ -1178,11 +1186,12 @@ struct TESObjectCONT;
 extern TESObjectCONT* DAT_011c3f40;
 struct FUN_00551110_Cell : public TESObjectCELL
 {
-    BGSPerkEntry* FUN_00551110();
+    BGSPerkEntry* TESObjectCELL_GetLootBag();
 };
 // Locks cell refs, walks the list from FUN_009604f0 and returns the first entry whose GetNext equals DAT_011c3f40, then unlocks.
 // @fnv 0x00551110
-BGSPerkEntry* FUN_00551110_Cell::FUN_00551110()
+// src: COMMUNITY 0x00551110
+BGSPerkEntry* FUN_00551110_Cell::TESObjectCELL_GetLootBag()
 {
     BGSPerkEntry* result2 = 0;
     CellRefLockEnter();
@@ -1247,7 +1256,8 @@ FUN_00559ad0_Class::FUN_00559ad0_Class(unsigned short ausCount, unsigned short b
 __declspec(thread) char g_tls_00551680[0x25e];
 
 // @fnv 0x00551680
-char __cdecl FUN_00551680()
+// src: COMMUNITY 0x00551680
+char __cdecl TESObjectCELL_GetLoadingTempData()
 {
     return g_tls_00551680[0x25d];
 }
@@ -1255,7 +1265,8 @@ char __cdecl FUN_00551680()
 __declspec(thread) bool g_tlsValue;
 
 // @fnv 0x005516a0
-void __cdecl FUN_005516a0(bool value)
+// src: COMMUNITY 0x005516a0
+void __cdecl TESObjectCELL_SetLoadingTempData(bool value)
 {
     g_tlsValue = value;
 }
@@ -1430,7 +1441,8 @@ void C540BC0Array::ReserveCapacity(C540BC0Allocator& kAlloc, int aiMinElements)
 unsigned char* __cdecl FUN_00664840(bool enabled);
 
 // @fnv 0x0054ee60
-void __cdecl FUN_0054ee60(char value)
+// src: COMMUNITY 0x0054ee60
+void __cdecl BSTreeManager_SetTreesEnabled(char value)
 {
     FUN_00664840(true)[0x18] = value;
 }
@@ -1438,7 +1450,8 @@ void __cdecl FUN_0054ee60(char value)
 extern int DAT_011c7a60;
 
 // @fnv 0x005510f0
-int __cdecl FUN_005510f0()
+// src: COMMUNITY 0x005510f0
+int __cdecl TESObjectCELL_GetLastWaterCell()
 {
     return DAT_011c7a60;
 }
@@ -1539,7 +1552,8 @@ struct ExtraStandin
 void __cdecl EnsureLightingProperty(void* p);
 
 // @fnv 0x00554960
-void __thiscall ExtraDataList::FUN_00554960(bool flag)
+// src: COMMUNITY 0x00554960
+void __thiscall ExtraDataList::TESObjectCELL_SetCollisionGeometryDisplay(bool flag)
 {
     void* world = FUN_004543c0(this);
     void* a = ((CellStandin*)this)->FUN_00545cb0();
@@ -1570,7 +1584,7 @@ struct Player68
     Cell68* __thiscall FUN_008d6f30();
 };
 extern Player68* DAT_011dea3c;
-int __cdecl FUN_00406d90(float f);
+int __cdecl FloatToInt(float f);
 void __cdecl WorldToCellOffset(float* pos, int a, int* outY, int* outX);
 
 // Counts how many of the four neighbouring cells around a position pass a cell check, using the player's current cell and grid offsets.
@@ -1586,10 +1600,10 @@ int __cdecl FUN_00556870(float* afPosition)
         if (n->FUN_00425fd0())
         {
             int s;
-            s = (FUN_00406d90(afPosition[0]) - 0x800) >> 12;
+            s = (FloatToInt(afPosition[0]) - 0x800) >> 12;
             long cy;
             int flagX;
-            cy = (FUN_00406d90(afPosition[1]) - 0x800) >> 12;
+            cy = (FloatToInt(afPosition[1]) - 0x800) >> 12;
             flagX = 0;
             int cellF;
             cellF = 0;
@@ -1658,9 +1672,9 @@ int __cdecl FUN_00556870(float* afPosition)
             if (cellC)
             {
                 int cellD;
-                cellD = FUN_00406d90(afPosition[0]) >> 12;
+                cellD = FloatToInt(afPosition[0]) >> 12;
                 long cy2;
-                cy2 = FUN_00406d90(afPosition[1]) >> 12;
+                cy2 = FloatToInt(afPosition[1]) >> 12;
                 int diag;
                 diag = 0;
                 int j;
@@ -1763,11 +1777,12 @@ class FUN_005593a0_cls
     virtual int unk1(int v);
     unsigned int m_uiItemCount;
     ItemNode** m_data;
-    void FUN_005593a0(ItemNode** a1, int* a2, FUN_00559900_Struct* a3);
+    void NiTMap_NiAVObject_TESObjectCELL_QUEUED_ATTACH_GetNext(ItemNode** a1, int* a2, FUN_00559900_Struct* a3);
 };
 
 // @fnv 0x005593a0
-void FUN_005593a0_cls::FUN_005593a0(ItemNode** apNode, int* piValue, FUN_00559900_Struct* apStruct)
+// src: COMMUNITY 0x005593a0
+void FUN_005593a0_cls::NiTMap_NiAVObject_TESObjectCELL_QUEUED_ATTACH_GetNext(ItemNode** apNode, int* piValue, FUN_00559900_Struct* apStruct)
 {
     ItemNode* node = *apNode;
     *piValue = node->m4;
@@ -1819,12 +1834,13 @@ class FUN_00559bc0_cls
     FUN_00559bc0_node** m_08;
     unsigned int m_0c;
 
-    void FUN_00559bc0();
+    void BSScrapMap_TESObjectREFR_bool_ClearAll();
 };
 
 // Calls v10 on every node in each of the m_04 buckets of m_08, then resets m_0c to 0.
 // @fnv 0x00559bc0
-void FUN_00559bc0_cls::FUN_00559bc0()
+// src: COMMUNITY 0x00559bc0
+void FUN_00559bc0_cls::BSScrapMap_TESObjectREFR_bool_ClearAll()
 {
     for (unsigned int i = 0; i < m_04; i++)
     {
@@ -1926,8 +1942,8 @@ struct ItemRef
     bool FUN_00440d80();
     bool FUN_00440da0();
     ExtraListType* FUN_005d43c0();
-    void FUN_00572230();
-    void FUN_00574b30(ItemRef*, int, int, int);
+    void TESObjectREFR_MarkAsPickedUp();
+    void TESObjectREFR_AddReferenceItem(ItemRef*, int, int, int);
 };
 struct ItemList
 {
@@ -1940,10 +1956,11 @@ struct FUN_005512f0_shell
     void FUN_00541ac0();
     void FUN_00541ae0();
     ItemList* FUN_009604f0();
-    void FUN_005512f0(ItemRef*);
+    void TESObjectCELL_FillLootBag(ItemRef*);
 };
 // @fnv 0x005512f0
-void FUN_005512f0_shell::FUN_005512f0(ItemRef* dest)
+// src: COMMUNITY 0x005512f0
+void FUN_005512f0_shell::TESObjectCELL_FillLootBag(ItemRef* dest)
 {
     if (dest && dest->FUN_007af430() == (ContainerType*)DAT_011c3f40)
     {
@@ -1970,8 +1987,8 @@ void FUN_005512f0_shell::FUN_005512f0(ItemRef* dest)
                 }
                 if (allowed)
                 {
-                    dest->FUN_00574b30(item, item->FUN_005d43c0()->FUN_00418770(), 0, 0);
-                    item->FUN_00572230();
+                    dest->TESObjectREFR_AddReferenceItem(item, item->FUN_005d43c0()->FUN_00418770(), 0, 0);
+                    item->TESObjectREFR_MarkAsPickedUp();
                 }
             }
             list = list->FUN_00726070();
@@ -1986,8 +2003,8 @@ struct Vec2
     float x, y;
     Vec2(float, float);
 };
-void* FUN_00403d30(void*, int, unsigned int);
-int FUN_00406d90(float);
+void* ourMemset(void*, int, unsigned int);
+int FloatToInt(float);
 extern Setting DAT_011ca094;
 struct LightData
 {
@@ -2038,8 +2055,8 @@ struct Cell
     Extras* GetExtraDataList();
     int FUN_00544c60();
     int FUN_00544c30();
-    void FUN_00555be0();
-    void FUN_00544440(bool);
+    void TESObjectCELL_ClearSeenData();
+    void TESObjectCELL_SetFullySeen(bool);
     void UpdateLightingAtPoint(const NiPoint3*);
 };
 // @fnv 0x00555f60
@@ -2054,10 +2071,10 @@ void Cell::UpdateLightingAtPoint(const NiPoint3* apPoint)
             FUN_00555b10(apPoint, &point, true);
             NiPoint3 centers3[9];
             LightData* lights[9];
-            FUN_00403d30(lights, 0, 36);
-            FUN_00403d30(centers3, 0, 108);
-            int x = (FUN_00406d90(point.x) - 2048) >> 12;
-            int y = (FUN_00406d90(point.y) - 2048) >> 12;
+            ourMemset(lights, 0, 36);
+            ourMemset(centers3, 0, 108);
+            int x = (FloatToInt(point.x) - 2048) >> 12;
+            int y = (FloatToInt(point.y) - 2048) >> 12;
             int count3 = 0;
             for (int dx = -1; dx <= 1; dx++)
             {
@@ -2080,10 +2097,10 @@ void Cell::UpdateLightingAtPoint(const NiPoint3* apPoint)
         {
             NiPoint3 centers2[4];
             LightData* lights2[4];
-            FUN_00403d30(lights2, 0, 16);
-            FUN_00403d30(centers2, 0, 48);
-            int x2 = (FUN_00406d90(point.x) - 2048) >> 12;
-            int y2 = (FUN_00406d90(point.y) - 2048) >> 12;
+            ourMemset(lights2, 0, 16);
+            ourMemset(centers2, 0, 48);
+            int x2 = (FloatToInt(point.x) - 2048) >> 12;
+            int y2 = (FloatToInt(point.y) - 2048) >> 12;
             lights2[0] = FUN_00556ef0(x2, y2, true);
             reinterpret_cast<NiPoint3&>(centers2[0]) = (const NiPoint3&)NiPoint3((x2 << 12) + 2048, (y2 << 12) + 2048, point.z);
             Vec2 lowerA((x2 << 12) + 2048, (y2 << 12) + 2048);
@@ -2141,8 +2158,8 @@ void Cell::UpdateLightingAtPoint(const NiPoint3* apPoint)
         bool changed = light->HasEnoughSeenPoints(apPoint, &center2);
         if (changed)
         {
-            FUN_00555be0();
-            FUN_00544440(true);
+            TESObjectCELL_ClearSeenData();
+            TESObjectCELL_SetFullySeen(true);
         }
     }
 }
@@ -2255,7 +2272,7 @@ extern GlobalObject_00a7b610 g_01202828;
 
 struct FUN_0054a050_shell
 {
-    NiNode* FUN_0054a050();
+    NiNode* GetActorNode();
 };
 
 struct FUN_00456fc0_cls
@@ -2268,7 +2285,7 @@ bool __cdecl FUN_0045bad0(GlobalObject_00a7b610* g, NiAVObject* p);
 // @fnv 0x00554a20
 void ExtraStandin::SetFlagOnChildren(bool flag)
 {
-    NiNode* node7 = reinterpret_cast<FUN_0054a050_shell*>(this)->FUN_0054a050();
+    NiNode* node7 = reinterpret_cast<FUN_0054a050_shell*>(this)->GetActorNode();
     unsigned int count = node7->FUN_0043b480();
     while (count--)
     {
@@ -2371,11 +2388,12 @@ struct CellQ
     void FUN_00541ac0();
     LstQ* FUN_009604f0();
     void FUN_00541ae0();
-    void FUN_005570d0();
+    void TESObjectCELL_UpdateTrees();
 };
 // For each list entry with FUN_005651e0 false, FUN_00401170 equal to 0x25 and a Get3DQ() object, calls that object's GetHandlerQ()->Handle(obj).
 // @fnv 0x005570d0
-void CellQ::FUN_005570d0()
+// src: COMMUNITY 0x005570d0
+void CellQ::TESObjectCELL_UpdateTrees()
 {
     FUN_00541ac0();
     LstQ* pIter = FUN_009604f0();

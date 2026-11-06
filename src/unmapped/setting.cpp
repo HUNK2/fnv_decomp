@@ -181,7 +181,7 @@ struct SettingStore : SettingNode
     bool FUN_008256d0();
     void FUN_005ae3d0(SettingName**);
 };
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 extern const char str_0101608c[];
 struct Registry
 {
@@ -197,7 +197,7 @@ void Registry::AddSettingKey(SettingName* key)
         while (position)
         {
             SettingName* entry = *position->FUN_006815c0();
-            if (FUN_00404dc0((const char*)entry->FUN_0044ddc0(), (const char*)key->FUN_0044ddc0()) == 0)
+            if (BSstricmp((const char*)entry->FUN_0044ddc0(), (const char*)key->FUN_0044ddc0()) == 0)
             {
                 FUN_00c335a0("DEFAULT: Setting key '%s' already used in list.\nSetting keys must be unique.\n",
                              (const char*)key->FUN_0044ddc0());

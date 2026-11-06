@@ -87,10 +87,11 @@ struct Lock00aa6120
 {
     unsigned int state;
     unsigned long owner;
-    bool FUN_00aa6120();
+    bool BSReadWriteLock_TryLockForRead();
 };
 // @fnv 0x00aa6120
-bool Lock00aa6120::FUN_00aa6120()
+// src: COMMUNITY 0x00aa6120
+bool Lock00aa6120::BSReadWriteLock_TryLockForRead()
 {
     bool bLocked = false;
     unsigned long dwThreadId = GetCurrentThreadId();
@@ -126,11 +127,12 @@ struct Lock00aa61b0
 {
     unsigned int state;
     unsigned long owner;
-    bool FUN_00aa61b0();
+    bool BSReadWriteLock_TryLockForWrite();
 };
 // Tries to acquire the lock: re-enters if already owned by this thread, otherwise atomically sets state and records the owner thread id.
 // @fnv 0x00aa61b0
-bool Lock00aa61b0::FUN_00aa61b0()
+// src: COMMUNITY 0x00aa61b0
+bool Lock00aa61b0::BSReadWriteLock_TryLockForWrite()
 {
     bool bLocked = false;
     unsigned long dwThreadId = GetCurrentThreadId();
@@ -162,11 +164,12 @@ struct Lock00aa6220
 {
     unsigned int state;
     unsigned long owner;
-    bool FUN_00aa6220();
+    bool BSReadWriteLock_TryLockForWriteAndReserve();
 };
 // Tries to acquire the lock: re-enters if already owned by this thread, otherwise claims the state word via InterlockedCompareExchange and records the owner.
 // @fnv 0x00aa6220
-bool Lock00aa6220::FUN_00aa6220()
+// src: COMMUNITY 0x00aa6220
+bool Lock00aa6220::BSReadWriteLock_TryLockForWriteAndReserve()
 {
     bool bLocked = false;
     unsigned long dwThreadId = GetCurrentThreadId();

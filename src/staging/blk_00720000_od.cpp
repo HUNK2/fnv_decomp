@@ -152,11 +152,12 @@ struct FUN_00726db0_class
     int m_kPointB;
     int m_iThirdValue;
     TileValue_00a0a270* m_t;
-    void FUN_00726db0(bool a);
+    void AnimatingText_SetVisibility(bool a);
 };
 // If m_t is set, calls FUN_00a0a270 on it with 1.0f when a is true and 0.0f otherwise, passing true.
 // @fnv 0x00726db0
-void FUN_00726db0_class::FUN_00726db0(bool abEnabled)
+// src: COMMUNITY 0x00726db0
+void FUN_00726db0_class::AnimatingText_SetVisibility(bool abEnabled)
 {
     if (m_t)
         m_t->FUN_00a0a270(abEnabled ? 1.0f : 0.0f, true);
@@ -327,7 +328,8 @@ void FUN_00726090_cls::FUN_00726090()
 }
 
 // @fnv 0x007273e0
-int __cdecl FUN_007273e0()
+// src: COMMUNITY 0x007273e0
+int __cdecl RecipeMenu_GetID()
 {
     return (int)1077u;
 }

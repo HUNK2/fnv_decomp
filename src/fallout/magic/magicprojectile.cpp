@@ -364,7 +364,8 @@ void AreaDisplayObject::v058(AreaDisplayObject*)
 
 // Gets the "MagicAreaDisplay" child node and, if its GetDaysPassed() returns a node, passes the child to that node's v058.
 // @fnv 0x0081e730
-void MagicProjectile::FUN_0081e730()
+// src: COMMUNITY 0x0081e730
+void MagicProjectile::KillAreaEffectGeometry()
 {
     AreaDisplayObject* pAreaDisplay = GetNiNode() ? reinterpret_cast<AreaDisplayObject*>(GetNiNode())->v039(NiFixedString("MagicAreaDisplay")) : 0;
 

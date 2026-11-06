@@ -36,12 +36,13 @@ struct FUN_006318b0_Class
     int m_uiItemCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_006318b0_Class* __thiscall FUN_006318b0(int count);
+    FUN_006318b0_Class* __thiscall NiTMapBase_DFALL_NiTMapItem_hkpRigidBody_bool_hkpRigidBody_bool_NiTMapBase_DFALL_NiTMapItem_hkpRigidBody_bool_hkpRigidBody_bool(int count);
 };
 
 // Sets the vtable, stores count, allocates count*4 zeroed bytes into m_data and returns this.
 // @fnv 0x006318b0
-FUN_006318b0_Class* __thiscall FUN_006318b0_Class::FUN_006318b0(int count)
+// src: COMMUNITY 0x006318b0
+FUN_006318b0_Class* __thiscall FUN_006318b0_Class::NiTMapBase_DFALL_NiTMapItem_hkpRigidBody_bool_hkpRigidBody_bool_NiTMapBase_DFALL_NiTMapItem_hkpRigidBody_bool_hkpRigidBody_bool(int count)
 {
     m_vtbl = &DAT_0104e510;
     m_uiItemCount = count;
@@ -196,7 +197,7 @@ FUN_00621c40_Class* __thiscall FUN_00621c40_Class::FUN_00621c40(void)
     return this;
 }
 
-extern "C" void __cdecl FUN_004b0220(int);
+extern "C" void __cdecl j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(int);
 extern int DAT_0104dc94;
 
 struct FUN_00622780_Class
@@ -210,20 +211,21 @@ struct FUN_00622780_Class
 void __thiscall FUN_00622780_Class::FUN_00622780()
 {
     m_vtbl = &DAT_0104dc94;
-    FUN_004b0220(m_uiItemCount);
+    j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(m_uiItemCount);
 }
 
 struct FUN_006228e0_shell
 {
-    unsigned int FUN_006228e0(unsigned int, void*);
-    unsigned int FUN_006227b0(unsigned int arg);
+    unsigned int NiTObjectArray_NiPointer_bhkRigidBody_SetAtGrow(unsigned int, void*);
+    unsigned int NiTObjectArray_NiPointer_bhkRigidBody_Add(unsigned int arg);
 };
 
 // Calls FUN_006228e0 with the 16-bit value at offset 0xa of this object and the given argument, returning its result.
 // @fnv 0x006227b0
-unsigned int FUN_006228e0_shell::FUN_006227b0(unsigned int arg)
+// src: COMMUNITY 0x006227b0
+unsigned int FUN_006228e0_shell::NiTObjectArray_NiPointer_bhkRigidBody_Add(unsigned int arg)
 {
-    return FUN_006228e0(*(unsigned short*)((char*)this + 0xa), (void*)arg);
+    return NiTObjectArray_NiPointer_bhkRigidBody_SetAtGrow(*(unsigned short*)((char*)this + 0xa), (void*)arg);
 }
 
 struct FUN_00622f60_Class
@@ -243,10 +245,11 @@ struct TgtOps
 };
 struct FUN_00623070_Class
 {
-    BSSimpleList<int*>* __thiscall FUN_00623070();
+    BSSimpleList<int*>* __thiscall DecalCaster_GetNumCollisions();
 };
 // @fnv 0x00623070
-BSSimpleList<int*>* __thiscall FUN_00623070_Class::FUN_00623070()
+// src: COMMUNITY 0x00623070
+BSSimpleList<int*>* __thiscall FUN_00623070_Class::DecalCaster_GetNumCollisions()
 {
     return reinterpret_cast<TgtOps*>(this)->GetSourceFiles()->GetNext();
 }
@@ -262,11 +265,12 @@ struct FUN_00807770_Class
 };
 struct FUN_006232f0_Class
 {
-    void __thiscall FUN_006232f0(int a);
+    void __thiscall DecalCaster_GetCollision(int a);
 };
 // Retrieves the source file object for index a and invokes its FUN_00807770 method.
 // @fnv 0x006232f0
-void __thiscall FUN_006232f0_Class::FUN_006232f0(int aiIndex)
+// src: COMMUNITY 0x006232f0
+void __thiscall FUN_006232f0_Class::DecalCaster_GetCollision(int aiIndex)
 {
     ((FUN_00807770_Class*)((TgtOps*)this)->GetSourceFiles(aiIndex))->FUN_00807770();
 }
@@ -337,7 +341,8 @@ struct FUN_00c903b0_Class
 };
 // If DAT_01268360 is set, calls its ReleaseReference method, then stores value into DAT_01268360.
 // @fnv 0x006263c0
-void __cdecl FUN_006263c0(int value)
+// src: COMMUNITY 0x006263c0
+void __cdecl hkSingleton_hkError_replaceInstance(int value)
 {
     if (DAT_01268360)
         ((FUN_00c903b0_Class*)DAT_01268360)->ReleaseReference();
@@ -350,10 +355,11 @@ struct FUN_00c903b0_Class
 {
     void __thiscall ReleaseReference();
 };
-void __cdecl FUN_006263f0(int value);
+void __cdecl hkSingleton_hkFileSystem_replaceInstance(int value);
 // If DAT_01268364 is set, calls ReleaseReference on it, then stores value into DAT_01268364.
 // @fnv 0x006263f0
-void __cdecl FUN_006263f0(int value)
+// src: COMMUNITY 0x006263f0
+void __cdecl hkSingleton_hkFileSystem_replaceInstance(int value)
 {
     if (DAT_01268364)
         reinterpret_cast<FUN_00c903b0_Class*>(DAT_01268364)->ReleaseReference();
@@ -580,11 +586,12 @@ struct AX
 };
 struct FUN_00629fd0_Class : public AX
 {
-    AX* __thiscall FUN_00629fd0();
+    AX* __thiscall BSSimpleArray_bhkRigidBody_1024_BSSimpleArray_bhkRigidBody_1024();
 };
 // Sets the object's vtable pointer to DAT_0104e190, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x00629fd0
-AX* __thiscall FUN_00629fd0_Class::FUN_00629fd0()
+// src: COMMUNITY 0x00629fd0
+AX* __thiscall FUN_00629fd0_Class::BSSimpleArray_bhkRigidBody_1024_BSSimpleArray_bhkRigidBody_1024()
 {
     *reinterpret_cast<int**>(this) = &DAT_0104e190;
     FUN_006b3eb0(0, 0);
@@ -709,22 +716,24 @@ int* FUN_00632d00_Class::GetField600()
 
 struct FUN_00633bf0_Class
 {
-    void __thiscall FUN_00633bf0(const NiPoint3* p);
+    void __thiscall NiFogProperty_SetFogColor(const NiPoint3* p);
 };
 
 // Copies the NiPoint3 pointed to by p into the object's field at offset 0x20.
 // @fnv 0x00633bf0
-void __thiscall FUN_00633bf0_Class::FUN_00633bf0(const NiPoint3* apPoint)
+// src: COMMUNITY 0x00633bf0
+void __thiscall FUN_00633bf0_Class::NiFogProperty_SetFogColor(const NiPoint3* apPoint)
 {
     *(NiPoint3*)((char*)this + 0x20) = *apPoint;
 }
 
 struct FUN_00633c20_Class
 {
-    void __thiscall FUN_00633c20(float a, float b);
+    void __thiscall BSFogProperty_SetWaterDistance(float a, float b);
 };
 // @fnv 0x00633c20
-void __thiscall FUN_00633c20_Class::FUN_00633c20(float a, float b)
+// src: COMMUNITY 0x00633c20
+void __thiscall FUN_00633c20_Class::BSFogProperty_SetWaterDistance(float a, float b)
 {
     *(float*)((char*)this + 0x34) = a;
     *(float*)((char*)this + 0x38) = b;
@@ -732,10 +741,11 @@ void __thiscall FUN_00633c20_Class::FUN_00633c20(float a, float b)
 
 struct FUN_00633c40_Class
 {
-    void FUN_00633c40(float value);
+    void BSFogProperty_SetFogHeight(float value);
 };
 // @fnv 0x00633c40
-void FUN_00633c40_Class::FUN_00633c40(float value)
+// src: COMMUNITY 0x00633c40
+void FUN_00633c40_Class::BSFogProperty_SetFogHeight(float value)
 {
     *(float*)((char*)this + 0x50) = value;
 }
@@ -795,12 +805,13 @@ struct FUN_00633c60_Class
     int m_ax;
     int m_ay;
     int m_az;
-    void __thiscall FUN_00633c60(const NiPoint3& p);
+    void __thiscall BSFogProperty_SetWaterColor(const NiPoint3& p);
 };
 
 // Stores the given NiPoint3 into the object at offset 0x54.
 // @fnv 0x00633c60
-void __thiscall FUN_00633c60_Class::FUN_00633c60(const NiPoint3& aPos)
+// src: COMMUNITY 0x00633c60
+void __thiscall FUN_00633c60_Class::BSFogProperty_SetWaterColor(const NiPoint3& aPos)
 {
     *(NiPoint3*)((char*)this + 0x54) = aPos;
 }
@@ -966,11 +977,12 @@ struct FUN_00620180_Class
 };
 struct FUN_00620130_Class : public BSSimpleList<int*>
 {
-    void __thiscall FUN_006206d0(BSSimpleList<int*>* pList, BSSimpleList<int*>* pItem);
-    void __thiscall FUN_00620130(BSSimpleList<int*>* pList);
+    void __thiscall BGSZoneTargetListener_RemoveTargetFromZone_0(BSSimpleList<int*>* pList, BSSimpleList<int*>* pItem);
+    void __thiscall BGSZoneTargetListener_RemoveTarget(BSSimpleList<int*>* pList);
 };
 // @fnv 0x00620130
-void __thiscall FUN_00620130_Class::FUN_00620130(BSSimpleList<int*>* pList)
+// src: COMMUNITY 0x00620130
+void __thiscall FUN_00620130_Class::BGSZoneTargetListener_RemoveTarget(BSSimpleList<int*>* pList)
 {
     if (!pList)
         return;
@@ -978,7 +990,7 @@ void __thiscall FUN_00620130_Class::FUN_00620130(BSSimpleList<int*>* pList)
     while (pNode)
     {
         BSSimpleList<int*>* pNext = ((FUN_00620180_Class*)pNode)->FUN_00620180();
-        FUN_006206d0(pNode, pList);
+        BGSZoneTargetListener_RemoveTargetFromZone_0(pNode, pList);
         pNode = pNext;
     }
 }
@@ -1001,7 +1013,7 @@ void* FUN_00620230_Class::FUN_00620230(unsigned int flags)
 
 struct FUN_0057b700_class
 {
-    void FUN_0057b700(int);
+    void ZoneEntry_RemoveTarget(int);
 };
 struct FUN_006205e0_shell
 {
@@ -1009,15 +1021,16 @@ struct FUN_006205e0_shell
 };
 struct FUN_006206d0_Class : public FUN_006205e0_shell
 {
-    void __thiscall FUN_006206d0(AnimIdle* self, int a2);
+    void __thiscall BGSZoneTargetListener_RemoveTargetFromZone_0(AnimIdle* self, int a2);
 };
 // @fnv 0x006206d0
-void __thiscall FUN_006206d0_Class::FUN_006206d0(AnimIdle* self, int a2)
+// src: COMMUNITY 0x006206d0
+void __thiscall FUN_006206d0_Class::BGSZoneTargetListener_RemoveTargetFromZone_0(AnimIdle* self, int a2)
 {
     if (!a2)
         return;
     if (self->GetSection())
-        ((FUN_0057b700_class*)self)->FUN_0057b700(a2);
+        ((FUN_0057b700_class*)self)->ZoneEntry_RemoveTarget(a2);
     if (!self->GetSection())
         RemoveNode(self);
 }
@@ -1170,10 +1183,11 @@ struct PhysicsAccessNotification
 };
 struct FUN_006219f0_Class
 {
-    void __thiscall FUN_006219f0(hkpRigidBody* body);
+    void __thiscall bhkShapePhantom_SetPosition(hkpRigidBody* body);
 };
 // @fnv 0x006219f0
-void __thiscall FUN_006219f0_Class::FUN_006219f0(hkpRigidBody* body)
+// src: COMMUNITY 0x006219f0
+void __thiscall FUN_006219f0_Class::bhkShapePhantom_SetPosition(hkpRigidBody* body)
 {
     void* flag = ((NullablePhysicsObjectAccess*)this)->GetLocalData();
     if (flag)
@@ -1279,10 +1293,11 @@ struct FUN_00622730_S
     float m_iWordAt04;
     float m_8;
     float m_C;
-    void __thiscall FUN_00622730(float);
+    void __thiscall NiQuaternion_FromAngleAxisX(float);
 };
 // @fnv 0x00622730
-void __thiscall FUN_00622730_S::FUN_00622730(float f)
+// src: COMMUNITY 0x00622730
+void __thiscall FUN_00622730_S::NiQuaternion_FromAngleAxisX(float f)
 {
     FUN_004169a0((float)(f * DAT_01011588), m_iWordAt04, m_iWordAt00);
     m_C = 0.0f;
@@ -1330,12 +1345,13 @@ void* __thiscall FUN_00622810_Class::FUN_00622810(unsigned int flags)
 struct FUN_00621e40Class
 {
     void __thiscall FUN_00621e40();
-    FUN_00621e40Class* __thiscall FUN_00622840(unsigned int flags);
+    FUN_00621e40Class* __thiscall NiTObjectArray_NiPointer_bhkRigidBody_Destroy(unsigned int flags);
 };
 void __cdecl Deallocate(void*);
 // Calls FUN_00621e40, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00622840
-FUN_00621e40Class* __thiscall FUN_00621e40Class::FUN_00622840(unsigned int flags)
+// src: COMMUNITY 0x00622840
+FUN_00621e40Class* __thiscall FUN_00621e40Class::NiTObjectArray_NiPointer_bhkRigidBody_Destroy(unsigned int flags)
 {
     FUN_00621e40();
     if (flags & 1)
@@ -1388,10 +1404,11 @@ struct Flt
 };
 struct FUN_00623310_Class
 {
-    void __thiscall FUN_00623310(float);
+    void __thiscall DecalCaster_SetRadius(float);
 };
 // @fnv 0x00623310
-void __thiscall FUN_00623310_Class::FUN_00623310(float scale)
+// src: COMMUNITY 0x00623310
+void __thiscall FUN_00623310_Class::DecalCaster_SetRadius(float scale)
 {
     if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x3a0)->operator unsigned int())
     {
@@ -1478,10 +1495,11 @@ struct ShadowLightData
 };
 struct FUN_00626da0_Class
 {
-    void __thiscall FUN_00626da0();
+    void __thiscall HitCaster_SetCustomPickCollisions();
 };
 // @fnv 0x00626da0
-void __thiscall FUN_00626da0_Class::FUN_00626da0()
+// src: COMMUNITY 0x00626da0
+void __thiscall FUN_00626da0_Class::HitCaster_SetCustomPickCollisions()
 {
     unsigned __int64 v = 0x6016777e;
     ShadowLightData::SetTargetMaskForSelection(0x27, v);
@@ -1546,11 +1564,12 @@ struct S28640
 struct FUN_00629560_Class
 {
     char _pad[16];
-    void __thiscall FUN_00629560(int arg);
+    void __thiscall hkAabb_includePoint(int arg);
 };
 // Forwards arg to FUN_006285e0 on this and to FUN_00628640 on the object at this+0x10.
 // @fnv 0x00629560
-void __thiscall FUN_00629560_Class::FUN_00629560(int aiValue)
+// src: COMMUNITY 0x00629560
+void __thiscall FUN_00629560_Class::hkAabb_includePoint(int aiValue)
 {
     ((S285e0*)this)->FUN_006285e0(this, aiValue);
     ((S28640*)((char*)this + 0x10))->FUN_00628640((void*)((char*)this + 0x10), aiValue);
@@ -1862,7 +1881,7 @@ struct FUN_00631850_Class : FUN_006318b0_Class
 // src: EXE 0x00631850
 FUN_00631850_Class* __thiscall FUN_00631850_Class::NiTMap_hkpRigidBody_bool_NiTMap(int count)
 {
-    FUN_006318b0(count);
+    NiTMapBase_DFALL_NiTMapItem_hkpRigidBody_bool_hkpRigidBody_bool_NiTMapBase_DFALL_NiTMapItem_hkpRigidBody_bool_hkpRigidBody_bool(count);
     *(int*)this = (int)&DAT_0104e4f0;
     return this;
 }
@@ -1939,10 +1958,11 @@ struct FUN_00632c60_Class
     int m_kPointB;
     int m_iThirdValue;
     float m_iFourthElementInteger;
-    CalleeObj* __thiscall FUN_00632c60(CalleeObj* p);
+    CalleeObj* __thiscall hkpShapeRayCastCollectorOutput_hasHit(CalleeObj* p);
 };
 // @fnv 0x00632c60
-CalleeObj* __thiscall FUN_00632c60_Class::FUN_00632c60(CalleeObj* apCallee)
+// src: COMMUNITY 0x00632c60
+CalleeObj* __thiscall FUN_00632c60_Class::hkpShapeRayCastCollectorOutput_hasHit(CalleeObj* apCallee)
 {
     apCallee->FUN_00622570(m_iFourthElementInteger < 1.0);
     return apCallee;
@@ -1959,11 +1979,12 @@ struct S632
     M16815 m_kPointB;
     int m_iThirdValue;
     int m_iFourthElementInteger;
-    S632* __thiscall FUN_00632ca0();
+    S632* __thiscall hkpShapeRayCastInput_hkpShapeRayCastInput();
 };
 // Calls FUN_006815c0 on both embedded members, zeroes the two int fields, and returns this.
 // @fnv 0x00632ca0
-S632* __thiscall S632::FUN_00632ca0()
+// src: COMMUNITY 0x00632ca0
+S632* __thiscall S632::hkpShapeRayCastInput_hkpShapeRayCastInput()
 {
     m_kPointA.FUN_006815c0();
     m_kPointB.FUN_006815c0();
@@ -2037,7 +2058,8 @@ extern float DAT_011f52e0[];
 extern float runtimeInitializationFloat2715;
 
 // @fnv 0x00639730
-void __cdecl FUN_00639730(float scale, float* apfOutA, float* apfOutB)
+// src: COMMUNITY 0x00639730
+void __cdecl NiSinCosQ(float scale, float* apfOutA, float* apfOutB)
 {
     int index = (int)((512.0 / runtimeInitializationFloat2715) * scale) & 0x1ff;
     *apfOutA = DAT_011f52e0[index];
@@ -2048,7 +2070,8 @@ int __cdecl _FUN_006397b0();
 double DAT_01029790;
 // Calls _FUN_006397b0, scales the result by 2.0/DAT_01029790 and subtracts 1.0, returning the float.
 // @fnv 0x006397c0
-float FUN_006397c0()
+// src: COMMUNITY 0x006397c0
+float NiSymmetricRandom_006397c0()
 {
     float f;
     int v;
@@ -2102,25 +2125,26 @@ namespace fnv_006399a0 {
 struct FUN_006399a0_Class
 {
     unsigned char m_flags;
-    unsigned char __thiscall FUN_006399e0(int);
+    unsigned char __thiscall NiAdditionalGeometryData_NiAGDDataStream_ConvertFromConsistency(int);
     void __thiscall SetFlagsFromValue(int);
 };
 // Calls FUN_006399e0 with a, then stores the returned byte into m_flags with bits 1 and 2 cleared and the result OR-ed in.
 // @fnv 0x006399a0
 void __thiscall FUN_006399a0_Class::SetFlagsFromValue(int aiValue)
 {
-    unsigned char r = FUN_006399e0(aiValue);
+    unsigned char r = NiAdditionalGeometryData_NiAGDDataStream_ConvertFromConsistency(aiValue);
     m_flags = (m_flags & 0xfffffff9) | r;
 }
 }  // namespace fnv_006399a0
 
 struct FUN_006399e0_Class
 {
-    char FUN_006399e0(int value);
+    char NiAdditionalGeometryData_NiAGDDataStream_ConvertFromConsistency(int value);
 };
 
 // @fnv 0x006399e0
-char FUN_006399e0_Class::FUN_006399e0(int value)
+// src: COMMUNITY 0x006399e0
+char FUN_006399e0_Class::NiAdditionalGeometryData_NiAGDDataStream_ConvertFromConsistency(int value)
 {
     switch (value)
     {
@@ -2235,7 +2259,7 @@ FUN_00622870_Class* __thiscall FUN_00622870_Class::NiTArray_NiPointer_bhkRigidBo
 }
 
 char* __cdecl FUN_00ec7750(char* haystack, const char* needle);
-void __cdecl FUN_004add50(char* dst, const char* src, unsigned int count);
+void __cdecl BSstrncpy(char* dst, const char* src, unsigned int count);
 struct FUN_00624d70_Class
 {
     void __thiscall ExtractTes4Prefix(char* path);
@@ -2250,7 +2274,7 @@ void __thiscall FUN_00624d70_Class::ExtractTes4Prefix(char* path)
     if (found)
     {
         unsigned int prefixLength = found - path;
-        FUN_004add50((char*)this + 0x20, path, prefixLength);
+        BSstrncpy((char*)this + 0x20, path, prefixLength);
         ((char*)this + 0x20)[prefixLength] = 0;
     }
 }
@@ -2263,7 +2287,8 @@ extern "C" void* __cdecl DynamicCastByRTTI(void const*, void*);
 extern int DAT_011f49e0;
 extern const char* const DAT_012005b8;
 // @fnv 0x006349e0
-void __fastcall FUN_006349e0(void* self)
+// src: COMMUNITY 0x006349e0
+void __fastcall Clouds_RemoveTextures(void* self)
 {
     int i = 0;
     for (; i < ((Clouds*)self)->GetOffset58(); ++i)
@@ -2291,11 +2316,12 @@ extern const char* const DAT_012005b8;
 extern int DAT_011f49e0;
 struct FUN_006369a0_Class
 {
-    void FUN_006369a0();
+    void Moon_RemoveTextures();
 };
 // For the property at this+0x10 and this+0x14, gets property 3, casts it to a sky shader property, clears its texture and calls FUN_00634900 with DAT_011f49e0.
 // @fnv 0x006369a0
-void FUN_006369a0_Class::FUN_006369a0()
+// src: COMMUNITY 0x006369a0
+void FUN_006369a0_Class::Moon_RemoveTextures()
 {
     void* p2;
     SkyShaderProperty* s;
@@ -2326,18 +2352,19 @@ struct FUN_00620680_Class
 {
     int m_auiShapeKeys;
     FUN_00620300_Class* m_kNode;
-    AnimIdle* FUN_00620680(int key, int pad);
+    AnimIdle* BGSZoneTargetListener_RemoveTargetFromZone(int key, int pad);
 };
 
 // @fnv 0x00620680
-AnimIdle* FUN_00620680_Class::FUN_00620680(int key, int pad)
+// src: COMMUNITY 0x00620680
+AnimIdle* FUN_00620680_Class::BGSZoneTargetListener_RemoveTargetFromZone(int key, int pad)
 {
     if (m_kNode)
     {
         AnimIdle* idle = m_kNode->FindDerivedByKey(key);
         if (idle)
         {
-            reinterpret_cast<FUN_006206d0_Class*>(this)->FUN_006206d0(idle, pad);
+            reinterpret_cast<FUN_006206d0_Class*>(this)->BGSZoneTargetListener_RemoveTargetFromZone_0(idle, pad);
             return idle;
         }
     }
@@ -2348,12 +2375,12 @@ struct FUN_00620850 : public GO
 {
     GO m_kPointA;
     FUN_00620850(float, int);
-    void FUN_00620930(float, int);
+    void CameraCaster_Init(float, int);
 };
 // @fnv 0x00620850
 FUN_00620850::FUN_00620850(float afValue, int aiValue) : GO(0), m_kPointA(0)
 {
-    FUN_00620930(afValue, aiValue);
+    CameraCaster_Init(afValue, aiValue);
 }
 
 struct FUN_00626800_Pair
@@ -2875,7 +2902,7 @@ struct Obj
 
 struct TileSetHelper
 {
-    Obj* __thiscall FUN_006232f0(int a1);
+    Obj* __thiscall DecalCaster_GetCollision(int a1);
     void SetTileSetValues(int a1, int a2, int a3);
 };
 
@@ -2885,7 +2912,7 @@ void __cdecl FUN_00458620(int index, int value);
 // @fnv 0x00623370
 void TileSetHelper::SetTileSetValues(int aiIndex, int a2, int a3)
 {
-    Obj* obj = FUN_006232f0(aiIndex);
+    Obj* obj = DecalCaster_GetCollision(aiIndex);
     FUN_00458620(a2, obj->FUN_006815c0());
     FUN_00458620(a3, obj->FUN_00460140());
 }
@@ -3240,7 +3267,7 @@ struct FUN_006268b0
 {
     FUN_00620ff0 m_pHeadNode;
     FUN_00633c90 m_iSecondInteger;
-    void __thiscall FUN_006269a0(float, int);
+    void __thiscall HitCaster_Init(float, int);
     FUN_006268b0(float, int);
 };
 
@@ -3248,7 +3275,7 @@ struct FUN_006268b0
 // @fnv 0x006268b0
 FUN_006268b0::FUN_006268b0(float afValue, int aiValue) : m_pHeadNode(), m_iSecondInteger(0)
 {
-    this->FUN_006269a0(afValue, aiValue);
+    this->HitCaster_Init(afValue, aiValue);
 }
 
 struct FNVEffectBase
@@ -3467,15 +3494,16 @@ struct Ref
 };
 struct Me
 {
-    void __thiscall FUN_006296d0(Ref* r, void* x);
-    void __thiscall FUN_006295e0(Ref* r);
+    void __thiscall LoadedAreaBound_GetGroundPos(Ref* r, void* x);
+    void __thiscall LoadedAreaBound_WarpActor(Ref* r);
 };
 // @fnv 0x006295e0
-void __thiscall Me::FUN_006295e0(Ref* apRef)
+// src: COMMUNITY 0x006295e0
+void __thiscall Me::LoadedAreaBound_WarpActor(Ref* apRef)
 {
     Tmp t;
     t.FUN_006815c0();
-    FUN_006296d0(apRef, apRef->vt->v1f4(apRef, &t));
+    LoadedAreaBound_GetGroundPos(apRef, apRef->vt->v1f4(apRef, &t));
     apRef->vt->v2a8(apRef, &t);
     if (apRef->FUN_009306d0())
     {
@@ -3801,7 +3829,8 @@ void A3B0Controller::SetFilter(int iLayer, const bhkFilter& kFilter)
 extern int DAT_012683b0;
 
 // @fnv 0x0062aad0
-int __cdecl FUN_0062aad0()
+// src: COMMUNITY 0x0062aad0
+int __cdecl hkQuaternion_getIdentity()
 {
     return (int)&DAT_012683b0;
 }
@@ -3872,7 +3901,8 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting966;
 extern GlobalObject_0040e0b0 g_011d141c;
 extern GlobalObject_0040e0b0 g_011d1224;
 // @fnv 0x0062b1e0
-float FUN_0062b1e0(unsigned int uiIndex)
+// src: COMMUNITY 0x0062b1e0
+float TESHavokUtilities_GetMaterialBuoyancy(unsigned int uiIndex)
 {
     switch (uiIndex)
     {
@@ -4655,10 +4685,10 @@ Obj* ParticleMgr::CreateParticleShape(Obj* node, int unused, unsigned char flag)
         float D9;
         float pSel_;
         fSpeed2 = lim3->GetBase() + lim3->GetBaseVar() * (FUN_00639780() - DAT_01011588);
-        desc4 = lim3->GetAngle() + lim3->GetAngleVar() * FUN_006397c0();
-        playerPosA = lim3->GetAngle2() + lim3->GetAngle2Var() * FUN_006397c0();
-        FUN_00639730(playerPosA, &pSel_, &aPc1);
-        FUN_00639730(desc4, &dstEnd7, &D9);
+        desc4 = lim3->GetAngle() + lim3->GetAngleVar() * NiSymmetricRandom_006397c0();
+        playerPosA = lim3->GetAngle2() + lim3->GetAngle2Var() * NiSymmetricRandom_006397c0();
+        NiSinCosQ(playerPosA, &pSel_, &aPc1);
+        NiSinCosQ(desc4, &dstEnd7, &D9);
         NiPoint3 diff2(dstEnd7 * aPc1, dstEnd7 * pSel_, D9);
         NiPoint3 v30 = fnv_00637890::operator*(fSpeed2, diff2);
         kScale = lim3->GetScaleMult();
@@ -4838,11 +4868,12 @@ Obj* ParticleMgr::CreateParticleShape(Obj* node, int unused, unsigned char flag)
 // FUN_00639a10: thin wrapper that queries a bit mask on the object itself.
 struct FUN_00639a10_cls : public FUN_00639a30_Class
 {
-    int __thiscall FUN_00639a10();
+    int __thiscall NiBillboardNode_GetMode();
 };
 
 // @fnv 0x00639a10
-int __thiscall FUN_00639a10_cls::FUN_00639a10()
+// src: COMMUNITY 0x00639a10
+int __thiscall FUN_00639a10_cls::NiBillboardNode_GetMode()
 {
     return GetFlagBits(7, 0);
 }
@@ -4913,11 +4944,11 @@ void NodeList620::RemoveNode(Node620* pkNode)
 extern int DAT_0104de50;
 extern int DAT_011cc2e8;
 extern void* __cdecl FUN_0056d280(unsigned int);
-extern void __cdecl FUN_006263c0(int);
-extern void __cdecl FUN_006263f0(int);
+extern void __cdecl hkSingleton_hkError_replaceInstance(int);
+extern void __cdecl hkSingleton_hkFileSystem_replaceInstance(int);
 extern void __cdecl InitHavokPhysics();
 extern void __cdecl hkMonitorStream_init();
-extern void __cdecl FUN_00c661d0(int);
+extern void __cdecl bhkWorldCinfo_SetSimulationType(int);
 extern "C" __declspec(dllimport) unsigned int __stdcall GetCurrentDirectoryA(unsigned int, char*);
 struct Allocator622
 {
@@ -5014,7 +5045,8 @@ struct GlobalObject_0045cfe0
     int* __thiscall Int();
 };
 // @fnv 0x00624bf0
-void __cdecl FUN_00624bf0()
+// src: COMMUNITY 0x00624bf0
+void __cdecl HavokSystem_Init()
 {
     AutoMemContext context(static_cast<MEM_CONTEXT>(16), true, (const char*)&DAT_0104de50, 0xac);
     char path[260];
@@ -5022,11 +5054,11 @@ void __cdecl FUN_00624bf0()
     hkMonitorStream_init();
     {
         FUN_00624f90* created = new FUN_00624f90;
-        FUN_006263c0((int)created);
-        FUN_006263f0((int)(new FUN_00624de0));
+        hkSingleton_hkError_replaceInstance((int)created);
+        hkSingleton_hkFileSystem_replaceInstance((int)(new FUN_00624de0));
         GetCurrentDirectoryA(0x104, path);
         ((FUN_00624d70_Class*)created)->ExtractTes4Prefix(path);
-        FUN_00c661d0(*((GlobalObject_0045cfe0*)&DAT_011cc2e8)->Int());
+        bhkWorldCinfo_SetSimulationType(*((GlobalObject_0045cfe0*)&DAT_011cc2e8)->Int());
     }
 }
 
@@ -5325,7 +5357,8 @@ extern Obj6268b0* pObj6268b0_1;
 
 // Returns the cached object for index 0 or 1, creating it from the corresponding float setting and FUN_005dbe10() when bCreate is set.
 // @fnv 0x00626dd0
-Obj6268b0* FUN_00626dd0(int iIndex, bool bCreate)
+// src: COMMUNITY 0x00626dd0
+Obj6268b0* HitCaster_GetInstance(int iIndex, bool bCreate)
 {
     Obj6268b0* pObject = 0;
     if (iIndex == 0)
@@ -5351,11 +5384,12 @@ struct FUN_00629a20_State
 struct FUN_00629a20_Class
 {
     void FUN_00629f70(int result);
-    void FUN_00629a20(int input);
+    void hkLocalArray_hkpRigidBody_hkLocalArray_hkpRigidBody(int input);
 };
 // Calls FUN_004a4840 with this and input, then passes the returned value to FUN_00629f70.
 // @fnv 0x00629a20
-void FUN_00629a20_Class::FUN_00629a20(int input)
+// src: COMMUNITY 0x00629a20
+void FUN_00629a20_Class::hkLocalArray_hkpRigidBody_hkLocalArray_hkpRigidBody(int input)
 {
     FUN_00629a20_State state = {};
     FUN_00629f70(state.FUN_004a4840(this, input));
@@ -5617,7 +5651,7 @@ struct RainWeather
 struct RainState
 {
     int FUN_00476c90();
-    RainWeather* FUN_0044edb0();
+    RainWeather* TESMain_GetThread();
     RainWeather* FUN_00825c00();
     float FUN_006447d0();
     bool FUN_00634870();
@@ -5640,7 +5674,7 @@ struct RainManager
     void FUN_0045a5e0(const char*);
 };
 extern RainManager* DAT_011c3b3c;
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 struct RainCell
 {
     bool FUN_004518e0();
@@ -5673,15 +5707,16 @@ struct RainSystem
     RainModel* cached;
     void FUN_00636c40(const char*);
     void QueuePrecipitationObject(RainModel*);
-    void FUN_00636ed0(float);
+    void Precipitation_Update(float);
 };
 // Updates rain particle geometry for current and previous weather, adjusting active particle counts and visibility from blend and thresholds.
 // @fnv 0x00636ed0
-void RainSystem::FUN_00636ed0(float elapsed)
+// src: COMMUNITY 0x00636ed0
+void RainSystem::Precipitation_Update(float elapsed)
 {
     RainState* state8 = FUN_0046dd00();
     bool hide10 = state8->FUN_00476c90() == 1 || state8->FUN_00476c90() == 0;
-    RainWeather* weatherA4 = state8->FUN_0044edb0();
+    RainWeather* weatherA4 = state8->TESMain_GetThread();
     RainWeather* weatherB13 = state8->FUN_00825c00();
     float blend4 = state8->FUN_006447d0();
     float thresholdA103 = weatherA4 ? weatherA4->FUN_004ed230(6, 0.999f, 0.0f) : 0.0f;
@@ -5700,8 +5735,8 @@ void RainSystem::FUN_00636ed0(float elapsed)
         }
         if (state8->FUN_00825c00())
             FUN_00636c40(state8->FUN_00825c00()->FUN_006377e0()->Path());
-        if (state8->FUN_0044edb0())
-            FUN_00636c40(state8->FUN_0044edb0()->FUN_006377e0()->Path());
+        if (state8->TESMain_GetThread())
+            FUN_00636c40(state8->TESMain_GetThread()->FUN_006377e0()->Path());
     }
     else
     {
@@ -5709,7 +5744,7 @@ void RainSystem::FUN_00636ed0(float elapsed)
         {
             RainModel* model = weatherA4->FUN_006377e0();
             if (model && cached->FUN_0048cee0() == model->FUN_0048cee0() &&
-                !FUN_00404dc0(cached->Path(), model->Path()))
+                !BSstricmp(cached->Path(), model->Path()))
             {
                 const char* path10 = weatherA4->FUN_006377e0()->Path();
                 RainResource resource28(0);
@@ -6170,7 +6205,7 @@ struct ShapeList62b3
     virtual void V54();
     virtual void V55();
     virtual unsigned int GetChildShapeKey(int iKey);
-    int FUN_0062b480();
+    int bhkShapeCollection_GetFirstKey();
     int InvokeVirtualOnResult(int iKey);
 };
 
@@ -6234,7 +6269,7 @@ struct Shape62b3
 struct WorldObject62b3
 {
     Shape62b3* FUN_004ae6a0();
-    bhkFilter FUN_0043b4f0();
+    bhkFilter bhkWorldObject_GetCollisionFilter();
 };
 
 extern GlobalObject_0040e0b0 g_011d0e64;
@@ -6250,10 +6285,10 @@ float GetObjectMass(WorldObject62b3* pkObject)
     if (pkChildList)
     {
         int iCount = 0;
-        int iKey = pkChildList->FUN_0062b480();
+        int iKey = pkChildList->bhkShapeCollection_GetFirstKey();
         while (iKey != -1)
         {
-            fMass += FUN_0062b1e0(pkChildList->GetChildShapeKey(iKey));
+            fMass += TESHavokUtilities_GetMaterialBuoyancy(pkChildList->GetChildShapeKey(iKey));
             iCount++;
             iKey = pkChildList->InvokeVirtualOnResult(iKey);
         }
@@ -6261,10 +6296,10 @@ float GetObjectMass(WorldObject62b3* pkObject)
     }
     else
     {
-        fMass = FUN_0062b1e0(pkWorldShape->FUN_006205a0());
+        fMass = TESHavokUtilities_GetMaterialBuoyancy(pkWorldShape->FUN_006205a0());
     }
     float fMult = 1.0f;
-    bhkFilter kFilter = pkObject->FUN_0043b4f0();
+    bhkFilter kFilter = pkObject->bhkWorldObject_GetCollisionFilter();
     if (FUN_00624070(&kFilter))
     {
         if (fMass > 0.0)
@@ -6330,12 +6365,13 @@ TargetObj* __fastcall FUN_004ae750(void* self);
 
 struct ClassA
 {
-    void FUN_0062b480();
+    void bhkShapeCollection_GetFirstKey();
 };
 
 // Calls FUN_004ae750 to obtain a TargetObj from this, then invokes v2 on its sub10 member.
 // @fnv 0x0062b480
-void ClassA::FUN_0062b480()
+// src: COMMUNITY 0x0062b480
+void ClassA::bhkShapeCollection_GetFirstKey()
 {
     TargetObj* p = FUN_004ae750(this);
     p->sub10.v2();
@@ -6845,8 +6881,8 @@ struct __declspec(align(16)) Bounds628
 {
     Vec628 min, max;
     void FUN_00437c10();
-    void FUN_006295a0();
-    void FUN_00629560(const Vec628*);
+    void hkAabb_setEmpty();
+    void hkAabb_includePoint(const Vec628*);
 };
 struct Group628
 {
@@ -6919,7 +6955,7 @@ struct Smart628
 };
 struct Controller628
 {
-    void FUN_00ca2ad0(int, void*);
+    void bhkRagdollPenetrationUtil_Initialize(int, void*);
 };
 struct Body628
 {
@@ -7087,21 +7123,21 @@ struct Body628
     bool IsNonZero(int);
     void* GetSourceFilesFromObject();
     BodyCollection628* GetReferenceFlags();
-    void FUN_005610f0(const NiPoint3*);
-    void FUN_00561690(const Vec628*);
-    void FUN_005617c0(const Vec628*);
+    void bhkRigidBody_SetNiPosition(const NiPoint3*);
+    void bhkRigidBody_SetLinearVelocity_00561690(const Vec628*);
+    void bhkRigidBody_SetAngularVelocity_005617c0(const Vec628*);
     Smart628* FUN_00931ed0(Smart628*);
     void GetAabb(Bounds628*);
 };
 Body628* __cdecl FUN_0062b4e0(void*);
-NiTransform* __cdecl FUN_00624ad0(NiTransform*, PhysicsTransform628*);
+NiTransform* __cdecl HK2NI_00624ad0(NiTransform*, PhysicsTransform628*);
 void __cdecl AppendSpawnedPtr(BodyCollection628*, Group628*);
-Body628* __cdecl FUN_004b5a80(const Handle628*);
+Body628* __cdecl bhkEntity_Getbhk(const Handle628*);
 float __cdecl FUN_004587d0(float);
 float __cdecl FUN_00408840(float);
 struct Mover628
 {
-    void FUN_006296d0(Body628*, NiPoint3*, NiPoint3*);
+    void LoadedAreaBound_GetGroundPos(Body628*, NiPoint3*, NiPoint3*);
     void MoveToDestination(Body628*, Group628*);
 };
 // Moves body, or its group, to a destination from FUN_006296d0 plus a bounds height, setting position and rotation, and zero velocity for group members.
@@ -7116,8 +7152,8 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
         world.FUN_0056ded0();
         body->world(&world);
         NiTransform transform;
-        FUN_00624ad0(&transform, &world);
-        FUN_006296d0(reference, &transform.m_Translate, &destination);
+        HK2NI_00624ad0(&transform, &world);
+        LoadedAreaBound_GetGroundPos(reference, &transform.m_Translate, &destination);
         bool grouped = false;
         NiPoint3 delta = destination - transform.m_Translate;
         BodyCollection628* bodies = body->GetReferenceFlags();
@@ -7132,7 +7168,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
             AppendSpawnedPtr(bodies, &group);
             Bounds628 bounds;
             bounds.FUN_00437c10();
-            bounds.FUN_006295a0();
+            bounds.hkAabb_setEmpty();
             Collision628* collision = body->collision();
             for (int index = 0; index < group.FUN_00726070(); ++index)
             {
@@ -7140,8 +7176,8 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 itemBounds.FUN_00437c10();
                 Provider628* provider = collision->FUN_006286d0();
                 provider->bounds(group.FUN_00629ab0(index)->FUN_00460140()->FUN_007d6bb0(), &itemBounds);
-                bounds.FUN_00629560(&itemBounds.max);
-                bounds.FUN_00629560(&itemBounds.min);
+                bounds.hkAabb_includePoint(&itemBounds.max);
+                bounds.hkAabb_includePoint(&itemBounds.min);
             }
             delta[2u] += bounds.max.FUN_00560d30(2) - bounds.min.FUN_00560d30(2);
             for (int moveIndex = 0; moveIndex < group.FUN_00726070(); ++moveIndex)
@@ -7151,18 +7187,18 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 bodyWorld.FUN_0056ded0();
                 body->world(&bodyWorld);
                 NiTransform bodyTransform;
-                FUN_00624ad0(&bodyTransform, &bodyWorld);
+                HK2NI_00624ad0(&bodyTransform, &bodyWorld);
                 position = bodyTransform.m_Translate + delta;
-                Body628* member = FUN_004b5a80(group.FUN_00629ab0(moveIndex));
+                Body628* member = bhkEntity_Getbhk(group.FUN_00629ab0(moveIndex));
                 if (body != member)
                     moved->FUN_006299c0(&group.FUN_00629ab0(moveIndex));
-                member->FUN_005610f0(&position);
+                member->bhkRigidBody_SetNiPosition(&position);
                 Vec628 rotation;
                 rotation.FUN_005532a0(0.0f, 0.0f, 0.01f, 0.0f);
                 Vec628 velocity;
                 velocity.FUN_005532a0(0.0f, 0.0f, 0.0f, 0.0f);
-                member->FUN_00561690(&rotation);
-                member->FUN_005617c0(&velocity);
+                member->bhkRigidBody_SetLinearVelocity_00561690(&rotation);
+                member->bhkRigidBody_SetAngularVelocity_005617c0(&velocity);
             }
             if (reference && reference->isActor())
             {
@@ -7170,7 +7206,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 if (actor->controller)
                 {
                     Smart628 smart;
-                    actor->controller->FUN_00ca2ad0(reference->actorArg(), actor->FUN_00931ed0(&smart)->FUN_00559450());
+                    actor->controller->bhkRagdollPenetrationUtil_Initialize(reference->actorArg(), actor->FUN_00931ed0(&smart)->FUN_00559450());
                 }
             }
         }
@@ -7182,10 +7218,10 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
             float height = FUN_004587d0(soloBounds.max.FUN_00560d30(2)) +
                            FUN_00408840(FUN_004587d0(soloBounds.min.FUN_00560d30(2)));
             destination[2u] += height;
-            body->FUN_005610f0(&destination);
+            body->bhkRigidBody_SetNiPosition(&destination);
             Vec628 rotation;
             rotation.FUN_005532a0(0.0f, 0.0f, 0.01f, 0.0f);
-            body->FUN_00561690(&rotation);
+            body->bhkRigidBody_SetLinearVelocity_00561690(&rotation);
         }
     }
 }

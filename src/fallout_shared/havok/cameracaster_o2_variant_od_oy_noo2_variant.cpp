@@ -62,7 +62,7 @@ struct __declspec(align(16)) xCollector
 {
     xCollector();
     ~xCollector();
-    xTag FUN_00621210();
+    xTag hkpAllCdPointCollector_hasHit();
     void FUN_00cabad0();
     xHitList* FUN_00460140();
     int m_q[0xe8];
@@ -198,7 +198,7 @@ bool xCaster::FUN_00620bc0(const xP3& akFrom, xP3& akTo, xOutHit* apOut)
         xFUN_004a3e00(&FROM, akFrom);
         xFUN_004a3e00(&TO, akTo);
         m_iWordAt00.FUN_00559450()->InvokeInterfaceCall(&FROM, &TO, &COL, 0);
-        RESULT = COL.FUN_00621210().FUN_005609f0();
+        RESULT = COL.hkpAllCdPointCollector_hasHit().FUN_005609f0();
         if (RESULT)
         {
             COL.FUN_00cabad0();

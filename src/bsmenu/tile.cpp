@@ -267,7 +267,8 @@ long __cdecl FUN_00eca6d3(const char*);
 
 // Finds the last '_' in apTraitName and returns FUN_00eca6d3 of the text after it, -1 if that text is empty, or 0 if there is no '_'.
 // @fnv 0x00a01a20
-int __cdecl FUN_00a01a20(const char* apTraitName)
+// src: COMMUNITY 0x00a01a20
+int __cdecl Tile_GetExtraDataFromTraitName(const char* apTraitName)
 {
     const char* plast_ = tile_crt::strrchr(apTraitName, '_');
     if (plast_) {
@@ -318,14 +319,15 @@ void FUN_00a074d0_shell::FUN_00a074d0(int aiFlag)
 }
 
 struct FUN_00a07530_shell : public Tile {
-    void FUN_00a07530(int);
+    void Tile_SetChangeFlag(int);
 };
 
 void __cdecl FUN_00a07690(Tile*);
 
 // ORs aiFlag into the flags at offset 0x30 when aiFlag is at most 0x3ff, and calls FUN_00a07690 if the flags changed.
 // @fnv 0x00a07530
-void FUN_00a07530_shell::FUN_00a07530(int aiFlag)
+// src: COMMUNITY 0x00a07530
+void FUN_00a07530_shell::Tile_SetChangeFlag(int aiFlag)
 {
     if ((unsigned int)aiFlag > 0x3ff)
         return;
@@ -467,7 +469,7 @@ struct FUN_00a0a0b0_shell : public Tile {
     void* FUN_00a0a0b0(int, int);
 };
 
-const char* __cdecl FUN_00a01a70(int);
+const char* __cdecl Tile_TraitToText(int);
 int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 int __cdecl FUN_00a01860(const char*);
 
@@ -476,7 +478,7 @@ int __cdecl FUN_00a01860(const char*);
 void* FUN_00a0a0b0_shell::FUN_00a0a0b0(int aiBaseTrait, int aiID)
 {
     char strValueName[260];
-    const char* strBaseName = FUN_00a01a70(aiBaseTrait);
+    const char* strBaseName = Tile_TraitToText(aiBaseTrait);
     _sprintf_s(strValueName, sizeof(strValueName), "%s%d", strBaseName, aiID);
     return GetValue(FUN_00a01860(strValueName));
 }
@@ -528,7 +530,8 @@ struct XL { void* head; void* RemovePos(void*&); };
 extern XL DAT_011f3324;
 // Iterates the tile list, and for each visible tile clears flags 0x800 and 0x1000, calls FUN_00a07690, and removes it from the list.
 // @fnv 0x00a078e0
-void FUN_00a078e0()
+// src: COMMUNITY 0x00a078e0
+void Tile_CheckHibernatingTiles()
 {
     void* xelem = DAT_011f3324.head;
     while (xelem) {
@@ -570,7 +573,7 @@ void FUN_00a079d0_shell::UpdateTileChildren()
         kPos = kPos->next;
         pitem = *xelem;
         if (((FUN_00a01230_shell*)pitem)->IsTraitNonZero(0xfa6))
-            ((FUN_00a07530_shell*)pitem)->FUN_00a07530(0x80);
+            ((FUN_00a07530_shell*)pitem)->Tile_SetChangeFlag(0x80);
         else
             ((FUN_00a079d0_shell*)pitem)->UpdateTileChildren();
     }
@@ -578,7 +581,7 @@ void FUN_00a079d0_shell::UpdateTileChildren()
 
 namespace fnv_00a0a270 {
 extern MemoryManager g_memoryManager;
-struct VX { char pad[8]; float fValue; void* ptr; void RemoveFromReactions(); void FUN_00a09410(bool); };
+struct VX { char pad[8]; float fValue; void* ptr; void RemoveFromReactions(); void Tile_Value_SetFloat(bool); };
 struct BW { bool v; };
 struct FW { float f; };
 // Stores afValue.f into fValue, frees ptr if set, optionally calls RemoveFromReactions, then calls FUN_00a09410 with whether the value changed or ptr was non-null.
@@ -594,7 +597,7 @@ void __fastcall FUN_00a0a270(VX* self, FW afValue, BW abClearActions)
     }
     if (abClearActions.v)
         self->RemoveFromReactions();
-    self->FUN_00a09410(bforceUpdate);
+    self->Tile_Value_SetFloat(bforceUpdate);
 }
 }  // namespace fnv_00a0a270
 
@@ -667,7 +670,7 @@ struct FUN_00a01000_shell : public Tile {
 
 extern MemoryManager g_memoryManager;
 struct P09Value { int m_uiSoundID; void* pParent; float fValue; void* p0c; void* p10; };
-int __cdecl FUN_00a01160(const void*, const void*);
+int __cdecl Tile_ValueSortFunc(const void*, const void*);
 void __cdecl FUN_00fda2a0();
 int __cdecl _atexit(void (__cdecl*)());
 struct P09Traits {
@@ -702,7 +705,7 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
     DAT_011f338c = aiTrait;
     {
         P09Value* pSearchKey = (P09Value*)&DAT_011f338c;
-        uifoundIndex = ((P09Traits*)((char*)this + 0x10))->BinarySearch(pSearchKey, FUN_00a01160);
+        uifoundIndex = ((P09Traits*)((char*)this + 0x10))->BinarySearch(pSearchKey, Tile_ValueSortFunc);
     }
     if (uifoundIndex != (unsigned int)-1) {
         preturnVal = (*(P09Value***)((char*)this + 0x14))[uifoundIndex];
@@ -713,7 +716,7 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
         preturnVal = pInitValue;
         preturnVal->m_uiSoundID = aiTrait;
         preturnVal->pParent = this;
-        ((P09Traits*)((char*)this + 0x10))->InsertInSortedOrder(preturnVal, FUN_00a01160);
+        ((P09Traits*)((char*)this + 0x10))->InsertInSortedOrder(preturnVal, Tile_ValueSortFunc);
     }
     LeaveCriticalSection(&DAT_011f3330);
     return preturnVal;
@@ -730,7 +733,7 @@ struct P09TileS { void Set(int, const char*, bool); void SetImageFlags(int); };
 struct P09Setting { void* pVtbl; const char* volatile pValue; };
 extern P09Setting g_011f3368;
 extern double DAT_01094a80;
-Tile* __cdecl FUN_00a00c20(int);
+Tile* __cdecl Tile_CreateByID(int);
 void __cdecl _FNV_Warning(const char*, ...);
 // @fnv 0x00a031b0
 Tile* FUN_00a031b0_shell::CreateMenuTiles(void* apTemplate)
@@ -758,7 +761,7 @@ Tile* FUN_00a031b0_shell::CreateMenuTiles(void* apTemplate)
             pitem = *ppData;
         }
         if (pitem->eType == 6) {
-            ptile = FUN_00a00c20((int)pitem->fValue);
+            ptile = Tile_CreateByID((int)pitem->fValue);
             if (!ptile) {
                 _FNV_Warning("MENUS: Unable to create tile. Aborting menu creation.");
                 return 0;
@@ -836,7 +839,8 @@ extern void** DAT_011f3328;
 
 // If apTile is valid, lacks flag 0x800 and is not the excluded list entry, adds it to DAT_011f332c, increments DAT_011f32d8, sets flag 0x800 and clears 0x1000.
 // @fnv 0x00a077c0
-void FUN_00a077c0(Tile* apTile)
+// src: COMMUNITY 0x00a077c0
+void Tile_AddHibernatingTile(Tile* apTile)
 {
     void* pNode;
     {
@@ -1293,7 +1297,7 @@ struct FUN_00a00f30_shell : public Tile {
 
 extern int DAT_011f3330;
 int __cdecl _atexit(void (__cdecl*)());
-int __cdecl FUN_00a01160(const void*, const void*);
+int __cdecl Tile_ValueSortFunc(const void*, const void*);
 void __cdecl FUN_00fda290();
 extern void (__stdcall *DAT_00fdf05c)(void*);
 extern void (__stdcall *DAT_00fdf100)(void*);
@@ -1325,7 +1329,7 @@ void* FUN_00a00f30_shell::FUN_00a00f30(int aiTrait)
     DAT_011f3374 = aiTrait;
     {
         Tile::Value* pkey = (Tile::Value*)&DAT_011f3374;
-        uifoundIndex = ((BSSimpleArray<Tile::Value*,8>*)((char*)this + 0x10))->BinarySearch(pkey, FUN_00a01160);
+        uifoundIndex = ((BSSimpleArray<Tile::Value*,8>*)((char*)this + 0x10))->BinarySearch(pkey, Tile_ValueSortFunc);
     }
     if (uifoundIndex != 0xffffffff)
         preturnVal = (*(Tile::Value***)((char*)this + 0x14))[uifoundIndex];
@@ -1400,10 +1404,11 @@ struct FUN_00a0c900_shell {
     NiTMapItem<const char*, int>** m_ppkHashTable;
     unsigned int m_uiCount;
     bool m_bCopy;
-    void FUN_00a0c900(const char* pcKey, int val);
+    void NiTStringPointerMap_XMLStorage_SetAt(const char* pcKey, int val);
 };
 // @fnv 0x00a0c900
-void FUN_00a0c900_shell::FUN_00a0c900(const char* pcKey, int val)
+// src: COMMUNITY 0x00a0c900
+void FUN_00a0c900_shell::NiTStringPointerMap_XMLStorage_SetAt(const char* pcKey, int val)
 {
     unsigned int uiIndex = KeyToHashIndex(pcKey);
     NiTMapItem<const char*, int>* pkItem = m_ppkHashTable[uiIndex];
@@ -1465,7 +1470,8 @@ int VATSMenu::FUN_007267c0()
 }
 
 // @fnv 0x00a01160
-int __cdecl FUN_00a01160(int** pFirst, int** pSecond)
+// src: COMMUNITY 0x00a01160
+int __cdecl Tile_ValueSortFunc(int** pFirst, int** pSecond)
 {
     int** pa = pFirst;
     int** pb = pSecond;
@@ -1489,13 +1495,15 @@ void FUN_00a0baf0_class::FUN_00a0baf0()
 }
 
 // @fnv 0x00a0bbe0
-const char* TileText::FUN_00a0bbe0()
+// src: COMMUNITY 0x00a0bbe0
+const char* TileText::GetTypeName_00a0bbe0()
 {
     return "TEXT";
 }
 
 // @fnv 0x00a0bdd0
-const char* __thiscall Tile3D::FUN_00a0bdd0()
+// src: COMMUNITY 0x00a0bdd0
+const char* __thiscall Tile3D::GetTypeName_00a0bdd0()
 {
     return "3DAN";
 }
@@ -1896,7 +1904,7 @@ void BarterCategoryLabelView::UpdateTileText(P09TileS* tile)
 }
 
 namespace TraitRegistration {
-void FUN_009ff8a0(const char*,int);bool FUN_00707b40();extern unsigned char DAT_011d8a84,DAT_011d8c50;
+void Tile_AddToTable(const char*,int);bool FUN_00707b40();extern unsigned char DAT_011d8a84,DAT_011d8c50;
 extern char DAT_010345e4;
 extern char DAT_0103a454;
 extern char DAT_0103c034;
@@ -2122,231 +2130,232 @@ extern char DAT_01094854;
 extern char DAT_01094860;
 extern char DAT_01094868;
 // @fnv 0x009ff970
-void FUN_009ff970(){
-FUN_009ff8a0(&DAT_01094868, -1);
-FUN_009ff8a0(&DAT_0106ec74, 0);
-FUN_009ff8a0(&DAT_0106ec7c, 1);
-FUN_009ff8a0(&DAT_01094860, 1);
-FUN_009ff8a0(&DAT_01094854, 2);
-FUN_009ff8a0(&DAT_0109484c, 4);
-FUN_009ff8a0(&DAT_01094844, 5);
-FUN_009ff8a0(&DAT_0109483c, 6);
-FUN_009ff8a0(&DAT_01094834, -1);
-FUN_009ff8a0(&DAT_01094824, 101);
-FUN_009ff8a0(&DAT_01094814, 102);
-FUN_009ff8a0(&DAT_01094800, 6008);
-FUN_009ff8a0(&DAT_010947f0, 103);
-FUN_009ff8a0(&DAT_0106f490, (unsigned char)((DAT_011d8a84 && bool(DAT_011d8c50 ? 0 : 1)) ? 1 : 0));
-FUN_009ff8a0(&DAT_010947e4, 0);
-FUN_009ff8a0(&DAT_0106f488, (unsigned char)((DAT_011d8a84 && bool(DAT_011d8c50 ? 0 : 1)) ? 1 : 0));
-FUN_009ff8a0(&DAT_010947d8, 1);
-FUN_009ff8a0(&DAT_010947c8, FUN_00707b40());
-FUN_009ff8a0(&DAT_010947b8, 110);
-FUN_009ff8a0(&DAT_010947a8, 111);
-FUN_009ff8a0(&DAT_01094798, 112);
-FUN_009ff8a0(&DAT_01094788, -1);
-FUN_009ff8a0(&DAT_01094778, 0);
-FUN_009ff8a0(&DAT_0109476c, -1);
-FUN_009ff8a0(&DAT_01094758, 9);
-FUN_009ff8a0(&DAT_0109474c, 9);
-FUN_009ff8a0(&DAT_01094740, 10);
-FUN_009ff8a0(&DAT_01094734, 11);
-FUN_009ff8a0(&DAT_01094728, 12);
-FUN_009ff8a0(&DAT_0109471c, 13);
-FUN_009ff8a0(&DAT_01094710, 14);
-FUN_009ff8a0(&DAT_01094704, 15);
-FUN_009ff8a0(&DAT_010946f8, 16);
-FUN_009ff8a0(&DAT_01077c78, 17);
-FUN_009ff8a0(&DAT_01077c6c, 18);
-FUN_009ff8a0(&DAT_010946ec, 17);
-FUN_009ff8a0(&DAT_010946e0, 18);
-FUN_009ff8a0(&DAT_010946d8, 902);
-FUN_009ff8a0(&DAT_010946d0, 905);
-FUN_009ff8a0(&DAT_010946cc, 904);
-FUN_009ff8a0(&DAT_010946c8, 904);
-FUN_009ff8a0(&DAT_010946c0, 901);
-FUN_009ff8a0(&DAT_010946b8, 906);
-FUN_009ff8a0(&DAT_010946ac, 999);
-FUN_009ff8a0(&DAT_0103c83c, 903);
-FUN_009ff8a0(&DAT_010946a4, 907);
-FUN_009ff8a0(&DAT_0109469c, 908);
-FUN_009ff8a0(&DAT_01094690, 1017);
-FUN_009ff8a0(&DAT_01094684, 1026);
-FUN_009ff8a0(&DAT_01094674, 1048);
-FUN_009ff8a0(&DAT_01094664, 1008);
-FUN_009ff8a0(&DAT_01094654, 1009);
-FUN_009ff8a0(&DAT_01094644, 1020);
-FUN_009ff8a0(&DAT_01094634, 1004);
-FUN_009ff8a0(&DAT_01094624, 1002);
-FUN_009ff8a0(&DAT_01094614, 1007);
-FUN_009ff8a0(&DAT_01094604, 1014);
-FUN_009ff8a0(&DAT_010945f8, 1023);
-FUN_009ff8a0(&DAT_010945e8, 1001);
-FUN_009ff8a0(&DAT_010945d8, 1059);
-FUN_009ff8a0(&DAT_010945c8, 1051);
-FUN_009ff8a0(&DAT_010945bc, 1013);
-FUN_009ff8a0(&DAT_010945ac, 1016);
-FUN_009ff8a0(&DAT_0109459c, 1036);
-FUN_009ff8a0(&DAT_0109458c, 1012);
-FUN_009ff8a0(&DAT_01094580, 1003);
-FUN_009ff8a0(&DAT_01094574, 1018);
-FUN_009ff8a0(&DAT_01094564, 1027);
-FUN_009ff8a0(&DAT_01094554, 1035);
-FUN_009ff8a0(&DAT_01094544, 1061);
-FUN_009ff8a0(&DAT_0109452c, 1058);
-FUN_009ff8a0(&DAT_0109451c, 1047);
-FUN_009ff8a0(&DAT_0109450c, 1053);
-FUN_009ff8a0(&DAT_010944fc, 1054);
-FUN_009ff8a0(&DAT_010944ec, 1055);
-FUN_009ff8a0(&DAT_010944dc, 1057);
-FUN_009ff8a0(&DAT_010944d0, 1056);
-FUN_009ff8a0(&DAT_010944bc, 1060);
-FUN_009ff8a0(&DAT_010944a4, 1075);
-FUN_009ff8a0(&DAT_01094490, 1074);
-FUN_009ff8a0(&DAT_0109447c, 1076);
-FUN_009ff8a0(&DAT_01094468, 1080);
-FUN_009ff8a0(&DAT_01094458, 1081);
-FUN_009ff8a0(&DAT_01094448, 1082);
-FUN_009ff8a0(&DAT_01094438, 1077);
-FUN_009ff8a0(&DAT_01094428, 1083);
-FUN_009ff8a0(&DAT_0109441c, 1084);
-FUN_009ff8a0(&DAT_01094418, 2010);
-FUN_009ff8a0(&DAT_01094414, 2001);
-FUN_009ff8a0(&DAT_01094410, 2018);
-FUN_009ff8a0(&DAT_01094408, 2009);
-FUN_009ff8a0(&DAT_01094400, 2000);
-FUN_009ff8a0(&DAT_010943fc, 2004);
-FUN_009ff8a0(&DAT_010943f8, 2014);
-FUN_009ff8a0(&DAT_010943f0, 2008);
-FUN_009ff8a0(&DAT_010943ec, 2012);
-FUN_009ff8a0(&DAT_010943e8, 2013);
-FUN_009ff8a0(&DAT_01076f38, 2016);
-FUN_009ff8a0(&DAT_010943e4, 2017);
-FUN_009ff8a0(&DAT_010943e0, 2006);
-FUN_009ff8a0(&DAT_010943dc, 2005);
-FUN_009ff8a0(&DAT_010943d8, 2007);
-FUN_009ff8a0(&DAT_010943d4, 2003);
-FUN_009ff8a0(&DAT_010943cc, 2003);
-FUN_009ff8a0(&DAT_010943c8, 2015);
-FUN_009ff8a0(&DAT_010943c4, 2020);
-FUN_009ff8a0(&DAT_010943bc, 2021);
-FUN_009ff8a0(&DAT_010943b0, 2022);
-FUN_009ff8a0(&DAT_010943ac, 2019);
-FUN_009ff8a0(&DAT_01044c0c, 2023);
-FUN_009ff8a0(&DAT_010943a4, 2011);
-FUN_009ff8a0(&DAT_010943a0, 2002);
-FUN_009ff8a0(&DAT_01094398, 3002);
-FUN_009ff8a0(&DAT_01094394, 3003);
-FUN_009ff8a0(&DAT_0109438c, 3004);
-FUN_009ff8a0(&DAT_01094384, 3001);
-FUN_009ff8a0(&DAT_0103a454, 4009);
-FUN_009ff8a0(&DAT_01094378, 4050);
-FUN_009ff8a0(&DAT_01094370, 4020);
-FUN_009ff8a0(&DAT_01094364, 4085);
-FUN_009ff8a0(&DAT_01094358, 4022);
-FUN_009ff8a0(&DAT_0109434c, 4022);
-FUN_009ff8a0(&DAT_01094344, 4004);
-FUN_009ff8a0(&DAT_0109433c, 4039);
-FUN_009ff8a0(&DAT_01094330, 4043);
-FUN_009ff8a0(&DAT_01094320, 4072);
-FUN_009ff8a0(&DAT_01094314, 4011);
-FUN_009ff8a0(&DAT_01094308, 4032);
-FUN_009ff8a0(&DAT_010942fc, 4031);
-FUN_009ff8a0(&DAT_010942f4, 4032);
-FUN_009ff8a0(&DAT_010942ec, 4031);
-FUN_009ff8a0(&DAT_010942e4, 4014);
-FUN_009ff8a0(&DAT_010942d8, 4006);
-FUN_009ff8a0(&DAT_0103c034, 4013);
-FUN_009ff8a0(&DAT_010942cc, 4073);
-FUN_009ff8a0(&DAT_010942c0, 4078);
-FUN_009ff8a0(&DAT_010942b4, 4079);
-FUN_009ff8a0(&DAT_010942a8, 4074);
-FUN_009ff8a0(&DAT_0109429c, 4075);
-FUN_009ff8a0(&DAT_01094290, 4076);
-FUN_009ff8a0(&DAT_01094284, 4077);
-FUN_009ff8a0(&DAT_0109427c, 4080);
-FUN_009ff8a0(&DAT_01094274, 4081);
-FUN_009ff8a0(&DAT_01094268, 4034);
-FUN_009ff8a0(&DAT_0109425c, 4046);
-FUN_009ff8a0(&DAT_01094250, 4044);
-FUN_009ff8a0(&DAT_01094244, 4045);
-FUN_009ff8a0(&DAT_0109423c, 4025);
-FUN_009ff8a0(&DAT_01094234, 4019);
-FUN_009ff8a0(&DAT_0109422c, 4016);
-FUN_009ff8a0(&DAT_01094228, 4010);
-FUN_009ff8a0(&DAT_01094220, 4030);
-FUN_009ff8a0(&DAT_01094218, 4023);
-FUN_009ff8a0(&DAT_0109420c, 4052);
-FUN_009ff8a0(&DAT_01094204, 4087);
-FUN_009ff8a0(&DAT_010941f8, 4012);
-FUN_009ff8a0(&DAT_010941f0, 4008);
-FUN_009ff8a0(&DAT_010941e4, 4033);
-FUN_009ff8a0(&DAT_010941d8, 4035);
-FUN_009ff8a0(&DAT_010941cc, 4053);
-FUN_009ff8a0(&DAT_010941c4, 4029);
-FUN_009ff8a0(&DAT_010941c0, 4018);
-FUN_009ff8a0(&DAT_010941b0, 4047);
-FUN_009ff8a0(&DAT_0109419c, 4048);
-FUN_009ff8a0(&DAT_01094190, 4090);
-FUN_009ff8a0(&DAT_01094184, 4091);
-FUN_009ff8a0(&DAT_01094178, 4092);
-FUN_009ff8a0(&DAT_01094168, 4037);
-FUN_009ff8a0(&DAT_01094158, 4007);
-FUN_009ff8a0(&DAT_01094150, 4036);
-FUN_009ff8a0(&DAT_01094144, 4084);
-FUN_009ff8a0(&DAT_0108dff8, 4015);
-FUN_009ff8a0(&DAT_01094138, 4089);
-FUN_009ff8a0(&DAT_01094130, 4021);
-FUN_009ff8a0(&DAT_01094128, 4100);
-FUN_009ff8a0(&DAT_01094120, 4101);
-FUN_009ff8a0(&DAT_01094118, 4102);
-FUN_009ff8a0(&DAT_01094110, 4103);
-FUN_009ff8a0(&DAT_01094108, 4104);
-FUN_009ff8a0(&DAT_01094100, 4105);
-FUN_009ff8a0(&DAT_010940f8, 4106);
-FUN_009ff8a0(&DAT_010940f0, 4107);
-FUN_009ff8a0(&DAT_010940e8, 4108);
-FUN_009ff8a0(&DAT_010940e0, 4109);
-FUN_009ff8a0(&DAT_010940d8, 4110);
-FUN_009ff8a0(&DAT_010940d0, 4111);
-FUN_009ff8a0(&DAT_010940c8, 4112);
-FUN_009ff8a0(&DAT_010940c0, 4113);
-FUN_009ff8a0(&DAT_010940b8, 4114);
-FUN_009ff8a0(&DAT_010940b0, 4115);
-FUN_009ff8a0(&DAT_010940a8, 4116);
-FUN_009ff8a0(&DAT_0106fc9c, 4003);
-FUN_009ff8a0(&DAT_0109409c, 4082);
-FUN_009ff8a0(&DAT_01094090, 4083);
-FUN_009ff8a0(&DAT_01094088, 4017);
-FUN_009ff8a0(&DAT_0109407c, 4027);
-FUN_009ff8a0(&DAT_01094070, 4028);
-FUN_009ff8a0(&DAT_01094064, 4026);
-FUN_009ff8a0(&DAT_01094058, 4061);
-FUN_009ff8a0(&DAT_0109404c, 4062);
-FUN_009ff8a0(&DAT_01094040, 4063);
-FUN_009ff8a0(&DAT_01094034, 4064);
-FUN_009ff8a0(&DAT_01094028, 4065);
-FUN_009ff8a0(&DAT_0109401c, 4066);
-FUN_009ff8a0(&DAT_01094010, 4067);
-FUN_009ff8a0(&DAT_01094004, 4068);
-FUN_009ff8a0(&DAT_01093ff4, 4071);
-FUN_009ff8a0(&DAT_01093fe8, 4054);
-FUN_009ff8a0(&DAT_01093fe4, 4055);
-FUN_009ff8a0(&DAT_01093fdc, 4056);
-FUN_009ff8a0(&DAT_01093fd4, 4057);
-FUN_009ff8a0(&DAT_01093fcc, 4058);
-FUN_009ff8a0(&DAT_010345e4, 4001);
-FUN_009ff8a0(&DAT_01076f20, 4002);
-FUN_009ff8a0(&DAT_01093fc4, 4024);
-FUN_009ff8a0(&DAT_01093fb0, 4088);
-FUN_009ff8a0(&DAT_01086f50, 5005);
-FUN_009ff8a0(&DAT_01093fac, 5002);
-FUN_009ff8a0(&DAT_01093fa8, 5008);
-FUN_009ff8a0(&DAT_01093fa0, 5001);
-FUN_009ff8a0(&DAT_01078bc0, 5006);
-FUN_009ff8a0(&DAT_01093f98, 5004);
-FUN_009ff8a0(&DAT_01093f8c, 5009);
-FUN_009ff8a0(&DAT_01093f84, 5007);
+// src: COMMUNITY 0x009ff970
+void Tile_LoadTextTable(){
+Tile_AddToTable(&DAT_01094868, -1);
+Tile_AddToTable(&DAT_0106ec74, 0);
+Tile_AddToTable(&DAT_0106ec7c, 1);
+Tile_AddToTable(&DAT_01094860, 1);
+Tile_AddToTable(&DAT_01094854, 2);
+Tile_AddToTable(&DAT_0109484c, 4);
+Tile_AddToTable(&DAT_01094844, 5);
+Tile_AddToTable(&DAT_0109483c, 6);
+Tile_AddToTable(&DAT_01094834, -1);
+Tile_AddToTable(&DAT_01094824, 101);
+Tile_AddToTable(&DAT_01094814, 102);
+Tile_AddToTable(&DAT_01094800, 6008);
+Tile_AddToTable(&DAT_010947f0, 103);
+Tile_AddToTable(&DAT_0106f490, (unsigned char)((DAT_011d8a84 && bool(DAT_011d8c50 ? 0 : 1)) ? 1 : 0));
+Tile_AddToTable(&DAT_010947e4, 0);
+Tile_AddToTable(&DAT_0106f488, (unsigned char)((DAT_011d8a84 && bool(DAT_011d8c50 ? 0 : 1)) ? 1 : 0));
+Tile_AddToTable(&DAT_010947d8, 1);
+Tile_AddToTable(&DAT_010947c8, FUN_00707b40());
+Tile_AddToTable(&DAT_010947b8, 110);
+Tile_AddToTable(&DAT_010947a8, 111);
+Tile_AddToTable(&DAT_01094798, 112);
+Tile_AddToTable(&DAT_01094788, -1);
+Tile_AddToTable(&DAT_01094778, 0);
+Tile_AddToTable(&DAT_0109476c, -1);
+Tile_AddToTable(&DAT_01094758, 9);
+Tile_AddToTable(&DAT_0109474c, 9);
+Tile_AddToTable(&DAT_01094740, 10);
+Tile_AddToTable(&DAT_01094734, 11);
+Tile_AddToTable(&DAT_01094728, 12);
+Tile_AddToTable(&DAT_0109471c, 13);
+Tile_AddToTable(&DAT_01094710, 14);
+Tile_AddToTable(&DAT_01094704, 15);
+Tile_AddToTable(&DAT_010946f8, 16);
+Tile_AddToTable(&DAT_01077c78, 17);
+Tile_AddToTable(&DAT_01077c6c, 18);
+Tile_AddToTable(&DAT_010946ec, 17);
+Tile_AddToTable(&DAT_010946e0, 18);
+Tile_AddToTable(&DAT_010946d8, 902);
+Tile_AddToTable(&DAT_010946d0, 905);
+Tile_AddToTable(&DAT_010946cc, 904);
+Tile_AddToTable(&DAT_010946c8, 904);
+Tile_AddToTable(&DAT_010946c0, 901);
+Tile_AddToTable(&DAT_010946b8, 906);
+Tile_AddToTable(&DAT_010946ac, 999);
+Tile_AddToTable(&DAT_0103c83c, 903);
+Tile_AddToTable(&DAT_010946a4, 907);
+Tile_AddToTable(&DAT_0109469c, 908);
+Tile_AddToTable(&DAT_01094690, 1017);
+Tile_AddToTable(&DAT_01094684, 1026);
+Tile_AddToTable(&DAT_01094674, 1048);
+Tile_AddToTable(&DAT_01094664, 1008);
+Tile_AddToTable(&DAT_01094654, 1009);
+Tile_AddToTable(&DAT_01094644, 1020);
+Tile_AddToTable(&DAT_01094634, 1004);
+Tile_AddToTable(&DAT_01094624, 1002);
+Tile_AddToTable(&DAT_01094614, 1007);
+Tile_AddToTable(&DAT_01094604, 1014);
+Tile_AddToTable(&DAT_010945f8, 1023);
+Tile_AddToTable(&DAT_010945e8, 1001);
+Tile_AddToTable(&DAT_010945d8, 1059);
+Tile_AddToTable(&DAT_010945c8, 1051);
+Tile_AddToTable(&DAT_010945bc, 1013);
+Tile_AddToTable(&DAT_010945ac, 1016);
+Tile_AddToTable(&DAT_0109459c, 1036);
+Tile_AddToTable(&DAT_0109458c, 1012);
+Tile_AddToTable(&DAT_01094580, 1003);
+Tile_AddToTable(&DAT_01094574, 1018);
+Tile_AddToTable(&DAT_01094564, 1027);
+Tile_AddToTable(&DAT_01094554, 1035);
+Tile_AddToTable(&DAT_01094544, 1061);
+Tile_AddToTable(&DAT_0109452c, 1058);
+Tile_AddToTable(&DAT_0109451c, 1047);
+Tile_AddToTable(&DAT_0109450c, 1053);
+Tile_AddToTable(&DAT_010944fc, 1054);
+Tile_AddToTable(&DAT_010944ec, 1055);
+Tile_AddToTable(&DAT_010944dc, 1057);
+Tile_AddToTable(&DAT_010944d0, 1056);
+Tile_AddToTable(&DAT_010944bc, 1060);
+Tile_AddToTable(&DAT_010944a4, 1075);
+Tile_AddToTable(&DAT_01094490, 1074);
+Tile_AddToTable(&DAT_0109447c, 1076);
+Tile_AddToTable(&DAT_01094468, 1080);
+Tile_AddToTable(&DAT_01094458, 1081);
+Tile_AddToTable(&DAT_01094448, 1082);
+Tile_AddToTable(&DAT_01094438, 1077);
+Tile_AddToTable(&DAT_01094428, 1083);
+Tile_AddToTable(&DAT_0109441c, 1084);
+Tile_AddToTable(&DAT_01094418, 2010);
+Tile_AddToTable(&DAT_01094414, 2001);
+Tile_AddToTable(&DAT_01094410, 2018);
+Tile_AddToTable(&DAT_01094408, 2009);
+Tile_AddToTable(&DAT_01094400, 2000);
+Tile_AddToTable(&DAT_010943fc, 2004);
+Tile_AddToTable(&DAT_010943f8, 2014);
+Tile_AddToTable(&DAT_010943f0, 2008);
+Tile_AddToTable(&DAT_010943ec, 2012);
+Tile_AddToTable(&DAT_010943e8, 2013);
+Tile_AddToTable(&DAT_01076f38, 2016);
+Tile_AddToTable(&DAT_010943e4, 2017);
+Tile_AddToTable(&DAT_010943e0, 2006);
+Tile_AddToTable(&DAT_010943dc, 2005);
+Tile_AddToTable(&DAT_010943d8, 2007);
+Tile_AddToTable(&DAT_010943d4, 2003);
+Tile_AddToTable(&DAT_010943cc, 2003);
+Tile_AddToTable(&DAT_010943c8, 2015);
+Tile_AddToTable(&DAT_010943c4, 2020);
+Tile_AddToTable(&DAT_010943bc, 2021);
+Tile_AddToTable(&DAT_010943b0, 2022);
+Tile_AddToTable(&DAT_010943ac, 2019);
+Tile_AddToTable(&DAT_01044c0c, 2023);
+Tile_AddToTable(&DAT_010943a4, 2011);
+Tile_AddToTable(&DAT_010943a0, 2002);
+Tile_AddToTable(&DAT_01094398, 3002);
+Tile_AddToTable(&DAT_01094394, 3003);
+Tile_AddToTable(&DAT_0109438c, 3004);
+Tile_AddToTable(&DAT_01094384, 3001);
+Tile_AddToTable(&DAT_0103a454, 4009);
+Tile_AddToTable(&DAT_01094378, 4050);
+Tile_AddToTable(&DAT_01094370, 4020);
+Tile_AddToTable(&DAT_01094364, 4085);
+Tile_AddToTable(&DAT_01094358, 4022);
+Tile_AddToTable(&DAT_0109434c, 4022);
+Tile_AddToTable(&DAT_01094344, 4004);
+Tile_AddToTable(&DAT_0109433c, 4039);
+Tile_AddToTable(&DAT_01094330, 4043);
+Tile_AddToTable(&DAT_01094320, 4072);
+Tile_AddToTable(&DAT_01094314, 4011);
+Tile_AddToTable(&DAT_01094308, 4032);
+Tile_AddToTable(&DAT_010942fc, 4031);
+Tile_AddToTable(&DAT_010942f4, 4032);
+Tile_AddToTable(&DAT_010942ec, 4031);
+Tile_AddToTable(&DAT_010942e4, 4014);
+Tile_AddToTable(&DAT_010942d8, 4006);
+Tile_AddToTable(&DAT_0103c034, 4013);
+Tile_AddToTable(&DAT_010942cc, 4073);
+Tile_AddToTable(&DAT_010942c0, 4078);
+Tile_AddToTable(&DAT_010942b4, 4079);
+Tile_AddToTable(&DAT_010942a8, 4074);
+Tile_AddToTable(&DAT_0109429c, 4075);
+Tile_AddToTable(&DAT_01094290, 4076);
+Tile_AddToTable(&DAT_01094284, 4077);
+Tile_AddToTable(&DAT_0109427c, 4080);
+Tile_AddToTable(&DAT_01094274, 4081);
+Tile_AddToTable(&DAT_01094268, 4034);
+Tile_AddToTable(&DAT_0109425c, 4046);
+Tile_AddToTable(&DAT_01094250, 4044);
+Tile_AddToTable(&DAT_01094244, 4045);
+Tile_AddToTable(&DAT_0109423c, 4025);
+Tile_AddToTable(&DAT_01094234, 4019);
+Tile_AddToTable(&DAT_0109422c, 4016);
+Tile_AddToTable(&DAT_01094228, 4010);
+Tile_AddToTable(&DAT_01094220, 4030);
+Tile_AddToTable(&DAT_01094218, 4023);
+Tile_AddToTable(&DAT_0109420c, 4052);
+Tile_AddToTable(&DAT_01094204, 4087);
+Tile_AddToTable(&DAT_010941f8, 4012);
+Tile_AddToTable(&DAT_010941f0, 4008);
+Tile_AddToTable(&DAT_010941e4, 4033);
+Tile_AddToTable(&DAT_010941d8, 4035);
+Tile_AddToTable(&DAT_010941cc, 4053);
+Tile_AddToTable(&DAT_010941c4, 4029);
+Tile_AddToTable(&DAT_010941c0, 4018);
+Tile_AddToTable(&DAT_010941b0, 4047);
+Tile_AddToTable(&DAT_0109419c, 4048);
+Tile_AddToTable(&DAT_01094190, 4090);
+Tile_AddToTable(&DAT_01094184, 4091);
+Tile_AddToTable(&DAT_01094178, 4092);
+Tile_AddToTable(&DAT_01094168, 4037);
+Tile_AddToTable(&DAT_01094158, 4007);
+Tile_AddToTable(&DAT_01094150, 4036);
+Tile_AddToTable(&DAT_01094144, 4084);
+Tile_AddToTable(&DAT_0108dff8, 4015);
+Tile_AddToTable(&DAT_01094138, 4089);
+Tile_AddToTable(&DAT_01094130, 4021);
+Tile_AddToTable(&DAT_01094128, 4100);
+Tile_AddToTable(&DAT_01094120, 4101);
+Tile_AddToTable(&DAT_01094118, 4102);
+Tile_AddToTable(&DAT_01094110, 4103);
+Tile_AddToTable(&DAT_01094108, 4104);
+Tile_AddToTable(&DAT_01094100, 4105);
+Tile_AddToTable(&DAT_010940f8, 4106);
+Tile_AddToTable(&DAT_010940f0, 4107);
+Tile_AddToTable(&DAT_010940e8, 4108);
+Tile_AddToTable(&DAT_010940e0, 4109);
+Tile_AddToTable(&DAT_010940d8, 4110);
+Tile_AddToTable(&DAT_010940d0, 4111);
+Tile_AddToTable(&DAT_010940c8, 4112);
+Tile_AddToTable(&DAT_010940c0, 4113);
+Tile_AddToTable(&DAT_010940b8, 4114);
+Tile_AddToTable(&DAT_010940b0, 4115);
+Tile_AddToTable(&DAT_010940a8, 4116);
+Tile_AddToTable(&DAT_0106fc9c, 4003);
+Tile_AddToTable(&DAT_0109409c, 4082);
+Tile_AddToTable(&DAT_01094090, 4083);
+Tile_AddToTable(&DAT_01094088, 4017);
+Tile_AddToTable(&DAT_0109407c, 4027);
+Tile_AddToTable(&DAT_01094070, 4028);
+Tile_AddToTable(&DAT_01094064, 4026);
+Tile_AddToTable(&DAT_01094058, 4061);
+Tile_AddToTable(&DAT_0109404c, 4062);
+Tile_AddToTable(&DAT_01094040, 4063);
+Tile_AddToTable(&DAT_01094034, 4064);
+Tile_AddToTable(&DAT_01094028, 4065);
+Tile_AddToTable(&DAT_0109401c, 4066);
+Tile_AddToTable(&DAT_01094010, 4067);
+Tile_AddToTable(&DAT_01094004, 4068);
+Tile_AddToTable(&DAT_01093ff4, 4071);
+Tile_AddToTable(&DAT_01093fe8, 4054);
+Tile_AddToTable(&DAT_01093fe4, 4055);
+Tile_AddToTable(&DAT_01093fdc, 4056);
+Tile_AddToTable(&DAT_01093fd4, 4057);
+Tile_AddToTable(&DAT_01093fcc, 4058);
+Tile_AddToTable(&DAT_010345e4, 4001);
+Tile_AddToTable(&DAT_01076f20, 4002);
+Tile_AddToTable(&DAT_01093fc4, 4024);
+Tile_AddToTable(&DAT_01093fb0, 4088);
+Tile_AddToTable(&DAT_01086f50, 5005);
+Tile_AddToTable(&DAT_01093fac, 5002);
+Tile_AddToTable(&DAT_01093fa8, 5008);
+Tile_AddToTable(&DAT_01093fa0, 5001);
+Tile_AddToTable(&DAT_01078bc0, 5006);
+Tile_AddToTable(&DAT_01093f98, 5004);
+Tile_AddToTable(&DAT_01093f8c, 5009);
+Tile_AddToTable(&DAT_01093f84, 5007);
 }
 }
 
@@ -2367,9 +2376,9 @@ struct UpdateTreeNode {
  __forceinline UpdateNode* GetChildren() { return children; }
  float FUN_00a011b0(int);
  const char* FUN_00a011f0(int);
- MenuDepthController* FUN_00a03c90();
+ MenuDepthController* Tile_GetMenu();
  UpdateTreeNode* FUN_00a03d40();
- void FUN_00a07530(int);
+ void Tile_SetChangeFlag(int);
  void FUN_00a012d0(int,float,bool);
  UpdateTreeNode* FUN_00a037e0(int, float, int);
 };
@@ -2386,23 +2395,23 @@ UpdateTreeNode* UpdateTreeNode::FUN_00a037e0(int trait, float value, int unused)
     if (aReadObject->FUN_00a011b0(0xfa8) != 0.0) aLast += aReadObject->FUN_00a011b0(0xfad);
     aReadObject = aReadObject->parent;
    }
-   aCurrent = FUN_00a03c90();
+   aCurrent = Tile_GetMenu();
    aBound = FUN_00a03d40();
    if (aCurrent && aBound && aBound != this && aCurrent && aLast > (aMargin = aCurrent->depth)) aCurrent->depth = (int)aLast;
   }
-  if (FUN_00a011b0(0xfa6) != 0.0) FUN_00a07530(0x80);
-  FUN_00a07530(1); return this;
+  if (FUN_00a011b0(0xfa6) != 0.0) Tile_SetChangeFlag(0x80);
+  Tile_SetChangeFlag(1); return this;
  }
  if (GetType() == 0x387 && (trait == 0xfba || trait == 0xfbb || trait == 0xfbc || trait == 0xff7 || trait == 0xfbd || trait == 0xfbe || trait == 0xfb9 || trait == 0xfb7)) {
-  FUN_00a07530(2); return this;
+  Tile_SetChangeFlag(2); return this;
  }
  if ((trait == 0xfb1 || trait == 0xfb0 || trait == 0xfc0 || trait == 0xfbf) && GetType() == 0x386) {
-  if (FUN_00a011b0(0xfa6) != 0.0) FUN_00a07530(0x80);
-  FUN_00a07530(0x10); return this;
+  if (FUN_00a011b0(0xfa6) != 0.0) Tile_SetChangeFlag(0x80);
+  Tile_SetChangeFlag(0x10); return this;
  }
- if (trait == 0xfa6 && (GetType() == 0x386 || GetType() == 0x385)) { FUN_00a07530(0x80); return this; }
+ if (trait == 0xfa6 && (GetType() == 0x386 || GetType() == 0x385)) { Tile_SetChangeFlag(0x80); return this; }
  if (trait == 0xfae && (GetType() == 0x386 || GetType() == 0x387)) {
-  FUN_00a07530(0x100);
+  Tile_SetChangeFlag(0x100);
   aOuter2 = children;
   aBipedNode = aOuter2;
   while (aBipedNode) {
@@ -2412,19 +2421,19 @@ UpdateTreeNode* UpdateTreeNode::FUN_00a037e0(int trait, float value, int unused)
   }
   return this;
  }
- if (trait == 0xfa3) { FUN_00a07530(4); return this; }
+ if (trait == 0xfa3) { Tile_SetChangeFlag(4); return this; }
  if (trait == 0xfa9 || trait == 0xfb2 || trait == 0xfb3 || trait == 0xfb4 || trait == 0xff4 || trait == 0xff5) {
-  if (GetType() == 0x386 || GetType() == 0x387) FUN_00a07530(8);
+  if (GetType() == 0x386 || GetType() == 0x387) Tile_SetChangeFlag(8);
   return this;
  }
- if (trait == 0xfcc && GetType() == 0x386 && FUN_00a011f0(0xfcc)) { FUN_00a07530(0x20); return this; }
- if (trait == 0xfcc && GetType() == 0x388 && FUN_00a011f0(0xfcc)) { FUN_00a07530(0x40); return this; }
- if (trait == 0xfa8) { FUN_00a07530(0x200); return this; }
+ if (trait == 0xfcc && GetType() == 0x386 && FUN_00a011f0(0xfcc)) { Tile_SetChangeFlag(0x20); return this; }
+ if (trait == 0xfcc && GetType() == 0x388 && FUN_00a011f0(0xfcc)) { Tile_SetChangeFlag(0x40); return this; }
+ if (trait == 0xfa8) { Tile_SetChangeFlag(0x200); return this; }
  if (trait == 0xfaa) {
-  aOther = FUN_00a03c90();
+  aOther = Tile_GetMenu();
   if (aOther) aOther->SetDepth((int)value,this);
  }
- if (trait == 0xffa || trait == 0xffb || trait == 0xffc) { FUN_00a07530(1); return this; }
+ if (trait == 0xffa || trait == 0xffb || trait == 0xffc) { Tile_SetChangeFlag(1); return this; }
  return 0;
 }
 
@@ -2692,7 +2701,8 @@ extern int DAT_011f32d4;
 extern int DAT_011f3320;
 
 // @fnv 0x00a04510
-void FUN_00a04510()
+// src: COMMUNITY 0x00a04510
+void Tile_PromoteHibernators()
 {
     int iCount;
     {

@@ -125,13 +125,13 @@ struct FUN_00ad3eb0_Class
 extern "C" char __cdecl FUN_00ec379c(char, char*);
 struct FUN_00ad3f50_class
 {
-    char* __thiscall FUN_00ad3f50(char* p, char* end);
+    char* __thiscall std_ctype_char_do_tolower_00ad3f50(char* p, char* end);
 };
 void __cdecl Deallocate(void*);
 void __cdecl free(void*);
 struct FUN_00ad41c0_Class
 {
-    void __thiscall FUN_00ad41c0();
+    void __thiscall std_ctype_char_Tidy();
 };
 extern int DAT_010a3228;
 extern int DAT_010a31fc;
@@ -151,7 +151,7 @@ struct FUN_00ad5730_Class
 void __fastcall FUN_00adc160(void* p);
 struct FUN_00ad87d0_Class
 {
-    void FUN_00ad87d0();
+    void BSAudioManager_ClearSecondaryVolumes();
 };
 int __cdecl FUN_00ec34d4();
 struct FUN_00ad3a10_Class
@@ -163,7 +163,7 @@ int __cdecl GetHighestSetBitIndex(unsigned int param_1);
 extern "C" char __cdecl FUN_00ec3909(char, char*);
 struct FUN_00ad3fc0_Class
 {
-    char* __thiscall FUN_00ad3fc0(char* p, char* pEnd);
+    char* __thiscall std_ctype_char_do_toupper_00ad3fc0(char* p, char* pEnd);
 };
 struct FUN_00ac1120_Class
 {
@@ -222,7 +222,7 @@ struct FUN_00ad3f20_Class
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    char __thiscall FUN_00ad3f20(char c);
+    char __thiscall std_ctype_char_do_tolower(char c);
 };
 extern "C" char __cdecl FUN_00ec3909(char, char*);
 struct FUN_00ad3f90_Class
@@ -235,7 +235,7 @@ struct FUN_00ad3f90_Class
     char m5;
     char m6;
     char m7;
-    char FUN_00ad3f90(char c);
+    char std_ctype_char_do_toupper(char c);
 };
 struct FUN_00ad56e0_class
 {
@@ -294,7 +294,7 @@ class SpawnEntry
 void InitRange(SpawnEntry* first, SpawnEntry* last, SpawnEntry* src);
 struct FUN_00ac1720_pool
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 extern "C" FUN_00ac1720_pool DAT_011f6238;
 extern "C" char DAT_010176f8[];
@@ -442,7 +442,7 @@ struct ZeroFlagByte
 {
     bool v;
 };
-void __cdecl FUN_00ac3300(char* dst, unsigned int len, char* src);
+void __cdecl memset_(char* dst, unsigned int len, char* src);
 struct BAC3640Iterator
 {
     int* m_piPtr;
@@ -940,7 +940,7 @@ struct FUN_00acb1a0_cls
     void ResetListSentinel();
 };
 extern int DAT_010a30fc;
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 class Sub_00acb6b0
 {
   public:
@@ -989,7 +989,7 @@ class CB770Lockit
 class CB770Facet
 {
   public:
-    CB770Facet* FUN_00acb770();
+    CB770Facet* std_locale_facet__Decref();
 
     void* m_ppVirtualMethodTable;
     unsigned int m_uiRefs;
@@ -1155,7 +1155,7 @@ struct FUN_00acde90_class
 {
     void __thiscall FUN_00acde90();
 };
-void __cdecl FUN_00401030(void* apMemory);
+void __cdecl FormHeapFreeAndLog_00401030(void* apMemory);
 struct FUN_00acdff0_prim
 {
     int unk00;
@@ -1247,7 +1247,7 @@ struct FUN_00ace930_cls
     void* m_2c;
     int* m_30;
 
-    int FUN_00ace930();
+    int std_basic_streambuf_char_std_char_traits_char_Gndec();
 };
 struct FUN_00ace970_Class
 {
@@ -1361,7 +1361,7 @@ struct S_00acfb90_Class
     void* unk4c;
 
     bool __thiscall FUN_00acfcd0();
-    void __thiscall FUN_00acfc10(int param_1, int param_2);
+    void __thiscall std_basic_filebuf_char_std_char_traits_char_Init(int param_1, int param_2);
     void* __thiscall FUN_00acfb90();
 };
 int __cdecl FUN_00ec9907(void*);
@@ -1404,7 +1404,7 @@ struct FUN_00ad0550_cls
     void* m_24;
     void Initialize();
 };
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 int __cdecl FUN_00ec36a6();
 struct FUN_00ac9da0_Class
 {
@@ -1723,7 +1723,7 @@ struct S_ad8700
     int unk28;
     int unk2c;
     void(__cdecl* unk30)();
-    void FUN_00ad8700();
+    void BSWin32Audio_Pause();
 };
 
 // The CRT's std::exception / std::bad_alloc (VC9 <exception>, <new>).
@@ -1791,7 +1791,7 @@ struct S_00ad53d0_bad : S_00ad53d0_exc
     __forceinline S_00ad53d0_bad(const char* what) throw() : S_00ad53d0_exc(what)
     {}
 };
-void* __cdecl FUN_00401000(unsigned int);
+void* __cdecl FormHeap_Allocate(unsigned int);
 // @fnv 0x00ad53d0
 void* __cdecl FUN_00ad53d0(unsigned int n)
 {
@@ -1803,7 +1803,7 @@ void* __cdecl FUN_00ad53d0(unsigned int n)
     {
         throw S_00ad53d0_bad(0);
     }
-    return FUN_00401000(n * 0x38);
+    return FormHeap_Allocate(n * 0x38);
 }
 
 struct PoolX
@@ -6823,7 +6823,7 @@ struct BxLengthError : public BxLogicError
 
 struct GvHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
@@ -6836,7 +6836,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -7492,7 +7492,7 @@ GvNamedEntry* FUN_00ac1580(GvNamedEntry* _First, GvNamedEntry* _Last, GvNamedEnt
                      GvRangeCheckedTag());
 }
 
-void __cdecl FUN_00ac3300(char* dst, unsigned int len, char* src);
+void __cdecl memset_(char* dst, unsigned int len, char* src);
 
 inline Tag1 PtrCat(char*&, char*&)
 {
@@ -7503,7 +7503,7 @@ inline Tag1 PtrCat(char*&, char*&)
 inline void UninitFillN(char* first, unsigned int count, char* val, void*, Tag1, Tag2)
 {
     int v[8];
-    FUN_00ac3300(first, count, val);
+    memset_(first, count, val);
 }
 
 // @fnv 0x00ac16e0
@@ -7953,7 +7953,7 @@ struct BxLengthError : public BxLogicError
 
 struct GvHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
@@ -7966,7 +7966,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -13454,7 +13454,7 @@ struct BxLengthError : public BxLogicError
 struct AsObj;
 struct AsHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 void FUN_00ec7c56();
@@ -13565,7 +13565,7 @@ template <class T> inline T* AsHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((AsHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((AsHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> struct AsAlloc
 {
@@ -16461,7 +16461,7 @@ struct BxLengthError : public BxLogicError
 
 struct GvHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
@@ -16474,7 +16474,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -21736,7 +21736,7 @@ struct FUN_00accef0_FB
         *m_IGnext = n;
         *m_IGcount = (int)(l - n);
     }
-    int FUN_00ace930();
+    int std_basic_streambuf_char_std_char_traits_char_Gndec();
     int FUN_00accef0(int meta);
 };
 // @fnv 0x00accef0
@@ -21745,7 +21745,7 @@ int FUN_00accef0_FB::FUN_00accef0(int meta)
     if (gptr() != 0 && eback() < gptr() &&
         (TrF::eq_int_type(TrF::eof(), meta) || TrF::eq_int_type(TrF::to_int_type(gptr()[-1]), meta)))
     {
-        FUN_00ace930();
+        std_basic_streambuf_char_std_char_traits_char_Gndec();
         return TrF::not_eof(meta);
     }
     else if (m_Myfile == 0 || TrF::eq_int_type(TrF::eof(), meta))
@@ -23702,7 +23702,8 @@ inline char* allocate_bytes(unsigned int _Count, char*)
 }
 struct VectorAllocator
 {
-    inline char* FUN_0065f7a0(unsigned int _Count)
+// src: COMMUNITY 0x0065f7a0
+    inline char* std_allocator_char_allocate(unsigned int _Count)
     {
         return allocate_bytes(_Count, (char*)0);
     }
@@ -23783,7 +23784,8 @@ inline void fill_count(char* _First, unsigned int _Count, const char& _Val, Rand
     (_Last);
     fill_count(checked_base(_First), _Count, _Val, CheckedIteratorTag());
 }
-inline void __cdecl FUN_00ac3300(char* _First, unsigned int _Count, const char& _Val)
+// src: COMMUNITY 0x00ac3300
+inline void __cdecl memset_(char* _First, unsigned int _Count, const char& _Val)
 {
     fill_count(_First, _Count, _Val, iterator_category(_First), CheckedIteratorTag());
 }
@@ -23819,7 +23821,7 @@ inline char* raw_copy(char* _First, char* _Last, char* _Dest, VectorAllocator& _
 inline void fill_dispatch(char* _First, unsigned int _Count, const char& _Val, VectorAllocator&, ScalarIteratorTag,
                           CheckedIteratorTag)
 {
-    FUN_00ac3300(_First, _Count, _Val);
+    memset_(_First, _Count, _Val);
 }
 inline void raw_fill(char* _First, unsigned int _Count, const char& _Val, VectorAllocator& _Al)
 {
@@ -23895,7 +23897,7 @@ struct ByteVector
     }
     inline char* fill(char* dest, unsigned int count, const char& value)
     {
-        FUN_00ac3300(dest, count, value);
+        memset_(dest, count, value);
         return dest + count;
     }
     inline char* CallAndSum(char* _Ptr, unsigned int _Count, const char& _Val)
@@ -23919,7 +23921,7 @@ void ByteVector::FUN_00ad10e0(ByteInsertIterator where, unsigned int count, cons
         _Capacity = max_size() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
         if (_Capacity < (unsigned int)(last - first) + count)
             _Capacity = (unsigned int)(last - first) + count;
-        char* _Newvec = allocator.FUN_0065f7a0(_Capacity);
+        char* _Newvec = allocator.std_allocator_char_allocate(_Capacity);
         char* _Ptr = _Newvec;
         try
         {
@@ -26800,7 +26802,8 @@ struct Ctype4110 : CtypeBase4110
     const short* table;
     int delfl;
 
-    void FUN_00ad41c0()
+// src: COMMUNITY 0x00ad41c0
+    void std_ctype_char_Tidy()
     {
         if (0 < delfl)
             free((void*)table);
@@ -26810,7 +26813,7 @@ struct Ctype4110 : CtypeBase4110
 
     virtual ~Ctype4110()
     {
-        FUN_00ad41c0();
+        std_ctype_char_Tidy();
     }
 
     Ctype4110* FUN_00ad4110(unsigned int flags);
@@ -32000,7 +32003,7 @@ struct TreeNode00acf0b0
     {
         FUN_00ad5490();
         if (flags & 1)
-            FUN_00401030(this);
+            FormHeapFreeAndLog_00401030(this);
         Dead11();
     }
 };
@@ -32013,7 +32016,7 @@ void FUN_00acb1a0_cls::FUN_00acf0b0(void* p)
         FUN_00acf0b0(node->m_08);
         node = node->m_00;
         ((TreeNode00acf0b0*)p)->Destroy(0);
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 }
 
@@ -33268,10 +33271,10 @@ struct Buf43B0 : VecVal43B0
 
     Buf43B0(int n);
     Buf43B0(Buf43B0 const& o);
-    void FUN_00abc0a0();
+    void std_vector_char_std_allocator_char_Tidy();
     ~Buf43B0()
     {
-        FUN_00abc0a0();
+        std_vector_char_std_allocator_char_Tidy();
     }
 
     char* begin()
@@ -37622,7 +37625,7 @@ String* __cdecl FUN_00ad6690(String* _First, String* _Last, String* _Dest)
 }  // namespace fnv_00ad6690
 
 namespace fnv_00ad6e20 {
-void FUN_00401030(void* p);
+void FormHeapFreeAndLog_00401030(void* p);
 inline void* operator new(unsigned int, void* p)
 {
     return p;
@@ -37631,7 +37634,7 @@ inline void operator delete(void*, void*)
 {}
 inline void FreeQ(void* p)
 {
-    FUN_00401030(p);
+    FormHeapFreeAndLog_00401030(p);
 }
 struct VBQ
 {
@@ -37725,12 +37728,12 @@ inline CatQ_acad60 PtrCat_acad60(char*&, char*&)
     CatQ_acad60 c;
     return c;
 }
-void __cdecl FUN_00ac3300(char* _First, unsigned int _Count, const char& _Val);
+void __cdecl memset_(char* _First, unsigned int _Count, const char& _Val);
 inline void UFill2_acad60(char* _First, unsigned int _Count, const char& _Val, AlQ_acad60& _Al, CatQ_acad60,
                           TagQ_acad60)
 {
     Dead8_acad60();
-    FUN_00ac3300(_First, _Count, _Val);
+    memset_(_First, _Count, _Val);
 }
 inline void UFillN_acad60(char* _First, unsigned int _Count, const char& _Val, AlQ_acad60& _Al)
 {
@@ -38810,7 +38813,8 @@ template <class T> inline T* AllocateB80(unsigned int count, T*)
 }
 template <class T> struct AlQ_acbb80
 {
-    T* FUN_0065f7a0(unsigned int _Count)
+// src: COMMUNITY 0x0065f7a0
+    T* std_allocator_char_allocate(unsigned int _Count)
     {
         return AllocateB80(_Count, (T*)0);
     }
@@ -38866,7 +38870,7 @@ struct SBQ_acbb80 : basic_streambufB610
     }
     void deallocate(char* p, unsigned int)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
     int FUN_00acbb80(int _Meta);
 };
@@ -38896,7 +38900,7 @@ int SBQ_acbb80::FUN_00acbb80(int _Meta)
         if (0 < _Oldsize)
         {
             _Newsize += _Oldsize;
-            _Inc = _Al.FUN_0065f7a0(_Newsize);
+            _Inc = _Al.std_allocator_char_allocate(_Newsize);
         }
         if (0 < _Oldptr)
             staging_std::_Traits_helper::copy_s<CopyTraitsB80>(_Inc, _Newsize, _Ptr, _Oldptr);
@@ -39950,7 +39954,7 @@ struct BxLengthError : public BxLogicError
 
 struct GvHeap
 {
-    void* FUN_00aa3e40(unsigned int _Size);
+    void* Game_DoHeapAlloc(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
 template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
@@ -39963,7 +39967,7 @@ template <class T> inline T* GvHeapAllocate(unsigned int _Count, T*)
     {
         throw BxBadAlloc(0);
     }
-    return (T*)((GvHeap*)&DAT_011f6238)->FUN_00aa3e40(_Count * sizeof(T));
+    return (T*)((GvHeap*)&DAT_011f6238)->Game_DoHeapAlloc(_Count * sizeof(T));
 }
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -40848,7 +40852,7 @@ struct S5540_Buffer : S5540_VectorVal
             }
             catch (...)
             {
-                FUN_00abc0a0();
+                std_vector_char_std_allocator_char_Tidy();
                 throw;
             }
         }
@@ -40865,7 +40869,7 @@ struct S5540_Buffer : S5540_VectorVal
             }
             catch (...)
             {
-                FUN_00abc0a0();
+                std_vector_char_std_allocator_char_Tidy();
                 throw;
             }
         }
@@ -40881,9 +40885,9 @@ struct S5540_Buffer : S5540_VectorVal
     char* _Ucopy(GvIterator<char> first, GvIterator<char> last, char* dest);
     ~S5540_Buffer()
     {
-        FUN_00abc0a0();
+        std_vector_char_std_allocator_char_Tidy();
     }
-    void FUN_00abc0a0();
+    void std_vector_char_std_allocator_char_Tidy();
     unsigned int size() const
     {
         return (_Mylast - _Myfirst);
@@ -40909,7 +40913,7 @@ struct S5540_File
     void* m_08;
     char m_0c;
     char m_0d;
-    void FUN_0044b0f0();
+    void LoadedFile_IncRefCount();
     void FUN_0044b180();
     struct MarkUsed
     {
@@ -40941,7 +40945,7 @@ struct S5540_FilePtr
     S5540_FilePtr(S5540_File* p) : m_p(p)
     {
         if (m_p)
-            m_p->FUN_0044b0f0();
+            m_p->LoadedFile_IncRefCount();
     }
     ~S5540_FilePtr()
     {
@@ -40958,7 +40962,7 @@ struct S5540_Stream
     int m_3c;
     void* m_40;
     S5540_File* m_44;
-    bool FUN_00ac5e00(char* buf, unsigned int len, bool flag);
+    bool BSFaceGenBinaryFile_readHeader(char* buf, unsigned int len, bool flag);
     bool FUN_00ac5540(S5540_String name, bool flag);
 };
 
@@ -40988,7 +40992,7 @@ bool S5540_Stream::FUN_00ac5540(S5540_String name, bool flag)
     if (copy.m_p)
     {
         m_44 = copy.m_p;
-        m_44->FUN_0044b0f0();
+        m_44->LoadedFile_IncRefCount();
         m_40 = m_44->Lock();
     }
     else
@@ -41002,7 +41006,7 @@ bool S5540_Stream::FUN_00ac5540(S5540_String name, bool flag)
     }
     S5540_Buffer flags(m_20.size() + 1);
     HeaderConstructorScratch();
-    if (!FUN_00ac5e00(&flags[0], m_20.size(), true))
+    if (!BSFaceGenBinaryFile_readHeader(&flags[0], m_20.size(), true))
         return false;
     S5540_Buffer vec(flags);
     vec[5] = m_20[5];
@@ -41115,7 +41119,8 @@ struct ByteVectorVal : FUN_00ad33c0
     {
         destroy_range(f, l, allocator);
     }
-    void FUN_00abc0a0()
+// src: COMMUNITY 0x00abc0a0
+    void std_vector_char_std_allocator_char_Tidy()
     {
         if (first != 0)
         {
@@ -41150,7 +41155,7 @@ FUN_00ac5f00::FUN_00ac5f00(const FUN_00ac5f00& right) : ByteVectorVal(right.allo
         }
         catch (...)
         {
-            FUN_00abc0a0();
+            std_vector_char_std_allocator_char_Tidy();
             throw;
         }
     }
@@ -45716,10 +45721,11 @@ class FileBuffer : public FUN_00ad0630
     fnv_00acfab0::File* file;
     FileBuffer(fnv_00acfab0::File* opened = 0)
     {
-        FUN_00acfc10(opened, 0);
+        std_basic_filebuf_char_std_char_traits_char_Init(opened, 0);
     }
     virtual ~FileBuffer();
-    void FUN_00acfc10(fnv_00acfab0::File* opened, int which)
+// src: COMMUNITY 0x00acfc10
+    void std_basic_filebuf_char_std_char_traits_char_Init(fnv_00acfab0::File* opened, int which)
     {
         static int initialState;
         closeFile = which == 1;
@@ -45742,7 +45748,7 @@ class FileBuffer : public FUN_00ad0630
         fnv_00acfab0::File* opened;
         if (file != 0 || (opened = fnv_00acfab0::FUN_00ec33da(name, mode, protection)) == 0)
             return 0;
-        FUN_00acfc10(opened, 1);
+        std_basic_filebuf_char_std_char_traits_char_Init(opened, 1);
         reinterpret_cast<fnv_00acfab0::basic_filebuf*>(this)->_Initcvt(
             (fnv_00acfab0::codecvt*)&GetConversion(reinterpret_cast<fnv_00acfab0::basic_filebuf*>(this)->getloc()));
         return this;

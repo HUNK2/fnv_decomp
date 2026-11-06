@@ -295,7 +295,7 @@ struct NodePointer
 };
 struct VATSLocation
 {
-    NiPoint3 FUN_009c9fe0(float);
+    NiPoint3 VATS_GetTargetPercentagePos(float);
 };
 extern VATSLocation DAT_011f2250;
 // @fnv 0x0058d510
@@ -304,7 +304,7 @@ NiPoint3 BGSCameraShot::GetCameraPosition()
     NiPoint3 position = NiPoint3_ZERO;
     if (((CameraShotAccess*)this)->GetPositionTime() > 0.0)
     {
-        position = DAT_011f2250.FUN_009c9fe0(((CameraShotAccess*)this)->GetPositionTime());
+        position = DAT_011f2250.VATS_GetTargetPercentagePos(((CameraShotAccess*)this)->GetPositionTime());
     }
     else if (((NodePointer*)&m_pTargetNode)->FUN_00559450())
     {
@@ -342,9 +342,9 @@ extern int DAT_011f3714;
 extern int DAT_011f3e50;
 extern int DAT_011f3e48;
 
-int __cdecl FUN_005b5e40(const char*, const char*);
+int __cdecl Warning_005b5e40(const char*, const char*);
 void* __cdecl FUN_00653270(void*, void*);
-void __cdecl FUN_004b70f0(void*, float);
+void __cdecl BSUtils_SetPhaseRecurse(void*, float);
 
 struct CamNodeX
 {
@@ -488,7 +488,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
                      : 0;
     if (!myFoundPtr)
     {
-        FUN_005b5e40(
+        Warning_005b5e40(
             "DEFAULT: VATS Camera '%s' doesn't have an NiCamera as the first child. This camera will not be used.",
             GetModelFilePath());
         ((NodePtrObj*)&m_spPositionNode)->FUN_0066b0d0(0);
@@ -499,7 +499,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
         NiUpdateData auxPtr(DAT_011f21d4, true, false);
         if (((CameraShotAccess*)this)->IsFlag20Set())
         {
-            FUN_004b70f0(((NodePtrObj*)&m_spPositionNode)->FUN_00559450(), -DAT_011f21d4);
+            BSUtils_SetPhaseRecurse(((NodePtrObj*)&m_spPositionNode)->FUN_00559450(), -DAT_011f21d4);
         }
         ((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->FUN_00a59c60(&auxPtr);
         if ((signed char)m_bUpdateNodePosition == -1 && !m_bFlag75)
@@ -539,13 +539,13 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
         }
         if (((NodePtrObj*)&m_spPositionNode)->FUN_00559450()->FUN_0043c490()->FUN_004390c0(NiPoint3_ZERO))
         {
-            FUN_005b5e40("DEFAULT: VATS Camera '%s' doesn't have any position data.", GetModelFilePath());
+            Warning_005b5e40("DEFAULT: VATS Camera '%s' doesn't have any position data.", GetModelFilePath());
         }
         St28 attrs2;
         attrs2 = *((FoundObj*)myFoundPtr)->FUN_0045bbe0();
         if (attrs2.f08 / attrs2.f04 < (double)0.74f)
         {
-            FUN_005b5e40("DEFAULT: VATS Camera '%s' has a bad FOV that was not created for a 4x3 aspect ratio.",
+            Warning_005b5e40("DEFAULT: VATS Camera '%s' has a bad FOV that was not created for a 4x3 aspect ratio.",
                          GetModelFilePath());
         }
     }
@@ -586,7 +586,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
         if (Data.m_eAction == 2)
         {
             DAT_011ca729 = 1;
-            BSSoundHandle camIn2 = BSAudio::FUN_00453a70()->FUN_00ad7550("UIVATSCameraIn", 0x121);
+            BSSoundHandle camIn2 = BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraIn", 0x121);
             camIn2.Play(false);
         }
     }
@@ -595,7 +595,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
         if (DAT_011ca729 && Data.m_eAction != 2)
         {
             DAT_011ca729 = 0;
-            BSSoundHandle bannerOutPtr = BSAudio::FUN_00453a70()->FUN_00ad7550("UIVATSCameraOut", 0x121);
+            BSSoundHandle bannerOutPtr = BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraOut", 0x121);
             bannerOutPtr.Play(false);
         }
     }
@@ -618,7 +618,7 @@ struct Frus
 };
 struct Host56
 {
-    M3 FUN_0056fa00();
+    M3 TESObjectREFR_GetOrientation();
 };
 struct Rot56
 {
@@ -844,12 +844,12 @@ void BGSCameraShot::UpdateCamera(float afTime)
             if (!IsNotFlag4Set() || ((Host56*)m_pReference) == 0 || Data.pInputFile != 2)
             {
                 NiPoint3 tmpA = pt;
-                NiMatrix3_TransformVertices(DAT_011f21f0->FUN_0056fa00(), &DAT_011f426c, 1, tmpA, pt);
+                NiMatrix3_TransformVertices(DAT_011f21f0->TESObjectREFR_GetOrientation(), &DAT_011f426c, 1, tmpA, pt);
             }
             else
             {
                 NiPoint3 tmpB = pt;
-                NiMatrix3_TransformVertices(((Host56*)m_pReference)->FUN_0056fa00(), &DAT_011f426c, 1, tmpB, pt);
+                NiMatrix3_TransformVertices(((Host56*)m_pReference)->TESObjectREFR_GetOrientation(), &DAT_011f426c, 1, tmpB, pt);
             }
         }
         else if (((NiPtr60*)&m_pLocationNode)->FUN_00559450())
@@ -886,7 +886,7 @@ void BGSCameraShot::UpdateCamera(float afTime)
                 {
                     if (bReset && !DAT_011ca729)
                     {
-                        BSSoundHandle snd = BSAudio::FUN_00453a70()->FUN_00ad7550("UIVATSCameraIn", 0x121);
+                        BSSoundHandle snd = BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("UIVATSCameraIn", 0x121);
                         snd.Play(false);
                     }
                     DAT_011ca730 = (1.0f / DAT_011ca734) * (afTime - DAT_011ca72c);

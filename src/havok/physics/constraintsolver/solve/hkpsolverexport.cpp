@@ -5,7 +5,8 @@
 void FUN_00def570();
 
 // @fnv 0x00df0680
-void __cdecl FUN_00df0680()
+// src: COMMUNITY 0x00df0680
+void __cdecl hkExportImpulsesAndRhs()
 {
     FUN_00def570();
 }

@@ -810,7 +810,8 @@ float __fastcall FUN_00ca6620(void* p, int)
 }
 
 // @fnv 0x00ca98e0
-float __cdecl FUN_00ca98e0()
+// src: COMMUNITY 0x00ca98e0
+float __cdecl hkpConstraintData_getMaxLinearImpulse()
 {
     return 3.402820018375656e+38;
 }
@@ -1625,7 +1626,7 @@ void SceneWalker_cls::TraverseSceneNode(SceneNode_cls* node, int a2, int a3)
 struct FNVTaskElement
 {
 };
-extern "C" void __fastcall FUN_00d1fa10(FNVTaskElement* element);
+extern "C" void __fastcall nullsub_14(FNVTaskElement* element);
 struct FNVTaskAllocator
 {
     virtual void fn00();
@@ -1662,7 +1663,7 @@ void FNVTaskDynamicBuffer::Clear()
         int remaining = elementCount;
         do
         {
-            FUN_00d1fa10((FNVTaskElement*)entry);
+            nullsub_14((FNVTaskElement*)entry);
             entry += 48;
         } while (--remaining);
     }
@@ -1833,11 +1834,12 @@ struct FUN_00ca3b10_cls
     unsigned char m_iWordAt04;
     int m_8;
 
-    bool FUN_00ca3b10();
+    bool hkpMeshShape_isWeldingEnabled();
 };
 
 // @fnv 0x00ca3b10
-bool FUN_00ca3b10_cls::FUN_00ca3b10()
+// src: COMMUNITY 0x00ca3b10
+bool FUN_00ca3b10_cls::hkpMeshShape_isWeldingEnabled()
 {
     return m_iWordAt04 == 0;
 }
@@ -1985,11 +1987,12 @@ struct FUN_00ca4780_cls
     int unk32;
     int unk33;
     FUN_00ca4780_tableEntry* m_pTable;
-    void* FUN_00ca4780(unsigned int a1);
+    void* hkNiTriStripsShape_getCollisionFilterInfo(unsigned int a1);
 };
 
 // @fnv 0x00ca4780
-void* FUN_00ca4780_cls::FUN_00ca4780(unsigned int a1)
+// src: COMMUNITY 0x00ca4780
+void* FUN_00ca4780_cls::hkNiTriStripsShape_getCollisionFilterInfo(unsigned int a1)
 {
     FUN_00ca4780_tableEntry* pSearchEntries = m_pTable;
     unsigned int iIndex = a1 >> 20;
@@ -2172,11 +2175,12 @@ class HandleManager
     int m_8C;
     int m_90;
 
-    int __thiscall FUN_00ca4ac0(int handle);
+    int __thiscall hkNiTriStripsShape_getNextKey(int handle);
 };
 
 // @fnv 0x00ca4ac0
-int HandleManager::FUN_00ca4ac0(int handle)
+// src: COMMUNITY 0x00ca4ac0
+int HandleManager::hkNiTriStripsShape_getNextKey(int handle)
 {
     unsigned int cur = (unsigned int)handle;
     for (;;)
@@ -2422,7 +2426,8 @@ FUN_00ca5290::~FUN_00ca5290()
 extern int DAT_012682dc;
 
 // @fnv 0x00ca5300
-int* __cdecl FUN_00ca5300()
+// src: COMMUNITY 0x00ca5300
+int* __cdecl bhkPackedNiTriStripsShape_GetRTTI()
 {
     return &DAT_012682dc;
 }
@@ -3022,7 +3027,8 @@ void FUN_00ca5a80_cls::ReleaseOwned(bool abRelease)
 // FUN_00ca6600 : a one-line function - getter
 extern int g_target_00ca6600;
 // @fnv 0x00ca6600
-void* FUN_00ca6600()
+// src: COMMUNITY 0x00ca6600
+void* bhkNiTriStripsShape_GetRTTI()
 {
     return &g_target_00ca6600;
 }
@@ -3814,7 +3820,7 @@ struct TlsFlagGuard
 
 struct FUN_00aa3e40_alloc
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
+    void* __thiscall Game_DoHeapAlloc(unsigned int size);
 };
 extern FUN_00aa3e40_alloc DAT_011f6238;
 
@@ -3822,7 +3828,7 @@ struct FUN_00ca4bc0_obj
 {
     static void* operator new(unsigned int size)
     {
-        unsigned char* a = (unsigned char*)DAT_011f6238.FUN_00aa3e40(size);
+        unsigned char* a = (unsigned char*)DAT_011f6238.Game_DoHeapAlloc(size);
         unsigned char pad = (unsigned char)(0x10 - ((unsigned int)a & 0xf));
         a += pad;
         a[-1] = pad;
@@ -4219,12 +4225,13 @@ struct S_00ca9940_Obj
     int unk08;
     S_00ca9940_Child* m_pChildObject;
 };
-void __cdecl FUN_00cc96b0(float f, S_00ca9940_Child* c);
-void __cdecl FUN_00cbd9e0(float f, S_00ca9940_Child* c);
+void __cdecl hkBallAndSocketConstraintCinfo_ApplyScale(float f, S_00ca9940_Child* c);
+void __cdecl hkHingeConstraintCinfo_ApplyScale(float f, S_00ca9940_Child* c);
 
 // If o and its child are non-null and f is not 1.0, dispatches on the child's vfn_20 result to call FUN_00cc96b0 or FUN_00cbd9e0 with f.
 // @fnv 0x00ca9940
-void __cdecl FUN_00ca9940(float afValue, S_00ca9940_Obj* pObj)
+// src: COMMUNITY 0x00ca9940
+void __cdecl hkMalleableConstraintCinfo_ApplyScale(float afValue, S_00ca9940_Obj* pObj)
 {
     S_00ca9940_Child* c;
     if (pObj && (c = pObj->m_pChildObject) != 0 && afValue != 1.0f)
@@ -4232,21 +4239,21 @@ void __cdecl FUN_00ca9940(float afValue, S_00ca9940_Obj* pObj)
         switch (c->vfn_20())
         {
         case 0:
-            FUN_00cc96b0(afValue, pObj->m_pChildObject);
+            hkBallAndSocketConstraintCinfo_ApplyScale(afValue, pObj->m_pChildObject);
             break;
         case 1: {
             S_00ca9940_Child* p = pObj->m_pChildObject;
-            FUN_00cbd9e0(afValue, p);
+            hkHingeConstraintCinfo_ApplyScale(afValue, p);
         }
         break;
         case 2: {
             S_00ca9940_Child* q = pObj->m_pChildObject;
-            FUN_00cbd9e0(afValue, q);
+            hkHingeConstraintCinfo_ApplyScale(afValue, q);
         }
         break;
         case 7: {
             S_00ca9940_Child* r = pObj->m_pChildObject;
-            FUN_00cbd9e0(afValue, r);
+            hkHingeConstraintCinfo_ApplyScale(afValue, r);
         }
         break;
         }
@@ -5043,7 +5050,7 @@ struct TlsGuard
 
 struct S_ca9f40_Pool
 {
-    void* FUN_00aa3e40(unsigned int n);
+    void* Game_DoHeapAlloc(unsigned int n);
 };
 extern S_ca9f40_Pool DAT_011f6238;
 extern int DAT_010c8288;
@@ -5060,7 +5067,7 @@ struct S_ca9f40_Counters
     int unk10;
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 struct S_ca9f40
@@ -5156,11 +5163,12 @@ struct FUN_00cabfd0_Obj
     int unk04;
     FUN_00cac9a0_Obj* unk08;
 
-    void __thiscall FUN_00cabfd0(int value);
+    void __thiscall bhkCharacterProxy_GetCinfo(int value);
 };
 
 // @fnv 0x00cabfd0
-void __thiscall FUN_00cabfd0_Obj::FUN_00cabfd0(int value)
+// src: COMMUNITY 0x00cabfd0
+void __thiscall FUN_00cabfd0_Obj::bhkCharacterProxy_GetCinfo(int value)
 {
     if (this != 0 && this->unk08 != 0)
     {
@@ -5347,13 +5355,14 @@ struct FUN_00cac110_Class
     virtual void vf8C();
     virtual void vf90();
     virtual void vf94();
-    virtual void FUN_00cac110();
+    virtual void bhkCharacterController_UnMarkWrite();
 };
 
 // @fnv 0x00cac110
-void __thiscall FUN_00cac110_Class::FUN_00cac110()
+// src: COMMUNITY 0x00cac110
+void __thiscall FUN_00cac110_Class::bhkCharacterController_UnMarkWrite()
 {
-    this->FUN_00cac110();
+    this->bhkCharacterController_UnMarkWrite();
 }
 
 namespace fnv_00cac250 {
@@ -6197,7 +6206,7 @@ struct S_cb9a90_C : S_cb9a90_B
 
 struct FUN_00cb9a90 : S_cb9a90_C
 {
-    void FUN_00cab0e0(int a, int b, float c);
+    void bhkCapsuleShape_Init(int a, int b, float c);
     FUN_00cb9a90(int a, int b, float c);
     virtual ~FUN_00cb9a90();
 };
@@ -6207,14 +6216,15 @@ struct FUN_00cb9a90 : S_cb9a90_C
 FUN_00cb9a90::FUN_00cb9a90(int aiParam1, int aiParam2, float afValue)
 {
     DAT_01268324++;
-    FUN_00cab0e0(aiParam1, aiParam2, afValue);
+    bhkCapsuleShape_Init(aiParam1, aiParam2, afValue);
 }
 
 class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126864c;
 
 // @fnv 0x00cb9b50
-GlobalObjectO2_00a7b610* __cdecl FUN_00cb9b50()
+// src: COMMUNITY 0x00cb9b50
+GlobalObjectO2_00a7b610* __cdecl bhkBallAndSocketConstraint_GetRTTI()
 {
     return &g_0126864c;
 }
@@ -6768,7 +6778,8 @@ FUN_00cba110::FUN_00cba110()
 extern int DAT_01268400;
 
 // @fnv 0x00cba1c0
-void* __cdecl FUN_00cba1c0()
+// src: COMMUNITY 0x00cba1c0
+void* __cdecl bhkRagdollTemplateData_GetRTTI()
 {
     return &DAT_01268400;
 }
@@ -6776,7 +6787,8 @@ void* __cdecl FUN_00cba1c0()
 extern unsigned int DAT_01268418;
 
 // @fnv 0x00cbbfb0
-void FUN_00cbbfb0(unsigned int a1)
+// src: COMMUNITY 0x00cbbfb0
+void hkMemorySystem_replaceInstance(unsigned int a1)
 {
     DAT_01268418 = a1;
 }
@@ -6807,7 +6819,7 @@ FUN_00cbc550* __cdecl CreateFUN_00cbc550()
 namespace fnv_00cbc7b0 {
 struct FUN_00aa3e40_class
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
+    void* __thiscall Game_DoHeapAlloc(unsigned int size);
 };
 
 extern FUN_00aa3e40_class DAT_011f6238;
@@ -6827,7 +6839,7 @@ void FUN_00cbc7b0_cls::PushItem(void** pItem)
     {
         if (m_iWordAt00)
         {
-            void** n = (void**)DAT_011f6238.FUN_00aa3e40(8);
+            void** n = (void**)DAT_011f6238.Game_DoHeapAlloc(8);
             if (n)
             {
                 n[0] = m_iWordAt00;
@@ -6854,7 +6866,8 @@ extern void(__cdecl* DAT_01268430)(void*, void*);
 void __cdecl InsertIntoContext(void* pList, void* pContext);
 
 // @fnv 0x00cbd960
-void __cdecl FUN_00cbd960(void)
+// src: COMMUNITY 0x00cbd960
+void __cdecl hkpFixedBufferCdPointCollector_registerDefaultAddCdPointFunction(void)
 {
     DAT_01268430 = &InsertIntoContext;
 }
@@ -7201,10 +7214,11 @@ struct FUN_00cbf2f0_class
     int unk10;
     ResourceOne* first;
     ResourceTwo* second;
-    void __thiscall FUN_00cbf2f0();
+    void __thiscall bhkMultithreadedSystem_QuitMTSystem();
 };
 // @fnv 0x00cbf2f0
-void FUN_00cbf2f0_class::FUN_00cbf2f0()
+// src: COMMUNITY 0x00cbf2f0
+void FUN_00cbf2f0_class::bhkMultithreadedSystem_QuitMTSystem()
 {
     MemoryContextScope m_uiMemoryContext(0x10);
     if (active != 0)
@@ -8226,7 +8240,7 @@ __forceinline void StrArr::Append(char* value)
 }
 
 extern char* DAT_012682e8;
-char* __cdecl FUN_00a7d330(char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 char* __cdecl FUN_00a7d510(const char*, unsigned int);
 char* __cdecl FUN_00a7d4d0(const char*, int);
 struct PartFlags
@@ -8264,7 +8278,7 @@ void DiagnosticShape::AppendSubpartDiagnostics(StrArr* output)
     TlsGuard_t guard;
     FUN_00cd2fd0(output);
     {
-        char* name = FUN_00a7d330(DAT_012682e8);
+        char* name = NiViewerStrings_NiGetViewerString_Title(DAT_012682e8);
         output->AppendReference(name);
     }
     unsigned int leadingCount = Count();
@@ -8586,7 +8600,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > BCBEA40StringArray;
 extern const char* g_pcCBEA40Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class BCBEA40Owner
 {
   public:
@@ -8599,7 +8613,7 @@ void BCBEA40Owner::AddNameToArray(BCBEA40StringArray* pkArray)
 {
     BCBEA40AllocTagScope kScope(0x10);
     FUN_00c9f270(pkArray);
-    char* pcName = FUN_00a7d330(g_pcCBEA40Name);
+    char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcCBEA40Name);
     pkArray->Add(pcName);
 }
 
@@ -9085,7 +9099,7 @@ struct NodePtr046
 };
 
 extern int DAT_012682dc;
-char* __cdecl FUN_00a7d330(char* a);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* a);
 char* __cdecl FUN_00a7d510(const char* s, unsigned int n);
 char* __cdecl FUN_00a7d4d0(const char* s, int n);
 
@@ -9103,7 +9117,7 @@ void ThisCls046::AppendSubpartNames(SArr046* arr)
 {
     TlsGuard_t guard;
     FUN_00cd2fd0(arr);
-    char* v1 = FUN_00a7d330((char*)DAT_012682dc);
+    char* v1 = NiViewerStrings_NiGetViewerString_Title((char*)DAT_012682dc);
     arr->AppendReference(v1);
     SubObj046* sub = this ? m_8 : 0;
     unsigned int n = sub->m_84->m_uiItemCount;
@@ -9262,7 +9276,7 @@ struct FUN_00a641f0_class
     void __thiscall WriteObjectLink(void* object);
 };
 
-void __stdcall FUN_00a89af0(void* context);
+void __stdcall nullsub_3(void* context);
 
 struct FUN_00cb9d80_class
 {
@@ -9289,7 +9303,7 @@ struct FUN_00cb9d80_class
 // @fnv 0x00cb9d80
 void __thiscall FUN_00cb9d80_class::ReadFromStream(void* context)
 {
-    FUN_00a89af0(context);
+    nullsub_3(context);
     unsigned int count = unk14;
     ((FUN_00a641f0_class*)context)->WriteObjectLink(&unk08);
 
@@ -9370,12 +9384,12 @@ template <class T> inline void StreamRead(NiStream& kStream, T& val)
 
 struct MemoryManager_t
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 
 __forceinline void* BaseCinfo_blk_00ca0000_o2::operator new(size_t size) throw()
 {
-    return ((MemoryManager_t*)&DAT_011f6238)->FUN_00aa3e40(size);
+    return ((MemoryManager_t*)&DAT_011f6238)->Game_DoHeapAlloc(size);
 }
 
 __forceinline void BaseCinfo_blk_00ca0000_o2::operator delete(void*)
@@ -9732,7 +9746,7 @@ struct TlsFlagGuard_ca57
 class Pool_ca57
 {
   public:
-    void* __thiscall FUN_00aa3e40(unsigned int);
+    void* __thiscall Game_DoHeapAlloc(unsigned int);
 };
 class Node_ca57
 {
@@ -9743,7 +9757,7 @@ class Node_ca57
     {}
     void* operator new(unsigned int size) throw()
     {
-        unsigned char* raw = (unsigned char*)((Pool_ca57*)&DAT_011f6238)->FUN_00aa3e40(size);
+        unsigned char* raw = (unsigned char*)((Pool_ca57*)&DAT_011f6238)->Game_DoHeapAlloc(size);
         unsigned char lo = (unsigned char)raw;
         lo &= 0x0f;
         unsigned char pad = 0x10;
@@ -9978,7 +9992,8 @@ struct SomeClass
 };
 
 // @fnv 0x00cac900
-int* __fastcall FUN_00cac900(SomeClass* pThis)
+// src: COMMUNITY 0x00cac900
+int* __fastcall ahkpCharacterProxy_GetCdPoints(SomeClass* pThis)
 {
     return (int*)((char*)pThis + 0x74);
 }
@@ -10080,7 +10095,8 @@ void __cdecl hkString_sprintf(char* a, const char* b, char* c)
 extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
 
 // @fnv 0x00cb0fd0
-int __cdecl FUN_00cb0fd0(const char* s1, const char* s2, unsigned int count)
+// src: COMMUNITY 0x00cb0fd0
+int __cdecl j_strncmp(const char* s1, const char* s2, unsigned int count)
 {
     return FUN_00ec8a19(s1, s2, count);
 }
@@ -10125,7 +10141,8 @@ int CompareStringsCaseInsensitive(const char* pStringA, const char* pStringB)
 
 void __stdcall isOk_00cd4af0(int a1);
 // @fnv 0x00cb2d70
-unsigned int __stdcall FUN_00cb2d70(unsigned int uiValue)
+// src: COMMUNITY 0x00cb2d70
+unsigned int __stdcall hkRotation_isOk(unsigned int uiValue)
 {
     isOk_00cd4af0((int)uiValue);
     return uiValue;
@@ -10183,7 +10200,8 @@ FUN_00cb83f0::~FUN_00cb83f0()
 struct CpuOpaque;
 extern CpuOpaque DAT_012683ec;
 // @fnv 0x00cb8460
-CpuOpaque* __cdecl FUN_00cb8460()
+// src: COMMUNITY 0x00cb8460
+CpuOpaque* __cdecl bhkOrientHingedBodyAction_GetRTTI()
 {
     return &DAT_012683ec;
 }
@@ -10257,7 +10275,7 @@ void FUN_00cb88d0_owner::CreateShapeAndApply(void* pParams)
 }
 
 extern GlobalObjectO2_00a7b610 g_012683ec;
-char* __cdecl FUN_00a7d330(GlobalObjectO2_00a7b610* p);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObjectO2_00a7b610* p);
 struct FUN_00cb89c0_cls
 {
     void FUN_00c86b80(SArr046* arr);
@@ -10270,14 +10288,15 @@ void FUN_00cb89c0_cls::AppendGlobalReference(SArr046* pArray)
     TlsGuard_t guard;
     char* value = 0;
     FUN_00c86b80(pArray);
-    value = FUN_00a7d330(*reinterpret_cast<GlobalObjectO2_00a7b610**>(&g_012683ec));
+    value = NiViewerStrings_NiGetViewerString_Title(*reinterpret_cast<GlobalObjectO2_00a7b610**>(&g_012683ec));
     pArray->AppendReference(value);
 }
 
 struct CpuOpaque;
 extern CpuOpaque DAT_012683f4;
 // @fnv 0x00cb9250
-CpuOpaque* __cdecl FUN_00cb9250()
+// src: COMMUNITY 0x00cb9250
+CpuOpaque* __cdecl bhkForceController_GetRTTI()
 {
     return &DAT_012683f4;
 }
@@ -10354,7 +10373,8 @@ class GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01268408;
 
 // @fnv 0x00cbaf80
-GlobalObjectO2_00a7b610* __cdecl FUN_00cbaf80()
+// src: COMMUNITY 0x00cbaf80
+GlobalObjectO2_00a7b610* __cdecl bhkRagdollTemplate_GetRTTI()
 {
     return &g_01268408;
 }
@@ -10923,13 +10943,14 @@ struct Holder_ca9e60
 
 struct Host_ca9e60
 {
-    void* __thiscall FUN_00ca9e60(void* arg);
+    void* __thiscall bhkMalleableConstraint_Clone(void* arg);
     void __thiscall FUN_00c89730(void* a, void* b);
 };
 
 // Allocates a bhkRefObject, initializes it, increments two global counters, passes it and arg to FUN_00c89730, and returns it.
 // @fnv 0x00ca9e60
-void* Host_ca9e60::FUN_00ca9e60(void* arg)
+// src: COMMUNITY 0x00ca9e60
+void* Host_ca9e60::bhkMalleableConstraint_Clone(void* arg)
 {
     ScopedMemContext_ca9e60 context(0x10);
     FUN_00c876f0();
@@ -11217,7 +11238,7 @@ void ProxyOwner::FUN_00cac6b0(SArr046* pkStrings)
 
     this->FUN_00c878c0(pkStrings);
 
-    char* pcStr = FUN_00a7d330(g_01268344.m_pcName);
+    char* pcStr = NiViewerStrings_NiGetViewerString_Title(g_01268344.m_pcName);
     unsigned int uiIndex = pkStrings->m_usSize;
     if (uiIndex >= pkStrings->m_usMaxSize)
         pkStrings->FUN_0096ad30(uiIndex + pkStrings->m_usGrowBy);
@@ -12198,7 +12219,7 @@ struct S00cb87e0_Node
     }
     void* operator new(unsigned int size) throw()
     {
-        unsigned char* raw = (unsigned char*)((MemoryManager_t*)&DAT_011f6238)->FUN_00aa3e40(size);
+        unsigned char* raw = (unsigned char*)((MemoryManager_t*)&DAT_011f6238)->Game_DoHeapAlloc(size);
         unsigned char lo = (unsigned char)raw;
         lo &= 0x0f;
         unsigned char pad = 0x10;
@@ -12244,7 +12265,7 @@ void* S00cb87e0_Obj::GetNode(bool* abCreated)
     *abCreated = empty;
     if (empty)
     {
-        unsigned char* raw = (unsigned char*)((MemoryManager_t*)&DAT_011f6238)->FUN_00aa3e40(sizeof(S00cb87e0_Node));
+        unsigned char* raw = (unsigned char*)((MemoryManager_t*)&DAT_011f6238)->Game_DoHeapAlloc(sizeof(S00cb87e0_Node));
         double defaultScale = DAT_01016248;
         unsigned char low = (unsigned char)raw;
         low &= 0x0f;
@@ -12310,7 +12331,7 @@ struct CloneSpec : public CloneableObj
 
     __forceinline void* operator new(size_t size)
     {
-        char* raw = (char*)((MemoryManager_t*)&_g_memoryManager)->FUN_00aa3e40((unsigned int)size);
+        char* raw = (char*)((MemoryManager_t*)&_g_memoryManager)->Game_DoHeapAlloc((unsigned int)size);
         unsigned char pad = 0x10 - ((unsigned char)(unsigned int)raw & 0xF);
         raw += pad;
         raw[-1] = (char)pad;
@@ -12571,7 +12592,8 @@ struct ChainDest
 
 // Copies two vectors, stores the end node of each chain in dst, and writes the second chain's m_04 values to dst->m_50 followed by -1.
 // @fnv 0x00cbd700
-static __declspec(noinline) void FUN_00cbd700(ChainSource* src, ChainDest* dst)
+// src: COMMUNITY 0x00cbd700
+static __declspec(noinline) void setHit(ChainSource* src, ChainDest* dst)
 {
     dst->m_00 = src->m_00;
     dst->m_10 = src->m_10;
@@ -12608,7 +12630,7 @@ static __declspec(noinline) void FUN_00cbd700(ChainSource* src, ChainDest* dst)
 
 void __cdecl InsertIntoContext(void* pList, void* pContext)
 {
-    FUN_00cbd700((ChainSource*)pList, (ChainDest*)pContext);
+    setHit((ChainSource*)pList, (ChainDest*)pContext);
 }
 
 // @fnv 0x00cbf190

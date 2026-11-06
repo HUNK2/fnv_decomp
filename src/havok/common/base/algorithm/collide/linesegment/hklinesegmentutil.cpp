@@ -67,7 +67,8 @@ inline void hkVector4::setAddMul4(const hkVector4& a, const hkVector4& b, float 
 }
 
 // @fnv 0x00d230e0
-int __cdecl FUN_00d230e0(const hkVector4& akPoint, const hkVector4& kA, const hkVector4& kB,
+// src: COMMUNITY 0x00d230e0
+int __cdecl hkLineSegmentUtil_closestPointLineSeg(const hkVector4& akPoint, const hkVector4& kA, const hkVector4& kB,
                          hkVector4& kClosestOut)
 {
     hkVector4 kAP;

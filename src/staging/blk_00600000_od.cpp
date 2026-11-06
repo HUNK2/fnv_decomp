@@ -67,13 +67,13 @@ FUN_00600d10_class::FUN_00600d10_class(int aiArg1, int aiArg2)
     m_vft = (int)&DAT_0104a068;
 }
 
-extern "C" void __cdecl FUN_00601100(int);
+extern "C" void __cdecl NiTMapBase_DFALL_NiTMapItem_char_const_IDLE_ANIM_ROOT_char_const_IDLE_ANIM_ROOT_Init(int);
 extern int DAT_0104a090;
 
 struct FUN_006010d0_Class
 {
     int m_field_0;
-    int __thiscall FUN_00601100(int);
+    int __thiscall NiTMapBase_DFALL_NiTMapItem_char_const_IDLE_ANIM_ROOT_char_const_IDLE_ANIM_ROOT_Init(int);
     int __thiscall InitializeWithGlobal(int param);
 };
 
@@ -81,18 +81,19 @@ struct FUN_006010d0_Class
 // @fnv 0x006010d0
 int __thiscall FUN_006010d0_Class::InitializeWithGlobal(int param)
 {
-    FUN_00601100(param);
+    NiTMapBase_DFALL_NiTMapItem_char_const_IDLE_ANIM_ROOT_char_const_IDLE_ANIM_ROOT_Init(param);
     m_field_0 = (int)&DAT_0104a090;
     return (int)this;
 }
 
 struct FUN_006053f0_class
 {
-    void FUN_006053f0(float value);
+    void TESNPC_SetWeight(float value);
 };
 
 // @fnv 0x006053f0
-void FUN_006053f0_class::FUN_006053f0(float value)
+// src: COMMUNITY 0x006053f0
+void FUN_006053f0_class::TESNPC_SetWeight(float value)
 {
     *(float*)((char*)this + 0x1f8) = value;
 }
@@ -105,7 +106,8 @@ struct GlobalObject_0045cf30
 GlobalObject_0045cf30 g_011cb99c;
 
 // @fnv 0x00605d50
-unsigned char FUN_00605d50()
+// src: COMMUNITY 0x00605d50
+unsigned char General_bFaceGenTexturing_Get()
 {
     return g_011cb99c.Bool()[0];
 }
@@ -141,10 +143,11 @@ extern void* DAT_0104ab04;
 struct AX
 {
     void FUN_006b3eb0(unsigned int, unsigned int);
-    AX* FUN_0060bdd0();
+    AX* BSSimpleArray_BGSHeadPart_1024_BSSimpleArray_BGSHeadPart_1024();
 };
 // @fnv 0x0060bdd0
-AX* AX::FUN_0060bdd0()
+// src: COMMUNITY 0x0060bdd0
+AX* AX::BSSimpleArray_BGSHeadPart_1024_BSSimpleArray_BGSHeadPart_1024()
 {
     *reinterpret_cast<void**>(this) = &DAT_0104ab04;
     FUN_006b3eb0(0, 0);
@@ -177,12 +180,13 @@ void __cdecl FUN_0060c270(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 
 struct FUN_0060c5c0_class
 {
-    FUN_0060c5c0_class* FUN_0060c5c0();
+    FUN_0060c5c0_class* TESQuest_Data_Init();
 };
 
 // Clears the two leading bytes and the float at offset 4 of this object, then returns this.
 // @fnv 0x0060c5c0
-FUN_0060c5c0_class* FUN_0060c5c0_class::FUN_0060c5c0()
+// src: COMMUNITY 0x0060c5c0
+FUN_0060c5c0_class* FUN_0060c5c0_class::TESQuest_Data_Init()
 {
     *(char*)this = 0;
     *((char*)this + 1) = 0;
@@ -215,22 +219,24 @@ bool FUN_00610190_cls::IsFlagSet()
 
 struct FUN_006130c0_Class
 {
-    void* FUN_006130c0(int index);
+    void* TESRace_GetSkillBonus(int index);
 };
 
 // @fnv 0x006130c0
-void* FUN_006130c0_Class::FUN_006130c0(int index)
+// src: COMMUNITY 0x006130c0
+void* FUN_006130c0_Class::TESRace_GetSkillBonus(int index)
 {
     return &((char*)this)[0x50 + index * 2];
 }
 
 struct FUN_00613870_Class
 {
-    int FUN_00613870(int index);
+    int TESRace_GetDefaultHair(int index);
 };
 
 // @fnv 0x00613870
-int FUN_00613870_Class::FUN_00613870(int index)
+// src: COMMUNITY 0x00613870
+int FUN_00613870_Class::TESRace_GetDefaultHair(int index)
 {
     return *(int*)((char*)this + 0x94 + index * 4);
 }
@@ -255,7 +261,8 @@ void __fastcall FUN_00618920(void* self)
 }
 
 // @fnv 0x0061bbf0
-char FUN_0061bbf0(unsigned char a)
+// src: COMMUNITY 0x0061bbf0
+char TESTopic_IsFormTypeDialogueChild(unsigned char a)
 {
     if (a == 0x46)
         return 1;
@@ -530,11 +537,12 @@ struct FUN_00601100_cls
     int a;
     void* b;
     int c;
-    FUN_00601100_cls* __thiscall FUN_00601100(int size);
+    FUN_00601100_cls* __thiscall NiTMapBase_DFALL_NiTMapItem_char_const_IDLE_ANIM_ROOT_char_const_IDLE_ANIM_ROOT_Init(int size);
 };
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes them into b, and returns this.
 // @fnv 0x00601100
-FUN_00601100_cls* __thiscall FUN_00601100_cls::FUN_00601100(int size)
+// src: COMMUNITY 0x00601100
+FUN_00601100_cls* __thiscall FUN_00601100_cls::NiTMapBase_DFALL_NiTMapItem_char_const_IDLE_ANIM_ROOT_char_const_IDLE_ANIM_ROOT_Init(int size)
 {
     int n;
     vtbl = &DAT_0104a0b0;
@@ -635,18 +643,19 @@ struct FUN_0060bd90_cls
     unsigned short m8;
     char _a[4];
     unsigned short mE;
-    void __thiscall FUN_0060c120(unsigned int, unsigned int);
-    unsigned int __thiscall FUN_0060bd90(unsigned int, unsigned int);
+    void __thiscall NiTObjectArray_NiPointer_NiTexture_SetAt(unsigned int, unsigned int);
+    unsigned int __thiscall NiTObjectArray_NiPointer_NiTexture_SetAtGrow(unsigned int, unsigned int);
 };
 // Grows the array to mE + a when a is at least m8, then calls FUN_0060c120(a, b) and returns a.
 // @fnv 0x0060bd90
-unsigned int __thiscall FUN_0060bd90_cls::FUN_0060bd90(unsigned int uiIndex, unsigned int b)
+// src: COMMUNITY 0x0060bd90
+unsigned int __thiscall FUN_0060bd90_cls::NiTObjectArray_NiPointer_NiTexture_SetAtGrow(unsigned int uiIndex, unsigned int b)
 {
     if (uiIndex >= m8)
     {
         ((NiTArray<int, NiTMallocInterface<int> >*)this)->SetSize((unsigned int)(mE + uiIndex));
     }
-    FUN_0060c120(uiIndex, b);
+    NiTObjectArray_NiPointer_NiTexture_SetAt(uiIndex, b);
     return uiIndex;
 }
 
@@ -692,11 +701,12 @@ struct S_00616a60
 {
     void __thiscall FUN_00616a20();
     void __thiscall FUN_00616a40();
-    void __thiscall FUN_00616a60(int);
+    void __thiscall TESReputation_GetReputationPct(int);
 };
 // Calls FUN_00616a20 when a equals 1, otherwise calls FUN_00616a40.
 // @fnv 0x00616a60
-void __thiscall S_00616a60::FUN_00616a60(int a)
+// src: COMMUNITY 0x00616a60
+void __thiscall S_00616a60::TESReputation_GetReputationPct(int a)
 {
     if (a == 1)
     {
@@ -940,7 +950,8 @@ struct DH
 extern DH* g_dataHandler;
 // If a is non-zero, walks the list from g_dataHandler and calls ProcessTopicInfoList(a) on each item until _ref_008256d0 is true.
 // @fnv 0x00619b60
-void FUN_00619b60(int a)
+// src: COMMUNITY 0x00619b60
+void TESTopic_ClearAllSaidOnceInfosForQuest(int a)
 {
     if (a)
     {
@@ -999,7 +1010,7 @@ void* __cdecl FUN_0060c3c0(void* pBegin, void* pEnd, void* pDest)
 struct GlobalObject_0040c150 : public StartMenu
 {
     bool __thiscall GetReputationRank(int value);
-    char const* FUN_006167d0();
+    char const* TESReputation_GetThresholdIcon();
 };
 
 extern GlobalObject_0040c150 g_011cba18;
@@ -1020,7 +1031,8 @@ extern GlobalObject_0040c150 g_011cbd38;
 extern GlobalObject_0040c150 g_011cbd44;
 
 // @fnv 0x006167d0
-char const* GlobalObject_0040c150::FUN_006167d0()
+// src: COMMUNITY 0x006167d0
+char const* GlobalObject_0040c150::TESReputation_GetThresholdIcon()
 {
     const StartMenu* menuTable[4][4] = {{&g_011cbbfc, &g_011cbbcc, &g_011cbbaec, &g_011cbd44},
                                   {&g_011cbcf0, &g_011cba4c, &g_011cbb4c, &g_011cbb8c},
@@ -1122,8 +1134,8 @@ struct S_0060bba0_TagB
 struct S_0060bba0_TagC
 {
 };
-S_0060bba0_TagB FUN_0065e750(int*);
-S_0060bba0_TagA FUN_0065fd70(int*, int*);
+S_0060bba0_TagB std_Move_cat_unsigned_char(int*);
+S_0060bba0_TagA return_value(int*, int*);
 int CallWithFlag(int*);
 void CallWithFlagByte(int, int, int, S_0060bba0_TagA, S_0060bba0_TagB, S_0060bba0_TagC);
 
@@ -1131,8 +1143,8 @@ void CallWithFlagByte(int, int, int, S_0060bba0_TagA, S_0060bba0_TagB, S_0060bba
 // @fnv 0x0060bba0
 void __cdecl FUN_0060bba0(int param1, int param2, int param3)
 {
-    CallWithFlagByte(CallWithFlag(&param1), CallWithFlag(&param2), param3, FUN_0065fd70(&param1, &param3),
-                     FUN_0065e750(&param3), S_0060bba0_TagC());
+    CallWithFlagByte(CallWithFlag(&param1), CallWithFlag(&param2), param3, return_value(&param1, &param3),
+                     std_Move_cat_unsigned_char(&param3), S_0060bba0_TagC());
 }
 
 struct B60BC10PtrCatTag
@@ -1213,14 +1225,14 @@ struct S_0060c2e0_Ret
     S_0060c2e0_Ret(int);
 };
 
-extern "C" S_0060c2e0_Ret __cdecl FUN_0065fd70(void* value);
+extern "C" S_0060c2e0_Ret __cdecl return_value(void* value);
 extern "C" void __cdecl ProcessFloatRange(void* a, void* b, void* c, int d, int e);
 
 // Calls ProcessFloatRange with a1, a2, a3 plus the byte returned by FUN_0065fd70(&a1) and a zero flag byte.
 // @fnv 0x0060c2e0
 void __cdecl CallWithFlagValues(void* a1, void* a2, void* a3)
 {
-    ProcessFloatRange(a1, a2, a3, FUN_0065fd70(&a1).v, S_0060c2e0_Flag().v);
+    ProcessFloatRange(a1, a2, a3, return_value(&a1).v, S_0060c2e0_Flag().v);
 }
 
 class B616A20Meter
@@ -1288,11 +1300,12 @@ float __thiscall FUN_00616a40_cls::FUN_00616a40()
 struct Comparison
 {
     char __thiscall GetReputationRank(int);
-    char __thiscall FUN_00616a90(char mode);
+    char __thiscall TESReputation_GetReputationThreshold(char mode);
 };
 // Reads two comparison results and maps their combination, depending on mode, to a result code (0-6).
 // @fnv 0x00616a90
-char Comparison::FUN_00616a90(char mode)
+// src: COMMUNITY 0x00616a90
+char Comparison::TESReputation_GetReputationThreshold(char mode)
 {
     char second = GetReputationRank(1);
     char first = GetReputationRank(0);
@@ -1400,12 +1413,13 @@ struct OutputStringDC
 
 struct FUN_00616e20_shell
 {
-    bool FUN_00616e20(OutputStringDC* output, const char* first, const char* second, const char* third,
+    bool TESResponse_TestAudioFullPath(OutputStringDC* output, const char* first, const char* second, const char* third,
                       const char* fourth, const char* fifth);
 };
 
 // @fnv 0x00616e20
-bool FUN_00616e20_shell::FUN_00616e20(OutputStringDC* output, const char* pcFirst, const char* pcSecond,
+// src: COMMUNITY 0x00616e20
+bool FUN_00616e20_shell::TESResponse_TestAudioFullPath(OutputStringDC* output, const char* pcFirst, const char* pcSecond,
                                       const char* pcThird, const char* pcFourth, const char* pcFifth)
 {
     bool succeeded2;
@@ -2068,7 +2082,7 @@ class StringHashTable
     int unk00;
     unsigned int m_uiBuckets;
 
-    unsigned int FUN_00659210(unsigned char ucChar, unsigned int uiHash);
+    unsigned int NiTStringTemplateMap_NiTMap_char_const_TESForm_TESForm_HashChar(unsigned char ucChar, unsigned int uiHash);
     unsigned int HashKey(const char* pcKey);
 };
 
@@ -2084,7 +2098,7 @@ unsigned int StringHashTable::HashKey(const char* pcKey)
     {
     }
     while (*pcKey)
-        uiHash = FUN_00659210((unsigned char)tolower(*pcKey++), uiHash);
+        uiHash = NiTStringTemplateMap_NiTMap_char_const_TESForm_TESForm_HashChar((unsigned char)tolower(*pcKey++), uiHash);
     return uiHash % m_uiBuckets;
 }
 
@@ -2195,7 +2209,8 @@ FUN_006188c0::~FUN_006188c0()
 
 // Casts the form to TESRaceForm and returns its race via GetFormRace, or null if the cast fails.
 // @fnv 0x00617270
-TESRace* __cdecl FUN_00617270(TESForm* form)
+// src: COMMUNITY 0x00617270
+TESRace* __cdecl TESRaceForm_GetFormRace(TESForm* form)
 {
     TESRaceForm* pRaceForm;
     pRaceForm = dynamic_cast<TESRaceForm*>(form);

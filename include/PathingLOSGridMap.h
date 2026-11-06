@@ -24,7 +24,7 @@ public:
     virtual ~PathingLOSGridMap();
 
     void __thiscall ClearMap();
-    void __thiscall FUN_006e0320(void* p, float f);
+    void __thiscall Initialize_006e0320(void* p, float f);
     void __thiscall Reset();
     void __thiscall FUN_006e02a0();
     void __thiscall FUN_00496910();

@@ -79,7 +79,7 @@ public:
     void __thiscall FUN_004b4db0(const ConstraintFourLaneCallLocal_00e55080* vector);
     ConstraintFourLaneCallLocal_00e55080& FUN_00e531a0(int parameter);
     ConstraintFourLaneCallLocal_00e55080 FUN_00e53260(int parameter);
-    void FUN_005611c0();
+    void normalize_005611c0();
 
     void operator=(const ConstraintFourLaneCallLocal_00e55080& vector);
     float& operator()(int index);
@@ -3781,17 +3781,20 @@ HolderStub* __cdecl FUN_00e4e3f0()
 }
 
 // @fnv 0x00e52f10
-void FUN_00e52f10()
+// src: COMMUNITY 0x00e52f10
+void nullsub_293()
 {
 }
 
 // @fnv 0x00e52f20
-void __cdecl FUN_00e52f20()
+// src: COMMUNITY 0x00e52f20
+void __cdecl nullsub_294()
 {
 }
 
 // @fnv 0x00e52f30
-void FUN_00e52f30()
+// src: COMMUNITY 0x00e52f30
+void nullsub_292()
 {
 }
 
@@ -4090,7 +4093,7 @@ void mm_caller(void)
 }
 
 struct SampleField {
-    int FUN_00e587a0();
+    int NiD3DShaderProgram_GetShaderProgramName();
     float* GetElementPtr(int index, int component);
     void FillWithValue(float* value);
     float GetFloatAt(int index, int component);
@@ -4114,7 +4117,7 @@ void FUN_00e58a20_cls::hkaSparseLSQMatrix_float_MultiplyAdd(SampleField* volatil
     float initial = 0.0f;
     output->FillWithValue(&initial);
     int component = 0;
-    if (input->FUN_00e587a0() > 0) {
+    if (input->NiD3DShaderProgram_GetShaderProgramName() > 0) {
         int elementCount = m_04;
         do {
             int index = 0;
@@ -4127,10 +4130,10 @@ void FUN_00e58a20_cls::hkaSparseLSQMatrix_float_MultiplyAdd(SampleField* volatil
                 } while (index < elementCount);
             }
             ++component;
-        } while (component < input->FUN_00e587a0());
+        } while (component < input->NiD3DShaderProgram_GetShaderProgramName());
     }
     component = 0;
-    if (input->FUN_00e587a0() > 0) {
+    if (input->NiD3DShaderProgram_GetShaderProgramName() > 0) {
         int elementCount = m_04;
         do {
             int index = 0;
@@ -4144,7 +4147,7 @@ void FUN_00e58a20_cls::hkaSparseLSQMatrix_float_MultiplyAdd(SampleField* volatil
                 } while (index < elementCount);
             }
             ++component;
-        } while (component < input->FUN_00e587a0());
+        } while (component < input->NiD3DShaderProgram_GetShaderProgramName());
     }
 }
 
@@ -4788,7 +4791,7 @@ void __cdecl ThresholdValues(float* values, unsigned int count, float threshold,
     }
 }
 
-struct Q { __m128 m_vComponents; void FUN_005611c0(); };
+struct Q { __m128 m_vComponents; void normalize_005611c0(); };
 struct QRef { Q* p; Q* operator->() const { return p; } };
 // Unpacks four 4-bit values from two bytes, maps each to (v-7)/7, stores them in out->m_vComponents, then calls FUN_005611c0 on it.
 // @fnv 0x00e52880
@@ -4802,7 +4805,7 @@ void FUN_00e52880(const unsigned char* src, QRef out)
     f[1] = (v[1] - 7) * (1.0f / 7.0f);
     f[2] = (v[2] - 7) * (1.0f / 7.0f);
     f[3] = (v[3] - 7) * (1.0f / 7.0f);
-    ((Q*)f)->FUN_005611c0();
+    ((Q*)f)->normalize_005611c0();
 }
 
 class Quat4
@@ -5316,8 +5319,8 @@ struct FitMatrix {
  void InitFloatArray(int a,int b,float f);
  void InitArray(int a,int b);
  float& GetElementPtr(int a,int b);
- __declspec(noinline) int FUN_00e587a0();
- __declspec(noinline) int FUN_00cc0760();
+ __declspec(noinline) int NiD3DShaderProgram_GetShaderProgramName();
+ __declspec(noinline) int NiD3DShaderProgram_GetName();
  void FUN_00c7b0f0();
  __forceinline void set(int a,int b,float value) {GetElementPtr(a,b)=value;}
 };
@@ -5382,10 +5385,10 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
   *result=0;temporary.free();rhs.matrix.FUN_00c7b0f0();grid.FUN_00e58b90();return result;
  }
  FitMatrix interior;
- interior.InitArray(rhs.matrix.FUN_00cc0760(),rhs.matrix.FUN_00e587a0());
+ interior.InitArray(rhs.matrix.NiD3DShaderProgram_GetName(),rhs.matrix.NiD3DShaderProgram_GetShaderProgramName());
  int rowIndex=0;
- if(interior.FUN_00cc0760()>0) {
-  int width=interior.FUN_00e587a0();
+ if(interior.NiD3DShaderProgram_GetName()>0) {
+  int width=interior.NiD3DShaderProgram_GetShaderProgramName();
   do {
    int j=0;
    if(width>0) {
@@ -5393,11 +5396,11 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
     do {
      rhs.component=row->FUN_00e53580(j);interior.GetElementPtr(rowIndex,j)=rhs.component;
      ++j;
-     width=interior.FUN_00e587a0();
+     width=interior.NiD3DShaderProgram_GetShaderProgramName();
     } while(j<width);
    }
    ++rowIndex;
-  } while(rowIndex<interior.FUN_00cc0760());
+  } while(rowIndex<interior.NiD3DShaderProgram_GetName());
  }
  SolveMatrixColumns(&ok,&grid,&interior,&rhs.matrix,50,tolerance);
  if(!ok) {
@@ -5982,7 +5985,7 @@ struct FUN_00cdf2f0 : Se5b160_Data {
     Se5b160_RagdollAtoms m_kBridgeAtoms;
     int unkec; int unkf0; int unkf4; int unkf8; int unkfc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; 
     FUN_00cdf2f0() throw();
-    void FUN_00cdea70(Se5b160_Motor* motor);
+    void hkpRagdollConstraintData_setTwistMotor(Se5b160_Motor* motor);
     void hkpRagdollConstraintData_setPlaneMotor(Se5b160_Motor* motor);
     void hkpRagdollConstraintData_setConeMotor(Se5b160_Motor* motor);
     void SetFlagAndClearFloats(void* info, bool enabled);
@@ -6039,7 +6042,7 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
         FUN_00cdf2f0* oldData = static_cast<FUN_00cdf2f0*>(constraintData);
         FUN_00cdf2f0* newData = new FUN_00cdf2f0();
         _copyAtoms_00e5b130(&oldData->m_kBridgeAtoms, &newData->m_kBridgeAtoms);
-        newData->FUN_00cdea70(motor);
+        newData->hkpRagdollConstraintData_setTwistMotor(motor);
         newData->hkpRagdollConstraintData_setPlaneMotor(motor);
         newData->hkpRagdollConstraintData_setConeMotor(motor);
         newData->SetFlagAndClearFloats(0, enableMotors);

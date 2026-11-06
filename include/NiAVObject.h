@@ -180,10 +180,10 @@ class NiAVObject : public NiObjectNET
     void FUN_004ef970(bool value);
     void FUN_004f00e0(void* value);
     bool FUN_004f0140();
-    void FUN_004f0160(const NiQuaternion& rotation);
+    void NiNode_SetRotate(const NiQuaternion& rotation);
     void FUN_0050dd50(const NiPoint3& value);
     bool FUN_006366b0();
-    NiObject* FUN_006838b0();
+    NiObject* NiAVObject_GetCollisionObject();
     NiMatrix3& FUN_006a9540();
     const char* FUN_009ee040();
     void FUN_00a59c60(NiUpdateData& data);
@@ -201,7 +201,7 @@ class NiAVObject : public NiObjectNET
     void* FUN_00a75f10();
     void* FUN_00a7b850();
     void FUN_00c43470();
-    void FUN_00c61610();
+    void BSWArray_SetName();
     void FUN_00c66240(NiObject* object);
     void FUN_00c87c50(NiObject* object);
 

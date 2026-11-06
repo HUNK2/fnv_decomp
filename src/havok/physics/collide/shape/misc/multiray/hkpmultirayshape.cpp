@@ -50,7 +50,8 @@ unsigned char* __stdcall FUN_00e3c610(unsigned char* out, int a1, int a2)
 }
 
 // @fnv 0x00e3c600
-void __stdcall FUN_00e3c600(int a1, int a2, int a3)
+// src: COMMUNITY 0x00e3c600
+void __stdcall nullsub_86(int a1, int a2, int a3)
 {}
 
 extern const hkClass DAT_01268910;

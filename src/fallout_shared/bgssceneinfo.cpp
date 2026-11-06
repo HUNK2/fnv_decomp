@@ -277,14 +277,14 @@ struct FUN_004a9600_shell
 {
     int m_0000;
     void* FUN_004a9600(void* arg);
-    void __thiscall FUN_004a98e0(void* arg);
+    void __thiscall NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool(void* arg);
 };
 
 // Calls FUN_004a98e0 on arg, stores the address of DAT_0101ed0c in m_0000, and returns this.
 // @fnv 0x004a9600
 void* FUN_004a9600_shell::FUN_004a9600(void* arg)
 {
-    FUN_004a98e0(arg);
+    NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool_NiTMapBase_DFALL_NiTMapItem_TESObjectCELL_bool_TESObjectCELL_bool(arg);
     m_0000 = (int)&DAT_0101ed0c;
     return this;
 }
@@ -360,7 +360,8 @@ int FUN_004a8090_shell::CallTargetV36()
 
 
 // @fnv 0x004a8fe0
-void __cdecl FUN_004a8fe0()
+// src: COMMUNITY 0x004a8fe0
+void __cdecl BGSSceneInfo_ReloadBudgetCaps()
 {
     int i;
     for (i = 0; i < 0x10; ++i)
@@ -774,7 +775,7 @@ struct MeshNode
 };
 struct SceneOwner
 {
-    MeshNode* FUN_00545710();
+    MeshNode* TESObjectCELL_GetPlaceableWatersList();
 };
 struct SceneCounter
 {
@@ -828,7 +829,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
         e.FUN_00438af0();
         ba = l;
     }
-    MeshNode* c = owner->FUN_00545710();
+    MeshNode* c = owner->TESObjectCELL_GetPlaceableWatersList();
     while (c && *c->FUN_006815c0())
     {
         MeshObject* h = *c->FUN_006815c0();
@@ -871,7 +872,7 @@ struct StatForm
 };
 struct StatLink
 {
-    StatForm* FUN_0041f050();
+    StatForm* ExtraDataList_GetDecalRefs();
 };
 struct StatNodeLink
 {
@@ -1012,7 +1013,7 @@ extern StatTextureCount DAT_011c5a90;
 extern char DAT_01202de8, DAT_011c7d34, DAT_011f4a28, DAT_012024e0;
 bool __cdecl FUN_0043b300(const void*, const void*);
 void* __cdecl FUN_00653270(const void*, const void*);
-bool __cdecl FUN_00565580(StatObject*);
+bool __cdecl TESObjectREFR_HasTimeControllers(StatObject*);
 StatActor* __cdecl FUN_004a8b00(StatObject*);
 int __cdecl FUN_004a9240(StatForm*);
 StatObject* __cdecl FUN_00450b80(int);
@@ -1074,7 +1075,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
             if (fade && (reference = fade->FUN_009ad610()) && !reference->FUN_00444ed0() && (!actorNode || !addon))
             {
                 counts[0]++;
-                if (FUN_00565580(object))
+                if (TESObjectREFR_HasTimeControllers(object))
                 {
                     counts[2]++;
                     if (!DAT_011c5b30.FUN_005f65d0(reference->FUN_007af430()->FUN_0084e3a0()))
@@ -1083,7 +1084,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                         DAT_011c5b30.FUN_00905820(reference->FUN_007af430()->FUN_0084e3a0());
                     }
                 }
-                StatNodeLink* link = (StatNodeLink*)reference->FUN_005d43c0()->FUN_0041f050();
+                StatNodeLink* link = (StatNodeLink*)reference->FUN_005d43c0()->ExtraDataList_GetDecalRefs();
                 while (link && *link->FUN_006815c0())
                 {
                     counts[14]++;
@@ -1274,7 +1275,7 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
 {
     *cost = 0.0f;
     *count = 0.0f;
-    FUN_004a8fe0();
+    BGSSceneInfo_ReloadBudgetCaps();
     FUN_004aa340 list;
     GlobalObject2_0096a2d0 map;
     if (DAT_011dea10->GetInteriorCell())

@@ -165,10 +165,10 @@ struct S00b3d1b0_Src
     {
         return GetNextElement();
     }
-    float FUN_00b3ed20();
+    float CTreeFileAccess_ParseFloat();
     char FUN_00b06180();
     LeafPoint GetVector3();
-    S00b3d1b0_Str FUN_00b3ee40();
+    S00b3d1b0_Str CTreeFileAccess_ParseString();
 };
 
 struct S00b3d1b0_Leaf
@@ -221,34 +221,34 @@ void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
         switch (aTag)
         {
         case 3000:
-            m_2c = src->FUN_00b3ed20();
+            m_2c = src->CTreeFileAccess_ParseFloat();
             break;
         case 3001:
             m_34 = src->GetNextElement();
             break;
         case 3002:
-            m_30 = src->FUN_00b3ed20();
+            m_30 = src->CTreeFileAccess_ParseFloat();
             break;
         case 3003:
             src->FUN_00b06180();
             break;
         case 3004:
-            src->FUN_00b3ed20();
+            src->CTreeFileAccess_ParseFloat();
             break;
         case 3009:
             m_iWordAt00 = src->FUN_00b06180();
             break;
         case 3010:
-            m_iWordAt04 = src->FUN_00b3ed20();
+            m_iWordAt04 = src->CTreeFileAccess_ParseFloat();
             break;
         case 3005:
-            src->FUN_00b3ed20();
+            src->CTreeFileAccess_ParseFloat();
             break;
         case 3006:
             src->FUN_00b06180();
             break;
         case 3007:
-            m_28 = src->FUN_00b3ed20();
+            m_28 = src->CTreeFileAccess_ParseFloat();
             break;
         case 3008:
             m_iThirdValue = src->GetNextElement();
@@ -274,10 +274,10 @@ void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
                         leaf.m_iWordAt04 = src->GetVector3();
                         break;
                     case 4002:
-                        leaf.m_10 = src->FUN_00b3ed20();
+                        leaf.m_10 = src->CTreeFileAccess_ParseFloat();
                         break;
                     case 4003:
-                        leaf.m_14 = src->FUN_00b3ee40();
+                        leaf.m_14 = src->CTreeFileAccess_ParseString();
                         leaf.m_14 = leaf.m_14.FUN_00b09f90();
                         break;
                     case 4004:
@@ -290,7 +290,7 @@ void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
                         leaf.m_48 = src->GetVector3();
                         break;
                     case 4007:
-                        src->FUN_00b3ed20();
+                        src->CTreeFileAccess_ParseFloat();
                         break;
                     default:
                         throw S00b3d1b0_Err("malformed single leaf information", false);

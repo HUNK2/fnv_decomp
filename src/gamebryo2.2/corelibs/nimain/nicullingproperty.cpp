@@ -13,7 +13,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5d20;
 
 // @fnv 0x00a8f520
-GlobalObjectO2_00a7b610* __cdecl FUN_00a8f520()
+// src: COMMUNITY 0x00a8f520
+GlobalObjectO2_00a7b610* __cdecl NiCullingProperty_GetRTTI()
 {
     return &g_011f5d20;
 }
@@ -26,7 +27,8 @@ extern int DAT_011f5e40;
 
 // Allocates a 0x14-byte object, runs its constructor, and stores the resulting pointer in DAT_011f5e40 (or 0 if allocation fails).
 // @fnv 0x00a8fd80
-void __cdecl FUN_00a8fd80()
+// src: COMMUNITY 0x00a8fd80
+void __cdecl NiSingleShaderMaterialLibrary__SDMInit()
 {
     void* p = BSFadeNode::operator new(0x14);
     if (p)
@@ -233,7 +235,7 @@ typedef NiTArray<char*, NiTMallocInterface<char*> > BA8F690StringArray;
 
 extern const char* g_pcA8F690Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 char* __cdecl FUN_00a7d370(const char* pcName, bool bValue);
 
 // The shared headers lack the viewer-string overrides; forward the unused EDX
@@ -245,7 +247,7 @@ void __fastcall NiProperty_GetViewerStrings(NiProperty* property, void*, BA8F690
 void __fastcall NiCullingProperty_GetViewerStrings(NiCullingProperty* property, void* unusedEDX, BA8F690StringArray* pkStrings)
 {
     NiProperty_GetViewerStrings(property, unusedEDX, pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_pcA8F690Name));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_pcA8F690Name));
     bool bCulled = ((unsigned char)property->m_usFlags & 1) != 0;
     pkStrings->Add(FUN_00a7d370("bCulled", bCulled));
 }

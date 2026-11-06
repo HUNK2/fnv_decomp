@@ -65,7 +65,7 @@ bool TESGlobal::SetEditorID_AtRuntime(char const* apString)
     return 1;
 }
 
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 void __cdecl _FUN_00485910(unsigned int, float);
 
 // Writes the global's type and value chunks.
@@ -73,7 +73,7 @@ void __cdecl _FUN_00485910(unsigned int, float);
 void TESGlobal::SaveForm()
 {
     TESForm::FUN_004855a0();
-    FUN_004858f0(0x4D414E46, cType);
+    TESForm_AddChunk_3(0x4D414E46, cType);
     _FUN_00485910(0x56544C46, fValue);
     TESForm::FUN_00485680();
 }

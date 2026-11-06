@@ -66,7 +66,7 @@ CombatProcedureEngageTarget::~CombatProcedureEngageTarget()
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
+    void BGSWorldLocation_SaveGame(void*);
 };
 
 // Retained: TimeoutTimer.h does not declare SaveGame (0x009a5eb0).
@@ -93,8 +93,8 @@ void CombatProcedureEngageTarget::SaveGame(BGSSaveFormBuffer* buffer)
     buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x32), 1, 0);
     buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 12, 0);
 
-    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x40)->FUN_00527b70(buffer);
-    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x50)->FUN_00527b70(buffer);
+    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x40)->BGSWorldLocation_SaveGame(buffer);
+    reinterpret_cast<CoordinateTriple*>(reinterpret_cast<char*>(this) + 0x50)->BGSWorldLocation_SaveGame(buffer);
 
     buffer->SaveData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x33), 1, 0);
 
@@ -105,7 +105,7 @@ namespace fnv_009d5990 {
 
 struct FUN_00527ba0_Class
 {
-    void FUN_00527ba0(void* buffer);
+    void BGSLoadGameBuffer_LoadBGSWorldLocation(void* buffer);
 };
 
 extern float DAT_01022958;
@@ -140,8 +140,8 @@ void CombatProcedureEngageTarget::LoadGame(BGSLoadFormBuffer* buffer)
     buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x32), 1u);
     buffer->ReadTypedData(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0x34), 12u);
 
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x40)->FUN_00527ba0(buffer);
-    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x50)->FUN_00527ba0(buffer);
+    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x40)->BGSLoadGameBuffer_LoadBGSWorldLocation(buffer);
+    reinterpret_cast<FUN_00527ba0_Class*>(reinterpret_cast<char*>(this) + 0x50)->BGSLoadGameBuffer_LoadBGSWorldLocation(buffer);
 
     if (buffer->GetVersion() >= 10)
     {
@@ -276,7 +276,7 @@ bool Procedure::CheckAndApply(bool mode)
         request.FUN_006e4320(angle);
         if (!actor->SetPathingRequestAvoidNodes(&request))
             return false;
-        target = targetActor3->FUN_00575650();
+        target = targetActor3->TESObjectREFR_GetWorldLocation();
         FUN_00996e20(mode ? 3 : 1);
         active = false;
         return true;
@@ -297,7 +297,7 @@ bool Procedure::CheckAndApply(bool mode)
         if (!actor2->SetPathingRequestAvoidNodes(&request2))
             return false;
         point = query2.FUN_006815c0();
-        target = targetActor2->FUN_00575650();
+        target = targetActor2->TESObjectREFR_GetWorldLocation();
         FUN_00996e20(mode ? 3 : 1);
         return true;
     }
@@ -390,7 +390,7 @@ void Engage::PrintDebugInfo(Output* pOutput, int a, int b)
         pOutput->Print(a, b, text_6, range14, range18);
         if (actor)
         {
-            WorldLocation location = actor->FUN_00575650<WorldLocation>();
+            WorldLocation location = actor->TESObjectREFR_GetWorldLocation<WorldLocation>();
             pOutput->Print(a, b, text_7, location.Distance(&target), 200.0);
         }
         break;
@@ -399,7 +399,7 @@ void Engage::PrintDebugInfo(Output* pOutput, int a, int b)
         pOutput->Print(a, b, text_9, range14, range18);
         if (actor)
         {
-            WorldLocation location = actor->FUN_00575650<WorldLocation>();
+            WorldLocation location = actor->TESObjectREFR_GetWorldLocation<WorldLocation>();
             pOutput->Print(a, b, text_10, location.Distance(&target), 200.0);
         }
         break;
@@ -856,9 +856,9 @@ void EngageProc::UpdateEngagement()
         changed = true;
     }
     Location targetLocX;
-    target->FUN_00575650(static_cast<void*>(&targetLocX));
+    target->TESObjectREFR_GetWorldLocation(static_cast<void*>(&targetLocX));
     Location actorLocY;
-    actorZ->FUN_00575650(static_cast<void*>(&actorLocY));
+    actorZ->TESObjectREFR_GetWorldLocation(static_cast<void*>(&actorLocY));
     float distSqD = actorLocY.GetDistSq(&targetLocX);
     bool tooFar4 = distSqD > m_fMaxRange * m_fMaxRange;
     bool tooClose4 = distSqD < m_fMinRange * m_fMinRange;

@@ -163,7 +163,7 @@ extern NiFixedString* DAT_011c6270;
 extern NiFixedString* DAT_011c6274;
 extern NiFixedString* DAT_011c6278;
 #include "../../include/LANGUAGE.h"
-int FUN_004b71a0();
+int GetIsControllerConnected_();
 LANGUAGE GetConfiguredLanguage();
 const char* LocateString(const char*, const char*);
 template <class T> unsigned int BSStringLength(const T*);
@@ -188,11 +188,11 @@ extern NiNode* DAT_011c6328;
 extern NiAVObjectPalette* DAT_011c6324;
 extern NiRTTI DAT_011f36ac;
 const NiFixedString& FUN_00448a80();
-const NiFixedString& FUN_004b5f60();
-const NiFixedString& FUN_004b5f70();
-const NiFixedString& FUN_004b5f80();
-const NiFixedString& FUN_004b5f90();
-int FUN_00404dc0(const char*, const char*);
+const NiFixedString& get_g_EditorMarker();
+const NiFixedString& get_g_EditorMarker0();
+const NiFixedString& get_g_EditorMarker1();
+const NiFixedString& get_g_EditorMarker2();
+int BSstricmp(const char*, const char*);
 extern "C" int _strnicmp(const char*, const char*, unsigned int);
 
 extern NiRTTI DAT_012024e0;
@@ -210,8 +210,8 @@ struct CollisionObjectCountContext
     void* pAuxiliaryData;
     unsigned int uiFilterFlags;
 };
-void FUN_004b6740(NiCollisionObject*, CollisionObjectCountContext*);
-void FUN_00c68900(NiAVObject*, CollisionObjectCountContext*,
+void GetCollisionObjectByIndex(NiCollisionObject*, CollisionObjectCountContext*);
+void bhkWorld_DoObjectRec(NiAVObject*, CollisionObjectCountContext*,
                   void (*)(NiCollisionObject*, CollisionObjectCountContext*));
 
 
@@ -289,7 +289,7 @@ bool ConvertLocalizedString(const char* input, char* output, unsigned int capaci
     bool changed = false;
     output[0] = 0;
     unsigned int written = 0;
-    int targetPlatform = FUN_004b71a0();
+    int targetPlatform = GetIsControllerConnected_();
     LANGUAGE language = GetConfiguredLanguage();
     current = input;
     for (int i = 0; i < 4; ++i)
@@ -446,7 +446,7 @@ bool RemoveInvalidChildNodes(NiNode* apNode)
         if (pExtraData)
         {
             NiExtraData* flags = pExtraData;
-            if (flags->FUN_004b5fa0())
+            if (flags->BSXFlags_IsEditorMarker())
             {
                 DAT_011c6328 = apNode;
                 NiTimeController* controller = apNode->GetController(&DAT_011f36ac);
@@ -463,7 +463,7 @@ bool RemoveInvalidChildNodes(NiNode* apNode)
     if (reinterpret_cast<const char*>(
             reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(apNode)->GetLinkToList())
                 ->FUN_0043b1b0()) &&
-        !FUN_00404dc0(reinterpret_cast<const char*>(
+        !BSstricmp(reinterpret_cast<const char*>(
                           reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(apNode)->GetLinkToList())
                               ->FUN_0043b1b0()),
                       "EditorMarker"))
@@ -471,13 +471,13 @@ bool RemoveInvalidChildNodes(NiNode* apNode)
         if (DAT_011c6324)
         {
             reinterpret_cast<void* (__thiscall*)(NiAVObjectPalette*, const NiFixedString&, int)>(
-                (*reinterpret_cast<void***>(DAT_011c6324))[0x90 / 4])(DAT_011c6324, FUN_004b5f60(), 0);
+                (*reinterpret_cast<void***>(DAT_011c6324))[0x90 / 4])(DAT_011c6324, get_g_EditorMarker(), 0);
             reinterpret_cast<void* (__thiscall*)(NiAVObjectPalette*, const NiFixedString&, int)>(
-                (*reinterpret_cast<void***>(DAT_011c6324))[0x90 / 4])(DAT_011c6324, FUN_004b5f70(), 0);
+                (*reinterpret_cast<void***>(DAT_011c6324))[0x90 / 4])(DAT_011c6324, get_g_EditorMarker0(), 0);
             reinterpret_cast<void* (__thiscall*)(NiAVObjectPalette*, const NiFixedString&, int)>(
-                (*reinterpret_cast<void***>(DAT_011c6324))[0x90 / 4])(DAT_011c6324, FUN_004b5f80(), 0);
+                (*reinterpret_cast<void***>(DAT_011c6324))[0x90 / 4])(DAT_011c6324, get_g_EditorMarker1(), 0);
             reinterpret_cast<void* (__thiscall*)(NiAVObjectPalette*, const NiFixedString&, int)>(
-                (*reinterpret_cast<void***>(DAT_011c6324))[0x90 / 4])(DAT_011c6324, FUN_004b5f90(), 0);
+                (*reinterpret_cast<void***>(DAT_011c6324))[0x90 / 4])(DAT_011c6324, get_g_EditorMarker2(), 0);
         }
         if (apNode->GetParent())
             apNode->GetParent()->RemoveObject(apNode);
@@ -532,7 +532,7 @@ bool HandleUnparentedObjectNode(NiNode* object)
                     ->FUN_0043b1b0());
             if (name)
             {
-                if (!FUN_00404dc0(name, "Scb"))
+                if (!BSstricmp(name, "Scb"))
                 {
                     object->RemoveNthObject(i);
                     return true;
@@ -621,7 +621,7 @@ int CountCollisionObjects(NiAVObject* object, bool skipPhantoms, bool skipBlendO
         context.uiFilterFlags |= 2;
     if (skipUnknown)
         context.uiFilterFlags |= 4;
-    FUN_00c68900(object, &context, FUN_004b6740);
+    bhkWorld_DoObjectRec(object, &context, GetCollisionObjectByIndex);
     return context.iCount;
 }
 
@@ -876,12 +876,13 @@ float FUN_004b5530(float value)
     return static_cast<float>(FUN_00ec9610(value));
 }
 
-float __cdecl FUN_004b5590(float, float);
+float __cdecl atan2f(float, float);
 
 // @fnv 0x004b5570
-float __cdecl FUN_004b5570(float _Y, float _X)
+// src: COMMUNITY 0x004b5570
+float __cdecl atan2_004b5570(float _Y, float _X)
 {
-    return FUN_004b5590(_Y, _X);
+    return atan2f(_Y, _X);
 }
 
 int __fastcall FUN_004b5980(const void* collidable);
@@ -922,14 +923,16 @@ extern char const* const g_012683d0_arg1;
 void* __cdecl DynamicCastByRTTI(const void*, NiAVObject*);
 
 // @fnv 0x004b5ad0
-void* __cdecl FUN_004b5ad0(NiAVObject* apPhantom)
+// src: COMMUNITY 0x004b5ad0
+void* __cdecl bhkUtilFunctions_IsbhkPCollisionObject(NiAVObject* apPhantom)
 {
     NiAVObject* pc = NiShader::DynamicCast(apPhantom);
     return DynamicCastByRTTI(&g_012683d0_arg1, pc);
 }
 
 // @fnv 0x004b5fa0
-bool __fastcall FUN_004b5fa0(const BSXFlags* pThis)
+// src: COMMUNITY 0x004b5fa0
+bool __fastcall BSXFlags_IsEditorMarker(const BSXFlags* pThis)
 {
     return pThis->GetFlags(0x20) != 0;
 }
@@ -967,7 +970,8 @@ extern NiRTTI g_0126817c;
 
 // Skips incrementing the counter at data+0xc when the object matches the RTTI checks or is an Arrow; otherwise increments it.
 // @fnv 0x004b6740
-void __cdecl FUN_004b6740(NiAVObject* apObject, char* data)
+// src: COMMUNITY 0x004b6740
+void __cdecl GetCollisionObjectByIndex(NiAVObject* apObject, char* data)
 {
     if ((*(unsigned int*)(data + 0x18) & 1) && FUN_0043b300(&g_0126817c, apObject))
         return;
@@ -997,7 +1001,8 @@ bool __cdecl FUN_004b71d0(void);
 
 // Returns 1 if FUN_004b71d0() returns true, otherwise returns 0.
 // @fnv 0x004b71a0
-int FUN_004b71a0()
+// src: COMMUNITY 0x004b71a0
+int GetIsControllerConnected_()
 {
     int result = 0;
     if (FUN_004b71d0())
@@ -1007,13 +1012,13 @@ int FUN_004b71a0()
 
 extern bool DAT_011d8a84;
 extern MobileObject g_011d8c4c;
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_GetSingleton(void);
 
 // Returns true when DAT_011d8a84 is set and, after calling FUN_004b7210, g_011d8c4c reports its char controller flag.
 // @fnv 0x004b71d0
 bool __cdecl FUN_004b71d0()
 {
-    return DAT_011d8a84 && (FUN_004b7210(), g_011d8c4c.GetCharControllerFlag());
+    return DAT_011d8a84 && (InterfaceManager_GetSingleton(), g_011d8c4c.GetCharControllerFlag());
 }
 
 // @fnv 0x0063f790
@@ -1031,7 +1036,8 @@ struct tagRECT
 };
 
 // @fnv 0x004b1e80
-bool FUN_004b1e80(const tagRECT* aTestRect, const NiPoint3* aStartPt, const NiPoint3* aEndPt,
+// src: COMMUNITY 0x004b1e80
+bool TES_LineVsRect(const tagRECT* aTestRect, const NiPoint3* aStartPt, const NiPoint3* aEndPt,
                   NiPoint3* aOutputIntersectPt)
 {
     bool bIntersect = false;
@@ -1242,25 +1248,29 @@ int __fastcall GetCharAtOffset4(int param_1)
 }
 
 // @fnv 0x004b5f60
-const NiFixedString& FUN_004b5f60()
+// src: COMMUNITY 0x004b5f60
+const NiFixedString& get_g_EditorMarker()
 {
     return *DAT_011c61f0;
 }
 
 // @fnv 0x004b5f70
-const NiFixedString& FUN_004b5f70()
+// src: COMMUNITY 0x004b5f70
+const NiFixedString& get_g_EditorMarker0()
 {
     return *DAT_011c61f4;
 }
 
 // @fnv 0x004b5f80
-const NiFixedString& FUN_004b5f80()
+// src: COMMUNITY 0x004b5f80
+const NiFixedString& get_g_EditorMarker1()
 {
     return *DAT_011c61f8;
 }
 
 // @fnv 0x004b5f90
-const NiFixedString& FUN_004b5f90()
+// src: COMMUNITY 0x004b5f90
+const NiFixedString& get_g_EditorMarker2()
 {
     return *DAT_011c61fc;
 }
@@ -1271,7 +1281,8 @@ int __fastcall GetReferenceFlags(void*);
 
 // Gets the collision object's world object and, if it exists and GetReferenceFlags returns nonzero, increments the fourth int of arg.
 // @fnv 0x004b6b20
-void __cdecl FUN_004b6b20(bhkCollisionObject* apCollisionObject, void* apData)
+// src: COMMUNITY 0x004b6b20
+void __cdecl GetHavokWorldObjectCount(bhkCollisionObject* apCollisionObject, void* apData)
 {
     bhkWorldObject* result = apCollisionObject->FUN_006fa820();
     if (result && GetReferenceFlags(result))
@@ -1283,7 +1294,8 @@ namespace fnv_004b6bc0 {
 int __fastcall GetReferenceFlags(bhkWorldObject*);
 
 // @fnv 0x004b6bc0
-void FUN_004b6bc0(bhkCollisionObject* apCollisionObject, void* dest)
+// src: COMMUNITY 0x004b6bc0
+void GetHavokWorldObjectIndex(bhkCollisionObject* apCollisionObject, void* dest)
 {
     bhkWorldObject* w = apCollisionObject->FUN_006fa820();
     if (w)
@@ -1306,7 +1318,8 @@ namespace fnv_004b6c70 {
 int __fastcall GetReferenceFlags(int* obj);
 
 // @fnv 0x004b6c70
-void __cdecl FUN_004b6c70(bhkCollisionObject* apCollisionObject, int* arg2)
+// src: COMMUNITY 0x004b6c70
+void __cdecl GetHavokWorldObjectByIndex(bhkCollisionObject* apCollisionObject, int* arg2)
 {
     int* obj = reinterpret_cast<int*>(apCollisionObject->FUN_006fa820());
     if (obj)
@@ -1330,7 +1343,8 @@ struct UIRoot;
 extern UIRoot* DAT_011d8a80;
 
 // @fnv 0x004b7210
-UIRoot* FUN_004b7210()
+// src: COMMUNITY 0x004b7210
+UIRoot* InterfaceManager_GetSingleton()
 {
     return DAT_011d8a80;
 }
@@ -1357,11 +1371,12 @@ extern char const* const g_01268100_arg1;
 
 struct FUN_004b5150_shell
 {
-    char const* const* __thiscall FUN_004b5150();
+    char const* const* __thiscall bhkSerializable_GetRTTI();
 };
 
 // @fnv 0x004b5150
-char const* const* __thiscall FUN_004b5150_shell::FUN_004b5150()
+// src: COMMUNITY 0x004b5150
+char const* const* __thiscall FUN_004b5150_shell::bhkSerializable_GetRTTI()
 {
     return &g_01268100_arg1;
 }
@@ -1382,11 +1397,12 @@ extern const char* const g_0126811c_arg1;
 
 struct FUN_004b5190_shell
 {
-    const char* const* FUN_004b5190();
+    const char* const* bhkAction_GetRTTI();
 };
 
 // @fnv 0x004b5190
-const char* const* FUN_004b5190_shell::FUN_004b5190()
+// src: COMMUNITY 0x004b5190
+const char* const* FUN_004b5190_shell::bhkAction_GetRTTI()
 {
     return &g_0126811c_arg1;
 }
@@ -1670,15 +1686,16 @@ struct IntegerAndByteRecord
     int _18;
 };
 }
-void __cdecl FUN_004b6b20(NiCollisionObject*, CollisionObjectCountContext*);
+void __cdecl GetHavokWorldObjectCount(NiCollisionObject*, CollisionObjectCountContext*);
 // @fnv 0x004b6ae0
-int FUN_004b6ae0(NiAVObject* apRoot)
+// src: COMMUNITY 0x004b6ae0
+int GetHavokWorldObjectCountInSceneGraph(NiAVObject* apRoot)
 {
     CollisionObjectCount::IntegerAndByteRecord recData;
     recData._08 = 18;
     recData._04 = 1;
     recData._0C = 0;
-    FUN_00c68900(apRoot, reinterpret_cast<CollisionObjectCountContext*>(&recData), FUN_004b6b20);
+    bhkWorld_DoObjectRec(apRoot, reinterpret_cast<CollisionObjectCountContext*>(&recData), GetHavokWorldObjectCount);
     return recData._0C;
 }
 
@@ -1699,7 +1716,7 @@ struct IntegerAndByteRecord
     int _24;
 };
 }
-void __cdecl FUN_004b6c70(NiCollisionObject*, CollisionObjectCountContext*);
+void __cdecl GetHavokWorldObjectByIndex(NiCollisionObject*, CollisionObjectCountContext*);
 // @fnv 0x004b6c20
 hkpWorldObject* FindCollisionObjectByIndex(NiAVObject* apRoot, int aiIndex)
 {
@@ -1709,7 +1726,7 @@ hkpWorldObject* FindCollisionObjectByIndex(NiAVObject* apRoot, int aiIndex)
     recData._12 = 0;
     recData._16 = 0;
     recData._20 = aiIndex;
-    FUN_00c68900(apRoot, (CollisionObjectCountContext*)&recData, FUN_004b6c70);
+    bhkWorld_DoObjectRec(apRoot, (CollisionObjectCountContext*)&recData, GetHavokWorldObjectByIndex);
     return recData._16;
 }
 }  // namespace fnv_004b6c20
@@ -1738,11 +1755,12 @@ struct FUN_004b70d0_shell
 {
     char pad[0x3c];
     Flt m_flt;
-    unsigned int FUN_004b70d0();
+    unsigned int NiSourceTexture_GetSrcPixelData();
 };
 
 // @fnv 0x004b70d0
-unsigned int FUN_004b70d0_shell::FUN_004b70d0()
+// src: COMMUNITY 0x004b70d0
+unsigned int FUN_004b70d0_shell::NiSourceTexture_GetSrcPixelData()
 {
     return m_flt.operator unsigned int();
 }
@@ -1901,7 +1919,8 @@ float __cdecl FUN_004b15e0(float startAngle, float targetAngle, float* pfOutDir)
 
 extern const NiRTTI DAT_011f4428;
 // @fnv 0x004b70f0
-void FUN_004b70f0(NiNode* apNode, float afPhase)
+// src: COMMUNITY 0x004b70f0
+void BSUtils_SetPhaseRecurse(NiNode* apNode, float afPhase)
 {
     if (!apNode)
         return;
@@ -1916,7 +1935,7 @@ void FUN_004b70f0(NiNode* apNode, float afPhase)
     {
         NiAVObject* pobj = apNode->GetAt(n);
         if (pobj && FUN_0043b300(&DAT_011f4428, pobj))
-            FUN_004b70f0((NiNode*)pobj, afPhase);
+            BSUtils_SetPhaseRecurse((NiNode*)pobj, afPhase);
     }
 }
 
@@ -2007,7 +2026,8 @@ struct FUN_004b68a0_data
 
 // Checks RTTI and fade-node conditions on object, resets field_14 when object matches field_10, then increments field_0c.
 // @fnv 0x004b68a0
-void FUN_004b68a0(GlobalfuncOffset08View* object, FUN_004b68a0_data* data)
+// src: COMMUNITY 0x004b68a0
+void GetCollisionObjectIndex(GlobalfuncOffset08View* object, FUN_004b68a0_data* data)
 {
     if ((data->field_18 & 1) && FUN_0043b300(&g_0126817c, reinterpret_cast<NiAVObject*>(object)))
         return;
@@ -2190,8 +2210,8 @@ struct S_004b6810_Filter
 };
 
 typedef int(__cdecl* PFN_004b68a0)(S_004b6810_Filter*);
-int __cdecl FUN_004b68a0(S_004b6810_Filter*);
-int __cdecl FUN_00c68900(void*, S_004b6810_Filter*, PFN_004b68a0);
+int __cdecl GetCollisionObjectIndex(S_004b6810_Filter*);
+int __cdecl bhkWorld_DoObjectRec(void*, S_004b6810_Filter*, PFN_004b68a0);
 
 // Builds a filter struct from the flags and a2, runs FUN_00c68900 over a1, and returns the filter's m_14 result or -1.
 // @fnv 0x004b6810
@@ -2210,7 +2230,7 @@ int __cdecl FilterByFlags(void* a1, int iValue, bool abSkipPhantoms, bool abSkip
         kFilter.m_18 |= 2;
     if (abSkipUnknown)
         kFilter.m_18 |= 4;
-    FUN_00c68900(a1, &kFilter, FUN_004b68a0);
+    bhkWorld_DoObjectRec(a1, &kFilter, GetCollisionObjectIndex);
     return (kFilter.m_14 != -1) ? kFilter.m_14 : -1;
 }
 
@@ -2253,16 +2273,17 @@ int __cdecl FUN_004b6980(NiAVObject* object, void* auxiliaryData, bool flag1, bo
         context.uiFilterFlags |= 4;
     }
 
-    FUN_00c68900(object, reinterpret_cast<CollisionObjectCountContext*>(&context), ProcessObjectMatch);
+    bhkWorld_DoObjectRec(object, reinterpret_cast<CollisionObjectCountContext*>(&context), ProcessObjectMatch);
 
     return context.iCount;
 }
 
-void FUN_004b6bc0(NiCollisionObject* pkObject, CollisionObjectCountContext* pkContext);
+void GetHavokWorldObjectIndex(NiCollisionObject* pkObject, CollisionObjectCountContext* pkContext);
 
 // Traverses pkRoot with a context that counts collision objects and returns the auxiliary result, or -1 when it is unset.
 // @fnv 0x004b6b60
-int FUN_004b6b60(NiAVObject* pkRoot, void* pvUserData)
+// src: COMMUNITY 0x004b6b60
+int GetHavokWorldObjectIndexInSceneGraph(NiAVObject* pkRoot, void* pvUserData)
 {
     CollisionObjectCountContext kContext;
     kContext.uiTraversalFlags = 0x12;
@@ -2270,7 +2291,7 @@ int FUN_004b6b60(NiAVObject* pkRoot, void* pvUserData)
     kContext.iCount = 0;
     kContext.pUserData = pvUserData;
     kContext.pAuxiliaryData = reinterpret_cast<void*>(-1);
-    FUN_00c68900(pkRoot, &kContext, FUN_004b6bc0);
+    bhkWorld_DoObjectRec(pkRoot, &kContext, GetHavokWorldObjectIndex);
     return reinterpret_cast<int>(kContext.pAuxiliaryData) != -1 ? reinterpret_cast<int>(kContext.pAuxiliaryData) : -1;
 }
 
@@ -2300,7 +2321,8 @@ extern FUN_004b6ce0_gl DAT_011e0e80;
 int FUN_004a2c20(void*);
 
 // @fnv 0x004b6ce0
-void FUN_004b6ce0(FUN_004b6ce0_cls* p)
+// src: COMMUNITY 0x004b6ce0
+void RecursivelyRemoveAllDecals(FUN_004b6ce0_cls* p)
 {
     FUN_004b6ce0_cls* RunFourthVirtual;
     FUN_004b6ce0_cls* x8;
@@ -2335,7 +2357,7 @@ void FUN_004b6ce0(FUN_004b6ce0_cls* p)
         if (c != 0)
         {
             for (i2 = 0; i2 < c->GetNumChildren(); i2++)
-                FUN_004b6ce0(c->FUN_0043b4a0(i2));
+                RecursivelyRemoveAllDecals(c->FUN_0043b4a0(i2));
         }
     }
 }
@@ -2371,7 +2393,8 @@ void __cdecl EnsureLightingProperty(NiAVObject* apObject)
 
 // Deletes each of the global objects pointed to by DAT_011c61a4 through DAT_011c6278.
 // @fnv 0x004b8cf0
-void __cdecl FUN_004b8cf0()
+// src: COMMUNITY 0x004b8cf0
+void __cdecl FreeNiNodeBlocks()
 {
     delete DAT_011c61a4;
     delete DAT_011c61a8;
@@ -2938,7 +2961,8 @@ bhkCollisionObject* __cdecl FUN_0043b610(void* obj);
 
 // Recursively picks, among an object's list children and its ref target, the one with the greatest FUN_004b5400 value; returns 0 for a null object.
 // @fnv 0x004b52f0
-void* __cdecl FUN_004b52f0(void* object)
+// src: COMMUNITY 0x004b52f0
+void* __cdecl bhkRigidBody_FindHeaviestRigidBody(void* object)
 {
     void* bestX;
     NiNode* list6;
@@ -2956,7 +2980,7 @@ void* __cdecl FUN_004b52f0(void* object)
             count7 = list6->GetNumChildren();
             for (i4 = 0; i4 < count7; i4++)
             {
-                child2 = FUN_004b52f0(list6->FUN_0043b4a0(i4));
+                child2 = bhkRigidBody_FindHeaviestRigidBody(list6->FUN_0043b4a0(i4));
                 if (child2 != 0)
                 {
                     if (bestX == 0 || FUN_004b5400(bestX) < FUN_004b5400(child2))

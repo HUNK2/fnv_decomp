@@ -57,7 +57,8 @@ extern const S_00ce5070_Vector4 DAT_010c7170;
 
 // Copies rotation and translation from a Transform into the QsTransform, and sets scale to the constant DAT_010c7170.
 // @fnv 0x00ce5070
-void hkQsTransform::FUN_00ce5070(const hkTransform& akTransform)
+// src: COMMUNITY 0x00ce5070
+void hkQsTransform::setFromTransformNoScale(const hkTransform& akTransform)
 {
     m_rotation.FUN_00cb26e0(akTransform.m_rotation);
     m_vTranslation.m_vComponents = akTransform.m_vTranslation;

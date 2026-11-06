@@ -2,7 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/niparticlesdm.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/niparticlesdm.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl FUN_00a63520(const char* pName);
+void __cdecl NiStream_UnregisterLoader(const char* pName);
 void __cdecl DestroyManager();
 extern bool g_bInitialized_012024d0;
 
@@ -60,62 +60,63 @@ static const char s_sz50[] = "NiPSysVortexFieldModifier";
 extern const char g_szShutdownEnd[] = "";
 
 // @fnv 0x00c1a7d0
-void __cdecl FUN_00c1a7d0()
+// src: COMMUNITY 0x00c1a7d0
+void __cdecl NiParticleSDM_Shutdown()
 {
     if (!g_bInitialized_012024d0)
         return;
     g_bInitialized_012024d0 = false;
-    FUN_00a63520(s_sz00);
-    FUN_00a63520(s_sz01);
-    FUN_00a63520(s_sz02);
-    FUN_00a63520(s_sz03);
-    FUN_00a63520(s_sz04);
-    FUN_00a63520(s_sz05);
-    FUN_00a63520(s_sz06);
-    FUN_00a63520(s_sz07);
-    FUN_00a63520(s_sz08);
-    FUN_00a63520(s_sz09);
-    FUN_00a63520(s_sz10);
-    FUN_00a63520(s_sz11);
-    FUN_00a63520(s_sz12);
-    FUN_00a63520(s_sz13);
-    FUN_00a63520(s_sz14);
-    FUN_00a63520(s_sz15);
-    FUN_00a63520(s_sz16);
-    FUN_00a63520(s_sz17);
-    FUN_00a63520(s_sz18);
-    FUN_00a63520(s_sz19);
-    FUN_00a63520(s_sz20);
-    FUN_00a63520(s_sz21);
-    FUN_00a63520(s_sz22);
-    FUN_00a63520(s_sz23);
-    FUN_00a63520(s_sz24);
-    FUN_00a63520(s_sz25);
-    FUN_00a63520(s_sz26);
-    FUN_00a63520(s_sz27);
-    FUN_00a63520(s_sz28);
-    FUN_00a63520(s_sz29);
-    FUN_00a63520(s_sz30);
-    FUN_00a63520(s_sz31);
-    FUN_00a63520(s_sz32);
-    FUN_00a63520(s_sz33);
-    FUN_00a63520(s_sz34);
-    FUN_00a63520(s_sz35);
-    FUN_00a63520(s_sz36);
-    FUN_00a63520(s_sz37);
-    FUN_00a63520(s_sz38);
-    FUN_00a63520(s_sz39);
-    FUN_00a63520(s_sz40);
-    FUN_00a63520(s_sz41);
-    FUN_00a63520(s_sz42);
-    FUN_00a63520(s_sz43);
-    FUN_00a63520(s_sz44);
-    FUN_00a63520(s_sz45);
-    FUN_00a63520(s_sz46);
-    FUN_00a63520(s_sz47);
-    FUN_00a63520(s_sz48);
-    FUN_00a63520(s_sz49);
-    FUN_00a63520(s_sz50);
+    NiStream_UnregisterLoader(s_sz00);
+    NiStream_UnregisterLoader(s_sz01);
+    NiStream_UnregisterLoader(s_sz02);
+    NiStream_UnregisterLoader(s_sz03);
+    NiStream_UnregisterLoader(s_sz04);
+    NiStream_UnregisterLoader(s_sz05);
+    NiStream_UnregisterLoader(s_sz06);
+    NiStream_UnregisterLoader(s_sz07);
+    NiStream_UnregisterLoader(s_sz08);
+    NiStream_UnregisterLoader(s_sz09);
+    NiStream_UnregisterLoader(s_sz10);
+    NiStream_UnregisterLoader(s_sz11);
+    NiStream_UnregisterLoader(s_sz12);
+    NiStream_UnregisterLoader(s_sz13);
+    NiStream_UnregisterLoader(s_sz14);
+    NiStream_UnregisterLoader(s_sz15);
+    NiStream_UnregisterLoader(s_sz16);
+    NiStream_UnregisterLoader(s_sz17);
+    NiStream_UnregisterLoader(s_sz18);
+    NiStream_UnregisterLoader(s_sz19);
+    NiStream_UnregisterLoader(s_sz20);
+    NiStream_UnregisterLoader(s_sz21);
+    NiStream_UnregisterLoader(s_sz22);
+    NiStream_UnregisterLoader(s_sz23);
+    NiStream_UnregisterLoader(s_sz24);
+    NiStream_UnregisterLoader(s_sz25);
+    NiStream_UnregisterLoader(s_sz26);
+    NiStream_UnregisterLoader(s_sz27);
+    NiStream_UnregisterLoader(s_sz28);
+    NiStream_UnregisterLoader(s_sz29);
+    NiStream_UnregisterLoader(s_sz30);
+    NiStream_UnregisterLoader(s_sz31);
+    NiStream_UnregisterLoader(s_sz32);
+    NiStream_UnregisterLoader(s_sz33);
+    NiStream_UnregisterLoader(s_sz34);
+    NiStream_UnregisterLoader(s_sz35);
+    NiStream_UnregisterLoader(s_sz36);
+    NiStream_UnregisterLoader(s_sz37);
+    NiStream_UnregisterLoader(s_sz38);
+    NiStream_UnregisterLoader(s_sz39);
+    NiStream_UnregisterLoader(s_sz40);
+    NiStream_UnregisterLoader(s_sz41);
+    NiStream_UnregisterLoader(s_sz42);
+    NiStream_UnregisterLoader(s_sz43);
+    NiStream_UnregisterLoader(s_sz44);
+    NiStream_UnregisterLoader(s_sz45);
+    NiStream_UnregisterLoader(s_sz46);
+    NiStream_UnregisterLoader(s_sz47);
+    NiStream_UnregisterLoader(s_sz48);
+    NiStream_UnregisterLoader(s_sz49);
+    NiStream_UnregisterLoader(s_sz50);
     DestroyManager();
 }
 

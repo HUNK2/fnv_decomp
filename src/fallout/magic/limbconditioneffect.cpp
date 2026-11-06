@@ -110,7 +110,8 @@ void __thiscall LimbConditionEffect::ApplyActorValueModifier(Actor* apActor, flo
 
 // Allocates and constructs a limb-condition effect from three arguments.
 // @fnv 0x0080f1a0
-LimbConditionEffect* FUN_0080f1a0(void* ap1, void* ap2, void* ap3)
+// src: COMMUNITY 0x0080f1a0
+LimbConditionEffect* LimbConditionEffect_Create(void* ap1, void* ap2, void* ap3)
 {
     return new LimbConditionEffect(ap1, ap2, ap3);
 }

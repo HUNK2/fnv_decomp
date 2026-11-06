@@ -56,12 +56,12 @@ struct FUN_00cdd3f0_s
     int field_0x1c;
 };
 void hkaSkeletonUtils_unlockTranslations(struct FUN_00cdd3f0_s* p);
-extern "C" void __cdecl FUN_00cddad0(int, int, int*, int, int);
+extern "C" void __cdecl hkaSkeletonUtils_transformLocalPoseToWorldPose(int, int, int*, int, int);
 extern int DAT_01268700;
 void __cdecl CallWithGlobal(int a, int b, int c, int d);
 extern "C" void __cdecl FUN_00cddd20(void* a, void* b, void* c, void* d, void* e);
 extern int DAT_01268700;
-void FUN_00cddef0(void* a, void* b, void* c, void* d);
+void hkaSkeletonUtils_transformModelPoseToLocalPose(void* a, void* b, void* c, void* d);
 extern "C" void __cdecl Atan2(float, float);
 void __cdecl FUN_00ce00f0(float a, float b);
 int __cdecl CompareStringsCaseInsensitive(const void* pKey, const void* pItem);
@@ -281,12 +281,13 @@ __forceinline void hkQsTransform::SetProduct(const hkQsTransform& t1, const hkQs
     hkVector4 temp;
     temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
     m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-    m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+    m_rotation.setMul(t1.m_rotation, t2.m_rotation);
     m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
 }
 
 // @fnv 0x00cddad0
-extern "C" void __cdecl FUN_00cddad0(int numTransforms, int parentIndicesIn, int* worldFromModelIn, int poseLocalIn,
+// src: COMMUNITY 0x00cddad0
+extern "C" void __cdecl hkaSkeletonUtils_transformLocalPoseToWorldPose(int numTransforms, int parentIndicesIn, int* worldFromModelIn, int poseLocalIn,
                                      int poseModelIn)
 {
     for (int i = 0; i < numTransforms; i++)
@@ -473,7 +474,7 @@ void __cdecl FUN_00cde740(const hkQsTransform* a, const hkQsTransform* b, const 
     }
     else
     {
-        out->m_rotation.FUN_005611c0();
+        out->m_rotation.normalize_005611c0();
     }
 }
 

@@ -7,8 +7,8 @@
 #include <stddef.h>
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
-NiAVObject* FUN_0054f4f0();
+unsigned int TESTerrainLODManager_GetGrassNode();
+NiAVObject* TESMain_GetWeatherRoot();
 
 struct ExpiredRefPosition3
 {
@@ -24,7 +24,7 @@ struct RefNode;
 struct RefrShell;
 struct ZoneShell
 {
-    bool FUN_00526120(FUN_00546af0_shell* cell);
+    bool ShouldCellRecalc(FUN_00546af0_shell* cell);
 };
 struct Modelish
 {
@@ -66,15 +66,15 @@ public:
     void FUN_00419ad0(int);
     void ExtraDataList_CopyList(ExtraShell_tesobjectcell_iso_variant*);
     signed char GetExtraByteValue();
-    void FUN_0042dec0();
+    void ExtraDataList_RemoveHotkey();
     OpacityFadeState* GetOffsetC();
     void FUN_0041aeb0();
-    void FUN_0041af50();
+    void ExtraDataList_RemoveScript();
     void* FUN_0042e250();
     RefNode* FUN_0041df90();
     void FUN_0041dfd0();
     void FUN_0041de40(int a);
-    RefrShell* FUN_0041e310();
+    RefrShell* ExtraDataList_GetAshPileRef();
 };
 struct RefrShell
 {
@@ -389,7 +389,7 @@ bool CellShell::FUN_0054df30()
         if (0 != _special)
         {
             if (FUN_005262a0(_special))
-                _changed = _special->FUN_00526120(this);
+                _changed = _special->ShouldCellRecalc(this);
             else
                 _changed = 0;
         }
@@ -500,7 +500,7 @@ bool CellShell::FUN_0054df30()
                         {
                             cnt->FUN_00572270();
                             RefrShell* x;
-                            x = FUN_005d43c0(cnt)->FUN_0041e310();
+                            x = FUN_005d43c0(cnt)->ExtraDataList_GetAshPileRef();
                             if (!!x)
                                 x->FUN_00572270();
                         }

@@ -75,7 +75,7 @@ public:
     Point GetPoint() const;
     template <class Point>
     Point FUN_005c3420() const;
-    NiPoint3 FUN_006a6eb0();
+    NiPoint3 FastNavMeshTriLocation_GetLocation();
     TESObjectCELL* GetContainingCell();
     TESObjectCELL* FUN_006dd4f0() const;
     TESWorldSpace* GetParentWorldspace();

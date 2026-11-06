@@ -33,13 +33,13 @@ class FUN_0043e480_shell
 class FUN_0043c3d0_shell
 {
   public:
-    bool FUN_0043c3d0();
+    bool QueuedTexture_GetLoadDegraded();
 };
 
 class TextureNode
 {
   public:
-    int FUN_0043c430();
+    int NiTexture_GetTextureQualityLevel();
     virtual void vfn_00();
     virtual void vfn_04();
     virtual void vfn_08();
@@ -93,11 +93,11 @@ class MyFileEntry
 extern int DAT_011a9598;
 void GetNodePointer(NiNode*, NiPointer<NiNode>&);
 bool fnv_NiStreamGetTexture(const char*, NiPointer<NiNode>&);
-int FUN_0043c410();
-void FUN_0043c3f0(unsigned int);
+int NiTexture_GetLoadMethod();
+void NiTexture_SetLoadMethod(unsigned int);
 extern "C" char* strstr(const char*, const char*);
 NiNode* FUN_00a61040(const NiFixedString&, MyFileEntry*, NiRenderer*, void*);
-NiNode* FUN_00a5fe30(MyFileEntry*, const char*, void*, int);
+NiNode* NiSourceTexture_CreateTexture(MyFileEntry*, const char*, void*, int);
 void FNV_Warning(const char*, ...);
 
 class CQueuedTexture
@@ -143,8 +143,8 @@ void CQueuedTexture::FUN_0043c150()
     if (this->unk30)
     {
         ((FUN_0043e480_shell*)(void*)this)->FUN_0043e480(true);
-        if (((TextureNode*)(void*)(NiNode*)this->unk30)->FUN_0043c430() == 3 &&
-            !((FUN_0043c3d0_shell*)(void*)this)->FUN_0043c3d0())
+        if (((TextureNode*)(void*)(NiNode*)this->unk30)->NiTexture_GetTextureQualityLevel() == 3 &&
+            !((FUN_0043c3d0_shell*)(void*)this)->QueuedTexture_GetLoadDegraded())
         {
             ((TextureNode*)(void*)(NiNode*)this->unk30)->vfn_8c();
         }
@@ -156,10 +156,10 @@ void CQueuedTexture::FUN_0043c150()
     {
         int tlsVal;
         const char* path = fileEntry->vfn_18();
-        tlsVal = FUN_0043c410();
-        if (((FUN_0043c3d0_shell*)(void*)this)->FUN_0043c3d0())
+        tlsVal = NiTexture_GetLoadMethod();
+        if (((FUN_0043c3d0_shell*)(void*)this)->QueuedTexture_GetLoadDegraded())
         {
-            FUN_0043c3f0(1);
+            NiTexture_SetLoadMethod(1);
         }
         if (strstr(path, "_e.dd"))
         {
@@ -167,9 +167,9 @@ void CQueuedTexture::FUN_0043c150()
         }
         else
         {
-            this->unk30 = FUN_00a5fe30(fileEntry, path, &DAT_011a9598, 1);
+            this->unk30 = NiSourceTexture_CreateTexture(fileEntry, path, &DAT_011a9598, 1);
         }
-        FUN_0043c3f0(tlsVal);
+        NiTexture_SetLoadMethod(tlsVal);
     }
     else if (this->GetArchiveFileEntry())
     {

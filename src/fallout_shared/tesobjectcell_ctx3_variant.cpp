@@ -8,8 +8,8 @@
 #include "../../include/TESObjectLAND.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
-NiAVObject* FUN_0054f4f0();
+unsigned int TESTerrainLODManager_GetGrassNode();
+NiAVObject* TESMain_GetWeatherRoot();
 
 #include "../../include/NavMeshCollection.h"
 int __fastcall GetReferenceFlags(void*);

@@ -49,13 +49,13 @@ extern double DAT_01011588;
 float AddScaledSetting(float a);
 struct Helper_00644400
 {
-    void FUN_00644400(int, int);
+    void BSSimpleArray_NavMeshTriangle_1024_InitialSetup(int, int);
 };
 extern int DAT_0104f3e8;
 struct FUN_006442b0_class
 {
     void* vftable;
-    void* FUN_006442b0(int a);
+    void* BSSimpleArray_FollowerDist_1024_BSSimpleArray_FollowerDist_1024(int a);
 };
 extern int DAT_0104f3e8;
 struct GlobalObject_00869f00
@@ -120,7 +120,7 @@ struct FUN_0064dc30_class
 struct FUN_0064de50_class
 {
     void InitAndReturn();
-    void* FUN_0064de50();
+    void* FaceGenData_Iterator_ClearsData();
 };
 struct CF_0081c630
 {
@@ -132,7 +132,7 @@ CF_0081c630* __fastcall InitAndReturn(CF_0081c630* p);
 extern "C" void __cdecl FUN_0064e2d0();
 struct FUN_0064de90_class
 {
-    void __thiscall FUN_0064de90();
+    void __thiscall max_size_0064de90();
 };
 struct FUN_0064deb0_Class
 {
@@ -170,7 +170,7 @@ struct DecalStub
 {
     void FUN_004bc480(int);
     float m_f;
-    void FUN_00654700(float f);
+    void NiMaterialProperty_SetShine(float f);
 };
 struct FUN_00657880_class
 {
@@ -251,7 +251,7 @@ struct FUN_00659170
 };
 struct FUN_00659210_Class
 {
-    int __thiscall FUN_00659210(char a, int b);
+    int __thiscall NiTStringTemplateMap_NiTMap_char_const_TESForm_TESForm_HashChar(char a, int b);
 };
 struct FUN_006592f0
 {
@@ -295,7 +295,7 @@ struct FUN_0065cea0_class
 };
 struct FUN_0065cf90_class
 {
-    void FUN_0065db40();
+    void FaceGenData_Iterator_Clears();
     void* FUN_0065cf90();
 };
 struct FUN_0065cfb0_Class
@@ -305,8 +305,8 @@ struct FUN_0065cfb0_Class
 };
 struct FUN_0065db40_class
 {
-    void FUN_0064de50();
-    void* FUN_0065db40();
+    void FaceGenData_Iterator_ClearsData();
+    void* FaceGenData_Iterator_Clears();
 };
 void __cdecl FUN_0065e2d0(int, int, int);
 struct FUN_0065db60_class
@@ -403,13 +403,13 @@ struct FUN_0065dfb0_Class
 extern "C" void __cdecl FUN_0065e700(int a, int b);
 struct FUN_0065dfd0_class
 {
-    bool __thiscall FUN_0065e1a0(int);
+    bool __thiscall FaceGenData_Iterator_AreIdentical(int);
     bool __thiscall FUN_0065dfd0(int);
 };
 struct FUN_0065e000_class
 {
-    int __thiscall FUN_0065da80(int a, int b);
-    int __thiscall FUN_0065e000(int a, int b);
+    int __thiscall FaceGenData_Iterator_Set_(int a, int b);
+    int __thiscall FaceGenData_Iterator_Set(int a, int b);
 };
 struct FUN_0065e9a0
 {
@@ -467,7 +467,7 @@ struct FUN_0065ee30_class
 extern "C" void __cdecl CallInterfaceWithResult(int, int, int);
 struct FUN_0065f2b0_class
 {
-    void __thiscall FUN_0065f2b0(int a, int b);
+    void __thiscall std_vector_float_std_allocator_float_Destroy(int a, int b);
 };
 extern "C" void __cdecl FUN_0065f9a0(int, int, int);
 struct FUN_0065f400_class
@@ -490,7 +490,7 @@ struct FUN_0065f6c0_class
 extern "C" void* __cdecl AllocateChecked(void*, void*);
 struct FUN_0065f7a0_Class
 {
-    void* __thiscall FUN_0065f7a0(void* arg);
+    void* __thiscall std_allocator_char_allocate(void* arg);
 };
 extern "C" void __cdecl FUN_0065fde0(int, int, int, int);
 struct FUN_0065f890_class
@@ -518,11 +518,11 @@ struct FUN_00b64d60_Class
 };
 struct FUN_00642860_Class
 {
-    void FUN_00642860();
+    void Sun_StartSunOcclusion();
 };
 extern Setting originalRuntimeFloatSetting332;
 extern Setting originalRuntimeFloatSetting333;
-float FUN_00643ed0(GameSettingCollection* collection, int index);
+float AiFormulas_AVDeriveUnarmedDamage(GameSettingCollection* collection, int index);
 struct FUN_00644350_Class
 {
     bool IsGreaterThan(int a);
@@ -531,7 +531,7 @@ int CompareObjects(int a, int b);
 void* __cdecl operator new(unsigned int size, void* placement);
 struct FUN_00644490_Class
 {
-    void __thiscall FUN_00644490(char* items, unsigned int count);
+    void __thiscall BSSimpleArray_NavMeshTriangle_1024_ConstructItems(char* items, unsigned int count);
 };
 struct FUN_006444e0_Class
 {
@@ -539,7 +539,7 @@ struct FUN_006444e0_Class
     int m_iWordAt04;
     int m_8;
     int m_C;
-    void* __thiscall FUN_006444e0(int a, int b, int c, int d);
+    void* __thiscall PerActivitySettings_PerActivitySettings(int a, int b, int c, int d);
 };
 GlobalObject_0040e0b0 g_011ce840;
 GlobalObject_0040e0b0 g_011cfd8c;
@@ -548,7 +548,7 @@ void __cdecl ClampUInt(unsigned int* p, unsigned int low, unsigned int high);
 extern double g_d100;
 extern Setting g_011d17d0;
 extern Setting originalRuntimeFloatSetting1216;
-float __cdecl FUN_00649530(ActorValueOwner* p);
+float __cdecl CalculateMagicMedicine(ActorValueOwner* p);
 struct S_0064dac0
 {
     int __thiscall FUN_0064dac0(int, int);
@@ -580,13 +580,13 @@ struct FUN_0064e340_class
 {
     void* __thiscall FUN_0064e340(int a, int b, int c);
 };
-char __cdecl FUN_0065e750(int*, int*);
+char __cdecl std_Move_cat_unsigned_char(int*, int*);
 void __cdecl FUN_0064e600(int, int, int, char);
 extern "C" void __cdecl FUN_0064e3f0(int, int, int);
 // @fnv 0x0064e3f0
 extern "C" void __cdecl FUN_0064e3f0(int a, int b, int c)
 {
-    char v = FUN_0065e750(&a, &b);
+    char v = std_Move_cat_unsigned_char(&a, &b);
     FUN_0064e600(a, b, c, v);
 }
 int __cdecl CallWithFlag(int* p);
@@ -629,7 +629,7 @@ struct Dummy658130
 {
     unsigned __thiscall FUN_00658130();
 };
-unsigned char __cdecl FUN_0065e750(void*, void*);
+unsigned char __cdecl std_Move_cat_unsigned_char(void*, void*);
 void __cdecl FUN_00659260(int, int, int, unsigned char);
 void FUN_00658bd0(int a1, int a2, int a3);
 void __cdecl operator delete(void* p);
@@ -768,7 +768,7 @@ struct Holder : TextureBasis
 struct Holder65cf50
 {
     Pair data;
-    void __thiscall FUN_0065dae0();
+    void __thiscall FaceGenData_Iterator_IncBy6();
     void* __thiscall CopyDataAfterCallback(void* p, int q);
 };
 struct FUN_0064df10_helper
@@ -795,11 +795,11 @@ struct FUN_0065dd90_Class
 };
 struct _Out_0044a170
 {
-    void __thiscall FUN_0065e000(int, void*);
+    void __thiscall FaceGenData_Iterator_Set(int, void*);
 };
 struct FUN_0065ded0_Class
 {
-    _Out_0044a170* __thiscall FUN_0065ded0(_Out_0044a170* a1, int a2, int a3);
+    _Out_0044a170* __thiscall std_vector_float_std_allocator_float_Make_iter(_Out_0044a170* a1, int a2, int a3);
 };
 struct FUN_0065e020_Cls
 {
@@ -829,10 +829,10 @@ struct FUN_0065e170_Cls
 {
     unsigned __thiscall FUN_0065e170();
 };
-unsigned char __cdecl FUN_0065e750(void*, void*);
+unsigned char __cdecl std_Move_cat_unsigned_char(void*, void*);
 void __cdecl FUN_0065e8e0(int, int, int, unsigned char);
 void FUN_0065e510(int a, int b, int c);
-unsigned char __cdecl FUN_0065e750(void*, void*);
+unsigned char __cdecl std_Move_cat_unsigned_char(void*, void*);
 void __cdecl FUN_0065e910(int, int, int, int);
 void __cdecl FUN_0065e5a0(int a, int b, int c);
 void __cdecl FUN_0065e880(int a1, int a2, FUN_0065e9c0_class* a3);
@@ -934,9 +934,9 @@ struct S_0065f7c0
 };
 struct FUN_0065f7f0_Class
 {
-    unsigned int __thiscall FUN_0065f7f0() const;
+    unsigned int __thiscall std_allocator_char_max_size() const;
 };
-unsigned char __cdecl FUN_0065e750(void* a, void* b);
+unsigned char __cdecl std_Move_cat_unsigned_char(void* a, void* b);
 void __cdecl FUN_0065ff00(void* a, void* b, void* c, unsigned char d);
 void __cdecl FUN_0065f9a0(void* a, void* b, void* c);
 struct FUN_0065fb10_Class
@@ -989,17 +989,17 @@ struct FUN_00642940_class
     int n;
     int o;
     int p;
-    void FUN_00642940();
+    void Sun_RemoveTextures();
 };
 struct Arr16
 {
-    void FUN_00644490(int a, int b);
+    void BSSimpleArray_NavMeshTriangle_1024_ConstructItems(int a, int b);
 };
 struct FUN_00644400_Class
 {
     virtual void v0();
     virtual int v1(int a);
-    void FUN_00644400(unsigned int a, unsigned int b);
+    void BSSimpleArray_NavMeshTriangle_1024_InitialSetup(unsigned int a, unsigned int b);
 };
 struct FUN_00657e60_Class
 {
@@ -1116,18 +1116,18 @@ int __cdecl _sprintf_s(char* buffer, unsigned int sizeOfBuffer, char const* form
 void __cdecl FormatMenuText(int menuType, char const* text, char* buffer, unsigned int bufferSize);
 struct FUN_0064da80_Class
 {
-    int __thiscall FUN_0064da80(int a, int b);
+    int __thiscall NiPixelData_GetWidth(int a, int b);
 };
 struct FUN_0064daa0_Class
 {
-    int __thiscall FUN_0064daa0(int a, int b);
+    int __thiscall NiPixelData_GetHeight(int a, int b);
 };
 struct Calendar : public BGSTerrainManager
 {
     int GetDaysPassed();
     void __thiscall ScaleAll(float value);
 };
-void FUN_00653000(float value, Calendar* calendars, bool flag);
+void BSFaceGenManager_ScaleFaceCoord(float value, Calendar* calendars, bool flag);
 struct Helper62d0
 {
     void* operator=(const void*);
@@ -1203,7 +1203,7 @@ struct FUN_0065ed50_Class
 };
 struct FUN_0044a9d0_Class
 {
-    unsigned int FUN_0065f7f0();
+    unsigned int std_allocator_char_max_size();
 };
 struct FUN_0065f6e0_Class
 {
@@ -1231,7 +1231,7 @@ struct FUN_006427c0_Class
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     FUN_00559450 unk28;
-    float FUN_006427c0();
+    float Sun_GetSunOcclusionPercent();
 };
 struct Value_006428b0
 {
@@ -1294,7 +1294,7 @@ extern GlobalObject_0040e0b0 g_011cddc4;
 extern GlobalObject_0040e0b0 g_011cd890;
 extern Setting originalRuntimeFloatSetting116;
 extern GlobalObject_0040e0b0 g_011cd438;
-int FUN_00642a60(int base, int level, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int extra, bool flag);
+int AiFormulas_GetActorDispositiontoTarget(int base, int level, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int extra, bool flag);
 extern Setting DAT_011cdf78;
 extern Setting DAT_011cdf44;
 extern Setting DAT_011cde50;
@@ -1303,7 +1303,7 @@ struct FUN_0066ef50_Class
 {
     double FUN_0066ef50(int a);
 };
-float __cdecl FUN_00643e40(FUN_0066ef50_Class* actor, int action);
+float __cdecl AiFormulas_AVDeriveResistance(FUN_0066ef50_Class* actor, int action);
 class FUN_00644350_cls
 {
   public:
@@ -1332,7 +1332,7 @@ extern FloatSetting_646400 g_011ceecc;
 extern FloatSetting_646400 gs_011cecd0;
 extern FloatSetting_646400 gs_011ce808;
 unsigned int DialogueRandom();
-bool FUN_00646400(AVOwnerStub_646400* owner, int value);
+bool ActorValueOwner_ShouldDamageKnockdownTarget(AVOwnerStub_646400* owner, int value);
 extern double DAT_01012060;
 extern double DAT_01016408;
 extern double DAT_01017a40;
@@ -1375,7 +1375,7 @@ extern double DAT_01017a40;
 extern double DAT_01011588;
 int __cdecl ComputeWeightedValue(float value1, float value2, int weight);
 extern int DAT_011d5744;
-int __cdecl FUN_006499d0();
+int __cdecl Get_Ni_FAD();
 extern double DAT_01012060;
 extern double DAT_01012070;
 struct FUN_0064bda0_Class
@@ -1617,7 +1617,7 @@ struct FUN_0064ccf0 : S_0064ccf0_Base
     virtual ~FUN_0064ccf0();
 };
 extern unsigned char DAT_011f94b0;
-unsigned char __cdecl FUN_0064d870();
+unsigned char __cdecl BSShaderManager_GetTintMipMaps();
 class ConstIter64D
 {
   public:
@@ -1655,7 +1655,7 @@ class FUN_0064dc50_cls
     int m_8;
     int m_iThirdValue;
     int m_10;
-    PairDword* FUN_0065ded0(PairDword* out, int a, int b);
+    PairDword* std_vector_float_std_allocator_float_Make_iter(PairDword* out, int a, int b);
     void ForwardToHelper(int a, int b);
     PairDword FUN_0064dc50(int p1, int p2, int p3, int p4);
 };
@@ -1728,7 +1728,7 @@ struct S_0064ddf0_Iter
     int unk00;
     S_0064ddf0_Elem* ptr;
     bool FUN_005ca4f0();
-    S_0064ddf0_Container* FUN_0060b980();
+    S_0064ddf0_Container* FaceGenData_Iterator_FaceGenData_GetUnk00();
     S_0064ddf0_Iter* Increment();
 };
 namespace std {
@@ -1765,7 +1765,7 @@ void C64E550UninitCopy(C64E550Element* first, C64E550Element* last, C64E550Eleme
                        C64E550PtrCategory category, C64E550CheckedTag tag);
 void FUN_0064e550(C64E550Element* first, C64E550Element* last, C64E550Element* dest, C64E550Allocator* alloc);
 void __cdecl ForwardToHandler(int a, int b, void* c, void* d, unsigned char r, unsigned char flag);
-unsigned char __cdecl FUN_0065e750(void* p);
+unsigned char __cdecl std_Move_cat_unsigned_char(void* p);
 int __cdecl CallWithFlag(int* p);
 struct FUN_0064e630_flag
 {
@@ -1775,7 +1775,7 @@ struct FUN_0064e630_flag
 extern "C" void __cdecl FUN_0064e630(void* a, void* b, void* c, void* d)
 {
     FUN_0064e630_flag aa = {};
-    unsigned char zz = FUN_0065e750(&c);
+    unsigned char zz = std_Move_cat_unsigned_char(&c);
     ForwardToHandler(CallWithFlag((int*)&a), CallWithFlag((int*)&b), c, d, zz, aa.m_flag);
 }
 extern "C" void __cdecl FUN_0064e860(void* a1, void* a2, void* a3, unsigned char a4, unsigned char a5,
@@ -1789,7 +1789,7 @@ extern "C" void __cdecl FUN_0064e6c0(void* a1, void* a2, void* a3, unsigned char
 {
     SpawnedFlagBox flagA3 = {};
     unsigned char flagB;
-    flagB = FUN_0065e750(&a1, &a3);
+    flagB = std_Move_cat_unsigned_char(&a1, &a3);
     FUN_0064e860(a1, a2, a3, a4, flagB, flagA3.v);
 }
 struct S_0064e860_Block
@@ -1831,7 +1831,7 @@ struct FlagBox5317
 extern "C" void __cdecl FUN_0064e920(int a, int b, int c, int d)
 {
     FlagBox5317 flag1 = {};
-    unsigned char flag2 = FUN_0065e750((void*)&a, (void*)&c);
+    unsigned char flag2 = std_Move_cat_unsigned_char((void*)&a, (void*)&c);
     FUN_0064e9c0(CallWithFlag((int*)&a), CallWithFlag((int*)&b), c, d, flag2, flag1.v);
 }
 struct FUN_0064fcd0_Other
@@ -1840,7 +1840,7 @@ struct FUN_0064fcd0_Other
     virtual int v01();
     virtual int v02();
     virtual float v03();
-    unsigned int __thiscall FUN_0044edb0(int flag);
+    unsigned int __thiscall TESMain_GetThread(int flag);
     float __thiscall FUN_005dd4e0(unsigned int index);
 };
 struct FUN_0064fcd0_Self
@@ -1916,16 +1916,16 @@ struct S_006503b0_Elem
 struct S_006503b0_List
 {
     int FUN_004b9ba0();
-    void FUN_00559120(int* pos, int* out, S_006503b0_Slot* slot);
+    void NiTMap_Ptr_GetNext(int* pos, int* out, S_006503b0_Slot* slot);
     void RemoveKey(int item);
 };
 void __cdecl FUN_00652140();
-void __cdecl FUN_00652190();
+void __cdecl BSFaceGenManager_UnlockFaceGenAccess();
 struct S_006503b0_Owner
 {
     int unk00;
     S_006503b0_List list04;
-    void FUN_006503b0();
+    void BSFaceGenModelMap_RemoveAllUnusedModels();
 };
 struct ModelHelper
 {
@@ -1951,11 +1951,11 @@ struct NPX
 struct FileNames
 {
     const char* GetFloatValue();
-    const char* FUN_00650600();
+    const char* BSFaceGenModel_GetString();
 };
 unsigned FUN_0044a670(const char*);
 void FUN_00652140();
-void FUN_00652190();
+void BSFaceGenManager_UnlockFaceGenAccess();
 unsigned gm_GetTickCount();
 struct CacheMap
 {
@@ -1967,8 +1967,8 @@ struct Target
     int unk00;
     CacheMap map;
     bool dirty;
-    void FUN_00650ba0(ModelRecord*);
-    bool FUN_00650480(FileNames*);
+    void BSFaceGenModelMap_VerifyData(ModelRecord*);
+    bool BSFaceGenModelMap_LoadEGMData(FileNames*);
 };
 struct Holder_657c50
 {
@@ -2109,7 +2109,7 @@ struct Hldr0044
     void std_bad_alloc_bad_alloc(int a);
 };
 extern "C" void __stdcall FUN_00ec7894(Hldr0044* p, void* dat);
-extern "C" void __cdecl FUN_00401000(int scaled);
+extern "C" void __cdecl FormHeap_Allocate(int scaled);
 extern "C" int DAT_01140ef8;
 // @fnv 0x00658c10
 extern "C" void __cdecl FUN_00658c10(int a, int b)
@@ -2129,7 +2129,7 @@ extern "C" void __cdecl FUN_00658c10(int a, int b)
         }
     }
 
-    FUN_00401000(a * 60);
+    FormHeap_Allocate(a * 60);
 }
 class Base_b9895
 {
@@ -2221,7 +2221,7 @@ class FUN_00659710_cls
     FUN_00659710_elem m_04[2];
     ~FUN_00659710_cls();
 };
-void* FUN_00607340();
+void* BSFaceGenModelExtraData_GetTag();
 class OwnerBase
 {
   public:
@@ -2621,7 +2621,7 @@ struct FUN_0065dae0_cls
     unsigned int m_iWordAt04;
     unsigned char __thiscall CheckValid();
     FUN_0065dae0_target* __thiscall GetTarget();
-    FUN_0065dae0_cls* __thiscall FUN_0065dae0();
+    FUN_0065dae0_cls* __thiscall FaceGenData_Iterator_IncBy6();
 };
 struct FUN_0065e0e0_cls
 {
@@ -2632,8 +2632,8 @@ struct S_0065e1a0
     int unk00;
     int unk04;
     bool FUN_005ca4f0();
-    bool FUN_004b0460(S_0065e1a0* other);
-    bool FUN_0065e1a0(S_0065e1a0* other);
+    bool LightRefData_IsEqual(S_0065e1a0* other);
+    bool FaceGenData_Iterator_AreIdentical(S_0065e1a0* other);
 };
 struct LengthErrorB9431
 {
@@ -2663,7 +2663,7 @@ struct LengthErrB9739
     ~LengthErrB9739() throw();
 };
 void* __cdecl FUN_0065e700(unsigned int count);
-unsigned char __cdecl FUN_0065e750(void* a, void* b);
+unsigned char __cdecl std_Move_cat_unsigned_char(void* a, void* b);
 struct EmptyTag
 {
 };
@@ -2752,8 +2752,8 @@ struct S_0065f8c0_IterTag
     S_0065f8c0_IterTag()
     {}
 };
-S_0065f8c0_PtrTag __cdecl FUN_0065e750(char** first, char** dest);
-S_0065f8c0_IterTag __cdecl FUN_0065fd70(char** first, char** dest);
+S_0065f8c0_PtrTag __cdecl std_Move_cat_unsigned_char(char** first, char** dest);
+S_0065f8c0_IterTag __cdecl return_value(char** first, char** dest);
 char* __cdecl CallWithFlag(char** p);
 char* __cdecl FUN_0065fe60(char* first, char* last, char* dest, S_0065f8c0_IterTag a, S_0065f8c0_PtrTag b,
                            S_0065f8c0_ChkTag c);
@@ -2770,7 +2770,7 @@ struct FUN_0065fab0_cls
     int m_iThirdValue;
     FUN_0065fab0_cls* FUN_0065fab0(FUN_0065fab0_cls* src);
 };
-int __cdecl FUN_0065fd70(int a);
+int __cdecl return_value(int a);
 int __cdecl CopyTripleShorts(int a, int b, int r, bool z, bool y, bool x);
 int __cdecl CallWithFlag(int* p);
 struct FNVFlag7675
@@ -2793,7 +2793,7 @@ struct S_0065ff90_Dest
     int* m_ptr;
     unsigned int m_iElementCount;
 };
-_DummyTag __cdecl FUN_0065e750(S_0065ff90_Dest* dest);
+_DummyTag __cdecl std_Move_cat_unsigned_char(S_0065ff90_Dest* dest);
 void __cdecl FUN_00660210(int first, int last, S_0065ff90_Dest dest, _DummyTag cat, S_0065ff90_Tag tag);
 void __cdecl FUN_0065ff90(int first, int last, S_0065ff90_Dest dest);
 #include "../../include/NiMemObject.h"
@@ -2895,7 +2895,7 @@ struct FUN_00649680 : NiMemObject
     int value1b8;
     int value1bc;
     FUN_00649680();
-    FUN_00649680* FUN_0064c5a0();
+    FUN_00649680* BSFaceGenAnimationData_CreateCopyBS();
 };
 template <class T> struct FGPointer
 {
@@ -3115,7 +3115,7 @@ class FUN_0065cca0_cls : public B65CCA0Base
 
     void Reset(int iFlags);
 };
-unsigned char* __cdecl FUN_0065fd70(unsigned char* out, int* a1, int* a2);
+unsigned char* __cdecl return_value(unsigned char* out, int* a1, int* a2);
 void __cdecl FUN_0065e760(int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
 struct FlagA
 {
@@ -3209,8 +3209,8 @@ struct PtrCat
 {
 };
 typedef Elem_65eed0* It;
-PtrCat __cdecl FUN_0065e750(It& a, It& b);
-RaTag __cdecl FUN_0065fd70(const It& a, const It& b);
+PtrCat __cdecl std_Move_cat_unsigned_char(It& a, It& b);
+RaTag __cdecl return_value(const It& a, const It& b);
 It __cdecl ComputeIndexAndCall(int first, int last, It dest, RaTag cat, PtrCat pc, RCTag rc);
 }
 Elem_65eed0* __cdecl FUN_0065f820(Elem_65eed0* first, Elem_65eed0* last, Elem_65eed0* dest);
@@ -3221,29 +3221,29 @@ struct RCTag
 struct PtrCat
 {
 };
-PtrCat __cdecl FUN_0065e750(int& a, int& b);
+PtrCat __cdecl std_Move_cat_unsigned_char(int& a, int& b);
 int __cdecl CopyRange(int first, int last, int dest, int al, PtrCat pc, RCTag rc);
 }
 // @fnv 0x0065fde0
 extern "C" void __cdecl FUN_0065fde0(int first, int last, int dest, int al)
 {
     using namespace de;
-    de::CopyRange(CallWithFlag(&first), CallWithFlag(&last), dest, al, de::FUN_0065e750(first, dest), RCTag());
+    de::CopyRange(CallWithFlag(&first), CallWithFlag(&last), dest, al, de::std_Move_cat_unsigned_char(first, dest), RCTag());
 }
 struct TagA
 {
     char v;
 };
-TagA* __cdecl FUN_0065fd70(TagA* flag, int* a, int* b);
+TagA* __cdecl return_value(TagA* flag, int* a, int* b);
 int __cdecl FUN_0064e5a0(int a, int b, int c, TagA d, unsigned char e, TagA f);
 // @fnv 0x0064e380
 extern "C" int __cdecl FUN_0064e380(int arg1, int arg2, int arg3)
 {
     TagA flag1 = {};
-    char flag2 = FUN_0065e750(&arg1, &arg3);
+    char flag2 = std_Move_cat_unsigned_char(&arg1, &arg3);
     TagA flag3;
 
-    return FUN_0064e5a0(CallWithFlag(&arg1), CallWithFlag(&arg2), arg3, *FUN_0065fd70(&flag3, &arg1, &arg3), flag2,
+    return FUN_0064e5a0(CallWithFlag(&arg1), CallWithFlag(&arg2), arg3, *return_value(&flag3, &arg1, &arg3), flag2,
                         flag1);
 }
 int __cdecl CallWithFlag(int* p);
@@ -3381,8 +3381,8 @@ struct PtrCatE4E0
     PtrCatE4E0()
     {}
 };
-CatTagE4E0 __cdecl FUN_0065e750(const ItE4E0& it);
-PtrCatE4E0 __cdecl FUN_0065fd70(const ItE4E0& a, const ItE4E0& b);
+CatTagE4E0 __cdecl std_Move_cat_unsigned_char(const ItE4E0& it);
+PtrCatE4E0 __cdecl return_value(const ItE4E0& a, const ItE4E0& b);
 int* __cdecl CallWithFlag(ItE4E0& it);
 void __cdecl FUN_0064e6c0(int* pFirst, int* pLast, ItE4E0 kDest, PtrCatE4E0 kPtrCat, CatTagE4E0 kCat,
                           RangeTagE4E0 kRange);
@@ -3435,7 +3435,7 @@ struct FloatGetterGlobal
     float* FUN_00403e20();
 };
 extern FloatGetterGlobal DAT_011cfb5c, DAT_011cf264;
-float FUN_006479e0(FloatSource* src);
+float CombatFormulas_CalcExplosionDamage(FloatSource* src);
 namespace ctor_0065c8f0 {
 
 struct FUN_006815c0
@@ -3531,7 +3531,7 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting150;
 extern GlobalObject_0040e0b0 g_011cd080;
 extern GlobalObject_0040e0b0 g_011cdb84;
 float FUN_00404010(float, float);
-int __cdecl FUN_00642bc0(int skill, int count, float distance, int resistance, int level, bool flagA, bool flagB,
+int __cdecl AiFormulas_GetDetectedEvent(int skill, int count, float distance, int resistance, int level, bool flagA, bool flagB,
                          bool flagC, int quantity, int value, bool special);
 struct FUN_006443d0 : GlobalObject_00869f00
 {

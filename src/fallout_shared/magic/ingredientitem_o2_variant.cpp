@@ -5,7 +5,7 @@
 #include "ingredientitem.h"
 struct FUN_00409a30_shell
 {
-    bool FUN_00409a30(unsigned int aFlag);
+    bool IngredientItem_GetFlag(unsigned int aFlag);
 };
 struct BipedModelForm
 {

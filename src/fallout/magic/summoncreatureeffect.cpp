@@ -897,7 +897,7 @@ struct S_008294e0_Handler
 };
 extern S_008294e0_Handler* DAT_011c3f2c;
 
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 void __cdecl StartHostilityAndCombat(Actor* ref, Actor* actor);
 
 // @fnv 0x008294e0
@@ -913,7 +913,7 @@ void SummonCreatureEffect::SpawnSummonedActor(int unused)
     TESBoundObject* pCreatureForm = dynamic_cast<TESBoundObject*>((TESForm*)FUN_006733e0());
     if (!pCreatureForm)
     {
-        FUN_005b5e40("GAME EFFECTS: %s effect has no associated creature.",
+        Warning_005b5e40("GAME EFFECTS: %s effect has no associated creature.",
                      ((S_008294e0_Named*)FUN_007df1d0())->AssignFromSub().FUN_00559450());
     }
     else
@@ -933,13 +933,13 @@ void SummonCreatureEffect::SpawnSummonedActor(int unused)
             }
             else
             {
-                FUN_005b5e40("GAME EFFECTS: %s summoned a non-actor.", actor->FUN_0055d520());
+                Warning_005b5e40("GAME EFFECTS: %s summoned a non-actor.", actor->FUN_0055d520());
                 ref->SetDeleted(true);
             }
         }
         else if (!pCreatureForm)
         {
-            FUN_005b5e40("DEFAULT: %s effect unable to create reference.",
+            Warning_005b5e40("DEFAULT: %s effect unable to create reference.",
                          ((S_008294e0_Named*)FUN_007df1d0())->AssignFromSub().FUN_00559450());
         }
     }

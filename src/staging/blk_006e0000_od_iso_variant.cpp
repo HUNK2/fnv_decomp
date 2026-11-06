@@ -73,14 +73,15 @@ struct BlkInterfaceView
 int __cdecl FUN_0043b460(long volatile* a1, long a2, long a3);
 struct FUN_006ec0d0_Class
 {
-    bool __thiscall FUN_006ec0d0(int a1);
+    bool __thiscall BSTCommonMessageQueue_TryPush(int a1);
 };
 struct FUN_006e1020_shell
 {
-    FUN_006e1020_shell* __thiscall FUN_006e1020();
+    FUN_006e1020_shell* __thiscall BSSimpleArray_PathingLOSGridCell_1024_BSSimpleArray_PathingLOSGridCell_1024();
     FUN_006e1020_shell* __thiscall FUN_006e0e80();
 };
-FUN_006e1020_shell* __thiscall FUN_006e1020_shell::FUN_006e1020()
+// src: COMMUNITY 0x006e1020
+FUN_006e1020_shell* __thiscall FUN_006e1020_shell::BSSimpleArray_PathingLOSGridCell_1024_BSSimpleArray_PathingLOSGridCell_1024()
 {
     return this;
 }
@@ -99,7 +100,7 @@ struct GlobalObject_00869f00
 extern int DAT_0106cf0c;
 struct S006d0420
 {
-    void __thiscall FUN_0069b940(int a1, int a2);
+    void __thiscall BSSimpleArray_char_1024_InitialSetup(int a1, int a2);
 };
 struct FUN_006e1070_Class
 {
@@ -126,7 +127,7 @@ struct FUN_006e3a80
 void __cdecl FUN_005e0b60(void*);
 struct FUN_006e6bd0_Class
 {
-    void __thiscall FUN_006e6bd0();
+    void __thiscall PathingSearchRayCast_FreeCache();
 };
 struct Dummy_006e8f80
 {
@@ -134,7 +135,7 @@ struct Dummy_006e8f80
 };
 struct FUN_006e8fc0_Class
 {
-    void* __thiscall FUN_006e8fc0();
+    void* __thiscall BSSimpleArray_PathingNode_1024_GetHead();
 };
 void __cdecl InitSizeState(int a1, int a2);
 extern void* DAT_0106d4d4;
@@ -165,11 +166,11 @@ struct FUN_006ec430_Class
 {
     void __thiscall FUN_006ec430();
 };
-extern "C" void __cdecl FUN_006ecc00();
+extern "C" void __cdecl BSTMessageQueue_PathingMessage_BSTMessageQueue_PathingMessage();
 extern int DAT_0106d698;
 struct FUN_006ecb40_Class
 {
-    void __thiscall FUN_006ecc00();
+    void __thiscall BSTMessageQueue_PathingMessage_BSTMessageQueue_PathingMessage();
     FUN_006ecb40_Class* __thiscall BSTCommonMessageQueue_PathingMessage_BSTCommonMessageQueue();
 };
 extern int DAT_0106d7a0;
@@ -185,12 +186,12 @@ extern NiPoint3 _NiPoint3_ZERO;
 struct PathingLocation;
 struct FUN_006ed7a0_Class
 {
-    void __thiscall FUN_006ed7a0(const PathingLocation&);
+    void __thiscall PathSmoother_AddPathingNode_0(const PathingLocation&);
 };
 void* __cdecl Reallocate(void* ptr, size_t size);
 struct FUN_006f2e20_Class
 {
-    void* __thiscall FUN_006f2e20(void* ptr, int count);
+    void* __thiscall BSSimpleArray_Resize16BytesMembers(void* ptr, int count);
 };
 struct AX
 {
@@ -198,7 +199,7 @@ struct AX
 };
 struct FUN_006f30e0_Class
 {
-    AX* __thiscall FUN_006f30e0();
+    AX* __thiscall BSSimpleArray_PathSmoother_PathEdge_1024_BSSimpleArray_PathSmoother_PathEdge_1024();
 };
 extern int DAT_0106d88c;
 struct FUN_006f3320_Class
@@ -221,7 +222,7 @@ struct FUN_006f4320_Class : public ScrapHeapBuffer
 extern int DAT_0106d974;
 struct Dummy_0061bf20
 {
-    void __thiscall FUN_006b3f40(int a1, int a2);
+    void __thiscall BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(int a1, int a2);
     Dummy_0061bf20* __thiscall FUN_006f4b10();
 };
 extern void* DAT_0106d988;
@@ -233,7 +234,7 @@ struct FUN_006f4b60_Class
 void* __cdecl operator new(unsigned int);
 struct FUN_006f4bb0_Class
 {
-    void* __thiscall FUN_006f4bb0(int a1);
+    void* __thiscall BSSimpleArray_Alloc16BytesMembers(int a1);
 };
 extern int DAT_0106df38;
 struct FUN_006f98c0_Class
@@ -258,7 +259,7 @@ extern int DAT_0106df78;
 struct FUN_006f9740_Class
 {
     void __thiscall ResizeAndFill(int a1, int a2);
-    FUN_006f9740_Class* __thiscall FUN_006f9740();
+    FUN_006f9740_Class* __thiscall BSSimpleArray_BGSDistantTreeBlock_InstanceData_1024_BSSimpleArray_BGSDistantTreeBlock_InstanceData_1024();
 };
 void* __cdecl Reallocate(void* p, unsigned int size);
 struct FUN_006f9850_Class
@@ -272,12 +273,12 @@ struct FUN_006fa180_Class
 };
 struct FUN_006fa100_Class
 {
-    FUN_006fa100_Class* __thiscall FUN_006fa100();
+    FUN_006fa100_Class* __thiscall BSSimpleArray_BGSDistantTreeBlock_TreeType_1024_BSSimpleArray_BGSDistantTreeBlock_TreeType_1024();
 };
 extern int DAT_0106dfe0;
 struct FUN_006f9c70_shell
 {
-    void FUN_006f9c70(bool a1);
+    void BGSDistantTreeBlock_TreeTypes_FreeAll(bool a1);
 };
 struct FUN_006fa160_Class
 {
@@ -287,15 +288,15 @@ struct FUN_006fc920_Class
 {
     int __thiscall ReadFromStream(NiBinaryStream* a1);
 };
-void __cdecl FUN_006fda10();
+void __cdecl BGSTerrainNode_DestroyRecurse();
 struct FUN_006fca70_Class
 {
-    void __thiscall FUN_006fca70();
+    void __thiscall BGSTerrainManager_DestroyNodeAndChildren();
     void* m_p;
 };
 struct FUN_006ff880_Class
 {
-    void __thiscall FUN_006ff880(unsigned char a1);
+    void __thiscall SteamAPI_SetNoCloud(unsigned char a1);
 };
 extern int DAT_0106e7b4;
 struct FUN_006ff970_Class
@@ -349,7 +350,7 @@ struct FUN_006ed010_Class
     int* p;
     int a;
     int b;
-    int* __thiscall FUN_006ed010();
+    int* __thiscall BSTFreeList_ActorPathingMessage_BSTFreeList_ActorPathingMessage();
 };
 struct FUN_006e0f90_Class
 {
@@ -424,7 +425,7 @@ struct S006e7620_R1
     S006e7620_R2* __thiscall _ref_006815c0(int a1, const char* a2);
 };
 S006e7620_R1* __cdecl _FUN_00c85750();
-void __cdecl FUN_006e7620(int aiSize, const char* what);
+void __cdecl hkAllocateStack_char(int aiSize, const char* what);
 struct FUN_006e9000_Class
 {
     float m_iWordAt00;
@@ -455,7 +456,7 @@ struct FUN_006ebbd0_Cls
 struct FUN_006ebbf0_Class
 {
     void __thiscall CallVirtualObjectMethod(void* a1, void* a2, void* a3, void* a4, bool a5);
-    void __thiscall FUN_006ebbf0(void* a1, void* a2, void* a3, void* a4, bool a5);
+    void __thiscall PathManager_GetRayCastPathToNavmesh(void* a1, void* a2, void* a3, void* a4, bool a5);
 };
 struct FUN_006eb2b0_Callee
 {
@@ -464,7 +465,7 @@ struct FUN_006eb2b0_Callee
 struct Host_006ebc20
 {
     FUN_006eb2b0_Callee* m;
-    void __thiscall FUN_006ebc20(int a1, int a2, int a3, int a4);
+    void __thiscall PathManager_GetRayCastPath(int a1, int a2, int a3, int a4);
 };
 struct SeqObj
 {
@@ -531,7 +532,7 @@ struct FUN_0044df20
 };
 struct FUN_00529000_Class
 {
-    void FUN_00529000();
+    void LockFreeMap_LockFreeMapInterface_ClearReferencedNodes();
 };
 struct FUN_006ec9b0_Class
 {
@@ -572,8 +573,8 @@ struct FUN_006ecbd0_Class
 };
 struct FUN_006ecd60_stub
 {
-    bool __thiscall FUN_006ecd60(void**);
-    bool __thiscall FUN_006ecd00(void** a1, int a2);
+    bool __thiscall BSTFreeList_DoAllocate(void**);
+    bool __thiscall BSTFreeList_Allocate_1(void** a1, int a2);
 };
 struct FUN_006ece00_Obj
 {
@@ -645,9 +646,9 @@ struct FUN_006efd50
 };
 struct S006F1E90
 {
-    bool __thiscall FUN_006f1fc0(int);
+    bool __thiscall PathSmoother_PointInShrunkPath(int);
     bool __thiscall IsSegmentClear(int, int);
-    bool __thiscall FUN_006f1e90(int, int);
+    bool __thiscall PathSmoother_IsSegmentValid(int, int);
 };
 extern int DAT_0106d814;
 struct FUN_006f26d0_Class
@@ -715,7 +716,7 @@ struct FUN_006f2e40_Class
 void __cdecl Deallocate(void*);
 struct FUN_006f3170_Class
 {
-    bool FUN_006f3170();
+    bool BSSimpleArray_HasSufficientCapacity();
 };
 struct _Base_006f3c80
 {
@@ -834,8 +835,8 @@ struct FUN_00759d80_Class
 struct FUN_006fea10_Class
 {
     void* m_10;
-    unsigned char __thiscall FUN_006fea10(bool a1);
-    unsigned char __thiscall FUN_006fe920(bool a1);
+    unsigned char __thiscall BGSTerrainNode_CheckMeshSolid(bool a1);
+    unsigned char __thiscall BGSTerrainNode_CheckMeshSolidUnderMe(bool a1);
 };
 extern int DAT_011d8794;
 struct FUN_006ff660_Class
@@ -863,7 +864,7 @@ struct SaveGameSizeState
     int iDataLength;
     virtual int Write(unsigned int);
     virtual int Write2(unsigned int);
-    void __thiscall FUN_006e95d0(unsigned int, unsigned int);
+    void __thiscall BSSimpleArray_VirtualPathingNode_1024_ConstructItems(unsigned int, unsigned int);
     void __thiscall InitSizeState(unsigned int requested, unsigned int savedSize);
 };
 struct FUN_006e9700_Class
@@ -874,7 +875,7 @@ struct FUN_006e9700_Class
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    void __thiscall FUN_006e97a0(unsigned int a1, unsigned int a2);
+    void __thiscall BSSimpleArray_PathingNode_1024_InitialSetup(unsigned int a1, unsigned int a2);
 };
 struct FUN_006ec260_Class
 {
@@ -883,7 +884,7 @@ struct FUN_006ec260_Class
     int m_8;
     int m_iThirdValue;
     int* m_10;
-    bool __thiscall FUN_006ec260(int a1);
+    bool __thiscall BSTCommonLLMessageQueue_PathingMessage_DoTryPush(int a1);
 };
 struct FUN_006ecc70_Class
 {
@@ -986,7 +987,7 @@ struct FUN_006fb170_Class
 };
 struct FUN_006fb3d0_Class
 {
-    void __thiscall FUN_006fb3d0(int a1);
+    void __thiscall BGSTerrainChunk_RemoveWaterFromSystem(int a1);
 };
 struct ListNode_680910
 {
@@ -1065,7 +1066,7 @@ struct FUN_006f9eb0_Class
     char* m;
     unsigned int pad;
     unsigned int key;
-    void FUN_006f9eb0(unsigned int a, unsigned int b);
+    void BSSimpleArray_Resize_0(unsigned int a, unsigned int b);
 };
 struct FUN_006fa180_StandIn
 {
@@ -1083,12 +1084,12 @@ struct Unk006fec90
 };
 struct Unk006fec00
 {
-    bool FUN_006fec00(int a1);
+    bool BGSTerrainNode_GetPointIsInNode(int a1);
 };
 struct Unk006fec90_Class
 {
     int GetActiveMenu(int a1);
-    bool FUN_006fec00(int a1);
+    bool BGSTerrainNode_GetPointIsInNode(int a1);
     int m_iWordAt00;
     int m_cByteAtOffset1;
     int m_cByteAtOffset2;
@@ -1103,7 +1104,7 @@ struct Unk006fec90_Class
 extern "C" __declspec(dllimport) void __cdecl SteamAPI_RunCallbacks();
 struct FUN_006ff860_Class
 {
-    void FUN_006ff860();
+    void SteamAPI_RunCallbacks_();
 };
 struct FUN_006ffb90_Class
 {
@@ -1255,7 +1256,7 @@ struct FUN_006faa50_Class
 };
 struct FUN_006faa70_Class
 {
-    void __thiscall FUN_006faa70(void* a1);
+    void __thiscall BGSDistantObjectBlockLoadTask_GetRootNode(void* a1);
 };
 struct FUN_006fa990_Entry
 {
@@ -1272,9 +1273,9 @@ struct TargetObject
     QIdlePtr m_idle;
     bool m_flag;
 
-    void __thiscall FUN_006f6250(void* a1);
+    void __thiscall BGSDistantObjectBlockLoadTask_GetWaterGeometry(void* a1);
     void __thiscall AssignValue(void* a1);
-    void __thiscall FUN_006fa990();
+    void __thiscall BGSTerrainChunk_OnLoadFinished();
 };
 struct FUN_006fe920_Class
 {
@@ -1286,7 +1287,7 @@ struct FUN_006fe920_Class
     FUN_006fea10_Class* m_object28;
     FUN_006fea10_Class* m_object2c;
 
-    bool __thiscall FUN_006fe920(bool value);
+    bool __thiscall BGSTerrainNode_CheckMeshSolidUnderMe(bool value);
 };
 struct FUN_006fed30_Callee
 {
@@ -1298,13 +1299,13 @@ struct FUN_006fed30_Class
 };
 struct LocalUnk006fec90_Class
 {
-    bool __thiscall FUN_006fec00(int a1);
+    bool __thiscall BGSTerrainNode_GetPointIsInNode(int a1);
 };
 struct LocalBSSimpleList
 {
     void* __thiscall GetNext();
 };
-void* __cdecl FUN_006fe510();
+void* __cdecl retn8();
 extern void* DAT_0106ced8;
 void* __cdecl _NiMalloc(unsigned int size);
 void* __cdecl memset(void* destination, int value, unsigned int size);
@@ -1603,7 +1604,7 @@ class FUN_006e6db0_cls
     FUN_006e6db0_ObjectBase* m_84;
 
     void FlushChildren();
-    void FUN_006e6db0();
+    void PathingSearchRayCast_CleanUpRayCasts();
 };
 struct FUN_006e7190_Helper30
 {
@@ -1776,7 +1777,7 @@ struct FUN_006f4cd0
 };
 struct FUN_006e95d0_Class
 {
-    void __thiscall FUN_006e95d0(FUN_006f4cd0* destination, unsigned int count);
+    void __thiscall BSSimpleArray_VirtualPathingNode_1024_ConstructItems(FUN_006f4cd0* destination, unsigned int count);
 };
 class FUN_006ecc40
 {
@@ -1934,7 +1935,7 @@ struct LocationContext_006edd30
 };
 struct ContextProvider_006edd30
 {
-    LocationContext_006edd30* FUN_006ced70();
+    LocationContext_006edd30* BSSimpleArray_NiPoint3_1024_GetFirst();
 };
 struct PointerList_006edd30
 {
@@ -2201,7 +2202,7 @@ struct F08
     int unk30, unk34, unk38, unk3c;
     A08 unk40, unk54;
     unsigned int UpdateNodeDirection(unsigned int, float, bool);
-    void FUN_006eef80();
+    void PathSmoother_BuildShrunkEdgeLeftRightArrays();
 };
 extern const float DAT_01016248;
 struct Pt_6f03a0
@@ -2230,7 +2231,7 @@ struct Host_6f03a0
 {
     int unk[36];
     Arr_6f03a0 arr90;
-    void FUN_006f03a0();
+    void PathSmoother_ComputeCenters();
 };
 struct S_00aa42e0_Mgr
 {
@@ -2854,7 +2855,7 @@ struct S_006f3d00_Obj
     int unk2038, unk203c, unk2040, unk2044, unk2048, unk204c;
     S_006f3d00_Node* unk2050;
     int InsertOrUpdateNode(int key, float f, S_006f3d00_Node** out);
-    S_006f3d00_Node* FUN_006f3d00(int key, S_006f3d00_Vec3* pos, float f);
+    S_006f3d00_Node* AStarSearch_ParentSpaceNode_TeleportLink_AddStartNode(int key, S_006f3d00_Vec3* pos, float f);
 };
 class SpawnedArg
 {
@@ -3095,7 +3096,7 @@ struct Cursor
     Item** Slot();
     Cursor* Next();
 };
-void __cdecl FUN_006fa860();
+void __cdecl BGSTerrainChunk_ResetCullResults();
 struct MenuValueTarget
 {
     void Assign(const void* value);
@@ -3114,7 +3115,7 @@ struct MenuValueSource : TargetObject
     void AssignValue(MenuValueTarget* target);
 };
 extern unsigned char g_fnvFlag006fe540;
-unsigned char FUN_006fe540();
+unsigned char BGSDistantTreeBlock_bStaticDataLoaded_Get();
 // Whether a position still falls inside this area's influence: full areas never accept,
 // forced areas always do, otherwise compare the falloff value at the point to the threshold.
 struct FE550Point3
@@ -3152,7 +3153,7 @@ class FE550Area
 
     bool IsForced();
     float GetFalloff(NiPoint2 kTargetCenter, float fRadius, NiPoint2 kTestPoint);
-    bool FUN_006fe550(const FE550Point3* pkPos);
+    bool BGSTerrainNode_ShouldSplit(const FE550Point3* pkPos);
 };
 struct GameSettingRef
 {
@@ -3179,7 +3180,7 @@ struct FUN_006fe620_cls
     float m_38;
 
     float Blend(NiPoint2 b, float f, NiPoint2 a);
-    bool FUN_006fe620(NiPoint2* p);
+    bool BGSTerrainNode_ShouldLoadBlock(NiPoint2* p);
 };
 struct S_006fe6d0_Gl
 {
@@ -3205,7 +3206,7 @@ struct S_006fe6d0
     float unk34;
     float unk38;
     float ComputeDistanceSquaredToRect(NiPoint2 a, float b, NiPoint2 c);
-    bool FUN_006fe6d0(const NiPoint2* p);
+    bool BGSTerrainNode_ShouldLoadBlockLowPriority(const NiPoint2* p);
 };
 struct S_006fe780_Global
 {
@@ -3231,7 +3232,7 @@ struct S_006fe780_Foo
     float unk34;
     float unk38;
     float __thiscall ComputeDistanceSquaredToRect(NiPoint2 a, float t, NiPoint2 b);
-    bool __thiscall FUN_006fe780(const NiPoint2* p);
+    bool __thiscall BGSTerrainNode_ShouldLoadTrees(const NiPoint2* p);
 };
 float __cdecl ConvertDoubleResult(float);
 struct FnvOwner
@@ -3306,7 +3307,7 @@ struct FUN_006fea70_Class
     unsigned char m_5d;
 
     float __thiscall GetScaleAtPoint(int value);
-    void __thiscall FUN_006ff3f0();
+    void __thiscall BGSTerrainNode_UpdateFadeParameters();
     bool __thiscall GetByteAtOffset5C();
 
     void __thiscall SetValue(int value);
@@ -3359,7 +3360,7 @@ class C6FEC00Cell
     float m_fCenterX;
     float m_fCenterY;
 
-    bool FUN_006fec00(const NiPoint2* pkPoint);
+    bool BGSTerrainNode_GetPointIsInNode(const NiPoint2* pkPoint);
 };
 struct SteamCallbackA
 {
@@ -3408,7 +3409,7 @@ struct FUN_006ff690
     SteamCallbackC callbackC;
     bool initialized, unk3D, enabled;
     int userId;
-    bool FUN_006ff820();
+    bool BSSteamSystemUtility_OnUserAuthenticated();
     FUN_006ff690();
 };
 // FUN_006ff7b0 - destructor of the game's Steam callback holder.
@@ -3552,7 +3553,7 @@ struct FUN_006ffda0_cls
     int __thiscall FUN_00559450();
     int __thiscall FUN_004048e0();
 };
-int __cdecl FUN_00401030(int a);
+int __cdecl FormHeapFreeAndLog_00401030(int a);
 int __cdecl AllocateZeroed(int a, int b);
 TESForm* FUN_004839c0(unsigned int auiFormID);
 struct LoadedRefPosition
@@ -3788,7 +3789,7 @@ struct SAArray
     void Move(SAElement* apDest, const SAElement* apSrc, unsigned int auiCount);
     void Destroy(SAElement* apItems, unsigned int auiCount);
     void Free();
-    void FUN_006e7500(unsigned int auiIndex, bool abShrink);
+    void BSSimpleArray_NavMeshEdgeLocation_1024_Remove(unsigned int auiIndex, bool abShrink);
 };
 struct S_006eaa00
 {
@@ -4232,7 +4233,7 @@ struct TargetNavInfo
     TESObjectCELL* FUN_006b7770();
 };
 extern NiPoint3 DAT_011a946c;
-bool __cdecl FUN_006d7350(PathingLocation&, PathingLocation&, PathingLocation*, void*);
+bool __cdecl Pathing_CheckLineOfSight(PathingLocation&, PathingLocation&, PathingLocation*, void*);
 bool __cdecl FUN_006d7490(PathingLocation&, PathingLocation&, void*, void*);
 struct TargetHost
 {
@@ -4491,10 +4492,10 @@ struct AvoidPath
     int unk9c;
     int unka0;
     AvoidPoints points;
-    bool FUN_006f1e90(const FUN_006815c0&, const FUN_006815c0&);
+    bool PathSmoother_IsSegmentValid(const FUN_006815c0&, const FUN_006815c0&);
     void ClipPathAgainstObstacles();
 };
-bool FUN_006ba9e0(const FUN_006815c0&, const FUN_006815c0&, const FUN_006815c0&, float);
+bool NavMeshMath_SegmentCircleIntersection(const FUN_006815c0&, const FUN_006815c0&, const FUN_006815c0&, float);
 bool ComputeCircleTangents(const FUN_006815c0&, float, const FUN_006815c0&, FUN_006815c0*, FUN_006815c0*);
 // Whether a point lies strictly inside the sphere.
 class C6F1BC0Vector : public NiPoint3
@@ -4582,7 +4583,7 @@ struct FUN_006f1c10_Path
     int unkA0;
     PathSegmentArray kSegments;
 
-    void FUN_006ed7a0(const PathSegment& kSegment);
+    void PathSmoother_AddPathingNode_0(const PathSegment& kSegment);
     void AppendSegments(bool abIncludeStart, bool abIncludeEnd);
 };
 // Whether the segment a-b crosses none of the area's border edges (both edge lists).
@@ -4688,7 +4689,7 @@ struct Host1fc0
     int m60, m64, m68, m6c, m70, m74, m78, m7c;
     int m80, m84, m88, m8c;
     Arr1fc0 arr90;
-    bool __thiscall FUN_006f1fc0(int);
+    bool __thiscall PathSmoother_PointInShrunkPath(int);
 };
 class Base6F2
 {
@@ -5232,8 +5233,8 @@ struct FUN_006fa420
     NiPointer<QueuedFile> queued;
     int unk28;
     NiPointer<NiNode> node2C;
-    void FUN_006fa6a0();
-    void FUN_006fb3d0(int flag);
+    void BGSTerrainChunk_RemoveFromTerrainChunksList();
+    void BGSTerrainChunk_RemoveWaterFromSystem(int flag);
     ~FUN_006fa420();
 };
 struct FUN_006e5cc0_Class
@@ -5321,8 +5322,8 @@ class FUN_006ec7e0_C
     int unk00[8];
     LockEC7E m_kLock;
 
-    EntryEC7E* FUN_00449f80(void* a1, void* a2, void* a3, bool a4);
-    bool FUN_006ec7e0(void* a1, void* a2, void* a3, bool a4);
+    EntryEC7E* LockFreeMap_GetInterface_0(void* a1, void* a2, void* a3, bool a4);
+    bool LockFreeMap_char_const_T_Data_SetAt(void* a1, void* a2, void* a3, bool a4);
 };
 struct SearchNodeArray
 {
@@ -5361,7 +5362,7 @@ struct PathSmoother
     void AddPathFromEdge(NiPoint3& p, unsigned int i);
     void AddPathFromContext(NiPoint3& p, unsigned int i);
     void CreateNavMeshEdges();
-    void FUN_006ed850();
+    void BuildInternalArrays();
 };
 extern unsigned int DAT_010a2720;
 void* __cdecl operator new(unsigned int size, void* place);
@@ -5601,7 +5602,7 @@ struct QueueX
     int unk00;
     long volatile lLock;
     NodeX* pHead;
-    bool FUN_006ecd60(NodeX** ppOut);
+    bool BSTFreeList_DoAllocate(NodeX** ppOut);
 };
 struct FUN_006ecf70
 {
@@ -5687,7 +5688,8 @@ struct SteamUserObj
 };
 
 // @fnv 0x006ff820
-bool FUN_006ff690::FUN_006ff820()
+// src: COMMUNITY 0x006ff820
+bool FUN_006ff690::BSSteamSystemUtility_OnUserAuthenticated()
 {
     if (initialized)
     {

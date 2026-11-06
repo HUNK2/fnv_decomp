@@ -48,7 +48,7 @@ public:
     int FUN_00517630();
     bool IsNonZero(int);
     void FUN_00560d50(NiPoint3&);
-    void FUN_00560de0(NiPoint3&);
+    void bhkRigidBody_GetAngularVelocityNi(NiPoint3&);
     void FUN_00c8de20(const hkVector4&, const hkQuaternion&, float, float);
     void FUN_00c859e0(NiStream*);
     void FUN_00c8ef80(NiObject*);

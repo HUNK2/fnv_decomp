@@ -42,7 +42,7 @@ int FUN_0097fc70_shell::FUN_0097fc70()
         pcreature = dynamic_cast<Creature*>((Actor*)((TESAmmoInitCalls*)this)->FUN_0097ae90());
         if (pcreature)
         {
-            iresult = (int)pcreature->FUN_008d46f0();
+            iresult = (int)pcreature->Creature_GetWeaponSkill();
         }
     }
 

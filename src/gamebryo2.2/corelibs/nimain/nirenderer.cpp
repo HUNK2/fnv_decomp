@@ -7,7 +7,8 @@
 #include "../../../../include/NiPoint3.h"
 
 // @fnv 0x00a62ae0
-void __cdecl FUN_00a62ae0()
+// src: COMMUNITY 0x00a62ae0
+void __cdecl NiRenderer__SDMShutdown()
 {
     NiRenderer::ms_pRenderer = 0;
 }
@@ -15,7 +16,8 @@ void __cdecl FUN_00a62ae0()
 extern char const* const g_0126f0f0_arg1;
 
 // @fnv 0x00a62b50
-char const* const* __cdecl FUN_00a62b50()
+// src: COMMUNITY 0x00a62b50
+char const* const* __cdecl NiRenderer_GetRTTI()
 {
     return &g_0126f0f0_arg1;
 }

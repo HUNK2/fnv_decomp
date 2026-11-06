@@ -29,7 +29,7 @@ struct xFilter
 };
 struct xHasFilter
 {
-    xFilter FUN_0070c440();
+    xFilter bhkCharacterController_GetCollisionFilter();
 };
 struct xVec4
 {
@@ -834,7 +834,7 @@ void xController::FUN_008e4e50(xActor* apActor)
             FILTER.FUN_004a39f0(0x22);
             xHasFilter* OWNER = FUN_28c();
             if (OWNER)
-                FILTER.FUN_0059ce80(OWNER->FUN_0070c440().FUN_004a3a20());
+                FILTER.FUN_0059ce80(OWNER->bhkCharacterController_GetCollisionFilter().FUN_004a3a20());
             xCinfo CINFO;
             CINFO.m_uiFilterInfo = FILTER.FUN_00559450();
             CINFO.m_pCollisionShape = xFUN_004ae750(SHAPE);

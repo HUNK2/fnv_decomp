@@ -20,7 +20,8 @@ template <class T> struct PoolAllocatorBase
     };
     static LinkedListEntry* ms_pFreeList;
 };
-void FUN_00a8a200()
+// src: COMMUNITY 0x00a8a200
+void NiTAbstractPoolAllocator__SDMShutdown()
 {
     void* p = DAT_011c5f54;
     if (p)
@@ -75,22 +76,22 @@ struct FUN_00a928b0_shell
 };
 
 void __cdecl FUN_00a5b660();
-void __cdecl FUN_00a5cf60();
+void __cdecl NiAlphaProperty__SDMShutdown();
 void __cdecl ReleasePendingTable();
-void __cdecl FUN_00a62ae0();
+void __cdecl NiRenderer__SDMShutdown();
 void __cdecl NiStream__SDMShutdown();
 void __cdecl ReleaseGlobalStrings();
 void __cdecl FUN_00a6f4d0();
 void __cdecl ReleaseGlobalHolder();
-void __cdecl FUN_00a76b30();
+void __cdecl NiImageConverter__SDMShutdown();
 void __cdecl FreeGlobalAlias();
-void __cdecl FUN_00a81590();
+void __cdecl NiShadeProperty__SDMShutdown();
 void __cdecl FreeMemoryList();
 void __cdecl FUN_00a8f620();
 void __cdecl FUN_00a8fcc0();
 void __cdecl ResetStreamLinkIDSet();
 void __cdecl DestroyGlobalPool();
-void __cdecl FUN_00a9a120();
+void __cdecl NiFogProperty__SDMShutdown();
 void __cdecl NiMetricsLayer__SDMShutdown();
 void __cdecl DestroyPairArrays();
 
@@ -166,7 +167,8 @@ extern char const* const g_011f5f74_arg0;
 extern char const* const DAT_0109f0a0;
 
 // @fnv 0x00a8a280
-void __cdecl FUN_00a8a280()
+// src: COMMUNITY 0x00a8a280
+void __cdecl NiMainSDM_Shutdown()
 {
     if (DAT_011f5b80)
     {
@@ -252,24 +254,24 @@ void __cdecl FUN_00a8a280()
 
         DestroyPairArrays();
         FUN_00a928b0_shell::ClearFixedStrings();
-        FUN_00a5cf60();
-        FUN_00a9a120();
+        NiAlphaProperty__SDMShutdown();
+        NiFogProperty__SDMShutdown();
         ReleaseGlobalHolder();
         NiMetricsLayer__SDMShutdown();
-        FUN_00a81590();
+        NiShadeProperty__SDMShutdown();
         FUN_00a6f4d0();
         ReleaseGlobalStrings();
         FUN_00a8f620();
-        FUN_00a76b30();
+        NiImageConverter__SDMShutdown();
         NiStream__SDMShutdown();
-        FUN_00a62ae0();
+        NiRenderer__SDMShutdown();
         DestroyGlobalPool();
         ReleasePendingTable();
         FreeGlobalAlias();
         FUN_00a8f730::Release();
         FUN_00a8fcc0();
         ResetStreamLinkIDSet();
-        FUN_00a8a200();
+        NiTAbstractPoolAllocator__SDMShutdown();
         FreeMemoryList();
         FUN_00a5b660();
     }
@@ -279,21 +281,21 @@ extern char DAT_011f5b80;
 extern NiPoint3 DAT_011f426c;
 extern NiPoint3 DAT_011f4288;
 extern float DAT_011f4294;
-void __cdecl FUN_00a5b630();
+void __cdecl NiGlobalStringTable__SDMInit();
 void __cdecl InitTrigTables();
 void __cdecl FUN_00a9c2a0();
 void __cdecl FUN_00a927e0();
 void __cdecl FUN_00a5cef0();
-void __cdecl FUN_00a9a090();
+void __cdecl NiFogProperty__SDMInit();
 void __cdecl FUN_00a759e0();
 void __cdecl FUN_00a29680();
 void __cdecl FUN_00a81520();
-void __cdecl FUN_00a9ba80();
+void __cdecl NiShaderConstantMapEntry__SDMInit();
 void __cdecl FUN_00a6f450();
 void __cdecl FUN_00a6b410();
 void __cdecl CreateCullingProperty();
 void __cdecl CreateImageConverter();
-void __cdecl FUN_00a660a0();
+void __cdecl NiStream__SDMInit();
 void __cdecl BSPackedAdditionalGeometryData_CreateObject();
 void __cdecl NiAdditionalGeometryData_CreateObject();
 void __cdecl CreateNiAlphaAccumulator();
@@ -365,12 +367,12 @@ void __cdecl NiScreenSpaceCamera_CreateObject();
 void __cdecl NiScreenGeometry_CreateObject();
 void __cdecl NiScreenGeometryData_CreateObject();
 void __cdecl NiScreenPolygon_CreateObject();
-void __cdecl FUN_00a91290();
+void __cdecl NiScreenGeometryData__SDMInit();
 void __cdecl FUN_00a62110();
-void __cdecl FUN_00a7e930();
-void __cdecl FUN_00a8fd80();
+void __cdecl NiPoint3__SDMInit();
+void __cdecl NiSingleShaderMaterialLibrary__SDMInit();
 void __cdecl CreateSdmDerived();
-void __cdecl FUN_00a74da0();
+void __cdecl NiProcessorSpecificCode_OptimizeMainEngineForProcessor();
 extern const char DAT_0109df08;
 extern const char DAT_0109d378;
 extern const char DAT_0109f220;
@@ -454,23 +456,23 @@ void __cdecl InitializeGameSystems()
     if (DAT_011f5b80 == 0)
     {
         DAT_011f5b80 = 1;
-        FUN_00a5b630();
+        NiGlobalStringTable__SDMInit();
         InitTrigTables();
         FUN_00a9c2a0();
         FUN_00a927e0();
         FUN_00a5cef0();
-        FUN_00a9a090();
+        NiFogProperty__SDMInit();
         FUN_00a759e0();
         FUN_00a29680();
         FUN_00a81520();
-        FUN_00a9ba80();
+        NiShaderConstantMapEntry__SDMInit();
         FUN_00a6f450();
         FUN_00a6b410();
         CreateCullingProperty();
         DAT_011f4294 = 0.0f;
         DAT_011f4288 = DAT_011f426c;
         CreateImageConverter();
-        FUN_00a660a0();
+        NiStream__SDMInit();
         FUN_00a64900(&DAT_0109df08, BSPackedAdditionalGeometryData_CreateObject);
         FUN_00a64900(&DAT_0109d378, NiAdditionalGeometryData_CreateObject);
         FUN_00a64900(&DAT_0109f220, CreateNiAlphaAccumulator);
@@ -547,12 +549,12 @@ void __cdecl InitializeGameSystems()
         FUN_00a64900(&DAT_0109ef70, NiScreenGeometry_CreateObject);
         FUN_00a64900(&DAT_0109ef58, NiScreenGeometryData_CreateObject);
         FUN_00a64900(&DAT_0109ef48, NiScreenPolygon_CreateObject);
-        FUN_00a91290();
+        NiScreenGeometryData__SDMInit();
         FUN_00a62110();
-        FUN_00a7e930();
+        NiPoint3__SDMInit();
         FUN_00a29680();
-        FUN_00a8fd80();
+        NiSingleShaderMaterialLibrary__SDMInit();
         CreateSdmDerived();
-        FUN_00a74da0();
+        NiProcessorSpecificCode_OptimizeMainEngineForProcessor();
     }
 }

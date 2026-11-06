@@ -370,7 +370,7 @@ struct Out37
     Vec4 m_sub170;
 };
 
-void FUN_00d29830(const TimeInterval& info, hkpMotion** motions, int n, int z, void* out);
+void hkRigidMotionUtilApplyForcesAndBuildAccumulators(const TimeInterval& info, hkpMotion** motions, int n, int z, void* out);
 
 // The shared vehicle has no declaration for this velocity-output helper.
 struct VehicleVelocityVehicle : hkpVehicleInstance
@@ -383,7 +383,7 @@ void VehicleVelocityVehicle::FUN_00e37740(const TimeInterval& info, Out37& out)
 {
     hkpMotion* motions[1];
     motions[0] = &m_pEntity->m_pMotionState;
-    FUN_00d29830(info, motions, 1, 0, &out.unkd0);
+    hkRigidMotionUtilApplyForcesAndBuildAccumulators(info, motions, 1, 0, &out.unkd0);
 
     hkMotionState* ms = &m_pEntity->m_pMotionState.m_kMotionState;
     __declspec(align(16)) Vec4 linVel(_mm_sub_ps(ms->m_kSweptTransform.m_vCenterOfMass1.m_vComponents, ms->m_kSweptTransform.m_vCenterOfMass0.m_vComponents));

@@ -52,12 +52,13 @@ signed char& __thiscall BSSimpleArray<signed char>::GetElement(unsigned int inde
 struct FUN_006e08f0_shell
 {
     NavMeshInfo* m_pNavMeshInfo;
-    bool FUN_006e08f0(NavMeshPtr& aArg);
+    bool PathingLOSGrid_GetNavMesh(NavMeshPtr& aArg);
 };
 
 // Checks whether the object at offset 16 is non-null and, if so, delegates to its NavMeshInfo method with aArg.
 // @fnv 0x006e08f0
-bool FUN_006e08f0_shell::FUN_006e08f0(NavMeshPtr& aArg)
+// src: COMMUNITY 0x006e08f0
+bool FUN_006e08f0_shell::PathingLOSGrid_GetNavMesh(NavMeshPtr& aArg)
 {
     if (reinterpret_cast<void**>(this)[4] == 0)
         return false;
@@ -131,11 +132,12 @@ struct AX
 };
 struct FUN_006e1020_shell : AX
 {
-    FUN_006e1020_shell* __thiscall FUN_006e1020();
+    FUN_006e1020_shell* __thiscall BSSimpleArray_PathingLOSGridCell_1024_BSSimpleArray_PathingLOSGridCell_1024();
 };
 // Sets the object's vtable pointer to DAT_0106cef8, calls FUN_006b3eb0 with 0, 0, and returns this.
 // @fnv 0x006e1020
-FUN_006e1020_shell* __thiscall FUN_006e1020_shell::FUN_006e1020()
+// src: COMMUNITY 0x006e1020
+FUN_006e1020_shell* __thiscall FUN_006e1020_shell::BSSimpleArray_PathingLOSGridCell_1024_BSSimpleArray_PathingLOSGridCell_1024()
 {
     *reinterpret_cast<unsigned int**>(this) = reinterpret_cast<unsigned int*>(&DAT_0106cef8);
     FUN_006b3eb0(0, 0);
@@ -165,7 +167,7 @@ void __thiscall PathingLOSGridMap::Reset()
 {
     m_fCellSize = 0.0f;
     ClearMap();
-    FUN_006e0320(&m_1C, fRadius);
+    Initialize_006e0320(&m_1C, fRadius);
 }
 
 void* __cdecl operator new(unsigned int);
@@ -181,15 +183,16 @@ struct FUN_006e0e80
 struct FUN_006e0480
 {
     ~FUN_006e0480();
-    void FUN_006e0070(BGSLoadFormBuffer*);
+    void Lst0044_Data00D4_Arr0004_Load(BGSLoadFormBuffer*);
 };
 struct FUN_006e0d20_t
 {
-    void FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer);
+    void Lst0044_Data00D4_Load(BGSLoadFormBuffer* apLoadGameBuffer);
 };
 
 // @fnv 0x006e0d20
-void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x006e0d20
+void FUN_006e0d20_t::Lst0044_Data00D4_Load(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     unsigned int isaveGameCount = apLoadGameBuffer->ReadElementCount();
     for (unsigned int iloop = 0; iloop < isaveGameCount; iloop++)
@@ -198,7 +201,7 @@ void FUN_006e0d20_t::FUN_006e0d20(BGSLoadFormBuffer* apLoadGameBuffer)
         FUN_006e0480* ppathingLOSGrid = (FUN_006e0480*)new FUN_006e0e80;
         unsigned int inavmeshID;
         apLoadGameBuffer->ReadFormIdentifier(static_cast<void*>(&inavmeshID));
-        ppathingLOSGrid->FUN_006e0070(apLoadGameBuffer);
+        ppathingLOSGrid->Lst0044_Data00D4_Arr0004_Load(apLoadGameBuffer);
         if (inavmeshID == 0)
             bremove = true;
         if (!bremove)
@@ -413,7 +416,7 @@ struct NavMeshLookup
     NavMeshLookup* __thiscall FUN_00559450();
     unsigned char* __thiscall GetTriangleScore(NavMeshLookup* rhs);
     bool __thiscall FUN_0069ad00(NavMeshKey* key);
-    IndexList* __thiscall FUN_006911f0(unsigned int identifier);
+    IndexList* __thiscall NavMesh_GetTrianglesForGridCell(unsigned int identifier);
 };
 
 struct NavMeshKey
@@ -451,7 +454,7 @@ bool FUN_006df440_owner::InitFromLookup(NavMeshLookup* apLookup)
     if (!lookup->FUN_0069ad00(&key))
         return false;
 
-    IndexList* const indices = key.FUN_00559450()->FUN_006911f0(identifier);
+    IndexList* const indices = key.FUN_00559450()->NavMesh_GetTrianglesForGridCell(identifier);
     if (!indices)
         return false;
 
@@ -538,7 +541,8 @@ unsigned char __cdecl FUN_006d8a20(void* aP, float aF, Loc14* aOut);
 
 
 // @fnv 0x006e0320
-void PathingLOSGridMap::FUN_006e0320(void* aArg, float aF)
+// src: COMMUNITY 0x006e0320
+void PathingLOSGridMap::Initialize_006e0320(void* aArg, float aF)
 {
     reinterpret_cast<Sub4c*>(reinterpret_cast<char*>(this) + 0x4c)->AcquireLock();
     *reinterpret_cast<PathingLocation*>(&m_1C) = *static_cast<const PathingLocation*>(aArg);
@@ -806,7 +810,7 @@ float FUN_006e0b00_cls::GetRatio()
 
 struct FUN_0044edb0_shell
 {
-    void* __thiscall FUN_0044edb0();
+    void* __thiscall TESMain_GetThread();
 };
 struct FUN_00559450_shell
 {
@@ -833,7 +837,7 @@ struct FUN_006e0b50_cls
 bool __thiscall FUN_006e0b50_cls::FUN_006e0b50(void* aArg)
 {
     unsigned int value;
-    void* pHolder = ((FUN_0044edb0_shell*)aArg)->FUN_0044edb0();
+    void* pHolder = ((FUN_0044edb0_shell*)aArg)->TESMain_GetThread();
     if (pHolder == 0 || ((PathingLocation*)aArg)->GetShortValueAtOffset24() == 0xffff)
     {
         return false;
@@ -923,7 +927,7 @@ bool __thiscall Owner6df780::UpdateNavMeshResults(PathingLocation* a1, unsigned 
     NavMeshKey key;
     if (!lookup->FUN_0069ad00(&key))
         return false;
-    IndexList* list3 = key.FUN_00559450()->FUN_006911f0(identifier);
+    IndexList* list3 = key.FUN_00559450()->NavMesh_GetTrianglesForGridCell(identifier);
     if (valid)
     {
         if (a2)
@@ -1043,7 +1047,8 @@ unsigned int _data_011c16bc;
 int g_TES;
 
 // @fnv 0x006e0070
-void FUN_006e0480::FUN_006e0070(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x006e0070
+void FUN_006e0480::Lst0044_Data00D4_Arr0004_Load(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     unsigned int inavmeshID;
 

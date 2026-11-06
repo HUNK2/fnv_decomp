@@ -215,11 +215,12 @@ struct FUN_00d61260_Class
     unsigned short m_iElementCount;
 
     void FUN_00d610e0();
-    void* FUN_00d61260(int flags);
+    void* hkServerProcessHandler_Destroy(int flags);
 };
 
 // @fnv 0x00d61260
-void* FUN_00d61260_Class::FUN_00d61260(int flags)
+// src: COMMUNITY 0x00d61260
+void* FUN_00d61260_Class::hkServerProcessHandler_Destroy(int flags)
 {
     FUN_00d610e0();
 

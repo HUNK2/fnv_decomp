@@ -164,7 +164,7 @@ struct Edges
 };
 struct Result4 : hkVector4
 {
-    __declspec(noalias) void FUN_004b4ab0(const Edges* edges, const Tri* tri);
+    __declspec(noalias) void hkVector4_setRotatedInverseDir(const Edges* edges, const Tri* tri);
 };
 struct Shape
 {

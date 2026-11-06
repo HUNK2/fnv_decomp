@@ -16,7 +16,8 @@ struct P03MM
 extern P03MM g_memoryManager;
 
 // @fnv 0x00a72510
-void* __stdcall FUN_00a72510(unsigned int size)
+// src: COMMUNITY 0x00a72510
+void* __stdcall NiAdditionalGeometryData_NiAGDDataBlock_AllocateBuffer(unsigned int size)
 {
     if (size)
         return g_memoryManager.Allocate(size);
@@ -220,11 +221,12 @@ class DataBlockStub
     unsigned char m_bLoadComplete;
     unsigned char m_bOld;
 
-    void FUN_00a72eb0(NiStream& kStream, int a2, int a3, int a4, unsigned short m_usPassCountLocal);
+    void NiAdditionalGeometryData_NiAGDDataBlock_LoadBinary(NiStream& kStream, int a2, int a3, int a4, unsigned short m_usPassCountLocal);
 };
 
 // @fnv 0x00a72eb0
-void DataBlockStub::FUN_00a72eb0(NiStream& kStream, int a2, int a3, int a4, unsigned short m_usPassCountLocal)
+// src: COMMUNITY 0x00a72eb0
+void DataBlockStub::NiAdditionalGeometryData_NiAGDDataBlock_LoadBinary(NiStream& kStream, int a2, int a3, int a4, unsigned short m_usPassCountLocal)
 {
     LoadBinary(kStream, m_uiSize);
     m_bOld = m_usPassCountLocal < 0x40;
@@ -289,13 +291,14 @@ struct FUN_00a730e0_cls
     unsigned int m_pRayCursor;
     SceneElem* m_data;
 
-    void FUN_00a730e0(unsigned int newCount);
+    void NiAdditionalGeometryData_SetDataStreamCount(unsigned int newCount);
 };
 
 extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int n);
 
 // @fnv 0x00a730e0
-void FUN_00a730e0_cls::FUN_00a730e0(unsigned int newCount)
+// src: COMMUNITY 0x00a730e0
+void FUN_00a730e0_cls::NiAdditionalGeometryData_SetDataStreamCount(unsigned int newCount)
 {
     SceneElem* oldData = m_data;
     SceneElem* newData = new SceneElem[newCount];

@@ -19,8 +19,8 @@
 #include "../../../../include/Setting.h"
 #include "../../../../include/BSSoundHandle.h"
 extern Actor* g_thePlayer;
-bool FUN_00754d90(Actor* a);
-int __cdecl FUN_00755260();
+bool CompanionWheelMenu_GetShouldCompanionWheelOpen(Actor* a);
+int __cdecl return_1075();
 extern "C" float __cdecl LogFloat(float);
 float FUN_00755660(float value);
 extern "C" void __cdecl CloseMenuAndRefresh(int);
@@ -52,7 +52,7 @@ extern short DAT_011d8a5e;
 extern short DAT_011d8a74;
 struct MenuFactory
 {
-    Menu* FUN_00a03c90();
+    Menu* Tile_GetMenu();
 };
 MenuFactory* __cdecl FUN_00a09030(int id);
 int __cdecl OpenCompanionMenu(int value);
@@ -167,7 +167,7 @@ extern CRandom_757690 DAT_011d2178;
 extern double DAT_01012060;
 extern double DAT_01017b70;
 unsigned __cdecl FUN_00ec6130(int);
-unsigned __cdecl FUN_00457fe0();
+unsigned __cdecl Cmd_GetSessionTime_Execute();
 namespace ScriptAnimation {
 struct Reference;
 struct Idle;
@@ -179,7 +179,7 @@ struct ResultList
     ~ResultList();
     void FUN_00ad8e60(void (*)(unsigned int), unsigned int);
 };
-void FUN_005790f0(unsigned int);
+void TESObjectREFR_SayToCallBack(unsigned int);
 struct Sequence
 {
     unsigned int FUN_0084e3a0();
@@ -938,7 +938,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
                     if (chosen)
                         source->FUN_0057ace0(chosen->FUN_0084e3a0());
                     ResultList events = reinterpret_cast<Reference*>(actor)->PlayActor(idleVal, actor, immediateFlag4, priorityFlag, 0, 0);
-                    events.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+                    events.FUN_00ad8e60(TESObjectREFR_SayToCallBack, source->FUN_0084e3a0());
                     return true;
                 }
                 if (DAT_011dea3c->FUN_0094df60() || reinterpret_cast<Process*>(actor->FUN_008d8520())->FUN_0045cd60() != 0 ||
@@ -975,7 +975,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
             if (chosen2)
                 source->FUN_0057ace0(chosen2->FUN_0084e3a0());
             ResultList events7 = created->Play(idleVal, created, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            events7.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+            events7.FUN_00ad8e60(TESObjectREFR_SayToCallBack, source->FUN_0084e3a0());
             delete created;
         }
         else if (source->GetNode() || (source->IsSpecial() && source->FUN_005e3fa0()->GetNode()))
@@ -985,7 +985,7 @@ bool Cmd_Say_Execute(void* paramInfo, void* scriptData, Reference* source, void*
             if (chosen3)
                 source->FUN_0057ace0(chosen3->FUN_0084e3a0());
             ResultList events3 = source->Play(idleVal, 0, immediateFlag4, priorityFlag, 0, 0, forceFlag4);
-            events3.FUN_00ad8e60(FUN_005790f0, source->FUN_0084e3a0());
+            events3.FUN_00ad8e60(TESObjectREFR_SayToCallBack, source->FUN_0084e3a0());
         }
     }
     DAT_011cd378.FUN_0045ce80(previous);

@@ -23,9 +23,9 @@ class Conversation
     unsigned short FUN_0083bb30();
     void SaveConversation();
     void LoadFromSave();
-    void FUN_0083c220();
-    void FUN_0083c270(BGSSaveFormBuffer*);
-    void FUN_0083c330(BGSLoadFormBuffer*);
+    void InitLoadGameTES_0083c220();
+    void SaveGameBGS_0083c270(BGSSaveFormBuffer*);
+    void LoadGameBGS_0083c330(BGSLoadFormBuffer*);
     void FUN_0083c420(BGSLoadFormBuffer*);
     void FUN_0083c8a0(DialogueItem*);
 };
@@ -41,7 +41,8 @@ bool DialogueItem::SelectDefaultResponseList()
 void __fastcall ResolveDialogueItemSpeaker(DialogueItem*);
 // Resolves each dialogue item speaker until the list is empty or ends.
 // @fnv 0x0083c220
-void Conversation::FUN_0083c220()
+// src: COMMUNITY 0x0083c220
+void Conversation::InitLoadGameTES_0083c220()
 {
     BSSimpleList<DialogueItem*>* current = &m_kDialogueItems;
     while (current && !current->IsEmpty())
@@ -208,7 +209,8 @@ DialogueItem* Conversation::FUN_0083bac0(unsigned short aiIndex)
 }
 
 // @fnv 0x0083c330
-void Conversation::FUN_0083c330(BGSLoadFormBuffer* buffer)
+// src: COMMUNITY 0x0083c330
+void Conversation::LoadGameBGS_0083c330(BGSLoadFormBuffer* buffer)
 {
     short count;
     unsigned int currentItem = buffer->ReadElementCount();
@@ -306,7 +308,8 @@ void __fastcall SaveDialogueItemToBuffer(DialogueItem*, DialogueSaveBufferArgume
 
 // Begins a chunk, saves each non-null item in the node list, ends the chunk, then saves the current node's item index (or -1).
 // @fnv 0x0083c270
-void Conversation::FUN_0083c270(BGSSaveFormBuffer* pkBuffer)
+// src: COMMUNITY 0x0083c270
+void Conversation::SaveGameBGS_0083c270(BGSSaveFormBuffer* pkBuffer)
 {
     int iCount7 = 0;
     unsigned int uiChunk = pkBuffer->FUN_00865f20();
@@ -333,7 +336,7 @@ extern "C" char DAT_0101536c;
 extern "C" char DAT_010153a0;
 extern "C" char DAT_0107db20;
 void __cdecl FUN_0040fbe0(const char* fmt, ...);
-void __cdecl FUN_005b5e40(const char* fmt, const char* file, int line);
+void __cdecl Warning_005b5e40(const char* fmt, const char* file, int line);
 
 // @fnv 0x0083bc80
 void Conversation::SaveConversation()
@@ -386,7 +389,7 @@ void Conversation::SaveConversation()
         unsigned int uiEnd7 = g_TESSaveLoadGame->GetTimeStamp();  // slot -0x34
         unsigned int uiStart2 = (unsigned int)pSizeTmp;    // slot -0x38
         if (uiEnd7 > uiStart2 + 0xffff)
-            FUN_005b5e40(&DAT_01015318, &DAT_0107db20, 0xe1);
+            Warning_005b5e40(&DAT_01015318, &DAT_0107db20, 0xe1);
         *pSizeTmp = (short)(uiEnd7 - uiStart2);
     }
 }

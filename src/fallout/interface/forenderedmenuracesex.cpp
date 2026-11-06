@@ -32,7 +32,8 @@ struct Animation
 extern PlayerCharacter* g_thePlayer;
 void _FUN_007037e0();
 // @fnv 0x007fe4e0
-bool Menu::FUN_007fe4e0()
+// src: COMMUNITY 0x007fe4e0
+bool Menu::FORenderedMenuRaceSex_OnIdle()
 {
     if (!IsUnk28Set())
     {
@@ -149,10 +150,11 @@ struct Effect
     float secondary;
     float FUN_00507e10();
     NiColorA GetValueAtC0();
-    void FUN_007fe9c0(void*, void*, void*);
+    void FORenderedMenuRaceSex_DoEffect(void*, void*, void*);
 };
 // @fnv 0x007fe9c0
-void Effect::FUN_007fe9c0(void* apArg1, void* apArg2, void* unused)
+// src: COMMUNITY 0x007fe9c0
+void Effect::FORenderedMenuRaceSex_DoEffect(void* apArg1, void* apArg2, void* unused)
 {
     bool active = true;
     active = false;
@@ -184,7 +186,7 @@ void Effect::FUN_007fe9c0(void* apArg1, void* apArg2, void* unused)
         g_011ae608 = 0.0f;
         g_01200828 = -1.0f;
     }
-    FUN_004e3270()->FUN_00b97550(30, FUN_0043c4b0(), apArg1, apArg2, 0, 1);
+    FUN_004e3270()->ImageSpaceManager_RenderEffect(30, FUN_0043c4b0(), apArg1, apArg2, 0, 1);
 }
 
 struct S_007fb5a0_Point3
@@ -289,7 +291,7 @@ struct S_007fe560_Upd
 struct S_007fe560_Light
 {
     void SetEffectColor(const S_007fe560_Pt3& c);
-    void FUN_004bc280(const S_007fe560_Pt3& c);
+    void NiLight_SetAmbientColor(const S_007fe560_Pt3& c);
     void FUN_0050c630(float f);
     void FUN_0050c660(float f);
     void FUN_0050c690(float f);
@@ -300,14 +302,14 @@ struct S_007fe560_Light
 struct S_007fe560_Base
 {
     bool FUN_007fc400(const char* name, S_007fe560_Shadow* ssn);
-    S_007fe560_Light* FUN_006838b0();
-    void FUN_006b0570(S_007fe560_Pt3* c);
+    S_007fe560_Light* NiAVObject_GetCollisionObject();
+    void FORenderedMenu_SetScreenLightColor(S_007fe560_Pt3* c);
     void SetIntensity(float f);
     void FUN_007f99b0(float f);
 };
 S_007fe560_Shadow* __cdecl FUN_00450b80(int n);
 extern float DAT_01017b78;
-void __cdecl FUN_005b5e40(const char* msg);
+void __cdecl Warning_005b5e40(const char* msg);
 
 struct FUN_007fe560_cls : S_007fe560_Base
 {
@@ -319,10 +321,10 @@ void FUN_007fe560_cls::InitTerminalLight()
 {
     if (!FUN_007fc400("Omni01", FUN_00450b80(1)))
     {
-        FUN_005b5e40("MENUS: Failed to create terminal light.  Terminal will only receive ambient light.");
+        Warning_005b5e40("MENUS: Failed to create terminal light.  Terminal will only receive ambient light.");
         return;
     }
-    S_007fe560_Light* light = FUN_006838b0();
+    S_007fe560_Light* light = NiAVObject_GetCollisionObject();
     if (light)
     {
         S_007fe560_Pt3 kPos;
@@ -331,14 +333,14 @@ void FUN_007fe560_cls::InitTerminalLight()
         S_007fe560_Pt3 kFullColor;
         S_007fe560_Upd kNewData;
         light->SetEffectColor(*kAmbient.FUN_00416870(0.0f, 0.0f, 0.0f));
-        light->FUN_004bc280(*kDiffuseColor.FUN_00416870(0.0f, 0.0f, 0.0f));
+        light->NiLight_SetAmbientColor(*kDiffuseColor.FUN_00416870(0.0f, 0.0f, 0.0f));
         light->FUN_0050c630(0.0f);
         light->FUN_0050c660(0.0f);
         light->FUN_0050c690(0.0f);
         light->FUN_0050dd20(1.0f);
         light->FUN_0050dd50(*kPos.FUN_00416870(DAT_01017b78, 0.0f, 0.0f));
         kFullColor.FUN_00416870(1.0f, 1.0f, 1.0f);
-        FUN_006b0570(&kFullColor);
+        FORenderedMenu_SetScreenLightColor(&kFullColor);
         SetIntensity(1.0f);
         FUN_007f99b0(1.0f);
         kNewData.FUN_0043d410(0.0f, false, false);
@@ -386,7 +388,7 @@ struct GlobalObject_00e98f20
 
 
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 
 struct PickCamera
 {
@@ -404,7 +406,7 @@ struct MenuTile
 // @fnv 0x007fe6c0
 bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
 {
-    InterfaceManager* pInterface = FUN_004b7210();
+    InterfaceManager* pInterface = InterfaceManager_GetSingleton();
     if (abDown)
     {
         bool bReady = true;
@@ -444,11 +446,11 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
         }
     }
     // The approved base header still names this virtual slot v6.
-    __if_exists(FORenderedMenu::FUN_007fb790)
+    __if_exists(FORenderedMenu::Pick_007fb790)
     {
-        return FORenderedMenu::FUN_007fb790(abDown, a2, a3);
+        return FORenderedMenu::Pick_007fb790(abDown, a2, a3);
     }
-    __if_not_exists(FORenderedMenu::FUN_007fb790)
+    __if_not_exists(FORenderedMenu::Pick_007fb790)
     {
         return FORenderedMenu::v6(abDown, a2, a3);
     }
@@ -639,11 +641,12 @@ struct Timer
     float unk160;
     float unk164;
     float unk168;
-    void FUN_007fec30(float now);
+    void FORenderedMenuRaceSex_UpdateFakeDistort(float now);
 };
 
 // @fnv 0x007fec30
-void Timer::FUN_007fec30(float now)
+// src: COMMUNITY 0x007fec30
+void Timer::FORenderedMenuRaceSex_UpdateFakeDistort(float now)
 {
     float delta = now - unk15c;
     unk160 = delta / unk164;
@@ -767,7 +770,7 @@ struct xCam : xAV
     static void* operator new(unsigned int);
     static void operator delete(void*);
     void FUN_00712e60(const NiColorA&);
-    void FUN_00733fd0(float);
+    void NiCamera_SetMinNearPlaneDist(float);
     void FUN_00507700(float);
     void FUN_00a6faf0(const ::NiFrustum&);
     int m_auiShapeKeys[(0x114 - 4) / 4];
@@ -825,7 +828,7 @@ struct xT2
 };
 struct xT1
 {
-    xT2* FUN_00a03c90();
+    xT2* Tile_GetMenu();
 };
 
 struct xFarObj
@@ -938,15 +941,15 @@ struct xRenderedMenu
     int m_15c, m_160;
     float m_164, m_168;
     void FUN_007f7fb0(const NiColorA&);
-    xT1* FUN_009611e0();
+    xT1* NiAVObject_GetParent();
     void FUN_004dc540(xAV*);
     void FUN_007fae70(int);
     void FUN_00810530(bool);
-    void FUN_008d7f00(float);
+    void LowProcess_SetEssentialDownTimer(float);
     int FUN_009b6600();
     void SetGo(xCam*);
     void SetScreen(xAV*);
-    xAV* FUN_007fa950();
+    xAV* SkyObject_GetNiNode();
     void InitTerminalLight();
     void FUN_007fc150();
     void Init();
@@ -966,7 +969,7 @@ void xRenderedMenu::Init()
     xAV* qdqWL = 0;
     if (!m_f8.FUN_00559450())
     {
-        qdqWL = xg_loader_11c3b3c->FUN_00447080(FUN_009611e0()->FUN_00a03c90()->FUN_007fd640(), 0, true, false, false,
+        qdqWL = xg_loader_11c3b3c->FUN_00447080(NiAVObject_GetParent()->Tile_GetMenu()->FUN_007fd640(), 0, true, false, false,
                                                 false);
         m_f8.FUN_0066b0d0(qdqWL);
         xF4b7660(qdqWL);
@@ -992,7 +995,7 @@ void xRenderedMenu::Init()
     m_f4.FUN_0066b0d0(qdqWL->GetObjectByName(xFixedStr(s_szBodyGlow)));
     m_150 = 0.0f;
     m_154 = 0.0f;
-    FUN_008d7f00(0.0f);
+    LowProcess_SetEssentialDownTimer(0.0f);
     xMat3 qpqRa;
     xMat3 qjXCGmG;
     qpqRa.FUN_0043f850(1.57f);
@@ -1019,7 +1022,7 @@ void xRenderedMenu::Init()
     qbGYp.SetElement(1, 1.0f, 0.0f, 0.0f);
     qbGYp.SetElement(2, 0.0f, 1.0f, 0.0f);
     qSVM->FUN_0043fa80(xg_m_11a9448);
-    qSVM->FUN_00733fd0(1.0f);
+    qSVM->NiCamera_SetMinNearPlaneDist(1.0f);
     ::NiFrustum qnuVZg;
     qnuVZg.Init(false);
     qnuVZg.m_fFarPlane = xF45c670()->GetFar();
@@ -1043,8 +1046,8 @@ void xRenderedMenu::Init()
     else if (qSuoDt->GetNode())
         SetScreen(qSuoDt->GetNode()->FUN_0043b4a0(0)->GetGeom());
     FUN_004dc540(qdqWL);
-    FUN_007fa950()->FUN_00a5b230(xF40df90());
-    FUN_007fa950()->FUN_00439410(new xAlpha());
+    SkyObject_GetNiNode()->FUN_00a5b230(xF40df90());
+    SkyObject_GetNiNode()->FUN_00439410(new xAlpha());
     float qzzQr = qdqWL->FUN_0043d450()->FUN_0084d030() * 3.0;
     void* qpTd = xF450b80(1)->FUN_00b5ca70(qdqWL, qzzQr);
     if (!qpTd)
@@ -1068,7 +1071,7 @@ namespace fnv_007fe1f0 {
 struct RtTexture;
 struct RtTarget
 {
-    RtTexture* FUN_00b6e110(int iFlags, int a2, int a3, int a4);
+    RtTexture* BSTextureManager_BorrowRenderedTexture(int iFlags, int a2, int a3, int a4);
     void FUN_00b6da10();
 };
 struct RtRenderer
@@ -1121,7 +1124,7 @@ struct RtRenderer
     virtual void SetBorderColor(const NiColorA& kColor);
 };
 RtRenderer* __cdecl FUN_0043c4b0();
-RtTarget* __stdcall FUN_004a0ea0(void* pkObject);
+RtTarget* __stdcall BSShaderManager_GetTextureManager(void* pkObject);
 
 template <class T> struct RtPtr
 {
@@ -1145,19 +1148,19 @@ struct RtAccum
     int unk00[0xc4 / 4];
     RtAccum(int iUnk);
     ~RtAccum();
-    void FUN_004a0fd0(RtTexture* pkTexture);
-    void FUN_00c4f270(int i);
-    void FUN_00c4f2d0();
+    void BSCullingProcess_SetAccumulator(RtTexture* pkTexture);
+    void BSCullingProcess_PushCullMode(int i);
+    void BSCullingProcess_PopCullMode();
 };
 
 struct RtSource
 {
     RtTexture* FUN_007fd640();
 };
-RtSource* __cdecl FUN_004b7210();
-void __cdecl FUN_00b6b8d0(int i, void* pkData);
+RtSource* __cdecl InterfaceManager_GetSingleton();
+void __cdecl BSRenderedTexture_StartOffscreen(int i, void* pkData);
 void* __cdecl FUN_00450b80(int i);
-void __cdecl FUN_00b6bee0(void* pkNode, void* pkCamera, RtAccum* pkAccum);
+void __cdecl BSShaderUtil_AccumulateScene(void* pkNode, void* pkCamera, RtAccum* pkAccum);
 void __cdecl FUN_00b6c0d0(void* pkNode, RtTexture* pkTexture, int i);
 void __cdecl FUN_00b6b790();
 
@@ -1168,18 +1171,19 @@ struct RenderToTextureImpl
     RtPtr<RtNode> m_spScene;
 
     const NiColorA& FUN_00503650();
-    void FUN_007fba00(int a1, int a2, RtTexture* pkTexture);
-    void FUN_007fe1f0(int a1, int a2, int a3);
+    void Render_007fba00(int a1, int a2, RtTexture* pkTexture);
+    void FORenderedMenuRaceSex_Draw(int a1, int a2, int a3);
 };
 
 // Sets a render target and background color, processes m_spScene through render calls, then passes the target to FUN_007fba00.
 // @fnv 0x007fe1f0
-void RenderToTextureImpl::FUN_007fe1f0(int aiUnk, int aiUnk2, int aiUnk3)
+// src: COMMUNITY 0x007fe1f0
+void RenderToTextureImpl::FORenderedMenuRaceSex_Draw(int aiUnk, int aiUnk2, int aiUnk3)
 {
     bool bOverrideTmp = false;
     bOverrideTmp = true;
     RtRenderer* pkRendererY = FUN_0043c4b0();
-    RtPtr<RtTexture> spTarget5(FUN_004a0ea0(FUN_0043c4b0())->FUN_00b6e110(0x30, 0, 0, 0));
+    RtPtr<RtTexture> spTarget5(BSShaderManager_GetTextureManager(FUN_0043c4b0())->BSTextureManager_BorrowRenderedTexture(0x30, 0, 0, 0));
     NiColorA kKBorder(0.0f, 0.0f, 0.0f, 0.0f);
     NiColorA kBackgroundVal2(0.0f, 0.0f, 0.0f, 0.0f);
     kBackgroundVal2 = FUN_00503650();
@@ -1188,19 +1192,19 @@ void RenderToTextureImpl::FUN_007fe1f0(int aiUnk, int aiUnk2, int aiUnk3)
         kBackgroundVal2 = NiColorA(0.125f, 0.161f, 0.141f, 1.0f);
     pkRendererY->SetBorderColor(kKBorder);
     pkRendererY->SetBackgroundColor(kBackgroundVal2);
-    FUN_00b6b8d0(7, spTarget5.FUN_00559450()->FUN_00b6b260());
+    BSRenderedTexture_StartOffscreen(7, spTarget5.FUN_00559450()->FUN_00b6b260());
     RtAccum kAccumRes(0);
-    RtPtr<RtTexture> spSource9(FUN_004b7210()->FUN_007fd640());
-    kAccumRes.FUN_004a0fd0(spSource9.FUN_00559450());
-    kAccumRes.FUN_00c4f270(1);
-    FUN_00b6bee0(m_spScene.FUN_00559450(), FUN_00450b80(3), &kAccumRes);
+    RtPtr<RtTexture> spSource9(InterfaceManager_GetSingleton()->FUN_007fd640());
+    kAccumRes.BSCullingProcess_SetAccumulator(spSource9.FUN_00559450());
+    kAccumRes.BSCullingProcess_PushCullMode(1);
+    BSShaderUtil_AccumulateScene(m_spScene.FUN_00559450(), FUN_00450b80(3), &kAccumRes);
     FUN_00b6c0d0(m_spScene.FUN_00559450(), spSource9.FUN_00559450(), 0);
-    kAccumRes.FUN_00c4f2d0();
-    kAccumRes.FUN_004a0fd0(0);
+    kAccumRes.BSCullingProcess_PopCullMode();
+    kAccumRes.BSCullingProcess_SetAccumulator(0);
     spSource9.FUN_0066b0d0(0);
     FUN_00b6b790();
-    FUN_007fba00(aiUnk, 0, spTarget5.FUN_00559450());
-    FUN_004a0ea0(spTarget5.FUN_00559450())->FUN_00b6da10();
+    Render_007fba00(aiUnk, 0, spTarget5.FUN_00559450());
+    BSShaderManager_GetTextureManager(spTarget5.FUN_00559450())->FUN_00b6da10();
     spTarget5.FUN_0066b0d0(0);
 }
 }  // namespace fnv_007fe1f0

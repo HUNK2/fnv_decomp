@@ -34,8 +34,8 @@ void FalloutAudioMedia::EndMediaUpdate()
 void FalloutAudioMedia::PlayMedia(BGSMusicType* musicType)
 {
     if (musicType)
-        PlayMedia(MEDIATYPE_MEDIA_SPECIAL, musicType->GetRandomEntry(), 1000, musicType->FUN_00830050(), false,
-                  musicType->FUN_00830080(), 0);
+        PlayMedia(MEDIATYPE_MEDIA_SPECIAL, musicType->GetRandomEntry(), 1000, musicType->GetLooping(), false,
+                  musicType->GetAttenuation(), 0);
 }
 
 // @fnv 0x00830680
@@ -152,7 +152,7 @@ extern double _gModifierZero;
 extern double DAT_01032980;
 extern float const g_011c5aa8_arg1;
 
-float __cdecl FUN_0082ffd0(float);
+float __cdecl log_0082ffd0(float);
 float __cdecl FUN_004dd130(float, float);
 
 // Computes a volume from the media type's setting or BSAudio value, applies attenuation and dB clamping, then scales by the BSAudio factor and clamps the result.
@@ -172,10 +172,10 @@ float __cdecl ComputeAttenuatedVolume(int aeMediaType, float attenuation)
     }
     else
     {
-        vol = ((BSAudio*)TESLandTexture::GetSoundSystem())->FUN_00ad7ab0();
+        vol = ((BSAudio*)TESLandTexture::GetSoundSystem())->GetMusicVolume_00ad7ab0();
     }
 
-    fVolumeDb = (float)(FUN_0082ffd0(vol) * DAT_01073490 + attenuation * g_d100);
+    fVolumeDb = (float)(log_0082ffd0(vol) * DAT_01073490 + attenuation * g_d100);
     if (fVolumeDb < -10000.0)
         fVolumeDb = DAT_0107cc20;
     else if (fVolumeDb > _gModifierZero)
@@ -195,7 +195,8 @@ float __cdecl ComputeAttenuatedVolume(int aeMediaType, float attenuation)
 float __cdecl FUN_0082fff0(float);
 
 // @fnv 0x0082ffd0
-float FUN_0082ffd0(float _X)
+// src: COMMUNITY 0x0082ffd0
+float log_0082ffd0(float _X)
 {
     return FUN_0082fff0(_X);
 }
@@ -213,20 +214,22 @@ float __cdecl FUN_0082fff0(float value)
 void __cdecl PlayMusicType(BGSMusicType* aiMusicType)
 {
     if (aiMusicType)
-        FalloutAudioMedia::PlayMedia(MEDIATYPE_MEDIA_SPECIAL, aiMusicType->GetRandomEntry(), 1000, aiMusicType->FUN_00830050(),
-                                     false, aiMusicType->FUN_00830080(), 0);
+        FalloutAudioMedia::PlayMedia(MEDIATYPE_MEDIA_SPECIAL, aiMusicType->GetRandomEntry(), 1000, aiMusicType->GetLooping(),
+                                     false, aiMusicType->GetAttenuation(), 0);
 }
 
 // Returns true if the float at offset 0x24 is greater than zero.
 // @fnv 0x00830050
-bool BGSMusicType::FUN_00830050()
+// src: COMMUNITY 0x00830050
+bool BGSMusicType::GetLooping()
 {
     return fVolumeScale > 0.0f ? true : false;
 }
 
 // Returns the float at offset 0x24 negated when it is greater than zero, otherwise returns it unchanged.
 // @fnv 0x00830080
-float BGSMusicType::FUN_00830080()
+// src: COMMUNITY 0x00830080
+float BGSMusicType::GetAttenuation()
 {
     return (fVolumeScale > 0.0)
                ? -fVolumeScale
@@ -277,7 +280,8 @@ void __cdecl StartFade(int aiFadeTime, int aeType)
 }
 
 // @fnv 0x00830750
-bool __cdecl FUN_00830750(unsigned long aeType, bool abIncludeFading)
+// src: COMMUNITY 0x00830750
+bool __cdecl FalloutAudioMedia_MediaIsPlaying(unsigned long aeType, bool abIncludeFading)
 {
     GetCurrentThreadId();
     bool ret = false;
@@ -314,7 +318,8 @@ extern int DAT_011dd358;
 extern int DAT_011dd36c;
 
 // @fnv 0x00830970
-int __cdecl FUN_00830970(int auiThreadId)
+// src: COMMUNITY 0x00830970
+int __cdecl FalloutAudioMedia_MediaGetSubDuration(int auiThreadId)
 {
     GetCurrentThreadId();
     int result = 0;
@@ -339,7 +344,8 @@ extern unsigned long DAT_011dd350;
 extern unsigned long DAT_011dd36c;
 
 // @fnv 0x00830a20
-unsigned long __cdecl FUN_00830a20(unsigned long param_1)
+// src: COMMUNITY 0x00830a20
+unsigned long __cdecl FalloutAudioMedia_MediaGetPosition(unsigned long param_1)
 {
     GetCurrentThreadId();
     unsigned long result = 0;
@@ -387,7 +393,8 @@ extern int DAT_011dd36c;
 extern unsigned long DAT_011dd31c;
 
 // @fnv 0x008304f0
-void FUN_008304f0()
+// src: COMMUNITY 0x008304f0
+void FalloutAudioMedia_MediaStop()
 {
     GetCurrentThreadId();
     if (DAT_011dd36c == 0)
@@ -434,7 +441,8 @@ void ResetThreadFlags()
 extern char DAT_011dd312;
 
 // @fnv 0x00830640
-void __cdecl FUN_00830640()
+// src: COMMUNITY 0x00830640
+void __cdecl FalloutAudioMedia_MediaMenuPause()
 {
     GetCurrentThreadId();
     DAT_011dd312 = 1;
@@ -446,7 +454,8 @@ extern int DAT_011dd320;
 extern int DAT_011dd354;
 
 // @fnv 0x008308c0
-unsigned int FUN_008308c0(unsigned long aeType)
+// src: COMMUNITY 0x008308c0
+unsigned int FalloutAudioMedia_MediaGetDuration(unsigned long aeType)
 {
     GetCurrentThreadId();
     unsigned int ret = 0;
@@ -472,7 +481,7 @@ struct FUN_0082f950_shell
 };
 
 extern void __stdcall FUN_00ec5fce(void*, unsigned int, unsigned int, void (FUN_0082f950_shell::*)());
-extern void __cdecl FUN_00401030(void*);
+extern void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 // Destructor that runs cleanup, optionally frees the object (and its 4-byte header when flags bit 2 is set), and returns the object pointer.
 // @fnv 0x0082f950
@@ -482,13 +491,13 @@ void* FUN_0082f950_shell::ScalarDeletingDestructor(unsigned int flags)
     {
         FUN_00ec5fce(this, 0x4c, ((unsigned int*)this)[-1], &FUN_0082f950_shell::FUN_0082f6c0);
         if ((flags & 1) != 0)
-            FUN_00401030((char*)this - 4);
+            FormHeapFreeAndLog_00401030((char*)this - 4);
         return (char*)this - 4;
     }
 
     FUN_0082f6c0();
     if ((flags & 1) != 0)
-        FUN_00401030(this);
+        FormHeapFreeAndLog_00401030(this);
     return this;
 }
 
@@ -527,12 +536,12 @@ class MediaLocationRecord
 class AcousticEntry
 {
   public:
-    MediaLocationRecord* FUN_004f35b0();
+    MediaLocationRecord* TESRegionDataList_Find();
 };
 class AcousticSpace
 {
   public:
-    AcousticEntry* FUN_009611e0(int);
+    AcousticEntry* NiAVObject_GetParent(int);
 };
 class AcousticSpaceOwner
 {
@@ -697,7 +706,7 @@ void UpdateMediaLocation()
     SetEvent(DAT_011dd3b0);
     if (DAT_011dd313)
         return;
-    if (FUN_00830750(6, true) || FUN_00830750(8, true))
+    if (FalloutAudioMedia_MediaIsPlaying(6, true) || FalloutAudioMedia_MediaIsPlaying(8, true))
     {
         if (DAT_011dd374)
             DAT_011dd374 = 0;
@@ -724,12 +733,12 @@ void UpdateMediaLocation()
             DAT_011dd374 = 0;
             if (DAT_011dcfb4 && DAT_011dcfb4->FUN_006733e0())
             {
-                if (FUN_00830750(2, true))
+                if (FalloutAudioMedia_MediaIsPlaying(2, true))
                     StartFade(1000, 2);
-                if (FUN_00830750(3, true))
+                if (FalloutAudioMedia_MediaIsPlaying(3, true))
                     StartFade(1000, 3);
                 AcousticSpace* location = DAT_011dcfb4->FUN_006733e0();
-                MediaLocationRecord* space = DAT_011dd380 ? DAT_011dd380 : location->FUN_009611e0(7)->FUN_004f35b0();
+                MediaLocationRecord* space = DAT_011dd380 ? DAT_011dd380 : location->NiAVObject_GetParent(7)->TESRegionDataList_Find();
                 if (space)
                 {
                     if (combat && !DAT_011dd378)
@@ -751,7 +760,7 @@ void UpdateMediaLocation()
         {
             if (g_thePlayer->IsInCombat(false))
                 StartFade(1000, 0);
-            else if (FUN_00830750(0, true) && !FUN_00830ad0() && !DAT_011dd374)
+            else if (FalloutAudioMedia_MediaIsPlaying(0, true) && !FUN_00830ad0() && !DAT_011dd374)
             {
                 StartFade(5000, 4);
                 StartFade(5000, 5);

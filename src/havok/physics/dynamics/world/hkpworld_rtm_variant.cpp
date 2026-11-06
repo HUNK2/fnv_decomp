@@ -314,7 +314,7 @@ struct FUN_00caa840_shell {
 };
 void __stdcall FUN_00c90e40(void* self, int arg);
 struct FUN_00cf86e0_class {
-    void FUN_00cf86e0(float);
+    void hkpSimulation_setFrameTimeMarker(float);
 };
 void __fastcall hkpWorld_setFrameTimeMarker(void* p, int edx, float afValue);
 struct RefObj { void FUN_00c90510(); };
@@ -389,7 +389,7 @@ struct S_00cf7540 {
     void __thiscall AddEntry(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
 };
 struct FUN_00c91170_Class {
-    void FUN_00c91170(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
+    void hkpWorld_addBodyOperation(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
 };
 void __cdecl hkReferencedObject_unlockAll();
 struct FUN_00c91190_Class {
@@ -481,7 +481,7 @@ struct FUN_00c91060_Class {
     void* m_iWordAt00;
     void* m_iWordAt04;
     FUN_00cf86f0_Class* m_8;
-    void __thiscall FUN_00c91060();
+    void __thiscall hkpWorld_isSimulationAtMarker();
 };
 struct Inner
 {
@@ -562,7 +562,7 @@ struct FUN_00c91270_cls
     int unk54;
     int unk58;
     Target* m_5C;
-    void FUN_00c91270(int a);
+    void ahkpWorld_updateKdTree(int a);
 };
 struct FUN_00c98250_Class {
     void* m_iWordAt00;
@@ -647,8 +647,8 @@ struct WorldExt : public hkpWorld {
     float FUN_00c91020() throw();
     void hkpWorld_setFrameTimeMarker(float f) throw();
     void hkpWorld_advanceTime() throw();
-    bool FUN_00c91060() throw();
-    float FUN_00c91030() throw();
+    bool hkpWorld_isSimulationAtMarker() throw();
+    float hkpWorld_getCurrentPsiTime() throw();
     void hkpWorld_stepDeltaTime(float f) throw();
     void hkpWorld_stepMultithreaded(int a, int b, float f) throw();
     void FUN_00c91120() throw();
@@ -677,7 +677,7 @@ extern float DAT_011ac3a0;
 extern float DAT_012677ac;
 extern float DAT_011afe64;
 extern char DAT_012677cd;
-void __stdcall FUN_00c910a0(int);
+void __stdcall nullsub_5(int);
 void FUN_00c911a0();
 extern void (__stdcall *DAT_00fdf100)(void*);
 struct FUN_00c91230_World : hkpWorld {
@@ -1583,7 +1583,7 @@ struct FUN_00ca94c0_Class {
     int m_uiItemCount;
     int hkpPhantom_fireCollidableAdded(unsigned int arg);
 };
-struct Allocator9 { void* __thiscall FUN_00aa3e40(unsigned int size); };
+struct Allocator9 { void* __thiscall Game_DoHeapAlloc(unsigned int size); };
 extern Allocator9 DAT_011f6238;
 extern "C" int DAT_010c5dc0;
 extern __declspec(thread) unsigned char threadContext9;
@@ -2441,7 +2441,7 @@ struct CollisionInput {
     unsigned int unk6C;
     int unk70;
 };
-struct WorldQuery : hkpWorld { void FUN_00c92430(void*,void*,void*,void*); };
+struct WorldQuery : hkpWorld { void hkpWorld_linearCast(void*,void*,void*,void*); };
 extern "C" void __cdecl enumerateAllConstraintsInIsland(void* object, void* value);
 struct zzVal_c92860 { void* v; };
 static void InvokeOnAllOwners(FUN_00c928c0_Context* ctx, zzVal_c92860 value);
@@ -3216,7 +3216,7 @@ OverlapPhantom* volatile overlapPhantom;
 OverlapCollidable* volatile overlapOther;
 OverlapContext* volatile overlapContext;
 void invokeOverlap();
-void FUN_00c910b0();
+void nullsub_6();
 void __cdecl FUN_00c911b0(void);
 namespace c912 {
 struct Alloc {
@@ -6942,7 +6942,7 @@ struct ShapeCinfoCAA {
     int unk0C;
     float m_vScale;
 };
-void __cdecl FUN_00cbd9e0(float scale, ShapeCAA* shape);
+void __cdecl hkHingeConstraintCinfo_ApplyScale(float scale, ShapeCAA* shape);
 class ShapeClonerCAA {
 public:
     ShapeCAA* ReleaseObject(ShapeCAA* shape, ShapeCinfoCAA* cinfo);
@@ -7191,7 +7191,7 @@ public:
 class C91World : public hkpWorld {
 public:
     void IncrementCounter();
-    void FUN_00c91270(int queue, int pool);
+    void ahkpWorld_updateKdTree(int queue, int pool);
     int hkpWorld_stepDeltaTime(float delta);
 };
 
@@ -7204,7 +7204,7 @@ int C91World::hkpWorld_stepDeltaTime(float delta)
     int result = reinterpret_cast<C91Simulation*>(m_pSimulation)->SimulateForDeltaTime(delta);
     if (m_pKdTreeManager) {
         if (m_bUseKdTree)
-            FUN_00c91270(0, 0);
+            ahkpWorld_updateKdTree(0, 0);
         else
             reinterpret_cast<FUN_00c91250_Class*>(this)->hkpWorld_markTreeDirty();
     }
@@ -7217,7 +7217,7 @@ struct StepSimulationEntryC91C {
 };
 
 struct TreeUpdateEntryC91C {
-    void FUN_00c91270(void* queue, void* pool);
+    void ahkpWorld_updateKdTree(void* queue, void* pool);
 };
 
 struct WorldFinishEntryC91C : hkpWorld {
@@ -7234,7 +7234,7 @@ int WorldFinishEntryC91C::hkpWorld_finishMtStep(void* queue, void* pool)
     if (m_pKdTreeManager == 0)
         return 0;
     if (m_bUseKdTree != 0) {
-        reinterpret_cast<TreeUpdateEntryC91C*>(this)->FUN_00c91270(queue, pool);
+        reinterpret_cast<TreeUpdateEntryC91C*>(this)->ahkpWorld_updateKdTree(queue, pool);
         return 0;
     }
     reinterpret_cast<FUN_00c91250_Class*>(this)->hkpWorld_markTreeDirty();

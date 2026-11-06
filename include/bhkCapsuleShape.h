@@ -37,9 +37,9 @@ public:
     bool GetClosestPoints(const hkSphere& sphere, const hkTransform& transform, hkContactPoint& point);
     void GetDisplayGeometry(hkGeometry& geometry);
     void CopyCinfo(RigidBodyShape& cinfo);
-    void FUN_00cab0e0(const hkVector4& a, const hkVector4& b, float radius);
+    void bhkCapsuleShape_Init(const hkVector4& a, const hkVector4& b, float radius);
     int __thiscall InitializeCapsuleShape();
-    unsigned int __thiscall FUN_0066d730() const;
+    unsigned int __thiscall retn_48() const;
     bhkCapsuleShape& operator=(const bhkCapsuleShape& other);
 
     static NiObject* __cdecl CreateObject();

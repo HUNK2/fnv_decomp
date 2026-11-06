@@ -8,7 +8,7 @@
 void Clouds::Update(Sky* sky, float time)
 {
     SkyObject::Update(sky, time);
-    TESWeather* m_pWeatherObject = sky->FUN_0044edb0();
+    TESWeather* m_pWeatherObject = sky->TESMain_GetThread();
     TESWeather* m_pPreviousWeather = sky->FUN_00825c00();
     if (!m_pWeatherObject)
         return;
@@ -82,7 +82,7 @@ void Clouds::Update(Sky* sky, float time)
                     {
                         property->SetTexture(raw);
                         property->FUN_00634900(NiFixedString(path));
-                        property->FUN_0051b8c0(0.0f);
+                        property->SkyShaderProperty_SetBlendValue(0.0f);
                     }
                 }
             }
@@ -98,14 +98,14 @@ void Clouds::Update(Sky* sky, float time)
             if (property)
             {
                 property->NiPhysXProp_SetSnapshot(m_pCloudLayerTexture[i]);
-                property->FUN_0051b8c0(sky->FUN_006447d0());
+                property->SkyShaderProperty_SetBlendValue(sky->FUN_006447d0());
             }
             if (!m_pPreviousWeather)
             {
                 property->SetTexture(m_pCloudLayerTexture[i]);
                 m_pCloudLayerTexture[i] = 0;
                 property->NiPhysXProp_SetSnapshot(0);
-                property->FUN_0051b8c0(0.0f);
+                property->SkyShaderProperty_SetBlendValue(0.0f);
             }
         }
         m_pCloudLayerGeometry[i]->FUN_00450f90(!property || !property->FUN_009c8680());

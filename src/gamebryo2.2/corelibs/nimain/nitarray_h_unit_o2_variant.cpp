@@ -127,7 +127,8 @@ void __stdcall FUN_00cf46e0(StrArr* array)
 // Keep the index-returning variant local; shared AddFirstEmpty returns void.
 // The explicit ECX receiver and unused EDX argument preserve the original member ABI.
 // @fnv 0x00a5b4b0
-int __fastcall FUN_00a5b4b0(StrArr* array, void*, char*& value)
+// src: COMMUNITY 0x00a5b4b0
+int __fastcall NiTPrimitiveArray_DWORD_AddFirstEmpty(StrArr* array, void*, char*& value)
 {
     if (value == 0)
         return -1;
@@ -167,7 +168,7 @@ struct BC8AD40AllocTagScope
 
 extern const char* g_pcC8AD40Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 
 class FUN_00c8ad40_cls
 {
@@ -181,7 +182,7 @@ void FUN_00c8ad40_cls::FUN_00c8ad40(StrArr* pkArray)
 {
     BC8AD40AllocTagScope kScope(0x10);
     C8AD40BaseGetViewerStrings(pkArray);
-    char* pcName = FUN_00a7d330(g_pcC8AD40Name);
+    char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcC8AD40Name);
     AddViewerString(pkArray, pcName);
 }
 
@@ -205,7 +206,7 @@ class CC31C0MemContext
 };
 
 extern const char* g_pcCC31C0ClassName;
-extern "C" char* __cdecl FUN_00a7d330(const char* pcName);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcName);
 
 class CC31C0Object
 {
@@ -219,7 +220,7 @@ void CC31C0Object::FUN_00cc31c0(StrArr* pkStrings)
 {
     CC31C0MemContext kContext(0x10);
     GetViewerStringsBase(pkStrings);
-    AddViewerString(pkStrings, FUN_00a7d330(g_pcCC31C0ClassName));
+    AddViewerString(pkStrings, NiViewerStrings_NiGetViewerString_Title(g_pcCC31C0ClassName));
 }
 }  // namespace fnv_00cc31c0
 
@@ -290,7 +291,7 @@ struct BCC4740AllocTagScope
 
 extern const char* g_pcCC4740Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 
 class CC4740Base
 {
@@ -309,7 +310,7 @@ void CC4740Derived::FUN_00cc4740(StrArr* pkArray)
 {
     BCC4740AllocTagScope kScope(0x10);
     CC4740Base::GetViewerStrings(pkArray);
-    char* pcName = FUN_00a7d330(g_pcCC4740Name);
+    char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcCC4740Name);
     AddViewerString(pkArray, pcName);
 }
 
@@ -328,12 +329,12 @@ struct CF4520AllocTagScope
     }
 };
 extern const char* DAT_01268738;
-char* __cdecl FUN_00a7d330(const char* name);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* name);
 // @fnv 0x00cf4520
 void __stdcall FUN_00cf4520(StrArr* array)
 {
     CF4520AllocTagScope tag(16);
-    char* element = FUN_00a7d330(DAT_01268738);
+    char* element = NiViewerStrings_NiGetViewerString_Title(DAT_01268738);
     AddViewerString(array, element);
 }
 
@@ -372,7 +373,7 @@ void CCCFD0Derived::FUN_00cccfd0(StrArr* pkStrings)
 {
     BCCCFD0AllocTagScope kScope(0x10);
     CCCFD0Base::GetViewerStrings(pkStrings);
-    AddViewerString(pkStrings, FUN_00a7d330(g_pcCCCFD0Name));
+    AddViewerString(pkStrings, NiViewerStrings_NiGetViewerString_Title(g_pcCCCFD0Name));
 }
 
 extern "C" void _ReadWriteBarrier();
@@ -472,7 +473,7 @@ void __stdcall FUN_00cf4300(StrArr* pkArray)
 
     CF4520AllocTagScope scope(16);
 
-    char* pcElement = FUN_00a7d330(DAT_01268730);
+    char* pcElement = NiViewerStrings_NiGetViewerString_Title(DAT_01268730);
 
     AddViewerString(pkArray, pcElement);
 }

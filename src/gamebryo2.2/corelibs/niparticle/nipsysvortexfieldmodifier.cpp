@@ -13,7 +13,8 @@
 extern "C" void* g_01202688;
 
 // @fnv 0x00c26810
-void* __cdecl FUN_00c26810()
+// src: COMMUNITY 0x00c26810
+void* __cdecl NiPSysVortexFieldModifier_GetRTTI()
 {
     return &g_01202688;
 }

@@ -191,11 +191,12 @@ void* __cdecl NiMalloc(unsigned int size);
 void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_004eda60_t
 {
-    void* __thiscall FUN_004eda60(unsigned int count);
+    void* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_TESWaterForm_bool_NiTMapBase_NiTPointerAllocator_unsigned_int_TESWaterForm_bool(unsigned int count);
 };
 // Sets the vtable, stores count, allocates count*4 bytes, zeroes the buffer, and returns this.
 // @fnv 0x004eda60
-void* __thiscall FUN_004eda60_t::FUN_004eda60(unsigned int count)
+// src: COMMUNITY 0x004eda60
+void* __thiscall FUN_004eda60_t::NiTMapBase_NiTPointerAllocator_unsigned_int_TESWaterForm_bool_NiTMapBase_NiTPointerAllocator_unsigned_int_TESWaterForm_bool(unsigned int count)
 {
     unsigned int size;
     *(int*)this = (int)&DAT_01023274;
@@ -212,11 +213,12 @@ void* __cdecl _NiMalloc(unsigned int);
 void* __cdecl memset(void*, int, unsigned int);
 struct FUN_004edb60_t
 {
-    int* __thiscall FUN_004edb60(int size);
+    int* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_WadingWaterData_NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_WadingWaterData(int size);
 };
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes the buffer and returns this.
 // @fnv 0x004edb60
-int* __thiscall FUN_004edb60_t::FUN_004edb60(int size)
+// src: COMMUNITY 0x004edb60
+int* __thiscall FUN_004edb60_t::NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_WadingWaterData_NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_WadingWaterData(int size)
 {
     int tmp;
     *(int*)this = (int)&DAT_01023294;

@@ -414,7 +414,7 @@ void ActorPackageContext::SaveGame(unsigned int auiFlags)
     g_TESSaveLoadGame->FUN_008579b0(&m_fPackageValue, 4);
 }
 
-extern "C" void __cdecl FUN_005b5e40(const char* apFormat, ...);
+extern "C" void __cdecl Warning_005b5e40(const char* apFormat, ...);
 
 // @fnv 0x008c6320
 void ActorPackageContext::LoadGame(unsigned int aiFlags, unsigned int aiUnused)
@@ -470,11 +470,11 @@ void ActorPackageContext::LoadGame(unsigned int aiFlags, unsigned int aiUnused)
     {
         if (auiFormId)
         {
-            FUN_005b5e40("AI: Couldn't find package %08X while loading and will try to choose a new one.", auiFormId);
+            Warning_005b5e40("AI: Couldn't find package %08X while loading and will try to choose a new one.", auiFormId);
         }
         else
         {
-            FUN_005b5e40("AI: Couldn't find a plugin package while loading and will try to choose a new one.");
+            Warning_005b5e40("AI: Couldn't find a plugin package while loading and will try to choose a new one.");
         }
         SetPackageInfoState(-1);
     }

@@ -15,13 +15,15 @@ typedef bool (BSSoundHandle::*TraitSoundPlay)();
 
 
 // @fnv 0x007e7ac0
-int __thiscall TraitSelectMenu::FUN_007e7ac0()
+// src: COMMUNITY 0x007e7ac0
+int __thiscall TraitSelectMenu::GetMenuID_007e7ac0()
 {
     return 0x434;
 }
 
 // @fnv 0x007e7d90
-int __cdecl FUN_007e7d90()
+// src: COMMUNITY 0x007e7d90
+int __cdecl TraitSelectMenu_GetMenuID_0()
 {
     return 0x434;
 }
@@ -35,7 +37,8 @@ void __thiscall TraitSelectMenu::FUN_007e8840()
 
 
 // @fnv 0x007e7da0
-bool __thiscall TraitSelectMenu::FUN_007e7da0()
+// src: COMMUNITY 0x007e7da0
+bool __thiscall TraitSelectMenu::HasTiles_007e7da0()
 {
     for (int i = 0; i < 0x12; ++i)
     {
@@ -75,7 +78,7 @@ void FUN_007e7de0()
 }
 }  // namespace fnv_007e7de0
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 struct FUN_0070ec70_This
 {
     int __thiscall FUN_0070ec70();
@@ -85,9 +88,9 @@ extern float const runtimeFloatSettingDefault275;
 // @fnv 0x007e82b0
 void __thiscall TraitSelectMenu::FUN_007e82b0(int, int)
 {
-    if (((FUN_0070ec70_This*)FUN_004b7210())->FUN_0070ec70() < 0)
+    if (((FUN_0070ec70_This*)InterfaceManager_GetSingleton())->FUN_0070ec70() < 0)
         FUN_007e8310(0.05f);
-    if (((FUN_0070ec70_This*)FUN_004b7210())->FUN_0070ec70() > 0)
+    if (((FUN_0070ec70_This*)InterfaceManager_GetSingleton())->FUN_0070ec70() > 0)
         FUN_007e8310(runtimeFloatSettingDefault275);
 }
 
@@ -260,14 +263,14 @@ void TraitSelectMenu::SelectTrait(int aiID, bool abForce)
         if (aiID == -1)
         {
             pCheckTile->SetInt(0xfa3, 0);
-            ((BSAudio::GetSingleton()->*reinterpret_cast<TraitSoundFactory>(&BSAudio::FUN_00ad7550))(
+            ((BSAudio::GetSingleton()->*reinterpret_cast<TraitSoundFactory>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(
                 kErase, 0x121, 0).*reinterpret_cast<TraitSoundPlay>(&BSSoundHandle::Play))();
         }
         else if (m_pTiles[aiID])
         {
             pCheckTile->SetInt(0xfa3, 1);
             pCheckTile->SetFloat(0xfa2, m_pTiles[aiID]->GetFloat(0xfa2) - 8.0, true);
-            ((BSAudio::GetSingleton()->*reinterpret_cast<TraitSoundFactory>(&BSAudio::FUN_00ad7550))(
+            ((BSAudio::GetSingleton()->*reinterpret_cast<TraitSoundFactory>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(
                 "UITraitSelectCheckmark", 0x121, 0).*reinterpret_cast<TraitSoundPlay>(&BSSoundHandle::Play))();
         }
     }
@@ -292,15 +295,16 @@ TraitSelectMenu* FindMenu(int);
 void Warning(const char*);
 float DefaultDepth();
 // @fnv 0x007e7b60
-Tile* __cdecl FUN_007e7b60()
+// src: COMMUNITY 0x007e7b60
+Tile* __cdecl TraitSelectMenu_Create()
 {
-    ManagerOpen* pManager = (ManagerOpen*)FUN_004b7210();
-    TraitSelectMenu* oldMenu = FindMenu(FUN_007e7d90());
+    ManagerOpen* pManager = (ManagerOpen*)InterfaceManager_GetSingleton();
+    TraitSelectMenu* oldMenu = FindMenu(TraitSelectMenu_GetMenuID_0());
     if (oldMenu)
         delete oldMenu;
     Tile* pTile = pManager->GetRoot()->ReadFile("Data\\Menus\\trait_select_menu.xml");
     DAT_011db00c = (int)((TileOpen*)pTile)->GetMenu();
-    if (DAT_011db00c && ((TraitSelectMenu*)DAT_011db00c)->GetClass() == FUN_007e7d90())
+    if (DAT_011db00c && ((TraitSelectMenu*)DAT_011db00c)->GetClass() == TraitSelectMenu_GetMenuID_0())
     {
         ((TraitSelectMenu*)DAT_011db00c)->SetTileMenu(reinterpret_cast<TileMenu*>(pTile), false);
         if (!((TraitSelectMenu*)DAT_011db00c)->Init())
@@ -312,7 +316,7 @@ Tile* __cdecl FUN_007e7b60()
         ((TraitSelectMenu*)DAT_011db00c)->scrollY = 0.0f;
         ((TraitSelectMenu*)DAT_011db00c)->Select(0, 0);
         ((TraitSelectMenu*)DAT_011db00c)->lastTick = gm_GetTickCount();
-        ((BSAudio::GetSingleton()->*reinterpret_cast<TraitSoundFactory>(&BSAudio::FUN_00ad7550))(
+        ((BSAudio::GetSingleton()->*reinterpret_cast<TraitSoundFactory>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(
                 "UIPopUpMessageGeneral", 0x121, 0).*reinterpret_cast<TraitSoundPlay>(&BSSoundHandle::Play))();
         if (((TileOpen*)pTile)->GetValue(0xfa7) == 6006.0 || ((TileOpen*)pTile)->GetValue(0xfa7) == 102.0)
             ((TileOpen*)pTile)->SetValue(0xfad, DefaultDepth(), true);
@@ -357,9 +361,9 @@ void TraitSelectMenu::UpdateScrollAnimation()
     bool overrideFlag3 = false;
     float horizontal = 0.0f;
     float vertical = 0.0f;
-    if ((FUN_004b7210(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(FUN_004b7210())->FUN_00755680())
+    if ((InterfaceManager_GetSingleton(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(InterfaceManager_GetSingleton())->FUN_00755680())
     {
-        if ((FUN_004b7210(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(FUN_004b7210())->FUN_00755680())
+        if ((InterfaceManager_GetSingleton(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(InterfaceManager_GetSingleton())->FUN_00755680())
         {
             if (FUN_00ec7d40(DAT_011d8a5e) > 7849)
             {
@@ -397,7 +401,7 @@ void TraitSelectMenu::UpdateScrollAnimation()
             selectedTile->FUN_00a012d0(4031, 32.0f, true);
         }
     }
-    if ((FUN_004b7210(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(FUN_004b7210())->FUN_00755680())
+    if ((InterfaceManager_GetSingleton(), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(InterfaceManager_GetSingleton())->FUN_00755680())
     {
         unsigned int elapsed = gm_GetTickCount() - updateTick;
         updateTick = gm_GetTickCount();
@@ -459,7 +463,8 @@ extern double const _DAT_01012060;
 
 // Selects a trait tile by clearing the previous selection, marking the new one, and computing m_fRatio from the selected and initial setting values.
 // @fnv 0x007e8470
-void __thiscall TraitSelectMenu::FUN_007e8470(int aiID, bool abForce)
+// src: COMMUNITY 0x007e8470
+void __thiscall TraitSelectMenu::SetScroll(int aiID, bool abForce)
 {
     Tile* settings;
     float selectedValue;
@@ -483,8 +488,8 @@ void __thiscall TraitSelectMenu::FUN_007e8470(int aiID, bool abForce)
             m_pTiles[m_iSelectedTrait]->SetInt(0x1005, 1);
         }
 
-        FUN_004b7210();
-        if (FUN_004b71d0() && !reinterpret_cast<FUN_00755680_shell*>(FUN_004b7210())->FUN_00755680())
+        InterfaceManager_GetSingleton();
+        if (FUN_004b71d0() && !reinterpret_cast<FUN_00755680_shell*>(InterfaceManager_GetSingleton())->FUN_00755680())
         {
             settings = reinterpret_cast<Tile*>(FUN_00a09030(0x434));
             if (settings != 0 && m_pTiles[15] != 0)

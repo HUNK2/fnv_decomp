@@ -235,13 +235,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -394,7 +394,7 @@ struct C_00c36580
     void __thiscall FUN_00c36580(Obj_0096a610* value);
 };
 
-int __cdecl FUN_00a7d330(int value);
+int __cdecl NiViewerStrings_NiGetViewerString_Title(int value);
 
 // @fnv 0x00c36580
 void __thiscall C_00c36580::FUN_00c36580(Obj_0096a610* value)
@@ -402,7 +402,7 @@ void __thiscall C_00c36580::FUN_00c36580(Obj_0096a610* value)
     AddPropertyNames((int)value);
 
     int src = g_01202818;
-    unsigned int first = (unsigned int)FUN_00a7d330(src);
+    unsigned int first = (unsigned int)NiViewerStrings_NiGetViewerString_Title(src);
     value->FUN_0096a610(first);
 
     unsigned int second = unk24.ToString("Axis");
@@ -737,7 +737,8 @@ inline float NiPlane::Distance(const NiPoint3& kPt) const
     return reinterpret_cast<const NiPoint3*>(this)->DotProduct(kPt) - c;
 }
 
-inline void BSMultiBoundShape::FUN_00c37a00(NiPoint3* pts)
+// src: COMMUNITY 0x00c37a00
+inline void BSMultiBoundShape::BSMultiBoundOBB_GetVertices(NiPoint3* pts)
 {
     NiPoint3 axisX, axisY, axisZ;
     axisX *= static_cast<BSMultiBoundOBB*>(this)->m_kOffset.x;
@@ -796,7 +797,7 @@ int BSMultiBoundShape::FUN_00c369b0(BSMultiBound* p)
     {
         BSMultiBoundShape* c = (BSMultiBoundShape*)p->GetShape();
         NiPoint3 j[8];
-        c->FUN_00c37a00(j);
+        c->BSMultiBoundOBB_GetVertices(j);
         NiPlane e[3];
         this->GetPlanes(e);
         for (int i = 0; i < 8; i++)
@@ -837,7 +838,7 @@ inline bool NiFrustumPlanes::IsPlaneActive(unsigned int i)
 // BSMultiBoundOBB has no FUN_00c37050 frustum overload in the shared header.
 struct C37050_Bound
 {
-    void FUN_00c37a00(PodPoint3* corners);
+    void BSMultiBoundOBB_GetVertices(PodPoint3* corners);
     bool FUN_00c37050(const NiFrustumPlanes& frustum);
 };
 // @fnv 0x00c37050
@@ -845,7 +846,7 @@ bool C37050_Bound::FUN_00c37050(const NiFrustumPlanes& frustum)
 {
     PodPoint3 corners[8];
     InitializePoint3Array(corners, 8);
-    FUN_00c37a00(corners);
+    BSMultiBoundOBB_GetVertices(corners);
     for (int i = 0; i < 6; i++)
     {
         if (const_cast<NiFrustumPlanes&>(frustum).IsPlaneActive(i))
@@ -1026,13 +1027,14 @@ struct Prim
     int m_08;
     LocalVec3 m_kCenterPosition;
     LocalVec3 m_radii;
-    inline bool FUN_00c39560(LocalVec3 v)
+// src: COMMUNITY 0x00c39560
+    inline bool BSMultiBoundAABB_FastPointWithin(LocalVec3 v)
     {
         LocalVec3 delta = v - m_kCenterPosition;
         return AbsPoint(delta.x) - m_radii.x <= 0.01 && AbsPoint(delta.y) - m_radii.y <= 0.01 &&
                AbsPoint(delta.z) - m_radii.z <= 0.01;
     }
-    void FUN_00c37a00(LocalVec3* arr);
+    void BSMultiBoundOBB_GetVertices(LocalVec3* arr);
     int FUN_00c384f0(Param* arg);
 };
 
@@ -1054,15 +1056,15 @@ int Prim::FUN_00c384f0(Param* arg)
     else if (mode_2 == 2)
     {
         Prim* q = arg->GetBV();
-        if (!FUN_00c39560(q->m_kCenterPosition))
+        if (!BSMultiBoundAABB_FastPointWithin(q->m_kCenterPosition))
             return 0;
         else
         {
             LocalVec3 arr[8];
-            q->FUN_00c37a00(arr);
+            q->BSMultiBoundOBB_GetVertices(arr);
             for (int i3 = 0; i3 < 8; ++i3)
             {
-                if (!FUN_00c39560(arr[i3]))
+                if (!BSMultiBoundAABB_FastPointWithin(arr[i3]))
                     return 0;
             }
             return 2;
@@ -1299,11 +1301,12 @@ class ObjA
     int unkA8;
     NodeA* unkAC;
 
-    int FUN_00c4f860();
+    int BSMultiBoundRoom_GetCullResult();
 };
 
 // @fnv 0x00c4f860
-int ObjA::FUN_00c4f860()
+// src: COMMUNITY 0x00c4f860
+int ObjA::BSMultiBoundRoom_GetCullResult()
 {
     NodeA* a = unkAC;
     NodeA* b;
@@ -1346,7 +1349,7 @@ int BSMultiBoundSphere::FUN_00c4ff60(BSMultiBound* other)
     {
         BSMultiBoundOBB* box3 = static_cast<BSMultiBoundOBB*>(other->GetShape());
         NiPoint3 vertices5[8];
-        box3->FUN_00c37a00(vertices5);
+        box3->BSMultiBoundOBB_GetVertices(vertices5);
         float radiusSquared = radius * radius;
         for (int i = 0; i < 8; i++)
         {
@@ -1446,7 +1449,7 @@ class NiMatrix3OB
 class NiOBBOB
 {
   public:
-    void FUN_00c37a00(NiPoint3OB* pkVerts);
+    void BSMultiBoundOBB_GetVertices(NiPoint3OB* pkVerts);
     int m_aiPad[3];
     NiPoint3OB m_kCenter;
     float m_afExtents[3];
@@ -1454,7 +1457,8 @@ class NiOBBOB
 };
 
 // @fnv 0x00c37a00
-void NiOBBOB::FUN_00c37a00(NiPoint3OB* pkVerts)
+// src: COMMUNITY 0x00c37a00
+void NiOBBOB::BSMultiBoundOBB_GetVertices(NiPoint3OB* pkVerts)
 {
     NiPoint3OB kX = NiPoint3OB::ZERO;
     NiPoint3OB kY = NiPoint3OB::ZERO;
@@ -1588,7 +1592,7 @@ struct FUN_00c47660
     {
         int unused[3];
         (void)unused;
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
     static void operator delete(void* p);
 };
@@ -1873,7 +1877,8 @@ struct OrientedBox
     PodPoint3 extents;
     FloatMatrix3 rotation;
 
-    void FUN_00c37a00(PodPoint3* vertices)
+// src: COMMUNITY 0x00c37a00
+    void BSMultiBoundOBB_GetVertices(PodPoint3* vertices)
     {
         PodPoint3 axisX = PodPoint3::ZERO;
         PodPoint3 axisY = PodPoint3::ZERO;
@@ -1905,7 +1910,7 @@ bool OrientedBox::FUN_00c36f20(NiFrustumPlanes* frustum)
     PodPoint3 vertices[8];
     InitializePoint3Array(vertices, 8);
     bool flat = (extents.z == 0.0);
-    FUN_00c37a00(vertices);
+    BSMultiBoundOBB_GetVertices(vertices);
     for (int plane = 0; plane < 6; ++plane)
     {
         if ((bool)(frustum->m_uiActivePlaneMask & (1 << plane)))

@@ -45,7 +45,8 @@ inline NiTObjectArray<T>::NiTObjectArray(unsigned int uiMaxSize, unsigned int ui
 extern "C" void* g_01202530;
 
 // @fnv 0x00c21720
-void* __cdecl FUN_00c21720()
+// src: COMMUNITY 0x00c21720
+void* __cdecl NiPSysMeshUpdateModifier_GetRTTI()
 {
     return &g_01202530;
 }
@@ -88,7 +89,7 @@ bool NiPSysMeshUpdateModifier::FUN_00c20f80(NiStream& kStream)
 }
 
 extern int DAT_0101fbcc;
-void __cdecl FUN_004b0220(void*);
+void __cdecl j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(void*);
 struct Holder31750
 {
     void FUN_00c31750();
@@ -107,7 +108,7 @@ void* Unk21730::DestroyIfFlagged(unsigned int auiFlags)
 {
     void* tmp = b;
     a = &DAT_0101fbcc;
-    FUN_004b0220(tmp);
+    j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(tmp);
     ((Holder31750*)this)->FUN_00c31750();
     if (auiFlags & 1)
         _delete(this, 0x28);
@@ -893,7 +894,7 @@ void S_c21770_Mod::CloneInto(S_c21770_Mod* pkDest, CloningProcess& kCloning)
 
 struct C21550LinkBase
 {
-    void FUN_00a89af0(NiStream& stream);
+    void nullsub_3(NiStream& stream);
 };
 
 struct C21550PoolData : MeshPSysData
@@ -914,7 +915,7 @@ struct C21550ParticleSystem : MeshSystem
 // @fnv 0x00c21550
 void NiPSysMeshUpdateModifier::PostLinkObject(NiStream& stream)
 {
-    reinterpret_cast<C21550LinkBase*>(this)->FUN_00a89af0(stream);
+    reinterpret_cast<C21550LinkBase*>(this)->nullsub_3(stream);
     if (stream.GetFileVersion() <= 0x0A010000)
     {
         unsigned int count = m_kSceneObjects.m_usSize;

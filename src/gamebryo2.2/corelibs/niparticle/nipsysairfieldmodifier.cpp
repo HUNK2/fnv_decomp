@@ -30,7 +30,8 @@ inline NiBinaryStream& NiStream::Istr() { return **(NiBinaryStream**)((char*)thi
 extern "C" void* g_012027a8;
 
 // @fnv 0x00c2f590
-void* __cdecl FUN_00c2f590()
+// src: COMMUNITY 0x00c2f590
+void* __cdecl NiPSysAirFieldModifier_GetRTTI()
 {
     return &g_012027a8;
 }
@@ -279,7 +280,7 @@ struct ViewerSub
     void* FUN_00a59af0(const char* name);
 };
 
-void* __cdecl FUN_00a7d330(void* g);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* g);
 void* __cdecl FUN_00a7d550(const char* name, float value);
 void* __cdecl FUN_00a7d370(const char* name, bool value);
 
@@ -331,7 +332,7 @@ static void AddViewerString(ViewerStrings* s, void* value)
 void FUN_00c303c0_cls::BuildViewerStrings(ViewerStrings* s)
 {
     FUN_00c322b0(s);
-    void* v = FUN_00a7d330(g_012027a8);
+    void* v = NiViewerStrings_NiGetViewerString_Title(g_012027a8);
     AddViewerString(s, v);
     v = m_40.FUN_00a59af0("Direction");
     AddViewerString(s, v);

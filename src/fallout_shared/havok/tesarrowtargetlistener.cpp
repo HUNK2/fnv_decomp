@@ -166,7 +166,7 @@ struct Obj
     Obj* FUN_00717e50();
 };
 
-Obj* FUN_004b5a80(int a);
+Obj* bhkEntity_Getbhk(int a);
 Obj* FUN_00653270(int* dat, Obj* o_tmp);
 Obj* FUN_004b5a20(Obj* o_tmp);
 int FUN_0056f930(Obj* o_tmp);
@@ -179,7 +179,7 @@ struct FUN_0062a510_cls
 // @fnv 0x0062a510
 void FUN_0062a510_cls::FUN_0062a510(int a1)
 {
-    Obj* o_tmp = FUN_004b5a80(a1);
+    Obj* o_tmp = bhkEntity_Getbhk(a1);
     Obj* p = FUN_00653270(&DAT_012681c0, o_tmp);
     if (p != 0 && p->MaskWithField(0x100) != 0)
     {
@@ -436,7 +436,7 @@ struct S_0062a690_B
     void* __thiscall FUN_0044ddc0();
 };
 
-void* __cdecl FUN_004b5a80(int id);
+void* __cdecl bhkEntity_Getbhk(int id);
 S_0062a690_A* __cdecl FUN_00653270(void* rtti, void* obj);
 S_0062a690_B* __cdecl FUN_004b5a20(void* p);
 void* __cdecl FUN_0056f930(void* p);
@@ -449,7 +449,7 @@ struct S_0062a690_Class
 // @fnv 0x0062a690
 void S_0062a690_Class::FUN_0062a690(int arg0)
 {
-    void* v_08 = FUN_004b5a80(arg0);
+    void* v_08 = bhkEntity_Getbhk(arg0);
     S_0062a690_A* v_04 = FUN_00653270(&DAT_012681c0, v_08);
     if (v_04 && v_04->MaskWithField(0x100))
     {

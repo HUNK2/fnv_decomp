@@ -14,7 +14,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00978ed0
-void Projectile::FUN_00978ed0(ActorCause* apCause)
+// src: COMMUNITY 0x00978ed0
+void Projectile::SetActorCause_00978ed0(ActorCause* apCause)
 {
     m_pActorCause.operator=(apCause);
 }
@@ -32,9 +33,10 @@ void BeamProjectile::FUN_009795c0(float value)
 }
 
 // @fnv 0x009abf10
-void BeamProjectile::FUN_009abf10(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x009abf10
+void BeamProjectile::RevertBGS_009abf10(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    Projectile::FUN_009c58e0(apLoadGameBuffer);
+    Projectile::RevertBGS_009c58e0(apLoadGameBuffer);
 }
 
 void BeamProjectile::LoadProjectile(BGSLoadFormBuffer* apLoadGameBuffer)
@@ -47,7 +49,8 @@ void BeamProjectile::FUN_009b4cf0(BGSLoadFormBuffer* apLoadGameBuffer)
 }
 
 // @fnv 0x009bab00
-void BeamProjectile::FUN_009bab00(BGSLoadFormBuffer* apBuffer)
+// src: COMMUNITY 0x009bab00
+void BeamProjectile::InitLoadGame_009bab00(BGSLoadFormBuffer* apBuffer)
 {
     Projectile::InitLoadGame(apBuffer);
 }
@@ -133,7 +136,7 @@ struct GeometryVertexBuffer
 {
     int a, b, c;
     GeometryVertexBuffer();
-    void FUN_00534570(unsigned int, NiPoint3&);
+    void NiGeometryDataIteratorNiPoint3_Get(unsigned int, NiPoint3&);
     void SetVertex(unsigned int, NiPoint3 const&);
 };
 struct FUN_0047d370_shell
@@ -146,7 +149,8 @@ struct BeamPair
 };
 // Scales a NiAVObject's bound radius and center by scale, then scales child effect or geometry vertex data depending on the object's type.
 // @fnv 0x009795e0
-void BeamProjectile::FUN_009795e0(NiAVObject* apObject, float scale)
+// src: COMMUNITY 0x009795e0
+void BeamProjectile::ScaleBeamGeometryLength(NiAVObject* apObject, float scale)
 {
     if (apObject)
     {
@@ -178,15 +182,15 @@ void BeamProjectile::FUN_009795e0(NiAVObject* apObject, float scale)
                     FUN_0047d370_shell* ctl = (FUN_0047d370_shell*)((CtlV*)data)->GetNext();
                     if (data->IsGeometryDataStreamable(true))
                     {
-                        data->FUN_00a67410(vertexMap);
+                        data->NiGeometryData_GetVerticesIterator(vertexMap);
                         for (int iVertex = 0; iVertex < ctl->FUN_0047d370(); iVertex++)
                         {
                             BeamVertex vertex = *(const BeamVertex*)&NiPoint3_ZERO;
-                            vertexMap.FUN_00534570(iVertex, (NiPoint3&)vertex);
+                            vertexMap.NiGeometryDataIteratorNiPoint3_Get(iVertex, (NiPoint3&)vertex);
                             vertex.y *= scale;
                             vertexMap.SetVertex(iVertex, (const NiPoint3&)vertex);
                         }
-                        data->FUN_00a673d0();
+                        data->NiGeometryData_UnlockPackedVertexData();
                     }
                 }
             }
@@ -212,7 +216,7 @@ struct FUN_009bda10_shell : FUN_005de0a0_shell
 };
 struct FUN_005bfbd0_Class
 {
-    void FUN_005bfbd0(float);
+    void FOHUDEffectManager_SetBlurIntensityHUD(float);
 };
 struct TargetObject : FUN_005bfbd0_Class
 {
@@ -235,7 +239,7 @@ void __thiscall BeamProjectile::FUN_00979280()
     ((FUN_009bda10_shell*)this)->FUN_009bda10();
     if (*(HandleField*)((char*)this + 0x150))
     {
-        ((TargetObject*)*(HandleField*)((char*)this + 0x150))->FUN_005bfbd0(GetFirstLightParameter());
+        ((TargetObject*)*(HandleField*)((char*)this + 0x150))->FOHUDEffectManager_SetBlurIntensityHUD(GetFirstLightParameter());
     }
 }
 
@@ -252,12 +256,12 @@ struct Reference
 };
 struct Base
 {
-    bool FUN_004fdf20();
+    bool GetCanTurnOff();
     Reference* FUN_00586150();
 };
 struct SoundManager
 {
-    BSSoundHandle FUN_00ad7480(Descriptor*, Reference*);
+    BSSoundHandle BSAudio_GetSoundHandleByFilename(Descriptor*, Reference*);
 };
 SoundManager* FUN_00453a70();
 struct Controller
@@ -750,13 +754,14 @@ struct BeamEffect
     void FUN_005de0a0(int, bool);
     Form* FUN_00567790();
     bool IsFightReactionAllowed(int, Actor*, Form*);
-    bool FUN_009c43e0(int, bool);
+    bool Projectile_DisarmPlacedExplosives(int, bool);
 };
 // @fnv 0x009c43e0
-bool BeamEffect::FUN_009c43e0(int value, bool silent)
+// src: COMMUNITY 0x009c43e0
+bool BeamEffect::Projectile_DisarmPlacedExplosives(int value, bool silent)
 {
     bool result = false;
-    if (FUN_004181e0()->FUN_004fdf20() && !FUN_00444d00(0x200))
+    if (FUN_004181e0()->GetCanTurnOff() && !FUN_00444d00(0x200))
     {
         StopSound();
         if (!silent)
@@ -764,7 +769,7 @@ bool BeamEffect::FUN_009c43e0(int value, bool silent)
             Reference* owner = FUN_004181e0()->FUN_00586150();
             if (owner)
             {
-                BSSoundHandle sound = FUN_00453a70()->FUN_00ad7480(owner->FUN_00511840(0x4102), owner);
+                BSSoundHandle sound = FUN_00453a70()->BSAudio_GetSoundHandleByFilename(owner->FUN_00511840(0x4102), owner);
                 sound.SetPosition(GetScene());
                 sound.Play(false);
             }
@@ -1017,7 +1022,8 @@ struct S_00979140_Holder
 
 
 // @fnv 0x00979140
-void BeamProjectile::FUN_00979140()
+// src: COMMUNITY 0x00979140
+void BeamProjectile::Process3D()
 {
     S_00979140_Node* node2 = (S_00979140_Node*)GetNiNode();
     if (node2)
@@ -1081,8 +1087,8 @@ struct Cursor
     float m_00;
     float m_04;
     float m_08;
-    void FUN_00534550();
-    void FUN_00534570(int index, BeamVertex* out);
+    void NiTConvertingStrideIterator_NiTConvertingStrideIterator();
+    void NiGeometryDataIteratorNiPoint3_Get(int index, BeamVertex* out);
 };
 
 struct Holder
@@ -1135,7 +1141,8 @@ unsigned char __cdecl FUN_0043b300(const void* typeDesc, const void* obj);
 
 
 // @fnv 0x00979840
-float BeamProjectile::FUN_00979840(NiGeometry* arg)
+// src: COMMUNITY 0x00979840
+float BeamProjectile::FindBeamGeometryLength(NiGeometry* arg)
 {
     NiGeometryData* actor = arg->GetModelData();
     float best = 0.0f;
@@ -1163,21 +1170,21 @@ float BeamProjectile::FUN_00979840(NiGeometry* arg)
             {
                 {
                     Cursor c;
-                    c.FUN_00534550();
+                    c.NiTConvertingStrideIterator_NiTConvertingStrideIterator();
                     Holder* bag = ((Holder*)((CtlV*)actor)->GetNext());
                     if (actor->IsGeometryDataStreamable(true))
                     {
                         for (int i = 0; i < bag->FUN_0047d370(); ++i)
                         {
                             BeamVertex vecTmp = DAT_011f426c;
-                            actor->FUN_00a67410((GeometryVertexBuffer&)c);
-                            c.FUN_00534570(i, &vecTmp);
+                            actor->NiGeometryData_GetVerticesIterator((GeometryVertexBuffer&)c);
+                            c.NiGeometryDataIteratorNiPoint3_Get(i, &vecTmp);
                             if (best < vecTmp.y)
                             {
                                 best = vecTmp.y;
                             }
                         }
-                        actor->FUN_00a673d0();
+                        actor->NiGeometryData_UnlockPackedVertexData();
                     }
                 }
             }
@@ -1244,11 +1251,11 @@ void BeamProjectile::ScaleNode(NiAVObject* node, float fScale, float fDivisor)
         if (FUN_0043b300(&DAT_011f4acc, (S_00979a70_Obj*)node))
         {
             S_00979a70_Obj* p = (S_00979a70_Obj*)node;
-            float den = (fDivisor > DAT_01012060) ? fDivisor : FUN_00979840((NiAVObject*)p);
+            float den = (fDivisor > DAT_01012060) ? fDivisor : FindBeamGeometryLength((NiAVObject*)p);
             if (den != DAT_01012060)
             {
                 float r = fScale / den;
-                FUN_009795e0((NiAVObject*)p, r);
+                ScaleBeamGeometryLength((NiAVObject*)p, r);
             }
         }
         else

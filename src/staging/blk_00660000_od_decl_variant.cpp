@@ -118,7 +118,7 @@ struct FUN_00661d40_shell
 };
 void __cdecl _delete(void*, unsigned int);
 extern const char* DAT_0119b49c[];
-const char* FUN_00661da0(int i);
+const char* BSFaceGenManager_GetCustomMorphText(int i);
 struct StatisticalArray
 {
     int _pad[3];
@@ -238,28 +238,28 @@ struct FUN_0066df40_Class
 struct FUN_00671a70_Class
 {
     unsigned short flags;
-    void FUN_00671a70(bool set);
+    void SandboxSetLocationIsLinkedRef(bool set);
 };
 struct FUN_00671ad0_Class
 {
-    void __thiscall FUN_00671ad0(bool a);
+    void __thiscall SandboxSetAllowEating(bool a);
 };
 struct FUN_00671b30_Class
 {
     unsigned short m_0024;
-    void FUN_00671b30(bool a);
+    void SandboxSetAllowSleeping(bool a);
 };
 struct FUN_00671b90_Class
 {
-    void __thiscall FUN_00671b90(bool b);
+    void __thiscall SandboxSetAllowConversation(bool b);
 };
 struct FUN_00671bf0_Class
 {
-    void __thiscall FUN_00671bf0(bool a);
+    void __thiscall SandboxSetAllowIdleMarkers(bool a);
 };
 struct FUN_00671c50_Class
 {
-    void __thiscall FUN_00671c50(bool bSet);
+    void __thiscall SandboxSetAllowFurniture(bool bSet);
 };
 struct FUN_00671cb0_Class
 {
@@ -356,7 +356,7 @@ struct FUN_00665e30_Class
 {
     int pad;
     int* data;
-    FUN_0044d000* __thiscall FUN_00665e30(int index);
+    FUN_0044d000* __thiscall LockFreeMap_TESObjectREFR_BSTreeNode_AllocateInterface(int index);
 };
 void* __cdecl operator new(unsigned int);
 struct DetectionViewData;
@@ -383,7 +383,7 @@ struct DetectionViewData
 
     DetectionViewData();
     void LoadGame(BGSLoadGameBuffer* buffer);
-    void FUN_0066e440(BGSLoadGameBuffer* buffer);
+    void ActorCause_LoadGameBGS(BGSLoadGameBuffer* buffer);
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl ReportAssertionViolation(char const*, int);
@@ -442,7 +442,7 @@ struct C6602B0Entry
     short m_sC;
 };
 void CopyConstructEntry(C6602B0Entry* pkDest, const C6602B0Entry& kValue);
-extern "C" bool __cdecl FUN_0065e750(void* a, void* b);
+extern "C" bool __cdecl std_Move_cat_unsigned_char(void* a, void* b);
 extern "C" void* __cdecl CallWithFlag(void* a);
 extern "C" void __cdecl CopyConstructRange(void* a1, void* a2, void* a3, void* a4, bool a5, bool a6);
 struct SpawnedFlagBox
@@ -454,7 +454,7 @@ extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
 {
     SpawnedFlagBox flagA3 = {};
     bool flagB;
-    flagB = FUN_0065e750(&a, &c);
+    flagB = std_Move_cat_unsigned_char(&a, &c);
     CopyConstructRange(CallWithFlag(&a), CallWithFlag(&b), c, d, flagB, flagA3.v);
 }
 
@@ -501,8 +501,8 @@ struct FUN_006665c0_Entry
     int unk00;
     FUN_006665c0_Item* m_item;
 };
-void __cdecl FUN_00401030(void* p);
-void __cdecl FUN_0044e360(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
+void __cdecl _TlsFree(void* p);
 struct FUN_006665c0_cls
 {
     int unk00;
@@ -583,7 +583,7 @@ struct FUN_0066ca50_cls
     int unk60;
     float m_f4;
 
-    bool FUN_0066ca50(float dt);
+    bool BSTreeNode_CheckForCollision(float dt);
 };
 struct SpawnedObject
 {
@@ -593,8 +593,8 @@ struct SpawnedObject
 };
 extern int DAT_011ca278;
 extern int DAT_011dea3c;
-int __cdecl FUN_0066dba0(int a);
-float __cdecl FUN_0066dc70(int a);
+int __cdecl ActionPoints_GetAttackAction(int a);
+float __cdecl ActionPoints_GetCost(int a);
 void __cdecl FUN_005e58f0(int a, int b, int c, float* d);
 float __cdecl GetObjectValue(SpawnedObject* obj);
 extern "C" int __cdecl FUN_004019a0(void*);
@@ -703,7 +703,7 @@ struct E640Item
 };
 struct E640Cls : DetClassCls
 {
-    void __thiscall FUN_0066e640(BGSSaveFormBuffer* buffer);
+    void __thiscall ActorCause_InitItem(BGSSaveFormBuffer* buffer);
 };
 struct S_00660510_Context
 {
@@ -747,10 +747,10 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
 }
 }
 
-float __cdecl FUN_0066dc70(int value);
+float __cdecl ActionPoints_GetCost(int value);
 float* __fastcall FUN_00403e20(void* object);
 extern unsigned char DAT_011d5f88;
-float __cdecl FUN_0066dca0(int value, bool unscaled);
+float __cdecl GetRequiredAPForAction(int value, bool unscaled);
 extern NiPoint3 DAT_011f426c;
 struct SaveNodeExtended : SaveNodeCls
 {
@@ -785,7 +785,8 @@ struct DetectionGroup
     void ClearAndReset();
 };
 // @fnv 0x0066e100
-void __cdecl FUN_0066e100(unsigned int key)
+// src: COMMUNITY 0x0066e100
+void __cdecl ActorCause_ClearActor(unsigned int key)
 {
     G2* node = &g_011d6124;
     while (node && !node->IsEmpty())

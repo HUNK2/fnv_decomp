@@ -171,7 +171,7 @@ bool BGSTerminal::Load(TESFile* file)
         case 'MANP': {
             BGSNote* password = 0;
             file->GetChunkData((unsigned int*)&password);
-            FUN_00500a20(password);
+            BGSTerminal_SetPassword(password);
             break;
         }
         case 'MAND':
@@ -317,7 +317,8 @@ bool PlayerCharacter::HasNote(BGSNote* note)
 }
 
 // @fnv 0x00501a10
-void __cdecl FUN_00501a10(Script* apScript)
+// src: COMMUNITY 0x00501a10
+void __cdecl BGSTerminal_ResetState(Script* apScript)
 {
     if (apScript)
         reinterpret_cast<BaseExtraList*>(apScript->GetReferencedObjectList())->RemoveExtra(static_cast<unsigned char>(0x50));
@@ -346,8 +347,8 @@ bool __cdecl FUN_005012c0(TESObjectREFR* apRef)
 // These declarations carry no local ExtraDataList layout.
 struct TerminalExtraDataAccess
 {
-    unsigned char __thiscall FUN_0041bf50();
-    void __thiscall FUN_0041bf80(int state);
+    unsigned char __thiscall ExtraDataList_GetTerminalState();
+    void __thiscall ExtraDataList_SetTerminalLockState(int state);
     char __thiscall FUN_0041c060();
     void __thiscall SetExtraState(unsigned char state);
 };
@@ -357,7 +358,7 @@ struct TerminalExtraDataAccess
 struct TerminalStateAccess : BGSTerminal
 {
     bool FUN_005015d0();
-    void FUN_00501b40(Script* script);
+    void BGSTerminal_SetUnlocked(Script* script);
     void FUN_00511860(void* buffer);
     void FUN_00501b90(void* buffer);
     int FUN_005011a0(TESObjectREFR* ref);
@@ -368,7 +369,7 @@ struct TerminalStateAccess : BGSTerminal
     void FUN_005118c0(BGSLoadFormBuffer* buffer);
     void FUN_00501bb0(BGSLoadFormBuffer* buffer);
     bool IsFlagSet();
-    void FUN_00501050();
+    void BGSTerminal_ClearMenuItemList();
 };
 
 // @fnv 0x005015d0
@@ -378,14 +379,15 @@ bool TerminalStateAccess::FUN_005015d0()
 }
 
 // @fnv 0x00501b40
-void TerminalStateAccess::FUN_00501b40(Script* pScript)
+// src: COMMUNITY 0x00501b40
+void TerminalStateAccess::BGSTerminal_SetUnlocked(Script* pScript)
 {
     if (pScript)
     {
         if (FUN_005015d0())
-            ((TerminalExtraDataAccess*)pScript->GetReferencedObjectList())->FUN_0041bf80(-1);
+            ((TerminalExtraDataAccess*)pScript->GetReferencedObjectList())->ExtraDataList_SetTerminalLockState(-1);
         else
-            ((TerminalExtraDataAccess*)pScript->GetReferencedObjectList())->FUN_0041bf80(-2);
+            ((TerminalExtraDataAccess*)pScript->GetReferencedObjectList())->ExtraDataList_SetTerminalLockState(-2);
     }
 }
 
@@ -425,14 +427,15 @@ bool __thiscall TermHack::IsSkillSufficient(TESObjectREFR* apItemActivated, floa
 
 // Returns true if apRef is non-null and the state byte from its referenced object list has bit 0x80 set.
 // @fnv 0x00501870
-bool __cdecl FUN_00501870(TESObjectREFR* apRef)
+// src: COMMUNITY 0x00501870
+bool __cdecl BGSTerminal_IsHacked(TESObjectREFR* apRef)
 {
     bool bretval;
     unsigned char cstate;
     bretval = false;
     if (apRef)
     {
-        cstate = ((TerminalExtraDataAccess*)((Script*)apRef)->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = ((TerminalExtraDataAccess*)((Script*)apRef)->GetReferencedObjectList())->ExtraDataList_GetTerminalState();
         if (cstate & 0x80)
             bretval = true;
     }
@@ -460,9 +463,9 @@ void TerminalStateAccess::FUN_00501a80(Script* apScript, int aiValue)
     if (apScript)
     {
         if (aiValue == Data.m_ucByte0 && !FUN_005015d0())
-            ((TerminalExtraDataAccess*)(apScript->GetReferencedObjectList()))->FUN_0041bf80(-1);
+            ((TerminalExtraDataAccess*)(apScript->GetReferencedObjectList()))->ExtraDataList_SetTerminalLockState(-1);
         else
-            ((TerminalExtraDataAccess*)(apScript->GetReferencedObjectList()))->FUN_0041bf80((unsigned char)aiValue);
+            ((TerminalExtraDataAccess*)(apScript->GetReferencedObjectList()))->ExtraDataList_SetTerminalLockState((unsigned char)aiValue);
     }
 }
 
@@ -539,7 +542,7 @@ bool __cdecl FUN_00501990(Script* apScript)
 {
     if (apScript)
     {
-        unsigned char cstate = reinterpret_cast<TerminalExtraDataAccess*>(apScript->GetReferencedObjectList())->FUN_0041bf50();
+        unsigned char cstate = reinterpret_cast<TerminalExtraDataAccess*>(apScript->GetReferencedObjectList())->ExtraDataList_GetTerminalState();
         switch (cstate & 0x7f)
         {
         case 0:
@@ -562,7 +565,7 @@ void __cdecl SetScriptLockState(Script* apRef, bool abLock)
     unsigned char cstate;
     if (apRef)
     {
-        cstate = ((TerminalExtraDataAccess*)apRef->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = ((TerminalExtraDataAccess*)apRef->GetReferencedObjectList())->ExtraDataList_GetTerminalState();
         if (abLock)
             cstate++;
         else
@@ -589,7 +592,7 @@ void FUN_005018b0(Script* apRef, bool abVal)
     unsigned char ucNewState;
     if (apRef != 0)
     {
-        cstate = ((TerminalExtraDataAccess*)apRef->GetReferencedObjectList())->FUN_0041bf50();
+        cstate = ((TerminalExtraDataAccess*)apRef->GetReferencedObjectList())->ExtraDataList_GetTerminalState();
         if (abVal)
         {
             cstate = cstate | 0x80;
@@ -605,7 +608,7 @@ void FUN_005018b0(Script* apRef, bool abVal)
     }
 }
 
-int __cdecl FUN_00404dc0(const char* pcString1, const char* pcString2);
+int __cdecl BSstricmp(const char* pcString1, const char* pcString2);
 int __cdecl FUN_00408b20(const char* pcString1, const char* pcString2);
 
 // Compares this string's C string with pcOther, case-insensitively when bIgnoreCase is set, returning 0 when both are null.
@@ -614,7 +617,7 @@ template <> int BSStringT<char>::StrCmp(const char* pcOther, bool bIgnoreCase) c
 {
     int iResult;
     if (pcOther && String())
-        iResult = bIgnoreCase ? FUN_00404dc0(String(), pcOther) : FUN_00408b20(String(), pcOther);
+        iResult = bIgnoreCase ? BSstricmp(String(), pcOther) : FUN_00408b20(String(), pcOther);
     else if (!pcOther && !String())
         iResult = 0;
     else
@@ -631,7 +634,7 @@ struct TerminalCleanup
 void BGSTerminal::ClearData()
 {
     TESForm::ClearData();
-    reinterpret_cast<TerminalStateAccess*>(this)->FUN_00501050();
+    reinterpret_cast<TerminalStateAccess*>(this)->BGSTerminal_ClearMenuItemList();
 }
 
 extern "C" void* memcpy(void*, const void*, unsigned int);
@@ -652,9 +655,9 @@ void BGSTerminal::CopyFrom(const TESForm* apForm)
     if (!pTerminal)
         return;
     BSSimpleList<TerminalMenuItem*>* pIter = 0;
-    FUN_00500a20(((TerminalPasswordAccess*)pTerminal)->GetPassword());
+    BGSTerminal_SetPassword(((TerminalPasswordAccess*)pTerminal)->GetPassword());
     memcpy(&Data, &pTerminal->Data, sizeof(Data));
-    reinterpret_cast<TerminalStateAccess*>(this)->FUN_00501050();
+    reinterpret_cast<TerminalStateAccess*>(this)->BGSTerminal_ClearMenuItemList();
     pIter = pTerminal->FUN_00461150();
     while (pIter && !pIter->IsEmpty())
     {
@@ -738,7 +741,8 @@ struct TerminalMenuItemDisposal
 };
 
 // @fnv 0x00501050
-void TerminalStateAccess::FUN_00501050()
+// src: COMMUNITY 0x00501050
+void TerminalStateAccess::BGSTerminal_ClearMenuItemList()
 {
     while (m_kMenuItems.IsEmpty() == 0)
     {
@@ -765,7 +769,7 @@ struct SaveScript
 bool __cdecl FUN_00401500();
 unsigned int __cdecl BSStringLength(const char*);
 void __cdecl FUN_004856f0(unsigned int, const void*, unsigned int);
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 void __cdecl FUN_00485910(unsigned int, unsigned int);
 void __cdecl AppendChunk(unsigned int, void*, unsigned int);
 
@@ -776,10 +780,10 @@ void BGSTerminal::SaveForm()
     TESFullName::FUN_00487010();
     reinterpret_cast<SaveModel*>(reinterpret_cast<char*>(this) +
         offsetof(BGSTerminal, m_kModelFilePath) - offsetof(TESModelTextureSwap, m_kModelFilePath))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    TESScriptableForm::FUN_0048cca0();
+    TESScriptableForm::Save_0048cca0();
     reinterpret_cast<DestructibleSaveAccess*>(reinterpret_cast<char*>(this) +
         offsetof(BGSTerminal, pData) - offsetof(BGSDestructibleObjectForm, pData))->FUN_00477f20();
-    TESDescription::FUN_00482cb0();
+    TESDescription::Save_00482cb0();
     if (m_pSoundEffect)
     {
         unsigned int soundID = reinterpret_cast<TESForm*>(m_pSoundEffect)->GetFormID();
@@ -812,7 +816,7 @@ void BGSTerminal::SaveForm()
                 BSStringLength(static_cast<const char*>(item->m_kMenuText)) + 1);
         else
             FUN_00485910(0x4d414e52, 0);
-        FUN_004858f0(0x4d414e41, item->cFlags);
+        TESForm_AddChunk_3(0x4d414e41, item->cFlags);
         if (item->m_pNote)
         {
             unsigned int noteID = item->m_pNote->GetFormID();

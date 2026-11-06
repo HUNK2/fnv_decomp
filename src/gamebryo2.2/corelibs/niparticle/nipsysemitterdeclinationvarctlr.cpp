@@ -7,7 +7,8 @@
 extern "C" void* g_01202750;
 
 // @fnv 0x00c2b8b0
-void* __cdecl FUN_00c2b8b0()
+// src: COMMUNITY 0x00c2b8b0
+void* __cdecl NiPSysEmitterDeclinationVarCtlr_GetRTTI()
 {
     return &g_01202750;
 }
@@ -31,13 +32,13 @@ void NiPSysEmitterDeclinationVarCtlr::FUN_00c2b8c0(float& fValue)
 }
 
 void __stdcall FUN_00c32f60(StrArr* pArr);
-char* FUN_00a7d330(char* s);
+char* NiViewerStrings_NiGetViewerString_Title(char* s);
 
 // @fnv 0x00c2b920
 void __stdcall FUN_00c2b920(StrArr* pStringArray)
 {
     FUN_00c32f60(pStringArray);
-    char* s = FUN_00a7d330((char*)g_01202750);
+    char* s = NiViewerStrings_NiGetViewerString_Title((char*)g_01202750);
     unsigned int uiIndex = pStringArray->m_usSize;
     if (uiIndex >= pStringArray->m_usMaxSize)
         pStringArray->SetSize(uiIndex + pStringArray->m_usGrowBy);

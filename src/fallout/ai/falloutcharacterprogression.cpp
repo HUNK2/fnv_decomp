@@ -10,12 +10,12 @@ public:
 class BGSSaveLoadUI_falloutcharacterprogression
 {
 public:
-    void FUN_007d0bb0();
-    void FUN_007d0bd0(bool);
-    bool FUN_007d3170();
-    bool FUN_00a26090(char*);
+    void XGamerProfile_ForcePresenceUpdate();
+    void XGamerProfile_SetPlayingFlag(bool);
+    bool XGamerProfile_GetRumbleDefault();
+    bool XGamerProfile_RedeemCode(char*);
     bool FUN_00a26020(char const*);
-    void FUN_00a26120(char*);
+    void XGamerProfile_RevokeCode(char*);
 };
 // NiNodeBooleanState_falloutcharacterprogression: local type (was include/NiNodeBooleanState.h, which had no evidence of one real class); its methods are 0x008d0360 ReturnTrue, 0x008d51f0 CharacterProgression::QReadyToLevelUp, 0x008d5270 CharacterProgression::FinishLevelUp
 #include "../../../include/NiAVObject.h"
@@ -113,11 +113,12 @@ struct FUN_008d55b0_shell
     unsigned char m_b0;
     int m_i4;
     unsigned char m_b8;
-    void __thiscall FUN_008d55b0();
+    void __thiscall CharacterProgressionData_InitializeData();
 };
 
 // @fnv 0x008d55b0
-void __thiscall FUN_008d55b0_shell::FUN_008d55b0()
+// src: COMMUNITY 0x008d55b0
+void __thiscall FUN_008d55b0_shell::CharacterProgressionData_InitializeData()
 {
     m_b0 = 0;
     m_i4 = ActorValueUtility_falloutcharacterprogression::ConvertActorValue(2);
@@ -137,7 +138,7 @@ struct Snd_
 };
 // The shared audio header does not yet declare FUN_00ad7fa0(const char*, int).
 extern PlayerCharacter* g_thePlayer;
-void __cdecl FUN_00706270();
+void __cdecl LevelUpMenu_Create_();
 // If the flag is set, plays the UILevelUp sound, raises the player's actor base level by one and calls FUN_00706270.
 // @fnv 0x008d5210
 void Flt::LevelUpPlayer()
@@ -146,7 +147,7 @@ void Flt::LevelUpPlayer()
         return;
     BSAudio::GetSingleton()->FUN_00ad7fa0("UILevelUp", 0x121);
     ((TESActorBaseData*)((char*)g_thePlayer->Actor::GetActorBase() + 0x30))->SetLevel(g_thePlayer->Actor::GetLevel() + 1);
-    FUN_00706270();
+    LevelUpMenu_Create_();
 }
 }  // namespace fnv_008d5210
 
@@ -172,7 +173,7 @@ namespace fnv_008d5550 {
 struct Flt
 {
     operator unsigned int() const;
-    void FUN_008d5550(int, int);
+    void CharacterProgression_LoadGameTES(int, int);
 };
 // The shared player header does not yet declare this stream operation.
 struct PC7d
@@ -182,7 +183,8 @@ struct PC7d
 extern PC7d* g_thePlayer;
 // Calls FUN_00484d00 on g_thePlayer twice, passing the value of *this and *this + 4 with sizes 1 and 4.
 // @fnv 0x008d5550
-void Flt::FUN_008d5550(int, int)
+// src: COMMUNITY 0x008d5550
+void Flt::CharacterProgression_LoadGameTES(int, int)
 {
     g_thePlayer->FUN_00484d00((unsigned int)*this, 1);
     g_thePlayer->FUN_00484d00((unsigned int)*this + 4, 4);
@@ -191,14 +193,15 @@ void Flt::FUN_008d5550(int, int)
 
 struct FUN_008d5590_shell
 {
-    void __thiscall FUN_008d55b0();
-    void* __thiscall FUN_008d5590();
+    void __thiscall CharacterProgressionData_InitializeData();
+    void* __thiscall CharacterProgressionData_CharacterProgressionData();
 };
 
 // @fnv 0x008d5590
-void* __thiscall FUN_008d5590_shell::FUN_008d5590()
+// src: COMMUNITY 0x008d5590
+void* __thiscall FUN_008d5590_shell::CharacterProgressionData_CharacterProgressionData()
 {
-    FUN_008d55b0();
+    CharacterProgressionData_InitializeData();
     return this;
 }
 
@@ -239,7 +242,7 @@ void NiNodeBooleanState_falloutcharacterprogression::FUN_008d5270()
         DAT_011e0e80.FUN_00975ea0();
         if (FUN_00a25920())
         {
-            FUN_00a25920()->FUN_007d0bb0();
+            FUN_00a25920()->XGamerProfile_ForcePresenceUpdate();
         }
         if (g_011e0a30.GetBoolValue())
         {
@@ -315,7 +318,8 @@ struct FUN_008d55e0_shell
 extern PlayerCharacter* _g_thePlayer;
 
 // @fnv 0x008d53f0
-void FUN_008d53f0(void* apTarget, int a2, int aiUnused, float afValue)
+// src: COMMUNITY 0x008d53f0
+void AV_XP_HandleChange(void* apTarget, int a2, int aiUnused, float afValue)
 {
     Actor* pActor = apTarget ? (Actor*)((char*)apTarget - 0xa4) : 0;
     if (pActor && pActor->IsPlayerRef())

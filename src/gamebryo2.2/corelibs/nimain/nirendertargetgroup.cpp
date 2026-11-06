@@ -10,7 +10,8 @@
 extern NiRTTI g_012708ec;
 
 // @fnv 0x00ee8530
-NiRTTI* __cdecl FUN_00ee8530()
+// src: COMMUNITY 0x00ee8530
+NiRTTI* __cdecl NiRenderTargetGroup_GetRTTI()
 {
     return &g_012708ec;
 }
@@ -101,12 +102,12 @@ void* __thiscall NiRenderTargetGroup::FUN_00ee87e0(unsigned int flags)
 }
 
 void __stdcall AppendCameraPathEntries(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 // @fnv 0x00ee8800
 void __stdcall FUN_00ee8800(StrArr* pkStrings)
 {
     AppendCameraPathEntries(pkStrings);
-    char* pString = FUN_00a7d330(*(const char**)&g_012708ec);
+    char* pString = NiViewerStrings_NiGetViewerString_Title(*(const char**)&g_012708ec);
     unsigned int size = pkStrings->m_usSize;
     unsigned int max = pkStrings->m_usMaxSize;
     if (size >= max)
@@ -264,7 +265,8 @@ struct SpawnedObject
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
 // @fnv 0x00ee8760
-SpawnedObject* __cdecl FUN_00ee8760(void* a1, NiRenderer* apSource, void* a3)
+// src: COMMUNITY 0x00ee8760
+SpawnedObject* __cdecl NiRenderTargetGroup_Create_(void* a1, NiRenderer* apSource, void* a3)
 {
     if (apSource == 0)
     {
@@ -355,11 +357,12 @@ class AA1AC0Class
     int unk1C;
     unsigned int unk20;
 
-    virtual unsigned int FUN_00aa1ac0();
+    virtual unsigned int NiFile_GetBuffer();
 };
 
 // @fnv 0x00aa1ac0
-unsigned int AA1AC0Class::FUN_00aa1ac0()
+// src: COMMUNITY 0x00aa1ac0
+unsigned int AA1AC0Class::NiFile_GetBuffer()
 {
     return unk20;
 }

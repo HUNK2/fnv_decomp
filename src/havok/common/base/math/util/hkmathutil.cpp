@@ -24,7 +24,7 @@ struct S_c7a410_B
 };
 struct S_c7a410_C
 {
-    void FUN_00c66320(const void* p, S_c7a410_A* a);
+    void setMul(const void* p, S_c7a410_A* a);
     int unk00;
     int unk04;
     int unk08;
@@ -32,7 +32,7 @@ struct S_c7a410_C
 };
 struct S_c7a410_D
 {
-    void FUN_00c74b70(S_c7a410_A* b, S_c7a410_C* c);
+    void hkQuaternion_setInverseMul(S_c7a410_A* b, S_c7a410_C* c);
     void FUN_00cb2ca0(const S_c7a410_Vec* v, const void* o, float* out);
     int unk00;
     int unk04;
@@ -118,9 +118,9 @@ void FUN_00c7a410(S_c7a410_Obj* obj, char* apBuffer)
             S_c7a410_A b;
             b.FUN_00cb26e0((char*)p + 0x60);
             S_c7a410_C c;
-            c.FUN_00c66320(apBuffer + 0x10 + iIndex * 0x30, &a);
+            c.setMul(apBuffer + 0x10 + iIndex * 0x30, &a);
             S_c7a410_D d;
-            d.FUN_00c74b70(&b, &c);
+            d.hkQuaternion_setInverseMul(&b, &c);
             S_c7a410_Vec v;
             _mm_store_ps(&v.x, _mm_setr_ps(DAT_01012068, DAT_01011d78, DAT_01011d78, DAT_01011d78));
             float out;

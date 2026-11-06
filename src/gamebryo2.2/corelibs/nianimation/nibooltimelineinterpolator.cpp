@@ -12,7 +12,8 @@
 extern "C" void* g_011f4044;
 
 // @fnv 0x00a52d70
-void* __cdecl FUN_00a52d70()
+// src: COMMUNITY 0x00a52d70
+void* __cdecl NiBoolTimelineInterpolator_GetRTTI()
 {
     return &g_011f4044;
 }
@@ -229,11 +230,12 @@ void NiBoolInterpolator::CopyMemberData(NiBoolInterpolator* pkDest, CloningProce
     pkDest->m_uiLastKeyIndex = m_uiLastKeyIndex;
 }
 
-void __cdecl FUN_00a43330();
+void __cdecl j_j_j_nullsub_3();
 // @fnv 0x00a514d0
-void __cdecl FUN_00a514d0()
+// src: COMMUNITY 0x00a514d0
+void __cdecl j_j_j_j_nullsub_3()
 {
-    FUN_00a43330();
+    j_j_j_nullsub_3();
 }
 
 void __cdecl SaveToStream();

@@ -49,7 +49,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f406c;
 // @fnv 0x00a55af0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a55af0()
+// src: COMMUNITY 0x00a55af0
+GlobalObjectO2_00a7b610* __cdecl NiBlendPoint3Interpolator_GetRTTI()
 {
     return &g_011f406c;
 }
@@ -91,7 +92,7 @@ struct GlobalObjectO2_00a7b610
     void* p;
 };
 extern GlobalObjectO2_00a7b610 g_011f406c;
-char* FUN_00a7d330(GlobalObjectO2_00a7b610);
+char* NiViewerStrings_NiGetViewerString_Title(GlobalObjectO2_00a7b610);
 struct ViewerBase
 {
     void FUN_00a38080(void*);
@@ -105,7 +106,7 @@ void FUN_00a55ef0_shell::AppendPoint3Value(void* pkStrings)
 {
     ((ViewerBase*)this)->FUN_00a38080(pkStrings);
     StrArr* arr = (StrArr*)pkStrings;
-    char* pElement = FUN_00a7d330(g_011f406c);
+    char* pElement = NiViewerStrings_NiGetViewerString_Title(g_011f406c);
     unsigned int i = arr->m_usSize;
     if (i >= arr->m_usMaxSize)
         arr->SetSize(arr->m_usGrowBy + i);

@@ -57,13 +57,14 @@ void* __thiscall FUN_00c220a0_shell::FUN_00c220a0(unsigned int flags)
 
 struct FUN_00c21fd0_shell : public NiPSysEmitter
 {
-    void* FUN_00c21fd0();
+    void* NiPSysEmitter_GetRTTI();
 };
 
 extern char const* const g_01202500_arg1;
 
 // @fnv 0x00c21fd0
-void* __thiscall FUN_00c21fd0_shell::FUN_00c21fd0()
+// src: COMMUNITY 0x00c21fd0
+void* __thiscall FUN_00c21fd0_shell::NiPSysEmitter_GetRTTI()
 {
     return (void*)&g_01202500_arg1;
 }
@@ -227,7 +228,8 @@ bool FUN_00c226a0_cls::Equals(FUN_00c226a0_cls* other)
 }
 
 // @fnv 0x00d070a0
-void __stdcall FUN_00d070a0(int, int)
+// src: COMMUNITY 0x00d070a0
+void __stdcall ThisCall_Nullsub_2Ints(int, int)
 {}
 
 extern int __cdecl FUN_00ecadb8();

@@ -528,7 +528,8 @@ int __cdecl FUN_00ec8965(int);
 extern const char* const DAT_01019f08;
 
 // @fnv 0x00b37f50
-const char* __cdecl FUN_00b37f50(const char* pInput, char* pToken)
+// src: COMMUNITY 0x00b37f50
+const char* __cdecl NextToken(const char* pInput, char* pToken)
 {
     while (FUN_00ec8965((int)*pInput))
         pInput++;
@@ -744,44 +745,45 @@ struct VecB37
 struct HostB37
 {
     float x, y, z;
-    void FUN_00b380e0(VecB37*, VecB37*, float);
-    void FUN_00b37cc0(InputB37*);
+    void CIdvBezierSpline_AddControlPoint(VecB37*, VecB37*, float);
+    void CIdvBezierSpline_Parse(InputB37*);
 };
 // Parses x, y, z and an optional list of VecB37 pairs with a float from input, then applies each via FUN_00b380e0.
 // @fnv 0x00b37cc0
-void HostB37::FUN_00b37cc0(InputB37* input)
+// src: COMMUNITY 0x00b37cc0
+void HostB37::CIdvBezierSpline_Parse(InputB37* input)
 {
     const char* _cursor = input->capacity >= 16 ? input->data.ptr : input->data.text;
     char token[256];
-    _cursor = FUN_00b37f50(_cursor, token);
+    _cursor = NextToken(_cursor, token);
     if (FUN_00ec6da0(token, &DAT_010a57e8) == 0)
     {
-        _cursor = FUN_00b37f50(_cursor, token);
+        _cursor = NextToken(_cursor, token);
         x = (float)atof(token);
-        _cursor = FUN_00b37f50(_cursor, token);
+        _cursor = NextToken(_cursor, token);
         y = (float)atof(token);
-        _cursor = FUN_00b37f50(_cursor, token);
+        _cursor = NextToken(_cursor, token);
         z = (float)atof(token);
-        _cursor = FUN_00b37f50(_cursor, token);
+        _cursor = NextToken(_cursor, token);
         if (token[0] == '{')
         {
-            _cursor = FUN_00b37f50(_cursor, token);
+            _cursor = NextToken(_cursor, token);
             int count8 = FUN_00eca6d3(token);
             for (int i5 = 0; i5 < count8; i5++)
             {
                 VecB37 second3, first4;
                 float value2;
-                _cursor = FUN_00b37f50(_cursor, token);
+                _cursor = NextToken(_cursor, token);
                 second3.x = (float)atof(token);
-                _cursor = FUN_00b37f50(_cursor, token);
+                _cursor = NextToken(_cursor, token);
                 second3.y = (float)atof(token);
-                _cursor = FUN_00b37f50(_cursor, token);
+                _cursor = NextToken(_cursor, token);
                 first4.x = (float)atof(token);
-                _cursor = FUN_00b37f50(_cursor, token);
+                _cursor = NextToken(_cursor, token);
                 first4.y = (float)atof(token);
-                _cursor = FUN_00b37f50(_cursor, token);
+                _cursor = NextToken(_cursor, token);
                 value2 = (float)atof(token);
-                FUN_00b380e0(&second3, &first4, value2);
+                CIdvBezierSpline_AddControlPoint(&second3, &first4, value2);
             }
         }
     }

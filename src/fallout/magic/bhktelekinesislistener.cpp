@@ -41,11 +41,12 @@ struct DelVirt
 };
 struct FUN_00807980_shell
 {
-    void FUN_00807980(void*);
+    void bhkTelekinesisListener_entityDeletedCallback(void*);
 };
 // Calls FUN_00807cb0 on the object at this-4 with apEntity, then deletes that object as a DelVirt.
 // @fnv 0x00807980
-void FUN_00807980_shell::FUN_00807980(void* apEntity)
+// src: COMMUNITY 0x00807980
+void FUN_00807980_shell::bhkTelekinesisListener_entityDeletedCallback(void* apEntity)
 {
     FUN_00807cb0((void*)((char*)this - 4), apEntity);
     delete (DelVirt*)((char*)this - 4);
@@ -54,11 +55,12 @@ void FUN_00807980_shell::FUN_00807980(void* apEntity)
 struct FUN_008079e0_shell
 {
     void FUN_00807a10(hkpEntity*);
-    void FUN_008079e0(hkpEntity* entity);
+    void bhkTelekinesisListener_entityDeactivatedCallback(hkpEntity* entity);
 };
 // If the byte at offset 0x10 of this is set, calls FUN_00807a10 on the object at this-8 with entity.
 // @fnv 0x008079e0
-void FUN_008079e0_shell::FUN_008079e0(hkpEntity* entity)
+// src: COMMUNITY 0x008079e0
+void FUN_008079e0_shell::bhkTelekinesisListener_entityDeactivatedCallback(hkpEntity* entity)
 {
     if (*(unsigned char*)((char*)this + 0x10))
         ((FUN_008079e0_shell*)((char*)this - 8))->FUN_00807a10(entity);

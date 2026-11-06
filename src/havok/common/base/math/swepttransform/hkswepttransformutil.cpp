@@ -561,12 +561,12 @@ int __cdecl ReadBlobObject(BlobStream* stream, BlobObject** ppOut)
 }
 }  // namespace fnv_00cf1270
 
-int __cdecl FUN_00cf1f80(int, int, int);
+int __cdecl hkSweptTransformUtil_warpTo(int, int, int);
 // @fnv 0x00cf2160
 // src: HAVOK_LIB 0x00cf2160
 int __cdecl hkSweptTransformUtil_warpToRotation(unsigned int uiValue, unsigned int arg1)
 {
-    unsigned int callResult0 = (unsigned int)FUN_00cf1f80((int)(arg1 + 48u), (int)uiValue, (int)arg1);
+    unsigned int callResult0 = (unsigned int)hkSweptTransformUtil_warpTo((int)(arg1 + 48u), (int)uiValue, (int)arg1);
     return (int)callResult0;
 }
 
@@ -806,7 +806,8 @@ struct TransformData
 };
 // Weights the row vectors by transform components, adds source, stores the result in output and output2, and copies translation to output3.
 // @fnv 0x00cf20d0
-extern "C" void __cdecl FUN_00cf20d0(const __m128* source, TransformData* data)
+// src: COMMUNITY 0x00cf20d0
+extern "C" void __cdecl hkSweptTransformUtil_warpToPosition(const __m128* source, TransformData* data)
 {
     data->zero = _mm_setzero_ps();
     data->sourceCopy = *source;
@@ -842,7 +843,8 @@ struct Obj_t
 
 // Applies a 3x3 matrix (m00, m10, m20) times a vector (m80) plus translation (first) to produce m40 and m50, preserving the w component of m40.
 // @fnv 0x00cf1f80
-void __cdecl FUN_00cf1f80(const __m128& apTranslation, const __m128& second, Obj_t* obj)
+// src: COMMUNITY 0x00cf1f80
+void __cdecl hkSweptTransformUtil_warpTo(const __m128& apTranslation, const __m128& second, Obj_t* obj)
 {
     obj->m90 = _mm_setzero_ps();
     obj->m60 = second;

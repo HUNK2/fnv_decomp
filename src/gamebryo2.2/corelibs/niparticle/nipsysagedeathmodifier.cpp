@@ -12,7 +12,8 @@
 extern NiRTTI g_01202798;
 
 // @fnv 0x00c2efe0
-const NiRTTI* __cdecl FUN_00c2efe0()
+// src: COMMUNITY 0x00c2efe0
+const NiRTTI* __cdecl NiPSysAgeDeathModifier_GetRTTI()
 {
     return &g_01202798;
 }
@@ -20,7 +21,8 @@ const NiRTTI* __cdecl FUN_00c2efe0()
 extern "C" const void* g_012027a0;
 
 // @fnv 0x00c2f3d0
-const void* __cdecl FUN_00c2f3d0()
+// src: COMMUNITY 0x00c2f3d0
+const void* __cdecl NiPSysAirFieldSpreadCtlr_GetRTTI()
 {
     return &g_012027a0;
 }
@@ -154,7 +156,7 @@ FUN_00c32d80* __cdecl NiPSysAirFieldSpreadCtlr_CreateObject()
 }
 
 void __cdecl FUN_00c319e0();
-char* __cdecl FUN_00a7d330(char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 char* __cdecl FUN_00a7d370(char const*, bool);
 char* __cdecl FUN_00a7d5e0(char const*, char const*);
 extern char const* const g_011d1f8c_arg1;
@@ -163,7 +165,7 @@ void NiPSysAgeDeathModifier::FUN_00c2f2c0(StrArr* pkStrings)
 {
     typedef void(__thiscall * ViewerStringsProc)(NiPSysModifier*, StrArr*);
     reinterpret_cast<ViewerStringsProc>(&FUN_00c319e0)(this, pkStrings);
-    char* pcString = FUN_00a7d330(*(char**)&g_01202798);
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(*(char**)&g_01202798);
     unsigned int uiIndex = ((unsigned short*)pkStrings)[5];
     if (uiIndex >= ((unsigned short*)pkStrings)[4])
         pkStrings->SetSize(((unsigned short*)pkStrings)[7] + uiIndex);

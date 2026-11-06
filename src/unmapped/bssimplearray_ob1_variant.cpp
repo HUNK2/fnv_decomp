@@ -39,7 +39,7 @@ bool AreBytesEqual(const unsigned char* a, const unsigned char* b);
 extern int DAT_0106b8c8;
 struct Dummy_0061bf20
 {
-    void FUN_006b3f40(int, int);
+    void BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(int, int);
 };
 struct FUN_006cf9a0 : Dummy_0061bf20
 {
@@ -69,7 +69,7 @@ extern int DAT_0106d4e8;
 struct FUN_006e9230_class
 {
     int* vfptr;
-    void FUN_006e97a0(int a, int b);
+    void BSSimpleArray_PathingNode_1024_InitialSetup(int a, int b);
     FUN_006e9230_class();
 };
 extern int DAT_0106d4e8;
@@ -194,11 +194,11 @@ struct FUN_006e9410_shell
 };
 struct FUN_006e9530_shell
 {
-    void FUN_006e9530();
+    void VirtualPathingNode_Copy();
 };
 struct FUN_006e9410_class
 {
-    void __thiscall FUN_006e9410(void* arg);
+    void __thiscall BSSimpleArray_VirtualPathingNode_1024_Copy(void* arg);
 };
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_006dc6e0_Class
@@ -236,7 +236,7 @@ struct FUN_0072ba80_shell
 };
 struct FUN_006f9eb0_class
 {
-    void FUN_006f9eb0(unsigned int newSize, int oldSize);
+    void BSSimpleArray_Resize_0(unsigned int newSize, int oldSize);
 };
 struct FUN_006f9790_class
 {
@@ -244,7 +244,7 @@ struct FUN_006f9790_class
     char* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    void FUN_006f9790(unsigned int aiReserveSize);
+    void BSSimpleArray_SetAllocSize(unsigned int aiReserveSize);
 };
 struct FUN_006e1280_Class
 {
@@ -252,7 +252,7 @@ struct FUN_006e1280_Class
 };
 struct FUN_006cf520_Class
 {
-    int __thiscall FUN_006cf520(const unsigned char* aValue);
+    int __thiscall BSScrapArray_bool_1024_Add(const unsigned char* aValue);
 };
 struct FUN_006d0450_Class
 {
@@ -270,11 +270,11 @@ struct NavMeshEdgeReference
 };
 struct FUN_006f3170_Class
 {
-    bool FUN_006f3170();
+    bool BSSimpleArray_HasSufficientCapacity();
 };
 struct FUN_00869600_Class
 {
-    unsigned int FUN_00869600();
+    unsigned int BSSimpleArray_GetOptimalCapacity();
 };
 struct FUN_0061bf70_Class
 {
@@ -290,7 +290,7 @@ struct FUN_0061bf70_Class
 extern int DAT_0106c954;
 struct FUN_006d0310_Class
 {
-    void FUN_006d0310(unsigned int, unsigned int);
+    void BSSimpleArray_NavMeshEdgeLocation_1024_InitialSetup(unsigned int, unsigned int);
 };
 struct FUN_006cf200
 {
@@ -322,11 +322,11 @@ struct PSClearStub
 };
 struct SaveGameSizeState
 {
-    void __thiscall FUN_006e95d0(unsigned int pBuffer, unsigned int ItemUpdateArray);
+    void __thiscall BSSimpleArray_VirtualPathingNode_1024_ConstructItems(unsigned int pBuffer, unsigned int ItemUpdateArray);
 };
 struct S5460Helper
 {
-    void __thiscall FUN_006cfe70(unsigned int aiNewSize, unsigned int uiOldSize);
+    void __thiscall BSSimpleArray_VirtualPathingNode_1024_ReallocateBuffer(unsigned int aiNewSize, unsigned int uiOldSize);
 };
 struct FUN_006e90a0_class
 {
@@ -364,7 +364,7 @@ struct FUN_006bf8f0_Class
 };
 struct FUN_006a2270_class
 {
-    void FUN_006a2270(char* pDest, char* pSource, unsigned int ItemUpdateArray);
+    void BSSimpleArray_PathingNode_1024_CopyItems(char* pDest, char* pSource, unsigned int ItemUpdateArray);
 };
 struct FUN_006cf000_Class
 {
@@ -500,7 +500,7 @@ struct FUN_006cf940_cls
     char* m_04;
     unsigned int m_08;
 
-    void FUN_006cf940(FUN_006cf940_Owner* a1);
+    void BSSimpleArray_CopyTo_0(FUN_006cf940_Owner* a1);
 };
 struct FUN_006cfac0_base
 {
@@ -528,7 +528,7 @@ struct FUN_006d0540_shell
 };
 struct FUN_006cfe70_Class : public FUN_006d0540_shell
 {
-    void __thiscall FUN_006cfe70(int value, int count);
+    void __thiscall BSSimpleArray_VirtualPathingNode_1024_ReallocateBuffer(int value, int count);
 };
 void* __cdecl operator new(unsigned int size, void* place);
 void __cdecl operator delete(void* p, void* place);
@@ -565,7 +565,7 @@ struct FUN_006e9470_cls
     char* m_04;
     unsigned int m_08;
 
-    void FUN_006e9470(FUN_006e9470_Helper* pHelper);
+    void BSSimpleArray_PathingNode_1024_Copy(FUN_006e9470_Helper* pHelper);
 };
 struct S_00a0d000_Class
 {
@@ -628,7 +628,7 @@ struct FUN_006e9280_shell
     FUN_006e9280_Item* m_pBuffer;
     unsigned int m_uiSize;
     unsigned int m_uiCapacity;
-    void FUN_006a21c0(unsigned int uiNewAlloc, unsigned int uiCopy);
+    void BSSimpleArray_PathingNode_1024_ReallocateBuffer(unsigned int uiNewAlloc, unsigned int uiCopy);
     void ConstructArray(FUN_006e9280_Item* pItems, unsigned int ItemUpdateArray);
     void FUN_006cff20(FUN_006e9280_Item* pItems, unsigned int ItemUpdateArray);
     void FUN_006e9280(unsigned int uiNewSize, bool bShrink);
@@ -844,11 +844,12 @@ struct ArrayConstructor
         }
     }
 
-    ArrayConstructor* FUN_00a1bef0();
+    ArrayConstructor* BSSimpleArray_ButtonIcon_1024_BSSimpleArray_ButtonIcon_1024();
 };
 
 // @fnv 0x00a1bef0
-ArrayConstructor* ArrayConstructor::FUN_00a1bef0()
+// src: COMMUNITY 0x00a1bef0
+ArrayConstructor* ArrayConstructor::BSSimpleArray_ButtonIcon_1024_BSSimpleArray_ButtonIcon_1024()
 {
     vfptr = &DAT_0109527c;
     Initialize(0, 0);

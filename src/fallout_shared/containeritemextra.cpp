@@ -136,14 +136,15 @@ bool __cdecl FUN_0040eb10(float aX, float aY, float afPrecision)
 
 struct FUN_0040eb90_shell : public ContainerItemExtra
 {
-    void FUN_0040eb90(float);
+    void ContainerItemExtra_AdjustHealthPercent(float);
 };
 
 float __cdecl FUN_00404010(float, float);
 float __cdecl FUN_0040ebd0(float, float);
 
 // @fnv 0x0040eb90
-void FUN_0040eb90_shell::FUN_0040eb90(float afHealthPerc)
+// src: COMMUNITY 0x0040eb90
+void FUN_0040eb90_shell::ContainerItemExtra_AdjustHealthPercent(float afHealthPerc)
 {
     m_fHealth = FUN_00404010(0.0f, FUN_0040ebd0(1.0f, afHealthPerc));
 }

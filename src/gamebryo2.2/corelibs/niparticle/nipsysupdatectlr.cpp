@@ -9,7 +9,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01202690;
 
 // @fnv 0x00c27130
-GlobalObjectO2_00a7b610* __cdecl FUN_00c27130()
+// src: COMMUNITY 0x00c27130
+GlobalObjectO2_00a7b610* __cdecl NiPSysUpdateCtlr_GetRTTI()
 {
     return &g_01202690;
 }
@@ -17,7 +18,8 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00c27130()
 extern char const* const g_011dfe40_arg1;
 
 // @fnv 0x00a6d280
-char const* const& __cdecl FUN_00a6d280()
+// src: COMMUNITY 0x00a6d280
+char const* const& __cdecl NiTimeController_GetRTTI()
 {
     return g_011dfe40_arg1;
 }
@@ -167,7 +169,7 @@ void FnvNode::NiPSysUpdateCtlr_SetTarget(FnvNode* pTarget)
 }
 
 void __stdcall FUN_00a6d830(StrArr*);
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 
 struct GlobalObjectO2_00a7b610
 {
@@ -179,7 +181,7 @@ struct GlobalObjectO2_00a7b610
 void __stdcall FUN_00c27300(StrArr* pkStrings)
 {
     FUN_00a6d830(pkStrings);
-    char* str = FUN_00a7d330(g_01202690.m_pcName);
+    char* str = NiViewerStrings_NiGetViewerString_Title(g_01202690.m_pcName);
     unsigned int size = pkStrings->m_usSize;
     if (size >= pkStrings->m_usMaxSize)
     {

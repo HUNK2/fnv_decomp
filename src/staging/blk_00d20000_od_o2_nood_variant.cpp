@@ -1043,9 +1043,9 @@ void __cdecl FUN_00d39130(FourByteState*, hkpAgentData*, hkpContactMgr*, hkpCons
 hkpAgentData* __cdecl ReleaseHandles(FourByteState*, hkpAgentData*, hkpContactMgr*, hkpConstraintOwner&);
 void __cdecl RemoveKeyFromTable(FourByteState*, hkpAgentData*, hkContactPointId);
 void __cdecl InsertIntoSlotArray(FourByteState*, hkpAgentData*, hkContactPointId);
-void __cdecl FUN_00d39090(FourByteState*, hkpAgentData*, hkContactPointId);
+void __cdecl nullsub_15(FourByteState*, hkpAgentData*, hkContactPointId);
 void __cdecl FUN_00d39150(const AgentProcessingInput&, FourByteState*, hkpAgentData*, hkVector4&);
-hkpAgentData* __cdecl FUN_00d39390(const AgentSubtypeMarker&, FourByteState*, hkpAgentData*, hkVector4*,
+hkpAgentData* __cdecl hkCapsuleTriangleAgent3_process(const AgentSubtypeMarker&, FourByteState*, hkpAgentData*, hkVector4*,
                                  WorldOperationEntry&);
 
 // @fnv 0x00d39840
@@ -1063,12 +1063,12 @@ void __cdecl hkCapsuleTriangleAgent3_registerAgent3(hkpCollisionDispatcher* pkDi
     kFuncs.m_pUpdateFilterFunc = 0;
     kFuncs.m_bIsPredictive = false;
     kFuncs.m_pCreateFunc = InitOutputDefaults;
-    kFuncs.m_pAgentFunction8 = FUN_00d39390;
+    kFuncs.m_pAgentFunction8 = hkCapsuleTriangleAgent3_process;
     kFuncs.m_pAgentFunction7 = FUN_00d39150;
     kFuncs.m_pAgentFunction3 = ReleaseHandles;
     kFuncs.m_pAgentFunction4 = RemoveKeyFromTable;
     kFuncs.m_pAgentFunction5 = InsertIntoSlotArray;
-    kFuncs.m_pCreateZombieFunc = FUN_00d39090;
+    kFuncs.m_pCreateZombieFunc = nullsub_15;
     kFuncs.m_pAgent3DestroyFuncs = FUN_00d39130;
     pkDispatcher->AddEntry(&kFuncs, 5, 3);
 }
@@ -1285,7 +1285,8 @@ struct Processor
     void FUN_00db2960(unsigned char*);
 };
 // @fnv 0x00d3fe90
-void* __cdecl FUN_00d3fe90(Params* p, unsigned char* out, unsigned char* obj, int unused, int z)
+// src: COMMUNITY 0x00d3fe90
+void* __cdecl hkBoxBoxAgent3_process(Params* p, unsigned char* out, unsigned char* obj, int unused, int z)
 {
     ProfileBuffer* buf = (ProfileBuffer*)TlsGetValue(DAT_0126835c);
     if (buf->current < buf->end)

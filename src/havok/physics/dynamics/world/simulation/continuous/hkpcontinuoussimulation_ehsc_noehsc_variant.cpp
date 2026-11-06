@@ -1389,8 +1389,8 @@ inline void VisitL(OwnerL* owner, unsigned char** ppFlags, float fValue)
     }
 }
 void CollectUnsaturatedObjects(SrcL* pSource, int level, float fValue, unsigned char** ppFlags, ArrL<ObjL*>* out);
-void __stdcall FUN_00d0bc50(int, int, int);
-void __stdcall FUN_00d0bcf0(int a);
+void __stdcall nullsub_66(int, int, int);
+void __stdcall nullsub_67(int a);
 struct MotionBody {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
@@ -2903,7 +2903,7 @@ __declspec(nothrow) void hkpWorldAgentUtil_invalidateTim(DynamicNode*,const Coll
 __declspec(nothrow) void FUN_00d0bf30(Resources&,const List<DynamicNode*>&) throw();
 __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources&,const List<SchemaRecord>&,ProcessInput&,List<Violation>*) throw();
 __declspec(nothrow) void FUN_00d8aac0(const ResourceInfo&,Schema*,Accumulator*,SolverElement*) throw();
-__declspec(nothrow) void FUN_00d88580(const ResourceInfo&,const hkStepInfo&,const Accumulator*,DynamicNode* const*,int) throw();
+__declspec(nothrow) void hkpConstraintSolverSetup_oneStepIntegrate(const ResourceInfo&,const hkStepInfo&,const Accumulator*,DynamicNode* const*,int) throw();
 __declspec(nothrow) void UpdateIslandMotionStates(SolverIsland*,StateTable&,Resources&) throw();
 __declspec(nothrow) void PartitionMotionPairs(List<SchemaRecord>&,int&,int) throw();
 __declspec(nothrow) void hkLs_toiActivateConstraintsLinkingActivatedEntities(List<SchemaRecord>&,int&,StateTable&) throw();

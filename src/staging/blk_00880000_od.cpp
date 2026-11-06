@@ -17,7 +17,8 @@ extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 #pragma intrinsic(memcpy)
 
 // @fnv 0x00884c60
-void Actor::FUN_00884c60()
+// src: COMMUNITY 0x00884c60
+void Actor::ClearMoveModeAll()
 {
     StopMoving();
 }
@@ -48,12 +49,13 @@ void FUN_00888a20_Class::SetFloats(float afFirst, float afSecond)
 
 struct FUN_00888a70_class
 {
-    void __thiscall FUN_00888a70(float* a, float* b);
+    void __thiscall bhkRagdollController_GetEyeAngles(float* a, float* b);
 };
 
 // Reads the two floats at offsets 0x19c and 0x1a0 of this object and writes them to the output pointers.
 // @fnv 0x00888a70
-void __thiscall FUN_00888a70_class::FUN_00888a70(float* a, float* b)
+// src: COMMUNITY 0x00888a70
+void __thiscall FUN_00888a70_class::bhkRagdollController_GetEyeAngles(float* a, float* b)
 {
     *a = *(float*)((char*)this + 0x19c);
     *b = *(float*)((char*)this + 0x1a0);
@@ -138,7 +140,8 @@ struct LocationDescriptor
 };
 
 // @fnv 0x008984c0
-void TESObjectREFR::FUN_008984c0()
+// src: COMMUNITY 0x008984c0
+void TESObjectREFR::Actor_InitiateSurfacePackage()
 {
     FUN_008b3ad0(this);
 
@@ -335,10 +338,11 @@ class FUN_00884ae0_cls
     int unk60;
     int unk64;
     B5512Target* m_pFlagTarget;
-    bool FUN_00884ae0();
+    bool Actor_IsFightingOrAlarmed();
 };
 // @fnv 0x00884ae0
-bool FUN_00884ae0_cls::FUN_00884ae0()
+// src: COMMUNITY 0x00884ae0
+bool FUN_00884ae0_cls::Actor_IsFightingOrAlarmed()
 {
     bool result = false;
     B5512Target* t = (m_pFlagTarget != 0) ? m_pFlagTarget->v8b() : 0;
@@ -482,11 +486,12 @@ struct FUN_008885a0_Class
     virtual void d120();
     virtual FUN_004939d0_Class* FUN_008885a0_Get();
 
-    void __thiscall FUN_008885a0();
+    void __thiscall Actor_UpdateAnimMovement();
 };
 
 // @fnv 0x008885a0
-void __thiscall FUN_008885a0_Class::FUN_008885a0()
+// src: COMMUNITY 0x008885a0
+void __thiscall FUN_008885a0_Class::Actor_UpdateAnimMovement()
 {
     FUN_004939d0_Class* result = FUN_008885a0_Get();
     if (result)
@@ -539,7 +544,7 @@ struct EffectView
     float FUN_00598040();
     float FUN_009a9350();
     bool CallMemberAtOffset54();
-    bool FUN_004a4140();
+    bool BGSImpactData_GetIsAlphaBlend();
     unsigned int GetNextFromSubobject();
 };
 // 0x0058e9d0 selects BGSImpactData by material; 0x006733e0 returns its decal texture set.
@@ -1195,7 +1200,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
             data.f58 = _projectile->FUN_009a9350();
             data.f77 = 1;
             data.f74 = _projectile->CallMemberAtOffset54();
-            data.f75 = _projectile->FUN_004a4140();
+            data.f75 = _projectile->BGSImpactData_GetIsAlphaBlend();
             memcpy(&data.color, &NiPoint3((unsigned char)(_projectile->GetNextFromSubobject() & 0xff) / 255.0,
                                         (unsigned char)(((unsigned short)_projectile->GetNextFromSubobject() >> 8) & 0xff) / 255.0,
                                         (unsigned char)((_projectile->GetNextFromSubobject() >> 16) & 0xff) / 255.0), sizeof(data.color));
@@ -1335,7 +1340,7 @@ struct FnvActorProxy
     virtual int vfn_01D0();
 
     FnvHolder* FUN_008d6f30();
-    void FUN_00572230();
+    void TESObjectREFR_MarkAsPickedUp();
 };
 
 struct FnvHolder
@@ -1344,10 +1349,11 @@ struct FnvHolder
 };
 
 void __cdecl FUN_00c6a270(int a, int b, int c, int d);
-void __cdecl FUN_00867f90(FnvActorProxy* a1);
+void __cdecl GarbageCollector_Add_TESObjectREFR(FnvActorProxy* a1);
 
 // @fnv 0x00892460
-void __cdecl FUN_00892460(FnvActorProxy* a1, unsigned char a2)
+// src: COMMUNITY 0x00892460
+void __cdecl Actor_RemovePickedUpObjectFromWorld(FnvActorProxy* a1, unsigned char a2)
 {
     FnvHolder* holder;
     FUN_00c6a270(a1->vfn_01D0(), 1, 1, 0);
@@ -1355,7 +1361,7 @@ void __cdecl FUN_00892460(FnvActorProxy* a1, unsigned char a2)
     {
         holder = a1->FUN_008d6f30();
         a1->vfn_01C0();
-        FUN_00867f90(a1);
+        GarbageCollector_Add_TESObjectREFR(a1);
         if (holder != 0)
         {
             holder->FUN_0054ca90(a1);
@@ -1363,7 +1369,7 @@ void __cdecl FUN_00892460(FnvActorProxy* a1, unsigned char a2)
     }
     else
     {
-        a1->FUN_00572230();
+        a1->TESObjectREFR_MarkAsPickedUp();
     }
 }
 
@@ -1373,7 +1379,7 @@ struct S981990
     bool FUN_0047c850();
 };
 
-bool __fastcall FUN_0067a560(B5512Target*);
+bool __fastcall TESPackage_GetAllowsSwim(B5512Target*);
 
 struct SubActor
 {
@@ -1729,20 +1735,21 @@ struct SubActor
     int unk148;
     bool unk14c;
 
-    bool FUN_00884ae0();
+    bool Actor_IsFightingOrAlarmed();
     bool FUN_0087f3b0();
     bool FUN_0087f350();
-    bool FUN_00884b50();
+    bool Actor_IsAllowedToSwim();
 };
 
 // @fnv 0x00884b50
-bool SubActor::FUN_00884b50()
+// src: COMMUNITY 0x00884b50
+bool SubActor::Actor_IsAllowedToSwim()
 {
     if (this->unk14c)
     {
         return true;
     }
-    if (this->FUN_00884ae0())
+    if (this->Actor_IsFightingOrAlarmed())
     {
         S981990* target = this->v428();
         if (target)
@@ -1762,7 +1769,7 @@ bool SubActor::FUN_00884b50()
     if (this->v218())
     {
         B5512Target* pTarget = this->m_pFlagTarget ? this->m_pFlagTarget->v8b() : 0;
-        if (pTarget && FUN_0067a560(pTarget))
+        if (pTarget && TESPackage_GetAllowsSwim(pTarget))
         {
             result = true;
         }
@@ -1787,8 +1794,8 @@ extern FloatSetting DAT_011cdf9c;
 extern FloatSetting DAT_011cd354;
 extern double DAT_01021798;
 
-float __cdecl FUN_00643f20(float a);
-float __cdecl FUN_00643f90(float a);
+float __cdecl AiFormulas_GetFollowRadiusStop(float a);
+float __cdecl fSelf(float a);
 float __cdecl AddRuntimeFloatSetting(float a);
 float __cdecl FUN_00404010(float a, float b);
 float __cdecl FUN_0040ebd0(float a, float b);
@@ -1868,11 +1875,12 @@ struct Refr
     float __thiscall FUN_008a0b10();
     float __thiscall FUN_00567400();
     unsigned int __thiscall GetVtbl20Result();
-    void __thiscall FUN_008855f0(float* a, float b, float c);
+    void __thiscall Actor_AdjustSpeedForFollowing(float* a, float b, float c);
 };
 
 // @fnv 0x008855f0
-void __thiscall Refr::FUN_008855f0(float* pfValue, float b, float c)
+// src: COMMUNITY 0x008855f0
+void __thiscall Refr::Actor_AdjustSpeedForFollowing(float* pfValue, float b, float c)
 {
     TargetInfo* tInfoX = FUN_009344a0();
     Refr* obj3 = FUN_00881650();
@@ -1886,8 +1894,8 @@ void __thiscall Refr::FUN_008855f0(float* pfValue, float b, float c)
     bool b2 = b8 ? (cellObj5 == cellThis) : (worldObj6 == FUN_00575d70());
     if (b2)
     {
-        float f2 = FUN_00643f20(b);
-        float f7 = FUN_00643f90(b);
+        float f2 = AiFormulas_GetFollowRadiusStop(b);
+        float f7 = fSelf(b);
         float fd0 = AddRuntimeFloatSetting(b);
         float scale = obj3->fn64() ? obj3->FUN_008a0b10() : 0.0f;
         scale = (obj3->FUN_00567400() / FUN_00567400()) * scale;

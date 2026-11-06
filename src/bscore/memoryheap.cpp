@@ -84,11 +84,12 @@ unsigned int __thiscall FUN_00aa7c00_shell::FUN_00aa7c00(const void* apPointer)
 
 struct FUN_00aa7c30_shell
 {
-    int FUN_00aa7c30();
+    int return_0_7();
 };
 
 // @fnv 0x00aa7c30
-int FUN_00aa7c30_shell::FUN_00aa7c30()
+// src: COMMUNITY 0x00aa7c30
+int FUN_00aa7c30_shell::return_0_7()
 {
     int ret = 0;
     return ret;
@@ -96,10 +97,11 @@ int FUN_00aa7c30_shell::FUN_00aa7c30()
 
 struct FUN_00aa7c50_s
 {
-    int FUN_00aa7c50();
+    int return_0_0();
 };
 // @fnv 0x00aa7c50
-int FUN_00aa7c50_s::FUN_00aa7c50()
+// src: COMMUNITY 0x00aa7c50
+int FUN_00aa7c50_s::return_0_0()
 {
     return 0;
 }
@@ -170,10 +172,11 @@ void __fastcall FUN_00aa9d10(void* this_ptr)
 
 struct FUN_00b02710_Cls
 {
-    void FUN_00b02710(void*, int);
+    void AbstractHeap_CommitPages(void*, int);
 };
 // @fnv 0x00b02710
-void FUN_00b02710_Cls::FUN_00b02710(void*, int)
+// src: COMMUNITY 0x00b02710
+void FUN_00b02710_Cls::AbstractHeap_CommitPages(void*, int)
 {}
 
 struct FUN_00aa79a0_shell

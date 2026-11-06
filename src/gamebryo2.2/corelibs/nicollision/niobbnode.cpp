@@ -849,7 +849,7 @@ void RayNodeW7_Derived::NiOBBNode_DivideTriangles(const V3* vertices, int first,
 
 struct S00eb9fa0_Pool
 {
-    void* FUN_00aa3e40(unsigned int s);
+    void* Game_DoHeapAlloc(unsigned int s);
 };
 extern S00eb9fa0_Pool DAT_011f6238;
 struct BuildBox
@@ -869,7 +869,7 @@ struct S00eb9fa0_Node
     virtual ~S00eb9fa0_Node();
     static void* operator new(unsigned int s)
     {
-        return DAT_011f6238.FUN_00aa3e40(s);
+        return DAT_011f6238.Game_DoHeapAlloc(s);
     }
     S00eb9fa0_Node()
     {

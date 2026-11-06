@@ -290,28 +290,31 @@ extern int g_01202818;
 
 struct FUN_004a70f0_shell
 {
-    int* __thiscall FUN_004a70f0();
+    int* __thiscall BSMultiBoundOBB_GetRTTI();
 };
 
 // @fnv 0x004a70f0
-int* __thiscall FUN_004a70f0_shell::FUN_004a70f0()
+// src: COMMUNITY 0x004a70f0
+int* __thiscall FUN_004a70f0_shell::BSMultiBoundOBB_GetRTTI()
 {
     return &g_01202818;
 }
 
 // @fnv 0x00c365e0
-int __fastcall FUN_00c365e0(int)
+// src: COMMUNITY 0x00c365e0
+int __fastcall BSMultiBoundOBB_GetType(int)
 {
     return 2;
 }
 
 struct FUN_00c382a0_shell
 {
-    int FUN_00c382a0();
+    int BSMultiBoundAABB_GetType();
 };
 
 // @fnv 0x00c382a0
-int FUN_00c382a0_shell::FUN_00c382a0()
+// src: COMMUNITY 0x00c382a0
+int FUN_00c382a0_shell::BSMultiBoundAABB_GetType()
 {
     return 1;
 }
@@ -331,11 +334,12 @@ void* __thiscall FUN_00c4f8d0_shell::GetGlobalPtr()
 
 struct FUN_00c4fec0_shell
 {
-    int __thiscall FUN_00c4fec0();
+    int __thiscall BSMultiBoundSphere_GetShape();
 };
 
 // @fnv 0x00c4fec0
-int __thiscall FUN_00c4fec0_shell::FUN_00c4fec0()
+// src: COMMUNITY 0x00c4fec0
+int __thiscall FUN_00c4fec0_shell::BSMultiBoundSphere_GetShape()
 {
     return 3;
 }
@@ -435,30 +439,33 @@ extern char const* const g_012030b0_arg1;
 
 struct FUN_004a60e0_shell
 {
-    char const* const* __thiscall FUN_004a60e0();
+    char const* const* __thiscall BSOcclusionPlane_GetRTTI();
 };
 
 // @fnv 0x004a60e0
-char const* const* __thiscall FUN_004a60e0_shell::FUN_004a60e0()
+// src: COMMUNITY 0x004a60e0
+char const* const* __thiscall FUN_004a60e0_shell::BSOcclusionPlane_GetRTTI()
 {
     return &g_012030b0_arg1;
 }
 
 struct FUN_004a62c0_shell
 {
-    int* FUN_004a62c0();
+    int* BSPortal_GetRTTI();
 };
 
 extern int g_012030b0;
 
 // @fnv 0x004a62c0
-int* FUN_004a62c0_shell::FUN_004a62c0()
+// src: COMMUNITY 0x004a62c0
+int* FUN_004a62c0_shell::BSPortal_GetRTTI()
 {
     return &g_012030b0;
 }
 
 // @fnv 0x004a7030
-int BSMultiBoundAABB::FUN_004a7030()
+// src: COMMUNITY 0x004a7030
+int BSMultiBoundAABB::GetDebugGeomShapeSize()
 {
     return 0x24;
 }
@@ -594,11 +601,12 @@ extern char const* const g_01202820_arg1;
 
 struct FUN_00c4fb00_shell
 {
-    char const* const* FUN_00c4fb00();
+    char const* const* BSMultiBoundShape_GetRTTI();
 };
 
 // @fnv 0x00c4fb00
-char const* const* FUN_00c4fb00_shell::FUN_00c4fb00()
+// src: COMMUNITY 0x00c4fb00
+char const* const* FUN_00c4fb00_shell::BSMultiBoundShape_GetRTTI()
 {
     return &g_01202820_arg1;
 }
@@ -945,11 +953,12 @@ extern char const* const g_01202818_arg1;
 
 struct FUN_004a7020_shell
 {
-    char const* const* __thiscall FUN_004a7020();
+    char const* const* __thiscall BSMultiBoundAABB_GetRTTI();
 };
 
 // @fnv 0x004a7020
-char const* const* __thiscall FUN_004a7020_shell::FUN_004a7020()
+// src: COMMUNITY 0x004a7020
+char const* const* __thiscall FUN_004a7020_shell::BSMultiBoundAABB_GetRTTI()
 {
     return &g_01202818_arg1;
 }
@@ -1066,27 +1075,29 @@ void __thiscall FUN_00c4fa10_shell::FUN_00c4fc50(int a)
 
 struct FUN_00c50370_shell
 {
-    void FUN_00c50370(int a, int b, int c, int d, int e, int f);
+    void BSMultiBoundSphere_CreateDebugGeometry(int a, int b, int c, int d, int e, int f);
 };
 
 // @fnv 0x00c50370
-void FUN_00c50370_shell::FUN_00c50370(int a, int b, int c, int d, int e, int f)
+// src: COMMUNITY 0x00c50370
+void FUN_00c50370_shell::BSMultiBoundSphere_CreateDebugGeometry(int a, int b, int c, int d, int e, int f)
 {}
 
 extern float _DAT_010162c0;
 
-void* __cdecl FUN_004a4f80(NiPoint2*, NiColorA*);
+void* __cdecl BGSPrimitivePlane_CreateObject(NiPoint2*, NiColorA*);
 void* __cdecl CreatePrimitiveBox(NiPoint3*, NiColorA*);
 void* __cdecl FUN_004a5100(float, NiColorA*);
 
 // @fnv 0x004a4e90
-void* __cdecl FUN_004a4e90(int eType, NiPoint3* apPoint, NiColorA* apTextColor)
+// src: COMMUNITY 0x004a4e90
+void* __cdecl BGSPrimitive_CreateObjects(int eType, NiPoint3* apPoint, NiColorA* apTextColor)
 {
     switch (eType)
     {
     case 3: {
         NiPoint2 extents = NiPoint2(apPoint->x, apPoint->z) * _DAT_010162c0;
-        return FUN_004a4f80(&extents, apTextColor);
+        return BGSPrimitivePlane_CreateObject(&extents, apTextColor);
     }
     case 1: {
         NiPoint3 extents = *static_cast<const NiPoint3*>(apPoint) * _DAT_010162c0;
@@ -1672,7 +1683,7 @@ bool __thiscall FUN_00c38920_cls::FUN_00c38920(ProbeSet* pProbeSet)
 
 struct FUN_00c49850_cls
 {
-    void FUN_00c49850();
+    void BSCompoundFrustum_PrethreadOpList();
 };
 
 struct FUN_00a59e00_cls
@@ -1812,7 +1823,7 @@ void FUN_00c4f6d0_cls::FUN_00c4f6d0(FUN_00c4f6d0_arg* pObj)
         subB->m_pThing = pSwapE;
         if (m_pEntryObject != 0)
         {
-            m_pEntryObject->FUN_00c49850();
+            m_pEntryObject->BSCompoundFrustum_PrethreadOpList();
         }
         tgtC = &this->m_sub;
         cntB = tgtC->unk0A;
@@ -1829,7 +1840,7 @@ void FUN_00c4f6d0_cls::FUN_00c4f6d0(FUN_00c4f6d0_arg* pObj)
     }
 }
 
-int __fastcall FUN_00c4f860(int value);
+int __fastcall BSMultiBoundRoom_GetCullResult(int value);
 
 struct FUN_00c4f7b0_scratch
 {
@@ -1845,12 +1856,12 @@ int BSPortal::QueryLinkedObjects()
     int v = m_fc;
     if (v != 0)
     {
-        result5 = (FUN_00c4f860(v) == 1);
+        result5 = (BSMultiBoundRoom_GetCullResult(v) == 1);
     }
     v = m_100;
     if (v != 0)
     {
-        result5 |= (FUN_00c4f860(v) == 1);
+        result5 |= (BSMultiBoundRoom_GetCullResult(v) == 1);
     }
     return result5;
 }
@@ -1887,7 +1898,7 @@ struct NodeArgB9733
     void FUN_0096a610(void** pp);
 };
 
-void* FUN_00a7d330(void* g);
+void* NiViewerStrings_NiGetViewerString_Title(void* g);
 void* FUN_00a7d550(const char* name, float value);
 
 extern void* DAT_01203108;
@@ -1905,7 +1916,7 @@ void MultiBoundSphereProperties::InitNode(NodeArgB9733* pNode)
     unsigned int data[5];
     unsigned int unk[4];
     void* g = DAT_01203108;
-    void* root = FUN_00a7d330(g);
+    void* root = NiViewerStrings_NiGetViewerString_Title(g);
     pNode->FUN_0096a610(&root);
     void* center7 = reinterpret_cast<NiPoint3*>(&center)->FUN_00a59af0("Center");
     pNode->FUN_0096a610(&center7);

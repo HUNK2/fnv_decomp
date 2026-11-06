@@ -5,7 +5,8 @@
 
 // 0x00c9e390  ret 0xc
 // @fnv 0x00c9e390
-void __stdcall FUN_00c9e390(int, int, int)
+// src: COMMUNITY 0x00c9e390
+void __stdcall nullsub_33(int, int, int)
 {}
 
 extern char DAT_01268910[];

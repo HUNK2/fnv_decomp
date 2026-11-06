@@ -135,7 +135,8 @@ extern int DAT_01183028;
 unsigned int __cdecl FUN_00ec43fb(unsigned int, int, void*, void*, int);
 
 // @fnv 0x0050bf90
-SpellItem* TESLevSpell::FUN_0050bf90(void* a1, unsigned short a2)
+// src: COMMUNITY 0x0050bf90
+SpellItem* TESLevSpell::GetLeveledSpell(void* a1, unsigned short a2)
 {
     unsigned int aa = 0;
     unsigned int zz = 0;
@@ -172,11 +173,12 @@ void* operator new(unsigned int);
 // Adapter for the list-building member missing from TESLevSpell.h.
 struct SpellListBuilder
 {
-    FUN_0096a2d0* FUN_0050c000(void*, unsigned short);
+    FUN_0096a2d0* TESLevSpell_GetLeveledSpells(void*, unsigned short);
 };
 // Builds a spell list from the selector's choices, resolving nested level spells via FUN_0050bf90, or falls back to a single spell; returns the new list or null.
 // @fnv 0x0050c000
-FUN_0096a2d0* SpellListBuilder::FUN_0050c000(void* actor, unsigned short level)
+// src: COMMUNITY 0x0050c000
+FUN_0096a2d0* SpellListBuilder::TESLevSpell_GetLeveledSpells(void* actor, unsigned short level)
 {
     FUN_0096a2d0* result = 0;
     if (((TESLevSpell*)this)->TESLeveledList::FUN_004878a0())
@@ -199,7 +201,7 @@ FUN_0096a2d0* SpellListBuilder::FUN_0050c000(void* actor, unsigned short level)
                     TESLevSpell* nested = dynamic_cast<TESLevSpell*>(entry->form);
                     if (nested)
                     {
-                        spell = nested->FUN_0050bf90(actor, level);
+                        spell = nested->GetLeveledSpell(actor, level);
                         if (spell)
                             result->FUN_005ae3d0(spell);
                     }
@@ -210,7 +212,7 @@ FUN_0096a2d0* SpellListBuilder::FUN_0050c000(void* actor, unsigned short level)
     }
     else
     {
-        SpellItem* spell = ((TESLevSpell*)this)->FUN_0050bf90(actor, level);
+        SpellItem* spell = ((TESLevSpell*)this)->GetLeveledSpell(actor, level);
         if (spell)
         {
             result = new FUN_0096a2d0;
@@ -253,7 +255,7 @@ struct SpellOwner
 };
 struct SpellCollectionBuilder
 {
-    List_009e03e0* FUN_0050c000(int iIndex, void* pkEntry);
+    List_009e03e0* TESLevSpell_GetLeveledSpells(int iIndex, void* pkEntry);
     FUN_0096a2d0* CollectHeadParts(SpellOwner* pkOwner);
 };
 // Iterates six source entries, gathers non-null BGSHeadPart items into a deduplicated FUN_0096a2d0 list, frees each temporary list, and returns the result.
@@ -263,7 +265,7 @@ FUN_0096a2d0* SpellCollectionBuilder::CollectHeadParts(SpellOwner* pkOwner)
     FUN_0096a2d0* pkResult = 0;
     for (int i = 0; i < 6; i++)
     {
-        List_009e03e0* pkIter = FUN_0050c000(i, pkOwner->m_kSource.GetEntry(GetMinusOne(i)));
+        List_009e03e0* pkIter = TESLevSpell_GetLeveledSpells(i, pkOwner->m_kSource.GetEntry(GetMinusOne(i)));
         List_009e03e0* pkListCur = pkIter;
         while (pkIter)
         {

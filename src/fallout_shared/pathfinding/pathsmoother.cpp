@@ -199,23 +199,24 @@ struct FUN_006ed530_cls
     SubSlot m_7c;
     SubSlot m_90;
 
-    void FUN_006ed850();
-    void FUN_006eef80();
+    void BuildInternalArrays();
+    void PathSmoother_BuildShrunkEdgeLeftRightArrays();
     bool CheckEdges();
     void CopyNodePositions();
-    void FUN_006f03a0();
+    void PathSmoother_ComputeCenters();
     void SmoothNodes();
     void FlattenPathPoints();
     void BuildLocations();
     void ClipPathAgainstObstacles();
     void AppendSegments(int aA, int aB);
     void SmoothPathDirections();
-    void FUN_006ed730(Triple* apSrc, void* apRes);
-    bool FUN_006ed530(NodeA* a1, ArgObj* a2, ArgObj* a3, Triple* a4, Triple* a5, int a6, Gate* a7, unsigned char a8);
+    void PathSmoother_AddPathingNode(Triple* apSrc, void* apRes);
+    bool PathSmoother_SmoothPath(NodeA* a1, ArgObj* a2, ArgObj* a3, Triple* a4, Triple* a5, int a6, Gate* a7, unsigned char a8);
 };
 
 // @fnv 0x006ed530
-bool FUN_006ed530_cls::FUN_006ed530(NodeA* apNode, ArgObj* apArgObj, ArgObj* apArgObj2, Triple* apTripleA,
+// src: COMMUNITY 0x006ed530
+bool FUN_006ed530_cls::PathSmoother_SmoothPath(NodeA* apNode, ArgObj* apArgObj, ArgObj* apArgObj2, Triple* apTripleA,
                                     Triple* apTripleB, int aiValue, Gate* apGate, unsigned char abForce)
 {
     bool bResult;
@@ -231,8 +232,8 @@ bool FUN_006ed530_cls::FUN_006ed530(NodeA* apNode, ArgObj* apArgObj, ArgObj* apA
 
     if (apArgObj->FUN_0044ddc0() == 1)
     {
-        FUN_006ed730(apTripleA, (*(Holder**)apArgObj->FUN_006b3160(0))->FUN_0068efb0());
-        FUN_006ed730(apTripleB, (*(Holder**)apArgObj->FUN_006b3160(0))->FUN_0068efb0());
+        PathSmoother_AddPathingNode(apTripleA, (*(Holder**)apArgObj->FUN_006b3160(0))->FUN_0068efb0());
+        PathSmoother_AddPathingNode(apTripleB, (*(Holder**)apArgObj->FUN_006b3160(0))->FUN_0068efb0());
         return true;
     }
 
@@ -248,11 +249,11 @@ bool FUN_006ed530_cls::FUN_006ed530(NodeA* apNode, ArgObj* apArgObj, ArgObj* apA
     m_7c.FUN_008454f0(0);
     m_90.FUN_008454f0(0);
 
-    FUN_006ed850();
-    FUN_006eef80();
+    BuildInternalArrays();
+    PathSmoother_BuildShrunkEdgeLeftRightArrays();
     bResult = CheckEdges();
     CopyNodePositions();
-    FUN_006f03a0();
+    PathSmoother_ComputeCenters();
     SmoothNodes();
     FlattenPathPoints();
     BuildLocations();

@@ -318,8 +318,8 @@ struct FUN_00cacf10_cls
     int m_74;
     int m_78;
 
-    float FUN_00cafd90(void* a, void* b);
-    int FUN_00cacf10(void* arg);
+    float hkpCharacterProxy_surfaceDistance(void* a, void* b);
+    int hkpCharacterProxy_findSurface(void* arg);
 };
 struct ArgminState
 {

@@ -9,7 +9,7 @@
 struct CpuObject
 {
     int value;
-    void FUN_00e10a10(int value);
+    void hkpPrimitiveDrawer_setDisplayHandler(int value);
 };
 
 #include "../../../../../../../../../include/hkRotation.h"

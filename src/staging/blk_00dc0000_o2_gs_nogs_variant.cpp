@@ -178,7 +178,7 @@ extern int DAT_011b7b88;
 struct FUN_00dc1670_cls
 {
     int m_00;
-    FUN_00dc1670_cls* FUN_00dc1670();
+    FUN_00dc1670_cls* hkStructureLayout_hkStructureLayout();
 };
 void __stdcall hkIArchive_readArrayGeneric(float* out, int a, int b);
 float hkIArchive_readFloat32();
@@ -669,7 +669,7 @@ static __declspec(noinline) void SkipWhitespace285(Stream285* stream)
         count = stream->Read(buffer, 64);
     }
 }
-int __cdecl FUN_00cb0fd0(const char*, const char*, unsigned);
+int __cdecl j_strncmp(const char*, const char*, unsigned);
 struct Reader285
 {
     int unk00, unk04;
@@ -683,14 +683,14 @@ Reader285* Reader285::FUN_00dcc4a0(bool* value)
     char buffer[6];
     stream->BeginPeek(6);
     int count = stream->Read(buffer, 6);
-    if (count >= 4 && FUN_00cb0fd0(buffer, "true", 4) == 0 && (count == 4 || Space285(buffer[4])))
+    if (count >= 4 && j_strncmp(buffer, "true", 4) == 0 && (count == 4 || Space285(buffer[4])))
     {
         *value = true;
         stream->EndPeek();
         stream->Advance(4);
         return this;
     }
-    if (count >= 5 && FUN_00cb0fd0(buffer, "false", 4) == 0 && (count == 5 || Space285(buffer[5])))
+    if (count >= 5 && j_strncmp(buffer, "false", 4) == 0 && (count == 5 || Space285(buffer[5])))
     {
         *value = false;
         stream->EndPeek();

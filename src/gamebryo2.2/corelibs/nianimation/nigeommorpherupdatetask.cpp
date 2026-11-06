@@ -315,7 +315,7 @@ extern MemoryManager g_memoryManager;
 class FUN_00a5e3a0_Helper
 {
   public:
-    void* FUN_00aa3e40(unsigned int uiSize);
+    void* Game_DoHeapAlloc(unsigned int uiSize);
 };
 
 NiGeomMorpherUpdateTask* __cdecl FUN_00a56ce0(unsigned int ItemUpdateArray) throw();
@@ -340,7 +340,7 @@ struct TaskBlock
 
     static void* operator new(unsigned int uiSize)
     {
-        return ((FUN_00a5e3a0_Helper*)&g_memoryManager)->FUN_00aa3e40(uiSize);
+        return ((FUN_00a5e3a0_Helper*)&g_memoryManager)->Game_DoHeapAlloc(uiSize);
     }
     static void operator delete(void*, int, int);
 };

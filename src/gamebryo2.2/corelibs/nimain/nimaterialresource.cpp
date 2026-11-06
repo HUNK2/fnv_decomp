@@ -5,7 +5,8 @@
 extern char const* const g_0126fa40_arg1;
 
 // @fnv 0x00be0ae0
-char const* const* __cdecl FUN_00be0ae0()
+// src: COMMUNITY 0x00be0ae0
+char const* const* __cdecl NiD3DPixelShader_GetRTTI()
 {
     return &g_0126fa40_arg1;
 }
@@ -36,11 +37,12 @@ struct C00be0ad0
 {
     char pad00[0x1c];
     int m1c;
-    int FUN_00be0ad0();
+    int NiRenderTargetGroup_GetBufferCount();
 };
 
 // @fnv 0x00be0ad0
-int C00be0ad0::FUN_00be0ad0()
+// src: COMMUNITY 0x00be0ad0
+int C00be0ad0::NiRenderTargetGroup_GetBufferCount()
 {
     return m1c;
 }

@@ -38,7 +38,8 @@ inline hkpShapeType hkpShape::getType() const
 void __cdecl SortEntriesByCollisionKey(void*, int, int, int);
 
 // @fnv 0x00d4c910
-int FUN_00d4c910()
+// src: COMMUNITY 0x00d4c910
+int hkpCachingShapePhantom_getType()
 {
     return 2;
 }

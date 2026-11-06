@@ -112,12 +112,13 @@ struct S_004063e0
 
 struct FUN_004094a0_Class
 {
-    float FUN_004094a0(int);
+    float EnchantmentItem_GetCost(int);
 };
 
 // Returns the entry point value as a float if the check on the object at this-0x24 passes, otherwise calls GetTotalCost(0).
 // @fnv 0x004094a0
-float FUN_004094a0_Class::FUN_004094a0(int apActor)
+// src: COMMUNITY 0x004094a0
+float FUN_004094a0_Class::EnchantmentItem_GetCost(int apActor)
 {
     if (((FlaggedData*)((char*)this - 0x24))->ContainsAnyFlag(1))
     {
@@ -137,12 +138,13 @@ struct IMH
 
 struct FUN_00409fd0_shell : EnchantmentItem
 {
-    bool FUN_00409fd0(MagicItem* apCompare);
+    bool IngredientItem_CompareMagicItemData(MagicItem* apCompare);
 };
 
 // Returns true unless apCompare is an IngredientItem with the same FUN_00586150 value and matching byte at offset 0xa0 as this object.
 // @fnv 0x00409fd0
-bool FUN_00409fd0_shell::FUN_00409fd0(MagicItem* apCompare)
+// src: COMMUNITY 0x00409fd0
+bool FUN_00409fd0_shell::IngredientItem_CompareMagicItemData(MagicItem* apCompare)
 {
     EnchantmentItem* penchantment = (EnchantmentItem*)dynamic_cast<IngredientItem*>(apCompare);
     if (!penchantment)

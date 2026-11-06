@@ -15,11 +15,12 @@ struct FUN_00835f80_shell
     char _1d;
     char _1e;
     char _1f;
-    void FUN_00835f80(BGSLoadFormBuffer* apBuffer);
+    void DynamicRadio_Load(BGSLoadFormBuffer* apBuffer);
 };
 
 // @fnv 0x00835f80
-void __thiscall FUN_00835f80_shell::FUN_00835f80(BGSLoadFormBuffer* apBuffer)
+// src: COMMUNITY 0x00835f80
+void __thiscall FUN_00835f80_shell::DynamicRadio_Load(BGSLoadFormBuffer* apBuffer)
 {
     apBuffer->ReadFormIdentifier(this);
     apBuffer->ReadTypedData(&this->_1c, 1u);
@@ -365,11 +366,12 @@ struct FUN_0066deb0
     char _pad[0x1c];
 
     FUN_0066deb0();
-    void FUN_0066e440(BGSLoadGameBuffer*);
+    void ActorCause_LoadGameBGS(BGSLoadGameBuffer*);
 };
 
 // @fnv 0x0066e750
-void FUN_0066e750(BGSLoadGameBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x0066e750
+void ActorCause_LoadActorCausesList(BGSLoadGameBuffer* apLoadGameBuffer)
 {
     unsigned int iloop;
     unsigned int isaveGameCount;
@@ -380,7 +382,7 @@ void FUN_0066e750(BGSLoadGameBuffer* apLoadGameBuffer)
     for (isaveGameCount = 0; isaveGameCount < iloop; ++isaveGameCount)
     {
         FUN_0066deb0* pactorCause = new FUN_0066deb0();
-        pactorCause->FUN_0066e440(apLoadGameBuffer);
+        pactorCause->ActorCause_LoadGameBGS(apLoadGameBuffer);
     }
 }
 

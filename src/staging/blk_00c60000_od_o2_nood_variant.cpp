@@ -65,7 +65,7 @@ __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" void* g_01204388;
 struct FUN_00c600f0_Class
 {
-    void* __thiscall FUN_00c600f0();
+    void* __thiscall BSPSysStripUpdateModifier_GetRTTI();
 };
 struct FUN_00c60930_class
 {
@@ -75,11 +75,11 @@ struct FUN_00c60930_class
 extern "C" void* g_01204390;
 struct FUN_00c60d40_Class
 {
-    void* __thiscall FUN_00c60d40();
+    void* __thiscall BSPSysSimpleColorModifier_GetRTTI();
 };
 struct FUN_00c61420_Class
 {
-    void* __thiscall FUN_00c61420(void* p);
+    void* __thiscall BSWArray_CreateClone(void* p);
 };
 struct FUN_00a99870_Class
 {
@@ -123,11 +123,11 @@ extern NiFixedString* DAT_012043a0;
 extern "C" void* g_012043a4;
 struct FUN_00c61810_class
 {
-    void* FUN_00c61810();
+    void* BSWArray_GetRTTI();
 };
 struct FUN_00c61820_class
 {
-    void* FUN_00c61820(int);
+    void* PArrayPoint_Copy(int);
 };
 struct FUN_00c61f60_class
 {
@@ -147,7 +147,7 @@ struct FUN_00c627e0_Class
 extern "C" void* g_012043b8;
 struct FUN_00c632e0_Class
 {
-    void* __thiscall FUN_00c632e0();
+    void* __thiscall PArrayPoint_GetRTTI();
 };
 struct FUN_00c31670_class
 {
@@ -161,7 +161,7 @@ struct GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_012043c8;
 struct FUN_00c63aa0_class
 {
-    GlobalObject_00a7b610* FUN_00c63aa0();
+    GlobalObject_00a7b610* BSParentVelocityModifier_GetRTTI();
 };
 void __cdecl FUN_00c63c30(int, int);
 void __cdecl CallWithSameArgumentTwice(int a);
@@ -252,11 +252,11 @@ struct FUN_00c64610_Class
 };
 struct FUN_00c64930_Class
 {
-    void FUN_00c64930(int a);
+    void BSReference_LinkObject(int a);
 };
 struct FUN_00c64940_Class
 {
-    bool FUN_00c64940(int a);
+    bool BSReference_RegisterStreamables(int a);
 };
 struct FUN_00c64c30_Class
 {
@@ -284,7 +284,7 @@ struct FUN_00c62090_Class
 extern GlobalObject_00a7b610 g_012043b0;
 struct FUN_00c63320_Class
 {
-    GlobalObject_00a7b610* __thiscall FUN_00c63320();
+    GlobalObject_00a7b610* __thiscall BSPSysArrayEmitter_GetRTTI();
 };
 struct NiExtraDataSaveHelper
 {
@@ -490,7 +490,7 @@ struct FUN_00c64dc0_Class
     int m_8;
     int m_iThirdValue;
     int m_10;
-    FUN_0043ba10_shell* FUN_00c64dc0(unsigned int a);
+    FUN_0043ba10_shell* BSAttachPointPair_SetChild(unsigned int a);
 };
 void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64e70_Class
@@ -623,7 +623,7 @@ struct FUN_00c62140_Pad5
 };
 struct FUN_00c62140_Sub
 {
-    void FUN_00c62f40();
+    void NiTArray_NiPointer_NiAVObject_NiTMallocInterface_NiPointer_NiAVObject_RemoveAll();
 };
 struct FUN_00c62140_cls
 {
@@ -773,7 +773,7 @@ struct FUN_00c63a00_cls
     void FUN_00c319e0(void* a);
     void FUN_00c63a00(ArgObj* a1);
 };
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 unsigned int __cdecl FUN_00a7d550(const char* name, float f);
 struct S_00c643d0_Foo
 {
@@ -828,14 +828,14 @@ class FUN_00c64b90_cls
     int unk10;
     unsigned short m_14;
     void FUN_00c64b90(FUN_00c64b90_target* a1);
-    void FUN_00a89af0(FUN_00c64b90_target* a1);
+    void nullsub_3(FUN_00c64b90_target* a1);
 };
 void __cdecl FUN_0044adf0(FUN_00c64b90_target* a1, unsigned int* p);
 struct FUN_00c64da0_cls
 {
     int unk00;
     void Callee0043ba10(int a);
-    void FUN_00c64da0(int a);
+    void BSAttachPointPair_SetParent(int a);
 };
 struct DispatchStub_c64
 {
@@ -850,7 +850,7 @@ struct DispatchStub_c64
 };
 struct ItemCallee_c64
 {
-    void FUN_00c65490(int a1, int a2);
+    void BSAttachPoints_AddPair(int a1, int a2);
 };
 struct FUN_00c65180_VTable
 {
@@ -920,7 +920,7 @@ struct FUN_00c615a0_class
 extern "C" void* g_012043a4;
 extern const char str_0109df4c[];
 struct GlobalObject_00a7b610;
-char* __cdecl FUN_00a7d330(GlobalObject_00a7b610* value);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(GlobalObject_00a7b610* value);
 char* __cdecl FUN_00a7d510(const char* format, unsigned int value);
 struct Unused20
 {
@@ -1245,7 +1245,7 @@ class CharacterProxy : public ProxyBase
   public:
     AlignedOwnerNode m_kPoints;
 
-    void FUN_00c6cf30(unsigned int formID);
+    void bhkCharacterProxy_Integrate(unsigned int formID);
 };
 
 struct PointLoader
@@ -1254,7 +1254,8 @@ struct PointLoader
 };
 
 // @fnv 0x00c6cf30
-void CharacterProxy::FUN_00c6cf30(unsigned int formID)
+// src: COMMUNITY 0x00c6cf30
+void CharacterProxy::bhkCharacterProxy_Integrate(unsigned int formID)
 {
     volatile unsigned int id = formID;
     this->DoLockCall();
@@ -1366,7 +1367,7 @@ struct MaterialSource
     virtual int getMaterial(unsigned int shapeKey);
 };
 
-MaterialSource* __cdecl FUN_00c7ffd0(const hkpCdBody* body);
+MaterialSource* __cdecl bhkUtilFunctions_FindbhkShapeCollection(const hkpCdBody* body);
 extern bool(__cdecl* DAT_01267bc8)(int material);
 
 inline bool IsSpecialMaterial(int material)
@@ -1726,7 +1727,7 @@ void GroundController::FUN_00c6e980(const GroundPoint* point)
     }
     else if (layer != 0x11)
     {
-        MaterialSource* src = FUN_00c7ffd0(body);
+        MaterialSource* src = bhkUtilFunctions_FindbhkShapeCollection(body);
         if (src)
         {
             material = src->getMaterial(point->m_uiCollisionShapeKey);
@@ -2399,7 +2400,7 @@ struct FUN_00c741e0 : T741_B0, T741_B1, T741_B2a, T741_B3
     T741_M10 m648;
     FUN_00c741e0(T741_Src* p);
     virtual ~FUN_00c741e0();
-    void FUN_00c73ed0(T741_Src* p);
+    void bhkCharacterController_Init(T741_Src* p);
 };
 
 // @fnv 0x00c741e0
@@ -2411,7 +2412,7 @@ FUN_00c741e0::FUN_00c741e0(T741_Src* p)
     T741_Guard guard;
     Reset();
     m63c.m_iElementCount = 0;
-    FUN_00c73ed0(p);
+    bhkCharacterController_Init(p);
 }
 }  // namespace fnv_00c741e0
 
@@ -2429,7 +2430,8 @@ using ::_mm_load_ps;
 static __forceinline void multiply(LocalM128* out, const LocalM128* a, const LocalM128* b);
 
 // @fnv 0x00c66320
-void __fastcall FUN_00c66320(LocalM128* out, void*, const LocalM128* a, const LocalM128* b)
+// src: COMMUNITY 0x00c66320
+void __fastcall hkQuaternion_setMul(LocalM128* out, void*, const LocalM128* a, const LocalM128* b)
 {
     __declspec(align(16)) char result[16];
     LocalM128 value;
@@ -2623,14 +2625,14 @@ struct Query
     Collector* collector;
     struct HitResultList* hits;
     bool disabled;
-    void FUN_00458840();
+    void bhkPickData_CalcTo();
 };
 struct HitResultList
 {
     int field00, field04, field08, field0c;
     Result* result;
     int count;
-    void FUN_00c855f0();
+    void hknpAllHitsCollector_sortHits();
 };
 struct World
 {
@@ -2697,14 +2699,14 @@ struct __declspec(align(16)) WorldRayCaster : CastCollectorBase
         field40 = 0;
         field44 = 0;
     }
-    void FUN_00cbf860(int, Query*, int, void*, void*);
+    void hkpWorldRayCaster_castRay(int, Query*, int, void*, void*);
 };
 struct FilterCast : WorldRayCaster
 {
     __forceinline FilterCast(World* world, Query* query, void* cache, void* collector)
     {
         int mode = world->field7c;
-        FUN_00cbf860(world->field58, query, mode, cache, collector);
+        hkpWorldRayCaster_castRay(world->field58, query, mode, cache, collector);
     }
 };
 inline void* __cdecl operator new(unsigned int, void* p)
@@ -2773,7 +2775,7 @@ bool RayCaster::FUN_00c696d0(Query* query)
     World* world = GetWorld();
     if (world)
     {
-        query->FUN_00458840();
+        query->bhkPickData_CalcTo();
         scratch.result = &query->result;
         scratch.result->Clear();
         HitResultList* hits = query->hits;
@@ -2788,7 +2790,7 @@ bool RayCaster::FUN_00c696d0(Query* query)
                 world->hkpWorld_castRay(query, hits);
             if (hits->count)
             {
-                hits->FUN_00c855f0();
+                hits->hknpAllHitsCollector_sortHits();
                 Result* hit = hits->result;
                 scratch.result->FUN_009c1aa0(hit);
                 scratch.result->field50 = hit->field50;
@@ -3157,7 +3159,7 @@ struct SceneEffect
     unsigned unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54;
     void* m_pkScene;
     static FxNode* __cdecl FUN_00c4b470(void*, FxString*, int);
-    SceneObject* FUN_00c75180(FxNode*);
+    SceneObject* bhkRagdollController_GetCapsuleBoneShapeInfo(FxNode*);
     bool FUN_00c77ac0(EffectOutput* pkOutput, EffectRequest* pkRequest);
 };
 
@@ -3179,9 +3181,9 @@ bool SceneEffect::FUN_00c77ac0(EffectOutput* pkOutput, EffectRequest* pkRequest)
     if (!pkRoot || !pkMid || !pkEnd)
         return false;
 
-    SceneObject* pkRootObj = FUN_00c75180(pkRoot);
-    context.object = FUN_00c75180(pkMid);
-    SceneObject* pkEndObj = FUN_00c75180(pkEnd);
+    SceneObject* pkRootObj = bhkRagdollController_GetCapsuleBoneShapeInfo(pkRoot);
+    context.object = bhkRagdollController_GetCapsuleBoneShapeInfo(pkMid);
+    SceneObject* pkEndObj = bhkRagdollController_GetCapsuleBoneShapeInfo(pkEnd);
     FxObject** ppkMidProps = Properties(pkMid);
     FxObject** ppkEndProps = Properties(pkEnd);
     if (!pkRootObj || !context.object || !pkEndObj || !ppkMidProps || !ppkEndProps)
@@ -3374,7 +3376,7 @@ struct FUN_00ce14b0
     FUN_00ce14b0(unsigned int a, unsigned int b, unsigned int c, Vec4* v);
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
-    unsigned int FUN_00ce1420(unsigned char* a, unsigned int b, float c);
+    unsigned int hkaPoseMatchingUtility_addCandidatePose(unsigned char* a, unsigned int b, float c);
 };
 
 extern Glob_c7 DAT_011b02f0;
@@ -3674,7 +3676,7 @@ void Actor_c7::FUN_00c7b1f0(void* a1, short a2, short a3, short a4)
         }
         unsigned int data = root->m0c;
         CallWithGlobal(copyCount, data, dst, old2);
-        m_248->FUN_00ce1420(old2, 0, 0.0f);
+        m_248->hkaPoseMatchingUtility_addCandidatePose(old2, 0, 0.0f);
     }
     m_254 = m_250->ContainsAllNames(root);
 }
@@ -3705,7 +3707,8 @@ struct LOC
     float s;
     char quat[16];
 };
-DST* __cdecl FUN_00c74d50(DST* dst, const SRC* src)
+// src: COMMUNITY 0x00c74d50
+DST* __cdecl HK2NI_00c74d50(DST* dst, const SRC* src)
 {
     LOC a;
     VEC* q = (VEC*)&a.quat;
@@ -3846,7 +3849,7 @@ struct NodeBounds
     }
     void* FUN_00cac910();
 };
-Geometry* __cdecl FUN_00c55170(NodeBounds*);
+Geometry* __cdecl BSBound_Find(NodeBounds*);
 void* __cdecl FUN_00aa13e0(unsigned int);
 struct HeapAllocator
 {
@@ -4450,10 +4453,11 @@ struct ShapeOwner
     ShapeRef* GetCurrentObject();
     void SetMode(unsigned int);
     void* FUN_00c89720();
-    void FUN_00c72410(ShapeInput* input);
+    void bhkCharacterController_InitShapes(ShapeInput* input);
 };
 // @fnv 0x00c72410
-void ShapeOwner::FUN_00c72410(ShapeInput* input)
+// src: COMMUNITY 0x00c72410
+void ShapeOwner::bhkCharacterController_InitShapes(ShapeInput* input)
 {
     shapeCount = 2;
     float diameter, radius;
@@ -4472,7 +4476,7 @@ void ShapeOwner::FUN_00c72410(ShapeInput* input)
         if (input->node && !input->flag96)
         {
             Geometry* geometry;
-            geometry = FUN_00c55170(input->node);
+            geometry = BSBound_Find(input->node);
             if (geometry)
             {
                 extents = geometry->extents * input->GetScale();
@@ -4719,13 +4723,13 @@ struct P064Quaternion
 {
     P064Quad value;
 
-    __declspec(noinline) void FUN_00c66320(const P064Quaternion*, const P064Quaternion*);
+    __declspec(noinline) void setMul(const P064Quaternion*, const P064Quaternion*);
     P064Bool IsNormalized();
-    __declspec(noinline) void FUN_00c74ac0(const P064Quaternion*, const P064Quaternion*);
+    __declspec(noinline) void setMulInverse(const P064Quaternion*, const P064Quaternion*);
     float GetAngle();
-    void FUN_00c74c90(P064Quad*);
+    void hkQuaternion_getAxis(P064Quad*);
     void FUN_00cb2450(const P064Quad*, float);
-    void FUN_005611c0();
+    void normalize_005611c0();
 };
 struct P064Transform
 {
@@ -4763,14 +4767,14 @@ struct P064Pose
     unsigned int* flags;
     int unk20, unk24;
     bool synchronized;
-    P064Transform* FUN_00cda180(int);
-    P064Quad* FUN_00cda8e0(int);
-    P064Transform* FUN_00cdad80(int, int);
+    P064Transform* hkaPose_calculateBoneModelSpace(int);
+    P064Quad* hkaPose_accessBoneLocalSpace(int);
+    P064Transform* accessBoneModelSpace(int, int);
 };
 struct P064Point
 {
     P064Quad value;
-    void FUN_00c7f840(const P064Point*, const void*);
+    void hkVector4_setTransformedInversePos_00c7f840(const P064Point*, const void*);
 };
 struct P064Slot
 {
@@ -4794,7 +4798,7 @@ struct P064Aim
     P064Quad direction;
     float weight;
 };
-P064Bool __cdecl FUN_00ce0290(const P064Aim*, const P064Point*, float, P064Transform*, int);
+P064Bool __cdecl hkaLookAtIkSolver_solve(const P064Aim*, const P064Point*, float, P064Transform*, int);
 extern float DAT_01267d3c, DAT_01267d30, DAT_01267d24;
 extern P064Quad DAT_01017d10;
 extern const float DAT_01017d00;
@@ -4890,7 +4894,7 @@ static __forceinline P064Transform* P064Model(P064Pose* pose, int bone)
 {
     if (!(pose->flags[bone] & 2))
         return pose->model + bone;
-    return pose->FUN_00cda180(bone);
+    return pose->hkaPose_calculateBoneModelSpace(bone);
 }
 static __forceinline P064Transform* P064Local(P064Pose* pose, int bone, P064Transform* __restrict scratch)
 {
@@ -4918,7 +4922,7 @@ static __forceinline P064Transform* P064Local(P064Pose* pose, int bone, P064Tran
                 DAT_010c4c10);
             dst->translation =
                 P064Intrinsics::_mm_add_ps(P064Rotate(inverse.rotation.value, src->translation), inverse.translation);
-            dst->rotation.FUN_00c66320(&inverse.rotation, &src->rotation);
+            dst->rotation.setMul(&inverse.rotation, &src->rotation);
             dst->scale = P064Intrinsics::_mm_mul_ps(src->scale, inverse.scale);
         }
         else
@@ -4999,7 +5003,8 @@ struct P064Scalar
     {}
 };
 
-__declspec(noinline) void P064Quaternion::FUN_00c66320(const P064Quaternion* first, const P064Quaternion* second)
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void P064Quaternion::setMul(const P064Quaternion* first, const P064Quaternion* second)
 {
     P064Quad left = first->value;
     P064Quad right = second->value;
@@ -5024,7 +5029,8 @@ __declspec(noinline) void P064Quaternion::FUN_00c66320(const P064Quaternion* fir
     *this = result;
 }
 
-__declspec(noinline) void P064Quaternion::FUN_00c74ac0(const P064Quaternion* a, const P064Quaternion* b)
+// src: COMMUNITY 0x00c74ac0
+__declspec(noinline) void P064Quaternion::setMulInverse(const P064Quaternion* a, const P064Quaternion* b)
 {
     P064Quad x = a->value, y = b->value;
     P064Quad cross = P064Cross(y, x);
@@ -5054,7 +5060,7 @@ __declspec(noinline) float P064Controller::FUN_00c755e0(int index, P064Quaternio
          7) != 7)
     {
         P064Quaternion delta;
-        delta.FUN_00c74ac0(current, &slot.previous);
+        delta.setMulInverse(current, &slot.previous);
         angle = delta.GetAngle();
         float degrees = enabled ? DAT_01267d30 : DAT_01267d24;
         double limit = degrees * 0.01745329238474369;
@@ -5062,16 +5068,16 @@ __declspec(noinline) float P064Controller::FUN_00c755e0(int index, P064Quaternio
         {
             angle = (float)limit;
             P064Quad axis;
-            delta.FUN_00c74c90(&axis);
+            delta.hkQuaternion_getAxis(&axis);
             P064Quad z = P064Intrinsics::_mm_set_ss(DAT_01011d78), t = P064Intrinsics::_mm_set_ss(DAT_01017718),
                      h = P064Intrinsics::_mm_set_ss(DAT_01016248);
             axis = P064Normalize(axis, z, t, h);
             delta.FUN_00cb2450(&axis, angle);
         }
         P064Quaternion rotation;
-        rotation.FUN_00c66320(&delta, &slot.previous);
-        rotation.FUN_005611c0();
-        P064Transform* destination = reinterpret_cast<P064Transform*>(slot.pose->FUN_00cda8e0(slot.bone));
+        rotation.setMul(&delta, &slot.previous);
+        rotation.normalize_005611c0();
+        P064Transform* destination = reinterpret_cast<P064Transform*>(slot.pose->hkaPose_accessBoneLocalSpace(slot.bone));
         destination->rotation.value = rotation.value;
         slot.previous.value = rotation.value;
     }
@@ -5102,16 +5108,16 @@ bool P064Controller::FUN_00c78610(int index, const P064Point* point)
     aim.direction =
         P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(directionScale, directionScale, 0), direction);
     P064Point position;
-    position.FUN_00c7f840(point, &transformTranslation);
+    position.hkVector4_setTransformedInversePos_00c7f840(point, &transformTranslation);
     if (constrained && index == 1)
     {
-        const P064Quad* referenceAddress = slots[0].pose->FUN_00cda8e0(index);
+        const P064Quad* referenceAddress = slots[0].pose->hkaPose_accessBoneLocalSpace(index);
         P064Quad normalTarget = slots[1].target;
         P064Quad reference = *referenceAddress;
         P064Quad normal = P064Normalize(P064Cross(normalTarget, reference), zero.value, three.value, half.value);
         P064Quad projected = P064Normalize(P064Cross(normal, slots[1].target), zero.value, three.value, half.value);
         P064Quad projectedSquared = P064Intrinsics::_mm_mul_ps(projected, projected);
-        reference = *slots[0].pose->FUN_00cda8e0(index);
+        reference = *slots[0].pose->hkaPose_accessBoneLocalSpace(index);
         P064Quad squaredLength = P064Intrinsics::_mm_add_ss(
             P064Intrinsics::_mm_shuffle_ps(projectedSquared, projectedSquared, 170),
             P064Intrinsics::_mm_add_ss(P064Intrinsics::_mm_shuffle_ps(projectedSquared, projectedSquared, 85),
@@ -5129,7 +5135,7 @@ bool P064Controller::FUN_00c78610(int index, const P064Point* point)
         if (magnitude < rawDistance)
             position.value = P064Intrinsics::_mm_add_ps(
                 position.value, P064Intrinsics::_mm_mul_ps(unit, P064Intrinsics::_mm_set_ps1(distance)));
-        aim.offset = *slots[0].pose->FUN_00cda8e0(1);
+        aim.offset = *slots[0].pose->hkaPose_accessBoneLocalSpace(1);
     }
     P064Transform saved;
     saved = *P064Local(slots[index].pose, slots[index].bone, &saved);
@@ -5140,7 +5146,7 @@ bool P064Controller::FUN_00c78610(int index, const P064Point* point)
              P064Intrinsics::_mm_cmple_ps(previousDelta, P064Intrinsics::_mm_set_ps1(DAT_01017d00))) &
          7) == 7)
         P064Assign(slots[index].previous.value, saved.rotation.value);
-    bool changed = FUN_00ce0290(&aim, &position, 1.0f, slots[index].pose->FUN_00cdad80(slots[index].bone, 1), 0);
+    bool changed = hkaLookAtIkSolver_solve(&aim, &position, 1.0f, slots[index].pose->accessBoneModelSpace(slots[index].bone, 1), 0);
     P064Transform updated;
     updated = *P064Local(slots[index].pose, slots[index].bone, &updated);
     float angle = slots[index].initialized ? FUN_00c755e0(index, &updated.rotation) : 0.0f;
@@ -5619,13 +5625,14 @@ struct CharacterProbeLocal
     hkVector4 secondSlots[2];
     float baseOffset;
     float height;
-    void FUN_00c6e820();
+    void bhkCharacterController_InitFrontBack();
 };
 
 // Keep the stack protection originally induced by the local SIMD storage.
 #pragma strict_gs_check(push, on)
 // @fnv 0x00c6e820
-void CharacterProbeLocal::FUN_00c6e820()
+// src: COMMUNITY 0x00c6e820
+void CharacterProbeLocal::bhkCharacterController_InitFrontBack()
 {
     if ((flags & 1) == 0)
         return;
@@ -6060,13 +6067,14 @@ struct AimController_c70060
     unsigned int field_5ec;
     unsigned int field_5f0;
     float field_5f4;
-    void FUN_00c6e680(int index, hkVector4* result);
-    void FUN_00c70060();
+    void bhkCharacterController_FindSupportPoint(int index, hkVector4* result);
+    void bhkCharacterController_CalculatePitchAndRoll();
 };
 // Keep the stack protection originally induced by the local SIMD storage.
 #pragma strict_gs_check(push, on)
 // @fnv 0x00c70060
-void AimController_c70060::FUN_00c70060()
+// src: COMMUNITY 0x00c70060
+void AimController_c70060::bhkCharacterController_CalculatePitchAndRoll()
 {
     hkVector4 position;
     float difference, angle;
@@ -6080,13 +6088,13 @@ void AimController_c70060::FUN_00c70060()
             angle = field_464;
             if (difference == 1.1754943508222875e-38f)
             {
-                FUN_00c6e680(0, &position);
+                bhkCharacterController_FindSupportPoint(0, &position);
                 difference =
                     P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(reinterpret_cast<const P064Quad&>(position.m_vComponents), reinterpret_cast<const P064Quad&>(position.m_vComponents), 0xaa));
             }
             if (angle == 1.1754943508222875e-38f)
             {
-                FUN_00c6e680(1, &position);
+                bhkCharacterController_FindSupportPoint(1, &position);
                 angle = P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(reinterpret_cast<const P064Quad&>(position.m_vComponents), reinterpret_cast<const P064Quad&>(position.m_vComponents), 0xaa));
             }
             difference = angle - difference;
@@ -6122,13 +6130,13 @@ void AimController_c70060::FUN_00c70060()
             angle = field_46c;
             if (difference == 1.1754943508222875e-38f)
             {
-                FUN_00c6e680(2, &position);
+                bhkCharacterController_FindSupportPoint(2, &position);
                 difference =
                     P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(reinterpret_cast<const P064Quad&>(position.m_vComponents), reinterpret_cast<const P064Quad&>(position.m_vComponents), 0xaa));
             }
             if (angle == 1.1754943508222875e-38f)
             {
-                FUN_00c6e680(3, &position);
+                bhkCharacterController_FindSupportPoint(3, &position);
                 angle = P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(reinterpret_cast<const P064Quad&>(position.m_vComponents), reinterpret_cast<const P064Quad&>(position.m_vComponents), 0xaa));
             }
             difference = angle - difference;
@@ -6162,7 +6170,7 @@ void AimController_c70060::FUN_00c70060()
     else
     {
         char* object = field_594 ? field_594->object : 0;
-        position.FUN_004b4ab0(*reinterpret_cast<const hkRotation*>(object + 0xb0), *reinterpret_cast<const hkVector4*>(&field_450));
+        position.hkVector4_setRotatedInverseDir(*reinterpret_cast<const hkRotation*>(object + 0xb0), *reinterpret_cast<const hkVector4*>(&field_450));
         double ucLimitOffset = DAT_011b0148 * 0.01745329238474369;
         unsigned int flags = field_414;
         P064Quad rotation;
@@ -6858,16 +6866,17 @@ struct MainClass
     int unk188;
     int unk18c;
     unsigned char m_190;
-    bool __thiscall FUN_00c757b0(void* out);
+    bool __thiscall bhkRagdollController_GetEyeOffset(void* out);
 };
 // @fnv 0x00c757b0
-bool MainClass::FUN_00c757b0(void* out)
+// src: COMMUNITY 0x00c757b0
+bool MainClass::bhkRagdollController_GetEyeOffset(void* out)
 {
     bool result = false;
     if (m_190)
     {
         P064Vector local;
-        local.value = *m_f0->FUN_00cda8e0(1);
+        local.value = *m_f0->hkaPose_accessBoneLocalSpace(1);
         P064Transform* ptr = P064Model(m_88, m_144);
         local.FUN_00c7f7a0(ptr, &local);
         local.FUN_00c7f7a0(&m_10, &local);
@@ -7159,16 +7168,17 @@ struct S00c6e680_Holder
 
 struct S00c6e680_Ctrl
 {
-    void FUN_0070c440(unsigned int&);
+    void bhkCharacterController_GetCollisionFilter(unsigned int&);
 };
 
 struct S00c6e680_Class : S00c6e680_Ctrl
 {
-    void FUN_00c6e680(int index, LocalM128* position);
+    void bhkCharacterController_FindSupportPoint(int index, LocalM128* position);
 };
 
 // @fnv 0x00c6e680
-void S00c6e680_Class::FUN_00c6e680(int index, LocalM128* position)
+// src: COMMUNITY 0x00c6e680
+void S00c6e680_Class::bhkCharacterController_FindSupportPoint(int index, LocalM128* position)
 {
     unsigned int pick;
     bool none = false;
@@ -7183,7 +7193,7 @@ void S00c6e680_Class::FUN_00c6e680(int index, LocalM128* position)
     filterInfo.unk90 = (*(LocalM128*)&DAT_01267e30);
     filterInfo.input.to = *position;
 
-    FUN_0070c440(pick);
+    bhkCharacterController_GetCollisionFilter(pick);
     filterInfo.input.filterInfo = pick;
 
     S00c6e680_C6WorldObject* v =
@@ -7221,7 +7231,8 @@ struct Vec4Sink
 };
 
 // @fnv 0x00c6d620
-void __cdecl FUN_00c6d620(VectorData* data, int arg, Vec4Sink* callee)
+// src: COMMUNITY 0x00c6d620
+void __cdecl ExtractStiltCapsuleInfo(VectorData* data, int arg, Vec4Sink* callee)
 {
     P064Quad value = data->m_20;
     ((float*)&value)[2] += data->m_10;
@@ -7287,7 +7298,7 @@ class ControllerBaseC66
 class ControllerC66 : public ControllerBaseC66
 {
   public:
-    void FUN_00c66c00(const hkVector4& position);
+    void bhkWorld_SethkOrigin(const hkVector4& position);
 
     hkVector4 m_v60;
 };
@@ -7295,7 +7306,8 @@ class ControllerC66 : public ControllerBaseC66
 // The original vector storage triggered /GS protection for these stack locals.
 #pragma strict_gs_check(push, on)
 // @fnv 0x00c66c00
-void ControllerC66::FUN_00c66c00(const hkVector4& position)
+// src: COMMUNITY 0x00c66c00
+void ControllerC66::bhkWorld_SethkOrigin(const hkVector4& position)
 {
     hkVector4 delta;
     delta.setSub4(position, m_v60);

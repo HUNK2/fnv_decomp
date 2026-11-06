@@ -334,7 +334,7 @@ struct FUN_00681500_class
 
 struct FUN_00681530_class
 {
-    void FUN_00681530(int count);
+    void TESConditionItem_SetComparisonCondition(int count);
 };
 
 }  // namespace fnv_00681220
@@ -374,20 +374,20 @@ void TESConditionItem::SetFunction(int functionCode)
         case 0x106F:
         case 0x1070:
         case 0x1136:
-            ((fnv_00681220::FUN_00681530_class*)this)->FUN_00681530(0);
+            ((fnv_00681220::FUN_00681530_class*)this)->TESConditionItem_SetComparisonCondition(0);
             ((fnv_00681220::FUN_00681500_class*)this)->SetValueIfNoParams(1.0f);
             break;
         case 0x1001:
-            ((fnv_00681220::FUN_00681530_class*)this)->FUN_00681530(4);
+            ((fnv_00681220::FUN_00681530_class*)this)->TESConditionItem_SetComparisonCondition(4);
             ((fnv_00681220::FUN_00681500_class*)this)->SetValueIfNoParams(100.0f);
             break;
         case 0x106B:
-            ((fnv_00681220::FUN_00681530_class*)this)->FUN_00681530(1);
+            ((fnv_00681220::FUN_00681530_class*)this)->TESConditionItem_SetComparisonCondition(1);
             ((fnv_00681220::FUN_00681500_class*)this)->SetValueIfNoParams(0.0f);
             break;
         case 0x10F7:
             m_data0C = 0x28;
-            ((fnv_00681220::FUN_00681530_class*)this)->FUN_00681530(0);
+            ((fnv_00681220::FUN_00681530_class*)this)->TESConditionItem_SetComparisonCondition(0);
             ((fnv_00681220::FUN_00681500_class*)this)->SetValueIfNoParams(1.0f);
             break;
         }

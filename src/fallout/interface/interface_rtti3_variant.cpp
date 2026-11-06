@@ -26,9 +26,10 @@ Tile* FUN_00a09030(int);
 void ShutdownVats();
 
 // @fnv 0x00705780
-void __cdecl FUN_00705780()
+// src: COMMUNITY 0x00705780
+void __cdecl VATSCameraData_Accept()
 {
-    if (FUN_004b7210() && reinterpret_cast<FUN_009373f0_shell*>(FUN_004b7210())->FUN_009373f0())
+    if (InterfaceManager_GetSingleton() && reinterpret_cast<FUN_009373f0_shell*>(InterfaceManager_GetSingleton())->FUN_009373f0())
     {
         Tile* pTile = (Tile*)FUN_00a09030(eVATSMenu);
         VATSMenu* pVATSMenuInstance = pTile ? dynamic_cast<VATSMenu*>(static_cast<const Tile*>(pTile)->GetMenu()) : 0;

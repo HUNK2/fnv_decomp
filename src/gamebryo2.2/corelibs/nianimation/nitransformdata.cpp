@@ -203,7 +203,8 @@ void* __fastcall FUN_00a4e5b0(void* pThis, int, unsigned int flags)
 extern "C" const NiRTTI g_011f3fbc;
 
 // @fnv 0x00a4e0a0
-const NiRTTI* __cdecl FUN_00a4e0a0()
+// src: COMMUNITY 0x00a4e0a0
+const NiRTTI* __cdecl NiTransformData_GetRTTI()
 {
     return &g_011f3fbc;
 }
@@ -321,7 +322,7 @@ inline unsigned int StrArr::AddInline(char* element)
     return SetAtGrow(m_usSize, element);
 }
 
-char* FUN_00a7d330(const char*);
+char* NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d490(const char*, unsigned short);
 
 // @fnv 0x00a4e990
@@ -329,7 +330,7 @@ void TransformDataOperations::AppendTransformKeyCounts(void* pStrArr)
 {
     StrArr* apViewerStrings = (StrArr*)pStrArr;
     NiObject::AddViewerStrings(reinterpret_cast<NiViewerStringsArray*>(apViewerStrings));
-    apViewerStrings->AddInline(FUN_00a7d330(g_011f3fbc.m_pcName));
+    apViewerStrings->AddInline(NiViewerStrings_NiGetViewerString_Title(g_011f3fbc.m_pcName));
     apViewerStrings->AddInline(FUN_00a7d490("m_usNumRotKeys", m_usNumRotKeys));
     apViewerStrings->AddInline(FUN_00a7d490("m_usNumPosKeys", m_usNumPosKeys));
     apViewerStrings->AddInline(FUN_00a7d490("m_usNumScaleKeys", m_usNumScaleKeys));

@@ -23,7 +23,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026f8;
 
 // @fnv 0x00c2a360
-GlobalObjectO2_00a7b610* __cdecl FUN_00c2a360()
+// src: COMMUNITY 0x00c2a360
+GlobalObjectO2_00a7b610* __cdecl NiPSysGrowFadeModifier_GetRTTI()
 {
     return &g_012026f8;
 }
@@ -146,7 +147,7 @@ void FUN_00c2a610_cls::LoadGrowFadeModifier(NiStream& stream)
 
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_012026f8;
-char* __cdecl FUN_00a7d330(char* pcText);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* pcText);
 char* __cdecl FUN_00a7d550(const char* pcName, float fValue);
 char* __cdecl FUN_00a7d490(const char* pcName, unsigned short usValue);
 inline void StrArr::AppendReference(char*& element)
@@ -170,7 +171,7 @@ struct FUN_00c2a6e0_shell : NiPSysGrowFadeModifier
 void FUN_00c2a6e0_shell::AppendGrowFadeModifierStrings(StrArr* pkStrings)
 {
     ((NiPSysModifierViewerStrings*)this)->GetViewerStrings(pkStrings);
-    char* pcString = FUN_00a7d330(*(char**)&g_012026f8);
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(*(char**)&g_012026f8);
     pkStrings->AppendReference(pcString);
     pcString = FUN_00a7d550("Grow Time", m_fGrowthTime);
     pkStrings->AppendReference(pcString);

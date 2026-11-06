@@ -49,13 +49,13 @@ class PipboyAudioMethods : public BSAudio
 class PipboyLightMethods : public NiPointLight
 {
   public:
-    void FUN_004bc280(const NiPoint3&);
+    void NiLight_SetAmbientColor(const NiPoint3&);
 };
 // 0x006b0570 copies three floats at +0x2c here on the rendered Pipboy menu, not a path node.
 class PipboyColorStoreView_006b0570
 {
   public:
-    void FUN_006b0570(const NiPoint3&);
+    void FORenderedMenu_SetScreenLightColor(const NiPoint3&);
 };
 unsigned int FUN_004af350();
 unsigned int FUN_00438220();
@@ -79,7 +79,7 @@ class PipboyInterface
     unsigned char interfaceState[0x174];
     FOPipboyManager* pPipboyManager;
     FOPipboyManager* GetPipboyManager();
-    static PipboyInterface* FUN_004b7210();
+    static PipboyInterface* InterfaceManager_GetSingleton();
     NiNode* GetRoot();
 };
 class SystemColorManager
@@ -206,7 +206,7 @@ void FOPipboyManager::OnMenuOpen()
                 screenNode = (NiNode*)NiDynamicCast(
                     &DAT_011f4428, ((const NiNode*)g_thePlayer->GetNode(true))->GetObjectByName(NiFixedString("pipboyscreen:0")));
             FORenderedMenu::OnMenuOpen();
-            FUN_00705fc0(PipboyInterface::FUN_004b7210()->GetRoot());
+            FUN_00705fc0(PipboyInterface::InterfaceManager_GetSingleton()->GetRoot());
             if (screenNode)
             {
                 screenObjects.firstPerson = screenNode->FUN_0045bc00(0u);
@@ -234,8 +234,8 @@ void FOPipboyManager::OnMenuOpen()
             }
             if (screenObjects.firstPerson && screenObjects.thirdPerson)
             {
-                FUN_007fc2d0(screenObjects.firstPerson);
-                FUN_007fc2d0(screenObjects.thirdPerson);
+                FORenderedMenu_SetupScreen(screenObjects.firstPerson);
+                FORenderedMenu_SetupScreen(screenObjects.thirdPerson);
                 SetScreen(screenObjects.firstPerson);
             }
             UpdatePipBoyButton();
@@ -261,7 +261,7 @@ void FOPipboyManager::OnMenuOpen()
             ((PipboyColorMethods*)this)->FUN_007f7fb0(kColor);
         }
         SetBlurIntensity(DAT_011db2dc.Float()->f);
-        FUN_00444020(DAT_011db328.Float()->f);
+        TESQuest_SetScriptProcessingDelay(DAT_011db328.Float()->f);
         SetScanlines(true, DAT_011db274.Float()->f);
         FUN_00810530(true);
         SetPipBoyObjectVisibility(false, false, true);
@@ -341,7 +341,7 @@ void FOPipboyManager::InitializeMenuLight()
     if (light)
     {
         light->SetEffectColor(NiPoint3(0.0f, 0.0f, 0.0f));
-        ((PipboyLightMethods*)light)->FUN_004bc280(NiPoint3(0.0f, 0.0f, 0.0f));
+        ((PipboyLightMethods*)light)->NiLight_SetAmbientColor(NiPoint3(0.0f, 0.0f, 0.0f));
         light->FUN_0050c630(0.0f);
         light->FUN_0050c660(0.0f);
         light->FUN_0050c690(0.0f);
@@ -350,7 +350,7 @@ void FOPipboyManager::InitializeMenuLight()
         NiColorA color(0.0f, 0.0f, 0.0f, 0.0f);
         SystemColorManager::GetSingleton()->GetColor(4, color);
         ((NiPoint3*)&rgb)->NiPoint3::NiPoint3(color.r, color.g, color.b);
-        ((PipboyColorStoreView_006b0570*)this)->FUN_006b0570((const NiPoint3&)rgb);
+        ((PipboyColorStoreView_006b0570*)this)->FORenderedMenu_SetScreenLightColor((const NiPoint3&)rgb);
         SetIntensity(1.0f);
         SetScreenLightFlickerIntensity(1.0f);
     }
@@ -392,12 +392,13 @@ struct NiStream;
 typedef char _sizecheck_NiColor[sizeof(NiColor) == 12 ? 1 : -1];
 struct RenderedMenuColorMethods : public FORenderedMenu
 {
-    void FUN_006b0570(NiColor*);
+    void FORenderedMenu_SetScreenLightColor(NiColor*);
 };
 
 // Copies the NiColor pointed to by the argument into the field at offset 0x2c of this object.
 // @fnv 0x006b0570
-void RenderedMenuColorMethods::FUN_006b0570(NiColor* apColor)
+// src: COMMUNITY 0x006b0570
+void RenderedMenuColorMethods::FORenderedMenu_SetScreenLightColor(NiColor* apColor)
 {
     m_kScreenLightColor = *apColor;
 }
@@ -445,12 +446,13 @@ void* DelStandIn::FUN_007f7cb0(unsigned int flags)
 // The shared header does not yet declare the pipboy reset override.
 struct PipboyResetMethods : public FOPipboyManager
 {
-    void FUN_007f7e00();
+    void FOPipboyManager_ClearModels();
 };
 
 // Clears the pipboy node pointers, per-index arrays and screen elements, then calls FUN_007fadf0.
 // @fnv 0x007f7e00
-void PipboyResetMethods::FUN_007f7e00()
+// src: COMMUNITY 0x007f7e00
+void PipboyResetMethods::FOPipboyManager_ClearModels()
 {
     m_pPipBoyObject0 = 0;
     m_pPipBoyObject1 = 0;
@@ -465,7 +467,7 @@ void PipboyResetMethods::FUN_007f7e00()
         m_fGaugeValues2[i] = 0;
     }
     m_pPipBoyObject2 = 0;
-    FORenderedMenu::FUN_007fadf0();
+    FORenderedMenu::ResetNifs();
 }
 
 namespace fnv_007f8610 {
@@ -523,12 +525,12 @@ void PipboyBurstMethods::FUN_007f8a80()
 
     fchance = RandomFloat0To1();
     if (fchance < g_011db4b4.Float()->f)
-        ((FORenderedMenuPC*)PipboyInterface::FUN_004b7210()->GetPipboyManager())
+        ((FORenderedMenuPC*)PipboyInterface::InterfaceManager_GetSingleton()->GetPipboyManager())
             ->FUN_007fb250(g_011db4ec.Float()->f, g_011db3fc.Float()->f);
     if (fchance >= g_011db4b4.Float()->f && fchance < g_011db4b4.Float()->f + g_011db4e0.Float()->f)
-        ((FORenderedMenuPC*)PipboyInterface::FUN_004b7210()->GetPipboyManager())
+        ((FORenderedMenuPC*)PipboyInterface::InterfaceManager_GetSingleton()->GetPipboyManager())
             ->FUN_007fb2b0(g_011db414.Float()->f, g_011db3bc.Float()->f, g_011db3b0.Float()->f);
-    ((FORenderedMenuPC*)PipboyInterface::FUN_004b7210()->GetPipboyManager())
+    ((FORenderedMenuPC*)PipboyInterface::InterfaceManager_GetSingleton()->GetPipboyManager())
         ->StartBurst(g_011db480.Float()->f, g_011db43c.Float()->f, 0.5f);
 }
 }  // namespace fnv_007f8a80
@@ -570,9 +572,9 @@ void PipboyAnimationMethods::FUN_007fa220()
 
     if (IsConsoleActive())
         return;
-    if (*(int*)((char*)PipboyInterface::FUN_004b7210() + 0x4bc) != 3)
+    if (*(int*)((char*)PipboyInterface::InterfaceManager_GetSingleton() + 0x4bc) != 3)
         return;
-    if (((FUN_00424940_shell*)PipboyInterface::FUN_004b7210())->FUN_00424940() == 4)
+    if (((FUN_00424940_shell*)PipboyInterface::InterfaceManager_GetSingleton())->FUN_00424940() == 4)
         return;
     panim = (Animation*)((const ::PlayerCharacter*)g_thePlayer)->GetAnimation(true);
     pIdleSequence = (BSAnimGroupSequence*)panim->GetControllerSequence(0);
@@ -636,7 +638,7 @@ class NiAVObjectPC : public NiAVObject
 struct TerminalLightMethods : public FOPipboyManager
 {
     NiPointLight* GetLight();
-    void FUN_006b0570(const NiColor&);
+    void FORenderedMenu_SetScreenLightColor(const NiColor&);
     void CreateTerminalLight();
 };
 
@@ -653,7 +655,7 @@ void TerminalLightMethods::CreateTerminalLight()
     plight = GetLight();
     if (plight)
     {
-        ((PipboyLightMethods*)plight)->FUN_004bc280(NiPoint3(0, 0, 0));
+        ((PipboyLightMethods*)plight)->NiLight_SetAmbientColor(NiPoint3(0, 0, 0));
         plight->FUN_0050c630(0);
         plight->FUN_0050c660(0);
         plight->FUN_0050c690(0);
@@ -661,7 +663,7 @@ void TerminalLightMethods::CreateTerminalLight()
         plight->FUN_0050dd50(NiPoint3(g_011db644.Float()->f, 0, 0));
         {
             NiColor screenLightColor(g_011db608.Float()->f, g_011db668.Float()->f, g_011db5f8.Float()->f);
-            FUN_006b0570(screenLightColor);
+            FORenderedMenu_SetScreenLightColor(screenLightColor);
         }
         SetIntensity(g_011db650.Float()->f);
         SetScreenLightFlickerIntensity(1.0f);
@@ -675,24 +677,25 @@ extern GameTimerRecord g_timeGlobal;
 // The shared header does not yet declare the pipboy update override.
 struct PipboyUpdateMethods : public FOPipboyManager
 {
-    void FUN_007f8320(float);
+    void FOPipboyManager_UpdateKnobs(float);
     void FUN_007fa220();
-    bool FUN_007f7ee0();
+    bool FOPipboyManager_OnIdle();
 };
 // @fnv 0x007f7ee0
-bool PipboyUpdateMethods::FUN_007f7ee0()
+// src: COMMUNITY 0x007f7ee0
+bool PipboyUpdateMethods::FOPipboyManager_OnIdle()
 {
     float fappTime;
     if (!FORenderedMenu::UpdateScreenEffect())
         return false;
     fappTime = (float)(unsigned int)((AnimIdle*)&g_timeGlobal)->GetSection();
-    this->FUN_007f8320(fappTime);
+    this->FOPipboyManager_UpdateKnobs(fappTime);
     this->FUN_007fa220();
     return true;
 }
 
 void __cdecl FUN_007ffe40();
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 struct Im7181
 {
     void SetRenderedMenu(int);
@@ -709,11 +712,12 @@ struct VTab
 };
 struct FUN_007ffd50_shell
 {
-    void FUN_007ffd50();
+    void FORenderedMenu_Close();
 };
 // Calls FUN_007ffe40, invokes VFn(1) on the parent if present, then sets procedure type 0 and calls SetRenderedMenu(0) on the FUN_004b7210 result.
 // @fnv 0x007ffd50
-void FUN_007ffd50_shell::FUN_007ffd50()
+// src: COMMUNITY 0x007ffd50
+void FUN_007ffd50_shell::FORenderedMenu_Close()
 {
     VTab* parent;
     FUN_007ffe40();
@@ -723,7 +727,7 @@ void FUN_007ffd50_shell::FUN_007ffd50()
     }
     parent ? parent->VFn(1) : 0;
     ((ol4_00985000::CGBase*)this)->SetProcedureType(0);
-    ((Im7181*)FUN_004b7210())->SetRenderedMenu(0);
+    ((Im7181*)InterfaceManager_GetSingleton())->SetRenderedMenu(0);
 }
 
 // FUN_007fa990: thiscall; calls on two module globals, three far virtual calls
@@ -1044,7 +1048,7 @@ void PipboyOpenMethods::FUN_007fa990()
     obj->v092(reinterpret_cast<G11dea3c*>(DAT_011dea3c));
     obj->v282(1);
     obj->v281(reinterpret_cast<G11dea3c*>(DAT_011dea3c));
-    FUN_007fadf0();
+    ResetNifs();
     OnMenuOpen();
     FUN_005db4c0(0);
 }
@@ -1098,11 +1102,12 @@ class NiAVObjectHelper : public NiAVObject
 class PipboyKnobUpdateMethods : public FOPipboyManager
 {
   public:
-    void FUN_007f8320(float fTime);
+    void FOPipboyManager_UpdateKnobs(float fTime);
 };
 
 // @fnv 0x007f8320
-void PipboyKnobUpdateMethods::FUN_007f8320(float fTime)
+// src: COMMUNITY 0x007f8320
+void PipboyKnobUpdateMethods::FOPipboyManager_UpdateKnobs(float fTime)
 {
     bool bUpdated[3];
     float fMoveElapsedTime = fTime - DAT_011db370;

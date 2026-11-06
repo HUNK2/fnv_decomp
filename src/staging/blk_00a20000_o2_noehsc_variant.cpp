@@ -47,7 +47,7 @@ void __cdecl FUN_00a27470(int a, int b, int c, int* p);
 extern "C" void __cdecl ReadBlockEntries(void*, void*);
 void __cdecl NiEulerRotKey_SaveToStream(void* a, void* b, unsigned int c);
 extern MemoryManager g_memoryManager;
-void FUN_00a2a600(void* p);
+void NiStepPosKey_DeleteArray(void* p);
 extern "C" void __cdecl SaveKey(int, int);
 void __cdecl NiTCBPosKey_SaveToStream(int a, int b, unsigned int count);
 struct FUN_00a2cc10_T
@@ -182,7 +182,7 @@ bool NiBoolKey_Equal(const Helper* a, const Helper* b);
 struct SStream;
 struct SObj;
 void __cdecl WriteFloatToStream(SStream*, SObj*);
-void __cdecl FUN_00a2d230(SStream* a, SObj* b, unsigned int c);
+void __cdecl NiAnimationKey_SaveToStream(SStream* a, SObj* b, unsigned int c);
 extern int DAT_01096114;
 extern void __cdecl _NiFree(void*);
 extern MemoryManager _g_memoryManager;
@@ -709,7 +709,7 @@ struct FNVAnim
     FNVKey keys[64];
 };
 extern void __cdecl NiRotKey_FillDerivedVals(FNVAnim* obj, unsigned int count, unsigned int flag);
-extern FNVQuat* __cdecl FUN_00a6dd50(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
+extern FNVQuat* __cdecl NiQuaternion_Intermediate(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
 void __cdecl NiBezRotKey_FillDerivedVals(FNVAnim* obj, unsigned int count, unsigned int flag);
 // The game class NiBound - a 16-byte bound (three position floats and a radius).
 // UHelper layout as read off the image: a float at +0, then two 16-byte
@@ -2523,7 +2523,7 @@ class FUN_00a3a730_cls
     virtual void v38();
     virtual void v39();
     virtual void v40(int a, int b, int c, int d);
-    void FUN_00a3a730(int a, int b);
+    void NiParallelUpdateTaskManager_AddTask(int a, int b);
 };
 #include "../../include/NiMemObject.h"
 inline void* __cdecl operator new(unsigned int, void* memory) throw()
@@ -2969,7 +2969,8 @@ struct A28F00Elem
 };
 
 // @fnv 0x00a28f00
-A28F00Elem* __cdecl FUN_00a28f00(unsigned int ItemUpdateArray)
+// src: COMMUNITY 0x00a28f00
+A28F00Elem* __cdecl NiBezRotKey_CreateArray(unsigned int ItemUpdateArray)
 {
     return new A28F00Elem[ItemUpdateArray];
 }
@@ -3017,7 +3018,8 @@ struct TCBRotKeyS
 };
 typedef TCBRotKeyS RotKeyS;
 // @fnv 0x00a28f50
-bool FUN_00a28f50(float t, RotKeyS*& pkKeys, unsigned int& uiNumKeys)
+// src: COMMUNITY 0x00a28f50
+bool NiBezRotKey_Insert(float t, RotKeyS*& pkKeys, unsigned int& uiNumKeys)
 {
     TCBRotKeyS* pkOld = (TCBRotKeyS*)pkKeys;
     unsigned int uiInsertAt;
@@ -3064,7 +3066,8 @@ struct A290A0Key
 };
 
 // @fnv 0x00a290a0
-A290A0Key* __cdecl FUN_00a290a0(A290A0Stream* pkStream, unsigned int ItemUpdateArray)
+// src: COMMUNITY 0x00a290a0
+A290A0Key* __cdecl NiBezRotKey_CreateFromStream(A290A0Stream* pkStream, unsigned int ItemUpdateArray)
 {
     A290A0Key* pkKeys = new A290A0Key[ItemUpdateArray];
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
@@ -3237,7 +3240,7 @@ namespace fnv_00a2c420 {
 namespace na2c {
 struct Alloc
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 }
 struct FUN_00a2bdb0
@@ -3248,7 +3251,7 @@ struct FUN_00a2bdb0
     {}
     static void* operator new[](unsigned int aSize)
     {
-        return ((na2c::Alloc*)&DAT_011f6238)->FUN_00aa3e40(aSize);
+        return ((na2c::Alloc*)&DAT_011f6238)->Game_DoHeapAlloc(aSize);
     }
     static void operator delete[](void* apBlock)
     {
@@ -3602,11 +3605,12 @@ class SeqMgrE2E7
     // RTTI vftable 0x01096260, stored by the manager ctor/dtor.
     NiTStringPointerMap<NiControllerSequence*> m_kPointerMap;
 
-    void FUN_00a2e7d0(NiControllerSequence* pkSequence, NiPointer<NiControllerSequence>& spOut);
+    void NiControllerManager_RemoveSequence(NiControllerSequence* pkSequence, NiPointer<NiControllerSequence>& spOut);
 };
 
 // @fnv 0x00a2e7d0
-void SeqMgrE2E7::FUN_00a2e7d0(NiControllerSequence* pkSequence, NiPointer<NiControllerSequence>& spOut)
+// src: COMMUNITY 0x00a2e7d0
+void SeqMgrE2E7::NiControllerManager_RemoveSequence(NiControllerSequence* pkSequence, NiPointer<NiControllerSequence>& spOut)
 {
     for (unsigned int ui = 0; ui < m_kSequences.GetSize(); ui++)
     {

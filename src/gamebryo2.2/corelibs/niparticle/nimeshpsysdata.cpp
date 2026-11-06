@@ -154,7 +154,8 @@ extern "C"
 }
 
 // @fnv 0x00c30a80
-void* __cdecl FUN_00c30a80()
+// src: COMMUNITY 0x00c30a80
+void* __cdecl NiMeshPSysData_GetRTTI()
 {
     return &g_012027c0;
 }

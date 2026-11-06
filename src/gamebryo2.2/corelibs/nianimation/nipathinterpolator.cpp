@@ -17,7 +17,8 @@
 extern "C" void* g_011f3f68;
 
 // @fnv 0x00a3dab0
-void* __cdecl FUN_00a3dab0()
+// src: COMMUNITY 0x00a3dab0
+void* __cdecl NiPosData_GetRTTI()
 {
     return &g_011f3f68;
 }
@@ -345,7 +346,7 @@ struct FNV_WriteStream
     FNV_WriteFn m_pfn;
 };
 
-struct StreamBase { void FUN_00a95ca0(NiStream*); void FUN_00a95ca0(NiStream&); };
+struct StreamBase { void NiKeyBasedInterpolator_LinkObject(NiStream*); void NiKeyBasedInterpolator_LinkObject(NiStream&); };
 
 // The single write the record layout performs: hand the payload and its size
 // to the stream's callback and accumulate the byte count it returns.
@@ -360,7 +361,7 @@ static __forceinline void FNV_WriteField(FNV_WriteStream* pWriter, void* pData, 
 // @fnv 0x00a3ef70
 void NiPathInterpolator::WriteToStream(NiStream* pStream)
 {
-    ((StreamBase*)this)->FUN_00a95ca0(pStream);
+    ((StreamBase*)this)->NiKeyBasedInterpolator_LinkObject(pStream);
     FNV_WriteField((FNV_WriteStream*)pStream->GetWriter(), &m_uiObjectFlags, 2);
     FNV_WriteField((FNV_WriteStream*)pStream->GetWriter(), &m_iPathPointCount, 4);
     FNV_WriteField((FNV_WriteStream*)pStream->GetWriter(), &m_fPreviousTime, 4);
@@ -683,7 +684,7 @@ extern CurvatureFunction DAT_011f3d38[];
 // src: GAMEBRYO_LIB 0x00a3ee80
 void NiPathInterpolator::LinkObject_00a3ee80(NiStream& stream)
 {
-    ((StreamBase*)this)->FUN_00a95ca0(stream);
+    ((StreamBase*)this)->NiKeyBasedInterpolator_LinkObject(stream);
     AssignPathPointer(m_pPathObject, (NiPosData*)stream.GetLoadedObject());
     AssignPathPointer(m_pPathInterp, stream.GetLoadedObject());
     SetCVDataNeedsUpdate(true);

@@ -19,7 +19,7 @@ class ImpactSwap
 };
 extern ImpactSwap* DAT_011ca834;
 void __cdecl SetGlobalPointerAtOffset(int, const char*);
-void __cdecl FUN_00837500();
+void __cdecl ResetFootstepSounds();
 
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 
@@ -163,7 +163,7 @@ void BGSImpactDataSet::RefreshImpactData(ImpactSwap* swap)
         else
             SetGlobalPointerAtOffset(i, 0);
     }
-    FUN_00837500();
+    ResetFootstepSounds();
 }
 
 struct FUN_0040f2a0
@@ -624,11 +624,12 @@ extern "C" void* __cdecl memcpy(void*, const void*, size_t);
 struct ImpactSwapMaps
 {
     NiTPointerMap<BGSImpactData*, BGSImpactData*>* m_pData[12];
-    void FUN_0058f4c0(ImpactSwapMaps* apSwap);
+    void ImpactSwap_Copy(ImpactSwapMaps* apSwap);
 };
 // Deletes this object's 12 map entries, adds entries from apSwap's maps, then copies 300 bytes from offset 0x30.
 // @fnv 0x0058f4c0
-void ImpactSwapMaps::FUN_0058f4c0(ImpactSwapMaps* apSwap)
+// src: COMMUNITY 0x0058f4c0
+void ImpactSwapMaps::ImpactSwap_Copy(ImpactSwapMaps* apSwap)
 {
     for (int i = 0; i < 12; i++)
     {

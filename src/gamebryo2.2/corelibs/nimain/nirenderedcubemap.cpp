@@ -22,7 +22,8 @@ int __fastcall FUN_00ee8230(NiRenderedCubeMap* cubeMap)
 extern "C" void* DAT_012708e4;
 
 // @fnv 0x00ee82a0
-void* __cdecl FUN_00ee82a0()
+// src: COMMUNITY 0x00ee82a0
+void* __cdecl NiRenderedCubeMap_GetRTTI()
 {
     return &DAT_012708e4;
 }

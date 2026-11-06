@@ -12,7 +12,8 @@
 extern const char* const g_011f3f58_arg1;
 
 // @fnv 0x00a485a0
-const char* const* __cdecl FUN_00a485a0()
+// src: COMMUNITY 0x00a485a0
+const char* const* __cdecl NiFloatController_GetRTTI()
 {
     return &g_011f3f58_arg1;
 }
@@ -20,7 +21,8 @@ const char* const* __cdecl FUN_00a485a0()
 extern void* g_011f3f58;
 
 // @fnv 0x00a485b0
-void* __cdecl FUN_00a485b0()
+// src: COMMUNITY 0x00a485b0
+void* __cdecl NiRollController_GetRTTI()
 {
     return &g_011f3f58;
 }

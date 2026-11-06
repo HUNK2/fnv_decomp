@@ -503,8 +503,8 @@ struct HUDEntry
     ~HUDEntry();
 };
 
-void __cdecl FUN_00bc1470(HUDNode* apRoot, HUDNode* apNode);
-void __cdecl FUN_0080fc90(float afValue);
+void __cdecl BoltShader_Stop(HUDNode* apRoot, HUDNode* apNode);
+void __cdecl _11DC778_Subtract(float afValue);
 
 struct HUDSetting
 {
@@ -605,13 +605,13 @@ struct FUN_00811e10 : HUDBase
 FUN_00811e10::~FUN_00811e10()
 {
     if (GetTarget() != g_pHUDPlayer)
-        FUN_0080fc90(*g_kHUDSetting.Float());
+        _11DC778_Subtract(*g_kHUDSetting.Float());
 
     HUDList* pList = g_kHUDProcessLists.GetOffset70Ptr();
     if (pList)
         pList->Remove(this);
 
-    FUN_00bc1470(spB4, spA8);
+    BoltShader_Stop(spB4, spA8);
     spA8 = 0;
     if (spB4)
     {
@@ -627,7 +627,7 @@ FUN_00811e10::~FUN_00811e10()
     while (pEntries)
     {
         HUDEntry* pNext = pEntries->pNext;
-        FUN_00bc1470(pEntries->m_pRootNode, pEntries->m_pController);
+        BoltShader_Stop(pEntries->m_pRootNode, pEntries->m_pController);
         pEntries->m_pController = 0;
         if (pEntries->m_pRootNode)
         {
@@ -757,7 +757,7 @@ struct BoltFx
     void SetWhich(int);
     void FUN_005077a0(float);
     void FUN_00803b50(float);
-    void FUN_00803a50(bool);
+    void BoltShaderProperty_SetStartFromPoint(bool);
     void FUN_00bc2360();
 };
 struct BoltNodePtr
@@ -780,7 +780,7 @@ struct BoltSetting
 extern BoltSetting DAT_011d186c, DAT_011d1628, DAT_011d1bec, DAT_011d1610, DAT_011d1b2c, DAT_011d18f0, DAT_011d1908,
     DAT_011d1be0, DAT_011d1cdc, DAT_011d19d8, DAT_011d1c4c, DAT_011d174c, DAT_011d1800, DAT_011d16c8, DAT_011d17c4;
 const char* FUN_00448a80();
-BoltFx* FUN_00bc18d0(BoltNode*, bool);
+BoltFx* BoltShader_Start(BoltNode*, bool);
 struct Bolt
 {
     virtual void v0();
@@ -978,7 +978,7 @@ void Bolt::InitEffect()
     BoltMatrix matrix2;
     matrix2.FUN_00a59660(rotation.z, rotation.x, rotation.y);
     emitter.FUN_00559450()->FUN_0043fa80(matrix2);
-    effect.FUN_0066b0d0(FUN_00bc18d0(emitter.FUN_00559450(), true));
+    effect.FUN_0066b0d0(BoltShader_Start(emitter.FUN_00559450(), true));
     if (effect.FUN_00559450())
     {
         effect.FUN_00559450()->FUN_00803a70(*DAT_011d186c.FUN_0043d4d0());
@@ -994,7 +994,7 @@ void Bolt::InitEffect()
         effect.FUN_00559450()->SetWhich(*DAT_011d1800.FUN_0043d4d0());
         effect.FUN_00559450()->FUN_005077a0(*DAT_011d16c8.FUN_00403e20());
         effect.FUN_00559450()->FUN_00803b50(*DAT_011d17c4.FUN_00403e20());
-        effect.FUN_00559450()->FUN_00803a50(true);
+        effect.FUN_00559450()->BoltShaderProperty_SetStartFromPoint(true);
         effect.FUN_00559450()->FUN_00bc2360();
     }
 }
@@ -1845,7 +1845,7 @@ struct GameObject
 
     OutHandle FUN_00931ed0();
 
-    OutHandle FUN_0043b4f0();
+    OutHandle bhkWorldObject_GetCollisionFilter();
 
     GameObject* FUN_006fa820();
 
@@ -1859,13 +1859,13 @@ struct GameObject
 
     void FUN_00440460(void*);
 
-    void FUN_004f0160(void*);
+    void NiNode_SetRotate(void*);
 
     void FUN_0043fa80(void*);
 
     void DispatchFloatPair(float, float, float, bool);
 
-    bool FUN_00ee8990();
+    bool NiObject_StreamCanSkip();
 };
 
 struct Holder
@@ -1907,7 +1907,7 @@ struct LocalStore
 struct Control
 {
 
-    void FUN_0070c440(LocalStore*);
+    void bhkCharacterController_GetCollisionFilter(LocalStore*);
 
     void FUN_00810ff0(void*);
 };
@@ -2086,7 +2086,7 @@ void Root::UpdatePending(int arg1, int arg2)
 
                 GameObject* item = form ? form->FUN_006fa820() : 0;
 
-                selected = item ? item->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+                selected = item ? item->bhkWorldObject_GetCollisionFilter().FUN_004a3a20() : FUN_005dbe10();
             }
         }
         else
@@ -2096,10 +2096,10 @@ void Root::UpdatePending(int arg1, int arg2)
 
             GameObject* item = form ? form->FUN_006fa820() : 0;
 
-            selected = item ? item->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+            selected = item ? item->bhkWorldObject_GetCollisionFilter().FUN_004a3a20() : FUN_005dbe10();
         }
 
-        a->FUN_0070c440(&handle);
+        a->bhkCharacterController_GetCollisionFilter(&handle);
 
         handle.FUN_004a39f0(7);
 
@@ -2126,7 +2126,7 @@ void Root::UpdatePending(int arg1, int arg2)
 
             m0b4.FUN_00559450()->FUN_00440460(pending);
 
-            m0b4.FUN_00559450()->FUN_004f0160(&pending->unk0c);
+            m0b4.FUN_00559450()->NiNode_SetRotate(&pending->unk0c);
 
             bool force = state0ac != 0;
 
@@ -2162,14 +2162,14 @@ void Root::UpdatePending(int arg1, int arg2)
 
                 m0a8.FUN_00559450()->DispatchFloatPair(pending->value1c, direction, f088, force);
 
-                if (m0a8.FUN_00559450()->FUN_00ee8990() || state0ac == 2)
+                if (m0a8.FUN_00559450()->NiObject_StreamCanSkip() || state0ac == 2)
                 {
 
                     FUN_008133d0(2);
 
                     LocalStore handle;
 
-                    FUN_009306d0()->FUN_0070c440(&handle);
+                    FUN_009306d0()->bhkCharacterController_GetCollisionFilter(&handle);
 
                     handle.SetFlag4000(1);
 
@@ -2510,7 +2510,7 @@ class AEProcess
   public:
     char pad000[0x410];
     AEFlags m_kFlags;
-    void FUN_0070c440(AEHandle* pkOut);
+    void bhkCharacterController_GetCollisionFilter(AEHandle* pkOut);
     void FUN_00810ff0(void* pvValue);
 };
 
@@ -2610,7 +2610,7 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
         if (FUN_009306d0()->m_kFlags.FUN_00621270(0x8000))
             v196();
         AEHandle kHandle;
-        FUN_009306d0()->FUN_0070c440(&kHandle);
+        FUN_009306d0()->bhkCharacterController_GetCollisionFilter(&kHandle);
         kHandle.SetFlag4000(true);
         FUN_009306d0()->FUN_00810ff0(kHandle.m_pIntegerData);
     }
@@ -2881,7 +2881,7 @@ struct F139Fx
     void SetWhich(int);
     void FUN_005077a0(float);
     void FUN_00803b50(float);
-    void FUN_00803a50(bool);
+    void BoltShaderProperty_SetStartFromPoint(bool);
     void FUN_00bc2360();
 };
 struct F139Setting
@@ -2918,7 +2918,7 @@ __forceinline void F139NewNode::operator delete(void* p)
 {
     FUN_00aa13f0(p);
 }
-F139Fx* __cdecl FUN_00bc18d0(F139NewNode*, int);
+F139Fx* __cdecl BoltShader_Start(F139NewNode*, int);
 struct F139Arg
 {
     F139Ref* FUN_0084e3a0();
@@ -2932,7 +2932,7 @@ struct F139This
     F139Ref* FUN_00586150();
     F139Cell* FUN_008d6f30();
     F139Result* FUN_009306d0();
-    void FUN_00812700(float, F139Entry*);
+    void MagicBoltProjectile_UpdateBranch(float, F139Entry*);
     void AttachEffectToSpine(F139Owner*, F139Arg*);
 };
 // @fnv 0x008139f0
@@ -2943,7 +2943,7 @@ void F139This::AttachEffectToSpine(F139Owner* owner, F139Arg* arg)
     F139NewNode* s = new F139NewNode(0);
     F139Node* a = FUN_008d6f30()->FUN_005497a0();
     a->attach(s, true);
-    F139Fx* h = FUN_00bc18d0(s, 0);
+    F139Fx* h = BoltShader_Start(s, 0);
     if (h)
     {
         h->FUN_00803a70(*((F139Setting*)&DAT_011d1a48)->FUN_0043d4d0());
@@ -2961,7 +2961,7 @@ void F139This::AttachEffectToSpine(F139Owner* owner, F139Arg* arg)
         h->SetWhich(*((F139Setting*)&DAT_011d1b50)->FUN_0043d4d0());
         h->FUN_005077a0(*((F139Setting*)&DAT_011d18c0)->FUN_00403e20());
         h->FUN_00803b50(*((F139Setting*)&DAT_011d1974)->FUN_00403e20());
-        h->FUN_00803a50(false);
+        h->BoltShaderProperty_SetStartFromPoint(false);
         h->FUN_00bc2360();
     }
     F139Vec i;
@@ -2988,7 +2988,7 @@ void F139This::AttachEffectToSpine(F139Owner* owner, F139Arg* arg)
     cf->target.FUN_0066b0d0(eb);
     cf->pos = i;
     cf->next = entries;
-    FUN_00812700(0.0f, cf);
+    MagicBoltProjectile_UpdateBranch(0.0f, cf);
     entries = cf;
 }
 

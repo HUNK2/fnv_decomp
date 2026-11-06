@@ -119,7 +119,8 @@ static inline float Dot3(__m128 a, __m128 b)
 }
 
 // @fnv 0x00ddd5a0
-void __cdecl FUN_00ddd5a0(const float* a, const float* b, const float* c)
+// src: COMMUNITY 0x00ddd5a0
+void __cdecl hkpMeshWeldingUtility_calcAngleForEdge(const float* a, const float* b, const float* c)
 {
     __m128 scale = _mm_load_ps(c);
     float fB = Dot3(_mm_load_ps(b), scale);

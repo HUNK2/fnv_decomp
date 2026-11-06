@@ -240,7 +240,7 @@ void __thiscall TESClass::SaveForm(void)
     char cAttribData[7];
     TESForm::FUN_004855a0();
     TESFullName::FUN_00487010();
-    TESDescription::FUN_00482cb0();
+    TESDescription::Save_00482cb0();
     TESTexture::Save(0x4e4f4349);
     if (_FUN_00401500())
     {

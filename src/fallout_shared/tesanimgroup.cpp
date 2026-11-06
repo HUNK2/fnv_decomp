@@ -309,7 +309,8 @@ extern const char* DAT_01197794[];
 extern const char* DAT_011977a4[];
 
 // @fnv 0x005f38d0
-void __cdecl FUN_005f38d0(const char* apModelName, unsigned int* aeMove, unsigned int* aeWeapon, bool* abPowerArmor)
+// src: COMMUNITY 0x005f38d0
+void __cdecl TESAnimGroup_ParseAnimGroupFilename(const char* apModelName, unsigned int* aeMove, unsigned int* aeWeapon, bool* abPowerArmor)
 {
     unsigned int n;
     const char* plastSlash = _strrchr(apModelName, '\\');
@@ -408,7 +409,8 @@ int TESAnimGroup::GetMoveAnimGroup()
 extern "C" unsigned short __cdecl FUN_005f2400(unsigned short);
 
 // @fnv 0x005f23e0
-unsigned short __thiscall TESAnimGroup::FUN_005f23e0()
+// src: COMMUNITY 0x005f23e0
+unsigned short __thiscall TESAnimGroup::GetWeapon()
 {
     return FUN_005f2400(sType);
 }
@@ -512,7 +514,8 @@ void TESAnimGroup::ResizeSoundList(unsigned int count)
 int __cdecl GetType(unsigned short);
 // Returns true when GetType(a) is 0, 1 or 0xAA, otherwise false.
 // @fnv 0x005f4cc0
-bool __cdecl FUN_005f4cc0(unsigned short ausType)
+// src: COMMUNITY 0x005f4cc0
+bool __cdecl TESAnimGroup_IsIdleAnim(unsigned short ausType)
 {
     switch (GetType(ausType))
     {
@@ -582,7 +585,8 @@ extern TESDataHandler* g_dataHandler;
 
 // Parses a controller sequence's text keys to build a TESAnimGroup, setting parent, morph, blend, decal and sound data and warning on bad notes.
 // @fnv 0x005f3a20
-TESAnimGroup* FUN_005f3a20(NiControllerSequence* apSequence, const char* apModelName)
+// src: COMMUNITY 0x005f3a20
+TESAnimGroup* TESAnimGroup_LoadAnimGroup(NiControllerSequence* apSequence, const char* apModelName)
 {
     ANIM_GROUP_ENUM m;
     char message[260];
@@ -934,7 +938,8 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequence* apSequence, const char* apModel
 
 // Returns true when the animation group's sType maps to one of the codes 0x5c through 0x65, otherwise false.
 // @fnv 0x005f26c0
-bool TESAnimGroup::FUN_005f26c0()
+// src: COMMUNITY 0x005f26c0
+bool TESAnimGroup::IsPowerAttack_005f26c0()
 {
     switch (GetType(sType))
     {

@@ -33,7 +33,7 @@ template <class T> inline NiPointer<T>::operator T*() const
     return m_pObject;
 }
 extern NiPointer<NiRefObject> g_spCurrentAccumulator;
-void FUN_00b54b10(BSShaderAccumulatorView* accumulator);
+void BSShaderManager_SetCurrentAccumulator(BSShaderAccumulatorView* accumulator);
 
 extern __declspec(thread) int DAT_012722bc;
 struct AccumulatorContext
@@ -48,9 +48,10 @@ inline NiNodeHolder_bsshaderutil_decl_variant::NiNodeHolder_bsshaderutil_decl_va
     if (value)
         value->IncRefCount();
 }
-void FUN_00b54ac0(NiRefObject*);
+void BSShaderManager_SetAccumulator(NiRefObject*);
 // @fnv 0x00b6bee0
-void FUN_00b6bee0(void* first, void* second, BSShaderAccumulatorView* accumulator)
+// src: COMMUNITY 0x00b6bee0
+void BSShaderUtil_AccumulateScene(void* first, void* second, BSShaderAccumulatorView* accumulator)
 {
     if (DAT_011f4748 && first && second)
     {
@@ -59,7 +60,7 @@ void FUN_00b6bee0(void* first, void* second, BSShaderAccumulatorView* accumulato
             NiNodeHolder_bsshaderutil_decl_variant guard(DAT_011f4748->object);
             DAT_011f4748->FUN_004dc540(accumulator->texture);
         }
-        FUN_00b54ac0(accumulator->texture);
+        BSShaderManager_SetAccumulator(accumulator->texture);
         accumulator->vfn_48(first, second, 0);
     }
 }

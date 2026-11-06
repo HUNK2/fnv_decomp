@@ -390,11 +390,12 @@ void _FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_004fb3b0_shell
 {
-    void FUN_004fb3b0();
+    void BGSExplosion_SaveAlt();
 };
 
 // @fnv 0x004fb3b0
-void FUN_004fb3b0_shell::FUN_004fb3b0()
+// src: COMMUNITY 0x004fb3b0
+void FUN_004fb3b0_shell::BGSExplosion_SaveAlt()
 {
     TESSound* psaveLight;
     TESSound* psaveSound2;

@@ -172,7 +172,7 @@ struct __declspec(align(16)) RelativeOrientationData
     int argument4;
     int argument5;
     int argument6;
-    void FUN_00c74ac0(char* a, char* b);
+    void setMulInverse(char* a, char* b);
 };
 
 struct Callee
@@ -227,7 +227,7 @@ void ApplyRelativeOrientation(Owner* a1, char* a2, const __m128* a3, int a4, int
     points.second.FUN_00c7f690((const __m128*)(e2 + 0xf0), a3);
     // Helper writes the quaternion at offset 0; original also stores arguments at 0x20/24/28.
     RelativeOrientationData relativeOrientation;
-    relativeOrientation.FUN_00c74ac0(e2 + 0x160, e1 + 0x160);
+    relativeOrientation.setMulInverse(e2 + 0x160, e1 + 0x160);
     relativeOrientation.argument4 = a4;
     relativeOrientation.argument5 = a5;
     relativeOrientation.argument6 = a6;

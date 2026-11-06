@@ -26,7 +26,7 @@ public:
 
     void FUN_007244e0();
     void FUN_00725080();
-    void FUN_007a5e70();
+    void ListBox_ItemChange_ScrollToHighlight();
     void FUN_007a73e0();
     __declspec(dllexport) void UpdateHighlight();
     void FUN_0072c2b0();
@@ -37,9 +37,9 @@ public:
 class HighlightValue_recipemenu
 {
 public:
-    void FUN_00a09130(int trait, Tile* tile, int sourceTrait);
-    void FUN_00a09130(int trait, void* source, int sourceTrait);
-    void FUN_00a09410(int value);
+    void Tile_Value_AddRefValueAction(int trait, Tile* tile, int sourceTrait);
+    void Tile_Value_AddRefValueAction(int trait, void* source, int sourceTrait);
+    void Tile_Value_SetFloat(int value);
 };
 
 class HighlightTile_recipemenu
@@ -47,7 +47,7 @@ class HighlightTile_recipemenu
 public:
     HighlightTile_recipemenu* FUN_00a03da0(const char* name);
     void FUN_0071aa60(bool value);
-    void FUN_00a07530(int flags);
+    void Tile_SetChangeFlag(int flags);
     bool GetSpeechChallengeFailure();
     float FUN_00a011b0(int trait);
     void FUN_00a012d0(int trait, float value, bool propagate);
@@ -82,7 +82,8 @@ public:
 
 
 // @fnv 0x00726f00
-int RecipeMenu::FUN_00726f00()
+// src: COMMUNITY 0x00726f00
+int RecipeMenu::GetMenuID_00726f00()
 {
     return 0x435;
 }
@@ -91,7 +92,8 @@ int RecipeMenu::FUN_00726f00()
 BSSimpleArray<unsigned int> g_011d8f08;
 
 // @fnv 0x00726f10
-BSSimpleArray<unsigned int>* FUN_00726f10()
+// src: COMMUNITY 0x00726f10
+BSSimpleArray<unsigned int>* RecipeMenu_GetFilterList()
 {
     return &g_011d8f08;
 }
@@ -166,7 +168,8 @@ struct FUN_00727680_shell
 
 // If abNow is set, calls PopulateChallengeList on DAT_011d8e90 when non-null and clears DAT_011d8ea4; otherwise sets DAT_011d8ea4 to 1.
 // @fnv 0x00728a30
-void __cdecl FUN_00728a30(bool abNow)
+// src: COMMUNITY 0x00728a30
+void __cdecl RecipeMenu_ForceRecipeUpdate(bool abNow)
 {
     if (abNow)
     {
@@ -220,7 +223,7 @@ bool IsThresholdDifferent(TESChallenge* apChallenge)
 {
     if (DAT_0119fbf4 == -1)
         return false;
-    else if (apChallenge->GetThreshold() != (int)((BSSimpleArray<unsigned int>*)FUN_00726f10())->GetAt(DAT_0119fbf4))
+    else if (apChallenge->GetThreshold() != (int)((BSSimpleArray<unsigned int>*)RecipeMenu_GetFilterList())->GetAt(DAT_0119fbf4))
         return true;
     return false;
 }
@@ -231,10 +234,11 @@ struct FUN_00729970_shell
     int m_kPointA;
     int m_kPointB;
     int m_iThirdValue;
-    void __thiscall FUN_00729970(int aiParam);
+    void __thiscall BSSimpleArray_Sort(int aiParam);
 };
 // @fnv 0x00729970
-void __thiscall FUN_00729970_shell::FUN_00729970(int aiParam)
+// src: COMMUNITY 0x00729970
+void __thiscall FUN_00729970_shell::BSSimpleArray_Sort(int aiParam)
 {
     FUN_00ec6f20(m_kPointB, m_iThirdValue, 4, aiParam);
 }
@@ -544,7 +548,7 @@ GameTimerRecord g_timeGlobal;
 void FUN_00728a70_shell::FUN_00728a70()
 {
     if ((unsigned char)DAT_011d8ea4 == 1)
-        FUN_00728a30(true);
+        RecipeMenu_ForceRecipeUpdate(true);
 
     if (DAT_0119fbf0)
     {
@@ -763,7 +767,7 @@ FUN_007299a0::FUN_007299a0()
 struct RecipeEntry;
 struct MenuNode
 {
-    MenuNode* FUN_00a03c90(MenuNode* context, int choice, int flags);
+    MenuNode* Tile_GetMenu(MenuNode* context, int choice, int flags);
     RecipeEntry* FUN_00a1ddb0();
     int FUN_00a00f30(int key);
     void FUN_00700320(int key, int value);
@@ -771,9 +775,9 @@ struct MenuNode
     float FUN_00a011b0(int index);
     MenuNode* FindTraitValue(int key);
     void RemoveFromReactions();
-    void FUN_00a09130(int property, RecipeEntry* source, int key);
+    void Tile_Value_AddRefValueAction(int property, RecipeEntry* source, int key);
     void AppendFloatAction(int property, float value);
-    void FUN_00a09410(int flags);
+    void Tile_Value_SetFloat(int flags);
 };
 
 struct RecipeEntry
@@ -827,7 +831,7 @@ RecipeEntry* RecipePanel::FUN_00729ae0(int selection, int updateChoice, int aiRe
     if (m_parent != 0 && (m_defaultItem != 0 || parentId != 0))
     {
         RecipeEntry* current =
-            m_parent->FUN_00a03c90(m_parent, parentId != 0 ? parentId : m_defaultItem, 0)->FUN_00a1ddb0();
+            m_parent->Tile_GetMenu(m_parent, parentId != 0 ? parentId : m_defaultItem, 0)->FUN_00a1ddb0();
         if (!current->FUN_00a00f30(0xfaa))
             current->FUN_00700320(0xfaa, -1);
         if (updateChoice != 0)
@@ -856,9 +860,9 @@ RecipeEntry* RecipePanel::FUN_00729ae0(int selection, int updateChoice, int aiRe
             {
                 MenuNode* notifier = m_parent->FindTraitValue(0xfb0);
                 notifier->RemoveFromReactions();
-                notifier->FUN_00a09130(0x7d0, current, 0xfb0);
+                notifier->Tile_Value_AddRefValueAction(0x7d0, current, 0xfb0);
                 notifier->AppendFloatAction(0x7d3, m_parent->FUN_00a011b0(FUN_00a00940(&UNK_0106f860, -1)));
-                notifier->FUN_00a09410(0);
+                notifier->Tile_Value_SetFloat(0);
             }
         }
         return current;
@@ -1654,7 +1658,7 @@ struct SelectionMenu
 };
 struct SelectionMenuLink
 {
-    SelectionMenu* FUN_00a03c90();
+    SelectionMenu* Tile_GetMenu();
 };
 struct SelectionTile
 {
@@ -1667,7 +1671,7 @@ struct SelectionInterface
 {
     void FUN_00715860(SelectionTile*, int, bool);
 };
-SelectionInterface* FUN_004b7210();
+SelectionInterface* InterfaceManager_GetSingleton();
 bool FUN_004b71d0();
 int FUN_00a01860(const char*);
 float FUN_0040ebd0(float, float);
@@ -1703,14 +1707,14 @@ void SelectionList::UpdateSelection(bool abNotify)
         scrollBar->FUN_00a012d0(FUN_00a01860("_current_value"), storedScroll, false);
         scrollBar->SetTraitAndReset(FUN_00a01860("_SetInCode"), 1.0f);
         selected = GetTile((unsigned int)FUN_0040ebd0(storedIndex, (float)(GetFilteredCount(0) - 1.0)));
-        FUN_004b7210()->FUN_00715860(selected, 0xfc3, abNotify);
+        InterfaceManager_GetSingleton()->FUN_00715860(selected, 0xfc3, abNotify);
         SetSelected(selected);
         if (!FUN_004b71d0())
         {
             if (selected)
             {
 
-                container->FUN_00a03d40()->FUN_00a03c90()->HandleClick((int)selected->FUN_00a011b0(0xfaa), selected);
+                container->FUN_00a03d40()->Tile_GetMenu()->HandleClick((int)selected->FUN_00a011b0(0xfaa), selected);
             }
             SetSelected(0);
         }
@@ -1746,14 +1750,15 @@ struct Panel515
     void AccumulateTileHeight(RecipeEntry*);
     void FUN_0072c5d0();
     int GetRaceCount();
-    RecipeEntry* FUN_0072a900(int selection, int choice, int aiRecipeIndex, int parentId);
+    RecipeEntry* ListBox_TESRecipeComponent_AddItem(int selection, int choice, int aiRecipeIndex, int parentId);
 };
 // @fnv 0x0072a900
-RecipeEntry* Panel515::FUN_0072a900(int selection, int choice, int aiRecipeIndex, int parentId)
+// src: COMMUNITY 0x0072a900
+RecipeEntry* Panel515::ListBox_TESRecipeComponent_AddItem(int selection, int choice, int aiRecipeIndex, int parentId)
 {
     if (parent && (defaultItem || parentId))
     {
-        RecipeEntry* entry = parent->FUN_00a03c90(parent, parentId ? parentId : defaultItem, 0)->FUN_00a1ddb0();
+        RecipeEntry* entry = parent->Tile_GetMenu(parent, parentId ? parentId : defaultItem, 0)->FUN_00a1ddb0();
         if (!entry->FUN_00a00f30(0xfaa))
             entry->FUN_00700320(0xfaa, -1);
         if (choice)
@@ -1778,9 +1783,9 @@ RecipeEntry* Panel515::FUN_0072a900(int selection, int choice, int aiRecipeIndex
         {
             MenuNode* tile = parent->FindTraitValue(0xfb0);
             tile->RemoveFromReactions();
-            tile->FUN_00a09130(0x7d0, entry, 0xfb0);
+            tile->Tile_Value_AddRefValueAction(0x7d0, entry, 0xfb0);
             tile->AppendFloatAction(0x7d3, parent->FUN_00a011b0((int)FUN_00a00940(&UNK_0106f860, -1)));
-            tile->FUN_00a09410(0);
+            tile->Tile_Value_SetFloat(0);
         }
         return entry;
     }
@@ -2204,7 +2209,7 @@ struct RcMenu;
 struct RcTile
 {
     RcTile* FUN_00a01b00(const char* path);
-    RcMenu* FUN_00a03c90();
+    RcMenu* Tile_GetMenu();
     float FUN_00a011b0(int trait);
     void FUN_00a012d0(int trait, float value, bool propagate);
     void FUN_00a01350(int trait, const char* value, bool propagate);
@@ -2617,7 +2622,7 @@ extern Tile* DAT_011d8eb4;
 
 void FNV_Warning(int level, const char* fmt, ...);
 void FNV_Warning(const char* fmt, ...);
-int FUN_007273e0();
+int RecipeMenu_GetID();
 RcMenu* FUN_00a09030(int menuID);
 float FUN_00a01530();
 void FUN_00763ff0();
@@ -2628,23 +2633,23 @@ char InitTutorialMenu(BGSMessage* message, int flags);
 // @fnv 0x00726ff0
 RcTile* CreateRecipeMenu(int vendor, int type)
 {
-    RcIM* im2 = static_cast<RcIM*>(FUN_004b7210());
+    RcIM* im2 = static_cast<RcIM*>(InterfaceManager_GetSingleton());
     if (!vendor)
     {
         FNV_Warning(0x12, "Recipe menu called with NULL vendor!  Oh, noes!");
         return 0;
     }
-    RcMenu* oldMenu = FUN_00a09030(FUN_007273e0());
+    RcMenu* oldMenu = FUN_00a09030(RecipeMenu_GetID());
     if (oldMenu)
     {
         delete oldMenu;
     }
     RcTile* tile2 = im2->FUN_00586150()->FUN_00a01b00("Data\\Menus\\recipe_menu.xml");
-    DAT_011d8e90 = (int)(tile2 ? tile2->FUN_00a03c90() : 0);
+    DAT_011d8e90 = (int)(tile2 ? tile2->Tile_GetMenu() : 0);
     DAT_011d8eac = 0;
     DAT_011d8eb0 = 0;
     DAT_011d8eb4 = 0;
-    if (DAT_011d8e90 && ((RcMenu*)DAT_011d8e90)->GetID() == FUN_007273e0())
+    if (DAT_011d8e90 && ((RcMenu*)DAT_011d8e90)->GetID() == RecipeMenu_GetID())
     {
         ((RcMenu*)DAT_011d8e90)->FUN_00a1dc70(tile2, false);
         if (!((RcMenu*)DAT_011d8e90)->FUN_007273f0())
@@ -2671,13 +2676,13 @@ RcTile* CreateRecipeMenu(int vendor, int type)
         ((RcMenu*)DAT_011d8e90)->unk60 = vendor;
         ((RcMenu*)DAT_011d8e90)->unk64 = type;
         FUN_00717280(0x24);
-        if (!static_cast<RcIM*>(FUN_004b7210())->sub4D4.FUN_00718840(0x26))
+        if (!static_cast<RcIM*>(InterfaceManager_GetSingleton())->sub4D4.FUN_00718840(0x26))
         {
             BGSMessage* message = dynamic_cast<BGSMessage*>(FUN_00483a00("HelpCrafting"));
             if (message)
             {
                 ((RcMenu*)DAT_011d8e90)->unk100 = InitTutorialMenu(message, 0);
-                static_cast<RcIM*>(FUN_004b7210())->sub4D4.SetFlag2(0x26);
+                static_cast<RcIM*>(InterfaceManager_GetSingleton())->sub4D4.SetFlag2(0x26);
             }
         }
         ((RcMenu*)DAT_011d8e90)->FUN_00a1dc20(0);
@@ -3085,12 +3090,12 @@ void CategoryMenu::OnAction(int action, RcTile* tile)
         FUN_00706f30(unk68);
         DAT_0119fbf4 += action ? 1 : -1;
         if (DAT_0119fbf4 < -1)
-            DAT_0119fbf4 = ((BSSimpleArray<TESChallenge*>*)FUN_00726f10())->GetSize() - 1;
-        else if ((unsigned int)DAT_0119fbf4 >= ((BSSimpleArray<TESChallenge*>*)FUN_00726f10())->GetSize())
+            DAT_0119fbf4 = ((BSSimpleArray<TESChallenge*>*)RecipeMenu_GetFilterList())->GetSize() - 1;
+        else if ((unsigned int)DAT_0119fbf4 >= ((BSSimpleArray<TESChallenge*>*)RecipeMenu_GetFilterList())->GetSize())
             DAT_0119fbf4 = -1;
         if (DAT_0119fbf4 != -1)
             tiles[1]->FUN_00a01350(
-                0xfc4, ((BSSimpleArray<TESChallenge*>*)FUN_00726f10())->GetAt(DAT_0119fbf4)->GetFullName(), true);
+                0xfc4, ((BSSimpleArray<TESChallenge*>*)RecipeMenu_GetFilterList())->GetAt(DAT_0119fbf4)->GetFullName(), true);
         else
             tiles[1]->FUN_00a01350(0xfc4, g_011d2088.FUN_00403df0(), true);
         list6C.SetSelected(list6C.GetTile(0, false));
@@ -3132,18 +3137,19 @@ struct FUN_00728cd0_pair_b
 extern int DAT_01183028;
 extern int DAT_01183158;
 void* __cdecl FUN_00ec43fb(void*, bool, int*, int*, int);
-int __cdecl FUN_00469880(void*, void*);
+int __cdecl _tcscmp(void*, void*);
 
 // Compares the full names of two forms by casting their TESForm pointers to TESFullName and calling FUN_00469880 on the resulting name data.
 // @fnv 0x00728cd0
-int __cdecl FUN_00728cd0(FUN_00728cd0_pair* apRight, FUN_00728cd0_pair_b* apLeft)
+// src: COMMUNITY 0x00728cd0
+int __cdecl RecipeMenu_SortFunc(FUN_00728cd0_pair* apRight, FUN_00728cd0_pair_b* apLeft)
 {
     FUN_00408da0_shell* right = (FUN_00408da0_shell*)dynamic_cast<TESFullName*>(apRight->m_04->FUN_00726070());
     FUN_00408da0_shell* left = (FUN_00408da0_shell*)dynamic_cast<TESFullName*>(apLeft->m_04->FUN_00726070());
     void* l = right->FUN_00408da0();
     void* r = left->FUN_00408da0();
     int result = 0;
-    result = FUN_00469880(l, r);
+    result = _tcscmp(l, r);
     return result;
 }
 
@@ -3247,7 +3253,7 @@ FUN_00726df0::FUN_00726df0()
     DAT_011d8e94 = 0;
     m_6c.m_pOwnerObject = &m_6c;
     DAT_011d8ea8 = 0;
-    reinterpret_cast<Manager726*>(FUN_00726f10())->FUN_008454f0(1);
+    reinterpret_cast<Manager726*>(RecipeMenu_GetFilterList())->FUN_008454f0(1);
     m_68 = 3;
     m_100 = false;
 }
@@ -3428,13 +3434,13 @@ struct RecipeBox
     void FUN_007312e0();
     void UpdateSelection(int);
     Entry* FUN_007a1910();
-    RecipeAddedItem* FUN_0072a900(Entry*, const char*, int, int);
+    RecipeAddedItem* ListBox_TESRecipeComponent_AddItem(Entry*, const char*, int, int);
 };
 extern RecipeData* DAT_011d8e94;
 int __cdecl FUN_00406d00(char*, int, const char*, ...);
 const char* __cdecl FUN_00464f30(const char*, bool);
 const char* __cdecl FUN_0066e950(int);
-int __cdecl FUN_00480f80(TESObjectARMO*, FNVAuxController*);
+int __cdecl TESBipedModelForm_GetMessageIcon_0(TESObjectARMO*, FNVAuxController*);
 struct SexData
 {
     int FUN_0087f4c0();
@@ -3473,7 +3479,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, Tile* tile)
     case 6:
         Activate(3, 0);
         first.SetSelected(0);
-        FUN_004b7210();
+        InterfaceManager_GetSingleton();
         if (FUN_004b71d0())
             second.SetSelected(second.SelectAt(0, false));
         DAT_011d8ea5 = 1;
@@ -3539,7 +3545,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, Tile* tile)
                             else
                                 FUN_00406d00(label, 256, "%s (%d/%d)", ((FNStub*)name)->GetFullName(), inventory,
                                              list->FUN_006815c0()->FUN_00559450());
-                            RecipeAddedItem* added = second.FUN_0072a900(list->FUN_006815c0(), label, 0, 0);
+                            RecipeAddedItem* added = second.ListBox_TESRecipeComponent_AddItem(list->FUN_006815c0(), label, 0, 0);
                             if (inventory < list->FUN_006815c0()->FUN_00559450() && !alternate)
                                 added->tile.FUN_007b5370()->FUN_00700320(0xfa9, 127);
                             else
@@ -3547,10 +3553,10 @@ void RecipeEnterMenu::FUN_00727b10(int id, Tile* tile)
                         }
                     }
                     else
-                        second.FUN_0072a900(list->FUN_006815c0(), FUN_00464f30("ERROR WITH CAST", false), 0, 0);
+                        second.ListBox_TESRecipeComponent_AddItem(list->FUN_006815c0(), FUN_00464f30("ERROR WITH CAST", false), 0, 0);
                     list = list->FUN_00726070();
                 }
-                second.Sort(FUN_00728cd0);
+                second.Sort(RecipeMenu_SortFunc);
                 if (owner)
                 {
                     char skill[256];
@@ -3585,7 +3591,7 @@ void RecipeEnterMenu::FUN_00727b10(int id, Tile* tile)
             else
             {
                 TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(selected->FUN_00726070());
-                if (armor && FUN_00480f80(armor, DAT_011dea3c))
+                if (armor && TESBipedModelForm_GetMessageIcon_0(armor, DAT_011dea3c))
                 {
                     tiles[9]->FUN_00a01350(0xfcc, reinterpret_cast<ArmorNames*>(reinterpret_cast<char*>(armor) + offsetof(TESObjectARMO, partMask) - offsetof(TESBipedModelForm, partMask))->FUN_00481280(((SexData*)DAT_011dea3c)->FUN_0087f4c0()),
                                            true);

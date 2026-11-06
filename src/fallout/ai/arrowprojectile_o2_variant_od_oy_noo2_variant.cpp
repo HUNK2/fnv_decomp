@@ -91,7 +91,7 @@ struct WorldObj
     virtual void slot3c();
     virtual void GetTransform(EObj*);
     Shape* __thiscall FUN_004ae6a0();
-    Filter __thiscall FUN_0043b4f0();
+    Filter __thiscall bhkWorldObject_GetCollisionFilter();
     bool __thiscall FUN_008cffa0();
     void* __thiscall FUN_00436aa0();
     void* __thiscall FUN_00891170();
@@ -117,7 +117,7 @@ struct EObj
     RawVector storage[4];
     EObj();
     void __thiscall FUN_00cb2240(void* g, void* f);
-    void __thiscall FUN_008cd6a0(void* x, void* y);
+    void __thiscall hkTransform_set(void* x, void* y);
 };
 
 struct GObj
@@ -143,7 +143,7 @@ struct __declspec(align(16)) CObj
     CSub m0;
     CSub m1;
     unsigned int flags20, filter24;
-    void __thiscall FUN_00632ca0();
+    void __thiscall hkpShapeRayCastInput_hkpShapeRayCastInput();
 };
 
 struct Sub2;
@@ -167,7 +167,7 @@ struct __declspec(align(16)) DObj
     unsigned int shapeKeys[8];
     void* rootCollidable;
     void __thiscall FUN_004a3d20();
-    Sub2* __thiscall FUN_00632c60(Sub2* b);
+    Sub2* __thiscall hkpShapeRayCastCollectorOutput_hasHit(Sub2* b);
 };
 
 struct Shape
@@ -185,7 +185,8 @@ struct P1Obj
 };
 
 // @fnv 0x008cfbc0
-void* __cdecl FUN_008cfbc0(void* p1, NiPoint3 a, NiPoint3 b, float* p4, bool p5)
+// src: COMMUNITY 0x008cfbc0
+void* __cdecl ArrowProjectile_PickSceneGraph(void* p1, NiPoint3 a, NiPoint3 b, float* p4, bool p5)
 {
     bool flag = false;
     if (p1)
@@ -197,20 +198,20 @@ void* __cdecl FUN_008cfbc0(void* p1, NiPoint3 a, NiPoint3 b, float* p4, bool p5)
             Shape* shape = world ? world->FUN_004ae6a0() : 0;
             if (shape)
             {
-                if (world->FUN_0043b4f0().FUN_0043b4d0() == 8)
+                if (world->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() == 8)
                 {
-                    if (world->FUN_0043b4f0().FUN_006240b0() != 0x12)
+                    if (world->bhkWorldObject_GetCollisionFilter().FUN_006240b0() != 0x12)
                     {
-                        if (world->FUN_0043b4f0().FUN_006240b0() != 0x13)
+                        if (world->bhkWorldObject_GetCollisionFilter().FUN_006240b0() != 0x13)
                         {
-                            if (!p5 || world->FUN_0043b4f0().FUN_006240b0() != 1)
+                            if (!p5 || world->bhkWorldObject_GetCollisionFilter().FUN_006240b0() != 1)
                             {
                                 Vec4 va;
                                 FUN_004a3e00(&va, a);
                                 Vec4 vb;
                                 FUN_004a3e00(&vb, a.FUN_00439e90(b.ApplyScaled(*p4)));
                                 CObj oc;
-                                oc.FUN_00632ca0();
+                                oc.hkpShapeRayCastInput_hkpShapeRayCastInput();
                                 DObj od;
                                 od.FUN_004a3d20();
                                 EObj oe;
@@ -225,7 +226,7 @@ void* __cdecl FUN_008cfbc0(void* p1, NiPoint3 a, NiPoint3 b, float* p4, bool p5)
                                             WorldObj* transformedWorld = world;
                                             EObj of;
                                             GObj og(&oe);
-                                            of.FUN_008cd6a0(transformedWorld->FUN_00891170(),
+                                            of.hkTransform_set(transformedWorld->FUN_00891170(),
                                                             transformedWorld->FUN_00436aa0());
                                             oe.FUN_00cb2240(&og, &of);
                                         }
@@ -244,7 +245,7 @@ void* __cdecl FUN_008cfbc0(void* p1, NiPoint3 a, NiPoint3 b, float* p4, bool p5)
                                 Sub2 bt;
                                 shape->FUN_004ae750()->ForwardToV8(&bt, &oc, &od);
                                 Sub2 bt2;
-                                if (od.FUN_00632c60(&bt2)->FUN_005609f0())
+                                if (od.hkpShapeRayCastCollectorOutput_hasHit(&bt2)->FUN_005609f0())
                                 {
                                     *p4 *= od.fraction;
                                     flag = true;
@@ -262,7 +263,7 @@ void* __cdecl FUN_008cfbc0(void* p1, NiPoint3 a, NiPoint3 b, float* p4, bool p5)
             for (i = 0; i < node->FUN_0043b480(); i++)
             {
                 void* childItem = node->FUN_0043b4a0(i);
-                void* r = FUN_008cfbc0(childItem, a, b, p4, p5);
+                void* r = ArrowProjectile_PickSceneGraph(childItem, a, b, p4, p5);
                 if (r)
                     return r;
             }

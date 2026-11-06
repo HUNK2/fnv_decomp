@@ -834,7 +834,8 @@ inline void hkVector4::setXYZW(const hkVector4& xyz, const hkVector4& w)
 {
     getQuad() = _mm_shuffle_ps(xyz.getQuad(), _mm_unpackhi_ps(xyz.getQuad(), w.getQuad()), 196);
 }
-inline void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
+// src: COMMUNITY 0x00c66320
+inline void hkQuaternion::setMul(const hkQuaternion& a, const hkQuaternion& b)
 {
     hkVector4 cross;
     cross.setCross(a.getImag(), b.getImag());
@@ -874,7 +875,7 @@ struct hkQsXform
     hkVector4 m_vScale;
 
     hkBoolR FUN_00ce5120(const hkQsXform& other, float eps) const;
-    void FUN_00ce5070(const void* transform);
+    void setFromTransformNoScale(const void* transform);
     void FUN_00ce50b0(void* transformOut) const;
 
     __forceinline void SetProduct(const hkQsXform& t1, const hkQsXform& t2)
@@ -882,7 +883,7 @@ struct hkQsXform
         hkVector4 extra;
         extra.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(t1.m_vTranslation, extra);
-        m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+        m_rotation.setMul(t1.m_rotation, t2.m_rotation);
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
     __forceinline void SetConjugate(const hkQsXform& t)
@@ -1022,7 +1023,7 @@ static __declspec(noinline) int FUN_00ce9880(const hkQsXform& t, Body* body)
     if (t.FUN_00ce5120(DAT_01268700, DAT_01017d00).m_cBooleanValue == 0)
     {
         hkQsXform bodyQs;
-        bodyQs.FUN_00ce5070(&body->m_kMotionTransform);
+        bodyQs.setFromTransformNoScale(&body->m_kMotionTransform);
 
         hkQsXform combined;
         combined.SetProduct(bodyQs, t);

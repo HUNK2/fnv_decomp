@@ -306,7 +306,7 @@ __forceinline void hkVector4::SetRotatedDirection(const hkRotation& a, const hkV
 
 __forceinline void hkVector4::setRotatedInverseDir(const hkRotation& a, const hkVector4& b)
 {
-    FUN_004b4ab0(a, b);
+    hkVector4_setRotatedInverseDir(a, b);
 }
 
 __forceinline hkMatrix3::hkMatrix3()
@@ -1363,7 +1363,8 @@ static __forceinline void UpdateConvexShapePairCache(const AgentSubtypeMarker& i
 }
 
 // @fnv 0x00db60c0
-__declspec(noinline) void __cdecl FUN_00db60c0(const AgentSubtypeMarker& in3, const hkReal allowedPenetrationDepth,
+// src: COMMUNITY 0x00db60c0
+__declspec(noinline) void __cdecl hk4dGskCollideCalcToi(const AgentSubtypeMarker& in3, const hkReal allowedPenetrationDepth,
                                                const hkReal minSeparation, const hkReal toiSeparation,
                                                ConvexFeaturePairCache& gskCache, hkVector4& separatingNormal,
                                                WorldOperationEntry& out)

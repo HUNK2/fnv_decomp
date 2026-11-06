@@ -94,9 +94,9 @@ class hkVisitorDC12
 
     hkVisitorDC12() throw()
     {
-        FUN_00dc1670();
+        hkStructureLayout_hkStructureLayout();
     }
-    void FUN_00dc1670() throw();
+    void hkStructureLayout_hkStructureLayout() throw();
     void FUN_00dc1bb0(void* pvObject, hkPointerMapDC12& kDone, int iFlags) throw();
 };
 // @fnv 0x00dc1230

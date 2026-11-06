@@ -60,23 +60,23 @@ public:
     void FUN_00c7d630(float);
     void FUN_00c7d630(int);
     void FUN_00c7d810();
-    void FUN_00c79680();
-    void FUN_00c7cb50(int);
+    void bhkRagdollController_GetSGPoseLocalSpace();
+    void bhkRagdollController_UpdateDebugLines(int);
     void FUN_00c76350(void*);
-    void FUN_00c751f0(void*);
+    void bhkRagdollController_DoGrabIK(void*);
     void FUN_00c7aa60(void*);
-    void FUN_00c7ba50(void*, void*, bool*);
+    void bhkRagdollController_DoPoseMatching(void*, void*, bool*);
     void FUN_00c7d030(void*);
     void FUN_00c7d030(int);
-    void FUN_00c7c870();
-    void FUN_00c79a50();
+    void bhkRagdollController_DoRagdollFeedback();
+    void bhkRagdollController_SetSGPoseLocalSpace();
     void FUN_00c7b6a0(int);
     void FUN_00c7ba10(bool);
-    void FUN_00888a70(float*, float*);
+    void bhkRagdollController_GetEyeAngles(float*, float*);
     void SetFloats(float, float);
     // Head-look limits Actor::m_pRagdollController (+0xAC) receives in TESNPC::UpdateActorFaceGen (0x00607420):
     // 0x00607830 stores +0x1a8; 0x00607810 stores +0xf8 + bone*0x50; 0x00c748d0 stores +0x134/+0x138 + bone*0x50.
-    void FUN_00607830(float);
+    void SetMaxEyePitch(float);
     void SetBoneMaxAngle(int, float);
     void SetSlotFloats(int, float, float);
     void ClearField23C();

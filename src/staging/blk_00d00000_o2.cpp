@@ -432,18 +432,18 @@ struct D01E50Node
     int unk18;
     int payload;
 };
-int __cdecl FUN_00d95cf0(int, void*, D01E50Node*);
-int __cdecl FUN_00d94df0(int, void*, D01E50Node*);
+int __cdecl integrateJob(int, void*, D01E50Node*);
+int __cdecl hkCpuBuildAccumulatorsJob(int, void*, D01E50Node*);
 int __cdecl ExecuteConstraintCallbacks(int, void*, D01E50Node*);
-int __cdecl FUN_00d94a80(int, void*, D01E50Node*);
+int __cdecl hkCpuBuildJacobiansJob(int, void*, D01E50Node*);
 int __cdecl hkCpuSolveConstraintsJob(int, void*, D01E50Node*);
 int __cdecl hkCpuSolveApplyGravityJob(int, void*, D01E50Node*);
 int __cdecl hkCpuSolveConstraintBatchJob(int, void*, D01E50Node*);
 int __cdecl LogIntegrateVelocity(int, void*, D01E50Node*);
 int __cdecl hkCpuSolveExportResultsJob(int, void*, D01E50Node*);
 int __cdecl hkCpuIntegrateMotionJob(int, void*, D01E50Node*);
-int __cdecl FUN_00d93ba0(int, void*, D01E50Node*);
-int __cdecl FUN_00d93380(int, void*, D01E50Node*);
+int __cdecl hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(int, void*, D01E50Node*);
+int __cdecl hkCpuAgentSectorJob(int, void*, D01E50Node*);
 int __cdecl AccumulateShapes(int, void*, D01E50Node*);
 int __cdecl hkCpuSplitSimulationIslandJob(int, void*, D01E50Node*);
 
@@ -454,13 +454,13 @@ int __cdecl DispatchNodeByKind(void* pContext, D01E50Node* node)
     switch (node->kind)
     {
     case 0:
-        return FUN_00d95cf0(node->payload, pContext, node);
+        return integrateJob(node->payload, pContext, node);
     case 1:
-        return FUN_00d94df0(node->payload, pContext, node);
+        return hkCpuBuildAccumulatorsJob(node->payload, pContext, node);
     case 3:
         return ExecuteConstraintCallbacks(node->payload, pContext, node);
     case 4:
-        return FUN_00d94a80(node->payload, pContext, node);
+        return hkCpuBuildJacobiansJob(node->payload, pContext, node);
     case 6:
         return hkCpuSolveConstraintsJob(node->payload, pContext, node);
     case 7:
@@ -476,10 +476,10 @@ int __cdecl DispatchNodeByKind(void* pContext, D01E50Node* node)
     case 5:
         return hkCpuSplitSimulationIslandJob(node->payload, pContext, node);
     case 12:
-        return FUN_00d93ba0(node->payload, pContext, node);
+        return hkpSingleThreadedJobsOnIsland_cpuBroadPhaseJob(node->payload, pContext, node);
     case 15:
     case 13:
-        return FUN_00d93380(node->payload, pContext, node);
+        return hkCpuAgentSectorJob(node->payload, pContext, node);
     case 14:
         return AccumulateShapes(node->payload, pContext, node);
     default:
@@ -495,7 +495,8 @@ int __cdecl FUN_00d043b0(void* ap)
 }
 
 // @fnv 0x00d043d0
-int __cdecl FUN_00d043d0()
+// src: COMMUNITY 0x00d043d0
+int __cdecl hkDefaultPopJobFunc()
 {
     return 0;
 }
@@ -547,17 +548,19 @@ struct FnvCpu_FUN_00d04440_CpuObject
     unsigned int unk10;
     unsigned int unk14;
     FnvCpu_FUN_00d04440_CpuScalar* value;
-    int FUN_00d04440();
+    int hkJobQueue_getMasterThreadFinishingFlags();
 };
 // @fnv 0x00d04440
-int FnvCpu_FUN_00d04440_CpuObject::FUN_00d04440()
+// src: COMMUNITY 0x00d04440
+int FnvCpu_FUN_00d04440_CpuObject::hkJobQueue_getMasterThreadFinishingFlags()
 {
     return value->value;
 }
 
 // 0x00d05de0  bare ret
 // @fnv 0x00d05de0
-void FUN_00d05de0()
+// src: COMMUNITY 0x00d05de0
+void nullsub_9()
 {}
 
 struct FUN_00d06f70_s
@@ -590,7 +593,8 @@ int __thiscall FUN_00d07070_s::FUN_00d07070(unsigned char flag)
 
 // 0x00d070b0  bare ret
 // @fnv 0x00d070b0
-void FUN_00d070b0()
+// src: COMMUNITY 0x00d070b0
+void nullsub_30()
 {}
 
 struct FnvCpu_FUN_00d081d0_CpuObject
@@ -642,27 +646,32 @@ FUN_00d081e0_ret* FUN_00d081e0_cls::FUN_00d081e0()
 }
 
 // @fnv 0x00d08370
-void __stdcall FUN_00d08370(int)
+// src: COMMUNITY 0x00d08370
+void __stdcall nullsub_63(int)
 {}
 
 // @fnv 0x00d0a2a0
-void __stdcall FUN_00d0a2a0(int)
+// src: COMMUNITY 0x00d0a2a0
+void __stdcall nullsub_64(int)
 {}
 
 // @fnv 0x00d10760
-void __cdecl FUN_00d10760()
+// src: COMMUNITY 0x00d10760
+void __cdecl nullsub_11()
 {}
 
 // @fnv 0x00d10770
-void FUN_00d10770()
+// src: COMMUNITY 0x00d10770
+void nullsub_12()
 {}
 
 // @fnv 0x00d10780
-void __cdecl FUN_00d10780()
+// src: COMMUNITY 0x00d10780
+void __cdecl nullsub_13()
 {}
 
 extern int DAT_010cd664;
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct FUN_00d1bab0_t
 {
     int m_vft;
@@ -673,23 +682,27 @@ FUN_00d1bab0_t::FUN_00d1bab0_t(bool fInit)
 {
     m_vft = (int)&DAT_010cd664;
     if (fInit & 1)
-        FUN_00401030(this);
+        FormHeapFreeAndLog_00401030(this);
 }
 
 // @fnv 0x00d1f100
-void __cdecl FUN_00d1f100()
+// src: COMMUNITY 0x00d1f100
+void __cdecl nullsub_94()
 {}
 
 // @fnv 0x00d1f120
-void __cdecl FUN_00d1f120()
+// src: COMMUNITY 0x00d1f120
+void __cdecl nullsub_96()
 {}
 
 // @fnv 0x00d1f170
-void FUN_00d1f170()
+// src: COMMUNITY 0x00d1f170
+void nullsub_95()
 {}
 
 // @fnv 0x00d1fa10
-void __cdecl FUN_00d1fa10()
+// src: COMMUNITY 0x00d1fa10
+void __cdecl nullsub_14()
 {}
 
 // @fnv 0x00d043f0
@@ -1013,7 +1026,8 @@ void __cdecl FUN_00d1b7f0(S00d1b7f0_Input* p, int argB, int argC)
 }
 
 // @fnv 0x00d043e0
-int FUN_00d043e0()
+// src: COMMUNITY 0x00d043e0
+int hkDefaultFinishJobFunc()
 {
     return 1;
 }

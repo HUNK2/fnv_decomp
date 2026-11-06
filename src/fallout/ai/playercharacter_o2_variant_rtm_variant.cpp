@@ -1008,7 +1008,8 @@ __declspec(noinline) void __cdecl FUN_00458620(NiPoint3* result, const ParticleV
     result->z = FUN_004587d0(float(ScalarValue((_mm_load_ss)(&value->At(2)))));
 }
 // @fnv 0x00c6f500
-__declspec(noinline) void __fastcall FUN_00c6f500(ParticleController* self, void*, unsigned int mode, Source* source,
+// src: COMMUNITY 0x00c6f500
+__declspec(noinline) void __fastcall bhkCharacterListener_characterInteractionCallback_0(ParticleController* self, void*, unsigned int mode, Source* source,
                                                   const ParticleVectorLocal_00c6f500* transform)
 {
     ControllerOwner* owner;

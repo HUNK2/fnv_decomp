@@ -482,7 +482,7 @@ struct FUN_004855a0_shell
 {
     void FUN_004855a0();
     void FUN_00485680();
-    void FUN_00485e00();
+    void TESForm_SaveData();
 };
 
 // Serialization methods missing from the shared component headers use method-only bridges.
@@ -497,7 +497,7 @@ struct RepairListSerialization
 };
 struct BipedModelListSerialization
 {
-    void FUN_00474d60();
+    void BGSBipedModelList_Save();
 };
 
 struct PickupPutdownSerialization
@@ -536,10 +536,10 @@ void ArmorSerializer::Save()
     reinterpret_cast<BipedModelSerialization*>(((char*)this + 0x70))->InitBipedModel();
     BGSDestructibleObjectForm::Save();
     reinterpret_cast<RepairListSerialization*>(((char*)this + 0x15C))->FUN_0047b8a0();
-    reinterpret_cast<BipedModelListSerialization*>(((char*)this + 0x164))->FUN_00474d60();
+    reinterpret_cast<BipedModelListSerialization*>(((char*)this + 0x164))->BGSBipedModelList_Save();
     BGSEquipType::Save();
     reinterpret_cast<PickupPutdownSerialization*>(((char*)this + 0x16C))->LogFormIDs();
-    ((FUN_004855a0_shell*)this)->FUN_00485e00();
+    ((FUN_004855a0_shell*)this)->TESForm_SaveData();
     if (FUN_00401500())
         reinterpret_cast<ArmorDataEndian*>(&data)->FUN_00535aa0();
     AppendChunk(0x4d414e44, &data, sizeof(data));

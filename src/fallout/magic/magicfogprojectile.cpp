@@ -179,9 +179,9 @@ struct Controller
     float FUN_00639aa0();
     void FUN_0098adb0(float);
     float FUN_004a7bd0();
-    void FUN_00819a50(float);
+    void CombatLocation_SetRadius(float);
     float FUN_00792760();
-    void FUN_00444020(float);
+    void TESQuest_SetScriptProcessingDelay(float);
 };
 // Retained: NiParticleSystem does not declare these modifier accessors.
 struct Particle : NiObject
@@ -266,8 +266,8 @@ void Effect::ScaleEffect(NiObject* object)
                             if (controller)
                             {
                                 controller->FUN_0098adb0(controller->FUN_00639aa0() * fSizeFactor);
-                                controller->FUN_00819a50(controller->FUN_004a7bd0() * fSpeedFactor2);
-                                controller->FUN_00444020(controller->FUN_00792760() * fSpeedFactor);
+                                controller->CombatLocation_SetRadius(controller->FUN_004a7bd0() * fSpeedFactor2);
+                                controller->TESQuest_SetScriptProcessingDelay(controller->FUN_00792760() * fSpeedFactor);
                             }
                         }
                     }
@@ -529,7 +529,7 @@ struct ItemB
 };
 struct ItemC
 {
-    float FUN_00621b00();
+    float ActorPackage_GetPackageStartTime();
 };
 struct Node2
 {
@@ -588,7 +588,7 @@ void FUN_0081ade0_cls::SaveToStream(int a1)
         f = 0.0f;
         if (m_cc != 0)
         {
-            f = m_cc->FUN_00621b00();
+            f = m_cc->ActorPackage_GetPackageStartTime();
         }
         FUN_00484ce0(&f, 4);
     }
@@ -852,7 +852,7 @@ void FogProjectileLoad::LoadProjectile(int a1, int a2)
 
 extern unsigned int DAT_011dea3c;
 extern Setting DAT_011d15f8;
-void __cdecl FUN_0080fc90(float);
+void __cdecl _11DC778_Subtract(float);
 
 struct FUN_0081de70
 {
@@ -886,7 +886,7 @@ FUN_008196e0::~FUN_008196e0()
 {
     unsigned int uiValue = FUN_009185e0() ? (unsigned int)((MagicCaster*)FUN_009185e0())->GetCasterReference() : 0;
     if (uiValue != DAT_011dea3c)
-        FUN_0080fc90(*DAT_011d15f8.FUN_00403e20());
+        _11DC778_Subtract(*DAT_011d15f8.FUN_00403e20());
     DeleteAllNodes();
     if (m_kSound.IsValid())
     {
@@ -914,7 +914,7 @@ struct HandleRef
 };
 struct FogColorHolder
 {
-    HandleRef FUN_0043b4f0();
+    HandleRef bhkWorldObject_GetCollisionFilter();
 };
 struct FogRace
 {
@@ -928,7 +928,7 @@ extern Actor* g_thePlayer_011dea3c;
 
 struct FogShader
 {
-    FogColor FUN_0070c440();
+    FogColor bhkCharacterController_GetCollisionFilter();
     void FUN_00810ff0(FogColor kColor);
 };
 
@@ -1059,11 +1059,12 @@ struct FogProjectileImpl
     void UpdateFlags(int a1, int a2);
     FogShader* FUN_009306d0();
     MagicCaster* FUN_009185e0();
-    void FUN_0081b430(int a1, int a2);
+    void MagicFogProjectile_FinishInitLoadGameTES(int a1, int a2);
 };
 
 // @fnv 0x0081b430
-void FogProjectileImpl::FUN_0081b430(int a1, int a2)
+// src: COMMUNITY 0x0081b430
+void FogProjectileImpl::MagicFogProjectile_FinishInitLoadGameTES(int a1, int a2)
 {
     UpdateFlags(a1, a2);
     FogShader* pkShaderZ = FUN_009306d0();
@@ -1082,16 +1083,16 @@ void FogProjectileImpl::FUN_0081b430(int a1, int a2)
             {
                 FogRace* pkRaceA = FUN_004b5260(pkRef->GetNiNode());
                 FogColorHolder* pkHolderPtr = pkRaceA ? pkRaceA->FUN_006fa820() : 0;
-                iColor = pkHolderPtr ? pkHolderPtr->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+                iColor = pkHolderPtr ? pkHolderPtr->bhkWorldObject_GetCollisionFilter().FUN_004a3a20() : FUN_005dbe10();
             }
         }
         else
         {
             FogRace* pkRace2 = FUN_004b5260(Get3D());
             FogColorHolder* pkHolder2 = pkRace2 ? pkRace2->FUN_006fa820() : 0;
-            iColor = pkHolder2 ? pkHolder2->FUN_0043b4f0().FUN_004a3a20() : FUN_005dbe10();
+            iColor = pkHolder2 ? pkHolder2->bhkWorldObject_GetCollisionFilter().FUN_004a3a20() : FUN_005dbe10();
         }
-        FogColor kColor = pkShaderZ->FUN_0070c440();
+        FogColor kColor = pkShaderZ->bhkCharacterController_GetCollisionFilter();
         kColor.FUN_004a39f0(7);
         kColor.FUN_0059ce80(iColor);
         pkShaderZ->FUN_00810ff0(kColor);

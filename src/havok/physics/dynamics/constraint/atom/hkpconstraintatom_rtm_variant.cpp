@@ -40,7 +40,7 @@ struct FUN_00d21ce0_cls
     void FUN_00d21ce0(void* data);
 };
 int __cdecl hkpModifierConstraintAtom_addAllModifierDataToConstraintInfo(void* pNode, void* a, void* b);
-void __stdcall FUN_00d21d00(int, int, int, int, int, int);
+void __stdcall nullsub_31(int, int, int, int, int, int);
 struct FUN_00d21de0_cls
 {
     int unk00;

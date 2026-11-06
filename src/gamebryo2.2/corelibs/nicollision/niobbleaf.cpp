@@ -89,7 +89,7 @@ public:
 
     LocalVec& ScaleByInverse(float divisor);
     float FUN_00457910();
-    LocalVec* FUN_006a6eb0();
+    LocalVec* FastNavMeshTriLocation_GetLocation();
     bool FUN_004390c0(const LocalVec& v);
 
     __m128 get() const;
@@ -138,28 +138,28 @@ public:
     void FUN_00c7f640(const void* matrix, const void* point);
     void FUN_00c7f700(Mat3* matrix, void* point);
     void FUN_00c7f700(const void* matrix, const LocalVec* point);
-    void FUN_00b12790();
-    void FUN_00b13040(LocalVec* out, const LocalVec* v);
+    void Normalize_00b12790();
+    void Diff_00b13040(LocalVec* out, const LocalVec* v);
     LocalVec* ScaleSwizzled(LocalVec* out, float factor);
     void AddVector(LocalVec* out, const LocalVec* v);
     float Dot(const LocalVec& v);
     LocalVec* FUN_004a3c90(const LocalVec* v);
     LocalVec* FUN_0062b0a0(LocalVec* out, LocalVec* v);
-    LocalVec* FUN_0062af00(LocalVec* target);
+    LocalVec* hkVector4_lengthInverse3(LocalVec* target);
 
     void FUN_00cf7690(Elem* value);
     void FUN_00b1e970();
     Iter begin();
     Iter end();
     CIter FUN_00b33030(CIter first, CIter last);
-    void FUN_00b32120();
+    void m_vStrips_clear();
     unsigned int size() const;
     unsigned int capacity() const;
     void FUN_00b2df90();
     void FUN_00b2e140(Elem* first, Elem* last);
     bool InitBuffer(unsigned int count);
     Elem* _Ucopy(Elem* first, Elem* last, Elem* out);
-    LocalVec& FUN_00b2db10(const LocalVec& v);
+    LocalVec& CTreeEngine_SetLeafTextures(const LocalVec& v);
     CMutIter FUN_00aceb80(CMutIter first, CMutIter last);
     void FUN_00acac40();
     LocalVec& FUN_00ad61e0(const LocalVec& v);
@@ -277,13 +277,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -682,7 +682,8 @@ void ComputeBarycentric(const Vec3f* apVertex0, const Vec3f* apVertex1, const Ve
 }
 
 // @fnv 0x00ee8990
-bool FUN_00ee8990()
+// src: COMMUNITY 0x00ee8990
+bool NiObject_StreamCanSkip()
 {
     return false;
 }

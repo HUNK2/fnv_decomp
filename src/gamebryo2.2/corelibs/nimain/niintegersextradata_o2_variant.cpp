@@ -14,7 +14,8 @@ extern int DAT_010a0c7c;
 extern char const* const g_012043a4_arg1;
 
 // @fnv 0x00a99940
-char const* const* __cdecl FUN_00a99940()
+// src: COMMUNITY 0x00a99940
+char const* const* __cdecl NiIntegersExtraData_GetRTTI()
 {
     return &g_012043a4_arg1;
 }

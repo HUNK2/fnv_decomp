@@ -184,7 +184,7 @@ bool FUN_00a84d70_cls::Equals(FUN_00a84d70_cls* other)
 
 struct S_00a84e70_Pool
 {
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
     void FUN_00aa4060(void* p);
 };
 extern S_00a84e70_Pool DAT_011f6238;
@@ -196,7 +196,7 @@ struct S_00a84e70_Elem
     int unk08;
     static void* operator new[](unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
 };
 
@@ -452,7 +452,7 @@ struct SkinLoadWeight
     {}
     static void* operator new[](unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
 };
 struct ResetFields
@@ -464,7 +464,7 @@ struct ResetFields
     ResetFields() throw();
     static void* operator new[](unsigned int size)
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
 };
 struct SkinLoadData : SkinObjectBase

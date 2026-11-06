@@ -206,14 +206,15 @@ FUN_00b924d0_class* __thiscall FUN_00b924d0_class::FUN_00b924d0(bool abFree)
     return this;
 }
 
-extern "C" void __cdecl FUN_00b983d0(int, int, int, int);
+extern "C" void __cdecl BSRenderState_SetColorWriteEnableMrt(int, int, int, int);
 extern "C" int DAT_011ffa1c;
 
 // @fnv 0x00b985f0
-void __cdecl FUN_00b985f0(int aiAmount)
+// src: COMMUNITY 0x00b985f0
+void __cdecl BSRenderState_RestoreColorWrites(int aiAmount)
 {
     DAT_011ffa1c -= aiAmount;
-    FUN_00b983d0(0, 0, 0, 0);
+    BSRenderState_SetColorWriteEnableMrt(0, 0, 0, 0);
 }
 
 extern "C" void __cdecl _delete(void* p, size_t size);
@@ -1930,7 +1931,8 @@ extern unsigned int DAT_011ffd2c;
 extern unsigned int DAT_011ffd30;
 // Adds d to three counters indexed by DAT_011ffd28/2c/30, first issuing renderer calls 0xbe/0xbf/0xc0 with a, b, c when each counter is zero.
 // @fnv 0x00b983d0
-void __cdecl FUN_00b983d0(int a, int b, int c, int d)
+// src: COMMUNITY 0x00b983d0
+void __cdecl BSRenderState_SetColorWriteEnableMrt(int a, int b, int c, int d)
 {
     unsigned int e = DAT_011ffd28;
     if (DAT_011ff9d8[e] == 0)
@@ -2412,12 +2414,13 @@ struct FUN_00b8cb00_class
 {
     unsigned char pad_000[0xb0];
     int m_00b0;
-    void __thiscall FUN_00b8cb00(int value);
+    void __thiscall ImageSpaceManager_SetActiveImageSpaceParams(int value);
 };
 
 // Stores value into m_00b0 and re-reads/writes the thread-local tlsValue.
 // @fnv 0x00b8cb00
-void FUN_00b8cb00_class::FUN_00b8cb00(int value)
+// src: COMMUNITY 0x00b8cb00
+void FUN_00b8cb00_class::ImageSpaceManager_SetActiveImageSpaceParams(int value)
 {
     static __declspec(thread) volatile int tlsValue = 59;
     int iTlsValue = tlsValue;
@@ -3035,11 +3038,12 @@ struct S_00b8a6e0_Foo
     unsigned char unk55;
     unsigned char unk56;
 
-    void __thiscall FUN_00b8a6e0(int arg0, unsigned int arg1, unsigned int arg2);
+    void __thiscall ImageSpaceShaderParam_SetTextureOffsets(int arg0, unsigned int arg1, unsigned int arg2);
 };
 
 // @fnv 0x00b8a6e0
-void __thiscall S_00b8a6e0_Foo::FUN_00b8a6e0(int iSlot, unsigned int arg1, unsigned int arg2)
+// src: COMMUNITY 0x00b8a6e0
+void __thiscall S_00b8a6e0_Foo::ImageSpaceShaderParam_SetTextureOffsets(int iSlot, unsigned int arg1, unsigned int arg2)
 {
     float value0;
     float value1;
@@ -10246,7 +10250,8 @@ extern int DAT_011ff9d8[];
 
 // Looks up the index for a, and if its counter is zero calls virtual method 26 on the object at DAT_011f9508+0x8b8, then adds c to the counter.
 // @fnv 0x00b97d90
-void __cdecl FUN_00b97d90(unsigned int uiIndex, unsigned int b, unsigned int uiDelta)
+// src: COMMUNITY 0x00b97d90
+void __cdecl BSRenderState_SetRenderState(unsigned int uiIndex, unsigned int b, unsigned int uiDelta)
 {
     int idx = DAT_011ffa30[uiIndex];
     if (DAT_011ff9d8[idx] == 0)
@@ -10294,7 +10299,8 @@ struct FUN_00b97e30_obj
 };
 
 // @fnv 0x00b97e30
-void FUN_00b97e30(unsigned char a1, unsigned int uiAmount)
+// src: COMMUNITY 0x00b97e30
+void BSRenderState_SetZWriteEnable(unsigned char a1, unsigned int uiAmount)
 {
     unsigned int idx = DAT_011ffa68;
     if (DAT_011ff9d8[idx] == 0)
@@ -10329,7 +10335,8 @@ extern int DAT_011ad888[];
 
 // For two channels, sends a notification when the channel counter is zero, then adds increment to each channel counter.
 // @fnv 0x00b97f20
-void __cdecl FUN_00b97f20(int index, int secondValue, int increment)
+// src: COMMUNITY 0x00b97f20
+void __cdecl BSRenderState_SetAlphaTestFuncRef(int index, int secondValue, int increment)
 {
     int firstChannel = DAT_011ffa94;
     if (DAT_011ff9d8[firstChannel] == 0)
@@ -10365,7 +10372,8 @@ typedef void(__thiscall* FinishEvent)(EventHandler*);
 typedef void(__stdcall* DispatchUI)(UIService*, unsigned int, unsigned int, unsigned int);
 
 // @fnv 0x00b988e0
-void __cdecl FUN_00b988e0()
+// src: COMMUNITY 0x00b988e0
+void __cdecl BSBatchRenderer_EndPass()
 {
     EventHandler* eventHandler = DAT_011ffe2c;
     if (eventHandler != 0)
@@ -10497,12 +10505,13 @@ class FUN_00b9b400_cls
     unsigned char m_table98[256];
     unsigned char m_table198[256];
 
-    void FUN_00b9b400(unsigned int key);
+    void ImageSpaceEffectNoise_InitializeUtilityBuffers(unsigned int key);
 };
 
 // Fills m_table198 and m_table98 with 256 bytes from DAT_011ad900 starting at an offset derived from key.
 // @fnv 0x00b9b400
-void FUN_00b9b400_cls::FUN_00b9b400(unsigned int key)
+// src: COMMUNITY 0x00b9b400
+void FUN_00b9b400_cls::ImageSpaceEffectNoise_InitializeUtilityBuffers(unsigned int key)
 {
     unsigned int shift = ((key * 0x5391313du) + 0x22fc2945u) >> 0x18;
     for (unsigned int i = 0; i < 0x100; i++)
@@ -11178,12 +11187,13 @@ class B9BB10Effect
     float m_fValue;
     float m_fTimer;
 
-    void FUN_00b9bb10(float fValue, bool bReset);
+    void ShadowSceneLight_SetFadeTarget(float fValue, bool bReset);
 };
 
 // Sets m_fValue when it differs from fValue, resetting m_fTimer to 1.0 or rescaling it by the clamped ratio against g_fB9BB10Duration.
 // @fnv 0x00b9bb10
-void B9BB10Effect::FUN_00b9bb10(float fValue, bool bReset)
+// src: COMMUNITY 0x00b9bb10
+void B9BB10Effect::ShadowSceneLight_SetFadeTarget(float fValue, bool bReset)
 {
     if (m_fValue != fValue)
     {
@@ -11521,7 +11531,7 @@ struct FUN_00bd8290
     int unk138;
     int unk13c;
     FUN_00bd8290(int);
-    void FUN_00bd7200(unsigned int);
+    void BSCubeMapCamera_SetupTransformation(unsigned int);
     void FUN_00bd74a0();
     ~FUN_00bd8290()
     {
@@ -11546,11 +11556,12 @@ struct TagGuard
 };
 struct Target
 {
-    bool FUN_00b9c020(int, FUN_00bd8290*);
-    bool FUN_00b9de90(int, int, int, int, Input*, unsigned short);
+    bool ShadowSceneLight_FrustumFrustumIntersection(int, FUN_00bd8290*);
+    bool ShadowSceneLight_CubeFaceFrustumFrustumIntersection(int, int, int, int, Input*, unsigned short);
 };
 // @fnv 0x00b9de90
-bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsigned short flags)
+// src: COMMUNITY 0x00b9de90
+bool Target::ShadowSceneLight_CubeFaceFrustumFrustumIntersection(int a, int b, int c, int aiUnused, Input* input, unsigned short flags)
 {
     int value = input->unk0c;
     TagGuard tagGuard;
@@ -11558,10 +11569,10 @@ bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsig
     node.unk058 = a;
     node.unk05c = b;
     node.unk060 = c;
-    node.FUN_00bd7200(flags);
+    node.BSCubeMapCamera_SetupTransformation(flags);
     NiUpdateData update;
     reinterpret_cast<NiAVObject*>(&node)->Update(static_cast<const NiUpdateData&>(update));
-    return FUN_00b9c020(value, &node);
+    return ShadowSceneLight_FrustumFrustumIntersection(value, &node);
 }
 }  // namespace fnv_00b9de90
 
@@ -11588,7 +11599,7 @@ void ImageSpaceManager::RenderEffect(int uiEffectIndex, GraphicsRenderer* pvArg1
     AutoMemContext kScope(0x27);
     ImageSpaceEffect* pkEffect = (*reinterpret_cast<ImageSpaceEffect***>(pEffectList + 4))[uiEffectIndex];
     ImageSpaceTexture kTexture;
-    kTexture.FUN_00ba37a0(pkSource);
+    kTexture.ImageSpaceTexture_SetTexture(pkSource);
     if (pkEffect)
     {
         pkEffect->SetupTextures(0, &kTexture, 0);
@@ -11626,8 +11637,8 @@ void FUN_00b8c830_class::RenderWithTextures(HolderForAccum* apShader, int aiArg1
     AutoMemContext kContext(0x27);
     ImageSpaceTexture kTexture0;
     ImageSpaceTexture kTexture1;
-    kTexture0.FUN_00ba37a0(apSource0);
-    kTexture1.FUN_00ba37a0(apSource1);
+    kTexture0.ImageSpaceTexture_SetTexture(apSource0);
+    kTexture1.ImageSpaceTexture_SetTexture(apSource1);
     if (apShader)
     {
         apShader->SetAccumulatorAt(0, (NiAccumulator*)&kTexture1, 0);
@@ -12641,7 +12652,8 @@ extern int g_aiB7DE0PushCounts[];
 
 // If the current level's push count is zero, sets render state 7 on the renderer, then adds iCount to that level's push count.
 // @fnv 0x00b97de0
-void __cdecl FUN_00b97de0(bool bEnable, int iCount)
+// src: COMMUNITY 0x00b97de0
+void __cdecl BSRenderState_SetZEnable(bool bEnable, int iCount)
 {
     unsigned int uiTreeBlockIndex = g_uiB7DE0Level;
     if (g_aiB7DE0PushCounts[uiTreeBlockIndex] == 0)
@@ -12682,7 +12694,8 @@ struct FUN_00b98480_Sub
 };
 // If the counter at DAT_011ff9d8[idx] is zero, calls f26(8, 2 or 3, 0, 0) on the object at DAT_011f9508+0x8b8, then adds param_2 to the counter.
 // @fnv 0x00b98480
-void __cdecl FUN_00b98480(char abFlag, int aiAmount)
+// src: COMMUNITY 0x00b98480
+void __cdecl BSRenderState_SetWireframeEnable(char abFlag, int aiAmount)
 {
     unsigned int idx = DAT_011ffa50;
     if (DAT_011ff9d8[idx] == 0)
@@ -12792,15 +12805,16 @@ struct EffectB9B540
     int unk30, unk34, unk38, unk3c, unk40, unk44, unk48;
     int unk4c, unk50, unk54, unk58, unk5c, unk60, unk64;
     ImageSpaceTexture temporaryTexture;
-    void FUN_00b9b540(void*, void*, void*, void*);
+    void ImageSpaceEffectNoise_Render(void*, void*, void*, void*);
 };
 // Initializes the effect if needed, sets shader constants, binds textures, renders both shader stages and releases the temporary texture.
 // @fnv 0x00b9b540
-void EffectB9B540::FUN_00b9b540(void* renderer, void* target, void* input, void* unused)
+// src: COMMUNITY 0x00b9b540
+void EffectB9B540::ImageSpaceEffectNoise_Render(void* renderer, void* target, void* input, void* unused)
 {
     if (needsInitialize)
         needsInitialize = Initialize(input);
-    temporaryTexture.FUN_00ba3840(50);
+    temporaryTexture.ImageSpaceTexture_BorrowRenderedTexture(50);
     ShaderStage* shader = static_cast<ShaderObject*>(shaders[0]);
     PassConstants* parameters = constants[0];
     parameters->FUN_00b8a790(0, DAT_011ffe4c, DAT_011ffe50, 0.0f, 0.0f);
@@ -12825,7 +12839,7 @@ void EffectB9B540::FUN_00b9b540(void* renderer, void* target, void* input, void*
     textures[0]->FUN_00ba3760(3);
     textures[1]->FUN_00ba3760(3);
     shader->Render(renderer, target, parameters, true);
-    temporaryTexture.FUN_00ba39a0();
+    temporaryTexture.ImageSpaceTexture_ReturnRenderedTexture();
 }
 }  // namespace fnv_00b9b540
 
@@ -12920,14 +12934,14 @@ struct Header6c
 };
 struct AllocSvc
 {
-    void* __thiscall FUN_00aa3e40(unsigned int n);
+    void* __thiscall Game_DoHeapAlloc(unsigned int n);
 };
 extern AllocSvc DAT_011f6238;
 struct NiMemObj
 {
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 struct ISEffect
@@ -13939,10 +13953,11 @@ struct B94520Cls
 {
     int m_00;
     Registry m_04;
-    void __thiscall FUN_00b94520();
+    void __thiscall ImageSpaceManager_InitEffects();
 };
 // @fnv 0x00b94520
-void __thiscall B94520Cls::FUN_00b94520()
+// src: COMMUNITY 0x00b94520
+void __thiscall B94520Cls::ImageSpaceManager_InitEffects()
 {
     {
         m_04.SetAt(13, new CC05680);
@@ -14307,7 +14322,8 @@ struct Main
 extern int DAT_011ffa8c;
 extern int DAT_011ad888[];
 // @fnv 0x00b97e80
-void __cdecl FUN_00b97e80(int idx, int amount)
+// src: COMMUNITY 0x00b97e80
+void __cdecl BSRenderState_SetZFunc(int idx, int amount)
 {
     int i = DAT_011ffa8c;
     if (!DAT_011ff9d8[i])
@@ -14317,7 +14333,8 @@ void __cdecl FUN_00b97e80(int idx, int amount)
 
 extern unsigned int DAT_011ffa6c;
 // @fnv 0x00b97ed0
-void __cdecl FUN_00b97ed0(unsigned char aByteValue, int aiDelta)
+// src: COMMUNITY 0x00b97ed0
+void __cdecl BSRenderState_SetAlphaTestEnable(unsigned char aByteValue, int aiDelta)
 {
     unsigned int index = DAT_011ffa6c;
     if (DAT_011ff9d8[index] == 0)
@@ -14588,7 +14605,7 @@ extern int DAT_011ff9dc;
 extern int DAT_011ff9e4;
 extern double DAT_01016978;
 void __cdecl ClearPassList(int* p, int a);
-void __cdecl FUN_00b97e30(int a, int b);
+void __cdecl BSRenderState_SetZWriteEnable(int a, int b);
 void __cdecl SendFloatAdd(float f, int a);
 void __cdecl FUN_00b994f0(Item_af60* item, unsigned int a, int b, int c, int d);
 extern "C" int __cdecl _isnan(double);
@@ -14683,7 +14700,7 @@ void BSBatchRenderer::UpdateVisibility(int idx, Cam_af60* cam, bool abUseRadius,
                     {
                         f = 0.0f;
                     }
-                    FUN_00b97e30(0, 1);
+                    BSRenderState_SetZWriteEnable(0, 1);
                     SendFloatAdd(f, 1);
                 }
                 else
@@ -14694,7 +14711,7 @@ void BSBatchRenderer::UpdateVisibility(int idx, Cam_af60* cam, bool abUseRadius,
                 if (restore)
                 {
                     DAT_011ff9dc -= 1;
-                    FUN_00b97e30(1, 0);
+                    BSRenderState_SetZWriteEnable(1, 0);
                     DAT_011ff9e4 -= 1;
                     SendFloatAdd(0.0f, 0);
                 }
@@ -14954,11 +14971,12 @@ struct Owner
     RPtr m_194, m_198, m_19c;
     RPtr m_aPtr[0x26];
     bool FUN_00be0870();
-    bool FUN_00b861d0();
+    bool WaterShader_Initialize();
 };
 // Calls FUN_00be0870, clears all RPtr and TPtr members and global arrays, resets quad vectors to g_kQuad, and returns the result.
 // @fnv 0x00b861d0
-bool Owner::FUN_00b861d0()
+// src: COMMUNITY 0x00b861d0
+bool Owner::WaterShader_Initialize()
 {
     bool r = FUN_00be0870();
     m_194.Clear();
@@ -15041,12 +15059,13 @@ struct Self_b89970
     int unk68;
     FUN_00e80190_Class* unk6c;
     char FUN_00be0870();
-    char FUN_00b89970();
+    char SkyShader_Initialize();
 };
 
 // Calls FUN_00be0870, then if unk6c is set decrements its unk64 (calling FUN_00e80190 at zero) and clears unk6c; returns the FUN_00be0870 result.
 // @fnv 0x00b89970
-char Self_b89970::FUN_00b89970()
+// src: COMMUNITY 0x00b89970
+char Self_b89970::SkyShader_Initialize()
 {
     char result = FUN_00be0870();
     FUN_00e80190_Class* p = unk6c;
@@ -15119,10 +15138,11 @@ extern float DAT_011f9410;
 struct B9B400Cls
 {
     int m_000;
-    __declspec(noinline) void FUN_00b9b400(unsigned int v);
+    __declspec(noinline) void ImageSpaceEffectNoise_InitializeUtilityBuffers(unsigned int v);
 };
 
-void B9B400Cls::FUN_00b9b400(unsigned int v)
+// src: COMMUNITY 0x00b9b400
+void B9B400Cls::ImageSpaceEffectNoise_InitializeUtilityBuffers(unsigned int v)
 {
     m_000 = (int)v;
 }
@@ -15304,14 +15324,15 @@ struct FUN_00b9b7f0_cls
     int m_2b0;
     int m_2b4;
     unsigned char m_2b8;
-    void FUN_00b9b7f0();
+    void ImageSpaceEffectNoise_ShufflePermuationTable();
 };
 
 // Calls FUN_00b9b400 on this with DAT_011f9410 and sets m_2b8 to 1.
 // @fnv 0x00b9b7f0
-void FUN_00b9b7f0_cls::FUN_00b9b7f0()
+// src: COMMUNITY 0x00b9b7f0
+void FUN_00b9b7f0_cls::ImageSpaceEffectNoise_ShufflePermuationTable()
 {
-    ((B9B400Cls*)this)->FUN_00b9b400((unsigned int)DAT_011f9410);
+    ((B9B400Cls*)this)->ImageSpaceEffectNoise_InitializeUtilityBuffers((unsigned int)DAT_011f9410);
     m_2b8 = 1;
 }
 
@@ -15495,10 +15516,11 @@ struct FX
     int m_2b4;
     bool m_2b8;
     bool __thiscall EnsureInitialized(int unused);
-    void __thiscall FUN_00b9b400(unsigned int value);
+    void __thiscall ImageSpaceEffectNoise_InitializeUtilityBuffers(unsigned int value);
 };
 
-__declspec(noinline) void FX::FUN_00b9b400(unsigned int value)
+// src: COMMUNITY 0x00b9b400
+__declspec(noinline) void FX::ImageSpaceEffectNoise_InitializeUtilityBuffers(unsigned int value)
 {
     m_iWordAt00 = (int)value;
 }
@@ -15509,7 +15531,7 @@ bool FX::EnsureInitialized(int unused)
 {
     if (!m_2b8)
     {
-        FUN_00b9b400((unsigned int)DAT_011f9410);
+        ImageSpaceEffectNoise_InitializeUtilityBuffers((unsigned int)DAT_011f9410);
         m_2b8 = true;
     }
     return true;
@@ -15739,16 +15761,17 @@ struct EffectManager975
     int unk00;
     int unk04;
     ImageSpaceEffect** effects;
-    void FUN_00b8c980(ImageSpaceEffect*, int, int, int, int, int);
-    void FUN_00b975f0(unsigned int index, int a, int b, int c, int d, int e);
+    void ImageSpaceManager_RenderEffect_0(ImageSpaceEffect*, int, int, int, int, int);
+    void ImageSpaceManager_RenderEffect_2(unsigned int index, int a, int b, int c, int d, int e);
 };
 
 // Calls FUN_00b8c980 with effects[index] and the five int arguments while a memory context of 0x27 is set.
 // @fnv 0x00b975f0
-void EffectManager975::FUN_00b975f0(unsigned int uiEffectIndex, int a, int b, int c, int d, int e)
+// src: COMMUNITY 0x00b975f0
+void EffectManager975::ImageSpaceManager_RenderEffect_2(unsigned int uiEffectIndex, int a, int b, int c, int d, int e)
 {
     AutoMemContext context(0x27);
-    FUN_00b8c980(effects[uiEffectIndex], a, b, c, d, e);
+    ImageSpaceManager_RenderEffect_0(effects[uiEffectIndex], a, b, c, d, e);
 }
 
 void NiFree(void* memory);
@@ -15756,7 +15779,7 @@ void NiFree(void* memory);
 extern "C" int DAT_010b9d24;
 
 extern "C" int DAT_01202410;
-extern "C" void __fastcall FUN_00b8a7e0(void*);
+extern "C" void __fastcall ClearConstantGroups(void*);
 struct Manager97690
 {
     void FUN_00b6da10(unsigned int);
@@ -15994,7 +16017,7 @@ FUN_00b97690::~FUN_00b97690()
     {
         ShutdownAllEffects();
         ClearTextures();
-        FUN_00b8a7e0(&DAT_01202410);
+        ClearConstantGroups(&DAT_01202410);
         active = false;
         DAT_011f91a8->FUN_00b6da10(m_textureId);
     }
@@ -18967,12 +18990,13 @@ struct S_00b81760
     int unk18c;
     int unk190;
 
-    void __thiscall FUN_00b81760(int arg);
+    void __thiscall WaterShader_InitPass(int arg);
 };
 
 // Stores the value of a member field selected by arg into the global DAT_0126f74c.
 // @fnv 0x00b81760
-void S_00b81760::FUN_00b81760(int arg)
+// src: COMMUNITY 0x00b81760
+void S_00b81760::WaterShader_InitPass(int arg)
 {
     switch (arg)
     {
@@ -19619,8 +19643,8 @@ struct B9Light
 
 struct B9List
 {
-    ShadowSceneLight* FUN_00b70600(void** position);
-    ShadowSceneLight* FUN_00b70700(void** position);
+    ShadowSceneLight* BSShaderLightingProperty_GetFirstActiveNonShadowLight(void** position);
+    ShadowSceneLight* BSShaderLightingProperty_GetNextActiveNonShadowLight(void** position);
 };
 struct B9Manager
 {
@@ -19804,7 +19828,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     unsigned int count = 0;
     unsigned short index = 0;
     void* cursor;
-    ShadowSceneLight* entry = lights ? lights->FUN_00b70600(&cursor) : B9Mgr()->GetListItemAt(0);
+    ShadowSceneLight* entry = lights ? lights->BSShaderLightingProperty_GetFirstActiveNonShadowLight(&cursor) : B9Mgr()->GetListItemAt(0);
 
     if (entry)
     {
@@ -19826,7 +19850,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
                 }
             }
             ++index;
-            entry = lights ? lights->FUN_00b70700(&cursor) : B9Mgr()->GetListItemAt(index);
+            entry = lights ? lights->BSShaderLightingProperty_GetNextActiveNonShadowLight(&cursor) : B9Mgr()->GetListItemAt(index);
         } while (entry);
     }
     float distance = 0.0f;
@@ -19849,7 +19873,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
     else
     {
         unsigned int scan = 0;
-        entry = lights ? lights->FUN_00b70600(&cursor) : manager->GetListItemAt(0);
+        entry = lights ? lights->BSShaderLightingProperty_GetFirstActiveNonShadowLight(&cursor) : manager->GetListItemAt(0);
         for (unsigned int i = 0; i < count; ++i)
         {
             if (entry && !entry->bCastShadow)
@@ -19871,7 +19895,7 @@ void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
                     }
                 }
             }
-            entry = lights ? lights->FUN_00b70700(&cursor) : B9Mgr()->GetListItemAt(++scan);
+            entry = lights ? lights->BSShaderLightingProperty_GetNextActiveNonShadowLight(&cursor) : B9Mgr()->GetListItemAt(++scan);
         }
         direction.FUN_004a0c10();
         if (direction.z < DAT_0101de30)

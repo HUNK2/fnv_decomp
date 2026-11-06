@@ -63,7 +63,7 @@ class CPNode
     float m_fCost;
     int unk04;
     CPNodeData* m_pUserData;
-    CPNode* FUN_0044edb0();
+    CPNode* TESMain_GetThread();
 };
 
 class CPGoals
@@ -87,7 +87,7 @@ class CPAction
     virtual float GetCost(CPOwner* pkOwner, CPTarget* pkTarget);
 
     bool HasFlags(bool bValue);
-    bool FUN_009957c0(CPCond* pkCond);
+    bool CombatAction_HasTargetState(CPCond* pkCond);
     CPCondList* FUN_007d6bb0();
     CPCondList* FUN_00409140();
     CPCondList* GetOffsetC();
@@ -101,7 +101,7 @@ struct CPActionList
     CPActionList* FUN_00726070();
 };
 
-CPActionList* FUN_009957f0(int iCond);
+CPActionList* CombatAction_GetActionsForTargetState(int iCond);
 bool IsValidCode(CPTarget* pkTarget);
 
 class FUN_00995760_Aim
@@ -124,9 +124,9 @@ class FUN_00994e60_State
   public:
     int unk00[57];
     FUN_00994e60_State(CombatPlanner::WorldState* pkState);
-    int FUN_009947f0(CPTarget* pkFrom, CPTarget* pkTo);
-    void FUN_009aae10(int iCond, int iCondValue);
-    bool FUN_009aadc0(int iCond, int iCondValue);
+    int CombatWorldStateArray_GetStateValue(CPTarget* pkFrom, CPTarget* pkTo);
+    void CombatWorldStateArray_ApplyWorldState(int iCond, int iCondValue);
+    bool CombatWorldStateArray_IsTrue(int iCond, int iCondValue);
     void AppendPair(FUN_004b0680_Pair* pkPair, void* pvValue);
 };
 
@@ -160,21 +160,21 @@ class CPOutArray
 bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
 {
     float m_fPathingCostCur = pkNode->m_fCost;
-    bool bFirst = (pkNode->FUN_0044edb0() == 0) ? true : false;
+    bool bFirst = (pkNode->TESMain_GetThread() == 0) ? true : false;
     if (bFirst)
         pkOut->FUN_0084b5c0(0x10);
 
     for (unsigned int i = 0; i < pkNode->m_pUserData->m_uiNumEntries; i++)
     {
         CPCond* pkCond = pkNode->m_pUserData->m_aEntries[i].m_pkCond;
-        CPActionList* pkNodeIter = FUN_009957f0(pkCond->FUN_00559450());
+        CPActionList* pkNodeIter = CombatAction_GetActionsForTargetState(pkCond->FUN_00559450());
         bool bFound = false;
         while (pkNodeIter && *pkNodeIter->FUN_006815c0())
         {
             CPAction* pkAction = *pkNodeIter->FUN_006815c0();
             if (!pkAction->HasFlags(true) || bFirst)
             {
-                bool bValid = pkAction->FUN_009957c0(pkCond);
+                bool bValid = pkAction->CombatAction_HasTargetState(pkCond);
                 CPTarget* pkTarget = pkCond->FUN_00726070();
                 if (IsValidCode(pkTarget))
                     pkTarget = pkNode->m_pUserData->GetCombatGoal(pkTarget);
@@ -195,8 +195,8 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             while (pkEffect && *pkEffect->FUN_006815c0())
                             {
                                 CPCond* pkEffectCond = *pkEffect->FUN_006815c0();
-                                int iCondValue = pkState->FUN_009947f0(pkEffectCond->FUN_00726070(), pkTarget);
-                                pkState->FUN_009aae10(pkEffectCond->FUN_00559450(), iCondValue);
+                                int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkEffectCond->FUN_00726070(), pkTarget);
+                                pkState->CombatWorldStateArray_ApplyWorldState(pkEffectCond->FUN_00559450(), iCondValue);
                                 pkEffect = pkEffect->FUN_0062d990();
                             }
 
@@ -204,16 +204,16 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             while (pkSide && *pkSide->FUN_006815c0())
                             {
                                 CPCond* pkSideCond = *pkSide->FUN_006815c0();
-                                int iCondValue = pkState->FUN_009947f0(pkSideCond->FUN_00726070(), pkTarget);
-                                pkState->FUN_009aae10(pkSideCond->FUN_00559450(), iCondValue);
+                                int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkSideCond->FUN_00726070(), pkTarget);
+                                pkState->CombatWorldStateArray_ApplyWorldState(pkSideCond->FUN_00559450(), iCondValue);
                                 pkSide = pkSide->FUN_0062d990();
                             }
 
                             for (unsigned int j = 0; j < pkNode->m_pUserData->m_uiNumEntries; j++)
                             {
                                 CPCond* pkGoalCond = pkNode->m_pUserData->m_aEntries[j].m_pkCond;
-                                int iCondValue = pkState->FUN_009947f0(pkGoalCond->FUN_00726070(), pkTarget);
-                                if (!pkState->FUN_009aadc0(pkGoalCond->FUN_00559450(), iCondValue))
+                                int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkGoalCond->FUN_00726070(), pkTarget);
+                                if (!pkState->CombatWorldStateArray_IsTrue(pkGoalCond->FUN_00559450(), iCondValue))
                                     pkState->AppendPair(
                                         new (field_20b8.FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
                                             FUN_004b0680_Pair(pkGoalCond->FUN_00559450(), iCondValue),
@@ -224,8 +224,8 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                             while (pkRequire && *pkRequire->FUN_006815c0())
                             {
                                 CPCond* pkPreCond = *pkRequire->FUN_006815c0();
-                                int iCondValue = pkState->FUN_009947f0(pkPreCond->FUN_00726070(), pkTarget);
-                                if (!pkState->FUN_009aadc0(pkPreCond->FUN_00559450(), iCondValue))
+                                int iCondValue = pkState->CombatWorldStateArray_GetStateValue(pkPreCond->FUN_00726070(), pkTarget);
+                                if (!pkState->CombatWorldStateArray_IsTrue(pkPreCond->FUN_00559450(), iCondValue))
                                     pkState->AppendPair(
                                         new (field_20b8.FUN_00aa54a0(sizeof(FUN_004b0680_Pair), DAT_010a2720))
                                             FUN_004b0680_Pair(pkPreCond->FUN_00559450(), iCondValue),
@@ -235,7 +235,7 @@ bool CombatPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
 
                             fActionCost += m_fPathingCostCur;
                             bFound = true;
-                            int iState = FUN_009950a0(&pkState);
+                            int iState = CombatPlanner_GetNodeKey(&pkState);
                             CPOutItem* pkResult;
                             switch (FUN_006b8fe0(iState, fActionCost, &pkResult))
                             {

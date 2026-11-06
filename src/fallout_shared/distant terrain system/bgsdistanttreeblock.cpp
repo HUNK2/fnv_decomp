@@ -27,7 +27,8 @@
 extern NP DAT_012007c4;
 
 // @fnv 0x006f7a60
-void FUN_006f7a60(void* p)
+// src: COMMUNITY 0x006f7a60
+void BSDistantTreeShader_SetTextureAtlas(void* p)
 {
     DAT_012007c4.operator=(p);
 }
@@ -64,7 +65,7 @@ bool BGSDistantTreeBlockLoadTask::FormatDescription(char* apDescription, unsigne
 
 struct Helper8
 {
-    void FUN_006f9740();
+    void BSSimpleArray_BGSDistantTreeBlock_InstanceData_1024_BSSimpleArray_BGSDistantTreeBlock_InstanceData_1024();
 };
 struct FUN_006f8650
 {
@@ -77,7 +78,7 @@ struct FUN_006f8650
 // @fnv 0x006f8650
 FUN_006f8650::FUN_006f8650() : unk4(0)
 {
-    unk8.FUN_006f9740();
+    unk8.BSSimpleArray_BGSDistantTreeBlock_InstanceData_1024_BSSimpleArray_BGSDistantTreeBlock_InstanceData_1024();
 }
 
 struct FUN_006b3140_shell
@@ -88,7 +89,8 @@ struct FUN_006b3140_shell
 extern FUN_006b3140_shell g_011d85d0;
 void BuildNavMeshGeometry(void*);
 // @fnv 0x006f86b0
-void FUN_006f86b0(void* a1)
+// src: COMMUNITY 0x006f86b0
+void BGSDistantTreeBlock_TreeTypes_Append(void* a1)
 {
     g_011d85d0.AddElement(a1);
     BuildNavMeshGeometry(g_011d85d0.FUN_006b3140());
@@ -97,12 +99,13 @@ void FUN_006f86b0(void* a1)
 struct FUN_006f8800_shell
 {
     void FUN_006f8830();
-    void* FUN_006f8800(unsigned int flags);
+    void* BGSDistantTreeBlock_TreeGroup_Destroy(unsigned int flags);
 };
 
 // Calls FUN_006f8830, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006f8800
-void* FUN_006f8800_shell::FUN_006f8800(unsigned int flags)
+// src: COMMUNITY 0x006f8800
+void* FUN_006f8800_shell::BGSDistantTreeBlock_TreeGroup_Destroy(unsigned int flags)
 {
     FUN_006f8830();
     if (flags & 1)
@@ -141,11 +144,12 @@ struct QIdlePtr
 };
 struct FUN_006f88e0_shell
 {
-    void FUN_006f88e0();
+    void BGSDistantTreeBlock_FinishLoad();
 };
 // Sets the byte at offset 0x48 to 1, calls FUN_00929260(1) on the process at offset 0x44, then clears the pointer at offset 0.
 // @fnv 0x006f88e0
-void FUN_006f88e0_shell::FUN_006f88e0()
+// src: COMMUNITY 0x006f88e0
+void FUN_006f88e0_shell::BGSDistantTreeBlock_FinishLoad()
 {
     *(char*)(this + 0x48) = 1;
     reinterpret_cast<void (__thiscall*)(MiddleHighProcess*, unsigned char)>(&FUN_00929260)(
@@ -175,11 +179,12 @@ struct FUN_006f90a0_shell
 };
 struct FUN_006f91a0_shell : BgsdistanttreeblockOffset08View
 {
-    void FUN_006f91a0();
+    void BGSDistantTreeBlock_UpdateShaderPropertyRecurse();
 };
 // Iterates the array at this+4, and for each unflagged entry with a nonzero value, looks up a property and passes it with the entry to UpdateInstances.
 // @fnv 0x006f91a0
-void FUN_006f91a0_shell::FUN_006f91a0()
+// src: COMMUNITY 0x006f91a0
+void FUN_006f91a0_shell::BGSDistantTreeBlock_UpdateShaderPropertyRecurse()
 {
     for (unsigned int i = 0; i < ((BgsdistanttreeblockOffset08View*)((char*)this + 4))->GetFlags(); ++i)
     {
@@ -204,14 +209,14 @@ void BGSDistantTreeBlockLoadTask::FUN_006f94c0()
 
 struct Block88
 {
-    void FUN_006f88e0();
+    void BGSDistantTreeBlock_FinishLoad();
 };
 // If loading completed without cancellation, notify the tree block.
 // @fnv 0x006f9610
 void BGSDistantTreeBlockLoadTask::Finish()
 {
     if (m_bLoadComplete && !m_bCancelled)
-        (*(Block88**)unk30)->FUN_006f88e0();
+        (*(Block88**)unk30)->BGSDistantTreeBlock_FinishLoad();
 }
 
 struct InstanceData
@@ -247,10 +252,11 @@ struct ShaderProp
 };
 struct FUN_006f9c70_shell
 {
-    void FUN_006f9c70(bool freeStorage);
+    void BGSDistantTreeBlock_TreeTypes_FreeAll(bool freeStorage);
 };
 // @fnv 0x006f9c70
-void FUN_006f9c70_shell::FUN_006f9c70(bool freeStorage)
+// src: COMMUNITY 0x006f9c70
+void FUN_006f9c70_shell::BGSDistantTreeBlock_TreeTypes_FreeAll(bool freeStorage)
 {
     if (*(void**)((char*)this + 4))
     {
@@ -433,7 +439,8 @@ extern unsigned char DAT_011d85a0;
 
 // Clears each element's field at offset 0x1c, resets g_011d85bc, g_011d85c4, g_011d85e0, calls FUN_006f7a60(0) and clears DAT_011d85a0.
 // @fnv 0x006f83f0
-void FUN_006f83f0()
+// src: COMMUNITY 0x006f83f0
+void BGSDistantTreeBlock_DeallocateStaticData()
 {
     int i;
 
@@ -445,7 +452,7 @@ void FUN_006f83f0()
     g_011d85bc = (void*)0;
     g_011d85c4 = (void*)0;
     g_011d85e0 = (void*)0;
-    FUN_006f7a60(0);
+    BSDistantTreeShader_SetTextureAtlas(0);
     DAT_011d85a0 = 0;
 }
 
@@ -568,9 +575,9 @@ struct Obj44 : NiMemObject
     char _pad[44];
     Obj44(unsigned short);
     void FUN_00a72ca0(int);
-    void FUN_00a730e0(int);
-    void FUN_00a72bb0(int, void*, int, int);
-    void FUN_00a726a0(int, int, int, int, unsigned short, int, int);
+    void NiAdditionalGeometryData_SetDataStreamCount(int);
+    void NiAdditionalGeometryData_SetDataBlock(int, void*, int, int);
+    void NiAdditionalGeometryData_SetDataStream(int, int, int, int, unsigned short, int, int);
 };
 struct Obj88 : NiMemObject
 {
@@ -734,9 +741,9 @@ void BuildNavMeshGeometry(void* pInParam)
         arrFk[tB] = (float)(tB >> 3);
     obj304 = new Obj44((unsigned short)cntB);
     obj304->FUN_00a72ca0(1);
-    obj304->FUN_00a730e0(1);
-    obj304->FUN_00a72bb0(0, arrFk, (int)(cntB * 4), 1);
-    obj304->FUN_00a726a0(0, 0, 0, 1, (unsigned short)cntB, 4, 4);
+    obj304->NiAdditionalGeometryData_SetDataStreamCount(1);
+    obj304->NiAdditionalGeometryData_SetDataBlock(0, arrFk, (int)(cntB * 4), 1);
+    obj304->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 1, (unsigned short)cntB, 4, 4);
     delete[] arrFk;
     GO refObj((int)new Obj88((unsigned short)cntB, arrA3, arrCy, 0, arrB5, 1, 0, (unsigned short)cntA3, idx2));
     ((NiGPUProgramOwner*)FUN_00559450((int*)&refObj))->SetProgram((NiGPUProgram*)obj304);
@@ -950,7 +957,7 @@ void ReadTreeRecords(TreeHost* host)
         0x25, 1,
         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Distant Terrain System\\BGSDistantTreeBlock.cpp",
         0x27e);
-    ((FUN_006f9c70_shell*)&g_011d85d0)->FUN_006f9c70(true);
+    ((FUN_006f9c70_shell*)&g_011d85d0)->BGSDistantTreeBlock_TreeTypes_FreeAll(true);
     unsigned int count = 0;
     host->ReadBytes(&count, 4);
     for (unsigned int i = 0; i < count; i++)
@@ -958,7 +965,7 @@ void ReadTreeRecords(TreeHost* host)
         TreeRecord rec;
         host->ReadBytes(&rec, 0x20);
         TreeTemp tmp(0);
-        FUN_006f86b0(&rec);
+        BGSDistantTreeBlock_TreeTypes_Append(&rec);
     }
 }
 
@@ -1134,8 +1141,8 @@ extern Lod77Container DAT_011d85e0;
 extern Lod77Mgr* DAT_011dea10;
 
 int __cdecl FUN_00ec8a19(const char* a, const char* b, int c);
-void* __cdecl FUN_00afdf00(char* path, int mode, unsigned int size);
-void __cdecl FUN_005b5e40(const char* msg);
+void* __cdecl FileFinder_GetFile_(char* path, int mode, unsigned int size);
+void __cdecl Warning_005b5e40(const char* msg);
 
 // Builds the TreeTypes.lst mesh path and the tree LOD texture path, loads both, then populates the LOD containers and steps their elements.
 // @fnv 0x006f77a0
@@ -1147,7 +1154,7 @@ void __cdecl LoadTreeLodResources(Fake076* self)
     char texPath[0x104];
 
     _sprintf_s(path, 0x104, "Data\\Meshes\\Landscape\\LOD\\%s\\Trees\\TreeTypes.lst", self->GetStr());
-    f5 = (LodFile*)FUN_00afdf00(path, 0, 0x800);
+    f5 = (LodFile*)FileFinder_GetFile_(path, 0, 0x800);
     if (f5 != 0)
     {
         ReadTreeRecords((TreeHost*)f5);
@@ -1163,9 +1170,9 @@ void __cdecl LoadTreeLodResources(Fake076* self)
     DAT_011dea10->Load(texPath, &DAT_011d85e0, 1, 1);
     if (!DAT_011d85e0.Get0())
     {
-        FUN_005b5e40("LOD tree texture atlas not found!");
+        Warning_005b5e40("LOD tree texture atlas not found!");
     }
-    FUN_006f7a60(DAT_011d85e0.Get0());
+    BSDistantTreeShader_SetTextureAtlas(DAT_011d85e0.Get0());
     DAT_011d85a0 = 1;
 
     DAT_011d85bc.Add(new Lod77Foo1());
@@ -1500,11 +1507,12 @@ struct OwnerX
     void Configure(PropertyX*, EntryX*);
     TreeLodBoundingSphere GetBound(EntryX*);
     void Refresh();
-    void FUN_006f8c40();
+    void BGSDistantTreeBlock_Attach();
 };
 void __cdecl SetupNode(NodeX*, int, int);
 // @fnv 0x006f8c40
-void OwnerX::FUN_006f8c40()
+// src: COMMUNITY 0x006f8c40
+void OwnerX::BGSDistantTreeBlock_Attach()
 {
     AutoMemHelper guard(0x25, true, str_0106dd30, 0x240);
     if (loaded && !built)

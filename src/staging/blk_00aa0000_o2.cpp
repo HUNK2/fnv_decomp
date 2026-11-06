@@ -12,7 +12,8 @@
 extern void* DAT_011f6044;
 
 // @fnv 0x00aa0000
-void FUN_00aa0000()
+// src: COMMUNITY 0x00aa0000
+void NiShaderFactory_ReleaseAllShaders()
 {
     if (DAT_011f6044)
         ((void(__thiscall*)(void*)) * (void**)(*(char**)DAT_011f6044 + 0x20))(DAT_011f6044);
@@ -23,7 +24,8 @@ extern "C" void* DAT_011f6078;
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00aa1980
-void FUN_00aa1980()
+// src: COMMUNITY 0x00aa1980
+void NiSystemDesc_ShutdownSystemDesc()
 {
     g_memoryManager.Deallocate(DAT_011f6078);
 }
@@ -43,30 +45,32 @@ unsigned int __cdecl ReadFileData(NiFileHack* apFile, void* buffer, unsigned int
 extern int DAT_011f6110;
 extern int DAT_011f6114;
 
-extern "C" void __cdecl FUN_00aa2060(int a, int b);
+extern "C" void __cdecl NiStaticDataManager_SetRootLibrary(int a, int b);
 
 // @fnv 0x00aa2060
-extern "C" void __cdecl FUN_00aa2060(int aiFirst, int aiSecond)
+// src: COMMUNITY 0x00aa2060
+extern "C" void __cdecl NiStaticDataManager_SetRootLibrary(int aiFirst, int aiSecond)
 {
     DAT_011f6110 = aiFirst;
     DAT_011f6114 = aiSecond;
 }
 
 extern "C" void __cdecl InitHolder();
-extern "C" void __cdecl FUN_00aa1920();
-extern "C" void __cdecl FUN_00aa7eb0();
+extern "C" void __cdecl NiSystemDesc_NiSystemDesc();
+extern "C" void __cdecl OEI_IO_initialize();
 extern unsigned char DAT_011f6229;
 
 // If the global flag DAT_011f6229 is clear, sets it to 1 and calls InitHolder, FUN_00aa1920 and FUN_00aa7eb0 once.
 // @fnv 0x00aa3050
-void __cdecl FUN_00aa3050()
+// src: COMMUNITY 0x00aa3050
+void __cdecl NiSystemSDM_Init()
 {
     if (DAT_011f6229 == 0)
     {
         DAT_011f6229 = 1;
         InitHolder();
-        FUN_00aa1920();
-        FUN_00aa7eb0();
+        NiSystemDesc_NiSystemDesc();
+        OEI_IO_initialize();
     }
 }
 
@@ -228,11 +232,12 @@ class HashTableBase
     unsigned int bucketCount;
     HashNode** buckets;
     unsigned int count;
-    bool FUN_00aa0250(const unsigned int* key);
+    bool NiTStringPointerMap_NiAVObject_RemoveAt(const unsigned int* key);
 };
 // Looks up the node whose key matches *key in its bucket, unlinks and destroys it, decrements count, and returns whether it was found.
 // @fnv 0x00aa0250
-bool HashTableBase::FUN_00aa0250(const unsigned int* key)
+// src: COMMUNITY 0x00aa0250
+bool HashTableBase::NiTStringPointerMap_NiAVObject_RemoveAt(const unsigned int* key)
 {
     unsigned int value = *key;
     HashNode** link = &buckets[value % bucketCount];
@@ -277,11 +282,12 @@ struct FUN_00aa0ff0_cls
     int unk04;
     int m_08;
 
-    unsigned char FUN_00aa0ff0();
+    unsigned char NiAccumulator_IsAccumulating();
 };
 
 // @fnv 0x00aa0ff0
-unsigned char FUN_00aa0ff0_cls::FUN_00aa0ff0()
+// src: COMMUNITY 0x00aa0ff0
+unsigned char FUN_00aa0ff0_cls::NiAccumulator_IsAccumulating()
 {
     if (m_08 != 0)
         return 1;
@@ -313,7 +319,8 @@ struct FUN_00aff950_shell
 };
 
 // @fnv 0x00aa19c0
-void __cdecl FUN_00aa19c0(void* object, void* buffer, unsigned int size)
+// src: COMMUNITY 0x00aa19c0
+void __cdecl NiFile_WriteNoSwap(void* object, void* buffer, unsigned int size)
 {
     reinterpret_cast<FUN_00aff950_shell*>(object)->FUN_00aa1810(buffer, size);
 }
@@ -411,7 +418,7 @@ struct FUN_00aa2020_Holder
 
 struct FUN_00aa2020_Source
 {
-    FUN_00aa2020_Impl* FUN_009fd0f0();
+    FUN_00aa2020_Impl* NiInitOptions_GetAllocator();
 };
 
 extern MemoryManager DAT_011f6238;
@@ -423,7 +430,7 @@ extern FUN_00aa2020_Holder* DAT_011f6080;
 extern "C" void __cdecl InitHolder()
 {
     DAT_011f6080 = static_cast<FUN_00aa2020_Holder*>(DAT_011f6238.Allocate(4));
-    DAT_011f6080->m_pImpl = DAT_011f6118->FUN_009fd0f0();
+    DAT_011f6080->m_pImpl = DAT_011f6118->NiInitOptions_GetAllocator();
     DAT_011f6080->m_pImpl->FUN_00aa2020_07();
 }
 }  // namespace fnv_00aa2020
@@ -437,7 +444,8 @@ extern int DAT_011f6088[];
 
 // Stores callback and value in parallel arrays at the current index, increments the index, and invokes the callback if the flag is set.
 // @fnv 0x00aa2080
-void __cdecl FUN_00aa2080(FUN_00aa2080_callback callback, int value)
+// src: COMMUNITY 0x00aa2080
+void __cdecl NiStaticDataManager_AddLibrary(FUN_00aa2080_callback callback, int value)
 {
     DAT_011f60c8[DAT_011f6108] = callback;
     DAT_011f6088[DAT_011f6108] = value;
@@ -456,7 +464,7 @@ extern void* DAT_011f6088[];
 extern int DAT_011f6114;
 extern void* DAT_011f6118;
 
-void __cdecl FUN_00aa3070();
+void __cdecl NiSystemSDM_Shutdown();
 
 struct FUN_00aa21e0_shell
 {
@@ -464,7 +472,8 @@ struct FUN_00aa21e0_shell
 };
 
 // @fnv 0x00aa2170
-void __cdecl FUN_00aa2170()
+// src: COMMUNITY 0x00aa2170
+void __cdecl NiStaticDataManager_Shutdown()
 {
     for (unsigned int i = 0; i < DAT_011f6108; ++i)
     {
@@ -474,7 +483,7 @@ void __cdecl FUN_00aa2170()
     {
         ((void(__cdecl*)())DAT_011f6114)();
     }
-    FUN_00aa3070();
+    NiSystemSDM_Shutdown();
     if (DAT_011f610d != 0)
     {
         void* obj = DAT_011f6118;
@@ -715,8 +724,8 @@ void* FUN_00aa2d60_cls::FUN_00aa2d60()
     return m_10;
 }
 
-void FUN_00aa2e60();
-void FUN_00aa2ea0();
+void NiMemStream_ReadNoSwap();
+void NiMemStream_WriteNoSwap();
 
 struct S_00aa2fb0_Base
 {
@@ -742,25 +751,26 @@ struct FUN_00aa2fb0 : S_00aa2fb0_Base
 FUN_00aa2fb0::FUN_00aa2fb0(void* a, unsigned int b) : unk10(a), unk14(0), unk1c(b), unk20(1), unk21(0)
 {
     unk18 = b;
-    unk08 = FUN_00aa2e60;
-    unk0c = FUN_00aa2ea0;
+    unk08 = NiMemStream_ReadNoSwap;
+    unk0c = NiMemStream_WriteNoSwap;
 }
 
 namespace fnv_00aa3070 {
 extern unsigned char DAT_011f6229;
-void FUN_00aa81d0();
-void FUN_00aa1980();
+void OEI_IO_terminate();
+void NiSystemDesc_ShutdownSystemDesc();
 void FUN_00a29680();
 
 // If DAT_011f6229 is set, clears it and calls FUN_00aa81d0, FUN_00aa1980 and FUN_00a29680.
 // @fnv 0x00aa3070
-void FUN_00aa3070()
+// src: COMMUNITY 0x00aa3070
+void NiSystemSDM_Shutdown()
 {
     if (DAT_011f6229 != 0)
     {
         DAT_011f6229 = 0;
-        FUN_00aa81d0();
-        FUN_00aa1980();
+        OEI_IO_terminate();
+        NiSystemDesc_ShutdownSystemDesc();
         FUN_00a29680();
     }
 }
@@ -1199,7 +1209,8 @@ void __cdecl _NiFree_00aa10f0(void* buffer);
 
 // If size is non-zero, copies data to a temporary buffer, calls SwapBufferBySizes on it, returns state->FUN_00aa1810(buffer, size) and frees the buffer; else 0.
 // @fnv 0x00aa1ad0
-unsigned int __cdecl FUN_00aa1ad0(ProcessingState* state, const void* data, unsigned int size, void* optionA,
+// src: COMMUNITY 0x00aa1ad0
+unsigned int __cdecl NiFile_WriteAndSwap(ProcessingState* state, const void* data, unsigned int size, void* optionA,
                                   void* optionB)
 {
     if (size <= 0u)
@@ -1398,11 +1409,12 @@ struct FUN_00aa2200_shell
     void* __thiscall FUN_00aa2200();
 };
 namespace InitSystemCall {
-void __cdecl FUN_00aa3050();
+void __cdecl NiSystemSDM_Init();
 }
 // Sets TLS unk2b4 to 15, selects or allocates the object stored in DAT_011f6118, runs FUN_00aa3050 and the init callbacks, restores unk2b4 and sets DAT_011f610c.
 // @fnv 0x00aa20b0
-void __cdecl FUN_00aa20b0(void* value)
+// src: COMMUNITY 0x00aa20b0
+void __cdecl NiStaticDataManager_Init(void* value)
 {
     int oldState = s_tlsData.unk2b4;
     s_tlsData.unk2b4 = 15;
@@ -1431,7 +1443,7 @@ void __cdecl FUN_00aa20b0(void* value)
         DAT_011f610d = 0;
     }
     DAT_011f6118 = value;
-    InitSystemCall::FUN_00aa3050();
+    InitSystemCall::NiSystemSDM_Init();
     if (DAT_011f6110)
         ((void(__cdecl*)())DAT_011f6110)();
     for (unsigned int i = 0; i < (unsigned int)DAT_011f6108; ++i)
@@ -1444,11 +1456,12 @@ class ThreadSuspendForward : public FUN_00aa2710_cls
 {
   public:
     unsigned int SuspendThreadHandle();
-    unsigned int FUN_00aa3040();
+    unsigned int NiThread_Suspend();
 };
 
 // @fnv 0x00aa3040
-unsigned int ThreadSuspendForward::FUN_00aa3040()
+// src: COMMUNITY 0x00aa3040
+unsigned int ThreadSuspendForward::NiThread_Suspend()
 {
     return SuspendThreadHandle();
 }
@@ -1471,7 +1484,8 @@ extern void* _DAT_011f6078;
 
 // Allocates 8 bytes from the memory manager, stores the processor count and performance frequency, and sets the global pointer to the block.
 // @fnv 0x00aa1920
-void __cdecl FUN_00aa1920()
+// src: COMMUNITY 0x00aa1920
+void __cdecl NiSystemDesc_NiSystemDesc()
 {
     unsigned int* p = (unsigned int*)_g_memoryManager.Allocate(8);
     if (p)

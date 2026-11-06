@@ -33,11 +33,11 @@ struct FUN_00dd9380_StandIn
 extern FUN_00dd9380_StandIn* DAT_01269cd0;
 extern int DAT_01269028;
 extern char DAT_010c65b0;
-void FUN_00d6ad00();
+void hkpBroadphaseViewer_Create();
 // @fnv 0x00d6ad40
 void __cdecl FUN_00d6ad40()
 {
-    DAT_01269028 = DAT_01269cd0->hkProcessFactory_registerProcess(&DAT_010c65b0, (void*)&FUN_00d6ad00);
+    DAT_01269028 = DAT_01269cd0->hkProcessFactory_registerProcess(&DAT_010c65b0, (void*)&hkpBroadphaseViewer_Create);
 }
 
 extern int DAT_01269028;
@@ -404,7 +404,8 @@ struct SpawnedObject
 
 // Allocates a 0x38-byte object from the holder's allocator, sets its size, calls Init(arg), and returns the result plus 8 or 0.
 // @fnv 0x00d6ad00
-int FUN_00d6ad00(int arg)
+// src: COMMUNITY 0x00d6ad00
+int hkpBroadphaseViewer_Create(int arg)
 {
     hkMemoryRouter* pAllocHolder = FUN_00c85750();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pAllocHolder->m_heap);

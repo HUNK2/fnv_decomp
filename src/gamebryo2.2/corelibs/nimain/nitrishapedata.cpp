@@ -26,7 +26,8 @@ void __cdecl _NiFreeAlias(void*);
 
 // Replaces the triangle list and updates the triangle and index counts.
 // @fnv 0x00a7b6c0
-void __fastcall FUN_00a7b6c0(NiTriShapeData* self, int, unsigned short ausValue, unsigned short* apusBuffer)
+// src: COMMUNITY 0x00a7b6c0
+void __fastcall NiTriShapeData_Replace(NiTriShapeData* self, int, unsigned short ausValue, unsigned short* apusBuffer)
 {
     if (apusBuffer != self->m_pusTriList && self->m_pusTriList)
         _NiFreeAlias(self->m_pusTriList);
@@ -36,7 +37,8 @@ void __fastcall FUN_00a7b6c0(NiTriShapeData* self, int, unsigned short ausValue,
 }
 
 // @fnv 0x00a7b700
-void __fastcall FUN_00a7b700(NiTriShapeData* self, int, unsigned short ausValue, unsigned short* apusBuffer)
+// src: COMMUNITY 0x00a7b700
+void __fastcall NiTriShapeData_SetData(NiTriShapeData* self, int, unsigned short ausValue, unsigned short* apusBuffer)
 {
     self->m_usTriangles = ausValue;
     self->m_uiTriListLength = ausValue * 3;
@@ -67,7 +69,8 @@ void __fastcall FUN_00a7b760(NiTriShapeData* self, int, unsigned short* p1, unsi
 extern const char* const g_011f5af4_arg1;
 
 // @fnv 0x00a7b860
-const char* const* __fastcall FUN_00a7b860(void* self, int)
+// src: COMMUNITY 0x00a7b860
+const char* const* __fastcall NiTriShapeData_GetRTTI(void* self, int)
 {
     return &g_011f5af4_arg1;
 }
@@ -154,7 +157,7 @@ void __fastcall DestroyTriShapeData(NiTriShapeData* self)
 }  // namespace fnv_00a7b8c0
 
 extern const char* const g_011f5af4_arg1;
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d510(const char*, unsigned int);
 char* __cdecl FUN_00a7d5a0(const char*, void*);
 
@@ -173,7 +176,7 @@ void __cdecl AppendTrianglesInfo();
 void __fastcall AppendTriListInfo(NiTriShapeData* self, int, StrArr* pStrArr)
 {
     reinterpret_cast<void (__thiscall*)(NiTriBasedGeomData*, StrArr*)>(AppendTrianglesInfo)(self, pStrArr);
-    pStrArr->AppendInline(FUN_00a7d330(g_011f5af4_arg1));
+    pStrArr->AppendInline(NiViewerStrings_NiGetViewerString_Title(g_011f5af4_arg1));
     pStrArr->AppendInline(FUN_00a7d510("m_uiTriListLength", self->m_uiTriListLength));
     pStrArr->AppendInline(FUN_00a7d5a0("m_pusTriList", self->m_pusTriList));
 }

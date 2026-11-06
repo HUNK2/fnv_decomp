@@ -107,7 +107,7 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
         }
     }
     if (local.bOtherThread)
-        DAT_0126fac4->FUN_00ec1a00();
+        DAT_0126fac4->MoviePlayer_SignalBinkOpen();
     DAT_0126fac4->vfn_18();
     return local.bSuccess;
 }

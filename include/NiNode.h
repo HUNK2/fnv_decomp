@@ -84,16 +84,16 @@ class NiNode : public NiAVObject
     unsigned int FUN_0043b480();
     NiAVObject* FUN_0043b4a0(unsigned int index);
 
-    void FUN_006fb940(float x, float y, float z);
-    bool FUN_009dc530();
+    void BSShaderPPLightingProperty_SetLODTexParams(float x, float y, float z);
+    bool PathingSolution_IsValid();
     void FUN_0043fa80(const FloatMatrix3& rotation);
     using NiAVObject::FUN_0043fa80;
     void FUN_00440460(const NiPoint3* position);
     using NiAVObject::FUN_00440460;
     void FUN_004def90();
     void FUN_004902f0(bool enabled);
-    void FUN_004add70();
-    void FUN_00546780(bool enabled);
+    void NiNode_CompactChildArray();
+    void NiAVObject_SetAlwaysDraw(bool enabled);
     void FUN_00572160();
     NiAVObject* FUN_00461130(bool flag);
     using NiAVObject::FUN_00461130;

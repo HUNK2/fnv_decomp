@@ -234,7 +234,7 @@ struct Host_CreatureInit
 
 extern "C" void __cdecl FUN_00485d50(unsigned int*, void*);
 extern "C" class TESForm* __cdecl FUN_004839c0(unsigned int);
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 TESCombatStyle* __cdecl FUN_00505000();
 extern "C" const char DAT_010495e0[], DAT_01049598[], DAT_01049548[], DAT_010494f8[], DAT_0102c740[], DAT_010494bc[];
 
@@ -268,11 +268,11 @@ void Host_CreatureInit::FUN_005f9340()
             m_128 = (struct Host_CreatureInit*)dynamic_cast<TESCreature*>(FUN_004839c0(soundId));
             if (!m_128)
             {
-                FUN_005b5e40(DAT_010495e0, soundId, FUN_0084e3a0(), v76());
+                Warning_005b5e40(DAT_010495e0, soundId, FUN_0084e3a0(), v76());
             }
             else if (m_128 == this || m_128->m_30.FUN_0059bb30())
             {
-                FUN_005b5e40(DAT_01049598, m_128->v76(), m_128->FUN_0084e3a0(), v76(), FUN_0084e3a0());
+                Warning_005b5e40(DAT_01049598, m_128->v76(), m_128->FUN_0084e3a0(), v76(), FUN_0084e3a0());
                 m_128 = 0;
             }
         }
@@ -286,7 +286,7 @@ void Host_CreatureInit::FUN_005f9340()
             m_140 = dynamic_cast<TESCombatStyle*>(FUN_004839c0(combatId));
             if (!m_140)
             {
-                FUN_005b5e40(DAT_01049548, combatId, FUN_0084e3a0(), v76());
+                Warning_005b5e40(DAT_01049548, combatId, FUN_0084e3a0(), v76());
             }
         }
     }
@@ -301,7 +301,7 @@ void Host_CreatureInit::FUN_005f9340()
             m_144 = dynamic_cast<BGSBodyPartData*>(FUN_004839c0(bodyId));
             if (!m_144)
             {
-                FUN_005b5e40(DAT_010494f8, bodyId, FUN_0084e3a0(), v76());
+                Warning_005b5e40(DAT_010494f8, bodyId, FUN_0084e3a0(), v76());
             }
         }
     }
@@ -311,7 +311,7 @@ void Host_CreatureInit::FUN_005f9340()
         FUN_00485d50(&formId, FUN_00484e60(-1));
         m_14c = dynamic_cast<BGSImpactDataSet*>(FUN_004839c0(formId));
         if (!m_14c)
-            FUN_005b5e40(DAT_0102c740, formId, v76(), FUN_0084e3a0());
+            Warning_005b5e40(DAT_0102c740, formId, v76(), FUN_0084e3a0());
     }
     formId = (unsigned int)m_158;
     if (formId)
@@ -319,7 +319,7 @@ void Host_CreatureInit::FUN_005f9340()
         FUN_00485d50(&formId, FUN_00484e60(-1));
         m_158 = dynamic_cast<BGSListForm*>(FUN_004839c0(formId));
         if (!m_158)
-            FUN_005b5e40(DAT_010494bc, formId, v76(), FUN_0084e3a0());
+            Warning_005b5e40(DAT_010494bc, formId, v76(), FUN_0084e3a0());
     }
     if (m_90.packages.Size() <= 0)
         FUN_00565210(true);

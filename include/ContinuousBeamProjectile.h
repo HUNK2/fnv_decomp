@@ -35,8 +35,8 @@ public:
                     void* arg4, void* arg5, void* arg6);
     void MarkGeometryDataMutable(NiAVObject* object);
     void ScaleObject(NiAVObject* object, float scale);
-    void FUN_009abd00(NiAVObject* object, float scale, float previousScale);
-    float FUN_00979840(NiAVObject* object);
+    void fn_9ABD00_Recurse(NiAVObject* object, float scale, float previousScale);
+    float FindBeamGeometryLength(NiAVObject* object);
     void* GetActorBase();
     bool FUN_00444d00(int flags);
     void FUN_009795c0(float distance);

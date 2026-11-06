@@ -123,7 +123,8 @@ unsigned char __stdcall FUN_00aa0ae0(NiObject* pkObject)
 
 extern const char g_011f5f74_arg1[];
 // @fnv 0x00aa0e50
-const char* __cdecl FUN_00aa0e50()
+// src: COMMUNITY 0x00aa0e50
+const char* __cdecl NiBackToFrontAccumulator_GetRTTI()
 {
     return g_011f5f74_arg1;
 }

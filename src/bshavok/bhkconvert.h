@@ -20,8 +20,8 @@ NiPoint3& SetNiPoint3FromHkVector4(NiPoint3& out, const hkVector4& in)
 {
     // These output lanes are initialized by FUN_00458700.
     __m128 x, y, z;
-    out.x = FUN_004587d0(in.FUN_00458700(reinterpret_cast<hkSimdReal&>(x), 0).getReal());
-    out.y = FUN_004587d0(in.FUN_00458700(reinterpret_cast<hkSimdReal&>(y), 1).getReal());
-    out.z = FUN_004587d0(in.FUN_00458700(reinterpret_cast<hkSimdReal&>(z), 2).getReal());
+    out.x = FUN_004587d0(in.hkVector4_getSimdAt(reinterpret_cast<hkSimdReal&>(x), 0).getReal());
+    out.y = FUN_004587d0(in.hkVector4_getSimdAt(reinterpret_cast<hkSimdReal&>(y), 1).getReal());
+    out.z = FUN_004587d0(in.hkVector4_getSimdAt(reinterpret_cast<hkSimdReal&>(z), 2).getReal());
     return out;
 }

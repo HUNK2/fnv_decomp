@@ -51,7 +51,7 @@ class IdleAnimationManager
 {
   public:
     void AddIdleToArray(TESIdleForm*);
-    bool FUN_00843150();
+    bool InterfaceManager_GetMagicPageNumber();
     NiFormArray* GetIdleArray(TESForm*);
     NiFormArray* GetFormArray(TESIdleForm*);
 };

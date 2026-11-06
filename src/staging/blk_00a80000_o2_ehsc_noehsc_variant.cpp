@@ -30,8 +30,8 @@ NiCollisionObject::NiCollisionObject()
     _Call_a5d3a0();
 }
 extern unsigned char* DAT_011f5b04;
-void __cdecl FUN_00714960(int);
-void __cdecl FUN_00a81a20();
+void __cdecl NiParallelUpdateTaskManager_WaitRenderSema(int);
+void __cdecl NiParallelUpdateTaskManager_BeginUpdate();
 int __cdecl NiSkinData_BoneVertData_Compare(const unsigned short* a, const unsigned short* b);
 struct FUN_00a744a0 { void Init(); };
 extern const void* DAT_0109e984;
@@ -41,8 +41,8 @@ struct FUN_00a87900_class {
 };
 extern int DAT_011f5b84;
 void __cdecl InitializeGameSystems();
-void __cdecl FUN_00a8a280();
-void __cdecl FUN_00aa2060(void*, void*);
+void __cdecl NiMainSDM_Shutdown();
+void __cdecl NiStaticDataManager_SetRootLibrary(void*, void*);
 struct FUN_00a8a5f0_class {
     void* FUN_00a8a5f0();
 };
@@ -87,17 +87,17 @@ void NiFree(void*);
 struct FUN_00a96460_class {
     char pad[0x54];
     void* m_0x54;
-    void FUN_00a96460(void* p);
+    void NiParticlesData_ReplaceSizes(void* p);
 };
 void NiFreeAlias(void*);
 struct FUN_00a96480_Class {
     void* m_5c;
-    void FUN_00a96480(void* p);
+    void NiParticlesData_ReplaceRotationAngles(void* p);
 };
 extern "C" void __cdecl NiFreeAlias(void*);
 struct FUN_00a964a0_Class {
     void* m_p;
-    void FUN_00a964a0(void* p);
+    void NiParticlesData_ReplaceTextureIndices(void* p);
 };
 struct CloningProcess;
 struct NiBinaryExtraData;
@@ -176,7 +176,7 @@ extern int DAT_011f5ff0;
 extern int DAT_011f5ff4;
 extern int DAT_011f5ff8;
 extern unsigned char DAT_011f6000;
-void __cdecl FUN_00a9b8b0();
+void __cdecl NiShaderConstantMapEntry_InitializeAttribTable();
 struct FUN_00a85520_class {
     void FUN_00a85520(float* dst, float scale);
 };
@@ -277,7 +277,7 @@ struct FUN_00a81bd0_class {
     void FUN_00a81bd0();
 };
 struct Stub {
-    void FUN_00aa0250(void* p);
+    void NiTStringPointerMap_NiAVObject_RemoveAt(void* p);
 };
 extern int DAT_0109f73c;
 extern void* _EmptyFS;
@@ -318,9 +318,9 @@ struct FUN_00a5a390_shell {
     FUN_00a5a390_shell* FUN_00a950f0(bool bDel);
 };
 void __cdecl operator delete(void* p, unsigned int);
-void __cdecl FUN_00a9b8b0();
-void __cdecl FUN_00a9b9b0();
-void __cdecl FUN_00a9ba80();
+void __cdecl NiShaderConstantMapEntry_InitializeAttribTable();
+void __cdecl NiShaderConstantMapEntry_SDMInit_NiShaderConstantMapEntry_InitializeObjectTable();
+void __cdecl NiShaderConstantMapEntry__SDMInit();
 struct SpawnedRef {
     virtual void Vslot00();
     virtual void DeleteThis();
@@ -414,7 +414,7 @@ virtual void v37();
 virtual void v38();
 virtual void v39();
 };
-void FUN_00a819e0();
+void NiParallelUpdateTaskManager_Shutdown();
 // FUN_00a81ba0 : constructor of a plain object whose first member is the
 // class vtable pointer. Clears the dword fields at +4..+0x18, a word at +0x22
 // and a dword at +0x28.
@@ -584,7 +584,7 @@ struct FUN_00a87790_cls
     virtual void vd4();
     virtual void vd8();
     virtual void Tail(int a);
-    void FUN_00a87790(int a);
+    void NiScreenElements_Draw(int a);
 };
 struct FUN_00a88c60_Point2 {
     float unk00;
@@ -825,7 +825,7 @@ extern int DAT_011f5fa8;
 extern int DAT_011f5fac;
 extern int DAT_011f5fb0;
 extern unsigned char DAT_011f6001;
-void __cdecl FUN_00a9b9b0();
+void __cdecl NiShaderConstantMapEntry_SDMInit_NiShaderConstantMapEntry_InitializeObjectTable();
 extern "C" void* DAT_0109b220;
 struct ReferenceHandle
 {
@@ -908,7 +908,7 @@ struct FUN_00a9ff00_Obj
 int __cdecl FUN_00a9fe90(int a, int b, FUN_00a9ff00_Obj* c, int d, int e);
 int __cdecl ProcessArgWithObj(FUN_00a9ff00_Arg* a, FUN_00a9ff00_Obj* b);
 extern unsigned char* DAT_011f5b04;
-int __cdecl FUN_00714900();
+int __cdecl NiParallelUpdateTaskManager_SignalRenderSema();
 struct FnvRing {
     unsigned int unk00;
     unsigned int m_pRayCursor;
@@ -1065,7 +1065,7 @@ struct FnvQueueState {
     unsigned int unk1ac;
     unsigned char m_1b0;
 };
-void __cdecl FUN_00a81a80();
+void __cdecl NiParallelUpdateTaskManager_EndUpdate();
 class BA87920Base {
 public:
     static void* operator new(unsigned int uiSize);
@@ -1343,22 +1343,22 @@ struct RleDecoder {
  unsigned char value3;
  void Decode(NiBinaryStream& stream, unsigned char* dest,unsigned int unused);
 };
-void __stdcall FUN_00a85510(int, int, int, int, int, int, int, int);
+void __stdcall nullsub_2(int, int, int, int, int, int, int, int);
 extern void __cdecl FUN_00a98ea0();
 void __cdecl FUN_00a877d0();
 extern "C" void __cdecl FUN_00a71d10();
 void __cdecl FUN_00a877e0();
 extern "C" void __cdecl ReadGroup();
 void __cdecl FUN_00a88a40();
-void __stdcall FUN_00a89af0(int);
+void __stdcall nullsub_3(int);
 struct S_00a8d8b0;
 void __cdecl AdvancePosition(S_00a8d8b0*, void*, unsigned int);
-struct FUN_00a5e3a0_Helper { void* FUN_00aa3e40(unsigned int); };
+struct FUN_00a5e3a0_Helper { void* Game_DoHeapAlloc(unsigned int); };
 struct PixelRow4 {
     unsigned char rgba[4];
     PixelRow4() {}
     static void* operator new[](unsigned int size) {
-        return ((FUN_00a5e3a0_Helper*)&DAT_011f6238)->FUN_00aa3e40(size);
+        return ((FUN_00a5e3a0_Helper*)&DAT_011f6238)->Game_DoHeapAlloc(size);
     }
 };
 struct ImageConverter {

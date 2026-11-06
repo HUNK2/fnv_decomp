@@ -95,7 +95,8 @@ float __cdecl FUN_009a7dd0(float afNumerator, float afInput, float c)
 extern int DAT_011a558c;
 
 // @fnv 0x009a97b0
-char FUN_009a97b0(char a1, char a2)
+// src: COMMUNITY 0x009a97b0
+char RotateSlot(char a1, char a2)
 {
     a1 += a2;
     if (a1 < 0)
@@ -208,10 +209,10 @@ char __cdecl IsBitSetOrNeighbor(unsigned int auiMask, char aiBit)
         return 1;
     for (int i = 1; i <= DAT_011a5590; ++i)
     {
-        char r0 = FUN_009a97b0(aiBit, -i);
+        char r0 = RotateSlot(aiBit, -i);
         if (auiMask & (1 << r0))
             return 1;
-        char r1 = FUN_009a97b0(aiBit, i);
+        char r1 = RotateSlot(aiBit, i);
         if (auiMask & (1 << r1))
             return 1;
     }
@@ -219,7 +220,7 @@ char __cdecl IsBitSetOrNeighbor(unsigned int auiMask, char aiBit)
 }
 
 extern int DAT_011a5590;
-char FUN_009a97b0(char a1, char a2);
+char RotateSlot(char a1, char a2);
 
 // Sets bit index in flags, then for i from 1 to DAT_011a5590 sets the bits returned by FUN_009a97b0(index, -i) and FUN_009a97b0(index, i), returning flags.
 // @fnv 0x009a9940
@@ -228,9 +229,9 @@ int ExpandFlagBits(int flags, char index)
     flags |= 1 << index;
     for (int i = 1; i <= DAT_011a5590; ++i)
     {
-        char r2 = FUN_009a97b0(index, -i);
+        char r2 = RotateSlot(index, -i);
         flags |= 1 << r2;
-        char r1 = FUN_009a97b0(index, i);
+        char r1 = RotateSlot(index, i);
         flags |= 1 << r1;
     }
     return flags;
@@ -307,18 +308,19 @@ float __cdecl FUN_009a7f00(BGSProjectile* obj, float arg)
     return arg * arg / value;
 }
 
-unsigned char FUN_009a97b0(unsigned char a1, unsigned char a2);
+unsigned char RotateSlot(unsigned char a1, unsigned char a2);
 bool __cdecl IsBitSetOrNeighbor(unsigned int a, unsigned char b);
 
 // @fnv 0x009a98a0
-unsigned char FUN_009a98a0(unsigned int a, unsigned char b)
+// src: COMMUNITY 0x009a98a0
+unsigned char FindSlot_009a98a0(unsigned int a, unsigned char b)
 {
     for (int i = 0; i < DAT_011a558c / 2; i++)
     {
-        unsigned char x = FUN_009a97b0(b, i);
+        unsigned char x = RotateSlot(b, i);
         if (!IsBitSetOrNeighbor(a, x))
             return x;
-        unsigned char y = FUN_009a97b0(b, -i);
+        unsigned char y = RotateSlot(b, -i);
         if (!IsBitSetOrNeighbor(a, y))
             return y;
     }
@@ -879,10 +881,10 @@ extern ConeSetting g_s_011cfa58;
 extern ConeSetting g_s_011cfda4;
 
 float __cdecl FUN_004b1550(ConePoint* pkDir);
-void* __cdecl FUN_004aae30(void* pkRoot, const char* pcName);
+void* __cdecl BSUtilities_GetObjectByName(void* pkRoot, const char* pcName);
 float __cdecl FUN_00408860(float f);
 float __cdecl FUN_00408840(float f);
-float __cdecl FUN_009a6a40(int iSkill);
+float __cdecl GetCombatHitConesAngles(int iSkill);
 
 static const char s_szProjectileNode[] = "ProjectileNode";
 extern const char g_szConeEnd[] = "";
@@ -903,7 +905,7 @@ bool __cdecl IsTargetInCone(Actor* pkShooter, Actor* pkTarget, float* pfAngleOut
     {
         float fX_2 = 0.0f;
         float fYA = 0.0f;
-        void* pkNodeRes = FUN_004aae30(g_thePlayer_011dea3c->FUN_00950bb0(0), s_szProjectileNode);
+        void* pkNodeRes = BSUtilities_GetObjectByName(g_thePlayer_011dea3c->FUN_00950bb0(0), s_szProjectileNode);
         g_thePlayer_011dea3c->UpdateAim(0, pkNodeRes, &fX_2, &fYA, 0, 1.175494351e-38F, 1.175494351e-38F);
         if (g_thePlayer_011dea3c->FUN_00963730())
             fAimDirectionOffset = fX_2;
@@ -914,7 +916,7 @@ bool __cdecl IsTargetInCone(Actor* pkShooter, Actor* pkTarget, float* pfAngleOut
         fAngleA = FUN_00408840(fAngleA - 360.0);
     float fConeTmp = 0.0f;
     if (pkShooter == (Actor*)g_thePlayer_011dea3c)
-        fConeTmp = FUN_009a6a40(iSkillOut);
+        fConeTmp = GetCombatHitConesAngles(iSkillOut);
     else
         fConeTmp = *g_s_011cfa58.FUN_00403e20();
     if (kDeltaA.FUN_00457990() < 128.0)
@@ -1585,7 +1587,8 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting606;
 
 // Returns the float value of one of four runtime float settings, chosen by id in the range 0x5c-0x66; ids outside that range use the default setting.
 // @fnv 0x009a6a40
-float __cdecl FUN_009a6a40(int aiSettingId)
+// src: COMMUNITY 0x009a6a40
+float __cdecl GetCombatHitConesAngles(int aiSettingId)
 {
     if (aiSettingId >= 0x5c && aiSettingId <= 0x66)
     {
@@ -1663,13 +1666,13 @@ struct FUN_006d5320
     FUN_006d5320();
 };
 
-void __cdecl FUN_00403d30(void* p, int v, unsigned int n);
+void __cdecl ourMemset(void* p, int v, unsigned int n);
 extern Glob* DAT_011f1958;
 unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
 float __cdecl GetDirectionAngle(const NiPoint3& p);
 long __cdecl ScaleByRatio(float a);
 float __cdecl ScaleCharToFloat(char a);
-unsigned char FUN_009a98a0(unsigned int a, unsigned char b);
+unsigned char FindSlot_009a98a0(unsigned int a, unsigned char b);
 int ExpandFlagBits(int flags, char index);
 
 // @fnv 0x009a9a20
@@ -1685,7 +1688,7 @@ bool AssignCombatPlanAngles(Actor* apRef, Actor* apTargetRef)
         CombatPlanningPosition layout;
         layout.origin = *(CombatPoint3*)apRef->FUN_00436aa0();
         FUN_006d5320 holder[64];
-        FUN_00403d30(holder, 0, 0x600);
+        ourMemset(holder, 0, 0x600);
         {
             layout.count = 0;
             {
@@ -1730,7 +1733,7 @@ bool AssignCombatPlanAngles(Actor* apRef, Actor* apTargetRef)
                         {
                             if (holder[j].flag)
                             {
-                                char val = FUN_009a98a0(flags, holder[j].dir);
+                                char val = FindSlot_009a98a0(flags, holder[j].dir);
                                 if (val != -1)
                                 {
                                     flags = ExpandFlagBits(flags, val);
@@ -1747,7 +1750,7 @@ bool AssignCombatPlanAngles(Actor* apRef, Actor* apTargetRef)
                     {
                         if (0 == holder[k].flag)
                         {
-                            char val = FUN_009a98a0(flags, holder[k].dir);
+                            char val = FindSlot_009a98a0(flags, holder[k].dir);
                             if (val != -1)
                             {
                                 flags = ExpandFlagBits(flags, val);

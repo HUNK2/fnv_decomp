@@ -19,7 +19,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_01202770;
 
 // @fnv 0x00c2c800
-GlobalObjectO2_00a7b610* __cdecl FUN_00c2c800()
+// src: COMMUNITY 0x00c2c800
+GlobalObjectO2_00a7b610* __cdecl NiPSysDragFieldModifier_GetRTTI()
 {
     return &g_01202770;
 }
@@ -301,7 +302,7 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_01202770;
 extern char UNK_010bffd0;
 extern char UNK_01044b44;
-void* __cdecl FUN_00a7d330(void* object);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* object);
 void* __cdecl FUN_00a7d370(const void* key, unsigned int attribute);
 struct FNVObject195
 {
@@ -318,7 +319,7 @@ void __thiscall FNVObject195::FUN_00c2cec0(FNVArray195* pArray)
 {
     FNVArray195* const array = pArray;
     FUN_00c322b0(array);
-    void* value = FUN_00a7d330(g_01202770.object);
+    void* value = NiViewerStrings_NiGetViewerString_Title(g_01202770.object);
     unsigned int uiIndex = array->count;
     if (uiIndex >= array->capacity)
     {

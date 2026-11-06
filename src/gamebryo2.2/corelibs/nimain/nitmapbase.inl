@@ -154,7 +154,8 @@ FUN_00845690_Owner* FUN_00845690_Owner::Destructor(unsigned int flags)
 }
 
 // @fnv 0x006b7b30
-unsigned int FUN_006b7b30(NavMeshInfo* info)
+// src: COMMUNITY 0x006b7b30
+unsigned int NavMeshInfo_GetCellOrCoords(NavMeshInfo* info)
 {
  TESObjectCELL* cell = info->GetInteriorCell();
  if (cell)

@@ -495,10 +495,10 @@ struct NativeTransform
     float rotation[12];
     float translation[4];
 };
-void __cdecl FUN_00624b10(NiTransform*, NiPoint3*);
+void __cdecl HK2NI_00624b10(NiTransform*, NiPoint3*);
 void __cdecl FUN_00458620(NiPoint3*, const float*);
 extern NativeTransform DAT_01268370;
-char* __cdecl FUN_00a7d330(void*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 extern unsigned int DAT_0126fd98;
 extern __declspec(thread) unsigned int currentTask;
 inline AutoMemContext::AutoMemContext()
@@ -603,10 +603,10 @@ void Object::FUN_00c8cb20(StrArr* output)
 {
     AutoMemContext task;
     FUN_00c851c0(output);
-    output->append(FUN_00a7d330(*(void**)&g_012681b4));
+    output->append(NiViewerStrings_NiGetViewerString_Title(*(void**)&g_012681b4));
     const NativeTransform* world = this && state ? &state->world : &DAT_01268370;
     NiTransform transform;
-    FUN_00624b10(&transform, (NiPoint3*)world);
+    HK2NI_00624b10(&transform, (NiPoint3*)world);
     FUN_00458620(&transform.m_Translate, world->translation);
     output->append(transform.m_Translate.FUN_00a59af0("Trans"));
     output->append(transform.ToString("Rot"));
@@ -626,7 +626,7 @@ struct CB7800RTTI
     }
 };
 
-extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 
 struct CB7800Base
 {
@@ -645,7 +645,7 @@ void CB7800Object::FUN_00cb7800(StrArr* pkStrings)
 {
     AutoMemContext kScope(0x10);
     CB7800Base::GetViewerStrings(pkStrings);
-    char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(ms_kRTTI.GetName());
     (pkStrings->*static_cast<unsigned int (StrArr::*)(char*&)>(&StrArr::Add))(pcString);
 }
 
@@ -811,7 +811,7 @@ CollisionNodeStub* FUN_00c88210_cls::FUN_00c88210(unsigned int flags)
 
 extern const char* g_pcC882C0Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 
 class FUN_00c882c0_cls
 {
@@ -825,7 +825,7 @@ void FUN_00c882c0_cls::FUN_00c882c0(StrArr* pkArray)
 {
     AutoMemContext kScope(0x10);
     C882C0BaseGetViewerStrings(pkArray);
-    char* pcName = FUN_00a7d330(g_pcC882C0Name);
+    char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcC882C0Name);
     pkArray->append(static_cast<char* const&>(pcName));
 }
 
@@ -1164,11 +1164,12 @@ struct Owner
     virtual void f33();
     virtual void f34();
     virtual void AddElement(FUN_00d22590* e);
-    void FUN_00cab0e0(int a, int b, float c);
+    void bhkCapsuleShape_Init(int a, int b, float c);
 };
 
 // @fnv 0x00cab0e0
-void Owner::FUN_00cab0e0(int a, int b, float c)
+// src: COMMUNITY 0x00cab0e0
+void Owner::bhkCapsuleShape_Init(int a, int b, float c)
 {
     AutoMemContext scope(0x10);
     FUN_00d22590* e = new FUN_00d22590(a, b, c);
@@ -1179,7 +1180,7 @@ void Owner::FUN_00cab0e0(int a, int b, float c)
 namespace fnv_00cab8c0 {
 
 extern int DAT_0126832c;
-char* FUN_00a7d330(int s);
+char* NiViewerStrings_NiGetViewerString_Title(int s);
 struct S_00cab8c0_Owner
 {
     void FUN_00c9fc50(StrArr* a);
@@ -1190,7 +1191,7 @@ void S_00cab8c0_Owner::FUN_00cab8c0(StrArr* a)
 {
     AutoMemContext guard(0x10);
     FUN_00c9fc50(a);
-    char* s = FUN_00a7d330(DAT_0126832c);
+    char* s = NiViewerStrings_NiGetViewerString_Title(DAT_0126832c);
     unsigned idx = a->m_usSize;
     if (idx >= a->m_usMaxSize)
         a->SetSize(idx + a->m_usGrowBy);
@@ -2934,7 +2935,7 @@ namespace fnv_00cb8270 {
 
 struct S_00cb8270_MM
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 extern S_00cb8270_MM DAT_011f6238;
 
@@ -2947,7 +2948,7 @@ struct S_00cb8270_Array
 
     void* operator new(unsigned int sz)
     {
-        return DAT_011f6238.FUN_00aa3e40(sz);
+        return DAT_011f6238.Game_DoHeapAlloc(sz);
     }
     void operator delete(void*)
     {}

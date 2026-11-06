@@ -242,14 +242,15 @@ void NiTextureTransformController::Update(NiUpdateData& data)
 
 struct FUN_00a46480_shell : public NiTextureTransformController
 {
-    void* FUN_00a46480();
+    void* NiTextureTransformController_GetRTTI();
 };
 
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3f20;
 
 // @fnv 0x00a46480
-void* FUN_00a46480_shell::FUN_00a46480()
+// src: COMMUNITY 0x00a46480
+void* FUN_00a46480_shell::NiTextureTransformController_GetRTTI()
 {
     return &g_011f3f20;
 }

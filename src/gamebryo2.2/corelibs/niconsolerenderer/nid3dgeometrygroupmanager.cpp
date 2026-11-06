@@ -113,7 +113,7 @@ bool __fastcall RemoveScreenTexture(NiD3DGeometryGroupManager*, int, NiScreenTex
 }
 
 void __fastcall DestroyGeometryGroupManagerBase(NiD3DGeometryGroupManager*, int);
-void __cdecl FUN_00e94290();
+void __cdecl NiVBSet_DeleteBlocks();
 void __cdecl _NiFreeAlias(void*);
 // @fnv 0x00e88d60
 void __fastcall DestroyGeometryGroupManager(NiD3DGeometryGroupManager* manager, int)
@@ -127,7 +127,7 @@ void __fastcall DestroyGeometryGroupManager(NiD3DGeometryGroupManager* manager, 
         if (e)
             delete e;
     }
-    FUN_00e94290();
+    NiVBSet_DeleteBlocks();
     if (manager->m_10)
         manager->m_10->Release();
     _NiFreeAlias(manager->m_04);

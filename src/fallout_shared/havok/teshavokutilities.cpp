@@ -18,7 +18,7 @@ public:
     signed char GetByteAtOffset8C();
     bool HasCombatFlag(int);
     signed char FUN_0073cb80();
-    signed char FUN_00505c00();
+    signed char TESCombatStyle_GetPowerAttackF();
     signed char GetByteAtOffset9A();
     signed char GetByteAtOffset9B();
     signed char FUN_009e8670();
@@ -30,16 +30,17 @@ extern float DAT_0104e148;
 
 struct FUN_006295a0_shell
 {
-    void __thiscall FUN_004589c0(float);
-    void FUN_006295a0();
+    void __thiscall hkVector4_setAll(float);
+    void hkAabb_setEmpty();
 };
 
 // Calls FUN_004589c0 with DAT_0104da48 on this object and with DAT_0104e148 on the object at offset 0x10.
 // @fnv 0x006295a0
-void FUN_006295a0_shell::FUN_006295a0()
+// src: COMMUNITY 0x006295a0
+void FUN_006295a0_shell::hkAabb_setEmpty()
 {
-    FUN_004589c0(DAT_0104da48);
-    ((FUN_006295a0_shell*)((char*)this + 0x10))->FUN_004589c0(DAT_0104e148);
+    hkVector4_setAll(DAT_0104da48);
+    ((FUN_006295a0_shell*)((char*)this + 0x10))->hkVector4_setAll(DAT_0104e148);
 }
 
 float FUN_0062c300(NiAVObject* object);
@@ -100,12 +101,13 @@ extern Setting g_011d0d2c;
 extern Setting g_011d0f30;
 
 // @fnv 0x0062b520
-float FUN_0062b520(float value, bhkWorldObject* object, bool scale)
+// src: COMMUNITY 0x0062b520
+float TESHavokUtilities_ScaleGameplayImpulseForce(float value, bhkWorldObject* object, bool scale)
 {
     if (!object)
         return value;
     float fMultiplier = 1.0f;
-    bhkFilter layer = object->FUN_0043b4f0();
+    bhkFilter layer = object->bhkWorldObject_GetCollisionFilter();
     switch (layer.FUN_0043b4d0())
     {
     case 14:
@@ -137,7 +139,7 @@ float FUN_0062b520(float value, bhkWorldObject* object, bool scale)
 
 struct FUN_0043b5b0_shell
 {
-    void FUN_0043b5b0();
+    void hkpWorldObject_markForRead();
 };
 struct TgtOps
 {
@@ -145,7 +147,7 @@ struct TgtOps
 };
 struct FUN_0043b5f0_shell
 {
-    void FUN_0043b5f0();
+    void hkpWorldObject_unmarkForRead();
 };
 int __fastcall GetReferenceFlags(void*);
 struct FUN_0043b560_shell
@@ -161,9 +163,9 @@ void* FUN_0043b560_shell::GetSourceFilesFromObject()
         FUN_0043b5b0_shell* obj = reinterpret_cast<FUN_0043b5b0_shell*>(GetReferenceFlags(this));
         if (obj)
         {
-            obj->FUN_0043b5b0();
+            obj->hkpWorldObject_markForRead();
             result = reinterpret_cast<TgtOps*>(obj)->GetSourceFiles();
-            reinterpret_cast<FUN_0043b5f0_shell*>(obj)->FUN_0043b5f0();
+            reinterpret_cast<FUN_0043b5f0_shell*>(obj)->hkpWorldObject_unmarkForRead();
         }
     }
     return result;
@@ -174,7 +176,7 @@ void __cdecl FUN_0062bc10(NiAVObject* pObject)
 {
     if (pObject != 0)
     {
-        void* r = pObject->FUN_006838b0();
+        void* r = pObject->NiAVObject_GetCollisionObject();
         if (r != 0)
         {
             pObject->AssignCollisionObject(0);
@@ -523,7 +525,7 @@ void __cdecl SetCollisionScale(NiAVObject* node, unsigned int operation, float s
             PhysicsObject* body = reinterpret_cast<PhysicsObject*>(runtime->FUN_006fa820());
             if (body)
             {
-                int code = reinterpret_cast<bhkWorldObject*>(body)->FUN_0043b4f0().FUN_006240b0();
+                int code = reinterpret_cast<bhkWorldObject*>(body)->bhkWorldObject_GetCollisionFilter().FUN_006240b0();
                 float coefficient = DAT_0119acc8[code];
                 if (material && material->kind != -1)
                 {

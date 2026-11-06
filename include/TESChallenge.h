@@ -67,8 +67,8 @@ public:
     void MarkForSave();
     bool FUN_0060fd70();
     TESQuest* FUN_004fd380();
-    void FUN_005defe0(bool b);
-    void FUN_005f60e0(int amount);
+    void RemoveRecurringFromChallenge(bool b);
+    void IncrementProgress_005f60e0(int amount);
 
     ChallengeData data;
     union

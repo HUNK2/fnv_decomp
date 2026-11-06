@@ -226,7 +226,8 @@ inline void hkQuaternion::SetConjugate(const hkQuaternion& q)
 {
     reinterpret_cast<hkVector4*>(&unk00)->setNeg3(q.getImag());
 }
-inline void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
+// src: COMMUNITY 0x00c66320
+inline void hkQuaternion::setMul(const hkQuaternion& a, const hkQuaternion& b)
 {
     hkVector4 imaginary;
     imaginary.setCross(a.getImag(), b.getImag());

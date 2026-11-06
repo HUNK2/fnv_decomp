@@ -17,11 +17,12 @@
 
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int __thiscall bhkTransformShape_GetCInfoSize();
 };
 
 // @fnv 0x00622430
-unsigned int __thiscall FUN_00622430_shell::FUN_00622430()
+// src: COMMUNITY 0x00622430
+unsigned int __thiscall FUN_00622430_shell::bhkTransformShape_GetCInfoSize()
 {
     return 0x50;
 }
@@ -91,12 +92,12 @@ bool BSTreeNode::SetLeafTextureVariant(unsigned char acTest)
 }
 
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_GetTreesEnabled();
 // If FUN_0054ee20() returns nonzero, forwards the culling call to FUN_00a5dbe0 with arCuller.
 // @fnv 0x0066bf50
 void __thiscall BSTreeNode::OnVisible(NiCullingProcess& arCuller)
 {
-    if (FUN_0054ee20())
+    if (BSTreeManager_GetTreesEnabled())
     {
         reinterpret_cast<NiNode*>(this)->NiNode::OnVisible(arCuller);
     }
@@ -162,13 +163,14 @@ void FUN_0066d470_shell::FUN_0066d470()
 
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 
 extern const void* g_012683e0;
 
 // @fnv 0x0066d510
-const void* FUN_0066d510_shell::FUN_0066d510()
+// src: COMMUNITY 0x0066d510
+const void* FUN_0066d510_shell::bhkMultiSphereShape_GetRTTI()
 {
     return &g_012683e0;
 }
@@ -207,7 +209,8 @@ GlobalObjectO2_00a7b610* FUN_0066d610_shell::GetGlobalObject()
 }
 
 // @fnv 0x0066d730
-unsigned int __thiscall bhkCapsuleShape::FUN_0066d730() const
+// src: COMMUNITY 0x0066d730
+unsigned int __thiscall bhkCapsuleShape::retn_48() const
 {
     return 0x30;
 }
@@ -442,7 +445,7 @@ bool BSTreeNode::SetFrondTextureVariant(unsigned short type, unsigned char mode)
 
 struct NiCamera;
 extern double gModifierZero;
-extern "C" unsigned int __cdecl FUN_00552380();
+extern "C" unsigned int __cdecl BSTreeManager_GetCamera();
 extern bool __cdecl FUN_004b5fc0(NiAVObject*, NiCamera*);
 #include "../../../include/MEM_CONTEXT.h"
 // @fnv 0x0066bf80
@@ -450,11 +453,11 @@ void BSTreeNode::UpdateDownwardPass(NiUpdateData& data, unsigned int flags)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_TREEART, true,
                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeNode.cpp", 0x20d);
-    if (!FUN_0054ee20())
+    if (!BSTreeManager_GetTreesEnabled())
         return;
     if (data.fTime > gModifierZero)
     {
-        if (!FUN_004b5fc0((NiAVObject*)this, (NiCamera*)FUN_00552380()))
+        if (!FUN_004b5fc0((NiAVObject*)this, (NiCamera*)BSTreeManager_GetCamera()))
             return;
     }
     SetWindAmplitude(data.fTime);
@@ -571,11 +574,11 @@ void BSTreeNode::UpdateSelectedDownwardPass(NiUpdateData& kUpdate, unsigned int 
     AutoMemContext kMemContext(MEM_CONTEXT_MEM_CONTEXT_TREEART, true,
                                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeNode.cpp",
                                0x223);
-    if (!FUN_0054ee20())
+    if (!BSTreeManager_GetTreesEnabled())
         return;
     if (kUpdate.fTime > gModifierZero)
     {
-        if (!FUN_004b5fc0((NiAVObject*)this, (NiCamera*)FUN_00552380()))
+        if (!FUN_004b5fc0((NiAVObject*)this, (NiCamera*)BSTreeManager_GetCamera()))
             return;
     }
     SetWindAmplitude(kUpdate.fTime);
@@ -634,7 +637,7 @@ FUN_0066d590_cls::FUN_0066d590_cls(unsigned int a1)
 }
 
 extern "C" int __cdecl FUN_00406d00(char* text, unsigned size, const char* fmt, ...);
-extern "C" char* __cdecl FUN_00a7d330(const char* s);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* s);
 
 struct S_0066d880_List
 {
@@ -652,7 +655,7 @@ extern "C" void __cdecl FUN_00a5ea70();
 void BSTreeNode::GetViewerStrings(NiViewerStringsArray* list)
 {
     reinterpret_cast<void (__thiscall*)(NiNode*, void*)>(FUN_00a5ea70)(this, list);
-    char* name = FUN_00a7d330("BSTreeNode");
+    char* name = NiViewerStrings_NiGetViewerString_Title("BSTreeNode");
     reinterpret_cast<S_0066d880_List*>(list)->FUN_0096a610(&name);
     char* text;
     if (m_spModel.operator->())
@@ -676,7 +679,7 @@ void BSTreeNode::GetViewerStrings(NiViewerStringsArray* list)
 }
 
 extern void* __cdecl FUN_00aa13e0(unsigned int size);
-extern void* __cdecl FUN_00401000(unsigned int size);
+extern void* __cdecl FormHeap_Allocate(unsigned int size);
 extern float DAT_01016b78;
 extern void* __cdecl GetFltValueAtOffset16();
 
@@ -783,7 +786,7 @@ struct FUN_0051cf00
     unsigned int unkac;
     unsigned int unkb0;
     FUN_0051cf00();
-    void FUN_0051d000(int enabled);
+    void SetMode_0051d000(int enabled);
     void FUN_006404b0(float size, float a, float b, float c);
     static void* operator new(unsigned int size)
     {
@@ -851,7 +854,7 @@ BSTreeNode::BSTreeNode(void* initial, void* external) : m_spModel(0), m_spLeafMe
     NiNode::AddObjectAt(1, reinterpret_cast<NiAVObject*>(pkCurrentObject));
     FUN_0066b640* pController;
     FUN_0051cf00* controller = new FUN_0051cf00();
-    controller->FUN_0051d000(1);
+    controller->SetMode_0051d000(1);
     controller->FUN_006404b0(DAT_01016b78, 1.0f, 0.0f, 0.0f);
     NiNode::AddObjectAt(2, reinterpret_cast<NiAVObject*>(controller));
 

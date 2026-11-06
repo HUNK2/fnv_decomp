@@ -14,11 +14,12 @@
 #include "../../../../../include/hkQsTransform.h"
 
 extern int DAT_01268700;
-void __stdcall FUN_00ce1760(int, int, int);
+void __stdcall hkaRagdollInstance_getPoseWorldSpace(int, int, int);
 // @fnv 0x00ce18d0
-void __stdcall FUN_00ce18d0(int a)
+// src: COMMUNITY 0x00ce18d0
+void __stdcall hkaRagdollInstance_getPoseWorldSpace_00ce18d0(int a)
 {
-    FUN_00ce1760(a, (int)&DAT_01268700, 0);
+    hkaRagdollInstance_getPoseWorldSpace(a, (int)&DAT_01268700, 0);
 }
 
 struct FUN_00ce2430_Transform
@@ -241,7 +242,7 @@ struct FUN_00ce26f0_Class
     int unk04;
     FUN_00ce26f0_ObjectA* unk08;
 
-    void FUN_00ce18d0(FUN_00ce2430_Transform* a);
+    void hkaRagdollInstance_getPoseWorldSpace_00ce18d0(FUN_00ce2430_Transform* a);
     void ApplyValueToTransforms(float a, FUN_00ce2430_Transform* b);
     void hkaRagdollInstance_getApproxCurrentPoseWorldSpace(FUN_00ce2430_Transform* a);
 };
@@ -256,7 +257,7 @@ void FUN_00ce26f0_Class::hkaRagdollInstance_getApproxCurrentPoseWorldSpace(FUN_0
 
     if (target == 0)
     {
-        this->FUN_00ce18d0(apTransform);
+        this->hkaRagdollInstance_getPoseWorldSpace_00ce18d0(apTransform);
         return;
     }
 

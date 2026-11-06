@@ -39,7 +39,7 @@ extern "C"
 #include "../../../../../include/hkQuaternion.h"
 #include "../../../../../include/hkMemoryRouter.h"
 
-void __cdecl FUN_00ce5a70(hkQsTransform* out, const hkQsTransform* a, const hkQsTransform* b, int mode,
+void __cdecl hkaSkeletonMapperUtils_computeMappingTransform(hkQsTransform* out, const hkQsTransform* a, const hkQsTransform* b, int mode,
                           float weightA, float weightB);
 
 // @fnv 0x00ce5f90
@@ -47,7 +47,7 @@ void __cdecl FUN_00ce5a70(hkQsTransform* out, const hkQsTransform* a, const hkQs
 void __cdecl hkaSkeletonMapperUtils_computeMappingTransform_00ce5f90(hkQsTransform* out, const hkQsTransform* poseA, short boneA,
                           const hkQsTransform* poseB, short boneB, int mode, float weightA, float weightB)
 {
-    FUN_00ce5a70(out, &poseA[boneA], &poseB[boneB], mode, weightA, weightB);
+    hkaSkeletonMapperUtils_computeMappingTransform(out, &poseA[boneA], &poseB[boneB], mode, weightA, weightB);
 }
 
 #include <xmmintrin.h>
@@ -371,7 +371,7 @@ void FUN_00ce5fe0(const void* data, const hkaSkeleton* skelA, const hkQsTransfor
     *reinterpret_cast<LocalM128*>(&out->m_rotation) = *reinterpret_cast<const LocalM128*>(&rot);
     lenA = 1.0f / lenA;
     out->m_vScale.m_vComponents = _mm_set_ps1(lenA);
-    out->m_relRotation.FUN_00c74b70(poseA[boneA1].m_rotation, poseB[boneB1].m_rotation);
+    out->m_relRotation.hkQuaternion_setInverseMul(poseA[boneA1].m_rotation, poseB[boneB1].m_rotation);
 }
 }  // namespace fnv_00ce5fe0
 

@@ -84,7 +84,7 @@ extern xPC* xg_pc_11dea3c;
 struct xAudio
 {
     static xAudio* FUN_00453a70();
-    struct xSound FUN_00ad73b0(void*, unsigned int);
+    struct xSound GetSoundHandleByFormID_00ad73b0(void*, unsigned int);
 };
 struct xRefList
 {
@@ -213,7 +213,7 @@ xProj::xProj(xActorV* apA, int b, int c, int d, xP3 kP1, xP3 kP2)
             m_c8.FUN_00ad8d10();
         if (m_c0.FUN_00559450())
         {
-            m_c8 = xAudio::FUN_00453a70()->FUN_00ad73b0(NAME, 0x102);
+            m_c8 = xAudio::FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(NAME, 0x102);
             xP3 POS2 = *FUN_00436aa0();
             m_c8.FUN_00ad8b60(POS2.x, POS2.y, POS2.z);
             m_c8.FUN_00ad8f20(m_c0.FUN_00559450());

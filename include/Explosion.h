@@ -73,20 +73,20 @@ public:
 
     void WriteToSaveBuffer(BGSSaveFormBuffer* buffer);
     void FUN_009b22c0(BGSLoadFormBuffer* apLoadGameBuffer);
-    void FUN_009b25b0(void* apBuffer);
+    void InitLoadGame_009b25b0(void* apBuffer);
     void FUN_009b2770(BGSLoadFormBuffer* apLoadGameBuffer);
-    void FUN_009b2790(BGSLoadFormBuffer* apBuffer);
+    void RevertBGS_009b2790(BGSLoadFormBuffer* apBuffer);
 
     void FUN_009ae580(float afDelta);
     void Update3D(int iUnused);
     void UpdateExplosion();
     void UpdateCastSound();
-    void FUN_009b2940();
-    void FUN_009ad670();
+    void Explosion_TestExplosionUnderWater();
+    void Init3D();
     void FUN_009acd00();
-    void FUN_009b13a0();
+    void Explosion_UpdateRadiation();
     unsigned int FUN_009ad610();
     void FUN_009b1090();
     unsigned char GetByteAtOffsetD9();
-    void FUN_009ac170(ActorCause* apActorCause);
+    void SetActorCause_009ac170(ActorCause* apActorCause);
 };

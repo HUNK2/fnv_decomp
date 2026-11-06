@@ -212,10 +212,11 @@ class SlotHost
 class FUN_008f3550_cls : public SlotHost
 {
   public:
-    bool FUN_008f3550(SlotHost* a1, int a2);
+    bool HighProcess_ProcessSleepOneHour(SlotHost* a1, int a2);
 };
 // @fnv 0x008f3550
-bool FUN_008f3550_cls::FUN_008f3550(SlotHost* a1, int a2)
+// src: COMMUNITY 0x008f3550
+bool FUN_008f3550_cls::HighProcess_ProcessSleepOneHour(SlotHost* a1, int a2)
 {
     SlotHost* p = this->vf27c();
     if (p == 0)

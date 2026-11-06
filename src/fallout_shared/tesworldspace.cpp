@@ -129,9 +129,9 @@ void TESWorldSpace::ClearWorldSpaceReferences()
     ((BGSAcousticSpace*)this)->SetNightSound(0);
     ((TESObjectACTI*)this)->SetLoopingSound(0);
     ((EffectSetting*)this)->SetEffectShader(0);
-    FUN_00584150(0.0f);
-    FUN_00586110(DAT_01031920);
-    FUN_00586130(0.0f);
+    SetWaterLODHeight(0.0f);
+    SetDefaultLandHeight(DAT_01031920);
+    Projectile_SetPower(0.0f);
     ((TESFullName*)((char*)this + 0x24))->SetFullName((const char*)0);
     memset((char*)this + 0x80, 0, 16);
 }
@@ -162,12 +162,14 @@ void TESWorldSpace::SetFieldD0(unsigned int value)
     fieldD0 = value;
 }
 // @fnv 0x00586110
-void TESWorldSpace::FUN_00586110(float value)
+// src: COMMUNITY 0x00586110
+void TESWorldSpace::SetDefaultLandHeight(float value)
 {
     fC8 = value;
 }
 // @fnv 0x00586130
-void TESWorldSpace::FUN_00586130(float value)
+// src: COMMUNITY 0x00586130
+void TESWorldSpace::Projectile_SetPower(float value)
 {
     fCC = value;
 }
@@ -194,7 +196,8 @@ void TESWorldSpace::SetParent(TESWorldSpace* world)
         field4E = 0;
 }
 // @fnv 0x00588270
-void TESWorldSpace::FUN_00588270(BSSimpleArray<TESObjectREFR*, 1024>& doors)
+// src: COMMUNITY 0x00588270
+void TESWorldSpace::BuildTeleportDoorList(BSSimpleArray<TESObjectREFR*, 1024>& doors)
 {
     TESObjectCELL* cell = GetInteriorCell();
     if (cell)
@@ -254,7 +257,8 @@ int __fastcall _FNV_GetFormType(void*);
 
 // Returns true if apRef is non-null and its object reference's form type is one of the listed types.
 // @fnv 0x00587c80
-bool __cdecl FUN_00587c80(void* apRef)
+// src: COMMUNITY 0x00587c80
+bool __cdecl TESWorldSpace_IsFixedRef(void* apRef)
 {
     bool bretval = false;
     if (apRef && _FNV_GetObjectReference(apRef))
@@ -331,7 +335,8 @@ void __fastcall _ref_006815c0(void* pThis);
 
 // Calls _ref_006815c0 on the two sub-objects at offsets 4 and 0xC of pThis and returns pThis.
 // @fnv 0x00588c50
-char* __fastcall FUN_00588c50(char* pThis)
+// src: COMMUNITY 0x00588c50
+char* __fastcall TESWorldSpace_OFFSET_DATA_OFFSET_DATA(char* pThis)
 {
     _ref_006815c0(pThis + 4);
     _ref_006815c0(pThis + 0xC);
@@ -360,7 +365,8 @@ int* __fastcall NiTPointerMap_unsigned_int_BSSimpleList_TESObjectREFR_NiTPointer
 void __fastcall _ref_00726070(void*);
 
 // @fnv 0x006698d0
-void __fastcall FUN_006698d0(char* pThis)
+// src: COMMUNITY 0x006698d0
+void __fastcall TESPackage_GetOnChangeIdle(char* pThis)
 {
     _ref_00726070(pThis + 0x6c);
 }
@@ -434,16 +440,17 @@ struct MapH
 {
     bool RemoveAt(unsigned int);
 };
-bool __cdecl FUN_00587c80(void*);
+bool __cdecl TESWorldSpace_IsFixedRef(void*);
 // @fnv 0x00587e40
-void TESWorldSpace::FUN_00587e40(TESObjectREFR* apRef)
+// src: COMMUNITY 0x00587e40
+void TESWorldSpace::RemoveFromPersistentRefData(TESObjectREFR* apRef)
 {
     unsigned int ikey;
     WorldReferenceList<const char*>* preflist;
     if (apRef && !apRef->IsTemporary())
     {
         g_011ca60c.QueryPerformanceCounter(0);
-        if (!FUN_00587c80(apRef))
+        if (!TESWorldSpace_IsFixedRef(apRef))
         {
             ((ListH*)((char*)this + 0x60))->_ref_00905330(&apRef);
         }
@@ -492,14 +499,14 @@ extern unsigned char DAT_0118730c;
 
 struct WorldSpaceFileMethods : TESWorldSpace
 {
-    FormIDData* __thiscall FUN_00588a90(TESFile* apFile);
+    FormIDData* __thiscall TESWorldSpace_GetOffsetData(TESFile* apFile);
     bool IsFileFormIDMatching(TESFile* apFile);
 };
 
 // @fnv 0x005858b0
 bool WorldSpaceFileMethods::IsFileFormIDMatching(TESFile* apFile)
 {
-    FormIDData* pdata = FUN_00588a90(apFile);
+    FormIDData* pdata = TESWorldSpace_GetOffsetData(apFile);
     if (apFile && apFile->IsMasterFile() && pdata && pdata->formID)
     {
         if (apFile->SetOffset(pdata->formID))
@@ -516,10 +523,11 @@ bool WorldSpaceFileMethods::IsFileFormIDMatching(TESFile* apFile)
 
 // Returns the climate of the parent world if one exists, otherwise the climate stored at offset 0x40 of this world space.
 // @fnv 0x00585fe0
-TESClimate* TESWorldSpace::FUN_00585fe0()
+// src: COMMUNITY 0x00585fe0
+TESClimate* TESWorldSpace::GetClimate()
 {
     if (GetParentWorld(PARENT_USE_FLAG(4)))
-        return GetParentWorld(PARENT_USE_FLAG(4))->FUN_00585fe0();
+        return GetParentWorld(PARENT_USE_FLAG(4))->GetClimate();
     return climate;
 }
 
@@ -554,7 +562,7 @@ struct WorldSpaceFlagMethods : TESWorldSpace
     void SetFlag8(bool);
     bool IsFlagSet();
     char IsFlag80Set();
-    bool FUN_00586320();
+    bool TESWorldSpace_IsAllowNPCFallDamage();
 };
 
 // @fnv 0x00586210
@@ -617,7 +625,8 @@ char WorldSpaceFlagMethods::IsFlag80Set()
 }
 
 // @fnv 0x00586320
-bool WorldSpaceFlagMethods::FUN_00586320()
+// src: COMMUNITY 0x00586320
+bool WorldSpaceFlagMethods::TESWorldSpace_IsAllowNPCFallDamage()
 {
     if ((*(unsigned char*)((char*)this + 0x4c) & 0x40) != 0)
         return false;
@@ -641,7 +650,8 @@ const char* TESWorldSpace::FUN_00586440()
 extern StartMenu g_011ca130;
 
 // @fnv 0x00586980
-char const* FUN_00586980()
+// src: COMMUNITY 0x00586980
+char const* TESObjectCELL_GetDefaultCellName()
 {
     return reinterpret_cast<const char*>(g_011ca130.GetMenuTitle());
 }
@@ -679,10 +689,11 @@ extern "C"
 extern TESWaterForm* DAT_011ca53c;
 
 // @fnv 0x00586070
-TESWaterForm* __fastcall FUN_00586070(TESWorldSpace* apWorldSpace)
+// src: COMMUNITY 0x00586070
+TESWaterForm* __fastcall TESWorldSpace_GetWaterType(TESWorldSpace* apWorldSpace)
 {
     if (apWorldSpace->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)3))
-        return FUN_00586070(apWorldSpace->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)3));
+        return TESWorldSpace_GetWaterType(apWorldSpace->GetParentWorld((TESWorldSpace::PARENT_USE_FLAG)3));
     if (*(TESWorldSpace**)((char*)apWorldSpace + 0x74))
         return (TESWaterForm*)*(TESWorldSpace**)((char*)apWorldSpace + 0x74);
     return DAT_011ca53c;
@@ -697,12 +708,13 @@ struct FUN_0054b8c0_shell
 
 struct WorldSpaceStaticReferenceMethods : TESWorldSpace
 {
-    void FUN_00588520(WorldReferenceList<const char*>*);
+    void TESWorldSpace_AddAudioMarkersToList(WorldReferenceList<const char*>*);
 };
 
 // If list is non-null, gets the interior cell from this world space and forwards the list to the cell's method.
 // @fnv 0x00588520
-void __thiscall WorldSpaceStaticReferenceMethods::FUN_00588520(WorldReferenceList<const char*>* list)
+// src: COMMUNITY 0x00588520
+void __thiscall WorldSpaceStaticReferenceMethods::TESWorldSpace_AddAudioMarkersToList(WorldReferenceList<const char*>* list)
 {
     if (list)
     {
@@ -754,20 +766,21 @@ struct FUN_004f6fc0_shell
 };
 struct FUN_004f6850_shell
 {
-    void FUN_004f6850(void*, FUN_004f6fc0_shell*, void*);
+    void TESRegionList_GetDerivedData(void*, FUN_004f6fc0_shell*, void*);
 };
 struct FUN_004f6800_shell
 {
-    void FUN_004f6800(void*, float*, void*);
+    void TESRegionList_GetDerivedData_(void*, float*, void*);
 };
 // @fnv 0x004f6800
-void FUN_004f6800_shell::FUN_004f6800(void* a1, float* a2, void* a3)
+// src: COMMUNITY 0x004f6800
+void FUN_004f6800_shell::TESRegionList_GetDerivedData_(void* a1, float* a2, void* a3)
 {
     FUN_004f6fc0_shell tmp;
     tmp.FUN_004f6fc0();
     ((AlphaColor*)&tmp)->FUN_0052ce20(a2[0]);
     ((Modifier*)&tmp)->SetValue(a2[1]);
-    ((FUN_004f6850_shell*)this)->FUN_004f6850(a1, &tmp, a3);
+    ((FUN_004f6850_shell*)this)->TESRegionList_GetDerivedData(a1, &tmp, a3);
 }
 
 struct FUN_00528560_Host
@@ -820,14 +833,15 @@ struct FormIDData
 
 struct WorldSpaceFileMethods : TESWorldSpace
 {
-    FormIDData* FUN_00588a90(TESFile*);
-    int FUN_00584530(TESFile* file, int x, int y);
+    FormIDData* TESWorldSpace_GetOffsetData(TESFile*);
+    int TESWorldSpace_GetIndexForCellCoord(TESFile* file, int x, int y);
 };
 
 // @fnv 0x00584530
-int WorldSpaceFileMethods::FUN_00584530(TESFile* file, int x, int y)
+// src: COMMUNITY 0x00584530
+int WorldSpaceFileMethods::TESWorldSpace_GetIndexForCellCoord(TESFile* file, int x, int y)
 {
-    FormIDData* pdata = FUN_00588a90(file);
+    FormIDData* pdata = TESWorldSpace_GetOffsetData(file);
     if (!pdata)
         return -1;
     int iminX = (int)pdata->f4 >> 12;
@@ -844,10 +858,11 @@ class TESWaterForm;
 extern TESWaterForm* DAT_011ca53c;
 
 // @fnv 0x005860c0
-TESWaterForm* TESWorldSpace::FUN_005860c0()
+// src: COMMUNITY 0x005860c0
+TESWaterForm* TESWorldSpace::GetLODWaterType()
 {
     if (GetParentWorld(TESWorldSpace::PU_LOD))
-        return GetParentWorld(TESWorldSpace::PU_LOD)->FUN_005860c0();
+        return GetParentWorld(TESWorldSpace::PU_LOD)->GetLODWaterType();
     if (lodWater)
         return lodWater;
     return DAT_011ca53c;
@@ -903,11 +918,12 @@ template <class T> struct WorldReferenceList
 };
 struct OverlapHolder : TESWorldSpace
 {
-    WorldReferenceList<TESObjectREFR*>* FUN_00587870(TESObjectCELL* apCell);
+    WorldReferenceList<TESObjectREFR*>* TESWorldSpace_GetOverlappedMultiBoundRefs(TESObjectCELL* apCell);
 };
 // Looks up the cell's key in map68 and returns the stored TESObjectREFR list, or null if map68 is unset.
 // @fnv 0x00587870
-WorldReferenceList<TESObjectREFR*>* OverlapHolder::FUN_00587870(TESObjectCELL* apCell)
+// src: COMMUNITY 0x00587870
+WorldReferenceList<TESObjectREFR*>* OverlapHolder::TESWorldSpace_GetOverlappedMultiBoundRefs(TESObjectCELL* apCell)
 {
     WorldReferenceList<TESObjectREFR*>* preflist = 0;
     unsigned int ikey;
@@ -922,11 +938,12 @@ WorldReferenceList<TESObjectREFR*>* OverlapHolder::FUN_00587870(TESObjectCELL* a
 
 struct WorldSpaceCellMoveMethods : TESWorldSpace
 {
-    void FUN_00588120();
+    void TESWorldSpace_AddPersistentReferences();
 };
 // Gets the interior cell from this worldspace and, if one exists, calls MoveReferencesToWorldCells on it with this worldspace.
 // @fnv 0x00588120
-void WorldSpaceCellMoveMethods::FUN_00588120()
+// src: COMMUNITY 0x00588120
+void WorldSpaceCellMoveMethods::TESWorldSpace_AddPersistentReferences()
 {
     TESObjectCELL* cell = ((TESWorldSpace*)this)->GetInteriorCell();
     if (cell)
@@ -935,11 +952,12 @@ void WorldSpaceCellMoveMethods::FUN_00588120()
 
 struct CellProxy
 {
-    void FUN_0054b830(TESObjectREFR*);
+    void TESObjectCELL_GetMarkerDataRefs(TESObjectREFR*);
 };
 // If a1 is non-null and the world space has an interior cell, forwards a1 to that cell's FUN_0054b830.
 // @fnv 0x005884e0
-void TESWorldSpace::FUN_005884e0(TESObjectREFR* apRef)
+// src: COMMUNITY 0x005884e0
+void TESWorldSpace::GetCurrentCellMarkerDataRefs(TESObjectREFR* apRef)
 {
     TESObjectCELL* cell;
     if (apRef != 0)
@@ -947,7 +965,7 @@ void TESWorldSpace::FUN_005884e0(TESObjectREFR* apRef)
         cell = GetInteriorCell();
         if (cell != 0)
         {
-            reinterpret_cast<CellProxy*>(cell)->FUN_0054b830(apRef);
+            reinterpret_cast<CellProxy*>(cell)->TESObjectCELL_GetMarkerDataRefs(apRef);
         }
     }
 }
@@ -959,10 +977,11 @@ struct FormIDData
 };
 struct WorldSpaceFileLookupMethods : TESWorldSpace
 {
-    FormIDData* FUN_00588a90(TESFile* file);
+    FormIDData* TESWorldSpace_GetOffsetData(TESFile* file);
 };
 // @fnv 0x00588a90
-FormIDData* WorldSpaceFileLookupMethods::FUN_00588a90(TESFile* file)
+// src: COMMUNITY 0x00588a90
+FormIDData* WorldSpaceFileLookupMethods::TESWorldSpace_GetOffsetData(TESFile* file)
 {
     FormIDData* result = 0;
     TESFile* current = file;
@@ -1047,17 +1066,18 @@ struct FileH
 };
 struct WorldSpaceFileMethods : TESWorldSpace
 {
-    FileH* FUN_00588a90(int);
+    FileH* TESWorldSpace_GetOffsetData(int);
 };
 struct WorldSpaceOffsetMethods : WorldSpaceFileMethods
 {
-    int FUN_00584530(int, int, int);
-    void FUN_005857b0(int a, int b);
+    int TESWorldSpace_GetIndexForCellCoord(int, int, int);
+    void TESWorldSpace_AdjustCellOffsets(int a, int b);
 };
 // @fnv 0x005857b0
-void WorldSpaceOffsetMethods::FUN_005857b0(int a, int aiDelta)
+// src: COMMUNITY 0x005857b0
+void WorldSpaceOffsetMethods::TESWorldSpace_AdjustCellOffsets(int a, int aiDelta)
 {
-    FileH* p = FUN_00588a90(a);
+    FileH* p = TESWorldSpace_GetOffsetData(a);
     if (p && p->m_uiData && aiDelta)
     {
         int i2 = (int)p->m_fVectorY >> 12;
@@ -1068,7 +1088,7 @@ void WorldSpaceOffsetMethods::FUN_005857b0(int a, int aiDelta)
         {
             for (int j = i3; j <= i0; j++)
             {
-                int k = FUN_00584530(a, i, j);
+                int k = TESWorldSpace_GetIndexForCellCoord(a, i, j);
                 if (k >= 0 && ((int*)p->m_uiData)[k])
                     ((int*)p->m_uiData)[k] += aiDelta;
             }
@@ -1140,7 +1160,8 @@ void __cdecl _Deallocate(void*);
 }  // namespace fnv_00588c80
 
 // @fnv 0x00588c80
-void TESWorldSpace::FUN_00588c80()
+// src: COMMUNITY 0x00588c80
+void TESWorldSpace::FreeOffsetMap()
 {
 
     void* iterA = ((fnv_00588c80::MapX*)((char*)this + 0xb0))->GetFirstPos();
@@ -1451,7 +1472,8 @@ struct RefAt48
     void* FUN_0040f2a0(int deletionFlags);
 };
 // @fnv 0x00583180
-void TESWorldSpace::FUN_00583180()
+// src: COMMUNITY 0x00583180
+void TESWorldSpace::ClearData_00583180()
 {
     reinterpret_cast<HelperAt6c*>(&m_kFourthTreeComponent)->FUN_0066b0d0(0);
     RefAt48* node = reinterpret_cast<RefAt48*>(data);
@@ -1527,8 +1549,8 @@ extern unsigned int DAT_011872b4;
 extern unsigned int DAT_01187338;
 struct WorldSpaceCellReadMethods : TESWorldSpace
 {
-    Offsets* FUN_00588a90(TESFile*);
-    int FUN_00584530(TESFile*, int, int);
+    Offsets* TESWorldSpace_GetOffsetData(TESFile*);
+    int TESWorldSpace_GetIndexForCellCoord(TESFile*, int, int);
     bool SeekToCellInWorld(TESFile*, int, int);
 };
 // Seeks the file to the world block/sub-block for cell (x,y), scanning group headers and cell chunks until the matching cell is found.
@@ -1537,10 +1559,10 @@ bool WorldSpaceCellReadMethods::SeekToCellInWorld(TESFile* file, int x, int y)
 {
     if (file && file->IsMasterFile())
     {
-        Offsets* offsets = FUN_00588a90(file);
+        Offsets* offsets = TESWorldSpace_GetOffsetData(file);
         if (offsets && offsets->offsets)
         {
-            int index = FUN_00584530(file, x, y);
+            int index = TESWorldSpace_GetIndexForCellCoord(file, x, y);
             if (index != -1)
             {
                 unsigned int offset = offsets->offsets[index];
@@ -1651,7 +1673,8 @@ struct FUN_005877e0_Val5
 
 // If Probe fails, iterates cellMap calling v4(1) on each entry, then always calls Done on cellMap.
 // @fnv 0x005877e0
-void TESWorldSpace::FUN_005877e0()
+// src: COMMUNITY 0x005877e0
+void TESWorldSpace::ClearCellMap()
 {
     if (!IsWorldCellMapShared(this))
     {
@@ -1710,7 +1733,7 @@ void WorldPointTransformMethods::TransformWorldPoint(NiPoint3* apPoint, bool abI
 
 struct WorldTerrain
 {
-    void FUN_006fca70();
+    void BGSTerrainManager_DestroyNodeAndChildren();
     ~WorldTerrain();
 };
 struct WorldLandMap
@@ -1732,17 +1755,17 @@ TESWorldSpace::~TESWorldSpace()
     DestroyMapEntries();
     if (terrain)
     {
-        reinterpret_cast<WorldTerrain*>(terrain)->FUN_006fca70();
+        reinterpret_cast<WorldTerrain*>(terrain)->BGSTerrainManager_DestroyNodeAndChildren();
         delete reinterpret_cast<WorldTerrain*>(terrain);
         terrain = 0;
     }
-    FUN_00583180();
-    FUN_005877e0();
+    ClearData_00583180();
+    ClearCellMap();
     delete cellMap;
     cellMap = 0;
     delete reinterpret_cast<WorldLandMap*>(m_pCell);
     m_pCell = 0;
-    FUN_00588c80();
+    FreeOffsetMap();
 }
 
 struct BoundsPoint
@@ -1854,13 +1877,13 @@ void FUN_00485910(unsigned int, unsigned int);
 void _FUN_00485910(unsigned int, float);
 void FUN_00485950(unsigned int, unsigned int);
 void AppendChunk(unsigned int, void*, unsigned int);
-void FUN_004858f0(unsigned int, unsigned char);
+void TESForm_AddChunk_3(unsigned int, unsigned char);
 void FUN_00485710(unsigned int, unsigned int*, unsigned int);
 void FUN_004856f0(unsigned int, void*, unsigned int);
 // Saving helpers missing from the shared header; all fields come from TESWorldSpace.
 struct WorldSpaceSaveMethods : TESWorldSpace
 {
-    ::SaveForm* FUN_00586070();
+    ::SaveForm* TESWorldSpace_GetWaterType();
     float FUN_0045cd80();
     ::SaveForm* FUN_008041a0();
     ::SaveForm* FUN_00586150();
@@ -1884,19 +1907,19 @@ void WorldSpaceSaveMethods::FUN_00584170()
         FUN_00485910(0x4d414e57, formID);
         FUN_00485950(0x4d414e50, field4E);
     }
-    if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(4)) && FUN_00585fe0())
+    if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(4)) && GetClimate())
     {
-        formID = reinterpret_cast<::SaveForm*>(FUN_00585fe0())->GetFormID();
+        formID = reinterpret_cast<::SaveForm*>(GetClimate())->GetFormID();
         FUN_00485910(0x4d414e43, formID);
     }
-    if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(3)) && FUN_00586070())
+    if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(3)) && TESWorldSpace_GetWaterType())
     {
-        formID = FUN_00586070()->GetFormID();
+        formID = TESWorldSpace_GetWaterType()->GetFormID();
         FUN_00485910(0x324d414e, formID);
     }
-    if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(1)) && FUN_005860c0())
+    if (!GetParentUseFlag(static_cast<PARENT_USE_FLAG>(1)) && GetLODWaterType())
     {
-        formID = reinterpret_cast<::SaveForm*>(FUN_005860c0())->GetFormID();
+        formID = reinterpret_cast<::SaveForm*>(GetLODWaterType())->GetFormID();
         FUN_00485910(0x334d414e, formID);
         _FUN_00485910(0x344d414e, FUN_0045cd80());
     }
@@ -1930,7 +1953,7 @@ void WorldSpaceSaveMethods::FUN_00584170()
         formID = FUN_008041a0()->GetFormID();
         FUN_00485910(0x4d414e49, formID);
     }
-    FUN_004858f0(0x41544144, flags4C);
+    TESForm_AddChunk_3(0x41544144, flags4C);
     FUN_00485710(0x304d414e, &(*reinterpret_cast<unsigned int*>(&m_kFirstPoint.x)), 2);
     FUN_00485710(0x394d414e, &(*reinterpret_cast<unsigned int*>(&m_kEndPoint.x)), 2);
     if (FUN_00586150())
@@ -2116,16 +2139,16 @@ struct CellOffsetData
     float minX, minY, maxX, maxY;
     unsigned int baseOffset;
 };
-void* FUN_00401000(unsigned int);
-void FUN_00401030(void*);
-void FUN_00403d30(void*, int, unsigned int);
-int FUN_00404dc0(const char*, const char*);
+void* FormHeap_Allocate(unsigned int);
+void FormHeapFreeAndLog_00401030(void*);
+void ourMemset(void*, int, unsigned int);
+int BSstricmp(const char*, const char*);
 struct WorldSpaceEditorLookupMethods : TESWorldSpace
 {
     unsigned int GetSourceFileCount();
     TESFile* FUN_00484e60(unsigned int);
-    CellOffsetData* FUN_00588a90(TESFile*);
-    int FUN_00584530(TESFile*, int, int);
+    CellOffsetData* TESWorldSpace_GetOffsetData(TESFile*);
+    int TESWorldSpace_GetIndexForCellCoord(TESFile*, int, int);
     bool FindCellByEditorID(const char*, int*, int*);
 };
 // Scans every loaded worldspace cell grid for a cell whose EDID chunk matches editorID, writing its grid coordinates to outX/outY and returning true when found.
@@ -2136,7 +2159,7 @@ bool WorldSpaceEditorLookupMethods::FindCellByEditorID(const char* editorID, int
     for (unsigned int i = 0; i < count; i++)
     {
         TESFile* data = FUN_00484e60(i)->GetParentTESFile();
-        CellOffsetData* file = FUN_00588a90(data);
+        CellOffsetData* file = TESWorldSpace_GetOffsetData(data);
         if (file)
         {
             int minX = ((int)file->minX) >> 12;
@@ -2147,7 +2170,7 @@ bool WorldSpaceEditorLookupMethods::FindCellByEditorID(const char* editorID, int
             {
                 for (int y = maxY; y <= maxX; y++)
                 {
-                    int index = FUN_00584530(data, x, y);
+                    int index = TESWorldSpace_GetIndexForCellCoord(data, x, y);
                     if (index != -1)
                     {
                         unsigned int offset = file->offsets[index];
@@ -2160,17 +2183,17 @@ bool WorldSpaceEditorLookupMethods::FindCellByEditorID(const char* editorID, int
                                 if (chunkID == 0x44494445)
                                 {
                                     unsigned int uiBufferSize = data->GetField25C() + 1;
-                                    char* size = (char*)FUN_00401000(uiBufferSize);
-                                    FUN_00403d30(size, 0, uiBufferSize);
+                                    char* size = (char*)FormHeap_Allocate(uiBufferSize);
+                                    ourMemset(size, 0, uiBufferSize);
                                     data->FUN_00472890(size, 0);
-                                    if (!FUN_00404dc0(size, editorID))
+                                    if (!BSstricmp(size, editorID))
                                     {
                                         *outX = x;
                                         *outY = y;
-                                        FUN_00401030(size);
+                                        FormHeapFreeAndLog_00401030(size);
                                         return true;
                                     }
-                                    FUN_00401030(size);
+                                    FormHeapFreeAndLog_00401030(size);
                                 }
                             }
                         }
@@ -2190,7 +2213,7 @@ struct CellOperations : CellRuntimeMethods
     void FUN_00544300(bool);
     void SetExteriorCellCoordinates(int, int);
     bool FUN_00550500(TESFile*);
-    void FUN_00551440(bool);
+    void TESObjectCELL_SetHasTempData(bool);
 };
 struct SaveLoadOperations
 {
@@ -2248,7 +2271,7 @@ CellOperations* WorldSpaceCellLoadMethods::FUN_00585b30(int x, int y)
         }
         if (p)
         {
-            p->FUN_00551440(true);
+            p->TESObjectCELL_SetHasTempData(true);
             bool loading = DAT_011de45c->FUN_0047c850();
             DAT_011de45c->FUN_004534f0(!loading);
             ((void(__thiscall*)(TESObjectCELL*))(*(void***)p)[34])(p);
@@ -2436,7 +2459,7 @@ struct RegionForm
     virtual unsigned char Value118();
     virtual void v119();
     virtual unsigned char Value120();
-    const char* FUN_0050a550();
+    const char* TESGrass_GetModelPath();
     unsigned int FUN_0084e3a0();
 };
 struct Region
@@ -2484,7 +2507,7 @@ struct Selection
 };
 struct CellRegions
 {
-    void* FUN_004f6800(int, RegionSamplePoint const&, TESWorldSpace*);
+    void* TESRegionList_GetDerivedData_(int, RegionSamplePoint const&, TESWorldSpace*);
 };
 struct CellProxyNew
 {
@@ -2510,7 +2533,7 @@ struct RegionResult
     float samples[9];
 };
 int __cdecl FUN_00406d00(char*, int, const char*, ...);
-float __cdecl FUN_0053ca40();
+float __cdecl TESGrass_GetWaveOffsetRange();
 struct WorldSpaceRegionMethods : TESWorldSpace
 {
     void BuildRegionResults(float, float, float, float, RegionResult*, unsigned);
@@ -2543,7 +2566,7 @@ void WorldSpaceRegionMethods::BuildRegionResults(float minX, float minY, float m
         s[i].z = 0;
     }
     Selection* eb =
-        reinterpret_cast<Selection*>(g_dataHandler->GetRegionDataManager())->Select(e->GetRegionList(true)->FUN_004f6800(6, h, this));
+        reinterpret_cast<Selection*>(g_dataHandler->GetRegionDataManager())->Select(e->GetRegionList(true)->TESRegionList_GetDerivedData_(6, h, this));
     if (!eb)
         return;
     GlobalObject_0096a2d0* cf = new GlobalObject_0096a2d0;
@@ -2608,7 +2631,7 @@ void WorldSpaceRegionMethods::BuildRegionResults(float minX, float minY, float m
         if (results[p].name)
             delete[] results[p].name;
         char* name = new char[260];
-        FUN_00406d00(name, 260, "data/meshes/%s", a->FUN_0050a550());
+        FUN_00406d00(name, 260, "data/meshes/%s", a->TESGrass_GetModelPath());
         results[p].name = name;
         results[p].formID = a->FUN_0084e3a0();
         results[p].a = a->Value108();
@@ -2618,7 +2641,7 @@ void WorldSpaceRegionMethods::BuildRegionResults(float minX, float minY, float m
         results[p].e = a->Value116();
         results[p].f = a->Value118();
         results[p].g = a->Value120();
-        results[p].time = FUN_0053ca40();
+        results[p].time = TESGrass_GetWaveOffsetRange();
         ba = ba->FUN_00726070();
     }
     for (i = 0; i < 9; i++)
@@ -2795,7 +2818,7 @@ struct QueryPoint2
 struct WorldSpacePointQueryMethods;
 struct AreaQuery
 {
-    bool FUN_004f8360(const QueryPoint2* point);
+    bool TESRegionPointList_IsInsideRegion(const QueryPoint2* point);
 };
 struct CellQuery;
 template <class T> struct QueryLink
@@ -2814,7 +2837,7 @@ struct CellQueryNode : QueryNodeHeader, QueryLink<CellQuery>
 };
 struct QueryData
 {
-    CellQueryNode* FUN_004169d0();
+    CellQueryNode* TESDataHandler_GetRegionList();
 };
 extern QueryData* g_011c3f2c;
 struct CellQuery
@@ -2837,7 +2860,7 @@ bool WorldSpacePointQueryMethods::ContainsPoint(const NiPoint3* position)
         return true;
     QueryPoint2 point3(position->x, position->y);
     bool found = false;
-    CellQueryNode* node2 = g_011c3f2c->FUN_004169d0();
+    CellQueryNode* node2 = g_011c3f2c->TESDataHandler_GetRegionList();
     while (node2 && *node2->FUN_006815c0())
     {
         CellQuery* cell2 = *node2->FUN_006815c0();
@@ -2847,7 +2870,7 @@ bool WorldSpacePointQueryMethods::ContainsPoint(const NiPoint3* position)
             while (link && *link->FUN_006815c0())
             {
                 AreaQuery* area = *link->FUN_006815c0();
-                if (area->FUN_004f8360(&point3))
+                if (area->TESRegionPointList_IsInsideRegion(&point3))
                     found = true;
                 link = link->FUN_00726070();
             }
@@ -2999,7 +3022,7 @@ class WorldSpaceLoadMethods : public TESWorldSpace
     void FUN_00442a80(unsigned int);
     void SetAssociatedActorValue(unsigned int);
     bool FUN_00484e40();
-    bool FUN_00583560(TESFile*);
+    bool TESWorldSpace_Load(TESFile*);
 };
 
 struct EndianFlag583
@@ -3007,7 +3030,8 @@ struct EndianFlag583
     bool value;
 };
 // @fnv 0x00583560
-bool WorldSpaceLoadMethods::FUN_00583560(TESFile* file)
+// src: COMMUNITY 0x00583560
+bool WorldSpaceLoadMethods::TESWorldSpace_Load(TESFile* file)
 {
     int chunk;
     unsigned char type = file->GetTESForm();
@@ -3104,7 +3128,7 @@ bool WorldSpaceLoadMethods::FUN_00583560(TESFile* file)
         case 0x344d414e: {
             float value = 0;
             file->GetChunkData(reinterpret_cast<unsigned int*>(&value));
-            FUN_00584150(value);
+            SetWaterLODHeight(value);
             break;
         }
         case 0x4d414e57: {
@@ -3373,8 +3397,8 @@ class RefObj
     virtual void v123();
     virtual void v124();
     virtual Pt* v125();
-    bool FUN_00439f90();
-    Pt* FUN_00569880();
+    bool TESObjectREFR_IsMultiBoundRef();
+    Pt* TESObjectREFR_GetMultiBoundHalfExtent();
 };
 bool BoundIntersectsCell(RefObj*, int, int);
 int TruncateFloatToInt(float);
@@ -3390,9 +3414,9 @@ void WorldSpaceOverlapMethods::FUN_005878d0(RefObj* pRef)
 {
     if (pRef)
     {
-        if (pRef->FUN_00439f90())
+        if (pRef->TESObjectREFR_IsMultiBoundRef())
         {
-            Pt ptPos3 = *pRef->FUN_00569880();
+            Pt ptPos3 = *pRef->TESObjectREFR_GetMultiBoundHalfExtent();
             float fLen7 = ptPos3.Length();
             int iXMin5 = TruncateFloatToInt(pRef->v125()->x - fLen7) >> 12;
             int iYMin8 = TruncateFloatToInt(pRef->v125()->y - fLen7) >> 12;
@@ -3442,14 +3466,14 @@ struct Point65
 };
 struct Area65
 {
-    bool FUN_004f8360(const Point65&);
+    bool TESRegionPointList_IsInsideRegion(const Point65&);
 };
 struct AreaList65
 {
     Area65** FUN_006815c0();
     AreaList65* FUN_00726070();
     bool FUN_008256d0();
-    void* FUN_004f6800(int, const Pos65&, void*);
+    void* TESRegionList_GetDerivedData_(int, const Pos65&, void*);
 };
 struct Data65
 {
@@ -3489,7 +3513,7 @@ struct RegionHead65 : RegionPrefix65, RegionNode65
 };
 struct Type65
 {
-    void* FUN_004f35b0(int);
+    void* TESRegionDataList_Find(int);
 };
 struct Cell65
 {
@@ -3526,7 +3550,7 @@ bool WorldSpacePositionNameMethods::FUN_00586500(BSStringT<char>* output, Pos65 
     if (cellVal)
     {
         data7 = cellVal->FUN_00547110(true) ? reinterpret_cast<Manager65*>(g_dataHandler->GetRegionDataManager())
-                                                  ->v10(cellVal->FUN_00547110(true)->FUN_004f6800(4, pos, this))
+                                                  ->v10(cellVal->FUN_00547110(true)->TESRegionList_GetDerivedData_(4, pos, this))
                                             : 0;
         if (data7)
             data7->v28(output);
@@ -3554,7 +3578,7 @@ bool WorldSpacePositionNameMethods::FUN_00586500(BSStringT<char>* output, Pos65 
                 continue;
             }
             data7 = reinterpret_cast<Manager65*>(g_dataHandler->GetRegionDataManager())
-                        ->v10(((Type65*)region4->GetDataList())->FUN_004f35b0(4));
+                        ->v10(((Type65*)region4->GetDataList())->TESRegionDataList_Find(4));
             if (!data7)
             {
                 node5 = node5->FUN_00726070();
@@ -3564,7 +3588,7 @@ bool WorldSpacePositionNameMethods::FUN_00586500(BSStringT<char>* output, Pos65 
             while (areas && *areas->FUN_006815c0())
             {
                 area = *areas->FUN_006815c0();
-                if (area->FUN_004f8360(point2))
+                if (area->TESRegionPointList_IsInsideRegion(point2))
                 {
                     contains3 = true;
                     break;
@@ -3598,7 +3622,7 @@ bool WorldSpacePositionNameMethods::FUN_00586500(BSStringT<char>* output, Pos65 
     if (!output->Length())
         output->Set(TESFullName::GetFullName());
     if (!output->Length())
-        output->Set(FUN_00586980());
+        output->Set(TESObjectCELL_GetDefaultCellName());
     if (output->StrCmp(lastName, true))
     {
         lastName.Set((const char*)*output, 0);
@@ -3748,7 +3772,7 @@ struct RefV_587D10
 namespace WsH_587D10 {
 int __cdecl GetKeyForWorldCoord(Pt3_587D10 const&);
 }
-bool __cdecl FUN_00587c80(void*);
+bool __cdecl TESWorldSpace_IsFixedRef(void*);
 struct RefList_587D10
 {
     int a;
@@ -3762,12 +3786,13 @@ struct RefListNode_587D10 : RefList_587D10
 
 // Adds apRef to a list directly or to a coordinate-keyed list, skipping null and temporary references.
 // @fnv 0x00587d10
-void TESWorldSpace::FUN_00587d10(TESObjectREFR* apRef)
+// src: COMMUNITY 0x00587d10
+void TESWorldSpace::AddToPersistentRefData(TESObjectREFR* apRef)
 {
     if (apRef && !apRef->IsTemporary())
     {
         g_011ca60c.QueryPerformanceCounter(0);
-        if (!FUN_00587c80(apRef))
+        if (!TESWorldSpace_IsFixedRef(apRef))
         {
             ((RefList_587D10*)((char*)this + 0x60))->AddHead((int*)&apRef);
         }

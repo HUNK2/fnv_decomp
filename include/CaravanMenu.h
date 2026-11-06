@@ -769,13 +769,13 @@ public:
     void Enable(int mask, int set);
     bool FUN_00740f10(unsigned int flag);
 
-    int FUN_0073bb30();
+    int GetClass_0073bb30();
     void FUN_0073bba0();
     void* Destroy(unsigned int flags);
     bool RebuildCardLists();
     void InitCaravanTable();
     void InitMenu();
-    void FUN_0073d020();
+    void SetupCurrency();
     void FUN_0073ea90();
     void ComputePlayerAndTargetTotals();
     void InitType15State(int type, int pad);
@@ -812,10 +812,10 @@ public:
 
     void FUN_00749a40(int slot);
     void FUN_0074a000(int slot, float amount);
-    void FUN_0074e220(int track, int row, int card);
+    void UpdateTrackCardTexture(int track, int row, int card);
     void FUN_0074ecb0(int index);
     void FUN_0074ed40(int index);
     void FUN_0074edd0();
-    int FUN_0074f600(int track, int row);
-    void FUN_0074fdc0(E_Move* move);
+    int GetRowValue(int track, int row);
+    void CaravanMenu_ProcessAI(E_Move* move);
 };

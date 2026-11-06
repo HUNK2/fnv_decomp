@@ -93,16 +93,17 @@ class InterfaceInterfaceView
     static void SetTileFormattedText(Tile*, int, const char*, ...);
 };
 const char kMeshesFolder[] = "Meshes";
-unsigned int FUN_00702440();
+unsigned int NiVertexColorProperty_GetType();
 bool FUN_00705100();
-unsigned int FUN_00706f20();
+unsigned int HudMainMenu_GetMenuID();
 bool FUN_00707b50();
 
 extern char* DAT_011f91c8;
 extern unsigned char DAT_011f91d8;
 void __fastcall FUN_00b5fd60(char*);
 // @fnv 0x00b60040
-void FUN_00b60040()
+// src: COMMUNITY 0x00b60040
+void ShadowSceneNode_ProcessAllQueuedLights()
 {
     char** p = &DAT_011f91c8;
     do
@@ -148,10 +149,11 @@ struct Outer060
     int _m28;
     char _pad1[4];
     Inner060 _m30;
-    void FUN_00b60060();
+    void GrassLoadTask_Run();
 };
 // @fnv 0x00b60060
-void Outer060::FUN_00b60060()
+// src: COMMUNITY 0x00b60060
+void Outer060::GrassLoadTask_Run()
 {
     char buf[0x104];
     BuildAssetPath(_m28, buf, 0x104);
@@ -161,7 +163,8 @@ void Outer060::FUN_00b60060()
 extern "C" char DAT_010ade08[];
 
 // @fnv 0x00b600c0
-bool QueuedTreeModel::FUN_00b600c0(char* pBuf, unsigned int uiSize)
+// src: COMMUNITY 0x00b600c0
+bool QueuedTreeModel::GrassLoadTask_GetDescription(char* pBuf, unsigned int uiSize)
 {
     return FUN_00c3d0e0(pBuf, uiSize, DAT_010ade08);
 }

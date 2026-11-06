@@ -120,7 +120,8 @@ extern int DAT_011f33dc;
 extern void (__stdcall *DAT_00fdf05c)(int*);
 
 // @fnv 0x00a11820
-void __cdecl FUN_00a11820()
+// src: COMMUNITY 0x00a11820
+void __cdecl DebugText_Lock()
 {
     if (FUN_00702fc0())
         DAT_00fdf05c(&DAT_011f33dc);
@@ -138,12 +139,13 @@ struct P03MM {
 };
 extern P03MM g_memoryManager;
 struct FUN_00a11c00_Owner {
-    void FUN_00a11c00(FUN_00a11c00_Record* item);
+    void NiTList_AddTail(FUN_00a11c00_Record* item);
     void NewItem(FUN_00a11c00_Record* item);
 };
 // Allocates a 12-byte record, stores item->key in its extra field, and passes it to 0x00a11db0.
 // @fnv 0x00a11c00
-void FUN_00a11c00_Owner::FUN_00a11c00(FUN_00a11c00_Record* item)
+// src: COMMUNITY 0x00a11c00
+void FUN_00a11c00_Owner::NiTList_AddTail(FUN_00a11c00_Record* item)
 {
     FUN_00a11c00_Record* created = (FUN_00a11c00_Record*)g_memoryManager.Allocate(0xc);
     FUN_00a11c00_Record* temp = created;
@@ -152,13 +154,14 @@ void FUN_00a11c00_Owner::FUN_00a11c00(FUN_00a11c00_Record* item)
 }
 
 template <>
-unsigned int __thiscall BSSimpleArray<void*>::FUN_00a11ee0();
+unsigned int __thiscall BSSimpleArray<void*>::BSSimpleArray_AddUninitialized_0();
 
 // @fnv 0x00a11d20
 template <>
-unsigned int __thiscall BSSimpleArray<void*>::FUN_00a11d20(void* &aValue)
+// src: COMMUNITY 0x00a11d20
+unsigned int __thiscall BSSimpleArray<void*>::BSSimpleArray_Add(void* &aValue)
 {
-    unsigned int uiIndex = FUN_00a11ee0();
+    unsigned int uiIndex = BSSimpleArray_AddUninitialized_0();
     {
         unsigned int n;
         for (n = 0; n < 1; ++n) {
@@ -310,7 +313,8 @@ unsigned int FUN_00a11e10_cls::RemoveNode(ListNode_b5742** pNode) {
 // Ensures capacity by allocating or growing the buffer when full, then increments the count and returns the previous index.
 // @fnv 0x00a11ee0
 template <>
-unsigned int BSSimpleArray<void*>::FUN_00a11ee0() {
+// src: COMMUNITY 0x00a11ee0
+unsigned int BSSimpleArray<void*>::BSSimpleArray_AddUninitialized_0() {
     unsigned int unkC, tmp0, a0;
     unsigned int cap;
     unsigned int newCap;
@@ -393,7 +397,8 @@ struct SearchEntry {
 };
 struct SearchPointer { SearchEntry* value; };
 // @fnv 0x00a103e0
-bool DebugText::FUN_00a103e0(char* destination, float x, float y, int flags)
+// src: COMMUNITY 0x00a103e0
+bool DebugText::GetDebugText_0(char* destination, float x, float y, int flags)
 {
     bool found = false;
     *destination = 0;

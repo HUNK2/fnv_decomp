@@ -330,7 +330,7 @@ struct StringOwner
 };
 
 extern unsigned int DAT_011ff0f4;
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 unsigned int __cdecl FUN_00c4bb40(unsigned int v);
 unsigned int __cdecl FUN_00a7d5e0(const char* s, unsigned int v);
 unsigned int __cdecl FUN_00a7d5a0(const char* s, unsigned int v);
@@ -342,7 +342,7 @@ void StringOwner::BuildStringArray(unsigned int apArray)
 {
     StringArray* pArray = (StringArray*)apArray;
     WriteToSettingArray(pArray);
-    pArray->append(apArray, FUN_00a7d330(DAT_011ff0f4));
+    pArray->append(apArray, NiViewerStrings_NiGetViewerString_Title(DAT_011ff0f4));
     for (unsigned int index = 0; index < 2; ++index)
     {
         unsigned int label = children[index];

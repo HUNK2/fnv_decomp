@@ -42,16 +42,16 @@ BGSTerrainManager* LoadBGSTerrainManager(const char* path)
     return ReadAnimationFromStream(file);
 }
 
-void __cdecl FUN_006fa860();
-void __cdecl FUN_006f5840();
+void __cdecl BGSTerrainChunk_ResetCullResults();
+void __cdecl BGSDistantObjectBlock_ResetCullResults();
 
 // @fnv 0x006fd130
 void BGSTerrainManager::ResetMultiBoundResults()
 {
     if (pRootTerrainNode)
     {
-        FUN_006fa860();
-        FUN_006f5840();
+        BGSTerrainChunk_ResetCullResults();
+        BGSDistantObjectBlock_ResetCullResults();
     }
 }
 
@@ -66,14 +66,15 @@ void __cdecl FUN_006fd1f0(bool abEnable)
 extern int DAT_011d8598;
 
 // @fnv 0x006fcda0
-int __cdecl FUN_006fcda0()
+// src: COMMUNITY 0x006fcda0
+int __cdecl BGSDistantTreeBlock_GetBlockCount()
 {
     return DAT_011d8598;
 }
 
 struct FUN_006fd980_shell
 {
-    void FUN_006fd980(int);
+    void BGSTerrainNode_UnloadDataRecurse(int);
 };
 
 // If the root node is non-null, calls FUN_006fd980(7) on it.
@@ -81,7 +82,7 @@ struct FUN_006fd980_shell
 void __thiscall BGSTerrainManager::FUN_006fce00()
 {
     if (pRootTerrainNode != 0)
-        ((FUN_006fd980_shell*)pRootTerrainNode)->FUN_006fd980(7);
+        ((FUN_006fd980_shell*)pRootTerrainNode)->BGSTerrainNode_UnloadDataRecurse(7);
 }
 
 struct BGSTerrainChunk
@@ -128,7 +129,8 @@ void BGSTerrainManager::RemoveTerrainReference(TESObjectREFR* apTreeRef)
 
 
 // @fnv 0x006fd060
-void __thiscall BGSTerrainManager::FUN_006fd060()
+// src: COMMUNITY 0x006fd060
+void __thiscall BGSTerrainManager::TriggerLODApocalypse()
 {
     pRootTerrainNode->ProcessBlock();
 }
@@ -302,7 +304,7 @@ struct LodNode
 {
     void UpdateTerrainNode(const NiPoint3&, bool);
     void UpdateBlock(const NiPoint3&, bool);
-    void FUN_006fe330(const NiPoint3&);
+    void BGSTerrainNode_UpdateTrees(const NiPoint3&);
 };
 
 struct RefArray
@@ -363,7 +365,7 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
             if (b1)
             {
                 ((LodNode*)pRootTerrainNode)->UpdateTerrainNode(pos, b4);
-                g_TES->FUN_0045cac0();
+                g_TES->TES_InitDistantTextureBlending();
                 if (*DAT_011d869c.Bool())
                 {
                     ((LodNode*)pRootTerrainNode)->UpdateBlock(pos, b2);
@@ -372,8 +374,8 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
             if (m_bShaderFeatureActive && *DAT_011d8680.Bool())
             {
                 unsigned int count;
-                ((LodNode*)pRootTerrainNode)->FUN_006fe330(pos);
-                if (FUN_006fcda0() > 0u && ((RefArray*)&kTerrainReferences)->FUN_0044ddc0() > 0)
+                ((LodNode*)pRootTerrainNode)->BGSTerrainNode_UpdateTrees(pos);
+                if (BGSDistantTreeBlock_GetBlockCount() > 0u && ((RefArray*)&kTerrainReferences)->FUN_0044ddc0() > 0)
                 {
                     LocalRefArray kept;
                     count = ((RefArray*)&kTerrainReferences)->FUN_0044ddc0();
@@ -428,7 +430,7 @@ class TerrainTempBuffer
 };
 
 void __cdecl UpdateSceneEntryRadii(TerrainRefProxy* apRef, TerrainTempBuffer* apBuf);
-void __cdecl FUN_006f5840();
+void __cdecl BGSDistantObjectBlock_ResetCullResults();
 
 // @fnv 0x006fd080
 void BGSTerrainManager::UpdateMultiBoundResults(NiCamera* apCamera)
@@ -439,6 +441,6 @@ void BGSTerrainManager::UpdateMultiBoundResults(NiCamera* apCamera)
     if (pRootTerrainNode != 0)
     {
         UpdateSceneEntryRadii((TerrainRefProxy*)apCamera, &tempBuffer);
-        FUN_006f5840();
+        BGSDistantObjectBlock_ResetCullResults();
     }
 }

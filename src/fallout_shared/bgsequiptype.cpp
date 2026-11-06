@@ -115,21 +115,22 @@ struct S_0040a0a0_Primary
 
 struct S_0040a0a0_AVOwner
 {
-    virtual float FUN_0040a0a0(int avCode);
+    virtual float IngredientItem_GetCost(int avCode);
     float GetTotalCost(int a);
 };
 
 struct S_0040a0a0_Actor : S_0040a0a0_Primary, S_0040a0a0_AVOwner
 {
-    bool FUN_00409a30(unsigned int flag);
+    bool IngredientItem_GetFlag(unsigned int flag);
     int FUN_00586150();
-    virtual float FUN_0040a0a0(int avCode);
+    virtual float IngredientItem_GetCost(int avCode);
 };
 
 // @fnv 0x0040a0a0
-float S_0040a0a0_Actor::FUN_0040a0a0(int avCode)
+// src: COMMUNITY 0x0040a0a0
+float S_0040a0a0_Actor::IngredientItem_GetCost(int avCode)
 {
-    if (FUN_00409a30(1))
+    if (IngredientItem_GetFlag(1))
     {
         return FUN_00586150();
     }

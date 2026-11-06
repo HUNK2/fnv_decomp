@@ -97,7 +97,7 @@ extern bool __cdecl FUN_0040eb10(float a, float b, float c);
 struct PointObject;
 struct RegionNode
 {
-    bool FUN_004f70b0(PointObject* obj);
+    bool j_8TESRegionPoint_QEBA_NAEBV0_Z(PointObject* obj);
 };
 struct PointObject
 {
@@ -112,7 +112,7 @@ bool PointObject::IsInRegion(RegionNode* region, float value)
         return false;
     if (FUN_0040eb10(value, position, DAT_01017d00))
     {
-        if (region->FUN_004f70b0(this))
+        if (region->j_8TESRegionPoint_QEBA_NAEBV0_Z(this))
             return true;
     }
     return false;

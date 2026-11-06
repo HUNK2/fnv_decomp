@@ -87,5 +87,6 @@ FUN_00e0af50::FUN_00e0af50(const hkVector4& aVec, int a, int b)
 }
 
 // @fnv 0x00e0af40
-void __stdcall FUN_00e0af40(int a, int b)
+// src: COMMUNITY 0x00e0af40
+void __stdcall nullsub_91(int a, int b)
 {}

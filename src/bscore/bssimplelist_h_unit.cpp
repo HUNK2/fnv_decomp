@@ -55,7 +55,7 @@ FUN_004b0880::FUN_004b0880()
 
 struct FUN_004ee7d0_obj
 {
-    void FUN_004ee770();
+    void BGSDecalNode_RemoveDecals();
 };
 struct FUN_004ee7d0_node
 {
@@ -66,14 +66,15 @@ extern FUN_004ee7d0_node g_011c7d20;
 
 // Walks the node list from g_011c7d20, calling FUN_004ee770 on each node's referenced object when non-null.
 // @fnv 0x004ee7d0
-void FUN_004ee7d0()
+// src: COMMUNITY 0x004ee7d0
+void BGSDecalNode_RemoveAllDecals()
 {
     FUN_004ee7d0_node* node = &g_011c7d20;
     while (node)
     {
         FUN_004ee7d0_obj* obj = *node->_ref_006815c0();
         if (obj)
-            obj->FUN_004ee770();
+            obj->BGSDecalNode_RemoveDecals();
         node = node->FUN_00726070();
     }
 }
@@ -85,11 +86,12 @@ struct FUN_004f66c0_node
 };
 struct FUN_004f66c0_shell
 {
-    TESForm* FUN_004f66c0(int id);
+    TESForm* TESRegionList_HasRegion(int id);
 };
 // Walks the node chain starting at this+4 and returns the first item whose FUN_0084e3a0() equals id, or 0 if none matches.
 // @fnv 0x004f66c0
-TESForm* FUN_004f66c0_shell::FUN_004f66c0(int id)
+// src: COMMUNITY 0x004f66c0
+TESForm* FUN_004f66c0_shell::TESRegionList_HasRegion(int id)
 {
     FUN_004f66c0_node* node = this ? (FUN_004f66c0_node*)((char*)this + 4) : 0;
     while (node)
@@ -103,7 +105,7 @@ TESForm* FUN_004f66c0_shell::FUN_004f66c0(int id)
 
 struct FUN_005549d0_obj
 {
-    void FUN_00577390(bool);
+    void TESObjectREFR_TogglePrimitive(bool);
 };
 struct FUN_005549d0_node
 {
@@ -112,17 +114,18 @@ struct FUN_005549d0_node
 };
 struct FUN_005549d0_shell
 {
-    void FUN_005549d0(bool flag);
+    void TESObjectCELL_TogglePrimitives(bool flag);
 };
 
 // Walks the linked list starting at this+0xac and calls FUN_00577390(flag) on each referenced object while the reference is non-null.
 // @fnv 0x005549d0
-void FUN_005549d0_shell::FUN_005549d0(bool flag)
+// src: COMMUNITY 0x005549d0
+void FUN_005549d0_shell::TESObjectCELL_TogglePrimitives(bool flag)
 {
     FUN_005549d0_node* node = (FUN_005549d0_node*)((char*)this + 0xac);
     while (node && *node->_ref_006815c0() != 0)
     {
-        (*node->_ref_006815c0())->FUN_00577390(flag);
+        (*node->_ref_006815c0())->TESObjectREFR_TogglePrimitive(flag);
         node = node->FUN_00726070();
     }
 }
@@ -188,13 +191,14 @@ struct SoundListView
 struct FUN_00613810_shell
 {
     int FindByKey(int);
-    void FUN_00613810(char* item);
+    void TESRace_AddHair(char* item);
 };
 SoundListView* __fastcall FUN_0045bb80(FUN_00613810_shell*);
 
 // Adds item to the list returned by FUN_0045bb80 unless item is null or FindByKey reports it already present.
 // @fnv 0x00613810
-void FUN_00613810_shell::FUN_00613810(char* item)
+// src: COMMUNITY 0x00613810
+void FUN_00613810_shell::TESRace_AddHair(char* item)
 {
     if (item == 0 || FindByKey(((TESForm*)item)->FUN_0084e3a0()))
         return;
@@ -233,13 +237,14 @@ struct SoundListView
 struct FUN_00613910_shell
 {
     int FindRecipeCategoryById(int);
-    void FUN_00613910(char* item);
+    void TESRace_AddEyeColor(char* item);
 };
 SoundListView* __fastcall FUN_00503650(FUN_00613910_shell*);
 
 // Adds item to the list returned by FUN_00503650 unless item is null or FindRecipeCategoryById on its FUN_0084e3a0 result is nonzero.
 // @fnv 0x00613910
-void FUN_00613910_shell::FUN_00613910(char* item)
+// src: COMMUNITY 0x00613910
+void FUN_00613910_shell::TESRace_AddEyeColor(char* item)
 {
     if (item == 0 || FindRecipeCategoryById(((TESForm*)item)->FUN_0084e3a0()))
         return;
@@ -357,10 +362,11 @@ struct FUN_008c5000_node
 };
 struct FUN_008c5000_shell
 {
-    FUN_008c5000_item* FUN_008c5000(int id);
+    FUN_008c5000_item* Actor_GetCastPowerItem(int id);
 };
 // @fnv 0x008c5000
-FUN_008c5000_item* FUN_008c5000_shell::FUN_008c5000(int id)
+// src: COMMUNITY 0x008c5000
+FUN_008c5000_item* FUN_008c5000_shell::Actor_GetCastPowerItem(int id)
 {
     FUN_008c5000_item* found = 0;
     if (id && *((FUN_008c5000_node*)((char*)this + 0xf4))->_ref_006815c0())
@@ -417,7 +423,8 @@ typedef void(__thiscall* FUN_008d1560_fn)(void*);
 
 // Loops while g_011dfe14._ref_008256d0() is false, calling a virtual slot on each element from _ref_006815c0() and then _ref_0063f7b0().
 // @fnv 0x008d1560
-void FUN_008d1560()
+// src: COMMUNITY 0x008d1560
+void BSDoorHavokController_ReenableDoors()
 {
     while (!g_011dfe14._ref_008256d0())
     {
@@ -578,7 +585,7 @@ bool FUN_004f6730_shell::FUN_004f6730(FUN_004f6730_shell* other)
 
 struct FUN_004f2770_Class
 {
-    void* FUN_004f2770();
+    void* PlayerCharacter_GetAllOccupiedRegions();
 };
 extern FUN_004f2770_Class* _g_thePlayer;
 
@@ -593,7 +600,7 @@ bool Cmd_PlayerInRegion_Eval(void* apUnused, void* apRegion, void* apUnused2, do
 {
     result = 0.0;
     TESForm* region = (TESForm*)apRegion;
-    RegionList* iter = (RegionList*)_g_thePlayer->FUN_004f2770();
+    RegionList* iter = (RegionList*)_g_thePlayer->PlayerCharacter_GetAllOccupiedRegions();
     while (iter && *iter->_ref_006815c0())
     {
         if ((*iter->_ref_006815c0())->FUN_0084e3a0() == region->FUN_0084e3a0())
@@ -1258,7 +1265,8 @@ extern Node2_00832010 g_011dd59c;
 void FUN_008329a0(int);
 
 // @fnv 0x00832010
-void FUN_00832010()
+// src: COMMUNITY 0x00832010
+void FalloutRadio_Shutdown()
 {
     DAT_011dd436 = 1;
     FUN_008329a0(1);
@@ -1408,10 +1416,11 @@ struct Cont_009b1510
 };
 struct Shell_009b1510 : FUN_009b1630_shell
 {
-    void FUN_009b1510(Cont_009b1510* cont, Key_009b1510* key, float value);
+    void Explosion_CheckLimbTarget(Cont_009b1510* cont, Key_009b1510* key, float value);
 };
 // @fnv 0x009b1510
-void Shell_009b1510::FUN_009b1510(Cont_009b1510* pContainer, Key_009b1510* key, float value)
+// src: COMMUNITY 0x009b1510
+void Shell_009b1510::Explosion_CheckLimbTarget(Cont_009b1510* pContainer, Key_009b1510* key, float value)
 {
     if (pContainer && pContainer->obj && pContainer->obj->IsReady())
     {
@@ -1448,20 +1457,21 @@ struct Thing
 {
     char pad[0x188];
     Node m_pFirstNode;
-    bool FUN_006c4970();
+    bool NavMeshObstacleManager_ProcessDisabledNavMeshes();
 };
 
-extern "C" void FUN_00694500(int value, int flag);
+extern "C" void NavMesh_SetDisableNavMesh(int value, int flag);
 
 // Iterates m_pFirstNode, calling FUN_00694500 on each node's value, then calls FUN_00470470 on m_pFirstNode and returns true.
 // @fnv 0x006c4970
-bool Thing::FUN_006c4970()
+// src: COMMUNITY 0x006c4970
+bool Thing::NavMeshObstacleManager_ProcessDisabledNavMeshes()
 {
     Node* node = &m_pFirstNode;
     while (node != 0 && !node->FUN_008256d0())
     {
         int value = *node->FUN_006815c0();
-        FUN_00694500(value, 1);
+        NavMesh_SetDisableNavMesh(value, 1);
         node = node->FUN_00726070();
     }
     m_pFirstNode.FUN_00470470();
@@ -1519,7 +1529,8 @@ BSSimpleList<TESModelTextureSwap::Texture*>* __fastcall GetTextureSwapList(TESMo
 TESModelTextureSwap* __cdecl FUN_00481010(void* form, int variant);
 
 // @fnv 0x0048b310
-bool FUN_0048b310(void* form, int variant)
+// src: COMMUNITY 0x0048b310
+bool TESModelTextureSwap_HasTextureSwap(void* form, int variant)
 {
     bool bFound = false;
     TESModelTextureSwap* pkPath = FUN_00481010(form, variant);

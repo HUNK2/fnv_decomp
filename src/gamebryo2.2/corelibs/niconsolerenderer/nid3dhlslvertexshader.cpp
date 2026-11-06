@@ -174,7 +174,7 @@ struct __declspec(align(16)) VS_00e972e0_Matrix
     float _31, _32, _33, _34;
     float _41, _42, _43, _44;
 };
-VS_00e972e0_Matrix* __stdcall FUN_00ee6dd4(VS_00e972e0_Matrix* pOut, const VS_00e972e0_Matrix* pM);
+VS_00e972e0_Matrix* __stdcall D3DXMatrixTranspose_00ee6dd4(VS_00e972e0_Matrix* pOut, const VS_00e972e0_Matrix* pM);
 
 struct VS_00e972e0_Entry
 {
@@ -193,7 +193,7 @@ struct VS_00e972e0_Entry
     const void* m_pConstantData;
     bool m_bOwnsData;
     bool m_bFlag1;
-    void FUN_00e81c60(VS_00e972e0_Str& kName);
+    void NiShaderConstantMapEntry_SetVariableName(VS_00e972e0_Str& kName);
 };
 struct VS_00e972e0_Renderer
 {
@@ -380,7 +380,7 @@ bool __fastcall FUN_00e972e0(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0
         if (temporary.kVariable.m_kHandle == DAT_0109b220)
         {
             temporary.kVariable.FUN_0043ba10(pkEntry->m_kName);
-            pkEntry->FUN_00e81c60(temporary.kVariable);
+            pkEntry->NiShaderConstantMapEntry_SetVariableName(temporary.kVariable);
         }
         char* pcVariable = temporary.kVariable.m_kHandle;
         void* hConstant = ((VS_00e972e0_Table*)pkShader->m_pShaderConstantTable)->FindConstantByName(0, pcVariable);
@@ -409,7 +409,7 @@ bool __fastcall FUN_00e972e0(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0
     if (eType == 8 || eType == 9)
     {
         VS_00e972e0_Matrix kTranspose;
-        FUN_00ee6dd4(&kTranspose, (const VS_00e972e0_Matrix*)pvDataSource);
+        D3DXMatrixTranspose_00ee6dd4(&kTranspose, (const VS_00e972e0_Matrix*)pvDataSource);
         if (SetM(pkShader, pkEntry->m_uiValueAt1C, &kTranspose._11, pkEntry->m_uiValue4) >= 0)
             bResult = true;
     }
@@ -482,7 +482,7 @@ bool __fastcall FUN_00e974f0(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0
         if (kVariableName.m_kHandle == DAT_0109b220)
         {
             kVariableName.FUN_0043ba10(pkEntry->m_kName);
-            pkEntry->FUN_00e81c60(kVariableName);
+            pkEntry->NiShaderConstantMapEntry_SetVariableName(kVariableName);
         }
 
         char* pcVariable = kVariableName.m_kHandle;
@@ -528,7 +528,7 @@ bool __fastcall FUN_00e974f0(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0
             }
             else
             {
-                FUN_00ee6dd4(&kMatrix,
+                D3DXMatrixTranspose_00ee6dd4(&kMatrix,
                              (const VS_00e972e0_Matrix*)((const char*)pvData + usIndex * uiRegistersPerEntry * 16));
                 pVector4 = &kMatrix._11;
                 if (SetM(pkShader, uiRegister, pVector4, uiRegistersPerEntry) < 0)
@@ -555,7 +555,7 @@ bool __fastcall FUN_00e974f0(NiD3DHLSLVertexShader* pkShader, void*, VS_00e972e0
         {
             _ReadWriteBarrier();
             VS_00e972e0_Matrix& kMatrix = scratch.matrix;
-            FUN_00ee6dd4(&kMatrix, (const VS_00e972e0_Matrix*)pVector4);
+            D3DXMatrixTranspose_00ee6dd4(&kMatrix, (const VS_00e972e0_Matrix*)pVector4);
             bSuccess = false;
             if (SetM(pkShader, uiRegister, &kMatrix._11, uiRegistersPerEntry) < 0)
             {

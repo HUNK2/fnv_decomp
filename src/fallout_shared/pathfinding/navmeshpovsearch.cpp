@@ -309,20 +309,21 @@ AngleSinCosArc_Helper& AngleSinCosArc_Helper::Assign(const AngleSinCosArc_Helper
 
 struct FUN_006a0840_shell : public SineCosine
 {
-    float FUN_006a0840();
+    float AngleSinCos_GetAngle();
 };
 
-float __cdecl FUN_004b5570(float, float);
+float __cdecl atan2_004b5570(float, float);
 
 // Returns the result of FUN_004b5570 called with the object's second float and first float.
 // @fnv 0x006a0840
-float FUN_006a0840_shell::FUN_006a0840()
+// src: COMMUNITY 0x006a0840
+float FUN_006a0840_shell::AngleSinCos_GetAngle()
 {
-    return FUN_004b5570(((float*)this)[1], ((float*)this)[0]);
+    return atan2_004b5570(((float*)this)[1], ((float*)this)[0]);
 }
 
 void __stdcall compiler_vector_constructor_iterator(void*, unsigned int, int, void*(__fastcall*)(void*));
-void* __fastcall FUN_00588c50(void*);
+void* __fastcall TESWorldSpace_OFFSET_DATA_OFFSET_DATA(void*);
 
 struct Dummy_006a0870
 {
@@ -332,7 +333,7 @@ struct Dummy_006a0870
 // @fnv 0x006a0870
 void* __thiscall Dummy_006a0870::Construct()
 {
-    compiler_vector_constructor_iterator((char*)this + 4, 0x14, 2, FUN_00588c50);
+    compiler_vector_constructor_iterator((char*)this + 4, 0x14, 2, TESWorldSpace_OFFSET_DATA_OFFSET_DATA);
     return this;
 }
 
@@ -2961,7 +2962,7 @@ struct OuterArr
     InnerArr* GetAt(unsigned int idx);
 };
 
-bool FUN_006bab00(const NiPoint3& center, float radius, const NiPoint3& a, const NiPoint3& b);
+bool NavMeshMath_DoCircleAndSegmentIntersect(const NiPoint3& center, float radius, const NiPoint3& a, const NiPoint3& b);
 
 extern float fCostType5;
 extern float fCostOther;
@@ -3248,7 +3249,7 @@ float NavOwner::ComputePathCost(NavObj* apSelf, const NiPoint3& aStart, const Ni
                 continue;
             if ((pObj->pos - aStart).Len() < pObj->radius * pObj->radius)
                 continue;
-            if (FUN_006bab00(pObj->pos, pObj->radius, aStart, aEnd))
+            if (NavMeshMath_DoCircleAndSegmentIntersect(pObj->pos, pObj->radius, aStart, aEnd))
             {
                 if (pObj->type == 5)
                     return fCostType5;
@@ -3353,7 +3354,8 @@ extern B6A1330NodePtr g_spB6A1330Root;
 B6A1330Node* __cdecl FUN_004b3890(const char* pcPath, int iParamB, int iParamA, int iParamB2, bool bFlag);
 
 // @fnv 0x006a1330
-void __cdecl FUN_006a1330(const char* pcPath, int iParamA, int iParamB)
+// src: COMMUNITY 0x006a1330
+void __cdecl NavMeshPOVSearch_DrawLine(const char* pcPath, int iParamA, int iParamB)
 {
     B6A1330NodePtr spNode7 = FUN_004b3890(pcPath, iParamB, iParamA, iParamB, true);
     B6A1330UpdateData kData(0.0f, false, false);
@@ -3362,8 +3364,8 @@ void __cdecl FUN_006a1330(const char* pcPath, int iParamA, int iParamB)
     g_spB6A1330Root->AttachChildInAvailableSlot(spNode7, true);
 }
 
-void* FUN_00401000(unsigned int uiSize);
-void FUN_00401030(void* pvMem);
+void* FormHeap_Allocate(unsigned int uiSize);
+void FormHeapFreeAndLog_00401030(void* pvMem);
 
 class Helper69E
 {
@@ -3372,11 +3374,11 @@ class Helper69E
 
     static void* operator new(unsigned int uiSize)
     {
-        return FUN_00401000(uiSize);
+        return FormHeap_Allocate(uiSize);
     }
     static void operator delete(void* pvMem)
     {
-        FUN_00401030(pvMem);
+        FormHeapFreeAndLog_00401030(pvMem);
     }
 
     int unk00, unk04, unk08, unk0C;
@@ -3436,7 +3438,7 @@ struct Mesh
     bool FUN_0069a9d0(unsigned short, EdgePair*);
     const NiPoint3& FUN_0068f0a0(unsigned short);
     Tri* FUN_005582f0(unsigned short);
-    void FUN_0068f040(VertPair*, unsigned short, int);
+    void NavMesh_GetEdgeVertices_0(VertPair*, unsigned short, int);
 };
 struct Handle
 {
@@ -5631,9 +5633,9 @@ bool Owner::BuildGroups(Input* input, Groups* output)
             if (triA5->IsEdgeFlagSet(edges7.first.GetTopBits()) || triB9->IsEdgeFlagSet(edges7.second.GetTopBits()))
                 recordA->type = 1;
             VertPair pointsA2;
-            current2->mesh->FUN_0068f040(&pointsA2, edges7.first.GetMaskedValue(), edges7.first.GetTopBits());
+            current2->mesh->NavMesh_GetEdgeVertices_0(&pointsA2, edges7.first.GetMaskedValue(), edges7.first.GetTopBits());
             VertPair pointsB3;
-            current2->mesh->FUN_0068f040(&pointsB3, edges7.second.GetMaskedValue(), edges7.second.GetTopBits());
+            current2->mesh->NavMesh_GetEdgeVertices_0(&pointsB3, edges7.second.GetMaskedValue(), edges7.second.GetTopBits());
             recordA->directionA = *pointsA2.end - *pointsA2.start;
             recordA->directionB = *pointsB3.end - *pointsB3.start;
             recordA->directionA.z = 0.0f;
@@ -5821,8 +5823,8 @@ extern bool DAT_011d6dcc;
 extern char DAT_011a9c20, DAT_011a9bf0, DAT_011a9c00;
 int FUN_006bb570(const P072Sphere&, const P072Sphere&, int, P072Tangents&);
 float FUN_00408840(float);
-void FUN_006a1180(const P072Point&, float, const P072Angle&, const P072Angle&, int, const char*);
-void FUN_006a1330(const P072Point&, const P072Point&, const char*);
+void NavMeshPOVSearch_DrawArc(const P072Point&, float, const P072Angle&, const P072Angle&, int, const char*);
+void NavMeshPOVSearch_DrawLine(const P072Point&, const P072Point&, const char*);
 struct P072Search
 {
     int unk0000;
@@ -7904,10 +7906,10 @@ struct P072Search
     P072Location location;
     bool FindNeighborNodes(P072Node*, P072List*);
     bool TraceArcOnBall(const P072Handle&, const P072Point&, P072Arc, P072Handle&);
-    float FUN_006a0940(P072Data*, P072Arc, P072Data*);
+    float NavMeshPOVSearch_CheckArcAgainstPOVs(P072Data*, P072Arc, P072Data*);
     bool FindPath(const P072Handle&, const P072Point&, P072Handle&);
     float ComputePathCost(P072Data*, const P072Point&, const P072Point&, P072Data*);
-    unsigned int FUN_0069f900(P072Data*, int);
+    unsigned int GetKeyForNode(P072Data*, int);
     int InsertOrUpdateNode(unsigned int, float, P072Node**);
     void SetEdgeFromSphere(P072Node*, P072Data*, int, unsigned int);
 };
@@ -8023,17 +8025,17 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                     if (!TraceArcOnBall(arc2, tangentCount.center, node, cost))
                     {
                         if (DAT_011d6dcc)
-                            FUN_006a1180(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
+                            NavMeshPOVSearch_DrawArc(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
                                          &DAT_011a9c20);
                         continue;
                     }
                     if (FUN_00408840(cost.pos.FUN_00439ef0(tangentCount.center).z) >= 180.0)
                         continue;
-                    endBlockTmp = FUN_006a0940(info->object, node, object);
+                    endBlockTmp = NavMeshPOVSearch_CheckArcAgainstPOVs(info->object, node, object);
                     if (endBlockTmp == 3.4028234663852886e38)
                     {
                         if (DAT_011d6dcc)
-                            FUN_006a1180(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
+                            NavMeshPOVSearch_DrawArc(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
                                          &DAT_011a9bf0);
                         continue;
                     }
@@ -8045,7 +8047,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 if (!FindPath(cost, initialPoint5, crossFirst))
                 {
                     if (DAT_011d6dcc)
-                        FUN_006a1330(cost.pos, crossFirst.pos, &DAT_011a9c20);
+                        NavMeshPOVSearch_DrawLine(cost.pos, crossFirst.pos, &DAT_011a9c20);
                     continue;
                 }
                 if (FUN_00408840(crossFirst.pos.FUN_00439ef0(delta.center).z) >= 180.0)
@@ -8054,15 +8056,15 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 if (crossSecond == 3.4028234663852886e38)
                 {
                     if (DAT_011d6dcc)
-                        FUN_006a1330(cost.pos, crossFirst.pos, &DAT_011a9bf0);
+                        NavMeshPOVSearch_DrawLine(cost.pos, crossFirst.pos, &DAT_011a9bf0);
                     continue;
                 }
                 if (DAT_011d6dcc)
                 {
                     if (pInputNode->GetField54())
-                        FUN_006a1180(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
+                        NavMeshPOVSearch_DrawArc(tangentCount.center, tangentCount.radius, node.start, node.end, node.direction,
                                      &DAT_011a9c00);
-                    FUN_006a1330(cost.pos, crossFirst.pos, &DAT_011a9c00);
+                    NavMeshPOVSearch_DrawLine(cost.pos, crossFirst.pos, &DAT_011a9c00);
                 }
                 float direction = pInputNode->FUN_006a7f50();
                 if (pInputNode->GetField54())
@@ -8070,7 +8072,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 direction += crossFirst.pos.FUN_00439ef0(cost.pos).FUN_00457990();
                 P072Node* arcCost;
                 switch (
-                    InsertOrUpdateNode(FUN_0069f900(object, distance.tangents[tangent].direction), direction, &arcCost))
+                    InsertOrUpdateNode(GetKeyForNode(object, distance.tangents[tangent].direction), direction, &arcCost))
                 {
                 case 0:
                     SetEdgeFromSphere(arcCost, object, distance.tangents[tangent].direction, group);
@@ -8259,7 +8261,7 @@ struct Mesh
     bool MatchNavMesh(const Handle&, NeighborEdgeHandle&);
     Triangle* FUN_005582f0(unsigned short);
     EdgeInfo* FUN_0068f230(unsigned short, int);
-    Vertices FUN_0068f040(unsigned short, int);
+    Vertices NavMesh_GetEdgeVertices_0(unsigned short, int);
 };
 struct PathResult
 {
@@ -10399,7 +10401,7 @@ bool Walker::FindPath(const Start* start, const NiPoint3& target, Output* output
             {
                 if (handle8.mesh != next.mesh)
                 {
-                    Vertices vertices3 = next.mesh->FUN_0068f040(next.triangle, next.edge);
+                    Vertices vertices3 = next.mesh->NavMesh_GetEdgeVertices_0(next.triangle, next.edge);
                     NiPoint3 midpointA = (*vertices3.first + *vertices3.second) * 0.5f;
                     current = FUN_006ba550(*vertices3.first, *vertices3.second, hit2.position, destination5);
                     current += (midpointA - current) * 0.01f;
@@ -10448,7 +10450,8 @@ struct ArcRange
 void __cdecl ArcSegmentStep(ArcPoint3* apFrom, ArcPoint3* apTo, int aiParam);
 
 // @fnv 0x006a1180
-void __cdecl FUN_006a1180(const ArcPoint3& akCenter, float afRadius, const ArcAngle* apStart, const ArcAngle* apEnd,
+// src: COMMUNITY 0x006a1180
+void __cdecl NavMeshPOVSearch_DrawArc(const ArcPoint3& akCenter, float afRadius, const ArcAngle* apStart, const ArcAngle* apEnd,
                           int aeDir, int aiParam)
 {
     ArcRange kArc(apStart, apEnd, aeDir);
@@ -10493,12 +10496,13 @@ bool __cdecl ArcBlockedBySphere(const Sphere& aSelf, const ArcStandIn& aArc, con
 
 struct NavOwnerArc : NavOwner
 {
-    float FUN_006a0940(NavObj* apSelf, ArcStandIn aArc, NavObj* apIgnore);
+    float NavMeshPOVSearch_CheckArcAgainstPOVs(NavObj* apSelf, ArcStandIn aArc, NavObj* apIgnore);
 };
 
 // Checks grouped NavObj spheres against the arc and returns a matching object's type cost, or 1.0f.
 // @fnv 0x006a0940
-float NavOwnerArc::FUN_006a0940(NavObj* apSelf, ArcStandIn aArc, NavObj* apIgnore)
+// src: COMMUNITY 0x006a0940
+float NavOwnerArc::NavMeshPOVSearch_CheckArcAgainstPOVs(NavObj* apSelf, ArcStandIn aArc, NavObj* apIgnore)
 {
     Sphere kSelf((const NiPoint3&)apSelf->pos, apSelf->radius);
     NiPoint3 kPoint = kSelf.Center + aArc.start.PointAt(kSelf.fRadius);

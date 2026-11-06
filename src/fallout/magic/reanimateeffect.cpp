@@ -519,7 +519,7 @@ struct BoneCollision
 };
 BoneCollision* FUN_0043b610(ReanimateNode*);
 void FUN_00c6a350(ReanimateNode*, bool, bool, bool, bool);
-void FUN_005b5e40(const char*);
+void Warning_005b5e40(const char*);
 // @fnv 0x00827580
 void ReanimateEffect::UpdateReanimation(Actor* actor)
 {
@@ -549,7 +549,7 @@ void ReanimateEffect::UpdateReanimation(Actor* actor)
         }
         else
         {
-            FUN_005b5e40("SAVELOAD: No Bip01 Spine2 bone for reanimation. Need a backup bone!");
+            Warning_005b5e40("SAVELOAD: No Bip01 Spine2 bone for reanimation. Need a backup bone!");
         }
     }
 }

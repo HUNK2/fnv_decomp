@@ -73,7 +73,7 @@ typedef char NavMeshInfoMapCheckCell[offsetof(NavMeshInfoMap, m_kNavMeshInfoArra
 
 typedef BSSimpleArray<TESObjectREFR*, 1024> NavMeshDoorArray;
 
-unsigned int FUN_006b7b30(NavMeshInfo*);
+unsigned int NavMeshInfo_GetCellOrCoords(NavMeshInfo*);
 bool FUN_009a3830(NavMeshInfo*&, NavMeshInfo*&);
 
 // Scans every outer/inner map entry and returns false if any NavMeshInfoArray with more than one element has fewer than size-1 entries with bounds.
@@ -181,7 +181,7 @@ void NavMeshInfoMap::InsertNavMeshInfo(NavMeshInfo* info)
         unsigned int parentID;
         unsigned int cellKey;
     } lookup;
-    lookup.cellKey = FUN_006b7b30(info);
+    lookup.cellKey = NavMeshInfo_GetCellOrCoords(info);
     if (info->GetInteriorCell())
         lookup.parentID = 0;
     else
@@ -498,7 +498,8 @@ struct HArr
 }  // namespace fnv_006b7910
 
 // @fnv 0x006b7910
-void NavMeshInfoMap::FUN_006b7910(BSSimpleArray<void*, 1024>* pArray)
+// src: COMMUNITY 0x006b7910
+void NavMeshInfoMap::GetAllNavMeshInfo(BSSimpleArray<void*, 1024>* pArray)
 {
     ((fnv_006b7910::_Mem_20a4*)pArray)->SetSize(0, false);
     ((fnv_006b7910::HArr*)pArray)->GrowCapacity(0x800);
@@ -687,7 +688,7 @@ void NavMeshInfoMap::ActivateNavigationEntry(int identifier)
     NavigationRequest* entry;
     if (reinterpret_cast<BoundNavigationMap*>(&m_kNavMeshInfosByFormID)->FUN_00853130(identifier, &entry))
     {
-        FUN_006b7b70(entry);
+        RemoveInfoFromCellKeyMap(entry);
         bool isAccepted = false;
         ScopedNavPointer pointer;
         if (entry->FUN_00690860(&pointer))
@@ -708,7 +709,7 @@ void NavMeshInfoMap::ActivateNavigationEntry(int identifier)
     }
 }
 
-unsigned int FUN_006b7b30(NavMeshInfo*);
+unsigned int NavMeshInfo_GetCellOrCoords(NavMeshInfo*);
 bool FUN_009a3830(NavMeshInfo*&, NavMeshInfo*&);
 struct InfoArray
 {
@@ -730,9 +731,10 @@ struct OuterMap
     bool RemoveKey(unsigned int);
 };
 // @fnv 0x006b7b70
-void NavMeshInfoMap::FUN_006b7b70(NavMeshInfo* info)
+// src: COMMUNITY 0x006b7b70
+void NavMeshInfoMap::RemoveInfoFromCellKeyMap(NavMeshInfo* info)
 {
-    unsigned int parent = FUN_006b7b30(info);
+    unsigned int parent = NavMeshInfo_GetCellOrCoords(info);
     unsigned int map;
     if (info->GetInteriorCell())
         map = 0;
@@ -821,7 +823,7 @@ void NavMeshInfoMap::FUN_006b6990(unsigned int id)
         reinterpret_cast<CellKeyMap*>(&m_kNavMeshInfosByFormID)->RemoveAt(id);
         if (!IsFieldCZero(reinterpret_cast<DummyPointerMap*>(&m_kNavMeshInfoArraysByWorldspace)))
         {
-            FUN_006b7b70(info);
+            RemoveInfoFromCellKeyMap(info);
         }
         SetAltered(true);
     }
@@ -995,7 +997,7 @@ struct GridMap
     void* GetEdge(unsigned short);
     void* FUN_0068f6b0(unsigned short);
     unsigned int GetArrFlags();
-    unsigned int FUN_006b5a90();
+    unsigned int NavMesh_GetNumDoorPortals();
     void CollectTrianglesForDoor(NavMeshInfo*, void*);
 };
 struct LinkChecker
@@ -1237,7 +1239,7 @@ void NavMeshInfoMap::ValidateNavMeshes()
                                             }
                                         }
                                     }
-                                    for (unsigned int k = 0; k < ((GridMap*)meshPtr.GetPtr())->FUN_006b5a90(); ++k)
+                                    for (unsigned int k = 0; k < ((GridMap*)meshPtr.GetPtr())->NavMesh_GetNumDoorPortals(); ++k)
                                     {
                                         NavMeshInfo** other = (NavMeshInfo**)((GridMap*)meshPtr.GetPtr())
                                                                   ->FUN_0068f6b0((unsigned short)k);
@@ -1255,7 +1257,7 @@ void NavMeshInfoMap::ValidateNavMeshes()
                                         NavMeshInfo* other = *((MeshInfoArray*)&meshInfo->m_kDoorReferences)->FUN_00877a30(k);
                                         {
                                             bool linkChecker = false;
-                                            for (unsigned int i = 0; i < ((GridMap*)meshPtr.GetPtr())->FUN_006b5a90();
+                                            for (unsigned int i = 0; i < ((GridMap*)meshPtr.GetPtr())->NavMesh_GetNumDoorPortals();
                                                  ++i)
                                             {
                                                 if (*(NavMeshInfo**)((GridMap*)meshPtr.GetPtr())

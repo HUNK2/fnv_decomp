@@ -23,7 +23,7 @@ public:
     virtual void va4(SphereBound* b);
     virtual void vf42();
     virtual void vf43();
-    virtual int FUN_004a7030();
+    virtual int GetDebugGeomShapeSize();
     virtual bool FUN_00c50380(NiPoint3* other);
     virtual void SetGridPosition(const NiPoint3& center);
 
@@ -32,7 +32,7 @@ public:
     void center(const Vec57& center);
     void update();
     void FUN_00c39270(NiPoint3* pts);
-    void FUN_00c37a00(NiPoint3* pts);
+    void BSMultiBoundOBB_GetVertices(NiPoint3* pts);
 
     union
     {

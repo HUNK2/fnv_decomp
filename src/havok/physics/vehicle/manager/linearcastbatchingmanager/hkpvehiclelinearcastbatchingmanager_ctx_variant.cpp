@@ -409,7 +409,7 @@ __declspec(align(16)) struct E430B0Job : public E430B0QueryJob
 
 struct FUN_00d05db0_class
 {
-	void FUN_00d05db0();
+	void nullsub_8();
 };
 
 struct FUN_00d04b90_class
@@ -487,7 +487,7 @@ int __thiscall E430B0Mgr::hkpVehicleLinearCastBatchingManager_buildAndAddCastJob
 	{
 		int n = perJob + (j < rem);
 		E430B0Job job(world->collisionInput, header, cmdPtr, n, semaphore, 128);
-		((FUN_00d05db0_class*)&job)->FUN_00d05db0();
+		((FUN_00d05db0_class*)&job)->nullsub_8();
 		jobQueue->AddObjectCopy(&job, 1);
 		cmdPtr += n;
 		header++;

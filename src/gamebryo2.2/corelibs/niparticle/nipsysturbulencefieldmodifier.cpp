@@ -73,7 +73,8 @@ struct Point3ParameterData
 extern const void* const g_01202698;
 
 // @fnv 0x00c273c0
-const void* __cdecl FUN_00c273c0()
+// src: COMMUNITY 0x00c273c0
+const void* __cdecl NiPSysTurbulenceFieldModifier_GetRTTI()
 {
     return &g_01202698;
 }
@@ -170,7 +171,7 @@ struct C27A30RTTI
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > C27A30StringArray;
 
-extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
 
 // Appends the RTTI name and a formatted "Frequency" string for m_fFrequency to pkStrings after calling the base handler.
@@ -178,7 +179,7 @@ char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
 void NiPSysTurbulenceFieldModifier::FUN_00c27a30(C27A30StringArray* pkStrings)
 {
     FieldViewerStrings(pkStrings);
-    char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(ms_kRTTI.GetName());
     pkStrings->Add(pcString);
     pcString = FUN_00a7d550("Frequency", m_fFrequency);
     pkStrings->Add(pcString);

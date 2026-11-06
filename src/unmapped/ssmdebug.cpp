@@ -19,7 +19,7 @@ struct GcManager
 {
     void FUN_00445570(void* pkRef);
     bool FUN_00868250();
-    void FUN_004aaf10();
+    void ModelLoader_UnlockModelMap();
 };
 extern GcManager* g_pkGcManager_011c3b3c;
 
@@ -319,7 +319,7 @@ class GcRef
     virtual void StopCombat(int i);
 
     unsigned int FUN_0084e3a0();
-    void FUN_0056fcb0();
+    void TESObjectREFR_Release3DRelatedData();
     void FUN_00483c70();
     GcBaseForm* FUN_007af430();
     GcExtra* FUN_00575d70();
@@ -332,7 +332,8 @@ static const char s_szLockName[] = "GarbageCollector::Add(TESObjectREFR)";
 extern const char g_szGcEnd[] = "";
 
 // @fnv 0x00867f90
-void __cdecl FUN_00867f90(GcRef* pkRef)
+// src: COMMUNITY 0x00867f90
+void __cdecl GarbageCollector_Add_TESObjectREFR(GcRef* pkRef)
 {
     GcScopedLock kLock(1, s_szLockName);
     if (FUN_004839c0(pkRef->FUN_0084e3a0()) != pkRef)
@@ -342,7 +343,7 @@ void __cdecl FUN_00867f90(GcRef* pkRef)
     else
     {
         pkRef->Set3D(1);
-        pkRef->FUN_0056fcb0();
+        pkRef->TESObjectREFR_Release3DRelatedData();
         if (pkRef->IsActor())
         {
             GcRef* pkActor = pkRef;
@@ -368,7 +369,7 @@ void __cdecl FUN_00867f90(GcRef* pkRef)
             if (g_pkGcManager_011c3b3c->FUN_00868250())
             {
                 delete pkRef;
-                g_pkGcManager_011c3b3c->FUN_004aaf10();
+                g_pkGcManager_011c3b3c->ModelLoader_UnlockModelMap();
             }
             else
             {

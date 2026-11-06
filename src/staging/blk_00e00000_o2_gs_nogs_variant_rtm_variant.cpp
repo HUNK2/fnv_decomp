@@ -20,7 +20,7 @@ extern int DAT_010cb5ac;
 void finishLoadedObjecthkpSphereShape(int* p, int flag);
 extern int DAT_010305a8;
 extern int DAT_010ce4bc;
-void FUN_00e00b00(int* p, int flag);
+void hkpMultiSphereShape_hkpMultiSphereShape_0(int* p, int flag);
 extern int DAT_010305a8;
 extern int DAT_010ce25c;
 void finishLoadedObjecthkpCapsuleShape(int* a, int b);
@@ -1349,7 +1349,7 @@ struct FUN_00e10a00_cls
 {
     int m_00;
 
-    FUN_00e10a00_cls* FUN_00e10a00();
+    FUN_00e10a00_cls* return_input_and_0_it_1();
 };
 // FUN_00e114f0: thiscall, 3 unused stack params, sets a flag byte at +0x100.
 class FUN_00e114f0_cls
@@ -3132,7 +3132,7 @@ struct Context
 void SwapHeaderBytesAndAdvance(Input*);
 void SwapQuadBytes(Input*);
 void hkpSaveContactPointsEndianUtil_swapEndianType(Input*);
-int FUN_00dcd4d0(unsigned int);
+int hkpSaveContactPointsUtil_getSerializedAgentType(unsigned int);
 void SwapHkHeaderE05E(Payload*);
 void SwapHeaderEndianness(Payload*);
 void hkpSaveContactPointsEndianUtil_swapEndianType_00e05fe0(Payload*);

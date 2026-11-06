@@ -994,7 +994,7 @@ struct FnvCpu_FUN_00d65290_CpuObject
     unsigned char value;
     void FUN_00d65290(unsigned char arg0);
 };
-void __cdecl FUN_00d6add0();
+void __cdecl nullsub_103();
 extern "C" void __cdecl FUN_00d72e90();
 void __cdecl FUN_00d73380();
 class FUN_00d733e0
@@ -1786,7 +1786,7 @@ __forceinline void hkQsTransform::SetProduct(const hkQsTransform& kLeft, const h
     hkVector4 kMovedTrans;
     kMovedTrans.SetRotatedDirection(kLeft.m_rotation, kRight.m_vTranslation);
     m_vTranslation.setAdd4(kLeft.m_vTranslation, kMovedTrans);
-    m_rotation.FUN_00c66320(kLeft.m_rotation, kRight.m_rotation);
+    m_rotation.setMul(kLeft.m_rotation, kRight.m_rotation);
     m_vScale.setMul4(kLeft.m_vScale, kRight.m_vScale);
 }
 
@@ -1981,7 +1981,8 @@ static __declspec(noinline) hkReal FUN_00d6b3c0(hkReal maxVelocity, hkReal maxDi
 }
 
 // @fnv 0x00d6b8e0
-__declspec(noinline) void __cdecl FUN_00d6b8e0(hkReal m_fTimeStep, const TransformReferenceData& pose, const IntegerTriple& body,
+// src: COMMUNITY 0x00d6b8e0
+__declspec(noinline) void __cdecl hkaKeyFrameHierarchyUtility_applyKeyFrame(hkReal m_fTimeStep, const TransformReferenceData& pose, const IntegerTriple& body,
                                                const ControlData* controlPalette, Output* output)
 {
     HkDynamicArray<BoneAndCenterOfMassPose> matrixCache;
@@ -2113,7 +2114,7 @@ __declspec(noinline) void __cdecl FUN_00d6b8e0(hkReal m_fTimeStep, const Transfo
 }
 
 void(__cdecl* volatile retainKeyFrameEntry)(hkReal, const TransformReferenceData&, const IntegerTriple&, const ControlData*,
-                                            Output*) = &FUN_00d6b8e0;
+                                            Output*) = &hkaKeyFrameHierarchyUtility_applyKeyFrame;
 
 class ScalarR2
 {
@@ -2231,10 +2232,10 @@ class FUN_004b4ab0_Class
     }
     __forceinline void _setRotatedDir(const RotationR2& r, const FUN_004b4ab0_Class& v);
     __forceinline void _setMul3(const MatrixR2& r, const FUN_004b4ab0_Class& v);
-    void FUN_004b4ab0(int r, int v);
+    void hkVector4_setRotatedInverseDir(int r, int v);
     __forceinline void setRotatedInverseDir(const RotationR2& r, const FUN_004b4ab0_Class& v)
     {
-        FUN_004b4ab0((int)&r, (int)&v);
+        hkVector4_setRotatedInverseDir((int)&r, (int)&v);
     }
 };
 typedef FUN_004b4ab0_Class VectorR2;
@@ -2267,7 +2268,8 @@ __forceinline void VectorR2::_setMul3(const MatrixR2& r, const VectorR2& v)
     LocalM128 pz = _mm_mul_ps(r.getColumn(2).value, sz);
     value = _mm_add_ps(_mm_add_ps(px, py), pz);
 }
-inline void VectorR2::FUN_004b4ab0(int r, int v)
+// src: COMMUNITY 0x004b4ab0
+inline void VectorR2::hkVector4_setRotatedInverseDir(int r, int v)
 {
     const RotationR2& m = *reinterpret_cast<const RotationR2*>(r);
     LocalM128 low = _mm_unpacklo_ps(m.getColumn(0), m.getColumn(1));
@@ -2491,7 +2493,7 @@ struct QuaternionD72
 {
     LocalM128 value;
     __declspec(noalias) void FUN_00cb26e0(const Matrix3D72& rotation);
-    __declspec(noalias) void FUN_005611c0();
+    __declspec(noalias) void normalize_005611c0();
 };
 __forceinline hkTransform::hkTransform() {}
 // 0x00cb20b0 imports column-major floats into hkTransform; the shared header lacks this method.
@@ -2663,7 +2665,7 @@ void __cdecl FUN_00d72e90(const float* source, OutputD72 output)
         quaternion.FUN_00cb26e0(rotation);
         result->rotation.value = quaternion.value;
     }
-    result->rotation.FUN_005611c0();
+    result->rotation.normalize_005611c0();
     Matrix4D72 inverseMatrix;
     {
         hkTransform rotationTransform;

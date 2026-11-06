@@ -56,13 +56,13 @@ int InputManager::FUN_00a24660(int key, int state)
     {
         int result = 0;
         if (DAT_011f35c8)
-            result = FUN_00a24560(3, controller[key], state);
+            result = Controls_GetButtonState(3, controller[key], state);
         else
         {
             for (int device = 0; device < 2; ++device)
             {
                 if (keyboard[device][key] != 255)
-                    result += FUN_00a24560(device, keyboard[device][key], state);
+                    result += Controls_GetButtonState(device, keyboard[device][key], state);
             }
         }
         if (key == 14 && result > 0)
@@ -89,7 +89,7 @@ int InputManager::FUN_00a24660(int key, int state)
         switch (key)
         {
         case 28:
-            if (HandleHotkeyInput(1, 1) || FUN_00a23e10(6, 1))
+            if (HandleHotkeyInput(1, 1) || Controls_GetControllerButton(6, 1))
                 return 1;
             break;
         case 29:
@@ -101,7 +101,7 @@ int InputManager::FUN_00a24660(int key, int state)
     }
     else if (key == 28)
     {
-        if (FUN_00a23e10(6, 1))
+        if (Controls_GetControllerButton(6, 1))
             return 1;
     }
     return 0;

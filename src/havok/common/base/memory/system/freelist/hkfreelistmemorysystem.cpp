@@ -167,7 +167,7 @@ FUN_00cd0c80::~FUN_00cd0c80() throw()
 
 struct CallTarget_00cd1d80
 {
-    int FUN_00cd1d80(int, int, int, int, int);
+    int hkArrayBase__spliceInto(int, int, int, int, int);
 };
 struct SearchObject
 {
@@ -177,7 +177,7 @@ struct SearchObject
 int SearchObject::Search(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
 {
     unsigned int callResult0 =
-        (unsigned int)((CallTarget_00cd1d80*)this)->FUN_00cd1d80((int)arg0, (int)arg1, (int)0u, (int)arg2, (int)arg3);
+        (unsigned int)((CallTarget_00cd1d80*)this)->hkArrayBase__spliceInto((int)arg0, (int)arg1, (int)0u, (int)arg2, (int)arg3);
     return (int)callResult0;
 }
 
@@ -213,11 +213,12 @@ void FUN_00cd06f0_cls::AccumulateSpawnedSubTotals(int* out)
 
 struct CD0730Object
 {
-    virtual int FUN_00cd0730(const void* info) const;
+    virtual int hkFreeListMemorySystem_Func010(const void* info) const;
 };
 
 // @fnv 0x00cd0730
-int CD0730Object::FUN_00cd0730(const void* info) const
+// src: COMMUNITY 0x00cd0730
+int CD0730Object::hkFreeListMemorySystem_Func010(const void* info) const
 {
     return 1;
 }

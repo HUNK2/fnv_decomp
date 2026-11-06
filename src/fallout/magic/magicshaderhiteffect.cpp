@@ -88,10 +88,10 @@ class ParticleShaderProperty
 {
   public:
     ShaderParticleArray<NiPointer<NiAVObject> >& GetFieldAt11C();
-    void FUN_00820b70(float);
+    void ParticleShaderProperty_SetEmitterTypeRay(float);
     void SetByteAtOffset6C(int);
     void ClearField64();
-    void FUN_00820b90();
+    void ParticleShaderProperty_SetEmitterTypeCollision();
     void DispatchRefOp(NiAVObject*);
     void SetParticleTime(float);
     void UpdateParticlesAtTime(float, bool, bool);
@@ -230,7 +230,7 @@ bool MagicShaderHitEffect::Init()
             {
                 ParticleShaderProperty* property = m_kParticleShaderProperties.GetAt(i);
                 if (bWeapon)
-                    property->FUN_00820b70(scenegraph.extent);
+                    property->ParticleShaderProperty_SetEmitterTypeRay(scenegraph.extent);
                 if (m_bUseActorParticleEffects)
                     property->SetByteAtOffset6C(0);
                 if (pTarget)
@@ -241,7 +241,7 @@ bool MagicShaderHitEffect::Init()
                         if (pTarget == g_thePlayer && !b3rdPerson)
                             property->ClearField64();
                         else
-                            property->FUN_00820b90();
+                            property->ParticleShaderProperty_SetEmitterTypeCollision();
                     }
                 }
                 property->DispatchRefOp(scenegraph.particles);
@@ -257,7 +257,7 @@ bool MagicShaderHitEffect::Init()
         else if (m_kParticleShaderProperties.GetSize() && (NiNode*)m_pParticleShaderNode)
         {
             for (unsigned int i = 0; i < m_kParticleShaderProperties.GetSize(); ++i)
-                m_pEffectShader->FUN_00507810(m_pParticleShaderNode, m_kParticleShaderProperties.GetAt(i));
+                m_pEffectShader->StopParticleShader(m_pParticleShaderNode, m_kParticleShaderProperties.GetAt(i));
             m_kParticleShaderProperties.RemoveAll(true);
             if ((NiNode*)m_pParticleShaderNode)
                 m_pParticleShaderNode->AssignParent(0);
@@ -558,19 +558,21 @@ struct FUN_00820b70_shell
     int m_0x64;
     float m_0x68;
 
-    void FUN_00820b70(float a);
+    void ParticleShaderProperty_SetEmitterTypeRay(float a);
 };
 
 // Sets m_0x64 to 2 and stores the float argument in m_0x68.
 // @fnv 0x00820b70
-void FUN_00820b70_shell::FUN_00820b70(float afValue)
+// src: COMMUNITY 0x00820b70
+void FUN_00820b70_shell::ParticleShaderProperty_SetEmitterTypeRay(float afValue)
 {
     m_0x64 = 2;
     m_0x68 = afValue;
 }
 
 // @fnv 0x00820b90
-void __fastcall FUN_00820b90(int pObject)
+// src: COMMUNITY 0x00820b90
+void __fastcall ParticleShaderProperty_SetEmitterTypeCollision(int pObject)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x64) = 1;
 }
@@ -668,12 +670,13 @@ void FUN_008225b0_shell::FUN_008225b0()
 
 struct FUN_008225d0_shell
 {
-    void* __thiscall FUN_008225d0(unsigned int param_1);
+    void* __thiscall BSSimpleArray_Allocate(unsigned int param_1);
 };
 
 // Allocates a block of param_1 * 4 bytes via operator new and returns the pointer.
 // @fnv 0x008225d0
-void* __thiscall FUN_008225d0_shell::FUN_008225d0(unsigned int param_1)
+// src: COMMUNITY 0x008225d0
+void* __thiscall FUN_008225d0_shell::BSSimpleArray_Allocate(unsigned int param_1)
 {
     void* result = operator new(param_1 * 4);
     return result;
@@ -725,7 +728,8 @@ void GlobalObject_00869f00::FUN_00822630()
 TESEffectShader* __cdecl FUN_0080d0d0(void);
 
 // @fnv 0x00822010
-bool MagicShaderHitEffect::FUN_00822010()
+// src: COMMUNITY 0x00822010
+bool MagicShaderHitEffect::CheckShouldSave_00822010()
 {
     if (pEffect != 0)
         return false;
@@ -834,13 +838,14 @@ void FUN_00820bd0_shell::SetByteAtOffset6C(unsigned char aucValue)
 
 struct FUN_0081be80_s
 {
-    void FUN_0081be80(BGSSaveFormBuffer*);
+    void MagicHitEffect_SaveGameBGS(BGSSaveFormBuffer*);
 };
 
 // @fnv 0x00822250
-void MagicShaderHitEffect::FUN_00822250(BGSSaveFormBuffer* pBuffer)
+// src: COMMUNITY 0x00822250
+void MagicShaderHitEffect::SaveGameBGS_00822250(BGSSaveFormBuffer* pBuffer)
 {
-    reinterpret_cast<FUN_0081be80_s*>(this)->FUN_0081be80(pBuffer);
+    reinterpret_cast<FUN_0081be80_s*>(this)->MagicHitEffect_SaveGameBGS(pBuffer);
     pBuffer->SaveData(reinterpret_cast<char*>(this) + 0x28, 1, 0);
     pBuffer->SaveData(reinterpret_cast<char*>(this) + 0x34, 4, 0);
     pBuffer->SaveData(reinterpret_cast<char*>(this) + 0x60, 4, 0);
@@ -872,7 +877,7 @@ float Actor::FUN_008c4850()
 
 struct ShaderBaseSave
 {
-    void FUN_0081bd80(ActiveEffect*, TESObjectREFR*);
+    void MagicHitEffect_SaveGame(ActiveEffect*, TESObjectREFR*);
 };
 
 namespace fnv_00821e40 {
@@ -883,9 +888,10 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 }  // namespace fnv_00821e40
 
 // @fnv 0x00821e40
-void MagicShaderHitEffect::FUN_00821e40(ActiveEffect* pEffect, TESObjectREFR* a2)
+// src: COMMUNITY 0x00821e40
+void MagicShaderHitEffect::SaveGame_00821e40(ActiveEffect* pEffect, TESObjectREFR* a2)
 {
-    reinterpret_cast<ShaderBaseSave*>(this)->FUN_0081bd80(pEffect, a2);
+    reinterpret_cast<ShaderBaseSave*>(this)->MagicHitEffect_SaveGame(pEffect, a2);
     fnv_00821e40::g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x34, 4);
     if (fnv_00821e40::g_TESSaveLoadGame->FUN_008df040() >= 0x37)
     {
@@ -989,12 +995,13 @@ struct FUN_00695230_shell
     unsigned int count;
     unsigned int capacity;
 
-    void FUN_00695230(unsigned int, bool);
+    void BSSimpleArray_NiPointer_1024_SetSize(unsigned int, bool);
 };
 
 // Resizes the container to index elements: clears when index is 0, grows or shrinks the buffer and adjusts count and capacity.
 // @fnv 0x00695230
-void FUN_00695230_shell::FUN_00695230(unsigned int uiNewSize, bool flag)
+// src: COMMUNITY 0x00695230
+void FUN_00695230_shell::BSSimpleArray_NiPointer_1024_SetSize(unsigned int uiNewSize, bool flag)
 {
     if (uiNewSize == 0)
     {
@@ -1136,7 +1143,8 @@ unsigned int __fastcall FUN_0084e3a0(void* p);
 
 // Writes the values returned by FUN_0084e3a0 for m_1c and m_30 to DAT_011de45c, then calls v53(0, m_1c).
 // @fnv 0x008220c0
-void MagicShaderHitEffect::FUN_008220c0()
+// src: COMMUNITY 0x008220c0
+void MagicShaderHitEffect::SaveGameTES_008220c0()
 {
     unsigned int a = (unsigned int)FUN_0084e3a0(pTarget);
     DAT_011de45c->FUN_00857a10(&a, 4);
@@ -1400,7 +1408,7 @@ FUN_0081f770::~FUN_0081f770()
     if (m_spNode != 0)
     {
         for (unsigned int i = 0; i < m_kNodeArray.GetSize(); i++)
-            m_pForm->FUN_00507810(reinterpret_cast<NiAVObject*>((NiNode*)m_spNode), reinterpret_cast<ParticleShaderProperty*>((NiNode*)m_kNodeArray.GetAt(i)));
+            m_pForm->StopParticleShader(reinterpret_cast<NiAVObject*>((NiNode*)m_spNode), reinterpret_cast<ParticleShaderProperty*>((NiNode*)m_kNodeArray.GetAt(i)));
     }
     if (m_kProcs.GetSize() > 0)
     {
@@ -1456,7 +1464,7 @@ template <class T> struct Ref
 struct Property
 {
     float FUN_006a78f0();
-    void FUN_00821600(float);
+    void TileShaderProperty_SetTileAlpha(float);
     void FUN_00821620(float);
     void FUN_00ba7b60(float, bool, bool);
     int FUN_004fd380();
@@ -1479,13 +1487,13 @@ struct TestRef
 // TESEffectShader with the particle/texture-effect update members (0x00507da0 etc.) that TESEffectShader.h does not declare
 struct EffectShaderUpdateView : TESEffectShader
 {
-    float FUN_00507da0(float, float, float, bool);
+    float TESEffectShader_BirthParticles(float, float, float, bool);
     float FUN_00821640();
-    float FUN_00821660();
+    float GetFootWeight();
     float GetFloatAt144();
     float GetValue();
     float FUN_00567470();
-    float FUN_00821680();
+    float TESObjectWEAP_GetFiringRumbleRightMotorStrength();
     void UpdateShaderState(BSShaderPPLightingProperty::TextureEffectData*, float, float, float, bool);
 };
 
@@ -1547,7 +1555,7 @@ bool MagicShaderHitEffect::Update(float afDeltaTime)
         float total = 0.0f;
         for (unsigned int index = 0; index < m_kParticleShaderProperties.GetSize(); index++)
             total += reinterpret_cast<ParticleUpdate::Property*>(static_cast<ParticleShaderProperty*>(m_kParticleShaderProperties.GetAt(index)))->FUN_006a78f0() * ParticleUpdate::FUN_00ba52d0();
-        float available = static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->FUN_00507da0(total, afDeltaTime, m_fEffectShaderScale, bWasPlaying);
+        float available = static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->TESEffectShader_BirthParticles(total, afDeltaTime, m_fEffectShaderScale, bWasPlaying);
         if (available > ParticleUpdate::DAT_01012060)
             done = false;
         for (unsigned int index2 = 0; index2 < m_kParticleShaderProperties.GetSize(); index2++)
@@ -1555,7 +1563,7 @@ bool MagicShaderHitEffect::Update(float afDeltaTime)
             float amount = ParticleUpdate::FUN_0040ebd0(available, float(ParticleUpdate::FUN_00ba52d0()));
             available -= amount;
             ParticleUpdate::Property* propertySlot1 = reinterpret_cast<ParticleUpdate::Property*>(static_cast<ParticleShaderProperty*>(m_kParticleShaderProperties.GetAt(index2)));
-            propertySlot1->FUN_00821600(amount / ParticleUpdate::FUN_00ba52d0());
+            propertySlot1->TileShaderProperty_SetTileAlpha(amount / ParticleUpdate::FUN_00ba52d0());
             propertySlot1->FUN_00821620(multiplier);
             propertySlot1->FUN_00ba7b60(m_fEffectShaderScale, false, true);
             if (propertySlot1->FUN_004fd380() > 0)
@@ -1563,7 +1571,7 @@ bool MagicShaderHitEffect::Update(float afDeltaTime)
         }
         if (m_kAddonModelObjects.GetSize() > 0)
         {
-            float delta = afDeltaTime / (!bWasPlaying ? static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->FUN_00821640() : static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->FUN_00821660() * ParticleUpdate::DAT_0101a6b0);
+            float delta = afDeltaTime / (!bWasPlaying ? static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->FUN_00821640() : static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->GetFootWeight() * ParticleUpdate::DAT_0101a6b0);
             m_fAddonModelTimer = ParticleUpdate::FUN_00404010(0.0f, ParticleUpdate::FUN_0040ebd0(1.0f, m_fAddonModelTimer + delta));
             if (m_fAddonModelTimer > ParticleUpdate::DAT_01012060)
                 done = false;
@@ -1571,7 +1579,7 @@ bool MagicShaderHitEffect::Update(float afDeltaTime)
             m_fAddonModelScale = ParticleUpdate::FUN_00404010(0.0f, ParticleUpdate::FUN_0040ebd0(1.0f, m_fAddonModelScale + delta));
             float maximumSlot16 = 1.0f;
             float minimum = !bWasPlaying ? ParticleUpdate::FUN_00404010(ParticleUpdate::DAT_01013ea4, static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->FUN_00567470())
-                                      : ParticleUpdate::FUN_00404010(ParticleUpdate::DAT_01013ea4, static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->FUN_00821680());
+                                      : ParticleUpdate::FUN_00404010(ParticleUpdate::DAT_01013ea4, static_cast<ParticleUpdate::EffectShaderUpdateView*>(m_pEffectShader)->TESObjectWEAP_GetFiringRumbleRightMotorStrength());
             float factorSlot13 = minimum + (maximumSlot16 - minimum) * m_fAddonModelScale;
             for (unsigned int index3 = 0; index3 < m_kAddonModelObjects.GetSize(); index3++)
             {
@@ -1642,7 +1650,7 @@ void MagicShaderHitEffect::ApplyAndCleanup()
     if (reinterpret_cast<const ShaderPointerInequality<NiNode>&>(m_pParticleShaderNode) != 0)
     {
         for (unsigned int i = 0; i < m_kParticleShaderProperties.GetSize(); i++)
-            m_pEffectShader->FUN_00507810(m_pParticleShaderNode, m_kParticleShaderProperties.GetAt(i));
+            m_pEffectShader->StopParticleShader(m_pParticleShaderNode, m_kParticleShaderProperties.GetAt(i));
     }
     m_kParticleShaderProperties.RemoveAll(true);
     if (reinterpret_cast<const ShaderPointerInequality<NiNode>&>(m_pParticleShaderNode) != 0)
@@ -1674,7 +1682,7 @@ class EffView : public MagicShaderHitEffect
 {
   public:
     TESObjectREFR* GetTarget();
-    void FUN_0081bc70(NiAVObject*);
+    void MagicHitEffect_UpdateParentCell(NiAVObject*);
 };
 
 // @fnv 0x008217e0
@@ -1756,11 +1764,11 @@ void __fastcall UpdateEffectNode(EffView* pEffectView)
 
     if (pActor1 || pTargetObj5)
     {
-        pEffectView->FUN_0081bc70(0);
+        pEffectView->MagicHitEffect_UpdateParentCell(0);
     }
     else
     {
-        pEffectView->FUN_0081bc70(pEffectView->m_pParticleShaderNode);
+        pEffectView->MagicHitEffect_UpdateParentCell(pEffectView->m_pParticleShaderNode);
     }
 }
 

@@ -173,7 +173,7 @@ void PackageList::CollectEligiblePackages(Actor* actor, BSSimpleList<TESPackage*
             DurationData* pSchedule = 0;
             while (pList && (pPackage = pList->GetItem()))
             {
-                if (pPackage->FUN_0067efd0() && pPackage->FUN_00677760(actor))
+                if (pPackage->FUN_0067efd0() && pPackage->HasActorCompletedPackage(actor))
                 {
                     pSchedule = pPackage->FUN_0041d8a0();
                     if (pSchedule && (pSchedule->FUN_00678ca0() == -1 || pSchedule->FUN_00678ca0() <= scan.month) &&

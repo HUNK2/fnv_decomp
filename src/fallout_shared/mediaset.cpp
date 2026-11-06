@@ -142,13 +142,13 @@ bool MediaSet::UpdateLayerLocation(unsigned int time, bool force, MediaLocationC
     else
     {
         bool a;  // Restart after the previous incidental reaches its fade window.
-        unsigned int fMinPercent = FUN_00830970(MEDIATYPE_MEDIA_LOCATION);
+        unsigned int fMinPercent = FalloutAudioMedia_MediaGetSubDuration(MEDIATYPE_MEDIA_LOCATION);
         a = false;
         if (m_uiMediaValue3 && fMinPercent && time > m_uiMediaValue3 + fMinPercent - m_fMediaParameter3 * 1000.0)
         {
             FalloutAudioMedia::FadeOutMedia(static_cast<int>(m_fMediaParameter3 * 1000.0), MEDIATYPE_MEDIA_LOCATION);
             m_uiMediaValue3 = time;
-            if (!controller->FUN_00598000())
+            if (!controller->GetLoop())
                 a = true;
             else
                 return false;
@@ -241,12 +241,12 @@ bool MediaSet::UpdateLayerLocation(unsigned int time, bool force, MediaLocationC
             {
                 DAT_011dd37c = static_cast<unsigned int>(time + m_fMediaParameter1 * 1000.0);
                 unsigned int uiElapsedMilliseconds = 0;
-                if (FUN_00830a20(MEDIATYPE_MEDIA_LOCATION) && !a)
-                    uiElapsedMilliseconds = time - FUN_00830a20(MEDIATYPE_MEDIA_LOCATION);
+                if (FalloutAudioMedia_MediaGetPosition(MEDIATYPE_MEDIA_LOCATION) && !a)
+                    uiElapsedMilliseconds = time - FalloutAudioMedia_MediaGetPosition(MEDIATYPE_MEDIA_LOCATION);
                 FalloutAudioMedia::PlayMedia(
                     MEDIATYPE_MEDIA_LOCATION,
                     reinterpret_cast<const char*>(reinterpret_cast<const NiPointer<NiNode>*>(pLayer)->operator->()),
-                    static_cast<unsigned int>(m_fMediaParameter3 * 1000.0), !controller->FUN_00598000(), true,
+                    static_cast<unsigned int>(m_fMediaParameter3 * 1000.0), !controller->GetLoop(), true,
                     pLayer->Attenuation, uiElapsedMilliseconds);
                 FalloutAudioMedia::EndMediaUpdate();
                 m_uiMediaValue3 = time;
@@ -471,7 +471,8 @@ bool MediaSetLoad::FUN_00598bc0(TESFile* apFile)
 }
 
 // @fnv 0x00598000
-int MediaLocationController::FUN_00598000()
+// src: COMMUNITY 0x00598000
+int MediaLocationController::GetLoop()
 {
     return (iFlags >> 4) & 3;
 }
@@ -524,7 +525,7 @@ struct MediaFormWriter
 };
 
 void __cdecl FUN_004856f0(unsigned int, void*, unsigned int);
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 void __cdecl _FUN_00485910(unsigned int, unsigned int);
 void __cdecl _FUN_00485910(unsigned int, float);
 
@@ -597,7 +598,7 @@ void MediaSet::SaveMediaSet()
     _FUN_00485910(0x4d414e4e, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x94));
     _FUN_00485910(0x4d414e4f, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xa4));
 
-    FUN_004858f0(0x4d414e50, *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0xa8));
+    TESForm_AddChunk_3(0x4d414e50, *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0xa8));
 
     _FUN_00485910(0x4d414e44, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xac));
     _FUN_00485910(0x4d414e45, *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xb0));
@@ -626,8 +627,8 @@ void MediaSet::SaveMediaSet()
 MediaSet::~MediaSet()
 {}
 
-float __fastcall FUN_00595ea0(void* apSky);
-float __fastcall FUN_00596030(void* apSky);
+float __fastcall Sky_GetSunriseBegin(void* apSky);
+float __fastcall Sky_GetSunsetEnd(void* apSky);
 
 extern TES* g_TES;
 
@@ -646,8 +647,8 @@ bool MediaSetBattle::UpdateBattleMusic(unsigned int auiTime)
         return true;
     }
     Sky* pWeatherSky = g_TES->GetSky();
-    bool m_bConditionWasTrue = pWeatherSky ? (FUN_00595ea0(pWeatherSky) <= pWeatherSky->GetFieldEC() &&
-                                              pWeatherSky->GetFieldEC() <= FUN_00596030(pWeatherSky))
+    bool m_bConditionWasTrue = pWeatherSky ? (Sky_GetSunriseBegin(pWeatherSky) <= pWeatherSky->GetFieldEC() &&
+                                              pWeatherSky->GetFieldEC() <= Sky_GetSunsetEnd(pWeatherSky))
                                            : true;
     if (m_bConditionWasTrue)
     {
@@ -757,8 +758,8 @@ MediaSetNameHolder::~MediaSetNameHolder()
 {}
 
 bool __fastcall GetControllerCondition(MediaLocationController* controller);
-bool __cdecl FUN_00830750(unsigned long, bool);
-unsigned int __cdecl FUN_008308c0(unsigned long);
+bool __cdecl FalloutAudioMedia_MediaIsPlaying(unsigned long, bool);
+unsigned int __cdecl FalloutAudioMedia_MediaGetDuration(unsigned long);
 void __cdecl StartFade(int, int);
 void __cdecl PlayAudioMedia(int, const char*, unsigned int, bool, bool, float, unsigned int);
 void __cdecl FUN_008304c0();
@@ -774,14 +775,14 @@ bool MediaSet::PointLocation(unsigned int auiTime, bool abEnabled, MediaLocation
     bool b4;
     MediaSetEntry* ptrLocal;
     int local4;
-    b2 = FUN_00830750(3, true);
+    b2 = FalloutAudioMedia_MediaIsPlaying(3, true);
     retVal = true;
     b4 = reinterpret_cast<TESObjectREFR*>(apCtrl)->GetScale() < 100.0;
     if (this->m_bActorStateFlag == 0 && abEnabled)
     {
         DAT_011dd37c = 0;
     }
-    local7 = FUN_008308c0(2);
+    local7 = FalloutAudioMedia_MediaGetDuration(2);
     flagDTmp = false;
     if (this->m_uiMediaValue3 != 0 && local7 != 0)
     {
@@ -789,7 +790,7 @@ bool MediaSet::PointLocation(unsigned int auiTime, bool abEnabled, MediaLocation
         {
             StartFade((int)(this->m_fMediaParameter3 * 1000.0), 2);
             this->m_uiMediaValue3 = auiTime;
-            if (apCtrl->FUN_00598000() == 0)
+            if (apCtrl->GetLoop() == 0)
             {
                 flagDTmp = true;
             }
@@ -810,7 +811,7 @@ bool MediaSet::PointLocation(unsigned int auiTime, bool abEnabled, MediaLocation
         {
             if (this->m_pSound1 != 0 && !this->bEffectFlag)
             {
-                BSAudio::FUN_00453a70()->FUN_00ad73b0((int)this->m_pSound1->TESForm::FUN_0084e3a0(), 0x901).Play(false);
+                BSAudio::FUN_00453a70()->GetSoundHandleByFormID_00ad73b0((int)this->m_pSound1->TESForm::FUN_0084e3a0(), 0x901).Play(false);
             }
             ptrLocal = &this->m_kMediaSetEntry1;
             this->bEffectFlag = 1;
@@ -819,7 +820,7 @@ bool MediaSet::PointLocation(unsigned int auiTime, bool abEnabled, MediaLocation
         {
             if (this->bEffectFlag && this->m_pSound2 != 0)
             {
-                BSAudio::FUN_00453a70()->FUN_00ad73b0((int)this->m_pSound2->TESForm::FUN_0084e3a0(), 0x901).Play(false);
+                BSAudio::FUN_00453a70()->GetSoundHandleByFormID_00ad73b0((int)this->m_pSound2->TESForm::FUN_0084e3a0(), 0x901).Play(false);
             }
             ptrLocal = &this->m_kMediaSetEntry3;
             this->bEffectFlag = 0;
@@ -828,7 +829,7 @@ bool MediaSet::PointLocation(unsigned int auiTime, bool abEnabled, MediaLocation
         {
             if (this->bEffectFlag && this->m_pSound2 != 0)
             {
-                BSAudio::FUN_00453a70()->FUN_00ad73b0((int)this->m_pSound2->TESForm::FUN_0084e3a0(), 0x901).Play(false);
+                BSAudio::FUN_00453a70()->GetSoundHandleByFormID_00ad73b0((int)this->m_pSound2->TESForm::FUN_0084e3a0(), 0x901).Play(false);
             }
             ptrLocal = &this->m_kMediaSetEntry2;
             this->bEffectFlag = 0;
@@ -841,9 +842,9 @@ bool MediaSet::PointLocation(unsigned int auiTime, bool abEnabled, MediaLocation
                 DAT_011dd37c = (unsigned int)(this->m_fMediaParameter1 * 1000.0 + (double)DAT_011dd37c);
             }
             local4 = 0;
-            if (FUN_00830a20((MEDIATYPE)3) != 0 && !flagDTmp)
+            if (FalloutAudioMedia_MediaGetPosition((MEDIATYPE)3) != 0 && !flagDTmp)
             {
-                local4 = auiTime - FUN_00830a20((MEDIATYPE)3);
+                local4 = auiTime - FalloutAudioMedia_MediaGetPosition((MEDIATYPE)3);
             }
             if (ptrLocal == &this->m_kMediaSetEntry1)
             {
@@ -891,8 +892,8 @@ struct DungeonController
     void FUN_007037c0(unsigned int);
 };
 extern DungeonController* DAT_011dd374;
-bool FUN_00830750(unsigned long, bool);
-unsigned int FUN_008308c0(unsigned long);
+bool FalloutAudioMedia_MediaIsPlaying(unsigned long, bool);
+unsigned int FalloutAudioMedia_MediaGetDuration(unsigned long);
 void FUN_008305e0();
 void ResetThreadFlags();
 void StartFade(int, int);
@@ -908,7 +909,7 @@ bool DungeonMediaSet::UpdatePlayback(bool active, unsigned int time, int mediaTy
     if (active)
     {
         changed = false;
-        bool playing = FUN_00830750(mediaType, false);
+        bool playing = FalloutAudioMedia_MediaIsPlaying(mediaType, false);
         if (!playing && !bEffectFlag)
         {
             if (m_pSound1 && !bEffectFlag)
@@ -926,7 +927,7 @@ bool DungeonMediaSet::UpdatePlayback(bool active, unsigned int time, int mediaTy
             ResetThreadFlags();
             bEffectFlag = true;
         }
-        unsigned int length = FUN_008308c0(mediaType);
+        unsigned int length = FalloutAudioMedia_MediaGetDuration(mediaType);
         if (length && time > DAT_011ca9fc + length - 1000)
         {
             FalloutAudioMedia::PlayMedia((MEDIATYPE)mediaType, m_kMediaSetEntry1.Name.String(),
@@ -939,7 +940,7 @@ bool DungeonMediaSet::UpdatePlayback(bool active, unsigned int time, int mediaTy
     else
     {
         bool fading = false;
-        if (FUN_00830750(mediaType, false) && bEffectFlag)
+        if (FalloutAudioMedia_MediaIsPlaying(mediaType, false) && bEffectFlag)
         {
             fading = true;
             StartFade((int)(fSkillValueBonus * 1000.0), mediaType);

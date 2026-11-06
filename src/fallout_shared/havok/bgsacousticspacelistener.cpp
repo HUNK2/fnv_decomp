@@ -35,7 +35,8 @@ struct SoundPlaybackManager
     static void __cdecl ResetAcousticSpace(BGSAcousticSpace*);
 };
 // @fnv 0x0061f8e0
-void BGSAcousticSpaceListener::FUN_0061f8e0(bool abDoRemoval)
+// src: COMMUNITY 0x0061f8e0
+void BGSAcousticSpaceListener::DequeueAllRemovals(bool abDoRemoval)
 {
     void* pos2 = m_map.GetFirstPos();
     while (pos2)
@@ -202,10 +203,11 @@ struct S_00620260_C
     virtual void vfn_00();
     virtual S_00620260_T* vfn_04(int a, int b);
     S_00620260_T* cur;
-    S_00620260_T* FUN_00620260(int a, int b);
+    S_00620260_T* BGSZoneTargetListener_AddZone(int a, int b);
 };
 // @fnv 0x00620260
-S_00620260_T* S_00620260_C::FUN_00620260(int a, int b)
+// src: COMMUNITY 0x00620260
+S_00620260_T* S_00620260_C::BGSZoneTargetListener_AddZone(int a, int b)
 {
     S_00620260_T* r = cur ? cur->FindDerivedByKey(b) : 0;
     if (!r)

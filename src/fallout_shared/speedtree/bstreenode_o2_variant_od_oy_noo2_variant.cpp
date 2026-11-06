@@ -24,7 +24,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int __thiscall bhkTransformShape_GetCInfoSize();
 };
 struct NiRTTI;
 extern NiRTTI g_011d5e70;
@@ -34,7 +34,7 @@ struct FUN_0066b5b0_shell
 };
 struct NiAVObject;
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_GetTreesEnabled();
 struct DummyNode
 {
     void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
@@ -66,7 +66,7 @@ struct FUN_0066d470_shell
 };
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 extern const void* g_012683e0;
 struct FUN_0066d520_shell
@@ -443,10 +443,10 @@ struct NativeTransform
     float rotation[12];
     float translation[4];
 };
-void __cdecl FUN_00624b10(NiTransform*, NiPoint3*);
+void __cdecl HK2NI_00624b10(NiTransform*, NiPoint3*);
 void __cdecl FUN_00458620(NiPoint3*, const float*);
 extern NativeTransform DAT_01268370;
-char* __cdecl FUN_00a7d330(void*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 extern unsigned int DAT_0126fd98;
 extern __declspec(thread) unsigned int currentTask;
 struct Component
@@ -535,7 +535,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 }
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > CB7800StringArray;
-extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 extern __declspec(thread) int g_CB7800AllocTag;
 struct CB7800AllocTagScope
 {
@@ -884,7 +884,7 @@ struct BC882C0AllocTagScope
 };
 typedef NiTArray<char*, NiTMallocInterface<char*> > BC882C0StringArray;
 extern const char* g_pcC882C0Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class FUN_00c882c0_cls
 {
   public:
@@ -1330,7 +1330,7 @@ struct Owner
     virtual void f33();
     virtual void f34();
     virtual void AddElement(FUN_00d22590* e);
-    void FUN_00cab0e0(int a, int b, float c);
+    void bhkCapsuleShape_Init(int a, int b, float c);
 };
 struct FUN_00cb7790_node
 {
@@ -1875,7 +1875,7 @@ extern Havok66C g_kHavok66C;
 
 float __cdecl FUN_0066b0b0();
 float __cdecl FUN_004a3e90(float fValue);
-void __cdecl FUN_005b5e40(const char* pcMessage);
+void __cdecl Warning_005b5e40(const char* pcMessage);
 
 class Tree66C
 {
@@ -2029,7 +2029,7 @@ void Tree66C::FUN_0066cb40(SpeedTreeCollisionVolumes* pkBounds, float fScale)
                 }
                 else
                 {
-                    FUN_005b5e40("HAVOK: Multiple bounding volumes around a tree must all be spheres.");
+                    Warning_005b5e40("HAVOK: Multiple bounding volumes around a tree must all be spheres.");
                 }
             }
             MultiSphereShape66C* pkShape = new MultiSphereShape66C(kSpheres);
@@ -2051,7 +2051,7 @@ struct __declspec(align(16)) xVec4
     xVec4(const xVec4&);
     void FUN_0066c930();
     void FUN_00627920(const struct xL&);
-    xVec4 FUN_00630100() const;
+    xVec4 hkVector4_lengthSquared3() const;
     xVec4 FUN_00630b40() const;
     float FUN_004586d0() const;
 };
@@ -2236,7 +2236,7 @@ struct xEffect
 {
     char m_auiShapeKeys[0xe4];
     xObjPtr m_e4;
-    bool FUN_0066ca50(float);
+    bool BSTreeNode_CheckForCollision(float);
     xRef* FUN_0066d7c0();
     void FUN_0066c160(float afTime);
 };
@@ -2245,7 +2245,7 @@ void xEffect::FUN_0066c160(float afTime)
 {
     if (m_e4.FUN_00559450())
         m_e4->FUN_08(this);
-    if (!FUN_0066ca50(afTime))
+    if (!BSTreeNode_CheckForCollision(afTime))
         return;
     xRef* PREF = FUN_0066d7c0();
     if (!PREF || !PREF->FUN_94())
@@ -2302,7 +2302,7 @@ void xEffect::FUN_0066c160(float afTime)
             {
                 xVec4 V1(*xFUN_00560dc0(PB));
                 xVec4 V2(*PB->FUN_00560e50());
-                if (V1.FUN_00630100().FUN_004586d0() > 1.0)
+                if (V1.hkVector4_lengthSquared3().FUN_004586d0() > 1.0)
                 {
                     float SPEED = V1.FUN_00630b40().FUN_004586d0() *
                                   (1.0 - xFUN_00944460(*xg_11d5e58.FUN_0043d4d0(), *xg_11d5e94.FUN_0043d4d0()) / 100.0);
@@ -2315,7 +2315,7 @@ void xEffect::FUN_0066c160(float afTime)
                     D1.FUN_00627920(L1);
                     PB->OnTrigger(&D1);
                 }
-                if (V2.FUN_00630100().FUN_004586d0() > 1.0)
+                if (V2.hkVector4_lengthSquared3().FUN_004586d0() > 1.0)
                 {
                     float SPEED2 = V2.FUN_00630b40().FUN_004586d0() * (xFUN_00944460(0, 20) / 100.0 + 90.0);
                     float R4 = xFUN_004dfea0();

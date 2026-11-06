@@ -184,7 +184,7 @@ class StripViewerArray
 extern "C" const char str_0109d984[];
 extern "C" const char str_0109d970[];
 extern "C" const char str_0109d960[];
-unsigned int FUN_00a7d330(const NiRTTI*);
+unsigned int NiViewerStrings_NiGetViewerString_Title(const NiRTTI*);
 unsigned int FUN_00a7d490(const void*, unsigned short);
 unsigned int FUN_00a7d5a0(const void*, const void*);
 
@@ -196,7 +196,7 @@ void __fastcall AppendTriangleDataViewerStrings(NiTriBasedGeomData*, void*, Stri
 void __fastcall GetTriangleStripViewerStrings(NiTriStripsData* self, void* unused, StripViewerArray& stream)
 {
     AppendTriangleDataViewerStrings(self, unused, stream);
-    unsigned int entry = FUN_00a7d330(*reinterpret_cast<const NiRTTI* const*>(&DAT_011f4a70));
+    unsigned int entry = NiViewerStrings_NiGetViewerString_Title(*reinterpret_cast<const NiRTTI* const*>(&DAT_011f4a70));
     unsigned int count = stream.m_usSize;
     if (count >= (unsigned int)stream.m_usMaxSize)
     {

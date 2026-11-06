@@ -8,7 +8,7 @@
 class NiRTTI;
 struct FUN_00a40a40_shell : public NiBlendTransformInterpolator
 {
-    void* FUN_00a40a40();
+    void* NiBlendTransformInterpolator_GetRTTI();
 };
 extern "C" const NiRTTI* g_011f3e64;
 struct FUN_00a40a20_shell : public NiBlendTransformInterpolator
@@ -164,7 +164,7 @@ template <class T> class AGPrimArray
 typedef AGPrimArray<const char*> AGViewerStrings;
 extern "C" const char* DAT_011f3e64;
 void __stdcall FUN_00a38080(AGViewerStrings* pkStrings);
-const char* __cdecl FUN_00a7d330(const char* pcText);
+const char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 void __stdcall FUN_00a41170(AGViewerStrings* pkStrings);
 
 extern const float DAT_01015f5c;

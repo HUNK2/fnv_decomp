@@ -276,7 +276,8 @@ struct SceneBranch : SceneObject
     unsigned short count;
 };
 // @fnv 0x00c803a0
-void __cdecl FUN_00c803a0(SceneObject* object, float scale)
+// src: COMMUNITY 0x00c803a0
+void __cdecl bhkUtilFunctions_DampBodiesVelocity(SceneObject* object, float scale)
 {
     if (object)
     {
@@ -312,7 +313,7 @@ void __cdecl FUN_00c803a0(SceneObject* object, float scale)
         {
             for (unsigned int index = 0; index < branch->count; ++index)
             {
-                FUN_00c803a0(branch->children[index], scale);
+                bhkUtilFunctions_DampBodiesVelocity(branch->children[index], scale);
             }
         }
     }
@@ -353,11 +354,12 @@ struct FUN_00c86660_cls
     unsigned char m_bAD;
     unsigned char m_bAE;
 
-    FUN_00c86660_cls* FUN_00c86660(const FUN_00c86660_cls* src);
+    FUN_00c86660_cls* hkMotionState_Copy(const FUN_00c86660_cls* src);
 };
 
 // @fnv 0x00c86660
-FUN_00c86660_cls* FUN_00c86660_cls::FUN_00c86660(const FUN_00c86660_cls* src)
+// src: COMMUNITY 0x00c86660
+FUN_00c86660_cls* FUN_00c86660_cls::hkMotionState_Copy(const FUN_00c86660_cls* src)
 {
     m_v00 = src->m_v00;
     m_v10 = src->m_v10;
@@ -494,11 +496,12 @@ struct Owner00c9ec00
     int unk04;
     Obj00c9ec00* unk08;
     void Noop00a29680();
-    void FUN_00c9ec00(hkMatrix4* out);
+    void bhkShapePhantom_GetTransform(hkMatrix4* out);
 };
 
 // @fnv 0x00c9ec00
-void Owner00c9ec00::FUN_00c9ec00(hkMatrix4* out)
+// src: COMMUNITY 0x00c9ec00
+void Owner00c9ec00::bhkShapePhantom_GetTransform(hkMatrix4* out)
 {
     if (!this)
         return;
@@ -513,8 +516,8 @@ void Owner00c9ec00::FUN_00c9ec00(hkMatrix4* out)
     Noop00a29680();
 }
 
-void __stdcall FUN_00c9ec00(hkTransform* pkTransform);
-void __cdecl FUN_00624b10(NiMatrix3* pkOut, const hkRotation* pkRotation);
+void __stdcall bhkShapePhantom_GetTransform(hkTransform* pkTransform);
+void __cdecl HK2NI_00624b10(NiMatrix3* pkOut, const hkRotation* pkRotation);
 void __cdecl FUN_00458620(NiPoint3* pkOut, const hkVector4* pkVector);
 
 // @fnv 0x00c9ec60
@@ -523,8 +526,8 @@ void __stdcall FUN_00c9ec60(NiTransform* pkOut)
     // The output callee fills the transform without a constructor call.
     __m128 transformStorage[sizeof(hkTransform) / sizeof(__m128)];
     hkTransform& kTransform = reinterpret_cast<hkTransform&>(transformStorage);
-    FUN_00c9ec00(&kTransform);
-    FUN_00624b10(&pkOut->m_Rotate, &kTransform.m_rotation);
+    bhkShapePhantom_GetTransform(&kTransform);
+    HK2NI_00624b10(&pkOut->m_Rotate, &kTransform.m_rotation);
     FUN_00458620(&pkOut->m_Translate, reinterpret_cast<const hkVector4*>(&kTransform.m_vTranslation));
 }
 
@@ -545,20 +548,21 @@ struct HingeVectorSet
 struct FUN_00c9ecb0_cls
 {
     void FillOutputFromState(HingeVectorSet* set);
-    void FUN_00c9ec00(hkMatrix4& m);
-    void FUN_00c9ecb0(HingeVectorSet* set);
+    void bhkShapePhantom_GetTransform(hkMatrix4& m);
+    void bhkShapePhantom_CopyCinfo(HingeVectorSet* set);
 };
 
 // The original local SIMD representation triggered /GS for this function.
 #pragma strict_gs_check(push, on)
 // @fnv 0x00c9ecb0
-void FUN_00c9ecb0_cls::FUN_00c9ecb0(HingeVectorSet* set)
+// src: COMMUNITY 0x00c9ecb0
+void FUN_00c9ecb0_cls::bhkShapePhantom_CopyCinfo(HingeVectorSet* set)
 {
     FillOutputFromState(set);
     // The callee fills this scratch matrix without constructing its columns.
     __m128 matrixStorage[4];
     hkMatrix4& m = reinterpret_cast<hkMatrix4&>(matrixStorage);
-    FUN_00c9ec00(m);
+    bhkShapePhantom_GetTransform(m);
     bhkLimitedHingeVector_blk_00c80000_od_o2_nood_variant* vectors = set->m_akVectors;
     vectors[0].FUN_004b4db0(m.m_kColumn0.m_vComponents.m128_f32);
     vectors[1].FUN_004b4db0(m.m_kColumn1.m_vComponents.m128_f32);
@@ -629,15 +633,16 @@ extern char DAT_012043f8;
 extern unsigned int DAT_01267b80;
 extern unsigned int DAT_01267b84;
 
-Wrapper* __cdecl FUN_00c802d0(SceneObject*);
+Wrapper* __cdecl bhkUtilFunctions_FindNextCollisionObject(SceneObject*);
 void __cdecl AccumulateParentTransforms(SceneObject*, SceneObject*, NiTransform*);
-void __cdecl FUN_00624ad0(NiTransform*, hkMatrix4*);
+void __cdecl HK2NI_00624ad0(NiTransform*, hkMatrix4*);
 void __cdecl FUN_004a3e00(hkVector4&, const NiPoint3&);
 
 // @fnv 0x00c88520
-void __cdecl FUN_00c88520(SceneObject* a0, SceneObject* a1)
+// src: COMMUNITY 0x00c88520
+void __cdecl WeaponObject_UpdateRigidBodyTransforms(SceneObject* a0, SceneObject* a1)
 {
-    Wrapper* p = a0 ? FUN_00c802d0(a0) : 0;
+    Wrapper* p = a0 ? bhkUtilFunctions_FindNextCollisionObject(a0) : 0;
     SceneObject* source = p->GetSource();
     _ReadWriteBarrier();
     SceneObject* destination = p->GetDestination();
@@ -655,7 +660,7 @@ void __cdecl FUN_00c88520(SceneObject* a0, SceneObject* a1)
         NiTransform& converted = reinterpret_cast<NiTransform&>(convertedStorage);
         NiTransform& relative = reinterpret_cast<NiTransform&>(relativeStorage);
         ((void(__thiscall*)(SceneObject*, hkMatrix4*))body->vtable[61])(body, &world);
-        FUN_00624ad0(&converted, &world);
+        HK2NI_00624ad0(&converted, &world);
         converted.m_fScale = a1->unk98;
         AccumulateParentTransforms(source, a1, &relative);
         NiTransform combined = converted.FUN_0062c250(relative);
@@ -668,7 +673,7 @@ void __cdecl FUN_00c88520(SceneObject* a0, SceneObject* a1)
         rotation.m128_f32[1] = q.y;
         rotation.m128_f32[2] = q.z;
         rotation.m128_f32[3] = q.w;
-        reinterpret_cast<hkVector4*>(&rotation)->FUN_005611c0();
+        reinterpret_cast<hkVector4*>(&rotation)->normalize_005611c0();
         reinterpret_cast<LockObject*>(&DAT_01267b80)->FUN_0040fbf0(0);
         ((void(__thiscall*)(SceneObject*, hkVector4*, hkVector4*))destination->vtable[58])(
             destination, reinterpret_cast<hkVector4*>(&position), reinterpret_cast<hkVector4*>(&rotation));
@@ -750,7 +755,7 @@ class GlobalObjectO2_00a7b610
     const char* name;
 };
 extern GlobalObjectO2_00a7b610 g_012681f0;
-char* FUN_00a7d330(const char*);
+char* NiViewerStrings_NiGetViewerString_Title(const char*);
 char* FUN_00a7d510(const char*, unsigned int);
 int _sprintf_s(char*, unsigned int, const char*, ...);
 int _strcpy_s(char*, unsigned int, const char*);
@@ -761,7 +766,7 @@ void KeyData::FUN_00c9bbb0(StrArr* strings)
 {
     MemContextGuard kGuard(16);
     FUN_00a6d830(strings);
-    strings->AddInline(FUN_00a7d330(g_012681f0.name));
+    strings->AddInline(NiViewerStrings_NiGetViewerString_Title(g_012681f0.name));
     unsigned int uiNumKeys = count;
     strings->AddInline(FUN_00a7d510("iKeys", uiNumKeys));
     for (unsigned int i = 0; i < count; ++i)
@@ -1439,7 +1444,7 @@ struct PhysicsObject
 
     void FUN_00c8ef80(void*);
 
-    __declspec(noalias) Filter FUN_0043b4f0();
+    __declspec(noalias) Filter bhkWorldObject_GetCollisionFilter();
 
     void FUN_00626cb0(unsigned int);
 
@@ -1718,9 +1723,9 @@ struct FUN_00c88380
     FUN_00c88380(ConstraintInfo*);
 };
 
-void FUN_00c88520(SceneNode*, SceneNode*);
+void WeaponObject_UpdateRigidBodyTransforms(SceneNode*, SceneNode*);
 
-CollisionWrapper* FUN_00c802d0(SceneNode*);
+CollisionWrapper* bhkUtilFunctions_FindNextCollisionObject(SceneNode*);
 
 __declspec(noalias) unsigned char FUN_00c8cce0(int*);
 
@@ -1782,7 +1787,8 @@ __forceinline unsigned char DynamicValue(const int& m)
     return FUN_00c8cce0(const_cast<int*>(&m));
 }
 // @fnv 0x00c88a40
-void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNode* second, bool force)
+// src: COMMUNITY 0x00c88a40
+void __cdecl WeaponObject_Constrain(bool create, Filter filter, SceneNode* first, SceneNode* second, bool force)
 {
 
     ContextScope contextScope(16);
@@ -1792,11 +1798,11 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
 
     {
 
-        FUN_00c88520(first, second);
+        WeaponObject_UpdateRigidBodyTransforms(first, second);
 
-        CollisionWrapper* __restrict resolvedFirst = FUN_00c802d0(first);
+        CollisionWrapper* __restrict resolvedFirst = bhkUtilFunctions_FindNextCollisionObject(first);
 
-        CollisionWrapper* resolvedSecond = FUN_00c802d0(second);
+        CollisionWrapper* resolvedSecond = bhkUtilFunctions_FindNextCollisionObject(second);
 
         if (resolvedFirst && resolvedSecond)
         {
@@ -1963,9 +1969,9 @@ void __cdecl FUN_00c88a40(bool create, Filter filter, SceneNode* first, SceneNod
 
                 sourceBody->FUN_00c8ef80(newConstraint);
 
-                Filter sourceFilter = sourceBody->FUN_0043b4f0();
+                Filter sourceFilter = sourceBody->bhkWorldObject_GetCollisionFilter();
 
-                unsigned layer = targetBody->FUN_0043b4f0().value & 0x7f;
+                unsigned layer = targetBody->bhkWorldObject_GetCollisionFilter().value & 0x7f;
 
                 unsigned bits = (sourceFilter.value & 0xe080) | (filter.value & 0xffff1400) | 0x1400;
 
@@ -2091,7 +2097,7 @@ struct RigidBody : public VirtualObject
 {
     unsigned int unk04;
     PhysicsBody* body;
-    bhkFilter FUN_0043b4f0();
+    bhkFilter bhkWorldObject_GetCollisionFilter();
     unsigned int GetFilter();
 };
 struct CollisionObject : public VirtualObject
@@ -2284,7 +2290,7 @@ void __cdecl FUN_00c9b670(NiAVObject* object, const NiPoint3& velocity, unsigned
             if (fallback && fallback->rigidBody)
             {
                 RigidBody* body = fallback->rigidBody;
-                unsigned int filter = body->FUN_0043b4f0().value;
+                unsigned int filter = body->bhkWorldObject_GetCollisionFilter().value;
                 unsigned int layer = filter & 0x7f;
                 if ((layer != 8 && layer != 29) || (filter & 0x1f00) == 0x1400)
                 {

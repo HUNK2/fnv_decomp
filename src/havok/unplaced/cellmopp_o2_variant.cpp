@@ -720,7 +720,7 @@ struct GlobalString
     const char* value;
 };
 extern GlobalString g_01268350;
-char* __cdecl FUN_00a7d330(const char* text);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* text);
 struct StringBuilder
 {
     void FUN_00ca5190(NiStringArray* array);
@@ -743,7 +743,7 @@ void StringBuilder::FUN_00cb09b0(NiStringArray* array)
 {
     ThreadStateGuard guard;
     FUN_00ca5190(array);
-    char* value = FUN_00a7d330(g_01268350.value);
+    char* value = NiViewerStrings_NiGetViewerString_Title(g_01268350.value);
     unsigned int count = array->count;
     unsigned int capacity = array->capacity;
     if (count >= capacity)
@@ -1779,7 +1779,7 @@ void StringBuilder_ca5190::FUN_00ca5190(NiStringArray* array)
     ThreadStateGuard guard;
     reinterpret_cast<StringBuilderCalls_00ca5190*>(this)->FUN_00c851c0(array);
 
-    char* text = FUN_00a7d330(DAT_012682d0);
+    char* text = NiViewerStrings_NiGetViewerString_Title(DAT_012682d0);
     unsigned int count = array->count;
     if (count >= array->capacity)
     {

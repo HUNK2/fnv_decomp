@@ -36,11 +36,12 @@ struct PathIndex
 
 struct FUN_006eb6b0_cls : public PathManagerImpl
 {
-    void FUN_006eb6b0(int id);
+    void PathManagerImpl_CancelCurrentPathsAndPause_0(int id);
 };
 
 // @fnv 0x006eb6b0
-void FUN_006eb6b0_cls::FUN_006eb6b0(int id)
+// src: COMMUNITY 0x006eb6b0
+void FUN_006eb6b0_cls::PathManagerImpl_CancelCurrentPathsAndPause_0(int id)
 {
     reinterpret_cast<BSSpinLock_r006eb6b0*>(reinterpret_cast<char*>(this) + 0xc38)
         ->Lock("PathManagerImpl::CancelCurrentPathsAndPause");

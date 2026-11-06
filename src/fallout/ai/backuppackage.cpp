@@ -127,7 +127,7 @@ BackUpPackage::BackUpPackage()
 }
 
 void FUN_0040fbe0(const char*, ...);
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 // @fnv 0x009ed700
 void BackUpPackage::SaveBackupPackage()
 {
@@ -170,7 +170,7 @@ void BackUpPackage::SaveBackupPackage()
         char* finalend = (char*)DAT_011de45c->FUN_00825c00();
         char* saved = (char*)p;
         if (finalend > saved + 65535)
-            FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
+            Warning_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 262);
         *p = (unsigned short)(finalend - saved);
     }
@@ -245,14 +245,14 @@ void BackUpPackage::LoadPackageBlock()
             if (header)
             {
                 TESForm* form = _ref_004839c0(header->formID);
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 270, header->formID,
                     form->GetName(), header->type, *(unsigned int*)&header->flags0);
             }
             else
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: (LoadGame Buffer error) Block Header is incorrect in file %s on line %i.  Current version is %i",
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 270,
                     DAT_011de45c->FUN_008df040());
@@ -271,7 +271,7 @@ void BackUpPackage::LoadPackageBlock()
             TESForm* form = _ref_004839c0(pBlockHeader->formID);
             if (header > pBlockStart + usBlockSize)
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     header - (pBlockStart + usBlockSize),
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 310, pBlockHeader->formID,
@@ -279,7 +279,7 @@ void BackUpPackage::LoadPackageBlock()
             }
             else if (header < pBlockStart + usBlockSize)
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Currently loading form is %08X %s with version %i and flags %08X",
                     (pBlockStart + usBlockSize) - header,
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 310, pBlockHeader->formID,
@@ -290,7 +290,7 @@ void BackUpPackage::LoadPackageBlock()
         {
             if (header > pBlockStart + usBlockSize)
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer overrun of %i bytes in file %s on line %i.  Current version is %i",
                     header - (pBlockStart + usBlockSize),
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 310,
@@ -298,7 +298,7 @@ void BackUpPackage::LoadPackageBlock()
             }
             else if (header < pBlockStart + usBlockSize)
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "SAVELOAD: LoadGame Buffer underrun of %i bytes in file %s on line %i.  Current version is %i",
                     (pBlockStart + usBlockSize) - header,
                     "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\AI\\BackUpPackage.cpp", 310,

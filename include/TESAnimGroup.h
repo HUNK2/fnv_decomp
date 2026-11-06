@@ -112,8 +112,8 @@ class TESAnimGroup : public NiRefObject
     char GetMorphKey();
     void SetMorphKey(unsigned char key);
     unsigned short FUN_0047d3b0();
-    unsigned short FUN_005f23e0();
-    bool FUN_005f26c0();
+    unsigned short GetWeapon();
+    bool IsPowerAttack_005f26c0();
     void FUN_005f2820(unsigned int count);
     bool FUN_005f3740(unsigned int action, float time);
     float FUN_005f3780(int action);

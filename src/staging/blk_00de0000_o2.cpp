@@ -2928,7 +2928,7 @@ struct FUN_00df7a60_class
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedExchangeAdd(volatile long* value, long increment);
 
-void __cdecl FUN_00d043c0(void* object, int value);
+void __cdecl hkSemaphoreBusyWait_release(void* object, int value);
 
 // @fnv 0x00df7a60
 // src: HAVOK_LIB 0x00df7a60
@@ -2941,7 +2941,7 @@ void FUN_00df7a60_class::hkpCollisionQueryJob_atomicIncrementAndReleaseSemaphore
 
     if (m_p10 != 0)
     {
-        FUN_00d043c0(m_p10, 1);
+        hkSemaphoreBusyWait_release(m_p10, 1);
     }
 }
 
@@ -7613,247 +7613,308 @@ void* __fastcall FUN_00de4df0(char* self, int)
 }
 
 // @fnv 0x00de8140
-void __cdecl FUN_00de8140()
+// src: COMMUNITY 0x00de8140
+void __cdecl nullsub_124()
 {}
 
 // @fnv 0x00de8160
-void __cdecl FUN_00de8160()
+// src: COMMUNITY 0x00de8160
+void __cdecl nullsub_125()
 {}
 
 // @fnv 0x00de8180
-void __cdecl FUN_00de8180(void)
+// src: COMMUNITY 0x00de8180
+void __cdecl nullsub_126(void)
 {}
 
 // @fnv 0x00de81c0
-void FUN_00de81c0()
+// src: COMMUNITY 0x00de81c0
+void nullsub_127()
 {}
 
 // @fnv 0x00de81e0
-void FUN_00de81e0()
+// src: COMMUNITY 0x00de81e0
+void nullsub_129()
 {}
 
 // @fnv 0x00de8200
-void __cdecl FUN_00de8200()
+// src: COMMUNITY 0x00de8200
+void __cdecl nullsub_131()
 {}
 
 // @fnv 0x00de8220
-void FUN_00de8220()
+// src: COMMUNITY 0x00de8220
+void nullsub_133()
 {}
 
 // @fnv 0x00de8240
-void __cdecl FUN_00de8240()
+// src: COMMUNITY 0x00de8240
+void __cdecl nullsub_135()
 {}
 
 // @fnv 0x00de8260
-void __cdecl FUN_00de8260()
+// src: COMMUNITY 0x00de8260
+void __cdecl nullsub_137()
 {}
 
 // @fnv 0x00de8280
-void __cdecl FUN_00de8280()
+// src: COMMUNITY 0x00de8280
+void __cdecl nullsub_139()
 {}
 
 // @fnv 0x00de82a0
-void __cdecl FUN_00de82a0()
+// src: COMMUNITY 0x00de82a0
+void __cdecl nullsub_141()
 {}
 
 // @fnv 0x00de82c0
-void __cdecl FUN_00de82c0()
+// src: COMMUNITY 0x00de82c0
+void __cdecl nullsub_143()
 {}
 
 // @fnv 0x00de82e0
-void __cdecl FUN_00de82e0()
+// src: COMMUNITY 0x00de82e0
+void __cdecl nullsub_145()
 {}
 
 // @fnv 0x00de8300
-void __cdecl FUN_00de8300()
+// src: COMMUNITY 0x00de8300
+void __cdecl nullsub_147()
 {}
 
 // @fnv 0x00de8320
-void __cdecl FUN_00de8320()
+// src: COMMUNITY 0x00de8320
+void __cdecl nullsub_149()
 {}
 
 // @fnv 0x00de8340
-void __cdecl FUN_00de8340()
+// src: COMMUNITY 0x00de8340
+void __cdecl nullsub_151()
 {}
 
 // @fnv 0x00de8360
-void __cdecl FUN_00de8360()
+// src: COMMUNITY 0x00de8360
+void __cdecl nullsub_153()
 {}
 
 // @fnv 0x00de8380
-void __cdecl FUN_00de8380(void)
+// src: COMMUNITY 0x00de8380
+void __cdecl nullsub_155(void)
 {}
 
 // @fnv 0x00de83a0
-void __cdecl FUN_00de83a0()
+// src: COMMUNITY 0x00de83a0
+void __cdecl nullsub_157()
 {}
 
 // @fnv 0x00de83c0
-void __cdecl FUN_00de83c0()
+// src: COMMUNITY 0x00de83c0
+void __cdecl nullsub_159()
 {}
 
 // @fnv 0x00de83e0
-void FUN_00de83e0()
+// src: COMMUNITY 0x00de83e0
+void nullsub_161()
 {}
 
 // @fnv 0x00de8400
-void FUN_00de8400()
+// src: COMMUNITY 0x00de8400
+void nullsub_163()
 {}
 
 // @fnv 0x00de8420
-void __cdecl FUN_00de8420()
+// src: COMMUNITY 0x00de8420
+void __cdecl nullsub_165()
 {}
 
 // @fnv 0x00de8440
-void FUN_00de8440()
+// src: COMMUNITY 0x00de8440
+void nullsub_167()
 {}
 
 // @fnv 0x00de8460
-void FUN_00de8460()
+// src: COMMUNITY 0x00de8460
+void nullsub_169()
 {}
 
 // @fnv 0x00de8480
-void __cdecl FUN_00de8480()
+// src: COMMUNITY 0x00de8480
+void __cdecl nullsub_171()
 {}
 
 // @fnv 0x00de84a0
-void FUN_00de84a0()
+// src: COMMUNITY 0x00de84a0
+void nullsub_173()
 {}
 
 // @fnv 0x00de84c0
-void __cdecl FUN_00de84c0()
+// src: COMMUNITY 0x00de84c0
+void __cdecl nullsub_175()
 {}
 
 // @fnv 0x00de84e0
-void __cdecl FUN_00de84e0()
+// src: COMMUNITY 0x00de84e0
+void __cdecl nullsub_177()
 {}
 
 // @fnv 0x00de8500
-void FUN_00de8500()
+// src: COMMUNITY 0x00de8500
+void nullsub_179()
 {}
 
 // @fnv 0x00de8520
-void FUN_00de8520()
+// src: COMMUNITY 0x00de8520
+void nullsub_181()
 {}
 
 // @fnv 0x00de8540
-void FUN_00de8540()
+// src: COMMUNITY 0x00de8540
+void nullsub_123()
 {}
 
 // @fnv 0x00de8590
-void FUN_00de8590()
+// src: COMMUNITY 0x00de8590
+void nullsub_128()
 {}
 
 // @fnv 0x00de85a0
-void FUN_00de85a0()
+// src: COMMUNITY 0x00de85a0
+void nullsub_130()
 {}
 
 // @fnv 0x00de85b0
-void FUN_00de85b0()
+// src: COMMUNITY 0x00de85b0
+void nullsub_134()
 {}
 
 // @fnv 0x00de85c0
-void FUN_00de85c0()
+// src: COMMUNITY 0x00de85c0
+void nullsub_136()
 {}
 
 // @fnv 0x00de85d0
-void __cdecl FUN_00de85d0()
+// src: COMMUNITY 0x00de85d0
+void __cdecl nullsub_138()
 {}
 
 // @fnv 0x00de85e0
-void FUN_00de85e0()
+// src: COMMUNITY 0x00de85e0
+void nullsub_140()
 {}
 
 // @fnv 0x00de85f0
-void __cdecl FUN_00de85f0()
+// src: COMMUNITY 0x00de85f0
+void __cdecl nullsub_142()
 {}
 
 // @fnv 0x00de8600
-void __cdecl FUN_00de8600(void)
+// src: COMMUNITY 0x00de8600
+void __cdecl nullsub_144(void)
 {}
 
 // @fnv 0x00de8610
-void __cdecl FUN_00de8610()
+// src: COMMUNITY 0x00de8610
+void __cdecl nullsub_146()
 {}
 
 // @fnv 0x00de8620
-void __cdecl FUN_00de8620()
+// src: COMMUNITY 0x00de8620
+void __cdecl nullsub_148()
 {}
 
 // @fnv 0x00de8630
-void __cdecl FUN_00de8630()
+// src: COMMUNITY 0x00de8630
+void __cdecl nullsub_150()
 {}
 
 // @fnv 0x00de8640
-void __cdecl FUN_00de8640()
+// src: COMMUNITY 0x00de8640
+void __cdecl nullsub_152()
 {}
 
 // @fnv 0x00de8650
-void __cdecl FUN_00de8650()
+// src: COMMUNITY 0x00de8650
+void __cdecl nullsub_154()
 {}
 
 // @fnv 0x00de8660
-void __cdecl FUN_00de8660()
+// src: COMMUNITY 0x00de8660
+void __cdecl nullsub_156()
 {}
 
 // @fnv 0x00de8670
-void FUN_00de8670()
+// src: COMMUNITY 0x00de8670
+void nullsub_158()
 {}
 
 // @fnv 0x00de8680
-void __cdecl FUN_00de8680()
+// src: COMMUNITY 0x00de8680
+void __cdecl nullsub_160()
 {}
 
 // @fnv 0x00de8690
-void FUN_00de8690()
+// src: COMMUNITY 0x00de8690
+void nullsub_162()
 {}
 
 // @fnv 0x00de86a0
-void FUN_00de86a0()
+// src: COMMUNITY 0x00de86a0
+void nullsub_164()
 {}
 
 // @fnv 0x00de86b0
-void FUN_00de86b0()
+// src: COMMUNITY 0x00de86b0
+void nullsub_166()
 {}
 
 // @fnv 0x00de86c0
-void __cdecl FUN_00de86c0()
+// src: COMMUNITY 0x00de86c0
+void __cdecl nullsub_168()
 {}
 
 // @fnv 0x00de86d0
-void FUN_00de86d0()
+// src: COMMUNITY 0x00de86d0
+void nullsub_170()
 {}
 
 // @fnv 0x00de86e0
-void __cdecl FUN_00de86e0()
+// src: COMMUNITY 0x00de86e0
+void __cdecl nullsub_172()
 {}
 
 // @fnv 0x00de86f0
-void FUN_00de86f0()
+// src: COMMUNITY 0x00de86f0
+void nullsub_174()
 {}
 
 // @fnv 0x00de8700
-void __cdecl FUN_00de8700()
+// src: COMMUNITY 0x00de8700
+void __cdecl nullsub_176()
 {}
 
 // @fnv 0x00de8710
-void FUN_00de8710()
+// src: COMMUNITY 0x00de8710
+void nullsub_178()
 {}
 
 // @fnv 0x00de8720
-void FUN_00de8720()
+// src: COMMUNITY 0x00de8720
+void nullsub_180()
 {}
 
 // @fnv 0x00de8730
-void __cdecl FUN_00de8730()
+// src: COMMUNITY 0x00de8730
+void __cdecl nullsub_132()
 {}
 
 // @fnv 0x00de8740
-void __cdecl FUN_00de8740()
+// src: COMMUNITY 0x00de8740
+void __cdecl nullsub_182()
 {}
 
 // @fnv 0x00de8760
-void __cdecl FUN_00de8760()
+// src: COMMUNITY 0x00de8760
+void __cdecl nullsub_183()
 {}
 
 struct stub_cls
@@ -7896,11 +7957,13 @@ void FUN_00df3160()
 {}
 
 // @fnv 0x00df64a0
-void FUN_00df64a0()
+// src: COMMUNITY 0x00df64a0
+void nullsub_184()
 {}
 
 // @fnv 0x00df6540
-void __cdecl FUN_00df6540()
+// src: COMMUNITY 0x00df6540
+void __cdecl nullsub_185()
 {}
 
 struct FUN_00df7210_Inner
@@ -8020,423 +8083,528 @@ void FUN_00df9b10()
 {}
 
 // @fnv 0x00dfb250
-void __cdecl FUN_00dfb250()
+// src: COMMUNITY 0x00dfb250
+void __cdecl nullsub_186()
 {}
 
 // @fnv 0x00dfb350
-void FUN_00dfb350()
+// src: COMMUNITY 0x00dfb350
+void nullsub_187()
 {}
 
 // @fnv 0x00dfb370
-void FUN_00dfb370()
+// src: COMMUNITY 0x00dfb370
+void nullsub_188()
 {}
 
 // @fnv 0x00dfb4b0
-void FUN_00dfb4b0()
+// src: COMMUNITY 0x00dfb4b0
+void nullsub_189()
 {}
 
 // @fnv 0x00dfb4c0
-void __cdecl FUN_00dfb4c0()
+// src: COMMUNITY 0x00dfb4c0
+void __cdecl nullsub_190()
 {}
 
 // @fnv 0x00dfb4e0
-void __cdecl FUN_00dfb4e0()
+// src: COMMUNITY 0x00dfb4e0
+void __cdecl nullsub_191()
 {}
 
 // @fnv 0x00dfb500
-void __cdecl FUN_00dfb500(void)
+// src: COMMUNITY 0x00dfb500
+void __cdecl nullsub_192(void)
 {}
 
 // @fnv 0x00dfb520
-void __cdecl FUN_00dfb520()
+// src: COMMUNITY 0x00dfb520
+void __cdecl nullsub_193()
 {}
 
 // @fnv 0x00dfb530
-void FUN_00dfb530()
+// src: COMMUNITY 0x00dfb530
+void nullsub_194()
 {}
 
 // @fnv 0x00dfb850
-void __cdecl FUN_00dfb850()
+// src: COMMUNITY 0x00dfb850
+void __cdecl nullsub_195()
 {}
 
 // @fnv 0x00dfb870
-void __cdecl FUN_00dfb870()
+// src: COMMUNITY 0x00dfb870
+void __cdecl nullsub_196()
 {}
 
 // @fnv 0x00dfb910
-void __cdecl FUN_00dfb910()
+// src: COMMUNITY 0x00dfb910
+void __cdecl nullsub_197()
 {}
 
 // @fnv 0x00dfb930
-void FUN_00dfb930(void)
+// src: COMMUNITY 0x00dfb930
+void nullsub_198(void)
 {}
 
 // @fnv 0x00dfb9c0
-void __cdecl FUN_00dfb9c0()
+// src: COMMUNITY 0x00dfb9c0
+void __cdecl nullsub_199()
 {}
 
 // @fnv 0x00dfbab0
-void __cdecl FUN_00dfbab0()
+// src: COMMUNITY 0x00dfbab0
+void __cdecl nullsub_200()
 {}
 
 // @fnv 0x00dfbb00
-void FUN_00dfbb00()
+// src: COMMUNITY 0x00dfbb00
+void nullsub_201()
 {}
 
 // @fnv 0x00dfbb10
-void __cdecl FUN_00dfbb10()
+// src: COMMUNITY 0x00dfbb10
+void __cdecl nullsub_202()
 {}
 
 // @fnv 0x00dfbcb0
-void __cdecl FUN_00dfbcb0()
+// src: COMMUNITY 0x00dfbcb0
+void __cdecl nullsub_203()
 {}
 
 // @fnv 0x00dfbdb0
-void __cdecl FUN_00dfbdb0()
+// src: COMMUNITY 0x00dfbdb0
+void __cdecl nullsub_204()
 {}
 
 // @fnv 0x00dfbe80
-void __cdecl FUN_00dfbe80()
+// src: COMMUNITY 0x00dfbe80
+void __cdecl nullsub_205()
 {}
 
 // @fnv 0x00dfbea0
-void FUN_00dfbea0()
+// src: COMMUNITY 0x00dfbea0
+void nullsub_206()
 {}
 
 // @fnv 0x00dfbec0
-void FUN_00dfbec0()
+// src: COMMUNITY 0x00dfbec0
+void nullsub_207()
 {}
 
 // @fnv 0x00dfbee0
-void FUN_00dfbee0()
+// src: COMMUNITY 0x00dfbee0
+void nullsub_209()
 {}
 
 // @fnv 0x00dfbf00
-void __cdecl FUN_00dfbf00()
+// src: COMMUNITY 0x00dfbf00
+void __cdecl nullsub_208()
 {}
 
 // @fnv 0x00dfbf10
-void __cdecl FUN_00dfbf10()
+// src: COMMUNITY 0x00dfbf10
+void __cdecl nullsub_210()
 {}
 
 // @fnv 0x00dfc020
-void FUN_00dfc020()
+// src: COMMUNITY 0x00dfc020
+void nullsub_211()
 {}
 
 // @fnv 0x00dfc0f0
-void FUN_00dfc0f0()
+// src: COMMUNITY 0x00dfc0f0
+void nullsub_212()
 {}
 
 // @fnv 0x00dfc210
-void FUN_00dfc210()
+// src: COMMUNITY 0x00dfc210
+void nullsub_214()
 {}
 
 // @fnv 0x00dfc270
-void __cdecl FUN_00dfc270()
+// src: COMMUNITY 0x00dfc270
+void __cdecl nullsub_213()
 {}
 
 // @fnv 0x00dfc3c0
-void FUN_00dfc3c0()
+// src: COMMUNITY 0x00dfc3c0
+void nullsub_215()
 {}
 
 // @fnv 0x00dfc3d0
-void __cdecl FUN_00dfc3d0()
+// src: COMMUNITY 0x00dfc3d0
+void __cdecl nullsub_216()
 {}
 
 // @fnv 0x00dfc430
-void __cdecl FUN_00dfc430(void)
+// src: COMMUNITY 0x00dfc430
+void __cdecl nullsub_217(void)
 {}
 
 // @fnv 0x00dfc4c0
-void __cdecl FUN_00dfc4c0()
+// src: COMMUNITY 0x00dfc4c0
+void __cdecl nullsub_218()
 {}
 
 // @fnv 0x00dfc4e0
-void __cdecl FUN_00dfc4e0()
+// src: COMMUNITY 0x00dfc4e0
+void __cdecl nullsub_219()
 {}
 
 // @fnv 0x00dfc570
-void FUN_00dfc570()
+// src: COMMUNITY 0x00dfc570
+void nullsub_220()
 {}
 
 // @fnv 0x00dfc580
-void FUN_00dfc580()
+// src: COMMUNITY 0x00dfc580
+void nullsub_221()
 {}
 
 // @fnv 0x00dfc5a0
-void __cdecl FUN_00dfc5a0()
+// src: COMMUNITY 0x00dfc5a0
+void __cdecl nullsub_222()
 {}
 
 // @fnv 0x00dfc5c0
-void FUN_00dfc5c0()
+// src: COMMUNITY 0x00dfc5c0
+void nullsub_223()
 {}
 
 // @fnv 0x00dfc5e0
-void __cdecl FUN_00dfc5e0()
+// src: COMMUNITY 0x00dfc5e0
+void __cdecl nullsub_224()
 {}
 
 // @fnv 0x00dfc640
-void FUN_00dfc640()
+// src: COMMUNITY 0x00dfc640
+void nullsub_225()
 {}
 
 // @fnv 0x00dfc650
-void __cdecl FUN_00dfc650()
+// src: COMMUNITY 0x00dfc650
+void __cdecl nullsub_226()
 {}
 
 // @fnv 0x00dfc670
-void FUN_00dfc670()
+// src: COMMUNITY 0x00dfc670
+void nullsub_228()
 {}
 
 // @fnv 0x00dfc6b0
-void FUN_00dfc6b0()
+// src: COMMUNITY 0x00dfc6b0
+void nullsub_227()
 {}
 
 // @fnv 0x00dfc6e0
-void __cdecl FUN_00dfc6e0()
+// src: COMMUNITY 0x00dfc6e0
+void __cdecl nullsub_230()
 {}
 
 // @fnv 0x00dfc720
-void __cdecl FUN_00dfc720(void)
+// src: COMMUNITY 0x00dfc720
+void __cdecl nullsub_229(void)
 {}
 
 // @fnv 0x00dfc750
-void __cdecl FUN_00dfc750()
+// src: COMMUNITY 0x00dfc750
+void __cdecl nullsub_231()
 {}
 
 // @fnv 0x00dfc7d0
-void __cdecl FUN_00dfc7d0()
+// src: COMMUNITY 0x00dfc7d0
+void __cdecl nullsub_232()
 {}
 
 // @fnv 0x00dfc8b0
-void __cdecl FUN_00dfc8b0()
+// src: COMMUNITY 0x00dfc8b0
+void __cdecl nullsub_234()
 {}
 
 // @fnv 0x00dfc8f0
-void __cdecl FUN_00dfc8f0()
+// src: COMMUNITY 0x00dfc8f0
+void __cdecl nullsub_233()
 {}
 
 // @fnv 0x00dfc920
-void FUN_00dfc920()
+// src: COMMUNITY 0x00dfc920
+void nullsub_236()
 {}
 
 // @fnv 0x00dfc960
-void FUN_00dfc960()
+// src: COMMUNITY 0x00dfc960
+void nullsub_235()
 {}
 
 // @fnv 0x00dfc9b0
-void __cdecl FUN_00dfc9b0()
+// src: COMMUNITY 0x00dfc9b0
+void __cdecl nullsub_238()
 {}
 
 // @fnv 0x00dfc9f0
-void FUN_00dfc9f0()
+// src: COMMUNITY 0x00dfc9f0
+void nullsub_237()
 {}
 
 // @fnv 0x00dfca40
-void __cdecl FUN_00dfca40()
+// src: COMMUNITY 0x00dfca40
+void __cdecl nullsub_240()
 {}
 
 // @fnv 0x00dfca80
-void __cdecl FUN_00dfca80()
+// src: COMMUNITY 0x00dfca80
+void __cdecl nullsub_239()
 {}
 
 // @fnv 0x00dfcab0
-void __cdecl FUN_00dfcab0()
+// src: COMMUNITY 0x00dfcab0
+void __cdecl nullsub_242()
 {}
 
 // @fnv 0x00dfcaf0
-void FUN_00dfcaf0()
+// src: COMMUNITY 0x00dfcaf0
+void nullsub_241()
 {}
 
 // @fnv 0x00dfcb20
-void __cdecl FUN_00dfcb20(void)
+// src: COMMUNITY 0x00dfcb20
+void __cdecl nullsub_243(void)
 {}
 
 // @fnv 0x00dfcba0
-void FUN_00dfcba0()
+// src: COMMUNITY 0x00dfcba0
+void nullsub_245()
 {}
 
 // @fnv 0x00dfcbe0
-void __cdecl FUN_00dfcbe0()
+// src: COMMUNITY 0x00dfcbe0
+void __cdecl nullsub_244()
 {}
 
 // @fnv 0x00dfcc10
-void __cdecl FUN_00dfcc10()
+// src: COMMUNITY 0x00dfcc10
+void __cdecl nullsub_247()
 {}
 
 // @fnv 0x00dfcc50
-void __cdecl FUN_00dfcc50()
+// src: COMMUNITY 0x00dfcc50
+void __cdecl nullsub_246()
 {}
 
 // @fnv 0x00dfcc80
-void __cdecl FUN_00dfcc80()
+// src: COMMUNITY 0x00dfcc80
+void __cdecl nullsub_249()
 {}
 
 // @fnv 0x00dfccc0
-void FUN_00dfccc0()
+// src: COMMUNITY 0x00dfccc0
+void nullsub_248()
 {}
 
 // @fnv 0x00dfccf0
-void __cdecl FUN_00dfccf0()
+// src: COMMUNITY 0x00dfccf0
+void __cdecl nullsub_251()
 {}
 
 // @fnv 0x00dfcd30
-void __cdecl FUN_00dfcd30()
+// src: COMMUNITY 0x00dfcd30
+void __cdecl nullsub_250()
 {}
 
 // @fnv 0x00dfcd60
-void FUN_00dfcd60()
+// src: COMMUNITY 0x00dfcd60
+void nullsub_252()
 {}
 
 // @fnv 0x00dfcdc0
-void FUN_00dfcdc0()
+// src: COMMUNITY 0x00dfcdc0
+void nullsub_253()
 {}
 
 // @fnv 0x00dfce40
-void FUN_00dfce40()
+// src: COMMUNITY 0x00dfce40
+void nullsub_255()
 {}
 
 // @fnv 0x00dfce80
-void FUN_00dfce80()
+// src: COMMUNITY 0x00dfce80
+void nullsub_254()
 {}
 
 // @fnv 0x00dfceb0
-void __cdecl FUN_00dfceb0()
+// src: COMMUNITY 0x00dfceb0
+void __cdecl nullsub_257()
 {}
 
 // @fnv 0x00dfced0
-void FUN_00dfced0()
+// src: COMMUNITY 0x00dfced0
+void nullsub_256()
 {}
 
 // @fnv 0x00dfcee0
-void __cdecl FUN_00dfcee0()
+// src: COMMUNITY 0x00dfcee0
+void __cdecl nullsub_258()
 {}
 
 // @fnv 0x00dfd0b0
-void __cdecl FUN_00dfd0b0()
+// src: COMMUNITY 0x00dfd0b0
+void __cdecl nullsub_259()
 {}
 
 // @fnv 0x00dfd1a0
-void __cdecl FUN_00dfd1a0()
+// src: COMMUNITY 0x00dfd1a0
+void __cdecl nullsub_260()
 {}
 
 // @fnv 0x00dfd220
-void __cdecl FUN_00dfd220()
+// src: COMMUNITY 0x00dfd220
+void __cdecl nullsub_261()
 {}
 
 // @fnv 0x00dfd2b0
-void __cdecl FUN_00dfd2b0()
+// src: COMMUNITY 0x00dfd2b0
+void __cdecl nullsub_263()
 {}
 
 // @fnv 0x00dfd340
-void __cdecl FUN_00dfd340()
+// src: COMMUNITY 0x00dfd340
+void __cdecl nullsub_262()
 {}
 
 // @fnv 0x00dfd350
-void FUN_00dfd350()
+// src: COMMUNITY 0x00dfd350
+void nullsub_264()
 {}
 
 // @fnv 0x00dfd4d0
-void __cdecl FUN_00dfd4d0()
+// src: COMMUNITY 0x00dfd4d0
+void __cdecl nullsub_265()
 {}
 
 // @fnv 0x00dfd4f0
-void __cdecl FUN_00dfd4f0()
+// src: COMMUNITY 0x00dfd4f0
+void __cdecl nullsub_267()
 {}
 
 // @fnv 0x00dfd510
-void __cdecl FUN_00dfd510()
+// src: COMMUNITY 0x00dfd510
+void __cdecl nullsub_266()
 {}
 
 // @fnv 0x00dfd520
-void __cdecl FUN_00dfd520()
+// src: COMMUNITY 0x00dfd520
+void __cdecl nullsub_268()
 {}
 
 // @fnv 0x00dfd530
-void __cdecl FUN_00dfd530()
+// src: COMMUNITY 0x00dfd530
+void __cdecl nullsub_269()
 {}
 
 // @fnv 0x00dfd550
-void __cdecl FUN_00dfd550()
+// src: COMMUNITY 0x00dfd550
+void __cdecl nullsub_270()
 {}
 
 // @fnv 0x00dfd660
-void __cdecl FUN_00dfd660()
+// src: COMMUNITY 0x00dfd660
+void __cdecl nullsub_271()
 {}
 
 // @fnv 0x00dfd960
-void FUN_00dfd960()
+// src: COMMUNITY 0x00dfd960
+void nullsub_272()
 {}
 
 // @fnv 0x00dfddd0
-void FUN_00dfddd0()
+// src: COMMUNITY 0x00dfddd0
+void nullsub_274()
 {}
 
 // @fnv 0x00dfddf0
-void FUN_00dfddf0()
+// src: COMMUNITY 0x00dfddf0
+void nullsub_275()
 {}
 
 // @fnv 0x00dfde60
-void __cdecl FUN_00dfde60()
+// src: COMMUNITY 0x00dfde60
+void __cdecl nullsub_276()
 {}
 
 // @fnv 0x00dfde80
-void __cdecl FUN_00dfde80()
+// src: COMMUNITY 0x00dfde80
+void __cdecl nullsub_277()
 {}
 
 // @fnv 0x00dfdea0
-void __cdecl FUN_00dfdea0()
+// src: COMMUNITY 0x00dfdea0
+void __cdecl nullsub_278()
 {}
 
 // @fnv 0x00dfdf20
-void __cdecl FUN_00dfdf20()
+// src: COMMUNITY 0x00dfdf20
+void __cdecl nullsub_279()
 {}
 
 // @fnv 0x00dfe080
-void __cdecl FUN_00dfe080()
+// src: COMMUNITY 0x00dfe080
+void __cdecl nullsub_280()
 {}
 
 // @fnv 0x00dfe0b0
-void __cdecl FUN_00dfe0b0()
+// src: COMMUNITY 0x00dfe0b0
+void __cdecl nullsub_281()
 {}
 
 // @fnv 0x00dfe0d0
-void __cdecl FUN_00dfe0d0(void)
+// src: COMMUNITY 0x00dfe0d0
+void __cdecl nullsub_282(void)
 {}
 
 // @fnv 0x00dfe0f0
-void FUN_00dfe0f0()
+// src: COMMUNITY 0x00dfe0f0
+void nullsub_283()
 {}
 
 // @fnv 0x00dfe110
-void FUN_00dfe110()
+// src: COMMUNITY 0x00dfe110
+void nullsub_284()
 {}
 
 // @fnv 0x00dfe130
-void FUN_00dfe130()
+// src: COMMUNITY 0x00dfe130
+void nullsub_285()
 {}
 
 // @fnv 0x00dfe150
-void FUN_00dfe150()
+// src: COMMUNITY 0x00dfe150
+void nullsub_286()
 {}
 
 // @fnv 0x00dfe170
-void FUN_00dfe170()
+// src: COMMUNITY 0x00dfe170
+void nullsub_287()
 {}
 
 // @fnv 0x00dfe190
-void FUN_00dfe190()
+// src: COMMUNITY 0x00dfe190
+void nullsub_288()
 {}
 
 // @fnv 0x00dfe1b0
-void FUN_00dfe1b0()
+// src: COMMUNITY 0x00dfe1b0
+void nullsub_289()
 {}
 
 // @fnv 0x00dfe1d0
-void __cdecl FUN_00dfe1d0()
+// src: COMMUNITY 0x00dfe1d0
+void __cdecl nullsub_290()
 {}
 
 // @fnv 0x00dfe200
-void __cdecl FUN_00dfe200()
+// src: COMMUNITY 0x00dfe200
+void __cdecl nullsub_291()
 {}
 
 struct FnvCpu_FUN_00dfee80_CpuInterface
@@ -8796,7 +8964,7 @@ void FUN_00df9840_Class::FUN_00df9840()
     }
     if (member10)
     {
-        FUN_00d043c0(member10, 1);
+        hkSemaphoreBusyWait_release(member10, 1);
     }
 }
 
@@ -11166,7 +11334,8 @@ struct ContactVectors
 };
 // Computes the relative velocity of two bodies at a contact point and returns its projection onto the contact normal.
 // @fnv 0x00df2510
-float __cdecl FUN_00df2510(const VelocityBody* a, const VelocityBody* b, const VelocityVector* centerA,
+// src: COMMUNITY 0x00df2510
+float __cdecl hkpSimpleContactConstraintUtil_calculateSeparatingVelocity(const VelocityBody* a, const VelocityBody* b, const VelocityVector* centerA,
                            const VelocityVector* centerB, const ContactVectors* contact)
 {
     VelocityVector velocityA;

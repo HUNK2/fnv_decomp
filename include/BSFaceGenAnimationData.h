@@ -21,17 +21,17 @@ class BSFaceGenAnimationData : public NiExtraData
     virtual const NiRTTI* GetRTTI() const;
 
     virtual float GetExpressionWeight(BS_FACEGEN_EXPRESSION expression);
-    virtual void FUN_00649a20(int, float);
+    virtual void SetExpressionValue(int, float);
     virtual bool CalculateRotationQuaternion(NiQuaternion& rotation);
-    virtual void FUN_00649a70(int, float);
+    virtual void SetModifierValue(int, float);
     virtual float GetPhonemeWeight(BS_FACEGEN_PHONEME phoneme);
-    virtual void FUN_00649ae0(int, float);
+    virtual void SetPhonemeValue(int, float);
     virtual float GetCustomMorphWeight(BS_FACEGEN_CUSTOM_MORPH morph);
-    virtual void FUN_00649b50(BS_FACEGEN_CUSTOM_MORPH, float);
+    virtual void SetCustomMorphValue(BS_FACEGEN_CUSTOM_MORPH, float);
     virtual void vfn_b4(float, bool, bool, bool, bool, bool);
     virtual void SetTransitionDuration(float duration);
     virtual void FadeOutMorphs(float, bool, bool, bool, bool);
-    virtual void FUN_0064bcc0(float, float, float, int);
+    virtual void SetHeadTrackVector(float, float, float, int);
     virtual void Reset(bool);
     virtual bool UpdateMorphs();
     virtual bool NeedsUpdate();
@@ -64,7 +64,7 @@ class BSFaceGenAnimationData : public NiExtraData
     void ResetFaceGenData(float, bool, bool, bool, bool, bool);
     bool UpdateFaceGenAnimation(float);
     void ClearLists(bool, bool, bool, bool);
-    void FUN_00663a10(bool);
+    void BSFaceGenAnimationData_SetShouldHeadTrack(bool);
     bool FUN_0064be40(float, unsigned int);
     float FUN_005dd4a0(int);
     bool GetChanged();

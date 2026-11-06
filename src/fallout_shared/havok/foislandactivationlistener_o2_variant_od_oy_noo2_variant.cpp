@@ -13,16 +13,16 @@
 extern "C" void __cdecl _Deallocate(void*);
 extern int DAT_0104de10;
 extern int DAT_011f942c;
-void FUN_00624bd0();
+void BSShaderManager_ResetMotionBluredObject();
 struct hkVector4;
 struct TopicH
 {
     NiPoint3* GetAddTopicList();
     NiPoint3& _ref_006815c0();
 };
-void FUN_00624b10(NiTransform*, NiPoint3*);
+void HK2NI_00624b10(NiTransform*, NiPoint3*);
 NiPoint3& SetNiPoint3FromHkVector4(NiPoint3&, const hkVector4&);
-NiTransform* FUN_00624ad0(NiTransform* arNiTran, TopicH* arTopicH);
+NiTransform* HK2NI_00624ad0(NiTransform* arNiTran, TopicH* arTopicH);
 
 #include <xmmintrin.h>
 struct Node96;
@@ -372,7 +372,7 @@ struct Physics96
     virtual void slot045();
     virtual void SetTransform(NiTransform*);
     Node96* FUN_0044ddc0();
-    bool FUN_00624bb0();
+    bool bhkNiCollisionObject_GSetLocal();
     void FUN_00573f00(bool);
 };
 struct Descriptor96
@@ -391,7 +391,7 @@ struct Filter96
 };
 Physics96* FUN_004b5a50(Node96*);
 Ref96* FUN_0056f930(Node96*);
-Geometry96* FUN_004b5a80(const void*);
+Geometry96* bhkEntity_Getbhk(const void*);
 unsigned int GetBSXFlags(unsigned int, unsigned int);
 struct Shadow96
 {
@@ -405,11 +405,12 @@ bool FUN_0043b300(const void*, Geometry96*);
 void FUN_00c6a350(Node96*, int, bool, bool, bool);
 struct Manager96
 {
-    void FUN_00624720(Input96*);
+    void FOIslandActivationListener_islandDeactivatedCallback(Input96*);
 };
 
 // @fnv 0x00624720
-void Manager96::FUN_00624720(Input96* input)
+// src: COMMUNITY 0x00624720
+void Manager96::FOIslandActivationListener_islandDeactivatedCallback(Input96* input)
 {
     if (!input)
         return;
@@ -434,7 +435,7 @@ void Manager96::FUN_00624720(Input96* input)
                 if (cell)
                     cell->FUN_00548880(ref, 0);
                 if (ref->NeedsUpdate())
-                    FUN_00624bd0();
+                    BSShaderManager_ResetMotionBluredObject();
             }
             else
             {
@@ -446,19 +447,19 @@ void Manager96::FUN_00624720(Input96* input)
         }
         if (Filter96(node->FUN_00460140()->FUN_0043b540()).FUN_0043b4d0() == 20 && ref && !ref->IsDisabled())
         {
-            Geometry96* geometry = FUN_004b5a80(node);
+            Geometry96* geometry = bhkEntity_Getbhk(node);
             if (geometry && FUN_0043b300(&DAT_012681c0, geometry))
             {
                 Geometry96* target = geometry;
                 target->SetFlags(4);
                 Physics96* body = FUN_004b5a50(node);
-                if (body && !body->FUN_00624bb0())
+                if (body && !body->bhkNiCollisionObject_GSetLocal())
                 {
                     body->FUN_00573f00(true);
                     FUN_0056ded0 transform;
                     NiTransform niTransform;
                     target->GetTransform(&transform);
-                    FUN_00624ad0(&niTransform, (TopicH*)&transform);
+                    HK2NI_00624ad0(&niTransform, (TopicH*)&transform);
                     body->SetTransform(&niTransform);
                     body->FUN_00573f00(false);
                 }

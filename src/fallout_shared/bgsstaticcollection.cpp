@@ -147,14 +147,14 @@ void FUN_004fe5a0_t::FUN_004fe5a0(TESForm* apCopy)
 
 struct FUN_004fe310 : B1_4fe, B2_4fe
 {
-    void FUN_0052d240();
+    void BGSStaticCollection_ClearData();
     ~FUN_004fe310();
 };
 
 // @fnv 0x004fe310
 FUN_004fe310::~FUN_004fe310()
 {
-    FUN_0052d240();
+    BGSStaticCollection_ClearData();
 }
 
 class FormComponentComparison : public TESForm

@@ -128,7 +128,7 @@ public:
 
     LocalVecArray& ScaleByInverse(float divisor);
     float FUN_00457910();
-    LocalVecArray* FUN_006a6eb0();
+    LocalVecArray* FastNavMeshTriLocation_GetLocation();
     bool FUN_004390c0(const LocalVecArray& v);
 
     LocalM128 get() const;
@@ -177,28 +177,28 @@ public:
     void FUN_00c7f640(const void* matrix, const void* point);
     void FUN_00c7f700(Mat3* matrix, void* point);
     void FUN_00c7f700(const void* matrix, const LocalVecArray* point);
-    void FUN_00b12790();
-    void FUN_00b13040(LocalVecArray* out, const LocalVecArray* v);
+    void Normalize_00b12790();
+    void Diff_00b13040(LocalVecArray* out, const LocalVecArray* v);
     LocalVecArray* ScaleSwizzled(LocalVecArray* out, float factor);
     void AddVector(LocalVecArray* out, const LocalVecArray* v);
     float Dot(const LocalVecArray& v);
     LocalVecArray* FUN_004a3c90(const LocalVecArray* v);
     LocalVecArray* FUN_0062b0a0(LocalVecArray* out, LocalVecArray* v);
-    LocalVecArray* FUN_0062af00(LocalVecArray* target);
+    LocalVecArray* hkVector4_lengthInverse3(LocalVecArray* target);
 
     void FUN_00cf7690(Elem* value);
     void FUN_00b1e970();
     Iter begin();
     Iter end();
     CIter FUN_00b33030(CIter first, CIter last);
-    void FUN_00b32120();
+    void m_vStrips_clear();
     unsigned int size() const;
     unsigned int capacity() const;
     void FUN_00b2df90();
     void FUN_00b2e140(Elem* first, Elem* last);
     bool InitBuffer(unsigned int count);
     Elem* _Ucopy(Elem* first, Elem* last, Elem* out);
-    LocalVecArray& FUN_00b2db10(const LocalVecArray& v);
+    LocalVecArray& CTreeEngine_SetLeafTextures(const LocalVecArray& v);
     CMutIter FUN_00aceb80(CMutIter first, CMutIter last);
     void FUN_00acac40();
     LocalVecArray& FUN_00ad61e0(const LocalVecArray& v);
@@ -1770,8 +1770,8 @@ inline void VisitL(OwnerL* owner, unsigned char** ppFlags, float fValue)
     }
 }
 void CollectUnsaturatedObjects(SrcL* pSource, int level, float fValue, unsigned char** ppFlags, ArrL<ObjL*>* out);
-void __stdcall FUN_00d0bc50(int, int, int);
-void __stdcall FUN_00d0bcf0(int a);
+void __stdcall nullsub_66(int, int, int);
+void __stdcall nullsub_67(int a);
 struct MotionBody {
     int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
@@ -3859,7 +3859,7 @@ __declspec(nothrow) void hkpWorldAgentUtil_invalidateTim(DynamicNode*,const Coll
 __declspec(nothrow) void FUN_00d0bf30(Resources&,const List<DynamicNode*>&) throw();
 __declspec(nothrow) BoolFlag CollectMatchingEntries(Resources&,const List<SchemaRecord>&,ProcessInput&,List<Violation>*) throw();
 __declspec(nothrow) void FUN_00d8aac0(const ResourceInfo&,Schema*,Accumulator*,SolverElement*) throw();
-__declspec(nothrow) void FUN_00d88580(const ResourceInfo&,const TimeInterval&,const Accumulator*,DynamicNode* const*,int) throw();
+__declspec(nothrow) void hkpConstraintSolverSetup_oneStepIntegrate(const ResourceInfo&,const TimeInterval&,const Accumulator*,DynamicNode* const*,int) throw();
 __declspec(nothrow) void UpdateIslandMotionStates(SolverIsland*,StateTable&,Resources&) throw();
 __declspec(nothrow) void PartitionMotionPairs(List<SchemaRecord>&,int&,int) throw();
 __declspec(nothrow) void hkLs_toiActivateConstraintsLinkingActivatedEntities(List<SchemaRecord>&,int&,StateTable&) throw();
@@ -4159,7 +4159,7 @@ struct Arg0 {
     int unk1d8;
     int unk1dc;
     int m_1e0;
-    float FUN_00c91030();
+    float hkpWorld_getCurrentPsiTime();
 };
 struct Elem {
     int unk00;
@@ -4325,7 +4325,7 @@ __forceinline void Self::process(Arg0* world,Elem** data,int count,void* input) 
 }
 static __forceinline void prepareProbe(Arg0* world,const Entry70& event,float delta,Times& step,BigObj& solver,Obj2& input) {
     step.tA=event.time;
-    step.tB=world->FUN_00c91030();
+    step.tB=world->hkpWorld_getCurrentPsiTime();
     step.diff=step.tB-step.tA;
     step.recip=1.0f/step.diff;
     solver.FUN_00d105b0(&world->m_1e0);

@@ -30,11 +30,11 @@ struct FUN_00505c20_class
 struct NiNode;
 struct FUN_00507550_Class
 {
-    void FUN_00507550(void* p);
+    void ParticleShaderProperty_SetTexture0x118(void* p);
 };
 struct FUN_00507570_Class
 {
-    void FUN_00507570(float value);
+    void ParticleShaderProperty_SetLifetimeVar(float value);
 };
 struct FUN_005076c0Class
 {
@@ -50,11 +50,11 @@ struct FUN_00507720_Class
 };
 struct FUN_00507740_Class
 {
-    void FUN_00507740(int value);
+    void ParticleShaderProperty_SetBlendOp(int value);
 };
 struct FUN_00507760_Class
 {
-    void FUN_00507760(int value);
+    void ParticleShaderProperty_SetZTestFunc(int value);
 };
 struct FUN_00507780
 {
@@ -88,7 +88,7 @@ struct FUN_0050d1d0_class
 };
 struct FUN_0050d1f0_Class
 {
-    bool __thiscall FUN_0050d1f0() const;
+    bool __thiscall TESObjectLIGH_GetFlickerSlow() const;
 };
 struct FUN_0050d210_Class
 {
@@ -96,7 +96,7 @@ struct FUN_0050d210_Class
 };
 struct FUN_0050d230_class
 {
-    bool FUN_0050d230() const;
+    bool TESObjectLIGH_GetPulseSlow() const;
 };
 struct FUN_00510110_class
 {
@@ -105,7 +105,7 @@ struct FUN_00510110_class
 };
 struct FUN_00510360_Class
 {
-    void* FUN_00510360(TESObject* p);
+    void* TESObjectList_lnk_GetNext(TESObject* p);
 };
 struct FUN_00510380_Class
 {
@@ -118,9 +118,9 @@ struct FUN_005103a0_class
     void __thiscall FUN_005103a0(const char* a, const char* b);
 };
 extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
-void __cdecl FUN_005104b0(const void* s1, const void* s2, unsigned int n);
+void __cdecl std_char_traits_char_compare(const void* s1, const void* s2, unsigned int n);
 extern "C" void* __cdecl FUN_00eca2e0(void* p, int c, size_t n);
-void __cdecl FUN_005104d0(void* p, size_t n, char* c);
+void __cdecl std_char_traits_char_assign_005104d0(void* p, size_t n, char* c);
 // Exe 0x00515040: local storage view; GetFlags binds the folded DWORD-at-+8 accessor 0x0044ddc0.
 struct BlkOffset08View
 {
@@ -165,7 +165,7 @@ struct FUN_0051f4f0_Class
 };
 struct FUN_0051f530_class
 {
-    void __thiscall FUN_0051f530(int value);
+    void __thiscall TESObjectWEAP_SetVATSEffect(int value);
 };
 extern "C" void* __cdecl _NiFreeAlias(void*);
 extern void* DAT_0102b3f0;
@@ -186,7 +186,7 @@ struct FUN_005010c0_class
 };
 struct FUN_00507660_class
 {
-    void FUN_00507660(NiPoint4 p);
+    void ParticleShaderProperty_SetColor2(NiPoint4 p);
 };
 void __cdecl Deallocate(void*);
 struct FUN_00519b50_class
@@ -231,7 +231,7 @@ struct Vec12_5075c0
 };
 struct S5075c0
 {
-    void __thiscall FUN_005075c0(Vec12_5075c0 v);
+    void __thiscall ParticleShaderProperty_SetAcceleration(Vec12_5075c0 v);
 };
 struct FUN_00507630_Cls
 {
@@ -243,7 +243,7 @@ struct FUN_00507690_Class
 {
     char _pad[0xe4];
     NiPoint4 m_0xe4;
-    void __thiscall FUN_00507690(NiPoint4 v);
+    void __thiscall ParticleShaderProperty_SetColor3(NiPoint4 v);
 };
 struct FUN_00508100_shell
 {
@@ -265,7 +265,7 @@ struct FUN_00508090_shell
     float FUN_00508120();
     float FUN_00759450();
     void UpdateEnvelope(float, float, float, unsigned char, float, float, float, float, float);
-    void FUN_00508090(float a, float b, float c, unsigned char d);
+    void TESEffectShader_AnimateFillEffectAlpha(float a, float b, float c, unsigned char d);
 };
 struct FUN_0050e640_Holder
 {
@@ -281,7 +281,7 @@ struct AVH
 };
 struct FUN_00514fd0_class
 {
-    int __thiscall FUN_00514fd0();
+    int __thiscall TESObjectBOOK_GetTeaches();
 };
 bool __cdecl FUN_00519570(int);
 struct LH
@@ -431,12 +431,12 @@ struct FUN_00516cd0_class
     bool __thiscall CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick);
 };
 int DAT_011c6200;
-int FUN_005039e0();
+int FixedStrings_GetArrowQuiver();
 struct FUN_00505b80_cls
 {
     unsigned char DispatchByType(int aType);
     unsigned char FUN_0073cb80();
-    unsigned char FUN_00505c00();
+    unsigned char TESCombatStyle_GetPowerAttackF();
     unsigned char GetByteAtOffset9A();
     unsigned char GetByteAtOffset9B();
     unsigned char FUN_009e8670();
@@ -569,7 +569,7 @@ class FUN_00507da0_cls
     float GetField90Float(float value);
     float FUN_0051b8e0(float value);
     void UpdateEnvelope(float a, float b, float c, unsigned char flag, float value);
-    void FUN_00507da0(float a, float b, float c, unsigned char flag);
+    void TESEffectShader_BirthParticles(float a, float b, float c, unsigned char flag);
 };
 extern "C" double gModifierZero;
 extern float runtimeInitializationFloat2255;
@@ -580,7 +580,7 @@ class B5081D0Actor
     float GetFloatAt64();
     float GetFloatAtOffset68() const;
 
-    float FUN_005081d0(float fTime);
+    float TESEffectShader_CalculateEdgeAlphaPulse(float fTime);
 };
 extern "C" double gModifierZero;
 extern float runtimeInitializationFloat2255;
@@ -591,7 +591,7 @@ class C508240Ref
     float GetScale();
     float GetHeight();
 
-    float FUN_00508240(float fDistance);
+    float TESEffectShader_CalculateFillAlphaPulse(float fDistance);
 };
 namespace std {
 float abs(float);
@@ -779,10 +779,10 @@ class Obj50DDB0
     int unk0A4;
     unsigned int m_uiValue1;
 
-    void FUN_0050ddb0(bool bSet);
+    void TESObjectLIGH_SetDynamic(bool bSet);
 };
 extern int DAT_011c620c;
-int __cdecl FUN_0050de10();
+int __cdecl FixedStrings_GetAttachLight();
 struct S_0050de20_Obj
 {
     int unk00;
@@ -797,11 +797,11 @@ struct S_0050de20_A
 };
 struct S_0050de20_Class
 {
-    bool __thiscall FUN_0050de60(NiPointer<S_0050de20_Obj> p, int* q, int b);
-    bool __thiscall FUN_0050de20(S_0050de20_A* a, int b);
+    bool __thiscall TESObjectLIGH_Update_(NiPointer<S_0050de20_Obj> p, int* q, int b);
+    bool __thiscall TESObjectLIGH_Update(S_0050de20_A* a, int b);
 };
 extern int DAT_011f81dc;
-int FUN_0050f6e0();
+int FileFinder_GetSingleton();
 struct S_5102e0_Node
 {
     virtual void unk00();
@@ -963,8 +963,8 @@ struct FUN_0051cf00_NiBillboardNode : public NiBillboardBase
     unsigned short m_0ac;
     float m_0b0;
     virtual void vfunc_node();
-    void FUN_0051d000(int flags);
-    void FUN_0051d060(int flags);
+    void SetMode_0051d000(int flags);
+    void NiBillboardNode_SetUpdateControllers(int flags);
     FUN_0051cf00_NiBillboardNode();
     ~FUN_0051cf00_NiBillboardNode();
 };
@@ -1105,7 +1105,7 @@ struct Obj
     void FUN_0050c690(float v);
     void FUN_004bc1f0(float a, float b, float c);
     void FUN_00a59c60(NiUpdateData& u);
-    float FUN_00644a50();
+    float TESCombatStyle_GetDodgeDuringAttackMult();
     void FUN_0050dd20(float v);
 };
 struct Ptr
@@ -1122,7 +1122,7 @@ extern TimeGlobal DAT_011f6394;
 extern Setting DAT_011c8fcc;
 struct TQ
 {
-    void FUN_0087ad50();
+    void TaskQueueInterface_QueueObjectUpdate();
 };
 TQ* __stdcall FUN_004537b0(void* p);
 bool __cdecl FUN_008c7aa0();
@@ -1174,7 +1174,7 @@ struct Host
     int unkAC;
     int unkB0;
     float m_b4;
-    bool FUN_0050de60(Ptr p1, float* p2, NiPoint3* p3);
+    bool TESObjectLIGH_Update_(Ptr p1, float* p2, NiPoint3* p3);
 };
 struct Region
 {
@@ -1232,11 +1232,12 @@ const char* GetActorValueName(Index);
 }
 struct SkillBookEffect552
 {
-    ActorValue::Index FUN_00514fd0();
-    bool FUN_00515040(TESObjectREFR* reference);
+    ActorValue::Index TESObjectBOOK_GetTeaches();
+    bool TESObjectBOOK_Read(TESObjectREFR* reference);
 };
 // @fnv 0x00515040
-bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
+// src: COMMUNITY 0x00515040
+bool SkillBookEffect552::TESObjectBOOK_Read(TESObjectREFR* reference)
 {
     bool applied = false;
     Actor* actor2 = dynamic_cast<Actor*>(reference);
@@ -1247,7 +1248,7 @@ bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
         QueueUIMessage(g_011d4ccc.FUN_00403df0(), 0, 0, 0, DAT_010162c0, false);
         return applied;
     }
-    ActorValue::Index skill2 = FUN_00514fd0();
+    ActorValue::Index skill2 = TESObjectBOOK_GetTeaches();
     if (ActorValue::IsSkill(skill2))
     {
         if (g_thePlayer->GetPermanentActorValue(skill2) < 200)

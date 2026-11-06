@@ -103,7 +103,7 @@ template <> bool BSStringT<char>::Set(const BSStringT<char>& source)
 
 void ResolveFormID(unsigned int*, TESFile*);
 TESForm* FUN_004839c0(unsigned int);
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 void __cdecl operator delete(void*);
 
 // Walks m_kDecalReferences, resolving each decal's m_pHitReference form ID against the given TESForm and removing entries that cannot be resolved.
@@ -121,7 +121,7 @@ void ExtraDecalRefs::FUN_00433db0(TESForm* form)
         TESObjectREFR* resolvedB = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));
         if (!resolvedB)
         {
-            FUN_005b5e40("MASTERFILE: Unable to find decal reference %08X.", formID);
+            Warning_005b5e40("MASTERFILE: Unable to find decal reference %08X.", formID);
             if (previous)
             {
                 previous->Remove(decal);

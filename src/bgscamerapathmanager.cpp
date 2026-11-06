@@ -68,13 +68,14 @@ void CameraPathManager::UpdateCameraPaths()
 
 struct FUN_0058b510_shell
 {
-    TESFile* FUN_0058b510(unsigned int a, unsigned int b);
+    TESFile* GetCameraPathToPlay(unsigned int a, unsigned int b);
 };
 // This flag-check entry point is not declared by the shared TESFile header.
 bool __fastcall IsTESFileFlag80Set(TESFile* file);
 bool __fastcall _ref_008256d0(const char* s);
 // @fnv 0x0058bb50
-TESFile* CameraPathManager::FUN_0058bb50(unsigned int arg1, unsigned int arg2)
+// src: COMMUNITY 0x0058bb50
+TESFile* CameraPathManager::BGSCameraPathManager_GetCameraPathToPlay(unsigned int arg1, unsigned int arg2)
 {
     TESFile* pFile = 0;
     if (arg1)
@@ -84,7 +85,7 @@ TESFile* CameraPathManager::FUN_0058bb50(unsigned int arg1, unsigned int arg2)
         {
             TESForm* form = m_kCameraPathArray.GetFormAt(i);
             if (form)
-                pFile = reinterpret_cast<FUN_0058b510_shell*>(form)->FUN_0058b510(arg1, arg2);
+                pFile = reinterpret_cast<FUN_0058b510_shell*>(form)->GetCameraPathToPlay(arg1, arg2);
             if (pFile)
                 break;
         }
@@ -208,7 +209,7 @@ struct SceneNode
     SceneNode(unsigned short childCount);
     static void* operator new(unsigned int size);
     static void operator delete(void* p, unsigned int size);
-    SceneNode* FUN_009611e0();
+    SceneNode* NiAVObject_GetParent();
     void FUN_004f00e0(void* arg);
 };
 
@@ -279,7 +280,7 @@ void FUN_0058ccf0_Class::SetSceneNode(SceneNode* node)
     SceneNode* root = node;
     while (root != 0 && root->IsRootCandidate() == 0)
     {
-        root = root->FUN_009611e0();
+        root = root->NiAVObject_GetParent();
     }
     if (root != 0)
     {

@@ -122,13 +122,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -170,11 +170,12 @@ void __thiscall FUN_00821620_Class::FUN_00821620(float value)
 
 struct FUN_00821680_Class
 {
-    float FUN_00821680() const;
+    float TESObjectWEAP_GetFiringRumbleRightMotorStrength() const;
 };
 
 // @fnv 0x00821680
-float FUN_00821680_Class::FUN_00821680() const
+// src: COMMUNITY 0x00821680
+float FUN_00821680_Class::TESObjectWEAP_GetFiringRumbleRightMotorStrength() const
 {
     return *(const float*)((const char*)this + 0x140);
 }
@@ -230,13 +231,15 @@ unsigned short __thiscall TESSound::GetShortAtOffset5A()
 }
 
 // @fnv 0x0082d700
-unsigned char TESSound::FUN_0082d700()
+// src: COMMUNITY 0x0082d700
+unsigned char TESSound::GetEndTime_0082d700()
 {
     return data.stopTime & 0xff;
 }
 
 // @fnv 0x0082d720
-unsigned int __thiscall TESSound::FUN_0082d720()
+// src: COMMUNITY 0x0082d720
+unsigned int __thiscall TESSound::GetPriority_0082d720()
 {
     return data.unk18 & 0xff;
 }
@@ -271,21 +274,23 @@ void __thiscall FUN_0082f140_class::FUN_0082f140()
     *reinterpret_cast<void**>(this) = &DAT_0107cb6c;
 }
 
-void __fastcall FUN_0082f1b0(void*);
+void __fastcall NiCriticalSection_Lock(void*);
 
 struct FUN_0082f190_class
 {
-    void FUN_0082f190();
+    void CBSAStream_Lock();
 };
 
 // @fnv 0x0082f190
-void FUN_0082f190_class::FUN_0082f190()
+// src: COMMUNITY 0x0082f190
+void FUN_0082f190_class::CBSAStream_Lock()
 {
-    FUN_0082f1b0(reinterpret_cast<char*>(this) + 0x10c);
+    NiCriticalSection_Lock(reinterpret_cast<char*>(this) + 0x10c);
 }
 
 // @fnv 0x0082f1d0
-void CBSAStream::FUN_0082f1d0()
+// src: COMMUNITY 0x0082f1d0
+void CBSAStream::Unlock_0082f1d0()
 {
     reinterpret_cast<RecursiveLock*>(reinterpret_cast<char*>(this) + 0x10c)->Leave();
 }
@@ -306,7 +311,7 @@ FUN_0082f240_class::FUN_0082f240_class()
 }
 }  // namespace fnv_0082f240
 
-void __fastcall FUN_0082f1b0(void*);
+void __fastcall NiCriticalSection_Lock(void*);
 
 struct FUN_0082f520Class
 {
@@ -319,7 +324,7 @@ struct FUN_0082f520Class
 void* __thiscall FUN_0082f520Class::FUN_0082f520(void* pValue)
 {
     p = pValue;
-    FUN_0082f1b0(p);
+    NiCriticalSection_Lock(p);
     return this;
 }
 
@@ -412,7 +417,8 @@ extern "C" void __cdecl FalloutAudio_FUN_00839ab0();
 extern unsigned char DAT_011dd85c;
 
 // @fnv 0x00837500
-void FUN_00837500()
+// src: COMMUNITY 0x00837500
+void ResetFootstepSounds()
 {
     DAT_011dd85c = 0;
     FalloutAudio_FUN_00839ab0();
@@ -590,23 +596,25 @@ void __thiscall FUN_00831fb0_class::FUN_00831fb0()
 
 struct FUN_00836600_class
 {
-    void __thiscall FUN_00836600(BGSLoadFormBuffer* buffer);
-    void __thiscall FUN_00836110(BGSLoadFormBuffer* buffer);
+    void __thiscall RadioEntry_Save(BGSLoadFormBuffer* buffer);
+    void __thiscall RadioEntry_Data_Save(BGSLoadFormBuffer* buffer);
 };
 // @fnv 0x00836600
-void __thiscall FUN_00836600_class::FUN_00836600(BGSLoadFormBuffer* buffer)
+// src: COMMUNITY 0x00836600
+void __thiscall FUN_00836600_class::RadioEntry_Save(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<BGSSaveFormBuffer*>(buffer)->SerializeFormData(
         reinterpret_cast<void*>(reinterpret_cast<int*>(this)[0]), 0);
-    reinterpret_cast<FUN_00836600_class*>(reinterpret_cast<char*>(this) + 4)->FUN_00836110(buffer);
+    reinterpret_cast<FUN_00836600_class*>(reinterpret_cast<char*>(this) + 4)->RadioEntry_Data_Save(buffer);
 }
 
 struct FUN_00837280_Class
 {
-    char FUN_00837280();
+    char RadioConvTask_GetFileIndex();
 };
 // @fnv 0x00837280
-char FUN_00837280_Class::FUN_00837280()
+// src: COMMUNITY 0x00837280
+char FUN_00837280_Class::RadioConvTask_GetFileIndex()
 {
     return 3;
 }
@@ -739,7 +747,8 @@ void __thiscall FUN_00824290_class::AddWeatherEntry(int aiFirst, int aiSecond, i
 
 // If self is non-null and its sound data has a non-zero a or b, writes a and b to outA and outB and returns true; otherwise returns false.
 // @fnv 0x0082d740
-bool FUN_0082d740(TESSound* self, int* outA, int* outB)
+// src: COMMUNITY 0x0082d740
+bool GetSoundLoopPoints(TESSound* self, int* outA, int* outB)
 {
     if (!self)
         return false;
@@ -831,7 +840,7 @@ struct FUN_0083d1e0
     unsigned int unk24;
     unsigned int unk28;
     FUN_0083d1e0();
-    void FUN_0083d740(BGSLoadFormBuffer* buffer);
+    void DialogueResponse_LoadGameBGS(BGSLoadFormBuffer* buffer);
 };
 struct DialogueResponseList
 {
@@ -861,7 +870,7 @@ void DialogueItem_shell::LoadDialogueItem(BGSLoadFormBuffer* buffer)
         for (unsigned int i = 0; i < count; ++i)
         {
             FUN_0083d1e0* response = new FUN_0083d1e0;
-            response->FUN_0083d740(buffer);
+            response->DialogueResponse_LoadGameBGS(buffer);
             responses.AddTail(response);
         }
     }
@@ -1180,11 +1189,12 @@ TESForm* __cdecl _ref_004839c0(unsigned int formID);
 
 struct FUN_0083d740_Class
 {
-    void __thiscall FUN_0083d740(BGSLoadGameBuffer* buffer);
+    void __thiscall DialogueResponse_LoadGameBGS(BGSLoadGameBuffer* buffer);
 };
 
 // @fnv 0x0083d740
-void __thiscall FUN_0083d740_Class::FUN_0083d740(BGSLoadGameBuffer* buffer)
+// src: COMMUNITY 0x0083d740
+void __thiscall FUN_0083d740_Class::DialogueResponse_LoadGameBGS(BGSLoadGameBuffer* buffer)
 {
     char text[1000];
 
@@ -1261,11 +1271,12 @@ extern void* _DAT_01183028;
 
 struct FUN_0083fbe0_Class
 {
-    void __thiscall FUN_0083fbe0(BGSLoadGameBuffer* buffer);
+    void __thiscall ExtraInfoGeneralTopic_Data_LoadGame(BGSLoadGameBuffer* buffer);
 };
 
 // @fnv 0x0083fbe0
-void __thiscall FUN_0083fbe0_Class::FUN_0083fbe0(BGSLoadGameBuffer* buffer)
+// src: COMMUNITY 0x0083fbe0
+void __thiscall FUN_0083fbe0_Class::ExtraInfoGeneralTopic_Data_LoadGame(BGSLoadGameBuffer* buffer)
 {
     char string[500];
 
@@ -1651,11 +1662,12 @@ class FUN_0082f310_cls
     __int64 m_130;
 
   public:
-    int FUN_0082f310(__int64 value);
+    int CBSAStream_Seek(__int64 value);
 };
 // Validates value against m_128 and the m_108 probe, then stores it in m_130 and calls m_108->v14(value, DAT_010a2480); returns 1 on failure, 0 on success.
 // @fnv 0x0082f310
-int FUN_0082f310_cls::FUN_0082f310(__int64 value)
+// src: COMMUNITY 0x0082f310
+int FUN_0082f310_cls::CBSAStream_Seek(__int64 value)
 {
     if (value < 0 || value > this->m_128 || this->m_108 == 0 || this->m_108->FUN_008905f0() == 0)
     {
@@ -1760,11 +1772,12 @@ struct ArchiveStream
     int unk124;
     __int64 size;
     __int64 pos;
-    int FUN_0082f3c0(void* buffer, unsigned int count, int unused, unsigned int* bytesRead);
+    int CBSAStream_Read(void* buffer, unsigned int count, int unused, unsigned int* bytesRead);
 };
 
 // @fnv 0x0082f3c0
-int ArchiveStream::FUN_0082f3c0(void* buffer, unsigned int count, int unused, unsigned int* bytesRead)
+// src: COMMUNITY 0x0082f3c0
+int ArchiveStream::CBSAStream_Read(void* buffer, unsigned int count, int unused, unsigned int* bytesRead)
 {
     StreamLock guard(&lock);
     if (!file || !file->IsValid())
@@ -1828,7 +1841,7 @@ FUN_0082f6c0::~FUN_0082f6c0()
 
 extern unsigned int DAT_011dd1f4;
 
-void __cdecl FUN_00401030(unsigned int p);
+void __cdecl FormHeapFreeAndLog_00401030(unsigned int p);
 
 struct FUN_0082f9c0_obj
 {
@@ -1836,7 +1849,8 @@ struct FUN_0082f9c0_obj
 };
 
 // @fnv 0x0082f9c0
-void __cdecl FUN_0082f9c0()
+// src: COMMUNITY 0x0082f9c0
+void __cdecl FalloutAudioMedia_Shutdown()
 {
     unsigned int a = DAT_011dd1f4;
     unsigned int b_2 = a;
@@ -1851,7 +1865,7 @@ void __cdecl FUN_0082f9c0()
         }
         else
         {
-            FUN_00401030(c7 - 4);
+            FormHeapFreeAndLog_00401030(c7 - 4);
             r_2 = 0;
         }
         s = r_2;
@@ -2114,9 +2128,9 @@ struct SettingObj
 {
     float* __thiscall FUN_00403e20();
 };
-bool __cdecl FUN_00839da0();
+bool __cdecl ImpactMixer_GetGunshotsInitialized();
 bool __fastcall FUN_00524d10(void* p);
-unsigned int __cdecl FUN_00457fe0();
+unsigned int __cdecl Cmd_GetSessionTime_Execute();
 bool __cdecl FUN_0082eca0(void* snd, LocalVec3 pos, float v);
 extern Player* DAT_011dea3c;
 extern LocalVec3 DAT_011f426c;
@@ -2129,7 +2143,7 @@ extern Entry DAT_011dd9e8[20];
 // @fnv 0x0083ac30
 void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListObj, bool a3)
 {
-    if (!FUN_00839da0())
+    if (!ImpactMixer_GetGunshotsInitialized())
         return;
     BSSoundHandle bobj24;
     BSSoundHandle iobj48;
@@ -2236,7 +2250,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                 sndB = 0;
             // The audio header still names the old point type; use the shared return layout.
             cpt = jvec -
-                  (BSAudio::FUN_00453a70()->*reinterpret_cast<::NiPoint3 (BSAudio::*)()>(&BSAudio::FUN_00ad78e0))();
+                  (BSAudio::FUN_00453a70()->*reinterpret_cast<::NiPoint3 (BSAudio::*)()>(&BSAudio::BSAudio_GetListenerPosition))();
             ef60 = cpt.x * cpt.x + cpt.y * cpt.y + cpt.z * cpt.z;
             int ai;
             for (ai = 0; ai < 20; ai++)
@@ -2272,20 +2286,20 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
             {
                 aentry140 = mentry3c;
                 mentry3c->f18 = apSource;
-                mentry3c->f1c = FUN_00457fe0();
+                mentry3c->f1c = Cmd_GetSessionTime_Execute();
                 mentry3c->f20 = ef60;
             }
             else if (sentry58 != 0)
             {
                 aentry140 = sentry58;
-                sentry58->f1c = FUN_00457fe0();
+                sentry58->f1c = Cmd_GetSessionTime_Execute();
                 sentry58->f20 = ef60;
             }
             else if (tentry64 != 0)
             {
                 aentry140 = tentry64;
                 tentry64->f18 = apSource;
-                tentry64->f1c = FUN_00457fe0();
+                tentry64->f1c = Cmd_GetSessionTime_Execute();
                 tentry64->f20 = ef60;
             }
             if (aentry140 != 0)
@@ -2297,7 +2311,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                     // Adapt the legacy BSAudio return declaration to the shared 12-byte handle.
                     aentry140->ch0 =
                         (BSAudio::FUN_00453a70()->*reinterpret_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(
-                            static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(&BSAudio::FUN_00ad7480)))(
+                            static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(&BSAudio::BSAudio_GetSoundHandleByFilename)))(
                                 sndA->FUN_00511840(), (unsigned int)iflags, (unsigned int)sndA);
                     gb31 = (unsigned char)sndA->GetByteAtOffset44();
                     cg59 = sndA->GetField45();
@@ -2308,7 +2322,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                     aentry140->ch1.Stop();
                     aentry140->ch1 =
                         (BSAudio::FUN_00453a70()->*reinterpret_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(
-                            static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(&BSAudio::FUN_00ad7480)))(
+                            static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(&BSAudio::BSAudio_GetSoundHandleByFilename)))(
                                 sndB->FUN_00511840(), (unsigned int)iflags, (unsigned int)sndB);
                     qb75 = (unsigned char)sndB->GetByteAtOffset44();
                     sb0d = sndB->GetField45();
@@ -2411,7 +2425,7 @@ void S_0083d130_Class::ProcessNodeChain()
         {
             if (FUN_0044a670((*node->ref_006815c0())->ref_006815c0()->FUN_00559450()) > 1)
             {
-                BSAudio::FUN_00453a70()->FUN_00ad8100((unsigned int)(*node->ref_006815c0())->FUN_00460140()->FUN_00559450(), 0x20100001, 0);
+                BSAudio::FUN_00453a70()->Precache_00ad8100((unsigned int)(*node->ref_006815c0())->FUN_00460140()->FUN_00559450(), 0x20100001, 0);
             }
         }
         node = FUN_00726070(node);
@@ -2566,13 +2580,13 @@ unsigned int __cdecl ApplySoundFormToGameSound(BSSoundHandle* apSound, void* apF
         uiMin = 0xe;
     if (!uiMax2)
         uiMax2 = 0x3c;
-    if (SoundAssetTmp->GetHighByteOfField4E() || SoundAssetTmp->FUN_0082d700())
-        apSound->SetTimeConstraints(SoundAssetTmp->GetHighByteOfField4E(), SoundAssetTmp->FUN_0082d700());
+    if (SoundAssetTmp->GetHighByteOfField4E() || SoundAssetTmp->GetEndTime_0082d700())
+        apSound->SetTimeConstraints(SoundAssetTmp->GetHighByteOfField4E(), SoundAssetTmp->GetEndTime_0082d700());
     apSound->SetMinMax(uiMin * 5.0, uiMax2 * 100.0);
     apSound->SetAttenuationCurve(SoundAssetTmp->GetShortAt(0), SoundAssetTmp->GetShortAt(1), SoundAssetTmp->GetShortAt(2), SoundAssetTmp->GetShortAt(3),
                           SoundAssetTmp->GetShortAt(4));
     apSound->SetReverbAttenuation(SoundAssetTmp->GetShortAtOffset5A());
-    apSound->SetPriority((unsigned char)SoundAssetTmp->FUN_0082d720());
+    apSound->SetPriority((unsigned char)SoundAssetTmp->GetPriority_0082d720());
     if (SoundAssetTmp->CopyBig().iFlags & 1)
     {
         uiFlags |= 0x40;
@@ -3496,12 +3510,13 @@ struct SoundTimer
     unsigned char m_flag11;
     int unk14;
     SoundListNode m_kNode;
-    void FUN_00836110(BGSSaveFormBuffer* buffer);
+    void RadioEntry_Data_Save(BGSSaveFormBuffer* buffer);
 };
 
 // Writes elapsed time, timer fields, and queued sound forms to the buffer, patches the count, then saves the queue if present.
 // @fnv 0x00836110
-void SoundTimer::FUN_00836110(BGSSaveFormBuffer* buffer)
+// src: COMMUNITY 0x00836110
+void SoundTimer::RadioEntry_Data_Save(BGSSaveFormBuffer* buffer)
 {
     int elapsed_2 = BSAudio::GetSingleton()->GetSynchTime() - m_uiStartTime;
     if (m_fAnimationDuration <= 0)
@@ -3768,7 +3783,8 @@ namespace fnv_0082f1b0 {
 // Wrapper around the Win32 critical-section API: locks the section owned by
 // the object passed in the fastcall register (ecx).
 // @fnv 0x0082f1b0
-void __fastcall FUN_0082f1b0(void* apCriticalSection)
+// src: COMMUNITY 0x0082f1b0
+void __fastcall NiCriticalSection_Lock(void* apCriticalSection)
 {
     EnterCriticalSection((LPCRITICAL_SECTION)apCriticalSection);
 }

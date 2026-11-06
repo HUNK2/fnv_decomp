@@ -92,7 +92,7 @@ struct Pool
 
 struct Holder
 {
-    Pool* FUN_0044edb0();
+    Pool* TESMain_GetThread();
 };
 
 Holder* __cdecl FUN_00c85750();
@@ -102,7 +102,7 @@ ReturnType* __cdecl FUN_0056d280(unsigned int nbytes)
 {
     ReturnType* result;
     {
-        Pool* pool = FUN_00c85750()->FUN_0044edb0();
+        Pool* pool = FUN_00c85750()->TESMain_GetThread();
         result = pool->Alloc(nbytes);
     }
     result->unk04 = (unsigned short)nbytes;

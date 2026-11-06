@@ -310,13 +310,13 @@ void __stdcall FUN_00c90e40(void* self, int arg)
 }
 
 struct FUN_00cf86e0_class {
-    void FUN_00cf86e0(float);
+    void hkpSimulation_setFrameTimeMarker(float);
 };
 // @fnv 0x00c91040
 // src: HAVOK_LIB 0x00c91040
 void __fastcall hkpWorld_setFrameTimeMarker(void* p, int edx, float afValue)
 {
-    ((FUN_00cf86e0_class*)*((char**)p + 2))->FUN_00cf86e0(afValue);
+    ((FUN_00cf86e0_class*)*((char**)p + 2))->hkpSimulation_setFrameTimeMarker(afValue);
 }
 
 struct RefObj { void FUN_00c90510(); };
@@ -410,10 +410,11 @@ struct S_00cf7540 {
     void __thiscall AddEntry(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
 };
 struct FUN_00c91170_Class {
-    void FUN_00c91170(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
+    void hkpWorld_addBodyOperation(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
 };
 // @fnv 0x00c91170
-void FUN_00c91170_Class::FUN_00c91170(S_00cf7540_Ref* a, S_00cf7540_Ref* b, int c, int d)
+// src: COMMUNITY 0x00c91170
+void FUN_00c91170_Class::hkpWorld_addBodyOperation(S_00cf7540_Ref* a, S_00cf7540_Ref* b, int c, int d)
 {
     (*(S_00cf7540**)((char*)this + 0x88))->AddEntry(a, b, c, d);
 }
@@ -804,10 +805,11 @@ struct CpuObject {
     unsigned int unk00;
     unsigned int unk04;
     CpuScalar* value;
-    float FUN_00c91030();
+    float hkpWorld_getCurrentPsiTime();
 };
 // @fnv 0x00c91030
-float CpuObject::FUN_00c91030()
+// src: COMMUNITY 0x00c91030
+float CpuObject::hkpWorld_getCurrentPsiTime()
 {
     return value->value;
 }
@@ -821,11 +823,12 @@ struct FUN_00c91060_Class {
     void* m_iWordAt00;
     void* m_iWordAt04;
     FUN_00cf86f0_Class* m_8;
-    void __thiscall FUN_00c91060();
+    void __thiscall hkpWorld_isSimulationAtMarker();
 };
 
 // @fnv 0x00c91060
-void __thiscall FUN_00c91060_Class::FUN_00c91060()
+// src: COMMUNITY 0x00c91060
+void __thiscall FUN_00c91060_Class::hkpWorld_isSimulationAtMarker()
 {
     m_8->IsFieldEqual();
 }
@@ -1095,11 +1098,12 @@ struct FUN_00c91270_cls
     int unk54;
     int unk58;
     Target* m_5C;
-    void FUN_00c91270(int a);
+    void ahkpWorld_updateKdTree(int a);
 };
 
 // @fnv 0x00c91270
-void FUN_00c91270_cls::FUN_00c91270(int a)
+// src: COMMUNITY 0x00c91270
+void FUN_00c91270_cls::ahkpWorld_updateKdTree(int a)
 {
     m_5C->Forward(a);
 }
@@ -1243,8 +1247,8 @@ struct WorldExt : public hkpWorld {
     float FUN_00c91020() throw();
     void hkpWorld_setFrameTimeMarker(float f) throw();
     void hkpWorld_advanceTime() throw();
-    bool FUN_00c91060() throw();
-    float FUN_00c91030() throw();
+    bool hkpWorld_isSimulationAtMarker() throw();
+    float hkpWorld_getCurrentPsiTime() throw();
     void hkpWorld_stepDeltaTime(float f) throw();
     void hkpWorld_stepMultithreaded(int a, int b, float f) throw();
     void FUN_00c91120() throw();
@@ -1286,11 +1290,11 @@ inline WorldExt* bhkWorld::GetHkpWorld() throw()
 // Operations not yet declared by the shared world header.
 struct BhkWorldOperations : bhkWorld {
     void FUN_00c674d0(void* p, unsigned int count) throw();
-    void FUN_00c6aac0() throw();
-    void FUN_00c6a540(float f) throw();
-    void FUN_00c66a00() throw();
-    void FUN_00c66e20(float f) throw();
-    void FUN_00c68de0() throw();
+    void bhkWorld_AddBatchedActions() throw();
+    void bhkWorld_UpdateActions(float f) throw();
+    void bhkWorld_ScaleSolverInfo() throw();
+    void bhkWorld_UpdateListeners(float f) throw();
+    void bhkWorld_UpdateDebugger() throw();
 };
 
 // @fnv 0x00c6ae70
@@ -1316,7 +1320,7 @@ bool bhkWorld::StepSimulation() {
             DAT_012677a2 = 1;
         }
         this->ProcessConstraints();
-        ((BhkWorldOperations*)this)->FUN_00c6aac0();
+        ((BhkWorldOperations*)this)->bhkWorld_AddBatchedActions();
     }
 
     if (this->bEnabled != 0 && DAT_011afe68 > 0.0f) {
@@ -1326,8 +1330,8 @@ bool bhkWorld::StepSimulation() {
             DAT_012677d0->EnsureObjectsCreated(DAT_01267b2c);
         }
         DAT_012677ac = DAT_011ac3a0 * DAT_01267b38;
-        ((BhkWorldOperations*)this)->FUN_00c6a540(DAT_011afe64);
-        ((BhkWorldOperations*)this)->FUN_00c66a00();
+        ((BhkWorldOperations*)this)->bhkWorld_UpdateActions(DAT_011afe64);
+        ((BhkWorldOperations*)this)->bhkWorld_ScaleSolverInfo();
 
         this->GetHkpWorld();
         if (world->m_iCriticalOperationsLockCount == 0 && world->m_bBlockExecutingPendingOperations == 0) {
@@ -1343,8 +1347,8 @@ bool bhkWorld::StepSimulation() {
         world->FUN_00c91020();
         world->hkpWorld_setFrameTimeMarker(DAT_011afe64);
         world->hkpWorld_advanceTime();
-        while (!world->FUN_00c91060()) {
-            world->FUN_00c91030();
+        while (!world->hkpWorld_isSimulationAtMarker()) {
+            world->hkpWorld_getCurrentPsiTime();
             if (!isMultithreaded) {
                 world->hkpWorld_stepDeltaTime(DAT_012677ac);
             } else {
@@ -1352,8 +1356,8 @@ bool bhkWorld::StepSimulation() {
             }
         }
 
-        ((BhkWorldOperations*)this)->FUN_00c66e20(DAT_011afe68);
-        ((BhkWorldOperations*)this)->FUN_00c68de0();
+        ((BhkWorldOperations*)this)->bhkWorld_UpdateListeners(DAT_011afe68);
+        ((BhkWorldOperations*)this)->bhkWorld_UpdateDebugger();
         result = true;
     }
 
@@ -1372,7 +1376,8 @@ bool bhkWorld::StepSimulation() {
 
 // 0x00c910a0  ret 4
 // @fnv 0x00c910a0
-void __stdcall FUN_00c910a0(int) {
+// src: COMMUNITY 0x00c910a0
+void __stdcall nullsub_5(int) {
 }
 
 // @fnv 0x00c911a0
@@ -3703,12 +3708,13 @@ public:
         FUN_00c85750().heap().blockFree(p, static_cast<FUN_00cfa860*>(p)->m_usMemSizeAndFlags);
     }
 
-    FUN_00cfa860* FUN_00c982e0(unsigned int uiFlags) throw();
+    FUN_00cfa860* hkpNullCollisionFilter_Destroy(unsigned int uiFlags) throw();
 };
 
 // Runs the destructor, then frees the object through operator delete when bit 0 of uiFlags is set, and returns this.
 // @fnv 0x00c982e0
-FUN_00cfa860* FUN_00cfa860::FUN_00c982e0(unsigned int uiFlags) throw()
+// src: COMMUNITY 0x00c982e0
+FUN_00cfa860* FUN_00cfa860::hkpNullCollisionFilter_Destroy(unsigned int uiFlags) throw()
 {
     this->FUN_00cfa860::~FUN_00cfa860();
     if (uiFlags & 1)
@@ -4450,7 +4456,7 @@ int FUN_00ca94c0_Class::hkpPhantom_fireCollidableAdded(unsigned int arg) {
     return ctx.result;
 }
 
-struct Allocator9 { void* __thiscall FUN_00aa3e40(unsigned int size); };
+struct Allocator9 { void* __thiscall Game_DoHeapAlloc(unsigned int size); };
 extern Allocator9 DAT_011f6238;
 extern "C" int DAT_010c5dc0;
 extern __declspec(thread) unsigned char threadContext9;
@@ -4477,7 +4483,7 @@ int* Class9::GetOrCreateData(unsigned char* wasEmpty) {
     Guard9 guard;
     *wasEmpty = (data == 0);
     if (*wasEmpty) {
-        Node9* allocated = (Node9*)DAT_011f6238.FUN_00aa3e40(20);
+        Node9* allocated = (Node9*)DAT_011f6238.Game_DoHeapAlloc(20);
         int* nextData;
         if (allocated) {
             int* contents = &allocated->value;
@@ -5725,7 +5731,7 @@ __declspec(align(16)) struct ClosestPointsJob : CollisionQueryJob {
         m_kdTreeUnk10 = 0;
     }
 
-    void FUN_00d05de0();
+    void nullsub_9();
 };
 
 struct JobQueue {
@@ -5764,7 +5770,7 @@ void hkpWorldHelper::SubmitClosestPointsJobs(ClosestPointsCommand* commandArray,
 
     CollisionInput* input = (CollisionInput*)m_pCollisionInput;
     ClosestPointsJob job(input, jobHeader, commandArray, numCommands, m_pJobSemaphore, input->m_fScalar, semaphore);
-    job.FUN_00d05de0();
+    job.nullsub_9();
 
     if (m_pKdTreeManager && ((KdTreeManager*)m_pKdTreeManager)->isTreeActive()) {
         KdTreeManager* kd = (KdTreeManager*)m_pKdTreeManager;
@@ -5874,10 +5880,11 @@ struct CollisionInput {
     unsigned int unk6C;
     int unk70;
 };
-struct WorldQuery : hkpWorld { void FUN_00c92430(void*,void*,void*,void*); };
+struct WorldQuery : hkpWorld { void hkpWorld_linearCast(void*,void*,void*,void*); };
 // Records a timer, then performs a collision cast via the KD-tree manager if enabled, otherwise via a linear caster, and records a second timer.
 // @fnv 0x00c92430
-void WorldQuery::FUN_00c92430(void* a,void* b,void* c,void* d) {
+// src: COMMUNITY 0x00c92430
+void WorldQuery::hkpWorld_linearCast(void* a,void* b,void* c,void* d) {
     TimerBuffer* timer = (TimerBuffer*)TlsGetValue(DAT_0126835c);
     TimerEntry* entry = timer->current;
     if (entry < timer->end) {
@@ -7383,7 +7390,8 @@ void invokeOverlap() {
 }
 
 // @fnv 0x00c910b0
-void FUN_00c910b0()
+// src: COMMUNITY 0x00c910b0
+void nullsub_6()
 {
 }
 
@@ -11867,7 +11875,7 @@ __forceinline void hkQsTransform::SetProduct(const hkQsTransform& t1, const hkQs
     __declspec(align(16)) hkVector4 temp;
     temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
     m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-    m_rotation.FUN_00c66320(t1.m_rotation, t2.m_rotation);
+    m_rotation.setMul(t1.m_rotation, t2.m_rotation);
     m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
 }
 
@@ -12976,7 +12984,7 @@ struct ShapeCinfoCAA {
     float m_vScale;
 };
 
-void __cdecl FUN_00cbd9e0(float scale, ShapeCAA* shape);
+void __cdecl hkHingeConstraintCinfo_ApplyScale(float scale, ShapeCAA* shape);
 
 class ShapeClonerCAA {
 public:
@@ -13011,7 +13019,7 @@ ShapeCAA* ShapeClonerCAA::FUN_00caa250(ShapeCAA* apDstShape, ShapeCinfoCAA* cinf
     float scale = cinfo->m_vScale;
     if (scale != 1.0f)
     {
-        FUN_00cbd9e0(scale, apDstShape);
+        hkHingeConstraintCinfo_ApplyScale(scale, apDstShape);
     }
     ShapeChildCAA* pChildAtom = src->m_pChildAtom;
     if (pChildAtom)

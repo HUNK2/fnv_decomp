@@ -222,10 +222,10 @@ public:
     bool FUN_0097fd40();
     bool FUN_00461580(unsigned int);
     CombatSlot* GetActionAtIndex(int);
-    bool FUN_0099b8e0(void*, void*, CombatSearch*, CombatSpot*, int);
+    bool CombatState_FindBestCoverLocation(void*, void*, CombatSearch*, CombatSpot*, int);
     bool SelectAndMoveToPoint(CombatSpot*, int, int, float, float);
     bool FUN_0099d030(void*, CombatSearch*, CombatSpot*, int, CombatPos*, float, int);
-    bool FUN_0099b5a0(CombatSpot*, char*, int);
+    bool CombatState_FindGrenadeThrowLocation(CombatSpot*, char*, int);
     bool FUN_0099ebe0(CombatSearch*, CombatSpot*, int);
     bool TryAssignAllyTarget(CombatSpot*, int);
     bool FUN_009a02a0(CombatPos*, int, bool);

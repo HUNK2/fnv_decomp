@@ -3933,7 +3933,7 @@ struct S00cb4230_MotionStateData
     {
         return m_kSweptTransform;
     }
-    void FUN_00c86660(void* p);
+    void hkMotionState_Copy(void* p);
     S00cb4230_Transform m_kMotionTransform;
     hkSweptTransform m_kSweptTransform;
     S00cb4230_Vec4 m_kDeltaAngle;
@@ -4913,7 +4913,7 @@ struct S55Owner
 
     unsigned char m_c8;
 
-    void __thiscall FUN_00c910b0();
+    void __thiscall nullsub_6();
 };
 void __cdecl hkpWorldOperationUtil_internalActivateIsland(S55Owner* owner, hkpSimulationIsland* item, S55Bool b);
 void __cdecl hkpWorldOperationUtil_internalDeactivateIsland(S55Owner* owner, hkpSimulationIsland* item);

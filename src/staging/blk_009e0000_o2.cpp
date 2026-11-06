@@ -31,11 +31,12 @@ void* __cdecl _fnv_zlib_memset(void* dst, int value, int size);
 
 struct FUN_009f9a30_class
 {
-    void FUN_009f9a30();
+    void AM_MEDIA_TYPE_AM_MEDIA_TYPE();
 };
 
 // @fnv 0x009f9a30
-void FUN_009f9a30_class::FUN_009f9a30()
+// src: COMMUNITY 0x009f9a30
+void FUN_009f9a30_class::AM_MEDIA_TYPE_AM_MEDIA_TYPE()
 {
     _fnv_zlib_memset(this, 0, 0x48);
     *(int*)((char*)this + 0x28) = 1;
@@ -408,12 +409,12 @@ void __fastcall FUN_009fcfe0(void** p)
         DAT_00fdf07c(*p);
 }
 
-extern "C" void __cdecl FUN_00e7cd40();
+extern "C" void __cdecl Ret0();
 // @fnv 0x009fd480
 void __fastcall FUN_009fd480(void* self)
 {
     *(int*)((char*)self + 0xa0) = 0;
-    FUN_00e7cd40();
+    Ret0();
 }
 
 extern int DAT_01093b4c;
@@ -909,7 +910,8 @@ int* FUN_009fdcb0_class::FUN_009fdcb0(int a)
 extern "C" __declspec(dllimport) unsigned int __stdcall D3DPERF_SetOptions(unsigned int dwOptions);
 
 // @fnv 0x009f9968
-unsigned int __stdcall FUN_009f9968(unsigned int dwOptions)
+// src: COMMUNITY 0x009f9968
+unsigned int __stdcall D3DPERF_SetOptions_009f9968(unsigned int dwOptions)
 {
     return D3DPERF_SetOptions(dwOptions);
 }
@@ -1233,7 +1235,7 @@ int __stdcall FUN_009fa120(int a, int b, int* apOut)
     return 0x80004002;
 }
 
-int __cdecl FUN_00401030(int);
+int __cdecl FormHeapFreeAndLog_00401030(int);
 
 class SubA4
 {
@@ -1266,7 +1268,7 @@ class FUN_009fa1f0_cls
 // @fnv 0x009fa1f0
 FUN_009fa1f0_cls::~FUN_009fa1f0_cls()
 {
-    FUN_00401030(m_14);
+    FormHeapFreeAndLog_00401030(m_14);
 }
 
 struct S_009fa2f0_table
@@ -2717,10 +2719,11 @@ void __cdecl FUN_009fb230(void** p, int arg)
 struct FnvCpu_FUN_009fd0f0_CpuObject
 {
     int value;
-    int FUN_009fd0f0();
+    int NiInitOptions_GetAllocator();
 };
 // @fnv 0x009fd0f0
-int FnvCpu_FUN_009fd0f0_CpuObject::FUN_009fd0f0()
+// src: COMMUNITY 0x009fd0f0
+int FnvCpu_FUN_009fd0f0_CpuObject::NiInitOptions_GetAllocator()
 {
     return value;
 }
@@ -4266,7 +4269,7 @@ long __stdcall FUN_009fc780::FUN_009fc7e0(FUN_009fc780** ppEnumMediaTypes)
 
 extern "C" void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 void* __cdecl operator new(unsigned int);
-int __stdcall FUN_009fd080(const wchar_t*);
+int __stdcall strlen_w(const wchar_t*);
 
 struct FUN_009fcee0
 {
@@ -4333,7 +4336,7 @@ FUN_009fc890::FUN_009fc890(int objectName, void* apOwnerFilter, int* lock, int* 
     m_dRate = 1.0;
     if (name)
     {
-        int len = FUN_009fd080(name) + 1;
+        int len = strlen_w(name) + 1;
         m_pName = new wchar_t[len];
         if (m_pName)
         {
@@ -4454,7 +4457,7 @@ struct S9fcc60_Base
     __declspec(nothrow) void FUN_009fb170();
 };
 
-__declspec(nothrow) void* __cdecl FUN_00401000(unsigned int size);
+__declspec(nothrow) void* __cdecl FormHeap_Allocate(unsigned int size);
 extern "C" __declspec(dllimport) __declspec(nothrow) void* __stdcall VirtualAlloc(void* address, unsigned int size,
                                                                                   unsigned int allocationType,
                                                                                   unsigned int protect);
@@ -4499,7 +4502,7 @@ int S9fcc60_Alloc::FUN_009fcc60()
     for (; m_lAllocated < m_lCount; m_lAllocated++, pBlock += lAlignedSize)
     {
         int hr;
-        S9fcc60_Sample* mem = (S9fcc60_Sample*)FUN_00401000(0x48);
+        S9fcc60_Sample* mem = (S9fcc60_Sample*)FormHeap_Allocate(0x48);
         pSample = mem ? mem->FUN_009fcb50(0, this, &hr, pBlock + m_lPrefix, m_lSize) : 0;
         if (pSample == 0)
         {
@@ -4589,7 +4592,7 @@ int __stdcall CompareWideStrings(const wchar_t* p, const wchar_t* q)
 
 extern "C" __declspec(dllimport) void* __stdcall CoTaskMemAlloc(unsigned long cb);
 extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int size);
-int __stdcall FUN_009fd080(const wchar_t* psz);
+int __stdcall strlen_w(const wchar_t* psz);
 
 // Allocates a CoTaskMemAlloc'd copy of psz, writes the pointer to ppszReturn, and returns HRESULT.
 // @fnv 0x009fd0a0
@@ -4597,7 +4600,7 @@ long __stdcall FUN_009fd0a0(const wchar_t* psz, wchar_t** ppszReturn)
 {
     if (ppszReturn == 0)
         return 0x80004003L;
-    unsigned long nameLen = sizeof(wchar_t) * (FUN_009fd080(psz) + 1);
+    unsigned long nameLen = sizeof(wchar_t) * (strlen_w(psz) + 1);
     wchar_t* p = (wchar_t*)CoTaskMemAlloc(nameLen);
     int bAllocFailed;
     try
@@ -4630,7 +4633,7 @@ struct FUN_009fd200_list
     int freeCount;
     FUN_009fd200_node* freeHead;
 };
-void __cdecl FUN_00401030(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 class FUN_009fd200_cls
 {
   public:
@@ -4671,7 +4674,7 @@ unsigned int FUN_009fd200_cls::RemoveNode(FUN_009fd200_node* node)
         }
         else
         {
-            FUN_00401030(node);
+            FormHeapFreeAndLog_00401030(node);
         }
         int* pCount = &list->count;
         *pCount -= 1;
@@ -5513,7 +5516,7 @@ long AsyncIoStandIn::StartThread()
 
 namespace fnv_009fe870 {
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(void* pkSection);
-void __cdecl FUN_00401030(void* pvMemory);  // free
+void __cdecl FormHeapFreeAndLog_00401030(void* pvMemory);  // free
 
 class OwnedLock
 {
@@ -5574,7 +5577,7 @@ FUN_009fe870::~FUN_009fe870()
     FUN_009fe0c0();
     void* pvPos = m_kListB.m_pvHead;
     while (pvPos)
-        FUN_00401030(m_kListB.PopAndGetValue(pvPos));
+        FormHeapFreeAndLog_00401030(m_kListB.PopAndGetValue(pvPos));
     m_kListB.ClearList();
 }
 }  // namespace fnv_009fe870
@@ -6220,7 +6223,7 @@ struct GraphLock
         LeaveCriticalSection(m_lock);
     }
 };
-unsigned int __stdcall FUN_009fd080(const wchar_t*);
+unsigned int __stdcall strlen_w(const wchar_t*);
 void* __cdecl _memmove(void*, const void*, unsigned int);
 // Locks the filter, updates m_graph and m_sink from graph, and replaces m_name with a copy of name.
 // @fnv 0x009f9e50
@@ -6244,7 +6247,7 @@ int __stdcall SetGraphAndName(GraphFilter* self, GraphUnknown* graph, const wcha
     }
     if (name)
     {
-        unsigned int n = FUN_009fd080(name) + 1;
+        unsigned int n = strlen_w(name) + 1;
         self->m_name = new wchar_t[n];
         if (self->m_name)
             _memmove(self->m_name, name, n * 2);
@@ -6982,7 +6985,8 @@ int ConnectionPin::FUN_009fbf00(void* a1, int a2)
 }
 
 // @fnv 0x009fd080
-extern "C" int __stdcall FUN_009fd080(const unsigned short* apString)
+// src: COMMUNITY 0x009fd080
+extern "C" int __stdcall strlen_w(const unsigned short* apString)
 {
     int i = -1;
     do
@@ -7073,7 +7077,7 @@ CNode* CBaseList_9fd::AddNode(void* pObject)
 struct S_009fd2d0_Pos;
 struct S_009fd2d0_List
 {
-    S_009fd2d0_Pos* FUN_009fd0f0();
+    S_009fd2d0_Pos* NiInitOptions_GetAllocator();
     void* PopAndGetValue(S_009fd2d0_Pos** pos);
     int AddNode(void* item);
     int FUN_009fd2d0(S_009fd2d0_List* src);
@@ -7082,7 +7086,7 @@ struct S_009fd2d0_List
 // @fnv 0x009fd2d0
 int S_009fd2d0_List::FUN_009fd2d0(S_009fd2d0_List* src)
 {
-    S_009fd2d0_Pos* pos = src->FUN_009fd0f0();
+    S_009fd2d0_Pos* pos = src->NiInitOptions_GetAllocator();
     while (pos)
     {
         void* item = src->PopAndGetValue(&pos);
@@ -8048,7 +8052,7 @@ int __stdcall FUN_009fbab0(void* self)
 
 struct ResetMediaType_009fc390
 {
-    void FUN_009f9a30();
+    void AM_MEDIA_TYPE_AM_MEDIA_TYPE();
 };
 struct PinConnectionView_009fc390
 {
@@ -8078,7 +8082,7 @@ int __stdcall FUN_009fc390(PinConnectionView_009fc390* owner, S_009f9bb0_Rec* ta
         return 0;
     }
 
-    reinterpret_cast<ResetMediaType_009fc390*>(target)->FUN_009f9a30();
+    reinterpret_cast<ResetMediaType_009fc390*>(target)->AM_MEDIA_TYPE_AM_MEDIA_TYPE();
     return 0x80040209;
 }
 
@@ -8257,11 +8261,12 @@ extern "C" __declspec(dllimport) void* __stdcall CreateEventA(void*, int, int, c
 struct FUN_009fcfc0_class
 {
     void* m_p;
-    void* __thiscall FUN_009fcfc0(int a);
+    void* __thiscall CAMEvent_CAMEvent(int a);
 };
 
 // @fnv 0x009fcfc0
-void* __thiscall FUN_009fcfc0_class::FUN_009fcfc0(int a)
+// src: COMMUNITY 0x009fcfc0
+void* __thiscall FUN_009fcfc0_class::CAMEvent_CAMEvent(int a)
 {
     m_p = CreateEventA(0, a, 0, 0);
     return this;
@@ -8421,7 +8426,7 @@ struct FUN_009f9c70 : ::MediaType
 // @fnv 0x009f9c70
 FUN_009f9c70::FUN_009f9c70()
 {
-    void (::FUN_009f9a30_class::*const initialize)() = &::FUN_009f9a30_class::FUN_009f9a30;
+    void (::FUN_009f9a30_class::*const initialize)() = &::FUN_009f9a30_class::AM_MEDIA_TYPE_AM_MEDIA_TYPE;
     (reinterpret_cast< ::FUN_009f9a30_class*>(this)->*initialize)();
 }
 }

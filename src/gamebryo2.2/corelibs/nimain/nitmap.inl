@@ -7,7 +7,8 @@ NiTMap<unsigned int, BGSReconstructCellSubBlocksMap*>::NewItem() {
     return static_cast<NiTMapItem<unsigned int, BGSReconstructCellSubBlocksMap*>*>(m_kItemCount.Allocate());
 }
 // @fnv 0x00975cf0
-void FUN_00975cf0() {
+// src: COMMUNITY 0x00975cf0
+void BSTempEffect_RemoveAllDecals() {
     g_011d6a30.FUN_004ee920();
     DAT_011d6a20 = 0;
 }

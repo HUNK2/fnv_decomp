@@ -260,7 +260,7 @@ struct MemoryAllocator
 void __cdecl hkArrayUtil__reserve(MemoryAllocator*, void*, int, int);
 void __cdecl ResizeAudioStream(void*, void*, int);
 extern "C" void __cdecl AppendEventRecord(const QueryInput*, QueryOutput*, char*, int);
-char* __cdecl FUN_00dd13d0(char*);
+char* __cdecl _tolower_00dd13d0(char*);
 char* __cdecl FUN_00dd13e0(char*, int);
 void __cdecl FUN_00dcee70(QueryInput*);
 void __cdecl FUN_00dcfc00(hkVector4*, hkVector4*, float, QueryInput*, char*);
@@ -432,7 +432,7 @@ void hkpPoweredChainData::FUN_00e3ba40(const QueryInput& input, QueryOutput& out
     query.transformB = &first->transform;
     char* schema = output.jacobian;
     char* jacobian;
-    char* states = angularAndKeep(FUN_00dd13d0(schema), output, count, jacobian);
+    char* states = angularAndKeep(_tolower_00dd13d0(schema), output, count, jacobian);
     for (int i = 0; i < count; ++i)
     {
         query.offsetA = query.offsetB;
@@ -462,7 +462,7 @@ void hkpPoweredChainData::FUN_00e3ba40(const QueryInput& input, QueryOutput& out
         }
         {
             hkVector4 product;
-            product.FUN_00c66320(&rotationB, &getInfo(*this, i).targetB);
+            product.setMul(&rotationB, &getInfo(*this, i).targetB);
             rotationB.m_vComponents = product.m_vComponents;
         }
         hkVector4& target = getInfo(*this, i).target;
@@ -478,8 +478,8 @@ void hkpPoweredChainData::FUN_00e3ba40(const QueryInput& input, QueryOutput& out
         if (squaredLength == 0.0f)
             previousTarget.m_vComponents = target.m_vComponents;
         hkVector4 targetWorld, oldTargetWorld;
-        targetWorld.FUN_00c66320(&rotationA, &target);
-        oldTargetWorld.FUN_00c66320(&rotationA, &previousTarget);
+        targetWorld.setMul(&rotationA, &target);
+        oldTargetWorld.setMul(&rotationA, &previousTarget);
         previous->x = target.x;
         previous->y = target.y;
         previous->z = target.z;

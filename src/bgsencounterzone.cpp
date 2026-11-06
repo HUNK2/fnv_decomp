@@ -190,7 +190,8 @@ void BGSEncounterZone::Save()
 }
 
 // @fnv 0x00526070
-void BGSEncounterZone::FUN_00526070(unsigned int arg)
+// src: COMMUNITY 0x00526070
+void BGSEncounterZone::SetDetachTime_00526070(unsigned int arg)
 {
     GameData.m_uiDetachTime = arg;
     MarkAsModified(0x80000000);
@@ -198,7 +199,8 @@ void BGSEncounterZone::FUN_00526070(unsigned int arg)
 
 unsigned int __cdecl FUN_00526100();
 // @fnv 0x005260a0
-void BGSEncounterZone::FUN_005260a0(unsigned int uiValue)
+// src: COMMUNITY 0x005260a0
+void BGSEncounterZone::SetAttachTime(unsigned int uiValue)
 {
     GameData.m_uiFirstValueAfterDetachTime = uiValue;
     if (GameData.m_uiDetachTime != 0)
@@ -226,7 +228,8 @@ int __cdecl FUN_00526100()
 
 // Returns false if the value at offset 0x28 is zero, otherwise returns whether other's FUN_00546af0() result is below that value.
 // @fnv 0x00526120
-bool BGSEncounterZone::FUN_00526120(TESObjectCELL* other)
+// src: COMMUNITY 0x00526120
+bool BGSEncounterZone::ShouldCellRecalc(TESObjectCELL* other)
 {
     if (GameData.DetachTimeRecord == 0)
         return false;

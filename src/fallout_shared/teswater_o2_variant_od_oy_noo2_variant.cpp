@@ -277,8 +277,8 @@ struct CameraMatrixSource
     const void* GetOffset980();
     const void* GetOffsetPointer();
 };
-CameraMatrixSource* FUN_004a0e90();
-NiPoint3* FUN_004ed180();
+CameraMatrixSource* BSShaderManager_GetRenderer();
+NiPoint3* BSShader_GetCameraWorldTranslate();
 struct NiVec4
 {
     float x, y, z, w;
@@ -290,22 +290,23 @@ extern "C" hkVector4* __stdcall D3DXPlaneNormalize(hkVector4*, const hkVector4*)
 extern "C" hkVector4* __stdcall D3DXPlaneTransform(hkVector4*, const hkVector4*, const void*);
 struct WaterPlaneHost
 {
-    void FUN_004ecef0(float, float, float, float, int);
+    void TESWaterSystem_SetClipPlane(float, float, float, float, int);
 };
 // @fnv 0x004ecef0
-void WaterPlaneHost::FUN_004ecef0(float x, float y, float z, float w, int unused)
+// src: COMMUNITY 0x004ecef0
+void WaterPlaneHost::TESWaterSystem_SetClipPlane(float x, float y, float z, float w, int unused)
 {
     B006815c0 view, projection, inverse;
     NiMatrixEx translated;
-    translated.CopyFrom(FUN_004a0e90()->GetOffset980());
+    translated.CopyFrom(BSShaderManager_GetRenderer()->GetOffset980());
     translated.m41 =
-        -reinterpret_cast<LocalPoint3Ext*>(FUN_004ed180())->Dot(NiPoint3(translated.m11, translated.m21, translated.m31));
+        -reinterpret_cast<LocalPoint3Ext*>(BSShader_GetCameraWorldTranslate())->Dot(NiPoint3(translated.m11, translated.m21, translated.m31));
     translated.m42 =
-        -reinterpret_cast<LocalPoint3Ext*>(FUN_004ed180())->Dot(NiPoint3(translated.m12, translated.m22, translated.m32));
+        -reinterpret_cast<LocalPoint3Ext*>(BSShader_GetCameraWorldTranslate())->Dot(NiPoint3(translated.m12, translated.m22, translated.m32));
     translated.m43 =
-        -reinterpret_cast<LocalPoint3Ext*>(FUN_004ed180())->Dot(NiPoint3(translated.m13, translated.m23, translated.m33));
+        -reinterpret_cast<LocalPoint3Ext*>(BSShader_GetCameraWorldTranslate())->Dot(NiPoint3(translated.m13, translated.m23, translated.m33));
     NiMatrixEx project;
-    project.CopyFrom(FUN_004a0e90()->GetOffsetPointer());
+    project.CopyFrom(BSShaderManager_GetRenderer()->GetOffsetPointer());
     NiMatrix transform = translated.FUN_004ed140(project);
     D3DXMatrixInverse(&inverse, 0, &transform);
     D3DXMatrixTranspose(&transform, &inverse);

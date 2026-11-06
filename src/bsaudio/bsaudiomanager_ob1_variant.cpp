@@ -144,13 +144,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -258,19 +258,19 @@ struct FUN_00ad8d60_shell
     int m_uiSoundResourceID;
     int pad;
     int eState;
-    bool __thiscall FUN_00ad8d60(int param2);
+    bool __thiscall BSSoundHandle_FadeInPlay(int param2);
 };
 struct FUN_00ada300_shell
 {
-    void FUN_00ada300(float fval, int param);
+    void SetConditions_00ada300(float fval, int param);
 };
 struct FUN_00adb960_shell
 {
-    bool __thiscall FUN_00adb960(int arg1, int arg2);
+    bool __thiscall BSAudioManager_SetBalance(int arg1, int arg2);
 };
 struct FUN_00adbf40_shell
 {
-    bool FUN_00adbf40(float f1, float f2, float f3, float f4);
+    bool BSAudioManager_SetOrientation(float f1, float f2, float f3, float f4);
 };
 struct FUN_00c3d0e0_stub
 {
@@ -312,7 +312,7 @@ extern int DAT_011f6ecc;
 extern int DAT_01202800;
 struct FUN_00ae6c60_shell
 {
-    int __thiscall FUN_00ae6c60();
+    int __thiscall _BSAudioManager_AudioCacheSize();
 };
 extern int DAT_010a3718;
 struct _Base_00441d20
@@ -408,7 +408,7 @@ struct FUN_00ae6d30_shell
 };
 struct FUN_00ae6e60_shell
 {
-    bool __thiscall FUN_00ae6e60(int param_2, unsigned char param_3);
+    bool __thiscall ClearPausedType(int param_2, unsigned char param_3);
 };
 struct SoundEmitter;
 struct SoundMessageRecord;
@@ -425,11 +425,11 @@ extern BSAudio* DAT_011f6d98;
 extern char $SG6265[];
 struct FUN_00ada330_shell
 {
-    void __thiscall FUN_00ada330();
+    void __thiscall BSAudioManager_SynchVoiceStates();
 };
 struct FUN_00addc00_shell
 {
-    void __thiscall FUN_00addc00();
+    void __thiscall BSAudioManager_Process();
 };
 struct FUN_00ada1d0_shell
 {
@@ -503,15 +503,15 @@ struct ObjRegistry
     char unk98[0xdc - 0x98];
     CritSecA m_kCS;
 
-    bool FUN_00add480(int m_uiSoundID, bool bCheckAlt);
+    bool BSAudioManager_IsInCache(int m_uiSoundID, bool bCheckAlt);
 };
-extern "C" void __cdecl FUN_005b5e40(const char* msg, int value);
+extern "C" void __cdecl Warning_005b5e40(const char* msg, int value);
 extern int g_011f6ec8;
 extern int DAT_011f6ecc;
 extern int DAT_01202800;
 struct AudioCacheOwner
 {
-    void FUN_00ae6ca0(int flags);
+    void BSAudioManager_SetCacheEnabled(int flags);
     void SetAudioCacheSize(int size);
 };
 struct AE6DE0Slot
@@ -750,11 +750,12 @@ struct BSAudioMgr : BSAudioManager
 {
     bool IsPlaying(unsigned int);
     void PostMsg(int eMsg, unsigned int id, int a3, int a4, NiAVObjPtr obj, NiPoint3 pos);
-    void FUN_00adc670(int id, int param);
+    void BSAudioManager_FadeInPlay(int id, int param);
 };
 
 // @fnv 0x00adc670
-void BSAudioMgr::FUN_00adc670(int id, int param)
+// src: COMMUNITY 0x00adc670
+void BSAudioMgr::BSAudioManager_FadeInPlay(int id, int param)
 {
     if (IsPlaying(id))
         return;
@@ -1032,7 +1033,7 @@ FUN_00ad90e0::FUN_00ad90e0()
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct PoolX
 {
-    void* FUN_00aa3e40(unsigned n);
+    void* Game_DoHeapAlloc(unsigned n);
 };
 extern PoolX DAT_011f6238;
 struct StrSetX
@@ -1047,7 +1048,7 @@ struct Ent8
     int a, b;
     static void* operator new[](unsigned n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 struct FUN_00ae8650
@@ -1056,7 +1057,7 @@ struct FUN_00ae8650
     FUN_00ae8650();
     static void* operator new(unsigned n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 struct FUN_00ae77d0
@@ -1065,7 +1066,7 @@ struct FUN_00ae77d0
     FUN_00ae77d0();
     static void* operator new(unsigned n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 struct ListX
@@ -1089,7 +1090,7 @@ struct MgrX
     Ent8* m178;
     unsigned m17c;
     void InitAudioVolumes();
-    void FUN_00ad9640();
+    void BSAudioManager_Initialize();
 };
 inline const unsigned char* GetName()
 {
@@ -1111,7 +1112,8 @@ inline void DbgX()
     const char* f;
 }
 // @fnv 0x00ad9640
-void MgrX::FUN_00ad9640()
+// src: COMMUNITY 0x00ad9640
+void MgrX::BSAudioManager_Initialize()
 {
     if (!*GetName())
         return;
@@ -1162,11 +1164,12 @@ struct AudioMessageSender
 
 struct BSAudioManagerCall : AudioMessageSender
 {
-    bool __thiscall FUN_00adb720(unsigned int id, unsigned short volume);
+    bool __thiscall BSAudioManager_SetStaticAttenuation(unsigned int id, unsigned short volume);
 };
 
 // @fnv 0x00adb720
-bool __thiscall BSAudioManagerCall::FUN_00adb720(unsigned int id, unsigned short volume)
+// src: COMMUNITY 0x00adb720
+bool __thiscall BSAudioManagerCall::BSAudioManager_SetStaticAttenuation(unsigned int id, unsigned short volume)
 {
     volume = volume > 10000 ? 10000 : volume;
     FUN_00adb1a0(0x21, id, volume, 0, RefPointer(0), NiPoint3_ZERO);
@@ -1202,11 +1205,12 @@ extern "C" NiPoint3 _NiPoint3_ZERO;
 struct FUN_00adb850_cls
 {
     void FUN_00adb1a0(int message, int soundID, int milliseconds, int flags, RefPointer405 target, NiPoint3 position);
-    bool FUN_00adb850(int soundID, float seconds);
+    bool BSAudioManager_SetModFrequency(int soundID, float seconds);
 };
 
 // @fnv 0x00adb850
-bool FUN_00adb850_cls::FUN_00adb850(int soundID, float seconds)
+// src: COMMUNITY 0x00adb850
+bool FUN_00adb850_cls::BSAudioManager_SetModFrequency(int soundID, float seconds)
 {
     FUN_00adb1a0(0x42, soundID, static_cast<int>(seconds * 1000.0), 0, RefPointer405(0), _NiPoint3_ZERO);
     return false;
@@ -1239,11 +1243,12 @@ extern NiPoint3 NiPoint3_ZERO;
 struct S_adcb20
 {
     void FUN_00adb1a0(int a1, int a2, int a3, int a4, S_adcb20_Ptr a5, NiPoint3 a6);
-    void FUN_00adcb20(int a1, bool a2);
+    void BSAudioManager_PauseAllOfType(int a1, bool a2);
 };
 
 // @fnv 0x00adcb20
-void S_adcb20::FUN_00adcb20(int a1, bool a2)
+// src: COMMUNITY 0x00adcb20
+void S_adcb20::BSAudioManager_PauseAllOfType(int a1, bool a2)
 {
     if (a2)
         FUN_00adb1a0(0x1c, 0, a1, 0, S_adcb20_Ptr(0), NiPoint3_ZERO);
@@ -1285,11 +1290,12 @@ inline BSAudio* GetAudioX()
 }
 struct FUN_00ae5870_t
 {
-    IdentifierState __thiscall FUN_00ae5a50(char*, unsigned int, unsigned int);
-    IdentifierState __thiscall FUN_00ae5870(const char* pName, unsigned int uiFlags);
+    IdentifierState __thiscall BSAudioManager_InitSoundPath(char*, unsigned int, unsigned int);
+    IdentifierState __thiscall BSAudioManager_InitSoundForm(const char* pName, unsigned int uiFlags);
 };
 // @fnv 0x00ae5870
-IdentifierState FUN_00ae5870_t::FUN_00ae5870(const char* pName, unsigned int uiFlags)
+// src: COMMUNITY 0x00ae5870
+IdentifierState FUN_00ae5870_t::BSAudioManager_InitSoundForm(const char* pName, unsigned int uiFlags)
 {
     unsigned int uiFileFlags_hk = 0;
     if (!AudioXReady(GetAudioX()))
@@ -1320,7 +1326,7 @@ IdentifierState FUN_00ae5870_t::FUN_00ae5870(const char* pName, unsigned int uiF
         uiFlags |= 0x4000000;
         uiFlags &= ~0x10;
     }
-    IdentifierState kHandle_nhzv = FUN_00ae5a50(acPath_kmt, uiFlags, uiExtra_mh);
+    IdentifierState kHandle_nhzv = BSAudioManager_InitSoundPath(acPath_kmt, uiFlags, uiExtra_mh);
     return kHandle_nhzv;
 }
 
@@ -1332,10 +1338,10 @@ void __stdcall FUN_0065ee50_Helper(void*, unsigned int, int, void(__cdecl*)());
 struct StackView
 {
     int offset_00, offset_04, offset_08, offset_0c;
-    void FUN_00ae7550();
+    void SoundMessageStack_Clear();
     ~StackView()
     {
-        FUN_00ae7550();
+        SoundMessageStack_Clear();
     }
 };
 struct FramePair
@@ -1762,9 +1768,9 @@ class AudioMgr70
     }
 
     void __thiscall InitUISounds(bool);
-    void __thiscall FUN_00ada5d0(int, int);
+    void __thiscall BSAudioManager_SetVoiceState(int, int);
     void __thiscall AddSound(int);
-    void FUN_00ad9870();
+    void BSAudioManager_Shutdown();
 
     int m_00;
     int unk004;
@@ -1848,7 +1854,8 @@ class AudioMgr70
 };
 
 // @fnv 0x00ad9870
-void AudioMgr70::FUN_00ad9870()
+// src: COMMUNITY 0x00ad9870
+void AudioMgr70::BSAudioManager_Shutdown()
 {
     if (!IsMultiThreaded70(GetAudio70()))
     {
@@ -1882,7 +1889,7 @@ void AudioMgr70::FUN_00ad9870()
     {
         m_54.FUN_00a0c850(&pFirst5, &iVal7, (void**)&pMsg);
         m_54.FUN_00a1e240(pMsg->GetID());
-        FUN_00ada5d0(pMsg->GetID(), 0);
+        BSAudioManager_SetVoiceState(pMsg->GetID(), 0);
         BSSoundMsgV70* pDelete3 = pMsg;
         delete pDelete3;
     }
@@ -2048,12 +2055,13 @@ struct BSAudioManager_
     int unk138;
     BSAudioThread* m_pAudioThread;
 
-    void FUN_00ada020();
+    void BSAudioManager_SuspendAudioThread();
     void FUN_00adb1a0(int a1, int a2, int a3, int a4, AudioObjectPtr ptr, NiPoint3 kPos);
 };
 
 // @fnv 0x00ada020
-void BSAudioManager_::FUN_00ada020()
+// src: COMMUNITY 0x00ada020
+void BSAudioManager_::BSAudioManager_SuspendAudioThread()
 {
     if (m_pAudioThread)
         m_pAudioThread->ReleaseSemaphoreAndIncrement();
@@ -2125,11 +2133,12 @@ class MessageSenderB7C0
   public:
     bool FUN_00adb1a0(int iType, unsigned int uiTarget, int iDelayMs, int iFlags,
                       NiPointer<NiRefObject> spRetainedObject, NiPoint3 kPos);
-    bool FUN_00adb7c0(unsigned int uiTarget, float m_fDelay);
+    bool BSAudioManager_SetFrequency(unsigned int uiTarget, float m_fDelay);
 };
 
 // @fnv 0x00adb7c0
-bool MessageSenderB7C0::FUN_00adb7c0(unsigned int uiTarget, float m_fDelay)
+// src: COMMUNITY 0x00adb7c0
+bool MessageSenderB7C0::BSAudioManager_SetFrequency(unsigned int uiTarget, float m_fDelay)
 {
     FUN_00adb1a0(0x13, uiTarget, (int)(m_fDelay * 1000.0), 0, 0, NiPoint3::ZERO);
     return false;
@@ -2322,11 +2331,12 @@ struct FUN_00adc9a0_shell
     int unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC, unkB0;
     int unkB4, unkB8, unkBC, unkC0;
     CritSecA criticalSection;
-    int __thiscall FUN_00adc9a0(unsigned long param_2);
+    int __thiscall BSAudioManager_GetSoundType(unsigned long param_2);
 };
 
 // @fnv 0x00adc9a0
-int __thiscall FUN_00adc9a0_shell::FUN_00adc9a0(unsigned long param_2)
+// src: COMMUNITY 0x00adc9a0
+int __thiscall FUN_00adc9a0_shell::BSAudioManager_GetSoundType(unsigned long param_2)
 {
     int uStack2 = 0;
     ScrapHeapBuffer* iStack_c;
@@ -2364,12 +2374,13 @@ inline BSAudio* GetAudioSystemD570()
 class AudioManagerD570
 {
   public:
-    void FUN_00add6f0(const char* pcPath, unsigned int uiFlags, unsigned int uiExtra);
-    void FUN_00add570(const char* pcName, unsigned int uiFlags);
+    void BSAudioManager_Precache_00add6f0(const char* pcPath, unsigned int uiFlags, unsigned int uiExtra);
+    void BSAudioManager_Precache(const char* pcName, unsigned int uiFlags);
 };
 
 // @fnv 0x00add570
-void AudioManagerD570::FUN_00add570(const char* pcName, unsigned int uiFlags)
+// src: COMMUNITY 0x00add570
+void AudioManagerD570::BSAudioManager_Precache(const char* pcName, unsigned int uiFlags)
 {
     unsigned int uiFlagsCopy = uiFlags;
     AudioFileResolverD570 pfnResolve = AudioSystemResolverD570(GetAudioSystemD570());
@@ -2378,7 +2389,7 @@ void AudioManagerD570::FUN_00add570(const char* pcName, unsigned int uiFlags)
         char acPath[264];
         if (!AudioSystemReadyD570(GetAudioSystemD570()) || !pfnResolve || !pfnResolve(pcName, acPath, &uiFlagsCopy, &uiExtra))
             return;
-        FUN_00add6f0(acPath, uiFlags, uiExtra);
+        BSAudioManager_Precache_00add6f0(acPath, uiFlags, uiExtra);
     }
 }
 
@@ -2446,11 +2457,12 @@ struct OwnerQ3 : ObjRegistry
 {
     char padf4[0x180 - 0xf4];
     int m_iNextID;
-    void FUN_00add960(SoundQ3*);
-    void FUN_00add6f0(const char* pPath, int iFlags, int iArg);
+    void BSAudioManager_Precache_00add960(SoundQ3*);
+    void BSAudioManager_Precache_00add6f0(const char* pPath, int iFlags, int iArg);
 };
 // @fnv 0x00add6f0
-void OwnerQ3::FUN_00add6f0(const char* pPath, int iFlags, int iArg)
+// src: COMMUNITY 0x00add6f0
+void OwnerQ3::BSAudioManager_Precache_00add6f0(const char* pPath, int iFlags, int iArg)
 {
     if (!pPath || !GetAudioQ3()->IsReady())
         return;
@@ -2461,7 +2473,7 @@ void OwnerQ3::FUN_00add6f0(const char* pPath, int iFlags, int iArg)
     strcpy_s(acPath3, 0x104, pPath);
     GetAudioQ3()->Normalize(acPath3);
     unsigned int uiHash3 = FUN_00ae9d80(acPath3);
-    if (FUN_00add480(uiHash3, true))
+    if (BSAudioManager_IsInCache(uiHash3, true))
         return;
     SoundQ3* pSound7 = GetAudioQ3()->Create(pPath);
     pSound7->m_uiSoundID = iID_2;
@@ -2477,7 +2489,7 @@ void OwnerQ3::FUN_00add6f0(const char* pPath, int iFlags, int iArg)
     if (pfnB4 && pfnB4(iArg, &a9, &b2))
         pSound7->SetAB(a9, b2);
     pSound7->SetExtra(iExtraTmp);
-    FUN_00add960(pSound7);
+    BSAudioManager_Precache_00add960(pSound7);
 }
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
@@ -2719,12 +2731,13 @@ struct C_00adea90
     int unk40, unk44, unk48, unk4C, unk50;
     M54 m54;
     M84 m84;
-    void FUN_00adea90();
+    void BSAudioManager_UpdateMovingSounds();
     void FUN_00adb1a0(int, int, int, int, Ptr, Pos3);
 };
 
 // @fnv 0x00adea90
-void C_00adea90::FUN_00adea90()
+// src: COMMUNITY 0x00adea90
+void C_00adea90::BSAudioManager_UpdateMovingSounds()
 {
     EvtT* pEvt = 0;
     Ptr sp8;
@@ -2796,10 +2809,11 @@ typedef NiPointer_audio<NiRefObject> NiRefObjectPtr_audio;
 struct FUN_00adef80_cls
 {
     bool FUN_00adb1a0(int m_uiSoundID, int a, int b, int c, NiRefObjectPtr_audio pSceneObject, NiPoint3 kPos);
-    void FUN_00adef80(NiPoint3 kPos);
+    void BSAudioManager_PositionListener(NiPoint3 kPos);
 };
 // @fnv 0x00adef80
-void FUN_00adef80_cls::FUN_00adef80(NiPoint3 kPos)
+// src: COMMUNITY 0x00adef80
+void FUN_00adef80_cls::BSAudioManager_PositionListener(NiPoint3 kPos)
 {
     FUN_00adb1a0(0x38, 0, 0, 0, 0, kPos);
 }
@@ -3155,7 +3169,7 @@ struct AudioMessageNode_adf080
 };
 struct AudioNodeAllocator_adf080
 {
-    AudioMessageNode_adf080* __thiscall FUN_0043a010();
+    AudioMessageNode_adf080* __thiscall NiGeometry_AddProperty();
 };
 struct AudioMessageList_adf080
 {
@@ -3166,7 +3180,7 @@ struct AudioMessageList_adf080
     void __thiscall FUN_00a11db0(AudioMessageNode_adf080*);
     __forceinline void AddHead(SoundMessageRecord* const& message)
     {
-        AudioMessageNode_adf080* node = allocator.FUN_0043a010();
+        AudioMessageNode_adf080* node = allocator.NiGeometry_AddProperty();
         node->data = message;
         FUN_00a11db0(node);
     }
@@ -3506,13 +3520,15 @@ extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(voi
 
 } // namespace fnv_00adf080
 
-inline void BSAudioManagerThread::FUN_00ae7ac0()
+// src: COMMUNITY 0x00ae7ac0
+inline void BSAudioManagerThread::ExitThread_00ae7ac0()
 {
     waiting48 = true;
     workSemaphore3c.Signal();
     FUN_00aa6590(0, 0);
 }
-inline void BSAudioManagerThread::FUN_00ae7a50()
+// src: COMMUNITY 0x00ae7a50
+inline void BSAudioManagerThread::Suspended()
 {
     waiting48 = true;
     workSemaphore3c.Signal();
@@ -3569,7 +3585,8 @@ static __forceinline UInt32 GetThreadID_adf080()
 } // namespace fnv_00adf080
 
 // @fnv 0x00adf080
-bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
+// src: COMMUNITY 0x00adf080
+bool BSAudioManager::ProcessMessage_00adf080(::SoundMessageRecord* message)
 {
     using namespace fnv_00adf080;
     AutoMemContext m_uiMemoryContext(11);
@@ -3593,11 +3610,11 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 bool alternate = !pkSound->FUN_00ae9d50(0);
                 BSGameSound* prior = 0;
                 if (!(pkSound->GetFlags() & 0x10000))
-                    prior = FUN_00add1e0(pkSound->GetResource144(), pkSound->GetResource148(), pkSound->GetFlags());
+                    prior = BSAudioManager_GetFromCache(pkSound->GetResource144(), pkSound->GetResource148(), pkSound->GetFlags());
                 if (!prior)
                 {
                     if (!pkSound->pFilename[0])
-                        ::FUN_005b5e40(DAT_010a3488, (int)pkSound->pFilename);
+                        ::Warning_005b5e40(DAT_010a3488, (int)pkSound->pFilename);
                     AudioTask_adf080::FUN_00ae6f50* task = new AudioTask_adf080::FUN_00ae6f50((int)pkSound);
                     pkSound->Set1000(true);
                     fnv_00adf080::DAT_01202d98->AddTask((QIOTask*)task);
@@ -3612,12 +3629,12 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                     }
                     else if (prior->SameResource148(pkSound->GetResource148()))
                     {
-                        FUN_00add960(pkSound);
+                        BSAudioManager_Precache_00add960(pkSound);
                     }
                     pkSound = prior;
                     pkSound->SetID(reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetID());
                     (*reinterpret_cast<AudioSoundMap_adf080*>(SoundList)).SetAt(reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetID(), pkSound);
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
             }
             break;
@@ -3683,7 +3700,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 }
                 else
                 {
-                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(FUN_00adaf80());
+                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(GetFreeQueueMessage());
                     *queued = *reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message);
                     pkSound->QueueTail((::SoundMessageRecord*)queued);
                 }
@@ -3696,7 +3713,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 if (pkSound->Ready800() && pkSound->Ready100())
                 {
 
-                    if (!pkSound->FUN_00ae9b50(0, fCurrentGamehour))
+                    if (!pkSound->CanPlayNow(0, fCurrentGamehour))
                         pkSound->Set10000(true);
                     if ((pkSound->GetFlags() & iMuteMask) && !(pkSound->GetFlags() & 0x800))
                         pkSound->SetAttenuation1c(10000);
@@ -3735,11 +3752,11 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                         pkSound->Set10(true);
                     }
                     pkSound->Set2000(true);
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else if (pkSound->Pending1())
                 {
-                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(FUN_00adaf80());
+                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(GetFreeQueueMessage());
                     *queued = *reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message);
                     pkSound->QueueTail((::SoundMessageRecord*)queued);
                 }
@@ -3757,11 +3774,11 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 if (pkSound->Ready800() && pkSound->Ready100())
                 {
                     pkSound->v30(true);
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else
                 {
-                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(FUN_00adaf80());
+                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(GetFreeQueueMessage());
                     *queued = *reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message);
                     pkSound->QueueTail((::SoundMessageRecord*)queued);
                 }
@@ -3774,11 +3791,11 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 if (pkSound->Ready800() && pkSound->Ready100())
                 {
                     pkSound->v34();
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else
                 {
-                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(FUN_00adaf80());
+                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(GetFreeQueueMessage());
                     *queued = *reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message);
                     pkSound->QueueTail((::SoundMessageRecord*)queued);
                 }
@@ -3791,11 +3808,11 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 if (pkSound->Ready800() && pkSound->Ready100())
                 {
                     pkSound->v38();
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else
                 {
-                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(FUN_00adaf80());
+                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(GetFreeQueueMessage());
                     *queued = *reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message);
                     pkSound->QueueTail((::SoundMessageRecord*)queued);
                 }
@@ -3810,7 +3827,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                     if (pkSound->Ready800() && pkSound->Ready100())
                     {
 
-                        if (!pkSound->FUN_00ae9b50(0, fCurrentGamehour))
+                        if (!pkSound->CanPlayNow(0, fCurrentGamehour))
                             pkSound->Set10000(true);
                         if ((pkSound->GetFlags() & iMuteMask) && !(pkSound->GetFlags() & 0x800))
                             pkSound->SetAttenuation1c(10000);
@@ -3850,7 +3867,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                             pkSound->Set10(true);
                         }
                         pkSound->Set2000(true);
-                        FUN_00ada5d0(pkSound->GetID(), pkSound);
+                        BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                     }
                     else
                     {
@@ -3897,7 +3914,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                                      AudioRef_adf080(), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetAudioPosition());
                     }
                     pkSound->RefreshVolume();
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else
                 {
@@ -3943,7 +3960,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                                      AudioRef_adf080(), fnv_00adf080::NiPoint3_ZERO);
                     }
                     pkSound->RefreshVolume();
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else if (pkSound->Ready800() && now >= reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetArgument2())
                 {
@@ -4005,7 +4022,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                                      AudioRef_adf080(), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetAudioPosition());
                     }
                     pkSound->RefreshVolume();
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else if (!pkSound->Stopped10())
                 {
@@ -4033,7 +4050,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                         FUN_00adb1a0(12, reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetID(), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetArgument1(), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetArgument2(),
                                      AudioRef_adf080(), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetAudioPosition());
                     }
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else if (!pkSound->Stopped10())
                 {
@@ -4062,7 +4079,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 if (pkSound->Ready800() && pkSound->Ready100())
                 {
                     pkSound->v3c((float)(reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetArgument1() / 1000.0));
-                    FUN_00ada5d0(pkSound->GetID(), pkSound);
+                    BSAudioManager_SetVoiceState(pkSound->GetID(), pkSound);
                 }
                 else if (!pkSound->Stopped10())
                 {
@@ -4114,7 +4131,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 }
                 else
                 {
-                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(FUN_00adaf80());
+                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(GetFreeQueueMessage());
                     *queued = *reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message);
                     pkSound->QueueHead((::SoundMessageRecord*)queued);
                 }
@@ -4130,7 +4147,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 }
                 else
                 {
-                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(FUN_00adaf80());
+                    fnv_00adf080::SoundMessageRecord* queued = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(GetFreeQueueMessage());
                     *queued = *reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message);
                     pkSound->QueueHead((::SoundMessageRecord*)queued);
                 }
@@ -4234,7 +4251,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                     pkSound->SetFlagAndApplyValue(false);
                 }
             }
-            FUN_00ae6e60(mask, 0);
+            ClearPausedType(mask, 0);
             break;
         }
         break;
@@ -4284,7 +4301,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                     pkSound->SetFlagAndApplyValue(false);
                 }
             }
-            FUN_00ae6e60(mask, 1);
+            ClearPausedType(mask, 1);
             break;
         }
         break;
@@ -4314,7 +4331,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                     }
                     if (!foundTmp)
                     {
-                        queued4 = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(FUN_00adaf80());
+                        queued4 = reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(GetFreeQueueMessage());
                         *queued4 = *reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message);
                         pkSound->QueueHead((::SoundMessageRecord*)queued4);
                     }
@@ -4386,7 +4403,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
                 }
                 else
                 {
-                    FUN_00adbb30(reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetID(), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetShort(0), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetShort(1), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetShort(2),
+                    BSAudioManager_SetAttenuationCurve(reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetID(), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetShort(0), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetShort(1), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetShort(2),
                                  reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetShort(3), reinterpret_cast<fnv_00adf080::SoundMessageRecord*>(message)->GetShort(4));
                 }
             }
@@ -4493,7 +4510,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
             if (IsMultiThreaded_adf080(GetAudio_adf080()) && GetThreadID_adf080() == dwAudioThreadID && pUpdateThread)
             {
                 ::DAT_011f6d98->bMultiThread = false;
-                pUpdateThread->FUN_00ae7ac0();
+                pUpdateThread->ExitThread_00ae7ac0();
             }
             break;
         }
@@ -4503,7 +4520,7 @@ bool BSAudioManager::FUN_00adf080(::SoundMessageRecord* message)
             {
                 ::DAT_011f6d98->bMultiThread = false;
                 LeaveCriticalSection(&(*reinterpret_cast<CritSecA*>(ProcessingCritSection)));
-                pUpdateThread->FUN_00ae7a50();
+                pUpdateThread->Suspended();
                 EnterCriticalSection(&(*reinterpret_cast<CritSecA*>(ProcessingCritSection)));
                 bWasPlaying = true;
             }
@@ -4634,7 +4651,7 @@ void AudioLoadTask::Run()
     if (static_cast<BSGameSound*>(SoundAssetTmp)->GetResource144() == 0 && static_cast<BSGameSound*>(SoundAssetTmp)->GetResource148() != 0)
     {
         static_cast<BSGameSound*>(SoundAssetTmp)->FUN_00ae9d50(true);
-        if (BSAudioManager::GetRandomGenerator().FUN_00add480((unsigned int)static_cast<BSGameSound*>(SoundAssetTmp)->GetResource144(), false))
+        if (BSAudioManager::GetRandomGenerator().BSAudioManager_IsInCache((unsigned int)static_cast<BSGameSound*>(SoundAssetTmp)->GetResource144(), false))
         {
             if (bLoopSound)
             {
@@ -4767,7 +4784,7 @@ struct FUN_00ae8650
     }
     static void* operator new(unsigned int uiSize)
     {
-        return DAT_011f6238.FUN_00aa3e40(uiSize);
+        return DAT_011f6238.Game_DoHeapAlloc(uiSize);
     }
     static void operator delete(void* p)
     {
@@ -4792,10 +4809,11 @@ struct Pool_ae76b0
     bool m_bCanGrow;
     FUN_00ae8650* pAudioItems;
     unsigned int m_uiLastAlloc;
-    FUN_00ae8650* FUN_00ae76b0();
+    FUN_00ae8650* AudioMessageStack_Pop_00ae76b0();
 };
 // @fnv 0x00ae76b0
-FUN_00ae8650* Pool_ae76b0::FUN_00ae76b0()
+// src: COMMUNITY 0x00ae76b0
+FUN_00ae8650* Pool_ae76b0::AudioMessageStack_Pop_00ae76b0()
 {
     FUN_00ae8650* pkNode = 0;
     if (pAudioItems)
@@ -5242,11 +5260,12 @@ struct BSAudioMgrA0
     AudioThreadA0* m_pAudioThread;
 
     void FUN_00adb1a0(int eMsg, unsigned int id, int a3, int a4, NiAVObjPtr obj, NiPoint3 pos);
-    void FUN_00ada0f0();
+    void BSAudioManager_StopAudioThread();
 };
 
 // @fnv 0x00ada0f0
-void BSAudioMgrA0::FUN_00ada0f0()
+// src: COMMUNITY 0x00ada0f0
+void BSAudioMgrA0::BSAudioManager_StopAudioThread()
 {
     if (m_pAudioThread != 0)
     {
@@ -5320,10 +5339,11 @@ struct OwnerQ
     MapQ m74;
     char p84[0x40];
     CritSecA cs;
-    void FUN_00ada330();
+    void BSAudioManager_SynchVoiceStates();
 };
 // @fnv 0x00ada330
-void OwnerQ::FUN_00ada330()
+// src: COMMUNITY 0x00ada330
+void OwnerQ::BSAudioManager_SynchVoiceStates()
 {
     EnterCriticalSection(&cs);
     if (!m74.IsEmpty())
@@ -5361,7 +5381,7 @@ void OwnerQ::FUN_00ada330()
             unsigned int uiID;
             FUN_00ae8af0* pVal;
             m64.FUN_00a0c850(pos, uiID, pVal);
-            FUN_005b5e40("AUDIO: ID %i Still In Map", uiID);
+            Warning_005b5e40("AUDIO: ID %i Still In Map", uiID);
         }
         m74.ClearAll();
     }
@@ -5420,7 +5440,7 @@ struct Manager501
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     FreeList501 messages;
-    void FUN_00adad80(BSSoundMessage*);
+    void BSAudioManager_FreeMessage(BSSoundMessage*);
 };
 template <class T> inline NiPointer_00adad80<T>::NiPointer_00adad80(T* p)
 {
@@ -5469,7 +5489,8 @@ __forceinline void BSSoundMessage::Reset(NiPoint3 pt, NiPointer_00adad80<NiAVObj
     position.z = pt.z;
 }
 // @fnv 0x00adad80
-void Manager501::FUN_00adad80(BSSoundMessage* message)
+// src: COMMUNITY 0x00adad80
+void Manager501::BSAudioManager_FreeMessage(BSSoundMessage* message)
 {
     NiPointer_00adad80<NiAVObject> old;
     old = message->node;
@@ -5570,10 +5591,11 @@ struct HostA
 {
     int u00, u04, u08, u0c, u10, u14, u18, u1c, u20, u24, u28, u2c, u30;
     StackA stack;
-    void FUN_00adafa0(MessageA*);
+    void BSAudioManager_QueueMessage(MessageA*);
 };
 // @fnv 0x00adafa0
-void HostA::FUN_00adafa0(MessageA* msg)
+// src: COMMUNITY 0x00adafa0
+void HostA::BSAudioManager_QueueMessage(MessageA* msg)
 {
     NiPointer_00adafa0<NiAVObject> object;
     object = msg->obj;
@@ -5817,10 +5839,11 @@ extern NiPoint3 DAT_011f426c;
 struct FUN_00adba70_cls
 {
     bool FUN_00adb1a0(int m_uiSoundID, int a, int b, int c, NiRefObjectPtr_audio pSceneObject, NiPoint3 kPos);
-    void FUN_00adba70(int a, float fB, float fC);
+    void BSAudioManager_SetMinMaxDistance(int a, float fB, float fC);
 };
 // @fnv 0x00adba70
-void FUN_00adba70_cls::FUN_00adba70(int a, float fB, float fC)
+// src: COMMUNITY 0x00adba70
+void FUN_00adba70_cls::BSAudioManager_SetMinMaxDistance(int a, float fB, float fC)
 {
     FUN_00adb1a0(0x23, a, (unsigned int)(fB * 1000.0), (unsigned int)(fC * 1000.0), 0, DAT_011f426c);
 }
@@ -5912,11 +5935,12 @@ struct AudioOwner
     int unkA8;
     CritSecA critical;
     FUN_00ae86d0* FUN_00adad60();
-    void FUN_00adbb30(int id, unsigned short a, unsigned short b, unsigned short c, unsigned short d, unsigned short e);
+    void BSAudioManager_SetAttenuationCurve(int id, unsigned short a, unsigned short b, unsigned short c, unsigned short d, unsigned short e);
 };
 
 // @fnv 0x00adbb30
-void AudioOwner::FUN_00adbb30(int id, unsigned short a, unsigned short b, unsigned short c, unsigned short d,
+// src: COMMUNITY 0x00adbb30
+void AudioOwner::BSAudioManager_SetAttenuationCurve(int id, unsigned short a, unsigned short b, unsigned short c, unsigned short d,
                               unsigned short e)
 {
     unsigned short contour[5];
@@ -5967,10 +5991,11 @@ extern NiPoint3 DAT_011f426c;
 struct FUN_00adbec0_cls
 {
     bool FUN_00adb1a0(int m_uiSoundID, int a, int b, int c, NiRefObjectPtr_audio pSceneObject, NiPoint3 kPos);
-    void FUN_00adbec0(int a, unsigned short b);
+    void BSAudioManager_SetReverbAttenuation(int a, unsigned short b);
 };
 // @fnv 0x00adbec0
-void FUN_00adbec0_cls::FUN_00adbec0(int a, unsigned short b)
+// src: COMMUNITY 0x00adbec0
+void FUN_00adbec0_cls::BSAudioManager_SetReverbAttenuation(int a, unsigned short b)
 {
     FUN_00adb1a0(0x22, a, b, 0, 0, DAT_011f426c);
 }
@@ -6052,10 +6077,11 @@ extern NiPoint3 DAT_011f426c;
 struct FUN_00adc050_cls
 {
     bool FUN_00adb1a0(int m_uiSoundID, int a, int b, int c, NiRefObjectPtr_audio pSceneObject, NiPoint3 kPos);
-    bool FUN_00adc050(int a, int b, int c);
+    bool BSAudioManager_SetPlayCallback(int a, int b, int c);
 };
 // @fnv 0x00adc050
-bool FUN_00adc050_cls::FUN_00adc050(int a, int b, int c)
+// src: COMMUNITY 0x00adc050
+bool FUN_00adc050_cls::BSAudioManager_SetPlayCallback(int a, int b, int c)
 {
     FUN_00adb1a0(0x3b, a, c, b, 0, DAT_011f426c);
     return true;
@@ -6182,10 +6208,11 @@ extern NiPoint3 DAT_011f426c;
 struct FUN_00adc360_cls
 {
     bool FUN_00adb1a0(int m_uiSoundID, int a, int b, int c, NiRefObjectPtr_audio pSceneObject, NiPoint3 kPos);
-    void FUN_00adc360(int a, int b);
+    void BSAudioManager_SetSynchStartTime(int a, int b);
 };
 // @fnv 0x00adc360
-void FUN_00adc360_cls::FUN_00adc360(int a, int b)
+// src: COMMUNITY 0x00adc360
+void FUN_00adc360_cls::BSAudioManager_SetSynchStartTime(int a, int b)
 {
     FUN_00adb1a0(0x3c, a, b, b, 0, DAT_011f426c);
 }
@@ -6214,10 +6241,11 @@ extern NiPoint3 DAT_011f426c;
 struct FUN_00adc3e0_cls
 {
     bool FUN_00adb1a0(int m_uiSoundID, int a, int b, int c, NiRefObjectPtr_audio pSceneObject, NiPoint3 kPos);
-    void FUN_00adc3e0(int a);
+    void BSAudioManager_ClearSynchStartTime(int a);
 };
 // @fnv 0x00adc3e0
-void FUN_00adc3e0_cls::FUN_00adc3e0(int a)
+// src: COMMUNITY 0x00adc3e0
+void FUN_00adc3e0_cls::BSAudioManager_ClearSynchStartTime(int a)
 {
     FUN_00adb1a0(0x3d, a, 0, 0, 0, DAT_011f426c);
 }
@@ -6246,10 +6274,11 @@ extern NiPoint3 DAT_011f426c;
 struct FUN_00adc460_cls
 {
     bool FUN_00adb1a0(int m_uiSoundID, int a, int b, int c, NiRefObjectPtr_audio pSceneObject, NiPoint3 kPos);
-    void FUN_00adc460(int a, int b);
+    void BSAudioManager_SetPriority(int a, int b);
 };
 // @fnv 0x00adc460
-void FUN_00adc460_cls::FUN_00adc460(int a, int b)
+// src: COMMUNITY 0x00adc460
+void FUN_00adc460_cls::BSAudioManager_SetPriority(int a, int b)
 {
     FUN_00adb1a0(0x41, a, b, 0, 0, DAT_011f426c);
 }
@@ -6266,11 +6295,12 @@ struct Handler_adb610
 {
     bool FUN_00adb1a0(int iType, int iArg, int iParam1, int iParam2, NiPointer<NiRefObject> spRetainedObject,
                       NiPoint3 kPos);
-    void FUN_00adc4e0(int iArg, bool bFlag1, bool bFlag2);
+    void BSAudioManager_SetTimeConstraints(int iArg, bool bFlag1, bool bFlag2);
 };
 
 // @fnv 0x00adc4e0
-void Handler_adb610::FUN_00adc4e0(int iArg, bool bFlag1, bool bFlag2)
+// src: COMMUNITY 0x00adc4e0
+void Handler_adb610::BSAudioManager_SetTimeConstraints(int iArg, bool bFlag1, bool bFlag2)
 {
     FUN_00adb1a0(0x3e, iArg, bFlag1, bFlag2, 0, DAT_011f426c);
 }
@@ -6299,10 +6329,11 @@ extern NiPoint3 DAT_011f426c;
 struct FUN_00adc5f0_cls
 {
     bool FUN_00adb1a0(int m_uiSoundID, int a, int b, int c, NiRefObjectPtr_audio pSceneObject, NiPoint3 kPos);
-    void FUN_00adc5f0(int a, int b, int c);
+    void BSAudioManager_FadeIn(int a, int b, int c);
 };
 // @fnv 0x00adc5f0
-void FUN_00adc5f0_cls::FUN_00adc5f0(int a, int b, int c)
+// src: COMMUNITY 0x00adc5f0
+void FUN_00adc5f0_cls::BSAudioManager_FadeIn(int a, int b, int c)
 {
     FUN_00adb1a0(0xb, a, 0, b, 0, DAT_011f426c);
 }
@@ -6698,7 +6729,7 @@ struct GameSound
     {
         return !messages.Empty();
     }
-    bool FUN_00ae9b50(unsigned int, float);
+    bool CanPlayNow(unsigned int, float);
     bool Looping()
     {
         return (flags & 0x10) || (flags & 0x4000000) || (flags & 0x2000000);
@@ -6964,14 +6995,15 @@ struct AudioUpdate
     unsigned int unk180;
     bool forceVolume;
     void AddSound(GameSound*);
-    bool FUN_00adf080(Message*);
-    void FUN_00adafa0(Message*);
-    void FUN_00ada5d0(unsigned int, GameSound*);
-    void FUN_00adea90();
-    void FUN_00adddd0();
+    bool ProcessMessage_00adf080(Message*);
+    void BSAudioManager_QueueMessage(Message*);
+    void BSAudioManager_SetVoiceState(unsigned int, GameSound*);
+    void BSAudioManager_UpdateMovingSounds();
+    void BSAudioManager_ProcessSoundUpdates();
 };
 // @fnv 0x00adddd0
-void AudioUpdate::FUN_00adddd0()
+// src: COMMUNITY 0x00adddd0
+void AudioUpdate::BSAudioManager_ProcessSoundUpdates()
 {
     NiPoint3 origin41;
     GameSound* sound1;
@@ -7021,25 +7053,25 @@ void AudioUpdate::FUN_00adddd0()
                         if (message10)
                         {
                             if (message10->Type() == 30)
-                                FUN_00adf080(message10);
+                                ProcessMessage_00adf080(message10);
                         }
                     }
                     while (!temporary.Empty())
                     {
                         message10 = temporary.FUN_00ae7f90();
-                        result = FUN_00adf080(message10);
-                        FUN_00adafa0(message10);
+                        result = ProcessMessage_00adf080(message10);
+                        BSAudioManager_QueueMessage(message10);
                         message10 = 0;
                     }
                 }
             }
             if (sound1->Has(1) && sound1->Has(0x800) && sound1->Has(0x100))
             {
-                if (!sound1->Has(0x10000) && !sound1->FUN_00ae9b50(0, range))
+                if (!sound1->Has(0x10000) && !sound1->CanPlayNow(0, range))
                 {
                     sound1->SetRange(true);
                 }
-                else if (sound1->Has(0x10000) && sound1->FUN_00ae9b50(0, range))
+                else if (sound1->Has(0x10000) && sound1->CanPlayNow(0, range))
                 {
                     sound1->SetRange(false);
                 }
@@ -7083,18 +7115,18 @@ void AudioUpdate::FUN_00adddd0()
                     while (source9 && !source9->Empty())
                     {
                         message10 = source9->FUN_00ae7f90();
-                        FUN_00adafa0(message10);
+                        BSAudioManager_QueueMessage(message10);
                         message10 = 0;
                     }
                 }
-                FUN_00ada5d0(sound1->ID(), 0);
+                BSAudioManager_SetVoiceState(sound1->ID(), 0);
                 GameSound* doomed = sound1;
                 delete doomed;
                 sound1 = 0;
                 continue;
             }
             else if (sound1->Has(0x800))
-                FUN_00ada5d0(sound1->ID(), sound1);
+                BSAudioManager_SetVoiceState(sound1->ID(), sound1);
             if ((sound1->FUN_00ae9cf0() || sound1->FUN_00ae9d10()) && !sound1->Flag(0x100) && !sound1->Has(0x20000) &&
                 sound1->Playing() && sound1->Looping() && !sound1->Flag(0x2000000) &&
                 sound1->Position() > sound1->Duration() * 1.05)
@@ -7131,7 +7163,7 @@ void AudioUpdate::FUN_00adddd0()
         }
     }
     dirty = false;
-    FUN_00adea90();
+    BSAudioManager_UpdateMovingSounds();
     GetAudioDevice(Instance())->Update();
     lastTick = GetTickCount();
 }
@@ -7168,7 +7200,7 @@ struct R_00ae5a50
 
 struct MemPool_00ae5a50
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 
 struct Sub18_00ae5a50
@@ -7236,7 +7268,7 @@ struct Msg_00ae5a50
     }
     static inline void* operator new(unsigned int n)
     {
-        return ((MemPool_00ae5a50*)&DAT_011f6238)->FUN_00aa3e40(n);
+        return ((MemPool_00ae5a50*)&DAT_011f6238)->Game_DoHeapAlloc(n);
     }
 };
 
@@ -7589,7 +7621,7 @@ struct Mgr_00ae5a50
     int unk17c;
     int m_180;
 
-    R_00ae5a50 FUN_00ae5a50(char* apName, int aiFlags, void* ap5);
+    R_00ae5a50 BSAudioManager_InitSoundPath(char* apName, int aiFlags, void* ap5);
     void FUN_00adb1a0(int, int, int, void*, PtrArg_00ae5a50, NiPoint3);
 };
 
@@ -7597,7 +7629,8 @@ typedef int(__cdecl* PFn1_00ae5a50)(R_00ae5a50*, void*, int*);
 typedef bool(__cdecl* PFn2_00ae5a50)(void*, int*, int*);
 
 // @fnv 0x00ae5a50
-R_00ae5a50 Mgr_00ae5a50::FUN_00ae5a50(char* apName, int aiFlags, void* ap5)
+// src: COMMUNITY 0x00ae5a50
+R_00ae5a50 Mgr_00ae5a50::BSAudioManager_InitSoundPath(char* apName, int aiFlags, void* ap5)
 {
     if (!AudioInstance_00ae5a50()->IsMT())
     {
@@ -7709,10 +7742,11 @@ struct List_ae7550
     unsigned int m_uiCount;
     int unk04;
     FUN_00ae86d0* m_pHead;
-    void FUN_00ae7550();
+    void SoundMessageStack_Clear();
 };
 // @fnv 0x00ae7550
-void List_ae7550::FUN_00ae7550()
+// src: COMMUNITY 0x00ae7550
+void List_ae7550::SoundMessageStack_Clear()
 {
     FUN_00ae86d0* pkNode = 0;
     while (m_pHead)
@@ -7781,10 +7815,11 @@ S00ae9150_Obj* S00ae9150_Obj::FUN_00ae9150(unsigned int aFlags)
 
 struct FUN_00adb8e0_cls
 {
-    bool FUN_00adb8e0(int a, bool b);
+    bool BSAudioManager_SetFrequencyVariance(int a, bool b);
 };
 // @fnv 0x00adb8e0
-bool FUN_00adb8e0_cls::FUN_00adb8e0(int a, bool b)
+// src: COMMUNITY 0x00adb8e0
+bool FUN_00adb8e0_cls::BSAudioManager_SetFrequencyVariance(int a, bool b)
 {
     ((DetectOwner*)this)->FUN_00adb1a0(0x14, a, b, 0, DetectRefPtr(0), DAT_011f426c);
     return false;
@@ -7808,10 +7843,11 @@ struct S00adc260_SoundOwnerA
 {
     void FUN_00adb1a0(unsigned int flags, int a, int b, int c,
                       S00adc260_NiPointerA<NiRefObject> pSceneObject, NiPoint3 pos);
-    void FUN_00adc260(int a, int b);
+    void BSAudioManager_Seek(int a, int b);
 };
 // @fnv 0x00adc260
-void S00adc260_SoundOwnerA::FUN_00adc260(int a, int b)
+// src: COMMUNITY 0x00adc260
+void S00adc260_SoundOwnerA::BSAudioManager_Seek(int a, int b)
 {
     FUN_00adb1a0(0x3f, a, b, 0, 0, DAT_011f426c);
 }
@@ -7913,11 +7949,12 @@ struct FUN_00adeff0_cls
     void* unk170;
     unsigned char unk174;
     unsigned char m_bState;
-    void FUN_00adeff0(unsigned char bNew);
+    void BSAudioManager_SetListenerUnderwater(unsigned char bNew);
 };
 
 // @fnv 0x00adeff0
-void FUN_00adeff0_cls::FUN_00adeff0(unsigned char bNew)
+// src: COMMUNITY 0x00adeff0
+void FUN_00adeff0_cls::BSAudioManager_SetListenerUnderwater(unsigned char bNew)
 {
     if (bNew != m_bState)
     {
@@ -8321,11 +8358,11 @@ struct BSSoundInfoC
 };
 struct AllocatorAda
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 inline void* operator new(unsigned int n)
 {
-    return ((AllocatorAda*)&g_memoryManager)->FUN_00aa3e40(n);
+    return ((AllocatorAda*)&g_memoryManager)->Game_DoHeapAlloc(n);
 }
 inline void operator delete(void* p)
 {
@@ -8521,10 +8558,11 @@ struct ThisClsAda
     int unk0bc;
     int unk0c0;
     CritSecA cs;
-    void FUN_00ada5d0(int param1, Param2Ada* param2);
+    void BSAudioManager_SetVoiceState(int param1, Param2Ada* param2);
 };
 // @fnv 0x00ada5d0
-void ThisClsAda::FUN_00ada5d0(int param1, Param2Ada* param2)
+// src: COMMUNITY 0x00ada5d0
+void ThisClsAda::BSAudioManager_SetVoiceState(int param1, Param2Ada* param2)
 {
     MemContext context4_2;
     SoundInfoWrap info15;
@@ -8643,7 +8681,7 @@ struct NodeQ4
 };
 inline void* operator new(unsigned int, PoolX& kMgr)
 {
-    return kMgr.FUN_00aa3e40(0x38);
+    return kMgr.Game_DoHeapAlloc(0x38);
 }
 inline void operator delete(void* p, PoolX& kMgr)
 {
@@ -8670,13 +8708,14 @@ struct OwnerQ4 : ObjRegistry
     char padf4[0x10c - 0xf4];
     CritSecA m_kCS2;
     TaskListQ4 m_kTasks;
-    void FUN_00add960(SoundQ4* SoundAssetTmp);
+    void BSAudioManager_Precache_00add960(SoundQ4* SoundAssetTmp);
 };
 // @fnv 0x00add960
-void OwnerQ4::FUN_00add960(SoundQ4* SoundAssetTmp)
+// src: COMMUNITY 0x00add960
+void OwnerQ4::BSAudioManager_Precache_00add960(SoundQ4* SoundAssetTmp)
 {
     if (AudioReadyQ4(GetAudioQ4()) && SoundAssetTmp->cEnabled && !(SoundAssetTmp->GetFlags() & 0x10000) &&
-        !FUN_00add480(SoundAssetTmp->GetID(), false))
+        !BSAudioManager_IsInCache(SoundAssetTmp->GetID(), false))
     {
         TaskQ4* pTask;
         EnterCriticalSection(&m_kCS2);
@@ -8762,8 +8801,8 @@ struct SoundListQ
     {
         return head;
     }
-    void FUN_00ae8090(NodeQ*& pNode);
-    void FUN_00a0c9f0(SoundQ* const& SoundAssetTmp);
+    void NiTPointerListBase_RemovePos_0(NodeQ*& pNode);
+    void _NiTListBase_AddHead(SoundQ* const& SoundAssetTmp);
 };
 struct OwnerQ2
 {
@@ -8772,7 +8811,7 @@ struct OwnerQ2
     unsigned int total;
     char more[0x38];
     CritSecA cs;
-    SoundQ* FUN_00add1e0(unsigned int id, int alt, unsigned int flags);
+    SoundQ* BSAudioManager_GetFromCache(unsigned int id, int alt, unsigned int flags);
 };
 inline SndFactQ* GetFQ()
 {
@@ -8795,7 +8834,8 @@ inline bool IsAltQ(SoundQ* s, int alt)
     return alt == s->p148 && s->p148 != 0;
 }
 // @fnv 0x00add1e0
-SoundQ* OwnerQ2::FUN_00add1e0(unsigned int id, int alt, unsigned int flags)
+// src: COMMUNITY 0x00add1e0
+SoundQ* OwnerQ2::BSAudioManager_GetFromCache(unsigned int id, int alt, unsigned int flags)
 {
     bool bRandom5 = false;
     if (alt && !id)
@@ -8817,9 +8857,9 @@ SoundQ* OwnerQ2::FUN_00add1e0(unsigned int id, int alt, unsigned int flags)
             pResult->flags = flags;
             pResult->Copy(SoundAssetTmp, 1);
             pResult->flags = flags;
-            list.FUN_00ae8090(pNodeB);
+            list.NiTPointerListBase_RemovePos_0(pNodeB);
             if (!(GetFlagsQ(SoundAssetTmp) & 0x20000000))
-                list.FUN_00a0c9f0(SoundAssetTmp);
+                list._NiTListBase_AddHead(SoundAssetTmp);
             else
                 delete SoundAssetTmp;
             LeaveCriticalSection(&cs);
@@ -8845,8 +8885,8 @@ SoundQ* OwnerQ2::FUN_00add1e0(unsigned int id, int alt, unsigned int flags)
     }
     if (pMatch)
     {
-        list.FUN_00ae8090(pPrev_);
-        list.FUN_00a0c9f0(pMatch);
+        list.NiTPointerListBase_RemovePos_0(pPrev_);
+        list._NiTListBase_AddHead(pMatch);
         pResult = NewSoundQ();
         pResult->flags = flags;
         pResult->Copy(pMatch, 1);
@@ -8885,7 +8925,7 @@ extern char str_010639ec[];
 extern char str_01013444[];
 inline void* operator new[](unsigned int size) throw()
 {
-    return DAT_011f6238.FUN_00aa3e40(size);
+    return DAT_011f6238.Game_DoHeapAlloc(size);
 }
 struct SoundNode;
 struct DebugList
@@ -8894,7 +8934,7 @@ struct DebugList
     DebugList* next;
     static void* operator new(unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
     DebugList()
     {
@@ -9050,7 +9090,7 @@ struct SoundNode
 {
     static void* operator new(unsigned int size) throw()
     {
-        return DAT_011f6238.FUN_00aa3e40(size);
+        return DAT_011f6238.Game_DoHeapAlloc(size);
     }
     SoundNode()
     {
@@ -9225,14 +9265,15 @@ struct AudioSystem
     unsigned int unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac;
     unsigned int unkb0, unkb4, unkb8, unkbc, unkc0;
     CritSecA criticalSection;
-    DebugList* __thiscall FUN_00ae5ff0(unsigned int);
+    DebugList* __thiscall BSAudioManager_DebugPrintSounds(unsigned int);
 };
 // @fnv 0x00ae5ff0
-DebugList* AudioSystem::FUN_00ae5ff0(unsigned int filter)
+// src: COMMUNITY 0x00ae5ff0
+DebugList* AudioSystem::BSAudioManager_DebugPrintSounds(unsigned int filter)
 {
     DebugList* head8 = new DebugList;
     unsigned int filterFlags_2 = ~0u;
-    reinterpret_cast<FUN_00ada330_shell*>(this)->FUN_00ada330();
+    reinterpret_cast<FUN_00ada330_shell*>(this)->BSAudioManager_SynchVoiceStates();
     bool includeSpecial = false;
     char* buffer_ = 0;
     char _copy[260];

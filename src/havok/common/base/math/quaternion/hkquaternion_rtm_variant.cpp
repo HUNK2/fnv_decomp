@@ -11,12 +11,13 @@
 class FUN_005611c0_t
 {
   public:
-    void FUN_005611c0();
+    void normalize_005611c0();
     void hkQuaternion_setAndNormalize(float* pts);
 };
 static float g_sink2550;
 extern "C" double cb2550_clobber(double x);
-static __declspec(noinline) void FUN_00cb2550(FUN_005611c0_t* obj, float* pts)
+// src: COMMUNITY 0x00cb2550
+static __declspec(noinline) void quaternionFromRotatation(FUN_005611c0_t* obj, float* pts)
 {
     float s = pts[0] * pts[1];
     s = (float)cb2550_clobber(s);
@@ -84,7 +85,7 @@ struct S00cb2550_Quat
 {
     S00cb2550_V4 q;
 };
-static void FUN_00cb2550(S00cb2550_Quat* self, const S00cb2550_Rot& r);
+static void quaternionFromRotatation(S00cb2550_Quat* self, const S00cb2550_Rot& r);
 void S00cb2550_caller(S00cb2550_Quat* q, const S00cb2550_Rot& r);
 
 __declspec(align(16)) struct FUN_00cb2450_cls

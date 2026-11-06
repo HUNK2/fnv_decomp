@@ -19,7 +19,7 @@ public:
 
     unsigned char layoutExtension[0xDC];
 
-    int FUN_00726f00();
+    int GetMenuID_00726f00();
     void* FUN_00726f20(unsigned int flags);
     void FUN_00726f50();
     int GetID();

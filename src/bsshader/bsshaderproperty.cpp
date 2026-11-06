@@ -41,7 +41,7 @@ void BSShaderProperty::ShaderPassList::Add(NiGeometry* geometry, unsigned short 
     else
     {
         ShaderPassEntry* pass = m_kRenderPasses.m_pBase[m_uiCount];
-        pass->FUN_00ba8c50(numLights, light0, light1, light2, light3);
+        pass->BSShaderProperty_RenderPass_SetLights(numLights, light0, light1, light2, light3);
         pass->SetFirstPass(firstPass);
         pass->SetGeometry(geometry);
         pass->SetPassEnum(passEnum);
@@ -156,7 +156,8 @@ void FUN_00baa000_shell::FUN_00baa000()
 
 extern const char g_01200464_arg1[];
 // @fnv 0x00a81450
-const char* __cdecl FUN_00a81450()
+// src: COMMUNITY 0x00a81450
+const char* __cdecl NiShadeProperty_GetRTTI()
 {
     return g_01200464_arg1;
 }
@@ -192,7 +193,8 @@ void __fastcall FUN_00ba8b10(BSSP_stub4* self, int, BSSP_stub4* dst, int arg)
 
 extern bool DAT_0120045c;
 // @fnv 0x00ba8b60
-void __cdecl FUN_00ba8b60(bool v)
+// src: COMMUNITY 0x00ba8b60
+void __cdecl BSShaderProperty_PreviousTransform_SetFreeze(bool v)
 {
     DAT_0120045c = v;
 }
@@ -247,10 +249,11 @@ struct FUN_00ba8c30_shell2
 {
     int a[3];
     void* m_p;
-    void FUN_00ba8c30();
+    void BSShaderProperty_RenderPass_ClearSceneLights();
 };
 // @fnv 0x00ba8c30
-void __fastcall FUN_00ba8c30(FUN_00ba8c30_shell2* self, int)
+// src: COMMUNITY 0x00ba8c30
+void __fastcall BSShaderProperty_RenderPass_ClearSceneLights(FUN_00ba8c30_shell2* self, int)
 {
     if (self->m_p)
     {
@@ -301,7 +304,7 @@ class BB97550Shader
 {
   public:
     void RenderWithTextures(BB97550Pass* pkPass, int iA, int iB, int iC, int iD, int iE);
-    void FUN_00b97550(unsigned int uiPass, int iA, int iB, int iC, int iD, int iE);
+    void ImageSpaceManager_RenderEffect(unsigned int uiPass, int iA, int iB, int iC, int iD, int iE);
 
     int unk00;
     int unk04;
@@ -310,7 +313,8 @@ class BB97550Shader
 
 // Sets the thread-local alloc tag to 0x27 for the scope, then forwards the arguments to the pass at index uiPass.
 // @fnv 0x00b97550
-void BB97550Shader::FUN_00b97550(unsigned int uiPassIndex, int iA, int iB, int iC, int iD, int iE)
+// src: COMMUNITY 0x00b97550
+void BB97550Shader::ImageSpaceManager_RenderEffect(unsigned int uiPassIndex, int iA, int iB, int iC, int iD, int iE)
 {
     BB97550AllocTagScope kScope(0x27);
     RenderWithTextures(m_ppkPasses[uiPassIndex], iA, iB, iC, iD, iE);
@@ -331,7 +335,8 @@ struct S_00ba8c50_Slot
 
 // Grows the light array to numLights if needed, then stores numLights and copies the variadic ShadowSceneLight pointers into it.
 // @fnv 0x00ba8c50
-void __cdecl BSShaderProperty::ShaderPassEntry::FUN_00ba8c50(unsigned char numLights, ShadowSceneLight*, ...)
+// src: COMMUNITY 0x00ba8c50
+void __cdecl BSShaderProperty::ShaderPassEntry::BSShaderProperty_RenderPass_SetLights(unsigned char numLights, ShadowSceneLight*, ...)
 {
     ShadowSceneLight** args = (ShadowSceneLight**)((unsigned int*)&numLights + 1);
 
@@ -496,11 +501,12 @@ struct FUN_00ba8d00_cls
     int unk34;
     int unk38;
 
-    void FUN_00ba8d00(bool enable);
+    void BSShaderProperty_SetMotionBlurred(bool enable);
 };
 // Sets or clears bit 0x10 in unk20, zeroing unk38 when the bit's state changes.
 // @fnv 0x00ba8d00
-void FUN_00ba8d00_cls::FUN_00ba8d00(bool enable)
+// src: COMMUNITY 0x00ba8d00
+void FUN_00ba8d00_cls::BSShaderProperty_SetMotionBlurred(bool enable)
 {
     if (enable)
     {
@@ -595,7 +601,7 @@ struct ShaderFlagList
     unsigned int count;
 };
 extern void __stdcall WriteToArray(SettingArray* target);
-extern int __cdecl FUN_00a7d330(const char* text);
+extern int __cdecl NiViewerStrings_NiGetViewerString_Title(const char* text);
 extern int __cdecl FUN_00a7d370(const char* text, int flag);
 extern int __cdecl FUN_00a7d550(const char* text, float value);
 extern int __cdecl FUN_00a7d4d0(const char* text, int value);
@@ -696,7 +702,7 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
         int token;
         volatile float scalar;
     } formatted;
-    formatted.token = FUN_00a7d330(DAT_01200464);
+    formatted.token = NiViewerStrings_NiGetViewerString_Title(DAT_01200464);
     output->AddTextValue(&formatted.token);
     const char* flagNames[56] = {
         UNK_010b8950, UNK_010b8948, UNK_010b893c, UNK_010b892c, UNK_010b8920, UNK_010b8914, UNK_010b890c, UNK_010b88f8,
@@ -744,7 +750,7 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
     output->AddNumericValue(numericToken);
     if (!flagsList)
     {
-        formatted.token = FUN_00a7d330(UNK_010b8570);
+        formatted.token = NiViewerStrings_NiGetViewerString_Title(UNK_010b8570);
         output->AddTextValue(&formatted.token);
         return;
     }

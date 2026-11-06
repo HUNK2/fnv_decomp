@@ -24,12 +24,13 @@ struct FUN_00bd8a70_cls
     unsigned short m_12;
     void* m_14;
     void* m_18;
-    void FUN_00bd8a70();
+    void TallGrassGroup_Clear();
 };
 
 // Clears the two buffers sized by m_10, sets each entry's float at offset 8 to -10.0, subtracts m_12 from DAT_011f9ef8, zeroes m_12, then calls UpdateBounds.
 // @fnv 0x00bd8a70
-void FUN_00bd8a70_cls::FUN_00bd8a70()
+// src: COMMUNITY 0x00bd8a70
+void FUN_00bd8a70_cls::TallGrassGroup_Clear()
 {
     fnv_zlib_memset(m_18, 0, (unsigned int)m_10 * 4);
     fnv_zlib_memset(m_14, 0, (unsigned int)m_10 << 4);
@@ -266,9 +267,9 @@ struct OutputData : RefObject
 
     void FUN_00a72ca0(int);
 
-    void FUN_00a72bb0(int, void*, int, int);
+    void NiAdditionalGeometryData_SetDataBlock(int, void*, int, int);
 
-    void FUN_00a726a0(int, int, int, int, int, int, int);
+    void NiAdditionalGeometryData_SetDataStream(int, int, int, int, int, int, int);
 
     void FUN_00b57e30(int, int);
 };
@@ -518,9 +519,9 @@ struct GridBuffer : RefObject
 
     void FUN_00a72ca0(int);
 
-    void FUN_00a72bb0(int, void*, int, int);
+    void NiAdditionalGeometryData_SetDataBlock(int, void*, int, int);
 
-    void FUN_00a726a0(int, int, int, int, int, int, int);
+    void NiAdditionalGeometryData_SetDataStream(int, int, int, int, int, int, int);
 };
 
 struct BufferSubobject
@@ -536,7 +537,7 @@ struct BufferSubobject
 
 struct HeapAllocator
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 
 struct QuadIndex
@@ -548,7 +549,7 @@ extern HeapAllocator DAT_011f6238;
 
 __forceinline void* __cdecl operator new[](unsigned int bytes, HeapAllocator& alloc)
 {
-    return alloc.FUN_00aa3e40(bytes);
+    return alloc.Game_DoHeapAlloc(bytes);
 }
 
 extern int DAT_011f91c0;
@@ -640,7 +641,7 @@ struct FUN_00bd8ae0
 
     unsigned char tag44;
 
-    void FUN_00bd8a70();
+    void TallGrassGroup_Clear();
 
     FUN_00bd8ae0(ModelSource*, int, int, unsigned char);
 };
@@ -666,7 +667,7 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
 
     m12 = 0;
 
-    ((FUN_00bd8a70_cls*)this)->FUN_00bd8a70();
+    ((FUN_00bd8a70_cls*)this)->TallGrassGroup_Clear();
 
     if (m00.m_pObject)
     {
@@ -747,9 +748,9 @@ FUN_00bd8ae0::FUN_00bd8ae0(ModelSource* source, int mode, int variant, unsigned 
 
     buffer->FUN_00a72ca0(1);
 
-    buffer->FUN_00a72bb0(0, source->vertices, total * 4, 0);
+    buffer->NiAdditionalGeometryData_SetDataBlock(0, source->vertices, total * 4, 0);
 
-    buffer->FUN_00a726a0(0, 0, 0, 1, total, 4, 4);
+    buffer->NiAdditionalGeometryData_SetDataStream(0, 0, 0, 1, total, 4, 4);
 
     m00->GetData()->FUN_00a67260(buffer);
 

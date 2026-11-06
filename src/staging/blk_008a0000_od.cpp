@@ -11,11 +11,12 @@
 
 struct FUN_008a0250_class
 {
-    void FUN_008a0250();
+    void CombatController_SetForceCombat();
 };
 
 // @fnv 0x008a0250
-void FUN_008a0250_class::FUN_008a0250()
+// src: COMMUNITY 0x008a0250
+void FUN_008a0250_class::CombatController_SetForceCombat()
 {
     *reinterpret_cast<bool*>(reinterpret_cast<char*>(this) + 0xc4) = true;
 }
@@ -29,10 +30,11 @@ bool Actor::GetByteAt7C4()
 // Actor.h does not yet declare this entry point; retain its local shell.
 struct FUN_008a1a40_shell : Actor
 {
-    void FUN_008a1a40(Actor* p);
+    void Actor_SetCriticalStage(Actor* p);
 };
 // @fnv 0x008a1a40
-void FUN_008a1a40_shell::FUN_008a1a40(Actor* apActor)
+// src: COMMUNITY 0x008a1a40
+void FUN_008a1a40_shell::Actor_SetCriticalStage(Actor* apActor)
 {
     *reinterpret_cast<Actor**>(&m_eCriticalStage) = apActor;
     ProcessQueuedActorUpdate();
@@ -372,11 +374,12 @@ void FUN_008b3a80_Class::ForwardToVtSlot(void* arg)
 
 struct FUN_008b5190_Class
 {
-    bool FUN_008b5190();
+    bool BGSBodyPart_IsSeverablePart();
 };
 
 // @fnv 0x008b5190
-bool FUN_008b5190_Class::FUN_008b5190()
+// src: COMMUNITY 0x008b5190
+bool FUN_008b5190_Class::BGSBodyPart_IsSeverablePart()
 {
     return ((unsigned char*)((char*)this + 0x60))[0] & 1 ? true : false;
 }
@@ -829,7 +832,8 @@ class B9565Outer
 };
 
 // @fnv 0x008bc270
-void FUN_008bc270(B9565Outer* pOuter, B9565Obj* pObj)
+// src: COMMUNITY 0x008bc270
+void Actor_HandleGrabIKNote(B9565Outer* pOuter, B9565Obj* pObj)
 {
     B9565Outer* a = pOuter;
     B9565Obj* b5 = pObj;
@@ -2208,7 +2212,7 @@ struct P2
     unsigned char GetUnk66();
     double FUN_009b0bd0();
     NameObj* FUN_005d8a70();
-    float FUN_009b88c0();
+    float LowProcess_GetPlayerDamageDealt();
 };
 struct P
 {
@@ -2496,7 +2500,7 @@ ResObj* ThisC::CreateNodeFromTransform(void* pLookupKey, A2* pTransformSource, A
                                 t2 = t1 * *pTransformSource->FUN_00461130();
                                 retValA->FUN_00440460(t2.m_Translate);
                                 retValA->FUN_0043fa80(&t2);
-                                retValA->FUN_00440490(p4->FUN_009b88c0());
+                                retValA->FUN_00440490(p4->LowProcess_GetPlayerDamageDealt());
                             }
                             DAT_011c3b3c->FUN_0045a5e0(p4->FUN_005d8a70()->GetNameV5());
                         }

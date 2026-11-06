@@ -32,7 +32,7 @@ public:
     void LoadFromSaveData(const void* data);
     void* Destroy(unsigned int);
     int GetInnerValue();
-    void FUN_00558c60(int value);
+    void TESObjectREFR_SetCurrentWaterObject(int value);
     TESBoundObject* FUN_007af430();
     TESWorldSpace* FUN_00575d70();
     bool FUN_00440da0();

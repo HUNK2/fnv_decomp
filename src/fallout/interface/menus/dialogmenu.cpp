@@ -345,7 +345,7 @@ void LocalDialogMenu::LoadTopicsList()
 // @fnv 0x00761A20
 Tile* LocalDialogMenu::Create(MobileObjectView* speaker, TESTopic* topic, MobileObjectView* alternate)
 {
-    InterfaceManager* pManager = FUN_004b7210();
+    InterfaceManager* pManager = InterfaceManager_GetSingleton();
     Tile* existing = reinterpret_cast<Tile*>(Tile::FindMenuById(1009));
     if (existing)
         return existing;
@@ -360,7 +360,7 @@ Tile* LocalDialogMenu::Create(MobileObjectView* speaker, TESTopic* topic, Mobile
     if (DAT_011d9510 && DAT_011d9510->GetClass() == (unsigned int)FUN_007620e0())
     {
         DAT_011d9510->SetTileMenu(reinterpret_cast<TileMenu*>(m_pFourthMenuObject), false);
-        if (!DAT_011d9510->FUN_007620f0())
+        if (!DAT_011d9510->DialogMenu_IsWellFormedMenu())
         {
             Warning("MENUS: Dialogue Menu Creation Failed... Are your menu and art resources up to date?");
             return 0;
@@ -436,7 +436,7 @@ Tile* LocalDialogMenu::Create(MobileObjectView* speaker, TESTopic* topic, Mobile
         reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(DAT_011d9510)->GetNext())
             ->Set(Tile::GetTraitID("_ShowSubtitles"), bSubtitles);
         DAT_011d9510->m_pTiles[1]->Set(0xFC4, speaker->GetFullName(), true);
-        if (Cmd_Default_Execute() && !FUN_004b7210()->kTutorialManager.HasBeenShown(17))
+        if (Cmd_Default_Execute() && !InterfaceManager_GetSingleton()->kTutorialManager.HasBeenShown(17))
             DAT_011d9510->m_bSuppressDialogueText = true;
         else
             DAT_011d9510->BeginDialogueResponse(false);
@@ -489,7 +489,7 @@ void LocalDialogMenu::UpdateDialog()
         if (m_bSuppressDialogueText && m_fCameraTransitionTime == 0.0)
         {
             m_bSuppressDialogueText =
-                FUN_004b7210()->kTutorialManager.ShowMessage(17, FUN_007620e0(), (unsigned int)*DAT_011d3ee0.Float() * 1400);
+                InterfaceManager_GetSingleton()->kTutorialManager.ShowMessage(17, FUN_007620e0(), (unsigned int)*DAT_011d3ee0.Float() * 1400);
             if (!m_bSuppressDialogueText)
             {
                 if (m_pDialogueSpeaker)
@@ -508,7 +508,7 @@ void LocalDialogMenu::UpdateDialog()
                 m_fCameraTransitionTime = 0.0f;
                 m_eDialogState = ePlaySpeech;
             }
-            else if (FUN_004b7210()->kTutorialManager.HasBeenShown(17) && DialogMenuInterfaceCalls::GetSelectedTargetIndex(DialogMenuInterfaceCalls::Dialog))
+            else if (InterfaceManager_GetSingleton()->kTutorialManager.HasBeenShown(17) && DialogMenuInterfaceCalls::GetSelectedTargetIndex(DialogMenuInterfaceCalls::Dialog))
             {
                 m_fCameraTransitionTime = 0.0f;
                 reinterpret_cast<Tile*>(reinterpret_cast<BSSimpleList<TESTopic*>*>(this)->GetNext())
@@ -657,7 +657,7 @@ void LocalDialogMenu::HandleSelection(int id, Tile* tile)
             return;
     }
     if (id == -1 && m_kResponseListBox.ContainsKey(tile) &&
-        pDialogueItem->FUN_0083e430((int)reinterpret_cast<TileListBoxCalls_dialogmenu_decls*>(tile)->GetFloat(0xFAC)))
+        pDialogueItem->DialogMenu_SetClickedMenuItem((int)reinterpret_cast<TileListBoxCalls_dialogmenu_decls*>(tile)->GetFloat(0xFAC)))
     {
         MenuTopic* pTopic = pDialogueItem->GetSelectedTopic();
         bool wasNew = pTopic->m_bInfoHasBeenRead;
@@ -744,7 +744,8 @@ bool TESTopicInfo::IsChallengeFlagSet()
 
 // Returns true only if all four pointers stored at offset 0x30 in this DialogMenu are non-null.
 // @fnv 0x007620f0
-bool LocalDialogMenu::FUN_007620f0()
+// src: COMMUNITY 0x007620f0
+bool LocalDialogMenu::DialogMenu_IsWellFormedMenu()
 {
     for (int iIndex = 0; iIndex < 4; ++iIndex)
     {

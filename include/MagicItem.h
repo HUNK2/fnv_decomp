@@ -54,7 +54,7 @@ public:
 
     void FUN_00403600(MagicItem* source);
     EffectSettingQ* FUN_0040a300(int iUnk);
-    bool FUN_0040e3c0(MagicItem* p);
+    bool SpellItem_CompareMagicItemData(MagicItem* p);
     const char* FUN_00408da0();
     void FUN_0040b800(int);
     void FUN_0040b800(bool);

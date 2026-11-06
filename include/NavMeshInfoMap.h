@@ -58,8 +58,8 @@ public:
     int FUN_006b7850(void* worldSpace, int cellKey);
     unsigned int LookupScriptMessageValue(const char* message);
     int LookupScriptMessageValue(TESObjectCELL* cell);
-    void FUN_006b7910(BSSimpleArray<void*, 1024>* array);
-    void FUN_006b7b70(NavMeshInfo* info);
-    void FUN_006b7b70(unsigned int info);
-    void FUN_006b7b70(NavigationRequest* request);
+    void GetAllNavMeshInfo(BSSimpleArray<void*, 1024>* array);
+    void RemoveInfoFromCellKeyMap(NavMeshInfo* info);
+    void RemoveInfoFromCellKeyMap(unsigned int info);
+    void RemoveInfoFromCellKeyMap(NavigationRequest* request);
 };

@@ -35,15 +35,15 @@ public:
     void FUN_00419ad0(int);
     void ExtraDataList_CopyList(ExtraShell_inventorychanges_ctxr_variant*);
     signed char GetExtraByteValue();
-    void FUN_0042dec0();
+    void ExtraDataList_RemoveHotkey();
     OpacityFadeState* GetOffsetC();
     void FUN_0041aeb0();
-    void FUN_0041af50();
+    void ExtraDataList_RemoveScript();
     void* FUN_0042e250();
     RefNode* FUN_0041df90();
     void FUN_0041dfd0();
     void FUN_0041de40(int a);
-    RefrShell* FUN_0041e310();
+    RefrShell* ExtraDataList_GetAshPileRef();
 };
 #include "../../include/InventoryChanges.h"
 #include "../../include/InventoryStackRecord.h"
@@ -182,7 +182,7 @@ ItemNode* __fastcall _ref_00726070(ItemNode*);
 ExtraDataList** __fastcall _ref_006815c0(ExtraNode*);
 ExtraNode* __fastcall _ref_00726070(ExtraNode*);
 int __fastcall _FNV_GetFormType(unsigned int);
-bool __fastcall FUN_004bfd80(unsigned int);
+bool __fastcall TESObjectARMO_GetModulatesVoice(unsigned int);
 // Exe 0x004cd9c0: local storage view; GetFlags binds the folded DWORD-at-+8 accessor 0x0044ddc0.
 struct InventorychangesOffset08View
 {
@@ -192,7 +192,7 @@ struct FUN_00418ab0_shell
 {
     bool FUN_00418ab0(bool);
 };
-unsigned char __fastcall FUN_004bfd80(unsigned char* p);
+unsigned char __fastcall TESObjectARMO_GetModulatesVoice(unsigned char* p);
 bool __fastcall FUN_004c0c60(TESObjectWEAP* weap);
 bool __fastcall FUN_004c0bf0(TESObjectWEAP* weap);
 bool __fastcall FUN_004c0c30(char* pThis);
@@ -374,7 +374,7 @@ struct Animation
 typedef char _sizecheck_Animation[sizeof(Animation) == 316 ? 1 : -1];
 struct FUN_004c0c90_shell : public Animation
 {
-    void FUN_004c0c90(float);
+    void Animation_SetAttackSpeed(float);
 };
 struct FUN_004c94d0_shell
 {
@@ -399,7 +399,7 @@ struct FUN_00766a10_shell
 };
 struct FUN_0042dec0_shell : public BaseExtraList
 {
-    void FUN_0042dec0();
+    void ExtraDataList_RemoveHotkey();
     void RemoveExtra(unsigned char);
 };
 struct GetModHelper_4bcf00
@@ -429,7 +429,7 @@ struct Holder_70
 };
 struct FUN_004187d0_Class
 {
-    BSExtraData* FUN_004187d0();
+    BSExtraData* ExtraDataList_GetPoison();
 };
 struct ScriptLocals;
 struct ExtraDataList_shell2 : public ExtraDataList
@@ -460,7 +460,7 @@ struct DAT_011c6444_type
     virtual ~DAT_011c6444_type();
 };
 extern DAT_011c6444_type* DAT_011c6444;
-void FUN_004c1c40();
+void InventoryChanges_FreeTempRef();
 struct FUN_00474a40
 {
     Script* GetScript();
@@ -482,8 +482,8 @@ struct Unk_004ca1a0
 void FUN_004ce300(TESForm* a, unsigned int b);
 struct FUN_004ce340_stand
 {
-    void FUN_004ce340(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
-    void FUN_004ce380(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
+    void InventoryChanges_RemoveAllTypedItems(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
+    void InventoryChanges_RemoveAllItems(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
 };
 struct C008256d0
 {
@@ -875,7 +875,7 @@ struct ActorDispelView : MobileObject, MagicCaster, MagicTargetDispel
 };
 struct FUN_004c0cf0_t
 {
-    void FUN_004c0cf0(bool*, unsigned int, int, Actor*, ExtraDataList*, int, bool, InventoryStackRecord*, int);
+    void InventoryChanges_RemoveWorn(bool*, unsigned int, int, Actor*, ExtraDataList*, int, bool, InventoryStackRecord*, int);
 };
 int __fastcall FNV_GetFormType(TESForm*);
 bool __fastcall FUN_004c94d0(TESForm*);
@@ -1595,7 +1595,7 @@ extern const char DAT_01020778[];
 struct OwnerProduct
 {
     ContainerView* FUN_004bffb0();
-    Product* FUN_004ca200();
+    Product* InventoryChanges_StartOEIFastInventoryIteration();
 };
 extern const double DAT_01020758;
 extern char* DAT_011dea3c;
@@ -1689,7 +1689,7 @@ struct Load90
 extern Load90* g_TESSaveLoadGame;
 TESForm* FUN_004839c0(unsigned int);
 void FNV_Warning(const char*, ...);
-unsigned short FUN_004efaa0();
+unsigned short BSAnimGroupSequence_GetSequenceSaveSize();
 struct Seq90
 {
     void FUN_004efbc0(float);
@@ -1793,7 +1793,7 @@ struct Manager90
     void FUN_0047aa40(bool);
 };
 void* FUN_00499b70();
-void* FUN_00499b80();
+void* get_g_SpecialIdle_Cast();
 extern int DAT_011f36ac;
 Manager90* FUN_00653270(const int*, void*);
 struct Animation90 : Animation
@@ -1877,7 +1877,7 @@ struct EquipExtra
     void ExtraDataList_CopyList(EquipExtra*);
     void FUN_00419ad0(unsigned short);
     signed char GetExtraByteValue();
-    void FUN_0042dec0();
+    void ExtraDataList_RemoveHotkey();
     void SetWornState(bool, bool);
     bool FUN_00418b10();
     void FUN_0041ab70(bool);
@@ -1899,7 +1899,7 @@ struct EquipBiped
 {
     bool FUN_00480d10();
     bool FUN_004c0bd0();
-    bool FUN_00480d30();
+    bool TESBipedModelForm_HasBackpack();
 };
 struct EquipForm
 {
@@ -2392,7 +2392,7 @@ struct EquipProcess
 };
 struct EquipAnim
 {
-    void FUN_004c0c90(float);
+    void Animation_SetAttackSpeed(float);
 };
 struct EquipActor
 {
@@ -2552,7 +2552,7 @@ bool __cdecl FUN_008c7aa0();
 EquipActor* __cdecl FUN_0047b200();
 struct EquipQueue
 {
-    void FUN_0087b360(EquipActor*, EquipForm*);
+    void TaskQueueInterface_QueueAttachWeapon(EquipActor*, EquipForm*);
 };
 EquipQueue* __cdecl FUN_004537b0();
 void __cdecl ApplyPerkModifiers(int, EquipActor*, ...);
@@ -2759,7 +2759,7 @@ struct W20Inventory
     bool dirty;
     W20Entry* FUN_004bfba0(W20Form*, bool, int);
     void FUN_004c29a0(W20Form*, int, int);
-    void FUN_004c1c90(W20Ref*, int, int, bool);
+    void InventoryChanges_AddItem_0(W20Ref*, int, int, bool);
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
@@ -3004,7 +3004,7 @@ extern AddRef* addPlayer;
 extern float DAT_01012054;
 bool __cdecl FUN_00705020();
 bool __cdecl FUN_00705000();
-int __cdecl FUN_00679ba0(void*);
+int __cdecl TESPackage_GetObjectTypeFromForm(void*);
 extern float DAT_01015f5c;
 struct AmmoScorer
 {
@@ -3355,10 +3355,11 @@ struct Inventory
     Container* FUN_004bffb0();
     Item* FUN_004bfba0(TESBoundObject*, int, int);
     void FUN_004c3380(Item*, int);
-    void FUN_004cd9c0(void*, void*);
+    void ExtraContainerChangeData_DuplicateAllItem(void*, void*);
 };
 // @fnv 0x004cd9c0
-void Inventory::FUN_004cd9c0(void* source, void* destination)
+// src: COMMUNITY 0x004cd9c0
+void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* destination)
 {
     if (!destination || !source)
         return;
@@ -3695,7 +3696,7 @@ extern Setting movePlural_r004cb5f0, moveVerb_r004cb5f0;
 const char* FUN_00482720(TESBoundObject*);
 void FUN_00406f60(BSStringT<char>*, const char*, ...);
 void DispatchMessageToSink(const char*, int, const char*, unsigned int, float, int);
-void FUN_00704af0();
+void Interface_UpdateInventory();
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting31;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting32;
 void __cdecl FUN_008ba2f0(ActorValueOwner*, int, float, float, int);
@@ -5500,7 +5501,7 @@ struct InvHost
     InvArray entries;
     float weight;
     bool FUN_004d1360();
-    void FUN_009687b0(void* object, InvExtra* extra, int amount);
+    void PlayerCharacter_AddRockItAmmo(void* object, InvExtra* extra, int amount);
 };
 extern const char g_inventoryChangesSourceFilename[];
 void* operator new(unsigned int);
@@ -5967,7 +5968,7 @@ struct Transfer4c37Form4
     int BaseExtraList_ItemsInList();
     int BaseExtraList_GetExtraData(int a);
     short FUN_00418770();
-    void FUN_0042dec0();
+    void ExtraDataList_RemoveHotkey();
 };
 struct Transfer4c37FirstObj
 {
@@ -6010,7 +6011,7 @@ struct Transfer4c37Node84
 unsigned char __cdecl FUN_00481f10(int a);
 unsigned char __cdecl FUN_00702680(int a, int b);
 int __fastcall FUN_00401170(int a);
-void* __cdecl FUN_00401000(int a);
+void* __cdecl FormHeap_Allocate(int a);
 struct Transfer4c37Obj96
 {
     void* item;
@@ -6115,7 +6116,7 @@ struct Transfer4c37ItemObj
     bool FUN_00418ab0(int a);
     void* FUN_00418660();
     int FUN_0041c8d0();
-    float FUN_00418860();
+    float ExtraDataList_GetScale();
     bool FUN_00418750();
     Transfer4c37Ret720* GetExtraLeveledItem();
     void* FUN_00418800();
@@ -6308,7 +6309,7 @@ struct Transfer4c37C37This
     InventoryStackRecord* FUN_004bfba0(int a, int b, int c);
     void SetInventorySlotExtraData(InventoryStackRecord* e, void* f, int v);
     Transfer4c37ResObj* PlaceObject(void* a, int b, int c, int d, int e, int f);
-    int FUN_004c37d0(Transfer4c37C37Obj* p0, int p1, unsigned char p2, int p3, Transfer4c37Form4* p4, unsigned char p5,
+    int kCreateReferenceCallAddr(Transfer4c37C37Obj* p0, int p1, unsigned char p2, int p3, Transfer4c37Form4* p4, unsigned char p5,
                      Transfer4c37C37Form* p6, int p7, int p8, unsigned char p9, unsigned char p10,
                      InventoryStackRecord* p11);
 };
@@ -6323,7 +6324,7 @@ struct LoadBuffer4160
     virtual void Slot0();
     virtual int GetVersion();
     void FUN_00428110(unsigned int* out);
-    void FUN_0042ce30(unsigned int* out);
+    void BGSLoadFormBuffer_GetOldChangeFlags(unsigned int* out);
     void FUN_007037c0(int version);
     void SetValue(FUN_008c71b0 flags);
     void SetValue(unsigned int flags);
@@ -6338,7 +6339,7 @@ struct ChangeList4160
 struct Inventory4160
 {
     ChangeList4160* changes;
-    void FUN_004d4160(LoadBuffer4160* buffer);
+    void InventoryChanges_LoadGame_ObjectsList(LoadBuffer4160* buffer);
 };
 extern const char g_inventoryChangesSourceFilename[];
 struct MoveFormInfo_ex : public MoveFormInfo
@@ -6607,7 +6608,7 @@ struct Item2_6
     int FUN_0044ddc0();
 };
 bool __cdecl MatchesObjectType(void* a, void* b);
-int __cdecl FUN_00679ba0(void* a);
+int __cdecl TESPackage_GetObjectTypeFromForm(void* a);
 int __fastcall FUN_0044ddc0(ItemCh6* p);
 namespace Rebuild004d0650 {
 struct Object
@@ -6717,7 +6718,7 @@ struct InventoryScanNode
 };
 struct InventoryScanExtra : ExtraDataList
 {
-    int FUN_0041d360();
+    int ExtraDataList_GetExtraLevelItemIndex();
 };
 // 0x004d2480  /MT /Od /Oy- /GS /EHsc /Gy
 // thiscall, 1 stack arg (ret 4) -> bool.  SEH from AutoMemHelper local.
@@ -7525,7 +7526,7 @@ struct XActor17
 };
 struct XHost17
 {
-    bool FUN_004c0cf0(bool*, unsigned int, int, XActor17*, ExtraDataList*, bool, bool, InventoryStackRecord*, bool*);
+    bool InventoryChanges_RemoveWorn(bool*, unsigned int, int, XActor17*, ExtraDataList*, bool, bool, InventoryStackRecord*, bool*);
 };
 
 extern float DAT_010162c0;

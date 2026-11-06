@@ -39,7 +39,8 @@ struct ModifierViewerStrings : NiPSysModifier
 };
 
 // @fnv 0x00c2d540
-void* __cdecl FUN_00c2d540()
+// src: COMMUNITY 0x00c2d540
+void* __cdecl NiPSysColliderManager_GetRTTI()
 {
     return &g_01202780;
 }

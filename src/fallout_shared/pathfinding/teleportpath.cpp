@@ -97,7 +97,8 @@ FUN_006f48b0::FUN_006f48b0() : first(), second(), third(), fourth()
 
 #include <windows.h>
 // @fnv 0x0040b460
-void FUN_0040b460(unsigned int* aui32Value)
+// src: COMMUNITY 0x0040b460
+void NiAtomicIncrement_0040b460(unsigned int* aui32Value)
 {
     InterlockedIncrement((volatile LONG*)aui32Value);
 }

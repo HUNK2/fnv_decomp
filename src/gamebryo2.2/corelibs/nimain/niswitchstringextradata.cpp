@@ -10,7 +10,8 @@
 extern NiRTTI g_011f5eac;
 
 // @fnv 0x00a93740
-NiRTTI* __cdecl FUN_00a93740()
+// src: COMMUNITY 0x00a93740
+NiRTTI* __cdecl NiSwitchStringExtraData_GetRTTI()
 {
     return &g_011f5eac;
 }

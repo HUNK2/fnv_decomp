@@ -95,7 +95,7 @@ struct S_A
         DAT_011f6238.Free(this);
     }
     void FUN_00b6f0b0();
-    void FUN_00b6e450(unsigned int v);
+    void BSTextureManager_PrecreateTextures(unsigned int v);
     static void* operator new(unsigned int n)
     {
         return DAT_011f6238.Alloc(n);
@@ -324,12 +324,13 @@ extern unsigned int DAT_011f9508;
 
 void InitRenderSystem();
 void ClearAllCachedStates();
-void FUN_00ba50d0();
-void FUN_00bc0940();
+void ParticleShader_Free();
+void BoltShader_Free();
 void ClearRefObject();
 
 // @fnv 0x00b578a0
-void FUN_00b578a0()
+// src: COMMUNITY 0x00b578a0
+void BSShaderManager_Reinitialize()
 {
     if (DAT_011f91c6 == 0)
     {
@@ -338,8 +339,8 @@ void FUN_00b578a0()
     }
 
     ClearAllCachedStates();
-    FUN_00ba50d0();
-    FUN_00bc0940();
+    ParticleShader_Free();
+    BoltShader_Free();
     ClearRefObject();
 
     if (DAT_011f91ac != 0)
@@ -361,7 +362,7 @@ void FUN_00b578a0()
         DAT_011f91ac = new S_B;
     }
 
-    DAT_011f91a8->FUN_00b6e450(DAT_011f9508);
+    DAT_011f91a8->BSTextureManager_PrecreateTextures(DAT_011f9508);
 }
 
 extern unsigned int DAT_011f9640;
@@ -409,8 +410,8 @@ struct FnvOwner
     unsigned int m_14;
     unsigned int m_18;
     KeyedList m_1c;
-    void __thiscall FUN_00bd5d70(Vec4* v, unsigned int key);
-    void __thiscall FUN_00bd5e40();
+    void __thiscall DistantLODGroup_Add(Vec4* v, unsigned int key);
+    void __thiscall DistantLODGroup_UpdateGroupBound();
 };
 
 struct ObjR
@@ -507,10 +508,10 @@ void __cdecl FUN_00b59ae0(void* a1, unsigned int key, Obj3* apObj3, ObjA4* apObj
             v.y = apPoints[i].y;
             v.z = apPoints[i].z;
             v.w = a6[i];
-            pOwner->FUN_00bd5d70(&v, key);
+            pOwner->DistantLODGroup_Add(&v, key);
             --count;
         }
-        pOwner->FUN_00bd5e40();
+        pOwner->DistantLODGroup_UpdateGroupBound();
         iIndex = 0;
     }
 
@@ -1114,7 +1115,8 @@ __forceinline bool IsKindOfType(NiObject* p, const NiRTTI* type)
 
 // Loads a distant LOD NIF, clones its geometry into a multi-instance buffer with instance IDs, and caches the resulting Resource under the input key.
 // @fnv 0x00b587c0
-Resource* __cdecl FUN_00b587c0(Input* input)
+// src: COMMUNITY 0x00b587c0
+Resource* __cdecl DistantLODShaderProperty_GetCachedGeometry(Input* input)
 {
 
     if (DAT_011f91c0 == 0)

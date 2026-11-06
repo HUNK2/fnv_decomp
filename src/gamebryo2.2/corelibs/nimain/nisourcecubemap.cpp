@@ -79,7 +79,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4454;
 
 // @fnv 0x00a60cb0
-GlobalObjectO2_00a7b610* __cdecl FUN_00a60cb0()
+// src: COMMUNITY 0x00a60cb0
+GlobalObjectO2_00a7b610* __cdecl NiSourceCubeMap_GetRTTI()
 {
     return &g_011f4454;
 }
@@ -215,8 +216,8 @@ void NiSourceCubeMap::FUN_00a60ba0(NiStream& kStream)
 extern "C"
 {
     void* __cdecl FUN_00aa13e0(unsigned int size);
-    void __cdecl FUN_00a57500(char** pp);
-    void __cdecl FUN_00a76960(char** pp, unsigned int* p);
+    void __cdecl NiStandardizeFilePath(char** pp);
+    void __cdecl NiImageConverter_ConvertFilenameToPlatformSpecific_(char** pp, unsigned int* p);
 }
 
 inline void* operator new(unsigned int, void* p)
@@ -249,8 +250,8 @@ NiSourceCubeMap* __cdecl CreateSpawnedCubeShell(char** ppName, NiRenderer* pOwne
         }
         *ppStoredName = s;
     }
-    FUN_00a57500(ppStoredName);
-    FUN_00a76960(ppStoredName, (unsigned int*)&pShell->m_kPlatformFilename.m_kHandle);
+    NiStandardizeFilePath(ppStoredName);
+    NiImageConverter_ConvertFilenameToPlatformSpecific_(ppStoredName, (unsigned int*)&pShell->m_kPlatformFilename.m_kHandle);
     if (pShell->m_uiFace != 0)
     {
         pShell->m_uiFace = 0;
@@ -291,8 +292,8 @@ NiSourceCubeMap* __cdecl FUN_00a61040(char** ppName, int aValue, NiRenderer* pRe
         *ppNameSlot = name;
     }
 
-    FUN_00a57500(ppNameSlot);
-    FUN_00a76960(ppNameSlot, (unsigned int*)&p->m_kPlatformFilename.m_kHandle);
+    NiStandardizeFilePath(ppNameSlot);
+    NiImageConverter_ConvertFilenameToPlatformSpecific_(ppNameSlot, (unsigned int*)&p->m_kPlatformFilename.m_kHandle);
 
     if (p->m_uiFace != 0)
     {
@@ -567,7 +568,7 @@ void NiSourceCubeMap::LoadResources(char* apName0, char* apName1, char* apName2,
             return;
         }
     }
-    FUN_00a60940(res[0], res[1], res[2], res[3], res[4], res[5]);
+    LoadFromPixelData(res[0], res[1], res[2], res[3], res[4], res[5]);
     S00a60cc0_ReleaseAll(res);
 }
 
@@ -670,7 +671,8 @@ struct PixelPtr
 
 // Allocates a Pixels object with six faces, copies each level from the six inputs, then releases their references.
 // @fnv 0x00a60940
-void NiSourceCubeMap::FUN_00a60940(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* e, Pixels* f)
+// src: COMMUNITY 0x00a60940
+void NiSourceCubeMap::LoadFromPixelData(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* e, Pixels* f)
 {
     void* storage = FUN_00aa13e0(sizeof(Pixels));
     Pixels* created;

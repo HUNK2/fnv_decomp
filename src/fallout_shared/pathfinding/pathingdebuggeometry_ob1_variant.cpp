@@ -216,9 +216,9 @@ struct Ref
     void ApplyActorSpells();
     Ref* FUN_008d6f30();
     bool FUN_005656d0();
-    bool FUN_00564d80();
+    bool GetTargeted();
     void FUN_0093a660(Ref* a);
-    void FUN_00967350(Ref* a);
+    void PlayerCharacter_RemovePerceivedActor(Ref* a);
     void FUN_00952c30(Ref* a);
     int FUN_00931850();
     bool FUN_00574900();
@@ -226,22 +226,22 @@ struct Ref
     void FUN_0088d640();
     void FUN_00407800(Proc* a);
     void FUN_0056c880(unsigned int a, bool b);
-    void* FUN_0056ac90();
+    void* TESObjectREFR_GetEnableStateChildList();
     bool FUN_0056aa70();
     void FUN_0056c780(int a);
     void FUN_00573f40();
     void FUN_00572270();
     void FUN_00579ac0(bool a);
     Ref* FUN_007af430();
-    void FUN_00574400();
+    void TESObjectREFR_Disable();
     void FUN_008b01c0();
     void FUN_00545560(Ref* a);
     bool FUN_00549580();
 };
 struct ExtraList
 {
-    Ref* FUN_0041e310();
-    bool FUN_0041dbd0();
+    Ref* ExtraDataList_GetAshPileRef();
+    bool ExtraDataList_ShouldPopInWhenEnabledByParent();
     void* FUN_0041df90();
     void FUN_0041de40(Ref* a);
 };
@@ -587,7 +587,7 @@ extern Tes* DAT_011dea10;
 extern GlobalObj DAT_011e0e80;
 void __cdecl FUN_008cddd0(Ref* a, int b);
 int __cdecl FUN_00570f60();
-void __cdecl FUN_00835980(Ref* a);
+void __cdecl FalloutRadio_DisableNPCRadio(Ref* a);
 struct ObjectResolver
 {
     int unk00;

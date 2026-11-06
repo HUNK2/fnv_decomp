@@ -43,7 +43,7 @@ NiUnionBV* __fastcall NiUnionBV_Clone(void* self);
 // is materialised from a relocated address expression instead.  That keeps
 // the original six-byte "mov eax, <imm32> ; ret" shape byte for byte.
 extern int g_fnv_00e9ecc0_value_anchor;
-int FUN_00e9ecc0();
+int bhkCharacterStateFlying_Update();
 
 class A64330Obj
 {
@@ -107,7 +107,7 @@ struct Items
 };
 struct UnionLoadBase
 {
-    void FUN_00a89af0(void* stream);
+    void nullsub_3(void* stream);
 };
 unsigned int FUN_00e9cab0(void*);
 // @fnv 0x00e9f020
@@ -116,7 +116,7 @@ unsigned int FUN_00e9cab0(void*);
 void __fastcall NiUnionBV_LoadBinary(NiUnionBV* self, void*, char* stream)
 {
     unsigned int num;
-    ((UnionLoadBase*)self)->FUN_00a89af0(stream);
+    ((UnionLoadBase*)self)->nullsub_3(stream);
     NiBinaryStream* in = *(NiBinaryStream**)(stream + 0x24c);
     {
         unsigned int sz = 4;

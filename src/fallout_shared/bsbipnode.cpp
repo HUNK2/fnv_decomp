@@ -30,7 +30,7 @@ void AnimationInterpolatorNode::UpdateInterpolatorsAtTime(float time, bool selec
                 if (transform.IsTranslateXNotNegatedConstant())
                     target->FUN_00440460(transform.GetTranslate());
                 if (transform.IsRotateValid())
-                    target->FUN_004f0160(transform.GetOffsetC());
+                    target->NiNode_SetRotate(transform.GetOffsetC());
                 if (transform.IsScaleValid())
                     target->FUN_00440490(transform.GetFloatAtOffset1C());
             }
@@ -44,7 +44,7 @@ void AnimationInterpolatorNode::UpdateInterpolatorsAtTime(float time, bool selec
             if (transform.IsTranslateXNotNegatedConstant())
                 target->FUN_00440460(transform.GetTranslate());
             if (transform.IsRotateValid())
-                target->FUN_004f0160(transform.GetOffsetC());
+                target->NiNode_SetRotate(transform.GetOffsetC());
             if (transform.IsScaleValid())
                 target->FUN_00440490(transform.GetFloatAtOffset1C());
         }
@@ -53,7 +53,7 @@ void AnimationInterpolatorNode::UpdateInterpolatorsAtTime(float time, bool selec
 
 struct FUN_004f0000_shell : public NiAVObject
 {
-    bool FUN_004f0000();
+    bool NiAVObject_GetHasPropertyController();
 };
 
 struct FUN_00456630_helper
@@ -62,7 +62,8 @@ struct FUN_00456630_helper
 };
 
 // @fnv 0x004f0000
-bool FUN_004f0000_shell::FUN_004f0000()
+// src: COMMUNITY 0x004f0000
+bool FUN_004f0000_shell::NiAVObject_GetHasPropertyController()
 {
     return ((FUN_00456630_helper*)this)->FUN_00456630(0x40000);
 }

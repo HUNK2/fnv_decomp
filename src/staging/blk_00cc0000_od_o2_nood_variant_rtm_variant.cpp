@@ -326,11 +326,12 @@ struct __declspec(align(16)) PoseVector {
         value=_mm_add_ps(accum.value,accum.value);
     }
 };
-struct PoseQuaternion {PoseVector vector; void FUN_00c66320(const PoseQuaternion&,const PoseQuaternion&);};
+struct PoseQuaternion {PoseVector vector; void setMul(const PoseQuaternion&,const PoseQuaternion&);};
 extern "C" unsigned int __security_cookie;
 extern "C" void __fastcall __security_check_cookie(unsigned int);
 struct QuaternionProduct {LocalM128 quad;};
-__declspec(noinline) void PoseQuaternion::FUN_00c66320(const PoseQuaternion& a,const PoseQuaternion& b) {
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void PoseQuaternion::setMul(const PoseQuaternion& a,const PoseQuaternion& b) {
     unsigned int cookie=__security_cookie;
     PoseVector cross;cross.cross(a.vector,b.vector);
     LocalM128 aw=_mm_shuffle_ps(a.vector.value,a.vector.value,0xff);
@@ -362,7 +363,7 @@ struct PoseTransform {
     __forceinline void multiply(const PoseTransform& a,const PoseTransform& b) {
         PoseVector moved;moved.rotate(a.rotation.vector,b.translation);
         translation.value=_mm_add_ps(a.translation.value,moved.value);
-        rotation.FUN_00c66320(a.rotation,b.rotation);
+        rotation.setMul(a.rotation,b.rotation);
         scale.value=_mm_mul_ps(a.scale.value,b.scale.value);
     }
     __forceinline void relative(const PoseTransform& a,const PoseTransform& b) {
@@ -377,10 +378,10 @@ struct PoseState {
     SkeletonData* skeleton;PoseTransform* local;int unk08,unk0c;
     PoseTransform* world;int unk14,unk18;int* flags;int unk20,unk24;
     bool synchronized;
-    const PoseTransform& FUN_00cda180(int);
+    const PoseTransform& hkaPose_calculateBoneModelSpace(int);
     __forceinline const PoseTransform& getWorld(int i) {
         if(!(flags[i]&2))return world[i];
-        return FUN_00cda180(i);
+        return hkaPose_calculateBoneModelSpace(i);
     }
     __forceinline const PoseTransform& getLocal(int i) {
         if(flags[i]&1) {
@@ -406,7 +407,7 @@ struct PoseState {
             if(state&4) {state|=2;state&=~4;flags[bone]=state;}
         }
     }
-    PoseTransform& FUN_00cda8e0(int index);
+    PoseTransform& hkaPose_accessBoneLocalSpace(int index);
 };
 struct SpawnAllocator {
     virtual void v00();
@@ -602,7 +603,7 @@ struct EntityOwner {
 class S_00cd3c20_Obj
 {
 public:
-    void FUN_00c6cba0();
+    void bhkCharacterController_UpdateState();
     int unk000;
     int unk004;
     int unk008;
@@ -930,7 +931,7 @@ public:
     int unk51c;
     int unk520;
 };
-void __stdcall FUN_00cd3c20(S_00cd3c20_Obj* obj);
+void __stdcall bhkCharacterStateClimbing_Update(S_00cd3c20_Obj* obj);
 struct ShapeVector
 {
     hkVec4 m_v;
@@ -1196,7 +1197,7 @@ public:
 extern void* DAT_01268670;
 extern const char DAT_0101c29c[];
 extern const char DAT_010ca6a4[];
-char* __cdecl FUN_00a7d330(void*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 char* __cdecl FUN_00a7d550(const char*,float);
 void __cdecl FUN_00458620(PositionText525*,const Quaternion525*);
 struct RotationOwner525 {
@@ -1578,7 +1579,7 @@ struct Owner { int unk00,unk04; Target* target; };
 struct Body { int unk00,unk04,unk08,unk0c,unk10,unk14; Owner* owner; int unk1c; BodyTransform transform; };
 extern BodyTransform identity;
 extern const char nodeName[];
-void FUN_00624b10(Mat*,BodyTransform*);
+void HK2NI_00624b10(Mat*,BodyTransform*);
 void FUN_00458620(NiPoint3*,LocalM128*);
 struct Subject { int unk00,unk04; Body* body; void FUN_00ccf150(ConvexShapeNode*,void*); };
 extern "C" {
@@ -1625,7 +1626,7 @@ public:
     int unk08;
     int unk0c;
     BoundsEntry* m_pEntries;
-    void FUN_00cda340();
+    void hkaPose_syncModelSpace();
     void FUN_00cda610(BoundsBox* out);
 };
 extern __declspec(thread) int DAT_tls_field;
@@ -2078,7 +2079,7 @@ struct TagObj {
     float x, y, z;
     unsigned int FUN_00a59af0(const char* s);
 };
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 namespace fnvc_adapt { unsigned int __cdecl FUN_00a7d550(const char* s, float f); }
 void __cdecl FUN_004a3970(TagObj* t, const LocalM128* v);
 extern const char g_011d3e74_arg1[];
@@ -2960,7 +2961,8 @@ __forceinline void scale(LocalM128& v, float f)
 }
 
 // @fnv 0x00cc96b0
-void __cdecl FUN_00cc96b0(float value, S00cc96b0_ScaleObject* object)
+// src: COMMUNITY 0x00cc96b0
+void __cdecl hkBallAndSocketConstraintCinfo_ApplyScale(float value, S00cc96b0_ScaleObject* object)
 {
     if (object && value != 1.0f) {
         scale(object->vector20, value);
@@ -3051,7 +3053,7 @@ void _ReadBarrier();
 void _ReadWriteBarrier();
 }
 struct Motion;
-struct FUN_00c6cba0_class { void FUN_00c6cba0(); };
+struct FUN_00c6cba0_class { void bhkCharacterController_UpdateState(); };
 struct MotionVtable {
 void* slot00;
 void* slot04;
@@ -3410,7 +3412,7 @@ float value544;
 float value548;
 float value54c;
 void SubtractVectors(LocalM128*);
-void FUN_00c6cba0();
+void bhkCharacterController_UpdateState();
 };
 
 struct __declspec(align(16)) StoredVector {
@@ -3419,7 +3421,7 @@ struct __declspec(align(16)) StoredVector {
     __forceinline operator const LocalM128&() const { return *reinterpret_cast<const LocalM128*>(&lanes[0]); }
 };
 struct Step { float time; LocalM128 surfaceVelocity; LocalM128 up; LocalM128 normal; LocalM128 oldVelocity; LocalM128 gravity; float limit; LocalM128 basis; };
-extern "C" void __cdecl FUN_00d6aef0(Step*, LocalM128*);
+extern "C" void __cdecl hkpCharacterMovementUtil_calculateMovement(Step*, LocalM128*);
 
 extern LocalM128 DAT_010c7160;
 extern float DAT_01011d78;
@@ -3427,7 +3429,8 @@ __forceinline void transferScalar(float& destination, float source) {
     *static_cast<volatile float*>(&destination)=source;
 }
 // @fnv 0x00cd3cb0
-void __stdcall FUN_00cd3cb0(Motion* object) {
+// src: COMMUNITY 0x00cd3cb0
+void __stdcall bhkCharacterStateProjectile_Update(Motion* object) {
     float b,z;
     Step scale;
     StoredVector amount;
@@ -3448,7 +3451,7 @@ void __stdcall FUN_00cd3cb0(Motion* object) {
         scale.gravity = _mm_setr_ps(scale.gravity.m128_f32[0],b,z,0.0f);
         scale.limit = 100000.0f;
         scale.basis = object->vec4a0;
-        FUN_00d6aef0(&scale,&object->vec4f0);
+        hkpCharacterMovementUtil_calculateMovement(&scale,&object->vec4f0);
     } else {
         *static_cast<volatile float*>(&scale.time)=object->value534;
         scale.oldVelocity = object->vec4f0;
@@ -3460,7 +3463,7 @@ void __stdcall FUN_00cd3cb0(Motion* object) {
         scale.gravity = _mm_setr_ps((((scale.gravity.m128_f32)[(0)])),z,b,0.0f);
         scale.limit = 100000.0f;
         scale.basis = object->vec4a0;
-        FUN_00d6aef0(&scale,&object->vec4f0);
+        hkpCharacterMovementUtil_calculateMovement(&scale,&object->vec4f0);
         b = object->value54c;
         if (b > 0.0f) {
             LocalM128 normal=object->vec4c0;
@@ -3492,7 +3495,7 @@ void __stdcall FUN_00cd3cb0(Motion* object) {
             object->vec4f0 = _mm_add_ps(_mm_mul_ps(_mm_mul_ps(_mm_shuffle_ps(pForm,pForm,0),cv),_mm_shuffle_ps(q,q,0)),object->vec4f0);
         }
     }
-    if (11 != object->state) reinterpret_cast<FUN_00c6cba0_class*>(object)->FUN_00c6cba0();
+    if (11 != object->state) reinterpret_cast<FUN_00c6cba0_class*>(object)->bhkCharacterController_UpdateState();
 }
 
 extern "C" void _ReadBarrier(void);
@@ -3576,10 +3579,10 @@ struct S00cd3fb0_MotionVtable {
     S00cd3fb0_MotionTransform* (__thiscall *GetResult)(S00cd3fb0_MotionObject*);
 };
 struct S00cd3fb0_FUN_00c70550_class { float FUN_00c70550(); };
-struct S00cd3fb0_FUN_00c6cba0_class { void FUN_00c6cba0(); };
-struct S00cd3fb0_FUN_00c6e2e0_cls { void FUN_00c6e2e0(); };
+struct S00cd3fb0_FUN_00c6cba0_class { void bhkCharacterController_UpdateState(); };
+struct S00cd3fb0_FUN_00c6e2e0_cls { void bhkCharacterController_UpdateFalling(); };
 struct S00cd3fb0_FUN_00c6e300_class { void SubtractVectors(LocalM128*); };
-extern void __cdecl FUN_00d6aef0(S00cd3fb0_MotionParams*, hkVector4*);
+extern void __cdecl hkpCharacterMovementUtil_calculateMovement(S00cd3fb0_MotionParams*, hkVector4*);
 
 class S00cd3fb0_MotionObject {
 public:
@@ -3998,7 +4001,7 @@ void S00cd3fb0_MotionContext::FUN_00cd3fb0(S00cd3fb0_MotionObject* object)
     if (object->m_uiContentCount != 11) {
         if (object->m_uiContentCount != 1) {
             object->m_factor = 0.0f;
-            ((S00cd3fb0_FUN_00c6cba0_class*)object)->FUN_00c6cba0();
+            ((S00cd3fb0_FUN_00c6cba0_class*)object)->bhkCharacterController_UpdateState();
             return;
         }
         object->m_uiContentCount = 11;
@@ -4020,7 +4023,7 @@ void S00cd3fb0_MotionContext::FUN_00cd3fb0(S00cd3fb0_MotionObject* object)
             params.m_v50.set(params.m_v50.m_vComponents.m128_f32[0],x,DAT_01011d78,DAT_01011d78);
         }
         hkVector4* vel = &object->m_fVelocity;
-        FUN_00d6aef0(&params, vel);
+        hkpCharacterMovementUtil_calculateMovement(&params, vel);
         LocalM128 normal = object->m_vHitNormal.m_vComponents;
         LocalM128 product = _mm_mul_ps(_mm_load_ps(reinterpret_cast<const float*>(&normal)),object->m_fVelocity.m_vComponents);
         LocalM128 sum = _mm_add_ss(_mm_shuffle_ps(product,product,0x55),product);
@@ -4042,7 +4045,7 @@ void S00cd3fb0_MotionContext::FUN_00cd3fb0(S00cd3fb0_MotionObject* object)
     LocalM128 result = _mm_mul_ps(a,dir);
     result = _mm_mul_ps(result,s2.broadcast());
     object->m_fVelocity.m_vComponents = _mm_add_ps(result,object->m_fVelocity.m_vComponents);
-    ((S00cd3fb0_FUN_00c6e2e0_cls*)object)->FUN_00c6e2e0();
+    ((S00cd3fb0_FUN_00c6e2e0_cls*)object)->bhkCharacterController_UpdateFalling();
 }
 
 extern "C" {
@@ -4462,7 +4465,7 @@ struct MotionController {
     float heading;
     unsigned int unk548;
     float directionScale;
-    void FUN_00c6cba0();
+    void bhkCharacterController_UpdateState();
     const void* FUN_00c89720();
     void SubtractVectors(LocalM128* result);
 };
@@ -4499,7 +4502,7 @@ __forceinline LocalM128 invLength(LocalM128 value)
 void __stdcall FUN_00cd4280(MotionController* controller)
 {
     if (controller->state != 11 && (controller->state == 0 || controller->state == 3)) {
-        controller->FUN_00c6cba0();
+        controller->bhkCharacterController_UpdateState();
         return;
     }
     controller->flags |= 0x2000; _ReadWriteBarrier();
@@ -4545,7 +4548,7 @@ void __stdcall FUN_00cd4280(MotionController* controller)
         controller->heading = outBuf.m128_f32[2];
     }
     controller->state = 2;
-    controller->FUN_00c6cba0();
+    controller->bhkCharacterController_UpdateState();
     controller->flags &= 0xfffdfeff; _ReadWriteBarrier();
     controller->listeners->FUN_00cbc510(controller->listenerIndex)->update(controller);
 }
@@ -4701,8 +4704,8 @@ public:
     inline const NVector& imag() const {return m_vec;}
     __forceinline void SetConjugate(const NQuaternion& q) {m_vec.negThree(q.imag());}
     void FUN_00cd9d10(const NVector&,const NVector&);
-    void FUN_00c66320(const NQuaternion&,const NQuaternion&);
-    void FUN_005611c0();
+    void setMul(const NQuaternion&,const NQuaternion&);
+    void normalize_005611c0();
 };
 __forceinline void NVector::SetRotatedDirection(const NQuaternion& q,const NVector& a) {
     NVector half;half.quad()=DAT_010c71e0;
@@ -4762,11 +4765,11 @@ template<class T> static __forceinline T valueMin(T a,T b) {return a<b?a:b;}
 struct NativePose {
     void* skeleton;NativeArray<NTransform> locals,transforms;NativeArray<unsigned> flags;
     bool modelSync,localSync;
-    const NTransform& FUN_00cda180(int) const;
-    NTransform& FUN_00cdad80(int,int);
+    const NTransform& hkaPose_calculateBoneModelSpace(int) const;
+    NTransform& accessBoneModelSpace(int,int);
     __forceinline const NTransform& get(int i) const {
         if(!(flags[i]&2))return transforms[i];
-        return FUN_00cda180(i);
+        return hkaPose_calculateBoneModelSpace(i);
     }
 };
 struct NativeInput {
@@ -4914,7 +4917,8 @@ inline void NQuaternion::FUN_00cd9d10(const NVector& from,const NVector& to) {
     }
 }
 
-__declspec(noinline) void NQuaternion::FUN_00c66320(const NQuaternion& a,const NQuaternion& b) {
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void NQuaternion::setMul(const NQuaternion& a,const NQuaternion& b) {
     ::LocalM128 av=a.m_vec.quad(),bv=b.m_vec.quad();
     ::LocalM128 cp=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(av,av,0xc9),_mm_shuffle_ps(bv,bv,0xd2)),_mm_mul_ps(_mm_shuffle_ps(av,av,0xd2),_mm_shuffle_ps(bv,bv,0xc9)));
     ::LocalM128 xyz=_mm_add_ps(_mm_add_ps(cp,_mm_mul_ps(_mm_shuffle_ps(av,av,0xff),bv)),_mm_mul_ps(_mm_shuffle_ps(bv,bv,0xff),av));
@@ -5064,10 +5068,10 @@ const NVector& offset=self->drift;
             localNormal.SetRotatedDirection(inverse.getRotation(),desiredUp);
             NQuaternion rotation,combined,interpolated;
             rotation.FUN_00cd9d10(localUp,localNormal);
-            combined.FUN_00c66320(rotation,originalRotation);
+            combined.setMul(rotation,originalRotation);
             interpolated.m_vec.setInterpolate4(originalRotation.m_vec,combined.m_vec,self->weight);
-            interpolated.FUN_005611c0();
-            pose.FUN_00cdad80(self->settings.bone2,1).SetBodyOrientation(interpolated);
+            interpolated.normalize_005611c0();
+            pose.accessBoneModelSpace(self->settings.bone2,1).SetBodyOrientation(interpolated);
         }
     } else out.error=0.0f;
     self->oldNormal=savedNormal;
@@ -5384,14 +5388,16 @@ __declspec(noinline) void MultiplyQuaternions(const hkQuaternion& q0,const hkQua
     QuaternionQuad(out)=_mm_shuffle_ps(vec.m_vComponents,high,0xc4);
 }
 
-__declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1)
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void hkQuaternion::setMul(const hkQuaternion& q0, const hkQuaternion& q1)
 { MultiplyQuaternions(q0,q1,*this); }
 
 extern "C" {
 ::LocalM128 _mm_rsqrt_ps(::LocalM128);::LocalM128 _mm_cmpeq_ps(::LocalM128,::LocalM128);
 ::LocalM128 _mm_unpacklo_ps(::LocalM128,::LocalM128);::LocalM128 _mm_movelh_ps(::LocalM128,::LocalM128);
 }
-__declspec(noinline) void hkQuaternion::FUN_005611c0(){const ::LocalM128 half=_mm_set_ps1(0.5f),three=_mm_set_ps1(3.0f),zero=_mm_setzero_ps();
+// src: COMMUNITY 0x005611c0
+__declspec(noinline) void hkQuaternion::normalize_005611c0(){const ::LocalM128 half=_mm_set_ps1(0.5f),three=_mm_set_ps1(3.0f),zero=_mm_setzero_ps();
 
  const ::LocalM128 input=QuaternionQuad(*this);
  const ::LocalM128 x=_mm_shuffle_ps(input,input,0);
@@ -5431,13 +5437,13 @@ __forceinline void hkQsTransform::SetConjugate(const hkQsTransform& t)
 __forceinline void hkQsTransform::SetProduct(const hkQsTransform& a, const hkQsTransform& b)
     {
         m_vTranslation.m_vComponents = _mm_add_ps(RotateForward(QuaternionQuad(a.m_rotation),b.m_vTranslation.m_vComponents), a.m_vTranslation.m_vComponents);
-        m_rotation.FUN_00c66320(a.m_rotation, b.m_rotation);
+        m_rotation.setMul(a.m_rotation, b.m_rotation);
         m_vScale.m_vComponents = _mm_mul_ps(a.m_vScale.m_vComponents, b.m_vScale.m_vComponents);
     }
 __forceinline void hkQsTransform::setMulContext(const hkQsTransform& a, const hkQsTransform& b)
     {
         m_vTranslation.m_vComponents = _mm_add_ps(ContextForward(QuaternionQuad(a.m_rotation),b.m_vTranslation.m_vComponents), a.m_vTranslation.m_vComponents);
-        m_rotation.FUN_00c66320(a.m_rotation, b.m_rotation);
+        m_rotation.setMul(a.m_rotation, b.m_rotation);
         m_vScale.m_vComponents = _mm_mul_ps(a.m_vScale.m_vComponents, b.m_vScale.m_vComponents);
     }
 __forceinline void hkQsTransform::setRelativeContext(const hkQsTransform& a, const hkQsTransform& b)
@@ -5449,13 +5455,13 @@ __forceinline void hkQsTransform::setRelativeContext(const hkQsTransform& a, con
 __forceinline void hkQsTransform::setMulInitial(const hkQsTransform& a, const hkQsTransform& b)
     {
         m_vTranslation.m_vComponents = _mm_add_ps(InitialForward(a.m_rotation,b.m_vTranslation), a.m_vTranslation.m_vComponents);
-        m_rotation.FUN_00c66320(a.m_rotation, b.m_rotation);
+        m_rotation.setMul(a.m_rotation, b.m_rotation);
         m_vScale.m_vComponents = _mm_mul_ps(a.m_vScale.m_vComponents, b.m_vScale.m_vComponents);
     }
 __forceinline void hkQsTransform::setMulFirst(const hkQsTransform& a, const hkQsTransform& b)
     {
         m_vTranslation.m_vComponents = _mm_add_ps(FirstRestoreForward(b.m_vTranslation.m_vComponents,QuaternionQuad(a.m_rotation)), a.m_vTranslation.m_vComponents);
-        m_rotation.FUN_00c66320(a.m_rotation, b.m_rotation);
+        m_rotation.setMul(a.m_rotation, b.m_rotation);
         m_vScale.m_vComponents = _mm_mul_ps(a.m_vScale.m_vComponents, b.m_vScale.m_vComponents);
     }
 __forceinline void hkQsTransform::SetMulInverse(const hkQsTransform& a, const hkQsTransform& b)
@@ -5490,8 +5496,8 @@ struct SkeletonPoseData
     bool m_bPoseFlag;
     bool m_bPoseInitialized;
 
-    const hkQsTransform& FUN_00cda180(int boneIdx);
-    hkQsTransform& FUN_00cdad80(int boneIdx, int propagate);
+    const hkQsTransform& hkaPose_calculateBoneModelSpace(int boneIdx);
+    hkQsTransform& accessBoneModelSpace(int boneIdx, int propagate);
 
     __forceinline const hkQsTransform& getBoneModelSpace(int boneIdx)
     {
@@ -5499,7 +5505,7 @@ struct SkeletonPoseData
         {
             return m_pModelPose[boneIdx];
         }
-        return FUN_00cda180(boneIdx);
+        return hkaPose_calculateBoneModelSpace(boneIdx);
     }
 
     __forceinline const hkQsTransform& getBoneLocalSpace(int boneIdx, bool externalRootCopy=false)
@@ -5575,7 +5581,7 @@ struct hkaPoseTyped
         {
             return m_pModelPose[boneIdx];
         }
-        return ((SkeletonPoseData*)this)->FUN_00cda180(boneIdx);
+        return ((SkeletonPoseData*)this)->hkaPose_calculateBoneModelSpace(boneIdx);
     }
 
     __forceinline const hkQsTransform& getBoneLocalSpace(int boneIdx, bool externalRootCopy=false)
@@ -5747,7 +5753,7 @@ IkVector4 secondTwist;
                     IkVector4 firstToTarget; firstToTarget.m_vComponents = _mm_sub_ps(ptr.m_vComponents, endPosMS);
 
                     hkQuaternion firstPos;CopyIkRotation(firstPos,pose.getBoneModelSpace(setup.m_sSecondJointIndex).m_rotation);
-                    firstPos.FUN_005611c0();
+                    firstPos.normalize_005611c0();
                     const ::LocalM128 hingeAxis = HingeRotation(QuaternionQuad(firstPos),setup.m_vHingeAxisLS.m_vComponents);
 
                     
@@ -5777,7 +5783,7 @@ const ::LocalM128 sy=_mm_shuffle_ps(squaredOffset,squaredOffset,0x55);
                     (_mm_store_ss)(&a, Dot3(y, d1));
                 }
                 {
-                    hkQsTransform& secondRot = pose.FUN_00cdad80(setup.m_sSecondJointIndex, 1);
+                    hkQsTransform& secondRot = pose.accessBoneModelSpace(setup.m_sSecondJointIndex, 1);
                     IkVector4 pForm;
                     const hkQuaternion fromDir = secondRot.m_rotation; 
                     pForm.m_vComponents = Normalized3Approx(RotatedDir(QuaternionQuad(fromDir), setup.m_vHingeAxisLS.m_vComponents));
@@ -5787,8 +5793,8 @@ const ::LocalM128 sy=_mm_shuffle_ps(squaredOffset,squaredOffset,0x55);
                     firstMS = setup.m_fFourthIkParameter * firstMS;
                     hkQuaternion s2eN;
                     s2eN.FUN_00cb2450(pForm, firstMS);
-                    secondRot.m_rotation.FUN_00c66320(s2eN, fromDir);
-                    secondRot.m_rotation.FUN_005611c0();
+                    secondRot.m_rotation.setMul(s2eN, fromDir);
+                    secondRot.m_rotation.normalize_005611c0();
                 }
             }
 
@@ -5821,17 +5827,17 @@ hkQuaternion kIter;
 { IkVector4 desired; desired.m_vComponents = Normalized3(_mm_sub_ps(ptr.m_vComponents, b.m_vTranslation.m_vComponents));
 kIter.FUN_00cdb910(setup.m_fThirdIkParameter, jointMS, desired); }
 
-                hkQsTransform& firstTwist = pose.FUN_00cdad80(setup.m_sFirstJointIndex, 1);
+                hkQsTransform& firstTwist = pose.accessBoneModelSpace(setup.m_sFirstJointIndex, 1);
                 const hkQuaternion d2 = firstTwist.m_rotation;
-                firstTwist.m_rotation.FUN_00c66320(kIter, d2);
-                firstTwist.m_rotation.FUN_005611c0();
+                firstTwist.m_rotation.setMul(kIter, d2);
+                firstTwist.m_rotation.normalize_005611c0();
             }
             }
 
         if (setup.m_bSecondIkOption)
         {
             hkQuaternion hd;
-            hd.FUN_00c74ac0(setup.m_qFirstIkRotation, setup.m_qSecondIkRotation);
+            hd.setMulInverse(setup.m_qFirstIkRotation, setup.m_qSecondIkRotation);
             const hkQsTransform& endPos2 = pose.getBoneModelSpace(setup.m_sThirdJointIndex);
             hkQsTransform j;
             j = endPos2;

@@ -31,7 +31,8 @@
 
 
 // @fnv 0x009ac170
-void __thiscall Explosion::FUN_009ac170(ActorCause* apActorCause)
+// src: COMMUNITY 0x009ac170
+void __thiscall Explosion::SetActorCause_009ac170(ActorCause* apActorCause)
 {
     m_pActorCause = apActorCause;
 }
@@ -215,11 +216,12 @@ struct S009afc70
 {
     char m_auiShapeKeys[0x14];
     NavMeshPtr m_navMeshPtr;
-    void* __thiscall FUN_009afc70(void*);
+    void* __thiscall hkpFixedBufferCdPointCollector_hasHit(void*);
 };
 // Calls FUN_00622570 on a1 with true when m_navMeshPtr.FUN_00458b50() returns a value greater than 0, then returns a1.
 // @fnv 0x009afc70
-void* __thiscall S009afc70::FUN_009afc70(void* apTarget)
+// src: COMMUNITY 0x009afc70
+void* __thiscall S009afc70::hkpFixedBufferCdPointCollector_hasHit(void* apTarget)
 {
     ((H00622570*)apTarget)->FUN_00622570((int)m_navMeshPtr.FUN_00458b50() > 0);
     return apTarget;
@@ -277,10 +279,11 @@ struct RagdollCallView
 struct FUN_009b0d30_shell
 {
     void __thiscall activate_00c9c1d0();
-    void __thiscall FUN_009b0d30(int);
+    void __thiscall hkpRigidBody_applyAngularImpulse(int);
 };
 // @fnv 0x009b0d30
-void __thiscall FUN_009b0d30_shell::FUN_009b0d30(int a1)
+// src: COMMUNITY 0x009b0d30
+void __thiscall FUN_009b0d30_shell::hkpRigidBody_applyAngularImpulse(int a1)
 {
     this->activate_00c9c1d0();
     reinterpret_cast<RagdollCallView*>(reinterpret_cast<TESDataHandler*>(this)->GetBGSRagdollList())->F21(a1);
@@ -329,7 +332,8 @@ struct RetObj
 };
 // Returns true if _FNV_GetObjectReference() is non-null and its vf37() call returns true, otherwise false.
 // @fnv 0x00565690
-bool Actor::FUN_00565690()
+// src: COMMUNITY 0x00565690
+bool Actor::TESObjectREFR_BaseIsQuestItem()
 {
     return _FNV_GetObjectReference() ? _FNV_GetObjectReference()->vf37() : false;
 }
@@ -705,11 +709,12 @@ struct FUN_005762b0_cls
     {
         return 0;
     }
-    int FUN_005762b0(int a1);
+    int TESObjectREFR_GetLookingAtLocation(int a1);
 };
 // Calls vf125 with a1 and the result of a chain of vf118/vf119 calls on local Vec3f values, then passes that to Callee00439e90, and returns a1.
 // @fnv 0x005762b0
-int FUN_005762b0_cls::FUN_005762b0(int a1)
+// src: COMMUNITY 0x005762b0
+int FUN_005762b0_cls::TESObjectREFR_GetLookingAtLocation(int a1)
 {
     Vec3f a2;
     Vec3f bTmp;
@@ -901,7 +906,8 @@ struct MobileObjectFinishLoadStep
 };
 
 // @fnv 0x009b25b0
-void Explosion::FUN_009b25b0(void* apBuffer)
+// src: COMMUNITY 0x009b25b0
+void Explosion::InitLoadGame_009b25b0(void* apBuffer)
 {
     reinterpret_cast<MobileObjectFinishLoadStep*>(this)->BaseFinishLoad(apBuffer);
     pOwnerRef = pOwnerRef ? dynamic_cast<TESObjectREFR*>(GetFormByID((unsigned int)pOwnerRef)) : 0;
@@ -1354,7 +1360,8 @@ struct Vec3W7
 extern Vec3W7 __NiPoint3_ZERO;
 
 // @fnv 0x009b2790
-void Explosion::FUN_009b2790(BGSLoadFormBuffer* apBuffer)
+// src: COMMUNITY 0x009b2790
+void Explosion::RevertBGS_009b2790(BGSLoadFormBuffer* apBuffer)
 {
     MobileObject::Revert(apBuffer);
     ReferenceCauseInfo = 0;
@@ -1477,7 +1484,7 @@ struct IdFlagState
 };
 struct AudioX
 {
-    IdFlagState FUN_00ad7550(const char*, unsigned);
+    IdFlagState BSAudio_GetSoundHandleByEditorName(const char*, unsigned);
 };
 AudioX* FUN_00453a70();
 extern Setting DAT_011d0520, DAT_011d0280, DAT_011d0da4, DAT_011d0ce4, DAT_011d0a78, DAT_011c7ae8;
@@ -1746,14 +1753,14 @@ struct RefX
 
     BaseX* FUN_004181e0();
     float FUN_00644930();
-    void FUN_009b2940();
-    void FUN_009ad670();
+    void Explosion_TestExplosionUnderWater();
+    void Init3D();
     bool IsNotCulled();
     void FUN_009acd00();
     void* FUN_00575d70();
     CellX* FUN_008d6f30();
     const ExplosionPosition& FUN_00430830();
-    void FUN_009b13a0();
+    void Explosion_UpdateRadiation();
     struct ExtraX* FUN_005d43c0();
     void UpdateCastSound();
     unsigned FUN_009ad610();
@@ -1803,8 +1810,8 @@ void RefX::UpdateExplosion()
     float scaled = ComputeSquaredRatioComplement(FUN_00644930(), distance);
     if (scaled > *DAT_011d0520.FUN_00403e20() && !disabled)
         FUN_005299a0(FUN_009ad630(), 1.0f, 0);
-    FUN_009b2940();
-    FUN_009ad670();
+    Explosion_TestExplosionUnderWater();
+    Init3D();
     if (IsNotCulled())
         FUN_009acd00();
     else
@@ -1814,7 +1821,7 @@ void RefX::UpdateExplosion()
                                                FUN_008d6f30(), FUN_00575d70(), 0, 0, 0);
         if (!loading4 && FUN_004181e0()->GetScaledValue() > 0.0 && FUN_004181e0()->FUN_008d01e0() > 0.0)
         {
-            FUN_009b13a0();
+            Explosion_UpdateRadiation();
             FUN_005d43c0()->FUN_00422220(FUN_004181e0()->GetScaledValue());
             SetFlags(0x40000000);
         }
@@ -1860,7 +1867,7 @@ void RefX::UpdateExplosion()
             FUN_00689210(DAT_011dea3c->FUN_008d6f30(), 1.0f, DAT_011d0ce4.FUN_00403df0(), rotationA, position8, size_2,
                          7, 0);
             IdFlagState sound;
-            sound = FUN_00453a70()->FUN_00ad7550("CWaterExplosionSplash", 0x102);
+            sound = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName("CWaterExplosionSplash", 0x102);
             if (sound.FUN_00ad8ce0())
             {
                 sound.FUN_00ad8b60(position8.x, position8.y, position8.z);
@@ -2083,7 +2090,7 @@ struct DRRef : DRRefPrimary, DRRefSecondary
     ~DRRef();
     DRObject3D* Get3DSimple();
     DRCell* GetParentCell();
-    void FUN_009b12d0();
+    void Explosion_FreeLight();
     void FUN_0092ed60(bool abFlag);
     void FUN_009b11c0();
 };
@@ -2117,7 +2124,7 @@ FUN_009ac5a0::~FUN_009ac5a0()
     if (0)
     {
     }
-    FUN_009b12d0();
+    Explosion_FreeLight();
     if (spController)
         spController->Stop();
     spController = 0;
@@ -2250,7 +2257,7 @@ struct FUN_00576870_cls
 {
     int unk00;
     FUN_0057c400_shell m_sub;
-    Base1* FUN_00576870(int a);
+    Base1* ZoneEntry_GetZoneEntry_0(int a);
 };
 struct Derived : Base1, Base2
 {
@@ -2258,7 +2265,8 @@ struct Derived : Base1, Base2
 
 // Calls m_sub.FUN_0057c400(a) and returns the result cast to Derived*.
 // @fnv 0x00576870
-Base1* FUN_00576870_cls::FUN_00576870(int a)
+// src: COMMUNITY 0x00576870
+Base1* FUN_00576870_cls::ZoneEntry_GetZoneEntry_0(int a)
 {
     return static_cast<Derived*>(m_sub.FUN_0057c400(a));
 }

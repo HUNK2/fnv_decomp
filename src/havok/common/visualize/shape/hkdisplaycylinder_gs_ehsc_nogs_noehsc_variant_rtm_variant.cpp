@@ -5,7 +5,7 @@
 // src/havok/common/visualize/shape/hkdisplaycylinder_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/common/visualize/shape/hkdisplaycylinder.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
-void __stdcall FUN_00d58500(int, int);
+void __stdcall nullsub_78(int, int);
 #include <xmmintrin.h>
 struct DE1F50Vector4
 {
@@ -215,7 +215,7 @@ struct __declspec(align(16)) Quaternion
         FUN_00cb2450(axis, theta);
     }
     __declspec(noinline) void FUN_00cb2450(const MathVector& axis, float theta);
-    __declspec(noinline) void FUN_00c66320(const Quaternion& a, const Quaternion& b);
+    __declspec(noinline) void setMul(const Quaternion& a, const Quaternion& b);
 };
 __declspec(noinline) void Quaternion::FUN_00cb2450(const MathVector& axis, float angle)
 {
@@ -224,7 +224,8 @@ __declspec(noinline) void Quaternion::FUN_00cb2450(const MathVector& axis, float
     *(MathVector*)this = _mm_mul_ps(_mm_set_ps1(sn), axis.raw());
     w = (float)cos(h);
 }
-__declspec(noinline) void Quaternion::FUN_00c66320(const Quaternion& av, const Quaternion& bv)
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void Quaternion::setMul(const Quaternion& av, const Quaternion& bv)
 {
     __m128 a = ((const MathVector*)&av)->raw();
     __m128 b = ((const MathVector*)&bv)->raw();
@@ -423,7 +424,7 @@ __declspec(noinline) void __fastcall hkDisplayCylinder_buildGeometry(CylinderMes
                 _ReadWriteBarrier();
                 Quaternion& previous = axisWork.previous;
                 previous = rotation;
-                rotation.FUN_00c66320(previous, delta);
+                rotation.setMul(previous, delta);
                 ++a;
             } while (a < sectors);
         }

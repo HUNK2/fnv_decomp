@@ -728,7 +728,7 @@ class Actor : public TESObjectREFR
   public:
     BaseProcess* GetProcess();
     bool HasObjects(TESBoundObject*, int, int, unsigned int, int&);
-    void FUN_008ae640(int);
+    void Actor_SetForceUpdateQuest(int);
 };
 class PlayerCharacter : public Actor
 {
@@ -806,7 +806,7 @@ class TESObjectDOOR : public TESBoundAnimObject,
     void QueueDoorTeleport(TESObjectREFR*);
     TESSound* GetOpenSound();
     void ClearRandomTeleportList();
-    BSSimpleList<TESForm*>* FUN_00871a30();
+    BSSimpleList<TESForm*>* TESDataHandler_GetFactions();
     static bool ProcessDoorActivation(TESObjectREFR*, Actor*, bool, bool);
     static bool ProcessDoorActivation(DoorAccessData*, Actor*, TESObjectREFR*, bool, bool);
 };

@@ -121,7 +121,7 @@ public:
     bool IsModelLoaded();
     bool HasFlag2();
     int UpdateCounter();
-    void* FUN_004077e0();
+    void* TESDataHandler_GetRecipes();
     TESEffectShader* FUN_00407820();
     bool UsesAssociatedActorValue();
     bool HasNoAssociatedActorValue();
@@ -149,8 +149,8 @@ public:
     void SetEnchantEffectShader(TESEffectShader* shader);
     int QueueAssociatedItem();
     int NormalizeEffectLoadedCount();
-    void FUN_00407300();
-    int FUN_004088c0();
+    void SaveAlt();
+    int IncEffectLoadedCount();
     bool FUN_007df1b0();
     bool FUN_00403e60(unsigned int flags);
     void FUN_004ee4b0(float value);

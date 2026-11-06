@@ -30,7 +30,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 extern MemoryManager g_memoryManager;
 extern "C" void* g_012685f8;
-void* __cdecl FUN_00c7fa60();
+void* __cdecl bhkStiffSpringConstraint_GetRTTI();
 extern "C" void __cdecl _delete(void*, int);
 void __cdecl FUN_00cc58c0();
 struct FUN_00c7fa70_Class
@@ -43,7 +43,7 @@ struct FUN_00cb9900_cls
 {
     void __thiscall FUN_00cb9900();
 };
-void __cdecl FUN_00cda340();
+void __cdecl hkaPose_syncModelSpace();
 void __cdecl FUN_00cd9fe0();
 struct VObj
 {
@@ -77,7 +77,7 @@ struct MyNode
     char _pad2[2];
     unsigned short count;
 };
-MyNode* __cdecl FUN_00c802d0(MyNode* p);
+MyNode* __cdecl bhkUtilFunctions_FindNextCollisionObject(MyNode* p);
 struct MyRef
 {
     virtual ~MyRef();
@@ -164,8 +164,8 @@ struct Target
 };
 struct FUN_00c6ffc0_Class
 {
-    Target* FUN_00c6e0b0();
-    void FUN_00c6ffc0();
+    Target* bhkCharacterController_GetCollisionDebugNode();
+    void bhkCharacterController_RemoveCollisionDebug();
 };
 extern char* EmptyFS;
 struct FixedStr
@@ -232,15 +232,15 @@ struct RArr
 };
 struct RCtx;
 RObj* __cdecl FUN_00c4b470(RCtx*, RKey*, int);
-void __cdecl FUN_00c7bcb0(RCtx* ctx, RObj* obj, RArr* arr);
+void __cdecl CopyPoseFunctor(RCtx* ctx, RObj* obj, RArr* arr);
 void __cdecl SetFlagRecursive(int, void*);
-void __cdecl FUN_00c7bcb0(void*, void*, void*);
+void __cdecl CopyPoseFunctor(void*, void*, void*);
 inline unsigned char GetFlag6(unsigned short w)
 {
     return (unsigned char)(w >> 6) & 1;
 }
 void __cdecl FUN_00c7d3b0(NiNode* param_1, void* param_2, void* param_3, char* param_4, unsigned int* param_5);
-void FUN_00c74dd0(void*, NiTransform*);
+void NI2HK_00c74dd0(void*, NiTransform*);
 extern bool DAT_01267c28;
 extern bool DAT_01267c34;
 extern bool DAT_01267c40;
@@ -303,15 +303,15 @@ struct FUN_00c7d630_t
     char pad5c[4];
     NiMatrix3 m_kRot;
     void FUN_00c7d630(float);
-    void FUN_00c79680();
-    void FUN_00c7cb50(int);
+    void bhkRagdollController_GetSGPoseLocalSpace();
+    void bhkRagdollController_UpdateDebugLines(int);
     void FUN_00c76350(void*);
-    void FUN_00c751f0(void*);
+    void bhkRagdollController_DoGrabIK(void*);
     void FUN_00c7aa60(void*);
-    void FUN_00c7ba50(void*, void*, bool*);
+    void bhkRagdollController_DoPoseMatching(void*, void*, bool*);
     void FUN_00c7d030(void*);
-    void FUN_00c7c870();
-    void FUN_00c79a50();
+    void bhkRagdollController_DoRagdollFeedback();
+    void bhkRagdollController_SetSGPoseLocalSpace();
 };
 struct FUN_00cb0c00_class
 {
@@ -330,8 +330,8 @@ struct FUN_00c7d890_cls
     void FUN_00c7d890();
 };
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
-void __cdecl FUN_00d6b4b0(void*, unsigned int);
+void __stdcall BSSimpleArray_bhkUtilFunctions_AVLevel_1024_CopyItems(char* dst, char* src, unsigned int count);
+void __cdecl hkaKeyFrameHierarchyUtility_initialize(void*, unsigned int);
 struct FUN_00cdb3e0_cls
 {
     char pad[0x2c];
@@ -351,7 +351,7 @@ struct S_c6a200_Ev
 };
 extern void* DAT_011afecc;
 S_c6a200_Info* __cdecl GetExtraDataChecked(void* obj);
-void __cdecl FUN_00c68900(void* obj, S_c6a200_Ev* ev, void* extra);
+void __cdecl bhkWorld_DoObjectRec(void* obj, S_c6a200_Ev* ev, void* extra);
 bool __cdecl FUN_00c6a200(void* obj, unsigned char a1, unsigned char a2, unsigned char a3);
 struct FlagController
 {
@@ -662,8 +662,8 @@ struct S
     virtual void v37();
     virtual void v38();
     virtual void SetMode(int iMode);
-    void FUN_00561690(int);
-    void FUN_005617c0(float* pf);
+    void bhkRigidBody_SetLinearVelocity_00561690(int);
+    void bhkRigidBody_SetAngularVelocity_005617c0(float* pf);
 };
 struct Cast_c9b
 {
@@ -700,7 +700,7 @@ __forceinline bool IsNode_c9b(Obj_c9b* pkObj)
     return false;
 }
 void __cdecl FUN_00c9bdf0(Obj_c9b* pkObj, float f);
-void __stdcall FUN_00c7f900(char* dst, char* src, unsigned int count);
+void __stdcall BSSimpleArray_bhkUtilFunctions_AVLevel_1024_CopyItems(char* dst, char* src, unsigned int count);
 class FUN_00c7f970_cls
 {
   public:
@@ -712,7 +712,7 @@ class FUN_00c7f970_cls
     char* m_pData;
     void* unk;
     unsigned int m_uiSize;
-    void FUN_00c7f970(unsigned int uiNew, unsigned int uiOld);
+    void BSSimpleArray_bhkUtilFunctions_AVLevel_1024_ReallocateBuffer(unsigned int uiNew, unsigned int uiOld);
 };
 struct Head
 {
@@ -786,7 +786,7 @@ struct RagController
     void FUN_00c75580(unsigned char enabled);
 };
 extern "C" double __cdecl sqrt(double x);
-__int64 __cdecl FUN_00aa4d80();
+__int64 __cdecl BSPrecisionTimer_GetTimer();
 extern float DAT_011b02e4;
 extern float DAT_011ac39c;
 struct NodeC
@@ -832,15 +832,15 @@ struct MidC
     int m024;
     int m028;
     InnerC* inner;
-    void FUN_00ce18f0(void*, void*);
+    void hkaRagdollInstance_getPoseModelSpace(void*, void*);
 };
 struct Obj248
 {
-    int FUN_00ce11f0(void*, float*);
+    int hkaPoseMatchingUtility_findBestCandidatePoseIndex(void*, float*);
 };
 struct Obj250
 {
-    void FUN_00cc1420(void*, void*, int);
+    void bhkPoseArray_CreatePoseForRagdoll(void*, void*, int);
 };
 struct ScrapMarker
 {
@@ -1021,7 +1021,7 @@ struct Cls
     bool m_284;
     int m_288;
 
-    void FUN_00c7ba50(void* a1, void* a2, bool* a3);
+    void bhkRagdollController_DoPoseMatching(void* a1, void* a2, bool* a3);
 };
 extern __m128 g_hkQuadZero;
 struct RagMotion
@@ -1691,7 +1691,7 @@ struct PoseState
     int count;
     int unk24;
     bool ready;
-    void FUN_00cda340();
+    void hkaPose_syncModelSpace();
     void FUN_00cda4c0();
 };
 struct C7C2B0_Pair
@@ -2213,7 +2213,8 @@ __forceinline void hkQsTransform::SetMulInverse(const hkQsTransform& a, const hk
 }
 
 // @fnv 0x00cda690
-void hkaPose::FUN_00cda690()
+// src: COMMUNITY 0x00cda690
+void hkaPose::syncLocalSpace()
 {
     if (m_bPoseInitialized)
         return;

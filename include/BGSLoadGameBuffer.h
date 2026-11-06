@@ -32,8 +32,8 @@ public:
     BGSLoadGameBuffer();
     ~BGSLoadGameBuffer();
 
-    void FUN_008464f0(SaveLoadFile* file);
-    bool FUN_008463c0();
+    void BGSSaveLoadFile_SetSaveFileName(SaveLoadFile* file);
+    bool BGSSaveLoadFile_Open();
     void FUN_00864980(void* data, unsigned int size);
 
     int Load();

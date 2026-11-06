@@ -55,5 +55,5 @@ public:
     bool CreateTextRun(TextString, TextParams*, TextNode*);
     NiPoint3 GetStringDimensions(const char*, int, float, int);
     void SetByteAtOffset20();
-    void FUN_00802220(PageTable*, int, unsigned char);
+    void VATSEffect_SetBodyPartEnabled(PageTable*, int, unsigned char);
 };

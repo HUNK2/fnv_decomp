@@ -119,7 +119,7 @@ struct FUN_007aa070_shell : public MessageMenu
     void HandleTileSelection(int, Tile*);
 };
 
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_GetSingleton(void);
 void* __cdecl GetCurrentArrayElement(void);
 void __cdecl CleanupGlobalObject(void);
 extern bool DAT_011da4ed;
@@ -138,7 +138,7 @@ void FUN_007aa070_shell::HandleTileSelection(int aiID, Tile* apTarget)
     }
     if (aiID == 7 && apTarget)
     {
-        *(unsigned char*)((char*)FUN_004b7210() + 0xe4) =
+        *(unsigned char*)((char*)InterfaceManager_GetSingleton() + 0xe4) =
             (unsigned char)(int)((ListBox<PerkForm*>*)((char*)this + 0x40))->GetSelectedData(apTarget);
         DAT_011da4ed = true;
         if (GetCurrentArrayElement() && *(void(__cdecl**)())((char*)GetCurrentArrayElement() + 0x28))
@@ -332,7 +332,7 @@ void* DelStandIn::Destroy(unsigned int flags)
 }  // namespace fnv_007aa500
 
 
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_GetSingleton();
 int __cdecl FUN_00a01860(const char* apTraitName);
 struct FUN_007a8850
 {
@@ -364,12 +364,13 @@ FUN_007a8850::FUN_007a8850()
     iTileID = -1;
     iCallbackID = -1;
     fDisplayTime = 0.0f;
-    fBackgroundAlpha = FUN_004b7210()->FUN_004fd400()->GetFloat(FUN_00a01860("_background_fill_alpha"));
+    fBackgroundAlpha = InterfaceManager_GetSingleton()->FUN_004fd400()->GetFloat(FUN_00a01860("_background_fill_alpha"));
     iFlags = 0;
 }
 
 // @fnv 0x007a8de0
-int FUN_007a8de0()
+// src: COMMUNITY 0x007a8de0
+int MessageMenu_GetMenuID_()
 {
     return 1001;
 }
@@ -377,7 +378,8 @@ int FUN_007a8de0()
 extern char DAT_01202d54;
 
 // @fnv 0x007aa6a0
-void FUN_007aa6a0(unsigned char value)
+// src: COMMUNITY 0x007aa6a0
+void MessageHandler_SetYesToAll(unsigned char value)
 {
     DAT_01202d54 = value;
 }
@@ -470,7 +472,7 @@ struct FUN_007aafb0_Class
     int unk0C;
     int unk10;
     int unk14;
-    int __thiscall FUN_0044a970();
+    int __thiscall std_string__Myptr();
     int __thiscall FUN_007aafb0(unsigned int arg);
 };
 
@@ -487,7 +489,7 @@ int __thiscall FUN_007aafb0_Class::FUN_007aafb0(unsigned int arg)
     {
     } while (0);
 
-    return this->FUN_0044a970() + arg;
+    return this->std_string__Myptr() + arg;
 }
 
 // Assignment is not yet declared by the shared StrMem header.
@@ -503,7 +505,7 @@ struct Text
     ~Text();
     unsigned int FUN_007aafe0(char, unsigned int);
     Text Substr(unsigned int, unsigned int);
-    const char* FUN_0044a560();
+    const char* std_string_debug_c_str();
     void FUN_007aaf80(unsigned int, unsigned int, const char*);
 };
 struct Message
@@ -525,7 +527,7 @@ struct Message
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-void* FUN_00401000(unsigned int);
+void* FormHeap_Allocate(unsigned int);
 int FUN_0044a670(const char*);
 void FUN_00406d30(char*, unsigned int, const char*);
 int FUN_00408b20(const char*, const char*);
@@ -583,11 +585,11 @@ bool QueueMessage(const char* title, const char* message, const char* icon, cons
         unsigned int hotkeySlot0 = text.FUN_007aafe0('&', 0);
         if (hotkeySlot0 != DAT_010173f0)
         {
-            info->hotkeys.FUN_00404820(text.Substr(hotkeySlot0 + 1, 1).FUN_0044a560());
+            info->hotkeys.FUN_00404820(text.Substr(hotkeySlot0 + 1, 1).std_string_debug_c_str());
             text.FUN_007aaf80(hotkeySlot0, 1, DAT_01011584);
         }
-        if (FUN_00408b20(text.FUN_0044a560(), DAT_01020770))
-            info->buttons.FUN_00404820(text.FUN_0044a560());
+        if (FUN_00408b20(text.std_string_debug_c_str(), DAT_01020770))
+            info->buttons.FUN_00404820(text.std_string_debug_c_str());
         info->buttons.FUN_00404820(DAT_01063d7c);
         reinterpret_cast<void (__thiscall*)(StrMem*, const char*)>(FUN_00438390)(&buttonSlot11, (*arguments += 1)[-1]);
     }
@@ -780,7 +782,7 @@ struct ActionMenuText
     ~ActionMenuText();
     unsigned FUN_007aafe0(char, unsigned);
     ActionMenuText Substr(unsigned, unsigned);
-    const char* FUN_0044a560();
+    const char* std_string_debug_c_str();
     void FUN_007aaf80(unsigned, unsigned, const char*);
 };
 struct ActionMenuInfo
@@ -887,12 +889,12 @@ bool BuildActionMenu(ActionMenuList* list, TESObjectREFR* reference)
                 unsigned hotkey5 = text6.FUN_007aafe0('&', 0);
                 if (hotkey5 != DAT_010173f0)
                 {
-                    menu4->hotkeys.FUN_00404820(text6.Substr(hotkey5 + 1, 1).FUN_0044a560());
+                    menu4->hotkeys.FUN_00404820(text6.Substr(hotkey5 + 1, 1).std_string_debug_c_str());
                     text6.FUN_007aaf80(hotkey5, 1, DAT_01011584);
                 }
-                if (FUN_00408b20(text6.FUN_0044a560(), DAT_01020770))
+                if (FUN_00408b20(text6.std_string_debug_c_str(), DAT_01020770))
                 {
-                    menu4->buttons.FUN_00404820(text6.FUN_0044a560());
+                    menu4->buttons.FUN_00404820(text6.std_string_debug_c_str());
                     menu4->buttons.FUN_00404820(DAT_01063d7c);
                 }
             }
@@ -938,12 +940,12 @@ bool BuildActionMenu(ActionMenuList* list, TESObjectREFR* reference)
         unsigned hotkey5 = text6.FUN_007aafe0('&', 0);
         if (hotkey5 != DAT_010173f0)
         {
-            menu4->hotkeys.FUN_00404820(text6.Substr(hotkey5 + 1, 1).FUN_0044a560());
+            menu4->hotkeys.FUN_00404820(text6.Substr(hotkey5 + 1, 1).std_string_debug_c_str());
             text6.FUN_007aaf80(hotkey5, 1, DAT_01011584);
         }
-        if (FUN_00408b20(text6.FUN_0044a560(), DAT_01020770))
+        if (FUN_00408b20(text6.std_string_debug_c_str(), DAT_01020770))
         {
-            menu4->buttons.FUN_00404820(text6.FUN_0044a560());
+            menu4->buttons.FUN_00404820(text6.std_string_debug_c_str());
             menu4->buttons.FUN_00404820(DAT_01063d7c);
         }
     }
@@ -985,7 +987,7 @@ struct MsgSound
 
 struct MsgAudio
 {
-    MsgSound FUN_00ad7550(const char* apEditorID, int aiFlags);
+    MsgSound BSAudio_GetSoundHandleByEditorName(const char* apEditorID, int aiFlags);
 };
 
 
@@ -997,7 +999,7 @@ struct MsgString
     unsigned int FUN_00825c00();
     unsigned int FUN_005103a0(const char* apDelimiter, unsigned int auiStart);
     MsgString Substr(unsigned int auiStart, unsigned int auiLength);
-    const char* FUN_0044a560();
+    const char* std_string_debug_c_str();
 };
 
 struct MsgData
@@ -1035,7 +1037,7 @@ struct MsgList
 
 struct MsgInterface
 {
-    bool FUN_00714f90(int aiMenuID);
+    bool InterfaceManager_IsMenuInStack(int aiMenuID);
 };
 
 struct MsgMenu
@@ -1068,7 +1070,7 @@ extern const float DAT_01016970;
 MsgData* GetCurrentArrayElement();
 MsgAudio* FUN_00453a70();
 MsgFont* FUN_005bd5b0();
-MsgInterface* FUN_004b7210();
+MsgInterface* InterfaceManager_GetSingleton();
 int __cdecl FUN_00a01860(const char* apTrait);
 int __cdecl FUN_00647b70(int a, int b);
 float __cdecl FUN_0040ebd0(float a, float b);
@@ -1080,7 +1082,7 @@ float __cdecl FUN_00706e20();
 float __cdecl FUN_007177c0();
 float __cdecl FUN_00717820();
 void __cdecl FUN_00706fd0(int aiMenuID, int aiFlag);
-void __cdecl FUN_00706fb0(int aiMenuID, int aiFlag);
+void __cdecl Interface_AddToEnterStack(int aiMenuID, int aiFlag);
 
 static const char s_szHorBuf[] = "_horbuf";
 static const char s_szPopUp[] = "UIPopUpMessageWindow";
@@ -1101,10 +1103,10 @@ void MsgMenu::PopulateFromMessageData()
     float fWidths = 0.0f;
     float fHorBuf = FUN_00726070()->FUN_00a011b0(FUN_00a01860(s_szHorBuf));
     if (pMessagePtr->kSound.FUN_004048e0() > 0 &&
-        FUN_00453a70()->FUN_00ad7550(pMessagePtr->kSound.FUN_00559450(), 0x121).IsNotEqual(-1))
-        FUN_00453a70()->FUN_00ad7550(pMessagePtr->kSound.FUN_00559450(), 0x121).FUN_00ad8830(0);
+        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(pMessagePtr->kSound.FUN_00559450(), 0x121).IsNotEqual(-1))
+        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(pMessagePtr->kSound.FUN_00559450(), 0x121).FUN_00ad8830(0);
     else
-        FUN_00453a70()->FUN_00ad7550(s_szPopUp, 0x121).FUN_00ad8830(0);
+        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(s_szPopUp, 0x121).FUN_00ad8830(0);
     DAT_011da4f0->m_pTiles[3]->FUN_00a01350(0xfc4, pMessagePtr->kText.FUN_00559450(), true);
     if (pMessagePtr->pIcon)
     {
@@ -1138,7 +1140,7 @@ void MsgMenu::PopulateFromMessageData()
                 pItemNew = DAT_011da4f0->kButtons.FUN_00764430(
                     pMessagePtr->cButtonBase + iIndex,
                     kButtonText.Substr(uiPosNum, kButtonText.FUN_005103a0(DAT_01063d7c, uiPosNum) - uiPosNum)
-                        .FUN_0044a560(),
+                        .std_string_debug_c_str(),
                     0, 0);
                 pText = pItemNew->GetNamedChild(s_szListItemText);
                 pItemNew->FUN_00700320(0xfaa, 7);
@@ -1223,7 +1225,7 @@ void MsgMenu::PopulateFromMessageData()
     if (!pMessagePtr->GetByteAtOffset56())
     {
         DAT_011da4f0->m_pTiles[0]->FUN_00a012d0(0xfa9, 0.0f, true);
-        if (FUN_004b7210()->FUN_00714f90(GetID()))
+        if (InterfaceManager_GetSingleton()->InterfaceManager_IsMenuInStack(GetID()))
             FUN_00706fd0(GetID(), 1);
         float fScreenWidth = FUN_00715d40();
         float fMenuWidth = DAT_011da4f0->m_pTiles[0]->FUN_00a011b0(0xfb1);
@@ -1249,8 +1251,8 @@ void MsgMenu::PopulateFromMessageData()
     else
     {
         DAT_011da4f0->m_pTiles[0]->FUN_00a012d0(0xfa9, 1.0f, true);
-        if (!FUN_004b7210()->FUN_00714f90(GetID()))
-            FUN_00706fb0(GetID(), 0);
+        if (!InterfaceManager_GetSingleton()->InterfaceManager_IsMenuInStack(GetID()))
+            Interface_AddToEnterStack(GetID(), 0);
     }
     DAT_011da4f0->m_pTiles[5]->FUN_00a012d0(0xfa9, pMessagePtr->fAlpha, true);
 }
@@ -1258,7 +1260,7 @@ void MsgMenu::PopulateFromMessageData()
 }
 
 namespace fnv_007a8ba0 {
-int __cdecl FUN_007a8de0();
+int __cdecl MessageMenu_GetMenuID_();
 void* __cdecl FUN_00a09030(int);
 int __cdecl FUN_007023c0();
 unsigned int __cdecl GetCurrentArrayElement();
@@ -1292,9 +1294,9 @@ extern double DAT_0101e568;
 // @fnv 0x007a8ba0
 bool __cdecl FUN_007a8ba0()
 {
-    InterfaceManager* B = FUN_004b7210();
+    InterfaceManager* B = InterfaceManager_GetSingleton();
     unsigned char flag = 0;
-    VDel* pVDel = (VDel*)FUN_00a09030(FUN_007a8de0());
+    VDel* pVDel = (VDel*)FUN_00a09030(MessageMenu_GetMenuID_());
     if (pVDel != 0)
     {
         delete pVDel;
@@ -1302,9 +1304,9 @@ bool __cdecl FUN_007a8ba0()
     if (FUN_007023c0())
         flag = 1;
     Tile* pTile = ((Tile*)((Helper*)B)->FUN_00586150("Data\\Menus\\message_menu.xml"))->FUN_00a01b00();
-    DAT_011da4f0 = (int)pTile->FUN_00a03c90();
+    DAT_011da4f0 = (int)pTile->Tile_GetMenu();
     if (DAT_011da4f0 != 0 &&
-        ((int(__thiscall*)(void*))((*(void***)DAT_011da4f0)[13]))((void*)DAT_011da4f0) == FUN_007a8de0())
+        ((int(__thiscall*)(void*))((*(void***)DAT_011da4f0)[13]))((void*)DAT_011da4f0) == MessageMenu_GetMenuID_())
     {
         ((Helper*)DAT_011da4f0)->FUN_00a1dc70(pTile, 0);
         if (!((FUN_007abdb0_shell*)DAT_011da4f0)->FUN_007abdb0())

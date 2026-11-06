@@ -99,11 +99,12 @@ char __fastcall FUN_006639f0(char* pThis)
 
 struct FUN_00663a10_shell : public BSFaceGenAnimationData
 {
-    void FUN_00663a10(bool);
+    void BSFaceGenAnimationData_SetShouldHeadTrack(bool);
 };
 
 // @fnv 0x00663a10
-void FUN_00663a10_shell::FUN_00663a10(bool abShouldHeadTrack)
+// src: COMMUNITY 0x00663a10
+void FUN_00663a10_shell::BSFaceGenAnimationData_SetShouldHeadTrack(bool abShouldHeadTrack)
 {
     *((bool*)((char*)this + 0x189)) = abShouldHeadTrack;
 }
@@ -235,7 +236,8 @@ struct GlobalObject_0044f440
 GlobalObject_0044f440 g_011d5b28;
 
 // @fnv 0x006633d0
-void FUN_006633d0(void)
+// src: COMMUNITY 0x006633d0
+void BSFaceGenManager_GetLODDistance(void)
 {
     g_011d5b28.FUN_00450410();
 }
@@ -249,7 +251,8 @@ struct GlobalObject_0044f440
 GlobalObject_0044f440 g_011d5b34;
 
 // @fnv 0x006633e0
-void FUN_006633e0()
+// src: COMMUNITY 0x006633e0
+void BSFaceGenManager_GetTalkingDistance()
 {
     g_011d5b34.FUN_00450410();
 }
@@ -409,7 +412,7 @@ class FaceGenAnimData
 };
 struct FUN_00663a10_shell
 {
-    void FUN_00663a10(bool);
+    void BSFaceGenAnimationData_SetShouldHeadTrack(bool);
 };
 
 class FaceGenNode
@@ -482,7 +485,7 @@ class FaceGenNode
     virtual FaceGenAnimData* GetAnimationData();
     bool GetByteAtOffsetE1();
     void UpdateStateByDistance(int);
-    void FUN_00663050(bool);
+    void BSFaceGenNiNode_UpdateAllChildrenMorphData(bool);
 };
 class Calendar
 {
@@ -507,7 +510,7 @@ extern ProcessLists DAT_011e0e80;
 unsigned char __cdecl FUN_00663a30();
 unsigned char __fastcall FUN_006639f0(char*);
 unsigned char __fastcall GetByteAt1D(char*);
-void __cdecl FUN_00652510(Actor*);
+void __cdecl BSFaceGenManager_CycleFaceGenCoordValue(Actor*);
 
 struct FUN_00663510_t
 {
@@ -587,7 +590,7 @@ void FUN_00663510_t::UpdateFaceGenAnimation(NiUpdateData* UpdateData)
         }
         if (bupdate || *(bool*)((char*)this + 0xe4))
         {
-            ((FaceGenNode*)this)->FUN_00663050(bchanged);
+            ((FaceGenNode*)this)->BSFaceGenNiNode_UpdateAllChildrenMorphData(bchanged);
         }
         else
         {
@@ -596,9 +599,9 @@ void FUN_00663510_t::UpdateFaceGenAnimation(NiUpdateData* UpdateData)
         }
     }
 
-    ((FUN_00663a10_shell*)((FaceGenNode*)this)->GetAnimationData())->FUN_00663a10(true);
+    ((FUN_00663a10_shell*)((FaceGenNode*)this)->GetAnimationData())->BSFaceGenAnimationData_SetShouldHeadTrack(true);
     if (*(bool*)((char*)this + 0xec) && *(Actor**)((char*)this + 0xe8))
-        FUN_00652510(*(Actor**)((char*)this + 0xe8));
+        BSFaceGenManager_CycleFaceGenCoordValue(*(Actor**)((char*)this + 0xe8));
 }
 }  // namespace fnv_00663510
 
@@ -826,7 +829,7 @@ class FUN_00662bc0_Sub;
 class FUN_00662bc0_Holder
 {
   public:
-    void FUN_00662030(int a0, int a1, void* a2, int a3, float a4);
+    void ApplyMorph(int a0, int a1, void* a2, int a3, float a4);
 };
 class FUN_00662bc0_Obj
 {
@@ -882,7 +885,7 @@ class FUN_00662bc0_Param
     int unk18;
     unsigned char m_1c;
 };
-extern "C" void __cdecl FUN_00653340(void* a, void* b);
+extern "C" void __cdecl BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(void* a, void* b);
 extern const double DAT_01012060;
 extern const double DAT_01012070;
 class FUN_00662bc0_cls
@@ -966,10 +969,10 @@ void FUN_00662bc0_cls::ApplyParamValues(FUN_00662bc0_Param* p)
         {
             if (p->m_1c == 0)
             {
-                FUN_00653340(p->m_00, &p->m_04);
+                BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(p->m_00, &p->m_04);
                 p->m_1c = 1;
             }
-            p->m_10->FUN_00662030(1, i, p->m_00, p->m_14, val);
+            p->m_10->ApplyMorph(1, i, p->m_00, p->m_14, val);
         }
     }
 }
@@ -1027,7 +1030,7 @@ struct FUN_00662f70_p
 
 struct Sub10Obj
 {
-    void FUN_00662030(int, int, int, int, float);
+    void ApplyMorph(int, int, int, int, float);
 };
 
 struct FUN_00662f70_arg
@@ -1109,13 +1112,14 @@ struct FUN_00662f70_cls
     virtual void v3E();
     virtual void v3F();
     virtual FUN_00662f70_p* v40();
-    void FUN_00662f70(FUN_00662f70_arg* a1);
+    void BSFaceGenNiNode_ApplyFacialCustomMorphs(FUN_00662f70_arg* a1);
 };
 
-void __cdecl FUN_00653340(int a, int b);
+void __cdecl BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(int a, int b);
 
 // @fnv 0x00662f70
-void FUN_00662f70_cls::FUN_00662f70(FUN_00662f70_arg* a1)
+// src: COMMUNITY 0x00662f70
+void FUN_00662f70_cls::BSFaceGenNiNode_ApplyFacialCustomMorphs(FUN_00662f70_arg* a1)
 {
     int i;
     float f;
@@ -1126,10 +1130,10 @@ void FUN_00662f70_cls::FUN_00662f70(FUN_00662f70_arg* a1)
         {
             if (a1->m_1c == 0)
             {
-                FUN_00653340(a1->m_00, (int)&a1->m_04);
+                BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(a1->m_00, (int)&a1->m_04);
                 a1->m_1c = 1;
             }
-            a1->m_10->FUN_00662030(3, i, a1->m_00, a1->m_14, f);
+            a1->m_10->ApplyMorph(3, i, a1->m_00, a1->m_14, f);
         }
     }
 }
@@ -1140,7 +1144,7 @@ float B663450GetRadius();
 
 class B663450Actor;
 
-void __cdecl FUN_00653e50(B663450Actor* pkActor, int iState);
+void __cdecl BSFaceGenManager_ReplaceFaceMeshLOD(B663450Actor* pkActor, int iState);
 
 class B663450Actor
 {
@@ -1158,9 +1162,9 @@ void B663450Actor::UpdateStateByDistance(int iState)
     float fMargin = 10.0f;
     float fDist = (kCenter3 - GetPosition()).Length();
     if ((fDist > B663450GetRadius() + fMargin && !GetByteAtE0()) || iState == 0)
-        FUN_00653e50(this, 0);
+        BSFaceGenManager_ReplaceFaceMeshLOD(this, 0);
     else if ((fDist < B663450GetRadius() - fMargin && GetByteAtE0()) || iState == 1)
-        FUN_00653e50(this, 1);
+        BSFaceGenManager_ReplaceFaceMeshLOD(this, 1);
 }
 
 struct FUN_00662ca0_Data
@@ -1271,10 +1275,10 @@ void FUN_00662ca0_cls::ApplyParameterValues(FUN_00662bc0_Param* pParam)
         {
             if (!pParam->m_1c)
             {
-                FUN_00653340(pParam->m_00, &pParam->m_04);
+                BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(pParam->m_00, &pParam->m_04);
                 pParam->m_1c = 1;
             }
-            pParam->m_10->FUN_00662030(2, iIndex, pParam->m_00, pParam->m_14, aFValue);
+            pParam->m_10->ApplyMorph(2, iIndex, pParam->m_00, pParam->m_14, aFValue);
         }
     }
 }
@@ -1396,8 +1400,8 @@ class MorphGeometryData
 {
   public:
     bool FUN_00a67360(bool);
-    void FUN_00a67410(BSFaceGenMorphData::Buffers*);
-    void FUN_00a673d0();
+    void NiGeometryData_GetVerticesIterator(BSFaceGenMorphData::Buffers*);
+    void NiGeometryData_UnlockPackedVertexData();
 };
 struct FUN_00663430
 {
@@ -1601,24 +1605,25 @@ class FaceGenNode
     unsigned int FUN_0043b480();
     NiAVObject* FUN_0043b4a0(unsigned int);
     const NiPoint3& FUN_0045bb80() const;
-    FaceGenParent* FUN_009611e0();
-    void FUN_00662e90(FUN_00663430*);
+    FaceGenParent* NiAVObject_GetParent();
+    void BSFaceGenNiNode_ApplyFacialPhonemes(FUN_00663430*);
     void ApplyParamValues(FUN_00663430*);
     void ApplyParameterValues(FUN_00663430*);
-    void FUN_00662f70(FUN_00663430*);
-    void FUN_00663050(bool);
+    void BSFaceGenNiNode_ApplyFacialCustomMorphs(FUN_00663430*);
+    void BSFaceGenNiNode_UpdateAllChildrenMorphData(bool);
 };
-void* FUN_00653230(void*);
+void* BSFaceGenUtils_GetFaceGenMorphDataHead(void*);
 NiExtraData* GetExtraDataIfPresent(NiAVObject*);
-void FUN_00653340(NiTriBasedGeom*, BSFaceGenMorphData::Buffers*);
+void BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(NiTriBasedGeom*, BSFaceGenMorphData::Buffers*);
 const NiPoint3& FUN_006633f0();
-float FUN_006633d0();
-float FUN_006633e0();
+float BSFaceGenManager_GetLODDistance();
+float BSFaceGenManager_GetTalkingDistance();
 unsigned char FUN_00525420();
 bool FUN_00702360();
 
 // @fnv 0x00663050
-void FaceGenNode::FUN_00663050(bool update)
+// src: COMMUNITY 0x00663050
+void FaceGenNode::BSFaceGenNiNode_UpdateAllChildrenMorphData(bool update)
 {
     FUN_00663430 context_2;
     unsigned int count4 = FUN_0043b480();
@@ -1639,7 +1644,7 @@ void FaceGenNode::FUN_00663050(bool update)
             continue;
         if (!((MorphGeometryData*)context_2.geometry->GetModelData()))
             continue;
-        data8 = FUN_00653230(context_2.geometry);
+        data8 = BSFaceGenUtils_GetFaceGenMorphDataHead(context_2.geometry);
         if (!data8)
             continue;
         extra2 = GetExtraDataIfPresent((NiAVObject*)context_2.geometry);
@@ -1647,11 +1652,11 @@ void FaceGenNode::FUN_00663050(bool update)
             continue;
         if (!((MorphGeometryData*)context_2.geometry->GetModelData())->FUN_00a67360(true))
             continue;
-        ((MorphGeometryData*)context_2.geometry->GetModelData())->FUN_00a67410(&context_2.morph);
+        ((MorphGeometryData*)context_2.geometry->GetModelData())->NiGeometryData_GetVerticesIterator(&context_2.morph);
         kTotal = context_2.geometry->GetVertexCount();
         if (update || resetMorph)
         {
-            FUN_00653340(context_2.geometry, &context_2.morph);
+            BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(context_2.geometry, &context_2.morph);
             done2 = true;
             resetMorph = false;
         }
@@ -1660,8 +1665,8 @@ void FaceGenNode::FUN_00663050(bool update)
         NiPoint3 origin6 = FUN_006633f0();
         float radius3 = 10.0f;
         float kRadius = (origin6 - FUN_0045bb80()).FUN_00457990();
-        float radiusX = FUN_006633d0();
-        float aMaximum = FUN_006633e0();
+        float radiusX = BSFaceGenManager_GetLODDistance();
+        float aMaximum = BSFaceGenManager_GetTalkingDistance();
         if (FUN_00525420())
         {
             radiusX *= 0.25;
@@ -1677,34 +1682,34 @@ void FaceGenNode::FUN_00663050(bool update)
         }
         if (refreshMorph && !done2)
         {
-            FUN_00653340(context_2.geometry, &context_2.morph);
+            BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(context_2.geometry, &context_2.morph);
             done2 = true;
         }
         if (aOverrideFlag_2 && !skipUpdate)
         {
-            FUN_00662e90(&context_2);
+            BSFaceGenNiNode_ApplyFacialPhonemes(&context_2);
             active5 = true;
             if (active)
             {
                 ApplyParamValues(&context_2);
                 ApplyParameterValues(&context_2);
-                FUN_00662f70(&context_2);
+                BSFaceGenNiNode_ApplyFacialCustomMorphs(&context_2);
                 updated4 = true;
             }
         }
         if (GetAnimation()->IsActive())
         {
-            if (!updated4 && GetAnimation()->FUN_005dd4a0(0) > 0.0 && FUN_009611e0()->IsReady())
+            if (!updated4 && GetAnimation()->FUN_005dd4a0(0) > 0.0 && NiAVObject_GetParent()->IsReady())
             {
                 ApplyParameterValues(&context_2);
                 updated4 = true;
             }
         }
-        else if (!active5 && kRadius > FUN_006633d0() - radius3)
+        else if (!active5 && kRadius > BSFaceGenManager_GetLODDistance() - radius3)
         {
             GetAnimation()->Update(0.0f, true, true, true, true, false);
         }
-        ((MorphGeometryData*)context_2.geometry->GetModelData())->FUN_00a673d0();
+        ((MorphGeometryData*)context_2.geometry->GetModelData())->NiGeometryData_UnlockPackedVertexData();
     }
     refreshMorph = false;
 }
@@ -1774,7 +1779,7 @@ struct DumpString
     const char* FUN_00559450();
 };
 extern DumpString DAT_011d5bf8;
-char* FUN_00a7d330(const char*);
+char* NiViewerStrings_NiGetViewerString_Title(const char*);
 char* FUN_00a7d550(const char*, float);
 const char* FUN_005dd830(int);
 const char* FUN_005dd840(int);
@@ -1850,7 +1855,7 @@ void DumpNode::DumpToArray(DumpArray* out)
 {
     FUN_00a5ea70(out);
     int i, k, buffer;
-    char* j = FUN_00a7d330(DAT_011d5bf8.FUN_00559450());
+    char* j = NiViewerStrings_NiGetViewerString_Title(DAT_011d5bf8.FUN_00559450());
     out->FUN_0096a610(j);
     char* title;
     title = new char[32];
@@ -2434,7 +2439,7 @@ struct S_00662e90_Object
 
 struct S_00662e90_Callee
 {
-    void __thiscall FUN_00662030(int, int, void*, int, float);
+    void __thiscall ApplyMorph(int, int, void*, int, float);
 };
 
 struct S_00662e90_Argument
@@ -2452,11 +2457,12 @@ struct S_00662e90_Argument
 class S_00662e90_Class : public S_00662e90_This
 {
   public:
-    void __thiscall FUN_00662e90(S_00662e90_Argument*);
+    void __thiscall BSFaceGenNiNode_ApplyFacialPhonemes(S_00662e90_Argument*);
 };
 
 // @fnv 0x00662e90
-void S_00662e90_Class::FUN_00662e90(S_00662e90_Argument* pArg)
+// src: COMMUNITY 0x00662e90
+void S_00662e90_Class::BSFaceGenNiNode_ApplyFacialPhonemes(S_00662e90_Argument* pArg)
 {
     int i8;
     float value;
@@ -2468,10 +2474,10 @@ void S_00662e90_Class::FUN_00662e90(S_00662e90_Argument* pArg)
         {
             if (!pArg->unk1c)
             {
-                FUN_00653340(pArg->unk00, &pArg->unk04);
+                BSFaceGenUtils_RefreshMeshFromBaseMorphExtraData(pArg->unk00, &pArg->unk04);
                 pArg->unk1c = 1;
             }
-            pArg->unk10->FUN_00662030(0, i8, pArg->unk00, pArg->unk14, value);
+            pArg->unk10->ApplyMorph(0, i8, pArg->unk00, pArg->unk14, value);
         }
     }
 }

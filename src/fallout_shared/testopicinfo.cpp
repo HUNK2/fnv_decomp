@@ -1358,7 +1358,7 @@ void TESTopicInfo::Copy(TESForm* form)
 }
 
 extern "C" void* __cdecl _alloca(unsigned int);
-void FUN_00403d30(void*, int, unsigned int);
+void ourMemset(void*, int, unsigned int);
 struct FileOps : TESFile
 {
     bool GetChunkData();
@@ -1424,7 +1424,7 @@ Script* TESTopicInfo::GetResultScript(unsigned int auiIndex)
         case 0x41444353: {
             unsigned int size = a->GetChunkSize();
             char* data = (char*)_alloca(size);
-            FUN_00403d30(data, 0, size);
+            ourMemset(data, 0, size);
             a->GetChunkData(data, 0);
             g_resultScripts[s].SetScriptData(size, data);
             break;

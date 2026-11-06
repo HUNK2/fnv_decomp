@@ -228,14 +228,14 @@ struct FUN_00484d60_holder
 };
 struct FUN_0048ea40_holder
 {
-    void FUN_0048ea40(unsigned int);
+    void SaveGameBGS_0048ea40(unsigned int);
 };
 
 // @fnv 0x005144c0
 void ArmorAddonOperations::SaveArmorGame(unsigned int flags)
 {
     reinterpret_cast<FUN_00484d60_holder*>(this)->SaveIfChanged(flags);
-    reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x58)->FUN_0048ea40(flags);
+    reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x58)->SaveGameBGS_0048ea40(flags);
 }
 
 struct TESFormBufferAccess
@@ -305,11 +305,11 @@ struct S_00487010
 };
 struct FUN_00479350_shell
 {
-    void FUN_00479350();
+    void BGSEquipType_Save();
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00();
+    void TESForm_SaveData();
 };
 struct FUN_00485680_shell
 {
@@ -329,8 +329,8 @@ void ArmorAddonOperations::SaveArmor()
     ((FUN_004855a0_shell*)this)->M();
     ((S_00487010*)((char*)this + 0x30))->FUN_00487010();
     ((BipedModelSaveAccess*)((char*)this + 0x70))->Save();
-    ((FUN_00479350_shell*)((char*)this + 0x154))->FUN_00479350();
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
+    ((FUN_00479350_shell*)((char*)this + 0x154))->BGSEquipType_Save();
+    ((FUN_00485e00_shell*)this)->TESForm_SaveData();
     if (FUN_00401500())
         ((ArmorDataEndianAccess*)((char*)this + 0x178))->Endian();
     AppendChunk(0x4d414e44, (char*)this + 0x178, 0xc);

@@ -42,7 +42,7 @@ public:
     void ResetFormData();
     void UnregisterIdleForm();
     bool IsFlag40Set();
-    bool FUN_005ff1d0();
+    bool TESIdleForm_GetAllowNoFile();
     NiFormArray* AssignParentPath();
     unsigned int GetChildCount();
     TESIdleForm* GetChildByIndex(unsigned int index);

@@ -39,11 +39,13 @@ void __cdecl FUN_00d213e0(char const* const* first, char const* const* ignored)
 }
 
 // @fnv 0x00d213f0
-void __stdcall FUN_00d213f0(int, int)
+// src: COMMUNITY 0x00d213f0
+void __stdcall nullsub_53(int, int)
 {}
 
 // @fnv 0x00d21400
-void __stdcall FUN_00d21400(int a1)
+// src: COMMUNITY 0x00d21400
+void __stdcall nullsub_52(int a1)
 {}
 
 struct Allocator

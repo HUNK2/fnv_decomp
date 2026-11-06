@@ -8,7 +8,7 @@
 #include "../../../include/NP.h"
 
 extern NP DAT_012007c4;
-void FUN_006f7a60(void* p);
+void BSDistantTreeShader_SetTextureAtlas(void* p);
 void* __cdecl _Deallocate(void*);
 
 extern int _fnv_particle_shader_renderer_level;

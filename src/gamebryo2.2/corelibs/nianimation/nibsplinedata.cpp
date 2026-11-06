@@ -144,7 +144,7 @@ extern void* g_011f4034;
 extern const char str_01099f08[];
 extern const char str_01099ee8[];
 
-void* __cdecl FUN_00a7d330(void* pv);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* pv);
 void* __cdecl FUN_00a7d510(const char* pcName, unsigned int uiValue);
 
 struct ArrayArg
@@ -164,7 +164,7 @@ void __fastcall GetSplineViewerStrings(NiBSplineData* self, int, ArrayArg& kStre
 {
     self->NiObject::AddViewerStrings(reinterpret_cast<NiViewerStringsArray*>(&kStream));
     {
-        void* p = FUN_00a7d330(g_011f4034);
+        void* p = NiViewerStrings_NiGetViewerString_Title(g_011f4034);
         unsigned int uiPos = kStream.m_0a;
         if (uiPos >= kStream.m_08)
         {

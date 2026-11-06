@@ -47,12 +47,12 @@ public:
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int __thiscall bhkTransformShape_GetCInfoSize();
 };
 struct NiRTTI;
 extern NiRTTI g_011d5e70;
 struct NiCullingProcess;
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_GetTreesEnabled();
 struct FUN_00c6c290_holder
 {
     void FUN_00c6c290();
@@ -79,7 +79,7 @@ struct FUN_0066d470_shell
 };
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 extern const void* g_012683e0;
 struct FUN_0066d520_shell
@@ -168,7 +168,7 @@ struct FUN_0066bf80_data
 };
 struct NiCamera;
 extern double gModifierZero;
-extern "C" unsigned int __cdecl FUN_00552380();
+extern "C" unsigned int __cdecl BSTreeManager_GetCamera();
 extern bool __cdecl FUN_004b5fc0(NiAVObject*, NiCamera*);
 #include "../../../include/MEM_CONTEXT.h"
 class NiTexture;
@@ -306,7 +306,7 @@ struct FUN_0066d590_cls : FUN_0066d590_base
     FUN_0066d590_cls(unsigned int a1);
 };
 extern "C" int __cdecl FUN_00406d00(char* text, unsigned size, const char* fmt, ...);
-extern "C" char* __cdecl FUN_00a7d330(const char* s);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* s);
 struct S_0066d880_List
 {
     void FUN_0096a610(char** item);
@@ -747,7 +747,7 @@ struct SpawnedSourceOwner
     virtual void vB8();
     virtual void Apply(SpawnedSource* apSource);
 
-    void FUN_00cab0e0(__m128* apA, __m128* apB, float afT);
+    void bhkCapsuleShape_Init(__m128* apA, __m128* apB, float afT);
     void FUN_00cab820(SpawnedSource* apSource);
 };
 #include <xmmintrin.h>

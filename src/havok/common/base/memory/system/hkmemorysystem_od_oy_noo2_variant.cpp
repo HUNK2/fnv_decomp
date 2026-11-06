@@ -3,7 +3,7 @@
 // byte only under /MT /Od /GS /EHsc /Gy /Oy- (unit src/havok/common/base/memory/system/hkmemorysystem.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
-int __stdcall FUN_00cbc440(int a, int b);
+int __stdcall hkMemorySystem_debugTagAddress(int a, int b);
 extern int DAT_01268418;
 int FUN_00cbbfc0();
 extern int g_CBBFD0Value;
@@ -50,7 +50,7 @@ struct Quantity
     unsigned int m_quantity;
     void SetQuantity(unsigned int q);
 };
-unsigned int __cdecl FUN_005e0b50(void* p, int v);
+unsigned int __cdecl hkAddByteOffset_005e0b50(void* p, int v);
 struct QuantitySet
 {
     Quantity m_kPointA;
@@ -63,5 +63,5 @@ void QuantitySet::FUN_008c70c0(unsigned int q, int v)
 {
     m_kPointB.SetQuantity(q);
     m_kPointA.SetQuantity(q);
-    m_iThirdValue.SetQuantity(FUN_005e0b50((void*)q, v));
+    m_iThirdValue.SetQuantity(hkAddByteOffset_005e0b50((void*)q, v));
 }

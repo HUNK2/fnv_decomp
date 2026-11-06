@@ -49,7 +49,8 @@ void ActiveEffectHitEffectAccess::RemoveHitEffect(BSTempEffect* apHitEffect)
 struct FUN_0081b6c0_shell;
 
 // @fnv 0x0081b6c0
-int __fastcall FUN_0081b6c0(int)
+// src: COMMUNITY 0x0081b6c0
+int __fastcall retn4(int)
 {
     return 4;
 }
@@ -130,11 +131,12 @@ extern TESSaveLoadGame* g_TESSaveLoadGame;
 
 struct FUN_0081bd80_s
 {
-    void FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarget);
+    void MagicHitEffect_SaveGame(ActiveEffect* apEffect, TESObjectREFR* apTarget);
 };
 
 // @fnv 0x0081bd80
-void FUN_0081bd80_s::FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarget)
+// src: COMMUNITY 0x0081bd80
+void FUN_0081bd80_s::MagicHitEffect_SaveGame(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
     g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x20, 4);
     g_TESSaveLoadGame->FUN_008579b0((char*)this + 0x24, 1);
@@ -165,12 +167,13 @@ struct FUN_00682a30_base
 
 struct FUN_0081be80_s : FUN_00682a30_base
 {
-    void FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer);
+    void MagicHitEffect_SaveGameBGS(BGSSaveFormBuffer* apSaveGameBuffer);
 };
 
 // Calls the base save, writes the 4-byte field at 0x20 and the byte at 0x24, then saves the TESObjectREFR pointer at 0x1c.
 // @fnv 0x0081be80
-void FUN_0081be80_s::FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer)
+// src: COMMUNITY 0x0081be80
+void FUN_0081be80_s::MagicHitEffect_SaveGameBGS(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     FUN_00682a30(apSaveGameBuffer);
     apSaveGameBuffer->SaveData((char*)this + 0x20, 4, 0);
@@ -440,7 +443,7 @@ struct VObj
 struct Node
 {
     void* FUN_008d6f30();
-    Node* FUN_009611e0();
+    Node* NiAVObject_GetParent();
     Node* FUN_00545cb0();
     VObj* FUN_005497a0();
 };
@@ -450,11 +453,12 @@ struct FUN_0081bc70_s
     Node* FUN_00441110();
     Node* FUN_0084e3a0();
     void FUN_0041fd00(void* apNode);
-    void FUN_0081bc70(Node* apArg);
+    void MagicHitEffect_UpdateParentCell(Node* apArg);
 };
 
 // @fnv 0x0081bc70
-void FUN_0081bc70_s::FUN_0081bc70(Node* apArg)
+// src: COMMUNITY 0x0081bc70
+void FUN_0081bc70_s::MagicHitEffect_UpdateParentCell(Node* apArg)
 {
     if (FUN_00441110())
     {
@@ -463,7 +467,7 @@ void FUN_0081bc70_s::FUN_0081bc70(Node* apArg)
         {
             if (FUN_0084e3a0() && FUN_0084e3a0()->FUN_00545cb0())
             {
-                if (!apArg->FUN_009611e0() || FUN_0084e3a0()->FUN_00545cb0() != apArg->FUN_009611e0()->FUN_009611e0())
+                if (!apArg->NiAVObject_GetParent() || FUN_0084e3a0()->FUN_00545cb0() != apArg->NiAVObject_GetParent()->NiAVObject_GetParent())
                 {
                     VObj* m = FUN_0084e3a0()->FUN_005497a0();
                     m->v55(apArg, 1);
@@ -497,12 +501,13 @@ class BF20RefFormCall : public BF20FormCall
   public:
     TESObjectREFR* m_pkTarget;
 
-    void FUN_0081bf20(unsigned int uiFlags);
+    void MagicHitEffect_SetTarget(unsigned int uiFlags);
 };
 
 // Reverts the base form call with uiFlags, then re-resolves m_pkTarget through BF20ResolveForm or clears it if null.
 // @fnv 0x0081bf20
-void BF20RefFormCall::FUN_0081bf20(unsigned int uiFlags)
+// src: COMMUNITY 0x0081bf20
+void BF20RefFormCall::MagicHitEffect_SetTarget(unsigned int uiFlags)
 {
     BF20FormCall::Revert(uiFlags);
     m_pkTarget = m_pkTarget ? dynamic_cast<TESObjectREFR*>(BF20ResolveForm(m_pkTarget)) : 0;

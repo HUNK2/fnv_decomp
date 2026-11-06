@@ -93,14 +93,14 @@ struct RefB09
     virtual void vr03a();
     virtual void vr03b();
     virtual hkVector4* GetPosF0(hkVector4* pOut);
-    HandleB09* FUN_0043b4f0(HandleB09* pOut);
+    HandleB09* bhkWorldObject_GetCollisionFilter(HandleB09* pOut);
     void* FUN_004ae750();
-    void FUN_009b0bf0(const NiPoint3& kImpulse);
-    void FUN_009b0c90(const NiPoint3& kImpulse);
+    void bhkRigidBody_ApplyLinearImpulseNi(const NiPoint3& kImpulse);
+    void bhkRigidBody_ApplyAngularImpulseNi(const NiPoint3& kImpulse);
 };
 FormB09* __cdecl FUN_004b5a20(void* pBase);
 void* __cdecl FUN_0056f930(void* pForm);
-float __cdecl FUN_0062b520(float fValue, RefB09* pRef, int iFlag);
+float __cdecl TESHavokUtilities_ScaleGameplayImpulseForce(float fValue, RefB09* pRef, int iFlag);
 float __cdecl FUN_0040ebd0(float fA, float fB);
 float __cdecl FUN_00476b70(float fMin, float fScaledValue);
 struct OwnerB09
@@ -233,13 +233,14 @@ struct OwnerB09
     virtual NiPoint3* GetPos1F4();
     ProcessB09* FUN_004181e0();
     void* FUN_009ad610();
-    void FUN_009b0920(RefB09* pRef);
+    void Explosion_PushRigidBody(RefB09* pRef);
 };
 
 // Shared vector unions need strict GS checking to retain the original stack cookies.
 #pragma strict_gs_check(push, on)
 // @fnv 0x009b0920
-void OwnerB09::FUN_009b0920(RefB09* pRef)
+// src: COMMUNITY 0x009b0920
+void OwnerB09::Explosion_PushRigidBody(RefB09* pRef)
 {
     if (pRef)
     {
@@ -252,7 +253,7 @@ void OwnerB09::FUN_009b0920(RefB09* pRef)
             NiPoint3 kWorldPosition = kRefPos - *GetPos1F4();
             kWorldPosition.Unitize();
             HandleB09 kHandle;
-            if (pRef->FUN_0043b4f0(&kHandle)->FUN_00624070())
+            if (pRef->bhkWorldObject_GetCollisionFilter(&kHandle)->FUN_00624070())
                 kWorldPosition[2] += *g_kSettingE70.GetFloat();
             bool bMatched = false;
             if (FUN_009ad610())
@@ -263,18 +264,18 @@ void OwnerB09::FUN_009b0920(RefB09* pRef)
                 if (pOther && pOther == FUN_009ad610())
                 {
                     HandleB09 kHandle2;
-                    if (pRef->FUN_0043b4f0(&kHandle2)->FUN_0043b4d0() == 20)
+                    if (pRef->bhkWorldObject_GetCollisionFilter(&kHandle2)->FUN_0043b4d0() == 20)
                         pRef->SetFlagE4(1);
                     fForce *= *g_kSettingDBC.GetFloat();
                     bMatched = true;
                 }
             }
-            fForce = FUN_0062b520(fForce, pRef, 1);
+            fForce = TESHavokUtilities_ScaleGameplayImpulseForce(fForce, pRef, 1);
             if (!bMatched)
                 fForce = FUN_0040ebd0(fForce, *g_kSettingC9C.GetFloat());
-            pRef->FUN_009b0bf0(kWorldPosition * fForce * *g_kSettingF64.GetFloat());
+            pRef->bhkRigidBody_ApplyLinearImpulseNi(kWorldPosition * fForce * *g_kSettingF64.GetFloat());
             NiPoint3 kRandom(FUN_00476b70(-1.0f, 1.0f), FUN_00476b70(-1.0f, 1.0f), FUN_00476b70(-1.0f, 1.0f));
-            pRef->FUN_009b0c90(kRandom * fForce * *g_kSetting2EC.GetFloat());
+            pRef->bhkRigidBody_ApplyAngularImpulseNi(kRandom * fForce * *g_kSetting2EC.GetFloat());
         }
     }
 }
@@ -282,28 +283,30 @@ void OwnerB09::FUN_009b0920(RefB09* pRef)
 int __cdecl FUN_004a3e00(hkVector4*, int);
 struct S009b0bf0_Obj
 {
-    void FUN_009b0c50(int);
-    void FUN_009b0bf0(int a0);
+    void bhkRigidBody_ApplyLinearImpulse(int);
+    void bhkRigidBody_ApplyLinearImpulseNi(int a0);
 };
 // @fnv 0x009b0bf0
-void S009b0bf0_Obj::FUN_009b0bf0(int a0)
+// src: COMMUNITY 0x009b0bf0
+void S009b0bf0_Obj::bhkRigidBody_ApplyLinearImpulseNi(int a0)
 {
     hkVector4 box;
-    FUN_009b0c50(FUN_004a3e00(&box, a0));
+    bhkRigidBody_ApplyLinearImpulse(FUN_004a3e00(&box, a0));
 }
 
 hkVector4& FUN_004a3e00(hkVector4& out, const NiPoint3& in);
 struct S_009b0c90
 {
     int unk00;
-    void FUN_009b0cf0(const hkVector4& v);
-    void FUN_009b0c90(const NiPoint3& p);
+    void bhkRigidBody_ApplyAngularImpulse(const hkVector4& v);
+    void bhkRigidBody_ApplyAngularImpulseNi(const NiPoint3& p);
 };
 // @fnv 0x009b0c90
-void S_009b0c90::FUN_009b0c90(const NiPoint3& p)
+// src: COMMUNITY 0x009b0c90
+void S_009b0c90::bhkRigidBody_ApplyAngularImpulseNi(const NiPoint3& p)
 {
     hkVector4 v;
-    FUN_009b0cf0(FUN_004a3e00(v, p));
+    bhkRigidBody_ApplyAngularImpulse(FUN_004a3e00(v, p));
 }
 
 #pragma strict_gs_check(pop)

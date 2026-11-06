@@ -46,7 +46,7 @@ public:
     void* CreateLight(void* reference, void* object, bool flag);
     unsigned int GetColor();
     NiColor* GetLightColor();
-    bool FUN_0050dd90();
+    bool GetDynamic();
     float GetRadius();
     int FUN_0087eaa0();
 

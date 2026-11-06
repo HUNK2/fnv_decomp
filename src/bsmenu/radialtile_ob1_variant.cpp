@@ -75,7 +75,7 @@ inline bool BSString::Set(const char* text, unsigned int requested)
 extern float FUN_00706e40();
 extern Tile* FUN_00706cd0();
 extern int FUN_00406f60(BSString*, const char*, ...);
-extern void FUN_005b5e40(const char*);
+extern void Warning_005b5e40(const char*);
 
 // @fnv 0x00a216b0
 bool Tile::FUN_00a216b0(float x, float y)
@@ -150,7 +150,7 @@ bool Tile::FUN_00a216b0(float x, float y)
 
         BSString b(0);
         FUN_00406f60(&b, "--- fx %f fy %f  --- Magnitude: %f ", x, y, mag5);
-        FUN_005b5e40(b.m_data);
+        Warning_005b5e40(b.m_data);
 
         if (f <= mag5 && mag5 <= p)
         {

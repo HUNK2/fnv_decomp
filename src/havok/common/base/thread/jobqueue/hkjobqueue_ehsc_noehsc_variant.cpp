@@ -24,7 +24,7 @@ struct FUNObj
     Entry entries[15];
     void SetEntry(int index, int first, int second, int third, int fourth);
 };
-void FUN_00d043c0(void*, int);
+void hkSemaphoreBusyWait_release(void*, int);
 struct UnsignedShortCountBlock
 {
     unsigned short unk00;
@@ -221,8 +221,8 @@ struct Owner
     int unk40;
     int unk44;
     int count;
-    Registry* FUN_00d04400(RequestContext*);
-    void FUN_00d04420(Registry*);
+    Registry* hkJobQueue_lockQueue(RequestContext*);
+    void hkJobQueue_unlockQueue(Registry*);
     void hkJobQueue_setQueueCapacityForJobType(int, int);
 };
 struct Item
@@ -319,14 +319,14 @@ struct CallTarget
 {
     int FUN_00d04390(int aiValue);
 };
-int __cdecl FUN_00d043c0(CallTarget* apTarget, int aiValue);
-void __cdecl FUN_00d043c0(int value, int flag);
+int __cdecl hkSemaphoreBusyWait_release(CallTarget* apTarget, int aiValue);
+void __cdecl hkSemaphoreBusyWait_release(int value, int flag);
 struct FUN_00d04450_cls
 {
     int unk00;
 
-    void* FUN_00d04400(void* out);
-    void FUN_00d04420(void* p);
+    void* hkJobQueue_lockQueue(void* out);
+    void hkJobQueue_unlockQueue(void* p);
     void SetValue(int a1);
 };
 // ---------------------------------------------------------------------------
@@ -341,7 +341,7 @@ struct FUN_00d04450_cls
 // The semaphore object; only released through FUN_00d043c0.
 struct FnvSemaphore;
 // Releases a semaphore count times.
-void FUN_00d043c0(FnvSemaphore* pSemaphore, int count);
+void hkSemaphoreBusyWait_release(FnvSemaphore* pSemaphore, int count);
 // The block of pending counters handed to ReleasePendingCounts.
 struct FnvReleaseCounts
 {
@@ -430,7 +430,7 @@ class FUN_00d04890_cls
 
     int LookupSpawnedEntry(const unsigned char* p);
 };
-void __cdecl FUN_00d043c0(int value, int flag);
+void __cdecl hkSemaphoreBusyWait_release(int value, int flag);
 struct FUN_00d048e0_cls
 {
     int unk00;
@@ -914,8 +914,8 @@ struct D05490Array
     D05490Array() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
 };
-void FUN_00d043d0();
-void FUN_00d043e0();
+void hkDefaultPopJobFunc();
+void hkDefaultFinishJobFunc();
 void defaultPopDispatchFunc();
 void FUN_00d04570();
 struct FUN_00d05490 : D05490Base
@@ -1140,7 +1140,7 @@ struct S_00d05020_DynamicData
 };
 struct S_00d05020_JobQueue
 {
-    S_00d05020_DynamicData* FUN_00d04400(char* dynamicDataStorage);
+    S_00d05020_DynamicData* hkJobQueue_lockQueue(char* dynamicDataStorage);
     int LookupSpawnedEntry(const S_00d05020_Job& job);
     int hkJobQueue_findJobInternal(int queueIndexOfNewJob, S_00d05020_DynamicData* data, int waitStatus, S_00d05020_Job& jobOut);
     int hkJobQueue_finishAddAndGetNextJob(int originalJobType, int priority, S_00d05020_Job& jobInOut, int waitStatus);

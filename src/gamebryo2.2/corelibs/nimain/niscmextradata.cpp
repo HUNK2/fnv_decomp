@@ -7,7 +7,8 @@
 extern int g_01270908;
 
 // @fnv 0x00ee89a0
-int* __cdecl FUN_00ee89a0()
+// src: COMMUNITY 0x00ee89a0
+int* __cdecl NiSCMExtraData_GetRTTI()
 {
     return &g_01270908;
 }

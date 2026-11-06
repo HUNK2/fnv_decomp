@@ -60,7 +60,7 @@ extern void (*DAT_011f9f40[16])(), (*DAT_011f9f80[16])();
 #pragma optimize("", on)
 extern "C" NiTexture* DAT_011f95ec;
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
-void __cdecl FUN_00b54ac0(NiTexture* pkTexture);
+void __cdecl BSShaderManager_SetAccumulator(NiTexture* pkTexture);
 struct PropHelper
 {
     virtual void vfn_0();
@@ -305,7 +305,7 @@ struct ImageSpaceTail
 {
     void Tail();
 };
-void __cdecl FUN_00b557d0();
+void __cdecl BSShaderManager_ReloadShaders();
 struct FUN_00b55b00_prop
 {
     char unk00[0x1c];
@@ -792,7 +792,8 @@ __forceinline unsigned char ToByte(double f)
 }
 
 // @fnv 0x00b55bb0
-void FUN_00b55bb0()
+// src: COMMUNITY 0x00b55bb0
+void BSShaderManager_GenerateNormalizationCubeMap()
 {
 
     NiPixelData* faceData;

@@ -961,7 +961,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
         }
         if (pOldForm && !(file->GetRecordHeader()->flags & 0x20))
         {
-            pOldForm->FUN_00483870();
+            pOldForm->TESForm_ClearDataAllComponents();
             pOldForm->ClearData();
             pOldForm->ClearFormData();
             pOldForm->InitializeComponent();
@@ -1090,7 +1090,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
         }
         if (pRef->GetObjectReference())
         {
-            if (g_BGSSaveLoadGame->FUN_00469570())
+            if (g_BGSSaveLoadGame->BGSSaveLoadGame_GetLoadingMovedRefs())
                 bAddObject = false;
             if (bAddObject)
             {
@@ -1547,7 +1547,7 @@ TESFile* TESDataHandler::LookupTESFile(const char* name)
         while (list && list->GetItem())
         {
             TESFile* file = list->GetItem();
-            if (!FUN_00404dc0(name, file->GetName()))
+            if (!BSstricmp(name, file->GetName()))
                 return file;
             list = list->GetNext();
         }
@@ -2506,7 +2506,8 @@ const char* TESFile::GetPath()
 
 
 // @fnv 0x00464d30
-void TESDataHandler::FUN_00464d30(bool abNewbool)
+// src: COMMUNITY 0x00464d30
+void TESDataHandler::DataHandler_DisableAssignFormIDs(bool abNewbool)
 {
     bLoadingFiles = abNewbool;
 }
@@ -2781,11 +2782,12 @@ struct Main
 typedef char _sizecheck_Main[sizeof(Main) == 180 ? 1 : -1];
 struct FUN_004f6de0_shell : public Main
 {
-    bool FUN_004f6de0();
+    bool _GetByte05();
 };
 
 // @fnv 0x004f6de0
-bool FUN_004f6de0_shell::FUN_004f6de0()
+// src: COMMUNITY 0x004f6de0
+bool FUN_004f6de0_shell::_GetByte05()
 {
     return m_bSixthStateFlag;
 }
@@ -2912,7 +2914,7 @@ int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 void __cdecl CheckTopicsForQuest(int);
 void __cdecl SortTopicList(int, int);
 int __cdecl FindArchiveByName(char*);
-void __cdecl FUN_00af4be0(char*, int, int);
+void __cdecl LoadBSAFileHook(char*, int, int);
 extern StartMenu g_011c4024;
 extern StartMenu g_011c4048;
 struct LC3_FindData
@@ -3053,7 +3055,7 @@ bool TESDataHandler::LoadPluginFiles(bool abDownloadedContentOnly)
             pfile->CheckMasterFiles(GetFileList(), true);
             if (!CheckTESFileVersion(pfile))
             {
-                v = pfile->FUN_00471ad0();
+                v = pfile->GetIndexCount();
                 for (pDeckList = 0; pDeckList < v; pDeckList++)
                 {
                     E = pfile->GetMasterFile(pDeckList + 1);
@@ -3065,9 +3067,9 @@ bool TESDataHandler::LoadPluginFiles(bool abDownloadedContentOnly)
                     }
                     if (!bloaded)
                     {
-                        if (pfile->FUN_00471a60(pDeckList + 1))
+                        if (pfile->GetIndexName(pDeckList + 1))
                             fnv_00463070::TesdatahandlerInterfaceView::PrintDebugMessage("Unable to find masterfile: %s",
-                                                         pfile->FUN_00471a60(pDeckList + 1));
+                                                         pfile->GetIndexName(pDeckList + 1));
                         else
                             fnv_00463070::TesdatahandlerInterfaceView::PrintDebugMessage("Unable to find masterfile: <unknown>");
                         ((LC3_DH*)this)->b61a = false;
@@ -3178,14 +3180,14 @@ bool TESDataHandler::LoadPluginFiles(bool abDownloadedContentOnly)
                         char r[260];
                         _sprintf_s(r, 0x104, "DATA\\%s", G.cFileName);
                         if (!FindArchiveByName(r))
-                            FUN_00af4be0(r, 0, 0);
+                            LoadBSAFileHook(r, 0, 0);
                     }
                 } while (FindNextFileA(F, (WIN32_FIND_DATAA*)&G));
                 FindClose(F);
             }
         }
     }
-    FUN_00464d30(true);
+    DataHandler_DisableAssignFormIDs(true);
     if (!abDownloadedContentOnly)
         InitializeMagicSystem();
     DAT_011c3f28 = 0;
@@ -3195,14 +3197,14 @@ bool TESDataHandler::LoadPluginFiles(bool abDownloadedContentOnly)
         bool bfirst = false;
         if (pDeckList == 0)
             bfirst = true;
-        if (abDownloadedContentOnly && (!((LC3_DH*)this)->compiledFiles[pDeckList]->FUN_0044edb0() ||
+        if (abDownloadedContentOnly && (!((LC3_DH*)this)->compiledFiles[pDeckList]->TESMain_GetThread() ||
                                         !((LC3_DH*)this)->compiledFiles[pDeckList]->GetByteAt428()))
             continue;
-        if (!((TESDataHandler*)this)->FUN_00467780(((LC3_DH*)this)->compiledFiles[pDeckList], bfirst))
+        if (!((TESDataHandler*)this)->TESDataHandler_ConstructObjectList(((LC3_DH*)this)->compiledFiles[pDeckList], bfirst))
             ((TESDataHandler*)this)->ReportDataHandlerError(3);
     }
     g_dataHandler->SetSaveLoadGameState(-1);
-    FUN_00464d30(false);
+    DataHandler_DisableAssignFormIDs(false);
 
     pweatherlist = (LC3_Node*)GetTESWeatherList();
     while (pweatherlist && (pweather = (TESForm*)*pweatherlist->_ref_006815c0()) != 0)
@@ -3398,7 +3400,7 @@ bool TESDataHandler::LoadPluginFiles(bool abDownloadedContentOnly)
         pform->InitItem();
         pzoneList = (LC3_Node*)pzoneList->GetFirst();
     }
-    g_calendar.FUN_00867890();
+    g_calendar.Calendar_InitGlobals();
     pmaster = (LC3_Node*)FUN_004612e0();
     while (pmaster && (pwater = (TESForm*)*pmaster->_ref_006815c0()) != 0)
     {
@@ -3498,7 +3500,7 @@ bool TESDataHandler::LoadPluginFiles(bool abDownloadedContentOnly)
     }
     DAT_011cb6a0->InitializeIdleAnimations();
     DAT_011ca700->UpdateCameraPaths();
-    FUN_00408df0();
+    EffectSettingCollection_InitItems();
     penchantList = (LC3_Node*)GetEnchantmentItemList();
     while (penchantList)
     {
@@ -3566,7 +3568,7 @@ bool TESDataHandler::LoadPluginFiles(bool abDownloadedContentOnly)
     ValidateFactionReactions();
     MarkGameSettingsLoaded();
     DAT_011c3f30 = 0;
-    ((::PlayerCharacter*)g_thePlayer)->FUN_00464e10()->FUN_008d50e0();
+    ((::PlayerCharacter*)g_thePlayer)->FUN_00464e10()->CharacterProgression_InitializeData();
     ((LC3_DH*)this)->b61a = false;
     return true;
 }
@@ -4040,7 +4042,7 @@ TESObjectCELL* TESDataHandler::LookupCellByEditorID(char* pcEditorID)
     for (int i = 0; i < iSize; ++i)
     {
         TESForm* form = *(TESForm**)((fnv_00461ae0::Arr*)((char*)this + 0x1dc))->GetAt(i);
-        if (!FUN_00404dc0(form->GetName(), pcEditorID))
+        if (!BSstricmp(form->GetName(), pcEditorID))
             return (TESObjectCELL*)form;
     }
     BSSimpleList<TESWorldSpace*>* pWorldList = GetTESWorldSpaceList();
@@ -4379,11 +4381,11 @@ struct SubX
     void FUN_006c09f0();
     int FUN_0045af00();
     void SetNavMeshMaps(int a1);
-    bool FUN_004f6de0();
+    bool _GetByte05();
     void DeleteAllOwnedForms();
     void FUN_00600030();
     void DestroyCameraPaths();
-    void FUN_00471d90(bool a1);
+    void TESFile_SetActive(bool a1);
 };
 struct FormMapX
 {
@@ -4808,7 +4810,7 @@ bool DataHandlerX::FUN_0045dfe0()
     {
         xDAT_011dea10->SetNavMeshMaps(0);
     }
-    if (!xDAT_011dea0c || !xDAT_011dea0c->FUN_004f6de0())
+    if (!xDAT_011dea0c || !xDAT_011dea0c->_GetByte05())
     {
         xDAT_011cb6a0->DeleteAllOwnedForms();
     }
@@ -4888,7 +4890,7 @@ bool DataHandlerX::FUN_0045dfe0()
     {
         if (!GetByteAt618())
         {
-            ((SubX*)pActiveFile)->FUN_00471d90(0);
+            ((SubX*)pActiveFile)->TESFile_SetActive(0);
         }
         if (pActiveFile)
         {
@@ -5018,7 +5020,7 @@ TESObjectCELL* TESDataHandlerUnitOperations::CreateExteriorCell(const char* edit
 extern "C" unsigned char __fastcall FUN_008256d0(void*);
 extern "C" TESForm** __fastcall FUN_006815c0(void*);
 extern "C" void* __fastcall FUN_00726070(void*);
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 // Walks the list at this+0xe8 and returns the first TESForm whose editor ID matches editorID, or 0 if none matches.
 // @fnv 0x00461700
 TESForm* TESDataHandlerUnitOperations::FindFormByEditorID(const char* editorID)
@@ -5032,7 +5034,7 @@ TESForm* TESDataHandlerUnitOperations::FindFormByEditorID(const char* editorID)
             form = *FUN_006815c0(node);
             if (form != 0)
             {
-                if (FUN_00404dc0(form->GetName(), editorID) == 0)
+                if (BSstricmp(form->GetName(), editorID) == 0)
                 {
                     return form;
                 }
@@ -5054,7 +5056,7 @@ struct SortPathArray
     SortPath*& GetAt(unsigned int);
     void SetAt(unsigned int, SortPath*&);
 };
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 struct SortHandler : TESDataHandler
 {
     void FUN_004619b0();
@@ -5075,7 +5077,7 @@ void SortHandler::FUN_004619b0()
             SortPath* next = reinterpret_cast<SortPathArray*>(&(*reinterpret_cast<NiTArray<TESObjectCELL*, NiTMallocInterface<TESObjectCELL*> >*>(arrayInteriorCells)))->GetAt(j);
             if (best && next)
             {
-                if (FUN_00404dc0(next->Name(), best->Name()) < 0)
+                if (BSstricmp(next->Name(), best->Name()) < 0)
                 {
                     best = next;
                     index = j;
@@ -5140,13 +5142,13 @@ struct DeletionQueueMethods
 {
     void FUN_009740a0(DeletionObject*);
 };
-void __cdecl FUN_0044ada0(bool);
+void __cdecl BSTaskThread_SetPauseSleepEnabled(bool);
 // @fnv 0x00462290
 void DeletionDataHandler::DeleteObject(DeletionObject* object)
 {
     if (!object || object->FUN_00440d80())
         return;
-    FUN_0044ada0(true);
+    BSTaskThread_SetPauseSleepEnabled(true);
     bool bPreviousSaveState = false;
     if (DAT_011ddf38->FUN_0042ce10())
         bPreviousSaveState = DAT_011ddf38->FUN_004623f0(false);
@@ -5169,7 +5171,7 @@ void DeletionDataHandler::DeleteObject(DeletionObject* object)
         object->FUN_0054ddd0()->FUN_00585e00(object);
     if (DAT_011ddf38->FUN_0042ce10())
         DAT_011ddf38->FUN_004623f0(bPreviousSaveState);
-    FUN_0044ada0(false);
+    BSTaskThread_SetPauseSleepEnabled(false);
 }
 
 struct FUN_00464e50_list
@@ -5182,7 +5184,7 @@ struct FUN_00464e50_list
 
 
 void FUN_00461300();
-void FUN_005b5e40(const char*);
+void Warning_005b5e40(const char*);
 
 
 // @fnv 0x00464e50
@@ -5191,7 +5193,7 @@ void TESDataHandlerUnitOperations::ClearPendingReferences()
     if (!((FUN_00464e50_list*)((char*)this + 0x1fc))->FUN_0076b610() && DAT_011c54b9)
     {
         FUN_00461300();
-        FUN_005b5e40(
+        Warning_005b5e40(
             "MASTERFILE: Invalid forms were encountered on load and need to be removed from the master file. Contact a programmer immediately to fix any problems in the file.");
         return;
     }
@@ -5287,7 +5289,7 @@ struct WorldOperations
 {
     TESObjectCELL* FUN_005875a0(int x, int y);
 };
-extern "C" void __cdecl FUN_005b5e40(const void*, int, int);
+extern "C" void __cdecl Warning_005b5e40(const void*, int, int);
 extern char UNK_010187a0;
 extern char UNK_01011584;
 // Returns the cell at grid coordinates x,y in world, creating it when missing if allowed; rejects coordinates outside -32768..32767.
@@ -5302,7 +5304,7 @@ TESObjectCELL* TESDataHandler::GetCellAtGridPosition(int x, int y, TESWorldSpace
     }
     if (x > 32767 || y > 32767 || x < -32768 || y < -32768)
     {
-        FUN_005b5e40(&UNK_010187a0, -32768, 32767);
+        Warning_005b5e40(&UNK_010187a0, -32768, 32767);
         return 0;
     }
     TESObjectCELL* cell = ((WorldOperations*)world)->FUN_005875a0(x, y);
@@ -5342,7 +5344,7 @@ struct RefOps
     void FUN_00575700(NiPoint3);
     void* FUN_0055d310();
     void FUN_00564c60(bool);
-    FloatMatrix3 FUN_0056fa00();
+    FloatMatrix3 TESObjectREFR_GetOrientation();
 };
 struct WorldOps
 {
@@ -5799,7 +5801,7 @@ TESObjectREFR* HandlerView::PlaceObjectReference(TESBoundObject* base, NiPoint3*
             if (node)
             {
                 node->FUN_00440460(reinterpret_cast<const ::NiPoint3*>(static_cast<const TESObjectREFR*>(b)->GetPos()));
-                node->FUN_0043fa80(reinterpret_cast<const ::FloatMatrix3&>(((RefOps*)b)->FUN_0056fa00()));
+                node->FUN_0043fa80(reinterpret_cast<const ::FloatMatrix3&>(((RefOps*)b)->TESObjectREFR_GetOrientation()));
                 FUN_00c6bd00(node, true);
                 FUN_00450b80(0)->FUN_00b5eeb0(node);
                 node->FUN_00a5a040();
@@ -5839,7 +5841,7 @@ struct WorldA
 };
 extern RefA* DAT_011dea3c;
 extern char DAT_01018c08;
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 RefA* __cdecl CreateProjectileRef(TESForm*, RefA*, int, TESObjectCELL*, NiPoint3, MatrixA);
 struct SelfA
 {
@@ -5860,7 +5862,7 @@ RefA* SelfA::FUN_0046a190(TESForm* form, NiPoint3* pos, NiPoint3* angles, TESObj
             int cellX = _TruncateFloatToInt(pos->y) >> 12;
             placedObject = world->GetCellAtGridPosition(cellY, cellX);
             if (!placedObject && world != DAT_011dea3c->FUN_00575d70())
-                FUN_005b5e40(&DAT_01018c08, cellY, cellX);
+                Warning_005b5e40(&DAT_01018c08, cellY, cellX);
         }
         else
             placedObject = suppliedCell;
@@ -5903,7 +5905,7 @@ struct FormMap_46ec10
 };
 extern FormMap_46ec10* DAT_011c54c0;
 
-int __cdecl FUN_005b5e40(const char* fmt, ...);
+int __cdecl Warning_005b5e40(const char* fmt, ...);
 const char* __cdecl FUN_004b1b60(int type);
 int __cdecl FUN_00456a20(const char* path, char* a2, int a3, unsigned int a4);
 
@@ -5948,14 +5950,14 @@ void TESDataHandlerUnitOperations::ValidateFormIcons()
                     {
                         if (tex->GetTextureNameLength() == 0)
                         {
-                            FUN_005b5e40(str_01019974, FUN_004b1b60(form->GetFormType()), form->GetName());
+                            Warning_005b5e40(str_01019974, FUN_004b1b60(form->GetFormType()), form->GetName());
                         }
                         else
                         {
                             char buf1[0x104];
                             sprintf_s(buf1, 0x104, str_0101996c, tex->GetTextureResourcePath(), reinterpret_cast<TESFullName*>(tex)->GetFullName());
                             if (FUN_00456a20(buf1, 0, 0, -1) == 0)
-                                FUN_005b5e40(str_01019944, reinterpret_cast<TESFullName*>(tex)->GetFullName(), FUN_004b1b60(form->GetFormType()),
+                                Warning_005b5e40(str_01019944, reinterpret_cast<TESFullName*>(tex)->GetFullName(), FUN_004b1b60(form->GetFormType()),
                                              form->GetName());
                         }
                     }
@@ -5978,7 +5980,7 @@ void TESDataHandlerUnitOperations::ValidateFormIcons()
                             break;
                         }
                         if (flag)
-                            FUN_005b5e40(str_0101991c, FUN_004b1b60(form->GetFormType()), form->GetName());
+                            Warning_005b5e40(str_0101991c, FUN_004b1b60(form->GetFormType()), form->GetName());
                     }
                     else
                     {
@@ -5993,7 +5995,7 @@ void TESDataHandlerUnitOperations::ValidateFormIcons()
                             break;
                         }
                         if (FUN_00456a20(buf2, 0, 0, -1) == 0)
-                            FUN_005b5e40(str_010198e0, reinterpret_cast<TESFullName*>(icon)->GetFullName(), FUN_004b1b60(form->GetFormType()),
+                            Warning_005b5e40(str_010198e0, reinterpret_cast<TESFullName*>(icon)->GetFullName(), FUN_004b1b60(form->GetFormType()),
                                          form->GetName());
                     }
                 }
@@ -6005,7 +6007,7 @@ void TESDataHandlerUnitOperations::ValidateFormIcons()
                     const char* iconPath = ((BipedHelper_46ec10*)biped)->FUN_00481230(0);
                     if (BSStringLength(iconPath) == 0)
                     {
-                        FUN_005b5e40(str_01019974, FUN_004b1b60(form->GetFormType()), form->GetName());
+                        Warning_005b5e40(str_01019974, FUN_004b1b60(form->GetFormType()), form->GetName());
                     }
                     else
                     {
@@ -6013,7 +6015,7 @@ void TESDataHandlerUnitOperations::ValidateFormIcons()
                         sprintf_s(buf3, 0x104, str_0101996c, GetMaleBipedIconPath(biped),
                                   iconPath);
                         if (FUN_00456a20(buf3, 0, 0, -1) == 0)
-                            FUN_005b5e40(str_010198b8, iconPath, FUN_004b1b60(form->GetFormType()),
+                            Warning_005b5e40(str_010198b8, iconPath, FUN_004b1b60(form->GetFormType()),
                                          form->GetName());
                     }
                 }
@@ -6071,7 +6073,7 @@ struct ExtraInventoryView
 };
 struct ParentInventoryView
 {
-    void FUN_0054b260(TESObjectREFR*, FUN_004befb0*);
+    void FillBarterContainer(TESObjectREFR*, FUN_004befb0*);
 };
 struct WeaponInventoryView
 {
@@ -6105,7 +6107,7 @@ void InventoryHandler::UpdateInventoryForReference(TESObjectREFR* reference)
     TESObjectCELL* cell = reference->GetParentCell();
     if (!cell)
         return;
-    ((ParentInventoryView*)cell)->FUN_0054b260(reference, reinterpret_cast<FUN_004befb0*&>(pBarterContainer));
+    ((ParentInventoryView*)cell)->FillBarterContainer(reference, reinterpret_cast<FUN_004befb0*&>(pBarterContainer));
     if (((::Actor*)reference)->IsActor())
     {
         TESObjectREFR* entry = reference;
@@ -6686,11 +6688,12 @@ struct ModelTest : TESDataHandler
     void SetTesting(int);
     void RecordPath(const char*);
     void CheckNode(NodeView*, const char*);
-    void FUN_0046ddb0(bool);
+    void TESDataHandler_CheckModels(bool);
 };
 // Iterates all TESObject forms, checks each model file exists or loads it, logs geometry stats and warnings, then resets testing.
 // @fnv 0x0046ddb0
-void ModelTest::FUN_0046ddb0(bool force)
+// src: COMMUNITY 0x0046ddb0
+void ModelTest::TESDataHandler_CheckModels(bool force)
 {
     if (*g_011c408c.Bool())
         return;

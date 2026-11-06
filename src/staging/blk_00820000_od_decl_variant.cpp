@@ -39,7 +39,7 @@ struct FUN_00821620_Class
 };
 struct FUN_00821680_Class
 {
-    float FUN_00821680() const;
+    float TESObjectWEAP_GetFiringRumbleRightMotorStrength() const;
 };
 struct FUN_008216a0_class
 {
@@ -68,12 +68,12 @@ struct FUN_0082f140_class
 {
     void FUN_0082f140();
 };
-void __fastcall FUN_0082f1b0(void*);
+void __fastcall NiCriticalSection_Lock(void*);
 struct FUN_0082f190_class
 {
-    void FUN_0082f190();
+    void CBSAStream_Lock();
 };
-void __fastcall FUN_0082f1b0(void*);
+void __fastcall NiCriticalSection_Lock(void*);
 struct FUN_0082f520Class
 {
     void* p;
@@ -110,7 +110,7 @@ extern int DAT_011dd87c[];
 int __cdecl FUN_008374b0(int index);
 extern "C" void __cdecl FalloutAudio_FUN_00839ab0();
 extern unsigned char DAT_011dd85c;
-void FUN_00837500();
+void ResetFootstepSounds();
 extern "C" void* DAT_0107d9c4;
 struct FUN_0083b5e0_class
 {
@@ -174,12 +174,12 @@ struct FUN_00831fb0_class
 };
 struct FUN_00836600_class
 {
-    void __thiscall FUN_00836600(BGSLoadFormBuffer* buffer);
-    void __thiscall FUN_00836110(BGSLoadFormBuffer* buffer);
+    void __thiscall RadioEntry_Save(BGSLoadFormBuffer* buffer);
+    void __thiscall RadioEntry_Data_Save(BGSLoadFormBuffer* buffer);
 };
 struct FUN_00837280_Class
 {
-    char FUN_00837280();
+    char RadioConvTask_GetFileIndex();
 };
 void __cdecl Deallocate(void*);
 struct FUN_0083b740_Class
@@ -231,7 +231,7 @@ struct FUN_00824290_class
 {
     void __thiscall AddWeatherEntry(int a, int b, int c);
 };
-bool FUN_0082d740(TESSound* self, int* outA, int* outB);
+bool GetSoundLoopPoints(TESSound* self, int* outA, int* outB);
 struct SndItem
 {
     TESObject* obj;
@@ -277,7 +277,7 @@ struct FUN_0083d1e0
     unsigned int unk24;
     unsigned int unk28;
     FUN_0083d1e0();
-    void FUN_0083d740(BGSLoadFormBuffer* buffer);
+    void DialogueResponse_LoadGameBGS(BGSLoadFormBuffer* buffer);
 };
 struct DialogueResponseList
 {
@@ -419,7 +419,7 @@ struct GlobalObject_0083b5e0
 TESForm* __cdecl _ref_004839c0(unsigned int formID);
 struct FUN_0083d740_Class
 {
-    void __thiscall FUN_0083d740(BGSLoadGameBuffer* buffer);
+    void __thiscall DialogueResponse_LoadGameBGS(BGSLoadGameBuffer* buffer);
 };
 struct Str6a70
 {
@@ -429,7 +429,7 @@ TESForm* __cdecl _ref_004839c0(unsigned int formID);
 extern void* _DAT_01183028;
 struct FUN_0083fbe0_Class
 {
-    void __thiscall FUN_0083fbe0(BGSLoadGameBuffer* buffer);
+    void __thiscall ExtraInfoGeneralTopic_Data_LoadGame(BGSLoadGameBuffer* buffer);
 };
 // FUN_00822440 - 0x00822440, 99 bytes.
 //
@@ -695,7 +695,7 @@ class FUN_0082f310_cls
     __int64 m_130;
 
   public:
-    int FUN_0082f310(__int64 value);
+    int CBSAStream_Seek(__int64 value);
 };
 struct StreamLock
 {
@@ -786,7 +786,7 @@ struct ArchiveStream
     int unk124;
     __int64 size;
     __int64 pos;
-    int FUN_0082f3c0(void* buffer, unsigned int count, int unused, unsigned int* bytesRead);
+    int CBSAStream_Read(void* buffer, unsigned int count, int unused, unsigned int* bytesRead);
 };
 // FUN_0082f6c0 @ 0x0082f6c0 (size 150)
 // Base-object destructor of a thread-like class: clears the "running" flag bit,
@@ -820,12 +820,12 @@ struct FUN_0082f6c0 : FUN_00aa63c0
     virtual ~FUN_0082f6c0();
 };
 extern unsigned int DAT_011dd1f4;
-void __cdecl FUN_00401030(unsigned int p);
+void __cdecl FormHeapFreeAndLog_00401030(unsigned int p);
 struct FUN_0082f9c0_obj
 {
     virtual int unk00(int a);
 };
-void __cdecl FUN_0082f9c0();
+void __cdecl FalloutAudioMedia_Shutdown();
 int __stdcall FUN_00831f70(int unused);
 // PlayWeaponSound v2 (worker11): pack types reused; extra callees via shell classes
 struct Entry
@@ -839,8 +839,8 @@ struct Entry
 };
 struct BSAudioShell
 {
-    NiPoint3 __thiscall FUN_00ad78e0();
-    BSSoundHandle __thiscall FUN_00ad7480(const char* name);
+    NiPoint3 __thiscall BSAudio_GetListenerPosition();
+    BSSoundHandle __thiscall BSAudio_GetSoundHandleByFilename(const char* name);
 };
 struct Weap
 {
@@ -1076,10 +1076,10 @@ struct SettingObj
 {
     float* __thiscall FUN_00403e20();
 };
-bool __cdecl FUN_00839da0();
+bool __cdecl ImpactMixer_GetGunshotsInitialized();
 bool __fastcall FUN_00524d10(void* p);
 void* __cdecl FUN_00453a70();
-unsigned int __cdecl FUN_00457fe0();
+unsigned int __cdecl Cmd_GetSessionTime_Execute();
 bool __cdecl FUN_0082eca0(void* snd, NiPoint3 pos, float v);
 extern Player* DAT_011dea3c;
 extern NiPoint3 DAT_011f426c;
@@ -1658,7 +1658,7 @@ struct SoundTimer
     unsigned char m_flag11;
     int unk14;
     SoundListNode m_kNode;
-    void FUN_00836110(BGSSaveFormBuffer* buffer);
+    void RadioEntry_Data_Save(BGSSaveFormBuffer* buffer);
 };
 
 // These declarations name the existing BSStringT ABI accessors omitted from
@@ -1670,10 +1670,11 @@ struct StringAccess530
 };
 struct BraceString530 : BSStringT<char>
 {
-    BSStringT<char> FUN_0083d8b0();
+    BSStringT<char> BSStringT_char_RemoveCurlyContent();
 };
 // @fnv 0x0083d8b0
-BSStringT<char> BraceString530::FUN_0083d8b0()
+// src: COMMUNITY 0x0083d8b0
+BSStringT<char> BraceString530::BSStringT_char_RemoveCurlyContent()
 {
     unsigned int output6 = 0;  // next output character
     int depth_ = 0;            // nesting depth

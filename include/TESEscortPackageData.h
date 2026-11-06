@@ -14,7 +14,7 @@ public:
     int m_iValue;
 
     TESEscortPackageData* __thiscall ConstructFromForm(TESForm** pForm);
-    void FUN_0067c330(BGSLoadFormBuffer* buffer);
+    void TESFollowPackageData_LoadGame(BGSLoadFormBuffer* buffer);
     void LoadPackageData(BGSLoadFormBuffer* pBuffer);
 
     void FUN_0067ad20();
@@ -22,5 +22,5 @@ public:
     void FUN_0067bca0();
     void* DestroyIfFlagged(unsigned int);
     void FUN_0067bec0();
-    void FUN_0067bf40(BGSSaveFormBuffer* buffer);
+    void SaveGame_0067bf40(BGSSaveFormBuffer* buffer);
 };

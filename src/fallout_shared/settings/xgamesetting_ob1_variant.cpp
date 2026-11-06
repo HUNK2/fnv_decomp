@@ -73,7 +73,8 @@ __forceinline NiNodeY* CastN(NiAVObject* p)
 }
 
 // @fnv 0x00c4bd80
-void __cdecl FUN_00c4bd80(NiAVObject* obj, StrArr* arr)
+// src: COMMUNITY 0x00c4bd80
+void __cdecl BSUtilities_FindAnimatedTextures(NiAVObject* obj, StrArr* arr)
 {
     NiNodeY* node7;
     FUN_00a4f300_shell* c7;
@@ -108,7 +109,7 @@ void __cdecl FUN_00c4bd80(NiAVObject* obj, StrArr* arr)
         {
             for (j = 0; j < node7->m_usSize; j++)
             {
-                FUN_00c4bd80(node7->GetAt(j), arr);
+                BSUtilities_FindAnimatedTextures(node7->GetAt(j), arr);
             }
         }
     }
@@ -125,7 +126,7 @@ struct Mat4
     float m[4][4];
 };
 extern NiPoint3 DAT_011f474c;
-extern "C" Mat4* __stdcall FUN_00ee6dda(Mat4* pOut, float* pDet, const Mat4* pM);
+extern "C" Mat4* __stdcall D3DXMatrixInverse_00ee6dda(Mat4* pOut, float* pDet, const Mat4* pM);
 inline void Dead21()
 {
     int d0;
@@ -152,7 +153,8 @@ inline void Dead21()
     int d21;
 }
 // @fnv 0x00c4c2d0
-void __cdecl FUN_00c4c2d0(NiAVObject* pObj, int bInverse, Mat4* pOut)
+// src: COMMUNITY 0x00c4c2d0
+void __cdecl BSUtilities_GetInverseWorldMatrix(NiAVObject* pObj, int bInverse, Mat4* pOut)
 {
     if (!bInverse)
     {
@@ -200,7 +202,7 @@ void __cdecl FUN_00c4c2d0(NiAVObject* pObj, int bInverse, Mat4* pOut)
         kM.m[3][0] = rPos.x;
         kM.m[3][1] = rPos.y;
         kM.m[3][2] = rPos.z;
-        FUN_00ee6dda(pOut, 0, &kM);
+        D3DXMatrixInverse_00ee6dda(pOut, 0, &kM);
     }
 }
 }  // namespace fnv_00c4c2d0
@@ -211,7 +213,8 @@ inline float GetTransformEntry(const Transform::Mat* rotation, unsigned int row,
 }
 
 // @fnv 0x00c4c530
-void __cdecl FUN_00c4c530(const Transform& transform, unsigned int count, const NiPoint3* positions,
+// src: COMMUNITY 0x00c4c530
+void __cdecl BSUtilities_ApplyTransformToVerticesAndNormals(const Transform& transform, unsigned int count, const NiPoint3* positions,
                           NiPoint3* transformedPositions, const NiPoint3* normals, NiPoint3* transformedNormals)
 {
     for (unsigned int i = 0; i < count; ++i)
@@ -373,7 +376,8 @@ struct PathQ
     PathQ(const char* p);
 };
 // @fnv 0x00c4bbc0
-void __cdecl FUN_00c4bbc0(NamedQ* pObj, const char* pcPath)
+// src: COMMUNITY 0x00c4bbc0
+void __cdecl BSUtilities_SetSequenceFileName(NamedQ* pObj, const char* pcPath)
 {
     const char* pcOld_ = pObj->GetName();
     PathQ kKPath(pcPath);
@@ -452,7 +456,7 @@ class NiMatrix3R
         FUN_00439f50(column, result);
         return result;
     }
-    void FUN_00476980(const NiPoint3R&, const NiPoint3R&, const NiPoint3R&);
+    void NiMatrix3_NiMatrix3(const NiPoint3R&, const NiPoint3R&, const NiPoint3R&);
 };
 struct Plane
 {
@@ -469,7 +473,8 @@ inline double Abs(float value)
     return (float)_fabs(value);
 }
 // @fnv 0x00c4bf40
-void __cdecl FUN_00c4bf40(NiCamera* source, Plane* plane, NiCamera* dest)
+// src: COMMUNITY 0x00c4bf40
+void __cdecl BSUtilities_ReflectCameraAboutArbitraryPlane(NiCamera* source, Plane* plane, NiCamera* dest)
 {
     NiPoint3R position = reinterpret_cast<const NiPoint3R&>(source->m_kWorld.m_Translate);
     NiPoint3R first7 = reinterpret_cast<const NiMatrix3R&>(source->m_kWorld.m_Rotate).Column(0);
@@ -486,7 +491,7 @@ void __cdecl FUN_00c4bf40(NiCamera* source, Plane* plane, NiCamera* dest)
     direction6.FUN_004a0c10();
     NiPoint3R axis7 = FUN_004a3760((float)(2.0 * plane->normal.Dot(direction6)), plane->normal) - direction6;
     NiMatrix3R matrix;
-    matrix.FUN_00476980(axisA, axis7, axis2);
+    matrix.NiMatrix3_NiMatrix3(axisA, axis7, axis2);
     dest->m_kLocal.m_Translate = reinterpret_cast<const NiPoint3&>(reflected6);
     dest->m_kLocal.m_Rotate = reinterpret_cast<const NiMatrix3&>(matrix);
     dest->m_kLocal.m_fScale = Abs(source->m_kWorld.m_fScale);

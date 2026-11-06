@@ -18,7 +18,8 @@
 #include "../../../../../include/hkpWorldObject.h"
 
 // @fnv 0x00cd2930
-int __stdcall FUN_00cd2930(int a1)
+// src: COMMUNITY 0x00cd2930
+int __stdcall hkpWorldObject_setShape(int a1)
 {
     return 1;
 }

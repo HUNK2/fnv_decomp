@@ -33,7 +33,7 @@ double __cdecl FUN_00ec6054(double);
 extern double __cdecl FUN_00eca190(double value);
 struct This : FUN_00b2a180
 {
-    float FUN_00b12720(const NiPoint3& point);
+    float CVec3_AngleBetween(const NiPoint3& point);
 };
 struct State
 {
@@ -85,7 +85,7 @@ struct FUN_00b14b10_class
 struct b14_sub
 {
     float x, y, z;
-    float FUN_00b04d40(b14_sub* other);
+    float CVec3_Distance(b14_sub* other);
 };
 struct b14_elem
 {
@@ -101,7 +101,7 @@ struct b14_ctx
     int unk24;
     char unk28[8];
     float unk30;
-    void FUN_00b14b40();
+    void CIdvBranch_ComputeVolume();
 };
 struct FUN_00b14be0_cls;
 struct SegmentEntry
@@ -399,11 +399,12 @@ struct ParticleEmitter
     int unk30;
     int unk34;
     CreationValuesVector channel;
-    void FUN_00b14ca0(CreationSettings* settings);
+    void CIdvBranch_ComputeFlareEntries(CreationSettings* settings);
 };
 
 // @fnv 0x00b14ca0
-void ParticleEmitter::FUN_00b14ca0(CreationSettings* settings)
+// src: COMMUNITY 0x00b14ca0
+void ParticleEmitter::CIdvBranch_ComputeFlareEntries(CreationSettings* settings)
 {
     if (settings->count != 0)
     {
@@ -521,7 +522,8 @@ struct BranchPoint
     {}
     BranchPoint(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    void FUN_00b12790()
+// src: COMMUNITY 0x00b12790
+    void Normalize_00b12790()
     {
         float magnitude = x * x + y * y + z * z;
         float inverse = 1.0f / (float)FUN_00ec6054(magnitude);
@@ -533,7 +535,8 @@ struct BranchPoint
     {
         return x * p.x + y * p.y + z * p.z;
     }
-    float FUN_00b12720(const BranchPoint& p)
+// src: COMMUNITY 0x00b12720
+    float CVec3_AngleBetween(const BranchPoint& p)
     {
         float dot = Dot(p);
         if (dot < -1.0)
@@ -598,7 +601,7 @@ struct BranchMatrix
 };
 struct BranchCurve
 {
-    float FUN_00b37ad0(float);
+    float CIdvBezierSpline_Evaluate(float);
     float Sample(float);
 };
 struct BranchCurvePtr
@@ -640,7 +643,7 @@ struct BranchMesh
     {
         start = f;
     }
-    void FUN_00b2fdc0(int, unsigned short*, unsigned short);
+    void CIndexedGeometry_AddStrip(int, unsigned short*, unsigned short);
 };
 struct FUN_00b130a0
 {
@@ -675,10 +678,10 @@ extern BranchTransform DAT_011f8c40;
 struct BranchManager
 {
     bool GetByteAtOffset4C();
-    int FUN_00b18300();
+    int CFrondEngine_GetLevel();
     void FUN_00b188d0();
     void FUN_00b18a60(BranchPoint, BranchMatrix, float, unsigned int);
-    void FUN_00b18b70(float);
+    void CFrondEngine_EndGuide(float);
 };
 extern BranchManager* DAT_011f8c00;
 extern unsigned int DAT_011f8bfc;
@@ -785,10 +788,11 @@ inline BranchIterator::BranchIterator(BranchChild* p, BranchChildren* v) : proxy
 }
 struct BranchLeaves
 {
-    void FUN_00b32350();
+    void std_vector_clear();
 };
 extern BranchLeaves DAT_011f8c80;
-inline BranchPoint* __cdecl FUN_00b13000(BranchPoint* out, const BranchPoint* a, const BranchPoint* b, float t)
+// src: COMMUNITY 0x00b13000
+inline BranchPoint* __cdecl VecInterpolate(BranchPoint* out, const BranchPoint* a, const BranchPoint* b, float t)
 {
     float dx = b->x - a->x, dy = b->y - a->y, dz = b->z - a->z;
     float sx = dx * t, sy = dy * t, sz = dz * t;
@@ -811,18 +815,18 @@ struct FUN_00b10dc0
     int unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     FUN_00b10dc0(FUN_00b10dc0*);
     ~FUN_00b10dc0();
-    void FUN_00b13a40();
-    void FUN_00b14ca0(BranchConfig*);
+    void CIdvBranch_BuildBlossomVectors();
+    void CIdvBranch_ComputeFlareEntries(BranchConfig*);
     float FUN_00b14ae0(int, float, float);
     float FUN_00b14b10(float, float);
     void FUN_00b14450(FUN_00b130a0*, float, float, unsigned short, BranchMesh*, const BranchPoint&, float, unsigned int,
                       float, int);
-    void FUN_00b14ed0(BranchMesh*, unsigned short);
+    void CIdvBranch_ComputeBranchNormals(BranchMesh*, unsigned short);
     void FindSegment(BranchChild*, float);
     void FUN_00b13100(FUN_00b10dc0*, float, int, BranchPoint*, float, const BranchMatrix*, FUN_00b130a0*, void*, float,
                       unsigned int);
-    void FUN_00b14b40();
-    void FUN_00b11050(unsigned int, float, int, const BranchPoint&, float, float, const BranchMatrix&,
+    void CIdvBranch_ComputeVolume();
+    void CIdvBranch_Compute(unsigned int, float, int, const BranchPoint&, float, float, const BranchMatrix&,
                       const BranchPoint&, BranchMesh*, void*, float, unsigned int, float);
 };
 inline BranchMatrix BranchMatrix::Multiply(const BranchMatrix& a)
@@ -892,35 +896,36 @@ inline void BranchMatrix::FUN_00b12c00(float first, float second)
     *this = rotation.Multiply(*this);
 }
 // @fnv 0x00b11050
-void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const BranchPoint& origin, float age,
+// src: COMMUNITY 0x00b11050
+void FUN_00b10dc0::CIdvBranch_Compute(unsigned int seed, float scale, int level, const BranchPoint& origin, float age,
                                 float parentFactor, const BranchMatrix& transform, const BranchPoint& axis,
                                 BranchMesh* mesh, void* context, float weight, unsigned int id, float cap)
 {
-    bool animation = DAT_011f8c00->GetByteAtOffset4C() && level >= DAT_011f8c00->FUN_00b18300();
+    bool animation = DAT_011f8c00->GetByteAtOffset4C() && level >= DAT_011f8c00->CFrondEngine_GetLevel();
     if (level == DAT_011ad14c)
         id = DAT_011f8bfc++;
     if (level == 0)
-        FUN_00b13a40();
+        CIdvBranch_BuildBlossomVectors();
     float thickness;
     BranchConfig* material = DAT_011f8c50.GetElement(level);
     if (!animation)
         firstVertex = mesh->GetVertices();
     time = age;
     if (!animation)
-        FUN_00b14ca0(material);
-    float angle = material->length->FUN_00b37ad0(age) * scale;
+        CIdvBranch_ComputeFlareEntries(material);
+    float angle = material->length->CIdvBezierSpline_Evaluate(age) * scale;
     float radius = angle / material->segments;
     float base = DAT_011f8c05.FUN_00b3f130(DAT_010a54a0, 180.0f);
-    float config = material->base->FUN_00b37ad0(age);
-    float managed = material->bend->FUN_00b37ad0(age);
-    float length = material->thickness->FUN_00b37ad0(age) * scale;
-    thickness = material->material->FUN_00b37ad0(age);
+    float config = material->base->CIdvBezierSpline_Evaluate(age);
+    float managed = material->bend->CIdvBezierSpline_Evaluate(age);
+    float length = material->thickness->CIdvBezierSpline_Evaluate(age) * scale;
+    thickness = material->material->CIdvBezierSpline_Evaluate(age);
     type = (unsigned short)material->sides;
     float step = material->animate ? base + 0.5 + age : 0.0;
     BranchPoint shape(material->fixedWidth ? material->width : material->width * length * DAT_011f8c14,
                       material->fixedHeight ? material->height : angle / scale * material->height,
                       (childList.size() + seed) % 2 == 0 ? material->twist : -material->twist);
-    float bend = material->radius->FUN_00b37ad0(0.0f) * length;
+    float bend = material->radius->CIdvBezierSpline_Evaluate(0.0f) * length;
     if (cap > 0.0 && bend > cap * DAT_010a549c)
     {
         bend = cap * DAT_010a549c;
@@ -953,7 +958,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
                 indices[vertex] = column + (first + (material->sides + 1));
                 vertex++;
             }
-            mesh->FUN_00b2fdc0(0, indices, index);
+            mesh->CIndexedGeometry_AddStrip(0, indices, index);
             mesh->groups++;
         }
         FUN_00b130a0* qhxpxJd = entries;
@@ -965,13 +970,13 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
         qhxpxJd->matrix.FUN_00b12d50(base, qsSDDgz);
         qhxpxJd->matrix.FUN_00b12c00(config + qrEZrs, qSVM);
         qhxpxJd->direction = DAT_011f8c40.FUN_00b12890(qhxpxJd->matrix);
-        qhxpxJd->radius = material->radius->FUN_00b37ad0(0.0f) * length;
-        float qfTOqo = material->variation->FUN_00b37ad0(0.0f) * thickness;
-        float qbGYp = BranchDegrees(qhxpxJd->direction.FUN_00b12720(DAT_011f8c08));
+        qhxpxJd->radius = material->radius->CIdvBezierSpline_Evaluate(0.0f) * length;
+        float qfTOqo = material->variation->CIdvBezierSpline_Evaluate(0.0f) * thickness;
+        float qbGYp = BranchDegrees(qhxpxJd->direction.CVec3_AngleBetween(DAT_011f8c08));
         float qSuoDt = BranchFalloff((float)(double)(float)fabs((float)(DAT_01066808 - qbGYp)));
         BranchPoint qkbsJ = qhxpxJd->direction.FUN_00b12810(DAT_011f8c08);
-        qkbsJ.FUN_00b12790();
-        float qdqWL = (material->noise->FUN_00b37ad0(0.0f) - 0.5) * 2.0 * -1.0;
+        qkbsJ.Normalize_00b12790();
+        float qdqWL = (material->noise->CIdvBezierSpline_Evaluate(0.0f) - 0.5) * 2.0 * -1.0;
         BranchMatrix qnuVZg;
         qnuVZg.SetRotationAxisAngle(qdqWL * managed * qbGYp * qSuoDt, qkbsJ);
         qhxpxJd->matrix = qhxpxJd->matrix.Multiply(qnuVZg);
@@ -1013,15 +1018,15 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
             float qAhbO = (float)segment / (entryCount - 1);
             float qZAdkzg = BranchPower(qAhbO, material->exponent);
             radius = qZAdkzg * angle - qvyWyw;
-            qGfbX->radius = material->radius->FUN_00b37ad0(qZAdkzg) * length;
-            float qrKBG = material->variation->FUN_00b37ad0(qZAdkzg) * thickness;
+            qGfbX->radius = material->radius->CIdvBezierSpline_Evaluate(qZAdkzg) * length;
+            float qrKBG = material->variation->CIdvBezierSpline_Evaluate(qZAdkzg) * thickness;
             qGfbX->matrix = qpqRa->matrix;
             qGfbX->direction = DAT_011f8c40.FUN_00b12890(qGfbX->matrix);
-            float qbXcw = BranchDegrees(qGfbX->direction.FUN_00b12720(DAT_011f8c08));
+            float qbXcw = BranchDegrees(qGfbX->direction.CVec3_AngleBetween(DAT_011f8c08));
             float qRqUtp = BranchFalloff((float)(double)(float)fabs((float)(DAT_01066808 - qbXcw)));
             BranchPoint qArxcFu = qGfbX->direction.FUN_00b12810(DAT_011f8c08);
-            qArxcFu.FUN_00b12790();
-            float qsTDDg = (material->noise->FUN_00b37ad0(qZAdkzg) - 0.5) * 2.0 * -1.0;
+            qArxcFu.Normalize_00b12790();
+            float qsTDDg = (material->noise->CIdvBezierSpline_Evaluate(qZAdkzg) - 0.5) * 2.0 * -1.0;
             qnuVZg.SetRotationAxisAngle(qsTDDg * managed * qbXcw * qRqUtp, qArxcFu);
             qGfbX->matrix = qGfbX->matrix.Multiply(qnuVZg);
             float qBCzzXA = material->orientation->Sample(qZAdkzg);
@@ -1062,11 +1067,11 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
             entries[segment].distance = qvyWyw;
         }
         if (animation)
-            DAT_011f8c00->FUN_00b18b70(bend);
+            DAT_011f8c00->CFrondEngine_EndGuide(bend);
         else
         {
             mesh->SetVertices((unsigned short)firstVertex);
-            FUN_00b14ed0(mesh, type);
+            CIdvBranch_ComputeBranchNormals(mesh, type);
         }
         int qpTd = (int)(material->children / scale * angle);
         level++;
@@ -1104,7 +1109,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
                     DAT_011f8c05.FUN_00b3f130(0.0f, 100.0f);
                 }
                 BranchPoint qJDuOZ;
-                FUN_00b13000(&qJDuOZ, &entries[qHVMR.idx].position, &entries[qHVMR.idx + 1].position, qHVMR.t);
+                VecInterpolate(&qJDuOZ, &entries[qHVMR.idx].position, &entries[qHVMR.idx + 1].position, qHVMR.t);
                 float qxWmVch = 1.0f;
                 if (material->upper != material->lower)
                     qxWmVch = (qDdzMIp - material->lower) / (material->upper - material->lower);
@@ -1120,9 +1125,9 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
                     float qpia = parentFactor + (1.0f - parentFactor) * qxWmVch;
                     if (level <= 1)
                         qpia *= qpia;
-                    qHVMR.object->FUN_00b11050(seed, scale, level, qJDuOZ, qxWmVch, qpia, entries[qHVMR.idx].matrix,
+                    qHVMR.object->CIdvBranch_Compute(seed, scale, level, qJDuOZ, qxWmVch, qpia, entries[qHVMR.idx].matrix,
                                                entries[qHVMR.idx].direction, mesh, context, qQMZREG, id, qZWI);
-                    if (!DAT_011f8c00->GetByteAtOffset4C() || level < DAT_011f8c00->FUN_00b18300())
+                    if (!DAT_011f8c00->GetByteAtOffset4C() || level < DAT_011f8c00->CFrondEngine_GetLevel())
                         childList.FUN_00b1e4c0(qHVMR);
                     else
                     {
@@ -1133,8 +1138,8 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
             }
         }
         if (qzzQr)
-            DAT_011f8c80.FUN_00b32350();
-        FUN_00b14b40();
+            DAT_011f8c80.std_vector_clear();
+        CIdvBranch_ComputeVolume();
     }
 }
 
@@ -1331,7 +1336,8 @@ struct IndexSet : IndexValues
         insert_many(where, 1, value);
         return begin() + offset;
     }
-    void FUN_00b32350()
+// src: COMMUNITY 0x00b32350
+    void std_vector_clear()
     {
         erase(begin(), end());
     }
@@ -1390,14 +1396,15 @@ extern IndexSet DAT_011f8c18;
 
 struct S_00b13a40_Obj
 {
-    void FUN_00b13a40();
+    void CIdvBranch_BuildBlossomVectors();
 };
 
 // @fnv 0x00b13a40
-void S_00b13a40_Obj::FUN_00b13a40()
+// src: COMMUNITY 0x00b13a40
+void S_00b13a40_Obj::CIdvBranch_BuildBlossomVectors()
 {
-    DAT_011f8c68.FUN_00b32350();
-    DAT_011f8c18.FUN_00b32350();
+    DAT_011f8c68.std_vector_clear();
+    DAT_011f8c18.std_vector_clear();
     for (unsigned int i = 0; i < ((S_00b13a40_Holder*)DAT_011f8bf4)->m_vec.Size(); i++)
     {
         if (((S_00b13a40_Holder*)DAT_011f8bf4)->m_vec.At(i).m_flag)
@@ -1501,7 +1508,7 @@ struct ResObj
     {
         m_34 = pT;
     }
-    void FUN_00b404c0(NiPoint3* p, int flag);
+    void CBillboardLeaf_SetColor(NiPoint3* p, int flag);
 };
 struct FUN_00b40070 : ResObj
 {
@@ -1525,7 +1532,8 @@ struct MathPoint : NiPoint3
         approx.i = 0x1fc00000 + (((Bits*)&sum)->i >> 1);
         return approx.f;
     }
-    inline void FUN_00b12790()
+// src: COMMUNITY 0x00b12790
+    inline void Normalize_00b12790()
     {
         float sum = x * x + y * y + z * z;
         float scale = 1.0f / (float)FUN_00ec6054(sum);
@@ -1533,7 +1541,7 @@ struct MathPoint : NiPoint3
         y *= scale;
         z *= scale;
     }
-    MathPoint FUN_00b13040(const MathPoint& p);
+    MathPoint Diff_00b13040(const MathPoint& p);
     MathPoint ScaleSwizzled(float f);
     MathPoint AddVector(const MathPoint& p);
 };
@@ -1640,7 +1648,7 @@ struct LocalPoint : NiPoint3
 };
 inline MathPoint interpolate(MathPoint* a, MathPoint* b, float f)
 {
-    return b->AddVector(a->FUN_00b13040(*b).ScaleSwizzled(f));
+    return b->AddVector(a->Diff_00b13040(*b).ScaleSwizzled(f));
 }
 struct Settings
 {
@@ -1785,17 +1793,17 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             {
                 pT = interpolate(p3, p4, elem4->m_10);
             }
-            ((MathPoint*)&pT)->FUN_00b12790();
+            ((MathPoint*)&pT)->Normalize_00b12790();
             res->setA(pT);
             NiPoint3 varCX = pT;
             res->setB(varCX);
             NiPoint3 cross2;
             ((CrossObj*)&varCX)->FUN_00b12810(&cross2, &pT);
-            ((MathPoint*)&cross2)->FUN_00b12790();
+            ((MathPoint*)&cross2)->Normalize_00b12790();
             res->setC(cross2);
             float w = g_011f8c05.FUN_00b3f130(-elem4->m_10, elem4->m_10);
             LocalPoint fp(elem4->m_04 + w, elem4->m_08 + w, elem4->m_0c + w);
-            res->FUN_00b404c0(&fp, 1);
+            res->CBillboardLeaf_SetColor(&fp, 1);
         }
     }
 }
@@ -1842,7 +1850,8 @@ struct RingPoint
     {
         return (&x)[index];
     }
-    void FUN_00b12790()
+// src: COMMUNITY 0x00b12790
+    void Normalize_00b12790()
     {
         float fLengthSq = x * x + y * y + z * z;
         float fInvLength = 1.0f / (float)FUN_00ec6054(fLengthSq);
@@ -1937,7 +1946,7 @@ struct RingBuilder
     int unk0c, unk10, unk14, unk18, unk1c;
     unsigned short unk20;
     unsigned short count;
-    void FUN_00b301f0(const RingUV* uv, int index);
+    void CIndexedGeometry_AddVertexTexCoord0(const RingUV* uv, int index);
     void FUN_00b305f0(const RingPoint* point);
     void FUN_00b30660(const float* point);
     void FUN_00b300c0(const PlainPoint* point);
@@ -1988,7 +1997,7 @@ void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, i
         uv_.u = fProgress * uvScale->x;
         uv_.u += uvScale->z * amount;
         uv_.v = (amount + uvOffset) * uvScale->y;
-        builder->FUN_00b301f0(&uv_, -1);
+        builder->CIndexedGeometry_AddVertexTexCoord0(&uv_, -1);
         float cosine6 = ringCos(angle5);
         float fSin = ringSin(angle5);
         RingPoint direction3;
@@ -2021,7 +2030,7 @@ void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, i
             delta4.y = direction3[1] * geometry->radius * fScale + geometry->center.y;
             delta4.z = direction3[2] * geometry->radius * fScale + geometry->center.z;
             RingPoint kIntersectionOffset(delta4.x - kPosition.x, delta4.y - kPosition.y, delta4.z - kPosition.z);
-            kIntersectionOffset.FUN_00b12790();
+            kIntersectionOffset.Normalize_00b12790();
             direction3 = kIntersectionOffset;
             FUN_00ec44d0(&kPosition, &delta4, sizeof(kPosition));
         }
@@ -2652,17 +2661,18 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 class FUN_00b32350_Vector : public vectorS<int>
 {
   public:
-    void FUN_00b32350();
+    void std_vector_clear();
 };
 
 // @fnv 0x00b32350
-void FUN_00b32350_Vector::FUN_00b32350()
+// src: COMMUNITY 0x00b32350
+void FUN_00b32350_Vector::std_vector_clear()
 {
     erase(begin(), end());
 }
 }  // namespace fnv_00b32350
 
-void* __cdecl FUN_00401000(unsigned int size);
+void* __cdecl FormHeap_Allocate(unsigned int size);
 struct B13970Tmp
 {
     int unk00;
@@ -2716,7 +2726,7 @@ struct FUN_00b37660
     FUN_00b37660(const B13970Tmp& t);
     static void* operator new(unsigned int size)
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
     static void* operator new(unsigned int size, void* p)
     {
@@ -2731,13 +2741,14 @@ static __forceinline void Dead5()
 }
 struct B13970Self
 {
-    B13970Tmp FUN_00b3ee40();
-    FUN_00b37660* FUN_00b13970();
+    B13970Tmp CTreeFileAccess_ParseString();
+    FUN_00b37660* CTreeFileAccess_ParseBranchParameter();
 };
 // @fnv 0x00b13970
-FUN_00b37660* B13970Self::FUN_00b13970()
+// src: COMMUNITY 0x00b13970
+FUN_00b37660* B13970Self::CTreeFileAccess_ParseBranchParameter()
 {
-    FUN_00b37660* p = new FUN_00b37660(FUN_00b3ee40());
+    FUN_00b37660* p = new FUN_00b37660(CTreeFileAccess_ParseString());
     Dead5();
     return p;
 }
@@ -2809,7 +2820,8 @@ struct Pt3X
     {
         return Pt3X(x - p.x, y - p.y, z - p.z);
     }
-    void FUN_00b12790()
+// src: COMMUNITY 0x00b12790
+    void Normalize_00b12790()
     {
         float fScaleMultiplier = x * x + y * y + z * z;
         if (fScaleMultiplier > 0.0f)
@@ -2837,12 +2849,13 @@ struct StripDataX
     int unk1c;
     short unk20;
     unsigned short m_22;
-    Pt3X* FUN_00b30f80(int index);
+    Pt3X* CIndexedGeometry_GetVertexCoord(int index);
     void FUN_00b30190(const Pt3X& normal);
 };
 
 // @fnv 0x00b14ed0
-void FUN_00b10dc0::FUN_00b14ed0(BranchMesh* data, unsigned short cols)
+// src: COMMUNITY 0x00b14ed0
+void FUN_00b10dc0::CIdvBranch_ComputeBranchNormals(BranchMesh* data, unsigned short cols)
 {
     for (int i = 0; i < entryCount; i++)
     {
@@ -2861,10 +2874,10 @@ void FUN_00b10dc0::FUN_00b14ed0(BranchMesh* data, unsigned short cols)
                 right = rowStart2 + j3 + 1;
             left4 += firstVertex;
             right += firstVertex;
-            Pt3X* a5 = ((StripDataX*)data)->FUN_00b30f80(left4);
-            Pt3X* b_ = ((StripDataX*)data)->FUN_00b30f80(right);
+            Pt3X* a5 = ((StripDataX*)data)->CIndexedGeometry_GetVertexCoord(left4);
+            Pt3X* b_ = ((StripDataX*)data)->CIndexedGeometry_GetVertexCoord(right);
             Pt3X dx = *b_ - *a5;
-            dx.FUN_00b12790();
+            dx.Normalize_00b12790();
             int up3;
             if (i == 0)
                 up3 = rowStart2 + j3;
@@ -2877,10 +2890,10 @@ void FUN_00b10dc0::FUN_00b14ed0(BranchMesh* data, unsigned short cols)
                 down2 = (i + 1) * (cols + 1) + j3;
             up3 += firstVertex;
             down2 += firstVertex;
-            Pt3X* c5 = ((StripDataX*)data)->FUN_00b30f80(up3);
-            Pt3X* d2 = ((StripDataX*)data)->FUN_00b30f80(down2);
+            Pt3X* c5 = ((StripDataX*)data)->CIndexedGeometry_GetVertexCoord(up3);
+            Pt3X* d2 = ((StripDataX*)data)->CIndexedGeometry_GetVertexCoord(down2);
             Pt3X dy3 = *d2 - *c5;
-            dy3.FUN_00b12790();
+            dy3.Normalize_00b12790();
             Pt3X n3 = dx.FUN_00b12810(dy3);
             ((StripDataX*)data)->FUN_00b30190(n3);
             ((StripDataX*)data)->m_22++;

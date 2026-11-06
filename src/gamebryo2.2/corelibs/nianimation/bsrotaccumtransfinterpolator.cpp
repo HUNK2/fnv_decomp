@@ -18,7 +18,8 @@
 extern NiRTTI g_011f3ee0;
 
 // @fnv 0x00a43ab0
-NiRTTI* __cdecl FUN_00a43ab0()
+// src: COMMUNITY 0x00a43ab0
+NiRTTI* __cdecl BSRotAccumTransfInterpolator_GetRTTI()
 {
     return &g_011f3ee0;
 }
@@ -98,7 +99,7 @@ inline TimedRotationKey* BSRotAccumTransfInterpolator::GetRotData(unsigned int& 
 // @fnv 0x00a43ac0
 void BSRotAccumTransfInterpolator::UpdateRotValue(int a)
 {
-    FUN_00a43330(a);
+    j_j_j_nullsub_3(a);
     unsigned int uiNumKeys;
     int eType;
     unsigned char ucSize;
@@ -198,7 +199,7 @@ QuaternionValue __cdecl FUN_00a28740(float, void*, int, unsigned int, unsigned i
 float __cdecl InterpolateKey(float, void*, int, unsigned int, unsigned int&, unsigned char);
 void* FUN_00a3f990(unsigned int*, int*, unsigned char*);
 void* FUN_0058cb00(unsigned int*, int*, unsigned char*);
-void* FUN_00a3f9e0(unsigned int*, int*, unsigned char*);
+void* NiTransformInterpolator_GetScaleData(unsigned int*, int*, unsigned char*);
 typedef void* (__thiscall *GetTransformKeys)(NiTransformInterpolator*, unsigned int*, int*, unsigned char*);
 // Evaluates position, rotation and scale keys at time, applies rotation delta to object matrix, and stores the result in result.
 // @fnv 0x00a43b00
@@ -251,7 +252,7 @@ bool BSRotAccumTransfInterpolator::UpdateTransform(float time, NiObjectNET* targ
     }
     {
         int scaleType;
-        keys = ((GetTransformKeys)FUN_00a3f9e0)(this, &count, &scaleType, &stride);
+        keys = ((GetTransformKeys)NiTransformInterpolator_GetScaleData)(this, &count, &scaleType, &stride);
         if (count > 0)
         {
             index = m_usLastScaleKeyIndex;

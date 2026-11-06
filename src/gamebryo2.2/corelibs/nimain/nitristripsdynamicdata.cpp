@@ -57,7 +57,8 @@ bool NiTriStripsDynamicData::IsEqualDynamic(NiObject* pkObject)
 extern "C" void* g_011f5e8c;
 
 // @fnv 0x00a92470
-void* __cdecl FUN_00a92470()
+// src: COMMUNITY 0x00a92470
+void* __cdecl NiTriStripsDynamicData_GetRTTI()
 {
     return &g_011f5e8c;
 }
@@ -199,7 +200,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > A92590StringArray;
 
-extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 char* __cdecl FUN_00a7d490(const char* pcPrefix, unsigned short usValue);
 
 struct A92590TriShapeData : NiTriStripsData
@@ -219,7 +220,7 @@ struct A92590TriShapeData : NiTriStripsData
 void A92590TriShapeData::FUN_00a92590(A92590StringArray* pkStrings)
 {
     GetBaseViewerStrings(pkStrings);
-    char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(ms_kRTTI.GetName());
     pkStrings->Add(pcString);
     pcString = FUN_00a7d490("m_usActiveVertices", m_usActiveVertices);
     pkStrings->Add(pcString);

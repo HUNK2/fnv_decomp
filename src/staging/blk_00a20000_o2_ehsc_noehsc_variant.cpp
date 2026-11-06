@@ -40,7 +40,7 @@ void __cdecl FUN_00a27470(int a, int b, int c, int* p);
 extern "C" void __cdecl ReadBlockEntries(void*, void*);
 void __cdecl NiEulerRotKey_SaveToStream(void* a, void* b, unsigned int c);
 extern MemoryManager g_memoryManager;
-void FUN_00a2a600(void* p);
+void NiStepPosKey_DeleteArray(void* p);
 extern "C" void __cdecl SaveKey(int, int);
 void __cdecl NiTCBPosKey_SaveToStream(int a, int b, unsigned int count);
 struct FUN_00a2cc10_T {
@@ -148,7 +148,7 @@ bool NiBoolKey_Equal(const Helper* a, const Helper* b);
 struct SStream;
 struct SObj;
 void __cdecl WriteFloatToStream(SStream*, SObj*);
-void __cdecl FUN_00a2d230(SStream* a, SObj* b, unsigned int c);
+void __cdecl NiAnimationKey_SaveToStream(SStream* a, SObj* b, unsigned int c);
 extern int DAT_01096114;
 extern void __cdecl _NiFree(void*);
 extern MemoryManager _g_memoryManager;
@@ -474,7 +474,7 @@ struct FNVAnim {
     FNVKey  keys[64];
 };
 extern void  __cdecl NiRotKey_FillDerivedVals(FNVAnim* obj, unsigned int count, unsigned int flag);
-extern FNVQuat* __cdecl FUN_00a6dd50(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
+extern FNVQuat* __cdecl NiQuaternion_Intermediate(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
 void __cdecl NiBezRotKey_FillDerivedVals(FNVAnim* obj, unsigned int count, unsigned int flag);
 // The game class NiBound - a 16-byte bound (three position floats and a radius).
 // UHelper layout as read off the image: a float at +0, then two 16-byte
@@ -2329,7 +2329,7 @@ public:
     virtual void v38();
     virtual void v39();
     virtual void v40(int a, int b, int c, int d);
-    void FUN_00a3a730(int a, int b);
+    void NiParallelUpdateTaskManager_AddTask(int a, int b);
 };
 #include "../../include/NiMemObject.h"
 extern float DAT_0109a918;

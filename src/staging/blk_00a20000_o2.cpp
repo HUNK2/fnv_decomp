@@ -53,10 +53,10 @@ public:
     void Normalize();
     float Length() const;
 
-    LocalVector3 FUN_00b13040(const LocalVector3& other) const;
+    LocalVector3 Diff_00b13040(const LocalVector3& other) const;
     LocalVector3 FUN_00b12890(const FloatMatrix3& matrix) const;
     LocalVector3 FUN_00b12810(const LocalVector3& other) const;
-    void FUN_00b12790();
+    void Normalize_00b12790();
     void __thiscall FUN_00439ef0(LocalVector3* dest, void* context);
     void __thiscall FUN_004a0c10();
     LocalVector3 FUN_00439ef0(const LocalVector3& other) const
@@ -167,7 +167,8 @@ void __cdecl NiEulerRotKey_SaveToStream(void* a, void* b, unsigned int c)
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00a2a600
-void FUN_00a2a600(void* p)
+// src: COMMUNITY 0x00a2a600
+void NiStepPosKey_DeleteArray(void* p)
 {
     if (p)
         g_memoryManager.Deallocate((char*)p - 4);
@@ -605,7 +606,8 @@ void __cdecl WriteFloatToStream(SStream*, SObj*);
 
 // Calls WriteFloatToStream for each of c SObj entries starting at b, advancing 8 bytes per entry.
 // @fnv 0x00a2d230
-void __cdecl FUN_00a2d230(SStream* pStream, SObj* b, unsigned int c)
+// src: COMMUNITY 0x00a2d230
+void __cdecl NiAnimationKey_SaveToStream(SStream* pStream, SObj* b, unsigned int c)
 {
     if (c > 0) {
         SObj* d = b;
@@ -1314,7 +1316,7 @@ struct FNVAnim {
 };
 
 extern void  __cdecl NiRotKey_FillDerivedVals(FNVAnim* obj, unsigned int count, unsigned int flag);
-extern FNVQuat* __cdecl FUN_00a6dd50(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
+extern FNVQuat* __cdecl NiQuaternion_Intermediate(FNVQuat* out, FNVQuat* a, FNVQuat* b, FNVQuat* c);
 
 // For count >= 2, calls FUN_00a28ab0 then fills each key's q1 with FUN_00a6dd50 results from neighbouring q0 values, clamping the ends.
 // @fnv 0x00a28dc0
@@ -1330,7 +1332,7 @@ void __cdecl NiBezRotKey_FillDerivedVals(FNVAnim* pAnim, unsigned int count, uns
     FNVQuat qTmp;
 
     // i == 0 : the "previous" key degenerates to the key itself.
-    FNVQuat* pResult0 = FUN_00a6dd50(&qTmp, &pAnim->keys[0].q0, &pAnim->keys[0].q0, &pAnim->keys[1].q0);
+    FNVQuat* pResult0 = NiQuaternion_Intermediate(&qTmp, &pAnim->keys[0].q0, &pAnim->keys[0].q0, &pAnim->keys[1].q0);
     pAnim->keys[0].q1 = *pResult0;
 
     unsigned int last = count - 1;
@@ -1339,14 +1341,14 @@ void __cdecl NiBezRotKey_FillDerivedVals(FNVAnim* pAnim, unsigned int count, uns
         unsigned int n = last - 1;
         FNVKey* p = &pAnim->keys[1];
         do {
-            FNVQuat* pResult1 = FUN_00a6dd50(&qTmp, &p[-1].q0, &p->q0, &p[1].q0);
+            FNVQuat* pResult1 = NiQuaternion_Intermediate(&qTmp, &p[-1].q0, &p->q0, &p[1].q0);
             p->q1 = *pResult1;
             p++;
         } while (--n);
     }
 
     // i == count-1 : the "next" key degenerates to the key itself.
-    FNVQuat* pResult2 = FUN_00a6dd50(&qTmp, &pAnim->keys[count - 2].q0, &pAnim->keys[last].q0, &pAnim->keys[last].q0);
+    FNVQuat* pResult2 = NiQuaternion_Intermediate(&qTmp, &pAnim->keys[count - 2].q0, &pAnim->keys[last].q0, &pAnim->keys[last].q0);
     pAnim->keys[last].q1 = *pResult2;
 }
 
@@ -2494,7 +2496,7 @@ void __cdecl SaveKey(NiStreamStandInW_blk_00a20000_o2& kStream, BA2BA10Key* pkKe
 namespace fnv_00a2bb00 {
 struct SpawnHeap {
     int unk00;
-    void* FUN_00aa3e40(unsigned int auiSize);
+    void* Game_DoHeapAlloc(unsigned int auiSize);
 };
 
 extern "C" SpawnHeap DAT_011f6238;
@@ -2521,7 +2523,7 @@ struct Element76 {
     int unk48;
     ~Element76() {}
     void Init(int a1);
-    static void* operator new[](unsigned int auiSize) { return DAT_011f6238.FUN_00aa3e40(auiSize); }
+    static void* operator new[](unsigned int auiSize) { return DAT_011f6238.Game_DoHeapAlloc(auiSize); }
 };
 
 // Allocates an array of Element76 objects and calls Init(a1) on each element.
@@ -3524,7 +3526,7 @@ void NiStepFloatKey_Interpolate(float t, FUN_00a2d200_arg* a, FUN_00a2d200_arg* 
 
 namespace fnv_00a2d260 {
 struct DynamicMemoryAllocator {
-    void* FUN_00aa3e40(unsigned int auiSize);
+    void* Game_DoHeapAlloc(unsigned int auiSize);
     void FUN_00aa4060(void* apPtr);
 };
 
@@ -3537,7 +3539,7 @@ struct KeyPair8 {
     float value;
 
     ~KeyPair8() {}
-    static void* operator new[](unsigned int aSize) { return reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)->FUN_00aa3e40(aSize); }
+    static void* operator new[](unsigned int aSize) { return reinterpret_cast<DynamicMemoryAllocator*>(&DAT_011f6238)->Game_DoHeapAlloc(aSize); }
 };
 
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
@@ -3846,7 +3848,7 @@ extern "C" unsigned int DAT_011f3708;
 extern "C" unsigned int DAT_011f370c;
 extern "C" unsigned int DAT_011f3710;
 struct ArrayManager {
-  void* FUN_00aa3e40(unsigned int size);
+  void* Game_DoHeapAlloc(unsigned int size);
 };
 extern "C" ArrayManager DAT_011f6238;
 struct FUN_00a362f0 {
@@ -3878,7 +3880,7 @@ struct FUN_00a362f0 {
   unsigned int unk64;
   __declspec(nothrow) FUN_00a362f0();
   static void* operator new[](unsigned int n) {
-    return DAT_011f6238.FUN_00aa3e40(n);
+    return DAT_011f6238.Game_DoHeapAlloc(n);
   }
 };
 struct Base {
@@ -4019,11 +4021,12 @@ public:
     virtual void v38();
     virtual void v39();
     virtual void v40(int a, int b, int c, int d);
-    void FUN_00a3a730(int a, int b);
+    void NiParallelUpdateTaskManager_AddTask(int a, int b);
 };
 
 // @fnv 0x00a3a730
-void FUN_00a3a730_cls::FUN_00a3a730(int aiArg1, int aiArg2)
+// src: COMMUNITY 0x00a3a730
+void FUN_00a3a730_cls::NiParallelUpdateTaskManager_AddTask(int aiArg1, int aiArg2)
 {
     v40(0, aiArg1, aiArg2, 1);
 }
@@ -5223,7 +5226,7 @@ struct ArrayCookie
 };
 }
 
-extern "C" void* __fastcall FUN_0052d160(void* element);
+extern "C" void* __fastcall NiColorKey_Init(void* element);
 
 // Allocates a block of NiColorKey_K elements via g_memoryManager and constructs them with FUN_0052d160.
 // @fnv 0x00a2a1b0
@@ -5239,7 +5242,7 @@ NiColorKey_K* FUN_00a2a1b0(unsigned int count)
         block->count = count;
         NiColorKey_K* result = reinterpret_cast<NiColorKey_K*>(block + 1);
         _vector_constructor_iterator(result, sizeof(NiColorKey_K), count,
-            reinterpret_cast<void*>(&FUN_0052d160));
+            reinterpret_cast<void*>(&NiColorKey_Init));
         return result;
     }
     return 0;

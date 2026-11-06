@@ -38,7 +38,7 @@ struct CtrlV
         return m_i28 == 0;
     }
     int BuildEntryValueArray();
-    bool FUN_00c491a0(ObjV* pkObj);
+    bool BSCompoundFrustum_Process(ObjV* pkObj);
     void SetActorList(int iState);
 };
 struct HostV
@@ -52,7 +52,7 @@ struct HostV
     {
         return (bool)m_pv8c;
     }
-    void FUN_00a694e0(ObjV* pkObj);
+    void NiCullingProcess_DoCulling(ObjV* pkObj);
     void FUN_00c4ee90(ObjV* pkObj);
 };
 // @fnv 0x00c4ee90
@@ -71,7 +71,7 @@ void HostV::FUN_00c4ee90(ObjV* pkObj)
             if (pkObj->TestFlag(0x800) || !HasX())
                 pkObj->Attach(this);
             else
-                FUN_00a694e0(pkObj);
+                NiCullingProcess_DoCulling(pkObj);
         }
         else if (pkObj->TestFlag(0x800) || ((!m_pkCtrl || m_pkCtrl->IsEmpty()) && !HasX()))
         {
@@ -80,7 +80,7 @@ void HostV::FUN_00c4ee90(ObjV* pkObj)
         else
         {
             int iState = m_pkCtrl->BuildEntryValueArray();
-            if (m_pkCtrl->FUN_00c491a0(pkObj))
+            if (m_pkCtrl->BSCompoundFrustum_Process(pkObj))
                 pkObj->Attach(this);
             m_pkCtrl->SetActorList(iState);
         }

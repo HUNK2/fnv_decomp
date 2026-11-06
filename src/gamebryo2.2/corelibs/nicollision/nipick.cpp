@@ -89,23 +89,24 @@ void* __fastcall DestroyPickResults(NiPick::Results* results, void*, bool free)
 
 extern int DAT_0126fa60;
 void __cdecl InitNiStreamCallbacks();
-void __cdecl FUN_00e99260();
-void __cdecl FUN_00aa2080(void*, void*);
+void __cdecl NiCollisionSDM_Shutdown();
+void __cdecl NiStaticDataManager_AddLibrary(void*, void*);
 
 struct FUN_00e99300_shell
 {
-    void* __thiscall FUN_00e99300();
+    void* __thiscall NiCollisionSDM_NiCollisionSDM();
 };
 
 // Increments DAT_0126fa60 and, when the previous value was zero, registers InitNiStreamCallbacks and FUN_00e99260 via FUN_00aa2080; returns this.
 // @fnv 0x00e99300
-void* __thiscall FUN_00e99300_shell::FUN_00e99300()
+// src: COMMUNITY 0x00e99300
+void* __thiscall FUN_00e99300_shell::NiCollisionSDM_NiCollisionSDM()
 {
     void* result = this;
     int iPreviousCount = DAT_0126fa60;
     DAT_0126fa60 = DAT_0126fa60 + 1;
     if (iPreviousCount == 0)
-        FUN_00aa2080((void*)InitNiStreamCallbacks, (void*)FUN_00e99260);
+        NiStaticDataManager_AddLibrary((void*)InitNiStreamCallbacks, (void*)NiCollisionSDM_Shutdown);
     return result;
 }
 
@@ -113,11 +114,11 @@ void* __cdecl _NiMalloc(unsigned int);
 typedef void(__cdecl* PFN)();
 extern const char g_0126fab4_arg0[];
 NiObject* __cdecl FUN_00ead090();
-void __cdecl FUN_00ea7490();
+void __cdecl NiRegisterBVStream();
 int* __cdecl NiCollisionConvert_ConvertToSphereBV_Fast(float, int*);
 struct Obj;
-Obj* __cdecl FUN_00e9c800(float, int*);
-void __cdecl FUN_00e9c850();
+Obj* __cdecl NiCollisionConvert_ConvertToSphereBV_Safe(float, int*);
+void __cdecl NiCollisionConvert_ConvertToBoxBV();
 void __cdecl NiHalfSpaceBV_HalfSpaceSphereTestIntersect();
 void __cdecl IsIntersectingFogPlane();
 void __cdecl NiHalfSpaceBV_HalfSpaceCapsuleTestIntersect();
@@ -135,7 +136,7 @@ void __cdecl FindMatchingItemPair();
 void __cdecl NiUnionBV_UnionTriTestIntersect();
 void __cdecl FindItemByPredicate();
 void __cdecl FindMatchingPair();
-void __cdecl FUN_00e9ec10();
+void __cdecl NiUnionBV_UnionTriFindIntersect();
 void __cdecl FUN_00e9efe0();
 void __cdecl FUN_00e9f400();
 void __cdecl FUN_00e9f510();
@@ -149,13 +150,13 @@ void __cdecl FUN_00ea2030();
 void __cdecl IntersectsTriangle();
 void __cdecl FUN_00ea3950();
 void __cdecl FUN_00ea3c50();
-void __cdecl FUN_00ea3d60();
+void __cdecl NiBoxBV_BoxTriFindIntersect();
 void __cdecl IntersectsSphereAndBox();
 void __cdecl FUN_00ea7d40();
 void __cdecl CheckSweptSphereOverlap();
 void __cdecl IntersectSpheres();
 struct FUN_00eac170_Ret;
-FUN_00eac170_Ret* __cdecl FUN_00eac170(NiStream&);
+FUN_00eac170_Ret* __cdecl NiSphereBV_CreateFromStream(NiStream&);
 void __cdecl SphereTriangleSweepTest();
 void __cdecl SphereTriangleCollision();
 void __cdecl ReadObjB0();
@@ -181,11 +182,11 @@ void __cdecl InitNiStreamCallbacks()
         return;
     DAT_0126fa5c = true;
     NiStream::RegisterObjectLoader(g_0126fab4_arg0, FUN_00ead090);
-    DAT_0126fa80 = FUN_00ea7490;
+    DAT_0126fa80 = NiRegisterBVStream;
     DAT_0126fa84 = CreateObjWithArg;
     DAT_0126fa90 = CreateBoundingVolumeAndCall;
     DAT_0126fa88 = ReadObjB0;
-    DAT_0126fa7c = (PFN)FUN_00eac170;
+    DAT_0126fa7c = (PFN)NiSphereBV_CreateFromStream;
     DAT_0126fa8c = FUN_00e9efe0;
 
     PFN* a = (PFN*)_NiMalloc(0x90);
@@ -274,10 +275,10 @@ void __cdecl InitNiStreamCallbacks()
 
     PFN* pTableD = (PFN*)_NiMalloc(0x18);
     pTableD[0] = SphereTriangleCollision;
-    pTableD[1] = FUN_00ea3d60;
+    pTableD[1] = NiBoxBV_BoxTriFindIntersect;
     pTableD[2] = FUN_00e9fdc0;
     pTableD[3] = 0;
-    pTableD[4] = FUN_00e9ec10;
+    pTableD[4] = NiUnionBV_UnionTriFindIntersect;
     pTableD[5] = NiHalfSpaceBV_HalfSpaceTriFindIntersect;
 
     DAT_0126fa94 = a;
@@ -285,8 +286,8 @@ void __cdecl InitNiStreamCallbacks()
     DAT_0126fa9c = pTableC;
     DAT_0126faa0 = pTableD;
     DAT_0126faa4 = (PFN)NiCollisionConvert_ConvertToSphereBV_Fast;
-    DAT_0126faa8 = (PFN)FUN_00e9c800;
-    DAT_0126faac = FUN_00e9c850;
+    DAT_0126faa8 = (PFN)NiCollisionConvert_ConvertToSphereBV_Safe;
+    DAT_0126faac = NiCollisionConvert_ConvertToBoxBV;
 }
 
 struct NiStreamUnreg
@@ -294,7 +295,8 @@ struct NiStreamUnreg
     static void UnregisterObjectLoader(const char*);
 };
 // @fnv 0x00e99260
-void __cdecl FUN_00e99260()
+// src: COMMUNITY 0x00e99260
+void __cdecl NiCollisionSDM_Shutdown()
 {
     if (DAT_0126fa5c)
     {
@@ -367,7 +369,7 @@ class PooledPickRecord
 
     static void* operator new(unsigned int uiSize)
     {
-        return g_memoryManager.FUN_00aa3e40(uiSize);
+        return g_memoryManager.Game_DoHeapAlloc(uiSize);
     }
     static void operator delete(void*, int, int);
 };

@@ -94,17 +94,17 @@ public:
     PathingGraphNode* FUN_006b05a0();
     bool FUN_006b05d0();
     void* FUN_006c90d0(const PathingLocation&);
-    void FUN_006c9350();
-    void FUN_006c93a0();
+    void RemoveLastNode();
+    void PathingSolution_ClearCurrentDetailedPath();
     LocationDescriptor* FUN_006e78b0(unsigned int);
     BaseProcess* FUN_006e78b0(unsigned int, NiPoint3&);
     const PathingGraphNode* FUN_006e7970(unsigned int);
-    float FUN_006e7990(int);
+    float ComputeSplineLength(int);
     bool FUN_006e7e70(float, float, bool, float*, NiPoint3*);
     bool FUN_006e7e70(float, float, int, int*, NiPoint3*);
     bool FUN_006e7e70(float, float, int, float*, NiPoint3*);
-    int FUN_009611e0();
-    bool FUN_009dc530();
+    int NiAVObject_GetParent();
+    bool PathingSolution_IsValid();
 
     union
     {

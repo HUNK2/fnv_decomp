@@ -292,7 +292,7 @@ void NiPixelData::LoadBinary(NiStream& kStream)
     stream.Read(pixels, m_puiOffsetInBytes[m_uiMipmapLevels] * m_uiFaces, 1);
 }
 
-char* __cdecl FUN_00a7d330(char* pcText);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* pcText);
 char* __cdecl FUN_00a7d510(const char* pcName, unsigned int uiValue);
 inline void StrArr::AppendReference(char*& element)
 {
@@ -320,7 +320,7 @@ void NiPixelData::GetViewerStrings(NiViewerStringsArray* strings)
 {
     StrArr* pkStrings = reinterpret_cast<StrArr*>(strings);
     ((Base00a5d6e0*)this)->AppendCameraPathEntries(pkStrings);
-    char* pcString = FUN_00a7d330(*(char**)&g_011f4a90);
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(*(char**)&g_011f4a90);
     pkStrings->AppendReference(pcString);
     pcString = FUN_00a7d510("Width", GetWidth());
     pkStrings->AppendReference(pcString);

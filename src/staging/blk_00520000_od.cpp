@@ -58,23 +58,25 @@ bool FUN_00524b40_class::FUN_00524b40()
 
 struct FUN_00526ae0_class
 {
-    float FUN_00526ae0() const;
+    float TESTopic_GetPriority_GetUnk28() const;
 };
 
 // @fnv 0x00526ae0
-float FUN_00526ae0_class::FUN_00526ae0() const
+// src: COMMUNITY 0x00526ae0
+float FUN_00526ae0_class::TESTopic_GetPriority_GetUnk28() const
 {
     return *(const float*)((const char*)this + 0x28);
 }
 
 struct FUN_00527740_class
 {
-    void __thiscall FUN_00527740();
+    void __thiscall InventoryIterator_Reset();
 };
 
 // Clears the int fields at offsets 0x0c and 0x10 and the byte at 0x14 of this object to zero.
 // @fnv 0x00527740
-void __thiscall FUN_00527740_class::FUN_00527740()
+// src: COMMUNITY 0x00527740
+void __thiscall FUN_00527740_class::InventoryIterator_Reset()
 {
     *(int*)((char*)this + 0x0c) = 0;
     *(int*)((char*)this + 0x10) = 0;
@@ -123,11 +125,12 @@ void __thiscall FUN_0052d180_cls::FUN_0052d180()
 
 struct FUN_0052d160_cls
 {
-    void* __thiscall FUN_0052d160();
+    void* __thiscall NiColorKey_Init();
 };
 
 // @fnv 0x0052d160
-void* __thiscall FUN_0052d160_cls::FUN_0052d160()
+// src: COMMUNITY 0x0052d160
+void* __thiscall FUN_0052d160_cls::NiColorKey_Init()
 {
     ((FUN_0052d180_cls*)this)->FUN_0052d180();
     return this;
@@ -163,9 +166,10 @@ void FUN_0052d220_obj::DestroyBase()
 }
 
 // @fnv 0x00533fb0
-void NiObjectNET::FUN_00533fb0(unsigned short a)
+// src: COMMUNITY 0x00533fb0
+void NiObjectNET::NiStencilProperty_SetStencilFailAction(unsigned short a)
 {
-    FUN_00439360(a, 0xe, 1);
+    SetField_00439360(a, 0xe, 1);
 }
 
 struct FUN_008256d0_shell_base
@@ -174,11 +178,12 @@ struct FUN_008256d0_shell_base
 };
 struct FUN_00537b50_shell
 {
-    bool FUN_00537b50();
+    bool TESObjectCELL_HasObjects();
 };
 // Returns the negation of the result of calling FUN_008256d0 on the object at this+0xac.
 // @fnv 0x00537b50
-bool FUN_00537b50_shell::FUN_00537b50()
+// src: COMMUNITY 0x00537b50
+bool FUN_00537b50_shell::TESObjectCELL_HasObjects()
 {
     return !reinterpret_cast<FUN_008256d0_shell_base*>(reinterpret_cast<char*>(this) + 0xac)->FUN_008256d0();
 }
@@ -186,7 +191,7 @@ bool FUN_00537b50_shell::FUN_00537b50()
 struct Base537
 {
     void FUN_00537bb0();
-    Base537* FUN_00537b80();
+    Base537* hkMoppBvTreeShapeCinfo_hkMoppBvTreeShapeCinfo();
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
@@ -194,7 +199,8 @@ struct Base537
 };
 
 // @fnv 0x00537b80
-Base537* Base537::FUN_00537b80()
+// src: COMMUNITY 0x00537b80
+Base537* Base537::hkMoppBvTreeShapeCinfo_hkMoppBvTreeShapeCinfo()
 {
     FUN_00537bb0();
     m_8 = 0;
@@ -206,11 +212,12 @@ Base537* Base537::FUN_00537b80()
 struct FUN_00539f20_Class
 {
     GO m;
-    void FUN_00539f20(void*);
+    void BSShaderPPLightingProperty_StoreExtraDataPointers(void*);
 };
 
 // @fnv 0x00539f20
-void FUN_00539f20_Class::FUN_00539f20(void* p)
+// src: COMMUNITY 0x00539f20
+void FUN_00539f20_Class::BSShaderPPLightingProperty_StoreExtraDataPointers(void* p)
 {
     ((GO*)((char*)this + 0xd0))->operator=(p);
 }
@@ -361,7 +368,8 @@ bool FUN_00526c40_Class::RemoveSound(TESSound* apSound)
 struct BGSLoadedReferenceCollection;
 extern BGSLoadedReferenceCollection* DAT_011c95c8;
 // @fnv 0x00526eb0
-void FUN_00526eb0()
+// src: COMMUNITY 0x00526eb0
+void BGSLoadedReferenceCollection_Destroy()
 {
     FUN_00526ef0_Class* b;
     FUN_00526ef0_Class* a;
@@ -555,11 +563,11 @@ void* __thiscall FUN_00527f90_Holder::FUN_00527f90(unsigned int flags)
 
 struct FUN_00449f80_Class
 {
-    void* __thiscall FUN_00449f80(void* a, void* b, unsigned char c);
+    void* __thiscall LockFreeMap_GetInterface_0(void* a, void* b, unsigned char c);
 };
 struct FUN_0044c000_Class
 {
-    unsigned char __thiscall FUN_0044c000();
+    unsigned char __thiscall LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_SetAt();
 };
 struct FUN_00528b60_Class
 {
@@ -571,7 +579,7 @@ unsigned char __thiscall FUN_00528b60_Class::LockedCall(void* a, void* b, unsign
 {
     unsigned char r;
     ((RecursiveSpinLock*)((char*)this + 0x20))->Lock(0);
-    r = ((FUN_0044c000_Class*)((FUN_00449f80_Class*)this)->FUN_00449f80(a, b, c))->FUN_0044c000();
+    r = ((FUN_0044c000_Class*)((FUN_00449f80_Class*)this)->LockFreeMap_GetInterface_0(a, b, c))->LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_SetAt();
     ((RecursiveSpinLock*)((char*)this + 0x20))->Unlock();
     return r;
 }
@@ -666,11 +674,12 @@ void __cdecl InitQueuedCellManager()
 
 struct FUN_005285c0_Class
 {
-    void* __thiscall FUN_005285c0(void* a, void* b, void* c);
+    void* __thiscall ExteriorCellLoader_PreLoadCellData(void* a, void* b, void* c);
 };
 // Allocates a 0x14-byte object storing a, b and c in its first three fields, zeroing the byte at 0x10 and the int at 0xC, and returns it or null if a is null.
 // @fnv 0x005285c0
-void* FUN_005285c0_Class::FUN_005285c0(void* a, void* b, void* c)
+// src: COMMUNITY 0x005285c0
+void* FUN_005285c0_Class::ExteriorCellLoader_PreLoadCellData(void* a, void* b, void* c)
 {
     void* p = 0;
     if (a)
@@ -698,7 +707,8 @@ struct FUN_00526c90
 void* __cdecl operator new(unsigned int);
 
 // @fnv 0x00526e10
-void FUN_00526e10()
+// src: COMMUNITY 0x00526e10
+void BGSLoadedReferenceCollection_Create()
 {
     AutoMemHelper context(
         0x2c, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSLoadedReferenceCollection.cpp", 0x58);
@@ -894,7 +904,7 @@ struct FUN_005287e0_Class
     virtual void v3();
     virtual void v4();
     virtual void v5();
-    unsigned char FUN_005287e0();
+    unsigned char BSTask_IsCompleted();
 };
 struct Query
 {
@@ -937,7 +947,7 @@ void TESQueuedCellManager::ProcessQueries()
         Handle y(0);
         if (static_cast<TESQueuedCellManagerRequestCalls*>(this)->AdvanceRequest(&query, &x, &y, 1))
         {
-            if (y.FUN_00559450()->FUN_005287e0())
+            if (y.FUN_00559450()->BSTask_IsCompleted())
             {
                 y.FUN_00559450()->v5();
             }
@@ -953,7 +963,7 @@ struct Holder_cls
     virtual void v3();
     virtual void v4();
     virtual void v5();
-    bool FUN_005287e0();
+    bool BSTask_IsCompleted();
 };
 
 struct Local_cls
@@ -978,7 +988,8 @@ struct Obj20_cls
 extern IOManager* DAT_01202d98;
 
 // @fnv 0x005282d0
-void TESQueuedCellManager::FUN_005282d0()
+// src: COMMUNITY 0x005282d0
+void TESQueuedCellManager::ExteriorCellLoader_WaitForTasks()
 {
     Local_cls a;
     while (!a.FUN_006ebde0())
@@ -988,7 +999,7 @@ void TESQueuedCellManager::FUN_005282d0()
         if (static_cast<TESQueuedCellManagerRequestCalls*>(this)->AdvanceRequest(&a, &b, &o4, 1))
         {
             static_cast<IOManagerTaskCalls*>(DAT_01202d98)->WaitForTask(o4.FUN_00559450());
-            if (o4.FUN_00559450()->FUN_005287e0())
+            if (o4.FUN_00559450()->BSTask_IsCompleted())
             {
                 o4.FUN_00559450()->v5();
             }
@@ -1044,11 +1055,12 @@ struct QCellQueue
     virtual bool Insert(int key, QTaskPtr* ptr, int flag);
     bool IsQueuedQ(int x, int y);
     void* MakeEntryQ(QWorldSpace* ws, int x, int y);
-    void FUN_005283c0(QWorldSpace* ws, int x, int y);
+    void ExteriorCellLoader_QueueCellLoad(QWorldSpace* ws, int x, int y);
 };
 
 // @fnv 0x005283c0
-void QCellQueue::FUN_005283c0(QWorldSpace* ws, int x, int y)
+// src: COMMUNITY 0x005283c0
+void QCellQueue::ExteriorCellLoader_QueueCellLoad(QWorldSpace* ws, int x, int y)
 {
     if (!ws)
         return;
@@ -1118,12 +1130,13 @@ struct QueuedMap
     RecursiveSpinLock lock;
 
     void FreeNode(QueuedNode* node);
-    void FUN_00528e40(bool abFreeNodes);
+    void LockFreeMap_RemoveAll(bool abFreeNodes);
 };
 
 // Under a task-overhead memory context, locks the map, deletes the owner, frees all bucket nodes, and optionally recreates the owner with the saved data.
 // @fnv 0x00528e40
-void QueuedMap::FUN_00528e40(bool abFreeNodes)
+// src: COMMUNITY 0x00528e40
+void QueuedMap::LockFreeMap_RemoveAll(bool abFreeNodes)
 {
     AutoMemContext kMemContext(static_cast<MEM_CONTEXT>(6), true, kThreadSafeStructuresSourceFile, 0x42c);
     if (owner == 0)
@@ -1279,7 +1292,8 @@ FUN_00537bf0::FUN_00537bf0(unsigned short id) : m_sub(0, 1)
 extern int g_00539f40;
 
 // @fnv 0x00539f40
-int __cdecl FUN_00539f40()
+// src: COMMUNITY 0x00539f40
+int __cdecl BSShaderManager_GetTexPercTag()
 {
     return g_00539f40;
 }
@@ -1526,7 +1540,7 @@ struct EntryState
     int f0c;
     int f10;
     int f14;
-    void FUN_00527740();
+    void InventoryIterator_Reset();
 };
 struct Entries
 {
@@ -1598,7 +1612,7 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
                 *item = entry7;
                 return true;
             }
-            state->state.FUN_00527740();
+            state->state.InventoryIterator_Reset();
             state->entries = 0;
             state->current = 0;
         }
@@ -1681,8 +1695,8 @@ bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned in
     return false;
 }
 
-extern "C" void __cdecl FUN_00401030(void*);
-extern "C" void FUN_0044e360(unsigned long);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void*);
+extern "C" void _TlsFree(unsigned long);
 
 struct ArrayItem
 {
@@ -1716,9 +1730,9 @@ void __thiscall Cls::FUN_00529330()
     }
     {
         void* p = this->m_8;
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
-    FUN_0044e360(this->m_iWordAt04);
+    _TlsFree(this->m_iWordAt04);
 }
 
 extern const NiPoint3 DAT_011a9484;
@@ -1733,7 +1747,7 @@ struct TerrainInput
 };
 struct TerrainOwner
 {
-    NiPoint3 FUN_0053b450(unsigned char, unsigned short, int*, int*);
+    NiPoint3 TESObjectLAND_GetVertexLocation(unsigned char, unsigned short, int*, int*);
     void FUN_00534240(unsigned int, unsigned int, NiPoint3&);
     void FUN_00534390(unsigned int, unsigned int, NiPoint3&);
     float FUN_00534080();
@@ -1745,7 +1759,7 @@ struct TerrainOwner
 bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3* normal, NiPoint3* tangent)
 {
     NiPoint3 origin;
-    NiPoint3 position = FUN_0053b450((unsigned char)input->region, (unsigned short)input->position, 0, 0);
+    NiPoint3 position = TESObjectLAND_GetVertexLocation((unsigned char)input->region, (unsigned short)input->position, 0, 0);
     FUN_00534240(input->region, input->position, origin);
     NiPoint3 location;
     location = NiPoint3(FUN_00534050() + 2048.0, FUN_00534080() + 2048.0, 0.0f);
@@ -1813,7 +1827,8 @@ struct Head175
     void* FUN_00559450();
 };
 // @fnv 0x005281f0
-int TESQueuedCellManager::FUN_005281f0()
+// src: COMMUNITY 0x005281f0
+int TESQueuedCellManager::ExteriorCellLoader_TryCancelTasks()
 {
     int count = 0;
     QueryState175 query;
@@ -1833,12 +1848,13 @@ int TESQueuedCellManager::FUN_005281f0()
 struct FUN_00528bb0_class
 {
     NiObject* m_obj;
-    void FUN_00528bb0(int arg);
+    void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_RemoveAt(int arg);
 };
 
 // Calls slot9(arg, arg) on m_obj and passes the result to FUN_00528ce0 on this.
 // @fnv 0x00528bb0
-void FUN_00528bb0_class::FUN_00528bb0(int arg)
+// src: COMMUNITY 0x00528bb0
+void FUN_00528bb0_class::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_RemoveAt(int arg)
 {
     // This queue object's slot 9 takes two arguments, unlike NiObject::IsTriShape.
     // Preserve the original call ABI until that queue interface is shared.
@@ -1857,7 +1873,7 @@ void FUN_00528bb0_class::FUN_00528bb0(int arg)
         call eax
         push eax
         mov ecx, this
-        call NiObject::FUN_00528ce0
+        call NiObject::LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_RemoveAt_00528ce0
     }
 }
 
@@ -1873,7 +1889,7 @@ struct FUN_00528be0 : QueueBase528be0
     void* unk04;
     unsigned int unk08;
     void* m_buckets;
-    void FUN_00528e40(bool shutdown);
+    void LockFreeMap_RemoveAll(bool shutdown);
     ~FUN_00528be0();
 };
 
@@ -1881,11 +1897,11 @@ struct FUN_00528be0 : QueueBase528be0
 // @fnv 0x00528be0
 FUN_00528be0::~FUN_00528be0()
 {
-    FUN_00528e40(true);
+    LockFreeMap_RemoveAll(true);
     void* buckets = m_buckets;
-    FUN_00401030(buckets);
+    FormHeapFreeAndLog_00401030(buckets);
     void* buffer = unk04;
-    FUN_00401030(buffer);
+    FormHeapFreeAndLog_00401030(buffer);
 }
 
 }

@@ -154,7 +154,7 @@ void NiMorphData::MorphTarget::SetTargetInterpolator(NiInterpolator* pInterpolat
 // @fnv 0x004393e0
 void NiObjectNET::SetFlags(unsigned short flags)
 {
-    FUN_00439360(flags, 0x1c00, 10);
+    SetField_00439360(flags, 0x1c00, 10);
 }
 #pragma optimize("", on)
 
@@ -279,7 +279,8 @@ void __fastcall FUN_00a5c760(void** pThis)
 
 extern char const* const g_011f3e6c_arg1;
 // @fnv 0x00a57290
-char const* const* __cdecl FUN_00a57290()
+// src: COMMUNITY 0x00a57290
+char const* const* __cdecl NiExtraDataController_GetRTTI()
 {
     return &g_011f3e6c_arg1;
 }
@@ -802,7 +803,7 @@ struct ShortArray
         m_pBase = 0;
         m_ppVirtualMethodTable = &DAT_0109b2d4;
     }
-    void FUN_00a5b790(unsigned int);
+    void NiTArray_unsigned_short_NiTMallocInterface_unsigned_short_SetSize(unsigned int);
     void SetEntry(unsigned int, const unsigned short&);
     unsigned short GetAt(unsigned int u) const
     {
@@ -812,12 +813,13 @@ struct ShortArray
     {
         unsigned int index = m_usSize;
         if (index >= m_usMaxSize)
-            FUN_00a5b790(index + m_usGrowBy);
+            NiTArray_unsigned_short_NiTMallocInterface_unsigned_short_SetSize(index + m_usGrowBy);
         SetEntry(index, x);
     }
 };
 
-void ShortArray::FUN_00a5b790(unsigned int uiMaxSize)
+// src: COMMUNITY 0x00a5b790
+void ShortArray::NiTArray_unsigned_short_NiTMallocInterface_unsigned_short_SetSize(unsigned int uiMaxSize)
 {
     if (uiMaxSize == m_usMaxSize)
         return;
@@ -1105,7 +1107,7 @@ struct StrArray
     }
 };
 extern int DAT_011f4304;
-char* FUN_00a7d330(int);
+char* NiViewerStrings_NiGetViewerString_Title(int);
 char* FUN_00a7d5e0(const char*, ...);
 struct S
 {
@@ -1124,7 +1126,7 @@ struct S
 void S::FUN_00a5ca80(StrArray* apArray)
 {
     AppendCameraPathEntries(apArray);
-    char* str = FUN_00a7d330(DAT_011f4304);
+    char* str = NiViewerStrings_NiGetViewerString_Title(DAT_011f4304);
     apArray->Add(str);
     str = FUN_00a7d5e0("m_kName", GetUnk08());
     apArray->Add(str);
@@ -1146,7 +1148,7 @@ struct NamedObj
 class NiTexture;
 struct Holder
 {
-    bool FUN_00a5ba40(NiTexture*);
+    bool NiObjectNET_AddExtraData(NiTexture*);
 };
 struct RTTIName
 {
@@ -1189,7 +1191,7 @@ bool FUN_00a5bca0_shell::SetExtraDataName(NiExtraData* pkExtra)
             NiFree(pcGeneratedKey);
         }
     }
-    return ((Holder*)this)->FUN_00a5ba40((NiTexture*)pkExtra);
+    return ((Holder*)this)->NiObjectNET_AddExtraData((NiTexture*)pkExtra);
 }
 
 struct FUN_00a5be90_shell : public NiObjectNET

@@ -24,7 +24,8 @@ void NiIntegerExtraData::LoadBinary(NiStream& stream)
 extern char const* const g_01202de0_arg1;
 
 // @fnv 0x00a99c60
-char const* const* __cdecl FUN_00a99c60()
+// src: COMMUNITY 0x00a99c60
+char const* const* __cdecl NiIntegerExtraData_GetRTTI()
 {
     return &g_01202de0_arg1;
 }

@@ -93,7 +93,7 @@ class NiObject : public NiRefObject
     void* FUN_00621a40();
     void FUN_00b4dec0(int);
     void FUN_00a5d3d0();
-    void FUN_00528ce0(NiObject*);
+    void LockFreeMap_TESObjectREFR_NiPointer_QueuedReference_LockFreeMapInterface_RemoveAt_00528ce0(NiObject*);
     void FUN_00a809b0(unsigned int);
     void FUN_00c21cb0(unsigned int);
     void FUN_00c62140();

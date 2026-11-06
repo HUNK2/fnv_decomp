@@ -1459,7 +1459,7 @@ struct S_00d42b50_MonitorStream {
 
 struct __declspec(align(16)) S_00d42b50_Rot {
     float x, y, z, w;
-    void FUN_00c66320(const hkVector4* a, const hkVector4* b);
+    void setMul(const hkVector4* a, const hkVector4* b);
 };
 
 
@@ -1549,8 +1549,8 @@ void S_00d42b50_Cls::hkpTransformAgent_processCollision(const S_00d42b50_CdBody&
     const S_00d42b50_Motion* src = bodyA.m_pMotionState;
     _mm_store_ps(&ms.unk40.x, _mm_load_ps(&src->unk40.x));
     _mm_store_ps(&ms.unk50.x, _mm_load_ps(&src->unk50.x));
-    ms.unk60.FUN_00c66320((const hkVector4*)&src->unk60, &scratch.shape->m_rotation);
-    ms.unk70.FUN_00c66320((const hkVector4*)&src->unk70, &scratch.shape->m_rotation);
+    ms.unk60.setMul((const hkVector4*)&src->unk60, &scratch.shape->m_rotation);
+    ms.unk70.setMul((const hkVector4*)&src->unk70, &scratch.shape->m_rotation);
 
     __m128 delta = _mm_sub_ps(_mm_load_ps(&src->unk80.x), _mm_load_ps(&xf.m_vTranslation.m128_f32[0]));
     __m128 xcol = _mm_load_ps(&xf.m_kColumn0.m128_f32[0]);

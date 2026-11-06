@@ -419,7 +419,7 @@ struct S_00487010
 };
 struct FUN_00485e00_shell
 {
-    void FUN_00485e00();
+    void TESForm_SaveData();
 };
 
 // @fnv 0x0059b1b0
@@ -431,7 +431,7 @@ void TESCaravanMoney::SaveForm()
     ((FUN_0048e370_shell*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
     BGSMessageIcon::Save(0x4f43494d);
     ((FUN_0047b560_shell*)((char*)this + 0x80))->LogFormIDs();
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
+    ((FUN_00485e00_shell*)this)->TESForm_SaveData();
     ((TESModelTextureSwap*)GetModelTextureSwap(0))->ProcessAndFreeData(0x32444f4d, 0x54444f4d, 0x53444f4d);
     ((TESModelTextureSwap*)GetModelTextureSwap(1))->ProcessAndFreeData(0x33444f4d, 0x54444f4d, 0x53444f4d);
     TESForm::FUN_00485680();
@@ -458,7 +458,7 @@ struct FUN_0048e370_obj
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void Save_0048cca0();
 };
 struct FUN_0047b560_holder
 {
@@ -479,13 +479,13 @@ void CaravanCardWriter::SaveForm()
     reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(this) + sizeof(TESBoundObject) + sizeof(TESFullName))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_0048e370_obj*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
     BGSMessageIcon::Save(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x80))->FUN_0048cca0();
+    ((S_0048cca0*)((char*)this + 0x80))->Save_0048cca0();
     ((FUN_0047b560_holder*)((char*)this + 0x8c))->LogFormIDs();
     ((FUN_0048e370_obj*)static_cast<CaravanCardAccess*>(static_cast<TESCaravanCard*>(this))->GetFrontTexture())->FUN_0048e370(0x30305854);
     ((FUN_0048e370_obj*)FUN_00503650())->FUN_0048e370(0x31305854);
     _FUN_00485910(0x56544e49, data.m_uiSecondValue);
     _FUN_00485910(0x56544e49, data.m_uiFirstValue);
-    ((FUN_00485e00_shell*)this)->FUN_00485e00();
+    ((FUN_00485e00_shell*)this)->TESForm_SaveData();
     TESForm::FUN_00485680();
 }
 
@@ -563,11 +563,12 @@ struct FUN_0059ba80_shell : public FUN_004855a0
     BipedModelForm data;
     void FUN_00485e20(int, int);
     void M();
-    void FUN_0059ba80();
+    void TESCaravanDeck_SaveAlt();
 };
 
 // @fnv 0x0059ba80
-void FUN_0059ba80_shell::FUN_0059ba80()
+// src: COMMUNITY 0x0059ba80
+void FUN_0059ba80_shell::TESCaravanDeck_SaveAlt()
 {
     M();
     ((S_00487010*)((char*)this + 0x18))->FUN_00487010();

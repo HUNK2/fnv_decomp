@@ -18,7 +18,8 @@ struct BSStripParticleSystem : NiParticleSystem
 void* g_01202560;
 
 // @fnv 0x00c257c0
-void* __cdecl FUN_00c257c0()
+// src: COMMUNITY 0x00c257c0
+void* __cdecl BSStripParticleSystem_GetRTTI()
 {
     return &g_01202560;
 }

@@ -26,7 +26,8 @@ void NiVisController::GetVisibility(bool& abVisible)
 extern void* g_011f3f08;
 
 // @fnv 0x00a44eb0
-void* __cdecl FUN_00a44eb0()
+// src: COMMUNITY 0x00a44eb0
+void* __cdecl NiVisController_GetRTTI()
 {
     return &g_011f3f08;
 }
@@ -54,7 +55,8 @@ void* __cdecl NiVisController_CreateObject()
 extern const char* const g_011f3ec8_arg1;
 
 // @fnv 0x00a57660
-const char* __cdecl FUN_00a57660()
+// src: COMMUNITY 0x00a57660
+const char* __cdecl NiFloatInterpController_GetRTTI()
 {
     return (const char*)&g_011f3ec8_arg1;
 }
@@ -62,7 +64,8 @@ const char* __cdecl FUN_00a57660()
 extern const char* const g_011f3f08_arg1;
 
 // @fnv 0x00a577b0
-const char* const* __cdecl FUN_00a577b0()
+// src: COMMUNITY 0x00a577b0
+const char* const* __cdecl NiBoolInterpController_GetRTTI()
 {
     return &g_011f3f08_arg1;
 }

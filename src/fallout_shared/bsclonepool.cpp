@@ -13,14 +13,14 @@ struct S_004b0aa0_Cur
 };
 struct S_004b0aa0_Sub
 {
-    bool FUN_004a4460();
+    bool BSSimpleList_NiRefObjectPtr_IsEmpty();
     void PopHead();
 };
 struct S_004b0aa0_Found
 {
     int key;
     S_004b0aa0_Sub sub;
-    void* FUN_004b08e0(int flag);
+    void* BSClonePools_ClonePool_Destroy(int flag);
 };
 struct S_004b0aa0_Self : S_004b0aa0_Cur
 {
@@ -45,14 +45,14 @@ void S_004b0aa0_Self::ProcessKeyedEntry(int key, unsigned count)
         if (found)
         {
             unsigned uiStep;
-            for (uiStep = 0; uiStep < count && !found->sub.FUN_004a4460(); uiStep++)
+            for (uiStep = 0; uiStep < count && !found->sub.BSSimpleList_NiRefObjectPtr_IsEmpty(); uiStep++)
                 found->sub.PopHead();
-            if (found->sub.FUN_004a4460())
+            if (found->sub.BSSimpleList_NiRefObjectPtr_IsEmpty())
             {
                 FUN_00905330(&found);
                 S_004b0aa0_Found* pFoundCopy = found;
                 S_004b0aa0_Found* p3 = pFoundCopy;
-                (void)(p3 ? p3->FUN_004b08e0(1) : 0);
+                (void)(p3 ? p3->BSClonePools_ClonePool_Destroy(1) : 0);
             }
         }
     }
@@ -63,18 +63,19 @@ struct SpawnedObject
     bool FUN_008256d0();
     unsigned int* FUN_006815c0();
     unsigned int FUN_00726070();
-    bool FUN_004a4460();
+    bool BSSimpleList_NiRefObjectPtr_IsEmpty();
     unsigned int FUN_00559450();
 };
 
 class FUN_004b0ba0_cls
 {
   public:
-    unsigned int FUN_004b0ba0(unsigned int arg);
+    unsigned int BSClonePools_RequestClone(unsigned int arg);
 };
 
 // @fnv 0x004b0ba0
-unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(unsigned int arg)
+// src: COMMUNITY 0x004b0ba0
+unsigned int FUN_004b0ba0_cls::BSClonePools_RequestClone(unsigned int arg)
 {
     unsigned int result2;
     unsigned int found8 = 0;
@@ -91,7 +92,7 @@ unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(unsigned int arg)
     if (found8 != 0)
     {
         unsigned int p3 = found8 + 4;
-        while (result2 == 0 && p3 != 0 && !((SpawnedObject*)p3)->FUN_004a4460())
+        while (result2 == 0 && p3 != 0 && !((SpawnedObject*)p3)->BSSimpleList_NiRefObjectPtr_IsEmpty())
         {
             unsigned int r = ((SpawnedObject*)((SpawnedObject*)p3)->FUN_006815c0())->FUN_00559450();
             if (r != 0 && ((SpawnedObject*)r)->FUN_00726070() == 1)

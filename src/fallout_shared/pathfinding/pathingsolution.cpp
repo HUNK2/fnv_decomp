@@ -109,7 +109,8 @@ struct FUN_00457990_shell
 
 // Returns 0.0f if the index is at or past the last element, otherwise computes a value from the positions of the element at the index and the next one.
 // @fnv 0x006e7990
-float PathingSolution::FUN_006e7990(int aiIndex)
+// src: COMMUNITY 0x006e7990
+float PathingSolution::ComputeSplineLength(int aiIndex)
 {
     if (aiIndex >= (int)GetObjectFlags() - 1)
         return 0.0f;
@@ -156,12 +157,13 @@ void* __fastcall InitZeroPoints(void* pThis)
     return pThis;
 }
 
-void __fastcall FUN_006e7c40(void* pThis, float arg);
+void __fastcall PathingSpline_ComputeHermiteBasis(void* pThis, float arg);
 
 // @fnv 0x006e7c20
-void __fastcall FUN_006e7c20(void* pThis, float arg)
+// src: COMMUNITY 0x006e7c20
+void __fastcall PathingSpline_SetParameter(void* pThis, float arg)
 {
-    FUN_006e7c40(pThis, arg);
+    PathingSpline_ComputeHermiteBasis(pThis, arg);
 }
 
 extern double DAT_0106d4c8;
@@ -172,10 +174,11 @@ struct HermiteStub
     float b;
     float c;
     float d;
-    void FUN_006e7c40(float t);
+    void PathingSpline_ComputeHermiteBasis(float t);
 };
 // @fnv 0x006e7c40
-void HermiteStub::FUN_006e7c40(float tp)
+// src: COMMUNITY 0x006e7c40
+void HermiteStub::PathingSpline_ComputeHermiteBasis(float tp)
 {
     float t2;
     float t3;
@@ -204,16 +207,17 @@ struct OwnS
     SubS s1;
     char pad2[0x17];
     SubS s2;
-    RetS FUN_006e7d60(int, int);
-    RetS FUN_006e7cc0(int a, int b);
+    RetS PathingSpline_InterpolateNoZ(int, int);
+    RetS PathingSpline_Interpolate(int a, int b);
 };
 // Calls FUN_006e7d10 on s1 with a and on s2 with b, then returns FUN_006e7d60(a, b).
 // @fnv 0x006e7cc0
-RetS OwnS::FUN_006e7cc0(int aiFirst, int aiSecond)
+// src: COMMUNITY 0x006e7cc0
+RetS OwnS::PathingSpline_Interpolate(int aiFirst, int aiSecond)
 {
     s1.FUN_006e7d10(aiFirst);
     s2.FUN_006e7d10(aiSecond);
-    return FUN_006e7d60(aiFirst, aiSecond);
+    return PathingSpline_InterpolateNoZ(aiFirst, aiSecond);
 }
 
 struct _S_006e7d10
@@ -300,7 +304,7 @@ struct PathingControlPoint
 typedef char _sizecheck_PathingSplineKey[sizeof(PathingControlPoint) == 24 ? 1 : -1];
 struct FUN_006e8450_shell : public SplineInterpolator
 {
-    void FUN_006e8450(void*, void*);
+    void PathingSpline_SetKeys(void*, void*);
 };
 
 struct FUN_006e7d10_caller
@@ -310,7 +314,8 @@ struct FUN_006e7d10_caller
 
 // Forwards each of the two key arguments to the corresponding key object's FUN_006e7d10 method.
 // @fnv 0x006e8450
-void FUN_006e8450_shell::FUN_006e8450(void* aKey1, void* aKey2)
+// src: COMMUNITY 0x006e8450
+void FUN_006e8450_shell::PathingSpline_SetKeys(void* aKey1, void* aKey2)
 {
     reinterpret_cast<FUN_006e7d10_caller*>(this->Key1)->FUN_006e7d10(aKey1);
     reinterpret_cast<FUN_006e7d10_caller*>(this->Key2)->FUN_006e7d10(aKey2);
@@ -381,11 +386,12 @@ float PathingSolution::GetTotalPathLength()
 struct FUN_006e7d60_stub
 {
     float ComputeWeightedSum(float*, float*, float*, float*);
-    NiPoint3 FUN_006e7d60(char* p3, char* p4);
+    NiPoint3 PathingSpline_InterpolateNoZ(char* p3, char* p4);
 };
 // Computes a vector from two structures by calling ComputeWeightedSum on each of the x, y and z component pairs.
 // @fnv 0x006e7d60
-NiPoint3 FUN_006e7d60_stub::FUN_006e7d60(char* pFirst, char* pSecond)
+// src: COMMUNITY 0x006e7d60
+NiPoint3 FUN_006e7d60_stub::PathingSpline_InterpolateNoZ(char* pFirst, char* pSecond)
 {
     NiPoint3 vecResult;
     vecResult.x = ComputeWeightedSum((float*)pFirst, (float*)pSecond, (float*)(pFirst + 0xc), (float*)(pSecond + 0xc));
@@ -449,7 +455,7 @@ struct FUN_006e7b60
 {
     FUN_006e7b60();
     ~FUN_006e7b60();
-    void FUN_006e8450(const SplineLocationTangent&, const SplineLocationTangent&);
+    void PathingSpline_SetKeys(const SplineLocationTangent&, const SplineLocationTangent&);
     bool FindPointAtDistance(float, float, bool, float*, NiPoint3*, float);
     float MeasurePathLength(float, float, unsigned int);
     CubicHermiteWeights SplinePath;
@@ -481,7 +487,7 @@ bool PathingSolution::FUN_006e7e70(float afCurrentParameter, float afDist, bool 
         float fcurrentParam = afCurrentParameter;
         float fdist = afDist;
         fnv_006e7e70::FUN_006e7b60 spline;
-        spline.FUN_006e8450(
+        spline.PathingSpline_SetKeys(
             ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline))->GetLocationAndTangent(),
             ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline + 1))->GetLocationAndTangent());
         bfound = spline.FindPointAtDistance(fcurrentParam - icurrentSpline, fdist, abForward, apNewParameter,
@@ -499,7 +505,7 @@ bool PathingSolution::FUN_006e7e70(float afCurrentParameter, float afDist, bool 
                     *apNewPoint = fnv_006e7e70::FUN_00717e50(FUN_006b05a0()).FUN_005c3420();
                 return false;
             }
-            spline.FUN_006e8450(
+            spline.PathingSpline_SetKeys(
                 ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline))->GetLocationAndTangent(),
                 ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline + 1))->GetLocationAndTangent());
             bfound = spline.FindPointAtDistance(0.0f, fdist, abForward, apNewParameter, apNewPoint, 1.0f);
@@ -528,7 +534,7 @@ bool PathingSolution::FUN_006e7e70(float afCurrentParameter, float afDist, bool 
         float fcurrentParam = afCurrentParameter;
         float fdist = afDist;
         fnv_006e7e70::FUN_006e7b60 spline;
-        spline.FUN_006e8450(
+        spline.PathingSpline_SetKeys(
             ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline))->GetLocationAndTangent(),
             ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline + 1))->GetLocationAndTangent());
         bfound = spline.FindPointAtDistance(fcurrentParam - icurrentSpline, fdist, abForward, apNewParameter,
@@ -546,7 +552,7 @@ bool PathingSolution::FUN_006e7e70(float afCurrentParameter, float afDist, bool 
                     *apNewPoint = fnv_006e7e70::FUN_00717e50(fnv_006e7e70::FUN_006e8480(this)).FUN_005c3420();
                 return false;
             }
-            spline.FUN_006e8450(
+            spline.PathingSpline_SetKeys(
                 ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline))->GetLocationAndTangent(),
                 ((fnv_006e7e70::OwnS2*)((fnv_006e7e70::Dummy_006e8f80*)&member2)->FUN_006e8f80(icurrentSpline + 1))->GetLocationAndTangent());
             bfound = spline.FindPointAtDistance(1.0f, fdist, abForward, apNewParameter, apNewPoint, 1.0f);
@@ -560,7 +566,7 @@ bool PathingSolution::FUN_006e7e70(float afCurrentParameter, float afDist, bool 
 struct ArrHelper
 {
     bool FUN_0076b610() const;
-    int FUN_006e8fc0();
+    int BSSimpleArray_PathingNode_1024_GetHead();
 };
 // The shared header has no first-node accessor declaration; keep the accessor as a free function.
 // @fnv 0x006e8480
@@ -570,18 +576,18 @@ int __fastcall FirstPathingNode(PathingSolution* self)
     {
         return 0;
     }
-    return ((ArrHelper*)&self->member2)->FUN_006e8fc0();
+    return ((ArrHelper*)&self->member2)->BSSimpleArray_PathingNode_1024_GetHead();
 }
 
 struct HelperA
 {
     char data[16];
-    void FUN_006e9410(void*);
+    void BSSimpleArray_VirtualPathingNode_1024_Copy(void*);
 };
 struct HelperB
 {
     char data[32];
-    void FUN_006e9470(void*);
+    void BSSimpleArray_PathingNode_1024_Copy(void*);
 };
 struct SaveBuffer;
 // Only the unsupported copy-to and save declarations live here; all fields come from the shared class.
@@ -596,8 +602,8 @@ void PathingSolutionOperations::CopyTo(PathingSolution* apTarget)
     apTarget->member1.firstValue = member1.firstValue;
     apTarget->member1.secondValue = member1.secondValue;
     apTarget->m_bHasValidPath = m_bHasValidPath;
-    ((HelperA*)&member1)->FUN_006e9410(&apTarget->member1);
-    ((HelperB*)&member2)->FUN_006e9470(&apTarget->member2);
+    ((HelperA*)&member1)->BSSimpleArray_VirtualPathingNode_1024_Copy(&apTarget->member1);
+    ((HelperB*)&member2)->BSSimpleArray_PathingNode_1024_Copy(&apTarget->member2);
 }
 
 struct BSSimpleArray_PathingNode_1024
@@ -613,7 +619,7 @@ PathingGraphNode* BSSimpleArray_PathingNode_1024::FUN_006e8f80(unsigned int aiIn
 }
 
 namespace fnv_006e9ab0 {
-void __fastcall FUN_006e7c20(void*, float);
+void __fastcall PathingSpline_SetParameter(void*, float);
 struct RetS
 {
     int _a[3];
@@ -621,14 +627,15 @@ struct RetS
 struct OwnS
 {
     char _pad[48];
-    RetS FUN_006e9ab0(float);
-    RetS FUN_006e7d60(int, int);
+    RetS PathingSpline_Interpolate_1(float);
+    RetS PathingSpline_InterpolateNoZ(int, int);
 };
 // @fnv 0x006e9ab0
-RetS OwnS::FUN_006e9ab0(float f)
+// src: COMMUNITY 0x006e9ab0
+RetS OwnS::PathingSpline_Interpolate_1(float f)
 {
-    FUN_006e7c20(this, f);
-    return FUN_006e7d60((int)((char*)this + 0x14), (int)((char*)this + 0x2c));
+    PathingSpline_SetParameter(this, f);
+    return PathingSpline_InterpolateNoZ((int)((char*)this + 0x14), (int)((char*)this + 0x2c));
 }
 }  // namespace fnv_006e9ab0
 
@@ -660,7 +667,7 @@ struct OwnS2
 {
     M24 GetLocationAndTangent();
 };
-void __fastcall FUN_006e7c20(void*, float);
+void __fastcall PathingSpline_SetParameter(void*, float);
 struct FUN_0052d240_obj
 {
     ~FUN_0052d240_obj();
@@ -674,7 +681,7 @@ struct FUN_006e7b60 : public FUN_0052d240_obj
 };
 struct OwnS
 {
-    RetS FUN_006e7cc0(const M24&, const M24&);
+    RetS PathingSpline_Interpolate(const M24&, const M24&);
 };
 
 // Clamps the spline parameter to the last node and returns the interpolated location between the surrounding nodes into aOutLoc.
@@ -691,10 +698,10 @@ void PathingSolution::GetLocationAtSplineParameter(float afCurrentSplineParamete
         return;
     }
     fnv_006e7a10::FUN_006e7b60 spline;
-    fnv_006e7a10::FUN_006e7c20(&spline, remainder);
+    fnv_006e7a10::PathingSpline_SetParameter(&spline, remainder);
     *(fnv_006e7a10::RetS*)aOutLoc =
         ((fnv_006e7a10::OwnS*)&spline)
-            ->FUN_006e7cc0(
+            ->PathingSpline_Interpolate(
                 ((fnv_006e7a10::OwnS2*)FUN_006e7970(uiNodeIndex))->GetLocationAndTangent(),
                 ((fnv_006e7a10::OwnS2*)FUN_006e7970(uiNodeIndex + 1))->GetLocationAndTangent());
 }
@@ -722,7 +729,7 @@ struct FUN_0052d240_obj : public FUN_006e7b60
 };
 struct FUN_006e8450_shell
 {
-    void FUN_006e8450(const M24&, const M24&);
+    void PathingSpline_SetKeys(const M24&, const M24&);
 };
 struct FUN_006e9af0_S
 {
@@ -743,12 +750,12 @@ float PathingSolution::GetSplineLengthAtParameter(float afParameter)
     for (int i = 0; i < inode; ++i)
     {
         ((fnv_006e84b0::FUN_006e8450_shell*)&spline)
-            ->FUN_006e8450(((fnv_006e84b0::OwnS2*)FUN_006e7970(i))->GetLocationAndTangent(),
+            ->PathingSpline_SetKeys(((fnv_006e84b0::OwnS2*)FUN_006e7970(i))->GetLocationAndTangent(),
                            ((fnv_006e84b0::OwnS2*)FUN_006e7970(i + 1))->GetLocationAndTangent());
         ftotalLength += ((fnv_006e84b0::FUN_006e9af0_S*)&spline)->MeasurePathLength(0.0f, 1.0f, 2);
     }
     ((fnv_006e84b0::FUN_006e8450_shell*)&spline)
-        ->FUN_006e8450(((fnv_006e84b0::OwnS2*)FUN_006e7970(inode))->GetLocationAndTangent(),
+        ->PathingSpline_SetKeys(((fnv_006e84b0::OwnS2*)FUN_006e7970(inode))->GetLocationAndTangent(),
                        ((fnv_006e84b0::OwnS2*)FUN_006e7970(inode + 1))->GetLocationAndTangent());
     ftotalLength += ((fnv_006e84b0::FUN_006e9af0_S*)&spline)->MeasurePathLength(0.0f, afParameter - inode, 2);
     return ftotalLength;
@@ -773,7 +780,7 @@ float PathingSolution::FindSegmentAtFraction(float afPosition, float afScale, un
     fSequenceTimeRatio = 0.0f;
     for (unsigned int i = 0; i < GetObjectFlags() - 1; ++i)
     {
-        float fSeg = FUN_006e7990(i);
+        float fSeg = ComputeSplineLength(i);
         if (fTotal + fSeg >= fDistance)
         {
             *piNode = i;
@@ -944,7 +951,7 @@ struct SplinePath
     ~SplinePath();
     Key first, second;
 
-    void FUN_006e8450(Key*, Key*);
+    void PathingSpline_SetKeys(Key*, Key*);
     float MeasurePathLength(float, float, unsigned int);
     bool FindPointOnSpline(float, float, bool, float*, NiPoint3*, float);
 };
@@ -962,7 +969,7 @@ NiPoint3 PathingSolution::GetPointAtDistance(float position, float distance)
     Key next2 = ((Node*)FUN_006e7970(index + 1))->GetLocationAndTangent();
     Key current = ((Node*)FUN_006e7970(index))->GetLocationAndTangent();
     SplinePath spline3;
-    ((SplinePath*)&spline3)->FUN_006e8450(&current, &next2);
+    ((SplinePath*)&spline3)->PathingSpline_SetKeys(&current, &next2);
     float lengthVal = ((SplinePath*)&spline3)->MeasurePathLength(parameterTmp, 1.0f, 2);
     while (index < (int)(GetNodeCount() - 2) && lengthVal < remaining7)
     {
@@ -970,7 +977,7 @@ NiPoint3 PathingSolution::GetPointAtDistance(float position, float distance)
         index = index + 1;
         current.FUN_006e7d10(next2);
         next2.FUN_006e7d10(((Node*)FUN_006e7970(index + 1))->GetLocationAndTangent());
-        ((SplinePath*)&spline3)->FUN_006e8450(&current, &next2);
+        ((SplinePath*)&spline3)->PathingSpline_SetKeys(&current, &next2);
         parameterTmp = 0.0f;
         lengthVal = ((SplinePath*)&spline3)->MeasurePathLength(0.0f, 1.0f, 2);
     }
@@ -998,7 +1005,7 @@ struct SaveBuffer
 };
 struct SaveEntryA
 {
-    void FUN_006f50b0(SaveBuffer*);
+    void VirtualPathingNode_Save(SaveBuffer*);
 };
 struct SaveEntryB
 {
@@ -1044,7 +1051,7 @@ void PathingSolutionOperations::SaveGame(SaveBuffer* buffer)
     for (unsigned int indexA = 0; indexA < countA9; ++indexA)
     {
         SaveEntryA* entryA8 = ((SaveArrayA*)&member1)->FUN_006e8f60(indexA);
-        entryA8->FUN_006f50b0(buffer);
+        entryA8->VirtualPathingNode_Save(buffer);
     }
     {
         unsigned int countB8 = &member2 ? ((CountView*)&member2)->Count() : 0;
@@ -1089,7 +1096,7 @@ struct FUN_006e9830_shell
     NiPoint3 kStart;
     char padCur[0x2c - 0x20];
     NiPoint3 kEnd;
-    NiPoint3 FUN_006e9ab0(float afT);
+    NiPoint3 PathingSpline_Interpolate_1(float afT);
     bool FindPointAtDistance(float afT, float afDistance, bool abForward, float* apfOutT, NiPoint3* apkOutPoint,
                              float afTolerance);
 };
@@ -1101,7 +1108,7 @@ bool FUN_006e9830_shell::FindPointAtDistance(float afT, float afDistance, bool a
 {
     if (afDistance <= afTolerance)
     {
-        *apkOutPoint = FUN_006e9ab0(afT);
+        *apkOutPoint = PathingSpline_Interpolate_1(afT);
         *apfOutT = afT;
         return true;
     }
@@ -1125,12 +1132,12 @@ bool FUN_006e9830_shell::FindPointAtDistance(float afT, float afDistance, bool a
         fCurrentAmountNext = fMin;
     }
 
-    NiPoint3 _kOrigin = FUN_006e9ab0(afT);
+    NiPoint3 _kOrigin = PathingSpline_Interpolate_1(afT);
     NiPoint3 kPoint = abForward ? kEnd : kStart;
     bool bFound = false;
     while (!bFound)
     {
-        kPoint = FUN_006e9ab0(fCurrentAmountNext);
+        kPoint = PathingSpline_Interpolate_1(fCurrentAmountNext);
         float _fLength = ((const FUN_004a7290_point*)&(_kOrigin - kPoint))->FUN_004a7290();
         if ((_fLength < fNewMinSqr && abForward) || (_fLength > kFMaxSqr && !abForward))
         {

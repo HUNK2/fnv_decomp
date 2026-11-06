@@ -64,12 +64,13 @@ void ActiveEffect::ApplyLockEffect()
 
 struct S_80f580_cls
 {
-    bool FUN_0080f580(MagicTarget* a);
+    bool LockEffect_CheckTarget(MagicTarget* a);
 };
 
 // Checks whether the parent reference's base object is a TESObjectDOOR or TESObjectCONT.
 // @fnv 0x0080f580
-bool S_80f580_cls::FUN_0080f580(MagicTarget* apTarget)
+// src: COMMUNITY 0x0080f580
+bool S_80f580_cls::LockEffect_CheckTarget(MagicTarget* apTarget)
 {
     NonActorMagicTarget* t = dynamic_cast<NonActorMagicTarget*>(apTarget);
     if (!t || !t->GetMagicTargetReference())

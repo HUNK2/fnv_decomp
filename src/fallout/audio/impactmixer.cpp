@@ -36,7 +36,8 @@ inline NiPoint3 operator*(float scalar, const NiPoint3& point)
 extern int DAT_011dd878;
 
 // @fnv 0x00839da0
-bool FUN_00839da0()
+// src: COMMUNITY 0x00839da0
+bool ImpactMixer_GetGunshotsInitialized()
 {
     return (DAT_011dd878 & 2) != 0;
 }
@@ -44,7 +45,8 @@ bool FUN_00839da0()
 extern int DAT_011dd878;
 
 // @fnv 0x00839dc0
-void FUN_00839dc0(bool abSet)
+// src: COMMUNITY 0x00839dc0
+void ImpactMixer_SetGunshotsInitialized(bool abSet)
 {
     int tmp;
     if (abSet)
@@ -65,7 +67,8 @@ int GetTypeValue(int aiType)
 }
 
 // @fnv 0x00acbb70
-void* __thiscall TESCreature::FUN_00acbb70()
+// src: COMMUNITY 0x00acbb70
+void* __thiscall TESCreature::Return_0()
 {
     return 0;
 }
@@ -95,11 +98,12 @@ struct DummyFlags
 };
 struct FUN_00838750_shell
 {
-    bool FUN_00838750();
+    bool bhkCharacterController_GetOnStairs();
 };
 // Calls FUN_00621270 on the DummyFlags sub-object at offset 0x410 with DAT_01000000 and returns whether the result is non-zero.
 // @fnv 0x00838750
-bool FUN_00838750_shell::FUN_00838750()
+// src: COMMUNITY 0x00838750
+bool FUN_00838750_shell::bhkCharacterController_GetOnStairs()
 {
     return ((DummyFlags*)((char*)this + 0x410))->FUN_00621270((int)&DAT_01000000) != 0;
 }
@@ -116,18 +120,18 @@ unsigned int FUN_00541570_shell::GetField1C()
     return m_0x1c;
 }
 
-void __cdecl FUN_00839dc0(bool b);
+void __cdecl ImpactMixer_SetGunshotsInitialized(bool b);
 extern float DAT_01016970;
 // If the init check fails, calls FUN_00839dc0(true), then zeroes two ints and sets a float from DAT_01016970 for each of 20 slots.
 // @fnv 0x00839d30
 void __cdecl InitializeSlots()
 {
-    if (FUN_00839da0())
+    if (ImpactMixer_GetGunshotsInitialized())
     {
         return;
         goto initialize;
     }
-    FUN_00839dc0(true);
+    ImpactMixer_SetGunshotsInitialized(true);
 initialize:
     for (int i = 0; i < 20; ++i)
     {
@@ -413,13 +417,13 @@ void __cdecl PlayFootstepImpact(FootstepActor* pActor, int iMaterial)
         int iSound = 0x4109;
         if (pImpactX)
         {
-            kHandle_ = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->FUN_00ad73b0(pImpactX->FUN_0084e3a0(), static_cast<unsigned int>(iSound)));
+            kHandle_ = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->GetSoundHandleByFormID_00ad73b0(pImpactX->FUN_0084e3a0(), static_cast<unsigned int>(iSound)));
             kHandle_.SetVolume(0.95f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
             kHandle_.Play(0);
         }
         if (pImpact_)
         {
-            kHandle_ = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->FUN_00ad73b0(pImpact_->FUN_0084e3a0(), static_cast<unsigned int>(iSound)));
+            kHandle_ = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->GetSoundHandleByFormID_00ad73b0(pImpact_->FUN_0084e3a0(), static_cast<unsigned int>(iSound)));
             kHandle_.SetVolume(0.95f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
             kHandle_.Play(0);
         }
@@ -431,7 +435,7 @@ void __cdecl PlayFootstepImpact(FootstepActor* pActor, int iMaterial)
         int iSound2 = 0x410a;
         if (pImpactX)
         {
-            kHandle_ = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->FUN_00ad73b0(pImpactX->FUN_0084e3a0(), static_cast<unsigned int>(iSound2)));
+            kHandle_ = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->GetSoundHandleByFormID_00ad73b0(pImpactX->FUN_0084e3a0(), static_cast<unsigned int>(iSound2)));
             kHandle_.SetPosition(kPosOut.x, kPosOut.y, kPosOut.z);
             kHandle_.SetObjectToFollow(reinterpret_cast<NiAVObject*>(pActor->Get3D()));
             kHandle_.SetVolume(0.95f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
@@ -439,7 +443,7 @@ void __cdecl PlayFootstepImpact(FootstepActor* pActor, int iMaterial)
         }
         if (pImpact_)
         {
-            kHandle_ = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->FUN_00ad73b0(pImpact_->FUN_0084e3a0(), static_cast<unsigned int>(iSound2)));
+            kHandle_ = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->GetSoundHandleByFormID_00ad73b0(pImpact_->FUN_0084e3a0(), static_cast<unsigned int>(iSound2)));
             kHandle_.SetPosition(kPosOut.x, kPosOut.y, kPosOut.z);
             kHandle_.SetObjectToFollow(reinterpret_cast<NiAVObject*>(pActor->Get3D()));
             kHandle_.SetVolume(0.95f - FUN_00476b70(0.0f, g_fFootstepRand_0101e2bc));
@@ -1106,11 +1110,11 @@ void PlayWeaponImpactSound(TESObjectREFR* ref, int type)
             bool sneaking = actor->FUN_004997b0();
             if (actor == DAT_011dea3c)
             {
-                sound = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(snd->FUN_00511840(), 0x80004101, reinterpret_cast<unsigned int>(snd)));
+                sound = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(snd->FUN_00511840(), 0x80004101, reinterpret_cast<unsigned int>(snd)));
             }
             else
             {
-                sound = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(snd->FUN_00511840(), 0x4102, reinterpret_cast<unsigned int>(snd)));
+                sound = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(snd->FUN_00511840(), 0x4102, reinterpret_cast<unsigned int>(snd)));
                 sound.SetPosition(pos.x, pos.y, pos.z);
                 sound.SetObjectToFollow(reinterpret_cast<NiAVObject*>(ref->GetNiNode()));
             }
@@ -1445,7 +1449,7 @@ struct SkinOps
     int unk408;
     int unk40c;
     MaterialOps material;
-    bool FUN_00838750();
+    bool bhkCharacterController_GetOnStairs();
 };
 // These no-argument actor queries are not declared by the shared header.
 // __fastcall passes the actor in ECX, matching their member-call convention.
@@ -1506,11 +1510,11 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
             memory = creatureSound;
             if (memory && armor <= memory->GetField45() * 100)
             {
-                primary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad73b0(memory->FUN_0084e3a0(), static_cast<unsigned int>(266)));
+                primary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(memory->FUN_0084e3a0(), static_cast<unsigned int>(266)));
             }
             primary.SetPosition(firstPerson.x, firstPerson.y, firstPerson.z);
-            if (creature->FUN_00acbb70())
-                primary.SetObjectToFollow(reinterpret_cast<NiAVObject*>(creature->FUN_00acbb70()));
+            if (creature->Return_0())
+                primary.SetObjectToFollow(reinterpret_cast<NiAVObject*>(creature->Return_0()));
             primary.SetVolume(0.98f);
             primary.Play(0);
         }
@@ -1527,7 +1531,7 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
                 ((cell->FUN_00425fd0() && cell->FUN_004518e0()) || !cell->FUN_00425fd0()))
                 soundType = true;
             Actor* material = actorOps;
-            if (reinterpret_cast<SkinOps*>(material->FUN_009306d0())->FUN_00838750())
+            if (reinterpret_cast<SkinOps*>(material->FUN_009306d0())->bhkCharacterController_GetOnStairs())
                 movingActor = true;
             if (!g_TES_011dea10->FUN_005f36f0() && cell && cell->FUN_00546fb0())
             {
@@ -1595,13 +1599,13 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
                 unsigned int flags = 0x4109;
                 if (memory)
                 {
-                    primary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(memory->FUN_00511840(), flags, reinterpret_cast<unsigned int>(memory)));
+                    primary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(memory->FUN_00511840(), flags, reinterpret_cast<unsigned int>(memory)));
                     primary.SetVolume(*DAT_011dd988.FUN_00403e20());
                     primary.Play(0);
                 }
                 if (sound)
                 {
-                    secondary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(sound->FUN_00511840(), flags, reinterpret_cast<unsigned int>(sound)));
+                    secondary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(sound->FUN_00511840(), flags, reinterpret_cast<unsigned int>(sound)));
                     secondary.SetVolume(*DAT_011dd988.FUN_00403e20());
                     secondary.Play(0);
                 }
@@ -1611,7 +1615,7 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
                 unsigned int flags = 0x410a;
                 if (memory && armor <= memory->GetField45() * 100)
                 {
-                    primary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(memory->FUN_00511840(), flags, reinterpret_cast<unsigned int>(memory)));
+                    primary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(memory->FUN_00511840(), flags, reinterpret_cast<unsigned int>(memory)));
                     primary.SetPosition(firstPerson.x, firstPerson.y, firstPerson.z - 128.0);
                     if (apActor->Get3D())
                         primary.SetObjectToFollow(reinterpret_cast<NiAVObject*>(apActor->Get3D()));
@@ -1620,7 +1624,7 @@ void PlayFootstepSound(FootstepActor* apActor, int foot)
                 }
                 if (sound && armor <= sound->GetField45() * 100)
                 {
-                    secondary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(sound->FUN_00511840(), flags, reinterpret_cast<unsigned int>(sound)));
+                    secondary = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(sound->FUN_00511840(), flags, reinterpret_cast<unsigned int>(sound)));
                     secondary.SetPosition(firstPerson.x, firstPerson.y, firstPerson.z - 128.0);
                     if (apActor->Get3D())
                         secondary.SetObjectToFollow(reinterpret_cast<NiAVObject*>(apActor->Get3D()));
@@ -1649,7 +1653,7 @@ void PlayBlockSound(int aUnused, TESObjectWEAP* pObject, float x0, float y0, flo
     BSSoundHandle p;
     if (pObject != 0 && GetWeaponBlockSound(pObject) != 0)
     {
-        p = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->FUN_00ad7480(((TESSound*)GetWeaponBlockSound(pObject))->FUN_00511840(), 0x182,
+        p = *reinterpret_cast<BSSoundHandle*>(&BSAudio::GetSingleton()->BSAudio_GetSoundHandleByFilename(((TESSound*)GetWeaponBlockSound(pObject))->FUN_00511840(), 0x182,
                                                           GetWeaponBlockSound(pObject)));
     }
     else
@@ -1715,12 +1719,12 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
             {
                 if ((float)(impact1->GetField45() * 100) >= distBX)
                 {
-                    handle12 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad73b0(impact1->FUN_0084e3a0(), static_cast<unsigned int>(0x10a)));
+                    handle12 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(impact1->FUN_0084e3a0(), static_cast<unsigned int>(0x10a)));
                 }
             }
             handle12.SetPosition(pos20.x, pos20.y, pos20.z);
-            if (creature6->FUN_00acbb70())
-                handle12.SetObjectToFollow(reinterpret_cast<NiAVObject*>(creature6->FUN_00acbb70()));
+            if (creature6->Return_0())
+                handle12.SetObjectToFollow(reinterpret_cast<NiAVObject*>(creature6->Return_0()));
             handle12.SetVolume(0.98f);
             handle12.Play(0);
         }
@@ -1741,7 +1745,7 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
                 }
             }
             Actor* pq = pActor;
-            if (reinterpret_cast<SkinOps*>(pq->FUN_009306d0())->FUN_00838750())
+            if (reinterpret_cast<SkinOps*>(pq->FUN_009306d0())->bhkCharacterController_GetOnStairs())
                 local2 = true;
             if (!g_TES_011dea10->FUN_005f36f0() && cell8 && cell8->FUN_00546fb0())
             {
@@ -1794,13 +1798,13 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
                 int flags = 0x4109;
                 if (impact1)
                 {
-                    handle12 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(impact1->FUN_00511840(), flags, reinterpret_cast<unsigned int>(impact1)));
+                    handle12 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(impact1->FUN_00511840(), flags, reinterpret_cast<unsigned int>(impact1)));
                     handle12.SetVolume(*DAT_011dd988.FUN_00403e20());
                     handle12.Play(0);
                 }
                 if (second9)
                 {
-                    handle6 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(second9->FUN_00511840(), flags, reinterpret_cast<unsigned int>(second9)));
+                    handle6 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(second9->FUN_00511840(), flags, reinterpret_cast<unsigned int>(second9)));
                     handle6.SetVolume(*DAT_011dd988.FUN_00403e20());
                     handle6.Play(0);
                 }
@@ -1814,7 +1818,7 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
                 {
                     if ((float)(impact1->GetField45() * 100) >= distBX)
                     {
-                        handle12 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(impact1->FUN_00511840(), flags2, reinterpret_cast<unsigned int>(impact1)));
+                        handle12 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(impact1->FUN_00511840(), flags2, reinterpret_cast<unsigned int>(impact1)));
                         handle12.SetPosition(pos20.x, pos20.y, (float)(pos20.z - 128.0));
                         if (apRefr->GetNiNode())
                             handle12.SetObjectToFollow(reinterpret_cast<NiAVObject*>(apRefr->GetNiNode()));
@@ -1826,7 +1830,7 @@ void __cdecl FUN_00838780(TESObjectREFR* apRefr)
                 {
                     if ((float)(second9->GetField45() * 100) >= distBX)
                     {
-                        handle6 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad7480(second9->FUN_00511840(), flags2, reinterpret_cast<unsigned int>(second9)));
+                        handle6 = *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByFilename(second9->FUN_00511840(), flags2, reinterpret_cast<unsigned int>(second9)));
                         handle6.SetPosition(pos20.x, pos20.y, (float)(pos20.z - 128.0));
                         if (apRefr->GetNiNode())
                             handle6.SetObjectToFollow(reinterpret_cast<NiAVObject*>(apRefr->GetNiNode()));
@@ -1869,7 +1873,7 @@ struct ImpactFormType
 struct ImpactObject
 {
     float FUN_0062ab20();
-    ImpactFormType FUN_0043b4f0();
+    ImpactFormType bhkWorldObject_GetCollisionFilter();
 };
 
 struct ImpactData
@@ -1953,8 +1957,8 @@ void FUN_00837550(ImpactData* apImpact)
         bool bCasingVal = false;
         ImpactSoundForm* pSoundA = 0;
         ImpactSoundForm* pSoundBNew = 0;
-        if ((apImpact->pObjectA && apImpact->pObjectA->FUN_0043b4f0().FUN_0043b4d0() == 0x19) ||
-            (apImpact->pObjectB && apImpact->pObjectB->FUN_0043b4f0().FUN_0043b4d0() == 0x19))
+        if ((apImpact->pObjectA && apImpact->pObjectA->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() == 0x19) ||
+            (apImpact->pObjectB && apImpact->pObjectB->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() == 0x19))
             bCasingVal = true;
         if (!bCasingVal)
         {
@@ -1994,10 +1998,10 @@ void FUN_00837550(ImpactData* apImpact)
         }
         if (pSoundA && !(apImpact->cMaterialA == 7 && apImpact->cMaterialB == 7))
             kHandleAResult =
-                *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad73b0(pSoundA->FUN_0084e3a0(), uiFlagsTmp | 2 | 0x100 | 0x4000));
+                *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(pSoundA->FUN_0084e3a0(), uiFlagsTmp | 2 | 0x100 | 0x4000));
         if (pSoundBNew && !(apImpact->cMaterialA == 7 && apImpact->cMaterialB == 7))
             kHandleB =
-                *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->FUN_00ad73b0(pSoundBNew->FUN_0084e3a0(), uiFlagsTmp | 2 | 0x100 | 0x4000));
+                *reinterpret_cast<BSSoundHandle*>(&BSAudio::FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(pSoundBNew->FUN_0084e3a0(), uiFlagsTmp | 2 | 0x100 | 0x4000));
         unsigned int uiFrequencyVal =
             (unsigned int)((1.0 - (apImpact->fImpulse / 400.0 > 1.0 ? 1.0 : apImpact->fImpulse / 400.0)) * 3000.0);
         float fVolumeLoc = uiFrequencyVal < 0x5dc ? 1.0 : (uiFrequencyVal - 4500.0) / -3000.0;

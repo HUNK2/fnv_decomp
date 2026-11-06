@@ -81,12 +81,12 @@ extern Setting DAT_011d3bc8;
 // The tile offsets 0x28/0x38/0x3c and validator 0x007abdb0 match the shared SleepWaitMenu.
 extern SleepWaitMenu* DAT_011da618;
 extern void* DAT_011da614;
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 BSAudio* FUN_00453a70();
 int FUN_007abda0();
 Menu* __cdecl FUN_00a09030(int id);
 int FUN_007023c0();
-void FUN_005b5e40(const char* msg);
+void Warning_005b5e40(const char* msg);
 float FUN_00a01530();
 int __cdecl MinInt(int a, int b);
 int __cdecl FUN_00647b70(int a, int b);
@@ -100,7 +100,7 @@ static const char kChild2_7aba00[] = "QM_Background";
 // @fnv 0x007aba00
 Tile* __cdecl CreateQuantityMenu(int max, void* callback, int initial)
 {
-    InterfaceManager* im4 = FUN_004b7210();
+    InterfaceManager* im4 = InterfaceManager_GetSingleton();
     bool flag_ = false;
     Menu* old = FUN_00a09030(FUN_007abda0());
     if (old)
@@ -114,10 +114,10 @@ Tile* __cdecl CreateQuantityMenu(int max, void* callback, int initial)
         DAT_011da618->FUN_00a1dc70(reinterpret_cast<TileMenu*>(tile6), false);
         if (!DAT_011da618->FUN_007abdb0())
         {
-            FUN_005b5e40(kWarning_7aba00);
+            Warning_005b5e40(kWarning_7aba00);
             return 0;
         }
-        FUN_00453a70()->FUN_00ad7550(kSound_7aba00, 0x121).Play(false);
+        FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(kSound_7aba00, 0x121).Play(false);
         if (tile6->FUN_00a011b0(0xfa7) == 6006.0 || tile6->FUN_00a011b0(0xfa7) == 102.0)
         {
             tile6->FUN_00a012d0(0xfad, FUN_00a01530(), true);

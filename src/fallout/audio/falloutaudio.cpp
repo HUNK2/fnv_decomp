@@ -38,7 +38,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
     float fStartHour;
     float soundEndHour;
     BSSimpleList<RegionSound*>* sounds = g_thePlayer->GetRegionSounds();
-    bool isSubmerged = TESLandTexture::GetSoundSystem()->FUN_00ad7c50();
+    bool isSubmerged = TESLandTexture::GetSoundSystem()->IsListenerUnderwater_00ad7c50();
     BGSAcousticSpace* acousticSpace = !g_thePlayer                ? 0
                                       : !g_thePlayer->GetTarget() ? 0
                                                                   : g_thePlayer->GetTarget()->GetAcousticSpace();
@@ -95,13 +95,13 @@ void SoundPlaybackManager::ProcessPendingSounds()
         return;
     Sky* pWeatherSky = g_TES->GetLogDate();
     float time = pWeatherSky ? pWeatherSky->GetFieldEC() : 0.0f;
-    TESLandTexture::GetSoundSystem()->FUN_00ad77f0(time, 0);
+    TESLandTexture::GetSoundSystem()->SetConditions(time, 0);
     if (std::abs(TESLandTexture::GetSoundSystem()->GetCurrentTimeMilliseconds() - DAT_011dcfc0) > 1000)
     {
         if (g_thePlayer)
             g_thePlayer->ResetRegionSoundTimer();
         if (!Interface::GetSelectedTargetIndex(Interface::MenuLoading))
-            g_TES->FUN_00455690();
+            g_TES->TES_UpdateRefSounds();
         float fade = DAT_011dd044.Float()->f;
         if (DAT_011dd0d8.IsPlaying())
             fade = DAT_011dd094.Float()->f;
@@ -246,7 +246,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
                     continue;
                 }
                 fStartHour = pActiveSound->GetHighByteOfField4E() * 0.09375;
-                soundEndHour = pActiveSound->FUN_0082d700() * 0.09375;
+                soundEndHour = pActiveSound->GetEndTime_0082d700() * 0.09375;
                 looping = TESSound::GetPlaybackFlags(pActiveSound->CopyBig().iFlags) != 0;
                 if (pWeatherSky)
                 {
@@ -373,7 +373,7 @@ void Sky::SetMode(Sky::SKY_MODE mode)
     {
         LoadAllTextures();
         if (m_pClouds)
-            m_pClouds->FUN_0063a610();
+            m_pClouds->ForceTransTextureUpdate();
         if (static_cast<NiAVObject*>(m_pRootNode))
             static_cast<NiAVObject*>(m_pRootNode)->FUN_00450f90(false);
         if (m_pSun)
@@ -517,7 +517,8 @@ TESSound* __cdecl GetUIActivateNothingSound()
 }
 
 // @fnv 0x0082ec40
-void FUN_0082ec40(BGSSaveFormBuffer* buffer)
+// src: COMMUNITY 0x0082ec40
+void TESAudio_SaveGame(BGSSaveFormBuffer* buffer)
 {
     buffer->SerializeFormData(DAT_011dcfa8, 0);
 }

@@ -25,8 +25,8 @@ extern BGSLoadedReferenceCollection* DAT_011c95c8;
 
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
-NiAVObject* FUN_0054f4f0();
+unsigned int TESTerrainLODManager_GetGrassNode();
+NiAVObject* TESMain_GetWeatherRoot();
 
 
 struct FUN_0040f410 : BSExtraData
@@ -73,10 +73,10 @@ class RefX : public TESObjectREFR
     class RefExtra* FUN_005d43c0();
     TESObjectCELL* FUN_008d6f30();  // GetParentCell
     bool FUN_005656d0();
-    bool FUN_0056a250();
+    bool TESObjectREFR_IsActivatingChildren();
     bool FUN_00437b90();
-    void FUN_005728c0(int iValue);
-    bool FUN_00548700();
+    void TESObjectREFR_AddLight(int iValue);
+    bool TESForm_GetReflectedByAutoWater();
     bool IsFlag20000000Set();
 };
 
@@ -97,7 +97,7 @@ extern RefList DAT_011ca144;
 class CellNavHandler
 {
   public:
-    void FUN_00587d10(RefX* pkRef);
+    void AddToPersistentRefData(RefX* pkRef);
 };
 class CellDataHandler
 {
@@ -145,7 +145,7 @@ extern CellNodeMap DAT_011ca0f4;
 class CellTaskQueue
 {
   public:
-    void FUN_0087b400(RefX* pkRef);
+    void TaskQueueInterface_QueueSet3DNull(RefX* pkRef);
 };
 CellTaskQueue* FUN_004537b0();
 bool FUN_008c7aa0();
@@ -158,7 +158,7 @@ class CellReferenceAccess : public TESObjectCELL
     bool FUN_004523c0();
     void FUN_00545560(RefX* pkRef);
     void FUN_00548880(RefX* pkRef, bool bArg);
-    bool FUN_00548720();
+    bool TESObjectCELL_IsLoading();
 };
 
 // @fnv 0x00548230
@@ -176,7 +176,7 @@ void TESObjectCELL::AddReference(RefX* pkRef, bool bArg)
         pkRef->FUN_005d43c0()->FUN_0041d390(this);
         CellNavHandler* pkHandler = static_cast<CellReferenceAccess*>(this)->FUN_0054ddd0();
         if (pkHandler)
-            pkHandler->FUN_00587d10(pkRef);
+            pkHandler->AddToPersistentRefData(pkRef);
         if (!DAT_011c3f2c->FUN_004516b0())
             SetAltered(true);
         return;
@@ -194,7 +194,7 @@ void TESObjectCELL::AddReference(RefX* pkRef, bool bArg)
     {
         if ((!pkRef->IsActor() || pkRef->FUN_00440da0()) && pkRef->FUN_005656d0())
             static_cast<CellReferenceAccess*>(this)->FUN_00545560(pkRef);
-        if (pkRef->FUN_0056a250())
+        if (pkRef->TESObjectREFR_IsActivatingChildren())
             FUN_005455c0(pkRef);
     }
     if (!pkRef->FUN_00440da0() && pkRef->GetNiNode())
@@ -216,7 +216,7 @@ void TESObjectCELL::AddReference(RefX* pkRef, bool bArg)
             {
                 if (!pkRef->IsActor())
                     bQueue = true;
-                else if (!DAT_011dea3c->FUN_0094df60() && !static_cast<CellReferenceAccess*>(this)->FUN_00548720())
+                else if (!DAT_011dea3c->FUN_0094df60() && !static_cast<CellReferenceAccess*>(this)->TESObjectCELL_IsLoading())
                     bQueue = true;
                 if (bQueue)
                 {
@@ -241,14 +241,14 @@ void TESObjectCELL::AddReference(RefX* pkRef, bool bArg)
                 if (!FUN_008c7aa0())
                     pkRef->Set3D(0, false);
                 else
-                    FUN_004537b0()->FUN_0087b400(pkRef);
+                    FUN_004537b0()->TaskQueueInterface_QueueSet3DNull(pkRef);
             }
         }
     }
-    pkRef->FUN_005728c0(0);
+    pkRef->TESObjectREFR_AddLight(0);
     if (!pkRef->FUN_008d6f30()->IsInterior())
     {
-        if (pkRef->FUN_00548700() && !DAT_011ca13c.FUN_005f65d0(pkRef))
+        if (pkRef->TESForm_GetReflectedByAutoWater() && !DAT_011ca13c.FUN_005f65d0(pkRef))
             DAT_011ca13c.FUN_005ae3d0(pkRef);
         if (pkRef->IsFlag20000000Set() && !DAT_011ca144.FUN_005f65d0(pkRef))
             DAT_011ca144.FUN_005ae3d0(pkRef);
@@ -278,7 +278,8 @@ void* __fastcall FUN_00568e50(TESObjectREFR* reference);
 void __fastcall FUN_00541ae0(TESObjectCELL* cell);
 unsigned int __cdecl GetRandomNumberInRange(int low, int high);
 // @fnv 0x0054afb0
-TESObjectREFR* __cdecl FUN_0054afb0(TESForm* source, TESForm* destination, void* context)
+// src: COMMUNITY 0x0054afb0
+TESObjectREFR* __cdecl TESObjectCELL_PickRandomTeleportDoorInSpace(TESForm* source, TESForm* destination, void* context)
 {
     TESObjectREFR* result = 0;
     if (source && destination && context && source != destination)
@@ -346,7 +347,7 @@ TESObjectREFR* __cdecl FUN_0054afb0(TESForm* source, TESForm* destination, void*
 
 struct ContainerChanges550
 {
-    float FUN_004ce380(TESObjectREFR*, TESObjectREFR*, bool, bool, bool, bool, int, int);
+    float InventoryChanges_RemoveAllItems(TESObjectREFR*, TESObjectREFR*, bool, bool, bool, bool, int, int);
 };
 struct ReferenceAccess550 : TESObjectREFR
 {
@@ -362,9 +363,10 @@ struct RefList550
     RefList550* FUN_00726070();
 };
 extern TESObjectREFR* g_thePlayer;
-void FUN_00555c20();
+void TESObjectCELL_UpdateSeenDataForPlayer();
 // @fnv 0x0054b5b0
-void TESObjectCELL::FUN_0054b5b0()
+// src: COMMUNITY 0x0054b5b0
+void TESObjectCELL::SaveGameTest()
 {
     CellRefLockEnter();
     RefList550* position = reinterpret_cast<RefList550*>(FUN_009604f0());
@@ -378,7 +380,7 @@ void TESObjectCELL::FUN_0054b5b0()
                 reinterpret_cast<ContainerChanges550*>(
                     static_cast<ReferenceAccess550*>(reference)->FUN_005d43c0()->FUN_00418520());
             if (changes)
-                changes->FUN_004ce380(reference, g_thePlayer, false, false, true, false, -1, 0);
+                changes->InventoryChanges_RemoveAllItems(reference, g_thePlayer, false, false, true, false, -1, 0);
             // Actor.h still declares slot 0x460 without its reference and float parameters.
             if (actor && !actor->FUN_00440da0() && !actor->FUN_00440d80())
                 reinterpret_cast<void (__thiscall*)(Actor*, TESObjectREFR*, float)>(
@@ -391,7 +393,7 @@ void TESObjectCELL::FUN_0054b5b0()
             }
             if (static_cast<ReferenceAccess550*>(reference)->FUN_00569160())
                 static_cast<ReferenceAccess550*>(reference)->FUN_005692a0();
-            FUN_00555c20();
+            TESObjectCELL_UpdateSeenDataForPlayer();
         }
         position = position->FUN_00726070();
     }
@@ -482,7 +484,7 @@ class NodeView
     virtual void v028();
     virtual void v029();
     virtual void UpdateDownwardPass(NiUpdateData& kData, unsigned int uiFlags);  // +0xa8
-    NodeView* FUN_009611e0();
+    NodeView* NiAVObject_GetParent();
 };
 
 class SceneRoot
@@ -778,13 +780,13 @@ class MapRefView
   public:
     LightForm* FUN_00569580();
     BaseLight* FUN_007af430();
-    PointLightPtr* FUN_005725f0();
+    PointLightPtr* TESObjectREFR_GetLight();
 };
 
 class PlayerLightView
 {
   public:
-    LightForm* FUN_005454d0();
+    LightForm* PlayerCharacter_GetCurrentRegion();
 };
 
 template <class K, class V> struct CellRefMap
@@ -828,8 +830,8 @@ extern float DAT_0102f0e4;
 class ManagedTaskQueue : public CellTaskQueue
 {
   public:
-    void FUN_0087aad0(NodeView* pkNode);
-    void FUN_0087abb0(NodeView* pkNode);
+    void TaskQueueInterface_QueueCellTransformChildTask(NodeView* pkNode);
+    void TaskQueueInterface_QueueMorphControllerUpdate(NodeView* pkNode);
 };
 void RunWithLock(NodeView* pkNode);
 class CellShadowScene
@@ -838,7 +840,7 @@ class CellShadowScene
     void FUN_00b5d9f0(NodeView* pkNode, int iValue);
 };
 CellShadowScene* FUN_00450b80(int iValue);
-unsigned int FUN_00552380();
+unsigned int BSTreeManager_GetCamera();
 bool FUN_004b5fc0(NodeView* pkNode, unsigned int uiCamera);
 bool FUN_008c7aa0();
 
@@ -860,9 +862,9 @@ class CellUpdateAccess : public TESObjectCELL
     bool FUN_00450ff0();
     SceneRoot* FUN_004543c0();
     NodeView* FUN_005497a0();
-    bool FUN_005495a0();
-    bool FUN_00557d10();
-    void FUN_00557aa0();
+    bool TESObjectCELL_All3DWithVisibleDistantLoaded();
+    bool TESObjectCELL_ShouldDisplayHighDetail();
+    void TESObjectCELL_FadeToHighDetail();
     CellWaterOwner* FUN_0054ddd0();
     int GetByteAtOffset38();
     void FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded);
@@ -887,15 +889,15 @@ void CellUpdateAccess::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded
         pkDynamic->UpdateDownwardPass(kData, 0);
         if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
         {
-            ((ManagedTaskQueue*)FUN_004537b0())->FUN_0087aad0(pkDynamic);
+            ((ManagedTaskQueue*)FUN_004537b0())->TaskQueueInterface_QueueCellTransformChildTask(pkDynamic);
             if (bThreaded && static_cast<unsigned char>(kData.pad3))
                 RunWithLock(pkDynamic);
             if (bThreaded && static_cast<unsigned char>(kData.pad4))
-                ((ManagedTaskQueue*)FUN_004537b0())->FUN_0087abb0(pkDynamic);
+                ((ManagedTaskQueue*)FUN_004537b0())->TaskQueueInterface_QueueMorphControllerUpdate(pkDynamic);
         }
     }
-    if ((*reinterpret_cast<short*>(formData + 0x86)) > 0 && FUN_005495a0() && FUN_00557d10())
-        FUN_00557aa0();
+    if ((*reinterpret_cast<short*>(formData + 0x86)) > 0 && TESObjectCELL_All3DWithVisibleDistantLoaded() && TESObjectCELL_ShouldDisplayHighDetail())
+        TESObjectCELL_FadeToHighDetail();
     if ((*reinterpret_cast<bool*>(formData + 0xAE)) && FUN_0054ddd0() && GetByteAtOffset38() == 6)
     {
         (*reinterpret_cast<bool*>(formData + 0xAC)) = true;
@@ -935,11 +937,11 @@ void CellUpdateAccess::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded
                         FUN_00450b80(0)->FUN_00b5d9f0(pkNode, 1);
                     if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
                     {
-                        ((ManagedTaskQueue*)FUN_004537b0())->FUN_0087aad0(pkNode);
+                        ((ManagedTaskQueue*)FUN_004537b0())->TaskQueueInterface_QueueCellTransformChildTask(pkNode);
                         if (bThreaded && static_cast<unsigned char>(kNodeData.pad3))
                             RunWithLock(pkNode);
                         if (bThreaded && static_cast<unsigned char>(kNodeData.pad4))
-                            ((ManagedTaskQueue*)FUN_004537b0())->FUN_0087abb0(pkNode);
+                            ((ManagedTaskQueue*)FUN_004537b0())->TaskQueueInterface_QueueMorphControllerUpdate(pkNode);
                     }
                 }
             }
@@ -952,9 +954,9 @@ void CellUpdateAccess::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded
                 KeyRefView* pkKeyNew = 0;
                 NodeView* pkActorNode = 0;
                 (*reinterpret_cast<CellLoadedData**>(formData + 0xA0))->kActors.FUN_006b7f20(pvPos, pkKeyNew, pkActorNode);
-                if (pkActorNode && pkActorNode->FUN_009611e0() != pkDynamic)
+                if (pkActorNode && pkActorNode->NiAVObject_GetParent() != pkDynamic)
                 {
-                    if (pkKeyNew->FUN_007af430()->FUN_00401170() == 0x25 && !FUN_004b5fc0(pkActorNode, FUN_00552380()))
+                    if (pkKeyNew->FUN_007af430()->FUN_00401170() == 0x25 && !FUN_004b5fc0(pkActorNode, BSTreeManager_GetCamera()))
                         continue;
                     NiUpdateData kActorData(fTimeSinceScaleStart, false, bThreaded);
                     pkActorNode->UpdateDownwardPass(kActorData, 0);
@@ -962,11 +964,11 @@ void CellUpdateAccess::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded
                         FUN_00450b80(0)->FUN_00b5d9f0(pkActorNode, 1);
                     if (*DAT_011c3ea4.FUN_0043d4d0() > 1)
                     {
-                        ((ManagedTaskQueue*)FUN_004537b0())->FUN_0087aad0(pkActorNode);
+                        ((ManagedTaskQueue*)FUN_004537b0())->TaskQueueInterface_QueueCellTransformChildTask(pkActorNode);
                         if (bThreaded && static_cast<unsigned char>(kActorData.pad3))
                             RunWithLock(pkActorNode);
                         if (bThreaded && static_cast<unsigned char>(kActorData.pad4))
-                            ((ManagedTaskQueue*)FUN_004537b0())->FUN_0087abb0(pkActorNode);
+                            ((ManagedTaskQueue*)FUN_004537b0())->TaskQueueInterface_QueueMorphControllerUpdate(pkActorNode);
                     }
                 }
             }
@@ -1003,7 +1005,7 @@ void CellUpdateAccess::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded
                             int iIndexNew;
                             pkSky->FUN_0063b630(&kSkyDataOut, pkWeather, 1.0f, &fBlendRes, &iIndexNew);
                             pkSky->FUN_0063bab0(&kSkyDataOut, pkWeather, 0, 4, &fBlendRes, &iIndexNew);
-                            float fValue = pkSky->FUN_00644950() * *DAT_011ccccc.FUN_00403e20();
+                            float fValue = pkSky->Sky_GetFlash() * *DAT_011ccccc.FUN_00403e20();
                             pkSky->FUN_0063c690(pkColorPos, &kSkyDataOut, fValue);
                         }
                         break;
@@ -1022,7 +1024,7 @@ void CellUpdateAccess::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded
                     NiColor kColor = DAT_011a9b7c;
                     LightForm* pkSource = pkLightRefTmp->FUN_00569580();
                     if (!pkSource)
-                        pkSource = ((PlayerLightView*)DAT_011dea3c)->FUN_005454d0();
+                        pkSource = ((PlayerLightView*)DAT_011dea3c)->PlayerCharacter_GetCurrentRegion();
                     if (pkSource)
                     {
                         switch (pkSource->FUN_00401170())
@@ -1049,7 +1051,7 @@ void CellUpdateAccess::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded
                                 int iIndexNew;
                                 pkSky->FUN_0063b630(&kSkyDataOut, pkWeather, 1.0f, &fBlendRes, &iIndexNew);
                                 pkSky->FUN_0063bab0(&kSkyDataOut, pkWeather, 0, 4, &fBlendRes, &iIndexNew);
-                                float fValue = pkSky->FUN_00644950() * *DAT_011ccccc.FUN_00403e20();
+                                float fValue = pkSky->Sky_GetFlash() * *DAT_011ccccc.FUN_00403e20();
                                 pkSky->FUN_0063c690(&kColor, &kSkyDataOut, fValue);
                             }
                             break;
@@ -1065,7 +1067,7 @@ void CellUpdateAccess::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded
                         kColor.g *=
                             (unsigned char)(((unsigned short)uiBaseColor >> 8) & 0xff) * m_fThirdCreatureStatCur;
                         kColor.b *= (unsigned char)((uiBaseColor >> 16) & 0xff) * m_fThirdCreatureStatCur;
-                        PointLightPtr* pkLightPtrCur = pkLightRefTmp->FUN_005725f0();
+                        PointLightPtr* pkLightPtrCur = pkLightRefTmp->TESObjectREFR_GetLight();
                         if (pkLightPtrCur && pkLightPtrCur->FUN_00559450())
                             pkLightPtrCur->FUN_00559450()->SetEffectColor(kColor);
                     }

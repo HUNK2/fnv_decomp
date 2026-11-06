@@ -24,7 +24,7 @@ struct __declspec(align(16)) FUN_005611c0_t
     {
         *(LocalM128*)&x = *(const LocalM128*)&o.x;
     }
-    void FUN_005611c0();
+    void normalize_005611c0();
 };
 
 struct Buffer
@@ -62,7 +62,7 @@ void Writer::FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* a
         for (int i = 0; i <= last; i++)
         {
             FUN_005611c0_t t = apVecArray->m_data[i];
-            t.FUN_005611c0();
+            t.normalize_005611c0();
             hkaSplineCompressedAnimation_writeZeros(size, &m_buf);
             CallHandlerByIndex(type, (int)&t, (int)(m_buf.m_data + m_buf.m_iElementCount - size));
         }
@@ -72,7 +72,7 @@ void Writer::FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* a
         hkaSplineCompressedAnimation_writeAlignQuaternion(type, &m_buf);
         int size = DAT_010eb3d0[type];
         FUN_005611c0_t t = *apVec;
-        t.FUN_005611c0();
+        t.normalize_005611c0();
         hkaSplineCompressedAnimation_writeZeros(size, &m_buf);
         CallHandlerByIndex(type, (int)&t, (int)(m_buf.m_data + m_buf.m_iElementCount - size));
     }

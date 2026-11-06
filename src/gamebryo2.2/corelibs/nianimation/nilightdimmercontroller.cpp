@@ -30,7 +30,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f3fa0;
 
 // @fnv 0x00a4cf90
-GlobalObjectO2_00a7b610* __cdecl FUN_00a4cf90()
+// src: COMMUNITY 0x00a4cf90
+GlobalObjectO2_00a7b610* __cdecl NiLightDimmerController_GetRTTI()
 {
     return &g_011f3fa0;
 }
@@ -56,12 +57,12 @@ void* NiLightDimmerController_CreateObject()
 
 #include "../../../../include/NiTPrimitiveArray.h"
 void __stdcall FUN_00a576c0(NiTPrimitiveArray<char*>*);
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 // @fnv 0x00a4d100
 void __stdcall FUN_00a4d100(NiTPrimitiveArray<char*>* pkStrings)
 {
     FUN_00a576c0(pkStrings);
-    char* pszStr = FUN_00a7d330(*(const char**)&g_011f3fa0);
+    char* pszStr = NiViewerStrings_NiGetViewerString_Title(*(const char**)&g_011f3fa0);
     unsigned int uIdx = pkStrings->m_usSize;
     if (uIdx >= pkStrings->m_usMaxSize)
         pkStrings->SetSize(uIdx + pkStrings->m_usGrowBy);

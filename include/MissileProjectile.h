@@ -48,16 +48,16 @@ public:
     void FUN_009b90b0();
     void FUN_009baaa0(BGSLoadFormBuffer* buffer);
     void FUN_009baad0(BGSLoadFormBuffer* buffer);
-    void FUN_009bab70(BGSLoadFormBuffer* buffer);
+    void RevertBGS_009bab70(BGSLoadFormBuffer* buffer);
     void FUN_009babe0();
     // called on a missile by 0x009b90b0; owner class and real names not yet known
     float FUN_00508070();
     void FUN_005de0a0(int a, int b);
     void FUN_008126e0(int a);
     void* FUN_00874480();
-    int FUN_008d8b80();
+    int MiddleHighProcess_GetCurrentFurniture();
     float FUN_009669c0(NiPoint3* out, float f);
-    NiPoint3* FUN_009b7010(NiPoint3* out);
+    NiPoint3* Projectile_GetMovementDirection(NiPoint3* out);
     void FUN_009bc8f0();
     void FUN_009bf470(int a, int b);
 

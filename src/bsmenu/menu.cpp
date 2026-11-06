@@ -172,7 +172,8 @@ extern NiFixedString* DAT_011f34cc;
 
 // Allocates a NiFixedString from the literal "Tileptr" and stores it in DAT_011f34cc.
 // @fnv 0x00a1c6f0
-void __cdecl FUN_00a1c6f0()
+// src: COMMUNITY 0x00a1c6f0
+void __cdecl Menu_InitSDM()
 {
     DAT_011f34cc = new NiFixedString("Tileptr");
 }
@@ -197,7 +198,7 @@ template <class K, class V> class BSMapBase
 
 extern BSMapBase<unsigned long, ScrapHeapBuffer*> DAT_011f34e0;
 MenuValueDescriptor* __cdecl LoadCompressedXML(const char*, int);
-void __fastcall FUN_00a0c900(void*, const char*, MenuValueDescriptor*);
+void __fastcall NiTStringPointerMap_XMLStorage_SetAt(void*, const char*, MenuValueDescriptor*);
 
 // Looks up an XML file by name in DAT_011f34e0; if missing, loads it via LoadCompressedXML and optionally inserts it into the map.
 // @fnv 0x00a1c9b0
@@ -212,7 +213,7 @@ MenuValueDescriptor* __cdecl GetOrLoadXML(const char* apFilename, bool abAdd)
         foundXML = LoadCompressedXML(apFilename, 0);
         if (abAdd)
         {
-            ((void(__thiscall*)(void*, const char*, MenuValueDescriptor*)) & FUN_00a0c900)(&DAT_011f34e0, pfilename,
+            ((void(__thiscall*)(void*, const char*, MenuValueDescriptor*)) & NiTStringPointerMap_XMLStorage_SetAt)(&DAT_011f34e0, pfilename,
                                                                                            foundXML);
         }
     }
@@ -359,8 +360,8 @@ void RemoveMenuEntries(const char* apFilename, Menu* apMenu)
 }
 }  // namespace fnv_00a1ca20
 
-void FUN_00706fb0(int, int);
-Tile* FUN_00707040();
+void Interface_AddToEnterStack(int, int);
+Tile* InterfaceManager_GetOverTileTarget();
 void FUN_00707050(Tile*);
 Menu* GetFieldD0();
 void FUN_00707080(Menu*);
@@ -376,12 +377,12 @@ void Menu::SetTileMenu(TileMenu* apMenu, bool abDontAddToStack)
         {
             m_iModalMenuId = GetClass();
             if (!abDontAddToStack)
-                FUN_00706fb0(GetClass(), 0);
+                Interface_AddToEnterStack(GetClass(), 0);
             if (GetFieldD0() != this)
             {
-                if (FUN_00707040())
+                if (InterfaceManager_GetOverTileTarget())
                 {
-                    Tile* pTile = FUN_00707040();
+                    Tile* pTile = InterfaceManager_GetOverTileTarget();
                     pTile->Set(0xfc3, 0.0f, true);
                 }
                 FUN_00707050(0);
@@ -530,20 +531,21 @@ CompressedXML* LoadCompressedXML(const char* apFilename, const char* apFileData)
 
 struct FUN_00a0c900_shell
 {
-    void __thiscall FUN_00a0c900(const char*, int);
+    void __thiscall NiTStringPointerMap_XMLStorage_SetAt(const char*, int);
 };
 
 extern int DAT_011f34f4;
 
 // @fnv 0x00a1cb60
-void __cdecl FUN_00a1cb60(char const* a1, int aiValue)
+// src: COMMUNITY 0x00a1cb60
+void __cdecl Menu_SetParsedXML(char const* a1, int aiValue)
 {
     int v4[10];
-    ((FUN_00a0c900_shell*)&DAT_011f34f4)->FUN_00a0c900(a1, aiValue);
+    ((FUN_00a0c900_shell*)&DAT_011f34f4)->NiTStringPointerMap_XMLStorage_SetAt(a1, aiValue);
 }
 
-void FUN_00706f90(Menu* apMenu);
-void FUN_00707010(void* apTile, float a, float b);
+void Interface_ClearTimer(Menu* apMenu);
+void Interface_RecursiveFade(void* apTile, float a, float b);
 void __cdecl FUN_00706fd0(int a, int b);
 
 // @fnv 0x00a1d9e0
@@ -559,7 +561,7 @@ void Menu::FUN_00a1d9e0()
         pTile_c->Set(0xfa3, 0.0f, true);
         pTile_b = pMenu;
         pTile_a = (TileMenu*)pTile_b->m_pRenderedNodeEntry.m_pObject;
-        FUN_00707010(pTile_a, 1.0f, 0.0f);
+        Interface_RecursiveFade(pTile_a, 1.0f, 0.0f);
         m_eFadeState = Interface::FADING_OUT;
         if (m_iModalMenuId)
         {
@@ -570,12 +572,12 @@ void Menu::FUN_00a1d9e0()
                 ClearInterfaceState(0);
             }
         }
-        FUN_00706f90(this);
+        Interface_ClearTimer(this);
     }
 }
 
-void FUN_00706f90(Menu* apMenu);
-void FUN_00707010(void* apTile_c, float a, float b);
+void Interface_ClearTimer(Menu* apMenu);
+void Interface_RecursiveFade(void* apTile_c, float a, float b);
 
 // @fnv 0x00a1daa0
 void MenuOperations::FinishShow()
@@ -589,14 +591,14 @@ void MenuOperations::FinishShow()
         pTile_c->Set(0xfa3, 1.0f, true);
         pTile_b = pMenu;
         pTile_a = pTile_b->m_pRenderedNodeEntry.m_pObject;
-        FUN_00707010(pTile_a, 1.0f, 0.0f);
+        Interface_RecursiveFade(pTile_a, 1.0f, 0.0f);
         m_eFadeState = Interface::FADE_SHOWN;
-        FUN_00706f90(this);
+        Interface_ClearTimer(this);
     }
 }
 
-void FUN_00706f90(Menu* apMenu);
-void FUN_00707010(void* apTile_c, float a, float b);
+void Interface_ClearTimer(Menu* apMenu);
+void Interface_RecursiveFade(void* apTile_c, float a, float b);
 
 // @fnv 0x00a1dba0
 void MenuOperations::FinishHide()
@@ -610,9 +612,9 @@ void MenuOperations::FinishHide()
         pTile_c->Set(0xfa3, 0.0f, true);
         pTile_b = pMenu;
         pTile_a = pTile_b->m_pRenderedNodeEntry.m_pObject;
-        FUN_00707010(pTile_a, 1.0f, 0.0f);
+        Interface_RecursiveFade(pTile_a, 1.0f, 0.0f);
         m_eFadeState = Interface::FADE_HIDDEN;
-        FUN_00706f90(this);
+        Interface_ClearTimer(this);
     }
 }
 
@@ -698,16 +700,17 @@ struct XMLEntry
         return uiLength;
     }
 };
-BSFile* __cdecl FUN_00afdf00(const char* apPath, int a, int b);
+BSFile* __cdecl FileFinder_GetFile_(const char* apPath, int a, int b);
 int __cdecl FUN_00a01e20(const char* apName, const char* apData, unsigned int auLength);
-void __cdecl FUN_00a1cb60(const char* apName, int aiValue);
+void __cdecl Menu_SetParsedXML(const char* apName, int aiValue);
 void __cdecl FUN_00a0ba50();
 
 // @fnv 0x00a1d280
-bool FUN_00a1d280()
+// src: COMMUNITY 0x00a1d280
+bool Menu_LoadFinalMasterXML()
 {
     bool bSuccess = false;
-    BSFile* pkFile = FUN_00afdf00("DATA\\FINAL_MASTER_XML.DAT", 0, 0);
+    BSFile* pkFile = FileFinder_GetFile_("DATA\\FINAL_MASTER_XML.DAT", 0, 0);
     if (pkFile)
     {
         pkFile->Open(false, false);
@@ -726,7 +729,7 @@ bool FUN_00a1d280()
                 {
                     XMLEntry* pEntry = (XMLEntry*)pCurrent;
                     int iTemplate = FUN_00a01e20(pEntry->acName, pEntry->acData, pEntry->GetLength());
-                    FUN_00a1cb60(pEntry->acName, iTemplate);
+                    Menu_SetParsedXML(pEntry->acName, iTemplate);
                     pCurrent += pEntry->GetLength() + 0x84;
                 }
                 FUN_00a0ba50();
@@ -1029,7 +1032,7 @@ struct WeightedMapNode
 };
 struct MapAllocator
 {
-    WeightedMapNode* FUN_0043a010();
+    WeightedMapNode* NiGeometry_AddProperty();
 };
 struct FUN_00a0c900_shell
 {
@@ -1041,7 +1044,8 @@ struct FUN_00a0c900_shell
     WeightedMapNode** unk08;
     unsigned int unk0C;
     bool unk10;
-    void FUN_00a0c900(const char* apPath, int apXML)
+// src: COMMUNITY 0x00a0c900
+    void NiTStringPointerMap_XMLStorage_SetAt(const char* apPath, int apXML)
     {
         unsigned int bucket = Hash(apPath);
         WeightedMapNode* node = unk08[bucket];
@@ -1058,7 +1062,7 @@ struct FUN_00a0c900_shell
             }
             node = node->unk00;
         }
-        node = ((MapAllocator*)&unk0C)->FUN_0043a010();
+        node = ((MapAllocator*)&unk0C)->NiGeometry_AddProperty();
         Set(node, apPath, apXML);
         node->unk00 = unk08[bucket];
         unk08[bucket] = node;
@@ -1120,7 +1124,7 @@ int LoadMasterMenuFiles()
 
         pXML2 = LoadCompressedXML(pathBuffer6, _cur_ptr);
         stripped2 = Menu::GetMenuPath(pathBuffer6);
-        DAT_011f34e0.FUN_00a0c900(stripped2, (int)pXML2);
+        DAT_011f34e0.NiTStringPointerMap_XMLStorage_SetAt(stripped2, (int)pXML2);
 
         count7++;
         _cur_ptr = found9 + 4;
@@ -1241,7 +1245,7 @@ struct NameArray
     const char** m_pBase;
     unsigned int m_uiMaxSize;
     unsigned int m_uiSize;
-    void FUN_005e0a30(unsigned int auiMax, unsigned int auiGrowBy);
+    void NiTArray_char_const_NiTMallocInterface_char_const_Init(unsigned int auiMax, unsigned int auiGrowBy);
     void Add(const char*& apName);
     const char* GetAt(unsigned int i) const
     {
@@ -1253,7 +1257,7 @@ struct NameArray
     }
     NameArray()
     {
-        FUN_005e0a30(0, 1);
+        NiTArray_char_const_NiTMallocInterface_char_const_Init(0, 1);
         m_vtbl = &DAT_0103d420;
     }
     ~NameArray()

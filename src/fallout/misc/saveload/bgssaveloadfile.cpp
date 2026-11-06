@@ -92,7 +92,7 @@ NiTexture* BGSSaveLoadFileEntry::ReadScreenshotFromFile()
     if (m_uiHeaderRecordValue && m_uiFileSize)
         screenshot =
             LoadTextureFromFile((SaveLoadHeader*)header, SaveFileMetadata, m_uiHeaderRecordValue, m_uiFileSize);
-    DAT_011de134->FUN_00850100((SaveLoadHeader*)header, 0);
+    DAT_011de134->CloseSaveFile((SaveLoadHeader*)header, 0);
     return screenshot;
 }
 
@@ -132,7 +132,7 @@ void BGSSaveLoadFileEntry::ReadTypedData()
         pLocation = pAllocatedPath;
         TaskQueueInterface::CopyStringToBuffer(pLocation, length, pFileName);
     }
-    DAT_011de134->FUN_00850100((SaveLoadHeader*)header, 0);
+    DAT_011de134->CloseSaveFile((SaveLoadHeader*)header, 0);
     m_bHeaderParsed = true;
 }
 
@@ -150,7 +150,8 @@ struct UnknownOwner008463c0
 };
 
 // @fnv 0x008463c0
-bool __fastcall FUN_008463c0(UnknownOwner008463c0* _this)
+// src: COMMUNITY 0x008463c0
+bool __fastcall BGSSaveLoadFile_Open(UnknownOwner008463c0* _this)
 {
     if (DAT_011de134->FUN_00424940())
         return true;
@@ -188,14 +189,16 @@ struct FUN_008464f0_arg
 };
 
 // @fnv 0x008464f0
-void __fastcall FUN_008464f0(char* pThis, FUN_008464f0_arg aStringArg)
+// src: COMMUNITY 0x008464f0
+void __fastcall BGSSaveLoadFile_SetSaveFileName(char* pThis, FUN_008464f0_arg aStringArg)
 {
     TaskQueueInterface::CopyStringToBuffer(pThis, 0x104, aStringArg.str);
 }
 
 // Allocates and constructs a new object from a name string, a bool flag and an unsigned int value, returning the new instance.
 // @fnv 0x00846520
-SaveLoadFile* __cdecl FUN_00846520(const char* apName, bool abFlag, unsigned int auiValue)
+// src: COMMUNITY 0x00846520
+SaveLoadFile* __cdecl BGSSaveLoadFile_Create(const char* apName, bool abFlag, unsigned int auiValue)
 {
     return new SaveLoadFile(apName, abFlag, auiValue);
 }
@@ -342,16 +345,17 @@ unsigned int FUN_00846330_shell::WriteToFile(const void* apBuffer, unsigned int 
 struct FUN_00846710_cls : public BGSSaveLoadFileEntry
 {
     void DispatchEvent();
-    bool FUN_00846710();
+    bool BGSSaveLoadFileEntry_DeleteSave();
 };
 
 // @fnv 0x00846710
-bool FUN_00846710_cls::FUN_00846710()
+// src: COMMUNITY 0x00846710
+bool FUN_00846710_cls::BGSSaveLoadFileEntry_DeleteSave()
 {
     if (DAT_011de134->IsSaveFileNameDefault(pFileName) ||
         DAT_011de134->IsSaveFileNameLegacyAutosave(pFileName))
     {
-        if (DAT_011de134->FUN_008503b0(0, m_iScreenshotOffset, 0))
+        if (DAT_011de134->SaveGame_008503b0(0, m_iScreenshotOffset, 0))
         {
             DispatchEvent();
             return true;
@@ -359,7 +363,7 @@ bool FUN_00846710_cls::FUN_00846710()
     }
     else
     {
-        if (DAT_011de134->FUN_008503b0(pFileName, m_iScreenshotOffset, 0))
+        if (DAT_011de134->SaveGame_008503b0(pFileName, m_iScreenshotOffset, 0))
         {
             static_cast<SaveLoadManagerFileOperations*>(DAT_011de134)->RemoveAndDelete(this);
             return true;
@@ -416,7 +420,8 @@ struct FUN_006815c0_Class
 
 // Builds successive .bak paths, deletes an existing destination, and calls FUN_00ec862c with source and destination paths.
 // @fnv 0x00850100
-void BGSSaveLoadManager::FUN_00850100(SaveLoadHeader* header, int abRotate)
+// src: COMMUNITY 0x00850100
+void BGSSaveLoadManager::CloseSaveFile(SaveLoadHeader* header, int abRotate)
 {
     FUN_00850330_class* p2;
     FUN_00850330_class* p1;

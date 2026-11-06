@@ -28,6 +28,6 @@ public:
     static void _delete(void* p, unsigned int size);
     void* FUN_004a7bf0(unsigned int flags);
     void FUN_004a7130();
-    void FUN_00819a50(float radius);
+    void CombatLocation_SetRadius(float radius);
     int FUN_00c4ff60(BSMultiBound* bound);
 };

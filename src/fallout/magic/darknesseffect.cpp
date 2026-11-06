@@ -24,7 +24,8 @@ void DarknessEffect::Revert(Actor* apActor)
 
 // Allocates and constructs a new DarknessEffect from the three given arguments and returns it.
 // @fnv 0x0080c730
-DarknessEffect* __cdecl FUN_0080c730(void* a, void* b, void* c)
+// src: COMMUNITY 0x0080c730
+DarknessEffect* __cdecl DarknessEffect_Create(void* a, void* b, void* c)
 {
     return new DarknessEffect(a, b, c);
 }

@@ -1017,13 +1017,15 @@ hkp3AxisSweep::~hkp3AxisSweep() throw() {
 
 // Returns 0.
 // @fnv 0x00d10ac0
-int __cdecl FUN_00d10ac0() {
+// src: COMMUNITY 0x00d10ac0
+int __cdecl hkp3AxisSweep_getType() {
     return 0;
 }
 
 // Empty function that does nothing and returns immediately.
 // @fnv 0x00d10ff0
-void __cdecl FUN_00d10ff0() {
+// src: COMMUNITY 0x00d10ff0
+void __cdecl nullsub_73() {
 }
 
 template <typename T>

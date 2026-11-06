@@ -176,11 +176,12 @@ FUN_0051d1c0::~FUN_0051d1c0()
 
 struct FUN_0051b830_shell
 {
-    unsigned int __thiscall FUN_0051b830();
+    unsigned int __thiscall TESTexture1024_GetMaxAllowedSize();
 };
 
 // @fnv 0x0051b830
-unsigned int __thiscall FUN_0051b830_shell::FUN_0051b830()
+// src: COMMUNITY 0x0051b830
+unsigned int __thiscall FUN_0051b830_shell::TESTexture1024_GetMaxAllowedSize()
 {
     return 1024;
 }
@@ -309,11 +310,12 @@ unsigned int BSFadeNode::FUN_009ad610()
 
 struct FUN_0051b8c0_shell : TESObjectTREE
 {
-    void FUN_0051b8c0(float value);
+    void SkyShaderProperty_SetBlendValue(float value);
 };
 
 // @fnv 0x0051b8c0
-void FUN_0051b8c0_shell::FUN_0051b8c0(float value)
+// src: COMMUNITY 0x0051b8c0
+void FUN_0051b8c0_shell::SkyShaderProperty_SetBlendValue(float value)
 {
     *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0x84) = value;
 }
@@ -333,12 +335,13 @@ extern unsigned int __cdecl DialogueRandom(void);
 
 struct FUN_0051c360_shell
 {
-    unsigned int FUN_0051c360();
+    unsigned int TESObjectTREE_GetRandomSeed();
 };
 
 // Returns a random element from the seed array at offset 0x5c, or 0 when the array is empty.
 // @fnv 0x0051c360
-unsigned int FUN_0051c360_shell::FUN_0051c360()
+// src: COMMUNITY 0x0051c360
+unsigned int FUN_0051c360_shell::TESObjectTREE_GetRandomSeed()
 {
     unsigned int index = reinterpret_cast<NiTPrimitiveArray<unsigned int>*>(reinterpret_cast<char*>(this) + 0x5c)->GetSize();
     if (!index)
@@ -373,11 +376,12 @@ void* FUN_0051d220_shell::DestroyAndFree(unsigned int flags)
 
 struct FUN_00821600_shell
 {
-    void FUN_00821600(float value);
+    void TileShaderProperty_SetTileAlpha(float value);
 };
 
 // @fnv 0x00821600
-void FUN_00821600_shell::FUN_00821600(float value)
+// src: COMMUNITY 0x00821600
+void FUN_00821600_shell::TileShaderProperty_SetTileAlpha(float value)
 {
     *(float*)((char*)this + 0x78) = value;
 }
@@ -395,10 +399,11 @@ unsigned int __thiscall FUN_009b0900_shell::GetFieldE0()
 
 struct FUN_0051b8a0_shell
 {
-    void FUN_0051b8a0(float f);
+    void TESObjectTREE_SetShadowRadius(float f);
 };
 // @fnv 0x0051b8a0
-void FUN_0051b8a0_shell::FUN_0051b8a0(float afValue)
+// src: COMMUNITY 0x0051b8a0
+void FUN_0051b8a0_shell::TESObjectTREE_SetShadowRadius(float afValue)
 {
     *(int*)((char*)this + 0x80) = (int)afValue;
 }
@@ -1281,7 +1286,7 @@ struct TreeData
 bool __cdecl FUN_00401500();
 void __cdecl FUN_00485710(unsigned int, unsigned int*, unsigned int);
 void __cdecl AppendChunk(unsigned int, void*, unsigned int);
-void __cdecl FUN_00403d30(void*, int, unsigned int);
+void __cdecl ourMemset(void*, int, unsigned int);
 struct SaveTree
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c;
@@ -1308,7 +1313,7 @@ void SaveTree::FUN_0051bfb0()
         unsigned int values = seeds.GetSize();
         unsigned int index = values * sizeof(unsigned int);
         count = new unsigned int[values];
-        FUN_00403d30(count, 0, index);
+        ourMemset(count, 0, index);
         unsigned int uiSeedValue;
         for (unsigned int value = 0; value < values; value++)
         {
@@ -1752,7 +1757,7 @@ class FUN_00ba8630 : public TreeSceneObject
     unsigned int unkFC;
     unsigned int unk100;
     FUN_00ba8630();
-    void FUN_00b66ad0(const char* name, TreeSceneObject* object);
+    void BSShaderPPLightingProperty_LoadTextureSet(const char* name, TreeSceneObject* object);
 };
 class FUN_0051d0d0 : public TreeSceneObject
 {
@@ -1809,7 +1814,7 @@ class FUN_0051cf00 : public TreeSceneObject
     unsigned int unkAC;
     unsigned int unkB0;
     FUN_0051cf00();
-    void FUN_0051d000(int mode);
+    void SetMode_0051d000(int mode);
 };
 extern const char treeSourceFile[];
 // NiPointer<NiSourceTexture>::operator==(NiSourceTexture*) (0x00822510); the shared NiPointer declares no operator==
@@ -1844,14 +1849,14 @@ TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
     BuildBillboardTexturePath(q);
     FUN_0051d0d0* cf = new FUN_0051d0d0;
     cf->SetTexture(0, q);
-    i->FUN_00b66ad0("STBB", cf);
+    i->BSShaderPPLightingProperty_LoadTextureSet("STBB", cf);
     i->UpdateShader(0);
     NiPointer<BillboardTexture> p(0);
     cf->GetTexture(0, &p);
     if (reinterpret_cast<BillboardTexturePointerCompare&>(p) == 0)
         return 0;
     FUN_0051cf00* s = new FUN_0051cf00;
-    s->FUN_0051d000(5);
+    s->SetMode_0051d000(5);
     s->AttachChildInAvailableSlot(h, true);
     return s;
 }

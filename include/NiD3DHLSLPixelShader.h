@@ -31,7 +31,7 @@ public:
     void* __thiscall FUN_00e95cd0(unsigned int flags);
     unsigned int GetVariableCount();
     void SetEntryPoint_00e95cf0(const char* pcEntryPoint);
-    unsigned int __thiscall FUN_00e95d50();
+    unsigned int __thiscall NiD3DVertexShader_GetShaderHandle();
     void __thiscall SetShaderTarget(const char* pcShaderTarget);
     void __thiscall AssignTable(ID3DXConstantTable* pkTable);
     void* __thiscall DestroyPixelShader(unsigned int flags);

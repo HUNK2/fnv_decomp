@@ -77,7 +77,7 @@ class NiPosDataOperations : public NiPosData
     void SetKeys(void*, unsigned int, int);
     bool Equals(const NiPosDataOperations*);
     void SaveToStream(NiStream&);
-    void FUN_00a89af0(NiStream&);
+    void nullsub_3(NiStream&);
     void AppendCameraPathEntries(FUN_0096ad30_param*);
     void AddViewerEntries(FUN_0096ad30_param*);
     void FUN_00a5d510(NiPosDataOperations**);
@@ -230,7 +230,7 @@ extern SavePosKeys g_apfnSavePosKeys[];
 // @fnv 0x00a49300
 void NiPosDataOperations::SaveToStream(NiStream& kStream)
 {
-    FUN_00a89af0(kStream);
+    nullsub_3(kStream);
     kStream.GetBinaryStream()->Write((const void*)&m_uiNumKeys, 4);
     if (m_uiNumKeys > 0)
     {
@@ -241,7 +241,7 @@ void NiPosDataOperations::SaveToStream(NiStream& kStream)
 
 extern char str_01097164[];
 extern int DAT_011f3f68;
-extern int __cdecl FUN_00a7d330(int);
+extern int __cdecl NiViewerStrings_NiGetViewerString_Title(int);
 extern int __cdecl FUN_00a7d510(char*, int);
 
 struct FUN_0096ad30_param
@@ -264,7 +264,7 @@ void NiPosDataOperations::AddViewerEntries(FUN_0096ad30_param* param)
     unsigned int index;
 
     AppendCameraPathEntries(param);
-    value = FUN_00a7d330(DAT_011f3f68);
+    value = NiViewerStrings_NiGetViewerString_Title(DAT_011f3f68);
     index = param->unk0A;
     if (index >= (unsigned int)param->unk08)
     {

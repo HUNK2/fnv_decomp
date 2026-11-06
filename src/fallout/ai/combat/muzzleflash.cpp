@@ -41,10 +41,11 @@ struct FUN_009baee0_owner
 {
     char _pad[0x14];
     BGSProjectile* pItem;
-    void* FUN_009baee0();
+    void* MuzzleFlash_GetMuzzleFlashModel();
 };
 // @fnv 0x009baee0
-void* FUN_009baee0_owner::FUN_009baee0()
+// src: COMMUNITY 0x009baee0
+void* FUN_009baee0_owner::MuzzleFlash_GetMuzzleFlashModel()
 {
     return (pItem && HasProjectileFlag8(pItem)) ? reinterpret_cast<BSMultiBoundRoom*>(pItem)->FUN_006ab360() : 0;
 }
@@ -60,11 +61,12 @@ struct FUN_009bb690_shell
     float unk8;
     char padC[8];
     PathingRequest* ptr14;
-    void FUN_009bb690();
+    void MuzzleFlash_Enable();
 };
 // If unk4 is at or below _gModifierZero, sets unk0 and unk2 to 1 and stores ptr14->FUN_00507e10() into unk8.
 // @fnv 0x009bb690
-void FUN_009bb690_shell::FUN_009bb690()
+// src: COMMUNITY 0x009bb690
+void FUN_009bb690_shell::MuzzleFlash_Enable()
 {
     if (unk4 <= _gModifierZero)
     {
@@ -145,7 +147,7 @@ void __cdecl FUN_0062bc10(S_009baf50_Node*);
 void __cdecl FUN_00a6d2d0(S_009baf50_Node*);
 struct S_009baf50_Self : FUN_009bacb0
 {
-    void* FUN_009baee0();
+    void* MuzzleFlash_GetMuzzleFlashModel();
     void UpdateMuzzleFlash(void*);
     void UpdateLightFromChallenge();
 };
@@ -153,7 +155,7 @@ struct S_009baf50_Self : FUN_009bacb0
 // @fnv 0x009baf50
 void FUN_009bacb0::UpdateNodePosition(void* arg)
 {
-    S_009baf50_Item* item = (S_009baf50_Item*)static_cast<S_009baf50_Self*>(this)->FUN_009baee0();
+    S_009baf50_Item* item = (S_009baf50_Item*)static_cast<S_009baf50_Self*>(this)->MuzzleFlash_GetMuzzleFlashModel();
     if (item)
     {
         if (item->FUN_0048cee0())
@@ -377,7 +379,7 @@ struct AnimCls
 };
 struct FUN_009611e0_shell
 {
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
 };
 struct ObjCls
 {
@@ -726,7 +728,7 @@ struct TaskQ
 bool FUN_008c7aa0();
 TaskQ* FUN_004537b0();
 void FUN_00b6bb30(void*, float);
-void FUN_005b5e40(const char*);
+void Warning_005b5e40(const char*);
 extern PlayerCls* DAT_011dea3c;
 extern unsigned char DAT_011a59bc;
 struct ThisCls
@@ -745,8 +747,8 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
     NodeCls* node2 =
         apParam->v64()
             ? (NodeCls*)apParam->v131()
-            : (((FUN_009611e0_shell*)this)->FUN_009611e0()
-                   ? (NodeCls*)((NodeSrc*)((FUN_009611e0_shell*)this)->FUN_009611e0())->FUN_00525700(apParam->v116())
+            : (((FUN_009611e0_shell*)this)->NiAVObject_GetParent()
+                   ? (NodeCls*)((NodeSrc*)((FUN_009611e0_shell*)this)->NiAVObject_GetParent())->FUN_00525700(apParam->v116())
                    : (NodeCls*)0);
     bool _flag = false;
     float fResultTmp = 0.0f;
@@ -793,7 +795,7 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
         }
         if (target2)
         {
-            if (target2 != (void*)((FUN_009611e0_shell*)m_0c.FUN_00559450())->FUN_009611e0())
+            if (target2 != (void*)((FUN_009611e0_shell*)m_0c.FUN_00559450())->NiAVObject_GetParent())
             {
                 if (!FUN_008c7aa0())
                 {
@@ -820,7 +822,7 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
             {
                 if (DAT_011a59bc)
                 {
-                    FUN_005b5e40("Trying to update a Muzzle Flash when not in the main thread");
+                    Warning_005b5e40("Trying to update a Muzzle Flash when not in the main thread");
                     DAT_011a59bc = 0;
                 }
             }
@@ -1341,7 +1343,7 @@ struct FUN_00825c00_cls
 };
 struct FUN_009611e0_cls
 {
-    unsigned int FUN_009611e0();
+    unsigned int NiAVObject_GetParent();
 };
 struct FUN_00978740_cls
 {
@@ -1363,13 +1365,13 @@ void __cdecl FUN_009bb6d0(ProjTarget* pTarget, Projectile* pProjectile)
             {
                 if (!(item->v6b8() != 0 &&
                       ((FUN_00825c00_cls*)item->v6b8())->FUN_00825c00() == pProjectile->FUN_004181e0() &&
-                      ((FUN_009611e0_cls*)item->v6b8())->FUN_009611e0() == pProjectile->FUN_00476c90()))
+                      ((FUN_009611e0_cls*)item->v6b8())->NiAVObject_GetParent() == pProjectile->FUN_00476c90()))
                 {
                     item->v6c4();
                     item->v6b4(pProjectile, pTarget);
                 }
                 if (item->v6b8() != 0)
-                    ((FUN_009bb690_shell*)item->v6b8())->FUN_009bb690();
+                    ((FUN_009bb690_shell*)item->v6b8())->MuzzleFlash_Enable();
             }
         }
         else
@@ -1473,14 +1475,14 @@ struct FUN_009badc0
     GO m_pController;
     GO spOther;
     ~FUN_009badc0();
-    void FUN_009bb850();
+    void MuzzleFlash_DetachLight();
 };
 
 // For nonzero model length, passes its path to the loader; conditionally calls Release3D or FUN_0087ac60, then clears m_pController.
 // @fnv 0x009badc0
 FUN_009badc0::~FUN_009badc0()
 {
-    TESModel* m_kModelObjectsItem = (TESModel*)((FUN_009baee0_owner*)this)->FUN_009baee0();
+    TESModel* m_kModelObjectsItem = (TESModel*)((FUN_009baee0_owner*)this)->MuzzleFlash_GetMuzzleFlashModel();
     if (m_kModelObjectsItem->GetModelLength())
         ((ModelLoader*)g_modelLoader)->FUN_0045a5e0(m_kModelObjectsItem->GetModelFilePath());
     if (*(Flt*)&m_pController && ((Calendar*)(unsigned int)*(Flt*)&m_pController)->GetDaysPassed())
@@ -1492,5 +1494,5 @@ FUN_009badc0::~FUN_009badc0()
             TaskQueueInterface::GetInstance()->FUN_0087ac60(*(Flt*)&m_pController);
     }
     m_pController = 0;
-    FUN_009bb850();
+    MuzzleFlash_DetachLight();
 }

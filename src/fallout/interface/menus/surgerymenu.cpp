@@ -38,11 +38,12 @@ void SurgeryMenu::UpdatePerkEntries()
 
 struct FUN_007e4fc0_shell
 {
-    int FUN_007e4fc0(int arg);
+    int NiControllerSequence_GetIDTag(int arg);
 };
 
 // @fnv 0x007e4fc0
-int __thiscall FUN_007e4fc0_shell::FUN_007e4fc0(int aiIndex)
+// src: COMMUNITY 0x007e4fc0
+int __thiscall FUN_007e4fc0_shell::NiControllerSequence_GetIDTag(int aiIndex)
 {
     return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) + aiIndex * 0x14;
 }
@@ -166,10 +167,10 @@ int PointInPolygon(double pgon[][2], int numverts, double point[2])
 
 struct FUN_00950c20_self
 {
-    int FUN_00950c20(int);
+    int PlayerCharacter_CloneInventory3D(int);
 };
 
-int __cdecl FUN_005d9660(void);
+int __cdecl NiStencilProperty_GetType(void);
 
 GO g_011dadb4;
 GO g_011dade8;
@@ -188,9 +189,9 @@ void FUN_007e5170()
     static_cast<ShadowSceneNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))->FUN_00b5d180();
     static_cast<ShadowSceneNode*>(NiAdditionalGeometryData::GetShadowSceneNodeForIndex(3))->FUN_00b5d180();
 
-    _g_thePlayer->FUN_00950c20(0);
+    _g_thePlayer->PlayerCharacter_CloneInventory3D(0);
 
-    reinterpret_cast<NiAVObject*>(g_011dae5c.operator unsigned int())->RemoveProperty(FUN_005d9660());
+    reinterpret_cast<NiAVObject*>(g_011dae5c.operator unsigned int())->RemoveProperty(NiStencilProperty_GetType());
     reinterpret_cast<NiAVObject*>(g_011dae5c.operator unsigned int())->UpdateSceneObject();
 
     g_011dadb4.operator=(static_cast<void*>(0));
@@ -200,28 +201,29 @@ void FUN_007e5170()
 
 extern int __cdecl FUN_004dc200();
 extern int __cdecl FUN_004dc1f0();
-extern void __cdecl FUN_00703080(float, float);
+extern void __cdecl Interface_SetCursorPos(float, float);
 
 // If DAT_011dada4 is set and its byte at offset 0x90 is zero, calls FUN_00703080 with arg0 and arg1 divided by FUN_004dc1f0() and FUN_004dc200().
 // @fnv 0x007e41f0
-void __cdecl FUN_007e41f0(int arg0, int arg1)
+// src: COMMUNITY 0x007e41f0
+void __cdecl SurgeryMenu_SetCursorPos(int arg0, int arg1)
 {
     if (DAT_011dada4 != 0 && *((unsigned char*)DAT_011dada4 + 0x90) == 0)
     {
-        FUN_00703080((float)((double)arg0 / (double)FUN_004dc1f0()), (float)((double)arg1 / (double)FUN_004dc200()));
+        Interface_SetCursorPos((float)((double)arg0 / (double)FUN_004dc1f0()), (float)((double)arg1 / (double)FUN_004dc200()));
     }
 }
 
 struct SurgeryRenderer
 {
-    void FUN_007148c0(int, int);
+    void RendererClearBufferHook(int, int);
 };
 SurgeryRenderer* __cdecl FUN_0043c4b0();
 struct SurgeryContext
 {
-    void FUN_00c4f270(bool);
-    void FUN_004a0fd0(NiNode*);
-    void FUN_00c4f2d0();
+    void BSCullingProcess_PushCullMode(bool);
+    void BSCullingProcess_SetAccumulator(NiNode*);
+    void BSCullingProcess_PopCullMode();
 };
 struct SurgeryObject
 {
@@ -234,7 +236,7 @@ struct SurgeryInterface
 {
     NiNode* FUN_007fd640();
 };
-SurgeryInterface* __cdecl FUN_004b7210();
+SurgeryInterface* __cdecl InterfaceManager_GetSingleton();
 struct SurgeryHolder
 {
     NiNode* ptr;
@@ -243,7 +245,7 @@ struct SurgeryHolder
     NiNode* FUN_00559450();
     void FUN_0066b0d0(NiNode*);
 };
-void __cdecl FUN_00b6bee0(NiNode*, NiNode*, SurgeryContext*);
+void __cdecl BSShaderUtil_AccumulateScene(NiNode*, NiNode*, SurgeryContext*);
 void __cdecl FUN_00b6c0d0(NiNode*, NiNode*, int);
 struct SurgeryCull
 {
@@ -254,23 +256,23 @@ void __cdecl UpdateSurgeryScene()
 {
     if (!(unsigned)g_011dade8 || !(unsigned)g_011dae5c)
         return;
-    FUN_0043c4b0()->FUN_007148c0(0, 4);
+    FUN_0043c4b0()->RendererClearBufferHook(0, 4);
     SurgeryObject* b = FUN_0045c670();
     SurgeryContext* d = b->FUN_008d80e0();
-    d->FUN_00c4f270(true);
+    d->BSCullingProcess_PushCullMode(true);
     NiNode* c = (NiNode*)(unsigned)g_011dadb4;
     UpdateCameraFrustum(c, 0.15f);
     NiNode* a = FUN_00450b80(1);
-    SurgeryHolder e(FUN_004b7210()->FUN_007fd640());
-    d->FUN_004a0fd0(e.FUN_00559450());
-    FUN_00b6bee0(c, a, d);
+    SurgeryHolder e(InterfaceManager_GetSingleton()->FUN_007fd640());
+    d->BSCullingProcess_SetAccumulator(e.FUN_00559450());
+    BSShaderUtil_AccumulateScene(c, a, d);
     FUN_00b6c0d0(c, e.FUN_00559450(), 0);
     ((SurgeryCull*)(unsigned)g_011dae5c)->FUN_00450f90(false);
-    FUN_00b6bee0(c, FUN_00450b80(3), d);
+    BSShaderUtil_AccumulateScene(c, FUN_00450b80(3), d);
     FUN_00b6c0d0(c, e.FUN_00559450(), 0);
-    d->FUN_004a0fd0(0);
+    d->BSCullingProcess_SetAccumulator(0);
     e.FUN_0066b0d0(0);
-    d->FUN_00c4f2d0();
+    d->BSCullingProcess_PopCullMode();
 }
 
 struct FUN_00470470_Obj
@@ -508,7 +510,7 @@ void CloseSurgeryMenu()
     if (DAT_011dada4)
     {
         BSSoundHandle sound7;
-        sound7 = reinterpret_cast<const BSSoundHandle&>(BSAudio::GetSingleton()->FUN_00ad7550("UISurgeryExit", 0x121));
+        sound7 = reinterpret_cast<const BSSoundHandle&>(BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("UISurgeryExit", 0x121));
         sound7.Play(false);
         pTile->SetInt(0x1772, 1);
         ((SurgeryMenuType*)DAT_011dada4)->FUN_00a1d910();
@@ -518,7 +520,7 @@ void CloseSurgeryMenu()
             RefreshEntryByID((*iter->_ref_006815c0())->_04);
             iter = iter->_ref_00726070();
         }
-        ((InterfaceManager*)FUN_004b7210())->GetParent()->SetInt(0xfa9, 0xff);
+        ((InterfaceManager*)InterfaceManager_GetSingleton())->GetParent()->SetInt(0xfa9, 0xff);
     }
 
     FUN_007e5170();
@@ -646,7 +648,7 @@ void SurgeryFrameOperations::UpdateFrame()
         {
             InterfaceManager* manager3 = GetSurgeryInterfaceManager();
             unk74.x = (float)manager3->FUN_00747d00();
-            unk74.y = (float)manager3->FUN_0073b020();
+            unk74.y = (float)manager3->InterfaceManager_GetCursorY();
         }
         bool hit = Hit();
         if (hit)
@@ -1068,19 +1070,19 @@ void PainMenu::FUN_007e28b0()
         if (z < 60.0 && pain > 60.0)
         {
             BSSoundHandle painSound;
-            painSound = reinterpret_cast<const BSSoundHandle&>(BSAudio::FUN_00453a70()->FUN_00ad7550(DAT_010776b8, 0x121));
+            painSound = reinterpret_cast<const BSSoundHandle&>(BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_010776b8, 0x121));
             painSound.Play(false);
         }
         else if (z < 85.0 && pain > 85.0)
         {
             BSSoundHandle painSound;
-            painSound = reinterpret_cast<const BSSoundHandle&>(BSAudio::FUN_00453a70()->FUN_00ad7550(DAT_010776a8, 0x121));
+            painSound = reinterpret_cast<const BSSoundHandle&>(BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_010776a8, 0x121));
             painSound.Play(false);
         }
         else if (z < 100.0 && pain == 100.0)
         {
             BSSoundHandle painSound;
-            painSound = reinterpret_cast<const BSSoundHandle&>(BSAudio::FUN_00453a70()->FUN_00ad7550(DAT_01077698, 0x121));
+            painSound = reinterpret_cast<const BSSoundHandle&>(BSAudio::FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01077698, 0x121));
             painSound.Play(false);
         }
     }
@@ -1713,7 +1715,7 @@ void* __fastcall FUN_0045bb80(void* apNode);
 struct FUN_00747d00_im
 {
     int FUN_00747d00();
-    int FUN_0073b020();
+    int InterfaceManager_GetCursorY();
 };
 
 bool FUN_004b71d0();
@@ -1732,7 +1734,7 @@ struct FUN_007e4540_shell
 // @fnv 0x007e4540
 bool FUN_007e4540_shell::FUN_007e4540()
 {
-    FUN_004b7210();
+    InterfaceManager_GetSingleton();
     if (FUN_004b71d0())
         return true;
 
@@ -1764,10 +1766,10 @@ bool FUN_007e4540_shell::FUN_007e4540()
         iRadiusTmp = 0x145;
     }
 
-    FUN_00747d00_im* pInterface6 = (FUN_00747d00_im*)FUN_004b7210();
+    FUN_00747d00_im* pInterface6 = (FUN_00747d00_im*)InterfaceManager_GetSingleton();
     NiPoint2 kDeltaCur;
     kDeltaCur.x = pInterface6->FUN_00747d00() - iX;
-    kDeltaCur.y = pInterface6->FUN_0073b020() - iY;
+    kDeltaCur.y = pInterface6->InterfaceManager_GetCursorY() - iY;
     return kDeltaCur.FUN_00589850() <= iRadiusTmp;
 }
 
@@ -2541,7 +2543,7 @@ struct PickTile
 struct PickInterface
 {
     static bool FUN_004b71d0();
-    int FUN_0073b020();
+    int InterfaceManager_GetCursorY();
     int FUN_00747d00();
     void UpdateTilePosition(float afValue);
 };
@@ -2558,7 +2560,7 @@ struct PickPoint
 struct PickInput
 {
     int GetAxisState(int aiDevice, int aiAxis);
-    int FUN_00a239e0(int aiAxis);
+    int Controls_GetMouseAxis(int aiAxis);
 };
 
 struct PickGlobals
@@ -2595,7 +2597,7 @@ extern PickTimer DAT_011f6394;
 extern PickPlayer* DAT_011dea3c;
 extern int DAT_011dad9c;
 
-PickInterface* FUN_004b7210();
+PickInterface* InterfaceManager_GetSingleton();
 int __cdecl FUN_00a00940(const char* apTrait, int aiDefault);
 void __cdecl ComputeInjuryEffectScalars(float* apResistance, float* apMagnitude, float* apMouse, float afSkill,
                                         float afLockLevel, int aiPerception);
@@ -2639,7 +2641,7 @@ struct PickMenu
 // @fnv 0x007e3890
 void PickMenu::UpdateLockpick(bool abForcing)
 {
-    PickInterface* pInterfaceFinal = FUN_004b7210();
+    PickInterface* pInterfaceFinal = InterfaceManager_GetSingleton();
     static int iMinResistanceTime = FUN_00a00940(s_szMinResistanceTime, -1);
     static int iMaxResistanceTime = FUN_00a00940(s_szMaxResistanceTime, -1);
     static int iMinMagnitude = FUN_00a00940(s_szMinMagnitude, -1);
@@ -2685,7 +2687,7 @@ void PickMenu::UpdateLockpick(bool abForcing)
         kCursorPos.Add(&kIntersectionOffset);
         PickInput* pInputIn = DAT_011dea0c->FUN_00877720();
         PickPoint kInput;
-        if (FUN_004b7210()->FUN_004b71d0())
+        if (InterfaceManager_GetSingleton()->FUN_004b71d0())
         {
             int iStickX = pInputIn->GetAxisState(0, 7);
             int iStickYTmp = pInputIn->GetAxisState(0, 8);
@@ -2695,8 +2697,8 @@ void PickMenu::UpdateLockpick(bool abForcing)
         }
         else
         {
-            kInput.x = pInputIn->FUN_00a239e0(1);
-            kInput.y = pInputIn->FUN_00a239e0(2);
+            kInput.x = pInputIn->Controls_GetMouseAxis(1);
+            kInput.y = pInputIn->Controls_GetMouseAxis(2);
             kCursorPos.Add(&FUN_00532fd0(fMouseNew, kInput));
         }
         fResistance = fMagnitudeVal * fMouseNew * kInput.FUN_00589850();
@@ -2714,7 +2716,7 @@ void PickMenu::UpdateLockpick(bool abForcing)
         bForcing = false;
         fResistance = 0.0f;
         kArgumentPosition->FUN_00700320(0xfa3, 0);
-        if (FUN_004b7210()->FUN_004b71d0())
+        if (InterfaceManager_GetSingleton()->FUN_004b71d0())
         {
             PickInput* pPadIn = DAT_011dea0c->FUN_00877720();
             int iPadX = pPadIn->GetAxisState(0, 7);
@@ -2725,7 +2727,7 @@ void PickMenu::UpdateLockpick(bool abForcing)
         }
         else
         {
-            UpdateTilePositions(pInterfaceFinal->FUN_00747d00(), pInterfaceFinal->FUN_0073b020());
+            UpdateTilePositions(pInterfaceFinal->FUN_00747d00(), pInterfaceFinal->InterfaceManager_GetCursorY());
         }
     }
 }
@@ -3296,9 +3298,9 @@ struct BoneAnim
 {
     BoneText& FUN_00413f40();
     unsigned FUN_0084e3a0();
-    BoneBlock* FUN_007e4fc0(unsigned);
-    int FUN_004937a0(unsigned);
-    void FUN_00a32b80(unsigned);
+    BoneBlock* NiControllerSequence_GetIDTag(unsigned);
+    int NiControllerSequence_GetInterpolatorAt(unsigned);
+    void NiControllerSequence_RemoveInterpolator_0(unsigned);
     FUN_007e4540_root* FUN_005f5f80();
     void* FUN_008d6f30();
     void FUN_00a34ba0(float, bool);
@@ -3501,11 +3503,11 @@ void __cdecl UpdateBoneWounds(BoneHost* host)
             }
             for (unsigned j = 0; j < sequence5->FUN_0084e3a0(); j++)
             {
-                BoneBlock* block = sequence5->FUN_007e4fc0(j);
-                if (sequence5->FUN_004937a0(j))
+                BoneBlock* block = sequence5->NiControllerSequence_GetIDTag(j);
+                if (sequence5->NiControllerSequence_GetInterpolatorAt(j))
                 {
                     if (_strnicmp(nameSize5, block->FUN_006815c0().FUN_0043b1b0(), 6))
-                        sequence5->FUN_00a32b80(j);
+                        sequence5->NiControllerSequence_RemoveInterpolator_0(j);
                     else if (!previous_2 || previous_2->dirty == 1)
                     {
                         entry24->objects->FUN_005ae3d0(
@@ -3636,7 +3638,8 @@ extern BipPointer DAT_011dae5c;
 
 // Looks up the "Bip01" node, calls two methods with global float values and arguments, then updates the current root.
 // @fnv 0x007e4fe0
-void __cdecl FUN_007e4fe0(float a, float b, float c)
+// src: COMMUNITY 0x007e4fe0
+void __cdecl SetTerminalMenuPos(float a, float b, float c)
 {
     if (DAT_011dae5c.FUN_00559450())
     {

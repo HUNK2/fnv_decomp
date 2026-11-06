@@ -266,7 +266,7 @@ struct __declspec(align(16)) PoseVector
 struct PoseQuaternion
 {
     PoseVector vector;
-    void FUN_00c66320(const PoseQuaternion&, const PoseQuaternion&);
+    void setMul(const PoseQuaternion&, const PoseQuaternion&);
 };
 extern "C" unsigned int __security_cookie;
 extern "C" void __fastcall __security_check_cookie(unsigned int);
@@ -274,7 +274,8 @@ struct QuaternionProduct
 {
     __m128 quad;
 };
-__declspec(noinline) void PoseQuaternion::FUN_00c66320(const PoseQuaternion& a, const PoseQuaternion& b)
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void PoseQuaternion::setMul(const PoseQuaternion& a, const PoseQuaternion& b)
 {
     unsigned int cookie = __security_cookie;
     PoseVector cross;
@@ -318,7 +319,7 @@ struct PoseTransform
         PoseVector moved;
         moved.rotate(a.rotation.vector, b.translation);
         translation.value = _mm_add_ps(a.translation.value, moved.value);
-        rotation.FUN_00c66320(a.rotation, b.rotation);
+        rotation.setMul(a.rotation, b.rotation);
         scale.value = _mm_mul_ps(a.scale.value, b.scale.value);
     }
     __forceinline void relative(const PoseTransform& a, const PoseTransform& b)
@@ -345,12 +346,12 @@ struct PoseState
     int* flags;
     int unk20, unk24;
     bool synchronized;
-    const PoseTransform& FUN_00cda180(int);
+    const PoseTransform& hkaPose_calculateBoneModelSpace(int);
     __forceinline const PoseTransform& getWorld(int i)
     {
         if (!(flags[i] & 2))
             return world[i];
-        return FUN_00cda180(i);
+        return hkaPose_calculateBoneModelSpace(i);
     }
     __forceinline const PoseTransform& getLocal(int i)
     {
@@ -394,7 +395,7 @@ struct PoseState
             }
         }
     }
-    PoseTransform& FUN_00cda8e0(int index);
+    PoseTransform& hkaPose_accessBoneLocalSpace(int index);
 };
 struct FUN_00d4f2a0
 {
@@ -624,7 +625,7 @@ struct EntityOwner
 class S_00cd3c20_Obj
 {
   public:
-    void FUN_00c6cba0();
+    void bhkCharacterController_UpdateState();
     int unk000;
     int unk004;
     int unk008;
@@ -952,7 +953,7 @@ class S_00cd3c20_Obj
     int unk51c;
     int unk520;
 };
-void __stdcall FUN_00cd3c20(S_00cd3c20_Obj* obj);
+void __stdcall bhkCharacterStateClimbing_Update(S_00cd3c20_Obj* obj);
 struct IntegerBlock18
 {
     int unk00;
@@ -1290,7 +1291,7 @@ class PositionText525
 extern void* DAT_01268670;
 extern const char DAT_0101c29c[];
 extern const char DAT_010ca6a4[];
-char* __cdecl FUN_00a7d330(void*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 char* __cdecl FUN_00a7d550(const char*, float);
 void __cdecl FUN_00458620(PositionText525*, const Quaternion525*);
 struct RotationOwner525
@@ -1891,7 +1892,7 @@ struct Body
 };
 extern Transform identity;
 extern const char nodeName[];
-void FUN_00624b10(Mat*, Transform*);
+void HK2NI_00624b10(Mat*, Transform*);
 void FUN_00458620(NiPoint3*, __m128*);
 struct Subject
 {
@@ -1931,7 +1932,7 @@ class BoundsOwner
     int unk08;
     int unk0c;
     BoundsEntry* m_pEntries;
-    void FUN_00cda340();
+    void hkaPose_syncModelSpace();
     void FUN_00cda610(BoundsBox* out);
 };
 extern __declspec(thread) int DAT_tls_field;
@@ -2424,7 +2425,7 @@ struct TagObj
     float x, y, z;
     unsigned int FUN_00a59af0(const char* s);
 };
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 namespace fnvc_adapt {
 unsigned int __cdecl FUN_00a7d550(const char* s, float f);
 }
@@ -3136,7 +3137,7 @@ extern const hkVector4 DAT_010c71b0;
 struct Quat_cdb910
 {
     hkVector4 m_vec;
-    void FUN_00cb2700(const hkVector4& from);
+    void hkQuaternionf_setFlippedRotation(const hkVector4& from);
     void FUN_00cdb910(float t, const hkVector4& from, const hkVector4& to);
 };
 
@@ -3148,7 +3149,7 @@ void Quat_cdb910::FUN_00cdb910(float t, const hkVector4& from, const hkVector4& 
     float v = (1.0f + c) * DAT_01011588;
     if (v <= 0.0f || d < DAT_010cb650)
     {
-        FUN_00cb2700(from);
+        hkQuaternionf_setFlippedRotation(from);
         return;
     }
     {

@@ -62,7 +62,7 @@ struct FUN_0070ec70_This
 {
     int __thiscall FUN_0070ec70();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 struct FUN_007ef760_Owner
 {
     virtual void vf0();
@@ -90,12 +90,12 @@ struct StandIn
 void __cdecl _FNV_Warning(char const*);
 void __cdecl _FUN_007037e0();
 void __cdecl ShutdownVats();
-Tile* FUN_007f4830(Tile* apParent, char const* axName);
+Tile* VATSMenu_VatsMenuRenderTemplate(Tile* apParent, char const* axName);
 Tile* __cdecl FindNamedTile(Tile*, char const*);
 void __cdecl _FNV_Warning(char const*);
 void __cdecl _FUN_007037e0();
 void __cdecl ShutdownVats();
-Tile* __cdecl FUN_007f4890(Tile* a1, char const* a2);
+Tile* __cdecl VATSMenu_VatsMenuGetTileByName(Tile* a1, char const* a2);
 extern GameTimerRecord g_timeGlobal;
 struct DAT_Pointee_7f4bb0
 {
@@ -115,7 +115,7 @@ struct VatsListCallView
     virtual void v4();
     virtual Tile* v5(int);
     int GetFilteredCount(int);
-    Tile* FUN_007f6fb0();
+    Tile* ListBox_unsigned_int_GetLastItem();
 };
 
 
@@ -285,8 +285,8 @@ bool __fastcall FUN_007f6af0(Owner007f6af0* self)
     float distance = DAT_011a0b74;
     NiPoint3 origin;
     NiPoint3 direction;
-    FUN_0045c670()->FUN_006629f0()->MapScreenToRay((int)((Light007f6af0*)FUN_004b7210())->FUN_009a9350(),
-                                                   (int)((Quest007f6af0*)FUN_004b7210())->FUN_00792760(), &origin,
+    FUN_0045c670()->FUN_006629f0()->MapScreenToRay((int)((Light007f6af0*)InterfaceManager_GetSingleton())->FUN_009a9350(),
+                                                   (int)((Quest007f6af0*)InterfaceManager_GetSingleton())->FUN_00792760(), &origin,
                                                    &direction, 0);
     Ray007f6af0 ray;
     unsigned int mask = 0x140;

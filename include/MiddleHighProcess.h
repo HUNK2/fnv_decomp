@@ -267,7 +267,7 @@ public:
     virtual DetectionViewData* GetDetectionState(Actor* apTarget, DetectionListType aeType) const; // RTTI slot 321
     bool HasMatchingQueuedItem(TESBoundObject*, ExtraDataList*, bool);
     void UpdateShotsPerSecond(bool);
-    void FUN_0092c400(BooleanFloatQuery*);
-    void* FUN_00922b20(void*);
+    void SetLastHitData(BooleanFloatQuery*);
+    void* GetRightWeaponBone(void*);
 };
 #pragma pack(pop)

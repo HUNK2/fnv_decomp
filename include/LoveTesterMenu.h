@@ -200,6 +200,6 @@ public:
     int FUN_00794d30();
     int FUN_00794d80();
     void FUN_00795e20();
-    void FUN_00796100();
+    void VigorTester_InitTextures();
     void FUN_00a1d910();
 };

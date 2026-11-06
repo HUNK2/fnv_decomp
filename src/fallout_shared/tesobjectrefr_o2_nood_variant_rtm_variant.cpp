@@ -16,13 +16,13 @@
 #include "../../include/hkTransform.h"
 #include "../../include/hkQuaternion.h"
 #include "../../include/hkVector4.h"
-GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
+GarbageCollectorUpdateState* MemoryLevelManager_GetSingleton();
+void* DecalData_GetDefaultDecalData();
+void FalloutRadio_NewCellEntered();
+void TESWaterSystem_SetPlayerForceUnderwater(unsigned char value);
+float BSAudio_GetMinDialogDist();
+float BSAudio_GetMaxDialogDist();
+void CheckWithinMultiBoundTask_CancelAttachment(unsigned int index);
 extern "C" __declspec(thread) int tls_state;
 struct MemContextGuard
 {
@@ -48,8 +48,8 @@ class GlobalObjectO2_00a7b610
     }
 };
 extern GlobalObjectO2_00a7b610 g_01268224;
-char* FUN_00a7d330(const char* pcText);
-void FUN_00624b10(NiMatrix3* pkOut, const hkRotation* pkIn);
+char* NiViewerStrings_NiGetViewerString_Title(const char* pcText);
+void HK2NI_00624b10(NiMatrix3* pkOut, const hkRotation* pkIn);
 void FUN_00458620(NiPoint3* pkOut, const hkVector4* pkIn);
 struct Arg_00c9f830
 {
@@ -98,7 +98,7 @@ struct Cls
 };
 struct Arg
 {
-    void FUN_00c74ac0(__m128* out, Sub* sub);
+    void setMulInverse(__m128* out, Sub* sub);
 };
 class S00cb3250_Object
 {
@@ -594,7 +594,7 @@ struct PositionSource
     hkVector4 m_vContactPosition;
 };
 extern const char str_010c40a0[];
-NiAVObject* __cdecl FUN_00c55920(const NiPoint3* pkPosition, int iFlags);
+NiAVObject* __cdecl BSTestObjects_CreateBox_0(const NiPoint3* pkPosition, int iFlags);
 struct PositionOwner
 {
     int unk00;
@@ -620,7 +620,7 @@ struct Obj08
     int unk1C;
     __m128 m_20;
     void hkpCharacterProxy_setPosition(__m128* v);
-    void FUN_00cac110();
+    void bhkCharacterController_UnMarkWrite();
 };
 struct Obj570
 {
@@ -993,7 +993,7 @@ class MotionObject
     int unk056C;
     Obj570 m_570;
     Obj594* m_594;
-    void FUN_00cac110();
+    void bhkCharacterController_UnMarkWrite();
     void FUN_00c6e390(__m128* v);
 };
 extern "C" __m128 _mm_setzero_ps(void);
@@ -1190,7 +1190,7 @@ struct C9FA20_TlsGuard
 };
 struct C9FA20_Alloc
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
+    void* __thiscall Game_DoHeapAlloc(unsigned int size);
 };
 extern C9FA20_Alloc DAT_011f6238;
 struct C9FA20_Array
@@ -1214,7 +1214,7 @@ struct C9FA20_Data
 
     static __forceinline void* operator new(unsigned int size)
     {
-        unsigned char* p = static_cast<unsigned char*>(DAT_011f6238.FUN_00aa3e40(size + 0x10));
+        unsigned char* p = static_cast<unsigned char*>(DAT_011f6238.Game_DoHeapAlloc(size + 0x10));
         unsigned char offset = (unsigned char)(0x10 - ((unsigned int)p & 0xf));
         p += offset;
         p[-1] = offset;
@@ -1418,8 +1418,8 @@ void RigidMotionDAD::FUN_00cb3570(const hkVector4& position, const hkQuaternion&
     hkVector4 worldPosition;
     worldPosition.setAdd4(newPosition, position);
     __declspec(align(16)) hkQuaternion newRotation;
-    newRotation.FUN_00c66320(rotation, m_localRotation);
-    newRotation.FUN_005611c0();
+    newRotation.setMul(rotation, m_localRotation);
+    newRotation.normalize_005611c0();
     FUN_00c8d1d0(worldPosition, newRotation);
 }
 #pragma strict_gs_check(pop)

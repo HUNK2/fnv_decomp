@@ -83,7 +83,7 @@ public:
     void WriteToBuffer(BGSSaveFormBuffer* buffer);
     void SaveIfChanged(BGSSaveFormBuffer* buffer);
     void LoadQuestData(unsigned int flags, unsigned int extra);
-    void FUN_0060c950(int value);
+    void SetAllObjectivesComplete(int value);
     void FUN_0060c9c0(bool set);
     void FUN_0060ca30(bool set);
     void FUN_0060caf0(bool set);
@@ -91,8 +91,8 @@ public:
     void FUN_0060cd60();
     unsigned short FUN_0060dba0(unsigned int changedFlags);
     void FUN_0060dd50(unsigned int flags);
-    void FUN_0060e6a0(unsigned int flags);
-    void FUN_0060e7c0(BGSSaveFormBuffer* buffer);
+    void RevertTES_0060e6a0(unsigned int flags);
+    void CheckSaveGame(BGSSaveFormBuffer* buffer);
     float FUN_00792760();
     QuestObjectiveList* FUN_005d43e0();
 };

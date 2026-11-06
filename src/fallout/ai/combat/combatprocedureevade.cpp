@@ -330,7 +330,7 @@ struct EvadeActor
     bool FUN_008b3b90();
     bool FUN_008b3960();
     bool FUN_008b3bb0();
-    EvadeWorldLocation FUN_00575650();
+    EvadeWorldLocation TESObjectREFR_GetWorldLocation();
 };
 struct EvadeController
 {
@@ -445,7 +445,7 @@ void EvadeProcedure::UpdateFleeState()
         }
         else if (actor->FUN_008b3bb0())
         {
-            pController->HandleMenuEvent(&actor->FUN_00575650(), location);
+            pController->HandleMenuEvent(&actor->TESObjectREFR_GetWorldLocation(), location);
             SetState();
         }
         break;

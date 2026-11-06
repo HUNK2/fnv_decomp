@@ -28,7 +28,7 @@ struct GrabVector
     GrabVector& FUN_006815c0();
     void FUN_00553f70(const GrabVector*);
     void FUN_00961190(void*);
-    void FUN_004b4ab0(const GrabVector*);
+    void hkVector4_setRotatedInverseDir(const GrabVector*);
 };
 struct GrabPoint
 {
@@ -240,7 +240,7 @@ struct GrabPhysics
     virtual void v0ec();
     virtual void GetNavMeshData(GrabVector*);
     GrabBody* FUN_004ae750();
-    GrabFilter FUN_0043b4f0();
+    GrabFilter bhkWorldObject_GetCollisionFilter();
 };
 struct GrabRef
 {
@@ -921,7 +921,7 @@ struct GrabHost
     void SetEffectValue(int, float, GrabRef*);
     void FUN_00961280();
     GrabController* FUN_009306d0();
-    void FUN_0095f930(GrabRef*, int, float);
+    void PlayerCharacter_CreateMouseSpring(GrabRef*, int, float);
 };
 extern Setting DAT_011e0b1c;
 extern Setting DAT_011d18a8, DAT_011d183c, DAT_011d1728, DAT_011d1604;
@@ -932,16 +932,16 @@ extern GrabSave* DAT_011ddf38;
 extern const GrabPoint DAT_011a9484;
 extern const float DAT_01017868;
 extern const double DAT_01020998, DAT_0101ffa0, DAT_01018a90, DAT_01011588;
-GrabPhysics* FUN_004b52f0(GrabRef*);
+GrabPhysics* bhkRigidBody_FindHeaviestRigidBody(GrabRef*);
 int GetBSXFlags(GrabRef*, int);
 bool FUN_005ac750(int, void*, unsigned);
 void GetScalarAndVector(GrabRef*, GrabVector*, float*);
-bool FUN_00703430();
-GrabPhysics* FUN_00960510();
+bool Interface_IsActivatePickFuzzy();
+GrabPhysics* ViewCaster_GetFuzzyBody();
 GrabRef* FUN_004b5a20(GrabBody*);
 GrabRef* FUN_0056f930(GrabRef*);
-GrabPhysics* FUN_004b5a80(GrabBody*);
-void FUN_007033d0(GrabPoint*);
+GrabPhysics* bhkEntity_Getbhk(GrabBody*);
+void Interface_GetActivatePickLocation(GrabPoint*);
 void FUN_00553fc0(GrabVector*, const GrabPoint*);
 void FUN_00458620(GrabPoint*, const GrabVector*);
 float FUN_004587d0(float);
@@ -951,7 +951,8 @@ float FUN_0062c300(GrabRef*);
 float LinearInterpolate(float, float, float, float, float);
 
 // @fnv 0x0095f930
-void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
+// src: COMMUNITY 0x0095f930
+void GrabHost::PlayerCharacter_CreateMouseSpring(GrabRef* ref, int newMode, float range)
 {
     if (!*DAT_011e0b1c.FUN_00408d60() && ref->IsDead() && !ref->AllowGrab(0))
         return;
@@ -968,7 +969,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
     if (ref && ref->FUN_008d6f30())
     {
         GrabRef* root = ref->Get3D();
-        GrabPhysics* physics = FUN_004b52f0(root);
+        GrabPhysics* physics = bhkRigidBody_FindHeaviestRigidBody(root);
         if (physics)
         {
             bool character = GetBSXFlags(root, 8) || ref->IsDead();
@@ -994,7 +995,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
             GrabWorld* world = ref->FUN_008d6f30()->FUN_004543c0();
             if (mode == 1 && world && !DAT_011ddf38->FUN_0042ce10())
             {
-                if (!FUN_00703430() || !FUN_00960510())
+                if (!Interface_IsActivatePickFuzzy() || !ViewCaster_GetFuzzyBody())
                 {
                     GrabRay ray;
                     ray.FUN_004a3c20();
@@ -1015,7 +1016,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                         {
                             if (!character)
                             {
-                                GrabPhysics* hitPhysics = FUN_004b5a80(hit);
+                                GrabPhysics* hitPhysics = bhkEntity_Getbhk(hit);
                                 hitPhysics->GetNavMeshData(&center);
                             }
                             selected = true;
@@ -1029,11 +1030,11 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                 else
                 {
                     GrabPoint picked;
-                    FUN_007033d0(&picked);
+                    Interface_GetActivatePickLocation(&picked);
                     if (!DAT_011ddf38->FUN_0042ce10())
                         distance = (picked - origin).FUN_00457990();
                     data.position.SetFromScaledVector3(picked);
-                    GrabPhysics* pickedPhysics = FUN_00960510();
+                    GrabPhysics* pickedPhysics = ViewCaster_GetFuzzyBody();
                     data.body = pickedPhysics->FUN_004ae750();
                     selected = true;
                 }
@@ -1119,7 +1120,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                         angularScale *= DAT_01018a90;
                     }
                 }
-                else if (physics->FUN_0043b4f0().FUN_0043b4d0() == 0xe)
+                else if (physics->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() == 0xe)
                 {
                     linearScale *= DAT_0101ffa0;
                     angularScale *= DAT_01011588;
@@ -1136,7 +1137,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
             data.position.ApplyToAction(&localPosition);
             localPosition.FUN_00961190(body->FUN_004b4ec0());
             data.angular.ApplyToAction(&localRotation)
-                ->FUN_004b4ab0(&body->FUN_004b4f00(&localPosition)->FUN_006815c0());
+                ->hkVector4_setRotatedInverseDir(&body->FUN_004b4f00(&localPosition)->FUN_006815c0());
             data.angular.FUN_004b4db0(&localRotation);
             target->FUN_008d6f30()->FUN_004543c0()->FUN_005533c0();
             constraint.FUN_0066b0d0(new GrabConstraint(&data));

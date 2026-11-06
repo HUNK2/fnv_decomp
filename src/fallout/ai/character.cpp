@@ -108,7 +108,8 @@ void Character::LoadGame(BGSLoadFormBuffer* buffer)
 }
 
 // @fnv 0x008d1e90
-void __fastcall FUN_008d1e90(Character* this_ptr, float value)
+// src: COMMUNITY 0x008d1e90
+void __fastcall Character_SetFlyInventoryWeight(Character* this_ptr, float value)
 {
     *(float*)((char*)this_ptr + 0x1c4) = value;
 }
@@ -121,11 +122,12 @@ struct FUN_009dcc80_target
 struct FUN_008b3b30_shell
 {
     NiPoint3* GetAddTopicList();
-    NiPoint3 FUN_008b3b30(float f);
+    NiPoint3 Actor_GetAnticipatedLocation(float f);
 };
 // Returns the stored point when f is not above _gModifierZero, otherwise delegates to the object at offset 0x190 with f.
 // @fnv 0x008b3b30
-NiPoint3 FUN_008b3b30_shell::FUN_008b3b30(float f)
+// src: COMMUNITY 0x008b3b30
+NiPoint3 FUN_008b3b30_shell::Actor_GetAnticipatedLocation(float f)
 {
     if (f <= _gModifierZero)
     {
@@ -155,11 +157,12 @@ FUN_008d1f10_shell* FUN_008d1f10_shell::FUN_008d1f10(unsigned int aiFlags)
 int __cdecl FUN_00646310(void*, int, float*, float*);
 struct FUN_008d24a0_shell : public Character
 {
-    int FUN_008d24a0();
+    int Character_GetAttackDamage();
 };
 // Calls FUN_00646310 on the object at offset 0xa4 to fill fx and fy, then returns fx as an int.
 // @fnv 0x008d24a0
-int FUN_008d24a0_shell::FUN_008d24a0()
+// src: COMMUNITY 0x008d24a0
+int FUN_008d24a0_shell::Character_GetAttackDamage()
 {
     float fx = 0.0f;
     float fy = 0.0f;
@@ -209,14 +212,15 @@ void FUN_008d3310_shell::FUN_008d3310(unsigned int aiFlags, unsigned int aiCurre
 extern TESSaveLoadGame* g_TESSaveLoadGame;
 struct FUN_008d3330_shell : public Character
 {
-    void FUN_008aa210(unsigned int);
-    void FUN_008d3330(unsigned int aiFlags);
+    void Actor_RevertTES(unsigned int);
+    void Character_RevertTES(unsigned int aiFlags);
 };
 // Calls FUN_008aa210 with aiFlags, then if g_TESSaveLoadGame->FUN_0055f5b0() succeeds, sets two floats to -1.0f.
 // @fnv 0x008d3330
-void FUN_008d3330_shell::FUN_008d3330(unsigned int aiFlags)
+// src: COMMUNITY 0x008d3330
+void FUN_008d3330_shell::Character_RevertTES(unsigned int aiFlags)
 {
-    FUN_008aa210(aiFlags);
+    Actor_RevertTES(aiFlags);
     if (g_TESSaveLoadGame->FUN_0055f5b0())
     {
         m_fFirstResetValue = -1.0f;
@@ -263,11 +267,12 @@ bool __fastcall FUN_00524d10(bool*);
 struct FUN_00950ad0_shell : public PlayerCharacter
 {
     BipedAnim* GetBipedAnimation(bool);
-    BipedAnim* FUN_00950ad0();
+    BipedAnim* PlayerCharacter_GetCurrentBiped();
 };
 // Returns the BipedAnim for the player, choosing the variant based on the result of FUN_00524d10(this).
 // @fnv 0x00950ad0
-BipedAnim* FUN_00950ad0_shell::FUN_00950ad0()
+// src: COMMUNITY 0x00950ad0
+BipedAnim* FUN_00950ad0_shell::PlayerCharacter_GetCurrentBiped()
 {
     return GetBipedAnimation(!FUN_00524d10((bool*)this));
 }
@@ -392,11 +397,12 @@ struct Slot12cHolder
 
 struct FUN_008b1910_shell
 {
-    TESObjectREFR* FUN_008b1910(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr);
+    TESObjectREFR* Actor_SetUpTalkingActivatorActor(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr);
 };
 
 // @fnv 0x008b1910
-TESObjectREFR* FUN_008b1910_shell::FUN_008b1910(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr)
+// src: COMMUNITY 0x008b1910
+TESObjectREFR* FUN_008b1910_shell::Actor_SetUpTalkingActivatorActor(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr)
 {
     BGSTalkingActivator* m_pLinkedReference = (BGSTalkingActivator*)((TESObject*)apRefr)->GetNext();
     ((ExtraDataList_Accessor*)apRefr->GetExtraData())->FUN_0042e060(m_pLinkedReference, apRefr);
@@ -422,11 +428,12 @@ struct TopicH
 
 struct FUN_00968690_shell : public Character
 {
-    NiPoint3 FUN_00968690(float f);
+    NiPoint3 PlayerCharacter_GetAnticipatedLocation(float f);
 };
 
 // @fnv 0x00968690
-NiPoint3 FUN_00968690_shell::FUN_00968690(float f)
+// src: COMMUNITY 0x00968690
+NiPoint3 FUN_00968690_shell::PlayerCharacter_GetAnticipatedLocation(float f)
 {
     NiPoint3 kPos = *(NiPoint3*)((TopicH*)this)->GetAddTopicList();
     NiPoint3 kMotionVelocity;
@@ -1593,12 +1600,13 @@ struct FUN_008ac850_owner
     virtual void* f0265();
     virtual FUN_008ac850_object* f0266();
 
-    void __thiscall FUN_008ac850(void* value);
+    void __thiscall Actor_SetCombatGroup(void* value);
 };
 
 // Retrieves the object via f0266 and, if non-null, forwards value to its SetWaterForm method.
 // @fnv 0x008ac850
-void __thiscall FUN_008ac850_owner::FUN_008ac850(void* value)
+// src: COMMUNITY 0x008ac850
+void __thiscall FUN_008ac850_owner::Actor_SetCombatGroup(void* value)
 {
     FUN_008ac850_object* object = f0266();
     if (object != 0)
@@ -2068,11 +2076,12 @@ struct ActorAVUpdater
 
 struct FUN_0093a8f0_shell : public Actor
 {
-    void FUN_0093a8f0(int aiAV, int aiAmount);
+    void PlayerCharacter_ModActorBaseValueI(int aiAV, int aiAmount);
 };
 
 // @fnv 0x0093a8f0
-void FUN_0093a8f0_shell::FUN_0093a8f0(int aiAV, int aiAmount)
+// src: COMMUNITY 0x0093a8f0
+void FUN_0093a8f0_shell::PlayerCharacter_ModActorBaseValueI(int aiAV, int aiAmount)
 {
     float fOld = IsAVModifiable(aiAV) ? GetCurrentActorValue((ActorValue::Index)aiAV) : 0.0f;
     bool bFound4 = false;
@@ -2741,21 +2750,22 @@ struct XObj
     virtual void v2ec();
     virtual void v2f0();
     virtual void Finish(XAObj*, int, int);
-    void FUN_009694d0(void* arg0);
+    void PlayerCharacter_InitiateCannibalPackage(void* arg0);
     void FUN_005cc7a0(int);
-    void FUN_00950340(int);
+    void PlayerCharacter_ForceTemp3rdPerson(int);
     XUpdatable* FUN_008d8520();
     void* unk04[25];
     XMember* member68;
 };
 
 // @fnv 0x009694d0
-void XObj::FUN_009694d0(void* arg0)
+// src: COMMUNITY 0x009694d0
+void XObj::PlayerCharacter_InitiateCannibalPackage(void* arg0)
 {
     if (((XA8a*)arg0)->GetExtraDataVersion())
         return;
     FUN_005cc7a0(1);
-    FUN_00950340(1);
+    PlayerCharacter_ForceTemp3rdPerson(1);
     member68->Attach(0, this);
     member68->Detach(0);
     XAObj* A5 = (XAObj*)CreatePackageByType(0x26);
@@ -2843,7 +2853,7 @@ struct PackBF
 void* __cdecl CreatePackageByType(int);
 struct GlobalBF
 {
-    void FUN_00966e00();
+    void PlayerCharacter_IssueStealWarning();
 };
 extern "C" char DAT_011dea3c;
 // Actor.h lacks this package-assignment method; inherit its checked layout without duplicating it.
@@ -2880,7 +2890,7 @@ void PackageAssignment::FUN_008bf7b0(void* arg, int unused)
     ((ProcBF*)GetProcess())->update(this);
     // Slot 0x2f4 takes a package and two flags; the shared Unk_BD declaration lacks its arguments.
     ((XObj*)this)->Finish((XAObj*)pack, 0, 1);
-    (*(GlobalBF**)&DAT_011dea3c)->FUN_00966e00();
+    (*(GlobalBF**)&DAT_011dea3c)->PlayerCharacter_IssueStealWarning();
 }
 
 struct AssignedProcess
@@ -3509,10 +3519,11 @@ struct AssignedCharacter : Character
     bool FUN_00493bb0();
     AssignedPackageView* FUN_009344a0();
     AssignedExtraView* FUN_005d43c0();
-    void FUN_008d2a80(AssignedArgument* argument);
+    void Character_InitiateCannibalPackage(AssignedArgument* argument);
 };
 // @fnv 0x008d2a80
-void AssignedCharacter::FUN_008d2a80(AssignedArgument* argument)
+// src: COMMUNITY 0x008d2a80
+void AssignedCharacter::Character_InitiateCannibalPackage(AssignedArgument* argument)
 {
     if (FUN_00493bb0())
         return;

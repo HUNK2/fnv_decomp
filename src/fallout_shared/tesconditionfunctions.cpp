@@ -3124,7 +3124,8 @@ extern float DAT_011cab20;
 
 // Sets a block of global ints and floats to zero.
 // @fnv 0x005a38e0
-void __cdecl FUN_005a38e0()
+// src: COMMUNITY 0x005a38e0
+void __cdecl Script_ClearCachedValues()
 {
     DAT_011caae8 = 0;
     DAT_011caaec = 0;
@@ -4145,7 +4146,8 @@ unsigned int __fastcall FUN_005a6150(const unsigned char* self)
 }
 
 // @fnv 0x005a6260
-unsigned int __fastcall FUN_005a6260(char* thisPtr)
+// src: COMMUNITY 0x005a6260
+unsigned int __fastcall PlayerCharacter_GetCasinoDataList(char* thisPtr)
 {
     return *reinterpret_cast<unsigned int*>(thisPtr + 0x610);
 }
@@ -4497,7 +4499,7 @@ struct FNStub
 };
 struct ReputationStub
 {
-    char FUN_00616a90(unsigned char);
+    char TESReputation_GetReputationThreshold(unsigned char);
 };
 void __cdecl DebugLog(const char*, ...);
 
@@ -4509,7 +4511,7 @@ bool __cdecl Cmd_GetReputationThreshold_Eval(TESObjectREFR* reference, void* arg
     unsigned int bHigh = (unsigned int)arg2;
     if (pRep)
     {
-        result = pRep->FUN_00616a90(bHigh);
+        result = pRep->TESReputation_GetReputationThreshold(bHigh);
         if (g_bReputationDebugLog)
             DebugLog("GetReputation: %s >> %0.2f", ((FNStub*)((char*)pRep + 0x18))->GetFullName(), result);
     }
@@ -6632,8 +6634,8 @@ bool __cdecl FUN_005a36b0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     {
         TESObjectREFR* actor = reference;
         if (actor && ((FUN_005a3740_cls*)actor)->GetByteAt14C() && actor->GetParentCell() &&
-            ((TESObjectCELL*)actor->GetParentCell())->FUN_00547770() &&
-            ((TESObjectCELL*)actor->GetParentCell())->FUN_00547770()->HasFlag1())
+            ((TESObjectCELL*)actor->GetParentCell())->Actor_GetRadiationLevel() &&
+            ((TESObjectCELL*)actor->GetParentCell())->Actor_GetRadiationLevel()->HasFlag1())
             result = 1.0;
     }
     return true;
@@ -13197,7 +13199,7 @@ bool __cdecl FUN_0059d2a0(TESObjectREFR* reference, void* apUnused1, void* apUnu
 
 extern __declspec(thread) unsigned char tlsBytes[];
 extern const char str_010351ec[];
-void __cdecl FUN_00703c00(const char*, double);
+void __cdecl Interface_PrintLine(const char*, double);
 // Reads the sky state, writes 1.0 or 0.0 to output depending on FUN_0059ea80, logs it when tlsBytes[0x268] is set, and returns true.
 // @fnv 0x0059ea10
 // src: EXE 0x0059ea10
@@ -13206,7 +13208,7 @@ bool __cdecl Cmd_IsSnowing_Eval(int first, int second, int third, double* output
     ConditionSky* sky = reinterpret_cast<ConditionSky*>(Sky::GetInstance());
     *output = sky->IsSnowing() ? 1.0f : 0.0f;
     if (tlsBytes[0x268])
-        FUN_00703c00(str_010351ec, *output);
+        Interface_PrintLine(str_010351ec, *output);
     return true;
 }
 
@@ -13214,7 +13216,7 @@ bool __cdecl Cmd_IsSnowing_Eval(int first, int second, int third, double* output
 
 extern __declspec(thread) unsigned char traceState[];
 extern const char DAT_01035260[];
-void __cdecl FUN_00703c00(const char* text, double result);
+void __cdecl Interface_PrintLine(const char* text, double result);
 // Sets result to 1.0 when reference's mode equals 0x2b, logs the result if traceState[0x268] is set, and returns true.
 // @fnv 0x0059ecc0
 bool __cdecl FUN_0059ecc0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
@@ -13229,7 +13231,7 @@ bool __cdecl FUN_0059ecc0(TESObjectREFR* reference, void* arg1, void* arg2, doub
     }
     if (traceState[0x268] != 0)
     {
-        FUN_00703c00(DAT_01035260, result);
+        Interface_PrintLine(DAT_01035260, result);
     }
     return true;
 }
@@ -13352,7 +13354,7 @@ struct ClassOps
     bool __thiscall FUN_005f6e60();
 };
 extern __declspec(thread) bool tls_conditionEcho;
-void __cdecl FUN_00703c00(const char* format, ...);
+void __cdecl Interface_PrintLine(const char* format, ...);
 // Sets result to 1.0 when the reference's base form is type 42 and its class passes a check, then optionally logs the value and returns true.
 // @fnv 0x005a10b0
 bool __cdecl FUN_005a10b0(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
@@ -13371,7 +13373,7 @@ bool __cdecl FUN_005a10b0(TESObjectREFR* reference, void* arg1, void* arg2, doub
         }
     }
     if (tls_conditionEcho)
-        FUN_00703c00("Is Guard >> %0.2f", result);
+        Interface_PrintLine("Is Guard >> %0.2f", result);
     return true;
 }
 
@@ -13692,7 +13694,7 @@ bool FUN_005a1e70(TESObjectREFR* reference, void* arg1, void* arg2, double& resu
 
 namespace fnv_005a2050 {
 
-extern "C" void __cdecl FUN_00703c00(const char*, ...);
+extern "C" void __cdecl Interface_PrintLine(const char*, ...);
 extern const char str_010359b4[];
 __declspec(thread) unsigned char g_tlsFlag;
 
@@ -13704,7 +13706,7 @@ bool __cdecl Cmd_GetAmountSoldStolen_Eval(TESObjectREFR* reference, void* apUnus
     result = 0.0;
     result = (double)((ConditionPlayerCharacter*)g_thePlayer)->GetField6dc();
     if (g_tlsFlag)
-        FUN_00703c00(str_010359b4, result);
+        Interface_PrintLine(str_010359b4, result);
     return true;
 }
 }  // namespace fnv_005a2050
@@ -13879,7 +13881,7 @@ bool __cdecl Cmd_GetGroupTargetCount_Eval(void* object, void* unusedContext, voi
 
 namespace fnv_005a4540 {
 extern __declspec(thread) unsigned char DAT_tls_0268[0x269];
-extern "C" void __cdecl FUN_00703c00(const char* format, ...);
+extern "C" void __cdecl Interface_PrintLine(const char* format, ...);
 extern char str_01035ee4[];
 
 // Sets result to 0.0, calls Unk_B6 on the reference if it is a mobile object, and logs result when the TLS flag is set; returns true.
@@ -13894,13 +13896,13 @@ bool __cdecl FUN_005a4540(TESObjectREFR* reference, void* apUnused1, void* apUnu
     }
     if (DAT_tls_0268[0x268])
     {
-        FUN_00703c00(str_01035ee4, result);
+        Interface_PrintLine(str_01035ee4, result);
     }
     return true;
 }
 }  // namespace fnv_005a4540
 
-extern "C" void __cdecl FUN_00703c00(const char*, int);
+extern "C" void __cdecl Interface_PrintLine(const char*, int);
 extern "C" const char DAT_01035f64[];
 struct RuntimeState
 {
@@ -13919,7 +13921,7 @@ unsigned char __cdecl FUN_005a4820(Actor* actor, unsigned int action, unsigned i
         if (p->IsPlayerTeammate())
             *out = 1.0;
         if (*((unsigned char*)&gRuntimeState + 0x268))
-            FUN_00703c00(DAT_01035f64, (int)*out);
+            Interface_PrintLine(DAT_01035f64, (int)*out);
     }
     return 1;
 }
@@ -13927,7 +13929,7 @@ unsigned char __cdecl FUN_005a4820(Actor* actor, unsigned int action, unsigned i
 class FUN_0041cf00_shell
 {
   public:
-    void* FUN_0041cf00();
+    void* ExtraDataList_GetPlayerCrimeList();
 };
 
 extern bool __fastcall _ref_008256d0(void*);
@@ -13942,8 +13944,8 @@ bool __cdecl FUN_005a4930(TESObjectREFR* reference, void* arg1, void* arg2, doub
     if (reference && reference->IsActor())
     {
         TESObjectREFR* actor = reference;
-        if (((FUN_0041cf00_shell*)actor->GetExtraData())->FUN_0041cf00() &&
-            !_ref_008256d0(((FUN_0041cf00_shell*)actor->GetExtraData())->FUN_0041cf00()))
+        if (((FUN_0041cf00_shell*)actor->GetExtraData())->ExtraDataList_GetPlayerCrimeList() &&
+            !_ref_008256d0(((FUN_0041cf00_shell*)actor->GetExtraData())->ExtraDataList_GetPlayerCrimeList()))
         {
             result = 1.0;
         }
@@ -14193,7 +14195,7 @@ bool __cdecl FUN_005a5e90(TESObjectREFR* reference, void* pSkillArg, void* pUnus
 
 extern char* DAT_011dea3c;
 extern double DAT_010290b0;
-unsigned int __fastcall FUN_005a6260(char*);
+unsigned int __fastcall PlayerCharacter_GetCasinoDataList(char*);
 extern "C" void* __fastcall FUN_006815c0(void*);
 extern "C" unsigned int __fastcall FUN_0084e3a0(void*);
 extern "C" void* __fastcall FUN_00504e60(void*);
@@ -14219,7 +14221,7 @@ bool __cdecl Cmd_GetCasinoWinningStage_Eval(int unused, void* subject, int unuse
     void* target = subject;
     if (target != 0)
     {
-        void* current = (void*)FUN_005a6260(DAT_011dea3c);
+        void* current = (void*)PlayerCharacter_GetCasinoDataList(DAT_011dea3c);
         while (current != 0 && ((EntryHolder*)FUN_006815c0(current))->record != 0)
         {
             if (((EntryHolder*)FUN_006815c0(current))->record->formId == FUN_0084e3a0(target))
@@ -14256,7 +14258,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 class RefA
 {
@@ -14377,7 +14379,7 @@ bool FUN_0059c2d0(RefA* reference, void* acAxis, void* apUnused, double& afAngle
             break;
         }
         if (DAT_0126fd98.bDebug)
-            FUN_00703c00("GetStartingAngle: %c >> %0.2f", iAxis, afAngle);
+            Interface_PrintLine("GetStartingAngle: %c >> %0.2f", iAxis, afAngle);
     }
     return true;
 }
@@ -14391,7 +14393,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class AVOwner
 {
   public:
@@ -14605,7 +14607,7 @@ bool FUN_0059c680(ActorV* apActor, void* aiActorValue, void* apUnused, double& a
             afValue = pOwner->GetActorValue(eAV);
         }
         if (DAT_0126fd98.bDebug)
-            FUN_00703c00("GetActorValue: %s >> %0.2f", FUN_0066eac0(eAV), afValue);
+            Interface_PrintLine("GetActorValue: %s >> %0.2f", FUN_0066eac0(eAV), afValue);
     }
     return true;
 }
@@ -14660,7 +14662,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 
 // Reads the current weather percent from the Sky object, logs it when bDebug is set, and returns true.
@@ -14670,7 +14672,7 @@ bool Cmd_GetCurrentWeatherPercent_Eval(void* reference, void* arg1, void* arg2, 
 {
     afPercent = reinterpret_cast<ConditionSky*>(Sky::GetInstance())->GetCurrentWeatherPercent();
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetCurrentWeatherPercent >> %0.2f", afPercent);
+        Interface_PrintLine("GetCurrentWeatherPercent >> %0.2f", afPercent);
     return true;
 }
 }  // namespace fnv_0059eb60
@@ -14684,7 +14686,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class RaceP
 {
   public:
@@ -14715,7 +14717,7 @@ bool FUN_0059f540(TESObjectREFR* reference, void* apUnused1, void* apUnused2, do
         DAT_011cab20 = result;
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetIsPlayableRace >> %0.2f", result);
+        Interface_PrintLine("GetIsPlayableRace >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_0059f540
@@ -14729,7 +14731,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class ListRes
 {
   public:
@@ -14838,7 +14840,7 @@ bool FUN_0059f9b0(void* reference, void* apForm, void* apUnused, double& result)
         }
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetIsUsedItem '%s' >> %0.2f", pForm ? pForm->GetName() : "UNKNOWN", result);
+        Interface_PrintLine("GetIsUsedItem '%s' >> %0.2f", pForm ? pForm->GetName() : "UNKNOWN", result);
     return true;
 }
 }  // namespace fnv_0059f9b0
@@ -14852,7 +14854,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class AVOwner
 {
   public:
@@ -14983,7 +14985,7 @@ bool FUN_005a0150(ActorV* apActor, void* aUnused1, void* aUnused2, double& resul
     {
         result = pActor->kAVOwner.GetActorValue(0x12);
         if (DAT_0126fd98.bDebug)
-            FUN_00703c00("Armor Rating: %0.2f", result);
+            Interface_PrintLine("Armor Rating: %0.2f", result);
     }
     return true;
 }
@@ -14998,7 +15000,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class ActorW
 {
   public:
@@ -15080,7 +15082,7 @@ bool FUN_005a0e80(ActorW* apActor, void* pUnused1, void* pUnused2, double& resul
     if (pActor && pActor->FUN_008a6210())
         result = 1;
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("Is Waiting >> %0.2f", result);
+        Interface_PrintLine("Is Waiting >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a0e80
@@ -15094,7 +15096,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 class ActorC
 {
@@ -15210,7 +15212,7 @@ bool FUN_005a0f90(ActorC* apActor, TESForm* apVictim, void* aiCrimeType, double&
         }
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetCrime >> %0.2f", result);
+        Interface_PrintLine("GetCrime >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a0f90
@@ -15224,7 +15226,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 class ProcY
 {
@@ -15432,7 +15434,7 @@ bool FUN_005a1770(Actor* apActor, void* apUnused1, void* apUnused2, double& resu
         }
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("Procedure >> %0.2f", result);
+        Interface_PrintLine("Procedure >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a1770
@@ -15446,7 +15448,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 struct Pt
 {
     float x, y, z;
@@ -15465,7 +15467,7 @@ class LimbH
 class BodyPartH
 {
   public:
-    int FUN_0043b230();
+    int NiObjectNET_GetControllers();
 };
 class BPDataH
 {
@@ -15704,7 +15706,7 @@ class RefH
     virtual Pt* GetPos();
     BaseH* FUN_004181e0();
 };
-LimbH* FUN_004aae30(NodeH*, int);
+LimbH* BSUtilities_GetObjectByName(NodeH*, int);
 struct TgtH
 {
     int m0;
@@ -15750,7 +15752,7 @@ bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
                         BodyPartH* pBodyPart = pBPData->FUN_005e5130(fB);
                         if (pBodyPart)
                         {
-                            LimbH* pLimb = FUN_004aae30(a->Get3D(), pBodyPart->FUN_0043b230());
+                            LimbH* pLimb = BSUtilities_GetObjectByName(a->Get3D(), pBodyPart->NiObjectNET_GetControllers());
                             if (pLimb)
                             {
                                 kPos = *pLimb->FUN_0045bb80();
@@ -15771,7 +15773,7 @@ bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
         }
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("VATS Target Height >> %0.2f", afHeight);
+        Interface_PrintLine("VATS Target Height >> %0.2f", afHeight);
     return true;
 }
 }  // namespace fnv_005a25f0
@@ -16009,7 +16011,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 extern PlayerS* DAT_011dea3c;
 // Checks if the given PlayerS is the global player and in Sandman, logs the result in debug mode, and always returns true.
@@ -16020,7 +16022,7 @@ bool FUN_005a2810(PlayerS* apPlayer, void* apUnused1, void* apUnused2, double& r
     if (apPlayer == DAT_011dea3c)
         result = DAT_011dea3c->IsInSandman();
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("Player is in Sandman action >> %0.2f", result);
+        Interface_PrintLine("Player is in Sandman action >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a2810
@@ -16034,7 +16036,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 // 0x005a29b0 reads Actor's critical stage; the shared interface lacks this getter.
 struct CriticalStageCondition : Actor
@@ -16056,7 +16058,7 @@ bool Cmd_IsInCriticalStage_Eval(Actor* apActor, void* aiStage, void* apUnused, d
             result = 1;
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("Actor %s in stage %s.", result == 1 ? "IS" : "IS NOT", DAT_0119bbb0[iStage]);
+        Interface_PrintLine("Actor %s in stage %s.", result == 1 ? "IS" : "IS NOT", DAT_0119bbb0[iStage]);
     return true;
 }
 }  // namespace fnv_005a2910
@@ -16070,7 +16072,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 class ArmorB
 {
@@ -16123,7 +16125,7 @@ bool Cmd_GetArmorRatingUpperBody_Eval(Actor* apActor, void* apUnused1, void* apU
         }
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("Armor Rating upper body is %0.2f", afRating);
+        Interface_PrintLine("Armor Rating upper body is %0.2f", afRating);
     return true;
 }
 }  // namespace fnv_005a2ce0
@@ -16137,7 +16139,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class ActorE
 {
   public:
@@ -16222,9 +16224,9 @@ bool FUN_005a3390(ActorE* apActor, void* apUnused1, void* apUnused2, double& res
         if (pActor->FUN_005678a0())
             result = 1;
         if (DAT_0126fd98.bDebug && result != 0)
-            FUN_00703c00("%s  is evil ", pActor->FUN_0055d520());
+            Interface_PrintLine("%s  is evil ", pActor->FUN_0055d520());
         else if (DAT_0126fd98.bDebug)
-            FUN_00703c00("%s  is not evil ", pActor->FUN_0055d520());
+            Interface_PrintLine("%s  is not evil ", pActor->FUN_0055d520());
     }
     return true;
 }
@@ -16240,7 +16242,7 @@ struct TlsData
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
 
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 // Checks if the reference actor is the current crime victim target and sets result to 1 or 0, logging the outcome in debug mode.
 // @fnv 0x005a3460
@@ -16257,9 +16259,9 @@ bool Cmd_IsActorAVictim_Eval(Actor* apActor, void* apUnused1, void* apUnused2, d
         if (pTarget && pTarget == DAT_0126fd98.pTarget)
             result = 1;
         if (DAT_0126fd98.bDebug && result != 0)
-            FUN_00703c00("%s  crime victim ", pActor->FUN_0055d520());
+            Interface_PrintLine("%s  crime victim ", pActor->FUN_0055d520());
         else if (DAT_0126fd98.bDebug)
-            FUN_00703c00("%s  is not a crime victim ", pActor->FUN_0055d520());
+            Interface_PrintLine("%s  is not a crime victim ", pActor->FUN_0055d520());
     }
     return true;
 }
@@ -16274,17 +16276,17 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
-bool FUN_00709d40();
+void Interface_PrintLine(const char*, ...);
+bool Interface_Has360Controller();
 // Stores a 0.0 or 1.0 value into result based on FUN_00709d40, logs it when bDebug is set, and returns true.
 // @fnv 0x005a3870
 // src: EXE 0x005a3870
 bool Cmd_IsWin32_Eval(void* reference, void* arg1, void* arg2, double& result)
 {
     result = 1;
-    result = FUN_00709d40() ? 0.0f : 1.0f;
+    result = Interface_Has360Controller() ? 0.0f : 1.0f;
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("IsPC >> %1.0f", result);
+        Interface_PrintLine("IsPC >> %1.0f", result);
     return true;
 }
 }  // namespace fnv_005a3870
@@ -16323,7 +16325,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class KillerK
 {
   public:
@@ -16511,7 +16513,7 @@ bool Cmd_IsKillerObject_Eval(ActorK* reference, void* apFormList, void* apUnused
             result = 1;
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("IsKillerObject >> %0.2f", result);
+        Interface_PrintLine("IsKillerObject >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a3fa0
@@ -16612,7 +16614,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 
 // Compares the reference's form type against arg1, stores 1 or 0 in result, and logs the value when bDebug is set.
@@ -16624,7 +16626,7 @@ bool FUN_005a4410(TESObjectREFR* reference, void* aiType, void* apUnused, double
     if (reference->FUN_007af430()->FUN_00401170() == iType)
         result = 1;
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetIsObjectType is  >> %0.2f", result);
+        Interface_PrintLine("GetIsObjectType is  >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a4410
@@ -16638,7 +16640,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class FormW
 {
   public:
@@ -16734,7 +16736,7 @@ bool FUN_005a45c0(void* reference, void* arg1, void* arg2, double& result)
     if (pForm && pForm->GetWater())
         result = 1;
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("IsWaterActivator >> %0.2f", result);
+        Interface_PrintLine("IsWaterActivator >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a45c0
@@ -16940,7 +16942,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 // Computes the ratio of reference's modified damage per second to arg1's, storing it in result and logging the outcome in debug mode.
 // @fnv 0x005a4cd0
@@ -16953,10 +16955,10 @@ bool FUN_005a4cd0(Actor* reference, void* apTarget, void* apUnused, double& afRa
         Actor* pActor = reference;
         afRatio = pActor->GetCombatRating(-1.0f) / pTarget->GetCombatRating(-1.0f);
         if (DAT_0126fd98.bDebug)
-            FUN_00703c00("GetThreatRatio: '%s' to '%s' >> %.2f", pActor->GetName(), pTarget->GetName(), afRatio);
+            Interface_PrintLine("GetThreatRatio: '%s' to '%s' >> %.2f", pActor->GetName(), pTarget->GetName(), afRatio);
     }
     else if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetThreatRatio >> FAILED");
+        Interface_PrintLine("GetThreatRatio >> FAILED");
     return true;
 }
 }  // namespace fnv_005a4cd0
@@ -16970,7 +16972,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class AVOwner
 {
   public:
@@ -17104,7 +17106,7 @@ bool FUN_005a4dd0(ActorV* apActor, void* aiAlignment, void* apUnused, double& re
             result = 1;
     }
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetIsAlignment '%s' >> %s", DAT_01186cf4[iAlignment], result > 0 ? "true" : "false");
+        Interface_PrintLine("GetIsAlignment '%s' >> %s", DAT_01186cf4[iAlignment], result > 0 ? "true" : "false");
     return true;
 }
 }  // namespace fnv_005a4dd0
@@ -17118,7 +17120,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 void* FUN_006008f0();
 int FUN_00479430(void*);
 extern const char* DAT_011869bc[];
@@ -17131,7 +17133,7 @@ bool FUN_005a4ea0(void* reference, void* aiEquipType, void* apUnused, double& re
     if (FUN_006008f0() && FUN_00479430(FUN_006008f0()) == iType)
         result = 1;
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetIsUsedItemEquipType '%s' >> %s", DAT_011869bc[iType], result > 0 ? "true" : "false");
+        Interface_PrintLine("GetIsUsedItemEquipType '%s' >> %s", DAT_011869bc[iType], result > 0 ? "true" : "false");
     return true;
 }
 }  // namespace fnv_005a4ea0
@@ -17145,7 +17147,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class Pkg
 {
   public:
@@ -17303,9 +17305,9 @@ bool Cmd_GetActorAggroRadiusViolated_Eval(Actor* apActor, void* apUnused1, void*
         if (DAT_0126fd98.bDebug)
         {
             if (result > 0)
-                FUN_00703c00("%s has his aggro radius violated ", apActor->FUN_0055d520());
+                Interface_PrintLine("%s has his aggro radius violated ", apActor->FUN_0055d520());
             else
-                FUN_00703c00("%s does not have his aggro radius violated ", apActor->FUN_0055d520());
+                Interface_PrintLine("%s does not have his aggro radius violated ", apActor->FUN_0055d520());
         }
     }
     return true;
@@ -17321,7 +17323,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class ProcC
 {
   public:
@@ -17448,9 +17450,9 @@ bool FUN_005a5020(ActorC* apActor, void* apUnused1, void* apUnused2, double& afI
         if (DAT_0126fd98.bDebug)
         {
             if (afIsConcussed > 0)
-                FUN_00703c00("%s is concussed", apActor->FUN_0055d520());
+                Interface_PrintLine("%s is concussed", apActor->FUN_0055d520());
             else
-                FUN_00703c00("%s is not concussed ", apActor->FUN_0055d520());
+                Interface_PrintLine("%s is not concussed ", apActor->FUN_0055d520());
         }
     }
     return true;
@@ -17571,7 +17573,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 
 // Calls FUN_008bdbd0 on reference with arg1 and 1.5707964f, stores its return value, and logs it.
 // @fnv 0x005a5690
@@ -17582,7 +17584,7 @@ bool FUN_005a5690(Actor* reference, void* apTarget, void* apUnused, double& afVi
     if (reference && reference->IsActor())
         afVisibility = static_cast<RightTargetVisibilityCondition*>(reference)->GetTargetVisibility(pTarget, 1.5707964f);
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("VATSRightTargetVisible >> %.2f", afVisibility);
+        Interface_PrintLine("VATSRightTargetVisible >> %.2f", afVisibility);
     return true;
 }
 }  // namespace fnv_005a5690
@@ -17596,7 +17598,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class ProcMgr
 {
   public:
@@ -17610,7 +17612,7 @@ bool FUN_005a5ab0(void* reference, void* arg1, void* arg2, double& result)
     result = 0;
     result = DAT_011e0e80.GetFieldPointer();
     if (DAT_0126fd98.bDebug)
-        FUN_00703c00("GetActorsInHigh >> %0.2f", result);
+        Interface_PrintLine("GetActorsInHigh >> %0.2f", result);
     return true;
 }
 }  // namespace fnv_005a5ab0
@@ -17624,7 +17626,7 @@ struct TlsData
     void* pTarget;
 };
 extern __declspec(thread) TlsData DAT_0126fd98;
-void FUN_00703c00(const char*, ...);
+void Interface_PrintLine(const char*, ...);
 class NameR
 {
   public:
@@ -17635,7 +17637,7 @@ class RepR
   public:
     int unk00, unk04, unk08, unk0C, unk10, unk14;
     NameR kName;
-    float FUN_00616a60(int);
+    float TESReputation_GetReputationPct(int);
 };
 // When pRep is non-null, stores FUN_00616a60(iType) in result and logs it if bDebug is set.
 // @fnv 0x005a5c40
@@ -17646,9 +17648,9 @@ bool Cmd_GetReputationPct_Eval(void* reference, void* apRep, void* aiType, doubl
     int iType = (int)aiType;
     if (pRep)
     {
-        afReputation = pRep->FUN_00616a60(iType);
+        afReputation = pRep->TESReputation_GetReputationPct(iType);
         if (DAT_0126fd98.bDebug)
-            FUN_00703c00("GetReputation: %s >> %0.2f", pRep->kName.FUN_00408da0(), afReputation);
+            Interface_PrintLine("GetReputation: %s >> %0.2f", pRep->kName.FUN_00408da0(), afReputation);
     }
     return true;
 }
@@ -18015,7 +18017,7 @@ namespace s59f890 {
 
 extern __declspec(thread) bool tls_bEchoConsole;
 
-void FUN_00703c00(const char* pcFormat, ...);
+void Interface_PrintLine(const char* pcFormat, ...);
 
 struct Form
 {
@@ -18059,7 +18061,7 @@ bool FUN_0059f890(Actor* pkActor, ListForm* pkListArg, void* pvUnused, double* p
             *pdResult = 1.0;
     }
     if (tls_bEchoConsole)
-        FUN_00703c00(s_szIsInListFormat, *pdResult);
+        Interface_PrintLine(s_szIsInListFormat, *pdResult);
     return true;
 }
 

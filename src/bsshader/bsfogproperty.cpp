@@ -82,7 +82,8 @@ int* __cdecl FUN_00bb8170()
 extern char const* const g_012007e0_arg1;
 
 // @fnv 0x00a99f20
-char const* const* __cdecl FUN_00a99f20()
+// src: COMMUNITY 0x00a99f20
+char const* const* __cdecl NiFogProperty_GetRTTI()
 {
     return &g_012007e0_arg1;
 }

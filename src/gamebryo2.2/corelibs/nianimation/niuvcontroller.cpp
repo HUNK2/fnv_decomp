@@ -32,7 +32,8 @@ int __thiscall NiUVController::GetSomeValues(int* piValue1, int* piValue2, char*
 extern int g_011f3f18;
 
 // @fnv 0x00a45b30
-int* __cdecl FUN_00a45b30()
+// src: COMMUNITY 0x00a45b30
+int* __cdecl NiUVController_GetRTTI()
 {
     return &g_011f3f18;
 }
@@ -528,7 +529,7 @@ struct UVGeomData
     unsigned short m_usVertices;
     unsigned short unk0a;
     unsigned short m_usTrianglePoints;
-    UVPoint* __thiscall FUN_00a66960(unsigned short usSet);
+    UVPoint* __thiscall NiGeometryData_GetTextureSet(unsigned short usSet);
     void __thiscall FUN_00a67090(unsigned short usFlags);
     unsigned short GetTextureSets()
     {
@@ -632,7 +633,7 @@ void NiUVController::UpdateUVTransform()
     float fScaleV = fAnimTilingV / (*(float*)&m_pData.m_pObject->unk44);
     float fPrevOffsetV = (*(float*)&m_pData.m_pObject->unk3C);
 
-    UVPoint* pkTex = pkData->FUN_00a66960(m_usValue);
+    UVPoint* pkTex = pkData->NiGeometryData_GetTextureSet(m_usValue);
 
     float fDeltaU = fAnimOffsetU - fPrevOffsetU * fScaleU;
     float fDeltaV = fAnimOffsetV - fPrevOffsetV * fScaleV;

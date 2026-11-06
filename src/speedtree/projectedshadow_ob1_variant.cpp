@@ -118,13 +118,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -176,7 +176,8 @@ LocalVec3 LocalVec3::ScaleSwizzled(float scale) const
     r.z = scale * z;
     return r;
 }
-LocalVec3 LocalVec3::FUN_00b13040(const LocalVec3& v) const
+// src: COMMUNITY 0x00b13040
+LocalVec3 LocalVec3::Diff_00b13040(const LocalVec3& v) const
 {
     LocalVec3 r;
     r.x = x - v.x;
@@ -192,7 +193,8 @@ LocalVec3 LocalVec3::AddVector(const LocalVec3& v) const
     r.z = v.z + z;
     return r;
 }
-float LocalVec3::FUN_00b04d40(const LocalVec3& v) const
+// src: COMMUNITY 0x00b04d40
+float LocalVec3::CVec3_Distance(const LocalVec3& v) const
 {
     union FloatBits
     {
@@ -256,8 +258,8 @@ struct Context
     unsigned int unknown60, unknown64, unknown68, unknown6C, unknown70, unknown74, unknown78, unknown7C;
     unsigned int unknown80, unknown84;
     VecRange points;
-    const float* FUN_00b30f80(unsigned short index);
-    void FUN_00b304f0(Vec2* uv);
+    const float* CIndexedGeometry_GetVertexCoord(unsigned short index);
+    void CIndexedGeometry_AddVertexTexCoord1(Vec2* uv);
 };
 struct Scr
 {
@@ -293,36 +295,37 @@ struct Agent
 {
     LocalVec3 first, second;
     LocalVec3 ProjectOntoLine(const LocalVec3& start, const LocalVec3& end, const LocalVec3& point);
-    void FUN_00b3ea10(Context*, LocalVec3, float, ShadowUVRect*);
+    void CProjectedShadow_ComputeTexCoords(Context*, LocalVec3, float, ShadowUVRect*);
 };
 // @fnv 0x00b3ea10
-void Agent::FUN_00b3ea10(Context* context, LocalVec3 point, float extent, ShadowUVRect* bounds)
+// src: COMMUNITY 0x00b3ea10
+void Agent::CProjectedShadow_ComputeTexCoords(Context* context, LocalVec3 point, float extent, ShadowUVRect* bounds)
 {
-    LocalVec3 lowerAA = point.FUN_00b13040(static_cast<const LocalVec3&>(first).ScaleSwizzled(extent));
+    LocalVec3 lowerAA = point.Diff_00b13040(static_cast<const LocalVec3&>(first).ScaleSwizzled(extent));
     LocalVec3 kUpperA = point.AddVector(static_cast<const LocalVec3&>(first).ScaleSwizzled(extent));
-    LocalVec3 lowerB6 = point.FUN_00b13040(static_cast<const LocalVec3&>(second).ScaleSwizzled(extent));
+    LocalVec3 lowerB6 = point.Diff_00b13040(static_cast<const LocalVec3&>(second).ScaleSwizzled(extent));
     LocalVec3 upperB4 = point.AddVector(static_cast<const LocalVec3&>(second).ScaleSwizzled(extent));
     Scr::Touch();
     context->count = 0;
     for (unsigned short index3 = 0; index3 < (unsigned short)(context->points.Size() / 3); ++index3)
     {
-        const float* input = context->FUN_00b30f80(index3);
+        const float* input = context->CIndexedGeometry_GetVertexCoord(index3);
         LocalVec3 value2;
         Fill(&value2, input);
         LocalVec3 projectedA7 = ProjectOntoLine(lowerAA, kUpperA, value2);
         Vec2 uv5;
-        uv5.x = lowerAA.FUN_00b04d40(projectedA7) / (extent * 2.0f);
+        uv5.x = lowerAA.CVec3_Distance(projectedA7) / (extent * 2.0f);
         if (bounds)
         {
             uv5.x = bounds->MapX(uv5.x);
         }
         LocalVec3 projectedB2 = ProjectOntoLine(lowerB6, upperB4, value2);
-        uv5.y = lowerB6.FUN_00b04d40(projectedB2) / (extent * 2.0f);
+        uv5.y = lowerB6.CVec3_Distance(projectedB2) / (extent * 2.0f);
         if (bounds)
         {
             uv5.y = bounds->MapY(uv5.y);
         }
-        context->FUN_00b304f0(&uv5);
+        context->CIndexedGeometry_AddVertexTexCoord1(&uv5);
     }
 }
 
@@ -366,7 +369,7 @@ struct ChunkReader
 {
     int GetNextElement();
     Vec3Ret GetVector3();
-    std::string FUN_00b3ee40();
+    std::string CTreeFileAccess_ParseString();
 };
 
 struct FrondInfo
@@ -394,7 +397,7 @@ void FrondInfo::FUN_00b3e750(ChunkReader* reader)
             AssignPoint3(p2, reader->GetVector3());
             break;
         case 0x4655: {
-            NarrowString text(reader->FUN_00b3ee40());
+            NarrowString text(reader->CTreeFileAccess_ParseString());
             name = text.FUN_00b09f90();
             break;
         }

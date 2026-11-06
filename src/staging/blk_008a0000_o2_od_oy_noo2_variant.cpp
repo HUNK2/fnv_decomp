@@ -26,7 +26,7 @@ struct FUN_008b3d70_Hit
     virtual void* GetObject();
 };
 struct FUN_008b3d70_World;
-FUN_008b3d70_Hit* FUN_008cfbc0(FUN_008b3d70_World* world, FUN_008b3d70_Vec3 origin, FUN_008b3d70_Vec3 dir, float* dist,
+FUN_008b3d70_Hit* ArrowProjectile_PickSceneGraph(FUN_008b3d70_World* world, FUN_008b3d70_Vec3 origin, FUN_008b3d70_Vec3 dir, float* dist,
                                int flag);
 
 struct FUN_008b3d70_hkVec
@@ -68,7 +68,7 @@ void* FUN_008b3d70_Picker::FUN_008b3d70(FUN_008b3d70_Vec3 start, FUN_008b3d70_Ve
     FUN_008b3d70_Vec3 direction = end.FUN_00439ef0(start);
     FUN_00525340(&direction);
     FUN_008b3d70_Vec3 origin = end.FUN_00439ef0(direction.ApplyScaled(distance).ApplyScaled(0.5f));
-    object = FUN_008cfbc0(world, origin, direction, &distance, 0);
+    object = ArrowProjectile_PickSceneGraph(world, origin, direction, &distance, 0);
     if (!object)
     {
         FUN_008b3d70_Sphere bound;

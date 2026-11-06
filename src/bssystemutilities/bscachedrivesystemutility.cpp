@@ -9,7 +9,7 @@ void BSCacheDriveSystemUtility::Destroy()
 
 struct FUN_00af3920_shell : public BSCacheDriveSystemUtility
 {
-    void FUN_00af3920();
+    void BSCacheDriveSystemUtility_DoInitialize();
 };
 
 struct VTableHelper_00af3920
@@ -20,7 +20,8 @@ struct VTableHelper_00af3920
 };
 
 // @fnv 0x00af3920
-void FUN_00af3920_shell::FUN_00af3920()
+// src: COMMUNITY 0x00af3920
+void FUN_00af3920_shell::BSCacheDriveSystemUtility_DoInitialize()
 {
     reinterpret_cast<VTableHelper_00af3920*>(this)->v2();
 }

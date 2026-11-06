@@ -276,11 +276,12 @@ void ReplaceEntry(int pList, int pOldEntry, int pNewEntry, unsigned short usValu
 
 struct FUN_00d27f50_Obj {
     void __thiscall Insert(int a, int b, int c);
-    void __thiscall FUN_00d27f50(int param_1, int param_2);
+    void __thiscall hkSmallArray_hkConstraintInternal_insertAt(int param_1, int param_2);
 };
 
 // @fnv 0x00d27f50
-void __thiscall FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, int aSecond) {
+// src: COMMUNITY 0x00d27f50
+void __thiscall FUN_00d27f50_Obj::hkSmallArray_hkConstraintInternal_insertAt(int aFirst, int aSecond) {
     this->Insert(aFirst, aSecond, 1);
 }
 
@@ -1549,7 +1550,7 @@ void __thiscall FUN_00d219e0_cls::SetLists(FUN_00d219e0_node* pFirstList, FUN_00
 
 extern int DAT_0101e594;
 struct VtblStub_0101e594 { void* m_ppVirtualMethodTable; };
-extern "C" void __cdecl FUN_00401030(VtblStub_0101e594*);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(VtblStub_0101e594*);
 struct FUN_00d26210
 {
     void* m_ppVirtualMethodTable;
@@ -1560,7 +1561,7 @@ FUN_00d26210::FUN_00d26210(char construct)
 {
     m_ppVirtualMethodTable = &DAT_0101e594;
     if (construct & 1)
-        FUN_00401030((VtblStub_0101e594*)this);
+        FormHeapFreeAndLog_00401030((VtblStub_0101e594*)this);
 }
 
 struct PairEntry
@@ -1727,7 +1728,7 @@ FUN_00d2cd80_Obj* __thiscall FUN_00d2cd80_Obj::FUN_00d2cd80()
     return self;
 }
 
-struct SubA { void FUN_00d87910(); };
+struct SubA { void hkThread_hkThread(); };
 struct SubB { void Create(int a, int b); };
 struct C_d2cda0 {
     int m_iWordAt00;
@@ -1746,7 +1747,7 @@ struct C_d2cda0 {
 // @fnv 0x00d2cda0
 C_d2cda0* C_d2cda0::FUN_00d2cda0()
 {
-    a8.FUN_00d87910();
+    a8.hkThread_hkThread();
     b24.Create(0, 1);
     m_28 = 0;
     m_2c = 0;
@@ -1858,7 +1859,8 @@ void __cdecl InsertIntoSlotArray(void* unused, unsigned short* slots, unsigned s
 }
 
 // @fnv 0x00d39090
-void FUN_00d39090()
+// src: COMMUNITY 0x00d39090
+void nullsub_15()
 {
 }
 
@@ -1976,7 +1978,8 @@ void __cdecl DispatchFuncs(D3FD30Dispatcher* pkDispatcher)
 }
 
 // @fnv 0x00d3fde0
-void FUN_00d3fde0()
+// src: COMMUNITY 0x00d3fde0
+void nullsub_16()
 {
 }
 

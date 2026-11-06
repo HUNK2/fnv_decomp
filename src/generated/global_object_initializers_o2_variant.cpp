@@ -9670,25 +9670,26 @@ extern void* DAT_0106ba6c;
 struct FUN_00869f00_shell
 {
     void* m_vft;
-    void* FUN_00869f00(unsigned int a, unsigned int b);
+    void* BSSimpleArray_NavMesh_1024_BSSimpleArray_NavMesh_1024_00869f00(unsigned int a, unsigned int b);
 };
 
 extern int DAT_012024d4;
-void __cdecl FUN_00aa2080(void*, void*);
+void __cdecl NiStaticDataManager_AddLibrary(void*, void*);
 void __cdecl RegisterParticleSystems();
-void __cdecl FUN_00c1a7d0();
+void __cdecl NiParticleSDM_Shutdown();
 
 struct FUN_00c1ad50_class
 {
-    void* FUN_00c1ad50();
+    void* NiParticleSDM_NiParticleSDM();
 };
 
 // @fnv 0x00c1ad50
-void* FUN_00c1ad50_class::FUN_00c1ad50()
+// src: COMMUNITY 0x00c1ad50
+void* FUN_00c1ad50_class::NiParticleSDM_NiParticleSDM()
 {
     int count = DAT_012024d4;
     ++DAT_012024d4;
     if (!count)
-        FUN_00aa2080((void*)&RegisterParticleSystems, (void*)&FUN_00c1a7d0);
+        NiStaticDataManager_AddLibrary((void*)&RegisterParticleSystems, (void*)&NiParticleSDM_Shutdown);
     return this;
 }

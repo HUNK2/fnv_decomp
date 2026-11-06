@@ -56,7 +56,7 @@ int FlaggedData::ContainsAnyFlag(unsigned int)
 }
 struct FUN_008c5000_shell
 {
-    int FUN_008c5000(int);
+    int Actor_GetCastPowerItem(int);
     int IsNonZero(int arg);
 };
 void ActorPackageContext::Clear()
@@ -98,7 +98,7 @@ struct T_
 struct FUN_008cd6a0_Class
 {
     void FUN_00cb2d90(void*);
-    void FUN_008cd6a0(void* a, void* b);
+    void hkTransform_set(void* a, void* b);
 };
 extern int DAT_011dfc9c;
 unsigned int __cdecl FUN_005dbe10();
@@ -116,7 +116,7 @@ struct FUN_008cfff0_Class
     int m_iWordAt00;
     int m_cByteAtOffset1;
     int m_cByteAtOffset2;
-    CalleeObj* FUN_008cfff0(CalleeObj* arg);
+    CalleeObj* hkpWorldObject_isAddedToWorld(CalleeObj* arg);
 };
 struct FUN_008d01e0_Class
 {
@@ -147,16 +147,17 @@ extern GlobalObject2_0096a2d0 g_011dfe14;
 void __cdecl FUN_008d15b0(const void* p);
 extern float DAT_011dfed4;
 extern float DAT_011dfed8;
-void __cdecl FUN_008d1d10(float a, float b);
+void __cdecl SetCameraShakeData(float a, float b);
 struct FUN_008d5020_class
 {
-    void __thiscall FUN_008d5020();
+    void __thiscall CharacterProgression_AllocateData();
 };
-void __thiscall FUN_008d5020_class::FUN_008d5020()
+// src: COMMUNITY 0x008d5020
+void __thiscall FUN_008d5020_class::CharacterProgression_AllocateData()
 {}
 struct FUN_008d4360_class
 {
-    FUN_008d4360_class* __thiscall FUN_008d4360();
+    FUN_008d4360_class* __thiscall CharacterProgression_CharacterProgression();
 };
 extern "C" void __cdecl FreeAndClear();
 struct FUN_008d4380_class
@@ -166,12 +167,12 @@ struct FUN_008d4380_class
 };
 struct FUN_008d5590_shell
 {
-    void FUN_008d55b0();
+    void CharacterProgressionData_InitializeData();
 };
 struct FUN_008d50e0_shell
 {
     FUN_008d5590_shell* m_p;
-    void FUN_008d50e0();
+    void CharacterProgression_InitializeData();
 };
 struct FUN_008d5660_class
 {
@@ -203,12 +204,12 @@ struct FUN_008ca800_Class
     int a;
     int b;
     int c;
-    FUN_008ca800_Class* __thiscall FUN_008ca800();
+    FUN_008ca800_Class* __thiscall BSTFreeList_MobileObjectMessage_BSTFreeList_MobileObjectMessage();
 };
 extern "C" void __cdecl _Deallocate(void*);
 struct FUN_008c4f90_Class
 {
-    void __thiscall FUN_008c4f90(int arg);
+    void __thiscall Actor_RemoveCastPower(int arg);
 };
 void __cdecl _Deallocate(void*);
 // Sibling blk_008c0000_od binds this accessor to 0x004ae750 (nullable GetReferenceFlags), not ScriptLocals::GetLocalData at 0x00541c80.
@@ -218,7 +219,7 @@ struct NullableReferenceFlagsAccessor
 };
 struct FUN_008c5df0_Class
 {
-    void FUN_008c5df0(void* arg);
+    void bhkMouseSpringAction_SetMousePosition_hk(void* arg);
 };
 struct FUN_008c5e20_Class
 {
@@ -257,13 +258,13 @@ struct FUN_008c7990_Class
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
-    void __fastcall FUN_008c7990();
+    void __fastcall AILinearTaskThreadManager_WaitForThreads();
 };
 struct FUN_008ca7c0_shell
 {
     bool __thiscall PopNode(int a);
     void __thiscall Reinitialize(int b);
-    bool __thiscall FUN_008ca7c0(int a, int b);
+    bool __thiscall BSTFreeList_Allocate(int a, int b);
 };
 struct FUN_008_Struct
 {
@@ -344,7 +345,7 @@ struct FUN_008d56c0_class
 };
 struct FUN_008d56f0_Class
 {
-    void __thiscall FUN_008d56f0(BGSLoadFormBuffer* buffer);
+    void __thiscall CharacterProgressionData_LoadGameBGS(BGSLoadFormBuffer* buffer);
 };
 unsigned int __cdecl gm_GetTickCount();
 unsigned int __cdecl FUN_008d5830(unsigned int a);
@@ -368,7 +369,7 @@ struct FUN_008d6bb0_shell
 extern ProcessLists DAT_011e0e80;
 struct FUN_008d6f50_Class
 {
-    void FUN_008d6f50(int arg);
+    void HighActorCuller_Run(int arg);
 };
 extern "C" void __cdecl _delete(void* p, unsigned int size);
 struct FUN_008df980_Class
@@ -395,7 +396,7 @@ struct Loader_S
 extern Loader_S g_modelLoader;
 extern int DAT_011e00e0[12];
 extern int DAT_011e0110[12];
-void __cdecl FUN_008d68d0();
+void __cdecl FreeWobbleAnimations();
 struct Model
 {
     NiTimeController* GetObject3D();
@@ -405,10 +406,10 @@ struct GlobalObject_00a7b610
     bool __cdecl FUN_0045bad0(NiTimeController*);
 };
 extern GlobalObject_00a7b610 g_012031b8;
-int __cdecl FUN_00571550();
+int __cdecl get_g_bip01();
 struct FUN_008da1a0_Class
 {
-    void FUN_008da1a0(Actor* actor);
+    void HighProcess_InitBoneLOD(Actor* actor);
 };
 struct FUN_0052d240_obj
 {
@@ -433,7 +434,7 @@ struct FUN_008d10e0_Class : Call741e0
 };
 struct FUN_00929240_Class
 {
-    void FUN_00929240(float);
+    void MagicShaderHitEffect_SetLifeTime(float);
 };
 struct CloneableObj
 {
@@ -701,7 +702,7 @@ struct FUN_008c45a0_Result
     virtual void v244();
     virtual void v245();
     virtual void v246();
-    virtual void FUN_008c45a0(unsigned char arg);
+    virtual void Actor_SetShouldCheckMagicNode(unsigned char arg);
 };
 struct FUN_008c7250_Class
 {
@@ -751,7 +752,7 @@ struct FUN_008caae0_Class
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    void* __thiscall FUN_008caae0();
+    void* __thiscall BSTFreeListElem_MobileObjectMessage_BSTFreeListElem_MobileObjectMessage();
 };
 struct FUN_008cc6f0_Class
 {
@@ -776,14 +777,14 @@ struct FUN_008d50a0_Class
 struct FUN_008d5680_Class
 {
     FUN_008d56f0_Class* m_p;
-    void FUN_008d5680(BGSLoadFormBuffer* arg);
+    void CharacterProgression_LoadGameBGS(BGSLoadFormBuffer* arg);
 };
 struct FUN_008d56a0_Class
 {
     void __thiscall FUN_008d56a0(int value);
 };
 extern int DAT_011c3580;
-int __cdecl FUN_008c4f00();
+int __cdecl MagicSystem_GetAbsorbShaderEffect();
 struct S_8c4f10_Item
 {
     virtual void v00();
@@ -877,7 +878,7 @@ struct FUN_008c71d0_cls
     unsigned int m_6c[8];
     unsigned int* m_8c;
     unsigned int* m_90;
-    FUN_008c71d0_cls* FUN_008c71d0();
+    FUN_008c71d0_cls* AILinearTaskThreadManager_AILinearTaskThreadManager();
 };
 // Stand-in for the game's class (the pack's own unit file does not declare it):
 //   +0x00  two element pointers          +0x0c  two ints
@@ -894,7 +895,7 @@ struct FUN_008c78c0_Class
     int unk14[10];
     int unk3c[12];
     int unk6c[8];
-    void FUN_008c78c0();
+    void AILinearTaskThreadManager_StartThreads();
 };
 // Callback slot in the game's global handler table: one int argument, and the
 // callee pops it (stdcall), so the call site has no stack cleanup.
@@ -949,7 +950,7 @@ struct Renderer
 };
 void __cdecl FUN_00c69ee0(Renderer*, int, int);
 void __cdecl FUN_0062bc10(Renderer*);
-void __cdecl FUN_005b5e40(const void*);
+void __cdecl Warning_005b5e40(const void*);
 struct GameContext
 {
     void FUN_00b5b1c0(Renderer*);
@@ -1888,7 +1889,7 @@ struct Object
     virtual void v114();
     virtual void v115();
     virtual int GetSource();
-    void FUN_008cfad0(float weight, int a, int b, int c, int offset, unsigned char enabled);
+    void ArrowProjectile_PlayArrowCollisionSound(float weight, int a, int b, int c, int offset, unsigned char enabled);
 };
 struct FUN_00620b80_shell
 {
@@ -1935,7 +1936,7 @@ struct Arg_cls
     int FUN_00460140();
     int FUN_006815c0();
 };
-void FUN_008d12e0(Target_cls* p, int a, int b, int c);
+void bhkCharacterListenerArrow_ProcessCollision(Target_cls* p, int a, int b, int c);
 struct FUN_008d14e0_cls
 {
     int unk0000;
@@ -2343,12 +2344,12 @@ struct FUN_008d14e0_cls
     int unk0648;
     int unk064C;
     Target_cls* m_650;
-    void FUN_008d14e0(Arg_cls* a1);
+    void bhkCharacterListenerArrow_contactPointAddedCallback(Arg_cls* a1);
 };
 extern float DAT_011dfed4;
-float __cdecl FUN_008d1cf0();
+float __cdecl GetCameraShakeMult();
 extern float DAT_011dfed8;
-float __cdecl FUN_008d1d00();
+float __cdecl GetCameraShakeCurrentTime();
 struct AnimTimeSource
 {
     float GetSourceTimeStub();
@@ -3089,13 +3090,14 @@ extern void* __cdecl GetReferenceFromObject(SourceData*);
 extern LiveCallback* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 extern int __cdecl FUN_004b5950(SourceData*);
 extern int __cdecl FUN_004b59f0(SourceData*);
-extern int __cdecl FUN_004b5a80(int);
+extern int __cdecl bhkEntity_Getbhk(int);
 extern unsigned int __cdecl GetCachedValue();
 extern void __cdecl FUN_00458620(ArgumentData*, int);
 extern void __cdecl FUN_004a3970(ArgumentData*, int);
 
 // @fnv 0x008d12e0
-void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, int arg0, int arg1)
+// src: COMMUNITY 0x008d12e0
+void __cdecl bhkCharacterListenerArrow_ProcessCollision(TargetOwner* target, SourceData* source, int arg0, int arg1)
 {
     void* owner = GetReferenceFromObject(source);
     LiveCallback* active = FUN_00ec43fb(owner, 0, &DAT_011841cc, &DAT_011846d4, 0);
@@ -3152,7 +3154,7 @@ void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, int arg0, int
         }
         if (!active)
         {
-            int identifier = FUN_004b5a80(FUN_004b59f0(source));
+            int identifier = bhkEntity_Getbhk(FUN_004b59f0(source));
             target->FUN_008cc730(&first, &argumentBundle, owner, identifier);
         }
     }

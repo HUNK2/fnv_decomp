@@ -95,7 +95,8 @@ inline NiSortAdjustNode* ConstructSortAdjustNode(void* storage) throw()
 // ECX object argument and stack arguments without another class definition.
 
 // @fnv 0x00a95310
-void* __cdecl FUN_00a95310()
+// src: COMMUNITY 0x00a95310
+void* __cdecl NiSortAdjustNode_GetRTTI()
 {
     return &g_011f5ed8;
 }

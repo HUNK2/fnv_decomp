@@ -230,7 +230,7 @@ struct FUN_009eba30_xl
 };
 struct FUN_0041cf00_shell
 {
-    FUN_009eba30_xl* FUN_0041cf00();
+    FUN_009eba30_xl* ExtraDataList_GetPlayerCrimeList();
 };
 struct FUN_009eba30_node
 {
@@ -242,16 +242,17 @@ struct FUN_009eba30_t
     int BackgroundTask;
     char pad[0x18];
     FUN_009eba30_node list;
-    void FUN_009eba30();
+    void Crime_ClearActorKnowList();
 };
 // @fnv 0x009eba30
-void FUN_009eba30_t::FUN_009eba30()
+// src: COMMUNITY 0x009eba30
+void FUN_009eba30_t::Crime_ClearActorKnowList()
 {
     FUN_009eba30_node* pnode = &list;
     while (pnode && *pnode->FUN_006815c0())
     {
         Actor* pActor = *pnode->FUN_006815c0();
-        FUN_009eba30_xl* pList = reinterpret_cast<FUN_0041cf00_shell*>(const_cast<ExtraDataList*>(pActor->GetExtra()))->FUN_0041cf00();
+        FUN_009eba30_xl* pList = reinterpret_cast<FUN_0041cf00_shell*>(const_cast<ExtraDataList*>(pActor->GetExtra()))->ExtraDataList_GetPlayerCrimeList();
         if (pList)
             pList->Remove(this);
         pnode = pnode->FUN_00726070();
@@ -491,7 +492,7 @@ void AlarmPackage::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
         if (pcrime)
         {
             char ccrimeType = (char)((BSSimpleList<Crime*>*)pcrime)->GetNext();
-            unsigned short icrimeIndex = DAT_011e0e80.FUN_00972740(ccrimeType, pcrime);
+            unsigned short icrimeIndex = DAT_011e0e80.Crime_CreateIndex(ccrimeType, pcrime);
             static_cast<BGSSaveFormBuffer*>(apSaveGameBuffer)->SaveData(&ccrimeType, 1, 0);
             static_cast<BGSSaveFormBuffer*>(apSaveGameBuffer)->SaveData(&icrimeIndex, 2, 0);
             isaveGameCount++;
@@ -701,11 +702,12 @@ struct FUN_009ebb80_shell
     char pad[0x1c];
     BSSimpleListTESRaceSize list;
 
-    unsigned short FUN_009ebb80();
+    unsigned short Crime_GetSaveSize();
 };
 
 // @fnv 0x009ebb80
-unsigned short FUN_009ebb80_shell::FUN_009ebb80()
+// src: COMMUNITY 0x009ebb80
+unsigned short FUN_009ebb80_shell::Crime_GetSaveSize()
 {
     unsigned short usTotalSize = 0;
     {
@@ -1347,7 +1349,7 @@ void AlarmPackageUnitOperations::SaveGameLegacy()
         void* pv = pNodeX->GetItem();
         char cIndex2 = (char)((CrimeList*)pv)->FUN_00726070();
         g_TESSaveLoadGame->FUN_008579b0(&cIndex2, 1);
-        unsigned short usResult6 = DAT_011e0e80.FUN_00972740((int)cIndex2, static_cast<Crime*>(pv));
+        unsigned short usResult6 = DAT_011e0e80.Crime_CreateIndex((int)cIndex2, static_cast<Crime*>(pv));
         g_TESSaveLoadGame->FUN_008579b0(&usResult6, 2);
         m_usPassCountLocal++;
         pNodeX = pNodeX->GetNext();

@@ -104,16 +104,17 @@ void* MusicTypeDeletion::FUN_005912a0(unsigned int flags)
 // @fnv 0x00591320
 BGSMusicType::~BGSMusicType()
 {
-    FUN_005913b0();
+    BGSMusicType_ClearData();
 }
 
 struct MusicTypeFileList_005913b0 : BGSMusicType
 {
-    void FUN_005913b0();
+    void BGSMusicType_ClearData();
 };
 // Removes and frees every entry in m_kMusicFiles until the list is empty.
 // @fnv 0x005913b0
-void MusicTypeFileList_005913b0::FUN_005913b0()
+// src: COMMUNITY 0x005913b0
+void MusicTypeFileList_005913b0::BGSMusicType_ClearData()
 {
     void* pEntry = 0;
     while (!m_kMusicFiles.IsEmpty())

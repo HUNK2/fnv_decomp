@@ -42,8 +42,8 @@ public:
     void SetConjugate(const hkQuaternion& q);
     void SetProduct(const hkQuaternion& q0, const hkQuaternion& q1);
 
-    void FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1);
-    __declspec(noalias) void FUN_005611c0();
+    void setMul(const hkQuaternion& q0, const hkQuaternion& q1);
+    __declspec(noalias) void normalize_005611c0();
     void FUN_00cb2450(const hkVector4& axis, float angle);
     void FUN_00cb2450(const IkVector4& axis, float angle);
     void FUN_00cb2450(void* axis, float angle);
@@ -53,13 +53,13 @@ public:
     void FUN_00cb2ca0(const hkVector4& axis, hkQuaternion& restOut, float& angleOut) const;
     void FUN_00cb2ca0(void* axis, void* restOut, float* angleOut);
     void FUN_00cdb910(float gain, const IkVector4& from, const IkVector4& to);
-    void FUN_00c74ac0(const hkQuaternion& q0, const hkQuaternion& q1);
-    void FUN_00c74ac0(const void* a, const void* b) throw();
+    void setMulInverse(const hkQuaternion& q0, const hkQuaternion& q1);
+    void setMulInverse(const void* a, const void* b) throw();
     void FUN_00cb2850(const hkQuaternion& q0, const hkQuaternion& q1, float t);
     void FUN_00d6bec0(const hkQuaternion& to, hkVector4& angleOut) const;
     void FUN_00cd9d10(const hkVector4& from, const hkVector4& to);
-    void FUN_00c74b70(const hkQuaternion& a, const hkQuaternion& b);
-    void FUN_00cb2a50(const hkVector4& v);
+    void hkQuaternion_setInverseMul(const hkQuaternion& a, const hkQuaternion& b);
+    void removeAxisComponent(const hkVector4& v);
 
     static void* __cdecl operator new(size_t nbytes);
     static const hkQuaternion& __cdecl GetIdentityTransform();

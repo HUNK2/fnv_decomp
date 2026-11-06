@@ -37,7 +37,8 @@ PositionModifierOperations* PositionModifierOperations::Initialize() throw()
 extern "C" void* g_012026b8;
 
 // @fnv 0x00c28b90
-void* __cdecl FUN_00c28b90()
+// src: COMMUNITY 0x00c28b90
+void* __cdecl NiPSysPositionModifier_GetRTTI()
 {
     return &g_012026b8;
 }
@@ -58,12 +59,12 @@ void* Helper::DestroyIfFlagged(unsigned int flags)
     return this;
 }
 
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 // @fnv 0x00c28cb0
 void PositionModifierOperations::AppendString(StrArr* pkStrings)
 {
     AppendModifierStrings(pkStrings);
-    char* pcStr = FUN_00a7d330((const char*)g_012026b8);
+    char* pcStr = NiViewerStrings_NiGetViewerString_Title((const char*)g_012026b8);
     unsigned int uiIdx = pkStrings->m_usSize;
     if (uiIdx >= pkStrings->m_usMaxSize)
         pkStrings->SetSize(uiIdx + pkStrings->m_usGrowBy);

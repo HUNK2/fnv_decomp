@@ -100,23 +100,26 @@ void MissileProjectile::FUN_009baad0(BGSLoadFormBuffer* apLoadGameBuffer)
     apLoadGameBuffer->ReadTypedData((void*)((char*)this + 0x150), 4);
 }
 
-void Projectile::FUN_009c58e0(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x009c58e0
+void Projectile::RevertBGS_009c58e0(BGSLoadFormBuffer* apLoadGameBuffer)
 {}
 
 // @fnv 0x009bab70
-void MissileProjectile::FUN_009bab70(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x009bab70
+void MissileProjectile::RevertBGS_009bab70(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    FUN_009c58e0(apLoadGameBuffer);
+    RevertBGS_009c58e0(apLoadGameBuffer);
     ((int*)this)[0x150 / 4] = 0;
 }
 
 struct FUN_009b7c90_shell : BGSProjectile
 {
-    bool FUN_009b7c90();
+    bool BGSProjectile_GetPinsLimbs();
 };
 
 // @fnv 0x009b7c90
-bool FUN_009b7c90_shell::FUN_009b7c90()
+// src: COMMUNITY 0x009b7c90
+bool FUN_009b7c90_shell::BGSProjectile_GetPinsLimbs()
 {
     return GetFlag(0x100);
 }
@@ -576,7 +579,7 @@ struct Obj_b9999
 MissileProjectile::~MissileProjectile()
 {
     Obj_b9999* r;
-    if (reinterpret_cast<FUN_009b7c90_shell*>(FUN_004181e0())->FUN_009b7c90())
+    if (reinterpret_cast<FUN_009b7c90_shell*>(FUN_004181e0())->BGSProjectile_GetPinsLimbs())
     {
         Obj_b9999* s;
         if (reinterpret_cast<void*(__thiscall*)(void*)>(MissileLocal::GetSceneObject)(this) != 0)
@@ -797,10 +800,10 @@ struct UpdateList
 };
 struct UpdateBase
 {
-    bool FUN_009b88e0();
+    bool GetHasRotation();
     float GetUnka4();
     float FUN_009b88a0();
-    float FUN_009b88c0();
+    float LowProcess_GetPlayerDamageDealt();
 };
 struct UpdateFloatSetting
 {
@@ -820,7 +823,7 @@ extern UpdateWorld* DAT_011dea10;
 extern const char DAT_0108fd78[];
 UpdateRef* __cdecl FUN_004b5820(void*);
 void* __cdecl FUN_004b3890(const UpdateVec*, const void*, const UpdateVec*, const void*, int);
-void __cdecl FUN_005b5e40(int, const char*, ...);
+void __cdecl Warning_005b5e40(int, const char*, ...);
 struct UpdateColor
 {
     float r, g, b, a;
@@ -894,7 +897,7 @@ void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
         reinterpret_cast<void(__thiscall*)(void*, bool, bool)>(MissileLocal::UpdateNodeTransformBool)(this, skipPosition, !stopped);
         if (reinterpret_cast<UpdateNode*>(GetNiNode()))
             reinterpret_cast<UpdateNode*>(GetNiNode())->FUN_00a68bf0();
-        if (reinterpret_cast<UpdateBase*>(Projectile::FUN_004181e0())->FUN_009b88e0())
+        if (reinterpret_cast<UpdateBase*>(Projectile::FUN_004181e0())->GetHasRotation())
         {
             UpdateMatrix rotation;
             if (reinterpret_cast<UpdateBase*>(Projectile::FUN_004181e0())->GetUnka4() > 0.0)
@@ -907,9 +910,9 @@ void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
                 (reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x158)->y) += reinterpret_cast<UpdateBase*>(Projectile::FUN_004181e0())->FUN_009b88a0() * afDeltaTime;
                 rotation.FUN_0043f850(reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x158)->y);
             }
-            else if (reinterpret_cast<UpdateBase*>(Projectile::FUN_004181e0())->FUN_009b88c0() > 0.0)
+            else if (reinterpret_cast<UpdateBase*>(Projectile::FUN_004181e0())->LowProcess_GetPlayerDamageDealt() > 0.0)
             {
-                (reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x158)->y) += reinterpret_cast<UpdateBase*>(Projectile::FUN_004181e0())->FUN_009b88c0() * afDeltaTime;
+                (reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x158)->y) += reinterpret_cast<UpdateBase*>(Projectile::FUN_004181e0())->LowProcess_GetPlayerDamageDealt() * afDeltaTime;
                 rotation.FUN_004a0c90(reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0x158)->y);
             }
             if (reinterpret_cast<UpdateNode*>(GetNiNode()))
@@ -919,7 +922,7 @@ void MissileProjectile::UpdateProjectile_009b8030(float afDeltaTime)
                 reinterpret_cast<UpdateNode*>(GetNiNode())->FUN_0043fa80(&matrix);
             }
             else
-                FUN_005b5e40(11, DAT_0108fd78, reinterpret_cast<const char*(__thiscall*)(void*)>(MissileLocal::GetName)(this));
+                Warning_005b5e40(11, DAT_0108fd78, reinterpret_cast<const char*(__thiscall*)(void*)>(MissileLocal::GetName)(this));
         }
     }
     reinterpret_cast<void(__thiscall*)(void*, float)>(MissileLocal::UpdateDetonation)(this, afDeltaTime);
@@ -1134,7 +1137,7 @@ struct MissileHandle
 };
 struct MissileBody
 {
-    MissileHandle FUN_0043b4f0();
+    MissileHandle bhkWorldObject_GetCollisionFilter();
     void FUN_00626cb0(unsigned);
     int FUN_00517630();
     void SetFlag(unsigned, bool);
@@ -1249,7 +1252,7 @@ struct MissileHitHandle
     MissileHit** FUN_006815c0();
 };
 MissileNode* FUN_004b5820(void*);
-MissileBody* FUN_004b5a80(MissileNode*);
+MissileBody* bhkEntity_Getbhk(MissileNode*);
 MissileCollision* FUN_004b5260(MissileNode*);
 void FUN_00c69f50(MissileNode*, int, int);
 void FUN_00c6a350(MissileNode*, int, int, int, int);
@@ -1322,7 +1325,7 @@ void MissileProjectile::HandleMissileImpact()
     using fnv_009ba660::DAT_011e0e80;
     using fnv_009ba660::DAT_01017b78;
     using fnv_009ba660::FUN_004b5820;
-    using fnv_009ba660::FUN_004b5a80;
+    using fnv_009ba660::bhkEntity_Getbhk;
     using fnv_009ba660::FUN_004b5260;
     using fnv_009ba660::FUN_00c69f50;
     using fnv_009ba660::FUN_00c6a350;
@@ -1339,8 +1342,8 @@ void MissileProjectile::HandleMissileImpact()
             return;
         MissileNode* node3 = reinterpret_cast<MissileNode*>(GetNiNode());
         MissileNode* parent41 = FUN_004b5820(hit31->node->FUN_00460140());
-        MissileBody* body20 = FUN_004b5a80(hit31->node);
-        unsigned layer1 = body20 ? body20->FUN_0043b4f0().FUN_0043b4d0() : 0;
+        MissileBody* body20 = bhkEntity_Getbhk(hit31->node);
+        unsigned layer1 = body20 ? body20->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() : 0;
         if (body20 && layer1 != 19 && (!hit31->reference || !hit31->reference->IsActor()))
         {
             reinterpret_cast<void(__thiscall*)(void*, unsigned, bool)>(MissileLocal::SetImpactFlag)(this, 4, true);
@@ -1349,7 +1352,7 @@ void MissileProjectile::HandleMissileImpact()
             MissileBody* ownBody53 = collision9 ? collision9->FUN_006fa820() : 0;
             if (ownBody53)
             {
-                MissileHandle handle = ownBody53->FUN_0043b4f0();
+                MissileHandle handle = ownBody53->bhkWorldObject_GetCollisionFilter();
                 handle.FUN_004a39f0(15);
                 ownBody53->FUN_00626cb0(handle.value);
             }

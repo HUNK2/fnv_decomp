@@ -19,7 +19,7 @@ class FopipboymanagerInterfaceView
     unsigned char interfaceState[0x174];
     FOPipboyManager* pPipboyManager;
     FOPipboyManager* GetPipboyManager();
-    static FopipboymanagerInterfaceView* FUN_004b7210();
+    static FopipboymanagerInterfaceView* InterfaceManager_GetSingleton();
     NiNode* GetRoot();
 };
 
@@ -45,11 +45,12 @@ bool FUN_00717920();
 double FUN_00706e20();
 extern int DAT_011a0ba0;
 // @fnv 0x007f8720
-bool FOPipboyManager::FUN_007f8720(bool press, bool release, float& x, float& y, int& button)
+// src: COMMUNITY 0x007f8720
+bool FOPipboyManager::CheckOrangeButtonsClicked(bool press, bool release, float& x, float& y, int& button)
 {
     bool result = false;
-    FopipboymanagerInterfaceView* ui = FopipboymanagerInterfaceView::FUN_004b7210();
-    if (!FUN_007fa950() || !(NiAVObject*)m_cPipBoyButtonAvailability[0] ||
+    FopipboymanagerInterfaceView* ui = FopipboymanagerInterfaceView::InterfaceManager_GetSingleton();
+    if (!SkyObject_GetNiNode() || !(NiAVObject*)m_cPipBoyButtonAvailability[0] ||
         !(NiAVObject*)m_cPipBoyButtonAvailability[1] || !(NiAVObject*)m_cPipBoyButtonAvailability[2])
         return false;
     if (FUN_007178a0() && FUN_00717920() && (NiNode*)m_pPipBoyObject0)
@@ -58,7 +59,7 @@ bool FOPipboyManager::FUN_007f8720(bool press, bool release, float& x, float& y,
         PipboyRayPoint c;
         NiPick b(0, 8);
         b.SetByteAtOffset17(true);
-        b.FUN_00705fc0(FUN_007fa950());
+        b.FUN_00705fc0(SkyObject_GetNiNode());
         b.FUN_006ecd40(0);
         b.SetByteAtOffset30(true);
         NiCamera* a = static_cast<PipboySceneGraph*>(FUN_0045c670())->FUN_006629f0();
@@ -67,7 +68,7 @@ bool FOPipboyManager::FUN_007f8720(bool press, bool release, float& x, float& y,
         {
             unsigned int firstIndex = 0;
             NiPick::Record* hit = b.FUN_00500940()->FUN_00968670(firstIndex);
-            if (hit && hit->FUN_00458b50() == FUN_007fa950())
+            if (hit && hit->FUN_00458b50() == SkyObject_GetNiNode())
             {
                 NiPoint2 horizontal = *hit->FUN_00891170();
                 float scale = FUN_00706e20();

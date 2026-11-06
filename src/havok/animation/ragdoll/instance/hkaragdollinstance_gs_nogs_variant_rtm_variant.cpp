@@ -17,8 +17,8 @@
 #include "../../../../../include/hkpRigidBody.h"
 #include "../../../../../include/hkaRagdollInstance.h"
 extern int DAT_01268700;
-void __stdcall FUN_00ce1760(int, int, int);
-void __stdcall FUN_00ce18d0(int a);
+void __stdcall hkaRagdollInstance_getPoseWorldSpace(int, int, int);
+void __stdcall hkaRagdollInstance_getPoseWorldSpace_00ce18d0(int a);
 struct FUN_00ce2430_Transform
 {
     unsigned char pad[0x30];
@@ -129,7 +129,7 @@ struct FUN_00ce26f0_Class
     int unk04;
     FUN_00ce26f0_ObjectA* unk08;
 
-    void FUN_00ce18d0(FUN_00ce2430_Transform* a);
+    void hkaRagdollInstance_getPoseWorldSpace_00ce18d0(FUN_00ce2430_Transform* a);
     void ApplyValueToTransforms(float a, FUN_00ce2430_Transform* b);
     void hkaRagdollInstance_getApproxCurrentPoseWorldSpace(FUN_00ce2430_Transform* a);
 };
@@ -497,10 +497,10 @@ struct PoseVelocity_MyVector4
 struct PoseVelocity_MyQuaternion
 {
     PoseVelocity_MyVector4 m_vec;
-    inline void __thiscall FUN_00c66320(const PoseVelocity_MyQuaternion& a, const PoseVelocity_MyQuaternion& b);
-    inline void __thiscall FUN_005611c0();
-    inline void __thiscall FUN_00c74ac0(const PoseVelocity_MyQuaternion& a, const PoseVelocity_MyQuaternion& b);
-    inline void __thiscall FUN_00c74c90(PoseVelocity_MyVector4& axis);
+    inline void __thiscall setMul(const PoseVelocity_MyQuaternion& a, const PoseVelocity_MyQuaternion& b);
+    inline void __thiscall normalize_005611c0();
+    inline void __thiscall setMulInverse(const PoseVelocity_MyQuaternion& a, const PoseVelocity_MyQuaternion& b);
+    inline void __thiscall hkQuaternion_getAxis(PoseVelocity_MyVector4& axis);
     inline float __thiscall GetAngle();
 
     __forceinline bool hasValidAxis() const
@@ -509,11 +509,13 @@ struct PoseVelocity_MyQuaternion
     }
 };
 
-inline void PoseVelocity_MyQuaternion::FUN_005611c0()
+// src: COMMUNITY 0x005611c0
+inline void PoseVelocity_MyQuaternion::normalize_005611c0()
 {
     m_vec.normalize(4);
 }
-inline void PoseVelocity_MyQuaternion::FUN_00c66320(const PoseVelocity_MyQuaternion& first,
+// src: COMMUNITY 0x00c66320
+inline void PoseVelocity_MyQuaternion::setMul(const PoseVelocity_MyQuaternion& first,
                                                     const PoseVelocity_MyQuaternion& second)
 {
     PoseVelocity_MyVector4 imaginary;
@@ -529,7 +531,8 @@ inline void PoseVelocity_MyQuaternion::FUN_00c66320(const PoseVelocity_MyQuatern
     real.quad = _mm_sub_ps(real.quad, dot.quad);
     m_vec.combine(imaginary, real);
 }
-inline void PoseVelocity_MyQuaternion::FUN_00c74ac0(const PoseVelocity_MyQuaternion& first,
+// src: COMMUNITY 0x00c74ac0
+inline void PoseVelocity_MyQuaternion::setMulInverse(const PoseVelocity_MyQuaternion& first,
                                                     const PoseVelocity_MyQuaternion& second)
 {
     PoseVelocity_MyVector4 imaginary;
@@ -542,7 +545,8 @@ inline void PoseVelocity_MyQuaternion::FUN_00c74ac0(const PoseVelocity_MyQuatern
     real.quad = first.m_vec.dot4(second.m_vec).splat();
     m_vec.combine(imaginary, real);
 }
-inline void PoseVelocity_MyQuaternion::FUN_00c74c90(PoseVelocity_MyVector4& output)
+// src: COMMUNITY 0x00c74c90
+inline void PoseVelocity_MyQuaternion::hkQuaternion_getAxis(PoseVelocity_MyVector4& output)
 {
     PoseVelocity_MyVector4 axis;
     axis = m_vec;
@@ -582,7 +586,7 @@ struct PoseVelocity_MyQsTransform
         PoseVelocity_MyVector4 translated;
         translated.SetRotatedDirection(a.m_rotation.m_vec, b.m_vTranslation);
         m_vTranslation.setAdd4(a.m_vTranslation, translated);
-        m_rotation.FUN_00c66320(a.m_rotation, b.m_rotation);
+        m_rotation.setMul(a.m_rotation, b.m_rotation);
         m_vScale.setMul4(a.m_vScale, b.m_vScale);
     }
 };
@@ -614,11 +618,11 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
             {
                 PoseVelocity_MyQsTransform worldPoseA;
                 worldPoseA.SetProduct(worldFromModelA, poseA[i]);
-                worldPoseA.m_rotation.FUN_005611c0();
+                worldPoseA.m_rotation.normalize_005611c0();
 
                 PoseVelocity_MyQsTransform worldPoseB;
                 worldPoseB.SetProduct(worldFromModelB, poseB[i]);
-                worldPoseB.m_rotation.FUN_005611c0();
+                worldPoseB.m_rotation.normalize_005611c0();
 
                 body->SetPositionAndRotation(reinterpret_cast<const NiPoint3&>(worldPoseB.m_vTranslation),
                                              reinterpret_cast<const NiQuaternion&>(worldPoseB.m_rotation));
@@ -635,8 +639,8 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
                 }
 
                 PoseVelocity_MyQuaternion relativeRotation;
-                relativeRotation.FUN_00c74ac0(worldPoseB.m_rotation, worldPoseA.m_rotation);
-                relativeRotation.FUN_005611c0();
+                relativeRotation.setMulInverse(worldPoseB.m_rotation, worldPoseA.m_rotation);
+                relativeRotation.normalize_005611c0();
 
                 PoseVelocity_MyVector4 angularVelocity;
                 if (!relativeRotation.hasValidAxis())
@@ -646,7 +650,7 @@ void PoseVelocity_RagdollPoseUpdater::FUN_00ce1ca0(const PoseVelocity_MyQsTransf
                 else
                 {
                     float angle = relativeRotation.GetAngle();
-                    relativeRotation.FUN_00c74c90(angularVelocity);
+                    relativeRotation.hkQuaternion_getAxis(angularVelocity);
                     angularVelocity.mul4(angle * inverseDeltaTime);
                 }
 

@@ -348,7 +348,7 @@ struct FloatQuad
 
     static void* operator new[](unsigned int uiSize)
     {
-        return reinterpret_cast<MemoryManager*>(&DAT_011f6238)->FUN_00aa3e40(uiSize);
+        return reinterpret_cast<MemoryManager*>(&DAT_011f6238)->Game_DoHeapAlloc(uiSize);
     }
 };
 
@@ -701,9 +701,9 @@ struct PickShape
     int unk2C;
     PickMesh* m_pMesh;
     bool FUN_00a67360(int);
-    void FUN_00a67410(void*);
+    void NiGeometryData_GetVerticesIterator(void*);
     void GetBounds(void*);
-    void FUN_00a673d0();
+    void NiGeometryData_UnlockPackedVertexData();
 };
 
 struct PickMover
@@ -837,7 +837,7 @@ void EmitterPick::PickParticle(int aiIndex)
                 scratch.other.view.flag = 0;
                 if (pShape->FUN_00a67360(1) != 0)
                 {
-                    pShape->FUN_00a67410(&scratch.work.view);
+                    pShape->NiGeometryData_GetVerticesIterator(&scratch.work.view);
                     pShape->GetBounds(&scratch.other.view);
                     NiPoint3* __restrict pVecA =
                         (NiPoint3*)((char*)scratch.work.view.base + scratch.work.view.stride * uiRemainder);
@@ -845,7 +845,7 @@ void EmitterPick::PickParticle(int aiIndex)
                     NiPoint3* __restrict pVecB =
                         (NiPoint3*)((char*)scratch.other.view.base + scratch.other.view.stride * uiRemainder);
                     b = *pVecB;
-                    pShape->FUN_00a673d0();
+                    pShape->NiGeometryData_UnlockPackedVertexData();
                 }
             }
             else
@@ -928,7 +928,7 @@ struct ParticleUpdater : FUN_00ba7f70
 {
     void PickParticle(int);
     void FUN_00ba7860(int);
-    void FUN_00ba71d0(int);
+    void ParticleShaderProperty_GenerateFromRay(int);
     void FUN_00ba7b60(float time, bool compensate, bool emit);
 };
 // Ages and emits particles, optionally compensating for parent node movement.
@@ -988,7 +988,7 @@ void ParticleUpdater::FUN_00ba7b60(float time, bool compensate, bool emit)
                 FUN_00ba7860(i);
                 break;
             case 2:
-                FUN_00ba71d0(i);
+                ParticleShaderProperty_GenerateFromRay(i);
                 break;
             }
             --remaining;
@@ -1210,7 +1210,7 @@ struct Target71
     int unk114;
     int unk118;
     Array71 kArray;
-    void FUN_00ba71d0(unsigned int index);
+    void ParticleShaderProperty_GenerateFromRay(unsigned int index);
 };
 inline float RandomUnit71()
 {
@@ -1226,7 +1226,8 @@ inline float RandomSigned71()
 }
 // Computes a particle position and direction from the first object in kArray, transforms them if enabled, and writes them into pParticles at the given index.
 // @fnv 0x00ba71d0
-void Target71::FUN_00ba71d0(unsigned int index)
+// src: COMMUNITY 0x00ba71d0
+void Target71::ParticleShaderProperty_GenerateFromRay(unsigned int index)
 {
     NiPoint3 position;
     NiPoint3 direction;

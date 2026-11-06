@@ -144,11 +144,12 @@ void FUN_009b7970_shell::InitializeAndClear()
 
 struct FUN_009b7010_shell
 {
-    NiPoint3& FUN_009b7010(NiPoint3& akDest);
+    NiPoint3& Projectile_GetMovementDirection(NiPoint3& akDest);
 };
 // Copies the NiPoint3 stored at offset 0x104 of this object into akDest and returns it.
 // @fnv 0x009b7010
-NiPoint3& FUN_009b7010_shell::FUN_009b7010(NiPoint3& akDest)
+// src: COMMUNITY 0x009b7010
+NiPoint3& FUN_009b7010_shell::Projectile_GetMovementDirection(NiPoint3& akDest)
 {
     akDest = *reinterpret_cast<const NiPoint3*>(reinterpret_cast<const char*>(this) + 0x104);
     return akDest;
@@ -291,7 +292,8 @@ struct SpawnLocal
 void __cdecl SetContextInfo(SpawnLocal* ctx, SpawnObj* p);
 
 // @fnv 0x009b4fe0
-float __cdecl FUN_009b4fe0(SpawnObj* pSpawnObj)
+// src: COMMUNITY 0x009b4fe0
+float __cdecl HitData_PredictVATSCommandHealthDamage(SpawnObj* pSpawnObj)
 {
     if (pSpawnObj == 0)
     {

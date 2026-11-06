@@ -131,7 +131,8 @@ void FUN_00eea650_stand_in::FUN_00eea650(const FUN_00ee8a10& aSource)
 __declspec(dllimport) int __stdcall gethostname(char* name, int namelen);
 
 // @fnv 0x00ee6d8c
-int __stdcall FUN_00ee6d8c(char* name, int namelen)
+// src: COMMUNITY 0x00ee6d8c
+int __stdcall gethostname_0(char* name, int namelen)
 {
     return gethostname(name, namelen);
 }
@@ -140,7 +141,8 @@ int __stdcall FUN_00ee6d8c(char* name, int namelen)
 extern "C" __declspec(dllimport) int __stdcall listen(unsigned int s, int backlog);
 
 // @fnv 0x00ee6d92
-int __stdcall FUN_00ee6d92(unsigned int s, int backlog)
+// src: COMMUNITY 0x00ee6d92
+int __stdcall listen_0(unsigned int s, int backlog)
 {
     return listen(s, backlog);
 }
@@ -149,7 +151,8 @@ int __stdcall FUN_00ee6d92(unsigned int s, int backlog)
 extern "C" __declspec(dllimport) int __stdcall bind(unsigned int s, const void* name, int namelen);
 
 // @fnv 0x00ee6d98
-int __stdcall FUN_00ee6d98(unsigned int s, const void* name, int namelen)
+// src: COMMUNITY 0x00ee6d98
+int __stdcall bind_0(unsigned int s, const void* name, int namelen)
 {
     return bind(s, name, namelen);
 }
@@ -160,7 +163,8 @@ extern "C"
 }
 
 // @fnv 0x00ee6da4
-char* __stdcall FUN_00ee6da4(unsigned int addr)
+// src: COMMUNITY 0x00ee6da4
+char* __stdcall inet_ntoa_0(unsigned int addr)
 {
     return inet_ntoa(addr);
 }
@@ -175,7 +179,8 @@ char* __stdcall FUN_00ee6da4(unsigned int addr)
 __declspec(dllimport) unsigned short __stdcall ntohs(unsigned short netshort);
 
 // @fnv 0x00ee6daa
-unsigned short __stdcall FUN_00ee6daa(unsigned short netshort)
+// src: COMMUNITY 0x00ee6daa
+unsigned short __stdcall ntohs_0(unsigned short netshort)
 {
     return ntohs(netshort);
 }
@@ -184,7 +189,8 @@ unsigned short __stdcall FUN_00ee6daa(unsigned short netshort)
 extern "C" __declspec(dllimport) unsigned int __stdcall accept(unsigned int s, void* addr, int* addrlen);
 
 // @fnv 0x00ee6db0
-int __stdcall FUN_00ee6db0(unsigned int s, void* addr, int* addrlen)
+// src: COMMUNITY 0x00ee6db0
+int __stdcall accept_0(unsigned int s, void* addr, int* addrlen)
 {
     return accept(s, addr, addrlen);
 }
@@ -194,7 +200,8 @@ extern "C" int __cdecl __WSAFDIsSet(unsigned long, void*);
 extern void(__cdecl* const FUN_00DF3880)();
 
 // @fnv 0x00ee6db6
-void __cdecl FUN_00ee6db6()
+// src: COMMUNITY 0x00ee6db6
+void __cdecl _WSAFDIsSet_0()
 {
 
     FUN_00DF3880();
@@ -203,7 +210,8 @@ void __cdecl FUN_00ee6db6()
 extern "C" void(__cdecl* DAT_00fdf37c)();
 
 // @fnv 0x00ee6dbc
-void __cdecl FUN_00ee6dbc()
+// src: COMMUNITY 0x00ee6dbc
+void __cdecl select_0()
 {
     DAT_00fdf37c();
 }
@@ -211,7 +219,8 @@ void __cdecl FUN_00ee6dbc()
 extern "C" __declspec(dllimport) void __cdecl ImportedFunction();
 
 // @fnv 0x00ee6dc2
-void __cdecl FUN_00ee6dc2()
+// src: COMMUNITY 0x00ee6dc2
+void __cdecl NiRenderedTexture_SaveToFile()
 {
     ImportedFunction();
 }
@@ -223,7 +232,8 @@ extern "C" __declspec(dllimport) D3DXPLANE* __stdcall D3DXPlaneTransform(D3DXPLA
                                                                          const D3DXMATRIX* matrix);
 
 // @fnv 0x00ee6dc8
-D3DXPLANE* __stdcall FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMATRIX* matrix)
+// src: COMMUNITY 0x00ee6dc8
+D3DXPLANE* __stdcall D3DXPlaneTransform_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, const D3DXMATRIX* matrix)
 {
     return D3DXPlaneTransform(output, plane, matrix);
 }
@@ -231,7 +241,8 @@ D3DXPLANE* __stdcall FUN_00ee6dc8(D3DXPLANE* output, const D3DXPLANE* plane, con
 extern "C" __declspec(dllimport) void* __stdcall D3DXPlaneNormalize(void* pout, const void* pp);
 
 // @fnv 0x00ee6dce
-void* __stdcall FUN_00ee6dce(void* pout, const void* pp)
+// src: COMMUNITY 0x00ee6dce
+void* __stdcall D3DXPlaneNormalize_00ee6dce(void* pout, const void* pp)
 {
     return D3DXPlaneNormalize(pout, pp);
 }
@@ -240,7 +251,8 @@ typedef void(__cdecl* PFN_D3DXMatrixInverse)(void);
 extern "C" PFN_D3DXMatrixInverse __imp__D3DXMatrixInverse;
 
 // @fnv 0x00ee6dda
-void __cdecl FUN_00ee6dda()
+// src: COMMUNITY 0x00ee6dda
+void __cdecl D3DXMatrixInverse_00ee6dda()
 {
     __imp__D3DXMatrixInverse();
 }
@@ -249,7 +261,8 @@ void __cdecl FUN_00ee6dda()
 extern "C" __declspec(dllimport) void* __stdcall D3DXMatrixMultiply(void* pOut, const void* pM1, const void* pM2);
 
 // @fnv 0x00ee6de0
-void* __stdcall FUN_00ee6de0(void* pOut, const void* pM1, const void* pM2)
+// src: COMMUNITY 0x00ee6de0
+void* __stdcall D3DXMatrixMultiply_00ee6de0(void* pOut, const void* pM1, const void* pM2)
 {
     return D3DXMatrixMultiply(pOut, pM1, pM2);
 }
@@ -261,7 +274,8 @@ extern "C" __declspec(dllimport) int __stdcall D3DXLoadSurfaceFromSurface(void* 
                                                                           unsigned int Filter, unsigned int ColorKey);
 
 // @fnv 0x00ee6de6
-int __stdcall FUN_00ee6de6(void* pDestSurface, const void* pDestPalette, const void* pDestRect, void* pSrcSurface,
+// src: COMMUNITY 0x00ee6de6
+int __stdcall D3DXLoadSurfaceFromSurface_00ee6de6(void* pDestSurface, const void* pDestPalette, const void* pDestRect, void* pSrcSurface,
                            const void* pSrcPalette, const void* pSrcRect, unsigned int Filter, unsigned int ColorKey)
 {
     return D3DXLoadSurfaceFromSurface(pDestSurface, pDestPalette, pDestRect, pSrcSurface, pSrcPalette, pSrcRect, Filter,
@@ -272,7 +286,8 @@ int __stdcall FUN_00ee6de6(void* pDestSurface, const void* pDestPalette, const v
 extern "C" __declspec(dllimport) void* __stdcall D3DXVec3Normalize(void* pOut, const void* pV);
 
 // @fnv 0x00ee6dec
-void* __stdcall FUN_00ee6dec(void* pOut, const void* pV)
+// src: COMMUNITY 0x00ee6dec
+void* __stdcall D3DXVec3Normalize_00ee6dec(void* pOut, const void* pV)
 {
     return D3DXVec3Normalize(pOut, pV);
 }
@@ -285,7 +300,8 @@ typedef void(__cdecl* FNVImportEntry)(void);
 extern FNVImportEntry g_D3DXVec3TransformNormal;
 
 // @fnv 0x00ee6df2
-void FUN_00ee6df2(void)
+// src: COMMUNITY 0x00ee6df2
+void D3DXVec3TransformNormal_00ee6df2(void)
 {
     g_D3DXVec3TransformNormal();
 }
@@ -294,7 +310,8 @@ void FUN_00ee6df2(void)
 extern "C" __declspec(dllimport) void* __stdcall D3DXVec3TransformCoord(void* pOut, const void* pV, const void* pM);
 
 // @fnv 0x00ee6df8
-void* __stdcall FUN_00ee6df8(void* pOut, const void* pV, const void* pM)
+// src: COMMUNITY 0x00ee6df8
+void* __stdcall D3DXVec3TransformCoord_00ee6df8(void* pOut, const void* pV, const void* pM)
 {
     return D3DXVec3TransformCoord(pOut, pV, pM);
 }
@@ -306,7 +323,8 @@ extern "C" __declspec(dllimport) D3DXMATRIX* __stdcall D3DXMatrixMultiplyTranspo
                                                                                    const D3DXMATRIX* second);
 
 // @fnv 0x00ee6dfe
-D3DXMATRIX* __stdcall FUN_00ee6dfe(D3DXMATRIX* output, const D3DXMATRIX* first, const D3DXMATRIX* second)
+// src: COMMUNITY 0x00ee6dfe
+D3DXMATRIX* __stdcall D3DXMatrixMultiplyTranspose_00ee6dfe(D3DXMATRIX* output, const D3DXMATRIX* first, const D3DXMATRIX* second)
 {
     return D3DXMatrixMultiplyTranspose(output, first, second);
 }
@@ -316,7 +334,8 @@ extern "C" __declspec(dllimport) void* __stdcall D3DXMatrixRotationYawPitchRoll(
                                                                                 unsigned int Pitch, unsigned int Roll);
 
 // @fnv 0x00ee6e04
-void* __stdcall FUN_00ee6e04(void* pOut, unsigned int Yaw, unsigned int Pitch, unsigned int Roll)
+// src: COMMUNITY 0x00ee6e04
+void* __stdcall D3DXMatrixRotationYawPitchRoll_00ee6e04(void* pOut, unsigned int Yaw, unsigned int Pitch, unsigned int Roll)
 {
     return D3DXMatrixRotationYawPitchRoll(pOut, Yaw, Pitch, Roll);
 }
@@ -325,7 +344,8 @@ extern "C" __declspec(dllimport) long __stdcall DirectInput8Create(void* hinst, 
                                                                    const void* riidltf, void** ppvOut, void* punkOuter);
 
 // @fnv 0x00ee7f10
-long __stdcall FUN_00ee7f10(void* hinst, unsigned long dwVersion, const void* riidltf, void** ppvOut, void* punkOuter)
+// src: COMMUNITY 0x00ee7f10
+long __stdcall DirectInput8Create_0(void* hinst, unsigned long dwVersion, const void* riidltf, void** ppvOut, void* punkOuter)
 {
     return DirectInput8Create(hinst, dwVersion, riidltf, ppvOut, punkOuter);
 }
@@ -335,7 +355,8 @@ extern "C" __declspec(dllimport) long __stdcall DirectSoundCreate8(const void* p
                                                                    void* pUnkOuter);
 
 // @fnv 0x00ee81e0
-long __stdcall FUN_00ee81e0(const void* pcGuidDevice, void** ppDS8, void* pUnkOuter)
+// src: COMMUNITY 0x00ee81e0
+long __stdcall DirectSoundCreate8_00ee81e0(const void* pcGuidDevice, void** ppDS8, void* pUnkOuter)
 {
     return DirectSoundCreate8(pcGuidDevice, ppDS8, pUnkOuter);
 }
@@ -344,7 +365,8 @@ long __stdcall FUN_00ee81e0(const void* pcGuidDevice, void** ppDS8, void* pUnkOu
 extern "C" __declspec(dllimport) int __cdecl ov_clear(void* vf);
 
 // @fnv 0x00ee81e6
-int __cdecl FUN_00ee81e6(void* vf)
+// src: COMMUNITY 0x00ee81e6
+int __cdecl ov_clear_00ee81e6(void* vf)
 {
     return ov_clear(vf);
 }
@@ -353,7 +375,8 @@ int __cdecl FUN_00ee81e6(void* vf)
 extern "C" __declspec(dllimport) __int64 __cdecl ov_pcm_total(void* vf, int i);
 
 // @fnv 0x00ee81ec
-__int64 __cdecl FUN_00ee81ec(void* vf, int i)
+// src: COMMUNITY 0x00ee81ec
+__int64 __cdecl ov_pcm_total_00ee81ec(void* vf, int i)
 {
     return ov_pcm_total(vf, i);
 }
@@ -362,7 +385,8 @@ __int64 __cdecl FUN_00ee81ec(void* vf, int i)
 extern "C" __declspec(dllimport) int __cdecl ov_seekable(void* vf);
 
 // @fnv 0x00ee81f2
-int __cdecl FUN_00ee81f2(void* vf)
+// src: COMMUNITY 0x00ee81f2
+int __cdecl ov_seekable_00ee81f2(void* vf)
 {
     return ov_seekable(vf);
 }
@@ -371,7 +395,8 @@ int __cdecl FUN_00ee81f2(void* vf)
 extern "C" __declspec(dllimport) void* __cdecl ov_info(void* vf, int link);
 
 // @fnv 0x00ee81f8
-void* __cdecl FUN_00ee81f8(void* vf, int link)
+// src: COMMUNITY 0x00ee81f8
+void* __cdecl ov_info_00ee81f8(void* vf, int link)
 {
     return ov_info(vf, link);
 }
@@ -379,7 +404,8 @@ void* __cdecl FUN_00ee81f8(void* vf, int link)
 extern "C" void(__cdecl* const FUN_00fdf438)();
 
 // @fnv 0x00ee81fe
-__declspec(noreturn) void __cdecl FUN_00ee81fe()
+// src: COMMUNITY 0x00ee81fe
+__declspec(noreturn) void __cdecl ov_open_callbacks_00ee81fe()
 {
     typedef void(__cdecl * noreturn_func_t)();
     noreturn_func_t func = (noreturn_func_t)FUN_00fdf438;
@@ -391,7 +417,8 @@ extern "C" __declspec(dllimport) int __cdecl ov_read(void* vf, char* buffer, int
                                                      int sgned, int* bitstream);
 
 // @fnv 0x00ee8204
-int __cdecl FUN_00ee8204(void* vf, char* buffer, int length, int bigendianp, int word, int sgned, int* bitstream)
+// src: COMMUNITY 0x00ee8204
+int __cdecl ov_read_00ee8204(void* vf, char* buffer, int length, int bigendianp, int word, int sgned, int* bitstream)
 {
     return ov_read(vf, buffer, length, bigendianp, word, sgned, bitstream);
 }
@@ -408,7 +435,8 @@ extern "C" __declspec(dllimport) void __stdcall RtlUnwind(void* TargetFrame, voi
                                                           void* ReturnValue);
 
 // @fnv 0x00ee8210
-void __stdcall FUN_00ee8210(void* TargetFrame, void* TargetIp, void* ExceptionRecord, void* ReturnValue)
+// src: COMMUNITY 0x00ee8210
+void __stdcall RtlUnwind_0(void* TargetFrame, void* TargetIp, void* ExceptionRecord, void* ReturnValue)
 {
     RtlUnwind(TargetFrame, TargetIp, ExceptionRecord, ReturnValue);
 }
@@ -440,11 +468,12 @@ class FUN_00eea550_cls
     int unk1C;
     int m_20;
 
-    void FUN_00eea550(int value);
+    void NiMaterialResource_SetSource(int value);
 };
 
 // @fnv 0x00eea550
-void FUN_00eea550_cls::FUN_00eea550(int value)
+// src: COMMUNITY 0x00eea550
+void FUN_00eea550_cls::NiMaterialResource_SetSource(int value)
 {
     m_20 = value;
 }
@@ -461,10 +490,11 @@ struct CpuObject
     unsigned int unk1c;
     unsigned int unk20;
     int value;
-    void FUN_00eea560(int value);
+    void NiMaterialResource_SetExtraData(int value);
 };
 // @fnv 0x00eea560
-void CpuObject::FUN_00eea560(int value)
+// src: COMMUNITY 0x00eea560
+void CpuObject::NiMaterialResource_SetExtraData(int value)
 {
     this->value = value;
 }
@@ -483,10 +513,11 @@ struct CpuObject
     unsigned int unk20;
     unsigned int unk24;
     int value;
-    void FUN_00eea570(int value);
+    void NiMaterialResource_SetObjectType(int value);
 };
 // @fnv 0x00eea570
-void CpuObject::FUN_00eea570(int value)
+// src: COMMUNITY 0x00eea570
+void CpuObject::NiMaterialResource_SetObjectType(int value)
 {
     this->value = value;
 }
@@ -649,7 +680,7 @@ FUN_00eea580::FUN_00eea580()
 class ItemEE88
 {
   public:
-    unsigned short FUN_00eea4e0();
+    unsigned short NiMaterialNodeLibrary_GetVersion();
 };
 
 class FUN_00ee8850_C
@@ -686,13 +717,14 @@ unsigned int FUN_00ee8850_C::GetTotalValue(int iType)
     {
         ItemEE88* pkItem = m_ppItems[i];
         if (pkItem)
-            uiResult += pkItem->FUN_00eea4e0();
+            uiResult += pkItem->NiMaterialNodeLibrary_GetVersion();
     }
     return uiResult;
 }
 
 // @fnv 0x00eea4e0
-unsigned short __fastcall FUN_00eea4e0(char* self, int edx)
+// src: COMMUNITY 0x00eea4e0
+unsigned short __fastcall NiMaterialNodeLibrary_GetVersion(char* self, int edx)
 {
     return *reinterpret_cast<unsigned short*>(self + 0x18);
 }
@@ -703,7 +735,8 @@ extern "C" __declspec(dllimport) D3DXVECTOR4* __stdcall D3DXVec4Transform(D3DXVE
                                                                           const D3DXMATRIX* matrix);
 
 // @fnv 0x00ee6e34
-D3DXVECTOR4* __stdcall FUN_00ee6e34(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)
+// src: COMMUNITY 0x00ee6e34
+D3DXVECTOR4* __stdcall D3DXVec4Transform_0(D3DXVECTOR4* output, const D3DXVECTOR4* input, const D3DXMATRIX* matrix)
 {
     return D3DXVec4Transform(output, input, matrix);
 }

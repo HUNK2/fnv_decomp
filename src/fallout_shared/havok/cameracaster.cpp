@@ -154,11 +154,12 @@ struct Hld621210
 {
     char _pad[16];
     Cnt621210 _c;
-    Rcv621210* FUN_00621210(Rcv621210* p);
+    Rcv621210* hkpAllCdPointCollector_hasHit(Rcv621210* p);
 };
 // Calls FUN_00622570 on p with whether _c._ref_00726070() is greater than zero, then returns p.
 // @fnv 0x00621210
-Rcv621210* Hld621210::FUN_00621210(Rcv621210* apReceiver)
+// src: COMMUNITY 0x00621210
+Rcv621210* Hld621210::hkpAllCdPointCollector_hasHit(Rcv621210* apReceiver)
 {
     apReceiver->FUN_00622570(_c._ref_00726070() > 0);
     return apReceiver;

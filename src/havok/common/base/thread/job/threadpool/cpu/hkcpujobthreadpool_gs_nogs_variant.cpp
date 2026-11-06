@@ -47,7 +47,7 @@ struct FUN_00d2d380
 };
 struct FUN_00d2ce40_cls
 {
-    int FUN_00d2ce40();
+    int hkCpuJobThreadPool_getNumThreads();
 };
 class FUN_00d2cf00
 {

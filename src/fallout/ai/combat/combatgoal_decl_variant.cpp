@@ -33,7 +33,7 @@ class CombatStateValues
 {
   public:
     unsigned int GetCombatGoal(int);
-    bool FUN_009aadc0(int, int);
+    bool CombatWorldStateArray_IsTrue(int, int);
 };
 // @fnv 0x009843b0
 bool CombatGoal::vf00(CombatStateValues* values)
@@ -59,7 +59,7 @@ bool CombatGoal::vf00(CombatStateValues* values)
         }
         else
         {
-            if (!values->FUN_009aadc0(state, type))
+            if (!values->CombatWorldStateArray_IsTrue(state, type))
                 return false;
         }
         current = reinterpret_cast<BSSimpleList<UnsignedIdHandle*>*>(reinterpret_cast<CombatWorldStateListNode*>(current)->GetNext());  // 0x0062d990

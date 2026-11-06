@@ -34,8 +34,8 @@ public:
     CVec3& Scale(float scale);
     CVec3 AddVector(const CVec3& other) const;
     CVec3 ScaleSwizzled(float scale) const;
-    void FUN_00b12790();
+    void Normalize_00b12790();
     CVec3 FUN_00b12810(const CVec3& other) const;
     CVec3 FUN_00b12890(const FloatMatrix3& matrix) const;
-    CVec3 FUN_00b13040(const CVec3& other) const;
+    CVec3 Diff_00b13040(const CVec3& other) const;
 };

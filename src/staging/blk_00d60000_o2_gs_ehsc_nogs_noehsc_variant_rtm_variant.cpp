@@ -805,7 +805,7 @@ struct FnvCpu_FUN_00d65290_CpuObject
     unsigned char value;
     void FUN_00d65290(unsigned char arg0);
 };
-void __cdecl FUN_00d6add0();
+void __cdecl nullsub_103();
 extern "C" void __cdecl FUN_00d72e90();
 void __cdecl FUN_00d73380();
 class FUN_00d733e0

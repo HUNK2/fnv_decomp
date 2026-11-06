@@ -34,7 +34,7 @@ public:
     unsigned int GetVirtualNodeCount();
     bool TryGetQuadForState(int state, Inner097* quad, float value);
     void FUN_00986410(Actor* actor);
-    void FUN_009862e0(CombatStrategy* strategy);
+    void CombatGroup_ForceGroupStrategy(CombatStrategy* strategy);
     unsigned char FUN_009865b0(void* controller);
     void FUN_009867d0(CombatActor* member);
     void FUN_00986740(ActorCombatGroup* oldGroup);

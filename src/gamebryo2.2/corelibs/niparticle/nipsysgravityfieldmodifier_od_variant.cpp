@@ -14,7 +14,8 @@ extern "C"
 }
 
 // @fnv 0x00c2a9b0
-const void* __cdecl FUN_00c2a9b0()
+// src: COMMUNITY 0x00c2a9b0
+const void* __cdecl NiPSysGravityFieldModifier_GetRTTI()
 {
     return &g_01202708;
 }

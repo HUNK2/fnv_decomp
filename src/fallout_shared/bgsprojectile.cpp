@@ -171,7 +171,7 @@ void BGSProjectile::InitItem()
     if (formID)
     {
         TESForm::RemapFormIDForFile(formID, GetFile(-1));
-        reinterpret_cast<InterfaceManager*>(this)->FUN_00500a20(
+        reinterpret_cast<InterfaceManager*>(this)->BGSTerminal_SetPassword(
             reinterpret_cast<Tile*>(dynamic_cast<TESObjectWEAP*>(TESForm::GetFormByID(formID))));
     }
     if (!FUN_004fd360())

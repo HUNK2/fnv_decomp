@@ -197,7 +197,7 @@ struct Quaternion
 struct __declspec(align(16)) HavokQuaternion
 {
     float x, y, z, w;
-    void FUN_005611c0();
+    void normalize_005611c0();
 };
 void __cdecl FUN_004a3e00(hkVector4*, const NiPoint3*);
 struct MotionData
@@ -401,9 +401,9 @@ struct Body
     void* FUN_00c87a40();
     void FUN_00c8e160(const NiPoint3*, const Quaternion*, PhysicsLock*);
     hkVector4* FUN_00560d80();
-    hkVector4* FUN_00560e10();
-    void FUN_00561690(const hkVector4*);
-    void FUN_005617c0(const hkVector4*);
+    hkVector4* bhkRigidBody_GetAngularVelocity();
+    void bhkRigidBody_SetLinearVelocity_00561690(const hkVector4*);
+    void bhkRigidBody_SetAngularVelocity_005617c0(const hkVector4*);
 };
 char __cdecl FUN_00c8cce0(int*);
 struct CollisionSync
@@ -413,14 +413,15 @@ struct CollisionSync
     NiAVObject* node;
     unsigned short flags;
     Body* body;
-    bool FUN_0047b470();
+    bool bhkCollisionObject_GetUseVelocity();
     unsigned char flagSet(unsigned bit) const
     {
         return (flags >> bit) & 1;
     }
     void FUN_00c65b00();
 };
-__declspec(noinline) hkVector4* Body::FUN_00560e10()
+// src: COMMUNITY 0x00560e10
+__declspec(noinline) hkVector4* Body::bhkRigidBody_GetAngularVelocity()
 {
     hkVector4* p = data ? &data->angularVelocity : &DAT_01267e30;
     __m128 m = _mm_and_ps(p->quad, DAT_01017d10.quad);
@@ -488,7 +489,7 @@ void CollisionSync::FUN_00c65b00()
         forcedQ.y = rot.y;
         forcedQ.z = rot.z;
         forcedQ.w = rot.w;
-        forcedQ.FUN_005611c0();
+        forcedQ.normalize_005611c0();
         DAT_01267b80.FUN_0040fbf0(0);
         b->vtable->SetGeometryTransform(b, reinterpret_cast<hkVector4*>(&forcedPos), &forcedQ);
         DAT_01267b80.unlock();
@@ -506,7 +507,7 @@ void CollisionSync::FUN_00c65b00()
         _mm_store_ss(&dist, _mm_add_ss(z, _mm_add_ss(y, sq)));
         if (dist > 1.0f)
         {
-            if (FUN_0047b470())
+            if (bhkCollisionObject_GetUseVelocity())
             {
                 b->FUN_00c8e160(&world->m_Translate, &rot, &DAT_01267b80);
                 return;
@@ -524,7 +525,7 @@ void CollisionSync::FUN_00c65b00()
             nearQ.y = rot.y;
             nearQ.z = rot.z;
             nearQ.w = rot.w;
-            nearQ.FUN_005611c0();
+            nearQ.normalize_005611c0();
             DAT_01267b80.FUN_0040fbf0(0);
             b->vtable->SetGeometryTransform(b, reinterpret_cast<hkVector4*>(&nearPos), &nearQ);
             DAT_01267b80.unlock();
@@ -537,16 +538,16 @@ void CollisionSync::FUN_00c65b00()
             __m128 cmp =
                 _mm_cmple_ps(_mm_and_ps(_mm_sub_ps(linearPtr->quad, DAT_01267e30.quad), DAT_01017d10.quad), tolerance);
             if ((_mm_movemask_ps(cmp) & 15) != 15)
-                b->FUN_00561690(&DAT_01267e30);
-            __m128 angular = b->FUN_00560e10()->quad;
+                b->bhkRigidBody_SetLinearVelocity_00561690(&DAT_01267e30);
+            __m128 angular = b->bhkRigidBody_GetAngularVelocity()->quad;
             cmp = _mm_cmple_ps(_mm_and_ps(_mm_sub_ps(angular, DAT_01267e30.quad), DAT_01017d10.quad), tolerance);
             if ((_mm_movemask_ps(cmp) & 15) != 15)
-                b->FUN_005617c0(&DAT_01267e30);
+                b->bhkRigidBody_SetAngularVelocity_005617c0(&DAT_01267e30);
         }
     }
     else
     {
-        if (FUN_0047b470())
+        if (bhkCollisionObject_GetUseVelocity())
         {
             b->FUN_00c8e160(&world->m_Translate, &rot, &DAT_01267b80);
             return;
@@ -563,7 +564,7 @@ void CollisionSync::FUN_00c65b00()
         flaggedQ.y = rot.y;
         flaggedQ.z = rot.z;
         flaggedQ.w = rot.w;
-        flaggedQ.FUN_005611c0();
+        flaggedQ.normalize_005611c0();
         DAT_01267b80.FUN_0040fbf0(0);
         b->vtable->SetGeometryTransform(b, reinterpret_cast<hkVector4*>(&flaggedPos), &flaggedQ);
         DAT_01267b80.unlock();

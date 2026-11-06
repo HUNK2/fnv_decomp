@@ -158,7 +158,8 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
 }
 
 // @fnv 0x00b8b200
-void __stdcall FUN_00b8b200(bool value)
+// src: COMMUNITY 0x00b8b200
+void __stdcall ImageSpaceManager_SetUseSunbeams(bool value)
 {
     DAT_012023f0 = value;
 }
@@ -404,7 +405,8 @@ void ImageSpaceManager::RaiseHighestBlurRadius(float afBlurRadius)
 
 
 // @fnv 0x00b8af40
-void ImageSpaceManager::FUN_00b8af40(float afBlurRadius)
+// src: COMMUNITY 0x00b8af40
+void ImageSpaceManager::ApplyBlurRadiusParamModifierWeather_00b8af40(float afBlurRadius)
 {
     fWeatherBlurValue += afBlurRadius;
 }
@@ -421,7 +423,8 @@ void ImageSpaceManager::RaiseBlurRadius(float afBlurRadius)
 
 
 // @fnv 0x00b8af90
-void ImageSpaceManager::FUN_00b8af90(float afBlurRadius)
+// src: COMMUNITY 0x00b8af90
+void ImageSpaceManager::ApplyMotionBlurStrengthParamModifierWeather_00b8af90(float afBlurRadius)
 {
     *(float*)((char*)this + 0x2f4) += afBlurRadius;
 }
@@ -429,7 +432,8 @@ void ImageSpaceManager::FUN_00b8af90(float afBlurRadius)
 
 // Raises the stored double-vision value to afDoubleVision when the new value is greater.
 // @fnv 0x00b8afb0
-void ImageSpaceManager::FUN_00b8afb0(float afDoubleVision)
+// src: COMMUNITY 0x00b8afb0
+void ImageSpaceManager::ApplyDoubleVisionParamModifier_00b8afb0(float afDoubleVision)
 {
     if (afDoubleVision > fHighestDoubleValue)
         fHighestDoubleValue = afDoubleVision;
@@ -443,7 +447,8 @@ void ImageSpaceManager::AddDoubleVision(float afDoubleVision)
 }
 
 // @fnv 0x00b8b210
-void __fastcall FUN_00b8b210(char* pThis, int, int mode)
+// src: COMMUNITY 0x00b8b210
+void __fastcall ImageSpaceEffectDepthRadialBlur_SetMode(char* pThis, int, int mode)
 {
     if (mode != *(int*)(pThis + 0x58))
     {
@@ -521,7 +526,8 @@ void ImageSpaceManager::ApplyCurrentParameterData(bool bFlag)
 
 // Sets the first three entries of the bool array at self+0x58 to true and the fourth to false.
 // @fnv 0x00b8bc20
-void __fastcall FUN_00b8bc20(char* self, int)
+// src: COMMUNITY 0x00b8bc20
+void __fastcall ImageSpaceEffectDepthOfField_DoStandard(char* self, int)
 {
     NiTArray<bool, NiTMallocInterface<bool> >* arr =
         reinterpret_cast<NiTArray<bool, NiTMallocInterface<bool> >*>(self + 0x58);
@@ -545,7 +551,8 @@ class D3DRenderStateGroup
 
 // Ensures the render state object exists, then sets render states 0x34, 0x38, 0x39 and 0x37 to 1, 7, 0x80 and 1.
 // @fnv 0x00b8bfe0
-void __fastcall FUN_00b8bfe0(char* pThis, int)
+// src: COMMUNITY 0x00b8bfe0
+void __fastcall ImageSpaceShaderSunbeams_PresetRenderStages(char* pThis, int)
 {
     char* pPass = *(char**)(pThis + 0x5c);
     if (*(D3DRenderStateGroup**)(pPass + 0x30) == 0)
@@ -605,17 +612,18 @@ void __fastcall InitTVShader(Obj_00b8c0e0* pObj, int)
     pObj->vt->fn_14c(pObj);
 }
 
-int __cdecl FUN_00b59d30(int, int, int*);
+int __cdecl ImageSpaceEffectRadialBlur_GetBoundParams(int, int, int*);
 // @fnv 0x00b8b1c0
 int __stdcall FUN_00b8b1c0(int a, int b)
 {
-    return FUN_00b59d30(a, b, &b);
+    return ImageSpaceEffectRadialBlur_GetBoundParams(a, b, &b);
 }
 
 extern float DAT_012023f4;
 extern float DAT_012023f8;
 // @fnv 0x00b8b1e0
-void __stdcall FUN_00b8b1e0(const int* aiValues)
+// src: COMMUNITY 0x00b8b1e0
+void __stdcall ImageSpaceManager_SetSunPosition(const int* aiValues)
 {
     *reinterpret_cast<int*>(&DAT_012023f4) = aiValues[0];
     *reinterpret_cast<int*>(&DAT_012023f8) = aiValues[1];
@@ -623,7 +631,7 @@ void __stdcall FUN_00b8b1e0(const int* aiValues)
 
 extern ImageSpaceManager* DAT_011f91ac;
 
-void __stdcall FUN_00b8b200(bool value);
+void __stdcall ImageSpaceManager_SetUseSunbeams(bool value);
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
@@ -661,11 +669,12 @@ void ImageSpaceManager::ResetToBaseParameterData()
 struct FUN_00b8bc80_shell
 {
     NiTArray<bool, NiTMallocInterface<bool> > m_aiIndexedValues;  // at offset 0x58
-    void __thiscall FUN_00b8bc80();
+    void __thiscall ImageSpaceEffectDepthOfField_DoMasked();
 };
 // Sets the bool array at offset 0x58: index 0, 1 and 3 to true and index 2 to false.
 // @fnv 0x00b8bc80
-void __thiscall FUN_00b8bc80_shell::FUN_00b8bc80()
+// src: COMMUNITY 0x00b8bc80
+void __thiscall FUN_00b8bc80_shell::ImageSpaceEffectDepthOfField_DoMasked()
 {
     NiTArray<bool, NiTMallocInterface<bool> >* p = (NiTArray<bool, NiTMallocInterface<bool> >*)((char*)this + 0x58);
     p->SetAt(0, true);
@@ -984,7 +993,8 @@ void ImageSpaceModifierParameterData::Endian()
 extern ImageSpaceModifierParameterData DAT_011ff940;
 
 // @fnv 0x00b8ad70
-void __cdecl FUN_00b8ad70()
+// src: COMMUNITY 0x00b8ad70
+void __cdecl ImageSpaceManager_InitDefaultImagespaceValues()
 {
     DAT_011ff940.m_afFirstParameterSet[0] = 0.5f;
     DAT_011ff940.m_afFirstParameterSet[1] = 7.0f;
@@ -1045,7 +1055,7 @@ void ImageSpaceManager::SetIfHigherPriority(float fPriority, unsigned int iType,
 extern ::NiCamera* DAT_011f917c;
 using ::sqrt;
 
-int __cdecl FUN_00b59d30(int, int, int*);
+int __cdecl ImageSpaceEffectRadialBlur_GetBoundParams(int, int, int*);
 
 
 // @fnv 0x00b8b7d0
@@ -1063,7 +1073,7 @@ void ImageSpaceManager::ApplyDepthOfFieldModifier(float afParam0, unsigned int a
     float t = d.x * d.x + d.y * d.y + d.z * d.z;
     t = (float)sqrt((double)t);
     float dist = t;
-    FUN_00b59d30((int)pPosition, (int)&pos, (int*)&t);
+    ImageSpaceEffectRadialBlur_GetBoundParams((int)pPosition, (int)&pos, (int*)&t);
     t = t + afParam3;
     SetIfHigherPriority(afParam0, aiParam1, dist, dist, afParam2, t, *reinterpret_cast<const NiPoint2*>(&pos));
 }
@@ -1386,11 +1396,12 @@ struct C00b8bda0
 {
     char pad00[0x4];
     unsigned char m4;
-    unsigned char FUN_00b8bda0();
+    unsigned char ImageSpaceEffect_IsActive();
 };
 
 // @fnv 0x00b8bda0
-unsigned char C00b8bda0::FUN_00b8bda0()
+// src: COMMUNITY 0x00b8bda0
+unsigned char C00b8bda0::ImageSpaceEffect_IsActive()
 {
     return m4;
 }
@@ -1650,8 +1661,8 @@ struct ImageSpaceEffectDepthOfFieldParams
             eMode = mode;
         }
     }
-    void FUN_00b8bc80();
-    void FUN_00b8bc20();
+    void ImageSpaceEffectDepthOfField_DoMasked();
+    void ImageSpaceEffectDepthOfField_DoStandard();
 };
 
 struct ImageSpaceEffectDepthRadialBlurParams
@@ -1730,7 +1741,7 @@ struct ImageSpaceEffectDepthRadialBlurParams
         m_fRampUp = rampup;
         fStart = start;
     }
-    void FUN_00b8b210(ImageSpaceEffectDepthRadialBlur__RadialBlurMode mode);
+    void ImageSpaceEffectDepthRadialBlur_SetMode(ImageSpaceEffectDepthRadialBlur__RadialBlurMode mode);
 };
 
 struct ImageSpaceModifierStrengthState
@@ -1821,11 +1832,11 @@ void ImageSpaceManager::EndParamModifiers()
     pDOF->SetMode(static_cast<ImageSpaceEffectDepthOfField__DepthOfFieldMode>(fCurrentDOFMode));
     if (bCurrentDOFUseMask)
     {
-        pDOF->FUN_00b8bc80();
+        pDOF->ImageSpaceEffectDepthOfField_DoMasked();
     }
     else
     {
-        pDOF->FUN_00b8bc20();
+        pDOF->ImageSpaceEffectDepthOfField_DoStandard();
     }
 
     ImageSpaceEffectDepthRadialBlurParams* pDepthRadialBlur =
@@ -1834,7 +1845,7 @@ void ImageSpaceManager::EndParamModifiers()
     pDepthRadialBlur->SetStrength(fHighestDepthRadialBlurStrengthValue);
     pDepthRadialBlur->SetDistance(fCurrentDepthRadialBlurDistance);
     pDepthRadialBlur->SetRange(fCurrentDepthRadialBlurRange);
-    pDepthRadialBlur->FUN_00b8b210(static_cast<ImageSpaceEffectDepthRadialBlur__RadialBlurMode>(fCurrentDepthRadialBlurMode));
+    pDepthRadialBlur->ImageSpaceEffectDepthRadialBlur_SetMode(static_cast<ImageSpaceEffectDepthRadialBlur__RadialBlurMode>(fCurrentDepthRadialBlurMode));
     pDepthRadialBlur->SetParams(fHighestDepthRadialBlurStrengthValue, fCurrentDepthRadialBlurRampupValue, fCurrentDepthRadialBlurStartValue);
 
     ImageSpaceModifierStrengthState* pMotionBlur =
@@ -1876,7 +1887,8 @@ struct Matrix
 extern ::NiCamera* DAT_011f9684;
 // Transforms a 3D position with the camera matrix, maps it through the viewport, and computes a capped radius from the input r offset.
 // @fnv 0x00b59d30
-NiPoint2* FUN_00b59d30(::Vec4* apPoint, NiPoint2* apScreenPos, float* radius)
+// src: COMMUNITY 0x00b59d30
+NiPoint2* ImageSpaceEffectRadialBlur_GetBoundParams(::Vec4* apPoint, NiPoint2* apScreenPos, float* radius)
 {
     ::NiCamera* camera = DAT_011f9684;
     ::NiPoint3 position = *(::NiPoint3*)apPoint;
@@ -1943,14 +1955,14 @@ NiPoint2* FUN_00b59d30(::Vec4* apPoint, NiPoint2* apScreenPos, float* radius)
     return apScreenPos;
 }
 
-void __cdecl FUN_00b59d30(int a1, int* a2, float* a3);
+void __cdecl ImageSpaceEffectRadialBlur_GetBoundParams(int a1, int* a2, float* a3);
 // Projects the bound and applies its projected radius to the radial-blur start and down-start.
 // The original reuses the bound argument slot for the radius output.
 // @fnv 0x00b8b760
 void ImageSpaceManager::FUN_00b8b760(float a1, float a2, float a3, float a4, float a5, const NiBound& bound)
 {
     int local[2];
-    FUN_00b59d30(reinterpret_cast<int>(&bound), local, &a5 + 1);
+    ImageSpaceEffectRadialBlur_GetBoundParams(reinterpret_cast<int>(&bound), local, &a5 + 1);
     SetRadialBlurParameters(a1, a2, *(&a5 + 1) + a3, a4, *(&a5 + 1) + a5,
                             *reinterpret_cast<const NiPoint2*>(local));
 }
@@ -1979,7 +1991,8 @@ static __forceinline float Dot(::NiPoint3 a, ::NiPoint3 b)
 
 // Computes the distance between the camera position and a given point, storing the result in both elements of the output array.
 // @fnv 0x00b8bb70
-void __stdcall FUN_00b8bb70(::NiPoint3* apPoint, float* out)
+// src: COMMUNITY 0x00b8bb70
+void __stdcall ImageSpaceManager_GetDepthOfFieldParamsFromPoint(::NiPoint3* apPoint, float* out)
 {
     ::NiPoint3 g;
     g = DAT_011f917c->m_kWorld.m_Translate;
@@ -1995,7 +2008,8 @@ void __stdcall FUN_00b8bb70(::NiPoint3* apPoint, float* out)
 
 // Sets BSAudioThreadContext to 0x27, selects a float by mode, applies two operations from arr and blends toward the result using w, then restores the context.
 // @fnv 0x00b8cb30
-void ImageSpaceManager::FUN_00b8cb30(int mode, int aiIndex, float* apValues, float afWeight)
+// src: COMMUNITY 0x00b8cb30
+void ImageSpaceManager::ApplyParamModifier_00b8cb30(int mode, int aiIndex, float* apValues, float afWeight)
 {
     int iSavedContext = BSAudioThreadContext;
     BSAudioThreadContext = 0x27;

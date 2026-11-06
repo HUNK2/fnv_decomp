@@ -19,21 +19,23 @@ void __cdecl SetNiPoint3FromHkVector4(hkVector4 const&, void*);
 struct FUN_009c1a50_shell
 {
     void* FUN_009c1a50();
-    void __thiscall FUN_009c1a20(hkVector4 const& v);
+    void __thiscall bhkPickData_NiGetLength(hkVector4 const& v);
 };
 // @fnv 0x009c1a20
-void __thiscall FUN_009c1a50_shell::FUN_009c1a20(hkVector4 const& aVector)
+// src: COMMUNITY 0x009c1a20
+void __thiscall FUN_009c1a50_shell::bhkPickData_NiGetLength(hkVector4 const& aVector)
 {
     SetNiPoint3FromHkVector4(aVector, FUN_009c1a50());
 }
 
 struct FUN_009c8600_Class
 {
-    bool __thiscall FUN_009c8600();
+    bool __thiscall BGSCameraShot_IsFirstPerson();
 };
 
 // @fnv 0x009c8600
-bool __thiscall FUN_009c8600_Class::FUN_009c8600()
+// src: COMMUNITY 0x009c8600
+bool __thiscall FUN_009c8600_Class::BGSCameraShot_IsFirstPerson()
 {
     return (reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x44)[0] & 8) ? true : false;
 }
@@ -482,7 +484,7 @@ extern FUN_0070c3b0_Dummy* _g_thePlayer;
 extern TESObjectREFR* DAT_011f21f0;
 
 NiPoint3* __fastcall FUN_0045bb80(int);
-float __fastcall FUN_0070c3b0(FUN_0070c3b0_Dummy*);
+float __fastcall PlayerCharacter_GetEyeHeight(FUN_0070c3b0_Dummy*);
 
 struct FUN_009c8ac0_class
 {
@@ -492,11 +494,12 @@ struct FUN_009c8ac0_class
     int m_iThirdValue;
     FUN_0058d510_class* m_10;
 
-    NiPoint3* FUN_009c8ac0(NiPoint3*);
+    NiPoint3* VATS_GetCamshotTargetPos(NiPoint3*);
 };
 
 // @fnv 0x009c8ac0
-NiPoint3* FUN_009c8ac0_class::FUN_009c8ac0(NiPoint3* result)
+// src: COMMUNITY 0x009c8ac0
+NiPoint3* FUN_009c8ac0_class::VATS_GetCamshotTargetPos(NiPoint3* result)
 {
     NiPoint3 point = NiPoint3::ZERO;
 
@@ -513,7 +516,7 @@ NiPoint3* FUN_009c8ac0_class::FUN_009c8ac0(NiPoint3* result)
         // The original Set at 0x00416870 returns this in EAX; preserve that result here.
         point = FUN_0045bb80(DAT_011f21f0->GetReferenceType())
                     ->operator+(((*reinterpret_cast<NiPoint3*>(offset)).*reinterpret_cast<NiPoint3& (NiPoint3::*)(float, float, float)>(
-                        &NiPoint3::Set))(0.0f, 0.0f, FUN_0070c3b0(_g_thePlayer)));
+                        &NiPoint3::Set))(0.0f, 0.0f, PlayerCharacter_GetEyeHeight(_g_thePlayer)));
     }
 
     *result = point;
@@ -566,7 +569,7 @@ void FUN_009d1b90_Class::SetNegatedTimestamp()
 
 struct FUN_00997520_Class
 {
-    void FUN_00997520(int);
+    void CoverSearch_Set(int);
 };
 struct FUN_009d7c00_Class
 {
@@ -577,7 +580,7 @@ struct FUN_009d7c00_Class
 // @fnv 0x009d7c00
 void FUN_009d7c00_Class::ForwardToSub(int aiValue)
 {
-    sub.FUN_00997520(aiValue);
+    sub.CoverSearch_Set(aiValue);
 }
 
 struct FUN_009c5ee0_sub
@@ -2599,10 +2602,10 @@ struct ImpImpact
     float FUN_004a40a0();
     float GetModifierValue();
     float GetNestedValue();
-    unsigned char FUN_004a4140();
+    unsigned char BGSImpactData_GetIsAlphaBlend();
     unsigned char CallMemberAtOffset54();
-    unsigned char FUN_004a4100();
-    unsigned char FUN_004a41e0();
+    unsigned char BGSImpactData_GetIsParallax();
+    unsigned char BGSImpactData_GetParallaxPasses();
     float FUN_004a41c0();
     float FUN_004a40e0();
     float FUN_009a9350();
@@ -2786,7 +2789,7 @@ struct ImpSkin
 
 struct ImpAttach
 {
-    ImpAttach* FUN_009611e0();
+    ImpAttach* NiAVObject_GetParent();
 };
 
 struct ImpAttachHandle
@@ -2930,7 +2933,7 @@ struct ImpSound
 
 struct ImpAudio
 {
-    ImpSound FUN_00ad7480(void* apSound, int aiFlags, ImpSoundDesc* apDesc);
+    ImpSound BSAudio_GetSoundHandleByFilename(void* apSound, int aiFlags, ImpSoundDesc* apDesc);
 };
 
 extern Setting DAT_011ce26c;
@@ -3137,8 +3140,8 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                     if (pSkinRoot)
                                     {
                                         pAttach = FUN_00c85ef0(pSkinRoot, &DAT_011f4a20).FUN_00559450();
-                                        if (pAttach && pAttach->FUN_009611e0())
-                                            pAttach = pAttach->FUN_009611e0();
+                                        if (pAttach && pAttach->NiAVObject_GetParent())
+                                            pAttach = pAttach->NiAVObject_GetParent();
                                     }
                                 }
                                 else
@@ -3160,11 +3163,11 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                 kParamsCur.m_pDecalData = m_pDecalData;
                                 kParamsCur.fPathHeading = fPathHeading;
                                 kParamsCur.m_ucClipIdentifier = m_ucClipIdentifier;
-                                kParamsCur.ucFlagC = pImpactTmp->FUN_004a4140();
+                                kParamsCur.ucFlagC = pImpactTmp->BGSImpactData_GetIsAlphaBlend();
                                 kParamsCur.ucFlagB = pImpactTmp->CallMemberAtOffset54();
-                                kParamsCur.ucFlagA = pImpactTmp->FUN_004a4100();
+                                kParamsCur.ucFlagA = pImpactTmp->BGSImpactData_GetIsParallax();
                                 kParamsCur.fParallax = pImpactTmp->FUN_004a41c0();
-                                kParamsCur.ucFlagD = pImpactTmp->FUN_004a41e0();
+                                kParamsCur.ucFlagD = pImpactTmp->BGSImpactData_GetParallaxPasses();
                                 kParamsCur.m_fShininess = pImpactTmp->FUN_004a40e0();
                                 kParamsCur.m_fSpecularStrength = pImpactTmp->FUN_009a9350();
                                 kParamsCur.kColor = ImpPoint(
@@ -3226,14 +3229,14 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
             ImpSoundDesc* SoundAssetTmp = pImpactTmp->GetField4C();
             if (SoundAssetTmp)
             {
-                ImpSound kSound = FUN_00453a70()->FUN_00ad7480(SoundAssetTmp->FUN_00511840(), 0x4102, SoundAssetTmp);
+                ImpSound kSound = FUN_00453a70()->BSAudio_GetSoundHandleByFilename(SoundAssetTmp->FUN_00511840(), 0x4102, SoundAssetTmp);
                 kSound.FUN_00ad8b60(apPos->x, apPos->y, apPos->z);
                 kSound.FUN_00ad8830(0);
             }
             ImpSoundDesc* pSound2New = pImpactTmp->GetGrass();
             if (pSound2New)
             {
-                ImpSound kSound2 = FUN_00453a70()->FUN_00ad7480(pSound2New->FUN_00511840(), 0x4102, pSound2New);
+                ImpSound kSound2 = FUN_00453a70()->BSAudio_GetSoundHandleByFilename(pSound2New->FUN_00511840(), 0x4102, pSound2New);
                 kSound2.FUN_00ad8b60(apPos->x, apPos->y, apPos->z);
                 kSound2.FUN_00ad8830(0);
             }

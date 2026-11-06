@@ -25,7 +25,8 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 void __cdecl EnableConstraintsAndZeroArrays(void* a, void* b);
 
 // @fnv 0x00cf3d90
-__declspec(noinline) void __fastcall FUN_00cf3d90(hkpConstraintInstance* self)
+// src: COMMUNITY 0x00cf3d90
+__declspec(noinline) void __fastcall hkpConstraintInstance_enable(hkpConstraintInstance* self)
 {
     EnableConstraintsAndZeroArrays(self, self->m_pOwnerObject);
 }
@@ -51,7 +52,8 @@ void hkpConstraintInstance::vf04(void* arg)
 
 void __cdecl hkpResponseModifier_disableConstraint(void*, void*);
 // @fnv 0x00cf3da0
-__declspec(noinline) void __fastcall FUN_00cf3da0(hkpConstraintInstance* self)
+// src: COMMUNITY 0x00cf3da0
+__declspec(noinline) void __fastcall hkpConstraintInstance_disable(hkpConstraintInstance* self)
 {
     hkpResponseModifier_disableConstraint(self, self->m_pOwnerObject);
 }
@@ -116,11 +118,13 @@ void __fastcall hkpConstraintInstance_pointNullsToFixedRigidBody(hkpConstraintIn
 }  // namespace fnv_00cf3e60
 
 // @fnv 0x00cf2f90
-void __stdcall FUN_00cf2f90(int)
+// src: COMMUNITY 0x00cf2f90
+void __stdcall nullsub_55(int)
 {}
 
 // @fnv 0x00cf2fa0
-void __stdcall FUN_00cf2fa0(int)
+// src: COMMUNITY 0x00cf2fa0
+void __stdcall nullsub_56(int)
 {}
 
 // @fnv 0x00cf2fb0
@@ -679,10 +683,10 @@ void __fastcall hkpConstraintInstance_setEnabled(hkpConstraintInstance* self, in
 {
     if (enabled)
     {
-        FUN_00cf3d90(self);
+        hkpConstraintInstance_enable(self);
     }
     else
     {
-        FUN_00cf3da0(self);
+        hkpConstraintInstance_disable(self);
     }
 }

@@ -142,18 +142,18 @@ class NiControllerSequence : public NiObject
     void LinkSequenceSource(NiStream* stream);
 
     void FUN_00a30540();
-    void FUN_00a30900(char priority);
+    void AttachInterpolators(char priority);
     float FUN_00a30970(float time, bool update);
-    bool FUN_00a30c80(void* sequence);
+    bool CanSyncTo(void* sequence);
     bool FUN_00a30ea0(NiStream& stream);
     unsigned char FUN_00a30fb0(NiControllerSequence* sequence);
     void* FUN_00a316a0();
-    bool FUN_00a31910(NiAVObject* target, NiAVObject* root, int argument);
+    bool ResolveTransformInterpolators(NiAVObject* target, NiAVObject* root, int argument);
     void FUN_00a32290(float weight, float ease, float time);
-    bool FUN_00a32330();
+    bool NiControllerSequence_ReallocateArrays();
     void FUN_00a328b0(float time, bool setControllerTimes);
     bool FUN_00a32c70(bool update);
-    void FUN_00a32fa0(NiControllerSequence* destination, int argument1, int argument2, bool remove);
+    void PopulatePoseSequence(NiControllerSequence* destination, int argument1, int argument2, bool remove);
     void FUN_00a33570(NiControllerSequence* source, int argument);
     void FUN_00a34ba0(float time, bool update);
     bool FUN_00a350d0(NiControllerSequence* target, float time, float timeout, int priority,

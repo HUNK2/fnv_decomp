@@ -105,12 +105,13 @@ bool CombatGroupStrategyAmbush::vf02(ActorCombatGroup* apGroup)
 
 struct FUN_00990480_shell
 {
-    bool FUN_00990480();
+    bool CombatState_ShouldUseMelee();
 };
 
 // Returns whether the float at offset 0x58 is greater than the float at offset 0x5c.
 // @fnv 0x00990480
-bool FUN_00990480_shell::FUN_00990480()
+// src: COMMUNITY 0x00990480
+bool FUN_00990480_shell::CombatState_ShouldUseMelee()
 {
     return *(float*)((char*)this + 0x58) > *(float*)((char*)this + 0x5c);
 }
@@ -235,14 +236,15 @@ struct TaskQueueInterface
 };
 
 char* __cdecl FUN_004812f0(const char* lhs, const char* rhs);
-int __cdecl FUN_0098e980(int index);
+int __cdecl CombatGroupStrategies_GetStrategy(int index);
 int __cdecl FUN_00eca7f4(int character);
 
 extern const char* DAT_011a4ed0[4];
 
 // Copies apName into a 260-byte buffer, lowercases it, then compares it against four names and returns the matching index's value or 0.
 // @fnv 0x00990250
-int FUN_00990250(const char* apName)
+// src: COMMUNITY 0x00990250
+int CombatGroupStrategy_LookupByName(const char* apName)
 {
     char psearchName[260];
     char* pChar;
@@ -259,7 +261,7 @@ int FUN_00990250(const char* apName)
     {
         if (FUN_004812f0(DAT_011a4ed0[i], psearchName) != 0)
         {
-            return FUN_0098e980(i);
+            return CombatGroupStrategies_GetStrategy(i);
         }
     }
 
@@ -336,7 +338,7 @@ void CombatGroupStrategyFlank::vf01(ActorCombatGroup* apGroup, MarkerStruct* apG
 struct CombatMemberState
 {
     bool GetByteAtOffset();
-    bool FUN_00990480();
+    bool CombatState_ShouldUseMelee();
 };
 struct MemberController
 {
@@ -381,7 +383,7 @@ FUN_00990320::FUN_00990320(ActorCombatGroup* pGroup)
         if (!state->GetByteAtOffset())
         {
             ++activeCount;
-            if (state->FUN_00990480())
+            if (state->CombatState_ShouldUseMelee())
                 specialMembers.InsertAtEnd(IndexedMember(aActor, index));
             else
                 normalMembers.InsertAtEnd(IndexedMember(aActor, index));
@@ -421,7 +423,7 @@ bool CombatGroupStrategyFlank::CanFlank(MarkerStruct* apGroupData, ActorCombatGr
 
 struct CombatGroupMember
 {
-    int FUN_00575650(NiPoint4*, float, int);
+    int TESObjectREFR_GetWorldLocation(NiPoint4*, float, int);
 };
 extern const float DAT_01050b98;
 struct CombatGroupMethods
@@ -441,7 +443,7 @@ bool CombatGroupStrategy::CheckGroup(ActorCombatGroup* group)
         {
             CombatGroupMember* pData = ((CombatGroupMethods*)group)->GetIntAt(index);
             NiPoint4 position;
-            if (((CombatGroupMethods*)group)->FindRefInRadius(pData->FUN_00575650(&position, DAT_01050b98, 0)))
+            if (((CombatGroupMethods*)group)->FindRefInRadius(pData->TESObjectREFR_GetWorldLocation(&position, DAT_01050b98, 0)))
                 group->SetElementValue(index, 0);
             else
                 bFound = true;

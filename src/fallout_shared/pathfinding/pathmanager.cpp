@@ -90,7 +90,7 @@ void PathingTaskData::Process()
     AutoMemContext context(static_cast<MEM_CONTEXT>(0x2d), true, DAT_0106d560, 355);
     PathManager::GetRandomGenerator()->FUN_00717e50()->FUN_00483710();
 
-    if (PathManager::GetRandomGenerator()->FUN_00559450()->FUN_006eb790())
+    if (PathManager::GetRandomGenerator()->FUN_00559450()->PathManagerImpl_TaskTryLock())
     {
         if (!HasPendingMessages())
         {
@@ -124,7 +124,7 @@ void PathingTaskData::Process()
                 }
             }
         }
-        PathManager::GetRandomGenerator()->FUN_00559450()->FUN_006eb7b0();
+        PathManager::GetRandomGenerator()->FUN_00559450()->PathManagerImpl_TaskUnlock();
     }
     else
     {
@@ -171,11 +171,12 @@ struct S006e9bd0
 {
     int a;
     G006e9bd0 g;
-    S006e9bd0* FUN_006e9bd0();
+    S006e9bd0* ActorPathingMessage_ActorPathingMessage_0();
 };
 // Sets a to -1, constructs g with 0, and returns this.
 // @fnv 0x006e9bd0
-S006e9bd0* S006e9bd0::FUN_006e9bd0()
+// src: COMMUNITY 0x006e9bd0
+S006e9bd0* S006e9bd0::ActorPathingMessage_ActorPathingMessage_0()
 {
     a = -1;
     g.FUN_ctor(0);
@@ -191,10 +192,11 @@ struct S006e9c00
 {
     int type;
     N006e9c00 sp;
-    S006e9c00* FUN_006e9c00(int t, N006e9c00* s);
+    S006e9c00* ActorPathingMessage_ActorPathingMessage(int t, N006e9c00* s);
 };
 // @fnv 0x006e9c00
-S006e9c00* S006e9c00::FUN_006e9c00(int aiType, N006e9c00* apSource)
+// src: COMMUNITY 0x006e9c00
+S006e9c00* S006e9c00::ActorPathingMessage_ActorPathingMessage(int aiType, N006e9c00* apSource)
 {
     type = aiType;
     sp.FUN_nip(*apSource);
@@ -341,18 +343,19 @@ FUN_006eaa30::FUN_006eaa30() : m2(&m1), a(0xc, 0x25, 0xc)
 
 struct FUN_006eabe0_shell : public PathManagerImpl
 {
-    bool FUN_006eabe0();
+    bool PathManagerImpl_Initialize();
 };
 
 BSWin32TaskletManager& __cdecl GetTaskletManager(void);
-bool __fastcall FUN_006c08e0(void*);
+bool __fastcall BSTaskletGroup_Open(void*);
 
 // @fnv 0x006eabe0
-bool FUN_006eabe0_shell::FUN_006eabe0()
+// src: COMMUNITY 0x006eabe0
+bool FUN_006eabe0_shell::PathManagerImpl_Initialize()
 {
     if (!GetTaskletManager().GetTaskletValue(this))
         return false;
-    if (!FUN_006c08e0(this))
+    if (!BSTaskletGroup_Open(this))
         return false;
     *(int*)((char*)this + 0xc24) = 0;
     *(int*)((char*)this + 0xc28) = 0;
@@ -362,26 +365,28 @@ bool FUN_006eabe0_shell::FUN_006eabe0()
 
 struct FUN_006eb790_shell : public PathManagerImpl
 {
-    bool FUN_006eb790();
+    bool PathManagerImpl_TaskTryLock();
 };
 
-bool __fastcall FUN_00aa6120(void* pThis);
+bool __fastcall BSReadWriteLock_TryLockForRead(void* pThis);
 
 // @fnv 0x006eb790
-bool FUN_006eb790_shell::FUN_006eb790()
+// src: COMMUNITY 0x006eb790
+bool FUN_006eb790_shell::PathManagerImpl_TaskTryLock()
 {
-    return FUN_00aa6120((char*)this + 0xc2c);
+    return BSReadWriteLock_TryLockForRead((char*)this + 0xc2c);
 }
 
 struct FUN_006eb7b0_shell : public PathManagerImpl
 {
-    void FUN_006eb7b0();
+    void PathManagerImpl_TaskUnlock();
 };
 
 void __fastcall FUN_00aa62c0(void* pThis);
 
 // @fnv 0x006eb7b0
-void FUN_006eb7b0_shell::FUN_006eb7b0()
+// src: COMMUNITY 0x006eb7b0
+void FUN_006eb7b0_shell::PathManagerImpl_TaskUnlock()
 {
     FUN_00aa62c0((char*)this + 0xc2c);
 }
@@ -452,17 +457,18 @@ void FUN_006ebcd0_shell::FUN_006ebcd0()
 
 struct T006ebd10
 {
-    void FUN_006eb6b0(int);
+    void PathManagerImpl_CancelCurrentPathsAndPause_0(int);
 };
 struct S006ebd10
 {
     T006ebd10* p;
-    void FUN_006ebd10(int a);
+    void PathManager_CancelCurrentPathsAndPause_0(int a);
 };
 // @fnv 0x006ebd10
-void S006ebd10::FUN_006ebd10(int a)
+// src: COMMUNITY 0x006ebd10
+void S006ebd10::PathManager_CancelCurrentPathsAndPause_0(int a)
 {
-    p->FUN_006eb6b0(a);
+    p->PathManagerImpl_CancelCurrentPathsAndPause_0(a);
 }
 
 struct G006ebf30
@@ -782,11 +788,12 @@ struct FUN_006ea9d0_shell
 {
     int f0;
     int f4;
-    FUN_006ea9d0_shell* FUN_006ea9d0();
+    FUN_006ea9d0_shell* PathingMessage_PathingMessage();
 };
 // Sets f0 to -1 and f4 to 0, then returns this.
 // @fnv 0x006ea9d0
-FUN_006ea9d0_shell* FUN_006ea9d0_shell::FUN_006ea9d0()
+// src: COMMUNITY 0x006ea9d0
+FUN_006ea9d0_shell* FUN_006ea9d0_shell::PathingMessage_PathingMessage()
 {
     f0 = -1;
     f4 = 0;
@@ -809,17 +816,18 @@ S_006eaa00* S_006eaa00::FUN_006eaa00(S_006eaa00* apSource)
 }
 
 namespace fnv_006eac40 {
-void __fastcall FUN_006c09d0(void*);
+void __fastcall BSTaskletGroup_Close(void*);
 BSWin32TaskletManager& __cdecl GetTaskletManager(void);
 struct FUN_006eac40_Holder
 {
-    void FUN_006eac40();
+    void PathManagerImpl_Release();
 };
 // Calls FUN_006c09d0 on this, then passes this to the tasklet manager's ReleaseItem.
 // @fnv 0x006eac40
-void FUN_006eac40_Holder::FUN_006eac40()
+// src: COMMUNITY 0x006eac40
+void FUN_006eac40_Holder::PathManagerImpl_Release()
 {
-    FUN_006c09d0(this);
+    BSTaskletGroup_Close(this);
     GetTaskletManager().ReleaseItem(this);
 }
 }  // namespace fnv_006eac40
@@ -851,10 +859,11 @@ bool HostA::DispatchToInner(int aiValue, bool abUseFirst)
 struct FUN_006eb670_Holder
 {
     PatrolActorPackageData* field0;
-    void FUN_006eb670(bool);
+    void BSTaskletGroup_WaitForCompletion(bool);
 };
 // @fnv 0x006eb670
-void FUN_006eb670_Holder::FUN_006eb670(bool a1)
+// src: COMMUNITY 0x006eb670
+void FUN_006eb670_Holder::BSTaskletGroup_WaitForCompletion(bool a1)
 {
     if (field0 != 0)
     {
@@ -1088,10 +1097,11 @@ struct ManagerView
     SearchLock lock;
     SearchArray first;
     SearchArray second;
-    int FUN_006ea350();
+    int PathingTaskData_ComputeRayCasts();
 };
 // @fnv 0x006ea350
-int ManagerView::FUN_006ea350()
+// src: COMMUNITY 0x006ea350
+int ManagerView::PathingTaskData_ComputeRayCasts()
 {
     int total = 0;
     lock.FUN_0040fbf0(0);
@@ -5491,7 +5501,7 @@ void B6EB3B0Manager::PathManagerImpl_Resume()
 
 struct Obj_006eb980_obj
 {
-    void FUN_006eac40();
+    void PathManagerImpl_Release();
     int FUN_006eb890(int);
 };
 
@@ -5505,7 +5515,7 @@ struct Shell_006eb980
 // @fnv 0x006eb980
 void Shell_006eb980::FUN_006eb980()
 {
-    m0->FUN_006eac40();
+    m0->PathManagerImpl_Release();
     Obj_006eb980_obj* QQ = m0;
     Obj_006eb980_obj* PP2 = QQ;
     PP2 != 0 ? PP2->FUN_006eb890(1) : 0;
@@ -5681,7 +5691,7 @@ struct RequestLocation
 struct RequestShape
 {
     int unk00, unk04, unk08, unk0c;
-    void FUN_006cf940(int result);
+    void BSSimpleArray_CopyTo_0(int result);
     void ProcessItems(RequestShape* result);
 };
 struct FUN_006cb3a0
@@ -5733,7 +5743,7 @@ unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, 
             case 2:
                 break;
             case 1:
-                ((RequestManager*)this)->statuses.FUN_00877a30(i)->shape.FUN_006cf940(a3);
+                ((RequestManager*)this)->statuses.FUN_00877a30(i)->shape.BSSimpleArray_CopyTo_0(a3);
                 break;
             case 0:
                 ((RequestManager*)this)->FUN_006ea330();
@@ -7172,7 +7182,7 @@ void DrainManager::Drain()
     timer.Begin(taskName);
     EnterTasks(this);
     active = true;
-    ((FUN_006eb670_Holder*)this)->FUN_006eb670(false);
+    ((FUN_006eb670_Holder*)this)->BSTaskletGroup_WaitForCompletion(false);
     PathTaskCompletionRecord message;
     while (incoming.Pop(message))
     {
@@ -7200,7 +7210,7 @@ void DrainManager::Drain()
     lock.Release();
     state = 2;
     active = false;
-    FUN_006c08e0(this);
+    BSTaskletGroup_Open(this);
     timer.End();
 }
 

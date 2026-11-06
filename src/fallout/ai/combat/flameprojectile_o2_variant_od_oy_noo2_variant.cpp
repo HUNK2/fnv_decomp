@@ -40,7 +40,7 @@ struct __declspec(align(16)) VisualState
     unsigned unk070, unk074, unk078, unk07c, unk080, unk084, unk088, unk08c;
     unsigned unk090, unk094, unk098, unk09c, unk0a0, unk0a4, unk0a8, unk0ac;
     void FUN_004a3c20();
-    void FUN_00500a20(void* state);
+    void BGSTerminal_SetPassword(void* state);
     void FUN_004a3f70(unsigned int state);
     void FUN_004a3da0(NiPoint3* point);
     void FUN_007f68a0(const NiPoint3& point);
@@ -64,7 +64,7 @@ struct Source
 };
 struct AttachedObject
 {
-    unsigned int* FUN_0070c440(unsigned int* out);
+    unsigned int* bhkCharacterController_GetCollisionFilter(unsigned int* out);
 };
 struct BoundForm;
 struct FireObject
@@ -487,7 +487,7 @@ bool ProjectileEffect::FUN_009b36f0()
     if (FUN_009306d0())
     {
         unsigned int handleId;
-        objectHandle.id = *FUN_009306d0()->FUN_0070c440(&handleId);
+        objectHandle.id = *FUN_009306d0()->bhkCharacterController_GetCollisionFilter(&handleId);
     }
     else
     {
@@ -502,7 +502,7 @@ bool ProjectileEffect::FUN_009b36f0()
         }
     }
     if (FUN_009b3cb0() && FUN_009b3cb0()->FUN_0044ddc0())
-        visual.FUN_00500a20(FUN_009b3cb0()->FUN_0044ddc0());
+        visual.BGSTerminal_SetPassword(FUN_009b3cb0()->FUN_0044ddc0());
     int iNumPoints = 4;
     NiPoint3 points[4];
     GenerateSpherePoints(points, 3, position, GetProjectileSpread(0), FUN_00931d70(), GetField154(),

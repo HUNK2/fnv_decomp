@@ -13,7 +13,8 @@ inline void* __cdecl operator new(unsigned int, void* p)
 extern "C" void* g_012027b0;
 
 // @fnv 0x00c30630
-void* __cdecl FUN_00c30630()
+// src: COMMUNITY 0x00c30630
+void* __cdecl NiPSysAirFieldInheritVelocityCtlr_GetRTTI()
 {
     return &g_012027b0;
 }
@@ -96,14 +97,14 @@ NiPSysModifierFloatCtlr* NiPSysAirFieldInheritVelocityCtlr::CreateSpawnedCtlr(vo
     return obj;
 }
 
-char* __cdecl FUN_00a7d330(char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char*);
 void __stdcall FUN_00c32f60(StrArr*);
 // Grows the array if its index has reached capacity, then stores the string returned by FUN_00a7d330 at that index.
 // @fnv 0x00c30740
 void __stdcall FUN_00c30740(StrArr* array)
 {
     FUN_00c32f60(array);
-    char* value = FUN_00a7d330(static_cast<char*>(g_012027b0));
+    char* value = NiViewerStrings_NiGetViewerString_Title(static_cast<char*>(g_012027b0));
     unsigned int index = array->m_usSize;
     unsigned int capacity = array->m_usMaxSize;
     if (index >= capacity)

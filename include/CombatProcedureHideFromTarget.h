@@ -34,7 +34,7 @@ public:
     virtual void LoadGame(BGSLoadFormBuffer* apBuffer);
     virtual void vf16();
 
-    COMBAT_PROCEDURES FUN_009d60e0();
+    COMBAT_PROCEDURES GetType_009d60e0();
     void Update();
     void PrintState(Output* out, int x, int y);
     void FUN_00996e20(int mode);

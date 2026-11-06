@@ -73,7 +73,8 @@ void TESDescription::InitializeComponent()
 void __cdecl WriteDescChunk(void*, int);
 
 // @fnv 0x00482cb0
-void __thiscall TESDescription::FUN_00482cb0()
+// src: COMMUNITY 0x00482cb0
+void __thiscall TESDescription::Save_00482cb0()
 {
     WriteDescChunk(this, 0x43534544);
 }

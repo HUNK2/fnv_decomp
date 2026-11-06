@@ -215,20 +215,20 @@ struct Kind3Shape858
 };
 struct Kind3Result858
 {
-    void FUN_00dee6f0(Kind3Shape858* pkChild);
+    void hkpPointToPathConstraintData_setPath(Kind3Shape858* pkChild);
 };
 struct Raw858b
 {
     Breakable858* FUN_00d4df30(Object858* pkChild);
     Node858* FUN_00cdf710(Object858* pkChild);
 };
-Object858* __cdecl FUN_00d85360(Object858* pkSource);
+Object858* __cdecl hkpConstraintDataUtils_copyAtoms_hkpBallAndSocketConstraintData_(Object858* pkSource);
 Object858* __cdecl copyConstraintAtoms_class_hkpHingeConstraintData(Object858* pkSource);
 Object858* __cdecl copyConstraintAtoms_class_hkpLimitedHingeConstraintData(Object858* pkSource);
 Object858* __cdecl CloneShape(Object858* pkSource);
 Object858* __cdecl CloneAllocatedObject(Object858* pkSource);
 Object858* __cdecl CloneStub(Object858* pkSource);
-Object858* __cdecl FUN_00d85530(Object858* pkSource);
+Object858* __cdecl hkpConstraintDataUtils_copyAtoms_hkpStiffSpringConstraintData_(Object858* pkSource);
 Object858* __cdecl CloneWithInit(Object858* pkSource);
 Object858* __cdecl CloneDataBlock(Object858* pkSource);
 Object858* __cdecl CloneWithCopiedPayload(Object858* pkSource);
@@ -243,7 +243,7 @@ Object858* __cdecl hkpConstraintDataCloningUtil_deepClone(Object858* pkSource)
     switch (pkSource->GetType())
     {
     case 0:
-        return FUN_00d85360(pkSource);
+        return hkpConstraintDataUtils_copyAtoms_hkpBallAndSocketConstraintData_(pkSource);
     case 1:
         return copyConstraintAtoms_class_hkpHingeConstraintData(pkSource);
     case 2:
@@ -252,7 +252,7 @@ Object858* __cdecl hkpConstraintDataCloningUtil_deepClone(Object858* pkSource)
         Object858* pkResult = CloneShape(pkSource);
         Kind3Shape858* pkChild = (Kind3Shape858*)((Node858*)pkSource)->pkChild;
         hkRefObj858* pkShape = pkChild->GetChildShape();
-        ((Kind3Result858*)pkResult)->FUN_00dee6f0(pkChild);
+        ((Kind3Result858*)pkResult)->hkpPointToPathConstraintData_setPath(pkChild);
         pkShape->removeReference();
         return pkResult;
     }
@@ -261,7 +261,7 @@ Object858* __cdecl hkpConstraintDataCloningUtil_deepClone(Object858* pkSource)
     case 7:
         return CloneStub(pkSource);
     case 8:
-        return FUN_00d85530(pkSource);
+        return hkpConstraintDataUtils_copyAtoms_hkpStiffSpringConstraintData_(pkSource);
     case 9:
         return CloneWithInit(pkSource);
     case 14:

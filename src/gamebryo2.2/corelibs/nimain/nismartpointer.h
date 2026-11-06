@@ -64,7 +64,7 @@ template <> NiPointer<LoadedFile>& NiPointer<LoadedFile>::operator=(LoadedFile* 
             m_pObject->FUN_0044b180();
         m_pObject = object;
         if (m_pObject)
-            m_pObject->FUN_0044b0f0();
+            m_pObject->LoadedFile_IncRefCount();
     }
     return *this;
 }

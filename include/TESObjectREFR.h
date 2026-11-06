@@ -138,8 +138,8 @@ public:
         CHANGE_SCRIPT_VARIABLES = 1u << 31
     };
 
-    int FUN_005762b0(int a1);
-    Base1* FUN_00576870(int a);
+    int TESObjectREFR_GetLookingAtLocation(int a1);
+    Base1* ZoneEntry_GetZoneEntry_0(int a);
 
     ScriptLocals* GetReferenceLocals();
     TESObjectCELL* GetParentCell();
@@ -201,8 +201,8 @@ public:
     void ResetProjectileIdleAnimation();
     TESObjectCELL* GetTarget();
     float GetHealth();
-    bool FUN_00564d80();
-    bool FUN_0057b790();
+    bool GetTargeted();
+    bool TESObjectREFR_IsCellLoaded();
     void RestoreAnimation(BGSLoadFormBuffer*);
     bool GetReferencePersistence();
     const LLD_Point3& GetAngle() const;
@@ -245,12 +245,12 @@ public:
     bool FUN_0057b460();
     bool Activate(TESObjectREFR*, bool, TESObjectREFR*, int);
     NiMatrix3 GetRotation();
-    TESObjectREFR* FUN_005693d0();
+    TESObjectREFR* TESObjectREFR_GetXTarget();
     TESWorldSpace* FUN_00575d70();
     void FUN_00484490();
     void FUN_00574fa0(TESForm*, ExtraDataList*, int);
     void FUN_00571b50();
-    bool FUN_00575400(TESBoundObject*);
+    bool TESObjectREFR_WearingObject(TESBoundObject*);
     void UpdateSpells(bool);
     static TESObjectREFR* CreateReference(unsigned char, bool);
     bool IsPersistentFlagSet();
@@ -265,7 +265,7 @@ public:
     bool SetReferenceHeading(NiPoint3, bool);
     void SetReferenceState(TESTopic*, bool, bool);
     void FUN_008a8e50();
-    void FUN_008a7a90();
+    void Actor_ForceIdleAnimation();
     void InitializeReference(TESObjectREFR*, TESBoundObject*, int);
     bool HasLeveledCreatureCalced();
     bool FUN_00477ba0();
@@ -282,14 +282,14 @@ public:
     NiPoint3* GetPos();
     void FUN_00575690(TESBoundObject*);
     void Enable();
-    void FUN_00574400();
+    void TESObjectREFR_Disable();
     InventoryStackRecord* FindEntryForObject(TESBoundObject* object, unsigned int formID);
     Script* FUN_005673c0();
     void FUN_00565730();
-    const NiPoint3& FUN_00569880();
-    Matrix FUN_0056fa00();
+    const NiPoint3& TESObjectREFR_GetMultiBoundHalfExtent();
+    Matrix TESObjectREFR_GetOrientation();
     float FUN_00567400();
-    void FUN_008984c0();
+    void Actor_InitiateSurfacePackage();
     ParentCellStub* GetParentCellStub();
     TESObjectCELL* GetParentCell() const;
     void Unk_4E(void);

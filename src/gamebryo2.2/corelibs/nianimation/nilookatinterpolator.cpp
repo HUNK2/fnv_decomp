@@ -355,7 +355,7 @@ struct Obj_b9286
 };
 
 extern "C" void* g_011f3f90;
-extern "C" void* __cdecl FUN_00a7d330(void* p);
+extern "C" void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* p);
 extern "C" void* __cdecl FUN_00a7d5a0(const char* s, void* p);
 
 // @fnv 0x00a4c780
@@ -363,7 +363,7 @@ void NiLookAtInterpolator::GetViewerStrings(NiViewerStringsArray* apStrings)
 {
     Arg_b9286* a = (Arg_b9286*)apStrings;
     ((Holder_b9286*)this)->FUN_00a570b0(a);
-    void* p = FUN_00a7d330(g_011f3f90);
+    void* p = NiViewerStrings_NiGetViewerString_Title(g_011f3f90);
     unsigned int b = a->m0a;
     unsigned int c = a->m08;
     if (b >= c)
@@ -397,7 +397,8 @@ using fnv_00eea6d0::EmptyFS;
 
 // Assigns kName's handle to the interpolator's name field, incrementing the new string's refcount and decrementing the old one's.
 // @fnv 0x00eea6d0
-void NiLookAtInterpolator::FUN_00eea6d0(const NiFixedString& kName)
+// src: COMMUNITY 0x00eea6d0
+void NiLookAtInterpolator::SetLookAtName(const NiFixedString& kName)
 {
     char* pcNewHandle = kName.m_kHandle;
     if (m_kTargetNodeName.m_kHandle != pcNewHandle)
@@ -533,7 +534,7 @@ template <class T> inline void SaveBinary341(BinaryOutput341& output, const T& v
 // The shared interpolator lacks the SaveBinary override at 0x00a724d0.
 struct Interpolator341
 {
-    void FUN_00a724d0(NiStream*);
+    void NiInterpolator_LinkObject(NiStream*);
 };
 
 // Serializes the LookAt's flags, target link, target name, transform and three interpolator links to the stream.
@@ -541,7 +542,7 @@ struct Interpolator341
 void NiLookAtInterpolator::SaveBinary(NiStream& arStream)
 {
     NiStream* stream = &arStream;
-    ((Interpolator341*)this)->FUN_00a724d0(stream);
+    ((Interpolator341*)this)->NiInterpolator_LinkObject(stream);
     SaveBinary341(*(BinaryOutput341*)stream->GetWriter(), m_usFlags);
     stream->SaveLinkID(reinterpret_cast<const NiObject*>(m_pkLookAt));
     stream->SerializeString((const char*)&m_kTargetNodeName);

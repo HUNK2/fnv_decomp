@@ -32,11 +32,12 @@ struct ObjB
 
 struct FUN_0092c890_class
 {
-    void FUN_0092c890();
+    void BSCloneReserverPtr_Free();
 };
 
 // @fnv 0x0092c890
-void FUN_0092c890_class::FUN_0092c890()
+// src: COMMUNITY 0x0092c890
+void FUN_0092c890_class::BSCloneReserverPtr_Free()
 {
     if (reinterpret_cast<int*>(this)[0])
         reinterpret_cast<ObjB*>(reinterpret_cast<int*>(this)[0])->FUN_004b0ef0();
@@ -44,7 +45,8 @@ void FUN_0092c890_class::FUN_0092c890()
 
 int __fastcall FUN_005c0880(char*);
 // @fnv 0x009306b0
-bool __fastcall FUN_009306b0(bhkCharacterController* self)
+// src: COMMUNITY 0x009306b0
+bool __fastcall bhkCharacterController_GetIsSwimming(bhkCharacterController* self)
 {
     return FUN_005c0880(reinterpret_cast<char*>(self)) == 5;
 }
@@ -100,11 +102,12 @@ struct FUN_00937d30_cls
     unsigned char m_iThirdValue;
     unsigned char m_iFourthElementInteger;
     float m_usTrailingValue;
-    FUN_00937d30_cls* FUN_00937d30();
+    FUN_00937d30_cls* Modifier_Modifier_1();
 };
 
 // @fnv 0x00937d30
-FUN_00937d30_cls* FUN_00937d30_cls::FUN_00937d30()
+// src: COMMUNITY 0x00937d30
+FUN_00937d30_cls* FUN_00937d30_cls::Modifier_Modifier_1()
 {
     m_kPointA = 0;
     m_usTrailingValue = 0.0f;
@@ -174,7 +177,8 @@ unsigned char __thiscall FUN_0093a5d0_class::GetByteAt798()
 }
 
 // @fnv 0x0093a640
-char __fastcall FUN_0093a640(int param_1)
+// src: COMMUNITY 0x0093a640
+char __fastcall PlayerCharacter_GetAIControlledFromPos(int param_1)
 {
     return *(char*)(param_1 + 0x799);
 }
@@ -251,12 +255,13 @@ struct _Dummy_004bc4a0
 };
 struct FUN_00936aa0_shell
 {
-    void FUN_00936aa0(bool b);
+    void MobileObject_SetSoundCallBackSuccess(bool b);
 };
 TESForm* __cdecl _ref_004839c0(int id);
 // Looks up a TESForm by id; if it exists and IsEnabled returns true, calls SetAccumulate(true) and FUN_00936aa0(b) on it.
 // @fnv 0x00936ac0
-void FUN_00936ac0(int aiFormId, bool b)
+// src: COMMUNITY 0x00936ac0
+void MobileObject_DialogueConversationCallBack(int aiFormId, bool b)
 {
     int iFormId = aiFormId;
     TESForm* p = _ref_004839c0(iFormId);
@@ -266,7 +271,7 @@ void FUN_00936ac0(int aiFormId, bool b)
         if (q)
         {
             ((_Dummy_004bc4a0*)q)->SetAccumulate(true);
-            ((FUN_00936aa0_shell*)q)->FUN_00936aa0(b);
+            ((FUN_00936aa0_shell*)q)->MobileObject_SetSoundCallBackSuccess(b);
         }
     }
 }
@@ -337,10 +342,11 @@ struct FUN_00937b50_cls
     unsigned int unk04;
     unsigned int unk08;
     Item_00937b50*** m_aiIndexedValues;
-    void FUN_00937b50(BGSSaveFormBuffer* buf);
+    void ModifierList_SaveGameBGS(BGSSaveFormBuffer* buf);
 };
 // @fnv 0x00937b50
-void FUN_00937b50_cls::FUN_00937b50(BGSSaveFormBuffer* buf)
+// src: COMMUNITY 0x00937b50
+void FUN_00937b50_cls::ModifierList_SaveGameBGS(BGSSaveFormBuffer* buf)
 {
     unsigned int uiPos;
     int iCount = 0;
@@ -383,7 +389,8 @@ struct FUN_009380e0_shell
 void FUN_009380e0_rec(NiAVObject* obj);
 
 // @fnv 0x009380e0
-void FUN_009380e0(TaskQueueInterface* self)
+// src: COMMUNITY 0x009380e0
+void MarkPlayerBones(TaskQueueInterface* self)
 {
     if (!self)
         return;
@@ -407,7 +414,8 @@ struct FUN_008e56b0_cls
 void* __cdecl GetObjectFromNode(NiAVObject*, bool, int);
 
 // @fnv 0x00930870
-bool __fastcall FUN_00930870(Actor* pActor)
+// src: COMMUNITY 0x00930870
+bool __fastcall MobileObject_DetachHavok(Actor* pActor)
 {
     bool result;
     NiAVObject* anim;
@@ -497,11 +505,12 @@ void FUN_00935cc0(int param_1)
 struct FUN_009369a0_shell
 {
     TESResponse* m_next;
-    int FUN_009369a0();
+    int ResponseListWrapper_GetListCount();
 };
 // Returns the result of GetResponseCount on m_next, or 0 when m_next is null.
 // @fnv 0x009369a0
-int FUN_009369a0_shell::FUN_009369a0()
+// src: COMMUNITY 0x009369a0
+int FUN_009369a0_shell::ResponseListWrapper_GetListCount()
 {
     return m_next ? GetResponseCount(m_next) : 0;
 }
@@ -513,10 +522,11 @@ struct FUN_00456630_helper
 };
 struct FUN_00936fb0_shell
 {
-    void FUN_00936fb0();
+    void NiAVObject_GetHighDetail();
 };
 // @fnv 0x00936fb0
-void FUN_00936fb0_shell::FUN_00936fb0()
+// src: COMMUNITY 0x00936fb0
+void FUN_00936fb0_shell::NiAVObject_GetHighDetail()
 {
     ((FUN_00456630_helper*)this)->FUN_00456630((unsigned int)&DAT_01000000);
 }
@@ -791,11 +801,12 @@ struct FUN_00934450_cls
     unsigned int unk60;
     unsigned int unk64;
     FUN_00934450_Obj68* m_68;
-    void FUN_00934450(int a1, int a2, int a3);
+    void MobileObject_PutCreatedPackage(int a1, int a2, int a3);
 };
 
 // @fnv 0x00934450
-void FUN_00934450_cls::FUN_00934450(int a1, int a2, int a3)
+// src: COMMUNITY 0x00934450
+void FUN_00934450_cls::MobileObject_PutCreatedPackage(int a1, int a2, int a3)
 {
     m_68->v140(a1, this);
     m_68->v145();
@@ -1527,7 +1538,8 @@ FormX* __cdecl _ref_004839c0(unsigned int id);
 const char* FUN_00935ef0();
 
 // @fnv 0x00935d90
-void FUN_00935d90(unsigned int id, bool b)
+// src: COMMUNITY 0x00935d90
+void MobileObject_ChangeDialogueAnimation(unsigned int id, bool b)
 {
     unsigned int formID = id;
     FormX* form4 = _ref_004839c0(formID);
@@ -1716,11 +1728,12 @@ extern GlobalScalar g_011cd2f4;
 struct FUN_00936ef0_Class
 {
     float FUN_00572380(unsigned int value);
-    int FUN_00936ef0();
+    int Actor_CheckHighDetail();
 };
 // Reads the current value from g_011dea3c, converts it via FUN_00572380, and returns whether the result is at or below the value from g_011cd2f4.FUN_00403e20().
 // @fnv 0x00936ef0
-int FUN_00936ef0_Class::FUN_00936ef0()
+// src: COMMUNITY 0x00936ef0
+int FUN_00936ef0_Class::Actor_CheckHighDetail()
 {
     float currentValue = FUN_00572380(g_011dea3c->GetCurrentValue());
     int bAtOrBelow = currentValue <= *g_011cd2f4.FUN_00403e20();
@@ -2082,7 +2095,7 @@ class FUN_0093a850_cls
     virtual float v291(int a, bool* b);
     virtual void v292(int a, float f);
     void FUN_008808f0(int a, int b);
-    void FUN_0093a850(int a1, float f);
+    void PlayerCharacter_SetActorBaseValueF(int a1, float f);
 };
 class FUN_0093a850_shell
 {
@@ -2194,7 +2207,8 @@ void __cdecl FUN_00704e10(int a);
 
 // Reads a bool via v291; if set calls v292 with the float, otherwise forwards to the shell's v100, then calls FUN_00704e10 and FUN_008808f0.
 // @fnv 0x0093a850
-void FUN_0093a850_cls::FUN_0093a850(int a1, float f)
+// src: COMMUNITY 0x0093a850
+void FUN_0093a850_cls::PlayerCharacter_SetActorBaseValueF(int a1, float f)
 {
     bool b = false;
     float r = v291(a1, &b);
@@ -3263,7 +3277,7 @@ struct Base088
     int unk8c;
     int unk90;
     void SetField18c(int);
-    void FUN_00939840(int);
+    void PlayerCharacter_SetDesiredTarget(int);
 };
 struct Base094
 {
@@ -3398,9 +3412,9 @@ struct PlayerConstructionBase : Base000, Base018, Base088, Base094, Base0a4, Bas
 };
 struct Controller122
 {
-    void FUN_00939860(int);
-    void FUN_00c6d770(int);
-    void FUN_0070c440(int&);
+    void bhkCharacterController_SetPriority(int);
+    void bhkCharacterController_SetCollisionGroup(int);
+    void bhkCharacterController_GetCollisionFilter(int&);
 };
 struct FUN_00938180 : PlayerConstructionBase
 {
@@ -3620,24 +3634,24 @@ struct FUN_00938180 : PlayerConstructionBase
     FUN_00938180();
     virtual ~FUN_00938180();
     void FUN_00484ab0(int);
-    void FUN_005d14d0(int);
+    void PlayerCharacter_SetHasScriptNotDisabledFastTravel(int);
     int FUN_00931850();
     void FUN_00930c70();
     Controller122* FUN_009306d0();
     void FUN_004534f0(int);
-    float FUN_00950610(float);
+    float PlayerCharacter_SetFOV(float);
     void SetField688(int);
     void FUN_00851d10();
     void FUN_0093a5f0(int);
-    void FUN_0093a6f0(int);
+    void PlayerCharacter_SetAIControlledFromPos(int);
     void FUN_00969e90(int, int);
     void FUN_009627f0();
     int FUN_0044ddc0();
     void FUN_00403550(int);
     void ResetMover();
     void FUN_00567dd0(void*);
-    void FUN_005dadd0(int);
-    void FUN_00969110(int);
+    void PlayerCharacter_SetMegatonDestroyed(int);
+    void PlayerCharacter_ResetRockItAmmoWeight(int);
     void SetSightingNode(int);
 };
 struct Profile122
@@ -3673,7 +3687,7 @@ void LoadWeaponWobbleModels();
 void FUN_008d1820();
 void* GetTime64(int);
 void* FUN_00546a90();
-void* FUN_00403d30(void*, int, unsigned int);
+void* ourMemset(void*, int, unsigned int);
 // @fnv 0x00938180
 FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f864(0), f868(0), fd3c(0), fdec(0)
 {
@@ -3702,7 +3716,7 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     f734 = 0;
     f20c = 0;
     f66d = 0;
-    FUN_005d14d0(1);
+    PlayerCharacter_SetHasScriptNotDisabledFastTravel(1);
     f66e = 1;
     f75c = 0;
     f75d = 1;
@@ -3725,18 +3739,18 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     f68 = process39;
     DAT_011e0e80.FUN_0096d470(this, FUN_00931850());
     SetField18c(0);
-    FUN_00939840(0);
+    PlayerCharacter_SetDesiredTarget(0);
     f210 = new List122;
     FUN_00930c70();
     Controller122* controller10 = FUN_009306d0();
     if (controller10)
     {
-        controller10->FUN_00939860(1000);
+        controller10->bhkCharacterController_SetPriority(1000);
         FUN_004534f0(1);
         int mode4 = 9;
-        controller10->FUN_00c6d770(mode4);
+        controller10->bhkCharacterController_SetCollisionGroup(mode4);
         int unknown10;
-        controller10->FUN_0070c440(unknown10);
+        controller10->bhkCharacterController_GetCollisionFilter(unknown10);
         f21c = new Member21c(*DAT_011e0934.FUN_00403e20(), mode4);
     }
     else
@@ -3752,7 +3766,7 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     f650 = 0;
     f651 = *DAT_011e0b4c.FUN_00408d60();
     f652 = 0;
-    FUN_00950610(*DAT_01203150.FUN_00403e20());
+    PlayerCharacter_SetFOV(*DAT_01203150.FUN_00403e20());
     f68c = 0;
     f690 = 0;
     f694.FUN_0066b0d0(0);
@@ -3796,7 +3810,7 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
         f744[j] = 0;
     f794 = GetTime64(0);
     FUN_0093a5f0(0);
-    FUN_0093a6f0(0);
+    PlayerCharacter_SetAIControlledFromPos(0);
     f79c = 0;
     f79d = 0;
     f7a0 = DAT_011f426c;
@@ -3869,11 +3883,11 @@ FUN_00938180::FUN_00938180() : f634(0), f694(0), f69c(0), f764(1), f854(0x25), f
     fd70 = 0.f;
     fdec.FUN_0066b0d0(0);
     FUN_00567dd0(FUN_00546a90());
-    FUN_005dadd0(0);
+    PlayerCharacter_SetMegatonDestroyed(0);
     DAT_011e0774 = new Allocated122;
     DAT_011e0760 = new Allocated122;
-    FUN_00403d30(fd74, 0, 0x60);
-    FUN_00969110(0);
+    ourMemset(fd74, 0, 0x60);
+    PlayerCharacter_ResetRockItAmmoWeight(0);
     f224 = 0;
     f5f8 = 0;
     f1fc = 0;
@@ -3919,7 +3933,7 @@ extern GlobalObject_006815c0 g_011e05e0;
 
 struct FUN_00933700_Target
 {
-    void FUN_0050ea50(GlobalObject_006815c0* a);
+    void BSBound_GetBoundMax(GlobalObject_006815c0* a);
 };
 
 struct FUN_00933700_Obj68
@@ -4336,7 +4350,7 @@ struct FUN_00933700_cls
     unsigned int unk60;
     unsigned int unk64;
     FUN_00933700_Obj68* m_68;
-    void FUN_0056fba0(GlobalObject_006815c0* a);
+    void TESObjectREFR_GetMaxBounds(GlobalObject_006815c0* a);
     GlobalObject_006815c0* GetGlobalObject(GlobalObject_006815c0* out);
 };
 
@@ -4347,11 +4361,11 @@ GlobalObject_006815c0* FUN_00933700_cls::GetGlobalObject(GlobalObject_006815c0* 
     if (m_68 != 0 && m_68->v17c() != 0)
     {
         FUN_00933700_Target* target = (FUN_00933700_Target*)m_68->v17c();
-        target->FUN_0050ea50(&g_011e05e0);
+        target->BSBound_GetBoundMax(&g_011e05e0);
         *out = g_011e05e0;
         return out;
     }
-    FUN_0056fba0(out);
+    TESObjectREFR_GetMaxBounds(out);
     return out;
 }
 
@@ -4858,12 +4872,12 @@ struct TickInput
 struct TickGlobals
 {
     TickInput* FUN_00877720();
-    bool FUN_009443c0();
+    bool TESMain_IsInMenuMode();
     void FUN_0086fd90(bool);
 };
 struct TickAnimGroup
 {
-    bool FUN_005f4db0();
+    bool TESAnimGroup_IsJumpingLandAnim();
     int FUN_005f2420();
 };
 struct TickSequence
@@ -4879,10 +4893,10 @@ struct TickAnimation
     TickSequence* FUN_00491040(int);
     void FUN_004974a0();
     void FUN_004994f0(int, bool);
-    float FUN_009442a0() const;
+    float GetMoveSpeed_009442a0() const;
     float FUN_00508070();
     void SetMoveSpeed(float);
-    void FUN_004c0c90(float);
+    void Animation_SetAttackSpeed(float);
 };
 struct TickWeapon
 {
@@ -4980,15 +4994,15 @@ struct TickController
 struct TickSky
 {
     float GetFieldEC();
-    float FUN_00595f50();
-    float FUN_00595fc0();
+    float Sky_GetSunriseEnd();
+    float Sky_GetSunsetBegin();
 };
 struct TickCell
 {
     bool FUN_00425fd0();
     void UpdateRefPlacement(TickPlayer*, int, int);
-    int FUN_005474b0(int);
-    bool FUN_005444c0();
+    int TESObjectCELL_GetMusicType(int);
+    bool TESObjectCELL_GetCantWaitHere();
     TickRefList* FUN_009604f0();
 };
 struct TickTES
@@ -5003,20 +5017,20 @@ struct TickData
 };
 struct TickLists
 {
-    void FUN_00974af0(void*);
-    void FUN_00973de0();
+    void ProcessLists_FinishMagicShaderHitEffect_00974af0(void*);
+    void ProcessLists_MoveFollowersOnToPlayer();
     void FUN_0096e570();
     bool HasNearbyDetectedActor(unsigned char);
     bool IsFlagged();
 };
 struct TickAudio
 {
-    float FUN_00ad7c80();
-    void FUN_00ad7ec0();
-    void FUN_00ad7da0(float);
-    BSSoundHandle FUN_00ad7550(const char*, int);
-    BSSoundHandle FUN_00ad7480(const char*, int, struct TickSoundForm*);
-    BSSoundHandle FUN_00ad73b0(unsigned int, unsigned int);
+    float GetMasterSecondaryVolume();
+    void BSAudio_ClearSecondaryVolumes();
+    void BSAudio_SetMasterSecondaryVolume(float);
+    BSSoundHandle BSAudio_GetSoundHandleByEditorName(const char*, int);
+    BSSoundHandle BSAudio_GetSoundHandleByFilename(const char*, int, struct TickSoundForm*);
+    BSSoundHandle GetSoundHandleByFormID_00ad73b0(unsigned int, unsigned int);
 };
 struct TickTime
 {
@@ -5050,7 +5064,7 @@ struct TickSave
     bool FUN_008512f0();
     bool IsField5Set();
     bool LoadQuickSave();
-    void FUN_008509a0();
+    void Quicksave_008509a0();
 };
 struct TickStringSetting
 {
@@ -5069,7 +5083,7 @@ struct TickContext
     void SetValueFromExtraData(BSSoundHandle*);
     void FUN_00418940(BSSoundHandle*);
     void FUN_0041a090(BSSoundHandle*);
-    void* FUN_0041cd70();
+    void* ExtraDataList_GetTrespassPackage();
     void FUN_0041cda0();
 };
 struct TickTargetCast
@@ -5107,7 +5121,7 @@ struct TickPoint2
 };
 struct TickMagicTarget
 {
-    bool FUN_00822e00();
+    bool MagicTarget_HasDamageHealthEffect();
 };
 struct TickExtraActivate
 {
@@ -5119,7 +5133,7 @@ struct TickFlagSetting
 };
 struct TickDebugObj
 {
-    void FUN_005610f0(MPt*);
+    void bhkRigidBody_SetNiPosition(MPt*);
     void FUN_005615d0(const MPt&);
 };
 struct TickAction
@@ -5916,22 +5930,22 @@ struct TickPlayer : VSlot<AV17, 0>
     void SetFieldE28(float);
     void FUN_00571760(int);
     void FUN_008bbdb0();
-    void FUN_00962d00();
+    void PlayerCharacter_UpdateConflictingObjects();
     int GetReferenceFromPhysicsController();
     void SetEffectValue(int, float, int);
     int GetActorFromPhysicsController();
-    void FUN_008bc240(int);
+    void Actor_SetActionSoundValue(int);
     bool FUN_008bbc10();
     TickCell* FUN_008d6f30();
-    void FUN_00963e00(int, int);
+    void PlayerCharacter_RemovePlayerAction(int, int);
     int FUN_00964100(int);
-    void FUN_0093dd80();
-    void FUN_0093df50();
+    void PlayerCharacter_SpotterEffectNearbyEnemies();
+    void PlayerCharacter_ShaderNearbyItems();
     void RemoveExpiredItems();
     bool FUN_004d1360();
-    void FUN_00969c30();
+    void PlayerCharacter_UpdateHardcoreMode();
     TickProc* FUN_008d8520();
-    bool FUN_009678a0();
+    bool PlayerCharacter_IsStandingOnFurniture();
     TickController* FUN_009306d0();
     void FUN_00962190();
     void RestorePlayerLocation(bool);
@@ -5942,18 +5956,18 @@ struct TickPlayer : VSlot<AV17, 0>
     bool FUN_004938e0();
     bool FUN_005a2030();
     bool FUN_009445b0(float, int, unsigned short*, bool);
-    void FUN_0095f6a0();
+    void PlayerCharacter_ForcePhysicsGrabDrop();
     void FUN_009481d0();
     void UpdateFaceAnimation(float);
     void FUN_008885e0(TickAnimation*, float);
-    void FUN_0094ae40(bool, bool);
+    void PlayerCharacter_UpdateCamera(bool, bool);
     int FUN_008a7570();
-    void FUN_00950340(bool);
+    void PlayerCharacter_ForceTemp3rdPerson(bool);
     bool FUN_0093a740();
     bool FUN_005a03f0(unsigned int);
     void FUN_00951a10(bool);
-    unsigned char FUN_0093a640();
-    void FUN_0093a6f0(bool);
+    unsigned char PlayerCharacter_GetAIControlledFromPos();
+    void PlayerCharacter_SetAIControlledFromPos(bool);
     void FUN_0093a5f0(bool);
     void FUN_0088d640();
     unsigned char GetByteAt798();
@@ -5965,7 +5979,7 @@ struct TickPlayer : VSlot<AV17, 0>
     bool FUN_005721e0();
     unsigned char GetByteAtOffset681();
     TickContext* FUN_005d43c0();
-    void FUN_00953d40();
+    void PlayerCharacter_ModPlayerGreetTimer();
     void UpdatePlayerStateIfActive();
     bool FUN_008a16d0();
     void FUN_009462c0(bool, bool);
@@ -5979,15 +5993,15 @@ struct TickPlayer : VSlot<AV17, 0>
     bool FUN_00894cc0(bool);
     MPt* FUN_00436aa0();
     bool FUN_0050d4a0();
-    bool FUN_009613c0(float);
-    void FUN_00962350();
+    bool PlayerCharacter_UpdateDropSpring(float);
+    void PlayerCharacter_HavokActivateDroppedReference();
     float FUN_008a0b10();
     float FUN_00931d70();
     void FUN_00884f80();
-    void FUN_009503d0();
-    void FUN_00950530();
+    void PlayerCharacter_UpdateTemp3rdPerson();
+    void PlayerCharacter_UpdateTemp1stPerson();
     bool FUN_00948310();
-    bool FUN_008849c0();
+    bool Actor_IsJumping();
     bool FUN_00894d60();
     void FUN_008a73e0(int, int);
     void SetAnimationGroupFromFlags(unsigned char);
@@ -6000,20 +6014,20 @@ struct TickPlayer : VSlot<AV17, 0>
     void FUN_0094df80();
     void FUN_00693ef0(bool);
     void FUN_00947b10();
-    bool FUN_00950090();
+    bool PlayerCharacter_IsVanityMode();
     void FUN_009500a0();
-    void FUN_0095f6c0(float);
+    void PlayerCharacter_HandlePhysicsGrab(float);
     void UpdateScopeZoom(float);
     void ProcessEvents();
     TickMenu* FUN_00464e10();
     bool FUN_00953c50(bool*);
     bool FUN_005c7870();
-    void FUN_009444d0(float);
+    void PlayerCharacter_UpdatePlayerCombat(float);
     bool FUN_00894900();
     TickFace* FUN_008adcb0();
     int FUN_00967da0();
     float FUN_00944300();
-    void FUN_009442e0(float);
+    void PlayerCharacter_SetTimeSinceLastAmmoRegenTick(float);
     void FUN_0088c830(void*, int, int, bool, bool, bool);
     void FUN_00964260();
 };
@@ -6039,7 +6053,7 @@ extern "C" void* FUN_0056f930(void*);
 extern "C" void UpdateTargetHealthHUD(void*, bool);
 extern "C" TickScene* FUN_0045c670();
 extern "C" void FUN_005e58f0(int, ...);
-extern "C" int FUN_007038a0();
+extern "C" int Interface_GetDetectionLevel();
 extern bool DAT_011e07b8, DAT_011e07c1;
 extern TickRef* DAT_011e0788;
 extern float DAT_011e0798;
@@ -6052,13 +6066,13 @@ extern TickStringSetting DAT_011d4528, DAT_011d400c, DAT_011d4b40;
 extern char DAT_011a28e0, DAT_011841cc;
 extern "C" void FUN_00709c40(int);
 void FUN_007d0a70();
-void FUN_00961d50();
+void PlayerCharacter_DeathMenu();
 extern "C" void FUN_00703e80(const char*, int, int, void (*)(), int, int, float, float, const char*, const char*, int);
 extern "C" TickShadow* FUN_00450b80(int);
 extern "C" bool FUN_00702360();
 extern "C" TickRef* FUN_00703350();
 extern "C" void* FUN_00ec43fb(void*, int, void*, void*, int);
-extern "C" void FUN_007062e0(int, int, int);
+extern "C" void Interface_SetInfoForRef(int, int, int);
 extern "C" bool BuildActionMenu(TickList*, TickRef*);
 extern "C" TickSoundForm* GetUIActivateNothingSound();
 extern "C" int FUN_00717a40(int, int);
@@ -6086,19 +6100,19 @@ extern TickStringSetting DAT_011d4474, DAT_011d28b0, DAT_011d4948, DAT_011d2e50,
 extern const char DAT_010208a0[], DAT_01077d84[];
 extern const float DAT_01084d20;
 extern "C" bool DispatchMessageToSink(const char*, int, const char*, const char*, float, bool);
-extern "C" void FUN_007054f0(int);
+extern "C" void Interface_CreateSleepMenu(int);
 extern "C" unsigned char FUN_00456c70();
 extern MSetting DAT_011e0b64;
 extern "C" void* FUN_00458b20();
 extern "C" bool FUN_00705a00();
-extern "C" bool FUN_007f52c0();
+extern "C" bool VATSMenu_BuildTargetList();
 float FUN_009443f0();
 void* FUN_005d2860();
-void FUN_00705640();
+void Interface_CreateVATSMenu();
 extern bool DAT_011e0780, DAT_011a3b31, DAT_011e0bc0;
 extern float DAT_011e07c4, DAT_011e0b60, DAT_011e0bbc, DAT_011e07c8, DAT_011e0b58;
 extern MSetting DAT_011cde8c;
-extern "C" void FUN_00771700(int);
+extern "C" void HUDMainMenu_UpdateVisibilityState(int);
 extern MSetting DAT_011cd4cc, DAT_011cd198, DAT_011cd984, DAT_011ccf50;
 extern float DAT_011e08fc, DAT_011e0bb8, DAT_011e08f4, DAT_011e07bc;
 extern const double DAT_01023128, DAT_0101ff48, DAT_010240c0;
@@ -6111,16 +6125,16 @@ extern TickIO* DAT_01202d98;
 extern const char DAT_0108b028[];
 extern "C" float FUN_004e44b0(float);
 extern "C" bool FUN_007050d0();
-void FUN_00555c20();
-unsigned char FUN_009444a0();
-unsigned char FUN_00944270();
+void TESObjectCELL_UpdateSeenDataForPlayer();
+unsigned char HUDMainMenu_IsXPMeterFinishedMoving();
+unsigned char InterfaceManager_GetContainerMenuQueued();
 bool IsSomethingZero();
 bool IsStartMenuFlag1Set();
 extern float DAT_011e0bac;
 extern const float DAT_01016248;
 extern MSetting DAT_011ce3a8, DAT_011cedb8, DAT_011d03a0;
 extern "C" float FUN_00404010(float, float);
-extern "C" unsigned int FUN_00457fe0();
+extern "C" unsigned int Cmd_GetSessionTime_Execute();
 extern unsigned int DAT_011e0ba8;
 extern char DAT_01186568, DAT_01183108;
 extern "C" TickSoundID* GetBrushSound(int);
@@ -6148,15 +6162,15 @@ void TickPlayer::FUN_0093e860(float elapsed)
             FUN_00453a70();
             DAT_011f6df0.FadeOutAndRelease(1500);
         }
-        if (FUN_00453a70()->FUN_00ad7c80() < 0.99f)
-            FUN_00453a70()->FUN_00ad7ec0();
+        if (FUN_00453a70()->GetMasterSecondaryVolume() < 0.99f)
+            FUN_00453a70()->BSAudio_ClearSecondaryVolumes();
         break;
     default:
-        if (FUN_00453a70()->FUN_00ad7c80() > 0.99f && *DAT_011ca7c0.FUN_00403e20() < 0.99f)
+        if (FUN_00453a70()->GetMasterSecondaryVolume() > 0.99f && *DAT_011ca7c0.FUN_00403e20() < 0.99f)
         {
-            FUN_00453a70()->FUN_00ad7da0(*DAT_011ca7c0.FUN_00403e20());
+            FUN_00453a70()->BSAudio_SetMasterSecondaryVolume(*DAT_011ca7c0.FUN_00403e20());
             if (!DAT_011f6df0.IsValid())
-                DAT_011f6df0 = FUN_00453a70()->FUN_00ad7550(DAT_0108b088, 0x31);
+                DAT_011f6df0 = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_0108b088, 0x31);
             DAT_011f6df0.Play(false);
         }
     }
@@ -6215,7 +6229,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         FUN_00571760(unk1f0);
         unk1f0 = 0;
     }
-    if (unk681 && !DAT_011dea0c->FUN_009443c0())
+    if (unk681 && !DAT_011dea0c->TESMain_IsInMenuMode())
     {
         unk684 -= elapsed;
         if (unk684 < 0.0)
@@ -6243,12 +6257,12 @@ void TickPlayer::FUN_0093e860(float elapsed)
         unk154 -= DAT_011f6394.FUN_0084d030();
     else
         unk150 = 0;
-    FUN_00962d00();
+    PlayerCharacter_UpdateConflictingObjects();
     unk68->vf464(this);
     if (GetReferenceFromPhysicsController())
         SetEffectValue(7, DAT_010162c0, GetReferenceFromPhysicsController());
     if (GetActorFromPhysicsController() && unk154 <= 0.0)
-        FUN_008bc240(*DAT_011cdde0.FUN_0043d4d0());
+        Actor_SetActionSoundValue(*DAT_011cdde0.FUN_0043d4d0());
     bool weaponDrawn = FUN_008bbc10();
     if (weaponDrawn && unk68->vf454())
     {
@@ -6259,8 +6273,8 @@ void TickPlayer::FUN_0093e860(float elapsed)
         {
             TickSky* sky = DAT_011dea10->FUN_008d8520();
             float hour = sky->GetFieldEC();
-            float sunrise = sky->FUN_00595f50();
-            float sunset = sky->FUN_00595fc0();
+            float sunrise = sky->Sky_GetSunriseEnd();
+            float sunset = sky->Sky_GetSunsetBegin();
             if (hour >= sunset || hour <= sunrise)
                 night = true;
         }
@@ -6279,7 +6293,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         {
             void* effect = _ref_004839c0((unsigned int)0x8cd8c);
             FUN_00529c90(effect);
-            FUN_00963e00(9, 0);
+            PlayerCharacter_RemovePlayerAction(9, 0);
             unke08 = false;
         }
         if (!FUN_00964100(9))
@@ -6293,7 +6307,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             FUN_00529c90(effect);
             unke08 = false;
         }
-        FUN_00963e00(9, 0);
+        PlayerCharacter_RemovePlayerAction(9, 0);
     }
     if (weaponDrawn && !unke2e && DAT_011f2250.FUN_0044ddc0() != 4)
     {
@@ -6302,19 +6316,19 @@ void TickPlayer::FUN_0093e860(float elapsed)
         if (perk > 0.0)
         {
             unke2e = true;
-            FUN_0093dd80();
+            PlayerCharacter_SpotterEffectNearbyEnemies();
         }
     }
     else if (unke2e && !weaponDrawn)
     {
-        ((TickLists*)&DAT_011e0e80)->FUN_00974af0(DAT_011c3f2c->GetField630());
+        ((TickLists*)&DAT_011e0e80)->ProcessLists_FinishMagicShaderHitEffect_00974af0(DAT_011c3f2c->GetField630());
         unke2e = false;
     }
     if (unka4.vf008(0x32) > 0)
         unke2d = true;
     else if (unke2d && unka4.vf008(0x32) <= 0)
     {
-        ((TickLists*)&DAT_011e0e80)->FUN_00974af0(DAT_011c3f2c->FUN_0089f4e0());
+        ((TickLists*)&DAT_011e0e80)->ProcessLists_FinishMagicShaderHitEffect_00974af0(DAT_011c3f2c->FUN_0089f4e0());
         unke2d = false;
     }
     float perk = 0.0f;
@@ -6323,26 +6337,26 @@ void TickPlayer::FUN_0093e860(float elapsed)
     if (perk > 0.0 && unke30 <= 0.0 && weaponDrawn)
     {
         unke30 = *DAT_011d0658.FUN_00403e20();
-        FUN_0093df50();
+        PlayerCharacter_ShaderNearbyItems();
     }
     RemoveExpiredItems();
     if (FUN_004d1360())
-        FUN_00969c30();
+        PlayerCharacter_UpdateHardcoreMode();
     TickProc* process = FUN_008d8520();
     process->vf500(this, 0);
-    if (FUN_009678a0() && !vf214())
+    if (PlayerCharacter_IsStandingOnFurniture() && !vf214())
     {
         if (!FUN_00964100(8))
             SetEffectValue(8, DAT_01017868, 0);
     }
     else
-        FUN_00963e00(8, 0);
+        PlayerCharacter_RemovePlayerAction(8, 0);
     TickController* controller = FUN_009306d0();
     if (controller && controller->HasFlag20000())
     {
         if (!unk205)
         {
-            ((TickLists*)&DAT_011e0e80)->FUN_00973de0();
+            ((TickLists*)&DAT_011e0e80)->ProcessLists_MoveFollowersOnToPlayer();
             unk205 = true;
         }
     }
@@ -6408,7 +6422,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
     unsigned short movement = GetVtbl20Result();
     if (FUN_004997b0() && FUN_004938e0())
     {
-        if (FUN_007038a0() < 3 && unk66c)
+        if (Interface_GetDetectionLevel() < 3 && unk66c)
         {
             if (unk668 > 1.0)
             {
@@ -6440,7 +6454,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
     if ((!DAT_011e07b8 && !DAT_011e07c1 || unk68->vf610()) && unk68->FUN_008fec10(this))
     {
         if (unk634.FUN_00559450())
-            FUN_0095f6a0();
+            PlayerCharacter_ForcePhysicsGrabDrop();
         FUN_009481d0();
         unk64a = !unk64a;
         UpdateFaceAnimation(elapsed);
@@ -6448,7 +6462,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         unk64a = !unk64a;
         UpdateFaceAnimation(elapsed);
         FUN_008885e0(FUN_00950a60(!unk64a), elapsed);
-        FUN_0094ae40(false, false);
+        PlayerCharacter_UpdateCamera(false, false);
         return;
     }
     TickProc* processD = FUN_008d8520();
@@ -6478,7 +6492,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
         unk79a = false;
         DAT_011e0788 = 0;
         if (!unk64a)
-            FUN_00950340(true);
+            PlayerCharacter_ForceTemp3rdPerson(true);
     }
 
     if (FUN_0093a740() || vf22c(0))
@@ -6488,9 +6502,9 @@ void TickPlayer::FUN_0093e860(float elapsed)
         unk190->vf00c(animGroup);
         if (DAT_011e0798 > DAT_01015a38 && (!vf214() || vf214() == 4))
         {
-            if (FUN_0093a640() && vf214() == 4)
+            if (PlayerCharacter_GetAIControlledFromPos() && vf214() == 4)
             {
-                FUN_0093a6f0(false);
+                PlayerCharacter_SetAIControlledFromPos(false);
                 unk68->vf214();
             }
             else if (vf22c(0) || !vf214())
@@ -6513,12 +6527,12 @@ void TickPlayer::FUN_0093e860(float elapsed)
                 DAT_011e0798 = 0.0f;
             }
         }
-        else if (FUN_0093a640())
+        else if (PlayerCharacter_GetAIControlledFromPos())
         {
             DAT_011e0798 += elapsed;
             if (!vf214())
             {
-                FUN_0093a6f0(false);
+                PlayerCharacter_SetAIControlledFromPos(false);
                 unk68->vf214();
                 DAT_011e0798 = 0.0f;
             }
@@ -6553,7 +6567,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             vf2a0();
             FUN_00709c40(0);
             if (DAT_011de134->IsField5Set())
-                FUN_00703e80(DAT_011d4b40.FUN_00403df0(), 0, 0, FUN_00961d50, 1, 0x17, 0.0f, 0.0f,
+                FUN_00703e80(DAT_011d4b40.FUN_00403df0(), 0, 0, PlayerCharacter_DeathMenu, 1, 0x17, 0.0f, 0.0f,
                              DAT_011d400c.FUN_00403df0(), DAT_011d4528.FUN_00403df0(), 0);
             else
                 FUN_007d0a70();
@@ -6570,10 +6584,10 @@ void TickPlayer::FUN_0093e860(float elapsed)
         unk64a = !unk64a;
         UpdateFaceAnimation(elapsed);
         FUN_008885e0(FUN_00950a60(!unk64a), elapsed);
-        FUN_0094ae40(false, false);
+        PlayerCharacter_UpdateCamera(false, false);
         FUN_008d6f30()->UpdateRefPlacement(this, 1, 0);
         FUN_00450b80(0)->FUN_00b5d9f0(vf1d0(), true);
-        unk7b4 = FUN_008d6f30()->FUN_005474b0(0);
+        unk7b4 = FUN_008d6f30()->TESObjectCELL_GetMusicType(0);
         if (unk79a)
         {
             if (DAT_011e0788)
@@ -6660,7 +6674,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
                 bool failed = false;
                 if (!blocked)
                 {
-                    FUN_007062e0(0, 0, 0);
+                    Interface_SetInfoForRef(0, 0, 0);
                     if (target)
                     {
                         TickList list;
@@ -6698,7 +6712,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
                     FUN_005d43c0()->FUN_00418940(&sound);
                     TickSoundForm* errorSound = GetUIActivateNothingSound();
                     if (!sound.IsValid() && errorSound)
-                        sound = FUN_00453a70()->FUN_00ad7480(errorSound->FUN_00511840(), 0x121, errorSound);
+                        sound = FUN_00453a70()->BSAudio_GetSoundHandleByFilename(errorSound->FUN_00511840(), 0x121, errorSound);
                     if (!sound.IsPlaying())
                         sound.Play(false);
                     FUN_005d43c0()->FUN_0041a090(&sound);
@@ -6716,7 +6730,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
             DAT_011dea3c->unk68->vf214();
     }
 
-    FUN_00953d40();
+    PlayerCharacter_ModPlayerGreetTimer();
     UpdatePlayerStateIfActive();
     bool weaponToggled = false;
     unkd50 += elapsed;
@@ -6798,7 +6812,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
                 if (animGroup & 0x400)
                 {
                     animGroup &= ~0x400;
-                    sound = FUN_00453a70()->FUN_00ad7550(DAT_0108b064, 0x40102);
+                    sound = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_0108b064, 0x40102);
                     sound.SetPosition(*reinterpret_cast<const NiPoint3*>(vf1f4()));
                     sound.Play(false);
                     vf340(0xb);
@@ -6806,7 +6820,7 @@ void TickPlayer::FUN_0093e860(float elapsed)
                 else
                 {
                     animGroup |= 0x400;
-                    sound = FUN_00453a70()->FUN_00ad7550(DAT_0108b050, 0x40102);
+                    sound = FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_0108b050, 0x40102);
                     sound.SetPosition(*reinterpret_cast<const NiPoint3*>(vf1f4()));
                     sound.Play(false);
                     vf340(0xa);
@@ -6838,8 +6852,8 @@ void TickPlayer::FUN_0093e860(float elapsed)
         cameraMatrix.FUN_00439f50(0, &side);
     bool adjusted = false;
     if (unk63c == 2)
-        adjusted = FUN_009613c0(elapsed);
-    FUN_00962350();
+        adjusted = PlayerCharacter_UpdateDropSpring(elapsed);
+    PlayerCharacter_HavokActivateDroppedReference();
     int axisX = 0;
     int axisY = 0;
     int axisZ = 0;
@@ -7050,8 +7064,8 @@ axesDone:
     if (sneakPressed)
         FUN_00884f80();
     unk190->vf018(elapsed);
-    FUN_009503d0();
-    FUN_00950530();
+    PlayerCharacter_UpdateTemp3rdPerson();
+    PlayerCharacter_UpdateTemp1stPerson();
     unk648 = unk64a;
     unk649 = true;
     unk64a = true;
@@ -7111,11 +7125,11 @@ axesDone:
     {
         TickAnimation* jumpAnim = vf1e4();
         if (FUN_008a7570() == 0xc && jumpAnim->FUN_00491040(1) &&
-            jumpAnim->FUN_00491040(1)->FUN_0048f7f0()->FUN_005f4db0())
+            jumpAnim->FUN_00491040(1)->FUN_0048f7f0()->TESAnimGroup_IsJumpingLandAnim())
             FUN_008a73e0(-1, 0);
         if (FUN_008a7570() != 0xc)
         {
-            bool ready = !FUN_008849c0() && !FUN_005a2030();
+            bool ready = !Actor_IsJumping() && !FUN_005a2030();
             bool aiming = input->FUN_00a24660(6, 0) != 0;
             bool special = FUN_00894d60();
             if (aiming)
@@ -7130,11 +7144,11 @@ axesDone:
             }
             else if (FUN_009306d0()->HasFlag400())
                 vf254();
-            FUN_0095f6a0();
+            PlayerCharacter_ForcePhysicsGrabDrop();
             flag = true;
         }
     }
-    if (!vf448() && FUN_005d43c0()->FUN_0041cd70())
+    if (!vf448() && FUN_005d43c0()->ExtraDataList_GetTrespassPackage())
         FUN_005d43c0()->FUN_0041cda0();
 
     bool menuBusy = false;
@@ -7150,16 +7164,16 @@ axesDone:
             DispatchMessageToSink(DAT_011d2e50.FUN_00403df0(), 0, DAT_010208a0, 0, DAT_010162c0, false);
         else if (DAT_011dea3c->FUN_009306d0()->FUN_005c0880() == 1 || DAT_011dea3c->FUN_009306d0()->FUN_005c0880() == 2)
             DispatchMessageToSink(DAT_011d3e20.FUN_00403df0(), 0, DAT_010208a0, 0, DAT_010162c0, false);
-        else if (DAT_011dea3c->FUN_008d6f30()->FUN_005444c0() || !DAT_011dea3c->GetByteAt66E())
+        else if (DAT_011dea3c->FUN_008d6f30()->TESObjectCELL_GetCantWaitHere() || !DAT_011dea3c->GetByteAt66E())
             DispatchMessageToSink(DAT_011d20ac.FUN_00403df0(), 0, DAT_010208a0, 0, DAT_010162c0, false);
         else if (((TickLists*)&DAT_011e0e80)->IsFlagged())
             DispatchMessageToSink(DAT_011d4b10.FUN_00403df0(), 0, DAT_010208a0, 0, DAT_010162c0, false);
         else if (FUN_008d8520() && FUN_008d8520()->vf764() != 0.0)
             DispatchMessageToSink(DAT_011d4b10.FUN_00403df0(), 0, DAT_010208a0, 0, DAT_010162c0, false);
-        else if (DAT_011dea3c->unk94.FUN_00822e00())
+        else if (DAT_011dea3c->unk94.MagicTarget_HasDamageHealthEffect())
             DispatchMessageToSink(DAT_011d47d4.FUN_00403df0(), 0, DAT_010208a0, 0, DAT_010162c0, false);
         else
-            FUN_007054f0(0);
+            Interface_CreateSleepMenu(0);
     }
     unk64a = true;
     vf1e0();
@@ -7194,7 +7208,7 @@ axesDone:
     if (animGroup & 0xf)
         flag = true;
     if (input->FUN_00a24660(0x19, 1))
-        DAT_011de134->FUN_008509a0();
+        DAT_011de134->Quicksave_008509a0();
     if (input->FUN_00a24660(0x1a, 1))
         DAT_011de134->LoadQuickSave();
 
@@ -7203,7 +7217,7 @@ axesDone:
         (povPressed && !FUN_005a03f0(8) && !vf214() && DAT_011f2250.FUN_0044ddc0() != 4 && !FUN_00967ae0() &&
          !FUN_00705a00() && !DAT_011f2250.FUN_0044ddc0() && !(GetVtbl20Result() & 0x800)))
     {
-        if (FUN_007f52c0())
+        if (VATSMenu_BuildTargetList())
         {
             if (povPressed)
                 DAT_011f21d1 = !DAT_011dea3c->FUN_004eaf60();
@@ -7232,18 +7246,18 @@ axesDone:
             }
             }
             if (switchNow && !unk64f && FUN_00716440() == FUN_009443f0() && !unk64d && FUN_008a16d0() &&
-                !FUN_00950090() && !unk64a && unk64c == unk64a)
+                !PlayerCharacter_IsVanityMode() && !unk64a && unk64c == unk64a)
             {
                 FUN_00529c90(FUN_005d2860());
                 DAT_011dea0c->FUN_0086fd90(true);
-                FUN_00705640();
+                Interface_CreateVATSMenu();
                 DAT_011e0780 = false;
             }
             else
             {
                 DAT_011e0780 = true;
                 FUN_008a6840(true);
-                if (FUN_00950090() || unk64a)
+                if (PlayerCharacter_IsVanityMode() || unk64a)
                 {
                     FUN_009500a0();
                     FUN_00951a10(true);
@@ -7254,7 +7268,7 @@ axesDone:
         }
         else
         {
-            FUN_00453a70()->FUN_00ad7550(DAT_01077d84, 0x121).Play(false);
+            FUN_00453a70()->BSAudio_GetSoundHandleByEditorName(DAT_01077d84, 0x121).Play(false);
             DAT_011e0780 = false;
         }
         flag = true;
@@ -7274,7 +7288,7 @@ axesDone:
                     DAT_011e07c4 = 0.0f;
                     DAT_011e07b9 = false;
                     DAT_011e07b8 = true;
-                    FUN_00771700(0x14);
+                    HUDMainMenu_UpdateVisibilityState(0x14);
                     DAT_011e0b60 = 0.0f;
                     DAT_011e0bbc = DAT_011e0b5c;
                 }
@@ -7286,7 +7300,7 @@ axesDone:
             DAT_011e07c4 = 0.0f;
             DAT_011e07b9 = false;
             DAT_011e07b8 = false;
-            FUN_00771700(1);
+            HUDMainMenu_UpdateVisibilityState(1);
             if (DAT_011e07c8 < *DAT_011cde8c.FUN_00403e20() && (FUN_004b71d0() || DAT_011e0bbc == DAT_011e0b5c) &&
                 !FUN_005a03f0(0x10))
             {
@@ -7360,7 +7374,7 @@ axesDone:
         if (!blocked)
         {
             if (!target || !target->vf100())
-                FUN_007062e0(0, 0, 0);
+                Interface_SetInfoForRef(0, 0, 0);
             if (target && !movingTarget)
             {
                 TickList list;
@@ -7402,7 +7416,7 @@ axesDone:
             FUN_005d43c0()->FUN_00418940(&failSound);
             TickSoundForm* errorSound = GetUIActivateNothingSound();
             if (!failSound.IsValid() && errorSound)
-                failSound = FUN_00453a70()->FUN_00ad7480(errorSound->FUN_00511840(), 0x121, errorSound);
+                failSound = FUN_00453a70()->BSAudio_GetSoundHandleByFilename(errorSound->FUN_00511840(), 0x121, errorSound);
             if (!failSound.IsPlaying())
                 failSound.Play(false);
             FUN_005d43c0()->FUN_0041a090(&failSound);
@@ -7436,27 +7450,27 @@ axesDone:
                 DAT_011e08f4 = FUN_00931d70();
             else
                 DAT_011e08f4 = 0.0f;
-            FUN_00950340(true);
+            PlayerCharacter_ForceTemp3rdPerson(true);
             DAT_011e07b9 = true;
             DAT_011e07b8 = true;
-            FUN_00771700(0x14);
+            HUDMainMenu_UpdateVisibilityState(0x14);
             DAT_011e07c3 = true;
         }
     }
-    FUN_0095f6c0(elapsed);
+    PlayerCharacter_HandlePhysicsGrab(elapsed);
     if (DAT_011e07ec && DAT_011e0bb4++ < 0x14)
     {
         MPt debugPos = origin;
         debugPos.z += 128.0;
         debugPos.y += DAT_010240c0;
         debugPos.x += DAT_010240c0;
-        DAT_011e07ec->FUN_005610f0(&debugPos);
+        DAT_011e07ec->bhkRigidBody_SetNiPosition(&debugPos);
         DAT_011e07ec->FUN_005615d0(*(MPt*)&DAT_011f426c);
     }
     if (!vf22c(0) && !vf2e8())
         FUN_008c3c40(0, 0);
-    firstPersonAnim->SetMoveSpeed(thirdPersonAnim->FUN_009442a0());
-    firstPersonAnim->FUN_004c0c90(thirdPersonAnim->FUN_00508070());
+    firstPersonAnim->SetMoveSpeed(thirdPersonAnim->GetMoveSpeed_009442a0());
+    firstPersonAnim->Animation_SetAttackSpeed(thirdPersonAnim->FUN_00508070());
     if (!FUN_007050d0())
         UpdateScopeZoom(elapsed);
     unk64a = !unk64a;
@@ -7467,7 +7481,7 @@ axesDone:
     FUN_008885e0(FUN_00950a60(!unk64a), elapsed);
     ProcessEvents();
     if (!DAT_011f21d0)
-        FUN_0094ae40(false, false);
+        PlayerCharacter_UpdateCamera(false, false);
     FUN_008d6f30()->UpdateRefPlacement(this, 1, 0);
     FUN_00450b80(0)->FUN_00b5d9f0(vf1d0(), true);
     if (unk68->vf6b8())
@@ -7475,7 +7489,7 @@ axesDone:
     if (vf22c(0) &&
         !(DAT_011f2250.FUN_0044ddc0() == 4 && DAT_011f2250.FUN_009c71c0() && DAT_011f2250.FUN_009c71c0()->unk00 == 0xf))
         DAT_011f2250.CreateCommandAndUpdateHUD();
-    FUN_00555c20();
+    TESObjectCELL_UpdateSeenDataForPlayer();
     if (!DAT_011e0bb0 || DAT_011e0bb0 != FUN_008d6f30())
     {
         DAT_011e0bb0 = FUN_008d6f30();
@@ -7487,8 +7501,8 @@ axesDone:
         }
     }
     menuBusy = false;
-    if (FUN_00464e10()->FUN_008d51f0() && !FUN_00953c50(&menuBusy) && !DAT_011f2250.FUN_00525430() && FUN_009444a0() &&
-        IsSomethingZero() && !FUN_00944270() && !FUN_005c7870())
+    if (FUN_00464e10()->FUN_008d51f0() && !FUN_00953c50(&menuBusy) && !DAT_011f2250.FUN_00525430() && HUDMainMenu_IsXPMeterFinishedMoving() &&
+        IsSomethingZero() && !InterfaceManager_GetContainerMenuQueued() && !FUN_005c7870())
         FUN_00464e10()->LevelUpPlayer();
     if (unke0c && !FUN_00953c50(&menuBusy) && !DAT_011f2250.FUN_00525430() && !FUN_007050d0() && !IsStartMenuFlag1Set())
     {
@@ -7497,7 +7511,7 @@ axesDone:
     }
     if (unk68)
         unk68->vf104();
-    FUN_009444d0(elapsed);
+    PlayerCharacter_UpdatePlayerCombat(elapsed);
 
     if (DAT_011dea3c->FUN_00894900())
     {
@@ -7528,10 +7542,10 @@ axesDone:
         TickWeapon* regenWeapon = unk68->vf148()->FUN_0044ddc0();
         if (regenWeapon->FUN_00709430(unk68->vf148()->HasEffect(6)) > 0.0)
         {
-            FUN_009442e0(FUN_00944300() - DAT_011f6394.FUN_0084d030());
+            PlayerCharacter_SetTimeSinceLastAmmoRegenTick(FUN_00944300() - DAT_011f6394.FUN_0084d030());
             if (unk68->vf14c() && FUN_00944300() <= 0.0)
             {
-                FUN_009442e0(regenWeapon->FUN_00709430(unk68->vf148()->HasEffect(6)));
+                PlayerCharacter_SetTimeSinceLastAmmoRegenTick(regenWeapon->FUN_00709430(unk68->vf148()->HasEffect(6)));
                 int ammo = unk68->vf14c()->FUN_00726070();
                 if (ammo < regenWeapon->GetFlaggedValue(unk68->vf148()->HasEffect(2)))
                 {
@@ -7543,7 +7557,7 @@ axesDone:
             {
                 TESContainer container;
                 container.FUN_004818e0(weapon->FUN_00525980(DAT_011dea3c), 1, 0);
-                container.FUN_004821a0(DAT_011dea3c, 1);
+                container.AddContainerToReference(DAT_011dea3c, 1);
                 DAT_011dea3c->FUN_0088c830(weapon->FUN_00525980(DAT_011dea3c), 1, 0, true, false, false);
             }
         }
@@ -7554,7 +7568,7 @@ axesDone:
         if (cell)
         {
             TickRefList* item = cell->FUN_009604f0();
-            if (DAT_011e0ba8 < FUN_00457fe0())
+            if (DAT_011e0ba8 < Cmd_GetSessionTime_Execute())
             {
                 while (item && *item->FUN_006815c0())
                 {
@@ -7577,9 +7591,9 @@ axesDone:
                                     if (ambient)
                                     {
                                         FUN_00453a70()
-                                            ->FUN_00ad73b0(ambient->FUN_0084e3a0(), 0x101)
+                                            ->GetSoundHandleByFormID_00ad73b0(ambient->FUN_0084e3a0(), 0x101)
                                             .Play(false);
-                                        DAT_011e0ba8 = FUN_00457fe0() + FUN_00944460(1500, 2000);
+                                        DAT_011e0ba8 = Cmd_GetSessionTime_Execute() + FUN_00944460(1500, 2000);
                                     }
                                 }
                             }
@@ -7603,7 +7617,7 @@ axesDone:
             unk1a0->FUN_009ab9a0(this);
         unk1a0->vf310(0.0f);
     }
-    if (unke24 > 0.0 && (double)FUN_00457fe0() - unke24 > *DAT_011d03a0.FUN_00403e20() * 1000.0)
+    if (unke24 > 0.0 && (double)Cmd_GetSessionTime_Execute() - unke24 > *DAT_011d03a0.FUN_00403e20() * 1000.0)
         unke24 = DAT_01012054;
 }
 

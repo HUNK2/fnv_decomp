@@ -38,7 +38,7 @@ class BSTempEffectSimpleDecal : public BSTempEffect
     void SetDecalTint(NiColorA& color, bool enabled);
     bool GetByteAt2D();
     TESTopicInfoData* FUN_004a0330();
-    void FUN_0068b220();
+    void CleanUpMemory();
     bool AddDecalGeometry(int count, int* indices, NiPoint3* positions,
                           const NiPoint3* attributes);
     bool AddDecalGeometry(int count, int* indices, DecalPoint* positions,
@@ -51,7 +51,7 @@ class BSTempEffectSimpleDecal : public BSTempEffect
     bool FUN_0068b4c0(NiAVObject* object);
     bool FUN_0068b4c0(unsigned int object);
     bool FUN_0068b4c0(Param* object);
-    int FUN_0068ca90();
+    int CreateTriData_0068ca90();
     void ResizeMeshBuffers();
     int ClipPolygonByPlanes(int count, const int* indices, const NiPoint3* positions,
                             const NiPoint3* attributes, int* outIndices,

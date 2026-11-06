@@ -6,8 +6,8 @@
 #include "../../include/BSAnimGroupSequence.h"
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
-NiAVObject* FUN_0054f4f0();
+unsigned int TESTerrainLODManager_GetGrassNode();
+NiAVObject* TESMain_GetWeatherRoot();
 
 // ---- candidate ----
 class AnimGroup
@@ -69,11 +69,12 @@ class LockCtx
   public:
     char pad[0xc];
     int m_iThirdValue;
-    void FUN_004d8b90(int arg1, NiControllerSequence* arg2);
+    void NiTreeCtrl_AddControllerSequence(int arg1, NiControllerSequence* arg2);
 };
 
 // @fnv 0x004d8b90
-void LockCtx::FUN_004d8b90(int arg1, NiControllerSequence* arg2)
+// src: COMMUNITY 0x004d8b90
+void LockCtx::NiTreeCtrl_AddControllerSequence(int arg1, NiControllerSequence* arg2)
 {
     if (arg2)
     {
@@ -380,7 +381,7 @@ struct CellInterior
 };
 struct CellEnvironment
 {
-    bool FUN_00542d20();
+    bool TESDataHandler_GetSaveLoadGame();
 };
 extern CellEnvironment* DAT_011c3f2c;
 extern float DAT_01016970;
@@ -424,7 +425,7 @@ struct CellLoader : CellForm, CellFullName
     unsigned int lightingTemplate, lightingInheritance;
     void CallWithThis(CellFile*);
     CellExtra* GetExtraDataList();
-    void FUN_00547440(float);
+    void TESObjectCELL_SetWaterHeight(float);
     void ResetCellData();
     bool FUN_00425fd0();
     void SetInteriorDataValue(void*);
@@ -598,8 +599,8 @@ bool CellLoader::FUN_005422d0(CellFile* file)
             if (!(flags & 1))
                 flags |= 2;
             if ((flags & 1) && (flags & 0x80))
-                FUN_00547440(DAT_01016970);
-            if (!DAT_011c3f2c->FUN_00542d20())
+                TESObjectCELL_SetWaterHeight(DAT_01016970);
+            if (!DAT_011c3f2c->TESDataHandler_GetSaveLoadGame())
                 flags &= ~0x40;
             ResetCellData();
             if (FUN_00425fd0() && savedSourceSlot15)

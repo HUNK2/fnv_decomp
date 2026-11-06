@@ -10,7 +10,8 @@ void __stdcall InsertSortedNode(NiVBBlock*);
 // RemoveFirstNodeAtLeast and FUN_00e94580 used by the local set views below.
 
 // @fnv 0x00e94490
-void NiVBSet::FUN_00e94490(unsigned int uiArrayIndex, unsigned int uiChipIndex)
+// src: COMMUNITY 0x00e94490
+void NiVBSet::FreeChip(unsigned int uiArrayIndex, unsigned int uiChipIndex)
 {
     unsigned int uiPreFreeSpace;
     NiVBBlock* pkVBBlock;
@@ -25,7 +26,7 @@ void NiVBSet::FUN_00e94490(unsigned int uiArrayIndex, unsigned int uiChipIndex)
     if (pkVBBlock->m_uiValue28 == pkVBBlock->m_uiSize)
     {
         m_kBlockArray.FUN_00a93c50(uiArrayIndex);
-        FUN_00e94330(pkVBBlock);
+        NiVBSet_FreeBlock(pkVBBlock);
     }
     else
     {
@@ -109,7 +110,7 @@ __forceinline NiVBBlock* InitializeVBBlock(NiVBBlock* block)
     block->m_chips.m_38 = 0;
     block->m_chips.m_30 = 0;
     block->m_chips.unk00 = &DAT_010f0f8c;
-    block->FUN_00e942d0();
+    block->ClearAllData();
     return block;
 }
 extern NiVBBlock* DAT_0126fa30;
@@ -140,23 +141,24 @@ struct VBSet
     char _00[0x30];
     unsigned int m_uiThreshold;
     NiVBBlock* RemoveFirstNodeAtLeast(unsigned int uiSize);
-    NiVBBlock* FUN_00e94580(unsigned int uiSize);
+    NiVBBlock* NiVBSet_CreateBlock(unsigned int uiSize);
     void InsertSortedNode(NiVBBlock* pkBlock);
-    void* FUN_00e94650(unsigned int uiSize, bool bForceNew);
+    void* NiVBSet_AllocateChip(unsigned int uiSize, bool bForceNew);
 };
 
 // @fnv 0x00e94650
-void* VBSet::FUN_00e94650(unsigned int uiSize, bool bForceNew)
+// src: COMMUNITY 0x00e94650
+void* VBSet::NiVBSet_AllocateChip(unsigned int uiSize, bool bForceNew)
 {
     void* pvChip = 0;
     NiVBBlock* pkBlock = 0;
     if (!bForceNew)
         pkBlock = RemoveFirstNodeAtLeast(uiSize);
     if (!pkBlock)
-        pkBlock = FUN_00e94580(uiSize);
+        pkBlock = NiVBSet_CreateBlock(uiSize);
     if (pkBlock)
     {
-        pvChip = pkBlock->FUN_00e98660(uiSize);
+        pvChip = pkBlock->NiVBBlock_AllocateChip(uiSize);
         if (pkBlock->m_uiValue24 > m_uiThreshold)
             InsertSortedNode(pkBlock);
     }
@@ -290,7 +292,7 @@ struct VBSetX
     unsigned int m_u14;
     unsigned int m_u18;
     VBArr m_kArr;
-    NiVBBlock* FUN_00e94580(unsigned int uiSize);
+    NiVBBlock* NiVBSet_CreateBlock(unsigned int uiSize);
 };
 
 __forceinline NiVBBlock* PopBlock()
@@ -308,7 +310,8 @@ __forceinline NiVBBlock* PopBlock()
 
 // Allocates a NiVBBlock of at least uiSize bytes via the device, fills its fields, and inserts it into the VBArr.
 // @fnv 0x00e94580
-NiVBBlock* VBSetX::FUN_00e94580(unsigned int uiSize)
+// src: COMMUNITY 0x00e94580
+NiVBBlock* VBSetX::NiVBSet_CreateBlock(unsigned int uiSize)
 {
     unsigned int uiAllocSize = uiSize;
     if ((m_u08 & 0x10000000) == 0)
@@ -396,7 +399,7 @@ void VBSetCleanup::FUN_00e943c0()
                 reinterpret_cast<VBReleaseInterface*>(block->m_08)->Release();
                 block->m_08 = 0;
             }
-            block->FUN_00e942d0();
+            block->ClearAllData();
             NiVBBlock* previous = reinterpret_cast<NiVBBlock*>(block->m_3c);
             NiVBBlock* next = reinterpret_cast<NiVBBlock*>(block->m_40);
             if (previous)

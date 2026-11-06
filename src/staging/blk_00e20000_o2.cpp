@@ -2757,7 +2757,8 @@ int main(void)
 }
 
 // @fnv 0x00e2abd0
-void __cdecl FUN_00e2abd0()
+// src: COMMUNITY 0x00e2abd0
+void __cdecl nullsub_333()
 {
     return;
     __debugbreak();
@@ -3411,7 +3412,8 @@ void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void* caster, S_00df8990_Obj* so
 }
 
 // @fnv 0x00e2cfc0
-void __cdecl FUN_00e2cfc0()
+// src: COMMUNITY 0x00e2cfc0
+void __cdecl nullsub_334()
 {}
 
 // @fnv 0x00e2cfd0
@@ -4590,12 +4592,13 @@ struct S_Class2b0
     S_Pair2b0* unk08;
     int unk0c;
 
-    void FUN_00e3f2b0(S_Out2b0* param);
+    void hkxEnvironment_convertToString(S_Out2b0* param);
 };
 
 // Writes unk0c pairs from unk08 to param, formatting each with DAT_01021184 or DAT_01011584 based on Q_cls::FUN_00e3f210 and joining with str_010ebaa0.
 // @fnv 0x00e3f2b0
-void S_Class2b0::FUN_00e3f2b0(S_Out2b0* apOut)
+// src: COMMUNITY 0x00e3f2b0
+void S_Class2b0::hkxEnvironment_convertToString(S_Out2b0* apOut)
 {
     apOut->FUN_00d61cc0();
     for (int i = 0; i < unk0c; i++)

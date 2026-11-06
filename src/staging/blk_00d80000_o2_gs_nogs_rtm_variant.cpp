@@ -102,7 +102,7 @@ struct FUN_00d85360_cls {
 
     FUN_00d85360_cls* FUN_00d54290();
 };
-FUN_00d85360_cls* __cdecl FUN_00d85360(int pSource);
+FUN_00d85360_cls* __cdecl hkpConstraintDataUtils_copyAtoms_hkpBallAndSocketConstraintData_(int pSource);
 struct S_00d85af0_Base {
     int unk00;
     int unk04;
@@ -469,7 +469,7 @@ inline int countBitsSetD866(unsigned int n)
     return (n & 0xff) + (n >> 16);
 }
 int __cdecl CountBitsInWords(const unsigned int* puiWords, int iNumWords);
-int __cdecl FUN_00cb0fd0(const char*, const char*, unsigned int);
+int __cdecl j_strncmp(const char*, const char*, unsigned int);
 const char* __cdecl FUN_00cb1150(const char*, int);
 const char* __cdecl FUN_00cb1140(const char*, int);
 struct TypeEntry {
@@ -568,7 +568,7 @@ public:
 struct FUN_00d87910_cls {
     int m_00;
 
-    FUN_00d87910_cls* FUN_00d87910();
+    FUN_00d87910_cls* hkThread_hkThread();
 };
 extern "C" unsigned int (__stdcall *DAT_00fdf1d0)();
 unsigned __int64 __cdecl FUN_00d87a40();
@@ -879,11 +879,11 @@ struct FUN_00d9fb30_Stub {
     void FUN_00d9fb30();
 };
 void __stdcall FUN_00d9fb40(unsigned char* output, int unused1);
-void __stdcall FUN_00d9fca0(int);
-void __stdcall FUN_00d9fcb0(int, int, int);
-void __stdcall FUN_00d9fcc0(int);
-void __stdcall FUN_00d9fcd0(int);
-void __stdcall FUN_00d9fce0(int);
+void __stdcall nullsub_68(int);
+void __stdcall nullsub_69(int, int, int);
+void __stdcall nullsub_70(int);
+void __stdcall nullsub_71(int);
+void __stdcall nullsub_72(int);
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 extern unsigned int DAT_0126835c;
 typedef void* (__stdcall* D85TlsFn)(unsigned long);
@@ -1069,7 +1069,7 @@ struct S00d881a0_Mid {
 struct S00d881a0_Obj {
     S00d881a0_Mid* m00;
 };
-int __cdecl FUN_00d29bf0(void* a0, void* a1, void* a2, void* a3, void* a4, int a5);
+int __cdecl hkRigidMotionUtilApplyAccumulators(void* a0, void* a1, void* a2, void* a3, void* a4, int a5);
 void __cdecl FUN_00d1a330(int a0, void* a1, void* a2);
 static int hkConstraintSolverSetup_integrate2(void* p, void* ecxv, char* eaxv, S00d881a0_Obj* esi, void* edi);
 int S00d881a0_Wrap(void* p);
@@ -1361,7 +1361,7 @@ void __cdecl NotifyConstraintRemoved(hkpConstraintInstance* constraint);
 void __cdecl hkArrayUtil__reserve(AllocIface& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
 extern const char DAT_010d3aa0[];
 extern const char DAT_010d3a90[];
-int __cdecl FUN_00cb0fd0(const char*, const char*, int) throw();
+int __cdecl j_strncmp(const char*, const char*, int) throw();
 int __cdecl hkString_strLen(const char*) throw();
 const char* __cdecl FUN_00cb1140(const char*, int) throw();
 int __cdecl CallWithZeroMiddleArg(const char*, int) throw();
@@ -1548,7 +1548,7 @@ struct SolverObject {
     int unk10, unk14, unk18, unk1c;
     SolverTarget* target;
 };
-void __cdecl FUN_00df0680(TargetObj*, int, int, int);
+void __cdecl hkExportImpulsesAndRhs(TargetObj*, int, int, int);
 void __cdecl hkCpuSolveExportResultsJob(Arg0* world, Arg1* context, SolverObject* object);
 struct StructItem {
     short* unk00;
@@ -1821,7 +1821,7 @@ extern unsigned int DAT_0126835c;
 typedef void* (__stdcall *D94TlsGetFn)(unsigned long);
 extern D94TlsGetFn DAT_00fdf044;
 extern const char str_010d3ef4[];
-void __cdecl FUN_00d29830(char* p, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+void __cdecl hkRigidMotionUtilApplyForcesAndBuildAccumulators(char* p, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 struct D94Sub {
     int u00;
     int u04;
@@ -1853,7 +1853,7 @@ struct D94Body {
 struct D94Obj {
     int ProcessCallback(D94Body* a, D94Body* b, int c);
 };
-int __cdecl FUN_00d94df0(char* a1, D94Obj* a2, D94Body* a3);
+int __cdecl hkCpuBuildAccumulatorsJob(char* a1, D94Obj* a2, D94Body* a3);
 #include <string.h>
 struct S00d967a0_Obj {
     void** vptr;
@@ -2269,7 +2269,7 @@ static __forceinline void S00d94a80_Process(Arg0* a1, Arg2* p)
     }
 
 }
-void __cdecl FUN_00d94a80(Arg0* a1, Arg1* a2, Arg2* a3);
+void __cdecl hkCpuBuildJacobiansJob(Arg0* a1, Arg1* a2, Arg2* a3);
 extern const float g_011c5874_arg1;
 extern const float runtimeFloatSettingDefault262;
 extern double DAT_01035718;

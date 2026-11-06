@@ -447,7 +447,7 @@ struct NormalVector
         q = _mm_mul_ps(inverseLength().broadcast(), q);
     }
 };
-void FUN_00ddd620(const NormalVector* a, const NormalVector* b, const NormalVector* c, NormalVector* out);
+void hkpMeshWeldingUtility_calcAntiClockwiseTriangleNormal(const NormalVector* a, const NormalVector* b, const NormalVector* c, NormalVector* out);
 struct S_00ddecf0_Heap
 {
     virtual void unk00();

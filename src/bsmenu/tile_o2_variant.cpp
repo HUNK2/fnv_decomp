@@ -8,11 +8,12 @@
 
 struct FUN_00bb79d0_class
 {
-    void __thiscall FUN_00bb79d0(bool value);
+    void __thiscall TileShaderProperty_SetUseScissorTest(bool value);
 };
 
 // @fnv 0x00bb79d0
-void __thiscall FUN_00bb79d0_class::FUN_00bb79d0(bool value)
+// src: COMMUNITY 0x00bb79d0
+void __thiscall FUN_00bb79d0_class::TileShaderProperty_SetUseScissorTest(bool value)
 {
     *(char*)((char*)this + 0xac) = value;
 }

@@ -47,16 +47,16 @@ struct FormBase
 struct EventEntity
 {
     void** vtable;
-    FormBase* FUN_0043b4f0(unsigned int* out);
+    FormBase* bhkWorldObject_GetCollisionFilter(unsigned int* out);
     void* FUN_005d43c0();
 };
 struct Scene
 {
     EventStream* FUN_008cdd90();
-    void FUN_004585f0(NiPoint3* out);
-    void FUN_004587f0(NiPoint3* out);
-    void FUN_005dbe60(NiPoint3* out);
-    void FUN_009c1a20(NiPoint3* out);
+    void bhkPickData_NiGetFrom(NiPoint3* out);
+    void bhkPickData_NiGetTo(NiPoint3* out);
+    void bhkPickData_NiCalcHitPoint(NiPoint3* out);
+    void bhkPickData_NiGetLength(NiPoint3* out);
     Filter* ConstructCF845(Filter* out);
 };
 // Ray-pick query, not Animation: ctor 0x004a3c20 and collector getter 0x008cdd90 match BhkPickData in bgsdecalmanager.cpp.
@@ -137,8 +137,8 @@ struct AudioPlaybackHandle
 };
 struct AudioSystem
 {
-    AudioPlaybackHandle FUN_00ad7480(const char* path, int flags, SoundSource* source);
-    void* FUN_0044edb0();
+    AudioPlaybackHandle BSAudio_GetSoundHandleByFilename(const char* path, int flags, SoundSource* source);
+    void* TESMain_GetThread();
 };
 struct WorldTarget
 {
@@ -176,7 +176,7 @@ extern NiPoint3 DAT_011a9484;
 extern int FUN_004b5820(int handle);
 extern EventEntity* FUN_0056f930(int handle);
 extern int FUN_004b5950(int handle);
-extern EventEntity* FUN_004b5a80(int form);
+extern EventEntity* bhkEntity_Getbhk(int form);
 extern void FUN_005ac750(Controller* player, void* sound, int flags);
 extern bool FUN_0043b300(FormTypeDescriptor* descriptor, EventEntity* entity);
 extern EventEntity* FUN_004b5260(int handle);
@@ -185,7 +185,7 @@ struct ParentEntity : EventEntity
     EventEntity* FUN_006fa820();
 };
 extern bool CanProjectileHit(EventEntity* reference, int eventHandle, Controller* player, int eventOwner);
-extern bool FUN_009c5ba0(RayPickQuery* packet, int handle, int arg3, int arg4);
+extern bool Projectile_PickSceneGraph(RayPickQuery* packet, int handle, int arg3, int arg4);
 extern void FUN_004a3970(NiPoint3* out, EventInfo* info);
 extern AudioSystem* FUN_00453a70();
 extern RenderElement* CreateOctahedron(float scale, Color* color, int arg3);
@@ -206,8 +206,8 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
     {
         NiPoint3 initialPosition;
         NiPoint3 initialDirection;
-        scene->FUN_004585f0(&initialPosition);
-        scene->FUN_009c1a20(&initialDirection);
+        scene->bhkPickData_NiGetFrom(&initialPosition);
+        scene->bhkPickData_NiGetLength(&initialDirection);
         bool partialMatch = false;
         EventEntity* lastReference = 0;
         for (int i = 0; !picked && i < scene->FUN_008cdd90()->FUN_00460140()->FUN_00726070(); ++i)
@@ -222,14 +222,14 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
             {
                 bool candidate = true;
                 int form = FUN_004b5950(info.eventHandle);
-                EventEntity* entity2 = form != 0 ? FUN_004b5a80(form) : 0;
+                EventEntity* entity2 = form != 0 ? bhkEntity_Getbhk(form) : 0;
                 if (entity2 != 0)
                 {
                     candidate = false;
                     unsigned int filterA, filterB;
                     if (player != 0 && reference != 0 &&
-                        (entity2->FUN_0043b4f0(&filterA)->FUN_0043b4d0() == 0x17 ||
-                         entity2->FUN_0043b4f0(&filterB)->FUN_0043b4d0() == 0x18))
+                        (entity2->bhkWorldObject_GetCollisionFilter(&filterA)->FUN_0043b4d0() == 0x17 ||
+                         entity2->bhkWorldObject_GetCollisionFilter(&filterB)->FUN_0043b4d0() == 0x18))
                     {
                         FUN_005ac750(player, reference->FUN_005d43c0(), 0x80);
                         if (player->FUN_00476c90() != 0)
@@ -237,7 +237,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
                     }
                     unsigned int filterC;
                     if (FUN_0043b300(&DAT_01268444, entity2) ||
-                        (acceptUnknown && entity2->FUN_0043b4f0(&filterC)->FUN_0043b4d0() == 0x1e))
+                        (acceptUnknown && entity2->bhkWorldObject_GetCollisionFilter(&filterC)->FUN_0043b4d0() == 0x1e))
                     {
                         partialMatch = true;
                         lastReference = reference;
@@ -247,14 +247,14 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
                             if (parent2 != 0)
                             {
                                 unsigned int filterD;
-                                if (parent2->FUN_0043b4f0(&filterD)->FUN_009c19e0() ||
+                                if (parent2->bhkWorldObject_GetCollisionFilter(&filterD)->FUN_009c19e0() ||
                                     ((GetKindFn)parent2->vtable[0x94 / 4])(parent2) == 0)
                                 {
                                     RayPickQuery pickQuery;
                                     NiPoint3 origin;
-                                    scene->FUN_004585f0(&origin);
+                                    scene->bhkPickData_NiGetFrom(&origin);
                                     NiPoint3 direction;
-                                    scene->FUN_009c1a20(&direction);
+                                    scene->bhkPickData_NiGetLength(&direction);
                                     initialDirection *= DAT_010162c0;
                                     direction *= DAT_010162c0;
                                     Filter sceneFilter;
@@ -263,7 +263,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
                                     pickQuery.FUN_007f68a0(&direction);
                                     Collector collector;
                                     pickQuery.FUN_004a3fb0(&collector);
-                                    bool hit = FUN_009c5ba0(&pickQuery, handle, 0, 1);
+                                    bool hit = Projectile_PickSceneGraph(&pickQuery, handle, 0, 1);
                                     if (hit)
                                     {
                                         if (pickQuery.FUN_008cdd90()->FUN_00460140()->FUN_00726070() > 0)
@@ -334,14 +334,14 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
                 if (lastReference != 0 && lastReference == DAT_011dea3c)
                 {
                     NiPoint3 impact;
-                    scene->FUN_005dbe60(&impact);
+                    scene->bhkPickData_NiCalcHitPoint(&impact);
                     if (player->FUN_004181e0() != 0)
                     {
                         if (player->FUN_004181e0()->FUN_004fd3e0() != 0)
                         {
                             int flags = 0x102;
                             AudioPlaybackHandle sound =
-                                FUN_00453a70()->FUN_00ad7480(player->FUN_004181e0()->FUN_004fd3e0()->FUN_00511840(),
+                                FUN_00453a70()->BSAudio_GetSoundHandleByFilename(player->FUN_004181e0()->FUN_004fd3e0()->FUN_00511840(),
                                                              flags, player->FUN_004181e0()->FUN_004fd3e0());
                             sound.FUN_00ad8b60(impact.x, impact.y, impact.z);
                             sound.FUN_00ad8830(0);
@@ -360,16 +360,16 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
             }
             else if (player->FUN_004181e0()->FUN_004fd3e0() != 0 &&
                      ((picked && lastReference != DAT_011dea3c) || !picked) && player->FUN_00874480() != DAT_011dea3c &&
-                     FUN_00453a70()->FUN_0044edb0() != 0)
+                     FUN_00453a70()->TESMain_GetThread() != 0)
             {
                 NiPoint3 at, saved, direction, extra, position;
-                WorldTarget* world = (WorldTarget*)FUN_00453a70()->FUN_0044edb0();
+                WorldTarget* world = (WorldTarget*)FUN_00453a70()->TESMain_GetThread();
                 position = *((GetLocationFn)world->vtable[3])(world);
                 if (lastReference != 0)
                     saved = *((GetPositionFn)lastReference->vtable[0x1f4 / 4])(lastReference);
                 else
-                    scene->FUN_004587f0(&saved);
-                scene->FUN_004585f0(&at);
+                    scene->bhkPickData_NiGetTo(&saved);
+                scene->bhkPickData_NiGetFrom(&at);
                 direction = saved - at;
                 extra = position - at;
                 float mag = extra.Dot(direction);
@@ -381,7 +381,7 @@ int __cdecl FUN_009c0d80(Scene* scene, Controller* player, int eventOwner, float
                 {
                     int flags = 0x102;
                     AudioPlaybackHandle sound =
-                        FUN_00453a70()->FUN_00ad7480(player->FUN_004181e0()->FUN_004fd3e0()->FUN_00511840(), flags,
+                        FUN_00453a70()->BSAudio_GetSoundHandleByFilename(player->FUN_004181e0()->FUN_004fd3e0()->FUN_00511840(), flags,
                                                      player->FUN_004181e0()->FUN_004fd3e0());
                     sound.FUN_00ad8b60(projected.x, projected.y, projected.z);
                     sound.FUN_00ad8830(0);

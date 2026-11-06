@@ -108,10 +108,10 @@ public:
     DisplayVectorCallLocal_00ddfd10 FUN_00439e90(const DisplayVectorCallLocal_00ddfd10& vector);
     void FUN_00439180(float value);
     void FUN_004a0c10();
-    void FUN_005611c0();
-    void FUN_00c66320(const DisplayVectorCallLocal_00ddfd10* a, const DisplayVectorCallLocal_00ddfd10* b);
-    void FUN_00c74ac0(const DisplayVectorCallLocal_00ddfd10* a, const DisplayVectorCallLocal_00ddfd10* b);
-    void FUN_00c74c90(DisplayVectorCallLocal_00ddfd10* vector);
+    void normalize_005611c0();
+    void setMul(const DisplayVectorCallLocal_00ddfd10* a, const DisplayVectorCallLocal_00ddfd10* b);
+    void setMulInverse(const DisplayVectorCallLocal_00ddfd10* a, const DisplayVectorCallLocal_00ddfd10* b);
+    void hkQuaternion_getAxis(DisplayVectorCallLocal_00ddfd10* vector);
     void FUN_00c7f640(const Transform& transform, const DisplayVectorCallLocal_00ddfd10& point);
     void FUN_00cb2450(const DisplayVectorCallLocal_00ddfd10* vector, float value);
     void FUN_00cb26e0(const hkRotation* rotation);

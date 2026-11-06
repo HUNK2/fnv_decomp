@@ -79,7 +79,7 @@ struct ReflectReference554
 };
 void ResolveFormID(unsigned int*, TESFile*);
 TESForm* FUN_004839c0(unsigned int);
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 void __cdecl operator delete(void*);
 struct ReflectReferences554 : BSExtraData
 {
@@ -101,9 +101,9 @@ void ReflectReferences554::FUN_00433ed0(TESForm* form)
         if (!reference_2 || !reference_2->FUN_005653d0())
         {
             if (!reference_2)
-                FUN_005b5e40("MASTERFILE: Unable to find water reflector reference %08X.", formID5);
+                Warning_005b5e40("MASTERFILE: Unable to find water reflector reference %08X.", formID5);
             else
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "MASTERFILE: Reference %08X is not persistent so cannot reflect or refract other references.",
                     formID5);
             if (previous)
@@ -122,9 +122,9 @@ void ReflectReferences554::FUN_00433ed0(TESForm* form)
         else
         {
             if (item3->flags & 1)
-                reference_2->FUN_005d43c0()->FUN_0041f4c0(form, true);
+                reference_2->FUN_005d43c0()->ExtraDataList_SetReflectsRef(form, true);
             if (item3->flags & 2)
-                reference_2->FUN_005d43c0()->FUN_0041f650(form, true);
+                reference_2->FUN_005d43c0()->ExtraDataList_SetRefractsRef(form, true);
             item3->m_pWorldReferenceInfo = reference_2;
         }
         if (!removed)

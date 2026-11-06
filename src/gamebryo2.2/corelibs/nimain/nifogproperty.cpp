@@ -13,7 +13,8 @@ extern NiFogProperty* DAT_011f5f3c;
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 // Releases the global fog property and clears the pointer.
 // @fnv 0x00a9a120
-void FUN_00a9a120()
+// src: COMMUNITY 0x00a9a120
+void NiFogProperty__SDMShutdown()
 {
     if (DAT_011f5f3c)
     {
@@ -376,7 +377,8 @@ template <class T> struct PtrRef
 };
 // Allocates a NiFogProperty and assigns it to DAT_011f5f3c through a reference-counting smart pointer.
 // @fnv 0x00a9a090
-void FUN_00a9a090()
+// src: COMMUNITY 0x00a9a090
+void NiFogProperty__SDMInit()
 {
     PtrRef<NiFogProperty> r(DAT_011f5f3c);
     r = new (FUN_00aa13e0(sizeof(NiFogProperty))) NiFogProperty;

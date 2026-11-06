@@ -7,7 +7,7 @@ struct ReleaseTarget_cls
 
 struct ReleaseHolder_cls
 {
-    ReleaseTarget_cls* FUN_00acb770();
+    ReleaseTarget_cls* std_locale_facet__Decref();
 };
 
 struct FUN_00acb720_cls
@@ -27,7 +27,7 @@ void FUN_00acb720_cls::FUN_00acb720()
     long unkD;
     if (m_00 != 0)
     {
-        tmp = m_00->FUN_00acb770();
+        tmp = m_00->std_locale_facet__Decref();
         blk = tmp;
         (blk != 0) ? blk->vDel(1) : 0;
     }

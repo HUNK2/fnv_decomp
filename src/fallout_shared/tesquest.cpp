@@ -767,10 +767,11 @@ const char* TESQuest::GetEditorName() const
 }
 
 // @fnv 0x0060e7c0
-void TESQuest::FUN_0060e7c0(BGSSaveFormBuffer* apSaveGameBuffer)
+// src: COMMUNITY 0x0060e7c0
+void TESQuest::CheckSaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     if (static_cast<QuestSaveChangeFlags*>(apSaveGameBuffer)->GetChangeFlags(0x40000000).operator bool() && m_pScriptLocals == 0)
-        apSaveGameBuffer->FUN_005621f0(0x40000000U);
+        apSaveGameBuffer->BGSSaveFormBuffer_RemoveChange(0x40000000U);
 }
 
 // @fnv 0x0060c4b0
@@ -840,7 +841,8 @@ struct QuestObjectiveTransitions : BGSQuestObjective
 };
 
 // @fnv 0x0060c950
-void TESQuest::FUN_0060c950(int a1)
+// src: COMMUNITY 0x0060c950
+void TESQuest::SetAllObjectivesComplete(int a1)
 {
     BSSimpleList<QuestObjectiveTransitions*>* node = reinterpret_cast<BSSimpleList<QuestObjectiveTransitions*>*>(GetObjectiveList());
     while (node && node->GetItem())
@@ -881,7 +883,7 @@ extern "C" bool __cdecl FUN_00401500();
 void TESQuest::FUN_0060cd60()
 {
     FUN_004855a0();
-    TESScriptableForm::FUN_0048cca0();
+    TESScriptableForm::Save_0048cca0();
     TESFullName::FUN_00487010();
     TESIcon::Save(0x4e4f4349);
     if (FUN_00401500())
@@ -1070,7 +1072,8 @@ struct QuestScriptLocals : ScriptLocals
 };
 
 // @fnv 0x0060e6a0
-void TESQuest::FUN_0060e6a0(unsigned int auiFlags)
+// src: COMMUNITY 0x0060e6a0
+void TESQuest::RevertTES_0060e6a0(unsigned int auiFlags)
 {
     ((FUN_004534f0_shell*)this)->FUN_004534f0(auiFlags);
     if (auiFlags & 0x80000000)
@@ -1143,7 +1146,7 @@ struct QuestSaveStageNode
 };
 
 void __cdecl FUN_0040fbe0(const char*, ...);
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 
 // Writes the quest's save data: flags, stage and item lists, optional locals, debug size logging, and a block-size header when block saving is active.
 // @fnv 0x0060dd50
@@ -1238,7 +1241,7 @@ void TESQuest::FUN_0060dd50(unsigned int flags)
         unsigned char* h = ((QuestSaveManager*)g_TESSaveLoadGame)->FUN_00825c00();
         unsigned char* j = p;  // Beginning of the saved block.
         if (h > j + 65535)
-            FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
+            Warning_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESQuest.cpp", 4003);
         *(unsigned short*)p = (unsigned short)(h - j);
     }
@@ -1253,7 +1256,7 @@ extern "C" char UNK_01015588[];
 extern "C" char UNK_01015500[];
 extern "C" char UNK_010154a0[];
 extern "C" char UNK_01015440[];
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 void* __cdecl FUN_004839c0(void*);
 struct StreamReader
 {
@@ -1272,7 +1275,7 @@ struct QuestInput
 };
 struct StageSave
 {
-    void FUN_0067fdb0(unsigned char);
+    void PackageSchedule_SetStartDayOfWeek(unsigned char);
     void* FindItemByDoneFlag(unsigned char);
 };
 struct StageEntry
@@ -1291,8 +1294,8 @@ struct LogValue
     short low, high;
     LogValue();
     ~LogValue();
-    unsigned short FUN_004b1030();
-    unsigned short FUN_004b1050();
+    unsigned short Date_GetDate();
+    unsigned short Date_GetYear();
 };
 void FUN_00483710(LogValue*);
 typedef unsigned int(__thiscall* TagMethod)(void*);
@@ -1314,12 +1317,12 @@ void TESQuest::LoadQuestData(unsigned int flags, unsigned int extra)
             if (entry)
             {
                 void* view = FUN_004839c0(*(void**)entry);
-                FUN_005b5e40(UNK_01015718, UNK_0104ad80, 0xfaf, *(void**)entry, ((TagMethod*)*(void**)view)[76](view),
+                Warning_005b5e40(UNK_01015718, UNK_0104ad80, 0xfaf, *(void**)entry, ((TagMethod*)*(void**)view)[76](view),
                              *(unsigned char*)((char*)entry + 9), *(unsigned int*)((char*)entry + 5));
             }
             else
             {
-                FUN_005b5e40(UNK_010156a8, UNK_0104ad80, 0xfaf, ((StreamReader*)DAT_011de45c)->FUN_008df040());
+                Warning_005b5e40(UNK_010156a8, UNK_0104ad80, 0xfaf, ((StreamReader*)DAT_011de45c)->FUN_008df040());
             }
         }
         start = ((StreamReader*)DAT_011de45c)->FUN_00825c00();
@@ -1344,11 +1347,11 @@ void TESQuest::LoadQuestData(unsigned int flags, unsigned int extra)
             StageSave* questStage = (StageSave*)GetStage(stageId);
             if (questStage)
             {
-                questStage->FUN_0067fdb0(isComplete);
+                questStage->PackageSchedule_SetStartDayOfWeek(isComplete);
             }
             else
             {
-                FUN_005b5e40(UNK_0104adc0, stageId, this->GetEditorName());
+                Warning_005b5e40(UNK_0104adc0, stageId, this->GetEditorName());
             }
             {
                 unsigned char itemCount;
@@ -1366,8 +1369,8 @@ void TESQuest::LoadQuestData(unsigned int flags, unsigned int extra)
                             if (item)
                             {
 
-                                if (((LogValue*)&dateValue)->FUN_004b1030() == 0 &&
-                                    ((LogValue*)&dateValue)->FUN_004b1050() == 0)
+                                if (((LogValue*)&dateValue)->Date_GetDate() == 0 &&
+                                    ((LogValue*)&dateValue)->Date_GetYear() == 0)
                                 {
                                     SavedDate* pOldDate = (SavedDate*)item->FUN_008d8520();
                                     if (pOldDate)
@@ -1424,21 +1427,21 @@ void TESQuest::LoadQuestData(unsigned int flags, unsigned int extra)
             {
                 void* view = FUN_004839c0(*(void**)entry);
                 if (actual > start + sizeRead)
-                    FUN_005b5e40(UNK_01015588, actual - (start + sizeRead), UNK_0104ad80, 0x1010, *(void**)entry,
+                    Warning_005b5e40(UNK_01015588, actual - (start + sizeRead), UNK_0104ad80, 0x1010, *(void**)entry,
                                  ((TagMethod*)*(void**)view)[76](view), *(unsigned char*)((char*)entry + 9),
                                  *(unsigned int*)((char*)entry + 5));
                 else if (actual < start + sizeRead)
-                    FUN_005b5e40(UNK_01015500, (start + sizeRead) - actual, UNK_0104ad80, 0x1010, *(void**)entry,
+                    Warning_005b5e40(UNK_01015500, (start + sizeRead) - actual, UNK_0104ad80, 0x1010, *(void**)entry,
                                  ((TagMethod*)*(void**)view)[76](view), *(unsigned char*)((char*)entry + 9),
                                  *(unsigned int*)((char*)entry + 5));
             }
             else
             {
                 if (actual > start + sizeRead)
-                    FUN_005b5e40(UNK_010154a0, actual - (start + sizeRead), UNK_0104ad80, 0x1010,
+                    Warning_005b5e40(UNK_010154a0, actual - (start + sizeRead), UNK_0104ad80, 0x1010,
                                  ((StreamReader*)DAT_011de45c)->FUN_008df040());
                 else if (actual < start + sizeRead)
-                    FUN_005b5e40(UNK_01015440, (start + sizeRead) - actual, UNK_0104ad80, 0x1010,
+                    Warning_005b5e40(UNK_01015440, (start + sizeRead) - actual, UNK_0104ad80, 0x1010,
                                  ((StreamReader*)DAT_011de45c)->FUN_008df040());
             }
         }
@@ -1610,7 +1613,7 @@ struct SItemNode
 };
 struct Stage
 {
-    void FUN_0067fdb0(bool);
+    void PackageSchedule_SetStartDayOfWeek(bool);
     SItemNode* FUN_00717e50();
 };
 struct StageNode
@@ -1624,7 +1627,7 @@ struct ObjNode
     ObjNode* FUN_00726070();
 };
 
-void __cdecl FUN_00619b60(TESQuest*);
+void __cdecl TESTopic_ClearAllSaidOnceInfosForQuest(TESQuest*);
 
 // @fnv 0x0060d720
 void TESQuest::FUN_0060d720()
@@ -1643,7 +1646,7 @@ void TESQuest::FUN_0060d720()
             stage = *aStageNode->FUN_006815c0();
             if (stage)
             {
-                stage->FUN_0067fdb0(false);
+                stage->PackageSchedule_SetStartDayOfWeek(false);
                 itemNode = stage->FUN_00717e50();
                 while (itemNode)
                 {
@@ -1676,7 +1679,7 @@ void TESQuest::FUN_0060d720()
         m_pScriptLocals = TESScriptableForm::GetScript()->GetOrCreateScriptLocals();
     }
 
-    FUN_00619b60(this);
+    TESTopic_ClearAllSaidOnceInfosForQuest(this);
     FUN_0060c9c0(HasFlag0x10());
     FUN_0060ca30(false);
     FUN_0060caf0(false);

@@ -59,7 +59,7 @@ extern Setting DAT_011d3810;
 extern Setting DAT_011d1e18;
 extern bool DAT_011d9f38;
 bool FUN_004b71d0();
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 int Warning(const char*, ...);
 extern Setting DAT_011d3258;
 extern Setting DAT_011d2acc;
@@ -117,7 +117,7 @@ struct ProxyMgr
     ProxyPipboy* __thiscall GetPipboyManager();
 };
 void FUN_00782470(bool a1);
-unsigned char FUN_007824b0();
+unsigned char InventoryMenu_GetCurrentInventoryPage();
 unsigned int __fastcall FUN_0044ddc0(void*);
 unsigned char __cdecl IsNotFormType2E(void* a1);
 struct FUN_007832e0_class
@@ -484,7 +484,7 @@ struct InventorymenuInterfaceView
 {
     Camera* FUN_00704370();
 };
-InventorymenuInterfaceView* FUN_004b7210();
+InventorymenuInterfaceView* InterfaceManager_GetSingleton();
 extern Setting DAT_011db2f0, DAT_011db358, DAT_011d3dcc, DAT_011d1f2c, DAT_011d33f0;
 extern Setting* DAT_011d5168;
 extern int DAT_011d9f34, DAT_011d9ebc;
@@ -515,7 +515,7 @@ void InventoryMenu::UpdateItemDisplay(int action, Tile* changed)
             int selectedSlot11 = (int)reinterpret_cast<InventorySelection::List&>(m_kItemList).Value(0xfac)->FUN_00a011b0();
             if (InventorySelection::DAT_011d9f34 != selectedSlot11)
             {
-                InventorySelection::FUN_004b7210()->FUN_00704370()->FUN_007f8610(
+                InventorySelection::InterfaceManager_GetSingleton()->FUN_00704370()->FUN_007f8610(
                     0, InventorySelection::DAT_011d9f34 < selectedSlot11 ? *InventorySelection::DAT_011db2f0.FUN_00403e20() : -*InventorySelection::DAT_011db2f0.FUN_00403e20(),
                     *InventorySelection::DAT_011db358.FUN_00403e20(), 1);
                 InventorySelection::DAT_011d9f34 = selectedSlot11;
@@ -561,7 +561,7 @@ void InventoryMenu::UpdateItemDisplay(int action, Tile* changed)
                 m_pTiles[11]->FUN_00a012d0(0xfb1, InventorySelection::DAT_01072e3c, 1);
                 m_pTiles[11]->FUN_00a012d0(0xfb0, InventorySelection::DAT_01072e3c, 1);
             }
-            m_pTiles[11]->FUN_00a07530(17);
+            m_pTiles[11]->Tile_SetChangeFlag(17);
             char path[260];
             InventorySelection::FUN_00406d30(path, 260, InventorySelection::DAT_0106eb24);
             unsigned int prefixLengthSlot0 = InventorySelection::FUN_0044a670(path);
@@ -659,7 +659,7 @@ extern "C" void* DAT_011d9ea8;
 extern "C" int DAT_011d9ebc;
 void* __fastcall FUN_00559450(void* obj);
 void __cdecl FUN_00782a90();
-void __cdecl FUN_007832a0(void* tile, int index);
+void __cdecl InventoryMenu_AddToChangedItemsListIfWorn(void* tile, int index);
 struct Sh006815c0
 {
     void** FUN_006815c0();
@@ -713,7 +713,7 @@ struct Gp75
 
 bool FUN_00702450(int);
 FOPipboyManager* FUN_00705990();
-bool FUN_00709d40();
+bool Interface_Has360Controller();
 bool FUN_00702140();
 void FUN_00717280(int);
 void ShowStatsMenu(int, int);
@@ -725,7 +725,7 @@ bool InventoryMenu::FUN_00782190(int input, int unused)
     if (!FUN_00702450(1002) || !FUN_00705990()->IsUnk28Set())
         return false;
     bool consumed = false;
-    if (FUN_00709d40() && m_kMenuData.GetVisible())
+    if (Interface_Has360Controller() && m_kMenuData.GetVisible())
     {
         switch (input)
         {

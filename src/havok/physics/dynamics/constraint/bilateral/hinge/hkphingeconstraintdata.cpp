@@ -138,7 +138,7 @@ union hkVector4qView_00cbe240
         return reinterpret_cast<const hkReal*>(&m_vComponents)[i];
     }
 
-    void FUN_004b4ab0(const hkRotation& r, const hkVector4qView_00cbe240& v);
+    void hkVector4_setRotatedInverseDir(const hkRotation& r, const hkVector4qView_00cbe240& v);
     void FUN_00c7f690(const hkTransform& t, const hkVector4& v);
 };
 
@@ -226,14 +226,14 @@ void hkpHingeConstraintData::SetLocalTransforms(const hkTransform& bodyATransfor
     hkNormalize3(perpToAxle1);
     hkSetCross(perpToAxle2, axle, perpToAxle1);
 
-    t.m_kRotationA[0].FUN_004b4ab0(bodyATransform.m_rotation, axle);
-    t.m_kRotationA[1].FUN_004b4ab0(bodyATransform.m_rotation, perpToAxle1);
-    t.m_kRotationA[2].FUN_004b4ab0(bodyATransform.m_rotation, perpToAxle2);
+    t.m_kRotationA[0].hkVector4_setRotatedInverseDir(bodyATransform.m_rotation, axle);
+    t.m_kRotationA[1].hkVector4_setRotatedInverseDir(bodyATransform.m_rotation, perpToAxle1);
+    t.m_kRotationA[2].hkVector4_setRotatedInverseDir(bodyATransform.m_rotation, perpToAxle2);
     t.m_kTranslationA.FUN_00c7f690(bodyATransform, pivot);
 
-    t.m_kRotationB[0].FUN_004b4ab0(bodyBTransform.m_rotation, axle);
-    t.m_kRotationB[1].FUN_004b4ab0(bodyBTransform.m_rotation, perpToAxle1);
-    t.m_kRotationB[2].FUN_004b4ab0(bodyBTransform.m_rotation, perpToAxle2);
+    t.m_kRotationB[0].hkVector4_setRotatedInverseDir(bodyBTransform.m_rotation, axle);
+    t.m_kRotationB[1].hkVector4_setRotatedInverseDir(bodyBTransform.m_rotation, perpToAxle1);
+    t.m_kRotationB[2].hkVector4_setRotatedInverseDir(bodyBTransform.m_rotation, perpToAxle2);
     t.m_kTranslationB.FUN_00c7f690(bodyBTransform, pivot);
 }
 

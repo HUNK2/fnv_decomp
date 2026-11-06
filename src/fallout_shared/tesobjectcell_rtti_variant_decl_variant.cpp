@@ -64,8 +64,8 @@ class TESWorldSpace;
 
 void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
-unsigned int FUN_0054f4c0();
-NiAVObject* FUN_0054f4f0();
+unsigned int TESTerrainLODManager_GetGrassNode();
+NiAVObject* TESMain_GetWeatherRoot();
 class RefView : public TESObjectREFR
 {
   public:
@@ -223,10 +223,10 @@ class RefView : public TESObjectREFR
     class RefExtra* FUN_005d43c0();
     TESObjectCELL* FUN_008d6f30();  // GetParentCell
     bool FUN_005656d0();
-    bool FUN_0056a250();
+    bool TESObjectREFR_IsActivatingChildren();
     bool FUN_00437b90();
-    void FUN_005728c0(int iValue);
-    bool FUN_00548700();
+    void TESObjectREFR_AddLight(int iValue);
+    bool TESForm_GetReflectedByAutoWater();
     bool IsFlag20000000Set();
 };
 class RefExtra
@@ -244,7 +244,7 @@ extern RefList DAT_011ca144;
 class CellNavHandler
 {
   public:
-    void FUN_00587d10(RefView* pkRef);
+    void AddToPersistentRefData(RefView* pkRef);
 };
 class CellDataHandler
 {
@@ -293,7 +293,7 @@ extern CellNodeMap DAT_011ca0f4;
 class CellTaskQueue
 {
   public:
-    void FUN_0087b400(RefView* pkRef);
+    void TaskQueueInterface_QueueSet3DNull(RefView* pkRef);
 };
 CellTaskQueue* FUN_004537b0();
 bool FUN_008c7aa0();
@@ -321,7 +321,7 @@ bool __fastcall FUN_00477ba0(TESObjectREFR* reference);
 void* __fastcall FUN_00568e50(TESObjectREFR* reference);
 void __fastcall FUN_00541ae0(TESObjectCELL* cell);
 unsigned int __cdecl GetRandomNumberInRange(int low, int high);
-TESObjectREFR* __cdecl FUN_0054afb0(TESForm* source, TESForm* destination, void* context);
+TESObjectREFR* __cdecl TESObjectCELL_PickRandomTeleportDoorInSpace(TESForm* source, TESForm* destination, void* context);
 
 struct FormGroupQuery
 {

@@ -99,7 +99,8 @@ struct FUN_00408b60
 };
 
 // @fnv 0x00408de0
-void __cdecl FUN_00408de0()
+// src: COMMUNITY 0x00408de0
+void __cdecl EffectSettingCollection_Destroy()
 {
     ((FUN_00408b60*)&g_011c3400)->DestroyAllItems();
 }
@@ -124,7 +125,8 @@ void FUN_0040fbe0(const char* format, ...);
 
 // Computes the save size of the effect setting collection, adding 4/2 bytes for save-load state and 4 bytes per flagged EffectSetting, then logs the result.
 // @fnv 0x00408c30
-unsigned int FUN_00408c30()
+// src: COMMUNITY 0x00408c30
+unsigned int EffectSettingCollection_GetKnownEffectsSaveSize()
 {
     unsigned int size = 0;
     EffectSetting* mgef;

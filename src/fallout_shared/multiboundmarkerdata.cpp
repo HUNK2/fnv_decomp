@@ -205,9 +205,9 @@ struct BoundRef
     virtual void v124();
     virtual const NiPoint3& GetBoundCenter();
 
-    bool FUN_00439f90();
-    const NiPoint3& FUN_00569880();
-    NiMatrix3 FUN_0056fa00();
+    bool TESObjectREFR_IsMultiBoundRef();
+    const NiPoint3& TESObjectREFR_GetMultiBoundHalfExtent();
+    NiMatrix3 TESObjectREFR_GetOrientation();
 };
 
 struct CellRect
@@ -218,12 +218,12 @@ struct CellRect
     int iBottom;
 };
 
-bool __cdecl FUN_004b1e80(CellRect* pkRect, NiPoint3* pkStart, NiPoint3* pkEnd, NiPoint3* pkIntersect);
+bool __cdecl TES_LineVsRect(CellRect* pkRect, NiPoint3* pkStart, NiPoint3* pkEnd, NiPoint3* pkIntersect);
 
 // @fnv 0x00439940
 bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGridCoordinateY)
 {
-    if (pRef && pRef->FUN_00439f90())
+    if (pRef && pRef->TESObjectREFR_IsMultiBoundRef())
     {
         CellRect kRectWork;
         kRectWork.iLeft = m_iGridPositionX << 12;
@@ -235,9 +235,9 @@ bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGr
         NiPoint3 kXY;
         NiPoint3 kY_;
         NiPoint3 kZ6;
-        NiPoint3 kExtentLoc = pRef->FUN_00569880();
+        NiPoint3 kExtentLoc = pRef->TESObjectREFR_GetMultiBoundHalfExtent();
         NiPoint3 kCenterZ = pRef->GetBoundCenter();
-        const NiMatrix3 kRot9 = pRef->FUN_0056fa00();
+        const NiMatrix3 kRot9 = pRef->TESObjectREFR_GetOrientation();
         kRot9.GetCol(0, kXY);
         kXY.FUN_00439180(kExtentLoc.x);
         kRot9.GetCol(1, kY_);
@@ -262,7 +262,7 @@ bool __cdecl BoundIntersectsCell(BoundRef* pRef, int m_iGridPositionX, int m_iGr
             for (int j = 1; j < 4; j++)
             {
                 NiPoint3 kEnd = akCornersY[aacFaces_2[i][j]];
-                if (FUN_004b1e80(&kRectWork, &kStart, &kEnd, &kKIntersect))
+                if (TES_LineVsRect(&kRectWork, &kStart, &kEnd, &kKIntersect))
                     return true;
             }
         }

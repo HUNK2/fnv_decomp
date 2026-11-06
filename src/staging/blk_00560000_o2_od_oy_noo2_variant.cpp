@@ -55,7 +55,7 @@ struct __declspec(align(16)) FUN_0056ded0
 FUN_0056ded0& __cdecl FUN_0056df80(FUN_0056ded0& destination, const NiTransform& source);
 struct FUN_0056df20_Class
 {
-    void FUN_0056e050(FUN_0056ded0*);
+    void bhkShapePhantom_setTransform(FUN_0056ded0*);
     void FUN_0056df20(const NiTransform& src);
 };
 // Built from prior 2026-10-25 contributions, with byte-addressable transform storage.
@@ -63,7 +63,7 @@ struct FUN_0056df20_Class
 void FUN_0056df20_Class::FUN_0056df20(const NiTransform& src)
 {
     FUN_0056ded0 local;
-    FUN_0056e050(&FUN_0056df80(local, src));
+    bhkShapePhantom_setTransform(&FUN_0056df80(local, src));
 }
 
 extern const NiMatrix3 g_kIdentity56D;
@@ -410,7 +410,7 @@ class Ref56D
     Middle56D* GetMiddle();
     void SetScale(float fScale);
     NiMatrix3 GetRotation();
-    void FUN_0056d7e0();
+    void TESObjectREFR_InitHavokForPrimitiveTrigger();
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -441,7 +441,8 @@ class Ref56D
 // The shared SIMD union needs the same stack protection as the original vector storage.
 #pragma strict_gs_check(push, on)
 // @fnv 0x0056d7e0
-void Ref56D::FUN_0056d7e0()
+// src: COMMUNITY 0x0056d7e0
+void Ref56D::TESObjectREFR_InitHavokForPrimitiveTrigger()
 {
     PrimitiveCollisionSource* pkBound = GetExtraData()->GetBound();
     World56D* pkWorld = GetMiddle() ? GetMiddle()->GetWorld() : 0;
@@ -518,16 +519,16 @@ struct HavokTransform264
     __m128 rotation[3];
     __m128 translation;
     HavokTransform264();
-    void FUN_00577070();
+    void hkTransform_setIdentity();
 };
 void __cdecl FUN_0056df80(HavokTransform264*, const NiTransform*);
 struct NativeA264
 {
-    void FUN_00ca4120(const HavokTransform264&);
+    void hkNiTriStripsShape_CalcWorldAabb(const HavokTransform264&);
 };
 struct NativeB264
 {
-    void FUN_00ca36a0(const HavokTransform264&);
+    void hkPackedNiTriStripsShape_CalcWorldAabb(const HavokTransform264&);
 };
 struct Shape264
 {
@@ -614,10 +615,11 @@ bool __cdecl FUN_0043b300(const void*, const void*);
 extern char DAT_012682e8, DAT_012682dc, DAT_012682d0;
 struct Owner264
 {
-    void FUN_00576d50(Scene264*);
+    void TESObjectREFR_PreCalcTriStripsShapeAabb(Scene264*);
 };
 // @fnv 0x00576d50
-void Owner264::FUN_00576d50(Scene264* scene)
+// src: COMMUNITY 0x00576d50
+void Owner264::TESObjectREFR_PreCalcTriStripsShapeAabb(Scene264* scene)
 {
     if (!scene)
         return;
@@ -627,7 +629,7 @@ void Owner264::FUN_00576d50(Scene264* scene)
     unsigned char transform[sizeof(NiTransform)];
     memcpy(transform, &scene->FUN_00461130(), sizeof(transform));
     HavokTransform264 converted;
-    converted.FUN_00577070();
+    converted.hkTransform_setIdentity();
     FUN_0056df80(&converted, reinterpret_cast<const NiTransform*>(transform));
     Collision264* collision = FUN_0043b610(scene);
     World264* world = collision ? collision->FUN_006fa820() : 0;
@@ -662,15 +664,15 @@ void Owner264::FUN_00576d50(Scene264* scene)
             }
         }
         if (nativeA)
-            nativeA->FUN_00ca4120(converted);
+            nativeA->hkNiTriStripsShape_CalcWorldAabb(converted);
         if (nativeB)
-            nativeB->FUN_00ca36a0(converted);
+            nativeB->hkPackedNiTriStripsShape_CalcWorldAabb(converted);
     }
     SceneChildren264* children = scene->AsNode();
     if (children)
     {
         unsigned int count = children->FUN_0043b480();
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00576d50(children->FUN_0043b4a0(i));
+            TESObjectREFR_PreCalcTriStripsShapeAabb(children->FUN_0043b4a0(i));
     }
 }

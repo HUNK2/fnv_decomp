@@ -49,7 +49,7 @@ public:
     void FUN_00a1dc70(BookTile*, bool);
     void FUN_00a1dc20(bool);
     void* FUN_00726070();
-    int FUN_0073acf0();
+    int GetClass_0073acf0();
     void* FUN_0073ad00(unsigned int flags);
     void FUN_0073ad30();
     bool FUN_0073af60();

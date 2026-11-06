@@ -44,7 +44,7 @@ public:
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern const char* const g_011c7d74_arg1;
-const char* const* __cdecl FUN_00a31730();
+const char* const* __cdecl NiControllerSequence_GetRTTI();
 struct BaseH
 {
     virtual ~BaseH();
@@ -120,7 +120,7 @@ struct FUN_00a35030_shell : NiControllerSequence
 };
 struct FUN_00a30900_shell
 {
-    void FUN_00a30900(char m_ucRegionPriority);
+    void AttachInterpolators(char m_ucRegionPriority);
 };
 struct A51BF0Base
 {
@@ -136,11 +136,11 @@ extern void* _EmptyFS;
 extern int(__stdcall* DAT_00fdf1c4)(void*);
 struct FUN_00a31500_shell
 {
-    void __thiscall FUN_00a31500(int);
+    void __thiscall NiControllerSequence_InterpArrayItem_Free(int);
 };
 struct FUN_00a315b0_shell
 {
-    void __thiscall FUN_00a315b0(int);
+    void __thiscall NiControllerSequence_IDTag_Free(int);
 };
 struct FUN_00a31740_shell
 {
@@ -325,7 +325,7 @@ struct SequenceA30970 : NiObject
 struct FUN_00a30c80_shell
 {
     unsigned __int64 __thiscall IsNotInChain(void* arg);
-    bool __thiscall FUN_00a30c80(void* arg);
+    bool __thiscall CanSyncTo(void* arg);
 };
 bool __stdcall MatchesTextKeys(void* arg);
 struct FUN_00a30cc0_target
@@ -503,7 +503,7 @@ struct FUN_00a315b0_Elem
 class FUN_00a315b0_Base
 {
   public:
-    void FUN_00a30750();
+    void NiControllerSequence_IDTag_Destroy();
 };
 class FUN_00a315b0_cls
 {
@@ -514,7 +514,7 @@ class FUN_00a315b0_cls
     char* m_0c;
     char* m_10;
 
-    FUN_00a315b0_cls* FUN_00a315b0(unsigned char acFlags);
+    FUN_00a315b0_cls* NiControllerSequence_IDTag_Free(unsigned char acFlags);
 };
 struct a31740_Ref
 {
@@ -595,7 +595,7 @@ struct SlotInfo
     unsigned int m_unk08;
     unsigned int m_unk0c;
     unsigned int m_unk10;
-    void FUN_00a31400(unsigned int value);
+    void NiControllerSequence_IDTag_Operator_Set(unsigned int value);
 };
 struct FUN_00a32bc0_cls
 {
@@ -607,7 +607,7 @@ struct FUN_00a32bc0_cls
     SlotEntry* m_pSlots;
     SlotInfo* m_pInfos;
 
-    bool FUN_00a32330();
+    bool NiControllerSequence_ReallocateArrays();
     int AssignSlot(RefObj* p1, unsigned int p2, unsigned char p3);
 };
 struct FUN_00a34480_obj
@@ -679,7 +679,7 @@ struct TagItem
     const char* fourth;
     const char* fifth;
 };
-void* __cdecl FUN_00a7d330(void*);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 void* __cdecl FormatStringWithType(const char*, void*);
 void* __cdecl FUN_00a7d510(const char*, unsigned int);
 void* __cdecl FUN_00a7d550(const char*, float);
@@ -803,7 +803,7 @@ void __cdecl _NiFree_00aa10f0(void* pv);
 struct FUN_00a30750_shell
 {
     char* m_kPointA[5];
-    void FUN_00a30750();
+    void NiControllerSequence_IDTag_Destroy();
 };
 extern int EmptyFS;
 struct EqObj
@@ -888,7 +888,7 @@ extern const char str_01020f94[];
 extern const char str_0109655c[];
 struct S_00a31140_Allocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int);
+    void* __thiscall Game_DoHeapAlloc(unsigned int);
 };
 extern "C" void __cdecl FUN_00ec623a(void*, const char*, const char*, const char*);
 void* __cdecl FormatStringWithType(const char* arg1, void* arg2);
@@ -924,7 +924,7 @@ class A1400StringGroup
     A1400FixedString m_kName3;
     A1400FixedString m_kName4;
 
-    A1400StringGroup& FUN_00a31400(const A1400StringGroup& kOther);
+    A1400StringGroup& NiControllerSequence_IDTag_Operator_Set(const A1400StringGroup& kOther);
 };
 struct IDTagA33a50
 {
@@ -1283,7 +1283,7 @@ struct FUN_00a31680
     FixedStr object, property, type, controller, interpolator;
     FUN_00a31680() throw();
     ~FUN_00a31680();
-    void FUN_00a31400(const FUN_00a31680&);
+    void NiControllerSequence_IDTag_Operator_Set(const FUN_00a31680&);
     static void* operator new[](unsigned int size, MemoryManager& memory = _g_memoryManager) throw()
     {
         return memory.Allocate(size);
@@ -1356,7 +1356,7 @@ void CloneSequence::FUN_00a33570(CloneSequence* dest, void* context)
             }
         }
         dest->controls[i].priority = controls[i].priority;
-        dest->tags[i].FUN_00a31400(tags[i]);
+        dest->tags[i].NiControllerSequence_IDTag_Operator_Set(tags[i]);
     }
     dest->weight = weight;
     dest->textKeys = textKeys;
@@ -1449,11 +1449,12 @@ struct SequenceArrays
     InterpArrayItem* m_pInterpArray;
     IDTag* m_pkIDTags;
 
-    bool FUN_00a32330();
+    bool NiControllerSequence_ReallocateArrays();
 };
 
 // @fnv 0x00a32330
-bool SequenceArrays::FUN_00a32330()
+// src: COMMUNITY 0x00a32330
+bool SequenceArrays::NiControllerSequence_ReallocateArrays()
 {
     if (m_uiNumIDTags == 0)
         return false;
@@ -1482,14 +1483,14 @@ bool SequenceArrays::FUN_00a32330()
 
 struct Memory71
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 struct Array71
 {
     static void operator delete[](void*, unsigned int);
     static void* operator new[](unsigned int n) throw()
     {
-        return reinterpret_cast<Memory71&>(DAT_011f6238).FUN_00aa3e40(n);
+        return reinterpret_cast<Memory71&>(DAT_011f6238).Game_DoHeapAlloc(n);
     }
 };
 struct Interp71 : Array71

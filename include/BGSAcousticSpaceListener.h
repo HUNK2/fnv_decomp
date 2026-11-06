@@ -29,7 +29,7 @@ public:
     void SetCopyMapEntry(unsigned int uiKey);
     bool __thiscall FUN_0061f890(TESObjectREFR* apEntity, bool flag);
     bool __thiscall FUN_0061f890(NiAVObject* object, bool flag);
-    void FUN_0061f8e0(bool abDoRemoval);
+    void DequeueAllRemovals(bool abDoRemoval);
 
     unsigned int unk04;
     unsigned int unk08;

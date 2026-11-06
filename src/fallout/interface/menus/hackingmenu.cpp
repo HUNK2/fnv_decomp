@@ -49,7 +49,8 @@ void FUN_006ffe80_shell::FUN_006ffe80(int aiFirst, int aiSecond)
 
 
 // @fnv 0x00765870
-int __thiscall HackingMenu::FUN_00765870()
+// src: COMMUNITY 0x00765870
+int __thiscall HackingMenu::GetClass_00765870()
 {
     return 0x41f;
 }
@@ -361,10 +362,11 @@ struct G2
 };
 struct FUN_0076b240_shell
 {
-    void __thiscall FUN_0076b240(const char* s);
+    void __thiscall tList_AppendStr(const char* s);
 };
 // @fnv 0x0076b240
-void __thiscall FUN_0076b240_shell::FUN_0076b240(const char* apString)
+// src: COMMUNITY 0x0076b240
+void __thiscall FUN_0076b240_shell::tList_AppendStr(const char* apString)
 {
     unsigned int size = BSStringLength(apString) + 1;
     char* buffer = new char[size];
@@ -491,7 +493,7 @@ struct FUN_007021b0_cls
 
 extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (FUN_007021b0_cls::*callback)());
 
-extern "C" void __cdecl FUN_00401030(void* apMemory);
+extern "C" void __cdecl FormHeapFreeAndLog_00401030(void* apMemory);
 
 // Destroys the object's elements and optionally frees the allocation, returning the object or its base pointer depending on flags.
 // @fnv 0x007021b0
@@ -503,7 +505,7 @@ void* FUN_007021b0_cls::DestroyOrFree(unsigned int flags)
 
         if (flags & 1)
         {
-            FUN_00401030(reinterpret_cast<char*>(this) - 4);
+            FormHeapFreeAndLog_00401030(reinterpret_cast<char*>(this) - 4);
         }
 
         return reinterpret_cast<char*>(this) - 4;
@@ -513,7 +515,7 @@ void* FUN_007021b0_cls::DestroyOrFree(unsigned int flags)
 
     if (flags & 1)
     {
-        FUN_00401030(this);
+        FormHeapFreeAndLog_00401030(this);
     }
 
     return this;
@@ -784,7 +786,7 @@ void HackingMenu::FUN_0076a670(int a1, const char* pcSource)
     FUN_00401460(a1, pcSource, idx);
 }
 
-extern "C" unsigned int __cdecl FUN_00457fe0();
+extern "C" unsigned int __cdecl Cmd_GetSessionTime_Execute();
 extern "C" int __cdecl FUN_00a00940(const char*, int);
 extern "C" char str_01072108;
 struct Fade
@@ -820,12 +822,12 @@ void HackingMenu::UpdateFade()
     else
     {
         static unsigned int nextUpdate = 0;
-        if (FUN_00457fe0() > nextUpdate && *reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4) != 0)
+        if (Cmd_GetSessionTime_Execute() > nextUpdate && *reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4) != 0)
         {
             (*reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4))
                 ->FUN_00a0a270(
                     (*reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4))->amount == 1.0 ? 0.0f : 1.0f, 1);
-            nextUpdate = static_cast<unsigned int>(FUN_00457fe0() + delay);
+            nextUpdate = static_cast<unsigned int>(Cmd_GetSessionTime_Execute() + delay);
         }
         else if (*reinterpret_cast<Fade**>(reinterpret_cast<char*>(this) + 0x1d4) == 0)
         {
@@ -912,7 +914,7 @@ struct FUN_0076ae90_cls
     unsigned int __thiscall FUN_0076ae90();
 };
 
-void* __cdecl FUN_00403d30(void*, int, unsigned int);
+void* __cdecl ourMemset(void*, int, unsigned int);
 
 struct FUN_0076ae90_tbl
 {
@@ -931,7 +933,7 @@ unsigned int FUN_0076ae90_cls::FUN_0076ae90()
 
     t_.cap = 0x20;
     result2 = 0;
-    FUN_00403d30(t_.table, 0, 0x20);
+    ourMemset(t_.table, 0, 0x20);
     for (i = 0; i < cnt; i++)
     {
         if ((unsigned int)buf[i] < 0x20)
@@ -979,14 +981,14 @@ struct AudioManager
     static AudioManager* Get();
     BSSoundHandle GetSoundByEditorID(const char*, int);
 };
-void* __cdecl FUN_00403d30(void*, int, unsigned int);
+void* __cdecl ourMemset(void*, int, unsigned int);
 static const char scrollSound[] = "UIHackingCharScroll";
 // @fnv 0x007654f0
 HackingMenu::HackingMenu()
 {
     unk1b4 = 0;
     unk1b8 = 30;
-    FUN_00403d30(&unk10c, 0, 32);
+    ourMemset(&unk10c, 0, 32);
     unk19c = 0;
     unk1a4 = 0;
     unk1a0 = 0;
@@ -1009,7 +1011,7 @@ HackingMenu::HackingMenu()
     reinterpret_cast<BSSoundHandle&>(sounds[2]) = audio->GetSoundByEditorID("UIHackingPassBad", 33);
     reinterpret_cast<BSSoundHandle&>(sounds[3]) = audio->GetSoundByEditorID(scrollSound, 33);
     reinterpret_cast<BSSoundHandle&>(sounds[4]) = audio->GetSoundByEditorID("UIHackingCharEnter", 33);
-    FUN_00403d30(&unk028, 0, 184);
+    ourMemset(&unk028, 0, 184);
 }
 
 struct ScriptObj
@@ -1034,7 +1036,7 @@ struct SysColorMgr
     void ApplyToChild();
 };
 unsigned int __cdecl gm_GetTickCount();
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 extern SettingColl DAT_011d0b90;
 extern unsigned int DAT_011d95c0;
 extern char DAT_011d9674;
@@ -1065,7 +1067,7 @@ HackingMenu::~HackingMenu()
     DAT_011d95c0 = gm_GetTickCount() + DAT_011d0b90.FUN_0043d4d0()->v;
     pair180.FreeAll();
     void* ptrTmp = reinterpret_cast<void*>(unk1b0);
-    FUN_00401030(ptrTmp);
+    FormHeapFreeAndLog_00401030(ptrTmp);
     DAT_011d95b8 = 0;
     for (i8 = 0; i8 < 5; i8++)
     {
@@ -1137,7 +1139,7 @@ void HackingMenu::RemoveRandomWord()
         reinterpret_cast<unsigned int*>(unk1b0)[index] = reinterpret_cast<unsigned int*>(unk1b0)[index + 1];
     reinterpret_cast<unsigned int*>(unk1b0)[index] = 0x198;
     char* deleted = *word->Get();
-    FUN_00401030(deleted);
+    FormHeapFreeAndLog_00401030(deleted);
     (*reinterpret_cast<HackList*>(&pair180)).Remove(word->Get());
     --reinterpret_cast<unsigned int&>(unk1a8);
 }
@@ -1273,7 +1275,7 @@ FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int
 // Adapted from prior contributor's code (credited in packet.json)
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl FUN_00afdf20(const char*, unsigned int, unsigned int, unsigned int);
-extern "C" void __cdecl FUN_005b5e40(int, const char*, const char*);
+extern "C" void __cdecl Warning_005b5e40(int, const char*, const char*);
 extern "C" unsigned int __cdecl FUN_005a00a0(unsigned int);
 unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
 void __cdecl FUN_0040fbe0(const char*, int);
@@ -1293,7 +1295,7 @@ struct FUN_00680890 : FUN_00765810
 struct WordsView : FUN_00765810
 {
     void __thiscall FUN_00680890();
-    void __thiscall FUN_0076b240(const char*);
+    void __thiscall tList_AppendStr(const char*);
     void __thiscall SortWeatherEntries();
     WordsView* __thiscall FUN_00726070();
     char** __thiscall FUN_006815c0();
@@ -1350,7 +1352,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
     openedFile = (FileObj*)FUN_00afdf20(dataFileName.String(), 0, 0x4000, 0x100);
     if (!openedFile || !openedFile->FUN_20(0, 0))
     {
-        FUN_005b5e40(0x12, str_01072a00, dataFileName.String());
+        Warning_005b5e40(0x12, str_01072a00, dataFileName.String());
         UpdateD766AA0Menu();
         return;
     }
@@ -1368,7 +1370,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
                 continue;
         }
         if (BSStringLength(line) == *(unsigned int*)((char*)this + 0x1ac))
-            ((FUN_0076b240_shell*)&available)->FUN_0076b240(line);
+            ((FUN_0076b240_shell*)&available)->tList_AppendStr(line);
     }
     delete openedFile;
     ((FUN_007687b0_shell*)&available)->SortWeatherEntries();
@@ -1408,7 +1410,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
                 }
                 if (accepted)
                 {
-                    ((FUN_0076b240_shell*)((WordsView*)((char*)this + 0x180)))->FUN_0076b240(chosen);
+                    ((FUN_0076b240_shell*)((WordsView*)((char*)this + 0x180)))->tList_AppendStr(chosen);
                     ++*(unsigned int*)((char*)this + 0x1a8);
                 }
             }
@@ -1495,11 +1497,11 @@ struct Node83
     void FUN_0063f7b0();
     void FUN_006ecd40(int);
 };
-void* FUN_00403d30(void*, int, unsigned int);
+void* ourMemset(void*, int, unsigned int);
 unsigned int FUN_0044a670(const char*);
 void* FUN_00401460(void*, const void*, unsigned int);
-void __cdecl FUN_005b5e40(const char*, ...);
-void* FUN_004b7210();
+void __cdecl Warning_005b5e40(const char*, ...);
+void* InterfaceManager_GetSingleton();
 bool FUN_004b71d0();
 void operator delete(void*);
 void* operator new[](unsigned int);
@@ -1510,7 +1512,7 @@ void HackingMenu::BuildHackingPasswordFile()
 {
     for (unsigned int i = 0; i < 46 && reinterpret_cast<Entry83**>(entries)[i]; i++)
         delete reinterpret_cast<Entry83**>(entries)[i];
-    FUN_00403d30(reinterpret_cast<Entry83**>(entries), 0, 184);
+    ourMemset(reinterpret_cast<Entry83**>(entries), 0, 184);
     BSStringT<char> text24x17;
     text24x17.PrintfString("%d %s", unk1a0, DAT_011d2e20.FUN_00403df0());
     reinterpret_cast<Entry83**>(entries)[0] = new Entry83(DAT_011d33cc.FUN_004c69f0(), reinterpret_cast<Tile83*>(m_pTiles[1]), "hacking_intro_template", unk1b4, 0);
@@ -1564,7 +1566,7 @@ void HackingMenu::BuildHackingPasswordFile()
                 continue;
             else
             {
-                FUN_005b5e40(
+                Warning_005b5e40(
                     "MENUS: Unable to construct complete password file for hacking minigame.  Continuing with fewer words.");
                 while (*node15->FUN_006815c0())
                 {
@@ -1603,7 +1605,7 @@ void HackingMenu::BuildHackingPasswordFile()
             new Entry83(text24x17.String(), reinterpret_cast<Tile83*>(m_pTiles[2]), "hacking_password_file_template", -1, 2);
         reinterpret_cast<Entry83**>(entries)[entryIndex7x39]->tile->FUN_00715c60(4012, row104x2);
         reinterpret_cast<Entry83**>(entries)[entryIndex7x39]->tile->FUN_00715c60(4100, column9x68);
-        FUN_004b7210();
+        InterfaceManager_GetSingleton();
         if (FUN_004b71d0() && !row104x2 && !column9x68)
         {
             reinterpret_cast<Tile83*&>(m_pkCursorTile) = reinterpret_cast<Entry83**>(entries)[entryIndex7x39]->tile;
@@ -1628,7 +1630,7 @@ namespace s767610 {
 
 
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 bool FUN_00702450(int iMenuID);
 int FUN_00ec86e1(int iChar);
 
@@ -1698,7 +1700,7 @@ extern HackingState* DAT_011d95bc;
 bool HackingMenu::HandleKey(int iKey, int iUnused)
 {
     using namespace s767610;
-    if (!s767610::FUN_004b7210()->FUN_004b71d0())
+    if (!s767610::InterfaceManager_GetSingleton()->FUN_004b71d0())
         return false;
     if (s767610::FUN_00702450(0x41f))
     {
@@ -2217,11 +2219,11 @@ void HackingMenu::UpdateDialog()
     unsigned int bbb;
     int j;
     if (m_eFadeState != 1 || !FUN_00702450(FUN_00766a40()) ||
-        (unk1d9[1] && !((Mgr4B7210*)FUN_004b7210())->m4D4.FUN_00718840(0x13)))
+        (unk1d9[1] && !((Mgr4B7210*)InterfaceManager_GetSingleton())->m4D4.FUN_00718840(0x13)))
     {
         return;
     }
-    if ((FUN_004b7210(), FUN_004b71d0()))
+    if ((InterfaceManager_GetSingleton(), FUN_004b71d0()))
     {
         DAT_011d95bc->mCC = m_pkCursorTile;
     }
@@ -2323,7 +2325,7 @@ void HackingMenu::FUN_00769830()
 
     for (i = 0; i < 14; i++)
     {
-        if (FUN_00457fe0() > DAT_011d95c0)
+        if (Cmd_GetSessionTime_Execute() > DAT_011d95c0)
         {
             reinterpret_cast<H769Line**>(entries)[0]->pText->FUN_00700320(0xfa3, 0);
         }
@@ -2338,9 +2340,9 @@ void HackingMenu::FUN_00769830()
                 if (!reinterpret_cast<H769Line**>(entries)[i]->kArgumentPosition->IsTraitNonZero(0xfa3))
                 {
                     reinterpret_cast<H769Line**>(entries)[i]->kArgumentPosition->FUN_00700320(0xfa3, 1);
-                    DAT_011d969c = FUN_00457fe0() + 1000;
+                    DAT_011d969c = Cmd_GetSessionTime_Execute() + 1000;
                 }
-                if (FUN_00457fe0() > DAT_011d969c)
+                if (Cmd_GetSessionTime_Execute() > DAT_011d969c)
                 {
                     unsigned int uiStart4 = FUN_0044a670(reinterpret_cast<H769Line**>(entries)[i]->pText->FUN_00a011f0(0xfc4));
                     reinterpret_cast<H769Line**>(entries)[i]->FUN_006ffea0();
@@ -2357,11 +2359,11 @@ void HackingMenu::FUN_00769830()
                     if (reinterpret_cast<H769Line**>(entries)[i]->FUN_00759d80())
                     {
                         reinterpret_cast<BSSoundHandle&>(sounds[4]).Play(0);
-                        DAT_011d969c = FUN_00457fe0() + 500;
+                        DAT_011d969c = Cmd_GetSessionTime_Execute() + 500;
                     }
                 }
             }
-            else if (FUN_00457fe0() > DAT_011d969c)
+            else if (Cmd_GetSessionTime_Execute() > DAT_011d969c)
             {
                 reinterpret_cast<H769Line**>(entries)[i]->FUN_006ffea0();
                 reinterpret_cast<BSSoundHandle&>(sounds[3]).Play(0);
@@ -2370,7 +2372,7 @@ void HackingMenu::FUN_00769830()
             break;
         }
     }
-    if (i == 14 && FUN_00457fe0() > DAT_011d969c)
+    if (i == 14 && Cmd_GetSessionTime_Execute() > DAT_011d969c)
     {
         BuildHackingPasswordFile();
     }
@@ -2386,7 +2388,7 @@ struct MenuPX
 };
 struct TilePX
 {
-    MenuPX* FUN_00a03c90();
+    MenuPX* Tile_GetMenu();
     NiNode* FUN_0056c7f0();
 };
 struct TileStatics
@@ -2407,7 +2409,7 @@ void HackingMenu::TransitionToComputersMenu()
     if (*(int*)((char*)this + 0x194))
     {
         TilePX* pTile = CreateComputerMenu(*(const char**)((char*)this + 0x198));
-        pTile->FUN_00a03c90()->FUN_00867a20();
+        pTile->Tile_GetMenu()->FUN_00867a20();
         TileStatics::UpdateAll(false);
         FORenderedTerminal* r = dynamic_cast<FORenderedTerminal*>(FUN_00707ad0());
         if (!r)
@@ -2859,7 +2861,7 @@ extern Interface84* DAT_011d95bc;
 struct Tile84
 {
     Tile84* FUN_00a01b00();
-    HackingMenu* FUN_00a03c90();
+    HackingMenu* Tile_GetMenu();
     float FUN_00a011b0(int);
     void FUN_00a012d0(int, float, int);
     void FUN_00a01350(int, const char*, int);
@@ -2882,10 +2884,10 @@ struct Text84
 };
 extern HackingMenu* DAT_011d95b8;
 HackingMenu* FUN_00a09030(int);
-Interface84* FUN_004b7210();
+Interface84* InterfaceManager_GetSingleton();
 float FUN_00a01530();
 extern unsigned int DAT_0119f27c, DAT_0119f280;
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 unsigned int FUN_0042f5a0(unsigned int, unsigned int);
 void FUN_005e58f0(int, Player84*, float*);
 float FUN_00404010(float, float);
@@ -2916,12 +2918,13 @@ extern Setting84 DAT_011d4690;
 extern Setting84 DAT_011d2130;
 // Creates and configures the hacking menu from hacking_menu.xml, populating entries based on terminal difficulty and skill.
 // @fnv 0x00765b80
-Tile84* FUN_00765b80(Ref84* reference)
+// src: COMMUNITY 0x00765b80
+Tile84* HackingMenu_Create(Ref84* reference)
 {
     HackingMenu* old40 = FUN_00a09030(FUN_00766a40());
     if (old40)
         delete old40;
-    DAT_011d95bc = FUN_004b7210();
+    DAT_011d95bc = InterfaceManager_GetSingleton();
     float screen13 = FUN_00a01530();
     FUN_00718b60()->FUN_00719060(3, &DAT_011d9674);
     Base84* terminal14 = reference->FUN_007af430();
@@ -2930,7 +2933,7 @@ Tile84* FUN_00765b80(Ref84* reference)
     DAT_0119f27c = *DAT_011d42d0.FUN_0043d4d0();
     DAT_0119f280 = *DAT_011d2934.FUN_0043d4d0();
     Tile84* tile4 = DAT_011d95bc->FUN_00586150("Data\\Menus\\hacking_menu.xml")->FUN_00a01b00();
-    HackingMenu* menu24 = tile4->FUN_00a03c90();
+    HackingMenu* menu24 = tile4->Tile_GetMenu();
     if (menu24 && menu24->GetClass() == FUN_00766a40())
     {
         menu24->FUN_00a1dc70(reinterpret_cast<TileMenu*>(tile4), 0);
@@ -2938,7 +2941,7 @@ Tile84* FUN_00765b80(Ref84* reference)
         int missing1;
         if (!DAT_011d95b8->HasAllSlots(&missing1))
         {
-            FUN_005b5e40("MENUS: Hacking Menu Creation Failed... Missing index = #%d", missing1);
+            Warning_005b5e40("MENUS: Hacking Menu Creation Failed... Missing index = #%d", missing1);
             return 0;
         }
         if (tile4->FUN_00a011b0(4007) == 6006.0 || tile4->FUN_00a011b0(4007) == 102.0)
@@ -3360,7 +3363,7 @@ extern HackPlayer* g_thePlayer;
 extern HackSetting g_011d26dc, g_011d1e78, g_011d430c, g_011d47e0, g_011d4f6c, g_011d2604, g_011d3444, g_011d4858,
     g_011d4ae0, g_011d2b2c, g_011d1f74, g_011d3144, g_011d339c, g_011d2e20;
 extern unsigned int DAT_011d95c0;
-void* FUN_004b7210();
+void* InterfaceManager_GetSingleton();
 bool FUN_004b71d0();
 unsigned int gm_GetTickCount();
 int FUN_00ec86e1(int);
@@ -3377,7 +3380,7 @@ void Finish(int);
 void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
 {
     using namespace fnv_00766b80;
-    fnv_00766b80::FUN_004b7210();
+    fnv_00766b80::InterfaceManager_GetSingleton();
     if (fnv_00766b80::FUN_004b71d0())
         tile = m_pkCursorTile;
     if (!tile && aiButtonIndex >= 0 && aiButtonIndex < 8)

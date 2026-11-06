@@ -291,7 +291,7 @@ bool FUN_00516c10_shell::IsNotMatchingContainer(TESForm* apCompare)
 
 struct FUN_00516a20_shell
 {
-    void FUN_00516a20();
+    void TESObjectCONT_SaveAlt();
 };
 
 struct FUN_00481b40_shell
@@ -321,7 +321,7 @@ struct DoorPart3c
 
 struct DoorPart5c
 {
-    void FUN_0048cca0();
+    void Save_0048cca0();
 };
 
 struct DoorPart68
@@ -338,13 +338,14 @@ bool _FUN_00401500();
 void _FUN_00485910(unsigned int, unsigned int);
 
 // @fnv 0x00516a20
-void FUN_00516a20_shell::FUN_00516a20()
+// src: COMMUNITY 0x00516a20
+void FUN_00516a20_shell::TESObjectCONT_SaveAlt()
 {
     reinterpret_cast<FUN_004855a0*>(this)->M();
     reinterpret_cast<DoorPart30*>(reinterpret_cast<char*>(this) + 0x3c)->FUN_00487010();
     reinterpret_cast<DoorPart3c*>(reinterpret_cast<char*>(this) + 0x48)
         ->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x68)->FUN_0048cca0();
+    reinterpret_cast<DoorPart5c*>(reinterpret_cast<char*>(this) + 0x68)->Save_0048cca0();
     reinterpret_cast<FUN_00481b40_shell*>(reinterpret_cast<char*>(this) + 0x30)->FUN_00481b40();
     reinterpret_cast<DoorPart68*>(reinterpret_cast<char*>(this) + 0x7c)->FUN_00477f20();
 

@@ -7,8 +7,8 @@
 
 // Fallout: New Vegas decompilation: fallout_shared/bgstextureset.cpp.
 class BGSTextureSet;
-void FUN_00593210();
-BGSTextureSet* __cdecl FUN_00593220();
+void BGSTextureSet_ClearNullTextureSet();
+BGSTextureSet* __cdecl BGSTextureSet_GetNullTextureSet();
 void __cdecl _Deallocate(void*);
 struct S591140
 {
@@ -352,11 +352,12 @@ struct FUN_00b66ad0_cls
     int unkA8;
     FnvRefObj** m_ac[6];  // +0xac
 
-    void FUN_00b66ad0(int a1, FnvTarget* target);
+    void BSShaderPPLightingProperty_LoadTextureSet(int a1, FnvTarget* target);
 };
 
 // @fnv 0x00b66ad0
-void FUN_00b66ad0_cls::FUN_00b66ad0(int a1, FnvTarget* target)
+// src: COMMUNITY 0x00b66ad0
+void FUN_00b66ad0_cls::BSShaderPPLightingProperty_LoadTextureSet(int a1, FnvTarget* target)
 {
     if (target == 0)
     {

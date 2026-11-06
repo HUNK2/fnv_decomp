@@ -83,7 +83,7 @@ struct S_cb2110_Foo
 
     hkVector4 unk30;
 
-    bool* __thiscall FUN_00cb2d70(bool* value);
+    bool* __thiscall hkRotation_isOk(bool* value);
     bool* __thiscall hkTransform_isOk(bool* result);
 };
 
@@ -95,7 +95,7 @@ bool* __thiscall S_cb2110_Foo::hkTransform_isOk(bool* result)
     bool value2;
     bool value;
 
-    if (*reinterpret_cast<VectorFiniteCheck*>(&unk30)->CheckFloatsFinite(&value1) && *FUN_00cb2d70(&value2))
+    if (*reinterpret_cast<VectorFiniteCheck*>(&unk30)->CheckFloatsFinite(&value1) && *hkRotation_isOk(&value2))
     {
         value = true;
     }
@@ -336,11 +336,12 @@ extern __m128 DAT_01017d10;
 struct FUN_00cb2160_cls : hkTransformCB22
 {
     unsigned char* Probe(unsigned char* out, const FUN_00cb2160_cls* other, float eps);
-    unsigned char* FUN_00cb2160(unsigned char* out, const FUN_00cb2160_cls* other, float eps);
+    unsigned char* hkTransform_isApproximatelyEqual(unsigned char* out, const FUN_00cb2160_cls* other, float eps);
 };
 // Writes 1 when Probe succeeds and the masked first three translation differences are at most eps; otherwise writes 0.
 // @fnv 0x00cb2160
-unsigned char* FUN_00cb2160_cls::FUN_00cb2160(unsigned char* out, const FUN_00cb2160_cls* other, float eps)
+// src: COMMUNITY 0x00cb2160
+unsigned char* FUN_00cb2160_cls::hkTransform_isApproximatelyEqual(unsigned char* out, const FUN_00cb2160_cls* other, float eps)
 {
     unsigned char flag;
     unsigned char* p = Probe(&flag, other, eps);

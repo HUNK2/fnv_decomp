@@ -34,7 +34,7 @@ void __cdecl FUN_00ee9a60();
 void __cdecl operator delete(void*, unsigned int);
 void* __cdecl NiStandardAllocator::operator new(unsigned int n)
 {
-    return g_memoryManager.FUN_00aa3e40(n);
+    return g_memoryManager.Game_DoHeapAlloc(n);
 }
 struct FUN_00aa2200
 {
@@ -73,7 +73,7 @@ class FixedStringMap
     void GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val);
 };
 bool __cdecl FUN_00aa2cc0(const char*) throw();
-bool __cdecl FUN_00aa2d10(char*, unsigned int) throw();
+bool __cdecl NiPath_GetCurrentWorkingDirectory(char*, unsigned int) throw();
 int __cdecl BuildAbsolutePath(char*, unsigned int, const char*, const char*) throw();
 // helpers of the game (declared only)
 void __cdecl BuildAbsolutePath(char* buffer, unsigned int size, char* a, char* b);
@@ -105,10 +105,10 @@ struct S_00ee97e0_Elem
     int* FUN_00eea500();
     int* FUN_00eea510();
     int* FUN_00eea520();
-    int FUN_00be0ad0();
-    int FUN_00aa1ac0();
-    int FUN_00dbbc00();
-    int FUN_00eea530();
+    int NiRenderTargetGroup_GetBufferCount();
+    int NiFile_GetBuffer();
+    int NiRenderTargetGroup_GetRendererData();
+    int NiD3DShader_GetShaderDecl();
 };
 struct S_00ee97e0_Obj
 {
@@ -270,15 +270,15 @@ inline void S_00ee9230_WriteBinary(S_00ee9230_Stream* pkStream, const void* pvBu
 bool __stdcall NiGPUProgramCache_SaveString(S_00ee9230_Stream* pkStream, const char* pcString);
 extern bool DAT_011c2fdd;
 bool __cdecl FUN_00aa1ab0(const char* pcName);
-bool __cdecl FUN_00aa1bb0(const char* pcName);
+bool __cdecl NiFile_CreateDirectoryRecursive(const char* pcName);
 NiFile* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
 void __cdecl AdvancePosition(NiFile* pkFile, char* pcBuffer, unsigned int uiLen);
 int __cdecl FUN_00aa1360(const char* pc1, const char* pc2);
 void __cdecl InvokeAndAccumulate(NiFile* pkFile, bool* pbValue);
-void __cdecl FUN_00a575b0(NiFile* pkFile, unsigned int* puiValue);
+void __cdecl NiStreamLoadBinary_00a575b0(NiFile* pkFile, unsigned int* puiValue);
 extern "C" size_t strlen(const char*);
 extern char* _EmptyFS;
-bool __cdecl FUN_00aa1bb0(const char* h);
+bool __cdecl NiFile_CreateDirectoryRecursive(const char* h);
 void __cdecl FUN_00e984d0(void* s, const char* name, unsigned int len);
 struct StreamObj : public NiFile
 {
@@ -303,7 +303,7 @@ template <class T> inline void S00ee9620_SaveBinary(StreamObj* s, const T& v)
 }
 struct OwnerMap : public FixedStringMap
 {
-    MapItem* FUN_00ee8ac0();
+    MapItem* NiTMapIterator_GetFirstPos();
     void GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val);
 };
 __declspec(noinline) void OwnerMap::GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& val)
@@ -359,12 +359,12 @@ struct ShaderEntry : NiRefObject
     void SetName(const NiFixedString& s);
     void FUN_00eea650(const NiFixedString& s);
     void FUN_00eea690(const NiFixedString& s);
-    void FUN_00eea6d0(const NiFixedString& s);
+    void SetLookAtName(const NiFixedString& s);
     void AssignRefCounted(const NiFixedString& s);
     void FUN_00eea540(unsigned int v);
-    void FUN_00eea550(unsigned int v);
-    void FUN_00eea560(unsigned int v);
-    void FUN_00eea570(unsigned int v);
+    void NiMaterialResource_SetSource(unsigned int v);
+    void NiMaterialResource_SetExtraData(unsigned int v);
+    void NiMaterialResource_SetObjectType(unsigned int v);
 };
 
 struct EntrySet
@@ -579,7 +579,7 @@ bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
             ReadStr(s, buf);
             void* t4Storage[sizeof(NiFixedString) / sizeof(void*)];
             NiFixedString& t4 = *ConstructCacheString(t4Storage, buf);
-            e->FUN_00eea6d0(t4);
+            e->SetLookAtName(t4);
             t4.~NiFixedString();
             ReadStr(s, buf);
             void* t5Storage[sizeof(NiFixedString) / sizeof(void*)];
@@ -590,11 +590,11 @@ bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
             ReadRaw(s, &v, 4, 4);
             e->FUN_00eea540(v);
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea550(v);
+            e->NiMaterialResource_SetSource(v);
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea560(v);
+            e->NiMaterialResource_SetExtraData(v);
             ReadRaw(s, &v, 4, 4);
-            e->FUN_00eea570(v);
+            e->NiMaterialResource_SetObjectType(v);
             {
                 ShaderEntry* sp = e;
                 if (e)

@@ -50,7 +50,7 @@ class B81390Extra
 
 void __cdecl ResolveFormID(unsigned int* puiFormID, TESFile* file);
 TESForm* __cdecl FUN_004839c0(unsigned int auiFormId);
-void __cdecl FUN_005b5e40(const char* pcFormat, ...);
+void __cdecl Warning_005b5e40(const char* pcFormat, ...);
 
 class B81390ContainerObject
 {
@@ -73,15 +73,15 @@ void B81390ContainerObject::FUN_00481390(TESForm* pkOwner)
         if (pkOwner)
         {
             if (pkOwner->FUN_00474cb0())
-                FUN_005b5e40("MASTERFILE: Unable to find container object (%08X) on owner object \"%s\".", auiFormId,
+                Warning_005b5e40("MASTERFILE: Unable to find container object (%08X) on owner object \"%s\".", auiFormId,
                              pkOwner->GetName());
             else
-                FUN_005b5e40("MASTERFILE: Unable to find container object (%08X) on owner object (%08X).", auiFormId,
+                Warning_005b5e40("MASTERFILE: Unable to find container object (%08X) on owner object (%08X).", auiFormId,
                              pkOwner->FUN_0084e3a0());
         }
         else
         {
-            FUN_005b5e40("MASTERFILE: Unable to find container object (%08X) on unknown owner.", auiFormId);
+            Warning_005b5e40("MASTERFILE: Unable to find container object (%08X) on unknown owner.", auiFormId);
         }
     }
     if (m_pkExtra)

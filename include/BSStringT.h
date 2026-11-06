@@ -40,7 +40,7 @@ template <class T> class BSStringT
     int Equals(const char* text);                     // 0x007002a0 { return !StrCmp(text, true); }
     BSStringT<T>* FUN_007a86b0(unsigned int flags);    // 0x007a86b0 deleting destructor wrapper
     int StrCmp(const char* text, bool ignoreCase) const; // 0x00408a80 (_stricmp 0x00404dc0 / 0x00408b20)
-    void FUN_004afad0();                               // 0x004afad0 { if (pString) FUN_004afb00(pString, sLen + 1); }
+    void BSStringT_ToLower();                               // 0x004afad0 { if (pString) FUN_004afb00(pString, sLen + 1); }
 
     BSStringT<T>& operator=(const T* text);            // 0x00438390 { Set(text, 0); return *this; }
     BSStringT<T>& operator=(const BSStringT<T>& text); // 0x00501c10 { Set(text); return *this; }

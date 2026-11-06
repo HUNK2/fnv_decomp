@@ -5,7 +5,7 @@
 #include "../../../../../../../include/hkMemoryAllocator.h"
 #include "../../../../../../../include/hkMemoryRouter.h"
 
-void __cdecl FUN_00c852c0(void* owner, int a2, int a3, int a4);
+void __cdecl hkAlgorithm_quickSortRecursive_hknpCollisionResult_hkAlgorithm_less_hknpCollisionResult(void* owner, int a2, int a3, int a4);
 
 class FUN_00c855f0_cls
 {
@@ -17,12 +17,13 @@ class FUN_00c855f0_cls
     void* m_10;
     int m_14;
 
-    void FUN_00c855f0();
+    void hknpAllHitsCollector_sortHits();
 };
 
 // If m_14 exceeds 1, calls FUN_00c852c0 on m_10 with 0 and m_14 - 1.
 // @fnv 0x00c855f0
-void FUN_00c855f0_cls::FUN_00c855f0()
+// src: COMMUNITY 0x00c855f0
+void FUN_00c855f0_cls::hknpAllHitsCollector_sortHits()
 {
     union
     {
@@ -32,7 +33,7 @@ void FUN_00c855f0_cls::FUN_00c855f0()
     flag.b = 0;
     if (m_14 > 1)
     {
-        FUN_00c852c0(m_10, 0, m_14 - 1, flag.i);
+        hkAlgorithm_quickSortRecursive_hknpCollisionResult_hkAlgorithm_less_hknpCollisionResult(m_10, 0, m_14 - 1, flag.i);
     }
 }
 

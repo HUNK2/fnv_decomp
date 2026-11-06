@@ -96,10 +96,11 @@ TESImageSpaceModifier* TESImageSpaceModifier::GetConcussionModifier()
 struct FUN_0052d240_shell
 {
     void FUN_00483710();
-    void FUN_0052d240();
+    void BGSStaticCollection_ClearData();
 };
 // @fnv 0x0052d240
-void FUN_0052d240_shell::FUN_0052d240()
+// src: COMMUNITY 0x0052d240
+void FUN_0052d240_shell::BGSStaticCollection_ClearData()
 {
     FUN_00483710();
 }

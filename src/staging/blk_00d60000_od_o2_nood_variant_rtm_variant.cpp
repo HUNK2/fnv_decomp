@@ -151,7 +151,7 @@ struct FUN_004b4ab0_Class
     {
         __m128 value;
     };
-    void FUN_004b4ab0(int basis, int vector);
+    void hkVector4_setRotatedInverseDir(int basis, int vector);
     void FUN_00c7f700(const Basis* basis, const FUN_004b4ab0_Class* vector);
 };
 struct MotionInput
@@ -200,7 +200,7 @@ static __forceinline void buildBasis(const MotionInput* input, __m128 normal, Ba
     basis.y = up;
     basis.z = input->axis;
 }
-void __cdecl FUN_00d6aef0(const MotionInput* input, float outputBits);
+void __cdecl hkpCharacterMovementUtil_calculateMovement(const MotionInput* input, float outputBits);
 struct BodySource
 {
     Vec4 m_000, m_010, m_020, m_030, m_040, m_050, m_060, m_070;
@@ -228,7 +228,7 @@ struct BodyOut
     Vec4 m_20;
     Vec4 m_30;
 };
-void FUN_00d6b4b0(BodyList* list, BodyOut* out);
+void hkaKeyFrameHierarchyUtility_initialize(BodyList* list, BodyOut* out);
 struct __declspec(align(16)) V16
 {
     float x, y, z, w;
@@ -433,7 +433,7 @@ __forceinline void PoseQsTransform::SetProduct(const PoseQsTransform& a, const P
     PoseVector4 extra;
     extra.setRotatedTranslation(a.rotation, b.position);
     position.setAdd4(extra, a.position);
-    rotation.FUN_00c66320(a.rotation, b.rotation);
+    rotation.setMul(a.rotation, b.rotation);
     scale.setMul4(a.scale, b.scale);
 }
 __forceinline SimdC::LocalM128 blendPosition(const PoseVector4& position, const PoseVector4& target, float weight)
@@ -446,7 +446,8 @@ __forceinline SimdC::LocalM128 blendPosition(const PoseVector4& position, const 
 
 extern "C" unsigned int __security_cookie;
 extern "C" void __fastcall __security_check_cookie(unsigned int);
-__declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void hkQuaternion::setMul(const hkQuaternion& a, const hkQuaternion& b)
 {
     SimdC::LocalM128 av = reinterpret_cast<const PoseVector4&>(a).m_vComponents, bv = reinterpret_cast<const PoseVector4&>(b).m_vComponents;
     SimdC::LocalM128 cross =

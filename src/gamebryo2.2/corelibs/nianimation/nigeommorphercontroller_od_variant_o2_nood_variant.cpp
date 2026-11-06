@@ -18,7 +18,7 @@ NiFixedString::operator const char*() const
 {
     return m_kHandle;
 }
-char* FUN_00a7d330(char*);
+char* NiViewerStrings_NiGetViewerString_Title(char*);
 char* FUN_00a7d510(const char*, unsigned int);
 void* NiMalloc(unsigned int);
 extern char* DAT_011f3728;
@@ -84,7 +84,7 @@ void MorphViewer::FUN_00a3b700(StrArr* array)
         unsigned int count;
     } header;
     {
-        header.text = FUN_00a7d330(DAT_011f3728);
+        header.text = NiViewerStrings_NiGetViewerString_Title(DAT_011f3728);
         array->append(header.text);
         header.text = FUN_00a7d510("NumTargets",
                                    m_spMorphTargetData.m_pObject ? m_spMorphTargetData.m_pObject->m_uiNumTargets : 0);

@@ -111,13 +111,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -142,7 +142,7 @@ struct SpeedTreeLodData
     unsigned short m_usValueAt28;
     char m_pAuxiliaryObject[2];
     LeafLod* m_pLeafLod;
-    void FUN_00b27820();
+    void CLeafGeometry_Invalidate();
 };
 struct FUN_00b27870_Class
 {
@@ -158,7 +158,7 @@ struct FUN_00b27870_Class
     const float* CopyLodData(unsigned int& aiFloatCount);
 };
 void* __cdecl _memmove(void* dest, const void* src, unsigned int count);
-extern "C" bool FUN_00b0d7a0();
+extern "C" bool CSpeedTreeRT_GetTextureFlip();
 extern const float DAT_01012054;
 struct FUN_00b28720_Class
 {
@@ -205,7 +205,8 @@ __forceinline float& LocalVec3::operator[](int n)
 {
     return (&x)[n];
 }
-inline float LocalVec3::FUN_00b04d40(const LocalVec3& other) const
+// src: COMMUNITY 0x00b04d40
+inline float LocalVec3::CVec3_Distance(const LocalVec3& other) const
 {
     float squared = (other.x - x) * (other.x - x) + (other.y - y) * (other.y - y) +
                     (other.z - z) * (other.z - z);
@@ -395,10 +396,11 @@ struct LeafGeometry
     LocalVec3* origins;
     unsigned short lodCount, unk2a;
     LeafRecord* lods;
-    void FUN_00b27910(CRegion& output);
+    void CLeafGeometry_ComputeExtents(CRegion& output);
 };
 // @fnv 0x00b27910
-void LeafGeometry::FUN_00b27910(CRegion& output)
+// src: COMMUNITY 0x00b27910
+void LeafGeometry::CLeafGeometry_ComputeExtents(CRegion& output)
 {
     if (origins && sizes && lods)
     {
@@ -407,14 +409,14 @@ void LeafGeometry::FUN_00b27910(CRegion& output)
         {
             LocalVec3 center(origins[i][0] * sizes[i][0], origins[i][1] * sizes[i][1], 0);
             float radius = 0;
-            if (radius < center.FUN_00b04d40(LocalVec3(0, 0, 0)))
-                radius = center.FUN_00b04d40(LocalVec3(0, 0, 0));
-            if (radius < center.FUN_00b04d40(LocalVec3(sizes[i][0], 0, 0)))
-                radius = center.FUN_00b04d40(LocalVec3(sizes[i][0], 0, 0));
-            if (radius < center.FUN_00b04d40(LocalVec3(sizes[i][0], sizes[i][1], 0)))
-                radius = center.FUN_00b04d40(LocalVec3(sizes[i][0], sizes[i][1], 0));
-            if (radius < center.FUN_00b04d40(LocalVec3(0, sizes[i][1], 0)))
-                radius = center.FUN_00b04d40(LocalVec3(0, sizes[i][1], 0));
+            if (radius < center.CVec3_Distance(LocalVec3(0, 0, 0)))
+                radius = center.CVec3_Distance(LocalVec3(0, 0, 0));
+            if (radius < center.CVec3_Distance(LocalVec3(sizes[i][0], 0, 0)))
+                radius = center.CVec3_Distance(LocalVec3(sizes[i][0], 0, 0));
+            if (radius < center.CVec3_Distance(LocalVec3(sizes[i][0], sizes[i][1], 0)))
+                radius = center.CVec3_Distance(LocalVec3(sizes[i][0], sizes[i][1], 0));
+            if (radius < center.CVec3_Distance(LocalVec3(0, sizes[i][1], 0)))
+                radius = center.CVec3_Distance(LocalVec3(0, sizes[i][1], 0));
             radii.PushBack(radius);
         }
         for (int j = 0; j < lodCount; ++j)
@@ -654,12 +656,13 @@ struct LeafGeometryB28480
     unsigned short unk1E;
     CVec3* m_pPositions;
     CVec3* m_pLeafVectors;
-    void FUN_00b29380(unsigned short usLod, int nSeed);
-    void FUN_00b28480(unsigned short usLod, int nSeed, const LeafSourceB28480* pSource);
+    void CLeafGeometry_InitLods(unsigned short usLod, int nSeed);
+    void CLeafGeometry_Init(unsigned short usLod, int nSeed, const LeafSourceB28480* pSource);
 };
 
 // @fnv 0x00b28480
-void LeafGeometryB28480::FUN_00b28480(unsigned short usLod, int nSeed, const LeafSourceB28480* pSource)
+// src: COMMUNITY 0x00b28480
+void LeafGeometryB28480::CLeafGeometry_Init(unsigned short usLod, int nSeed, const LeafSourceB28480* pSource)
 {
     m_usValueAt28 = pSource->m_usValueAt28;
     m_nStyle = pSource->m_nStyle;
@@ -675,7 +678,7 @@ void LeafGeometryB28480::FUN_00b28480(unsigned short usLod, int nSeed, const Lea
     }
     int nNumTexCoords = m_usNumLeaves * m_usValueAt28 * 2 * 4 * 4;
     m_pfTexCoords = new float[nNumTexCoords];
-    FUN_00b29380(usLod, nSeed);
+    CLeafGeometry_InitLods(usLod, nSeed);
 }
 
 namespace LeafMatrices {
@@ -741,12 +744,13 @@ struct LeafBuilder
     unsigned short usUnk2A;
     LeafEntry* pEntries;
 
-    void FUN_00b29190(unsigned short ausIndex);
-    void FUN_00b288f0(LeafData* apOut, unsigned short ausIndex, int aiUnused1, int aiUnused2, float afScale);
+    void CLeafGeometry_ComputeWindEffect(unsigned short ausIndex);
+    void CLeafGeometry_Update_(LeafData* apOut, unsigned short ausIndex, int aiUnused1, int aiUnused2, float afScale);
 };
 
 // @fnv 0x00b288f0
-void LeafBuilder::FUN_00b288f0(LeafData* apOut, unsigned short ausIndex, int aiUnused1, int aiUnused2, float afScale)
+// src: COMMUNITY 0x00b288f0
+void LeafBuilder::CLeafGeometry_Update_(LeafData* apOut, unsigned short ausIndex, int aiUnused1, int aiUnused2, float afScale)
 {
     if (pEntries && ausIndex < usEntryCount && ppMatrices && pPositions && pDirections && pSettings && pUnk0C)
     {
@@ -754,7 +758,7 @@ void LeafBuilder::FUN_00b288f0(LeafData* apOut, unsigned short ausIndex, int aiU
         if (!pEntry->IsComputed())
         {
             if (pSettings->GetMode() == 1)
-                FUN_00b29190(ausIndex);
+                CLeafGeometry_ComputeWindEffect(ausIndex);
             float fFactor = 1.0f;
             if (ausIndex > 0)
                 fFactor = 1.0f + ausIndex * afScale;
@@ -884,11 +888,12 @@ class CLeafGeometryWind
     unsigned short unk2a;
     SLeafLod* m_pLeafLod;
 
-    void FUN_00b29190(unsigned short usLod);
+    void CLeafGeometry_ComputeWindEffect(unsigned short usLod);
 };
 
 // @fnv 0x00b29190
-void CLeafGeometryWind::FUN_00b29190(unsigned short usLod)
+// src: COMMUNITY 0x00b29190
+void CLeafGeometryWind::CLeafGeometry_ComputeWindEffect(unsigned short usLod)
 {
     SLeafLod* pLod;
 

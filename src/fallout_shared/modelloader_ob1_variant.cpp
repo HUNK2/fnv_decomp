@@ -955,12 +955,12 @@ struct ArrY
 class WalkY;
 struct HelperY
 {
-    void FUN_00c64c40(WalkY* p, ObjY* o);
+    void BSNodeReferences_AddParentRef(WalkY* p, ObjY* o);
     void Do(WalkY* p, ObjY* o)
     {
         int aiD0;
         int aiD1;
-        FUN_00c64c40(p, o);
+        BSNodeReferences_AddParentRef(p, o);
     }
 };
 class WalkY
@@ -1480,10 +1480,11 @@ class Target
         unsigned int x;
         InterlockedIncrement(count);
     }
-    bool FUN_00c3fb50(Task* task);
+    bool BSTaskManager_int64_AddTask(Task* task);
 };
 // @fnv 0x00c3fb50
-bool Target::FUN_00c3fb50(Task* task)
+// src: COMMUNITY 0x00c3fb50
+bool Target::BSTaskManager_int64_AddTask(Task* task)
 {
     task->SetState(1);
     unsigned int bucket = Bucket(task->GetKey());
@@ -1605,8 +1606,8 @@ struct S00c3fce0_Tmp
 };
 struct S00c3fce0_cls
 {
-    bool FUN_00c40e70(S00c3fce0_Iter*, S00c3fce0_Key*, S00c3fce0_Ptr*, bool);
-    void FUN_0044ac40(S00c3fce0_Obj*, int);
+    bool LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(S00c3fce0_Iter*, S00c3fce0_Key*, S00c3fce0_Ptr*, bool);
+    void BSTaskManager_CancelTask(S00c3fce0_Obj*, int);
     void FUN_00c3fce0();
 };
 // @fnv 0x00c3fce0
@@ -1622,9 +1623,9 @@ void S00c3fce0_cls::FUN_00c3fce0()
         {
             S00c3fce0_Args a;
 
-            if (FUN_00c40e70(&iterator, &a.key, &a.item, true))
+            if (LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(&iterator, &a.key, &a.item, true))
             {
-                FUN_0044ac40(a.item.object, 0);
+                BSTaskManager_CancelTask(a.item.object, 0);
                 changed = true;
             }
         }
@@ -1661,7 +1662,8 @@ class C3B270_SubBase
     void* table;
     void** data;
     unsigned short capacity, size, live, grow;
-    void FUN_0068ac40(unsigned int a, unsigned int b)
+// src: COMMUNITY 0x0068ac40
+    void NiTArray_NiAVObject_NiTMallocInterface_NiAVObject_NiTArray_NiAVObject_NiTMallocInterface_NiAVObject(unsigned int a, unsigned int b)
     {
         table = &DAT_01069d7c;
         capacity = (unsigned short)a;
@@ -1680,7 +1682,7 @@ class C3B270_Sub : public C3B270_SubBase
   public:
     __forceinline C3B270_Sub()
     {
-        FUN_0068ac40(0, 1);
+        NiTArray_NiAVObject_NiTMallocInterface_NiAVObject_NiTArray_NiAVObject_NiTMallocInterface_NiAVObject(0, 1);
         table = &DAT_01069d84;
     }
 };

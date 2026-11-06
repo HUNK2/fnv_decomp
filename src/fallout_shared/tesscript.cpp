@@ -183,7 +183,7 @@ void Script::ClearData()
 {
     ::operator delete(m_data);
     ::operator delete(m_pText);
-    FUN_005aa2e0();
+    ClearVariableList();
     InitializeActionList();
 }
 
@@ -355,7 +355,8 @@ void Script::InitializeComponent()
 
 // Deletes every item in the variable list and removes each head until the list is empty.
 // @fnv 0x005aa2e0
-void Script::FUN_005aa2e0()
+// src: COMMUNITY 0x005aa2e0
+void Script::ClearVariableList()
 {
     BSSimpleList<ScriptVariableInfo*>* pList = GetVariableList();
     while (pList && !pList->IsEmpty())
@@ -382,7 +383,7 @@ void Script::CopyScriptContents(Script* apScriptToCopy)
     InitializeActionList();
     CopyScriptReferences(apScriptToCopy->GetReferencedObjectList(), GetReferencedObjectList(), this);
 
-    FUN_005aa2e0();
+    ClearVariableList();
     CopyListToView(apScriptToCopy->GetVariableList(), GetVariableList(), this);
 
     if (apScriptToCopy->GetText())
@@ -498,7 +499,8 @@ extern BSSimpleList<TESObjectREFR*> g_011cace8;
 extern BSSimpleList<TESObjectREFR*> g_011cacb8;
 
 // @fnv 0x005aa720
-void FUN_005aa720()
+// src: COMMUNITY 0x005aa720
+void Script_RunDelayedScriptActionsOnReferences()
 {
     BSSimpleList<TESObjectREFR*>* pCurrentElementNext;
     g_011cacf8.QueryPerformanceCounter(0);
@@ -512,7 +514,7 @@ void FUN_005aa720()
     {
         TESObjectREFR* pref = g_011cac98.GetItem();
         g_011cac98.RemoveHead();
-        pref->FUN_00574400();
+        pref->TESObjectREFR_Disable();
     }
     pCurrentElementNext = &g_011cace8;
     while (pCurrentElementNext && !pCurrentElementNext->IsEmpty())
@@ -525,7 +527,7 @@ void FUN_005aa720()
         BSFadeNode* pfade = pav ? pav->IsFadeNode() : 0;
         if (!pfade || !pfade->IsVisible())
         {
-            pref->FUN_00574400();
+            pref->TESObjectREFR_Disable();
             g_011cace8.Remove(pref);
             if (pCurrentElementNext == &g_011cace8)
                 m_pActionSuccessor = &g_011cace8;
@@ -893,7 +895,8 @@ extern GlobalObject2_0096a2d0 g_011cacb8;
 extern GlobalObject2_0096a2d0 g_011cace8;
 
 // @fnv 0x005aae20
-void __cdecl FUN_005aae20()
+// src: COMMUNITY 0x005aae20
+void __cdecl Script_RevertPendingReferences()
 {
     g_011cacf8.QueryPerformanceCounter(0);
     g_011caca8.RemoveAll();
@@ -926,7 +929,8 @@ void FUN_005ac730(bool abProcessScripts)
 __declspec(thread) int DAT_tls;
 
 // @fnv 0x005ae270
-void FUN_005ae270()
+// src: COMMUNITY 0x005ae270
+void Script_ClearOptimizations()
 {
     *(int*)((char*)&DAT_tls + 0x288) = 0;
     *(int*)((char*)&DAT_tls + 0x284) = 0;
@@ -957,7 +961,8 @@ __declspec(thread) int tlsVar3;
 
 // Resets the three thread-local variables to 0, -1 and 0.
 // @fnv 0x005a9d60
-void FUN_005a9d60()
+// src: COMMUNITY 0x005a9d60
+void ScriptLocals_ClearOptimizations()
 {
     tlsVar1 = 0;
     tlsVar2 = -1;
@@ -1266,7 +1271,7 @@ void ScriptUnitOperations::Save()
 }
 
 namespace fnv_005ac6a0 {
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 struct Flt
 {
     operator unsigned int() const;
@@ -1282,7 +1287,7 @@ char ScriptUnitOperations::FindVariableType(const char* pcName, unsigned int* pu
     {
         ScriptVariableInfo* variable = node->GetItem();
         node = node->GetNext();
-        if (FUN_00404dc0((const char*)(unsigned int)*(fnv_005ac6a0::Flt*)((char*)variable + 0x18), pcName) == 0)
+        if (BSstricmp((const char*)(unsigned int)*(fnv_005ac6a0::Flt*)((char*)variable + 0x18), pcName) == 0)
         {
             *puiID = variable->data.uiID;
             if (variable->data.m_bIsString)
@@ -1481,7 +1486,7 @@ void Script::InitFromCompileData(CStringArgument* apCompileData)
         this->SetScriptData(*(unsigned int*)((char*)this + 0x20), *(char**)((char*)apCompileData + 0x20));
 
         this->InitializeActionList();
-        this->FUN_005aa2e0();
+        this->ClearVariableList();
 
         if (*(unsigned int*)((char*)this + 0x20) != 0)
         {
@@ -1856,7 +1861,7 @@ struct StateX
     void FUN_008579b0(const void* p, unsigned int n);
     void FUN_00857a10(const void* p, unsigned int n);
 };
-void __cdecl FUN_005b5e40(const char* pFmt, const char* file, int line);
+void __cdecl Warning_005b5e40(const char* pFmt, const char* file, int line);
 
 // Serializes the script local variable list to the save stream, writing a BLOCK chunk header, count, tagged values and an optional tail, with debug logging.
 // @fnv 0x005a9670
@@ -1947,7 +1952,7 @@ void ScriptLocals::SaveGame()
         endPos = ((StateX*)DAT_011de45c)->FUN_00825c00();
         posTmp = posB;
         if (endPos > posTmp + 0xffff)
-            FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
+            Warning_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESScript.cpp", 694);
         *(unsigned short*)posB = (unsigned short)(endPos - posTmp);
     }

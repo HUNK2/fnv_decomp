@@ -205,7 +205,8 @@ void Derived_00cfd660::hkpSimpleConstraintContactMgr_getAllContactPointIds() { B
 extern int DAT_01268798;
 
 // @fnv 0x00cfdad0
-int* __cdecl FUN_00cfdad0()
+// src: COMMUNITY 0x00cfdad0
+int* __cdecl hkpSimpleConstraintContactMgr_getClassType()
 {
     return &DAT_01268798;
 }

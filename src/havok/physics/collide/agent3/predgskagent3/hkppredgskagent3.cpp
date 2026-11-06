@@ -76,7 +76,7 @@ extern "C" void __cdecl InsertSlotId(int a, int b, int c, int d);
 extern "C" void __cdecl FindEntryByKey(int a, int b, int c, int d);
 extern "C" void __cdecl ConvertPairFlags(int a, int b, int c, int d);
 extern "C" void __cdecl FUN_00d41930(int a, int b, int c, int d);
-extern "C" void __cdecl FUN_00d40d80(int a, int b, int c, int d);
+extern "C" void __cdecl hkPredGskCylinderAgent3_process(int a, int b, int c, int d);
 
 // The handler table that is handed to CScript::RegisterHandler.  It is kept
 // 16 byte aligned, which is what makes the compiler emit the aligned frame
@@ -117,7 +117,7 @@ void __cdecl RegisterScriptHandlers(void* pScript)
     HandlerTable tab;
 
     tab.p0 = ConvertPairFlags;
-    tab.p7 = FUN_00d40d80;
+    tab.p7 = hkPredGskCylinderAgent3_process;
     tab.p6 = FUN_00d41930;
     tab.p2 = FUN_00d41860;
     tab.p3 = RemoveEntryById;
@@ -443,11 +443,12 @@ struct Output
     Contact contacts[256];
     OutputStack* stack;
 };
-void __cdecl FUN_00db60c0(Request*, float, float, float, ResultData*, AlignedVec*, Output*);
+void __cdecl hk4dGskCollideCalcToi(Request*, float, float, float, ResultData*, AlignedVec*, Output*);
 void __cdecl ProcessCollision(Request*, unsigned char*, ResultData*, ResultData*, Cache*, AlignedVec*, Output*);
-void __cdecl FUN_00dae3a0(Cache*, AlignedVec*, int, Output*, void*);
+void __cdecl hkGskManifold_verifyAndGetPoints(Cache*, AlignedVec*, int, Output*, void*);
 // @fnv 0x00d41a30
-void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* result, AlignedVec* separation,
+// src: COMMUNITY 0x00d41a30
+void* __cdecl hkPredGskAgent3_process(Request* input, unsigned char* status, ResultData* result, AlignedVec* separation,
                            Output* output)
 {
     volatile unsigned uiTimestamp;
@@ -488,7 +489,7 @@ void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* re
             float boundA = settings->factorC * radius;
             float boundB = settings->factorD * radius + w;
             float bound = boundA < boundB ? boundA : boundB;
-            FUN_00db60c0(input, radius, limit, bound, result, separation, output);
+            hk4dGskCollideCalcToi(input, radius, limit, bound, result, separation, output);
             goto fallback;
         }
     }
@@ -543,7 +544,7 @@ void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* re
                                                              _mm_add_ps(_mm_mul_ps(vz, z), w)));
                 } while (--j >= 0);
             }
-            FUN_00dae3a0(cache, vertices, 0, output, input->context);
+            hkGskManifold_verifyAndGetPoints(cache, vertices, 0, output, input->context);
             if (cache->contacts)
             {
                 OutputStack* stack = output->stack;

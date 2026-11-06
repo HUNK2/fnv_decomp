@@ -48,8 +48,8 @@ class ActorValueStore
     unsigned char state[0x268];
     ActorValueStore();
     void ResetCacheValues();
-    bool FUN_00900400(ActorValue::Index);
-    void FUN_008c6f00(ActorValue::Index, float);
+    bool CachedActorValues_IsDirty(ActorValue::Index);
+    void CachedActorValues_SetActorValue(ActorValue::Index, float);
     float GetFloatAt(ActorValue::Index);
     void InvalidateValue(ActorValue::Index);
 };
@@ -241,7 +241,7 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting87, originalRu
     originalRuntimeFloatSetting922;
 extern SettingT_GameSettingCollection_ DAT_011cf788;
 extern const double DAT_01084d28, runtimeInitializationDouble2;
-int FUN_00642bc0(int, bool, float, int, int, bool, bool, bool, int, bool, bool);
+int AiFormulas_GetDetectedEvent(int, bool, float, int, int, bool, bool, bool, int, bool, bool);
 
 
 

@@ -19,16 +19,16 @@ struct Package
 {
     virtual void PackageTypeAnchor();
     int FUN_0041ca90();
-    void FUN_009f8660(List*);
+    void SpectatorPackage_CopyThreatInfoList(List*);
     bool FUN_009f7fe0();
-    NiPoint3 FUN_009f8300();
+    NiPoint3 SpectatorPackage_GetEventCenter();
     void FUN_009f8020(Actor*);
     void FUN_009f7f20(Actor*, int);
     void FUN_009f7d70(Actor*, int);
     unsigned int FUN_004fb070();
     void SetWaterForm(unsigned int);
     float FUN_00507e10();
-    int FUN_009f8570();
+    int SpectatorPackage_CreateAvoidNodeArray();
     void FUN_009f1310(void*);
 };
 struct List
@@ -151,7 +151,7 @@ struct Request
     void InitFromActor(Actor*);
     void SetCantOpenDoors(bool);
     void SetPathingLocation(const Location&);
-    void FUN_008dbd80(float);
+    void PathingRequestHide_SetMinHideDistance(float);
     void FUN_006d3b00(float);
     void FUN_006d61e0(int);
 };
@@ -189,7 +189,7 @@ void Actor::FUN_008db810(Actor* actor)
     if (DAT_011f1958->FUN_008d0300(actor, 0) || actor->GetActorValue(static_cast<ActorValue::Index>(1)) <= 0)
     {
         List targetsSlot0;
-        package->FUN_009f8660(&targetsSlot0);
+        package->SpectatorPackage_CopyThreatInfoList(&targetsSlot0);
         int count = targetsSlot0.FUN_0044ddc0();
         if (count > 0)
         {
@@ -214,7 +214,7 @@ void Actor::FUN_008db810(Actor* actor)
     float farDistanceSlot35 = 0.0f;
     NiPoint3 unusedSlot11;
     int flagsSlot15 = 513;
-    NiPoint3 pointSlot13 = package->FUN_009f8300();
+    NiPoint3 pointSlot13 = package->SpectatorPackage_GetEventCenter();
     float distanceSlot14 = actor->GetLightLevelAtPoint(pointSlot13);
     Cell* cell = reinterpret_cast<Cell*>(actor->FUN_008d6f30());
     bool nearSlot19 = false;
@@ -246,10 +246,10 @@ void Actor::FUN_008db810(Actor* actor)
             requestSlot13.InitFromActor(actor);
             if (actor->IsCreature())
                 requestSlot13.SetCantOpenDoors(reinterpret_cast<PackagePathing::Base*>(actor->FUN_004181e0())->race.Flag());
-            requestSlot13.SetPathingLocation(Location(package->FUN_009f8300(), actor));
-            requestSlot13.FUN_008dbd80(package->FUN_00507e10() + DAT_0102e430);
+            requestSlot13.SetPathingLocation(Location(package->SpectatorPackage_GetEventCenter(), actor));
+            requestSlot13.PathingRequestHide_SetMinHideDistance(package->FUN_00507e10() + DAT_0102e430);
             requestSlot13.FUN_006d3b00(DAT_0101e6ec);
-            int mode = package->FUN_009f8570();
+            int mode = package->SpectatorPackage_CreateAvoidNodeArray();
             requestSlot13.FUN_006d61e0(mode);
             if (!actor->FUN_008bb630(reinterpret_cast<PathingRequest*>(&requestSlot13)))
                 return;

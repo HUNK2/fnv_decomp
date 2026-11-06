@@ -191,11 +191,12 @@ struct FUN_00af38d0_Class
     void* vtbl;
     char bVisible;
     void* m_pObjectAt84;
-    void* FUN_00af38d0();
+    void* BSCacheDriveSystemUtility_BSCacheDriveSystemUtility();
 };
 
 // @fnv 0x00af38d0
-void* FUN_00af38d0_Class::FUN_00af38d0()
+// src: COMMUNITY 0x00af38d0
+void* FUN_00af38d0_Class::BSCacheDriveSystemUtility_BSCacheDriveSystemUtility()
 {
     vtbl = &DAT_010a42ec;
     bVisible = 0;
@@ -236,11 +237,12 @@ struct FUN_00af3b20_Class
 {
     void* vtbl;
     int i;
-    void* __thiscall FUN_00af3b20();
+    void* __thiscall BSSysInfoSystemUtility_BSSysInfoSystemUtility();
 };
 // Sets the object's vtbl to DAT_010a4328 and its i field to 0x10, then returns this.
 // @fnv 0x00af3b20
-void* __thiscall FUN_00af3b20_Class::FUN_00af3b20()
+// src: COMMUNITY 0x00af3b20
+void* __thiscall FUN_00af3b20_Class::BSSysInfoSystemUtility_BSSysInfoSystemUtility()
 {
     vtbl = &DAT_010a4328;
     i = 0x10;
@@ -282,7 +284,8 @@ struct FileFinder
 };
 
 // @fnv 0x00afdf00
-void __cdecl FUN_00afdf00(const char* apPath, int b, unsigned int c)
+// src: COMMUNITY 0x00afdf00
+void __cdecl FileFinder_GetFile_(const char* apPath, int b, unsigned int c)
 {
     FileFinder::GetFile(apPath, b, c, 0xffff);
 }
@@ -313,11 +316,12 @@ struct FUN_00aea730_Class
     void* vtbl;
     int m_kPointA;
     int m_kPointB;
-    FUN_00aea730_Class* FUN_00aea730(int v);
+    FUN_00aea730_Class* BSWin32AudioListener_BSWin32AudioListener(int v);
 };
 // Sets the vtbl pointers, zeroes the field at 0x48 and the float at 0x3c, then stores v at 0x48 and returns this.
 // @fnv 0x00aea730
-FUN_00aea730_Class* FUN_00aea730_Class::FUN_00aea730(int aiValue)
+// src: COMMUNITY 0x00aea730
+FUN_00aea730_Class* FUN_00aea730_Class::BSWin32AudioListener_BSWin32AudioListener(int aiValue)
 {
     vtbl = (void*)&DAT_010a3bb4;
     vtbl = (void*)&DAT_010a3b7c;
@@ -375,11 +379,12 @@ void* __thiscall FUN_00af1cc0_Class::FUN_00af1cc0(unsigned int flags)
 
 struct FUN_00af1d20_Class
 {
-    void* FUN_00af1d20();
+    void* BSWin32GameSound_OggVorbisFile_OggVorbisFile();
 };
 // Zeroes the object's first 0x2d0 bytes and clears the int fields at 0x2d0, 0x2d4, 0x2d8 and the byte at 0x2dc, then returns this.
 // @fnv 0x00af1d20
-void* FUN_00af1d20_Class::FUN_00af1d20()
+// src: COMMUNITY 0x00af1d20
+void* FUN_00af1d20_Class::BSWin32GameSound_OggVorbisFile_OggVorbisFile()
 {
     *(int*)((char*)this + 0x2d4) = 0;
     *(int*)((char*)this + 0x2d8) = 0;
@@ -416,11 +421,12 @@ char __cdecl FUN_00af2750()
 
 struct FUN_00af2c50_Class
 {
-    bool FUN_00af2c50(int a, int b);
+    bool return_0_5(int a, int b);
 };
 
 // @fnv 0x00af2c50
-bool FUN_00af2c50_Class::FUN_00af2c50(int a, int b)
+// src: COMMUNITY 0x00af2c50
+bool FUN_00af2c50_Class::return_0_5(int a, int b)
 {
     return false;
 }
@@ -430,11 +436,12 @@ struct FUN_00af3570_Class
 {
     void* vtbl;
     int a[8];
-    void* __thiscall FUN_00af3570();
+    void* __thiscall BSSystemUtilitiesStrings_BSSystemUtilitiesStrings();
 };
 // Sets vtbl to &DAT_010a42dc and zeroes the eight-element array a, then returns this.
 // @fnv 0x00af3570
-void* __thiscall FUN_00af3570_Class::FUN_00af3570()
+// src: COMMUNITY 0x00af3570
+void* __thiscall FUN_00af3570_Class::BSSystemUtilitiesStrings_BSSystemUtilitiesStrings()
 {
     vtbl = &DAT_010a42dc;
     for (unsigned int i = 0; i < 8; ++i)
@@ -448,11 +455,12 @@ struct FUN_00afd860_Class
 {
     unsigned char m_acCharacterBuffer[4];
     int iValue;
-    void __thiscall FUN_00afd860(char* dst);
+    void __thiscall BSHash_MakeHashString(char* dst);
 };
 
 // @fnv 0x00afd860
-void __thiscall FUN_00afd860_Class::FUN_00afd860(char* dst)
+// src: COMMUNITY 0x00afd860
+void __thiscall FUN_00afd860_Class::BSHash_MakeHashString(char* dst)
 {
     if (dst)
         _sprintf_s(dst, 0x20, "%c%02X%c%c%08X", m_acCharacterBuffer[3], m_acCharacterBuffer[2], m_acCharacterBuffer[1],
@@ -579,11 +587,12 @@ struct FUN_00afd8b0_Class
     unsigned int uiHash;
     unsigned int uiCRC;
     unsigned short m_usPassCountLocal;
-    void* __thiscall FUN_00afd8b0();
+    void* __thiscall BSArchiveHeader_BSArchiveHeader();
 };
 
 // @fnv 0x00afd8b0
-void* __thiscall FUN_00afd8b0_Class::FUN_00afd8b0()
+// src: COMMUNITY 0x00afd8b0
+void* __thiscall FUN_00afd8b0_Class::BSArchiveHeader_BSArchiveHeader()
 {
     void* pSub = (char*)this + 0xc;
     *(int*)pSub = 0;
@@ -658,15 +667,17 @@ long FUN_00aeabf0(void* stream, long offset, int whence, int iOrigin)
 
 struct FUN_00aefd90_Class
 {
-    void __thiscall FUN_00aefd90(int a, int b, int c);
+    void __thiscall BSWin32GameSound_SetEmitterFront(int a, int b, int c);
 };
 // @fnv 0x00aefd90
-void __thiscall FUN_00aefd90_Class::FUN_00aefd90(int a, int b, int c)
+// src: COMMUNITY 0x00aefd90
+void __thiscall FUN_00aefd90_Class::BSWin32GameSound_SetEmitterFront(int a, int b, int c)
 {}
 
 // Returns 0 when param_1 is null, otherwise returns the int at offset 0x38 if it is not -1, else the int at offset 0x150.
 // @fnv 0x00af2290
-int __cdecl FUN_00af2290(int apObject)
+// src: COMMUNITY 0x00af2290
+int __cdecl tell_func_00af2290(int apObject)
 {
     if (apObject == 0)
         return 0;
@@ -684,12 +695,13 @@ struct FUN_00af2ed0_Class
     int i2;
     char pad2[0x14];
     int i3;
-    FUN_00af2ed0_Class* FUN_00af2ed0();
+    FUN_00af2ed0_Class* BSSaveDataSystemUtility_BSSaveDataSystemUtility();
 };
 
 // Sets the vtable pointer and zeroes the object's fields, then returns this.
 // @fnv 0x00af2ed0
-FUN_00af2ed0_Class* FUN_00af2ed0_Class::FUN_00af2ed0()
+// src: COMMUNITY 0x00af2ed0
+FUN_00af2ed0_Class* FUN_00af2ed0_Class::BSSaveDataSystemUtility_BSSaveDataSystemUtility()
 {
     char* p;
     vtbl = &DAT_010a4288;
@@ -1188,11 +1200,12 @@ void FUN_00aea0d0_Class::Init()
 struct FUN_00aea800_cls
 {
     int unk00;
-    void FUN_00aea800();
+    void BSWin32AudioListener_Init();
 };
 
 // @fnv 0x00aea800
-void FUN_00aea800_cls::FUN_00aea800()
+// src: COMMUNITY 0x00aea800
+void FUN_00aea800_cls::BSWin32AudioListener_Init()
 {}
 
 extern "C" const double DAT_010a3be8;
@@ -1397,11 +1410,12 @@ struct S_00aeaa10_Cls
     int unk40;
     int unk44;
     S_00aeaa10_Obj* obj;
-    void FUN_00aeaa10(const NiPoint3* p);
+    void BSWin32AudioListener_SetVelocity(const NiPoint3* p);
 };
 // Copies the given position into pos and, if obj is set, forwards its x, y, z to obj->FUN_x40 with true.
 // @fnv 0x00aeaa10
-void S_00aeaa10_Cls::FUN_00aeaa10(const NiPoint3* pPos)
+// src: COMMUNITY 0x00aeaa10
+void S_00aeaa10_Cls::BSWin32AudioListener_SetVelocity(const NiPoint3* pPos)
 {
     pos = *pPos;
     if (obj)
@@ -2546,7 +2560,7 @@ int S_00af01e0_Cls::FUN_00af01e0(float afScale)
 
 extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
-void FUN_005b5e40(const char* pcFormat, ...);
+void Warning_005b5e40(const char* pcFormat, ...);
 
 struct AF0320WaveFormat
 {
@@ -2695,7 +2709,7 @@ void AF0320Sound::SeekToPosition(unsigned int uiPositionMs)
 {
     if (!m_pCacheEntry || uiPositionMs >= (unsigned int)m_iDurationMs)
     {
-        FUN_005b5e40("Attempted to seek to %.2fs in a sound of only %.2fs duration.", uiPositionMs / 1000.0,
+        Warning_005b5e40("Attempted to seek to %.2fs in a sound of only %.2fs duration.", uiPositionMs / 1000.0,
                      m_iDurationMs / 1000.0);
         return;
     }
@@ -2844,7 +2858,7 @@ struct FUN_00af1af0_cls
     unsigned int unk1d0;
     unsigned int unk1d4;
     void* m_1d8;
-    void FUN_00af1af0();
+    void BSWin32GameSound_RemoveEffects();
 };
 
 struct NiStdObject
@@ -2871,7 +2885,8 @@ struct NiStdObject
 };
 
 // @fnv 0x00af1af0
-void FUN_00af1af0_cls::FUN_00af1af0()
+// src: COMMUNITY 0x00af1af0
+void FUN_00af1af0_cls::BSWin32GameSound_RemoveEffects()
 {
     if (m_1a0 != 0)
     {
@@ -3022,10 +3037,11 @@ struct S_00af1c00_cls
     int unk194;
     int unk198;
     S_00af1c00_Obj* m_19c;
-    bool FUN_00af1c00(int a1, unsigned int a2, unsigned int a3, char* a4);
+    bool BSWin32GameSound_Write(int a1, unsigned int a2, unsigned int a3, char* a4);
 };
 // @fnv 0x00af1c00
-bool S_00af1c00_cls::FUN_00af1c00(int aiOffset, unsigned int a2, unsigned int auiSize, char* apSource)
+// src: COMMUNITY 0x00af1c00
+bool S_00af1c00_cls::BSWin32GameSound_Write(int aiOffset, unsigned int a2, unsigned int auiSize, char* apSource)
 {
     void* p1 = 0;
     void* p9 = 0;
@@ -3045,7 +3061,7 @@ struct FUN_00af1d80_tgt
     virtual int Tick(int flag);
 };
 
-void __cdecl FUN_00ee81e6(void* self);
+void __cdecl ov_clear_00ee81e6(void* self);
 
 struct FUN_00af1d80_cls
 {
@@ -3241,7 +3257,7 @@ struct FUN_00af1d80_cls
 void FUN_00af1d80_cls::UpdateAndReleaseTarget()
 {
     if (m_2dc != 0)
-        FUN_00ee81e6(this);
+        ov_clear_00ee81e6(this);
     if (m_2d0 != 0)
     {
         FUN_00af1d80_tgt* pTarget = m_2d0;
@@ -3253,15 +3269,16 @@ void FUN_00af1d80_cls::UpdateAndReleaseTarget()
 
 struct FUN_00af2100_cls
 {
-    unsigned int FUN_00af2100(unsigned char* p, unsigned int n);
+    unsigned int BSWin32GameSound_OggVorbisFile_Read(unsigned char* p, unsigned int n);
 };
 
-unsigned int __cdecl FUN_00ee8204(FUN_00af2100_cls* self, unsigned char* p, unsigned int n, unsigned int a,
+unsigned int __cdecl ov_read_00ee8204(FUN_00af2100_cls* self, unsigned char* p, unsigned int n, unsigned int a,
                                   unsigned int b, unsigned int c, unsigned int* out);
 
 // Repeatedly calls FUN_00ee8204 over p, advancing by the returned byte count until the running total exceeds n, and returns the total.
 // @fnv 0x00af2100
-unsigned int FUN_00af2100_cls::FUN_00af2100(unsigned char* pucData, unsigned int uiLength)
+// src: COMMUNITY 0x00af2100
+unsigned int FUN_00af2100_cls::BSWin32GameSound_OggVorbisFile_Read(unsigned char* pucData, unsigned int uiLength)
 {
     unsigned int cur4 = 0;
     unsigned int sum = 0;
@@ -3269,7 +3286,7 @@ unsigned int FUN_00af2100_cls::FUN_00af2100(unsigned char* pucData, unsigned int
     unsigned char* r3 = pucData;
     while (sum <= uiLength)
     {
-        cur4 = FUN_00ee8204(this, r3, uiLength - sum, 0, 2, 1, &outTmp);
+        cur4 = ov_read_00ee8204(this, r3, uiLength - sum, 0, 2, 1, &outTmp);
         sum += cur4;
         r3 += cur4;
         if (cur4 == 0)
@@ -3345,21 +3362,23 @@ int DispatchHandlerEvent(void* pvHandler, void* pvEvent, void* pvUnused, void* p
 struct FUN_00af2c30_cls
 {
     int unk00;
-    void FUN_00af2c30();
+    void nullsub_324();
 };
 
 // @fnv 0x00af2c30
-void FUN_00af2c30_cls::FUN_00af2c30()
+// src: COMMUNITY 0x00af2c30
+void FUN_00af2c30_cls::nullsub_324()
 {}
 
 struct FUN_00af2c60_cls
 {
     void* vtbl;
-    void __thiscall FUN_00af2c60();
+    void __thiscall nullsub_325();
 };
 
 // @fnv 0x00af2c60
-void __thiscall FUN_00af2c60_cls::FUN_00af2c60()
+// src: COMMUNITY 0x00af2c60
+void __thiscall FUN_00af2c60_cls::nullsub_325()
 {}
 
 // FUN_00af2c70 - an empty __thiscall member function in an /Od module.
@@ -3383,11 +3402,12 @@ void __thiscall FUN_00af2c60_cls::FUN_00af2c60()
 
 struct FnvEmptyThiscall70_Class
 {
-    void FUN_00af2c70();
+    void nullsub_326();
 };
 
 // @fnv 0x00af2c70
-void FnvEmptyThiscall70_Class::FUN_00af2c70()
+// src: COMMUNITY 0x00af2c70
+void FnvEmptyThiscall70_Class::nullsub_326()
 {}
 
 // FUN_00af2c80 - an empty __thiscall member function in an /Od module.
@@ -3653,11 +3673,12 @@ class FUN_00afdc00_cls
     unsigned int unk1C;
     unsigned int unk20;
     FUN_00afdc00_Item* m_pItems;
-    bool FUN_00afdc00(int a1);
+    bool BSArchive_IsFileEntryInArchive(int a1);
 };
 
 // @fnv 0x00afdc00
-bool FUN_00afdc00_cls::FUN_00afdc00(int aiIndex)
+// src: COMMUNITY 0x00afdc00
+bool FUN_00afdc00_cls::BSArchive_IsFileEntryInArchive(int aiIndex)
 {
     unsigned int n;
     unsigned int i;
@@ -3679,14 +3700,15 @@ struct S_00aff060_Class
     void* unk0c;
     void* unk10;
 
-    int __thiscall FUN_00aff060();
+    int __thiscall BSSystemFile_DoFlush();
 };
 
 extern int(__stdcall* DAT_00fdf138)(void*);
 
 // Returns 0 if DAT_00fdf138 returns nonzero for this->unk10, otherwise 4.
 // @fnv 0x00aff060
-int S_00aff060_Class::FUN_00aff060()
+// src: COMMUNITY 0x00aff060
+int S_00aff060_Class::BSSystemFile_DoFlush()
 {
     return DAT_00fdf138(this->unk10) ? 0 : 4;
 }
@@ -4981,14 +5003,14 @@ bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
                 if (uiBytes < pStream->uiEnd - pStream->uiElapsedMilliseconds)
                 {
                     ((S_00af1c00_cls*)this)
-                        ->FUN_00af1c00(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData18);
+                        ->BSWin32GameSound_Write(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData18);
                     pStream->uiElapsedMilliseconds += uiBytes;
                 }
                 else if (uiBytes >= pStream->uiEnd - pStream->uiElapsedMilliseconds)
                 {
                     uiBytes = pStream->uiEnd - pStream->uiElapsedMilliseconds;
                     ((S_00af1c00_cls*)this)
-                        ->FUN_00af1c00(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData18);
+                        ->BSWin32GameSound_Write(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData18);
                     pStream->uiElapsedMilliseconds = 0;
                     pStream->iState = 2;
                 }
@@ -5004,13 +5026,13 @@ bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
                     bLoopAround = true;
                 }
                 ((S_00af1c00_cls*)this)
-                    ->FUN_00af1c00(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData1C);
+                    ->BSWin32GameSound_Write(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData1C);
                 pStream->uiElapsedMilliseconds = (pStream->uiElapsedMilliseconds + uiBytes) % pStream->uiWrap;
                 if (bLoopAround)
                 {
                     pStream->uiLastPos += uiBytes;
                     ((S_00af1c00_cls*)this)
-                        ->FUN_00af1c00(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiSpill, pStream->pData1C);
+                        ->BSWin32GameSound_Write(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiSpill, pStream->pData1C);
                     pStream->uiElapsedMilliseconds = uiSpill;
                 }
             }
@@ -5026,8 +5048,8 @@ bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
                         pBuffer->Stop();
                         pBuffer->SetCurrentPosition(0);
                         uiBytes = pStream->uiLength;
-                        ((S_00af1c00_cls*)this)->FUN_00af1c00(0, 0, uiBytes, pStream->pData20);
-                        ((S_00af1c00_cls*)this)->FUN_00af1c00(0, uiBytes, uiBufferSize - uiBytes, 0);
+                        ((S_00af1c00_cls*)this)->BSWin32GameSound_Write(0, 0, uiBytes, pStream->pData20);
+                        ((S_00af1c00_cls*)this)->BSWin32GameSound_Write(0, uiBytes, uiBufferSize - uiBytes, 0);
                         pStream->iState = 6;
                         pBuffer->Play(0, 0, 0);
                     }
@@ -5036,7 +5058,7 @@ bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
                         pBuffer->Stop();
                         pBuffer->SetCurrentPosition(0);
                         uiBytes = uiBufferSize;
-                        ((S_00af1c00_cls*)this)->FUN_00af1c00(0, 0, uiBytes, pStream->pData20);
+                        ((S_00af1c00_cls*)this)->BSWin32GameSound_Write(0, 0, uiBytes, pStream->pData20);
                         pBuffer->Play(0, 0, 1);
                         pStream->iState = 5;
                         pStream->uiElapsedMilliseconds += uiBytes;
@@ -5056,7 +5078,7 @@ bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
                 if (uiBytes < pStream->uiLength - pStream->uiElapsedMilliseconds)
                 {
                     ((S_00af1c00_cls*)this)
-                        ->FUN_00af1c00(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData20);
+                        ->BSWin32GameSound_Write(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData20);
                     pStream->uiElapsedMilliseconds += uiBytes;
                 }
                 else if (uiBytes >= pStream->uiLength - pStream->uiElapsedMilliseconds)
@@ -5064,7 +5086,7 @@ bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
                     pBuffer->Stop();
                     uiBytes = pStream->uiLength - pStream->uiElapsedMilliseconds;
                     ((S_00af1c00_cls*)this)
-                        ->FUN_00af1c00(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData20);
+                        ->BSWin32GameSound_Write(pStream->uiElapsedMilliseconds, pStream->uiLastPos, uiBytes, pStream->pData20);
                     pBuffer->Play(0, 0, 0);
                     pStream->iState = 6;
                     uiFlags10 &= ~0x20;
@@ -5143,11 +5165,12 @@ struct FUN_00aea150_Class
     unsigned int unk04;
     int unk08;
 
-    void FUN_00aea150();
+    void BSAudioSynchTimer_Restart();
 };
 
 // @fnv 0x00aea150
-void FUN_00aea150_Class::FUN_00aea150()
+// src: COMMUNITY 0x00aea150
+void FUN_00aea150_Class::BSAudioSynchTimer_Restart()
 {
     unk08 = 0;
     unk00 = 0x927c0;
@@ -5608,12 +5631,13 @@ class FUN_00ae8090_Class
 
     unsigned int FUN_00ae7f90();
     unsigned int PopFront();
-    unsigned int FUN_00ae8090(FUN_00ae8090_Node** position);
+    unsigned int NiTPointerListBase_RemovePos_0(FUN_00ae8090_Node** position);
 };
 
 // Removes the node at the given position from the linked list, updates the position pointer, and returns the node's value.
 // @fnv 0x00ae8090
-unsigned int FUN_00ae8090_Class::FUN_00ae8090(FUN_00ae8090_Node** position)
+// src: COMMUNITY 0x00ae8090
+unsigned int FUN_00ae8090_Class::NiTPointerListBase_RemovePos_0(FUN_00ae8090_Node** position)
 {
     int m[13];
 
@@ -5815,7 +5839,7 @@ struct AED080_Cls
     int unk220;
     int unk224;
     ObjC* m_228;
-    bool FUN_00af1c00(int a1, unsigned int a2, unsigned int a3, char* a4);
+    bool BSWin32GameSound_Write(int a1, unsigned int a2, unsigned int a3, char* a4);
     void ClearCallback();
     bool FUN_00aed080(bool p);
 };
@@ -5850,15 +5874,15 @@ bool AED080_Cls::FUN_00aed080(bool p)
                             this->m_19c->SetCurrentPosition(0);
                             if (this->m_228->m_08 > this->m_1dc)
                             {
-                                this->FUN_00af1c00(0, 0, this->m_1dc, this->m_228->m_18);
+                                this->BSWin32GameSound_Write(0, 0, this->m_1dc, this->m_228->m_18);
                                 this->m_228->m_04 = this->m_1dc;
                                 this->m_228->m_00 = 1;
                             }
                             else
                             {
                                 diff = this->m_1dc - this->m_228->m_08;
-                                this->FUN_00af1c00(0, 0, this->m_228->m_08, this->m_228->m_18);
-                                this->FUN_00af1c00(0, this->m_228->m_08, diff, this->m_228->m_1c);
+                                this->BSWin32GameSound_Write(0, 0, this->m_228->m_08, this->m_228->m_18);
+                                this->BSWin32GameSound_Write(0, this->m_228->m_08, diff, this->m_228->m_1c);
                                 this->m_228->m_04 = this->m_228->m_08 + diff;
                                 this->m_228->m_00 = 2;
                             }
@@ -6028,7 +6052,7 @@ struct AudioConfig
 
 struct AudioMemory
 {
-    void* __thiscall FUN_00aa3e40(U32 size);
+    void* __thiscall Game_DoHeapAlloc(U32 size);
 };
 
 
@@ -6533,7 +6557,7 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                         FUN_00ec65a6(message11, 255, DAT_010a3ed0);
                         break;
                     }
-                    FUN_005b5e40(message11);
+                    Warning_005b5e40(message11);
                     return;
                 }
                 if (m_duplicate->Lock(0, 0, &dst44_2, &temp3, &dst32, &dst2Bytes3, 2) < 0)
@@ -6561,7 +6585,7 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                 if (((unsigned char)(((source0->m_flags & 0x4000000) || (source0->m_flags & 0x2000000)) ? 1 : 0)) &&
                     source0->m_copyState != 0)
                 {
-                    allocatedCopy4 = DAT_011f6238.FUN_00aa3e40(36);
+                    allocatedCopy4 = DAT_011f6238.Game_DoHeapAlloc(36);
                     m_copyState = (CopyState*)allocatedCopy4;
                     m_copyState->byteCount = source0->m_copyState->byteCount;
                     m_copyState->thirdSize = source0->m_copyState->thirdSize;
@@ -6570,13 +6594,13 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                     m_copyState->idle = 0;
                     m_copyState->active = 0;
                     allocSize7 = m_copyState->byteCount;
-                    temp3c = DAT_011f6238.FUN_00aa3e40(allocSize7);
+                    temp3c = DAT_011f6238.Game_DoHeapAlloc(allocSize7);
                     m_copyState->bytes = temp3c;
                     valueX = m_copyState->segmentSize;
-                    allocatedSegments5 = DAT_011f6238.FUN_00aa3e40(valueX);
+                    allocatedSegments5 = DAT_011f6238.Game_DoHeapAlloc(valueX);
                     m_copyState->segments = allocatedSegments5;
                     local14 = m_copyState->thirdSize;
-                    allocatedThird6 = DAT_011f6238.FUN_00aa3e40(local14);
+                    allocatedThird6 = DAT_011f6238.Game_DoHeapAlloc(local14);
                     m_copyState->third = allocatedThird6;
                     {
                         local35 = m_copyState->byteCount;
@@ -6609,24 +6633,25 @@ void __thiscall AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
 namespace fnv_00afdda0 {
 struct MemoryAllocator
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 extern MemoryAllocator DAT_011f6238;
 struct PathList
 {
     unsigned int FUN_007cb2e0(char*&);
-    void FUN_00afdda0(const char* path);
+    void FileFinder_AddPath(const char* path);
 };
 // Copies path into a new allocated buffer, appending a backslash if it lacks one, and passes the buffer to FUN_007cb2e0.
 // @fnv 0x00afdda0
-void PathList::FUN_00afdda0(const char* path)
+// src: COMMUNITY 0x00afdda0
+void PathList::FileFinder_AddPath(const char* path)
 {
     if (path)
     {
         size_t length = _strlen(path);
         bool appendSlash = path[length - 1] != 0x5c;
         size_t allocationSize = _strlen(path) + appendSlash + 1;
-        char* buf = (char*)DAT_011f6238.FUN_00aa3e40(allocationSize);
+        char* buf = (char*)DAT_011f6238.Game_DoHeapAlloc(allocationSize);
         char* copyBuffer = buf;
         char* buffer = copyBuffer;
         _strcpy_s(buffer, allocationSize, path);
@@ -6654,7 +6679,8 @@ extern BSAudio* DAT_011f6d98;
 
 // Constructs a function-local static object once and stores its address in DAT_011f6d98.
 // @fnv 0x00aea020
-void __cdecl FUN_00aea020()
+// src: COMMUNITY 0x00aea020
+void __cdecl BSWin32Audio_Create()
 {
     static FUN_00aea020_cls obj;
     DAT_011f6d98 = (BSAudio*)&obj;
@@ -6670,7 +6696,8 @@ struct FUN_00af33f0
 
 // Returns a pointer to a static instance of FUN_00af33f0, creating it on first call.
 // @fnv 0x00af3020
-void* __cdecl FUN_00af3020()
+// src: COMMUNITY 0x00af3020
+void* __cdecl BSMsgDialogSystemUtility_QInstance()
 {
     static FUN_00af33f0 instance;
     return &instance;
@@ -6723,7 +6750,7 @@ struct FUN_00ae9360_Base
 }
 struct Allocate114
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 struct FUN_00aeac20 : Worker114::FUN_00ae9360_Base
 {
@@ -6792,7 +6819,7 @@ FUN_00aeac20::FUN_00aeac20(const char* name)
     flag224 = 0;
     reinterpret_cast<NiPoint3&>(position218) = NiPoint3::ZERO;
     _fnv_zlib_memset(&unk1a4, 0, 0x24);
-    void* allocation = reinterpret_cast<Allocate114*>(&g_memoryManager)->FUN_00aa3e40(0x12);
+    void* allocation = reinterpret_cast<Allocate114*>(&g_memoryManager)->Game_DoHeapAlloc(0x12);
     unk1b4 = reinterpret_cast<unsigned int>(allocation);
     unk1c8 = 0;
     unk20c = 0;
@@ -6811,7 +6838,8 @@ extern "C" int __cdecl _makepath_s(char* result, unsigned int resultSize, const 
                                    const char* filename, const char* extension);
 extern unsigned int DAT_011f804c;
 // @fnv 0x00af4070
-void __cdecl FUN_00af4070(char* result, const char* source)
+// src: COMMUNITY 0x00af4070
+void __cdecl WildCard_MakeString(char* result, const char* source)
 {
     if (DAT_011f804c & 8)
     {

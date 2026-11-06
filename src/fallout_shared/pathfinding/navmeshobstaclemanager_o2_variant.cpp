@@ -33,7 +33,8 @@ struct ArrayHolder : ArrayHolderBase
 };
 
 // @fnv 0x00b61890
-ArrayHolder* __cdecl FUN_00b61890()
+// src: COMMUNITY 0x00b61890
+ArrayHolder* __cdecl TallGrassShaderProperty_GetCachedGeometryMap()
 {
     static ArrayHolder obj;
     return &obj;

@@ -48,21 +48,21 @@ public:
 
     PathBuilder(PathingRequest*, PathingSolution*);
     bool BuildPath();
-    bool FUN_006cd1f0(PathingLocation*, PathingLocation*);
-    int FUN_006cb4c0(PathingLocation&, PathingLocation&, void*);
+    bool PathBuilder_TryBuildStraightPath(PathingLocation*, PathingLocation*);
+    int BuildStraightPathUsingRayCasts(PathingLocation&, PathingLocation&, void*);
     bool FindPath(PathingLocation*, PathingLocation*,
                   BSSimpleArray<NavMeshTriangleEdgeReference, 1024>&,
                   BSSimpleArray<NavMeshTriangleReference, 1024>&,
                   BSSimpleArray<NavMeshTriangleEdgeReference, 1024>&,
                   unsigned int, unsigned int);
-    bool FUN_006cd8a0(PathingLocation&, PathingLocation&,
+    bool PathBuilder_RunPathSmoother(PathingLocation&, PathingLocation&,
                      BSSimpleArray<NavMeshTriangleEdgeReference, 1024>&,
                      BSSimpleArray<NavMeshTriangleReference, 1024>&,
                      BSSimpleArray<NavMeshTriangleEdgeReference, 1024>&);
     bool BuildPathSpans(OutNodes&);
     bool BuildPathSpans(BSScrapArray<NavMeshEdgeData, 1024>&); // exe 0x006ca500
     bool BuildPathSegment(unsigned int, unsigned int);
-    bool FUN_006c9b20();
+    bool PathBuilder_BuildTeleportDoorPath();
     bool BuildActorPathSegments(Actor*);
     bool BuildPathSpans(BSSimpleArray<NavMeshEdgeData, 1024>&);
     bool TryConnectPathNodes(unsigned int, unsigned int);

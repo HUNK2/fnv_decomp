@@ -192,7 +192,7 @@ struct xCharCtl
     }
     static void operator delete(void*);
     xCharCtl(xCtlCinfo*, xActor*);
-    void FUN_008106b0(float);
+    void bhkCharacterController_SetFallTime(float);
     void FUN_00810610(bool);
     void FUN_008105e0(bool);
     void FUN_00810640(xActor*);
@@ -202,7 +202,7 @@ struct xCharCtl
     void* FUN_00810660();
     void FUN_00c6d7a0(void*);
     void FUN_005620e0(xP3*);
-    xFilter FUN_0070c440();
+    xFilter bhkCharacterController_GetCollisionFilter();
     int m_auiShapeKeys[0x197];
 };
 
@@ -544,7 +544,7 @@ void xActor::FUN_008caea0(xActor* apOther, float afVal)
             CI.FUN_00810590(6, xFUN_008cddb0());
         CI.SetAssociatedActorValue(6);
         CTL = new xCharCtl(&CI, this);
-        CTL->FUN_008106b0(1.0f);
+        CTL->bhkCharacterController_SetFallTime(1.0f);
         CTL->FUN_00810610(xFUN_00525420());
         CTL->FUN_008105e0(true);
         m_68->FUN_290(CTL);
@@ -585,7 +585,7 @@ void xActor::FUN_008caea0(xActor* apOther, float afVal)
             CTL->FUN_005620e0(&POS);
             if (ADD)
             {
-                xFilter FILTER = CTL->FUN_0070c440();
+                xFilter FILTER = CTL->bhkCharacterController_GetCollisionFilter();
                 unsigned int LAYER = FILTER.FUN_004a3a20();
                 WORLD->FUN_d0(NODE, 1, 0, LAYER, 0);
             }

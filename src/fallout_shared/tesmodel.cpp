@@ -47,11 +47,12 @@ void FUN_008c1be0_shell::FUN_008c1be0(int param_1)
 
 struct FUN_004898c0_shell
 {
-    void FUN_004898c0(int param_1);
+    void BSArchive_GetFlag_(int param_1);
 };
 
 // @fnv 0x004898c0
-void FUN_004898c0_shell::FUN_004898c0(int param_1)
+// src: COMMUNITY 0x004898c0
+void FUN_004898c0_shell::BSArchive_GetFlag_(int param_1)
 {
     ((FUN_008c1be0_shell*)((char*)this + 0xc))->FUN_008c1be0(param_1);
 }
@@ -59,7 +60,8 @@ void FUN_004898c0_shell::FUN_004898c0(int param_1)
 extern bool DAT_011acdf8;
 
 // @fnv 0x004898e0
-bool FUN_004898e0()
+// src: COMMUNITY 0x004898e0
+bool ArchiveManager_ArchivesEnabled()
 {
     return DAT_011acdf8;
 }
@@ -82,12 +84,13 @@ struct FUN_00489860_shell
     unsigned char b2;
     unsigned char b3;
     int i4;
-    unsigned char* __thiscall FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
+    unsigned char* __thiscall BSHash_BSHash_0(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
 };
 
 // Stores the four byte arguments into b0..b3 and the int argument into i4, then returns this as an unsigned char pointer.
 // @fnv 0x00489860
-unsigned char* __thiscall FUN_00489860_shell::FUN_00489860(unsigned char aucByte0, unsigned char aucByte1,
+// src: COMMUNITY 0x00489860
+unsigned char* __thiscall FUN_00489860_shell::BSHash_BSHash_0(unsigned char aucByte0, unsigned char aucByte1,
                                                            unsigned char aucByte2, unsigned char aucByte3, int aiValue)
 {
     b0 = aucByte0;
@@ -168,14 +171,15 @@ void FUN_00489040_shell::ClearString()
 
 struct FUN_004898a0_shell : public FUN_004898c0_shell
 {
-    int FUN_004898c0(int param_1);
-    bool FUN_004898a0();
+    int BSArchive_GetFlag_(int param_1);
+    bool BSArchive_HasEmbeddedFileNames();
 };
 
 // @fnv 0x004898a0
-bool FUN_004898a0_shell::FUN_004898a0()
+// src: COMMUNITY 0x004898a0
+bool FUN_004898a0_shell::BSArchive_HasEmbeddedFileNames()
 {
-    return FUN_004898c0(256) != 0;
+    return BSArchive_GetFlag_(256) != 0;
 }
 
 namespace fnv_004898f0 {
@@ -334,11 +338,12 @@ class B479FB0IdleList
     short unk06;
     B479FB0Idle** m_ppkIdles;
 
-    bool FUN_00479fb0(B479FB0Actor* pkActor, int iArg);
+    bool BGSIdleCollection_HasIdleForActor(B479FB0Actor* pkActor, int iArg);
 };
 
 // @fnv 0x00479fb0
-bool B479FB0IdleList::FUN_00479fb0(B479FB0Actor* pkActor, int iArg)
+// src: COMMUNITY 0x00479fb0
+bool B479FB0IdleList::BGSIdleCollection_HasIdleForActor(B479FB0Actor* pkActor, int iArg)
 {
     if (pkActor)
     {
@@ -451,16 +456,16 @@ struct FUN_00408d60_shell
 extern char DAT_011c5574;
 extern char DAT_011c555c;
 FUN_004898a0_shell* __cdecl GetFltValue(int);
-bool __cdecl FUN_004898e0();
+bool __cdecl ArchiveManager_ArchivesEnabled();
 unsigned int __cdecl FindFileEntryInArchives(int, FUN_00489860_shell*, FUN_00489860_shell*, int);
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 
 // Stores the count and allocates an array, then for each Elem builds two keys, looks up an archive entry, and logs a warning when the lookup fails.
 // @fnv 0x00489670
 void FileEntryList::WriteFileEntryToBuffer(FileFormCollection* aElems, unsigned int count, TESForm* form, char* model)
 {
     FUN_004898a0_shell* s = GetFltValue(1);
-    if (!(s != 0 && ((FUN_004898a0_shell*)((char*)s + 0x160))->FUN_004898a0() &&
+    if (!(s != 0 && ((FUN_004898a0_shell*)((char*)s + 0x160))->BSArchive_HasEmbeddedFileNames() &&
           *((FUN_00408d60_shell*)&DAT_011c5574)->FUN_00408d60() != 0))
         return;
     m_ucFileEntryCount = (unsigned char)count;
@@ -468,31 +473,31 @@ void FileEntryList::WriteFileEntryToBuffer(FileFormCollection* aElems, unsigned 
     for (unsigned int i = 0; i < count; i++)
     {
         FUN_00489860_shell key0;
-        key0.FUN_00489860(aElems[i].b0, aElems[i].b1, aElems[i].b2, aElems[i].b3, aElems[i].i4);
+        key0.BSHash_BSHash_0(aElems[i].b0, aElems[i].b1, aElems[i].b2, aElems[i].b3, aElems[i].i4);
         FUN_00489860_shell key1;
-        key1.FUN_00489860(aElems[i].c0, aElems[i].c1, aElems[i].c2, aElems[i].c3, aElems[i].i14);
+        key1.BSHash_BSHash_0(aElems[i].c0, aElems[i].c1, aElems[i].c2, aElems[i].c3, aElems[i].i14);
         m_ppFileEntries[i] = (BSFileEntry*)FindFileEntryInArchives(1, &key1, &key0, 0);
         if (*((FUN_00408d60_shell*)&DAT_011c555c)->FUN_00408d60() != 0)
         {
-            if (FUN_004898e0())
+            if (ArchiveManager_ArchivesEnabled())
             {
                 if (m_ppFileEntries[i] == 0)
                 {
                     if (form != 0 && model != 0)
                     {
-                        FUN_005b5e40(
+                        Warning_005b5e40(
                             "MASTERFILE: Failed to find archive file entry for texture on model '%s' for form %s (%08X).",
                             model, form->GetName(), form->FUN_0084e3a0());
                     }
                     else if (model != 0)
                     {
-                        FUN_005b5e40(
+                        Warning_005b5e40(
                             "MASTERFILE: Failed to find archive file entry for texture on model '%s' on UNKNOWN form.",
                             model);
                     }
                     else
                     {
-                        FUN_005b5e40("MASTERFILE: Failed to find archive file entry for texture on UNKNOWN Model");
+                        Warning_005b5e40("MASTERFILE: Failed to find archive file entry for texture on UNKNOWN Model");
                     }
                 }
             }

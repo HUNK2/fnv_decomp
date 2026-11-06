@@ -53,7 +53,7 @@ public:
     bool hkMatrix3_isSymmetric(float epsilon);
     void FUN_00cd5050();
     float _offDiagNorm();
-    void FUN_00cd5680(const hkMatrix3& other);
+    void hkMatrix3f_mul(const hkMatrix3& other);
 
     static void* __cdecl operator new(size_t nbytes);
     static const hkMatrix3& __cdecl GetIdentityTransform() throw();

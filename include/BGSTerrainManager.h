@@ -53,7 +53,7 @@ public:
     bool FUN_00454b70();
     void FUN_006fca90(const NiPoint3&, int);
     void FUN_006fce00();
-    void FUN_006fd060();
+    void TriggerLODApocalypse();
     static BGSTerrainManager* GetActiveManager();
     unsigned int GetBlockLevel();
     BGSTerrainChunk* GetChunkForPoint(void*);

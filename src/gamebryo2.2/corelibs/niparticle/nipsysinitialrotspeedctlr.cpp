@@ -6,12 +6,13 @@
 extern "C" void* g_012026e0;
 
 // @fnv 0x00c29f90
-void* __cdecl FUN_00c29f90()
+// src: COMMUNITY 0x00c29f90
+void* __cdecl NiPSysInitialRotSpeedCtlr_GetRTTI()
 {
     return &g_012026e0;
 }
 
-void* __cdecl FUN_00a7d330(const void*);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(const void*);
 extern void* g_012026e0;
 struct NiPSysInitialRotSpeedCtlr
 {
@@ -23,7 +24,7 @@ struct NiPSysInitialRotSpeedCtlr
 void __thiscall NiPSysInitialRotSpeedCtlr::AppendString(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
-    char* p = (char*)FUN_00a7d330(g_012026e0);
+    char* p = (char*)NiViewerStrings_NiGetViewerString_Title(g_012026e0);
     unsigned int nCount = *(unsigned short*)((char*)pkStrings + 10);
     unsigned int nMax = *(unsigned short*)((char*)pkStrings + 8);
     if (nCount >= nMax)

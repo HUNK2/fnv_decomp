@@ -1036,7 +1036,7 @@ extern "C"
 struct Row172
 {
     float x, y, z, w;
-    void FUN_004b4ab0(int index, const hkVector4* value);
+    void hkVector4_setRotatedInverseDir(int index, const hkVector4* value);
 };
 struct Frame172
 {
@@ -1089,12 +1089,12 @@ void Frame172::FUN_00d53060(int first, int second, const hkVector4* direction)
     __m128 left = _mm_mul_ps(_mm_shuffle_ps(d, d, 0xc9), _mm_shuffle_ps(p, p, 0xd2));
     __m128 right = _mm_mul_ps(_mm_shuffle_ps(d, d, 0xd2), _mm_shuffle_ps(p, p, 0xc9));
     cross.quad = _mm_sub_ps(left, right);
-    row20.FUN_004b4ab0(first, direction);
-    row30.FUN_004b4ab0(first, &perpendicular);
-    row40.FUN_004b4ab0(first, &cross);
-    row50.FUN_004b4ab0(second, direction);
-    row60.FUN_004b4ab0(second, &perpendicular);
-    row70.FUN_004b4ab0(second, &cross);
+    row20.hkVector4_setRotatedInverseDir(first, direction);
+    row30.hkVector4_setRotatedInverseDir(first, &perpendicular);
+    row40.hkVector4_setRotatedInverseDir(first, &cross);
+    row50.hkVector4_setRotatedInverseDir(second, direction);
+    row60.hkVector4_setRotatedInverseDir(second, &perpendicular);
+    row70.hkVector4_setRotatedInverseDir(second, &cross);
 }
 
 __forceinline __m128 normalize3(const __m128& v)

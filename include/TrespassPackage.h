@@ -22,8 +22,8 @@ public:
     void SetTrespassEnabled(bool enabled);
     int FUN_009185e0();
     float FUN_00644790();
-    void FUN_008db4c0(float);
-    void FUN_009f94d0(int);   // 0x009f94d0
+    void TrespassPackage_ModWarningTimer(float);
+    void TrespassPackage_ModWarningCount(int);   // 0x009f94d0
     void* __thiscall FUN_009f9220(unsigned int flags);
     void __thiscall FUN_009f9450();
     unsigned short FUN_009f9500();

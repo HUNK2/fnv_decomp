@@ -47,7 +47,8 @@ float RandomFloat(float afMin, float afMax);
 
 // Validates arguments, then adds a random float between the source's two values to the first value in apapValues.
 // @fnv 0x005e5d80
-void FUN_005e5d80(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+// src: COMMUNITY 0x005e5d80
+void EntryPointFunction_AddRangeToValue(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   BGSEntryPointFunctionDataTwoValue* apSource)
 {
     if (!ValidateEntryFunctionArgs(0, 2, aiArg1, aiArg2, aucArgCount, apapValues, apSource))
@@ -119,7 +120,8 @@ bool BGSEntryPointFunction_CheckFunctionArguments(int iUnused, int iType, E5DF0A
 
 // Validates the modifier, then adds the counter value times ReadValueA to the result.
 // @fnv 0x005e5df0
-void FUN_005e5df0(E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult, BGSEntryPointFunctionDataTwoValue* pkModifier)
+// src: COMMUNITY 0x005e5df0
+void EntryPointFunction_AddActorValueMult(E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult, BGSEntryPointFunctionDataTwoValue* pkModifier)
 {
     if (!BGSEntryPointFunction_CheckFunctionArguments(0, 2, pkActor, pvTarget, bFlag, ppfResult, pkModifier))
         return;
@@ -152,7 +154,8 @@ void BGSEntryPointFunctionDataActivateChoice::FUN_005e6c60(const char* text)
 bool __cdecl BGSEntryPointFunction_CheckFunctionArguments(int, int, void*, void*, unsigned char, void*, void*);
 // Calls FUN_005e5b80 to validate arguments, then writes the result of a5->FUN_006b9130() into the float pointed to by *a4.
 // @fnv 0x005e5c70
-void __cdecl FUN_005e5c70(void* apArg1, void* apArg2, unsigned char a3, float** ppValue,
+// src: COMMUNITY 0x005e5c70
+void __cdecl EntryPointFunction_SetValue(void* apArg1, void* apArg2, unsigned char a3, float** ppValue,
                           BGSEntryPointFunctionDataOneValue* apSource)
 {
     BGSEntryPointFunctionDataOneValue* pSource;
@@ -172,7 +175,8 @@ float __cdecl abs(float);
 
 // Validates entry function arguments, then sets the first value in apapValues to its absolute value.
 // @fnv 0x005e5ea0
-void __cdecl FUN_005e5ea0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+// src: COMMUNITY 0x005e5ea0
+void __cdecl EntryPointFunction_AbsoluteValue(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                           BGSEntryPointFunctionDataTwoValue* apSource)
 {
     float* pfValue;
@@ -183,7 +187,8 @@ void __cdecl FUN_005e5ea0(int aiArg1, int aiArg2, unsigned char aucArgCount, flo
 }
 
 // @fnv 0x005e5ef0
-void FUN_005e5ef0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+// src: COMMUNITY 0x005e5ef0
+void EntryPointFunction_NegativeAbsoluteValue(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   BGSEntryPointFunctionDataTwoValue* apSource)
 {
     if (!ValidateEntryFunctionArgs(0, 0, aiArg1, aiArg2, aucArgCount, apapValues, apSource))
@@ -338,7 +343,8 @@ void BGSEntryPointFunctionDataActivateChoice::FUN_005e6e50()
 
 // Validates the arguments, then adds the return value of FUN_006b9130 to the first pointed-to float.
 // @fnv 0x005e5cc0
-void FUN_005e5cc0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+// src: COMMUNITY 0x005e5cc0
+void EntryPointFunction_AddValue(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   BGSEntryPointFunctionDataTwoValue* apSource)
 {
     BGSEntryPointFunctionDataOneValue* pSource;
@@ -377,7 +383,8 @@ extern ActionPointCostSetting* DAT_0119baf8[22];
 
 // Returns the action point cost for the given action index, or 0.0f if the index is out of range.
 // @fnv 0x0066dc70
-float FUN_0066dc70(int aiAction)
+// src: COMMUNITY 0x0066dc70
+float ActionPoints_GetCost(int aiAction)
 {
     float cost = 0.0f;
     if (aiAction >= 0 && aiAction < 22)
@@ -435,13 +442,13 @@ bool BGSEntryPointFunction_CheckFunctionArguments(int aeExpectedFunctionType, un
     return true;
 }
 
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 
 // @fnv 0x005e6250
 void BGSEntryPointFunctionData::Save()
 {
     unsigned char type = GetType();
-    FUN_004858f0(0x54465045, type);
+    TESForm_AddChunk_3(0x54465045, type);
 }
 
 struct EntryPointFloatPair
@@ -500,7 +507,8 @@ bool __cdecl BGSEntryPointFunction_CheckFunctionArguments(int, int, void*, void*
 
 // Runs the challenge name object's script when it starts locked; otherwise adds the challenge pointer to pList.
 // @fnv 0x005e61b0
-void __cdecl FUN_005e61b0(void* arg1, void* arg2, bool arg3, FUN_005e61b0_Local* apLocal, TESChallenge* apChallenge)
+// src: COMMUNITY 0x005e61b0
+void __cdecl EntryPointFunction_AddActivateChoice(void* arg1, void* arg2, bool arg3, FUN_005e61b0_Local* apLocal, TESChallenge* apChallenge)
 {
     if (!BGSEntryPointFunction_CheckFunctionArguments(2, 4, arg1, arg2, arg3, apLocal, apChallenge))
         return;
@@ -665,7 +673,7 @@ extern char str_010463f0[];
 int __cdecl FUN_0046e8a0();
 void __cdecl FUN_0043b2b0(bool disabled);
 void __cdecl FUN_004fffe0(int count);
-void __cdecl FUN_005b5e40(const char* message, const char* name, unsigned int formID);
+void __cdecl Warning_005b5e40(const char* message, const char* name, unsigned int formID);
 
 // Calls resultScript with form, then logs a message when the subsequent count returned by FUN_0046e8a0 is nonzero.
 // @fnv 0x005e7230
@@ -681,7 +689,7 @@ void BGSEntryPointFunctionDataActivateChoice::InitItem(TESForm* form)
     FUN_004fffe0(savedWarnings);
 
     if (newWarnings != 0)
-        FUN_005b5e40(str_010463f0, reinterpret_cast<ActivationChoiceFormView*>(form)->GetName(),
+        Warning_005b5e40(str_010463f0, reinterpret_cast<ActivationChoiceFormView*>(form)->GetName(),
                      reinterpret_cast<ActivationChoiceFormView*>(form)->FUN_0084e3a0());
 }
 

@@ -307,7 +307,7 @@ extern unsigned int _DAT_011f3fe4;
 extern unsigned char _DAT_010996bc;
 extern unsigned char _DAT_010996ac;
 extern unsigned char _DAT_01099698;
-unsigned int __cdecl FUN_00a7d330(unsigned int);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int);
 unsigned int __cdecl FUN_00a7d510(const unsigned char*, unsigned int);
 
 #include "../../../../include/NiTMallocInterface.h"
@@ -318,7 +318,7 @@ void __fastcall GetBSplineTransformViewerStrings(NiBSplineTransformInterpolator*
 {
     reinterpret_cast<BSplineInterpolatorCalls*>(self)->AddBSplineViewerStrings(strings);
     NiViewerStringsArray& pos = *strings;
-    const char* value = (const char*)FUN_00a7d330(_DAT_011f3fe4);
+    const char* value = (const char*)NiViewerStrings_NiGetViewerString_Title(_DAT_011f3fe4);
     unsigned int index = pos.m_usSize;
     if (index >= pos.m_usMaxSize)
         pos.SetSize(index + pos.m_usGrowBy);

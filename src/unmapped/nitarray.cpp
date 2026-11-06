@@ -23,7 +23,8 @@
 
 // Forwards p to the shader factory at offset 0xf8, then passes the pointer at 0x10f8 to its second method.
 // @fnv 0x00e87980
-void NiD3DRenderState::FUN_00e87980(void* apData)
+// src: COMMUNITY 0x00e87980
+void NiD3DRenderState::ApplyMaterial(void* apData)
 {
     ((NiD3DShaderFactory*)((char*)this + 0xf8))->UpdateShaderMaterialCache(apData);
     ((NiD3DShaderFactory*)((char*)this + 0xf8))->NiDX9MaterialManager_UpdateToDevice(*(void**)((char*)this + 0x10f8));
@@ -81,11 +82,12 @@ template <> void NiTArray<KeyPair*, NiTMallocInterface<KeyPair*> >::SetAt(unsign
 struct KeyPairArray : NiTPrimitiveArray<KeyPair*>
 {
     int FindPairIndex(void* apFirst, void* apSecond);
-    bool FUN_00a41520(void* apFirst, void* apSecond);
+    bool BSAnimNoteListener_Register(void* apFirst, void* apSecond);
 };
 
 // @fnv 0x00a41520
-bool KeyPairArray::FUN_00a41520(void* apFirst, void* apSecond)
+// src: COMMUNITY 0x00a41520
+bool KeyPairArray::BSAnimNoteListener_Register(void* apFirst, void* apSecond)
 {
     if (FindPairIndex(apFirst, apSecond) == -1)
     {
@@ -456,12 +458,13 @@ struct FUN_00e878c0_cls
     int unk30;
     int m_34;
 
-    int FUN_00e878c0(NiShaderConstantMapEntry* apObj);
+    int NiD3DShaderConstantMap_InsertEntry(NiShaderConstantMapEntry* apObj);
 };
 
 // Holds a reference on apObj while calling FUN_00e87800 on the sub-object at unk0c; sets m_34 to 0x30 if it returns -1, and returns m_34.
 // @fnv 0x00e878c0
-int FUN_00e878c0_cls::FUN_00e878c0(NiShaderConstantMapEntry* apObj)
+// src: COMMUNITY 0x00e878c0
+int FUN_00e878c0_cls::NiD3DShaderConstantMap_InsertEntry(NiShaderConstantMapEntry* apObj)
 {
     NiShaderConstantMapEntry* pObj = apObj;
     *(NiShaderConstantMapEntry* volatile*)&apObj = pObj;
@@ -750,7 +753,7 @@ struct FUN_00e7de30_cls
 
 struct FUN_00e891f0_cls
 {
-    void FUN_00e891f0();
+    void NiD3DTextureStageGroup_RemoveAllStageStates();
     void ClearFields();
 };
 
@@ -796,12 +799,13 @@ struct FUN_00e7ecd0_cls
     unsigned char m_5e;
     unsigned char m_5f;
 
-    void FUN_00e7ecd0();
+    void NiD3DTextureStage_ReturnStageToPool();
 };
 
 // If m_5f is 0, calls FUN_00e7de30 then FUN_00aa1460(this, 0x68); otherwise resets m_10, m_18 and other fields and passes this to DAT_0126f6cc->FindOrAdd.
 // @fnv 0x00e7ecd0
-void FUN_00e7ecd0_cls::FUN_00e7ecd0()
+// src: COMMUNITY 0x00e7ecd0
+void FUN_00e7ecd0_cls::NiD3DTextureStage_ReturnStageToPool()
 {
     void* ref;
 
@@ -814,7 +818,7 @@ void FUN_00e7ecd0_cls::FUN_00e7ecd0()
 
     FUN_00e891f0_cls* obj = m_10;
     m_08 = 0;
-    obj->FUN_00e891f0();
+    obj->NiD3DTextureStageGroup_RemoveAllStageStates();
     m_10->ClearFields();
 
     RefHolder* holder = m_18;

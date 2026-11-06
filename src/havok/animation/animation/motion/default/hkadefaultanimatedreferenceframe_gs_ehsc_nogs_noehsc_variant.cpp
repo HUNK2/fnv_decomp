@@ -288,7 +288,8 @@ inline void hkQuaternion::SetConjugate(const hkQuaternion& q)
 {
     reinterpret_cast<hkVector4*>(this)->setNeg3(q.getImag());
 }
-inline void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
+// src: COMMUNITY 0x00c66320
+inline void hkQuaternion::setMul(const hkQuaternion& a, const hkQuaternion& b)
 {
     hkVector4 imaginary;
     imaginary.setCross(a.getImag(), b.getImag());
@@ -365,7 +366,7 @@ __forceinline void hkQsTransform::SetProduct(const hkQsTransform& a, const hkQsT
     hkVector4 shift;
     shift.SetRotatedDirection(a.m_rotation, b.m_vTranslation);
     m_vTranslation.setAdd4(a.m_vTranslation, shift);
-    m_rotation.FUN_00c66320(a.m_rotation, b.m_rotation);
+    m_rotation.setMul(a.m_rotation, b.m_rotation);
     m_vScale.setMul4(a.m_vScale, b.m_vScale);
 }
 __forceinline void hkQsTransform::SetMulInverse(const hkQsTransform& a, const hkQsTransform& b)

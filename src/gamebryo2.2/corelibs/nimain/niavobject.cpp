@@ -58,7 +58,8 @@ void __thiscall NiAVObject::UpdateControllers(NiUpdateData& data)
 extern char const* const g_011f4428_arg1;
 
 // @fnv 0x00a5a420
-char const* const* __cdecl FUN_00a5a420()
+// src: COMMUNITY 0x00a5a420
+char const* const* __cdecl NiAVObject_GetRTTI()
 {
     return &g_011f4428_arg1;
 }
@@ -744,7 +745,7 @@ struct FUN_00a5e3a0_Helper
 {
     void FUN_00a5e3a0(NiPropertyState*& ps);
     NiPropertyState* FUN_00a89ab0();
-    void* FUN_00aa3e40(unsigned int size);
+    void* Game_DoHeapAlloc(unsigned int size);
 };
 
 extern unsigned int DAT_011f42a0;
@@ -762,7 +763,7 @@ void NiAVObject::FUN_00a5a040()
     }
     else
     {
-        void* pAlloc = ((FUN_00a5e3a0_Helper*)&DAT_011f6238)->FUN_00aa3e40(28);
+        void* pAlloc = ((FUN_00a5e3a0_Helper*)&DAT_011f6238)->Game_DoHeapAlloc(28);
         if (pAlloc != 0)
         {
             ps = ((FUN_00a5e3a0_Helper*)pAlloc)->FUN_00a89ab0();
@@ -941,7 +942,7 @@ inline IndexedElement* const& GetNextIndexed(NiTListItem<IndexedElement*>*& pos)
     return element;
 }
 void __stdcall FUN_00a5ca80(Stream* stream);
-unsigned int __cdecl FUN_00a7d330(unsigned int source);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int source);
 unsigned int __cdecl FUN_00a7d370(const char* name, unsigned int value);
 unsigned int __cdecl FUN_00a7d550(const char* name, float value);
 unsigned int __cdecl FUN_00a7d5a0(unsigned int value, IndexedElement* element);
@@ -959,7 +960,7 @@ extern char DAT_0109b138, DAT_0109b124, DAT_0109b118, DAT_0109b10c;
 void __fastcall GetAVViewerStrings(NiAVObject* object, void*, Stream* stream)
 {
     FUN_00a5ca80(stream);
-    stream->Add(FUN_00a7d330(DAT_011f4280));
+    stream->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f4280));
     union FlagWord
     {
         unsigned int word;
@@ -1094,7 +1095,8 @@ void NiAVObject::UpdateRigidDownwardPass(NiUpdateData& kData, unsigned int uiUnu
 
 // 0x00c6c760  ret 0xc
 // @fnv 0x00c6c760
-void __stdcall FUN_00c6c760(int, int, int)
+// src: COMMUNITY 0x00c6c760
+void __stdcall nullsub_34(int, int, int)
 {}
 
 // Returns the first attached property of the requested type.
@@ -1609,7 +1611,7 @@ extern A170Lock DAT_011f42a0;
 
 struct A170Heap
 {
-    void* __thiscall FUN_00aa3e40(unsigned int);
+    void* __thiscall Game_DoHeapAlloc(unsigned int);
 };
 extern A170Heap DAT_011f6238;
 
@@ -1633,7 +1635,7 @@ void NiAVObject::BuildPropertyState(NiPropertyState* apSource, bool abAllocate, 
     NiPropertyState* result;
     if (abAllocate)
     {
-        void* p = fnv_00a5a170::DAT_011f6238.FUN_00aa3e40(0x1c);
+        void* p = fnv_00a5a170::DAT_011f6238.Game_DoHeapAlloc(0x1c);
         result = p ? reinterpret_cast<NiPropertyState*>(((fnv_00a5a170::A170Set*)p)->FUN_00a89810(reinterpret_cast<fnv_00a5a170::A170Set*>(apSource))) : 0;
     }
     else

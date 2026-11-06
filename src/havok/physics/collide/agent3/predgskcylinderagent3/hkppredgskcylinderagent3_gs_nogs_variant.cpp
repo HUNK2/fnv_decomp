@@ -3528,7 +3528,7 @@ struct VectorOps
 
 void ReleaseAllEntries(void*, void*, void*);
 
-void FUN_00db60c0(Agent3ProcessInput*, float, float, float, Cache*, CylAgentVector4*, Output*);
+void hk4dGskCollideCalcToi(Agent3ProcessInput*, float, float, float, Cache*, CylAgentVector4*, Output*);
 
 struct VertexData
 {
@@ -3537,7 +3537,7 @@ struct VertexData
     float radiusA, radiusB, tolerance, radiusSquared;
 };
 
-void FUN_00dae3a0(unsigned char*, VertexData*, int, Output*, void*);
+void hkGskManifold_verifyAndGetPoints(unsigned char*, VertexData*, int, Output*, void*);
 
 void ProcessCollision(Agent3ProcessInput*, State*, Cache*, Feature*, unsigned char*, CylAgentVector4*, Output*);
 
@@ -3582,7 +3582,8 @@ struct VecArg
     }
 };
 // @fnv 0x00d40d80
-Cache* __cdecl FUN_00d40d80(Agent3ProcessInput* pair, State* state, Cache* cache, VecArg normal, Output* output)
+// src: COMMUNITY 0x00d40d80
+Cache* __cdecl hkPredGskCylinderAgent3_process(Agent3ProcessInput* pair, State* state, Cache* cache, VecArg normal, Output* output)
 {
     Trace* stampTrace;
     volatile unsigned int* stampCursor;
@@ -3751,7 +3752,7 @@ Cache* __cdecl FUN_00d40d80(Agent3ProcessInput* pair, State* state, Cache* cache
             scalarScratch.minArg = settings->otherOffset * radius + depth;
             float other = smaller(leftMin, scalarScratch.minArg);
 
-            FUN_00db60c0(pair, radius, len, other, cache, normal, output);
+            hk4dGskCollideCalcToi(pair, radius, len, other, cache, normal, output);
             goto distant;
         }
     }
@@ -3874,7 +3875,7 @@ Cache* __cdecl FUN_00d40d80(Agent3ProcessInput* pair, State* state, Cache* cache
                 }
             }
 
-            FUN_00dae3a0(&contact->numA, &tracker, 0, output, pair->manager);
+            hkGskManifold_verifyAndGetPoints(&contact->numA, &tracker, 0, output, pair->manager);
 
             if (contact->numContacts)
             {

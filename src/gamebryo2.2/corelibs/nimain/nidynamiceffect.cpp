@@ -168,7 +168,7 @@ struct NiAVObjectEffectMethods
     bool IsEqual(NiObject*) const;
 };
 int NiSprintf(char*, unsigned int, const char*, ...);
-char* FUN_00a7d330(const char*);
+char* NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d5a0(const char*, void*);
 extern const char* const g_011f4a28_arg1;
 static inline NiNode* GetNext(NiTListItem<NiNode*>*& node)
@@ -181,7 +181,7 @@ static inline NiNode* GetNext(NiTListItem<NiNode*>*& node)
 void NiDynamicEffect::AppendEffectProperties(StrArr* pkStrings)
 {
     reinterpret_cast<NiAVObjectEffectMethods*>(this)->AppendEffectProperties(pkStrings);
-    (pkStrings->*static_cast<unsigned int (StrArr::*)(char* const&)>(&StrArr::Add))(FUN_00a7d330(g_011f4a28_arg1));
+    (pkStrings->*static_cast<unsigned int (StrArr::*)(char* const&)>(&StrArr::Add))(NiViewerStrings_NiGetViewerString_Title(g_011f4a28_arg1));
     if (EffectNodes(shadowGenerator).m_kItemCount.m_uiCount)
     {
         NiTListItem<NiNode*>* kPos = EffectNodes(shadowGenerator).m_pkHead;

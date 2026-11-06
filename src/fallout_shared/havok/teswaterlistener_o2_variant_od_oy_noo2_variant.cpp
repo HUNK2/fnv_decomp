@@ -20,14 +20,14 @@ struct FUN_0062e750_shell
 };
 void __cdecl _Deallocate(void* p);
 extern int DAT_011c7a3c;
-void FUN_0062f310(int value);
+void TESWaterSystem_SetCurrentWaterType(int value);
 extern unsigned char DAT_011c7a5a;
-void FUN_0062f8e0(unsigned char value);
+void TESWaterSystem_SetCameraInPlaceableWater(unsigned char value);
 extern float _DAT_011c7a5c;
-void FUN_0062f8f0(float value);
+void TESWaterSystem_SetCameraRelevantWaterHeight(float value);
 unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane);
 extern "C" float __cdecl ExpFloat(float);
-float FUN_00630aa0(float value);
+float exp_00630aa0(float value);
 extern "C" double __cdecl _exp(double);
 float ExpFloat(float value);
 extern float _gModifierZero;
@@ -361,7 +361,7 @@ class CameraE
     const NiPoint3E* GetPosition();
 };
 CameraE* __cdecl FUN_00524c90();
-void __cdecl FUN_0062f310(void* pvWater);
+void __cdecl TESWaterSystem_SetCurrentWaterType(void* pvWater);
 
 class SpawnManagerE
 {
@@ -376,16 +376,17 @@ class SpawnManagerE
     float m_fTimer;
 
     bool IsEnabled();
-    bool FUN_0062ff10(BodyE* pkBody, const hkVector4& kTarget, float fRadius, SpawnCellE* pkCell, float* pfHeight);
+    bool TESWaterListener_ShouldProcessRigidBody(BodyE* pkBody, const hkVector4& kTarget, float fRadius, SpawnCellE* pkCell, float* pfHeight);
     int Update(BodyE* pkBody, float m_fGlyphExtent, float fTimeDelta, int iFlag);
     void Finish(int a, int b, int c);
-    void FUN_0062ee60(float fTimeDelta);
+    void TESWaterListener_Update(float fTimeDelta);
 };
 
 // Preserve the original /GS prologue with the shared union storage.
 #pragma strict_gs_check(push, on)
 // @fnv 0x0062ee60
-void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
+// src: COMMUNITY 0x0062ee60
+void SpawnManagerE::TESWaterListener_Update(float fTimeDelta)
 {
     if (IsEnabled())
     {
@@ -406,7 +407,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
             RefE* pkRef2 = pkRef;
             BodyE* pkBody = pkRef2->GetBody();
             int iResult = 0;
-            if (FUN_0062ff10(pkBody, kPlayerPos, fRadius, 0, &fFoundHeight))
+            if (TESWaterListener_ShouldProcessRigidBody(pkBody, kPlayerPos, fRadius, 0, &fFoundHeight))
                 iResult = Update(pkBody, fFoundHeight, fTimeDelta, 0);
             if (iResult)
             {
@@ -454,7 +455,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
                     BodyE* pkBody = FUN_004b59f0(pvForm);
                     int iResult = 0;
                     if (!g_kSpawnLockE.IsBlocked(pkBody, &bSkip) &&
-                        FUN_0062ff10(pkBody, kPlayerPos, fRadius, pkCell, &fFoundHeight))
+                        TESWaterListener_ShouldProcessRigidBody(pkBody, kPlayerPos, fRadius, pkCell, &fFoundHeight))
                         iResult = Update(pkBody, fFoundHeight, fTimeDelta, 1);
                     if (iResult == 1)
                     {
@@ -471,7 +472,7 @@ void SpawnManagerE::FUN_0062ee60(float fTimeDelta)
     if (FUN_00524c90() && g_pkPlayerE->GetProcess())
     {
         if (FUN_00524c90()->GetPosition()->z < g_pkPlayerE->GetProcess()->UpdateTESState())
-            FUN_0062f310(g_pkPlayerE->GetProcess()->GetWaterForm());
+            TESWaterSystem_SetCurrentWaterType(g_pkPlayerE->GetProcess()->GetWaterForm());
     }
 }
 
@@ -524,10 +525,10 @@ class GameSettingW
 };
 extern GameSettingW g_kFloorOffsetW;
 
-void* __cdecl FUN_004b5a80(const void* pvRef);
+void* __cdecl bhkEntity_Getbhk(const void* pvRef);
 NiPoint3W* __cdecl FUN_00458620(NiPoint3W* pkOut, const hkVector4* pkIn);
 float __cdecl FUN_004a3e90(float fHavok);
-int __cdecl FUN_00406d90(float fValue);
+int __cdecl FloatToInt(float fValue);
 
 class HeightGridW
 {
@@ -547,19 +548,20 @@ class HeightGridW
     int m_iOriginY;
 
     float GetHeight(int iX, int iY);
-    bool FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4& kTarget, float fRadius, HeightSourceW* pkSource,
+    bool TESWaterListener_ShouldProcessRigidBody(TESObjectREFRW* pkRef, const hkVector4& kTarget, float fRadius, HeightSourceW* pkSource,
                       float* pfHeight);
 };
 
 // Preserve the original /GS prologue with the shared union storage.
 #pragma strict_gs_check(push, on)
 // @fnv 0x0062ff10
-bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4& kTarget, float fRadius, HeightSourceW* pkSource,
+// src: COMMUNITY 0x0062ff10
+bool HeightGridW::TESWaterListener_ShouldProcessRigidBody(TESObjectREFRW* pkRef, const hkVector4& kTarget, float fRadius, HeightSourceW* pkSource,
                                float* pfHeight)
 {
     if (pkRef)
     {
-        FUN_005631e0_shell* pkCharacter = (FUN_005631e0_shell*)FUN_004b5a80(pkRef);
+        FUN_005631e0_shell* pkCharacter = (FUN_005631e0_shell*)bhkEntity_Getbhk(pkRef);
         if (!pkCharacter)
             return false;
 
@@ -584,8 +586,8 @@ bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4& kTarget, 
         {
             NiPoint3W kPoint;
             FUN_00458620(&kPoint, &kPos);
-            int iX = FUN_00406d90(kPoint.x) >> 12;
-            int iY = FUN_00406d90(kPoint.y) >> 12;
+            int iX = FloatToInt(kPoint.x) >> 12;
+            int iY = FloatToInt(kPoint.y) >> 12;
             iX -= m_iOriginX;
             iY -= m_iOriginY;
             *pfHeight = GetHeight(iX, iY);
@@ -608,13 +610,13 @@ bool HeightGridW::FUN_0062ff10(TESObjectREFRW* pkRef, const hkVector4& kTarget, 
 class S00630ae0_Source
 {
   public:
-    hkVector4 FUN_00561240() const;
+    hkVector4 hkSimdReal_broadcast() const;
 };
 
 // @fnv 0x00630ae0
 void hkVector4::setMul4(const hkSimdReal& a, const hkVector4& b)
 {
-    m_vComponents = _mm_mul_ps(reinterpret_cast<const S00630ae0_Source&>(a).FUN_00561240().m_vComponents, b.m_vComponents);
+    m_vComponents = _mm_mul_ps(reinterpret_cast<const S00630ae0_Source&>(a).hkSimdReal_broadcast().m_vComponents, b.m_vComponents);
 }
 
 // Emit the game entry point even though the shared declaration is inline.

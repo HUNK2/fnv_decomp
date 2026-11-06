@@ -89,7 +89,7 @@ inline void displayLine(hkDebugDisplayHandler* handler, const hkVector4& start, 
 
 struct DebugDisplayHandlerHolder
 {
-    void FUN_00e10a10(hkDebugDisplayHandler* displayHandler);
+    void hkpPrimitiveDrawer_setDisplayHandler(hkDebugDisplayHandler* displayHandler);
 };
 
 template <class T> inline T hkMax2(T a, T b)
@@ -111,9 +111,9 @@ struct ConstraintVisualizer
     hkVector4 unkb0;
     DebugDisplayHandlerHolder m_kDisplayGeometry;
 
-    void FUN_00de47e0(hkpConstraintInstance* constraint, hkTransform& refLocalToWorld, hkTransform& attLocalToWorld);
+    void hkpConstraintDrawer_updateCommonParameters(hkpConstraintInstance* constraint, hkTransform& refLocalToWorld, hkTransform& attLocalToWorld);
     void hkpConstraintDrawer_drawPivots(int id, int tag);
-    void FUN_00de4530(int id, int tag);
+    void hkpConstraintDrawer_drawBodyFrames(int id, int tag);
     void FUN_00de6550(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id, int tag);
 };
 
@@ -122,16 +122,16 @@ void ConstraintVisualizer::FUN_00de6550(hkpConstraintInstance* constraint, hkDeb
                                    int tag)
 {
     hkpPulleyConstraintData* pulley = static_cast<hkpPulleyConstraintData*>(constraint->m_data);
-    m_kDisplayGeometry.FUN_00e10a10(displayHandler);
+    m_kDisplayGeometry.hkpPrimitiveDrawer_setDisplayHandler(displayHandler);
     {
         hkTransform refLocalToWorld;
         hkTransform attLocalToWorld;
-        FUN_00de47e0(constraint, refLocalToWorld, attLocalToWorld);
+        hkpConstraintDrawer_updateCommonParameters(constraint, refLocalToWorld, attLocalToWorld);
         m_vVectorAtOffset50.FUN_00c7f640(refLocalToWorld, pulley->m_kTranslationB);
         m_vVectorAtOffset40.FUN_00c7f640(attLocalToWorld, pulley->m_kTranslationA);
     }
     hkpConstraintDrawer_drawPivots(id, tag);
-    FUN_00de4530(id, tag);
+    hkpConstraintDrawer_drawBodyFrames(id, tag);
 
     displayLine(displayHandler, pulley->m_kFixedPivotA, VecAddress(&pulley->m_kFixedPivotB), 0xffc0c0c0, id, tag);
     displayLine(displayHandler, m_vVectorAtOffset40, VecAddress(&pulley->m_kFixedPivotA), 0xffffffff, id, tag);

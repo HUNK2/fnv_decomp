@@ -130,11 +130,12 @@ void FUN_00d2ce90_class::hkCpuJobThreadPool_waitForCompletion()
 
 struct FUN_00d2ce40_cls
 {
-    int FUN_00d2ce40();
+    int hkCpuJobThreadPool_getNumThreads();
 };
 
 // @fnv 0x00d2ce40
-int FUN_00d2ce40_cls::FUN_00d2ce40()
+// src: COMMUNITY 0x00d2ce40
+int FUN_00d2ce40_cls::hkCpuJobThreadPool_getNumThreads()
 {
     return *(int*)((char*)this + 0x130);
 }

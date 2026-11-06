@@ -92,9 +92,10 @@ void FUN_00458620(PodPoint3* out, const __m128* havokPoint);
 PodPoint3* FUN_004a3760(PodPoint3* out, float scale, const PodPoint3* point);
 float FUN_00476b70(float minimum, float maximum);
 bool FUN_0043b300(const RTTI*, WorldObject*);
-NiTransform* FUN_00624ad0(NiTransform* out, const HavokTransform* havok);
+NiTransform* HK2NI_00624ad0(NiTransform* out, const HavokTransform* havok);
 // @fnv 0x0062bfb0
-PodPoint3* FUN_0062bfb0(PodPoint3* out, Node* node)
+// src: COMMUNITY 0x0062bfb0
+PodPoint3* TESHavokUtilities_GetLocalPointWithinCollision(PodPoint3* out, Node* node)
 {
     PodPoint3 chosen = DAT_011f426c;
     CollisionObject* collision = FUN_004b5260(node);
@@ -124,7 +125,7 @@ PodPoint3* FUN_0062bfb0(PodPoint3* out, Node* node)
                 bodyHavok.FUN_0056ded0();
                 body->FUN_00c8d280(&bodyHavok);
                 NiTransform bodyWorld;
-                FUN_00624ad0(&bodyWorld, &bodyHavok);
+                HK2NI_00624ad0(&bodyWorld, &bodyHavok);
                 bodyWorld.m_fScale = 1.0f;
                 NiTransform inverse;
                 node->FUN_00461130()->FUN_004b4880(inverse);

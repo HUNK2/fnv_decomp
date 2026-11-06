@@ -326,7 +326,8 @@ void hkFreeListAllocator::AllocateBlocks(int aiCount)
 }
 
 // @fnv 0x00d5fab0
-void hkFreeListAllocator::FUN_00d5fab0(int)
+// src: COMMUNITY 0x00d5fab0
+void hkFreeListAllocator::nullsub_80(int)
 {}
 
 extern void(__stdcall* DAT_00fdf05c)(int* pkCriticalSection);

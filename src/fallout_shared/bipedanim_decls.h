@@ -209,7 +209,7 @@ class ModelLoader
 {
   public:
     void CallContainedObject();
-    void FUN_004aaf10();
+    void ModelLoader_UnlockModelMap();
     void QueueModelFilePath(const char*, IO_TASK_PRIORITY, QueuedFile*);
     void ProcessModelRequest(TESModel*, IO_TASK_PRIORITY, QueuedFile*, int, bool, bool, bool);
     void QueueFile(const char*, IO_TASK_PRIORITY, QueuedFile*, int, bool, bool, bool);
@@ -267,7 +267,7 @@ class BipedAnim
     static BIPED_OBJECT GetBipedObjectFromShaderProperty(NiAVObject*, BSShaderPPLightingProperty*);
     bool IsModelPathMatch(TESModel*, char*);
     TESModel* GetModelForSlot(BIPED_OBJECT, TESModel*);
-    TESModel* FUN_004afa20(BIPED_OBJECT, char*);
+    TESModel* BipedAnim_Store1stPersonModel(BIPED_OBJECT, char*);
     void RemovePart(BIPED_OBJECT, bool, TESForm*);
     void RemovePartsByParent(TESForm*);
     void SetBipedObject(TESForm*, TESModel*, BIPED_OBJECT);
@@ -283,7 +283,7 @@ extern int DAT_01188be8[20];
 extern const char* DAT_01188b98[20];
 extern NiMatrix3 DAT_011a9448;
 bool FUN_0043faf0();
-void FUN_006570e0(TESBoundObject*);
+void BSFaceGenManager_ClearBodyTexturesFromPalette(TESBoundObject*);
 bool IsObjectProcessable(NiObject*);
 bool UpdateObjectVisibility(NiAVObject*);
 int __cdecl Warning(const char*, ...);
@@ -298,8 +298,8 @@ extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 const NiFixedString& FUN_004ab220();
 NiAVObject* FUN_004ade00(NiNode*, const NiFixedString&);
-void FUN_004add50(char*, const char*, unsigned int);
-int FUN_00404dc0(const char*, const char*);
+void BSstrncpy(char*, const char*, unsigned int);
+int BSstricmp(const char*, const char*);
 extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
 template <class T> unsigned int BSStringLength(const T*);
 
@@ -339,13 +339,13 @@ class TimeGlobal
 extern TimeGlobal g_timeGlobal;
 bool HandleUnparentedObjectNode(NiNode*);
 void SetCollisionRefFlag(NiNode*, bool);
-void FUN_00c6a2e0(NiNode*, bool, bool);
+void bhkWorld_KillHavok(NiNode*, bool, bool);
 void FUN_00c6a350(NiNode*, int, bool, bool, bool);
 const char* FUN_00464f30(const char*, bool);
 extern const char* DAT_01199e8c[2];
 void FUN_00b4f5e0(char*, const char*, const char*, bool);
 void FUN_00b55840(const char*, bool, NiPointer<NiTexture>&, bool, bool);
-NiTexture* FUN_004af8a0();
+NiTexture* BSFaceGenUtils_GetDefaultDetailModulationTexture();
 extern int DAT_01188b88[3];
 extern const char* DAT_01188c38[5];
 extern TESModel DAT_011c5d10[20];

@@ -17,16 +17,16 @@ BGSPlaceableWater::BGSPlaceableWater() : TESBoundObject(), TESModel()
 void BGSPlaceableWater::ResetFormData()
 {
     FUN_00624700()->Reinitialize();
-    FUN_004fc360(true);
-    FUN_004fc380(true);
-    FUN_004fc3a0(true);
-    FUN_004fc3c0(true);
-    FUN_004fc3e0(true);
+    BGSPlaceableWater_SetReflectionEnabled(true);
+    BGSPlaceableWater_SetReflectsLand(true);
+    BGSPlaceableWater_SetReflectsLODLand(true);
+    BGSPlaceableWater_SetReflectsSky(true);
+    BGSPlaceableWater_SetRefractionEnabled(true);
     SetFlag800(true);
-    FUN_004fc450(false);
-    FUN_004fc470(false);
-    FUN_004fc490(true);
-    FUN_004fc420(true);
+    BGSPlaceableWater_SetAutomaticWater(false);
+    BGSPlaceableWater_SetObjectTexCoordsEnabled(false);
+    BGSPlaceableWater_SetDepthEnabled(true);
+    BGSPlaceableWater_SetUnderwaterFog(true);
 }
 
 // @fnv 0x004fc4b0
@@ -86,19 +86,19 @@ bool BGSPlaceableWater::LoadForm(TESFile* file)
                 data.FUN_00535aa0();
             Data.m_pOwningWater = data.m_pOwningWater;
             Data.flags = 0;
-            FUN_004fc360(true);
-            FUN_004fc380(true);
-            FUN_004fc3a0(true);
-            FUN_004fc3c0(true);
-            FUN_004fc3e0(true);
+            BGSPlaceableWater_SetReflectionEnabled(true);
+            BGSPlaceableWater_SetReflectsLand(true);
+            BGSPlaceableWater_SetReflectsLODLand(true);
+            BGSPlaceableWater_SetReflectsSky(true);
+            BGSPlaceableWater_SetRefractionEnabled(true);
             SetFlag800(true);
-            FUN_004fc450(false);
+            BGSPlaceableWater_SetAutomaticWater(false);
             break;
         }
         case 0x4d414e44: {
             file->GetChunkData(&Data, 8);
             if (reinterpret_cast<TESFileFormVersion*>(file)->GetFormVersion() < 9)
-                FUN_004fc450(false);
+                BGSPlaceableWater_SetAutomaticWater(false);
             if (reinterpret_cast<TESFileGetChunkData*>(file)->GetChunkData())
                 Data.FUN_00462230();
             break;
@@ -113,35 +113,37 @@ bool BGSPlaceableWater::LoadForm(TESFile* file)
 
 struct FUN_004fc380_shell : public BGSPlaceableWater
 {
-    void FUN_004fc380(bool);
+    void BGSPlaceableWater_SetReflectsLand(bool);
 };
 
 struct FUN_004fc990_t
 {
-    void __thiscall FUN_004fc990(int, bool);
+    void __thiscall BGSPlaceableWater_SetFlag(int, bool);
 };
 
 // @fnv 0x004fc380
-void FUN_004fc380_shell::FUN_004fc380(bool abValue)
+// src: COMMUNITY 0x004fc380
+void FUN_004fc380_shell::BGSPlaceableWater_SetReflectsLand(bool abValue)
 {
-    reinterpret_cast<FUN_004fc990_t*>(this)->FUN_004fc990(4, abValue);
+    reinterpret_cast<FUN_004fc990_t*>(this)->BGSPlaceableWater_SetFlag(4, abValue);
 }
 
 namespace fnv_004fc450 {
 struct FUN_004fc450_shell : public BGSPlaceableWater
 {
-    void FUN_004fc450(bool);
+    void BGSPlaceableWater_SetAutomaticWater(bool);
 };
 
 struct FUN_004fc990_t
 {
-    void FUN_004fc990(int arg1, bool arg2);
+    void BGSPlaceableWater_SetFlag(int arg1, bool arg2);
 };
 
 // @fnv 0x004fc450
-void FUN_004fc450_shell::FUN_004fc450(bool abValue)
+// src: COMMUNITY 0x004fc450
+void FUN_004fc450_shell::BGSPlaceableWater_SetAutomaticWater(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x40000000, abValue);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x40000000, abValue);
 }
 }  // namespace fnv_004fc450
 
@@ -163,13 +165,14 @@ FUN_004fc790_shell* FUN_004fc790_shell::Reset()
 
 struct FUN_004fc420_shell : public BGSPlaceableWater
 {
-    void FUN_004fc420(bool);
+    void BGSPlaceableWater_SetUnderwaterFog(bool);
 };
 
 // @fnv 0x004fc420
-void FUN_004fc420_shell::FUN_004fc420(bool abValue)
+// src: COMMUNITY 0x004fc420
+void FUN_004fc420_shell::BGSPlaceableWater_SetUnderwaterFog(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x80000000, abValue == 0);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x80000000, abValue == 0);
 }
 
 struct FUN_005e78f0_t
@@ -194,7 +197,8 @@ void FUN_004fc860_shell::FUN_004fc860(TESForm* apCopy)
 
 // Sets or clears aiFlag in the flags of the object returned by FUN_00624700, depending on abSet.
 // @fnv 0x004fc990
-void FUN_004fc990_t::FUN_004fc990(int aiFlag, bool abSet)
+// src: COMMUNITY 0x004fc990
+void FUN_004fc990_t::BGSPlaceableWater_SetFlag(int aiFlag, bool abSet)
 {
     if (abSet)
         ((BGSPlaceableWater*)this)->FUN_00624700()->flags |= aiFlag;
@@ -204,46 +208,50 @@ void FUN_004fc990_t::FUN_004fc990(int aiFlag, bool abSet)
 
 struct FUN_004fc360_shell : public BGSPlaceableWater
 {
-    void FUN_004fc360(bool);
+    void BGSPlaceableWater_SetReflectionEnabled(bool);
 };
 
 // @fnv 0x004fc360
-void FUN_004fc360_shell::FUN_004fc360(bool abValue)
+// src: COMMUNITY 0x004fc360
+void FUN_004fc360_shell::BGSPlaceableWater_SetReflectionEnabled(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(1, abValue);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(1, abValue);
 }
 
 struct FUN_004fc3a0_shell : public BGSPlaceableWater
 {
-    void FUN_004fc3a0(bool);
+    void BGSPlaceableWater_SetReflectsLODLand(bool);
 };
 
 // @fnv 0x004fc3a0
-void FUN_004fc3a0_shell::FUN_004fc3a0(bool abValue)
+// src: COMMUNITY 0x004fc3a0
+void FUN_004fc3a0_shell::BGSPlaceableWater_SetReflectsLODLand(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(8, abValue);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(8, abValue);
 }
 
 struct FUN_004fc3c0_shell : public BGSPlaceableWater
 {
-    void FUN_004fc3c0(bool);
+    void BGSPlaceableWater_SetReflectsSky(bool);
 };
 
 // @fnv 0x004fc3c0
-void FUN_004fc3c0_shell::FUN_004fc3c0(bool abValue)
+// src: COMMUNITY 0x004fc3c0
+void FUN_004fc3c0_shell::BGSPlaceableWater_SetReflectsSky(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x40, abValue);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x40, abValue);
 }
 
 struct FUN_004fc3e0_shell : public BGSPlaceableWater
 {
-    void FUN_004fc3e0(bool);
+    void BGSPlaceableWater_SetRefractionEnabled(bool);
 };
 
 // @fnv 0x004fc3e0
-void FUN_004fc3e0_shell::FUN_004fc3e0(bool abValue)
+// src: COMMUNITY 0x004fc3e0
+void FUN_004fc3e0_shell::BGSPlaceableWater_SetRefractionEnabled(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x200, abValue);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x200, abValue);
 }
 
 struct FUN_004fc400_shell : public BGSPlaceableWater
@@ -254,29 +262,31 @@ struct FUN_004fc400_shell : public BGSPlaceableWater
 // @fnv 0x004fc400
 void FUN_004fc400_shell::SetFlag800(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x800, abValue);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x800, abValue);
 }
 
 struct FUN_004fc470_shell : public BGSPlaceableWater
 {
-    void FUN_004fc470(bool);
+    void BGSPlaceableWater_SetObjectTexCoordsEnabled(bool);
 };
 
 // @fnv 0x004fc470
-void FUN_004fc470_shell::FUN_004fc470(bool abValue)
+// src: COMMUNITY 0x004fc470
+void FUN_004fc470_shell::BGSPlaceableWater_SetObjectTexCoordsEnabled(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x20000000, abValue);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x20000000, abValue);
 }
 
 struct FUN_004fc490_shell : public BGSPlaceableWater
 {
-    void FUN_004fc490(bool);
+    void BGSPlaceableWater_SetDepthEnabled(bool);
 };
 
 // @fnv 0x004fc490
-void FUN_004fc490_shell::FUN_004fc490(bool abValue)
+// src: COMMUNITY 0x004fc490
+void FUN_004fc490_shell::BGSPlaceableWater_SetDepthEnabled(bool abValue)
 {
-    ((FUN_004fc990_t*)this)->FUN_004fc990(0x10000000, abValue);
+    ((FUN_004fc990_t*)this)->BGSPlaceableWater_SetFlag(0x10000000, abValue);
 }
 
 struct FUN_005e79a0_t
@@ -304,13 +314,14 @@ bool FUN_004fc8c0_shell::FUN_004fc8c0(TESForm* apCompare)
 
 struct FUN_005802d0_shell : public FUN_004fc990_t
 {
-    void FUN_005802d0(bool flag);
+    void BGSPlaceableWater_SetReflectsLODBuildings(bool flag);
 };
 
 // @fnv 0x005802d0
-void FUN_005802d0_shell::FUN_005802d0(bool flag)
+// src: COMMUNITY 0x005802d0
+void FUN_005802d0_shell::BGSPlaceableWater_SetReflectsLODBuildings(bool flag)
 {
-    FUN_004fc990(0x10, flag);
+    BGSPlaceableWater_SetFlag(0x10, flag);
 }
 
 class ModelCallees
@@ -330,7 +341,7 @@ class FUN_004fc7b0_cls : public BGSPlaceableWater
   public:
     void FUN_004855a0();
     void FUN_00485680();
-    void FUN_004fc7b0();
+    void BGSPlaceableWater_SaveAlt();
 };
 
 bool __cdecl FUN_00401500();
@@ -338,7 +349,8 @@ void __cdecl FUN_00401460(void* dst, void* src, unsigned int size);
 void __cdecl AppendChunk(unsigned int chunkId, void* data, unsigned int size);
 
 // @fnv 0x004fc7b0
-void FUN_004fc7b0_cls::FUN_004fc7b0()
+// src: COMMUNITY 0x004fc7b0
+void FUN_004fc7b0_cls::BGSPlaceableWater_SaveAlt()
 {
     FUN_004855a0();
     ((ModelCallees*)((char*)this + 0x30))->WriteToBuffer(0x4c444f4d, 0x54444f4d);

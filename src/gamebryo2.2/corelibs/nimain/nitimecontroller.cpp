@@ -518,7 +518,7 @@ void __fastcall SaveTimeController(NiTimeController* controller, int, NiStream& 
 
 extern const char* DAT_011f49e4;
 
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d550(const char*, float);
 char* __cdecl FUN_00a7d5a0(const char*, void*);
 char* __cdecl BuildAppTimeOrInitString(const char*, int);
@@ -543,7 +543,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 // @fnv 0x00a6d830
 void __fastcall GetTimeControllerViewerStrings(NiTimeController* controller, int, NiViewerStringsArray* pkViewerStrings)
 {
-    pkViewerStrings->Add(FUN_00a7d330(DAT_011f49e4));
+    pkViewerStrings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f49e4));
     pkViewerStrings->Add(FUN_00a7d550("m_fFrequency", controller->m_fFrequency));
     pkViewerStrings->Add(FUN_00a7d550("m_fPhase", controller->m_fPhase));
     pkViewerStrings->Add(FUN_00a7d550("m_fLoKeyTime", controller->m_fLoKeyTime));

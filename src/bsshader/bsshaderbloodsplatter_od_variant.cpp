@@ -44,7 +44,7 @@ struct SplatterShaderInfo
     _D3DXMACRO macros[9];
 };
 extern int g_011fedc8;
-int* __cdecl FUN_00b807b0();
+int* __cdecl BSShaderBloodSplatter_GetRTTI();
 
 struct FUN_0068ab60_shell
 {

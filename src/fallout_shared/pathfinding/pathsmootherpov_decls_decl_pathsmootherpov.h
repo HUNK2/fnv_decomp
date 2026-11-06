@@ -12,7 +12,7 @@ class SineCosine
     SineCosine& operator=(const SineCosine&);
     SineCosine operator-(const SineCosine&) const;
     NiPoint3 MakePointOnCircle(float) const;
-    float FUN_006a0840() const;
+    float AngleSinCos_GetAngle() const;
 };
 
 class CircularArc

@@ -9,17 +9,17 @@
 #include "../../../include/BSTempEffectGeometryDecal.h"
 extern const NiRTTI g_011d6b04;
 extern unsigned char* DAT_011f5b04;
-unsigned char* FUN_00683a60();
+unsigned char* NiParallelUpdateTaskManager_Get();
 extern "C" void __cdecl PowFloat(float, int);
 void __cdecl ForwardFloatAndInt(float f, int i);
 struct NiFixedString;
 extern NiFixedString* DAT_011c6228;
-NiFixedString* __cdecl FUN_00688460();
+NiFixedString* __cdecl FixedStrings_GetDecal();
 extern const NiRTTI g_011f5b2c;
 void* __cdecl __Dummy_00b6fef0(void* p, unsigned int size);
 struct FUN_00685e60_shell
 {
-    void __thiscall FUN_00685e60(unsigned int, unsigned int);
+    void __thiscall NiSkinPartition_ReplacePartitions(unsigned int, unsigned int);
 };
 extern "C" void __cdecl _delete(void* p, unsigned int size);
 

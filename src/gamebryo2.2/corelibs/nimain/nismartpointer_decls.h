@@ -32,7 +32,7 @@ class LoadedFile
 {
   public:
     void FUN_0044b180();
-    void FUN_0044b0f0();
+    void LoadedFile_IncRefCount();
 };
 
 template <class T> struct NiPointerRefOps

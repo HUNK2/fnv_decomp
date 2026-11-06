@@ -15,7 +15,7 @@ public:
     CombatActorVtable* vtable;
 
     void* FUN_00575ca0();
-    CombatWorld* FUN_00575650(CombatWorld*);
+    CombatWorld* TESObjectREFR_GetWorldLocation(CombatWorld*);
     unsigned char FUN_004997b0();
     bool FUN_00894900();
     bool HasTarget(CombatActor*);

@@ -14,7 +14,7 @@ public:
     void SetTexture(NiTexture*);
     void FUN_00634900(const NiFixedString&);
     void FUN_00634900(int*);
-    void FUN_0051b8c0(float);
+    void SkyShaderProperty_SetBlendValue(float);
     void NiPhysXProp_SetSnapshot(NiTexture*);
     NiTexture* FUN_009c8680();
 };

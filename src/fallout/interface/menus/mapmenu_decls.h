@@ -677,10 +677,10 @@ extern SettingT_GameSettingCollection_ DAT_011d47bc, DAT_011d4438, DAT_011d4960,
 extern SettingT_GameSettingCollection_* DAT_011a03e4[3];
 extern SettingT_GameSettingCollection_ DAT_011d38ac, DAT_011d204c, DAT_011d5020, DAT_011d28a4, DAT_011d4aec;
 int FUN_00720df0();
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 bool FUN_004b71d0();
 bool FUN_00798440();
-bool FUN_00709d40();
+bool Interface_Has360Controller();
 class InterfaceManager
 {
   public:
@@ -696,10 +696,10 @@ class InterfaceManager
     float GetScaledValue();
     Tile* FUN_00586150();
 };
-void FUN_00798840();
-void FUN_00798710();
-void FUN_0079be80(Tile*, TESObjectREFR*);
-bool FUN_0079b390(BGSNote*);
+void MapMenu_SetPlayerMarkerCallback();
+void OnPCFastTravel();
+void SetMapMenuTraitUnselected(Tile*, TESObjectREFR*);
+bool MapMenu_ShouldHideNote(BGSNote*);
 bool FUN_0079b720(TESChallenge*);
 extern "C" int sprintf_s(char*, size_t, const char*, ...);
 extern "C" int _stricmp(const char*, const char*);

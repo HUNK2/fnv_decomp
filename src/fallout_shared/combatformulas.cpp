@@ -555,18 +555,20 @@ float __thiscall FUN_00644930_shell::FUN_00644930()
 }
 
 // @fnv 0x00644970
-float __fastcall FUN_00644970(void* p)
+// src: COMMUNITY 0x00644970
+float __fastcall TESWaterForm_GetDepthY(void* p)
 {
     return *(float*)((char*)p + 0x104);
 }
 
 struct FUN_00644a30_shell
 {
-    unsigned char __thiscall FUN_00644a30();
+    unsigned char __thiscall TESCombatStyle_GetDodgeChance();
 };
 
 // @fnv 0x00644a30
-unsigned char __thiscall FUN_00644a30_shell::FUN_00644a30()
+// src: COMMUNITY 0x00644a30
+unsigned char __thiscall FUN_00644a30_shell::TESCombatStyle_GetDodgeChance()
 {
     return *(unsigned char*)((char*)this + 0x58);
 }
@@ -575,17 +577,19 @@ struct FUN_00644a50_shell
 {
     char pad[0xc4];
     float fValue;
-    float FUN_00644a50();
+    float TESCombatStyle_GetDodgeDuringAttackMult();
 };
 
 // @fnv 0x00644a50
-float FUN_00644a50_shell::FUN_00644a50()
+// src: COMMUNITY 0x00644a50
+float FUN_00644a50_shell::TESCombatStyle_GetDodgeDuringAttackMult()
 {
     return fValue;
 }
 
 // @fnv 0x00646250
-float FUN_00646250(int a, int b)
+// src: COMMUNITY 0x00646250
+float CombatFormulas_CalcCreatureDamage(int a, int b)
 {
     return (float)b;
 }
@@ -605,11 +609,12 @@ float FUN_00647960(float a, float b)
 
 struct FUN_00644950_shell
 {
-    virtual float FUN_00644950();
+    virtual float Sky_GetFlash();
 };
 
 // @fnv 0x00644950
-float FUN_00644950_shell::FUN_00644950()
+// src: COMMUNITY 0x00644950
+float FUN_00644950_shell::Sky_GetFlash()
 {
     return *(float*)((char*)this + 0x100);
 }
@@ -670,7 +675,8 @@ extern "C"
 
 // Returns the float value of the game setting at index a if a is in [0,10), otherwise 0.0f.
 // @fnv 0x006477e0
-float __cdecl FUN_006477e0(int aiIndex)
+// src: COMMUNITY 0x006477e0
+float __cdecl CombatFormulas_GetWeaponConditionReloadJamMult(int aiIndex)
 {
     float v = 0.0f;
     if (aiIndex >= 0 && aiIndex < 10)
@@ -772,7 +778,8 @@ unsigned char CombatFormulaWeapon::GetBaseVATSChance(unsigned char type)
 
 bool __fastcall FUN_006450c0(TESObjectWEAP*);
 // @fnv 0x00645d00
-float __cdecl FUN_00645d00(ActorValueOwner* pActorValueOwner, TESObjectWEAP* weapon, InventoryStackRecord* item)
+// src: COMMUNITY 0x00645d00
+float __cdecl ActorValueOwner_GetWeaponAnimMult(ActorValueOwner* pActorValueOwner, TESObjectWEAP* weapon, InventoryStackRecord* item)
 {
     float frateOfFire = 1.0f;
     Actor* pactor = 0;
@@ -796,7 +803,7 @@ struct Animation
 };
 struct HackAnim
 {
-    TESAnimGroup* FUN_00496500(unsigned short);
+    TESAnimGroup* Animation_LookupGroup(unsigned short);
 };
 // The shared group does not declare the event-time query yet.
 struct AnimGroupTiming : TESAnimGroup
@@ -811,7 +818,8 @@ bool __fastcall FUN_004c0bf0(TESObjectWEAP*);
 
 // Computes a weapon's shots-per-second from its animation group timings, reload time and speed modifiers, folding in reload when requested.
 // @fnv 0x00645dc0
-float FUN_00645dc0(TESObjectREFR* apActorRef, TESObjectWEAP* apWeapon, bool abUseReload, InventoryStackRecord* apItem)
+// src: COMMUNITY 0x00645dc0
+float Actor_GetAttackSpeedMult(TESObjectREFR* apActorRef, TESObjectWEAP* apWeapon, bool abUseReload, InventoryStackRecord* apItem)
 {
     float fweapSPS = 0;
     float fweapReloadTime = 0;
@@ -833,7 +841,7 @@ float FUN_00645dc0(TESObjectREFR* apActorRef, TESObjectWEAP* apWeapon, bool abUs
         sanimGroup = panim->ResolveAnimGroup(sanimGroup, false);
         if (GetType(sanimGroup) == iReloadAnim)
         {
-            TESAnimGroup* panimGroup = ((HackAnim*)panim)->FUN_00496500(sanimGroup);
+            TESAnimGroup* panimGroup = ((HackAnim*)panim)->Animation_LookupGroup(sanimGroup);
             if (panimGroup)
                 fweapReloadTime = static_cast<AnimGroupTiming*>(panimGroup)->GetActionTime(1) *
                                   ((CombatFormulaWeapon*)apWeapon)->GetAnimationMultiplier();
@@ -853,7 +861,7 @@ float FUN_00645dc0(TESObjectREFR* apActorRef, TESObjectWEAP* apWeapon, bool abUs
         sanimGroup = panim->ResolveAnimGroup(sanimGroup, false);
         if (GetType(sanimGroup) == eattackAnim)
         {
-            TESAnimGroup* panimGroup = ((HackAnim*)panim)->FUN_00496500(sanimGroup);
+            TESAnimGroup* panimGroup = ((HackAnim*)panim)->Animation_LookupGroup(sanimGroup);
             fweapSPS = 1.0f / static_cast<AnimGroupTiming*>(panimGroup)->GetActionTime(3);
         }
     }
@@ -1005,7 +1013,8 @@ struct FUN_00646260Process
 };
 
 // @fnv 0x00646260
-float FUN_00646260(Actor* apActor)
+// src: COMMUNITY 0x00646260
+float CombatFormulas_CalcDamageToWeapon(Actor* apActor)
 {
     TESObjectWEAP* pWeap;
     float m_fCriticalHitMultiplier;
@@ -1652,11 +1661,11 @@ float ComputeScaledCount(unsigned first, unsigned second, unsigned third)
 namespace fnv_00644990 {
 struct FUN_00644a30_shell
 {
-    unsigned char FUN_00644a30();
+    unsigned char TESCombatStyle_GetDodgeChance();
 };
 struct FUN_00644a50_shell
 {
-    float FUN_00644a50();
+    float TESCombatStyle_GetDodgeDuringAttackMult();
 };
 struct FUN_009a1260_Class
 {
@@ -1668,12 +1677,12 @@ struct FUN_009a1260_Class
 float __cdecl FUN_00644990(void* pkActor, int iLevel, float fRatio, bool bFlag)
 {
     float fBonus =
-        iLevel * ((Actor*)pkActor)->FUN_006d6d90() + ((Actor*)pkActor)->FUN_0099e040();
+        iLevel * ((Actor*)pkActor)->FUN_006d6d90() + ((Actor*)pkActor)->BSSceneGraph_GetCameraFOV();
     float fBase =
         (1.0f - fRatio) * ((Actor*)pkActor)->GetFieldB4Float() + ((TESForm*)pkActor)->GetFieldB8Float();
-    float fResult = (char)((FUN_00644a30_shell*)pkActor)->FUN_00644a30() + fBonus + fBase;
+    float fResult = (char)((FUN_00644a30_shell*)pkActor)->TESCombatStyle_GetDodgeChance() + fBonus + fBase;
     fResult *=
-        bFlag ? ((FUN_00644a50_shell*)pkActor)->FUN_00644a50() : ((FUN_009a1260_Class*)pkActor)->GetFloatAt0xC8();
+        bFlag ? ((FUN_00644a50_shell*)pkActor)->TESCombatStyle_GetDodgeDuringAttackMult() : ((FUN_009a1260_Class*)pkActor)->GetFloatAt0xC8();
     return fResult;
 }
 }  // namespace fnv_00644990

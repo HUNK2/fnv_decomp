@@ -123,7 +123,7 @@ struct List_005e7480
 };
 // The shared model header does not declare the three-chunk save helper.
 extern "C" void ref_0048a520();
-void FUN_004858f0(unsigned int, unsigned char);
+void TESForm_AddChunk_3(unsigned int, unsigned char);
 void FUN_00485910(unsigned int, unsigned int);
 // @fnv 0x005e7480
 void BGSHeadPart::InitializeHeadPart()
@@ -134,7 +134,7 @@ void BGSHeadPart::InitializeHeadPart()
     ((void(__thiscall*)(TESModelTextureSwap*, unsigned int, unsigned int, unsigned int))ref_0048a520)(
         reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(this) + 0x24),
         0x4c444f4d, 0x54444f4d, 0x53444f4d);
-    FUN_004858f0(0x41544144, cFlags);
+    TESForm_AddChunk_3(0x41544144, cFlags);
     pCurrentElementNext = reinterpret_cast<BSSimpleList<BGSHeadPart*>*>(FUN_00624700());
     while (pCurrentElementNext && !reinterpret_cast<List_005e7480*>(pCurrentElementNext)->FUN_008256d0())
     {
@@ -224,7 +224,7 @@ void* Deleter::Destroy(unsigned int flags)
 // @fnv 0x005e73a0
 BGSHeadPart::~BGSHeadPart()
 {
-    FUN_005e7460();
+    ClearData_005e7460();
 }
 
 // FUN_005e6600: real destructor (__thiscall, no params) of a class with:
@@ -258,7 +258,8 @@ FUN_005e6600::~FUN_005e6600()
 }
 
 // @fnv 0x005e7a60
-unsigned char BGSHeadPart::FUN_005e7a60()
+// src: COMMUNITY 0x005e7a60
+unsigned char BGSHeadPart::IsPlayable_005e7a60()
 {
     return (static_cast<signed char>(cFlags) & 1) != 0;
 }
@@ -269,7 +270,8 @@ struct HeadPartListOperations
 };
 
 // @fnv 0x005e7460
-void BGSHeadPart::FUN_005e7460()
+// src: COMMUNITY 0x005e7460
+void BGSHeadPart::ClearData_005e7460()
 {
     reinterpret_cast<HeadPartListOperations*>(FUN_00624700())
         ->FUN_00470470();

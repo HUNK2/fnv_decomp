@@ -161,7 +161,7 @@ bool FindAndPromoteEntry(S_00dad4d0_Set* set, S_00dad4d0_Key* key)
     return false;
 }
 
-void __fastcall FUN_00dae220(int unused, S_00dad640_Set* set);
+void __fastcall hkGskManifold_garbageCollect(int unused, S_00dad640_Set* set);
 
 // @fnv 0x00dae340
 // src: HAVOK_LIB 0x00dae340
@@ -180,7 +180,7 @@ void __cdecl _hkGskManifold_removePoint(S_00dad640_Set* set, unsigned int index)
         *puiDst = *(unsigned int*)((char*)puiSrc + ((char*)puiDst - (char*)puiBaseDst));
         ++puiDst;
     }
-    FUN_00dae220(iShift, set);
+    hkGskManifold_garbageCollect(iShift, set);
 }
 
 extern float DAT_01011d78, DAT_01017718, DAT_01016248;

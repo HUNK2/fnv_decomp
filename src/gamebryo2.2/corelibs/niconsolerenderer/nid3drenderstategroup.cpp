@@ -98,12 +98,13 @@ struct Owner00b8d460
     char _pad0[0x5c];
     Sub00b8d460* m_pSub;
 
-    void FUN_00b8d460();
+    void ImageSpaceShaderVolumetricFog_SetState();
 };
 
 // Ensures m_pSub->m_pHelper exists, then initialises it three times with (0x34,1,1), (0x38,3,1) and (0x39,1,1).
 // @fnv 0x00b8d460
-void Owner00b8d460::FUN_00b8d460()
+// src: COMMUNITY 0x00b8d460
+void Owner00b8d460::ImageSpaceShaderVolumetricFog_SetState()
 {
     Sub00b8d460* pSub = m_pSub;
     if (pSub->m_pHelper == 0)
@@ -419,12 +420,13 @@ void StateGroupE7F5::RemoveNodeByKey(unsigned int uiKey)
 
 struct RenderPassB71 : GroupState
 {
-    void FUN_00b71a10(unsigned int stateKey, unsigned int value, int);
+    void NiD3DPass_SetRenderState(unsigned int stateKey, unsigned int value, int);
 };
 
 // Ensures state is initialized via FUN_00e7f5d0, then calls SetNodeValue on state with stateKey, value, and true.
 // @fnv 0x00b71a10
-void RenderPassB71::FUN_00b71a10(unsigned int stateKey, unsigned int value, int)
+// src: COMMUNITY 0x00b71a10
+void RenderPassB71::NiD3DPass_SetRenderState(unsigned int stateKey, unsigned int value, int)
 {
     if (!state)
         state = FUN_00e7f5d0();
@@ -438,12 +440,13 @@ struct RenderStateCallB8F160
 
 struct RenderOwnerEntryB8F160 : RenderOwner
 {
-    void FUN_00b8f160();
+    void ImageSpaceShaderCopyRenderTarget1_Func_84();
 };
 
 // Ensures the group's state object exists, then sets render states 0xA8 to 0 and 0xBE to 0xF with save enabled.
 // @fnv 0x00b8f160
-void RenderOwnerEntryB8F160::FUN_00b8f160()
+// src: COMMUNITY 0x00b8f160
+void RenderOwnerEntryB8F160::ImageSpaceShaderCopyRenderTarget1_Func_84()
 {
     GroupState* pass = group;
     if (!pass->state)

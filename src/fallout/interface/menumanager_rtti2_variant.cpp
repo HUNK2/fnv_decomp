@@ -19,12 +19,12 @@ Tile* FUN_00704490();
 Tile* FUN_007046c0();
 Tile* CreateInventoryMenuIfModifierKey();
 Tile* FUN_00704be0();
-Tile* FUN_0076bfe0();
+Tile* HUDMainMenu_Create();
 Tile* FUN_00784c80();
 void FUN_007164c0(Tile* menu, float value);
 bool FUN_0070cb7d0(bool flag, bool other);
 Tile* CreateLoadingMenuTile(void* form, bool a, bool b);
-Tile* FUN_0075b310(void* form, int flag);
+Tile* ContainerMenu_Create(void* form, int flag);
 Tile* FUN_0073ad50(void* book, char* data);
 
 struct Mgr20
@@ -46,36 +46,36 @@ void* Mgr20::FUN_00720aa0(int menuClass)
     if (FUN_00720df0() == menuClass)
     {
         pMenu = FUN_00704140();
-        FUN_007164c0(((Tile*)pMenu->FUN_00a03c90()), pMenu->FUN_00a011b0(0xfc1));
-        ((Tile*)pMenu->FUN_00a03c90())->FUN_007037c0(8);
+        FUN_007164c0(((Tile*)pMenu->Tile_GetMenu()), pMenu->FUN_00a011b0(0xfc1));
+        ((Tile*)pMenu->Tile_GetMenu())->FUN_007037c0(8);
     }
     else if (menuClass == 0x40b)
     {
         pMenu = FUN_00704490();
-        FUN_007164c0(((Tile*)pMenu->FUN_00a03c90()), pMenu->FUN_00a011b0(0xfc1));
-        ((Tile*)pMenu->FUN_00a03c90())->FUN_007037c0(8);
+        FUN_007164c0(((Tile*)pMenu->Tile_GetMenu()), pMenu->FUN_00a011b0(0xfc1));
+        ((Tile*)pMenu->Tile_GetMenu())->FUN_007037c0(8);
     }
     else if (menuClass == 0x425)
     {
         pMenu = FUN_007046c0();
-        FUN_007164c0(((Tile*)pMenu->FUN_00a03c90()), pMenu->FUN_00a011b0(0xfc1));
-        ((Tile*)pMenu->FUN_00a03c90())->FUN_007037c0(8);
+        FUN_007164c0(((Tile*)pMenu->Tile_GetMenu()), pMenu->FUN_00a011b0(0xfc1));
+        ((Tile*)pMenu->Tile_GetMenu())->FUN_007037c0(8);
     }
     else if (menuClass == 0x3ea)
     {
         pMenu = CreateInventoryMenuIfModifierKey();
-        FUN_007164c0(((Tile*)pMenu->FUN_00a03c90()), pMenu->FUN_00a011b0(0xfc1));
-        ((Tile*)pMenu->FUN_00a03c90())->FUN_007037c0(8);
+        FUN_007164c0(((Tile*)pMenu->Tile_GetMenu()), pMenu->FUN_00a011b0(0xfc1));
+        ((Tile*)pMenu->Tile_GetMenu())->FUN_007037c0(8);
     }
     else if (menuClass == 0x3eb)
     {
         pMenu = FUN_00704be0();
-        FUN_007164c0(((Tile*)pMenu->FUN_00a03c90()), pMenu->FUN_00a011b0(0xfc1));
-        ((Tile*)pMenu->FUN_00a03c90())->FUN_007037c0(8);
+        FUN_007164c0(((Tile*)pMenu->Tile_GetMenu()), pMenu->FUN_00a011b0(0xfc1));
+        ((Tile*)pMenu->Tile_GetMenu())->FUN_007037c0(8);
     }
     else if (menuClass == 0x3ec)
     {
-        pMenu = FUN_0076bfe0();
+        pMenu = HUDMainMenu_Create();
     }
     else if (FUN_0070ede0() == menuClass && FUN_0070cb7d0(bFlag, false))
     {
@@ -94,7 +94,7 @@ void* Mgr20::FUN_00720aa0(int menuClass)
         ContainerMenu* pContainer = dynamic_cast<ContainerMenu*>(FUN_00a09030(0x3f0));
         if (pContainer)
         {
-            pMenu = FUN_0075b310(((Tile*)pContainer)->FUN_004fd3a0(), 1);
+            pMenu = ContainerMenu_Create(((Tile*)pContainer)->TESChallenge_GetFormOne(), 1);
         }
     }
     else if (menuClass == 0x402)

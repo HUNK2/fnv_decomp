@@ -150,7 +150,7 @@ bool ActorMover::HasActiveMovement()
         return true;
     if (m_bMovementActive)
         return true;
-    if (!m_pActorNode.operator->() || !m_pActorNode->FUN_009dc530() || bPathingFailed)
+    if (!m_pActorNode.operator->() || !m_pActorNode->PathingSolution_IsValid() || bPathingFailed)
         return false;
     return true;
 }
@@ -235,7 +235,8 @@ struct ArrHelper
 };
 
 // @fnv 0x009dc530
-bool ActorMover::FUN_009dc530()
+// src: COMMUNITY 0x009dc530
+bool ActorMover::PathingSolution_IsValid()
 {
     if (((ArrHelper*)((char*)this + 8))->FUN_0076b610())
         return false;
@@ -288,7 +289,7 @@ bool ActorMover::FUN_009dcd40()
         return true;
     }
     else if (((NiNode*)m_pActorNode &&
-              ((NiNode*)(NiNode*)m_pActorNode)->FUN_009dc530()) ||
+              ((NiNode*)(NiNode*)m_pActorNode)->PathingSolution_IsValid()) ||
              eState == 4)
     {
         return false;
@@ -517,7 +518,8 @@ void __cdecl SetupPathingRequest(void* actor, PathingRequestHelper* request, int
 } // namespace fnv_009dbb60
 
 // @fnv 0x009dbb60
-bool ActorMover::FUN_009dbb60(int aiArg1, int aiArg2, int aiArg3, float afValue, float afArg4, int aiArg5)
+// src: COMMUNITY 0x009dbb60
+bool ActorMover::SetGoalAndAngle(int aiArg1, int aiArg2, int aiArg3, float afValue, float afArg4, int aiArg5)
 {
     using namespace fnv_009dbb60;
     fnv_009dbb60::PathingRequestHelper request;
@@ -564,12 +566,13 @@ struct FUN_00691c90_shell
     TypeValueCount* pBuffer;
     unsigned int iSize;
     unsigned int iAllocSize;
-    void FUN_00691c90(unsigned int auiIndex, unsigned int auiCount);
+    void BSSimpleArray_RemoveFast_0(unsigned int auiIndex, unsigned int auiCount);
     void FUN_0072ba80(TypeValueCount*, unsigned int);
     void FUN_006dc6e0(TypeValueCount*, TypeValueCount*, unsigned int);
 };
 // @fnv 0x00691c90
-void FUN_00691c90_shell::FUN_00691c90(unsigned int auiIndex, unsigned int auiCount)
+// src: COMMUNITY 0x00691c90
+void FUN_00691c90_shell::BSSimpleArray_RemoveFast_0(unsigned int auiIndex, unsigned int auiCount)
 {
     unsigned int uiMoveCount = FUN_0042f5a0(iSize - auiIndex - auiCount, auiCount);
     FUN_0072ba80(&pBuffer[auiIndex], auiCount);
@@ -743,9 +746,10 @@ class TESSound;
 
 // Calls FUN_009dbb60 with the reference's position, target sound, world space, Z angle, and the two given values.
 // @fnv 0x009dbc30
-void ActorMover::FUN_009dbc30(TESObjectREFR* apReference, float afValue, int aiValue)
+// src: COMMUNITY 0x009dbc30
+void ActorMover::SetGoalAndAngle_(TESObjectREFR* apReference, float afValue, int aiValue)
 {
-    FUN_009dbb60(((const TESObjectREFR*)apReference)->GetPos(), ((LowProcess*)apReference)->LowProcess::GetTarget(), apReference->GetParentWorldSpace(),
+    SetGoalAndAngle(((const TESObjectREFR*)apReference)->GetPos(), ((LowProcess*)apReference)->LowProcess::GetTarget(), apReference->GetParentWorldSpace(),
                  apReference->GetAngleOnReference().z, afValue, aiValue);
 }
 
@@ -763,7 +767,7 @@ int ActorMover::FUN_009dcab0()
 // @fnv 0x009dcb30
 bool ActorMover::FUN_009dcb30()
 {
-    if (m_pPathHandler && (NiNode*)m_pActorNode && ((NiNode*)(NiNode*)m_pActorNode)->FUN_009dc530())
+    if (m_pPathHandler && (NiNode*)m_pActorNode && ((NiNode*)(NiNode*)m_pActorNode)->PathingSolution_IsValid())
         return m_pPathHandler->vfn_3c();
     return true;
 }
@@ -777,14 +781,15 @@ namespace fnv_009dcb90 {
 bool ActorMover::FUN_009dcb90()
 {
     using namespace fnv_009dcb90;
-    if (m_pPathHandler && (NiNode*)m_pActorNode && ((NiNode*)(NiNode*)m_pActorNode)->FUN_009dc530())
+    if (m_pPathHandler && (NiNode*)m_pActorNode && ((NiNode*)(NiNode*)m_pActorNode)->PathingSolution_IsValid())
         return m_pPathHandler->vfn_40();
     return 0;
 }
 
 // Returns the value from pHandler if it is set, otherwise returns 0.0f.
 // @fnv 0x009dcbf0
-float ActorMover::FUN_009dcbf0()
+// src: COMMUNITY 0x009dcbf0
+float ActorMover::GetCurrentPercent()
 {
     if (m_pPathHandler)
         return m_pPathHandler->vfn_1c();
@@ -794,7 +799,8 @@ float ActorMover::FUN_009dcbf0()
 
 // Returns the value from mPtr by calling its F6 method, or 0.0f when mPtr is null.
 // @fnv 0x009dcc20
-float ActorMover::FUN_009dcc20()
+// src: COMMUNITY 0x009dcc20
+float ActorMover::GetDistanceTraveled()
 {
     if (m_pPathHandler)
         return m_pPathHandler->vfn_18();
@@ -804,7 +810,8 @@ float ActorMover::FUN_009dcc20()
 
 // Returns the value from the handler pointer if set, otherwise returns 0.0f.
 // @fnv 0x009dcc50
-float ActorMover::FUN_009dcc50()
+// src: COMMUNITY 0x009dcc50
+float ActorMover::GetDistanceRemaining()
 {
     if (m_pPathHandler)
         return m_pPathHandler->vfn_28();
@@ -813,9 +820,10 @@ float ActorMover::FUN_009dcc50()
 }
 
 // @fnv 0x009dccf0
-bool ActorMover::FUN_009dccf0()
+// src: COMMUNITY 0x009dccf0
+bool ActorMover::ComputePathPassesThroughPlayersArea()
 {
-    if (!(NiNode*)m_pActorNode || !((NiNode*)(NiNode*)m_pActorNode)->FUN_009dc530())
+    if (!(NiNode*)m_pActorNode || !((NiNode*)(NiNode*)m_pActorNode)->PathingSolution_IsValid())
         return false;
     return m_pPathHandler->vfn_44();
 }
@@ -850,7 +858,7 @@ void ActorMover::SetFormID(TESForm* pForm)
 // @fnv 0x009de3e0
 bool ActorMover::FUN_009de3e0()
 {
-    if ((NiNode*)m_pActorNode && ((NiNode*)(NiNode*)m_pActorNode)->FUN_009dc530())
+    if ((NiNode*)m_pActorNode && ((NiNode*)(NiNode*)m_pActorNode)->PathingSolution_IsValid())
         return true;
     return false;
 }
@@ -1150,7 +1158,7 @@ struct FUN_006d0b80
 {
     FUN_006d0b80(PathingRequest*, PathingSolution*);
     ~FUN_006d0b80();
-    int FUN_006c93d0();
+    int PathBuilder_UpdatePathMoveToLow();
     int f0;
     int f1;
     int f2;
@@ -1167,17 +1175,18 @@ struct FUN_006d0b80
 };
 // Constructs a FUN_006d0b80 from the request and solution, then returns the result of FUN_006c93d0 on it.
 // @fnv 0x006d53b0
-int FUN_006d53b0(PathingRequest* pRequest, PathingSolution* b)
+// src: COMMUNITY 0x006d53b0
+int Pathing_UpdateSolutionMoveToLow(PathingRequest* pRequest, PathingSolution* b)
 {
     FUN_006d0b80 obj(pRequest, b);
-    return obj.FUN_006c93d0();
+    return obj.PathBuilder_UpdatePathMoveToLow();
 }
 
 struct TESForm;
 void __fastcall FUN_009daf80(TESForm*);
 struct Sol11
 {
-    bool FUN_009dc530();
+    bool PathingSolution_IsValid();
     int FUN_00441110();
     unsigned int FUN_005a4320();
     void* FUN_006e78b0(unsigned int);
@@ -1711,7 +1720,7 @@ void ActorMover::FUN_009dc120(float f)
         {
             if (!m_bMovementActive)
             {
-                if ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode) && ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode))->FUN_009dc530())
+                if ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode) && ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode))->PathingSolution_IsValid())
                 {
                     eState = 3;
                     FUN_009dc590(f);
@@ -1734,7 +1743,7 @@ void ActorMover::FUN_009dc120(float f)
                     case 1: {
                         m_bMovementActive = 0;
                         (*(NiPointer<Sol11>*)&m_pActorNode) = msg.m_sol;
-                        if ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode) && ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode))->FUN_009dc530() && ((Req11*)(*(NiPointer<Req11>*)&request))->GetByteAtOffset9B())
+                        if ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode) && ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode))->PathingSolution_IsValid() && ((Req11*)(*(NiPointer<Req11>*)&request))->GetByteAtOffset9B())
                         {
                             eState = 3;
                             UpdatePathingState(f);
@@ -1771,7 +1780,7 @@ void ActorMover::FUN_009dc120(float f)
         }
     }
 SECB:
-    if (!((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode) && ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode))->FUN_009dc530() && !bPathingFailed))
+    if (!((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode) && ((Sol11*)(*(NiPointer<Sol11>*)&m_pActorNode))->PathingSolution_IsValid() && !bPathingFailed))
     {
         if (m_pPathHandler)
         {
@@ -1878,7 +1887,7 @@ struct PathQuery
 // @fnv 0x009de2b0
 bool ActorMover::GetPathCoordinate(NiPoint3* position)
 {
-    if (m_pActorNode.operator->() && m_pActorNode.operator->()->FUN_009dc530())
+    if (m_pActorNode.operator->() && m_pActorNode.operator->()->PathingSolution_IsValid())
     {
         PathQuery* query = reinterpret_cast<PathNode*>(m_pActorNode.operator->())->FUN_009ddb30();
         if (query)
@@ -2028,7 +2037,7 @@ void ActorMover::UpdatePathingState(float a1)
         {
             flag = false;
             request.operator->()->FUN_006e2b20(pActor);
-            switch (FUN_006d53b0(request.operator->(), (PathingSolution*)(*(NiPointer<PathingSolution>*)&m_pActorNode).operator->()))
+            switch (Pathing_UpdateSolutionMoveToLow(request.operator->(), (PathingSolution*)(*(NiPointer<PathingSolution>*)&m_pActorNode).operator->()))
             {
                 break;
             case -1:
@@ -2379,7 +2388,7 @@ unsigned int PackShortPair(unsigned short, unsigned short);
 struct Reference
 {
     int FUN_00441110();
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
     NiPoint3 FUN_005c3420();
     Cell* FUN_006dd4f0();
 };
@@ -2421,7 +2430,7 @@ void ActorMover::SetEnabled(bool abEnabled)
                      ->FUN_0045af00(reinterpret_cast<World*>(pActor->FUN_00575d70()), PackShortPair((unsigned short)xSlot14, (unsigned short)y))
                      ->FUN_006b7850())
                 pActor->FUN_008ad1c0(((NiPointer<ActorMovement::Request>*)&request)->operator->()->FUN_006a9540()->FUN_005c3420(), 0.0f,
-                                    ((NiPointer<ActorMovement::Request>*)&request)->operator->()->FUN_006a9540()->FUN_009611e0(),
+                                    ((NiPointer<ActorMovement::Request>*)&request)->operator->()->FUN_006a9540()->NiAVObject_GetParent(),
                                     ((NiPointer<ActorMovement::Request>*)&request)->operator->()->FUN_006a9540()->FUN_00441110(), 0, 1);
         }
         float intervalSlot1 = pActor->FUN_008b0190(7) ? DAT_0109222c : DAT_01092230;
@@ -3676,7 +3685,7 @@ class BackgroundPathRequest14
     BackgroundPathLocation14* FUN_006a9540();
     float FUN_009b0bd0() const;
     float GetSmoothingRandomness();
-    bool FUN_00505c00();
+    bool TESCombatStyle_GetPowerAttackF();
     float FUN_00507e10();
     void FUN_006e2b20(void*);
     void FUN_009db930(unsigned int);
@@ -4124,7 +4133,7 @@ bool ActorMover::FUN_009db090(const PathingRequest* apRequest)
                 {
                     FUN_009dd1c0(1);
                     bool flag = true;
-                    if (((BackgroundPathRequest14*)apRequest)->FUN_00505c00())
+                    if (((BackgroundPathRequest14*)apRequest)->TESCombatStyle_GetPowerAttackF())
                     {
                         flag = FUN_009dce80(((BackgroundPathRequest14*)apRequest)->FUN_00507e10(), true);
                     }
@@ -4280,7 +4289,7 @@ namespace PathEndCheck14 {
 struct Node
 {
     bool FUN_006e2330();
-    bool FUN_006e22f0(::TESObjectREFR*);
+    bool PathingNode_ActivateNode(::TESObjectREFR*);
 };
 struct Solution
 {
@@ -4288,13 +4297,14 @@ struct Solution
     Node& FUN_006b05a0();
     unsigned int FUN_005a4320();
 };
-void __fastcall FUN_006c93a0(Solution*);
+void __fastcall PathingSolution_ClearCurrentDetailedPath(Solution*);
 
 // Handles a zero lastNode case, checks the current path node, and conditionally calls path routines before returning 0, 1, or 2.
 } // namespace PathEndCheck14
 
 // @fnv 0x009dc980
-int ActorMover::FUN_009dc980()
+// src: COMMUNITY 0x009dc980
+int ActorMover::EndOfCurrentPathCheck()
 {
     using namespace PathEndCheck14;
     Node* pnode;
@@ -4311,7 +4321,7 @@ int ActorMover::FUN_009dc980()
         pnode = &((NiPointer<PathEndCheck14::Solution>*)&m_pActorNode)->operator->()->FUN_006b05a0();
         if (pnode->FUN_006e2330())
         {
-            if (!pnode->FUN_006e22f0(pActor) && !pActor->GetCurrentAIProcess()->GetCurrentFadeState())
+            if (!pnode->PathingNode_ActivateNode(pActor) && !pActor->GetCurrentAIProcess()->GetCurrentFadeState())
             {
                 eState = 7;
                 SetEnabled(true);
@@ -4320,7 +4330,7 @@ int ActorMover::FUN_009dc980()
             }
             else
             {
-                FUN_006c93a0(((NiPointer<PathEndCheck14::Solution>*)&m_pActorNode)->operator->());
+                PathingSolution_ClearCurrentDetailedPath(((NiPointer<PathEndCheck14::Solution>*)&m_pActorNode)->operator->());
                 return 1;
             }
         }

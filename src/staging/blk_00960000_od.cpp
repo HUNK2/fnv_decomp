@@ -131,11 +131,12 @@ void FUN_00966a00_Class::FUN_00966a00(float value)
 
 struct FUN_00966a50_Class
 {
-    int FUN_00966a50();
+    int PlayerCharacter_GetNumNotes();
 };
 
 // @fnv 0x00966a50
-int FUN_00966a50_Class::FUN_00966a50()
+// src: COMMUNITY 0x00966a50
+int FUN_00966a50_Class::PlayerCharacter_GetNumNotes()
 {
     return reinterpret_cast<BSSimpleList<TESRace*>*>(reinterpret_cast<char*>(this) + 0x5e4)->ItemsInList();
 }
@@ -171,7 +172,8 @@ unsigned int FUN_00968650_Class::FUN_00968650()
 TESForm* __cdecl GetFormByID(int);
 
 // @fnv 0x00969910
-TESForm* __thiscall TESRace::FUN_00969910()
+// src: COMMUNITY 0x00969910
+TESForm* __thiscall TESRace::AudioMarker_GetMediaLocationController()
 {
     return GetFormByID(*(int*)((char*)this + 0x24));
 }
@@ -475,14 +477,14 @@ void __thiscall FUN_00978cd0_Class::FUN_00978cd0()
 extern int DAT_0108c278;
 struct Dummy_0061bf20
 {
-    void FUN_006b3f40(int, int);
+    void BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(int, int);
     Dummy_0061bf20* FUN_00978ea0();
 };
 // @fnv 0x00978ea0
 Dummy_0061bf20* Dummy_0061bf20::FUN_00978ea0()
 {
     *(int*)this = (int)&DAT_0108c278;
-    FUN_006b3f40(0, 0);
+    BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(0, 0);
     return this;
 }
 
@@ -564,10 +566,11 @@ struct NullableObjectDataAccess
 };
 struct FUN_00961230_Class
 {
-    void __thiscall FUN_00961230(T_* param);
+    void __thiscall bhkMouseSpringAction_GetPositionInRbLocal(T_* param);
 };
 // @fnv 0x00961230
-void __thiscall FUN_00961230_Class::FUN_00961230(T_* pTarget)
+// src: COMMUNITY 0x00961230
+void __thiscall FUN_00961230_Class::bhkMouseSpringAction_GetPositionInRbLocal(T_* pTarget)
 {
     void* result = ((NullableObjectDataAccess*)this)->GetObjectData();
     if (result)
@@ -577,10 +580,11 @@ void __thiscall FUN_00961230_Class::FUN_00961230(T_* pTarget)
 
 struct FUN_00962490_Class
 {
-    void FUN_00962490(void* p, unsigned char flag);
+    void PlayerCharacter_SetLightPointer(void* p, unsigned char flag);
 };
 // @fnv 0x00962490
-void FUN_00962490_Class::FUN_00962490(void* p, unsigned char flag)
+// src: COMMUNITY 0x00962490
+void FUN_00962490_Class::PlayerCharacter_SetLightPointer(void* p, unsigned char flag)
 {
     if (flag)
         *(GO*)((char*)this + 0x864) = p;
@@ -615,11 +619,12 @@ struct FUN_0056aac0_map
 };
 struct FUN_00962850_Class
 {
-    void __thiscall FUN_00962850(TESSound* sound, bool flag);
+    void __thiscall PlayerCharacter_SetLastSpaceForDoor(TESSound* sound, bool flag);
 };
 // If sound is non-null, inserts the reference returned by sound->Deallocate() into the map at this+0x854 with the given flag.
 // @fnv 0x00962850
-void __thiscall FUN_00962850_Class::FUN_00962850(TESSound* sound, bool flag)
+// src: COMMUNITY 0x00962850
+void __thiscall FUN_00962850_Class::PlayerCharacter_SetLastSpaceForDoor(TESSound* sound, bool flag)
 {
     if (sound)
         ((FUN_0056aac0_map*)((char*)this + 0x854))->SetAt((TESObjectREFR*)sound->Deallocate(), flag);
@@ -640,10 +645,11 @@ struct PlayerActionObjectList
 struct FUN_009640b0_Class
 {
     int m_60c;
-    unsigned int FUN_009640b0();
+    unsigned int PlayerCharacter_GetRecentAction();
 };
 // @fnv 0x009640b0
-unsigned int FUN_009640b0_Class::FUN_009640b0()
+// src: COMMUNITY 0x009640b0
+unsigned int FUN_009640b0_Class::PlayerCharacter_GetRecentAction()
 {
     unsigned int result = 0;
     if (*(void**)((char*)this + 0x60c))
@@ -659,7 +665,8 @@ unsigned int FUN_009640b0_Class::FUN_009640b0()
 extern "C" unsigned char DAT_011f9423;
 
 // @fnv 0x00965240
-void FUN_00965240(unsigned char value)
+// src: COMMUNITY 0x00965240
+void BSShaderManager_SetFullScreenMotionBlurIronSights(unsigned char value)
 {
     DAT_011f9423 = value;
 }
@@ -756,12 +763,13 @@ struct FUN_0096ac30_Class
     int m_13;
     int m_14;
     int m_15;
-    void __thiscall FUN_0096ac30();
+    void __thiscall ProcessArray_CheckNextUpdateBounds();
 };
 
 // For each of four slots, resets the value at offset 0x30 to the lower bound at 0x10 when it is below that bound or at/above the upper bound at 0x20.
 // @fnv 0x0096ac30
-void __thiscall FUN_0096ac30_Class::FUN_0096ac30()
+// src: COMMUNITY 0x0096ac30
+void __thiscall FUN_0096ac30_Class::ProcessArray_CheckNextUpdateBounds()
 {
     for (int i = 0; i < 4; i++)
     {
@@ -800,11 +808,12 @@ struct FUN_00978d50_Class
     int m_8;
     int m_iThirdValue;
     ScrapHeapBuffer* m_10;
-    void* FUN_00978d50(unsigned int a);
+    void* BSScrapArray_NavMeshSearchLink_1024_Allocate(unsigned int a);
 };
 // Allocates a block of a * 0xc bytes through m_10 and returns the pointer.
 // @fnv 0x00978d50
-void* FUN_00978d50_Class::FUN_00978d50(unsigned int a)
+// src: COMMUNITY 0x00978d50
+void* FUN_00978d50_Class::BSScrapArray_NavMeshSearchLink_1024_Allocate(unsigned int a)
 {
     void* p = m_10->Allocate(a * 0xc, DAT_010a2720);
     return p;
@@ -1020,7 +1029,7 @@ void FUN_0096aa40_Class::FUN_0096aa40(int aiIndex)
             ->SetAt(aiIndex, *(char**)((Arr2*)this)->GetAt(*(unsigned int*)((char*)this + 0x20 + local2 * 4)));
     int local_c2 = 0;
     ((StrArr*)this)->SetAt(*(unsigned int*)((char*)this + 0x20 + local2 * 4), (char*&)local_c2);
-    FUN_0096ac30();
+    ProcessArray_CheckNextUpdateBounds();
 }
 
 
@@ -1176,12 +1185,13 @@ void __cdecl FUN_008ce180(unsigned int flags, int limit, TES* object, int, int);
 
 struct FUN_00962590_Class : public TES
 {
-    void FUN_00962590();
+    void PlayerCharacter_EnteringMenuMode();
 };
 
 // If FUN_00570f60() returns a positive value, gets the log date, reads its ArrSI flags, and calls FUN_008ce180 with those flags when nonzero.
 // @fnv 0x00962590
-void FUN_00962590_Class::FUN_00962590()
+// src: COMMUNITY 0x00962590
+void FUN_00962590_Class::PlayerCharacter_EnteringMenuMode()
 {
     LogDate* pLogDate;
     unsigned int flags;
@@ -1218,12 +1228,13 @@ struct FUN_00962810_Class
     char m_ucUnknownByte[0x854];
     FUN_0057c850_cls m_854;
 
-    unsigned char FUN_00962810(TESSound* sound);
+    unsigned char PlayerCharacter_GetLastSpaceForDoor(TESSound* sound);
 };
 
 // If sound is non-null, deallocates it and passes the result to m_854.FUN_0057c850, returning the resulting byte (0xff otherwise).
 // @fnv 0x00962810
-unsigned char FUN_00962810_Class::FUN_00962810(TESSound* sound)
+// src: COMMUNITY 0x00962810
+unsigned char FUN_00962810_Class::PlayerCharacter_GetLastSpaceForDoor(TESSound* sound)
 {
     unsigned char result = 0xff;
     if (sound)
@@ -1238,12 +1249,13 @@ extern BSSimpleList<TESObjectREFR*> g_011e0ae8;
 
 struct FUN_00962cd0_Class
 {
-    void FUN_00962cd0(TESObjectREFR* a);
+    void PlayerCharacter_RemoveConflictingObject(TESObjectREFR* a);
 };
 
 // If a is non-null, passes its address to g_011e0ae8's list routine.
 // @fnv 0x00962cd0
-void FUN_00962cd0_Class::FUN_00962cd0(TESObjectREFR* pRef)
+// src: COMMUNITY 0x00962cd0
+void FUN_00962cd0_Class::PlayerCharacter_RemoveConflictingObject(TESObjectREFR* pRef)
 {
     if (pRef)
         g_011e0ae8.Remove(pRef);
@@ -1398,11 +1410,12 @@ struct FUN_0097be80_Class
     int m_8;
     int m_iThirdValue;
     int m_10;
-    BGSPerk* FUN_0097be80(BGSPerk* dst);
+    BGSPerk* CombatProcedureMove_GetDestinationPos(BGSPerk* dst);
 };
 // Copies the perk returned by the list at offset 0x14 into dst and returns dst.
 // @fnv 0x0097be80
-BGSPerk* FUN_0097be80_Class::FUN_0097be80(BGSPerk* apPerkOut)
+// src: COMMUNITY 0x0097be80
+BGSPerk* FUN_0097be80_Class::CombatProcedureMove_GetDestinationPos(BGSPerk* apPerkOut)
 {
     memcpy(apPerkOut, reinterpret_cast<EmbeddedRecordDataAccess*>(reinterpret_cast<char*>(this) + 0x14)->GetData(), 12);
     return apPerkOut;
@@ -1415,11 +1428,12 @@ struct FUN_0097f240_Class
     unsigned char m_auiShapeKeys[0xe0];
     int m_uiFilterValue;
 
-    void FUN_0097f240(float value);
+    void CombatState_SetLastDoorFleeTime(float value);
 };
 
 // @fnv 0x0097f240
-void FUN_0097f240_Class::FUN_0097f240(float value)
+// src: COMMUNITY 0x0097f240
+void FUN_0097f240_Class::CombatState_SetLastDoorFleeTime(float value)
 {
     CombatTargetTimestamp timestamp(value);
     m_uiFilterValue = *reinterpret_cast<int*>(&timestamp.fTimeStamp);
@@ -1442,7 +1456,8 @@ bool FUN_0097fa50_Class::FUN_0097fa50()
 extern int DAT_011cc5ec;
 
 // @fnv 0x00960510
-int __cdecl FUN_00960510()
+// src: COMMUNITY 0x00960510
+int __cdecl ViewCaster_GetFuzzyBody()
 {
     return DAT_011cc5ec;
 }
@@ -1539,10 +1554,11 @@ void __cdecl FUN_00c6a0b0(NiNode* ref, int a, int b, int c);
 struct FUN_00962d00_Class
 {
     bool FUN_00962950(NiNode* ref);
-    void FUN_00962d00();
+    void PlayerCharacter_UpdateConflictingObjects();
 };
 // @fnv 0x00962d00
-void FUN_00962d00_Class::FUN_00962d00()
+// src: COMMUNITY 0x00962d00
+void FUN_00962d00_Class::PlayerCharacter_UpdateConflictingObjects()
 {
     if (reinterpret_cast<FUN_00962d00_Node*>(&g_011e0ae8)->IsEmpty())
     {
@@ -1634,7 +1650,7 @@ struct FUN_0096a970_Class
     void FUN_0096ae90(int value, int* p);
     int GetShortAtOffsetA();
     void ResizeAndClear(int n);
-    void FUN_0096ac30();
+    void ProcessArray_CheckNextUpdateBounds();
     void InsertAt(int v);
     void InsertAt(int a1, int index);
 };
@@ -1660,7 +1676,7 @@ void FUN_0096a970_Class::InsertAt(int aiValue, int index)
             ResizeAndClear(100);
         }
     }
-    FUN_0096ac30();
+    ProcessArray_CheckNextUpdateBounds();
 }
 
 class B96AB20Ranges
@@ -1790,14 +1806,14 @@ struct FUN_00978c50 : FUN_00978ea0
     unsigned int m_resource;
     FUN_00978c50();
     virtual ~FUN_00978c50();
-    void FUN_006b3f40(unsigned int, unsigned int);
+    void BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(unsigned int, unsigned int);
 };
 // Initializes the base class, stores the value returned by FUN_00401020()->GetContextTracker() in m_resource, then calls FUN_006b3f40(0, 0).
 // @fnv 0x00978c50
 FUN_00978c50::FUN_00978c50() : FUN_00978ea0()
 {
     m_resource = reinterpret_cast<unsigned int>(FUN_00401020()->GetContextTracker());
-    FUN_006b3f40(0, 0);
+    BSSimpleArray_NavMeshPOVSearchNode_1024_InitialSetup(0, 0);
 }
 }  // namespace fnv_00978c50
 
@@ -2181,11 +2197,12 @@ struct S_0097e490_CP
     void* unk00;
     unsigned int unk04;
     unsigned int unk08;
-    unsigned int FUN_0097e490();
+    unsigned int CombatPlan_IsFinished();
 };
 
 // @fnv 0x0097e490
-unsigned int S_0097e490_CP::FUN_0097e490()
+// src: COMMUNITY 0x0097e490
+unsigned int S_0097e490_CP::CombatPlan_IsFinished()
 {
     return this->unk08 >= this->unk04;
 }
@@ -2502,7 +2519,7 @@ struct PKPlayer
 
 struct PKHighProcess
 {
-    bool FUN_00c6fa20();
+    bool CheckInsideOfObject();
 };
 
 bool __cdecl PKSetContains(PKFormSet* apSet, unsigned int auiFormID);
@@ -2699,7 +2716,7 @@ bool PKRef::FUN_00962950(void* apRoot)
     g_pPKPick->ClearResults(0);
     if (bBlocked)
         return true;
-    return FUN_009306d0()->FUN_00c6fa20();
+    return FUN_009306d0()->CheckInsideOfObject();
 }
 
 using ::SettingT;
@@ -3149,11 +3166,11 @@ void PlayerDOFOwner::UpdateDepthOfField()
     {
         fFar = *originalRuntimeFloatSetting535.Float();
         fTarget = *originalRuntimeFloatSetting526.Float();
-        FUN_00965240(1);
+        BSShaderManager_SetFullScreenMotionBlurIronSights(1);
     }
     else
     {
-        FUN_00965240(0);
+        BSShaderManager_SetFullScreenMotionBlurIronSights(0);
     }
     if (fTarget != fCurTmp)
     {
@@ -4543,10 +4560,11 @@ struct FUN_00975930_shell
         f10300, f10308, f10310, f10318, f10320, f10328, f10330, f10338, f10340, f10348, f10350, f10358, f10360, f10368,
         f10370, f10378, f10380, f10388, f10390, f10398, f103A0, f103A8;
     unsigned int unk103B0, unk103B4, unk103B8;
-    void FUN_00975930(LoadBuffer*);
+    void ProcessLists_LoadGame(LoadBuffer*);
 };
 // @fnv 0x00975930
-void FUN_00975930_shell::FUN_00975930(LoadBuffer* buffer)
+// src: COMMUNITY 0x00975930
+void FUN_00975930_shell::ProcessLists_LoadGame(LoadBuffer* buffer)
 {
     buffer->FUN_00864980(&unk00154, 4);
     if (buffer->GetVersion() >= 18)
@@ -5007,9 +5025,9 @@ struct Actor97
 struct CombatData97
 {
     unsigned char FUN_00662a80();
-    void FUN_0097f240(float value);
+    void CombatState_SetLastDoorFleeTime(float value);
     Equipment97* GetBestWeapon();
-    void FUN_00997ba0(int first, int second);
+    void CombatState_ChangeProcessLevel(int first, int second);
 };
 // @fnv 0x0097efe0
 void CombatController::UpdateCombatEquipment(int first, int second)
@@ -5022,7 +5040,7 @@ void CombatController::UpdateCombatEquipment(int first, int second)
         reinterpret_cast<Actor97*>(actor)->GetProcess()->SetWeaponFlag(!active);
         if (active)
         {
-            reinterpret_cast<CombatData97*>(combat)->FUN_0097f240(FUN_00435dd0());
+            reinterpret_cast<CombatData97*>(combat)->CombatState_SetLastDoorFleeTime(FUN_00435dd0());
         }
         if (reinterpret_cast<Actor97*>(actor)->IsEquipmentReady())
         {
@@ -5043,12 +5061,12 @@ void CombatController::UpdateCombatEquipment(int first, int second)
             reinterpret_cast<Actor97*>(actor)->GetProcess()->UpdateActor(reinterpret_cast<Actor97*>(actor), !active);
         }
     }
-    reinterpret_cast<CombatData97*>(combat)->FUN_00997ba0(first, second);
+    reinterpret_cast<CombatData97*>(combat)->CombatState_ChangeProcessLevel(first, second);
     if (first == 0 || second == 0)
     {
         DestroyOwnedObject();
         FUN_00980250();
-        FUN_00980360();
+        ClearBackgroundProcedures();
         lastUpdate = -1.0f;
     }
 }
@@ -5700,14 +5718,15 @@ struct ActorDecomp
     float unk7E4;
     ActorPoint3 unk7E8;
 
-    unsigned char FUN_00961e30(unsigned char value);
+    unsigned char PlayerCharacter_ToggleFlyCam(unsigned char value);
 };
 
 FUN_00961f30_Class* __cdecl FUN_00705950();
 
 // Toggles a global state, propagates it to DAT_011dea0c and FUN_00705950, and when enabled copies the actor's position and updates unk7E8.z, unk7E0 and unk7E4.
 // @fnv 0x00961e30
-unsigned char ActorDecomp::FUN_00961e30(unsigned char value)
+// src: COMMUNITY 0x00961e30
+unsigned char ActorDecomp::PlayerCharacter_ToggleFlyCam(unsigned char value)
 {
     unsigned char state = (unsigned char)static_cast<OSGlobalFlagAccess*>(DAT_011dea0c)->IsFlycam();
     state = (state != 0) ? 0 : 1;
@@ -6814,7 +6833,7 @@ struct WTController
 
 struct WTHighProcess
 {
-    bool FUN_005444c0();
+    bool TESObjectCELL_GetCantWaitHere();
 };
 
 struct WTPlayer
@@ -6827,7 +6846,7 @@ struct WTPlayer
 
 struct WTPlayerBounds
 {
-    bool FUN_00822e00();
+    bool MagicTarget_HasDamageHealthEffect();
 };
 
 struct WTProcessLists
@@ -6838,7 +6857,7 @@ struct WTProcessLists
 
 bool __cdecl QueueUIMessage(const char* apMessage, int aiUnk, const char* apIcon, const char* apSound, float afTime,
                             bool abFlag);
-void __cdecl FUN_007054f0(bool abFlag);
+void __cdecl Interface_CreateSleepMenu(bool abFlag);
 
 extern WTSetting g_kWTMsgInCombat;
 extern WTSetting g_kWTMsgUnk28b0;
@@ -7135,12 +7154,13 @@ struct WTActor
     WTCell* GetParentCellData();
     bool FUN_00885520(WTWorld* apWorld, WTCell* apCell, float afRadius);
     WTProcess* GetCurrentProcess();
-    void FUN_00969fa0();
+    void PlayerCharacter_CanPassTime();
 };
 
 // Checks a chain of conditions and queues a sad vault-boy UI message for the first one that matches, otherwise calls FUN_007054f0(true).
 // @fnv 0x00969fa0
-void WTActor::FUN_00969fa0()
+// src: COMMUNITY 0x00969fa0
+void WTActor::PlayerCharacter_CanPassTime()
 {
     if (v448())
     {
@@ -7167,7 +7187,7 @@ void WTActor::FUN_00969fa0()
         QueueUIMessage(g_kWTMsgFalling.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0,
                        g_fWTMessageTime, false);
     }
-    else if (g_pWTPlayer->GetProcessData()->FUN_005444c0() || !g_pWTPlayer->GetByteAt66E())
+    else if (g_pWTPlayer->GetProcessData()->TESObjectCELL_GetCantWaitHere() || !g_pWTPlayer->GetByteAt66E())
     {
         QueueUIMessage(g_kWTMsgUnk20ac.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0,
                        g_fWTMessageTime, false);
@@ -7182,14 +7202,14 @@ void WTActor::FUN_00969fa0()
         QueueUIMessage(g_kWTMsgUnk4b10.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0,
                        g_fWTMessageTime, false);
     }
-    else if (((WTPlayerBounds*)((char*)g_pWTPlayer + 0x94))->FUN_00822e00())
+    else if (((WTPlayerBounds*)((char*)g_pWTPlayer + 0x94))->MagicTarget_HasDamageHealthEffect())
     {
         QueueUIMessage(g_kWTMsgUnk47d4.String(), 0, "Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds", 0,
                        g_fWTMessageTime, false);
     }
     else
     {
-        FUN_007054f0(true);
+        Interface_CreateSleepMenu(true);
     }
 }
 
@@ -7337,15 +7357,15 @@ struct MoveTarget
 {
     int u00, u04, u08, u0c, u10, u14, u18, u1c;
     MoveTarget* FUN_0097ee20();
-    bool FUN_0097be60(int);
-    void FUN_00997400(void*);
+    bool CombatLocation_GetFlag(int);
+    void CombatLocation_SetTarget(void*);
     MovePoint* ref_006815c0();
     void AssignV4(MovePoint*);
 };
 struct MoveActor
 {
     void* FUN_00567d90();
-    MovePoint FUN_00575650();
+    MovePoint TESObjectREFR_GetWorldLocation();
     unsigned char FUN_008b3bd0();
     void FUN_00575770(float);
 };
@@ -7357,8 +7377,8 @@ struct MoveAction
 };
 struct MoveBrain
 {
-    void FUN_00997cb0();
-    bool FUN_009a1380();
+    void CombatState_Update();
+    bool CombatState_CheckShouldFlee();
     bool FUN_0097ee90();
     bool IsElapsedTimeAtLeastSetting();
     unsigned char FUN_00662a80();
@@ -7545,23 +7565,24 @@ struct CombatMove
     int state;
     float elapsed;
 
-    void FUN_0097d990();
+    void FirstUpdate();
     void FUN_00980830(MoveActor*);
-    bool FUN_00980470();
-    bool FUN_009804d0();
+    bool GetProcedureFailed();
+    bool GetProcedureFinished();
     void FUN_00980250();
     void InitFromArg(MoveAction*);
     void FUN_009801b0(void*);
     void FUN_00980110(void*);
-    void FUN_0097e4b0();
+    void CombatController_UpdateLow();
 };
 // Updates the combat move state machine, selecting a new action (idle, travel, special) based on brain and target conditions.
 // @fnv 0x0097e4b0
-void CombatMove::FUN_0097e4b0()
+// src: COMMUNITY 0x0097e4b0
+void CombatMove::CombatController_UpdateLow()
 {
     if (!initialized)
     {
-        FUN_0097d990();
+        FirstUpdate();
         initialized = true;
     }
     if (elapsed < 0.0)
@@ -7574,7 +7595,7 @@ void CombatMove::FUN_0097e4b0()
     if (timer.FUN_008d7f80())
     {
         bool changed = false;
-        if (FUN_00980470())
+        if (GetProcedureFailed())
         {
             if (action84 && action84->IsField8One())
                 InitFromArg(action84);
@@ -7582,7 +7603,7 @@ void CombatMove::FUN_0097e4b0()
                 InitFromArg(action88);
             FUN_00980830(0);
         }
-        else if (FUN_009804d0())
+        else if (GetProcedureFinished())
         {
             FUN_00980250();
             state = 0;
@@ -7596,11 +7617,11 @@ void CombatMove::FUN_0097e4b0()
         }
         if (!target)
             return;
-        brain->FUN_00997cb0();
+        brain->CombatState_Update();
         int next = 0;
-        MovePoint origin_ = actor->FUN_00575650();
-        MovePoint destination2 = target->FUN_00575650();
-        if (brain->FUN_009a1380())
+        MovePoint origin_ = actor->TESObjectREFR_GetWorldLocation();
+        MovePoint destination2 = target->TESObjectREFR_GetWorldLocation();
+        if (brain->CombatState_CheckShouldFlee())
             next = 5;
         else if (brain->FUN_0097ee90())
         {
@@ -7633,7 +7654,7 @@ void CombatMove::FUN_0097e4b0()
                     if (brain->FUN_0099ebe0(0, &goal, 12))
                     {
                         void* actionB;
-                        if (goal.FUN_0097be60(1))
+                        if (goal.CombatLocation_GetFlag(1))
                             actionB = new IdleAction(12);
                         else
                             actionB = new TravelAction(&goal, DAT_011a56b4, 12);
@@ -7649,7 +7670,7 @@ void CombatMove::FUN_0097e4b0()
             case 2: {
                 MoveTarget goal;
                 goal.FUN_0097ee20();
-                goal.FUN_00997400(target);
+                goal.CombatLocation_SetTarget(target);
                 if (brain->FUN_009a02a0(goal.ref_006815c0(), 1, 1))
                     FUN_009801b0(new TravelAction(&goal, DAT_011a5654, 0));
                 break;
@@ -7662,7 +7683,7 @@ void CombatMove::FUN_0097e4b0()
                 position7.FUN_0097ede0();
                 if (manager->GetDetectedTargetLocation(target, &position7) && brain->FUN_009a02a0(&position7, 1, 1))
                 {
-                    MovePoint current3 = actor->FUN_00575650();
+                    MovePoint current3 = actor->TESObjectREFR_GetWorldLocation();
                     if (current3.FUN_00527a40(&position7) > 100.0)
                     {
                         goal.AssignV4(&position7);

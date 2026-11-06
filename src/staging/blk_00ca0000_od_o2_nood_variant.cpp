@@ -97,10 +97,11 @@ class ShapeCa36a0
     int unk8C;
     hkVector4 m_vScale;
     float m_fSphereRadius;
-    void FUN_00ca36a0(const hkTransform& t);
+    void hkPackedNiTriStripsShape_CalcWorldAabb(const hkTransform& t);
 };
 // @fnv 0x00ca36a0
-void ShapeCa36a0::FUN_00ca36a0(const hkTransform& t)
+// src: COMMUNITY 0x00ca36a0
+void ShapeCa36a0::hkPackedNiTriStripsShape_CalcWorldAabb(const hkTransform& t)
 {
     m_kMotionTransform = t;
     m_cachedScale = m_vScale.getX();
@@ -144,7 +145,7 @@ struct hkVertexArray
 
 struct hkShapeCache
 {
-    hkBool FUN_00cb2160(const hkTransform& t, float tolerance) const;
+    hkBool hkTransform_isApproximatelyEqual(const hkTransform& t, float tolerance) const;
     int unk00;
 };
 
@@ -190,7 +191,7 @@ class ShapeCa37e0
 // @fnv 0x00ca37e0
 void ShapeCa37e0::FUN_00ca37e0(const hkTransform& t, float tolerance, hkAabb& out)
 {
-    if (m_cachedMin.getX() != 3.402820018375656e+38 && m_pAccessManager.FUN_00cb2160(t, 0.001f))
+    if (m_cachedMin.getX() != 3.402820018375656e+38 && m_pAccessManager.hkTransform_isApproximatelyEqual(t, 0.001f))
     {
         if (m_vScale.getX() == m_cachedScale)
         {
@@ -561,7 +562,7 @@ struct TriMeshShape
     int unk7C;
     Vec4 scale;
     float radius;
-    TriShape* FUN_00ca3c40(unsigned int key, TriShape* buffer);
+    TriShape* hkPackedNiTriStripsShape_getChildShape(unsigned int key, TriShape* buffer);
 };
 
 static inline void SetVertex(Vec4& v, const TriVec3& p)
@@ -570,7 +571,8 @@ static inline void SetVertex(Vec4& v, const TriVec3& p)
 }
 
 // @fnv 0x00ca3c40
-TriShape* TriMeshShape::FUN_00ca3c40(unsigned int key, TriShape* buffer)
+// src: COMMUNITY 0x00ca3c40
+TriShape* TriMeshShape::hkPackedNiTriStripsShape_getChildShape(unsigned int key, TriShape* buffer)
 {
     unsigned int index = key & 0xFFFFFF;
     if (index >= data->numTriangles)
@@ -1099,7 +1101,8 @@ struct F7_Shape
     }
     static void operator delete(void*);
 };
-static __declspec(noinline) void __cdecl FUN_00cbd9e0(float s, F7_Shape* d)
+// src: COMMUNITY 0x00cbd9e0
+static __declspec(noinline) void __cdecl hkHingeConstraintCinfo_ApplyScale(float s, F7_Shape* d)
 {
     __m128 k = _mm_set1_ps(s);
     hkVector4* p = &d->v20;
@@ -1138,7 +1141,7 @@ void F7_Clone::FUN_00cbdb70(F7_Shape* dest, F7_Params* params)
     dest->v90.m_vComponents = src->v90.m_vComponents;
     float scale = params->scale;
     if (scale != 1.0f)
-        FUN_00cbd9e0(scale, dest);
+        hkHingeConstraintCinfo_ApplyScale(scale, dest);
     ReleaseObject(dest, params);
 }
 

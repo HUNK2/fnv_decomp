@@ -172,9 +172,9 @@ void Moon::Initialize(NiNode* root, const char* name)
     {
         NiPointer<NiAlphaProperty> alpha(new NiAlphaProperty);
         ((NiAlphaProperty*)alpha)->FUN_0049ed90(true);
-        ((NiAlphaProperty*)alpha)->FUN_00439340(6);
-        ((NiAlphaProperty*)alpha)->FUN_00439390(0);
-        ((NiAlphaProperty*)alpha)->FUN_00636000(true);
+        ((NiAlphaProperty*)alpha)->NiAlphaProperty_SetSrcBlendMode(6);
+        ((NiAlphaProperty*)alpha)->NiAlphaProperty_SetDestBlendMode(0);
+        ((NiAlphaProperty*)alpha)->NiAlphaProperty_SetNoSorter(true);
         ((NiTriShape*)m_pMoonShape)->AttachProperty(alpha);
         alpha = 0;
     }

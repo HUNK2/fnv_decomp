@@ -104,7 +104,7 @@ public:
                               float& mappedX, float& mappedY,
                               const NiRenderTargetGroup* group);
 
-    void FUN_00e74120();
+    void NiDX9Renderer_PerformPrecache();
     void FUN_004a0370();
     void FUN_004a03c0();
     Direct3DDeviceInterface* FUN_004dc020();

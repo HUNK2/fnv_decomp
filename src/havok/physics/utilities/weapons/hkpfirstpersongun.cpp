@@ -390,7 +390,7 @@ struct hkpClosestCdPointCollectorq
 
 struct hkpWorldq
 {
-    void FUN_00c92430(const hkpCollidableq* collA, const hkpLinearCastInputq& input,
+    void hkpWorld_linearCast(const hkpCollidableq* collA, const hkpLinearCastInputq& input,
                       hkpClosestCdPointCollectorq& castCollector, void* startCollector);
 };
 
@@ -423,7 +423,7 @@ hkResult FUN_00e464e0(hkpWorldq* world, const hkVector4q& from, float radius, co
     input.m_fMaxExtraPenetration = DAT_0104da4c;
     input.m_fMaxExtraPenetrationAgainstFixed = DAT_0104da4c;
 
-    world->FUN_00c92430(&collidable, input, collector, 0);
+    world->hkpWorld_linearCast(&collidable, input, collector, 0);
 
     sphere->FUN_00c905b0();
 

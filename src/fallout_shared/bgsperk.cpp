@@ -503,11 +503,11 @@ int ComparePerkEntries(BGSPerkEntry* apEntryA, BGSPerkEntry* apEntryB)
     else if (reinterpret_cast<PatrolActorPackageData*>(apEntryA)->IsPatrolling() >
              reinterpret_cast<PatrolActorPackageData*>(apEntryB)->IsPatrolling())
         return 1;
-    else if (reinterpret_cast<TESAIForm*>(apEntryA)->FUN_004f6de0() >
-             reinterpret_cast<TESAIForm*>(apEntryB)->FUN_004f6de0())
+    else if (reinterpret_cast<TESAIForm*>(apEntryA)->_GetByte05() >
+             reinterpret_cast<TESAIForm*>(apEntryB)->_GetByte05())
         return -1;
-    else if (reinterpret_cast<TESAIForm*>(apEntryA)->FUN_004f6de0() <
-             reinterpret_cast<TESAIForm*>(apEntryB)->FUN_004f6de0())
+    else if (reinterpret_cast<TESAIForm*>(apEntryA)->_GetByte05() <
+             reinterpret_cast<TESAIForm*>(apEntryB)->_GetByte05())
         return 1;
     else if (reinterpret_cast<PerkEntryFunctionType*>(apEntryA)->GetFunctionType() <
              reinterpret_cast<PerkEntryFunctionType*>(apEntryB)->GetFunctionType())
@@ -594,7 +594,8 @@ bool BGSPerkEntry::Compare(BGSPerkEntry* apCompare)
 }
 
 // @fnv 0x005eb7e0
-void* __fastcall FUN_005eb7e0(void* this_ptr)
+// src: COMMUNITY 0x005eb7e0
+void* __fastcall PlayerCharacter_GetTeammates(void* this_ptr)
 {
     return reinterpret_cast<char*>(this_ptr) + 0x5FC;
 }
@@ -654,12 +655,13 @@ void BGSEntryPointPerkEntry::ClearData()
 }
 
 // @fnv 0x005eb550
-int FUN_005eb550(BGSPerkEntry* apEntryA, BGSPerkEntry* apEntryB)
+// src: COMMUNITY 0x005eb550
+int BGSPerk_PerkEntryPrioritySortFunction(BGSPerkEntry* apEntryA, BGSPerkEntry* apEntryB)
 {
-    if (reinterpret_cast<TESAIForm*>(apEntryA)->FUN_004f6de0() > reinterpret_cast<TESAIForm*>(apEntryB)->FUN_004f6de0())
+    if (reinterpret_cast<TESAIForm*>(apEntryA)->_GetByte05() > reinterpret_cast<TESAIForm*>(apEntryB)->_GetByte05())
         return -1;
-    else if (reinterpret_cast<TESAIForm*>(apEntryA)->FUN_004f6de0() <
-             reinterpret_cast<TESAIForm*>(apEntryB)->FUN_004f6de0())
+    else if (reinterpret_cast<TESAIForm*>(apEntryA)->_GetByte05() <
+             reinterpret_cast<TESAIForm*>(apEntryB)->_GetByte05())
         return 1;
     else if (reinterpret_cast<PatrolActorPackageData*>(apEntryA)->IsPatrolling() <
              reinterpret_cast<PatrolActorPackageData*>(apEntryB)->IsPatrolling())
@@ -858,7 +860,7 @@ void PerkOperations::Save()
 {
     ((FUN_004855a0*)this)->M();
     ((TESFullName*)((char*)this + 0x18))->FUN_00487010();
-    ((TESDescription*)((char*)this + 0x24))->FUN_00482cb0();
+    ((TESDescription*)((char*)this + 0x24))->Save_00482cb0();
     ((TESTexture*)((char*)this + 0x2c))->Save(0x4e4f4349);
     ((PerkEntryConditionSet*)((char*)this + 0x40))->ProcessItems();
     if (FUN_00401500())
@@ -935,7 +937,7 @@ struct FUN_005a4910_Class
 };
 
 extern FUN_005a4910_Class* _g_thePlayer;
-void* __fastcall FUN_005eb7e0(void*);
+void* __fastcall PlayerCharacter_GetTeammates(void*);
 
 // @fnv 0x005eb6a0
 void PerkOperations::UpdateEntries(void* data, unsigned char value1, unsigned char value2, bool flag)
@@ -966,7 +968,7 @@ void PerkOperations::UpdateEntries(void* data, unsigned char value1, unsigned ch
                 if (count > 0)
                 {
                     BSSimpleList<PatrolActorPackageData>* m_kList =
-                        reinterpret_cast<BSSimpleList<PatrolActorPackageData>*>(FUN_005eb7e0(_g_thePlayer));
+                        reinterpret_cast<BSSimpleList<PatrolActorPackageData>*>(PlayerCharacter_GetTeammates(_g_thePlayer));
 
                     while (m_kList)
                     {
@@ -999,7 +1001,7 @@ struct FUN_005a4910_Class
 };
 
 extern FUN_005a4910_Class* _g_thePlayer;
-void* __fastcall FUN_005eb7e0(void*);
+void* __fastcall PlayerCharacter_GetTeammates(void*);
 
 struct PerkOperations
 {
@@ -1028,7 +1030,7 @@ void PerkOperations::RemoveEntries(BGSPerk* perk, bool flag)
                 if (playerLevel > 0)
                 {
                     BSSimpleList<BGSPerk*>* playerPerkList =
-                        reinterpret_cast<BSSimpleList<BGSPerk*>*>(FUN_005eb7e0(_g_thePlayer));
+                        reinterpret_cast<BSSimpleList<BGSPerk*>*>(PlayerCharacter_GetTeammates(_g_thePlayer));
 
                     while (playerPerkList)
                     {
@@ -1075,7 +1077,8 @@ struct PerkConditionLookup
 };
 
 // @fnv 0x005eba00
-bool BGSPerk::FUN_005eba00(PlayerCharacter* apActionRef)
+// src: COMMUNITY 0x005eba00
+bool BGSPerk::IsPerkAttainable(PlayerCharacter* apActionRef)
 {
     TESConditionItem* pcurrCondition;
     int iconditionIndex;
@@ -1294,7 +1297,7 @@ bool BGSEntryPointPerkEntry::Compare(BGSPerkEntry* apCompare)
 }
 
 void __fastcall FUN_00483710(void* apData);
-void FUN_004858f0(unsigned int, unsigned char);
+void TESForm_AddChunk_3(unsigned int, unsigned char);
 
 // @fnv 0x005ea6b0
 void BGSEntryPointPerkEntry::Save()
@@ -1313,7 +1316,7 @@ void BGSEntryPointPerkEntry::Save()
     {
         if (reinterpret_cast<PerkConditionLookup*>(&m_pConditions[i])->GetItemByIndex(0))
         {
-            FUN_004858f0(0x434b5250, i);
+            TESForm_AddChunk_3(0x434b5250, i);
             m_pConditions[i].ProcessItems();
         }
     }

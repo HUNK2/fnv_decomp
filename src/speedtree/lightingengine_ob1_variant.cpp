@@ -122,13 +122,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -147,7 +147,8 @@ __forceinline LocalVec3::LocalVec3()
 }
 __forceinline LocalVec3::LocalVec3(float a, float b, float c) : x(a), y(b), z(c)
 {}
-inline void LocalVec3::FUN_00b12790()
+// src: COMMUNITY 0x00b12790
+inline void LocalVec3::Normalize_00b12790()
 {
     float lengthSquared = x * x + y * y + z * z;
     float length = (float)FUN_00ec6054(lengthSquared);
@@ -178,7 +179,8 @@ inline LocalVec3& LocalVec3::FUN_00b2a1c0(void* ptr)
     z += rhs.z;
     return *this;
 }
-inline float LocalVec3::FUN_00b04d40(LocalVec3* rhs)
+// src: COMMUNITY 0x00b04d40
+inline float LocalVec3::CVec3_Distance(LocalVec3* rhs)
 {
     float squared = (rhs->z - z) * (rhs->z - z) + (rhs->y - y) * (rhs->y - y) + (rhs->x - x) * (rhs->x - x);
     int bits = *(int*)&squared;
@@ -211,16 +213,17 @@ struct GameContext
     unsigned int packed14;
     unsigned char alpha18, unk19, unk1a, unk1b;
     LocalVec3 location;
-    void FUN_00b40430(float*);
-    void FUN_00b404c0(const Color& values, bool adjust)
+    void CBillboardLeaf_GetColor(float*);
+// src: COMMUNITY 0x00b404c0
+    void CBillboardLeaf_SetColor(const Color& values, bool adjust)
     {
         unsigned int packed = PackChannel(values.r, adjust, alpha18);
         packed += PackChannel(values.g, adjust, alpha18) << 8;
         packed += PackChannel(values.b, adjust, alpha18) << 16;
         packed14 = packed - 0x1000000;
     }
-    void FUN_00b40210(int, LocalVec3*, float);
-    float FUN_00b04d40(LocalVec3*);
+    void CBillboardLeaf_AdjustStaticLighting(int, LocalVec3*, float);
+    float CVec3_Distance(LocalVec3*);
 };
 struct Record;
 struct Iterator
@@ -299,10 +302,11 @@ struct Scene
     {
         return blend70;
     }
-    void FUN_00b2a210(int output, Record* records, int count);
+    void CLightingEngine_ComputeLeafStaticLighting(int output, Record* records, int count);
 };
 // @fnv 0x00b2a210
-void Scene::FUN_00b2a210(int output, Record* records, int count)
+// src: COMMUNITY 0x00b2a210
+void Scene::CLightingEngine_ComputeLeafStaticLighting(int output, Record* records, int count)
 {
     if (state38 == 1 && flags74 != 0)
     {
@@ -314,7 +318,7 @@ void Scene::FUN_00b2a210(int output, Record* records, int count)
                 void* location = &it->location;
                 void* rotationW = &it->rotation;
                 Color origin20;
-                it->FUN_00b40430(&origin20.r);
+                it->CBillboardLeaf_GetColor(&origin20.r);
                 LocalVec3 best;
                 float maximumW2 = DAT_01012054;
                 LocalVec3 result5;
@@ -324,8 +328,8 @@ void Scene::FUN_00b2a210(int output, Record* records, int count)
                     {
                         LocalVec3 dir(DAT_011ad168[j].position.x, DAT_011ad168[j].position.y, DAT_011ad168[j].position.z);
                         LocalVec3 normal_29 =
-                            DAT_011ad168[j].transformMode == DAT_01012060 ? dir : dir.FUN_00b13040(rotationW);
-                        normal_29.FUN_00b12790();
+                            DAT_011ad168[j].transformMode == DAT_01012060 ? dir : dir.Diff_00b13040(rotationW);
+                        normal_29.Normalize_00b12790();
                         float weight = normal_29.FUN_00b2a180(location);
                         if (weight >= maximumW2)
                         {
@@ -345,7 +349,7 @@ void Scene::FUN_00b2a210(int output, Record* records, int count)
                             float falloff = 1.0f;
                             if (DAT_011ad168[j].transformMode != DAT_01012060)
                             {
-                                float dist8 = ((LocalVec3*)rotationW)->FUN_00b04d40(&dir);
+                                float dist8 = ((LocalVec3*)rotationW)->CVec3_Distance(&dir);
                                 float polynomial = DAT_011ad168[j].constant + DAT_011ad168[j].linear * dist8 +
                                                    DAT_011ad168[j].quadratic * dist8 * dist8;
                                 if (polynomial != DAT_01012060)
@@ -367,11 +371,11 @@ void Scene::FUN_00b2a210(int output, Record* records, int count)
                                                                                       : result5[2] = result5[2];
                 if ((flags74 & 1) != 0)
                 {
-                    it->FUN_00b404c0((Color&)result5, 0);
+                    it->CBillboardLeaf_SetColor((Color&)result5, 0);
                 }
                 if ((flags74 & 2) != 0)
                 {
-                    it->FUN_00b40210(output, &best, blend70);
+                    it->CBillboardLeaf_AdjustStaticLighting(output, &best, blend70);
                 }
             }
         }
@@ -416,7 +420,7 @@ struct Parser
     unsigned uiPos;
     ByteVec kData;
     int GetNextElement();
-    float FUN_00b3ed20();
+    float CTreeFileAccess_ParseFloat();
 };
 inline void DeadTop()
 {
@@ -433,10 +437,11 @@ struct LightQ
     int iX;
     int iY;
     float afC[13];
-    void FUN_00b2a940(Parser* p);
+    void CLightingEngine_Parse(Parser* p);
 };
 // @fnv 0x00b2a940
-void LightQ::FUN_00b2a940(Parser* p)
+// src: COMMUNITY 0x00b2a940
+void LightQ::CLightingEngine_Parse(Parser* p)
 {
     DeadTop();
     int iToken = p->GetNextElement();
@@ -449,17 +454,17 @@ void LightQ::FUN_00b2a940(Parser* p)
             break;
         case 0x1f43:
             for (int i = 0; i < 13; i++)
-                afA[i] = p->FUN_00b3ed20();
+                afA[i] = p->CTreeFileAccess_ParseFloat();
             break;
         case 0x1f44:
             iCount = p->GetNextElement();
             break;
         case 0x1f45:
             for (int j = 0; j < 13; j++)
-                afB[j] = p->FUN_00b3ed20();
+                afB[j] = p->CTreeFileAccess_ParseFloat();
             break;
         case 0x1f46:
-            fScale = p->FUN_00b3ed20();
+            fScale = p->CTreeFileAccess_ParseFloat();
             break;
         case 0x1f47:
             iX = p->GetNextElement();
@@ -469,7 +474,7 @@ void LightQ::FUN_00b2a940(Parser* p)
             break;
         case 0x1f49:
             for (int k = 0; k < 13; k++)
-                afC[k] = p->FUN_00b3ed20();
+                afC[k] = p->CTreeFileAccess_ParseFloat();
             break;
         default:
             throw FUN_00b09480("malformed lighting information", false);

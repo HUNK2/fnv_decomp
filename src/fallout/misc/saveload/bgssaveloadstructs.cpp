@@ -124,7 +124,8 @@ extern int DAT_011a216c[1000];
 
 // Returns DAT_011a216c[index] when index is below 1000, otherwise DAT_011a11fc[index - 1000].
 // @fnv 0x00853de0
-int FUN_00853de0(unsigned int index)
+// src: COMMUNITY 0x00853de0
+int BGSSaveLoadGlobalData_GetGlobalDataName(unsigned int index)
 {
     int result;
     if (index >= 1000)
@@ -213,14 +214,15 @@ void FUN_008535e0()
 struct FUN_00853670_shell
 {
     unsigned char m0;
-    void __thiscall FUN_00853670(int);
+    void __thiscall BGSSaveLoadFormInfo_SetFormType(int);
 };
 extern unsigned char DAT_011de360[];
 extern unsigned int DAT_011de3e0;
 char const* __cdecl GetStringForByte(unsigned char);
 void __cdecl _fnv_call_845cc0(char const*, ...);
 // @fnv 0x00853670
-void __thiscall FUN_00853670_shell::FUN_00853670(int formType)
+// src: COMMUNITY 0x00853670
+void __thiscall FUN_00853670_shell::BGSSaveLoadFormInfo_SetFormType(int formType)
 {
     unsigned char type = DAT_011de360[formType];
     if (type >= DAT_011de3e0)
@@ -255,11 +257,12 @@ struct FUN_008539e0_holder
 {
     int _pad[6];
     Dummy008539e0* m_ptr;
-    void FUN_008539e0();
+    void BGSSaveLoadStatsMap_DestroyFile();
 };
 // Calls Func(1) on m_ptr if it is non-null, then sets m_ptr to 0.
 // @fnv 0x008539e0
-void FUN_008539e0_holder::FUN_008539e0()
+// src: COMMUNITY 0x008539e0
+void FUN_008539e0_holder::BGSSaveLoadStatsMap_DestroyFile()
 {
     Dummy008539e0* b = m_ptr;
     Dummy008539e0* a = b;
@@ -381,12 +384,13 @@ struct FUN_00854af0
 
 struct FUN_008549b0_shell
 {
-    void __thiscall FUN_008549b0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    void __thiscall BGSSaveLoadStatsMap_AddForm(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                                  unsigned int, unsigned char);
 };
 
 // @fnv 0x008549b0
-void __thiscall FUN_008549b0_shell::FUN_008549b0(unsigned int p0, unsigned int p1, unsigned int uiKey, unsigned int p3,
+// src: COMMUNITY 0x008549b0
+void __thiscall FUN_008549b0_shell::BGSSaveLoadStatsMap_AddForm(unsigned int p0, unsigned int p1, unsigned int uiKey, unsigned int p3,
                                                  unsigned int p4, unsigned int p5, unsigned int p6, unsigned char p7)
 {
     FUN_00854af0* form = new FUN_00854af0();
@@ -550,7 +554,7 @@ struct SavedBuffer
     ~SavedBuffer();
     void FUN_00847db0();
     unsigned char GetVersion();
-    unsigned int FUN_0044edb0();
+    unsigned int TESMain_GetThread();
     unsigned int GetValuePlusNine();
     int GetDifference();
 };
@@ -558,9 +562,9 @@ struct SavedDataView
 {
     void* data;
     void* FUN_00559450();
-    unsigned char FUN_0084b450();
+    unsigned char BGSUnloadedFormBuffer_GetVersion();
     unsigned int GetAdjustedValue();
-    unsigned int FUN_008663e0();
+    unsigned int BGSUnloadedFormBuffer_GetSize();
     int FUN_00849220();
 };
 struct SavedEntry
@@ -574,14 +578,14 @@ struct SavedEntryMap
     void FUN_006b7f20(void*&, unsigned int&, SavedEntry*&);
 };
 TESForm* __cdecl FUN_004839c0(unsigned int);
-bool __cdecl FUN_0084bcd0(unsigned int, SavedBuffer*);
+bool __cdecl BGSSaveLoadGlobalData_SaveGlobalData(unsigned int, SavedBuffer*);
 struct SavedStats
 {
     void LoadStats();
-    void FUN_008549b0(unsigned int, TESForm*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    void BGSSaveLoadStatsMap_AddForm(unsigned int, TESForm*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                       unsigned char);
     void SetupResponse(TESForm*, unsigned int, SavedBuffer*);
-    void FUN_00854c10(int, int, unsigned int);
+    void BGSSaveLoadStatsMap_AddMiscSaveStat(int, int, unsigned int);
 };
 // Iterates saved entries, applying each to stats via FUN_008549b0, then processes indices 0-11 and 1000 through FUN_0084bcd0 and FUN_00854c10.
 // @fnv 0x00853b90
@@ -597,8 +601,8 @@ void SavedStats::LoadStats()
         buffer->FUN_006b7f20(position, entryId, pEntry);
         if (pEntry->buffer.FUN_00559450())
         {
-            FUN_008549b0(entryId, 0, pEntry->buffer.FUN_00849220(), pEntry->topic, pEntry->buffer.FUN_008663e0(),
-                         pEntry->buffer.GetAdjustedValue(), 0, pEntry->buffer.FUN_0084b450());
+            BGSSaveLoadStatsMap_AddForm(entryId, 0, pEntry->buffer.FUN_00849220(), pEntry->topic, pEntry->buffer.BGSUnloadedFormBuffer_GetSize(),
+                         pEntry->buffer.GetAdjustedValue(), 0, pEntry->buffer.BGSUnloadedFormBuffer_GetVersion());
         }
         else
         {
@@ -606,22 +610,22 @@ void SavedStats::LoadStats()
             if (form)
             {
                 SetupResponse(form, pEntry->topic, &map);
-                FUN_008549b0(entryId, form, form->FNV_GetFormType(), pEntry->topic, map.GetDifference(),
-                             map.GetValuePlusNine(), map.FUN_0044edb0(), map.GetVersion());
+                BGSSaveLoadStatsMap_AddForm(entryId, form, form->FNV_GetFormType(), pEntry->topic, map.GetDifference(),
+                             map.GetValuePlusNine(), map.TESMain_GetThread(), map.GetVersion());
             }
         }
     }
     for (unsigned int index = 0; index < 12; ++index)
     {
         map.FUN_00847db0();
-        if (FUN_0084bcd0(index, &map))
-            FUN_00854c10(FUN_00853de0(index), map.GetDifference(), map.FUN_0044edb0());
+        if (BGSSaveLoadGlobalData_SaveGlobalData(index, &map))
+            BGSSaveLoadStatsMap_AddMiscSaveStat(BGSSaveLoadGlobalData_GetGlobalDataName(index), map.GetDifference(), map.TESMain_GetThread());
     }
     for (unsigned int index = 1000; index < 1001; ++index)
     {
         map.FUN_00847db0();
-        if (FUN_0084bcd0(index, &map))
-            FUN_00854c10(FUN_00853de0(index), map.GetDifference(), map.FUN_0044edb0());
+        if (BGSSaveLoadGlobalData_SaveGlobalData(index, &map))
+            BGSSaveLoadStatsMap_AddMiscSaveStat(BGSSaveLoadGlobalData_GetGlobalDataName(index), map.GetDifference(), map.TESMain_GetThread());
     }
 }
 

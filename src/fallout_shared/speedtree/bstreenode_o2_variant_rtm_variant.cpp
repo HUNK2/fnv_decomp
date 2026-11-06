@@ -26,14 +26,14 @@ typedef ::__m128 LocalM128;
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 struct FUN_00622430_shell
 {
-    unsigned int __thiscall FUN_00622430();
+    unsigned int __thiscall bhkTransformShape_GetCInfoSize();
 };
 extern NiRTTI g_011d5e70;
 struct FUN_0066b5b0_shell
 {
     const NiRTTI* __thiscall GetNiRTTI();
 };
-extern "C" unsigned char __cdecl FUN_0054ee20();
+extern "C" unsigned char __cdecl BSTreeManager_GetTreesEnabled();
 struct DummyNode
 {
     void __thiscall FUN_00a5dbe0(NiCullingProcess* arCuller);
@@ -65,7 +65,7 @@ struct FUN_0066d470_shell
 };
 struct FUN_0066d510_shell
 {
-    const void* FUN_0066d510();
+    const void* bhkMultiSphereShape_GetRTTI();
 };
 extern const void* g_012683e0;
 struct FUN_0066d520_shell
@@ -424,10 +424,10 @@ struct NativeTransform
     float rotation[12];
     float translation[4];
 };
-void __cdecl FUN_00624b10(NiTransform*, NiPoint3*);
+void __cdecl HK2NI_00624b10(NiTransform*, NiPoint3*);
 void __cdecl FUN_00458620(NiPoint3*, const float*);
 extern NativeTransform DAT_01268370;
-char* __cdecl FUN_00a7d330(void*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 extern unsigned int DAT_0126fd98;
 extern __declspec(thread) unsigned int currentTask;
 struct Component
@@ -516,7 +516,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 }
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > CB7800StringArray;
-extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 extern __declspec(thread) int g_CB7800AllocTag;
 struct CB7800AllocTagScope
 {
@@ -865,7 +865,7 @@ struct BC882C0AllocTagScope
 };
 typedef NiTArray<char*, NiTMallocInterface<char*> > BC882C0StringArray;
 extern const char* g_pcC882C0Name;
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 class FUN_00c882c0_cls
 {
   public:
@@ -1310,7 +1310,7 @@ struct Owner
     virtual void f33();
     virtual void f34();
     virtual void AddElement(FUN_00d22590* e);
-    void FUN_00cab0e0(int a, int b, float c);
+    void bhkCapsuleShape_Init(int a, int b, float c);
 };
 struct FUN_00cb7790_node
 {
@@ -2311,7 +2311,7 @@ struct Sphere
 {
     hkVector4 center;
 };
-extern "C" void __cdecl FUN_00d230e0(const Sphere*, LocalM128*, LocalM128*, LocalM128*);
+extern "C" void __cdecl hkLineSegmentUtil_closestPointLineSeg(const Sphere*, LocalM128*, LocalM128*, LocalM128*);
 extern const float DAT_01011d78;
 extern const float DAT_01017718;
 extern const float DAT_01016248;
@@ -2376,7 +2376,7 @@ bool bhkCapsuleShape::GetClosestPoints(const hkSphere& sphereArg, const hkTransf
         endpoints[i] = _mm_add_ps(y, z);
     }
     LocalM128 closest;
-    FUN_00d230e0(sphere, &endpoints[0], &endpoints[1], &closest);
+    hkLineSegmentUtil_closestPointLineSeg(sphere, &endpoints[0], &endpoints[1], &closest);
     float totalRadius = sphere->center.f[3] + shape->radius;
     LocalM128 delta = _mm_sub_ps(sphere->center.v, closest);
 

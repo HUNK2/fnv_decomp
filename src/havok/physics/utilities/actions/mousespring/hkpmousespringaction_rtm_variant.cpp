@@ -30,7 +30,7 @@ struct FUN_00cbb1b0_Class
     void __thiscall FUN_00cbb1b0(hkReal a);
 };
 extern "C" int DAT_01268a14;
-int __cdecl FUN_00cbb8a0();
+int __cdecl hkpUnaryAction_getClassType();
 // Exe 0x00cbb1e0 FUN_00cbb1e0: retain this LocalM128 view; the CRT type does not preserve this unit.
 // VC9 requires the __m128 compatibility typedef for its native SIMD ABI (renamed tags fail C2719).
 
@@ -350,7 +350,7 @@ class hkpPositionTrackerCBB1
     int unk2C;
     hkVector4CBB1 m_vContactPosition;
 
-    void FUN_00cbb150(const hkVector4CBB1& kPosition);
+    void hkpMouseSpringAction_setMousePosition(const hkVector4CBB1& kPosition);
 };
 extern "C" LocalM128 _mm_setzero_ps(void);
 struct FUN_00cbb4e0

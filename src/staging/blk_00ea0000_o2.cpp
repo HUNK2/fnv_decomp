@@ -142,13 +142,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -191,10 +191,10 @@ public:
     void Normalize();
     float Length() const;
 
-    LocalVector3 FUN_00b13040(const LocalVector3& other) const;
+    LocalVector3 Diff_00b13040(const LocalVector3& other) const;
     LocalVector3 FUN_00b12890(const FloatMatrix3& matrix) const;
     LocalVector3 FUN_00b12810(const LocalVector3& other) const;
-    void FUN_00b12790();
+    void Normalize_00b12790();
     void __thiscall FUN_00439ef0(LocalVector3* dest, void* context);
     void __thiscall FUN_004a0c10();
     LocalVector3 FUN_00439ef0(const LocalVector3& other) const
@@ -938,7 +938,7 @@ struct FUN_00eb5f10_Large
 };
 struct FUN_00eb5f10_Manager
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
 };
 extern int _DAT_011f426c;
 extern int _DAT_011f4270;
@@ -966,12 +966,12 @@ FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, int ar
     void* object;
     if (kind > 1)
     {
-        object = manager->FUN_00aa3e40(0x8c);
+        object = manager->Game_DoHeapAlloc(0x8c);
         object = object ? ((FUN_00eb5f10_Large*)object)->FUN_00eba1b0(this, kind, arg2, arg3, arg4, arg5) : 0;
     }
     else
     {
-        object = manager->FUN_00aa3e40(0x98);
+        object = manager->Game_DoHeapAlloc(0x98);
         object = object ? ((FUN_00eb5f10_Small*)object)->FUN_00eb6b90(this, arg2, arg3, arg4, 0) : 0;
     }
     unk08 = object;
@@ -2564,7 +2564,7 @@ void probeCaller()
 
 struct Alloc139
 {
-    void* FUN_00aa3e40(unsigned int);
+    void* Game_DoHeapAlloc(unsigned int);
     void FUN_00aa4060(void*);
 };
 
@@ -2572,7 +2572,7 @@ void* NiMalloc(unsigned int);
 void NiFreeAlias(void*);
 inline void* __cdecl operator new[](size_t n)
 {
-    return ((Alloc139&)DAT_011f6238).FUN_00aa3e40(n);
+    return ((Alloc139&)DAT_011f6238).Game_DoHeapAlloc(n);
 }
 inline NiPoint3 NiPoint3::operator*(double f) const
 {
@@ -4142,7 +4142,8 @@ struct MemoryManagerAllocHelper
 
 // Allocates 0x40 bytes, builds a NiBoundingVolume via FUN_00ea0820 from five global NiPoint3 values, calls LoadBinary(apStream) and returns it.
 // @fnv 0x00ea7490
-NiBoundingVolume* __cdecl FUN_00ea7490(void* apStream)
+// src: COMMUNITY 0x00ea7490
+NiBoundingVolume* __cdecl NiRegisterBVStream(void* apStream)
 {
     Helper* pkHelper = (Helper*)((MemoryManagerAllocHelper*)&_g_memoryManager)->Allocate(0x40);
     NiBoundingVolume* pkVolume =

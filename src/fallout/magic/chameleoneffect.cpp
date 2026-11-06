@@ -39,7 +39,8 @@ void ChameleonEffect::FUN_0080b310(BGSLoadFormBuffer* apActor)
 
 // Allocates and constructs a ChameleonEffect from three arguments and returns it.
 // @fnv 0x0080b040
-ChameleonEffect* __cdecl FUN_0080b040(void* a, void* b, void* c)
+// src: COMMUNITY 0x0080b040
+ChameleonEffect* __cdecl ChameleonEffect_Create(void* a, void* b, void* c)
 {
     return new ChameleonEffect(a, b, c);
 }

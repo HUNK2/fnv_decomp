@@ -251,7 +251,7 @@ struct FUN_00484d60_holder
 
 struct FUN_0048ea40_holder
 {
-    void FUN_0048ea40(unsigned int);
+    void SaveGameBGS_0048ea40(unsigned int);
 };
 
 // Forwards aiFlags to the method at offset 0 and to the method at offset 0x78 of this object.
@@ -259,7 +259,7 @@ struct FUN_0048ea40_holder
 void FUN_00504450_shell::FUN_00504450(unsigned int aiFlags)
 {
     reinterpret_cast<FUN_00484d60_holder*>(this)->SaveIfChanged(aiFlags);
-    reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x78)->FUN_0048ea40(aiFlags);
+    reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x78)->SaveGameBGS_0048ea40(aiFlags);
 }
 
 struct BGSLoadFormBuffer;
@@ -521,7 +521,7 @@ struct AmmoSaveCalls
     void ProcessAndFreeData(unsigned int, unsigned int, unsigned int);
     void FUN_0048e370(unsigned int);
     void FUN_0047a240(unsigned int);
-    void FUN_0048cca0();
+    void Save_0048cca0();
     void FUN_00477f20();
     void LogFormIDs();
     void FUN_00503210();
@@ -555,7 +555,7 @@ void AmmoSave::Save()
     reinterpret_cast<AmmoSaveCalls&>(model).ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<AmmoSaveCalls&>(icon).FUN_0048e370(0x4e4f4349);
     reinterpret_cast<AmmoSaveCalls&>(messageIcon).FUN_0047a240(0x4f43494d);
-    reinterpret_cast<AmmoSaveCalls&>(script).FUN_0048cca0();
+    reinterpret_cast<AmmoSaveCalls&>(script).Save_0048cca0();
     reinterpret_cast<AmmoSaveCalls&>(destructible).FUN_00477f20();
     reinterpret_cast<AmmoSaveCalls&>(sounds).LogFormIDs();
     if (FUN_00401500())

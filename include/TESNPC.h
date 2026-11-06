@@ -52,9 +52,9 @@ public:
     void Copy(TESForm*);
     void CopyActorBaseData(TESNPC*);
     void CollectNPCsByRaceAndSex(TESRace*, SEX, BSSimpleArray<TESNPC*, 1024>*);
-    float FUN_00602130();
+    float GetHairLength();
     TESEyes* FUN_00602150();
-    unsigned int FUN_004169d0();
+    unsigned int TESDataHandler_GetRegionList();
     void SetField1F0(TESNPC*);
     BipedAnim* GetBipedAnimationForReference(TESObjectREFR*);
     void UpdateHeadParts(TESObjectREFR*, BipedAnim*);
@@ -73,9 +73,9 @@ public:
     BSSimpleList<BGSHeadPart*>* FUN_00602170();
     void SetHair(TESHair*);
     void SetEyes(TESEyes*);
-    void FUN_00601c10(float);
+    void SetHairLength(float);
     void ResetFaceGen();
-    void FUN_005f20a0(unsigned char);
+    void Reset3DForLoadedActors(unsigned char);
     FaceGenMatrix<float> (*GetOffsetFaceCoord())[2];
     void RefreshActorAppearance(Actor*);
     void FUN_00609f60(Actor*);
@@ -90,8 +90,8 @@ public:
     void FUN_006047c0(Actor*, bool, bool, bool, bool);
     void FUN_006047c0(TESObjectREFR*, bool, bool, bool, bool);
     TESClass* GetClass();
-    TESNPC* FUN_006044c0();
-    void FUN_00601c70(TESClass*);
+    TESNPC* GetCopyFrom();
+    void SetClass(TESClass*);
     int GetActorSex();
     TESRace* GetRaceData();
     FaceGenMatrix<float> (*GetMorphData())[2];

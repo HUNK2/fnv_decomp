@@ -247,7 +247,7 @@ struct FUN_004ee610_view
 struct FUN_004ee610_node
 {
     FUN_004ee610_view* FUN_006815c0();
-    bool FUN_004a4460();
+    bool BSSimpleList_NiRefObjectPtr_IsEmpty();
     FUN_004ee610_node* FUN_00726070();
 };
 
@@ -257,7 +257,7 @@ void BGSDecalNode::FUN_004ee610(int a1)
     if (IsVisualObject())
     {
         FUN_004ee610_node* node = reinterpret_cast<FUN_004ee610_node*>(pList);
-        while (node != 0 && !node->FUN_004a4460())
+        while (node != 0 && !node->BSSimpleList_NiRefObjectPtr_IsEmpty())
         {
             {
                 GO local((int)node->FUN_006815c0()->FUN_00559450()->Get3D());

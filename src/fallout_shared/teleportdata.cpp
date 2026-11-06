@@ -208,11 +208,12 @@ struct UnkArg
 struct UnkThis : BaseProcess
 {
     int FUN_0043a3f0();
-    UnkArg* FUN_0043a390(UnkArg*);
+    UnkArg* DoorTeleportData_GetTeleportWorldLocation(UnkArg*);
 };
 // Calls a->FUN_0043a3c0 with BaseProcess::GetCurrentProcessData() and FUN_0043a3f0(), then returns a.
 // @fnv 0x0043a390
-UnkArg* UnkThis::FUN_0043a390(UnkArg* apArg)
+// src: COMMUNITY 0x0043a390
+UnkArg* UnkThis::DoorTeleportData_GetTeleportWorldLocation(UnkArg* apArg)
 {
     apArg->FUN_0043a3c0(BaseProcess::GetCurrentProcessData(), FUN_0043a3f0());
     return apArg;
@@ -333,12 +334,13 @@ bool FUN_0043a860_shell::FUN_0043a860(TeleportableReference* apCompare)
 
 struct FUN_0043a8f0_shell
 {
-    unsigned short __thiscall FUN_0043a8f0();
+    unsigned short __thiscall ExtraTeleport_GetSaveSize();
 };
 
 // Returns 0x1c, computed by adding 0xc, 0xc, and 4 to an unsigned short initialized to zero.
 // @fnv 0x0043a8f0
-unsigned short __thiscall FUN_0043a8f0_shell::FUN_0043a8f0()
+// src: COMMUNITY 0x0043a8f0
+unsigned short __thiscall FUN_0043a8f0_shell::ExtraTeleport_GetSaveSize()
 {
     unsigned short v = 0;
     v += 0xc;
@@ -434,7 +436,7 @@ struct FUN_0043a590_shell : public TeleportableReference
 
 void __cdecl FUN_00485d50(unsigned int* formID, TESFile* file);
 TESForm* __cdecl FUN_004839c0(unsigned int formID);
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 int __cdecl FUN_00ec7595(double x);
 int __cdecl FUN_00ec75b1(double x);
 
@@ -456,12 +458,12 @@ bool FUN_0043a590_shell::FUN_0043a590(TESForm* form)
     m_pLinkedDoorReference = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));
     if (!m_pLinkedDoorReference)
     {
-        FUN_005b5e40(FNV_NoDoor, formID);
+        Warning_005b5e40(FNV_NoDoor, formID);
         return false;
     }
     if (((TESFormTypeView*)m_pLinkedDoorReference->GetObjectReference())->GetFormType() != 0x1C)
     {
-        FUN_005b5e40(FNV_InvalidDoor, formID,
+        Warning_005b5e40(FNV_InvalidDoor, formID,
                      DAT_01187004[((TESFormTypeView*)m_pLinkedDoorReference->GetObjectReference())->GetFormType()].name,
                      ((TESForm*)m_pLinkedDoorReference->GetObjectReference())->GetName(),
                      ((TESForm*)m_pLinkedDoorReference->GetObjectReference())->GetFormID());
@@ -471,13 +473,13 @@ bool FUN_0043a590_shell::FUN_0043a590(TESForm* form)
     if (!FUN_00ec7595(position.x) || !FUN_00ec7595(position.y) || !FUN_00ec7595(position.z) ||
         FUN_00ec75b1(position.x) || FUN_00ec75b1(position.y) || FUN_00ec75b1(position.z))
     {
-        FUN_005b5e40(FNV_BadLocation);
+        Warning_005b5e40(FNV_BadLocation);
         position = NiPoint3::ZERO;
     }
     if (!FUN_00ec7595(rotation.x) || !FUN_00ec7595(rotation.y) || !FUN_00ec7595(rotation.z) ||
         FUN_00ec75b1(rotation.x) || FUN_00ec75b1(rotation.y) || FUN_00ec75b1(rotation.z))
     {
-        FUN_005b5e40(FNV_BadAngle);
+        Warning_005b5e40(FNV_BadAngle);
         rotation = NiPoint3::ZERO;
     }
     return true;

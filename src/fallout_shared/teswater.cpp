@@ -215,7 +215,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
                 {
                     iQueuedX += (iHalfGridCount + 1) * iQueueDX;
                     for (int j = -iHalfGridCount; j <= iHalfGridCount; j++)
-                        DAT_011c9618->FUN_005283c0(FindCellByGridCoordinates(iQueuedX, j + m_iGridHeight));
+                        DAT_011c9618->ExteriorCellLoader_QueueCellLoad(FindCellByGridCoordinates(iQueuedX, j + m_iGridHeight));
                 }
                 int iY = m_iGridHeight;
                 int iQueueDY;
@@ -223,10 +223,10 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
                 {
                     iY += (iHalfGridCount + 1) * iQueueDY;
                     for (int j = -iHalfGridCount; j <= iHalfGridCount; j++)
-                        DAT_011c9618->FUN_005283c0(FindCellByGridCoordinates(j + m_iGridWidth, iY));
+                        DAT_011c9618->ExteriorCellLoader_QueueCellLoad(FindCellByGridCoordinates(j + m_iGridWidth, iY));
                 }
                 if (iQueueDX && iQueueDY)
-                    DAT_011c9618->FUN_005283c0(FindCellByGridCoordinates(iQueuedX, iY));
+                    DAT_011c9618->ExteriorCellLoader_QueueCellLoad(FindCellByGridCoordinates(iQueuedX, iY));
             }
             m_iGridWidth = iQueueX;
             m_iGridHeight = iQueueY;
@@ -257,15 +257,15 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
     DAT_011f962c = NiPoint2((iFirstValue + 0.5) * 4096.0, (iSecondValue + 0.5) * 4096.0);
     if (DAT_011f9634.FUN_00452df0(DAT_011f4980) || FUN_00ec7d40(iGridDeltaX) > 1 || FUN_00ec7d40(iDeltaY) > 1)
         DAT_011f9634 = DAT_011f962c;
-    DAT_011f94ac = FUN_00452e70(false);
+    DAT_011f94ac = BSShaderManager_GetTimer(false);
     DAT_011c3c0c = true;
     DAT_011f94aa = DAT_011c3c0c;
     InitFromMatrix();
     InitSoundGrid();
     DAT_011c9618->ProcessQueries();
-    int iQueued = DAT_011c9618->FUN_005281f0();
+    int iQueued = DAT_011c9618->ExteriorCellLoader_TryCancelTasks();
     if (iQueued)
-        DAT_011c9618->FUN_005282d0();
+        DAT_011c9618->ExteriorCellLoader_WaitForTasks();
     if (!IsCellInterior() || bIsLoading)
     {
         if (*DAT_011c3d40.Bool() && GetInteriorBufferCount(true))
@@ -625,7 +625,8 @@ unsigned int __fastcall GetRendererFrameState(NiRenderer* renderer);
 NiRenderer* __cdecl FUN_0043c4b0(void);
 
 // @fnv 0x004e9510
-bool __cdecl FUN_004e9510()
+// src: COMMUNITY 0x004e9510
+bool __cdecl BSRenderedTexture_IsOutsideFrame()
 {
     return GetRendererFrameState(FUN_0043c4b0()) == 0;
 }
@@ -664,11 +665,12 @@ struct S9c50
 {
     char pad[0x68];
     M9c50 m;
-    NiPoint3 FUN_004e9c50();
+    NiPoint3 NiCamera_GetWorldRightVector();
 };
 // Calls m.FUN_00439f50 with index 2 to fill a NiPoint3 and returns it.
 // @fnv 0x004e9c50
-NiPoint3 S9c50::FUN_004e9c50()
+// src: COMMUNITY 0x004e9c50
+NiPoint3 S9c50::NiCamera_GetWorldRightVector()
 {
     NiPoint3_OutOfLineCtor k;
     m.FUN_00439f50(2, k);
@@ -791,7 +793,8 @@ unsigned int S5460::FUN_00845460()
 extern Setting g_011c7b20;
 
 // @fnv 0x004e2160
-bool FUN_004e2160()
+// src: COMMUNITY 0x004e2160
+bool TESWaterSystem_GetUseWaterShader()
 {
     return *g_011c7b20.Bool();
 }
@@ -799,7 +802,8 @@ bool FUN_004e2160()
 extern unsigned char DAT_011c7a59;
 
 // @fnv 0x004e2180
-unsigned char FUN_004e2180()
+// src: COMMUNITY 0x004e2180
+unsigned char TESWaterSystem_GetPlayerUnderwater()
 {
     return DAT_011c7a59;
 }
@@ -807,7 +811,8 @@ unsigned char FUN_004e2180()
 extern int g_011ca13c;
 
 // @fnv 0x004e3260
-int* __cdecl FUN_004e3260()
+// src: COMMUNITY 0x004e3260
+int* __cdecl TESObjectCELL_GetAutoWaterReflectList()
 {
     return &g_011ca13c;
 }
@@ -878,7 +883,8 @@ void FUN_004e4660_shell::SetByteAtOffset190(unsigned char abValue)
 extern int DAT_011ffe44;
 
 // @fnv 0x004e4680
-int FUN_004e4680()
+// src: COMMUNITY 0x004e4680
+int ImageSpaceEffectNoise_GetInstance()
 {
     return DAT_011ffe44;
 }
@@ -896,11 +902,12 @@ unsigned char FUN_004e4690_shell::GetByteAtOffset2B8()
 
 struct FUN_004e6560_class
 {
-    short __thiscall FUN_004e6560();
+    short __thiscall ShadowSceneLight_GetFrustumCull();
 };
 
 // @fnv 0x004e6560
-short __thiscall FUN_004e6560_class::FUN_004e6560()
+// src: COMMUNITY 0x004e6560
+short __thiscall FUN_004e6560_class::ShadowSceneLight_GetFrustumCull()
 {
     return *reinterpret_cast<short*>(reinterpret_cast<char*>(this) + 0x110);
 }
@@ -977,7 +984,8 @@ void FUN_004e6a40_shell::FUN_004e6a40(void* apNP)
 extern int DAT_011ffff8;
 
 // @fnv 0x004e6a60
-int FUN_004e6a60()
+// src: COMMUNITY 0x004e6a60
+int ImageSpaceEffectWaterDisplacement_GetInstance()
 {
     return DAT_011ffff8;
 }
@@ -985,7 +993,8 @@ int FUN_004e6a60()
 extern int DAT_0120006c;
 
 // @fnv 0x004e6a70
-int __cdecl FUN_004e6a70()
+// src: COMMUNITY 0x004e6a70
+int __cdecl ImageSpaceEffectWaterFFT_GetInstance()
 {
     return DAT_0120006c;
 }
@@ -1014,7 +1023,8 @@ extern unsigned short DAT_011f941c;
 
 // Sets or clears bit (index % 16) of DAT_011f941c according to set.
 // @fnv 0x004e9ce0
-void FUN_004e9ce0(int index, bool set)
+// src: COMMUNITY 0x004e9ce0
+void BSShaderManager_SetRenderFlag(int index, bool set)
 {
     unsigned int r = (unsigned int)index % 0x10;
     unsigned int uiMask = 1 << r;
@@ -1027,11 +1037,12 @@ void FUN_004e9ce0(int index, bool set)
 struct FUN_004ea860_shell
 {
     unsigned char bFlag;
-    void FUN_004ea860(unsigned char param);
+    void BSShaderAccumulator_SetWaterReflection(unsigned char param);
 };
 
 // @fnv 0x004ea860
-void FUN_004ea860_shell::FUN_004ea860(unsigned char abFlag)
+// src: COMMUNITY 0x004ea860
+void FUN_004ea860_shell::BSShaderAccumulator_SetWaterReflection(unsigned char abFlag)
 {
     *(unsigned char*)(this + 0x164) = abFlag;
 }
@@ -1048,7 +1059,8 @@ extern int DAT_011ffa14;
 
 // Subtracts param_1 from DAT_011ffa14, then calls UpdateSpawnedObjectFlags with all-zero arguments.
 // @fnv 0x004eb510
-void FUN_004eb510(int param_1)
+// src: COMMUNITY 0x004eb510
+void BSRenderState_RestoreUserClipPlaneEnables(int param_1)
 {
     DAT_011ffa14 = DAT_011ffa14 - param_1;
     UpdateSpawnedObjectFlags(0, 0, 0, 0, 0, 0, 0);
@@ -1057,18 +1069,20 @@ void FUN_004eb510(int param_1)
 extern int g_011ca144;
 
 // @fnv 0x004ec7b0
-int* FUN_004ec7b0()
+// src: COMMUNITY 0x004ec7b0
+int* TESObjectCELL_GetAutoWaterRefractList()
 {
     return &g_011ca144;
 }
 
 struct FUN_004ec7c0_shell
 {
-    void FUN_004ec7c0(bool value);
+    void BSShaderAccumulator_SetRenderWaterDepth(bool value);
 };
 
 // @fnv 0x004ec7c0
-void FUN_004ec7c0_shell::FUN_004ec7c0(bool value)
+// src: COMMUNITY 0x004ec7c0
+void FUN_004ec7c0_shell::BSShaderAccumulator_SetRenderWaterDepth(bool value)
 {
     ((char*)this)[0x165] = value;
 }
@@ -1095,7 +1109,8 @@ extern int DAT_011ff9d8[];
 
 // Decrements the counter at DAT_011ff9d8[a] if it is nonzero.
 // @fnv 0x004ecb10
-void __cdecl FUN_004ecb10(int aiIndex)
+// src: COMMUNITY 0x004ecb10
+void __cdecl BSRenderState_UnlockRenderState(int aiIndex)
 {
     if (DAT_011ff9d8[aiIndex] != 0)
     {
@@ -1107,7 +1122,8 @@ extern "C" void __cdecl UpdateRendererStateCount(unsigned int, unsigned int);
 extern unsigned int DAT_011ff9fc;
 
 // @fnv 0x004ecb40
-void __cdecl FUN_004ecb40(unsigned int auiAmount)
+// src: COMMUNITY 0x004ecb40
+void __cdecl BSRenderState_RestoreStencilEnable(unsigned int auiAmount)
 {
     DAT_011ff9fc = DAT_011ff9fc - auiAmount;
     UpdateRendererStateCount(0, 0);
@@ -1128,7 +1144,8 @@ public:
 extern unsigned int DAT_011ffa18;
 
 // @fnv 0x004eced0
-void __cdecl FUN_004eced0(unsigned int auiAmount)
+// src: COMMUNITY 0x004eced0
+void __cdecl BSRenderState_RestoreColorWriteEnable(unsigned int auiAmount)
 {
     DAT_011ffa18 -= auiAmount;
     BSRenderStateManager_teswater::SetColorWriteMask(7, 0);
@@ -1152,7 +1169,8 @@ void* FUN_004ed110_shell::CopyFrom(const void* apSource)
 extern NiPoint3 DAT_011f474c;
 
 // @fnv 0x004ed180
-NiPoint3* FUN_004ed180()
+// src: COMMUNITY 0x004ed180
+NiPoint3* BSShader_GetCameraWorldTranslate()
 {
     return &DAT_011f474c;
 }
@@ -1190,33 +1208,37 @@ unsigned char FUN_005d2a40()
 void UpdateSoundListItems();
 
 // @fnv 0x006fd1b0
-void FUN_006fd1b0()
+// src: COMMUNITY 0x006fd1b0
+void BGSTerrainManager_ShowNormalDetail()
 {
     UpdateSoundListItems();
 }
 
-extern "C" void __cdecl FUN_006fd1d0(int);
+extern "C" void __cdecl BSSegmentedTriShape_SetSystemDisabled(int);
 
 // @fnv 0x006fd1c0
-void FUN_006fd1c0()
+// src: COMMUNITY 0x006fd1c0
+void BGSTerrainManager_DisableBlockVisibility()
 {
-    FUN_006fd1d0(1);
+    BSSegmentedTriShape_SetSystemDisabled(1);
 }
 
 extern unsigned char DAT_011f5b3c;
 
 // @fnv 0x006fd1d0
-void FUN_006fd1d0(unsigned char value)
+// src: COMMUNITY 0x006fd1d0
+void BSSegmentedTriShape_SetSystemDisabled(unsigned char value)
 {
     DAT_011f5b3c = value;
 }
 
-extern "C" void __cdecl FUN_006fd1d0(int);
+extern "C" void __cdecl BSSegmentedTriShape_SetSystemDisabled(int);
 
 // @fnv 0x006fd1e0
-void __cdecl FUN_006fd1e0()
+// src: COMMUNITY 0x006fd1e0
+void __cdecl BGSTerrainManager_EnableBlockVisibility()
 {
-    FUN_006fd1d0(0);
+    BSSegmentedTriShape_SetSystemDisabled(0);
 }
 
 struct FUN_004e2140_shell
@@ -1268,39 +1290,44 @@ extern Setting g_011c7bd8;
 
 struct FUN_004e7640_shell
 {
-    float FUN_004e7640();
+    float Water_fNearWaterIndoorTolerance_Get();
 };
 
 // @fnv 0x004e7640
-float __thiscall FUN_004e7640_shell::FUN_004e7640()
+// src: COMMUNITY 0x004e7640
+float __thiscall FUN_004e7640_shell::Water_fNearWaterIndoorTolerance_Get()
 {
     return *g_011c7bd8.Float();
 }
 
 
 // @fnv 0x004ea8b0
-bool BGSPlaceableWater::FUN_004ea8b0()
+// src: COMMUNITY 0x004ea8b0
+bool BGSPlaceableWater::GetReflectsLand()
 {
     return BGSPlaceableWater::HasFlags(4);
 }
 
 
 // @fnv 0x004ea8d0
-bool BGSPlaceableWater::FUN_004ea8d0()
+// src: COMMUNITY 0x004ea8d0
+bool BGSPlaceableWater::GetReflectsLODLand()
 {
     return HasFlags(8);
 }
 
 
 // @fnv 0x004ea8f0
-bool BGSPlaceableWater::FUN_004ea8f0()
+// src: COMMUNITY 0x004ea8f0
+bool BGSPlaceableWater::GetReflectsLODBuildings()
 {
     return HasFlags(0x10);
 }
 
 
 // @fnv 0x004ea910
-bool BGSPlaceableWater::FUN_004ea910()
+// src: COMMUNITY 0x004ea910
+bool BGSPlaceableWater::GetReflectsLODTrees()
 {
     return HasFlags(0x20);
 }
@@ -1393,11 +1420,12 @@ extern Setting g_011c7ba4;
 
 struct FUN_004e7660_shell
 {
-    float FUN_004e7660();
+    float Water_fNearWaterOutdoorTolerance_Get();
 };
 
 // @fnv 0x004e7660
-float FUN_004e7660_shell::FUN_004e7660()
+// src: COMMUNITY 0x004e7660
+float FUN_004e7660_shell::Water_fNearWaterOutdoorTolerance_Get()
 {
     return *g_011c7ba4.Float();
 }
@@ -1405,19 +1433,20 @@ float FUN_004e7660_shell::FUN_004e7660()
 
 struct Unk7730
 {
-    void FUN_004e7730(float, int, int, unsigned char, unsigned char);
-    void FUN_004e7770(float, float, int, int, unsigned char, unsigned char);
+    void TESWaterSystem_CreateQuadData(float, int, int, unsigned char, unsigned char);
+    void TESWaterSystem_CreateQuadData_0(float, float, int, int, unsigned char, unsigned char);
 };
 // Forwards the arguments to FUN_004e7770, passing the same float value for both float parameters.
 // @fnv 0x004e7730
-void Unk7730::FUN_004e7730(float afValue, int aiArg1, int aiArg2, unsigned char d, unsigned char e)
+// src: COMMUNITY 0x004e7730
+void Unk7730::TESWaterSystem_CreateQuadData(float afValue, int aiArg1, int aiArg2, unsigned char d, unsigned char e)
 {
-    FUN_004e7770(afValue, afValue, aiArg1, aiArg2, d, e);
+    TESWaterSystem_CreateQuadData_0(afValue, afValue, aiArg1, aiArg2, d, e);
 }
 
 struct S148c0
 {
-    bool FUN_004a0e10(char const*, int);
+    bool NiRenderer_Check_RenderTargetGroupActive(char const*, int);
     virtual void F0() = 0;
     virtual void F1() = 0;
     virtual void F2() = 0;
@@ -1518,12 +1547,13 @@ struct S148c0
     virtual void F97() = 0;
     virtual void F98() = 0;
     virtual void F99(int, int, int, int, int, int) = 0;
-    void FUN_004e9c90(int, int, int, int, int, int);
+    void NiRenderer_SetCameraData(int, int, int, int, int, int);
 };
 // @fnv 0x004e9c90
-void S148c0::FUN_004e9c90(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6)
+// src: COMMUNITY 0x004e9c90
+void S148c0::NiRenderer_SetCameraData(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6)
 {
-    if (!FUN_004a0e10("SetCameraData", 1))
+    if (!NiRenderer_Check_RenderTargetGroupActive("SetCameraData", 1))
         return;
     F99(aiArg1, aiArg2, aiArg3, aiArg4, aiArg5, aiArg6);
 }
@@ -1601,13 +1631,13 @@ struct S
 {
     R FUN_004ed140(int);
 };
-void __stdcall FUN_00ee6de0(R*, S*, int);
+void __stdcall D3DXMatrixMultiply_00ee6de0(R*, S*, int);
 // @fnv 0x004ed140
 R S::FUN_004ed140(int a)
 {
     R tmp;
     ((NiPlane*)&tmp)->GetPlaneNormal();
-    FUN_00ee6de0(&tmp, this, a);
+    D3DXMatrixMultiply_00ee6de0(&tmp, this, a);
     return tmp;
 }
 
@@ -1630,7 +1660,8 @@ struct FUN_00759d80_shell
 };
 
 // @fnv 0x006fd150
-char FUN_006fd150()
+// src: COMMUNITY 0x006fd150
+char BGSTerrainManager_GetCurrentWorldHasLOD()
 {
     TESWorldSpace* ws = ((TES*)g_TES)->GetParentWorldSpace();
     if (ws && ws->GetWorldTerrainManager() && ((FUN_00759d80_shell*)ws->GetWorldTerrainManager())->FUN_00759d80())
@@ -1649,11 +1680,12 @@ struct FUN_004e6580_shell
     char _pad[0xD8];
     float fD8;
     float fDC;
-    bool FUN_004e6580();
+    bool ShadowSceneLight_IsFadedOut();
 };
 // Returns true when fDC is at least DAT_011ad834 and fD8 is at most 0.1.
 // @fnv 0x004e6580
-bool FUN_004e6580_shell::FUN_004e6580()
+// src: COMMUNITY 0x004e6580
+bool FUN_004e6580_shell::ShadowSceneLight_IsFadedOut()
 {
     return fDC >= DAT_011ad834 && fD8 <= (double)0.1f;
 }
@@ -1667,12 +1699,13 @@ struct FUN_004ea880_shell
 {
     char pad[0x154];
     FUN_004ea880_Data m_154;
-    void FUN_004ea880(const FUN_004ea880_Data* src);
+    void BSShaderAccumulator_SetSilhouetteColor(const FUN_004ea880_Data* src);
 };
 
 // Copies the four-int data block pointed to by src into the m_154 member.
 // @fnv 0x004ea880
-void FUN_004ea880_shell::FUN_004ea880(const FUN_004ea880_Data* apData)
+// src: COMMUNITY 0x004ea880
+void FUN_004ea880_shell::BSShaderAccumulator_SetSilhouetteColor(const FUN_004ea880_Data* apData)
 {
     m_154 = *apData;
 }
@@ -1761,11 +1794,12 @@ struct FUN_006317a0_struct
 };
 struct FUN_004e3590_shell
 {
-    void FUN_004e3590(void*, void*);
-    void FUN_004e3520(void* apList);
+    void TESWaterSystem_UpdateShader(void*, void*);
+    void TESWaterSystem_UpdateWaterShaderProperties(void* apList);
 };
 // @fnv 0x004e3520
-void FUN_004e3590_shell::FUN_004e3520(void* apList)
+// src: COMMUNITY 0x004e3520
+void FUN_004e3590_shell::TESWaterSystem_UpdateWaterShaderProperties(void* apList)
 {
     unsigned int uiCount2 = ((Flt*)((char*)apList + 0x24))->operator unsigned int();
     void* pvItem2 = 0;
@@ -1775,7 +1809,7 @@ void FUN_004e3590_shell::FUN_004e3520(void* apList)
         if (uiCount2)
         {
             void* pvNext = *(void**)((FUN_006317a0_struct*)((char*)apList + 0x24))->AddEight(uiCount2);
-            FUN_004e3590(apList, pvNext);
+            TESWaterSystem_UpdateShader(apList, pvNext);
         }
         uiCount2 = (unsigned int)pvItem2;
     }
@@ -2026,10 +2060,11 @@ struct S_004e46b0_Obj
 struct S_004e46b0_Cls
 {
     void FUN_004e4730(S_004e46b0_Obj*, const NiPoint3*, const NiMatrix3*);
-    void FUN_004e46b0(S_004e46b0_Obj* a);
+    void TESWaterSystem_AddPlaceableWater(S_004e46b0_Obj* a);
 };
 // @fnv 0x004e46b0
-void S_004e46b0_Cls::FUN_004e46b0(S_004e46b0_Obj* pObj)
+// src: COMMUNITY 0x004e46b0
+void S_004e46b0_Cls::TESWaterSystem_AddPlaceableWater(S_004e46b0_Obj* pObj)
 {
     NiPoint3 pos = pObj->vfn_1d0()->FUN_0045bb80();
     NiMatrix3 rot;
@@ -2451,11 +2486,12 @@ class FUN_004e52f0_cls
 {
   public:
     void RemoveWaterRef(FUN_004e52f0_arg* a, const NiPoint3* pos, const NiMatrix3* mat);
-    void FUN_004e52f0(FUN_004e52f0_arg* arg);
+    void TESWaterSystem_RemoveWaterRefFromWaterSystem(FUN_004e52f0_arg* arg);
 };
 
 // @fnv 0x004e52f0
-void FUN_004e52f0_cls::FUN_004e52f0(FUN_004e52f0_arg* arg)
+// src: COMMUNITY 0x004e52f0
+void FUN_004e52f0_cls::TESWaterSystem_RemoveWaterRefFromWaterSystem(FUN_004e52f0_arg* arg)
 {
     NiPoint3 pos = arg->vfn_1d0()->FUN_0045bb80();
     NiMatrix3 mat;
@@ -2660,7 +2696,7 @@ void Worker::UpdateWaterSettings(Context* context)
 
 struct FUN_004e62e0_cls
 {
-    bool FUN_004e62e0(TESObjectREFR* aRef, void* aParam);
+    bool TESWaterSystem_IsWaterNodeVisible(TESObjectREFR* aRef, void* aParam);
 };
 
 struct SceneNodeOps
@@ -2689,7 +2725,8 @@ bool __cdecl ProcessNode(void* aNode, void* aParam);
 
 // Gets the reference's NiNode; if its first child matches DAT_01202e74, returns whether the resolved value's count is 1, otherwise calls ProcessNode.
 // @fnv 0x004e62e0
-bool FUN_004e62e0_cls::FUN_004e62e0(TESObjectREFR* aRef, void* aParam)
+// src: COMMUNITY 0x004e62e0
+bool FUN_004e62e0_cls::TESWaterSystem_IsWaterNodeVisible(TESObjectREFR* aRef, void* aParam)
 {
     NiNode* node = aRef->GetNiNode();
     if (node != 0)
@@ -3176,11 +3213,12 @@ struct FUN_004e8e40_owner
     Vec2 first;
     Vec2 second;
     NiPoint3 third;
-    FUN_004e8e40_owner* FUN_004e8e40();
+    FUN_004e8e40_owner* WadingWaterData_WadingWaterData();
 };
 // Calls FUN_006815c0 on first, second and third, then assigns DAT_011f4980 to first and second and DAT_011f426c to third, returning this.
 // @fnv 0x004e8e40
-FUN_004e8e40_owner* FUN_004e8e40_owner::FUN_004e8e40()
+// src: COMMUNITY 0x004e8e40
+FUN_004e8e40_owner* FUN_004e8e40_owner::WadingWaterData_WadingWaterData()
 {
     first.FUN_006815c0();
     second.FUN_006815c0();
@@ -3331,11 +3369,12 @@ void ClearRenderTarget();
 
 struct TESWaterStub
 {
-    WaterRenderedTexture* FUN_004ed290();
+    WaterRenderedTexture* TESWaterSystem_InitializeGreyTexture();
 };
 
 // @fnv 0x004ed290
-WaterRenderedTexture* TESWaterStub::FUN_004ed290()
+// src: COMMUNITY 0x004ed290
+WaterRenderedTexture* TESWaterStub::TESWaterSystem_InitializeGreyTexture()
 {
     AutoMemContext kMemContext(MEM_CONTEXT_MEM_CONTEXT_WATER, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESWater.cpp",
                                0x138a);
@@ -3450,7 +3489,7 @@ struct WaterVectorSource
 };
 struct WaterData
 {
-    WaterVectorSource* FUN_009611e0();
+    WaterVectorSource* NiAVObject_GetParent();
 };
 struct WaterLight
 {
@@ -3508,14 +3547,15 @@ struct WaterUpdate
     WaterState state;
     void UpdateWaterGroup(NiCamera*, bool);
     void UpdateWaterGroups(NiCamera*, bool);
-    bool FUN_004e8950();
+    bool TESWaterSystem_CheckUpdateActorsInWater();
     void FUN_004e8a00();
     void UpdateWaterObjects();
     void UpdateWaterSound();
-    void FUN_004e1bc0(NiCamera*, void*);
+    void TESWaterSystem_UpdateWaterSystem(NiCamera*, void*);
 };
 // @fnv 0x004e1bc0
-void WaterUpdate::FUN_004e1bc0(NiCamera* camera, void* unused)
+// src: COMMUNITY 0x004e1bc0
+void WaterUpdate::TESWaterSystem_UpdateWaterSystem(NiCamera* camera, void* unused)
 {
     WaterContext context(29, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESWater.cpp", 279);
     unk00 = 0;
@@ -3560,7 +3600,7 @@ void WaterUpdate::FUN_004e1bc0(NiCamera* camera, void* unused)
     else
         waterMain->FUN_004e2190()->SetByteAtOffset166(false);
     waterShaderUnder = waterUnder;
-    WaterPoint lightDir = WaterGetSky()->FUN_0045cd60()->FUN_005585e0()->FUN_009611e0()->FUN_0043c490();
+    WaterPoint lightDir = WaterGetSky()->FUN_0045cd60()->FUN_005585e0()->NiAVObject_GetParent()->FUN_0043c490();
     lightDir.FUN_004a0c10();
     waterLightX = lightDir.x;
     waterLightY = lightDir.y;
@@ -3588,7 +3628,7 @@ void WaterUpdate::FUN_004e1bc0(NiCamera* camera, void* unused)
         waterNewFrame = false;
         if (WaterRenderEnabled() && WaterRenderMode(0) >= 2 && !state.FUN_0076b610())
         {
-            if (FUN_004e8950())
+            if (TESWaterSystem_CheckUpdateActorsInWater())
                 FUN_004e8a00();
             UpdateWaterObjects();
         }
@@ -4567,10 +4607,10 @@ void FNV_Warning(const char*);
 struct WaterSystemUpdate : TESWaterSystem
 {
     WaterGroup* group;
-    bool FUN_004e62e0(TESObjectREFR*, void*);
+    bool TESWaterSystem_IsWaterNodeVisible(TESObjectREFR*, void*);
     NiGeometry* FUN_004e8030(TESObjectREFR*);
     void ClearTextureAndShaderTextures(WaterGroup*, int, int);
-    void FUN_004e3520(WaterGroup*);
+    void TESWaterSystem_UpdateWaterShaderProperties(WaterGroup*);
     void UpdateWaterGroup(void* context, bool force);
 };
 // Iterates the group's water references, marks the group for update when a reference needs it or force is set, and updates or clears each water shader property.
@@ -4595,7 +4635,7 @@ void WaterSystemUpdate::UpdateWaterGroup(void* context, bool force)
                 TESObjectREFR* reference = group->m_kWaterReferences.Get(position);
                 if ((reference->GetNiNode() &&
                      !reinterpret_cast<NiAVObject*>(reference->GetNiNode())->FUN_00456610() &&
-                     FUN_004e62e0(reference, context)) ||
+                     TESWaterSystem_IsWaterNodeVisible(reference, context)) ||
                     force)
                 {
                     group->needsUpdate = true;
@@ -4604,7 +4644,7 @@ void WaterSystemUpdate::UpdateWaterGroup(void* context, bool force)
                     {
                         NiProperty* property = reinterpret_cast<NiProperty*>(geometry->GetProperty(3));
                         WaterShaderProperty* waterProperty = reinterpret_cast<WaterShaderProperty*>(property);
-                        if (!FUN_004e2180())
+                        if (!TESWaterSystem_GetPlayerUnderwater())
                         {
                             if (waterProperty->reflected)
                             {
@@ -4637,7 +4677,7 @@ void WaterSystemUpdate::UpdateWaterGroup(void* context, bool force)
             position = nextPosition;
         }
         if (group->needsUpdate)
-            FUN_004e3520(group);
+            TESWaterSystem_UpdateWaterShaderProperties(group);
     }
 }
 }  // namespace fnv_004e3320
@@ -4719,7 +4759,7 @@ struct Node
 };
 struct Physics
 {
-    void FUN_00547440(float);
+    void TESObjectCELL_SetWaterHeight(float);
 };
 struct Base
 {
@@ -4982,7 +5022,7 @@ struct List
     void* FUN_00559450();
     void* DereferenceIfNotNull(void*);
     Record*& AddEight(void*);
-    void FUN_007b5330(void*, Record**);
+    void NiTPointerListBase_InsertBefore_0(void*, Record**);
     void FUN_004ed8c0(Record**);
 };
 struct BoolSetting
@@ -4999,7 +5039,7 @@ extern float DAT_01012054, DAT_01013ea4;
 extern char DAT_01023130[];
 
 
-void FUN_005b5e40(const char*, ...);
+void Warning_005b5e40(const char*, ...);
 struct Water
 {
     float FUN_0045cd80();
@@ -5028,7 +5068,7 @@ struct Owner
     int unk34;
     int unk38;
     List records;
-    void FUN_004e3590(Record*, Object*);
+    void TESWaterSystem_UpdateShader(Record*, Object*);
     void FUN_004e65d0();
     void SetBitFlagsOnListItems();
     bool FUN_004e4730(Object*, const ::NiPoint3*, Matrix*);
@@ -5073,12 +5113,12 @@ bool Owner::FUN_004e4730(Object* object, const ::NiPoint3* origin, Matrix* rotat
                         Update update(0.0f, 0, 0);
                         object->GetNode()->UpdateNode(&update);
                         if (object->FUN_008d6f30())
-                            object->FUN_008d6f30()->FUN_00547440(location.z);
-                        FUN_005b5e40(DAT_01023130, object->GetNode()->FUN_00413f40()->FUN_0043b1b0(),
+                            object->FUN_008d6f30()->TESObjectCELL_SetWaterHeight(location.z);
+                        Warning_005b5e40(DAT_01023130, object->GetNode()->FUN_00413f40()->FUN_0043b1b0(),
                                      plane.FUN_0084d030(), (double)location.z);
                     }
                     found = true;
-                    FUN_004e3590(record, object);
+                    TESWaterSystem_UpdateShader(record, object);
                     record->objects.FUN_0076b660(&object);
                 }
             }
@@ -5096,10 +5136,10 @@ bool Owner::FUN_004e4730(Object* object, const ::NiPoint3* origin, Matrix* rotat
         added->first = plane;
         added->second = reverse4;
         added->type = base->GetType();
-        FUN_004e3590(added, object);
+        TESWaterSystem_UpdateShader(added, object);
         added->objects.FUN_0076b660(&object);
         if (beforeB)
-            records.FUN_007b5330(beforeB, &added);
+            records.NiTPointerListBase_InsertBefore_0(beforeB, &added);
         else
             records.FUN_004ed8c0(&added);
         if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() &&
@@ -5234,7 +5274,7 @@ struct Material61
     static void* operator new(unsigned int);
     static void operator delete(void*, unsigned int);
     Material61();
-    void FUN_0049ee30(int);
+    void NiStencilProperty_SetDrawMode(int);
     int unk00;
     int unk04;
     int unk08;
@@ -5654,7 +5694,7 @@ struct World61
 {
     World61* FUN_004fd3e0();
     bool IsFlagSet();
-    Cell61* FUN_005860c0();
+    Cell61* GetLODWaterType();
     float FUN_0045cd80();
 };
 struct Toggle61
@@ -5666,7 +5706,7 @@ extern Matrix61 DAT_011a9448;
 extern unsigned int DAT_011c7a4c;
 extern Toggle61 DAT_011c7c00;
 void* FUN_00438220();
-void* FUN_005d9660();
+void* NiStencilProperty_GetType();
 void FUN_00b57e30(Node61*, int, int);
 struct Main61
 {
@@ -5709,10 +5749,10 @@ Reference61* Main61::CreateWaterReference(Node61* geometry, World61* world, Node
         geometry->FUN_00a5a040();
         FUN_00b57e30(geometry, 0, 0);
         Material61* material11 = new Material61;
-        material11->FUN_0049ee30(3);
-        geometry->FUN_00a5b230(FUN_005d9660());
+        material11->NiStencilProperty_SetDrawMode(3);
+        geometry->FUN_00a5b230(NiStencilProperty_GetType());
         geometry->FUN_00439410(material11);
-        reference2->FUN_00575690(world->FUN_005860c0()->FUN_00580330());
+        reference2->FUN_00575690(world->GetLODWaterType()->FUN_00580330());
         Node61* node15 = new Node61;
         Node61* attachment2 = node15;
         if (intermediate)
@@ -6420,7 +6460,7 @@ struct TexturePool
 {
     void FUN_00b6da10(void*);
 };
-TexturePool* __stdcall FUN_004a0ea0();
+TexturePool* __stdcall BSShaderManager_GetTextureManager();
 struct WaterService
 {
     void AssignMember238(int);
@@ -6430,7 +6470,7 @@ struct WaterService
 };
 struct OtherService
 {
-    void FUN_00ba1250();
+    void ImageSpaceEffectWaterFFT_FreeUpTextureMemory();
     void FUN_00a29680();
 };
 extern unsigned char DAT_01189624, DAT_011ad86e;
@@ -6540,20 +6580,20 @@ bool WaterCleanup::ReleaseWaterResources(bool release, bool keep)
             pos2 = next2;
         }
         if (texture08.get())
-            FUN_004a0ea0()->FUN_00b6da10(texture08.get());
+            BSShaderManager_GetTextureManager()->FUN_00b6da10(texture08.get());
         if (texture10.get())
-            FUN_004a0ea0()->FUN_00b6da10(texture10.get());
+            BSShaderManager_GetTextureManager()->FUN_00b6da10(texture10.get());
         if (texture14.get())
-            FUN_004a0ea0()->FUN_00b6da10(texture14.get());
+            BSShaderManager_GetTextureManager()->FUN_00b6da10(texture14.get());
         if (DAT_011c7b68.get())
-            FUN_004a0ea0()->FUN_00b6da10(DAT_011c7b68.get());
+            BSShaderManager_GetTextureManager()->FUN_00b6da10(DAT_011c7b68.get());
         texture08.FUN_0066b0d0(0);
         texture10.FUN_0066b0d0(0);
         texture14.FUN_0066b0d0(0);
         texture18.FUN_0066b0d0(0);
         DAT_011c7b68.FUN_0066b0d0(0);
         if (DAT_011c7b64.get())
-            FUN_004a0ea0()->FUN_00b6da10(DAT_011c7b64.get());
+            BSShaderManager_GetTextureManager()->FUN_00b6da10(DAT_011c7b64.get());
         DAT_011c7b64.FUN_0066b0d0(0);
         if (((WaterService*)FUN_004e69d0()))
         {
@@ -6561,10 +6601,10 @@ bool WaterCleanup::ReleaseWaterResources(bool release, bool keep)
             ((WaterService*)FUN_004e69d0())->FUN_004e69e0(0);
             ((WaterService*)FUN_004e69d0())->SetParam(0);
         }
-        if (((OtherService*)FUN_004e6a70()))
-            ((OtherService*)FUN_004e6a70())->FUN_00ba1250();
-        if (((OtherService*)FUN_004e6a60()))
-            ((OtherService*)FUN_004e6a60())->FUN_00a29680();
+        if (((OtherService*)ImageSpaceEffectWaterFFT_GetInstance()))
+            ((OtherService*)ImageSpaceEffectWaterFFT_GetInstance())->ImageSpaceEffectWaterFFT_FreeUpTextureMemory();
+        if (((OtherService*)ImageSpaceEffectWaterDisplacement_GetInstance()))
+            ((OtherService*)ImageSpaceEffectWaterDisplacement_GetInstance())->FUN_00a29680();
         if (sound.IsValid())
             sound.Clear();
         if (((WaterService*)FUN_004e69d0()))
@@ -6607,7 +6647,7 @@ struct WaterForm098
 };
 struct CellWater098
 {
-    WaterForm098* FUN_00547770();
+    WaterForm098* Actor_GetRadiationLevel();
 };
 struct Player098 : PlayerCharacter
 {
@@ -6628,7 +6668,7 @@ struct TES098
 };
 struct Audio098
 {
-    BSSoundHandle FUN_00ad73b0(unsigned int, unsigned int);
+    BSSoundHandle GetSoundHandleByFormID_00ad73b0(unsigned int, unsigned int);
 };
 Audio098* FUN_00453a70();
 struct WaterSound098
@@ -6639,8 +6679,8 @@ struct WaterSound098
     BSSoundHandle handle;
     unsigned int GetIntValue();
     unsigned int GetGameSettingInt();
-    double FUN_004e7640();
-    double FUN_004e7660();
+    double Water_fNearWaterIndoorTolerance_Get();
+    double Water_fNearWaterOutdoorTolerance_Get();
     void UpdateWaterSound();
 };
 extern unsigned char DAT_011c7a64;
@@ -6662,9 +6702,9 @@ void WaterSound098::UpdateWaterSound()
         float height;
         if (cell->IsInterior())
         {
-            double pos = FUN_004e7640();
+            double pos = Water_fNearWaterIndoorTolerance_Get();
             NiPoint3 range = *(((Player098*)g_thePlayer)->FUN_00436aa0());
-            if (FUN_004e2180())
+            if (TESWaterSystem_GetPlayerUnderwater())
                 height = 0.0f;
             else if (std::abs(center - range.z) < pos)
                 height = (pos - std::abs(center - range.z)) / pos;
@@ -6675,7 +6715,7 @@ void WaterSound098::UpdateWaterSound()
         {
             float step = (float)GetGameSettingInt();
             float count = (float)GetIntValue();
-            double point = FUN_004e7660();
+            double point = Water_fNearWaterOutdoorTolerance_Get();
             unsigned int current = 0;
             float range = 0.0f;
             float x;
@@ -6724,7 +6764,7 @@ void WaterSound098::UpdateWaterSound()
             amount.x -= ((Player098*)g_thePlayer)->FUN_00436aa0()->x;
             amount.y -= ((Player098*)g_thePlayer)->FUN_00436aa0()->y;
             height = 2.0 * current / (step * step);
-            if (FUN_004e2180())
+            if (TESWaterSystem_GetPlayerUnderwater())
                 height = 0.0f;
             else if (std::abs(center - distance.z) < point)
                 height *= (float)((point - std::abs(center - distance.z)) / point);
@@ -6764,15 +6804,15 @@ void WaterSound098::UpdateWaterSound()
             }
         }
         else if (height > 0.0 && g_thePlayer && ((Player098*)g_thePlayer)->FUN_008d6f30() &&
-                 ((Player098*)g_thePlayer)->FUN_008d6f30()->FUN_00547770() &&
-                 ((Player098*)g_thePlayer)->FUN_008d6f30()->FUN_00547770()->FUN_00407840())
+                 ((Player098*)g_thePlayer)->FUN_008d6f30()->Actor_GetRadiationLevel() &&
+                 ((Player098*)g_thePlayer)->FUN_008d6f30()->Actor_GetRadiationLevel()->FUN_00407840())
         {
             unsigned int sound;
-            Sound098* flags = ((Player098*)g_thePlayer)->FUN_008d6f30()->FUN_00547770()->FUN_00407840();
+            Sound098* flags = ((Player098*)g_thePlayer)->FUN_008d6f30()->Actor_GetRadiationLevel()->FUN_00407840();
             sound = GetFlagMask(flags->CopyBig().flags);
             sound |= (flags->CopyBig().flags & 0x40) ? 0x8000001 : 2;
-            handle = FUN_00453a70()->FUN_00ad73b0(
-                ((Player098*)g_thePlayer)->FUN_008d6f30()->FUN_00547770()->FUN_00407840()->FUN_0084e3a0(), sound);
+            handle = FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(
+                ((Player098*)g_thePlayer)->FUN_008d6f30()->Actor_GetRadiationLevel()->FUN_00407840()->FUN_0084e3a0(), sound);
         }
     }
     else if (DAT_011c7cfc && handle.IsValid())
@@ -6851,7 +6891,7 @@ struct TES4e8
 
 struct Texture4e8
 {
-    void* FUN_004bc320(int iValue);
+    void* BSRenderedTexture_GetTexture(int iValue);
 };
 
 struct Name4e8
@@ -6893,7 +6933,7 @@ struct FUN_004e8160_shell
     char pad00[0x98];
     float f98;
 
-    void* FUN_004e7730(float fSize, int iCount, int iA, unsigned char ucB, unsigned char ucC);
+    void* TESWaterSystem_CreateQuadData(float fSize, int iCount, int iA, unsigned char ucB, unsigned char ucC);
     Node4e8* CreateRenderedTexture(void* pkGeometry);
     Geom4e8* FUN_004e8030(void* pkRef);
     Node4e8* CreateWaterShaderNode(Water4e8* pkWater, int iUnused, float fSize);
@@ -6902,7 +6942,7 @@ struct FUN_004e8160_shell
 // @fnv 0x004e8160
 Node4e8* FUN_004e8160_shell::CreateWaterShaderNode(Water4e8* pkWater, int iUnused, float fSize)
 {
-    void* pkMGeometry = FUN_004e7730(fSize, 0x200, 1, 1, 1);
+    void* pkMGeometry = TESWaterSystem_CreateQuadData(fSize, 0x200, 1, 1, 1);
     Node4e8* pkANode = CreateRenderedTexture(pkMGeometry);
     NiPoint3 kPos(0.0f, 0.0f, 0.0f);
     if (DAT_011dea3c)
@@ -6938,7 +6978,7 @@ Node4e8* FUN_004e8160_shell::CreateWaterShaderNode(Water4e8* pkWater, int iUnuse
         pkShader->sp13c.FUN_006e5cc0((SpRef4e8&)DAT_011c7c2c);
     pkShader->sp144.FUN_006e5cc0(DAT_011c7b68);
     pkShader->sp138.FUN_006e5cc0(pkWater->pkBase->sp30);
-    pkShader->sp148.FUN_0066b0d0(DAT_011c7b64.FUN_00559450()->FUN_004bc320(0));
+    pkShader->sp148.FUN_0066b0d0(DAT_011c7b64.FUN_00559450()->BSRenderedTexture_GetTexture(0));
     pkShader->b60 = 1;
     pkShader->f6c = 1.0f;
     pkShader->ui84 = pkWater->uiac;
@@ -7260,17 +7300,17 @@ struct WRange
     float* Get();
 };
 
-bool __cdecl FUN_004e9510();
+bool __cdecl BSRenderedTexture_IsOutsideFrame();
 void __cdecl FUN_00b6b790();
-void __cdecl FUN_00b6b8d0(int a, int b);
+void __cdecl BSRenderedTexture_StartOffscreen(int a, int b);
 float __cdecl FUN_00408840(float f);
 float __cdecl FUN_00406cc0(float f);
 float __cdecl LinearInterpolate(float a, float b, float c, float d, float e);
 int __cdecl FUN_004dc060(int a);
 WMgr* __cdecl FUN_004e7ff0();
-void* __stdcall FUN_004a0e90(WObj* o);
+void* __stdcall BSShaderManager_GetRenderer(WObj* o);
 WRenderer* __stdcall FUN_004e3270(int a, void* b);
-WRenderer2* __stdcall FUN_004a0ea0(WObj* o);
+WRenderer2* __stdcall BSShaderManager_GetTextureManager(WObj* o);
 
 extern WObjPtr DAT_011c7b64;
 extern bool DAT_011fffec;
@@ -7305,17 +7345,17 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
 {
     if (m_fPackageValue < 10.0)
     {
-        if (!FUN_004e9510())
+        if (!BSRenderedTexture_IsOutsideFrame())
             FUN_00b6b790();
         if (!DAT_011c7b64.Get())
         {
             DAT_011c7b64.Set(CreateObject());
             DAT_011fffec = true;
         }
-        FUN_00b6b8d0(6, DAT_011c7b64.Get()->GetTag());
+        BSRenderedTexture_StartOffscreen(6, DAT_011c7b64.Get()->GetTag());
         if (DAT_011ad832)
             Refresh();
-        if (!FUN_004e9510())
+        if (!BSRenderedTexture_IsOutsideFrame())
             FUN_00b6b790();
 
         void* cur = list.GetHead();
@@ -7409,9 +7449,9 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
             }
             else
             {
-                m_fPackageValue += FUN_00452e70(true);
+                m_fPackageValue += BSShaderManager_GetTimer(true);
             }
-            FUN_004e3270(0x20, FUN_004a0e90(DAT_011c7b64.Get()))->Init(DAT_011c7b64.Get(), 0, 1);
+            FUN_004e3270(0x20, BSShaderManager_GetRenderer(DAT_011c7b64.Get()))->Init(DAT_011c7b64.Get(), 0, 1);
             DAT_011fffed = false;
         }
     }
@@ -7435,7 +7475,7 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
         }
         if (DAT_011c7b64.Get())
         {
-            FUN_004a0ea0(DAT_011c7b64.Get())->Reset();
+            BSShaderManager_GetTextureManager(DAT_011c7b64.Get())->Reset();
             DAT_011c7b64.Set(0);
         }
         DAT_01200000 = false;
@@ -7646,7 +7686,7 @@ struct WPlayer
 extern WPlayer* DAT_011dea3c;
 struct WRenderer
 {
-    void FUN_004a0dd0(void*);
+    void NiRenderer_SetScreenSpaceCameraData(void*);
     void SetFromCamera(NiCamera*);
 };
 
@@ -7735,7 +7775,7 @@ struct WRegion
     WList refs;
 };
 void FUN_00b994f0(WData*, unsigned short, int, int, int);
-void FUN_004e9ce0(int, bool);
+void BSShaderManager_SetRenderFlag(int, bool);
 namespace std {
 float abs(float);
 }
@@ -7758,7 +7798,7 @@ struct WSystem
     int unk038;
     WList regions;
     WGeometry* FUN_004e8030(WRef*);
-    bool FUN_004e62e0(WRef*, NiCamera*);
+    bool TESWaterSystem_IsWaterNodeVisible(WRef*, NiCamera*);
     void UpdateRegions();
 };
 // Computes the min/max region level, builds an orthographic frustum and camera, renders the scene, then updates geometry data for each region's refs.
@@ -7799,7 +7839,7 @@ void WSystem::UpdateRegions()
     c.FUN_00a59c60(reinterpret_cast<NiUpdateData&>(l));
     NiPoint3 e(DAT_011dea3c->GetPosition().x, DAT_011dea3c->GetPosition().y, b);
     c.AimAt(reinterpret_cast<const ::NiPoint3&>(e), reinterpret_cast<const ::NiPoint3&>(DAT_011a9478));
-    ((WRenderer*)FUN_0043c4b0())->FUN_004a0dd0(c.FUN_004a0d10());
+    ((WRenderer*)FUN_0043c4b0())->NiRenderer_SetScreenSpaceCameraData(c.TESDataHandler_GetImpactDataSetList());
     DAT_011ff375 = true;
     Culler9550 cf(0);
     cf.FUN_0041fd00(&c);
@@ -7834,7 +7874,7 @@ void WSystem::UpdateRegions()
                                 WProperty* i = _base;
                                 int f = i->mode;
                                 i->mode = 1;
-                                if (FUN_004e62e0(ref, &c) && i && i->FUN_00b69f30(s))
+                                if (TESWaterSystem_IsWaterNodeVisible(ref, &c) && i && i->FUN_00b69f30(s))
                                 {
                                     WData* data = i->FUN_00b69f30(s);
                                     FUN_00b994f0(data, data->count, 0, 0, 0);
@@ -7850,7 +7890,7 @@ void WSystem::UpdateRegions()
         q = k;
     }
     cf.FUN_0041fd00(0);
-    FUN_004e9ce0(0, false);
+    BSShaderManager_SetRenderFlag(0, false);
     DAT_011ff375 = false;
 }
 }  // namespace fnv_004e9550
@@ -7897,7 +7937,7 @@ struct Camera;
 struct Process
 {
     NiPoint3& FUN_004ea950();
-    N* FUN_007fa950();
+    N* SkyObject_GetNiNode();
 };
 struct NodeVector
 {
@@ -7994,10 +8034,10 @@ struct F
 {
     bool FUN_004e32c0();
     bool FUN_004ea930();
-    bool FUN_004ea8b0();
-    bool FUN_004ea8d0();
-    bool FUN_004ea8f0();
-    bool FUN_004ea910();
+    bool GetReflectsLand();
+    bool GetReflectsLODLand();
+    bool GetReflectsLODBuildings();
+    bool GetReflectsLODTrees();
     bool FUN_00452440();
 };
 struct RN
@@ -8006,9 +8046,9 @@ struct RN
 };
 struct ConstraintReference
 {
-    N* FUN_004ea9a0();
-    N* FUN_004ea9c0();
-    N* FUN_004ea9e0();
+    N* BGSTerrainManager_GetLODLandRoot();
+    N* BGSTerrainManager_GetLODObjectRoot();
+    N* BGSTerrainManager_GetTreeNode();
 };
 struct Cell
 {
@@ -8033,7 +8073,7 @@ struct RefList2
 };
 struct Extra
 {
-    RefList* FUN_0041f140();
+    RefList* ExtraDataList_GetReflectedRefs();
 };
 struct CellOwner
 {
@@ -8237,18 +8277,18 @@ extern GlobalList DAT_011c7b8c;
 extern RefActor* DAT_011dea10;
 struct Manager
 {
-    void FUN_00ba3390(NiCamera*, int, int, NList*, NList*, BSShaderAccumulator*, int, int, int);
-    void FUN_00ba30f0(int, int);
+    void MTRenderingSystem_AddAccumTask(NiCamera*, int, int, NList*, NList*, BSShaderAccumulator*, int, int, int);
+    void MTRenderingSystem_SetThreadStage(int, int);
 };
 Manager* __cdecl FUN_004ea970();
-bool __cdecl FUN_004e2160();
+bool __cdecl TESWaterSystem_GetUseWaterShader();
 ColorObj* __cdecl FUN_00450b80(int);
-void __cdecl FUN_00c4bf40(void*, void*, NiCamera*);
+void __cdecl BSUtilities_ReflectCameraAboutArbitraryPlane(void*, void*, NiCamera*);
 bool __cdecl FUN_0045bad0(const char*, N*);
-char __cdecl FUN_006fd150();
-void __cdecl FUN_006fd1a0();
-void __cdecl FUN_006fd1b0();
-int* __cdecl FUN_004e3260();
+char __cdecl BGSTerrainManager_GetCurrentWorldHasLOD();
+void __cdecl BGSTerrainManager_ShowMinimumDetail();
+void __cdecl BGSTerrainManager_ShowNormalDetail();
+int* __cdecl TESObjectCELL_GetAutoWaterReflectList();
 extern const char DAT_011fa018[];
 struct Target
 {
@@ -8273,7 +8313,7 @@ struct Target
     int unk48;
     TeswaterMapView map;
     N* FUN_004e8030(RefActor*);
-    bool FUN_004e62e0(RefActor*, void*);
+    bool TESWaterSystem_IsWaterNodeVisible(RefActor*, void*);
     void FUN_004e9d40(void*, State*, bool);
 };
 // @fnv 0x004e9d40
@@ -8289,14 +8329,14 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                       0xefb);
                 {
                     bool b, d, e;
-                    if (!FUN_004e2160() || !input)
+                    if (!TESWaterSystem_GetUseWaterShader() || !input)
                         return;
                     state->camera.FUN_0066b0d0(new NiCamera);
-                    FUN_00c4bf40(input, &state->unk4, state->camera.FUN_00559450());
+                    BSUtilities_ReflectCameraAboutArbitraryPlane(input, &state->unk4, state->camera.FUN_00559450());
                     if (!state->acc.FUN_00559450())
                         state->acc.FUN_0066b0d0(new WaterAccumulatorAllocation(99, 1, 759));
                     state->acc.FUN_00559450()->FUN_004a1020((N*)FUN_00450b80(0));
-                    state->acc.FUN_00559450()->FUN_004ea860(1);
+                    state->acc.FUN_00559450()->BSShaderAccumulator_SetWaterReflection(1);
                     state->acc.FUN_00559450()->StartAccumulating(state->camera.FUN_00559450());
                     state->acc.FUN_00559450()->SetAccumulate(1);
                     if (state->colored)
@@ -8305,7 +8345,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                         NiPoint3 light = DAT_011dea10->FUN_008d8520()->FUN_004ea950();
                         NiPoint3 tint = FUN_00450b80(0)->GetFloatAsUInt()->FUN_00891170();
                         NiColorA color(light.x * tint.x, light.y * tint.y, light.z * tint.z, 1.0f);
-                        state->acc.FUN_00559450()->FUN_004ea880(reinterpret_cast<const NiColorA*>(&color));
+                        state->acc.FUN_00559450()->BSShaderAccumulator_SetSilhouetteColor(reinterpret_cast<const NiColorA*>(&color));
                     }
                     a = false;
                     d = false;
@@ -8336,10 +8376,10 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                 if (form && form->FUN_004ea930() && !a)
                                 {
                                     a = true;
-                                    state->nodes.FUN_0076b660(DAT_011dea10->FUN_008d8520()->FUN_007fa950());
+                                    state->nodes.FUN_0076b660(DAT_011dea10->FUN_008d8520()->SkyObject_GetNiNode());
                                 }
                                 if (!special && (*DAT_011c7cc0.FUN_00408d60() ||
-                                                 (form && form->FUN_004ea8b0() && !d && !DAT_011dea10->FUN_005f36f0())))
+                                                 (form && form->GetReflectsLand() && !d && !DAT_011dea10->FUN_005f36f0())))
                                 {
                                     d = true;
                                     for (unsigned int i = 0; i < (unsigned int)*DAT_011c63cc.Int(); ++i)
@@ -8360,38 +8400,38 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                     ConstraintReference* data = DAT_011dea10->FUN_004fd3e0()->FUN_00586170();
                                     if (data)
                                     {
-                                        unsigned char loaded = FUN_006fd150();
+                                        unsigned char loaded = BGSTerrainManager_GetCurrentWorldHasLOD();
                                         if (!DAT_011dea10->FUN_005f36f0() && loaded)
                                         {
-                                            FUN_006fd1a0();
-                                            if (form && form->FUN_004ea8d0() && !c)
+                                            BGSTerrainManager_ShowMinimumDetail();
+                                            if (form && form->GetReflectsLODLand() && !c)
                                             {
                                                 c = true;
                                                 if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() &&
-                                                    data->FUN_004ea9a0())
-                                                    state->nodes.FUN_0076b660(data->FUN_004ea9a0());
+                                                    data->BGSTerrainManager_GetLODLandRoot())
+                                                    state->nodes.FUN_0076b660(data->BGSTerrainManager_GetLODLandRoot());
                                             }
-                                            FUN_006fd1b0();
-                                            if (form && form->FUN_004ea8f0() && !e)
+                                            BGSTerrainManager_ShowNormalDetail();
+                                            if (form && form->GetReflectsLODBuildings() && !e)
                                             {
                                                 e = true;
                                                 if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() &&
-                                                    data->FUN_004ea9c0())
-                                                    state->nodes.FUN_0076b660(data->FUN_004ea9c0());
+                                                    data->BGSTerrainManager_GetLODObjectRoot())
+                                                    state->nodes.FUN_0076b660(data->BGSTerrainManager_GetLODObjectRoot());
                                             }
-                                            if (form && form->FUN_004ea910() && !b)
+                                            if (form && form->GetReflectsLODTrees() && !b)
                                             {
                                                 b = true;
                                                 if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() &&
-                                                    data->FUN_004ea9e0())
-                                                    state->nodes.FUN_0076b660(data->FUN_004ea9e0());
+                                                    data->BGSTerrainManager_GetTreeNode())
+                                                    state->nodes.FUN_0076b660(data->BGSTerrainManager_GetTreeNode());
                                             }
                                         }
                                     }
                                 }
-                                if (!special && FUN_004e62e0(ref, input))
+                                if (!special && TESWaterSystem_IsWaterNodeVisible(ref, input))
                                 {
-                                    RefList* list = ref->FUN_005d43c0()->FUN_0041f140();
+                                    RefList* list = ref->FUN_005d43c0()->ExtraDataList_GetReflectedRefs();
                                     while (list && !list->FUN_008256d0())
                                     {
                                         if (list->FUN_006815c0()->flags & 1)
@@ -8410,7 +8450,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                 }
                                 if (!DAT_011dea10->FUN_005f36f0() && !special && form && form->FUN_00452440())
                                 {
-                                    RefList2* list = (RefList2*)FUN_004e3260();
+                                    RefList2* list = (RefList2*)TESObjectCELL_GetAutoWaterReflectList();
                                     while (list && !list->FUN_008256d0())
                                     {
                                         RefActor* item = list->FUN_006815c0();
@@ -8442,9 +8482,9 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                         }
                         iter = next;
                     }
-                    FUN_004ea970()->FUN_00ba3390(state->camera.FUN_00559450(), 0, 0, &state->nodes, &state->more,
+                    FUN_004ea970()->MTRenderingSystem_AddAccumTask(state->camera.FUN_00559450(), 0, 0, &state->nodes, &state->more,
                                                  state->acc.FUN_00559450(), 4, state->index + 1, 0);
-                    FUN_004ea970()->FUN_00ba30f0(0, state->index + 1);
+                    FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, state->index + 1);
                 }
             }
         }
@@ -8492,9 +8532,9 @@ struct List60
 };
 struct Weather60
 {
-    Node60* FUN_004ea9a0();
-    Node60* FUN_004ea9c0();
-    Node60* FUN_004ea9e0();
+    Node60* BGSTerrainManager_GetLODLandRoot();
+    Node60* BGSTerrainManager_GetLODObjectRoot();
+    Node60* BGSTerrainManager_GetTreeNode();
 };
 struct Sky60
 {
@@ -8504,7 +8544,7 @@ struct Sky60
 struct Environment60
 {
     RGB60* FUN_004ea950();
-    Node60* FUN_007fa950();
+    Node60* SkyObject_GetNiNode();
 };
 struct World60
 {
@@ -8647,8 +8687,8 @@ struct Player60
 };
 struct RenderJob60
 {
-    void FUN_00ba3390(NiCamera*, int, int, List60*, List60*, BSShaderAccumulator*, int, int, int);
-    void FUN_00ba30f0(int, int);
+    void MTRenderingSystem_AddAccumTask(NiCamera*, int, int, List60*, List60*, BSShaderAccumulator*, int, int, int);
+    void MTRenderingSystem_SetThreadStage(int, int);
 };
 extern Smart60<NiCamera> DAT_011c7b44;
 extern Smart60<BSShaderAccumulator> DAT_011c7cb8;
@@ -8658,13 +8698,13 @@ extern Player60* DAT_011dea3c;
 extern List60 DAT_011c7ce4, DAT_011c7b80;
 extern int DAT_011c7a6c;
 extern char DAT_0102301c[];
-bool FUN_004e2160();
+bool TESWaterSystem_GetUseWaterShader();
 Renderer60* FUN_00450b80(int);
-void FUN_00c4bf40(void*, const Plane60&, NiCamera*);
+void BSUtilities_ReflectCameraAboutArbitraryPlane(void*, const Plane60&, NiCamera*);
 Node60* FUN_0045c670();
-char FUN_006fd150();
-void FUN_006fd1a0();
-void FUN_006fd1b0();
+char BGSTerrainManager_GetCurrentWorldHasLOD();
+void BGSTerrainManager_ShowMinimumDetail();
+void BGSTerrainManager_ShowNormalDetail();
 RenderJob60* FUN_004ea970();
 struct Main60
 {
@@ -8708,24 +8748,25 @@ struct Main60
     int unk94;
     int unk98;
     bool changedVisibility;
-    void FUN_004eaa00(void*);
+    void TESWaterSystem_MTSetupWorldReflectionTexture(void*);
 };
 // Sets up a camera and accumulator, builds a render list from the world and weather, and submits a render job for the given target.
 // @fnv 0x004eaa00
-void Main60::FUN_004eaa00(void* target)
+// src: COMMUNITY 0x004eaa00
+void Main60::TESWaterSystem_MTSetupWorldReflectionTexture(void* target)
 {
     Scope60 scope6(0x1d, 1, DAT_0102301c, 0xfe3);
-    if (!FUN_004e2160() || !target)
+    if (!TESWaterSystem_GetUseWaterShader() || !target)
         return;
     DAT_011c7b44.FUN_0066b0d0(new NiCamera);
     Vector60 normal3(0.0f, 0.0f, 1.0f);
     Vector60 point1(0.0f, 0.0f, DAT_011dea10->FUN_004fd3e0()->FUN_0045cd80());
     Plane60 plane2(normal3, point1);
-    FUN_00c4bf40(target, plane2, DAT_011c7b44.FUN_00559450());
+    BSUtilities_ReflectCameraAboutArbitraryPlane(target, plane2, DAT_011c7b44.FUN_00559450());
     if (!DAT_011c7cb8.FUN_00559450())
         DAT_011c7cb8.FUN_0066b0d0(new WaterAccumulatorAllocation(0x63, 1, 0x2f7));
     DAT_011c7cb8.FUN_00559450()->FUN_004a1020(FUN_00450b80(0));
-    DAT_011c7cb8.FUN_00559450()->FUN_004ea860(1);
+    DAT_011c7cb8.FUN_00559450()->BSShaderAccumulator_SetWaterReflection(1);
     DAT_011c7cb8.FUN_00559450()->StartAccumulating(DAT_011c7b44.FUN_00559450());
     DAT_011c7cb8.FUN_00559450()->SetAccumulate(1);
     if (*DAT_011c7a90.FUN_00408d60() || *DAT_011c7aa8.FUN_00408d60())
@@ -8734,7 +8775,7 @@ void Main60::FUN_004eaa00(void* target)
         RGB60 ambientColor = *DAT_011dea10->FUN_008d8520()->FUN_004ea950();
         RGB60 tint = *FUN_00450b80(0)->GetFloatAsUInt()->FUN_00891170();
         NiColorA color(ambientColor.r * tint.r, ambientColor.g * tint.g, ambientColor.b * tint.b, 1.0f);
-        DAT_011c7cb8.FUN_00559450()->FUN_004ea880(reinterpret_cast<const NiColorA*>(&color));
+        DAT_011c7cb8.FUN_00559450()->BSShaderAccumulator_SetSilhouetteColor(reinterpret_cast<const NiColorA*>(&color));
     }
     DAT_011c7ce4.FUN_004ed900();
     DAT_011c7b80.FUN_004ed900();
@@ -8750,30 +8791,30 @@ void Main60::FUN_004eaa00(void* target)
     }
     else
     {
-        DAT_011c7ce4.FUN_0076b660(DAT_011dea10->FUN_008d8520()->FUN_007fa950());
+        DAT_011c7ce4.FUN_0076b660(DAT_011dea10->FUN_008d8520()->SkyObject_GetNiNode());
         if (DAT_011dea10->FUN_004fd3e0())
         {
             Weather60* weather = DAT_011dea10->FUN_004fd3e0()->FUN_00586170();
             if (weather)
             {
-                unsigned char renderSky = FUN_006fd150();
+                unsigned char renderSky = BGSTerrainManager_GetCurrentWorldHasLOD();
                 if (!DAT_011dea10->FUN_005f36f0() && renderSky)
                 {
-                    FUN_006fd1a0();
-                    if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() && weather->FUN_004ea9a0())
-                        DAT_011c7ce4.FUN_0076b660(weather->FUN_004ea9a0());
-                    FUN_006fd1b0();
-                    if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() && weather->FUN_004ea9c0())
-                        DAT_011c7ce4.FUN_0076b660(weather->FUN_004ea9c0());
-                    if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() && weather->FUN_004ea9e0())
-                        DAT_011c7ce4.FUN_0076b660(weather->FUN_004ea9e0());
+                    BGSTerrainManager_ShowMinimumDetail();
+                    if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() && weather->BGSTerrainManager_GetLODLandRoot())
+                        DAT_011c7ce4.FUN_0076b660(weather->BGSTerrainManager_GetLODLandRoot());
+                    BGSTerrainManager_ShowNormalDetail();
+                    if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() && weather->BGSTerrainManager_GetLODObjectRoot())
+                        DAT_011c7ce4.FUN_0076b660(weather->BGSTerrainManager_GetLODObjectRoot());
+                    if (!DAT_011dea10->FUN_005f36f0() && DAT_011dea10->FUN_004fd3e0() && weather->BGSTerrainManager_GetTreeNode())
+                        DAT_011c7ce4.FUN_0076b660(weather->BGSTerrainManager_GetTreeNode());
                 }
             }
         }
     }
-    FUN_004ea970()->FUN_00ba3390(DAT_011c7b44.FUN_00559450(), 0, 0, &DAT_011c7ce4, &DAT_011c7b80,
+    FUN_004ea970()->MTRenderingSystem_AddAccumTask(DAT_011c7b44.FUN_00559450(), 0, 0, &DAT_011c7ce4, &DAT_011c7b80,
                                  DAT_011c7cb8.FUN_00559450(), 4, DAT_011c7a6c + 1, 0);
-    FUN_004ea970()->FUN_00ba30f0(0, DAT_011c7a6c + 1);
+    FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, DAT_011c7a6c + 1);
 }
 }  // namespace fnv_004eaa00
 
@@ -8880,7 +8921,7 @@ void WRWaterManager::UpdateWaterReflection(NiCamera* apCamera)
     if (!g_spWaterAccumulator)
         g_spWaterAccumulator = new WaterAccumulatorAllocation(0x63, 1, 0x2f7);
     g_spWaterAccumulator->FUN_004a1020(WRGetScene(0));
-    g_spWaterAccumulator->FUN_004ea860(true);
+    g_spWaterAccumulator->BSShaderAccumulator_SetWaterReflection(true);
     g_spWaterAccumulator->StartAccumulating((NiCamera*)g_spWaterReflectNode);
     g_spWaterAccumulator->SetAccumulate(true);
 
@@ -8896,7 +8937,7 @@ void WRWaterManager::UpdateWaterReflection(NiCamera* apCamera)
 namespace fnv_004eb220 {
 struct WaterPassTexture : WaterRenderedTexture
 {
-    void* FUN_004a0d10();
+    void* TESDataHandler_GetImpactDataSetList();
 };
 struct WaterTextureRef
 {
@@ -8927,7 +8968,7 @@ struct WaterPass
 };
 struct WaterPassRenderer : NiRenderer
 {
-    void FUN_004a0dd0(void*);
+    void NiRenderer_SetScreenSpaceCameraData(void*);
     void SetFromCamera(WaterPassTexture*);
 };
 struct WaterPassTES
@@ -8936,21 +8977,22 @@ struct WaterPassTES
 };
 struct WaterPassThread
 {
-    void FUN_00ba3130(int, unsigned int);
+    void MTRenderingSystem_WaitOnThreadStage(int, unsigned int);
 };
 WaterPassThread* FUN_004ea970();
 void FUN_00b6c0d0(WaterPassTexture*, WaterPassTexture*, int);
 struct WaterPassOwner
 {
-    void FUN_004ecef0(NiColorA);
-    void FUN_004eb220(WaterPass* pass);
+    void TESWaterSystem_SetClipPlane(NiColorA);
+    void TESWaterSystem_MTRenderSelectiveReflectionTexture(WaterPass* pass);
 };
 // @fnv 0x004eb220
-void WaterPassOwner::FUN_004eb220(WaterPass* pass)
+// src: COMMUNITY 0x004eb220
+void WaterPassOwner::TESWaterSystem_MTRenderSelectiveReflectionTexture(WaterPass* pass)
 {
     AutoMemContext clear(MEM_CONTEXT_MEM_CONTEXT_WATER, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESWater.cpp",
                          0x1082);
-    if (!FUN_004e2160() || !pass->target)
+    if (!TESWaterSystem_GetUseWaterShader() || !pass->target)
         return;
     NiColorA saved(0.0f, 0.0f, 0.0f, 0.0f);
     GetWaterRenderer()->GetBackgroundColor(saved);
@@ -8960,32 +9002,32 @@ void WaterPassOwner::FUN_004eb220(WaterPass* pass)
     if (!pass->texture)
         pass->texture =
             static_cast<WaterPassTexture*>(GetWaterTextureManager()->CreateTexture(GetWaterRenderer(), 9, 0, 0, 0));
-    unsigned char enabled = FUN_006fd150();
+    unsigned char enabled = BGSTerrainManager_GetCurrentWorldHasLOD();
     if (!reinterpret_cast<WaterPassTES*>(g_TES)->FUN_005f36f0() && enabled)
-        FUN_006fd1c0();
+        BGSTerrainManager_DisableBlockVisibility();
     SetRenderTargetGroup(7, static_cast<WaterPassTexture*>(pass->texture)->GetGroup());
     static_cast<WaterPassRenderer*>(FUN_0043c4b0())
-        ->FUN_004a0dd0(static_cast<WaterPassTexture*>(pass->target)->FUN_004a0d10());
-    FUN_004ea970()->FUN_00ba3130(1, pass->index + 1);
+        ->NiRenderer_SetScreenSpaceCameraData(static_cast<WaterPassTexture*>(pass->target)->TESDataHandler_GetImpactDataSetList());
+    FUN_004ea970()->MTRenderingSystem_WaitOnThreadStage(1, pass->index + 1);
     static_cast<WaterPassRenderer*>(FUN_0043c4b0())->SetFromCamera(pass->target);
-    FUN_004ecef0(NiColorA(pass->plane.FUN_006815c0().x, pass->plane.FUN_006815c0().y,
+    TESWaterSystem_SetClipPlane(NiColorA(pass->plane.FUN_006815c0().x, pass->plane.FUN_006815c0().y,
                                  pass->plane.FUN_006815c0().z, -pass->plane.FUN_0084d030(0)));
     UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
     FUN_00b6c0d0(pass->target, pass->scene, 0);
-    FUN_004eb510(0);
+    BSRenderState_RestoreUserClipPlaneEnables(0);
     ClearRenderTarget();
     if (!reinterpret_cast<WaterPassTES*>(g_TES)->FUN_005f36f0() && enabled)
-        FUN_006fd1e0();
+        BGSTerrainManager_EnableBlockVisibility();
     GetWaterRenderer()->SetBackgroundColor(saved);
     pass->target = 0;
 }
 }  // namespace fnv_004eb220
 
-NiRenderer* FUN_004a0e90();
+NiRenderer* BSShaderManager_GetRenderer();
 struct Texture197
 {
     void* FUN_00b6b260();
-    void* FUN_004a0d10();
+    void* TESDataHandler_GetImpactDataSetList();
 };
 struct Handle197
 {
@@ -9005,10 +9047,10 @@ struct Uint197
 extern Uint197 g_011c7c1c;
 struct Manager197
 {
-    Texture197* FUN_00b6e110(NiRenderer*, int, int, int, int);
+    Texture197* BSTextureManager_BorrowRenderedTexture(NiRenderer*, int, int, int, int);
     void FUN_00b6da10(Texture197*);
 };
-Manager197* __stdcall FUN_004a0ea0();
+Manager197* __stdcall BSShaderManager_GetTextureManager();
 struct Node197
 {
     void FUN_00450f90();
@@ -9138,7 +9180,7 @@ struct WaterPlayerSceneAccess
 extern WaterPlayerSceneAccess* g_011dea3c;
 struct RendererOps197
 {
-    void FUN_004a0dd0(void*);
+    void NiRenderer_SetScreenSpaceCameraData(void*);
     void SetFromCamera(Texture197*);
 };
 struct Height197
@@ -9152,11 +9194,11 @@ struct Player197
 };
 struct System197
 {
-    void FUN_00ba3130(int, int);
+    void MTRenderingSystem_WaitOnThreadStage(int, int);
 };
 System197* FUN_004ea970();
 extern int g_011c7a6c;
-void FUN_00b6b8d0(int, void*);
+void BSRenderedTexture_StartOffscreen(int, void*);
 void FUN_00b6c0d0(Texture197*, Texture197*, int);
 void FUN_00b6b790();
 struct Plane197
@@ -9172,7 +9214,7 @@ struct Param197
     unsigned int a, b, c, d;
     Param197();
     ~Param197();
-    void FUN_00ba37a0(Texture197*);
+    void ImageSpaceTexture_SetTexture(Texture197*);
 };
 struct EffectParam197
 {
@@ -9187,7 +9229,7 @@ struct Effect197
 struct Effects197
 {
     Effect197* FUN_004ebbc0(int);
-    void FUN_00b97550(unsigned int, NiRenderer*, Texture197*, Texture197*, EffectParam197*, bool);
+    void ImageSpaceManager_RenderEffect(unsigned int, NiRenderer*, Texture197*, Texture197*, EffectParam197*, bool);
 };
 Effects197* FUN_004e3270();
 extern float DAT_012003c4;
@@ -9233,7 +9275,7 @@ struct Water197
     int unk94;
     int unk98;
     bool enabled;
-    void FUN_004ecef0(NiColorA);
+    void TESWaterSystem_SetClipPlane(NiColorA);
     void UpdateWaterRendering();
 };
 // @fnv 0x004eb540
@@ -9241,50 +9283,50 @@ void Water197::UpdateWaterRendering()
 {
     AutoMemContext normal(MEM_CONTEXT_MEM_CONTEXT_WATER, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESWater.cpp",
                           0x10b8);
-    if (!FUN_004e2160() || !g_011c7b44.FUN_00559450())
+    if (!TESWaterSystem_GetUseWaterShader() || !g_011c7b44.FUN_00559450())
         return;
     NiColorA oldColor(0.0f, 0.0f, 0.0f, 0.0f);
-    FUN_004a0e90()->GetBackgroundColor(reinterpret_cast<NiVector4*>(&oldColor));
+    BSShaderManager_GetRenderer()->GetBackgroundColor(reinterpret_cast<NiVector4*>(&oldColor));
     NiColorA plane = oldColor;
     plane.a = 0.0f;
-    FUN_004a0e90()->SetBackgroundColor(reinterpret_cast<NiVector4*>(&plane));
+    BSShaderManager_GetRenderer()->SetBackgroundColor(reinterpret_cast<NiVector4*>(&plane));
     if (!g_011c7ad4.FUN_00559450())
-        g_011c7ad4.FUN_0066b0d0(FUN_004a0ea0()->FUN_00b6e110(FUN_004a0e90(), 9, 0, 0, 0));
-    bool memory = (unsigned char)FUN_006fd150() && !*g_011c7c00.FUN_00408d60();
+        g_011c7ad4.FUN_0066b0d0(BSShaderManager_GetTextureManager()->BSTextureManager_BorrowRenderedTexture(BSShaderManager_GetRenderer(), 9, 0, 0, 0));
+    bool memory = (unsigned char)BGSTerrainManager_GetCurrentWorldHasLOD() && !*g_011c7c00.FUN_00408d60();
     if (!((Player197*)DAT_011dea10)->FUN_005f36f0() && memory)
-        FUN_006fd1c0();
-    FUN_00b6b8d0(7, g_011c7ad4.FUN_00559450()->FUN_00b6b260());
-    ((RendererOps197*)FUN_0043c4b0())->FUN_004a0dd0(g_011c7b44.FUN_00559450()->FUN_004a0d10());
-    FUN_004ea970()->FUN_00ba3130(1, g_011c7a6c + 1);
+        BGSTerrainManager_DisableBlockVisibility();
+    BSRenderedTexture_StartOffscreen(7, g_011c7ad4.FUN_00559450()->FUN_00b6b260());
+    ((RendererOps197*)FUN_0043c4b0())->NiRenderer_SetScreenSpaceCameraData(g_011c7b44.FUN_00559450()->TESDataHandler_GetImpactDataSetList());
+    FUN_004ea970()->MTRenderingSystem_WaitOnThreadStage(1, g_011c7a6c + 1);
     if (enabled && g_011dea3c->FUN_004eaf60())
         ((Node197*)g_011dea3c->GetNode(0))->FUN_00450f90();
     NiPoint3 clearColor(0.0f, 0.0f, 1.0f);
     NiPoint3 point(0.0f, 0.0f, ((Player197*)DAT_011dea10)->FUN_004fd3e0()->FUN_0045cd80());
     Plane197 toggle(clearColor, point);
     ((RendererOps197*)FUN_0043c4b0())->SetFromCamera(g_011c7b44.FUN_00559450());
-    FUN_004ecef0(
+    TESWaterSystem_SetClipPlane(
         NiColorA(toggle.FUN_006815c0().x, toggle.FUN_006815c0().y, toggle.FUN_006815c0().z, -toggle.FUN_0084d030(0)));
     UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
     FUN_00b6c0d0(g_011c7b44.FUN_00559450(), g_011c7cb8.FUN_00559450(), 0);
-    FUN_004eb510(0);
+    BSRenderState_RestoreUserClipPlaneEnables(0);
     FUN_00b6b790();
     if (!((Player197*)DAT_011dea10)->FUN_005f36f0() && memory)
-        FUN_006fd1e0();
-    FUN_004a0e90()->SetBackgroundColor(reinterpret_cast<NiVector4*>(&oldColor));
+        BGSTerrainManager_EnableBlockVisibility();
+    BSShaderManager_GetRenderer()->SetBackgroundColor(reinterpret_cast<NiVector4*>(&oldColor));
     g_011c7b44.FUN_0066b0d0(0);
     if (*g_011c7c48.FUN_00408d60())
     {
-        Texture197* index = FUN_004a0ea0()->FUN_00b6e110(FUN_004a0e90(), 22, 0, 0, 0);
+        Texture197* index = BSShaderManager_GetTextureManager()->BSTextureManager_BorrowRenderedTexture(BSShaderManager_GetRenderer(), 22, 0, 0, 0);
         Param197 texture;
-        texture.FUN_00ba37a0(index);
+        texture.ImageSpaceTexture_SetTexture(index);
         EffectParam197 effectParam;
         DAT_012003c4 = *g_011c7c1c.FUN_0043d4d0() + 1.0;
         unsigned int param = *g_011c7c1c.FUN_0043d4d0();
         unsigned int uiEffectIndex = param + 16;
         FUN_004e3270()->FUN_004ebbc0(uiEffectIndex)->SetAccumulatorAt(2, &texture, 0);
-        FUN_004e3270()->FUN_00b97550(uiEffectIndex, FUN_004a0e90(), g_011c7ad4.FUN_00559450(),
+        FUN_004e3270()->ImageSpaceManager_RenderEffect(uiEffectIndex, BSShaderManager_GetRenderer(), g_011c7ad4.FUN_00559450(),
                                      g_011c7ad4.FUN_00559450(), &effectParam, true);
-        FUN_004a0ea0()->FUN_00b6da10(index);
+        BSShaderManager_GetTextureManager()->FUN_00b6da10(index);
     }
 }
 
@@ -9373,14 +9415,14 @@ struct ThreadWater
     void Setup(int, int);
 };
 ThreadWater* ThreadWaterGet();
-bool FUN_004e2160();
-char FUN_006fd150();
-void FUN_006fd1c0();
-void FUN_006fd1e0();
+bool TESWaterSystem_GetUseWaterShader();
+char BGSTerrainManager_GetCurrentWorldHasLOD();
+void BGSTerrainManager_DisableBlockVisibility();
+void BGSTerrainManager_EnableBlockVisibility();
 void TargetWater(unsigned, void*);
 void DrawWater(int, int, int, int, int, int, int);
 void CopyWater(TextureOps*, TextureOps*, int);
-void FUN_004eb510(int);
+void BSRenderState_RestoreUserClipPlaneEnables(int);
 void EndWater();
 struct PlaneWater : NiPlane
 {
@@ -9389,15 +9431,16 @@ struct PlaneWater : NiPlane
 struct WaterPass
 {
     void SetWaterColorParameter(NiColorA, int);
-    void FUN_004ebbe0();
+    void TESWaterSystem_MTRenderSkyReflectionTexture();
 };
 // Saves the renderer color, creates the water target if missing, sets water data and texture, draws and copies the water, then restores the color.
 // @fnv 0x004ebbe0
-void WaterPass::FUN_004ebbe0()
+// src: COMMUNITY 0x004ebbe0
+void WaterPass::TESWaterSystem_MTRenderSkyReflectionTexture()
 {
     AutoMemContext context2(MEM_CONTEXT_MEM_CONTEXT_WATER, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESWater.cpp",
                             0x1114);
-    if (!FUN_004e2160() || !waterSource.Resolve())
+    if (!TESWaterSystem_GetUseWaterShader() || !waterSource.Resolve())
         return;
     NiColorA oldColor(0, 0, 0, 0);
     RendererWater()->GetColor(oldColor);
@@ -9406,9 +9449,9 @@ void WaterPass::FUN_004ebbe0()
     RendererWater()->SetColor(newColor3);
     if (!waterTarget.Resolve())
         waterTarget.Assign(ManagerWaterGet()->Create(RendererWater(), 9, 0, 0, 0));
-    unsigned char enabled2 = FUN_006fd150();
+    unsigned char enabled2 = BGSTerrainManager_GetCurrentWorldHasLOD();
     if (!waterTes->Interior() && enabled2)
-        FUN_006fd1c0();
+        BGSTerrainManager_DisableBlockVisibility();
     TargetWater(7, waterTarget.Resolve()->GetGroup());
     ((RenderOps*)FUN_0043c4b0())->SetData(waterSource.Resolve()->GetData());
     ThreadWaterGet()->Setup(1, waterFrame + 1);
@@ -9421,10 +9464,10 @@ void WaterPass::FUN_004ebbe0()
                            0);
     DrawWater(1, 0, 0, 0, 0, 0, 0);
     CopyWater(waterSource.Resolve(), waterOther.Resolve(), 0);
-    FUN_004eb510(0);
+    BSRenderState_RestoreUserClipPlaneEnables(0);
     EndWater();
     if (!waterTes->Interior() && enabled2)
-        FUN_006fd1e0();
+        BGSTerrainManager_EnableBlockVisibility();
     RendererWater()->SetColor(oldColor);
     waterSource.Assign(0);
 }
@@ -9572,7 +9615,7 @@ struct Cell074
 };
 struct Extra074
 {
-    struct Link074* FUN_0041f140();
+    struct Link074* ExtraDataList_GetReflectedRefs();
 };
 struct LinkData074
 {
@@ -9746,12 +9789,12 @@ struct State074
 };
 struct Render074
 {
-    void FUN_00ba3390(NiCamera*, int, int, Array074*, Array074*, BSShaderAccumulator*, int, int, int);
-    void FUN_00ba30f0(int, int);
+    void MTRenderingSystem_AddAccumTask(NiCamera*, int, int, Array074*, Array074*, BSShaderAccumulator*, int, int, int);
+    void MTRenderingSystem_SetThreadStage(int, int);
 };
 struct Texture074
 {
-    NiAVObject* FUN_00b6e110(int, int, int, int);
+    NiAVObject* BSTextureManager_BorrowRenderedTexture(int, int, int, int);
 };
 struct Grid074
 {
@@ -9774,8 +9817,8 @@ extern PtrWaterObject074 DAT_011c7b68;
 extern Player074* DAT_011dea3c;
 
 void* __cdecl FUN_00450b80(int);
-void* __cdecl FUN_004a0e90();
-Texture074* __stdcall FUN_004a0ea0(void*);
+void* __cdecl BSShaderManager_GetRenderer();
+Texture074* __stdcall BSShaderManager_GetTextureManager(void*);
 Render074* FUN_004ea970();
 struct Owner074
 {
@@ -9804,7 +9847,7 @@ struct Owner074
     int unk58;
     Map074 seen;
     NiAVObject* FUN_004e8030(Ref074*);
-    bool FUN_004e62e0(Ref074*, NiCamera*);
+    bool TESWaterSystem_IsWaterNodeVisible(Ref074*, NiCamera*);
     void RenderWaterRefs(NiCamera*, State074*);
 };
 // @fnv 0x004ebef0
@@ -9818,7 +9861,7 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
             bool didActors;
             {
                 Update074 update;
-                if (!FUN_004e2160() || !camera)
+                if (!TESWaterSystem_GetUseWaterShader() || !camera)
                     return;
                 state->camera.FUN_0066b0d0(new NiCamera);
                 state->camera.FUN_00559450()->FUN_00440460(camera->FUN_0045bb80());
@@ -9831,11 +9874,11 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                 if (!state->accumulator.FUN_00559450())
                     state->accumulator.FUN_0066b0d0(new WaterAccumulatorAllocation(99, 1, 759));
                 state->accumulator.FUN_00559450()->FUN_004a1020(FUN_00450b80(0));
-                state->accumulator.FUN_00559450()->FUN_004ec7c0(true);
+                state->accumulator.FUN_00559450()->BSShaderAccumulator_SetRenderWaterDepth(true);
                 state->accumulator.FUN_00559450()->StartAccumulating(state->camera.FUN_00559450());
                 state->accumulator.FUN_00559450()->SetAccumulate(true);
                 if (!DAT_011c7b68.FUN_00559450())
-                    DAT_011c7b68.FUN_0066b0d0(FUN_004a0ea0(FUN_004a0e90())->FUN_00b6e110(17, 0, 0, 0));
+                    DAT_011c7b68.FUN_0066b0d0(BSShaderManager_GetTextureManager(BSShaderManager_GetRenderer())->BSTextureManager_BorrowRenderedTexture(17, 0, 0, 0));
                 didActors = false;
                 didGrid = false;
                 position = state->refs.FUN_00559450();
@@ -9851,7 +9894,7 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                             void* found = node->GetProperty(3);
                             property = (Property074*)found;
                         }
-                        if (property && FUN_004e62e0(ref, camera))
+                        if (property && TESWaterSystem_IsWaterNodeVisible(ref, camera))
                         {
                             property->object.FUN_006e5cc0(DAT_011c7b68);
                             Object074* object = (Object074*)ref->FUN_007af430();
@@ -9896,7 +9939,7 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                                         nextActor = actorPos;
                                     }
                                 }
-                                Link074* link = ref->FUN_005d43c0()->FUN_0041f140();
+                                Link074* link = ref->FUN_005d43c0()->ExtraDataList_GetReflectedRefs();
                                 while (link && !link->FUN_008256d0())
                                 {
                                     if ((*link->FUN_006815c0())->flags & 2)
@@ -9930,7 +9973,7 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                                 }
                                 if (object && object->FUN_00452440())
                                 {
-                                    Link074* special = (Link074*)FUN_004ec7b0();
+                                    Link074* special = (Link074*)TESObjectCELL_GetAutoWaterRefractList();
                                     while (special && !special->FUN_008256d0())
                                     {
                                         Ref074* entry = (Ref074*)*special->FUN_006815c0();
@@ -9946,9 +9989,9 @@ void Owner074::RenderWaterRefs(NiCamera* camera, State074* state)
                         }
                     }
                 }
-                FUN_004ea970()->FUN_00ba3390(state->camera.FUN_00559450(), 0, 0, &state->nodes, &state->actorNodes,
+                FUN_004ea970()->MTRenderingSystem_AddAccumTask(state->camera.FUN_00559450(), 0, 0, &state->nodes, &state->actorNodes,
                                              state->accumulator.FUN_00559450(), 0, state->count + 1, 0);
-                FUN_004ea970()->FUN_00ba30f0(0, state->count + 1);
+                FUN_004ea970()->MTRenderingSystem_SetThreadStage(0, state->count + 1);
             }
         }
     }
@@ -10036,16 +10079,16 @@ struct RenderHelper
 extern Setting g_011c7c10;
 extern NiPoint2 DAT_011f9614;
 extern Plane DAT_011f9604;
-bool FUN_004e2160();
+bool TESWaterSystem_GetUseWaterShader();
 Renderer* GetPassRenderer();
 RenderHelper* FUN_004ea970();
 void UpdateRendererStateCount(int, int);
-void FUN_00b98180(int, int, int, int);
-void FUN_00b980c0(int, int, int, int);
+void BSRenderState_SetStencilFunc(int, int, int, int);
+void BSRenderState_SetStencilAction(int, int, int, int);
 void AddToSlot(int, int);
 void UpdateSpawnedObjectFlags(int, int, int, int, int, int, int);
 void CopyTexture(Texture*, BSShaderAccumulator*, int);
-void FUN_004eb510(int);
+void BSRenderState_RestoreUserClipPlaneEnables(int);
 struct Device
 {
     virtual void v00();
@@ -10084,21 +10127,22 @@ struct DeviceManager
 {
     DeviceSource* Source();
 };
-DeviceSource* FUN_004a0e90();
-void FUN_004ecb40(int);
-void FUN_004ecb10(int);
+DeviceSource* BSShaderManager_GetRenderer();
+void BSRenderState_RestoreStencilEnable(int);
+void BSRenderState_UnlockRenderState(int);
 struct WaterSetup
 {
     void Apply(NiColorA, int);
-    void FUN_004ec800(WaterPass*, unsigned short);
+    void TESWaterSystem_MTRenderSelectiveDepthTexture(WaterPass*, unsigned short);
 };
 // Sets up the renderer for a water pass, applies reflection/refraction planes and color, copies the target texture into the accumulator, and resets state.
 // @fnv 0x004ec800
-void WaterSetup::FUN_004ec800(WaterPass* pass, unsigned short flags)
+// src: COMMUNITY 0x004ec800
+void WaterSetup::TESWaterSystem_MTRenderSelectiveDepthTexture(WaterPass* pass, unsigned short flags)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_WATER, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESWater.cpp",
                            0x1209);
-    if (!FUN_004e2160() || !(Texture*)pass->target)
+    if (!TESWaterSystem_GetUseWaterShader() || !(Texture*)pass->target)
         return;
     GetPassRenderer()->UseGroup(((Texture*)pass->target)->Group());
     FUN_004ea970()->Setup(1, pass->count + 1);
@@ -10106,8 +10150,8 @@ void WaterSetup::FUN_004ec800(WaterPass* pass, unsigned short flags)
     DAT_011f9614 = NiPoint2(pass->camera->Width(), pass->camera->Height());
     ((BSShaderAccumulator*)pass->accumulator)->FUN_004a1040(14);
     UpdateRendererStateCount(1, 1);
-    FUN_00b98180(2, 255, flags, 1);
-    FUN_00b980c0(0, 0, 0, 1);
+    BSRenderState_SetStencilFunc(2, 255, flags, 1);
+    BSRenderState_SetStencilAction(0, 0, 0, 1);
     AddToSlot(0, 1);
     GetPassRenderer()->UseTexture(pass->target);
     DAT_011f9604 = pass->reflect;
@@ -10116,12 +10160,12 @@ void WaterSetup::FUN_004ec800(WaterPass* pass, unsigned short flags)
           0);
     UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
     CopyTexture(pass->target, pass->accumulator, 0);
-    FUN_004eb510(0);
-    FUN_004a0e90()->DevicePtr()->State(0x98, 0, 0, 0);
-    FUN_004ecb40(1);
-    FUN_004ecb10(10);
-    FUN_004ecb10(11);
-    FUN_004ecb10(12);
+    BSRenderState_RestoreUserClipPlaneEnables(0);
+    BSShaderManager_GetRenderer()->DevicePtr()->State(0x98, 0, 0, 0);
+    BSRenderState_RestoreStencilEnable(1);
+    BSRenderState_UnlockRenderState(10);
+    BSRenderState_UnlockRenderState(11);
+    BSRenderState_UnlockRenderState(12);
     pass->target = 0;
 }
 }  // namespace fnv_004ec800
@@ -10188,7 +10232,7 @@ struct FUN_004a0eb0
 };
 struct WaterPassRenderer
 {
-    void FUN_004a0dd0(void*);
+    void NiRenderer_SetScreenSpaceCameraData(void*);
     void SetFromCamera(NiCamera*);
 };
 
@@ -10214,14 +10258,14 @@ struct WaterProperty : Property
 void FUN_00b994f0(void*, unsigned short, int, int, int);
 struct WaterPass : Worker
 {
-    bool FUN_004e62e0(Reference*, NiCamera*);
+    bool TESWaterSystem_IsWaterNodeVisible(Reference*, NiCamera*);
     void RenderWaterGroup(NiCamera*, WaterSurface*, int, unsigned short);
 };
 // Builds a temporary camera from camera, renders the water pass, then iterates group's references and renders water geometry with the given index.
 // @fnv 0x004ecb60
 void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unused, unsigned short index)
 {
-    if (!FUN_004e2160() || !camera)
+    if (!TESWaterSystem_GetUseWaterShader() || !camera)
         return;
     DAT_011ff375 = true;
     FUN_00b98380(0, 1);
@@ -10229,7 +10273,7 @@ void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unus
     h.FUN_00440460(camera->FUN_0045bb80());
     h.FUN_0043fa80(&camera->FUN_00461130());
     h.FUN_00440490(camera->FUN_008d01e0());
-    reinterpret_cast<WaterPassRenderer*>(FUN_0043c4b0())->FUN_004a0dd0(h.FUN_004a0d10());
+    reinterpret_cast<WaterPassRenderer*>(FUN_0043c4b0())->NiRenderer_SetScreenSpaceCameraData(h.TESDataHandler_GetImpactDataSetList());
     h.FUN_00507700(camera->GetMaxFarNearRatio());
     h.FUN_00a6faf0(camera->GetViewFrustum());
     NiUpdateData s(0.0f, false, false);
@@ -10258,7 +10302,7 @@ void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unus
                         Property* property = object->FUN_00a59d30(3);
                         WaterProperty* waterProperty = static_cast<WaterProperty*>(property);
                         waterProperty->unk84 = index;
-                        if (FUN_004e62e0(reference, camera) && waterProperty && waterProperty->FUN_00b69f30(geometry))
+                        if (TESWaterSystem_IsWaterNodeVisible(reference, camera) && waterProperty && waterProperty->FUN_00b69f30(geometry))
                         {
                             WaterRenderData* renderData = waterProperty->FUN_00b69f30(geometry);
                             FUN_00b994f0(renderData, renderData->count, 0, 0, 0);
@@ -10270,7 +10314,7 @@ void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unus
         a = i;
     }
     p.FUN_0041fd00(0);
-    FUN_004eced0(1);
+    BSRenderState_RestoreColorWriteEnable(1);
     DAT_011ff375 = false;
 }
 }  // namespace fnv_004ecb60
@@ -10278,7 +10322,7 @@ void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unus
 class FUN_0042f1d0_shell
 {
   public:
-    void* FUN_0042f1d0();
+    void* ExtraDataList_GetWaterZoneMap();
 };
 
 extern FUN_0042f1d0_shell* __fastcall FUN_005d43c0(TESObjectREFR* a1);
@@ -10378,13 +10422,14 @@ class TESObjectREFR_Water
 class TESWaterSystem_Impl : public TESWaterSystem
 {
   public:
-    void FUN_004e5fe0(TESObjectREFR* a1);
+    void TESWaterSystem_RemoveTESObjectFromAllAutoWaterGroups(TESObjectREFR* a1);
 };
 
 // @fnv 0x004e5fe0
-void TESWaterSystem_Impl::FUN_004e5fe0(TESObjectREFR* apRef)
+// src: COMMUNITY 0x004e5fe0
+void TESWaterSystem_Impl::TESWaterSystem_RemoveTESObjectFromAllAutoWaterGroups(TESObjectREFR* apRef)
 {
-    NiTPointerMap<unsigned int, void*>* map = (NiTPointerMap<unsigned int, void*>*)FUN_005d43c0(apRef)->FUN_0042f1d0();
+    NiTPointerMap<unsigned int, void*>* map = (NiTPointerMap<unsigned int, void*>*)FUN_005d43c0(apRef)->ExtraDataList_GetWaterZoneMap();
     {
         void* a;
         a = ((NiTPointerList<TESObjectREFR*>*)&m_kWaterZoneList)->GetHeadPos();
@@ -10737,7 +10782,7 @@ struct WaterForm3590
     unsigned int FUN_008d80e0();
     float FUN_00644930();
     float FUN_008d01e0();
-    float FUN_00580100();
+    float GetOpacity_00580100();
     float GetField11C();
     float GetFloatAtOffset9C();
     float GetFloatAt120();
@@ -10751,10 +10796,10 @@ struct WaterForm3590
     float FUN_00508070();
     float FUN_009b88a0();
     float GetUnka4();
-    float FUN_004e3ce0();
-    float FUN_009442a0();
-    float FUN_00644950();
-    float FUN_00644970();
+    float TESWaterForm_GetFogScale();
+    float GetMoveSpeed_009442a0();
+    float Sky_GetFlash();
+    float TESWaterForm_GetDepthY();
 };
 struct WaterMaterial125
 {
@@ -10864,7 +10909,7 @@ struct WaterMaterial125
     float value11c;
     float value120;
     float value124;
-    void FUN_004e3c00();
+    void BSShaderProperty_ClearRenderPasses();
 };
 struct Shader125
 {
@@ -10888,11 +10933,11 @@ struct Ref125
 };
 struct Base125 : TESBoundObject
 {
-    bool FUN_004e3c70();
-    bool FUN_004e3c50();
-    bool FUN_004e3280();
+    bool BGSPlaceableWater_GetUnderwaterFog();
+    bool GetReflectionEnabled();
+    bool BGSPlaceableWater_GetRefractionEnabled();
     bool FUN_004e32e0();
-    bool FUN_004e3ca0();
+    bool GetObjectTexCoordsEnabled();
 };
 struct Ptr125
 {
@@ -10927,14 +10972,15 @@ struct Parent125
 struct System125
 {
     Scene125* FUN_004e8030(Ref125*);
-    void FUN_004e3590(Parent125*, Ref125*);
+    void TESWaterSystem_UpdateShader(Parent125*, Ref125*);
 };
 extern float DAT_011ff108;
-bool FUN_004e3c40();
+bool TESWaterListener_GetUnderwater();
 extern Setting g_011c7b6c, g_011c7c60, g_011c7bbc;
 // For geometry with shader result 13, copies water form properties into its enabled water material and updates related flags.
 // @fnv 0x004e3590
-void System125::FUN_004e3590(Parent125* parent, Ref125* reference)
+// src: COMMUNITY 0x004e3590
+void System125::TESWaterSystem_UpdateShader(Parent125* parent, Ref125* reference)
 {
     Scene125* geometry = FUN_004e8030(reference);
     if (geometry && geometry->AsGeometry())
@@ -10963,7 +11009,7 @@ void System125::FUN_004e3590(Parent125* parent, Ref125* reference)
                                              (unsigned char)((color >> 16) & 255) / 255.0, 1.0f);
                 base->valueb8 = water->FUN_00644930();
                 base->valuebc = water->FUN_008d01e0();
-                base->valuec0 = water->FUN_00580100();
+                base->valuec0 = water->GetOpacity_00580100();
                 base->valuec4 = water->GetField11C();
                 base->value118 = water->GetFloatAtOffset9C();
                 base->value100 = water->GetFloatAt120();
@@ -10972,52 +11018,52 @@ void System125::FUN_004e3590(Parent125* parent, Ref125* reference)
                 base->valued4 = water->GetFloatAtOffset12C();
                 base->value11c = water->GetFieldE4Float();
                 DAT_011ff108 = water->GetFieldDC();
-                if (FUN_004e2180() || FUN_004e3c40())
+                if (TESWaterSystem_GetPlayerUnderwater() || TESWaterListener_GetUnderwater())
                 {
                     base->distance74 = water->FUN_00507b20();
                     base->distance78 = water->FUN_00507b20() - water->FUN_004e3d00();
-                    if (material->FUN_004e3c70())
+                    if (material->BGSPlaceableWater_GetUnderwaterFog())
                         base->value120 = water->FUN_00508070();
                 }
                 else
                 {
                     base->distance74 = water->FUN_009b88a0();
                     base->distance78 = water->FUN_009b88a0() - water->GetUnka4();
-                    if (material->FUN_004e3c70())
-                        base->value120 = water->FUN_004e3ce0();
+                    if (material->BGSPlaceableWater_GetUnderwaterFog())
+                        base->value120 = water->TESWaterForm_GetFogScale();
                     else
                         base->value120 = 0.0f;
                 }
-                base->value124 = water->FUN_009442a0();
+                base->value124 = water->GetMoveSpeed_009442a0();
                 {
                     bool flag81 = base->flag80;
                     bool flag63 = base->flag81;
                     bool flag80 = base->flag63;
-                    base->flag80 = material->FUN_004e3c50() && *g_011c7b6c.Bool();
-                    base->flag81 = material->FUN_004e3280() && *g_011c7c60.Bool();
+                    base->flag80 = material->GetReflectionEnabled() && *g_011c7b6c.Bool();
+                    base->flag81 = material->BGSPlaceableWater_GetRefractionEnabled() && *g_011c7c60.Bool();
                     base->flag63 = material->FUN_004e32e0() && *g_011c7bbc.Bool();
                     if (base->flag80 != flag81 || base->flag81 != flag63 || base->flag63 != flag80)
                     {
-                        base->FUN_004e3c00();
+                        base->BSShaderProperty_ClearRenderPasses();
                         if (parent->shader.FUN_00559450())
                         {
                             WaterMaterial125* nextMaterial = parent->shader.FUN_00559450()->FUN_00a59d30(3);
                             WaterMaterial125* nextProperty = nextMaterial;
                             if (nextProperty->GetPassCount(0) > 0)
-                                nextProperty->FUN_004e3c00();
+                                nextProperty->BSShaderProperty_ClearRenderPasses();
                         }
                     }
                 }
-                base->flag82 = material->FUN_004e3ca0();
-                if (water->FUN_00644950() == water->FUN_00644970())
+                base->flag82 = material->GetObjectTexCoordsEnabled();
+                if (water->Sky_GetFlash() == water->TESWaterForm_GetDepthY())
                 {
                     base->valued8 = -1.0f;
                     base->valuedc = 0.0f;
                 }
                 else
                 {
-                    base->valued8 = water->FUN_00644950();
-                    base->valuedc = water->FUN_00644970();
+                    base->valued8 = water->Sky_GetFlash();
+                    base->valuedc = water->TESWaterForm_GetDepthY();
                 }
             }
         }

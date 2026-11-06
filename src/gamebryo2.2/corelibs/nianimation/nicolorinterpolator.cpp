@@ -340,7 +340,7 @@ struct ViewerArray
     void FUN_0096ae90(unsigned int index, void* elem);
 };
 
-void* FUN_00a7d330(void* arg);
+void* NiViewerStrings_NiGetViewerString_Title(void* arg);
 void* FUN_00a7d5a0(const char* name, unsigned int value);
 
 struct InterpolatorViewerBase
@@ -353,7 +353,7 @@ void NiColorInterpolator::GetViewerStrings(NiViewerStringsArray* strings)
 {
     ViewerArray* out = reinterpret_cast<ViewerArray*>(strings);
     ((InterpolatorViewerBase*)this)->GetViewerStrings(out);
-    void* pValue = FUN_00a7d330(g_011f3730);
+    void* pValue = NiViewerStrings_NiGetViewerString_Title(g_011f3730);
     unsigned int uiIndex = out->m_usNext;
     if (uiIndex >= out->m_usMax)
     {

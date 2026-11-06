@@ -182,9 +182,9 @@ extern int DAT_011dc304;
 
 struct EdCallee
 {
-    void* FUN_009611e0();
+    void* NiAVObject_GetParent();
     void FUN_00b5eed0(void* apArg);
-    void FUN_00572a50(int aiArg);
+    void TESObjectREFR_KillLight(int aiArg);
 };
 
 void* __cdecl FUN_00450b80(int aiArg);
@@ -206,14 +206,14 @@ void LightEffect::FUN_0080ed60()
         {
             ((EdCallee*)pTmp)->FUN_00b5eed0((NiPointLight*)m_spLight);
         }
-        pObj = ((EdCallee*)(NiPointLight*)m_spLight)->FUN_009611e0();
+        pObj = ((EdCallee*)(NiPointLight*)m_spLight)->NiAVObject_GetParent();
         if (pObj != 0)
         {
             ((EdVirtual)(*(void***)pObj)[58])(pObj, (NiPointLight*)m_spLight);
         }
         if (pActor2 != 0)
         {
-            ((EdCallee*)pActor2)->FUN_00572a50(1);
+            ((EdCallee*)pActor2)->TESObjectREFR_KillLight(1);
         }
         m_spLight = 0;
         DAT_011dc304 = DAT_011dc304 - 1;

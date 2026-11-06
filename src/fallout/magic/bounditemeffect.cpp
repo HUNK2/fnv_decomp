@@ -144,7 +144,7 @@ BoundItemEffect::~BoundItemEffect()
     }
 }
 
-void* __cdecl FUN_00401000(unsigned int uiSize);
+void* __cdecl FormHeap_Allocate(unsigned int uiSize);
 void* operator new(unsigned int);
 
 // Allocates a BoundItemEffect from the caster, item and effect item.
@@ -979,7 +979,7 @@ extern TESSaveLoadGame* DAT_011de45c;
 
 extern "C" Sound* __cdecl _ref_004839c0(void* a);
 
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 
 int __fastcall FUN_0044ddc0(Obj12* p);
 
@@ -1027,13 +1027,13 @@ void BoundItemEffect::LoadGame(Actor* apActor)
 
                 pForm = _ref_004839c0(rec->formID);
 
-                FUN_005b5e40(&DAT_01015718, &DAT_01079810, 0x2da, rec->formID, pForm->VCall130(),
+                Warning_005b5e40(&DAT_01015718, &DAT_01079810, 0x2da, rec->formID, pForm->VCall130(),
                              *(unsigned char*)((char*)rec + 9), *(int*)((char*)rec + 5));
             }
             else
             {
 
-                FUN_005b5e40(&DAT_010156a8, &DAT_01079810, 0x2da, DAT_011de45c->FUN_008df040());
+                Warning_005b5e40(&DAT_010156a8, &DAT_01079810, 0x2da, DAT_011de45c->FUN_008df040());
             }
         }
 
@@ -1109,14 +1109,14 @@ void BoundItemEffect::LoadGame(Actor* apActor)
             if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
             {
 
-                FUN_005b5e40(&DAT_01015588, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
+                Warning_005b5e40(&DAT_01015588, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
                              &DAT_01079810, 0x302, tag->formID, snd2->VCall130(), *(unsigned char*)((char*)tag + 9),
                              *(int*)((char*)tag + 5));
             }
             else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
             {
 
-                FUN_005b5e40(&DAT_01015500, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
+                Warning_005b5e40(&DAT_01015500, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
                              &DAT_01079810, 0x302, tag->formID, snd2->VCall130(), *(unsigned char*)((char*)tag + 9),
                              *(int*)((char*)tag + 5));
             }
@@ -1127,13 +1127,13 @@ void BoundItemEffect::LoadGame(Actor* apActor)
             if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
             {
 
-                FUN_005b5e40(&DAT_010154a0, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
+                Warning_005b5e40(&DAT_010154a0, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
                              &DAT_01079810, 0x302, DAT_011de45c->FUN_008df040());
             }
             else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
             {
 
-                FUN_005b5e40(&DAT_01015440, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
+                Warning_005b5e40(&DAT_01015440, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
                              &DAT_01079810, 0x302, DAT_011de45c->FUN_008df040());
             }
         }
@@ -1159,7 +1159,7 @@ struct GlobalObject_0045cf30
 extern GlobalObject_0045cf30 g_011de4e8;
 struct ValueReferencePair
 {
-    void FUN_004be6f0();
+    void ItemChange_SaveGameTES();
 };
 
 }  // namespace fnv_00809bd0
@@ -1190,7 +1190,7 @@ void BoundItemEffect::SaveGame(Actor* arg)
             present = true;
         g_TESSaveLoadGame->FUN_008579b0(&present, 1);
         if (present)
-            ((ValueReferencePair*)m_pkWeaponEntry)->FUN_004be6f0();
+            ((ValueReferencePair*)m_pkWeaponEntry)->ItemChange_SaveGameTES();
         for (iSlot = 0; iSlot < 20; iSlot++)
         {
             present = false;
@@ -1198,7 +1198,7 @@ void BoundItemEffect::SaveGame(Actor* arg)
                 present = true;
             g_TESSaveLoadGame->FUN_008579b0(&present, 1);
             if (present)
-                ((ValueReferencePair*)m_apArmorEntries[iSlot])->FUN_004be6f0();
+                ((ValueReferencePair*)m_apArmorEntries[iSlot])->ItemChange_SaveGameTES();
         }
         if (g_TESSaveLoadGame->FUN_008df040() >= 65)
         {
@@ -2442,7 +2442,7 @@ struct FUN_00410360 : ExtraP
     FUN_00410360();
     static void* operator new(unsigned int n)
     {
-        return FUN_00401000(n);
+        return FormHeap_Allocate(n);
     }
     static void operator delete(void*);
     void ExtraDataList_DuplicateExtraListForContainer(ExtraP*);
@@ -2453,7 +2453,7 @@ struct FUN_004bc550 : EntryP
     FUN_004bc550(TESBoundObject*, int);
     static void* operator new(unsigned int n)
     {
-        return FUN_00401000(n);
+        return FormHeap_Allocate(n);
     }
     static void operator delete(void*);
 };
@@ -2463,7 +2463,7 @@ struct FUN_004bc650 : EntryP
     FUN_004bc650(EntryP*);
     static void* operator new(unsigned int n)
     {
-        return FUN_00401000(n);
+        return FormHeap_Allocate(n);
     }
     static void operator delete(void*);
 };

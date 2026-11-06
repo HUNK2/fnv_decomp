@@ -14,7 +14,8 @@ inline void* operator new(size_t, NiPSysModifierFloatCtlr* object)
 extern const void* g_01202728;
 
 // @fnv 0x00c2b360
-const void* __cdecl FUN_00c2b360()
+// src: COMMUNITY 0x00c2b360
+const void* __cdecl NiPSysEmitterSpeedCtlr_GetRTTI()
 {
     return &g_01202728;
 }

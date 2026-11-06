@@ -37,10 +37,11 @@ struct Holder00ba37f0
     bool b0;
     bool b1;
     Tex00ba37f0* pTileTexture;
-    void __thiscall FUN_00ba37f0(Tex00ba37f0* apTex);
+    void __thiscall ImageSpaceTexture_SetTexture_00ba37f0(Tex00ba37f0* apTex);
 };
 // @fnv 0x00ba37f0
-void __thiscall Holder00ba37f0::FUN_00ba37f0(Tex00ba37f0* apTex)
+// src: COMMUNITY 0x00ba37f0
+void __thiscall Holder00ba37f0::ImageSpaceTexture_SetTexture_00ba37f0(Tex00ba37f0* apTex)
 {
     if (pTileTexture != apTex)
     {
@@ -58,11 +59,11 @@ struct BeamStage
     char _0[8];
     void* m_8;
     void ApplyPairToState(unsigned int);
-    void FUN_00e7def0(unsigned int);
+    void NiD3DTextureStage_SetFilterMode(unsigned int);
 };
 struct TextureReceiver
 {
-    TextureReceiver* FUN_004bc320(int);
+    TextureReceiver* BSRenderedTexture_GetTexture(int);
 };
 struct UnkBA38F0
 {
@@ -72,17 +73,18 @@ struct UnkBA38F0
     UnkBA38F0* volatile m_iWordAt04;
     unsigned int m_8;
     unsigned int m_C;
-    void FUN_00ba38f0(BeamStage*);
+    void ImageSpaceTexture_SetupTexture(BeamStage*);
 };
 // @fnv 0x00ba38f0
-void UnkBA38F0::FUN_00ba38f0(BeamStage* pkStage)
+// src: COMMUNITY 0x00ba38f0
+void UnkBA38F0::ImageSpaceTexture_SetupTexture(BeamStage* pkStage)
 {
     UnkBA38F0* pThis = this;
     pkStage->ApplyPairToState(pThis->m_C);
-    pkStage->FUN_00e7def0(pThis->m_8);
+    pkStage->NiD3DTextureStage_SetFilterMode(pThis->m_8);
     if (pThis->m_cByteAtOffset1)
     {
-        pkStage->m_8 = ((TextureReceiver*)pThis->m_iWordAt04)->FUN_004bc320(0);
+        pkStage->m_8 = ((TextureReceiver*)pThis->m_iWordAt04)->BSRenderedTexture_GetTexture(0);
     }
     else
     {
@@ -105,10 +107,11 @@ struct H_00ba39a0
     R_00ba39a0* p;
     int i1;
     int i2;
-    void FUN_00ba39a0();
+    void ImageSpaceTexture_ReturnRenderedTexture();
 };
 // @fnv 0x00ba39a0
-void H_00ba39a0::FUN_00ba39a0()
+// src: COMMUNITY 0x00ba39a0
+void H_00ba39a0::ImageSpaceTexture_ReturnRenderedTexture()
 {
     if (!b2)
         return;
@@ -149,10 +152,11 @@ struct OwnerStandIn
     unsigned char flag;
     unsigned char pad[2];
     RefBase* ptr;
-    void FUN_00ba37a0(RefBase* p);
+    void ImageSpaceTexture_SetTexture(RefBase* p);
 };
 // @fnv 0x00ba37a0
-void OwnerStandIn::FUN_00ba37a0(RefBase* p)
+// src: COMMUNITY 0x00ba37a0
+void OwnerStandIn::ImageSpaceTexture_SetTexture(RefBase* p)
 {
     if (ptr != p)
     {
@@ -180,11 +184,12 @@ struct Holder
     RefObj* _4;
     int _8;
     int _c;
-    void __thiscall FUN_00ba38b0();
+    void __thiscall ImageSpaceTexture_ClearTexture();
 };
 
 // @fnv 0x00ba38b0
-void __thiscall Holder::FUN_00ba38b0()
+// src: COMMUNITY 0x00ba38b0
+void __thiscall Holder::ImageSpaceTexture_ClearTexture()
 {
     RefObj* tmp = _4;
     if (tmp)
@@ -214,11 +219,12 @@ struct H_00ba3840
     bool b2;
     char _pad;
     Tex00ba37f0* pTileTexture;
-    void FUN_00ba3840(int arg);
+    void ImageSpaceTexture_BorrowRenderedTexture(int arg);
 };
 
 // @fnv 0x00ba3840
-void H_00ba3840::FUN_00ba3840(int arg)
+// src: COMMUNITY 0x00ba3840
+void H_00ba3840::ImageSpaceTexture_BorrowRenderedTexture(int arg)
 {
     Tex00ba37f0* pNew = ((TexMgr00ba3840*)DAT_011f91a8)->CreateRenderTargetTexture(DAT_011f9508, arg, 0, 0, 0);
     if (pTileTexture != pNew)
@@ -252,10 +258,11 @@ struct FUN_00ba26f0_struct
     ISTex c;
     char _a0[0x8];
     ISTex d;
-    void FUN_00ba26f0();
+    void ImageSpaceEffectWaterFFT_InitializeUtilityBuffers();
 };
 // @fnv 0x00ba26f0
-void FUN_00ba26f0_struct::FUN_00ba26f0()
+// src: COMMUNITY 0x00ba26f0
+void FUN_00ba26f0_struct::ImageSpaceEffectWaterFFT_InitializeUtilityBuffers()
 {
     if (!((ISTex*)((char*)this + 0x88))->GetTexture())
         ((ISTex*)((char*)this + 0x88))->CreateRenderTargetTexture(0xd);
@@ -274,14 +281,15 @@ struct FUN_00ba3780_struct
     bool flag;
     unsigned char pad[2];
     TextureReceiver* ptr;
-    TextureReceiver* FUN_00ba3780();
+    TextureReceiver* ImageSpaceTexture_GetTexture();
 };
 
 // @fnv 0x00ba3780
-TextureReceiver* FUN_00ba3780_struct::FUN_00ba3780()
+// src: COMMUNITY 0x00ba3780
+TextureReceiver* FUN_00ba3780_struct::ImageSpaceTexture_GetTexture()
 {
     if (flag)
-        return ptr->FUN_004bc320(0);
+        return ptr->BSRenderedTexture_GetTexture(0);
     return ptr;
 }
 
@@ -520,12 +528,13 @@ struct ImageSpaceOwner
     int unk1f4;
     void* pGeom1f8;
     bool bUseAlt;
-    void FUN_00b8c980(ISEffectShader* apShader, void* apArg2, NiTexture* apSource, BSRenderedTexture* apDest,
+    void ImageSpaceManager_RenderEffect_0(ISEffectShader* apShader, void* apArg2, NiTexture* apSource, BSRenderedTexture* apDest,
                       void* apArg5, void* apArg6);
 };
 
 // @fnv 0x00b8c980
-void ImageSpaceOwner::FUN_00b8c980(ISEffectShader* apShader, void* apArg2, NiTexture* apSource,
+// src: COMMUNITY 0x00b8c980
+void ImageSpaceOwner::ImageSpaceManager_RenderEffect_0(ISEffectShader* apShader, void* apArg2, NiTexture* apSource,
                                    BSRenderedTexture* apDest, void* apArg5, void* apArg6)
 {
     TLSTagGuard kGuard(0x27);
@@ -633,10 +642,10 @@ struct HolderX
     HolderX() : b0(0), b1(0), b2(0), p(0), i1(0), i2(0)
     {}
     ~HolderX();
-    void FUN_00ba3840(int arg);
+    void ImageSpaceTexture_BorrowRenderedTexture(int arg);
     void FUN_00ba3940(HolderX* other);
-    void* FUN_00ba3780();
-    void FUN_00ba39a0();
+    void* ImageSpaceTexture_GetTexture();
+    void ImageSpaceTexture_ReturnRenderedTexture();
 };
 extern int DAT_01200050;
 extern float DAT_0120004c;
@@ -690,8 +699,8 @@ struct Owner
     float m_b0;
     float m_b4;
     bool m_b8;
-    void FUN_00ba26f0();
-    void FUN_00ba2760(int a1, int a2, int a3, int a4);
+    void ImageSpaceEffectWaterFFT_InitializeUtilityBuffers();
+    void ImageSpaceEffectWaterFFT_Render(int a1, int a2, int a3, int a4);
 };
 
 static __forceinline WorkObj* ToWork(WorkObj* p)
@@ -701,10 +710,11 @@ static __forceinline WorkObj* ToWork(WorkObj* p)
 }
 
 // @fnv 0x00ba2760
-void Owner::FUN_00ba2760(int a1, int a2, int a3, int a4)
+// src: COMMUNITY 0x00ba2760
+void Owner::ImageSpaceEffectWaterFFT_Render(int a1, int a2, int a3, int a4)
 {
     if (!m_b8)
-        FUN_00ba26f0();
+        ImageSpaceEffectWaterFFT_InitializeUtilityBuffers();
     int count = DAT_01200050;
     int a2v = a2;
     int j;
@@ -713,9 +723,9 @@ void Owner::FUN_00ba2760(int a1, int a2, int a3, int a4)
     HolderX d;
     HolderX b;
     HolderX a;
-    d.FUN_00ba3840(7);
-    a.FUN_00ba3840(7);
-    b.FUN_00ba3840(7);
+    d.ImageSpaceTexture_BorrowRenderedTexture(7);
+    a.ImageSpaceTexture_BorrowRenderedTexture(7);
+    b.ImageSpaceTexture_BorrowRenderedTexture(7);
     HolderX c;
     WorkObj* w = ToWork(m_iThirdValue->p0);
     TexObj* tex = m_1c->t0;
@@ -794,12 +804,12 @@ void Owner::FUN_00ba2760(int a1, int a2, int a3, int a4)
         w->SetAccumulatorAt(1, m_2c->p1, 0);
         w->Vf1(a1, a2v, tex, 1);
     }
-    if (d.FUN_00ba3780())
-        d.FUN_00ba39a0();
-    if (a.FUN_00ba3780())
-        a.FUN_00ba39a0();
-    if (b.FUN_00ba3780())
-        b.FUN_00ba39a0();
+    if (d.ImageSpaceTexture_GetTexture())
+        d.ImageSpaceTexture_ReturnRenderedTexture();
+    if (a.ImageSpaceTexture_GetTexture())
+        a.ImageSpaceTexture_ReturnRenderedTexture();
+    if (b.ImageSpaceTexture_GetTexture())
+        b.ImageSpaceTexture_ReturnRenderedTexture();
 }
 
 struct TextureRenderedViewB63
@@ -820,16 +830,16 @@ struct TextureContainerB63
 };
 struct TextureAllocationManagerB63
 {
-    void* FUN_00aa3e40(unsigned int bytes);
+    void* Game_DoHeapAlloc(unsigned int bytes);
 };
 extern TextureAllocationManagerB63 DAT_011f6238;
 inline void* operator new(unsigned int bytes)
 {
-    return DAT_011f6238.FUN_00aa3e40(bytes);
+    return DAT_011f6238.Game_DoHeapAlloc(bytes);
 }
 struct TextureManagerB63
 {
-    RefBase* FUN_00b6e110(void* settings, int dimensions, void* p1, void* p2, void* p3);
+    RefBase* BSTextureManager_BorrowRenderedTexture(void* settings, int dimensions, void* p1, void* p2, void* p3);
 };
 extern void* DAT_011f4748;
 struct TextureOwnerB63
@@ -872,10 +882,11 @@ struct TextureOwnerB63
     int unk08c;
     int unk090;
     TextureContainerB63 container;
-    int FUN_00b63c60();
+    int ImageSpaceShaderVolumetricFog_GetVolumetricFogTexture();
 };
 // @fnv 0x00b63c60
-int TextureOwnerB63::FUN_00b63c60()
+// src: COMMUNITY 0x00b63c60
+int TextureOwnerB63::ImageSpaceShaderVolumetricFog_GetVolumetricFogTexture()
 {
     if (!container.node->receiver)
     {
@@ -887,7 +898,7 @@ int TextureOwnerB63::FUN_00b63c60()
     {
         OwnerStandIn** receiverSlot = &container.node->receiver;
         (*receiverSlot)
-            ->FUN_00ba37a0(reinterpret_cast<TextureManagerB63*>(DAT_011f91a8)->FUN_00b6e110(DAT_011f4748, 32, 0, 0, 0));
+            ->ImageSpaceTexture_SetTexture(reinterpret_cast<TextureManagerB63*>(DAT_011f91a8)->BSTextureManager_BorrowRenderedTexture(DAT_011f4748, 32, 0, 0, 0));
     }
     OwnerStandIn** finalSlot = &container.node->receiver;
     return reinterpret_cast<TextureRenderedViewB63*>(*finalSlot)->FUN_00ba3770();
@@ -948,11 +959,12 @@ struct TextureOwnerB63D
     int unk090;
     int unk094;
     TextureNodeB63D* node;
-    void FUN_00b63d10();
+    void ImageSpaceShaderVolumetricFog_ReturnVolumetricFogTexture();
 };
 
 // @fnv 0x00b63d10
-void TextureOwnerB63D::FUN_00b63d10()
+// src: COMMUNITY 0x00b63d10
+void TextureOwnerB63D::ImageSpaceShaderVolumetricFog_ReturnVolumetricFogTexture()
 {
     TextureNodeB63D* current = node;
     if (!node->texture)
@@ -963,5 +975,5 @@ void TextureOwnerB63D::FUN_00b63d10()
     OwnerStandIn** slot = &node->texture;
     int rendered = reinterpret_cast<RenderedGetterB63D*>(*slot)->FUN_00ba3770();
     manager->FUN_00b6da10(rendered);
-    node->texture->FUN_00ba37a0(0);
+    node->texture->ImageSpaceTexture_SetTexture(0);
 }

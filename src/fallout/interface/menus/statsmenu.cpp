@@ -567,7 +567,7 @@ struct LBH
 {
     void Initialize(Tile*, const char*);
     Tile* AddListEntry(int, int, int, int);
-    Tile* FUN_007e1190(int, int, int, int);
+    Tile* ListBox_enum_MiscStatManager_MiscStatID_AddItem(int, int, int, int);
 };
 struct MenuH : StatsMenu
 {
@@ -590,13 +590,13 @@ void __cdecl NormalizeStatsLabel();
 
 int __cdecl FUN_005a3370(int);
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 int __cdecl FUN_004d5e00();
 void __cdecl _FNV_Warning(const char*, ...);
 const char* __cdecl GetGameSettingString(int);
 void __cdecl CompareActorValueNames();
 StatusH* __stdcall FUN_007db1c0(int);
-void __cdecl FUN_007dd710();
+void __cdecl StatsMenu_UpdatePerks();
 void __cdecl UpdateStatsMenuLevelText();
 bool __cdecl IsActorValueBelowPermanent(int*);
 bool __cdecl IsHealingOptionAvailable(int*);
@@ -636,7 +636,7 @@ Tile* FUN_007da2c0()
     Menu* pold_menu_tile = FindMenuById(FUN_004d5e00());
     if (pold_menu_tile)
         delete pold_menu_tile;
-    InterfaceManager* pin = (InterfaceManager*)FUN_004b7210();
+    InterfaceManager* pin = (InterfaceManager*)InterfaceManager_GetSingleton();
     float ftop_depth = Tile::GetInterfaceScale();
     Tile* ptile = ((Tile*)((IMH*)pin)->FUN_00586150())->ReadFile("Data\\Menus\\Main\\stats_menu.xml");
     StatsMenu::ms_pInventoryMenu = (StatsMenu*)((Tile*)ptile)->GetMenu();
@@ -652,7 +652,7 @@ Tile* FUN_007da2c0()
         }
         if (ptile->GetFloat(0xfa7) == _DAT_010704f0 || ptile->GetFloat(0xfa7) == _DAT_010704e8)
             ((Tile*)ptile)->Set(0xfad, ftop_depth, true);
-        ((TutorialState*)((char*)FUN_004b7210() + 0x4d4))->ShowMessage(0x19, FUN_004d5e00(), 0x200);
+        ((TutorialState*)((char*)InterfaceManager_GetSingleton() + 0x4d4))->ShowMessage(0x19, FUN_004d5e00(), 0x200);
         UpdateStatsMenuLevelText();
         BGSRadiationStage* pstage = BGSRadiationStage::GetStageForLevel(3.402823466e+38F);
         ((Tile*)ptile)->Set(0x1006, pstage ? ((Calendar*)pstage)->GetDaysPassed() : 1000);
@@ -705,7 +705,7 @@ Tile* FUN_007da2c0()
         ((void (__thiscall*)(ListBoxBase*, void*))(*(void***)&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList)[8])(&StatsMenu::ms_pInventoryMenu->m_kSecondaryActorValueList, (void*)CompareActorValueNames);
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kPerkRankList)
             ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[34], (const char*)strtmp);
-        FUN_007dd710();
+        StatsMenu_UpdatePerks();
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kReputationList)
             ->Initialize(StatsMenu::ms_pInventoryMenu->m_pTiles[46], (const char*)strtmp);
         ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kMiscStatList)
@@ -714,7 +714,7 @@ Tile* FUN_007da2c0()
              eMiscStat < MiscStatManager__MiscStatID_MS_COUNT;
              TESReputation::GetUnsignedIntegerPointer((unsigned int*)&eMiscStat))
         {
-            Tile* ptile = ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kMiscStatList)->FUN_007e1190(eMiscStat, 0, 0, 0);
+            Tile* ptile = ((LBH*)&StatsMenu::ms_pInventoryMenu->m_kMiscStatList)->ListBox_enum_MiscStatManager_MiscStatID_AddItem(eMiscStat, 0, 0, 0);
             const char* ptext = GetGameSettingString(eMiscStat);
             ptile->Set(0xfc4, ptext, true);
             ptile->Set(0x1005, FUN_005a3370(eMiscStat));
@@ -1075,12 +1075,12 @@ int ConditionMenuMethods::FUN_007dfe40()
 // Unit-local declarations for the copy operation and setters absent from EffectItem.h.
 struct StatsMenuEffectItemMethods : EffectItem
 {
-    void FUN_00404560(unsigned int range);
-    void FUN_004043d0(int magnitude);
-    void FUN_00404470(int area);
-    void FUN_00404510(int duration);
+    void SetRange_00404560(unsigned int range);
+    void SetMagnitude_004043d0(int magnitude);
+    void SetArea_00404470(int area);
+    void SetDuration_00404510(int duration);
     void SetOwner(int actorValue);
-    void FUN_00404760(PerkEntryConditionSet* conditions);
+    void EffectItem_SetConditions(PerkEntryConditionSet* conditions);
     void CopyFrom(EffectItem* apSource);
 };
 
@@ -1088,12 +1088,12 @@ struct StatsMenuEffectItemMethods : EffectItem
 void StatsMenuEffectItemMethods::CopyFrom(EffectItem* apSource)
 {
     m_pEffectSetting = apSource->m_pEffectSetting;
-    FUN_00404560(apSource->GetRange());
-    FUN_004043d0(apSource->GetMagnitude());
-    FUN_00404470(apSource->GetArea());
-    FUN_00404510(apSource->GetDuration());
+    SetRange_00404560(apSource->GetRange());
+    SetMagnitude_004043d0(apSource->GetMagnitude());
+    SetArea_00404470(apSource->GetArea());
+    SetDuration_00404510(apSource->GetDuration());
     SetOwner(apSource->GetAffectedActorValue());
-    FUN_00404760(apSource->GetConditions());
+    EffectItem_SetConditions(apSource->GetConditions());
     m_fCost = -1.0f;
 }
 
@@ -1146,14 +1146,14 @@ struct PipboyInterface
     FOPipboyManager* GetPipboyManager();
 };
 
-void* __cdecl FUN_004b7210(void);
+void* __cdecl InterfaceManager_GetSingleton(void);
 
 // If a stats menu exists, gets the pipboy manager and plays sounds for the menu's current page.
 // @fnv 0x007dfc90
 void PlayPipboyPageSound(bool abPlaySounds)
 {
     if (StatsMenu::ms_pInventoryMenu)
-        reinterpret_cast<PipboyInterface*>(FUN_004b7210())
+        reinterpret_cast<PipboyInterface*>(InterfaceManager_GetSingleton())
             ->GetPipboyManager()
             ->SetValue(StatsMenu::ms_pInventoryMenu->GetCurrentPage(), abPlaySounds);
 }
@@ -1164,7 +1164,7 @@ struct PageMenuMethods : public StatsMenu
     void SetPage(int);
 };
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 // Exe 0x007dff40: unit-local Interface view; declarations and layout are preserved.
 class StatsmenuInterfaceView
 {
@@ -1175,7 +1175,7 @@ class StatsmenuInterfaceView
 struct PerkListQueries
 {
     unsigned int FUN_00726710();
-    void* FUN_007d86c0(int, int);
+    void* ListBox_BGSSaveLoadFileEntry_GetDataAt(int, int);
 };
 struct StatsPageUpdateMethods : StatsMenu
 {
@@ -1193,9 +1193,9 @@ void PageMenuMethods::SetPage(int aePage)
 {
     if (aePage < 0 || aePage > 4)
         return;
-    ((StatsmenuInterfaceView*)FUN_004b7210())->GetPipboyManager()->StartBurst(*g_011db458.Float(), *g_011db37c.Float(), 0.5f);
+    ((StatsmenuInterfaceView*)InterfaceManager_GetSingleton())->GetPipboyManager()->StartBurst(*g_011db458.Float(), *g_011db37c.Float(), 0.5f);
     pMenu->Set(0x1004, aePage);
-    if (((StatsmenuInterfaceView*)FUN_004b7210())->GetPipboyManager()->GetInitialized())
+    if (((StatsmenuInterfaceView*)InterfaceManager_GetSingleton())->GetPipboyManager()->GetInitialized())
         PlayPipboyPageSound(1);
     if (m_bUpdateOption)
         ((StatsPageUpdateMethods*)this)->RefreshHealingOptions();
@@ -1204,7 +1204,7 @@ void PageMenuMethods::SetPage(int aePage)
     else if (aePage == 2)
         ((StatsPageUpdateMethods*)this)->UpdateStatsDisplay(0x20);
     else if (aePage == 3 && ((PerkListQueries*)&m_kPerkRankList)->FUN_00726710())
-        ((StatsPageUpdateMethods*)this)->UpdateScrollBar(((PerkListQueries*)&m_kPerkRankList)->FUN_007d86c0(0, 0));
+        ((StatsPageUpdateMethods*)this)->UpdateScrollBar(((PerkListQueries*)&m_kPerkRankList)->ListBox_BGSSaveLoadFileEntry_GetDataAt(0, 0));
     else
         m_pTiles[25]->Set(0xfa3, 0);
 }
@@ -1833,7 +1833,8 @@ extern GameSettingCollection_stub g_011d4930;
 extern SM7d6* DAT_011daac0;
 // If DAT_011daac0 is set, calls its e4.v7, sets tile 0xfc4 text from g_011d4930.String(), and calls FUN_0075f6f0(0x4000, true).
 // @fnv 0x007d35c0
-void __cdecl FUN_007d35c0()
+// src: COMMUNITY 0x007d35c0
+void __cdecl StartMenu_ConfirmSaveGame()
 {
     if (DAT_011daac0)
     {
@@ -2086,7 +2087,7 @@ struct PipboyControlInterface
     FOPipboyManager* FUN_00704370();
 };
 
-PipboyControlInterface* __stdcall FUN_004b7210(int, float, float);
+PipboyControlInterface* __stdcall InterfaceManager_GetSingleton(int, float, float);
 
 struct ScrollKnobMenuMethods : StatsMenu
 {
@@ -2100,12 +2101,12 @@ void ScrollKnobMenuMethods::FUN_007dfd20(Tile* apObj, unsigned int* apOut)
     if (*apOut < v)
     {
         ((void (__thiscall*)(FOPipboyManager*))UpdatePipboyScrollKnobTarget)(
-            FUN_004b7210(0, *DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370());
+            InterfaceManager_GetSingleton(0, *DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370());
     }
     else if (*apOut > v)
     {
         ((void (__thiscall*)(FOPipboyManager*))UpdatePipboyScrollKnobTarget)(
-            FUN_004b7210(0, -*DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370());
+            InterfaceManager_GetSingleton(0, -*DAT_011db2f0.Get(), *DAT_011db358.Get(1))->FUN_00704370());
     }
     *apOut = v;
 }
@@ -2113,13 +2114,13 @@ void ScrollKnobMenuMethods::FUN_007dfd20(Tile* apObj, unsigned int* apOut)
 extern char DAT_01183028[];
 extern char DAT_01183158[];
 TESFullName* __cdecl FUN_00ec43fb(int a, int b, const char* c, const char* d, int e);
-void __cdecl FUN_00404dc0(void* a, void* b);
+void __cdecl BSstricmp(void* a, void* b);
 
 // Resolves the objects referenced by *pA and *pB via FUN_00ec43fb and passes their FUN_00408da0 results to FUN_00404dc0.
 // @fnv 0x007e0480
 void __cdecl FUN_007e0480(int* pA, int* pB)
 {
-    FUN_00404dc0(FUN_00ec43fb(*pA, 0, DAT_01183028, DAT_01183158, 0)->GetFullName(),
+    BSstricmp(FUN_00ec43fb(*pA, 0, DAT_01183028, DAT_01183158, 0)->GetFullName(),
                  FUN_00ec43fb(*pB, 0, DAT_01183028, DAT_01183158, 0)->GetFullName());
 }
 
@@ -2132,12 +2133,12 @@ struct Entry
     unsigned int unk00;
     Holder* holder;
 };
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 // Compares the text strings of the items referenced by two entries via FUN_00404dc0 and returns its result.
 // @fnv 0x007e04e0
 int __cdecl CompareEntryText(const Entry* pLeftEntry, const Entry* pRightEntry)
 {
-    return FUN_00404dc0(reinterpret_cast<TESFullName*>((char*)pLeftEntry->holder->item + sizeof(TESForm))->GetFullName(), reinterpret_cast<TESFullName*>((char*)pRightEntry->holder->item + sizeof(TESForm))->GetFullName());
+    return BSstricmp(reinterpret_cast<TESFullName*>((char*)pLeftEntry->holder->item + sizeof(TESForm))->GetFullName(), reinterpret_cast<TESFullName*>((char*)pRightEntry->holder->item + sizeof(TESForm))->GetFullName());
 }
 
 extern const double DAT_01012060;
@@ -2375,9 +2376,9 @@ bool AcceptKeyMenuMethods::FUN_007dc0e0(int iKey, int iUnused)
 }
 
 FORenderedMenu* __cdecl FUN_00705990();
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 bool __cdecl FUN_007178a0();
-unsigned int __cdecl FUN_00457fe0();
+unsigned int __cdecl Cmd_GetSessionTime_Execute();
 bool __cdecl FUN_00702450(int);
 bool __fastcall FUN_004d1360(void*);
 extern unsigned int DAT_011dad74;
@@ -2405,10 +2406,10 @@ void Host15::UpdateStatsMenu()
     m_bStatUpdatePending = 0;
     if (FUN_00705990()->IsUnk28Set())
     {
-        FUN_004b7210();
+        InterfaceManager_GetSingleton();
         if (FUN_007178a0())
         {
-            if (FUN_00457fe0() >= DAT_011dad74)
+            if (Cmd_GetSessionTime_Execute() >= DAT_011dad74)
             {
                 UpdatePipboyNeedle();
                 if (DAT_011dea3c && FUN_004d1360(DAT_011dea3c))
@@ -2417,7 +2418,7 @@ void Host15::UpdateStatsMenu()
                     FUN_007ddd10();
                     UpdateModifierTile();
                 }
-                DAT_011dad74 = (unsigned int)((double)FUN_00457fe0() + FUN_00726070()->FUN_00a011b0(0x1007) * 1000.0);
+                DAT_011dad74 = (unsigned int)((double)Cmd_GetSessionTime_Execute() + FUN_00726070()->FUN_00a011b0(0x1007) * 1000.0);
             }
         }
         if (m_bUpdateOption)
@@ -2514,7 +2515,8 @@ extern StatsMenu* DAT_011dace0;
 extern PlayerCharacter* DAT_011dea3c;
 
 // @fnv 0x007dd710
-void __cdecl FUN_007dd710()
+// src: COMMUNITY 0x007dd710
+void __cdecl StatsMenu_UpdatePerks()
 {
     if (DAT_011dace0 && DAT_011dace0->m_pTiles[34])
     {
@@ -2616,7 +2618,7 @@ void NeedleMenuMethods::UpdatePipboyNeedle()
         fValue = FUN_004bd510(fValue, 1.0f);
     ((Tile*)pMenu)->Set(0x1005, fValue, true);
     ((void (__thiscall*)(FOPipboyManager*, int, float, float))SetPipboyGaugeTarget)(
-        ((PipboyInterfaceStub*)FUN_004b7210())->GetPipboyManager(),
+        ((PipboyInterfaceStub*)InterfaceManager_GetSingleton())->GetPipboyManager(),
         1, fAngleDifference, g_fPipboyNeedleSpeed);
 }
 
@@ -2747,7 +2749,7 @@ bool StatusPageMenuMethods::FUN_007e0060(int id)
 struct EntryEffects
 {
     unsigned int unk00, unk04, unk08;
-    void FUN_007e09d0(ActiveEffect*);
+    void StatsMenu_NamedEffectsList_InsertActiveEffect(ActiveEffect*);
     void ApplyParamToEntry(ActiveEffect*);
 };
 struct EffectGroup
@@ -2780,7 +2782,7 @@ void GroupedEffectListMethods::AddEffectToGroup(ActiveEffect* effect)
         ((EffectGroupList*)&bSSimpleList_StatsMenu__StatusEffect___Component)->FUN_007a7eb0(pGroup, FUN_007e0480);
     }
     if (((EffectSetting*)effect->GetEffectSetting())->FUN_00403e60(0x2000))
-        pGroup->special.FUN_007e09d0(effect);
+        pGroup->special.StatsMenu_NamedEffectsList_InsertActiveEffect(effect);
     else
         pGroup->normal.ApplyParamToEntry(effect);
 }
@@ -2794,11 +2796,12 @@ struct FUN_007e09d0_sub
 class NamedEffectListMethods : public StatsMenu__NamedEffectsList
 {
 public:
-    void FUN_007e09d0(ActiveEffect*);
+    void StatsMenu_NamedEffectsList_InsertActiveEffect(ActiveEffect*);
 };
 
 // @fnv 0x007e09d0
-void NamedEffectListMethods::FUN_007e09d0(ActiveEffect* arg)
+// src: COMMUNITY 0x007e09d0
+void NamedEffectListMethods::StatsMenu_NamedEffectsList_InsertActiveEffect(ActiveEffect* arg)
 {
     EffectSetting* value = arg->FUN_007df1d0();
     if (!((FUN_007e09d0_sub*)&bSSimpleList_EffectSetting___Component)->FUN_005f65d0(&value))
@@ -2823,9 +2826,9 @@ struct ItemListMethods
 struct TraitAction
 {
     void RemoveFromReactions();
-    void FUN_00a09130(int, Tile*, int);
+    void Tile_Value_AddRefValueAction(int, Tile*, int);
     void AppendFloatAction(int, float);
-    void FUN_00a09410(bool);
+    void Tile_Value_SetFloat(bool);
 };
 struct ItemTileMethods
 {
@@ -2840,14 +2843,15 @@ int __cdecl FUN_00a00940(const char*, int);
 struct ItemBox : ListBox_enum_ActorValue__Index_
 {
     bool FUN_007242c0(unsigned int);
-    void FUN_007254d0();
+    void ListBox_StatsMenu_StatusEffect_Synchronize();
     void AccumulateTileHeight(Tile*);
     void FUN_00725970();
     int GetRaceCount();
-    Tile* FUN_007e1430(ActorValue::Index, const char*, ItemCompare, const char*);
+    Tile* StatsMenu_EffectsList_Append(ActorValue::Index, const char*, ItemCompare, const char*);
 };
 // @fnv 0x007e1430
-Tile* ItemBox::FUN_007e1430(ActorValue::Index value, const char* text, ItemCompare compare, const char* templateName)
+// src: COMMUNITY 0x007e1430
+Tile* ItemBox::StatsMenu_EffectsList_Append(ActorValue::Index value, const char* text, ItemCompare compare, const char* templateName)
 {
     if (m_pListTile && (pTemplateName || templateName))
     {
@@ -2862,7 +2866,7 @@ Tile* ItemBox::FUN_007e1430(ActorValue::Index value, const char* text, ItemCompa
             ((ItemListMethods*)&bSSimpleList_ListBoxItem_enum_ActorValue__Index____Component)
                 ->FUN_007a7eb0(new FUN_007a62e0(tile, &value), compare);
             if (FUN_007242c0(0))
-                FUN_007254d0();
+                ListBox_StatsMenu_StatusEffect_Synchronize();
         }
         else
         {
@@ -2880,10 +2884,10 @@ Tile* ItemBox::FUN_007e1430(ActorValue::Index value, const char* text, ItemCompa
         {
             TraitAction* action = ((ItemTileMethods*)m_pListTile)->FindTraitValue(4016);
             action->RemoveFromReactions();
-            action->FUN_00a09130(2000, tile, 4016);
+            action->Tile_Value_AddRefValueAction(2000, tile, 4016);
             action->AppendFloatAction(
                 2003, ((Tile*)m_pListTile)->FUN_00a011b0(FUN_00a00940("_number_of_visible_items", -1)));
-            action->FUN_00a09410(false);
+            action->Tile_Value_SetFloat(false);
         }
         return tile;
     }
@@ -2913,13 +2917,13 @@ struct TemplateMenu
 struct TileValueOperations
 {
     void RemoveFromReactions();
-    void FUN_00a09130(int, Tile*, int);
+    void Tile_Value_AddRefValueAction(int, Tile*, int);
     void AppendFloatAction(int, float);
-    void FUN_00a09410(int);
+    void Tile_Value_SetFloat(int);
 };
 struct TileOperations
 {
-    TemplateMenu* FUN_00a03c90();
+    TemplateMenu* Tile_GetMenu();
     void* FUN_00a00f30(int);
     float FUN_00a011b0(int);
     TileValueOperations* FindTraitValue(int);
@@ -2933,17 +2937,18 @@ struct ListBoxInsert : ListBox_enum_ActorValue__Index_
     void AccumulateTileHeight(Tile*);
     void FUN_00725f40();
     int GetRaceCount();
-    Tile* FUN_007e16d0(ActorValue::Index value, const char* text,
+    Tile* StatsMenu_ReputationList_Append(ActorValue::Index value, const char* text,
                        int(__cdecl* comparator)(FUN_007a62e0*, FUN_007a62e0*), const char* templateName);
 };
 // @fnv 0x007e16d0
-Tile* ListBoxInsert::FUN_007e16d0(ActorValue::Index value, const char* text,
+// src: COMMUNITY 0x007e16d0
+Tile* ListBoxInsert::StatsMenu_ReputationList_Append(ActorValue::Index value, const char* text,
                                   int(__cdecl* comparator)(FUN_007a62e0*, FUN_007a62e0*), const char* templateName)
 {
     if (m_pListTile && (pTemplateName || templateName))
     {
         Tile* tile = ((TileOperations*)m_pListTile)
-                         ->FUN_00a03c90()
+                         ->Tile_GetMenu()
                          ->FUN_00a1ddb0(m_pListTile, templateName ? templateName : pTemplateName, 0);
         if (!((TileOperations*)tile)->FUN_00a00f30(0xFAA))
             tile->Set(0xFAA, -1);
@@ -2972,10 +2977,10 @@ Tile* ListBoxInsert::FUN_007e16d0(ActorValue::Index value, const char* text,
         {
             TileValueOperations* height = ((TileOperations*)m_pListTile)->FindTraitValue(0xFB0);
             height->RemoveFromReactions();
-            height->FUN_00a09130(0x7D0, tile, 0xFB0);
+            height->Tile_Value_AddRefValueAction(0x7D0, tile, 0xFB0);
             height->AppendFloatAction(
                 0x7D3, ((TileOperations*)m_pListTile)->FUN_00a011b0(FUN_00a00940(kListBoxNumFiltered, -1)));
-            height->FUN_00a09410(0);
+            height->Tile_Value_SetFloat(0);
         }
         return tile;
     }
@@ -3437,8 +3442,8 @@ struct InputInterface
 {
     FOPipboyManager* FUN_00704370();
 };
-InputInterface* __cdecl FUN_004b7210();
-bool __cdecl FUN_00709d40();
+InputInterface* __cdecl InterfaceManager_GetSingleton();
+bool __cdecl Interface_Has360Controller();
 struct InputControls
 {
     int GetAxisState(int, int);
@@ -3554,7 +3559,7 @@ bool InputStats::FUN_007db680(int code, float amount)
                     else if (GetTileIndex(0x39, &limbVal) && limbVal == newStatusVal)
                         ((Tile*)m_pTiles[57])->FUN_00a0b110(0xfcb);
                     ((void (__thiscall*)(FOPipboyManager*, int, float, float, bool))UpdatePipboyScrollKnobTarget)(
-                        FUN_004b7210()->FUN_00704370(), 0, *g_011db2f0.FUN_00403e20() * statusStep6,
+                        InterfaceManager_GetSingleton()->FUN_00704370(), 0, *g_011db2f0.FUN_00403e20() * statusStep6,
                                                                  *g_011db358.FUN_00403e20(), true);
                     return true;
                 }
@@ -3614,7 +3619,7 @@ bool InputStats::FUN_007db680(int code, float amount)
                 }
             }
         }
-        if (FUN_00709d40() &&
+        if (Interface_Has360Controller() &&
             (((InputList*)&m_kStatusEffectList)->FUN_00825c00()->IsAllChildrenFlag0() ||
              ((Tile*)((InputChildren*)&m_pTiles[26]->m_kChildTileList)->FUN_007b5370())->IsTraitNonZero(0xfa3)))
         {

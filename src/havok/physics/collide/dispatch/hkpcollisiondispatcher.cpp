@@ -2551,12 +2551,12 @@ FUN_00cfc030_cls* FUN_00cfc030_cls::hkpCollisionDispatcher_hkpCollisionDispatche
 typedef void (*Callback)();
 
 void FUN_00cfb050();
-void FUN_00cfb060();
+void nullsub_7();
 void FUN_00cfb070();
 void FUN_00d10790();
-void FUN_00d10770();
-void FUN_00d10760();
-void FUN_00d10780();
+void nullsub_12();
+void nullsub_11();
+void nullsub_13();
 
 struct S00cfb080_IO
 {
@@ -2570,9 +2570,9 @@ struct S00cfb080_IO
     void Init()
     {
         m_pfnRead = FUN_00d10790;
-        m_pfnWrite = FUN_00d10770;
-        m_pfnSeek = FUN_00d10760;
-        m_pfnClose = FUN_00d10780;
+        m_pfnWrite = nullsub_12;
+        m_pfnSeek = nullsub_11;
+        m_pfnClose = nullsub_13;
         m_bOpen = false;
         m_bEnableState = true;
     }
@@ -3527,7 +3527,7 @@ void S00cfb080_State::hkpCollisionDispatcher_resetCreationFunctions()
     m_kIO.Init();
 
     m_pfnAlloc = FUN_00cfb050;
-    m_pfnFree = FUN_00cfb060;
+    m_pfnFree = nullsub_7;
     m_i16B8 = 0;
     m_i16BC = 0;
     m_i16C0 = 0;

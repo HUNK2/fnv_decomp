@@ -68,7 +68,8 @@ struct GlobalObjectO2_00a7b618
 extern GlobalObjectO2_00a7b618 g_01202518;
 
 // @fnv 0x00c201c0
-GlobalObjectO2_00a7b618* __cdecl FUN_00c201c0()
+// src: COMMUNITY 0x00c201c0
+GlobalObjectO2_00a7b618* __cdecl NiPSysBoxEmitter_GetRTTI()
 {
     return &g_01202518;
 }
@@ -191,7 +192,7 @@ extern const char* DAT_01202518;
 extern const char DAT_0109dc8c[];
 extern const char DAT_0109dc84[];
 extern const char DAT_010a0eb4[];
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d550(const char*, float);
 struct VolumeViewer : NiPSysVolumeEmitter
 {
@@ -206,7 +207,7 @@ struct BoxViewer : NiPSysBoxEmitter
 void BoxViewer::FUN_00c204d0(StrArr* strings)
 {
     ((VolumeViewer*)this)->FUN_00c31db0(strings);
-    strings->AppendInline(FUN_00a7d330(DAT_01202518));
+    strings->AppendInline(NiViewerStrings_NiGetViewerString_Title(DAT_01202518));
     strings->AppendInline(FUN_00a7d550(DAT_0109dc8c, width));
     strings->AppendInline(FUN_00a7d550(DAT_0109dc84, height));
     strings->AppendInline(FUN_00a7d550(DAT_010a0eb4, depth));

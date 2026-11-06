@@ -187,13 +187,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -273,7 +273,8 @@ inline bool LocalVec3::operator!=(const LocalVec3& o) const
 
 // Returns the constant value 1.
 // @fnv 0x00b6f470
-int __cdecl FUN_00b6f470()
+// src: COMMUNITY 0x00b6f470
+int __cdecl _return1()
 {
     return 1;
 }
@@ -380,10 +381,10 @@ struct Isect
     int pad[0x14];
     void __thiscall InitRegion(const void* a, const void* b, float c, float d, float e, int f);
     void __thiscall Solve(const void* a, const void* b);
-    float __thiscall FUN_00eae6f0();
+    float __thiscall NiIntersector_GetContactTime();
     int __thiscall FUN_00be0aa0();
-    const NiPoint3& __thiscall FUN_00eae700();
-    const NiPoint3& __thiscall FUN_00eae710();
+    const NiPoint3& __thiscall NiIntersector_GetContactPoint();
+    const NiPoint3& __thiscall NiIntersector_GetContactNormal();
     void __thiscall FUN_00eae6d0();
 };
 // @fnv 0x00ea3950
@@ -393,16 +394,16 @@ bool FUN_00ea3950(float afLength, const void* pA, const void* pB, const void* pC
     Isect k;
     k.InitRegion(pA, pC, afLength, 0.001f, g_011c5aa8_arg1, 0x20);
     k.Solve(pB, pD);
-    *pfTime = k.FUN_00eae6f0();
+    *pfTime = k.NiIntersector_GetContactTime();
     if (k.FUN_00be0aa0() != 3 && k.FUN_00be0aa0() != 2)
     {
         k.FUN_00eae6d0();
         return false;
     }
-    *pPoint = k.FUN_00eae700();
+    *pPoint = k.NiIntersector_GetContactPoint();
     if (bNormal)
     {
-        *pNormal = k.FUN_00eae710();
+        *pNormal = k.NiIntersector_GetContactNormal();
         *pNegNormal = -*pNormal;
     }
     k.FUN_00eae6d0();
@@ -450,7 +451,7 @@ struct Ea07Owner
 {
     int m_00;
     Ea07Sub m_04;
-    void __thiscall FUN_00a89af0(int a);
+    void __thiscall nullsub_3(int a);
     void __thiscall NiBoxBV_LoadBinary(int a);
 };
 
@@ -458,7 +459,7 @@ struct Ea07Owner
 // src: GAMEBRYO_SRC 0x00ea07e0
 void Ea07Owner::NiBoxBV_LoadBinary(int a)
 {
-    this->FUN_00a89af0(a);
+    this->nullsub_3(a);
     m_04.WriteToStream(a);
 }
 
@@ -470,10 +471,10 @@ struct PointPairState
     int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     void FUN_00eb3890(const void*, const void*, float, float, float, int);
     void Solve(const void*, const void*);
-    float FUN_00eae6f0();
+    float NiIntersector_GetContactTime();
     int FUN_00be0aa0();
-    const NiPoint3& FUN_00eae700();
-    const NiPoint3& FUN_00eae710();
+    const NiPoint3& NiIntersector_GetContactPoint();
+    const NiPoint3& NiIntersector_GetContactNormal();
     void FUN_00eae6d0();
 };
 // @fnv 0x00ea3c50
@@ -483,16 +484,16 @@ bool FUN_00ea3c50(float length, const void* a, const void* b, const void* c, con
     PointPairState isect;
     isect.FUN_00eb3890(a, c, length, DAT_01017d00, DAT_010141cc, 32);
     isect.Solve(b, d);
-    *pfTime = isect.FUN_00eae6f0();
+    *pfTime = isect.NiIntersector_GetContactTime();
     if (isect.FUN_00be0aa0() != 3 && isect.FUN_00be0aa0() != 2)
     {
         isect.FUN_00eae6d0();
         return false;
     }
-    *point = isect.FUN_00eae700();
+    *point = isect.NiIntersector_GetContactPoint();
     if (normals)
     {
-        *normal = isect.FUN_00eae710();
+        *normal = isect.NiIntersector_GetContactNormal();
         *negative = -*normal;
     }
     isect.FUN_00eae6d0();
@@ -2213,7 +2214,8 @@ inline float ReworkAbs(float fValue)
 
 // Tests a moving triangle against an oriented bounding box, returning the earliest hit time, point, and optional normals.
 // @fnv 0x00ea3d60
-bool __cdecl FUN_00ea3d60(float maxTime, const ReworkBox& box, const ReworkPoint& vel0, const ReworkPoint& p0,
+// src: COMMUNITY 0x00ea3d60
+bool __cdecl NiBoxBV_BoxTriFindIntersect(float maxTime, const ReworkBox& box, const ReworkPoint& vel0, const ReworkPoint& p0,
                           const ReworkPoint& p1, const ReworkPoint& p2, const ReworkPoint& vel1, float& hitTime,
                           ReworkPoint& hitPoint, bool wantNormals, ReworkPoint& normal0, ReworkPoint& normal1)
 {

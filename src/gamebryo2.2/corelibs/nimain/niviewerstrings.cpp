@@ -58,7 +58,8 @@ char* FUN_00a7d5e0(char const* name, char const* value)
 
 // Allocates strlen(str)+9 bytes with NiMalloc and formats "--- %s ---" into it, returning the buffer.
 // @fnv 0x00a7d330
-char* FUN_00a7d330(const char* pcText)
+// src: COMMUNITY 0x00a7d330
+char* NiViewerStrings_NiGetViewerString_Title(const char* pcText)
 {
     unsigned int size = strlen(pcText) + 9;
     char* buf = (char*)NiMalloc(size);

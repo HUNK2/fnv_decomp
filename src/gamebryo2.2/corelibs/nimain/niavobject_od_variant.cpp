@@ -14,7 +14,7 @@
 typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 typedef char _sizecheck_NiUpdateData[sizeof(NiUpdateData) == 12 ? 1 : -1];
 extern char const* const g_011f4428_arg1;
-char const* const* __cdecl FUN_00a5a420();
+char const* const* __cdecl NiAVObject_GetRTTI();
 extern const void* DAT_011f9140;
 const void* __cdecl FUN_00b4e1d0();
 extern MemoryManager g_memoryManager;
@@ -66,7 +66,7 @@ struct NiObjectStub;
 typedef NiPointer<NiObjectStub> ObjPtr;
 
 ObjPtr* __cdecl FUN_005e0ba0(unsigned int auiCount);
-void __cdecl FUN_004b0220(ObjPtr* pArray);
+void __cdecl j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(ObjPtr* pArray);
 
 typedef NiTArray<ObjPtr, NiTMallocInterface<ObjPtr> > ObjPtrArray;
 
@@ -102,5 +102,5 @@ template <> void NiTArray<ObjPtr, NiTMallocInterface<ObjPtr> >::RemoveAll()
     {
         m_pBase = 0;
     }
-    FUN_004b0220(pSaveBase);
+    j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(pSaveBase);
 }

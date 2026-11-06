@@ -77,7 +77,7 @@ class GeometryBufferView
     GeometryBufferView();
     unsigned int* FUN_00717e50();
     void* FUN_00559450();
-    void FUN_00534570(unsigned int, NiPoint3&);
+    void NiGeometryDataIteratorNiPoint3_Get(unsigned int, NiPoint3&);
     void FUN_0065b390(unsigned int, const NiPoint3&);
 };
 class TESQuest;
@@ -89,7 +89,7 @@ class FaceGenTriData
     FaceGenTriData();
     ~FaceGenTriData();
     unsigned int FUN_0065a5a0();
-    unsigned int FUN_0065c700();
+    unsigned int std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
     NiPoint3& FUN_0065c720(unsigned int);
 };
 class FaceGenGeometryModel
@@ -114,8 +114,8 @@ class BSFaceGenTexture
     BSFaceGenTexture();
 };
 void FUN_00652140();
-void FUN_00652190();
-bool FUN_00651f70(BSFaceGenModel*);
+void BSFaceGenManager_UnlockFaceGenAccess();
+bool BSFaceGenManager_LoadEGMData(BSFaceGenModel*);
 BSFaceGenBaseMorphExtraData* GetExtraDataIfPresent(NiTriBasedGeom*);
 class CloningProcess
 {
@@ -139,10 +139,10 @@ class NarrowString
 extern ModelLoader* g_modelLoader;
 extern TES* g_TES;
 extern const char* DAT_0119b734[];
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 int Warning(const char*, ...);
 int FUN_004af340();
-bool FUN_00ab5ec0(const NarrowString&, FaceGenTriData*);
-FaceGenTextureFile* FUN_00659780(const char*);
+bool fffReadTriFile(const NarrowString&, FaceGenTriData*);
+FaceGenTextureFile* BSFaceGenModel_EGTData_Create(const char*);
 NiAVObject* GetGeomExtraData(NiAVObject*);
 #endif

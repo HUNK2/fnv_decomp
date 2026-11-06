@@ -178,7 +178,8 @@ FUN_00487620::~FUN_00487620()
 }
 
 // @fnv 0x004893c0
-void TESModel::FUN_004893c0(unsigned char acFlags)
+// src: COMMUNITY 0x004893c0
+void TESModel::SetFlags_004893c0(unsigned char acFlags)
 {
     cFlags = acFlags;
 }
@@ -332,7 +333,8 @@ void FUN_0049f670_Class::FUN_0049f670()
 }  // namespace fnv_0049f670
 
 // @fnv 0x0049f830
-bool FUN_0049f830(NiPlane* self, const NiPlane& other)
+// src: COMMUNITY 0x0049f830
+bool BSSimpleArray_NiPoint3_1024_CompareFunc(NiPlane* self, const NiPlane& other)
 {
     return self->FUN_004390c0(other);
 }
@@ -584,9 +586,9 @@ void* __thiscall S486f40::FUN_00486f40(int aiArg, bool abFlag)
 
 struct IdleAnimationManager
 {
-    bool __thiscall FUN_00843150();
+    bool __thiscall InterfaceManager_GetMagicPageNumber();
 };
-void __cdecl FUN_004858f0(unsigned int, unsigned char);
+void __cdecl TESForm_AddChunk_3(unsigned int, unsigned char);
 struct FUN_00489240_Class
 {
     void __thiscall FUN_00489240(unsigned a);
@@ -595,9 +597,9 @@ struct FUN_00489240_Class
 // @fnv 0x00489240
 void __thiscall FUN_00489240_Class::FUN_00489240(unsigned a)
 {
-    signed char b = reinterpret_cast<IdleAnimationManager*>(this)->FUN_00843150();
+    signed char b = reinterpret_cast<IdleAnimationManager*>(this)->InterfaceManager_GetMagicPageNumber();
     if (b)
-        FUN_004858f0(a, b);
+        TESForm_AddChunk_3(a, b);
 }
 
 // Returns true if the chunk ID is one of the four MOD-related chunk tags, otherwise false.
@@ -689,7 +691,8 @@ struct FUN_00759450_shell
 };
 // Returns 0 if the sequence is null, otherwise the difference between the two values returned by the sequence's FUN_00508100 and FUN_00759450 calls.
 // @fnv 0x00491090
-float __cdecl FUN_00491090(NiControllerSequence* apSequence)
+// src: COMMUNITY 0x00491090
+float __cdecl Animation_GetDuration_0(NiControllerSequence* apSequence)
 {
     if (!apSequence)
         return 0.0f;
@@ -703,12 +706,13 @@ struct S00496440
     int m0;
     int m1;
     int m2;
-    void __thiscall FUN_004963b0(const S00496440&);
+    void __thiscall NiQuatTransform_SetTranslate(const S00496440&);
     void __thiscall FUN_00496440(bool);
 };
 // Copies p into this object and then calls FUN_00496440 with true.
 // @fnv 0x004963b0
-void __thiscall S00496440::FUN_004963b0(const S00496440& aSource)
+// src: COMMUNITY 0x004963b0
+void __thiscall S00496440::NiQuatTransform_SetTranslate(const S00496440& aSource)
 {
     *this = aSource;
     FUN_00496440(true);
@@ -782,10 +786,11 @@ struct FUN_0049db00_Class
     void* m20;
     void* m24;
     void* m28;
-    float FUN_0049db00();
+    float TESObjectLAND_GetBaseHeight();
 };
 // @fnv 0x0049db00
-float FUN_0049db00_Class::FUN_0049db00()
+// src: COMMUNITY 0x0049db00
+float FUN_0049db00_Class::TESObjectLAND_GetBaseHeight()
 {
     return m28 ? ((float*)m28)[0x28] : 0.0f;
 }
@@ -821,7 +826,7 @@ struct FUN_0049f190_Class
 // @fnv 0x0049f190
 bool __thiscall FUN_0049f190_Class::ContainsPlane(const NiPlane& aPlane)
 {
-    return FindIndexIf(aPlane, 0, FUN_0049f830) != -1;
+    return FindIndexIf(aPlane, 0, BSSimpleArray_NiPoint3_1024_CompareFunc) != -1;
 }
 
 struct S_0049f850
@@ -844,12 +849,13 @@ struct PlaneElem
     int b;
     int c;
     int d;
-    PlaneElem& FUN_0049f8b0(const PlaneElem& other);
+    PlaneElem& BSSimpleArray_Copy(const PlaneElem& other);
 };
 
 // Copies the vector words while preserving the array record's first word.
 // @fnv 0x0049f8b0
-PlaneElem& PlaneElem::FUN_0049f8b0(const PlaneElem& other)
+// src: COMMUNITY 0x0049f8b0
+PlaneElem& PlaneElem::BSSimpleArray_Copy(const PlaneElem& other)
 {
     b = other.b;
     c = other.c;
@@ -896,7 +902,8 @@ struct bsrandom_singleton
 };
 // Calls FUN_0049ffc0(1) on the singleton at DAT_011c57f8 if it exists, then clears DAT_011c57f8.
 // @fnv 0x0049ff80
-void FUN_0049ff80()
+// src: COMMUNITY 0x0049ff80
+void DecalManager_Destroy_()
 {
     FUN_0049fe20_class* _b;
     FUN_0049fe20_class* _c;
@@ -958,10 +965,11 @@ struct Animation
 {
     void AssignControllerManager(GO&);
     void SpecialIdleFree(bool, bool);
-    void __thiscall FUN_0048ff50();
+    void __thiscall FreeAllIdles();
 };
 // @fnv 0x0048ff50
-void __thiscall Animation::FUN_0048ff50()
+// src: COMMUNITY 0x0048ff50
+void __thiscall Animation::FreeAllIdles()
 {
     ((char*)this)[0xcd] = 1;
     SpecialIdleFree(true, true);
@@ -994,16 +1002,17 @@ struct H00499240
 };
 struct H00499080
 {
-    void FUN_00499080();
+    void Animation_ClearBlendInterps();
 };
 void __cdecl FUN_00499160(void*);
 struct FUN_0049a920_s
 {
     void FUN_00496080(unsigned int, float);
-    void __thiscall FUN_0049a920(unsigned int a);
+    void __thiscall Animation_RevertTES(unsigned int a);
 };
 // @fnv 0x0049a920
-void __thiscall FUN_0049a920_s::FUN_0049a920(unsigned int a)
+// src: COMMUNITY 0x0049a920
+void __thiscall FUN_0049a920_s::Animation_RevertTES(unsigned int a)
 {
     FUN_00496080(0x14, 0.0f);
     ((FUN_00496280_shell*)this)->FUN_00496280();
@@ -1018,7 +1027,7 @@ void __thiscall FUN_0049a920_s::FUN_0049a920(unsigned int a)
     if (*(Flt*)((char*)this + 0xd8))
         ((NiControllerManager*)(unsigned int)*(Flt*)((char*)this + 0xd8))->DeactivateAllSequences(0.0f);
     FUN_00499160(((KFModel*)this)->GetControllerSequence());
-    ((H00499080*)this)->FUN_00499080();
+    ((H00499080*)this)->Animation_ClearBlendInterps();
     ((H00499240*)this)->FUN_00499240(true);
 }
 }  // namespace fnv_0049a920
@@ -1162,7 +1171,7 @@ unsigned int FUN_0049faa0_Class::AppendPlane(const PlaneElem& aPlane)
 {
     unsigned int i = ((Arr16*)this)->FUN_006f31f0();
     ConstructElements(m4 + (i << 4), 1);
-    ((PlaneElem*)(m4 + (i << 4)))->FUN_0049f8b0(aPlane);
+    ((PlaneElem*)(m4 + (i << 4)))->BSSimpleArray_Copy(aPlane);
     return i;
 }
 
@@ -1205,7 +1214,8 @@ void __cdecl _FUN_00485990(void* destination, void* source, unsigned int size);
 void __cdecl BSEndian(unsigned char* data, EndianSizeTag<8> type);
 
 // @fnv 0x00485820
-void __cdecl FUN_00485820(void* destination, void* source, unsigned int count)
+// src: COMMUNITY 0x00485820
+void __cdecl TESForm_AddChunkArray16(void* destination, void* source, unsigned int count)
 {
     unsigned int size = count << 1;
 
@@ -1229,7 +1239,8 @@ void __cdecl FUN_00485820(void* destination, void* source, unsigned int count)
 }
 
 // @fnv 0x004858f0
-void __cdecl FUN_004858f0(unsigned int a, unsigned char ucValue)
+// src: COMMUNITY 0x004858f0
+void __cdecl TESForm_AddChunk_3(unsigned int a, unsigned char ucValue)
 {
     AppendChunk((void*)a, &ucValue, 1);
 }
@@ -1298,12 +1309,12 @@ struct FUN_006dc6e0_Class
 
 struct FUN_006f3170_Class
 {
-    bool FUN_006f3170();
+    bool BSSimpleArray_HasSufficientCapacity();
 };
 
 struct FUN_00869600_Class
 {
-    unsigned int FUN_00869600();
+    unsigned int BSSimpleArray_GetOptimalCapacity();
 };
 
 // Retained until BSSimpleArray exposes the three-argument removal overload.
@@ -1316,12 +1327,13 @@ struct FUN_0049f3c0_Class
     unsigned int m8;
     unsigned int mc;
 
-    void FUN_0049f3c0(unsigned int, unsigned int, bool);
+    void BSSimpleArray_NiPoint3_1024_RemoveRange(unsigned int, unsigned int, bool);
 };
 
 // Removes arg2 elements starting at index arg1 from the array, optionally reallocating via virtual2 when arg3 is set and FUN_006f3170 succeeds, then shrinks m8.
 // @fnv 0x0049f3c0
-void FUN_0049f3c0_Class::FUN_0049f3c0(unsigned int uiStart, unsigned int arg2, bool abReallocate)
+// src: COMMUNITY 0x0049f3c0
+void FUN_0049f3c0_Class::BSSimpleArray_NiPoint3_1024_RemoveRange(unsigned int uiStart, unsigned int arg2, bool abReallocate)
 {
     if (arg2 >= this->m8)
     {
@@ -1329,9 +1341,9 @@ void FUN_0049f3c0_Class::FUN_0049f3c0(unsigned int uiStart, unsigned int arg2, b
     }
     else
     {
-        if (abReallocate && reinterpret_cast<FUN_006f3170_Class*>(this)->FUN_006f3170())
+        if (abReallocate && reinterpret_cast<FUN_006f3170_Class*>(this)->BSSimpleArray_HasSufficientCapacity())
         {
-            unsigned int value = reinterpret_cast<FUN_00869600_Class*>(this)->FUN_00869600();
+            unsigned int value = reinterpret_cast<FUN_00869600_Class*>(this)->BSSimpleArray_GetOptimalCapacity();
 
             ActorAvoidanceEntry* p = this->FUN_0049f3c0_virtual2(value);
 
@@ -1393,7 +1405,7 @@ struct FormEntry
     unsigned int unk44;
     unsigned int unk48;
     ModelData model;
-    unsigned int FUN_00481190(unsigned int);
+    unsigned int _TESBipedModelForm_GetWorldModel(unsigned int);
 };
 struct ExtraData
 {
@@ -1409,7 +1421,8 @@ extern "C" unsigned char DAT_01183978;
 extern "C" FormEntry* __cdecl func_0x00ec43fb(void*, unsigned int, void*, void*, unsigned int);
 // Looks up a FormEntry from source, then returns its model value or a value computed from reference's extra data via FUN_00481190.
 // @fnv 0x00480e60
-unsigned int __cdecl FUN_00480e60(void* source, Reference* reference)
+// src: COMMUNITY 0x00480e60
+unsigned int __cdecl TESBipedModelForm_GetWorldModel(void* source, Reference* reference)
 {
     FormEntry* form4 = func_0x00ec43fb(source, 0, &DAT_01183028, &DAT_01183978, 0);
     if (form4 == 0)
@@ -1422,7 +1435,7 @@ unsigned int __cdecl FUN_00480e60(void* source, Reference* reference)
     {
         value = extra->FUN_005f0cc0();
     }
-    return form4->FUN_00481190(value);
+    return form4->_TESBipedModelForm_GetWorldModel(value);
 }
 
 class FUN_00486d60_base
@@ -1474,13 +1487,14 @@ struct FUN_004899f0_cls
     unsigned int* m_pData;
 
     void Reset();
-    void FUN_004899f0(const FUN_004899f0_cls* src);
+    void TESTextureList_Copy(const FUN_004899f0_cls* src);
 };
 
 void* __cdecl CopyMemory_Thunk(void* dst, const void* src, unsigned int size);
 
 // @fnv 0x004899f0
-void FUN_004899f0_cls::FUN_004899f0(const FUN_004899f0_cls* apSource)
+// src: COMMUNITY 0x004899f0
+void FUN_004899f0_cls::TESTextureList_Copy(const FUN_004899f0_cls* apSource)
 {
     Reset();
     m_uiItemCount = apSource->m_uiItemCount;
@@ -1501,12 +1515,13 @@ struct List_48a2c0
     unsigned int count;
     Elem_48a2c0** items;
     void Clear();
-    void FUN_0048a2c0(List_48a2c0* other);
+    void TESTextureListArray_Copy(List_48a2c0* other);
 };
 
 // Clears this list, then deep-copies other's count and items, allocating a new array and copying each element.
 // @fnv 0x0048a2c0
-void List_48a2c0::FUN_0048a2c0(List_48a2c0* other)
+// src: COMMUNITY 0x0048a2c0
+void List_48a2c0::TESTextureListArray_Copy(List_48a2c0* other)
 {
     Clear();
     if (other->count)
@@ -1546,12 +1561,13 @@ class FormListPair
     FormNode0048<TESForm*> listA;
     FormNode0048<TESForm*> listB;
 
-    void FUN_0048e040(BGSSaveFormBuffer* buffer);
+    void TESSpellList_SaveGameBGS(BGSSaveFormBuffer* buffer);
 };
 
 // If the buffer's change flags include 0x10, writes each non-null form of listA and listB to the buffer and records the counts at their saved positions.
 // @fnv 0x0048e040
-void FormListPair::FUN_0048e040(BGSSaveFormBuffer* buffer)
+// src: COMMUNITY 0x0048e040
+void FormListPair::TESSpellList_SaveGameBGS(BGSSaveFormBuffer* buffer)
 {
     if ((buffer->*reinterpret_cast<SaveChangeFlags (BGSSaveFormBuffer::*)(unsigned int)>(
             static_cast<FormChangeMask (BGSSaveFormBuffer::*)(unsigned int)>(&BGSSaveFormBuffer::GetChangeFlags)))(0x10))
@@ -1787,7 +1803,7 @@ struct PlaneArray
 
     bool FUN_00438b90();
     unsigned int FUN_009a3910();
-    void FUN_006c8bd0(PlaneElem* dst, PlaneElem* src, unsigned int count);
+    void BSSimpleArray_NiColorA_1024_CopyItems(PlaneElem* dst, PlaneElem* src, unsigned int count);
     void ConstructElements(PlaneElem* p, unsigned int count);
     void FUN_006a8500();
     unsigned int AppendPlane(const PlaneElem& elem);
@@ -1809,20 +1825,20 @@ void PlaneArray::FUN_0049f690(unsigned int index, const PlaneElem& elem)
         unsigned int uiNewSize;
         uiNewSize = FUN_009a3910();
         pNewBuffer2 = Allocate(uiNewSize);
-        FUN_006c8bd0(pNewBuffer2, data, index);
+        BSSimpleArray_NiColorA_1024_CopyItems(pNewBuffer2, data, index);
         ConstructElements(pNewBuffer2 + index, 1);
-        FUN_006c8bd0(pNewBuffer2 + index + 1, data + index, size - index);
+        BSSimpleArray_NiColorA_1024_CopyItems(pNewBuffer2 + index + 1, data + index, size - index);
         FUN_006a8500();
         data = pNewBuffer2;
         capacity = uiNewSize;
     }
     else
     {
-        FUN_006c8bd0(data + index + 1, data + index, size - index);
+        BSSimpleArray_NiColorA_1024_CopyItems(data + index + 1, data + index, size - index);
         ConstructElements(data + index, 1);
     }
     size++;
-    data[index].FUN_0049f8b0(elem);
+    data[index].BSSimpleArray_Copy(elem);
 }
 
 struct FUN_0049f7d0_elem
@@ -2033,7 +2049,7 @@ struct MapObj
 };
 struct Loader
 {
-    void FUN_00445430(void*);
+    void ModelLoader_CancelReplacementKFList(void*);
 };
 struct ItemObj
 {
@@ -2042,7 +2058,7 @@ struct ItemObj
 extern Loader* DAT_011c3b3c;
 extern int DAT_011f36bc;
 extern int DAT_011f36e4;
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct FUN_0048fb50
 {
     void* f00;
@@ -2122,7 +2138,7 @@ struct FUN_0048fb50
     NP m128;
     NP m12c[2];
     ListX m134;
-    void FUN_0048ff50();
+    void FreeAllIdles();
     ~FUN_0048fb50();
 };
 // @fnv 0x0048fb50
@@ -2144,8 +2160,8 @@ FUN_0048fb50::~FUN_0048fb50()
     void* ctrlA_b;
     ListX* nodeA5;
     void* pos5;
-    FUN_0048ff50();
-    DAT_011c3b3c->FUN_00445430(this);
+    FreeAllIdles();
+    DAT_011c3b3c->ModelLoader_CancelReplacementKFList(this);
     if (mD8.FUN_00559450())
     {
         ctrlA_b = m8.FUN_00559450() ? m8.FUN_00559450()->NiObjectNET_GetController((void*)&DAT_011f36bc) : 0;
@@ -2200,7 +2216,7 @@ FUN_0048fb50::~FUN_0048fb50()
         {
             itemValB2 = *nodeBq->FUN_006815c0();
             itemCopy2 = itemValB2;
-            FUN_00401030(itemCopy2);
+            FormHeapFreeAndLog_00401030(itemCopy2);
             nodeBq = nodeBq->FUN_00726070();
         }
         m134.FUN_00470470();
@@ -2259,7 +2275,7 @@ extern "C" unsigned int __cdecl FUN_0044ddc0();
 
 struct FUN_0047b470_This
 {
-    bool FUN_0047b470();
+    bool bhkCollisionObject_GetUseVelocity();
 };
 struct ThisStub
 {
@@ -2275,7 +2291,7 @@ struct FUN_0098adb0_shell
 };
 struct HX
 {
-    void FUN_004efd10(BGSLoadFormBuffer* a, float b);
+    void LoadGameBGS_004efd10(BGSLoadFormBuffer* a, float b);
 };
 struct FUN_004eeb00
 {
@@ -2326,10 +2342,10 @@ struct FUN_005ae3d0_S
 };
 extern PlayerCharacter* g_thePlayer;
 TESForm* __cdecl FUN_004839c0(unsigned int a);
-MyNode* __cdecl FUN_00c802d0(MyNode* a);
+MyNode* __cdecl bhkUtilFunctions_FindNextCollisionObject(MyNode* a);
 void __cdecl SetFlagRecursive(int a, void* b);
 void __fastcall FinishScriptRunLockIfActive(void* a);
-void __fastcall FUN_00498290(Animation* a);
+void __fastcall SpecialIdlePlay_0(Animation* a);
 void* __cdecl operator new(unsigned int);
 struct AnimPosition
 {
@@ -2452,8 +2468,8 @@ void __thiscall AnimSelf::Load(BGSLoadFormBuffer* apBuffer)
     }
     FUN_0049bca0(m_d0, &m_1c, 1);
     ((FUN_004f0040_shell*)m_08.FUN_00559450())->UpdateControls(m_d0);
-    MyNode* node9 = FUN_00c802d0((MyNode*)m_08.FUN_00559450());
-    unsigned char valid6 = node9 != 0 ? ((FUN_0047b470_This*)node9)->FUN_0047b470() : false;
+    MyNode* node9 = bhkUtilFunctions_FindNextCollisionObject((MyNode*)m_08.FUN_00559450());
+    unsigned char valid6 = node9 != 0 ? ((FUN_0047b470_This*)node9)->bhkCollisionObject_GetUseVelocity() : false;
     if (valid6)
         SetFlagRecursive(0, m_08.FUN_00559450());
     ((ThisStub*)this)->FUN_00493bd0();
@@ -2526,12 +2542,12 @@ void __thiscall AnimSelf::Load(BGSLoadFormBuffer* apBuffer)
                     FUN_004955c0(k, m_4c[k], m_5c[k], m_d0, (unsigned char)b49);
                     if (m_e0[k] != 0)
                     {
-                        m_e0[k]->FUN_004efd10(apBuffer, m_d0);
+                        m_e0[k]->LoadGameBGS_004efd10(apBuffer, m_d0);
                     }
                     else
                     {
                         FUN_004eeb00 obj;
-                        ((HX*)&obj)->FUN_004efd10(apBuffer, m_d0);
+                        ((HX*)&obj)->LoadGameBGS_004efd10(apBuffer, m_d0);
                         FUN_00496080(k, 0.0f);
                     }
                 }
@@ -2557,7 +2573,7 @@ void __thiscall AnimSelf::Load(BGSLoadFormBuffer* apBuffer)
             if (((unsigned int (__thiscall*)(void*))FUN_0044ddc0)(((PtrBox*)&m_124)->FUN_00559450()) == 1)
             {
                 FUN_004974a0();
-                FUN_00498290((Animation*)this);
+                SpecialIdlePlay_0((Animation*)this);
             }
         }
     }
@@ -2622,7 +2638,7 @@ void ArrElem12Array::FUN_0049f270(unsigned int index, const ArrElem12& item)
 
 struct FUN_00659210_Class
 {
-    int FUN_00659210(char c, int h);
+    int NiTStringTemplateMap_NiTMap_char_const_TESForm_TESForm_HashChar(char c, int h);
 };
 struct FUN_00486df0_Map : FUN_00659210_Class
 {
@@ -2636,7 +2652,7 @@ unsigned int FUN_00486df0_Map::HashString(const char* pcString)
 {
     unsigned int h = 0;
     while (*pcString)
-        h = FUN_00659210(*pcString++, h);
+        h = NiTStringTemplateMap_NiTMap_char_const_TESForm_TESForm_HashChar(*pcString++, h);
     return h % m_uiSize;
 }
 
@@ -2815,7 +2831,8 @@ struct ActorAnimDataAA8
     void WriteToStream(Actor* pkActor);
 };
 // @fnv 0x0049aa80
-void __cdecl FUN_0049aa80(Actor* pkActor, ActorAnimDataAA8* pkAnimData)
+// src: COMMUNITY 0x0049aa80
+void __cdecl Animation_SaveAnimation(Actor* pkActor, ActorAnimDataAA8* pkAnimData)
 {
     unsigned short usAnimValue = 0;
     if (pkAnimData && !pkActor->HasHealth(0))
@@ -2862,11 +2879,11 @@ class FUN_0049ec80 : public FUN_00439260
     int m_iIndex;
     FUN_0049ec80();
     void FUN_0049ed90(int a);
-    void FUN_0049edb0(int a);
-    void FUN_00533fb0(int a);
-    void FUN_0049ee10(int a);
+    void NiStencilProperty_SetStencilFunction(int a);
+    void NiStencilProperty_SetStencilFailAction(int a);
+    void NiStencilProperty_SetStencilPassZFailAction(int a);
     void FUN_0049ede0(int a);
-    void FUN_0049ee30(int a);
+    void NiStencilProperty_SetDrawMode(int a);
 };
 // Constructor that sets the vtable, initialises m_usFlags, m_uiCount and m_iIndex, then calls the member initialisers.
 // @fnv 0x0049ec80
@@ -2877,11 +2894,11 @@ FUN_0049ec80::FUN_0049ec80()
     m_uiCount = 0;
     m_iIndex = -1;
     FUN_0049ed90(0);
-    FUN_0049edb0(4);
-    FUN_00533fb0(0);
-    FUN_0049ee10(0);
+    NiStencilProperty_SetStencilFunction(4);
+    NiStencilProperty_SetStencilFailAction(0);
+    NiStencilProperty_SetStencilPassZFailAction(0);
     FUN_0049ede0(3);
-    FUN_0049ee30(0);
+    NiStencilProperty_SetDrawMode(0);
 }
 
 #include "../../include/MEM_CONTEXT.h"
@@ -2896,16 +2913,16 @@ struct PointChain
     unsigned int capacity;
     unsigned int FUN_0044ddc0();
     NiPoint3& FUN_006a7af0(int);
-    NiPoint3& FUN_006ced70();
+    NiPoint3& BSSimpleArray_NiPoint3_1024_GetFirst();
     NiPoint3& GetLastEdge();
     void AddItem(const NiPoint3&);
     void FUN_0049f270(unsigned int, const NiPoint3&);
-    void FUN_0049f3c0(unsigned int, unsigned int, bool);
+    void BSSimpleArray_NiPoint3_1024_RemoveRange(unsigned int, unsigned int, bool);
 };
 extern PointChain* DAT_011c57ac;
 struct LandView
 {
-    NiPoint3 FUN_00535b30(int);
+    NiPoint3 TESObjectLAND_GetWorldOffsetForBlock(int);
 };
 struct CellView
 {
@@ -2918,8 +2935,8 @@ struct FUN_00c4cba0
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     FUN_00c4cba0(PointChain*);
     int FUN_0059bb30();
-    void FUN_00c4cf00();
-    void FUN_00c4cf80();
+    void BSPolygon2D_RemoveZ();
+    void BSPolygon2D_Triangulate();
 };
 class FUN_0049e3e0
 {
@@ -2952,7 +2969,7 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
         PointChain* chainX = (PointChain*)new FUN_0049f1c0;
         chainX->AddItem(DAT_011c57ac->FUN_006a7af0(0));
         chainX->AddItem(DAT_011c57ac->FUN_006a7af0(1));
-        DAT_011c57ac->FUN_0049f3c0(0, 2, true);
+        DAT_011c57ac->BSSimpleArray_NiPoint3_1024_RemoveRange(0, 2, true);
         bool changed3 = true;
         bool closed2 = false;
         while (changed3)
@@ -2965,44 +2982,44 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
                 Point3N b = *reinterpret_cast<Point3N*>(&DAT_011c57ac->FUN_006a7af0(i3));
                 Point3N a = *reinterpret_cast<Point3N*>(&DAT_011c57ac->FUN_006a7af0(i3 + 1));
                 if (AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->GetLastEdge(), DAT_01013ea4) &&
-                    !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->FUN_006ced70(), DAT_01013ea4) &&
+                    !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->BSSimpleArray_NiPoint3_1024_GetFirst(), DAT_01013ea4) &&
                     !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->FUN_006a7af0(chainX->FUN_0044ddc0() - 2), DAT_01013ea4))
                 {
                     chainX->AddItem(reinterpret_cast<const NiPoint3&>(a));
-                    DAT_011c57ac->FUN_0049f3c0(i3, 2, true);
+                    DAT_011c57ac->BSSimpleArray_NiPoint3_1024_RemoveRange(i3, 2, true);
                     changed3 = true;
                     break;
                 }
                 else if (AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->GetLastEdge(), DAT_01013ea4) &&
-                         !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->FUN_006ced70(), DAT_01013ea4) &&
+                         !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->BSSimpleArray_NiPoint3_1024_GetFirst(), DAT_01013ea4) &&
                          !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->FUN_006a7af0(chainX->FUN_0044ddc0() - 2), DAT_01013ea4))
                 {
                     chainX->AddItem(reinterpret_cast<const NiPoint3&>(b));
-                    DAT_011c57ac->FUN_0049f3c0(i3, 2, true);
+                    DAT_011c57ac->BSSimpleArray_NiPoint3_1024_RemoveRange(i3, 2, true);
                     changed3 = true;
                     break;
                 }
-                else if (AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->FUN_006ced70(), DAT_01013ea4) &&
+                else if (AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->BSSimpleArray_NiPoint3_1024_GetFirst(), DAT_01013ea4) &&
                          !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->GetLastEdge(), DAT_01013ea4) &&
                          !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->FUN_006a7af0(1), DAT_01013ea4))
                 {
                     chainX->FUN_0049f270(0, reinterpret_cast<const NiPoint3&>(a));
-                    DAT_011c57ac->FUN_0049f3c0(i3, 2, true);
+                    DAT_011c57ac->BSSimpleArray_NiPoint3_1024_RemoveRange(i3, 2, true);
                     changed3 = true;
                     break;
                 }
-                else if (AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->FUN_006ced70(), DAT_01013ea4) &&
+                else if (AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->BSSimpleArray_NiPoint3_1024_GetFirst(), DAT_01013ea4) &&
                          !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->GetLastEdge(), DAT_01013ea4) &&
                          !AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->FUN_006a7af0(1), DAT_01013ea4))
                 {
                     chainX->FUN_0049f270(0, reinterpret_cast<const NiPoint3&>(b));
-                    DAT_011c57ac->FUN_0049f3c0(i3, 2, true);
+                    DAT_011c57ac->BSSimpleArray_NiPoint3_1024_RemoveRange(i3, 2, true);
                     changed3 = true;
                     break;
                 }
                 else if ((AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->GetLastEdge(), DAT_01013ea4) &&
-                          AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->FUN_006ced70(), DAT_01013ea4)) ||
-                         (AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->FUN_006ced70(), DAT_01013ea4) &&
+                          AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->BSSimpleArray_NiPoint3_1024_GetFirst(), DAT_01013ea4)) ||
+                         (AreVectorsEqual(reinterpret_cast<const NiPoint3&>(b), chainX->BSSimpleArray_NiPoint3_1024_GetFirst(), DAT_01013ea4) &&
                           AreVectorsEqual(reinterpret_cast<const NiPoint3&>(a), chainX->GetLastEdge(), DAT_01013ea4)))
                 {
                     closed2 = true;
@@ -3015,15 +3032,15 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
             }
         }
         const int level3 = 0;
-        NiPoint3 originX(cell->FUN_00546fb0()->FUN_00535b30(level3).x, cell->FUN_00546fb0()->FUN_00535b30(level3).y,
+        NiPoint3 originX(cell->FUN_00546fb0()->TESObjectLAND_GetWorldOffsetForBlock(level3).x, cell->FUN_00546fb0()->TESObjectLAND_GetWorldOffsetForBlock(level3).y,
                          cell->FUN_005471e0());
         if (closed2)
         {
             FUN_00c4cba0* surface2 = new FUN_00c4cba0(chainX);
             if (surface2->FUN_0059bb30() > 2)
             {
-                surface2->FUN_00c4cf00();
-                surface2->FUN_00c4cf80();
+                surface2->BSPolygon2D_RemoveZ();
+                surface2->BSPolygon2D_Triangulate();
                 if (!DAT_011c57b0)
                     DAT_011c57b0 = new FUN_0048f200;
                 DAT_011c57b0->FUN_0076b660(&surface2);
@@ -3215,13 +3232,13 @@ struct FUN_0049fe20_Object : FNV_Handle
 };
 
 extern FNV_Handle g_011c58e0;
-void __cdecl FUN_00622bc0();
+void __cdecl DecalCaster_ClearInstance();
 
 // Calls FUN_00622bc0, sets g_011c58e0 to 0, calls FUN_004a4650 on m_08 and FUN_004ed900 on m_14, then sets m_20 and m_24 to 0.
 // @fnv 0x0049fe20
 FUN_0049fe20_Object::~FUN_0049fe20_Object()
 {
-    FUN_00622bc0();
+    DecalCaster_ClearInstance();
     g_011c58e0 = 0;
     m_08.FUN_004a4650();
     m_14.FUN_004ed900();
@@ -3272,7 +3289,8 @@ extern "C" const char* __cdecl FUN_00481280();
 
 // Returns the message icon string for a biped model form, optionally selecting the variant matching the sex of the given reference's owner.
 // @fnv 0x00480f80
-const char* __cdecl FUN_00480f80(TESForm* form, TESObjectREFR* ref)
+// src: COMMUNITY 0x00480f80
+const char* __cdecl TESBipedModelForm_GetMessageIcon_0(TESForm* form, TESObjectREFR* ref)
 {
     TESBipedModelForm* pOwner = dynamic_cast<TESBipedModelForm*>(form);
 

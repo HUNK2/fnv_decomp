@@ -213,7 +213,7 @@ DetailedActorPathHandler::~DetailedActorPathHandler()
     ActorAvoidEntryList.RemoveAll();
 }
 
-void __cdecl FUN_00639730(float, float*, float*);
+void __cdecl NiSinCosQ(float, float*, float*);
 
 // 0x009e1640 builds a Z rotation like NiMatrix3::MakeZRotation (0x004a0c90) but through the game's own sin/cos
 // (0x00639730): a game helper, not the Gamebryo inline.
@@ -234,7 +234,7 @@ void FUN_009e1640_ZRotation::SetRotationMatrix(float afAngle)
 {
     float fSin;
     float fCos;
-    FUN_00639730(afAngle, &fSin, &fCos);
+    NiSinCosQ(afAngle, &fSin, &fCos);
 
     m_pEntry[0][0] = fCos;
     m_pEntry[0][1] = fSin;
@@ -1943,11 +1943,12 @@ struct DetailedActorPathHandlerRot : public DetailedActorPathHandler
 {
     void GetPathAngles(float*, float*);
     void UpdateLookingAngle(float, float);
-    float FUN_009e4800(float, float*);
+    float DetailedActorPathHandler_UpdateHeading(float, float*);
 };
 
 // @fnv 0x009e4800
-float DetailedActorPathHandlerRot::FUN_009e4800(float afDeltaT, float* pfRotateMult)
+// src: COMMUNITY 0x009e4800
+float DetailedActorPathHandlerRot::DetailedActorPathHandler_UpdateHeading(float afDeltaT, float* pfRotateMult)
 {
     float fPathHeading = 0.0f;
     float fSpeed = 0.0f;
@@ -2038,7 +2039,7 @@ struct Twin_0084d030
 
 Actor* __cdecl FUN_009e55e0(Actor* apActor);
 void __cdecl UpdateAliveActorList();
-bool __cdecl FUN_009e6900(Actor* apActor, void* apData, Actor* apOther, NiPoint3* apPos, NiPoint3* apDir,
+bool __cdecl DetailedActorPathHandler_CheckDetection(Actor* apActor, void* apData, Actor* apOther, NiPoint3* apPos, NiPoint3* apDir,
                           float afDist, float afCosAngle, float* apResult, bool abFlag);
 
 extern double _gModifierZero;
@@ -2134,14 +2135,14 @@ void EvaluateAvoidance(Actor* apActor, PathingRequest* apRequest, unsigned int a
                 fAvoidDist = fRadius + fOtherDist;
                 if (fAvoidDist < *g_011f2b8c.Float())
                     fAvoidDist = *g_011f2b8c.Float();
-                if (FUN_009e6900(apActor, apData, pAvoidActor, &((NiPoint3&)akStart), &((NiPoint3&)kRelOffset), fAvoidDist, fCosThreshold,
+                if (DetailedActorPathHandler_CheckDetection(apActor, apData, pAvoidActor, &((NiPoint3&)akStart), &((NiPoint3&)kRelOffset), fAvoidDist, fCosThreshold,
                                  &fDistance, false))
                     apList->AppendElement(ActorAvoidanceData(pAvoidActor, fDistance));
             }
         }
     }
 
-    if (FUN_009e6900(apActor, apData, g_thePlayer, &((NiPoint3&)akStart), &kIntersectionOffset, fAheadDist, fCosThreshold,
+    if (DetailedActorPathHandler_CheckDetection(apActor, apData, g_thePlayer, &((NiPoint3&)akStart), &kIntersectionOffset, fAheadDist, fCosThreshold,
                      &fDistance, false))
         apList->AppendElement(ActorAvoidanceData(g_thePlayer, fDistance));
 }
@@ -2430,7 +2431,8 @@ int FUN_009e8000_shell::UpdatePathingGoal()
 extern "C" bool __cdecl FUN_004b71d0(void);
 
 // @fnv 0x00709d40
-bool __cdecl FUN_00709d40()
+// src: COMMUNITY 0x00709d40
+bool __cdecl Interface_Has360Controller()
 {
     return FUN_004b71d0();
 }
@@ -2562,7 +2564,7 @@ bool FUN_009e3110_t::IsPathReachableToPlayer() const
     TESObjectCELL* pplayerCell;
 
     if (!(unsigned int)*(const Flt*)&pCurrentPathingSolution ||
-        !((PathingSolution*)(unsigned int)*(const Flt*)&pCurrentPathingSolution)->FUN_009dc530())
+        !((PathingSolution*)(unsigned int)*(const Flt*)&pCurrentPathingSolution)->PathingSolution_IsValid())
         return false;
 
     inumNodes = ((PathingSolution*)(unsigned int)*(const Flt*)&pCurrentPathingSolution)->GetObjectFlags();
@@ -3402,7 +3404,7 @@ struct PathHandlerOps : public ActorPathHandler
 };
 
 float __cdecl GetDirectionAngle(const NiPoint3& dir);
-bool __cdecl FUN_006ba9e0(const NiPoint3* start, const NiPoint3* end, const NiPoint3* avoidPos, float avoidRadius);
+bool __cdecl NavMeshMath_SegmentCircleIntersection(const NiPoint3* start, const NiPoint3* end, const NiPoint3* avoidPos, float avoidRadius);
 
 extern PlayerOps_9e6ba0* g_thePlayer;
 extern Setting g_011f2b68;
@@ -3506,7 +3508,7 @@ void FUN_009e6ba0_shell::UpdatePathingOrigin(PathingRequest* apRequest)
             {
                 Actor* pavoidActor = pCurrentElementNext->GetItem();
                 pCurrentElementNext = pCurrentElementNext->GetNext();
-                if (FUN_006ba9e0((*(const TESObjectREFR**)((char*)this + 4))->GetPos(),
+                if (NavMeshMath_SegmentCircleIntersection((*(const TESObjectREFR**)((char*)this + 4))->GetPos(),
                                  &((DetailedActorPathHandler*)this)->m_kPathVector3, ((const Actor*)pavoidActor)->GetPos(),
                                  pavoidActor->FUN_008be1b0()))
                 {
@@ -5067,7 +5069,7 @@ struct AvoidSphereView
     MotionVec& FUN_006815c0();
     float FUN_004a7bd0();
     float GetFloatAtOffset1C();
-    void FUN_00819a50(float);
+    void CombatLocation_SetRadius(float);
     void FUN_00804cb0(float);
 };
 struct MeshView
@@ -5250,7 +5252,7 @@ bool MotionTarget::UpdateMotion(float afDeltaTime)
                             if ((i->FUN_006815c0() - target).Squared() < i->FUN_004a7bd0() * i->FUN_004a7bd0())
                             {
                                 if (i->FUN_004a7bd0() < 128.0)
-                                    i->FUN_00819a50(i->FUN_004a7bd0() * 2.0f);
+                                    i->CombatLocation_SetRadius(i->FUN_004a7bd0() * 2.0f);
                                 else
                                     i->FUN_00804cb0(i->GetFloatAtOffset1C() * 10.0);
                                 eb = false;
@@ -7139,7 +7141,8 @@ struct Group
 
 // Checks target range, vertical separation, package and direction conditions, and may write a computed value to apResult.
 // @fnv 0x009e6900
-bool __cdecl FUN_009e6900(Ref* apActor, Group* apGroup, Ref* apTarget, const NiPoint3& arPos, const NiPoint3& arDir,
+// src: COMMUNITY 0x009e6900
+bool __cdecl DetailedActorPathHandler_CheckDetection(Ref* apActor, Group* apGroup, Ref* apTarget, const NiPoint3& arPos, const NiPoint3& arDir,
                           float afExtra, float afMinDot, float* apResult, bool abCheckOnly)
 {
     NiPoint3 kDelta;
@@ -7324,7 +7327,7 @@ int DetailedPathGoalUpdate::FUN_009e1d50(int iUnused)
 
     {
 
-        if (((NiPointer<PathingRequestQueries>&)m_pPathingRequest) && ((PathingRequestQueries*)((NiPointer<PathingRequestQueries>&)m_pPathingRequest))->FUN_00505c00() && bAtEnd)
+        if (((NiPointer<PathingRequestQueries>&)m_pPathingRequest) && ((PathingRequestQueries*)((NiPointer<PathingRequestQueries>&)m_pPathingRequest))->TESCombatStyle_GetPowerAttackF() && bAtEnd)
 
         {
 
@@ -7422,7 +7425,7 @@ bool EndRotateHandler::FUN_009e7550()
 
 {
 
-    if (((PathingRequestQueries*)((NiPointer<PathingRequest>&)m_pPathingRequest).operator->())->FUN_00505c00() &&
+    if (((PathingRequestQueries*)((NiPointer<PathingRequest>&)m_pPathingRequest).operator->())->TESCombatStyle_GetPowerAttackF() &&
 
         ((ActorMover*)m_pActorMover)->lastNode + 1 ==
 

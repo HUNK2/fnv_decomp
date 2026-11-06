@@ -284,7 +284,7 @@ bool PathingLocation::FindContainingTriangle(FindTriangleForLocationFilter* filt
                 NavMeshBounds* bounds = const_cast<NavMeshInfo*>(info)->GetBounds();
                 if (bounds)
                 {
-                    NiPoint3 delta = bounds->FUN_0069c070(Location);
+                    NiPoint3 delta = bounds->DistanceFromPointToBounds(Location);
                     float distance = delta.FUN_004a7290();
                     if (distance < nearest.minimumDistance)
                     {
@@ -561,15 +561,16 @@ bool PathingLocation::IsCloseTo(void* otherLocation, float dist)
 
 struct PathingLocationOwner
 {
-    void FUN_006ed7a0(PathingLocation* location);
-    void FUN_006ed730(const NiPoint3& position, TESObjectREFR* reference);
+    void PathSmoother_AddPathingNode_0(PathingLocation* location);
+    void PathSmoother_AddPathingNode(const NiPoint3& position, TESObjectREFR* reference);
 };
 // Constructs a pathing location from a position and reference, then passes it to the owner's location setter.
 // @fnv 0x006ed730
-void PathingLocationOwner::FUN_006ed730(const NiPoint3& position, TESObjectREFR* reference)
+// src: COMMUNITY 0x006ed730
+void PathingLocationOwner::PathSmoother_AddPathingNode(const NiPoint3& position, TESObjectREFR* reference)
 {
     PathingLocation location(position, reinterpret_cast<const NavMeshInfo*>(reference));
-    FUN_006ed7a0(&location);
+    PathSmoother_AddPathingNode_0(&location);
 }
 
 struct FUN_006f4da0

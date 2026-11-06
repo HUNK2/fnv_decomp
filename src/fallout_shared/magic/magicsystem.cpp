@@ -198,7 +198,7 @@ void MagicSystem::InitializeMagicSystem()
             DAT_011c3580->SetRefID(0x144, true);
             DAT_011c3580->SetEditorID_AtRuntime("effectAbsorb");
             DAT_011c3580->SetAltered(false);
-            g_dataHandler->FUN_00874670()->AddHead(DAT_011c3580);
+            g_dataHandler->TESDataHandler_GetEffectShaders()->AddHead(DAT_011c3580);
         }
     }
 
@@ -211,7 +211,7 @@ void MagicSystem::InitializeMagicSystem()
             DAT_011c3584->SetRefID(0x145, true);
             DAT_011c3584->SetEditorID_AtRuntime("effectReflect");
             DAT_011c3584->SetAltered(false);
-            g_dataHandler->FUN_00874670()->AddHead(DAT_011c3584);
+            g_dataHandler->TESDataHandler_GetEffectShaders()->AddHead(DAT_011c3584);
         }
     }
 
@@ -224,7 +224,7 @@ void MagicSystem::InitializeMagicSystem()
             DAT_011c3588->SetRefID(0x146, true);
             DAT_011c3588->SetEditorID_AtRuntime("LifeDetected");
             DAT_011c3588->SetAltered(false);
-            g_dataHandler->FUN_00874670()->AddHead(DAT_011c3588);
+            g_dataHandler->TESDataHandler_GetEffectShaders()->AddHead(DAT_011c3588);
         }
     }
 

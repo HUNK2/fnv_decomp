@@ -224,11 +224,12 @@ struct NavmeshinfoOffset08View
 class FUN_006b4e10_shell
 {
   public:
-    unsigned int FUN_006b4e10();
+    unsigned int NavMeshInfo_GetMeshDataSize();
 };
 
 // @fnv 0x006b4e10
-unsigned int FUN_006b4e10_shell::FUN_006b4e10()
+// src: COMMUNITY 0x006b4e10
+unsigned int FUN_006b4e10_shell::NavMeshInfo_GetMeshDataSize()
 {
     unsigned int v = 0;
     v += 4;
@@ -250,11 +251,12 @@ struct NavmeshinfoOffset08View
 
 struct FUN_006b5a90_shell
 {
-    unsigned int FUN_006b5a90();
+    unsigned int NavMesh_GetNumDoorPortals();
 };
 
 // @fnv 0x006b5a90
-unsigned int FUN_006b5a90_shell::FUN_006b5a90()
+// src: COMMUNITY 0x006b5a90
+unsigned int FUN_006b5a90_shell::NavMesh_GetNumDoorPortals()
 {
     return ((NavmeshinfoOffset08View*)((char*)this + 0x58))->GetFlags();
 }
@@ -263,12 +265,13 @@ unsigned int FUN_006b5a90_shell::FUN_006b5a90()
 struct FUN_006b4850_t : public NavMeshBounds
 {
     void FUN_0069bda0();
-    void* FUN_006b4850(unsigned int flags);
+    void* NavMeshBounds_Destroy(unsigned int flags);
 };
 void __cdecl _Deallocate(void*);
 // Calls FUN_0069bda0, then deallocates this if flags has bit 1 set, and returns this.
 // @fnv 0x006b4850
-void* FUN_006b4850_t::FUN_006b4850(unsigned int flags)
+// src: COMMUNITY 0x006b4850
+void* FUN_006b4850_t::NavMeshBounds_Destroy(unsigned int flags)
 {
     FUN_0069bda0();
     if (flags & 1)
@@ -576,7 +579,7 @@ struct MeshCell
 };
 struct MeshTriangle
 {
-    bool FUN_00690e10();
+    bool NavMeshTriangle_HasEdgeExtraInfo();
     bool HasFlag40();
     bool IsEdgeFlagSet(int);
     unsigned short FUN_0068f2c0(int);
@@ -598,7 +601,7 @@ struct MeshSource
     unsigned int FUN_00558200();
     MeshTriangle* FUN_005582f0(unsigned short);
     MeshLink* GetEdge(unsigned short);
-    unsigned int FUN_006b5a90();
+    unsigned int NavMesh_GetNumDoorPortals();
     NavInfo* const& FUN_0068f6b0(unsigned short);
     MeshCell* FUN_0059bb30();
     unsigned int GetArrFlags();
@@ -657,7 +660,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
         for (unsigned int i = 0; i < count; ++i)
         {
             MeshTriangle* triangle = source->FUN_005582f0((unsigned short)i);
-            if (!triangle->FUN_00690e10())
+            if (!triangle->NavMeshTriangle_HasEdgeExtraInfo())
                 continue;
             bool isPreferred = triangle->HasFlag40();
             for (int edge = 0; edge < 3; ++edge)
@@ -717,7 +720,7 @@ void NavInfo::InitializeFromMeshSource(MeshSource* source)
             flags |= 8;
         else
             flags &= ~8;
-        count = source->FUN_006b5a90();
+        count = source->NavMesh_GetNumDoorPortals();
         for (unsigned int d = 0; d < count; ++d)
             doors.FUN_007cb2e0(source->FUN_0068f6b0((unsigned short)d));
     }

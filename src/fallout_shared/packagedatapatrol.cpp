@@ -116,10 +116,11 @@ struct Target0067c6f0
 {
     float f;
     PackageEventActionData_packagedatapatrol c;
-    void FUN_0067c6f0(Target0067c6f0* src);
+    void PatrolRefData_Copy(Target0067c6f0* src);
 };
 // @fnv 0x0067c6f0
-void Target0067c6f0::FUN_0067c6f0(Target0067c6f0* apSource)
+// src: COMMUNITY 0x0067c6f0
+void Target0067c6f0::PatrolRefData_Copy(Target0067c6f0* apSource)
 {
     f = apSource->f;
     c.CopyFrom(&apSource->c);

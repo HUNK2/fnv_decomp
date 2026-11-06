@@ -651,7 +651,7 @@ struct SpawnedSourceOwner
     virtual void vB8();
     virtual void Apply(SpawnedSource* apSource);
 
-    void FUN_00cab0e0(__m128* apA, __m128* apB, float afT);
+    void bhkCapsuleShape_Init(__m128* apA, __m128* apB, float afT);
     void FUN_00cab820(SpawnedSource* apSource);
 };
 
@@ -660,7 +660,7 @@ void SpawnedSourceOwner::FUN_00cab820(SpawnedSource* apSource)
 {
     __m128 vA = _mm_setr_ps(apSource->m_f20, apSource->m_f24, apSource->m_f28, apSource->m_f2C);
     __m128 vB = _mm_setr_ps(apSource->m_f10, apSource->m_f14, apSource->m_f18, apSource->m_f1C);
-    FUN_00cab0e0(&vB, &vA, apSource->m_f04);
+    bhkCapsuleShape_Init(&vB, &vA, apSource->m_f04);
     Apply(apSource);
 }
 
@@ -816,7 +816,7 @@ class bhkCapsuleShapeCtor : public bhkConvexShape
 {
   public:
     bhkCapsuleShapeCtor(const NiPoint3& kPoint1, const NiPoint3& kPoint2, float fRadius);
-    void FUN_00cab0e0(const hkVector4& kA, const hkVector4& kB, float fRadius);
+    void bhkCapsuleShape_Init(const hkVector4& kA, const hkVector4& kB, float fRadius);
 };
 
 // @fnv 0x00cab710
@@ -829,7 +829,7 @@ bhkCapsuleShapeCtor::bhkCapsuleShapeCtor(const NiPoint3& kPoint1, const NiPoint3
     __declspec(align(16)) char storageB[sizeof(hkVector4)];
     hkVector4& kB = *reinterpret_cast<hkVector4*>(storageB);
     kB.set(kPoint2.x * DAT_01268328, kPoint2.y * DAT_01268328, kPoint2.z * DAT_01268328, 0.0f);
-    FUN_00cab0e0(kA, kB, fRadius * DAT_01268328);
+    bhkCapsuleShape_Init(kA, kB, fRadius * DAT_01268328);
 }
 }  // namespace fnv_00cab710
 
@@ -1036,7 +1036,7 @@ extern char str_010c8900[];
 extern char str_010c88f8[];
 extern char str_010c88ec[];
 
-char* __cdecl FUN_00a7d330(unsigned int v);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 char* __cdecl FUN_00a7d4d0(const char* fmt, int v);
 void __cdecl FUN_00406d00(char* buf, unsigned int size, const char* fmt, unsigned int idx);
 
@@ -1131,7 +1131,7 @@ void RecordCollection::FUN_00cb7d80(NiStrArr* a1)
     FUN_00ca05b0(a1);
     int n;
     {
-        char* text = FUN_00a7d330(DAT_012683e0);
+        char* text = NiViewerStrings_NiGetViewerString_Title(DAT_012683e0);
         a1->append(text);
 
         if (this != 0 && m_08 != 0)

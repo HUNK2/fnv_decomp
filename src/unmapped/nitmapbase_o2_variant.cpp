@@ -10,10 +10,11 @@
 struct NiMapBase
 {
     void __thiscall FUN_00bb7160(NiStream*);
-    void __thiscall FUN_00b60210(NiStream* stream);
+    void __thiscall TallGrassShaderProperty_SaveBinary(NiStream* stream);
 };
 // @fnv 0x00b60210
-void __thiscall NiMapBase::FUN_00b60210(NiStream* stream)
+// src: COMMUNITY 0x00b60210
+void __thiscall NiMapBase::TallGrassShaderProperty_SaveBinary(NiStream* stream)
 {
     FUN_00bb7160(stream);
     stream->FUN_00a64160(*(const char**)((char*)this + 0x88));
@@ -35,11 +36,12 @@ struct S_00b601a0_Map
     NiTMapItem<int, int>** m_ppkHashTable;
     unsigned int m_uiCount;
 
-    void FUN_00b601a0();
+    void NiTPointerMap_RemoveAll_00b601a0();
 };
 
 // @fnv 0x00b601a0
-void S_00b601a0_Map::FUN_00b601a0()
+// src: COMMUNITY 0x00b601a0
+void S_00b601a0_Map::NiTPointerMap_RemoveAll_00b601a0()
 {
     for (unsigned int i = 0; i < m_uiHashSize; i++)
     {

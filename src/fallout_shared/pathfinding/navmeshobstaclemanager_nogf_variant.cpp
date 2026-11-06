@@ -40,7 +40,7 @@ struct S006c4ad0_Queue
     virtual void f2();
     virtual void f3();
     virtual unsigned int Count();
-    void FUN_006c6030(S006c4ad0_Body** out);
+    void LockFreeQueue_bhkRigidBody_Pop(S006c4ad0_Body** out);
 };
 struct S006c4ad0_Body
 {
@@ -120,18 +120,19 @@ struct ObsMgr
     int unkD8;
     int unkDC;
     S006c4ad0_Map mapE0;
-    void FUN_006c1760(S006c4ad0_Ptr* sp);
-    void FUN_006c4ad0();
+    void NavMeshObstacleManager_UpdateObstacle(S006c4ad0_Ptr* sp);
+    void NavMeshObstacleManager_ProcessDeactivatedObstacles();
 };
 
 // @fnv 0x006c4ad0
-void ObsMgr::FUN_006c4ad0()
+// src: COMMUNITY 0x006c4ad0
+void ObsMgr::NavMeshObstacleManager_ProcessDeactivatedObstacles()
 {
     unsigned int count = queueA0.Count();
     for (unsigned int i = 0; i < count; i++)
     {
         S006c4ad0_Body* body;
-        queueA0.FUN_006c6030(&body);
+        queueA0.LockFreeQueue_bhkRigidBody_Pop(&body);
         S006c4ad0_Ptr sp(0);
         if (mapE0.FUN_006c62d0(body, &sp))
         {
@@ -142,7 +143,7 @@ void ObsMgr::FUN_006c4ad0()
             FUN_00458620(&v, &h);
             V3 tmp;
             if (v.FUN_00439ef0(&tmp, &sp.FUN_00559450()->pos)->FUN_004a7290() > kObsDist)
-                FUN_006c1760(&sp);
+                NavMeshObstacleManager_UpdateObstacle(&sp);
             list3C.FUN_00631620(&sp);
         }
     }

@@ -25,11 +25,11 @@
 // src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistanttreeblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern NP DAT_012007c4;
-void FUN_006f7a60(void* p);
+void BSDistantTreeShader_SetTextureAtlas(void* p);
 void* __cdecl _Deallocate(void*);
 struct Helper8
 {
-    void FUN_006f9740();
+    void BSSimpleArray_BGSDistantTreeBlock_InstanceData_1024_BSSimpleArray_BGSDistantTreeBlock_InstanceData_1024();
 };
 struct FUN_006f8650
 {
@@ -45,11 +45,11 @@ struct FUN_006b3140_shell
 };
 extern FUN_006b3140_shell g_011d85d0;
 void BuildNavMeshGeometry(void*);
-void FUN_006f86b0(void* a1);
+void BGSDistantTreeBlock_TreeTypes_Append(void* a1);
 struct FUN_006f8800_shell
 {
     void FUN_006f8830();
-    void* FUN_006f8800(unsigned int flags);
+    void* BGSDistantTreeBlock_TreeGroup_Destroy(unsigned int flags);
 };
 struct Flt
 {
@@ -61,11 +61,11 @@ struct QIdlePtr
 };
 struct FUN_006f88e0_shell
 {
-    void FUN_006f88e0();
+    void BGSDistantTreeBlock_FinishLoad();
 };
 struct Block88
 {
-    void FUN_006f88e0();
+    void BGSDistantTreeBlock_FinishLoad();
 };
 struct InstanceData
 {
@@ -90,7 +90,7 @@ struct ShaderProp
 };
 struct FUN_006f9c70_shell
 {
-    void FUN_006f9c70(bool freeStorage);
+    void BGSDistantTreeBlock_TreeTypes_FreeAll(bool freeStorage);
 };
 int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
 struct Fake076
@@ -192,7 +192,7 @@ extern NP g_011d85bc;
 extern NP g_011d85c4;
 extern NP g_011d85e0;
 extern unsigned char DAT_011d85a0;
-void FUN_006f83f0();
+void BGSDistantTreeBlock_DeallocateStaticData();
 extern const char str_0106dd30[];
 struct FUN_00bb7290_shell
 {
@@ -234,9 +234,9 @@ struct Obj44 : NiMemObject
     char _pad[44];
     Obj44(unsigned short);
     void FUN_00a72ca0(int);
-    void FUN_00a730e0(int);
-    void FUN_00a72bb0(int, void*, int, int);
-    void FUN_00a726a0(int, int, int, int, unsigned short, int, int);
+    void NiAdditionalGeometryData_SetDataStreamCount(int);
+    void NiAdditionalGeometryData_SetDataBlock(int, void*, int, int);
+    void NiAdditionalGeometryData_SetDataStream(int, int, int, int, unsigned short, int, int);
 };
 struct Obj88 : NiMemObject
 {
@@ -498,8 +498,8 @@ extern Lod77Container DAT_011d85c4;
 extern Lod77Container DAT_011d85e0;
 extern Lod77Mgr* DAT_011dea10;
 int __cdecl FUN_00ec8a19(const char* a, const char* b, int c);
-void* __cdecl FUN_00afdf00(char* path, int mode, unsigned int size);
-void __cdecl FUN_005b5e40(const char* msg);
+void* __cdecl FileFinder_GetFile_(char* path, int mode, unsigned int size);
+void __cdecl Warning_005b5e40(const char* msg);
 void __cdecl LoadTreeLodResources(Fake076* self);
 struct TreeGeometry
 {
@@ -785,7 +785,7 @@ struct OwnerX
     void Configure(PropertyX*, EntryX*);
     NiBound GetBound(EntryX*);
     void Refresh();
-    void FUN_006f8c40();
+    void BGSDistantTreeBlock_Attach();
 };
 void __cdecl SetupNode(NodeX*, int, int);
 

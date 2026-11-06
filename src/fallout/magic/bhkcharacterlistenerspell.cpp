@@ -15,7 +15,8 @@ const NiRTTI* bhkCharacterProxy::GetRTTI() const
 }
 
 // @fnv 0x00806f10
-unsigned int __fastcall FUN_00806f10(bhkCharacterProxy*)
+// src: COMMUNITY 0x00806f10
+unsigned int __fastcall bhkCharacterController_GetCinfoSize(bhkCharacterProxy*)
 {
     return 0xc0;
 }
@@ -164,12 +165,13 @@ struct ProxyUpdate
 {
     int __thiscall FUN_00807080();
     int __thiscall FUN_00807730(void* p);
-    void __thiscall FUN_00806f20(Owner1* a1, Arg2* a2);
+    void __thiscall bhkCharacterListenerSpell_processConstraintsCallback(Owner1* a1, Arg2* a2);
 };
 
 // For each item, checks its node's m_48 and calls FUN_004a3f10 on the item when branch conditions are met.
 // @fnv 0x00806f20
-void ProxyUpdate::FUN_00806f20(Owner1* apOwner, Arg2* apArgs)
+// src: COMMUNITY 0x00806f20
+void ProxyUpdate::bhkCharacterListenerSpell_processConstraintsCallback(Owner1* apOwner, Arg2* apArgs)
 {
     int count = apArgs->m_4C;
     for (int i = 0; i < count; i++)

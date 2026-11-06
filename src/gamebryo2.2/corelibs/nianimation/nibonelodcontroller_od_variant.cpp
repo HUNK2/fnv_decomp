@@ -16,7 +16,7 @@ struct NiBSBoneLODControllerMethods : NiBSBoneLODController
 {
     bool FUN_00a6d0f0(int);
     bool FUN_00c536a0(int);
-    NiRTTI* __thiscall FUN_00c53e00();
+    NiRTTI* __thiscall NiBSBoneLODController_GetRTTI();
     void FUN_00a6cfe0(NiBSBoneLODController*, CloningProcess*);
     void FUN_00c533f0(NiBSBoneLODController*, CloningProcess*);
     void FUN_00c53e40();
@@ -57,7 +57,8 @@ int __cdecl FUN_00c53cd0()
 
 extern NiRTTI g_012031b8;
 // @fnv 0x00c53e00
-NiRTTI* __thiscall NiBSBoneLODControllerMethods::FUN_00c53e00()
+// src: COMMUNITY 0x00c53e00
+NiRTTI* __thiscall NiBSBoneLODControllerMethods::NiBSBoneLODController_GetRTTI()
 {
     return &g_012031b8;
 }
@@ -181,7 +182,7 @@ bool NiBSBoneLODController::FUN_00c53cf0()
     return false;
 }
 
-extern "C" char* __cdecl FUN_00a7d330(unsigned int);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int);
 extern "C" char* __cdecl FUN_00a7d4d0(char const*, unsigned int);
 extern "C" char* __cdecl FUN_00a7d510(char const*, unsigned int);
 
@@ -221,7 +222,7 @@ void __thiscall NiBSBoneLODControllerMethods::FUN_00c53c50(NiTPrimitiveArray<uns
     ViewerStringValues values;
 
     values.value3 = *(unsigned int*)&g_012031b8;
-    values.value0 = (unsigned int)FUN_00a7d330(values.value3);
+    values.value0 = (unsigned int)NiViewerStrings_NiGetViewerString_Title(values.value3);
     array->AddFirstEmpty(values.value0);
 
     values.value1 = (unsigned int)FUN_00a7d4d0(str_0109a394, (unsigned int)this->m_34);

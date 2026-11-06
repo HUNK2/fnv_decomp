@@ -393,7 +393,7 @@ struct Node
     Result* FUN_00822b40();
 };
 bool FUN_005b6f70();
-int FUN_00703c00(const char* fmt, ...);
+int Interface_PrintLine(const char* fmt, ...);
 // @fnv 0x0080d340
 void DisintegrateArmorEffect::Start()
 {
@@ -410,7 +410,7 @@ void DisintegrateArmorEffect::Start()
             p->FUN_slot242((void*)this->m_pItem, this->GetFloatAtOffset1C(1));
             if (FUN_005b6f70())
             {
-                FUN_00703c00("%s's %s takes %0.2f disintegrate armor damage!", p->FUN_0055d520(),
+                Interface_PrintLine("%s's %s takes %0.2f disintegrate armor damage!", p->FUN_0055d520(),
                              this->m_pItem->GetTargetFullName(), this->GetFloatAtOffset1C());
             }
             t = this->m_pItem;

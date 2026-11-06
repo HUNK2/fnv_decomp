@@ -19,7 +19,8 @@
 extern "C" void* g_011f3f88;
 
 // @fnv 0x00a4b570
-void* __cdecl FUN_00a4b570()
+// src: COMMUNITY 0x00a4b570
+void* __cdecl NiMaterialColorController_GetRTTI()
 {
     return &g_011f3f88;
 }
@@ -52,14 +53,14 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f3f88;
 void __stdcall FUN_00a57d10(StrArr*);
-char* __cdecl FUN_00a7d330(char const*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char const*);
 
 // Appends the controller name, growing the string array when needed.
 // @fnv 0x00a4b880
 void __stdcall FUN_00a4b880(StrArr* pkStrings)
 {
     FUN_00a57d10(pkStrings);
-    char* pStr = FUN_00a7d330(g_011f3f88.m_str);
+    char* pStr = NiViewerStrings_NiGetViewerString_Title(g_011f3f88.m_str);
     unsigned int len = pkStrings->m_usSize;
     unsigned int cnt = pkStrings->m_usMaxSize;
     if (len >= cnt)

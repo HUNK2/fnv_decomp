@@ -434,7 +434,7 @@ struct HitForm
     float FUN_004b4ea0();
 };
 struct HitRefTarget;
-HitRefTarget* __cdecl FUN_004b5a80(HitForm* pkForm);
+HitRefTarget* __cdecl bhkEntity_Getbhk(HitForm* pkForm);
 float __cdecl FUN_00408820(float f);
 float __cdecl ComputeDistanceFactor(float fScale, float fAmount);
 
@@ -638,7 +638,7 @@ void HitTrackerImpl::AddHitEntries(float fAmount, HitForm* pkFormA, HitForm* pkF
         if (fValueVal2 > 0.0)
         {
             HitEntry* pkEntry = new HitEntry;
-            pkEntry->m_spReferencedObject.FUN_0066b0d0(FUN_004b5a80(pkFormA));
+            pkEntry->m_spReferencedObject.FUN_0066b0d0(bhkEntity_Getbhk(pkFormA));
             pkEntry->m_fAmount = fValueVal2;
             pkEntry->m_kSource.FUN_0042f780(pkActorB ? pkActorB->GetHandle() : 0);
             m_kEntries.FUN_005ae3d0(pkEntry);
@@ -654,7 +654,7 @@ void HitTrackerImpl::AddHitEntries(float fAmount, HitForm* pkFormA, HitForm* pkF
         if (fSecondFunctionValue > 0.0)
         {
             HitEntry* pkEntry2 = new HitEntry;
-            pkEntry2->m_spReferencedObject.FUN_0066b0d0(FUN_004b5a80(pkFormB));
+            pkEntry2->m_spReferencedObject.FUN_0066b0d0(bhkEntity_Getbhk(pkFormB));
             pkEntry2->m_fAmount = fSecondFunctionValue;
             pkEntry2->m_kSource.FUN_0042f780(pkActorA ? pkActorA->GetHandle() : 0);
             m_kEntries.FUN_005ae3d0(pkEntry2);
@@ -852,7 +852,7 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
             void* src = FUN_004b59f0(keyTmp);
             if (src != 0)
             {
-                mid = FUN_004b5a80((HitForm*)src);
+                mid = bhkEntity_Getbhk((HitForm*)src);
             }
         }
         if (entry != 0 && ((Gen_623cb0*)entry)->FUN_004b5980() == 1)
@@ -860,7 +860,7 @@ void Owner_623cb0::ProcessHit(Rec_623cb0* apHitRecord)
             void* src = FUN_004b59f0(entry);
             if (src != 0)
             {
-                node1 = FUN_004b5a80((HitForm*)src);
+                node1 = bhkEntity_Getbhk((HitForm*)src);
             }
         }
         count = (fval.a + 1) * (fval.b + 1);

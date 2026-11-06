@@ -76,7 +76,8 @@ void __thiscall NiParticleSystem::LoadModifiers(NiStream* kStream)
 extern char const* const g_01202538_arg1;
 
 // @fnv 0x00c1b5b0
-char const* const* __cdecl FUN_00c1b5b0()
+// src: COMMUNITY 0x00c1b5b0
+char const* const* __cdecl NiParticleSystem_GetRTTI()
 {
     return &g_01202538_arg1;
 }
@@ -1041,7 +1042,7 @@ struct C_0096ae90
 };
 
 extern unsigned int g_012024e0;
-unsigned int __cdecl FUN_00a7d330(unsigned int v);
+unsigned int __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 unsigned int __cdecl FUN_00a7d370(const char* s, unsigned int v);
 unsigned int __cdecl FUN_00a7d510(const char* s, unsigned int v);
 unsigned int __cdecl FUN_00a7d490(const char* s, unsigned int v);
@@ -1052,7 +1053,7 @@ void NiParticleSystem::WriteParticleSystemInfo(StrArr* strings)
 {
     FUN_00c1b850_list* pList = (FUN_00c1b850_list*)strings;
     ((ParticleViewerBase*)this)->FUN_00a9b2e0(pList);
-    unsigned int v = FUN_00a7d330(g_012024e0);
+    unsigned int v = NiViewerStrings_NiGetViewerString_Title(g_012024e0);
     unsigned int uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
@@ -1117,7 +1118,7 @@ struct PointerList
     Node* m_pkTail;
     unsigned int m_uiCount;
     void __thiscall AddHead(ModifierPointer const* ptr);
-    void __thiscall FUN_00c1b520(Node* node, ModifierPointer const* ptr);
+    void __thiscall NiTPointerList_NiPSysModifierPtr_InsertBefore(Node* node, ModifierPointer const* ptr);
     void __thiscall FUN_00a5a310(ModifierPointer const* ptr);
 };
 
@@ -1148,7 +1149,7 @@ void NiParticleSystem::InsertSorted(NiPSysModifier* pkBound)
             {
                 temp.m_object = pBound;
                 InterlockedIncrement((long volatile*)&pBound->m_uiRefCount);
-                list->FUN_00c1b520(node, &temp);
+                list->NiTPointerList_NiPSysModifierPtr_InsertBefore(node, &temp);
                 if (InterlockedDecrement((long volatile*)&pBound->m_uiRefCount) == 0)
                     pBound->DeleteThis();
                 bFound = true;
@@ -1203,7 +1204,7 @@ struct Anchor
 struct Pool
 {
     int unk00;
-    Node* __thiscall FUN_0043a010();
+    Node* __thiscall NiGeometry_AddProperty();
 };
 
 struct Self
@@ -1211,13 +1212,14 @@ struct Self
     Node* unk00;
     int unk04;
     Pool unk08;
-    Node* __thiscall FUN_00c1b520(Anchor* anchor, Ptr& ref);
+    Node* __thiscall NiTPointerList_NiPSysModifierPtr_InsertBefore(Anchor* anchor, Ptr& ref);
 };
 
 // @fnv 0x00c1b520
-Node* __thiscall Self::FUN_00c1b520(Anchor* anchor, Ptr& ref)
+// src: COMMUNITY 0x00c1b520
+Node* __thiscall Self::NiTPointerList_NiPSysModifierPtr_InsertBefore(Anchor* anchor, Ptr& ref)
 {
-    Node* node = unk08.FUN_0043a010();
+    Node* node = unk08.NiGeometry_AddProperty();
     node->unk08 = ref;
     node->unk00 = (Node*)anchor;
     node->unk04 = anchor->unk04;

@@ -52,7 +52,8 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f403c;
 // @fnv 0x00a52af0
-GlobalObjectO2_00a7b610* FUN_00a52af0()
+// src: COMMUNITY 0x00a52af0
+GlobalObjectO2_00a7b610* NiBSplineBasisData_GetRTTI()
 {
     return &g_011f403c;
 }
@@ -61,7 +62,7 @@ class ActorCombatGroup;
 namespace fnv_00a52c90 {
 extern int g_011f403c;
 void __stdcall AppendCameraPathEntries(void*);
-ActorCombatGroup* __cdecl FUN_00a7d330(int);
+ActorCombatGroup* __cdecl NiViewerStrings_NiGetViewerString_Title(int);
 struct ArrX
 {
     void SetSize(unsigned);
@@ -76,7 +77,7 @@ struct ArrX
 void __stdcall FUN_00a52c90(ArrX* pArray)
 {
     AppendCameraPathEntries(pArray);
-    ActorCombatGroup* pObject = FUN_00a7d330(g_011f403c);
+    ActorCombatGroup* pObject = NiViewerStrings_NiGetViewerString_Title(g_011f403c);
     unsigned n = pArray->m_usSize;
     if (n >= pArray->m_usMaxSize)
         pArray->SetSize(n + pArray->m_usGrowBy);

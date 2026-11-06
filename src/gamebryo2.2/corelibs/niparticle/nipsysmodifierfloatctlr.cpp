@@ -29,7 +29,8 @@ void NiPSysModifierFloatCtlr::LinkObject(NiStream& stream)
 extern const char* const g_012026d8_arg1;
 
 // @fnv 0x00c32e00
-const char* const* __cdecl FUN_00c32e00()
+// src: COMMUNITY 0x00c32e00
+const char* const* __cdecl NiPSysModifierFloatCtlr_GetRTTI()
 {
     return &g_012026d8_arg1;
 }

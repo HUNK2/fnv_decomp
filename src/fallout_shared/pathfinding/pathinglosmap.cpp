@@ -93,7 +93,8 @@ struct ArrHelper
 };
 // Returns false if the helper at offset 0x1c reports true; otherwise scans text entries and returns true on the first non-positive char whose lookup succeeds.
 // @fnv 0x006e1770
-bool PathingLOSMap::FUN_006e1770(unsigned int a, unsigned int b)
+// src: COMMUNITY 0x006e1770
+bool PathingLOSMap::GetUnseenNavMeshAndTriangle(unsigned int a, unsigned int b)
 {
     if (((const ArrHelper*)((char*)this + 0x1c))->FUN_0076b610())
         return false;
@@ -102,7 +103,7 @@ bool PathingLOSMap::FUN_006e1770(unsigned int a, unsigned int b)
         char cChar = ((Script*)this)->GetByteAt(i);
         if (cChar > 0)
             continue;
-        unsigned char d = FUN_006e1670(i, (SpawnedTarget*)a, (unsigned short*)b);
+        unsigned char d = GetNavMeshAndTriangleForIndex(i, (SpawnedTarget*)a, (unsigned short*)b);
         if (d)
             return true;
     }
@@ -227,7 +228,8 @@ struct SpawnedTarget
 
 // Scans the sequence list, measuring each entry's script length; when a length exceeds limit, stores the remaining offset and passes the previous entry to target.
 // @fnv 0x006e1670
-char PathingLOSMap::FUN_006e1670(unsigned int limit, SpawnedTarget* target, unsigned short* outOffset)
+// src: COMMUNITY 0x006e1670
+char PathingLOSMap::GetNavMeshAndTriangleForIndex(unsigned int limit, SpawnedTarget* target, unsigned short* outOffset)
 {
     unsigned int i;
     unsigned int accum;
@@ -264,7 +266,7 @@ char PathingLOSMap::FUN_006e1670(unsigned int limit, SpawnedTarget* target, unsi
 
 
 
-void* __cdecl FUN_00c58f00(float, int, void*);
+void* __cdecl BSTestObjects_CreateCircle(float, int, void*);
 void* __cdecl FUN_00c58d30(float, float, float, int, int, void*);
 void __cdecl AttachLightingPropertyRecursive(void*);
 void __cdecl FUN_00b57e30(void*, int, int);
@@ -274,7 +276,7 @@ struct DebugTriangleVertex
 {
     float components[3];
 };
-NiAVObject* __cdecl FUN_004b3570(DebugTriangleVertex, DebugTriangleVertex, DebugTriangleVertex, const NiColorA*, int);
+NiAVObject* __cdecl MakeTriangle(DebugTriangleVertex, DebugTriangleVertex, DebugTriangleVertex, const NiColorA*, int);
 
 // @fnv 0x006e1800
 NiSortAdjustNode* PathingLOSMap::CreateSortAdjustNode()
@@ -305,7 +307,7 @@ NiSortAdjustNode* PathingLOSMap::CreateSortAdjustNode()
     {
         NavMeshPtr p2;
         unsigned short p0;
-        if (!(unsigned char)FUN_006e1670(j, (SpawnedTarget*)&p2, &p0))
+        if (!(unsigned char)GetNavMeshAndTriangleForIndex(j, (SpawnedTarget*)&p2, &p0))
             continue;
         char a = ((Script*)this)->GetByteAt(j);
         if (a == 0x7f)
@@ -322,7 +324,7 @@ NiSortAdjustNode* PathingLOSMap::CreateSortAdjustNode()
                 cf[k] = p2->FUN_0068f0a0(h->FUN_005582d0(k));
                 cf[k].z += 5.0;
             }
-            NiPointer<NiAVObject> spC(FUN_004b3570(*(DebugTriangleVertex*)&cf[0], *(DebugTriangleVertex*)&cf[1], *(DebugTriangleVertex*)&cf[2], &h0, 1));
+            NiPointer<NiAVObject> spC(MakeTriangle(*(DebugTriangleVertex*)&cf[0], *(DebugTriangleVertex*)&cf[1], *(DebugTriangleVertex*)&cf[2], &h0, 1));
             rootNode->AttachChildInAvailableSlot(spC, 1);
         }
     }
@@ -333,7 +335,7 @@ NiSortAdjustNode* PathingLOSMap::CreateSortAdjustNode()
         NiColorA vec(1.0f, 1.0f, 0.0f, 0.5f);
         for (unsigned int m = 0; m < 5; ++m)
         {
-            void* ac = FUN_00c58f00(this->f48, 0x24, &vec);
+            void* ac = BSTestObjects_CreateCircle(this->f48, 0x24, &vec);
             ((NiAVObject*)ac)->FUN_004bc1f0(this->f3c, this->f40, (float)((double)m * 25.0 + this->f44));
             p4->AttachChildInAvailableSlot((NiAVObject*)ac, 1);
         }

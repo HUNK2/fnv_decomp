@@ -188,7 +188,7 @@ int ActorValueOwner::GetActorValue(ActorValue::Index value)
         result = ((TESAIForm*)((char*)this - 0x70))->GetAssistance();
         break;
     case 1:
-        result = ((TESAIForm*)((char*)this - 0x70))->FUN_004f6de0();
+        result = ((TESAIForm*)((char*)this - 0x70))->_GetByte05();
         break;
     case 2:
         result = ((BSAudio*)((char*)this - 0x70))->FUN_005bb4d0();
@@ -197,7 +197,7 @@ int ActorValueOwner::GetActorValue(ActorValue::Index value)
         result = ((TESAIForm*)((char*)this - 0x70))->GetResponsibility();
         break;
     case 4:
-        result = ((TESAIForm*)((char*)this - 0x70))->FUN_0062f2f0();
+        result = ((TESAIForm*)((char*)this - 0x70))->MenuTopic_GetTopicIsChoice();
         break;
     case 21:
         result = ((TESActorBaseData*)((char*)this - 0xd0))->GetShortAtOffset12();
@@ -363,10 +363,11 @@ bool BGSDestructibleObjectForm::HasValidStages()
 struct FUN_00476980_S
 {
     void FUN_004769c0(int, int);
-    FUN_00476980_S* FUN_00476980(int a, int b, int c);
+    FUN_00476980_S* NiMatrix3_NiMatrix3(int a, int b, int c);
 };
 // @fnv 0x00476980
-FUN_00476980_S* FUN_00476980_S::FUN_00476980(int aiValue0, int aiValue1, int aiValue2)
+// src: COMMUNITY 0x00476980
+FUN_00476980_S* FUN_00476980_S::NiMatrix3_NiMatrix3(int aiValue0, int aiValue1, int aiValue2)
 {
     FUN_004769c0(0, aiValue0);
     FUN_004769c0(1, aiValue1);
@@ -480,7 +481,8 @@ bool FUN_004753d0(void* apForm)
 }  // namespace fnv_004753d0
 
 // @fnv 0x00477410
-void FUN_00477410(unsigned int index)
+// src: COMMUNITY 0x00477410
+void BGSDestructibleObjectForm_RemoveDestructibleObject(unsigned int index)
 {
     g_011c4104.RemoveAt(reinterpret_cast<TESFile*>(index));
 }
@@ -585,12 +587,13 @@ struct H0043b4d0
 
 struct W_0043b4f0
 {
-    H0043b4d0 FUN_0043b4f0();
+    H0043b4d0 bhkWorldObject_GetCollisionFilter();
 };
 
 // If object has a collision object whose world object type is 19, sets it app-culled and returns true; otherwise recurses into child nodes.
 // @fnv 0x00477560
-bool __cdecl FUN_00477560(NiAVObject* object)
+// src: COMMUNITY 0x00477560
+bool __cdecl BGSDestructibleObjectForm_HideSmallDebris(NiAVObject* object)
 {
     bool result = false;
 
@@ -605,7 +608,7 @@ bool __cdecl FUN_00477560(NiAVObject* object)
 
             if (worldObject)
             {
-                if (reinterpret_cast<W_0043b4f0*>(worldObject)->FUN_0043b4f0().FUN_0043b4d0() == 19)
+                if (reinterpret_cast<W_0043b4f0*>(worldObject)->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() == 19)
                     bIsLodObject = true;
             }
         }
@@ -625,7 +628,7 @@ bool __cdecl FUN_00477560(NiAVObject* object)
 
                 for (unsigned int index = 0; index < count; ++index)
                 {
-                    if (FUN_00477560(node->GetAt(index)))
+                    if (BGSDestructibleObjectForm_HideSmallDebris(node->GetAt(index)))
                         result = true;
                 }
             }
@@ -1530,7 +1533,7 @@ void __cdecl FUN_00477d10(TESObjectREFR* reference)
 
 unsigned char __cdecl FUN_00401500();
 void __cdecl AppendChunk(unsigned int auiType, char* apData, unsigned int auiSize);
-void __cdecl FUN_00403d30(void* apDst, int aiValue, unsigned int auiSize);
+void __cdecl ourMemset(void* apDst, int aiValue, unsigned int auiSize);
 void __cdecl FUN_004856d0(int aiType);
 
 extern "C" void __cdecl WriteReplacementModel();
@@ -1596,7 +1599,7 @@ void BGSDestructibleObjectForm::Save()
         for (unsigned int i = 0; i < reinterpret_cast<FUN_00477f20_data*>(pData)->ucCount; i++)
         {
             FUN_00478130_entry kEntry;
-            FUN_00403d30(&kEntry, 0, 0x14);
+            ourMemset(&kEntry, 0, 0x14);
             kEntry.m_ucClipIdentifier = i;
             kEntry.ucByte0 = reinterpret_cast<FUN_00477f20_data*>(pData)->ppEntries[i]->ucByte1;
             kEntry.uiValue4 = reinterpret_cast<FUN_00477f20_data*>(pData)->ppEntries[i]->uiValue4;

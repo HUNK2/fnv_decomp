@@ -56,7 +56,8 @@ void TESValueForm::FUN_0048ea10(unsigned int a, unsigned int b)
 
 
 // @fnv 0x0048ea40
-void TESValueForm::FUN_0048ea40(BGSSaveFormBuffer* aBuffer)
+// src: COMMUNITY 0x0048ea40
+void TESValueForm::SaveGameBGS_0048ea40(BGSSaveFormBuffer* aBuffer)
 {
     if (reinterpret_cast<BGSLoadFormBuffer*>(aBuffer)->GetChangeFlags(2).operator bool())
         aBuffer->SaveData(&iValue, 4, 0);

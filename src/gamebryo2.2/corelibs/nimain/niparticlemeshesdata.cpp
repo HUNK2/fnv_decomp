@@ -15,7 +15,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5f0c;
 
 // @fnv 0x00a98b00
-GlobalObjectO2_00a7b610* __cdecl FUN_00a98b00()
+// src: COMMUNITY 0x00a98b00
+GlobalObjectO2_00a7b610* __cdecl NiParticleMeshesData_GetRTTI()
 {
     return &g_011f5f0c;
 }
@@ -228,13 +229,13 @@ struct FUN_0096ad30_This
     void FUN_0096ae90(unsigned int, void*);
 };
 void __stdcall FUN_00a97420(void*);
-void* __cdecl FUN_00a7d330(void*);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 // Calls FUN_00a97420 on p, fetches an item via FUN_00a7d330, grows the container if count reaches capacity, then stores the item at index count.
 // @fnv 0x00a98de0
 void __stdcall FUN_00a98de0(FUN_0096ad30_This* pContainer)
 {
     FUN_00a97420(pContainer);
-    void* item = FUN_00a7d330(*(void**)&g_011f5f0c);
+    void* item = NiViewerStrings_NiGetViewerString_Title(*(void**)&g_011f5f0c);
     unsigned int count = pContainer->m_uiItemCount;
     unsigned int capacity = pContainer->m_pRayCursor;
     if (count >= capacity)

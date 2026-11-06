@@ -22,8 +22,8 @@ class BSShaderBloodSplatter : public BSShader
     void InitializeShaderData();
     bool ConfigureShaderPass();
     void FUN_00b81110(unsigned int);
-    void FUN_00b805d0(unsigned int);
-    void FUN_00b80600(NiRefObject*);
+    void BSShaderBloodSplatter_InitPass(unsigned int);
+    void NiD3DPass_SetPixelShader(NiRefObject*);
     void SetupConstantMaps();
     // const NiRTTI* __cdecl BSShaderBloodSplatter::*()
     // BSShaderBloodSplatter

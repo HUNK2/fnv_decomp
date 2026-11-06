@@ -32,7 +32,8 @@ FUN_00533240_helper* FUN_00533240_helper::InitVtable()
 }
 
 // @fnv 0x00534550
-void* __fastcall FUN_00534550(PathingActorData* pThis)
+// src: COMMUNITY 0x00534550
+void* __fastcall NiTConvertingStrideIterator_NiTConvertingStrideIterator(PathingActorData* pThis)
 {
     pThis->PathingActorData::PathingActorData();
     return pThis;

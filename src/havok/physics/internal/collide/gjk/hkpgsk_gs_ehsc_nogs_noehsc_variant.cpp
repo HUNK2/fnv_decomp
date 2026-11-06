@@ -130,10 +130,10 @@ public:
     SimplexVectorCallLocal_00daa7e0 FUN_00439e90(const SimplexVectorCallLocal_00daa7e0& vector);
     void FUN_00439180(float value);
     void FUN_004a0c10();
-    void FUN_005611c0();
-    void FUN_00c66320(const SimplexVectorCallLocal_00daa7e0* a, const SimplexVectorCallLocal_00daa7e0* b);
-    void FUN_00c74ac0(const SimplexVectorCallLocal_00daa7e0* a, const SimplexVectorCallLocal_00daa7e0* b);
-    void FUN_00c74c90(SimplexVectorCallLocal_00daa7e0* vector);
+    void normalize_005611c0();
+    void setMul(const SimplexVectorCallLocal_00daa7e0* a, const SimplexVectorCallLocal_00daa7e0* b);
+    void setMulInverse(const SimplexVectorCallLocal_00daa7e0* a, const SimplexVectorCallLocal_00daa7e0* b);
+    void hkQuaternion_getAxis(SimplexVectorCallLocal_00daa7e0* vector);
     void FUN_00c7f640(const Transform& transform, const SimplexVectorCallLocal_00daa7e0& point);
     void FUN_00cb2450(const SimplexVectorCallLocal_00daa7e0* vector, float value);
     void FUN_00cb26e0(const hkRotation* rotation);

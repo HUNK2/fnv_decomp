@@ -127,11 +127,12 @@ void __cdecl AppendNormalMapSuffix(const char* source, char* dest)
 
 struct FUN_00487400_shell
 {
-    const char* __thiscall FUN_00487400();
+    const char* __thiscall TESTexture_GetDefaultPath_0();
 };
 
 // @fnv 0x00487400
-const char* __thiscall FUN_00487400_shell::FUN_00487400()
+// src: COMMUNITY 0x00487400
+const char* __thiscall FUN_00487400_shell::TESTexture_GetDefaultPath_0()
 {
     return "Textures";
 }
@@ -143,21 +144,23 @@ struct FNStub
 
 struct FUN_0048e580_shell : FNStub
 {
-    const char* __thiscall FUN_0048e580(BSStringT<char>& result);
+    const char* __thiscall TESTexture_GetNormalMap(BSStringT<char>& result);
 };
 
 // @fnv 0x0048e580
-const char* __thiscall FUN_0048e580_shell::FUN_0048e580(BSStringT<char>& result)
+// src: COMMUNITY 0x0048e580
+const char* __thiscall FUN_0048e580_shell::TESTexture_GetNormalMap(BSStringT<char>& result)
 {
     return TESTexture::NormalizeTextureFilePath(result, this->GetFullName());
 }
 
 struct TESTexture_shell
 {
-    const char* FUN_0048e720();
+    const char* TESTexture_GetDefaultPath();
 };
 // @fnv 0x0048e720
-const char* TESTexture_shell::FUN_0048e720()
+// src: COMMUNITY 0x0048e720
+const char* TESTexture_shell::TESTexture_GetDefaultPath()
 {
     return "Textures\\";
 }
@@ -187,12 +190,13 @@ void TESSkill::FUN_00617e80()
 
 struct FUN_005eac70_shell
 {
-    void FUN_005eac70();
+    void BGSPerk_SetDefault();
 };
 
 // Clears the bytes at offsets 0x38, 0x39 and 0x3C of this and sets the bytes at 0x3A and 0x3B to 1.
 // @fnv 0x005eac70
-void FUN_005eac70_shell::FUN_005eac70()
+// src: COMMUNITY 0x005eac70
+void FUN_005eac70_shell::BGSPerk_SetDefault()
 {
     *(unsigned char*)((char*)this + 0x38) = 0;
     *(unsigned char*)((char*)this + 0x39) = 0;
@@ -268,13 +272,14 @@ struct FNStub
 {
     char* GetFullName();
 };
-int __cdecl FUN_00404dc0(const char*, const char*);
+int __cdecl BSstricmp(const char*, const char*);
 struct FUN_0048e4f0_shell : TESModel
 {
-    bool FUN_0048e4f0(BaseFormComponent* apCompareFC);
+    bool TESTexture_CompareComponent(BaseFormComponent* apCompareFC);
 };
 // @fnv 0x0048e4f0
-bool FUN_0048e4f0_shell::FUN_0048e4f0(BaseFormComponent* apCompareFC)
+// src: COMMUNITY 0x0048e4f0
+bool FUN_0048e4f0_shell::TESTexture_CompareComponent(BaseFormComponent* apCompareFC)
 {
     TESTexture* pcompare = dynamic_cast<TESTexture*>(apCompareFC);
     if (!pcompare)
@@ -283,7 +288,7 @@ bool FUN_0048e4f0_shell::FUN_0048e4f0(BaseFormComponent* apCompareFC)
     {
         if (GetModelLength() != ((TESModel*)pcompare)->GetModelLength())
             return true;
-        else if (FUN_00404dc0(((FNStub*)this)->GetFullName(), ((FNStub*)pcompare)->GetFullName()))
+        else if (BSstricmp(((FNStub*)this)->GetFullName(), ((FNStub*)pcompare)->GetFullName()))
             return true;
     }
     return false;

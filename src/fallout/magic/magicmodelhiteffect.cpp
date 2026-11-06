@@ -310,20 +310,20 @@ MagicModelHitEffect::~MagicModelHitEffect()
 namespace fnv_0081d800 {
 struct FUN_0081be80_s
 {
-    void FUN_0081be80(BGSSaveFormBuffer*);
+    void MagicHitEffect_SaveGameBGS(BGSSaveFormBuffer*);
 };
 struct Flt
 {
     operator unsigned int();
 };
-void __cdecl FUN_00563f30(NiControllerManager*, BGSSaveGameBuffer*, float);
+void __cdecl TESObjectREFR_SaveControllerManagerBGS(NiControllerManager*, BGSSaveGameBuffer*, float);
 }  // namespace fnv_0081d800
 
 // @fnv 0x0081d800
 void MagicModelHitEffect::SaveGame(BGSSaveGameBuffer* apSaveGameBuffer)
 {
     NiControllerManager* pmanager;
-    ((fnv_0081d800::FUN_0081be80_s*)this)->FUN_0081be80((BGSSaveFormBuffer*)apSaveGameBuffer);
+    ((fnv_0081d800::FUN_0081be80_s*)this)->MagicHitEffect_SaveGameBGS((BGSSaveFormBuffer*)apSaveGameBuffer);
     apSaveGameBuffer->SaveGameString(pFilename, 0);
     pmanager = 0;
     if (*reinterpret_cast<fnv_0081d800::Flt*>(&spRetainedObject))
@@ -337,7 +337,7 @@ void MagicModelHitEffect::SaveGame(BGSSaveGameBuffer* apSaveGameBuffer)
             Actor* pactor = reinterpret_cast<Actor*>(apSaveGameBuffer->GetActor());
             Animation* panim = pactor ? reinterpret_cast<Animation*>(pactor->GetAnimData()) : 0;
             float ftime = panim ? panim->FUN_00453700() : -1.0f;
-            fnv_0081d800::FUN_00563f30(pmanager, apSaveGameBuffer, -1.0f);
+            fnv_0081d800::TESObjectREFR_SaveControllerManagerBGS(pmanager, apSaveGameBuffer, -1.0f);
         }
         unsigned int uiFormIdAfter = ((TESForm*)apSaveGameBuffer)->GetFormID();
         ((BGSSaveFormBuffer*)apSaveGameBuffer)->FUN_00865ff0(uiFormIdAfter - uiFormIdBefore, uiStartPosition);
@@ -751,7 +751,7 @@ extern SaveManagerLocal* DAT_011de45c;
 extern const float DAT_01012054;
 void* __cdecl FUN_00653270(const NiRTTI*, NiTimeController*);
 void __cdecl FUN_0055ffa0(void*, NiAVObject*, float);
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 // @fnv 0x0081d3b0
 void MagicModelHitEffect::FinishLoadGameTES(ActiveEffect* effect, TESObjectREFR* target, void* apData)
 {
@@ -792,7 +792,7 @@ void MagicModelHitEffect::FinishLoadGameTES(ActiveEffect* effect, TESObjectREFR*
         }
     }
     DAT_011de45c->FUN_00600ab0(saved);
-    FUN_00401030(const_cast<char*>(previous));
+    FormHeapFreeAndLog_00401030(const_cast<char*>(previous));
     Update(0.0f);
 }
 
@@ -840,7 +840,7 @@ void MagicModelHitEffect::ApplyLoadBuffer(BGSLoadGameBuffer* apBuffer)
 
 struct FUN_0081bd80_shell
 {
-    void FUN_0081bd80(ActiveEffect*, TESObjectREFR*);
+    void MagicHitEffect_SaveGame(ActiveEffect*, TESObjectREFR*);
 };
 unsigned short __cdecl FUN_0055fdb0(NiControllerManager*);
 void __cdecl FUN_0055fe70(NiControllerManager*, float);
@@ -918,7 +918,7 @@ struct RefV_0081d150
 // @fnv 0x0081d150
 void MagicModelHitEffect::SaveGame(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
-    ((FUN_0081bd80_shell*)this)->FUN_0081bd80(apEffect, apTarget);
+    ((FUN_0081bd80_shell*)this)->MagicHitEffect_SaveGame(apEffect, apTarget);
     NiControllerManager* pmanager = 0;
     if ((unsigned int)*reinterpret_cast<Flt*>(&spRetainedObject))
         pmanager = (NiControllerManager*)FUN_00653270(

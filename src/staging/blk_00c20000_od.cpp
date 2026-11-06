@@ -33,11 +33,12 @@ extern "C" void* g_01202828;
 
 struct FUN_00c3a610_Class
 {
-    void* __thiscall FUN_00c3a610();
+    void* __thiscall BSMultiBoundRoom_GetRTTI();
 };
 
 // @fnv 0x00c3a610
-void* __thiscall FUN_00c3a610_Class::FUN_00c3a610()
+// src: COMMUNITY 0x00c3a610
+void* __thiscall FUN_00c3a610_Class::BSMultiBoundRoom_GetRTTI()
 {
     return &g_01202828;
 }
@@ -89,11 +90,12 @@ extern "C" void* g_012043e4;
 
 struct FUN_00c3ba70_Class
 {
-    void* __thiscall FUN_00c3ba70();
+    void* __thiscall BSNodeReferences_GetRTTI();
 };
 
 // @fnv 0x00c3ba70
-void* __thiscall FUN_00c3ba70_Class::FUN_00c3ba70()
+// src: COMMUNITY 0x00c3ba70
+void* __thiscall FUN_00c3ba70_Class::BSNodeReferences_GetRTTI()
 {
     return &g_012043e4;
 }
@@ -149,11 +151,12 @@ void __thiscall FUN_00c3d930_Class::FUN_00c3d930()
 
 struct FUN_00c3f6f0_Class
 {
-    void FUN_00c3f6f0();
+    void LockFreeMap_int64_NiPointer_BSTask_int64_IncrementCount();
 };
 
 // @fnv 0x00c3f6f0
-void FUN_00c3f6f0_Class::FUN_00c3f6f0()
+// src: COMMUNITY 0x00c3f6f0
+void FUN_00c3f6f0_Class::LockFreeMap_int64_NiPointer_BSTask_int64_IncrementCount()
 {
     InterlockedIncrement((volatile long*)((char*)this + 0x18));
 }
@@ -193,12 +196,13 @@ void __thiscall FUN_00c3fc80_class::CallSecondVirtualMethod(void* apObject)
 
 struct FUN_00c35980_Class
 {
-    int FUN_00c35980();
+    int BSOcclusionPlane_GetJoinedPlaneType();
 };
 
 // Returns 2 if the fields at offsets 0xec or 0xf4 are set, 1 if 0xf0 or 0xf8 are set, otherwise 0.
 // @fnv 0x00c35980
-int FUN_00c35980_Class::FUN_00c35980()
+// src: COMMUNITY 0x00c35980
+int FUN_00c35980_Class::BSOcclusionPlane_GetJoinedPlaneType()
 {
     if (*(int*)((char*)this + 0xec) || *(int*)((char*)this + 0xf4))
         return 2;
@@ -209,16 +213,17 @@ int FUN_00c35980_Class::FUN_00c35980()
 
 struct FUN_00c3a080_Class
 {
-    void* __thiscall FUN_00c3a080(int arg);
+    void* __thiscall BSMultiBoundRoom_CreateClone(int arg);
 };
 
 // @fnv 0x00c3a080
-void* FUN_00c3a080_Class::FUN_00c3a080(int arg)
+// src: COMMUNITY 0x00c3a080
+void* FUN_00c3a080_Class::BSMultiBoundRoom_CreateClone(int arg)
 {
     return 0;
 }
 
-void* __cdecl FUN_00a7d330(void*);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 struct FUN_00c3a0c0_Class
 {
     void* __thiscall FUN_00c46e70(unsigned int a);
@@ -235,43 +240,47 @@ void __thiscall FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
     char pad[12];
     FUN_00c46e70(pArray);
     locals.p = g_01202828;
-    locals.u = (unsigned int)FUN_00a7d330(locals.p);
+    locals.u = (unsigned int)NiViewerStrings_NiGetViewerString_Title(locals.p);
     ((NiTPrimitiveArray<unsigned int>*)pArray)->AddFirstEmpty(locals.u);
 }
 
 struct FUN_00c3a100_Class
 {
-    void __thiscall FUN_00c3a100(int);
+    void __thiscall BSMultiBoundRoom_LinkObject(int);
 };
 // @fnv 0x00c3a100
-void __thiscall FUN_00c3a100_Class::FUN_00c3a100(int)
+// src: COMMUNITY 0x00c3a100
+void __thiscall FUN_00c3a100_Class::BSMultiBoundRoom_LinkObject(int)
 {}
 
 struct FUN_00c3a110_Class
 {
-    void __thiscall FUN_00c3a110(int arg);
+    void __thiscall BSMultiBoundRoom_LoadBinary(int arg);
 };
 
 // @fnv 0x00c3a110
-void FUN_00c3a110_Class::FUN_00c3a110(int arg)
+// src: COMMUNITY 0x00c3a110
+void FUN_00c3a110_Class::BSMultiBoundRoom_LoadBinary(int arg)
 {}
 
 struct FUN_00c3a120_Class
 {
-    void __thiscall FUN_00c3a120(int);
+    void __thiscall BSMultiBoundRoom_SaveBinary(int);
 };
 
 // @fnv 0x00c3a120
-void __thiscall FUN_00c3a120_Class::FUN_00c3a120(int)
+// src: COMMUNITY 0x00c3a120
+void __thiscall FUN_00c3a120_Class::BSMultiBoundRoom_SaveBinary(int)
 {}
 
 struct FUN_00c3a130_Class
 {
-    char __thiscall FUN_00c3a130(void* arg);
+    char __thiscall BSMultiBoundRoom_RegisterStreamables(void* arg);
 };
 
 // @fnv 0x00c3a130
-char __thiscall FUN_00c3a130_Class::FUN_00c3a130(void* arg)
+// src: COMMUNITY 0x00c3a130
+char __thiscall FUN_00c3a130_Class::BSMultiBoundRoom_RegisterStreamables(void* arg)
 {
     return 1;
 }
@@ -320,7 +329,8 @@ void* __thiscall FUN_00c3a6a0_Class::FUN_00c3a6a0(unsigned int flags)
 extern char DAT_01202c50[260];
 extern char DAT_01202fa0[];
 // @fnv 0x00c3bb90
-void FUN_00c3bb90(const char* src)
+// src: COMMUNITY 0x00c3bb90
+void MessageHandler_SetAllWarningFileNames(const char* src)
 {
     strcpy_s(DAT_01202c50, 260, DAT_01202fa0);
     strcat_s(DAT_01202c50, 260, src);
@@ -332,7 +342,8 @@ extern char DAT_01202fa0;
 char* __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 char* __cdecl _strcat_s(char* dest, unsigned int size, const char* src);
 // @fnv 0x00c3bbe0
-void __cdecl FUN_00c3bbe0(const char* pcSuffix)
+// src: COMMUNITY 0x00c3bbe0
+void __cdecl MessageHandler_SetProgramFlowFileName(const char* pcSuffix)
 {
     _strcpy_s(DAT_01202b48, 260, &DAT_01202fa0);
     _strcat_s(DAT_01202b48, 260, pcSuffix);
@@ -343,7 +354,8 @@ extern char DAT_01202a40[0x104];
 extern char DAT_01202fa0[0x104];
 // Copies DAT_01202fa0 into DAT_01202a40, then appends p to it.
 // @fnv 0x00c3bc30
-void __cdecl FUN_00c3bc30(const char* pcSuffix)
+// src: COMMUNITY 0x00c3bc30
+void __cdecl MessageHandler_SetProgrammerOutputFileName(const char* pcSuffix)
 {
     strcpy_s(DAT_01202a40, 0x104, DAT_01202fa0);
     strcat_s(DAT_01202a40, 0x104, pcSuffix);
@@ -356,7 +368,8 @@ void __cdecl _strcpy_s(char* dst, unsigned int, const char* src);
 void __cdecl _strcat_s(char* dst, unsigned int, const char* src);
 // Copies DAT_01202fa0 into DAT_01202938, then appends src to that buffer.
 // @fnv 0x00c3bc80
-void __cdecl FUN_00c3bc80(const char* pcSuffix)
+// src: COMMUNITY 0x00c3bc80
+void __cdecl MessageHandler_SetCrashTraceFileName(const char* pcSuffix)
 {
     _strcpy_s(DAT_01202938, 0x104, DAT_01202fa0);
     _strcat_s(DAT_01202938, 0x104, pcSuffix);
@@ -370,7 +383,7 @@ MessageHandler* MessageHandler::pHandler;
 // src: EXE 0x00c3bcf0
 MessageHandler* __thiscall MessageHandler::MessageHandler_00c3bcf0(bool abStatic)
 {
-    FUN_00aa4c60();
+    BSCoreMessage_BSCoreMessage();
     *(const void**)this = &DAT_010c14a8;
     bStatic = abStatic;
     MessageHandler::pHandler = this;
@@ -379,11 +392,12 @@ MessageHandler* __thiscall MessageHandler::MessageHandler_00c3bcf0(bool abStatic
 
 struct FUN_00c3c070_Class
 {
-    void* __thiscall FUN_00c3c070(int arg);
+    void* __thiscall std__Ref_count_base__Get_deleter(int arg);
 };
 
 // @fnv 0x00c3c070
-void* __thiscall FUN_00c3c070_Class::FUN_00c3c070(int arg)
+// src: COMMUNITY 0x00c3c070
+void* __thiscall FUN_00c3c070_Class::std__Ref_count_base__Get_deleter(int arg)
 {
     return 0;
 }
@@ -450,7 +464,7 @@ void* __thiscall FUN_00c3d950_Class::FUN_00c3d950(unsigned int flags)
 
 struct FUN_00c3fca0_Class
 {
-    void __thiscall FUN_0044e050(void* a);
+    void __thiscall BSTaskManager_int64_RemoveTask(void* a);
     void __thiscall FUN_00c3fca0(void* p);
 };
 // Sets the field at offset 0xc to 4, calls the object's virtual method at vtable index 2, then sets the field to 5 and calls FUN_0044e050.
@@ -460,16 +474,17 @@ void __thiscall FUN_00c3fca0_Class::FUN_00c3fca0(void* apObject)
     *(int*)((char*)apObject + 0xc) = 4;
     ((void(__thiscall*)(void*))(*(void***)apObject)[2])(apObject);
     *(int*)((char*)apObject + 0xc) = 5;
-    FUN_0044e050(apObject);
+    BSTaskManager_int64_RemoveTask(apObject);
 }
 
 struct FUN_00c3fe00_Class
 {
-    void* __thiscall FUN_00c3fe00(int a, int b, int c, int d);
+    void* __thiscall LockFreeMapInterface_LockFreeMapInterface(int a, int b, int c, int d);
 };
 // Stores the four arguments into the first four fields and zeroes the fields at offsets 0x10 through 0x20, returning this.
 // @fnv 0x00c3fe00
-void* __thiscall FUN_00c3fe00_Class::FUN_00c3fe00(int aiField0, int aiField1, int aiField2, int aiField3)
+// src: COMMUNITY 0x00c3fe00
+void* __thiscall FUN_00c3fe00_Class::LockFreeMapInterface_LockFreeMapInterface(int aiField0, int aiField1, int aiField2, int aiField3)
 {
     int* p4 = (int*)((char*)this + 0x14);
     *p4 = 0;
@@ -489,16 +504,17 @@ void __fastcall FUN_0044dd60(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile*);
 struct FUN_00c416a0_Class
 {
-    bool __thiscall FUN_00c416a0(int a, int b, int c);
+    bool __thiscall LockFreeMapInterface_Find_0(int a, int b, int c);
 };
 struct FUN_00c3fe80_Class : FUN_00c416a0_Class
 {
-    bool __thiscall FUN_00c3fe80(int a, int b, int c, void** out);
+    bool __thiscall LockFreeMapInterface_GetAt(int a, int b, int c, void** out);
 };
 // @fnv 0x00c3fe80
-bool FUN_00c3fe80_Class::FUN_00c3fe80(int aiArg1, int aiArg2, int aiArg3, void** ppOut)
+// src: COMMUNITY 0x00c3fe80
+bool FUN_00c3fe80_Class::LockFreeMapInterface_GetAt(int aiArg1, int aiArg2, int aiArg3, void** ppOut)
 {
-    bool result = FUN_00c416a0(aiArg1, aiArg2, aiArg3);
+    bool result = LockFreeMapInterface_Find_0(aiArg1, aiArg2, aiArg3);
     if (result)
     {
         int padA;
@@ -593,10 +609,11 @@ int __cdecl FUN_00c33090(const char* p)
 typedef void*(__cdecl* PFN_00c3c100)(void*, void*, unsigned int);
 extern PFN_00c3c100 DAT_01202d5c;
 extern int DAT_01202d70;
-void __cdecl FUN_00c3c250();
-void __cdecl FUN_00c3c280();
+void __cdecl MessageHandler_InstallMessageBoxHook();
+void __cdecl MessageHandler_RemoveMessageBoxHook();
 // @fnv 0x00c3c100
-void* __cdecl FUN_00c3c100(void* a, void* b, unsigned int auiFlags)
+// src: COMMUNITY 0x00c3c100
+void* __cdecl MessageHandler_DoMessageBox(void* a, void* b, unsigned int auiFlags)
 {
     void* r = 0;
     if (DAT_01202d5c)
@@ -604,7 +621,7 @@ void* __cdecl FUN_00c3c100(void* a, void* b, unsigned int auiFlags)
         bool bAdjusted = false;
         if (auiFlags & 3)
         {
-            FUN_00c3c250();
+            MessageHandler_InstallMessageBoxHook();
             if (DAT_01202d70)
             {
                 auiFlags &= 0xffffefff;
@@ -614,7 +631,7 @@ void* __cdecl FUN_00c3c100(void* a, void* b, unsigned int auiFlags)
         }
         r = DAT_01202d5c(a, b, auiFlags);
         if (bAdjusted)
-            FUN_00c3c280();
+            MessageHandler_RemoveMessageBoxHook();
     }
     return r;
 }
@@ -679,7 +696,8 @@ extern char const g_01202e84_arg0[];
 extern char const g_01204388_arg0[];
 
 // @fnv 0x00c3a6d0
-void FUN_00c3a6d0()
+// src: COMMUNITY 0x00c3a6d0
+void BSStream_InitLoaders()
 {
     NiStream::RegisterObjectLoader(g_012043dc_arg0, BSReference_CreateObject);
     NiStream::RegisterObjectLoader(g_012043e4_arg0, BSNodeReferences_CreateObject);
@@ -729,15 +747,16 @@ void* __thiscall FUN_00c3ba80_Class::FUN_00c3ba80(unsigned int flags)
 }
 
 extern "C" unsigned char DAT_01202d55;
-void* __cdecl FUN_00c3c100(void*, void*, unsigned int);
+void* __cdecl MessageHandler_DoMessageBox(void*, void*, unsigned int);
 
 // Sets DAT_01202d55 to 1, calls FUN_00c3c100 with a, "Confirm" and 0x2034, then resets DAT_01202d55 to 0 and returns the result.
 // @fnv 0x00c3c180
-void* __cdecl FUN_00c3c180(void* a)
+// src: COMMUNITY 0x00c3c180
+void* __cdecl MessageHandler_MenuMessageBoxYesNo(void* a)
 {
     void* result;
     DAT_01202d55 = 1;
-    result = FUN_00c3c100(a, "Confirm", 0x2034);
+    result = MessageHandler_DoMessageBox(a, "Confirm", 0x2034);
     DAT_01202d55 = 0;
     return result;
 }
@@ -746,10 +765,11 @@ extern unsigned char DAT_01202d55;
 
 // Sets DAT_01202d55 to 1, calls FUN_00c3c100 with a, "Confirm" and 0x2033, then resets DAT_01202d55 to 0 and returns the result.
 // @fnv 0x00c3c1c0
-void* __cdecl FUN_00c3c1c0(void* a)
+// src: COMMUNITY 0x00c3c1c0
+void* __cdecl MessageHandler_MenuMessageBoxYesNoAll(void* a)
 {
     DAT_01202d55 = 1;
-    void* result = FUN_00c3c100(a, "Confirm", 0x2033);
+    void* result = MessageHandler_DoMessageBox(a, "Confirm", 0x2033);
     DAT_01202d55 = 0;
     return result;
 }
@@ -989,11 +1009,12 @@ struct FUN_00c347d0_Obj
 struct FUN_00c347d0_cls
 {
     void Init(FUN_00c347d0_Elem* res);
-    bool FUN_00c347d0(FUN_00c347d0_Obj* obj);
+    bool BSOcclusionPlane_CompletelyWithinFrustum(FUN_00c347d0_Obj* obj);
 };
 
 // @fnv 0x00c347d0
-bool FUN_00c347d0_cls::FUN_00c347d0(FUN_00c347d0_Obj* obj)
+// src: COMMUNITY 0x00c347d0
+bool FUN_00c347d0_cls::BSOcclusionPlane_CompletelyWithinFrustum(FUN_00c347d0_Obj* obj)
 {
     FUN_00c347d0_Scratch b1;
     FUN_00c347d0_Elem res[4];
@@ -1272,7 +1293,7 @@ extern "C" __declspec(dllimport) unsigned long __stdcall GetPrivateProfileString
 
 
 
-PFN_NiObjectLoader __cdecl FUN_00c3b3c0(const char* name);
+PFN_NiObjectLoader __cdecl BSStream_GetCreatorFunction(const char* name);
 
 static const char kLoadersSection[] = "Loaders";
 static const char kNoDefault[] = "";
@@ -1311,7 +1332,7 @@ void __cdecl LoadObjectLoadersFromIni(const char* dir)
             nVal = GetPrivateProfileStringA("Loaders", key, kNoDefault, value2, 128, pathX);
             if (nVal != 0)
             {
-                loader = FUN_00c3b3c0(value2);
+                loader = BSStream_GetCreatorFunction(value2);
                 if (loader != 0)
                 {
                     nVal = strlen(key);
@@ -1374,7 +1395,8 @@ void __cdecl BuildDataPath(char* outPath, const char* srcPath, const char* suffi
 extern "C" unsigned char DAT_01202b48;
 
 // @fnv 0x00c3bbd0
-void* __cdecl FUN_00c3bbd0()
+// src: COMMUNITY 0x00c3bbd0
+void* __cdecl GetProgramFlowTextPath()
 {
     return &DAT_01202b48;
 }
@@ -1382,7 +1404,8 @@ void* __cdecl FUN_00c3bbd0()
 extern char DAT_01202a40[0x104];
 
 // @fnv 0x00c3bc20
-char* __cdecl FUN_00c3bc20()
+// src: COMMUNITY 0x00c3bc20
+char* __cdecl MessageHandler_GetProgrammerOutputFileName()
 {
     return DAT_01202a40;
 }
@@ -1392,13 +1415,15 @@ char* __cdecl FUN_00c3bc20()
 extern char DAT_01202938[0x104];
 
 // @fnv 0x00c3bc70
-char* __cdecl FUN_00c3bc70()
+// src: COMMUNITY 0x00c3bc70
+char* __cdecl MessageHandler_GetCrashTraceFileName()
 {
     return DAT_01202938;
 }
 
 // @fnv 0x00c3bcd0
-int __cdecl FUN_00c3bcd0()
+// src: COMMUNITY 0x00c3bcd0
+int __cdecl return_0_8()
 {
     return 0;
 }
@@ -1409,17 +1434,18 @@ extern "C" unsigned char DAT_011af49f;
 extern unsigned char DAT_011f6370[0x18];
 extern unsigned int DAT_01202d74;
 extern unsigned int DAT_011f6388;
-void __cdecl FUN_00c3c460();
+void __cdecl MessageHandler_InitSDM();
 
 // Calls FUN_00c3c460, stores four bytes and a function pointer into globals, clears DAT_011f6370, and copies DAT_01202d74 into DAT_011f6388.
 // @fnv 0x00c3bd30
-void __cdecl FUN_00c3bd30(unsigned char ucParam1, unsigned char ucParam2, unsigned char ucParam3,
+// src: COMMUNITY 0x00c3bd30
+void __cdecl MessageHandler_Init(unsigned char ucParam1, unsigned char ucParam2, unsigned char ucParam3,
                           unsigned char ucParam4, unsigned int e)
 {
     unsigned int unk04;
     unsigned int unk08;
     int i;
-    FUN_00c3c460();
+    MessageHandler_InitSDM();
     DAT_011af49c = ucParam1;
     DAT_011af49d = ucParam2;
     DAT_011af49e = ucParam3;
@@ -1469,7 +1495,8 @@ extern "C" void __cdecl CbtHookProc(int code, WPARAM wParam, LPARAM lParam);
 extern int DAT_01202d70;
 
 // @fnv 0x00c3c250
-void __cdecl FUN_00c3c250()
+// src: COMMUNITY 0x00c3c250
+void __cdecl MessageHandler_InstallMessageBoxHook()
 {
     if (DAT_01202d70 == 0)
     {
@@ -1481,7 +1508,8 @@ void __cdecl FUN_00c3c250()
 
 // If the global hook handle DAT_01202d70 is set, unhooks it with UnhookWindowsHookEx and clears the handle.
 // @fnv 0x00c3c280
-void __cdecl FUN_00c3c280()
+// src: COMMUNITY 0x00c3c280
+void __cdecl MessageHandler_RemoveMessageBoxHook()
 {
     if (DAT_01202d70 != 0)
     {
@@ -1542,7 +1570,7 @@ int __stdcall CbtHookProc(int code, unsigned int wParam, int lParam)
         if (found != 0)
         {
             SetWindowTextA((HWND)found, "Yes to all");
-            FUN_00c3c280();
+            MessageHandler_RemoveMessageBoxHook();
         }
         break;
     }
@@ -1552,7 +1580,8 @@ int __stdcall CbtHookProc(int code, unsigned int wParam, int lParam)
 
 // Sets the vtable to DAT_010c14fc, calls Resize(5, 0), then sets it to DAT_010c1510 and returns this.
 // @fnv 0x00c3c540
-int* __thiscall QueuedParents::FUN_00c3c540()
+// src: COMMUNITY 0x00c3c540
+int* __thiscall QueuedParents::QueuedParents_00c3c540()
 {
     int unused04;
     int unused08;
@@ -1714,7 +1743,7 @@ class FUN_00c3d870_cls
     virtual void v2(void* a);
     virtual void* v3(void* a, void* b);
     void Helper(void* a, void* b, void* c);
-    void FUN_00c3d870(void* a1, void* a2);
+    void QueuedChildren_SetLength(void* a1, void* a2);
 
     void* m_04;
     unsigned int unk08;
@@ -1723,7 +1752,8 @@ class FUN_00c3d870_cls
 
 // Rebuilds m_04 from a1 when a2 differs from m_0c, otherwise updates m_04 via v3; caches a1 in m_0c when m_04 is null.
 // @fnv 0x00c3d870
-void FUN_00c3d870_cls::FUN_00c3d870(void* a1, void* a2)
+// src: COMMUNITY 0x00c3d870
+void FUN_00c3d870_cls::QueuedChildren_SetLength(void* a1, void* a2)
 {
     void* tmp;
     void* q;
@@ -1833,11 +1863,12 @@ unsigned int FUN_00c3f650_cls::Modulo(volatile unsigned int value, unsigned int 
 
 struct C3F670Timer
 {
-    unsigned __int64 FUN_00c3f670(unsigned __int64 uiTicks);
+    unsigned __int64 LockFreeMap_int64_NiPointer_BSTask_int64_GenerateKey(unsigned __int64 uiTicks);
 };
 
 // @fnv 0x00c3f670
-unsigned __int64 C3F670Timer::FUN_00c3f670(unsigned __int64 uiTicks)
+// src: COMMUNITY 0x00c3f670
+unsigned __int64 C3F670Timer::LockFreeMap_int64_NiPointer_BSTask_int64_GenerateKey(unsigned __int64 uiTicks)
 {
     return uiTicks;
 }
@@ -2130,23 +2161,28 @@ void MultiBoundNodeStandIn::FUN_00c39890(NiCullingProcess& kCuller)
 }
 
 // @fnv 0x00c3bce0
-void __cdecl FUN_00c3bce0()
+// src: COMMUNITY 0x00c3bce0
+void __cdecl nullsub_340()
 {}
 
 // @fnv 0x00c3c090
-void __cdecl FUN_00c3c090()
+// src: COMMUNITY 0x00c3c090
+void __cdecl nullsub_342()
 {}
 
 // @fnv 0x00c3c0a0
-void __cdecl FUN_00c3c0a0()
+// src: COMMUNITY 0x00c3c0a0
+void __cdecl nullsub_343()
 {}
 
 // @fnv 0x00c3c0b0
-void __cdecl FUN_00c3c0b0()
+// src: COMMUNITY 0x00c3c0b0
+void __cdecl nullsub_344()
 {}
 
 // @fnv 0x00c3c240
-void __cdecl FUN_00c3c240()
+// src: COMMUNITY 0x00c3c240
+void __cdecl nullsub_345()
 {}
 
 int __cdecl FUN_00c33090(const char* p);
@@ -2328,7 +2364,8 @@ void S00c3a2e0_Cls::FUN_00c3a2e0()
 }
 
 // @fnv 0x00c3bcc0
-void FUN_00c3bcc0()
+// src: COMMUNITY 0x00c3bcc0
+void nullsub_339()
 {}
 
 extern int DAT_01202d78;
@@ -2344,11 +2381,12 @@ struct C3BEFile
     C3BEFile(const char*, int, int, int);
     ~C3BEFile();
     int FUN_00afede0(const char*, unsigned __int64, unsigned __int64*);
-    int FUN_00aff060();
+    int BSSystemFile_DoFlush();
 };
 // Returns true immediately; the unreachable code after it writes text to path through a file object, recursing once with a message under a critical section.
 // @fnv 0x00c3be50
-bool __cdecl FUN_00c3be50(const char* path, const char* text, bool flush)
+// src: COMMUNITY 0x00c3be50
+bool __cdecl MessageHandler_WriteFile(const char* path, const char* text, bool flush)
 {
     return true;
     if (!path)
@@ -2362,7 +2400,7 @@ bool __cdecl FUN_00c3be50(const char* path, const char* text, bool flush)
             prefix = DAT_01015890;
         char buffer[256];
         sprintf_s(buffer, 256, DAT_010c14c0, DAT_01202d58 + 0xe0, prefix);
-        FUN_00c3be50(path, buffer, false);
+        MessageHandler_WriteFile(path, buffer, false);
         DAT_01202d90 = false;
     }
     LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_01202d78);
@@ -2379,14 +2417,15 @@ bool __cdecl FUN_00c3be50(const char* path, const char* text, bool flush)
             file.m_00 = file.FUN_00afede0(DAT_0101f520, written, &length);
         }
         if (flush)
-            file.m_00 = file.FUN_00aff060();
+            file.m_00 = file.BSSystemFile_DoFlush();
         success = file.m_00 == 0;
     }
     return success;
 }
 
 // @fnv 0x00c3c080
-void __cdecl FUN_00c3c080()
+// src: COMMUNITY 0x00c3c080
+void __cdecl nullsub_341()
 {}
 
 void __fastcall FUN_0044dd60(void*);
@@ -2479,14 +2518,15 @@ struct FUN_00c3f750_Class
     void* unk10;
     FUN_00c41610_Obj* unk14;
 
-    int __thiscall FUN_00c3f750();
+    int __thiscall LockFreeMap_GetInterface();
 };
 
 extern "C" int(__stdcall* DAT_00fdf044)(unsigned int index);
 
 // Calls DAT_00fdf044 with unk14->unk04 and returns the result if nonzero; otherwise returns unk14->SetSlotValue(this).
 // @fnv 0x00c3f750
-int __thiscall FUN_00c3f750_Class::FUN_00c3f750()
+// src: COMMUNITY 0x00c3f750
+int __thiscall FUN_00c3f750_Class::LockFreeMap_GetInterface()
 {
     int tmp;
     int d2;

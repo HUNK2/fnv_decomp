@@ -32,7 +32,7 @@ extern "C" LocalM128 _mm_add_ps(LocalM128, LocalM128);
 #include "../../../../../../include/hkpSpringAction.h"
 #include "../../../../../../include/hkpEntity.h"
 extern int g_unk01269168;
-int* __cdecl FUN_00cf4ef0();
+int* __cdecl hkpBinaryAction_getClassType();
 void* __cdecl _fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiNumBytes);
 struct hkShape00D4F0
 {

@@ -533,8 +533,8 @@ struct FUN_00d182e0 : public BroadPhaseBase {
 
     virtual ~FUN_00d182e0() throw();
 };
-int __cdecl FUN_00d10ac0();
-void __cdecl FUN_00d10ff0();
+int __cdecl hkp3AxisSweep_getType();
+void __cdecl nullsub_73();
 struct Allocator;
 template <typename T>
 static void constructWithCopy(T* p, int n, const T& t) {

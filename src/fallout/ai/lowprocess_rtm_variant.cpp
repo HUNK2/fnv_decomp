@@ -86,9 +86,9 @@ class List907
 class Shell8e
 {
   public:
-    bool FUN_008e30e0();
+    bool TESPackage_SearchGetAllowBuying();
     bool IsFlag400Set();
-    bool FUN_008e3100();
+    bool TESPackage_SearchGetAllowKilling();
 };
 
 class Act907
@@ -242,7 +242,7 @@ class Act907
 class AcquireAIServiceQuery
 {
   public:
-    bool FUN_0047f600(TESBoundObject* item);
+    bool TESAIForm_SellBuysItem(TESBoundObject* item);
 };
 
 class AcquireActorBaseView
@@ -306,9 +306,9 @@ void LowProcess::ProcessAcquire(Actor* arg)
 {
     List907* itF = reinterpret_cast<List907*>(&this->m_kDetectionDataList);
     Shell8e* pkg_h = (Shell8e*)static_cast<const LowProcess*>(this)->GetOneTimePackage();
-    bool bA7 = pkg_h ? pkg_h->FUN_008e30e0() : false;
+    bool bA7 = pkg_h ? pkg_h->TESPackage_SearchGetAllowBuying() : false;
     bool bBI = pkg_h ? pkg_h->IsFlag400Set() : false;
-    bool bCB = pkg_h ? pkg_h->FUN_008e3100() : false;
+    bool bCB = pkg_h ? pkg_h->TESPackage_SearchGetAllowKilling() : false;
     bool bDoneZ;
 
     while (itF != 0 && itF->FUN_006815c0())
@@ -349,7 +349,7 @@ void LowProcess::ProcessAcquire(Actor* arg)
                     if (pNPCA)
                         pProjQ = (AcquireActorReference*)DAT_011e0e80.GetValueFromForm(pNPCA, false);
                 }
-                if (pProjQ && bA7 && pProjQ->FUN_004181e0()->sub90.FUN_0047f600(pItemR))
+                if (pProjQ && bA7 && pProjQ->FUN_004181e0()->sub90.TESAIForm_SellBuysItem(pItemR))
                 {
                     if (!reinterpret_cast<Act907*>(arg)->FUN_00493bb0())
                     {

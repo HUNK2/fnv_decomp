@@ -44,13 +44,13 @@ public:
 
     SleepWaitMenu();
 
-    int FUN_007bfbc0();
+    int GetClass_007bfbc0();
     void* __thiscall FUN_007bfbd0(unsigned int flags);
     void* __thiscall FUN_007bfc00();
     void FUN_007c0220(int slot, int value);
     bool FUN_007c04d0(int input, int unused);
     void UpdateGaugeDisplay();
-    bool FUN_007c0580();
+    bool UpdateSleep();
     bool FUN_007abdb0();
     void FUN_00a1d910();
     int GetID();

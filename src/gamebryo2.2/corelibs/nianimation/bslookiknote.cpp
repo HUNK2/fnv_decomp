@@ -8,7 +8,8 @@
 extern char const* const g_011f3ee8_arg1;
 
 // @fnv 0x00a43f70
-char const* const* __cdecl FUN_00a43f70()
+// src: COMMUNITY 0x00a43f70
+char const* const* __cdecl BSAnimNote_GetRTTI()
 {
     return &g_011f3ee8_arg1;
 }
@@ -16,7 +17,8 @@ char const* const* __cdecl FUN_00a43f70()
 extern int g_011f3ee8;
 
 // @fnv 0x00a43f80
-int* __cdecl FUN_00a43f80()
+// src: COMMUNITY 0x00a43f80
+int* __cdecl BSLookIKNote_GetRTTI()
 {
     return &g_011f3ee8;
 }

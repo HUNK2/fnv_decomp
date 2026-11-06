@@ -20,7 +20,8 @@ void NiBlendColorInterpolator::FUN_00a56040(NiStream& kStream)
 extern "C" void* g_011f4074;
 
 // @fnv 0x00a56060
-void* __cdecl FUN_00a56060()
+// src: COMMUNITY 0x00a56060
+void* __cdecl NiBlendColorInterpolator_GetRTTI()
 {
     return &g_011f4074;
 }
@@ -190,7 +191,7 @@ bool NiBlendColorInterpolator::FUN_00a564a0(void* pkOther)
 
 extern "C" void* g_011f4074;
 extern int DAT_01096f1c;
-void* __cdecl FUN_00a7d330(void*);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 
 struct ArraySource
 {
@@ -216,7 +217,7 @@ struct AssignmentMember
 void NiBlendColorInterpolator::AppendTwoEntries(ArraySource* pArraySource)
 {
     reinterpret_cast<BlendViewerStrings*>(this)->AppendInterpolatorStrings(pArraySource);
-    void* result = FUN_00a7d330(g_011f4074);
+    void* result = NiViewerStrings_NiGetViewerString_Title(g_011f4074);
     unsigned int index = pArraySource->m_usSize;
     if (index >= pArraySource->m_usMaxSize)
         pArraySource->FUN_0096ad30(index + pArraySource->m_usGrowBy);

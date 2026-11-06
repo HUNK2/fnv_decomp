@@ -35,5 +35,5 @@ public:
     bool FUN_00405da0();
     bool FUN_00405fe0();
     bool FUN_00406090();
-    void FUN_00406340();
+    void RemoveAllEffects();
 };

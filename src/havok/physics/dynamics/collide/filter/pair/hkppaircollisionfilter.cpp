@@ -697,11 +697,12 @@ struct CpuObject
     unsigned int unk00;
     unsigned short size;
     void FUN_00def160();
-    CpuObject* FUN_00def500(unsigned int flags);
+    CpuObject* hkpPairCollisionFilter_Destroy(unsigned int flags);
 };
 // Calls FUN_00def160, and if the low bit of flags is set, releases this through the memory router allocator, then returns this.
 // @fnv 0x00def500
-CpuObject* CpuObject::FUN_00def500(unsigned int flags)
+// src: COMMUNITY 0x00def500
+CpuObject* CpuObject::hkpPairCollisionFilter_Destroy(unsigned int flags)
 {
     FUN_00def160();
     if (flags & 1)

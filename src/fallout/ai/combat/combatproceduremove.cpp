@@ -79,7 +79,7 @@ void CombatProcedureMove::ClearTargetRef(TESObjectREFR* apRef)
 
 struct FUN_009d6c80_shell
 {
-    void FUN_009d6c80();
+    void CombatState_UnreserveSecondaryCoverLocation();
 };
 struct IMH
 {
@@ -91,7 +91,7 @@ void CombatProcedureMove::FUN_009d84b0()
 {
     if (active54)
     {
-        reinterpret_cast<IMH*>(m_pCombatController)->FUN_00586150()->FUN_009d6c80();
+        reinterpret_cast<IMH*>(m_pCombatController)->FUN_00586150()->CombatState_UnreserveSecondaryCoverLocation();
         active54 = 0;
     }
 }
@@ -141,7 +141,7 @@ void CombatProcedureMove::UpdateCombatMovement()
         ((CombatProcedure*)this)->RunProcedure();
     reinterpret_cast<CombatProcedureEngageTarget*>(this)->FUN_00996e40();
     if (active54)
-        reinterpret_cast<IMH*>(m_pCombatController)->FUN_00586150()->FUN_009d6c80();
+        reinterpret_cast<IMH*>(m_pCombatController)->FUN_00586150()->CombatState_UnreserveSecondaryCoverLocation();
 }
 
 
@@ -152,8 +152,8 @@ void CombatProcedureMove::FUN_009d8880(BGSSaveFormBuffer* buffer)
 
     buffer->SaveData(&unk10, static_cast<unsigned short>(4), static_cast<unsigned short>(0));
 
-    startTransform.FUN_00527b70(buffer);
-    currentTransform.FUN_00527b70(buffer);
+    startTransform.BGSWorldLocation_SaveGame(buffer);
+    currentTransform.BGSWorldLocation_SaveGame(buffer);
 
     buffer->SaveData(&rate, static_cast<unsigned short>(4), static_cast<unsigned short>(0));
 
@@ -186,9 +186,9 @@ void CombatProcedureMove::FUN_009d89a0(BGSLoadFormBuffer* buffer)
 
     buffer->ReadTypedData(static_cast<void*>(&unk10), 4u);
 
-    startTransform.FUN_00527ba0(buffer);
+    startTransform.BGSLoadGameBuffer_LoadBGSWorldLocation(buffer);
 
-    currentTransform.FUN_00527ba0(buffer);
+    currentTransform.BGSLoadGameBuffer_LoadBGSWorldLocation(buffer);
 
     buffer->ReadTypedData(static_cast<void*>(&rate), 4u);
 
@@ -222,8 +222,8 @@ void CombatProcedureMove::FUN_009d89a0(BGSLoadFormBuffer* buffer)
 struct MoveInput
 {
     CombatProcedureMove::Location* FUN_006815c0();
-    unsigned int FUN_0044edb0();
-    bool FUN_0097be60(int);
+    unsigned int TESMain_GetThread();
+    bool CombatLocation_GetFlag(int);
 };
 // @fnv 0x009d69f0
 CombatProcedureMove::CombatProcedureMove(MoveInput* input, float speed, unsigned int flags)
@@ -234,8 +234,8 @@ CombatProcedureMove::CombatProcedureMove(MoveInput* input, float speed, unsigned
     {
         startTransform = *input->FUN_006815c0();
         currentTransform = startTransform;
-        target38 = input->FUN_0044edb0();
-        if (input->FUN_0097be60(2))
+        target38 = input->TESMain_GetThread();
+        if (input->CombatLocation_GetFlag(2))
             rate = -rate;
     }
 }
@@ -382,7 +382,7 @@ struct TargetActor
 struct ResultValue
 {
     void* BuildAvoidanceNodes();
-    void* FUN_00989490();
+    void* CombatGroup_CreateFlankingAvoidNodeArray();
     void* FUN_009892a0(void*);
 };
 struct ManagerValue
@@ -428,7 +428,7 @@ void CombatProcedureMove::UpdateOutput(OutputValue* output)
     switch (static_cast<int>(mode))
     {
     case 4:
-        output->Assign(reinterpret_cast<IMValue*>(m_pCombatController)->FUN_004fb070(holder, reinterpret_cast<MemberValue*>(&startTransform)->FUN_006815c0(0.0f, output->FUN_00559450()))->FUN_00989490());
+        output->Assign(reinterpret_cast<IMValue*>(m_pCombatController)->FUN_004fb070(holder, reinterpret_cast<MemberValue*>(&startTransform)->FUN_006815c0(0.0f, output->FUN_00559450()))->CombatGroup_CreateFlankingAvoidNodeArray());
         break;
     case 0:
     case 1:
@@ -1173,7 +1173,7 @@ struct Holder052
 {
     State052* FUN_007058c0();
     bool FUN_00461580(int);
-    float FUN_009a0b00();
+    float CombatState_GetLocationTargetDistance();
     bool IsFlagSet(int);
     void FUN_0099d310(SpecialRequest052*);
 };
@@ -1246,7 +1246,7 @@ bool CombatProcedureMove::UpdateMovementRequest(Output052* output)
     if (i && i->type == 1 && !k->FUN_00461580(256) && mode != 8 && i->location.FUN_0084e3a0() == a->FUN_00575ca0())
     {
         h = *i->location.FUN_006815c0();
-        g = k->FUN_009a0b00();
+        g = k->CombatState_GetLocationTargetDistance();
         NiPoint3 delta = h - *static_cast<const ::Actor*>(a)->GetPos();
         if (delta.FUN_004a7290() > g * g)
             g = 0.0f;

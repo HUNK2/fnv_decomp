@@ -128,7 +128,8 @@ CpuObject* CpuObject::FUN_00dd55a0(unsigned int flags)
 }
 
 // @fnv 0x00dd51e0
-void __stdcall FUN_00dd51e0(int, int)
+// src: COMMUNITY 0x00dd51e0
+void __stdcall nullsub_83(int, int)
 {}
 
 struct FnvCpu_FUN_00dd5290_CpuObject

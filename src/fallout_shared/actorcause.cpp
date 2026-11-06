@@ -9,7 +9,8 @@ void ActorCause::ClearActorCauseList(BGSLoadGameBuffer* buffer)
 }
 
 // @fnv 0x0047d3d0
-unsigned short ActorCause::FUN_0047d3d0()
+// src: COMMUNITY 0x0047d3d0
+unsigned short ActorCause::GetRefCount_0047d3d0()
 {
     return *(unsigned short*)((char*)this + 0x18);
 }

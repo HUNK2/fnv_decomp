@@ -171,7 +171,8 @@ struct P03MM
 };
 extern P03MM g_memoryManager;
 // @fnv 0x00eac170
-NiSphereBV* FUN_00eac170(NiStream& kStream)
+// src: COMMUNITY 0x00eac170
+NiSphereBV* NiSphereBV_CreateFromStream(NiStream& kStream)
 {
     void* mem = g_memoryManager.Allocate(20);
     NiSphereBV* p;
@@ -826,7 +827,7 @@ struct Triangle
 {
     LocalPt3 origin, edge0, edge1;
     float radiusSquared, b, q;
-    LocalPt3 FUN_00eb3830() const;
+    LocalPt3 NiTrigon_GetNormal() const;
 };
 float __cdecl GetSquaredDistanceToTriangle(LocalPt3 const&, Triangle const&, float&, float&);
 LocalPt3 __cdecl FUN_004a3760(float, LocalPt3 const&);
@@ -861,11 +862,11 @@ struct Isect
     float unk68;
     void FUN_00eb5e30(NiSphereBV const&, LocalPt3 const&, LocalPt3 const&, LocalPt3 const&, float, float, float, int);
     void Solve(LocalPt3 const&, LocalPt3 const&);
-    float FUN_00eae6f0();
+    float NiIntersector_GetContactTime();
     int FUN_00be0aa0();
     void FUN_00eae6d0();
-    LocalPt3 const& FUN_00eae700();
-    LocalPt3 const& FUN_00eae710();
+    LocalPt3 const& NiIntersector_GetContactPoint();
+    LocalPt3 const& NiIntersector_GetContactNormal();
 };
 struct Query
 {
@@ -892,7 +893,7 @@ bool __cdecl SphereTriangleCollision(float time, NiSphereBV const& sphere, Local
         contactPoint = query.k.origin + query.k.edge0 * query.k.b + query.k.edge1 * query.k.q;
         if (calcNormals)
         {
-            triangleNormal = query.k.FUN_00eb3830();
+            triangleNormal = query.k.NiTrigon_GetNormal();
             sphereNormal = -triangleNormal;
         }
         return true;
@@ -939,16 +940,16 @@ bool __cdecl SphereTriangleCollision(float time, NiSphereBV const& sphere, Local
     Isect intersection;
     intersection.FUN_00eb5e30(sphere, v0, v1, v2, time, 0.001f, 0.0001f, 32);
     intersection.Solve(sphereVelocity, triangleVelocity);
-    contactTime = intersection.FUN_00eae6f0();
+    contactTime = intersection.NiIntersector_GetContactTime();
     if (intersection.FUN_00be0aa0() != 3 && intersection.FUN_00be0aa0() != 2)
     {
         intersection.FUN_00eae6d0();
         return false;
     }
-    contactPoint = intersection.FUN_00eae700();
+    contactPoint = intersection.NiIntersector_GetContactPoint();
     if (calcNormals)
     {
-        sphereNormal = intersection.FUN_00eae710();
+        sphereNormal = intersection.NiIntersector_GetContactNormal();
         triangleNormal = -sphereNormal;
     }
     intersection.FUN_00eae6d0();

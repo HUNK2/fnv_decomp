@@ -55,7 +55,7 @@ public:
     void QueueDoorTeleport(TESObjectREFR*);
     TESSound* GetOpenSound();
     void ClearRandomTeleportList();
-    BSSimpleList<TESForm*>* FUN_00871a30();
+    BSSimpleList<TESForm*>* TESDataHandler_GetFactions();
     NiNode* Create3DModel(TESObjectREFR*);
     bool HasEntry(TESForm* destination);
 

@@ -369,13 +369,13 @@ class FUN_00cbf430 : public GlobalObject_0045cfe0
 {
   public:
     ~FUN_00cbf430();
-    void FUN_00cbf2f0();
+    void bhkMultithreadedSystem_QuitMTSystem();
 };
 
 // @fnv 0x00cbf430
 FUN_00cbf430::~FUN_00cbf430()
 {
-    FUN_00cbf2f0();
+    bhkMultithreadedSystem_QuitMTSystem();
 }
 
 class FUN_00d60b40 : public hkReferencedObject

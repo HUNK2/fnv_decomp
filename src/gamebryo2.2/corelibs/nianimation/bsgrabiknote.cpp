@@ -7,7 +7,8 @@
 extern "C" void* g_011f3ef0;
 
 // @fnv 0x00a44350
-void* __cdecl FUN_00a44350()
+// src: COMMUNITY 0x00a44350
+void* __cdecl BSGrabIKNote_GetRTTI()
 {
     return &g_011f3ef0;
 }
@@ -433,7 +434,7 @@ struct S00a44430_Str
 {
     int m_kHandle;
     void AssignString(const char* apStr);
-    bool FUN_00a88c00(float* apOut);
+    bool NiString_ToFloat(float* apOut);
     void ReleaseHandle();
 };
 int FUN_00ec8a19(const char*, const char*, int);
@@ -476,7 +477,7 @@ bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
             FUN_00ecc7b0((char*)gainBuf, ptext, 4);
             S00a44430_Str gainStr;
             gainStr.AssignString((const char*)gainBuf);
-            if (!gainStr.FUN_00a88c00(&m_14))
+            if (!gainStr.NiString_ToFloat(&m_14))
                 bret = false;
             ptext += 4;
             gainStr.ReleaseHandle();

@@ -52,17 +52,19 @@ float __cdecl LogFloat(float value)
     return _logf(value);
 }
 
-float FUN_005dc460(float);
+float _logf_005dc460(float);
 // @fnv 0x005dc440
-float FUN_005dc440(float value)
+// src: COMMUNITY 0x005dc440
+float log_005dc440(float value)
 {
-    return FUN_005dc460(value);
+    return _logf_005dc460(value);
 }
 
 extern "C" double __cdecl FUN_00eca920(double);
 
 // @fnv 0x005dc460
-float FUN_005dc460(float value)
+// src: COMMUNITY 0x005dc460
+float _logf_005dc460(float value)
 {
     return static_cast<float>(FUN_00eca920(value));
 }
@@ -374,10 +376,11 @@ struct Mid
 };
 struct Me
 {
-    void FUN_005d8a90(Src* p);
+    void MobDialogueFlagResetter_Operate(Src* p);
 };
 // @fnv 0x005d8a90
-void Me::FUN_005d8a90(Src* pSource)
+// src: COMMUNITY 0x005d8a90
+void Me::MobDialogueFlagResetter_Operate(Src* pSource)
 {
     if (pSource->Test())
     {

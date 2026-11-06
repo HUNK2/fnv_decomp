@@ -93,7 +93,7 @@ struct xCell;
 xWorld* __fastcall xFUN_004543c0(xCell*);
 struct xOwner
 {
-    xFilter FUN_0070c440();
+    xFilter bhkCharacterController_GetCollisionFilter();
 };
 struct xActor;
 float __fastcall xFUN_0070c3b0(xActor*);
@@ -255,7 +255,7 @@ bool xActor::FUN_009c40c0()
     xOwner* OWNER = FUN_009306d0();
     xFilter FILTER(0);
     if (OWNER)
-        FILTER = OWNER->FUN_0070c440();
+        FILTER = OWNER->bhkCharacterController_GetCollisionFilter();
     else
         FILTER = xg_player_11dea3c->FUN_00931ed0();
     FILTER.FUN_004a39f0(6);

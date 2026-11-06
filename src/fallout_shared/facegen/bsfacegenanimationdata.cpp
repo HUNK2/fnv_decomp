@@ -201,7 +201,8 @@ extern NiFixedString* DAT_011d5744;
 
 // Allocates the "FAD" fixed string and stores it in DAT_011d5744.
 // @fnv 0x00649e40
-void FUN_00649e40()
+// src: COMMUNITY 0x00649e40
+void BSFaceGenAnimationData_InitTag()
 {
     DAT_011d5744 = ::new NiFixedString("FAD");
 }
@@ -466,7 +467,8 @@ extern const double DAT_01023128;
 extern double _gModifierZero;
 void __cdecl ComputeAngleRange(float*, float*);
 // @fnv 0x00649fe0
-void FUN_00649fe0(float* afMin, float* afMax)
+// src: COMMUNITY 0x00649fe0
+void BSFaceGenAnimationData_GetTrackDeadZoneXYMinMax(float* afMin, float* afMax)
 {
     float fMin;
     float fScaledValue;
@@ -712,7 +714,8 @@ void BSFaceGenAnimationData::FUN_00649c10(BS_FACEGEN_MODIFIER aeModifier, float 
 
 // If aeExpression is below 15, forwards aeExpression and afValue to the contained SetArrayElement handler.
 // @fnv 0x00649a20
-void BSFaceGenAnimationData::FUN_00649a20(int aeExpression, float afValue)
+// src: COMMUNITY 0x00649a20
+void BSFaceGenAnimationData::SetExpressionValue(int aeExpression, float afValue)
 {
     if (aeExpression < 15)
         SetFaceGenArrayElement(&kf10, *reinterpret_cast<FaceGenArrayIndex*>(&aeExpression), afValue);
@@ -720,7 +723,8 @@ void BSFaceGenAnimationData::FUN_00649a20(int aeExpression, float afValue)
 
 // Forwards aeModifier and afValue to the SetArrayElement handler at offset 0x94 when aeModifier is below 0x11.
 // @fnv 0x00649a70
-void BSFaceGenAnimationData::FUN_00649a70(int aeModifier, float afValue)
+// src: COMMUNITY 0x00649a70
+void BSFaceGenAnimationData::SetModifierValue(int aeModifier, float afValue)
 {
     if (aeModifier < 0x11)
         SetFaceGenArrayElement(reinterpret_cast<BSFaceGenKeyframeMultiple*>(reinterpret_cast<char*>(this) + 0x94), *reinterpret_cast<FaceGenArrayIndex*>(&aeModifier), afValue);
@@ -728,7 +732,8 @@ void BSFaceGenAnimationData::FUN_00649a70(int aeModifier, float afValue)
 
 // If aePhoneme is below 0x10, forwards aePhoneme and afValue to m.SetArrayElement.
 // @fnv 0x00649ae0
-void BSFaceGenAnimationData::FUN_00649ae0(int aePhoneme, float afValue)
+// src: COMMUNITY 0x00649ae0
+void BSFaceGenAnimationData::SetPhonemeValue(int aePhoneme, float afValue)
 {
     if (aePhoneme < 0x10)
     {
@@ -739,7 +744,8 @@ void BSFaceGenAnimationData::FUN_00649ae0(int aePhoneme, float afValue)
 #include "../../../include/BS_FACEGEN_CUSTOM_MORPH.h"
 
 // @fnv 0x00649b50
-void BSFaceGenAnimationData::FUN_00649b50(BS_FACEGEN_CUSTOM_MORPH aeCustomMorph, float afValue)
+// src: COMMUNITY 0x00649b50
+void BSFaceGenAnimationData::SetCustomMorphValue(BS_FACEGEN_CUSTOM_MORPH aeCustomMorph, float afValue)
 {
     if (aeCustomMorph < 1)
         SetFaceGenArrayElement(reinterpret_cast<BSFaceGenKeyframeMultiple*>(reinterpret_cast<char*>(this) + 0xfc), *reinterpret_cast<FaceGenArrayIndex*>(&aeCustomMorph), afValue);
@@ -819,7 +825,8 @@ extern NiPoint3 _NiPoint3_ZERO;
 
 // Tests the stored plane and the incoming point against zero, updates the flag at 0x174 and value at 0x178, stores the point at 0x124 and sets the byte at 0x189.
 // @fnv 0x0064bcc0
-void BSFaceGenAnimationData::FUN_0064bcc0(float afX, float afY, float afZ, int)
+// src: COMMUNITY 0x0064bcc0
+void BSFaceGenAnimationData::SetHeadTrackVector(float afX, float afY, float afZ, int)
 {
     if (((NiPlane*)((char*)this + 0x124))->FUN_004390c0(_NiPoint3_ZERO))
     {
@@ -1122,14 +1129,14 @@ bool AdvanceKeyframe(float afTime, NiTPointerList<BSFaceGenKeyframe*>* list, BSF
     return result2;
 }
 
-const NiFixedString& FUN_006499d0();
+const NiFixedString& Get_Ni_FAD();
 
 extern const NiPoint3 NiPoint3_ZERO;
 
 #pragma inline_depth(0)
 // @fnv 0x00649680
 BSFaceGenAnimationData::BSFaceGenAnimationData()
-    : NiExtraData(FUN_006499d0()), kf10(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_EXPRESSION, 15), kf24(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_EXPRESSION, 15), kf38(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_MODIFIER, 17), kf4c(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_PHONEME, 16),
+    : NiExtraData(Get_Ni_FAD()), kf10(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_EXPRESSION, 15), kf24(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_EXPRESSION, 15), kf38(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_MODIFIER, 17), kf4c(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_PHONEME, 16),
       kf60(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_CUSTOM, 1), kf74(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_EXPRESSION, 15), obj88(), kf94(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_MODIFIER, 17), kfa8(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_MODIFIER, 17), objbc(),
       kfc8(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_PHONEME, 16), kfdc(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_PHONEME, 16), objf0(), kffc(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_CUSTOM, 1), kf110(BS_FACEGEN_MORPH_TYPE_BS_FG_MORPH_CUSTOM, 1), unk124(), unk1a0()
 {

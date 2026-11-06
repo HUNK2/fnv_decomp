@@ -245,7 +245,8 @@ int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 
 // If p3 is positive, calls p1->v17(p2, p3), then if p4 is set calls SwapBufferBySizes(p2, p3, p4, p5), and returns the v17 result.
 // @fnv 0x00affa10
-int __cdecl FUN_00affa10(FUN_00affa10_V* p1, void* apData, unsigned int auiSize, void* apExtra, void* apExtraArg)
+// src: COMMUNITY 0x00affa10
+int __cdecl BSFile_ReadAndSwap(FUN_00affa10_V* p1, void* apData, unsigned int auiSize, void* apExtra, void* apExtraArg)
 {
     if (auiSize <= 0)
         return 0;
@@ -369,7 +370,8 @@ void __cdecl FUN_00ec44d0(void* p, unsigned int a, unsigned int b);
 int __cdecl SwapBufferBySizes(void*, unsigned int, void*, void*);
 
 // @fnv 0x00affa60
-int __cdecl FUN_00affa60(VTableV18_b7074* self, unsigned int a1, unsigned int auiSize, void* apExtra, void* a4)
+// src: COMMUNITY 0x00affa60
+int __cdecl BSFile_WriteAndSwap(VTableV18_b7074* self, unsigned int a1, unsigned int auiSize, void* apExtra, void* a4)
 {
     if (auiSize <= 0)
     {

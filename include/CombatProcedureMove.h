@@ -28,8 +28,8 @@ public:
         float Distance(const Location&);
         MoveVec Position();
         void Set(const MoveVec&, int);
-        void FUN_00527b70(void* buffer);
-        void FUN_00527ba0(void* buffer);
+        void BGSWorldLocation_SaveGame(void* buffer);
+        void BGSLoadGameBuffer_LoadBGSWorldLocation(void* buffer);
     };
 
     CombatProcedureMove(MoveInput* input, float speed, unsigned int flags);

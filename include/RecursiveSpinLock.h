@@ -30,7 +30,7 @@ public:
 
     void FUN_004538a0(unsigned int threadID);
     void FUN_004538c0();
-    bool FUN_0078d200();
+    bool BSSpinLock_TryLock();
     void FUN_0040fba0();
     void FUN_0040fbf0(char* name);
 };

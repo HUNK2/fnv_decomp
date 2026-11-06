@@ -47,7 +47,7 @@ extern int DAT_010cb864;
 struct FUN_00ce4ae0_cls
 {
     int __thiscall FUN_00ce4ae0(int);
-    void __thiscall FUN_00ce5310();
+    void __thiscall hkaSkeletonMapperData_hkaSkeletonMapperData();
 };
 struct FUN_00ce4a20_cls
 {
@@ -69,7 +69,7 @@ struct FUN_00cf69c0_class
 int __cdecl hkString_strCmp(int a, int b);
 struct FUN_00cf86e0_class
 {
-    void FUN_00cf86e0(float f);
+    void hkpSimulation_setFrameTimeMarker(float f);
 };
 extern int DAT_010cc2e0;
 struct FUN_00cf4820_class
@@ -169,7 +169,7 @@ struct FUN_00cf4490_cls
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268740;
-CpuOpaque* __cdecl FUN_00cf45f0();
+CpuOpaque* __cdecl bhkSpringDamperConstraintMotor_GetRTTI();
 struct SerializedObject
 {
     int base00, base04, base08, base0C, base10, word14, word18;
@@ -589,7 +589,7 @@ struct FUN_00cf4190 : FUN_00cdf560
     FUN_00cf4190();
 };
 extern int DAT_01268730;
-int* FUN_00cf41b0();
+int* bhkPositionConstraintMotor_GetRTTI();
 extern "C" void __cdecl FUN_00d86100(void* view, void* object);
 struct SerializedRecord
 {
@@ -599,7 +599,7 @@ struct SerializedRecord
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268738;
-CpuOpaque* __cdecl FUN_00cf43f0();
+CpuOpaque* __cdecl bhkVelocityConstraintMotor_GetRTTI();
 void __cdecl FUN_00d86100(NiStream* ar, void* obj);
 class hkObjCF46
 {
@@ -630,10 +630,10 @@ struct CC9F10Shape
 };
 struct FUN_00cf7490_class
 {
-    void FUN_00cf7490();
+    void j_hkReferencedObject_addReference();
 };
 void __cdecl FUN_00c905b0(void);
-void __cdecl FUN_00cf74a0(void);
+void __cdecl j_hkReferencedObject_removeReference(void);
 struct hkOwnerCF74;
 // 0x00cf74b0 orders these records by owner at +0, owner key at +0xD4, and subindex at +8.
 struct OwnerSubindexEntry
@@ -726,9 +726,9 @@ struct hkPairCF74
 };
 hkBool __cdecl LessThanPairPriority(const hkPairCF74& aPairA, const hkPairCF74& aPairB);
 void* __cdecl FUN_00cfb050(void* pvUnused, bool* pbOut, void* pvResult);
-void FUN_00cfb060();
+void nullsub_7();
 int __cdecl FUN_00cfb070(int a, int b, int c);
-void __stdcall FUN_00cfc580(int, int, int, int, int);
+void __stdcall nullsub_59(int, int, int, int, int);
 extern int DAT_0102e388;
 struct FUN_00cfc590_class
 {
@@ -1503,7 +1503,7 @@ struct MapperInitialization
     int unk58;
     int unk5C;
     unsigned char unk60;
-    void __thiscall FUN_00ce5310();
+    void __thiscall hkaSkeletonMapperData_hkaSkeletonMapperData();
 };
 
 #include <xmmintrin.h>

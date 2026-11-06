@@ -27,7 +27,7 @@ void NavMeshObstacleManager::ProcessActivatedObstacles()
     for (unsigned int uiIndex = 0; uiIndex < count; ++uiIndex)
     {
         bhkRigidBody* body;
-        m_kActivatedRigidBodies.FUN_006c6030(body);
+        m_kActivatedRigidBodies.LockFreeQueue_bhkRigidBody_Pop(body);
         NiPointer<ObstacleData> obstacle(0);
         if (RigidBodyObstacleLookup.GetAt(body, obstacle))
         {
@@ -100,12 +100,13 @@ struct FUN_006a5b70_shell
     short m_06;
     short m_08;
     short m_0A;
-    void FUN_006a5b70(short* a, short* b, short* c);
+    void NavMeshTriangle_GetSides(short* a, short* b, short* c);
 };
 
 // Copies the shell's m_06, m_08 and m_0A shorts into the three output pointers.
 // @fnv 0x006a5b70
-void FUN_006a5b70_shell::FUN_006a5b70(short* a, short* b, short* c)
+// src: COMMUNITY 0x006a5b70
+void FUN_006a5b70_shell::NavMeshTriangle_GetSides(short* a, short* b, short* c)
 {
     *a = m_06;
     *b = m_08;
@@ -131,11 +132,12 @@ struct PaddedBooleanState
     unsigned char padding[0x210];
     bool m_bState;
 
-    void FUN_006a36e0(bool);
+    void NavMeshRender_SetDraw(bool);
 };
 
 // @fnv 0x006a36e0
-void PaddedBooleanState::FUN_006a36e0(bool abDraw)
+// src: COMMUNITY 0x006a36e0
+void PaddedBooleanState::NavMeshRender_SetDraw(bool abDraw)
 {
     if (abDraw)
     {
@@ -177,19 +179,20 @@ struct GlobalObject_0045cfe0
 
 struct PaddedBooleanState
 {
-    void FUN_006a36e0(bool value);
+    void NavMeshRender_SetDraw(bool value);
     void FUN_006a37a0(TESObjectCELL* cell, bool value);
-    void FUN_006a5ca0();
+    void NavMeshRender_UpdateRenderOnlyNavMeshes();
 };
 
 bool __fastcall FUN_00425fd0(TESObjectCELL* cell);
-int __cdecl FUN_00552ba0(void);
+int __cdecl NavMeshRender_GetSingleton(void);
 
 GlobalObject_0045cfe0 g_011c63cc;
 int g_TES;
 
 // @fnv 0x006a5ca0
-void PaddedBooleanState::FUN_006a5ca0()
+// src: COMMUNITY 0x006a5ca0
+void PaddedBooleanState::NavMeshRender_UpdateRenderOnlyNavMeshes()
 {
     TESObjectCELL* pcellVal;
     int d8;
@@ -197,7 +200,7 @@ void PaddedBooleanState::FUN_006a5ca0()
     int y3;
     TESObjectCELL* pgridCell4;
 
-    FUN_006a36e0(false);
+    NavMeshRender_SetDraw(false);
     pcellVal = reinterpret_cast<TES*>(g_TES)->GetDetailedActorPathHandler();
     if (pcellVal)
     {
@@ -218,10 +221,10 @@ void PaddedBooleanState::FUN_006a5ca0()
         }
         else
         {
-            reinterpret_cast<PaddedBooleanState*>(FUN_00552ba0())->FUN_006a37a0(pcellVal, false);
+            reinterpret_cast<PaddedBooleanState*>(NavMeshRender_GetSingleton())->FUN_006a37a0(pcellVal, false);
         }
     }
-    FUN_006a36e0(true);
+    NavMeshRender_SetDraw(true);
 }
 }  // namespace fnv_006a5ca0
 
@@ -804,9 +807,9 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
         ((NiAVObject*)qpTd)->AttachProperty(spZBuffer);
         ((NiAVObject*)qpTd)->AttachProperty(qSVM);
         ((NiAVObject*)qpTd)->FUN_00440460(reinterpret_cast<NiPoint3*>(Pt3PodX().Set(0.0f, 0.0f, 1.0f)));
-        for (unsigned int qMFd = 0; qMFd < static_cast<NavMesh*>(qsSDDgz)->FUN_00691620(); qMFd++)
+        for (unsigned int qMFd = 0; qMFd < static_cast<NavMesh*>(qsSDDgz)->GetAvoidNodeCount(); qMFd++)
         {
-            AvoidSphere* qsCroYH = &static_cast<NavMesh*>(qsSDDgz)->FUN_00691640(qMFd);
+            AvoidSphere* qsCroYH = &static_cast<NavMesh*>(qsSDDgz)->NavMesh_GetAvoidNode(qMFd);
             ColorX qODE(0.25f, 0.0f, 0.0f, 0.5f);
             NiPointer<NiAVObject> qFwpo(xMakeSphere(qsCroYH->GetRadius(), 10, 10, &qODE));
             NiPointer<AlphaX> qmgeiw(new AlphaX());

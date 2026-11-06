@@ -79,7 +79,7 @@ public:
     void (*callbackf4)();
     int unkf8;
 
-    void FUN_00754c00(int aiID, Tile* apTile);
+    void CompanionWheelMenu_AttachTileByID(int aiID, Tile* apTile);
     int __thiscall GetMenuId();
     bool __thiscall HasAllTiles(int*);
     bool HandleButtonInput(int, float);

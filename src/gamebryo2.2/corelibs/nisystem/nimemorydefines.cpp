@@ -44,7 +44,8 @@ void* FUN_00aa1070(unsigned int uiSize)
 
 // Allocates a block of at least uiSize bytes with uiAlignment through the global allocator.
 // @fnv 0x00aa1130
-void* __cdecl FUN_00aa1130(unsigned int uiSize, unsigned int uiAlignment)
+// src: COMMUNITY 0x00aa1130
+void* __cdecl NiExternalAlignedMalloc(unsigned int uiSize, unsigned int uiAlignment)
 {
     unsigned int size = uiSize != 0 ? uiSize : 1;
     uiSize = uiAlignment;
@@ -56,7 +57,8 @@ void* __cdecl FUN_00aa1130(unsigned int uiSize, unsigned int uiAlignment)
 
 
 // @fnv 0x00aa1250
-void* FUN_00aa1250(void* apMemory, unsigned int size, unsigned int alignment)
+// src: COMMUNITY 0x00aa1250
+void* NiExternalAlignedRealloc(void* apMemory, unsigned int size, unsigned int alignment)
 {
     unsigned int uiOldSize;
     NiAllocator* pAllocator;
@@ -100,7 +102,8 @@ struct MemoryAllocationManager
 
 // Allocates stSizeInBytes (minimum 1) with stAlignment via the global memory manager, using allocation type 7.
 // @fnv 0x00aa10b0
-void* FUN_00aa10b0(unsigned int stSizeInBytes, unsigned int stAlignment)
+// src: COMMUNITY 0x00aa10b0
+void* NiAlignedAlloc_00aa10b0(unsigned int stSizeInBytes, unsigned int stAlignment)
 {
     if (stSizeInBytes == 0)
         stSizeInBytes = 1;

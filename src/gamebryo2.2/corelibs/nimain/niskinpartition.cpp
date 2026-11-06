@@ -31,7 +31,8 @@ unsigned int NiSkinPartition::Partition::GetStripIndexCount()
 const void* g_011f5b1c;
 
 // @fnv 0x00a820d0
-const void* __cdecl FUN_00a820d0()
+// src: COMMUNITY 0x00a820d0
+const void* __cdecl NiSkinPartition_GetRTTI()
 {
     return &g_011f5b1c;
 }
@@ -148,11 +149,12 @@ struct FUN_00a82710_shell
     void* m_p;
     unsigned int m_iElementCount;
     unsigned int m_uiItemCount;
-    void FUN_00a82710(unsigned int n);
+    void NiTSet_UInt16_Add(unsigned int n);
 };
 
 // @fnv 0x00a82710
-void FUN_00a82710_shell::FUN_00a82710(unsigned int n)
+// src: COMMUNITY 0x00a82710
+void FUN_00a82710_shell::NiTSet_UInt16_Add(unsigned int n)
 {
     if (n != m_iElementCount)
     {
@@ -208,7 +210,7 @@ struct C082d30
     unsigned short* f0;
     unsigned int f4;
     unsigned int f8;
-    void FUN_00a82710(unsigned int);
+    void NiTSet_UInt16_Add(unsigned int);
     void AppendMatchingIndices(int, int*, unsigned int);
 };
 // Scans the first c entries of b and appends the index of each entry equal to a to f0, growing the buffer via FUN_00a82710 when full.
@@ -226,7 +228,7 @@ void C082d30::AppendMatchingIndices(int aiValue, int* paiValues, unsigned int c)
                     n = f4 * 2;
                 else
                     n = 1;
-                FUN_00a82710(n);
+                NiTSet_UInt16_Add(n);
             }
             f0[f8++] = (unsigned short)i;
         }
@@ -996,7 +998,7 @@ struct SkinBuilder
     int unk04;
     unsigned int count;
     __declspec(nothrow) void BuildBoneLODControllerSets(SkinGeom*, void*, SkinItems*, int*) throw();
-    __declspec(nothrow) void FUN_00a839d0(unsigned int, SkinItems*) throw();
+    __declspec(nothrow) void NiSkinPartition_MergeBoneSets(unsigned int, SkinItems*) throw();
     bool BuildTriangleSetMapping(SkinGeom*, void*, unsigned int, void*, SkinItems*, int**, int*) throw();
 };
 // Builds a per-triangle set index mapping from group IDs or weights, compacts unused sets, and returns false if a triangle's vertices span three distinct groups.
@@ -1006,7 +1008,7 @@ bool SkinBuilder::BuildTriangleSetMapping(SkinGeom* geom, void* unused, unsigned
 {
     unsigned int triangles = geom->triangleCount;
     BuildBoneLODControllerSets(geom, weights, sets, groupIDs);
-    FUN_00a839d0(input, sets);
+    NiSkinPartition_MergeBoneSets(input, sets);
     *mapping = (int*)NiMalloc(triangles * sizeof(int));
     unsigned int setCount = sets->count;
     unsigned char* pUsedFlags = (unsigned char*)NiMalloc(setCount);
@@ -1421,12 +1423,13 @@ template <class T> inline void ReadBinaryValue(NiStream& kStream, T* ptVal, unsi
 
 struct PartitionLoader : NiSkinPartition::Partition
 {
-    void FUN_00a82d90(NiStream& kStream);
+    void NiSkinPartition_Partition_LoadBinary(NiStream& kStream);
 };
 
 // Reads skin partition vertex, triangle, strip, weight and bone palette data from kStream, allocating buffers as needed.
 // @fnv 0x00a82d90
-void PartitionLoader::FUN_00a82d90(NiStream& kStream)
+// src: COMMUNITY 0x00a82d90
+void PartitionLoader::NiSkinPartition_Partition_LoadBinary(NiStream& kStream)
 {
     ReadBinaryValue(kStream, &m_usVertices);
     ReadBinaryValue(kStream, &m_usTriangles);
@@ -1507,7 +1510,7 @@ void PartitionLoader::FUN_00a82d90(NiStream& kStream)
 class FUN_00a89af0_helper
 {
   public:
-    void FUN_00a89af0(NiStream& kStream);
+    void nullsub_3(NiStream& kStream);
 };
 
 
@@ -1525,7 +1528,7 @@ class SaverA83C : public FUN_00a89af0_helper
 // @fnv 0x00a83ce0
 void SaverA83C::FUN_00a83ce0(NiStream& kStream)
 {
-    FUN_00a89af0(kStream);
+    nullsub_3(kStream);
     SerializeValue(kStream, m_uiCount);
     for (unsigned int i = 0; i < m_uiCount; i++)
         m_pkElems[i].WriteToStream(kStream);
@@ -1787,7 +1790,7 @@ void __stdcall BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weig
                         if (set->Find(bone) == -1)
                         {
                             if (set->count == set->capacity)
-                                ((C082d30*)set)->FUN_00a82710(set->capacity > 0 ? 2 * set->capacity : 1);
+                                ((C082d30*)set)->NiTSet_UInt16_Add(set->capacity > 0 ? 2 * set->capacity : 1);
                             set->data[set->count++] = bone;
                         }
                     }

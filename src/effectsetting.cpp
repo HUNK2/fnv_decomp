@@ -252,7 +252,8 @@ void EffectSetting::InitItem()
 }
 
 // @fnv 0x004088c0
-int EffectSetting::FUN_004088c0()
+// src: COMMUNITY 0x004088c0
+int EffectSetting::IncEffectLoadedCount()
 {
     if (m_iActorValue < 0)
         --m_iActorValue;
@@ -294,7 +295,8 @@ bool FUN_004077c0_shell::FUN_004077c0()
 }
 
 // @fnv 0x004077e0
-void* EffectSetting::FUN_004077e0()
+// src: COMMUNITY 0x004077e0
+void* EffectSetting::TESDataHandler_GetRecipes()
 {
     return &counterEffects;
 }
@@ -597,7 +599,7 @@ void EffectSetting::CopyFromBase(BaseFormComponent* component)
     this->SetHitSound(psetting->GetHitSound());
     this->SetAreaSound(psetting->GetAreaSound());
     reinterpret_cast<void (__thiscall*)(EffectSetting*, void*)>(CopyEffectCounterValues)(
-        this, psetting->FUN_004077e0());
+        this, psetting->TESDataHandler_GetRecipes());
 
     if (!this->IsTemporary() && this->GetFormID() == 0)
         this->SetRefID(g_dataHandler->GetNextID(), true);

@@ -38,11 +38,12 @@ void* __thiscall FUN_00a1c050_Class::FUN_00a1c050(void* p, unsigned int n)
 
 struct FUN_00a1e720_class
 {
-    void __thiscall FUN_00a1e720(int a, int b, int c);
+    void __thiscall BSMapBase_unsigned_int_ScrapHeap_SetValue(int a, int b, int c);
 };
 
 // @fnv 0x00a1e720
-void __thiscall FUN_00a1e720_class::FUN_00a1e720(int pObject, int b, int c)
+// src: COMMUNITY 0x00a1e720
+void __thiscall FUN_00a1e720_class::BSMapBase_unsigned_int_ScrapHeap_SetValue(int pObject, int b, int c)
 {
     *(int*)((char*)pObject + 4) = b;
     *(int*)((char*)pObject + 8) = c;
@@ -145,11 +146,12 @@ struct StrA
     bool _Inside(const char*);
     bool _Grow(unsigned int, bool);
     StrA& FUN_00a0c570(const StrA&, unsigned int, unsigned int);
-    StrA& FUN_00a0c430(const char* _Ptr, unsigned int _Count);
+    StrA& std_string_append(const char* _Ptr, unsigned int _Count);
 };
 // Appends _Count characters from _Ptr to the string, growing the buffer if needed and handling self-referential input.
 // @fnv 0x00a0c430
-StrA& StrA::FUN_00a0c430(const char* apChars, unsigned int auiCount)
+// src: COMMUNITY 0x00a0c430
+StrA& StrA::std_string_append(const char* apChars, unsigned int auiCount)
 {
     if (_Inside(apChars))
         return FUN_00a0c570(*this, apChars - (16 <= _Myres ? _Bx._Ptr : _Bx._Buf), auiCount);
@@ -186,11 +188,12 @@ struct FUN_00a0d5f0_class
     int m_iElementCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_00a0d5f0_class* __thiscall FUN_00a0d5f0(unsigned int size);
+    FUN_00a0d5f0_class* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_char_const_int_NiTMapBase_NiTPointerAllocator_unsigned_int_char_const_int(unsigned int size);
 };
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes them and stores the pointer in m_data.
 // @fnv 0x00a0d5f0
-FUN_00a0d5f0_class* __thiscall FUN_00a0d5f0_class::FUN_00a0d5f0(unsigned int size)
+// src: COMMUNITY 0x00a0d5f0
+FUN_00a0d5f0_class* __thiscall FUN_00a0d5f0_class::NiTMapBase_NiTPointerAllocator_unsigned_int_char_const_int_NiTMapBase_NiTPointerAllocator_unsigned_int_char_const_int(unsigned int size)
 {
     unsigned int iAllocationSize;
     unsigned int memsetSize;
@@ -385,10 +388,11 @@ struct FUN_00a0d710_class
     int m_iElementCount;
     void* m_data;
     int m_auiShapeKeys;
-    FUN_00a0d710_class* __thiscall FUN_00a0d710(unsigned int size);
+    FUN_00a0d710_class* __thiscall NiTMapBase_NiTPointerAllocator_unsigned_int_int_int_Init(unsigned int size);
 };
 // @fnv 0x00a0d710
-FUN_00a0d710_class* FUN_00a0d710_class::FUN_00a0d710(unsigned int size)
+// src: COMMUNITY 0x00a0d710
+FUN_00a0d710_class* FUN_00a0d710_class::NiTMapBase_NiTPointerAllocator_unsigned_int_int_int_Init(unsigned int size)
 {
     unsigned int a;
     void* b;
@@ -735,7 +739,7 @@ struct S_00a0c9f0_Node
 struct S_00a0c9f0_Pool
 {
     int m_uiCount;
-    S_00a0c9f0_Node* FUN_0043a010();
+    S_00a0c9f0_Node* NiGeometry_AddProperty();
 };
 
 class S_00a0c9f0
@@ -745,14 +749,15 @@ class S_00a0c9f0
     S_00a0c9f0_Pool m_kNodePool;
 
   public:
-    void __thiscall FUN_00a0c9f0(int* pValue);
+    void __thiscall _NiTListBase_AddHead(int* pValue);
 };
 
 // @fnv 0x00a0c9f0
-void __thiscall S_00a0c9f0::FUN_00a0c9f0(int* pValue)
+// src: COMMUNITY 0x00a0c9f0
+void __thiscall S_00a0c9f0::_NiTListBase_AddHead(int* pValue)
 {
     volatile int dummy_frame[7];
-    S_00a0c9f0_Node* pNode = m_kNodePool.FUN_0043a010();
+    S_00a0c9f0_Node* pNode = m_kNodePool.NiGeometry_AddProperty();
     pNode->m_val = *pValue;
     pNode->m_pkPrev = 0;
     pNode->m_pkNext = m_pkHead;
@@ -879,7 +884,7 @@ struct S00a0ca70_Node
 struct S00a0ca70_Pool
 {
     unsigned int m_uiCount;
-    S00a0ca70_Node* FUN_0043a010();
+    S00a0ca70_Node* NiGeometry_AddProperty();
 };
 struct S00a0ca70_Blk
 {
@@ -900,7 +905,7 @@ S00a0ca70_Node* S00a0ca70_List::FUN_00a0ca70(S00a0ca70_Node** pos, const unsigne
     S00a0ca70_Node** pForm;
     S00a0ca70_Blk blk;
     S00a0ca70_Node* node2;
-    node2 = m_kNodePool.FUN_0043a010();
+    node2 = m_kNodePool.NiGeometry_AddProperty();
     node2->m_val = *value;
     pForm = pos;
     node2->m_pkPrev = pForm;

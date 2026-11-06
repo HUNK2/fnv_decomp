@@ -54,7 +54,7 @@ struct Owner
 };
 extern "C" const char* g_011f4aac;
 extern const char str_0109deec[];
-extern char* __cdecl FUN_00a7d330(const char*);
+extern char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 extern char* __cdecl FUN_00a7d510(const char*, const char*);
 // Calls FUN_00a73e40 on list, then appends the strings from FUN_00a7d330(g_011f4aac) and FUN_00a7d510(str_0109deec, name), growing the list as needed.
 // @fnv 0x00a7f780
@@ -63,7 +63,7 @@ void Owner::AppendNameStrings(StringList* list)
     char* text;
     unsigned int index;
     FUN_00a73e40(list);
-    text = FUN_00a7d330(g_011f4aac);
+    text = NiViewerStrings_NiGetViewerString_Title(g_011f4aac);
     index = list->count;
     if (index >= list->capacity)
         list->FUN_0096ad30(list->growth + index);

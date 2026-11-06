@@ -820,7 +820,8 @@ FUN_00d078e0_cls* FUN_00d078e0_cls::Destroy(unsigned char acFlags)
 
 // 0x00d07120  bare ret
 // @fnv 0x00d07120
-void FUN_00d07120()
+// src: COMMUNITY 0x00d07120
+void nullsub_10()
 {}
 
 // SaveIsland

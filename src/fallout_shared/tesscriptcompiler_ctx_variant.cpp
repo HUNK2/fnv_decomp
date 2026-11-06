@@ -8,7 +8,7 @@
 #include "tesscriptcompiler_packet_decls.h"
 ScriptFunctionInfo* GetFunctionByOpcode(SCRIPT_OUTPUT output);
 
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 void* __cdecl operator new(unsigned int);
 extern TESForm* g_thePlayer;
 #include "../../include/BSSimpleList.h"
@@ -81,7 +81,7 @@ bool CStringArgument::FUN_005afad0(ScriptToken* token, bool variable, bool allow
             result = true;
         else
         {
-            if (!FUN_00404dc0(token->name, "Player"))
+            if (!BSstricmp(token->name, "Player"))
             {
                 reference->pForm = g_thePlayer;
                 result = true;
@@ -235,7 +235,7 @@ extern const char* DAT_0118c594[];
 
 int FUN_005af5f0(CompileState*, CompileWord*, char*, unsigned*, unsigned char, int);
 
-int FUN_00404dc0(const char*, const char*);
+int BSstricmp(const char*, const char*);
 
 void ReportScriptError(CompileState*, const char*, ...);
 
@@ -243,11 +243,11 @@ int FUN_00406d30(char*, unsigned, const char*);
 
 void* FUN_00401460(void*, const void*, unsigned);
 
-void* FUN_00403d30(void*, int, unsigned);
+void* ourMemset(void*, int, unsigned);
 
-bool FUN_005afeb0(const char*);
+bool ScriptCompiler_IsValidVariableName(const char*);
 
-bool FUN_005b1a90(const char*, unsigned);
+bool ScriptCompiler_CheckParentheses(const char*, unsigned);
 
 void FUN_005b1b60(const char*, unsigned*);
 
@@ -287,11 +287,12 @@ struct LineCompiler
     int CountLinesInBeginBlock(CompileState*, CompileLine*);
     int ScanBlockLines(CompileState*, CompileLine*);
     int CompileScriptLine(CompileState*, CompileLine*, const char*, char*);
-    bool FUN_005aff40(CompileScript*, CompileState*, CompileLine*);
+    bool ScriptCompiler_CompileLine(CompileScript*, CompileState*, CompileLine*);
 };
 
 // @fnv 0x005aff40
-bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, CompileLine* line)
+// src: COMMUNITY 0x005aff40
+bool LineCompiler::ScriptCompiler_CompileLine(CompileScript* script, CompileState* compiler, CompileLine* line)
 {
     CompileWord word6;
 
@@ -316,7 +317,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
 
             for (i = 0; i < 38; ++i)
             {
-                if (!FUN_00404dc0(DAT_0118e2f0[i].name, word6.text) || !FUN_00404dc0(DAT_0118e2f0[i].alias, word6.text))
+                if (!BSstricmp(DAT_0118e2f0[i].name, word6.text) || !BSstricmp(DAT_0118e2f0[i].alias, word6.text))
                 {
                     found7 = true;
                     break;
@@ -416,7 +417,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
         {
             const char* variableName1 = word6.text;
 
-            if (!FUN_005afeb0(variableName1))
+            if (!ScriptCompiler_IsValidVariableName(variableName1))
             {
                 ReportScriptError(compiler, "Invalid variable name '%s'.\r\nCompiled script not saved!", variableName1);
                 return false;
@@ -492,7 +493,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
             *(unsigned short*)(line->output + line->outputSize) = (unsigned short)(word6.variableID);
             line->outputSize += 2;
         }
-        if (!FUN_005b1a90(line->input, line->inputOffset))
+        if (!ScriptCompiler_CheckParentheses(line->input, line->inputOffset))
         {
             ReportScriptError(compiler, "Syntax Error.  Mismatched parentheses in set command.");
             return false;
@@ -500,7 +501,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
         FUN_005b1b60(line->input, &line->inputOffset);
 
         char setText20[512];
-        FUN_00403d30(setText20, 0, 512);
+        ourMemset(setText20, 0, 512);
 
         int setLength1 = 0;
         setLength1 = CompileScriptLine(compiler, line, line->input + line->inputOffset, setText20);
@@ -529,7 +530,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
     case 24: {
         offset_2 = 0;
 
-        if (!FUN_005b1a90(line->input, offset_2))
+        if (!ScriptCompiler_CheckParentheses(line->input, offset_2))
         {
             ReportScriptError(compiler, "Mismatched parentheses.");
             return false;
@@ -537,7 +538,7 @@ bool LineCompiler::FUN_005aff40(CompileScript* script, CompileState* compiler, C
         FUN_005b1b60(line->input, &offset_2);
 
         char branchText7[512];
-        FUN_00403d30(branchText7, 0, 512);
+        ourMemset(branchText7, 0, 512);
 
         int branchLength10 = 0;
         branchLength10 = CompileScriptLine(compiler, line, line->input + offset_2, branchText7);

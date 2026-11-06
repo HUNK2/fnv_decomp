@@ -18,7 +18,8 @@ void NiColorExtraData::SetColor(NiColorA kColor)
 extern void* g_011f5b68;
 
 // @fnv 0x00a893f0
-void* __cdecl FUN_00a893f0()
+// src: COMMUNITY 0x00a893f0
+void* __cdecl NiColorExtraData_GetRTTI()
 {
     return &g_011f5b68;
 }
@@ -125,14 +126,14 @@ struct StreamShell
 };
 
 void __stdcall FUN_00a7b580(void* pv);
-void* __cdecl FUN_00a7d330(void* pv);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* pv);
 
 // Writes a pointer obtained from g_011f5b68 and the result of ToString("Color = ") into kStream, growing the stream when its position reaches its size.
 // @fnv 0x00a895c0
 void __fastcall WriteColorToStream(NiColorExtraData* self, void*, StreamShell& kStream)
 {
     FUN_00a7b580(&kStream);
-    void* p = FUN_00a7d330(g_011f5b68);
+    void* p = NiViewerStrings_NiGetViewerString_Title(g_011f5b68);
     unsigned int uiPos = kStream.m_usPos;
     unsigned int uiSize = kStream.m_usSize;
     if (uiPos >= uiSize)

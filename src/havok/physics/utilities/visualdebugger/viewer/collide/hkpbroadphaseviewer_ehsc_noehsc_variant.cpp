@@ -15,7 +15,7 @@ struct FUN_00dd9380_StandIn {
 extern FUN_00dd9380_StandIn* DAT_01269cd0;
 extern int DAT_01269028;
 extern char DAT_010c65b0;
-void FUN_00d6ad00();
+void hkpBroadphaseViewer_Create();
 void __cdecl FUN_00d6ad40();
 extern int DAT_01269028;
 int FUN_00d6ad60();

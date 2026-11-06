@@ -24,7 +24,7 @@ public:
     void AssignAtOffsetB0(const NiPointer<void>&);
     void SetByteAtOffset9B(int);
     const NiPointer<Actor>& GetLOSActor() const;
-    void FUN_006e5a40(NiPoint3, float);
+    void SetSearchCenter(NiPoint3, float);
     void FUN_006e4340(float);
     void FUN_009d9ee0(void*);
     NiPoint3& GetPosition(NiPoint3&) const;

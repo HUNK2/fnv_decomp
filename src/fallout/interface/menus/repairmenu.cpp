@@ -76,7 +76,7 @@ Tile* RepairMenu::Create()
     Menu* pExistingMenu;
     Tile* pTile;
     InterfaceManager* pInterface;
-    pInterface = FUN_004b7210();
+    pInterface = InterfaceManager_GetSingleton();
     pExistingMenu = Tile::FindMenuById(FUN_007b5720());
     if (pExistingMenu)
         delete pExistingMenu;
@@ -408,8 +408,8 @@ extern void __cdecl CompareSortEntries();
 extern void __cdecl PopulateRepairMenu();
 extern bool __cdecl FUN_004b71d0();
 extern void __cdecl FUN_007044c0(int, int, int);
-extern InterfaceManager* __stdcall FUN_004b7210(int);
-extern InterfaceManager* __stdcall FUN_004b7210(int, int);
+extern InterfaceManager* __stdcall InterfaceManager_GetSingleton(int);
+extern InterfaceManager* __stdcall InterfaceManager_GetSingleton(int, int);
 extern int __stdcall FUN_007b5720(int);
 
 // @fnv 0x007b7020
@@ -484,7 +484,7 @@ void __cdecl FUN_007b7020(int target)
         if (target && FUN_004b71d0())
         {
             reinterpret_cast<RepairManager*>(
-                FUN_004b7210(reinterpret_cast<RepairList*>(&DAT_011da75c->m_kItemList)->vf14(1, 0, 0xfc3, 1)))
+                InterfaceManager_GetSingleton(reinterpret_cast<RepairList*>(&DAT_011da75c->m_kItemList)->vf14(1, 0, 0xfc3, 1)))
                 ->FUN_00715860();
         }
         DAT_011da75c
@@ -492,7 +492,7 @@ void __cdecl FUN_007b7020(int target)
         if (target != 0)
         {
             FUN_007044c0(1, 0, 0);
-            reinterpret_cast<RepairManager*>(reinterpret_cast<char*>(FUN_004b7210(6, FUN_007b5720(500))) + 0x4d4)
+            reinterpret_cast<RepairManager*>(reinterpret_cast<char*>(InterfaceManager_GetSingleton(6, FUN_007b5720(500))) + 0x4d4)
                 ->FUN_00718630();
         }
     }

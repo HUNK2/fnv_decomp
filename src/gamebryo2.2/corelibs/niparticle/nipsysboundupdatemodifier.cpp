@@ -221,14 +221,14 @@ public:
     void GetViewerStrings(NiViewerStringsArray* strings);
 };
 
-extern "C" char* __cdecl FUN_00a7d330(char* s);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* s);
 extern "C" char* __cdecl FUN_00a7d450(const char* key, unsigned short value);
 
 // @fnv 0x00c2e430
 void BoundUpdateOperations::GetViewerStrings(NiViewerStringsArray* strings)
 {
     reinterpret_cast<ModifierViewerStrings*>(this)->ModifierViewerStrings::GetViewerStrings(strings);
-    reinterpret_cast<NiStrTable*>(strings)->Add(FUN_00a7d330((char*)g_01202788));
+    reinterpret_cast<NiStrTable*>(strings)->Add(NiViewerStrings_NiGetViewerString_Title((char*)g_01202788));
     reinterpret_cast<NiStrTable*>(strings)->Add(FUN_00a7d450("Update Skip", m_usUpdateSkip));
 }
 

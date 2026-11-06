@@ -26,7 +26,7 @@ class DebrisModelEntry
     FileEntryList model;
     DebrisModelEntry();
     ~DebrisModelEntry();
-    void FUN_004fa670(const char*);
+    void BGSDebrisData_SetFileName(const char*);
 };
 void Deallocate(void*);
 void* Allocate(unsigned int);
@@ -86,7 +86,7 @@ DebrisModelEntry* BGSDebris::AddDebrisModel(char chance, const char* path, char 
     {
         DebrisModelEntry* data = new DebrisModelEntry;
         data->chance = chance;
-        data->FUN_004fa670(path);
+        data->BGSDebrisData_SetFileName(path);
         data->flags = flags;
         InsertDebrisIfValid(data);
         return data;
@@ -180,7 +180,8 @@ struct S_004fa4b0
 
 // Compares two entries by their char field, returning -1 or 1, and otherwise compares their string fields via FUN_00408b20.
 // @fnv 0x004fa4b0
-int __cdecl FUN_004fa4b0(const S_004fa4b0* apLeft, const S_004fa4b0* apRight)
+// src: COMMUNITY 0x004fa4b0
+int __cdecl DebrisSortFunction(const S_004fa4b0* apLeft, const S_004fa4b0* apRight)
 {
     if (apLeft->c > apRight->c)
     {
@@ -198,7 +199,8 @@ int __cdecl FUN_004fa4b0(const S_004fa4b0* apLeft, const S_004fa4b0* apRight)
 
 // Initializes the object: sets byte 0 to 10, byte 1 to 0, int at offset 4 to 0, constructs the object at offset 8, and returns pThis.
 // @fnv 0x004fa5e0
-void* __fastcall FUN_004fa5e0(char* pObject)
+// src: COMMUNITY 0x004fa5e0
+void* __fastcall BGSDebrisData_BGSDebrisData(char* pObject)
 {
     pObject[0] = 10;
     pObject[1] = 0;
@@ -221,7 +223,7 @@ struct AEList
 {
     void Insert(DebrisData*, int(__cdecl*)(DebrisData*, DebrisData*));
 };
-int __cdecl FUN_004fa4b0(DebrisData*, DebrisData*);
+int __cdecl DebrisSortFunction(DebrisData*, DebrisData*);
 unsigned int __cdecl BSStringLength(const char*);
 // Checks that a.d, its flag, and its string are non-empty, then inserts a.d into the AEList at self+0x1c and returns true; otherwise returns false.
 // @fnv 0x004fa610
@@ -229,13 +231,13 @@ bool __fastcall InsertDebrisIfValid(char* self, DArg aDebrisArg)
 {
     if (!aDebrisArg.d || !aDebrisArg.d->c || !aDebrisArg.d->p || !BSStringLength(aDebrisArg.d->p))
         return false;
-    ((AEList*)(self + 0x1c))->Insert(aDebrisArg.d, FUN_004fa4b0);
+    ((AEList*)(self + 0x1c))->Insert(aDebrisArg.d, DebrisSortFunction);
     return true;
 }
 
 struct FUN_004fa670_shell : public DebrisModelEntry
 {
-    void FUN_004fa670(char*);
+    void BGSDebrisData_SetFileName(char*);
 };
 
 void* __cdecl operator new(unsigned int);
@@ -248,7 +250,8 @@ class TaskQueueInterface
 };
 
 // @fnv 0x004fa670
-void FUN_004fa670_shell::FUN_004fa670(char* apFileName)
+// src: COMMUNITY 0x004fa670
+void FUN_004fa670_shell::BGSDebrisData_SetFileName(char* apFileName)
 {
     if (*(char**)((char*)this + 4))
     {

@@ -155,7 +155,7 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volati
 struct FileNameComponents
 {
     FileNameComponents(const char* pcFullPath);
-    void FUN_00aa29d0(char* pcPath, unsigned int uiLen);
+    void NiFilename_GetFullPath(char* pcPath, unsigned int uiLen);
     char m_acHead[0x303];
     char m_acTail[0x100];
 };
@@ -163,14 +163,15 @@ int strcpy_s(char*, unsigned int, const char*);
 extern const char* DAT_011f4a78;
 extern char* EmptyFS;
 // @fnv 0x00a76960
-void FUN_00a76960(char** apszSource, char** apszDest)
+// src: COMMUNITY 0x00a76960
+void NiImageConverter_ConvertFilenameToPlatformSpecific_(char** apszSource, char** apszDest)
 {
     if (DAT_011f4a78)
     {
         FileNameComponents kName(*apszSource);
         strcpy_s(kName.m_acTail, 0x100, DAT_011f4a78);
         char acBuf[0x104];
-        kName.FUN_00aa29d0(acBuf, 0x104);
+        kName.NiFilename_GetFullPath(acBuf, 0x104);
         char* pcOldString = *apszDest;
         if (pcOldString != acBuf)
         {
@@ -198,7 +199,8 @@ namespace fnv_00a76b30 {
 
 // If the global NiRefObject pointer DAT_011f4a7c is set, decrements its reference count and clears the pointer.
 // @fnv 0x00a76b30
-void FUN_00a76b30()
+// src: COMMUNITY 0x00a76b30
+void NiImageConverter__SDMShutdown()
 {
     if (DAT_011f4a7c)
     {
@@ -266,7 +268,7 @@ NiPixelData* NiImageConverter::ConvertImageData(const NiPixelData& kSrc, const N
                 if (!pkOptDest->m_spPalette.value)
                 {
                     void* pal = BSFadeNode::operator new(0x24);
-                    pkOptDest->FUN_00a76a60(pal ? new (pal) NiPalette(*kSrc.GetPalette()) : 0);
+                    pkOptDest->NiPixelData_SetPalette(pal ? new (pal) NiPalette(*kSrc.GetPalette()) : 0);
                 }
                 else
                     ((PaletteCopyAccess*)pkOptDest->m_spPalette.value)->CopyFrom(*(NiPalette*)kSrc.m_spPalette.value);
@@ -374,7 +376,8 @@ void __cdecl FUN_00a76e90(unsigned int a, unsigned int b, unsigned int c, unsign
 void __cdecl BuildFullPath(void);
 
 // @fnv 0x00aa29d0
-void __cdecl FUN_00aa29d0(void)
+// src: COMMUNITY 0x00aa29d0
+void __cdecl NiFilename_GetFullPath(void)
 {
     BuildFullPath();
 }
@@ -398,7 +401,7 @@ struct FileNameComponents
     {
         _strcpy_s(m_acExtension, 0x100, pcExt);
     }
-    void FUN_00aa29d0(char* pcDest, unsigned int uiDestLen);
+    void NiFilename_GetFullPath(char* pcDest, unsigned int uiDestLen);
 };
 
 // Populates a buffer from pcPath, setting its extension from DAT_011f4a78 when that value is non-null.
@@ -410,7 +413,7 @@ char* GetPathWithExtension(const char* pcPath)
     {
         FileNameComponents kFilename(pcPath);
         kFilename.SetExt(DAT_011f4a78);
-        kFilename.FUN_00aa29d0(pcDest, 0x104);
+        kFilename.NiFilename_GetFullPath(pcDest, 0x104);
     }
     else
     {

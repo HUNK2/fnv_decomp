@@ -80,7 +80,7 @@ template <class T>
         Tile* FindItemData(T& item);
         void UpdateScrollSelection(bool a);
         int GetFilteredCount(int a);
-        Tile* FUN_007f6fb0();
+        Tile* ListBox_unsigned_int_GetLastItem();
         Tile* GetNextEnabledTile(int aiKey);
         void AddTile(Tile* apTile);
         void FUN_0072c000();

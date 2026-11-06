@@ -325,9 +325,9 @@ struct S_00e5ae60_Constraint
     int unka8;
     int unkac;
     int m_b0;
-    int FUN_00cdea20() throw();
-    int FUN_00cdea80() throw();
-    int FUN_00cdeaa0() throw();
+    int hkpRagdollConstraintData_getTwistMotor() throw();
+    int hkpRagdollConstraintData_getConeMotor() throw();
+    int hkpRagdollConstraintData_getPlaneMotor() throw();
 };
 
 // Reads motor values from the constraint into a, b and d based on its type; for unsupported types logs an error and returns 1.
@@ -343,9 +343,9 @@ int __cdecl GetConstraintMotorValues(S_00e5ae60_Constraint* pConstraint, int* pi
         *piValueD = 0;
         return 0;
     case 7:
-        *piValueA = pConstraint->FUN_00cdea20();
-        *piValueB = pConstraint->FUN_00cdea80();
-        *piValueD = pConstraint->FUN_00cdeaa0();
+        *piValueA = pConstraint->hkpRagdollConstraintData_getTwistMotor();
+        *piValueB = pConstraint->hkpRagdollConstraintData_getConeMotor();
+        *piValueD = pConstraint->hkpRagdollConstraintData_getPlaneMotor();
         return 0;
     default:
         *piValueD = 0;

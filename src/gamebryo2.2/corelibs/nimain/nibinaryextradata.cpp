@@ -123,14 +123,14 @@ void NiBinaryExtraData::FUN_00a7fa20(NiStream* apStream)
 
 extern unsigned int DAT_011f4ab8;
 extern char str_0109df4c[];
-void* __cdecl FUN_00a7d330(unsigned int v);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(unsigned int v);
 void* __cdecl FUN_00a7d510(const char* fmt, void* v);
 
 // @fnv 0x00a7fa90
 void NiBinaryExtraData::FUN_00a7fa90(NiStream* pObj)
 {
     FUN_00a7b580(pObj);
-    void* r = FUN_00a7d330(DAT_011f4ab8);
+    void* r = NiViewerStrings_NiGetViewerString_Title(DAT_011f4ab8);
     unsigned int a = *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pObj) + 0x0a);
     if (a >= *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(pObj) + 0x08))
     {

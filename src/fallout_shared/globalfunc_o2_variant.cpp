@@ -307,7 +307,7 @@ bool FUN_00c75460_S::FUN_00c75460()
     return bResult;
 }
 
-void __cdecl FUN_00b97e80(int, int);
+void __cdecl BSRenderState_SetZFunc(int, int);
 
 // @fnv 0x00ba5de0
 void __stdcall FUN_00ba5de0(OutBa* a1, int unused)
@@ -330,12 +330,12 @@ void __stdcall FUN_00ba5de0(OutBa* a1, int unused)
     arr[6] = 6;
     arr[7] = 0;
     int idx = *(int*)((char*)sel + 0x114);
-    FUN_00b97e80(arr[idx - 1], 0);
+    BSRenderState_SetZFunc(arr[idx - 1], 0);
 }
 
 struct CallTarget_00ba5320
 {
-    int FUN_00ba5320();
+    int ParticleShader_UpdateFov();
 };
 struct SearchObject
 {
@@ -344,7 +344,7 @@ struct SearchObject
 // @fnv 0x00ba5ed0
 int SearchObject::FUN_00ba5ed0(unsigned int arg0)
 {
-    unsigned int callResult0 = (unsigned int)((CallTarget_00ba5320*)this)->FUN_00ba5320();
+    unsigned int callResult0 = (unsigned int)((CallTarget_00ba5320*)this)->ParticleShader_UpdateFov();
     return (int)callResult0;
 }
 
@@ -1042,7 +1042,7 @@ typedef NiTArray<char*, NiTMallocInterface<char*> > BC878C0StringArray;
 
 extern const char* g_pcC878C0Name;
 
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 
 class FUN_00c878c0_cls
 {
@@ -1056,7 +1056,7 @@ void FUN_00c878c0_cls::FUN_00c878c0(BC878C0StringArray* pkArray)
 {
     BC878C0AllocTagScope kScope(0x10);
     AddDebugStrings(pkArray);
-    char* pcName = FUN_00a7d330(g_pcC878C0Name);
+    char* pcName = NiViewerStrings_NiGetViewerString_Title(g_pcC878C0Name);
     pkArray->Add(pcName);
 }
 
@@ -1162,7 +1162,7 @@ struct CollisionObjectCountContext
     void* pAuxiliaryData;
     unsigned int uiFilterFlags;
 };
-void FUN_00c68900(NiAVObject*, CollisionObjectCountContext*,
+void bhkWorld_DoObjectRec(NiAVObject*, CollisionObjectCountContext*,
                   void (*)(NiCollisionObject*, CollisionObjectCountContext*));
 
 struct C69EE0Properties
@@ -1192,7 +1192,7 @@ bool FUN_00c69ee0(NiAVObject* pkObject, bool bRecurse, bool bForce)
         kContext.bRecurse = bRecurse;
         kContext.uiTraversalFlags = 1;
         if (DAT_011afe8c)
-            FUN_00c68900(pkObject, &kContext, DAT_011afe8c);
+            bhkWorld_DoObjectRec(pkObject, &kContext, DAT_011afe8c);
     }
     return bResult;
 }
@@ -1425,7 +1425,7 @@ void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 // The original scratch vector is left uninitialized.
 struct Update
 {
-    void FUN_00e6fbb0(Transform*, int);
+    void NiDX9Renderer_SetModelTransform(Transform*, int);
 };
 struct Shader
 {
@@ -1695,7 +1695,7 @@ inline int isSource(Source* p)
 void Obj::FUN_00ba5ee0(Arg* arg)
 {
     Geom* geom = *DAT_011f91e0;
-    unk18->FUN_00e6fbb0(&geom->GetWorldTransform(), 0);
+    unk18->NiDX9Renderer_SetModelTransform(&geom->GetWorldTransform(), 0);
     Source* raw = arg->unk0c;
     Source* source = isSource(raw) ? raw : 0;
     if (source)

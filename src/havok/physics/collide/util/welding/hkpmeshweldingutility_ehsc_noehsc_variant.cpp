@@ -433,7 +433,7 @@ struct NormalVector
         q = _mm_mul_ps(inverseLength().broadcast(), q);
     }
 };
-void FUN_00ddd620(const NormalVector* a, const NormalVector* b, const NormalVector* c, NormalVector* out);
+void hkpMeshWeldingUtility_calcAntiClockwiseTriangleNormal(const NormalVector* a, const NormalVector* b, const NormalVector* c, NormalVector* out);
 struct S_00ddecf0_Heap
 {
     virtual void unk00();
@@ -849,7 +849,8 @@ struct ErrorManager
 };
 
 // hkpMeshWeldingUtility::calcAntiClockwiseTriangleNormal
-__declspec(noinline) void __cdecl FUN_00ddd620(const hkVector4& v0, const hkVector4& v1, const hkVector4& v2,
+// src: COMMUNITY 0x00ddd620
+__declspec(noinline) void __cdecl hkpMeshWeldingUtility_calcAntiClockwiseTriangleNormal(const hkVector4& v0, const hkVector4& v1, const hkVector4& v2,
                                                hkVector4& normal)
 {
     hkVector4 e0;
@@ -860,9 +861,9 @@ __declspec(noinline) void __cdecl FUN_00ddd620(const hkVector4& v0, const hkVect
     normal.normalize3();
 }
 hkBool __cdecl FUN_00ddcf60(const hkVector4& v0, const hkVector4& v1, const hkpTriangleShapeW* triangle);
-float __cdecl FUN_00ddd5a0(const hkVector4& normal, const hkVector4& perp, const hkVector4& otherNormal);
+float __cdecl hkpMeshWeldingUtility_calcAngleForEdge(const hkVector4& normal, const hkVector4& perp, const hkVector4& otherNormal);
 void __cdecl GenerateTrianglePlanes(hkVector4* planes, const hkpTriangleShapeW* triangle, float tolerance);
-hkBool __cdecl FUN_00ddd0b0(const hkVector4& a, const hkVector4& b, int numPlanes, const hkVector4* planes,
+hkBool __cdecl hkClipEdgeAgainstPlanes(const hkVector4& a, const hkVector4& b, int numPlanes, const hkVector4* planes,
                              float& tmin, float& tmax);
 int __cdecl FindAngleIndex(float angle);
 unsigned int __cdecl hkpMeshWeldingUtility_modifyCombinedEdgesBitcode(unsigned int combined, int edgeIndex, unsigned int code);
@@ -913,7 +914,7 @@ void __cdecl FUN_00dddcd0(const Transform& transform, hkpShapeCollectionW* colle
 
         unsigned int weldingInfo = 0;
         hkVector4 triangleNormal;
-        FUN_00ddd620(triangle->getVertex(0), triangle->getVertex(1), triangle->getVertex(2), triangleNormal);
+        hkpMeshWeldingUtility_calcAntiClockwiseTriangleNormal(triangle->getVertex(0), triangle->getVertex(1), triangle->getVertex(2), triangleNormal);
 
         for (int edgeIndex = 0; edgeIndex < 3; edgeIndex++)
         {
@@ -960,19 +961,19 @@ void __cdecl FUN_00dddcd0(const Transform& transform, hkpShapeCollectionW* colle
                         continue;
 
                     hkVector4 otherNormal;
-                    FUN_00ddd620(other->getVertex(0), other->getVertex(1), other->getVertex(2), otherNormal);
+                    hkpMeshWeldingUtility_calcAntiClockwiseTriangleNormal(other->getVertex(0), other->getVertex(1), other->getVertex(2), otherNormal);
                     if (!IsDotProductBelowThreshold(edge, otherNormal))
                         continue;
 
                     hkVector4 perp;
                     perp.setCross(edge, normal);
                     perp.normalize3();
-                    float angle = FUN_00ddd5a0(normal, perp, otherNormal);
+                    float angle = hkpMeshWeldingUtility_calcAngleForEdge(normal, perp, otherNormal);
 
                     hkVector4 planes[5];
                     GenerateTrianglePlanes(planes, other, 0.05f);
                     float tmin, tmax;
-                    if (FUN_00ddd0b0(a, b, 5, planes, tmin, tmax))
+                    if (hkClipEdgeAgainstPlanes(a, b, 5, planes, tmin, tmax))
                         histogram.InsertKey(tmin, tmax, angle);
                 }
             }

@@ -211,11 +211,12 @@ struct Process
     unsigned short unk06;
     int unk08;
     void FUN_00ddcb50();
-    Process* FUN_00ddcc10(unsigned char flags);
+    Process* hkDebugDisplayProcess_Destroy(unsigned char flags);
 };
 // Calls FUN_00ddcb50, and if flags has bit 0 set, releases this process with size unk04 through the allocator from FUN_00c85750; returns this.
 // @fnv 0x00ddcc10
-Process* Process::FUN_00ddcc10(unsigned char flags)
+// src: COMMUNITY 0x00ddcc10
+Process* Process::hkDebugDisplayProcess_Destroy(unsigned char flags)
 {
     FUN_00ddcb50();
     if (flags & 1)
@@ -783,7 +784,8 @@ extern "C" S_00ddcbc0_Factory* DAT_01269cd0;
 extern "C" void* DAT_01269cdc;
 
 // @fnv 0x00ddcbc0
-void FUN_00ddcbc0()
+// src: COMMUNITY 0x00ddcbc0
+void hkDebugDisplayProcess_registerProcess()
 {
     DAT_01269cdc = DAT_01269cd0->hkProcessFactory_registerProcess("Debug Display", hkDebugDisplayProcess_create);
 }

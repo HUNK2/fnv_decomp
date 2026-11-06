@@ -1657,7 +1657,8 @@ void FnvCpu_FUN_00d65290_CpuObject::FUN_00d65290(unsigned char arg0)
 }
 
 // @fnv 0x00d6add0
-void __cdecl FUN_00d6add0()
+// src: COMMUNITY 0x00d6add0
+void __cdecl nullsub_103()
 {}
 
 extern "C" void __cdecl FUN_00d72e90();

@@ -90,15 +90,15 @@ class ProcessLists
     bool CanAddActorToList(Actor*, int);
     void FUN_00445570(TESObjectREFR*);
     ActorList* FUN_00717e50();
-    void FUN_0096b810(float, bool);
+    void ProcessLists_UpdateMiddleHighList(float, bool);
     void FUN_0096bcd0(float, bool);
     void FUN_0096bcd0(float, int);
     void FUN_0096c860();
-    void FUN_0096cca0();
-    void FUN_0096cda0();
+    void ProcessLists_RunActorAnimationUpdates();
+    void ProcessLists_ParallelActorAnimationMovementUpdates();
     float FUN_0096d490();
     void FUN_0096d4b0(float);
-    unsigned short FUN_00972740(int, Crime*);
+    unsigned short Crime_CreateIndex(int, Crime*);
     Crime* FUN_009727c0(int, unsigned short);
     void FUN_009781d0(float);
     MagicShaderHitEffect* FindMagicShaderHitEffect(TESObjectREFR*);
@@ -111,7 +111,7 @@ class ProcessLists
     BSSimpleList<Actor*>* CollectNearbyRefs(void*, void*);              // 0x009711e0
     BSSimpleList<Actor*>* CollectCombatTargets(int, void*);             // 0x009715c0
     Crime* FindCrime(Actor*, int, int aiCrimeType);                     // 0x00972570: searches m_pkCrimeLists[aiCrimeType]
-    void FUN_009726e0(void*);                                           // 0x009726e0
+    void ProcessLists_RemoveCrimeGlobalCrimeList(void*);                                           // 0x009726e0
     BSSimpleList<Actor*>* CollectActorsByPackage(Actor*, int, bool);    // 0x00971c30 (highprocess.cpp FUN_00900020 call)
     BSSimpleList<Actor*>* GetAliveActorList();
     int GetHighestDetectionValue(PlayerCharacter*, int);

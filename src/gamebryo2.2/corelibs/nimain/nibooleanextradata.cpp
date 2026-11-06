@@ -12,7 +12,8 @@
 extern NiRTTI g_011f5f5c;
 
 // @fnv 0x00a9af30
-NiRTTI* __cdecl FUN_00a9af30()
+// src: COMMUNITY 0x00a9af30
+NiRTTI* __cdecl NiBooleanExtraData_GetRTTI()
 {
     return &g_011f5f5c;
 }

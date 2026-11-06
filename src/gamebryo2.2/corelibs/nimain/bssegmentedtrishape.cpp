@@ -7,7 +7,8 @@
 extern "C" void* g_011f5b40;
 
 // @fnv 0x00a86fe0
-void* __cdecl FUN_00a86fe0()
+// src: COMMUNITY 0x00a86fe0
+void* __cdecl BSSegmentedTriShape_GetRTTI()
 {
     return &g_011f5b40;
 }
@@ -257,7 +258,7 @@ struct EntryPod70
 
     static void* operator new[](unsigned int aSize)
     {
-        return DAT_011f6238.FUN_00aa3e40(aSize);
+        return DAT_011f6238.Game_DoHeapAlloc(aSize);
     }
     static void operator delete[](void* apBlock)
     {
@@ -496,7 +497,7 @@ struct S_a873b0_E : Entry
 {
     static void* operator new[](unsigned int n)
     {
-        return DAT_011f6238.FUN_00aa3e40(n);
+        return DAT_011f6238.Game_DoHeapAlloc(n);
     }
 };
 static __forceinline void S_a873b0_BinRead(S_a873b0_Bin* bin, void* v, unsigned int bytes)
@@ -800,7 +801,7 @@ extern "C" const char DAT_0109e938[];
 extern "C" const char DAT_0109e94c[];
 extern "C" const char DAT_0109e95c[];
 extern "C" void* g_011f5b40;
-void* __cdecl FUN_00a7d330(void* value);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* value);
 void* __cdecl FUN_00a7d510(const char* fmt, unsigned int value);
 
 struct S00a87620_Obj
@@ -865,7 +866,7 @@ struct S00a87620_Obj
 void S00a87620_Obj::AddToItemList(ItemList* apItemList)
 {
     this->FUN_00a74690(apItemList);
-    apItemList->Add(FUN_00a7d330(g_011f5b40));
+    apItemList->Add(NiViewerStrings_NiGetViewerString_Title(g_011f5b40));
     apItemList->Add(FUN_00a7d510(DAT_0109e95c, this->count));
 
     if (this->entries != 0)

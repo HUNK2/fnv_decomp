@@ -48,10 +48,11 @@ struct FUN_009f2970_Class
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
-    void FUN_009f2970(void* arg);
+    void GuardActorPackageData_SetTarget(void* arg);
 };
 // @fnv 0x009f2970
-void FUN_009f2970_Class::FUN_009f2970(void* arg)
+// src: COMMUNITY 0x009f2970
+void FUN_009f2970_Class::GuardActorPackageData_SetTarget(void* arg)
 {
     m_8 = arg;
     ((TESObjectREFR*)m_8)->FUN_00564db0(true);
@@ -218,11 +219,12 @@ struct FUN_009f90f0_Class
     virtual ~FUN_009f90f0_Class();
     virtual unsigned int Write(unsigned int);
     void FUN_009f8de0(unsigned int, unsigned int);
-    void FUN_009f90f0(unsigned int requested, unsigned int savedSize);
+    void BSSimpleArray_SpectatorThreatInfo_1024_Initialize(unsigned int requested, unsigned int savedSize);
 };
 
 // @fnv 0x009f90f0
-void FUN_009f90f0_Class::FUN_009f90f0(unsigned int uiRequestedSize, unsigned int savedSize)
+// src: COMMUNITY 0x009f90f0
+void FUN_009f90f0_Class::BSSimpleArray_SpectatorThreatInfo_1024_Initialize(unsigned int uiRequestedSize, unsigned int savedSize)
 {
     m_iWordAt04 = 0;
     m_8 = 0;
@@ -423,11 +425,12 @@ class FUN_009e99a0_cls
 
     int GetCount();
     void RegisterEntry(FUN_009e99a0_Entry* entry, int flag);
-    int FUN_009e99a0(unsigned int value);
+    int BSSimpleArray_DetailedActorPathHandler_ActorAvoidanceData_1024_Add(unsigned int value);
 };
 
 // @fnv 0x009e99a0
-int FUN_009e99a0_cls::FUN_009e99a0(unsigned int value)
+// src: COMMUNITY 0x009e99a0
+int FUN_009e99a0_cls::BSSimpleArray_DetailedActorPathHandler_ActorAvoidanceData_1024_Add(unsigned int value)
 {
     int iIndex = GetCount();
     RegisterEntry(m_pEntries + iIndex, 1);
@@ -473,10 +476,11 @@ struct S_009eb8a0_Cls
     int unk28;
     int unk2c;
     int unk30;
-    bool FUN_009eb8a0();
+    bool Crime_ShouldCrimeBeRemoved();
 };
 // @fnv 0x009eb8a0
-bool S_009eb8a0_Cls::FUN_009eb8a0()
+// src: COMMUNITY 0x009eb8a0
+bool S_009eb8a0_Cls::Crime_ShouldCrimeBeRemoved()
 {
     int now4 = (DAT_011de7b8.FUN_00867d20() << 9) | DAT_011de7b8.FUN_00867d60() | (DAT_011de7b8.FUN_00867c60() << 13);
     bool result5 = false;
@@ -975,7 +979,7 @@ struct ReferenceLinkController
     unsigned int unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28;
     bool enabled;
     bool hasLinkedReference;
-    void FUN_009f6d50();
+    void SpectatorThreatInfo_Update();
     void SetSourceReference(GameReference* reference);
 };
 // @fnv 0x009f6c20
@@ -988,7 +992,7 @@ void ReferenceLinkController::SetSourceReference(GameReference* apSource)
     source->FUN_00564db0(true);
     if (linked)
         linked->FUN_00564db0(true);
-    FUN_009f6d50();
+    SpectatorThreatInfo_Update();
 }
 
 struct FUN_0045cec0
@@ -1058,7 +1062,7 @@ struct Reference
     virtual void slot_0e0();
     virtual void slot_0e4();
     virtual void NotifyOwner(void* owner);
-    Reference* FUN_009611e0();
+    Reference* NiAVObject_GetParent();
 };
 struct FUN_009f6c90
 {
@@ -1083,9 +1087,9 @@ FUN_009f6c90::~FUN_009f6c90()
 {
     if (ref.FUN_00559450())
     {
-        if (((Reference*)ref.FUN_00559450())->FUN_009611e0())
+        if (((Reference*)ref.FUN_00559450())->NiAVObject_GetParent())
         {
-            ((Reference*)ref.FUN_00559450())->FUN_009611e0()->NotifyOwner(ref.FUN_00559450());
+            ((Reference*)ref.FUN_00559450())->NiAVObject_GetParent()->NotifyOwner(ref.FUN_00559450());
         }
         ref.FUN_0066b0d0(0);
     }
@@ -1139,7 +1143,7 @@ struct DestCls
 };
 struct MidCls
 {
-    DestCls* FUN_0041cf00();
+    DestCls* ExtraDataList_GetPlayerCrimeList();
 };
 struct SrcCls
 {
@@ -1247,7 +1251,7 @@ struct DHCls
 };
 struct GlobalCls
 {
-    void FUN_009726e0(FUN_009eb660*);
+    void ProcessLists_RemoveCrimeGlobalCrimeList(FUN_009eb660*);
     bool IsActorInOtherList(ItemCls*, FUN_009eb660*);
     BlkListNodeView* FindDialogueSpeakers(FUN_009eb660*, int);
 };
@@ -1265,7 +1269,7 @@ struct FUN_009eb660
     int f18;
     ListMember m1c;
     BlkListNodeView* m38;
-    void FUN_009eba30();
+    void Crime_ClearActorKnowList();
     SrcCls* FUN_0044ddc0();
     ~FUN_009eb660();
 };
@@ -1283,12 +1287,12 @@ FUN_009eb660::~FUN_009eb660()
         SrcCls* destA8;
         DestCls* destB_;
         ItemCls* item6;
-        FUN_009eba30();
-        DAT_011e0e80.FUN_009726e0(this);
+        Crime_ClearActorKnowList();
+        DAT_011e0e80.ProcessLists_RemoveCrimeGlobalCrimeList(this);
         if (f08 != 0)
         {
-            if (f08->FUN_005d43c0()->FUN_0041cf00() != 0)
-                f08->FUN_005d43c0()->FUN_0041cf00()->FUN_00905330(this);
+            if (f08->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList() != 0)
+                f08->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList()->FUN_00905330(this);
         }
         pB6 = m38;
         while (pB6 != 0 && !pB6->FUN_008256d0())
@@ -1304,7 +1308,7 @@ FUN_009eb660::~FUN_009eb660()
             if (pACopy->VCall100())
             {
                 destA8 = pACopy;
-                itemB = destA8->FUN_005d43c0()->FUN_0041cf00();
+                itemB = destA8->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList();
                 if (itemB != 0)
                     itemB->FUN_00905330(this);
             }
@@ -1315,7 +1319,7 @@ FUN_009eb660::~FUN_009eb660()
             item6 = (ItemCls*)*pA3->FUN_006815c0();
             if (item6->FUN_008a61b0())
                 item6->FUN_00881680(0);
-            destB_ = item6->FUN_005d43c0()->FUN_0041cf00();
+            destB_ = item6->FUN_005d43c0()->ExtraDataList_GetPlayerCrimeList();
             if (destB_ != 0)
                 destB_->FUN_00905330(this);
         }
@@ -1330,7 +1334,8 @@ FUN_009eb660::~FUN_009eb660()
 
 void FUN_006d7110(void*, void*, NiPoint3*, float, NiPoint3*);
 // @fnv 0x009ed380
-NiPoint3 FUN_009ed380(TESObjectREFR* source, TESObjectREFR* target)
+// src: COMMUNITY 0x009ed380
+NiPoint3 BackUpPackage_CalculateBackUpPointInterior(TESObjectREFR* source, TESObjectREFR* target)
 {
     NiPoint3 result = NiPoint3::ZERO;
     if (target && source)

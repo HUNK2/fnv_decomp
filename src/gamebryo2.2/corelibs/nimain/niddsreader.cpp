@@ -464,7 +464,7 @@ NiPixelData* ClsReader::ReadImage(NiBinaryStream* stream, NiPixelData* image)
         {
             sub = 0;
         }
-        image->FUN_00a76a60(reinterpret_cast<NiPalette*>(sub));
+        image->NiPixelData_SetPalette(reinterpret_cast<NiPalette*>(sub));
     }
     if (m_pRayCursor < (unsigned int)count)
     {
@@ -523,7 +523,7 @@ inline void ReadBinaryValue(NiBinaryStream& kStream, unsigned int& uiValue)
     NiBinaryStreamLoad(kStream, &uiValue, 1);
 }
 
-void __cdecl FUN_00a575b0(NiBinaryStream& kStream, unsigned int& uiValue);
+void __cdecl NiStreamLoadBinary_00a575b0(NiBinaryStream& kStream, unsigned int& uiValue);
 NiPixelFormat __cdecl CreateFromMasks(unsigned int uiBitsPerPixel, unsigned int uiRedMask, unsigned int uiGreenMask,
                                       unsigned int uiBlueMask, unsigned int uiAlphaMask);
 
@@ -672,11 +672,11 @@ bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsi
         unsigned int uiGBitMask;
         unsigned int uiBBitMask;
         unsigned int uiABitMask;
-        FUN_00a575b0(kIst, uiRGBBitCount);
-        FUN_00a575b0(kIst, uiRBitMask);
-        FUN_00a575b0(kIst, uiGBitMask);
-        FUN_00a575b0(kIst, uiBBitMask);
-        FUN_00a575b0(kIst, uiABitMask);
+        NiStreamLoadBinary_00a575b0(kIst, uiRGBBitCount);
+        NiStreamLoadBinary_00a575b0(kIst, uiRBitMask);
+        NiStreamLoadBinary_00a575b0(kIst, uiGBitMask);
+        NiStreamLoadBinary_00a575b0(kIst, uiBBitMask);
+        NiStreamLoadBinary_00a575b0(kIst, uiABitMask);
         if (!(uiPFFlags & 0x1))
             uiABitMask = 0;
         if (!IsValidBitDepth(uiRBitMask, uiGBitMask, uiBBitMask, uiABitMask, uiRGBBitCount))
@@ -695,7 +695,7 @@ bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsi
     }
 
     unsigned int uiCaps1;
-    FUN_00a575b0(kIst, uiCaps1);
+    NiStreamLoadBinary_00a575b0(kIst, uiCaps1);
     if (!(uiCaps1 & 0x8) && !(uiCaps1 & 0x401000))
     {
         Unlock();
@@ -703,7 +703,7 @@ bool NiDDSReader::FUN_00a8c1e0(NiBinaryStream& kIst, unsigned int& uiWidth, unsi
     }
 
     unsigned int uiCaps2;
-    FUN_00a575b0(kIst, uiCaps2);
+    NiStreamLoadBinary_00a575b0(kIst, uiCaps2);
     if (uiCaps2 & 0x200000)
     {
         Unlock();

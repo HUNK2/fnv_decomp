@@ -377,8 +377,8 @@ void BGSImpactData::FUN_0058e450()
     TESForm::FUN_00485680();
 }
 
-void* __fastcall FUN_0056a880(char*);
-void* FUN_0056a8c0();
+void* __fastcall BGSTextureSet_GetDecalData(char*);
+void* DecalData_GetDefaultDecalData();
 // DecalData::Copy is 0x005932b0 (see decaldata.cpp); the shared BGSImpactData.h omits it.
 struct DecalDataCopy
 {
@@ -395,12 +395,12 @@ void BGSImpactData::CopyDecalData()
         {
             reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)
                 ->Copy(reinterpret_cast<DecalData*>(
-                    FUN_0056a880(reinterpret_cast<char*>(GetDecalTextureSet()))));
+                    BGSTextureSet_GetDecalData(reinterpret_cast<char*>(GetDecalTextureSet()))));
         }
         else
         {
             reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)
-                ->Copy(reinterpret_cast<DecalData*>(FUN_0056a8c0()));
+                ->Copy(reinterpret_cast<DecalData*>(DecalData_GetDefaultDecalData()));
         }
     }
 }

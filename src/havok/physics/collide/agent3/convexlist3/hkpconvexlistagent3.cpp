@@ -71,7 +71,7 @@ void __cdecl CallIfNotFlagged(int aiUnused, int pObject, int c)
 }
 
 void __cdecl SetFlagAndCall(int, int, int);
-void __cdecl FUN_00d32cd0(int, int, int);
+void __cdecl hkConvexListAgent3_process(int, int, int);
 void __cdecl FUN_00d32ca0(int, int, int);
 void __cdecl FUN_00d32bd0(int, int, int);
 void __cdecl FUN_00d32be0(int, int, int);
@@ -88,7 +88,7 @@ void __cdecl hkConvexListAgent3_initAgentFunc(hkpCollisionDispatcher::Agent3Func
 {
     hkpCollisionDispatcher::Agent3FunctionTable* p = &kFuncs;
     p->m_pCreateFunc = reinterpret_cast<hkAgent3::CreateFunc>(&SetFlagAndCall);
-    p->m_pAgentFunction8 = reinterpret_cast<hkAgent3::ProcessFunc>(&FUN_00d32cd0);
+    p->m_pAgentFunction8 = reinterpret_cast<hkAgent3::ProcessFunc>(&hkConvexListAgent3_process);
     p->m_pAgentFunction7 = reinterpret_cast<hkAgent3::SepNormalFunc>(&FUN_00d32ca0);
     p->m_pAgentFunction3 = reinterpret_cast<hkAgent3::CleanupFunc>(&FUN_00d32bd0);
     p->m_pAgentFunction4 = reinterpret_cast<hkAgent3::RemovePointFunc>(&FUN_00d32be0);
@@ -924,7 +924,7 @@ extern void* DAT_010ceb44;
 extern float DAT_010ceb6c;
 int __cdecl FUN_00dabca0(ProbeInput*, Agent*, void*, hkVector4*);
 void __cdecl FUN_00da42b0(Cache*, int, Manager*, int);
-void* __cdecl FUN_00d41a30(ProcessInput_hkpconvexlistagent3*, int, Agent*, void*, Output*);
+void* __cdecl hkPredGskAgent3_process(ProcessInput_hkpconvexlistagent3*, int, Agent*, void*, Output*);
 void __cdecl FUN_00d41860(int, Agent*, Manager*, int);
 void __cdecl InitBlockPool(Cache*);
 void __cdecl FUN_00da4aa0(Cache*, Context*, int*, int*, Output*);
@@ -936,7 +936,8 @@ struct TLSArgument
 };
 // Runs a collision probe or stream on two bodies, updates the agent cache and contact output, and returns a 16-byte-aligned result pointer.
 // @fnv 0x00d32cd0
-void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, CollisionResult* collisionOutput, Output* output)
+// src: COMMUNITY 0x00d32cd0
+void* __cdecl hkConvexListAgent3_process(Context* context, int stream, Agent* agent, CollisionResult* collisionOutput, Output* output)
 {
     struct Scratch
     {
@@ -1030,7 +1031,7 @@ void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, Collision
         phase.extra78 = context->extra78;
         phase.extra7c = context->extra7c;
         phase.manager = reinterpret_cast<::Manager*>(&arguments.collector);
-        scratch.outcome.result = FUN_00d41a30(&phase, stream, agent, collisionOutput, output);
+        scratch.outcome.result = hkPredGskAgent3_process(&phase, stream, agent, collisionOutput, output);
         phase.manager = reinterpret_cast<::Manager*>(arguments.collector.manager);
         if (!arguments.collector.hit)
         {

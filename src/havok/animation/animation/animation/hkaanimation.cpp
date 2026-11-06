@@ -12,7 +12,8 @@ typedef unsigned int hkUint32;
 
 
 // @fnv 0x00e2f270
-void __stdcall FUN_00e2f270(int)
+// src: COMMUNITY 0x00e2f270
+void __stdcall nullsub_85(int)
 {}
 
 struct FUN_00cb0c30_s

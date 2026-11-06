@@ -373,27 +373,30 @@ unsigned int NiD3DShaderConstantMap::ConfigureShaderConstantMap(
     return success ? 0 : 1;
 }
 
-unsigned int __cdecl FUN_00a9bbf0(unsigned int, unsigned int);
+unsigned int __cdecl NiShaderConstantMap_LookUpPredefinedMappingType_(unsigned int, unsigned int);
 // @fnv 0x00a9c0a0
-unsigned int __cdecl FUN_00a9c0a0(const char* name)
+// src: COMMUNITY 0x00a9c0a0
+unsigned int __cdecl NiShaderConstantMap_LookUpPredefinedMappingType(const char* name)
 {
     unsigned int a, b;
     if (NiShaderConstantMap::FindConstantMapping(name, a, b) && a)
-        return FUN_00a9bbf0(a, b);
+        return NiShaderConstantMap_LookUpPredefinedMappingType_(a, b);
     return 0;
 }
 
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_0126f7c4;
 // @fnv 0x00b7e400
-GlobalObjectO2_00a7b610* __cdecl FUN_00b7e400()
+// src: COMMUNITY 0x00b7e400
+GlobalObjectO2_00a7b610* __cdecl NiD3DShaderConstantMap_GetRTTI()
 {
     return &g_0126f7c4;
 }
 
 void __fastcall UpdateMatrix(void*);
 // @fnv 0x00bc5c20
-char* __fastcall FUN_00bc5c20(char* self)
+// src: COMMUNITY 0x00bc5c20
+char* __fastcall NiTextureTransform_GetMatrix(char* self)
 {
     if (self[0x1c])
         UpdateMatrix(self);
@@ -401,7 +404,8 @@ char* __fastcall FUN_00bc5c20(char* self)
 }
 
 // @fnv 0x00e826c0
-void* __fastcall FUN_00e826c0(char* self, int unused, unsigned int i)
+// src: COMMUNITY 0x00e826c0
+void* __fastcall NiD3DShaderConstantMap_GetEntryAtIndex(char* self, int unused, unsigned int i)
 {
     return (*(void***)(self + 0x10))[i];
 }
@@ -478,7 +482,8 @@ struct FUN_00e84b60_prog
 const void* __stdcall GetConstantData(void*);
 // Looks up data for entry via GetConstantData and, if found, calls prog->SetConstant with it, returning 0 on success, 1 if no data, or 0x50 on failure.
 // @fnv 0x00e84b60
-unsigned int __stdcall FUN_00e84b60(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
+// src: COMMUNITY 0x00e84b60
+unsigned int __stdcall NiD3DShaderConstantMap_SetConstantConstant(FUN_00e84b60_prog* prog, void* entry, unsigned int pass)
 {
     const void* pvData = GetConstantData(entry);
     if (!pvData)
@@ -529,7 +534,7 @@ struct RMap
 void __cdecl RemoveGlobalConstant(char**);
 struct RArr
 {
-    void FUN_00e86f40(unsigned int, void*);
+    void NiTObjectArray_NiShaderConstantMapEntry_SetAt(unsigned int, void*);
 };
 // @fnv 0x00e87010
 unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char* name)
@@ -549,7 +554,7 @@ unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char
                 InterlockedDecrement((long*)(pKey - 8));
         }
         pKey = 0;
-        ((RArr*)((char*)self + 0xc))->FUN_00e86f40(idx, &pKey);
+        ((RArr*)((char*)self + 0xc))->NiTObjectArray_NiShaderConstantMapEntry_SetAt(idx, &pKey);
         return self->status;
     }
     self->status = 0x10;
@@ -557,7 +562,8 @@ unsigned int __fastcall LookupAndReleaseEntry(RMap* self, int unused, const char
 }
 
 // @fnv 0x00a9bbf0
-unsigned int __cdecl FUN_00a9bbf0(unsigned int aiCode, unsigned int b)
+// src: COMMUNITY 0x00a9bbf0
+unsigned int __cdecl NiShaderConstantMap_LookUpPredefinedMappingType_(unsigned int aiCode, unsigned int b)
 {
     switch (aiCode)
     {
@@ -719,7 +725,7 @@ struct ShaderMapArray
         vtable = &DAT_010f003c;
     }
     ~ShaderMapArray();
-    void FUN_00b799c0();
+    void NiTObjectArray_NiPointer_NiShaderConstantMapEntry_RemoveAll();
 };
 struct FUN_00b7e330 : ShaderMapBase
 {
@@ -727,7 +733,7 @@ struct FUN_00b7e330 : ShaderMapBase
     unsigned char enabled, unk2d, unk2e, unk2f;
     unsigned int unk30, unk34, unk38, unk3c, unk40;
     FUN_00b7e330(unsigned int, unsigned int);
-    void FUN_00e81d00(unsigned int);
+    void NiD3DShaderConstantMap_SetD3DRenderer(unsigned int);
     virtual void MapVirtual();
 };
 // Constructs a shader map by initializing base state, calling FUN_00e81d00 with mapId, and preparing activeEntries.
@@ -736,8 +742,8 @@ FUN_00b7e330::FUN_00b7e330(unsigned int mapId, unsigned int initMode)
     : ShaderMapBase(initMode), activeEntries(), definedEntries(), unk30(0), unk34(0), unk38(0), unk3c(0), unk40(0)
 {
     enabled = 1;
-    FUN_00e81d00(mapId);
-    activeEntries.FUN_00b799c0();
+    NiD3DShaderConstantMap_SetD3DRenderer(mapId);
+    activeEntries.NiTObjectArray_NiPointer_NiShaderConstantMapEntry_RemoveAll();
 }
 
 extern unsigned int DAT_011f5f90[];
@@ -780,14 +786,15 @@ struct FUN_00e81d70_t
     virtual NiShaderConstantMapEntry* GetEntry(const char*);
     char _p[0x30];
     unsigned int m_uiErrorCode;
-    unsigned int FUN_00e81d70(const char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
+    unsigned int NiD3DShaderConstantMap_AddEntry(const char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
                               unsigned int uiShaderRegister, unsigned int uiRegisterCount, const char* pszVariableName,
                               unsigned int uiConstantDataSize, unsigned int uiDataStride, const void* pvDataSource,
                               bool bCopyData);
 };
 
 // @fnv 0x00e81d70
-unsigned int FUN_00e81d70_t::FUN_00e81d70(const char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
+// src: COMMUNITY 0x00e81d70
+unsigned int FUN_00e81d70_t::NiD3DShaderConstantMap_AddEntry(const char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
                                           unsigned int uiShaderRegister, unsigned int uiRegisterCount,
                                           const char* pszVariableName, unsigned int uiConstantDataSize,
                                           unsigned int uiDataStride, const void* pvDataSource, bool bCopyData)
@@ -825,7 +832,7 @@ unsigned int FUN_00e81d70_t::FUN_00e81d70(const char* pszKey, unsigned int uiFla
 
 struct FUN_00e81f10_shell : public NiD3DShaderConstantMap
 {
-    unsigned int FUN_00e81f10(char*, unsigned int, unsigned int, char*, unsigned int, unsigned int, void*, bool);
+    unsigned int NiD3DShaderConstantMap_AddPredefinedEntry(char*, unsigned int, unsigned int, char*, unsigned int, unsigned int, void*, bool);
 };
 
 
@@ -872,7 +879,8 @@ __forceinline void SetEntryData(NiShaderConstantMapEntry* entry, unsigned int si
 
 // Allocates and fills an entry, copies or references constant data, then passes it to a virtual call and conditionally another.
 // @fnv 0x00e81f10
-unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra, unsigned int uiShaderRegister,
+// src: COMMUNITY 0x00e81f10
+unsigned int FUN_00e81f10_shell::NiD3DShaderConstantMap_AddPredefinedEntry(char* pszKey, unsigned int uiExtra, unsigned int uiShaderRegister,
                                               char* pszVariableName, unsigned int uiConstantDataSize,
                                               unsigned int uiDataStride, void* pvDataSource, bool bCopyData)
 {
@@ -913,7 +921,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
 
 struct FUN_00e82090_shell : public NiD3DShaderConstantMap
 {
-    unsigned int FUN_00e82090(char*, unsigned int, unsigned int, unsigned int, unsigned int, char*, unsigned int,
+    unsigned int NiD3DShaderConstantMap_AddAttributeEntry(char*, unsigned int, unsigned int, unsigned int, unsigned int, char*, unsigned int,
                               unsigned int, void*, bool);
 };
 
@@ -973,7 +981,8 @@ struct MapStub
 
 // Creates and populates an entry, optionally sets its buffer, then passes it to ReadEntryData.
 // @fnv 0x00e82090
-unsigned int FUN_00e82090_shell::FUN_00e82090(char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
+// src: COMMUNITY 0x00e82090
+unsigned int FUN_00e82090_shell::NiD3DShaderConstantMap_AddAttributeEntry(char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
                                               unsigned int uiShaderRegister, unsigned int uiRegisterCount,
                                               char* pszVariableName, unsigned int uiConstantDataSize,
                                               unsigned int uiDataStride, void* pvDataSource, bool bCopyData)
@@ -997,7 +1006,7 @@ unsigned int FUN_00e82090_shell::FUN_00e82090(char* pszKey, unsigned int uiFlags
 #include <string.h>
 struct FUN_00e821e0_shell : public NiD3DShaderConstantMap
 {
-    unsigned int FUN_00e821e0(char*, unsigned int, unsigned int, unsigned int, unsigned int, char*, unsigned int,
+    unsigned int NiD3DShaderConstantMap_AddGlobalEntry(char*, unsigned int, unsigned int, unsigned int, unsigned int, char*, unsigned int,
                               unsigned int, void*, bool);
 };
 
@@ -1045,7 +1054,8 @@ struct ScmMapS
 
 // Creates a NiShaderConstantMapEntry from the given key, flags, register and data, reads its entry data, and on success acquires a global constant entry.
 // @fnv 0x00e821e0
-unsigned int FUN_00e821e0_shell::FUN_00e821e0(char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
+// src: COMMUNITY 0x00e821e0
+unsigned int FUN_00e821e0_shell::NiD3DShaderConstantMap_AddGlobalEntry(char* pszKey, unsigned int uiFlags, unsigned int uiExtra,
                                               unsigned int uiShaderRegister, unsigned int uiRegisterCount,
                                               char* pszVariableName, unsigned int uiConstantDataSize,
                                               unsigned int uiDataStride, void* pvDataSource, bool bCopyData)
@@ -1075,12 +1085,13 @@ unsigned int FUN_00e821e0_shell::FUN_00e821e0(char* pszKey, unsigned int uiFlags
 
 struct FUN_00e823d0_shell : public NiD3DShaderConstantMap
 {
-    unsigned int FUN_00e823d0(char*, unsigned int, unsigned int, unsigned int, unsigned int, char*);
+    unsigned int NiD3DShaderConstantMap_AddOperatorEntry(char*, unsigned int, unsigned int, unsigned int, unsigned int, char*);
 };
 
 // Creates a NiShaderConstantMapEntry from the given parameters, passes it to ReadEntryData, and returns the resulting error code.
 // @fnv 0x00e823d0
-unsigned int FUN_00e823d0_shell::FUN_00e823d0(char* pszControlPoint, unsigned int uiFlags, unsigned int uiExtra,
+// src: COMMUNITY 0x00e823d0
+unsigned int FUN_00e823d0_shell::NiD3DShaderConstantMap_AddOperatorEntry(char* pszControlPoint, unsigned int uiFlags, unsigned int uiExtra,
                                               unsigned int uiShaderRegister, unsigned int uiRegisterCount,
                                               char* pszVariableName)
 {
@@ -1289,7 +1300,7 @@ unsigned int FUN_00e82960_cls::FindEntryIndex(const char* name)
 }
 
 namespace fnv_00e829b0 {
-unsigned int __cdecl FUN_00a9bbf0(unsigned int, unsigned int);
+unsigned int __cdecl NiShaderConstantMap_LookUpPredefinedMappingType_(unsigned int, unsigned int);
 extern unsigned char DAT_011f5fb4[];
 bool __cdecl LookUpShaderConstantType(unsigned int key, unsigned int* type, unsigned int* count);
 extern const unsigned int g_ShaderMatrixDesc0[];
@@ -1304,7 +1315,7 @@ unsigned int __stdcall InitShaderConstantEntry(NiShaderConstantMapEntry* apEntry
     unsigned int key = (unsigned int)apEntry->m_kControlPoint.m_kHandle;
     if (!LookUpShaderConstantType(key, &type, &count))
         return 0x40;
-    apEntry->m_uiValue1 = (apEntry->m_uiValue1 & 0xffffff00) | DAT_011f5fb4[FUN_00a9bbf0(type, count)];
+    apEntry->m_uiValue1 = (apEntry->m_uiValue1 & 0xffffff00) | DAT_011f5fb4[NiShaderConstantMap_LookUpPredefinedMappingType_(type, count)];
     if (type == 0)
         return 0x40;
     if (type < 0x45)
@@ -1366,7 +1377,8 @@ void __stdcall Transpose(Matrix*, Matrix*);
 void __stdcall Transform(ShaderFloat4View_00e82b40*, ShaderFloat4View_00e82b40*, void*);
 // Computes a matrix or vector constant based on type and mode, applies inverse or transpose in some matrix cases, and passes it to SetConstant.
 // @fnv 0x00e82b40
-unsigned int __stdcall FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int type, unsigned int mode,
+// src: COMMUNITY 0x00e82b40
+unsigned int __stdcall NiD3DShaderConstantMap_PerformOperatorMultiply(FUN_00e84b60_prog* prog, void* entry, unsigned int type, unsigned int mode,
                                     bool inverse, bool transpose)
 {
     switch (type)
@@ -1504,14 +1516,15 @@ struct ShaderConstantMap_83650
     char pad2d[3];
     void* last;
     unsigned int error;
-    unsigned int FUN_00e83650(const char* shader, unsigned int flags, unsigned int parameter,
+    unsigned int NiD3DShaderConstantMap_AddConstantEntry(const char* shader, unsigned int flags, unsigned int parameter,
                               unsigned int additionalValue, unsigned int registerType, const char* property,
                               unsigned int elementSize, int elementType, void* data, bool copied);
 };
 
 // Creates a shader constant entry, copies data if requested, passes it to vfn_80, and returns the error code.
 // @fnv 0x00e83650
-unsigned int ShaderConstantMap_83650::FUN_00e83650(const char* shader, unsigned int flags, unsigned int parameter,
+// src: COMMUNITY 0x00e83650
+unsigned int ShaderConstantMap_83650::NiD3DShaderConstantMap_AddConstantEntry(const char* shader, unsigned int flags, unsigned int parameter,
                                                    unsigned int additionalValue, unsigned int registerType,
                                                    const char* property, unsigned int elementSize, int elementType,
                                                    void* data, bool copied)
@@ -1971,7 +1984,8 @@ extern float DAT_0126f7e0[12];
 
 // For supported uiType values, copies or passes (const float*)pkEntry->m_pConstantData to SetConstant, returning 0x50 if that call fails.
 // @fnv 0x00e84d00
-unsigned int __stdcall FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry* pkEntry,
+// src: COMMUNITY 0x00e84d00
+unsigned int __stdcall NiD3DShaderConstantMap_SetGlobalConstant(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry* pkEntry,
                                     unsigned int uiPass)
 {
     unsigned int uiResult = 0;
@@ -2076,7 +2090,7 @@ struct NiRTTI;
 extern const NiRTTI DAT_011f4a98;
 bool __cdecl FUN_0043b300(const NiRTTI*, void*);
 void __cdecl FUN_00b71a40(float* d, const NiMatrix3& r, const NiPoint3& t, float s);
-void __cdecl FUN_00b799a0(float* d, const char* t);
+void __cdecl NiD3DUtility_GetD3DFromNi_(float* d, const char* t);
 extern const NiPoint3 DAT_011f426c;
 
 struct StandinLight
@@ -2549,7 +2563,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
             }
             else
             {
-                FUN_00b799a0((float*)&work.identity, (const char*)&apTargetLight->m_kWorldSpaceTransform);
+                NiD3DUtility_GetD3DFromNi_((float*)&work.identity, (const char*)&apTargetLight->m_kWorldSpaceTransform);
             }
             CopyMatrix(apConstantData, &work.identity);
             return true;
@@ -2570,12 +2584,12 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
                 point.y = (float)(-1048576.0 * apTargetLight->m_kWorldLocation.y);
                 point.z = (float)(-1048576.0 * apTargetLight->m_kWorldLocation.z);
                 work.lightWorld.Get().m_Translate = point;
-                FUN_00b799a0((float*)&work.matrix,
+                NiD3DUtility_GetD3DFromNi_((float*)&work.matrix,
                              (const char*)work.inverse.Get().FUN_0062c250(&work.modelLightWorld.Get(), work.lightWorld.Get()));
             }
             else
             {
-                FUN_00b799a0((float*)&work.matrix,
+                NiD3DUtility_GetD3DFromNi_((float*)&work.matrix,
                              (const char*)work.inverse.Get().FUN_0062c250((NiTransform*)&work.identity, apTargetLight->m_kWorldSpaceTransform));
             }
             CopyMatrix(apConstantData, &work.matrix);
@@ -2877,7 +2891,8 @@ static unsigned int Dbl(unsigned int x)
 
 // Gets a format and dimensions, calls FillLightConstantData with the source and derived pitch, then passes the buffer to obj->s1d.
 // @fnv 0x00e85c40
-int __stdcall FUN_00e85c40(S00e85c40_Obj* obj, NiShaderConstantMapEntry* tex, int p3, int p4, int p5, int p6, int p7,
+// src: COMMUNITY 0x00e85c40
+int __stdcall NiD3DShaderConstantMap_SetObjectConstant(S00e85c40_Obj* obj, NiShaderConstantMapEntry* tex, int p3, int p4, int p5, int p6, int p7,
                            unsigned int auiLightType, int p9, int p10, int p11)
 {
     int result = 0;
@@ -2907,7 +2922,8 @@ struct GlobalObjectO2_00a7b610
 
 // Copies the float data from object into the matching slot of g_0126f7c4 based on the type code and returns that code.
 // @fnv 0x00e86a50
-unsigned int __stdcall FUN_00e86a50(unsigned int index, NiShaderConstantMapEntry* object, unsigned int unused)
+// src: COMMUNITY 0x00e86a50
+unsigned int __stdcall NiD3DShaderConstantMap_SetupConstantConstantValue(unsigned int index, NiShaderConstantMapEntry* object, unsigned int unused)
 {
     float* source = (float*)object->m_pConstantData;
     unsigned int type = DAT_011f5fc4[object->m_uiValue1 & 0xff];
@@ -3124,11 +3140,12 @@ struct S_00e86f40_Arr
     unsigned short m_usESize;
     unsigned short m_usElementCount;
     unsigned short m_usGrowBy;
-    void FUN_00e86f40(unsigned int i, const S_00e86f40_Ptr& e);
+    void NiTObjectArray_NiShaderConstantMapEntry_SetAt(unsigned int i, const S_00e86f40_Ptr& e);
 };
 
 // @fnv 0x00e86f40
-void S_00e86f40_Arr::FUN_00e86f40(unsigned int uiIndex, const S_00e86f40_Ptr& e)
+// src: COMMUNITY 0x00e86f40
+void S_00e86f40_Arr::NiTObjectArray_NiShaderConstantMapEntry_SetAt(unsigned int uiIndex, const S_00e86f40_Ptr& e)
 {
     static const S_00e86f40_Ptr kEmpty;
     if (uiIndex >= m_usESize)
@@ -3160,10 +3177,11 @@ typedef NiPointer<NiShaderConstantMapEntry> NiShaderConstantMapEntryPtr;
 
 struct ShaderEntryArray : ShaderConstantEntryArray<NiShaderConstantMapEntryPtr>
 {
-    __declspec(nothrow) void FUN_00e86f40(unsigned int uiIndex, const NiShaderConstantMapEntryPtr& element) throw();
+    __declspec(nothrow) void NiTObjectArray_NiShaderConstantMapEntry_SetAt(unsigned int uiIndex, const NiShaderConstantMapEntryPtr& element) throw();
 };
 
-void ShaderEntryArray::FUN_00e86f40(unsigned int uiIndex, const NiShaderConstantMapEntryPtr& element) throw()
+// src: COMMUNITY 0x00e86f40
+void ShaderEntryArray::NiTObjectArray_NiShaderConstantMapEntry_SetAt(unsigned int uiIndex, const NiShaderConstantMapEntryPtr& element) throw()
 {
     static NiShaderConstantMapEntryPtr s_spNull;
     if (uiIndex >= size)
@@ -3202,8 +3220,8 @@ void __stdcall CompactEnabledEntries(ShaderEntryArray* pkArray)
         {
             if (uiFirstDisabled < uiIndex)
             {
-                pkArray->FUN_00e86f40(uiIndex, pkArray->GetAt(uiFirstDisabled));
-                pkArray->FUN_00e86f40(uiFirstDisabled, spEntry);
+                pkArray->NiTObjectArray_NiShaderConstantMapEntry_SetAt(uiIndex, pkArray->GetAt(uiFirstDisabled));
+                pkArray->NiTObjectArray_NiShaderConstantMapEntry_SetAt(uiFirstDisabled, spEntry);
                 ++uiFirstDisabled;
                 while (uiFirstDisabled < uiSize)
                 {
@@ -3259,17 +3277,17 @@ struct FUN_00e87220_shell
     virtual void V28();
     virtual NiShaderConstantMapEntry* GetOperationEntry(unsigned int uiIndex);
 
-    unsigned int FUN_00e82b40(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, unsigned int eType1, unsigned int eType2,
+    unsigned int NiD3DShaderConstantMap_PerformOperatorMultiply(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, unsigned int eType1, unsigned int eType2,
                               bool bTranspose, bool bInverse);
-    unsigned int FUN_00e82e70(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, unsigned int eType1, unsigned int eType2,
+    unsigned int NiD3DShaderConstantMap_PerformOperatorDivide(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, unsigned int eType1, unsigned int eType2,
                               bool bTranspose, bool bInverse);
     unsigned int SetConstantSum(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, unsigned int eType1, unsigned int eType2,
                                 bool bTranspose, bool bInverse);
-    unsigned int FUN_00e83320(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, unsigned int eType1, unsigned int eType2,
+    unsigned int NiD3DShaderConstantMap_PerformOperatorSubtract(void* pkShaderProgram, NiShaderConstantMapEntry* pkEntry, unsigned int eType1, unsigned int eType2,
                               bool bTranspose, bool bInverse);
-    unsigned int FUN_00e85d10(bool bSecond, NiShaderConstantMapEntry* pkEntry, void* pkGeometry, const void* pkSkin,
+    unsigned int NiD3DShaderConstantMap_SetupDefinedConstantValue(bool bSecond, NiShaderConstantMapEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* pkEffects, const void* kWorld, const void* kWorldBound);
-    unsigned int FUN_00e86a50(bool bSecond, NiShaderConstantMapEntry* pkEntry, unsigned int uiPass);
+    unsigned int NiD3DShaderConstantMap_SetupConstantConstantValue(bool bSecond, NiShaderConstantMapEntry* pkEntry, unsigned int uiPass);
     unsigned int LoadConstant(bool bSecond, NiShaderConstantMapEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* kWorld, const void* kWorldBound, unsigned int uiPass);
 
@@ -3304,15 +3322,15 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, NiShaderCon
 
     if ((pkEntry1->m_uiValue1 & 0xf0000000) == 0x20000000)
     {
-        eType1 = FUN_00a9c0a0(pkEntry1->m_kControlPoint);
-        FUN_00e85d10(false, pkEntry1, pkGeometry, pkSkin, pkState, pkEffects, kWorld, kWorldBound);
+        eType1 = NiShaderConstantMap_LookUpPredefinedMappingType(pkEntry1->m_kControlPoint);
+        NiD3DShaderConstantMap_SetupDefinedConstantValue(false, pkEntry1, pkGeometry, pkSkin, pkState, pkEffects, kWorld, kWorldBound);
     }
     else
     {
         unsigned int uiOperand1Type = pkEntry1->m_uiValue1 & 0xf0000000;
         if (uiOperand1Type == 0x40000000)
         {
-            FUN_00e86a50(false, pkEntry1, uiPass);
+            NiD3DShaderConstantMap_SetupConstantConstantValue(false, pkEntry1, uiPass);
         }
         else if (uiOperand1Type == 0x30000000)
         {
@@ -3327,8 +3345,8 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, NiShaderCon
     unsigned int uiOperand2Type = pkEntry2->m_uiValue1 & 0xf0000000;
     if (uiOperand2Type == 0x20000000)
     {
-        eType2 = FUN_00a9c0a0(pkEntry2->m_kControlPoint);
-        FUN_00e85d10(true, pkEntry2, pkGeometry, pkSkin, pkState, pkEffects, kWorld, kWorldBound);
+        eType2 = NiShaderConstantMap_LookUpPredefinedMappingType(pkEntry2->m_kControlPoint);
+        NiD3DShaderConstantMap_SetupDefinedConstantValue(true, pkEntry2, pkGeometry, pkSkin, pkState, pkEffects, kWorld, kWorldBound);
     }
     else if (uiOperand2Type == 0x30000000)
     {
@@ -3336,11 +3354,11 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, NiShaderCon
     }
     else if (uiOperand2Type == 0x40000000)
     {
-        FUN_00e86a50(true, pkEntry2, uiPass);
+        NiD3DShaderConstantMap_SetupConstantConstantValue(true, pkEntry2, uiPass);
     }
     else if (uiOperand2Type == 0x10000000)
     {
-        FUN_00e86a50(true, pkEntry2, uiPass);
+        NiD3DShaderConstantMap_SetupConstantConstantValue(true, pkEntry2, uiPass);
     }
 
     if (!eType1 || !eType2)
@@ -3352,13 +3370,13 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, NiShaderCon
     switch (uiOperator)
     {
     case 0x10000000:
-        return FUN_00e82b40(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
+        return NiD3DShaderConstantMap_PerformOperatorMultiply(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
     case 0x20000000:
-        return FUN_00e82e70(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
+        return NiD3DShaderConstantMap_PerformOperatorDivide(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
     case 0x30000000:
         return SetConstantSum(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
     case 0x40000000:
-        return FUN_00e83320(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
+        return NiD3DShaderConstantMap_PerformOperatorSubtract(pkShaderProgram, pkEntry, eType1, eType2, bTranspose, bInverse);
     }
     return 1;
 }
@@ -3385,10 +3403,10 @@ union ScalarScratch
     bool transpose;
     unsigned int integer;
 };
-S83_Matrix* __stdcall FUN_00ee6dda(S83_Matrix*, float*, const S83_Matrix*);
-S83_Matrix* __stdcall FUN_00ee6dd4(S83_Matrix*, const S83_Matrix*);
-S83_Matrix* __stdcall FUN_00ee6de0(S83_Matrix*, const S83_Matrix*, const S83_Matrix*);
-S83_Matrix* __stdcall FUN_00ee6dfe(S83_Matrix*, const S83_Matrix*, const S83_Matrix*);
+S83_Matrix* __stdcall D3DXMatrixInverse_00ee6dda(S83_Matrix*, float*, const S83_Matrix*);
+S83_Matrix* __stdcall D3DXMatrixTranspose_00ee6dd4(S83_Matrix*, const S83_Matrix*);
+S83_Matrix* __stdcall D3DXMatrixMultiply_00ee6de0(S83_Matrix*, const S83_Matrix*, const S83_Matrix*);
+S83_Matrix* __stdcall D3DXMatrixMultiplyTranspose_00ee6dfe(S83_Matrix*, const S83_Matrix*, const S83_Matrix*);
 void __cdecl SetAffineMatrix(S83_Matrix*, const char*, bool, bool, unsigned int);
 extern float DAT_01099378;
 extern "C" double __cdecl sin(double);
@@ -4134,12 +4152,13 @@ struct ConstantMap
     unsigned int u34;
     unsigned int u38;
     Renderer* renderer;
-    unsigned int FUN_00e83db0(Program*, NiShaderConstantMapEntry*, NiAVObject*, Skin*, NiSkinPartition::Partition*, void*, Properties*, Effects_nid3dshaderconstantmap*, const void*,
+    unsigned int NiD3DShaderConstantMap_SetDefinedConstant(Program*, NiShaderConstantMapEntry*, NiAVObject*, Skin*, NiSkinPartition::Partition*, void*, Properties*, Effects_nid3dshaderconstantmap*, const void*,
                               const void*, unsigned int);
 };
 // Writes a shader constant (matrix, vector, or scalar) to the program based on the entry type, applying optional inverse or transpose to renderer matrices.
 // @fnv 0x00e83db0
-unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* entry, NiAVObject* geom, Skin* skin, NiSkinPartition::Partition* partition,
+// src: COMMUNITY 0x00e83db0
+unsigned int ConstantMap::NiD3DShaderConstantMap_SetDefinedConstant(Program* prog, NiShaderConstantMapEntry* entry, NiAVObject* geom, Skin* skin, NiSkinPartition::Partition* partition,
                                        void* buffer, Properties* props, Effects_nid3dshaderconstantmap* effects, const void* transform,
                                        const void* bound, unsigned int pass)
 {
@@ -4169,9 +4188,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
         matResult = renderer->world;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            D3DXMatrixInverse_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            D3DXMatrixTranspose_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4189,9 +4208,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
         matResult = renderer->projection;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            D3DXMatrixInverse_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            D3DXMatrixTranspose_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4209,9 +4228,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
         matResult = renderer->view;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            D3DXMatrixInverse_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            D3DXMatrixTranspose_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4230,12 +4249,12 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
         matA = ((const Renderer*)source)->view;
         source = &((const Renderer*)source)->projection;
         matB = *(const S83_Matrix*)source;
-        FUN_00ee6de0(&matResult, &matA, &matB);
+        D3DXMatrixMultiply_00ee6de0(&matResult, &matA, &matB);
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            D3DXMatrixInverse_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            D3DXMatrixTranspose_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4252,12 +4271,12 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
             bTranspose = true;
         matB = renderer->projection;
         matA = renderer->world;
-        FUN_00ee6de0(&matResult, &matB, &matA);
+        D3DXMatrixMultiply_00ee6de0(&matResult, &matB, &matA);
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            D3DXMatrixInverse_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            D3DXMatrixTranspose_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4266,7 +4285,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
     case 12:
     case 23:
     case 24: {
-        FUN_00ee6dfe(&matA, &renderer->view, &renderer->adjust);
+        D3DXMatrixMultiplyTranspose_00ee6dfe(&matA, &renderer->view, &renderer->adjust);
         if (!prog->SetConstant(entry, &matA, 0))
             result = 0x50;
         goto done;
@@ -4286,9 +4305,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
         matResult = renderer->projection;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            D3DXMatrixInverse_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            D3DXMatrixTranspose_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4307,12 +4326,12 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
             bTranspose = true;
         matB = renderer->projection;
         matA = renderer->world;
-        FUN_00ee6de0(&matResult, &matB, &matA);
+        D3DXMatrixMultiply_00ee6de0(&matResult, &matB, &matA);
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            D3DXMatrixInverse_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            D3DXMatrixTranspose_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4335,9 +4354,9 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
             bTranspose = true;
         ptr = &matResult;
         if (bInverse)
-            FUN_00ee6dda(ptr, 0, ptr);
+            D3DXMatrixInverse_00ee6dda(ptr, 0, ptr);
         if (bTranspose)
-            FUN_00ee6dd4(ptr, ptr);
+            D3DXMatrixTranspose_00ee6dd4(ptr, ptr);
         if (!prog->SetConstant(entry, &matResult, 0))
             result = 0x50;
         goto done;
@@ -4377,7 +4396,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->slots[0];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 38 || type == 40)
                         scalarTemp.transpose = true;
                     if (type == 39 || type == 40)
@@ -4402,7 +4421,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->slots[1];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 42 || type == 44)
                         pairScratch.inverse = true;
                     if (type == 43 || type == 44)
@@ -4427,7 +4446,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->slots[2];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 46 || type == 48)
                         pairScratch.inverse = true;
                     if (type == 47 || type == 48)
@@ -4452,7 +4471,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->slots[3];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 50 || type == 52)
                         pairScratch.inverse = true;
                     if (type == 51 || type == 52)
@@ -4477,7 +4496,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->slots[4];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 54 || type == 56)
                         pairScratch.inverse = true;
                     if (type == 55 || type == 56)
@@ -4502,7 +4521,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->slots[5];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 58 || type == 60)
                         pairScratch.inverse = true;
                     if (type == 59 || type == 60)
@@ -4527,7 +4546,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->slots[6];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 89 || type == 91)
                         pairScratch.inverse = true;
                     if (type == 90 || type == 91)
@@ -4552,7 +4571,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->slots[7];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 93 || type == 95)
                         pairScratch.inverse = true;
                     if (type == 94 || type == 95)
@@ -4577,7 +4596,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = props->tex->textures->extra[entry->m_uiValue2];
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 62 || type == 64)
                         pairScratch.inverse = true;
                     if (type == 63 || type == 64)
@@ -4602,7 +4621,7 @@ unsigned int ConstantMap::FUN_00e83db0(Program* prog, NiShaderConstantMapEntry* 
                 TextureLayer* desc = tex->GetElementAt(entry->m_uiValue2);
                 if (desc && desc->transform)
                 {
-                    texdata = FUN_00bc5c20(desc->transform);
+                    texdata = NiTextureTransform_GetMatrix(desc->transform);
                     if (type == 66 || type == 68)
                         pairScratch.inverse = true;
                     if (type == 67 || type == 68)
@@ -4924,9 +4943,9 @@ struct __declspec(align(16)) MapMatrix
     }
 };
 
-extern "C" void __stdcall FUN_00ee6de0(MapMatrix*, const MapMatrix*, const MapMatrix*);
-extern "C" void __stdcall FUN_00ee6dda(MapMatrix*, float*, const MapMatrix*);
-extern "C" void __stdcall FUN_00ee6dd4(MapMatrix*, const MapMatrix*);
+extern "C" void __stdcall D3DXMatrixMultiply_00ee6de0(MapMatrix*, const MapMatrix*, const MapMatrix*);
+extern "C" void __stdcall D3DXMatrixInverse_00ee6dda(MapMatrix*, float*, const MapMatrix*);
+extern "C" void __stdcall D3DXMatrixTranspose_00ee6dd4(MapMatrix*, const MapMatrix*);
 void __cdecl SetAffineMatrix(MapMatrix*, const char*, bool, bool, unsigned int);
 struct Renderer
 {
@@ -5677,12 +5696,13 @@ struct ConstantMapView
     unsigned int unk034;
     unsigned int unk038;
     Renderer* renderer;
-    unsigned int FUN_00e85d10(unsigned int, NiShaderConstantMapEntry*, NiAVObject*, void*, Properties*, Effects_nid3dshaderconstantmap*, void*,
+    unsigned int NiD3DShaderConstantMap_SetupDefinedConstantValue(unsigned int, NiShaderConstantMapEntry*, NiAVObject*, void*, Properties*, Effects_nid3dshaderconstantmap*, void*,
                               unsigned int);
 };
 // Selects work by entry->mapping, writes to a slot-indexed output region, and returns a status value.
 // @fnv 0x00e85d10
-unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMapEntry* apMapping, NiAVObject* geometry, void* skin,
+// src: COMMUNITY 0x00e85d10
+unsigned int ConstantMapView::NiD3DShaderConstantMap_SetupDefinedConstantValue(unsigned int slot, NiShaderConstantMapEntry* apMapping, NiAVObject* geometry, void* skin,
                                            Properties* state, Effects_nid3dshaderconstantmap* effects, void*, unsigned int)
 {
     MatrixWorkspace work;
@@ -5702,10 +5722,10 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
         work.a = renderer->projection;
         reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.a;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5722,10 +5742,10 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
         work.a = renderer->view;
         reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.a;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5741,10 +5761,10 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             transpose = true;
         reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = renderer->world;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5765,13 +5785,13 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             work.b = *world;
             work.a = *view;
         }
-        FUN_00ee6de0(&work.f, &work.b, &work.a);
+        D3DXMatrixMultiply_00ee6de0(&work.f, &work.b, &work.a);
         reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.f;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5792,13 +5812,13 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             work.a = *view;
             work.b = *projection;
         }
-        FUN_00ee6de0(&work.e, &work.a, &work.b);
+        D3DXMatrixMultiply_00ee6de0(&work.e, &work.a, &work.b);
         reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.e;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5820,14 +5840,14 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             work.b = *view;
             work.d = *projection;
         }
-        FUN_00ee6de0(&work.c, &work.a, &work.b);
-        FUN_00ee6de0(&work.g, &work.c, &work.d);
+        D3DXMatrixMultiply_00ee6de0(&work.c, &work.a, &work.b);
+        D3DXMatrixMultiply_00ee6de0(&work.g, &work.c, &work.d);
         reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot] = work.g;
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5845,13 +5865,13 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
         if (mapping == 27 || mapping == 28)
             transpose = true;
         work.c = renderer->view;
-        FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+        D3DXMatrixMultiply_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                      &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], &work.c);
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5870,15 +5890,15 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             transpose = true;
         work.c = renderer->view;
         work.d = renderer->projection;
-        FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+        D3DXMatrixMultiply_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                      &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], &work.c);
-        FUN_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+        D3DXMatrixMultiply_00ee6de0(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                      &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], &work.d);
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5908,10 +5928,10 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             transpose = true;
 
         if (inverse)
-            FUN_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
+            D3DXMatrixInverse_00ee6dda(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot], 0,
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         if (transpose)
-            FUN_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
+            D3DXMatrixTranspose_00ee6dd4(&reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot],
                          &reinterpret_cast<MapMatrix*>(&DAT_0126f820)[slot]);
         return 9;
     }
@@ -5927,7 +5947,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             Texture* texture = textures->slots->base;
             if (texture && texture->name)
             {
-                name = FUN_00bc5c20(texture->name);
+                name = NiTextureTransform_GetMatrix(texture->name);
                 if (mapping == 38 || mapping == 40)
                     inverse = true;
                 if (mapping == 39 || mapping == 40)
@@ -5949,7 +5969,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             Texture* texture = textures->slots->bump;
             if (texture && texture->name)
             {
-                name = FUN_00bc5c20(texture->name);
+                name = NiTextureTransform_GetMatrix(texture->name);
                 if (mapping == 42 || mapping == 44)
                     inverse = true;
                 if (mapping == 43 || mapping == 44)
@@ -5971,7 +5991,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             Texture* texture = textures->slots->detail;
             if (texture && texture->name)
             {
-                name = FUN_00bc5c20(texture->name);
+                name = NiTextureTransform_GetMatrix(texture->name);
                 if (mapping == 46 || mapping == 48)
                     inverse = true;
                 if (mapping == 47 || mapping == 48)
@@ -5993,7 +6013,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             Texture* texture = textures->slots->gloss;
             if (texture && texture->name)
             {
-                name = FUN_00bc5c20(texture->name);
+                name = NiTextureTransform_GetMatrix(texture->name);
                 if (mapping == 50 || mapping == 52)
                     inverse = true;
                 if (mapping == 51 || mapping == 52)
@@ -6015,7 +6035,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             Texture* texture = textures->slots->glow;
             if (texture && texture->name)
             {
-                name = FUN_00bc5c20(texture->name);
+                name = NiTextureTransform_GetMatrix(texture->name);
                 if (mapping == 54 || mapping == 56)
                     inverse = true;
                 if (mapping == 55 || mapping == 56)
@@ -6037,7 +6057,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             Texture* texture = textures->slots->bump;
             if (texture && texture->name)
             {
-                name = FUN_00bc5c20(texture->name);
+                name = NiTextureTransform_GetMatrix(texture->name);
                 if (mapping == 58 || mapping == 60)
                     inverse = true;
                 if (mapping == 59 || mapping == 60)
@@ -6059,7 +6079,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             Texture* texture = textures->slots->shader[apMapping->m_uiValue2];
             if (texture && texture->name)
             {
-                name = FUN_00bc5c20(texture->name);
+                name = NiTextureTransform_GetMatrix(texture->name);
                 if (mapping == 62 || mapping == 64)
                     inverse = true;
                 if (mapping == 63 || mapping == 64)
@@ -6081,7 +6101,7 @@ unsigned int ConstantMapView::FUN_00e85d10(unsigned int slot, NiShaderConstantMa
             Texture* texture = textures->GetElementAt(apMapping->m_uiValue2);
             if (texture && texture->name)
             {
-                name = FUN_00bc5c20(texture->name);
+                name = NiTextureTransform_GetMatrix(texture->name);
                 if (mapping == 66 || mapping == 68)
                     inverse = true;
                 if (mapping == 67 || mapping == 68)

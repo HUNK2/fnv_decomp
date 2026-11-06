@@ -22,15 +22,15 @@ public:
     void FUN_00419ad0(int);
     void ExtraDataList_CopyList(ExtraShell_screensplatter*);
     signed char GetExtraByteValue();
-    void FUN_0042dec0();
+    void ExtraDataList_RemoveHotkey();
     OpacityFadeState* GetOffsetC();
     void FUN_0041aeb0();
-    void FUN_0041af50();
+    void ExtraDataList_RemoveScript();
     void* FUN_0042e250();
     RefNode* FUN_0041df90();
     void FUN_0041dfd0();
     void FUN_0041de40(int a);
-    RefrShell* FUN_0041e310();
+    RefrShell* ExtraDataList_GetAshPileRef();
 };
 #include "../../include/SkyTextureManager.h"
 #include "../../include/BSFadeNode.h"
@@ -475,14 +475,15 @@ extern SettingF DAT_011cfc2c;
 extern unsigned int DAT_011c7828;
 float __cdecl LinearInterpolate(float, float, float, float, float);
 float __cdecl FUN_0040ebd0(float, float);
-void __cdecl FUN_004de8a0(float);
-void __cdecl FUN_004de8b0(float);
-void __cdecl FUN_004de8c0(float);
-float __cdecl FUN_004de8d0();
+void __cdecl BSShaderBloodSplatter_SetFlareOffsetScale(float);
+void __cdecl BSShaderBloodSplatter_SetFlareMult(float);
+void __cdecl BSShaderBloodSplatter_SetGlobalAlpha(float);
+float __cdecl BSShaderBloodSplatter_GetGlobalAlpha();
 
 // Advances each splatter child's age by elapsed time, detaches expired ones and decrements DAT_011c7828, fades alpha, updates nodes, and ramps splash5 toward 1.
 // @fnv 0x004e0110
-void FUN_004e0110()
+// src: COMMUNITY 0x004e0110
+void ScreenSplatter_Update()
 {
     if (DAT_011c7834)
     {
@@ -514,14 +515,14 @@ void FUN_004e0110()
                 }
             }
         }
-        FUN_004de8a0(*DAT_011ceeb4.FUN_00403e20());
-        FUN_004de8b0(*DAT_011cf6a8.FUN_00403e20());
-        splash5 = FUN_004de8d0();
+        BSShaderBloodSplatter_SetFlareOffsetScale(*DAT_011ceeb4.FUN_00403e20());
+        BSShaderBloodSplatter_SetFlareMult(*DAT_011cf6a8.FUN_00403e20());
+        splash5 = BSShaderBloodSplatter_GetGlobalAlpha();
         if (splash5 < 1.0)
         {
             splash5 += elapsed_2 / 0.4;
             splash5 = FUN_0040ebd0(1.0f, splash5);
-            FUN_004de8c0(splash5);
+            BSShaderBloodSplatter_SetGlobalAlpha(splash5);
         }
     }
 }
@@ -564,7 +565,8 @@ FUN_004e04e0_cls* FUN_004e04e0_cls::FUN_004e04e0(const FUN_004e04e0_quad* pQuad)
 
 // If DAT_011cc200 and DAT_011cc1fc are set, calls FUN_00622c50(1) on each, then clears both globals.
 // @fnv 0x00622bc0
-void FUN_00622bc0()
+// src: COMMUNITY 0x00622bc0
+void DecalCaster_ClearInstance()
 {
     if (DAT_011cc200)
     {

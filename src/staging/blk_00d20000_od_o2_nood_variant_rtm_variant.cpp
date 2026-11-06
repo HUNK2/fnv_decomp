@@ -121,9 +121,9 @@ void FUN_00d39130();
 void ReleaseHandles();
 void RemoveKeyFromTable();
 void InsertIntoSlotArray();
-void FUN_00d39090();
+void nullsub_15();
 void FUN_00d39150();
-void FUN_00d39390();
+void hkCapsuleTriangleAgent3_process();
 void __cdecl hkCapsuleTriangleAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher);
 extern "C"
 {
@@ -290,7 +290,7 @@ void __cdecl FUN_00d2f0d0(MoppCastBody* a, MoppCastBody* b, MoppCastInput* c, in
 
     a->shape->Eval(&ls.relative, c->tolerance, &ls.bounds);
 
-    ls.direction.FUN_004b4ab0(*(const hkRotation*)b->transform, c->direction);
+    ls.direction.hkVector4_setRotatedInverseDir(*(const hkRotation*)b->transform, c->direction);
 
     float tolerance = c->tolerance;
     MoppSimd::LocalM128 scalarHalf = MoppSimd::_mm_load_ss(&DAT_01016248);

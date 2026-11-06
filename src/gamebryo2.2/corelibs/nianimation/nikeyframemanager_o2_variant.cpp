@@ -10,7 +10,8 @@
 extern "C" void* g_011f3fb4;
 
 // @fnv 0x00a4da80
-void* __cdecl FUN_00a4da80()
+// src: COMMUNITY 0x00a4da80
+void* __cdecl NiKeyframeManager_GetRTTI()
 {
     return &g_011f3fb4;
 }
@@ -134,7 +135,7 @@ struct NiStreamR
 
 struct SeqController : NiTimeController
 {
-    void FUN_00a4dac0(char* p1, char* p2, unsigned int ui);
+    void NiKeyframeManager_Add(char* p1, char* p2, unsigned int ui);
     void FUN_00a4db80(NiStreamR& kStream);
 };
 
@@ -160,7 +161,7 @@ void SeqController::FUN_00a4db80(NiStreamR& kStream)
                 kStream.ReadStreamString(pcName2);
                 unsigned int uiValue;
                 ReadBinaryValue(kStream.Istr(), uiValue);
-                FUN_00a4dac0(pcName2, pcName, uiValue);
+                NiKeyframeManager_Add(pcName2, pcName, uiValue);
                 NiFree(pcName2);
                 NiFree(pcName);
             }
@@ -201,7 +202,7 @@ void SeqController::FUN_00a4db80(NiStreamR& kStream)
                 kStream.ReadStreamString(pcName2);
                 unsigned int uiValue;
                 ReadBinaryValue(kStream.Istr(), uiValue);
-                FUN_00a4dac0(pcName2, pcName, uiValue);
+                NiKeyframeManager_Add(pcName2, pcName, uiValue);
                 NiFree(pcName);
                 NiFree(pcName2);
             }
@@ -455,10 +456,11 @@ struct S_00a4dac0
     int unk2c;
     int unk30;
     S_00a4dac0_Map map34;
-    bool __thiscall FUN_00a4dac0(int a, const char* name, int b) throw();
+    bool __thiscall NiKeyframeManager_Add(int a, const char* name, int b) throw();
 };
 // @fnv 0x00a4dac0
-bool __thiscall S_00a4dac0::FUN_00a4dac0(int a, const char* name, int b) throw()
+// src: COMMUNITY 0x00a4dac0
+bool __thiscall S_00a4dac0::NiKeyframeManager_Add(int a, const char* name, int b) throw()
 {
     S_00a4dac0_Obj* obj = 0;
     CreateOrReleaseRef(a, b, &obj, name);

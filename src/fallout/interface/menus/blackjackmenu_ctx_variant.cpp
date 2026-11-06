@@ -46,7 +46,7 @@ struct Proc_S
 {
     void* GetNext();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 struct DAT_011d9050_S
 {
     char _pad[0x28];
@@ -75,7 +75,7 @@ struct FUN_00733f50_shell
 };
 struct FUN_00733f90_shell
 {
-    char __thiscall FUN_00733f90();
+    char __thiscall BlackJackMenu_HasTiles();
 };
 struct FUN_00738fb0_shell
 {
@@ -95,7 +95,7 @@ struct FUN_00733fd0_shell
 {
     char _pad_0[0xf8];
     float m_fMinimum;  // +0xf8
-    void __thiscall FUN_00733fd0(float fMin);
+    void __thiscall NiCamera_SetMinNearPlaneDist(float fMin);
 };
 struct FUN_00734d50_holder
 {
@@ -106,14 +106,14 @@ struct FUN_00734d50_holder
 class AnimIdle;
 struct S148c0
 {
-    void FUN_007148c0(int, int);
+    void RendererClearBufferHook(int, int);
 };
 S148c0* FUN_0043c4b0();
 struct Accum_00733500
 {
-    void FUN_00c4f270(int);
-    void FUN_004a0fd0(AnimIdle*);
-    void FUN_00c4f2d0();
+    void BSCullingProcess_PushCullMode(int);
+    void BSCullingProcess_SetAccumulator(AnimIdle*);
+    void BSCullingProcess_PopCullMode();
 };
 struct Node_00733500
 {
@@ -127,10 +127,10 @@ struct Mgr_00733500
 };
 void __cdecl UpdateCameraFrustum(AnimIdle*, float);
 void* __cdecl FUN_00450b80(int);
-void __cdecl FUN_00b6bee0(AnimIdle*, void*, Accum_00733500*);
+void __cdecl BSShaderUtil_AccumulateScene(AnimIdle*, void*, Accum_00733500*);
 extern const float g_011db5ec_arg1;
 extern NiPointer<AnimIdle> g_011d90bc;
-void __cdecl FUN_00733500();
+void __cdecl BlackJackMenu_DrawScene();
 struct FUN_00739650_shell : FUN_00734d50_holder
 {
     bool FUN_00739650(bool bFlag);
@@ -319,7 +319,7 @@ struct Mgr_cls
 extern Mgr_cls DAT_011d9098;
 extern char str_01070e58[];
 extern char str_01070e44[];
-NiAVObject* __cdecl FUN_004aae30(int value, char const* name);
+NiAVObject* __cdecl BSUtilities_GetObjectByName(int value, char const* name);
 struct FUN_007399f0_cls
 {
     unsigned char _pad0[0xdb4];
@@ -345,7 +345,7 @@ struct Loader90
     NiNode* FUN_00447080(const char*, int, int, int, int, int);
 };
 extern Loader90* DAT_011c3b3c;
-NiNode* __cdecl FUN_004aae30(NiNode*, const char*);
+NiNode* __cdecl BSUtilities_GetObjectByName(NiNode*, const char*);
 void __cdecl FUN_00a6d2d0(NiNode*);
 struct Menu90
 {
@@ -1267,7 +1267,7 @@ struct Menu90
     void UpdateChipPositions();
     void FUN_00739970(int);
     void HideArrowNodes();
-    NiNode* FUN_007c2180();
+    NiNode* BlackJackMenu_SetupCamera();
 };
 struct FUN_00733f50
 {
@@ -1426,9 +1426,9 @@ struct Player129
     int unk9C;
     int unkA0;
     Mode129 mode;
-    Node129* FUN_005a6260();
-    bool FUN_00969b80();
-    int FUN_00969b40();
+    Node129* PlayerCharacter_GetCasinoDataList();
+    bool IsCasinoAntiCheat();
+    int GetAntiCheatTimeRemaining();
 };
 extern FUN_00733f50* DAT_011d9054;
 extern int DAT_0119fe40, DAT_0119fe3c;
@@ -1440,11 +1440,11 @@ extern const char DAT_01070c58[], DAT_01049638[], DAT_01025cc4[], DAT_01070c38[]
     DAT_01012058[], DAT_01070ba8[];
 int FUN_00406d00(char*, unsigned int, const char*, ...);
 void DispatchMessageToSink(const char*, int, const char*, int, float, int);
-void FUN_005b5e40(const char*);
+void Warning_005b5e40(const char*);
 float __stdcall FUN_00a01530(int);
 int FUN_0044a670(const char*);
-Tile* FUN_00733630(SetMgr* casino, int minimum, int maximum, int required);
-NiAVObject* __cdecl FUN_004aae30(NiAVObject*, const char*);
+Tile* BlackJackMenu_Create(SetMgr* casino, int minimum, int maximum, int required);
+NiAVObject* __cdecl BSUtilities_GetObjectByName(NiAVObject*, const char*);
 extern float DAT_0101e704, DAT_01023cd8;
 struct BlackjackButtonMenu
 {
@@ -1532,7 +1532,7 @@ struct GlobalPtr
 };
 struct BlackjackMenuShell
 {
-    void FUN_007396e0(int a1, int a2, CardInfo* a3);
+    void BlackJackMenu_SwapCardTextures(int a1, int a2, CardInfo* a3);
 };
 struct OwnQ
 {
@@ -1603,7 +1603,7 @@ struct InputMenu
     void DealInitialCards();
     bool FUN_00739650(bool);
     void UpdateChipPositions();
-    void FUN_007396e0(int, int, CardInfo*);
+    void BlackJackMenu_SwapCardTextures(int, int, CardInfo*);
     void FUN_007399f0();
 };
 
@@ -1856,7 +1856,7 @@ struct BlackjackUpdate
     bool HasFlag(int);
     void SetFlag(int, bool);
     int FUN_00738ff0(FUN_0096a2d0*);
-    void FUN_007396e0(int, int, BJCard*);
+    void BlackJackMenu_SwapCardTextures(int, int, BJCard*);
     void FUN_007395a0();
     void UpdateButtonState(int);
     void FUN_00739970(bool);
@@ -1899,7 +1899,7 @@ void BlackjackUpdate::FUN_00734db0()
     lastTime = g_timeGlobal.FUN_00825c00();
     DAT_011d90dc = state;
     if (!active)
-        ((InterfaceUpdate*)FUN_004b7210())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+        ((InterfaceUpdate*)InterfaceManager_GetSingleton())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
     switch (state)
     {
     case 13:
@@ -1907,7 +1907,7 @@ void BlackjackUpdate::FUN_00734db0()
             break;
         if (FUN_0059bb30() != 2)
         {
-            ((InterfaceUpdate*)FUN_004b7210())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
+            ((InterfaceUpdate*)InterfaceManager_GetSingleton())->FUN_0045cd60()->FUN_00a012d0(0xfa9, 255.0f, true);
             FUN_00726070()->FUN_00700320(0x1772, 1);
             FUN_00a1d910();
             int difference =
@@ -1930,10 +1930,10 @@ void BlackjackUpdate::FUN_00734db0()
                 TESContainer inventory;
                 inventory.FUN_004818e0(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0(), difference, 0);
                 if (DAT_011d9054->amount < ((CasinoUpdate*)DAT_011d9058)->GetFieldAt210())
-                    inventory.FUN_004821a0(DAT_011dea3c, false);
+                    inventory.AddContainerToReference(DAT_011dea3c, false);
                 else
                 {
-                    inventory.FUN_004821a0(DAT_011dea3c, true);
+                    inventory.AddContainerToReference(DAT_011dea3c, true);
                     BlackjackStringT<char> msg2;
                     FUN_00406f60(&msg2, DAT_01070d8c, difference,
                                  FUN_00482720(((CasinoUpdate*)DAT_011d9058)->FUN_007316d0()),
@@ -1966,16 +1966,16 @@ void BlackjackUpdate::FUN_00734db0()
             {
                 NiUpdateData reset(0.0f, true, false);
                 static_cast<NiNode*>(*reinterpret_cast<NiPointer<NiNode>*>(&g_011d9098))->FUN_00a59c60(reset);
-                (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d74, 0x121).Play(false);
+                (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d74, 0x121).Play(false);
                 sounded = true;
                 FUN_0096a2d0* p = player;
                 FUN_0096a2d0* dealerNode = dealer;
-                FUN_007396e0(0, 1, *p->FUN_006815c0());
+                BlackJackMenu_SwapCardTextures(0, 1, *p->FUN_006815c0());
                 p = p->FUN_00726070();
-                FUN_007396e0(0, 2, *p->FUN_006815c0());
-                FUN_007396e0(2, 1, *dealerNode->FUN_006815c0());
+                BlackJackMenu_SwapCardTextures(0, 2, *p->FUN_006815c0());
+                BlackJackMenu_SwapCardTextures(2, 1, *dealerNode->FUN_006815c0());
                 dealerNode = dealerNode->FUN_00726070();
-                FUN_007396e0(2, 2, *dealerNode->FUN_006815c0());
+                BlackJackMenu_SwapCardTextures(2, 2, *dealerNode->FUN_006815c0());
                 playerAnim->FUN_0047aab0(playerSeq[1], 0, 0, 1.0f, 0.0f, 0);
                 dealerAnim->FUN_0047aab0(dealerSeq[1], 0, 0, 1.0f, 0.0f, 0);
                 endTime = playerSeq[1]->FUN_00508100();
@@ -1990,7 +1990,7 @@ void BlackjackUpdate::FUN_00734db0()
                 if (sounded && DAT_011d90e0 < playerSeq[1]->FUN_00508100())
                 {
                     sounded = false;
-                    (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d74, 0x121).Play(false);
+                    (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d74, 0x121).Play(false);
                 }
                 NiUpdateData du(DAT_011d90e0 - half, true, false);
                 static_cast<NiNode*>(*reinterpret_cast<NiPointer<NiNode>*>(&g_011d9098))->FUN_0043b4a0(3)->FUN_00a59c60(du);
@@ -2000,7 +2000,7 @@ void BlackjackUpdate::FUN_00734db0()
                 if (!sounded && DAT_011d90e0 < playerSeq[1]->FUN_00508100() + half)
                 {
                     sounded = true;
-                    (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d74, 0x121).Play(false);
+                    (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d74, 0x121).Play(false);
                 }
                 NiUpdateData pu2(DAT_011d90e0 - playerSeq[previous]->FUN_00508100(), true, false);
                 static_cast<NiNode*>(*reinterpret_cast<NiPointer<NiNode>*>(&g_011d9098))->FUN_0043b4a0(1)->FUN_00a59c60(pu2);
@@ -2010,7 +2010,7 @@ void BlackjackUpdate::FUN_00734db0()
                 if (sounded)
                 {
                     sounded = false;
-                    (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d5c, 0x121).Play(false);
+                    (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d5c, 0x121).Play(false);
                 }
                 NiUpdateData du2(DAT_011d90e0 - (playerSeq[1]->FUN_00508100() + half), true, false);
                 static_cast<NiNode*>(*reinterpret_cast<NiPointer<NiNode>*>(&g_011d9098))->FUN_0043b4a0(3)->FUN_00a59c60(du2);
@@ -2099,7 +2099,7 @@ void BlackjackUpdate::FUN_00734db0()
         static_cast<NiNode*>(*reinterpret_cast<NiPointer<NiNode>*>(&g_011d9098))->FUN_0043b4a0(0)->FUN_00a59c60(scene);
         if (DAT_011d90e0 == 0.0)
         {
-            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d74, 0x121).Play(false);
+            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d74, 0x121).Play(false);
             FUN_0096a2d0* curr = 0;
             BJCard* last = 0;
             int drawn = 0;
@@ -2133,7 +2133,7 @@ void BlackjackUpdate::FUN_00734db0()
                 curr = curr->FUN_00726070();
                 drawn++;
             }
-            FUN_007396e0(handId, drawn, last);
+            BlackJackMenu_SwapCardTextures(handId, drawn, last);
         }
         NiUpdateData hu(DAT_011d90e0, true, false);
         if (onSplit)
@@ -2209,7 +2209,7 @@ void BlackjackUpdate::FUN_00734db0()
                 message->FUN_00700320(0xfa3, 0);
             if (DAT_011d90e0 == 0.0 && !sounded)
             {
-                (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d40, 0x121).Play(false);
+                (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d40, 0x121).Play(false);
                 NiUpdateData reset(0.0f, true, false);
                 static_cast<NiNode*>(*reinterpret_cast<NiPointer<NiNode>*>(&g_011d9098))->FUN_00a59c60(reset);
                 tableAnim->FUN_0047aab0(tableStart, 0, 0, 1.0f, 0.0f, 0);
@@ -2238,7 +2238,7 @@ void BlackjackUpdate::FUN_00734db0()
                 tableAnim->FUN_0047b220(tableStart, 0.0f);
                 tableAnim->FUN_0047aab0(tableEnd, 0, 0, 1.0f, 0.0f, 0);
                 dealerAnim->FUN_0047aab0(dealerSeq[0], 0, 0, 1.0f, 0.0f, 0);
-                (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d20, 0x121).Play(false);
+                (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d20, 0x121).Play(false);
                 sounded = true;
                 soundTime = DAT_011d90e0;
                 NiUpdateData tableUpdate2(0.0f, true, false);
@@ -2298,7 +2298,7 @@ void BlackjackUpdate::FUN_00734db0()
             SetFlag(0x400, true);
             SetFlag(0x800, true);
             HideArrowNodes();
-            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d5c, 0x121).Play(false);
+            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d5c, 0x121).Play(false);
             dealerAnim->FUN_0047aab0(revealSeq, 0, 0, 1.0f, 0.0f, 0);
         }
         if (DAT_011d90e0 < revealSeq->FUN_00508100())
@@ -2328,7 +2328,7 @@ void BlackjackUpdate::FUN_00734db0()
         static_cast<NiNode*>(*reinterpret_cast<NiPointer<NiNode>*>(&g_011d9098))->FUN_0043b4a0(0)->FUN_00a59c60(su);
         if (DAT_011d90e0 == 0.0)
         {
-            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070d5c, 0x121).Play(false);
+            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070d5c, 0x121).Play(false);
             HideArrowNodes();
             FUN_0096a2d0* curr = dealer;
             BJCard* last = 0;
@@ -2340,7 +2340,7 @@ void BlackjackUpdate::FUN_00734db0()
                 drawn++;
             }
             if (last)
-                FUN_007396e0(2, drawn, last);
+                BlackJackMenu_SwapCardTextures(2, drawn, last);
             dealerAnim->FUN_0047aab0(dealerSeq[counts[2]], 0, 0, 1.0f, 0.0f, 0);
         }
         if (DAT_011d90e0 < dealerSeq[counts[2]]->FUN_00508100())
@@ -2495,7 +2495,7 @@ void BlackjackUpdate::FUN_00734db0()
             else
                 FUN_00406d00(buf, 260, DAT_01070d0c, DAT_011d2ff4.FUN_00403df0(), payout, DAT_011d5050.FUN_00403df0(),
                              DAT_011d3114.FUN_00403df0());
-            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070cf8, 0x121).Play(false);
+            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070cf8, 0x121).Play(false);
             ((BlackjackUpdate*)DAT_011d9050)->message->SetTraitFloat(0xfc4, 1.0f);
             ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00a01350(0xfc4, buf, true);
             ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00700320(0xfa3, 1);
@@ -2508,7 +2508,7 @@ void BlackjackUpdate::FUN_00734db0()
             else
                 FUN_00406d00(buf, 260, DAT_01070d0c, DAT_011d3474.FUN_00403df0(), -payout, DAT_011d5050.FUN_00403df0(),
                              DAT_011d3114.FUN_00403df0());
-            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01070ce4, 0x121).Play(false);
+            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01070ce4, 0x121).Play(false);
             ((BlackjackUpdate*)DAT_011d9050)->message->SetTraitFloat(0xfc4, 1.0f);
             ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00a01350(0xfc4, buf, true);
             ((BlackjackUpdate*)DAT_011d9050)->message->FUN_00700320(0xfa3, 1);
@@ -2560,7 +2560,7 @@ void BlackjackUpdate::FUN_00734db0()
             char warning[260];
             FUN_00406d00(warning, 260, DAT_011d2424.FUN_00403df0());
             DispatchMessageToSink(warning, 0, DAT_01049638, 0, DAT_010162c0, 0);
-            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::FUN_00ad7550))(DAT_01025cc4, 0x121).Play(false);
+            (FUN_00453a70()->*reinterpret_cast<EditorSoundHandleFunction>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(DAT_01025cc4, 0x121).Play(false);
             FUN_00731d30();
         }
         break;

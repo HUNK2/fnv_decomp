@@ -23,7 +23,8 @@ BookMenu::BookMenu() : Menu()
 }
 
 // @fnv 0x0073acf0
-int BookMenu::FUN_0073acf0()
+// src: COMMUNITY 0x0073acf0
+int BookMenu::GetClass_0073acf0()
 {
     return 0x402;
 }
@@ -86,12 +87,13 @@ struct blob12
 };
 struct FUN_0073b020_shell : public InterfaceManager
 {
-    int FUN_0073b020();
+    int InterfaceManager_GetCursorY();
 };
 
 float __cdecl FUN_00715da0();
 // @fnv 0x0073b020
-int FUN_0073b020_shell::FUN_0073b020()
+// src: COMMUNITY 0x0073b020
+int FUN_0073b020_shell::InterfaceManager_GetCursorY()
 {
     return (int)(FUN_00715da0() - (FUN_00715da0() / 2.0 + *(float*)((char*)this + 0x34)));
 }
@@ -123,7 +125,7 @@ void BookMenu::SetTileByID(int aiID, Tile* apTile)
 }
 
 namespace fnv_0073afd0 {
-InterfaceManager* __cdecl FUN_004b7210();
+InterfaceManager* __cdecl InterfaceManager_GetSingleton();
 }  // namespace fnv_0073afd0
 
 // For tile ID 12, stores the difference between the current tile's value and the interface manager's value.
@@ -133,8 +135,8 @@ void BookMenu::FUN_0073afd0(int aiID, Tile* apTarget)
     InterfaceManager* pim;
     if (aiID == 12)
     {
-        pim = fnv_0073afd0::FUN_004b7210();
-        reinterpret_cast<float&>(unk38) = (double)m_pObject->GetScreenY() - pim->FUN_0073b020();
+        pim = fnv_0073afd0::InterfaceManager_GetSingleton();
+        reinterpret_cast<float&>(unk38) = (double)m_pObject->GetScreenY() - pim->InterfaceManager_GetCursorY();
     }
 }
 
@@ -209,7 +211,7 @@ void BookMenu::FUN_0073b050(int aiID, Tile* apTarget)
     if (aiID == 0xc)
     {
         pim = _FUN_004b7210();
-        imarker = (static_cast<double>(pim->FUN_0073b020()) + reinterpret_cast<float&>(unk38) - m_pHighlightedTile->GetScreenY()) /
+        imarker = (static_cast<double>(pim->InterfaceManager_GetCursorY()) + reinterpret_cast<float&>(unk38) - m_pHighlightedTile->GetScreenY()) /
                   m_pObject->GetFloat(0x100c);
 
         m_pHighlightedTile->Set(0x1009, static_cast<int>(0xc4653601));
@@ -569,7 +571,7 @@ void BookMenu::HandleScrollInput(int a1, int a2)
 extern const char DAT_01070fa8[];
 extern const char DAT_01070f84[];
 
-extern void __cdecl FUN_00703c00(const char*, ...);
+extern void __cdecl Interface_PrintLine(const char*, ...);
 // Opens the book file, logs an error and returns if it fails, otherwise reads its text and passes it to the book tile with two 0x100a settings.
 // @fnv 0x0073b500
 void BookMenu::LoadBookFile()
@@ -581,7 +583,7 @@ void BookMenu::LoadBookFile()
     file.FUN_00aff300(false, false);
     if (!file.FUN_008905f0())
     {
-        FUN_00703c00(DAT_01070f84, path2.String());
+        Interface_PrintLine(DAT_01070f84, path2.String());
         return;
     }
     file.FUN_00aff7c0(&text6, -1);

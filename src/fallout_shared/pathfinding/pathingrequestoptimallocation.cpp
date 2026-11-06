@@ -46,5 +46,5 @@ PathingRequestOptimalLocation::PathingRequestOptimalLocation(PathingRequestOptim
     fPointHeight = pSource->GetFloatAtOffsetB0();
     m_fUnknownValue2 = pSource->GetFieldB4Float();
     m_fUnknownValue3 = pSource->GetFieldB8Float();
-    m_fUnknownValue4 = pSource->FUN_0099e040();
+    m_fUnknownValue4 = pSource->BSSceneGraph_GetCameraFOV();
 }

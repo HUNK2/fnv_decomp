@@ -75,7 +75,8 @@
 #undef perpendicular
 
 // @fnv 0x006b23d0
-bool PathSmootherPOVSearch::FUN_006b23d0(const NavMeshEdgePoint& edge, Sphere& sphere, CircularArc arc)
+// src: COMMUNITY 0x006b23d0
+bool PathSmootherPOVSearch::DoubleCheckArcAgainstNavMesh(const NavMeshEdgePoint& edge, Sphere& sphere, CircularArc arc)
 {
     float firstRadius1 = arc.Direction == ANGLE_DIRECTION_AD_CCW ? sphere.Radius - pRequest->GetFloatAtOffset68() * 0.9f
                                                  : sphere.Radius + pRequest->GetFloatAtOffset68() * 0.9f;

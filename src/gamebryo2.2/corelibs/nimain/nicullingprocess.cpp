@@ -10,7 +10,8 @@
 extern char const* const g_01201f7c_arg1;
 
 // @fnv 0x00a693f0
-char const* const* const __cdecl FUN_00a693f0()
+// src: COMMUNITY 0x00a693f0
+char const* const* const __cdecl NiCullingProcess_GetRTTI()
 {
     return &g_01201f7c_arg1;
 }
@@ -50,10 +51,11 @@ struct WorkerS694a0
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     NiPlane planes[6];
     unsigned int flags;
-    void __thiscall FUN_00a694e0(NiAVObject* object);
+    void __thiscall NiCullingProcess_DoCulling(NiAVObject* object);
 };
 // @fnv 0x00a694e0
-void WorkerS694a0::FUN_00a694e0(NiAVObject* object)
+// src: COMMUNITY 0x00a694e0
+void WorkerS694a0::NiCullingProcess_DoCulling(NiAVObject* object)
 {
     NiBound* bound = reinterpret_cast<NiBound*>(object->m_kWorldBound);
     if (!bound)
@@ -245,7 +247,7 @@ void WorkerA69640::ProcessObject(NiAVObject* object)
     }
     else if (!static_cast<bool>((object->m_uFlags >> 11) & 1) && this->flags != 0)
     {
-        this->FUN_00a694e0(object);
+        this->NiCullingProcess_DoCulling(object);
     }
     else
     {

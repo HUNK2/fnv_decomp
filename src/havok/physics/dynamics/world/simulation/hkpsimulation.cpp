@@ -220,7 +220,7 @@ void hkpSimulationV::ResetSimulationState(hkpEntity** entities, int numEntities,
 
     hkStepInfo stepInfo;
     float startTime = world->FUN_00c91020();
-    float endTime = world->FUN_00c91030();
+    float endTime = world->hkpWorld_getCurrentPsiTime();
     stepInfo.m_uiStartTime = startTime;
     stepInfo.m_fEndTime = endTime;
     stepInfo.m_fTimeStep = endTime - startTime;
@@ -1785,8 +1785,8 @@ struct AgentNnEntry {
 struct Quaternion {
     LocalM128 value;
     void __thiscall FUN_00cb2450(const LocalM128*, float);
-    void __thiscall FUN_00c66320(const Quaternion*, const Quaternion*);
-    void __thiscall FUN_00c74b70(const Quaternion*, const Quaternion*);
+    void __thiscall setMul(const Quaternion*, const Quaternion*);
+    void __thiscall hkQuaternion_setInverseMul(const Quaternion*, const Quaternion*);
 };
 
 struct MotionHeader {
@@ -2014,7 +2014,7 @@ void __thiscall SimulationContext::FUN_00cf9480(Body** bodies, int count, Collis
                         axis=_mm_mul_ps(_mm_shuffle_ps(inverseScalar,inverseScalar,0),axis);
                         Quaternion turn, rotated;
                         turn.FUN_00cb2450(&axis,savedRotation);
-                        rotated.FUN_00c66320(&turn,&body->motion.rotation1);
+                        rotated.setMul(&turn,&body->motion.rotation1);
                         transform.FUN_00cb2d90(&rotated);
                         updateTranslation(body);
                         FUN_00cfdbe0((int)pair,(int)input);
@@ -2029,12 +2029,12 @@ void __thiscall SimulationContext::FUN_00cf9480(Body** bodies, int count, Collis
                         perpendicular=_mm_mul_ps(_mm_shuffle_ps(refined,refined,0),perpendicular);
                         Quaternion sideways, oriented;
                         sideways.FUN_00cb2450(&perpendicular,savedRotation);
-                        oriented.FUN_00c66320(&sideways,(Quaternion*)&angle);
+                        oriented.setMul(&sideways,(Quaternion*)&angle);
                         transform.FUN_00cb2d90(&oriented);
                         updateTranslation(body);
                         FUN_00cfdbe0((int)pair,(int)input);
                         callback(this,pair,input,&collisionOutput);
-                        oriented.FUN_00c74b70(&sideways,(Quaternion*)&angle);
+                        oriented.hkQuaternion_setInverseMul(&sideways,(Quaternion*)&angle);
                         transform.FUN_00cb2d90(&oriented);
                         updateTranslation(body);
                         FUN_00cfdbe0((int)pair,(int)input);

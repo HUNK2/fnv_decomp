@@ -67,14 +67,14 @@ void FUN_007e8d60()
 }
 
 
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 void __cdecl FUN_007e8d60();
 // @fnv 0x007e8e80
 bool TutorialMenu::HandleGamepadButton(int aiButton, float afValue)
 {
     if (InterfaceH_tutorialmenu::GetSelectedTargetIndex(GetClass()) && aiButton == 10)
     {
-        FUN_004b7210();
+        InterfaceManager_GetSingleton();
         InterfaceManager::SendGamepadButton(10);
         FUN_007e8d60();
         return true;
@@ -224,8 +224,8 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
     if (p)
         delete p;
 
-    Tile* pTile = ((IMF*)FUN_004b7210())->FUN_00586150()->ReadFile(str_01077ba4);
-    DAT_011db088 = pTile ? pTile->FUN_00a03c90() : 0;
+    Tile* pTile = ((IMF*)InterfaceManager_GetSingleton())->FUN_00586150()->ReadFile(str_01077ba4);
+    DAT_011db088 = pTile ? pTile->Tile_GetMenu() : 0;
 
     if (DAT_011db088 != 0 && ((TutorialMenu*)DAT_011db088)->GetClass() == FUN_007cc6d0())
     {
@@ -294,7 +294,7 @@ bool InitTutorialMenu(TESForm* apMsg, bool aFlag)
             ((TutorialMenu*)DAT_011db088)->ApplyRecordToTiles(reinterpret_cast<BGSMessage*>(apMsg));
             ((TutorialMenu*)DAT_011db088)->FUN_007e9010();
             ((TForm2*)DAT_011db088)->IsInCombat();
-            ((IMF*)FUN_004b7210())->FUN_0045cd60()->Set(0xfa9, DAT_01023cd8, 1);
+            ((IMF*)InterfaceManager_GetSingleton())->FUN_0045cd60()->Set(0xfa9, DAT_01023cd8, 1);
             ((TutorialMenu*)DAT_011db088)->FUN_00a1dc20(0);
             return true;
         }

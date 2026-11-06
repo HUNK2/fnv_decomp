@@ -20,7 +20,7 @@ struct FUN_00b3ef80_shell
 {
     int m_iValueAt00;
     void* m_pObjectAt04;
-    float FUN_00b3ed20();
+    float CTreeFileAccess_ParseFloat();
     CVec3 GetVector3();
 };
 struct FUN_00b3ed20_range
@@ -36,7 +36,7 @@ struct FUN_00b3ed20_cls
 {
     unsigned int m_nCursor;
     FUN_00b3ed20_range m_range;
-    float FUN_00b3ed20();
+    float CTreeFileAccess_ParseFloat();
 };
 // Stand-in for the element array the object points at.
 struct S_00b3ed80_Array
@@ -145,10 +145,11 @@ struct SpeedTreeFileInput
     unsigned int pos;
     Buf_00b3ee40 buf;
     int GetNextElement();
-    Str_00b3ee40 FUN_00b3ee40();
+    Str_00b3ee40 CTreeFileAccess_ParseString();
 };
 // @fnv 0x00b3ee40
-Str_00b3ee40 SpeedTreeFileInput::FUN_00b3ee40()
+// src: COMMUNITY 0x00b3ee40
+Str_00b3ee40 SpeedTreeFileInput::CTreeFileAccess_ParseString()
 {
     Str_00b3ee40 s;
     int count4 = GetNextElement();

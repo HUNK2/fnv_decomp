@@ -129,13 +129,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -361,10 +361,11 @@ struct FUN_00e7d490_Class
     void* _18;
     void* _1c;
     void* _20;
-    void __thiscall FUN_00e7d490();
+    void __thiscall NiDX9TextureBufferData_ReleaseReferences();
 };
 // @fnv 0x00e7d490
-void __thiscall FUN_00e7d490_Class::FUN_00e7d490()
+// src: COMMUNITY 0x00e7d490
+void __thiscall FUN_00e7d490_Class::NiDX9TextureBufferData_ReleaseReferences()
 {
     if (_14)
     {
@@ -471,7 +472,8 @@ D3DRenderStateGroup* DAT_0126f718;
 NiD3DRenderStateEntry* DAT_0126f71c;
 // Allocates two 0x18-byte structures, zeroes their four pointers, sets their a/b fields to 8 and 0x10, and stores them in DAT_0126f718 and DAT_0126f71c.
 // @fnv 0x00e7f2b0
-void __cdecl FUN_00e7f2b0()
+// src: COMMUNITY 0x00e7f2b0
+void __cdecl NiD3DRenderStateGroup_InitializePools()
 {
     D3DRenderStateGroup* p =
         static_cast<D3DRenderStateGroup*>(reinterpret_cast<P03MM*>(&g_memoryManager)->Allocate(0x18));
@@ -588,12 +590,13 @@ struct NiDX9SourceCubeMapData_S
     bool m_b6c;
     bool m_bHasTexture;
     unsigned int m_uiSize;
-    bool FUN_00e68530(DX9BaseTexture_00e68530* pkD3DTexture);
+    bool NiDX9SourceTextureData_InitializeFromD3DTexture(DX9BaseTexture_00e68530* pkD3DTexture);
 };
 
 // Reads each mip level of the given D3D texture, cube or volume texture, records dimensions and pixel format, and accumulates m_uiSize.
 // @fnv 0x00e68530
-bool NiDX9SourceCubeMapData_S::FUN_00e68530(DX9BaseTexture_00e68530* pkD3DTexture)
+// src: COMMUNITY 0x00e68530
+bool NiDX9SourceCubeMapData_S::NiDX9SourceTextureData_InitializeFromD3DTexture(DX9BaseTexture_00e68530* pkD3DTexture)
 {
     m_uiTextureFormat = pkD3DTexture->GetLevelCount();
     m_bHasTexture = (m_uiTextureFormat != 1);
@@ -690,12 +693,13 @@ struct FUN_00e7d560_Class
     void* _50;
     void* _54;
     void* _58;
-    void __thiscall FUN_00e7d560();
+    void __thiscall NiDX9ImplicitBufferData_ReleaseReferences();
 };
 
 // Releases the DX9BaseTexture objects at _14 and _58, deallocates the pointer at _0c, and nulls all three.
 // @fnv 0x00e7d560
-void __thiscall FUN_00e7d560_Class::FUN_00e7d560()
+// src: COMMUNITY 0x00e7d560
+void __thiscall FUN_00e7d560_Class::NiDX9ImplicitBufferData_ReleaseReferences()
 {
     if (_14)
     {
@@ -3420,7 +3424,7 @@ struct Entry
     unsigned int subIdentifier;
     unsigned int properties;
     unsigned int group;
-    unsigned int FUN_00e7af60(unsigned int accumulated);
+    unsigned int NiDX9AdapterDesc_ModeDesc_GetClosestRefreshRate(unsigned int accumulated);
 };
 struct EntryArray
 {
@@ -3453,7 +3457,7 @@ Entry* Owner::NiDX9AdapterDesc_ValidateFullscreenMode(unsigned int group, unsign
         if (item && item->group == group && item->identifier == identifier && item->subIdentifier == subIdentifier)
         {
             match = item;
-            *puiAccumulated = item->FUN_00e7af60(*puiAccumulated);
+            *puiAccumulated = item->NiDX9AdapterDesc_ModeDesc_GetClosestRefreshRate(*puiAccumulated);
         }
     }
     return match;
@@ -4043,7 +4047,8 @@ struct S_00e7c610_Object
 };
 
 // @fnv 0x00e7c610
-void __stdcall FUN_00e7c610(float* afMatrix, S_00e7c610_Object* pObject)
+// src: COMMUNITY 0x00e7c610
+void __stdcall NiD3DDefaultShader_PackTextureTransform(float* afMatrix, S_00e7c610_Object* pObject)
 {
     pObject->unk5e = 1;
 
@@ -4099,11 +4104,12 @@ class FUN_00e7cc90_cls
     virtual void v24();
     virtual void v25();
     virtual void v26();
-    bool FUN_00e7cc90();
+    bool NiDX92DBufferData_Shutdown();
 };
 
 // @fnv 0x00e7cc90
-bool FUN_00e7cc90_cls::FUN_00e7cc90()
+// src: COMMUNITY 0x00e7cc90
+bool FUN_00e7cc90_cls::NiDX92DBufferData_Shutdown()
 {
     v26();
     return true;
@@ -4232,13 +4238,14 @@ struct FnvBufferData
     int unk0c;
     int unk10;
     int m_nId;
-    unsigned char FUN_00e7cdb0(FnvRendererData* pRenderer);
+    unsigned char NiDX9DepthStencilBufferData_SetDepthTarget(FnvRendererData* pRenderer);
 };
 
 extern int g_nLastId;
 
 // @fnv 0x00e7cdb0
-unsigned char FnvBufferData::FUN_00e7cdb0(FnvRendererData* pRenderer)
+// src: COMMUNITY 0x00e7cdb0
+unsigned char FnvBufferData::NiDX9DepthStencilBufferData_SetDepthTarget(FnvRendererData* pRenderer)
 {
     if (m_nId == 0)
         return 0;
@@ -4289,7 +4296,7 @@ class FUN_00e7ce30_cls
     void* m_0c;
     int m_10;
     void* m_14;
-    unsigned char FUN_00e7ce30(void* a1);
+    unsigned char NiDX9ImplicitDepthStencilBufferData_Recreate(void* a1);
 };
 
 struct FNV_Frame
@@ -4305,7 +4312,8 @@ struct FNV_Frame
 };
 
 // @fnv 0x00e7ce30
-unsigned char FUN_00e7ce30_cls::FUN_00e7ce30(void* a1)
+// src: COMMUNITY 0x00e7ce30
+unsigned char FUN_00e7ce30_cls::NiDX9ImplicitDepthStencilBufferData_Recreate(void* a1)
 {
     FNV_Frame frame;
     void** slot = &m_14;
@@ -4346,12 +4354,13 @@ class FUN_00e7d180_cls
     int unk10;
     Handler* m_14;
 
-    void FUN_00e7d180();
+    void NiDX92DBufferData_ReleaseReferences();
 };
 
 // Calls v02 on m_14 and clears it, then deallocates m_0c via DAT_011f6238 and clears it.
 // @fnv 0x00e7d180
-void FUN_00e7d180_cls::FUN_00e7d180()
+// src: COMMUNITY 0x00e7d180
+void FUN_00e7d180_cls::NiDX92DBufferData_ReleaseReferences()
 {
     if (m_14 != 0)
     {
@@ -4365,7 +4374,8 @@ void FUN_00e7d180_cls::FUN_00e7d180()
 struct CpuOpaque;
 extern CpuOpaque DAT_0126f5a4;
 // @fnv 0x00e7d220
-CpuOpaque* __cdecl FUN_00e7d220()
+// src: COMMUNITY 0x00e7d220
+CpuOpaque* __cdecl NiDX9TextureBufferData_GetRTTI()
 {
     return &DAT_0126f5a4;
 }
@@ -4388,7 +4398,8 @@ inline Ni2DBuffer::RendererData::RendererData() throw() : m_pkBuffer(0), m_pkPix
 
 // Creates a NiDX9TextureBufferData wrapping the texture's level-0 surface, sets sample count from eMSAAPref, and attaches it to pkBuffer.
 // @fnv 0x00e7d250
-NiDX9TextureBufferData* __cdecl NiDX9TextureBufferData::FUN_00e7d250(IDirect3DTexture9* pkD3DTexture,
+// src: COMMUNITY 0x00e7d250
+NiDX9TextureBufferData* __cdecl NiDX9TextureBufferData::Create_00e7d250(IDirect3DTexture9* pkD3DTexture,
                                                                      Ni2DBuffer*& pkBuffer, int eMSAAPref, int iUnk18)
 {
     NiDX9TextureBufferData* pkThis = new NiDX9TextureBufferData;
@@ -4524,7 +4535,8 @@ void FUN_00e7d4e0_cls::FUN_00e7d4e0()
 extern int DAT_0126f5e0;
 
 // @fnv 0x00e7d550
-int* __cdecl FUN_00e7d550()
+// src: COMMUNITY 0x00e7d550
+int* __cdecl NiDX9ImplicitBufferData_GetRTTI()
 {
     return &DAT_0126f5e0;
 }
@@ -4588,7 +4600,8 @@ FUN_00e7d620_cls* FUN_00e7d620_cls::FUN_00e7d620(unsigned char acFlags)
 extern int DAT_0126f5b4;
 
 // @fnv 0x00e7d680
-void* __cdecl FUN_00e7d680(void)
+// src: COMMUNITY 0x00e7d680
+void* __cdecl NiDX9ImplicitDepthStencilBufferData_GetRTTI(void)
 {
     return &DAT_0126f5b4;
 }
@@ -4625,7 +4638,7 @@ struct Block
 };
 struct ArrayAllocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int bytes);
+    void* __thiscall Game_DoHeapAlloc(unsigned int bytes);
 };
 extern ArrayAllocator DAT_011f6238;
 struct BlockAllocatedStringArray
@@ -4641,7 +4654,7 @@ struct BlockAllocatedStringArray
 // @fnv 0x00e7eb50
 void BlockAllocatedStringArray::AppendBlock(unsigned int count)
 {
-    Block* pBlock = (Block*)DAT_011f6238.FUN_00aa3e40(sizeof(Block));
+    Block* pBlock = (Block*)DAT_011f6238.Game_DoHeapAlloc(sizeof(Block));
     Block* block;
     if (pBlock)
     {
@@ -4941,7 +4954,8 @@ void __cdecl DestroyGlobalQueues()
 extern int DAT_0126f728;
 
 // @fnv 0x00e7f7c0
-int __cdecl FUN_00e7f7c0()
+// src: COMMUNITY 0x00e7f7c0
+int __cdecl NiD3DPass_GetD3DRenderState()
 {
     return DAT_0126f728;
 }
@@ -5122,7 +5136,7 @@ struct E74Accumulator
     char pad634[0x278];
     E74GroupMgr* m_pkGroupMgr;
     void* m_pkActorGroup;
-    bool FUN_00e72c20(E74Geometry* pkGeom, E74RefShader* pkShader);
+    bool NiDX9Renderer_IsHardwareSkinned(E74Geometry* pkGeom, E74RefShader* pkShader);
     void AddTail(E74Node* pkNode)
     {
         if (m_pkTail)
@@ -5152,7 +5166,7 @@ void FUN_00e74a40_shell::AddGeometryToBatch(E74Geometry* pkGeom)
     }
     if (!pkData->GetActiveCount())
         return;
-    bool bHasAnimation = FUN_00e72c20(pkGeom, m_pGeometryShader);
+    bool bHasAnimation = NiDX9Renderer_IsHardwareSkinned(pkGeom, m_pGeometryShader);
     m_pkGroupMgr->ProcessCollector(m_pkActorGroup, pkData, pkSkin, bHasAnimation, 0, 0);
     if (bHasAnimation)
     {
@@ -5895,7 +5909,7 @@ struct FUN_00e74c00_cls
     int unkB04;
     void** m_ppCallbackData;
 
-    bool FUN_00e736b0();
+    bool RendererRecreateHook();
     bool HandleDeviceLost();
 };
 
@@ -5916,7 +5930,7 @@ bool FUN_00e74c00_cls::HandleDeviceLost()
     }
     if (code == (int)0x88760869)
     {
-        return FUN_00e736b0();
+        return RendererRecreateHook();
     }
     if (code == (int)0x88760868)
     {
@@ -6701,10 +6715,11 @@ struct FnvCpu_FUN_00e687f0_CpuObject
     unsigned int unk60;
     unsigned int unk64;
     int value;
-    int FUN_00e687f0();
+    int NiDX9TextureData_GetLevels();
 };
 // @fnv 0x00e687f0
-int FnvCpu_FUN_00e687f0_CpuObject::FUN_00e687f0()
+// src: COMMUNITY 0x00e687f0
+int FnvCpu_FUN_00e687f0_CpuObject::NiDX9TextureData_GetLevels()
 {
     return value;
 }
@@ -6737,10 +6752,11 @@ struct FnvCpu_FUN_00e68800_CpuObject
     unsigned int unk5c;
     unsigned int unk60;
     int value;
-    int FUN_00e68800();
+    int NiDX9TextureData_GetD3DTexture();
 };
 // @fnv 0x00e68800
-int FnvCpu_FUN_00e68800_CpuObject::FUN_00e68800()
+// src: COMMUNITY 0x00e68800
+int FnvCpu_FUN_00e68800_CpuObject::NiDX9TextureData_GetD3DTexture()
 {
     return value;
 }
@@ -6761,11 +6777,12 @@ struct FUN_00e76620_cls
     int unk2c;
     int unk30;
     unsigned char unk34;
-    unsigned char __thiscall FUN_00e76620();
+    unsigned char __thiscall NiDX9ShaderDeclaration_GetSoftwareVertexProcessing();
 };
 
 // @fnv 0x00e76620
-unsigned char FUN_00e76620_cls::FUN_00e76620()
+// src: COMMUNITY 0x00e76620
+unsigned char FUN_00e76620_cls::NiDX9ShaderDeclaration_GetSoftwareVertexProcessing()
 {
     return unk34;
 }
@@ -6998,7 +7015,8 @@ float E65020Swap(E65020Entry* pkEntries, int iIndex, float fValue)
 }
 
 // @fnv 0x00e67560
-void __cdecl FUN_00e67560()
+// src: COMMUNITY 0x00e67560
+void __cdecl nullsub_338()
 {}
 
 struct FUN_00e68820_cls
@@ -7033,11 +7051,12 @@ struct FUN_00e68820_cls
     int unk6C;
     int unk70;
     int unk74;
-    int FUN_00e68820();
+    int NiDX9SourceTextureData_GetPalette();
 };
 
 // @fnv 0x00e68820
-int FUN_00e68820_cls::FUN_00e68820()
+// src: COMMUNITY 0x00e68820
+int FUN_00e68820_cls::NiDX9SourceTextureData_GetPalette()
 {
     return unk74;
 }
@@ -7638,11 +7657,12 @@ struct FUN_00e69620_cls
     int unk87C;
     int unk880;
     FUN_00e69620_Target* unk884;
-    void FUN_00e69620();
+    void NiDX9Renderer_GetDefaultBackBuffer();
 };
 
 // @fnv 0x00e69620
-void FUN_00e69620_cls::FUN_00e69620()
+// src: COMMUNITY 0x00e69620
+void FUN_00e69620_cls::NiDX9Renderer_GetDefaultBackBuffer()
 {
     unk884->vfB0(0);
 }
@@ -8087,7 +8107,8 @@ extern NiTListE7CF<ItemE7CF*> DAT_0126f5c8;
 
 // Locks DAT_0126f600, calls vf58(pArg) on every item in DAT_0126f5c8, then unlocks.
 // @fnv 0x00e7cf00
-void __cdecl FUN_00e7cf00(void* pArg)
+// src: COMMUNITY 0x00e7cf00
+void __cdecl NiDX9AdditionalDepthStencilBufferData_RecreateAll(void* pArg)
 {
     EnterCriticalSection(&DAT_0126f600);
     NiTListIterator kPos = DAT_0126f5c8.GetHeadPos();
@@ -8206,11 +8227,12 @@ class RT
     Surf* m_pkSurf;
     char pad[0x58 - 0x18];
     Swap* m_pkSwap;
-    bool FUN_00e7d0a0(Swap* pkSwap);
+    bool NiDX9ImplicitBufferData_Recreate(Swap* pkSwap);
 };
 // Releases the current swap chain and surface, adopts a new swap chain, fetches its backbuffer, and updates the texture size and pixel format.
 // @fnv 0x00e7d0a0
-bool RT::FUN_00e7d0a0(Swap* pkSwap)
+// src: COMMUNITY 0x00e7d0a0
+bool RT::NiDX9ImplicitBufferData_Recreate(Swap* pkSwap)
 {
     if (m_pkSurf)
         ReleaseSurf();
@@ -8514,7 +8536,8 @@ int ClipPlane::FUN_00e63af0(__m128* apPoint, float* pLo, float* pHi)
 }  // namespace fnv_00e63af0
 
 // @fnv 0x00e67550
-void __cdecl FUN_00e67550()
+// src: COMMUNITY 0x00e67550
+void __cdecl nullsub_337()
 {}
 
 // Clears bits 4-7 of *flags, then for modes 0-6 sets *outValue to 1 or 2 and ORs a bit pattern into *flags; returns false for other modes.
@@ -9096,11 +9119,12 @@ struct ClosestList
         pos = pos->m_pkNext;
         return *elem;
     }
-    int FUN_00e7af60(int target);
+    int NiDX9AdapterDesc_ModeDesc_GetClosestRefreshRate(int target);
 };
 // Returns the later list value closer to target than the first element, the closest such one, else 0; also returns 0 when target is 0.
 // @fnv 0x00e7af60
-int ClosestList::FUN_00e7af60(int target)
+// src: COMMUNITY 0x00e7af60
+int ClosestList::NiDX9AdapterDesc_ModeDesc_GetClosestRefreshRate(int target)
 {
     if (!target)
         return 0;
@@ -9330,11 +9354,11 @@ int __cdecl FUN_00aa1360(const char* s1, const char* s2);
 void* __cdecl FUN_00aa1070(unsigned int uiSize);
 void __cdecl _NiFree_00aa10f0(void* pvMem);
 void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
-long __stdcall FUN_00ee6e22(const void* pvSrc, unsigned int uiSize, D3DXImageInfoQ* pkInfo);
-__declspec(noalias) long __stdcall FUN_00ee6e1c(void* pkDevice, const void* pvSrc, unsigned int uiSize,
+long __stdcall D3DXGetImageInfoFromFileInMemory_00ee6e22(const void* pvSrc, unsigned int uiSize, D3DXImageInfoQ* pkInfo);
+__declspec(noalias) long __stdcall D3DXCreateTextureFromFileInMemory_00ee6e1c(void* pkDevice, const void* pvSrc, unsigned int uiSize,
                                                 directx9::IDirect3DBaseTexture9** ppkTexture);
-long __stdcall FUN_00ee6e16(void* pkDevice, const void* pvSrc, unsigned int uiSize, directx9::IDirect3DBaseTexture9** ppkTexture);
-long __stdcall FUN_00ee6e10(void* pkDevice, const void* pvSrc, unsigned int uiSize, directx9::IDirect3DBaseTexture9** ppkTexture);
+long __stdcall D3DXCreateCubeTextureFromFileInMemory_00ee6e16(void* pkDevice, const void* pvSrc, unsigned int uiSize, directx9::IDirect3DBaseTexture9** ppkTexture);
+long __stdcall D3DXCreateVolumeTextureFromFileInMemory_00ee6e10(void* pkDevice, const void* pvSrc, unsigned int uiSize, directx9::IDirect3DBaseTexture9** ppkTexture);
 extern unsigned int DAT_0126efc4;
 extern unsigned int DAT_0126efc8;
 
@@ -9462,7 +9486,7 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
         pkFile->Read(pucBuffer, uiSize);
         delete pkFile;
 
-        if (FUN_00ee6e22(pucBuffer, uiSize, &info) < 0)
+        if (D3DXGetImageInfoFromFileInMemory_00ee6e22(pucBuffer, uiSize, &info) < 0)
         {
             _NiFree_00aa10f0(pucBuffer);
             return false;
@@ -9532,7 +9556,7 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
                     if (uiFinalMips != pkHeader->dwMipMapCount)
                     {
                         unsigned char* pucNewBuffer =
-                            (unsigned char*)DAT_011f6238.FUN_00aa3e40(uiSize);
+                            (unsigned char*)DAT_011f6238.Game_DoHeapAlloc(uiSize);
                         FUN_00ec44d0(pucNewBuffer, pucBuffer, 0x80);
                         DDSFileHeaderQ* pkNewHeader = (DDSFileHeaderQ*)pucNewBuffer;
                         pkNewHeader->dwWidth = info.Width;
@@ -9547,19 +9571,19 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
                 }
             }
         Create:
-            hr = FUN_00ee6e1c(group2.device, pucBuffer, uiSize, &group3.texture);
+            hr = D3DXCreateTextureFromFileInMemory_00ee6e1c(group2.device, pucBuffer, uiSize, &group3.texture);
             pkD3DTexture = group3.texture;
         }
         else if (info.ResourceType == 5)
         {
             kTextureOrSize.p = 0;
-            hr = FUN_00ee6e16(group2.device, pucBuffer, uiSize, &kTextureOrSize.p);
+            hr = D3DXCreateCubeTextureFromFileInMemory_00ee6e16(group2.device, pucBuffer, uiSize, &kTextureOrSize.p);
             pkD3DTexture = kTextureOrSize.p;
         }
         else if (info.ResourceType == 4)
         {
             directx9::IDirect3DBaseTexture9* pkVolumeTexture = 0;
-            hr = FUN_00ee6e10(group2.device, pucBuffer, uiSize, &pkVolumeTexture);
+            hr = D3DXCreateVolumeTextureFromFileInMemory_00ee6e10(group2.device, pucBuffer, uiSize, &pkVolumeTexture);
             pkD3DTexture = pkVolumeTexture;
         }
         else
@@ -10221,12 +10245,13 @@ struct NiDX9SourceTextureData
     int unk70;
     int unk74;
     unsigned int m_uiSkipLevels;
-    bool FUN_00e68010(NiPixelData* pkPixelData);
+    bool CreateSurf(NiPixelData* pkPixelData);
 };
 
 // Creates a D3D texture from pkPixelData, dropping top mip levels per DAT_0126efc0, stores it in m_pkCubeMapTexture and returns false on failure.
 // @fnv 0x00e68010
-bool NiDX9SourceTextureData::FUN_00e68010(NiPixelData* pkPixelData)
+// src: COMMUNITY 0x00e68010
+bool NiDX9SourceTextureData::CreateSurf(NiPixelData* pkPixelData)
 {
     D3DFORMAT eFormat = GetD3DFormat(&m_kPixelFormat);
     m_uiImageWidth = *pkPixelData->m_puiWidth;
@@ -10503,7 +10528,8 @@ FUN_00e7b260* ModeItemInit::FUN_00e7b260(S00e7b590_D3D* apD3D, int aiAdapter, D3
 
 // Locks DAT_0126f600, iterates DAT_0126f5c8 calling vf54 on each ItemE7CF, then unlocks.
 // @fnv 0x00e7cec0
-void __cdecl FUN_00e7cec0()
+// src: COMMUNITY 0x00e7cec0
+void __cdecl NiDX9AdditionalDepthStencilBufferData_ShutdownAll()
 {
     EnterCriticalSection(&DAT_0126f600);
     NiTListIterator position = DAT_0126f5c8.GetHeadPos();

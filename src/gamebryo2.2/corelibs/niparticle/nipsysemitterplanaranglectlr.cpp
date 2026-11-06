@@ -7,7 +7,8 @@
 extern void* g_01202738;
 
 // @fnv 0x00c2b550
-void* __cdecl FUN_00c2b550()
+// src: COMMUNITY 0x00c2b550
+void* __cdecl NiPSysEmitterPlanarAngleCtlr_GetRTTI()
 {
     return &g_01202738;
 }

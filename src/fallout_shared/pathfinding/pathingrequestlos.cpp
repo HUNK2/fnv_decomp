@@ -66,7 +66,8 @@ void PathingRequestLOS::LoadGame(BGSLoadFormBuffer* buffer)
 }
 
 // @fnv 0x006e5a40
-void PathingRequestLOS::FUN_006e5a40(NiPoint3 v, float w)
+// src: COMMUNITY 0x006e5a40
+void PathingRequestLOS::SetSearchCenter(NiPoint3 v, float w)
 {
     m_c8 = v;
     m_d4 = w;
@@ -80,7 +81,7 @@ void PathingRequestLOS::CopyTo(PathingRequest* apDest)
     static_cast<PathingRequestLOS*>(pdest)->m_b0 = m_b0;
     m_b4.CopyTo(&static_cast<PathingRequestLOS*>(pdest)->m_b4);
     static_cast<PathingRequestLOS*>(pdest)->m_c4 = m_c4;
-    static_cast<PathingRequestLOS*>(pdest)->FUN_006e5a40(m_c8, m_d4);
+    static_cast<PathingRequestLOS*>(pdest)->SetSearchCenter(m_c8, m_d4);
 }
 
 // @fnv 0x006e5b20

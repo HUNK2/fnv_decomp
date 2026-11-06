@@ -17,7 +17,8 @@ extern "C"
 }
 
 // @fnv 0x00a4fb00
-void* __cdecl FUN_00a4fb00()
+// src: COMMUNITY 0x00a4fb00
+void* __cdecl NiColorExtraDataController_GetRTTI()
 {
     return &g_011f3fdc;
 }

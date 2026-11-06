@@ -288,7 +288,8 @@ void* __thiscall FUN_00661d40_shell::FUN_00661d60(unsigned int flags)
 
 extern const char* DAT_0119b49c[];
 // @fnv 0x00661da0
-const char* FUN_00661da0(int i)
+// src: COMMUNITY 0x00661da0
+const char* BSFaceGenManager_GetCustomMorphText(int i)
 {
     return DAT_0119b49c[i];
 }
@@ -540,13 +541,15 @@ void* __thiscall FUN_0066df40_Class::FUN_0066e300(unsigned int flags)
 }
 
 // @fnv 0x00671a70
-void TESPackage::FUN_00671a70(bool set)
+// src: COMMUNITY 0x00671a70
+void TESPackage::SandboxSetLocationIsLinkedRef(bool set)
 {
     set ? *reinterpret_cast<unsigned short*>(&specificFlags) |= 0x40 : *reinterpret_cast<unsigned short*>(&specificFlags) &= ~0x40;
 }
 
 // @fnv 0x00671ad0
-void __thiscall TESPackage::FUN_00671ad0(bool a)
+// src: COMMUNITY 0x00671ad0
+void __thiscall TESPackage::SandboxSetAllowEating(bool a)
 {
     a ? *reinterpret_cast<unsigned short*>(&specificFlags) &= ~1 : *reinterpret_cast<unsigned short*>(&specificFlags) |= 1;
 }
@@ -554,26 +557,30 @@ void __thiscall TESPackage::FUN_00671ad0(bool a)
 
 // Sets or clears bit 1 of the 16-bit field at offset 0x24 based on the boolean argument.
 // @fnv 0x00671b30
-void TESPackage::FUN_00671b30(bool a)
+// src: COMMUNITY 0x00671b30
+void TESPackage::SandboxSetAllowSleeping(bool a)
 {
     a ? *reinterpret_cast<unsigned short*>(&specificFlags) &= 0xfffffffd : *reinterpret_cast<unsigned short*>(&specificFlags) |= 2;
 }
 
 // @fnv 0x00671b90
-void __thiscall TESPackage::FUN_00671b90(bool b)
+// src: COMMUNITY 0x00671b90
+void __thiscall TESPackage::SandboxSetAllowConversation(bool b)
 {
     b ? *reinterpret_cast<unsigned short*>(&specificFlags) &= ~4 : *reinterpret_cast<unsigned short*>(&specificFlags) |= 4;
 }
 
 // @fnv 0x00671bf0
-void __thiscall TESPackage::FUN_00671bf0(bool a)
+// src: COMMUNITY 0x00671bf0
+void __thiscall TESPackage::SandboxSetAllowIdleMarkers(bool a)
 {
     a ? *reinterpret_cast<unsigned short*>(&specificFlags) &= ~8 : *reinterpret_cast<unsigned short*>(&specificFlags) |= 8;
 }
 
 
 // @fnv 0x00671c50
-void __thiscall TESPackage::FUN_00671c50(bool bSet)
+// src: COMMUNITY 0x00671c50
+void __thiscall TESPackage::SandboxSetAllowFurniture(bool bSet)
 {
     bSet ? *reinterpret_cast<unsigned short*>(&specificFlags) &= ~0x10 : *reinterpret_cast<unsigned short*>(&specificFlags) |= 0x10;
 }
@@ -836,11 +843,12 @@ struct FUN_00665e30_Class
 {
     int pad;
     int* data;
-    FUN_0044d000* __thiscall FUN_00665e30(int index);
+    FUN_0044d000* __thiscall LockFreeMap_TESObjectREFR_BSTreeNode_AllocateInterface(int index);
 };
 
 // @fnv 0x00665e30
-FUN_0044d000* __thiscall FUN_00665e30_Class::FUN_00665e30(int index)
+// src: COMMUNITY 0x00665e30
+FUN_0044d000* __thiscall FUN_00665e30_Class::LockFreeMap_TESObjectREFR_BSTreeNode_AllocateInterface(int index)
 {
     AutoMemHelper helper(6, true, "..\\BSMain\\ThreadSafeStructures.h", 398);
     return new FUN_0044d000((int)this, (int)(data + index * 3), (int)(data + index * 3 + 1),
@@ -875,11 +883,12 @@ struct DetectionViewData
 
     DetectionViewData();
     void LoadGame(BGSLoadGameBuffer* buffer);
-    void FUN_0066e440(BGSLoadGameBuffer* buffer);
+    void ActorCause_LoadGameBGS(BGSLoadGameBuffer* buffer);
 };
 
 // @fnv 0x0066e440
-void DetectionViewData::FUN_0066e440(BGSLoadGameBuffer* buffer)
+// src: COMMUNITY 0x0066e440
+void DetectionViewData::ActorCause_LoadGameBGS(BGSLoadGameBuffer* buffer)
 {
     buffer->ReadTypedData(data, 12);
     buffer->ReadTypedData(&value, 4);
@@ -1016,7 +1025,7 @@ void CopyConstructEntry(C6602B0Entry* pkDest, const C6602B0Entry& kValue)
     ::new (pvDest) C6602B0Entry(kValue);
 }
 
-extern "C" bool __cdecl FUN_0065e750(void* a, void* b);
+extern "C" bool __cdecl std_Move_cat_unsigned_char(void* a, void* b);
 extern "C" void* __cdecl CallWithFlag(void* a);
 extern "C" void __cdecl CopyConstructRange(void* a1, void* a2, void* a3, void* a4, bool a5, bool a6);
 struct SpawnedFlagBox
@@ -1029,7 +1038,7 @@ extern "C" void __cdecl FUN_006603a0(void* a, void* b, void* c, void* d)
 {
     SpawnedFlagBox flagA3 = {};
     bool flagB;
-    flagB = FUN_0065e750(&a, &c);
+    flagB = std_Move_cat_unsigned_char(&a, &c);
     CopyConstructRange(CallWithFlag(&a), CallWithFlag(&b), c, d, flagB, flagA3.v);
 }
 
@@ -1087,8 +1096,8 @@ struct FUN_006665c0_Entry
     FUN_006665c0_Item* m_item;
 };
 
-void __cdecl FUN_00401030(void* p);
-void __cdecl FUN_0044e360(void* p);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
+void __cdecl _TlsFree(void* p);
 
 struct FUN_006665c0_cls
 {
@@ -1115,9 +1124,9 @@ void FUN_006665c0_cls::FUN_006665c0()
             (void)((pItemCopy != 0) ? pItemCopy->Dispose(1) : 0);
         }
         pEntries = m_08;
-        FUN_00401030(pEntries);
+        FormHeapFreeAndLog_00401030(pEntries);
     }
-    FUN_0044e360(m_04);
+    _TlsFree(m_04);
 }
 
 extern const double g_dblConst;
@@ -1193,11 +1202,12 @@ struct FUN_0066ca50_cls
     int unk60;
     float m_f4;
 
-    bool FUN_0066ca50(float dt);
+    bool BSTreeNode_CheckForCollision(float dt);
 };
 
 // @fnv 0x0066ca50
-bool FUN_0066ca50_cls::FUN_0066ca50(float dt)
+// src: COMMUNITY 0x0066ca50
+bool FUN_0066ca50_cls::BSTreeNode_CheckForCollision(float dt)
 {
     if (dt == g_dblConst)
     {
@@ -1233,15 +1243,15 @@ struct SpawnedObject
 extern int DAT_011ca278;
 extern int DAT_011dea3c;
 
-int __cdecl FUN_0066dba0(int a);
-float __cdecl FUN_0066dc70(int a);
+int __cdecl ActionPoints_GetAttackAction(int a);
+float __cdecl ActionPoints_GetCost(int a);
 void __cdecl FUN_005e58f0(int a, int b, int c, float* d);
 
 // Returns the object's value if it is ready, otherwise a value derived from its ref pointer, and passes it to FUN_005e58f0.
 // @fnv 0x0066dce0
 float __cdecl GetObjectValue(SpawnedObject* obj)
 {
-    int b = FUN_0066dba0(obj ? obj->GetRefPtr() : 0);
+    int b = ActionPoints_GetAttackAction(obj ? obj->GetRefPtr() : 0);
     float f = 0.0f;
     if (obj != 0 && obj->IsReady())
     {
@@ -1249,7 +1259,7 @@ float __cdecl GetObjectValue(SpawnedObject* obj)
     }
     else
     {
-        f = FUN_0066dc70(b);
+        f = ActionPoints_GetCost(b);
     }
     FUN_005e58f0(0x28, DAT_011dea3c, obj ? (int)obj : DAT_011ca278, &f);
     return f;
@@ -1577,11 +1587,12 @@ struct E640Item
 };
 struct E640Cls : DetClassCls
 {
-    void __thiscall FUN_0066e640(BGSSaveFormBuffer* buffer);
+    void __thiscall ActorCause_InitItem(BGSSaveFormBuffer* buffer);
 };
 // Resolves m_00 to an Actor via dynamic_cast and calls ResolveActorFormId on each item found while walking the m_04 node list.
 // @fnv 0x0066e640
-void E640Cls::FUN_0066e640(BGSSaveFormBuffer* buffer)
+// src: COMMUNITY 0x0066e640
+void E640Cls::ActorCause_InitItem(BGSSaveFormBuffer* buffer)
 {
     m_00 = m_00 ? dynamic_cast<Actor*>(FUN_004839c0(m_00)) : 0;
     SaveNodeCls* n = m_04;
@@ -1662,15 +1673,16 @@ Elem6605* __cdecl CopyConstructRange(Elem6605* _First, Elem6605* _Last, Elem6605
 }
 }
 
-float __cdecl FUN_0066dc70(int value);
+float __cdecl ActionPoints_GetCost(int value);
 float* __fastcall FUN_00403e20(void* object);
 extern unsigned char DAT_011d5f88;
 
 // Returns FUN_0066dc70(value), multiplied by the value from FUN_00403e20(&DAT_011d5f88) unless unscaled is set.
 // @fnv 0x0066dca0
-float __cdecl FUN_0066dca0(int value, bool unscaled)
+// src: COMMUNITY 0x0066dca0
+float __cdecl GetRequiredAPForAction(int value, bool unscaled)
 {
-    float baseValue = FUN_0066dc70(value);
+    float baseValue = ActionPoints_GetCost(value);
     if (!unscaled)
     {
         return baseValue * *FUN_00403e20(&DAT_011d5f88);
@@ -1702,7 +1714,7 @@ void DetClassExtended::ClearAndReset()
     while (m_04 && !reinterpret_cast<SaveNodeExtended*>(m_04)->FUN_008256d0())
     {
         SaveItemCls* item = *m_04->FUN_006815c0();
-        FUN_00401030(item);
+        FormHeapFreeAndLog_00401030(item);
         reinterpret_cast<SaveNodeExtended*>(m_04)->FUN_0063f7b0();
     }
 
@@ -1719,7 +1731,7 @@ extern "C" void __cdecl FUN_00660510(void* first, void* last, void* destCont, vo
 extern "C" void __cdecl FUN_00660340(void* first, void* last, void* destCont, void* destPtr)
 {
     SpawnedFlagBox checked = {};
-    bool ptrCat = FUN_0065e750(&first, &destCont);
+    bool ptrCat = std_Move_cat_unsigned_char(&first, &destCont);
     FUN_00660510(CallWithFlag(&first), CallWithFlag(&last), destCont, destPtr, ptrCat, checked.v);
 }
 

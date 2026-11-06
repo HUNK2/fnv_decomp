@@ -68,7 +68,8 @@ struct Dummy864490
 };
 
 // @fnv 0x00864450
-FormLoadContext* __fastcall FUN_00864450(FormLoadContext* apObject)
+// src: COMMUNITY 0x00864450
+FormLoadContext* __fastcall BGSSaveLoadFormHeader_BGSSaveLoadFormHeader(FormLoadContext* apObject)
 {
     reinterpret_cast<Dummy84eaf0*>(apObject)->ClearNumericIDIndex();
     reinterpret_cast<FormChangeMask*>(reinterpret_cast<char*>(apObject) + 3)->FormChangeMask::FormChangeMask();

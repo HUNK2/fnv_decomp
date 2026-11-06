@@ -128,13 +128,13 @@ public:
     void FUN_0063c8a0(const LocalVec3* other);
     void FUN_0063c8a0(void* other);
     void FUN_006815c0();
-    float FUN_00b04d40(LocalVec3* other);
-    float FUN_00b04d40(const LocalVec3& other) const;
+    float CVec3_Distance(LocalVec3* other);
+    float CVec3_Distance(const LocalVec3& other) const;
     LocalVec3 FUN_00b05000(const Mat& matrix);
     LocalVec3 FUN_00b05000(const Matrix4* matrix);
-    void FUN_00b12790();
-    LocalVec3 FUN_00b13040(void* other);
-    LocalVec3 FUN_00b13040(const LocalVec3& other) const;
+    void Normalize_00b12790();
+    LocalVec3 Diff_00b13040(void* other);
+    LocalVec3 Diff_00b13040(const LocalVec3& other) const;
     float FUN_00b2a180(void* other);
     LocalVec3& FUN_00b2a1c0(void* other);
     void FUN_00ddc870();
@@ -184,7 +184,8 @@ extern "C"
 }
 
 // @fnv 0x00c2a9b0
-const void* __cdecl FUN_00c2a9b0()
+// src: COMMUNITY 0x00c2a9b0
+const void* __cdecl NiPSysGravityFieldModifier_GetRTTI()
 {
     return &g_01202708;
 }
@@ -287,7 +288,7 @@ struct FUN_00c2af80_Array
     void __thiscall FUN_0096ae90(unsigned int index, void** item);
 };
 
-void* __cdecl FUN_00a7d330(void* value);
+void* __cdecl NiViewerStrings_NiGetViewerString_Title(void* value);
 
 // NiPSysFieldModifier's shared declaration does not expose its viewer-string override.
 void __fastcall GetFieldModifierViewerStrings(NiPSysFieldModifier*, void*, NiViewerStringsArray*);
@@ -300,7 +301,7 @@ void NiPSysGravityFieldModifier::GetViewerStrings(NiViewerStringsArray* stream)
 
     FUN_00c2af80_Array* array = reinterpret_cast<FUN_00c2af80_Array*>(stream);
 
-    void* item = FUN_00a7d330(const_cast<void*>(g_01202708));
+    void* item = NiViewerStrings_NiGetViewerString_Title(const_cast<void*>(g_01202708));
 
     unsigned int count = array->unk0A;
     if (count >= array->unk08)

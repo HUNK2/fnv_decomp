@@ -164,7 +164,7 @@ void FUN_00db4b50(S_00db4b50_A* a, float f, S_00db4b50_Out* out)
     *(__m128*)&out->unk110 = *(__m128*)(a->unk00 + 0x80);
     S_rotInv((const __m128*)&out->unk00, (const __m128*)&a->unk60, 2, (__m128*)&out->unkf0);
     ((Vec4*)&out->unk120)->FUN_00c7f640((const Buf40*)m, a->unk04 + 0x80);
-    ((Vec4*)&out->unke0)->FUN_004b4ab0(*(const Rot*)out, *(const Vec4*)&a->unk50);
+    ((Vec4*)&out->unke0)->hkVector4_setRotatedInverseDir(*(const Rot*)out, *(const Vec4*)&a->unk50);
 }
 
 namespace fnv_00db52c0 {

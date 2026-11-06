@@ -16,11 +16,11 @@ void BSSystemUtility::Destroy()
     IdleSystem::GetRandomGenerator();
     FUN_00af2370();
 
-    FUN_00af3850()->vfn_08();
+    BSSysInfoSystemUtility_GetSingleton()->vfn_08();
     GetStaticSlot()->vfn_08();
-    FUN_00af2e50()->vfn_08();
+    BSSaveDataSystemUtility_GetSingleton()->vfn_08();
     GetVTableSlot8()->vfn_08();
-    FUN_00af34f0()->vfn_08();
+    BSGameDataSystemUtility_GetSingleton()->vfn_08();
     GetInitObj()->vfn_08();
 
     fnv_zlib_memset((char*)this + 4, 0, 0x80);
@@ -48,11 +48,11 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
         fnv_CopyFilePath((char*)this + 4, length + 1, pcFilePath, length);
     }
 
-    FUN_00af3850()->vfn_04();
+    BSSysInfoSystemUtility_GetSingleton()->vfn_04();
     GetStaticSlot()->vfn_04(pcArg, arg2);
-    FUN_00af2e50()->vfn_04();
+    BSSaveDataSystemUtility_GetSingleton()->vfn_04();
     GetVTableSlot8()->vfn_04();
-    FUN_00af34f0()->vfn_04();
+    BSGameDataSystemUtility_GetSingleton()->vfn_04();
     GetInitObj()->vfn_04();
 
     IdleSystem::GetRandomGenerator();
@@ -76,7 +76,8 @@ void BSSystemUtility::Update()
 
 // Calls Idle, UpdateSteamRunningFlag and FUN_00af2c80 on the three system utility singletons.
 // @fnv 0x00af3340
-void BSSystemUtility::FUN_00af3340()
+// src: COMMUNITY 0x00af3340
+void BSSystemUtility::Update_00af3340()
 {
     IdleSystem::GetRandomGenerator().Idle();
     NetworkSystemUtility::GetRandomGenerator().UpdateSteamRunningFlag();
@@ -115,7 +116,8 @@ struct FUN_00af2ed0_T : FNVVTableSlot8
     ~FUN_00af2ed0_T();
 };
 // @fnv 0x00af2e50
-FNVVTableSlot8* FUN_00af2e50()
+// src: COMMUNITY 0x00af2e50
+FNVVTableSlot8* BSSaveDataSystemUtility_GetSingleton()
 {
     static FUN_00af2ed0_T s_instance;
     return &s_instance;
@@ -143,7 +145,8 @@ struct FUN_00af3980 : FNVVTableSlot8
 
 // Returns the address of a function-local static object.
 // @fnv 0x00af34f0
-FNVVTableSlot8* FUN_00af34f0()
+// src: COMMUNITY 0x00af34f0
+FNVVTableSlot8* BSGameDataSystemUtility_GetSingleton()
 {
     static FUN_00af3980 instance;
     return &instance;
@@ -187,7 +190,8 @@ struct FUN_00af3850_Stat
 
 // Returns a pointer to a function-local static object cast to FNVVTableSlot8.
 // @fnv 0x00af3850
-FNVVTableSlot8* FUN_00af3850(void)
+// src: COMMUNITY 0x00af3850
+FNVVTableSlot8* BSSysInfoSystemUtility_GetSingleton(void)
 {
     static FUN_00af3850_Stat s_obj;
     return reinterpret_cast<FNVVTableSlot8*>(&s_obj);

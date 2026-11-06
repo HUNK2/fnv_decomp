@@ -89,7 +89,7 @@ struct Display
 struct DisplayContext
 {
     int a, b, c, d;
-    void FUN_00e10a10(Display*);
+    void hkpPrimitiveDrawer_setDisplayHandler(Display*);
 };
 // hkpLimitedHingeConstraintData seen as 16-byte rows (constraint instance +0xc): header row, atom transforms/axes, angle-limit enable byte, min/max angle
 struct LimitedHingeDataView
@@ -113,8 +113,8 @@ struct Viewer
     HingeVectorStorageLocal_00de m60, m70, m80, m90, ma0, mb0;
     DisplayContext context;
     Shape shape;
-    void FUN_00de47e0(Input*, Matrix*, Matrix*);
-    void FUN_00de4530(int, int);
+    void hkpConstraintDrawer_updateCommonParameters(Input*, Matrix*, Matrix*);
+    void hkpConstraintDrawer_drawBodyFrames(int, int);
     void hkpConstraintDrawer_drawPivots(int, int);
     void FUN_00de7a70(Input*, Display*, int, int);
 };
@@ -134,12 +134,12 @@ __forceinline __m128 broadcastScalar(float value)
 void Viewer::FUN_00de7a70(Input* input, Display* display, int id, int tag)
 {
     LimitedHingeDataView* data = input->data;
-    context.FUN_00e10a10(display);
+    context.hkpPrimitiveDrawer_setDisplayHandler(display);
     Matrix first, second;
-    FUN_00de47e0(input, &first, &second);
+    hkpConstraintDrawer_updateCommonParameters(input, &first, &second);
     origin.FUN_00c7f640(&first, &data->v90);
     pivot.FUN_00c7f640(&second, &data->v50);
-    FUN_00de4530(id, tag);
+    hkpConstraintDrawer_drawBodyFrames(id, tag);
     hkpConstraintDrawer_drawPivots(id, tag);
     AxisPair axes;
     DrawWork scratch;

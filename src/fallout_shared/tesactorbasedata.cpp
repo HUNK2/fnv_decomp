@@ -157,7 +157,8 @@ struct DummyActorBase : TESBoundAnimObject, TESActorBaseData
 };
 
 // @fnv 0x0047d130
-TESActorBase* __cdecl FUN_0047d130(TESActorBase* apOriginalBase, TESActorBase* apTemplateBase)
+// src: COMMUNITY 0x0047d130
+TESActorBase* __cdecl TESActorBaseData_CreateTemplateActorBase(TESActorBase* apOriginalBase, TESActorBase* apTemplateBase)
 {
     DummyActorBase* pnewbase;
     bool breset = g_BGSSaveLoadGame->SetThreadAllowChanges(false);
@@ -198,7 +199,8 @@ unsigned short TESActorBaseData::GetLevelExact()
 }
 
 // @fnv 0x0047d390
-unsigned short TESActorBaseData::FUN_0047d390()
+// src: COMMUNITY 0x0047d390
+unsigned short TESActorBaseData::GetCalcLevelMin_0047d390()
 {
     return actorData.m_usField0A;
 }
@@ -538,7 +540,7 @@ void TESActorBaseData::CopyFromBase(BaseFormComponent* apCopyFC)
     SetKarmaValue(static_cast<const TESActorBaseData*>(pCopy)->GetHealthRegeneration());
     SetBarterGold(pCopy->GetBarterGold());
     SetLevel(pCopy->GetLevelExact());
-    SetCalcLevelMin(pCopy->FUN_0047d390());
+    SetCalcLevelMin(pCopy->GetCalcLevelMin_0047d390());
     SetCalcLevelMax(pCopy->FUN_0047d3b0());
     SetSpeedMult(pCopy->GetShortAtOffset12());
     SetBaseDisposition(pCopy->GetBaseDisposition());
@@ -807,7 +809,7 @@ bool TESActorBaseData::CompareWithBase(BaseFormComponent* component)
     {
         return true;
     }
-    if (this->FUN_0047d390() != other->FUN_0047d390())
+    if (this->GetCalcLevelMin_0047d390() != other->GetCalcLevelMin_0047d390())
     {
         return true;
     }
@@ -879,15 +881,15 @@ public:
     void FUN_00419ad0(int);
     void ExtraDataList_CopyList(ExtraShell_tesactorbasedata*);
     signed char GetExtraByteValue();
-    void FUN_0042dec0();
+    void ExtraDataList_RemoveHotkey();
     OpacityFadeState* GetOffsetC();
     void FUN_0041aeb0();
-    void FUN_0041af50();
+    void ExtraDataList_RemoveScript();
     void* FUN_0042e250();
     RefNode* FUN_0041df90();
     void FUN_0041dfd0();
     void FUN_0041de40(int a);
-    RefrShell* FUN_0041e310();
+    RefrShell* ExtraDataList_GetAshPileRef();
 };
 namespace fnv_0047ce10 {
 struct LeveledShell
@@ -934,7 +936,7 @@ class RefShell
     ExtraShell_tesactorbasedata* FUN_005d43c0();
     void FUN_00884f80();
     void* FUN_007af430();
-    void FUN_0056b020(void*, void*);
+    void TESObjectREFR_SetLeveledCreature(void*, void*);
     void FUN_00575690(void*);
     void FUN_00565730();
 };
@@ -945,7 +947,7 @@ struct GlobalShell
 struct StateShell
 {
     int FUN_00559450();
-    void FUN_006ebd10(int);
+    void PathManager_CancelCurrentPathsAndPause_0(int);
 };
 struct InvShell
 {
@@ -956,7 +958,7 @@ struct InvShell
 };
 extern "C" char DAT_011ddf38;
 StateShell* GetPathManager();
-void* FUN_0047d130(void*, void*);
+void* TESActorBaseData_CreateTemplateActorBase(void*, void*);
 InvShell* FUN_004bf220(RefShell*);
 }  // namespace fnv_0047ce10
 
@@ -993,17 +995,17 @@ void TESActorBaseData::SetTemplateReference(::TESObjectREFR* ref)
             ((RefShell*)ref)->reset(0, 1);
         }
         if (GetPathManager()->FUN_00559450())
-            GetPathManager()->FUN_006ebd10(((RefShell*)ref)->FUN_005d43c0()->FUN_00418520());
+            GetPathManager()->PathManager_CancelCurrentPathsAndPause_0(((RefShell*)ref)->FUN_005d43c0()->FUN_00418520());
         ((RefShell*)ref)->FUN_005d43c0()->FUN_0041aeb0();
-        ((RefShell*)ref)->FUN_005d43c0()->FUN_0041af50();
+        ((RefShell*)ref)->FUN_005d43c0()->ExtraDataList_RemoveScript();
         if (((RefShell*)ref)->isOther())
         {
             RefShell* other3 = (RefShell*)ref;
             other3->FUN_00884f80();
         }
         void* oldbase2 = ((RefShell*)ref)->FUN_007af430();
-        void* newbase = fnv_0047ce10::FUN_0047d130(oldbase2, base6);
-        ((RefShell*)ref)->FUN_0056b020(oldbase2, base6);
+        void* newbase = fnv_0047ce10::TESActorBaseData_CreateTemplateActorBase(oldbase2, base6);
+        ((RefShell*)ref)->TESObjectREFR_SetLeveledCreature(oldbase2, base6);
         ((RefShell*)ref)->FUN_00575690(newbase);
         ((RefShell*)ref)->FUN_00565730();
         InvShell* inventory = FUN_004bf220((RefShell*)ref);
@@ -1044,7 +1046,7 @@ class SaveGameBuffer
 extern SaveGameBuffer* DAT_011de45c;
 extern SettingT_GameSettingCollection_ DAT_011de4e8;
 
-void __cdecl FUN_005b5e40(const char* fmt, const char* file, int line);
+void __cdecl Warning_005b5e40(const char* fmt, const char* file, int line);
 int __cdecl FUN_0040fbe0(const char* fmt, ...);
 TESForm* __cdecl FUN_004839c0(unsigned int formId);
 
@@ -1129,7 +1131,7 @@ void TESActorBaseData::SaveGame(unsigned int flags)
         baseStart = blockPosY;
         if (endPosB > baseStart + 0xffff)
         {
-            FUN_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
+            Warning_005b5e40("SAVELOAD: Save Game Block in file %s on line %i is greater than maximum short size",
                          "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESActorBaseData.cpp", 0xc77);
         }
         *(unsigned short*)blockPosY = (unsigned short)(endPosB - baseStart);

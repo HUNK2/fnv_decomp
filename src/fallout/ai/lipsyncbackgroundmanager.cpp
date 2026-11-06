@@ -396,7 +396,7 @@ FUN_00905e50_Class::~FUN_00905e50_Class()
             if (AdvanceRequest(&iter, &n, &g2, 1))
             {
                 CallVirtual5(n);
-                DAT_01202d98->FUN_0044ac40(g2.FUN_00559450(0));
+                DAT_01202d98->BSTaskManager_CancelTask(g2.FUN_00559450(0));
             }
         }
     }
@@ -691,7 +691,7 @@ struct S_00905f30_Owner
     virtual void v2();
     virtual void v3();
     virtual bool Enqueue(S_00905f30_Actor* a, const S_00905f30_Ref& r, int f);
-    void FUN_00906050(S_00905f30_Actor* a);
+    void LipSyncBackgroundManager_CancelLipFile(S_00905f30_Actor* a);
     void StartLipSyncTask(S_00905f30_Actor* actor, const char* tag);
 };
 
@@ -701,7 +701,7 @@ void S_00905f30_Owner::StartLipSyncTask(S_00905f30_Actor* actor, const char* tag
 {
     AutoMemContext ctx(0x35, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Ai\\LipSyncBackgroundManager.cpp",
                        0x61);
-    FUN_00906050(actor);
+    LipSyncBackgroundManager_CancelLipFile(actor);
     FUN_00905ba0* task = new FUN_00905ba0((int)this, (int)actor, tag);
     bool ok = Enqueue(actor, task, 0);
     actor->GetProc()->SetTarget(0);

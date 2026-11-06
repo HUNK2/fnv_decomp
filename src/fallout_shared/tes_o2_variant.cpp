@@ -167,7 +167,7 @@ struct TESFaction_RankDataView
     bool FUN_00455620(void);
 };
 extern int DAT_011c56e8;
-void FUN_00455680();
+void ClearAnimationCloneCount();
 struct FUN_004565f0_shell
 {
     float m_f;
@@ -176,7 +176,7 @@ struct FUN_004565f0_shell
 extern const void* const g_01202e00;
 struct FUN_00458f20_shell
 {
-    const void* const* FUN_00458f20() const;
+    const void* const* BSTempNode_GetRTTI() const;
 };
 extern "C" void __fastcall FUN_00a5e930(void*);
 extern int DAT_01017d24;
@@ -333,11 +333,11 @@ struct FUN_0045a5e0_shell : public ModelLoader
 };
 void __cdecl CreateCSDFadeNode(void);
 void __cdecl CreateSpdFadeNode(void);
-void __cdecl FUN_004f92e0(void);
-void __cdecl FUN_00649e40(void);
-void __cdecl FUN_0065c570(void);
-void __cdecl FUN_00662760(void);
-void __cdecl FUN_0045b020(void);
+void __cdecl BGSAddonNodeSoundHandleExtra_InitTag(void);
+void __cdecl BSFaceGenAnimationData_InitTag(void);
+void __cdecl BSFaceGenModelExtraData_InitTag(void);
+void __cdecl BSFaceGenBaseMorphExtraData_InitTag(void);
+void __cdecl TES_InitSDM(void);
 struct FUN_0045c650_shell
 {
     void* FUN_0045c650();
@@ -351,7 +351,7 @@ unsigned int FUN_0045c670();
 struct TESObjectREFR;
 void FUN_00578060(TESObjectREFR* self);
 void FUN_00578170(TESObjectREFR* self);
-void FUN_0045c680(TESObjectREFR* arg, bool flag);
+void TES_RangedNodeVisibilityChangedCB(TESObjectREFR* arg, bool flag);
 extern "C" double _gModifierZero;
 struct FUN_00451cd0_shell
 {
@@ -382,7 +382,7 @@ struct FUN_00459840_shell
 };
 struct FUN_0045a730_shell
 {
-    char* FUN_0045a730();
+    char* TESDataHandler_GetWaterForms();
 };
 extern "C" void __cdecl _Deallocate(void*);
 struct FUN_0045ae20_shell
@@ -404,7 +404,8 @@ struct TallGrassShaderProperty
     static GrassCacheMap* __cdecl GetCacheDataMap();
 };
 // @fnv 0x00b617b0
-bool __cdecl FUN_00b617b0(char const* a, char const* b)
+// src: COMMUNITY 0x00b617b0
+bool __cdecl _TallGrassShaderProperty_ContainsChunk(char const* a, char const* b)
 {
     ShaderBufferRecord* pn = 0;
     if (!TallGrassShaderProperty::GetCacheDataMap()->GetAt(reinterpret_cast<unsigned long>(a), pn))
@@ -713,7 +714,7 @@ struct Node
 };
 struct S00b6da10_Other
 {
-    __declspec(noalias) void* FUN_00b58570(Item** const&);
+    __declspec(noalias) void* NiTPointerListBase_AddTail(Item** const&);
 };
 struct Pending
 {
@@ -767,7 +768,7 @@ struct Manager
         pending.Find(item, pos, found);
         if (found)
         {
-            other.FUN_00b58570(found);
+            other.NiTPointerListBase_AddTail(found);
             pending.FUN_00e7d7f0(pos);
         }
     }
@@ -856,7 +857,7 @@ void Manager::FUN_00b6da10(Item* item)
             pending.Find(item, pos, found);
             if (found)
             {
-                other.FUN_00b58570(found);
+                other.NiTPointerListBase_AddTail(found);
                 pending.FUN_00e7d7f0(pos);
             }
         }

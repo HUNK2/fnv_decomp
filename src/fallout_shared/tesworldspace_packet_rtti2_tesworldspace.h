@@ -97,15 +97,15 @@ class TESWorldSpace
     void ClearWorldSpaceReferences();
     TESObjectCELL* GetCellAtGridPosition(int, int);
     static int BuildCellKey(short, short);
-    void FUN_00584150(float);
-    void FUN_00586110(float);
-    void FUN_00586130(float);
+    void SetWaterLODHeight(float);
+    void SetDefaultLandHeight(float);
+    void Projectile_SetPower(float);
     bool GetSmallWorld();
     bool IsFlag4C20Set();
     void SetParent(TESWorldSpace*);
     void SetFieldD0(unsigned int);
     TESObjectCELL* GetInteriorCell();
-    void FUN_00588270(BSSimpleArray<TESObjectREFR*, 1024>&);
+    void BuildTeleportDoorList(BSSimpleArray<TESObjectREFR*, 1024>&);
 };
 class Tile;
 class InterfaceManager

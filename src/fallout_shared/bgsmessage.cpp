@@ -178,7 +178,8 @@ void BGSMessage::ClearButtons()
 }
 
 // @fnv 0x00590d00
-bool BGSMessage::FUN_00590d00()
+// src: COMMUNITY 0x00590d00
+bool BGSMessage::GetIsMessageBox()
 {
     return (iFlags & 1) ? true : false;
 }
@@ -191,7 +192,8 @@ bool BGSMessage::IsFlagSet()
 
 // If apItem is non-null, appends it to the button list.
 // @fnv 0x005911d0
-void BGSMessage::FUN_005911d0(PerkButtonEntry* apItem)
+// src: COMMUNITY 0x005911d0
+void BGSMessage::AddButton_005911d0(PerkButtonEntry* apItem)
 {
     if (apItem != 0)
     {
@@ -206,7 +208,8 @@ void BGSMessage::SetEnabled(bool enabled)
 }
 
 // @fnv 0x00590ef0
-void BGSMessage::FUN_00590ef0(bool enabled)
+// src: COMMUNITY 0x00590ef0
+void BGSMessage::SetAutoDisplay_00590ef0(bool enabled)
 {
     enabled ? iFlags |= 2 : iFlags &= ~2;
 }
@@ -278,12 +281,12 @@ void __cdecl FUN_004856f0(unsigned int, const char*, unsigned int);
 void BGSMessage::WriteToStream()
 {
     FUN_004855a0();
-    TESDescription::FUN_00482cb0();
+    TESDescription::Save_00482cb0();
     TESFullName::FUN_00487010();
     unsigned int id = GetIcon() ? GetIcon()->FUN_0084e3a0() : 0;
     FUN_00485910(0x4d414e49, id);
     FUN_00485910(0x4d414e44, iFlags);
-    if (!FUN_00590d00())
+    if (!GetIsMessageBox())
         FUN_00485910(0x4d414e54, m_uiDisplayDuration);
     List0bc0* node = reinterpret_cast<List0bc0*>(GetButtonList());
     while (node && !node->FUN_008256d0())
@@ -324,7 +327,7 @@ bool BGSMessage::IsNotEqual(TESForm* form)
         return true;
     if (GetIcon() != right->GetIcon())
         return true;
-    if (FUN_00590d00() != right->FUN_00590d00())
+    if (GetIsMessageBox() != right->GetIsMessageBox())
         return true;
     if (IsFlagSet() != right->IsFlagSet())
         return true;

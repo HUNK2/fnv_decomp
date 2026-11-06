@@ -148,7 +148,7 @@ hkpLimitedHingeConstraintData* __fastcall DeleteLimitedHinge(hkpLimitedHingeCons
 
 struct FUN_00b5aea0_self
 {
-    void FUN_00cb9930(int* a, int* b, unsigned int c);
+    void BSSimpleArray_ShadowSceneLight_1024_MoveItems(int* a, int* b, unsigned int c);
 };
 
 struct FUN_00cb9ce0_cls
@@ -161,11 +161,12 @@ struct FUN_00cb9ce0_cls
     int m_004;
     int m_008;
     int m_00c;
-    void FUN_00cb9ce0(int a, int b);
+    void BSSimpleArray_Resize(int a, int b);
 };
 
 // @fnv 0x00cb9ce0
-void FUN_00cb9ce0_cls::FUN_00cb9ce0(int a, int b)
+// src: COMMUNITY 0x00cb9ce0
+void FUN_00cb9ce0_cls::BSSimpleArray_Resize(int a, int b)
 {
     if (m_004)
     {
@@ -176,7 +177,7 @@ void FUN_00cb9ce0_cls::FUN_00cb9ce0(int a, int b)
         else
         {
             int r = reinterpret_cast<int>(v1(a));
-            reinterpret_cast<FUN_00b5aea0_self*>(this)->FUN_00cb9930(reinterpret_cast<int*>(r),
+            reinterpret_cast<FUN_00b5aea0_self*>(this)->BSSimpleArray_ShadowSceneLight_1024_MoveItems(reinterpret_cast<int*>(r),
                                                                      reinterpret_cast<int*>(m_004), b);
             v2(m_004);
             m_004 = r;

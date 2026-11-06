@@ -7,7 +7,8 @@
 extern const void* g_01202710;
 
 // @fnv 0x00c2b040
-const void* __cdecl FUN_00c2b040()
+// src: COMMUNITY 0x00c2b040
+const void* __cdecl NiPSysFieldMaxDistanceCtlr_GetRTTI()
 {
     return &g_01202710;
 }

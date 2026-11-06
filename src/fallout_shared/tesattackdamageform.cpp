@@ -92,7 +92,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             TESModelList::BaseFormRecord((TESModelList*)templateSelection.creature);
             TESAnimation::BaseFormRecord((TESAnimation*)templateSelection.creature);
             SetBodyPartData(static_cast<const TESCreature*>(templateSelection.creature)->GetBodyPartData());
-            FUN_0050eaa0(templateSelection.creature);
+            TESBoundObject_CopyBoundData(templateSelection.creature);
             SetImpactDataSet(templateSelection.creature->GetImpactDataSet());
             SetBloodImpactMaterial(static_cast<const TESCreature*>(templateSelection.creature)->GetBloodImpactMaterial());
             BGSDestructibleObjectForm::BaseFormRecord((BGSDestructibleObjectForm*)templateSelection.creature);
@@ -158,7 +158,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
         {
             SetLevel(templateSelection.creature->GetLevel());
             SetMatchesPCLevel(templateSelection.creature->GetMatchesPCLevel());
-            SetCalcLevelMin(templateSelection.creature->FUN_0047d390());
+            SetCalcLevelMin(templateSelection.creature->GetCalcLevelMin_0047d390());
             SetCalcLevelMax(templateSelection.creature->FUN_0047d3b0());
             TESAttributes::BaseFormRecord((TESAttributes*)templateSelection.creature);
             TESHealthForm::BaseFormRecord((TESHealthForm*)templateSelection.creature);
@@ -166,10 +166,10 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             SetSpeedMult(templateSelection.creature->GetShortAtOffset12());
             SetFatigue(static_cast<const TESCreature*>(templateSelection.creature)->GetFatigue());
             SetByteAt12D(templateSelection.creature->GetCombatSkill());
-            SetCreatureType(templateSelection.creature->FUN_005f9ad0());
+            SetCreatureType(templateSelection.creature->ShadowSceneNode_GetDisableLightUpdate());
             FUN_00507780(templateSelection.creature->FUN_00821640());
             SetBoltGrowWidth(templateSelection.creature->FUN_00567470());
-            SetBoltSmallWidth(templateSelection.creature->FUN_00821660());
+            SetBoltSmallWidth(templateSelection.creature->GetFootWeight());
         }
         if (GetTemplateUseFlag(TU_FACTIONS))
             CopyFactionList((TESActorBaseData*)templateSelection.creature);

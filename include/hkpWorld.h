@@ -158,9 +158,9 @@ class hkpWorld : public hkReferencedObject
     void __cdecl AddCollisionShape(void* entity) throw();
 
     float FUN_00c91020();
-    float FUN_00c91030();
-    void FUN_00c910a0(hkpSimulationIsland* island);
-    void __thiscall FUN_00c910b0();
+    float hkpWorld_getCurrentPsiTime();
+    void nullsub_5(hkpSimulationIsland* island);
+    void __thiscall nullsub_6();
     void FUN_00c91120();
     void FUN_00c91140();
     void FUN_00c91160(void* operation);

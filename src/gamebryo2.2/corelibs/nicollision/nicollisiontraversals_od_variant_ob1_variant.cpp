@@ -217,7 +217,7 @@ struct Host
     unsigned char dirty;
     unsigned char ue5;
     unsigned char m_e6[16];
-    void FUN_00c35c10(Pt* v);
+    void BSOcclusionPlane_GetVertices(Pt* v);
     __forceinline int GetMode()
     {
         return m40;
@@ -237,7 +237,8 @@ struct Host
     }
     void FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag);
 };
-inline void Host::FUN_00c35c10(Pt* v)
+// src: COMMUNITY 0x00c35c10
+inline void Host::BSOcclusionPlane_GetVertices(Pt* v)
 {
     Pt* output = v;
     unsigned int byteCount = 4 * sizeof(Pt);
@@ -270,7 +271,7 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
     int n21 = 2;
     Pt aCorners[8];
     Pt tmp4c;
-    FUN_00c35c10(aCorners);
+    BSOcclusionPlane_GetVertices(aCorners);
     tmp4c = (&aCorners[0])->operator-(p0);
     tmp4c.FUN_004a0c10();
     aCorners[4] = (&aCorners[0])->operator+((&tmp4c)->operator*(DAT_010500cc));

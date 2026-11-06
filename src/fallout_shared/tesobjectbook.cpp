@@ -225,7 +225,7 @@ struct BookSaveBufferFlags
 void TESObjectBOOK::FUN_00515340(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<BookLegacyFormIO*>(this)->SaveIfChanged(buffer);
-    TESValueForm::FUN_0048ea40(buffer);
+    TESValueForm::SaveGameBGS_0048ea40(buffer);
     if (reinterpret_cast<BookSaveBufferFlags*>(buffer)->GetChangeFlags(0x20).operator bool())
         buffer->SaveData(&Data.m_cCharacterAfterFlags, 1, 0);
 }
@@ -270,7 +270,7 @@ struct FUN_0047a240_shell
 };
 struct S_0048cca0
 {
-    void FUN_0048cca0();
+    void Save_0048cca0();
 };
 struct FUN_0047bd70_shell
 {
@@ -278,7 +278,7 @@ struct FUN_0047bd70_shell
 };
 struct FUN_00482cb0_shell
 {
-    void FUN_00482cb0();
+    void Save_00482cb0();
 };
 struct S_00477f20
 {
@@ -302,9 +302,9 @@ void TESObjectBOOK::Destroy()
     ((S_0048a520*)((char*)this + 0x3c))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     ((FUN_0048e370_obj*)((char*)this + 0x5c))->FUN_0048e370(0x4e4f4349);
     ((FUN_0047a240_shell*)((char*)this + 0xa4))->FUN_0047a240(0x4f43494d);
-    ((S_0048cca0*)((char*)this + 0x68))->FUN_0048cca0();
+    ((S_0048cca0*)((char*)this + 0x68))->Save_0048cca0();
     ((FUN_0047bd70_shell*)((char*)this + 0x74))->FUN_0047bd70();
-    ((FUN_00482cb0_shell*)((char*)this + 0x94))->FUN_00482cb0();
+    ((FUN_00482cb0_shell*)((char*)this + 0x94))->Save_00482cb0();
     ((S_00477f20*)((char*)this + 0x9c))->FUN_00477f20();
     ((FUN_0047b560_holder*)((char*)this + 0xb4))->LogFormIDs();
     if (FUN_00401500())
@@ -369,7 +369,7 @@ extern InventoryMenuSetting g_011d4e94;
 extern InventoryMenuSetting g_011d34f8;
 extern InventoryMenuSetting g_011d3684;
 extern const char DAT_0108b3b4[];
-void __cdecl FUN_0095e900();
+void __cdecl PlayerCharacter_PoisonWeapon();
 void __cdecl FUN_00703e80(const char*, int, int, void(__cdecl*)(), int, int, float, float, ...);
 // Checks the inventory item and weapon type, displays messages on failure, and stores action before formatting the final prompt.
 // @fnv 0x0095e6f0
@@ -382,26 +382,26 @@ void Actor::FUN_0095e6f0(int action)
         TESObjectWEAP* weapon = item ? dynamic_cast<TESObjectWEAP*>(item->GetObject()) : 0;
         if (!weapon)
         {
-            FUN_00703e80(g_011d2748.FUN_00403df0(), 0, 0, FUN_0095e900, 1, 23, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
+            FUN_00703e80(g_011d2748.FUN_00403df0(), 0, 0, PlayerCharacter_PoisonWeapon, 1, 23, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
                          0);
             return;
         }
         if (weapon->GetUnk15C() != 45 && weapon->GetUnk15C() != 38)
         {
-            FUN_00703e80(g_011d2748.FUN_00403df0(), 0, 0, FUN_0095e900, 1, 23, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
+            FUN_00703e80(g_011d2748.FUN_00403df0(), 0, 0, PlayerCharacter_PoisonWeapon, 1, 23, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
                          0);
             return;
         }
         if (item->FUN_004bdcc0())
         {
-            FUN_00703e80(g_011d2814.FUN_00403df0(), 0, 0, FUN_0095e900, 1, 23, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
+            FUN_00703e80(g_011d2814.FUN_00403df0(), 0, 0, PlayerCharacter_PoisonWeapon, 1, 23, 0.0f, 0.0f, g_011d38b8.FUN_00403df0(),
                          0);
             return;
         }
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x758) = action;
         char szPrompt[256];
         sprintf(szPrompt, DAT_0108b3b4, g_011d4e94.FUN_00403df0(), weapon->TESFullName::GetFullName());
-        FUN_00703e80(szPrompt, 0, 0, FUN_0095e900, 2, 23, 0.0f, 0.0f, g_011d34f8.FUN_00403df0(),
+        FUN_00703e80(szPrompt, 0, 0, PlayerCharacter_PoisonWeapon, 2, 23, 0.0f, 0.0f, g_011d34f8.FUN_00403df0(),
                      g_011d3684.FUN_00403df0(), 0);
     }
 }

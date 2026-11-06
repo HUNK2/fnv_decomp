@@ -13,10 +13,10 @@ struct FUN_008c1be0_shell
 };
 struct FUN_004898c0_shell
 {
-    void FUN_004898c0(int param_1);
+    void BSArchive_GetFlag_(int param_1);
 };
 extern bool DAT_011acdf8;
-bool FUN_004898e0();
+bool ArchiveManager_ArchivesEnabled();
 struct FUN_004890e0_shell
 {
     void ForwardToMember();
@@ -28,7 +28,7 @@ struct FUN_00489860_shell
     unsigned char b2;
     unsigned char b3;
     int i4;
-    unsigned char* __thiscall FUN_00489860(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
+    unsigned char* __thiscall BSHash_BSHash_0(unsigned char a, unsigned char b, unsigned char c, unsigned char d, int e);
 };
 
 // sub ecx,0x30; jmp FUN_004029f0  ==  MSVC adjustor thunk (multiple inheritance,

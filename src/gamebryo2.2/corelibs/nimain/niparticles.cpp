@@ -10,7 +10,8 @@
 extern char const* const g_011f5f14_arg1;
 
 // @fnv 0x00a9b1b0
-char const* const* __cdecl FUN_00a9b1b0()
+// src: COMMUNITY 0x00a9b1b0
+char const* const* __cdecl NiParticles_GetRTTI()
 {
     return &g_011f5f14_arg1;
 }

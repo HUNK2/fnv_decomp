@@ -39,7 +39,7 @@ public:
     bool IsPowerArmor();
     bool IsPlayable();
     bool FUN_0047c850();
-    bool FUN_00480d30();
+    bool TESBipedModelForm_HasBackpack();
     bool FUN_00480af0(int slot, bool hair, bool modelList);
     bool FUN_00480d90();
     void FUN_00480d50(bool value);

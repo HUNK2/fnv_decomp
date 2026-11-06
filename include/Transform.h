@@ -160,7 +160,7 @@ public:
     void FUN_00cb2d90(const Quaternion* rotation);
     void FUN_00cb2d90(void* rotation);
     void hkRotation_renormalize();
-    void FUN_00ce5070(const Transform* other) throw();
+    void setFromTransformNoScale(const Transform* other) throw();
     void FUN_00ce51f0(int value);
     void FUN_00ce5300(Matrix43* out);
 

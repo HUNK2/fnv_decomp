@@ -99,7 +99,7 @@ public:
     virtual bool HandleMenuInput(int, float);
     virtual bool HandleControllerInput(int, Tile*);
 
-    int FUN_007e68a0();
+    int GetMenuID_007e68a0();
     void FUN_007e73c0();
     bool FUN_007e6dd0();
     void SetTileById(int, Tile*);

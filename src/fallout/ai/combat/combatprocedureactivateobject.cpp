@@ -17,7 +17,8 @@ void CombatProcedure::Initialize(CombatController* apCombatController)
 }
 
 // @fnv 0x006e4ba0
-int CombatProcedureActivateObject::FUN_006e4ba0()
+// src: COMMUNITY 0x006e4ba0
+int CombatProcedureActivateObject::Return8()
 {
     return 8;
 }

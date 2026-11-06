@@ -55,7 +55,8 @@ void NiTextureEffect::InitializePoint3()
 extern int g_011f5e94;
 
 // @fnv 0x00a927d0
-int* __cdecl FUN_00a927d0()
+// src: COMMUNITY 0x00a927d0
+int* __cdecl NiTextureEffect_GetRTTI()
 {
     return &g_011f5e94;
 }
@@ -609,7 +610,7 @@ struct PlaneViewer : PlaneSaver
 {
     char* FUN_00a69a60(const char* name);
 };
-char* __cdecl FUN_00a7d330(const char* name);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* name);
 char* __cdecl FUN_00a92a60(const char* name, int value);
 char* __cdecl BuildFilterModeString(const char* name, int value);
 char* __cdecl BuildTextureAddressModeString(const char* name, int value);
@@ -634,7 +635,7 @@ struct TextureEffectViewer : DynamicEffectViewer
 void TextureEffectViewer::AppendToStrings(StrArr& strings)
 {
     FUN_00a69140(strings);
-    strings.AppendInline(FUN_00a7d330(reinterpret_cast<const char*>(g_011f5e94)));
+    strings.AppendInline(NiViewerStrings_NiGetViewerString_Title(reinterpret_cast<const char*>(g_011f5e94)));
     strings.AppendInline(modelProjMat.GetViewerString("m_kModelProjMat"));
     strings.AppendInline(modelProjTrans.FUN_00a59af0("m_kModelProjTrans"));
     strings.AppendInline(FUN_00a92a60("m_eTextureMode", textureMode));

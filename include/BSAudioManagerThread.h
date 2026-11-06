@@ -11,8 +11,8 @@ public:
     virtual unsigned int ThreadProc();
 
     void __thiscall FUN_00aa6590(int, int);
-    void FUN_00ae7ac0();
-    void FUN_00ae7a50();
+    void ExitThread_00ae7ac0();
+    void Suspended();
 
     BSSemaphore_adf080 doneSemaphore30;
     unsigned int unk38;

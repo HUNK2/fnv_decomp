@@ -41,8 +41,8 @@ class __declspec(novtable) NiCamera : public NiAVObject
     unsigned int GetLODAdjust() const;
     NiPoint3 FUN_0045bba0();
     NiPoint3 FUN_0045bba0() const;
-    NiPoint3 FUN_004e9c50();
-    NiPoint3 FUN_004e9c50() const;
+    NiPoint3 NiCamera_GetWorldRightVector();
+    NiPoint3 NiCamera_GetWorldRightVector() const;
     int ClassifyPoint(const NiPoint3* point);
     bool WindowPixelToRay(long x, long y, NiPoint3& origin, NiPoint3& direction,
                           const NiRenderTargetGroup* group);
@@ -61,11 +61,11 @@ class __declspec(novtable) NiCamera : public NiAVObject
     void FUN_0043fa80(const NiMatrix3* rotation);
     void FUN_0043fa80(const teswater_detail::NiMatrix3* rotation);
     void FUN_00440490(float scale);
-    void* FUN_004a0d10();
+    void* TESDataHandler_GetImpactDataSetList();
     void FUN_00507700(float ratio);
     void FUN_00712e60(const NiRect<float>& viewport);
     void FUN_00a6faf0(const NiFrustum& frustum);
-    bool FUN_00a70080(const NiBound& bound);
+    bool FitNearAndFarToBound(const NiBound& bound);
     const NiPoint3& FUN_0045bb80() const;
     const NiMatrix3& FUN_00461130() const;
     float FUN_008d01e0() const;

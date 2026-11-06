@@ -124,9 +124,9 @@ void PathingRequest::CopyTo(PathingRequest* request)
     request->SetDestination(FUN_006a9540());
     request->SetActorRadius(GetActorRadius());
     request->FUN_006d3ae0(GetFloatAtOffset68());
-    request->FUN_006e29b0(FUN_006c9900());
+    request->SetActorLockData(FUN_006c9900());
     request->SetCenterRadius(GetCenterRadius());
-    NiPoint3 center = FUN_006a7910();
+    NiPoint3 center = GetTargetPoint();
     request->FUN_006e2980(center, GetTargetRadius());
     request->SetSmoothingRandomness(GetSmoothingRandomness());
     request->SetAvoidNodeArray(GetString());

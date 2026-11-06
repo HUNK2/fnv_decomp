@@ -356,7 +356,7 @@ extern RefPB* g_pkPlayerPB;
 extern RefPB* g_pkPlayerTeammatePB;
 
 CollisionPB* __cdecl FUN_004a8b00(NodePB* pkNode);
-BodyPB* __cdecl FUN_004b5a80(void* pvEntity);
+BodyPB* __cdecl bhkEntity_Getbhk(void* pvEntity);
 void __cdecl FUN_00b6bb30(NodePB* pkNode, float fAlpha);
 float __cdecl FUN_00408840(float fValue);
 SpherePB* __cdecl CreateOctahedron(float fRadius, const NiColorAPB& kColor, int iFlags);
@@ -407,7 +407,7 @@ void ProjPB::FUN_009becc0(float fUnused)
             CollisionPB* pkCollision = FUN_004a8b00(pkNode);
             BodyPB* pkBody = 0;
             BodyPB* pkMotion = 0;
-            pkBody = pkCollision ? FUN_004b5a80(((WorldObjectPB*)pkCollision->GetWorldObject())->GetEntity()) : 0;
+            pkBody = pkCollision ? bhkEntity_Getbhk(((WorldObjectPB*)pkCollision->GetWorldObject())->GetEntity()) : 0;
             if (pkBody)
             {
                 pkMotion = pkBody->GetMotion();
@@ -499,7 +499,7 @@ struct S9c_Rec
 };
 struct S9c_Coll
 {
-    void* FUN_009b2c90();
+    void* hkpTypedBroadPhaseHandle_getOwner();
 };
 struct __declspec(align(16)) S9c_Hits
 {
@@ -793,7 +793,7 @@ struct S9c_Layer
 };
 struct S9c_World
 {
-    S9c_Layer FUN_0043b4f0();
+    S9c_Layer bhkWorldObject_GetCollisionFilter();
 };
 struct S9c_Form
 {
@@ -802,7 +802,7 @@ struct S9c_Form
 void* __cdecl FUN_004b5820(void*);
 S9c_Form* __cdecl FUN_0056f930(void*);
 void* __cdecl FUN_004b5950(void*);
-S9c_World* __cdecl FUN_004b5a80(void*);
+S9c_World* __cdecl bhkEntity_Getbhk(void*);
 void __cdecl FUN_005ac750(void*, void*, unsigned int);
 extern NiPoint3 DAT_011a9490;
 extern void* DAT_011ca288;
@@ -963,14 +963,14 @@ bool S9c_Actor::FUN_009c0090()
         {
             S9c_Rec* rec = hits.FUN_00626660(i);
             S9c_Coll* coll = rec->obj;
-            void* item = coll->FUN_009b2c90();
+            void* item = coll->hkpTypedBroadPhaseHandle_getOwner();
             void* a = FUN_004b5820(item);
             S9c_Form* form = FUN_0056f930(a);
             void* c = FUN_004b5950(item);
-            S9c_World* world = c ? FUN_004b5a80(c) : 0;
+            S9c_World* world = c ? bhkEntity_Getbhk(c) : 0;
             if (world && form)
             {
-                if (world->FUN_0043b4f0().FUN_0043b4d0() == 23 || world->FUN_0043b4f0().FUN_0043b4d0() == 24)
+                if (world->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() == 23 || world->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() == 24)
                 {
                     found = true;
                     FUN_005ac750(this, form->FUN_005d43c0(), 0x80);
@@ -1326,7 +1326,7 @@ extern DebugP9* g_pkDebugP9;
 void __cdecl FUN_00458620(NiPoint3P9& kOut, const __m128& kIn);
 float __cdecl FUN_00408840(float fValue);
 float __cdecl FUN_00404010(float fA, float fB);
-void __cdecl FUN_005b5e40(const char* pcFormat, ...);
+void __cdecl Warning_005b5e40(const char* pcFormat, ...);
 bool __cdecl FUN_00888960();
 void __cdecl FUN_00c66230(bool bValue);
 void* __cdecl FUN_005dbe10();
@@ -1581,7 +1581,7 @@ bool RefP9::FUN_009c03f0()
                                 FUN_00404010(FUN_00408840(kRel.y / kExtent.y), FUN_00408840(kRel.z / kExtent.z)));
     if (fRatio > 1.0)
     {
-        FUN_005b5e40("COMBAT: Projectile %s is spawning outside of the broadphase.",
+        Warning_005b5e40("COMBAT: Projectile %s is spawning outside of the broadphase.",
                      GetBaseForm()->HasFullName() ? GetBaseForm()->GetFullName() : GetBaseForm()->m_kName.c_str());
     }
     else
@@ -1700,7 +1700,7 @@ class ImpulseRigidBody
 };
 
 void* FUN_004b59f0(const void* pvObject);
-void* FUN_004b5a80(const void* pvObject);
+void* bhkEntity_Getbhk(const void* pvObject);
 
 class ImpulseActorBase
 {
@@ -1708,7 +1708,7 @@ class ImpulseActorBase
     float FUN_00644930();
 };
 
-float FUN_0062b520(float fBase, ImpulseRigidBody* pkBody, int iMode);
+float TESHavokUtilities_ScaleGameplayImpulseForce(float fBase, ImpulseRigidBody* pkBody, int iMode);
 
 class ImpulseSource
 {
@@ -1722,14 +1722,14 @@ void ImpulseSource::FUN_009c2e80(NiPoint3 kPoint, NiPoint3 kDirection, void* pvT
 {
     if (!pvTarget)
         return;
-    ImpulseRigidBody* pkBody = (ImpulseRigidBody*)FUN_004b5a80(FUN_004b59f0(pvTarget));
+    ImpulseRigidBody* pkBody = (ImpulseRigidBody*)bhkEntity_Getbhk(FUN_004b59f0(pvTarget));
     ImpulseLock* pkLock = pkBody ? pkBody->GetLock() : 0;
     if (pkLock)
     {
         if (pkBody->FUN_00517630() < 4)
         {
             float fForce = FUN_004181e0()->FUN_00644930();
-            fForce = FUN_0062b520(fForce, pkBody, 1);
+            fForce = TESHavokUtilities_ScaleGameplayImpulseForce(fForce, pkBody, 1);
             if (fForce != 0.0)
             {
                 hkVector4 kImpulse;
@@ -1941,7 +1941,8 @@ bool __cdecl FUN_0043b300(NiRTTI9C* pkRTTI, void* pvObject);
 void __cdecl FUN_0056df80(hkTransform9C& kOut, const void* pvTransform);
 
 // @fnv 0x009c5ba0
-bool __cdecl FUN_009c5ba0(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckMotion, bool bUpdate)
+// src: COMMUNITY 0x009c5ba0
+bool __cdecl Projectile_PickSceneGraph(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckMotion, bool bUpdate)
 {
     bool bStateChanged = false;
     if (pkObject)
@@ -1998,7 +1999,7 @@ bool __cdecl FUN_009c5ba0(World9C* pkWorld, NiAVObject9C* pkObject, bool bCheckM
             for (unsigned int i = 0; i < pkNode->GetArrayCount(); i++)
             {
                 NiAVObject9C* pkChild = pkNode->GetAt(i);
-                bStateChanged = bStateChanged | FUN_009c5ba0(pkWorld, pkChild, bCheckMotion, false);
+                bStateChanged = bStateChanged | Projectile_PickSceneGraph(pkWorld, pkChild, bCheckMotion, false);
             }
         }
     }

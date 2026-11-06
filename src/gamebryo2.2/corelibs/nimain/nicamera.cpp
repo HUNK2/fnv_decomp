@@ -219,7 +219,8 @@ void* __fastcall DestroyCamera(int* pThis, int, unsigned int flags)
 
 extern const char* const g_011f5e6c_arg1;
 // @fnv 0x00a70040
-const char* const* __cdecl FUN_00a70040()
+// src: COMMUNITY 0x00a70040
+const char* const* __cdecl NiCamera_GetRTTI()
 {
     return &g_011f5e6c_arg1;
 }
@@ -439,12 +440,13 @@ class FUN_00a6fb90_cls
     float m_fRightBound;
     float m_fTopBound;
     float m_fBottomBound;
-    void FUN_00a6fb90(float scale, unsigned char flag);
+    void NiCamera_AdjustAspectRatio(float scale, unsigned char flag);
 };
 
 // Recomputes the four float members from the current pair, scaled by scale and DAT_01011588, swapping which pair is updated based on flag.
 // @fnv 0x00a6fb90
-void FUN_00a6fb90_cls::FUN_00a6fb90(float scale, unsigned char flag)
+// src: COMMUNITY 0x00a6fb90
+void FUN_00a6fb90_cls::NiCamera_AdjustAspectRatio(float scale, unsigned char flag)
 {
     if (flag != 0)
     {
@@ -1317,7 +1319,8 @@ inline NiPoint3 CameraPointDifference(const NiPoint3& first, const NiPoint3& sec
 
 // Projects a bound onto the camera's forward axis to set the view frustum near/far planes, then updates world data and bound.
 // @fnv 0x00a70080
-bool NiCamera::FUN_00a70080(const NiBound& bound)
+// src: COMMUNITY 0x00a70080
+bool NiCamera::FitNearAndFarToBound(const NiBound& bound)
 {
     NiPoint3 kWDir = CameraForwardVector(*this);
     NiPoint3 kDiff = CameraPointDifference(bound.m_kCenter, m_kWorld.m_Translate);

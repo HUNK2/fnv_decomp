@@ -395,8 +395,8 @@ struct SortPair8
 typedef bool(__cdecl* SortPairLess)(const SortPair8* lhs, const SortPair8* rhs);
 void __cdecl QuickSortPairs(SortPair8* apPairs, int lo, int hi, SortPairLess apLess);
 void __stdcall FUN_00d020f0(S_00d02020_Pair* pair);
-void __stdcall FUN_00d02200(int);
-void __stdcall FUN_00d02210(int, int, int);
+void __stdcall hkpMultiThreadedSimulation_61(int);
+void __stdcall hkpMultiThreadedSimulation_assertThereIsNoCollisionInformationForEntities(int, int, int);
 struct OwnerD020;
 class PhantomD020
 {
@@ -1048,7 +1048,7 @@ struct RuntimeBase
 };
 struct Job
 {
-    int FUN_00d04440();
+    int hkJobQueue_getMasterThreadFinishingFlags();
     void SetSimulationEnabled(int);
     void SetValue(int);
 };
@@ -2058,7 +2058,7 @@ struct StepWorld
     PendingConstraints* f1b8;
 
     void IncrementCounter();
-    void FUN_00c910b0();
+    void nullsub_6();
     void FUN_00c91120();
     void FUN_00c91140();
     void FUN_00c91190();
@@ -5188,7 +5188,7 @@ struct Obj
     void ComputeMemoryUsage(MemoryInfo* out);
     void FUN_00c91120();
     void FUN_00c91140();
-    void FUN_00c910b0();
+    void nullsub_6();
 };
 struct Simulation
 {
@@ -5336,7 +5336,7 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
     world = m_0c;
     m_b8 = world->m_2c;
     m_bc = world->m_38;
-    world->FUN_00c910b0();
+    world->nullsub_6();
     writeTrace(&DAT_01076f38, scratch.ticks);
     return 0;
 }

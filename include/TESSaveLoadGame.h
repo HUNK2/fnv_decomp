@@ -164,11 +164,11 @@ public:
     void FUN_00857aa0(void*, unsigned int);  // 0x857aa0 = TESSaveLoadGame::LoadNumericID
     void FUN_00857bd0(unsigned int);  // 0x857bd0 = TESSaveLoadGame::AdvanceBuffer
     void FUN_00858480(BSFile*);  // 0x858480 = TESSaveLoadGame::SaveGlobals
-    void* FUN_00858600(unsigned int);  // 0x858600 = TESSaveLoadGame::CreateBuffer
+    void* TESSaveLoadGame_CreateBuffer(unsigned int);  // 0x858600 = TESSaveLoadGame::CreateBuffer
     void FUN_00858700(void*);  // 0x858700 = TESSaveLoadGame::DestroyBuffer
-    void FUN_0085f010(void*, unsigned int);  // 0x85f010 = TESSaveLoadGame::QueueAnimationLoad
+    void TESSaveLoadGame_QueueAnimationLoad(void*, unsigned int);  // 0x85f010 = TESSaveLoadGame::QueueAnimationLoad
     void FUN_0085f420(void*, unsigned int);  // 0x85f420 = TESSaveLoadGame::QueueCharControllerLoad
-    void FUN_00861ea0();  // 0x861ea0 = TESSaveLoadGame::StartLoadingSequence
+    void TESSaveLoadGame_StartLoadingSequence();  // 0x861ea0 = TESSaveLoadGame::StartLoadingSequence
     bool FUN_00862110();  // 0x862110 = TESSaveLoadGame::UseSaveGameBlocks
     unsigned char FUN_008df040();  // 0x8df040 = TESSaveLoadGame::GetCurrentVersion
     void FinalizeForm(TESForm*);

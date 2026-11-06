@@ -605,7 +605,8 @@ class CountC4
 CountC4* __cdecl GetHealthForm(BoundC4* pkBound);
 
 // @fnv 0x005c4b30
-RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, TESForm* pkForm, int iCount, int iDistance, int iMode, float fScale)
+// src: COMMUNITY 0x005c4b30
+RefC4* __cdecl PlaceAtMe(RefC4* pkRef, TESForm* pkForm, int iCount, int iDistance, int iMode, float fScale)
 {
     RefC4* pkNew = 0;
     if (pkRef && pkForm)

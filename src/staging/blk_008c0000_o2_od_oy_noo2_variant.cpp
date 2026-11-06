@@ -18,7 +18,7 @@ hkVector4* __cdecl FUN_004a3e00(hkVector4* destination, const NiPoint3* source);
 class FUN_008c5d90_Class
 {
   public:
-    void FUN_008c5df0(hkVector4* converted);
+    void bhkMouseSpringAction_SetMousePosition_hk(hkVector4* converted);
     void FUN_008c5d90(const NiPoint3* source);
 };
 // Preserve the original stack-cookie coverage after replacing the local vector representation.
@@ -27,7 +27,7 @@ class FUN_008c5d90_Class
 void FUN_008c5d90_Class::FUN_008c5d90(const NiPoint3* source)
 {
     __declspec(align(16)) hkVector4 vector;
-    FUN_008c5df0(FUN_004a3e00(&vector, source));
+    bhkMouseSpringAction_SetMousePosition_hk(FUN_004a3e00(&vector, source));
 }
 #pragma strict_gs_check(pop)
 
@@ -36,7 +36,7 @@ struct __declspec(align(16)) Rotation_8cc740
 {
     char m_acRotationData[16];
     Rotation_8cc740(const char* pcName);
-    Rotation_8cc740 FUN_00458700(int iFlags) const;
+    Rotation_8cc740 hkVector4_getSimdAt(int iFlags) const;
     float FUN_004586d0() const;
 };
 
@@ -541,7 +541,7 @@ class Owner_8cc740
     NiPoint3 m_kOffset;
 
     Source_8cc740* FUN_009306d0();
-    void FUN_008cfad0(float fScaleMultiplier, NiPoint3 kPos, int iZero, unsigned int uiType);
+    void ArrowProjectile_PlayArrowCollisionSound(float fScaleMultiplier, NiPoint3 kPos, int iZero, unsigned int uiType);
     Emitter18_8cc740* FUN_008cdd90();
     Emitter30_8cc740* FUN_009ee040();
     Emitter18_8cc740* FUN_004f9bf0();
@@ -568,7 +568,7 @@ void Owner_8cc740::FUN_008cc740(const NiPoint3& kPos, const NiPoint3& kWorldPosi
     if (FUN_009306d0())
     {
         Rotation_8cc740 kRot(FUN_009306d0()->FUN_00807080());
-        if (kRot.FUN_00458700(0).FUN_004586d0() == -DAT_01085910)
+        if (kRot.hkVector4_getSimdAt(0).FUN_004586d0() == -DAT_01085910)
         {
             if (GetNode())
                 m_pUserData->m_kValue = GetNode()->FUN_00461130()->operator*(DAT_011a9478 * m_fScale);
@@ -590,7 +590,7 @@ void Owner_8cc740::FUN_008cc740(const NiPoint3& kPos, const NiPoint3& kWorldPosi
         break;
     }
     m_iActive = 1;
-    FUN_008cfad0(m_pUserData->m_kValue.Length(), kPos, 0, uiType);
+    ArrowProjectile_PlayArrowCollisionSound(m_pUserData->m_kValue.Length(), kPos, 0, uiType);
     if (m_pkController && m_pkController->GetEffect())
         m_pkController->GetEffect()->FUN_008d0600(kPos, 0);
     if (m_pkController)
@@ -630,7 +630,7 @@ struct __declspec(align(16)) xVec4
 {
     xM128 m_vComponents;
     xVec4(const NiPoint3&);
-    xVec4 FUN_00458700(int) const;
+    xVec4 hkVector4_getSimdAt(int) const;
     float FUN_004586d0() const;
 };
 struct xData
@@ -805,7 +805,7 @@ void xActor::FUN_008ccce0(const NiPoint3& akA, const NiPoint3& akB)
     if (FUN_009306d0())
     {
         xVec4 V(*FUN_009306d0()->FUN_00807080());
-        if (V.FUN_00458700(0).FUN_004586d0() == -xg_1085910)
+        if (V.hkVector4_getSimdAt(0).FUN_004586d0() == -xg_1085910)
         {
             if (FUN_1d0())
                 m_88->m_1c = FUN_1d0()->FUN_00461130()->operator*(xg_11a9478 * m_98);
@@ -829,7 +829,7 @@ struct __declspec(align(16)) xVec4
 {
     xM128 m_vComponents;
     xVec4(const NiPoint3&);
-    xVec4 FUN_00458700(int) const;
+    xVec4 hkVector4_getSimdAt(int) const;
     float FUN_004586d0() const;
 };
 struct xData
@@ -998,7 +998,7 @@ void xActor::FUN_008ccfb0(int aiValue)
         if (FUN_009306d0())
         {
             xVec4 V(*FUN_009306d0()->FUN_00807080());
-            if (V.FUN_00458700(0).FUN_004586d0() == -xg_1085910)
+            if (V.hkVector4_getSimdAt(0).FUN_004586d0() == -xg_1085910)
             {
                 if (FUN_1d0())
                     m_88->m_1c = FUN_1d0()->FUN_00461130()->operator*(xg_11a9478 * m_98);
@@ -1121,8 +1121,8 @@ class Target8CD
 
 void* __cdecl FUN_004b5260(void* pvTarget);
 void __cdecl FUN_00c6a350(void* pvSource, int a, int b, int c, int d);
-void __cdecl FUN_0062a7e0(hkVector4* pkTransform, void* pvTarget);
-void __cdecl FUN_005b5e40(const char* pcMessage);
+void __cdecl TESArrowTargetListener_AddArrowTarget(hkVector4* pkTransform, void* pvTarget);
+void __cdecl Warning_005b5e40(const char* pcMessage);
 
 // 0x008cd520 binds ArrowProjectile::HandleType1; its collision pointer is at +0x88, unlike Projectile.
 class ArrowImpactHandler
@@ -1348,8 +1348,8 @@ bool ArrowImpactHandler::FUN_008cd520(Caster8CD* pkCaster)
             return false;
         bhkRigidBody* pkItem = static_cast<bhkRigidBody*>(pkRef->FUN_006fa820());
         FUN_00c6a350(GetSource(), 4, 1, 0, 1);
-        SpellHandle8CD kHandle(6, pkItem->FUN_0043b4f0().FUN_004a3a20(), 0);
-        if (pkItem->FUN_0043b4f0().FUN_0043b4d0() != 4)
+        SpellHandle8CD kHandle(6, pkItem->bhkWorldObject_GetCollisionFilter().FUN_004a3a20(), 0);
+        if (pkItem->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() != 4)
             kHandle.SetFlags(0xf);
         pkCaster->SetHandle(kHandle);
         Listener8CD* pkListener = g_kListeners8CD.Get();
@@ -1361,13 +1361,13 @@ bool ArrowImpactHandler::FUN_008cd520(Caster8CD* pkCaster)
             {
                 hkVector4 kTransform;
                 pkCaster->GetTransform(kTransform);
-                FUN_0062a7e0(&kTransform, m_pkTarget->m_pvTarget);
+                TESArrowTargetListener_AddArrowTarget(&kTransform, m_pkTarget->m_pvTarget);
             }
         }
     }
     else
     {
-        FUN_005b5e40(
+        Warning_005b5e40(
             "AI: An arrow thinks it is colliding with an Reference, but there is no Reference in the collision data!");
         return false;
     }
@@ -1430,7 +1430,7 @@ struct ObjectD0020
     virtual void v24();
     virtual void v25();
     virtual BodyD0020* GetBody();
-    bhkFilter FUN_0043b4f0();
+    bhkFilter bhkWorldObject_GetCollisionFilter();
     float FUN_004b5400();
     ResultD0020* FUN_004ae750(const hkVector4&, const hkVector4&);
 };
@@ -1452,7 +1452,7 @@ void TargetD0020::FUN_008d0020(NiPoint3 position, NiPoint3 direction, ObjectD002
     if (body)
     {
         float strength = FUN_008d01e0();
-        bhkFilter type = object->FUN_0043b4f0();
+        bhkFilter type = object->bhkWorldObject_GetCollisionFilter();
         switch (type.FUN_0043b4d0())
         {
         case 14:

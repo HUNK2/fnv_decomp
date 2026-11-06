@@ -289,14 +289,15 @@ void* __fastcall _ref_00726070(void* pThis);
 
 struct ContainerItemExtra_helper
 {
-    void FUN_0040eb90(float);
+    void ContainerItemExtra_AdjustHealthPercent(float);
 };
 
 }  // namespace fnv_00482090
 
 // Walks the container's item list, creating each item's extra data if missing, applies afHealthPerc to it, and deletes extras that become default.
 // @fnv 0x00482090
-void TESContainer::FUN_00482090(float afHealthPerc)
+// src: COMMUNITY 0x00482090
+void TESContainer::ApplyHealthPercentToContainer(float afHealthPerc)
 {
     void* pCurrentElementNext = (void*)GetObjectList();
     while (pCurrentElementNext && !fnv_00482090::_ref_008256d0(pCurrentElementNext))
@@ -304,7 +305,7 @@ void TESContainer::FUN_00482090(float afHealthPerc)
         InventoryItemEntry* pcont = *fnv_00482090::_ref_006815c0(pCurrentElementNext);
         if (!pcont->extra)
             pcont->extra = new ContainerItemExtra;
-        ((fnv_00482090::ContainerItemExtra_helper*)pcont->extra)->FUN_0040eb90(afHealthPerc);
+        ((fnv_00482090::ContainerItemExtra_helper*)pcont->extra)->ContainerItemExtra_AdjustHealthPercent(afHealthPerc);
         if (pcont->extra->IsDefault())
         {
             delete pcont->extra;
@@ -360,7 +361,8 @@ struct TESLevFormStub : public TESLevPad, public TESLeveledList
 
 // Returns apForm cast to TESLeveledList when its form type is 0x34, 0x2C, 0x2D or 0x4C, otherwise null.
 // @fnv 0x00487be0
-TESLeveledList* __cdecl FUN_00487be0(TESForm* apForm)
+// src: COMMUNITY 0x00487be0
+TESLeveledList* __cdecl TESLeveledList_GetFormAsLeveledList(TESForm* apForm)
 {
     TESLeveledList* pLeveledList = 0;
     if (apForm)
@@ -800,7 +802,8 @@ void* GetHealthForm(TESForm*);
 const char* FUN_00482720(TESForm*);
 bool QueueUIMessage(const char*, int, const char*, const char*, float, bool);
 // @fnv 0x004821a0
-void TESContainer::FUN_004821a0(TESObjectREFR* target, bool silent)
+// src: COMMUNITY 0x004821a0
+void TESContainer::AddContainerToReference(TESObjectREFR* target, bool silent)
 {
     if (target)
     {
@@ -1485,8 +1488,8 @@ void CraftRecipe(int count)
                                         {
                                             tempCont1.FUN_004818e0((TESForm*)itemForm, compQty * count, 0);
                                         }
-                                        tempCont1.FUN_00482090(DAT_01030ff0);
-                                        tempCont1.FUN_004821a0(DAT_011d8e90->crafterRef, 0);
+                                        tempCont1.ApplyHealthPercentToContainer(DAT_01030ff0);
+                                        tempCont1.AddContainerToReference(DAT_011d8e90->crafterRef, 0);
                                     }
                                 }
                                 else if (itemForm->FUN_00401170() == 0x18 || itemForm->FUN_00401170() == 0x1a)
@@ -1496,8 +1499,8 @@ void CraftRecipe(int count)
                                     {
                                         tempCont2.FUN_004818e0((TESForm*)itemForm, compQty * count, 0);
                                     }
-                                    tempCont2.FUN_00482090(DAT_01030ff0);
-                                    tempCont2.FUN_004821a0(DAT_011d8e90->crafterRef, 0);
+                                    tempCont2.ApplyHealthPercentToContainer(DAT_01030ff0);
+                                    tempCont2.AddContainerToReference(DAT_011d8e90->crafterRef, 0);
                                 }
                                 else
                                 {

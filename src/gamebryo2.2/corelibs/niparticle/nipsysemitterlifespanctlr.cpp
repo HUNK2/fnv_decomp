@@ -8,7 +8,8 @@
 extern "C" void* g_01202740;
 
 // @fnv 0x00c2b650
-void* __cdecl FUN_00c2b650()
+// src: COMMUNITY 0x00c2b650
+void* __cdecl NiPSysEmitterLifeSpanCtlr_GetRTTI()
 {
     return &g_01202740;
 }

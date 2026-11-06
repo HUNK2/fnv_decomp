@@ -45,7 +45,7 @@ static const DashpotQuadD4DCB0 DashpotNegAll = {{-0.0f, -0.0f, -0.0f, -0.0f}};
 struct DashpotQuaternionMath
 {
     DashpotQuadD4DCB0 m_vec;
-    __declspec(noalias) void FUN_00c66320(const DashpotQuadD4DCB0* a, const DashpotQuadD4DCB0* b);
+    __declspec(noalias) void setMul(const DashpotQuadD4DCB0* a, const DashpotQuadD4DCB0* b);
     float FUN_00c74c20();
 };
 
@@ -67,10 +67,10 @@ void AngularDashpotApplyAction::applyAction(const hkStepInfo& input)
         DashpotQuadD4DCB0 tmp;
     } v;
     DashpotQuaternionMath* __restrict quat = &v.qprod;
-    quat->FUN_00c66320((const DashpotQuadD4DCB0*)&bEnt->m_pMotionState.m_kMotionState.m_kSweptTransform.m_qRotation1, (DashpotQuadD4DCB0*)&m_rotation);
+    quat->setMul((const DashpotQuadD4DCB0*)&bEnt->m_pMotionState.m_kMotionState.m_kSweptTransform.m_qRotation1, (DashpotQuadD4DCB0*)&m_rotation);
 
     v.tmp = AngularDashpotApplyD4DCB0::_mm_xor_ps(v.qprod.m_vec, DashpotNegXY);
-    quat->FUN_00c66320((const DashpotQuadD4DCB0*)&aEnt->m_pMotionState.m_kMotionState.m_kSweptTransform.m_qRotation1, &v.tmp);
+    quat->setMul((const DashpotQuadD4DCB0*)&aEnt->m_pMotionState.m_kMotionState.m_kSweptTransform.m_qRotation1, &v.tmp);
     v.tmp = AngularDashpotApplyD4DCB0::_mm_sub_ps(reinterpret_cast<const DashpotQuadD4DCB0&>(aEnt->m_pMotionState.m_kAngularVelocity), reinterpret_cast<const DashpotQuadD4DCB0&>(bEnt->m_pMotionState.m_kAngularVelocity));
 
     float t = quat->FUN_00c74c20();

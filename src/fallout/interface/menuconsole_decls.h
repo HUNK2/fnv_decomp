@@ -25,14 +25,14 @@ class TaskQueueInterface
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 void DebugLog(const char*, ...);
-int FUN_0071cfd0(const char*, const char*, unsigned int);
-int FUN_0071cff0(const char*, const char*, unsigned int);
-void FUN_005cbd90(char*, const char*, unsigned int);
-void FUN_0071d030(ConsoleManager*, const char*, ...);
-void FUN_007030c0(int, int);
-void FUN_007038e0(int);
-void FUN_00703920();
-void FUN_00702c80(bool, bool);
+int _mbsnbcmp_(const char*, const char*, unsigned int);
+int _mbsnbicmp_(const char*, const char*, unsigned int);
+void _mbsnbcpy_(char*, const char*, unsigned int);
+void _MenuConsole_PrintLine(ConsoleManager*, const char*, ...);
+void Interface_UpdateScreenShape(int, int);
+void Interface_ToggleSafeZone(int);
+void Interface_SetFirstChanceTextureRelease();
+void Interface_IsolateMenuElements(bool, bool);
 void UpdateMenuTileVisibility();
 int FUN_0070ede0();
 int MinInt(int, int);
@@ -49,7 +49,7 @@ FNV_STATIC_ASSERT(sizeof(Script) == 0x54);
 Tile* FindNamedTile(Tile*, const char*);
 Menu* FindMenuById(int);
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 class MenuSystem
 {
   public:

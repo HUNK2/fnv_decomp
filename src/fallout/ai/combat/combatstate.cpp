@@ -341,25 +341,27 @@ struct CombatAvoidanceSphere
 typedef char _sizecheck_CombatLocation[sizeof(CombatAvoidanceSphere) == 32 ? 1 : -1];
 struct FUN_00819a50_shell : public CombatAvoidanceSphere
 {
-    void FUN_00819a50(float);
+    void CombatLocation_SetRadius(float);
 };
 
 // @fnv 0x00819a50
-void FUN_00819a50_shell::FUN_00819a50(float afRadius)
+// src: COMMUNITY 0x00819a50
+void FUN_00819a50_shell::CombatLocation_SetRadius(float afRadius)
 {
     fRadius = afRadius;
 }
 
 struct FUN_00997c10_shell
 {
-    void __thiscall FUN_009975c0();
-    void __thiscall FUN_00997c10();
+    void __thiscall CoverSearch_Reset();
+    void __thiscall CombatState_ClearSecondaryCoverSearch();
 };
 
 // @fnv 0x00997c10
-void __thiscall FUN_00997c10_shell::FUN_00997c10()
+// src: COMMUNITY 0x00997c10
+void __thiscall FUN_00997c10_shell::CombatState_ClearSecondaryCoverSearch()
 {
-    ((FUN_00997c10_shell*)((char*)this + 0x128))->FUN_009975c0();
+    ((FUN_00997c10_shell*)((char*)this + 0x128))->CoverSearch_Reset();
 }
 
 struct FUN_009989f0_shell
@@ -440,7 +442,7 @@ void __fastcall FreeAndClearFieldC4(FUN_009a0a40_shell* thisp)
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
+    void BGSWorldLocation_SaveGame(void*);
 };
 
 struct FUN_009a2d80_shell
@@ -452,7 +454,7 @@ struct FUN_009a2d80_shell
 // @fnv 0x009a2d80
 void FUN_009a2d80_shell::FUN_009a2d80(void* buffer)
 {
-    reinterpret_cast<CoordinateTriple*>(this)->FUN_00527b70(buffer);
+    reinterpret_cast<CoordinateTriple*>(this)->BGSWorldLocation_SaveGame(buffer);
     reinterpret_cast<CombatTargetTimestamp*>(reinterpret_cast<char*>(this) + 0x10)->SaveTimeStamp(buffer);
 }
 
@@ -577,7 +579,8 @@ struct IMH
 };
 
 // @fnv 0x0097beb0
-void FUN_0097beb0(IMH* pIMH, int iUnused, int iValue)
+// src: COMMUNITY 0x0097beb0
+void CombatController_FindCombatLocation(IMH* pIMH, int iUnused, int iValue)
 {
     CombatState* t = pIMH->FUN_00586150();
     t->FindCombatLocation_0099ac20(iValue);
@@ -634,21 +637,22 @@ struct CoordinateTriple
 
 struct TESObjectREFR_STUB
 {
-    CoordinateTriple FUN_00575650();
+    CoordinateTriple TESObjectREFR_GetWorldLocation();
 };
 
 struct CombatAvoidanceSphere
 {
     CoordinateTriple m_cBuffer;
     TESObjectREFR* pRef;
-    void FUN_00997400(TESObjectREFR* apRef);
+    void CombatLocation_SetTarget(TESObjectREFR* apRef);
 };
 
 // @fnv 0x00997400
-void CombatAvoidanceSphere::FUN_00997400(TESObjectREFR* apRef)
+// src: COMMUNITY 0x00997400
+void CombatAvoidanceSphere::CombatLocation_SetTarget(TESObjectREFR* apRef)
 {
     pRef = apRef;
-    m_cBuffer = reinterpret_cast<TESObjectREFR_STUB*>(pRef)->FUN_00575650();
+    m_cBuffer = reinterpret_cast<TESObjectREFR_STUB*>(pRef)->TESObjectREFR_GetWorldLocation();
 }
 }  // namespace fnv_00997400
 
@@ -661,7 +665,7 @@ struct WL16_997440
 };
 struct Ref_997440
 {
-    WL16_997440 FUN_00575650();
+    WL16_997440 TESObjectREFR_GetWorldLocation();
 };
 struct Outer_997440
 {
@@ -674,7 +678,7 @@ struct Outer_997440
 void Outer_997440::CopyRefValue()
 {
     if (pRef)
-        loc = pRef->FUN_00575650();
+        loc = pRef->TESObjectREFR_GetWorldLocation();
 }
 
 extern float DAT_0108df70;
@@ -689,10 +693,11 @@ struct Unk975C0
     float f18;
     int i1c;
     BSSimpleArray<Elem, 1024> s20;
-    void FUN_009975c0();
+    void CoverSearch_Reset();
 };
 // @fnv 0x009975c0
-void Unk975C0::FUN_009975c0()
+// src: COMMUNITY 0x009975c0
+void Unk975C0::CoverSearch_Reset()
 {
     CH data;
     f18 = 0.0f;
@@ -704,7 +709,7 @@ void Unk975C0::FUN_009975c0()
 namespace fnv_00997ba0 {
 struct FUN_00997c10_shell
 {
-    void FUN_00997c10();
+    void CombatState_ClearSecondaryCoverSearch();
 };
 struct FUN_009a0680_shell
 {
@@ -713,20 +718,21 @@ struct FUN_009a0680_shell
 struct FUN_00997ba0_shell
 {
     void FUN_009a03d0(int);
-    void FUN_00997bf0();
+    void CombatState_ClearStandardCoverSearch();
     void ReleaseStageHolder(int);
-    void FUN_00997ba0(int, int);
+    void CombatState_ChangeProcessLevel(int, int);
 };
 // When a is zero and b is non-zero, calls FUN_009a03d0(0), FUN_00997bf0, ReleaseStageHolder(0), FUN_00997c10 and ClearAndDeletePointer.
 // @fnv 0x00997ba0
-void FUN_00997ba0_shell::FUN_00997ba0(int aiFirst, int aiSecond)
+// src: COMMUNITY 0x00997ba0
+void FUN_00997ba0_shell::CombatState_ChangeProcessLevel(int aiFirst, int aiSecond)
 {
     if (aiFirst == 0 && aiSecond != 0)
     {
         FUN_009a03d0(0);
-        FUN_00997bf0();
+        CombatState_ClearStandardCoverSearch();
         ReleaseStageHolder(0);
-        ((FUN_00997c10_shell*)this)->FUN_00997c10();
+        ((FUN_00997c10_shell*)this)->CombatState_ClearSecondaryCoverSearch();
         ((FUN_009a0680_shell*)this)->ClearAndDeletePointer();
     }
 }
@@ -735,16 +741,17 @@ void FUN_00997ba0_shell::FUN_00997ba0(int aiFirst, int aiSecond)
 namespace fnv_00997bf0 {
 struct FUN_00997c10_shell
 {
-    void FUN_009975c0();
+    void CoverSearch_Reset();
 };
 struct FUN_00997bf0_shell
 {
-    void FUN_00997bf0();
+    void CombatState_ClearStandardCoverSearch();
 };
 // @fnv 0x00997bf0
-void FUN_00997bf0_shell::FUN_00997bf0()
+// src: COMMUNITY 0x00997bf0
+void FUN_00997bf0_shell::CombatState_ClearStandardCoverSearch()
 {
-    ((FUN_00997c10_shell*)((char*)this + 0xec))->FUN_009975c0();
+    ((FUN_00997c10_shell*)((char*)this + 0xec))->CoverSearch_Reset();
 }
 }  // namespace fnv_00997bf0
 
@@ -755,14 +762,15 @@ struct TESAmmoInitCalls
 
 struct FUN_00997cb0_Class
 {
-    void FUN_00997cb0();
+    void CombatState_Update();
     void FUN_00997cf0();
     void FUN_00998a50();
     void FUN_00999160();
 };
 
 // @fnv 0x00997cb0
-void FUN_00997cb0_Class::FUN_00997cb0()
+// src: COMMUNITY 0x00997cb0
+void FUN_00997cb0_Class::CombatState_Update()
 {
     if ((*reinterpret_cast<TESAmmoInitCalls**>(reinterpret_cast<char*>(this) + 0x1c4))
             ->GetFieldBC()
@@ -910,11 +918,12 @@ struct FUN_0097f220_t
 };
 struct FUN_0099a650_shell : CombatState
 {
-    void FUN_0099a650(int a, bool b);
+    void CombatState_ResetEmbeddedWeaponSwitchTimer(int a, bool b);
 };
 // If the flag is false, calls FUN_0097f220 on the object at offset 0x214 of this CombatState.
 // @fnv 0x0099a650
-void FUN_0099a650_shell::FUN_0099a650(int aiUnused, bool b)
+// src: COMMUNITY 0x0099a650
+void FUN_0099a650_shell::CombatState_ResetEmbeddedWeaponSwitchTimer(int aiUnused, bool b)
 {
     if (!b)
         ((FUN_0097f220_t*)((char*)this + 0x214))->FUN_0097f220();
@@ -1048,10 +1057,11 @@ struct MagicItem;
 
 struct FUN_0099b520_shell : MagicCaster
 {
-    void FUN_0099b520(MagicItem* spell);
+    void CombatLocation_SetSpace(MagicItem* spell);
 };
 // @fnv 0x0099b520
-void FUN_0099b520_shell::FUN_0099b520(MagicItem* spell)
+// src: COMMUNITY 0x0099b520
+void FUN_0099b520_shell::CombatLocation_SetSpace(MagicItem* spell)
 {
     SetSelectedMagicItem((int)spell);
 }
@@ -1337,7 +1347,7 @@ namespace fnv_009a2bf0 {
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
+    void BGSWorldLocation_SaveGame(void*);
     void* field00;
     void* field04;
     void* field08;
@@ -1350,13 +1360,14 @@ struct FUN_009a2bf0_shell : CoordinateTriple
     void* field14;
     void* field18;
     void* field1C;
-    void FUN_009a2bf0(BGSSaveFormBuffer* a_buffer);
+    void CombatLocation_SaveGameBGS(BGSSaveFormBuffer* a_buffer);
 };
 
 // @fnv 0x009a2bf0
-void FUN_009a2bf0_shell::FUN_009a2bf0(BGSSaveFormBuffer* a_buffer)
+// src: COMMUNITY 0x009a2bf0
+void FUN_009a2bf0_shell::CombatLocation_SaveGameBGS(BGSSaveFormBuffer* a_buffer)
 {
-    FUN_00527b70(a_buffer);
+    BGSWorldLocation_SaveGame(a_buffer);
     a_buffer->SaveData((void*)&field14, 4, 0);
     a_buffer->SaveData((void*)&field18, 4, 0);
     a_buffer->SaveData((void*)&field1C, 4, 0);
@@ -1366,7 +1377,7 @@ void FUN_009a2bf0_shell::FUN_009a2bf0(BGSSaveFormBuffer* a_buffer)
 
 struct FUN_00527ba0_Class
 {
-    void __thiscall FUN_00527ba0(void*);
+    void __thiscall BGSLoadGameBuffer_LoadBGSWorldLocation(void*);
 };
 
 struct FUN_009a2c60_Class
@@ -1377,7 +1388,7 @@ struct FUN_009a2c60_Class
 // @fnv 0x009a2c60
 void FUN_009a2c60_Class::LoadFormData(void* buffer)
 {
-    ((FUN_00527ba0_Class*)this)->FUN_00527ba0(buffer);
+    ((FUN_00527ba0_Class*)this)->BGSLoadGameBuffer_LoadBGSWorldLocation(buffer);
     ((BGSLoadFormBuffer*)buffer)->ReadTypedData((void*)((char*)this + 0x14), 4);
     ((BGSLoadFormBuffer*)buffer)->ReadTypedData((void*)((char*)this + 0x18), 4);
     ((BGSLoadFormBuffer*)buffer)->ReadTypedData((void*)((char*)this + 0x1c), 4);
@@ -1423,7 +1434,7 @@ namespace fnv_009a2db0 {
 
 struct FUN_00527ba0_t
 {
-    void FUN_00527ba0(BGSLoadGameBuffer*);
+    void BGSLoadGameBuffer_LoadBGSWorldLocation(BGSLoadGameBuffer*);
 };
 struct FUN_009a2db0_shell : FUN_00527ba0_t
 {
@@ -1432,7 +1443,7 @@ struct FUN_009a2db0_shell : FUN_00527ba0_t
 // @fnv 0x009a2db0
 void FUN_009a2db0_shell::FUN_009a2db0(BGSLoadGameBuffer* buf)
 {
-    FUN_00527ba0(buf);
+    BGSLoadGameBuffer_LoadBGSWorldLocation(buf);
     ((CombatTargetTimestamp*)((char*)this + 0x10))->LoadGame((::BGSLoadGameBuffer*)buf);
 }
 }  // namespace fnv_009a2db0
@@ -1441,7 +1452,7 @@ namespace fnv_009a3130 {
 
 struct CoordinateTriple
 {
-    void FUN_00527b70(void*);
+    void BGSWorldLocation_SaveGame(void*);
 };
 struct CombatSaveData
 {
@@ -1461,7 +1472,7 @@ void CombatSaveData::FUN_009a3130(BGSSaveFormBuffer* apSaveGameBuffer)
     apSaveGameBuffer->SaveData((void*)&unk18, 4, 0);
     apSaveGameBuffer->SaveData((void*)&unk1C, 4, 0);
     apSaveGameBuffer->SerializeFormData(pRef, 0);
-    ((CoordinateTriple*)((char*)this + 8))->FUN_00527b70(apSaveGameBuffer);
+    ((CoordinateTriple*)((char*)this + 8))->BGSWorldLocation_SaveGame(apSaveGameBuffer);
 }
 }  // namespace fnv_009a3130
 
@@ -1469,22 +1480,23 @@ namespace fnv_009a31b0 {
 
 struct Sub08
 {
-    void FUN_00527ba0(BGSLoadFormBuffer*);
+    void BGSLoadGameBuffer_LoadBGSWorldLocation(BGSLoadFormBuffer*);
 };
 struct Holder
 {
-    void FUN_009a31b0(BGSLoadFormBuffer*);
+    void CombatState_LocationTarget_LoadGame(BGSLoadFormBuffer*);
 };
 // Reads bytes at offsets 0, 1, 0x18 and 0x1C, a value at offset 4, and delegates offset 8 to FUN_00527ba0, all via the load buffer.
 // @fnv 0x009a31b0
-void Holder::FUN_009a31b0(BGSLoadFormBuffer* pBuffer)
+// src: COMMUNITY 0x009a31b0
+void Holder::CombatState_LocationTarget_LoadGame(BGSLoadFormBuffer* pBuffer)
 {
     pBuffer->ReadTypedData(this, 1);
     pBuffer->ReadTypedData((void*)((char*)this + 1), 1);
     pBuffer->ReadTypedData((void*)((char*)this + 0x18), 4);
     pBuffer->ReadTypedData((void*)((char*)this + 0x1C), 4);
     pBuffer->ReadFormIdentifier((void*)((char*)this + 4));
-    ((Sub08*)((char*)this + 8))->FUN_00527ba0(pBuffer);
+    ((Sub08*)((char*)this + 8))->BGSLoadGameBuffer_LoadBGSWorldLocation(pBuffer);
 }
 }  // namespace fnv_009a31b0
 
@@ -1542,10 +1554,11 @@ struct CCL
 };
 struct FUN_009d6730_shell : CombatState
 {
-    CCL* FUN_009d6730(CCL* out);
+    CCL* CombatState_GetMaybeFleeTimer0A0(CCL* out);
 };
 // @fnv 0x009d6730
-CCL* FUN_009d6730_shell::FUN_009d6730(CCL* out)
+// src: COMMUNITY 0x009d6730
+CCL* FUN_009d6730_shell::CombatState_GetMaybeFleeTimer0A0(CCL* out)
 {
     *out = *(CCL*)((char*)this + 0xa0);
     return out;
@@ -1554,10 +1567,11 @@ CCL* FUN_009d6730_shell::FUN_009d6730(CCL* out)
 struct FUN_009d6c80_shell
 {
     void FUN_009a05b0(CombatCoverPointData_combatstate*);
-    void FUN_009d6c80();
+    void CombatState_UnreserveSecondaryCoverLocation();
 };
 // @fnv 0x009d6c80
-void FUN_009d6c80_shell::FUN_009d6c80()
+// src: COMMUNITY 0x009d6c80
+void FUN_009d6c80_shell::CombatState_UnreserveSecondaryCoverLocation()
 {
     FUN_009a05b0(*(CombatCoverPointData_combatstate**)((char*)this + 0xe8));
 }
@@ -1621,10 +1635,11 @@ struct FUN_009a3280_shell
 };
 struct FUN_009a2f50_shell
 {
-    void FUN_009a2f50(BGSSaveFormBuffer* buffer);
+    void CombatCoverSearch_SaveGameBGS(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x009a2f50
-void FUN_009a2f50_shell::FUN_009a2f50(BGSSaveFormBuffer* buffer)
+// src: COMMUNITY 0x009a2f50
+void FUN_009a2f50_shell::CombatCoverSearch_SaveGameBGS(BGSSaveFormBuffer* buffer)
 {
     buffer->SaveData(this, 12, 0);
     buffer->SaveData((char*)this + 12, 12, 0);
@@ -1655,11 +1670,12 @@ struct FUN_009a3280_shell
 };
 struct CombatSaveGameData
 {
-    void FUN_009a3050(BGSLoadFormBuffer* buffer);
+    void CombatCoverSearch_LoadGameBGS(BGSLoadFormBuffer* buffer);
 };
 // Reads this object's fields from the buffer, then loads a count and each of that many PathingCoverLocation entries via LoadGame.
 // @fnv 0x009a3050
-void CombatSaveGameData::FUN_009a3050(BGSLoadFormBuffer* buffer)
+// src: COMMUNITY 0x009a3050
+void CombatSaveGameData::CombatCoverSearch_LoadGameBGS(BGSLoadFormBuffer* buffer)
 {
     buffer->ReadTypedData(this, 0xc);
     buffer->ReadTypedData((char*)this + 0xc, 0xc);
@@ -1862,11 +1878,12 @@ struct FUN_009a0b00_s
     Target* t;
     bool FUN_009a0a80();
     float GetScaledValue();
-    float FUN_009a0b00();
+    float CombatState_GetLocationTargetDistance();
 };
 // Returns t->f[7] when FUN_009a0a80() succeeds, otherwise returns the result of GetScaledValue().
 // @fnv 0x009a0b00
-float FUN_009a0b00_s::FUN_009a0b00()
+// src: COMMUNITY 0x009a0b00
+float FUN_009a0b00_s::CombatState_GetLocationTargetDistance()
 {
     if (FUN_009a0a80())
         return t->f[7];
@@ -1929,11 +1946,12 @@ struct FUN_009a39f0_t
 };
 struct FUN_009a3430_shell : FUN_009a39f0_t
 {
-    FUN_009a3430_shell* FUN_009a3430();
+    FUN_009a3430_shell* BSSimpleArray_UnreachableCoverLocation_1024_BSSimpleArray_UnreachableCoverLocation_1024();
 };
 // Sets the object's vtable pointer to DAT_0108e07c, calls FUN_009a39f0(0, 0), and returns this.
 // @fnv 0x009a3430
-FUN_009a3430_shell* FUN_009a3430_shell::FUN_009a3430()
+// src: COMMUNITY 0x009a3430
+FUN_009a3430_shell* FUN_009a3430_shell::BSSimpleArray_UnreachableCoverLocation_1024_BSSimpleArray_UnreachableCoverLocation_1024()
 {
     *(int**)this = &DAT_0108e07c;
     FUN_009a39f0(0, 0);
@@ -1965,11 +1983,12 @@ struct FUN_009a3bc0_t
 };
 struct FUN_009a35c0_shell : FUN_009a3bc0_t
 {
-    FUN_009a35c0_shell* FUN_009a35c0();
+    FUN_009a35c0_shell* BSSimpleArray_UnreachableLocation_1024_BSSimpleArray_UnreachableLocation_1024();
 };
 // Sets the object's vtable pointer to DAT_0108e090, calls Initialize with 0, 0, and returns this.
 // @fnv 0x009a35c0
-FUN_009a35c0_shell* FUN_009a35c0_shell::FUN_009a35c0()
+// src: COMMUNITY 0x009a35c0
+FUN_009a35c0_shell* FUN_009a35c0_shell::BSSimpleArray_UnreachableLocation_1024_BSSimpleArray_UnreachableLocation_1024()
 {
     *(int**)this = &DAT_0108e090;
     Initialize(0, 0);
@@ -1993,11 +2012,12 @@ struct RetObj
 
 struct FUN_00997480_shell
 {
-    void FUN_00997480(const FUN_00997480_shell* apCopy);
+    void CombatCoverLocation_Copy(const FUN_00997480_shell* apCopy);
 };
 
 // @fnv 0x00997480
-void FUN_00997480_shell::FUN_00997480(const FUN_00997480_shell* apCopy)
+// src: COMMUNITY 0x00997480
+void FUN_00997480_shell::CombatCoverLocation_Copy(const FUN_00997480_shell* apCopy)
 {
     *(bool*)((char*)this + 0) = *(bool*)((char*)apCopy + 0);
     *(bool*)((char*)this + 1) = *(bool*)((char*)apCopy + 1);
@@ -2027,19 +2047,20 @@ struct Host
 };
 struct Unk975C0
 {
-    void FUN_009975c0();
+    void CoverSearch_Reset();
 };
 struct FUN_00997520_shell : Unk975C0
 {
-    void FUN_00997520(const void* apParam);
+    void CoverSearch_Set(const void* apParam);
 };
 
 // @fnv 0x00997520
-void FUN_00997520_shell::FUN_00997520(const void* apParam)
+// src: COMMUNITY 0x00997520
+void FUN_00997520_shell::CoverSearch_Set(const void* apParam)
 {
     if (!apParam)
     {
-        FUN_009975c0();
+        CoverSearch_Reset();
         return;
     }
     *(S12*)((char*)this + 0) = *(S12*)((char*)apParam + 0);
@@ -2167,11 +2188,11 @@ struct TESAmmoInitCalls
     void* GetFieldBC();
 };
 
-bool __cdecl FUN_0097f310(void*, int);
+bool __cdecl CombatController_CheckHasEquip(void*, int);
 
 struct FUN_00997cb0_Class
 {
-    void FUN_00997cb0();
+    void CombatState_Update();
 };
 
 struct SubObj
@@ -2191,9 +2212,9 @@ struct FUN_00997c30_shell : FUN_00997cb0_Class
 void FUN_00997c30_shell::InitAmmoState()
 {
     void* local4 = (void*)((TESAmmoInitCalls*)*(void**)((char*)this + 0x1c4))->GetFieldBC();
-    *(char*)((char*)this + 0x75) = FUN_0097f310(local4, 0);
+    *(char*)((char*)this + 0x75) = CombatController_CheckHasEquip(local4, 0);
     EvaluateWeaponScores();
-    FUN_00997cb0();
+    CombatState_Update();
     *(char*)((char*)this + 0xc8) = ((SubObj*)((char*)local4 + 0xa4))->vf2(true);
     *(char*)((char*)this + 0xc9) = *(char*)((char*)this + 0xc8);
     *(char*)((char*)this + 0x1c8) = 0;
@@ -2804,7 +2825,7 @@ struct FieldC4
 
 struct Ref_997440
 {
-    int FUN_00575650(void*, int, float, float);
+    int TESObjectREFR_GetWorldLocation(void*, int, float, float);
 };
 
 struct Local18
@@ -2840,7 +2861,7 @@ void FUN_009a0c50_class::UpdateModifierState(bool arg_8)
         Ref_997440* pRef = (Ref_997440*)field_1C4->GetFieldBC();
         {
             Local18 localData;
-            FUN_009a0910(pRef->FUN_00575650(&localData, 3, f * *originalRuntimeFloatSetting429.Float(), f));
+            FUN_009a0910(pRef->TESObjectREFR_GetWorldLocation(&localData, 3, f * *originalRuntimeFloatSetting429.Float(), f));
         }
     }
 }
@@ -3044,12 +3065,13 @@ struct FUN_009a2de0_struct
     int dword6c;
     FUN_00982c20 member70;
 
-    void FUN_009a2de0(BGSSaveFormBuffer* buffer);
+    void CombatCoverLocation_SaveGameBGS(BGSSaveFormBuffer* buffer);
 };
 
 // Serializes byte1, byte0, byte2, dword4, data8, member14, dword68, dword6c and member70 into the save buffer.
 // @fnv 0x009a2de0
-void FUN_009a2de0_struct::FUN_009a2de0(BGSSaveFormBuffer* buffer)
+// src: COMMUNITY 0x009a2de0
+void FUN_009a2de0_struct::CombatCoverLocation_SaveGameBGS(BGSSaveFormBuffer* buffer)
 {
     buffer->SaveData((void*)&byte1, 1, 0);
     buffer->SaveData((void*)&byte0, 1, 0);
@@ -3072,7 +3094,7 @@ struct Member14
 
 struct Member70
 {
-    void FUN_00982ca0(BGSLoadFormBuffer*);
+    void CoverReservationInfo_LoadGameBGS(BGSLoadFormBuffer*);
 };
 
 struct FUN_009a2ea0_struct
@@ -3089,12 +3111,13 @@ struct FUN_009a2ea0_struct
     int dword6c;
     Member70 member70;
 
-    void FUN_009a2ea0(BGSLoadFormBuffer* buffer);
+    void CombatCoverLocation_LoadGameBGS(BGSLoadFormBuffer* buffer);
 };
 
 // Reads byte1, byte0, byte2, dword4, data8, dword68 and dword6c from the buffer and calls member14.LoadGame and member70.FUN_00982ca0.
 // @fnv 0x009a2ea0
-void FUN_009a2ea0_struct::FUN_009a2ea0(BGSLoadFormBuffer* buffer)
+// src: COMMUNITY 0x009a2ea0
+void FUN_009a2ea0_struct::CombatCoverLocation_LoadGameBGS(BGSLoadFormBuffer* buffer)
 {
     buffer->ReadTypedData((void*)&byte1, 1);
     buffer->ReadTypedData((void*)&byte0, 1);
@@ -3104,7 +3127,7 @@ void FUN_009a2ea0_struct::FUN_009a2ea0(BGSLoadFormBuffer* buffer)
     member14.LoadGame(buffer);
     buffer->ReadTypedData((void*)&dword68, 4);
     buffer->ReadTypedData((void*)&dword6c, 4);
-    member70.FUN_00982ca0(buffer);
+    member70.CoverReservationInfo_LoadGameBGS(buffer);
 }
 }  // namespace fnv_009a2ea0
 
@@ -3866,7 +3889,7 @@ struct MyActor
 {
     virtual void v0();
     float FUN_008be1b0();
-    void FUN_00575650(PosHolder* out);
+    void TESObjectREFR_GetWorldLocation(PosHolder* out);
 };
 
 struct MyRef
@@ -4050,7 +4073,7 @@ bool FUN_0099e190_cls::SelectAndMoveToPoint(MyMover* mover, unsigned int mask1, 
     MyRef* ref = proc->FUN_004030b0();
     float radius = A9->FUN_008be1b0() + 8.0;
     PosHolder h7;
-    A9->FUN_00575650(&h7);
+    A9->TESObjectREFR_GetWorldLocation(&h7);
     NiPoint3 pp = *h7.Self();
     NiPoint3 T = *ref->GetPos();
     Picker p4(A9);
@@ -4139,7 +4162,7 @@ struct TargetPosition
 };
 struct TargetRef
 {
-    TargetPosition FUN_00575650();
+    TargetPosition TESObjectREFR_GetWorldLocation();
 };
 struct TargetParameters
 {
@@ -4219,7 +4242,7 @@ void TargetWork::FUN_009a0790(TargetRef* reference, unsigned char flag, float ne
     parameters = new TargetParameters;
     parameters->flag = flag;
     parameters->reference = reference;
-    parameters->position = reference->FUN_00575650();
+    parameters->position = reference->TESObjectREFR_GetWorldLocation();
     parameters->nearRange = FUN_00404010(nearRange, *DAT_011cf0d8.FUN_00403e20());
     parameters->farRange = FUN_00404010(farRange, *DAT_011cf0d8.FUN_00403e20());
 }
@@ -4231,12 +4254,13 @@ class FUN_009a3220_cls
   public:
     char unk00[4];
     TESObjectREFR* m_04;
-    void FUN_009a3220(int unkArg);
+    void CombatState_LocationTarget_InitLoadGameBGS(int unkArg);
 };
 
 // Re-resolves m_04 through FUN_004839c0 and dynamic_cast to TESObjectREFR, or clears it to null when m_04 is null.
 // @fnv 0x009a3220
-void FUN_009a3220_cls::FUN_009a3220(int unkArg)
+// src: COMMUNITY 0x009a3220
+void FUN_009a3220_cls::CombatState_LocationTarget_InitLoadGameBGS(int unkArg)
 {
     m_04 = m_04 != 0 ? dynamic_cast<TESObjectREFR*>(FUN_004839c0(m_04)) : 0;
 }
@@ -4445,7 +4469,7 @@ RefS* CombatNodeFinder::FindNearestCombatNode(Actor* actor, float maxDist, bool 
     if (actor->IsCreature() && ((ActorBaseS*)actor->GetActorBase())->data30.IsFlagV())
         return 0;
     IfaceS* iface3 = (IfaceS*)actor->GetCombatController();
-    LocS actorLoc2 = actor->FUN_00575650<LocS>();
+    LocS actorLoc2 = actor->TESObjectREFR_GetWorldLocation<LocS>();
     RefS* bestX = 0;
     float bestDist5 = maxDist * maxDist;
     for (unsigned int i = 0; i < nodes.GetSize(); i++)
@@ -4868,9 +4892,9 @@ void CombatUpdate::FUN_00997cf0()
             if (mode->type == 3 && mode->world.FUN_0084e3a0() != space_41)
                 UpdateModifierState(true);
             if (mode->actor)
-                mode->world = *mode->actor->FUN_00575650(&worldAB);
+                mode->world = *mode->actor->TESObjectREFR_GetWorldLocation(&worldAB);
             reinterpret_cast<NiPoint3*>(weights_26)->Set(1.0f, 1.0f, 0.25f);
-            distance_1 = mode->world.ComputeWeightedDistance(*owner_21->FUN_00575650(&worldB), *reinterpret_cast<NiPoint3*>(weights_26));
+            distance_1 = mode->world.ComputeWeightedDistance(*owner_21->TESObjectREFR_GetWorldLocation(&worldB), *reinterpret_cast<NiPoint3*>(weights_26));
             fleeing_3 = false;
             if ((mode->type == 0 || mode->type == 1) && target4 && controller->FUN_00981300() &&
                 !controller->FUN_0067a700())
@@ -4960,8 +4984,8 @@ void CombatUpdate::FUN_00997cf0()
         }
         if (target4 && chaseDistance > 0.0)
         {
-            owner_21->FUN_00575650(&ownLocation3);
-            target4->FUN_00575650(&targetLocation);
+            owner_21->TESObjectREFR_GetWorldLocation(&ownLocation3);
+            target4->TESObjectREFR_GetWorldLocation(&targetLocation);
             if (ownLocation3.FUN_00527a40(targetLocation) < chaseDistance * chaseDistance)
                 chaseTimer.FUN_0097f220();
         }
@@ -5714,7 +5738,7 @@ extern Setting DAT_011ce4ac, DAT_011cf660;
 extern const char DAT_0108dfb0[];
 extern double DAT_01017a40, DAT_01012060, DAT_0106b798, DAT_0102f078;
 extern float DAT_0108dfac, DAT_010162c0;
-void* FUN_00403d30(void*, int, unsigned int);
+void* ourMemset(void*, int, unsigned int);
 float ComputeWeaponDamage(Actor*, Weapon*, float, CombatData*, int, int);
 void FUN_009a9180(Controller*, Weapon*, float&, float&, float&);
 float FUN_00404010(float, float);
@@ -5849,8 +5873,8 @@ void Manager::EvaluateWeaponScores()
     float distance = 0.0f;
     if (target)
     {
-        Location sourcePointSlot0 = actor->FUN_00575650<Location>();
-        Location targetPointSlot14 = target->FUN_00575650<Location>();
+        Location sourcePointSlot0 = actor->TESObjectREFR_GetWorldLocation<Location>();
+        Location targetPointSlot14 = target->TESObjectREFR_GetWorldLocation<Location>();
         distance = sourcePointSlot0.FUN_00527a40(targetPointSlot14);
     }
     FUN_0099a2a0();
@@ -5861,10 +5885,10 @@ void Manager::EvaluateWeaponScores()
     maxRange = 0.0f;
     types = 0;
     aidTypes = 0;
-    FUN_00403d30(categoryScore, 0, 28);
-    FUN_00403d30(aids, 0, 8);
+    ourMemset(categoryScore, 0, 28);
+    ourMemset(aids, 0, 8);
     float aidScoresSlot19[2];
-    FUN_00403d30(aidScoresSlot19, 0, 8);
+    ourMemset(aidScoresSlot19, 0, 8);
     Scores scoresSlot20(32, 0);
     Ammos ammosSlot1(32, 0);
     Entry* entry = 0;
@@ -5907,7 +5931,7 @@ void Manager::EvaluateWeaponScores()
             if (actor->FUN_008bc9d0((::Weapon*)weaponSlot32Slot15, 1))
             {
                 unsigned int index = scoresSlot20.FUN_007881d0();
-                FUN_00403d30(&scoresSlot20.FUN_006b3160(index), 0, 20);
+                ourMemset(&scoresSlot20.FUN_006b3160(index), 0, 20);
                 scoresSlot20.FUN_006b3160(index).weapon = weaponSlot32Slot15;
                 scoresSlot20.FUN_006b3160(index).health = entry->FUN_004bcdb0(1) / 100.0f;
             }
@@ -7285,7 +7309,7 @@ struct PickRef
     virtual void v123();
     virtual void v124();
     virtual PickVec* Pos();
-    PickLoc FUN_00575650();
+    PickLoc TESObjectREFR_GetWorldLocation();
     PickExtra* FUN_005d43c0();
     bool FUN_00477ba0();
     PickWeapon* FUN_007af430();
@@ -7518,7 +7542,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
         aId->FUN_00559450()->FUN_006815c0()->node->FUN_00418b10())
         return false;
     g_011f1a60.FUN_00483710();
-    PickLoc aI4 = aC1->FUN_00575650();
+    PickLoc aI4 = aC1->TESObjectREFR_GetWorldLocation();
     PickRef* aCr = 0;
     PickWeapon* aB8 = 0;
     PickRef* aB4 = 0;
@@ -7557,7 +7581,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
         bool apX = false;
         if (aFB)
         {
-            PickLoc bpA = aFB->FUN_00575650();
+            PickLoc bpA = aFB->TESObjectREFR_GetWorldLocation();
             if (aI4.FUN_00527a40(&bpA) < 589824.0)
                 apX = true;
         }
@@ -7604,7 +7628,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
             float b10 = aPa + d_2 * (aIt - aPa);
             cbA = b10 * b10;
         }
-        PickLoc aPH = aFC->FUN_00575650();
+        PickLoc aPH = aFC->TESObjectREFR_GetWorldLocation();
         float aM4 = aPH.FUN_00527a40(&aI4);
         if (aM4 >= cbA)
             continue;
@@ -7645,7 +7669,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
                 PickEntry* e2x = 0;
                 while (DAT_011c95c8->FindNextRef(&dy9, &cbB, &e2x, 3))
                 {
-                    PickLoc fA8 = cbB->FUN_00575650();
+                    PickLoc fA8 = cbB->TESObjectREFR_GetWorldLocation();
                     float fEA = fA8.FUN_00527a40(&aI4) + fA8.FUN_00527a40(&aPH);
                     if (fEA > cbA || fEA > cb3)
                         continue;
@@ -7990,11 +8014,11 @@ struct List435
 };
 struct Optional435
 {
-    void FUN_009a2de0(Save435*);
+    void CombatCoverLocation_SaveGameBGS(Save435*);
 };
 struct OptionalB435
 {
-    void FUN_009a2bf0(Save435*);
+    void CombatLocation_SaveGameBGS(Save435*);
 };
 struct OptionalC435
 {
@@ -8010,7 +8034,7 @@ struct Location435
     unsigned x00, x04, x08, x0c, x10, x14, x18;
     Float435 range;
     unsigned x20, x24, x28, x2c, x30, x34, x38;
-    void FUN_009a2f50(Save435*);
+    void CombatCoverSearch_SaveGameBGS(Save435*);
 };
 struct RefPair435
 {
@@ -8186,17 +8210,17 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
         flags |= 32;
     pSaveBuffer->FUN_00865e50(&flags, 1, 0);
     if (optionalE4)
-        optionalE4->FUN_009a2de0(pSaveBuffer);
+        optionalE4->CombatCoverLocation_SaveGameBGS(pSaveBuffer);
     if (optionalE8)
-        optionalE8->FUN_009a2de0(pSaveBuffer);
+        optionalE8->CombatCoverLocation_SaveGameBGS(pSaveBuffer);
     if (optional18c)
-        optional18c->FUN_009a2bf0(pSaveBuffer);
+        optional18c->CombatLocation_SaveGameBGS(pSaveBuffer);
     if (optionalC)
         optionalC->FUN_009a3130(pSaveBuffer);
     if (location1.range.FUN_006a7f50() != -DAT_0108df70)
-        location1.FUN_009a2f50(pSaveBuffer);
+        location1.CombatCoverSearch_SaveGameBGS(pSaveBuffer);
     if (location2.range.FUN_006a7f50() != -DAT_0108df70)
-        location2.FUN_009a2f50(pSaveBuffer);
+        location2.CombatCoverSearch_SaveGameBGS(pSaveBuffer);
     {
         unsigned uiList164Count = &list164 ? list164.FUN_0044ddc0() : 0;
         pSaveBuffer->FUN_00865f60(uiList164Count);
@@ -8340,11 +8364,12 @@ struct FUN_0099b5a0_holder
     char pad99[0x1c4 - 0x99];
     Spell99* p1c4;
 
-    bool FUN_0099b5a0(A1_99* a1, char* a2, Weap99* a3);
+    bool CombatState_FindGrenadeThrowLocation(A1_99* a1, char* a2, Weap99* a3);
 };
 
 // @fnv 0x0099b5a0
-bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
+// src: COMMUNITY 0x0099b5a0
+bool FUN_0099b5a0_holder::CombatState_FindGrenadeThrowLocation(A1_99* a1, char* acArg, Weap99* apWeapon)
 {
     if (!apWeapon || !apWeapon->GetOrFallback(p1c4->GetFieldBC()))
         return false;
@@ -8732,11 +8757,12 @@ struct FUN_0099b8e0_cls
                            QRef* actor, QRef* target, float minDist, float maxDist, int* result, float* score,
                            bool flank);
     float GetTargetDist();
-    bool FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int type);
+    bool CombatState_FindBestCoverLocation(int a1, QOut* out, QState* st, int a4, int type);
 };
 
 // @fnv 0x0099b8e0
-bool FUN_0099b8e0_cls::FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int aiSearchType)
+// src: COMMUNITY 0x0099b8e0
+bool FUN_0099b8e0_cls::CombatState_FindBestCoverLocation(int a1, QOut* out, QState* st, int a4, int aiSearchType)
 {
     DAT_011f1a61.Signal();
     float kMinHeight = DAT_010231a0;
@@ -8946,8 +8972,8 @@ struct Request9f48
 {
     char m_acPad[0x10];
     Actor* m_pkTarget;
-    void FUN_00997400(Actor* pkTarget);
-    void FUN_00819a50(float fImpulseRadiusSquared);
+    void CombatLocation_SetTarget(Actor* pkTarget);
+    void CombatLocation_SetRadius(float fImpulseRadiusSquared);
 };
 using ::SettingT;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting430;
@@ -8978,7 +9004,7 @@ bool Planner9f48::TryAssignAllyTarget(Request9f48* pkRequest, int iUnused)
     }
     Actor* pkOwner = (Actor*)m_pkController->GetFieldBC();
     Pos9f48 kOwnerPos;
-    pkOwner->FUN_00575650((void*)&kOwnerPos);
+    pkOwner->TESObjectREFR_GetWorldLocation((void*)&kOwnerPos);
     Actor* pkAlly = 0;
     float fClosest = 67108864.0f;
     unsigned int ItemUpdateArray = pkGroupList->FUN_00990890();
@@ -8996,7 +9022,7 @@ bool Planner9f48::TryAssignAllyTarget(Request9f48* pkRequest, int iUnused)
         if (!bUsable)
             continue;
         Pos9f48 kPos;
-        pkMember->FUN_00575650((void*)&kPos);
+        pkMember->TESObjectREFR_GetWorldLocation((void*)&kPos);
         float fDistance = kPos.FUN_00527a40(kOwnerPos);
         if (fDistance >= fClosest)
             continue;
@@ -9007,8 +9033,8 @@ bool Planner9f48::TryAssignAllyTarget(Request9f48* pkRequest, int iUnused)
     }
     if (pkAlly)
     {
-        pkRequest->FUN_00997400(pkAlly);
-        pkRequest->FUN_00819a50(pkAlly->FUN_008be1b0() + pkOwner->FUN_008be1b0() +
+        pkRequest->CombatLocation_SetTarget(pkAlly);
+        pkRequest->CombatLocation_SetRadius(pkAlly->FUN_008be1b0() + pkOwner->FUN_008be1b0() +
                                 *originalRuntimeFloatSetting430.FUN_00403e20());
         return true;
     }
@@ -9169,23 +9195,23 @@ struct CombatRef
     float FUN_008be420();
     float FUN_00571600();
     void* FUN_00575ca0();
-    CombatPos FUN_00575650();
+    CombatPos TESObjectREFR_GetWorldLocation();
 };
 
 struct CombatSpot
 {
     CombatSpot();
     void FUN_00600ab0(int aiType);
-    void FUN_00819a50(float afRadius);
-    void FUN_009973a0(void* apSource);
+    void CombatLocation_SetRadius(float afRadius);
+    void CombatLocation_Copy(void* apSource);
     void CopyRefValue();
-    void FUN_00997400(CombatRef* apRef);
+    void CombatLocation_SetTarget(CombatRef* apRef);
     void AssignV4(CombatPos* apPos);
     void SetFlags(int aiMode, int aiFlag);
     CombatPos* FUN_006815c0();
     CombatCell* FUN_0097b940();
     int CallReferencedFunction();
-    void FUN_0099b520(void* apCell);
+    void CombatLocation_SetSpace(void* apCell);
     int iData[8];
 };
 
@@ -9193,7 +9219,7 @@ struct CombatSearch
 {
     CombatSearch();
     ~CombatSearch();
-    void FUN_00997480(void* apSource);
+    void CombatCoverLocation_Copy(void* apSource);
     char pad00[0x68];
     int iCount;
     int iData[3];
@@ -9232,11 +9258,11 @@ struct CombatPathing
 
 struct CombatLocations
 {
-    int FUN_00980700(int aiType);
+    int CombatPlannerData_GetLocation(int aiType);
     void FUN_00979f70(int aiType);
     float FUN_0097bd00(int aiType);
     void SetEntry(int aiType, CombatSpot* apSpot, float afDistance);
-    void FUN_009959c0(int aiType, CombatSearch* apSearch);
+    void CombatPlannerData_SetCombatCoverLocation(int aiType, CombatSearch* apSearch);
 };
 
 struct CombatTypeInfo
@@ -9256,8 +9282,8 @@ extern CombatSetting DAT_011cf914;
 extern char DAT_011f426c;
 extern const float DAT_0108df70;
 
-int __cdecl FUN_005b5e40(const char* apFormat, ...);
-float __cdecl FUN_0097acb0(CombatController* apController, CombatPos* apFrom, CombatPos* apTo);
+int __cdecl Warning_005b5e40(const char* apFormat, ...);
+float __cdecl CombatAction_GetMovementCost(CombatController* apController, CombatPos* apFrom, CombatPos* apTo);
 
 }  // namespace CombatFind
 
@@ -9271,7 +9297,7 @@ bool CombatState::FindCombatLocation_0099ac20(int aiType)
     CombatFind::CombatRef* pTarget = (CombatFind::CombatRef*)(*(CombatController**)((char*)this + 0x1c4))->FUN_004030b0();
     CombatFind::CombatPathing* pPathingTmp = (CombatFind::CombatPathing*)(*(CombatController**)((char*)this + 0x1c4))->FUN_004fb070();
     CombatFind::CombatLocations* pLocationsRes = (CombatFind::CombatLocations*)(*(CombatController**)((char*)this + 0x1c4))->FUN_005e3fc0();
-    if (pLocationsRes->FUN_00980700(aiType))
+    if (pLocationsRes->CombatPlannerData_GetLocation(aiType))
     {
         pLocationsRes->FUN_00979f70(aiType);
         return true;
@@ -9284,12 +9310,12 @@ bool CombatState::FindCombatLocation_0099ac20(int aiType)
     CombatFind::CombatSpot* pFinalSpot = new CombatFind::CombatSpot();
     CombatFind::CombatSearch* pSearch = new CombatFind::CombatSearch();
     pFinalSpot->FUN_00600ab0(aiType);
-    pFinalSpot->FUN_00819a50(CombatFind::DAT_011a5650[aiType].fRadius);
+    pFinalSpot->CombatLocation_SetRadius(CombatFind::DAT_011a5650[aiType].fRadius);
     if ((*(CombatFind::CombatTimed**)((char*)this + 0x18c)) && (*(CombatFind::CombatTimed**)((char*)this + 0x18c))->FUN_00825c00() == aiType)
     {
-        pFinalSpot->FUN_009973a0((*(CombatFind::CombatTimed**)((char*)this + 0x18c)));
+        pFinalSpot->CombatLocation_Copy((*(CombatFind::CombatTimed**)((char*)this + 0x18c)));
         if ((*(CombatFind::CombatTyped**)((char*)this + 0xe4)) && (*(CombatFind::CombatTyped**)((char*)this + 0xe4))->iType == aiType)
-            pSearch->FUN_00997480((*(CombatFind::CombatTyped**)((char*)this + 0xe4)));
+            pSearch->CombatCoverLocation_Copy((*(CombatFind::CombatTyped**)((char*)this + 0xe4)));
         if (!CombatFind::DAT_011a5650[aiType].bSkipSearch)
         {
             pFinalSpot->CopyRefValue();
@@ -9316,7 +9342,7 @@ bool CombatState::FindCombatLocation_0099ac20(int aiType)
                 {
                     if (!FUN_0097fd40())
                     {
-                        pFinalSpot->FUN_00997400(pTarget);
+                        pFinalSpot->CombatLocation_SetTarget(pTarget);
                         bFound = true;
                     }
                 }
@@ -9334,7 +9360,7 @@ bool CombatState::FindCombatLocation_0099ac20(int aiType)
         case 2:
         case 4:
         case 5:
-            bFound = FUN_0099b8e0((*(CombatController**)((char*)this + 0x1c4))->FUN_007031c0(), ((char*)this + 0xec), (::CombatSearch*)pSearch, (::CombatSpot*)pFinalSpot, aiType);
+            bFound = CombatState_FindBestCoverLocation((*(CombatController**)((char*)this + 0x1c4))->FUN_007031c0(), ((char*)this + 0xec), (::CombatSearch*)pSearch, (::CombatSpot*)pFinalSpot, aiType);
             break;
         case 3:
             bFound = SelectAndMoveToPoint((::CombatSpot*)pFinalSpot, 3, 0xf, 128.0f, 128.0f);
@@ -9359,23 +9385,23 @@ bool CombatState::FindCombatLocation_0099ac20(int aiType)
             {
                 if ((*(CombatFind::CombatTargetInfo**)((char*)this + 0xc4))->pRef)
                 {
-                    pFinalSpot->FUN_00997400((*(CombatFind::CombatTargetInfo**)((char*)this + 0xc4))->pRef);
+                    pFinalSpot->CombatLocation_SetTarget((*(CombatFind::CombatTargetInfo**)((char*)this + 0xc4))->pRef);
                     if ((*(CombatFind::CombatTargetInfo**)((char*)this + 0xc4))->pRef->IsActor())
                     {
                         CombatFind::CombatRef* pActor = (*(CombatFind::CombatTargetInfo**)((char*)this + 0xc4))->pRef;
-                        pFinalSpot->FUN_00819a50(pActor->FUN_008be1b0() + pActorOld->FUN_008be1b0());
+                        pFinalSpot->CombatLocation_SetRadius(pActor->FUN_008be1b0() + pActorOld->FUN_008be1b0());
                     }
                 }
                 else
                 {
                     pFinalSpot->AssignV4(&(*(CombatFind::CombatTargetInfo**)((char*)this + 0xc4))->kPos);
                 }
-                pFinalSpot->FUN_00819a50((*(CombatFind::CombatTargetInfo**)((char*)this + 0xc4))->fRadius);
+                pFinalSpot->CombatLocation_SetRadius((*(CombatFind::CombatTargetInfo**)((char*)this + 0xc4))->fRadius);
                 bFound = true;
             }
             break;
         case 11:
-            bFound = FUN_0099b5a0((::CombatSpot*)pFinalSpot, ((char*)this + 0x76), (*(int*)((char*)this + 0x18)));
+            bFound = CombatState_FindGrenadeThrowLocation((::CombatSpot*)pFinalSpot, ((char*)this + 0x76), (*(int*)((char*)this + 0x18)));
             break;
         case 10:
         case 12:
@@ -9411,8 +9437,8 @@ bool CombatState::FindCombatLocation_0099ac20(int aiType)
             CombatFind::CombatSlot* pSlot = (CombatFind::CombatSlot*)GetActionAtIndex(aiType - 0x11);
             if (pSlot && pSlot->pRef)
             {
-                pFinalSpot->FUN_00997400(pSlot->pRef);
-                pFinalSpot->FUN_00819a50(pSlot->pRef->FUN_00571600() + pActorOld->FUN_008be420() +
+                pFinalSpot->CombatLocation_SetTarget(pSlot->pRef);
+                pFinalSpot->CombatLocation_SetRadius(pSlot->pRef->FUN_00571600() + pActorOld->FUN_008be420() +
                                          *CombatFind::DAT_011cf914.FUN_00403e20());
                 pFinalSpot->SetFlags(2, 1);
                 bFound = true;
@@ -9420,25 +9446,25 @@ bool CombatState::FindCombatLocation_0099ac20(int aiType)
             break;
         }
         default:
-            CombatFind::FUN_005b5e40("COMBAT: Invalid combat location type %i passed to CombatState::FindCombatLocation()", aiType);
+            CombatFind::Warning_005b5e40("COMBAT: Invalid combat location type %i passed to CombatState::FindCombatLocation()", aiType);
         }
     }
     if (bFound)
     {
         if (!pFinalSpot->CallReferencedFunction())
-            pFinalSpot->FUN_0099b520(pActorOld->FUN_00575ca0());
+            pFinalSpot->CombatLocation_SetSpace(pActorOld->FUN_00575ca0());
         CombatFind::CombatPos kSpotPosTmp = *pFinalSpot->FUN_006815c0();
         if (kSpotPosTmp.FUN_006815c0()->FUN_004390c0(&CombatFind::DAT_011f426c) || FUN_009a02a0((::CombatPos*)&kSpotPosTmp, 1, bFlag))
         {
             float fDistance = 0.0f;
             if (CombatFind::DAT_011a5650[aiType].bMeasure)
             {
-                CombatFind::CombatPos kActorPos = pActorOld->FUN_00575650();
-                fDistance = CombatFind::FUN_0097acb0((*(CombatController**)((char*)this + 0x1c4)), &kActorPos, &kSpotPosTmp);
+                CombatFind::CombatPos kActorPos = pActorOld->TESObjectREFR_GetWorldLocation();
+                fDistance = CombatFind::CombatAction_GetMovementCost((*(CombatController**)((char*)this + 0x1c4)), &kActorPos, &kSpotPosTmp);
             }
             pLocationsRes->SetEntry(aiType, pFinalSpot, fDistance);
             if (pSearch->iCount)
-                pLocationsRes->FUN_009959c0(aiType, pSearch);
+                pLocationsRes->CombatPlannerData_SetCombatCoverLocation(aiType, pSearch);
             else
                 delete pSearch;
             return true;
@@ -9553,7 +9579,7 @@ bool CombatState::FUN_0099d030(Arg0Class* a0, Arg1Class* a1, Arg2Class* a2, int 
     a0->unk30 = 0;
     if (a1->unk68 != 0 && a3 == a1->unk04)
     {
-        if (((CalendarDays*)fnv_0099d030::BGSSaveLoadGlobalDataWorldspacePtr->FUN_009611e0())
+        if (((CalendarDays*)fnv_0099d030::BGSSaveLoadGlobalDataWorldspacePtr->NiAVObject_GetParent())
                 ->TryUseCoverItem(a1->unk68, &a1->unk14, (*(CombatController**)((char*)this + 0x1c4)), actor->FUN_008be1b0(), &a1->unk70, 1,
                                   a1->unk75))
         {
@@ -9781,7 +9807,7 @@ struct RefSlot
 };
 struct MemberC4
 {
-    void FUN_009a3220(BGSLoadFormBuffer*);
+    void CombatState_LocationTarget_InitLoadGameBGS(BGSLoadFormBuffer*);
 };
 struct Member18C
 {
@@ -9920,14 +9946,15 @@ struct HostA
     int unk224;
     unsigned int index;
     void SetMode(unsigned int);
-    void FUN_009a2a30(BGSLoadFormBuffer*);
+    void CombatState_InitLoadGameBGS(BGSLoadFormBuffer*);
 };
 // Calls buffer handlers, re-resolves stored references, optionally processes index, and updates maximum from values.
 // @fnv 0x009a2a30
-void HostA::FUN_009a2a30(BGSLoadFormBuffer* buffer)
+// src: COMMUNITY 0x009a2a30
+void HostA::CombatState_InitLoadGameBGS(BGSLoadFormBuffer* buffer)
 {
     if (memberC4)
-        memberC4->FUN_009a3220(buffer);
+        memberC4->CombatState_LocationTarget_InitLoadGameBGS(buffer);
     for (unsigned int i = 0; i < 5; i++)
     {
         if (slots[i])

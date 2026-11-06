@@ -18,14 +18,14 @@ struct FUN_0062e750_shell
 };
 void __cdecl _Deallocate(void* p);
 extern int DAT_011c7a3c;
-void FUN_0062f310(int value);
+void TESWaterSystem_SetCurrentWaterType(int value);
 extern unsigned char DAT_011c7a5a;
-void FUN_0062f8e0(unsigned char value);
+void TESWaterSystem_SetCameraInPlaceableWater(unsigned char value);
 extern float _DAT_011c7a5c;
-void FUN_0062f8f0(float value);
+void TESWaterSystem_SetCameraRelevantWaterHeight(float value);
 unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane);
 extern "C" float __cdecl ExpFloat(float);
-float FUN_00630aa0(float value);
+float exp_00630aa0(float value);
 extern "C" double __cdecl _exp(double);
 float ExpFloat(float value);
 extern float _gModifierZero;
@@ -59,7 +59,7 @@ struct PhysicsVector
     void FUN_005dbf20(float);
     void FUN_005532a0(float, float, float, float);
     float& FUN_00560d30(int);
-    PhysicsVector* FUN_00458700(PhysicsVector*, int);
+    PhysicsVector* hkVector4_getSimdAt(PhysicsVector*, int);
     float FUN_004586d0();
     void FUN_00630ae0(const PhysicsVector*, const PhysicsVector*);
     void FUN_00458a10(const PhysicsVector*, const PhysicsVector*);
@@ -159,13 +159,13 @@ struct PhysicsReference
     float FUN_004b4ea0();
     int getNumConstraints();
     const PhysicsVector* FUN_006310c0();
-    void FUN_00631140(float, const PhysicsVector*, const PhysicsVector*);
+    void hkpRigidBody_applyForce_00631140(float, const PhysicsVector*, const PhysicsVector*);
     void FUN_00631100(float, const PhysicsVector*);
     void OnTrigger(const PhysicsVector*);
     const PhysicsVector* FUN_00560e50();
     void FUN_00561800(const PhysicsVector*);
 };
-PhysicsBody* FUN_004b5a80(PhysicsReference*);
+PhysicsBody* bhkEntity_Getbhk(PhysicsReference*);
 bool FUN_00c8cce0(int*);
 float GetObjectMass(PhysicsBody*);
 float FUN_00408840(float);
@@ -184,16 +184,17 @@ struct ReferenceMap
 extern ReferenceMap DAT_011cc584;
 struct PhysicsController
 {
-    int FUN_00630170(PhysicsReference*, float, float, bool);
+    int TESWaterListener_ProcessRigidBody(PhysicsReference*, float, float, bool);
     void SpawnWaterSplash(PhysicsBody*, float);
 };
 // @fnv 0x00630170
-int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, float deltaTime, bool alternate)
+// src: COMMUNITY 0x00630170
+int PhysicsController::TESWaterListener_ProcessRigidBody(PhysicsReference* reference, float height, float deltaTime, bool alternate)
 {
     int result = 0;
     PhysicsVector position;
     position.FUN_004a3c90(reference->FUN_004b4ec0());
-    PhysicsBody* body = FUN_004b5a80(reference);
+    PhysicsBody* body = bhkEntity_Getbhk(reference);
     PhysicsBounds bounds;
     bounds.FUN_00437c10();
     body->GetBounds(&bounds);
@@ -231,7 +232,7 @@ int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, f
                     else if (amount > DAT_011cc5e0)
                         strength = DAT_0119af3c;
                     PhysicsVector component;
-                    if (DAT_0119af38 > FUN_00408840(velocity.FUN_00458700(&component, 2)->FUN_004586d0()))
+                    if (DAT_0119af38 > FUN_00408840(velocity.hkVector4_getSimdAt(&component, 2)->FUN_004586d0()))
                         dampVertical = false;
                 }
                 strength = -strength;
@@ -273,7 +274,7 @@ int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, f
                 else
                     torque.FUN_004a3f10(reference->FUN_006310c0());
                 state->FUN_00483710();
-                reference->FUN_00631140(deltaTime, &force, &torque);
+                reference->hkpRigidBody_applyForce_00631140(deltaTime, &force, &torque);
                 PhysicsVector secondForce;
                 secondForce.FUN_006815c0();
                 FUN_005dbf20 secondMultiplier(mass * -1.0);
@@ -286,19 +287,19 @@ int PhysicsController::FUN_00630170(PhysicsReference* reference, float height, f
                 linear.FUN_00560d30(2) = 0;
                 if (dampVertical)
                 {
-                    vertical *= FUN_00630aa0(*DAT_011d0478.FUN_00403e20() * -1.0 * deltaTime);
+                    vertical *= exp_00630aa0(*DAT_011d0478.FUN_00403e20() * -1.0 * deltaTime);
                 }
                 PhysicsVector magnitude;
                 if (linear.FUN_00630b40(&magnitude)->FUN_004586d0() > *DAT_011d0cf0.FUN_00403e20())
                 {
-                    FUN_005dbf20 factor(FUN_00630aa0(*DAT_011d0ee8.FUN_00403e20() * -1.0 * deltaTime));
+                    FUN_005dbf20 factor(exp_00630aa0(*DAT_011d0ee8.FUN_00403e20() * -1.0 * deltaTime));
                     linear.FUN_00627920(&factor);
                 }
                 linear.FUN_00560d30(2) = vertical;
                 reference->OnTrigger(&linear);
                 PhysicsVector angular;
                 angular.FUN_004a3c90(reference->FUN_00560e50());
-                FUN_005dbf20 factor(FUN_00630aa0(*DAT_011d0580.FUN_00403e20() * -1.0 * deltaTime));
+                FUN_005dbf20 factor(exp_00630aa0(*DAT_011d0580.FUN_00403e20() * -1.0 * deltaTime));
                 angular.FUN_00627920(&factor);
                 reference->FUN_00561800(&angular);
                 state->FUN_00483710();

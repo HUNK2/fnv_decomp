@@ -570,7 +570,7 @@ struct Pending
     void FUN_00cf7c10();
 };
 extern "C" void __cdecl LessThanPairPriority(IslandMergeRequest*, IslandMergeRequest*);
-extern "C" void __cdecl FUN_00cf8510(IslandMergeRequest*, int, int, void(__cdecl*)(IslandMergeRequest*, IslandMergeRequest*));
+extern "C" void __cdecl hkAlgorithm_quickSortRecursive(IslandMergeRequest*, int, int, void(__cdecl*)(IslandMergeRequest*, IslandMergeRequest*));
 extern "C" void __cdecl hkpWorldOperationUtil_mergeIslands(World*, Body*, Body*);
 extern "C" void __cdecl AddCollisionShape(World*, Body*);
 extern "C" void __cdecl hkReferencedObject_removeReferences(Body**, int, int);
@@ -616,7 +616,7 @@ void Pending::FUN_00cf7c10()
     if (pairCount)
     {
         if (pairCount > 1)
-            FUN_00cf8510(pairs, 0, pairCount - 1, LessThanPairPriority);
+            hkAlgorithm_quickSortRecursive(pairs, 0, pairCount - 1, LessThanPairPriority);
         while (pairCount)
         {
             IslandMergeRequest p = pairs[pairCount - 1];

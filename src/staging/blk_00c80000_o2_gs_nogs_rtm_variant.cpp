@@ -493,7 +493,7 @@ struct SpawnedPtrArray
     unsigned int m_uiCapacity;
 };
 extern "C" void _ReadWriteBarrier(void);
-void* FUN_00c7fb50(void* a1);
+void* bhkUtilFunctions_FindConstrainedSystemRoot(void* a1);
 SpawnedAllocHolder* FUN_00c85750();
 void ResizeAudioStream(void* allocator, SpawnedPtrArray* arr, unsigned int growBy);
 void AppendSpawnedPtr(void* a1, SpawnedPtrArray* arr);
@@ -546,7 +546,7 @@ struct FUN_00c80b20_cls
 };
 // FUN_00c81570 : a one-line function - getter
 extern int g_target_00c81570;
-void* FUN_00c81570();
+void* bhkBlendCollisionObject_GetRTTI();
 struct FUN_00c81580_cls
 {
     int unk00;
@@ -726,7 +726,7 @@ class FUN_00c81aa0_cls
     unsigned int unk1C;
     unsigned int unk20;
     int m_24;
-    void FUN_00c81aa0();
+    void bhkBlendCollisionObject_UpdateAddedToWorld();
 };
 struct FUN_00c81ae0_target
 {
@@ -869,7 +869,7 @@ struct ObjA
     void* m_p1c;
 };
 extern "C" unsigned char __cdecl FUN_00c84740(void* pA, void* pB);
-ObjA* __stdcall FUN_00c84880(ObjA* p1, ObjA* p2, ObjA* p3);
+ObjA* __stdcall bhkCollisionFilter_isCollisionEnabled(ObjA* p1, ObjA* p2, ObjA* p3);
 struct ChainNode
 {
     int m_00;
@@ -882,7 +882,7 @@ struct ChainNode
     int m_1c;
 };
 unsigned char __cdecl FUN_00c84740(int a1, int a2);
-unsigned char* __stdcall FUN_00c848b0(unsigned char* pResult, int a2, ChainNode* pChainA, ChainNode* pChainB, int a5,
+unsigned char* __stdcall bhkCollisionFilter_isCollisionEnabled_00c848b0(unsigned char* pResult, int a2, ChainNode* pChainA, ChainNode* pChainB, int a5,
                                       int a6);
 // FUN_00c84930: stdcall 3-arg wrapper.
 //   a2->m_24 and a3->m_1c are passed to the cdecl helper FUN_00c84740,
@@ -912,7 +912,7 @@ struct NodeB
     int m_18;
     int m_1c;
 };
-unsigned char* __stdcall FUN_00c84930(unsigned char* pResult, NodeA* pNodeA, NodeB* pNodeB);
+unsigned char* __stdcall bhkCollisionFilter_isCollisionEnabled_00c84930(unsigned char* pResult, NodeA* pNodeA, NodeB* pNodeB);
 struct FUN_00c84dc0_param
 {
     int m_00;
@@ -2164,7 +2164,7 @@ class C87A10WorldObject : public C87A10RefObject
     void FUN_00c87a10(bool bAdd);
 };
 extern int DAT_0126817c;
-void* __cdecl FUN_00c88370();
+void* __cdecl WeaponObject_GetRTTI();
 // Constructor of a two-level Havok wrapper: attach the given Havok object (through its referenced-object base).
 extern int g_iC88380RefObjectCount;
 extern int g_iC88380WrapperCount;
@@ -2214,7 +2214,7 @@ class FUN_00c88380 : public C88380RefObject
     virtual ~FUN_00c88380();
 };
 extern int DAT_0126831c;
-int* __cdecl FUN_00c88400();
+int* __cdecl bhkLimitedHingeConstraint_GetRTTI();
 struct FNVTransformState
 {
     int component00, component04, component08, component0c;
@@ -3447,7 +3447,7 @@ struct GlobalObject
     int unk00;
 };
 extern GlobalObject g_global;
-GlobalObject* __cdecl FUN_00c8a790();
+GlobalObject* __cdecl bhkBinaryAction_GetRTTI();
 struct FUN_00c8a7a0_cls;
 struct Callee_a645
 {
@@ -4103,7 +4103,7 @@ struct FUN_00c8d0d0_Object
     int GetNodeCount();
 };
 extern int DAT_012681d4;
-int __cdecl FUN_00c90820(void);
+int __cdecl hkReferencedObject_getLockCriticalSection(void);
 class C90830ReferencedObject
 {
   public:
@@ -4165,7 +4165,7 @@ struct FUN_00c90e00
     FUN_00c90e00(int flag);
 };
 extern int DAT_012681e8;
-void* __cdecl FUN_00c99fe0();
+void* __cdecl bhkWorldM_GetRTTI();
 struct FUN_00653290_cls
 {
     int unk00;
@@ -4238,7 +4238,7 @@ struct FUN_00c9ab10_class
     int unk44;
     int unk48;
 
-    void FUN_00c9ab10();
+    void bhkBlendController_FixStartAndEndTimes();
 };
 void* NiMalloc(unsigned int size);
 void NiFree(void* p);
@@ -4317,7 +4317,7 @@ SubObject_c9ad60::~SubObject_c9ad60()
 }
 // FUN_00c9add0 : a one-line function - getter
 extern int g_target_00c9add0;
-void* FUN_00c9add0();
+void* bhkBlendController_GetRTTI();
 struct S_00c9af40_BinStream
 {
     int unk00;
@@ -5783,7 +5783,7 @@ struct FUN_00c9abc0_cls
     int unk4c;
     float unk50;
     float unk54;
-    void __thiscall FUN_00c9abc0(int param2);
+    void __thiscall bhkBlendController_RestoreOriginalGains(int param2);
 };
 struct FUN_00c9a6c0
 {
@@ -5876,7 +5876,7 @@ struct TargetController
     int unk50, unk54;
     unsigned int mode;
     void Reset();
-    void FUN_00c9b1a0(FUN_00c9a6c0* key);
+    void bhkBlendController_AddKey(FUN_00c9a6c0* key);
 };
 struct SceneNode;
 struct SceneObject
@@ -5934,7 +5934,7 @@ extern TimeRange DAT_011b1090[];
 extern TimeRange DAT_011b0f90[];
 extern int DAT_01267e64;
 extern const float DAT_01015f5c;
-void FUN_00c9b250(SceneObject* object, float middle, bool alternate);
+void bhkBlendController_DoHit(SceneObject* object, float middle, bool alternate);
 struct Node253;
 struct HavokObject253
 {
@@ -6036,7 +6036,7 @@ extern GlobalObjectO2_00a7b610 g_0126818c;
 struct Param5380d0;
 struct This5380d0
 {
-    bool FUN_005380d0(Param5380d0*);
+    bool bhkWorld_RemoveBody(Param5380d0*);
 };
 void EnableConstraintsAndZeroArrays(void*, void*);
 struct ControllerRTTI
@@ -6830,7 +6830,7 @@ struct FUN_00c87c50_cls
     void FUN_00c87c50(NiObject* arg);
 };
 extern int DAT_01268160;
-int* __cdecl FUN_00c87c80();
+int* __cdecl bhkRefObject_GetRTTI();
 extern __declspec(thread) int DAT_tls_field;
 struct MemoryContextGuard
 {
@@ -6932,7 +6932,7 @@ struct Heap_c891
     virtual void v3();
     virtual void ReturnMemory(void* p, int bytes);
 };
-Holder_c891* __cdecl FUN_00c802d0(int);
+Holder_c891* __cdecl bhkUtilFunctions_FindNextCollisionObject(int);
 struct Arr_c891
 {
     Elem_c891** m_data;
@@ -7403,7 +7403,7 @@ struct C8B540Group : C8B4D0Group
     int GetSelectedResult(int iArg);
 };
 extern int DAT_012681cc;
-int __cdecl FUN_00c8ff70();
+int __cdecl bhkBlendCollisionObjectAddRotation_GetRTTI();
 void __cdecl FUN_00c818f0(int, int);
 void __cdecl FUN_00c8ff80(int param_1, int param_2);
 struct FUN_00c819a0_holder
@@ -7435,9 +7435,9 @@ class C90160Derived : public BC88760Base
     void FUN_00c81580(C90160Derived* destination, BC88760CloningProcess& cloning);
     C90160Derived* FUN_00c90160(BC88760CloningProcess& cloning);
 };
-void __cdecl FUN_00c90330();
-void __cdecl FUN_00c90340();
-int __cdecl FUN_00c90350();
+void __cdecl nullsub_92();
+void __cdecl nullsub_93();
+int __cdecl retn_0_();
 extern "C" int DAT_01268748;
 extern "C" const char* __cdecl hkStatisticsCollectorUtil_hasContents(void** value, void* object);
 extern "C" void __cdecl hkStatisticsCollectorUtil_addClassContentsAll(void* owner, void* object, void* context);
@@ -7491,7 +7491,7 @@ struct FUN_00c9a620_Obj
     float unk04;
     float unk08;
 
-    int __thiscall FUN_00c9a620(float* other);
+    int __thiscall BLENDKEY_IsEqual(float* other);
 };
 extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
 void hkBaseSystem_quitThread();
@@ -8235,7 +8235,7 @@ static inline bool CheckBody(ProbeD* body, ProbeObj*& obj)
     }
     return false;
 }
-bool FUN_00c80090(ProbeObj* obj);
+bool bhkUtilFunctions_IsRigidBodyActive(ProbeObj* obj);
 struct WalkBits_c804
 {
     union
@@ -8301,7 +8301,7 @@ struct WalkNode_c804
     unsigned short unkA4;
     unsigned short m_a6;
 };
-void FUN_00c804d0(WalkNode_c804* node, unsigned int flag);
+void bhkUtilFunctions_SetLayer(WalkNode_c804* node, unsigned int flag);
 extern unsigned int DAT_012043f8;
 struct WorkNode_cls
 {
@@ -8364,7 +8364,7 @@ struct WorkStack_cls
     unsigned int m_08;
     void __thiscall InsertItemAt(int a1, NodeDepth* a2);
 };
-NiObject* __cdecl FUN_00c80c00(WorkNode_cls* a1, WorkStack_cls* a2, unsigned int a3, unsigned int a4);
+NiObject* __cdecl bhkUtilFunctions_FindCollisionObjectBFSRec(WorkNode_cls* a1, WorkStack_cls* a2, unsigned int a3, unsigned int a4);
 // FUN_00c81890 (unit_a1df186ed60f.cpp) - 95B, /MT /O2 /GS /EHsc /Gy
 // v4: extern __declspec(thread) int DAT_tls_0x2c0 (probe-exact a1+64 8b 0d+8b 14 81+8b 82 c0020000);
 //     uchar bitfield f6/f0 (probe-exact mov cl/shr/test forms); m_bits word AND per v3 match
@@ -8586,7 +8586,7 @@ struct A50Cls
     int unk18;
     int unk1c;
     int m_20;
-    void __thiscall FUN_00c81a50();
+    void __thiscall bhkBlendCollisionObject_SynchronizeMotionType();
 };
 struct FUN_00c84d00_obj
 {

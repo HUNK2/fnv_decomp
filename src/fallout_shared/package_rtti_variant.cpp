@@ -829,14 +829,15 @@ struct A
     void FUN_008bf4e0(int);
     bool FUN_005653d0();
     void AddActor(A*);
-    void FUN_008bed50(A*, int, bool, A*);
+    void Actor_InitiateAlarm(A*, int, bool, A*);
 };
 struct Extra
 {
     P* FUN_0041cb10();
 };
 // @fnv 0x008bed50
-void A::FUN_008bed50(A* source, int value, bool react, A* target)
+// src: COMMUNITY 0x008bed50
+void A::Actor_InitiateAlarm(A* source, int value, bool react, A* target)
 {
     if (process && process->GetAssignedPackage() && process->GetAssignedPackage()->GetPackType() == 21)
         return;

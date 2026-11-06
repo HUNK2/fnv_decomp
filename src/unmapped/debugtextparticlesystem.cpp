@@ -12,7 +12,8 @@
 extern "C" void* g_012682bc;
 
 // @fnv 0x00ca34b0
-void* __cdecl FUN_00ca34b0()
+// src: COMMUNITY 0x00ca34b0
+void* __cdecl hkPackedNiTriStripsData_GetRTTI()
 {
     return &g_012682bc;
 }
@@ -80,7 +81,8 @@ CA34C0Object* __cdecl CreateCA34C0Derived()
 }
 
 // @fnv 0x00ca3550
-int __cdecl FUN_00ca3550()
+// src: COMMUNITY 0x00ca3550
+int __cdecl hkPackedNiTriStripsShape_getType()
 {
     return 0x17;
 }
@@ -274,13 +276,14 @@ struct ShapeVector
 struct Rotation
 {
     ShapeVector value;
-    void FUN_00c66320(const Rotation*, const Rotation*);
+    void setMul(const Rotation*, const Rotation*);
     __forceinline void operator=(const __m128& q)
     {
         value.value = q;
     }
 };
-__declspec(noinline) void Rotation::FUN_00c66320(const Rotation* left, const Rotation* right)
+// src: COMMUNITY 0x00c66320
+__declspec(noinline) void Rotation::setMul(const Rotation* left, const Rotation* right)
 {
     const __m128 a = left->value.value;
     const __m128 b = right->value.value;
@@ -327,7 +330,7 @@ struct SkeletonQsTransform
     ShapeVector translation;
     Rotation rotation;
     ShapeVector scale;
-    void FUN_00ce5070(const SkeletonQsTransform*);
+    void setFromTransformNoScale(const SkeletonQsTransform*);
     __forceinline void setIdentity()
     {
         translation.value = _mm_setzero_ps();
@@ -350,7 +353,7 @@ struct SkeletonQsTransform
         ShapeVector translated;
         translated.setRotated(a.rotation, b.translation, false);
         translation.setAdd(a.translation, translated);
-        rotation.FUN_00c66320(&a.rotation, &b.rotation);
+        rotation.setMul(&a.rotation, &b.rotation);
         scale.value = _mm_mul_ps(b.scale.value, a.scale.value);
     }
 };
@@ -645,15 +648,15 @@ Rig* __stdcall BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentLi
             {
                 SceneNode* parent = nodes->data[parentIndex];
                 SkeletonQsTransform childTransform, parentTransform;
-                childTransform.FUN_00ce5070(&node->transform);
-                parentTransform.FUN_00ce5070(&parent->transform);
+                childTransform.setFromTransformNoScale(&node->transform);
+                parentTransform.setFromTransformNoScale(&parent->transform);
                 SkeletonQsTransform& outTransform = ((PoseArray&)rig->getPose()).data[i];
                 SkeletonQsTransform inverse;
                 inverse.SetConjugate(parentTransform);
                 outTransform.SetProduct(inverse, childTransform);
             }
             else
-                ((PoseArray&)rig->getPose()).data[i].FUN_00ce5070(&node->transform);
+                ((PoseArray&)rig->getPose()).data[i].setFromTransformNoScale(&node->transform);
             const char* text = (const char*)(node->taggedName & ~1u);
             if (text)
             {
@@ -1202,7 +1205,7 @@ struct Item
 };
 struct AllocatorExtended : Allocator
 {
-    void* FUN_00aa3e40(unsigned int bytes);
+    void* Game_DoHeapAlloc(unsigned int bytes);
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
 enum PreparationResult
@@ -1212,14 +1215,14 @@ enum PreparationResult
 };
 PreparationResult __cdecl hkaRagdollUtils_reorderForRagdoll(SmallVec* a, RightSmallVec* b);
 void* __cdecl hkaRagdollUtils_createRagdollInstanceFromSkeleton(void* x, SmallVec* a, RightSmallVec* b);
-uint64 __cdecl FUN_00aa4d80();
+uint64 __cdecl BSPrecisionTimer_GetTimer();
 struct Grower
 {
-    void FUN_00cb9ce0(unsigned int newCap, unsigned int old);
+    void BSSimpleArray_Resize(unsigned int newCap, unsigned int old);
 };
 struct Appender
 {
-    unsigned int FUN_00b5c360();
+    unsigned int BSSimpleArray_GetNextIndex_2();
 };
 extern int DAT_01071aec;
 extern int DAT_010c7310;
@@ -1353,7 +1356,7 @@ struct PrecisionTimer
     uint64 started, finished;
     __forceinline void reset(float elapsed)
     {
-        started = FUN_00aa4d80();
+        started = BSPrecisionTimer_GetTimer();
         finished = (__int64)(elapsed * DAT_011ac39c);
     }
 };
@@ -1369,7 +1372,7 @@ struct Manager
     void TraverseSceneNode(Item* input, SmallVec* first, RightSmallVec* second);
     void CollectMixedTypeNodes(SmallVec* first, Builder* builder);
     void* BuildRigFromNodes(SmallVec* first, RightSmallVec* second, Builder* build);
-    bool FUN_00ca2ad0(void* source, unsigned int flags);
+    bool bhkRagdollPenetrationUtil_Initialize(void* source, unsigned int flags);
     __forceinline unsigned int storageCount()
     {
         unsigned int n = storage.count;
@@ -1458,7 +1461,7 @@ __forceinline Item::Item()
 {}
 __forceinline void* Item::operator new(unsigned int n)
 {
-    return ((AllocatorExtended*)&DAT_011f6238)->FUN_00aa3e40(n);
+    return ((AllocatorExtended*)&DAT_011f6238)->Game_DoHeapAlloc(n);
 }
 static __forceinline void add_pointer(PointerVec& vec, Item* const& ptr)
 {
@@ -1472,7 +1475,7 @@ static __forceinline void add_pointer(PointerVec& vec, Item* const& ptr)
         else
         {
             unsigned int newSize = vec.capacity > 1024 ? vec.capacity + 1024 : vec.capacity * 2;
-            ((Grower*)&vec)->FUN_00cb9ce0(newSize, vec.size);
+            ((Grower*)&vec)->BSSimpleArray_Resize(newSize, vec.size);
             vec.capacity = newSize;
         }
     }
@@ -1544,7 +1547,8 @@ static __forceinline void setResource(SceneRecord& r, unsigned int opt)
 }
 // Rebuilds the storage list from source data, reusing existing items, creating new ones with bounding boxes, and removing stale entries.
 // @fnv 0x00ca2ad0
-bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
+// src: COMMUNITY 0x00ca2ad0
+bool Manager::bhkRagdollPenetrationUtil_Initialize(void* source, unsigned int flags)
 {
     int inner;
     int work;
@@ -1636,7 +1640,7 @@ bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
             unavailable = true;
         if (entry->bounding && entry->source && entry->payload && entry->collection && entry->scene)
         {
-            unsigned int n = ((Appender*)&retained)->FUN_00b5c360();
+            unsigned int n = ((Appender*)&retained)->BSSimpleArray_GetNextIndex_2();
             retained.data[n] = entry;
         }
         else

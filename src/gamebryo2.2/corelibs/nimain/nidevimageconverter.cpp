@@ -103,7 +103,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
         if (src.GetPalette())
         {
             if (!dst.GetPalette())
-                dst.FUN_00a76a60(new NiPalette(*src.GetPalette()));
+                dst.NiPixelData_SetPalette(new NiPalette(*src.GetPalette()));
             else
                 AssignPalette(dst.GetPalette(), *src.GetPalette());
         }
@@ -143,7 +143,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
             if (!src.GetPalette())
                 return false;
             if (!dst.GetPalette())
-                dst.FUN_00a76a60(new NiPalette(*src.GetPalette()));
+                dst.NiPixelData_SetPalette(new NiPalette(*src.GetPalette()));
             else
                 AssignPalette(dst.GetPalette(), *src.GetPalette());
             NiPalette* palette = dst.GetPalette();
@@ -177,7 +177,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
             if (!src.GetPalette())
                 return false;
             unsigned paletteCount;
-            dst.FUN_00a76a60(new NiPalette(false, 16, src.GetPalette()->GetEntries(paletteCount)));
+            dst.NiPixelData_SetPalette(new NiPalette(false, 16, src.GetPalette()->GetEntries(paletteCount)));
             return true;
         }
     }
@@ -206,7 +206,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
             if (!src.GetPalette())
                 return false;
             if (!dst.GetPalette())
-                dst.FUN_00a76a60(new NiPalette(*src.GetPalette()));
+                dst.NiPixelData_SetPalette(new NiPalette(*src.GetPalette()));
             else
                 AssignPalette(dst.GetPalette(), *src.GetPalette());
             NiPalette* palette = dst.GetPalette();
@@ -242,7 +242,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
             if (!src.GetPalette())
                 return false;
             unsigned paletteCount;
-            dst.FUN_00a76a60(new NiPalette(false, 256, src.GetPalette()->GetEntries(paletteCount)));
+            dst.NiPixelData_SetPalette(new NiPalette(false, 256, src.GetPalette()->GetEntries(paletteCount)));
             return true;
         }
     }

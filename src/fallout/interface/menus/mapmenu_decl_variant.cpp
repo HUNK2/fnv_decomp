@@ -66,7 +66,7 @@ void MapMenu::FUN_0079af30()
         DAT_011da368->RefreshRadioList();
         index = m_kMapMarkerListBox.GetTileAt(static_cast<unsigned int>(selected), false);
         if (index)
-            FUN_004b7210()->FUN_00715860(index, 0xfc3, 1);
+            InterfaceManager_GetSingleton()->FUN_00715860(index, 0xfc3, 1);
         m_kMapMarkerListBox.ScrollToHighlight();
         break;
     }

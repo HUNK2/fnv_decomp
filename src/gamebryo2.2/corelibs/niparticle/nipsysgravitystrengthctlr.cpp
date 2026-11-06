@@ -10,7 +10,8 @@
 extern "C" void* g_01202700;
 
 // @fnv 0x00c2a8a0
-void* __cdecl FUN_00c2a8a0()
+// src: COMMUNITY 0x00c2a8a0
+void* __cdecl NiPSysGravityStrengthCtlr_GetRTTI()
 {
     return &g_01202700;
 }

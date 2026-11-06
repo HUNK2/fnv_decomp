@@ -56,7 +56,7 @@ struct __declspec(align(16)) FUN_00e0af50 : ShapeBase
 
     FUN_00e0af50(const hkVec4f& v, int a, int b);
 };
-void __stdcall FUN_00e0af40(int a, int b);
+void __stdcall nullsub_91(int a, int b);
 
 extern "C" void _ReadBarrier();
 void* FUN_00c85750(void);

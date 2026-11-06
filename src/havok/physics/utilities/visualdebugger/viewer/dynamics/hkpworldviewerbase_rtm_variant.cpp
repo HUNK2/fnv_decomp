@@ -281,7 +281,8 @@ struct Hit
     {}
 };
 // @fnv 0x00ddd0b0
-Hit __cdecl FUN_00ddd0b0(const ClipVectorLocal_00ddc& start, const ClipVectorLocal_00ddc& end, int planeCount, const ClipVectorLocal_00ddc* planes,
+// src: COMMUNITY 0x00ddd0b0
+Hit __cdecl hkClipEdgeAgainstPlanes(const ClipVectorLocal_00ddc& start, const ClipVectorLocal_00ddc& end, int planeCount, const ClipVectorLocal_00ddc* planes,
                          float* first, float* last)
 {
     ClipVectorLocal_00ddc a = start;

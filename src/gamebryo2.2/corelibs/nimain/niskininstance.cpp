@@ -282,7 +282,7 @@ char* Label(const char*, const char*);
 char* FUN_00a7d510(const char*, unsigned int);
 void* NiMalloc(unsigned int);
 void NiFree(void*);
-int FUN_00a86280(const void*, const void*);
+int CompareBoneNames(const void*, const void*);
 extern "C" void __cdecl SortNames(void*, unsigned int, unsigned int, int(__cdecl*)(const void*, const void*));
 void FUN_00a305b0(char*, unsigned int, const char*, ...);
 struct BonePtr
@@ -323,7 +323,7 @@ void NiSkinInstance::GetViewerStrings(NiViewerStringsArray* strings)
             ppBoneNames[index] = (char*)NiMalloc(strlen(szBoneName) + 1);
             strcpy(ppBoneNames[index], szBoneName);
         }
-        SortNames(ppBoneNames, uiBoneCount, 4, FUN_00a86280);
+        SortNames(ppBoneNames, uiBoneCount, 4, CompareBoneNames);
         for (unsigned int index = 0; index < uiBoneCount; ++index)
         {
             char szIndex[10];

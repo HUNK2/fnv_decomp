@@ -16,7 +16,7 @@ struct Vec4Target
 {
     __m128 m_v0;
     __m128 m_v1;
-    void __thiscall FUN_00c66320(const __m128* a, const __m128* b);
+    void __thiscall setMul(const __m128* a, const __m128* b);
 };
 
 __declspec(align(16)) struct Vec4Pod
@@ -31,7 +31,7 @@ __declspec(align(16)) struct Vec4Pod
 void FUN_00ce2ca0(void* unused, __m128* dst, const __m128* a, const __m128* b)
 {
     dst[0] = _mm_add_ps(_mm_mul_ps(a[2], b[0]), a[0]);
-    ((Vec4Target*)(dst + 1))->FUN_00c66320(a + 1, b + 1);
+    ((Vec4Target*)(dst + 1))->setMul(a + 1, b + 1);
     dst[2] = b[2];
 }
 

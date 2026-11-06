@@ -256,7 +256,7 @@ class S00ce0290_hkQuaternion
         return m_vec;
     }
     void FUN_00cb2450(const S00ce0290_hkVector4& axis, hkReal angle);
-    void FUN_00c66320(const S00ce0290_hkQuaternion& q0, const S00ce0290_hkQuaternion& q1);
+    void setMul(const S00ce0290_hkQuaternion& q0, const S00ce0290_hkQuaternion& q1);
     void FUN_00ce0ca0(const S00ce0290_hkQuaternion& q);  // mul
     S00ce0290_hkVector4 m_vec;
 };
@@ -371,7 +371,7 @@ class S00ce0290_LookAt
         hkReal m_fFourthRangeValue;
         S00ce0290_hkVector4 m_kRangeVector;
     };
-    static S00ce0290_hkBool __cdecl FUN_00ce0290(const Setup& setup, const S00ce0290_hkVector4& targetMS, hkReal gain,
+    static S00ce0290_hkBool __cdecl hkaLookAtIkSolver_solve(const Setup& setup, const S00ce0290_hkVector4& targetMS, hkReal gain,
                                                  S00ce0290_hkQsTransform& boneModelSpaceInOut,
                                                  const BoneTransformRange* range);
     static void __cdecl FUN_00ce0110(S00ce0290_hkVector4& sphericalInCartesianOut);
@@ -379,7 +379,8 @@ class S00ce0290_LookAt
 };
 
 // @fnv 0x00ce0290
-S00ce0290_hkBool __cdecl S00ce0290_LookAt::FUN_00ce0290(const Setup& setup, const S00ce0290_hkVector4& targetMS,
+// src: COMMUNITY 0x00ce0290
+S00ce0290_hkBool __cdecl S00ce0290_LookAt::hkaLookAtIkSolver_solve(const Setup& setup, const S00ce0290_hkVector4& targetMS,
                                                         hkReal gain, S00ce0290_hkQsTransform& boneModelSpaceInOut,
                                                         const BoneTransformRange* range)
 {
@@ -504,7 +505,7 @@ S00ce0290_hkBool __cdecl S00ce0290_LookAt::FUN_00ce0290(const Setup& setup, cons
 
         {
             S00ce0290_hkQuaternion newRotation;
-            newRotation.FUN_00c66320(q, boneModelSpaceInOut.getRotation());
+            newRotation.setMul(q, boneModelSpaceInOut.getRotation());
             boneModelSpaceInOut.m_rotation = newRotation;
         }
     }

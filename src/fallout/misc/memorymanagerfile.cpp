@@ -112,7 +112,7 @@ int MemoryManagerFile::Write(const void* apData, unsigned int aSize)
 namespace fnv_00878590 {
 struct FileSizeInfo
 {
-    int __thiscall FUN_0065c290(unsigned __int64&);
+    int __thiscall BSSystemFile_GetSize(unsigned __int64&);
 };
 // Retained until MemoryManagerFile declares the size method at 0x00878590.
 struct FUN_00878590_shell : FileSizeInfo
@@ -123,7 +123,7 @@ struct FUN_00878590_shell : FileSizeInfo
 int __thiscall FUN_00878590_shell::FUN_00878590()
 {
     unsigned __int64 size;
-    ((FileSizeInfo*)((char*)this + 4))->FUN_0065c290(size);
+    ((FileSizeInfo*)((char*)this + 4))->BSSystemFile_GetSize(size);
     return (int)size;
 }
 }  // namespace fnv_00878590

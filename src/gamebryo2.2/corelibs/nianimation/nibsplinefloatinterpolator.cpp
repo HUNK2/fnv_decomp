@@ -80,7 +80,8 @@ struct GlobalObjX
 };
 extern GlobalObjX g_011f401c_arg1;
 // @fnv 0x00a50b70
-GlobalObjX* FUN_00a50b70()
+// src: COMMUNITY 0x00a50b70
+GlobalObjX* NiBSplineFloatInterpolator_GetRTTI()
 {
     return &g_011f401c_arg1;
 }

@@ -52,10 +52,10 @@ public:
     void Normalize();
     float Length() const;
 
-    LocalVector3 FUN_00b13040(const LocalVector3& other) const;
+    LocalVector3 Diff_00b13040(const LocalVector3& other) const;
     LocalVector3 FUN_00b12890(const FloatMatrix3& matrix) const;
     LocalVector3 FUN_00b12810(const LocalVector3& other) const;
-    void FUN_00b12790();
+    void Normalize_00b12790();
     void __thiscall FUN_00439ef0(LocalVector3* dest, void* context);
     void __thiscall FUN_004a0c10();
     LocalVector3 FUN_00439ef0(const LocalVector3& other) const
@@ -75,7 +75,8 @@ struct ShadowSceneNode;
 
 
 // @fnv 0x007ffad0
-NiAVObject* FORenderedTerminal::FUN_007ffad0()
+// src: COMMUNITY 0x007ffad0
+NiAVObject* FORenderedTerminal::GetParentNodeToRender()
 {
     return NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1);
 }
@@ -129,10 +130,11 @@ bool FUN_007ff8e0_shell::FUN_007ff8e0()
 
 struct FUN_007ff8c0_shell : public FUN_007ff8e0_shell
 {
-    bool FUN_007ff8c0();
+    bool BSFadeNode_IsFadedIn();
 };
 // @fnv 0x007ff8c0
-bool FUN_007ff8c0_shell::FUN_007ff8c0()
+// src: COMMUNITY 0x007ff8c0
+bool FUN_007ff8c0_shell::BSFadeNode_IsFadedIn()
 {
     return FUN_007ff8e0();
 }
@@ -167,11 +169,12 @@ struct FUN_00440460_S
 struct BSRenderedTexture;
 struct FUN_007ff7c0_shell : public BSAudio, public FUN_00440460_S
 {
-    void FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode, BSRenderedTexture* apSwapTarget);
-    void FUN_007fba00(BSRenderedTexture*, int, int);
+    void FORenderedTerminal_Draw(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode, BSRenderedTexture* apSwapTarget);
+    void Render_007fba00(BSRenderedTexture*, int, int);
 };
 // @fnv 0x007ff7c0
-void FUN_007ff7c0_shell::FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode,
+// src: COMMUNITY 0x007ff7c0
+void FUN_007ff7c0_shell::FORenderedTerminal_Draw(BSRenderedTexture* apTarget, NiRenderer::ClearFlags aeClearMode,
                                       BSRenderedTexture* apSwapTarget)
 {
     NiAVObject* proot = (NiAVObject*)GetSynchTime();
@@ -181,7 +184,7 @@ void FUN_007ff7c0_shell::FUN_007ff7c0(BSRenderedTexture* apTarget, NiRenderer::C
         NiUpdateData UpdateData(0.0f, false, false);
         ((NiNode*)proot)->Update(UpdateData);
     }
-    FUN_007fba00(apTarget, 1, 0);
+    Render_007fba00(apTarget, 1, 0);
 }
 
 struct Flt
@@ -226,17 +229,17 @@ struct AudioFallback
 float __fastcall GetFieldB4Float(AudioClock* clock);
 bool __fastcall UpdateScreenEffect(FUN_007ff820_shell* surface);
 void __fastcall SetRenderedMenu(AudioFallback* fallback);
-AudioFallback* __stdcall FUN_004b7210(int mode);
+AudioFallback* __stdcall InterfaceManager_GetSingleton(int mode);
 
 // @fnv 0x007ff820
 bool FUN_007ff820_shell::UpdateAudioFallback()
 {
     if (*((unsigned char*)this + 0xec))
     {
-        if (!g_011db63c || !((AudioClock*)(unsigned int)g_011db63c)->FUN_007ff8c0() ||
+        if (!g_011db63c || !((AudioClock*)(unsigned int)g_011db63c)->BSFadeNode_IsFadedIn() ||
             *((float*)((char*)this + 0xe8)) == GetFieldB4Float((AudioClock*)(unsigned int)g_011db63c))
         {
-            SetRenderedMenu(FUN_004b7210(0));
+            SetRenderedMenu(InterfaceManager_GetSingleton(0));
             return true;
         }
         else

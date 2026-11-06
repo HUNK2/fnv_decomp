@@ -363,7 +363,8 @@ void __thiscall FUN_00d0a1f0_Class::hkpAabbTreeWorldManager_setUpToDate(unsigned
 
 // Empty function that takes an int argument and does nothing.
 // @fnv 0x00d08380
-void __stdcall FUN_00d08380(int) {
+// src: COMMUNITY 0x00d08380
+void __stdcall nullsub_62(int) {
 }
 
 struct FUN_00cd29f0_cls {

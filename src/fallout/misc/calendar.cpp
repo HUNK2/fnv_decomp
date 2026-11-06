@@ -191,10 +191,11 @@ struct FUN_00867ea0_shell
 {
     char _pad[16];
     FUN_00526ac0_shell* m_ptr;
-    float FUN_00867ea0();
+    float Calendar_GetMinutesPassed();
 };
 // @fnv 0x00867ea0
-float FUN_00867ea0_shell::FUN_00867ea0()
+// src: COMMUNITY 0x00867ea0
+float FUN_00867ea0_shell::Calendar_GetMinutesPassed()
 {
     float days = m_ptr ? m_ptr->FUN_00526ac0() : 1.0f;
     return days * 24.0 * DAT_01012638;
@@ -234,12 +235,13 @@ DateString CalendarDateFormatter::FormatDate()
 struct Thing
 {
     int FUN_00867d20();
-    int FUN_00867ca0();
+    int Calendar_GetSeason();
 };
 
 // Maps values 0 through 11 to results 0 through 3 using a switch.
 // @fnv 0x00867ca0
-int Thing::FUN_00867ca0()
+// src: COMMUNITY 0x00867ca0
+int Thing::Calendar_GetSeason()
 {
     int result = 0;
     switch (FUN_00867d20())

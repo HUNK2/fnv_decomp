@@ -118,7 +118,7 @@ void BaseProcess::Copy(BaseProcess* source)
         reinterpret_cast<MiddleHighProcessCall*>(thisSecond)
             ->CopyProcessDataFrom(reinterpret_cast<MiddleHighProcessCall*>(thisThird));
     if (sourceSecond && sourceLow)
-        reinterpret_cast<CopyCall00914c60*>(sourceSecond)->FUN_00914c60(reinterpret_cast<CopyCall00914c60*>(sourceLow));
+        reinterpret_cast<CopyCall00914c60*>(sourceSecond)->MiddleHighProcess_MiddleHighCopy(reinterpret_cast<CopyCall00914c60*>(sourceLow));
     if (sourceThird && thisMiddleHigh)
         reinterpret_cast<CachedValuesCopyCall*>(sourceThird)
             ->Copy(reinterpret_cast<CachedValuesCopyCall*>(thisMiddleHigh));
@@ -438,10 +438,11 @@ NiPoint3 BaseProcess::GetActorNodePosition(Actor* apActor, DetectionListType abW
 struct DetectionViewData;
 struct FUN_008d0340_s
 {
-    DetectionViewData* FUN_008d0340(Actor*, int, bool, int, int, bool, bool);
+    DetectionViewData* BaseProcess_InsertIntoDetectionList(Actor*, int, bool, int, int, bool, bool);
 };
 // @fnv 0x008d0340
-DetectionViewData* FUN_008d0340_s::FUN_008d0340(Actor* apactor, int aedetect, bool abLineSight, int aiLevel,
+// src: COMMUNITY 0x008d0340
+DetectionViewData* FUN_008d0340_s::BaseProcess_InsertIntoDetectionList(Actor* apactor, int aedetect, bool abLineSight, int aiLevel,
                                                 int abWhichList, bool ab360view, bool abcombat)
 {
     return 0;
@@ -457,11 +458,12 @@ void BaseProcess::ProcessEquipmentRequest(Actor* apActor, bool abEquip, TESBound
 // a value parameter. Keep only this unsupported declaration until that signature is shared.
 struct FUN_008d04d0_s
 {
-    void FUN_008d04d0(GO apCon);
+    void BaseProcess_SetCharacterController(GO apCon);
 };
 
 // @fnv 0x008d04d0
-void FUN_008d04d0_s::FUN_008d04d0(GO apCon)
+// src: COMMUNITY 0x008d04d0
+void FUN_008d04d0_s::BaseProcess_SetCharacterController(GO apCon)
 {}
 
 // @fnv 0x008d04f0
@@ -701,7 +703,7 @@ struct SavedProcess
     int unk00;
     ProcessData data;
     unsigned int unk1c;
-    void FUN_008d0a10(unsigned int, unsigned int);
+    void BaseProcess_SaveGameTES(unsigned int, unsigned int);
 };
 struct FormView
 {
@@ -784,7 +786,8 @@ struct FormView
     virtual const char* Describe();
 };
 // @fnv 0x008d0a10
-void SavedProcess::FUN_008d0a10(unsigned int flags, unsigned int unused)
+// src: COMMUNITY 0x008d0a10
+void SavedProcess::BaseProcess_SaveGameTES(unsigned int flags, unsigned int unused)
 {
     unsigned short length = 0;
     unsigned int* begin = 0;
@@ -926,7 +929,7 @@ struct Object8d
     virtual const char* name();
 };
 Object8d* __cdecl FUN_004839c0(unsigned);
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 struct Base8d
 {
     void FUN_008c6320(void*, void*);
@@ -955,12 +958,12 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
             if (record)
             {
                 Object8d* object = FUN_004839c0(record->id);
-                FUN_005b5e40(&DAT_01015718, &DAT_010865e0, 0x104, record->id, object->name(),
+                Warning_005b5e40(&DAT_01015718, &DAT_010865e0, 0x104, record->id, object->name(),
                              *(unsigned char*)((char*)record + 9), *(unsigned*)((char*)record + 5));
             }
             else
             {
-                FUN_005b5e40(&DAT_010156a8, &DAT_010865e0, 0x104, (*(Reader8d**)&DAT_011de45c)->FUN_008df040());
+                Warning_005b5e40(&DAT_010156a8, &DAT_010865e0, 0x104, (*(Reader8d**)&DAT_011de45c)->FUN_008df040());
             }
         }
         start = (*(Reader8d**)&DAT_011de45c)->FUN_00825c00();
@@ -977,12 +980,12 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
             Object8d* object = FUN_004839c0(record->id);
             if (end > start + count)
             {
-                FUN_005b5e40(&DAT_01015588, end - (start + count), &DAT_010865e0, 0x109, record->id, object->name(),
+                Warning_005b5e40(&DAT_01015588, end - (start + count), &DAT_010865e0, 0x109, record->id, object->name(),
                              *(unsigned char*)((char*)record + 9), *(unsigned*)((char*)record + 5));
             }
             else if (end < start + count)
             {
-                FUN_005b5e40(&DAT_01015500, start + count - end, &DAT_010865e0, 0x109, record->id, object->name(),
+                Warning_005b5e40(&DAT_01015500, start + count - end, &DAT_010865e0, 0x109, record->id, object->name(),
                              *(unsigned char*)((char*)record + 9), *(unsigned*)((char*)record + 5));
             }
         }
@@ -990,12 +993,12 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
         {
             if (end > start + count)
             {
-                FUN_005b5e40(&DAT_010154a0, end - (start + count), &DAT_010865e0, 0x109,
+                Warning_005b5e40(&DAT_010154a0, end - (start + count), &DAT_010865e0, 0x109,
                              (*(Reader8d**)&DAT_011de45c)->FUN_008df040());
             }
             else if (end < start + count)
             {
-                FUN_005b5e40(&DAT_01015440, start + count - end, &DAT_010865e0, 0x109,
+                Warning_005b5e40(&DAT_01015440, start + count - end, &DAT_010865e0, 0x109,
                              (*(Reader8d**)&DAT_011de45c)->FUN_008df040());
             }
         }

@@ -91,11 +91,11 @@ void hkpMotion::SetBodyMass(float mass)
     SetMassInv(invMass);
 }
 
-extern "C" void __cdecl FUN_00cf20d0(const hkVector4*, hkMotionState*);
+extern "C" void __cdecl hkSweptTransformUtil_warpToPosition(const hkVector4*, hkMotionState*);
 // @fnv 0x00c863a0
 void hkpMotion::SetWorldPosition(const hkVector4& position)
 {
-    FUN_00cf20d0(&position, &m_kMotionState);
+    hkSweptTransformUtil_warpToPosition(&position, &m_kMotionState);
 }
 
 extern "C" void __cdecl hkSweptTransformUtil_warpToRotation(const hkQuaternion*, hkMotionState*);
@@ -106,12 +106,12 @@ void hkpMotion::SetBodyOrientation(const hkQuaternion& rotation)
     hkSweptTransformUtil_warpToRotation(&rotation, &m_kMotionState);
 }
 
-extern void __cdecl FUN_00cf1f80(const hkVector4*, const hkQuaternion*, hkMotionState*);
+extern void __cdecl hkSweptTransformUtil_warpTo(const hkVector4*, const hkQuaternion*, hkMotionState*);
 
 // @fnv 0x00c863e0
 void hkpMotion::SetPositionAndRotation(const hkVector4& position, const hkQuaternion& rotation)
 {
-    FUN_00cf1f80(&position, &rotation, &m_kMotionState);
+    hkSweptTransformUtil_warpTo(&position, &rotation, &m_kMotionState);
 }
 
 // The shared hkpMotion has no swept-transform evaluation declaration.

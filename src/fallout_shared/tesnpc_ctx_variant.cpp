@@ -54,7 +54,7 @@ class FUN_00484d40_Host
 class FUN_009611e0_shell
 {
   public:
-    int FUN_009611e0();
+    int NiAVObject_GetParent();
 };
 class FUN_006141f0_shell
 {
@@ -81,7 +81,7 @@ extern bool DAT_011c5cb4;
 int __fastcall FUN_005d9f90(char* apRef);
 TESForm* FUN_004839c0(unsigned int auiFormID);
 void FNV_Warning(const char* apFormat, ...);
-void __cdecl FUN_00a6e8e0(NiNode* apNode, NiControllerManager* apManager);
+void __cdecl RecurseAndRemoveObjectsFromPalette(NiNode* apNode, NiControllerManager* apManager);
 void __cdecl ApplyFaceGenTextures(NiNode* apNode, void* apData);
 class FaceRefr
 {
@@ -126,7 +126,7 @@ void TESNPC::FUN_00609f60(Actor* apActor)
     {
         for (unsigned int j = 0; j < 2; j++)
         {
-            unsigned int uiNumRows = m_kFaceGenCoordinates[i][j].FUN_009611e0();
+            unsigned int uiNumRows = m_kFaceGenCoordinates[i][j].NiAVObject_GetParent();
             unsigned int uiNumCols = m_kFaceGenCoordinates[i][j].FUN_00441110();
             for (unsigned int r = 0; r < uiNumRows; r++)
             {
@@ -209,16 +209,16 @@ void TESNPC::FUN_00609f60(Actor* apActor)
                 NiControllerManager* pkManager = pAnimManager;
                 // TESObjectREFR slots 0x1B0 and 0x1AC return the face and head roots.
                 NiNode* pFace = (NiNode*)apActor->vfn_1b0(false);
-                if (pFace && ((FUN_009611e0_shell*)pFace)->FUN_009611e0())
+                if (pFace && ((FUN_009611e0_shell*)pFace)->NiAVObject_GetParent())
                 {
-                    FUN_00a6e8e0(pFace, pkManager);
-                    ((NiNode*)((FUN_009611e0_shell*)pFace)->FUN_009611e0())->RemoveObject(pFace);
+                    RecurseAndRemoveObjectsFromPalette(pFace, pkManager);
+                    ((NiNode*)((FUN_009611e0_shell*)pFace)->NiAVObject_GetParent())->RemoveObject(pFace);
                 }
                 pFace = (NiNode*)apActor->vfn_1ac(false);
-                if (pFace && ((FUN_009611e0_shell*)pFace)->FUN_009611e0())
+                if (pFace && ((FUN_009611e0_shell*)pFace)->NiAVObject_GetParent())
                 {
-                    FUN_00a6e8e0(pFace, pkManager);
-                    ((NiNode*)((FUN_009611e0_shell*)pFace)->FUN_009611e0())->RemoveObject(pFace);
+                    RecurseAndRemoveObjectsFromPalette(pFace, pkManager);
+                    ((NiNode*)((FUN_009611e0_shell*)pFace)->NiAVObject_GetParent())->RemoveObject(pFace);
                 }
             }
             ResetFaceGen();
@@ -240,7 +240,7 @@ void TESNPC::FUN_00609f60(Actor* apActor)
             ((PlayerFace*)g_thePlayer)->FUN_00950110(false);
             if (pNode && bPrevHadRace != bNowHasRace)
             {
-                pParent = (NiNode*)((FUN_009611e0_shell*)apActor->TESObjectREFR::Get3DSimple())->FUN_009611e0();
+                pParent = (NiNode*)((FUN_009611e0_shell*)apActor->TESObjectREFR::Get3DSimple())->NiAVObject_GetParent();
                 ((FaceRefr*)apActor)->FUN_005702e0(0, true);
             }
             if (bNowHasRace)

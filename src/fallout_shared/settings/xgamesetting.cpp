@@ -133,7 +133,8 @@ unsigned int StrArr::Add(char*& element)
 char* __cdecl FUN_00ec7750(const char* key, const char* name);
 
 // @fnv 0x00c4bd20
-int __cdecl FUN_00c4bd20(Setting* setting)
+// src: COMMUNITY 0x00c4bd20
+int __cdecl BSUtilities_GetSequenceFileName(Setting* setting)
 {
     int res = 0;
     char* dst;

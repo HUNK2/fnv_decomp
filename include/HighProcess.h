@@ -193,17 +193,17 @@ public:
     void ProcessActorWithFlag(Actor*, bool);
     bool FUN_008ff080();
     void FUN_008e5730(Actor*);
-    void FUN_008feb60(Actor*);
+    void HighProcess_FadeAndDisable(Actor*);
     void FUN_009bec10(float);
     void FUN_009ae580(float);
     void FUN_008fe960(Actor*, int, int);
     // called non-virtually by Update (0x008eeec0), addresses from the original's call targets
     void FUN_008db240(Actor*);                  // 0x008db240
     void SelectTarget(Actor*);                  // 0x008db4f0
-    void FUN_008dd8e0(Actor*);                  // 0x008dd8e0
+    void ProcessAlertSearch(Actor*);                  // 0x008dd8e0
     void FUN_008dd980(Actor*);                  // 0x008dd980
     void UpdatePathing(Actor*);                 // 0x008df060
-    bool FUN_008df1e0(Actor*, Actor*, void*, bool*); // 0x008df1e0
+    bool ShouldWaitForEscortTarget(Actor*, Actor*, void*, bool*); // 0x008df1e0
     void ProcessActorMovement(Actor*);          // 0x008e7c70
     bool FUN_008f21a0();                        // 0x008f21a0
     void FUN_008f21f0(Actor*);                  // 0x008f21f0
@@ -229,7 +229,7 @@ public:
     virtual void ProcessAlarm(Actor*); // RTTI slot 497                                              // 0x008ecf20 (slot 497)
     virtual void vfn_84c(Actor*, const NiPoint3*, float); // RTTI slot 531                           // 0x008ed420 (slot 531)
     virtual void ProcessAcquire(Actor*); // RTTI slot 500                                            // 0x008ebc60 (slot 500)
-    void FUN_008ebbe0(Actor*);                                              // 0x008ebbe0
+    void LowProcess_ProcessKill(Actor*);                                              // 0x008ebbe0
     virtual int GetDetectionCount(Actor* apTarget, DetectionListType aeType) const; // RTTI slot 181   // 0x008f6990 (slot 181)
     virtual void ClearPackageData(); // RTTI slot 400                                                // 0x009010f0 (slot 400)
     virtual void ProcessActorReferences(Actor* apActor, Actor* apTarget, Actor* apAlly); // RTTI slot 387                    // 0x00904000 (slot 387)
@@ -242,20 +242,20 @@ public:
     virtual void vfn_7b4(Actor*); // RTTI slot 493                                                   // 0x008dfa10 (slot 493)
     virtual void ProcessAccompany(Actor*); // RTTI slot 499                                          // 0x008e0b00 (slot 499)
     bool CheckTargetAndCombat(Actor*, float, bool);                         // 0x008f31d0
-    bool FUN_008f2610(Actor*, float);                                       // 0x008f2610
+    bool ProcessEscortOneHour(Actor*, float);                                       // 0x008f2610
     virtual void ProcessCannibal(Actor* apActor);                           // slot 32 override, 0x00904da0
     virtual int GetActorReferenceState(Actor* apActor, TESObjectREFR* apTarget);   // slot 185 override, 0x008f6ef0
     void ClearNode();                                                       // 0x008e56b0
     int FUN_00962620();                                                     // 0x00962620
     virtual void FinishDying(Actor* apActor); // RTTI slot 213                                               // 0x008f7350 (slot 213)
     void SelectMoveTarget(Actor*, void*, bool);                             // 0x009026c0
-    void FUN_00902bd0(Actor*, void*);                                       // 0x00902bd0
+    void HighProcess_SayGuardWarning(Actor*, void*);                                       // 0x00902bd0
     virtual void ProcessGuard(Actor*); // RTTI slot 509                                              // 0x00902290 (slot 509)
     virtual bool ProcessUseItemAt(Actor*); // RTTI slot 502                                          // 0x008f9320 (slot 502)
-    void FUN_00922670(Actor*, int, int);                                    // 0x00922670
+    void MiddleHighProcess_FindBedChairs(Actor*, int, int);                                    // 0x00922670
     ActorPackageData* FUN_008d0430();                                       // 0x008d0430
-    void FUN_00902640(Actor*, void*);                                       // 0x00902640
-    void FUN_00902c80(Actor*, void*);                                       // 0x00902c80
+    void HighProcess_ProcessGuardStartTravelToLocation(Actor*, void*);                                       // 0x00902640
+    void HighProcess_ProcessGuardWaitToAttack(Actor*, void*);                                       // 0x00902c80
     virtual unsigned int GetAttackChance(Actor* apActor, float afDistanceSq, float afShortDistSq, float afLongDistSq, bool abAlarmOrCombat, bool abPureTravel) const; // RTTI slot 211 // 0x008daa20 (slot 211)
     virtual bool ShouldAttackTarget(Actor*, Actor*, bool, bool, ActorCombatGroup*, bool, bool, bool, bool, bool, bool, bool, TESPackage*); // RTTI slot 207                                   // 0x009001c0 (slot 207)
     void FUN_004534f0(Actor*);                  // 0x004534f0 (shared empty body; a direct base-slot call in the original)
@@ -406,18 +406,18 @@ public:
     virtual void ProcessSandman(Actor*); // slot 31: 0x00904f50
     virtual bool CanPerformActorAction(Actor*, float); // slot 29: 0x008f3940
     virtual void vfn_818(Actor*); // slot 518: 0x008e2b00
-    void FUN_0091b580(); // 0x0091b580
-    void FUN_0091b640(); // 0x0091b640
+    void HighProcess_SortObjectsListByType(); // 0x0091b580
+    void HighProcess_SortObjectsListByValue(); // 0x0091b640
     void HandleActorInteraction(Actor*); // 0x008ec460
     void UpdateDialogue(Actor*, TopicX*, TESObjectREFR*, bool, bool, bool); // 0x008dbe30
     void UpdatePackageExecution(Actor*); // 0x008dddf0
     void FUN_008f4020(Actor*, float); // 0x008f4020
-    void FUN_008e0ad0(Actor*, float); // 0x008e0ad0
+    void HighProcess_ProcessAccombanyOneHour(Actor*, float); // 0x008e0ad0
     void FUN_0090dc60(Actor*, int, int, int); // 0x0090dc60: folded stack arguments
     void FUN_008f3fe0(Actor*, float); // 0x008f3fe0
     void FUN_008eeac0(Actor*); // 0x008eeac0
     void FUN_008f36c0(Actor*, float); // 0x008f36c0
-    bool FUN_008f3550(Actor*, float); // 0x008f3550
+    bool HighProcess_ProcessSleepOneHour(Actor*, float); // 0x008f3550
     bool FUN_008f3600(Actor*, float); // 0x008f3600
     void FUN_008f4000(Actor*, float); // 0x008f4000
     void ChangeWeapon(Actor* apActor, TESObjectWEAP* apWeapon);                       // 0x009037e0

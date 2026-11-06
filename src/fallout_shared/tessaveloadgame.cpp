@@ -99,7 +99,7 @@ class SaveLoadChangesMap : public ChangesMap
 public:
     ChangeData* QueueRemoveReferenceChange(unsigned int);
     ChangeData* FUN_00855130(TESForm*);
-    bool FUN_00855150(TESForm*, unsigned int);
+    bool ChangesMap_RemoveChange(TESForm*, unsigned int);
     void* GetOrCreateNode(void*, unsigned int);
     void* DeleteThis(unsigned int);
 };
@@ -297,11 +297,12 @@ struct S00863d90
 {
     unsigned int a, b, c;
     unsigned int cnt;
-    void FUN_00863d90(const unsigned int& e);
+    void NiTLargePrimitiveArray_Add(const unsigned int& e);
 };
 // Appends the given element to the array at index cnt via SetAtGrow.
 // @fnv 0x00863d90
-void S00863d90::FUN_00863d90(const unsigned int& auiElement)
+// src: COMMUNITY 0x00863d90
+void S00863d90::NiTLargePrimitiveArray_Add(const unsigned int& auiElement)
 {
     ((NiTLargeArray<unsigned int, NiTMallocInterface<unsigned int> >*)this)->SetAtGrow(cnt, auiElement);
 }
@@ -416,7 +417,8 @@ void FUN_00858700::DoIt(void* arg)
 extern "C" void __cdecl FUN_00ecbf20(void*, void*);
 
 // @fnv 0x00860e00
-void FUN_00860e00(void* apFirst, void* apSecond)
+// src: COMMUNITY 0x00860e00
+void strpbrk_00860e00(void* apFirst, void* apSecond)
 {
     FUN_00ecbf20(apFirst, apSecond);
 }
@@ -746,12 +748,12 @@ FUN_00863420_class* FUN_00863420_class::NiTPointerMap_unsigned_char_BSSimpleList
     return this;
 }
 
-extern "C" void __cdecl FUN_00863e30(int);
+extern "C" void __cdecl NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData_NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData(int);
 extern int DAT_01081ed0;
 
 struct FUN_00863450_Class
 {
-    int __thiscall FUN_00863e30(int);
+    int __thiscall NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData_NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData(int);
     int __thiscall InitWithGlobal(int a);
 };
 
@@ -759,7 +761,7 @@ struct FUN_00863450_Class
 // @fnv 0x00863450
 int __thiscall FUN_00863450_Class::InitWithGlobal(int a)
 {
-    FUN_00863e30(a);
+    NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData_NiTMapBase_DFALL_NiTMapItem_unsigned_int_BSSimpleList_ExpiredCellData_unsigned_int_BSSimpleList_ExpiredCellData(a);
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01081ed0);
     return reinterpret_cast<int>(this);
 }
@@ -799,14 +801,15 @@ void __thiscall FUN_00863cb0_Class::FUN_00863cb0(int a, char b, int aiValue)
 
 struct FUN_00c3ea10_stub
 {
-    void FUN_00c3ea10();
+    void LockFreePriorityQueue_Clear();
 };
 void FUN_00c3fce0(void*);
 // @fnv 0x00c3e380
-void IOManager::FUN_00c3e380()
+// src: COMMUNITY 0x00c3e380
+void IOManager::CancelAllTasks()
 {
     FUN_00c3fce0();
-    ((FUN_00c3ea10_stub**)((char*)this + 0x64))[0]->FUN_00c3ea10();
+    ((FUN_00c3ea10_stub**)((char*)this + 0x64))[0]->LockFreePriorityQueue_Clear();
 }
 
 class TESTopicInfo;
@@ -993,7 +996,7 @@ bool FUN_00858730_shell::TESSaveLoadGame_LoadForm(TESForm* apForm)
             ((TESRaceForm*)pchange2)->Initialize(0);
             if (*(unsigned int*)((char*)this + 0x54))
             {
-                ((SaveLoadChangesMap*)m_pChangesMap)->FUN_00855150(apForm, *(unsigned int*)((char*)this + 0x54));
+                ((SaveLoadChangesMap*)m_pChangesMap)->ChangesMap_RemoveChange(apForm, *(unsigned int*)((char*)this + 0x54));
                 *(unsigned int*)((char*)this + 0x54) = 0;
             }
             g_011de494.WaitForTasksDuringRendering();
@@ -1187,7 +1190,7 @@ struct FUN_008586a0_class
 };
 struct FUN_00858600_class
 {
-    void* FUN_00858600(void*);
+    void* TESSaveLoadGame_CreateBuffer(void*);
 };
 struct FUN_00858700_class
 {
@@ -1195,7 +1198,7 @@ struct FUN_00858700_class
 };
 struct FUN_009755b0_class
 {
-    void* FUN_009755b0();
+    void* ProcessLists_GetSaveSize();
 };
 struct FUN_009756c0_class
 {
@@ -1209,13 +1212,13 @@ struct FUN_00858570_class
 // @fnv 0x00858570
 void FUN_00858570_class::LoadTempEffectsList(int apFile)
 {
-    void* ptempBuffer = ((FUN_009755b0_class*)&DAT_011e0e80)->FUN_009755b0();
+    void* ptempBuffer = ((FUN_009755b0_class*)&DAT_011e0e80)->ProcessLists_GetSaveSize();
     ((FUN_008586a0_class*)this)->FUN_00857b50(apFile, &ptempBuffer, 4);
     if (ptempBuffer)
     {
         if (*(void**)((char*)this + 0x44))
             ((FUN_008558a0_class*)*(void**)((char*)this + 0x44))->FUN_008558a0(ptempBuffer, "Temp Effects List");
-        void* ptempBuffer2 = ((FUN_00858600_class*)this)->FUN_00858600(ptempBuffer);
+        void* ptempBuffer2 = ((FUN_00858600_class*)this)->TESSaveLoadGame_CreateBuffer(ptempBuffer);
         ((FUN_009756c0_class*)&DAT_011e0e80)->SaveTempEffects();
         ((FUN_008586a0_class*)this)->ForwardToFUN_00857b50(apFile, ptempBuffer2, (int)ptempBuffer);
         ((FUN_00858700_class*)this)->FUN_00858700(ptempBuffer2);
@@ -1753,7 +1756,7 @@ void ::TESSaveLoadGame::FUN_00858480(BSFile* apFile)
     icount3 = static_cast<unsigned short>(pglobals4->GetSize());
     isize9 = static_cast<unsigned short>(icount3 * 8 + 2);
 
-    ptempBuffer2 = this->FUN_00858600(isize9);
+    ptempBuffer2 = this->TESSaveLoadGame_CreateBuffer(isize9);
     this->FUN_008579b0(&icount3, 2);
 
     while (pglobals4)
@@ -1891,7 +1894,7 @@ struct TessaveloadgameInterfaceView
 
 struct LLD_TESHelper
 {
-    void FUN_00861ea0();
+    void TESSaveLoadGame_StartLoadingSequence();
 };
 
 extern unsigned int DAT_011de464;
@@ -1900,7 +1903,8 @@ extern int g_TES;
 __declspec(dllimport) unsigned long __stdcall GetTickCount();
 
 // @fnv 0x00861ea0
-void LLD_TESHelper::FUN_00861ea0()
+// src: COMMUNITY 0x00861ea0
+void LLD_TESHelper::TESSaveLoadGame_StartLoadingSequence()
 {
     if (GetTickCount() > DAT_011de464 + 0xbb8)
     {
@@ -1917,7 +1921,7 @@ struct FUN_00862150StandIn
     char padding[0x1C4];
     char* queuedWeaponPath;
 
-    void FUN_00862150(BSFile* file);
+    void TESSaveLoadGame_SetMostRecentSaveGame(BSFile* file);
 };
 
 void __cdecl _Deallocate(void* pointer);
@@ -1932,7 +1936,8 @@ class TaskQueueInterface
 };
 
 // @fnv 0x00862150
-void FUN_00862150StandIn::FUN_00862150(BSFile* file)
+// src: COMMUNITY 0x00862150
+void FUN_00862150StandIn::TESSaveLoadGame_SetMostRecentSaveGame(BSFile* file)
 {
     if (queuedWeaponPath)
     {
@@ -2009,23 +2014,24 @@ void* FUN_00863570_StandIn::FUN_00863570(unsigned int flags)
 
 struct FUN_00c41330_holder
 {
-    void FUN_00c41330(int);
+    void LockFreeQueue_NiPointer_IOTask_RemoveAll_00c41330(int);
 };
 
 struct FUN_00c3ea10_holder
 {
-    void FUN_00c3ea10();
+    void LockFreePriorityQueue_Clear();
 };
 
 // Sets the count at offset 0xc to 0, then calls FUN_00c41330(0) on each of the first count elements of the array at offset 4.
 // @fnv 0x00c3ea10
-void FUN_00c3ea10_holder::FUN_00c3ea10()
+// src: COMMUNITY 0x00c3ea10
+void FUN_00c3ea10_holder::LockFreePriorityQueue_Clear()
 {
     unsigned int i;
     *(int*)((char*)this + 0xc) = 0;
     for (i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
     {
-        ((FUN_00c41330_holder**)*(void**)((char*)this + 4))[i]->FUN_00c41330(0);
+        ((FUN_00c41330_holder**)*(void**)((char*)this + 4))[i]->LockFreeQueue_NiPointer_IOTask_RemoveAll_00c41330(0);
     }
 }
 
@@ -2052,7 +2058,7 @@ struct Node_00855010
     unsigned int unk00;
     unsigned int unk04;
     Node_00855010();
-    void FUN_00854e40(unsigned int a);
+    void ChangeData_AddChange(unsigned int a);
 };
 
 Guard_00855010::Guard_00855010(int a, int b, const char* file, int line)
@@ -2078,7 +2084,7 @@ void* SaveLoadChangesMap::GetOrCreateNode(void* pForm, unsigned int uiValue)
             SetAt((unsigned int)out, (ChangeData*)r1);
         }
     }
-    r1->FUN_00854e40(uiValue);
+    r1->ChangeData_AddChange(uiValue);
     return r1;
 }
 
@@ -2244,12 +2250,13 @@ extern "C" int __cdecl FUN_00ec43fb(unsigned int a, unsigned int b, void* c, voi
 
 struct FUN_0085a450_cls
 {
-    int FUN_0085a450(unsigned int a1, unsigned int a2);
+    int TESSaveLoadGame_GetInitialDataSaveSize(unsigned int a1, unsigned int a2);
 };
 
 // Calls FUN_00ec43fb twice with DAT_01183028 and DAT_011841cc/DAT_01183fb4, then returns a code derived from a2 and the results.
 // @fnv 0x0085a450
-int FUN_0085a450_cls::FUN_0085a450(unsigned int a1, unsigned int auiFlags)
+// src: COMMUNITY 0x0085a450
+int FUN_0085a450_cls::TESSaveLoadGame_GetInitialDataSaveSize(unsigned int a1, unsigned int auiFlags)
 {
     int r1 = FUN_00ec43fb(a1, 0, &DAT_01183028, &DAT_011841cc, 0);
     if (r1 == 0)
@@ -2346,7 +2353,7 @@ struct Collection_00861c60
 {
     unsigned int FUN_0084e3a0();
     unsigned int* FUN_00877a30(unsigned int index);
-    unsigned short FUN_00863d90(const unsigned int& value);
+    unsigned short NiTLargePrimitiveArray_Add(const unsigned int& value);
 };
 struct FUN_00861c60_shell
 {
@@ -2394,11 +2401,11 @@ unsigned short FUN_00861c60_shell::FUN_00861c60(unsigned int value)
         if (currentValue == value)
             return static_cast<unsigned short>(index);
     }
-    return collection->FUN_00863d90(value);
+    return collection->NiTLargePrimitiveArray_Add(value);
 }
 
 extern "C" char DAT_01081cf0[];
-extern "C" void __cdecl FUN_005b5e40(char*, unsigned char, unsigned int);
+extern "C" void __cdecl Warning_005b5e40(char*, unsigned char, unsigned int);
 
 struct FUN_00861ee0_Class
 {
@@ -2444,7 +2451,7 @@ struct FUN_00861ee0_Class
 void __thiscall FUN_00861ee0_Class::FUN_00861ee0(unsigned char value)
 {
     if (value < 0x13)
-        FUN_005b5e40(DAT_01081cf0, value, 0x13);
+        Warning_005b5e40(DAT_01081cf0, value, 0x13);
 
     unk80 = value;
 }
@@ -2482,7 +2489,7 @@ void TESSaveLoadGame::TestAllCells(unsigned int aiType)
                 if (!pCell9)
                     pCell9 = ((SaveLoadTES*)g_TES)->GetLoadedCellByIndex(iA);
                 if (pCell9)
-                    pCell9->FUN_0054b5b0();
+                    pCell9->SaveGameTest();
             }
             pObj8 = g_pLockpickItem;
             for (j3 = 0; j3 < 5; j3++)
@@ -2805,11 +2812,12 @@ void FUN_00c3e340_cls::FUN_00c3e340()
 class C3E3A0Table
 {
   public:
-    int FUN_00c3e3a0(__int64 iKey);
+    int IOManager_GetBucketForKey(__int64 iKey);
 };
 
 // @fnv 0x00c3e3a0
-int C3E3A0Table::FUN_00c3e3a0(__int64 iKey)
+// src: COMMUNITY 0x00c3e3a0
+int C3E3A0Table::IOManager_GetBucketForKey(__int64 iKey)
 {
     unsigned char m_ucClipIdentifier = (unsigned char)(iKey >> 16);
     return m_ucClipIdentifier * (((unsigned char)(iKey >> 56) + 4) % 20);
@@ -2843,7 +2851,7 @@ FUN_00c3e3f0_cls* FUN_00c3e3f0_cls::FUN_00c3e3f0(int iFlags)
 
 struct Elem00c3e420
 {
-    bool FUN_00c3e490(int arg);
+    bool LockFreeQueue_NiPointer_IOTask_Pop_00c3e490(int arg);
 };
 
 struct Container00c3e420
@@ -2853,12 +2861,13 @@ struct Container00c3e420
     virtual void v2();
     Elem00c3e420** items;
     unsigned int count;
-    bool FUN_00c3e420(int arg);
+    bool LockFreePriorityQueue_NiPointer_IOTask_Pop(int arg);
 };
 
 // Iterates the container's items and returns true as soon as an item's FUN_00c3e490(arg) check succeeds, otherwise false.
 // @fnv 0x00c3e420
-bool Container00c3e420::FUN_00c3e420(int arg)
+// src: COMMUNITY 0x00c3e420
+bool Container00c3e420::LockFreePriorityQueue_NiPointer_IOTask_Pop(int arg)
 {
     for (unsigned int i = 0; i < count; i++)
     {
@@ -2873,7 +2882,7 @@ bool Container00c3e420::FUN_00c3e420(int arg)
         int src;
         int delta;
         int result;
-        bool b = items[i]->FUN_00c3e490(arg);
+        bool b = items[i]->LockFreeQueue_NiPointer_IOTask_Pop_00c3e490(arg);
         if (b)
         {
             v2();
@@ -3115,7 +3124,7 @@ struct Scope
 extern char DAT_010804c8;
 struct FUN_00856380;
 extern FUN_00856380* DAT_011de45c;
-void FUN_00403d30(void*, int, unsigned int);
+void ourMemset(void*, int, unsigned int);
 struct FUN_00856380
 {
     Changes* changes;
@@ -3256,7 +3265,7 @@ FUN_00856380::FUN_00856380()
     a78->FUN_00864240(0, 0);
     a7c = new Array(5, 1);
     a7c->FUN_00864240(0, 0);
-    FUN_00403d30(&unk98, 0, 16);
+    ourMemset(&unk98, 0, 16);
     FUN_008620f0();
     CopyByteToOffset80();
 }
@@ -3550,7 +3559,7 @@ struct SaveSetting
 };
 extern SaveSetting g_011c3f74;
 const char* PrepareScriptMessage(const char*, bool);
-char* FUN_004dc110();
+char* BSUtilities_GetPersonalPath();
 int strcpy_s(char*, unsigned int, const char*);
 int strcat_s(char*, unsigned int, const char*);
 int sprintf_s(char*, unsigned int, const char*, ...);
@@ -3586,12 +3595,12 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
             BuildSaveFilename(basename9);
         else
             strcpy_s(basename9, 260, name);
-        sprintf_s(pathX, 260, "%s%s%s.ess", FUN_004dc110(), PrepareScriptMessage(g_011c3f74.String(), false),
+        sprintf_s(pathX, 260, "%s%s%s.ess", BSUtilities_GetPersonalPath(), PrepareScriptMessage(g_011c3f74.String(), false),
                   basename9);
         if (mode == 0)
         {
             char directory6[260];
-            strcpy_s(directory6, 260, FUN_004dc110());
+            strcpy_s(directory6, 260, BSUtilities_GetPersonalPath());
             strcat_s(directory6, 260, PrepareScriptMessage(g_011c3f74.String(), false));
             CreateDirectoryA(directory6, 0);
             int kBackupCount = 1;
@@ -3601,7 +3610,7 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
             {
                 char destination3[260];
                 char source_[260];
-                strcpy_s(source_, 260, FUN_004dc110());
+                strcpy_s(source_, 260, BSUtilities_GetPersonalPath());
                 strcat_s(source_, 260, PrepareScriptMessage(g_011c3f74.String(), false));
                 strcat_s(source_, 260, basename9);
                 for (int suffix = 0; suffix < backup; ++suffix)
@@ -3701,8 +3710,8 @@ struct Process;
 extern NiPoint3 DAT_011f426c;
 extern char DAT_011841cc, DAT_01183028, DAT_01183fb4, DAT_011846d4;
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
-int __cdecl FUN_00406d90(float);
-void __cdecl FUN_005b5e40(const char*);
+int __cdecl FloatToInt(float);
+void __cdecl Warning_005b5e40(const char*);
 struct Base
 {
     void* FUN_00418520();
@@ -3931,8 +3940,8 @@ unsigned int Changes::UpdateFormFlags(Form* form, unsigned int flags)
                         flags |= 0;
                     else
                     {
-                        int columnSlot12 = FUN_00406d90(position.x) >> 12;
-                        int rowSlot22 = FUN_00406d90(position.y) >> 12;
+                        int columnSlot12 = FloatToInt(position.x) >> 12;
+                        int rowSlot22 = FloatToInt(position.y) >> 12;
                         editorCellSlot11 = worldSlot0->FUN_005875a0(columnSlot12, rowSlot22);
                         if (editorCellSlot11 != reference->GetParentCell())
                             flags |= 0;
@@ -3942,10 +3951,10 @@ unsigned int Changes::UpdateFormFlags(Form* form, unsigned int flags)
             else if (reference->GetParentCell() && !reference->GetParentCell()->IsCellInterior())
             {
                 if (movableSlot1)
-                    FUN_005b5e40("EDITOR: Actor does not have an editor location.  This should never happen.");
+                    Warning_005b5e40("EDITOR: Actor does not have an editor location.  This should never happen.");
                 NiPoint3 locationSlot24 = reference->GetEditorPosition();
-                int column2Slot10 = FUN_00406d90(locationSlot24.x) >> 12;
-                int row2Slot1 = FUN_00406d90(locationSlot24.y) >> 12;
+                int column2Slot10 = FloatToInt(locationSlot24.x) >> 12;
+                int row2Slot1 = FloatToInt(locationSlot24.y) >> 12;
                 worldSlot0 = (World*)reference->FUN_00575d70();
                 editorCellSlot11 = worldSlot0->FUN_005875a0(column2Slot10, row2Slot1);
                 if (editorCellSlot11 != reference->GetParentCell())
@@ -4128,7 +4137,7 @@ struct SaveProcess
 };
 struct SaveTrespass
 {
-    TESPackage* FUN_0041cd70();
+    TESPackage* ExtraDataList_GetTrespassPackage();
 };
 // This save-report method is not yet declared in Actor.h.
 // The extension adds no data members or virtual slots.
@@ -4150,7 +4159,7 @@ unsigned int FUN_0044a670(const char*);
 struct SaveFormatter
 {
     unsigned int UpdateFormFlags(SaveForm*, unsigned int);
-    unsigned short FUN_0085a450(SaveForm*, unsigned int);
+    unsigned short TESSaveLoadGame_GetInitialDataSaveSize(SaveForm*, unsigned int);
     void FormatChangeFlags(char*, SaveForm*, unsigned int, unsigned char, bool);
 };
 // Builds a text report of a form's save change flags, listing each set flag with its size delta or a detailed flag name.
@@ -4550,7 +4559,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     FUN_00406d50(buffer, 500, "CHANGE_CELL_CREATED\r\n");
                 else
                 {
-                    FUN_00406d00(text, 50, "Cell Created(%i)", form ? FUN_0085a450(form, 0x0) : 0);
+                    FUN_00406d00(text, 50, "Cell Created(%i)", form ? TESSaveLoadGame_GetInitialDataSaveSize(form, 0x0) : 0);
 
                     while (FUN_0044a670(text) < 25)
                         FUN_00406d50(text, 50, " ");
@@ -4672,7 +4681,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     FUN_00406d50(buffer, 500, "CHANGE_CREATED_NEW_REFERENCE\r\n");
                 else
                 {
-                    FUN_00406d00(text, 50, "Created(%i)", form ? FUN_0085a450(form, 0x0) : 0);
+                    FUN_00406d00(text, 50, "Created(%i)", form ? TESSaveLoadGame_GetInitialDataSaveSize(form, 0x0) : 0);
 
                     while (FUN_0044a670(text) < 25)
                         FUN_00406d50(text, 50, " ");
@@ -4700,7 +4709,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     FUN_00406d50(buffer, 500, "CHANGE_REFR_MOVE\r\n");
                 else
                 {
-                    FUN_00406d00(text, 50, "Moved(%i)", form ? FUN_0085a450(form, 0x2) : 0);
+                    FUN_00406d00(text, 50, "Moved(%i)", form ? TESSaveLoadGame_GetInitialDataSaveSize(form, 0x2) : 0);
 
                     while (FUN_0044a670(text) < 25)
                         FUN_00406d50(text, 50, " ");
@@ -4721,7 +4730,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     else
                     {
                         FUN_00406d00(text, 50, "Havok Moved(%i)",
-                                     form ? FUN_0085a450(form, 4) + form->GetSaveSize(4) - baseSize : 0);
+                                     form ? TESSaveLoadGame_GetInitialDataSaveSize(form, 4) + form->GetSaveSize(4) - baseSize : 0);
                     }
 
                     while (FUN_0044a670(text) < 25)
@@ -4756,7 +4765,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     }
                     else
                     {
-                        FUN_00406d00(text, 50, "Oblivion Flag(%i)", form ? FUN_0085a450(form, 0x0) : 0);
+                        FUN_00406d00(text, 50, "Oblivion Flag(%i)", form ? TESSaveLoadGame_GetInitialDataSaveSize(form, 0x0) : 0);
                     }
 
                     while (FUN_0044a670(text) < 25)
@@ -4974,8 +4983,8 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                 if (flags & 0x0)
                 {
                     unsigned int packageID = 0;
-                    if (actor && ((SaveTrespass*)actor->FUN_005d43c0()) && ((SaveTrespass*)actor->FUN_005d43c0())->FUN_0041cd70())
-                        packageID = ((SaveTrespass*)actor->FUN_005d43c0())->FUN_0041cd70()->FUN_0084e3a0();
+                    if (actor && ((SaveTrespass*)actor->FUN_005d43c0()) && ((SaveTrespass*)actor->FUN_005d43c0())->ExtraDataList_GetTrespassPackage())
+                        packageID = ((SaveTrespass*)actor->FUN_005d43c0())->ExtraDataList_GetTrespassPackage()->FUN_0084e3a0();
                     if (details)
                     {
                         FUN_00406d00(text, 50, "CHANGE_ACTOR_EXTRA_TRESPASS_PACKAGE %08X\r\n", packageID);
@@ -5397,7 +5406,7 @@ struct Game
 extern Game* DAT_011de45c;
 extern Setting DAT_011d4fcc;
 void FUN_00406d30(char*, unsigned int, const char*);
-void* FUN_00403d30(void*, int, unsigned int);
+void* ourMemset(void*, int, unsigned int);
 struct PixelFormat
 {
     int unk00;
@@ -5475,7 +5484,7 @@ struct Texture
 Texture* FUN_00a5ff10(PixelData*, const char*, const Preferences&);
 struct Reader
 {
-    void* FUN_00858600(unsigned int);
+    void* TESSaveLoadGame_CreateBuffer(unsigned int);
     void FUN_008586d0(File*, void*, unsigned int);
     void FUN_00858700(void*);
     void FUN_008579e0(void*, unsigned int);
@@ -5489,7 +5498,7 @@ Texture* Reader::ReadTexture(File* file, unsigned int size, unsigned int* puiFla
                              unsigned short* pusLevel, char* pcLocation, float* pfGameTime, Identity* identity,
                              unsigned int* puiNumber, unsigned int* puiImageSize)
 {
-    void* buffer5 = FUN_00858600(size);
+    void* buffer5 = TESSaveLoadGame_CreateBuffer(size);
     FUN_008586d0(file, buffer5, size);
     if (DAT_011de45c->FUN_008df040() >= 56)
     {
@@ -5531,7 +5540,7 @@ Texture* Reader::ReadTexture(File* file, unsigned int size, unsigned int* puiFla
     if (puiNumber)
         *puiNumber = count3;
     Identity id8;
-    FUN_00403d30(&id8, 0, 16);
+    ourMemset(&id8, 0, 16);
     if (DAT_011de45c->FUN_008df040() >= 56)
         FUN_008579e0(&id8, 16);
     if (DAT_011de45c->FUN_008df040() < 56)
@@ -5584,7 +5593,7 @@ struct SaveFilePath
 extern const char* __cdecl FUN_0040ab30(const char*, int);
 extern const char* __cdecl FUN_004812f0(const char*, const char*);
 extern int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
-extern void* __cdecl FUN_004add50(void*, const void*, unsigned int);
+extern void* __cdecl BSstrncpy(void*, const void*, unsigned int);
 extern int __cdecl FUN_00eca6d3(const char*);
 extern unsigned int __cdecl FUN_0044a670(const char*);
 extern int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
@@ -5613,7 +5622,7 @@ bool SaveNameParser::ParseSaveName(SaveFilePath* file, int* piNumber, char* loca
         if (piNumber)
         {
             unsigned int length = separator_2 - (filename + 5);
-            FUN_004add50(buffer, filename + 5, length);
+            BSstrncpy(buffer, filename + 5, length);
             buffer[length] = 0;
             *piNumber = FUN_00eca6d3(buffer);
         }
@@ -5637,7 +5646,7 @@ bool SaveNameParser::ParseSaveName(SaveFilePath* file, int* piNumber, char* loca
                 while (*previous4 != ' ' && previous4 < filename + length)
                     previous4++;
                 length = last2 - previous4;
-                FUN_004add50(locationBuffer, previous4, length);
+                BSstrncpy(locationBuffer, previous4, length);
                 locationBuffer[length] = 0;
                 FUN_00406d00(location, 255, DAT_0101996c, DAT_011d2028.FUN_00403df0(), locationBuffer);
             }
@@ -5676,9 +5685,9 @@ extern SaveSetting DAT_011c3f74;
 extern const char DAT_01011584[], DAT_01081b44[], DAT_01081b08[], DAT_01081afc[], DAT_010806b8[];
 extern int __cdecl FUN_00406d30(char*, unsigned int, const char*);
 extern int __cdecl FUN_00406d00(char*, unsigned int, const char*, ...);
-extern char* __cdecl FUN_00860e00(char*, const char*);
+extern char* __cdecl strpbrk_00860e00(char*, const char*);
 extern const char* __cdecl FUN_00464f30(const char*, int);
-extern const char* __cdecl FUN_004dc110();
+extern const char* __cdecl BSUtilities_GetPersonalPath();
 extern int __cdecl FUN_00456a20(const char*, int, int, int);
 struct SaveNamer
 {
@@ -5728,7 +5737,7 @@ void SaveNamer::BuildSaveFilename(char* output)
                          DAT_011dea3c->GetLevel(), hours, minutes5, seconds, suffix_);
             char* bad3 = 0;
             char* cursorA = filename;
-            while ((bad3 = FUN_00860e00(cursorA, DAT_01081afc)) != 0)
+            while ((bad3 = strpbrk_00860e00(cursorA, DAT_01081afc)) != 0)
             {
                 if (*bad3 == '"')
                     *bad3 = 39;
@@ -5736,7 +5745,7 @@ void SaveNamer::BuildSaveFilename(char* output)
                     *bad3 = ' ';
                 cursorA = bad3 + 1;
             }
-            FUN_00406d00(fullPath, 260, DAT_010806b8, FUN_004dc110(), FUN_00464f30(DAT_011c3f74.FUN_00403df0(), 0),
+            FUN_00406d00(fullPath, 260, DAT_010806b8, BSUtilities_GetPersonalPath(), FUN_00464f30(DAT_011c3f74.FUN_00403df0(), 0),
                          filename);
             available9 = !FUN_00456a20(fullPath, 0, 0, -1);
             counter++;
@@ -5775,7 +5784,7 @@ struct PixelHeader
 struct IOHeader
 {
     void FUN_00c3e340();
-    void FUN_00c3e310();
+    void IOManager_Pause();
 };
 extern IOHeader* DAT_01202d98;
 PixelHeader* CaptureHeader(int*, int*, int);
@@ -5876,7 +5885,7 @@ void SaveHeader::WriteSaveHeader(void* file, const char* name)
     {
         DAT_01202d98->FUN_00c3e340();
         _g = CaptureHeader(&_ap, &_cb_, 0);
-        DAT_01202d98->FUN_00c3e310();
+        DAT_01202d98->IOManager_Pause();
         if (_g)
         {
             _a = _g->GetRangeBetweenEntries(0, 0);
@@ -5933,7 +5942,7 @@ struct NumericArray
 {
     unsigned int FUN_0084e3a0();
     unsigned int* FUN_00877a30(unsigned int index);
-    unsigned int FUN_00863d90(const unsigned int& value);
+    unsigned int NiTLargePrimitiveArray_Add(const unsigned int& value);
 };
 struct FUN_00861b70_Class
 {
@@ -5955,7 +5964,7 @@ unsigned int FUN_00861b70_Class::FindOrAddValue(unsigned int value)
             return index;
         }
     }
-    return (*(NumericArray**)((char*)this + 0x78))->FUN_00863d90(value);
+    return (*(NumericArray**)((char*)this + 0x78))->NiTLargePrimitiveArray_Add(value);
 }
 
 struct FUN_004fd380_shell
@@ -5965,7 +5974,7 @@ struct FUN_004fd380_shell
 struct Stub8622Ext
 {
     void LoadSaveFiles();
-    void FUN_0085fed0(int a1, unsigned int* a2, int a3, int a4, int a5);
+    void TESSaveLoadGame_GetSaveGameDisplayData(int a1, unsigned int* a2, int a3, int a4, int a5);
     void DeleteAllItems();
 };
 struct Stub8622Lt
@@ -5994,7 +6003,7 @@ int* Stub8622Self::InitMaxValue()
     unsigned int nValue;
     while (apTargetLight && !FUN_008256d0(apTargetLight))
     {
-        ((Stub8622Ext*)this)->FUN_0085fed0(*(int*)((Stub8622Lt*)apTargetLight)->GetOwner8622(), &nValue, 0, 0, 0);
+        ((Stub8622Ext*)this)->TESSaveLoadGame_GetSaveGameDisplayData(*(int*)((Stub8622Lt*)apTargetLight)->GetOwner8622(), &nValue, 0, 0, 0);
         if (nValue > nMax)
         {
             nMax = nValue;
@@ -6394,7 +6403,7 @@ struct ExpiredSaveLoadGame
     void FUN_008579b0(void*, unsigned int);
     unsigned int FUN_00861cd0(unsigned short);
     unsigned int FUN_00861c00(unsigned int);
-    void* FUN_00858600(unsigned int);
+    void* TESSaveLoadGame_CreateBuffer(unsigned int);
     void FUN_00857d10(ExpiredReference*, bool);
     void PurgeExpiredCellChanges();
 };
@@ -6617,7 +6626,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
                                 unsigned int ba = p.size;
                                 if (cf & 0)
                                     p.size += 4;
-                                void* k = FUN_00858600(p.size + 4);
+                                void* k = TESSaveLoadGame_CreateBuffer(p.size + 4);
                                 ((ExpiredSaveLoadGame*)g_TESSaveLoadGame)->FUN_008579b0(&p, 4);
                                 if (cf & 0)
                                 {
@@ -6632,7 +6641,7 @@ void ExpiredSaveLoadGame::PurgeExpiredCellChanges()
                             }
                             else if (h)
                             {
-                                ((SaveLoadChangesMap*)changes)->FUN_00855150((TESForm*)h, 4);
+                                ((SaveLoadChangesMap*)changes)->ChangesMap_RemoveChange((TESForm*)h, 4);
                             }
                         }
                         if (h)
@@ -6768,7 +6777,7 @@ class FUN_00c3e690_cls
 // @fnv 0x00c3e690
     virtual void v18(FUN_00c3e690_Req* apRequest)
     {}
-    void FUN_0044e050(FUN_00c3e690_Req* p);
+    void BSTaskManager_int64_RemoveTask(FUN_00c3e690_Req* p);
     bool FUN_00c3e690(FUN_00c3e690_Req* p, RequestValue value);
 };
 
@@ -6785,7 +6794,7 @@ bool FUN_00c3e690_cls::FUN_00c3e690(FUN_00c3e690_Req* p, RequestValue value)
         bool ok = InterlockedCompareExchange(&p->m_0c, 2, v) == v;
         if (ok)
         {
-            FUN_0044e050(p);
+            BSTaskManager_int64_RemoveTask(p);
             p->value = value;
             bool ok2 = InterlockedCompareExchange(&p->m_0c, 0, 2) == 2;
             if (ok2)
@@ -6805,7 +6814,7 @@ extern unsigned char DAT_01202df0;
 // Exe 0x00c3e750: unit-local ArrSI view; declarations and layout are preserved.
 struct TessaveloadgameOffset08View
 {
-    void __thiscall FUN_00446f70();
+    void __thiscall BSTaskThread_Sleep();
 };
 
 struct FUN_00c3e750_Class
@@ -6832,12 +6841,13 @@ struct FUN_00c3e750_Class
     unsigned int a4c;
     TessaveloadgameOffset08View** a50;
 
-    bool __thiscall FUN_00c3e750();
+    bool __thiscall IOManager_DoSleep();
 };
 
 // Sets DAT_01202df0 to 0; if the increment of a48 reaches 1, waits for a44 to clear, then calls FUN_00446f70 on each a50 element and increments a44.
 // @fnv 0x00c3e750
-bool __thiscall FUN_00c3e750_Class::FUN_00c3e750()
+// src: COMMUNITY 0x00c3e750
+bool __thiscall FUN_00c3e750_Class::IOManager_DoSleep()
 {
     unsigned int index;
 
@@ -6864,7 +6874,7 @@ bool __thiscall FUN_00c3e750_Class::FUN_00c3e750()
 
         for (index = 0; index < this->a4c; ++index)
         {
-            this->a50[index]->FUN_00446f70();
+            this->a50[index]->BSTaskThread_Sleep();
             InterlockedIncrement(&this->a44);
         }
 
@@ -7085,7 +7095,7 @@ extern GlobalObj0047c850* DAT_011de45c;
 
 struct RefCalls00855150
 {
-    void FUN_00854e70(unsigned int flags);
+    void ChangeData_RemoveChange(unsigned int flags);
     int FUN_00559450();
 };
 
@@ -7097,7 +7107,8 @@ struct FormCalls00855150
 }  // namespace fnv_00855150
 
 // @fnv 0x00855150
-bool SaveLoadChangesMap::FUN_00855150(TESForm* form, unsigned int flags)
+// src: COMMUNITY 0x00855150
+bool SaveLoadChangesMap::ChangesMap_RemoveChange(TESForm* form, unsigned int flags)
 {
     if (fnv_00855150::DAT_011de45c->FUN_0047c850())
     {
@@ -7106,7 +7117,7 @@ bool SaveLoadChangesMap::FUN_00855150(TESForm* form, unsigned int flags)
     TESObjectREFR* ref = (TESObjectREFR*)FUN_00855130(form);
     if (ref != 0)
     {
-        ((fnv_00855150::RefCalls00855150*)ref)->FUN_00854e70(flags);
+        ((fnv_00855150::RefCalls00855150*)ref)->ChangeData_RemoveChange(flags);
         if (((fnv_00855150::RefCalls00855150*)ref)->FUN_00559450() == 0)
         {
             this->RemoveAt(((fnv_00855150::FormCalls00855150*)form)->FUN_0084e3a0());
@@ -7140,7 +7151,7 @@ class EnchX
     FormX* FUN_00726070();
 };
 FormX* FUN_004839c0(unsigned int id);
-void FUN_005b5e40(const char* fmt, ...);
+void Warning_005b5e40(const char* fmt, ...);
 struct ListX
 {
     bool FUN_00469860(unsigned int id);
@@ -7224,7 +7235,7 @@ void SelfX::FUN_00861820(BufX* pBuf)
                     FormX* pkEnchItem = pkEnchForm_siup->FUN_00726070();
                     if (!pkEnchItem)
                     {
-                        FUN_005b5e40(
+                        Warning_005b5e40(
                             "SAVELOAD: Enchantable item %08X with no enchantment exists in the created base objects list.",
                             uiFormID_wk);
                         pkNode_dhyats = pkNode_dhyats->FUN_00726070();
@@ -7309,7 +7320,8 @@ struct RegionList
 extern TESDataHandler* DAT_011c3f2c;
 // Returns 2 plus eight times the value returned by the region-list entry-count method.
 // @fnv 0x004f12b0
-unsigned short FUN_004f12b0()
+// src: COMMUNITY 0x004f12b0
+unsigned short TESDataHandler_RegionList_GetSaveSize()
 {
     unsigned short v = 0;
     v += 2;
@@ -7327,18 +7339,18 @@ void __cdecl FUN_0040fbe0(const char* s);
 struct Global58030
 {
     unsigned short __thiscall GetTotalSize();
-    void __thiscall FUN_009754f0();
+    void __thiscall ProcessLists_SaveGame_Crimes();
 };
 extern Global58030 DAT_011e0e80;
 struct Sky58030
 {
-    unsigned short __thiscall FUN_0063e940();
-    void __thiscall FUN_0063e9f0();
+    unsigned short __thiscall Sky_GetSaveSize();
+    void __thiscall Sky_SaveGameTES();
 };
 Sky58030* __cdecl FUN_0046dd00();
 unsigned short __cdecl FUN_007065c0();
 void __cdecl SaveMenuTabStates();
-unsigned short __cdecl FUN_004f12b0();
+unsigned short __cdecl TESDataHandler_RegionList_GetSaveSize();
 void __cdecl FUN_004f1300();
 struct Field58030
 {
@@ -7350,7 +7362,7 @@ struct Host58030
     Field58030* f44;
     void __thiscall FUN_00857b50(int a, void* p, int n);
     void __thiscall FUN_00858480(int a);
-    int __thiscall FUN_00858600(int id);
+    int __thiscall TESSaveLoadGame_CreateBuffer(int id);
     void __thiscall ForwardToFUN_00857b50(int a, int x, int id);
     void __thiscall FUN_00858700(int x);
     void __thiscall FUN_00861820(int a);
@@ -7408,7 +7420,7 @@ void __thiscall Host58030::FUN_00858030(int aParam)
     {
         if (f44 != 0)
             f44->FUN_008558a0(w4, "TES Class");
-        v34 = FUN_00858600(w4);
+        v34 = TESSaveLoadGame_CreateBuffer(w4);
         DAT_011dea10->SaveGame();
         ForwardToFUN_00857b50(aParam, v34, w4);
         FUN_00858700(v34);
@@ -7420,20 +7432,20 @@ void __thiscall Host58030::FUN_00858030(int aParam)
     {
         if (f44 != 0)
             f44->FUN_008558a0(w4, "Process Lists Class");
-        v38 = FUN_00858600(w4);
-        DAT_011e0e80.FUN_009754f0();
+        v38 = TESSaveLoadGame_CreateBuffer(w4);
+        DAT_011e0e80.ProcessLists_SaveGame_Crimes();
         ForwardToFUN_00857b50(aParam, v38, w4);
         FUN_00858700(v38);
     }
 
-    w4 = FUN_0046dd00()->FUN_0063e940();
+    w4 = FUN_0046dd00()->Sky_GetSaveSize();
     FUN_00857b50(aParam, &w4, 2);
     if (w4 != 0)
     {
         if (f44 != 0)
             f44->FUN_008558a0(w4, "Sky/Weather");
-        v3c4 = FUN_00858600(w4);
-        FUN_0046dd00()->FUN_0063e9f0();
+        v3c4 = TESSaveLoadGame_CreateBuffer(w4);
+        FUN_0046dd00()->Sky_SaveGameTES();
         ForwardToFUN_00857b50(aParam, v3c4, w4);
         FUN_00858700(v3c4);
     }
@@ -7447,7 +7459,7 @@ void __thiscall Host58030::FUN_00858030(int aParam)
     {
         if (f44 != 0)
             f44->FUN_008558a0(w4, "HUD Reticle");
-        v405 = FUN_00858600(w4);
+        v405 = TESSaveLoadGame_CreateBuffer(w4);
         ForwardToFUN_00857b50(aParam, v405, w4);
         FUN_00858700(v405);
     }
@@ -7458,19 +7470,19 @@ void __thiscall Host58030::FUN_00858030(int aParam)
     {
         if (f44 != 0)
             f44->FUN_008558a0(w4, "Interface");
-        v444 = FUN_00858600(w4);
+        v444 = TESSaveLoadGame_CreateBuffer(w4);
         SaveMenuTabStates();
         ForwardToFUN_00857b50(aParam, v444, w4);
         FUN_00858700(v444);
     }
 
-    w4 = FUN_004f12b0();
+    w4 = TESDataHandler_RegionList_GetSaveSize();
     FUN_00857b50(aParam, &w4, 2);
     if (w4 != 0)
     {
         if (f44 != 0)
             f44->FUN_008558a0(w4, "Regions");
-        v48 = FUN_00858600(w4);
+        v48 = TESSaveLoadGame_CreateBuffer(w4);
         FUN_004f1300();
         ForwardToFUN_00857b50(aParam, v48, w4);
         FUN_00858700(v48);
@@ -7492,12 +7504,13 @@ struct SaveMemory
     int unk0c;
     int unk10;
     void* buffer;
-    void* FUN_00858600(unsigned int);
+    void* TESSaveLoadGame_CreateBuffer(unsigned int);
 };
 
 // Allocates size bytes with operator new and calls FUN_0040fbe0 if the returned pointer is null.
 // @fnv 0x00858600
-void* SaveMemory::FUN_00858600(unsigned int size)
+// src: COMMUNITY 0x00858600
+void* SaveMemory::TESSaveLoadGame_CreateBuffer(unsigned int size)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_SAVELOAD, true, DAT_010804c8, 0x103a);
     buffer = operator new(size);
@@ -7525,7 +7538,7 @@ struct FUN_0085a2e0_Class
     void FUN_0085a2e0(TESForm*);
 };
 
-extern void __cdecl FUN_005b5e40(const char*);
+extern void __cdecl Warning_005b5e40(const char*);
 extern const char DAT_010809a0[];
 extern int __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 extern const char DAT_01011584[];
@@ -7784,7 +7797,7 @@ struct DeferredAdd0085a2e0
 void FUN_0085a2e0_Class::FUN_0085a2e0(TESForm* form)
 {
     if (!reinterpret_cast<FormCall0085a2e0*>(this)->FUN_0047c850())
-        FUN_005b5e40(DAT_010809a0);
+        Warning_005b5e40(DAT_010809a0);
     changes->HasFormChanges(form, true);
     int bIsCell = FUN_00ec43fb(form, 0, &typeid(TESForm), &typeid(TESObjectCELL), 0);
     if (form->IsTemporary() || bIsCell)
@@ -7809,7 +7822,7 @@ extern int DAT_010a2484;
 extern const char DAT_01081bbc[];
 extern const char DAT_01081b50[];
 extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
-void __cdecl FUN_00403d30(void*, int, unsigned int);
+void __cdecl ourMemset(void*, int, unsigned int);
 unsigned int BSStringLength(const char*);
 void __fastcall CopyByteToOffset80(char*);
 struct SaveLoadManager
@@ -7823,7 +7836,7 @@ struct InventoryMenuSetting
 };
 extern InventoryMenuSetting g_011d34f8;
 extern InventoryMenuSetting g_011d3684;
-char __cdecl FUN_00704010(const char*, int, int, const char*, const char*, int);
+char __cdecl Interface_CreateModalMessageMenu(const char*, int, int, const char*, const char*, int);
 struct SaveHeaderReader
 {
     unsigned int unknown00;
@@ -7913,7 +7926,7 @@ unsigned int SaveHeaderReader::FUN_00860e20(NiBinaryStream* stream, bool loadIde
         }
         if (reinterpret_cast<SaveLoadManager*>(::g_TESSaveLoadGame)->FUN_008df040() < 0x52 && loadIdentifier)
         {
-            FUN_00403d30(identifier, 255, 16);
+            ourMemset(identifier, 255, 16);
             identifierTail = -1;
         }
         ReadFromStream(stream, &result, 4);
@@ -7922,7 +7935,7 @@ unsigned int SaveHeaderReader::FUN_00860e20(NiBinaryStream* stream, bool loadIde
             char messageBuffer[520];
             (sprintf)(messageBuffer, DAT_01081b50, majorVersion, minorVersion, 0, 125);
             reinterpret_cast<SaveLoadManager*>(::g_TESSaveLoadGame)->FUN_004534f0(1);
-            char response = FUN_00704010(messageBuffer, 1, 5, g_011d34f8.FUN_00403df0(), g_011d3684.FUN_00403df0(), 0);
+            char response = Interface_CreateModalMessageMenu(messageBuffer, 1, 5, g_011d34f8.FUN_00403df0(), g_011d3684.FUN_00403df0(), 0);
             reinterpret_cast<SaveLoadManager*>(::g_TESSaveLoadGame)->FUN_004534f0(0);
             if (response == 2)
                 result = -1;
@@ -7961,7 +7974,7 @@ struct FUN_008579e0_shell
 
 struct FUN_00c3e310_shell
 {
-    void FUN_00c3e310();
+    void IOManager_Pause();
 };
 
 struct IOManager;
@@ -8008,12 +8021,12 @@ struct Obj44
     int unk04;
     Obj44();
     ~Obj44();
-    void FUN_00855ba0(int);
+    void SaveStats_PrintStats(int);
 };
 
 struct FormObj : public SaveGameFile56
 {
-    void FUN_00857210();
+    void BSFile_Flush();
 };
 
 struct FUN_00401170_s
@@ -8080,10 +8093,10 @@ struct Cls56
     Obj44* m_44;
     bool FUN_008616f0();
     void FUN_00858030(FormObj*);
-    void FUN_00862150(FormObj*);
-    unsigned short FUN_0085a450(Obj56*, int);
-    void FUN_0085a520(Obj56*, int);
-    void* FUN_00858600(int);
+    void TESSaveLoadGame_SetMostRecentSaveGame(FormObj*);
+    unsigned short TESSaveLoadGame_GetInitialDataSaveSize(Obj56*, int);
+    void TESSaveLoadGame_SaveInitialData(Obj56*, int);
+    void* TESSaveLoadGame_CreateBuffer(int);
     void FUN_00858700(void*);
     bool FUN_00856ca0(int, int, unsigned char);
 };
@@ -8108,7 +8121,7 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
             return false;
         }
     }
-    ((FUN_00c3e310_shell*)DAT_01202d98)->FUN_00c3e310();
+    ((FUN_00c3e310_shell*)DAT_01202d98)->IOManager_Pause();
     ((::ExpiredSaveLoadGame*)this)->PurgeExpiredCellChanges();
     pForm = 0;
     if (!((FUN_00485d50_slg*)this)->GetLoading())
@@ -8178,12 +8191,12 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
                     recs++;
                     ((EffectSetting*)this)->SetHitSound((TESSound*)&recData);
                     unsigned short soundVal = obj->Vu(*(int*)&recData.c0);
-                    soundVal += FUN_0085a450(obj, *(int*)&recData.c0);
+                    soundVal += TESSaveLoadGame_GetInitialDataSaveSize(obj, *(int*)&recData.c0);
                     ((::FUN_008586a0_class*)this)->FUN_00857b50((int)pForm, (int)&soundVal, 2);
                     if (soundVal)
                     {
-                        void* tempObj = FUN_00858600(soundVal);
-                        FUN_0085a520(obj, *(int*)&recData.c0);
+                        void* tempObj = TESSaveLoadGame_CreateBuffer(soundVal);
+                        TESSaveLoadGame_SaveInitialData(obj, *(int*)&recData.c0);
                         obj->Vw(*(int*)&recData.c0);
                         ((::FUN_008586a0_class*)this)->ForwardToFUN_00857b50((int)pForm, (int)tempObj, soundVal);
                         FUN_00858700(tempObj);
@@ -8213,14 +8226,14 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
     if (m_44)
     {
         int vcallRes = pForm->Vg();
-        m_44->FUN_00855ba0(vcallRes);
+        m_44->SaveStats_PrintStats(vcallRes);
         delete m_44;
         m_44 = 0;
     }
     if (!((FUN_00485d50_slg*)this)->GetLoading())
     {
-        pForm->FUN_00857210();
-        FUN_00862150(pForm);
+        pForm->BSFile_Flush();
+        TESSaveLoadGame_SetMostRecentSaveGame(pForm);
         ((::fnv_008578b0::FUN_008578b0_Class*)this)->ReleaseFile((::BSFile*)pForm, 0);
     }
     FUN_00c3e340(DAT_01202d98);
@@ -8307,17 +8320,18 @@ extern const char DAT_01080a90[];
 extern const char DAT_01080a40[];
 extern const char DAT_010809e8[];
 namespace SaveWarning85A520 {
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 }
 struct SaveHandler85A520
 {
     unsigned short FUN_00861c60(unsigned int);
     unsigned int FindOrAddValue(unsigned int);
-    void FUN_0085a520(SaveForm85A520*, unsigned int);
+    void TESSaveLoadGame_SaveInitialData(SaveForm85A520*, unsigned int);
 };
 // When flags & 6 is nonzero, writes the parent's position, rotation, and resolved cell ID as a 28-byte record.
 // @fnv 0x0085a520
-void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
+// src: COMMUNITY 0x0085a520
+void SaveHandler85A520::TESSaveLoadGame_SaveInitialData(SaveForm85A520* form, unsigned int flags)
 {
     TESObjectREFR* parent = (TESObjectREFR*)_FNV_DynamicCast(form, 0, &DAT_01183028, &DAT_011841cc, 0);
     if (!parent)
@@ -8356,16 +8370,16 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
     else
     {
         if (!parent->FUN_005653d0())
-            SaveWarning85A520::FUN_005b5e40(DAT_01080ba8, parent->FUN_0084e3a0());
+            SaveWarning85A520::Warning_005b5e40(DAT_01080ba8, parent->FUN_0084e3a0());
         if (parent->FUN_005653d0() && !((SaveExtra85A520*)parent->FUN_005d43c0())->FUN_0041d460())
-            SaveWarning85A520::FUN_005b5e40(DAT_01080b38, parent->FUN_0084e3a0());
+            SaveWarning85A520::Warning_005b5e40(DAT_01080b38, parent->FUN_0084e3a0());
         MobileObject* mobile = (MobileObject*)_FNV_DynamicCast(parent, 0, &DAT_011841cc, &DAT_01184920, 0);
         if (mobile && ((SaveProcess85A520*)mobile->GetCurrentAIProcess()))
         {
             if (((SaveProcess85A520*)mobile->GetCurrentAIProcess())->FUN_0045cd60() == 0)
-                SaveWarning85A520::FUN_005b5e40(DAT_01080ae8, parent->FUN_0084e3a0());
+                SaveWarning85A520::Warning_005b5e40(DAT_01080ae8, parent->FUN_0084e3a0());
             else if (((SaveProcess85A520*)mobile->GetCurrentAIProcess())->FUN_0045cd60() == 1)
-                SaveWarning85A520::FUN_005b5e40(DAT_01080a90, parent->FUN_0084e3a0());
+                SaveWarning85A520::Warning_005b5e40(DAT_01080a90, parent->FUN_0084e3a0());
         }
     }
     savedLocation.position = *(const NiPoint3*)parent->GetPos();
@@ -8421,7 +8435,7 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
             {
                 Actor* point = (Actor*)_FNV_DynamicCast(parent, 0, &DAT_011841cc, &DAT_011846d4, 0);
                 if (point)
-                    SaveWarning85A520::FUN_005b5e40(DAT_01080a40);
+                    SaveWarning85A520::Warning_005b5e40(DAT_01080a40);
                 cellA.editorPosition = parent->GetEditorPosition();
                 cellA.cell = 0;
                 if (parent->GetParentCell())
@@ -8448,7 +8462,7 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
         else if (world)
             id = FindOrAddValue(world->FUN_0084e3a0());
         else
-            SaveWarning85A520::FUN_005b5e40(DAT_010809e8, parent->GetName(), parent->FUN_0084e3a0());
+            SaveWarning85A520::Warning_005b5e40(DAT_010809e8, parent->GetName(), parent->FUN_0084e3a0());
         ((SaveStream85A520*)::DAT_011de45c)->FUN_008579b0(&id, 4);
     }
 }
@@ -8729,13 +8743,14 @@ struct Main
 {
     TessaveloadgameMapView* map;
     UnknownNode* others;
-    void FUN_00856300(File*, const char*);
-    void FUN_00855ba0(const char*);
+    void SaveDataDebugInfo_Write(File*, const char*);
+    void SaveStats_PrintStats(const char*);
 };
 
 // Writes per-type form counts and size statistics, unknown-entry sizes and values, and overall totals to a file.
 // @fnv 0x00855ba0
-void Main::FUN_00855ba0(const char* filename)
+// src: COMMUNITY 0x00855ba0
+void Main::SaveStats_PrintStats(const char* filename)
 {
 
     char pathSlot0[260];
@@ -8752,7 +8767,7 @@ void Main::FUN_00855ba0(const char* filename)
     char buffer[520];
     FUN_00406d00(buffer, 520, &DAT_01080670, &DAT_01080414, &DAT_0108041c, &DAT_01044aec, &DAT_01063d04, &DAT_0105ac4c,
                  &DAT_01080428);
-    FUN_00856300(&fileSlot15, buffer);
+    SaveDataDebugInfo_Write(&fileSlot15, buffer);
 
     void* position = map->FUN_004b9ba0();
     while (position)
@@ -8772,7 +8787,7 @@ void Main::FUN_00855ba0(const char* filename)
 
         FUN_00406d00(buffer, 520, &DAT_010803e4, typeNameSlot0);
         unsigned __int64 lengthSlot33 = FUN_0044a670(buffer);
-        FUN_00856300(&fileSlot15, buffer);
+        SaveDataDebugInfo_Write(&fileSlot15, buffer);
         Stats statsSlot13;
 
         while (node)
@@ -8812,7 +8827,7 @@ void Main::FUN_00855ba0(const char* filename)
                     FUN_00406d00(buffer, 520, &DAT_01080648, entry->id, entry->size, *(unsigned int*)&entry->flags0,
                                  entry->version, &DAT_0108063c, descriptionSlot0);
 
-                FUN_00856300(&fileSlot15, buffer);
+                SaveDataDebugInfo_Write(&fileSlot15, buffer);
             }
 
             node = node->FUN_00726070();
@@ -8821,7 +8836,7 @@ void Main::FUN_00855ba0(const char* filename)
         FUN_00406d00(buffer, 520, &DAT_010805d8, typeNameSlot0, statsSlot13.count, typeNameSlot0, statsSlot13.total,
                      typeNameSlot0, statsSlot13.smallest, typeNameSlot0, statsSlot13.largest, typeNameSlot0,
                      (float)statsSlot13.total / statsSlot13.count);
-        FUN_00856300(&fileSlot15, buffer);
+        SaveDataDebugInfo_Write(&fileSlot15, buffer);
 
         if (statsSlot13.largest > allSlot12.largest)
             allSlot12.largest = statsSlot13.largest;
@@ -8831,7 +8846,7 @@ void Main::FUN_00855ba0(const char* filename)
         allSlot12.count += statsSlot13.count;
     }
 
-    FUN_00856300(&fileSlot15, &DAT_010805c4);
+    SaveDataDebugInfo_Write(&fileSlot15, &DAT_010805c4);
     UnknownNode* unknownNodeSlot24 = others;
     while (unknownNodeSlot24)
     {
@@ -8839,7 +8854,7 @@ void Main::FUN_00855ba0(const char* filename)
         if (unknown)
         {
             FUN_00406d00(buffer, 520, &DAT_01080254, unknown->size, unknown->value);
-            FUN_00856300(&fileSlot15, buffer);
+            SaveDataDebugInfo_Write(&fileSlot15, buffer);
             allSlot12.total += unknown->size;
         }
         unknownNodeSlot24 = unknownNodeSlot24->FUN_00726070();
@@ -8847,7 +8862,7 @@ void Main::FUN_00855ba0(const char* filename)
 
     FUN_00406d00(buffer, 520, &DAT_01080570, allSlot12.count, allSlot12.total, allSlot12.smallest, allSlot12.largest,
                  (float)allSlot12.total / allSlot12.count);
-    FUN_00856300(&fileSlot15, buffer);
+    SaveDataDebugInfo_Write(&fileSlot15, buffer);
 }
 
 }
@@ -9363,8 +9378,8 @@ void operator delete(void*);
 enum MEM_CONTEXT;
 
 extern const char DAT_010804c8[];
-void __cdecl FUN_005b5e40(const char*, unsigned int, unsigned int);
-void __cdecl FUN_005b5e40(const char*, int, unsigned int, unsigned int, unsigned int);
+void __cdecl Warning_005b5e40(const char*, unsigned int, unsigned int);
+void __cdecl Warning_005b5e40(const char*, int, unsigned int, unsigned int, unsigned int);
 struct Record77
 {
     int type;
@@ -9387,7 +9402,7 @@ TESForm* Save77::FUN_00859a90(unsigned int id, Record77* record)
         bound28 = dynamic_cast<TESBoundObject*>((TESForm*)::FUN_004839c0(record->object));
         if (!bound28)
         {
-            FUN_005b5e40("SAVELOAD: Bound object %08X no longer exists.  Reference %08X will not be created.",
+            Warning_005b5e40("SAVELOAD: Bound object %08X no longer exists.  Reference %08X will not be created.",
                          record->object, id);
             return 0;
         }
@@ -9447,7 +9462,7 @@ TESForm* Save77::FUN_00859a90(unsigned int id, Record77* record)
             ((FormMethods77*)pForm)->SetID(id, 1);
         }
         else
-            FUN_005b5e40(
+            Warning_005b5e40(
                 "FORMS: Invalid created reference type %i for form %08X with bound object %08X in location %08X",
                 record->type, id, record->object, record->location);
     }

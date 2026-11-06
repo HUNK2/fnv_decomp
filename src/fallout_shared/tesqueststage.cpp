@@ -218,7 +218,8 @@ class QuestStageItemList
 };
 
 // @fnv 0x0060f210
-void* __fastcall FUN_0060f210(char* pThis)
+// src: COMMUNITY 0x0060f210
+void* __fastcall TESQuestStage_TESQuestStage(char* pThis)
 {
     ResetFlags(pThis);
     ((QuestStageItemList*)(pThis + 4))->QuestStageItemList::QuestStageItemList();
@@ -244,7 +245,7 @@ FUN_0060f260::~FUN_0060f260()
 
 struct FUN_0060f320_shell : public QuestStage
 {
-    void FUN_0060f320(TESForm*);
+    void TESQuestStage_InitItem(TESForm*);
 };
 
 struct StageItemNode;
@@ -254,7 +255,8 @@ StageItemNode* __fastcall _ref_00726070(StageItemNode* node);
 
 // Walks the stage item list, calls InitItem on each non-null item, clears a header byte, and counts the items.
 // @fnv 0x0060f320
-void FUN_0060f320_shell::FUN_0060f320(TESForm* apOwner)
+// src: COMMUNITY 0x0060f320
+void FUN_0060f320_shell::TESQuestStage_InitItem(TESForm* apOwner)
 {
     StageItemNode* pNode = FUN_00717e50(this);
     int iCount = 0;

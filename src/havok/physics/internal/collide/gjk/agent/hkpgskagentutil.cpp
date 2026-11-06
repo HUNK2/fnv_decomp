@@ -3318,13 +3318,13 @@ __forceinline void Arg4::Commit(Arg6* cursor, unsigned int value)
 extern int FUN_00dabca0(void* a, void* b, void* c, void* d);
 extern void ReleaseAllEntries(void* a, void* b, void* c);
 extern unsigned char FindAndPromoteEntry(void* a, void* b);
-extern void FUN_00dae3a0(void* a, void* b, int c, void* d, void* e);
-extern int FUN_00daf1e0(void* a, void* b, void* c, void* d, void* e, void* f, void* g, void* h, void* i, int j);
+extern void hkGskManifold_verifyAndGetPoints(void* a, void* b, int c, void* d, void* e);
+extern int hkGskManifold_addPoint(void* a, void* b, void* c, void* d, void* e, void* f, void* g, void* h, void* i, int j);
 extern void _hkGskManifold_removePoint(void* a, int b);
 static __forceinline int BuildContacts(void* a, void* b, void* c, void* d, void* e, void* f, void* g, void* h, void* i,
                                        int j)
 {
-    return FUN_00daf1e0(a, b, c, d, e, f, g, h, i, j);
+    return hkGskManifold_addPoint(a, b, c, d, e, f, g, h, i, j);
 }
 static __forceinline unsigned short AddContact(Node* shape, void* a, void* b, void* c, void* d, void* e, void* f)
 {
@@ -3452,7 +3452,7 @@ AfterV:
             QueryVertices((Node*)r, ids + p4->m_00 * 2, p4->m_01, val);
             XformReverse(val, (Mat*)bodyB->m_08, p4->m_01);
         }
-        FUN_00dae3a0(p4, x.points, iEntry, p6, in->m_10);
+        hkGskManifold_verifyAndGetPoints(p4, x.points, iEntry, p6, in->m_10);
         tailTest = iEntry;
         (void)res;
     }

@@ -90,7 +90,8 @@ void __cdecl CreateAllocatedValue()
 }
 
 // @fnv 0x00d2b8b0
-int __stdcall FUN_00d2b8b0(int a, int b, int c)
+// src: COMMUNITY 0x00d2b8b0
+int __stdcall DllMain_12(int a, int b, int c)
 {
     return 1;
 }

@@ -1605,7 +1605,7 @@ GskStatus Gsk::FUN_00e4c730(const Input& input, GskCache* __restrict cache, GskO
         dir.set(1.0f, 0.0f, 0.0f, 0.0f);
         Vec4 dirNeg;
         dirNeg.setNeg4(dir);
-        dirNeg.FUN_004b4ab0(input.m_kTransform.getRotation(), dirNeg);
+        dirNeg.hkVector4_setRotatedInverseDir(input.m_kTransform.getRotation(), dirNeg);
         shapeA->GetSupportPoint(dir, &m_akPackedVerticesA[0]);
         shapeB->GetSupportPoint(dirNeg, &m_akPackedVerticesB[0]);
         m_akCachedVectors[0].FUN_00c7f700(input.m_kTransform.getRotation(), m_akPackedVerticesB[0]);

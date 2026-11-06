@@ -51,12 +51,12 @@ extern "C" __declspec(dllimport) char* __stdcall lstrcpyA(char* dst, const char*
 char* __cdecl FUN_00a25e00(char* dst, char* src);
 struct FUN_00a24f10_Class
 {
-    unsigned int FUN_00a24f10(unsigned int i);
+    unsigned int Controls_GetKeybind(unsigned int i);
 };
 extern int DAT_00ff0000;
 struct FUN_00a24f60_Class
 {
-    void FUN_00a24f60(int a, unsigned int b);
+    void Controls_SetKeybind(int a, unsigned int b);
 };
 struct InputManager
 {
@@ -80,30 +80,30 @@ struct FUN_00a269f0_Class
 };
 struct FUN_00a257c0_Class
 {
-    void FUN_00a257c0(float v);
+    void Controls_Poll(float v);
 };
 struct FUN_00a26010_Class
 {
-    unsigned char FUN_00a26010();
+    unsigned char return_1_3();
     int m_50;
     int m_68;
     void AddEntry(int a);
 };
 struct FUN_00a25d80_Class
 {
-    char FUN_00a25d80();
+    char nullsub_306();
 };
 struct FUN_00a25dc0_Class
 {
-    void FUN_00a25dc0(int a);
+    void nullsub_303(int a);
 };
 struct FUN_00a25dd0_Class
 {
-    void FUN_00a25dd0(int a);
+    void nullsub_302(int a);
 };
 struct FUN_00a25fb0_Class
 {
-    void FUN_00a25fb0(int a, int b);
+    void nullsub_299(int a, int b);
 };
 struct FUN_00a232d0_Class
 {
@@ -111,7 +111,7 @@ struct FUN_00a232d0_Class
 };
 struct FUN_00a24eb0_Class
 {
-    void FUN_00a24eb0(int a, int b);
+    void Controls_RemoveDuplicateControls(int a, int b);
 };
 struct FUN_00a26480_class
 {
@@ -145,7 +145,7 @@ struct FUN_00a26310_Class
     int m_28;
     int m_2c;
     int m_30;
-    void FUN_00a26310(int a, FUN_00a26480_class* b);
+    void XRumbleControl_InitRumble(int a, FUN_00a26480_class* b);
 };
 
 struct FUN_00a22640_Class
@@ -174,15 +174,15 @@ struct FUN_00a24b70_Class
     unsigned char m_08[0x1b8c];
     unsigned char m_1b94[0x70];
 
-    void FUN_00a24b70(int param);
+    void Controls_InitDefaultKeybinds(int param);
 };
 struct FUN_00a25d70_Class
 {
-    unsigned int FUN_00a25d70();
+    unsigned int nullsub_307();
 };
 struct FUN_00a25da0_Class
 {
-    char FUN_00a25da0();
+    char nullsub_304();
 };
 void* _memmove(void* dst, const void* src, unsigned int count);
 struct FUN_00a25e20_Class
@@ -237,7 +237,7 @@ extern short DAT_011f35b0;
 extern short DAT_011f35b2;
 struct FUN_00a23e10_Class : public FUN_00a24080_Class
 {
-    int FUN_00a23e10(int param1, int param2);
+    int Controls_GetControllerButton(int param1, int param2);
 };
 struct InputDevice
 {
@@ -292,7 +292,7 @@ struct ControlsIniLoader : public FUN_00a24f60_Class
 // FUN_00a232c0 : an empty __thiscall member function (an /Od build).
 struct FnvEmpty_00a232c0
 {
-    void FUN_00a232c0();
+    void nullsub_1();
 };
 struct ButtonDevice
 {
@@ -2061,8 +2061,8 @@ class A24080Property
 };
 struct FUN_00a25180_cls
 {
-    void FUN_00a24eb0(int a, int b);
-    void FUN_00a25180(int a1, int a2, unsigned char a3);
+    void Controls_RemoveDuplicateControls(int a, int b);
+    void Controls_SetActionMapping(int a1, int a2, unsigned char a3);
 };
 struct InputHandler
 {
@@ -3834,7 +3834,7 @@ struct InputHandler
     unsigned char m_1b91;
 
     void FUN_00a237f0(unsigned int* out);
-    void FUN_00a25180(int index, int flags, unsigned char state);
+    void Controls_SetActionMapping(int index, int flags, unsigned char state);
     int FUN_00a23a50(int index, int flags);
     bool HandleInput(int key);
 };
@@ -3862,7 +3862,7 @@ struct FUN_00a252d0_cls
     void SetEnabled(unsigned char enable);
 };
 void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
-void FUN_00a24830();
+void DIEnumDevicesCallback();
 struct FUN_00a25810_Target
 {
     int m_00;
@@ -3943,16 +3943,16 @@ struct FUN_00a259b0
 };
 struct FUN_00a25bc0_Class
 {
-    void FUN_00a25bc0();
+    void nullsub_313();
 };
 struct FUN_00a25bd0_cls
 {
     int unk00;
-    void FUN_00a25bd0();
+    void nullsub_312();
 };
 struct S
 {
-    void FUN_00a25be0();
+    void nullsub_311();
 };
 extern int* DAT_011f63a8;
 extern int DAT_011f3638;
@@ -4022,31 +4022,31 @@ struct S_00a25c80_Class
 };
 struct FUN_00a25d30_Class
 {
-    void FUN_00a25d30();
+    void nullsub_310();
 };
 struct FUN_00a25d40_cls
 {
     int unk00;
-    void FUN_00a25d40();
+    void nullsub_309();
 };
 struct FUN_00a25d90_cls
 {
     int m_00;
-    void FUN_00a25d90();
+    void nullsub_305();
 };
 struct FUN_00a25db0_cls
 {
     int unk00;
-    void FUN_00a25db0();
+    void nullsub_297();
 };
 struct FUN_00a25de0_Class
 {
-    void FUN_00a25de0();
+    void nullsub_301();
 };
 struct FUN_00a25df0_cls
 {
     int unk00;
-    void FUN_00a25df0();
+    void nullsub_300();
 };
 void __cdecl FUN_00ec44d0(int a, int b, int c);
 class FUN_00a25f60_cls
@@ -4056,7 +4056,7 @@ class FUN_00a25f60_cls
 };
 struct FUN_00a26300_Class
 {
-    void FUN_00a26300();
+    void nullsub_298();
 };
 struct FUN_00a26410_arg
 {
@@ -4098,7 +4098,7 @@ struct Scratch
 };
 extern Scratch DAT_011f35a8;
 extern Scratch DAT_011f35b8;
-int __stdcall FUN_009f996e(int user, Scratch* state);
+int __stdcall XInputGetState_009f996e(int user, Scratch* state);
 struct PollingDevice
 {
     virtual long __stdcall QueryInterface() = 0;
@@ -4135,7 +4135,7 @@ struct DeviceStatePair
 };
 struct InputPoller : InputHandler
 {
-    void FUN_00a23010();
+    void Controls_UpdateValues();
 };
 struct RumbleEvent
 {
@@ -5986,7 +5986,7 @@ struct FUN_00a25b00 : PoolDelQ
     char pad[0x3ac];
     FUN_00a26240 kList;
     ~FUN_00a25b00();
-    void FUN_00a25dd0(int a);
+    void nullsub_302(int a);
 };
 extern FUN_00a25b00* DAT_011f3634Q;
 // @fnv 0x00a25b00
@@ -5995,7 +5995,7 @@ FUN_00a25b00::~FUN_00a25b00()
     if (DAT_011f3634Q)
     {
         delete DAT_011f3634Q;
-        FUN_00a25dd0(0);
+        nullsub_302(0);
     }
 }
 
@@ -6035,7 +6035,7 @@ inline void* operator new(unsigned int size)
     return DAT_011f6238.Allocate(size);
 }
 
-extern "C" long __stdcall FUN_00ee7f10(void* hinst, unsigned int version, void* iid, void** out, void* outer);
+extern "C" long __stdcall DirectInput8Create_0(void* hinst, unsigned int version, void* iid, void** out, void* outer);
 extern "C" __declspec(dllimport) long __stdcall RegOpenKeyExA(void* key, const char* sub, unsigned int opt,
                                                               unsigned int sam, void** out);
 extern "C" __declspec(dllimport) long __stdcall RegQueryValueExA(void* key, const char* name, unsigned int* res,
@@ -6083,7 +6083,7 @@ struct FUN_00a262d0_C40  // 0x40 bytes, ctor at 0x00a262d0
     int m00, m04, m08, m0c, m10, m14, m18, m1c;
     int m20, m24, m28, m2c, m30, m34, m38, m3c;
     FUN_00a262d0_C40(unsigned int a);
-    void FUN_00a26310(int a, Elem2* b);
+    void XRumbleControl_InitRumble(int a, Elem2* b);
 };
 
 struct DIPROPDWORD
@@ -6118,9 +6118,9 @@ struct Mgr
     unsigned char m1b90;
     unsigned char m1b91;
     unsigned short m1b92;
-    Mgr* FUN_00a22660(int arg);
+    Mgr* Controls_Controls(int arg);
     void SetEnabled(int enable);
-    void FUN_00a24b70(int a);
+    void Controls_InitDefaultKeybinds(int a);
 };
 
 __forceinline Elem2* NewZeroedElem2()
@@ -6131,13 +6131,14 @@ __forceinline Elem2* NewZeroedElem2()
 }
 
 // @fnv 0x00a22660
-Mgr* Mgr::FUN_00a22660(int arg)
+// src: COMMUNITY 0x00a22660
+Mgr* Mgr::Controls_Controls(int arg)
 {
     this->m18f4 = 0;
     this->m04 = 0;
     this->m1b92 = 0;
 
-    FUN_00ee7f10((void*)arg, 0x800, &DAT_01100ed4, (void**)&this->m08, 0);
+    DirectInput8Create_0((void*)arg, 0x800, &DAT_01100ed4, (void**)&this->m08, 0);
 
     if (SettingIs(DAT_011f35d0, true))
     {
@@ -6244,12 +6245,12 @@ Mgr* Mgr::FUN_00a22660(int arg)
         this->m1b84->m14 = 0;
         this->m1b84->m1c = 0;
 
-        this->m1b80->FUN_00a26310(1, this->m1b84);
-        this->m1b80->FUN_00a26310(0, this->m1b84);
+        this->m1b80->XRumbleControl_InitRumble(1, this->m1b84);
+        this->m1b80->XRumbleControl_InitRumble(0, this->m1b84);
     }
     this->m1b88 = 1;
 
-    this->FUN_00a24b70(4);
+    this->Controls_InitDefaultKeybinds(4);
     this->m00 = 0;
     return this;
 }
@@ -6279,7 +6280,7 @@ void FUN_00a25880()
 {
     if (!DAT_011f3634)
         DAT_011f3634 = new S_00a25920_Obj();
-    ((FUN_00a25de0_Class*)DAT_011f3634)->FUN_00a25de0();
+    ((FUN_00a25de0_Class*)DAT_011f3634)->nullsub_301();
 }
 
 __forceinline void __cdecl operator delete(void* memory)

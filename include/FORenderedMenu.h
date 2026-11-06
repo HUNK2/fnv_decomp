@@ -22,24 +22,24 @@ public:
     virtual ~FORenderedMenu();
     virtual void vf1();
     virtual void* v2();
-    virtual void FUN_007fba00(void*, void*, Target82*);
+    virtual void Render_007fba00(void*, void*, Target82*);
     virtual void vf4();
     virtual bool UpdateScreenEffect();
-    virtual bool FUN_007fb790(bool abDown, int a2, int a3);
+    virtual bool Pick_007fb790(bool abDown, int a2, int a3);
     virtual void vf7();
     virtual void vf8();
     virtual void OnMenuOpen();
-    virtual void FUN_007fadf0();
-    virtual float FUN_0087d6c0();
+    virtual void ResetNifs();
+    virtual float BaseProcess_GetActorAlpha();
     virtual void v12();
     virtual void v13();
-    virtual void FUN_007fb420(float afTime);
+    virtual void HandleStaticEffect(float afTime);
     virtual void FUN_007fb480(float a);
-    virtual void FUN_007fb3a0(float afTime);
-    virtual void FUN_007fb530(float afDuration);
+    virtual void HandleShudderEffect(float afTime);
+    virtual void HandlePulseEffect(float afDuration);
     virtual void UpdateNodePosition(float fTime);
     virtual void UpdateDistortTimer(float dt);
-    virtual void FUN_007fbee0(Arg*, void*, int);
+    virtual void DoEffect(Arg*, void*, int);
 
     bool GetInitialized();
     NiAVObject* GetMenuRoot();
@@ -52,9 +52,9 @@ public:
     void UpdateSlotSelection(int);
     bool IsUnk28Set();
     void FUN_007fae70(int);
-    void FUN_007fb040();
+    void OnMenuOpen_007fb040();
     void ResetMenuState();
-    bool FUN_007fb790(void* pkUnused, float* pfX, float* pfY);
+    bool Pick_007fb790(void* pkUnused, float* pfX, float* pfY);
 
     NiPointer<NiGeometry> m_pMenuBackgroundScreenGeometry;
     NiPointer<NiAVObject> m_pMenuRoot;

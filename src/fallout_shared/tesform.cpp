@@ -484,11 +484,12 @@ struct S00551440
 {
     char pad[0x24];
     unsigned char flags;
-    void FUN_00551440(bool v);
+    void TESObjectCELL_SetHasTempData(bool v);
 };
 // Sets or clears bit 0x10 in the flags byte according to v.
 // @fnv 0x00551440
-void S00551440::FUN_00551440(bool v)
+// src: COMMUNITY 0x00551440
+void S00551440::TESObjectCELL_SetHasTempData(bool v)
 {
     if (v)
         flags |= 0x10;
@@ -765,11 +766,12 @@ typedef char _sizecheck_ActorValueOwner[sizeof(ActorValueOwner) == 4 ? 1 : -1];
 typedef char _sizecheck_CachedValuesOwner[sizeof(CachedValuesOwner) == 4 ? 1 : -1];
 struct FUN_004011d0_shell : public TESForm
 {
-    bool FUN_004011d0();
+    bool TESForm_GetNeedToChangeProcess();
 };
 
 // @fnv 0x004011d0
-bool FUN_004011d0_shell::FUN_004011d0()
+// src: COMMUNITY 0x004011d0
+bool FUN_004011d0_shell::TESForm_GetNeedToChangeProcess()
 {
     return (iFormFlags & 0x20000) ? true : false;
 }
@@ -925,13 +927,14 @@ bool FUN_004011f0_shell::FUN_004011f0()
 struct S3c60
 {
     int GetArchetype(void);
-    int FUN_00408a40(void);
+    int EffectSetting_GetObjectTypeName(void);
 };
 
 extern "C" int __cdecl GetEntryByIndex(int);
 
 // @fnv 0x00408a40
-int S3c60::FUN_00408a40()
+// src: COMMUNITY 0x00408a40
+int S3c60::EffectSetting_GetObjectTypeName()
 {
     return GetEntryByIndex(GetArchetype());
 }
@@ -1059,12 +1062,12 @@ void __cdecl FUN_00485710(void* arg0, void* arg1, void* arg2)
     FUN_00485750(arg0, arg1, arg2);
 }
 
-extern void __cdecl FUN_00485820(void*, void*, void*);
+extern void __cdecl TESForm_AddChunkArray16(void*, void*, void*);
 
 // @fnv 0x00485730
 void __cdecl FUN_00485730(void* apArg1, void* apArg2, void* apArg3)
 {
-    FUN_00485820(apArg1, apArg2, apArg3);
+    TESForm_AddChunkArray16(apArg1, apArg2, apArg3);
 }
 
 extern void* DAT_011c54cc;
@@ -1086,11 +1089,12 @@ void FUN_00485b30_shell::ResetGlobalPointer()
 struct FUN_00485e00_shell
 {
     void __thiscall FUN_00485e20(int, int);
-    void __thiscall FUN_00485e00();
+    void __thiscall TESForm_SaveData();
 };
 
 // @fnv 0x00485e00
-void __thiscall FUN_00485e00_shell::FUN_00485e00()
+// src: COMMUNITY 0x00485e00
+void __thiscall FUN_00485e00_shell::TESForm_SaveData()
 {
     FUN_00485e20(0, 0);
 }
@@ -1142,30 +1146,32 @@ bool FUN_005516c0::IsCellPersistent()
     }
 }
 
-extern "C" void __cdecl FUN_005548a0(int);
+extern "C" void __cdecl TESObjectCELL_IsFormTypeCellChild(int);
 
 struct FUN_00554880_shell
 {
-    void __thiscall FUN_00554880(unsigned char arg);
+    void __thiscall TESObjectCELL_IsFormTypeChild(unsigned char arg);
 };
 
 // @fnv 0x00554880
-void __thiscall FUN_00554880_shell::FUN_00554880(unsigned char arg)
+// src: COMMUNITY 0x00554880
+void __thiscall FUN_00554880_shell::TESObjectCELL_IsFormTypeChild(unsigned char arg)
 {
-    FUN_005548a0(arg);
+    TESObjectCELL_IsFormTypeCellChild(arg);
 }
 
-extern unsigned char __cdecl FUN_00588a60(unsigned char);
+extern unsigned char __cdecl TESWorldSpace_IsFormTypeWorldChild(unsigned char);
 
 struct FUN_00588a40_shell
 {
-    unsigned char __thiscall FUN_00588a40(unsigned char arg);
+    unsigned char __thiscall TESWorldSpace_IsFormTypeChild(unsigned char arg);
 };
 
 // @fnv 0x00588a40
-unsigned char __thiscall FUN_00588a40_shell::FUN_00588a40(unsigned char arg)
+// src: COMMUNITY 0x00588a40
+unsigned char __thiscall FUN_00588a40_shell::TESWorldSpace_IsFormTypeChild(unsigned char arg)
 {
-    return FUN_00588a60(arg);
+    return TESWorldSpace_IsFormTypeWorldChild(arg);
 }
 
 namespace fnv_005e9690 {
@@ -1185,24 +1191,26 @@ void __thiscall FUN_005e9690_shell::FUN_005e9690()
 
 struct FUN_0061bbd0_shell
 {
-    unsigned char __thiscall FUN_0061bbd0(unsigned char param);
+    unsigned char __thiscall TESTopic_IsFormTypeChild(unsigned char param);
 };
 
-extern unsigned char __cdecl FUN_0061bbf0(unsigned char);
+extern unsigned char __cdecl TESTopic_IsFormTypeDialogueChild(unsigned char);
 
 // @fnv 0x0061bbd0
-unsigned char __thiscall FUN_0061bbd0_shell::FUN_0061bbd0(unsigned char param)
+// src: COMMUNITY 0x0061bbd0
+unsigned char __thiscall FUN_0061bbd0_shell::TESTopic_IsFormTypeChild(unsigned char param)
 {
-    return FUN_0061bbf0(param);
+    return TESTopic_IsFormTypeDialogueChild(param);
 }
 
 struct FUN_00621b00_shell
 {
-    float __thiscall FUN_00621b00();
+    float __thiscall ActorPackage_GetPackageStartTime();
 };
 
 // @fnv 0x00621b00
-float __thiscall FUN_00621b00_shell::FUN_00621b00()
+// src: COMMUNITY 0x00621b00
+float __thiscall FUN_00621b00_shell::ActorPackage_GetPackageStartTime()
 {
     return *(float*)((char*)this + 0x10);
 }
@@ -1652,10 +1660,11 @@ struct FUN_004846e0_shell
     virtual void v18(int);
     unsigned int _4;
     unsigned int _8;
-    void FUN_004846e0(bool);
+    void TESForm_SetVATSTargetOverride(bool);
 };
 // @fnv 0x004846e0
-void FUN_004846e0_shell::FUN_004846e0(bool abSet)
+// src: COMMUNITY 0x004846e0
+void FUN_004846e0_shell::TESForm_SetVATSTargetOverride(bool abSet)
 {
     if (abSet)
         _8 |= 0x4000000;
@@ -1838,12 +1847,12 @@ struct FormComponentArray
 typedef char _sizecheck_FormComponentCollection[sizeof(FormComponentArray) == 152 ? 1 : -1];
 struct FUN_00483870_shell : public TESForm
 {
-    void FUN_00483870();
+    void TESForm_ClearDataAllComponents();
 };
 
 struct Holder_47c5b0
 {
-    void FUN_0047c5b0();
+    void FormComponentCollection_ClearDataAllComponents();
 };
 struct FUN_0047c050
 {
@@ -1853,7 +1862,8 @@ struct FUN_0047c050
 };
 
 // @fnv 0x00483870
-void FUN_00483870_shell::FUN_00483870()
+// src: COMMUNITY 0x00483870
+void FUN_00483870_shell::TESForm_ClearDataAllComponents()
 {
     switch (GetFormType())
     {
@@ -1880,7 +1890,7 @@ void FUN_00483870_shell::FUN_00483870()
     default: {
         FUN_0047c050 components;
         ((FormComponentArray*)&components)->InitializeFromForm(this);
-        ((Holder_47c5b0*)&components)->FUN_0047c5b0();
+        ((Holder_47c5b0*)&components)->FormComponentCollection_ClearDataAllComponents();
         break;
     }
     }
@@ -2143,7 +2153,7 @@ struct FormEnumEntry
 
 extern FormEnumEntry DAT_01187008[];
 
-int __cdecl FUN_00470bb0();
+int __cdecl return15();
 
 // @fnv 0x004855a0
 void TesformOffset08View::FUN_004855a0()
@@ -2162,7 +2172,7 @@ void TesformOffset08View::FUN_004855a0()
     pForm->form = DAT_01187008[GetFormType()].iFormString;
     pForm->iFormID = GetFormID();
     pForm->length = 0;
-    pForm->m_usFormVersion = FUN_00470bb0();
+    pForm->m_usFormVersion = return15();
     pForm->m_uiVersionControlInfo = 0;
     pForm->m_usHeaderUnknown = 0;
     Unk_37();
@@ -2242,7 +2252,7 @@ struct CHUNK : public FUN_004141e0_class
 
 struct FUN_00485a70_class
 {
-    bool FUN_00485a70(CHUNK* apChunk, unsigned short asExpandSize);
+    bool TESForm_ExpandChunk(CHUNK* apChunk, unsigned short asExpandSize);
 };
 
 bool _FUN_00401500();
@@ -2252,7 +2262,8 @@ void* DAT_011c54cc;
 int DAT_011c54d0;
 
 // @fnv 0x00485a70
-bool FUN_00485a70_class::FUN_00485a70(CHUNK* apChunk, unsigned short asExpandSize)
+// src: COMMUNITY 0x00485a70
+bool FUN_00485a70_class::TESForm_ExpandChunk(CHUNK* apChunk, unsigned short asExpandSize)
 {
     bool bendian = false;
     bendian = _FUN_00401500();
@@ -2335,7 +2346,7 @@ struct FUN_0047c050
     FUN_0047c050();
     ~FUN_0047c050();
     void FUN_0047c070(void* value);
-    void FUN_0047c600(FUN_0047c050* other);
+    void FormComponentCollection_CopyAllComponents(FUN_0047c050* other);
 };
 struct FormCloneOperation
 {
@@ -2348,7 +2359,7 @@ void FormCloneOperation::FUN_004851b0(void* targetForm)
     FUN_0047c050 a;
     z.FUN_0047c070(this);
     a.FUN_0047c070(targetForm);
-    z.FUN_0047c600(&a);
+    z.FormComponentCollection_CopyAllComponents(&a);
 }
 
 class TESForm;
@@ -2418,7 +2429,7 @@ struct CompareForm : TESForm
     int FUN_00474cb0();
     unsigned int FUN_0044ddc0();
 };
-extern "C" int __cdecl FUN_00404dc0(const char*, const char*);
+extern "C" int __cdecl BSstricmp(const char*, const char*);
 
 // @fnv 0x004853e0
 bool CompareForm::FUN_004853e0(BaseFormComponent* apOther)
@@ -2436,7 +2447,7 @@ bool CompareForm::FUN_004853e0(BaseFormComponent* apOther)
             return true;
         else
         {
-            if (FUN_00404dc0(GetName(), otherForm->GetName()))
+            if (BSstricmp(GetName(), otherForm->GetName()))
                 return true;
         }
     }
@@ -2581,7 +2592,7 @@ void* FUN_004867a0_cls::FUN_004867a0(void* unused, void* arg)
 struct S4868f0_host
 {
     unsigned int FUN_0084e3a0();
-    unsigned int FUN_00401280();
+    unsigned int retn_empty_string();
     unsigned int FUN_00440e30();
     void FUN_004868f0(unsigned int a);
 };
@@ -2591,7 +2602,7 @@ extern "C" int __cdecl FUN_00406f60(unsigned int, const char*, unsigned int, uns
 // @fnv 0x004868f0
 void S4868f0_host::FUN_004868f0(unsigned int a)
 {
-    FUN_00406f60(a, "%s Form '%s' (%08X)", FUN_00440e30(), FUN_00401280(), FUN_0084e3a0());
+    FUN_00406f60(a, "%s Form '%s' (%08X)", FUN_00440e30(), retn_empty_string(), FUN_0084e3a0());
 }
 
 extern char DAT_011841cc;
@@ -3124,8 +3135,8 @@ FUN_00483370::FUN_00483370()
 
 bool __cdecl FUN_00401500();
 void __cdecl AppendChunk(void*, void*, void*);
-void* __cdecl FUN_00401000(unsigned int size);
-void __cdecl FUN_00401030(void* p);
+void* __cdecl FormHeap_Allocate(unsigned int size);
+void __cdecl FormHeapFreeAndLog_00401030(void* p);
 void* __cdecl FUN_00401460(void* dst, void* src, unsigned int size);
 void __cdecl FUN_00401080(void* p, bool value);
 
@@ -3139,11 +3150,11 @@ struct Slot4
     unsigned int value;
     static void* operator new[](unsigned int size)
     {
-        return FUN_00401000(size);
+        return FormHeap_Allocate(size);
     }
     static void operator delete[](void* p)
     {
-        FUN_00401030(p);
+        FormHeapFreeAndLog_00401030(p);
     }
 };
 

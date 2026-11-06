@@ -81,7 +81,8 @@ struct RefObj
 extern RefObj* DAT_011f4410;
 // If the global RefObj pointer is set, decrements its reference count and clears the pointer.
 // @fnv 0x00a5cf60
-void FUN_00a5cf60()
+// src: COMMUNITY 0x00a5cf60
+void NiAlphaProperty__SDMShutdown()
 {
     if (DAT_011f4410)
     {
@@ -237,7 +238,7 @@ struct GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_011f4408;
 
-char* __cdecl FUN_00a7d330(const char*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char*);
 char* __cdecl FUN_00a7d370(const char*, bool);
 char* __cdecl FUN_00a7d410(const char*, unsigned char);
 char* __cdecl GetAlphaBlendFuncName(const char*, unsigned int);
@@ -295,7 +296,7 @@ inline bool GetNoSorter(const NiAlphaProperty* self)
 void __fastcall AppendAlphaPropertyStrings(NiAlphaProperty* self, int, StrArr* pkStrings)
 {
     reinterpret_cast<FUN_00a62a40_this*>(self)->AppendString(pkStrings);
-    pkStrings->AddInline(FUN_00a7d330(g_011f4408.m_name));
+    pkStrings->AddInline(NiViewerStrings_NiGetViewerString_Title(g_011f4408.m_name));
     pkStrings->AddInline(FUN_00a7d370("m_bAlpha", GetAlphaBlending(self)));
     pkStrings->AddInline(GetAlphaBlendFuncName("m_eSrcBlend", GetSrcBlend(self)));
     pkStrings->AddInline(GetAlphaBlendFuncName("m_eDestBlend", GetDestBlend(self)));

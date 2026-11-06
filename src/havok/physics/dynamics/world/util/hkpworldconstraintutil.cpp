@@ -273,7 +273,7 @@ struct InternalArray
     ConstraintInternal* data;
     unsigned short size;
     unsigned short capacity;
-    void FUN_00d27f50(int, ConstraintInternal*);
+    void hkSmallArray_hkConstraintInternal_insertAt(int, ConstraintInternal*);
 };
 struct ConstraintPointer
 {
@@ -443,7 +443,7 @@ ConstraintPointer* hkpWorldConstraintUtil_addConstraint(void* unused, hkpConstra
             break;
     }
     int firstChanged = count < (array.capacity & 0x3fff) ? index : 0;
-    array.FUN_00d27f50(index, &entry);
+    array.hkSmallArray_hkConstraintInternal_insertAt(index, &entry);
     for (int i = firstChanged; i < (int)array.size; ++i)
     {
         ConstraintInternal* changed = &array.data[i];

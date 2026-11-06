@@ -46,11 +46,12 @@ struct Cls
     unsigned short m1;
     unsigned short m2;
     Vec28 mVec;
-    void FUN_00b306d0(unsigned short);
+    void CIndexedGeometry_ResetStripCounter(unsigned short);
 };
 // Stores val into m1, clears m2, and zeroes the mVec element at index val, calling FUN_00ec7c56 if the index is out of range.
 // @fnv 0x00b306d0
-void Cls::FUN_00b306d0(unsigned short ausValue)
+// src: COMMUNITY 0x00b306d0
+void Cls::CIndexedGeometry_ResetStripCounter(unsigned short ausValue)
 {
     m1 = ausValue;
     m2 = 0;
@@ -231,19 +232,20 @@ struct FUN_00b304f0_cls
     int unk144;
     FloatVec m_148;
 
-    void FUN_00b304f0(const float& v);
+    void CIndexedGeometry_AddVertexTexCoord1(const float& v);
 };
 
-bool __cdecl FUN_00b0d7a0(void);
+bool __cdecl CSpeedTreeRT_GetTextureFlip(void);
 
 // @fnv 0x00b304f0
-void FUN_00b304f0_cls::FUN_00b304f0(const float& afValue)
+// src: COMMUNITY 0x00b304f0
+void FUN_00b304f0_cls::CIndexedGeometry_AddVertexTexCoord1(const float& afValue)
 {
     float f;
     unsigned int buf[75];
     unsigned char c;
     m_148.PushBack(afValue);
-    if (FUN_00b0d7a0())
+    if (CSpeedTreeRT_GetTextureFlip())
     {
         f = -(&afValue)[1];
         m_148.PushBack(f);
@@ -324,7 +326,7 @@ struct K
     void __thiscall FUN_00b331c0();
 };
 
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 // @fnv 0x00b331c0
 void __thiscall K::FUN_00b331c0()
@@ -338,7 +340,7 @@ void __thiscall K::FUN_00b331c0()
         FUN_00b33110(fC, f10);
         t1 = (f14 - fC) / 24;
         t2 = fC;
-        FUN_00401030((void*)t2);
+        FormHeapFreeAndLog_00401030((void*)t2);
     }
     fC = 0;
     f10 = 0;
@@ -346,7 +348,7 @@ void __thiscall K::FUN_00b331c0()
 }
 
 unsigned int __cdecl FUN_00ec7c56(void);
-void __cdecl FUN_00401030(void*);
+void __cdecl FormHeapFreeAndLog_00401030(void*);
 
 struct InnerVec
 {
@@ -370,11 +372,11 @@ struct OuterVec
 
 struct FUN_00b32350_shell
 {
-    void FUN_00b32350();
+    void std_vector_clear();
 };
 struct FUN_00b32120_shell
 {
-    void FUN_00b32120();
+    void m_vStrips_clear();
 };
 
 struct ScratchFrame
@@ -478,7 +480,7 @@ void TargetClass::ClearOuter()
             if (jL >= (unsigned int)(cQ->_last - cQ->_first))
                 FUN_00ec7c56();
             _v = cQ->_first[jL];
-            FUN_00401030(_v);
+            FormHeapFreeAndLog_00401030(_v);
             D5 = &m_outer;
             if (i >= (unsigned int)(D5->_last - D5->_first))
                 FUN_00ec7c56();
@@ -490,9 +492,9 @@ void TargetClass::ClearOuter()
         r = &m_outer;
         if (i >= (unsigned int)(r->_last - r->_first))
             FUN_00ec7c56();
-        ((FUN_00b32350_shell*)(r->_first + i))->FUN_00b32350();
+        ((FUN_00b32350_shell*)(r->_first + i))->std_vector_clear();
     }
-    ((FUN_00b32120_shell*)&m_outer)->FUN_00b32120();
+    ((FUN_00b32120_shell*)&m_outer)->m_vStrips_clear();
 }
 
 struct FUN_00b32210_Class

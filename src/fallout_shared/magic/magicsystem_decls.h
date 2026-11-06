@@ -34,7 +34,7 @@ class DataHandler
 {
   public:
     BSSimpleList<TESSound*>* FUN_0045c650();
-    BSSimpleList<TESEffectShader*>* FUN_00874670();
+    BSSimpleList<TESEffectShader*>* TESDataHandler_GetEffectShaders();
     BSSimpleList<SpellItem*>* FUN_0087eaa0();
 };
 extern DataHandler* g_dataHandler;

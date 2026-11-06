@@ -86,7 +86,7 @@ public:
     };
 
     LockPickMenu();
-    int FUN_0078da90();
+    int GetClass_0078da90();
     void SetTile(int id, Tile* tile);
     void* FUN_0078dad0(unsigned int flags);
     void FUN_007902b0(int, Tile*);
@@ -98,8 +98,8 @@ public:
     bool FUN_00791540(bool);
     void UpdateSweetSpot();
     void InitLockInterface();
-    void* FUN_0078e900();
-    bool FUN_0078e090();
+    void* Create3DCamera();
+    bool LockPickMenu_HasTiles();
     void FUN_0078eb50();
     void FUN_00a1d910();
     int FUN_0059bb30();

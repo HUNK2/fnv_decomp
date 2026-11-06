@@ -21,7 +21,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/fallout/interface/menus/roulettemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/roulettemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-int __cdecl FUN_007bc820();
+int __cdecl RouletteMenu_GetMenuID_();
 extern unsigned int __cdecl GetRandomNumberInRange(int, int);
 struct B006815c0
 {
@@ -138,7 +138,7 @@ struct Cache
 };
 struct Player
 {
-    void FUN_00969b20();
+    void SetLastAntiCheatTime();
 };
 struct Scene
 {
@@ -345,7 +345,7 @@ struct FUN_007b9020 : Base
 // @fnv 0x007b9020
 FUN_007b9020::~FUN_007b9020()
 {
-    DAT_011dea3c->FUN_00969b20();
+    DAT_011dea3c->SetLastAntiCheatTime();
     DAT_011c3b3c->FUN_0045a5e0(DAT_011da880->FUN_00504e00(9)->Name());
     DAT_011c3b3c->FUN_0045a5e0(DAT_01075ff8);
     DAT_011c3b3c->FUN_0045a5e0(DAT_01075fc4);
@@ -429,7 +429,7 @@ struct SceneHolder
     NiNode* FUN_00559450();
 };
 extern SceneHolder g_011da8d0;
-NiNode* __cdecl FUN_004aae30(NiNode*, const char*);
+NiNode* __cdecl BSUtilities_GetObjectByName(NiNode*, const char*);
 NiNode* __cdecl FUN_00450b80(int);
 void __cdecl FUN_00a6d2d0(NiNode*);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
@@ -506,9 +506,9 @@ struct PlayerForRoulette
     int unk09c;
     int unk0a0;
     ActorValueOwner av;
-    BetList* FUN_005a6260();
-    bool FUN_00969b80();
-    int FUN_00969b40();
+    BetList* PlayerCharacter_GetCasinoDataList();
+    bool IsCasinoAntiCheat();
+    int GetAntiCheatTimeRemaining();
     int FUN_00575610(void*);
 };
 extern PlayerForRoulette* DAT_011dea3c;
@@ -624,10 +624,10 @@ extern float DAT_010162c0, DAT_0101e704;
 extern double DAT_010704f0, DAT_010704e8;
 Menu* __cdecl FUN_00a09030(int);
 bool __cdecl QueueUIMessage(const char*, int, const char*, const char*, float, bool);
-void __cdecl FUN_005b5e40(const char*);
+void __cdecl Warning_005b5e40(const char*);
 float __stdcall FUN_00a01530(int);
 Tile* __cdecl FUN_00a08b20(Tile*, const char*);
-Tile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int arg3, int exchange);
+Tile* __cdecl RouletteMenu_Create(RoulettePlayerStandIn* casino, int bet, int arg3, int exchange);
 struct RouletteEntry
 {
     int amount;
@@ -737,7 +737,7 @@ struct BoundRes
 {
     NiPoint3* FUN_006815c0();
 };
-NiAVObject* __cdecl FUN_004aae30(NiAVObject*, char*);
+NiAVObject* __cdecl BSUtilities_GetObjectByName(NiAVObject*, char*);
 struct SubObj
 {
     int unk00;
@@ -787,7 +787,7 @@ bool RouletteMenu::FUN_007bed70(int number)
     ++unk3fe4;
     ++unk3fe0;
     unk3fec += unk3fe8;
-    BSAudio::GetSingleton()->FUN_00ad7550("GAMERouletteIncreaseBet", 0x121).Play(false);
+    BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("GAMERouletteIncreaseBet", 0x121).Play(false);
     if (unk3fe0 >= 13)
         unk3fe0 = 3;
     while (!IsEyesListBelowThreshold(unk3fe0) && unk3fe4 < 10)

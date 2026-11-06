@@ -27,16 +27,18 @@ GrenadeProjectile::GrenadeProjectile(bool abFlag) : Projectile(abFlag)
 
 // Calls FUN_009c43e0 with the given arguments, then invokes HandleTracer, returning the result of the first call.
 // @fnv 0x009b4700
-bool GrenadeProjectile::FUN_009b4700(int aiArg, bool b)
+// src: COMMUNITY 0x009b4700
+bool GrenadeProjectile::TurnOff(int aiArg, bool b)
 {
-    bool r = FUN_009c43e0(aiArg, b);
+    bool r = Projectile_DisarmPlacedExplosives(aiArg, b);
     HandleTracer();
     return r;
 }
 
 extern double _gModifierZero;
 // @fnv 0x009b4c70
-void GrenadeProjectile::FUN_009b4c70()
+// src: COMMUNITY 0x009b4c70
+void GrenadeProjectile::ReportHavokDeactivation()
 {
     if (GetProjectileBase()->GetHasExplosionDetonates() ||
         (GetProjectileBase()->GetHasExplosionAltTrigger() &&
@@ -47,9 +49,10 @@ void GrenadeProjectile::FUN_009b4c70()
 }
 
 // @fnv 0x009b4d10
-void __thiscall GrenadeProjectile::FUN_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x009b4d10
+void __thiscall GrenadeProjectile::RevertBGS_009b4d10(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    Projectile::FUN_009c58e0(apLoadGameBuffer);
+    Projectile::RevertBGS_009c58e0(apLoadGameBuffer);
     bFlag150 = 0;
 }
 
@@ -891,7 +894,7 @@ extern TargetSettings DAT_011f2250;
 
 extern void __cdecl PlayMysteriousStrangerSound();
 
-extern Ref* __cdecl FUN_004b5a80(int);
+extern Ref* __cdecl bhkEntity_Getbhk(int);
 
 struct FormID
 {
@@ -989,7 +992,7 @@ struct ImpactProjectile : Ref
 
     void ApplyImpact(Ref*, const NiPoint3*, const NiPoint3*, Ref*, int);
 
-    NiPoint3 FUN_009b7010(Ref*);
+    NiPoint3 Projectile_GetMovementDirection(Ref*);
 
     void FUN_009c2e80(NiPoint3, NiPoint3);
 };
@@ -1036,7 +1039,7 @@ bool ImpactProjectile::ProcessHits()
                 else
                 {
 
-                    Ref* form = FUN_004b5a80(hit->itemID);
+                    Ref* form = bhkEntity_Getbhk(hit->itemID);
 
                     if (form && form->FUN_00517630() < 4)
 
@@ -1101,7 +1104,7 @@ bool ImpactProjectile::ProcessHits()
 
                         ApplyImpact(aTarget, &hit->position, &hit->normal, form, hit->unk20);
 
-                        FUN_009c2e80(hit->position, FUN_009b7010(form));
+                        FUN_009c2e80(hit->position, Projectile_GetMovementDirection(form));
                     }
                 }
             }

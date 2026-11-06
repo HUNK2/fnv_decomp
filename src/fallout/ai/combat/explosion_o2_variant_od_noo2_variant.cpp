@@ -441,7 +441,7 @@ class FUN_00cbd650_cls : public FUN_00cbd650_base
   public:
     void FUN_00cbd650(NiViewerStringArray* pkStrings);
 };
-char* __cdecl FUN_00a7d330(const char* pcString);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcString);
 extern const char* DAT_01268420;
 inline void* operator new(size_t, void* p)
 {
@@ -460,7 +460,7 @@ struct SmallAlignedState
 };
 struct StateAllocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int bytes);
+    void* __thiscall Game_DoHeapAlloc(unsigned int bytes);
 };
 extern StateAllocator DAT_011f6238;
 struct StateOwner
@@ -630,7 +630,7 @@ struct Obj
     void __thiscall FUN_00440460(NiPoint3* a);
     void __thiscall FUN_0043fa80(void* a);
     void* __thiscall FUN_00a5bdd0(void* a);
-    void* __thiscall FUN_0043b230();
+    void* __thiscall NiObjectNET_GetControllers();
     bool __thiscall FUN_004bae00();
     void __thiscall Update(Upd* a);
 };
@@ -683,8 +683,8 @@ struct TObj
 {
     Eyes* __thiscall FUN_0043c490();
 };
-Obj* __cdecl FUN_004aae30(Obj* a, void* b);
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+Obj* __cdecl BSUtilities_GetObjectByName(Obj* a, void* b);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 void* __cdecl _ref_0084e3a0(Proj* a);
 struct Local70
 {
@@ -917,10 +917,10 @@ struct __declspec(align(16)) Big
     Big();
     void __thiscall FUN_00507610(float a);
     void __thiscall FUN_006e4340(float a);
-    void __thiscall FUN_0056d360(int a);
+    void __thiscall bhkRigidBodyCinfo_SetMotionType(int a);
     void __thiscall FUN_005076c0(float a);
-    void __thiscall FUN_0056f0f0(void* a);
-    void __thiscall FUN_0056f110(void* a);
+    void __thiscall bhkRigidBodyCinfo_SetCollisionFilter(void* a);
+    void __thiscall bhkRigidBodyCinfo_SetShape(void* a);
     ~Big();
 };
 struct FilterValue
@@ -1003,7 +1003,7 @@ struct Acc
     int unkb4;
     Acc();
     void* __thiscall Ctor();
-    void __thiscall FUN_005468d0(int a);
+    void __thiscall BSMultiBoundNode_SetCullingMode(int a);
 };
 struct S1fc
 {
@@ -1056,7 +1056,8 @@ bool __cdecl FUN_0043b300(void* rtti, void* a);
 void __cdecl FUN_00a6d2d0(Obj* a);
 extern float DAT_01016970;
 // @fnv 0x009ad670
-void Explosion::FUN_009ad670()
+// src: COMMUNITY 0x009ad670
+void Explosion::Init3D()
 {
     GenerateNiNode(false);
     Obj* obj = (Obj*)GetNiNode();
@@ -1072,7 +1073,7 @@ void Explosion::FUN_009ad670()
         }
         if (*g_011d0fe4.Int() == 0)
         {
-            TObj* named = (TObj*)FUN_004aae30(obj, &DAT_0108f1a8);
+            TObj* named = (TObj*)BSUtilities_GetObjectByName(obj, &DAT_0108f1a8);
             if (named)
             {
                 scale = FUN_00644930() / named->FUN_0043c490()->Len();
@@ -1087,7 +1088,7 @@ void Explosion::FUN_009ad670()
                 }
                 else
                     name = FUN_004181e0()->name.Get();
-                FUN_005b5e40(&DAT_0108f16c, FUN_004181e0()->FUN_0084e3a0(), name);
+                Warning_005b5e40(&DAT_0108f16c, FUN_004181e0()->FUN_0084e3a0(), name);
                 scale = 1.0f;
             }
         }
@@ -1121,16 +1122,16 @@ void Explosion::FUN_009ad670()
                 Big info;
                 info.FUN_00507610(5.0f);
                 info.FUN_006e4340(0.0f);
-                info.FUN_0056d360(1);
+                info.bhkRigidBodyCinfo_SetMotionType(1);
                 info.FUN_005076c0(1.0f);
                 Temp622 filter;
-                info.FUN_0056f0f0(filter.Ctor(4, FUN_005dbe10(), 0)->FUN_00559450());
-                info.FUN_0056f110(shape);
+                info.bhkRigidBodyCinfo_SetCollisionFilter(filter.Ctor(4, FUN_005dbe10(), 0)->FUN_00559450());
+                info.bhkRigidBodyCinfo_SetShape(shape);
                 Body* body = new Body(&info);
                 collision->FUN_00c6b980(body);
                 obj->Vdc(node, 1);
                 Acc* accumulator = new Acc;
-                accumulator->FUN_005468d0(0xe);
+                accumulator->BSMultiBoundNode_SetCullingMode(0xe);
                 node->Vdc(accumulator, 1);
                 S1fc actionInfo;
                 actionInfo.Ctor();
@@ -1171,12 +1172,12 @@ void Explosion::FUN_009ad670()
             world->Vd8(obj, 1);
             EnsureLightingProperty(obj);
         }
-        Ctrl* ctrl = (Ctrl*)obj->FUN_0043b230();
+        Ctrl* ctrl = (Ctrl*)obj->NiObjectNET_GetControllers();
         if (!ctrl)
         {
             Ctrl* node = (Ctrl*)obj->V0c();
             if (node && node->FUN_0045bc00(0))
-                ctrl = (Ctrl*)((Obj*)node->FUN_0043b4a0(0))->FUN_0043b230();
+                ctrl = (Ctrl*)((Obj*)node->FUN_0043b4a0(0))->NiObjectNET_GetControllers();
         }
         Ctrl* manager = 0;
         while (ctrl)

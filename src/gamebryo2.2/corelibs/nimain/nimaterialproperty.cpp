@@ -237,7 +237,7 @@ struct MaterialViewerStringsArray
 };
 
 extern NiRTTI g_011f4a5c;
-char* __cdecl FUN_00a7d330(const char* pcText);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
 
 // Appends the RTTI name, spec, emit (external or local), shine, alpha and emit multiplier strings to the viewer strings array.
@@ -246,7 +246,7 @@ void __fastcall NiMaterialProperty_GetViewerStrings(NiMaterialProperty* pThis, v
 {
     reinterpret_cast<void(__thiscall*)(NiProperty*, MaterialViewerStringsArray*)>(
         NiProperty_GetViewerStrings)(pThis, pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_011f4a5c.m_pcName));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_011f4a5c.m_pcName));
     pkStrings->Add(reinterpret_cast<NiColor*>(&pThis->unk1c)->GetFormattedString("m_spec"));
     NiColor* externalEmit = reinterpret_cast<NiColor*>(pThis->unk34);
     if (externalEmit)

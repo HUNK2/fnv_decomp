@@ -58,7 +58,7 @@ struct CameraShotExtra : BGSCameraShot
     float FUN_00639aa0();
     void __thiscall ResetCameraState();
     float __thiscall GetFloatAtOffset58();
-    bool __thiscall FUN_009c8600();
+    bool __thiscall BGSCameraShot_IsFirstPerson();
     int GetField38();
     void SetByteAt76(unsigned char value);
 };
@@ -91,7 +91,7 @@ class VATS
     void FUN_009c8950(bool abForceQuit, bool abFinishCommandPlayback);
     void AddCommand(VATSCommand*);
     void FUN_009c6c30(int, bool);
-    void FUN_009ca2c0(TESObjectREFR*, int);
+    void ForceTargetKillShot(TESObjectREFR*, int);
     void FUN_009c9ae0(Actor*);
     void ProcessVATSCommands();
     bool FUN_008256d0();
@@ -99,14 +99,14 @@ class VATS
     void FUN_0063f7b0();
     void RemoveCommandsForTarget(TESObjectREFR*);
     bool IsValidCommand(VATSCommand*);
-    bool FUN_009c8f20(VATSCommand*);
+    bool VATS_GetLineOfSight(VATSCommand*);
     void ExecuteVATSMeleeAttack(VATSCommand*);
     void FUN_009c86b0();
     bool FUN_009c9920();
     VATSCommand* FUN_009c71c0();
     void HandleCommand(VATSCommand*);
     void SetValue(int);
-    void FUN_009c8e00(VATSCommand*);
+    void EvaluateCommand(VATSCommand*);
 };
 typedef char VATSSizeCheck[sizeof(VATS) == 0x48 ? 1 : -1];
 typedef char VATSModeOffsetCheck[offsetof(VATS, eMode) == 8 ? 1 : -1];
@@ -212,7 +212,8 @@ extern unsigned char DAT_012677cc;
 
 // Returns DAT_011afe78 when DAT_012677cc is set, otherwise DAT_011afe74.
 // @fnv 0x009c8ef0
-float __cdecl FUN_009c8ef0()
+// src: COMMUNITY 0x009c8ef0
+float __cdecl bhkWorld_GetMaxPickTime()
 {
     float fResult;
     if (DAT_012677cc)
@@ -272,13 +273,14 @@ VATSCommand* MyList::FUN_009c71f0()
     return 0;
 }
 
-float __cdecl FUN_009c8ef0();
+float __cdecl bhkWorld_GetMaxPickTime();
 extern float DAT_012677c4;
 // Returns true when the pick count override is not active and FUN_009c8ef0() is less than DAT_012677c4; otherwise false.
 // @fnv 0x009c8ea0
-bool __cdecl FUN_009c8ea0()
+// src: COMMUNITY 0x009c8ea0
+bool __cdecl bhkWorld_GetPickTimeOverMax()
 {
-    return !bhkWorld::QPickCountOverride() ? FUN_009c8ef0() < DAT_012677c4 : false;
+    return !bhkWorld::QPickCountOverride() ? bhkWorld_GetMaxPickTime() < DAT_012677c4 : false;
 }
 
 // @fnv 0x009c9900
@@ -329,11 +331,12 @@ struct FUN_0063cfe0_shell
 {
     char _pad_00[0x18];
     FUN_0063cfe0_Inner m_inner;
-    void FUN_0063cfe0();
+    void TESClimate_GetNightSkyModel();
 };
 
 // @fnv 0x0063cfe0
-void FUN_0063cfe0_shell::FUN_0063cfe0()
+// src: COMMUNITY 0x0063cfe0
+void FUN_0063cfe0_shell::TESClimate_GetNightSkyModel()
 {
     m_inner.v5();
 }
@@ -401,11 +404,12 @@ void __cdecl SetContextInfo(HitData*, VATSCommand*);
 
 
 // @fnv 0x009c8e00
-void VATS::FUN_009c8e00(VATSCommand* apCommand)
+// src: COMMUNITY 0x009c8e00
+void VATS::EvaluateCommand(VATSCommand* apCommand)
 {
     if (apCommand && FUN_0066dde0(apCommand->eAction))
     {
-        if (apCommand->bSuccess && apCommand->pTarget && !FUN_009c8ea0())
+        if (apCommand->bSuccess && apCommand->pTarget && !bhkWorld_GetPickTimeOverMax())
         {
             if (!DAT_011f21f0->FUN_0088b880(1, (Actor*)apCommand->pTarget, 1, 0, 0))
             {
@@ -659,7 +663,7 @@ void VATS::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                 {
                     ((Actor*)DAT_011f21f0)->SetPos(&targetPos);
                     reinterpret_cast<void (__thiscall*)(Actor*, TESObjectREFR*)>((*reinterpret_cast<void***>(DAT_011f21f0))[0xB0])((Actor*)DAT_011f21f0, pAttackCmd->pTarget);
-                    if (g_thePlayer == DAT_011f21f0 && !this->FUN_009c8f20(pAttackCmd))
+                    if (g_thePlayer == DAT_011f21f0 && !this->VATS_GetLineOfSight(pAttackCmd))
                     {
                         ((Actor*)DAT_011f21f0)->SetPos(((const TESObjectREFR*)pAttackCmd->pTarget)->GetPos());
                         reinterpret_cast<void (__thiscall*)(Actor*, TESObjectREFR*)>((*reinterpret_cast<void***>(DAT_011f21f0))[0xB0])((Actor*)DAT_011f21f0, pAttackCmd->pTarget);
@@ -793,11 +797,12 @@ struct Cmd9c9
 struct CmdList9c9
 {
     Cmd9c9** FUN_006815c0();
-    NiPoint3 FUN_009c9fe0(float fDistance);
+    NiPoint3 VATS_GetTargetPercentagePos(float fDistance);
 };
 
 // @fnv 0x009c9fe0
-NiPoint3 CmdList9c9::FUN_009c9fe0(float afScale)
+// src: COMMUNITY 0x009c9fe0
+NiPoint3 CmdList9c9::VATS_GetTargetPercentagePos(float afScale)
 {
     NiPoint3 kPlayerPos = (const NiPoint3&)((TESObjectREFR*)DAT_011f21f0)->Get3D()->FUN_0043d450().GetNavMeshData();
     Cmd9c9* pkCmd = *FUN_006815c0();
@@ -916,7 +921,8 @@ struct VatsCmd_ca2c0 : public VATSCommand
 
 // Creates a VATS command targeting a1, sets its action, success, and hit data, then queues it and updates the VATS state.
 // @fnv 0x009ca2c0
-void VATS::FUN_009ca2c0(TESObjectREFR* apTarget, int a2)
+// src: COMMUNITY 0x009ca2c0
+void VATS::ForceTargetKillShot(TESObjectREFR* apTarget, int a2)
 {
     FUN_009c8950(false, false);
     VATSCommand* cmd = new VatsCmd_ca2c0();
@@ -1047,7 +1053,7 @@ bool __thiscall VATS::FUN_009c9920()
         {
             m_fCameraDuration = static_cast<CameraShotExtra*>(pCamera)->GetFloatAtOffset58();
         }
-        if (pCamera && static_cast<CameraShotExtra*>(pCamera)->FUN_009c8600())
+        if (pCamera && static_cast<CameraShotExtra*>(pCamera)->BGSCameraShot_IsFirstPerson())
         {
             DAT_011dea3c->FUN_00950110(true);
         }

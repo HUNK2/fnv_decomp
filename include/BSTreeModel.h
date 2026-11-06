@@ -89,8 +89,8 @@ class BSTreeModel : public NiRefObject
     void vf05();
     void vf06();
     unsigned int FUN_00726070();
-    bool FUN_0066ac40(TESObjectTREE*, unsigned int);
-    bool FUN_0066ac40(TreeModelInput*, int);
+    bool BSTreeModel_InitFromBase(TESObjectTREE*, unsigned int);
+    bool BSTreeModel_InitFromBase(TreeModelInput*, int);
     bool FUN_00666f00();
     unsigned short __thiscall FUN_00669990();
     unsigned short FUN_006699d0();

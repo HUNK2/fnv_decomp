@@ -202,7 +202,8 @@ unsigned int ReadEncodedInteger(char* buffer, unsigned int& value)
 MemoryManager* __cdecl FUN_00401020(void);
 
 // @fnv 0x00401030
-void __cdecl FUN_00401030(void* ptr)
+// src: COMMUNITY 0x00401030
+void __cdecl FormHeapFreeAndLog_00401030(void* ptr)
 {
     FUN_00401020()->Deallocate(ptr);
 }
@@ -268,7 +269,8 @@ void __cdecl FUN_00845cc0(const char* apMessage, ...)
 }
 
 // @fnv 0x00845d40
-unsigned int FUN_00845d40(unsigned int value)
+// src: COMMUNITY 0x00845d40
+unsigned int GetSizeTypeForSize(unsigned int value)
 {
     if (value <= 0xff)
         return 0;

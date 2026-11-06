@@ -12,7 +12,8 @@ extern void* g_011f3f28;
 
 // Returns the address of the global pointer g_011f3f28.
 // @fnv 0x00a46b60
-void* __cdecl FUN_00a46b60()
+// src: COMMUNITY 0x00a46b60
+void* __cdecl NiTextKeyExtraData_GetRTTI()
 {
     return &g_011f3f28;
 }
@@ -180,7 +181,7 @@ struct StrArray
     }
 };
 
-char* FUN_00a7d330(const char* s);
+char* NiViewerStrings_NiGetViewerString_Title(const char* s);
 char* FUN_00a7d510(const char* s, unsigned int v);
 char* FUN_00a7d550(const char* s, float v);
 char* FUN_00a7d5e0(const char* s, const char* v);
@@ -195,7 +196,7 @@ void __cdecl GetExtraDataViewerStrings();
 void __fastcall WriteTextKeyStrings(NiTextKeyExtraData* self, void*, StrArray* pkStrings)
 {
     reinterpret_cast<void (__thiscall*)(NiExtraData*, StrArray*)>(&GetExtraDataViewerStrings)(self, pkStrings);
-    pkStrings->Add(FUN_00a7d330((const char*)g_011f3f28));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title((const char*)g_011f3f28));
     pkStrings->Add(FUN_00a7d510("m_uiNumKeys", self->m_uiNumKeys));
 
     for (unsigned int i = 0; i < self->m_uiNumKeys; i++)

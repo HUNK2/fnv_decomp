@@ -103,7 +103,7 @@ struct FUN_00cd0c80
 };
 struct CallTarget_00cd1d80
 {
-    int FUN_00cd1d80(int, int, int, int, int);
+    int hkArrayBase__spliceInto(int, int, int, int, int);
 };
 struct SearchObject
 {
@@ -119,7 +119,7 @@ struct FUN_00cd06f0_cls
 };
 struct CD0730Object
 {
-    virtual int FUN_00cd0730(const void* info) const;
+    virtual int hkFreeListMemorySystem_Func010(const void* info) const;
 };
 extern const char str_01094d90[];
 struct Gap040

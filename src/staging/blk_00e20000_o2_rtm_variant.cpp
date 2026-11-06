@@ -1638,7 +1638,7 @@ int main(void)
     probe_fn f = g_keep;
     return (int)f();
 }
-void __cdecl FUN_00e2abd0();
+void __cdecl nullsub_333();
 extern "C" unsigned int be_arg_src_e2f9(void);
 volatile unsigned int g_be_sink_e2f9;
 static unsigned int SwapByteOrder(unsigned int x);
@@ -2037,7 +2037,7 @@ struct __declspec(align(16)) CastCollector
 extern int DAT_010dbaf8, DAT_010dbae4, DAT_010dbad8, DAT_010dbacc, DAT_010dbb04;
 void __cdecl FUN_00d98ca0(void*, void*, S_00df8990_Obj*, void*, void*);
 void __cdecl hkTreeRayCastJobUtil_castRayKdTree(void* caster, S_00df8990_Obj* source, int value, CastOutput* output);
-void __cdecl FUN_00e2cfc0();
+void __cdecl nullsub_334();
 void FUN_00e2cfd0();
 #include <xmmintrin.h>
 float __cdecl FUN_00e52f40();

@@ -171,11 +171,12 @@ struct S_00b5a4a0
     void SetTextureArraySize(int n);
     void FUN_00ba3c70(int idx, ImageSpaceTexture* tex, S_00b5a4a0_Param* param, int d);
     void SetEffectParamAt(int a, int b, int c);
-    void FUN_00b5a4a0(S_00b5a4a0_Src* src, int unused);
+    void ImageSpaceEffect__Setup(S_00b5a4a0_Src* src, int unused);
 };
 
 // @fnv 0x00b5a4a0
-void S_00b5a4a0::FUN_00b5a4a0(S_00b5a4a0_Src* src, int unused)
+// src: COMMUNITY 0x00b5a4a0
+void S_00b5a4a0::ImageSpaceEffect__Setup(S_00b5a4a0_Src* src, int unused)
 {
     SetTextureArraySize(1);
     S_00b5a4a0_Param* param = new S_00b5a4a0_Param;

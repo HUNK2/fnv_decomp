@@ -869,10 +869,11 @@ bool EffectStateAccess::ClearCasterIfMatch(MagicCaster* apCaster)
     return bMatched;
 }
 
-void FUN_00806840(BGSSaveFormBuffer*, BGSPerkEntry*);
+void ActiveEffect_SaveActiveEffectBGS(BGSSaveFormBuffer*, BGSPerkEntry*);
 
 // @fnv 0x00806a10
-void FUN_00806a10(BGSSaveFormBuffer* pBuffer, BSSimpleList<BGSPerkEntry*>* pPerkList)
+// src: COMMUNITY 0x00806a10
+void ActiveEffect_SaveActiveEffectListBGS(BGSSaveFormBuffer* pBuffer, BSSimpleList<BGSPerkEntry*>* pPerkList)
 {
     int count = 0;
     unsigned int size = pBuffer->FUN_00865f20();
@@ -882,7 +883,7 @@ void FUN_00806a10(BGSSaveFormBuffer* pBuffer, BSSimpleList<BGSPerkEntry*>* pPerk
         BGSPerkEntry* pEntry = pCurrent->GetItem();
         if (pEntry)
         {
-            FUN_00806840(pBuffer, pEntry);
+            ActiveEffect_SaveActiveEffectBGS(pBuffer, pEntry);
             ++count;
         }
         pCurrent = pCurrent->GetNext();
@@ -1290,7 +1291,7 @@ struct Obj80
 };
 struct AudioSys
 {
-    BSSoundHandle __thiscall FUN_00ad73b0(int a, int b);
+    BSSoundHandle __thiscall GetSoundHandleByFormID_00ad73b0(int a, int b);
 };
 AudioSys* __cdecl FUN_00453a70();
 void* __cdecl GetFlagMask(int v);
@@ -1328,7 +1329,7 @@ void __thiscall ActiveEffect::ResetEffectState()
                     if (objC2)
                     {
                         struct { float x, y, z; } pt5;
-                        BSSoundHandle sound2 = FUN_00453a70()->FUN_00ad73b0(var10_2, 0x102);
+                        BSSoundHandle sound2 = FUN_00453a70()->GetSoundHandleByFormID_00ad73b0(var10_2, 0x102);
                         *reinterpret_cast<NiPoint3*>(&pt5) = *objC2->GetPoint1f4();
                         sound2.SetPosition(pt5.x, pt5.y, pt5.z);
                         sound2.Play(flag_);
@@ -1390,7 +1391,7 @@ unsigned short ActiveEffect::GetSaveSize(Actor* apActor)
 
 struct CasterSaveID
 {
-    unsigned int FUN_00818be0();
+    unsigned int MagicCaster_GetMagicCasterFormID();
 };
 struct TargetSaveID
 {
@@ -1419,7 +1420,7 @@ void ActiveEffect::SaveGame(Actor* actor)
     DAT_011de45c->FUN_008579b0(&fDuration, 4);
     unsigned int casterID = 0;
     if (m_pEffectInstance)
-        casterID = ((CasterSaveID*)m_pEffectInstance)->FUN_00818be0();
+        casterID = ((CasterSaveID*)m_pEffectInstance)->MagicCaster_GetMagicCasterFormID();
     DAT_011de45c->FUN_00857a10(&casterID, 4u);
     unsigned int targetID = 0;
     if (pTarget)
@@ -1720,7 +1721,8 @@ void ProcessActiveEffect(ActiveEffect* apEffect, Actor* apActor);
 
 // Serializes the active-effect list for an actor, writing a block marker and size, counting entries, and logging the block size when debug output is enabled.
 // @fnv 0x00805b40
-void FUN_00805b40(AENode* apList, Actor* apActor)
+// src: COMMUNITY 0x00805b40
+void ActiveEffect_SaveActiveEffectList(AENode* apList, Actor* apActor)
 {
     unsigned short usZero6 = 0;
     char* pSizePos8 = 0;
@@ -1852,7 +1854,8 @@ class B806840SaveBuffer
 
 
 // @fnv 0x00806840
-void __cdecl FUN_00806840(B806840SaveBuffer* pkBuffer, ActiveEffect* pkEffect)
+// src: COMMUNITY 0x00806840
+void __cdecl ActiveEffect_SaveActiveEffectBGS(B806840SaveBuffer* pkBuffer, ActiveEffect* pkEffect)
 {
     pkBuffer->SerializeFormData(pkEffect->pSpell ? GetMagicItemFormID(pkEffect->pSpell) : 0, 0);
     bool bInList2 = ((B806840EffectList*)(reinterpret_cast<char*>(pkEffect->pSpell) + (offsetof(MagicItem, m_iEffectCount) - offsetof(EffectItemList, m_iEffectCount))))->Contains(reinterpret_cast<B806840EffectItem*>(pkEffect->pEffect));

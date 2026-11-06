@@ -242,11 +242,12 @@ unsigned short FactionAccess::GetFactionSaveSize(unsigned int aiFlags)
 
 struct FUN_005ff520_shell
 {
-    unsigned int FUN_005ff520(unsigned int flags);
+    unsigned int TESIdleForm_GetIndexForChild(unsigned int flags);
 };
 
 // @fnv 0x005ff520
-unsigned int FUN_005ff520_shell::FUN_005ff520(unsigned int apForm)
+// src: COMMUNITY 0x005ff520
+unsigned int FUN_005ff520_shell::TESIdleForm_GetIndexForChild(unsigned int apForm)
 {
     unsigned int index = 0xffffffff;
     if (*reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x40))
@@ -411,7 +412,7 @@ void FactionAccess::SaveFactionGame(BGSSaveFormBuffer* buffer)
 }
 
 namespace fnv_005fd850 {
-int __fastcall FUN_00871a30(int);
+int __fastcall TESDataHandler_GetFactions(int);
 int __fastcall FNV_GetFormType(TESForm*);
 void FNV_Warning(const char*, ...);
 struct Node_006815c0
@@ -436,7 +437,7 @@ struct Reaction_5fd850
 // @fnv 0x005fd850
 void ValidateFactionReactions()
 {
-    BSSimpleList<TESFaction*>* pIter = (BSSimpleList<TESFaction*>*)FUN_00871a30((int)g_dataHandler);
+    BSSimpleList<TESFaction*>* pIter = (BSSimpleList<TESFaction*>*)TESDataHandler_GetFactions((int)g_dataHandler);
     while (pIter)
     {
         TESFaction* pFaction = (TESFaction*)*((Node_006815c0*)pIter)->_ref_006815c0();

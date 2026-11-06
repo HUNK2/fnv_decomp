@@ -212,7 +212,7 @@ struct SunBillboardNode : NiBillboardNode
     SunBillboardNode();
     static void operator delete(void*, unsigned int);
     void FUN_004902f0(bool);
-    void FUN_0051d000(int);
+    void SetMode_0051d000(int);
 };
 // Preserve the original sized delete call when construction fails. The shared
 // NiAVObject allocation interface also declares an unsized delete overload.
@@ -339,7 +339,7 @@ void Sun::Init(NiNode* apSkyRoot)
 
     (NP&)((Sun*)this)->m_pFirstSceneObject = new SunBillboardNode;
     ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pFirstSceneObject).FUN_00559450())->FUN_004902f0(true);
-    ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pFirstSceneObject).FUN_00559450())->FUN_0051d000(2);
+    ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pFirstSceneObject).FUN_00559450())->SetMode_0051d000(2);
     ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pFirstSceneObject).FUN_00559450())
         ->AttachChildInAvailableSlot((NiTriShape*)((const NP&)((Sun*)this)->m_pThirdSceneObject).FUN_00559450(), true);
 
@@ -349,7 +349,7 @@ void Sun::Init(NiNode* apSkyRoot)
 
     (NP&)((Sun*)this)->m_pSecondSceneObject = new SunBillboardNode;
     ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pSecondSceneObject).FUN_00559450())->FUN_004902f0(true);
-    ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pSecondSceneObject).FUN_00559450())->FUN_0051d000(2);
+    ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pSecondSceneObject).FUN_00559450())->SetMode_0051d000(2);
     ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pSecondSceneObject).FUN_00559450())
         ->FUN_00440490(((Sun*)this)->m_fSunGlareIntensity);
     ((SunBillboardNode*)((const NP&)((Sun*)this)->m_pSecondSceneObject).FUN_00559450())
@@ -370,7 +370,7 @@ void Sun::Init(NiNode* apSkyRoot)
     // NiPick.h lacks these two setters; retain their existing out-of-line calls.
     ((QuantityData*)((Sun*)this)->m_pSunGlarePick)->SetQuantity(1);
     ((TESObjectREFR*)((Sun*)this)->m_pSunGlarePick)->SetFlags(1);
-    ((NiPick*)((Sun*)this)->m_pSunGlarePick)->FUN_00632d20(true);
+    ((NiPick*)((Sun*)this)->m_pSunGlarePick)->RadioEntry_Data_SetLastSignalStrength(true);
     ((NiPick*)((Sun*)this)->m_pSunGlarePick)->SetByteAtOffset17(true);
 
     ((FUN_00baf3c0_S*)&bsshaderdata)->FUN_00baf3c0();
@@ -470,7 +470,7 @@ typedef char _sizecheck_TESFullName[sizeof(TESFullName) == 12 ? 1 : -1];
 struct SunUpdate : public Sun
 {
     void UpdateSun(Sky*, float);
-    float FUN_006427c0();
+    float Sun_GetSunOcclusionPercent();
     void FUN_00642890();
 };
 
@@ -495,17 +495,17 @@ struct PropHelper
 struct Cell_S
 {
     unsigned int FUN_00544910();
-    unsigned int FUN_00544970();
+    unsigned int GetDirectionalZ();
 };
 float __cdecl FUN_00408860(float);
 float __cdecl FUN_004dd130(float, float);
-bool FUN_004e2180();
+bool TESWaterSystem_GetPlayerUnderwater();
 NiAVObject* __fastcall FUN_00558310(NiNode*);
 NiNode* FUN_0045c670();
-float __fastcall FUN_00595ea0(char*);
-float __fastcall FUN_00595f50(char*);
-float __fastcall FUN_00595fc0(char*);
-float __fastcall FUN_00596030(void*);
+float __fastcall Sky_GetSunriseBegin(char*);
+float __fastcall Sky_GetSunriseEnd(char*);
+float __fastcall Sky_GetSunsetBegin(char*);
+float __fastcall Sky_GetSunsetEnd(void*);
 float __fastcall FUN_006447d0(const char*);
 float __fastcall GetFieldEC(const char*);
 void __fastcall _ref_006815c0(void*);
@@ -551,7 +551,7 @@ void SunUpdate::UpdateSun(Sky* apSky, float afSecondsPassed)
             SunUninitialized<NiMatrix3> rotmat;
             _ref_006815c0(&SUN_VALUE(NiMatrix3, rotmat));
             SUN_VALUE(NiMatrix3, lightDir).MakeZRotation(((Cell_S*)pcell)->FUN_00544910() * DAT_01023128);
-            SUN_VALUE(NiMatrix3, rotmat).MakeYRotation(((Cell_S*)pcell)->FUN_00544970() * DAT_01023128);
+            SUN_VALUE(NiMatrix3, rotmat).MakeYRotation(((Cell_S*)pcell)->GetDirectionalZ() * DAT_01023128);
             SUN_VALUE(NiMatrix3, lightDir) =
                 static_cast<const NiMatrix3&>(SUN_VALUE(NiMatrix3, lightDir)) *
                 SUN_VALUE(NiMatrix3, rotmat);
@@ -579,7 +579,7 @@ void SunUpdate::UpdateSun(Sky* apSky, float afSecondsPassed)
             SunUninitialized<NiMatrix3> rotmat;
             _ref_006815c0(&SUN_VALUE(NiMatrix3, rotmat));
             SUN_VALUE(NiMatrix3, lightDir).MakeZRotation(((Cell_S*)pcell)->FUN_00544910() * DAT_01023128);
-            SUN_VALUE(NiMatrix3, rotmat).MakeYRotation(((Cell_S*)pcell)->FUN_00544970() * DAT_01023128);
+            SUN_VALUE(NiMatrix3, rotmat).MakeYRotation(((Cell_S*)pcell)->GetDirectionalZ() * DAT_01023128);
             SUN_VALUE(NiMatrix3, lightDir) =
                 static_cast<const NiMatrix3&>(SUN_VALUE(NiMatrix3, lightDir)) *
                 SUN_VALUE(NiMatrix3, rotmat);
@@ -601,8 +601,8 @@ void SunUpdate::UpdateSun(Sky* apSky, float afSecondsPassed)
     {
         ((NiAVObject*)((const NP&)m_pRootNode).FUN_00559450())
             ->SetAppCulled(!((NiAVObject*)((const NP&)m_pRootNode).FUN_00559450())->FUN_006366b0());
-        float fSunriseBegin = (FUN_00595f50((char*)apSky) + FUN_00595ea0((char*)apSky)) / 2.0;
-        float fSunsetEnd = (FUN_00596030(apSky) + FUN_00595fc0((char*)apSky)) / 2.0;
+        float fSunriseBegin = (Sky_GetSunriseEnd((char*)apSky) + Sky_GetSunriseBegin((char*)apSky)) / 2.0;
+        float fSunsetEnd = (Sky_GetSunsetEnd(apSky) + Sky_GetSunsetBegin((char*)apSky)) / 2.0;
         float fhalftrans = *originalRuntimeFloatSetting82.Float() * DAT_01011588;
         float fAlphaInBegin = fSunriseBegin - fhalftrans;
         float fAlphaInEnd = fSunriseBegin + fhalftrans;
@@ -704,8 +704,8 @@ void SunUpdate::UpdateSun(Sky* apSky, float afSecondsPassed)
             float fscaleChange = *originalRuntimeFloatSetting81.Float() * afSecondsPassed;
             SUN_VALUE(NiPoint3, direction).ComputeMagnitude();
             bool bblocked =
-                this->FUN_006427c0() >= 1.0 || (((EffectSetting*)g_TES)->GetEffectID(), FUN_004e2180());
-            float fscale = FUN_004dd130(1.0f - this->FUN_006427c0(), _DAT_010162c0);
+                this->Sun_GetSunOcclusionPercent() >= 1.0 || (((EffectSetting*)g_TES)->GetEffectID(), TESWaterSystem_GetPlayerUnderwater());
+            float fscale = FUN_004dd130(1.0f - this->Sun_GetSunOcclusionPercent(), _DAT_010162c0);
             this->FUN_00642890();
             if (bblocked || fscale < *originalRuntimeFloatSetting80.Float())
             {

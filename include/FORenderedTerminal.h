@@ -21,7 +21,7 @@ public:
     virtual ~FORenderedTerminal();
 
     NiAVObject* GetTerminalScreenObject();
-    NiAVObject* FUN_007ffad0();
+    NiAVObject* GetParentNodeToRender();
     void FUN_007060d0();
     void* DestroyIfFlagged(unsigned int);
     void FUN_007ffaf0();

@@ -31,7 +31,7 @@
 class LockFreeMap_TESObjectREFR___BSTreeNode___;
 extern BSTreeManager* DAT_011d5c48;
 extern TES* g_TES;
-void FUN_00664940();
+void BSTreeManager_Destroy_();
 void* FUN_00664840(bool);
 void SetGlobalValue(bool);
 void SetGlobalFloatFromUInt(unsigned int);
@@ -48,7 +48,7 @@ void BSTreeManager::Create(bool create)
     if (DAT_011d5c48)
     {
         if (create)
-            FUN_00664940();
+            BSTreeManager_Destroy_();
         else
             return;
     }
@@ -126,7 +126,8 @@ void BSTreeModel::SetByteAtOffset44(unsigned char value)
 extern Setting originalRuntimeFloatSetting1295;
 
 // @fnv 0x006655a0
-float FUN_006655a0()
+// src: COMMUNITY 0x006655a0
+float GameSetting_fTreeNearDistanceBase_Get()
 {
     return *originalRuntimeFloatSetting1295.Float();
 }
@@ -146,7 +147,8 @@ extern unsigned char* __cdecl _FUN_00664840(bool);
 
 // Returns 1 if GetFirstProcessListByte succeeds and the byte at offset 0x18 of the object from _FUN_00664840(true) is nonzero, otherwise 0.
 // @fnv 0x0054ee20
-unsigned char FUN_0054ee20(bool abCreateIfNotFound)
+// src: COMMUNITY 0x0054ee20
+unsigned char BSTreeManager_GetTreesEnabled(bool abCreateIfNotFound)
 {
     int result;
     if (GetFirstProcessListByte() && ((unsigned char*)(_FUN_00664840(true) + 0x18))[0])
@@ -162,7 +164,8 @@ struct S664990
 };
 // If DAT_011d5c48 is set, calls its DestroyIfFlagged with 1, then clears DAT_011d5c48.
 // @fnv 0x00664940
-void FUN_00664940()
+// src: COMMUNITY 0x00664940
+void BSTreeManager_Destroy_()
 {
     void* b;
     if (DAT_011d5c48)
@@ -200,16 +203,18 @@ void* FUN_00664990_shell::DestroyIfFlagged(unsigned int flags)
 extern Setting DAT_011f9158;
 // Returns the result of FUN_006655a0 multiplied by the float value stored in DAT_011f9158.
 // @fnv 0x00665570
-float FUN_00665570()
+// src: COMMUNITY 0x00665570
+float fTreeNearDistance_Get()
 {
-    return (double)FUN_006655a0() * *DAT_011f9158.Float();
+    return (double)GameSetting_fTreeNearDistanceBase_Get() * *DAT_011f9158.Float();
 }
 
 double GetOriginalRuntimeFloatSetting1296();
 extern Setting DAT_011f9158;
 // Returns the value from GetOriginalRuntimeFloatSetting1296 multiplied by the float stored in DAT_011f9158.
 // @fnv 0x006655c0
-float FUN_006655c0()
+// src: COMMUNITY 0x006655c0
+float fTreeFarDistanceBase_Get()
 {
     return GetOriginalRuntimeFloatSetting1296() * *DAT_011f9158.Float();
 }
@@ -273,7 +278,7 @@ struct CP_008c48d0
 };
 struct FUN_00450570_shell
 {
-    TESFile* FUN_00450570();
+    TESFile* Sky_GetFog();
 };
 struct FUN_004534f0_shell
 {
@@ -318,10 +323,10 @@ void FUN_006652e0(NiAVObject* apCamera, bool abMenuMode)
                 *(float*)(_FUN_00664840(1) + 0x14) =
                     ((Sky*)((BSShaderNoLightingProperty*)g_TES)->GetBaseTexture())->GetFieldCC();
             if ((unsigned int)(NiProperty*)*(NiPointer<NiProperty>*)(_FUN_00664840(1) + 8) &&
-                ((FUN_00450570_shell*)((BSShaderNoLightingProperty*)g_TES)->GetBaseTexture())->FUN_00450570())
+                ((FUN_00450570_shell*)((BSShaderNoLightingProperty*)g_TES)->GetBaseTexture())->Sky_GetFog())
             {
                 NiColor col = *(const NiColor*)((FUN_00450570_shell*)((BSShaderNoLightingProperty*)g_TES)->GetBaseTexture())
-                           ->FUN_00450570()
+                           ->Sky_GetFog()
                            ->GetName();
                 ((FUN_004534f0_shell*)(unsigned int)(NiProperty*)*(NiPointer<NiProperty>*)(_FUN_00664840(1) + 8))->FUN_004534f0((unsigned int)&col);
                 ((FUN_004534f0_shell*)(unsigned int)(NiProperty*)*(NiPointer<NiProperty>*)(_FUN_00664840(1) + 8))->FUN_004534f0((unsigned int)&col);
@@ -583,7 +588,7 @@ NiPointer<NiTexture>* Mgr6649c0::GetOrCreateTexturePointer(unsigned int key)
 class TreeReference : public TESObjectREFR
 {
   public:
-    unsigned int FUN_005692d0();
+    unsigned int TESObjectREFR_GetSpeedTreeSeed();
     float FUN_00567400();
 };
 class LockFreeMap_TESObjectREFR___BSTreeNode___
@@ -623,7 +628,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
     }
     unsigned int node = 1;
     if (reference)
-        node = reference->FUN_005692d0();
+        node = reference->TESObjectREFR_GetSpeedTreeSeed();
     ((TreeModelManager*)FUN_00664840(true))->GetOrCreateModel(tree, node, scale);
     if (!(BSTreeModel*)scale)
         return 0;
@@ -638,7 +643,7 @@ NiAVObject* TreeManager::CreateTreeInstance(TreeReference* reference, TESObjectT
     }
     else
     {
-        if (!((BSTreeModel*)scale)->FUN_0066ac40(tree, node))
+        if (!((BSTreeModel*)scale)->BSTreeModel_InitFromBase(tree, node))
             return 0;
         model = scale;
     }
@@ -820,8 +825,8 @@ struct WindFrequency
 {
     float x, y;
 };
-float FUN_0063c600(float);
-float FUN_0057e960(float);
+float NiSinQ(float);
+float NiCosQ(float);
 namespace std {
 double abs(float);
 }
@@ -850,8 +855,8 @@ void C6658::Update()
         if (value != 0.0)
             ((float*)&DAT_011d5dd8)[i] = ((float*)&DAT_011d5dd8)[i] * (*(float*)&DAT_011d5de8) / value;
         float speed4 = value * 20.0;
-        float s7 = FUN_0063c600(speed4 * ((WindFrequency*)&DAT_0119b8cc)[i].x * ((float*)&DAT_011d5dd8)[i]);
-        float c = FUN_0057e960(speed4 * ((WindFrequency*)&DAT_0119b8cc)[i].y * ((float*)&DAT_011d5dd8)[i]);
+        float s7 = NiSinQ(speed4 * ((WindFrequency*)&DAT_0119b8cc)[i].x * ((float*)&DAT_011d5dd8)[i]);
+        float c = NiCosQ(speed4 * ((WindFrequency*)&DAT_0119b8cc)[i].y * ((float*)&DAT_011d5dd8)[i]);
         if (i == 2)
         {
             sum += std::abs(s7);

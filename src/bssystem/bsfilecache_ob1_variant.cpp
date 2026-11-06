@@ -21,11 +21,12 @@ inline bool IsCachePaused(BSFileCache* m_pAabbCache)
 struct Cls00b01220
 {
     unsigned char unk00;
-    Cls00b01220* __thiscall FUN_00b01220(int unused);
+    Cls00b01220* __thiscall AutoPauseFileCaching_AutoPauseFileCaching(int unused);
 };
 
 // @fnv 0x00b01220
-Cls00b01220* __thiscall Cls00b01220::FUN_00b01220(int unused)
+// src: COMMUNITY 0x00b01220
+Cls00b01220* __thiscall Cls00b01220::AutoPauseFileCaching_AutoPauseFileCaching(int unused)
 {
     BSFileCache* pCache1 = FUN_00aff100();
     if (!IsCacheFinished(pCache1))

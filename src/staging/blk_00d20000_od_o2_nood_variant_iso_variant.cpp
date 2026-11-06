@@ -123,9 +123,9 @@ void FUN_00d39130();
 void ReleaseHandles();
 void RemoveKeyFromTable();
 void InsertIntoSlotArray();
-void FUN_00d39090();
+void nullsub_15();
 void FUN_00d39150();
-void FUN_00d39390();
+void hkCapsuleTriangleAgent3_process();
 void __cdecl hkCapsuleTriangleAgent3_registerAgent3(hkpCollisionDispatcher* pkDispatcher);
 extern "C"
 {

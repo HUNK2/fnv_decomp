@@ -113,12 +113,13 @@ struct FUN_006ab150_shell
 {
     char m_data[0xc8];
     NiPoint3 m_kPoint;
-    NiPoint3& FUN_006ab150(NiPoint3& akDest);
+    NiPoint3& PathingRequestLOS_GetSearchCenter(NiPoint3& akDest);
 };
 
 // Copies the stored point into akDest and returns akDest.
 // @fnv 0x006ab150
-NiPoint3& FUN_006ab150_shell::FUN_006ab150(NiPoint3& akDest)
+// src: COMMUNITY 0x006ab150
+NiPoint3& FUN_006ab150_shell::PathingRequestLOS_GetSearchCenter(NiPoint3& akDest)
 {
     akDest = m_kPoint;
     return akDest;
@@ -225,7 +226,7 @@ void FUN_006aac10_shell::InitNavMeshPoint(void* p, NavMesh* n, unsigned short t)
     if (((unsigned char*)((char*)this + 0x2074))[0])
         ((float*)p)[1] =
             ((NiPoint3*)&(reinterpret_cast<const NiPoint3&>(vecPos) -
-                          ((NavMeshTriangleReference*)((char*)this + 0x2078))->FUN_006a6eb0()))
+                          ((NavMeshTriangleReference*)((char*)this + 0x2078))->FastNavMeshTriLocation_GetLocation()))
                 ->FUN_00589850();
     else
         ((float*)p)[1] = 0.0f;
@@ -262,7 +263,7 @@ struct QueryObject
     bool FUN_0073cb80();
     void* FUN_006c9900();
     double GetFirstLightParameter();
-    PodPoint3 FUN_006ab150();
+    PodPoint3 PathingRequestLOS_GetSearchCenter();
     double GetFloatAtOffset68();
     VectVec* GetString();
 };
@@ -338,7 +339,7 @@ extern MaterialObject* __cdecl FUN_004839c0(unsigned int materialID);
 // @fnv 0x006aacb0
 unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* output)
 {
-    NiPoint3 originPos = ((NavMeshTriangleReference*)&origin->node)->FUN_006a6eb0();
+    NiPoint3 originPos = ((NavMeshTriangleReference*)&origin->node)->FastNavMeshTriLocation_GetLocation();
     for (int edgeIndex = 0; edgeIndex < 3; ++edgeIndex)
     {
         unsigned short connectedTri;
@@ -406,7 +407,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                             PodPoint3 vecDifference =
                                                 reinterpret_cast<const PodPoint3&>(
                                                     connectedMesh->FUN_00558220(connectedTri)) -
-                                                query->FUN_006ab150();
+                                                query->PathingRequestLOS_GetSearchCenter();
                                             if (vecDifference.FUN_004a7290() >
                                                 query->GetFirstLightParameter() * query->GetFirstLightParameter())
                                                 continue;
@@ -428,7 +429,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                             PodPoint3 vecDirectionA =
                                                 reinterpret_cast<const PodPoint3&>(originPos) -
                                                 reinterpret_cast<const PodPoint3&>(
-                                                    ((NavMeshTriangleReference*)&destination)->FUN_006a6eb0());
+                                                    ((NavMeshTriangleReference*)&destination)->FastNavMeshTriLocation_GetLocation());
                                             {
                                                 PodPoint3 vecDirectionB =
                                                     reinterpret_cast<const PodPoint3&>(originPos) - candidatePoint;
@@ -467,7 +468,7 @@ struct Node_006a08a0
 {
     NavMesh* m_pkMesh;
     unsigned short m_usTriangle;
-    NiPoint3 FUN_006a6eb0() const;
+    NiPoint3 FastNavMeshTriLocation_GetLocation() const;
 };
 struct SeqObj
 {
@@ -512,7 +513,7 @@ bool FUN_006ab180_shell::FUN_006ab180(SeqObj* pkObj)
         LOSPortalArray* pkArray = static_cast<LOSPortalArray*>(m_pkRoom->FUN_006ab360());
         for (unsigned int i = 0; i < pkArray->FUN_0044ddc0(); i++)
         {
-            NiPoint3 kTargetCenter = pkObj->m_kNode.FUN_006a6eb0();
+            NiPoint3 kTargetCenter = pkObj->m_kNode.FastNavMeshTriLocation_GetLocation();
             NiPoint3 kDiff = kTargetCenter - pkArray->FUN_006a1440(i);
             if (kDiff.GetSquaredXYLength() < GetLOSRoomRadius(m_pkRoom) * GetLOSRoomRadius(m_pkRoom))
             {
@@ -535,7 +536,7 @@ bool FUN_006ab180_shell::FUN_006ab180(SeqObj* pkObj)
                 pkObj->GetName().m_pkMesh != m_kRoomNode.m_pkMesh)
             {
                 NiPoint3 kDelta = ((LOSTarget*)(BSFadeNode*)m_spReferencedObject)->GetDest() -
-                                    *(NiPoint3*)&pkObj->GetName().FUN_006a6eb0();
+                                    *(NiPoint3*)&pkObj->GetName().FastNavMeshTriLocation_GetLocation();
                 float fDist = kDelta.FUN_004a7290();
                 if (fDist < m_fClosest)
                 {
@@ -575,7 +576,7 @@ struct Location
     NavMesh* mesh;
     unsigned short triangle, unknown;
     NiPoint3 point;
-    NiPoint3 FUN_006a6eb0() const;
+    NiPoint3 FastNavMeshTriLocation_GetLocation() const;
 };
 using ::NiMemObject;
 struct FUN_006e1370 : NiMemObject
@@ -2674,13 +2675,14 @@ struct FUN_006aa780_Class
     Location old;
     unsigned char mode;
     int state;
-    bool FUN_006aa780(World*, const Location*, int, int);
+    bool NavMeshSearchLOS_BuildNodePath(World*, const Location*, int, int);
     bool FUN_006a7d60(int, int, int);
     int FUN_006a94f0(NavMesh*, unsigned short, Location*, float);
     void FUN_006a7c90(int);
 };
 // @fnv 0x006aa780
-bool FUN_006aa780_Class::FUN_006aa780(World* apWorld, const Location* apLocation, int arg, int argCur)
+// src: COMMUNITY 0x006aa780
+bool FUN_006aa780_Class::NavMeshSearchLOS_BuildNodePath(World* apWorld, const Location* apLocation, int arg, int argCur)
 {
     unsigned short x8;
     world = apWorld;
@@ -2701,7 +2703,7 @@ bool FUN_006aa780_Class::FUN_006aa780(World* apWorld, const Location* apLocation
     location.point.z = y.z;
     float t2;
     if (oldValid)
-        t2 = (location.FUN_006a6eb0() - old.FUN_006a6eb0()).FUN_00589850();
+        t2 = (location.FastNavMeshTriLocation_GetLocation() - old.FastNavMeshTriLocation_GetLocation()).FUN_00589850();
     else
         t2 = 0.0f;
     FUN_006a7c90(FUN_006a94f0(location.mesh, location.triangle, &location, t2));

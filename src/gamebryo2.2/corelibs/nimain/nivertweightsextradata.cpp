@@ -19,7 +19,8 @@ char __stdcall FUN_00a89b00(NiObject* pObject)
 extern "C" void* g_011f5b78;
 
 // @fnv 0x00a89b20
-void* __cdecl FUN_00a89b20()
+// src: COMMUNITY 0x00a89b20
+void* __cdecl NiVertWeightsExtraData_GetRTTI()
 {
     return &g_011f5b78;
 }
@@ -88,7 +89,7 @@ template <class T, class TAlloc> inline unsigned int NiTArray<T, TAlloc>::Add(co
 
 typedef NiTArray<char*, NiTMallocInterface<char*> > A89C70StringArray;
 
-extern "C" char* __cdecl FUN_00a7d330(const char* pcText);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 struct A89C70Base
 {
     void GetViewerStrings(A89C70StringArray* pkStrings);
@@ -106,7 +107,7 @@ struct A89C70Object : A89C70Base
 void A89C70Object::FUN_00a89c70(A89C70StringArray* pkStrings)
 {
     A89C70Base::GetViewerStrings(pkStrings);
-    char* pcString = FUN_00a7d330(ms_kRTTI.GetName());
+    char* pcString = NiViewerStrings_NiGetViewerString_Title(ms_kRTTI.GetName());
     pkStrings->Add(pcString);
 }
 

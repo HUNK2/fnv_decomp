@@ -41,7 +41,8 @@ void NiFloatInterpolator::LoadBinary(NiStream& kStream)
 }
 
 // @fnv 0x00a3c3c0
-int __fastcall FUN_00a3c3c0(void* thisPtr, int, unsigned short)
+// src: COMMUNITY 0x00a3c3c0
+int __fastcall NiFloatInterpolator_GetKeyType(void* thisPtr, int, unsigned short)
 {
     void* pData = *(void**)((char*)thisPtr + 0x10);
     if (!pData)
@@ -50,7 +51,8 @@ int __fastcall FUN_00a3c3c0(void* thisPtr, int, unsigned short)
 }
 
 // @fnv 0x00a3c3d0
-unsigned char __fastcall FUN_00a3c3d0(const void* self, int, unsigned short)
+// src: COMMUNITY 0x00a3c3d0
+unsigned char __fastcall NiFloatInterpolator_GetKeyStride(const void* self, int, unsigned short)
 {
     const char* p = *(const char**)((const char*)self + 0x10);
     if (!p)
@@ -65,7 +67,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f3738;
 
 // @fnv 0x00a3c380
-const GlobalObjectO2_00a7b610* __cdecl FUN_00a3c380()
+// src: COMMUNITY 0x00a3c380
+const GlobalObjectO2_00a7b610* __cdecl NiFloatInterpolator_GetRTTI()
 {
     return &g_011f3738;
 }

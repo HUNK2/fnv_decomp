@@ -87,7 +87,8 @@ struct GlobalObjectO2_00a7b610
 extern GlobalObjectO2_00a7b610 g_011f3ed8;
 // Returns the address of the global object g_011f3ed8.
 // @fnv 0x00a43360
-GlobalObjectO2_00a7b610* __cdecl FUN_00a43360()
+// src: COMMUNITY 0x00a43360
+GlobalObjectO2_00a7b610* __cdecl BSTreadTransfInterpolator_GetRTTI()
 {
     return &g_011f3ed8;
 }
@@ -233,7 +234,7 @@ extern int DAT_011f4748;
 
 struct FUN_00b58570_Class
 {
-    void* __thiscall FUN_00b58570(void* arg);
+    void* __thiscall NiTPointerListBase_AddTail(void* arg);
 };
 
 struct FUN_00a9b850_Prop
@@ -359,18 +360,19 @@ bool NiAlphaAccumulator::RegisterObject(NiGeometry* pkObject)
     if ((p->unk18 & 1) && (!m_bObserveNoSortHint || !((unsigned char)(p->unk18w >> 13) & 1)) &&
         ((unsigned char)~(pObject->unk30 >> 6) & 1))
     {
-        reinterpret_cast<FUN_00b58570_Class*>(&m_kItems)->FUN_00b58570(&pObject);
+        reinterpret_cast<FUN_00b58570_Class*>(&m_kItems)->NiTPointerListBase_AddTail(&pObject);
         return true;
     }
     pObject->vfn_0DC(g);
     return true;
 }
 
-void FUN_00a95ca0();
+void NiKeyBasedInterpolator_LinkObject();
 // @fnv 0x00a43330
-void FUN_00a43330()
+// src: COMMUNITY 0x00a43330
+void j_j_j_nullsub_3()
 {
-    FUN_00a95ca0();
+    NiKeyBasedInterpolator_LinkObject();
 }
 
 struct C8CCC0Base
@@ -561,7 +563,7 @@ extern NiRenderer* DAT_011f4748;
 
 struct S00a9b790_NodeAllocator
 {
-    ItemListNode* FUN_0043a010();
+    ItemListNode* NiGeometry_AddProperty();
 };
 
 class S00a9b790_NiAlphaProperty
@@ -711,7 +713,7 @@ class S00a9b790_NiVisibleArray
 
 static inline void AddTail(NiAlphaAccumulator* self, S00a9b790_NiGeometry* pkObject)
 {
-    ItemListNode* pkNode = ((S00a9b790_NodeAllocator*)&self->m_kItems.m_kItemCount)->FUN_0043a010();
+    ItemListNode* pkNode = ((S00a9b790_NodeAllocator*)&self->m_kItems.m_kItemCount)->NiGeometry_AddProperty();
     pkNode->m_element = reinterpret_cast<NiGeometry*>(pkObject);
     pkNode->m_pkNext = 0;
     pkNode->m_pkPrev = self->m_kItems.m_pkTail;

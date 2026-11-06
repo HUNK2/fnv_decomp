@@ -74,7 +74,7 @@ class TopicMenuController
     MenuTopic* GetFirstTopic();
     bool SelectTopic(bool);
     bool AdvanceTopic();
-    bool FUN_0083e430(int);
+    bool DialogMenu_SetClickedMenuItem(int);
     bool ShouldSkipTopic(MenuTopic*);
     bool Initialize(MobileObjectView*, TESTopic*);
     bool FUN_00833c20();
@@ -96,7 +96,7 @@ extern TESTopicInfo* DAT_011d9518;
 TESTopicInfo* FindFollowupTopicInfo(TESTopicInfo*, bool*, void*, PlayerCharacterView*, bool, bool);
 FNV_STATIC_ASSERT(sizeof(MenuTopic) == 0x2C);
 
-InterfaceManager* FUN_004b7210();
+InterfaceManager* InterfaceManager_GetSingleton();
 int FUN_007620e0();
 bool Cmd_Default_Execute();
 

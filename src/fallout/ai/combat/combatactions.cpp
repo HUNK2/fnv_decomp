@@ -406,7 +406,8 @@ float __cdecl GetWeaponDPSDeficit(CombatController*, int);
 }  // namespace fnv_0097b240
 
 // @fnv 0x0097b240
-float CombatActionAttackRangedExplosive::FUN_0097b240(CombatController* apController, int v)
+// src: COMMUNITY 0x0097b240
+float CombatActionAttackRangedExplosive::GetCost_0097b240(CombatController* apController, int v)
 {
     return FUN_00979e40(apController, v) + fnv_0097b240::GetWeaponDPSDeficit(apController, 0);
 }
@@ -487,7 +488,8 @@ float __cdecl GetWeaponDPSDeficit(CombatController*, int);
 
 // Returns the sum of FUN_00979e40(c, v) and fnv_0097bb90::GetWeaponDPSDeficit(c, 3).
 // @fnv 0x0097bb90
-float CombatActionAttackGrenadeFromCover::FUN_0097bb90(CombatController* apCombatController, int v)
+// src: COMMUNITY 0x0097bb90
+float CombatActionAttackGrenadeFromCover::CombatActionAttackGrenade_GetCost(CombatController* apCombatController, int v)
 {
     return FUN_00979e40(apCombatController, v) + fnv_0097bb90::GetWeaponDPSDeficit(apCombatController, 3);
 }
@@ -551,13 +553,13 @@ void CombatActionMoveAndAttackRangedExplosive::FUN_0097c470()
     FUN_00979c80();
 }
 
-bool __cdecl FUN_0097beb0(CombatController*, CombatWorldStateArray*, int);
+bool __cdecl CombatController_FindCombatLocation(CombatController*, CombatWorldStateArray*, int);
 // @fnv 0x0097c490
 bool CombatActionMoveAndAttackRangedExplosive::FUN_0097c490(CombatController* apController, CombatWorldStateArray* w, int aiValue)
 {
     if (!FUN_00979e90(apController, w, aiValue))
         return false;
-    return FUN_0097beb0(apController, w, aiValue);
+    return CombatController_FindCombatLocation(apController, w, aiValue);
 }
 
 namespace fnv_0097c4d0 {
@@ -723,7 +725,8 @@ struct FUN_009d3a00
 
 // Allocates a FUN_009d0890 and a FUN_009d3a00 and passes them to FUN_00980110 and FUN_009801b0 on the combat controller.
 // @fnv 0x0097b170
-void CombatActionAttackRangedExplosive::FUN_0097b170(CombatController* apCombatController, int aiActionValue)
+// src: COMMUNITY 0x0097b170
+void CombatActionAttackRangedExplosive::CombatActionAttackRanged_AddProcedureToController(CombatController* apCombatController, int aiActionValue)
 {
     apCombatController->FUN_00980110(reinterpret_cast<CombatProcedure*>(new fnv_0097b170::FUN_009d0890()));
     apCombatController->FUN_009801b0(reinterpret_cast<CombatProcedure*>(new fnv_0097b170::FUN_009d3a00()));
@@ -742,7 +745,8 @@ struct FUN_009cc0c0
 
 // Allocates a FUN_009cc0c0 object and passes it to the combat controller's FUN_00980110 method.
 // @fnv 0x0097b410
-void CombatActionAttackMelee::FUN_0097b410(CombatController* apCombatController, int aiActionValue)
+// src: COMMUNITY 0x0097b410
+void CombatActionAttackMelee::AddProcedureToController(CombatController* apCombatController, int aiActionValue)
 {
     apCombatController->FUN_00980110(reinterpret_cast<CombatProcedure*>(new fnv_0097b410::FUN_009cc0c0));
 }
@@ -866,7 +870,8 @@ void __cdecl FUN_0097bed0(CombatController*, int);
 
 // Allocates a FUN_009d0890 object, passes it to the combat controller's FUN_00980110, then calls FUN_0097bed0 with the action value.
 // @fnv 0x0097c280
-void CombatActionMoveAndAttackRanged::FUN_0097c280(CombatController* apCombatController, int aiActionValue)
+// src: COMMUNITY 0x0097c280
+void CombatActionMoveAndAttackRanged::AddProcedureToController_0097c280(CombatController* apCombatController, int aiActionValue)
 {
     apCombatController->FUN_00980110(reinterpret_cast<CombatProcedure*>(new fnv_0097c280::FUN_009d0890));
     fnv_0097c280::FUN_0097bed0(apCombatController, aiActionValue);
@@ -933,7 +938,8 @@ struct FUN_009da720
 }  // namespace fnv_0097c790
 
 // @fnv 0x0097c790
-void CombatActionDrawWeapon::FUN_0097c790(CombatController* apCombatController, int aiActionValue)
+// src: COMMUNITY 0x0097c790
+void CombatActionDrawWeapon::AddProcedureToController_0097c790(CombatController* apCombatController, int aiActionValue)
 {
     TESObjectWEAP* pweapon = 0;
     int ecombatWeaponType = aiActionValue;
@@ -1087,7 +1093,7 @@ struct AvoidSphere
 
 struct CombatAvoidanceSphere : AvoidSphere
 {
-    bool FUN_0097be60(int);
+    bool CombatLocation_GetFlag(int);
 };
 
 struct FUN_009d5ad0
@@ -1113,7 +1119,7 @@ void FUN_0097bed0(CombatController* apCombatController, int aiLocation)
     pcombatLocation = reinterpret_cast<CombatAvoidanceSphere*>(
         GetField18C(reinterpret_cast<char*>(static_cast<CombatControllerAccess*>(apCombatController)->GetCombatState())));
 
-    if (pcombatLocation->FUN_0097be60(1))
+    if (pcombatLocation->CombatLocation_GetFlag(1))
     {
         pmovementProcedure = reinterpret_cast<CombatProcedure*>(new FUN_009d5ad0(aiLocation));
     }
@@ -1141,11 +1147,12 @@ struct FUN_0097be60_cls
     int unk14;
     int unk18;
     unsigned int m_1c;
-    unsigned char FUN_0097be60(unsigned int aValue);
+    unsigned char CombatLocation_GetFlag(unsigned int aValue);
 };
 
 // @fnv 0x0097be60
-unsigned char FUN_0097be60_cls::FUN_0097be60(unsigned int aValue)
+// src: COMMUNITY 0x0097be60
+unsigned char FUN_0097be60_cls::CombatLocation_GetFlag(unsigned int aValue)
 {
     return (m_1c & aValue) != 0;
 }
@@ -1161,7 +1168,7 @@ int __fastcall GetField18C(char*);
 
 int __fastcall GetField38(char*);
 
-unsigned int __fastcall FUN_0044edb0(void*);
+unsigned int __fastcall TESMain_GetThread(void*);
 
 // The procedure-specific accessors are not yet declared in the shared header.
 class CombatProcedureAccess : public CombatProcedure
@@ -1169,13 +1176,13 @@ class CombatProcedureAccess : public CombatProcedure
 public:
     int GetSection();
     const char* GetEntryPoint();
-    ActionDescriptor* FUN_0097be80(char*);
+    ActionDescriptor* CombatProcedureMove_GetDestinationPos(char*);
 };
 
 struct CombatLocationAccess
 {
     int GetSection();
-    bool FUN_0097be60(int);
+    bool CombatLocation_GetFlag(int);
     ActionDescriptor* FUN_0097b940(ActionDescriptor*);
 };
 
@@ -1233,11 +1240,11 @@ bool __cdecl IsCombatActionValid(CombatController* controller, int iSection)
 
             return false;
 
-        if (FUN_0044edb0(iStack_c) != 0)
+        if (TESMain_GetThread(iStack_c) != 0)
 
         {
 
-            if (FUN_0044edb0(iStack_c) != GetField38((char*)piStack4))
+            if (TESMain_GetThread(iStack_c) != GetField38((char*)piStack4))
 
                 return false;
         }
@@ -1249,13 +1256,13 @@ bool __cdecl IsCombatActionValid(CombatController* controller, int iSection)
             if (iStack_c
                     ->FUN_0097b940(
 
-                        piStack4->FUN_0097be80((char*)&auStack2))
+                        piStack4->CombatProcedureMove_GetDestinationPos((char*)&auStack2))
                     ->_Call_439090())
 
                 return false;
         }
 
-        if (iStack_c->FUN_0097be60(1))
+        if (iStack_c->CombatLocation_GetFlag(1))
 
             return false;
     }
@@ -1270,7 +1277,7 @@ bool __cdecl IsCombatActionValid(CombatController* controller, int iSection)
 
             piStack_18 = static_cast<CombatProcedureAccess*>(piStack_c2);
 
-            if (!iStack_c->FUN_0097be60(1))
+            if (!iStack_c->CombatLocation_GetFlag(1))
 
                 return false;
 

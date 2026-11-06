@@ -561,7 +561,8 @@ void FUN_0075b6e0(int param1)
 }
 
 // @fnv 0x0075b700
-int __cdecl FUN_0075b700()
+// src: COMMUNITY 0x0075b700
+int __cdecl ContainerMenu_GetMenuID()
 {
     return 1008;
 }
@@ -610,7 +611,8 @@ void ContainerMenu::HandleMouseoverTileAlt(unsigned int aiID, Tile* apTarget)
 
 // Returns false if any of the 19 ints in field28 is zero, otherwise returns true.
 // @fnv 0x0075b710
-bool __thiscall ContainerMenu::FUN_0075b710()
+// src: COMMUNITY 0x0075b710
+bool __thiscall ContainerMenu::HasTiles()
 {
     for (int i = 0; i < 0x13; ++i)
     {
@@ -1223,7 +1225,7 @@ struct MenuSystem
     MenuInput input;
     Tile* FUN_00586150();
 };
-MenuSystem* FUN_004b7210();
+MenuSystem* InterfaceManager_GetSingleton();
 Menu* FUN_00a09030(int);
 void FNV_Warning(const char*, ...);
 Tile* FUN_00a08b20(Tile*, const char*);
@@ -1236,28 +1238,29 @@ extern InventoryMenuSetting DAT_011d4378, DAT_011d2d0c, DAT_011d33fc, DAT_011d2c
     DAT_011d20c4, DAT_011d396c;
 // Loads container_menu.xml, validates the container menu, initializes its lists and title tiles, stores the reference and mode, and returns the menu tile.
 // @fnv 0x0075b310
-Tile* FUN_0075b310(TESObjectREFR* reference, int mode)
+// src: COMMUNITY 0x0075b310
+Tile* ContainerMenu_Create(TESObjectREFR* reference, int mode)
 {
-    MenuSystem* tile = FUN_004b7210();
+    MenuSystem* tile = InterfaceManager_GetSingleton();
     FUN_0075b6e0(0);
     if (!reference && mode != 4)
         return 0;
-    Menu* old = FUN_00a09030(FUN_0075b700());
+    Menu* old = FUN_00a09030(ContainerMenu_GetMenuID());
     if (old)
         delete old;
     Tile* manager = tile->FUN_00586150()->ReadFile("Data\\Menus\\container_menu.xml");
     DAT_011d93f8 = manager ? static_cast<ContainerMenu*>(manager->GetMenu()) : 0;
-    if (DAT_011d93f8 && DAT_011d93f8->GetClass() == FUN_0075b700())
+    if (DAT_011d93f8 && DAT_011d93f8->GetClass() == ContainerMenu_GetMenuID())
     {
         DAT_011d93f8->FUN_00a1dc70(reinterpret_cast<TileMenu*>(manager), false);
-        if (!DAT_011d93f8->FUN_0075b710())
+        if (!DAT_011d93f8->HasTiles())
         {
             FNV_Warning("MENUS: Container Menu Creation Failed... Are your menu and art resources up to date?");
             return 0;
         }
         if (manager->FUN_00a011b0(4007) == 6006.0 || manager->FUN_00a011b0(4007) == 102.0)
             manager->Set(4013, Tile::GetInterfaceScale(), true);
-        tile->input.FUN_00718630(22, FUN_0075b700(), 512);
+        tile->input.FUN_00718630(22, ContainerMenu_GetMenuID(), 512);
         DAT_011d93f8->m_kFirstItemChangeList.Initialize((Tile*)DAT_011d93f8->m_pTiles[4], "CM_list_template");
         DAT_011d93f8->m_kSecondItemChangeList.Initialize((Tile*)DAT_011d93f8->m_pTiles[8], "CM_list_template");
         DAT_011d93f8->m_pTiles[1]->Set(4036, DAT_011d4378.FUN_00403df0(), true);
@@ -1672,14 +1675,14 @@ struct Ref_0075d6b0
     virtual void v3cc();
     virtual void FUN_3d0(XRef_0075d6b0* ref, bool a2, bool a3);
     Entry_0075d6b0* FUN_00968be0(SourceForm* item, XList_0075d6b0* extra, int count, bool a4);
-    void FUN_009687b0(SourceForm* item, XList_0075d6b0* extra, int count);
+    void PlayerCharacter_AddRockItAmmo(SourceForm* item, XList_0075d6b0* extra, int count);
 };
 struct List_0075d6b0
 {
     void FUN_005ae3d0(SourceForm* const& item);
 };
 int __cdecl MinInt(int a, int b);
-void __cdecl FUN_009bd5c0(CurrentItem* item, Ref_0075d6b0* to, Ref_0075d6b0* from, SourceForm* form);
+void __cdecl BGSProjectile_InitLiveGrenade(CurrentItem* item, Ref_0075d6b0* to, Ref_0075d6b0* from, SourceForm* form);
 // Item transfer is not yet declared by the shared header.
 // This extension adds that operation without duplicating the menu layout.
 struct ContainerItemTransfer : ContainerMenu
@@ -1700,7 +1703,7 @@ void ContainerItemTransfer::TransferItem(void* a1, Entry_0075d6b0* entry, int co
     XList_0075d6b0* extra = entry->FUN_00559450() ? *entry->FUN_00559450()->FUN_006815c0() : 0;
     if (ok)
     {
-        FUN_009bd5c0(entry->FUN_0044ddc0()->GetOrFallback(0), to8, from4, entry->FUN_0044ddc0());
+        BGSProjectile_InitLiveGrenade(entry->FUN_0044ddc0()->GetOrFallback(0), to8, from4, entry->FUN_0044ddc0());
         ((List_0075d6b0*)&m_kContainerItems)->FUN_005ae3d0(entry->FUN_0044ddc0());
         to8->FUN_17c(entry->FUN_0044ddc0(), extra, count, 0, 0, 0, 0, 0, 1, 0);
         return;
@@ -1732,7 +1735,7 @@ void ContainerItemTransfer::TransferItem(void* a1, Entry_0075d6b0* entry, int co
             }
             else if (to8 == (Ref_0075d6b0*)DAT_011dea3c)
             {
-                ((Ref_0075d6b0*)DAT_011dea3c)->FUN_009687b0(entry->FUN_0044ddc0(), x4, n7);
+                ((Ref_0075d6b0*)DAT_011dea3c)->PlayerCharacter_AddRockItAmmo(entry->FUN_0044ddc0(), x4, n7);
                 to8->FUN_17c(entry->FUN_0044ddc0(), x4, n7, 0, 0, 0, 0, 0, 1, 0);
                 nodeB = nodeB ? nodeB->FUN_00726070() : 0;
             }
@@ -1909,7 +1912,7 @@ struct TrimManager
 TrimManager* FUN_005bd5b0();
 extern float DAT_01016970;
 extern double DAT_01072310, DAT_010356b0, DAT_01021928;
-void* FUN_00403d30(void*, int, unsigned int);
+void* ourMemset(void*, int, unsigned int);
 int FUN_00406d50(char*, unsigned int, const char*);
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
@@ -1930,7 +1933,7 @@ void ContainerMenu::SetLabelText(const char* text)
         TrimGlyph* letters = FUN_005bd5b0()->FUN_005bd5c0(font8 - 1)->data->letters;
         float total2 = 0.0f;
         int index = 0;
-        FUN_00403d30(buffer, 0, 260);
+        ourMemset(buffer, 0, 260);
         total2 += (letters[46].leading + letters[46].width + letters[46].spacing) * DAT_01021928;
         while (total2 <= widthTmp && index < 260)
         {
@@ -1952,7 +1955,7 @@ extern unsigned char DAT_011a002c;
 extern void* DAT_011d93fc;
 
 
-unsigned __cdecl FUN_00457fe0();
+unsigned __cdecl Cmd_GetSessionTime_Execute();
 void* __cdecl FUN_00a08b20(void* obj, const char* name);
 unsigned __fastcall GetRaceCount(char* buf);
 void* __fastcall FUN_0044ddc0(void* obj);
@@ -1973,7 +1976,7 @@ extern ContainerMenu* DAT_011d93f8;
 // @fnv 0x0075eac0
 void ContainerMenu::UpdateDialog()
 {
-    if (m_uiCurrentItemIndex != 0 && FUN_00457fe0() > (unsigned int)m_uiCurrentItemIndex)
+    if (m_uiCurrentItemIndex != 0 && Cmd_GetSessionTime_Execute() > (unsigned int)m_uiCurrentItemIndex)
     {
         m_uiCurrentItemIndex = 0;
         Tile* tile = (Tile*)FUN_00a08b20(DAT_011d93f8->FUN_00726070(), str_010721f4);
@@ -1999,7 +2002,7 @@ void ContainerMenu::UpdateDialog()
 }
 
 extern int DAT_0106ff84;
-void* __cdecl FUN_00403d30(void*, int, unsigned int);
+void* __cdecl ourMemset(void*, int, unsigned int);
 struct Base0071
 {
     Base0071();
@@ -2018,7 +2021,7 @@ struct FUN_0071f240 : Base0071
 FUN_0071f240::FUN_0071f240()
 {
     vtable = &DAT_0106ff84;
-    FUN_00403d30(&unk28, 0, 0x20);
+    ourMemset(&unk28, 0, 0x20);
     unk4c = 0;
     unk48 = 0;
     unk50 = 0;
@@ -2739,7 +2742,7 @@ extern BoolSetting539 DAT_011d8928;
 extern FloatSetting539 DAT_011d2178;
 extern const char DAT_010721f4[];
 extern "C" unsigned int __cdecl strlen(const char*);
-unsigned int __cdecl FUN_00457fe0();
+unsigned int __cdecl Cmd_GetSessionTime_Execute();
 struct ActorAccess539
 {
     bool FUN_008c1bc0();
@@ -2760,7 +2763,7 @@ void ContainerMenu::ShowMessageWithSound(StrMem strMessage, BSSoundHandle soundH
         duration3 = (float)soundHandle.GetDuration();
         if (duration3 == 0.0)
             duration3 = strlen(strMessage.FUN_00559450()) * *DAT_011d2178.FUN_00403e20() * 1000.0;
-        m_uiCurrentItemIndex = (unsigned int)(FUN_00457fe0() + duration3);
+        m_uiCurrentItemIndex = (unsigned int)(Cmd_GetSessionTime_Execute() + duration3);
     }
 }
 
@@ -3667,13 +3670,13 @@ void* FUN_004bf220(MenuReference*);
 void FUN_00406f60(StrMem*, const char*, ...);
 int FUN_00406d00(char*, unsigned int, const char*, ...);
 float FUN_004bd510(float, float);
-int FUN_00406d90(float);
+int FloatToInt(float);
 bool FUN_004b71d0();
 struct MenuInput
 {
     void FUN_00715860(void*, int);
 };
-MenuInput* FUN_004b7210();
+MenuInput* InterfaceManager_GetSingleton();
 struct MenuRoot
 {
     int unk00;
@@ -3777,8 +3780,8 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
     otherList.ApplyFilter(fnv_0075c280::FUN_0075e650);
     otherList.Sort(FUN_0075d130);
     fnv_0075c280::DAT_011dea3c->GetTwoValues(&weight7, &capacity4);
-    fnv_0075c280::FUN_00406d00(label5, 64, fnv_0075c280::DAT_010722d0, fnv_0075c280::DAT_011d1e60.FUN_00403df0(), fnv_0075c280::FUN_00406d90(fnv_0075c280::FUN_004bd510(weight7, 1.0f)),
-                 fnv_0075c280::FUN_00406d90(fnv_0075c280::FUN_004bd510(capacity4, 1.0f)));
+    fnv_0075c280::FUN_00406d00(label5, 64, fnv_0075c280::DAT_010722d0, fnv_0075c280::DAT_011d1e60.FUN_00403df0(), fnv_0075c280::FloatToInt(fnv_0075c280::FUN_004bd510(weight7, 1.0f)),
+                 fnv_0075c280::FloatToInt(fnv_0075c280::FUN_004bd510(capacity4, 1.0f)));
     ((fnv_0075c280::MenuRoot*)DAT_011d93f8)->tile->FUN_00a01350(0xfc4, label5, true);
     if (!active && fnv_0075c280::FUN_004b71d0())
         active = &otherList;
@@ -3797,7 +3800,7 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
             {
                 HandleMouseover(active == &m_kList ? 22 : 21, 0);
                 if (fnv_0075c280::FUN_004b71d0())
-                    fnv_0075c280::FUN_004b7210()->FUN_00715860(active->CallVirtualZero(0xfc3), 1);
+                    fnv_0075c280::InterfaceManager_GetSingleton()->FUN_00715860(active->CallVirtualZero(0xfc3), 1);
             }
         }
     }

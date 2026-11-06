@@ -17,7 +17,8 @@ typedef char _sizecheck_NiMemObject[sizeof(NiMemObject) == 1 ? 1 : -1];
 extern NiMemObject g_01202548;
 
 // @fnv 0x00c22af0
-NiMemObject* __cdecl FUN_00c22af0()
+// src: COMMUNITY 0x00c22af0
+NiMemObject* __cdecl NiPSysGravityModifier_GetRTTI()
 {
     return &g_01202548;
 }
@@ -25,7 +26,8 @@ NiMemObject* __cdecl FUN_00c22af0()
 extern "C" void* g_01202790;
 
 // @fnv 0x00c2e540
-void* __cdecl FUN_00c2e540()
+// src: COMMUNITY 0x00c2e540
+void* __cdecl NiPSysBombModifier_GetRTTI()
 {
     return &g_01202790;
 }
@@ -377,7 +379,7 @@ struct GravityViewerStringsArray
 
 extern NiRTTI g_kGravityModifierRTTI_01202548;
 
-char* __cdecl FUN_00a7d330(const char* pcName);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* pcName);
 char* __cdecl FUN_00a7d5e0(const char* pcPrefix, const char* pcValue);
 char* __cdecl FUN_00a7d550(const char* pcPrefix, float fValue);
 char* __cdecl FUN_00a7d370(const char* pcPrefix, bool bValue);
@@ -403,7 +405,7 @@ struct NiPSysGravityModifierImpl
 void NiPSysGravityModifierImpl::AddViewerStrings(GravityViewerStringsArray* pkStrings)
 {
     FUN_00c319e0(pkStrings);
-    pkStrings->Add(FUN_00a7d330(g_kGravityModifierRTTI_01202548.m_pcName));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(g_kGravityModifierRTTI_01202548.m_pcName));
     const char* pcGravityObjName;
     if (m_pkGravityObject)
         pcGravityObjName = m_pkGravityObject->m_kName.m_kHandle;
@@ -658,7 +660,7 @@ struct EmitterC22
     }
 };
 
-extern float __cdecl FUN_006397c0();
+extern float __cdecl NiSymmetricRandom_006397c0();
 
 struct EffectC22
 {
@@ -799,11 +801,11 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 NiPoint3 vOffset;
 
-                vOffset.x = FUN_006397c0() * randomScale;
+                vOffset.x = NiSymmetricRandom_006397c0() * randomScale;
 
-                vOffset.y = FUN_006397c0() * randomScale;
+                vOffset.y = NiSymmetricRandom_006397c0() * randomScale;
 
-                vOffset.z = FUN_006397c0() * randomScale;
+                vOffset.z = NiSymmetricRandom_006397c0() * randomScale;
 
                 AddGravityVector(pParticle->position, (kIter + vOffset) * (elapsed - pParticle->activeTime));
             }
@@ -859,11 +861,11 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 NiPoint3 kIter = fSourceStrength * vForceDirection;
 
-                vOffset.x = FUN_006397c0() * randomScale;
+                vOffset.x = NiSymmetricRandom_006397c0() * randomScale;
 
-                vOffset.y = FUN_006397c0() * randomScale;
+                vOffset.y = NiSymmetricRandom_006397c0() * randomScale;
 
-                vOffset.z = FUN_006397c0() * randomScale;
+                vOffset.z = NiSymmetricRandom_006397c0() * randomScale;
 
                 NiPoint3 z = pForm.m_Translate - *y;
 
@@ -933,11 +935,11 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 NiPoint3 vOffset;
 
-                vOffset.x = FUN_006397c0() * randomScale;
+                vOffset.x = NiSymmetricRandom_006397c0() * randomScale;
 
-                vOffset.y = FUN_006397c0() * randomScale;
+                vOffset.y = NiSymmetricRandom_006397c0() * randomScale;
 
-                vOffset.z = FUN_006397c0() * randomScale;
+                vOffset.z = NiSymmetricRandom_006397c0() * randomScale;
 
                 AddGravityVector(pParticle->GetPosition(),
                     (fSourceStrength * vForceDirection + vOffset) * (elapsed - pParticle->GetActiveTime()));
@@ -988,11 +990,11 @@ void EffectC22::FUN_00c22b70(float elapsed, EmitterC22* emitter)
 
                 NiPoint3 kIter = vForceDirection * fSourceStrength;
 
-                vOffset.x = FUN_006397c0() * randomScale;
+                vOffset.x = NiSymmetricRandom_006397c0() * randomScale;
 
-                vOffset.y = FUN_006397c0() * randomScale;
+                vOffset.y = NiSymmetricRandom_006397c0() * randomScale;
 
-                vOffset.z = FUN_006397c0() * randomScale;
+                vOffset.z = NiSymmetricRandom_006397c0() * randomScale;
 
                 NiPoint3 z = pForm.m_Translate - *y;
 

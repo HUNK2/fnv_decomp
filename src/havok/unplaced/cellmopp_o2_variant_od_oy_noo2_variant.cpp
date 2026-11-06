@@ -539,7 +539,7 @@ struct GlobalString
     const char* value;
 };
 extern GlobalString g_01268350;
-char* __cdecl FUN_00a7d330(const char* text);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(const char* text);
 struct StringBuilder
 {
     void FUN_00ca5190(NiStringArray* array);
@@ -1078,10 +1078,10 @@ struct __declspec(align(16)) xPhantomCinfo
     xPhantomCinfo();
     ~xPhantomCinfo();
     void FUN_00507610(float);
-    void FUN_0056d360(int);
+    void bhkRigidBodyCinfo_SetMotionType(int);
     void FUN_005076c0(float);
-    void FUN_0056f0f0(unsigned int);
-    void FUN_006222f0(int);
+    void bhkRigidBodyCinfo_SetCollisionFilter(unsigned int);
+    void bhkRigidBodyCinfo_SetShape_0(int);
     int m_q[0x38];
 };
 struct xRef
@@ -1131,7 +1131,7 @@ struct xPtr
 int __fastcall xFUN_00620b80(void*);
 struct xList
 {
-    unsigned int FUN_006227b0(const xPtr&);
+    unsigned int NiTObjectArray_NiPointer_bhkRigidBody_Add(const xPtr&);
     int m_q[4];
 };
 struct xMgr
@@ -1151,10 +1151,10 @@ bool xMgr::FUN_00621f60(xRef** apList, unsigned int auiCount, float afVal)
         {
             xPhantomCinfo CI;
             CI.FUN_00507610(0.0f);
-            CI.FUN_0056d360(5);
+            CI.bhkRigidBodyCinfo_SetMotionType(5);
             CI.FUN_005076c0(*xg_11cc1d8.FUN_00403e20());
             xFilter FILTER(0x11, 1, 0);
-            CI.FUN_0056f0f0(FILTER.FUN_00559450());
+            CI.bhkRigidBodyCinfo_SetCollisionFilter(FILTER.FUN_00559450());
             for (unsigned int I = 0; I < auiCount; I++)
             {
                 xRef* REF = apList[I];
@@ -1167,10 +1167,10 @@ bool xMgr::FUN_00621f60(xRef** apList, unsigned int auiCount, float afVal)
                     SC.m_44 = afVal;
                     SC.m_10.UpdateBoundsFromElements();
                     xPtr SHAPE(new xShape(&SC));
-                    CI.FUN_006222f0(xFUN_00620b80(SHAPE.FUN_00559450()));
+                    CI.bhkRigidBodyCinfo_SetShape_0(xFUN_00620b80(SHAPE.FUN_00559450()));
                     xPhantom* PHANTOM = new xPhantom(&CI);
                     PHANTOM->FUN_00c85c10(REF, &xg_11f4a20);
-                    m_8.FUN_006227b0(PHANTOM);
+                    m_8.NiTObjectArray_NiPointer_bhkRigidBody_Add(PHANTOM);
                 }
             }
         }

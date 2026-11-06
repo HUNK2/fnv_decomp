@@ -23,7 +23,8 @@ NiAlphaAccumulator* __fastcall InitializeAlphaAccumulator(NiAlphaAccumulator* se
 extern char const* const g_011f4454_arg1;
 
 // @fnv 0x00a5fc80
-char const* const* __cdecl FUN_00a5fc80()
+// src: COMMUNITY 0x00a5fc80
+char const* const* __cdecl NiSourceTexture_GetRTTI()
 {
     return &g_011f4454_arg1;
 }
@@ -31,13 +32,15 @@ char const* const* __cdecl FUN_00a5fc80()
 extern "C" void* g_011f5ecc;
 
 // @fnv 0x00a950d0
-void* __cdecl FUN_00a950d0()
+// src: COMMUNITY 0x00a950d0
+void* __cdecl NiSpecularProperty_GetRTTI()
 {
     return &g_011f5ecc;
 }
 
 // @fnv 0x00a950e0
-int __cdecl FUN_00a950e0()
+// src: COMMUNITY 0x00a950e0
+int __cdecl NiSpecularProperty_GetType()
 {
     return 9;
 }
@@ -212,7 +215,7 @@ class AlphaPropInit_cls
     volatile unsigned char m_43;
     volatile int m_44;
     void FUN_00a5c200();
-    void FUN_00a5f7b0();
+    void NiTexture_AddTextureToList();
     AlphaPropInit_cls* NiSourceTexture_NiSourceTexture();
 };
 
@@ -228,7 +231,7 @@ AlphaPropInit_cls* AlphaPropInit_cls::NiSourceTexture_NiSourceTexture()
     int zero = 0;
     int* p24 = (int*)&m_24;
     *p24 = zero;
-    FUN_00a5f7b0();
+    NiTexture_AddTextureToList();
     m_pVtbl = &kVtbl_0109b9ec;
     m_30 = g_0109b220;
     m_34 = g_0109b220;
@@ -280,7 +283,7 @@ struct Property284
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     void AppendString(S_00a5f640_Arr* a);
 };
-char* __cdecl FUN_00a7d330(char* s);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* s);
 char* __cdecl FUN_00a7d370(const char* fmt, S_00a5f640_B v);
 char* __cdecl FUN_00a7d5e0(const char* fmt, const char* v);
 struct S_00a5f640_Obj : Property284
@@ -293,7 +296,7 @@ struct S_00a5f640_Obj : Property284
 void S_00a5f640_Obj::AppendRenderStateProperties(S_00a5f640_Arr* arr)
 {
     AppendString(arr);
-    arr->Add(FUN_00a7d330(DAT_011f443c));
+    arr->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011f443c));
     arr->Add(FUN_00a7d370("m_bZTest", S_00a5f640_B(f.a)));
     arr->Add(FUN_00a7d370("m_bZWrite", S_00a5f640_B(f.b)));
     unsigned uiTestFunc = f.c;

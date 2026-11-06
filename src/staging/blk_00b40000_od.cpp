@@ -493,7 +493,8 @@ S_00b41ae0_Bits* S_00b41ae0_Bits::SetBit(bool bSet)
 
 // Divides the three low bytes of unk14 by 255.0, low byte first, writes them to pOut[0], pOut[1] and pOut[2], and returns pOut.
 // @fnv 0x00b40430
-float* CIdvCamera::FUN_00b40430(float* pOut)
+// src: COMMUNITY 0x00b40430
+float* CIdvCamera::CBillboardLeaf_GetColor(float* pOut)
 {
     float fGr = (static_cast<unsigned int>(static_cast<CIdvCameraClone*>(this)->unk14) & 0xff) / 255.0;
     float fRed = ((static_cast<unsigned int>(static_cast<CIdvCameraClone*>(this)->unk14) & 0xff00) >> 8) / 255.0;

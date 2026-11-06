@@ -9715,11 +9715,12 @@ extern void* DAT_0106ba6c;
 struct FUN_00869f00_shell
 {
     void* m_vft;
-    void* FUN_00869f00(unsigned int a, unsigned int b);
+    void* BSSimpleArray_NavMesh_1024_BSSimpleArray_NavMesh_1024_00869f00(unsigned int a, unsigned int b);
 };
 
 // @fnv 0x00869f00
-void* FUN_00869f00_shell::FUN_00869f00(unsigned int a, unsigned int b)
+// src: COMMUNITY 0x00869f00
+void* FUN_00869f00_shell::BSSimpleArray_NavMesh_1024_BSSimpleArray_NavMesh_1024_00869f00(unsigned int a, unsigned int b)
 {
     this->m_vft = &DAT_0106ba6c;
     ((AX*)this)->FUN_006b3eb0(a, b);
@@ -9775,10 +9776,11 @@ struct FUN_00709f80_Obj
     int m3;
     int m4;
     int m5;
-    FUN_00709f80_Obj* FUN_00709f80();
+    FUN_00709f80_Obj* QueuedMenuRequest_QueuedMenuRequest();
 };
 // @fnv 0x00709f80
-FUN_00709f80_Obj* FUN_00709f80_Obj::FUN_00709f80()
+// src: COMMUNITY 0x00709f80
+FUN_00709f80_Obj* FUN_00709f80_Obj::QueuedMenuRequest_QueuedMenuRequest()
 {
     m0 = 0;
     m1 = 0;
@@ -9842,7 +9844,7 @@ FUN_0045cf30::FUN_0045cf30(unsigned int uiValue, unsigned char ucType) : B45CF30
 
 class FUN_0045d060;
 
-void* FUN_0045d180();
+void* SettingT_RendererSettingCollection_GetCollection();
 
 class FloatNamedBase
 {
@@ -9869,12 +9871,12 @@ class FUN_0045d060 : public FloatNamedBase
 // @fnv 0x0045d060
 FUN_0045d060::FUN_0045d060(const char* name, float value) : FloatNamedBase(name, value)
 {
-    ((FloatObjectRegistry*)FUN_0045d180())->Register(this);
+    ((FloatObjectRegistry*)SettingT_RendererSettingCollection_GetCollection())->Register(this);
 }
 
 class FUN_004a4a40;
 
-void* __cdecl FUN_0045d180();
+void* __cdecl SettingT_RendererSettingCollection_GetCollection();
 
 class NamedBase
 {
@@ -9901,7 +9903,7 @@ class FUN_004a4a40 : public NamedBase
 // @fnv 0x004a4a40
 FUN_004a4a40::FUN_004a4a40(const char* name, int value) : NamedBase(name, value)
 {
-    ((ObjectRegistry*)FUN_0045d180())->Register(this);
+    ((ObjectRegistry*)SettingT_RendererSettingCollection_GetCollection())->Register(this);
 }
 
 struct FUN_004de2f0_base

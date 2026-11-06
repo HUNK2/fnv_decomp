@@ -60,8 +60,8 @@ public:
     const T& FUN_006dad90(unsigned int index) const;
     void FUN_006c61b0(const T& value);
     bool FUN_009962f0(T& value);
-    unsigned int __thiscall FUN_00a11ee0();
-    unsigned int __thiscall FUN_00a11d20(void*& value);
+    unsigned int __thiscall BSSimpleArray_AddUninitialized_0();
+    unsigned int __thiscall BSSimpleArray_Add(void*& value);
 
     // Per-instantiation helpers whose real names are unknown (each unit binds them to its instantiation's address).
     BSSimpleArray(unsigned int, bool);

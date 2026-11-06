@@ -352,7 +352,8 @@ struct FUN_00aa5860
 
 extern FUN_00aa5860* DAT_011f63b4;
 
-void FUN_00aa58d0()
+// src: COMMUNITY 0x00aa58d0
+void ScrapHeapManager_Init()
 {
     DAT_011f63b4 = new FUN_00aa5860;
 }
@@ -373,11 +374,12 @@ void* FUN_00aa55e0_s::AllocateWithSize(unsigned int a, unsigned int uiUnused2, u
 
 struct FUN_00aa5710_shell
 {
-    int __thiscall FUN_00aa5710(int param);
+    int __thiscall ScrapHeap_Size(int param);
 };
 
 // @fnv 0x00aa5710
-int __thiscall FUN_00aa5710_shell::FUN_00aa5710(int param)
+// src: COMMUNITY 0x00aa5710
+int __thiscall FUN_00aa5710_shell::ScrapHeap_Size(int param)
 {
     if (param == 0)
         return 0;
@@ -410,11 +412,12 @@ struct ScrapBlock
 
 struct FUN_00aa5800_s : ScrapHeapBuffer
 {
-    unsigned int FUN_00aa5800();
+    unsigned int ScrapHeap_GetAllocationCount();
 };
 
 // @fnv 0x00aa5800
-unsigned int FUN_00aa5800_s::FUN_00aa5800()
+// src: COMMUNITY 0x00aa5800
+unsigned int FUN_00aa5800_s::ScrapHeap_GetAllocationCount()
 {
     unsigned int count = 0;
     if (m_pCurrentPosition != m_pHeapBase)
@@ -464,7 +467,8 @@ struct FUN_00aa5950_s
 extern FUN_00aa5950_s* DAT_011f63b4;
 // Deletes the object pointed to by DAT_011f63b4 and sets the pointer to null.
 // @fnv 0x00aa5950
-void FUN_00aa5950()
+// src: COMMUNITY 0x00aa5950
+void ScrapHeapManager_Shutdown()
 {
     delete DAT_011f63b4;
     DAT_011f63b4 = 0;
@@ -567,12 +571,13 @@ public:
     void* m_pBufferHeader;
     unsigned int m_uiBufferSize;
 
-    void FUN_00aa5770();
+    void CheckForLeaks_00aa5770();
 };
 
 // Walks the m_pBufferHeader linked list of ScrapBlock entries when m_pCurrentPosition differs from m_pHeapBase.
 // @fnv 0x00aa5770
-void ScrapHeap::FUN_00aa5770()
+// src: COMMUNITY 0x00aa5770
+void ScrapHeap::CheckForLeaks_00aa5770()
 {
     if (this->m_pCurrentPosition != this->m_pHeapBase)
     {

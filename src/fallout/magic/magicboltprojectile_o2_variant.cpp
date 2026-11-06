@@ -130,13 +130,13 @@ struct Emitter
     unsigned int unk16c;
     unsigned int unk170;
     unsigned char active, state, flags, centered;
-    int FUN_00bc0b40();
+    int BoltShader_GetMaxSegments();
     void FUN_00bc2360();
 };
 // @fnv 0x00bc2360
 void Emitter::FUN_00bc2360()
 {
-    int available = FUN_00bc0b40();
+    int available = BoltShader_GetMaxSegments();
     elapsed = 0.0f;
     active = false;
     if (available < count * stride)

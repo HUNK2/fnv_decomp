@@ -32,7 +32,7 @@ class Crime
 };
 int MinInt(int, int);
 // 0x00975cf0 resets global state; it does not use a NiTMap instance.
-void FUN_00975cf0();
+void BSTempEffect_RemoveAllDecals();
 namespace bsrandom_singleton {
 class MersenneTwister
 {
@@ -40,8 +40,8 @@ class MersenneTwister
     static MersenneTwister* GetRandomGenerator();
 };
 }
-void FUN_004ee7d0();
-void FUN_004a42a0();
+void BGSDecalNode_RemoveAllDecals();
+void BGSDecalManager_RemoveAllDecals();
 class MagicShaderHitEffect;
 class NiAVObject;
 class GlobalObject_00a7b610;

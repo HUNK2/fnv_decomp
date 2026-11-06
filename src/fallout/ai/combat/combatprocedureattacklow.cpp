@@ -279,7 +279,7 @@ struct FUN_00586150_ctrl
 float& __fastcall FUN_00403e20(float* apSetting);
 float RandomFloat(float afMin, float afMax);
 void __cdecl FUN_009b5720(AnimIdle* apPackage, FUN_009cbb70_actor* apActor, FUN_009cbb70_actor* apTarget, float afTime);
-float __cdecl FUN_00645d00(FUN_00645d00_base* apActor, TESObjectWEAP* apWeapon, int aiFlag);
+float __cdecl ActorValueOwner_GetWeaponAnimMult(FUN_00645d00_base* apActor, TESObjectWEAP* apWeapon, int aiFlag);
 int FUN_00647b70(int a, int b);
 int MinInt(int a, int b);
 extern float DAT_011ce230;
@@ -352,7 +352,7 @@ void FUN_009cbb70_shell::FUN_009cbb70()
     {
         void* pAmmoA = pWeapon->GetCurrentAmmo(reinterpret_cast<Actor*>(kActor));
         int iCountCur = kActor->FUN_00575610(pAmmoA);
-        int iClip = FUN_00645d00(kActor, pWeapon, 0);
+        int iClip = ActorValueOwner_GetWeaponAnimMult(kActor, pWeapon, 0);
         iClip = FUN_00647b70(iClip, 1);
         iClip = MinInt(iClip, iCountCur);
         kActor->v095(pAmmoA, 0, iClip, 0, 0, 0, 0, 0, 1, 0);

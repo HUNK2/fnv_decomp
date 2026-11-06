@@ -38,7 +38,7 @@ public:
     unsigned short FUN_0043dc10();
     void FUN_0044dd60();
     void FUN_00c3cb70(int state, RefObj* obj);
-    void FUN_00c3c7e0(RefObj* obj);
+    void QueuedFile_AddAdditionalParent(RefObj* obj);
 
     static unsigned char GetPriorityFromKey(__int64& key);
 };

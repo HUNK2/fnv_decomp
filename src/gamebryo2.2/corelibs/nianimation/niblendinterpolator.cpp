@@ -486,7 +486,8 @@ void FUN_00a37260_shell::UpdateNormalizedWeights()
 
 extern const char* const g_011f371c_arg1;
 // @fnv 0x00a36960
-const char* const* __cdecl FUN_00a36960()
+// src: COMMUNITY 0x00a36960
+const char* const* __cdecl NiBlendInterpolator_GetRTTI()
 {
     return &g_011f371c_arg1;
 }
@@ -1054,7 +1055,7 @@ extern "C" char UNK_01096af4, UNK_01096adc, UNK_01096ac4;
 extern "C" char UNK_01096ab4, UNK_01096aa4;
 extern "C" char UNK_01095dbc, UNK_01096a98, UNK_01096a8c;
 extern "C" char UNK_01096a78, UNK_01096a68;
-extern "C" const char* __cdecl FUN_00a7d330(void*);
+extern "C" const char* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 extern "C" const char* __cdecl FUN_00a7d410(const void*, unsigned int);
 struct ViewerBool
 {
@@ -1086,7 +1087,7 @@ void BlendSerializer::FUN_00a38080(NiViewerStringsArray* stream)
     const char* uiValue;
     {
         ViewerValue temp;
-        temp.value = FUN_00a7d330(DAT_011f36fc);
+        temp.value = NiViewerStrings_NiGetViewerString_Title(DAT_011f36fc);
         stream->Add(temp.value);
         temp.value = FUN_00a7d410(&UNK_01096b68, this->m_ucArraySize);
         stream->Add(temp.value);

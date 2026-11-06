@@ -147,7 +147,7 @@ bool SPECIALBookMenu::HandleInput(int aiKey)
 
 struct MenuInput
 {
-    int FUN_00a24180(int, int);
+    int Controls_GetKeyboardButton(int, int);
 };
 struct MenuOS
 {
@@ -184,7 +184,7 @@ void SPECIALBookMenu::FUN_007c6200()
             int scanCode = 30;
             if (FUN_00408b20(g_011c3cb4.FUN_00403df0(), "FRENCH") == 0)
                 scanCode = 16;
-            if (pInput->FUN_00a24180(scanCode, 1))
+            if (pInput->Controls_GetKeyboardButton(scanCode, 1))
             {
                 HandleSelection(4, 0);
                 return;
@@ -412,7 +412,7 @@ void __cdecl FUN_00406d30(char* dst, int n, const char* src);
 
 void __cdecl FUN_004b7240(char* src, char* dst, int n);
 
-bool __cdecl FUN_00709d40();
+bool __cdecl Interface_Has360Controller();
 
 extern const char str_01074c4c[];
 
@@ -454,7 +454,8 @@ extern const char str_01076c94[];
 
 
 // @fnv 0x007cadd0
-void SPECIALBookMenu::FUN_007cadd0()
+// src: COMMUNITY 0x007cadd0
+void SPECIALBookMenu::LoadBBTextures()
 
 {
 
@@ -488,7 +489,7 @@ void SPECIALBookMenu::FUN_007cadd0()
         g_011dea10->FUN_004568c0(auStack_218, &m1a8[iStack_228], 0, 0);
     }
 
-    if (FUN_00709d40())
+    if (Interface_Has360Controller())
 
         FUN_00406d30(iStack_224, 5, str_0101fd1c);
 
@@ -574,7 +575,7 @@ bool SPECIALBookMenu::FUN_007c9dc0(bool forward)
             pageIndex++;
             turned = true;
             BSSoundHandle sound;
-            sound = reinterpret_cast<const BSSoundHandle&>(BSAudio::GetSingleton()->FUN_00ad7550("OBJBookSpecialPageTurn", 0x121));
+            sound = reinterpret_cast<const BSSoundHandle&>(BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("OBJBookSpecialPageTurn", 0x121));
             sound.Play(false);
         }
         else
@@ -590,7 +591,7 @@ bool SPECIALBookMenu::FUN_007c9dc0(bool forward)
             pageIndex--;
             turned = true;
             BSSoundHandle sound;
-            sound = reinterpret_cast<const BSSoundHandle&>(BSAudio::GetSingleton()->FUN_00ad7550("OBJBookSpecialPageTurn", 0x121));
+            sound = reinterpret_cast<const BSSoundHandle&>(BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("OBJBookSpecialPageTurn", 0x121));
             sound.Play(false);
         }
         else
@@ -623,7 +624,7 @@ bool SPECIALBookMenu::FUN_007c9dc0(bool forward)
 }
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-extern "C" void* __cdecl FUN_00401000(unsigned int size);
+extern "C" void* __cdecl FormHeap_Allocate(unsigned int size);
 
 void __cdecl CallVfunc60WithGlobalOffset(void* p);
 void __cdecl FUN_007cabb0(void* p);
@@ -1025,7 +1026,7 @@ void SPECIALBookMenu::InitMenu()
     pLeft = new BkButton(FUN_007cabf0, FUN_007ca8a0, "Index_LT_Btn:0");
     m_groups[8].buttons.FUN_007cb2e0(pLeft);
 
-    FUN_007cadd0();
+    LoadBBTextures();
     for (int iGroup = 0; iGroup < 9; iGroup++)
     {
         for (unsigned int iItem = 0; iItem < m_groups[iGroup].displays.FUN_0044ddc0(); iItem++)
@@ -1116,7 +1117,7 @@ struct BookInterface
     float FUN_009a9350();
     float FUN_00792760();
 };
-BookInterface* __cdecl FUN_004b7210();
+BookInterface* __cdecl InterfaceManager_GetSingleton();
 struct RenderBuffer
 {
     unsigned int FUN_0084e3a0();
@@ -1208,7 +1209,7 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
         if (FUN_00794d80() == limit)
             FUN_007c6120();
         else
-            reinterpret_cast<BSSoundHandle&>(BSAudio::GetSingleton()->FUN_00ad7550("UIActivateNothing", 0x121)).Play(false);
+            reinterpret_cast<BSSoundHandle&>(BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("UIActivateNothing", 0x121)).Play(false);
         break;
     case 0:
     case 1:
@@ -1257,7 +1258,7 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
         if (oldValue9 != newValue)
         {
             BSSoundHandle sound;
-            sound = reinterpret_cast<const BSSoundHandle&>(BSAudio::GetSingleton()->FUN_00ad7550("OBJBookSpecialNumber", 0x121));
+            sound = reinterpret_cast<const BSSoundHandle&>(BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("OBJBookSpecialNumber", 0x121));
             sound.Play(false);
         }
         InvokeCallbacksForSlot();
@@ -1266,7 +1267,7 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
     case 5:
         if (pageIndex < 9)
         {
-            BookInterface* interfaceManager3 = FUN_004b7210();
+            BookInterface* interfaceManager3 = InterfaceManager_GetSingleton();
             int mouseX = (int)interfaceManager3->FUN_009a9350();
             int mouseY = (int)interfaceManager3->FUN_00792760();
             if (DAT_011f9426)
@@ -1300,7 +1301,7 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
         if (pageIndex == 8 && selectedStat > 1)
         {
             selectedStat--;
-            reinterpret_cast<BSSoundHandle&>(BSAudio::GetSingleton()->FUN_00ad7550("OBJBookSpecialFocus", 0x121)).Play(false);
+            reinterpret_cast<BSSoundHandle&>(BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("OBJBookSpecialFocus", 0x121)).Play(false);
         }
         InvokeCallbacksForSlot();
         break;
@@ -1308,7 +1309,7 @@ void SPECIALBookMenu::HandleKey(unsigned int key, int unused)
         if (pageIndex == 8 && selectedStat < 7)
         {
             selectedStat++;
-            reinterpret_cast<BSSoundHandle&>(BSAudio::GetSingleton()->FUN_00ad7550("OBJBookSpecialFocus", 0x121)).Play(false);
+            reinterpret_cast<BSSoundHandle&>(BSAudio::GetSingleton()->BSAudio_GetSoundHandleByEditorName("OBJBookSpecialFocus", 0x121)).Play(false);
         }
         InvokeCallbacksForSlot();
         break;

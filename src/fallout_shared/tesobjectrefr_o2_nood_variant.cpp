@@ -25,7 +25,7 @@ class bhkViewerObject_tesobjectrefr_o2_nood_variant
 {
 public:
     void FUN_00c9f480(NiViewerStringsArray* pkStrings);
-    void FUN_00c9ec00(hkTransform& kTransform);
+    void bhkShapePhantom_GetTransform(hkTransform& kTransform);
     void FUN_00c9ed30(NiViewerStringsArray* pkStrings);
 };
 #include "../../include/hkVector4.h"
@@ -41,13 +41,13 @@ __forceinline void hkVector4::setSub4(const hkVector4& a, const hkVector4& b)
     m_vComponents = ::_mm_sub_ps(a.m_vComponents, b.m_vComponents);
 }
 
-GarbageCollectorUpdateState* FUN_00446ef0();
-void* FUN_0056a8c0();
-void FUN_005743f0();
-void FUN_00575c90(unsigned char value);
-float FUN_005790b0();
-float FUN_005790d0();
-void FUN_0057acc0(unsigned int index);
+GarbageCollectorUpdateState* MemoryLevelManager_GetSingleton();
+void* DecalData_GetDefaultDecalData();
+void FalloutRadio_NewCellEntered();
+void TESWaterSystem_SetPlayerForceUnderwater(unsigned char value);
+float BSAudio_GetMinDialogDist();
+float BSAudio_GetMaxDialogDist();
+void CheckWithinMultiBoundTask_CancelAttachment(unsigned int index);
 
 extern "C" __declspec(thread) int tls_state;
 
@@ -85,9 +85,9 @@ class GlobalObjectO2_00a7b610
 };
 extern GlobalObjectO2_00a7b610 g_01268224;
 
-char* FUN_00a7d330(const char* pcText);
+char* NiViewerStrings_NiGetViewerString_Title(const char* pcText);
 
-void FUN_00624b10(NiMatrix3* pkOut, const hkRotation* pkIn);
+void HK2NI_00624b10(NiMatrix3* pkOut, const hkRotation* pkIn);
 void FUN_00458620(NiPoint3* pkOut, const hkVector4* pkIn);
 
 
@@ -97,13 +97,13 @@ void bhkViewerObject_tesobjectrefr_o2_nood_variant::FUN_00c9ed30(NiViewerStrings
     MemContextGuard kGuard(16);
 
     FUN_00c9f480(pkStrings);
-    AddViewerString(pkStrings, FUN_00a7d330(g_01268224.GetName()));
+    AddViewerString(pkStrings, NiViewerStrings_NiGetViewerString_Title(g_01268224.GetName()));
 
     hkTransform kTransform;
-    FUN_00c9ec00(kTransform);
+    bhkShapePhantom_GetTransform(kTransform);
 
     NiTransform kNiTransform;
-    FUN_00624b10(&kNiTransform.m_Rotate, reinterpret_cast<const hkRotation*>(&kTransform.m_row0));
+    HK2NI_00624b10(&kNiTransform.m_Rotate, reinterpret_cast<const hkRotation*>(&kTransform.m_row0));
     FUN_00458620(&kNiTransform.m_Translate, reinterpret_cast<const hkVector4*>(&kTransform.m_row3));
 
     AddViewerString(pkStrings, kNiTransform.m_Rotate.GetViewerString("Rot"));
@@ -118,7 +118,7 @@ struct InitArgs
     char flag0, flag1, flag2, flag3, flag4;
 };
 extern const char g_012683c8_arg0[];
-void __cdecl FUN_00624b10(void*, void*);
+void __cdecl HK2NI_00624b10(void*, void*);
 void __cdecl FUN_00458620(void*, void*);
 
 extern "C" __declspec(thread) int tls_memContext;
@@ -242,7 +242,7 @@ void Owner::FUN_00cb3650(ArgObj* arg)
         reinterpret_cast<hkRotation*>(&hk.m_row0)->FUN_00cb2d90(*reinterpret_cast<const hkQuaternion*>(&rotation));
         hk.m_row3 = vec30;
         NiTransform t;
-        FUN_00624b10(&t.m_Rotate, &hk.m_row0);
+        HK2NI_00624b10(&t.m_Rotate, &hk.m_row0);
         FUN_00458620(&t.m_Translate, &hk.m_row3);
         body->m_kLocal.m_Rotate = t.m_Rotate;
         body->m_kLocal.m_Translate = t.m_Translate;
@@ -332,7 +332,7 @@ struct Cls
 
 struct Arg
 {
-    void FUN_00c74ac0(__m128* out, Sub* sub);
+    void setMulInverse(__m128* out, Sub* sub);
 };
 
 // @fnv 0x00cb3200
@@ -340,7 +340,7 @@ Arg* Cls::FUN_00cb3200(Arg* arg)
 {
     __m128 buf;
     FUN_00c8d130(&buf);
-    arg->FUN_00c74ac0(&buf, &m_20);
+    arg->setMulInverse(&buf, &m_20);
     return arg;
 }
 
@@ -869,7 +869,7 @@ struct PositionSource
 };
 
 extern const char str_010c40a0[];
-NiAVObject* __cdecl FUN_00c55920(const NiPoint3* pkPosition, int iFlags);
+NiAVObject* __cdecl BSTestObjects_CreateBox_0(const NiPoint3* pkPosition, int iFlags);
 
 struct PositionOwner
 {
@@ -892,7 +892,7 @@ void PositionOwner::FUN_00ca02b0(NiNode* pkParent, int iUnused)
     kPoint.x *= 2.0;
     kPoint.y *= 2.0;
     kPoint.z *= 2.0;
-    NiAVObject* pkMarker = FUN_00c55920(&kPoint, 0);
+    NiAVObject* pkMarker = BSTestObjects_CreateBox_0(&kPoint, 0);
     if (pkMarker)
     {
         static NiFixedString kName(str_010c40a0);
@@ -918,7 +918,7 @@ struct Obj08
     int unk1C;
     __m128 m_20;
     void hkpCharacterProxy_setPosition(__m128* v);
-    void FUN_00cac110();
+    void bhkCharacterController_UnMarkWrite();
 };
 
 struct Obj570
@@ -1294,7 +1294,7 @@ class MotionObject
     int unk056C;
     Obj570 m_570;
     Obj594* m_594;
-    void FUN_00cac110();
+    void bhkCharacterController_UnMarkWrite();
     void FUN_00c6e390(__m128* v);
 };
 
@@ -1309,10 +1309,10 @@ void MotionObject::FUN_00c6e390(__m128* v)
     Obj08* object = m_08;
     if (object != 0)
     {
-        FUN_00cac110();
+        bhkCharacterController_UnMarkWrite();
         object->hkpCharacterProxy_setPosition(&s);
         object->m_20 = _mm_setzero_ps();
-        FUN_00cac110();
+        bhkCharacterController_UnMarkWrite();
     }
 }
 
@@ -1511,7 +1511,7 @@ struct C9FA20_TlsGuard
 };
 struct C9FA20_Alloc
 {
-    void* __thiscall FUN_00aa3e40(unsigned int size);
+    void* __thiscall Game_DoHeapAlloc(unsigned int size);
 };
 extern C9FA20_Alloc DAT_011f6238;
 struct C9FA20_Array
@@ -1535,7 +1535,7 @@ struct C9FA20_Data
 
     static __forceinline void* operator new(unsigned int size)
     {
-        unsigned char* p = static_cast<unsigned char*>(DAT_011f6238.FUN_00aa3e40(size + 0x10));
+        unsigned char* p = static_cast<unsigned char*>(DAT_011f6238.Game_DoHeapAlloc(size + 0x10));
         unsigned char offset = (unsigned char)(0x10 - ((unsigned int)p & 0xf));
         p += offset;
         p[-1] = offset;

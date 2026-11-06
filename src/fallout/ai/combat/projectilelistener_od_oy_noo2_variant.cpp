@@ -526,16 +526,16 @@ Ref9C64* __cdecl GetReferenceFromObject(void* pvObject);
 NiPoint3& __cdecl FUN_00458620(NiPoint3& kOut, const hkVector4& kIn);
 NiPoint3& __cdecl FUN_004a3970(NiPoint3& kOut, const hkVector4& kIn);
 void* __cdecl FUN_004b5950(const void* pvObject);
-WorldObject9C64* __cdecl FUN_004b5a80(void* pvEntry);
+WorldObject9C64* __cdecl bhkEntity_Getbhk(void* pvEntry);
 bool __cdecl FUN_005ac750(void* pvForm, ExtraList9C64* pkExtra, unsigned int uiFlag);
 bool __cdecl FUN_0043b300(NiRTTI* pkRTTI, WorldObject9C64* pkObject);
 CollisionObject9C64* __cdecl FUN_004b5260(Node9C64* pkNode);
-bool __cdecl FUN_009c5ba0(PickData9C64* pkPick, Node9C64* pkNode, bool bCheckMotion, bool bUpdate);
+bool __cdecl Projectile_PickSceneGraph(PickData9C64* pkPick, Node9C64* pkNode, bool bCheckMotion, bool bUpdate);
 
 class Listener9C64
 {
   public:
-    void FUN_009c6490(void* pvUnused, Event9C64* pkEvent);
+    void ProjectileListener_contactPointAddedCallback(void* pvUnused, Event9C64* pkEvent);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -686,7 +686,8 @@ class Listener9C64
 // Preserve the original /GS stack protection with the shared vector union.
 #pragma strict_gs_check(push, on)
 // @fnv 0x009c6490
-void Listener9C64::FUN_009c6490(void* pvUnused, Event9C64* pkEvent)
+// src: COMMUNITY 0x009c6490
+void Listener9C64::ProjectileListener_contactPointAddedCallback(void* pvUnused, Event9C64* pkEvent)
 {
     Owner9C64* pkOwner = m_pkOwnerManager;
     if (!pkOwner)
@@ -699,7 +700,7 @@ void Listener9C64::FUN_009c6490(void* pvUnused, Event9C64* pkEvent)
     void* pvObject = pkEvent->m_pvObject;
     unsigned int uiData = pkEvent->m_uiData;
     void* pvEntry = FUN_004b5950(pvObject);
-    WorldObject9C64* pkWorldObject = pvEntry ? FUN_004b5a80(pvEntry) : 0;
+    WorldObject9C64* pkWorldObject = pvEntry ? bhkEntity_Getbhk(pvEntry) : 0;
     if (pkRef && pkWorldObject &&
         (pkWorldObject->GetFilter().GetLayer() == 0x17 || pkWorldObject->GetFilter().GetLayer() == 0x18))
     {
@@ -734,7 +735,7 @@ void Listener9C64::FUN_009c6490(void* pvUnused, Event9C64* pkEvent)
             kPick.SetTo(kRay);
             AllRayHits9C64 kHits;
             kPick.SetCollector(&kHits);
-            bool bHitDetected = FUN_009c5ba0(&kPick, pkNode, false, true);
+            bool bHitDetected = Projectile_PickSceneGraph(&kPick, pkNode, false, true);
             if (bHitDetected && kPick.GetCollector()->GetHits()->GetSize() > 0)
             {
                 bBlocked = false;

@@ -94,7 +94,7 @@ struct SubC0
     int unk004;
     int unk008;
     int unk00c;
-    void __thiscall FUN_00e10a10(void* p2);
+    void __thiscall hkpPrimitiveDrawer_setDisplayHandler(void* p2);
     void __thiscall FUN_00e10d50(void* target, Vec4* a, Vec4* b, int color, float t, int p3, int p4);
 };
 struct FloatPair
@@ -264,7 +264,7 @@ struct DrawerBase
     RotationColumns m60, m90;
     SubC0 mC0;
 
-    void __thiscall FUN_00de47e0(P1*, Buf40*, Buf40*);
+    void __thiscall hkpConstraintDrawer_updateCommonParameters(P1*, Buf40*, Buf40*);
     void __thiscall hkpConstraintDrawer_drawPivots(int, int);
     __forceinline float arrowSize() const
     {
@@ -290,11 +290,11 @@ struct This : DrawerBase
 void __thiscall This::FUN_00de59f0(P1* p1, P2Vtbl* p2, int p3, int p4)
 {
     Mat* mat = p1->mat;
-    mC0.FUN_00e10a10(p2);
+    mC0.hkpPrimitiveDrawer_setDisplayHandler(p2);
     This& receivers = *this;
     {
         Buf40 bufferA, bufferB;
-        FUN_00de47e0(p1, &bufferA, &bufferB);
+        hkpConstraintDrawer_updateCommonParameters(p1, &bufferA, &bufferB);
         receivers.m50.FUN_00c7f640(&bufferA, &DAT_01267e30);
         m40.FUN_00c7f640(&bufferB, &DAT_01267e30);
     }

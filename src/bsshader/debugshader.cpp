@@ -112,8 +112,8 @@ bool BloodSplatterBeamShader::ConfigureShaderPass()
     NiPointer<BeamStage> stage;
     BeamStage::CreateNewStage(stage);
     ConfigureBeamStage(stage.m_pObject, 0, 3, 2, true);
-    stage.m_pObject->FUN_00e7def0(0);
-    spPass[0].m_pObject->FUN_00e802b0(spPass[0].m_pObject->m_uiCurrentStage, stage.m_pObject);
+    stage.m_pObject->NiD3DTextureStage_SetFilterMode(0);
+    spPass[0].m_pObject->NiD3DPass_SetStage(spPass[0].m_pObject->m_uiCurrentStage, stage.m_pObject);
     spPass[0].m_pObject->SetVertexShader(m_spTreeVertexShader.m_pObject);
     spPass[0].m_pObject->SetPixelShader(m_spPixelShaderVariants[0].m_pObject);
     spPass[0].m_pObject->SetRenderState(7, 0, true);
@@ -310,12 +310,13 @@ class FUN_00bd1c50_cls
     unsigned int m_6c[20];
     unsigned int m_bc;
 
-    int FUN_00bd1c50(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
+    int DebugShader_UpdatePipeline(int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 };
 
 // Updates the first texture stage and pixel shader, then selects this render pass.
 // @fnv 0x00bd1c50
-int FUN_00bd1c50_cls::FUN_00bd1c50(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+// src: COMMUNITY 0x00bd1c50
+int FUN_00bd1c50_cls::DebugShader_UpdatePipeline(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
     v59();
     m_5c->m_kStages.m_pBase[0].m_pObject->m_uiTextureStage = m_6c[m_bc];
@@ -553,7 +554,8 @@ bool DebugShaderInit::InitDebugShader()
 
 void LoadDebugShaders();
 // @fnv 0x00bd1940
-void FUN_00bd1940()
+// src: COMMUNITY 0x00bd1940
+void DebugShader_ReloadShaders()
 {
     LoadDebugShaders();
 }
@@ -673,7 +675,7 @@ struct RenderContext : RenderResource
     {
         this->owner = owner;
     }
-    void FUN_00a87790(void* device);
+    void NiScreenElements_Draw(void* device);
 };
 
 struct DisplayTarget
@@ -986,7 +988,7 @@ void RenderOwner::DrawSlots(void* destination)
             {
                 DAT_011f4748->PrepareFrame(&viewportRect);
             }
-            context.m_pObject->FUN_00a87790(DAT_011f4748);
+            context.m_pObject->NiScreenElements_Draw(DAT_011f4748);
             slots[GetIndex()] = 0;
             context.m_pObject->SetOwner(0);
         }

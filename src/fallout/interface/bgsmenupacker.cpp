@@ -38,7 +38,7 @@ extern const char UNK_0106e87c[];
 extern const char UNK_0106e84c[];
 extern const char UNK_0106e820[];
 extern const char UNK_0106e800[];
-int __cdecl FUN_00703c00(const char*, ...);
+int __cdecl Interface_PrintLine(const char*, ...);
 struct FNVCollection
 {
     int GetShortAtOffsetA();
@@ -48,14 +48,14 @@ struct FNVCollection
 // @fnv 0x00700350
 void FNVCollection::FUN_00700350()
 {
-    FUN_00703c00(UNK_0106e8ac);
+    Interface_PrintLine(UNK_0106e8ac);
     for (int index = 0; index < GetShortAtOffsetA(); ++index)
     {
         FNVEntry* entry = *FUN_00877a30(index);
-        FUN_00703c00(UNK_0106e87c, entry->member18->FUN_00700300(), entry->member18->FUN_0045cd60()->FUN_00700300());
-        FUN_00703c00(UNK_0106e84c, entry->value00, entry->value04, entry->value10, entry->value14);
-        FUN_00703c00(UNK_0106e820, entry->value08, entry->value0c, entry->member18->FUN_0056c7f0()->FUN_0043c490()->x,
+        Interface_PrintLine(UNK_0106e87c, entry->member18->FUN_00700300(), entry->member18->FUN_0045cd60()->FUN_00700300());
+        Interface_PrintLine(UNK_0106e84c, entry->value00, entry->value04, entry->value10, entry->value14);
+        Interface_PrintLine(UNK_0106e820, entry->value08, entry->value0c, entry->member18->FUN_0056c7f0()->FUN_0043c490()->x,
                      entry->member18->FUN_0056c7f0()->FUN_0043c490()->z);
     }
-    FUN_00703c00(UNK_0106e800);
+    Interface_PrintLine(UNK_0106e800);
 }

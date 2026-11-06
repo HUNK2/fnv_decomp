@@ -26,7 +26,8 @@ void FUN_0056d6c0_class::FUN_0056d6c0()
 }
 
 // @fnv 0x00624e70
-int hkFileSystem::FUN_00624e70(const char*, void*)
+// src: COMMUNITY 0x00624e70
+int hkFileSystem::return_1_0(const char*, void*)
 {
     return 1;
 }
@@ -233,12 +234,13 @@ struct FUN_00626390_class
     void* pad0;
     void* pad1;
     BSFile* pFile;
-    int FUN_00626390();
+    int HavokFileStreambufReader_tell();
 };
 
 // Returns the result of FUN_004720a0 on pFile, or 0 when pFile is null.
 // @fnv 0x00626390
-int FUN_00626390_class::FUN_00626390()
+// src: COMMUNITY 0x00626390
+int FUN_00626390_class::HavokFileStreambufReader_tell()
 {
     return pFile ? FUN_004720a0(reinterpret_cast<char*>(pFile)) : 0;
 }
@@ -414,7 +416,8 @@ FUN_00625f10_cls::FUN_00625f10_cls()
 extern void __cdecl FUN_00c66670();
 
 // @fnv 0x00625fb0
-void __cdecl FUN_00625fb0()
+// src: COMMUNITY 0x00625fb0
+void __cdecl HavokSystem_Kill()
 {
     FUN_00c66670();
 }
@@ -805,7 +808,7 @@ struct LogStub6257
     virtual int __cdecl Report(const char* pcFile, int iLine, const char* pcMessage);
 };
 
-LogStub6257* __cdecl FUN_0043bd00();
+LogStub6257* __cdecl BSCoreMessage_GetInstance();
 
 struct FUN_00622570
 {
@@ -869,7 +872,7 @@ void ErrorHandler6257::FUN_00625790(const char* pcPrefix, int aiSoundId, const c
         pcReportFile = pcFile;
         iLineNo = iLine;
     }
-    if (FUN_0043bd00()->Report(pcReportFile, iLineNo, acMsg) == 5)
+    if (BSCoreMessage_GetInstance()->Report(pcReportFile, iLineNo, acMsg) == 5)
         Raise(aiSoundId, FUN_00622570(false));
 }
 

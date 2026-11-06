@@ -32,12 +32,12 @@ struct MemContextGuard
 
 struct GlobalAllocator
 {
-    void* __thiscall FUN_00aa3e40(unsigned int uiSize);
+    void* __thiscall Game_DoHeapAlloc(unsigned int uiSize);
 };
 extern GlobalAllocator DAT_011f6238;
 inline void* FileAlloc(unsigned int uiSize)
 {
-    return DAT_011f6238.FUN_00aa3e40(uiSize);
+    return DAT_011f6238.Game_DoHeapAlloc(uiSize);
 }
 
 class FileObject

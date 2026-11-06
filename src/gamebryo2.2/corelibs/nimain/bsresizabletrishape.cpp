@@ -10,7 +10,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f5b34;
 
 // @fnv 0x00a86d20
-GlobalObjectO2_00a7b610* __cdecl FUN_00a86d20()
+// src: COMMUNITY 0x00a86d20
+GlobalObjectO2_00a7b610* __cdecl BSResizableTriShape_GetRTTI()
 {
     return &g_011f5b34;
 }

@@ -178,7 +178,8 @@ struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4054;
 // Returns the address of the global object g_011f4054.
 // @fnv 0x00a537e0
-void* __cdecl FUN_00a537e0()
+// src: COMMUNITY 0x00a537e0
+void* __cdecl NiBoolData_GetRTTI()
 {
     return &g_011f4054;
 }
@@ -192,7 +193,8 @@ void __fastcall FUN_00c1ba30(NiPSysEmitterCtlr* self, int unused)
 
 extern const char* const g_01203340_arg1;
 // @fnv 0x00c1c2f0
-const char* const* __cdecl FUN_00c1c2f0()
+// src: COMMUNITY 0x00c1c2f0
+const char* const* __cdecl NiPSysEmitterCtlr_GetRTTI()
 {
     return &g_01203340_arg1;
 }
@@ -1065,8 +1067,8 @@ struct EmitterKeyInterpolator : NiInterpolator
     virtual void vf59();
     virtual void vf60();
     virtual bool Posed(unsigned short channel);
-    __declspec(noalias) ActiveKey* FUN_00a52d20(unsigned int&, unsigned int&, unsigned char&);
-    __declspec(noalias) ActiveKey* FUN_00533000(unsigned int&, unsigned int&, unsigned char&);
+    __declspec(noalias) ActiveKey* NiBoolInterpolator_GetKeys(unsigned int&, unsigned int&, unsigned char&);
+    __declspec(noalias) ActiveKey* NiFloatInterpolator_GetKeys_0(unsigned int&, unsigned int&, unsigned char&);
 };
 struct C630Blend
 {
@@ -1185,7 +1187,7 @@ void C630Ctlr::FUN_00c1c630(float* time)
     m_pEmitterActiveInterpolator = (NiInterpolator*)rateInterp;
     unsigned int activeCount, activeType;
     unsigned char boolKeySize;
-    ActiveKey* emitterKeys = emitterActive->FUN_00a52d20(activeCount, activeType, boolKeySize);
+    ActiveKey* emitterKeys = emitterActive->NiBoolInterpolator_GetKeys(activeCount, activeType, boolKeySize);
     if (!activeCount && !emitterActive->Posed(0))
         return;
     if (emitterActive->Posed(0))
@@ -1214,7 +1216,7 @@ void C630Ctlr::FUN_00c1c630(float* time)
         }
         unsigned int rateCount, rateType;
         unsigned char ucRateSize;
-        ActiveKey* birthKeys = rateInterp->FUN_00533000(rateCount, rateType, ucRateSize);
+        ActiveKey* birthKeys = rateInterp->NiFloatInterpolator_GetKeys_0(rateCount, rateType, ucRateSize);
         float rateBegin = birthKeys->time;
         float rateEnd = birthKeys->At(rateCount - 1, ucRateSize)->time;
         float deltaTime = 0.0f;

@@ -31,9 +31,9 @@ class NiAlphaProperty : public NiProperty
 
     void FUN_0049ed90(bool enable);
     void FUN_0094db80(unsigned char value);
-    void FUN_00439340(int value);
-    void FUN_00439390(int value);
-    void FUN_00636000(bool enable);
+    void NiAlphaProperty_SetSrcBlendMode(int value);
+    void NiAlphaProperty_SetDestBlendMode(int value);
+    void NiAlphaProperty_SetNoSorter(bool enable);
     void FUN_00633ba0(bool enable, unsigned short flags);
     void FUN_00633ba0(bool enable, unsigned int flags);
     void FUN_00439320();

@@ -108,7 +108,7 @@ MagicCaster* __thiscall PlayerCharacter::GetFloatAsUInt()
     return reinterpret_cast<MagicCaster*>(((Flt*)((char*)this + 0x634))->operator unsigned int());
 }
 
-void* __cdecl FUN_004b5a80(void const*);
+void* __cdecl bhkEntity_Getbhk(void const*);
 
 struct FUN_0082aeb0_shell
 {
@@ -121,7 +121,7 @@ struct FUN_0082aeb0_shell
 void* __thiscall FUN_0082aeb0_shell::FUN_0082aeb0()
 {
     void* result = FUN_0082aee0();
-    return FUN_004b5a80(result);
+    return bhkEntity_Getbhk(result);
 }
 
 // Destroys the GO and ValueModifierEffect subobjects without changing the vtable.
@@ -481,13 +481,13 @@ void TelekinesisEffect::StartTelekinesisEffect()
     bhkWorldObject* i = a ? a->FUN_006fa820() : 0;
     if (i)
         FUN_00807ac0(i);
-    if (!i || (i->FUN_0043b4f0().FUN_0043b4d0() != 4 && i->FUN_0043b4f0().FUN_0043b4d0() != 5))
+    if (!i || (i->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() != 4 && i->bhkWorldObject_GetCollisionFilter().FUN_0043b4d0() != 5))
     {
         Dispel(false);
         return;
     }
     void* p = i->FUN_004ae750();
-    new TelekinesisConstraint(reinterpret_cast<TelekinesisReference*>(target), i, i->FUN_0043b4f0().value);
+    new TelekinesisConstraint(reinterpret_cast<TelekinesisReference*>(target), i, i->bhkWorldObject_GetCollisionFilter().value);
     NiObject* eb = FUN_00653270(&DAT_011f9140, h);
     if (eb)
         eb->FUN_00b4dec0(6);
@@ -495,7 +495,7 @@ void TelekinesisEffect::StartTelekinesisEffect()
         g_thePlayer->FUN_00961280();
     if (!g_TESSaveLoadGame->FUN_0047c850())
         magnitude = DAT_01022958;
-    g_thePlayer->FUN_0095f930(reinterpret_cast<TelekinesisReference*>(target), 3, magnitude);
+    g_thePlayer->PlayerCharacter_CreateMouseSpring(reinterpret_cast<TelekinesisReference*>(target), 3, magnitude);
     NiPoint3 s;
     NiPoint3 f;
     g_thePlayer->GetCameraPosAndDir(&s, &f, true);

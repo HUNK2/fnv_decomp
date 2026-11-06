@@ -16,14 +16,14 @@ struct FUN_0062e750_shell
 };
 void __cdecl _Deallocate(void* p);
 extern int DAT_011c7a3c;
-void FUN_0062f310(int value);
+void TESWaterSystem_SetCurrentWaterType(int value);
 extern unsigned char DAT_011c7a5a;
-void FUN_0062f8e0(unsigned char value);
+void TESWaterSystem_SetCameraInPlaceableWater(unsigned char value);
 extern float _DAT_011c7a5c;
-void FUN_0062f8f0(float value);
+void TESWaterSystem_SetCameraRelevantWaterHeight(float value);
 unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane);
 extern "C" float __cdecl ExpFloat(float);
-float FUN_00630aa0(float value);
+float exp_00630aa0(float value);
 extern "C" double __cdecl _exp(double);
 float ExpFloat(float value);
 extern float _gModifierZero;

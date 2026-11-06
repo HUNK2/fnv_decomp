@@ -711,7 +711,7 @@ extern FloatSetting9B6 g_kLinkScale9B6;
 extern FloatSetting9B6 g_kCrippledScale9B6;
 
 bool __cdecl FUN_0066de30(void* pvForm);
-Query9B6* __cdecl FUN_00626dd0(int iNotPlayer, int iMode);
+Query9B6* __cdecl HitCaster_GetInstance(int iNotPlayer, int iMode);
 NiAVObject* __cdecl FUN_004b5820(Collidable9B6* pkCollidable);
 Ref9B6* __cdecl FUN_0056f930(NiAVObject* pkObject);
 Entity9B6* __cdecl FUN_004b59f0(Collidable9B6* pkCollidable);
@@ -812,7 +812,7 @@ void Target9B6::FUN_009b6620(Event9B6* pkEvent)
         Middle9B6* pkMiddle = m_pkAttacker->GetMiddle();
         if (pkMiddle)
         {
-            Query9B6* pkQuery = FUN_00626dd0(m_pkAttacker != g_pkPlayer9B6, 1);
+            Query9B6* pkQuery = HitCaster_GetInstance(m_pkAttacker != g_pkPlayer9B6, 1);
             pkQuery->SetWorld(pkMiddle->GetWorld());
             pkQuery->Cast(kFrom, kLookDir, fScaleMultiplier);
             Results9B6* pkResults = pkQuery->GetResults();

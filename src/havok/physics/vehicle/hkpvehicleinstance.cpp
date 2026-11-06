@@ -76,7 +76,7 @@ public:
     void __thiscall FUN_004b4db0(const PacketCallLocal_00e38140* vector);
     PacketCallLocal_00e38140& FUN_00e531a0(int parameter);
     PacketCallLocal_00e38140 FUN_00e53260(int parameter);
-    void FUN_005611c0();
+    void normalize_005611c0();
 
     void operator=(const PacketCallLocal_00e38140& vector);
     float& operator()(int index);

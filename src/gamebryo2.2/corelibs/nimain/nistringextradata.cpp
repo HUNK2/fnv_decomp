@@ -20,7 +20,8 @@ extern "C" void* DAT_011f4a38;
 
 // Returns the address of the global DAT_011f4a38.
 // @fnv 0x00a74220
-void* __cdecl FUN_00a74220()
+// src: COMMUNITY 0x00a74220
+void* __cdecl NiStringExtraData_GetRTTI()
 {
     return &DAT_011f4a38;
 }
@@ -177,7 +178,7 @@ struct NiStrTable
     }
 };
 
-extern "C" char* __cdecl FUN_00a7d330(char* s);
+extern "C" char* __cdecl NiViewerStrings_NiGetViewerString_Title(char* s);
 extern "C" char* __cdecl FUN_00a7d5e0(const char* key, char* value);
 
 extern "C" void FUN_00a7b580();
@@ -186,7 +187,7 @@ extern "C" void FUN_00a7b580();
 void __fastcall NiStringExtraData_GetViewerStrings(NiStringExtraData* self, void*, NiStream& stream)
 {
     reinterpret_cast<void (__thiscall*)(NiExtraData*, NiStream&)>(&FUN_00a7b580)(self, stream);
-    reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d330((char*)DAT_011f4a38));
+    reinterpret_cast<NiStrTable&>(stream).Add(NiViewerStrings_NiGetViewerString_Title((char*)DAT_011f4a38));
     char* s = self->m_p;
     reinterpret_cast<NiStrTable&>(stream).Add(FUN_00a7d5e0("m_kString", s));
 }

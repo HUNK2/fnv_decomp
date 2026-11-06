@@ -85,7 +85,8 @@ void __fastcall GetTriangleVertices(NiTriStrips* self, void*, unsigned short m_u
 extern char const* const g_012024b8_arg1;
 
 // @fnv 0x00a71d20
-char const* const* __cdecl FUN_00a71d20()
+// src: COMMUNITY 0x00a71d20
+char const* const* __cdecl NiTriStrips_GetRTTI()
 {
     return &g_012024b8_arg1;
 }

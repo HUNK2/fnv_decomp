@@ -35,7 +35,8 @@ void hkDisplayCapsule::buildGeometry()
 }
 
 // @fnv 0x00d22db0
-void __stdcall FUN_00d22db0(int, int)
+// src: COMMUNITY 0x00d22db0
+void __stdcall nullsub_74(int, int)
 {}
 
 extern "C"

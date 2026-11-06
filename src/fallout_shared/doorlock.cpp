@@ -792,7 +792,7 @@ struct Door
 struct Location
 {
     bool FUN_006dd6f0(int);
-    Nav* FUN_0044edb0();
+    Nav* TESMain_GetThread();
     NiPoint3 FUN_005c3420() const;
 };
 struct ParentSpaceNode
@@ -1911,8 +1911,8 @@ bool BuildPathWithDoors(Location* start, Location* end, Result* result, int a4, 
         FUN_006b8340 builder;
         PathBuilderDetailedPathInfos infos;
         FUN_005e04c0 doors;
-        if (builder.SetupNavMeshSearch(a4, start->FUN_005c3420(), start->FUN_0044edb0(), end->FUN_005c3420(),
-                                       end->FUN_0044edb0(), infos, doors, a5))
+        if (builder.SetupNavMeshSearch(a4, start->FUN_005c3420(), start->TESMain_GetThread(), end->FUN_005c3420(),
+                                       end->TESMain_GetThread(), infos, doors, a5))
         {
             ParentSpaceNode node;
             node.unk04 = infos.FUN_00877a30(0)->FUN_00690800();

@@ -442,7 +442,7 @@ struct S_00cf10f0_Arr4
     }
 };
 int __cdecl LoadIntArray(S_00cf10f0_Stream* kStream, S_00cf10f0_Arr4* arr);
-int __cdecl FUN_00cf1f80(int, int, int);
+int __cdecl hkSweptTransformUtil_warpTo(int, int, int);
 int __cdecl hkSweptTransformUtil_warpToRotation(unsigned int arg0, unsigned int arg1);
 #include <xmmintrin.h>
 struct Obj
@@ -553,7 +553,8 @@ struct TransformData
     __m128 zero;
 };
 // @fnv 0x00cf20d0
-extern "C" void __cdecl FUN_00cf20d0(const __m128* source, TransformData* data)
+// src: COMMUNITY 0x00cf20d0
+extern "C" void __cdecl hkSweptTransformUtil_warpToPosition(const __m128* source, TransformData* data)
 {
     data->zero = _mm_setzero_ps();
     data->sourceCopy = *source;
@@ -585,7 +586,7 @@ struct Obj_t
 
     void FUN_00cb2d90(const __m128& value);
 };
-void __cdecl FUN_00cf1f80(const __m128& first, const __m128& second, Obj_t* obj);
+void __cdecl hkSweptTransformUtil_warpTo(const __m128& first, const __m128& second, Obj_t* obj);
 
 extern double DAT_01012070;
 
@@ -856,10 +857,10 @@ struct Bool8
 struct __declspec(align(16)) Quat
 {
     float x, y, z, w;
-    void FUN_00c74ac0(const hkQuaternion* a, const hkQuaternion* b);
+    void setMulInverse(const hkQuaternion* a, const hkQuaternion* b);
     float GetAngle();
     Bool8* FUN_00ce1500(Bool8* o);
-    void FUN_00c74c90(hkVector4* out);
+    void hkQuaternion_getAxis(hkVector4* out);
 };
 
 
@@ -873,14 +874,14 @@ void __cdecl FUN_00cf2180(const TimeInterval& info, const hkVector4& pos1, const
     st.m_qRotation1 = rot1;
 
     Quat diff;
-    diff.FUN_00c74ac0(&rot1, &st.m_qRotation0);
+    diff.setMulInverse(&rot1, &st.m_qRotation0);
     float angle = diff.GetAngle();
     hkVector4 axis;
     Bool8 ok;
     if (diff.FUN_00ce1500(&ok)->b != 0)
     {
         hkVector4 t;
-        diff.FUN_00c74c90(&t);
+        diff.hkQuaternion_getAxis(&t);
         axis = t;
     }
     else

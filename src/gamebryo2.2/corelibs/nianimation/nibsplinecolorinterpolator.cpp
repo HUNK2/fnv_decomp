@@ -19,7 +19,8 @@ unsigned int NiBSplineColorInterpolator::GetControlHandle(unsigned short usChann
 extern char const* const g_011f4024_arg1;
 
 // @fnv 0x00a51aa0
-char const* const* __cdecl FUN_00a51aa0()
+// src: COMMUNITY 0x00a51aa0
+char const* const* __cdecl NiBSplineColorInterpolator_GetRTTI()
 {
     return &g_011f4024_arg1;
 }
@@ -108,7 +109,7 @@ void __fastcall FUN_00a51ca0(NiBSplineColorInterpolator* self, void* unused, NiS
 }
 
 extern char const* const g_011f4024_arg1;
-char* __cdecl FUN_00a7d330(char const*);
+char* __cdecl NiViewerStrings_NiGetViewerString_Title(char const*);
 char* __cdecl FUN_00a7d510(char const*, unsigned int);
 template <class T> struct FnvStringMallocInterface
 {
@@ -129,7 +130,7 @@ struct StringArray : FnvStringPrimitiveArray<char*, FnvStringMallocInterface<cha
 void __fastcall AppendColorACPHandleStrings(NiBSplineColorInterpolator* self, void* unused, StringArray* array)
 {
     ((SplineBaseOperations*)self)->AppendStrings(array);
-    char* value = FUN_00a7d330(g_011f4024_arg1);
+    char* value = NiViewerStrings_NiGetViewerString_Title(g_011f4024_arg1);
     unsigned int index = array->size;
     if (index >= array->capacity)
         array->SetSize(index + array->growth);

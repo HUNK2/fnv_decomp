@@ -70,7 +70,7 @@ ShadowSceneLight* BSShaderLightingProperty::GetFirstAttachedLight(void*& iter)
 void ShadowSceneLightPointerList::InsertAfter(void* source, void* const& process)
 {
     bsshaderlightingproperty_NodePool* allocator = (bsshaderlightingproperty_NodePool*)((char*)this + 8);
-    void* node = allocator->FUN_0043a010();
+    void* node = allocator->NiGeometry_AddProperty();
     *(void**)((char*)node + 8) = *(void**)&process;
     *(void**)node = source;
     *(void**)((char*)node + 4) = *(void**)((char*)source + 4);
@@ -748,7 +748,8 @@ struct FUN_00b70600_list
 };
 
 // @fnv 0x00b70600
-ShadowSceneLight* __fastcall FUN_00b70600(FUN_00b70600_list* self, int unused, FUN_00b70600_node** it)
+// src: COMMUNITY 0x00b70600
+ShadowSceneLight* __fastcall BSShaderLightingProperty_GetFirstActiveNonShadowLight(FUN_00b70600_list* self, int unused, FUN_00b70600_node** it)
 {
     FUN_00b70600_node* n = self->head;
     *it = n;
@@ -820,7 +821,8 @@ void __cdecl UpdateWaterTint(unsigned int, FUN_00b71360_water*, float);
 void __cdecl ApplyWaterLighting(unsigned int, FUN_00b71360_water*, float);
 void __cdecl SetLightColor(unsigned int, FUN_00b71360_water*, float);
 // @fnv 0x00b71360
-void __cdecl FUN_00b71360(unsigned int id, FUN_00b71360_water* w, float fValue)
+// src: COMMUNITY 0x00b71360
+void __cdecl BSShaderLightingProperty_SetLight(unsigned int id, FUN_00b71360_water* w, float fValue)
 {
     NiGeometry* g = *DAT_011f91e0;
     if (reinterpret_cast<FUN_00b71360_inner*>(g->m_spShader)->type == 0x11)
@@ -958,7 +960,8 @@ struct FUN_00bb95b0_entry
 extern FUN_00bb95b0_entry DAT_01201c80[];
 // Stores the four arguments into the first four fields of the DAT_01201c80 entry at index i.
 // @fnv 0x00bb95b0
-void __cdecl FUN_00bb95b0(int aiIndex, int aiValue0, int aiValue1, int aiValue2, int aiValue3)
+// src: COMMUNITY 0x00bb95b0
+void __cdecl Lighting30Shader_SetLightColor(int aiIndex, int aiValue0, int aiValue1, int aiValue2, int aiValue3)
 {
     FUN_00bb95b0_entry* p = &DAT_01201c80[aiIndex];
     p->a = aiValue0;
@@ -976,7 +979,8 @@ extern FUN_00bb95e0_entry DAT_01201c80[];
 
 // Stores the eight arguments into the fields of the DAT_01201c80 entry at index i, writing e,f,g,h then a,b,c,d.
 // @fnv 0x00bb95e0
-void FUN_00bb95e0(int aiIndex, int aiE, int aiF, int aiG, int aiH, int aiA, int aiB, int aiC, int aiD)
+// src: COMMUNITY 0x00bb95e0
+void Lighting30Shader_SetLight(int aiIndex, int aiE, int aiF, int aiG, int aiH, int aiA, int aiB, int aiC, int aiD)
 {
     DAT_01201c80[aiIndex].e = aiE;
     DAT_01201c80[aiIndex].f = aiF;
@@ -1010,7 +1014,8 @@ static inline bool Skip_b70700(ShadowSceneLight* p)
 }
 
 // @fnv 0x00b70700
-ShadowSceneLight* __stdcall FUN_00b70700(NiTListItem<ShadowSceneLight*>*& kPos)
+// src: COMMUNITY 0x00b70700
+ShadowSceneLight* __stdcall BSShaderLightingProperty_GetNextActiveNonShadowLight(NiTListItem<ShadowSceneLight*>*& kPos)
 {
     ShadowSceneLight* p = 0;
     if (kPos)
@@ -1061,8 +1066,8 @@ struct LProp
     LMat* pMatrix;
 };
 float FUN_0040ebd0(float, float);
-void FUN_00bb95b0(unsigned int, LColorA);
-void FUN_00bb95e0(unsigned int, LColorA, LColorA);
+void Lighting30Shader_SetLightColor(unsigned int, LColorA);
+void Lighting30Shader_SetLight(unsigned int, LColorA, LColorA);
 extern LColorA DAT_011a9bd0;
 extern bool _DAT_011F941E;
 
@@ -1073,7 +1078,7 @@ void SetLightColor(unsigned int uiLightIndex, LProp* pLightProp, float fIntensit
         return;
     if (!pLightProp)
     {
-        FUN_00bb95b0(uiLightIndex, DAT_011a9bd0);
+        Lighting30Shader_SetLightColor(uiLightIndex, DAT_011a9bd0);
         return;
     }
     LMat* pMatrix = pLightProp->pMatrix;
@@ -1098,7 +1103,7 @@ void SetLightColor(unsigned int uiLightIndex, LProp* pLightProp, float fIntensit
         kB.b = kC.b * fScale;
     }
     kB.a = pLightProp->fAlpha;
-    FUN_00bb95e0(uiLightIndex, kA, kB);
+    Lighting30Shader_SetLight(uiLightIndex, kA, kB);
 }
 }  // namespace fnv_00b71130
 
@@ -1110,7 +1115,7 @@ struct LightingElem
 {
     unsigned char pad[0xec];
     bool bFlag;
-    void FUN_00ba01a0(void* arg, int zero);
+    void ShadowSceneLight_RemoveTriGeom(void* arg, int zero);
 };
 struct LItem
 {
@@ -1193,7 +1198,7 @@ void FUN_00b71600_S::RemoveItemsAfterPos(void* arg)
             LightingElem* elem = it->m_element;
             it = it->m_pkNext;
             kList.RemoveItem(cur);
-            elem->FUN_00ba01a0(arg, 0);
+            elem->ShadowSceneLight_RemoveTriGeom(arg, 0);
             if (elem->bFlag)
                 iField38 = 0;
         }
@@ -1596,7 +1601,7 @@ template <class T> class ViewerArray
 typedef ViewerArray<char*> ViewerStrings;
 
 extern const char* DAT_011fa560;
-char* FUN_00a7d330(const char* pcClassName);
+char* NiViewerStrings_NiGetViewerString_Title(const char* pcClassName);
 char* FUN_00a7d490(const char* pcPrefix, int iValue);
 char* FUN_00a7d510(const char* pcPrefix, unsigned int uiValue);
 
@@ -1631,7 +1636,7 @@ class LightingProperty : public LightingPropertyBase
 void LightingProperty::FUN_00b71450(ViewerStrings* pkStrings)
 {
     LightingPropertyBase::WriteToSettingArray(pkStrings);
-    pkStrings->Add(FUN_00a7d330(DAT_011fa560));
+    pkStrings->Add(NiViewerStrings_NiGetViewerString_Title(DAT_011fa560));
     pkStrings->Add(FUN_00a7d490("number of lights", GetNumLights()));
     pkStrings->Add(FUN_00a7d490("active lights", FUN_00b70790()));
     pkStrings->Add(FUN_00a7d510("Reference ID", GetReferenceID()));
@@ -1935,7 +1940,7 @@ class S00b700d0_Alpha : public NiProperty
     S00b700d0_Alpha();
     void FUN_0049ed90(bool);
     void FUN_004393c0(bool);
-    void FUN_00439390(int);
+    void NiAlphaProperty_SetDestBlendMode(int);
     void FUN_004393e0(unsigned int);
 
     unsigned short m_usFlags;
@@ -2033,7 +2038,7 @@ bool S00b700d0_Shader::ApplyAlphaProperty(NiGeometry* apGeom)
     S00b700d0_Alpha* pAlpha = new S00b700d0_Alpha;
     pAlpha->FUN_0049ed90(pData->usFlags & 1);
     pAlpha->FUN_004393c0((pData->usFlags >> 9) & 1);
-    pAlpha->FUN_00439390((pData->usFlags >> 5) & 0xF);
+    pAlpha->NiAlphaProperty_SetDestBlendMode((pData->usFlags >> 5) & 0xF);
     pAlpha->m_usFlags &= 0xFFE1;
     pAlpha->FUN_004393e0((pData->usFlags >> 10) & 7);
     pAlpha->m_ucAlphaThreshold = pData->ucThreshold;
@@ -2151,8 +2156,8 @@ struct Lighting30Packet4
     float r, g, b, a;
 };
 void __cdecl ApplyLighting30Packet(const Lighting30Packet4*, bool);
-void __cdecl FUN_00bb95b0(unsigned int, NiColorA);
-void __cdecl FUN_00bb95e0(unsigned int, NiColorA, NiColorA);
+void __cdecl Lighting30Shader_SetLightColor(unsigned int, NiColorA);
+void __cdecl Lighting30Shader_SetLight(unsigned int, NiColorA, NiColorA);
 
 
 
@@ -2302,7 +2307,7 @@ void __cdecl ApplyWaterLighting(unsigned int id, WaterStub* water, float scale)
     WaterStub* w = water;
     if (!w)
     {
-        FUN_00bb95b0(id, DAT_011a9bd0);
+        Lighting30Shader_SetLightColor(id, DAT_011a9bd0);
         return;
     }
     BSShaderPPLightingProperty* p = reinterpret_cast<BSShaderPPLightingProperty*>(DAT_011f91e0[0]->m_PropertyState.m_aspProps[3]);
@@ -2353,7 +2358,7 @@ void __cdecl ApplyWaterLighting(unsigned int id, WaterStub* water, float scale)
     if (DAT_011f941e && !DAT_011f9427)
         multiplier *= DAT_011f9190;
     color = data->m_kDeepColor;
-    FUN_00bb95e0(id, first, NiColorA(color.r * multiplier, color.g * multiplier, color.b * multiplier, w->fD4));
+    Lighting30Shader_SetLight(id, first, NiColorA(color.r * multiplier, color.g * multiplier, color.b * multiplier, w->fD4));
 }
 }  // namespace fnv_00b70de0
 
@@ -2530,25 +2535,26 @@ struct Bdf3e0_cls
     int unk34;
     int unk38;
     Bdf3e0_list* list;
-    ShadowSceneLight* FUN_00b70600(int* it);
-    ShadowSceneLight* FUN_00b70700(int* it);
-    void FUN_00bdf3e0(int a0, int a1, unsigned short* a2, char a3, char* a4, int a5, char a6);
+    ShadowSceneLight* BSShaderLightingProperty_GetFirstActiveNonShadowLight(int* it);
+    ShadowSceneLight* BSShaderLightingProperty_GetNextActiveNonShadowLight(int* it);
+    void BSShaderPPLightingProperty_AddLandscapePasses_2x(int a0, int a1, unsigned short* a2, char a3, char* a4, int a5, char a6);
 };
 
 // Walks three node iterators past defined vectors, computes an id from vt->vEC and flags, and appends a list entry via FUN_00ba9ee0 or increments *a2.
 // @fnv 0x00bdf3e0
-void Bdf3e0_cls::FUN_00bdf3e0(int a0, int a1, unsigned short* apCount, char acMode, char* apFlag, int a5, char acAdjust)
+// src: COMMUNITY 0x00bdf3e0
+void Bdf3e0_cls::BSShaderPPLightingProperty_AddLandscapePasses_2x(int a0, int a1, unsigned short* apCount, char acMode, char* apFlag, int a5, char acAdjust)
 {
     int it = 0;
-    ShadowSceneLight* p = FUN_00b70600(&it);
+    ShadowSceneLight* p = BSShaderLightingProperty_GetFirstActiveNonShadowLight(&it);
     while (p && IsDefaultLightVector(reinterpret_cast<Bdf3e0_info*>(p->spLight.m_pObject)->vec))
-        p = FUN_00b70700(&it);
-    ShadowSceneLight* q = FUN_00b70700(&it);
+        p = BSShaderLightingProperty_GetNextActiveNonShadowLight(&it);
+    ShadowSceneLight* q = BSShaderLightingProperty_GetNextActiveNonShadowLight(&it);
     while (q && IsDefaultLightVector(reinterpret_cast<Bdf3e0_info*>(q->spLight.m_pObject)->vec))
-        q = FUN_00b70700(&it);
-    ShadowSceneLight* r = FUN_00b70700(&it);
+        q = BSShaderLightingProperty_GetNextActiveNonShadowLight(&it);
+    ShadowSceneLight* r = BSShaderLightingProperty_GetNextActiveNonShadowLight(&it);
     while (r && IsDefaultLightVector(reinterpret_cast<Bdf3e0_info*>(r->spLight.m_pObject)->vec))
-        r = FUN_00b70700(&it);
+        r = BSShaderLightingProperty_GetNextActiveNonShadowLight(&it);
     unsigned short s = vt->vEC(this);
     int n = s < 7 ? s : 7;
     bool f = (flags & 0x100000) > 0;
@@ -2715,7 +2721,7 @@ template <class T> struct PointerList
         pos = ((Node*)pos)->m_pkNext;
         return element;
     }
-    void FUN_00e7db70(const T& element);
+    void NiTPointerListBase_Remove(const T& element);
 };
 
 struct WatchSet
@@ -2778,7 +2784,7 @@ void WatchSet::AddWatcher(Watcher* pkWatcher)
     Watcher* light = pkWatcher;
     if (!m_iLocked)
     {
-        m_kWatchers.FUN_00e7db70(pkWatcher);
+        m_kWatchers.NiTPointerListBase_Remove(pkWatcher);
         m_bValueAt0C = true;
         if (light->m_bHasAccumulation)
             m_iTimer = 0;
@@ -2799,17 +2805,17 @@ struct LItem
 struct LPool
 {
     unsigned int count;
-    LItem* FUN_0043a010();
+    LItem* NiGeometry_AddProperty();
 };
 struct LList
 {
     LItem* head;
     LItem* tail;
     LPool alloc;
-    void FUN_00e7db70(void* const& key);
+    void NiTPointerListBase_Remove(void* const& key);
     LItem* NewItem()
     {
-        return alloc.FUN_0043a010();
+        return alloc.NiGeometry_AddProperty();
     }
     void AddNodeHead(LItem* n)
     {
@@ -2864,14 +2870,15 @@ struct S
     int unk70;
     int unk74;
     LItem* unk78;
-    void FUN_00b718b0();
+    void BSShaderLightingProperty_FenceAllLights();
 };
 // Calls FUN_00e7db70 and AddHead with DAT_011fa310, then stores the resulting list head in unk78.
 // @fnv 0x00b718b0
-void S::FUN_00b718b0()
+// src: COMMUNITY 0x00b718b0
+void S::BSShaderLightingProperty_FenceAllLights()
 {
     void* key = &DAT_011fa310;
-    list60.FUN_00e7db70(key);
+    list60.NiTPointerListBase_Remove(key);
     list60.AddHead(&DAT_011fa310);
     unk78 = list60.GetHeadPos();
 }
@@ -2888,7 +2895,7 @@ struct Node_b71560
 struct Pool_b71560
 {
     unsigned int count;
-    Node_b71560* FUN_0043a010();
+    Node_b71560* NiGeometry_AddProperty();
 };
 struct List_b71560
 {
@@ -2897,7 +2904,7 @@ struct List_b71560
     Pool_b71560 pool;
     void MoveNodeBefore(Node_b71560* pos, Node_b71560* node);
     Node_b71560* FUN_00b713c0(Node_b71560* node, ShadowSceneLight* const& item);
-    Node_b71560* FUN_00b58570(ShadowSceneLight* const& item);
+    Node_b71560* NiTPointerListBase_AddTail(ShadowSceneLight* const& item);
 };
 
 struct Obj_b71560
@@ -2958,7 +2965,7 @@ void Obj_b71560::InsertOrMoveNode(ShadowSceneLight* item, void* a2)
     ShadowSceneLight* light = item;
     if (!FindNodeByItemValue(light, key, &a2))
     {
-        m_list60.FUN_00b58570(item);
+        m_list60.NiTPointerListBase_AddTail(item);
     }
     m_b74 = true;
     if (light->bCastShadow)
@@ -2967,9 +2974,10 @@ void Obj_b71560::InsertOrMoveNode(ShadowSceneLight* item, void* a2)
     }
 }
 
-Node_b71560* List_b71560::FUN_00b58570(ShadowSceneLight* const& item)
+// src: COMMUNITY 0x00b58570
+Node_b71560* List_b71560::NiTPointerListBase_AddTail(ShadowSceneLight* const& item)
 {
-    Node_b71560* node = pool.FUN_0043a010();
+    Node_b71560* node = pool.NiGeometry_AddProperty();
     node->item = item;
     node->next = 0;
     node->prev = tail;
@@ -2984,7 +2992,7 @@ Node_b71560* List_b71560::FUN_00b58570(ShadowSceneLight* const& item)
 
 Node_b71560* List_b71560::FUN_00b713c0(Node_b71560* pos, ShadowSceneLight* const& item)
 {
-    Node_b71560* node = pool.FUN_0043a010();
+    Node_b71560* node = pool.NiGeometry_AddProperty();
     node->item = item;
     node->next = pos;
     node->prev = pos->prev;

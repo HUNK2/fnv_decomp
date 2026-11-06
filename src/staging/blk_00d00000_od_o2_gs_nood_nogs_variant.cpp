@@ -41,7 +41,8 @@ union hkAabbQ
 };
 
 // @fnv 0x00d05df0
-void __cdecl FUN_00d05df0(hkpPhantom* phantom, const hkTransform& transform)
+// src: COMMUNITY 0x00d05df0
+void __cdecl tranformPhantom(hkpPhantom* phantom, const hkTransform& transform)
 {
     switch (phantom->getType())
     {

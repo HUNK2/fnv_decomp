@@ -207,7 +207,7 @@ FUN_00b1ff50::FUN_00b1ff50(const FUN_00b1ff50& src)
 
 struct FUN_00b12af0_shell
 {
-    void FUN_00b12af0();
+    void CRotTransform_CRotTransform();
 };
 struct FUN_00b18b20
 {
@@ -225,7 +225,7 @@ FUN_00b18b20::FUN_00b18b20()
     f8 = 0.0f;
     f4 = 0.0f;
     f0 = 0.0f;
-    sub.FUN_00b12af0();
+    sub.CRotTransform_CRotTransform();
     *(float*)((char*)this + 0x30) = 0.0f;
     *(int*)((char*)this + 0x34) = 0;
 }
@@ -414,14 +414,14 @@ void __cdecl FUN_00b26160(char* pBegin, char* pMiddle, char* pEnd, bool bFlag)
     }
 }
 
-extern int* __cdecl FUN_0044d600(int*, int*, int*);
+extern int* __cdecl std_Move_float_float(int*, int*, int*);
 extern int* __cdecl UninitCopyChecked(int*, int*, int*, void*);
-extern void __cdecl FUN_00401030(void*);
+extern void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct C00b1d5d0
 {
     int a, b, alloc;
     int *first, *last, *limit;
-    void FUN_0044a0a0();
+    void std_vector_float_std_allocator_float_clear();
     bool FUN_0044a240(unsigned);
     C00b1d5d0& FUN_00b1d5d0(const C00b1d5d0& rhs);
 };
@@ -466,14 +466,14 @@ C00b1d5d0& C00b1d5d0::FUN_00b1d5d0(const C00b1d5d0& rhs)
     {
         if (rhs.last - rhs.first == 0)
         {
-            FUN_0044a0a0();
+            std_vector_float_std_allocator_float_clear();
         }
         else
         {
             f.n3c = rhs.last - rhs.first;
             if (f.n3c <= (unsigned)(last - first))
             {
-                f.p4 = FUN_0044d600(rhs.first, rhs.last, first);
+                f.p4 = std_Move_float_float(rhs.first, rhs.last, first);
                 f.p6c = last;
                 f.p68 = f.p6c;
                 f.p64 = f.p4;
@@ -486,7 +486,7 @@ C00b1d5d0& C00b1d5d0::FUN_00b1d5d0(const C00b1d5d0& rhs)
                 if (f.n70 <= (first == 0 ? 0 : (unsigned)(limit - first)))
                 {
                     f.p8 = rhs.first + (last - first);
-                    FUN_0044d600(rhs.first, f.p8, first);
+                    std_Move_float_float(rhs.first, f.p8, first);
                     f.pbc = last;
                     f.pb8 = rhs.last;
                     last = UninitCopyChecked(f.p8, f.pb8, f.pbc, &alloc);
@@ -502,7 +502,7 @@ C00b1d5d0& C00b1d5d0::FUN_00b1d5d0(const C00b1d5d0& rhs)
                         f.bbd = f.bbe;
                         f.pd8 = (int*)(limit - first);
                         f.pd4 = first;
-                        FUN_00401030(f.pd4);
+                        FormHeapFreeAndLog_00401030(f.pd4);
                     }
                     f.ndc = rhs.last - rhs.first;
                     if (FUN_0044a240(f.ndc))
@@ -620,7 +620,7 @@ void __cdecl CopyObjects(CopyableStateBlock* apDest, unsigned int auiCount, cons
     }
 }
 
-void* FUN_00401000(unsigned int);
+void* FormHeap_Allocate(unsigned int);
 __declspec(noreturn) void __stdcall FUN_00ec7894(void*, void*);
 struct BadAlloc
 {
@@ -641,12 +641,13 @@ int* FUN_0044d670(unsigned int n)
         e.std_bad_alloc_bad_alloc(0);
         FUN_00ec7894(&e, &DAT_01140ef8);
     }
-    return (int*)FUN_00401000(n * 4);
+    return (int*)FormHeap_Allocate(n * 4);
 }
 
 // Sets the nine floats at instance to the 3x3 identity matrix and returns instance.
 // @fnv 0x00b12af0
-FUN_00b12af0_shell* __fastcall FUN_00b12af0(FUN_00b12af0_shell* apMatrix)
+// src: COMMUNITY 0x00b12af0
+FUN_00b12af0_shell* __fastcall CRotTransform_CRotTransform(FUN_00b12af0_shell* apMatrix)
 {
     *(float*)apMatrix = 1.0f;
     *(float*)((char*)apMatrix + 4) = 0.0f;
@@ -731,17 +732,18 @@ struct Geo_00b1c6d0
     char pad24[0x64];
     Vec_00b1c6d0 m_ppIndices;
 
-    void FUN_00b31070(char cTex, const float* afCoords);
+    void CIndexedGeometry_ChangeTexCoord(char cTex, const float* afCoords);
 };
 
 struct Class_00b1c6d0
 {
-    void FUN_00b1c6d0(Geo_00b1c6d0* geo, char cTex, const float* pTexCoords, bool bFlip);
+    void CFrondEngine_SetTextureCoords(Geo_00b1c6d0* geo, char cTex, const float* pTexCoords, bool bFlip);
 };
 
 // Copies pTexCoords into afCoords, negates odd-indexed values when bFlip is set, then calls FUN_00b31070 once per triangle in m_ppIndices.
 // @fnv 0x00b1c6d0
-void Class_00b1c6d0::FUN_00b1c6d0(Geo_00b1c6d0* geo, char cTex, const float* pTexCoords, bool bFlip)
+// src: COMMUNITY 0x00b1c6d0
+void Class_00b1c6d0::CFrondEngine_SetTextureCoords(Geo_00b1c6d0* geo, char cTex, const float* pTexCoords, bool bFlip)
 {
     float afCoords[8];
     _memmove(afCoords, pTexCoords, 32);
@@ -760,7 +762,7 @@ void Class_00b1c6d0::FUN_00b1c6d0(Geo_00b1c6d0* geo, char cTex, const float* pTe
         for (j_ = 0; j_ < (unsigned short)(((unsigned int)((p2 = &geo->m_ppIndices)->_Mylast - p2->_Myfirst)) / 3);
              ++j_)
         {
-            geo->FUN_00b31070(chIndex, afCoords);
+            geo->CIndexedGeometry_ChangeTexCoord(chIndex, afCoords);
             geo->m_usTriCount++;
         }
     }
@@ -1386,7 +1388,7 @@ struct AllocationException
 extern unsigned int DAT_010176f8;
 extern unsigned int DAT_01140ef8;
 void __stdcall FUN_00ec7894(void* exception, void* info);
-void* __cdecl FUN_00401000(unsigned int bytes);
+void* __cdecl FormHeap_Allocate(unsigned int bytes);
 
 // Allocates a 12-byte-per-element array of count items, throwing AllocationException on overflow.
 // @fnv 0x00b23bb0
@@ -1402,6 +1404,6 @@ void* __cdecl FUN_00b23bb0(unsigned int count)
         exception.vtable = (unsigned int)&DAT_010176f8;
         FUN_00ec7894(&exception, &DAT_01140ef8);
     }
-    return FUN_00401000(count * 12);
+    return FormHeap_Allocate(count * 12);
 }
 }  // namespace fnv_00b23bb0

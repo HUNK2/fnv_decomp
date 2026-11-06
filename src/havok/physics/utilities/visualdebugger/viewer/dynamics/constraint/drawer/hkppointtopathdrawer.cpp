@@ -181,7 +181,7 @@ extern float DAT_0101622c;
 
 struct Processor
 {
-    void FUN_00e10a10(LineDrawer* drawer);
+    void hkpPrimitiveDrawer_setDisplayHandler(LineDrawer* drawer);
 };
 
 struct Viewer
@@ -230,8 +230,8 @@ struct Viewer
     int unkbc;
     Processor m_processor;
 
-    void FUN_00de47e0(Input* input, hkTransform* transform, hkTransform* extra);
-    void FUN_00de4530(int id, int tag);
+    void hkpConstraintDrawer_updateCommonParameters(Input* input, hkTransform* transform, hkTransform* extra);
+    void hkpConstraintDrawer_drawBodyFrames(int id, int tag);
     void hkpConstraintDrawer_drawPivots(int id, int tag);
     void FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag);
 };
@@ -249,11 +249,11 @@ void Viewer::FUN_00de7020(Input* input, LineDrawer* drawer, int id, int tag)
     hkTransform& worldTransform = *reinterpret_cast<hkTransform*>(worldTransformStorage);
     hkTransform& extraTransform = *reinterpret_cast<hkTransform*>(extraTransformStorage);
 
-    m_processor.FUN_00e10a10(drawer);
-    FUN_00de47e0(input, &localTransform, &extraTransform);
+    m_processor.hkpPrimitiveDrawer_setDisplayHandler(drawer);
+    hkpConstraintDrawer_updateCommonParameters(input, &localTransform, &extraTransform);
     m_vContactPosition.m_vComponents = localTransform.m_vTranslation;
     scene->hkpPointToPathConstraintData_calcPivot(&input->m_extra->m_endPoint, &m_endPoint);
-    FUN_00de4530(id, tag);
+    hkpConstraintDrawer_drawBodyFrames(id, tag);
     hkpConstraintDrawer_drawPivots(id, tag);
 
     if (scene->m_kPoints)

@@ -31,7 +31,7 @@
 // is materialised from a relocated address expression instead.  That keeps
 // the original six-byte "mov eax, <imm32> ; ret" shape byte for byte.
 extern int g_fnv_00e9ecc0_value_anchor;
-int FUN_00e9ecc0();
+int bhkCharacterStateFlying_Update();
 
 void NiFree(void* pvMem);
 extern MemoryManager g_kE9EE20MemoryManager;

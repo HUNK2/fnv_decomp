@@ -33,7 +33,7 @@ struct FUN_00b3ef80_shell
 {
     int m_iValueAt00;
     void* m_pObjectAt04;
-    float FUN_00b3ed20();
+    float CTreeFileAccess_ParseFloat();
     CVec3 GetVector3();
 };
 
@@ -48,7 +48,7 @@ CVec3 FUN_00b3ef80_shell::GetVector3()
     vecResult[1] = 0.0f;
     vecResult[0] = 0.0f;
     for (iComponent = 0; iComponent < 3; iComponent++)
-        vecResult[iComponent] = FUN_00b3ed20();
+        vecResult[iComponent] = CTreeFileAccess_ParseFloat();
     return *reinterpret_cast<CVec3*>(vecResult);
 }
 
@@ -67,11 +67,12 @@ struct FUN_00b3ed20_cls
 {
     unsigned int m_nCursor;
     FUN_00b3ed20_range m_range;
-    float FUN_00b3ed20();
+    float CTreeFileAccess_ParseFloat();
 };
 
 // @fnv 0x00b3ed20
-float FUN_00b3ed20_cls::FUN_00b3ed20()
+// src: COMMUNITY 0x00b3ed20
+float FUN_00b3ed20_cls::CTreeFileAccess_ParseFloat()
 {
     unsigned int idx = m_nCursor;
     FUN_00b3ed20_range* p2 = &m_range;

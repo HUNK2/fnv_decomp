@@ -159,7 +159,7 @@ struct PackageSaveSupport : TESPackage
 // Retained: Conversation.h is absent; 0x0083c270 and 0x0083ba50 are conversation.cpp save/index methods.
 struct Conversation
 {
-    void FUN_0083c270(BGSSaveFormBuffer* buf);
+    void SaveGameBGS_0083c270(BGSSaveFormBuffer* buf);
     short FUN_0083ba50(DialogueItem* item);
 };
 
@@ -197,7 +197,7 @@ void DialoguePackage::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
     {
         short scurrentResponseIndex;
         short scurrentItemIndex;
-        reinterpret_cast<fnv_009f01d0::Conversation*>(conversation)->FUN_0083c270(apSaveGameBuffer);
+        reinterpret_cast<fnv_009f01d0::Conversation*>(conversation)->SaveGameBGS_0083c270(apSaveGameBuffer);
         scurrentItemIndex =
             item
                 ? reinterpret_cast<fnv_009f01d0::Conversation*>(conversation)->FUN_0083ba50(item)
@@ -376,7 +376,7 @@ struct Handle114
     Handle114(const Handle114&);  // 0x418900
     ~Handle114();                 // 0x483710
     void* FUN_00559450();
-    Handle114& FUN_00ad7480();
+    Handle114& BSAudio_GetSoundHandleByFilename();
     Handle114& FUN_00418900(const Handle114&);
     void FUN_00ad8be0(float, float);
     void FUN_00ad8b60(float, float, float);
@@ -826,7 +826,7 @@ struct Obj114
     void FUN_0083c7e0();
     void FUN_0083b9f0();
     Obj114* FUN_0084e3a0();
-    Obj114* FUN_009611e0();
+    Obj114* NiAVObject_GetParent();
     void FUN_00934250();
     Obj114* FUN_007af430();
     Handle114 PlaySoundByFormID(Obj114*, int, unsigned int, int);
@@ -844,12 +844,12 @@ struct Obj114
 };
 struct Manager114
 {
-    Handle114 FUN_00ad7480(char*, unsigned int, int);
+    Handle114 BSAudio_GetSoundHandleByFilename(char*, unsigned int, int);
     void FUN_00adbfd0(void*, void (*)(), Obj114*);
 };
 extern Manager114* __cdecl FUN_00ad9060();
 void FUN_00935cc0();
-void FUN_00936ac0();
+void MobileObject_DialogueConversationCallBack();
 extern Setting DAT_011e05ec, DAT_011d8928;
 extern unsigned char DAT_011f122d;
 struct Player114
@@ -987,11 +987,11 @@ struct Player114
     void* process;
 };
 extern Player114* DAT_011dea3c;
-void __cdecl FUN_005b5e40(const char*, ...);
+void __cdecl Warning_005b5e40(const char*, ...);
 void __cdecl FUN_00406d30(char*, unsigned int, void*);
 Manager114* __cdecl FUN_00453a70();
-float __cdecl FUN_005790d0();
-float __cdecl FUN_005790b0();
+float __cdecl BSAudio_GetMaxDialogDist();
+float __cdecl BSAudio_GetMinDialogDist();
 void __cdecl FUN_00705210(void*, Handle114, Vec114, Obj114*, int);
 // The checked header lacks the dialogue processing method and these two helpers.
 // Reuse its fields through typed views in the method body.
@@ -1065,15 +1065,15 @@ void PackageDialogueSupport::FUN_009ee0a0(bool process)
             reinterpret_cast<Obj114*&>(item)->FUN_0083c7b0();
             reinterpret_cast<Obj114*&>(response) = reinterpret_cast<Obj114*&>(item)->FUN_0083c820();
             if (!reinterpret_cast<Obj114*&>(response))
-                FUN_005b5e40("AI: No responses found for conversation Topic Info (%08X).",
+                Warning_005b5e40("AI: No responses found for conversation Topic Info (%08X).",
                              reinterpret_cast<Obj114*&>(item)->FUN_0084e3a0()->FUN_0084e3a0());
         }
         if (reinterpret_cast<Obj114*&>(response))
         {
-            Obj114* actor18 = reinterpret_cast<Obj114*&>(item)->FUN_009611e0();
+            Obj114* actor18 = reinterpret_cast<Obj114*&>(item)->NiAVObject_GetParent();
             if (actor18->v100())
             {
-                Obj114* speaker23 = reinterpret_cast<Obj114*&>(item)->FUN_009611e0();
+                Obj114* speaker23 = reinterpret_cast<Obj114*&>(item)->NiAVObject_GetParent();
                 if (speaker23 && process)
                 {
                     String114 text6;
@@ -1107,7 +1107,7 @@ void PackageDialogueSupport::FUN_009ee0a0(bool process)
                             speaker23->SetFlag86(reinterpret_cast<Obj114*&>(response)->GetField24());
                             float duration13 = speaker23->v284(
                                 text6.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(), reinterpret_cast<Obj114*&>(response)->FUN_0084e3a0(),
-                                reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->FUN_004048e0(), reinterpret_cast<Obj114*&>(response)->FUN_009611e0(),
+                                reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->FUN_004048e0(), reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(),
                                 reinterpret_cast<Obj114*&>(response)->FUN_00441110(), reinterpret_cast<Obj114*&>(pTargetActor), 1, 0, 1, 1, reinterpret_cast<bool&>(unkA0));
                             if (reinterpret_cast<Obj114*&>(m_pLinkedReference))
                             {
@@ -1122,7 +1122,7 @@ void PackageDialogueSupport::FUN_009ee0a0(bool process)
                                     duration13 = reinterpret_cast<Obj114*&>(m_pLinkedReference)->v284(
                                         text6.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
                                         reinterpret_cast<Obj114*&>(response)->FUN_0084e3a0(), reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->FUN_004048e0(),
-                                        reinterpret_cast<Obj114*&>(response)->FUN_009611e0(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), target20, 0, 0, 0, 1, 1);
+                                        reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), target20, 0, 0, 0, 1, 1);
                                 }
                             }
                             if (speaker23->FUN_008d8520()->v36c())
@@ -1130,7 +1130,7 @@ void PackageDialogueSupport::FUN_009ee0a0(bool process)
                             else
                             {
                                 Manager114* manager228 = FUN_00ad9060();
-                                manager228->FUN_00adbfd0(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), FUN_00936ac0, reinterpret_cast<Obj114*&>(pActor)->FUN_0084e3a0());
+                                manager228->FUN_00adbfd0(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(pActor)->FUN_0084e3a0());
                                 if (reinterpret_cast<Obj114*&>(pActor) != reinterpret_cast<Obj114*&>(pTargetActor))
                                     reinterpret_cast<float&>(state) = 50.0f;
                                 speaker23->flag80 = 0;
@@ -1149,7 +1149,7 @@ void PackageDialogueSupport::FUN_009ee0a0(bool process)
                                 speaker23->SetFlag86(reinterpret_cast<Obj114*&>(response)->GetField24());
                                 speaker23->v284(text6.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
                                                 reinterpret_cast<Obj114*&>(response)->FUN_0084e3a0(), reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->FUN_004048e0(),
-                                                reinterpret_cast<Obj114*&>(response)->FUN_009611e0(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), reinterpret_cast<Obj114*&>(pTargetActor), 1, 0, 0, 1,
+                                                reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), reinterpret_cast<Obj114*&>(pTargetActor), 1, 0, 0, 1,
                                                 reinterpret_cast<bool&>(unkA0));
                                 if (reinterpret_cast<Obj114*&>(m_pLinkedReference))
                                 {
@@ -1166,13 +1166,13 @@ void PackageDialogueSupport::FUN_009ee0a0(bool process)
                                             reinterpret_cast<Obj114*&>(m_pLinkedReference)->v284(text6.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(),
                                                         reinterpret_cast<Obj114*&>(response)->FUN_0084e3a0(),
                                                         reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->FUN_004048e0(),
-                                                        reinterpret_cast<Obj114*&>(response)->FUN_009611e0(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), target24, 0,
+                                                        reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(), reinterpret_cast<Obj114*&>(response)->FUN_00441110(), target24, 0,
                                                         0, 0, 1, 1);
                                         }
                                     }
                                 }
                                 Manager114* manager334 = FUN_00ad9060();
-                                manager334->FUN_00adbfd0(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), FUN_00936ac0, reinterpret_cast<Obj114*&>(pActor)->FUN_0084e3a0());
+                                manager334->FUN_00adbfd0(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(pActor)->FUN_0084e3a0());
                                 speaker23->flag80 = 0;
                                 reset26 = false;
                                 reinterpret_cast<Obj114*&>(m_pkMobileObject) = speaker23;
@@ -1215,10 +1215,10 @@ void PackageDialogueSupport::FUN_009ee0a0(bool process)
                         reinterpret_cast<Obj114*&>(m_pLinkedReference)->SetFlag86(reinterpret_cast<Obj114*&>(response)->GetField24());
                         reinterpret_cast<Obj114*&>(m_pkMobileObject) = reinterpret_cast<Obj114*&>(m_pLinkedReference);
                         reinterpret_cast<Obj114*&>(m_pLinkedReference)->v284(text22.FUN_00559450(), &reinterpret_cast<Handle114&>(unk80), reinterpret_cast<Obj114*&>(response)->FUN_0044ddc0(), reinterpret_cast<Obj114*&>(response)->FUN_0084e3a0(),
-                                    reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->FUN_004048e0(), reinterpret_cast<Obj114*&>(response)->FUN_009611e0(),
+                                    reinterpret_cast<Obj114*&>(response)->FUN_006815c0()->FUN_004048e0(), reinterpret_cast<Obj114*&>(response)->NiAVObject_GetParent(),
                                     reinterpret_cast<Obj114*&>(response)->FUN_00441110(), reinterpret_cast<Obj114*&>(pTargetActor), 0, 0, 0, 1, 1);
                         Manager114* manager45 = FUN_00ad9060();
-                        manager45->FUN_00adbfd0(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), FUN_00936ac0, reinterpret_cast<Obj114*&>(m_pLinkedReference)->FUN_0084e3a0());
+                        manager45->FUN_00adbfd0(reinterpret_cast<Handle114&>(unk80).FUN_00559450(), MobileObject_DialogueConversationCallBack, reinterpret_cast<Obj114*&>(m_pLinkedReference)->FUN_0084e3a0());
                         reinterpret_cast<Obj114*&>(m_pLinkedReference)->flag80 = 0;
                         reset26 = false;
                     }
@@ -1226,9 +1226,9 @@ void PackageDialogueSupport::FUN_009ee0a0(bool process)
                     {
                         unsigned int flags22 = 0x104;
                         flags22 |= 2;
-                        reinterpret_cast<Handle114&>(unk80).FUN_00418900(FUN_00453a70()->FUN_00ad7480(path27, flags22, 0));
+                        reinterpret_cast<Handle114&>(unk80).FUN_00418900(FUN_00453a70()->BSAudio_GetSoundHandleByFilename(path27, flags22, 0));
                         Vec114 position1 = actor18->v1f4();
-                        reinterpret_cast<Handle114&>(unk80).FUN_00ad8be0(FUN_005790b0(), FUN_005790d0());
+                        reinterpret_cast<Handle114&>(unk80).FUN_00ad8be0(BSAudio_GetMinDialogDist(), BSAudio_GetMaxDialogDist());
                         reinterpret_cast<Handle114&>(unk80).FUN_00ad8b60(position1.x, position1.y, position1.z);
                         reinterpret_cast<Handle114&>(unk80).FUN_00ad8f20(actor18->v1d0());
                         reinterpret_cast<Handle114&>(unk80).FUN_00ad8870(1, 0);
@@ -1349,7 +1349,7 @@ struct DialogueLoadRecord
 };
 extern TESSaveLoadGame* DAT_011de45c;
 TESForm* __cdecl _ref_004839c0(unsigned int a);
-void __cdecl FUN_005b5e40(const char* fmt, ...);
+void __cdecl Warning_005b5e40(const char* fmt, ...);
 void* __cdecl FUN_00ec43fb(void* a, int b, void* c, void* d, int e);
 extern char DAT_01015718;
 extern char DAT_010156a8;
@@ -1389,12 +1389,12 @@ void DialoguePackage::LoadSaveData()
                 if (rec != 0)
                 {
                     TESForm* pForm = _ref_004839c0(rec->formID);
-                    FUN_005b5e40(&DAT_01015718, &DAT_01093108, 0x239, rec->formID, ((Sound*)pForm)->VCall130(),
+                    Warning_005b5e40(&DAT_01015718, &DAT_01093108, 0x239, rec->formID, ((Sound*)pForm)->VCall130(),
                                  *(unsigned char*)((char*)rec + 9), *(int*)((char*)rec + 5));
                 }
                 else
                 {
-                    FUN_005b5e40(&DAT_010156a8, &DAT_01093108, 0x239, DAT_011de45c->FUN_008df040());
+                    Warning_005b5e40(&DAT_010156a8, &DAT_01093108, 0x239, DAT_011de45c->FUN_008df040());
                 }
             }
             flag = DAT_011de45c->GetTimeStamp();
@@ -1477,13 +1477,13 @@ void DialoguePackage::LoadSaveData()
                 TESForm* snd = _ref_004839c0(tag->formID);
                 if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
                 {
-                    FUN_005b5e40(&DAT_01015588, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
+                    Warning_005b5e40(&DAT_01015588, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
                                  &DAT_01093108, 0x288, tag->formID, ((Sound*)snd)->VCall130(),
                                  *(unsigned char*)((char*)tag + 9), *(int*)((char*)tag + 5));
                 }
                 else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
                 {
-                    FUN_005b5e40(&DAT_01015500, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
+                    Warning_005b5e40(&DAT_01015500, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
                                  &DAT_01093108, 0x288, tag->formID, ((Sound*)snd)->VCall130(),
                                  *(unsigned char*)((char*)tag + 9), *(int*)((char*)tag + 5));
                 }
@@ -1492,12 +1492,12 @@ void DialoguePackage::LoadSaveData()
             {
                 if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
                 {
-                    FUN_005b5e40(&DAT_010154a0, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
+                    Warning_005b5e40(&DAT_010154a0, (int)((unsigned int)ts - ((unsigned int)w18 + (unsigned int)flag)),
                                  &DAT_01093108, 0x288, DAT_011de45c->FUN_008df040());
                 }
                 else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
                 {
-                    FUN_005b5e40(&DAT_01015440, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
+                    Warning_005b5e40(&DAT_01015440, (int)(((unsigned int)w18 + (unsigned int)flag) - (unsigned int)ts),
                                  &DAT_01093108, 0x288, DAT_011de45c->FUN_008df040());
                 }
             }
@@ -1526,7 +1526,7 @@ class Conversation
     Character* speaker;
     PlayerCharacter* listener;
     Conversation(Character* speaker, PlayerCharacter* listener, TESTopic* topic);
-    void FUN_0083c220();
+    void InitLoadGameTES_0083c220();
     DialogueItem* FUN_0083bac0(short index);
     void FUN_0083c8a0(DialogueItem* item);
 };
@@ -1555,7 +1555,7 @@ void DialoguePackage::ResolveReferences()
     listener = dynamic_cast<Actor*>(FUN_004839c0(targetID));
 
     if (g_TESSaveLoadGame->FUN_008df040() >= 32 && conversation)
-        ((fnv_009eff60::Conversation*)conversation)->FUN_0083c220();
+        ((fnv_009eff60::Conversation*)conversation)->InitLoadGameTES_0083c220();
     if (g_TESSaveLoadGame->FUN_008df040() < 32)
     {
         // Retain the saved conversation marker and its two serialized indices.
@@ -1703,7 +1703,7 @@ struct List0083b830SV
     List0083b830SV();
     void* operator new(unsigned);
     void* FUN_0083bac0(unsigned short i);
-    void FUN_0083c330(BGSLoadFormBuffer* buf);
+    void LoadGameBGS_0083c330(BGSLoadFormBuffer* buf);
 };
 }  // namespace fnv_009f0460
 
@@ -1738,7 +1738,7 @@ void DialoguePackage::FUN_009f0460(BGSLoadFormBuffer* apSaveBuffer)
     if (b)
     {
         conversation = (Conversation*)new List0083b830SV();
-        ((List0083b830SV*)conversation)->FUN_0083c330(apSaveBuffer);
+        ((List0083b830SV*)conversation)->LoadGameBGS_0083c330(apSaveBuffer);
         short i1 = -1;
         apSaveBuffer->FUN_00864980(&i1, 2);
         if (i1 != -1)

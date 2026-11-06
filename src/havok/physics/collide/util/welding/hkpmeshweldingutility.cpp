@@ -548,14 +548,14 @@ namespace fnv_00ddd940 {
 
 typedef float hkReal;
 
-void FUN_00ddd620(const hkVector4& a, const hkVector4& b, const hkVector4& c, hkVector4& normalOut);
+void hkpMeshWeldingUtility_calcAntiClockwiseTriangleNormal(const hkVector4& a, const hkVector4& b, const hkVector4& c, hkVector4& normalOut);
 
 // Builds five planes for a triangle: its normal, the negated normal, and three edge planes (edge crossed with normal, normalized), each offset by -radius.
 // @fnv 0x00ddd940
 void GenerateTrianglePlanes(hkVector4* planes, const hkpTriangleShape* triangle, hkReal radius)
 {
     hkVector4 normal;
-    FUN_00ddd620(triangle->m_kVertexA, triangle->m_kVertexB, triangle->m_kVertexC, normal);
+    hkpMeshWeldingUtility_calcAntiClockwiseTriangleNormal(triangle->m_kVertexA, triangle->m_kVertexB, triangle->m_kVertexC, normal);
 
     hkReal d = -radius;
 
@@ -757,7 +757,8 @@ struct NormalVector
 };
 // Computes the normalized cross product of two triangle edge vectors (b-a) and (c-b) and stores the result in out.
 // @fnv 0x00ddd620
-void FUN_00ddd620(const NormalVector* apVertexA, const NormalVector* apVertexB, const NormalVector* apVertexC,
+// src: COMMUNITY 0x00ddd620
+void hkpMeshWeldingUtility_calcAntiClockwiseTriangleNormal(const NormalVector* apVertexA, const NormalVector* apVertexB, const NormalVector* apVertexC,
                   NormalVector* apNormal)
 {
     NormalVector edges[2];

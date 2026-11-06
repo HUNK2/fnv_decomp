@@ -40,7 +40,7 @@ struct FileNameComponents
     char m_acExtension[256];
     char m_acPlatformSubDir[256];
     FileNameComponents(const char* pcFullPath);
-    void FUN_00aa29d0(char* pcFullPath, unsigned int uiStringLen);
+    void NiFilename_GetFullPath(char* pcFullPath, unsigned int uiStringLen);
     void SetDrive(const char* pc)
     {
         _strcpy_s(m_acDriveLetter, 3, pc);
@@ -92,7 +92,7 @@ bool NiSearchPath::ResolveSearchPath(char* pcOutPath, unsigned int uiOutLen)
     default:
         return false;
     }
-    kFullPath.FUN_00aa29d0(pcOutPath, uiOutLen);
+    kFullPath.NiFilename_GetFullPath(pcOutPath, uiOutLen);
     _fnv_StandardizeFilePath(pcOutPath);
     m_uiSearchPathValue++;
     return true;

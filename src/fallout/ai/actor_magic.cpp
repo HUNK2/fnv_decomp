@@ -1112,27 +1112,29 @@ void FUN_008c5330_shell::ClearField4C()
 
 struct FUN_008d4a80_shell
 {
-    int FUN_008d4a80(int);
+    int Creature_MapActorValue(int);
 };
 struct FUN_00880580_shell
 {
     void FUN_00880580(int);
-    void FUN_008d4840(int a);
+    void Creature_GetActorValueI(int a);
 };
 // Calls FUN_008d4a80 on the object at this-0xa4 with a, then passes the result to FUN_00880580.
 // @fnv 0x008d4840
-void FUN_00880580_shell::FUN_008d4840(int a)
+// src: COMMUNITY 0x008d4840
+void FUN_00880580_shell::Creature_GetActorValueI(int a)
 {
-    FUN_00880580(reinterpret_cast<FUN_008d4a80_shell*>(reinterpret_cast<char*>(this) - 0xa4)->FUN_008d4a80(a));
+    FUN_00880580(reinterpret_cast<FUN_008d4a80_shell*>(reinterpret_cast<char*>(this) - 0xa4)->Creature_MapActorValue(a));
 }
 
 struct FUN_0094c490_t
 {
-    float FUN_0094c490(int param_1);
+    float PlayerCharacter_GetGameActorValueF(int param_1);
 };
 // Forwards to the PlayerCharacter at this-0xA4, calling its method with arguments 2 and param_1 and returning the float result.
 // @fnv 0x0094c490
-float FUN_0094c490_t::FUN_0094c490(int param_1)
+// src: COMMUNITY 0x0094c490
+float FUN_0094c490_t::PlayerCharacter_GetGameActorValueF(int param_1)
 {
     return ((PlayerCharacter*)((char*)this - 0xA4))->GetActorValueModifierAmount(PlayerCharacter::DAMAGE, (ActorValue::Index)param_1);
 }
@@ -1141,11 +1143,12 @@ namespace fnv_0094c4c0 {
 
 struct FUN_0094c4c0_t
 {
-    float FUN_0094c4c0(ActorValue::Index);
+    float PlayerCharacter_GetScriptActorValue(ActorValue::Index);
 };
 // Reads an actor value by index from the owning object via a stub call with mode 1.
 // @fnv 0x0094c4c0
-float FUN_0094c4c0_t::FUN_0094c4c0(ActorValue::Index aeActorValue)
+// src: COMMUNITY 0x0094c4c0
+float FUN_0094c4c0_t::PlayerCharacter_GetScriptActorValue(ActorValue::Index aeActorValue)
 {
     return ((PlayerCharacter*)((char*)this - 0xA4))->GetActorValueModifierAmount(PlayerCharacter::SCRIPTS, aeActorValue);
 }
@@ -1449,7 +1452,7 @@ struct ActorConsumeShell : public MobileObject, public FUN_00815380_shell
 {
     void UseItemDirect(TESBoundObject* pObject, int a, int b);
     void UseAlchemyItem(AlchemyItem* pAlchemy, int a, int b);
-    void FUN_008c2090(MagicItem* pItem, bool bApply);
+    void Actor_CastAlchemy(MagicItem* pItem, bool bApply);
 };
 
 struct FUN_008c1de0_player
@@ -2316,10 +2319,11 @@ struct Controller
     void EquipPlayableObject(Item*, int);
     Ref* FUN_00576260(Item*, int);
     void SetArg(Item*);
-    void FUN_0095e670(Item*, int);
+    void PlayerCharacter_CastScroll(Item*, int);
 };
 // @fnv 0x0095e670
-void Controller::FUN_0095e670(Item* item, int mode)
+// src: COMMUNITY 0x0095e670
+void Controller::PlayerCharacter_CastScroll(Item* item, int mode)
 {
     EquipPlayableObject(item, mode);
     Ref* ref = FUN_00576260(item, item->FUN_0084e3a0());
@@ -3424,7 +3428,7 @@ bool __cdecl FUN_008c7aa0();
 
 XSingleton17* __cdecl FUN_004537b0();
 
-void __cdecl FUN_00892460(XRefr17*, bool);
+void __cdecl Actor_RemovePickedUpObjectFromWorld(XRefr17*, bool);
 
 struct XForm17
 {
@@ -3511,13 +3515,13 @@ struct XDbl17
 struct XGlob17
 {
 
-    XNode17* FUN_0096f450(void*);
+    XNode17* ProcessLists_GetActorTargetinganObject(void*);
 };
 
 struct XSingleton17
 {
 
-    void FUN_0087afa0(XRefr17*, bool);
+    void TaskQueueInterface_QueuePickedUpObjectRemoval(XRefr17*, bool);
 };
 
 struct XHigh17
@@ -3565,7 +3569,7 @@ struct XHost17 : public XHostVtbl17
 
     bool FUN_00493bb0();
 
-    void FUN_00574b30(XRefr17*, int, bool, bool);
+    void TESObjectREFR_AddReferenceItem(XRefr17*, int, bool, bool);
 
     bool FUN_008a16d0();
 
@@ -3573,11 +3577,12 @@ struct XHost17 : public XHostVtbl17
 
     void FUN_0088c650(void*, int, int, int, int, int);
 
-    void FUN_00891e00(XRefr17*, int, bool);
+    void Actor_DoActivate(XRefr17*, int, bool);
 };
 
 // @fnv 0x00891e00
-void XHost17::FUN_00891e00(XRefr17* pRefr, int iCount, bool a2)
+// src: COMMUNITY 0x00891e00
+void XHost17::Actor_DoActivate(XRefr17* pRefr, int iCount, bool a2)
 
 {
 
@@ -3590,7 +3595,7 @@ void XHost17::FUN_00891e00(XRefr17* pRefr, int iCount, bool a2)
 
     int node = bound != 0 ? FUN_00401170(bound) : 0;
 
-    XNode17* s = ((XGlob17*)&DAT_011e0e80)->FUN_0096f450(pRefr->FUN_0084e3a0(this));
+    XNode17* s = ((XGlob17*)&DAT_011e0e80)->ProcessLists_GetActorTargetinganObject(pRefr->FUN_0084e3a0(this));
 
     XNode17* node2 = s;
 
@@ -3717,7 +3722,7 @@ void XHost17::FUN_00891e00(XRefr17* pRefr, int iCount, bool a2)
         if (pRefr->FUN_00460250() || pRefr->FUN_00484e60(-1) != 0 || pRefr->FUN_005653d0())
         {
 
-            FUN_00574b30(pRefr, iCount, a2, false);
+            TESObjectREFR_AddReferenceItem(pRefr, iCount, a2, false);
         }
         else
         {
@@ -3725,12 +3730,12 @@ void XHost17::FUN_00891e00(XRefr17* pRefr, int iCount, bool a2)
             if (pRefr->FUN_00572d30(2) || pRefr->vfn_224())
             {
 
-                FUN_00574b30(pRefr, iCount, false, false);
+                TESObjectREFR_AddReferenceItem(pRefr, iCount, false, false);
             }
             else
             {
 
-                FUN_00574b30(pRefr, iCount, false, false);
+                TESObjectREFR_AddReferenceItem(pRefr, iCount, false, false);
 
                 flag1 = true;
             }
@@ -3803,12 +3808,12 @@ void XHost17::FUN_00891e00(XRefr17* pRefr, int iCount, bool a2)
         if (FUN_008c7aa0())
         {
 
-            FUN_004537b0()->FUN_0087afa0(pRefr, flag1);
+            FUN_004537b0()->TaskQueueInterface_QueuePickedUpObjectRemoval(pRefr, flag1);
         }
         else
         {
 
-            FUN_00892460(pRefr, flag1);
+            Actor_RemovePickedUpObjectFromWorld(pRefr, flag1);
         }
     }
 }
@@ -5007,7 +5012,7 @@ struct Manager8c37
 };
 
 class NiRTTI;
-NiFixedString* __cdecl FUN_00499b80();
+NiFixedString* __cdecl get_g_SpecialIdle_Cast();
 void* __cdecl FUN_00653270(const NiRTTI* pkRTTI, void* pkTimeCtrl);
 extern NiRTTI DAT_011f36ac;
 
@@ -5095,7 +5100,7 @@ struct AnimData8c37
 // This declaration-only adapter has no Actor layout or virtual table.
 struct CastingArtMethods
 {
-    void FUN_008c45a0(int iState);
+    void Actor_SetShouldCheckMagicNode(int iState);
     void AttachMagicEffect(void* pkAttachRoot);
 };
 
@@ -5105,7 +5110,7 @@ void Actor::UpdateActorEffectState()
     Node8c37* pkGroupNode = reinterpret_cast<Node8c37*>(GetMagicNode());
     if (!pkGroupNode)
     {
-        reinterpret_cast<CastingArtMethods*>(this)->FUN_008c45a0(0);
+        reinterpret_cast<CastingArtMethods*>(this)->Actor_SetShouldCheckMagicNode(0);
         return;
     }
     void* pkAttachRoot = GetSelectedMagicItem();
@@ -5142,13 +5147,13 @@ void Actor::UpdateActorEffectState()
             NiAVObject* pkElem = pkGroupNode->FUN_0043b4a0(i);
             void* pkTimeCtrl = pkElem ? pkElem->GetControllers() : 0;
             Manager8c37* pkManager = pkTimeCtrl ? (Manager8c37*)FUN_00653270(&DAT_011f36ac, pkTimeCtrl) : 0;
-            NiControllerSequence* pkSequence = pkManager ? pkManager->FUN_0047a520(FUN_00499b80()) : 0;
+            NiControllerSequence* pkSequence = pkManager ? pkManager->FUN_0047a520(get_g_SpecialIdle_Cast()) : 0;
             if (pkSequence && pkSequence->FUN_00508120() > pkSequence->FUN_00508100())
                 pkGroupNode->RemoveChildAt(i);
         }
     }
     if (pkGroupNode->FUN_00453470() == 0)
-        reinterpret_cast<CastingArtMethods*>(this)->FUN_008c45a0(0);
+        reinterpret_cast<CastingArtMethods*>(this)->Actor_SetShouldCheckMagicNode(0);
 }
 
 class NiRTTI;
@@ -5164,7 +5169,7 @@ struct Manager8c39
 
 static const float s_fMaxTime = 3.402823466e+38F;
 
-NiFixedString* __cdecl FUN_00499b80();
+NiFixedString* __cdecl get_g_SpecialIdle_Cast();
 void* __cdecl FUN_00653270(const NiRTTI* pkRTTI, void* pkObject);
 extern NiRTTI DAT_011f36ac;
 
@@ -5287,7 +5292,7 @@ void CastingArtMethods::AttachMagicEffect(void* pkSource)
         }
         void* pkControl = pkModel->GetControllers();
         Manager8c39* pkManager = (Manager8c39*)FUN_00653270(&DAT_011f36ac, pkControl);
-        NiControllerSequence* pkSequence = pkManager ? pkManager->FUN_0047a520(FUN_00499b80()) : 0;
+        NiControllerSequence* pkSequence = pkManager ? pkManager->FUN_0047a520(get_g_SpecialIdle_Cast()) : 0;
         if (pkSequence)
         {
             pkManager->FUN_0048fef0(0.0f);
@@ -5649,7 +5654,7 @@ struct SightRay
     void FUN_0059ceb0(SightCollector*);
     void FUN_004a3da0(SightVec*);
     void FUN_004a3f70(unsigned int);
-    void FUN_00500a20(void*);
+    void BGSTerminal_SetPassword(void*);
     void FUN_004a3eb0(SightVec*);
     unsigned char FUN_00632ce0();
 };
@@ -5671,7 +5676,7 @@ struct SightBounds
     void FUN_00627920(SightHkVec*);
 };
 SightHkVec* __cdecl FUN_00553fc0(SightHkVec*, const SightVec&);
-void* __cdecl FUN_006e7620(int, int);
+void* __cdecl hkAllocateStack_char(int, int);
 void __cdecl FUN_005e0b60(void*);
 SightActor* __cdecl FUN_0056f930(void*);
 
@@ -6836,12 +6841,12 @@ bool SightActor::FUN_0088b880(bool force, SightActor* other, bool mode, int* res
                     int capacity = filterWorld->Count();
                     if (capacity > 0)
                     {
-                        buffer = FUN_006e7620(capacity, 0);
+                        buffer = hkAllocateStack_char(capacity, 0);
                         if (buffer)
                         {
                             SightFilterWorld* pFilterWorld2 = world->GetInner()->FUN_006286d0();
                             pFilterWorld2->Query(&bounds, buffer);
-                            ray.FUN_00500a20(buffer);
+                            ray.BGSTerminal_SetPassword(buffer);
                         }
                     }
                     world->DestroyDate();
@@ -6996,7 +7001,7 @@ struct FUN_00437c10
 };
 struct HitBody
 {
-    void* FUN_009b2c90();
+    void* hkpTypedBroadPhaseHandle_getOwner();
 };
 struct HitPair
 {
@@ -7076,7 +7081,7 @@ struct WaterActor : TESObjectREFR
     CellAccess* FUN_008d6f30();
     bool IsNotCulled();
     float FUN_00644930();
-    bool FUN_009b2940();
+    bool Explosion_TestExplosionUnderWater();
 };
 extern SettingT_GameSettingCollection_ DAT_011d0e34;
 extern QueryPoint DAT_011a9490;
@@ -7097,7 +7102,8 @@ int __fastcall FUN_00401170(void*);
 
 // Checks if the water actor is below the cell water level or below another water actor via a physics ray query, then sets waterFlags.
 // @fnv 0x009b2940
-bool WaterActor::FUN_009b2940()
+// src: COMMUNITY 0x009b2940
+bool WaterActor::Explosion_TestExplosionUnderWater()
 {
     bool bBelow = false;
     float scale = DAT_011d0e34.Float()->f;
@@ -7126,7 +7132,7 @@ bool WaterActor::FUN_009b2940()
                 {
                     HitPair* hit = hits.FUN_00626660(i);
                     HitBody* body = hit->body;
-                    void* root = body->FUN_009b2c90();
+                    void* root = body->hkpTypedBroadPhaseHandle_getOwner();
                     void* object = FUN_004b5820(root);
                     WaterActor* reference = FUN_0056f930(object);
                     if (reference && ::fnv_009b2940::FUN_00401170(((XRefr17*)reference)->FUN_007af430()) == 0x23)
@@ -7145,7 +7151,8 @@ bool WaterActor::FUN_009b2940()
 
 // For virtual type codes 7 or 8, uses the matching item path when bApply is true; otherwise sets spell state, casts, and removes the object.
 // @fnv 0x008c2090
-void ActorConsumeShell::FUN_008c2090(MagicItem* pItem, bool bApply)
+// src: COMMUNITY 0x008c2090
+void ActorConsumeShell::Actor_CastAlchemy(MagicItem* pItem, bool bApply)
 {
     if ((int)pItem->GetSpellType() == 7 || (int)pItem->GetSpellType() == 8)
     {

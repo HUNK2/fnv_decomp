@@ -775,7 +775,7 @@ void __cdecl FUN_004a3e00(hkVector4& kOut, const NiPoint3& kIn);
 NiAVObject* __cdecl FUN_004b5820(Collidable631* pkCollidable);
 TESObjectREFR* __cdecl FUN_0056f930(void* pvObject);
 Entity631* __cdecl FUN_004b59f0(Collidable631* pkCollidable);
-void* __cdecl FUN_004b5a80(Entity631* pkEntity);
+void* __cdecl bhkEntity_Getbhk(Entity631* pkEntity);
 void __cdecl FUN_004b2780(List631* pkList, const NiPoint3* pkOrigin, const NiPoint3* pkDir, float fImpulseRadiusSquared,
                           NiAVObject* pkNode, int iFlags);
 float __cdecl FUN_004587d0(float fValue);
@@ -990,7 +990,7 @@ TESObjectREFR* ViewCaster::FUN_00631d60(const NiPoint3* pkOrigin, const NiPoint3
                                                     fAlternateDistance =
                                                         FUN_004587d0(kIntersectionOffset.length3().getReal());
                                                     fAlternateOffset = fProjectionAlongAim;
-                                                    pvAlternateHit = FUN_004b5a80(pkEntity);
+                                                    pvAlternateHit = bhkEntity_Getbhk(pkEntity);
                                                 }
                                             }
                                         }
@@ -999,7 +999,7 @@ TESObjectREFR* ViewCaster::FUN_00631d60(const NiPoint3* pkOrigin, const NiPoint3
                                             pkAlternate = pkRef;
                                             fAlternateDistance = FUN_004587d0(kIntersectionOffset.length3().getReal());
                                             fAlternateOffset = fProjectionAlongAim;
-                                            pvAlternateHit = FUN_004b5a80(pkEntity);
+                                            pvAlternateHit = bhkEntity_Getbhk(pkEntity);
                                         }
                                     }
                                 }

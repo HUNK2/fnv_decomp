@@ -9,7 +9,7 @@
 #include "../../../../include/NiRefObject.h"
 
 extern "C" void* g_01202580;
-void* __cdecl FUN_00c25870();
+void* __cdecl NiPSysUpdateTask_GetRTTI();
 extern int DAT_010be45c;
 extern int DAT_01069674;
 extern int(__stdcall* DAT_00fdf1c4)(void*);

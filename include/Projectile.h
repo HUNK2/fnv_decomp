@@ -259,20 +259,20 @@ public:
 
     bool FUN_00440d80() const;
     int FUN_00474cb0();
-    S150 FUN_0056fac0(const S150& value);
+    S150 TESObjectREFR_MultipleMatrixByRace(const S150& value);
     Controller* FUN_009306d0();
     void FUN_00931ed0(void* value);
-    void FUN_008bc300();
+    void Actor_RegisterGrabIKNote();
     MobileObject* FUN_0085f810();
     void FUN_008d0240();
     void FUN_008cc6d0(int value);
-    void FUN_00978ed0(ActorCause* cause);
+    void SetActorCause_00978ed0(ActorCause* cause);
     ProjectileData* FUN_004181e0();
     unsigned int FUN_00476c90();
-    void FUN_009c58e0(BGSLoadFormBuffer* buffer);
+    void RevertBGS_009c58e0(BGSLoadFormBuffer* buffer);
     void __thiscall FUN_00966a00(float value);
     void FUN_0081e980(int, int);
-    void FUN_00812700(float, Link*);
+    void MagicBoltProjectile_UpdateBranch(float, Link*);
     void FUN_008133d0(int);
     void FUN_00484d00(void*, unsigned int);
     void FUN_00484d40(void*, unsigned int);

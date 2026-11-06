@@ -1069,10 +1069,10 @@ struct FormRecord
     PlayercharacterListNodeView* FUN_005d43c0();
     FormRecord* FindItemByDoneFlag(bool);
     bool FUN_009373f0();
-    FormRecord* FUN_0044edb0();
+    FormRecord* TESMain_GetThread();
     unsigned int FUN_00726070();
     FormRecord* FUN_00502430();
-    void FUN_005f6f70();
+    void TESClass_SaveGameTES();
     void SerializeFaceGenData(void*);
 };
 
@@ -1101,9 +1101,9 @@ struct StreamView
     SaveReference* GetHitSound();
 };
 void __cdecl SaveLog(const char*, ...);
-void __cdecl FUN_0049aa80(void*, unsigned int);
+void __cdecl Animation_SaveAnimation(void*, unsigned int);
 void __cdecl CopyEntrySecondFields(void*);
-void __cdecl FUN_00805b40(FormRecord*, void*);
+void __cdecl ActiveEffect_SaveActiveEffectList(FormRecord*, void*);
 extern unsigned int g_011e0b5c;
 extern FormRecord* g_011e0784;
 extern FormRecord* g_011e078c;
@@ -1832,7 +1832,7 @@ struct PlayerSave
     void ForwardToSaveLoadGame(void*, int);
     void FUN_008d32f0(unsigned int);
     bool FUN_008bbc10();
-    PlayercharacterListNodeView* FUN_005a6260();
+    PlayercharacterListNodeView* PlayerCharacter_GetCasinoDataList();
     PlayercharacterListNodeView* GetField614();
     PlayercharacterListNodeView* GetField618();
     PlayercharacterListNodeView* GetSelfOffset6A8();
@@ -1920,7 +1920,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
         }
         {
             if (flags & 0x10000000)
-                FUN_0049aa80(this, unk690);
+                Animation_SaveAnimation(this, unk690);
             // Serialize the original raw vector copy without calling the shared NiPoint3 copy constructor.
             // 0x011f426c is NiPoint3_ZERO; its old binding uses a struct tag, while the shared type uses class.
             unsigned int position[3];
@@ -2000,7 +2000,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
         if (reinterpret_cast<SaveStream*>(g_TESSaveLoadGame)->FUN_008df040() >= 0x7a)
         {
             unsigned int entryID4 = 0;
-            PlayercharacterListNodeView* entries6 = FUN_005a6260();
+            PlayercharacterListNodeView* entries6 = PlayerCharacter_GetCasinoDataList();
             int entryCount = entries6->GetSize();
             FUN_00484ce0(&entryCount, 4);
             while (entries6 && *entries6->FUN_006815c0())
@@ -2182,7 +2182,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             }
             *(unsigned short*)countPos8 = count73;
         }
-        FUN_00805b40(unk210, this);
+        ActiveEffect_SaveActiveEffectList(unk210, this);
         unk878.FUN_008d5510(flags);
         {
             unsigned int activeQuestID = 0;
@@ -2244,7 +2244,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
             while (objectives && !objectives->FUN_008256d0())
             {
                 FormRecord* objectiveA = *objectives->FUN_006815c0();
-                FormRecord* objectiveQuest = objectiveA->FUN_0044edb0();
+                FormRecord* objectiveQuest = objectiveA->TESMain_GetThread();
                 unsigned int objectiveQuestID = objectiveQuest->FUN_0084e3a0();
                 unsigned int objectiveID2 = objectiveA->FUN_00726070();
                 ForwardToSaveLoadGame(&objectiveQuestID, 4);
@@ -2272,7 +2272,7 @@ void PlayerSave::FUN_00955620(unsigned int flags)
                 classID2 = actorClass5->FUN_0084e3a0();
             ForwardToSaveLoadGame(&classID2, 4);
             if (actorClass5 && actorClass5 == defaultClass)
-                actorClass5->FUN_005f6f70();
+                actorClass5->TESClass_SaveGameTES();
         }
         if (reinterpret_cast<SaveStream*>(g_TESSaveLoadGame)->FUN_008df040() >= 0x45)
         {

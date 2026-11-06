@@ -21,7 +21,8 @@ typedef BSSoundHandle (BSAudio::*SoundHandleByEditorID)(const char*, unsigned in
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x0078da90
-int LockPickMenu::FUN_0078da90()
+// src: COMMUNITY 0x0078da90
+int LockPickMenu::GetClass_0078da90()
 {
     return 0x3f6;
 }
@@ -58,14 +59,14 @@ struct Proc_S
 {
     void* GetNext();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 // If aiID is 13, gets the next entry from FUN_004b7210 and calls Set(0xfa9, 0.0f, true) on it as a Tile.
 // @fnv 0x007902b0
 void LockPickMenu::FUN_007902b0(int aiID, Tile* apTarget)
 {
     if (aiID == 13)
     {
-        reinterpret_cast<Tile*>(reinterpret_cast<Proc_S*>(FUN_004b7210())->GetNext())->Set(0xfa9, 0.0f, true);
+        reinterpret_cast<Tile*>(reinterpret_cast<Proc_S*>(InterfaceManager_GetSingleton())->GetNext())->Set(0xfa9, 0.0f, true);
     }
 }
 
@@ -74,7 +75,7 @@ struct Proc_S
 {
     void* GetNext();
 };
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 }  // namespace fnv_007902f0
 
 // If aiID equals 0xD, gets the next object from FUN_004b7210 and calls Set(0xFA9, 255.0f, true) on it as a Tile.
@@ -83,7 +84,7 @@ void LockPickMenu::FUN_007902f0(int aiID, Tile* apTarget)
 {
     if (aiID == 0xD)
     {
-        ((Tile*)((fnv_007902f0::Proc_S*)fnv_007902f0::FUN_004b7210())->GetNext())->Set(0xFA9, 255.0f, true);
+        ((Tile*)((fnv_007902f0::Proc_S*)fnv_007902f0::InterfaceManager_GetSingleton())->GetNext())->Set(0xFA9, 255.0f, true);
     }
 }
 
@@ -157,7 +158,7 @@ struct SingletonGetter
 
 struct ProcBase
 {
-    void FUN_007148c0();
+    void RendererClearBufferHook();
 };
 
 struct ObjB
@@ -168,9 +169,9 @@ struct ObjB
 
 struct ObjC
 {
-    void FUN_00c4f270(int);
-    void FUN_00c4f2d0();
-    void FUN_004a0fd0(void*);
+    void BSCullingProcess_PushCullMode(int);
+    void BSCullingProcess_PopCullMode();
+    void BSCullingProcess_SetAccumulator(void*);
 };
 
 struct ObjD
@@ -189,14 +190,15 @@ struct Guard : SingletonGetter
 
 void* __stdcall FUN_0043c4b0(int, int);
 void* __cdecl FUN_0045c670();
-void* __cdecl FUN_004b7210();
+void* __cdecl InterfaceManager_GetSingleton();
 int __cdecl FUN_00450b80(int);
 void __cdecl UpdateCameraFrustum(void*, float);
-void __cdecl FUN_00b6bee0(void*, int, void*);
+void __cdecl BSShaderUtil_AccumulateScene(void*, int, void*);
 void __cdecl FUN_00b6c0d0(void*, void*, int);
 
 // @fnv 0x0078e7c0
-void __cdecl FUN_0078e7c0()
+// src: COMMUNITY 0x0078e7c0
+void __cdecl LockPickMenu_DrawScene()
 {
     void* v6;
     void* v14;
@@ -208,14 +210,14 @@ void __cdecl FUN_0078e7c0()
     {
         return;
     }
-    reinterpret_cast<ProcBase*>(FUN_0043c4b0(0, 4))->FUN_007148c0();
+    reinterpret_cast<ProcBase*>(FUN_0043c4b0(0, 4))->RendererClearBufferHook();
     v6 = FUN_0045c670();
     v1c3 = reinterpret_cast<ObjB*>(v6)->FUN_008d80e0();
-    reinterpret_cast<ObjC*>(v1c3)->FUN_00c4f270(1);
+    reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_PushCullMode(1);
     v18 = reinterpret_cast<SingletonGetter*>(&DAT_011da224)->FUN_00559450();
     UpdateCameraFrustum(v18, DAT_01030ff4);
-    Guard g(reinterpret_cast<ObjD*>(FUN_004b7210())->FUN_007fd640());
-    reinterpret_cast<ObjC*>(v1c3)->FUN_004a0fd0(g.FUN_00559450());
+    Guard g(reinterpret_cast<ObjD*>(InterfaceManager_GetSingleton())->FUN_007fd640());
+    reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_SetAccumulator(g.FUN_00559450());
     if (v18 != 0)
     {
         v24 = v18;
@@ -225,11 +227,11 @@ void __cdecl FUN_0078e7c0()
         v24 = reinterpret_cast<ObjB*>(v6)->FUN_006629f0();
     }
     v14 = v24;
-    FUN_00b6bee0(v14, FUN_00450b80(1), v1c3);
+    BSShaderUtil_AccumulateScene(v14, FUN_00450b80(1), v1c3);
     FUN_00b6c0d0(v14, g.FUN_00559450(), 0);
-    reinterpret_cast<ObjC*>(v1c3)->FUN_004a0fd0(0);
+    reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_SetAccumulator(0);
     g.FUN_0066b0d0(0);
-    reinterpret_cast<ObjC*>(v1c3)->FUN_00c4f2d0();
+    reinterpret_cast<ObjC*>(v1c3)->BSCullingProcess_PopCullMode();
 }
 
 namespace fnv_0078e900 {
@@ -409,7 +411,7 @@ struct FUN_00a712f0 : FUN_00aa13e0
     void FUN_00507700(float);
     void FUN_00a6faf0(FUN_00a71b70*);
     void SetLookAt(const NiPoint3&, const NiPoint3&);
-    void FUN_00733fd0(float);
+    void NiCamera_SetMinNearPlaneDist(float);
     void FUN_00a59c60(FUN_0043d410*);
 };
 Renderer* FUN_0045c670();
@@ -431,7 +433,8 @@ extern double DAT_01070c80;
 //   b = camera, f = viewport rect, c = frustum, g = aspect ratio,
 //   d = frustum scale, e = view angle, a = trailing value object.
 // @fnv 0x0078e900
-void* LockPickMenu::FUN_0078e900()
+// src: COMMUNITY 0x0078e900
+void* LockPickMenu::Create3DCamera()
 {
     using namespace fnv_0078e900;
     float g;
@@ -454,18 +457,18 @@ void* LockPickMenu::FUN_0078e900()
     c.unk18 = false;
     b->FUN_00a6faf0(&c);
     b->SetLookAt(NiPoint3(0.0f, 0.0f, 1.0f), NiPoint3(0.0f, 0.0f, 1.0f));
-    b->FUN_00733fd0(1.0f);
+    b->NiCamera_SetMinNearPlaneDist(1.0f);
     FUN_0043d410 a(0.0f, 0, 0);
     b->FUN_00a59c60(&a);
     return b;
 }
 
-unsigned char __cdecl FUN_00709d40();
+unsigned char __cdecl Interface_Has360Controller();
 
 // @fnv 0x00790290
 int __cdecl FUN_00790290()
 {
-    return ((FUN_00709d40() != 0 ? -1 : 0) & 8) + 0x14;
+    return ((Interface_Has360Controller() != 0 ? -1 : 0) & 8) + 0x14;
 }
 
 int __cdecl FUN_00406f60(StrMem* pkStr, const char* pFormat, ...);
@@ -635,7 +638,7 @@ struct FooA
 };
 struct DummyA
 {
-    int __thiscall FUN_00a239e0(int a0);
+    int __thiscall Controls_GetMouseAxis(int a0);
 };
 
 bool __cdecl FUN_004b71d0();
@@ -676,7 +679,7 @@ void __thiscall LockPickMenu::FUN_007908f0()
     }
     else
     {
-        RunSeventhVirtualOperation = (float)((double)((DummyA*)DAT_011dea0c->FUN_00877720())->FUN_00a239e0(1) *
+        RunSeventhVirtualOperation = (float)((double)((DummyA*)DAT_011dea0c->FUN_00877720())->Controls_GetMouseAxis(1) *
                                              (FUN_00715d40() / FUN_00706e50()));
     }
     float kVal = m_68->FUN_00a011b0((int)DAT_011da1fc) + RunSeventhVirtualOperation;
@@ -689,11 +692,11 @@ void __thiscall LockPickMenu::FUN_007908f0()
          (RunSeventhVirtualOperation < DAT_01012060 && val3 > remA8)) &&
         ((Checker*)FUN_00476c00(10))->FUN_00aa5230() == 0)
     {
-        (BSAudio::GetSingleton()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(&DAT_0107462c, 0x101).Play(false);
+        (BSAudio::GetSingleton()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(&DAT_0107462c, 0x101).Play(false);
     }
     else if (RunSeventhVirtualOperation != DAT_01012060 && DAT_011da2c0 == DAT_01012060)
     {
-        (BSAudio::GetSingleton()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(&DAT_0107462c, 0x101).Play(false);
+        (BSAudio::GetSingleton()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(&DAT_0107462c, 0x101).Play(false);
     }
     m_68->FUN_00a012d0((int)DAT_011da1fc, kVal, true);
     DAT_011da2c0 = RunSeventhVirtualOperation;
@@ -923,7 +926,7 @@ void LockPickMenu::InitLockInterface()
         }
         FUN_00a6d2d0(idx);
     }
-    ((Glob*)&DAT_011da224)->FUN_0066b0d0(FUN_0078e900());
+    ((Glob*)&DAT_011da224)->FUN_0066b0d0(Create3DCamera());
     ((VObj*)FUN_00450b80(1))->m_dc(((Glob*)&DAT_011da24c)->FUN_00559450(), 1);
     float val;
     val = (float)(((TimeObj*)((NiNode*)((Glob*)&DAT_011da24c)->FUN_00559450())->FUN_0043d450())->FUN_0084d030() * 3.0);
@@ -1033,7 +1036,7 @@ int FUN_00647b70(int iValue, int iMin);
 int MinInt(int iValue, int iMax);
 int FUN_00406d00(char* pcBuffer, unsigned int uiSize, const char* pcFormat, ...);
 int FUN_00406d50(char* pcBuffer, unsigned int uiSize, const char* pcText);
-void FUN_005b5e40(const char* pcMessage);
+void Warning_005b5e40(const char* pcMessage);
 int FUN_00a01860(const char* pcTrait);
 float FUN_00a01530();
 int FUN_00408b20(const char* pcA, const char* pcB);
@@ -1045,26 +1048,26 @@ Tile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
     char acMessageVal[260];
     char acLabel[64];
     LKSelection* pkSelection = FUN_00a09030(0x3f6);
-    LKInterface* pkInterfaceVal = (LKInterface*)FUN_004b7210();
+    LKInterface* pkInterfaceVal = (LKInterface*)InterfaceManager_GetSingleton();
     int iLockLevelNum = pkLockRef ? FUN_00430b40(((LKRef*)pkLockRef)->FUN_005691b0()) : aiLockLevel;
     iLockLevelNum = MinInt(FUN_00647b70(iLockLevelNum, 0), 4);
     if (pkLockRef && g_player_011dea3c->kAVOwner.GetActorValueAsInteger(0x24) < g_aiLockLevels_011da28c[iLockLevelNum])
     {
         FUN_00406d00(acMessageVal, 0x104, DAT_011d1efc.FUN_00403df0(), g_aiLockLevels_011da28c[iLockLevelNum]);
         DispatchMessageToSink(acMessageVal, 0, "Interface\\Icons\\Message Icons\\glow_message_padlock.dds", 0, 2.0f, 0);
-        (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))("UIPopUpMessageGeneral", 0x121).Play(false);
+        (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))("UIPopUpMessageGeneral", 0x121).Play(false);
         return 0;
     }
     if (pkSelection)
         delete pkSelection;
     Tile* pkMenuTileNew = pkInterfaceVal->FUN_00586150("Data\\Menus\\lockpick_menu.xml")->FUN_00a01b00();
-    DAT_011da204 = (LockPickMenu*)pkMenuTileNew->FUN_00a03c90();
+    DAT_011da204 = (LockPickMenu*)pkMenuTileNew->Tile_GetMenu();
     if (DAT_011da204 && DAT_011da204->GetClass() == FUN_0078e080())
     {
         DAT_011da204->FUN_00a1dc70(reinterpret_cast<TileMenu*>(pkMenuTileNew), false);
-        if (!DAT_011da204->FUN_0078e090())
+        if (!DAT_011da204->LockPickMenu_HasTiles())
         {
-            FUN_005b5e40("MENUS: Lockpicking Menu Creation Failed... Are your menu and art resources up to date?");
+            Warning_005b5e40("MENUS: Lockpicking Menu Creation Failed... Are your menu and art resources up to date?");
             return 0;
         }
         if (pkMenuTileNew->FUN_00a011b0(0xfa7) == 6006.0 || pkMenuTileNew->FUN_00a011b0(0xfa7) == 102.0)
@@ -1544,7 +1547,7 @@ struct xPlayer
     virtual void v290(int);
     char m_auiShapeKeys[0x208];
     bool m_20c;
-    void FUN_00915d20(int);
+    void MiddleHighProcess_SetWantWeaponDrawn(int);
     void FUN_008bfa40(void*, int, int, int, xForm*);
     void FUN_0094fd30(int);
 };
@@ -1647,7 +1650,7 @@ void LockPickMenu::FUN_0078eb50()
                 if (m_30->FUN_00a011b0(xg_iTileId_11da1f8) <= 0.0)
                     xQueueMsg(xg_s_11d34ec.FUN_00403df0(), 0, s_szIcon, 0, 2.0f, 0);
                 else
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szEnter, 0x121).Play(false);
+                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szEnter, 0x121).Play(false);
             }
             if (reinterpret_cast<xSeq*>(m_9c)->FUN_00508100() <= xg_fElapsed_11da2ac)
             {
@@ -1687,7 +1690,7 @@ void LockPickMenu::FUN_0078eb50()
             {
                 if ((xIface::FUN_004b71d0() && qrEZrs > 0.0) || (!xIface::FUN_004b71d0() && FUN_00791540(true)))
                 {
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szTurn, 0x121).Play(false);
+                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szTurn, 0x121).Play(false);
                     m_28 = 3;
                 }
                 FUN_007908f0();
@@ -1699,9 +1702,9 @@ void LockPickMenu::FUN_0078eb50()
                 m_8c = xF404010(m_8c, 0.0f);
                 AdvanceSequence(0.0f);
                 if (m_8c < 30.0 && OLD2 > 30.0)
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szSqueakA, 0x101).Play(false);
+                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakA, 0x101).Play(false);
                 if (m_8c < 60.0 && OLD2 > 60.0)
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szSqueakB, 0x101).Play(false);
+                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakB, 0x101).Play(false);
             }
         }
         break;
@@ -1726,9 +1729,9 @@ void LockPickMenu::FUN_0078eb50()
             if (xIface::FUN_004b71d0())
                 xg_os_11dea0c->FUN_00877720()->FUN_00a255b0(0.1f, 0.0f, 0xfa, 0x7d, 3, 1, 0);
             if (OLD3 < 30.0 && m_8c > 30.0)
-                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szSqueakA, 0x101).Play(false);
+                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakA, 0x101).Play(false);
             if (OLD3 < 60.0 && m_8c > 60.0)
-                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szSqueakB, 0x101).Play(false);
+                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szSqueakB, 0x101).Play(false);
             if (m_8c >= m_90)
             {
                 if (m_8c >= 90.0)
@@ -1758,7 +1761,7 @@ void LockPickMenu::FUN_0078eb50()
                             }
                             if (CRIME)
                             {
-                                xg_player_11dea3c->FUN_00915d20(1);
+                                xg_player_11dea3c->MiddleHighProcess_SetWantWeaponDrawn(1);
                                 xg_player_11dea3c->FUN_008bfa40(CRIME, 0, 0, 0, OWNER);
                             }
                             else
@@ -1784,7 +1787,7 @@ void LockPickMenu::FUN_0078eb50()
                                     xg_player_11dea3c->FUN_0094fd30((int)*xg_f_11cde20.FUN_00403e20());
                             }
                         }
-                        (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szUnlock, 0x101).Play(false);
+                        (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szUnlock, 0x101).Play(false);
                         reinterpret_cast<xRef*>(m_6c)->FUN_005692a0();
                         if (reinterpret_cast<xRef*>(m_6c)->FUN_00401170() == 0x1c)
                             xg_player_11dea3c->m_20c = true;
@@ -1807,8 +1810,8 @@ void LockPickMenu::FUN_0078eb50()
                 }
                 else
                 {
-                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szStop, 0x101).Play(false);
-                    s_kTension = (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szTension, 1);
+                    (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szStop, 0x101).Play(false);
+                    s_kTension = (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szTension, 1);
                     s_kTension.Play(true);
                     m_28 = 4;
                 }
@@ -1848,7 +1851,7 @@ void LockPickMenu::FUN_0078eb50()
             if (m_94 <= 0.0)
             {
                 s_kTension.FadeOutAndRelease(100);
-                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::FUN_00ad7550))(s_szBreak, 0x101).Play(false);
+                (BSAudio::FUN_00453a70()->*reinterpret_cast<SoundHandleByEditorID>(&BSAudio::BSAudio_GetSoundHandleByEditorName))(s_szBreak, 0x101).Play(false);
                 if (m_6c)
                     xg_player_11dea3c->RemoveItem(xg_pLockpick_11ca268, 0, 1, 0, 0, 0, 0, 0, 1, 0);
                 m_30->FUN_00a012d0(xg_iTileId_11da1f8, m_30->FUN_00a011b0(xg_iTileId_11da1f8) - 1.0, true);
