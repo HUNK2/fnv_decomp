@@ -32,9 +32,10 @@ size, each unit's EH tails and literals, and the totals (apart from the number o
 stays in its unit: build_and_match.py finds EH tails only through the functions of the unit that lists them. EH code
 resolves names through the whole recipe, so when those names change in any way, every unit with EH tails is built
 again. Two lists in tools/ (main's, never the change's) stand in for what only the game can tell: unwind_names.json,
-the destructors only unwinding code calls, and verified_eh.json, EH code the owner has built against the game (the
-game places EH code by its EH tables, which this check does not follow). Anything else (build/image_check.json,
-patches/, a source outside src/ and third_party/) needs a maintainer.
+the destructors only unwinding code calls (at addresses build/units.json lists), and verified_eh.json, EH code the
+owner has built against the game (the game places EH code by its EH tables, which this check does not follow). Each
+function is listed once per unit, and its fold aliases must compile to exactly its code. Anything else
+(build/image_check.json, patches/, a symlink, a source outside src/ and third_party/) needs a maintainer.
 
 A file whose change is only in comments and whitespace inside lines (nothing else moves) cannot change any function,
 so its includers are not rebuilt; __LINE__ is used only to name static-assert typedefs, and a change that adds a new
@@ -72,11 +73,13 @@ def tree_files(root):
     out = {}
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
-        for f in filenames:
+        for f in filenames + [d for d in dirnames if Path(dirpath, d).is_symlink()]:
             if f in SKIP_DIRS:   # a worktree's .git is a file
                 continue
             p = Path(dirpath, f)
-            if p.is_file() and not p.is_symlink():
+            if p.is_symlink() or not p.is_file():   # a symlink or a special file: recorded, so the plan can refuse it
+                out[p.relative_to(root).as_posix()] = 'not a regular file'
+            else:
                 out[p.relative_to(root).as_posix()] = hashlib.sha256(p.read_bytes()).hexdigest()
     return out
 
@@ -218,6 +221,9 @@ def recipe_problems(a, b, head_files):
         elif not all(isinstance(f, dict) and set(f) <= FUNCTION_FIELDS and isinstance(f.get('symbol'), str)
                      and all(isinstance(n, str) for n in f.get('fold_aliases', [])) for f in y['functions']):
             problems.append('%s: a function entry with other fields' % where)
+        elif len({address_of(f['address']) for f in y['functions']}) != len(y['functions']):
+            # each function is compared once per unit, by address: a second entry at the same address could hide a copy
+            problems.append('%s: lists an address twice' % where)
         # a binding is checked through what it does: the unit is built again (its entry changed), every function in
         # it must come out with the same bytes at its address, and a change to the names the whole recipe binds
         # rebuilds every unit with EH tails
@@ -243,6 +249,10 @@ def plan(base, head, shard_size, max_shards, trusted=False):
             continue   # the owner's own change: verified against the game, not by this check
         if not (f.startswith(('src/', 'include/')) or f == RECIPE or (f.endswith('.md') and not f.startswith('.github/'))):
             problems.append('%s: outside what this check can vouch for (src/, include/, build/units.json, *.md)' % f)
+    odd = sorted(f for f in fb if fb[f] == 'not a regular file')
+    if odd:   # a symlink can make an include read a file the change does not show; nothing else is looked at
+        return dict(changed_files=changed, code_changed=[], comment_only=[], renamed=[], units=[], compilers=[], shards=[],
+                    problems=['%s: a symlink or special file (only regular files may be in the tree)' % f for f in odd])
     ra = json.loads(Path(base, RECIPE).read_text())
     try:
         rb = json.loads(Path(head, RECIPE).read_text())
@@ -415,23 +425,33 @@ def fingerprint(obj, unit, names, unwind=None):
             memo[key] = digest(sec['name'], data, rest)
         return memo[key]
 
-    for fn in unit['functions']:
-        address, size = fn['address'], fn['size']
-        s = coff.named(fn['symbol'])
+    def body(name, address, size):
+        """The code at a symbol, as it ends up at the original address: [digest of the linked bytes, digest of the bytes
+        alone, the names that do not resolve to an address, whether it uses EH code]."""
+        s = coff.named(name)
         sec = coff.sections[s['section']]; start = s['value']
         later = [x['value'] for x in coff.symbols.values() if x['section'] == s['section'] and x['type'] & 0x20
                  and x['value'] > start and not x['name'].startswith('__catch$')]
         end = min(later) if later else len(sec['data'])
         relocs = [(o - start, k, coff.symbols[ix]) for o, ix, k in sec['relocs'] if start <= o < end]
         code, rest = linked(sec['data'][start:start + size], [r for r in relocs if r[0] < size],
-                            lambda sym, addend: target(sym, local, addend), int(address, 16))
+                            lambda sym, addend: target(sym, local, addend), address)
         # as compare.py: the compiled function is at least as long as the original, and only padding follows
         padded = end - start >= size and all(b in (0xcc, 0x90) for b in sec['data'][start + size:end])
         unbound = sorted({sym['name'] for o, k, sym in relocs if target(sym, local)[0] != 'address'})
-        eh = any(coff.symbols[ix]['section'] > 0 and coff.sections[coff.symbols[ix]['section']]['name'].startswith('.text$x')
-                 for o, ix, k in sec['relocs'] if start <= o < end)
-        out[address] = [digest(code, size, rest, padded, [(o, k, r['name']) for o, k, r in relocs if o >= size]),
-                        digest(sec['data'][start:end]), unbound, eh]
+        eh = any(sym['section'] > 0 and coff.sections[sym['section']]['name'].startswith('.text$x') for o, k, sym in relocs)
+        return [digest(code, size, rest, padded, [(o, k, r['name']) for o, k, r in relocs if o >= size]),
+                digest(sec['data'][start:end]), unbound, eh]
+
+    for fn in unit['functions']:
+        out[fn['address']] = body(fn['symbol'], int(fn['address'], 16), fn['size'])
+        # a fold alias is the same code under another name (the linker keeps one copy): each must compile to exactly
+        # the function's code, or the copy the game has is not the one compared
+        for n in fn.get('fold_aliases', []):
+            alias = body(n, int(fn['address'], 16), fn['size'])
+            if alias[0] != out[fn['address']][0]:
+                out[fn['address']] = [digest('fold alias %s differs' % n, alias[0]), alias[1], alias[2] + [n],
+                                      out[fn['address']][3] or alias[3]]
     if unit.get('eh_tails'):
         out['eh'] = digest([section_digest(i, eh_names) for i in range(1, len(coff.sections))
                             if coff.sections[i]['name'].startswith(('.text$x', '.xdata'))])
@@ -521,7 +541,7 @@ def shard(repo, base_sha, head_sha, plan_data, n, jobs):
                                    {fp[1] for fp in copies['base'].get(k, {}).values()}],
                        unbound=sorted({n for k in differ for n in fb.get(k, [0, 0, []])[2]})[:20])
         rows.append(row)
-    return dict(shard=n, base=base_sha, head=head_sha, units=rows)
+    return dict(shard=n, base=base_sha, head=head_sha, plan=plan_id(plan_data), units=rows)
 
 
 def eh_changes(repo, base_sha, head_sha, jobs):
@@ -549,9 +569,14 @@ def eh_changes(repo, base_sha, head_sha, jobs):
 
 # -- report ----------------------------------------------------------------------------------------------------------
 
+def plan_id(plan_data):
+    return hashlib.sha256(json.dumps(plan_data, sort_keys=True).encode()).hexdigest()
+
+
 def report(plan_data, results, shard=None):
-    """The verdict on the results (of one shard, with shard=N)."""
-    rows = [r for res in results for r in res['units']]
+    """The verdict on the results (of one shard, with shard=N). Results built for another plan are not counted."""
+    foreign = [res for res in results if res.get('plan') != plan_id(plan_data)]
+    rows = [r for res in results if res.get('plan') == plan_id(plan_data) for r in res['units']]
     expected = range(len(plan_data['units'])) if shard is None else plan_data['shards'][shard]
     by = {}
     for r in rows:
@@ -577,6 +602,8 @@ def report(plan_data, results, shard=None):
         lines += ['- %s' % p for p in plan_data['problems'][:50]]
     if missing:
         lines += ['', '### Not built', '', '%d affected units have no result (a build job failed).' % len(missing)]
+    if foreign:
+        lines += ['', '%d result files were built for another plan and are not counted.' % len(foreign)]
     for status, title in (('differs', 'Functions that compile differently'), ('does-not-compile', 'Does not compile'),
                           ('base-failed', 'main itself failed to build (a problem with the check, not the change)')):
         if by.get(status):
