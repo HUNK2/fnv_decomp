@@ -16338,7 +16338,7 @@ struct D_Array
     void FUN_008454f0(bool freeMem);
     void BSSimpleArray_HUDMainMenu_SubtitleData_1024_Remove(unsigned int index, bool shift);
 };
-extern const float DAT_01012054 = -1.0f;
+__declspec(selectany) extern const float DAT_01012054 = -1.0f;
 struct E_Move
 {
     int u00, u04, kind, lane, slot, card, priority;
