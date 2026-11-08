@@ -1430,8 +1430,8 @@ int FindIndexByValue(void* a1, unsigned int aiValue)
 float __cdecl FUN_00476b20(float);
 
 // @fnv 0x00477430
-// src: GUESS 0x00477430 (confidence: low)
-int __cdecl TESObjectREFR_ProcessEntries_00477430(TESObjectREFR* ref)
+// src: COMMUNITY 0x00477430
+int __cdecl BGSDestructibleObjectForm_CalcDestructionStage(TESObjectREFR* ref)
 {
     int iStage = -1;
     if (ref)

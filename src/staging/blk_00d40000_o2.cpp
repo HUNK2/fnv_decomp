@@ -153,8 +153,8 @@ void __cdecl hkPredGskAgent3_initAgentFunc(int* pObject)
 
 extern int DAT_010cf9a4;
 // @fnv 0x00d48350
-// src: GUESS 0x00d48350 (confidence: low)
-void __cdecl Runtime_UpdateState_00d48350(int* p)
+// src: COMMUNITY 0x00d48350
+void __cdecl finishLoadedObject_hkpPhysicsData(int* p)
 {
     if (p)
         *p = (int)&DAT_010cf9a4;
@@ -166,8 +166,8 @@ struct FUN_00d49580_vtbl
 };
 
 // @fnv 0x00d49580
-// src: GUESS 0x00d49580 (confidence: low)
-void __cdecl Object_InvokeVirtualMethod_00d49580(FUN_00d49580_vtbl* p)
+// src: COMMUNITY 0x00d49580
+void __cdecl cleanupLoadedObject_hkpStorageSampledHeightFieldShape(FUN_00d49580_vtbl* p)
 {
     p->v0(0);
 }
@@ -177,8 +177,8 @@ extern int DAT_010ce31c;
 extern int DAT_010cfb34;
 
 // @fnv 0x00d495a0
-// src: GUESS 0x00d495a0 (confidence: low)
-void __cdecl Object_UpdateFields_00d495a0(int* pObject, int b)
+// src: COMMUNITY 0x00d495a0
+void __cdecl finishLoadedObject_hkpStorageSampledHeightFieldShape(int* pObject, int b)
 {
     if (pObject)
     {
@@ -196,36 +196,36 @@ void __cdecl Object_UpdateFields_00d495a0(int* pObject, int b)
 }
 
 // @fnv 0x00d4b190
-// src: GUESS 0x00d4b190 (confidence: low)
-void __cdecl Runtime_Helper_00d4b190(void* p)
+// src: COMMUNITY 0x00d4b190
+void __cdecl cleanupLoadedObject_hkpStorageExtendedMeshShapeMeshSubpartStorage(void* p)
 {
     ((void(__thiscall*)(void*, int))(*reinterpret_cast<void***>(p))[0])(p, 0);
 }
 
 struct FUN_00d4b250_class
 {
-    void __thiscall Runtime_ForwardCall_00d4b250(int);
+    void __thiscall cleanupLoadedObject_hkpStorageExtendedMeshShape(int);
 };
 struct FUN_00d4b250_vt
 {
-    virtual void __thiscall Runtime_ForwardCall_00d4b250(int);
+    virtual void __thiscall cleanupLoadedObject_hkpStorageExtendedMeshShape(int);
 };
 // @fnv 0x00d4b250
-// src: GUESS 0x00d4b250 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d4b250(FUN_00d4b250_vt* p)
+// src: COMMUNITY 0x00d4b250
+void __cdecl cleanupLoadedObject_hkpStorageExtendedMeshShape(FUN_00d4b250_vt* p)
 {
-    p->Runtime_ForwardCall_00d4b250(0);
+    p->cleanupLoadedObject_hkpStorageExtendedMeshShape(0);
 }
 
 struct FUN_00d4be50_vt
 {
-    virtual void Runtime_ForwardCall_00d4be50(int);
+    virtual void cleanupLoadedObject_hkpStorageMeshShapeSubpartStorage(int);
 };
 // @fnv 0x00d4be50
-// src: GUESS 0x00d4be50 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d4be50(FUN_00d4be50_vt* p)
+// src: COMMUNITY 0x00d4be50
+void __cdecl cleanupLoadedObject_hkpStorageMeshShapeSubpartStorage(FUN_00d4be50_vt* p)
 {
-    p->Runtime_ForwardCall_00d4be50(0);
+    p->cleanupLoadedObject_hkpStorageMeshShapeSubpartStorage(0);
 }
 
 struct CollisionAgentFunctionTable
@@ -275,28 +275,28 @@ struct FUN_00d48330_vt
     virtual void v0(int);
 };
 // @fnv 0x00d48330
-// src: GUESS 0x00d48330 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d48330(FUN_00d48330_vt* p)
+// src: COMMUNITY 0x00d48330
+void __cdecl cleanupLoadedObject_hkpPhysicsData(FUN_00d48330_vt* p)
 {
     p->v0(0);
 }
 
 // @fnv 0x00d49510
-// src: GUESS 0x00d49510 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d49510(FUN_00d49580_vtbl* p)
+// src: COMMUNITY 0x00d49510
+void __cdecl cleanupLoadedObject_hkpRigidBody(FUN_00d49580_vtbl* p)
 {
     p->v0(0);
 }
 
 struct FUN_00d4b1f0_vt
 {
-    virtual void __thiscall Runtime_ForwardCall_00d4b1f0(int);
+    virtual void __thiscall cleanupLoadedObject_hkpStorageExtendedMeshShapeShapeSubpartStorage(int);
 };
 // @fnv 0x00d4b1f0
-// src: GUESS 0x00d4b1f0 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d4b1f0(FUN_00d4b1f0_vt* p)
+// src: COMMUNITY 0x00d4b1f0
+void __cdecl cleanupLoadedObject_hkpStorageExtendedMeshShapeShapeSubpartStorage(FUN_00d4b1f0_vt* p)
 {
-    p->Runtime_ForwardCall_00d4b1f0(0);
+    p->cleanupLoadedObject_hkpStorageExtendedMeshShapeShapeSubpartStorage(0);
 }
 
 struct FUN_00d4b320_vt
@@ -304,29 +304,29 @@ struct FUN_00d4b320_vt
     virtual void v0(int);
 };
 // @fnv 0x00d4b320
-// src: GUESS 0x00d4b320 (confidence: low)
-void __cdecl Object_InvokeVirtualMethod_00d4b320(FUN_00d4b320_vt* p)
+// src: COMMUNITY 0x00d4b320
+void __cdecl cleanupLoadedObject_hkpExtendedMeshShape(FUN_00d4b320_vt* p)
 {
     p->v0(0);
 }
 
 // @fnv 0x00d4beb0
-// src: GUESS 0x00d4beb0 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d4beb0(FUN_00d49580_vtbl* p)
+// src: COMMUNITY 0x00d4beb0
+void __cdecl cleanupLoadedObject_hkpStorageMeshShape(FUN_00d49580_vtbl* p)
 {
     p->v0(0);
 }
 
 struct FUN_00d4bf30_vt
 {
-    virtual void Runtime_ForwardCall_00d4bf30(int);
+    virtual void cleanupLoadedObject_hkpMeshShape(int);
 };
 
 // @fnv 0x00d4bf30
-// src: GUESS 0x00d4bf30 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d4bf30(FUN_00d4bf30_vt* p)
+// src: COMMUNITY 0x00d4bf30
+void __cdecl cleanupLoadedObject_hkpMeshShape(FUN_00d4bf30_vt* p)
 {
-    p->Runtime_ForwardCall_00d4bf30(0);
+    p->cleanupLoadedObject_hkpMeshShape(0);
 }
 
 extern const char* const g_01268eb4_arg1;
@@ -1011,8 +1011,8 @@ struct FUN_00d4a180_cls
 };
 
 // @fnv 0x00d4b230
-// src: GUESS 0x00d4b230 (confidence: low)
-void __cdecl Runtime_ProcessState_00d4b230(FUN_00d4a180_cls* pTarget, int aiValue)
+// src: COMMUNITY 0x00d4b230
+void __cdecl finishLoadedObject_hkpStorageExtendedMeshShape(FUN_00d4a180_cls* pTarget, int aiValue)
 {
     if (pTarget != 0)
         pTarget->FUN_00d4a180(aiValue);
@@ -1080,8 +1080,8 @@ class FUN_00d4b300_cls
 };
 
 // @fnv 0x00d4b300
-// src: GUESS 0x00d4b300 (confidence: low)
-void __cdecl Object_ProcessState_00d4b300(FUN_00d4b300_cls* pObject, int aiValue)
+// src: COMMUNITY 0x00d4b300
+void __cdecl finishLoadedObject_hkpExtendedMeshShape(FUN_00d4b300_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
@@ -1210,8 +1210,8 @@ struct FUN_00d4ba30_class
 };
 
 // @fnv 0x00d4be90
-// src: GUESS 0x00d4be90 (confidence: low)
-void __cdecl Object_ProcessState_00d4be90(FUN_00d4ba30_class* pObject, int value)
+// src: COMMUNITY 0x00d4be90
+void __cdecl finishLoadedObject_hkpStorageMeshShape(FUN_00d4ba30_class* pObject, int value)
 {
     if (pObject != 0)
         pObject->FUN_00d4ba30(value);
@@ -1252,8 +1252,8 @@ class D4BF10Object
 };
 
 // @fnv 0x00d4bf10
-// src: GUESS 0x00d4bf10 (confidence: low)
-void Runtime_AllocateStorage_00d4bf10(void* apMemory, int finishing)
+// src: COMMUNITY 0x00d4bf10
+void finishLoadedObject_hkpMeshShape(void* apMemory, int finishing)
 {
     if (apMemory)
     {

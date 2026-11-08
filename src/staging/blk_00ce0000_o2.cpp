@@ -173,8 +173,8 @@ int __thiscall FUN_00ce4a20_cls::ProcessAndReturnValue_00ce4a20(int a)
 
 extern int DAT_0102e378;
 // @fnv 0x00cf69a0
-// src: GUESS 0x00cf69a0 (confidence: low)
-void __cdecl Object_UpdateFields_00cf69a0(int* a)
+// src: COMMUNITY 0x00cf69a0
+void __cdecl finishLoadedObject_hkReferencedObject(int* a)
 {
     if (a)
         *a = (int)&DAT_0102e378;
@@ -770,14 +770,14 @@ void FUN_00cf4f70_cls::InitFromSource(FUN_00cf4f70_src* pSource)
 
 struct FUN_00cf6980_class
 {
-    virtual void Object_ForwardCall_00cf6980(int);
+    virtual void cleanupLoadedObject_hkReferencedObject(int);
 };
 
 // @fnv 0x00cf6980
-// src: GUESS 0x00cf6980 (confidence: low)
-void __cdecl Object_ForwardCall_00cf6980(FUN_00cf6980_class* object)
+// src: COMMUNITY 0x00cf6980
+void __cdecl cleanupLoadedObject_hkReferencedObject(FUN_00cf6980_class* object)
 {
-    object->Object_ForwardCall_00cf6980(0);
+    object->cleanupLoadedObject_hkReferencedObject(0);
 }
 
 extern int DAT_01268748;

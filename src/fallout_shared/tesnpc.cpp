@@ -3754,7 +3754,7 @@ extern FaceSetting DAT_011cb7a0;
 
 
 void FUN_006521f0(void*);
-void Object_ProcessState_00652fc0(float, void*, void*);
+void BSFaceGenManager_RandomizeFaceGenetic(float, void*, void*);
 float BSFaceGenManager_GetFaceCoordAttribute(void*, int, int);
 void BSFaceGenManager_SetFaceCoordAttribute(void*, int, int, float);
 float FUN_005c5420();
@@ -3793,7 +3793,7 @@ void FaceNpc::RandomizeFace(bool keepAge, bool keepShape, bool keepOther)
     FaceMatrixLocal _result[2][2];
     float first2, second, value, other7;
     FUN_006521f0(_result);
-    Object_ProcessState_00652fc0(*DAT_011cb7a0.Setting_Float_00403e20(), GetFormRace()->GetMeanFaceCoord(static_cast<SEX>(FUN_005f0cc0())), source9);
+    BSFaceGenManager_RandomizeFaceGenetic(*DAT_011cb7a0.Setting_Float_00403e20(), GetFormRace()->GetMeanFaceCoord(static_cast<SEX>(FUN_005f0cc0())), source9);
     first2 = BSFaceGenManager_GetFaceCoordAttribute(source9, 0, 0);
     second = BSFaceGenManager_GetFaceCoordAttribute(source9, 0, 1);
     if (keepAge)

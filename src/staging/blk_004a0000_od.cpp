@@ -3821,12 +3821,12 @@ struct AGList : AGNode
 struct AGOwner
 {
     AGList* m_pEntries;
-    void* ProcessEntries_004bcd10();
+    void* ItemChange_RemoveLeveledItemExtra();
 };
 
 // @fnv 0x004bcd10
-// src: GUESS 0x004bcd10 (confidence: low)
-void* AGOwner::ProcessEntries_004bcd10()
+// src: COMMUNITY 0x004bcd10
+void* AGOwner::ItemChange_RemoveLeveledItemExtra()
 {
     AGNode* pNode = m_pEntries;
     void* pResult = 0;

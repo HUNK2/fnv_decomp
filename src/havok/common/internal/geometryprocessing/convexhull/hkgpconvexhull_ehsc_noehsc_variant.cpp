@@ -252,7 +252,7 @@ struct PayloadOwner
 int* __stdcall Hkgpconvexhull_GetPayloadAddress(PayloadOwner* apOwner);
 struct TargetCallee
 {
-    void ProcessEntries_00d7a5a0(void* p1, void* p2, void* p3, void* p4, float p5);
+    void hkgpConvexHullImpl_clipLine(void* p1, void* p2, void* p3, void* p4, float p5);
 };
 struct FUN_00d74ee0_Class : FUN_00d74dd0_Class
 {
@@ -712,7 +712,7 @@ struct FUN_00d771c0_Owner
 };
 struct FUN_00d83430_class
 {
-    void AllocateStorage_00d83430(int, int, int, float);
+    void hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_(int, int, int, float);
 };
 struct FUN_00d790a0_class
 {
@@ -730,7 +730,7 @@ struct S_00d79f90_Opts
 struct S_00d79f90_Result
 {
     virtual ~S_00d79f90_Result();
-    void ProcessEntries_00d78720(float f, const S_00d79f90_Opts& opts);
+    void hkgpConvexHull_absoluteScale(float f, const S_00d79f90_Opts& opts);
 };
 struct S_00d79f90_World
 {
@@ -1265,7 +1265,7 @@ struct FUN_00d75820_cls
 };
 struct FUN_00d7b330_cls
 {
-    void ProcessEntries_00d7b330(int a1, int a2, float a3);
+    void hkgpConvexHullImpl_isPointInside(int a1, int a2, float a3);
 };
 struct FUN_00d76100_cls
 {

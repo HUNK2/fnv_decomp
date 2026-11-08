@@ -300,8 +300,8 @@ struct S_00d6adf0_Obj
     virtual void vfn00(int arg);
 };
 // @fnv 0x00d6adf0
-// src: GUESS 0x00d6adf0 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d6adf0(S_00d6adf0_Obj* obj)
+// src: COMMUNITY 0x00d6adf0
+void __cdecl cleanupLoadedObject_hkpConstraintInstance(S_00d6adf0_Obj* obj)
 {
     obj->vfn00(0);
 }
@@ -321,8 +321,8 @@ struct FUN_00c90e00_Obj
 };
 
 // @fnv 0x00d6ae90
-// src: GUESS 0x00d6ae90 (confidence: low)
-void __cdecl Runtime_ProcessState_00d6ae90(FUN_00c90e00_Obj* pObj, int iValue)
+// src: COMMUNITY 0x00d6ae90
+void __cdecl finishLoadedObject_hkpWorldCinfo(FUN_00c90e00_Obj* pObj, int iValue)
 {
     if (pObj != 0)
     {
@@ -338,8 +338,8 @@ struct VtblForwarder
 };
 
 // @fnv 0x00d6aeb0
-// src: GUESS 0x00d6aeb0 (confidence: low)
-int __cdecl Runtime_ForwardCall_00d6aeb0(VtblForwarder* p)
+// src: COMMUNITY 0x00d6aeb0
+int __cdecl cleanupLoadedObject_hkpWorldCinfo(VtblForwarder* p)
 {
     return p->v0(0);
 }

@@ -176,12 +176,12 @@ struct FUN_00d0ad80_This
 class FUN_00d0ad80_Class : public FUN_00d0ad80_This
 {
   public:
-    bool __thiscall ComputeValue_00d0ad80();
+    bool __thiscall hkpKdTreeWorldManager_isUpToDate();
 };
 
 // @fnv 0x00d0ad80
-// src: GUESS 0x00d0ad80 (confidence: low)
-bool FUN_00d0ad80_Class::ComputeValue_00d0ad80()
+// src: COMMUNITY 0x00d0ad80
+bool FUN_00d0ad80_Class::hkpKdTreeWorldManager_isUpToDate()
 {
     return this->unk20 == '\0';
 }

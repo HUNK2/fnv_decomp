@@ -1288,11 +1288,11 @@ struct FUN_009aa150_Class
     int m0;
     int m4;
     int __thiscall GetKeywordName();
-    void __thiscall UpdateState_009aa150(char* a, unsigned int b, int c);
+    void __thiscall CombatWorldState_GetDebugText(char* a, unsigned int b, int c);
 };
 // @fnv 0x009aa150
-// src: GUESS 0x009aa150 (confidence: low)
-void __thiscall FUN_009aa150_Class::UpdateState_009aa150(char* pBuffer, unsigned int uiBufferSize, int c)
+// src: COMMUNITY 0x009aa150
+void __thiscall FUN_009aa150_Class::CombatWorldState_GetDebugText(char* pBuffer, unsigned int uiBufferSize, int c)
 {
     if (c == -1)
         c = m4;

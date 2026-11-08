@@ -25,7 +25,7 @@ void __cdecl hkpMultiSphereTriangleAgent_UpdateState_00d38ed0();
 void __cdecl Object_UpdateFields_00d3ac80();
 void __cdecl CreateTriAgent();
 void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations();
-void __cdecl Object_ProcessEntries_00d386c0();
+void __cdecl hkpMultiSphereTriangleAgent_staticGetClosestPoints();
 void __cdecl Object_ProcessEntries_00daf8e0();
 typedef void(__cdecl* S_00d389f0_Func)();
 struct S_00d389f0_AgentFuncs

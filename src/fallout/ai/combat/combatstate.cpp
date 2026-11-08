@@ -1483,11 +1483,11 @@ struct CombatSaveData
     unsigned char unk08[16];
     int unk18;
     int unk1C;
-    void SaveState_009a3130(BGSSaveFormBuffer*);
+    void CombatLocationTarget_SaveGame(BGSSaveFormBuffer*);
 };
 // @fnv 0x009a3130
-// src: GUESS 0x009a3130 (confidence: medium)
-void CombatSaveData::SaveState_009a3130(BGSSaveFormBuffer* apSaveGameBuffer)
+// src: COMMUNITY 0x009a3130
+void CombatSaveData::CombatLocationTarget_SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     apSaveGameBuffer->SaveData((void*)&unk0, 1, 0);
     apSaveGameBuffer->SaveData((void*)&unk1, 1, 0);
@@ -8070,7 +8070,7 @@ struct OptionalB435
 };
 struct OptionalC435
 {
-    void SaveState_009a3130(Save435*);
+    void CombatLocationTarget_SaveGame(Save435*);
 };
 struct Float435
 {
@@ -8264,7 +8264,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
     if (optional18c)
         optional18c->CombatLocation_SaveGameBGS(pSaveBuffer);
     if (optionalC)
-        optionalC->SaveState_009a3130(pSaveBuffer);
+        optionalC->CombatLocationTarget_SaveGame(pSaveBuffer);
     if (location1.range.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108df70)
         location1.CombatCoverSearch_SaveGameBGS(pSaveBuffer);
     if (location2.range.AStarSearch_EvaluateValue_006a7f50() != -DAT_0108df70)

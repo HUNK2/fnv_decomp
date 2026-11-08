@@ -1199,7 +1199,7 @@ struct ThreatList
 struct Package
 {
     void SpectatorPackage_AddThreatFromActorToCombatTarget(Parameter*);
-    void ProcessEntries_009f76e0();
+    void SpectatorPackage_ComputeCenterPoint();
 };
 // @fnv 0x009f8330
 // src: XBOX_PDB 0x009f8330
@@ -1224,7 +1224,7 @@ void Package::SpectatorPackage_AddThreatFromActorToCombatTarget(Parameter* actor
         match = ((ThreatList*)((char*)this + 0xA0))->BSSimpleArray_SpectatorThreatInfo_1024_GetAt(n);
     }
     match->SetSourceReference(actor);
-    ProcessEntries_009f76e0();
+    SpectatorPackage_ComputeCenterPoint();
 }
 
 struct ThreatArray
@@ -1544,11 +1544,11 @@ struct Package
     bool empty;
     NiPoint3 center;
     ThreatList threats;
-    void ProcessEntries_009f76e0();
+    void SpectatorPackage_ComputeCenterPoint();
 };
 // @fnv 0x009f76e0
-// src: GUESS 0x009f76e0 (confidence: low)
-void Package::ProcessEntries_009f76e0()
+// src: COMMUNITY 0x009f76e0
+void Package::SpectatorPackage_ComputeCenterPoint()
 {
     if (!threats.FUN_0044ddc0())
         return;
@@ -1936,7 +1936,7 @@ struct Package8020
     unsigned int unk9c;
     ThreatList8020 threats;
     void SpectatorPackage_AddThreatFromActorToCombatTarget(Actor*);
-    void ProcessEntries_009f76e0();
+    void SpectatorPackage_ComputeCenterPoint();
     void FUN_004534f0(Actor*);
     void SpectatorPackage_Update(Actor* actor);
 };
@@ -1996,7 +1996,7 @@ void Package8020::SpectatorPackage_Update(Actor* owner)
         entry->SpectatorThreatInfo_Update();
     }
     if (updated)
-        ProcessEntries_009f76e0();
+        SpectatorPackage_ComputeCenterPoint();
     FUN_004534f0(owner);
 }
 

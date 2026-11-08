@@ -909,11 +909,11 @@ void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
 void __cdecl TESFile_TransformReferencedInt64(void*, EndianSizeTag<0>);
 struct T2870
 {
-    void __thiscall ProcessState_005e2870();
+    void __thiscall SCRIPT_LOCAL_Endian();
 };
 // @fnv 0x005e2870
-// src: GUESS 0x005e2870 (confidence: low)
-void __thiscall T2870::ProcessState_005e2870()
+// src: COMMUNITY 0x005e2870
+void __thiscall T2870::SCRIPT_LOCAL_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<0>());
     TESFile_TransformReferencedInt64((char*)this + 8, EndianSizeTag<0>());

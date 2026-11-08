@@ -640,9 +640,9 @@ void __cdecl BSAudio_CloseBookMenuOrPlayInactiveSound(void* p);
 void __cdecl UpdateEntryRankText(void* p);
 void __cdecl DispatchStateCallback(void* p);
 void __cdecl UpdateLodVisibility(void* p);
-void __cdecl Object_UpdateFields_007ca700(void* p);
-void __cdecl Object_ProcessAndReturnValue_007ca960(void* p);
-void __cdecl Object_UpdateFields_007ca7a0(void* p);
+void __cdecl SPECIALBookMenu_RefreshLeftAVButton(void* p);
+void __cdecl SPECIALBookMenu_DecreaseActorValue(void* p);
+void __cdecl SPECIALBookMenu_RefreshRightAVButton(void* p);
 void __cdecl PlaySpecialBookSoundAndSetStat(void* p);
 
 typedef void(__cdecl* ItemCb)(void* p);
@@ -857,9 +857,9 @@ void SPECIALBookMenu::InitMenu()
     valueX = new BkDisplay(UpdateEntryRankText, "P1_PointVal:0", 0, 5);
     kMsg = new BkDisplay(DispatchStateCallback, "P1_Message:0", 0, -1);
     pDigits = new BkDisplay(UpdateLodVisibility, "P1_PointsRemainDigit1:0", "P1_PointsRemainDigit2:0", -1);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "P1_Decrease_Btn:0", 5, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "P1_Decrease_Btn:0", 5, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "P1_Increase_Btn:0", 5, 2, valueX, pDigits);
+        new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "P1_Increase_Btn:0", 5, 2, valueX, pDigits);
     next = new BkButton(Runtime_TurnPageForwardAndInvokeCallbacks, CallVfunc60WithGlobalOffset, "P1_RT_Btn:0");
     pLeft = new BkButton(Runtime_TurnPageBackwardAndInvokeCallbacks, Object_ProcessState_007ca8a0, "P1_LT_Btn:0");
     m_groups[1].displays.FUN_007cb2e0(valueX);
@@ -873,9 +873,9 @@ void SPECIALBookMenu::InitMenu()
     valueX = new BkDisplay(UpdateEntryRankText, "P2_PointVal:0", 0, 6);
     kMsg = new BkDisplay(DispatchStateCallback, "P2_Message:0", 0, -1);
     pDigits = new BkDisplay(UpdateLodVisibility, "P2_PointsRemainDigit1:0", "P2_PointsRemainDigit2:0", -1);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "P2_Decrease_Btn:0", 6, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "P2_Decrease_Btn:0", 6, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "P2_Increase_Btn:0", 6, 2, valueX, pDigits);
+        new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "P2_Increase_Btn:0", 6, 2, valueX, pDigits);
     next = new BkButton(Runtime_TurnPageForwardAndInvokeCallbacks, CallVfunc60WithGlobalOffset, "P2_RT_Btn:0");
     pLeft = new BkButton(Runtime_TurnPageBackwardAndInvokeCallbacks, Object_ProcessState_007ca8a0, "P2_LT_Btn:0");
     m_groups[2].displays.FUN_007cb2e0(valueX);
@@ -889,9 +889,9 @@ void SPECIALBookMenu::InitMenu()
     valueX = new BkDisplay(UpdateEntryRankText, "P3_PointVal:0", 0, 7);
     kMsg = new BkDisplay(DispatchStateCallback, "P3_Message:0", 0, -1);
     pDigits = new BkDisplay(UpdateLodVisibility, "P3_PointsRemainDigit1:0", "P3_PointsRemainDigit2:0", -1);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "P3_Decrease_Btn:0", 7, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "P3_Decrease_Btn:0", 7, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "P3_Increase_Btn:0", 7, 2, valueX, pDigits);
+        new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "P3_Increase_Btn:0", 7, 2, valueX, pDigits);
     next = new BkButton(Runtime_TurnPageForwardAndInvokeCallbacks, CallVfunc60WithGlobalOffset, "P3_RT_Btn:0");
     pLeft = new BkButton(Runtime_TurnPageBackwardAndInvokeCallbacks, Object_ProcessState_007ca8a0, "P3_LT_Btn:0");
     m_groups[3].displays.FUN_007cb2e0(valueX);
@@ -905,9 +905,9 @@ void SPECIALBookMenu::InitMenu()
     valueX = new BkDisplay(UpdateEntryRankText, "P4_PointVal:0", 0, 8);
     kMsg = new BkDisplay(DispatchStateCallback, "P4_Message:0", 0, -1);
     pDigits = new BkDisplay(UpdateLodVisibility, "P4_PointsRemainDigit1:0", "P4_PointsRemainDigit2:0", -1);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "P4_Decrease_Btn:0", 8, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "P4_Decrease_Btn:0", 8, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "P4_Increase_Btn:0", 8, 2, valueX, pDigits);
+        new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "P4_Increase_Btn:0", 8, 2, valueX, pDigits);
     next = new BkButton(Runtime_TurnPageForwardAndInvokeCallbacks, CallVfunc60WithGlobalOffset, "P4_RT_Btn:0");
     pLeft = new BkButton(Runtime_TurnPageBackwardAndInvokeCallbacks, Object_ProcessState_007ca8a0, "P4_LT_Btn:0");
     m_groups[4].displays.FUN_007cb2e0(valueX);
@@ -921,9 +921,9 @@ void SPECIALBookMenu::InitMenu()
     valueX = new BkDisplay(UpdateEntryRankText, "P5_PointVal:0", 0, 9);
     kMsg = new BkDisplay(DispatchStateCallback, "P5_Message:0", 0, -1);
     pDigits = new BkDisplay(UpdateLodVisibility, "P5_PointsRemainDigit1:0", "P5_PointsRemainDigit2:0", -1);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "P5_Decrease_Btn:0", 9, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "P5_Decrease_Btn:0", 9, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "P5_Increase_Btn:0", 9, 2, valueX, pDigits);
+        new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "P5_Increase_Btn:0", 9, 2, valueX, pDigits);
     next = new BkButton(Runtime_TurnPageForwardAndInvokeCallbacks, CallVfunc60WithGlobalOffset, "P5_RT_Btn:0");
     pLeft = new BkButton(Runtime_TurnPageBackwardAndInvokeCallbacks, Object_ProcessState_007ca8a0, "P5_LT_Btn:0");
     m_groups[5].displays.FUN_007cb2e0(valueX);
@@ -937,9 +937,9 @@ void SPECIALBookMenu::InitMenu()
     valueX = new BkDisplay(UpdateEntryRankText, "P6_PointVal:0", 0, 10);
     kMsg = new BkDisplay(DispatchStateCallback, "P6_Message:0", 0, -1);
     pDigits = new BkDisplay(UpdateLodVisibility, "P6_PointsRemainDigit1:0", "P6_PointsRemainDigit2:0", -1);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "P6_Decrease_Btn:0", 10, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "P6_Decrease_Btn:0", 10, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "P6_Increase_Btn:0", 10, 2, valueX, pDigits);
+        new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "P6_Increase_Btn:0", 10, 2, valueX, pDigits);
     next = new BkButton(Runtime_TurnPageForwardAndInvokeCallbacks, CallVfunc60WithGlobalOffset, "P6_RT_Btn:0");
     pLeft = new BkButton(Runtime_TurnPageBackwardAndInvokeCallbacks, Object_ProcessState_007ca8a0, "P6_LT_Btn:0");
     m_groups[6].displays.FUN_007cb2e0(valueX);
@@ -953,9 +953,9 @@ void SPECIALBookMenu::InitMenu()
     valueX = new BkDisplay(UpdateEntryRankText, "P7_PointVal:0", 0, 11);
     kMsg = new BkDisplay(DispatchStateCallback, "P7_Message:0", 0, -1);
     pDigits = new BkDisplay(UpdateLodVisibility, "P7_PointsRemainDigit1:0", "P7_PointsRemainDigit2:0", -1);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "P7_Decrease_Btn:0", 11, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "P7_Decrease_Btn:0", 11, 2, valueX, pDigits);
     pIncrease =
-        new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "P7_Increase_Btn:0", 11, 2, valueX, pDigits);
+        new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "P7_Increase_Btn:0", 11, 2, valueX, pDigits);
     next = new BkButton(Runtime_TurnPageForwardAndInvokeCallbacks, CallVfunc60WithGlobalOffset, "P7_RT_Btn:0");
     pLeft = new BkButton(Runtime_TurnPageBackwardAndInvokeCallbacks, Object_ProcessState_007ca8a0, "P7_LT_Btn:0");
     m_groups[7].displays.FUN_007cb2e0(valueX);
@@ -968,57 +968,57 @@ void SPECIALBookMenu::InitMenu()
 
     valueX = new BkDisplay(UpdateEntryRankText, "Index_StrengthPointVal:0", 0, 5);
     m_groups[8].displays.FUN_007cb2e0(valueX);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "Index_StrengthDecrease_Btn:0", 5, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "Index_StrengthDecrease_Btn:0", 5, 2, valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "Index_StrengthIncrease_Btn:0", 5, 2,
+    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "Index_StrengthIncrease_Btn:0", 5, 2,
                                  valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(pIncrease);
 
     valueX = new BkDisplay(UpdateEntryRankText, "Index_PerceptionPointVal:0", 0, 6);
     m_groups[8].displays.FUN_007cb2e0(valueX);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "Index_PerceptionDecrease_Btn:0", 6, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "Index_PerceptionDecrease_Btn:0", 6, 2, valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "Index_PerceptionIncrease_Btn:0", 6, 2,
+    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "Index_PerceptionIncrease_Btn:0", 6, 2,
                                  valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(pIncrease);
 
     valueX = new BkDisplay(UpdateEntryRankText, "Index_EndurancePointVal:0", 0, 7);
     m_groups[8].displays.FUN_007cb2e0(valueX);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "Index_EnduranceDecrease_Btn:0", 7, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "Index_EnduranceDecrease_Btn:0", 7, 2, valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "Index_EnduranceIncrease_Btn:0", 7, 2,
+    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "Index_EnduranceIncrease_Btn:0", 7, 2,
                                  valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(pIncrease);
 
     valueX = new BkDisplay(UpdateEntryRankText, "Index_CharismaPointVal:0", 0, 8);
     m_groups[8].displays.FUN_007cb2e0(valueX);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "Index_CharismaDecrease_Btn:0", 8, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "Index_CharismaDecrease_Btn:0", 8, 2, valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "Index_CharismaIncrease_Btn:0", 8, 2,
+    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "Index_CharismaIncrease_Btn:0", 8, 2,
                                  valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(pIncrease);
 
     valueX = new BkDisplay(UpdateEntryRankText, "Index_IntelligencePointVal:0", 0, 9);
     m_groups[8].displays.FUN_007cb2e0(valueX);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "Index_IntelligenceDecrease_Btn:0", 9, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "Index_IntelligenceDecrease_Btn:0", 9, 2, valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "Index_IntelligenceIncrease_Btn:0", 9, 2,
+    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "Index_IntelligenceIncrease_Btn:0", 9, 2,
                                  valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(pIncrease);
 
     valueX = new BkDisplay(UpdateEntryRankText, "Index_AgilityPointVal:0", 0, 10);
     m_groups[8].displays.FUN_007cb2e0(valueX);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "Index_AgilityDecrease_Btn:0", 10, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "Index_AgilityDecrease_Btn:0", 10, 2, valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "Index_AgilityIncrease_Btn:0", 10, 2,
+    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "Index_AgilityIncrease_Btn:0", 10, 2,
                                  valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(pIncrease);
 
     valueX = new BkDisplay(UpdateEntryRankText, "Index_LuckPointVal:0", 0, 11);
     m_groups[8].displays.FUN_007cb2e0(valueX);
-    declA = new BkStepButton(Object_ProcessAndReturnValue_007ca960, Object_UpdateFields_007ca700, "Index_LuckDecrease_Btn:0", 11, 2, valueX, pDigits);
+    declA = new BkStepButton(SPECIALBookMenu_DecreaseActorValue, SPECIALBookMenu_RefreshLeftAVButton, "Index_LuckDecrease_Btn:0", 11, 2, valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(declA);
-    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, Object_UpdateFields_007ca7a0, "Index_LuckIncrease_Btn:0", 11, 2,
+    pIncrease = new BkStepButton(PlaySpecialBookSoundAndSetStat, SPECIALBookMenu_RefreshRightAVButton, "Index_LuckIncrease_Btn:0", 11, 2,
                                  valueX, pDigits);
     m_groups[8].buttons.FUN_007cb2e0(pIncrease);
 

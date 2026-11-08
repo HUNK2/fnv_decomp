@@ -851,8 +851,8 @@ extern PlayerCharacter* g_thePlayer;
 }  // namespace fnv_0063d0e0
 
 // @fnv 0x0063d0e0
-// src: GUESS 0x0063d0e0 (confidence: low)
-void Sky::UpdateFields_0063d0e0(TESWeather* apWeather, bool b)
+// src: COMMUNITY 0x0063d0e0
+void Sky::ForceWeather(TESWeather* apWeather, bool b)
 {
     using namespace fnv_0063d0e0;
     if (b)

@@ -37,7 +37,7 @@ struct Entries
 };
 struct Owner
 {
-    void ProcessEntries_00d69c10(void* item);
+    void hkpRigidBodyCentreOfMassViewer_addWorld(void* item);
 };
 struct View
 {
@@ -59,13 +59,13 @@ void View::ProcessEntries_00d69f60()
     if (entries)
     {
         for (int i = 0; i < entries->count; ++i)
-            reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - 8)->ProcessEntries_00d69c10(entries->items[i]);
+            reinterpret_cast<Owner*>(reinterpret_cast<char*>(this) - 8)->hkpRigidBodyCentreOfMassViewer_addWorld(entries->items[i]);
     }
 }
 
 struct Target
 {
-    void ProcessEntries_00d69c10();
+    void hkpRigidBodyCentreOfMassViewer_addWorld();
 };
 struct FUN_00d69fb0_cls
 {
@@ -75,7 +75,7 @@ struct FUN_00d69fb0_cls
 // @fnv 0x00d69fb0
 void FUN_00d69fb0_cls::CallTargetMethod()
 {
-    ((Target*)((char*)this - 0x20))->ProcessEntries_00d69c10();
+    ((Target*)((char*)this - 0x20))->hkpRigidBodyCentreOfMassViewer_addWorld();
 }
 
 
@@ -998,12 +998,12 @@ struct CenterOfMassRemovalDispatcher
     int unk24;
     Callback callback28;
     int data2c;
-    void ProcessEntries_00d69c10(Context* context);
+    void hkpRigidBodyCentreOfMassViewer_addWorld(Context* context);
 };
 // Passes callback28 and data2c to context, then calls callback28.deliver for each entry in the data48 lists of list28, list34 and special20.
 // @fnv 0x00d69c10
-// src: GUESS 0x00d69c10 (confidence: low)
-void CenterOfMassRemovalDispatcher::ProcessEntries_00d69c10(Context* context)
+// src: COMMUNITY 0x00d69c10
+void CenterOfMassRemovalDispatcher::hkpRigidBodyCentreOfMassViewer_addWorld(Context* context)
 {
     context->hkpWorld_addEntityListener(this ? &callback28 : 0);
     context->hkpWorld_addWorldPostSimulationListener(this ? &data2c : 0);

@@ -351,12 +351,12 @@ GlobalObject_00a7b610* FUN_00c63aa0_class::BSParentVelocityModifier_GetRTTI()
     return &g_012043c8;
 }
 
-void __cdecl NiFixedString_CopyMemory_00c63c30(int, int);
+void __cdecl BSDecalPlacementVectorExtraData_FindDecalPlacementVectorGroupRecurse(int, int);
 
 // @fnv 0x00c63c10
 void __cdecl CallWithSameArgumentTwice(int aiValue)
 {
-    NiFixedString_CopyMemory_00c63c30(aiValue, aiValue);
+    BSDecalPlacementVectorExtraData_FindDecalPlacementVectorGroupRecurse(aiValue, aiValue);
 }
 
 // @fnv 0x00c644b0

@@ -89,8 +89,8 @@ void* FUN_00d1f9c0_StandIn::FUN_00d1f9c0(unsigned int flags)
 }
 
 // @fnv 0x00d1f220
-// src: GUESS 0x00d1f220 (confidence: high)
-int Object_ReturnOne_00d1f220()
+// src: COMMUNITY 0x00d1f220
+int hkpSimpleShapePhantom_getType()
 {
     return 1;
 }

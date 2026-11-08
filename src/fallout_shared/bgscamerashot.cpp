@@ -110,7 +110,7 @@ bool BGSCameraShot::Load(TESFile* file)
                 memset(&legacyData, 0, 32);
                 ((BGSImpactData*)this)->ReadTypedData(file, &legacyData, 32);
                 if (file->IsEndianConversionRequired())
-                    legacyData.ProcessState_0058c2e0();
+                    legacyData.BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian();
                 Data.m_eAction = (BGSCameraShot__CAM_ACTION)legacyData.action;
                 Data.pInputFile = (BGSCameraShot__CAM_OBJECT)legacyData.location;
                 Data.m_eAttacker = (BGSCameraShot__CAM_OBJECT)legacyData.target;
@@ -125,7 +125,7 @@ bool BGSCameraShot::Load(TESFile* file)
                 memset(&Data, 0, 40);
                 file->GetChunkData(&Data, 40);
                 if (file->IsEndianConversionRequired())
-                    Data.ProcessState_0058c3c0();
+                    Data.BGSCameraShot_CAMERA_SHOT_DATA_Endian();
             }
             break;
         }
@@ -150,13 +150,13 @@ struct FUN_0058c2e0_shell
     int field_0x14;
     int field_0x18;
     int field_0x1c;
-    void ProcessState_0058c2e0();
+    void BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian();
 };
 
 // Byte-swaps all eight 32-bit fields of the object via BSEndian, in the order 0x10, 0x14, 0x00, 0x04, 0x08, 0x0c, 0x18, 0x1c.
 // @fnv 0x0058c2e0
-// src: GUESS 0x0058c2e0 (confidence: low)
-void FUN_0058c2e0_shell::ProcessState_0058c2e0()
+// src: COMMUNITY 0x0058c2e0
+void FUN_0058c2e0_shell::BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian()
 {
     BSEndian(&field_0x10, EndianSizeTag<3>());
     BSEndian(&field_0x14, EndianSizeTag<3>());
@@ -239,18 +239,18 @@ void BGSCameraShotRecordWriter::SaveForm()
     TESForm::BeginFormRecord();
     ((TESModel*)((char*)this + 0x18))->WriteToBuffer(0x4C444F4D, 0x54444F4D);
     if (TESForm_QEndianSwapOnSave())
-        Data.ProcessState_0058c3c0();
+        Data.BGSCameraShot_CAMERA_SHOT_DATA_Endian();
     ((FUN_00485e00_shell*)this)->TESForm___SaveData((int)((char*)this + 0x38), 0x28);
     if (TESForm_QEndianSwapOnSave())
-        Data.ProcessState_0058c3c0();
+        Data.BGSCameraShot_CAMERA_SHOT_DATA_Endian();
     ((FUN_00487450_shell*)((char*)this + 0x30))->FUN_00487450();
     TESForm::FinishFormRecord();
 }
 
 // Byte-swaps each of the ten 32-bit fields of the object via BSEndian.
 // @fnv 0x0058c3c0
-// src: GUESS 0x0058c3c0 (confidence: low)
-void BGSCameraShot__CAMERA_SHOT_DATA::ProcessState_0058c3c0()
+// src: COMMUNITY 0x0058c3c0
+void BGSCameraShot__CAMERA_SHOT_DATA::BGSCameraShot_CAMERA_SHOT_DATA_Endian()
 {
     BSEndian(reinterpret_cast<int*>(&m_fMinTime), EndianSizeTag<3>());
     BSEndian(reinterpret_cast<int*>(&m_fTargetPercent), EndianSizeTag<3>());

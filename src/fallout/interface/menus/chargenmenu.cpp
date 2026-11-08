@@ -1637,8 +1637,8 @@ struct SubList
 };
 
 // @fnv 0x00754150
-// src: GUESS 0x00754150 (confidence: low)
-bool CharGenMenu::UpdateState_00754150(int a1, float amount)
+// src: EXE 0x00754150
+bool CharGenMenu::HandleSpecialKeyInput(int a1, float amount)
 {
     bool result = false;
 

@@ -354,7 +354,7 @@ struct PayloadOwner {
 };
 int* __stdcall Hkgpconvexhull_GetPayloadAddress(PayloadOwner* apOwner);
 struct TargetCallee {
-    void ProcessEntries_00d7a5a0(void* p1, void* p2, void* p3, void* p4, float p5);
+    void hkgpConvexHullImpl_clipLine(void* p1, void* p2, void* p3, void* p4, float p5);
 };
 struct FUN_00d74ee0_Class : FUN_00d74dd0_Class {
     void ForwardToCallee(void* p1, void* p2, void* p3, void* p4, float p5);
@@ -784,7 +784,7 @@ struct FUN_00d771c0_Owner {
     void hkgpConvexHull_build(int a, int b, const Vec4i& v);
 };
 struct FUN_00d83430_class {
-    void AllocateStorage_00d83430(int, int, int, float);
+    void hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_(int, int, int, float);
 };
 struct FUN_00d790a0_class {
     int unk00;
@@ -801,7 +801,7 @@ struct S_00d79f90_Opts
 struct S_00d79f90_Result
 {
     virtual ~S_00d79f90_Result();
-    void ProcessEntries_00d78720(float f, const S_00d79f90_Opts& opts);
+    void hkgpConvexHull_absoluteScale(float f, const S_00d79f90_Opts& opts);
 };
 struct S_00d79f90_World
 {
@@ -1267,7 +1267,7 @@ struct FUN_00d75820_cls {
     void CallTargetWithTemp(int a1, float a2, int a3);
 };
 struct FUN_00d7b330_cls {
-    void ProcessEntries_00d7b330(int a1, int a2, float a3);
+    void hkgpConvexHullImpl_isPointInside(int a1, int a2, float a3);
 };
 struct FUN_00d76100_cls {
     void* unk00;
@@ -3095,8 +3095,8 @@ struct OffsetOwner {
     PayloadOwner* GetUnk24_00d75060();
     __declspec(noinline) LocalM128* Hkgpconvexhull_GetPayloadAddress(PayloadOwner* n);
     __declspec(noinline) PayloadOwner* Object_ReadPointedValue_00d75120(PayloadOwner* n);
-    void ProcessEntries_00d77840(LocalM128*,int,const ValueBlock&,void*);
-    void ProcessEntries_00d774a0(LocalM128*,int,void*);
+    void hkgpConvexHull_buildFromPlanes(LocalM128*,int,const ValueBlock&,void*);
+    void hkgpConvexHull_buildFromPlanes(LocalM128*,int,void*);
     void ProcessEntries_00d77380(const OffsetView&,const ValueBlock&,void*);
     void hkgpConvexHull_build_00d77200(const OffsetView&,void*);
     void ForwardCall_00d762f0();
@@ -3112,8 +3112,8 @@ LocalM128* OffsetOwner::Hkgpconvexhull_GetPayloadAddress(PayloadOwner* n) { retu
 PayloadOwner* OffsetOwner::Object_ReadPointedValue_00d75120(PayloadOwner* n) { return *(PayloadOwner**)n; }
 static __forceinline float OffsetMaximum(float a,float b) { return a>b?a:b; }
 // @fnv 0x00d78720
-// src: GUESS 0x00d78720 (confidence: low)
-void S_00d79f90_Result::ProcessEntries_00d78720(float f,const S_00d79f90_Opts& opts)
+// src: COMMUNITY 0x00d78720
+void S_00d79f90_Result::hkgpConvexHull_absoluteScale(float f,const S_00d79f90_Opts& opts)
 {
     OffsetOwner* owner=(OffsetOwner*)this;
     ChildData* state=owner->state;
@@ -3145,8 +3145,8 @@ void S_00d79f90_Result::ProcessEntries_00d78720(float f,const S_00d79f90_Opts& o
             ((hkVec4&)plane).w-=displacement;
             array.AddBack((LocalM128&)plane);
         }
-        if(owner->GetInnerField1A8()==2) owner->ProcessEntries_00d77840(array.data,array.size,owner->GetValueBlock(),owner->GetValue_00d74e00());
-        else owner->ProcessEntries_00d774a0(array.data,array.size,owner->GetValue_00d74e00());
+        if(owner->GetInnerField1A8()==2) owner->hkgpConvexHull_buildFromPlanes(array.data,array.size,owner->GetValueBlock(),owner->GetValue_00d74e00());
+        else owner->hkgpConvexHull_buildFromPlanes(array.data,array.size,owner->GetValue_00d74e00());
         array.clearAndFree();
         break;
     }
@@ -4659,7 +4659,7 @@ static __forceinline void Tt_setMul3(Tt_V4& out, const Tt_M3& a, const Tt_V4& b)
 struct S_00d77840 {
     int unk00;
     int ProcessEntries_00d77380(D76250VectorArrayLocalForm* view, const hkVector4* sph, int a4);
-    int ProcessEntries_00d77840(const hkVector4* pts, int n, const hkVector4* sph, int a4);
+    int hkgpConvexHull_buildFromPlanes(const hkVector4* pts, int n, const hkVector4* sph, int a4);
 };
 
 static __forceinline void release_out(D76250VectorArrayLocalForm& out)
@@ -4675,8 +4675,8 @@ static __forceinline void release_out(D76250VectorArrayLocalForm& out)
 }
 
 // @fnv 0x00d77840
-// src: GUESS 0x00d77840 (confidence: low)
-int S_00d77840::ProcessEntries_00d77840(const hkVector4* pts, int n, const hkVector4* sph, int a4)
+// src: COMMUNITY 0x00d77840
+int S_00d77840::hkgpConvexHull_buildFromPlanes(const hkVector4* pts, int n, const hkVector4* sph, int a4)
 {
     LocalM128 p;
     (void)p;
@@ -4929,7 +4929,7 @@ struct S00d79ab0_Impl {
     S00d79ab0_Bool m_flag0a;
     char unk0b;
     S00d79ab0_SimdReal ProcessEntries_00d7a350(const S00d79ab0_Vector4& c) const;
-    int AllocateStorage_00d83430(float planeW, class S00d79ab0_Hull** posOut, class S00d79ab0_Hull** negOut, float thickness) const;
+    int hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_(float planeW, class S00d79ab0_Hull** posOut, class S00d79ab0_Hull** negOut, float thickness) const;
 };
 struct S00d79ab0_ImplFlags {
     int unk1b0;
@@ -4954,7 +4954,7 @@ public:
 // src: HAVOK_LIB 0x00d790a0
 __declspec(noinline) int S00d79ab0_Hull::hkgpConvexHull_splitByPlane(const S00d79ab0_Vector4& plane, S00d79ab0_Hull** posOut, S00d79ab0_Hull** negOut, float thickness) const
 {
-    return m_data->AllocateStorage_00d83430(plane.m_vComponents.m128_f32[3], posOut, negOut, thickness);
+    return m_data->hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_(plane.m_vComponents.m128_f32[3], posOut, negOut, thickness);
 }
 
 template <typename T>
@@ -5922,7 +5922,7 @@ struct S00d82ad0_Hull {
         return r;
     }
 
-    bool ProcessEntries_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction);
+    bool hkgpConvexHullImpl_decimateVertices(int numVerticesToKeep, bool abOptionalVertexReduction);
     void CopyMemory_00d827b0(S00d82ad0_VecArr& v);
     void ProcessEntries_00d7d2a0();
     void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
@@ -5993,8 +5993,8 @@ static __forceinline void S00d82ad0_sort(T* p, int size, L cmp = L())
 }
 
 // @fnv 0x00d82ad0
-// src: GUESS 0x00d82ad0 (confidence: low)
-bool S00d82ad0_Hull::ProcessEntries_00d82ad0(int numVerticesToKeep, bool abOptionalVertexReduction)
+// src: COMMUNITY 0x00d82ad0
+bool S00d82ad0_Hull::hkgpConvexHullImpl_decimateVertices(int numVerticesToKeep, bool abOptionalVertexReduction)
 {
     if (numVerticesToKeep < 4) numVerticesToKeep = 4;
     if (m_kVertices.m_iElementCount > numVerticesToKeep) {
@@ -6256,7 +6256,7 @@ struct HullImpl {
     int m_iDimension;
     __declspec(noinline) int ProcessEntries_00d7a200(const HullVec&,float,int*,float*) const;
     int hkgpConvexHullImpl_build(const HullVec*,int,bool,const HullImpl*);
-    int AllocateStorage_00d83430(const HullVec& plane,FUN_00d76ca0** ppFront,FUN_00d76ca0** ppBack,float fEps) const;
+    int hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_(const HullVec& plane,FUN_00d76ca0** ppFront,FUN_00d76ca0** ppBack,float fEps) const;
 };
 inline float HullCrtAbs(float f) { return (float)fabs((double)f); }
 inline float HullFabsf(float f) { return ::fabsf(f); }
@@ -6285,8 +6285,8 @@ __declspec(noinline) int HullImpl::ProcessEntries_00d7a200(const HullVec& plane,
  return 0;
 }
 // @fnv 0x00d83430
-// src: GUESS 0x00d83430 (confidence: low)
-int HullImpl::AllocateStorage_00d83430(const HullVec& plane, FUN_00d76ca0** ppFront, FUN_00d76ca0** ppBack, float fEps) const
+// src: COMMUNITY 0x00d83430
+int HullImpl::hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_(const HullVec& plane, FUN_00d76ca0** ppFront, FUN_00d76ca0** ppBack, float fEps) const
 {
     SplitWork workspace;
     {
@@ -6852,11 +6852,11 @@ struct PlanePointArray: D76250VectorArrayLocalForm {
 };
 struct PlaneHull: ::PlaneHull {
     int hkgpConvexHull_build(const PlaneVector*,int,int);
-    int ProcessEntries_00d774a0(const PlaneVector*,int,int);
+    int hkgpConvexHull_buildFromPlanes(const PlaneVector*,int,int);
 };
 // @fnv 0x00d774a0
-// src: GUESS 0x00d774a0 (confidence: low)
-int PlaneHull::ProcessEntries_00d774a0(const PlaneVector* planes,int count,int config)
+// src: COMMUNITY 0x00d774a0
+int PlaneHull::hkgpConvexHull_buildFromPlanes(const PlaneVector* planes,int count,int config)
 {
     PlanePointArray points;
     markEnumeration("TtVertexEnumeration");
@@ -7674,7 +7674,7 @@ struct ClipHull {
     unsigned char unk1b4;
     bool indexed;
     __forceinline void mustHaveIndex() const;
-    bool ProcessEntries_00d7a5a0(const ClipVector& a,const ClipVector& b,float& t0,float& t1,float planeThickness) const;
+    bool hkgpConvexHullImpl_clipLine(const ClipVector& a,const ClipVector& b,float& t0,float& t1,float planeThickness) const;
 };
 __forceinline void ClipHull::mustHaveIndex() const
 {
@@ -7688,8 +7688,8 @@ __forceinline void ClipHull::mustHaveIndex() const
     }
 }
 // @fnv 0x00d7a5a0
-// src: GUESS 0x00d7a5a0 (confidence: low)
-bool ClipHull::ProcessEntries_00d7a5a0(const ClipVector& a,const ClipVector& b,float& t0,float& t1,float planeThickness) const
+// src: COMMUNITY 0x00d7a5a0
+bool ClipHull::hkgpConvexHullImpl_clipLine(const ClipVector& a,const ClipVector& b,float& t0,float& t1,float planeThickness) const
 {
     mustHaveIndex();
     ClipVector pa=a;
@@ -9198,7 +9198,7 @@ struct S83_Mesh {
     unsigned char flag1b4;
     unsigned char flag1b5;
     void ProcessEntries_00d83f30(S83_Options* options);
-    void ProcessEntries_00d82ad0(int limit, bool reseat);
+    void hkgpConvexHullImpl_decimateVertices(int limit, bool reseat);
     int hkgpConvexHullImpl_build(const S83_Vec4* points, int numPoints, int a, int b);
     void ProcessEntries_00d7d2a0();
     void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
@@ -9231,7 +9231,7 @@ void S83_Mesh::ProcessEntries_00d83f30(S83_Options* options)
     }
     if (options->vertexLimit >= 4) {
         int before = vertexCount;
-        ProcessEntries_00d82ad0(options->vertexLimit, options->reseat != 0);
+        hkgpConvexHullImpl_decimateVertices(options->vertexLimit, options->reseat != 0);
         changed = vertexCount != before;
     }
     if (options->tolerance > 0.0f) {

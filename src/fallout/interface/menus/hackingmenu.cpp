@@ -640,12 +640,12 @@ unsigned int __cdecl BSMAX(unsigned int a, unsigned int b);
 unsigned int __cdecl FUN_0042f5a0(unsigned int a, unsigned int b);
 struct Context
 {
-    unsigned int ComputeRecursiveEntryValue_00769520(FUN_007687d0* input);
+    unsigned int HackingMenu_GetGuaranteedPossible(FUN_007687d0* input);
 };
 // Scans input entries for the smallest value, recursing into sub-entries when it exceeds 2, and returns the combined result plus one.
 // @fnv 0x00769520
-// src: GUESS 0x00769520 (confidence: low)
-unsigned int Context::ComputeRecursiveEntryValue_00769520(FUN_007687d0* input)
+// src: COMMUNITY 0x00769520
+unsigned int Context::HackingMenu_GetGuaranteedPossible(FUN_007687d0* input)
 {
     unsigned char minimum = 255;
     for (unsigned int i = 0; i < input->FUN_00726070(); ++i)
@@ -676,7 +676,7 @@ unsigned int Context::ComputeRecursiveEntryValue_00769520(FUN_007687d0* input)
                     if (input->Modelloader_GetReferencedThis()[outer].FindByteIndices(inner, results) == minimum)
                     {
                         FUN_007687d0 a = input->CopyWithPermutedRowsAndColumns(results, minimum);
-                        unsigned int j = ComputeRecursiveEntryValue_00769520(&a);
+                        unsigned int j = HackingMenu_GetGuaranteedPossible(&a);
                         worst = BSMAX(worst, j);
                     }
                 }
@@ -1473,7 +1473,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
         }
         ++row;
     }
-    *(void**)((char*)this + 0x1a0) = (void*)reinterpret_cast<Context*>(this)->ComputeRecursiveEntryValue_00769520(&bonus);
+    *(void**)((char*)this + 0x1a0) = (void*)reinterpret_cast<Context*>(this)->HackingMenu_GetGuaranteedPossible(&bonus);
     *(void**)((char*)this + 0x1a0) = (void*)BSStringCapacityMaximum(4, *(unsigned int*)((char*)this + 0x1a0));
     *(void**)((char*)this + 0x1a4) = *(void**)((char*)this + 0x1a0);
 }

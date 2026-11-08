@@ -810,8 +810,8 @@ struct FUN_00dced30_cls
 };
 
 // @fnv 0x00dced30
-// src: GUESS 0x00dced30 (confidence: low)
-void __cdecl Object_ForwardCall_00dced30(FUN_00dced30_cls* pObject)
+// src: COMMUNITY 0x00dced30
+void __cdecl cleanupLoadedObject_hkpBreakableConstraintData(FUN_00dced30_cls* pObject)
 {
     pObject->m_v00(0);
 }
@@ -831,8 +831,8 @@ struct FUN_00d4dfc0_class
 };
 
 // @fnv 0x00dced50
-// src: GUESS 0x00dced50 (confidence: low)
-void __cdecl Runtime_ProcessState_00dced50(FUN_00d4dfc0_class* object, unsigned int value)
+// src: COMMUNITY 0x00dced50
+void __cdecl finishLoadedObject_hkpBreakableConstraintData(FUN_00d4dfc0_class* object, unsigned int value)
 {
     if (object)
         object->FUN_00d4dfc0(value);

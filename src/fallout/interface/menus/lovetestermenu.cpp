@@ -360,8 +360,8 @@ void __cdecl LoveTesterMenu_Close(void);
 extern int _data_011c16bc;
 
 // @fnv 0x00795ce0
-// src: GUESS 0x00795ce0 (confidence: low)
-void __cdecl Object_ProcessState_00795ce0(void* apButton)
+// src: COMMUNITY 0x00795ce0
+void __cdecl LoveTesterMenu_CloseCallback(void* apButton)
 {
     if (DAT_011da2c8 && DAT_011da2c8->SPECIALBookMenu_GetTotalPointsUsed() == DAT_011da2c8->m_iEntryCount)
     {
@@ -1271,8 +1271,8 @@ struct MenuParam_00795630
 };
 
 // @fnv 0x00795630
-// src: GUESS 0x00795630 (confidence: low)
-void __cdecl LoveTesterMenu_UpdateState_00795630(MenuParam_00795630* pMenuParam)
+// src: COMMUNITY 0x00795630
+void __cdecl LoveTesterMenu_RefreshRightAVButton(MenuParam_00795630* pMenuParam)
 {
     int value = pMenuParam->unk24;
     if (value != -1)
@@ -1660,7 +1660,7 @@ struct Digit109
 namespace fnv_007928e0 {
 void __cdecl Object_DecreaseCurrentLoveTesterActorValue(void*);
 void __cdecl UpdateLoveTester(void*);
-void __cdecl LoveTesterMenu_UpdateState_00795630(void*);
+void __cdecl LoveTesterMenu_RefreshRightAVButton(void*);
 void __cdecl Object_StepLoveTesterPositionWithOne(void*);
 void __cdecl Object_StepLoveTesterPositionWithZero(void*);
 void __cdecl NiSourceTexture_UpdateState_00795390(void*);
@@ -1757,7 +1757,7 @@ void LoveTesterMenu::Init()
     Label109* value4;
     decrease27 = new Adjust109((void*)fnv_007928e0::Object_DecreaseCurrentLoveTesterActorValue, (void*)UpdateMenuEntryState, "P1_Decrease_Btn:0", -1, 0);
     DAT_011da2c8->controls.FUN_007cb2e0(decrease27);
-    decrease27 = new Adjust109((void*)fnv_007928e0::UpdateLoveTester, (void*)fnv_007928e0::LoveTesterMenu_UpdateState_00795630, "P1_Increase_Btn:0", -1, 0);
+    decrease27 = new Adjust109((void*)fnv_007928e0::UpdateLoveTester, (void*)fnv_007928e0::LoveTesterMenu_RefreshRightAVButton, "P1_Increase_Btn:0", -1, 0);
     DAT_011da2c8->controls.FUN_007cb2e0(decrease27);
     button12 = new Button109((void*)fnv_007928e0::Object_StepLoveTesterPositionWithOne, (void*)SetTargetFromGlobalState, "P1_RT_Btn:0");
     DAT_011da2c8->controls.FUN_007cb2e0(button12);
@@ -1810,14 +1810,14 @@ void LoveTesterMenu::Init()
                                value4, total28);
     adjustments.FUN_007cb2e0(decrease27);
     increase7 =
-        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_UpdateState_00795630, "Index_StrengthIncrease_Btn:0", 5, 2, value4, total28);
+        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_RefreshRightAVButton, "Index_StrengthIncrease_Btn:0", 5, 2, value4, total28);
     adjustments.FUN_007cb2e0(increase7);
     value4 = new Label109((void*)fnv_007928e0::NiSourceTexture_UpdateState_00795390, "Index_PerceptionPointVal:0", 0, 6, 1, 0);
     values.FUN_007cb2e0(value4);
     decrease27 = new Adjust109((void*)Object_DecreaseLoveTesterActorValue, (void*)UpdateMenuEntryState, "Index_PerceptionDecrease_Btn:0", 6, 2,
                                value4, total28);
     adjustments.FUN_007cb2e0(decrease27);
-    increase7 = new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_UpdateState_00795630, "Index_PerceptionIncrease_Btn:0", 6, 2, value4,
+    increase7 = new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_RefreshRightAVButton, "Index_PerceptionIncrease_Btn:0", 6, 2, value4,
                               total28);
     adjustments.FUN_007cb2e0(increase7);
     value4 = new Label109((void*)fnv_007928e0::NiSourceTexture_UpdateState_00795390, "Index_EndurancePointVal:0", 0, 7, 1, 0);
@@ -1826,7 +1826,7 @@ void LoveTesterMenu::Init()
                                value4, total28);
     adjustments.FUN_007cb2e0(decrease27);
     increase7 =
-        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_UpdateState_00795630, "Index_EnduranceIncrease_Btn:0", 7, 2, value4, total28);
+        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_RefreshRightAVButton, "Index_EnduranceIncrease_Btn:0", 7, 2, value4, total28);
     adjustments.FUN_007cb2e0(increase7);
     value4 = new Label109((void*)fnv_007928e0::NiSourceTexture_UpdateState_00795390, "Index_CharismaPointVal:0", 0, 8, 1, 0);
     values.FUN_007cb2e0(value4);
@@ -1834,14 +1834,14 @@ void LoveTesterMenu::Init()
                                value4, total28);
     adjustments.FUN_007cb2e0(decrease27);
     increase7 =
-        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_UpdateState_00795630, "Index_CharismaIncrease_Btn:0", 8, 2, value4, total28);
+        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_RefreshRightAVButton, "Index_CharismaIncrease_Btn:0", 8, 2, value4, total28);
     adjustments.FUN_007cb2e0(increase7);
     value4 = new Label109((void*)fnv_007928e0::NiSourceTexture_UpdateState_00795390, "Index_IntelligencePointVal:0", 0, 9, 1, 0);
     values.FUN_007cb2e0(value4);
     decrease27 = new Adjust109((void*)Object_DecreaseLoveTesterActorValue, (void*)UpdateMenuEntryState, "Index_IntelligenceDecrease_Btn:0", 9,
                                2, value4, total28);
     adjustments.FUN_007cb2e0(decrease27);
-    increase7 = new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_UpdateState_00795630, "Index_IntelligenceIncrease_Btn:0", 9, 2,
+    increase7 = new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_RefreshRightAVButton, "Index_IntelligenceIncrease_Btn:0", 9, 2,
                               value4, total28);
     adjustments.FUN_007cb2e0(increase7);
     value4 = new Label109((void*)fnv_007928e0::NiSourceTexture_UpdateState_00795390, "Index_AgilityPointVal:0", 0, 10, 1, 0);
@@ -1850,7 +1850,7 @@ void LoveTesterMenu::Init()
                                value4, total28);
     adjustments.FUN_007cb2e0(decrease27);
     increase7 =
-        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_UpdateState_00795630, "Index_AgilityIncrease_Btn:0", 10, 2, value4, total28);
+        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_RefreshRightAVButton, "Index_AgilityIncrease_Btn:0", 10, 2, value4, total28);
     adjustments.FUN_007cb2e0(increase7);
     value4 = new Label109((void*)fnv_007928e0::NiSourceTexture_UpdateState_00795390, "Index_LuckPointVal:0", 0, 11, 1, 0);
     values.FUN_007cb2e0(value4);
@@ -1858,9 +1858,9 @@ void LoveTesterMenu::Init()
                                value4, total28);
     adjustments.FUN_007cb2e0(decrease27);
     increase7 =
-        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_UpdateState_00795630, "Index_LuckIncrease_Btn:0", 11, 2, value4, total28);
+        new Adjust109((void*)fnv_007928e0::Object_IncreaseLoveTesterActorValue, (void*)fnv_007928e0::LoveTesterMenu_RefreshRightAVButton, "Index_LuckIncrease_Btn:0", 11, 2, value4, total28);
     adjustments.FUN_007cb2e0(increase7);
-    button12 = new Button109((void*)Object_ProcessState_00795ce0, (void*)SetTargetFromGlobalState, "AllDone_Btn:0");
+    button12 = new Button109((void*)LoveTesterMenu_CloseCallback, (void*)SetTargetFromGlobalState, "AllDone_Btn:0");
     adjustments.FUN_007cb2e0(button12);
     VigorTester_InitTextures();
     DAT_011da2c8->RefreshPage();

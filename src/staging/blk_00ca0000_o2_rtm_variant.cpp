@@ -2172,7 +2172,7 @@ class FUN_00ca9860_cls : public FUN_00ca9860_base
     void bhkSerializable_Kill();
 };
 extern int DAT_01268310;
-int __cdecl Runtime_EvaluateValue_00ca9910();
+int __cdecl bhkMalleableConstraint_GetRTTI();
 struct S_00ca9940_Child
 {
     virtual void vfn_00();
@@ -2935,7 +2935,7 @@ class FUN_00cb9b80 : public CB9B80WorldObject
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_01268610;
-CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00cb9c00();
+CpuOpaque* __cdecl bhkRagdollConstraint_GetRTTI();
 class FUN_00cb9c70_item
 {
   public:

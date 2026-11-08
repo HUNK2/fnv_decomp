@@ -1222,7 +1222,7 @@ struct SrcCls
 };
 struct ItemCls
 {
-    void ForwardCall_0047eb90(int);
+    void TESFaction_SetPCAnEnemy(int);
     bool Actor_IsAlarmed();
     void Actor_EndInterruptPackage(int);
     MidCls* BSFile_GetDevice();
@@ -1305,7 +1305,7 @@ FUN_009eb660::~FUN_009eb660()
         {
             node5 = (ItemCls*)*pB6->FUN_006815c0();
             if (!DAT_011e0e80.IsActorInOtherList(node5, this))
-                node5->ForwardCall_0047eb90(0);
+                node5->TESFaction_SetPCAnEnemy(0);
             pB6 = pB6->FUN_00726070();
         }
         pACopy = FUN_0044ddc0();

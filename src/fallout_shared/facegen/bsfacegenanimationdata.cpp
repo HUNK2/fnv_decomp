@@ -756,8 +756,8 @@ void BSFaceGenAnimationData::SetCustomMorphValue(BS_FACEGEN_CUSTOM_MORPH aeCusto
 
 // If aeExpression is below 15, forwards aeExpression and afValue to SetArrayElement on the member object.
 // @fnv 0x00649be0
-// src: GUESS 0x00649be0 (confidence: medium)
-void BSFaceGenAnimationData::SetExpressionValue_00649be0(int aeExpression, float afValue)
+// src: COMMUNITY 0x00649be0
+void BSFaceGenAnimationData::SetAnimExpressionValue(int aeExpression, float afValue)
 {
     if (aeExpression < 15)
         SetFaceGenArrayElement(&kf24, *reinterpret_cast<FaceGenArrayIndex*>(&aeExpression), afValue);
@@ -765,8 +765,8 @@ void BSFaceGenAnimationData::SetExpressionValue_00649be0(int aeExpression, float
 
 // If aePhoneme is below 0x10, forwards the phoneme index and value to the SetArrayElement object at offset 0x4C.
 // @fnv 0x00649c40
-// src: GUESS 0x00649c40 (confidence: medium)
-void BSFaceGenAnimationData::SetPhonemeValue_00649c40(int aePhoneme, float afValue)
+// src: COMMUNITY 0x00649c40
+void BSFaceGenAnimationData::SetAnimPhonemeValue(int aePhoneme, float afValue)
 {
     if (aePhoneme < 0x10)
     {

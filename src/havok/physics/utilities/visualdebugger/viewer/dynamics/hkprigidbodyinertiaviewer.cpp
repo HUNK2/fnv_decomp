@@ -236,12 +236,12 @@ struct FUN_00d66f30_cls {
     FUN_00d66f30_inner m_kInner;
     int m_iN;
 
-    void ProcessEntries_00d66f30(FUN_00d66f30_params* apParams);
+    void hkpRigidBodyInertiaViewer_removeWorld(FUN_00d66f30_params* apParams);
 };
 
 // @fnv 0x00d66f30
-// src: GUESS 0x00d66f30 (confidence: low)
-void FUN_00d66f30_cls::ProcessEntries_00d66f30(FUN_00d66f30_params* apParams)
+// src: COMMUNITY 0x00d66f30
+void FUN_00d66f30_cls::hkpRigidBodyInertiaViewer_removeWorld(FUN_00d66f30_params* apParams)
 {
     apParams->hkpWorld_removeEntityListener(this != 0 ? &m_kInner : 0);
     apParams->ClearValue(this != 0 ? &m_iN : 0);
@@ -269,7 +269,7 @@ void FUN_00d66f30_cls::ProcessEntries_00d66f30(FUN_00d66f30_params* apParams)
 }
 
 struct Outer {
-    void __thiscall ProcessEntries_00d66f30(void* arg);
+    void __thiscall hkpRigidBodyInertiaViewer_removeWorld(void* arg);
 };
 
 struct TargetClass {
@@ -279,7 +279,7 @@ struct TargetClass {
 // @fnv 0x00d67150
 // src: GUESS 0x00d67150 (confidence: low)
 void TargetClass::ForwardCall_00d67150(void* arg) {
-    ((Outer*)((char*)this - 0x20))->ProcessEntries_00d66f30(arg);
+    ((Outer*)((char*)this - 0x20))->hkpRigidBodyInertiaViewer_removeWorld(arg);
 }
 
 class D671F0ListenerA {
@@ -558,7 +558,7 @@ struct Viewer_d672 {
     int* m_vtbl2C;
     hkArray<int> m_ids;
     hkArray<DisplayGeometry_d672> m_geometries;
-    void ProcessEntries_00d66f30(Entity_d672* entity);
+    void hkpRigidBodyInertiaViewer_removeWorld(Entity_d672* entity);
     void FUN_00ddcc60();
     void ProcessEntries_00d67250();
 };
@@ -576,7 +576,7 @@ void Viewer_d672::ProcessEntries_00d67250()
     if (m_pOwningWorld) {
         int n = m_pOwningWorld->m_iActorEntryCount;
         for (int i = 0; i < n; i++)
-            ProcessEntries_00d66f30(m_pOwningWorld->m_kActorEntries[i]);
+            hkpRigidBodyInertiaViewer_removeWorld(m_pOwningWorld->m_kActorEntries[i]);
     }
     m_geometries.clearAndDeallocate();
     m_ids.clearAndDeallocate();

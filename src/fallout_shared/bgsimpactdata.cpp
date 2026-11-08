@@ -312,7 +312,7 @@ struct FUN_00485e00_shell
 
 struct FUN_00593320_shell
 {
-    void ProcessState_00593320(void*);
+    void DecalData_Save(void*);
 };
 
 bool _FUN_00401500();
@@ -344,7 +344,7 @@ void BGSImpactData::Save_0058e450()
     if (!IsFlagSet())
     {
         reinterpret_cast<FUN_00593320_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)
-            ->ProcessState_00593320(reinterpret_cast<void*>(0x54444f44));
+            ->DecalData_Save(reinterpret_cast<void*>(0x54444f44));
     }
 
     {

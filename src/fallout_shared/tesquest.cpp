@@ -1637,8 +1637,8 @@ struct ObjNode
 void __cdecl TESTopic_ClearAllSaidOnceInfosForQuest(TESQuest*);
 
 // @fnv 0x0060d720
-// src: GUESS 0x0060d720 (confidence: low)
-void TESQuest::ProcessEntries_0060d720()
+// src: COMMUNITY 0x0060d720
+void TESQuest::ResetQuest()
 {
     StageNode* aStageNode;
     ObjNode* objNode;

@@ -2025,7 +2025,7 @@ struct FUN_006edd30_shell
     Location_006edd30* AllocateStorage_006edc40();
     PathEdge_006edd30* CreateSize28();
     Path_006edd30* CreateObject();
-    void UpdateState_006edd30(const Position_006edd30* start, const Position_006edd30* finish);
+    void PathSmoother_AddFirstEdge(const Position_006edd30* start, const Position_006edd30* finish);
 };
 extern unsigned int DAT_010a2720;
 void* __cdecl operator new(unsigned int size, void* place);
@@ -4237,7 +4237,7 @@ bool __cdecl Pathing_CheckLineOfSight(PathingLocation&, PathingLocation&, Pathin
 bool __cdecl FUN_006d7490(PathingLocation&, PathingLocation&, void*, void*);
 struct TargetHost
 {
-    bool UpdateState_006f0050(const NiPoint3&, NiPoint3&, TargetNavInfo*, int, const NiPoint3&, PathingLocation&,
+    bool PathSmoother_PushPoint(const NiPoint3&, NiPoint3&, TargetNavInfo*, int, const NiPoint3&, PathingLocation&,
                       PathingLocation&);
 };
 struct HeightVec
@@ -5358,7 +5358,7 @@ struct PathSmoother
     PointList m54;
 
     void AddLocationToOpenAndAllArrays();
-    void UpdateState_006edd30(NiPoint3& a, NiPoint3& b);
+    void PathSmoother_AddFirstEdge(NiPoint3& a, NiPoint3& b);
     void AddPathFromEdge(NiPoint3& p, unsigned int i);
     void AddPathFromContext(NiPoint3& p, unsigned int i);
     void CreateNavMeshEdges();

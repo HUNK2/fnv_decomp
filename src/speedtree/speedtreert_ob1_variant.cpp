@@ -2411,7 +2411,7 @@ struct FUN_00b06090
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
 // src: GUESS 0x00b06180 (confidence: low)
-    bool ProcessAndTransformResult_00b06180()
+    bool CTreeFileAccess_ParseBool()
     {
         return m_in.at(m_pos++) != 0;
     }
@@ -2791,7 +2791,7 @@ bool Tree59::CSpeedTreeRT_LoadTree_00b059e0(int p1, int p2)
                         break;
                     }
                     case 22000: {
-                        setFlag(reader8.ProcessAndTransformResult_00b06180());
+                        setFlag(reader8.CTreeFileAccess_ParseBool());
                         break;
                     }
                     default:
@@ -10995,14 +10995,14 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 class FUN_00b06180_Reader
 {
   public:
-    bool ProcessAndTransformResult_00b06180();
+    bool CTreeFileAccess_ParseBool();
     unsigned int m_uiPosition;
     vectorS<unsigned char> m_kFlags;
 };
 
 // @fnv 0x00b06180
-// src: GUESS 0x00b06180 (confidence: low)
-bool FUN_00b06180_Reader::ProcessAndTransformResult_00b06180()
+// src: COMMUNITY 0x00b06180
+bool FUN_00b06180_Reader::CTreeFileAccess_ParseBool()
 {
     return m_kFlags[m_uiPosition++] != 0;
 }
@@ -11979,7 +11979,7 @@ struct Parser
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
     FUN_0044a4c0 CTreeFileAccess_ParseString();
-    bool ProcessAndTransformResult_00b06180();
+    bool CTreeFileAccess_ParseBool();
     bool AtEnd()
     {
         int aK[9];
@@ -12090,10 +12090,10 @@ void Tree::CSpeedTreeRT_ParseTextureCoordInfo(Parser* p)
             break;
         }
         case 0x2716:
-            b6d = p->ProcessAndTransformResult_00b06180();
+            b6d = p->CTreeFileAccess_ParseBool();
             break;
         case 0x2717:
-            b6c = p->ProcessAndTransformResult_00b06180();
+            b6c = p->CTreeFileAccess_ParseBool();
             break;
         default:
             throw FUN_00b09480("malformed texture coord info", false);
@@ -12335,7 +12335,7 @@ struct Parser
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
     FUN_0044a4c0 CTreeFileAccess_ParseString();
-    bool ProcessAndTransformResult_00b06180();
+    bool CTreeFileAccess_ParseBool();
 };
 struct TexQ
 {
@@ -12378,10 +12378,10 @@ void Tree::CSpeedTreeRT_ParseSupplementalTexCoordInfo(Parser* p)
                 break;
             }
             case 0x4e23:
-                b6d = p->ProcessAndTransformResult_00b06180();
+                b6d = p->CTreeFileAccess_ParseBool();
                 break;
             case 0x4e24:
-                b6c = p->ProcessAndTransformResult_00b06180();
+                b6c = p->CTreeFileAccess_ParseBool();
                 break;
             case 0x4e25:
                 for (int i = 0; i < 8; i++)

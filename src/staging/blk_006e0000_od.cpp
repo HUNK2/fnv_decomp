@@ -5090,11 +5090,11 @@ struct FUN_006edd30_shell
     Location_006edd30* AllocateStorage_006edc40();
     PathEdge_006edd30* CreateSize28();
     Path_006edd30* CreateObject();
-    void UpdateState_006edd30(const NiPoint3* start, const NiPoint3* finish);
+    void PathSmoother_AddFirstEdge(const NiPoint3* start, const NiPoint3* finish);
 };
 // @fnv 0x006edd30
-// src: GUESS 0x006edd30 (confidence: low)
-void FUN_006edd30_shell::UpdateState_006edd30(const NiPoint3* start, const NiPoint3* finish)
+// src: COMMUNITY 0x006edd30
+void FUN_006edd30_shell::PathSmoother_AddFirstEdge(const NiPoint3* start, const NiPoint3* finish)
 {
     Location_006edd30* startLocation2 = AllocateStorage_006edc40();
     LocationContext_006edd30* context_2 = contexts->BSSimpleArray_NiPoint3_1024_GetFirst();
@@ -8440,7 +8440,7 @@ struct HostP059
     ArrayP059<EdgeP059*> edgesA, edgesB;
     unsigned int UpdateNodeDirection(unsigned int, float, bool);
     NodeP059* SplitNode(unsigned int, bool, const NiPoint3&, const NiPoint3&);
-    bool UpdateState_006f0050(const NiPoint3&, const NiPoint3&, InfoP059, const NiPoint3&, const NiPoint3&,
+    bool PathSmoother_PushPoint(const NiPoint3&, const NiPoint3&, InfoP059, const NiPoint3&, const NiPoint3&,
                       const NiPoint3&);
 };
 extern const NiPoint3 DAT_011f426c;
@@ -8502,7 +8502,7 @@ unsigned int HostP059::UpdateNodeDirection(unsigned int index, float radius, boo
             c->direction = b.GetNegatedVector() * d - k * radius;
         bool o = false;
         if (g->BSSimpleArray_NiAVObject_1024_GetAt(index - 1)->active && g->BSSimpleArray_NiAVObject_1024_GetAt(index)->active)
-            o = UpdateState_006f0050(*c, c->position, c->info, c->direction, l->BSSimpleArray_NiAVObject_1024_GetAt(index - 1)->position,
+            o = PathSmoother_PushPoint(*c, c->position, c->info, c->direction, l->BSSimpleArray_NiAVObject_1024_GetAt(index - 1)->position,
                              *l->BSSimpleArray_NiAVObject_1024_GetAt(index + 1));
         else
         {
@@ -8797,12 +8797,12 @@ bool __cdecl Pathing_CheckLineOfSight(PathingLocation&, PathingLocation&, Pathin
 bool __cdecl FUN_006d7490(PathingLocation&, PathingLocation&, void*, void*);
 struct TargetHost
 {
-    bool UpdateState_006f0050(const NiPoint3&, NiPoint3&, TargetNavInfo*, int, const NiPoint3&, PathingLocation&,
+    bool PathSmoother_PushPoint(const NiPoint3&, NiPoint3&, TargetNavInfo*, int, const NiPoint3&, PathingLocation&,
                       PathingLocation&);
 };
 // @fnv 0x006f0050
-// src: GUESS 0x006f0050 (confidence: low)
-bool TargetHost::UpdateState_006f0050(const NiPoint3& start, NiPoint3& output, TargetNavInfo* nav, int unused,
+// src: COMMUNITY 0x006f0050
+bool TargetHost::PathSmoother_PushPoint(const NiPoint3& start, NiPoint3& output, TargetNavInfo* nav, int unused,
                               const NiPoint3& offset, PathingLocation& first, PathingLocation& second)
 {
     PathingLocation endLocation(start + offset * 0.01f + DAT_011a946c, nav->GetCell(), nav->NavMeshInfo_GetWorldSpace());
@@ -10584,7 +10584,7 @@ struct PathSmoother
     PointList m54;
 
     void AddLocationToOpenAndAllArrays();
-    void UpdateState_006edd30(NiPoint3& a, NiPoint3& b);
+    void PathSmoother_AddFirstEdge(NiPoint3& a, NiPoint3& b);
     void AddPathFromEdge(NiPoint3& p, unsigned int i);
     void AddPathFromContext(NiPoint3& p, unsigned int i);
     void CreateNavMeshEdges();
@@ -10607,11 +10607,11 @@ void PathSmoother::BuildInternalArrays()
             NiPoint3 crTmp = (a - b).Cross(a - m08);
             if (crTmp.z > 0.0)
             {
-                UpdateState_006edd30(b, a);
+                PathSmoother_AddFirstEdge(b, a);
             }
             else
             {
-                UpdateState_006edd30(a, b);
+                PathSmoother_AddFirstEdge(a, b);
             }
         }
         else if (a.HasEqualComponents(**m40.GetLast()))

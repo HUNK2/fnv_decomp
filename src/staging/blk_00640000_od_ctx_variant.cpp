@@ -621,7 +621,7 @@ struct Holder00aad6b0
 {
     void __thiscall ProcessEntries_00aad6b0();
 };
-void __cdecl Object_ProcessState_00652fc0(float a1, int a2, int a3);
+void __cdecl BSFaceGenManager_RandomizeFaceGenetic(float a1, int a2, int a3);
 struct Class_00658100
 {
     unsigned int __thiscall ComputeValue_00658100();

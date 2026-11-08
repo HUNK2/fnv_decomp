@@ -76,7 +76,7 @@ void __cdecl hkpMultiSphereTriangleAgent_UpdateState_00d38ed0();
 void __cdecl Object_UpdateFields_00d3ac80();
 void __cdecl CreateTriAgent();
 void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations();
-void __cdecl Object_ProcessEntries_00d386c0();
+void __cdecl hkpMultiSphereTriangleAgent_staticGetClosestPoints();
 void __cdecl Object_ProcessEntries_00daf8e0();
 
 typedef void (__cdecl *S_00d389f0_Func)();
@@ -115,7 +115,7 @@ void __cdecl hkpMultiSphereTriangleAgent_staticGetPenetrations_UpdateState_00d38
         S_00d389f0_AgentFuncs agentFuncs;
         agentFuncs.m_pCreateFunc = CreateTriAgent;
         agentFuncs.m_pQueryPenetrationsFunc = hkpMultiSphereTriangleAgent_staticGetPenetrations;
-        agentFuncs.m_getClosestPointsFunc = Object_ProcessEntries_00d386c0;
+        agentFuncs.m_getClosestPointsFunc = hkpMultiSphereTriangleAgent_staticGetClosestPoints;
         agentFuncs.m_pLinearCastFunc = Object_ProcessEntries_00daf8e0;
         agentFuncs.m_bIsFlipped = false;
         agentFuncs.m_bIsPredictive = false;

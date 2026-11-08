@@ -1720,12 +1720,12 @@ struct Mixer
     int unk63c;
     int unk640;
     Row168 rows[5];
-    float ProcessEntries_00aacdb0(int a, int b, Out40* out);
-    void ProcessEntries_00aacf40(int a, int b, float t, Out40* out);
+    float FanGenCtlsGrpC_getRace(int a, int b, Out40* out);
+    void FanGenCtlsGrpC_setRace(int a, int b, float t, Out40* out);
 };
 // @fnv 0x00aacf40
-// src: GUESS 0x00aacf40 (confidence: low)
-void Mixer::ProcessEntries_00aacf40(int a, int b, float t, Out40* out)
+// src: COMMUNITY 0x00aacf40
+void Mixer::FanGenCtlsGrpC_setRace(int a, int b, float t, Out40* out)
 {
     a < 5 ? (void)0
           : ReportAssertionViolation("D:\\_Fallout3\\Platforms\\Common\\Code\\SDK\\FaceGen\\FanControls.cpp", 0x1d4);
@@ -1736,7 +1736,7 @@ void Mixer::ProcessEntries_00aacf40(int a, int b, float t, Out40* out)
     if (!m_enabled)
         return;
     {
-        float f = (t - ProcessEntries_00aacdb0(a, b, out)) * rows[a].entries[b].scale;
+        float f = (t - FanGenCtlsGrpC_getRace(a, b, out)) * rows[a].entries[b].scale;
         for (unsigned int i = 0; i < 2; i++)
             out[i] = rows[a].entries[b].curves[i].Transpose() * f;
     }
@@ -2856,7 +2856,7 @@ struct Obj00aaa730
     Str b;
     int unk3c;
     Obj00aaa730(Str key);
-    bool ProcessAndReturnValue_00ac3fe0(const char* name);
+    bool isCorrectFileId(const char* name);
 };
 
 inline Obj00aaa730::~Obj00aaa730()
@@ -2867,7 +2867,7 @@ inline Obj00aaa730::~Obj00aaa730()
 bool Runtime_EvaluateValue_00aaa730(const char* name)
 {
     Obj00aaa730 obj(Str("FRCTL001"));
-    return obj.ProcessAndReturnValue_00ac3fe0(name);
+    return obj.isCorrectFileId(name);
 }
 
 struct S00aaaa80_Str
@@ -3385,11 +3385,11 @@ struct SubBF
     int unkfc4, unkfc8;
     PairBF m_fcc[5][2][2];
     float FanGenCtlsGrpC_getAttribute(int, int, int, DestBF*);
-    void UpdateState_00aabf30(int, int, int, float, DestBF*);
+    void FanGenCtlsGrpC_setAttribute(int, int, int, float, DestBF*);
 };
 // @fnv 0x00aabf30
-// src: GUESS 0x00aabf30 (confidence: low)
-void SubBF::UpdateState_00aabf30(int ia, int ib, int ic, float value, DestBF* dest)
+// src: COMMUNITY 0x00aabf30
+void SubBF::FanGenCtlsGrpC_setAttribute(int ia, int ib, int ic, float value, DestBF* dest)
 {
     if (ia < 5)
     {
@@ -4636,16 +4636,16 @@ struct BlendValue : BlendRelease
 };
 struct BlendOwner
 {
-    float ProcessEntries_00aac3f0(int, int, int, BlendValue (*)[2]);
-    void ProcessEntries_00aac820(int, int, int, float, BlendValue (*)[2]);
-    void UpdateFields_00aadac0(int, int, float, BlendValue (*)[2], BlendValue (*)[2], BlendValue (*)[2]);
+    float FanGenCtlsGrpC_getCaricature(int, int, int, BlendValue (*)[2]);
+    void FanGenCtlsGrpC_setCaricature(int, int, int, float, BlendValue (*)[2]);
+    void FanGenCtlsGrpC_tween(int, int, float, BlendValue (*)[2], BlendValue (*)[2], BlendValue (*)[2]);
 };
 // @fnv 0x00aadac0
-// src: GUESS 0x00aadac0 (confidence: low)
-void BlendOwner::UpdateFields_00aadac0(int row, int col, float t, BlendValue (*a)[2], BlendValue (*b)[2], BlendValue (*out)[2])
+// src: COMMUNITY 0x00aadac0
+void BlendOwner::FanGenCtlsGrpC_tween(int row, int col, float t, BlendValue (*a)[2], BlendValue (*b)[2], BlendValue (*out)[2])
 {
-    float second = ProcessEntries_00aac3f0(0, row, col, a);
-    float first = ProcessEntries_00aac3f0(0, row, col, b);
+    float second = FanGenCtlsGrpC_getCaricature(0, row, col, a);
+    float first = FanGenCtlsGrpC_getCaricature(0, row, col, b);
     float result;
     if (t < 0.0)
         result = first;
@@ -4654,7 +4654,7 @@ void BlendOwner::UpdateFields_00aadac0(int row, int col, float t, BlendValue (*a
     else
         result = second * t + (1.0f - t) * first;
     out[row][col].FUN_006581e0(a[row][col].BuildScaledValues(t).AddMatrixElements(b[row][col].BuildScaledValues(1.0f - t)));
-    ProcessEntries_00aac820(0, row, col, result, out);
+    FanGenCtlsGrpC_setCaricature(0, row, col, result, out);
 }
 
 // FUN_00aadde0: thiscall member (1 stack arg).
@@ -5868,7 +5868,7 @@ typedef basic_string<char, char_traits<char>, allocator<char> > string;
 char __cdecl Object_ProcessAndReturnValue_00aafbe0(const std::string& name)
 {
     FutBinaryFileC obj(std::string("FREGM002"));
-    return obj.ProcessAndReturnValue_00ac3fe0(name);
+    return obj.isCorrectFileId(name);
 }
 }  // namespace fnv_00aafbe0
 
@@ -15318,12 +15318,12 @@ struct FanControls
     int unk_0d48;
     FgMatD m_matrices_d4c[5][2][2];
 
-    float ProcessEntries_00aac3f0(int arg1, int arg2, int arg3, FgMat (*arg4)[2]);
+    float FanGenCtlsGrpC_getCaricature(int arg1, int arg2, int arg3, FgMat (*arg4)[2]);
 };
 
 // @fnv 0x00aac3f0
-// src: GUESS 0x00aac3f0 (confidence: low)
-float FanControls::ProcessEntries_00aac3f0(int arg1, int arg2, int arg3, FgMat (*arg4)[2])
+// src: COMMUNITY 0x00aac3f0
+float FanControls::FanGenCtlsGrpC_getCaricature(int arg1, int arg2, int arg3, FgMat (*arg4)[2])
 {
 
     if (arg1 < 5)
@@ -16169,13 +16169,13 @@ struct FanControls
     int unkd48;
 
     FgMat bases[5][2][2];
-    float ProcessEntries_00aac3f0(int model, int category, int channel, FgParams* params);
-    void ProcessEntries_00aac820(int model, int category, int channel, float amount, FgParams* params);
+    float FanGenCtlsGrpC_getCaricature(int model, int category, int channel, FgParams* params);
+    void FanGenCtlsGrpC_setCaricature(int model, int category, int channel, float amount, FgParams* params);
 };
 
 // @fnv 0x00aac820
-// src: GUESS 0x00aac820 (confidence: low)
-void FanControls::ProcessEntries_00aac820(int model, int category, int channel, float amount, FgParams* params)
+// src: COMMUNITY 0x00aac820
+void FanControls::FanGenCtlsGrpC_setCaricature(int model, int category, int channel, float amount, FgParams* params)
 {
     if (model < 5)
     {
@@ -16227,7 +16227,7 @@ void FanControls::ProcessEntries_00aac820(int model, int category, int channel, 
             projection.AddMatrix(bases[model][category][axis].Transpose().BuildScaledValues(weight));
         }
         centered.ProcessEntries_00aaef90(projection);
-        float scale3 = ProcessEntries_00aac3f0(model, category, channel, params);
+        float scale3 = FanGenCtlsGrpC_getCaricature(model, category, channel, params);
         if (scale3 > 0.0)
         {
             centered.ScaleAll(amount / scale3);
@@ -16782,12 +16782,12 @@ struct FanControls
     int unk63C;
     int unk640;
     FgControlPair m_aakPairs[5][5];
-    float ProcessEntries_00aacdb0(int iFrom, int iTo, const FgCoordinates* pkCoords);
+    float FanGenCtlsGrpC_getRace(int iFrom, int iTo, const FgCoordinates* pkCoords);
 };
 
 // @fnv 0x00aacdb0
-// src: GUESS 0x00aacdb0 (confidence: low)
-float FanControls::ProcessEntries_00aacdb0(int iFrom, int iTo, const FgCoordinates* pkCoords)
+// src: COMMUNITY 0x00aacdb0
+float FanControls::FanGenCtlsGrpC_getRace(int iFrom, int iTo, const FgCoordinates* pkCoords)
 {
     if (iFrom < 5)
         ;
@@ -19420,11 +19420,11 @@ struct ReworkPair
 ReworkMatrix __cdecl Runtime_CopyMemory_00aaf330(ReworkPair&, ReworkPair&);
 struct ReworkModel : FGModel
 {
-    void ProcessEntries_00aad140(int idx, ReworkPair* bases);
+    void FanGenCtlsGrpC_random(int idx, ReworkPair* bases);
 };
 // @fnv 0x00aad140
-// src: GUESS 0x00aad140 (confidence: low)
-void ReworkModel::ProcessEntries_00aad140(int idx, ReworkPair* bases)
+// src: COMMUNITY 0x00aad140
+void ReworkModel::FanGenCtlsGrpC_random(int idx, ReworkPair* bases)
 {
     if (idx < 5)
     {

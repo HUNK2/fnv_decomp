@@ -3453,8 +3453,8 @@ FUN_00cc3270::~FUN_00cc3270()
 extern int DAT_012685bc;
 
 // @fnv 0x00cc32e0
-// src: GUESS 0x00cc32e0 (confidence: low)
-void* __cdecl Object_GetGlobalObjectAddress_00cc32e0()
+// src: EXE 0x00cc32e0
+void* __cdecl bhkMotorAction_GetRTTI()
 {
     return &DAT_012685bc;
 }
@@ -5151,8 +5151,8 @@ FUN_00cc4500_cls* FUN_00cc4500_cls::hkAngularDashpotActionCinfo_hkAngularDashpot
 extern int g_012685e0;
 
 // @fnv 0x00cc4860
-// src: GUESS 0x00cc4860 (confidence: low)
-int* __cdecl Object_GetGlobalObjectAddress_00cc4860()
+// src: EXE 0x00cc4860
+int* __cdecl bhkBreakableConstraint_GetRTTI()
 {
     return &g_012685e0;
 }
@@ -7073,8 +7073,8 @@ int* __cdecl bhkBallSocketConstraintChain_GetRTTI()
 }
 
 // @fnv 0x00cc8d60
-// src: GUESS 0x00cc8d60 (confidence: low)
-int __cdecl Object_ComputeValue_00cc8d60()
+// src: EXE 0x00cc8d60
+int __cdecl bhkBallSocketConstraintChain_QCinfoSize()
 {
     return 44;
 }
@@ -10384,8 +10384,8 @@ void CCCF00RigidBody::bhkExtendedMeshShape_SaveBinary(NiStream& kStream) {
 // FUN_00ccd0f0 : a one-line function - getter
 extern int g_target_00ccd0f0;
 // @fnv 0x00ccd0f0
-// src: GUESS 0x00ccd0f0 (confidence: low)
-void* Runtime_GetTarget00ccd0f0Address() { return &g_target_00ccd0f0; }
+// src: EXE 0x00ccd0f0
+void* bhkCylinderShape_GetRTTI() { return &g_target_00ccd0f0; }
 
 namespace fnv_00ccd1d0 {
 extern int DAT_01267e30;

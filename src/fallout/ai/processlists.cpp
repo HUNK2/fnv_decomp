@@ -2833,7 +2833,7 @@ struct FUN_009722e0_shell
 };
 struct FUN_0047eb90_shell
 {
-    void ForwardCall_0047eb90(int);
+    void TESFaction_SetPCAnEnemy(int);
 };
 struct FUN_0041cf00_shell
 {
@@ -2875,7 +2875,7 @@ SL* FUN_00971fd0_shell::ProcessLists_RemoveCrimesForYieldCheck(float afTime)
                     {
                         FUN_0047eb90_shell* pRef = *(FUN_0047eb90_shell**)pNode->_ref_006815c0();
                         if (!((FUN_009722e0_shell*)&g_kProcessLists)->IsActorInOtherList(pRef, pItem))
-                            pRef->ForwardCall_0047eb90(0);
+                            pRef->TESFaction_SetPCAnEnemy(0);
                         pNode = (NodeS*)((TESFormList*)pNode)->GetFirst();
                     }
                 }
@@ -10007,7 +10007,7 @@ bool FUN_009722e0_shell::IsActorInOtherList(Actor* pActor, FUN_009722e0_member* 
 namespace fnv_00972aa0 {
 struct S_972aa0_Actor
 {
-    void ForwardCall_0047eb90(int a);
+    void TESFaction_SetPCAnEnemy(int a);
 };
 struct S_972aa0_ActorNode
 {
@@ -10077,7 +10077,7 @@ void S_972aa0_Owner::RemoveCrimeById(unsigned int uiCrimeId)
                 {
                     S_972aa0_Actor* actor = *actors->FUN_006815c0();
                     if (!DAT_011e0e80.IsActorInOtherList(actor, crime))
-                        actor->ForwardCall_0047eb90(0);
+                        actor->TESFaction_SetPCAnEnemy(0);
                     actors = actors->FUN_00726070();
                 }
                 list->RemoveMatchingItem(crime);
@@ -12483,7 +12483,7 @@ struct Sh0041cb10
 };
 struct Sh0041c930
 {
-    void AllocateStorage_0041c930(int a, int b, int c, int d, int e, int f);
+    void ExtraDataList_SetPackageExtra(int a, int b, int c, int d, int e, int f);
 };
 struct Sh0042ce10
 {
@@ -12562,7 +12562,7 @@ void Menu75x::ProcessLists_NullOutActorsPackage(int arg)
             }
             if (((Sh0041cb10*)((::TESObjectREFR*)p)->BSFile_GetDevice())->ExtraDataList_GetPackageExtra() == (void*)arg)
             {
-                ((Sh0041c930*)((::TESObjectREFR*)p)->BSFile_GetDevice())->AllocateStorage_0041c930(0, 0, 0, 0, 0, 0);
+                ((Sh0041c930*)((::TESObjectREFR*)p)->BSFile_GetDevice())->ExtraDataList_SetPackageExtra(0, 0, 0, 0, 0, 0);
             }
             p = 0;
         }

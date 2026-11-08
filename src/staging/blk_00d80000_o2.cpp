@@ -53,8 +53,8 @@ public:
 extern int DAT_010cc4f4;
 
 // @fnv 0x00d9f6d0
-// src: GUESS 0x00d9f6d0 (confidence: low)
-void __cdecl Runtime_UpdateState_00d9f6d0(int* p)
+// src: COMMUNITY 0x00d9f6d0
+void __cdecl finishLoadedObject_hkpSimulation(int* p)
 {
     if (p)
         *p = (int)&DAT_010cc4f4;
@@ -1949,8 +1949,8 @@ struct FnvCpu_FUN_00d9f6b0_CpuInterface {
     virtual void Invoke(int value);
 };
 // @fnv 0x00d9f6b0
-// src: GUESS 0x00d9f6b0 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d9f6b0(FnvCpu_FUN_00d9f6b0_CpuInterface* object)
+// src: COMMUNITY 0x00d9f6b0
+void __cdecl cleanupLoadedObject_hkpSimulation(FnvCpu_FUN_00d9f6b0_CpuInterface* object)
 {
     object->Invoke(0);
 }

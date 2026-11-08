@@ -114,8 +114,8 @@ int __cdecl hkpDefaultToiResourceMgr_ReturnOne()
 extern int DAT_0126955c;
 
 // @fnv 0x00d9fc60
-// src: GUESS 0x00d9fc60 (confidence: low)
-int* __cdecl Object_GetGlobalObjectAddress_00d9fc60()
+// src: EXE 0x00d9fc60
+int* __cdecl hkpDefaultToiResourceMgr_getClassType()
 {
     return &DAT_0126955c;
 }

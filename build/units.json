@@ -36851,7 +36851,7 @@
     "?ExtraDataList_SetReferencePointer@TransferExtra@fnv_00892e90@@QAEXPAVTESObjectREFR@@@Z": "0x0041c7f0",
     "?ExtraDataList_GetReferencePointer@SExtra@fnv_00892520@@QAEPAUSRef@2@XZ": "0x0041c8d0",
     "?ExtraDataList_GetReferencePointer@TransferItemExtra@fnv_00892e90@@QAEPAVTESObjectREFR@@XZ": "0x0041c8d0",
-    "?AllocateStorage_0041c930@XList41@@QAEXHHH_N00@Z": "0x0041c930",
+    "?ExtraDataList_SetPackageExtra@XList41@@QAEXHHH_N00@Z": "0x0041c930",
     "?FUN_0041ca90@@YIHH@Z": "0x0041ca90",
     "?FUN_0041ca90@AHPackage@fnv_00882b90@@QAEHXZ": "0x0041ca90",
     "?FUN_0041ca90@AttackType@@QAEHXZ": "0x0041ca90",
@@ -37198,7 +37198,7 @@
     "?TESActorBaseData_GetLevel@TESActorBaseData@@QAEGXZ": "0x0047ded0",
     "?TESActorBaseData_GetAlignmentForKarma@KillSupport@@YAHM@Z": "0x0047e040",
     "?TESActorBaseData_SetPCFactionFlags@AB30Obj@@QAEXH@Z": "0x0047ead0",
-    "?ForwardCall_0047eb90@TESFaction@@QAEX_N@Z": "0x0047eb90",
+    "?TESFaction_SetPCAnEnemy@TESFaction@@QAEX_N@Z": "0x0047eb90",
     "?FUN_0047fd90@LoadModelFromStream@fnv_00887d00@@QAE_NXZ": "0x0047fd90",
     "?FUN_00480af0@BipedRes@fnv_0088c830@@QAE_NHHH@Z": "0x00480af0",
     "?FUN_00480d10@BipedS@fnv_0088c830@@QAE_NXZ": "0x00480d10",
@@ -46424,7 +46424,7 @@
     "?FUN_00403550@AssignedTargetView@@QAEXI@Z": "0x00403550",
     "?FUN_00403550@DataBF@@QAEXH@Z": "0x00403550",
     "?FUN_00403550@XTmpObj@@QAEXXZ": "0x00403550",
-    "?AllocateStorage_0041c930@AssignedExtraView@@QAEXPAXII_N11@Z": "0x0041c930",
+    "?ExtraDataList_SetPackageExtra@AssignedExtraView@@QAEXPAXII_N11@Z": "0x0041c930",
     "?ExtraDataList_SetTalkingActorExtra@ExtraDataList_Accessor@@QAEXPAVBGSTalkingActivator@@PAVTESObjectREFR@@@Z": "0x0042e060",
     "?FUN_0042e110@ExtraDataList_Accessor@@QAEPAXXZ": "0x0042e110",
     "?Actor_IsInCombat@Actor@@QAE_NXZ": "0x00493bb0",
@@ -54139,7 +54139,7 @@
     },
     {
      "address": "0x009a3130",
-     "symbol": "?SaveState_009a3130@CombatSaveData@fnv_009a3130@@QAEXPAVBGSSaveFormBuffer@@@Z",
+     "symbol": "?CombatLocationTarget_SaveGame@CombatSaveData@fnv_009a3130@@QAEXPAVBGSSaveFormBuffer@@@Z",
      "size": 118
     },
     {
@@ -54277,7 +54277,7 @@
     "?CombatLocation_SetPoint@MyMover@fnv_0099e190@@QAEXPAUVec3@@H@Z": "0x0099b8b0",
     "?CombatState_IsCoverLocationValid@FUN_009a0600_shell@@QAE_NPAUCombatCoverPointData@@@Z": "0x009a0600",
     "?CombatCoverSearch_LoadGameBGS@CombatSaveGameData@fnv_009a3050@@QAEXPAUBGSLoadFormBuffer@2@@Z": "0x009a3050",
-    "?SaveState_009a3130@CombatSaveData@fnv_009a3130@@QAEXPAUBGSSaveFormBuffer@2@@Z": "0x009a3130",
+    "?CombatLocationTarget_SaveGame@CombatSaveData@fnv_009a3130@@QAEXPAUBGSSaveFormBuffer@2@@Z": "0x009a3130",
     "?FindNearestCombatNode@CombatNodeFinder@@QAEPAURefS@@PAUActorS@@M_N@Z": "0x0098c3d0",
     "?FindPathCandidate@SearchC@@QAE_NPAUSegmentC@@PAUDestinationC@@PAUOptionsC@@PAUPointC@@PAX4HPAUActorC@@5MMPAHPAM_N@Z": "0x0099c230",
     "?Float@?$SettingT@VGameSettingCollection@fnv_0099d030@@@fnv_0099d030@@QAEPATSETTING_VALUE@2@XZ": "0x00403e20",
@@ -54910,7 +54910,7 @@
     "?SaveFieldsAndTimeStamp@ItemB435@@QAEXPAUSave435@@@Z": "0x009a2d80",
     "?CombatCoverLocation_SaveGameBGS@Optional435@@QAEXPAUSave435@@@Z": "0x009a2de0",
     "?CombatCoverSearch_SaveGameBGS@Location435@@QAEXPAUSave435@@@Z": "0x009a2f50",
-    "?SaveState_009a3130@OptionalC435@@QAEXPAUSave435@@@Z": "0x009a3130",
+    "?CombatLocationTarget_SaveGame@OptionalC435@@QAEXPAUSave435@@@Z": "0x009a3130",
     "?CombatState_LocationTarget_InitLoadGameBGS@MemberC4@@QAEXPAVBGSLoadFormBuffer@@@Z": "0x009a3220",
     "?FUN_009a3280@FUN_009a3280_shell@fnv_009a2f50@@QAEPAXH@Z": "0x009a3280",
     "?FUN_009a3280@FUN_009a3280_shell@fnv_009a3050@@QAEPAVPathingCoverLocation@@H@Z": "0x009a3280",
@@ -69158,7 +69158,7 @@
     "?FUN_00418520@Extra57@@QAEPAUInventory57@@XZ": "0x00418520",
     "?ExtraDataList_GetCount@Extra57@@QAEFXZ": "0x00418770",
     "?ExtraDataList_GetReferencePointer@ExtraDataList@@QAEPAVTESObjectREFR@@XZ": "0x0041c8d0",
-    "?AllocateStorage_0041c930@E@@QAEXPAUP@@HH_N@Z": "0x0041c930",
+    "?ExtraDataList_SetPackageExtra@E@@QAEXPAUP@@HH_N@Z": "0x0041c930",
     "?FUN_0041ca90@P@@QAEHXZ": "0x0041ca90",
     "?FUN_0041ca90@PkgForm@@QAEHXZ": "0x0041ca90",
     "?ExtraDataList_SetPackageExtraIndex@E@@QAEXH@Z": "0x0041cae0",
@@ -83913,7 +83913,7 @@
     "?BaseExtraList_GetExtraData@Obj@fnv_00976680@@QAEPAU12@E@Z": "0x00410220",
     "?ExtraDataList_SetHeadTrackTargetExtra@FUN_00419dc0_shell@fnv_0096f600@@QAEXH@Z": "0x00419dc0",
     "?ExtraDataList_GetHeadTrackTargetExtra@FUN_00419ea0_shell@fnv_0096f600@@QAEPAVActor@@XZ": "0x00419ea0",
-    "?AllocateStorage_0041c930@Sh0041c930@fnv_00970810@@QAEXHHHHHH@Z": "0x0041c930",
+    "?ExtraDataList_SetPackageExtra@Sh0041c930@fnv_00970810@@QAEXHHHHHH@Z": "0x0041c930",
     "?FUN_0041ca90@CellProcessType@@QAEHXZ": "0x0041ca90",
     "?FUN_0041ca90@Obj@fnv_00976680@@QAEHXZ": "0x0041ca90",
     "?FUN_0041ca90@State96@fnv_0096dcb0@@QAEHXZ": "0x0041ca90",
@@ -83963,8 +83963,8 @@
     "?FUN_00470470@FUN_0096a2d0@fnv_0096dcb0@@QAEXXZ": "0x00470470",
     "?FUN_004772f0@fnv_0096d810@@YAXXZ": "0x004772f0",
     "?FUN_0047c850@DetectLoad@@QAE_NXZ": "0x0047c850",
-    "?ForwardCall_0047eb90@FUN_0047eb90_shell@fnv_00971fd0@@QAEXH@Z": "0x0047eb90",
-    "?ForwardCall_0047eb90@S_972aa0_Actor@fnv_00972aa0@@QAEXH@Z": "0x0047eb90",
+    "?TESFaction_SetPCAnEnemy@FUN_0047eb90_shell@fnv_00971fd0@@QAEXH@Z": "0x0047eb90",
+    "?TESFaction_SetPCAnEnemy@S_972aa0_Actor@fnv_00972aa0@@QAEXH@Z": "0x0047eb90",
     "?TESForm_GetFormByNumericID@@YAPAVTESObjectREFR@@I@Z": "0x004839c0",
     "?Animation_UpdateQueuedScenegraph@AnimUpdateHelper@@QAE_NXZ": "0x00493930",
     "?Animation_UpdateQueuedScenegraph@AnimUpdateHelper@fnv_0096cb20@@QAE_NXZ": "0x00493930",
@@ -85251,7 +85251,7 @@
     },
     {
      "address": "0x009f76e0",
-     "symbol": "?ProcessEntries_009f76e0@Package@ThreatBounds@@QAEXXZ",
+     "symbol": "?SpectatorPackage_ComputeCenterPoint@Package@ThreatBounds@@QAEXXZ",
      "size": 1676
     },
     {
@@ -85499,8 +85499,8 @@
     "?SpectatorThreatInfo_InitLoadGame@FUN_009f7230_class@@QAEXPAUTESObjectREFRHelper@@@Z": "0x009f7230",
     "?FUN_009f7410@FUN_009f73e0@@QAEXXZ": "0x009f7410",
     "?UpdateState_009f7630@SpectatorThreatInfo@@QAEAAU1@ABU1@@Z": "0x009f7630",
-    "?ProcessEntries_009f76e0@Package8020@@QAEXXZ": "0x009f76e0",
-    "?ProcessEntries_009f76e0@Package@@QAEXXZ": "0x009f76e0",
+    "?SpectatorPackage_ComputeCenterPoint@Package8020@@QAEXXZ": "0x009f76e0",
+    "?SpectatorPackage_ComputeCenterPoint@Package@@QAEXXZ": "0x009f76e0",
     "?SpectatorPackage_AddThreatFromActorToCombatTarget@Package8020@@QAEXPAVActor@@@Z": "0x009f8330",
     "?BSSimpleArray_SpectatorThreatInfo_1024_GetAt@FUN_009f8a80_class@@QAEPAUFlt@@I@Z": "0x009f8a80",
     "?BSSimpleArray_SpectatorThreatInfo_1024_GetAt@FUN_009f8a80_wrapper@@QAEHI@Z": "0x009f8a80",
@@ -92782,7 +92782,7 @@
    "functions": [
     {
      "address": "0x007055c0",
-     "symbol": "?Object_UpdateFields_007055c0@@YAXXZ",
+     "symbol": "?Interface_CloseSleepMenu@@YAXXZ",
      "size": 120
     },
     {
@@ -101979,7 +101979,7 @@
     },
     {
      "address": "0x00754150",
-     "symbol": "?UpdateState_00754150@CharGenMenu@@QAE_NHM@Z",
+     "symbol": "?HandleSpecialKeyInput@CharGenMenu@@QAE_NHM@Z",
      "size": 376
     },
     {
@@ -105241,7 +105241,7 @@
     },
     {
      "address": "0x00769520",
-     "symbol": "?ComputeRecursiveEntryValue_00769520@Context@@QAEIPAUFUN_007687d0@@@Z",
+     "symbol": "?HackingMenu_GetGuaranteedPossible@Context@@QAEIPAUFUN_007687d0@@@Z",
      "size": 479
     },
     {
@@ -105384,7 +105384,7 @@
     "?BSStringT_char_SPrintF@@YAXPAXPBDZZ": "0x00406f60",
     "?BSStringT_char_SPrintF@fnv_00766b80@@YAXPAXPBDZZ": "0x00406f60",
     "?Modelloader_GetReferencedThis@Text83@@QAEPBDXZ": "0x00559450",
-    "?ComputeRecursiveEntryValue_00769520@FUN_00768070_shell@@QAEIPAUFUN_007687d0@@@Z": "0x00769520",
+    "?HackingMenu_GetGuaranteedPossible@FUN_00768070_shell@@QAEIPAUFUN_007687d0@@@Z": "0x00769520",
     "?FUN_00a011b0@Tile@s767610@@QAEMI@Z": "0x00a011b0",
     "?FUN_00ad8830@Scroll84@fnv_00765b80@@QAEXH@Z": "0x00ad8830",
     "?FUN_00ad8830@Snd150@@QAE_N_N@Z": "0x00ad8830",
@@ -105813,7 +105813,7 @@
     "__ehhandler$?BuildHackingPasswordFile@HackingMenu@@QAEXXZ": "0x00f0b15e",
     "__ehhandler$?CopyFrom@ElemArray@@QAEPAU1@PAU1@@Z": "0x00ef205b",
     "__ehhandler$?HackingMenu_Create@fnv_00765b80@@YAPAUTile84@1@PAURef84@1@@Z": "0x00f0b03b",
-    "__ehhandler$?ComputeRecursiveEntryValue_00769520@Context@@QAEIPAUFUN_007687d0@@@Z": "0x00f0b198",
+    "__ehhandler$?HackingMenu_GetGuaranteedPossible@Context@@QAEIPAUFUN_007687d0@@@Z": "0x00f0b198",
     "__ehhandler$?DoIntro@HackingMenu@@QAEXXZ": "0x00f0b1d6",
     "__ehhandler$?TransitionToComputersMenu@HackingMenu@@QAEXXZ": "0x00f0b23b",
     "__ehhandler$?CopyWithPermutedRowsAndColumns@G7Grid@grid76a@@QAE?AU12@PBEE@Z": "0x00f0b2e1",
@@ -111708,7 +111708,7 @@
     },
     {
      "address": "0x00795630",
-     "symbol": "?LoveTesterMenu_UpdateState_00795630@@YAXPAUMenuParam_00795630@@@Z",
+     "symbol": "?LoveTesterMenu_RefreshRightAVButton@@YAXPAUMenuParam_00795630@@@Z",
      "size": 197
     },
     {
@@ -111753,7 +111753,7 @@
     },
     {
      "address": "0x00795ce0",
-     "symbol": "?Object_ProcessState_00795ce0@@YAXPAX@Z",
+     "symbol": "?LoveTesterMenu_CloseCallback@@YAXPAX@Z",
      "size": 224
     },
     {
@@ -111975,14 +111975,14 @@
     "?SPECIALBookMenu_GetTotalPointsUsed@LoveTesterMenu@@QAEHXZ": "0x00794d80",
     "?SPECIALBookMenu_GetTotalPointsUsed@SPECIALBookMenu@@QAEHXZ": "0x00794d80",
     "?NiSourceTexture_UpdateState_00795390@fnv_007928e0@@YAXPAX@Z": "0x00795390",
-    "?LoveTesterMenu_UpdateState_00795630@fnv_007928e0@@YAXPAX@Z": "0x00795630",
+    "?LoveTesterMenu_RefreshRightAVButton@fnv_007928e0@@YAXPAX@Z": "0x00795630",
     "?Object_InvokeVirtualMethod_00795780@@YAXPAUOuter@@@Z": "0x00795780",
     "?Object_DecreaseLoveTesterActorValue@@YAXPAUCallbackInput@@@Z": "0x007957c0",
     "?Object_DecreaseCurrentLoveTesterActorValue@fnv_007928e0@@YAXPAX@Z": "0x007958e0",
     "?Object_IncreaseLoveTesterActorValue@fnv_007928e0@@YAXPAX@Z": "0x00795a00",
     "?Object_StepLoveTesterPositionWithOne@fnv_007928e0@@YAXPAX@Z": "0x00795c60",
     "?Object_StepLoveTesterPositionWithZero@fnv_007928e0@@YAXPAX@Z": "0x00795ca0",
-    "?Object_ProcessState_00795ce0@@YAXPAX@Z": "0x00795ce0",
+    "?LoveTesterMenu_CloseCallback@@YAXPAX@Z": "0x00795ce0",
     "?FUN_00795dc0@FUN_00791a80_shell@@QAEXXZ": "0x00795dc0",
     "?RefreshPage@LoveTesterMenu@@QAEXXZ": "0x00795e20",
     "?RefreshPage@Menu@@QAEXXZ": "0x00795e20",
@@ -112095,7 +112095,7 @@
     "__ehhandler$?Object_DecreaseLoveTesterActorValue@@YAXPAUCallbackInput@@@Z": "0x00f0c5e0",
     "__ehhandler$?Object_DecreaseCurrentLoveTesterActorValue@fnv_007958e0@@YAXXZ": "0x00f0c5e0",
     "__ehhandler$?Object_IncreaseLoveTesterActorValue@@YAXPAUWorkerButton@@@Z": "0x00f0c5e0",
-    "__ehhandler$?Object_ProcessState_00795ce0@@YAXPAX@Z": "0x00f0c610",
+    "__ehhandler$?LoveTesterMenu_CloseCallback@@YAXPAX@Z": "0x00f0c610",
     "__ehhandler$?SPECIALBookMenu_Draw3DElements@@YAXXZ": "0x00f0c4d8",
     "__ehhandler$?HandleButton@LoveTesterMenu@@QAEXHH@Z": "0x00f0c1e5",
     "__ehhandler$?Init@LoveTesterMenu@@QAEXXZ": "0x00f0c4a4",
@@ -119816,10 +119816,10 @@
     "?SPECIALBookMenu_Close@@YAXXZ": "0x007c6120",
     "?TurnPage@SPECIALBookMenu@@QAE_N_N@Z": "0x007c9dc0",
     "?GetCurrentStatesActorValue@SPECIALBookMenu@@QAEHXZ": "0x007ca030",
-    "?Object_UpdateFields_007ca700@@YAXPAX@Z": "0x007ca700",
-    "?Object_UpdateFields_007ca7a0@@YAXPAX@Z": "0x007ca7a0",
+    "?SPECIALBookMenu_RefreshLeftAVButton@@YAXPAX@Z": "0x007ca700",
+    "?SPECIALBookMenu_RefreshRightAVButton@@YAXPAX@Z": "0x007ca7a0",
     "?Object_ProcessState_007ca8a0@@YAXPAX@Z": "0x007ca8a0",
-    "?Object_ProcessAndReturnValue_007ca960@@YAXPAX@Z": "0x007ca960",
+    "?SPECIALBookMenu_DecreaseActorValue@@YAXPAX@Z": "0x007ca960",
     "?Runtime_TurnPageForwardAndInvokeCallbacks@@YAXPAX@Z": "0x007cabb0",
     "?Runtime_TurnPageBackwardAndInvokeCallbacks@@YAXPAX@Z": "0x007cabf0",
     "?BSAudio_CloseBookMenuOrPlayInactiveSound@@YAXPAX@Z": "0x007cac30",
@@ -129825,7 +129825,7 @@
     "?bhkCollisionFilter_GetNewSystemGroup@@YAIXZ": "0x005dbe10",
     "?FUN_00621270@Sub410@@QAEHH@Z": "0x00621270",
     "?ActorPackage_GetPackageStartTime@C0Obj@fnv_008112c0@@QAEXM@Z": "0x00621b20",
-    "?hkVector4_ProcessEntries_0062ab60@@YAXAAUCleanupVector@@PAX@Z": "0x0062ab60",
+    "?TESArrowTargetListener_RemoveArrowTarget@@YAXAAUCleanupVector@@PAX@Z": "0x0062ab60",
     "?NiObject_DynamicCast@@YAPAVNiObject@@PBVNiRTTI@@PAV1@@Z": "0x00653270",
     "?NiObject_DynamicCast@fnv_008106d0@@YAPAUController@1@PBHPAU21@@Z": "0x00653270",
     "?NiObject_DynamicCast@fnv_008112c0@@YAPAXPAXH@Z": "0x00653270",
@@ -131257,7 +131257,7 @@
     },
     {
      "address": "0x0081a920",
-     "symbol": "?ProcessAndTransformResult_0081a920@FUN_0081a920_shell@@QAE_NXZ",
+     "symbol": "?MagicFogProjectile_IsActive@FUN_0081a920_shell@@QAE_NXZ",
      "size": 59
     },
     {
@@ -141132,7 +141132,7 @@
    "functions": [
     {
      "address": "0x0043aa40",
-     "symbol": "?SaveFields_0043aa40@FUN_0043aa40_shell@@QAEXPAVBGSSaveFormBuffer@@@Z",
+     "symbol": "?DoorTeleportData_SaveGame@FUN_0043aa40_shell@@QAEXPAVBGSSaveFormBuffer@@@Z",
      "size": 86
     },
     {
@@ -141162,7 +141162,7 @@
     },
     {
      "address": "0x0083fb10",
-     "symbol": "?SaveState_0083fb10@FUN_0083fb10_shell@@QAEXPAVBGSSaveFormBuffer@@@Z",
+     "symbol": "?MenuTopic_SaveGame@FUN_0083fb10_shell@@QAEXPAVBGSSaveFormBuffer@@@Z",
      "size": 195
     },
     {
@@ -149556,12 +149556,12 @@
     },
     {
      "address": "0x0058c2e0",
-     "symbol": "?ProcessState_0058c2e0@FUN_0058c2e0_shell@@QAEXXZ",
+     "symbol": "?BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian@FUN_0058c2e0_shell@@QAEXXZ",
      "size": 210
     },
     {
      "address": "0x0058c3c0",
-     "symbol": "?ProcessState_0058c3c0@BGSCameraShot__CAMERA_SHOT_DATA@@QAEXXZ",
+     "symbol": "?BGSCameraShot_CAMERA_SHOT_DATA_Endian@BGSCameraShot__CAMERA_SHOT_DATA@@QAEXXZ",
      "size": 260
     },
     {
@@ -149695,8 +149695,8 @@
     "?Modelloader_GetReferencedThis@NodePointer@@QAEPAUCameraNode@@XZ": "0x00559450",
     "?Modelloader_GetReferencedThis@NodePtrObj@@QAEPAUCamNodeX@@XZ": "0x00559450",
     "?TESObjectREFR_GetOrientation@Host56@@QAE?AUM3@@XZ": "0x0056fa00",
-    "?ProcessState_0058c2e0@CameraShotLegacyData@@QAEXXZ": "0x0058c2e0",
-    "?ProcessState_0058c3c0@BGSCameraShot__CAMERA_SHOT_DATA@@QAEXXZ": "0x0058c3c0",
+    "?BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian@CameraShotLegacyData@@QAEXXZ": "0x0058c2e0",
+    "?BGSCameraShot_CAMERA_SHOT_DATA_Endian@BGSCameraShot__CAMERA_SHOT_DATA@@QAEXXZ": "0x0058c3c0",
     "?NiPathInterpolator_GetFollow@Lookup2@@QAE_NXZ": "0x0058cae0",
     "?NiTransformInterpolator_GetRotData@Lookup2@@QAEHPAH0PAE@Z": "0x0058cb00",
     "?EffectSetting_IsFlagSetAny@VatsSub@@QAE_NH@Z": "0x0058cba0",
@@ -151625,7 +151625,7 @@
     "?ExtraDataList_SetScriptLocals@ExtraDataList@@QAEXPAVScriptLocals@@@Z": "0x00419f80",
     "?ExtraDataList_SetActivateLoopSound@ExtraView@@QAEXPAVBSSoundHandle@@@Z": "0x0041a6a0",
     "?ExtraDataList_GetEditorID@CellExtra28@fnv_00551740@@QAEPADXZ": "0x0041c7c0",
-    "?AllocateStorage_0041c930@AAInventory@@QAEXPAUAAEntry@@HH@Z": "0x0041c930",
+    "?ExtraDataList_SetPackageExtra@AAInventory@@QAEXPAUAAEntry@@HH@Z": "0x0041c930",
     "?FUN_0041ca90@AAEntry@@QAEHXZ": "0x0041ca90",
     "?FUN_0041ca90@AAPackage@@QAEHXZ": "0x0041ca90",
     "?FUN_0041ca90@AAPackageData@@QAEHXZ": "0x0041ca90",
@@ -151980,7 +151980,7 @@
     },
     {
      "address": "0x00477430",
-     "symbol": "?TESObjectREFR_ProcessEntries_00477430@@YAHPAVTESObjectREFR@@@Z",
+     "symbol": "?BGSDestructibleObjectForm_CalcDestructionStage@@YAHPAVTESObjectREFR@@@Z",
      "size": 292
     },
     {
@@ -153836,7 +153836,7 @@
     "?BGSTextureSet_GetDecalData@@YIPAXPAD@Z": "0x0056a880",
     "?DecalData_GetDefaultDecalData@@YAPAXXZ": "0x0056a8c0",
     "?FUN_005932b0@FUN_005932b0_decal@@QAEXPAU1@@Z": "0x005932b0",
-    "?ProcessState_00593320@FUN_00593320_shell@@QAEXPAX@Z": "0x00593320",
+    "?DecalData_Save@FUN_00593320_shell@@QAEXPAX@Z": "0x00593320",
     "?FUN_00ec43fb@@YAPAXHHPBX0H@Z": "0x00ec43fb",
     "?GetChunkData@TESFile@@QAE_NPAI@Z": "0x004727f0",
     "?GetChunkData@TESFile@@QAE_NPAXI@Z": "0x00472890",
@@ -160096,7 +160096,7 @@
     "?FUN_00489100@ValueList@s593030@@QAEXH@Z": "0x00489100",
     "?TESTexture_Save@FUN_0048e370_obj@@QAEXI@Z": "0x0048e370",
     "?FUN_00591170@S591140@@QAEXXZ": "0x00591170",
-    "?ProcessState_00593320@FUN_00593320_shell@@QAEXPAX@Z": "0x00593320",
+    "?DecalData_Save@FUN_00593320_shell@@QAEXPAX@Z": "0x00593320",
     "?FillBytes@@YAPAXPAXHI@Z": "0x00403d30",
     "?FindFileEntry@ArchiveManager@@SAPAVBSFileEntry@@W4ARCHIVE_TYPE_INDEX@@AAVFileNameHash@@1PBD@Z": "0x00af6540",
     "?GetChunkData@TESFile@@QAE_NPAXI@Z": "0x00472890",
@@ -162797,7 +162797,7 @@
     },
     {
      "address": "0x005f03a0",
-     "symbol": "?ProcessEntries_005f03a0@FUN_005f03a0_shell@@QAEXXZ",
+     "symbol": "?CreatureSounds_Save@FUN_005f03a0_shell@@QAEXXZ",
      "size": 220
     },
     {
@@ -162932,7 +162932,7 @@
     },
     {
      "address": "0x00593320",
-     "symbol": "?ProcessState_00593320@FUN_00593320_shell@@QAEXPAX@Z",
+     "symbol": "?DecalData_Save@FUN_00593320_shell@@QAEXPAX@Z",
      "size": 71
     },
     {
@@ -166289,7 +166289,7 @@
     },
     {
      "address": "0x0041c930",
-     "symbol": "?AllocateStorage_0041c930@FUN_0041c930_shell@@QAEXPAUPackage_0041c930@@IIEEE@Z",
+     "symbol": "?ExtraDataList_SetPackageExtra@FUN_0041c930_shell@@QAEXPAUPackage_0041c930@@IIEEE@Z",
      "size": 342
     },
     {
@@ -169087,7 +169087,7 @@
     "?ExtraDataList_SetMusicType@List@loader@@QAEXH@Z": "0x0041bd10",
     "?IsLockedState@ExtraTerminalState@@QAE_NXZ": "0x0041bf20",
     "?ExtraDataList_SetReferencePointer@Extras@p376@@QAEXI@Z": "0x0041c7f0",
-    "?AllocateStorage_0041c930@Extras@p376@@QAEXPAVTESPackage@@IIEEE@Z": "0x0041c930",
+    "?ExtraDataList_SetPackageExtra@Extras@p376@@QAEXPAVTESPackage@@IIEEE@Z": "0x0041c930",
     "?FUN_0041ca90@Package_0041c930@@QAEHXZ": "0x0041ca90",
     "?ExtraDataList_GetPackageExtra@FixupList@@QAEPAXXZ": "0x0041cb10",
     "?ExtraDataList_RemovePackageExtra@FUN_0041c930_shell@@QAEXXZ": "0x0041cc60",
@@ -169229,7 +169229,7 @@
     "?FUN_00437730@ResolveMap@fnv_00416be0@@QAEXPAVTESForm@@@Z": "0x00437730",
     "?GetCanBeUsedBy@ExtraPatrolRefInUseData_shell@@QAE_NPAX@Z": "0x00437ab0",
     "?ForwardCall_00438bf0@FUN_00419350@@QAEXXZ": "0x00438bf0",
-    "?ReleaseStorage_00438c10@Form@ExtraSave@@QAEXXZ": "0x00438c10",
+    "?MapMarkerData_Save@Form@ExtraSave@@QAEXXZ": "0x00438c10",
     "?FUN_00438ca0@Marker@loader@@QAEXPAUFile@2@@Z": "0x00438ca0",
     "?FUN_00438ed0@ResolveMap@fnv_00416be0@@QAE_NXZ": "0x00438ed0",
     "?FUN_00438ef0@ResolveMap@fnv_00416be0@@QAE_NXZ": "0x00438ef0",
@@ -169239,7 +169239,7 @@
     "?DoorTeleportData_InitItem@ResolveCheck@fnv_00416be0@@QAE_NPAVTESForm@@@Z": "0x0043a590",
     "?ExtraTeleport_GetSaveSize@TeleQ@fnv_00422c40@@QAEGXZ": "0x0043a8f0",
     "?LoadFields@FUN_0043a160@p376@@QAEXXZ": "0x0043a9a0",
-    "?SaveFields_0043aa40@ListObj@fnv_00426a30@@QAEXPAUBufObj@2@@Z": "0x0043aa40",
+    "?DoorTeleportData_SaveGame@ListObj@fnv_00426a30@@QAEXPAUBufObj@2@@Z": "0x0043aa40",
     "?BSAtomicCompareExchange@@YAHPCJJJ@Z": "0x0043b460",
     "?FUN_0043b4a0@NiNode@@QAEPAVNiAVObject@@I@Z": "0x0043b4a0",
     "?BSstrlen@fnv_00422c40@@YAHPBD@Z": "0x0044a670",
@@ -169412,7 +169412,7 @@
     "?FUN_0083dec0@DtorStandIn@p07@fnv_0042c5b0@@QAEXXZ": "0x00431260",
     "?FUN_0083dec0@DtorStandIn@p07@fnv_0042c7a0@@QAEXXZ": "0x00432040",
     "?MenuTopic_GetSaveSize@TopicQ@fnv_00422c40@@QAEGXZ": "0x0083f280",
-    "?SaveState_0083fb10@ListObj@fnv_00426a30@@QAEXPAUBufObj@2@@Z": "0x0083fb10",
+    "?MenuTopic_SaveGame@ListObj@fnv_00426a30@@QAEXPAUBufObj@2@@Z": "0x0083fb10",
     "?SaveGameWarning@fnv_00426a30@@YAXPAXH@Z": "0x00845cc0",
     "?NiTMapBase_NiTPointerAllocator_unsigned_int_TESObjectREFR_bool_SetAt@VisitedReferences@@QAEXPAUSearchReference@@_N@Z": "0x0084d310",
     "?GetHavokWorldObjectCountInSceneGraph_0084e3a0@Extra@ExtraSave@@QAEIXZ": "0x0084e3a0",
@@ -169852,7 +169852,7 @@
     "__ehhandler$?ExtraDataList_SetImpactSwap@ExtraDataList2@fnv_0041c390@@QAEXPAX@Z": "0x00eeb0fb",
     "__ehhandler$?ExtraDataList_SetCanopyShadowMask@FUN_0041c490_cls@fnv_0041c490@@QAEXHPAVNiRenderedTexture@@PAPAU_D3DLOCKED_RECT@@@Z": "0x00eeb0fb",
     "__ehhandler$?ExtraDataList_SetReferencePointer@FUN_0041c7f0_cls@fnv_0041c7f0@@QAEXPAVTESObjectREFR@@@Z": "0x00eeb0fb",
-    "__ehhandler$?AllocateStorage_0041c930@FUN_0041c930_shell@@QAEXPAUPackage_0041c930@@IIEEE@Z": "0x00eeb0fb",
+    "__ehhandler$?ExtraDataList_SetPackageExtra@FUN_0041c930_shell@@QAEXPAUPackage_0041c930@@IIEEE@Z": "0x00eeb0fb",
     "__ehhandler$?ExtraDataList_SetPersistentCell@FUN_0041d390_shell@@QAEXPAVTESObjectCELL@@@Z": "0x00eeb0fb",
     "__ehhandler$?ExtraDataList_SetRagDollDataFromCopy@FUN_0041d5b0_class@@QAEXPAX@Z": "0x00f00c86",
     "__ehhandler$?ExtraDataList_SetDistantDataNormal@S0041d950@fnv_0041d950@@QAEXPAVNiPoint3@@@Z": "0x00eeb0fb",
@@ -173206,7 +173206,7 @@
     },
     {
      "address": "0x00649be0",
-     "symbol": "?SetExpressionValue_00649be0@BSFaceGenAnimationData@@UAEXHM@Z",
+     "symbol": "?SetAnimExpressionValue@BSFaceGenAnimationData@@UAEXHM@Z",
      "size": 41
     },
     {
@@ -173216,7 +173216,7 @@
     },
     {
      "address": "0x00649c40",
-     "symbol": "?SetPhonemeValue_00649c40@BSFaceGenAnimationData@@UAEXHM@Z",
+     "symbol": "?SetAnimPhonemeValue@BSFaceGenAnimationData@@UAEXHM@Z",
      "size": 41
     },
     {
@@ -182384,7 +182384,7 @@
     },
     {
      "address": "0x004ce300",
-     "symbol": "?TESForm_UpdateFields_004ce300@@YAXPAVTESForm@@I@Z",
+     "symbol": "?TESScriptableForm_SetFormScript@@YAXPAVTESForm@@I@Z",
      "size": 55
     },
     {
@@ -183269,7 +183269,7 @@
     "?FUN_004bcb70@MoveItem@@QAE_NXZ": "0x004bcb70",
     "?FUN_004bcb70@Transfer4c37Entry@@QAE_NXZ": "0x004bcb70",
     "?ItemChange_NumberLeveledExtra@Item@InventoryTransfer@@QAEHXZ": "0x004bcc30",
-    "?ProcessEntries_004bcd10@FUN_004bc550@InventoryCopy@@QAEXXZ": "0x004bcd10",
+    "?ItemChange_RemoveLeveledItemExtra@FUN_004bc550@InventoryCopy@@QAEXXZ": "0x004bcd10",
     "?ItemChange_GetItemHealth@B4BDF00Data@@QAEMH@Z": "0x004bcdb0",
     "?ItemChange_GetItemHealth@HealthItem@@QAEMH@Z": "0x004bcdb0",
     "?ItemChange_GetItemHealth@ItemChangeCalc@@QAEMH@Z": "0x004bcdb0",
@@ -183386,7 +183386,7 @@
     "?InventoryChanges_StartOEIFastInventoryIteration@InventoryChangeFilterHost@fnv_004d4bd0@@QAEPAUInventoryIterator@2@XZ": "0x004ca200",
     "?InventoryChanges_StartOEIFastInventoryIteration@InventoryOwner@fnv_004bf660@@QAEPAUInventoryIterator@2@XZ": "0x004ca200",
     "?InventoryChanges_GetLeveledCalculatedBaseObject@InventoryLeveled_5b4e90@@QAEPAVTESBoundObject@@PAVTESLevItem@@@Z": "0x004cba70",
-    "?TESForm_UpdateFields_004ce300@InventoryCopy@@YAXPAUCopiedForm@1@H@Z": "0x004ce300",
+    "?TESScriptableForm_SetFormScript@InventoryCopy@@YAXPAUCopiedForm@1@H@Z": "0x004ce300",
     "?InventoryChanges_RemoveAllItems@FUN_004ce340_stand@@QAEXHH_N000HH@Z": "0x004ce380",
     "?PlayerCharacter_IsHardcore@@YI_NPAD@Z": "0x004d1360",
     "?PlayerCharacter_IsHardcore@InvHost@@QAE_NXZ": "0x004d1360",
@@ -187530,7 +187530,7 @@
     },
     {
      "address": "0x00599a50",
-     "symbol": "?EvaluateValue_00599a50@LayerInfo@@QAE_NU1@@Z",
+     "symbol": "?MediaSet_MediaLayer_Compare@LayerInfo@@QAE_NU1@@Z",
      "size": 217
     },
     {
@@ -187619,7 +187619,7 @@
     "?Sky_GetSunriseBegin@@YIMPAX@Z": "0x00595ea0",
     "?Sky_GetSunsetEnd@@YIMPAX@Z": "0x00596030",
     "?GetLoop@MediaLocationController@@QAEHXZ": "0x00598000",
-    "?EvaluateValue_00599a50@MediaLayerCompare@@QAE_NUMediaLayerData@@@Z": "0x00599a50",
+    "?MediaSet_MediaLayer_Compare@MediaLayerCompare@@QAE_NUMediaLayerData@@@Z": "0x00599a50",
     "?FUN_007037c0@DungeonController@fnv_00598550@@QAEXI@Z": "0x007037c0",
     "?FUN_008304c0@@YAXXZ": "0x008304c0",
     "?FalloutAudioMedia_MediaPause@fnv_00598550@@YAXXZ": "0x008305e0",
@@ -187688,7 +187688,7 @@
     "__ehhandler$??1MediaSet@@UAE@XZ": "0x00ef8788",
     "__ehhandler$??1MediaSetNameHolder@@UAE@XZ": "0x00ef8ae8",
     "__ehhandler$?MediaSet_Load@MediaSetLoad@@QAE_NPAVTESFile@@@Z": "0x00ef8858",
-    "__ehhandler$?EvaluateValue_00599a50@LayerInfo@@QAE_NU1@@Z": "0x00ef88b8",
+    "__ehhandler$?MediaSet_MediaLayer_Compare@LayerInfo@@QAE_NU1@@Z": "0x00ef88b8",
     "__ehhandler$?PointLocation@MediaSet@@QAE_NI_NPAUMediaLocationController@@@Z": "0x00ef87c8",
     "__ehhandler$?SetValues@StringRecord@@QAEXUTextValue@@MM@Z": "0x00ef8888",
     "__ehhandler$?UpdateBattleMusic@MediaSetBattle@@QAE_NI@Z": "0x00ef8830",
@@ -194143,7 +194143,7 @@
     "?SaveTargetReference@Location679120@@QAEXXZ": "0x0067fa00",
     "?PackageLocation_LoadGame@FUN_0067f030@fnv_00679340@@QAEXXZ": "0x0067faa0",
     "?PackageLocation_SaveGame@FUN_006797c0_sub@@QAEXPAUFUN_006797c0_arg@@@Z": "0x0067fb60",
-    "?EvaluateValue_0067fe10@PackageListComparison@@QAE_NPAU1@@Z": "0x0067fe10",
+    "?PackageSchedule_Compare@PackageListComparison@@QAE_NPAU1@@Z": "0x0067fe10",
     "?OBJ_WEAP_VATS_SPECIAL_Endian@PkgTargetRecord@@QAEXXZ": "0x0067ff10",
     "?FUN_006800b0@TargetResetOps@@QAEXH@Z": "0x006800b0",
     "?PackageTarget_Copy@FUN_006801a0_shell@@QAEXPAVPackageTargetRecord@@@Z": "0x006801a0",
@@ -196141,7 +196141,7 @@
     },
     {
      "address": "0x0067fe10",
-     "symbol": "?EvaluateValue_0067fe10@DurationData@fnv_0067fe10@@QAEDPAU12@@Z",
+     "symbol": "?PackageSchedule_Compare@DurationData@fnv_0067fe10@@QAEDPAU12@@Z",
      "size": 168
     },
     {
@@ -196161,7 +196161,7 @@
     "?Endian@QuestData@@QAEXXZ": "0x0060ce80",
     "?Main_GameReset@DurationData@fnv_0067fe10@@QAEDXZ": "0x00678ce0",
     "?PackageSchedule_Copy@FUN_0067fd40_shell@fnv_0067fd40@@QAEXPAUDurationData@2@@Z": "0x0067fd40",
-    "?EvaluateValue_0067fe10@DurationData@fnv_0067fe10@@QAEDPAU12@@Z": "0x0067fe10",
+    "?PackageSchedule_Compare@DurationData@fnv_0067fe10@@QAEDPAU12@@Z": "0x0067fe10",
     "?FUN_0086a460@DurationData@fnv_0067fe10@@QAEDXZ": "0x0086a460",
     "?GetBoundingRadius@BoundHolder@fnv_0067fe10@@QAEHXZ": "0x00678ca0",
     "?GetDuration@DurationData@fnv_0067fd40@@QAEHXZ": "0x00726070",
@@ -206669,7 +206669,7 @@
     },
     {
      "address": "0x006df9c0",
-     "symbol": "?SaveFields_006df9c0@FUN_006df9c0_shell@@QAEXPAVBGSSaveGameBuffer@@@Z",
+     "symbol": "?PathingLOSGridCell_SaveGame@FUN_006df9c0_shell@@QAEXPAVBGSSaveGameBuffer@@@Z",
      "size": 171
     },
     {
@@ -214030,7 +214030,7 @@
     },
     {
      "address": "0x0063d0e0",
-     "symbol": "?UpdateFields_0063d0e0@Sky@@QAEXPAUTESWeather@@_N@Z",
+     "symbol": "?ForceWeather@Sky@@QAEXPAUTESWeather@@_N@Z",
      "size": 231
     },
     {
@@ -226285,7 +226285,7 @@
     },
     {
      "address": "0x005a2e20",
-     "symbol": "?TESObjectREFR_ProcessAndReturnValue_005a2e20@fnv_005a2e20@@YA_NPAVTESObjectREFR@@PAX1AAN@Z",
+     "symbol": "?Cmd_IsOwner_Eval@fnv_005a2e20@@YA_NPAVTESObjectREFR@@PAX1AAN@Z",
      "size": 169
     },
     {
@@ -226480,7 +226480,7 @@
     },
     {
      "address": "0x005a4160",
-     "symbol": "?TESObjectREFR_ProcessAndReturnValue_005a4160@@YA_NPAVTESObjectREFR@@PAX1AAN@Z",
+     "symbol": "?Cmd_IsTurning_Eval@@YA_NPAVTESObjectREFR@@PAX1AAN@Z",
      "size": 96
     },
     {
@@ -230764,7 +230764,7 @@
     "?BSFile_GetDevice@FNVObject@@QAEPAUFNVCursor@@XZ": "0x005d43c0",
     "?BSFile_GetDevice@RefA@fnv_0046a190@@QAEPAUExtraA@2@XZ": "0x005d43c0",
     "?FUN_005f36f0@WorldA@fnv_0046a190@@QAEPAVTESObjectCELL@@XZ": "0x005f36f0",
-    "?ReleaseStorage_00600030@SubX@@QAEXXZ": "0x00600030",
+    "?TESIdleManager_DestroyRootIdleArrayForms@SubX@@QAEXXZ": "0x00600030",
     "?Object_ProcessEntries_0061f360@@YAXPAVTESTopicInfo@@PAX@Z": "0x0061f360",
     "?FUN_006815c0@ChangeNode@@QAEAAPAUChangeEntry@@XZ": "0x006815c0",
     "?FUN_006815c0@ExtraNode@@QAEAAPAUChangeExtra@@XZ": "0x006815c0",
@@ -235706,7 +235706,7 @@
     },
     {
      "address": "0x00600030",
-     "symbol": "?ReleaseStorage_00600030@IdleAnimationManager@@QAEXXZ",
+     "symbol": "?TESIdleManager_DestroyRootIdleArrayForms@IdleAnimationManager@@QAEXXZ",
      "size": 306
     },
     {
@@ -236844,7 +236844,7 @@
     },
     {
      "address": "0x00535a60",
-     "symbol": "?ProcessState_00535a60@FUN_00535a60_Class@@QAEXXZ",
+     "symbol": "?FILE_TEX_DATA_Endian@FUN_00535a60_Class@@QAEXXZ",
      "size": 60
     },
     {
@@ -237552,7 +237552,7 @@
     "?TESObjectLAND_GetColorA@OwnerInterp@fnv_0053f570@@QAEXHHPAVNiColorA@@@Z": "0x005345c0",
     "?TESObjectLAND_GetColorA@TESObjectLAND@@QAEXHHPAVNiColorA@@@Z": "0x005345c0",
     "?NiGeometryDataIteratorNiColorA_Get@Buffer_5345c0@@QAEXIAAVNiColorA@@@Z": "0x00534780",
-    "?ProcessState_00535a60@FUN_00535a60_Class@@QAEXXZ": "0x00535a60",
+    "?FILE_TEX_DATA_Endian@FUN_00535a60_Class@@QAEXXZ": "0x00535a60",
     "?OBJ_WEAP_CRITICAL_Endian@FUN_00535aa0_Class@@QAEXXZ": "0x00535aa0",
     "?TESLandTexture_GetDefaultTexture@@YAHXZ": "0x00535ae0",
     "?TESObjectLAND_GetQuadLandNode@Land@@QAEPAUScene@@H@Z": "0x00535af0",
@@ -238161,7 +238161,7 @@
     "?TESObjectLAND_GetWorldSpace@LandOwner535d@@QAEPAULandWorld535d@@XZ": "0x005340b0",
     "?TESObjectLAND_GetLandRemapped@LandOwner535d@@QAE_NXZ": "0x00534140",
     "?TESObjectLAND_SetGoodMopp@LandOwner535d@@QAEX_N@Z": "0x005341a0",
-    "?ProcessState_00535a60@LandTextureRecord535d@@QAEXXZ": "0x00535a60",
+    "?FILE_TEX_DATA_Endian@LandTextureRecord535d@@QAEXXZ": "0x00535a60",
     "?OBJ_WEAP_CRITICAL_Endian@LandWeight535d@@QAEXXZ": "0x00535aa0",
     "?TESLandTexture_GetDefaultTexture@@YAHXZ": "0x00535ae0",
     "?TESObjectLAND_ReadMoppCodeFromBuffer@LandOwner535d@@QAEXPAXIPAPAULandReference535d@@@Z": "0x00538c00",
@@ -241467,7 +241467,7 @@
     "?BSFaceGenManager_CompareFaceGenCoord@@YA_NPAX0@Z": "0x00652900",
     "?BSFaceGenManager_CopyFaceGenCoord@@YAXPAX0HH@Z": "0x006529a0",
     "?BSFaceGenManager_OffsetFaceGenCoord@@YAXPAX00H@Z": "0x00652e00",
-    "?Object_ProcessState_00652fc0@@YAXMPAX0@Z": "0x00652fc0",
+    "?BSFaceGenManager_RandomizeFaceGenetic@@YAXMPAX0@Z": "0x00652fc0",
     "?GetElementPointerChecked@H_0060b3b0@@QBEPAMI@Z": "0x006578b0",
     "?std_vector_float_std_allocator_float_Destroy@FloatInsertVector@@QAEXPAM0@Z": "0x0065f2b0",
     "?std_vector_float_std_allocator_float_size@FloatInsertVector@@QBEIXZ": "0x00662820",
@@ -258901,7 +258901,7 @@
     },
     {
      "address": "0x00522560",
-     "symbol": "?ComputeValue_00522560@FUN_00522560_shell@@QAEH_N@Z",
+     "symbol": "?TESObjectWEAP_GetSoundLevel@FUN_00522560_shell@@QAEH_N@Z",
      "size": 39
     },
     {
@@ -259362,8 +259362,8 @@
     "?FUN_005224a0@WeaponCopyAccess@@QAEPAVTESSound@@XZ": "0x005224a0",
     "?FUN_00522500@WeaponCompareAccess@@QAEHXZ": "0x00522500",
     "?FUN_00522500@WeaponCopyAccess@@QAEPAVTESSound@@XZ": "0x00522500",
-    "?ComputeValue_00522560@WeaponCompareAccess@@QAEH_N@Z": "0x00522560",
-    "?ComputeValue_00522560@WeaponCopyAccess@@QAE?AW4SOUND_LEVEL@TESObjectWEAP@@_N@Z": "0x00522560",
+    "?TESObjectWEAP_GetSoundLevel@WeaponCompareAccess@@QAEH_N@Z": "0x00522560",
+    "?TESObjectWEAP_GetSoundLevel@WeaponCopyAccess@@QAE?AW4SOUND_LEVEL@TESObjectWEAP@@_N@Z": "0x00522560",
     "?TESObjectWEAP_GetEmbeddedWeaponNode@Unk005256b0@@QAEPBDXZ": "0x00522c00",
     "?FUN_00524ac0@FireMatrix@@QAEXM@Z": "0x00524ac0",
     "?TESObjectWEAP_GetMinSpread@FireWeapon@@QAEM_N@Z": "0x00524b80",
@@ -260032,7 +260032,7 @@
     },
     {
      "address": "0x0060d720",
-     "symbol": "?ProcessEntries_0060d720@TESQuest@@QAEXXZ",
+     "symbol": "?ResetQuest@TESQuest@@QAEXXZ",
      "size": 419
     },
     {
@@ -262201,7 +262201,7 @@
     },
     {
      "address": "0x00857950",
-     "symbol": "?UpdateState_00857950@C857950@@QAEXPAHH@Z",
+     "symbol": "?TESSaveLoadGame_DeleteSaveGame@C857950@@QAEXPAHH@Z",
      "size": 92
     },
     {
@@ -263402,7 +263402,7 @@
     "?SaveDataDebugInfo_Write@Main@ChangeReport@@QAEXPAUFile@2@PBD@Z": "0x00856300",
     "?BSFile_Flush@FormObj@@QAEXXZ": "0x00857210",
     "?FUN_008572f0@SubObj572@@QAEXXZ": "0x008572f0",
-    "?UpdateState_00857950@SaveOwner@@QAEXPAUSaveFile@@H@Z": "0x00857950",
+    "?TESSaveLoadGame_DeleteSaveGame@SaveOwner@@QAEXPAUSaveFile@@H@Z": "0x00857950",
     "?TESSaveLoadGame_SaveGameDataOLD@ExpiredSaveLoadGame@@QAEXPAXI@Z": "0x008579b0",
     "?TESSaveLoadGame_SaveGameDataOLD@SaveStream85A520@SaveInitialData85A520@@QAEXPAXH@Z": "0x008579b0",
     "?TESSaveLoadGame_SaveGameDataOLD@TESSaveLoadGame@@QAEXPAXH@Z": "0x008579b0",
@@ -268174,7 +268174,7 @@
     },
     {
      "address": "0x005ce040",
-     "symbol": "?ForwardCall_005ce040@FUN_005ce040_class@@QAEX_N@Z",
+     "symbol": "?TESFaction_SetPCExpelled@FUN_005ce040_class@@QAEX_N@Z",
      "size": 28
     },
     {
@@ -272660,7 +272660,7 @@
     "?FUN_0047de70@SetLevelBaseDataView@@QAEXG@Z": "0x0047de70",
     "?FUN_0047dfe0@SetLevelBaseDataView@@QAEXG@Z": "0x0047dfe0",
     "?FUN_0047e240@BarterSub_b10016@@QAEXG@Z": "0x0047e240",
-    "?ForwardCall_0047eb90@FUN_0047eb90_Class@@QAEXI@Z": "0x0047eb90",
+    "?TESFaction_SetPCAnEnemy@FUN_0047eb90_Class@@QAEXI@Z": "0x0047eb90",
     "?TESFaction_SetPCAttack@FUN_0047ebd0_Class@@QAEX_N@Z": "0x0047ebd0",
     "?FUN_004812f0@fnv_005b5e60@@YAPADPADPBD@Z": "0x004812f0",
     "?FUN_004812f0@fnv_005b6b50@@YAPADPBD0@Z": "0x004812f0",
@@ -273330,7 +273330,7 @@
     "?FUN_005cda20_tls_data@@3PAEA": "0x01272000",
     "?PlayerCharacter_GetSleepHours@FUN_005cde20Class@fnv_005cde00@@QAEIXZ": "0x005cde20",
     "?PlayerCharacter_ModAmountSoldStolen@FUN_005cdf20_Class@@QAEXH@Z": "0x005cdf20",
-    "?ForwardCall_005ce040@FUN_005ce040_class@fnv_005cdfb0@@QAEX_N@Z": "0x005ce040",
+    "?TESFaction_SetPCExpelled@FUN_005ce040_class@fnv_005cdfb0@@QAEX_N@Z": "0x005ce040",
     "?FUN_005ce8f0@@YI_NPAVActor@@@Z": "0x005ce8f0",
     "?SetForceSneak@Actor@@QAEX_N@Z": "0x005ce9d0",
     "?HUDMainMenu_SetAutoDisplayObjectives@@YAX_N@Z": "0x005cfcb0",
@@ -273452,7 +273452,7 @@
     "?UpdateState_00622570@CalleeObj@@QAEX_N@Z": "0x00622570",
     "?TESHavokUtilities_AddVelocity@@YAXPAXPAVNiPoint3@@H@Z": "0x0062b8d0",
     "?FUN_00639b40@MessageForm@@QAEIXZ": "0x00639b40",
-    "?UpdateFields_0063d0e0@SkyQ@fnv_005b7590@@QAEXH_N@Z": "0x0063d0e0",
+    "?ForceWeather@SkyQ@fnv_005b7590@@QAEXH_N@Z": "0x0063d0e0",
     "?SetAcceleration@SkyQ@fnv_005b7590@@QAEXE@Z": "0x0063e860",
     "?CombatFormulas_GetKnockbackSpeed@@YAMPAVActorValueOwner@@H@Z": "0x00646580",
     "?BSMAX_00647b70@@YAHHH@Z": "0x00647b70",
@@ -274942,7 +274942,7 @@
     "_Interface_ToggleSafeZone": "0x007038e0",
     "_Interface_PrintLine": "0x00703c00",
     "_Interface_CloseConsole": "0x00703da0",
-    "_Object_UpdateFields_007055c0": "0x007055c0",
+    "_Interface_CloseSleepMenu": "0x007055c0",
     "_Interface_CreateLockPickMenu": "0x00705830",
     "_Interface_CreateRaceSexMenu": "0x00705870",
     "_Interface_DumpMenuPackingInfo": "0x00705a60",
@@ -275950,7 +275950,7 @@
     "?BSEndian@@YAXPAEU?$EndianSizeTag@$0A@@@@Z": "0x00401080",
     "?CallAndReturnSelf@FUN_004037b0@fnv_005e2910@@QAEAAU12@ABU12@@Z": "0x00501c10",
     "?FUN_00501c30@Dummy00501c30@@QAE_NPBD@Z": "0x00501c30",
-    "?ProcessState_005e2870@ScriptVariableEndian@@QAEXXZ": "0x005e2870",
+    "?SCRIPT_LOCAL_Endian@ScriptVariableEndian@@QAEXXZ": "0x005e2870",
     "?Object_ComputeValue_005e28e0@@YIPAVScriptLocalVariable@@PAV1@@Z": "0x005e28e0",
     "?GetChunkData@TESFile@@QAE_NPAXI@Z": "0x00472890",
     "?GetChunkID@TESFile@@QAEIXZ": "0x004726b0",
@@ -310193,7 +310193,7 @@
     },
     {
      "address": "0x00c54660",
-     "symbol": "?ProcessState_00c54660@FUN_00c54660_shell@@QAEXAAVNiStream@@@Z",
+     "symbol": "?FurnitureMark_SaveBinary@FUN_00c54660_shell@@QAEXAAVNiStream@@@Z",
      "size": 82
     },
     {
@@ -310257,7 +310257,7 @@
     "?FUN_00c53fa0@S_FUN_00c53fa0@@QAEXXZ": "0x00c53fa0",
     "?FurnitureMark_SetHeading@FUN_00c545d0_cls@@QAEXM@Z": "0x00c54550",
     "?FurnitureMark_LoadBinary@NiIntegerStreamEntry@@QAEXAAVNiStream@@@Z": "0x00c545d0",
-    "?ProcessState_00c54660@FUN_00c54660_shell@@QAEXAAVNiStream@@@Z": "0x00c54660",
+    "?FurnitureMark_SaveBinary@FUN_00c54660_shell@@QAEXAAVNiStream@@@Z": "0x00c54660",
     "?AllocateStorage_00c54850@FUN_00c54b70_cls@@QAEXI@Z": "0x00c54850",
     "?FUN_00c54a30@FUN_00c54b70_cls@@QAEXIAAVNiIntegerStreamEntry@@@Z": "0x00c54a30",
     "?Object_GetIndexedValue_00c54bc0@@YAPAXI@Z": "0x00c54bc0",
@@ -330362,7 +330362,7 @@
     "?d_00d4b250@@3DA": "0xd4b250",
     "?d_011b50e0@@3DA": "0x11b50e0",
     "?g_01268e54@@3UAgg6@@A": "0x1268e54",
-    "?Runtime_UpdateState_00d4b330@@YAPAXXZ": "0xd4b330",
+    "?getVtable_hkpExtendedMeshShape@@YAPAXXZ": "0xd4b330",
     "?d_010d0510@@3DA": "0x10d0510",
     "?d_00d4b300@@3DA": "0xd4b300",
     "?d_00d4b320@@3DA": "0xd4b320",
@@ -330374,13 +330374,13 @@
     "?d_00d4be50@@3DA": "0xd4be50",
     "?d_011b55e4@@3DA": "0x11b55e4",
     "?g_01268ee4@@3UAgg6@@A": "0x1268ee4",
-    "?Object_GetConstructedVirtualTable_00d4bec0@@YAPAXXZ": "0xd4bec0",
+    "?getVtable_hkpStorageMeshShape@@YAPAXXZ": "0xd4bec0",
     "?d_010d0664@@3DA": "0x10d0664",
     "?d_00d4be90@@3DA": "0xd4be90",
     "?d_00d4beb0@@3DA": "0xd4beb0",
     "?d_011b5618@@3DA": "0x11b5618",
     "?g_01268f5c@@3UAgg6@@A": "0x1268f5c",
-    "?Object_GetConstructedVirtualTable_00d4bf40@@YAPAXXZ": "0xd4bf40",
+    "?getVtable_hkpMeshShape@@YAPAXXZ": "0xd4bf40",
     "?d_010d07b8@@3DA": "0x10d07b8",
     "?d_00d4bf10@@3DA": "0xd4bf10",
     "?d_00d4bf30@@3DA": "0xd4bf30",
@@ -330392,7 +330392,7 @@
     "?d_00d6adf0@@3DA": "0xd6adf0",
     "?d_011b2ec0@@3DA": "0x11b2ec0",
     "?g_01269134@@3UAgg6@@A": "0x1269134",
-    "?Object_ProcessAndReturnValue_00d6aec0@@YAPAXXZ": "0xd6aec0",
+    "?getVtable_hkpWorldCinfo@@YAPAXXZ": "0xd6aec0",
     "?d_010cb20c@@3DA": "0x10cb20c",
     "?d_00d6ae90@@3DA": "0xd6ae90",
     "?d_00d6aeb0@@3DA": "0xd6aeb0",
@@ -330440,7 +330440,7 @@
     "?d_00db7c00@@3DA": "0xdb7c00",
     "?d_011b3360@@3DA": "0x11b3360",
     "?g_01269c74@@3UAgg6@@A": "0x1269c74",
-    "?Runtime_GetVtableFromTemporary_00dced70@@YAPAXXZ": "0xdced70",
+    "?getVtable_hkpBreakableConstraintData@@YAPAXXZ": "0xdced70",
     "?d_010d7940@@3DA": "0x10d7940",
     "?d_00dced50@@3DA": "0xdced50",
     "?d_00dced30@@3DA": "0xdced30",
@@ -330452,19 +330452,19 @@
     "?d_00df6460@@3DA": "0xdf6460",
     "?d_011b0074@@3DA": "0x11b0074",
     "?g_0126aa48@@3UAgg6@@A": "0x126aa48",
-    "?Runtime_GetVtableFromTemporary_00dfb2b0@@YAPAXXZ": "0xdfb2b0",
+    "?getVtable_hkpMoppBvTreeShape@@YAPAXXZ": "0xdfb2b0",
     "?d_010dc340@@3DA": "0x10dc340",
     "?d_00dfb290@@3DA": "0xdfb290",
     "?d_00dfb270@@3DA": "0xdfb270",
     "?d_011b27f0@@3DA": "0x11b27f0",
     "?g_0126ac40@@3UAgg6@@A": "0x126ac40",
-    "?Object_GetConstructedVirtualTable_00dfb400@@YAPAXXZ": "0xdfb400",
+    "?getVtable_hkMemoryResourceHandle@@YAPAXXZ": "0xdfb400",
     "?d_010dc894@@3DA": "0x10dc894",
     "?d_00dfb3d0@@3DA": "0xdfb3d0",
     "?d_00dfb3f0@@3DA": "0xdfb3f0",
     "?d_011b9bd8@@3DA": "0x11b9bd8",
     "?g_0126ac88@@3UAgg6@@A": "0x126ac88",
-    "?Object_GetConstructedVirtualTable_00dfb460@@YAPAXXZ": "0xdfb460",
+    "?getVtable_hkMemoryResourceContainer@@YAPAXXZ": "0xdfb460",
     "?d_010dc8ac@@3DA": "0x10dc8ac",
     "?d_00dfb430@@3DA": "0xdfb430",
     "?d_00dfb450@@3DA": "0xdfb450",
@@ -330488,7 +330488,7 @@
     "?d_00dfb9a0@@3DA": "0xdfb9a0",
     "?d_011b061c@@3DA": "0x11b061c",
     "?g_0126afe8@@3UAgg6@@A": "0x126afe8",
-    "?Object_GetConstructedVirtualTable_00dfba80@@YAPAXXZ": "0xdfba80",
+    "?getVtable_hkaMeshBinding@@YAPAXXZ": "0xdfba80",
     "?d_010de6d8@@3DA": "0x10de6d8",
     "?d_00dfba50@@3DA": "0xdfba50",
     "?d_00dfba70@@3DA": "0xdfba70",
@@ -330578,7 +330578,7 @@
     "?d_00dfc700@@3DA": "0xdfc700",
     "?d_011b59d8@@3DA": "0x11b59d8",
     "?g_0126b930@@3UAgg6@@A": "0x126b930",
-    "?Object_GetConstructedVirtualTable_00dfc7a0@@YAPAXXZ": "0xdfc7a0",
+    "?getVtable_hkpStiffSpringChainData@@YAPAXXZ": "0xdfc7a0",
     "?d_010e10d0@@3DA": "0x10e10d0",
     "?d_00dfc770@@3DA": "0xdfc770",
     "?d_00dfc790@@3DA": "0xdfc790",
@@ -330620,7 +330620,7 @@
     "?d_00dfcad0@@3DA": "0xdfcad0",
     "?d_011b5a60@@3DA": "0x11b5a60",
     "?g_0126bc78@@3UAgg6@@A": "0x126bc78",
-    "?Runtime_GetVtableFromTemporary_00dfcb70@@YAPAXXZ": "0xdfcb70",
+    "?getVtable_hkpPoweredChainData@@YAPAXXZ": "0xdfcb70",
     "?d_010e1958@@3DA": "0x10e1958",
     "?d_00dfcb40@@3DA": "0xdfcb40",
     "?d_00dfcb60@@3DA": "0xdfcb60",
@@ -330650,7 +330650,7 @@
     "?d_00dfcd10@@3DA": "0xdfcd10",
     "?d_011b21c0@@3DA": "0x11b21c0",
     "?g_0126bf30@@3UAgg6@@A": "0x126bf30",
-    "?Runtime_EvaluateValue_00dfce10@@YAPAXXZ": "0xdfce10",
+    "?getVtable_hkpBallSocketChainData@@YAPAXXZ": "0xdfce10",
     "?d_010e1f48@@3DA": "0x10e1f48",
     "?d_00dfcde0@@3DA": "0xdfcde0",
     "?d_00dfce00@@3DA": "0xdfce00",
@@ -330662,7 +330662,7 @@
     "?d_00dfce60@@3DA": "0xdfce60",
     "?d_011b5b54@@3DA": "0x11b5b54",
     "?g_0126c050@@3UAgg6@@A": "0x126c050",
-    "?Object_GetConstructedVirtualTable_00dfcf40@@YAPAXXZ": "0xdfcf40",
+    "?getVtable_hkpSimpleMeshShape@@YAPAXXZ": "0xdfcf40",
     "?d_010e2194@@3DA": "0x10e2194",
     "?d_00dfcf20@@3DA": "0xdfcf20",
     "?d_00dfcf00@@3DA": "0xdfcf00",
@@ -330674,13 +330674,13 @@
     "?d_00dfd0d0@@3DA": "0xdfd0d0",
     "?d_011bb43c@@3DA": "0x11bb43c",
     "?g_0126c140@@3UAgg6@@A": "0x126c140",
-    "?Object_GetConstructedVirtualTable_00dfd200@@YAPAXXZ": "0xdfd200",
+    "?getVtable_hkpListShape@@YAPAXXZ": "0xdfd200",
     "?d_010e2448@@3DA": "0x10e2448",
     "?d_00dfd1e0@@3DA": "0xdfd1e0",
     "?d_00dfd1c0@@3DA": "0xdfd1c0",
     "?d_011b3030@@3DA": "0x11b3030",
     "?g_0126c1b8@@3UAgg6@@A": "0x126c1b8",
-    "?Object_GetConstructedVirtualTable_00dfd280@@YAPAXXZ": "0xdfd280",
+    "?getVtable_hkpConvexVerticesShape@@YAPAXXZ": "0xdfd280",
     "?d_010e25ac@@3DA": "0x10e25ac",
     "?d_00dfd260@@3DA": "0xdfd260",
     "?d_00dfd240@@3DA": "0xdfd240",
@@ -330704,13 +330704,13 @@
     "?d_00dfd7a0@@3DA": "0xdfd7a0",
     "?d_011bba44@@3DA": "0x11bba44",
     "?g_0126c4e8@@3UAgg6@@A": "0x126c4e8",
-    "?Runtime_UpdateState_00dfd9b0@@YAPAXXZ": "0xdfd9b0",
+    "?getVtable_hkxMaterial@@YAPAXXZ": "0xdfd9b0",
     "?d_010e3410@@3DA": "0x10e3410",
     "?d_00dfd990@@3DA": "0xdfd990",
     "?d_00dfd940@@3DA": "0xdfd940",
     "?d_011bbb08@@3DA": "0x11bbb08",
     "?g_0126c560@@3UAgg6@@A": "0x126c560",
-    "?Object_GetConstructedVirtualTable_00dfda80@@YAPAXXZ": "0xdfda80",
+    "?getVtable_hkxEnvironment@@YAPAXXZ": "0xdfda80",
     "?d_010e3488@@3DA": "0x10e3488",
     "?d_00dfda50@@3DA": "0xdfda50",
     "?d_00dfda70@@3DA": "0xdfda70",
@@ -330740,7 +330740,7 @@
     "?d_00dfdf50@@3DA": "0xdfdf50",
     "?d_011bbf78@@3DA": "0x11bbf78",
     "?g_0126cb78@@3UAgg6@@A": "0x126cb78",
-    "?Object_GetConstructedVirtualTable_00dfe280@@YAPAXXZ": "0xdfe280",
+    "?getVtable_hkaRagdollInstance@@YAPAXXZ": "0xdfe280",
     "?d_010e5388@@3DA": "0x10e5388",
     "?d_00dfe250@@3DA": "0xdfe250",
     "?d_00dfe270@@3DA": "0xdfe270",
@@ -330914,7 +330914,7 @@
     "?d_00dff250@@3DA": "0xdff250",
     "?d_011b1f54@@3DA": "0x11b1f54",
     "?g_0126d3a0@@3UAgg6@@A": "0x126d3a0",
-    "?Runtime_GetVtableFromTemporary_00dff310@@YAPAXXZ": "0xdff310",
+    "?getVtable_hkpMountedBallGun@@YAPAXXZ": "0xdff310",
     "?d_010e6c78@@3DA": "0x10e6c78",
     "?d_00dff2e0@@3DA": "0xdff2e0",
     "?d_00dff300@@3DA": "0xdff300",
@@ -330932,7 +330932,7 @@
     "?d_00dff3c0@@3DA": "0xdff3c0",
     "?d_011bccd8@@3DA": "0x11bccd8",
     "?g_0126d478@@3UAgg6@@A": "0x126d478",
-    "?Runtime_GetVtableFromTemporary_00dff4f0@@YAPAXXZ": "0xdff4f0",
+    "?getVtable_hkpGravityGun@@YAPAXXZ": "0xdff4f0",
     "?d_010e71a0@@3DA": "0x10e71a0",
     "?d_00dff4c0@@3DA": "0xdff4c0",
     "?d_00dff4e0@@3DA": "0xdff4e0",
@@ -330962,7 +330962,7 @@
     "?d_00dff5c0@@3DA": "0xdff5c0",
     "?d_011bcf48@@3DA": "0x11bcf48",
     "?g_0126d5b0@@3UAgg6@@A": "0x126d5b0",
-    "?Runtime_GetVtableFromTemporary_00dff8b0@@YAPAXXZ": "0xdff8b0",
+    "?getVtable_hkpDisableEntityCollisionFilter@@YAPAXXZ": "0xdff8b0",
     "?d_010e770c@@3DA": "0x10e770c",
     "?d_00dff890@@3DA": "0xdff890",
     "?d_00dff870@@3DA": "0xdff870",
@@ -330974,13 +330974,13 @@
     "?d_00dff9e0@@3DA": "0xdff9e0",
     "?d_011b5950@@3DA": "0x11b5950",
     "?g_0126d640@@3UAgg6@@A": "0x126d640",
-    "?Runtime_GetVtableFromTemporary_00dffa70@@YAPAXXZ": "0xdffa70",
+    "?getVtable_hkpConstrainedSystemFilter@@YAPAXXZ": "0xdffa70",
     "?d_010e7880@@3DA": "0x10e7880",
     "?d_00dffa50@@3DA": "0xdffa50",
     "?d_00dffa30@@3DA": "0xdffa30",
     "?d_011bcfa8@@3DA": "0x11bcfa8",
     "?g_0126d6b8@@3UAgg6@@A": "0x126d6b8",
-    "?Runtime_GetVtableFromTemporary_00dffbb0@@YAPAXXZ": "0xdffbb0",
+    "?getVtable_hkpBallGun@@YAPAXXZ": "0xdffbb0",
     "?d_010e7af8@@3DA": "0x10e7af8",
     "?d_00dffb80@@3DA": "0xdffb80",
     "?d_00dffba0@@3DA": "0xdffba0",
@@ -331034,7 +331034,7 @@
     "?d_00dfff00@@3DA": "0xdfff00",
     "?d_011b9390@@3DA": "0x11b9390",
     "?g_0126d940@@3UAgg6@@A": "0x126d940",
-    "?Object_ProcessAndReturnValue_00dfffa0@@YAPAXXZ": "0xdfffa0",
+    "?getVtable_hkpMalleableConstraintData@@YAPAXXZ": "0xdfffa0",
     "?d_010e7fc0@@3DA": "0x10e7fc0",
     "?d_00dfff80@@3DA": "0xdfff80",
     "?d_00dfff60@@3DA": "0xdfff60",
@@ -331046,7 +331046,7 @@
     "?d_00dfffc0@@3DA": "0xdfffc0",
     "?d_011bd1a4@@3DA": "0x11bd1a4",
     "?g_0126d9d0@@3UAgg6@@A": "0x126d9d0",
-    "?Object_GetConstructedVirtualTable_00e000e0@@YAPAXXZ": "0xe000e0",
+    "?getVtable_hkpGenericConstraintData@@YAPAXXZ": "0xe000e0",
     "?d_010e8140@@3DA": "0x10e8140",
     "?d_00e000c0@@3DA": "0xe000c0",
     "?d_00e000a0@@3DA": "0xe000a0",
@@ -331088,7 +331088,7 @@
     "?d_00e00330@@3DA": "0xe00330",
     "?d_011bd2a8@@3DA": "0x11bd2a8",
     "?g_0126dbc8@@3UAgg6@@A": "0x126dbc8",
-    "?Runtime_GetVtableFromTemporary_00e003b0@@YAPAXXZ": "0xe003b0",
+    "?getVtable_hkpCachingShapePhantom@@YAPAXXZ": "0xe003b0",
     "?d_010e8434@@3DA": "0x10e8434",
     "?d_00e00390@@3DA": "0xe00390",
     "?d_00e00370@@3DA": "0xe00370",
@@ -331100,7 +331100,7 @@
     "?d_00e00430@@3DA": "0xe00430",
     "?d_011b13cc@@3DA": "0x11b13cc",
     "?g_0126dc58@@3UAgg6@@A": "0x126dc58",
-    "?Runtime_GetVtableFromTemporary_00e004d0@@YAPAXXZ": "0xe004d0",
+    "?getVtable_hkpAabbPhantom@@YAPAXXZ": "0xe004d0",
     "?d_010e84c8@@3DA": "0x10e84c8",
     "?d_00e004b0@@3DA": "0xe004b0",
     "?d_00e00490@@3DA": "0xe00490",
@@ -331118,7 +331118,7 @@
     "?d_00e005b0@@3DA": "0xe005b0",
     "?d_011b3ca0@@3DA": "0x11b3ca0",
     "?g_0126dd30@@3UAgg6@@A": "0x126dd30",
-    "?Runtime_GetVtableFromTemporary_00e006b0@@YAPAXXZ": "0xe006b0",
+    "?getVtable_hkpTriSampledHeightFieldBvTreeShape@@YAPAXXZ": "0xe006b0",
     "?d_010e8678@@3DA": "0x10e8678",
     "?d_00e00690@@3DA": "0xe00690",
     "?d_00e00670@@3DA": "0xe00670",
@@ -331154,7 +331154,7 @@
     "?d_00e009c0@@3DA": "0xe009c0",
     "?d_011b5b88@@3DA": "0x11b5b88",
     "?g_0126dee0@@3UAgg6@@A": "0x126dee0",
-    "?Object_ProcessAndReturnValue_00e00a60@@YAPAXXZ": "0xe00a60",
+    "?getVtable_hkpNullCollisionFilter@@YAPAXXZ": "0xe00a60",
     "?d_010e8940@@3DA": "0x10e8940",
     "?d_00e00a40@@3DA": "0xe00a40",
     "?d_00e00a20@@3DA": "0xe00a20",
@@ -331184,7 +331184,7 @@
     "?d_00e00cf0@@3DA": "0xe00cf0",
     "?d_011b0dc8@@3DA": "0x11b0dc8",
     "?g_0126e048@@3UAgg6@@A": "0x126e048",
-    "?hkpCylinderShape_hkpCylinderShape_00d57b20_EvaluateValue_00e00d70@@YAPAXXZ": "0xe00d70",
+    "?getVtable_hkpCylinderShape@@YAPAXXZ": "0xe00d70",
     "?d_010e8d20@@3DA": "0x10e8d20",
     "?d_00e00d50@@3DA": "0xe00d50",
     "?d_00e00d30@@3DA": "0xe00d30",
@@ -331208,7 +331208,7 @@
     "?d_00e00ee0@@3DA": "0xe00ee0",
     "?d_011b5c60@@3DA": "0x11b5c60",
     "?g_0126e168@@3UAgg6@@A": "0x126e168",
-    "?Runtime_GetVtableFromTemporary_00e00f90@@YAPAXXZ": "0xe00f90",
+    "?getVtable_hkpConvexPieceMeshShape@@YAPAXXZ": "0xe00f90",
     "?d_010e8ec8@@3DA": "0x10e8ec8",
     "?d_00e00f70@@3DA": "0xe00f70",
     "?d_00e00f50@@3DA": "0xe00f50",
@@ -331226,7 +331226,7 @@
     "?d_00e010c0@@3DA": "0xe010c0",
     "?d_011bd4c0@@3DA": "0x11bd4c0",
     "?g_0126e240@@3UAgg6@@A": "0x126e240",
-    "?Runtime_UpdateState_00e01230@@YAPAXXZ": "0xe01230",
+    "?getVtable_hkpCollisionFilterList@@YAPAXXZ": "0xe01230",
     "?d_010e90f4@@3DA": "0x10e90f4",
     "?d_00e01210@@3DA": "0xe01210",
     "?d_00e011f0@@3DA": "0xe011f0",
@@ -331250,7 +331250,7 @@
     "?d_00e013f0@@3DA": "0xe013f0",
     "?d_011b1520@@3DA": "0x11b1520",
     "?g_0126e360@@3UAgg6@@A": "0x126e360",
-    "?Runtime_UpdateState_00e01490@@YAPAXXZ": "0xe01490",
+    "?getVtable_hkMemoryMeshShape@@YAPAXXZ": "0xe01490",
     "?d_010e92bc@@3DA": "0x10e92bc",
     "?d_00e01470@@3DA": "0xe01470",
     "?d_00e01450@@3DA": "0xe01450",
@@ -331292,7 +331292,7 @@
     "?d_00e016c0@@3DA": "0xe016c0",
     "?d_011bd660@@3DA": "0x11bd660",
     "?g_0126e558@@3UAgg6@@A": "0x126e558",
-    "?Runtime_UpdateState_00e01830@@YAPAXXZ": "0xe01830",
+    "?getVtable_hkxTextureFile@@YAPAXXZ": "0xe01830",
     "?d_010e95c0@@3DA": "0x10e95c0",
     "?d_00e017f0@@3DA": "0xe017f0",
     "?d_00e017d0@@3DA": "0xe017d0",
@@ -331328,7 +331328,7 @@
     "?d_00e01c10@@3DA": "0xe01c10",
     "?d_011bd710@@3DA": "0x11bd710",
     "?g_0126e708@@3UAgg6@@A": "0x126e708",
-    "?Runtime_UpdateState_00e01d10@@YAPAXXZ": "0xe01d10",
+    "?getVtable_hkxNodeSelectionSet@@YAPAXXZ": "0xe01d10",
     "?d_010e9a40@@3DA": "0x10e9a40",
     "?d_00e01cf0@@3DA": "0xe01cf0",
     "?d_00e01cd0@@3DA": "0xe01cd0",
@@ -331340,7 +331340,7 @@
     "?d_00e01e00@@3DA": "0xe01e00",
     "?d_011bd74c@@3DA": "0x11bd74c",
     "?g_0126e798@@3UAgg6@@A": "0x126e798",
-    "?Runtime_GetVtableFromTemporary_00e01e50@@YAPAXXZ": "0xe01e50",
+    "?getVtable_hkxMesh@@YAPAXXZ": "0xe01e50",
     "?d_010e9af0@@3DA": "0x10e9af0",
     "?d_00e01e20@@3DA": "0xe01e20",
     "?d_00e01e40@@3DA": "0xe01e40",
@@ -331352,19 +331352,19 @@
     "?d_00e01f30@@3DA": "0xe01f30",
     "?d_011bd78c@@3DA": "0x11bd78c",
     "?g_0126e828@@3UAgg6@@A": "0x126e828",
-    "?Runtime_GetVtableFromTemporary_00e020f0@@YAPAXXZ": "0xe020f0",
+    "?getVtable_hkxMaterialShaderSet@@YAPAXXZ": "0xe020f0",
     "?d_010e9bb8@@3DA": "0x10e9bb8",
     "?d_00e020c0@@3DA": "0xe020c0",
     "?d_00e020e0@@3DA": "0xe020e0",
     "?d_011bd7ac@@3DA": "0x11bd7ac",
     "?g_0126e870@@3UAgg6@@A": "0x126e870",
-    "?Object_ProcessAndReturnValue_00e02180@@YAPAXXZ": "0xe02180",
+    "?getVtable_hkxMaterialShader@@YAPAXXZ": "0xe02180",
     "?d_010e9d08@@3DA": "0x10e9d08",
     "?d_00e02140@@3DA": "0xe02140",
     "?d_00e02120@@3DA": "0xe02120",
     "?d_011bd868@@3DA": "0x11bd868",
     "?g_0126e8b8@@3UAgg6@@A": "0x126e8b8",
-    "?Object_ProcessAndReturnValue_00e022a0@@YAPAXXZ": "0xe022a0",
+    "?getVtable_hkxMaterialEffect@@YAPAXXZ": "0xe022a0",
     "?d_010e9df8@@3DA": "0x10e9df8",
     "?d_00e02280@@3DA": "0xe02280",
     "?d_00e02260@@3DA": "0xe02260",
@@ -331424,7 +331424,7 @@
     "?d_00e026c0@@3DA": "0xe026c0",
     "?d_011bdb34@@3DA": "0x11bdb34",
     "?g_0126eb88@@3UAgg6@@A": "0x126eb88",
-    "?Runtime_GetVtableFromTemporary_00e02730@@YAPAXXZ": "0xe02730",
+    "?getVtable_hkAlignSceneToNodeOptions@@YAPAXXZ": "0xe02730",
     "?d_010ea338@@3DA": "0x10ea338",
     "?d_00e02700@@3DA": "0xe02700",
     "?d_00e02720@@3DA": "0xe02720",
@@ -481392,7 +481392,7 @@
     },
     {
      "address": "0x00d5fba0",
-     "symbol": "?GetUnkA94_00d5fba0@hkFreeListAllocator@@UAEHXZ",
+     "symbol": "?getMemorySoftLimit@hkFreeListAllocator@@UAEHXZ",
      "size": 7
     },
     {
@@ -484665,7 +484665,7 @@
     },
     {
      "address": "0x00cc04c0",
-     "symbol": "?Object_GetGlobalObjectAddress_00cc04c0@@YAPAHXZ",
+     "symbol": "?hkOstream_getClassType@@YAPAHXZ",
      "size": 6
     },
     {
@@ -484690,7 +484690,7 @@
     },
     {
      "address": "0x00cc0770",
-     "symbol": "?hkOstream_EvaluateValue_00cc0770@@YAHXZ",
+     "symbol": "?hkArrayStreamWriter_getClassType@@YAHXZ",
      "size": 6
     },
     {
@@ -484799,7 +484799,7 @@
    "functions": [
     {
      "address": "0x00da71c0",
-     "symbol": "?ProcessMoppCommands_00da71c0@MoppCastMachine@@IAEXPBUVectorPropertyRecord@@PBEQAUTwoPointVectorBundles@@H@Z",
+     "symbol": "?hkpMoppAabbCastVirtualMachine_queryRayOnTree@MoppCastMachine@@IAEXPBUVectorPropertyRecord@@PBEQAUTwoPointVectorBundles@@H@Z",
      "size": 4017
     }
    ],
@@ -484810,7 +484810,7 @@
     "??6hkOstream@@QAEAAV0@PBD@Z": "0x00cc01c0",
     "??_C@_0DJ@LBNOHFGN@?4?2Collide?2Mopp?2Machine?2hkpMoppAa@": "0x010d50c0",
     "??_C@_0JC@PMCIFACP@Unknown?5command?5?9?5This?5mopp?5data@": "0x010d5100",
-    "?ProcessMoppCommands_00da71c0@MoppCastMachine@@IAEXPBUVectorPropertyRecord@@PBEQAUTwoPointVectorBundles@@H@Z": "0x00da71c0",
+    "?hkpMoppAabbCastVirtualMachine_queryRayOnTree@MoppCastMachine@@IAEXPBUVectorPropertyRecord@@PBEQAUTwoPointVectorBundles@@H@Z": "0x00da71c0",
     "?cw@?1??setInterpolate4@hkVector4_X@@QAEXABV2@0ABVhkSimdReal@@@Z@4QBMB": "0x010ec7f0",
     "?s_instance@?$hkSingleton@VhkError@@@@2PAVhkError@@A": "0x01268360",
     "__real@00000000": "0x01011d78",
@@ -485623,7 +485623,7 @@
     },
     {
      "address": "0x00d27560",
-     "symbol": "?Object_GetGlobalObjectAddress_00d27560@@YAPAXXZ",
+     "symbol": "?hkBufferedStreamWriter_getClassType@@YAPAXXZ",
      "size": 6
     },
     {
@@ -485750,7 +485750,7 @@
     },
     {
      "address": "0x00e02ee0",
-     "symbol": "?GetUnk08_00e02ee0@FUN_00e02ee0_cls@@QAEHXZ",
+     "symbol": "?hkOffsetOnlyStreamWriter_tell@FUN_00e02ee0_cls@@QAEHXZ",
      "size": 4
     },
     {
@@ -486958,7 +486958,7 @@
    "functions": [
     {
      "address": "0x00e014c0",
-     "symbol": "?Object_GetGlobalObjectAddress_00e014c0@@YAPAHXZ",
+     "symbol": "?hkMemoryMeshShape_getClassType@@YAPAHXZ",
      "size": 6
     },
     {
@@ -488107,7 +488107,7 @@
    "symbols": {
     "?FUN_00d76ca0@A@@QAEXXZ": "0x00d76ca0",
     "?hkgpConvexHull_BuildConfig_BuildConfig@B@@QAEPAXXZ": "0x00d74d40",
-    "?ProcessEntries_00d774a0@A@@QAEHPAXH0@Z": "0x00d774a0",
+    "?hkgpConvexHull_buildFromPlanes@A@@QAEHPAXH0@Z": "0x00d774a0",
     "?ProcessState_00d76120@A@@QAEXHH@Z": "0x00d76120",
     "?ReleaseStorage_00d76940@A@@QAEXXZ": "0x00d76940",
     "?ProcessArg@@YAHPAUArg@@H@Z": "0x00dd6270"
@@ -488777,7 +488777,7 @@
     "?hkgpConvexHull_clone@S00d79250_World@@QAEPAUS00d79250_Obj@@XZ": "0x00d76cf0",
     "?hkgpConvexHull_clone@S_00d79f90_World@@QAEPAUS_00d79f90_Result@@XZ": "0x00d76cf0",
     "?ForwardCall_00d77bd0@S00d78b90_Node@@QAE_NHH@Z": "0x00d77bd0",
-    "?ProcessEntries_00d78720@S_00d79f90_Result@@QAEXMABUS_00d79f90_Opts@@@Z": "0x00d78720",
+    "?hkgpConvexHull_absoluteScale@S_00d79f90_Result@@QAEXMABUS_00d79f90_Opts@@@Z": "0x00d78720",
     "?hkgpConvexHull_createCompound@@YAXHPAUArgPair@@H@Z": "0x00d78ea0",
     "?hkgpConvexHull_splitByPlane@PlaneSplitter@@QAEHABUhkVec4@@AAPAUSplitObject@@1M@Z": "0x00d790a0",
     "?hkgpConvexHull_splitByPlane@S00d79250_Obj@@QAEHABUhkVec4@@PAPAU1@1M@Z": "0x00d790a0",
@@ -488789,12 +488789,12 @@
     "?hkgpConvexHull_createVoronoiFeatures@@YAXHHAAV?$hkArrayBase@PAUS_00d7a010_Obj@@@@HM@Z": "0x00d79f90",
     "?ProcessEntries_00d7a180@FUN_00d7a180_target@@QAEXXZ": "0x00d7a180",
     "?ProcessEntries_00d7a200@FUN_00d75820_Target@@QAEXHMPAUFUN_00d75820_Tmp8@@H@Z": "0x00d7a200",
-    "?ProcessEntries_00d7a5a0@TargetCallee@@QAEXPAX000M@Z": "0x00d7a5a0",
+    "?hkgpConvexHullImpl_clipLine@TargetCallee@@QAEXPAX000M@Z": "0x00d7a5a0",
     "?hkgpConvexHullImpl_reset@FUN_00d7ac40_class@@QAEXH@Z": "0x00d7ac40",
     "?hkgpConvexHullImpl_reset@FUN_00d7ce20@fnv_00d7ce20@@QAEXH@Z": "0x00d7ac40",
     "?hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_release@D7Head@@QAEXPAX@Z": "0x00d7adb0",
     "?hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Triangle_32_struct_hkContainerHeapAllocator_release@D7Head@@QAEXPAX@Z": "0x00d7aea0",
-    "?ProcessEntries_00d7b330@FUN_00d7b330_cls@@QAEXHHM@Z": "0x00d7b330",
+    "?hkgpConvexHullImpl_isPointInside@FUN_00d7b330_cls@@QAEXHHM@Z": "0x00d7b330",
     "?hkGeometryProcessing_PoolAllocator_struct_hkgpConvexHullImpl_Vertex_32_struct_hkContainerHeapAllocator_allocateNewPool@PoolList@@QAEPAUNodeBank@@XZ": "0x00d7c2a0",
     "?hkgpAbstractMesh_struct_hkgpConvexHullImpl_Edge_struct_hkgpConvexHullImpl_Vertex_struct_hkgpConvexHullImpl_Triangle_struct_hkContainerHeapAllocator_EdgeIterator_next@HullEdgeIterator@@QAEXXZ": "0x00d7c970",
     "?ProcessEntries_00d7caa0@FUN_00d7caa0_class@@QAEXMH@Z": "0x00d7caa0",
@@ -488807,7 +488807,7 @@
     "?AllocateAndProcessEntries_00d7f720@D76Sub@fnv_00d76cf0@@QAEPAXXZ": "0x00d7f720",
     "?hkgpConvexHullImpl_build@FUN_00d81510_Class@@QAEXHHHH@Z": "0x00d81510",
     "?hkgpConvexHullImpl_build@FUN_00d81510_cls@@QAEXHHHH@Z": "0x00d81510",
-    "?AllocateStorage_00d83430@FUN_00d83430_class@@QAEXHHHM@Z": "0x00d83430",
+    "?hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_@FUN_00d83430_class@@QAEXHHHM@Z": "0x00d83430",
     "?hkVector4_FindSupportingVertex@@YAXPAUS76320_Sorter@@HH@Z": "0x00dea810",
     "?hkGeometryProcessing_buildTransposedArray@@YAXPAV?$hkArrayBase@VhkVector4@@@@PAUS76320_Sorter@@@Z": "0x00dedcf0",
     "?ForwardToCallee@FUN_00d74ee0_Class@@QAEXPAX000M@Z": "0x00d74ee0",
@@ -488925,7 +488925,7 @@
    "functions": [
     {
      "address": "0x00d7b330",
-     "symbol": "?ProcessEntries_00d7b330@QuantizedHull@@QAE_NABUQuantVector@@_NM@Z",
+     "symbol": "?hkgpConvexHullImpl_isPointInside@QuantizedHull@@QAE_NABUQuantVector@@_NM@Z",
      "size": 716
     }
    ],
@@ -489075,12 +489075,12 @@
     },
     {
      "address": "0x00d774a0",
-     "symbol": "?ProcessEntries_00d774a0@PlaneHull@enumeration_rework@@QAEHPBVPlaneVector@2@HH@Z",
+     "symbol": "?hkgpConvexHull_buildFromPlanes@PlaneHull@enumeration_rework@@QAEHPBVPlaneVector@2@HH@Z",
      "size": 916
     },
     {
      "address": "0x00d77840",
-     "symbol": "?ProcessEntries_00d77840@S_00d77840@@QAEHPBVhkVector4@@H0H@Z",
+     "symbol": "?hkgpConvexHull_buildFromPlanes@S_00d77840@@QAEHPBVhkVector4@@H0H@Z",
      "size": 885
     },
     {
@@ -489090,7 +489090,7 @@
     },
     {
      "address": "0x00d78720",
-     "symbol": "?ProcessEntries_00d78720@S_00d79f90_Result@@QAEXMABUS_00d79f90_Opts@@@Z",
+     "symbol": "?hkgpConvexHull_absoluteScale@S_00d79f90_Result@@QAEXMABUS_00d79f90_Opts@@@Z",
      "size": 1133
     },
     {
@@ -489125,7 +489125,7 @@
     },
     {
      "address": "0x00d7a5a0",
-     "symbol": "?ProcessEntries_00d7a5a0@ClipHull@@QBE_NABVClipVector@@0AAM1M@Z",
+     "symbol": "?hkgpConvexHullImpl_clipLine@ClipHull@@QBE_NABVClipVector@@0AAM1M@Z",
      "size": 624
     },
     {
@@ -489205,12 +489205,12 @@
     },
     {
      "address": "0x00d82ad0",
-     "symbol": "?ProcessEntries_00d82ad0@S00d82ad0_Hull@@QAE_NH_N@Z",
+     "symbol": "?hkgpConvexHullImpl_decimateVertices@S00d82ad0_Hull@@QAE_NH_N@Z",
      "size": 2389
     },
     {
      "address": "0x00d83430",
-     "symbol": "?AllocateStorage_00d83430@HullImpl@@QBEHABVHullVec@@PAPAUFUN_00d76ca0@@1M@Z",
+     "symbol": "?hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_@HullImpl@@QBEHABVHullVec@@PAPAUFUN_00d76ca0@@1M@Z",
      "size": 2809
     },
     {
@@ -489400,8 +489400,8 @@
     "?hkgpConvexHull_build_00d77200@OffsetOwner@@QAEXABUOffsetView@@PAX@Z": "0x00d77200",
     "?ProcessEntries_00d77380@OffsetOwner@@QAEXABUOffsetView@@ABUValueBlock@@PAX@Z": "0x00d77380",
     "?ProcessEntries_00d77380@S_00d77840@@QAEHPAUD76250VectorArrayLocalForm@@PBVhkVector4@@H@Z": "0x00d77380",
-    "?ProcessEntries_00d774a0@OffsetOwner@@QAEXPAT__m128@@HPAX@Z": "0x00d774a0",
-    "?ProcessEntries_00d77840@OffsetOwner@@QAEXPAT__m128@@HABUValueBlock@@PAX@Z": "0x00d77840",
+    "?hkgpConvexHull_buildFromPlanes@OffsetOwner@@QAEXPAT__m128@@HPAX@Z": "0x00d774a0",
+    "?hkgpConvexHull_buildFromPlanes@OffsetOwner@@QAEXPAT__m128@@HABUValueBlock@@PAX@Z": "0x00d77840",
     "?hkgpConvexHull_splitByPlane@S00d79ab0_Hull@@QBEHABVS00d79ab0_Vector4@@PAPAV1@1M@Z": "0x00d790a0",
     "?ProcessEntries_00d7a0b0@S_00d827b0_Owner@@QAEXPAUS_00d827b0_Xf@@PAVhkVector4@@1@Z": "0x00d7a0b0",
     "?ProcessEntries_00d7a200@HullImpl@@QBEHABVHullVec@@MPAHPAM@Z": "0x00d7a200",
@@ -489438,7 +489438,7 @@
     "?hkgpConvexHullImpl_build@S83_Mesh@@QAEHPBUS83_Vec4@@HHH@Z": "0x00d81510",
     "?hkgpConvexHullImpl_build@S_00d827b0_Owner@@QAEXPAVhkVector4@@HHH@Z": "0x00d81510",
     "?CopyMemory_00d827b0@S00d82ad0_Hull@@QAEXAAUS00d82ad0_VecArr@@@Z": "0x00d827b0",
-    "?ProcessEntries_00d82ad0@S83_Mesh@@QAEXH_N@Z": "0x00d82ad0",
+    "?hkgpConvexHullImpl_decimateVertices@S83_Mesh@@QAEXH_N@Z": "0x00d82ad0",
     "?MultiplyInPlace@S_00d827b0_Xf@@QAEXPBU1@@Z": "0x00de8e50",
     "?hkVector4_FindSupportingVertex@@YAXPAUD76250VectorArrayLocalForm@@PBVhkVector4@@PAV2@@Z": "0x00dea810",
     "?hkGeometryProcessing_buildTransposedArray@@YAXPAUD76250VectorArrayLocalForm@@0@Z": "0x00dedcf0",
@@ -496664,7 +496664,7 @@
     },
     {
      "address": "0x00e2eae0",
-     "symbol": "?UpdateFields_00e2eae0@FUN_00e2eae0_class@fnv_00e2eae0@@QAEXPAH@Z",
+     "symbol": "?hkResourceContainer_getPath@FUN_00e2eae0_class@fnv_00e2eae0@@QAEXPAH@Z",
      "size": 137
     },
     {
@@ -496758,7 +496758,7 @@
     "?hkResourceContainer_findAllResourceRecursively@hkTypeSourceE2F0@fnv_00e2f090@@QBEXAAV?$hkArray@PAVhkNamedTypeE2F0@fnv_00e2f090@@UhkContainerHeapAllocator@@@@@Z": "0x00e2e2e0",
     "?hkResourceContainer_findAllContainersRecursively@hkNodeE2E3@@QAEXAAV?$hkArray@PAVhkNodeE2E3@@UhkContainerHeapAllocator@@@@@Z": "0x00e2e380",
     "?FUN_00e2ea40@FUN_00e2ea40_class@@UAEXXZ": "0x00e2ea40",
-    "?UpdateFields_00e2eae0@FUN_00e2eae0_Result@fnv_00e2eae0@@QAEXPAH@Z": "0x00e2eae0",
+    "?hkResourceContainer_getPath@FUN_00e2eae0_Result@fnv_00e2eae0@@QAEXPAH@Z": "0x00e2eae0",
     "?FUN_00e2eb70@Resource_e2ef@@QAEPAU1@PBD@Z": "0x00e2eb70",
     "?GetValue@FUN_00d479e0_class@@QAEPAXPBXH@Z": "0x00d87800",
     "?GetVariantValue@D481D0RefVariant@@QBEPBXXZ": "0x00d477a0",
@@ -501775,7 +501775,7 @@
     },
     {
      "address": "0x00d3bd80",
-     "symbol": "?UpdateFields_00d3bd80@hkpCapsuleCapsuleAgent@@SAXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z",
+     "symbol": "?staticGetClosestPoints@hkpCapsuleCapsuleAgent@@SAXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z",
      "size": 653
     },
     {
@@ -501793,8 +501793,8 @@
     "?hkpCapsuleCapsuleAgent_staticGetPenetrations@@YAXPBX00PAX@Z": "0x00d3b420",
     "?hkpCapsuleCapsuleAgent_staticGetPenetrations@@YAXXZ": "0x00d3b420",
     "?hkpCapsuleCapsuleAgent_getClosestPoints@@YGXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z": "0x00d3baf0",
-    "?UpdateFields_00d3bd80@@YAXXZ": "0x00d3bd80",
-    "?UpdateFields_00d3bd80@hkpCapsuleCapsuleAgent@@SAXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z": "0x00d3bd80",
+    "?staticGetClosestPoints@@YAXXZ": "0x00d3bd80",
+    "?staticGetClosestPoints@hkpCapsuleCapsuleAgent@@SAXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z": "0x00d3bd80",
     "?Object_ProcessEntries_00daf8e0@@YAXXZ": "0x00daf8e0",
     "?ForwardToHandler@D3B6D0Agent@@UAEXPBX00PAX@Z": "0x00d3b6d0",
     "?InvokeCallbacksAndRelease@FUN_00d3b3d0_Class@@QAEXH@Z": "0x00d3b3d0",
@@ -501976,7 +501976,7 @@
     "?hkCollideCapsuleUtilCapsVsTri@@YAXPAXM0M0MHHH@Z": "0x00cd6520",
     "?AppendRecordAndRegisterAgents@S_00d389f0_Dispatcher@@QAEXAAUS_00d389f0_AgentFuncs@@HH@Z": "0x00cfbbe0",
     "?hkpMultiSphereTriangleAgent_staticGetPenetrations@@YAXXZ": "0x00d38130",
-    "?Object_ProcessEntries_00d386c0@@YAXXZ": "0x00d386c0",
+    "?hkpMultiSphereTriangleAgent_staticGetClosestPoints@@YAXXZ": "0x00d386c0",
     "?Object_UpdateFields_00d38ac0@@YAXXZ": "0x00d38ac0",
     "?hkpMultiSphereTriangleAgent_UpdateState_00d38ed0@@YAXXZ": "0x00d38ed0",
     "?hkpCapsuleTriangleAgent_getClosestPoints@CpuObject@fnv_00d3b1e0@@QAEXPAX0IPAUCpuCallData@2@@Z": "0x00d39ef0",
@@ -502875,7 +502875,7 @@
     "?hkpCollideTriangleUtil_closestPointTriangle@@YAXPAVhkVector4q@@PAXPAMPAURes@@1@Z": "0x00cd7850",
     "?hkpSphereTriangleAgent_getPenetrations@D3DD10Object@@QAEXIIIPAUD3DD10Data@@@Z": "0x00d3d2a0",
     "?hkpSphereTriangleAgent_getClosestPoints@CpuObject@fnv_00d3e0d0@@QAEXPAX0IPAUCpuCallData@2@@Z": "0x00d3d6b0",
-    "?hkpCdBody_ProcessAndReturnValue_00d3d8c0@@YAXHHHPAUFunctor_d3e110@@@Z": "0x00d3d8c0",
+    "?hkpSphereTriangleAgent_staticGetClosestPoints@@YAXHHHPAUFunctor_d3e110@@@Z": "0x00d3d8c0",
     "?hkpSphereTriangleAgent_processCollision@ParticleSystemOps@@QAEXHHHPAUParticleSystemState@@@Z": "0x00d3dd90",
     "?GetMonitorStream@hkThreadMemory@@SAPAV1@XZ": "0x00c85750",
     "?QueryD3DCollector@@YAXHHHH@Z": "0x00d3dd50",
@@ -503411,7 +503411,7 @@
     "?getPenetrations_00d37ed0@Operation@@QAEXIIIPAUCallbackState@@@Z": "0x00d37ed0",
     "?hkpMultiSphereTriangleAgent_staticGetPenetrations@@YAXPAX000@Z": "0x00d38130",
     "?FUN_00d38390@CpuObject@@QAEXPAX0IPAUCpuCallData@@@Z": "0x00d38390",
-    "?Object_ProcessEntries_00d386c0@@YAXHHHPAUFUN_00d38ed0_Local@@@Z": "0x00d386c0",
+    "?hkpMultiSphereTriangleAgent_staticGetClosestPoints@@YAXHHHPAUFUN_00d38ed0_Local@@@Z": "0x00d386c0",
     "?hkpMultiSphereTriangleAgent_processCollision@AgentBase@@QAEXHHHPAUSimplex@@@Z": "0x00d38b00",
     "?hkpMultiSphereTriangleAgent_vtable@@3QBIB": "0x010cee4c",
     "?hkpSymmetricMultiSphereTriangleAgent_vtable@@3QBIB": "0x010cee88",
@@ -510859,7 +510859,7 @@
     },
     {
      "address": "0x00e608d0",
-     "symbol": "?ProcessEntries_00e608d0@FNV_Owner@@QAEXPAVhkVector4@@0@Z",
+     "symbol": "?hkpConvexPieceShape_getSupportingVertexImpl@FNV_Owner@@QAEXPAVhkVector4@@0@Z",
      "size": 225
     }
    ],
@@ -518541,7 +518541,7 @@
     },
     {
      "address": "0x00d1e3d0",
-     "symbol": "?GetDiagonalInverseInertia_00d1e3d0@hkpSphereMotion@@QAEXAAVhkMatrix3@@@Z",
+     "symbol": "?getInertiaInvWorld@hkpSphereMotion@@QAEXAAVhkMatrix3@@@Z",
      "size": 54
     },
     {
@@ -518754,7 +518754,7 @@
    "functions": [
     {
      "address": "0x00cf2460",
-     "symbol": "?Object_ReturnZero_00cf2460@@YAHXZ",
+     "symbol": "?hkpAabbPhantom_getType@@YAHXZ",
      "size": 3
     },
     {
@@ -519234,7 +519234,7 @@
     },
     {
      "address": "0x00d1f220",
-     "symbol": "?Object_ReturnOne_00d1f220@@YAHXZ",
+     "symbol": "?hkpSimpleShapePhantom_getType@@YAHXZ",
      "size": 6
     },
     {
@@ -524656,7 +524656,7 @@
     },
     {
      "address": "0x00d0ad80",
-     "symbol": "?ComputeValue_00d0ad80@FUN_00d0ad80_Class@@QAE_NXZ",
+     "symbol": "?hkpKdTreeWorldManager_isUpToDate@FUN_00d0ad80_Class@@QAE_NXZ",
      "size": 9
     },
     {
@@ -526949,7 +526949,7 @@
     },
     {
      "address": "0x00d9fc60",
-     "symbol": "?Object_GetGlobalObjectAddress_00d9fc60@@YAPAHXZ",
+     "symbol": "?hkpDefaultToiResourceMgr_getClassType@@YAPAHXZ",
      "size": 6
     },
     {
@@ -530122,7 +530122,7 @@
     "?Object_UpdateFields_00d63da0@@YAXXZ": "0x00d63da0",
     "?hkpSimulationIslandViewer_registerViewer@@YAXXZ": "0x00d651c0",
     "?hkpMidphaseViewer_Create_SetDAT01269024@@YAXXZ": "0x00d6a850",
-    "?Object_UpdateFields_00d6ad40@@YAXXZ": "0x00d6ad40",
+    "?hkpBroadphaseViewer_registerViewer@@YAXXZ": "0x00d6ad40",
     "?FindObjectIndex@CD2050World@@QBEHPAX@Z": "0x00cd2050",
     "?FindOrAddPointer@Candidate@@QAEPAXPAX@Z": "0x00cd2470",
     "?ForwardToTarget@FUN_00cd2040_Class@@QAEXH@Z": "0x00cd2040",
@@ -530199,7 +530199,7 @@
     },
     {
      "address": "0x00d6ad40",
-     "symbol": "?Object_UpdateFields_00d6ad40@@YAXXZ",
+     "symbol": "?hkpBroadphaseViewer_registerViewer@@YAXXZ",
      "size": 27
     },
     {
@@ -532606,7 +532606,7 @@
     },
     {
      "address": "0x00d69c10",
-     "symbol": "?ProcessEntries_00d69c10@CenterOfMassRemovalDispatcher@@QAEXPAUContext@@@Z",
+     "symbol": "?hkpRigidBodyCentreOfMassViewer_addWorld@CenterOfMassRemovalDispatcher@@QAEXPAUContext@@@Z",
      "size": 238
     },
     {
@@ -532736,8 +532736,8 @@
     "?hkpWorld_addEntityListener@Context@@QAEXPAUCallback@@@Z": "0x00c93820",
     "?hkpWorld_addWorldPostSimulationListener@Context@@QAEXPAH@Z": "0x00c93920",
     "?FUN_00d69b20_target@FUN_00d69b20_cls@fnv_00d69fa0@@QAEXXZ": "0x00d69b20",
-    "?ProcessEntries_00d69c10@Owner@@QAEXPAX@Z": "0x00d69c10",
-    "?ProcessEntries_00d69c10@Target@@QAEXXZ": "0x00d69c10",
+    "?hkpRigidBodyCentreOfMassViewer_addWorld@Owner@@QAEXPAX@Z": "0x00d69c10",
+    "?hkpRigidBodyCentreOfMassViewer_addWorld@Target@@QAEXXZ": "0x00d69c10",
     "?hkpRigidBodyCentreOfMassViewer_Create@@YAXXZ": "0x00d6a140",
     "?FUN_00d6a1b0@Derived@@UAEXXZ": "0x00d6a1f0",
     "?AdjustThisAndForward_00d6a1c0@AdjOwner@@UAEXXZ": "0x00d6a1f0",
@@ -532768,7 +532768,7 @@
    "functions": [
     {
      "address": "0x00d66f30",
-     "symbol": "?ProcessEntries_00d66f30@FUN_00d66f30_cls@@QAEXPAUFUN_00d66f30_params@@@Z",
+     "symbol": "?hkpRigidBodyInertiaViewer_removeWorld@FUN_00d66f30_cls@@QAEXPAUFUN_00d66f30_params@@@Z",
      "size": 238
     },
     {
@@ -532895,8 +532895,8 @@
     "?hkpWorld_removeEntityListener@FUN_00d66f30_params@@QAEXPAX@Z": "0x00c917a0",
     "?hkpWorld_addEntityListener@Arg@@QAEXPAX@Z": "0x00c93820",
     "?hkpWorld_addWorldPostSimulationListener@Arg@@QAEXPAX@Z": "0x00c93920",
-    "?ProcessEntries_00d66f30@Outer@@QAEXPAX@Z": "0x00d66f30",
-    "?ProcessEntries_00d66f30@Viewer_d672@@QAEXPAUEntity_d672@@@Z": "0x00d66f30",
+    "?hkpRigidBodyInertiaViewer_removeWorld@Outer@@QAEXPAX@Z": "0x00d66f30",
+    "?hkpRigidBodyInertiaViewer_removeWorld@Viewer_d672@@QAEXPAUEntity_d672@@@Z": "0x00d66f30",
     "?Object_ConstructObject_00d67880@@YAXXZ": "0x00d67880",
     "?FUN_00d678f0@D678F0Object@@UAEXXZ": "0x00d67930",
     "?AdjustThisAndForward_00d67900@D67900Object@@UAEXXZ": "0x00d67930",
@@ -537506,7 +537506,7 @@
     },
     {
      "address": "0x00628df0",
-     "symbol": "?ProcessEntries_00628df0@FUN_00628df0_class@@QAEXPAUArg1@@PAUArg2@@PAUArg3@@@Z",
+     "symbol": "?LoadedAreaBound_CheckPhantomsOutsideAABB@FUN_00628df0_class@@QAEXPAUArg1@@PAUArg2@@PAUArg3@@@Z",
      "size": 309
     },
     {
@@ -540109,7 +540109,7 @@
     "?CVec3_Distance@DistancePoint@@QBEMABU1@@Z": "0x00b04d40",
     "?CVec3_Distance@FinalizerGuidePoint@@QBEMABUFrondPoint@@@Z": "0x00b04d40",
     "?CVec3_Distance@FrondPoint@@QBEMABU1@@Z": "0x00b04d40",
-    "?ProcessAndTransformResult_00b06180@Parser@@QAE_NXZ": "0x00b06180",
+    "?CTreeFileAccess_ParseBool@Parser@@QAE_NXZ": "0x00b06180",
     "?ProcessEntries_00b09f90@FUN_0044a4c0@@QAE?AU1@XZ": "0x00b09f90",
     "?BxLengthError_Thunk@@YAXXZ": "0x00b0fb80",
     "?BxLengthError_Thunk@fnv_00b1ecf0@@YAXXZ": "0x00b0fb80",
@@ -540915,7 +540915,7 @@
     "??0S00b3d1b0_Leaf@@QAE@XZ": "0x00b3d720",
     "??0S00b3d1b0_Str@@QAE@ABU0@@Z": "0x0044a500",
     "??4S00b3d1b0_Leaf@@QAEAAU0@ABU0@@Z": "0x00b2e680",
-    "?ProcessAndTransformResult_00b06180@S00b3d1b0_Src@@QAEDXZ": "0x00b06180",
+    "?CTreeFileAccess_ParseBool@S00b3d1b0_Src@@QAEDXZ": "0x00b06180",
     "?ProcessEntries_00b09f90@S00b3d1b0_Name@@QAE?AU1@XZ": "0x00b09f90",
     "?CTreeFileAccess_ParseFloat@S00b3d1b0_Src@@QAEMXZ": "0x00b3ed20",
     "?CTreeFileAccess_ParseString@S00b3d1b0_Src@@QAE?AUS00b3d1b0_Str@@XZ": "0x00b3ee40",
@@ -542414,7 +542414,7 @@
     },
     {
      "address": "0x00b06180",
-     "symbol": "?ProcessAndTransformResult_00b06180@FUN_00b06180_Reader@fnv_00b06180@@QAE_NXZ",
+     "symbol": "?CTreeFileAccess_ParseBool@FUN_00b06180_Reader@fnv_00b06180@@QAE_NXZ",
      "size": 88
     },
     {
@@ -542865,9 +542865,9 @@
     "?SCollisionObjects_TransformAll@M58Q@fnv_00b044a0@@QAEXABUMatQ@2@@Z": "0x00b04db0",
     "?CSpeedTreeRT_DeleteTransientData@SpeedTreeRelease@@QAEXXZ": "0x00b053e0",
     "?CSpeedTreeRT_LoadTree_00b059e0@SpdLoadQ@fnv_00b05420@@QAE_NPBDH@Z": "0x00b059e0",
-    "?ProcessAndTransformResult_00b06180@FUN_00b06090@fnv_00b059e0@@QAE_NXZ": "0x00b06180",
-    "?ProcessAndTransformResult_00b06180@Parser@fnv_00b09960@@QAE_NXZ": "0x00b06180",
-    "?ProcessAndTransformResult_00b06180@Parser@fnv_00b0d810@@QAE_NXZ": "0x00b06180",
+    "?CTreeFileAccess_ParseBool@FUN_00b06090@fnv_00b059e0@@QAE_NXZ": "0x00b06180",
+    "?CTreeFileAccess_ParseBool@Parser@fnv_00b09960@@QAE_NXZ": "0x00b06180",
+    "?CTreeFileAccess_ParseBool@Parser@fnv_00b0d810@@QAE_NXZ": "0x00b06180",
     "?CSpeedTreeRT_SetBranchLightingMethod@Tree59@fnv_00b059e0@@QAEXH@Z": "0x00b06660",
     "?CSpeedTreeRT_SetLeafLightingMethod@Tree59@fnv_00b059e0@@QAEXH@Z": "0x00b06810",
     "?CSpeedTreeRT_SetFrondLightingMethod@Tree59@fnv_00b059e0@@QAEXH@Z": "0x00b069c0",
@@ -543546,7 +543546,7 @@
     "?fopen_0044a730@SptString@@QAEX_NI@Z": "0x0044a730",
     "?FUN_00aa7830@FUN_00b3f100@fnv_00b2c130@@QAEXXZ": "0x00aa7830",
     "?UpdateFields_00ac9da0@SptString@@QBEHABU1@@Z": "0x00ac9da0",
-    "?ProcessAndTransformResult_00b06180@S2bde0_Parser@@QAE_NXZ": "0x00b06180",
+    "?CTreeFileAccess_ParseBool@S2bde0_Parser@@QAE_NXZ": "0x00b06180",
     "?FUN_00b09480@S00b2c790_Error@@QAEXPAUS2bde0_Str@@H@Z": "0x00b09480",
     "?ProcessEntries_00b09f90@S2bde0_Name@@QAE?AUS2bde0_Str@@XZ": "0x00b09f90",
     "?CIdvBranch_BuildBranchVector@Obj58@fnv_00b2c130@@QAEXPAUFUN_00b17db0@2@@Z": "0x00b13820",
@@ -543745,7 +543745,7 @@
     "?FUN_00ec7894@@YGXPAX0@Z": "0x00ec7894",
     "__ehhandler$?SIdvWindInfo_Parse@S00b408b0_Obj@@QAEXPAUS00b408b0_Reader@@@Z": "0x00f2693b",
     "?CTreeFileAccess_ParseFloat@S00b408b0_Reader@@QAEMXZ": "0x00b3ed20",
-    "?ProcessAndTransformResult_00b06180@S00b408b0_Reader@@QAEXXZ": "0x00b06180",
+    "?CTreeFileAccess_ParseBool@S00b408b0_Reader@@QAEXXZ": "0x00b06180",
     "$SG2706": "0x010a5924",
     "??0S00b408b0_Str@@QAE@PBD@Z": "0x0044a4c0",
     "??0S00b408b0_Exc@@QAE@AAUS00b408b0_Str@@H@Z": "0x00b09480",
@@ -544808,7 +544808,7 @@
     },
     {
      "address": "0x00438c10",
-     "symbol": "?ReleaseStorage_00438c10@FUN_00438c10_Class@@QAEXXZ",
+     "symbol": "?MapMarkerData_Save@FUN_00438c10_Class@@QAEXXZ",
      "size": 129
     },
     {
@@ -548186,7 +548186,7 @@
     },
     {
      "address": "0x0047eb90",
-     "symbol": "?ForwardCall_0047eb90@FUN_0047eb90_Class@@QAEXH@Z",
+     "symbol": "?TESFaction_SetPCAnEnemy@FUN_0047eb90_Class@@QAEXH@Z",
      "size": 28
     },
     {
@@ -548428,7 +548428,7 @@
     "?NiPathInterpolator_GetBit@FUN_00573eb0_Class@@QAEHH@Z": "0x0047b4d0",
     "?FUN_0047c850@LoadSaveGame@@QAE_NXZ": "0x0047c850",
     "?FUN_0047e2a0@S47@@QAEXH@Z": "0x0047e2a0",
-    "?ForwardCall_0047eb90@FUN_0047ead0_cls@@QAEXH@Z": "0x0047eb90",
+    "?TESFaction_SetPCAnEnemy@FUN_0047ead0_cls@@QAEXH@Z": "0x0047eb90",
     "?TESFaction_SetPCMurder@FUN_0047ead0_cls@@QAEXH@Z": "0x0047ebb0",
     "?TESFaction_SetPCAttack@FUN_0047ead0_cls@@QAEXH@Z": "0x0047ebd0",
     "?TESForm_GetFormByNumericID@@YAPAULoadForm@@I@Z": "0x004839c0",
@@ -550772,7 +550772,7 @@
     },
     {
      "address": "0x004bcd10",
-     "symbol": "?ProcessEntries_004bcd10@AGOwner@@QAEPAXXZ",
+     "symbol": "?ItemChange_RemoveLeveledItemExtra@AGOwner@@QAEPAXXZ",
      "size": 156
     },
     {
@@ -556498,7 +556498,7 @@
     },
     {
      "address": "0x00577090",
-     "symbol": "?UpdateState_00577090@FUN_00577090_shell@@QAEXXZ",
+     "symbol": "?hkMatrix3_setIdentity@FUN_00577090_shell@@QAEXXZ",
      "size": 77
     },
     {
@@ -556804,7 +556804,7 @@
     "?NiAVObject_GetHasMovingSound@FUN_00570ee0_class@@QAEXXZ": "0x00570ea0",
     "?BGSZoneTargetListener_GetZoneEntry@FUN_00576830_shell@@QAEPAXPAUBSOcclusionPlane@@@Z": "0x00576830",
     "?ZoneEntry_GetZoneEntry_0@FUN_00576870_class@@QAEPAXPAX@Z": "0x00576870",
-    "?UpdateState_00577090@FUN_00577070_class@@QAEXXZ": "0x00577090",
+    "?hkMatrix3_setIdentity@FUN_00577070_class@@QAEXXZ": "0x00577090",
     "?ProcessState_00577110@FUN_00577110_shell@@QAEXXZ": "0x00577110",
     "?FUN_0057c3a0@FUN_0057c370_Class@@QAEXXZ": "0x0057c3a0",
     "?FUN_0057c530@FUN_0057c530Class@@QAEXXZ": "0x0057c530",
@@ -558281,7 +558281,7 @@
     },
     {
      "address": "0x005e2870",
-     "symbol": "?ProcessState_005e2870@T2870@@QAEXXZ",
+     "symbol": "?SCRIPT_LOCAL_Endian@T2870@@QAEXXZ",
      "size": 60
     },
     {
@@ -560481,7 +560481,7 @@
     },
     {
      "address": "0x0062ab60",
-     "symbol": "?hkVector4_ProcessEntries_0062ab60@fnv_0062ab60@@YAXABVhkVector4@@PAX@Z",
+     "symbol": "?TESArrowTargetListener_RemoveArrowTarget@fnv_0062ab60@@YAXABVhkVector4@@PAX@Z",
      "size": 827
     },
     {
@@ -563434,7 +563434,7 @@
     },
     {
      "address": "0x00652fc0",
-     "symbol": "?Object_ProcessState_00652fc0@@YAXMHH@Z",
+     "symbol": "?BSFaceGenManager_RandomizeFaceGenetic@@YAXMHH@Z",
      "size": 49
     },
     {
@@ -571416,7 +571416,7 @@
     "?FUN_006dd6f0@PathingLocation@@QAE_NH@Z": "0x006dd6f0",
     "?FUN_006de250@PathingLocation@@QAE_NXZ": "0x006de250",
     "?PathingLOSGridCell_Setup@FUN_006dfcb0@@QAEXHH@Z": "0x006df200",
-    "?SaveFields_006df9c0@FUN_006df9c0_shell@@QAEXPAUFUN_00865db0_shell@@@Z": "0x006df9c0",
+    "?PathingLOSGridCell_SaveGame@FUN_006df9c0_shell@@QAEXPAUFUN_00865db0_shell@@@Z": "0x006df9c0",
     "?FUN_006e4430@Elem6daf@@QAEXABU1@@Z": "0x006e4430",
     "?FUN_006e4430@RetObj@@QAEXPAX@Z": "0x006e4430",
     "?SetMaxDistance_006e5ee0@PathingRequestClosePoint@@QAEXM@Z": "0x006e5ee0",
@@ -572317,7 +572317,7 @@
     },
     {
      "address": "0x006edd30",
-     "symbol": "?UpdateState_006edd30@FUN_006edd30_shell@@QAEXPBVNiPoint3@@0@Z",
+     "symbol": "?PathSmoother_AddFirstEdge@FUN_006edd30_shell@@QAEXPBVNiPoint3@@0@Z",
      "size": 653
     },
     {
@@ -572402,7 +572402,7 @@
     },
     {
      "address": "0x006f0050",
-     "symbol": "?UpdateState_006f0050@TargetHost@@QAE_NABVNiPoint3@@AAV2@PAUTargetNavInfo@@H0AAVPathingLocation@@3@Z",
+     "symbol": "?PathSmoother_PushPoint@TargetHost@@QAE_NABVNiPoint3@@AAV2@PAUTargetNavInfo@@H0AAVPathingLocation@@3@Z",
      "size": 651
     },
     {
@@ -573982,9 +573982,9 @@
     "?AllocateStorage_006edc40@FUN_006ee740_Class@@QAEPAUNode@@XZ": "0x006edc40",
     "?AllocateStorage_006edc40@HostS@@QAEPAUNodeS@@XZ": "0x006edc40",
     "?AllocateStorage_006edc40@fnv_006ee5d0@@YIPAXPAX@Z": "0x006edc40",
-    "?UpdateState_006edd30@PathSmoother@@QAEXAAVNiPoint3@@0@Z": "0x006edd30",
+    "?PathSmoother_AddFirstEdge@PathSmoother@@QAEXAAVNiPoint3@@0@Z": "0x006edd30",
     "?FUN_006efd50@FNV_006ef920_Record@@QAEXXZ": "0x006efd50",
-    "?UpdateState_006f0050@HostP059@fnv_006ef0c0@@QAE_NABVNiPoint3@@0UInfoP059@2@000@Z": "0x006f0050",
+    "?PathSmoother_PushPoint@HostP059@fnv_006ef0c0@@QAE_NABVNiPoint3@@0UInfoP059@2@000@Z": "0x006f0050",
     "?PathSmoother_IsSegmentValid@AvoidPath@@QAE_NABVNiPoint3@@0@Z": "0x006f1e90",
     "?PathSmoother_PointInShrunkPath@S006F1E90@@QAE_NH@Z": "0x006f1fc0",
     "?FUN_006f2270@?$LocalArray@PAUEdge@@@@QAEAAPAUEdge@@XZ": "0x006f2270",
@@ -574343,7 +574343,7 @@
     "__ehhandler$?CreateSize28@FUN_006edfc0_Host@@QAEPAXXZ": "0x00f032f1",
     "__ehhandler$?BSSimpleArray_VirtualPathingNode_1024_ConstructItems@FUN_006e95d0_Class@@QAEXPAUFUN_006f4cd0@@I@Z": "0x00f061c7",
     "__ehhandler$?AllocateStorage_006edc40@Host_006edc40@@QAEPAXXZ": "0x00f032f1",
-    "__ehhandler$?UpdateState_006f0050@TargetHost@@QAE_NABVNiPoint3@@AAV2@PAUTargetNavInfo@@H0AAVPathingLocation@@3@Z": "0x00f068ab",
+    "__ehhandler$?PathSmoother_PushPoint@TargetHost@@QAE_NABVNiPoint3@@AAV2@PAUTargetNavInfo@@H0AAVPathingLocation@@3@Z": "0x00f068ab",
     "__ehhandler$?ConstructElementsInPlace@FUN_006fa180_StandIn@@QAEXHI@Z": "0x00f05587",
     "__ehhandler$?FlattenPathPoints@HeightPath@@QAEXXZ": "0x00f068e0",
     "__ehhandler$?PushItem@FUN_006ec4b0_cls@@QAEEPAX@Z": "0x00f0667e",
@@ -576985,12 +576985,12 @@
     },
     {
      "address": "0x007ca700",
-     "symbol": "?Object_UpdateFields_007ca700@@YAXPAX@Z",
+     "symbol": "?SPECIALBookMenu_RefreshLeftAVButton@@YAXPAX@Z",
      "size": 156
     },
     {
      "address": "0x007ca7a0",
-     "symbol": "?Object_UpdateFields_007ca7a0@@YAXPAUCsParam@@@Z",
+     "symbol": "?SPECIALBookMenu_RefreshRightAVButton@@YAXPAUCsParam@@@Z",
      "size": 187
     },
     {
@@ -577010,7 +577010,7 @@
     },
     {
      "address": "0x007ca960",
-     "symbol": "?Object_ProcessAndReturnValue_007ca960@@YAXPAX@Z",
+     "symbol": "?SPECIALBookMenu_DecreaseActorValue@@YAXPAX@Z",
      "size": 273
     },
     {
@@ -577444,7 +577444,7 @@
     "___security_cookie": "0x011c16bc",
     "__ehhandler$??0StartMenu@@QAE@XZ": "0x00f0e61a",
     "__ehhandler$?CreateSurgery3DCamera@BookMenu@@QAEPAXXZ": "0x00f0de9a",
-    "__ehhandler$?Object_ProcessAndReturnValue_007ca960@@YAXPAX@Z": "0x00f0c5e0",
+    "__ehhandler$?SPECIALBookMenu_DecreaseActorValue@@YAXPAX@Z": "0x00f0c5e0",
     "__ehhandler$?BSAudio_CloseBookMenuOrPlayInactiveSound@@YAXXZ": "0x00f0e588",
     "__ehhandler$?StartMenu_CreateMenuElements@@YAXXZ": "0x00f0e9b3",
     "__ehhandler$?InitializeItems@?$BSSimpleArray@UStartMenuVideoRes@@$0EAA@@@QAEXPAUStartMenuVideoRes@@I@Z": "0x00f0ece7",
@@ -588625,7 +588625,7 @@
     "?BSSimpleArray_Actor_1024_RemoveFast@ObjectPointerList@@QAEXII@Z": "0x009a4320",
     "?FUN_009a5eb0@CombatPair@@QAEXPAUCombatWriter@@@Z": "0x009a5eb0",
     "?CombatUtilities_CalculateCoverPositions_009a93e0@CombatPosition@@YAXMPAUNode@1@PAUParams@1@PAVNiPoint3@@H@Z": "0x009a93e0",
-    "?UpdateState_009aa150@DebugEntryLabel@@QAEXPADIH@Z": "0x009aa150",
+    "?CombatWorldState_GetDebugText@DebugEntryLabel@@QAEXPADIH@Z": "0x009aa150",
     "?CombatWorldStateArray_0@CombatWorldStateArray@@QAEPAV1@PAV1@@Z": "0x009aa490",
     "?FUN_009db930@Context@@QAEXPAUAction@@@Z": "0x009db930",
     "?DialoguePackage_GetActorStartedConversation@Context@@QAEIXZ": "0x009ee040",
@@ -589334,7 +589334,7 @@
     },
     {
      "address": "0x009aa150",
-     "symbol": "?UpdateState_009aa150@FUN_009aa150_Class@@QAEXPADIH@Z",
+     "symbol": "?CombatWorldState_GetDebugText@FUN_009aa150_Class@@QAEXPADIH@Z",
      "size": 85
     },
     {
@@ -592648,7 +592648,7 @@
     "?FUN_0044ddc0@Route@fnv_009f6900@@QAEIXZ": "0x0044ddc0",
     "?FUN_00470470@BlkListNodeView@@QAEXXZ": "0x00470470",
     "?FUN_00470470@ListMember@@QAEXXZ": "0x00470470",
-    "?ForwardCall_0047eb90@ItemCls@@QAEXH@Z": "0x0047eb90",
+    "?TESFaction_SetPCAnEnemy@ItemCls@@QAEXH@Z": "0x0047eb90",
     "?Unitize_004a0c10@NiPoint3@@QAEXXZ": "0x004a0c10",
     "?Modelloader_GetReferencedThis@FUN_0045cec0@@QAEPAXXZ": "0x00559450",
     "?TESObjectREFR_SetTargeted@GameReference@@QAEX_N@Z": "0x00564db0",
@@ -597729,7 +597729,7 @@
     },
     {
      "address": "0x00a8e810",
-     "symbol": "?AllocateStorage_00a8e810@BmpReader@@QAEPAVNiPixelData@@AAUBmpStream@@PAV2@@Z",
+     "symbol": "?NiBMPReader_ReadFile@BmpReader@@QAEPAVNiPixelData@@AAUBmpStream@@PAV2@@Z",
      "size": 1320
     },
     {
@@ -598855,7 +598855,7 @@
     },
     {
      "address": "0x00aabf30",
-     "symbol": "?UpdateState_00aabf30@SubBF@@QAEXHHHMPAUDestBF@@@Z",
+     "symbol": "?FanGenCtlsGrpC_setAttribute@SubBF@@QAEXHHHMPAUDestBF@@@Z",
      "size": 568
     },
     {
@@ -598865,27 +598865,27 @@
     },
     {
      "address": "0x00aac3f0",
-     "symbol": "?ProcessEntries_00aac3f0@FanControls@fnv_00aac3f0@@QAEMHHHPAY01UFgMat@2@@Z",
+     "symbol": "?FanGenCtlsGrpC_getCaricature@FanControls@fnv_00aac3f0@@QAEMHHHPAY01UFgMat@2@@Z",
      "size": 1065
     },
     {
      "address": "0x00aac820",
-     "symbol": "?ProcessEntries_00aac820@FanControls@fnv_00aac820@@QAEXHHHMPAUFgParams@2@@Z",
+     "symbol": "?FanGenCtlsGrpC_setCaricature@FanControls@fnv_00aac820@@QAEXHHHMPAUFgParams@2@@Z",
      "size": 1413
     },
     {
      "address": "0x00aacdb0",
-     "symbol": "?ProcessEntries_00aacdb0@FanControls@fnv_00aacdb0@@QAEMHHPBUFgCoordinates@2@@Z",
+     "symbol": "?FanGenCtlsGrpC_getRace@FanControls@fnv_00aacdb0@@QAEMHHPBUFgCoordinates@2@@Z",
      "size": 399
     },
     {
      "address": "0x00aacf40",
-     "symbol": "?ProcessEntries_00aacf40@Mixer@@QAEXHHMPAUOut40@@@Z",
+     "symbol": "?FanGenCtlsGrpC_setRace@Mixer@@QAEXHHMPAUOut40@@@Z",
      "size": 509
     },
     {
      "address": "0x00aad140",
-     "symbol": "?ProcessEntries_00aad140@ReworkModel@@QAEXHPAUReworkPair@@@Z",
+     "symbol": "?FanGenCtlsGrpC_random@ReworkModel@@QAEXHPAUReworkPair@@@Z",
      "size": 946
     },
     {
@@ -598900,7 +598900,7 @@
     },
     {
      "address": "0x00aadac0",
-     "symbol": "?UpdateFields_00aadac0@BlendOwner@@QAEXHHMPAY01UBlendValue@@00@Z",
+     "symbol": "?FanGenCtlsGrpC_tween@BlendOwner@@QAEXHHMPAY01UBlendValue@@00@Z",
      "size": 599
     },
     {
@@ -599283,7 +599283,7 @@
     "??$Array_AllocateElements16Checked@UFnvBlock16@fnv_00abd2e0@@@fnv_00abd2e0@@YAPAUFnvBlock16@0@IPAU10@@Z": "0x0064e430",
     "??$Object_UpdateFields_00ac14e0@PAUFnvBlock16@fnv_00abd2e0@@PAU12@@fnv_00abd2e0@@YAPAUFnvBlock16@0@PAU10@00@Z": "0x00ac14e0",
     "??$Runtime_EvaluateValue_00ac1b70@PAUFnvBlock16@fnv_00abd2e0@@PAU12@U?$PrivateAllocator@UFnvBlock16@fnv_00abd2e0@@@2@@fnv_00abd2e0@@YAPAUFnvBlock16@0@PAU10@00AAU?$PrivateAllocator@UFnvBlock16@fnv_00abd2e0@@@0@@Z": "0x00ac1b70",
-    "??$ProcessAndReturnValue_00ac3fe0@V?$basic_string@DU?$char_traits@D@std@fnv_00aafbe0@@V?$allocator@D@23@@std@fnv_00aafbe0@@@FutBinaryFileC@@QAEDABV?$basic_string@DU?$char_traits@D@std@fnv_00aafbe0@@V?$allocator@D@23@@std@fnv_00aafbe0@@@Z": "0x00ac3fe0",
+    "??$isCorrectFileId@V?$basic_string@DU?$char_traits@D@std@fnv_00aafbe0@@V?$allocator@D@23@@std@fnv_00aafbe0@@@FutBinaryFileC@@QAEDABV?$basic_string@DU?$char_traits@D@std@fnv_00aafbe0@@V?$allocator@D@23@@std@fnv_00aafbe0@@@Z": "0x00ac3fe0",
     "??$_Move_backward_optS@PAUEUMB@fnv_00ab2210@@PAU12@Urandom_access_iterator_tagS@2@U_Undefined_move_tagS@2@@fnv_00ab2210@@YAPAUEUMB@0@PAU10@00Urandom_access_iterator_tagS@0@U_Undefined_move_tagS@0@U_Range_checked_iterator_tagS@0@@Z": "0x00ab22e0",
     "??$_Uninit_copyS@PAUElemMOVE@@PAU1@V?$allocatorS@UElemMOVE@@@@@@YAPAUElemMOVE@@PAU0@00AAV?$allocatorS@UElemMOVE@@@@U_Nonscalar_ptr_iterator_tagS@@U_Range_checked_iterator_tagS@@@Z": "0x00aafa80",
     "??$_Uninit_copyS@PAUElemMOVE@fnv_00ab2260@@PAU12@V?$allocatorS@UElemMOVE@fnv_00ab2260@@@2@@fnv_00ab2260@@YAPAUElemMOVE@0@PAU10@00AAV?$allocatorS@UElemMOVE@fnv_00ab2260@@@0@U_Nonscalar_ptr_iterator_tagS@0@U_Range_checked_iterator_tagS@0@@Z": "0x00660070",
@@ -599546,10 +599546,10 @@
     "?BSList_BSSemaphore_AddHead@IOQueue@@QAEXABQAUGlobalObject_0078d3b0@@@Z": "0x00aa8a40",
     "?FanGenCtlsGrpC_getAttribute@SubBF@@QAEMHHHPAUDestBF@@@Z": "0x00aabdb0",
     "?FanGenCtlsGrpC_getAttribute@Sub_00aabdb0@fnv_00aac170@@QAEMHHHH@Z": "0x00aabdb0",
-    "?ProcessEntries_00aac3f0@BlendOwner@@QAEMHHHPAY01UBlendValue@@@Z": "0x00aac3f0",
-    "?ProcessEntries_00aac3f0@FanControls@fnv_00aac820@@QAEMHHHPAUFgParams@2@@Z": "0x00aac3f0",
-    "?ProcessEntries_00aac820@BlendOwner@@QAEXHHHMPAY01UBlendValue@@@Z": "0x00aac820",
-    "?ProcessEntries_00aacdb0@Mixer@@QAEMHHPAUOut40@@@Z": "0x00aacdb0",
+    "?FanGenCtlsGrpC_getCaricature@BlendOwner@@QAEMHHHPAY01UBlendValue@@@Z": "0x00aac3f0",
+    "?FanGenCtlsGrpC_getCaricature@FanControls@fnv_00aac820@@QAEMHHHPAUFgParams@2@@Z": "0x00aac3f0",
+    "?FanGenCtlsGrpC_setCaricature@BlendOwner@@QAEXHHHMPAY01UBlendValue@@@Z": "0x00aac820",
+    "?FanGenCtlsGrpC_getRace@Mixer@@QAEMHHPAUOut40@@@Z": "0x00aacdb0",
     "?Object_ComputeValue_00aadd20@@YAPAUS_00aadd20_Vector@@PAU1@0@Z": "0x00aadd20",
     "?BuildReciprocalScaledValues@FGBasis@@QAE?AUFGScaledMatrix@@M@Z": "0x00aadda0",
     "?ProcessState_00aadde0@AAElem@@QAEXI@Z": "0x00aadde0",
@@ -599667,7 +599667,7 @@
     "?memset_@@YAXPADIABD@Z": "0x00ac3300",
     "?Object_UpdateFields_00ac3580@fnv_00abca90@@YAPAUVec3Item@1@PAU21@00PAI@Z": "0x00ac3580",
     "?Runtime_UpdateState_00ac3690@fnv_00abdb10@@YAPAUInsertPoint@1@PAU21@00AAUPointAllocator@1@@Z": "0x00ac3690",
-    "?ProcessAndReturnValue_00ac3fe0@Obj00aaa730@@QAE_NPBD@Z": "0x00ac3fe0",
+    "?isCorrectFileId@Obj00aaa730@@QAE_NPBD@Z": "0x00ac3fe0",
     "?FutBinaryFileC_writeHeader@Writer@TriWriterRework@@QAE_NPBXII@Z": "0x00ac5220",
     "?FutBinaryFileC_close@S00aaaa80_Body@@QAEXXZ": "0x00ac5430",
     "?BSFaceGenBinaryFile_openForRead@FUN_00ac5490@@QAE_NV?$basic_string@DU?$char_traits@D@ImageReaderTypes@@V?$allocator@D@2@@ImageReaderTypes@@H@Z": "0x00ac5540",
@@ -599794,15 +599794,15 @@
     "__ehhandler$?FUN_00aaab90@DerivedReader@fnv_00aaab90@@QAEPAU12@I@Z": "0x00f1ef68",
     "__ehhandler$?FanGenCtlsGrpC_readFromFile@FGModel@@QAE_NPAUFGReader@@PAUFGSize@@@Z": "0x00f1f06c",
     "__ehhandler$?FanGenCtlsGrpC_getAttribute@FanControlsV7@@QAEMHHHPBUImagePairV7@@@Z": "0x00f1f0a2",
-    "__ehhandler$?UpdateState_00aabf30@SubBF@@QAEXHHHMPAUDestBF@@@Z": "0x00f1f0ed",
+    "__ehhandler$?FanGenCtlsGrpC_setAttribute@SubBF@@QAEXHHHMPAUDestBF@@@Z": "0x00f1f0ed",
     "__ehhandler$?FanGenCtlsGrpC_setAttributes@Sub_00aabdb0@fnv_00aac170@@QAEXHHPBMPAUOutputMatrix@2@@Z": "0x00f1f13b",
-    "__ehhandler$?ProcessEntries_00aac3f0@FanControls@fnv_00aac3f0@@QAEMHHHPAY01UFgMat@2@@Z": "0x00f1f1a5",
-    "__ehhandler$?ProcessEntries_00aac820@FanControls@fnv_00aac820@@QAEXHHHMPAUFgParams@2@@Z": "0x00f1f25b",
-    "__ehhandler$?ProcessEntries_00aacdb0@FanControls@fnv_00aacdb0@@QAEMHHPBUFgCoordinates@2@@Z": "0x00f1f291",
-    "__ehhandler$?ProcessEntries_00aacf40@Mixer@@QAEXHHMPAUOut40@@@Z": "0x00f1f2dc",
-    "__ehhandler$?ProcessEntries_00aad140@ReworkModel@@QAEXHPAUReworkPair@@@Z": "0x00f1f396",
+    "__ehhandler$?FanGenCtlsGrpC_getCaricature@FanControls@fnv_00aac3f0@@QAEMHHHPAY01UFgMat@2@@Z": "0x00f1f1a5",
+    "__ehhandler$?FanGenCtlsGrpC_setCaricature@FanControls@fnv_00aac820@@QAEXHHHMPAUFgParams@2@@Z": "0x00f1f25b",
+    "__ehhandler$?FanGenCtlsGrpC_getRace@FanControls@fnv_00aacdb0@@QAEMHHPBUFgCoordinates@2@@Z": "0x00f1f291",
+    "__ehhandler$?FanGenCtlsGrpC_setRace@Mixer@@QAEXHHMPAUOut40@@@Z": "0x00f1f2dc",
+    "__ehhandler$?FanGenCtlsGrpC_random@ReworkModel@@QAEXHPAUReworkPair@@@Z": "0x00f1f396",
     "__ehhandler$?ProcessEntries_00aad890@FanControls@@QAEXHPAUImagePair@@@Z": "0x00f1f3fc",
-    "__ehhandler$?UpdateFields_00aadac0@BlendOwner@@QAEXHHMPAY01UBlendValue@@00@Z": "0x00f1f462",
+    "__ehhandler$?FanGenCtlsGrpC_tween@BlendOwner@@QAEXHHMPAY01UBlendValue@@00@Z": "0x00f1f462",
     "__ehhandler$?ProcessState_00aadf50@VecQ_aadf50@@QAEXIUFUN_006593e0@@@Z": "0x00f1f4b8",
     "__ehhandler$?InsertFilledElements@EntryVector@@QAEXHPAUEntry@@IABU2@@Z": "0x00f1f509",
     "__ehhandler$?Runtime_CopyMemory_00aaf330@fnv_00aaf330@@YA?AUFGMatQ@1@ABU21@AAU21@@Z": "0x00f1f641",
@@ -601174,7 +601174,7 @@
     },
     {
      "address": "0x00ac3fe0",
-     "symbol": "?ProcessAndReturnValue_00ac3fe0@FutBinaryFileC@@QAE_NABVBxString@@@Z",
+     "symbol": "?isCorrectFileId@FutBinaryFileC@@QAE_NABVBxString@@@Z",
      "size": 964
     },
     {
@@ -601184,12 +601184,12 @@
     },
     {
      "address": "0x00ac4b00",
-     "symbol": "?ProcessAndReturnValue_00ac4b00@GvBinaryFile@bfopenrw@@QAE_NABUBxString@2@@Z",
+     "symbol": "?FutBinaryFileC_openForUpdate@GvBinaryFile@bfopenrw@@QAE_NABUBxString@2@@Z",
      "size": 1012
     },
     {
      "address": "0x00ac4f00",
-     "symbol": "?ProcessAndReturnValue_00ac4f00@GvBinaryFile@fnv_00ac4f00@@QAE_NABUBxString@bfopen@2@@Z",
+     "symbol": "?FutBinaryFileC_openForAppend@GvBinaryFile@fnv_00ac4f00@@QAE_NABUBxString@bfopen@2@@Z",
      "size": 791
     },
     {
@@ -602294,10 +602294,10 @@
     "__ehhandler$?Object_ProcessEntries_00ac3ac0@fnv_00ac3ac0@@YAPAUCopyFromSource@1@PAU21@00@Z": "0x00f202d1",
     "__ehhandler$?Runtime_ProcessEntries_00ac3bd0@fnv_00ac3bd0@@YAPAUFUN_00ac0530@1@PAU21@00@Z": "0x00f20301",
     "__ehhandler$?Object_DestroyElementRange_00ac3ce0@@YAPAUElem38@@PAU1@00AAU?$S00ac3ce0_Alloc@UElem38@@@@@Z": "0x00f20331",
-    "__ehhandler$?ProcessAndReturnValue_00ac3fe0@FutBinaryFileC@@QAE_NABVBxString@@@Z": "0x00f203d2",
+    "__ehhandler$?isCorrectFileId@FutBinaryFileC@@QAE_NABVBxString@@@Z": "0x00f203d2",
     "__ehhandler$?FutBinaryFileC_openForRead@C43B0@fnv_00ac43b0@@QAE_NUStr43B0@2@@Z": "0x00f20448",
-    "__ehhandler$?ProcessAndReturnValue_00ac4b00@GvBinaryFile@bfopenrw@@QAE_NABUBxString@2@@Z": "0x00f204e4",
-    "__ehhandler$?ProcessAndReturnValue_00ac4f00@GvBinaryFile@fnv_00ac4f00@@QAE_NABUBxString@bfopen@2@@Z": "0x00f20532",
+    "__ehhandler$?FutBinaryFileC_openForUpdate@GvBinaryFile@bfopenrw@@QAE_NABUBxString@2@@Z": "0x00f204e4",
+    "__ehhandler$?FutBinaryFileC_openForAppend@GvBinaryFile@fnv_00ac4f00@@QAE_NABUBxString@bfopen@2@@Z": "0x00f20532",
     "__ehhandler$?BSFaceGenBinaryFile_openForRead@S5540_Stream@fnv_00ac5540@@QAE_NUS5540_String@2@_N@Z": "0x00f205db",
     "__ehhandler$?UpdateState_00ac6850@Q@@SAXXZ": "0x00f2065b",
     "__ehhandler$?Runtime_ProcessEntries_00ac71f0@fnv_00ac71f0@@YA?AUBxString@sanac7@1@ABU231@@Z": "0x00f20762",
@@ -606221,7 +606221,7 @@
     },
     {
      "address": "0x00b43d80",
-     "symbol": "?ComputeValue_00b43d80@Gen@fnv_00b43d80@@QAEPBDXZ",
+     "symbol": "?Normal_Name@Gen@fnv_00b43d80@@QAEPBDXZ",
      "size": 16
     },
     {
@@ -606231,7 +606231,7 @@
     },
     {
      "address": "0x00b43da0",
-     "symbol": "?ComputeValue_00b43da0@Gen@fnv_00b43da0@@QAEPBDXZ",
+     "symbol": "?SymGen_Name@Gen@fnv_00b43da0@@QAEPBDXZ",
      "size": 16
     }
    ],
@@ -624681,7 +624681,7 @@
     "?BSPSysArrayEmitter_SetObjectPointers@FUN_00c62140_cls@@QAEXPAUFUN_00c62140_Elem@@@Z": "0x00c62200",
     "?BSPSysArrayEmitter_GetAPoint@FUN_00c62390_class@@QAEXPAX0@Z": "0x00c62390",
     "?FUN_00c63b40@FUN_00c64610_Class@@QAEXXZ": "0x00c63b40",
-    "?NiFixedString_CopyMemory_00c63c30@@YAXHH@Z": "0x00c63c30",
+    "?BSDecalPlacementVectorExtraData_FindDecalPlacementVectorGroupRecurse@@YAXHH@Z": "0x00c63c30",
     "?BSDecalPlacementVectorExtraData_CopyMembers@DecalPlacementEntries@@QAEPAXPAXH@Z": "0x00c640f0",
     "?FUN_00c64e70@FUN_00c64e70_Class@@QAEXXZ": "0x00c64e70",
     "?BSAttachPoints_AddPair@ItemCallee_c64@@QAEXHH@Z": "0x00c65490",
@@ -625471,7 +625471,7 @@
     },
     {
      "address": "0x00c63c30",
-     "symbol": "?NiFixedString_CopyMemory_00c63c30@fnv_00c63c30@@YA_NPAUObjC63@1@0@Z",
+     "symbol": "?BSDecalPlacementVectorExtraData_FindDecalPlacementVectorGroupRecurse@fnv_00c63c30@@YA_NPAUObjC63@1@0@Z",
      "size": 1063
     },
     {
@@ -625748,7 +625748,7 @@
     "__ehhandler$?FUN_00c62800@S00c62800_Obj@@QAEPAXI@Z": "0x00f302f8",
     "__ehhandler$?UpdateState_00c62d10@ArrayC62@@QAE?AUPtrC62@@I@Z": "0x00f30379",
     "__ehhandler$?NiTArray_NiPointer_NiAVObject_NiTMallocInterface_NiPointer_NiAVObject_RemoveAll@S00c62f40_Array@@QAEXXZ": "0x00f039f8",
-    "__ehhandler$?NiFixedString_CopyMemory_00c63c30@fnv_00c63c30@@YA_NPAUObjC63@1@0@Z": "0x00f30478",
+    "__ehhandler$?BSDecalPlacementVectorExtraData_FindDecalPlacementVectorGroupRecurse@fnv_00c63c30@@YA_NPAUObjC63@1@0@Z": "0x00f30478",
     "__ehhandler$?BSDecalPlacementVectorExtraData_CopyMembers@ObjX@@QAEXPAU1@H@Z": "0x00f304cb",
     "__ehhandler$?BSDecalPlacementVectorExtraData_LoadBinary@ObjY@fnv_00c64270@@QAEXAAUNiStream@@@Z": "0x00f304f1",
     "__ehhandler$?BSReference_CreateObject@@YAPAVFactoryObject@@XZ": "0x00f3054f",
@@ -628535,7 +628535,7 @@
     },
     {
      "address": "0x00ca9910",
-     "symbol": "?Runtime_EvaluateValue_00ca9910@@YAHXZ",
+     "symbol": "?bhkMalleableConstraint_GetRTTI@@YAHXZ",
      "size": 6
     },
     {
@@ -629070,7 +629070,7 @@
     },
     {
      "address": "0x00cb9c00",
-     "symbol": "?Object_GetGlobalObjectAddress_00cb9c00@@YAPAUCpuOpaque@@XZ",
+     "symbol": "?bhkRagdollConstraint_GetRTTI@@YAPAUCpuOpaque@@XZ",
      "size": 6
     },
     {
@@ -630999,7 +630999,7 @@
     },
     {
      "address": "0x00cc32e0",
-     "symbol": "?Object_GetGlobalObjectAddress_00cc32e0@@YAPAXXZ",
+     "symbol": "?bhkMotorAction_GetRTTI@@YAPAXXZ",
      "size": 6
     },
     {
@@ -631154,7 +631154,7 @@
     },
     {
      "address": "0x00cc4860",
-     "symbol": "?Object_GetGlobalObjectAddress_00cc4860@@YAPAHXZ",
+     "symbol": "?bhkBreakableConstraint_GetRTTI@@YAPAHXZ",
      "size": 6
     },
     {
@@ -631589,7 +631589,7 @@
     },
     {
      "address": "0x00cc8d60",
-     "symbol": "?Object_ComputeValue_00cc8d60@@YAHXZ",
+     "symbol": "?bhkBallSocketConstraintChain_QCinfoSize@@YAHXZ",
      "size": 6
     },
     {
@@ -632029,7 +632029,7 @@
     },
     {
      "address": "0x00ccd0f0",
-     "symbol": "?Runtime_GetTarget00ccd0f0Address@@YAPAXXZ",
+     "symbol": "?bhkCylinderShape_GetRTTI@@YAPAXXZ",
      "size": 6
     },
     {
@@ -635171,7 +635171,7 @@
     },
     {
      "address": "0x00cf6980",
-     "symbol": "?Object_ForwardCall_00cf6980@@YAXPAUFUN_00cf6980_class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkReferencedObject@@YAXPAUFUN_00cf6980_class@@@Z",
      "size": 13
     },
     {
@@ -635181,7 +635181,7 @@
     },
     {
      "address": "0x00cf69a0",
-     "symbol": "?Object_UpdateFields_00cf69a0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkReferencedObject@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -636035,7 +636035,7 @@
     },
     {
      "address": "0x00d1f150",
-     "symbol": "?Runtime_DestroySubobject_00d1f150@@YAXPAVD1F150Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpEntity@@YAXPAVD1F150Object@@@Z",
      "size": 13
     },
     {
@@ -636050,7 +636050,7 @@
     },
     {
      "address": "0x00d1f180",
-     "symbol": "?Object_ProcessState_00d1f180@@YAXPAUFUN_00c9ce00_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpEntity@@YAXPAUFUN_00c9ce00_cls@@H@Z",
      "size": 19
     },
     {
@@ -636360,7 +636360,7 @@
     },
     {
      "address": "0x00d2c7d0",
-     "symbol": "?Runtime_ForwardCall_00d2c7d0@@YAXPAUFnvCpu_FUN_00d2c7d0_CpuInterface@@@Z",
+     "symbol": "?cleanupLoadedObject_hkLiquidAction@@YAXPAUFnvCpu_FUN_00d2c7d0_CpuInterface@@@Z",
      "size": 13
     },
     {
@@ -636848,7 +636848,7 @@
     "?hkpBvTreeStreamAgent_createBvTreeShapeAgent@@YAXXZ": "0x00d2e680",
     "?hkpSymmetricAgentFlipBodyCollector_UpdateState_00d2e970@@YAXXZ": "0x00d2e970",
     "?hkpSymmetricAgentFlipCollector_UpdateState_00d2e9b0@@YAXXZ": "0x00d2e9b0",
-    "?hkTransform_setMulInverseMul_ComputeValues_00d2f0d0@@YAXXZ": "0x00d2f0d0",
+    "?hkpMoppAgent_staticLinearCast@@YAXXZ": "0x00d2f0d0",
     "?hkpBvTreeAgent_updateShapeCollectionFilter@CallTarget_00d2f760@@QAEHHHHH@Z": "0x00d2f760",
     "?hkpBvTreeAgent_createShapeBvAgent@@YAXXZ": "0x00d2f9d0",
     "?hkpBvTreeAgent_createBvTreeShapeAgent@@YAXXZ": "0x00d2fa00",
@@ -636877,7 +636877,7 @@
     "?hkpMultiRayConvexAgent_getClosestPoints@D37B90Agent@@QAEXPAX00PAVD37B90Collector@@@Z": "0x00d37010",
     "?Object_UpdateFields_00d3ac80@@YAXXZ": "0x00d3ac80",
     "?hkpSphereTriangleAgent_staticGetPenetrations@@YAXXZ": "0x00d3d3e0",
-    "?hkpCdBody_ProcessAndReturnValue_00d3d8c0@@YAXXZ": "0x00d3d8c0",
+    "?hkpSphereTriangleAgent_staticGetClosestPoints@@YAXXZ": "0x00d3d8c0",
     "?Hkpspheretriangleagent_UpdateState_00d3e110@@YAXXZ": "0x00d3e110",
     "?hkpSphereCapsuleAgent_getClosestPoints@FnvCpu_FUN_00d3f480_CpuObject@@QAEXPAX0IPAUFnvCpu_FUN_00d3f480_CpuCallData@@@Z": "0x00d3e850",
     "?FUN_00d3ebe0@@YAPAXPAX00PAUS_00d3f4c0_Obj@@@Z": "0x00d3ebe0",
@@ -637016,7 +637016,7 @@
     },
     {
      "address": "0x00d386c0",
-     "symbol": "?Object_ProcessEntries_00d386c0@@YAXABUS00d386c0_CdBody@@0ABUS00d386c0_CollisionInput@@AAUS00d386c0_CdPointCollector@@@Z",
+     "symbol": "?hkpMultiSphereTriangleAgent_staticGetClosestPoints@@YAXABUS00d386c0_CdBody@@0ABUS00d386c0_CollisionInput@@AAUS00d386c0_CdPointCollector@@@Z",
      "size": 802
     },
     {
@@ -637229,12 +637229,12 @@
     },
     {
      "address": "0x00d3d8c0",
-     "symbol": "?hkpCdBody_ProcessAndReturnValue_00d3d8c0@@YAXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z",
+     "symbol": "?hkpSphereTriangleAgent_staticGetClosestPoints@@YAXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z",
      "size": 796
     }
    ],
    "symbols": {
-    "?hkpCdBody_ProcessAndReturnValue_00d3d8c0@@YAXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z": "0x00d3d8c0",
+    "?hkpSphereTriangleAgent_staticGetClosestPoints@@YAXABVhkpCdBody@@0ABUCollisionAgentContext@@AAVhkpCdPointCollector@@@Z": "0x00d3d8c0",
     "??_7hkBaseObject@@6B@": "0x0102e388",
     "??_C@_02DNLMNFDE@Et?$AA@": "0x010c41f8",
     "??_C@_0M@DNLBPPJC@TtSphereTri?$AA@": "0x010cf0d4",
@@ -637282,7 +637282,7 @@
    "functions": [
     {
      "address": "0x00d2f0d0",
-     "symbol": "?hkTransform_setMulInverseMul_ComputeValues_00d2f0d0@@YAXPAUMoppCastBody@@0PAUMoppCastInput@@HH@Z",
+     "symbol": "?hkpMoppAgent_staticLinearCast@@YAXPAUMoppCastBody@@0PAUMoppCastInput@@HH@Z",
      "size": 332
     }
    ],
@@ -637294,7 +637294,7 @@
     "?DAT_0126835c@@3KA": "0x0126835c",
     "?hkVector4_setRotatedInverseDir@hkVector4@@QAEXABVhkRotation@@ABV1@@Z": "0x004b4ab0",
     "?hkTransform_setMulInverseMul@MoppCastMatrix@@QAEXPBU1@0@Z": "0x00cb22f0",
-    "?ProcessAndReturnValue_00da8180@MoppCastCollector@@QAEXPAUMoppCastQuery@@HH@Z": "0x00da8180",
+    "?hkpMoppAabbCastVirtualMachine_aabbCast@MoppCastCollector@@QAEXPAUMoppCastQuery@@HH@Z": "0x00da8180",
     "__imp__TlsGetValue@4": "0x00fdf044"
    }
   },
@@ -637481,7 +637481,7 @@
     },
     {
      "address": "0x00d48330",
-     "symbol": "?Runtime_ForwardCall_00d48330@@YAXPAUFUN_00d48330_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpPhysicsData@@YAXPAUFUN_00d48330_vt@@@Z",
      "size": 13
     },
     {
@@ -637491,7 +637491,7 @@
     },
     {
      "address": "0x00d48350",
-     "symbol": "?Runtime_UpdateState_00d48350@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpPhysicsData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -637526,7 +637526,7 @@
     },
     {
      "address": "0x00d49510",
-     "symbol": "?Runtime_ForwardCall_00d49510@@YAXPAUFUN_00d49580_vtbl@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpRigidBody@@YAXPAUFUN_00d49580_vtbl@@@Z",
      "size": 13
     },
     {
@@ -637541,7 +637541,7 @@
     },
     {
      "address": "0x00d49580",
-     "symbol": "?Object_InvokeVirtualMethod_00d49580@@YAXPAUFUN_00d49580_vtbl@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpStorageSampledHeightFieldShape@@YAXPAUFUN_00d49580_vtbl@@@Z",
      "size": 13
     },
     {
@@ -637551,7 +637551,7 @@
     },
     {
      "address": "0x00d495a0",
-     "symbol": "?Object_UpdateFields_00d495a0@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkpStorageSampledHeightFieldShape@@YAXPAHH@Z",
      "size": 65
     },
     {
@@ -637596,7 +637596,7 @@
     },
     {
      "address": "0x00d4b190",
-     "symbol": "?Runtime_Helper_00d4b190@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpStorageExtendedMeshShapeMeshSubpartStorage@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -637611,7 +637611,7 @@
     },
     {
      "address": "0x00d4b1f0",
-     "symbol": "?Runtime_ForwardCall_00d4b1f0@@YAXPAUFUN_00d4b1f0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpStorageExtendedMeshShapeShapeSubpartStorage@@YAXPAUFUN_00d4b1f0_vt@@@Z",
      "size": 13
     },
     {
@@ -637621,12 +637621,12 @@
     },
     {
      "address": "0x00d4b230",
-     "symbol": "?Runtime_ProcessState_00d4b230@@YAXPAUFUN_00d4a180_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpStorageExtendedMeshShape@@YAXPAUFUN_00d4a180_cls@@H@Z",
      "size": 19
     },
     {
      "address": "0x00d4b250",
-     "symbol": "?Runtime_ForwardCall_00d4b250@@YAXPAUFUN_00d4b250_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpStorageExtendedMeshShape@@YAXPAUFUN_00d4b250_vt@@@Z",
      "size": 13
     },
     {
@@ -637666,12 +637666,12 @@
     },
     {
      "address": "0x00d4b300",
-     "symbol": "?Object_ProcessState_00d4b300@@YAXPAVFUN_00d4b300_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpExtendedMeshShape@@YAXPAVFUN_00d4b300_cls@@H@Z",
      "size": 19
     },
     {
      "address": "0x00d4b320",
-     "symbol": "?Object_InvokeVirtualMethod_00d4b320@@YAXPAUFUN_00d4b320_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpExtendedMeshShape@@YAXPAUFUN_00d4b320_vt@@@Z",
      "size": 13
     },
     {
@@ -637716,7 +637716,7 @@
     },
     {
      "address": "0x00d4be50",
-     "symbol": "?Runtime_ForwardCall_00d4be50@@YAXPAUFUN_00d4be50_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpStorageMeshShapeSubpartStorage@@YAXPAUFUN_00d4be50_vt@@@Z",
      "size": 13
     },
     {
@@ -637726,12 +637726,12 @@
     },
     {
      "address": "0x00d4be90",
-     "symbol": "?Object_ProcessState_00d4be90@@YAXPAUFUN_00d4ba30_class@@H@Z",
+     "symbol": "?finishLoadedObject_hkpStorageMeshShape@@YAXPAUFUN_00d4ba30_class@@H@Z",
      "size": 19
     },
     {
      "address": "0x00d4beb0",
-     "symbol": "?Runtime_ForwardCall_00d4beb0@@YAXPAUFUN_00d49580_vtbl@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpStorageMeshShape@@YAXPAUFUN_00d49580_vtbl@@@Z",
      "size": 13
     },
     {
@@ -637751,12 +637751,12 @@
     },
     {
      "address": "0x00d4bf10",
-     "symbol": "?Runtime_AllocateStorage_00d4bf10@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpMeshShape@@YAXPAXH@Z",
      "size": 19
     },
     {
      "address": "0x00d4bf30",
-     "symbol": "?Runtime_ForwardCall_00d4bf30@@YAXPAUFUN_00d4bf30_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpMeshShape@@YAXPAUFUN_00d4bf30_vt@@@Z",
      "size": 13
     },
     {
@@ -638597,7 +638597,7 @@
     },
     {
      "address": "0x00d4b330",
-     "symbol": "?Runtime_UpdateState_00d4b330@@YAHXZ",
+     "symbol": "?getVtable_hkpExtendedMeshShape@@YAHXZ",
      "size": 31
     },
     {
@@ -638607,12 +638607,12 @@
     },
     {
      "address": "0x00d4bec0",
-     "symbol": "?Object_GetConstructedVirtualTable_00d4bec0@fnv_00d4bec0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpStorageMeshShape@fnv_00d4bec0@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00d4bf40",
-     "symbol": "?Object_GetConstructedVirtualTable_00d4bf40@fnv_00d4bf40@@YAPBXXZ",
+     "symbol": "?getVtable_hkpMeshShape@fnv_00d4bf40@@YAPBXXZ",
      "size": 28
     },
     {
@@ -639129,7 +639129,7 @@
     },
     {
      "address": "0x00d6adf0",
-     "symbol": "?Runtime_ForwardCall_00d6adf0@@YAXPAUS_00d6adf0_Obj@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConstraintInstance@@YAXPAUS_00d6adf0_Obj@@@Z",
      "size": 13
     },
     {
@@ -639144,12 +639144,12 @@
     },
     {
      "address": "0x00d6ae90",
-     "symbol": "?Runtime_ProcessState_00d6ae90@@YAXPAUFUN_00c90e00_Obj@@H@Z",
+     "symbol": "?finishLoadedObject_hkpWorldCinfo@@YAXPAUFUN_00c90e00_Obj@@H@Z",
      "size": 19
     },
     {
      "address": "0x00d6aeb0",
-     "symbol": "?Runtime_ForwardCall_00d6aeb0@@YAHPAUVtblForwarder@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpWorldCinfo@@YAHPAUVtblForwarder@@@Z",
      "size": 13
     },
     {
@@ -639625,7 +639625,7 @@
     },
     {
      "address": "0x00d6aec0",
-     "symbol": "?Object_ProcessAndReturnValue_00d6aec0@@YAHXZ",
+     "symbol": "?getVtable_hkpWorldCinfo@@YAHXZ",
      "size": 31
     },
     {
@@ -640262,7 +640262,7 @@
     },
     {
      "address": "0x00d9f6b0",
-     "symbol": "?Runtime_ForwardCall_00d9f6b0@@YAXPAUFnvCpu_FUN_00d9f6b0_CpuInterface@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpSimulation@@YAXPAUFnvCpu_FUN_00d9f6b0_CpuInterface@@@Z",
      "size": 13
     },
     {
@@ -640272,7 +640272,7 @@
     },
     {
      "address": "0x00d9f6d0",
-     "symbol": "?Runtime_UpdateState_00d9f6d0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpSimulation@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -640644,7 +640644,7 @@
    "functions": [
     {
      "address": "0x00d86ec0",
-     "symbol": "@Object_ProcessAndReturnValue_00d86ec0@16",
+     "symbol": "@hkClassMember_getTypeName@16",
      "size": 610
     }
    ],
@@ -640831,7 +640831,7 @@
     },
     {
      "address": "0x00da0720",
-     "symbol": "?Object_InvokeVirtualMethod_00da0720@@YAXPAUFUN_00da0720_Class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkLocalFrameGroup@@YAXPAUFUN_00da0720_Class@@@Z",
      "size": 13
     },
     {
@@ -640841,7 +640841,7 @@
     },
     {
      "address": "0x00da0740",
-     "symbol": "?Object_InvokeVirtualMethod_00da0740@@YAXPAUFUN_00da0740_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkSimpleLocalFrame@@YAXPAUFUN_00da0740_vt@@@Z",
      "size": 13
     },
     {
@@ -640851,7 +640851,7 @@
     },
     {
      "address": "0x00da0760",
-     "symbol": "?Object_UpdateFields_00da0760@@YAXPAX0@Z",
+     "symbol": "?finishLoadedObject_hkLocalFrameGroup@@YAXPAX0@Z",
      "size": 28
     },
     {
@@ -640861,7 +640861,7 @@
     },
     {
      "address": "0x00da08a0",
-     "symbol": "?Object_InvokeVirtualMethod_00da08a0@@YAHPAUFUN_00da08a0_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpKeyframedRigidMotion@@YAHPAUFUN_00da08a0_cls@@@Z",
      "size": 13
     },
     {
@@ -640871,7 +640871,7 @@
     },
     {
      "address": "0x00da08c0",
-     "symbol": "?Object_InvokeVirtualMethod_00da08c0@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpMaxSizeMotion@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -640881,7 +640881,7 @@
     },
     {
      "address": "0x00da08e0",
-     "symbol": "?Object_UpdateFields_00da08e0@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpKeyframedRigidMotion@@YAXPAXH@Z",
      "size": 48
     },
     {
@@ -641026,7 +641026,7 @@
     },
     {
      "address": "0x00da0af0",
-     "symbol": "?Runtime_ForwardCall_00da0af0@@YAXPAUFUN_00da0af0_Class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpSingleShapeContainer@@YAXPAUFUN_00da0af0_Class@@@Z",
      "size": 13
     },
     {
@@ -641036,7 +641036,7 @@
     },
     {
      "address": "0x00da0b10",
-     "symbol": "?Runtime_UpdateState_00da0b10@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpSingleShapeContainer@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -641683,12 +641683,12 @@
    "functions": [
     {
      "address": "0x00da8180",
-     "symbol": "?ProcessAndReturnValue_00da8180@S00da8180_AabbCastMachine@@QAEXABUAabbCastInput@@PAX1@Z",
+     "symbol": "?hkpMoppAabbCastVirtualMachine_aabbCast@S00da8180_AabbCastMachine@@QAEXABUAabbCastInput@@PAX1@Z",
      "size": 310
     }
    ],
    "symbols": {
-    "?ProcessMoppCommands_00da71c0@S00da8180_AabbCastMachine@@QAEXPBUMachineVectorIndexRecord@@PBEPAUVector4Pair@@H@Z": "0x00da71c0",
+    "?hkpMoppAabbCastVirtualMachine_queryRayOnTree@S00da8180_AabbCastMachine@@QAEXPBUMachineVectorIndexRecord@@PBEPAUVector4Pair@@H@Z": "0x00da71c0",
     "?ValidateHavokKeyCode@@YAXPAD@Z": "0x00df22f0",
     "?g_initFlag@@3DA": "0x01269b0c",
     "__real@3ef0000000000000": "0x010d5198",
@@ -641933,7 +641933,7 @@
     },
     {
      "address": "0x00dced30",
-     "symbol": "?Object_ForwardCall_00dced30@@YAXPAUFUN_00dced30_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpBreakableConstraintData@@YAXPAUFUN_00dced30_cls@@@Z",
      "size": 13
     },
     {
@@ -641943,7 +641943,7 @@
     },
     {
      "address": "0x00dced50",
-     "symbol": "?Runtime_ProcessState_00dced50@@YAXPAUFUN_00d4dfc0_class@@I@Z",
+     "symbol": "?finishLoadedObject_hkpBreakableConstraintData@@YAXPAUFUN_00d4dfc0_class@@I@Z",
      "size": 19
     },
     {
@@ -642545,7 +642545,7 @@
    "functions": [
     {
      "address": "0x00dced70",
-     "symbol": "?Runtime_GetVtableFromTemporary_00dced70@@YAPBXXZ",
+     "symbol": "?getVtable_hkpBreakableConstraintData@@YAPBXXZ",
      "size": 28
     },
     {
@@ -643418,12 +643418,12 @@
     },
     {
      "address": "0x00df6440",
-     "symbol": "?Object_ProcessState_00df6440@@YAXPAUHandler_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpWorld@@YAXPAUHandler_cls@@H@Z",
      "size": 19
     },
     {
      "address": "0x00df6460",
-     "symbol": "?Object_ProcessState_00df6460@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpWorld@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -643588,7 +643588,7 @@
     },
     {
      "address": "0x00dfb270",
-     "symbol": "?Runtime_EvaluateValue_00dfb270@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpMoppBvTreeShape@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -643598,7 +643598,7 @@
     },
     {
      "address": "0x00dfb290",
-     "symbol": "?Object_ProcessState_00dfb290@@YAXPAUFUN_00dfb2d0_class@@H@Z",
+     "symbol": "?finishLoadedObject_hkpMoppBvTreeShape@@YAXPAUFUN_00dfb2d0_class@@H@Z",
      "size": 19
     },
     {
@@ -643633,12 +643633,12 @@
     },
     {
      "address": "0x00dfb3d0",
-     "symbol": "?Object_ProcessState_00dfb3d0@@YAXPAUFUN_00dfb3d0_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkMemoryResourceHandle@@YAXPAUFUN_00dfb3d0_cls@@H@Z",
      "size": 19
     },
     {
      "address": "0x00dfb3f0",
-     "symbol": "?Runtime_Helper_00dfb3f0@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkMemoryResourceHandle@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -643648,12 +643648,12 @@
     },
     {
      "address": "0x00dfb430",
-     "symbol": "?Object_ProcessState_00dfb430@@YAXPAUFUN_00e2ebc0_cls@@PAX@Z",
+     "symbol": "?finishLoadedObject_hkMemoryResourceContainer@@YAXPAUFUN_00e2ebc0_cls@@PAX@Z",
      "size": 19
     },
     {
      "address": "0x00dfb450",
-     "symbol": "?Runtime_ForwardCall_00dfb450@@YAXPAUFUN_00dfb450_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkMemoryResourceContainer@@YAXPAUFUN_00dfb450_vt@@@Z",
      "size": 13
     },
     {
@@ -643718,7 +643718,7 @@
     },
     {
      "address": "0x00dfb550",
-     "symbol": "?Runtime_DestroySubobject_00dfb550@@YAXPAVDFB550Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaWaveletCompressedAnimation@@YAXPAVDFB550Object@@@Z",
      "size": 13
     },
     {
@@ -643728,7 +643728,7 @@
     },
     {
      "address": "0x00dfb570",
-     "symbol": "?Runtime_AllocateStorage_00dfb570@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkaWaveletCompressedAnimation@@YAXPAXH@Z",
      "size": 27
     },
     {
@@ -643763,7 +643763,7 @@
     },
     {
      "address": "0x00dfb890",
-     "symbol": "?Runtime_ForwardCall_00dfb890@@YAXPAUFUN_00dfb890_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaSplineCompressedAnimation@@YAXPAUFUN_00dfb890_vt@@@Z",
      "size": 13
     },
     {
@@ -643823,7 +643823,7 @@
     },
     {
      "address": "0x00dfb9a0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfb9a0@@YAHPAUFUN_00dfb9a0_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaSkeleton@@YAHPAUFUN_00dfb9a0_cls@@@Z",
      "size": 13
     },
     {
@@ -643843,7 +643843,7 @@
     },
     {
      "address": "0x00dfb9f0",
-     "symbol": "?Runtime_UpdateState_00dfb9f0@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkaSkeleton@@YAXPAHH@Z",
      "size": 28
     },
     {
@@ -643853,12 +643853,12 @@
     },
     {
      "address": "0x00dfba50",
-     "symbol": "?Object_ProcessState_00dfba50@@YAXPAVFUN_00dfba50_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkaMeshBinding@@YAXPAVFUN_00dfba50_cls@@H@Z",
      "size": 19
     },
     {
      "address": "0x00dfba70",
-     "symbol": "?Runtime_Helper_00dfba70@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkaMeshBinding@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -643893,7 +643893,7 @@
     },
     {
      "address": "0x00dfbb30",
-     "symbol": "?Runtime_UpdateState_00dfbb30@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkaDeltaCompressedAnimation@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -643903,7 +643903,7 @@
     },
     {
      "address": "0x00dfbb50",
-     "symbol": "?Object_UpdateState_00dfbb50@@YAXPAUFUN_00dfbb50_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkaDeltaCompressedAnimation@@YAXPAUFUN_00dfbb50_cls@@H@Z",
      "size": 27
     },
     {
@@ -643968,7 +643968,7 @@
     },
     {
      "address": "0x00dfbcd0",
-     "symbol": "?Runtime_Helper_00dfbcd0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleLinearCastWheelCollide@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -643998,7 +643998,7 @@
     },
     {
      "address": "0x00dfbdd0",
-     "symbol": "?Runtime_Helper_00dfbdd0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleInstance@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -644008,7 +644008,7 @@
     },
     {
      "address": "0x00dfbdf0",
-     "symbol": "?Runtime_UpdateState_00dfbdf0@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleInstance@@YAXPAXH@Z",
      "size": 36
     },
     {
@@ -644068,7 +644068,7 @@
     },
     {
      "address": "0x00dfbf30",
-     "symbol": "?Runtime_ForwardCall_00dfbf30@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDefaultSuspension@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -644078,7 +644078,7 @@
     },
     {
      "address": "0x00dfbf50",
-     "symbol": "?Runtime_UpdateState_00dfbf50@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDefaultSuspension@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644103,7 +644103,7 @@
     },
     {
      "address": "0x00dfc040",
-     "symbol": "?Object_ForwardCall_00dfc040@@YAXPAUFUN_00dfc040_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDefaultBrake@@YAXPAUFUN_00dfc040_vt@@@Z",
      "size": 13
     },
     {
@@ -644113,7 +644113,7 @@
     },
     {
      "address": "0x00dfc060",
-     "symbol": "?Object_UpdateFields_00dfc060@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDefaultBrake@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644133,7 +644133,7 @@
     },
     {
      "address": "0x00dfc110",
-     "symbol": "?Runtime_ForwardCall_00dfc110@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleData@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -644143,7 +644143,7 @@
     },
     {
      "address": "0x00dfc130",
-     "symbol": "?Runtime_UpdateState_00dfc130@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644168,7 +644168,7 @@
     },
     {
      "address": "0x00dfc230",
-     "symbol": "?Runtime_Helper_00dfc230@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpTyremarksWheel@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -644178,7 +644178,7 @@
     },
     {
      "address": "0x00dfc250",
-     "symbol": "?Runtime_UpdateState_00dfc250@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpTyremarksInfo@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -644193,7 +644193,7 @@
     },
     {
      "address": "0x00dfc280",
-     "symbol": "?Object_UpdateFields_00dfc280@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpTyremarksWheel@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644203,7 +644203,7 @@
     },
     {
      "address": "0x00dfc2a0",
-     "symbol": "?Object_UpdateFields_00dfc2a0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpTyremarksInfo@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644223,7 +644223,7 @@
     },
     {
      "address": "0x00dfc380",
-     "symbol": "?Object_InvokeVirtualMethod_00dfc380@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpSerializedAgentNnEntry@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -644268,7 +644268,7 @@
     },
     {
      "address": "0x00dfc450",
-     "symbol": "?Runtime_ForwardCall_00dfc450@@YAXPAVVirtualDispatchObj@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpSerializedDisplayRbTransforms@@YAXPAVVirtualDispatchObj@@@Z",
      "size": 13
     },
     {
@@ -644278,7 +644278,7 @@
     },
     {
      "address": "0x00dfc470",
-     "symbol": "?Runtime_UpdateState_00dfc470@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpSerializedDisplayRbTransforms@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644308,7 +644308,7 @@
     },
     {
      "address": "0x00dfc500",
-     "symbol": "?Object_ProcessAndTransformResult_00dfc500@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpPoweredChainMapper@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -644318,7 +644318,7 @@
     },
     {
      "address": "0x00dfc520",
-     "symbol": "?Object_UpdateFields_00dfc520@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpPoweredChainMapper@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644373,7 +644373,7 @@
     },
     {
      "address": "0x00dfc600",
-     "symbol": "?Object_InvokeVirtualMethod_00dfc600@@YAXPAUFUN_00dfc600_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpMoppCode@@YAXPAUFUN_00dfc600_vt@@@Z",
      "size": 13
     },
     {
@@ -644383,7 +644383,7 @@
     },
     {
      "address": "0x00dfc620",
-     "symbol": "?Object_UpdateFields_00dfc620@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpMoppCode@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644418,7 +644418,7 @@
     },
     {
      "address": "0x00dfc690",
-     "symbol": "?Runtime_ForwardCall_00dfc690@@YAXPAUFUN_00dfc690_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpWheelConstraintData@@YAXPAUFUN_00dfc690_vt@@@Z",
      "size": 13
     },
     {
@@ -644433,7 +644433,7 @@
     },
     {
      "address": "0x00dfc6c0",
-     "symbol": "?Object_UpdateFields_00dfc6c0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpWheelConstraintData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644453,7 +644453,7 @@
     },
     {
      "address": "0x00dfc700",
-     "symbol": "?Object_ProcessAndTransformResult_00dfc700@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpStiffSpringConstraintData@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -644468,7 +644468,7 @@
     },
     {
      "address": "0x00dfc730",
-     "symbol": "?Runtime_UpdateState_00dfc730@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpStiffSpringConstraintData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644488,12 +644488,12 @@
     },
     {
      "address": "0x00dfc770",
-     "symbol": "?Runtime_ProcessState_00dfc770@fnv_00dfc770@@YAXPAUHandler_cls@1@H@Z",
+     "symbol": "?finishLoadedObject_hkpStiffSpringChainData@fnv_00dfc770@@YAXPAUHandler_cls@1@H@Z",
      "size": 19
     },
     {
      "address": "0x00dfc790",
-     "symbol": "?Runtime_Helper_00dfc790@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpStiffSpringChainData@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -644513,7 +644513,7 @@
     },
     {
      "address": "0x00dfc7f0",
-     "symbol": "?Runtime_UpdateState_00dfc7f0@@YAXPAH@Z",
+     "symbol": "?cleanupLoadedObject_hkpSimpleShapePhantom@@YAXPAH@Z",
      "size": 13
     },
     {
@@ -644523,7 +644523,7 @@
     },
     {
      "address": "0x00dfc810",
-     "symbol": "?Runtime_ProcessState_00dfc810@@YAXPAVDFC810Object@@PAX@Z",
+     "symbol": "?finishLoadedObject_hkpSimpleShapePhantom@@YAXPAVDFC810Object@@PAX@Z",
      "size": 19
     },
     {
@@ -644543,7 +644543,7 @@
     },
     {
      "address": "0x00dfc8d0",
-     "symbol": "?Runtime_UpdateState_00dfc8d0@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpRotationalConstraintData@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -644558,7 +644558,7 @@
     },
     {
      "address": "0x00dfc900",
-     "symbol": "?Object_UpdateFields_00dfc900@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpRotationalConstraintData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644578,7 +644578,7 @@
     },
     {
      "address": "0x00dfc940",
-     "symbol": "?Object_InvokeVirtualMethod_00dfc940@@YAXPAUFUN_00dfc940_class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpRagdollLimitsData@@YAXPAUFUN_00dfc940_class@@@Z",
      "size": 13
     },
     {
@@ -644613,7 +644613,7 @@
     },
     {
      "address": "0x00dfc9d0",
-     "symbol": "?Runtime_DestroySubobject_00dfc9d0@@YAXPAVDFC9D0Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpRagdollConstraintData@@YAXPAVDFC9D0Object@@@Z",
      "size": 13
     },
     {
@@ -644648,7 +644648,7 @@
     },
     {
      "address": "0x00dfca60",
-     "symbol": "?Object_InvokeVirtualMethod_00dfca60@@YAXPAVDFCA60Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpPulleyConstraintData@@YAXPAVDFCA60Object@@@Z",
      "size": 13
     },
     {
@@ -644663,7 +644663,7 @@
     },
     {
      "address": "0x00dfca90",
-     "symbol": "?Runtime_UpdateState_00dfca90@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpPulleyConstraintData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644683,7 +644683,7 @@
     },
     {
      "address": "0x00dfcad0",
-     "symbol": "?Runtime_Helper_00dfcad0@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpPrismaticConstraintData@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -644698,7 +644698,7 @@
     },
     {
      "address": "0x00dfcb00",
-     "symbol": "?Object_UpdateFields_00dfcb00@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpPrismaticConstraintData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644718,12 +644718,12 @@
     },
     {
      "address": "0x00dfcb40",
-     "symbol": "?Object_ProcessState_00dfcb40@fnv_00dfcb40@@YAXPAUHandler_cls@1@H@Z",
+     "symbol": "?finishLoadedObject_hkpPoweredChainData@fnv_00dfcb40@@YAXPAUHandler_cls@1@H@Z",
      "size": 19
     },
     {
      "address": "0x00dfcb60",
-     "symbol": "?Object_UpdateFields_00dfcb60@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpPoweredChainData@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -644743,7 +644743,7 @@
     },
     {
      "address": "0x00dfcbc0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfcbc0@@YAXPAUFUN_00dfcbc0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpPointToPlaneConstraintData@@YAXPAUFUN_00dfcbc0_vt@@@Z",
      "size": 13
     },
     {
@@ -644758,7 +644758,7 @@
     },
     {
      "address": "0x00dfcbf0",
-     "symbol": "?Runtime_UpdateState_00dfcbf0@@YAXPAPAX@Z",
+     "symbol": "?finishLoadedObject_hkpPointToPlaneConstraintData@@YAXPAPAX@Z",
      "size": 15
     },
     {
@@ -644778,7 +644778,7 @@
     },
     {
      "address": "0x00dfcc30",
-     "symbol": "?Runtime_ForwardCall_00dfcc30@@YAXPAUFUN_00dfcc30_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpLimitedHingeConstraintData@@YAXPAUFUN_00dfcc30_vt@@@Z",
      "size": 13
     },
     {
@@ -644793,7 +644793,7 @@
     },
     {
      "address": "0x00dfcc60",
-     "symbol": "?Object_UpdateFields_00dfcc60@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpLimitedHingeConstraintData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644813,7 +644813,7 @@
     },
     {
      "address": "0x00dfcca0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfcca0@@YAHPAUVtblForwarder@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpHingeLimitsData@@YAHPAUVtblForwarder@@@Z",
      "size": 13
     },
     {
@@ -644828,7 +644828,7 @@
     },
     {
      "address": "0x00dfccd0",
-     "symbol": "?Runtime_UpdateState_00dfccd0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpHingeLimitsData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644848,7 +644848,7 @@
     },
     {
      "address": "0x00dfcd10",
-     "symbol": "?Object_EvaluateValue_00dfcd10@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpHingeConstraintData@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -644863,7 +644863,7 @@
     },
     {
      "address": "0x00dfcd40",
-     "symbol": "?Object_UpdateFields_00dfcd40@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpHingeConstraintData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644908,12 +644908,12 @@
     },
     {
      "address": "0x00dfcde0",
-     "symbol": "?Object_ProcessState_00dfcde0@@YAXPAX0@Z",
+     "symbol": "?finishLoadedObject_hkpBallSocketChainData@@YAXPAX0@Z",
      "size": 19
     },
     {
      "address": "0x00dfce00",
-     "symbol": "?Object_InvokeVirtualMethod_00dfce00@@YAXPAUFUN_00dfce00_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpBallSocketChainData@@YAXPAUFUN_00dfce00_vt@@@Z",
      "size": 13
     },
     {
@@ -644933,7 +644933,7 @@
     },
     {
      "address": "0x00dfce60",
-     "symbol": "?Object_InvokeVirtualMethod_00dfce60@fnv_00dfce60@@YAHPAUVtblForwarder@1@@Z",
+     "symbol": "?cleanupLoadedObject_hkpBallAndSocketConstraintData@fnv_00dfce60@@YAHPAUVtblForwarder@1@@Z",
      "size": 13
     },
     {
@@ -644948,7 +644948,7 @@
     },
     {
      "address": "0x00dfce90",
-     "symbol": "?Runtime_UpdateState_00dfce90@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpBallAndSocketConstraintData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -644993,7 +644993,7 @@
     },
     {
      "address": "0x00dfcf20",
-     "symbol": "?Object_ProcessState_00dfcf20@@YAXPAUFUN_00dfcf20_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpSimpleMeshShape@@YAXPAUFUN_00dfcf20_cls@@H@Z",
      "size": 19
     },
     {
@@ -645013,7 +645013,7 @@
     },
     {
      "address": "0x00dfd0d0",
-     "symbol": "?Runtime_ForwardCall_00dfd0d0@@YAXPAUFUN_00dfd0d0_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpMultiRayShape@@YAXPAUFUN_00dfd0d0_cls@@@Z",
      "size": 13
     },
     {
@@ -645023,7 +645023,7 @@
     },
     {
      "address": "0x00dfd0f0",
-     "symbol": "?Object_UpdateState_00dfd0f0@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpMultiRayShape@@YAXPAXH@Z",
      "size": 42
     },
     {
@@ -645048,7 +645048,7 @@
     },
     {
      "address": "0x00dfd1c0",
-     "symbol": "?Object_ProcessAndTransformResult_00dfd1c0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpListShape@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645058,7 +645058,7 @@
     },
     {
      "address": "0x00dfd1e0",
-     "symbol": "?Object_ProcessState_00dfd1e0@@YAXPAVFUN_00dfd1e0_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpListShape@@YAXPAVFUN_00dfd1e0_cls@@H@Z",
      "size": 19
     },
     {
@@ -645073,7 +645073,7 @@
     },
     {
      "address": "0x00dfd240",
-     "symbol": "?Object_ForwardCall_00dfd240@@YAXPAUFUN_00dfd240_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConvexVerticesShape@@YAXPAUFUN_00dfd240_vt@@@Z",
      "size": 13
     },
     {
@@ -645083,7 +645083,7 @@
     },
     {
      "address": "0x00dfd260",
-     "symbol": "?Object_ProcessState_00dfd260@@YAXPAUS_00dfd260_Foo@@H@Z",
+     "symbol": "?finishLoadedObject_hkpConvexVerticesShape@@YAXPAUS_00dfd260_Foo@@H@Z",
      "size": 19
     },
     {
@@ -645108,7 +645108,7 @@
     },
     {
      "address": "0x00dfd2e0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfd2e0@@YAXPAUFUN_00dfd2e0_Class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpCompressedMeshShape@@YAXPAUFUN_00dfd2e0_Class@@@Z",
      "size": 13
     },
     {
@@ -645118,7 +645118,7 @@
     },
     {
      "address": "0x00dfd300",
-     "symbol": "?Object_ProcessState_00dfd300@@YAXPAUFUN_00e3dbd0_class@@H@Z",
+     "symbol": "?finishLoadedObject_hkpCompressedMeshShape@@YAXPAUFUN_00e3dbd0_class@@H@Z",
      "size": 19
     },
     {
@@ -645213,12 +645213,12 @@
     },
     {
      "address": "0x00dfd600",
-     "symbol": "?Object_ProcessState_00dfd600@@YAXPAVFUN_00dfd600_cls@@I@Z",
+     "symbol": "?finishLoadedObject_hkxVertexBuffer@@YAXPAVFUN_00dfd600_cls@@I@Z",
      "size": 19
     },
     {
      "address": "0x00dfd620",
-     "symbol": "?Object_ProcessState_00dfd620@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxVertexBuffer@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645248,7 +645248,7 @@
     },
     {
      "address": "0x00dfd7a0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfd7a0@@YAXPAUFUN_00dfd7a0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxNode@@YAXPAUFUN_00dfd7a0_vt@@@Z",
      "size": 13
     },
     {
@@ -645263,7 +645263,7 @@
     },
     {
      "address": "0x00dfd7d0",
-     "symbol": "?Object_UpdateState_00dfd7d0@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkxNode@@YAXPAHH@Z",
      "size": 41
     },
     {
@@ -645273,7 +645273,7 @@
     },
     {
      "address": "0x00dfd940",
-     "symbol": "?Object_ForwardCall_00dfd940@@YAXPAUFUN_00dfd940_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxMaterial@@YAXPAUFUN_00dfd940_vt@@@Z",
      "size": 13
     },
     {
@@ -645293,7 +645293,7 @@
     },
     {
      "address": "0x00dfd990",
-     "symbol": "?Runtime_SetVtableAndProcessState_00dfd990@@YAXPAUFUN_00dfd990_class@@H@Z",
+     "symbol": "?finishLoadedObject_hkxMaterial@@YAXPAUFUN_00dfd990_class@@H@Z",
      "size": 28
     },
     {
@@ -645308,12 +645308,12 @@
     },
     {
      "address": "0x00dfda50",
-     "symbol": "?Object_ProcessState_00dfda50@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkxEnvironment@@YAXPAXH@Z",
      "size": 19
     },
     {
      "address": "0x00dfda70",
-     "symbol": "?Runtime_UpdateState_00dfda70@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxEnvironment@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645338,7 +645338,7 @@
     },
     {
      "address": "0x00dfdb00",
-     "symbol": "?Object_ProcessState_00dfdb00@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxEnum@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645348,7 +645348,7 @@
     },
     {
      "address": "0x00dfdb20",
-     "symbol": "?Object_InvokeVirtualMethod_00dfdb20@@YAXPAUFUN_00dfdb20_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxSparselyAnimatedEnum@@YAXPAUFUN_00dfdb20_vt@@@Z",
      "size": 13
     },
     {
@@ -645363,7 +645363,7 @@
     },
     {
      "address": "0x00dfdb50",
-     "symbol": "?Runtime_UpdateState_00dfdb50@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxSparselyAnimatedEnum@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645373,7 +645373,7 @@
     },
     {
      "address": "0x00dfdb70",
-     "symbol": "?Runtime_UpdateState_00dfdb70@@YAXPAPAX@Z",
+     "symbol": "?finishLoadedObject_hkxEnum@@YAXPAPAX@Z",
      "size": 15
     },
     {
@@ -645438,7 +645438,7 @@
     },
     {
      "address": "0x00dfde10",
-     "symbol": "?Runtime_ForwardCall_00dfde10@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkTraceStream@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645448,7 +645448,7 @@
     },
     {
      "address": "0x00dfde30",
-     "symbol": "?Object_UpdateState_00dfde30@@YAXPAX@Z",
+     "symbol": "?finishLoadedObject_hkTraceStream@@YAXPAX@Z",
      "size": 24
     },
     {
@@ -645523,7 +645523,7 @@
     },
     {
      "address": "0x00dfdf50",
-     "symbol": "?Runtime_DestroySubobject_00dfdf50@@YAXPAVDFDF50Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkMonitorStreamColorTable@@YAXPAVDFDF50Object@@@Z",
      "size": 13
     },
     {
@@ -645548,7 +645548,7 @@
     },
     {
      "address": "0x00dfdfb0",
-     "symbol": "?Runtime_UpdateState_00dfdfb0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkMonitorStreamColorTable@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645698,12 +645698,12 @@
     },
     {
      "address": "0x00dfe250",
-     "symbol": "?Object_ProcessState_00dfe250@@YAXPAVFUN_00dfe250_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkaRagdollInstance@@YAXPAVFUN_00dfe250_cls@@H@Z",
      "size": 19
     },
     {
      "address": "0x00dfe270",
-     "symbol": "?Runtime_UpdateState_00dfe270@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkaRagdollInstance@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645713,7 +645713,7 @@
     },
     {
      "address": "0x00dfe2b0",
-     "symbol": "?Runtime_Helper_00dfe2b0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkaSkeletonMapper@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645728,7 +645728,7 @@
     },
     {
      "address": "0x00dfe320",
-     "symbol": "?Object_M_iWordAt00_Thunk_00dfe320@@YAXPAUFUN_00dfe320_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaInterleavedUncompressedAnimation@@YAXPAUFUN_00dfe320_vt@@@Z",
      "size": 13
     },
     {
@@ -645738,7 +645738,7 @@
     },
     {
      "address": "0x00dfe340",
-     "symbol": "?Object_UpdateFields_00dfe340@@YAXPAX@Z",
+     "symbol": "?finishLoadedObject_hkaInterleavedUncompressedAnimation@@YAXPAX@Z",
      "size": 15
     },
     {
@@ -645748,12 +645748,12 @@
     },
     {
      "address": "0x00dfe410",
-     "symbol": "?Object_ProcessState_00dfe410@@YAXPAUFUN_00cb0a70_obj@@H@Z",
+     "symbol": "?finishLoadedObject_hkaFootstepAnalysisInfo@@YAXPAUFUN_00cb0a70_obj@@H@Z",
      "size": 19
     },
     {
      "address": "0x00dfe430",
-     "symbol": "?Runtime_ForwardCall_00dfe430@@YAHPAUFUN_00dfe430_class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaFootstepAnalysisInfo@@YAHPAUFUN_00dfe430_class@@@Z",
      "size": 13
     },
     {
@@ -645763,7 +645763,7 @@
     },
     {
      "address": "0x00dfe470",
-     "symbol": "?Runtime_ForwardCall_00dfe470@@YAXPAUFUN_00dfe430_class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaFootstepAnalysisInfoContainer@@YAXPAUFUN_00dfe430_class@@@Z",
      "size": 13
     },
     {
@@ -645773,7 +645773,7 @@
     },
     {
      "address": "0x00dfe490",
-     "symbol": "?Runtime_UpdateState_00dfe490@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkaFootstepAnalysisInfoContainer@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645783,7 +645783,7 @@
     },
     {
      "address": "0x00dfe4e0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfe4e0@@YAXPAUFUN_00dfe4e0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaDefaultAnimatedReferenceFrame@@YAXPAUFUN_00dfe4e0_vt@@@Z",
      "size": 13
     },
     {
@@ -645793,7 +645793,7 @@
     },
     {
      "address": "0x00dfe500",
-     "symbol": "?Object_UpdateFields_00dfe500@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkaDefaultAnimatedReferenceFrame@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645803,7 +645803,7 @@
     },
     {
      "address": "0x00dfe590",
-     "symbol": "?Runtime_UpdateState_00dfe590@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkaBoneAttachment@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645818,7 +645818,7 @@
     },
     {
      "address": "0x00dfe670",
-     "symbol": "?Runtime_ForwardCall_00dfe670@@YAXPAUFUN_00dfe670_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaAnimationPreviewColorContainer@@YAXPAUFUN_00dfe670_vt@@@Z",
      "size": 13
     },
     {
@@ -645828,7 +645828,7 @@
     },
     {
      "address": "0x00dfe690",
-     "symbol": "?Runtime_UpdateState_00dfe690@@YAXPAPAH@Z",
+     "symbol": "?finishLoadedObject_hkaAnimationPreviewColorContainer@@YAXPAPAH@Z",
      "size": 15
     },
     {
@@ -645838,7 +645838,7 @@
     },
     {
      "address": "0x00dfe6e0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfe6e0@@YAXPAUFUN_00dfe6e0_Class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaAnimationContainer@@YAXPAUFUN_00dfe6e0_Class@@@Z",
      "size": 13
     },
     {
@@ -645848,7 +645848,7 @@
     },
     {
      "address": "0x00dfe700",
-     "symbol": "?Object_UpdateFields_00dfe700@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkaAnimationContainer@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645858,7 +645858,7 @@
     },
     {
      "address": "0x00dfe970",
-     "symbol": "?Runtime_ForwardCall_00dfe970@@YAXPAUFUN_00dfe970_class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkaAnimationBinding@@YAXPAUFUN_00dfe970_class@@@Z",
      "size": 13
     },
     {
@@ -645868,12 +645868,12 @@
     },
     {
      "address": "0x00dfe990",
-     "symbol": "?Object_UpdateState_00dfe990@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkaAnimationBinding@@YAXPAXH@Z",
      "size": 28
     },
     {
      "address": "0x00dfeaa0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfeaa0@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleRayCastWheelCollide@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -645893,7 +645893,7 @@
     },
     {
      "address": "0x00dfeb40",
-     "symbol": "?Object_UpdateFields_00dfeb40@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleRayCastBatchingManager@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645903,7 +645903,7 @@
     },
     {
      "address": "0x00dfeb60",
-     "symbol": "?Object_UpdateFields_00dfeb60@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleRayCastBatchingManager@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645918,7 +645918,7 @@
     },
     {
      "address": "0x00dfebb0",
-     "symbol": "?Runtime_Helper_00dfebb0@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleManager@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -645928,7 +645928,7 @@
     },
     {
      "address": "0x00dfebd0",
-     "symbol": "?Runtime_UpdateState_00dfebd0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleManager@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645938,7 +645938,7 @@
     },
     {
      "address": "0x00dfebf0",
-     "symbol": "?Runtime_Helper_00dfebf0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleLinearCastBatchingManager@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -645948,7 +645948,7 @@
     },
     {
      "address": "0x00dfec10",
-     "symbol": "?Runtime_UpdateState_00dfec10@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleLinearCastBatchingManager@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645958,7 +645958,7 @@
     },
     {
      "address": "0x00dfec30",
-     "symbol": "?Runtime_ForwardCall_00dfec30@@YAXPAUFUN_00dfec30_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDriverInputAnalogStatus@@YAXPAUFUN_00dfec30_vt@@@Z",
      "size": 13
     },
     {
@@ -645968,7 +645968,7 @@
     },
     {
      "address": "0x00dfec50",
-     "symbol": "?Runtime_DestroySubobject_00dfec50@@YAXPAVDFEC50Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDefaultAnalogDriverInput@@YAXPAVDFEC50Object@@@Z",
      "size": 13
     },
     {
@@ -645978,7 +645978,7 @@
     },
     {
      "address": "0x00dfec70",
-     "symbol": "?Runtime_UpdateState_00dfec70@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDriverInputAnalogStatus@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -645988,7 +645988,7 @@
     },
     {
      "address": "0x00dfec90",
-     "symbol": "?Runtime_UpdateState_00dfec90@@YAXPAPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDefaultAnalogDriverInput@@YAXPAPAH@Z",
      "size": 15
     },
     {
@@ -645998,7 +645998,7 @@
     },
     {
      "address": "0x00dfecb0",
-     "symbol": "?Runtime_Helper_00dfecb0@@YAXPAH@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDefaultVelocityDamper@@YAXPAH@Z",
      "size": 13
     },
     {
@@ -646008,7 +646008,7 @@
     },
     {
      "address": "0x00dfecd0",
-     "symbol": "?Runtime_UpdateState_00dfecd0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDefaultVelocityDamper@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646018,7 +646018,7 @@
     },
     {
      "address": "0x00dfecf0",
-     "symbol": "?Runtime_ForwardCall_00dfecf0@@YAXPAUFUN_00dfecf0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDefaultTransmission@@YAXPAUFUN_00dfecf0_vt@@@Z",
      "size": 13
     },
     {
@@ -646028,7 +646028,7 @@
     },
     {
      "address": "0x00dfed10",
-     "symbol": "?Runtime_UpdateState_00dfed10@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDefaultTransmission@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646043,7 +646043,7 @@
     },
     {
      "address": "0x00dfede0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfede0@@YAXPAUFUN_00dfede0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDefaultSteering@@YAXPAUFUN_00dfede0_vt@@@Z",
      "size": 13
     },
     {
@@ -646053,7 +646053,7 @@
     },
     {
      "address": "0x00dfee00",
-     "symbol": "?Object_UpdateFields_00dfee00@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDefaultSteering@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646063,7 +646063,7 @@
     },
     {
      "address": "0x00dfee80",
-     "symbol": "?Object_InvokeVirtualMethod_00dfee80@@YAXPAUFnvCpu_FUN_00dfee80_CpuInterface@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDefaultEngine@@YAXPAUFnvCpu_FUN_00dfee80_CpuInterface@@@Z",
      "size": 13
     },
     {
@@ -646073,7 +646073,7 @@
     },
     {
      "address": "0x00dfeea0",
-     "symbol": "?Object_UpdateFields_00dfeea0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDefaultEngine@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646083,7 +646083,7 @@
     },
     {
      "address": "0x00dfeec0",
-     "symbol": "?Object_GetIndexedValue_00dfeec0@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpVehicleDefaultAerodynamics@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -646093,7 +646093,7 @@
     },
     {
      "address": "0x00dfeee0",
-     "symbol": "?Object_UpdateFields_00dfeee0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVehicleDefaultAerodynamics@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646103,7 +646103,7 @@
     },
     {
      "address": "0x00dfef00",
-     "symbol": "?Object_InvokeVirtualMethod_00dfef00@@YAXPAUFUN_00dfef00_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpRejectChassisListener@@YAXPAUFUN_00dfef00_vt@@@Z",
      "size": 13
     },
     {
@@ -646123,12 +646123,12 @@
     },
     {
      "address": "0x00dfef50",
-     "symbol": "?Object_UpdateState_00dfef50@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkpSpringAction@@YAXPAHH@Z",
      "size": 36
     },
     {
      "address": "0x00dfef80",
-     "symbol": "?Object_InvokeVirtualMethod_00dfef80@@YAXPAVDFEF80Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpSpringAction@@YAXPAVDFEF80Object@@@Z",
      "size": 13
     },
     {
@@ -646138,7 +646138,7 @@
     },
     {
      "address": "0x00dfefd0",
-     "symbol": "?Runtime_ForwardCall_00dfefd0@@YAHPAUFUN_00dfefd0_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpSerializedDisplayMarkerList@@YAHPAUFUN_00dfefd0_cls@@@Z",
      "size": 13
     },
     {
@@ -646148,7 +646148,7 @@
     },
     {
      "address": "0x00dfeff0",
-     "symbol": "?Runtime_UpdateState_00dfeff0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpSerializedDisplayMarkerList@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646158,7 +646158,7 @@
     },
     {
      "address": "0x00dff0b0",
-     "symbol": "?Runtime_ForwardCall_00dff0b0@@YAXPAUFUN_00dff0b0_class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpSerializedDisplayMarker@@YAXPAUFUN_00dff0b0_class@@@Z",
      "size": 13
     },
     {
@@ -646168,7 +646168,7 @@
     },
     {
      "address": "0x00dff0d0",
-     "symbol": "?Runtime_UpdateState_00dff0d0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpSerializedDisplayMarker@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646178,12 +646178,12 @@
     },
     {
      "address": "0x00dff0f0",
-     "symbol": "?Runtime_UpdateState_00dff0f0@@YAXPAUFUN_00dff0f0_class@@H@Z",
+     "symbol": "?finishLoadedObject_hkpReorientAction@@YAXPAUFUN_00dff0f0_class@@H@Z",
      "size": 36
     },
     {
      "address": "0x00dff120",
-     "symbol": "?Object_InvokeVirtualMethod_00dff120@@YAXPAUFUN_00dff120_Class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpReorientAction@@YAXPAUFUN_00dff120_Class@@@Z",
      "size": 13
     },
     {
@@ -646193,12 +646193,12 @@
     },
     {
      "address": "0x00dff170",
-     "symbol": "?Object_ProcessState_00dff170@@YAXPAUFUN_00dff170_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpProjectileGun@@YAXPAUFUN_00dff170_cls@@H@Z",
      "size": 19
     },
     {
      "address": "0x00dff190",
-     "symbol": "?Object_ForwardCall_00dff190@@YAXPAUFUN_00dff190_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpProjectileGun@@YAXPAUFUN_00dff190_cls@@@Z",
      "size": 13
     },
     {
@@ -646208,7 +646208,7 @@
     },
     {
      "address": "0x00dff1d0",
-     "symbol": "?Runtime_ForwardCall_00dff1d0@@YAXPAUFUN_00dff1d0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpPhysicsSystemWithContacts@@YAXPAUFUN_00dff1d0_vt@@@Z",
      "size": 13
     },
     {
@@ -646223,7 +646223,7 @@
     },
     {
      "address": "0x00dff250",
-     "symbol": "?Runtime_ForwardCall_00dff250@@YAXPAUFUN_00dff250_class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpMouseSpringAction@@YAXPAUFUN_00dff250_class@@@Z",
      "size": 13
     },
     {
@@ -646243,7 +646243,7 @@
     },
     {
      "address": "0x00dff300",
-     "symbol": "?Object_ProcessState_00dff300@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpMountedBallGun@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -646253,12 +646253,12 @@
     },
     {
      "address": "0x00dff340",
-     "symbol": "?Object_UpdateFields_00dff340@@YAXPAX0@Z",
+     "symbol": "?finishLoadedObject_hkpMotorAction@@YAXPAX0@Z",
      "size": 36
     },
     {
      "address": "0x00dff370",
-     "symbol": "?Runtime_ForwardCall_00dff370@@YAXPAUFUN_00dff370_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpMotorAction@@YAXPAUFUN_00dff370_vt@@@Z",
      "size": 13
     },
     {
@@ -646268,7 +646268,7 @@
     },
     {
      "address": "0x00dff3c0",
-     "symbol": "?Object_ProcessState_00dff3c0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpGroupCollisionFilter@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -646308,7 +646308,7 @@
     },
     {
      "address": "0x00dff4c0",
-     "symbol": "?Object_ProcessState_00dff4c0@@YAXPAUFUN_00e46300_class@@H@Z",
+     "symbol": "?finishLoadedObject_hkpGravityGun@@YAXPAUFUN_00e46300_class@@H@Z",
      "size": 19
     },
     {
@@ -646323,12 +646323,12 @@
     },
     {
      "address": "0x00dff520",
-     "symbol": "?Object_ConstructInPlace_00dff520@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpFirstPersonGun@@YAXPAXH@Z",
      "size": 19
     },
     {
      "address": "0x00dff540",
-     "symbol": "?Object_ProcessState_00dff540@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpFirstPersonGun@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -646338,7 +646338,7 @@
     },
     {
      "address": "0x00dff580",
-     "symbol": "?Object_ProcessState_00dff580@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpDisplayBindingDataRigidBody@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -646358,7 +646358,7 @@
     },
     {
      "address": "0x00dff5c0",
-     "symbol": "?Object_ProcessState_00dff5c0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpDisplayBindingData@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -646388,7 +646388,7 @@
     },
     {
      "address": "0x00dff620",
-     "symbol": "?Object_UpdateFields_00dff620@@YAXPAPAH@Z",
+     "symbol": "?finishLoadedObject_hkpDisplayBindingData@@YAXPAPAH@Z",
      "size": 15
     },
     {
@@ -646398,7 +646398,7 @@
     },
     {
      "address": "0x00dff870",
-     "symbol": "?Runtime_ForwardCall_00dff870@@YAHPAVFUN_00dff870_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpDisableEntityCollisionFilter@@YAHPAVFUN_00dff870_cls@@@Z",
      "size": 13
     },
     {
@@ -646408,7 +646408,7 @@
     },
     {
      "address": "0x00dff890",
-     "symbol": "?Object_ProcessState_00dff890@@YAXPAUFUN_00dff890_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpDisableEntityCollisionFilter@@YAXPAUFUN_00dff890_cls@@H@Z",
      "size": 19
     },
     {
@@ -646418,12 +646418,12 @@
     },
     {
      "address": "0x00dff9b0",
-     "symbol": "?Object_UpdateState_00dff9b0@@YAXPAUFUN_00dff9b0_m@@H@Z",
+     "symbol": "?finishLoadedObject_hkpDashpotAction@@YAXPAUFUN_00dff9b0_m@@H@Z",
      "size": 36
     },
     {
      "address": "0x00dff9e0",
-     "symbol": "?Object_InvokeVirtualMethod_00dff9e0@@YAXPAPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpDashpotAction@@YAXPAPAX@Z",
      "size": 13
     },
     {
@@ -646433,7 +646433,7 @@
     },
     {
      "address": "0x00dffa30",
-     "symbol": "?Runtime_EvaluateValue_00dffa30@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpConstrainedSystemFilter@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -646443,7 +646443,7 @@
     },
     {
      "address": "0x00dffa50",
-     "symbol": "?Object_ProcessState_00dffa50@@YAXPAUFUN_00dffa50_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpConstrainedSystemFilter@@YAXPAUFUN_00dffa50_cls@@H@Z",
      "size": 19
     },
     {
@@ -646453,12 +646453,12 @@
     },
     {
      "address": "0x00dffb80",
-     "symbol": "?Object_ProcessState_00dffb80@fnv_00dffb80@@YAXPAUHandler_cls@1@H@Z",
+     "symbol": "?finishLoadedObject_hkpBallGun@fnv_00dffb80@@YAXPAUHandler_cls@1@H@Z",
      "size": 19
     },
     {
      "address": "0x00dffba0",
-     "symbol": "?Object_InvokeVirtualMethod_00dffba0@@YAXPAVFUN_00dffba0_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpBallGun@@YAXPAVFUN_00dffba0_cls@@@Z",
      "size": 13
     },
     {
@@ -646468,12 +646468,12 @@
     },
     {
      "address": "0x00dffbe0",
-     "symbol": "?Object_UpdateFields_00dffbe0@fnv_00dffbe0@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkpAngularDashpotAction@fnv_00dffbe0@@YAXPAHH@Z",
      "size": 36
     },
     {
      "address": "0x00dffc10",
-     "symbol": "?Runtime_Helper_00dffc10@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpAngularDashpotAction@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -646483,7 +646483,7 @@
     },
     {
      "address": "0x00dffc60",
-     "symbol": "?Object_InvokeVirtualMethod_00dffc60@@YAXPAUFUN_00dffc60_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConvexPieceStreamData@@YAXPAUFUN_00dffc60_vt@@@Z",
      "size": 13
     },
     {
@@ -646493,7 +646493,7 @@
     },
     {
      "address": "0x00dffc80",
-     "symbol": "?Object_UpdateFields_00dffc80@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpConvexPieceStreamData@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646503,7 +646503,7 @@
     },
     {
      "address": "0x00dffd80",
-     "symbol": "?Object_ForwardCall_00dffd80@@YAXPAUFUN_00dffd80_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpVelocityConstraintMotor@@YAXPAUFUN_00dffd80_vt@@@Z",
      "size": 13
     },
     {
@@ -646513,7 +646513,7 @@
     },
     {
      "address": "0x00dffda0",
-     "symbol": "?Object_UpdateFields_00dffda0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpVelocityConstraintMotor@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646523,7 +646523,7 @@
     },
     {
      "address": "0x00dffdc0",
-     "symbol": "?Object_InvokeVirtualMethod_00dffdc0@@YAXPAUFUN_00dffdc0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpThinBoxMotion@@YAXPAUFUN_00dffdc0_vt@@@Z",
      "size": 13
     },
     {
@@ -646543,7 +646543,7 @@
     },
     {
      "address": "0x00dffe20",
-     "symbol": "?Object_ProcessState_00dffe20@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpSpringDamperConstraintMotor@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -646553,7 +646553,7 @@
     },
     {
      "address": "0x00dffe40",
-     "symbol": "?Object_UpdateFields_00dffe40@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpSpringDamperConstraintMotor@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646563,7 +646563,7 @@
     },
     {
      "address": "0x00dffe60",
-     "symbol": "?Object_M_iWordAt00_Thunk_00dffe60@@YAXPAUFUN_00dffe60_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpSphereMotion@@YAXPAUFUN_00dffe60_vt@@@Z",
      "size": 13
     },
     {
@@ -646573,7 +646573,7 @@
     },
     {
      "address": "0x00dffe80",
-     "symbol": "?Object_UpdateFields_00dffe80@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpSphereMotion@@YAXPAXH@Z",
      "size": 48
     },
     {
@@ -646583,7 +646583,7 @@
     },
     {
      "address": "0x00dffec0",
-     "symbol": "?Object_InvokeVirtualMethod_00dffec0@@YAHPAVFUN_00dffec0_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpPositionConstraintMotor@@YAHPAVFUN_00dffec0_cls@@@Z",
      "size": 13
     },
     {
@@ -646593,7 +646593,7 @@
     },
     {
      "address": "0x00dffee0",
-     "symbol": "?Object_UpdateFields_00dffee0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpPositionConstraintMotor@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -646603,7 +646603,7 @@
     },
     {
      "address": "0x00dfff00",
-     "symbol": "?Object_ProcessState_00dfff00@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpPointToPathConstraintData@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -646623,7 +646623,7 @@
     },
     {
      "address": "0x00dfff60",
-     "symbol": "?Object_InvokeVirtualMethod_00dfff60@@YAHPAUFUN_00dfff60_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpMalleableConstraintData@@YAHPAUFUN_00dfff60_vt@@@Z",
      "size": 13
     },
     {
@@ -646638,7 +646638,7 @@
     },
     {
      "address": "0x00dfffc0",
-     "symbol": "?Object_InvokeVirtualMethod_00dfffc0@@YAXPAUFUN_00dfffc0_VT@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpLinearParametricCurve@@YAXPAUFUN_00dfffc0_VT@@@Z",
      "size": 13
     },
     {
@@ -646648,7 +646648,7 @@
     },
     {
      "address": "0x00dfffe0",
-     "symbol": "?Object_UpdateFields_00dfffe0@@YAXPAPAX@Z",
+     "symbol": "?finishLoadedObject_hkpLinearParametricCurve@@YAXPAPAX@Z",
      "size": 15
     },
     {
@@ -647441,7 +647441,7 @@
     },
     {
      "address": "0x00dfb2b0",
-     "symbol": "?Runtime_GetVtableFromTemporary_00dfb2b0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpMoppBvTreeShape@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647451,12 +647451,12 @@
     },
     {
      "address": "0x00dfb400",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfb400@@YAPBXXZ",
+     "symbol": "?getVtable_hkMemoryResourceHandle@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00dfb460",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfb460@@YAPBXXZ",
+     "symbol": "?getVtable_hkMemoryResourceContainer@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647466,7 +647466,7 @@
     },
     {
      "address": "0x00dfba80",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfba80@@YAPBXXZ",
+     "symbol": "?getVtable_hkaMeshBinding@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647481,7 +647481,7 @@
     },
     {
      "address": "0x00dfc7a0",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfc7a0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpStiffSpringChainData@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647491,27 +647491,27 @@
     },
     {
      "address": "0x00dfcb70",
-     "symbol": "?Runtime_GetVtableFromTemporary_00dfcb70@@YAPBXXZ",
+     "symbol": "?getVtable_hkpPoweredChainData@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00dfce10",
-     "symbol": "?Runtime_EvaluateValue_00dfce10@@YAHXZ",
+     "symbol": "?getVtable_hkpBallSocketChainData@@YAHXZ",
      "size": 28
     },
     {
      "address": "0x00dfcf40",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfcf40@@YAPBXXZ",
+     "symbol": "?getVtable_hkpSimpleMeshShape@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00dfd200",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfd200@@YAPBXXZ",
+     "symbol": "?getVtable_hkpListShape@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00dfd280",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfd280@@YAPBXXZ",
+     "symbol": "?getVtable_hkpConvexVerticesShape@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647526,17 +647526,17 @@
     },
     {
      "address": "0x00dfd9b0",
-     "symbol": "?Runtime_UpdateState_00dfd9b0@@YAPAIXZ",
+     "symbol": "?getVtable_hkxMaterial@@YAPAIXZ",
      "size": 39
     },
     {
      "address": "0x00dfda80",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfda80@@YAPBXXZ",
+     "symbol": "?getVtable_hkxEnvironment@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00dfe280",
-     "symbol": "?Object_GetConstructedVirtualTable_00dfe280@@YAPBXXZ",
+     "symbol": "?getVtable_hkaRagdollInstance@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647586,7 +647586,7 @@
     },
     {
      "address": "0x00dff310",
-     "symbol": "?Runtime_GetVtableFromTemporary_00dff310@@YAPBXXZ",
+     "symbol": "?getVtable_hkpMountedBallGun@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647596,7 +647596,7 @@
     },
     {
      "address": "0x00dff4f0",
-     "symbol": "?Runtime_GetVtableFromTemporary_00dff4f0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpGravityGun@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647606,7 +647606,7 @@
     },
     {
      "address": "0x00dff8b0",
-     "symbol": "?Runtime_GetVtableFromTemporary_00dff8b0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpDisableEntityCollisionFilter@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647616,12 +647616,12 @@
     },
     {
      "address": "0x00dffa70",
-     "symbol": "?Runtime_GetVtableFromTemporary_00dffa70@@YAPBXXZ",
+     "symbol": "?getVtable_hkpConstrainedSystemFilter@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00dffbb0",
-     "symbol": "?Runtime_GetVtableFromTemporary_00dffbb0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpBallGun@@YAPBXXZ",
      "size": 28
     },
     {
@@ -647631,7 +647631,7 @@
     },
     {
      "address": "0x00dfffa0",
-     "symbol": "?Object_ProcessAndReturnValue_00dfffa0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpMalleableConstraintData@@YAPBXXZ",
      "size": 28
     }
    ],
@@ -647719,7 +647719,7 @@
     },
     {
      "address": "0x00e000a0",
-     "symbol": "?Object_InvokeVirtualMethod_00e000a0@@YAXPAUFUN_00e000a0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpGenericConstraintData@@YAXPAUFUN_00e000a0_vt@@@Z",
      "size": 13
     },
     {
@@ -647729,12 +647729,12 @@
     },
     {
      "address": "0x00e000c0",
-     "symbol": "?Object_ProcessState_00e000c0@@YAXPAUFUN_00d50c00_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpGenericConstraintData@@YAXPAUFUN_00d50c00_cls@@H@Z",
      "size": 19
     },
     {
      "address": "0x00e00100",
-     "symbol": "?Object_InvokeVirtualMethod_00e00100@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpFixedRigidMotion@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -647744,7 +647744,7 @@
     },
     {
      "address": "0x00e00120",
-     "symbol": "?Object_UpdateFields_00e00120@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkpFixedRigidMotion@@YAXPAHH@Z",
      "size": 48
     },
     {
@@ -647754,7 +647754,7 @@
     },
     {
      "address": "0x00e00160",
-     "symbol": "?Object_InvokeVirtualMethod_00e00160@@YAXPAUFUN_00e000a0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpDefaultWorldMemoryWatchDog@@YAXPAUFUN_00e000a0_vt@@@Z",
      "size": 13
     },
     {
@@ -647764,7 +647764,7 @@
     },
     {
      "address": "0x00e00180",
-     "symbol": "?Object_UpdateFields_00e00180@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpDefaultWorldMemoryWatchDog@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -647774,7 +647774,7 @@
     },
     {
      "address": "0x00e001a0",
-     "symbol": "?Object_InvokeVirtualMethod_00e001a0@@YAXPAUFUN_00e001a0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConstraintChainInstanceAction@@YAXPAUFUN_00e001a0_vt@@@Z",
      "size": 13
     },
     {
@@ -647784,12 +647784,12 @@
     },
     {
      "address": "0x00e001c0",
-     "symbol": "?Object_UpdateFields_00e001c0@@YAXPAUFUN_00cb0a70@@H@Z",
+     "symbol": "?finishLoadedObject_hkpConstraintChainInstanceAction@@YAXPAUFUN_00cb0a70@@H@Z",
      "size": 36
     },
     {
      "address": "0x00e00220",
-     "symbol": "?Object_InvokeVirtualMethod_00e00220@@YAXPAUFUN_00e00220_Class@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConstraintChainInstance@@YAXPAUFUN_00e00220_Class@@@Z",
      "size": 13
     },
     {
@@ -647804,7 +647804,7 @@
     },
     {
      "address": "0x00e002d0",
-     "symbol": "?Runtime_ForwardCall_00e002d0@@YAXPAUFUN_00e002d0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpCharacterMotion@@YAXPAUFUN_00e002d0_vt@@@Z",
      "size": 13
     },
     {
@@ -647814,7 +647814,7 @@
     },
     {
      "address": "0x00e002f0",
-     "symbol": "?Object_UpdateState_00e002f0@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkpCharacterMotion@@YAXPAHH@Z",
      "size": 48
     },
     {
@@ -647824,7 +647824,7 @@
     },
     {
      "address": "0x00e00330",
-     "symbol": "?Runtime_ForwardCall_00e00330@@YAXPAUFUN_00e00330_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpCallbackConstraintMotor@@YAXPAUFUN_00e00330_vt@@@Z",
      "size": 13
     },
     {
@@ -647834,7 +647834,7 @@
     },
     {
      "address": "0x00e00350",
-     "symbol": "?Runtime_UpdateState_00e00350@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpCallbackConstraintMotor@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -647844,7 +647844,7 @@
     },
     {
      "address": "0x00e00370",
-     "symbol": "?Runtime_ForwardCall_00e00370@@YAXPAUFUN_00e00370_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpCachingShapePhantom@@YAXPAUFUN_00e00370_vt@@@Z",
      "size": 13
     },
     {
@@ -647854,7 +647854,7 @@
     },
     {
      "address": "0x00e00390",
-     "symbol": "?Runtime_AllocateStorage_00e00390@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpCachingShapePhantom@@YAXPAXH@Z",
      "size": 19
     },
     {
@@ -647864,7 +647864,7 @@
     },
     {
      "address": "0x00e00430",
-     "symbol": "?Runtime_ForwardCall_00e00430@@YAXPAUFUN_00e00430_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpBoxMotion@@YAXPAUFUN_00e00430_vt@@@Z",
      "size": 13
     },
     {
@@ -647874,7 +647874,7 @@
     },
     {
      "address": "0x00e00450",
-     "symbol": "?Object_UpdateState_00e00450@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpBoxMotion@@YAXPAXH@Z",
      "size": 48
     },
     {
@@ -647884,7 +647884,7 @@
     },
     {
      "address": "0x00e00490",
-     "symbol": "?Runtime_ForwardCall_00e00490@@YAXPAUS_00e00490_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpAabbPhantom@@YAXPAUS_00e00490_vt@@@Z",
      "size": 13
     },
     {
@@ -647894,7 +647894,7 @@
     },
     {
      "address": "0x00e004b0",
-     "symbol": "?Runtime_ProcessState_00e004b0@@YAXPAUFUN_00e004f0_class@@H@Z",
+     "symbol": "?finishLoadedObject_hkpAabbPhantom@@YAXPAUFUN_00e004f0_class@@H@Z",
      "size": 19
     },
     {
@@ -647904,7 +647904,7 @@
     },
     {
      "address": "0x00e00550",
-     "symbol": "?Runtime_UpdateState_00e00550@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpTriangleShape@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -647924,7 +647924,7 @@
     },
     {
      "address": "0x00e005b0",
-     "symbol": "?Runtime_ForwardCall_00e005b0@@YAXPAUFUN_00e005b0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpTriSampledHeightFieldCollection@@YAXPAUFUN_00e005b0_vt@@@Z",
      "size": 13
     },
     {
@@ -647934,7 +647934,7 @@
     },
     {
      "address": "0x00e005d0",
-     "symbol": "?Runtime_ProcessState_00e005d0@@YAXPAUHandler_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpTriSampledHeightFieldCollection@@YAXPAUHandler_cls@@H@Z",
      "size": 19
     },
     {
@@ -647944,7 +647944,7 @@
     },
     {
      "address": "0x00e00670",
-     "symbol": "?Runtime_ForwardCall_00e00670@@YAXPAUFUN_00e00670_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpTriSampledHeightFieldBvTreeShape@@YAXPAUFUN_00e00670_vt@@@Z",
      "size": 13
     },
     {
@@ -647954,7 +647954,7 @@
     },
     {
      "address": "0x00e00690",
-     "symbol": "?Object_ProcessState_00e00690@@YAXPAVFUN_00e00690_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpTriSampledHeightFieldBvTreeShape@@YAXPAVFUN_00e00690_cls@@H@Z",
      "size": 19
     },
     {
@@ -647964,7 +647964,7 @@
     },
     {
      "address": "0x00e00720",
-     "symbol": "?Object_InvokeVirtualMethod_00e00720@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpTransformShape@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -647984,7 +647984,7 @@
     },
     {
      "address": "0x00e00790",
-     "symbol": "?Runtime_ForwardCall_00e00790@@YAXPAUFUN_00e00790_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpSphereShape@@YAXPAUFUN_00e00790_vt@@@Z",
      "size": 13
     },
     {
@@ -648004,7 +648004,7 @@
     },
     {
      "address": "0x00e007f0",
-     "symbol": "?Runtime_ForwardCall_00e007f0@@YAXPAUFUN_00e007f0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpShapeInfo@@YAXPAUFUN_00e007f0_vt@@@Z",
      "size": 13
     },
     {
@@ -648014,7 +648014,7 @@
     },
     {
      "address": "0x00e00810",
-     "symbol": "?Runtime_UpdateState_00e00810@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpShapeInfo@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648029,7 +648029,7 @@
     },
     {
      "address": "0x00e00930",
-     "symbol": "?Runtime_ForwardCall_00e00930@@YAXPAUFUN_00e00930_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpRemoveTerminalsMoppModifier@@YAXPAUFUN_00e00930_vt@@@Z",
      "size": 13
     },
     {
@@ -648039,7 +648039,7 @@
     },
     {
      "address": "0x00e00950",
-     "symbol": "?Object_UpdateState_00e00950@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpRemoveTerminalsMoppModifier@@YAXPAH@Z",
      "size": 29
     },
     {
@@ -648059,7 +648059,7 @@
     },
     {
      "address": "0x00e009c0",
-     "symbol": "_Object_InvokeVirtualMethod_00e009c0",
+     "symbol": "_cleanupLoadedObject_hkpPlaneShape",
      "size": 13
     },
     {
@@ -648069,7 +648069,7 @@
     },
     {
      "address": "0x00e009e0",
-     "symbol": "?Object_UpdateFields_00e009e0@fnv_00e009e0@@YAXPAUFUN_00e009e0_T@1@H@Z",
+     "symbol": "?finishLoadedObject_hkpPlaneShape@fnv_00e009e0@@YAXPAUFUN_00e009e0_T@1@H@Z",
      "size": 42
     },
     {
@@ -648079,7 +648079,7 @@
     },
     {
      "address": "0x00e00a20",
-     "symbol": "?Object_InvokeVirtualMethod_00e00a20@@YAXPAUFUN_00e00a20_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpNullCollisionFilter@@YAXPAUFUN_00e00a20_vt@@@Z",
      "size": 13
     },
     {
@@ -648089,7 +648089,7 @@
     },
     {
      "address": "0x00e00a40",
-     "symbol": "?Object_ProcessState_00e00a40@@YAXPAUFUN_00e00a40_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpNullCollisionFilter@@YAXPAUFUN_00e00a40_cls@@H@Z",
      "size": 19
     },
     {
@@ -648099,7 +648099,7 @@
     },
     {
      "address": "0x00e00ae0",
-     "symbol": "?Object_InvokeVirtualMethod_00e00ae0@@YAXPAUFUN_00e00930_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpMultiSphereShape@@YAXPAUFUN_00e00930_vt@@@Z",
      "size": 13
     },
     {
@@ -648119,7 +648119,7 @@
     },
     {
      "address": "0x00e00b40",
-     "symbol": "?Object_ProcessAndTransformResult_00e00b40@@YAXPAH@Z",
+     "symbol": "?cleanupLoadedObject_hkpGroupFilter@@YAXPAH@Z",
      "size": 13
     },
     {
@@ -648139,7 +648139,7 @@
     },
     {
      "address": "0x00e00c70",
-     "symbol": "?Runtime_ForwardCall_00e00c70@@YAXPAUFUN_00e00c70_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpFastMeshShape@@YAXPAUFUN_00e00c70_vt@@@Z",
      "size": 13
     },
     {
@@ -648149,12 +648149,12 @@
     },
     {
      "address": "0x00e00c90",
-     "symbol": "?Object_UpdateState_00e00c90@@YAXPAXH@Z",
+     "symbol": "?finishLoadedObject_hkpFastMeshShape@@YAXPAXH@Z",
      "size": 49
     },
     {
      "address": "0x00e00cf0",
-     "symbol": "?Runtime_ForwardCall_00e00cf0@@YAXPAUFUN_00e00cf0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpDefaultConvexListFilter@@YAXPAUFUN_00e00cf0_vt@@@Z",
      "size": 13
     },
     {
@@ -648164,7 +648164,7 @@
     },
     {
      "address": "0x00e00d10",
-     "symbol": "?Runtime_UpdateState_00e00d10@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpDefaultConvexListFilter@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648174,7 +648174,7 @@
     },
     {
      "address": "0x00e00d30",
-     "symbol": "?Runtime_EvaluateValue_00e00d30@@YAHPAH@Z",
+     "symbol": "?cleanupLoadedObject_hkpCylinderShape@@YAHPAH@Z",
      "size": 13
     },
     {
@@ -648184,12 +648184,12 @@
     },
     {
      "address": "0x00e00d50",
-     "symbol": "?hkpCylinderShape_hkpCylinderShape_00d57b20_ProcessState_00e00d50@@YAXPAUFUN_00d57b20_class@@H@Z",
+     "symbol": "?finishLoadedObject_hkpCylinderShape@@YAXPAUFUN_00d57b20_class@@H@Z",
      "size": 19
     },
     {
      "address": "0x00e00d90",
-     "symbol": "?Runtime_ForwardCall_00e00d90@@YAXPAUFUN_00e00d90_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConvexVerticesConnectivity@@YAXPAUFUN_00e00d90_vt@@@Z",
      "size": 13
     },
     {
@@ -648199,7 +648199,7 @@
     },
     {
      "address": "0x00e00db0",
-     "symbol": "?Runtime_UpdateState_00e00db0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkpConvexVerticesConnectivity@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648214,7 +648214,7 @@
     },
     {
      "address": "0x00e00e70",
-     "symbol": "?Runtime_ForwardCall_00e00e70@@YAHPAUFUN_00e00e70_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConvexTranslateShape@@YAHPAUFUN_00e00e70_vt@@@Z",
      "size": 13
     },
     {
@@ -648234,7 +648234,7 @@
     },
     {
      "address": "0x00e00ee0",
-     "symbol": "?Object_InvokeVirtualMethod_00e00ee0@@YAXPAUS_00e00ee0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConvexTransformShape@@YAXPAUS_00e00ee0_vt@@@Z",
      "size": 13
     },
     {
@@ -648254,7 +648254,7 @@
     },
     {
      "address": "0x00e00f50",
-     "symbol": "?Runtime_ForwardCall_00e00f50@@YAXPAUFUN_00e00f50_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConvexPieceMeshShape@@YAXPAUFUN_00e00f50_cls@@@Z",
      "size": 13
     },
     {
@@ -648264,7 +648264,7 @@
     },
     {
      "address": "0x00e00f70",
-     "symbol": "?Object_ProcessState_00e00f70@@YAXPAUFUN_00e00f70_cls@@H@Z",
+     "symbol": "?finishLoadedObject_hkpConvexPieceMeshShape@@YAXPAUFUN_00e00f70_cls@@H@Z",
      "size": 19
     },
     {
@@ -648274,7 +648274,7 @@
     },
     {
      "address": "0x00e01050",
-     "symbol": "?Runtime_ForwardCall_00e01050@@YAXPAUVirtualSlotObject@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpConvexListShape@@YAXPAUVirtualSlotObject@@@Z",
      "size": 13
     },
     {
@@ -648294,7 +648294,7 @@
     },
     {
      "address": "0x00e010c0",
-     "symbol": "?Object_InvokeVirtualMethod_00e010c0@@YAXPAUFUN_00e000a0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpCompressedSampledHeightFieldShape@@YAXPAUFUN_00e000a0_vt@@@Z",
      "size": 13
     },
     {
@@ -648304,7 +648304,7 @@
     },
     {
      "address": "0x00e010e0",
-     "symbol": "?Object_UpdateFields_00e010e0@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkpCompressedSampledHeightFieldShape@@YAXPAHH@Z",
      "size": 68
     },
     {
@@ -648314,7 +648314,7 @@
     },
     {
      "address": "0x00e011f0",
-     "symbol": "?Runtime_Helper_00e011f0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpCollisionFilterList@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -648334,7 +648334,7 @@
     },
     {
      "address": "0x00e01320",
-     "symbol": "?Object_InvokeVirtualMethod_00e01320@@YAXPAUFUN_00e01320_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpCapsuleShape@@YAXPAUFUN_00e01320_cls@@@Z",
      "size": 13
     },
     {
@@ -648354,7 +648354,7 @@
     },
     {
      "address": "0x00e01380",
-     "symbol": "?Object_InvokeVirtualMethod_00e01380@@YAXPAUFUN_00e01380_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkpBvShape@@YAXPAUFUN_00e01380_vt@@@Z",
      "size": 13
     },
     {
@@ -648364,7 +648364,7 @@
     },
     {
      "address": "0x00e013a0",
-     "symbol": "?Object_UpdateFields_00e013a0@@YAXPAPAHH@Z",
+     "symbol": "?finishLoadedObject_hkpBvShape@@YAXPAPAHH@Z",
      "size": 49
     },
     {
@@ -648374,7 +648374,7 @@
     },
     {
      "address": "0x00e013f0",
-     "symbol": "?Runtime_UpdateState_00e013f0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkpBoxShape@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -648394,7 +648394,7 @@
     },
     {
      "address": "0x00e01450",
-     "symbol": "?Runtime_EvaluateValue_00e01450@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkMemoryMeshShape@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -648404,12 +648404,12 @@
     },
     {
      "address": "0x00e01470",
-     "symbol": "?Object_UpdateState_00e01470@@YAXPAUFUN_00e01470_s@@H@Z",
+     "symbol": "?finishLoadedObject_hkMemoryMeshShape@@YAXPAUFUN_00e01470_s@@H@Z",
      "size": 28
     },
     {
      "address": "0x00e01510",
-     "symbol": "?Runtime_Helper_00e01510@@YAXPAUFUN_00cb0a70@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxVertexVectorDataChannel@@YAXPAUFUN_00cb0a70@@@Z",
      "size": 13
     },
     {
@@ -648419,7 +648419,7 @@
     },
     {
      "address": "0x00e01530",
-     "symbol": "?Runtime_UpdateState_00e01530@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxVertexVectorDataChannel@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648429,7 +648429,7 @@
     },
     {
      "address": "0x00e01550",
-     "symbol": "?Runtime_ForwardCall_00e01550@@YAXPAUFUN_00e01550_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxVertexSelectionChannel@@YAXPAUFUN_00e01550_vt@@@Z",
      "size": 13
     },
     {
@@ -648439,7 +648439,7 @@
     },
     {
      "address": "0x00e01570",
-     "symbol": "?Runtime_UpdateState_00e01570@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxVertexSelectionChannel@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648449,7 +648449,7 @@
     },
     {
      "address": "0x00e01590",
-     "symbol": "?Runtime_ForwardCall_00e01590@@YAXPAUFnvCpu_FUN_00e01590_CpuInterface@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxVertexIntDataChannel@@YAXPAUFnvCpu_FUN_00e01590_CpuInterface@@@Z",
      "size": 13
     },
     {
@@ -648459,7 +648459,7 @@
     },
     {
      "address": "0x00e015b0",
-     "symbol": "?Runtime_UpdateState_00e015b0@@YAXPAPAH@Z",
+     "symbol": "?finishLoadedObject_hkxVertexIntDataChannel@@YAXPAPAH@Z",
      "size": 15
     },
     {
@@ -648469,7 +648469,7 @@
     },
     {
      "address": "0x00e01640",
-     "symbol": "?Object_ProcessState_00e01640@@YAXPAH@Z",
+     "symbol": "?cleanupLoadedObject_hkxVertexFloatDataChannel@@YAXPAH@Z",
      "size": 13
     },
     {
@@ -648479,7 +648479,7 @@
     },
     {
      "address": "0x00e01660",
-     "symbol": "?Object_UpdateFields_00e01660@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxVertexFloatDataChannel@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648489,7 +648489,7 @@
     },
     {
      "address": "0x00e01680",
-     "symbol": "?Object_InvokeVirtualMethod_00e01680@@YAHPAUCallerVtbl@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxTriangleSelectionChannel@@YAHPAUCallerVtbl@@@Z",
      "size": 13
     },
     {
@@ -648499,7 +648499,7 @@
     },
     {
      "address": "0x00e016a0",
-     "symbol": "?Object_UpdateFields_00e016a0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxTriangleSelectionChannel@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648509,7 +648509,7 @@
     },
     {
      "address": "0x00e016c0",
-     "symbol": "?Object_InvokeVirtualMethod_00e016c0@@YAXPAUFUN_00e016c0_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxTextureInplace@@YAXPAUFUN_00e016c0_cls@@@Z",
      "size": 13
     },
     {
@@ -648519,7 +648519,7 @@
     },
     {
      "address": "0x00e016e0",
-     "symbol": "?Object_ProcessState_00e016e0@@YAXPAUEffectHolder@@H@Z",
+     "symbol": "?finishLoadedObject_hkxTextureInplace@@YAXPAUEffectHolder@@H@Z",
      "size": 41
     },
     {
@@ -648529,7 +648529,7 @@
     },
     {
      "address": "0x00e017d0",
-     "symbol": "?Runtime_ForwardCall_00e017d0@@YAXPAUFUN_00e017d0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxTextureFile@@YAXPAUFUN_00e017d0_vt@@@Z",
      "size": 13
     },
     {
@@ -648539,12 +648539,12 @@
     },
     {
      "address": "0x00e017f0",
-     "symbol": "?Object_UpdateState_00e017f0@@YAXPAPAUFUN_00cb0a70@@H@Z",
+     "symbol": "?finishLoadedObject_hkxTextureFile@@YAXPAPAUFUN_00cb0a70@@H@Z",
      "size": 50
     },
     {
      "address": "0x00e018c0",
-     "symbol": "?Object_ProcessAndTransformResult_00e018c0@@YAXPAH@Z",
+     "symbol": "?cleanupLoadedObject_hkxSparselyAnimatedString@@YAXPAH@Z",
      "size": 13
     },
     {
@@ -648554,7 +648554,7 @@
     },
     {
      "address": "0x00e018e0",
-     "symbol": "?Object_UpdateFields_00e018e0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxSparselyAnimatedString@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648564,7 +648564,7 @@
     },
     {
      "address": "0x00e019d0",
-     "symbol": "?Runtime_UpdateState_00e019d0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxSparselyAnimatedInt@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -648574,7 +648574,7 @@
     },
     {
      "address": "0x00e019f0",
-     "symbol": "?Runtime_UpdateState_00e019f0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxSparselyAnimatedInt@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648584,7 +648584,7 @@
     },
     {
      "address": "0x00e01a10",
-     "symbol": "?Runtime_ForwardCall_00e01a10@@YAXPAUFUN_00e01a10_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxSparselyAnimatedBool@@YAXPAUFUN_00e01a10_vt@@@Z",
      "size": 13
     },
     {
@@ -648594,7 +648594,7 @@
     },
     {
      "address": "0x00e01a30",
-     "symbol": "?Runtime_UpdateState_00e01a30@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxSparselyAnimatedBool@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648609,7 +648609,7 @@
     },
     {
      "address": "0x00e01af0",
-     "symbol": "?Runtime_UpdateState_00e01af0@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxSkinBinding@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -648619,7 +648619,7 @@
     },
     {
      "address": "0x00e01b10",
-     "symbol": "?Runtime_UpdateState_00e01b10@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxSkinBinding@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648634,7 +648634,7 @@
     },
     {
      "address": "0x00e01c10",
-     "symbol": "?Runtime_ForwardCall_00e01c10@@YAXPAUFUN_00e01c10_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxScene@@YAXPAUFUN_00e01c10_vt@@@Z",
      "size": 13
     },
     {
@@ -648644,12 +648644,12 @@
     },
     {
      "address": "0x00e01c30",
-     "symbol": "?Object_UpdateState_00e01c30@@YAXPAX0@Z",
+     "symbol": "?finishLoadedObject_hkxScene@@YAXPAX0@Z",
      "size": 41
     },
     {
      "address": "0x00e01cd0",
-     "symbol": "?Runtime_ForwardCall_00e01cd0@@YAXPAUFUN_00e01cd0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxNodeSelectionSet@@YAXPAUFUN_00e01cd0_vt@@@Z",
      "size": 13
     },
     {
@@ -648664,7 +648664,7 @@
     },
     {
      "address": "0x00e01e00",
-     "symbol": "?Object_InvokeVirtualMethod_00e01e00@@YAXPAUFUN_00e01e00_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxMeshUserChannelInfo@@YAXPAUFUN_00e01e00_vt@@@Z",
      "size": 13
     },
     {
@@ -648679,7 +648679,7 @@
     },
     {
      "address": "0x00e01e40",
-     "symbol": "?Object_InvokeVirtualMethod_00e01e40@@YAXPAUFUN_00e01e40_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxMesh@@YAXPAUFUN_00e01e40_vt@@@Z",
      "size": 13
     },
     {
@@ -648694,7 +648694,7 @@
     },
     {
      "address": "0x00e01f30",
-     "symbol": "?Runtime_Helper_00e01f30@@YAXPAH@Z",
+     "symbol": "?cleanupLoadedObject_hkxMeshSection@@YAXPAH@Z",
      "size": 13
     },
     {
@@ -648704,7 +648704,7 @@
     },
     {
      "address": "0x00e01f50",
-     "symbol": "?Runtime_UpdateState_00e01f50@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxMeshSection@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648714,12 +648714,12 @@
     },
     {
      "address": "0x00e020c0",
-     "symbol": "?Object_ProcessState_00e020c0@@YAXPAUFUN_00e4ae80_Obj@@H@Z",
+     "symbol": "?finishLoadedObject_hkxMaterialShaderSet@@YAXPAUFUN_00e4ae80_Obj@@H@Z",
      "size": 19
     },
     {
      "address": "0x00e020e0",
-     "symbol": "?Object_ForwardCall_00e020e0@@YAHPAUFUN_00e020e0_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxMaterialShaderSet@@YAHPAUFUN_00e020e0_vt@@@Z",
      "size": 13
     },
     {
@@ -648729,7 +648729,7 @@
     },
     {
      "address": "0x00e02120",
-     "symbol": "?Object_InvokeVirtualMethod_00e02120@@YAXPAVFUN_00e02120_cls@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxMaterialShader@@YAXPAVFUN_00e02120_cls@@@Z",
      "size": 13
     },
     {
@@ -648739,7 +648739,7 @@
     },
     {
      "address": "0x00e02140",
-     "symbol": "?Object_UpdateFields_00e02140@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkxMaterialShader@@YAXPAHH@Z",
      "size": 59
     },
     {
@@ -648749,7 +648749,7 @@
     },
     {
      "address": "0x00e02260",
-     "symbol": "?Object_InvokeVirtualMethod_00e02260@@YAXPAPAH@Z",
+     "symbol": "?cleanupLoadedObject_hkxMaterialEffect@@YAXPAPAH@Z",
      "size": 13
     },
     {
@@ -648759,12 +648759,12 @@
     },
     {
      "address": "0x00e02280",
-     "symbol": "?Object_UpdateFields_00e02280@@YAXPAHH@Z",
+     "symbol": "?finishLoadedObject_hkxMaterialEffect@@YAXPAHH@Z",
      "size": 28
     },
     {
      "address": "0x00e02340",
-     "symbol": "?Object_GetIndexedValue_00e02340@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxLight@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -648774,7 +648774,7 @@
     },
     {
      "address": "0x00e02360",
-     "symbol": "?Object_UpdateFields_00e02360@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxLight@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648784,7 +648784,7 @@
     },
     {
      "address": "0x00e02380",
-     "symbol": "?Object_ProcessState_00e02380@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxIndexBuffer@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -648794,7 +648794,7 @@
     },
     {
      "address": "0x00e023a0",
-     "symbol": "?Object_UpdateFields_00e023a0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxIndexBuffer@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648809,7 +648809,7 @@
     },
     {
      "address": "0x00e02460",
-     "symbol": "?Object_Destroy_Thunk_00e02460@@YAXPAUE02460Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxEdgeSelectionChannel@@YAXPAUE02460Object@@@Z",
      "size": 13
     },
     {
@@ -648819,7 +648819,7 @@
     },
     {
      "address": "0x00e02480",
-     "symbol": "?Object_UpdateFields_00e02480@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxEdgeSelectionChannel@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648829,7 +648829,7 @@
     },
     {
      "address": "0x00e024a0",
-     "symbol": "?Object_ComputeValue_00e024a0@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxCamera@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -648839,7 +648839,7 @@
     },
     {
      "address": "0x00e024c0",
-     "symbol": "?Object_UpdateFields_00e024c0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxCamera@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648849,7 +648849,7 @@
     },
     {
      "address": "0x00e024e0",
-     "symbol": "?Object_GetIndexedValue_00e024e0@@YAHPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkxAttributeHolder@@YAHPAX@Z",
      "size": 13
     },
     {
@@ -648859,7 +648859,7 @@
     },
     {
      "address": "0x00e02500",
-     "symbol": "?Object_UpdateFields_00e02500@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxAttributeHolder@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648869,7 +648869,7 @@
     },
     {
      "address": "0x00e02520",
-     "symbol": "?Object_Destroy_Thunk_00e02520@@YAXPAUE02520Object@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxAnimatedVector@@YAXPAUE02520Object@@@Z",
      "size": 13
     },
     {
@@ -648879,7 +648879,7 @@
     },
     {
      "address": "0x00e02540",
-     "symbol": "?Object_UpdateFields_00e02540@@YAXPAPAH@Z",
+     "symbol": "?finishLoadedObject_hkxAnimatedVector@@YAXPAPAH@Z",
      "size": 15
     },
     {
@@ -648889,7 +648889,7 @@
     },
     {
      "address": "0x00e02560",
-     "symbol": "?Object_InvokeVirtualMethod_00e02560@@YAHPAUFUN_00e02560_vt@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxAnimatedQuaternion@@YAHPAUFUN_00e02560_vt@@@Z",
      "size": 13
     },
     {
@@ -648899,7 +648899,7 @@
     },
     {
      "address": "0x00e02580",
-     "symbol": "?Object_UpdateFields_00e02580@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxAnimatedQuaternion@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648914,7 +648914,7 @@
     },
     {
      "address": "0x00e02610",
-     "symbol": "?Runtime_ForwardCall_00e02610@@YAHPAUFUN_00e026c0_vtbl@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxAnimatedMatrix@@YAHPAUFUN_00e026c0_vtbl@@@Z",
      "size": 13
     },
     {
@@ -648924,7 +648924,7 @@
     },
     {
      "address": "0x00e02630",
-     "symbol": "?Runtime_UpdateState_00e02630@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxAnimatedMatrix@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648934,7 +648934,7 @@
     },
     {
      "address": "0x00e026c0",
-     "symbol": "?Object_InvokeVirtualMethod_00e026c0@@YAHPAUFUN_00e026c0_vtbl@@@Z",
+     "symbol": "?cleanupLoadedObject_hkxAnimatedFloat@@YAHPAUFUN_00e026c0_vtbl@@@Z",
      "size": 13
     },
     {
@@ -648944,7 +648944,7 @@
     },
     {
      "address": "0x00e026e0",
-     "symbol": "?Object_UpdateFields_00e026e0@@YAXPAH@Z",
+     "symbol": "?finishLoadedObject_hkxAnimatedFloat@@YAXPAH@Z",
      "size": 15
     },
     {
@@ -648954,12 +648954,12 @@
     },
     {
      "address": "0x00e02700",
-     "symbol": "?Object_ProcessState_00e02700@@YAXPAVE02700Object@@PAX@Z",
+     "symbol": "?finishLoadedObject_hkAlignSceneToNodeOptions@@YAXPAVE02700Object@@PAX@Z",
      "size": 19
     },
     {
      "address": "0x00e02720",
-     "symbol": "?Object_InvokeVirtualMethod_00e02720@@YAXPAUFUN_00e02720_vtbl@@@Z",
+     "symbol": "?cleanupLoadedObject_hkAlignSceneToNodeOptions@@YAXPAUFUN_00e02720_vtbl@@@Z",
      "size": 13
     },
     {
@@ -648969,7 +648969,7 @@
     },
     {
      "address": "0x00e02760",
-     "symbol": "?Object_ProcessState_00e02760@@YAXPAX@Z",
+     "symbol": "?cleanupLoadedObject_hkOstream@@YAXPAX@Z",
      "size": 13
     },
     {
@@ -648979,7 +648979,7 @@
     },
     {
      "address": "0x00e02780",
-     "symbol": "?Object_UpdateFields_00e02780@@YAXPAX@Z",
+     "symbol": "?finishLoadedObject_hkOstream@@YAXPAX@Z",
      "size": 24
     },
     {
@@ -649635,7 +649635,7 @@
    "functions": [
     {
      "address": "0x00e000e0",
-     "symbol": "?Object_GetConstructedVirtualTable_00e000e0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpGenericConstraintData@@YAPBXXZ",
      "size": 28
     },
     {
@@ -649650,12 +649650,12 @@
     },
     {
      "address": "0x00e003b0",
-     "symbol": "?Runtime_GetVtableFromTemporary_00e003b0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpCachingShapePhantom@@YAPBXXZ",
      "size": 31
     },
     {
      "address": "0x00e004d0",
-     "symbol": "?Runtime_GetVtableFromTemporary_00e004d0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpAabbPhantom@@YAPBXXZ",
      "size": 31
     },
     {
@@ -649665,12 +649665,12 @@
     },
     {
      "address": "0x00e006b0",
-     "symbol": "?Runtime_GetVtableFromTemporary_00e006b0@@YAPBXXZ",
+     "symbol": "?getVtable_hkpTriSampledHeightFieldBvTreeShape@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00e00a60",
-     "symbol": "?Object_ProcessAndReturnValue_00e00a60@@YAIXZ",
+     "symbol": "?getVtable_hkpNullCollisionFilter@@YAIXZ",
      "size": 28
     },
     {
@@ -649685,22 +649685,22 @@
     },
     {
      "address": "0x00e00d70",
-     "symbol": "?hkpCylinderShape_hkpCylinderShape_00d57b20_EvaluateValue_00e00d70@@YAHXZ",
+     "symbol": "?getVtable_hkpCylinderShape@@YAHXZ",
      "size": 28
     },
     {
      "address": "0x00e00f90",
-     "symbol": "?Runtime_GetVtableFromTemporary_00e00f90@@YAPBXXZ",
+     "symbol": "?getVtable_hkpConvexPieceMeshShape@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00e01230",
-     "symbol": "?Runtime_UpdateState_00e01230@@YAPBXXZ",
+     "symbol": "?getVtable_hkpCollisionFilterList@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00e01490",
-     "symbol": "?Runtime_UpdateState_00e01490@@YAPBXXZ",
+     "symbol": "?getVtable_hkMemoryMeshShape@@YAPBXXZ",
      "size": 36
     },
     {
@@ -649710,7 +649710,7 @@
     },
     {
      "address": "0x00e01830",
-     "symbol": "?Runtime_UpdateState_00e01830@@YAPBXXZ",
+     "symbol": "?getVtable_hkxTextureFile@@YAPBXXZ",
      "size": 59
     },
     {
@@ -649720,12 +649720,12 @@
     },
     {
      "address": "0x00e01d10",
-     "symbol": "?Runtime_UpdateState_00e01d10@@YAPBXXZ",
+     "symbol": "?getVtable_hkxNodeSelectionSet@@YAPBXXZ",
      "size": 36
     },
     {
      "address": "0x00e01e50",
-     "symbol": "?Runtime_GetVtableFromTemporary_00e01e50@@YAPBXXZ",
+     "symbol": "?getVtable_hkxMesh@@YAPBXXZ",
      "size": 28
     },
     {
@@ -649735,22 +649735,22 @@
     },
     {
      "address": "0x00e020f0",
-     "symbol": "?Runtime_GetVtableFromTemporary_00e020f0@@YAPBXXZ",
+     "symbol": "?getVtable_hkxMaterialShaderSet@@YAPBXXZ",
      "size": 28
     },
     {
      "address": "0x00e02180",
-     "symbol": "?Object_ProcessAndReturnValue_00e02180@@YAPAHXZ",
+     "symbol": "?getVtable_hkxMaterialShader@@YAPAHXZ",
      "size": 69
     },
     {
      "address": "0x00e022a0",
-     "symbol": "?Object_ProcessAndReturnValue_00e022a0@@YAPBXXZ",
+     "symbol": "?getVtable_hkxMaterialEffect@@YAPBXXZ",
      "size": 36
     },
     {
      "address": "0x00e02730",
-     "symbol": "?Runtime_GetVtableFromTemporary_00e02730@@YAPBXXZ",
+     "symbol": "?getVtable_hkAlignSceneToNodeOptions@@YAPBXXZ",
      "size": 28
     },
     {

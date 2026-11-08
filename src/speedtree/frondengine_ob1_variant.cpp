@@ -2340,7 +2340,7 @@ struct Parser
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
     int CTreeFileAccess_ParseBranchParameter();
-    bool ProcessAndTransformResult_00b06180();
+    bool CTreeFileAccess_ParseBool();
     FUN_0044a4c0 CTreeFileAccess_ParseString();
 };
 struct PQ : FUN_0044a4c0
@@ -2418,7 +2418,7 @@ void Frond::CFrondEngine_Parse(Parser* p)
             i44 = p->GetNextElement();
             break;
         case 0x32cf:
-            b4c = p->ProcessAndTransformResult_00b06180();
+            b4c = p->CTreeFileAccess_ParseBool();
             break;
         case 0x32d1:
             i68 = p->GetNextElement();

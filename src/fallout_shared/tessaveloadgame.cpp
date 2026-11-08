@@ -2240,14 +2240,14 @@ class C8578b0
 class C857950
 {
   public:
-    void __thiscall UpdateState_00857950(int* a, int b);
+    void __thiscall TESSaveLoadGame_DeleteSaveGame(int* a, int b);
 };
 
 void __cdecl BSSystemFile_DeleteFileA(int);
 
 // @fnv 0x00857950
-// src: GUESS 0x00857950 (confidence: low)
-void __thiscall C857950::UpdateState_00857950(int* pObject, int b)
+// src: COMMUNITY 0x00857950
+void __thiscall C857950::TESSaveLoadGame_DeleteSaveGame(int* pObject, int b)
 {
     int* p;
     if (pObject == 0)
@@ -3598,7 +3598,7 @@ extern "C" __declspec(dllimport) int __stdcall DeleteFileA(const char*);
 struct SaveOwner
 {
     void BuildSaveFilename(char*);
-    void UpdateState_00857950(SaveFile*, int);
+    void TESSaveLoadGame_DeleteSaveGame(SaveFile*, int);
     SaveFile* OpenSaveFile(SaveFile*, const char*, unsigned int);
 };
 // Builds the save file path from the name and settings, rotates .bak backups, then opens or seeks a SaveFile according to mode.
@@ -3663,7 +3663,7 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
             lengthX = BSStringLength(shortName);
             if (lengthX > 4 && !_strnicmp(shortName + lengthX - 4, ".ess", 4))
                 shortName[lengthX - 4] = 0;
-            UpdateState_00857950(file, 0);
+            TESSaveLoadGame_DeleteSaveGame(file, 0);
             if (!_strnicmp(shortName, "Save ", 5) || FUN_004812f0(shortName, "autosave"))
                 result2 = OpenSaveFile(0, 0, 0);
             else

@@ -6030,7 +6030,7 @@ struct E
     int ExtraDataList_GetPackageExtraIndex();
     void ExtraDataList_SetPackageExtraIndex(int);
     void SetExtraDataFlag(bool);
-    void AllocateStorage_0041c930(P*, int, int, bool);
+    void ExtraDataList_SetPackageExtra(P*, int, int, bool);
     void FUN_004211d0(int);
 };
 struct Empty
@@ -6086,7 +6086,7 @@ bool LowProcess::TrySelectTarget(Actor* ref, TESPackage** ppOut)
                     SetProcessConditionMet(false);
                     SetAnimationComplete(false);
                     E* f7 = reinterpret_cast<R*>(ref)->BSFile_GetDevice();
-                    f7->AllocateStorage_0041c930(d, 0, g4, reinterpret_cast<CheckProcessFlag>((*reinterpret_cast<void***>(this))[0x11c / 4])(
+                    f7->ExtraDataList_SetPackageExtra(d, 0, g4, reinterpret_cast<CheckProcessFlag>((*reinterpret_cast<void***>(this))[0x11c / 4])(
                         this, reinterpret_cast<CheckProcessFlag>((*reinterpret_cast<void***>(this))[0x4e8 / 4])(
                             this, static_cast<const BaseProcess*>(this)->IsProcessActivityActive())));
                     int e = FUN_008c6ca0(d->FUN_0041ca90());

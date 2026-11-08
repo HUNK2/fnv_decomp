@@ -5659,7 +5659,7 @@ struct CleanupHandler
     bool TESDataHandler_GetClearingData();
 };
 extern CleanupHandler* DAT_011c3f2c;
-void hkVector4_ProcessEntries_0062ab60(CleanupVector&, void*);
+void TESArrowTargetListener_RemoveArrowTarget(CleanupVector&, void*);
 struct FUN_008cac60 : CleanupReference
 {
     virtual ~FUN_008cac60();
@@ -5685,7 +5685,7 @@ FUN_008cac60::~FUN_008cac60()
             CleanupVector audioVector;
             audioVector.FUN_006815c0();
             world->GetAudioPosition(audioVector);
-            hkVector4_ProcessEntries_0062ab60(audioVector, data->worldHandle);
+            TESArrowTargetListener_RemoveArrowTarget(audioVector, data->worldHandle);
         }
     }
     if (!detached && data && data->kind == 0 && data->actor && data->actor->IsActor())

@@ -234,7 +234,7 @@ struct FUN_0048e370_obj
 };
 struct FUN_00593320_shell
 {
-    void ProcessState_00593320(void*);
+    void DecalData_Save(void*);
 };
 void __cdecl TESForm_AddChunk_00485950(unsigned int, unsigned int);
 extern unsigned int DAT_0118c574[6];
@@ -246,7 +246,7 @@ void BGSTextureSetMethods::SaveTextureSet()
     for (i = 0; i < 6; ++i)
         ((FUN_0048e370_obj*)&pTextures[i])->TESTexture_Save(DAT_0118c574[i]);
     if (m_pDecalData)
-        ((FUN_00593320_shell*)m_pDecalData)->ProcessState_00593320((void*)0x54444f44);
+        ((FUN_00593320_shell*)m_pDecalData)->DecalData_Save((void*)0x54444f44);
     TESForm_AddChunk_00485950(0x4d414e44, iFlags);
     TESForm::FinishFormRecord();
 }

@@ -5309,12 +5309,12 @@ bool __cdecl Cmd_GetAmountSoldStolen_Execute(void* a, void* b, void* c, void* d,
 struct FUN_005ce040_class
 {
     void FUN_005fc970(int, int);
-    void ForwardCall_005ce040(bool b);
+    void TESFaction_SetPCExpelled(bool b);
 };
 
 // @fnv 0x005ce040
-// src: GUESS 0x005ce040 (confidence: low)
-void FUN_005ce040_class::ForwardCall_005ce040(bool b)
+// src: COMMUNITY 0x005ce040
+void FUN_005ce040_class::TESFaction_SetPCExpelled(bool b)
 {
     FUN_005fc970(8, b);
 }
@@ -8680,7 +8680,7 @@ namespace fnv_005cd5b0 {
 bool __fastcall PlayerCharacter_IsSleeping(bool const*);
 struct FUN_005c1a00 { void Set(int, char); };
 extern FUN_005c1a00* _g_thePlayer;
-extern "C" void __cdecl Object_UpdateFields_007055c0();
+extern "C" void __cdecl Interface_CloseSleepMenu();
 // @fnv 0x005cd5b0
 // src: EXE 0x005cd5b0
 bool Cmd_WakeUpPC_Execute(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
@@ -8694,7 +8694,7 @@ bool Cmd_WakeUpPC_Execute(const ScriptParameter* parameters, const char* scriptD
             value = 0;
         _g_thePlayer->Set(value, 1);
         if (value == 0)
-            Object_UpdateFields_007055c0();
+            Interface_CloseSleepMenu();
     }
     return true;
 }
@@ -10925,7 +10925,7 @@ namespace fnv_005cdfb0 {
 class FUN_005ce040_class
 {
 public:
-    void ForwardCall_005ce040(bool);
+    void TESFaction_SetPCExpelled(bool);
 };
 
 class DoorCell
@@ -10953,7 +10953,7 @@ bool Cmd_SetPCExpelled_Execute(const ScriptParameter* parameter, const char* nam
 
     if (other)
     {
-        object->ForwardCall_005ce040(true);
+        object->TESFaction_SetPCExpelled(true);
 
         int cullResult = _g_thePlayer->GetCullResult();
         if (cullResult)
@@ -10961,7 +10961,7 @@ bool Cmd_SetPCExpelled_Execute(const ScriptParameter* parameter, const char* nam
     }
     else
     {
-        object->ForwardCall_005ce040(false);
+        object->TESFaction_SetPCExpelled(false);
     }
 
     return true;
@@ -16549,7 +16549,7 @@ bool Cmd_GetPCFactionMurder_Execute(int a0, int a1, int a2, int a3, int a4, int 
 }
 
 struct FUN_0047eb90_Class {
-    void __thiscall ForwardCall_0047eb90(unsigned int state);
+    void __thiscall TESFaction_SetPCAnEnemy(unsigned int state);
 };
 extern "C" unsigned char __cdecl Script_ParseParameters(
     unsigned int arg1, unsigned int arg2, unsigned int last,
@@ -16567,9 +16567,9 @@ bool __cdecl Cmd_SetPCEnemyofFaction_Execute(unsigned int arg1, unsigned int arg
     if (!Script_ParseParameters(arg1, arg2, arg8, arg3, arg4, arg5, arg6, &state, &result))
         return false;
     if (result)
-        state->ForwardCall_0047eb90(1);
+        state->TESFaction_SetPCAnEnemy(1);
     else
-        state->ForwardCall_0047eb90(0);
+        state->TESFaction_SetPCAnEnemy(0);
     return true;
 }
 
@@ -22721,7 +22721,7 @@ struct MgrQ { void PlayerCharacter_SetOccupiedRegion(int); };
 extern MgrQ* DAT_011dea3c;
 struct SkyQ {
   int unk00, unk04, unk08, unk0c, unk10, unk14; int iVal18; int iVal1c;
-  int TESMain_GetThread(); void SetAcceleration(unsigned char); void UpdateFields_0063d0e0(int, bool);
+  int TESMain_GetThread(); void SetAcceleration(unsigned char); void ForceWeather(int, bool);
 };
 SkyQ* FUN_0046dd00();
 // @fnv 0x005b7590
@@ -22740,7 +22740,7 @@ bool Cmd_SetWeather_Execute(void* paramInfo, void* scriptData, void* thisObj, vo
     }
     if (!DAT_0126fd98.bDebug) pWeatherSky->SetAcceleration(1);
   } else {
-    pWeatherSky->UpdateFields_0063d0e0(iValue, iFlag_xafirk != 0);
+    pWeatherSky->ForceWeather(iValue, iFlag_xafirk != 0);
   }
   return true;
 }

@@ -78,11 +78,11 @@ bool __cdecl TESForm_QEndianSwapOnSave();
 void __cdecl AppendChunk(void*, void*, unsigned int);
 struct FUN_00593320_shell
 {
-    void ProcessState_00593320(void*);
+    void DecalData_Save(void*);
 };
 // @fnv 0x00593320
-// src: GUESS 0x00593320 (confidence: low)
-void FUN_00593320_shell::ProcessState_00593320(void* a1)
+// src: COMMUNITY 0x00593320
+void FUN_00593320_shell::DecalData_Save(void* a1)
 {
     if (TESForm_QEndianSwapOnSave())
         ((DecalData*)this)->SwapEndianFields();

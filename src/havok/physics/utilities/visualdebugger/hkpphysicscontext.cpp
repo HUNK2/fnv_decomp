@@ -15,7 +15,7 @@ extern "C" void* const DAT_010cb1e4[];
 // src/havok/physics/utilities/visualdebugger/hkpphysicscontext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/hkpphysicscontext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-void __cdecl Object_UpdateFields_00d6ad40();
+void __cdecl hkpBroadphaseViewer_registerViewer();
 void __cdecl hkpMidphaseViewer_Create_SetDAT01269024();
 void __cdecl RegisterCenterOfMass();
 void __cdecl RegisterConstraintsProcessFactory();
@@ -39,7 +39,7 @@ void __cdecl RegisterWeldingViewer();
 // src: XBOX_PDB 0x00cd1ed0
 void __cdecl hkpPhysicsContext_registerAllPhysicsProcesses()
 {
-    Object_UpdateFields_00d6ad40();
+    hkpBroadphaseViewer_registerViewer();
     hkpMidphaseViewer_Create_SetDAT01269024();
     RegisterCenterOfMass();
     RegisterConstraintsProcessFactory();

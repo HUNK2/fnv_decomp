@@ -626,8 +626,8 @@ struct FUN_00559450_Owner
 bool __cdecl InterfaceManager_Has360Controller();
 
 // @fnv 0x007ca700
-// src: GUESS 0x007ca700 (confidence: low)
-void __cdecl Object_UpdateFields_007ca700(void* pObject)
+// src: COMMUNITY 0x007ca700
+void __cdecl SPECIALBookMenu_RefreshLeftAVButton(void* pObject)
 {
     int iValue = *(int*)((char*)pObject + 0x24);
     if (((FUN_007ca700_Virt*)(DAT_011dea3c + 0xa4))->v07(iValue) > 1)
@@ -1446,8 +1446,8 @@ struct CsParam
 extern char* DAT_011dea3c;
 
 // @fnv 0x007ca7a0
-// src: GUESS 0x007ca7a0 (confidence: low)
-void __cdecl Object_UpdateFields_007ca7a0(CsParam* param_1)
+// src: COMMUNITY 0x007ca7a0
+void __cdecl SPECIALBookMenu_RefreshRightAVButton(CsParam* param_1)
 {
     int iValue = param_1->unk24;
     if (((CsVObj*)(DAT_011dea3c + 0xa4))->vf07(iValue) < 10 &&
@@ -2009,8 +2009,8 @@ struct FUN_007ca960_Owner
 };
 
 // @fnv 0x007ca960
-// src: GUESS 0x007ca960 (confidence: low)
-void __cdecl Object_ProcessAndReturnValue_007ca960(void* apSelf)
+// src: COMMUNITY 0x007ca960
+void __cdecl SPECIALBookMenu_DecreaseActorValue(void* apSelf)
 {
     if (!DAT_011daa38)
         return;

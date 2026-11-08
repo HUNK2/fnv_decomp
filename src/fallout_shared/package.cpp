@@ -12471,7 +12471,7 @@ struct PackageTargetComparison
 };
 struct PackageListComparison
 {
-    bool EvaluateValue_0067fe10(PackageListComparison*);
+    bool PackageSchedule_Compare(PackageListComparison*);
 };
 struct PackageSpellComparison
 {
@@ -12632,7 +12632,7 @@ bool PackageComparison::TESPackage_Compare(TESForm* form)
     }
     if (TESPackage_GetPackageSchedule())
     {
-        if (TESPackage_GetPackageSchedule()->EvaluateValue_0067fe10(other->TESPackage_GetPackageSchedule()))
+        if (TESPackage_GetPackageSchedule()->PackageSchedule_Compare(other->TESPackage_GetPackageSchedule()))
             return true;
     }
     else if (other->TESPackage_GetPackageSchedule())

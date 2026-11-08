@@ -1058,11 +1058,11 @@ void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
 void __cdecl TESForm_AddChunk_00485950(unsigned int, unsigned int);
 struct FUN_00438c10_Class : public FNStub
 {
-    void __thiscall ReleaseStorage_00438c10();
+    void __thiscall MapMarkerData_Save();
 };
 // @fnv 0x00438c10
-// src: GUESS 0x00438c10 (confidence: low)
-void __thiscall FUN_00438c10_Class::ReleaseStorage_00438c10()
+// src: COMMUNITY 0x00438c10
+void __thiscall FUN_00438c10_Class::MapMarkerData_Save()
 {
     TESForm_AddChunk_3(0x4d414e46, *(unsigned char*)((char*)this + 0xc));
     TESForm_AddChunkArray(0x4c4c5546, (void*)GetFullName(), ((TESModel*)this)->GetModelLength() + 1);

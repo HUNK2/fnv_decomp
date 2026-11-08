@@ -101,12 +101,12 @@ struct FUN_00e02ee0_cls
     int unk04;
     int unk08;
 
-    int GetUnk08_00e02ee0();
+    int hkOffsetOnlyStreamWriter_tell();
 };
 
 // @fnv 0x00e02ee0
-// src: GUESS 0x00e02ee0 (confidence: low)
-int FUN_00e02ee0_cls::GetUnk08_00e02ee0()
+// src: EXE 0x00e02ee0
+int FUN_00e02ee0_cls::hkOffsetOnlyStreamWriter_tell()
 {
     return unk08;
 }

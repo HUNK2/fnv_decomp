@@ -17167,11 +17167,11 @@ struct GvBinaryFile
     virtual void v00();
     void FutBinaryFileC_close();
     bool FutBinaryFileC_readHeader(char* data, unsigned int count, bool exact);
-    bool ProcessAndReturnValue_00ac4f00(const BxString& path);
+    bool FutBinaryFileC_openForAppend(const BxString& path);
 };
 // @fnv 0x00ac4f00
-// src: GUESS 0x00ac4f00 (confidence: low)
-bool GvBinaryFile::ProcessAndReturnValue_00ac4f00(const BxString& path)
+// src: COMMUNITY 0x00ac4f00
+bool GvBinaryFile::FutBinaryFileC_openForAppend(const BxString& path)
 {
     FutBinaryFileC_close();
     pFile = fopen(path.c_str(), "a+b");
@@ -38559,8 +38559,8 @@ struct FileGuard
 }  // namespace ac3_signature
 
 // @fnv 0x00ac3fe0
-// src: GUESS 0x00ac3fe0 (confidence: low)
-bool FutBinaryFileC::ProcessAndReturnValue_00ac3fe0(const ::BxString& path)
+// src: COMMUNITY 0x00ac3fe0
+bool FutBinaryFileC::isCorrectFileId(const ::BxString& path)
 {
     using ac3_signature::FileGuard;
     using ac3_signature::futSetLastError;
@@ -40768,12 +40768,12 @@ struct GvBinaryFile
     virtual void v00();
     void FutBinaryFileC_close();
     bool FutBinaryFileC_readHeader(char* data, unsigned int count, bool exact);
-    bool ProcessAndReturnValue_00ac4b00(const BxString& path);
+    bool FutBinaryFileC_openForUpdate(const BxString& path);
 };
 
 // @fnv 0x00ac4b00
-// src: GUESS 0x00ac4b00 (confidence: low)
-bool GvBinaryFile::ProcessAndReturnValue_00ac4b00(const BxString& path)
+// src: COMMUNITY 0x00ac4b00
+bool GvBinaryFile::FutBinaryFileC_openForUpdate(const BxString& path)
 {
     FutBinaryFileC_close();
     pFile = fopen(path.c_str(), "r+b");

@@ -479,7 +479,7 @@ struct Unk_004ca1a0
     List_009e03e0* pList;
     void DestroyList();
 };
-void TESForm_UpdateFields_004ce300(TESForm* a, unsigned int b);
+void TESScriptableForm_SetFormScript(TESForm* a, unsigned int b);
 struct FUN_004ce340_stand
 {
     void InventoryChanges_RemoveAllTypedItems(int a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
@@ -3348,7 +3348,7 @@ extern Registry* DAT_011de45c;
 Inventory* __cdecl FUN_004bf220(void*);
 void* __cdecl TESScriptableForm_GetFormScript(TESBoundObject*);
 CopiedForm* __cdecl FUN_00465110(int);
-void __cdecl TESForm_UpdateFields_004ce300(CopiedForm*, int);
+void __cdecl TESScriptableForm_SetFormScript(CopiedForm*, int);
 struct Inventory
 {
     ItemNode* head;
@@ -3394,7 +3394,7 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
                 {
                     clone = FUN_00465110(((FormView*)formSlot11)->FUN_00401170());
                     clone->v108(formSlot11);
-                    TESForm_UpdateFields_004ce300(clone, 0);
+                    TESScriptableForm_SetFormScript(clone, 0);
                     DAT_011c3f2c->FUN_004603b0(clone);
                     DAT_011de45c->FUN_00861780(clone);
                     int quantity = baseCountSlot31;
@@ -3459,7 +3459,7 @@ void Inventory::ExtraContainerChangeData_DuplicateAllItem(void* source, void* de
             {
                 clone2 = FUN_00465110(((FormView*)changedSlot20->FUN_0044ddc0())->FUN_00401170());
                 clone2->v108(changedSlot20->FUN_0044ddc0());
-                TESForm_UpdateFields_004ce300(clone2, 0);
+                TESScriptableForm_SetFormScript(clone2, 0);
                 DAT_011c3f2c->FUN_004603b0(clone2);
                 DAT_011de45c->FUN_00861780(clone2);
                 copySlot14 = new Item((TESBoundObject*)clone2, changedSlot20->FUN_00726070());

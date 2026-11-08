@@ -139,7 +139,7 @@ public:
     int m_iJobId;
 };
 extern int DAT_010cc4f4;
-void __cdecl Runtime_UpdateState_00d9f6d0(int* p);
+void __cdecl finishLoadedObject_hkpSimulation(int* p);
 struct FUN_00d85300_Stub {
     void ComputeValue_00d85300(int*);
 };
@@ -988,7 +988,7 @@ struct FUN_00d9a4d0_Class {
 struct FnvCpu_FUN_00d9f6b0_CpuInterface {
     virtual void Invoke(int value);
 };
-void __cdecl Runtime_ForwardCall_00d9f6b0(FnvCpu_FUN_00d9f6b0_CpuInterface* object);
+void __cdecl cleanupLoadedObject_hkpSimulation(FnvCpu_FUN_00d9f6b0_CpuInterface* object);
 extern char DAT_0102e388;
 struct FUN_00d9fb30_Stub {
     void SetVtableAndProcessState_00d9fb30();
@@ -2549,8 +2549,8 @@ struct MemberD86 {
     __declspec(noinline) int FUN_00d86b30() { return subType; }
 };
 // @fnv 0x00d86ec0
-// src: GUESS 0x00d86ec0 (confidence: low)
-extern "C" int __fastcall Object_ProcessAndReturnValue_00d86ec0(MemberD86* self, void*, char* output, int capacity) {
+// src: COMMUNITY 0x00d86ec0
+extern "C" int __fastcall hkClassMember_getTypeName(MemberD86* self, void*, char* output, int capacity) {
     TypeNameD86* cls = self->classType;
     int t = self->type;
     const char* className = cls ? cls->FUN_00d46d40() : "unknown";

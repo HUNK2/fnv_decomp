@@ -12509,11 +12509,11 @@ struct Extra_00432870 : public LegacyExtraData
 struct FUN_0041c930_shell : public ExtraDataList
 {
     void ExtraDataList_RemovePackageExtra();
-    void AllocateStorage_0041c930(Package_0041c930*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
+    void ExtraDataList_SetPackageExtra(Package_0041c930*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
 };
 // @fnv 0x0041c930
-// src: GUESS 0x0041c930 (confidence: low)
-void FUN_0041c930_shell::AllocateStorage_0041c930(Package_0041c930* package, unsigned int value, unsigned int options,
+// src: COMMUNITY 0x0041c930
+void FUN_0041c930_shell::ExtraDataList_SetPackageExtra(Package_0041c930* package, unsigned int value, unsigned int options,
                                       unsigned char flag1, unsigned char flag2, unsigned char flag3)
 {
     if (package != 0 && ((package->FUN_00674d40() && package->FUN_0041ca90() != 1) || package->FUN_00674e40() ||
@@ -14327,7 +14327,7 @@ struct Form
 {
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void SaveDoorTeleportData();
-    void ReleaseStorage_00438c10();
+    void MapMarkerData_Save();
     void WriteToStream();
     void FUN_00483710();
     void RagDollData_Save();
@@ -14622,7 +14622,7 @@ void ExtraList::WriteToSave()
         }
         case 44: {
             TESForm_AddChunk('KRMX');
-            extra->form->ReleaseStorage_00438c10();
+            extra->form->MapMarkerData_Save();
             break;
         }
         case 144: {
@@ -17743,7 +17743,7 @@ struct Extras
     void ExtraDataList_SetScriptLocals(ScriptLocals*);
     void SetLeveledItemIndex(unsigned int);
     void SetExtraDataByte(unsigned char);
-    void AllocateStorage_0041c930(TESPackage*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
+    void ExtraDataList_SetPackageExtra(TESPackage*, unsigned int, unsigned int, unsigned char, unsigned char, unsigned char);
     void SetTrespassPackage(TESPackage*);
     void ExtraDataList_SetReferencePointer(unsigned int);
     void FUN_0041d700(TESPackage*, unsigned char);
@@ -18044,7 +18044,7 @@ void Extras::ExtraDataList_LoadGame(unsigned int auiChangeFlags, unsigned int un
             if (!quYjuqT)
                 quYjuqT = dynamic_cast<TESPackage*>(TESForm_GetFormByNumericID(qidnYUK));
             if (quYjuqT)
-                AllocateStorage_0041c930(quYjuqT, qoPB, qtOMjSX, qCWCA, qbfQdhM, 0);
+                ExtraDataList_SetPackageExtra(quYjuqT, qoPB, qtOMjSX, qCWCA, qbfQdhM, 0);
             break;
         }
         case 26: {
@@ -18428,8 +18428,8 @@ void __cdecl ActiveEffect_SaveActiveEffectListBGS(BufObj* a1, void* a2);
 struct ListObj
 {
     ExtradatalistListNodeView** FUN_006815c0();
-    void SaveState_0083fb10(BufObj* a1);
-    void SaveFields_0043aa40(BufObj* a1);
+    void MenuTopic_SaveGame(BufObj* a1);
+    void DoorTeleportData_SaveGame(BufObj* a1);
     ListObj* FUN_00726070();
     int FUN_0045cd60();
     unsigned char InterfaceManager_GetMenuMode();
@@ -18978,7 +18978,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x4d: {
                 Node* t = node;
-                t->m_0c->SaveState_0083fb10(apBuffer);
+                t->m_0c->MenuTopic_SaveGame(apBuffer);
                 break;
             }
             case 0x4e: {
@@ -19028,7 +19028,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x2b: {
                 Node* t = node;
-                t->m_0c->SaveFields_0043aa40(apBuffer);
+                t->m_0c->DoorTeleportData_SaveGame(apBuffer);
                 break;
             }
             case 0x3c: {

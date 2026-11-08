@@ -342,7 +342,7 @@ void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
 void __cdecl TESFile_TransformReferencedInt64(void*, EndianSizeTag<0>);
 struct T2870
 {
-    void __thiscall ProcessState_005e2870();
+    void __thiscall SCRIPT_LOCAL_Endian();
 };
 struct FUN_005ec700_shell : TESFaction_RankDataView
 {

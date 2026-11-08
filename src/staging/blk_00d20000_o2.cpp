@@ -131,7 +131,7 @@ void __cdecl hkpListAgent_initAgentFunc(void* apObject)
 
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void hkpSphereTriangleAgent_staticGetClosestPoints();
 void Object_ProcessEntries_00daf8e0();
 
 // Fills the first four pointer slots of p with function addresses and clears the two bytes at offsets 0x10 and 0x11.
@@ -141,7 +141,7 @@ void __cdecl Object_InitializeAgentFunctionTable_00d3dbe0(void* apObject)
 {
     ((void**)apObject)[0] = (void*)&CreateRetObj;
     ((void**)apObject)[1] = (void*)&hkpSphereTriangleAgent_staticGetPenetrations;
-    ((void**)apObject)[2] = (void*)&hkpCdBody_ProcessAndReturnValue_00d3d8c0;
+    ((void**)apObject)[2] = (void*)&hkpSphereTriangleAgent_staticGetClosestPoints;
     ((void**)apObject)[3] = (void*)&Object_ProcessEntries_00daf8e0;
     ((unsigned char*)apObject)[0x10] = 0;
     ((unsigned char*)apObject)[0x11] = 0;
@@ -214,7 +214,7 @@ void __cdecl Runtime_CopyMemory_00d2daf0();
 void __cdecl hkpBvTreeStreamAgent_createShapeBvAgent();
 void __cdecl hkpBvTreeAgent_staticGetPenetrations();
 void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
-void __cdecl hkTransform_setMulInverseMul_ComputeValues_00d2f0d0();
+void __cdecl hkpMoppAgent_staticLinearCast();
 void __cdecl CreateAgentForBodyPair();
 // @fnv 0x00d2dc70
 // src: HAVOK_LIB 0x00d2dc70
@@ -231,14 +231,14 @@ void __cdecl hkpMoppBvTreeStreamAgent_registerAgent(Agent* pAgent)
     f.a = (void*)&hkpBvTreeStreamAgent_createShapeBvAgent;
     f.b = (void*)&hkpBvTreeAgent_staticGetPenetrations;
     f.c = (void*)&hkpBvTreeAgent_staticGetClosestPoints;
-    f.d = (void*)&hkTransform_setMulInverseMul_ComputeValues_00d2f0d0;
+    f.d = (void*)&hkpMoppAgent_staticLinearCast;
     f.e = 0;
     f.f = 1;
     pAgent->AppendRecordAndRegisterAgents(&f, 18, 10);
     f.a = (void*)&CreateAgentForBodyPair;
     f.b = (void*)&hkpBvTreeAgent_staticGetPenetrations;
     f.c = (void*)&hkpBvTreeAgent_staticGetClosestPoints;
-    f.d = (void*)&hkTransform_setMulInverseMul_ComputeValues_00d2f0d0;
+    f.d = (void*)&hkpMoppAgent_staticLinearCast;
     f.e = 0;
     f.f = 1;
     pAgent->AppendRecordAndRegisterAgents(&f, 10, 10);
@@ -586,7 +586,7 @@ void __cdecl Runtime_CopyMemory_00d2daf0();
 void __cdecl hkpBvTreeAgent_createShapeBvAgent();
 void __cdecl hkpBvTreeAgent_staticGetPenetrations();
 void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
-void __cdecl hkTransform_setMulInverseMul_ComputeValues_00d2f0d0();
+void __cdecl hkpMoppAgent_staticLinearCast();
 void __cdecl CreateAgentForBodyPair();
 
 // Registers three collision agent function tables with the dispatcher for type pairs (10,-1), (-1,10) and (10,10).
@@ -609,7 +609,7 @@ void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher)
         f.m_pCreateFunc = hkpBvTreeAgent_createShapeBvAgent;
         f.m_pQueryPenetrationsFunc = hkpBvTreeAgent_staticGetPenetrations;
         f.m_getClosestPointsFunc = hkpBvTreeAgent_staticGetClosestPoints;
-        f.m_pLinearCastFunc = hkTransform_setMulInverseMul_ComputeValues_00d2f0d0;
+        f.m_pLinearCastFunc = hkpMoppAgent_staticLinearCast;
         f.m_bIsFlipped = false;
         f.m_bIsPredictive = false;
         dispatcher->registerCollisionAgent(f, -1, 10);
@@ -619,7 +619,7 @@ void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher)
         f.m_pCreateFunc = CreateAgentForBodyPair;
         f.m_pQueryPenetrationsFunc = hkpBvTreeAgent_staticGetPenetrations;
         f.m_getClosestPointsFunc = hkpBvTreeAgent_staticGetClosestPoints;
-        f.m_pLinearCastFunc = hkTransform_setMulInverseMul_ComputeValues_00d2f0d0;
+        f.m_pLinearCastFunc = hkpMoppAgent_staticLinearCast;
         f.m_bIsFlipped = false;
         f.m_bIsPredictive = true;
         dispatcher->registerCollisionAgent(f, 10, 10);
@@ -1303,7 +1303,7 @@ typedef void (*CallbackD3D)();
 
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void hkpSphereTriangleAgent_staticGetClosestPoints();
 void Object_ProcessEntries_00daf8e0();
 void CreateTargetAgent();
 void QueryD3DCollector();
@@ -1325,7 +1325,7 @@ static __declspec(noinline) void InitFuncsB(AgentFuncsD3D* pkFuncs)
 {
     pkFuncs->m_pfnA = CreateRetObj;
     pkFuncs->m_pfnB = hkpSphereTriangleAgent_staticGetPenetrations;
-    pkFuncs->m_pfnC = hkpCdBody_ProcessAndReturnValue_00d3d8c0;
+    pkFuncs->m_pfnC = hkpSphereTriangleAgent_staticGetClosestPoints;
     pkFuncs->m_pfnD = Object_ProcessEntries_00daf8e0;
     pkFuncs->m_bA = false;
     pkFuncs->m_bB = false;
@@ -1701,8 +1701,8 @@ struct FnvCpu_FUN_00d2c7d0_CpuInterface {
     virtual void Invoke(int value);
 };
 // @fnv 0x00d2c7d0
-// src: GUESS 0x00d2c7d0 (confidence: low)
-void __cdecl Runtime_ForwardCall_00d2c7d0(FnvCpu_FUN_00d2c7d0_CpuInterface* object)
+// src: COMMUNITY 0x00d2c7d0
+void __cdecl cleanupLoadedObject_hkLiquidAction(FnvCpu_FUN_00d2c7d0_CpuInterface* object)
 {
     object->Invoke(0);
 }
@@ -1889,7 +1889,7 @@ void nullsub_15()
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void hkpSphereTriangleAgent_staticGetClosestPoints();
 void Object_ProcessEntries_00daf8e0();
 void CreateTargetAgent();
 void QueryD3DCollector();
@@ -2735,7 +2735,7 @@ struct Q {
     int x;
     int t1, t2, t3;
 };
-void __cdecl hkTransform_setMulInverseMul_ComputeValues_00d2f0d0();
+void __cdecl hkpMoppAgent_staticLinearCast();
 typedef void (__cdecl *Fn)(int, int, Src*, Q*, Q*);
 // XORs c->v with DAT_010c44d0 into a copy of c, builds one or two Q structs from c->v, d and e, and calls FUN_00d2f0d0 with b, a, the copy and the Qs.
 // @fnv 0x00d2daf0
@@ -2758,9 +2758,9 @@ void __cdecl Runtime_CopyMemory_00d2daf0(int a, int b, Src* apSrc, int d, int e)
         qb.d = DAT_0104da48;
         CopyVectorWords(qb.v, apSrc->v);
         qb.x = e;
-        ((Fn)hkTransform_setMulInverseMul_ComputeValues_00d2f0d0)(b, a, &copy, &qa, &qb);
+        ((Fn)hkpMoppAgent_staticLinearCast)(b, a, &copy, &qa, &qb);
     } else {
-        ((Fn)hkTransform_setMulInverseMul_ComputeValues_00d2f0d0)(b, a, &copy, &qa, 0);
+        ((Fn)hkpMoppAgent_staticLinearCast)(b, a, &copy, &qa, 0);
     }
 }
 

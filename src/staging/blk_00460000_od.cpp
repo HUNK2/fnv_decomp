@@ -1643,11 +1643,11 @@ bool FUN_0047bcf0_class::IsFlag80Clear()
 struct FUN_0047eb90_Class
 {
     void FUN_005fc970(int, char);
-    void ForwardCall_0047eb90(int value);
+    void TESFaction_SetPCAnEnemy(int value);
 };
 // @fnv 0x0047eb90
-// src: GUESS 0x0047eb90 (confidence: low)
-void FUN_0047eb90_Class::ForwardCall_0047eb90(int value)
+// src: COMMUNITY 0x0047eb90
+void FUN_0047eb90_Class::TESFaction_SetPCAnEnemy(int value)
 {
     FUN_005fc970(0x10, (char)value);
 }
@@ -2412,7 +2412,7 @@ struct FUN_0047ead0_cls
     FUN_0047ead0_cls* FUN_00726070();
     void TESFaction_SetPCAttack(int v);
     void TESFaction_SetPCMurder(int v);
-    void ForwardCall_0047eb90(int v);
+    void TESFaction_SetPCAnEnemy(int v);
     void TESActorBaseData_SetPCFactionFlags(int mode);
 };
 
@@ -2441,7 +2441,7 @@ void FUN_0047ead0_cls::TESActorBaseData_SetPCFactionFlags(int mode)
                         vt->TESFaction_SetPCMurder(1);
                         break;
                     case 2:
-                        vt->ForwardCall_0047eb90(1);
+                        vt->TESFaction_SetPCAnEnemy(1);
                         break;
                     }
                 }

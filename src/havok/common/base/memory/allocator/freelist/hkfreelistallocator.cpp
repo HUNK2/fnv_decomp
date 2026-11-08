@@ -166,8 +166,8 @@ void hkFreeListAllocator::blockAlloc_00d5f970(int a)
 }
 
 // @fnv 0x00d5fba0
-// src: GUESS 0x00d5fba0 (confidence: low)
-int hkFreeListAllocator::GetUnkA94_00d5fba0()
+// src: COMMUNITY 0x00d5fba0
+int hkFreeListAllocator::getMemorySoftLimit()
 {
     return unkA94;
 }

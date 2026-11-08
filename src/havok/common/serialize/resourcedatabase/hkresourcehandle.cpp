@@ -1109,7 +1109,7 @@ hkMemoryResourceHandle::~hkMemoryResourceHandle() throw()
 namespace fnv_00e2eae0 {
 struct FUN_00e2eae0_Result
 {
-    void __thiscall UpdateFields_00e2eae0(int* param);
+    void __thiscall hkResourceContainer_getPath(int* param);
 };
 
 struct FUN_00e2eae0_class
@@ -1124,7 +1124,7 @@ struct FUN_00e2eae0_class
     virtual void* vf1c();
     virtual void* vf20();
     virtual FUN_00e2eae0_Result* vf24();
-    void __thiscall UpdateFields_00e2eae0(int* param);
+    void __thiscall hkResourceContainer_getPath(int* param);
 };
 
 struct FUN_00d61df0_Obj
@@ -1147,13 +1147,13 @@ hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 
 // Calls vf24 and vf10, sends two values to the object at param, then conditionally calls allocator->vf10.
 // @fnv 0x00e2eae0
-// src: GUESS 0x00e2eae0 (confidence: low)
-void __thiscall FUN_00e2eae0_class::UpdateFields_00e2eae0(int* apTarget)
+// src: COMMUNITY 0x00e2eae0
+void __thiscall FUN_00e2eae0_class::hkResourceContainer_getPath(int* apTarget)
 {
     FUN_00e2eae0_Result* result = vf24();
     if (result != 0)
     {
-        result->UpdateFields_00e2eae0(apTarget);
+        result->hkResourceContainer_getPath(apTarget);
     }
 
     // The original uses the out-of-line initializer and explicit cleanup here.

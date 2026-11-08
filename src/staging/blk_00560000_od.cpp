@@ -496,14 +496,14 @@ struct V4_538f40
 };
 struct FUN_00577070_class
 {
-    void UpdateState_00577090();
+    void hkMatrix3_setIdentity();
     void hkTransform_setIdentity();
 };
 // @fnv 0x00577070
 // src: COMMUNITY 0x00577070
 void FUN_00577070_class::hkTransform_setIdentity()
 {
-    UpdateState_00577090();
+    hkMatrix3_setIdentity();
     ((V4_538f40*)((char*)this + 0x30))->hkVector4_setZero4();
 }
 
@@ -1056,12 +1056,12 @@ struct FUN_00577110_shell
 };
 struct FUN_00577090_shell : FUN_005770e0_shell
 {
-    void UpdateState_00577090();
+    void hkMatrix3_setIdentity();
 };
 // Calls FUN_00577110 on this, then sets the base-class elements at indices 0, 1 and 2 to 1.0f.
 // @fnv 0x00577090
-// src: GUESS 0x00577090 (confidence: low)
-void FUN_00577090_shell::UpdateState_00577090()
+// src: COMMUNITY 0x00577090
+void FUN_00577090_shell::hkMatrix3_setIdentity()
 {
     ((FUN_00577110_shell*)this)->ProcessState_00577110();
     float f = 1.0f;

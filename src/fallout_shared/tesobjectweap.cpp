@@ -1261,13 +1261,13 @@ int __thiscall FUN_00522520_shell::GetField238()
 
 struct FUN_00522560_shell
 {
-    int __thiscall ComputeValue_00522560(bool param);
+    int __thiscall TESObjectWEAP_GetSoundLevel(bool param);
 };
 
 // Returns 2 when param is true, otherwise returns the int stored at offset 0x364 of this object.
 // @fnv 0x00522560
-// src: GUESS 0x00522560 (confidence: low)
-int __thiscall FUN_00522560_shell::ComputeValue_00522560(bool abReturnTwo)
+// src: COMMUNITY 0x00522560
+int __thiscall FUN_00522560_shell::TESObjectWEAP_GetSoundLevel(bool abReturnTwo)
 {
     if (abReturnTwo)
         return 2;
@@ -2162,7 +2162,7 @@ struct WeaponCopyAccess : TESObjectWEAP {
     void TESObjectWEAP_SetModAttackSound(TESSound*);
     void FUN_008d8a80(TESSound*);
     void FUN_008d8aa0(TESSound*);
-    SOUND_LEVEL ComputeValue_00522560(bool);
+    SOUND_LEVEL TESObjectWEAP_GetSoundLevel(bool);
     unsigned int FUN_00401170();
     void FUN_004f15a0(unsigned int);
 };
@@ -2216,7 +2216,7 @@ void WeaponCopyAccess::CopyFromWeapon(unsigned int id)
         TESObjectWEAP_SetModAttackSound(source->FUN_00521630());
         FUN_008d8a80(source->GetField244());
         FUN_008d8aa0(source->FUN_005224a0());
-        m_eSoundLevel = source->ComputeValue_00522560(false);
+        m_eSoundLevel = source->TESObjectWEAP_GetSoundLevel(false);
         FUN_004f15a0(source->FUN_00401170());
     }
 }
@@ -2372,7 +2372,7 @@ struct WeaponCompareAccess : TESObjectWEAP {
     void* GetOffsetF4();
     int GetValueByFlag(bool);
     int GetPointerByFlag(bool);
-    int ComputeValue_00522560(bool);
+    int TESObjectWEAP_GetSoundLevel(bool);
     int GetField228();
     int GetField22C();
     int GetField230();
@@ -2432,7 +2432,7 @@ bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {
     if (GetModDistantAttackSound() != other->GetModDistantAttackSound()) return true;
     if (GetField244() != other->GetField244()) return true;
     if (FUN_005224a0() != other->FUN_005224a0()) return true;
-    if (m_eSoundLevel != other->ComputeValue_00522560(false)) return true;
+    if (m_eSoundLevel != other->TESObjectWEAP_GetSoundLevel(false)) return true;
     return false;
 }
 

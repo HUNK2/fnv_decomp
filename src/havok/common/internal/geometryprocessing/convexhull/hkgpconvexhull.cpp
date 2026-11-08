@@ -341,7 +341,7 @@ int* __stdcall Hkgpconvexhull_GetPayloadAddress(PayloadOwner* apOwner)
 }
 
 struct TargetCallee {
-    void ProcessEntries_00d7a5a0(void* p1, void* p2, void* p3, void* p4, float p5);
+    void hkgpConvexHullImpl_clipLine(void* p1, void* p2, void* p3, void* p4, float p5);
 };
 
 struct FUN_00d74ee0_Class : FUN_00d74dd0_Class {
@@ -351,7 +351,7 @@ struct FUN_00d74ee0_Class : FUN_00d74dd0_Class {
 // Forwards the five arguments to the callee stored at m_08 via FUN_00d7a5a0.
 // @fnv 0x00d74ee0
 void FUN_00d74ee0_Class::ForwardToCallee(void* p1, void* p2, void* p3, void* p4, float p5) {
-    ((TargetCallee*)m_08)->ProcessEntries_00d7a5a0(p1, p2, p3, p4, p5);
+    ((TargetCallee*)m_08)->hkgpConvexHullImpl_clipLine(p1, p2, p3, p4, p5);
 }
 
 struct D75060Inner {
@@ -903,7 +903,7 @@ void FUN_00d771c0_Owner::hkgpConvexHull_build(int a, int b, const Vec4i& v)
 }
 
 struct FUN_00d83430_class {
-    void AllocateStorage_00d83430(int, int, int, float);
+    void hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_(int, int, int, float);
 };
 struct FUN_00d790a0_class {
     int unk00;
@@ -915,7 +915,7 @@ struct FUN_00d790a0_class {
 // @fnv 0x00d790a0
 // src: HAVOK_LIB 0x00d790a0
 void FUN_00d790a0_class::hkgpConvexHull_splitByPlane(int aiArg1, int aiArg2, int aiArg3, float afArg4) {
-    unk08->AllocateStorage_00d83430(aiArg1, aiArg2, aiArg3, afArg4);
+    unk08->hkgpConvexHullImpl_splitByPlane_hkgpConvexHullImpl__PositionAsSource_(aiArg1, aiArg2, aiArg3, afArg4);
 }
 
 struct S_00d79f90_Opts
@@ -928,7 +928,7 @@ struct S_00d79f90_Opts
 struct S_00d79f90_Result
 {
     virtual ~S_00d79f90_Result();
-    void ProcessEntries_00d78720(float f, const S_00d79f90_Opts& opts);
+    void hkgpConvexHull_absoluteScale(float f, const S_00d79f90_Opts& opts);
 };
 
 struct S_00d79f90_World
@@ -945,7 +945,7 @@ void __cdecl hkgpConvexHull_createVoronoiFeatures(S_00d79f90_World* world, int a
 {
     HkgpconvexhullGsEhscNogsNoehsc_ReleaseStorage_00d79ab0(world, a, b, d);
     S_00d79f90_Result* res = world->hkgpConvexHull_clone();
-    res->ProcessEntries_00d78720(-d, S_00d79f90_Opts());
+    res->hkgpConvexHull_absoluteScale(-d, S_00d79f90_Opts());
     hkgpConvexHull_booleanSubtraction_00d79580(res, b, n, 1e-07f);
     delete res;
 }
@@ -1656,7 +1656,7 @@ void FUN_00d75820_cls::CallTargetWithTemp(int a1, float a2, int a3)
 }
 
 struct FUN_00d7b330_cls {
-    void ProcessEntries_00d7b330(int a1, int a2, float a3);
+    void hkgpConvexHullImpl_isPointInside(int a1, int a2, float a3);
 };
 
 struct FUN_00d76100_cls {
@@ -1669,7 +1669,7 @@ struct FUN_00d76100_cls {
 // @fnv 0x00d76100
 // src: HAVOK_LIB 0x00d76100
 void FUN_00d76100_cls::hkgpConvexHull_isPointInside(int a1, int a2, float a3) {
-    m_08->ProcessEntries_00d7b330(a1, a2, a3);
+    m_08->hkgpConvexHullImpl_isPointInside(a1, a2, a3);
 }
 
 struct FUN_00d7caa0_class {

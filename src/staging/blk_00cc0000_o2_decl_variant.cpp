@@ -1946,7 +1946,7 @@ struct FUN_00cc3270 : FUN_00cc3270_base
     virtual ~FUN_00cc3270();
 };
 extern int DAT_012685bc;
-void* __cdecl Object_GetGlobalObjectAddress_00cc32e0();
+void* __cdecl bhkMotorAction_GetRTTI();
 int __cdecl bhkNiTriStripsShape_GetCinfoSize();
 void __cdecl FUN_00aa1460(void* p, unsigned int size);
 struct S_00cc3300
@@ -2830,7 +2830,7 @@ class CC4400Object : public CC4400Base
     void bhkAngularDashpotAction_LoadBinary(CC4400Stream* pkStream);
 };
 extern int g_012685e0;
-int* __cdecl Object_GetGlobalObjectAddress_00cc4860();
+int* __cdecl bhkBreakableConstraint_GetRTTI();
 extern int g_ctorCountA;
 extern int g_ctorCountD;
 void* __cdecl Object_DispatchCommandFour(unsigned int size);
@@ -4225,7 +4225,7 @@ struct FUN_00cc8ce0 : S_cc8ce0_Base
 };
 extern int DAT_01268640;
 int* __cdecl bhkBallSocketConstraintChain_GetRTTI();
-int __cdecl Object_ComputeValue_00cc8d60();
+int __cdecl bhkBallSocketConstraintChain_QCinfoSize();
 extern int DAT_01268f84;
 int* bhkConstraintChain_GetRTTI();
 template <class T> inline void SerializeValue(NiStream& stream, const T& value)
@@ -6664,7 +6664,7 @@ class CCCF00RigidBody
 };
 // FUN_00ccd0f0 : a one-line function - getter
 extern int g_target_00ccd0f0;
-void* Runtime_GetTarget00ccd0f0Address();
+void* bhkCylinderShape_GetRTTI();
 extern void* __cdecl Object_DispatchCommandFour(unsigned int size);
 struct FUN_00ccd100
 {

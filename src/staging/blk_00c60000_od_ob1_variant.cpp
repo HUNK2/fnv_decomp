@@ -314,7 +314,7 @@ struct FUN_00c63950_class
 };
 struct GlobalObject_00a7b610;
 extern GlobalObject_00a7b610 g_012043c8;
-void __cdecl NiFixedString_CopyMemory_00c63c30(int, int);
+void __cdecl BSDecalPlacementVectorExtraData_FindDecalPlacementVectorGroupRecurse(int, int);
 void __cdecl CallWithSameArgumentTwice(int a);
 struct FUN_00c644d0_Class
 {
@@ -2839,8 +2839,8 @@ struct ObjC63
 };
 
 // @fnv 0x00c63c30
-// src: GUESS 0x00c63c30 (confidence: low)
-bool __cdecl NiFixedString_CopyMemory_00c63c30(ObjC63* obj, ObjC63* root)
+// src: COMMUNITY 0x00c63c30
+bool __cdecl BSDecalPlacementVectorExtraData_FindDecalPlacementVectorGroupRecurse(ObjC63* obj, ObjC63* root)
 {
     if (obj->v0c())
     {
@@ -2889,7 +2889,7 @@ bool __cdecl NiFixedString_CopyMemory_00c63c30(ObjC63* obj, ObjC63* root)
                 Child* c = (Child*)p->children.GetAt(i);
                 if (c)
                 {
-                    if (NiFixedString_CopyMemory_00c63c30((ObjC63*)c, root))
+                    if (BSDecalPlacementVectorExtraData_FindDecalPlacementVectorGroupRecurse((ObjC63*)c, root))
                         c = 0;
                 }
                 i++;

@@ -44,7 +44,7 @@ struct CameraShotLegacyData
     int action, location, target;
     unsigned int flags;
     float playerMult, globalMult, maxTime, minTime;
-    void ProcessState_0058c2e0();
+    void BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian();
 };
 extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl _alloca(unsigned int);

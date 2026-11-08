@@ -4391,7 +4391,7 @@ struct SubX
     void SetNavMeshMaps(int a1);
     bool _GetByte05();
     void DeleteAllOwnedForms();
-    void ReleaseStorage_00600030();
+    void TESIdleManager_DestroyRootIdleArrayForms();
     void DestroyCameraPaths();
     void TESFile_SetActive(bool a1);
 };
@@ -4825,7 +4825,7 @@ bool DataHandlerX::TESDataHandler_ClearData()
     }
     else
     {
-        xDAT_011cb6a0->ReleaseStorage_00600030();
+        xDAT_011cb6a0->TESIdleManager_DestroyRootIdleArrayForms();
     }
     xDAT_011ca700->DestroyCameraPaths();
     while ((pzgs = (*reinterpret_cast<ListX<FormX*>*>(listCameraShots)).GetItem()) != 0)

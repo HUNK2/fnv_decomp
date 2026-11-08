@@ -77,7 +77,7 @@ struct Functor_d3e110
     int m_uiFilterValue;
 };
 
-void __cdecl hkpCdBody_ProcessAndReturnValue_00d3d8c0(int a, int b, int c, Functor_d3e110* f);
+void __cdecl hkpSphereTriangleAgent_staticGetClosestPoints(int a, int b, int c, Functor_d3e110* f);
 
 // Builds a Functor_d3e110 with a max-float value and d, sets its vtable to DAT_010ce7fc, and calls FUN_00d3d8c0(b, a, c, &f).
 // @fnv 0x00d3e110
@@ -88,7 +88,7 @@ void __cdecl Hkpspheretriangleagent_UpdateState_00d3e110(int a, int b, int aiArg
     f.m_fHitFraction = 3.40282e+38f;
     f.m_uiFilterValue = d;
     f.m_vtbl = DAT_010ce7fc;
-    hkpCdBody_ProcessAndReturnValue_00d3d8c0(b, a, aiArg3, &f);
+    hkpSphereTriangleAgent_staticGetClosestPoints(b, a, aiArg3, &f);
 }
 
 struct SpawnedInner

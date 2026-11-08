@@ -5,8 +5,8 @@
 extern int DAT_0126e330;
 
 // @fnv 0x00e014c0
-// src: GUESS 0x00e014c0 (confidence: low)
-int* __cdecl Object_GetGlobalObjectAddress_00e014c0()
+// src: EXE 0x00e014c0
+int* __cdecl hkMemoryMeshShape_getClassType()
 {
     return &DAT_0126e330;
 }

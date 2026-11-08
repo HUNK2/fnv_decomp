@@ -147,7 +147,7 @@ extern "C" void __cdecl hkpShapeCollectionAgent_staticLinearCast();
 void __cdecl hkpListAgent_initAgentFunc(void* p);
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void hkpSphereTriangleAgent_staticGetClosestPoints();
 void Object_ProcessEntries_00daf8e0();
 void __cdecl Object_InitializeAgentFunctionTable_00d3dbe0(void* p);
 void __cdecl CreateTargetAgent(void);
@@ -177,7 +177,7 @@ void __cdecl Runtime_CopyMemory_00d2daf0();
 void __cdecl hkpBvTreeStreamAgent_createShapeBvAgent();
 void __cdecl hkpBvTreeAgent_staticGetPenetrations();
 void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
-void __cdecl hkTransform_setMulInverseMul_ComputeValues_00d2f0d0();
+void __cdecl hkpMoppAgent_staticLinearCast();
 void __cdecl CreateAgentForBodyPair();
 void __cdecl hkpMoppBvTreeStreamAgent_registerAgent(Agent* a);
 void ReplaceEntry(int param_1, int param_2, int param_3, unsigned short param_4);
@@ -236,7 +236,7 @@ void __cdecl Runtime_CopyMemory_00d2daf0();
 void __cdecl hkpBvTreeAgent_createShapeBvAgent();
 void __cdecl hkpBvTreeAgent_staticGetPenetrations();
 void __cdecl hkpBvTreeAgent_staticGetClosestPoints();
-void __cdecl hkTransform_setMulInverseMul_ComputeValues_00d2f0d0();
+void __cdecl hkpMoppAgent_staticLinearCast();
 void __cdecl CreateAgentForBodyPair();
 void __cdecl hkpMoppAgent_registerAgent(D2F2C0Dispatcher* dispatcher);
 struct CallTarget_00d2f760 { int hkpBvTreeAgent_updateShapeCollectionFilter(int, int, int, int); };
@@ -380,7 +380,7 @@ struct Wrapper {
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void hkpSphereTriangleAgent_staticGetClosestPoints();
 void Object_ProcessEntries_00daf8e0();
 void CreateTargetAgent();
 void QueryD3DCollector();
@@ -400,7 +400,7 @@ static __declspec(noinline) void InitFuncsB(AgentFuncsD3D* pkFuncs)
 {
     pkFuncs->m_pfnA = CreateRetObj;
     pkFuncs->m_pfnB = hkpSphereTriangleAgent_staticGetPenetrations;
-    pkFuncs->m_pfnC = hkpCdBody_ProcessAndReturnValue_00d3d8c0;
+    pkFuncs->m_pfnC = hkpSphereTriangleAgent_staticGetClosestPoints;
     pkFuncs->m_pfnD = Object_ProcessEntries_00daf8e0;
     pkFuncs->m_bA = false;
     pkFuncs->m_bB = false;
@@ -597,7 +597,7 @@ const char* __cdecl hkNativeFileSystem_nativePlatformToHavokConvertPath(const ch
 struct FnvCpu_FUN_00d2c7d0_CpuInterface {
     virtual void Invoke(int value);
 };
-void __cdecl Runtime_ForwardCall_00d2c7d0(FnvCpu_FUN_00d2c7d0_CpuInterface* object);
+void __cdecl cleanupLoadedObject_hkLiquidAction(FnvCpu_FUN_00d2c7d0_CpuInterface* object);
 class FUN_00d2c7e0 {
 public:
     virtual ~FUN_00d2c7e0();
@@ -676,7 +676,7 @@ void nullsub_15();
 typedef void (*CallbackD3D)();
 void CreateRetObj();
 void hkpSphereTriangleAgent_staticGetPenetrations();
-void hkpCdBody_ProcessAndReturnValue_00d3d8c0();
+void hkpSphereTriangleAgent_staticGetClosestPoints();
 void Object_ProcessEntries_00daf8e0();
 void CreateTargetAgent();
 void QueryD3DCollector();

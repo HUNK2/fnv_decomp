@@ -433,8 +433,8 @@ return ST_CP_EDGE;
 }
 return ST_CP_MISS;}
 // @fnv 0x00d3d8c0
-// src: GUESS 0x00d3d8c0 (confidence: low)
-void __cdecl hkpCdBody_ProcessAndReturnValue_00d3d8c0(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector)
+// src: COMMUNITY 0x00d3d8c0
+void __cdecl hkpSphereTriangleAgent_staticGetClosestPoints(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkpCdPointCollector&collector)
 {
 {hkMonitorStream&mStream=hkMonitorStream::getInstance();if(mStream.memoryAvailable()){::hkMonitorStream::TimerCommand*h=reinterpret_cast<::hkMonitorStream::TimerCommand*>(mStream.getEnd());h->m_commandAndMonitor="T" "t" "SphereTri";h->setTime();mStream.setEnd((char*)(h+1));}};ScopedTimer timeblock47;
 const hkpTriangleShape*triB=static_cast<const hkpTriangleShape*>(bodyB.getShape());

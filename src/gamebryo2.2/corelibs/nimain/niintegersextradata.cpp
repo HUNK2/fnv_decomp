@@ -154,11 +154,11 @@ struct FUN_00c54660_shell
     NiColor color;
     unsigned short fldC;
     unsigned char fldE;
-    void __thiscall ProcessState_00c54660(NiStream&);
+    void __thiscall FurnitureMark_SaveBinary(NiStream&);
 };
 // @fnv 0x00c54660
-// src: GUESS 0x00c54660 (confidence: low)
-void __thiscall FUN_00c54660_shell::ProcessState_00c54660(NiStream& aStream)
+// src: COMMUNITY 0x00c54660
+void __thiscall FUN_00c54660_shell::FurnitureMark_SaveBinary(NiStream& aStream)
 {
     color.SaveBinary(aStream);
     NiStreamSaveBinary_unsigned_short(aStream, &fldC);
@@ -222,7 +222,7 @@ void NiExtraDataSaveHelperShell::BSFurnitureMarker_SaveBinary(NiStream& stream)
     unsigned int count = *(unsigned short*)((char*)this + 0x18);
     NiStreamSaveBinary_unsigned_int(stream, count);
     for (unsigned int i = 0; i < count; ++i)
-        (*(FUN_00c54660_shell**)((char*)this + 0x10))[i].ProcessState_00c54660(stream);
+        (*(FUN_00c54660_shell**)((char*)this + 0x10))[i].FurnitureMark_SaveBinary(stream);
 }
 
 struct A51BF0Base

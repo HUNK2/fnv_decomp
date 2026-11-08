@@ -87,7 +87,7 @@ public:
     void FUN_0060c9c0(bool set);
     void SetCompleted(bool set);
     void SetFailed(bool set);
-    void ProcessEntries_0060d720();
+    void ResetQuest();
     void Save_0060cd60();
     unsigned short GetSaveSize_0060dba0(unsigned int changedFlags);
     void SaveGame_0060dd50(unsigned int flags);

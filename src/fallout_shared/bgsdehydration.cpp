@@ -3002,7 +3002,7 @@ struct AAInventory
 {
     AAEntry* ExtraDataList_GetPackageExtra();
     int ExtraDataList_GetPackageExtraTarget(int iA, int iB, int iC);
-    void AllocateStorage_0041c930(AAEntry* pkEntryCur, int iA, int iCount);
+    void ExtraDataList_SetPackageExtra(AAEntry* pkEntryCur, int iA, int iCount);
 };
 struct AAPackage
 {
@@ -3805,7 +3805,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         if (pkEntryCur && pkEntryCur->FUN_0041ca90() == 0xf)
         {
             AAInventory* pkInventory = pkActorVal->BSFile_GetDevice();
-            pkActivator->BSFile_GetDevice()->AllocateStorage_0041c930(pkEntryCur, 4, pkInventory->ExtraDataList_GetPackageExtraTarget(0, 0, 0));
+            pkActivator->BSFile_GetDevice()->ExtraDataList_SetPackageExtra(pkEntryCur, 4, pkInventory->ExtraDataList_GetPackageExtraTarget(0, 0, 0));
             pkActorVal->FUN_008d8520()->GiveItem(pkActivator, pkEntryCur);
             if (pkEntryCur->FUN_00670f90())
                 pkActivator->TakeItem(pkEntryCur, DAT_011de7b8.FUN_00867d60());

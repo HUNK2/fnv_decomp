@@ -128,7 +128,7 @@ void BSEndian(int*, EndianSizeTag<2>);
 void BSEndian(unsigned short*, EndianSizeTag<2>);
 struct FUN_00535a60_Class
 {
-    void ProcessState_00535a60();
+    void FILE_TEX_DATA_Endian();
 };
 extern int DAT_011c9f04;
 int TESLandTexture_GetDefaultTexture();
@@ -2844,7 +2844,7 @@ struct LandTextureRecord535d
     unsigned char quad7;
     unsigned char unused05;
     unsigned short bPlayerPlayerDead;
-    void ProcessState_00535a60();
+    void FILE_TEX_DATA_Endian();
 };
 struct LandNormal535d
 {
@@ -3093,7 +3093,7 @@ bool LandOwner535d::TESObjectLAND_LoadVerticesIntoArrays()
                 ourMemset(&record, 0, sizeof(record));
                 _streamSize->GetChunkData(&record, sizeof(record));
                 if (_streamSize->FUN_00401680())
-                    record.ProcessState_00535a60();
+                    record.FILE_TEX_DATA_Endian();
                 ResolveFormID(&record.formID, _streamSize);
                 data->baseTextures[record.quad7] = dynamic_cast<TESLandTexture*>(TESForm_GetFormByNumericID(record.formID));
                 if (!data->baseTextures[record.quad7])
@@ -3117,7 +3117,7 @@ bool LandOwner535d::TESObjectLAND_LoadVerticesIntoArrays()
                 ourMemset(&record, 0, sizeof(record));
                 _streamSize->GetChunkData(&record, sizeof(record));
                 if (_streamSize->FUN_00401680())
-                    record.ProcessState_00535a60();
+                    record.FILE_TEX_DATA_Endian();
                 if (record.bPlayerPlayerDead > 5)
                 {
                     FNV_Warning(DAT_0102e0dc, TESObjectLAND_GetCellX(), FUN_00534010(), record.bPlayerPlayerDead, record.quad7);

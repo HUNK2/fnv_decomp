@@ -233,12 +233,12 @@ void __cdecl _FUN_00485910(unsigned int, unsigned int);
 
 struct FUN_005f03a0_shell : public CreatureSounds
 {
-    void ProcessEntries_005f03a0();
+    void CreatureSounds_Save();
 };
 
 // @fnv 0x005f03a0
-// src: GUESS 0x005f03a0 (confidence: low)
-void FUN_005f03a0_shell::ProcessEntries_005f03a0()
+// src: COMMUNITY 0x005f03a0
+void FUN_005f03a0_shell::CreatureSounds_Save()
 {
     for (int i = 0; i < 22; ++i)
     {

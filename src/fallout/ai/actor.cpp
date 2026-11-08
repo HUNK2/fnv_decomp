@@ -11904,7 +11904,7 @@ void FUN_008bcb40_shell::Actor_RemoveEnemyFlagFromAllFactions()
         while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
         {
             ::TESFaction* pfac = (::TESFaction*)*_ref_006815c0(pCurrentElementNext);
-            pfac->ForwardCall_0047eb90(false);
+            pfac->TESFaction_SetPCAnEnemy(false);
             pCurrentElementNext = _ref_00726070(pCurrentElementNext);
         }
         pcrimelist = _ref_00726070(pcrimelist);
@@ -137825,7 +137825,7 @@ class TargetInfo
 };
 struct XList41
 {
-    void AllocateStorage_0041c930(int, int, int, bool, bool, bool);
+    void ExtraDataList_SetPackageExtra(int, int, int, bool, bool, bool);
 };
 class TESSound;
 class DataX
@@ -138129,7 +138129,7 @@ void __thiscall CharacterPackageActor::Character_InitiateSandManPackage(ObjA* a1
     if (pProc68->vfn_22c())
     {
         ((XList41*)BSFile_GetDevice())
-            ->AllocateStorage_0041c930(pProc68->vfn_22c(), pProc68->vfn_23c(), pProc68->vfn_128(), pProc68->vfn_11c(),
+            ->ExtraDataList_SetPackageExtra(pProc68->vfn_22c(), pProc68->vfn_23c(), pProc68->vfn_128(), pProc68->vfn_11c(),
                            pProc68->vfn_4e8(), pProc68->vfn_5a4());
     }
     pProc68->vfn_540(a2, a4, a3);

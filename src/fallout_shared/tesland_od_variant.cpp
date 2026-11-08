@@ -255,12 +255,12 @@ void BSEndian(int*, EndianSizeTag<2>);
 void BSEndian(unsigned short*, EndianSizeTag<2>);
 
 struct FUN_00535a60_Class {
-    void ProcessState_00535a60();
+    void FILE_TEX_DATA_Endian();
 };
 
 // @fnv 0x00535a60
-// src: GUESS 0x00535a60 (confidence: low)
-void FUN_00535a60_Class::ProcessState_00535a60()
+// src: COMMUNITY 0x00535a60
+void FUN_00535a60_Class::FILE_TEX_DATA_Endian()
 {
     BSEndian(reinterpret_cast<int*>(this), EndianSizeTag<2>());
     BSEndian(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 6), EndianSizeTag<2>());
@@ -1400,10 +1400,10 @@ void This538110::TESObjectLAND_Save()
                 v.m_06 = 0xffff;
                 v.m_00 = ((FUN_0084e3a0_Class*)m_28->m_20arr[w])->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
                 if (TESForm_QEndianSwapOnSave())
-                    ((FUN_00535a60_Class*)&v)->ProcessState_00535a60();
+                    ((FUN_00535a60_Class*)&v)->FILE_TEX_DATA_Endian();
                 AppendChunk(0x54585442, &v, 8);
                 if (TESForm_QEndianSwapOnSave())
-                    ((FUN_00535a60_Class*)&v)->ProcessState_00535a60();
+                    ((FUN_00535a60_Class*)&v)->FILE_TEX_DATA_Endian();
             }
             if (m_28->m_30arr[w] != 0) {
                 int u3;
@@ -1419,10 +1419,10 @@ void This538110::TESObjectLAND_Save()
                         pTmp.m_06 = (unsigned short)u6;
                         pTmp.m_00 = (w1 != TESLandTexture_GetDefaultTexture()) ? ((FUN_0084e3a0_Class*)w1)->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : 0;
                         if (TESForm_QEndianSwapOnSave())
-                            ((FUN_00535a60_Class*)&pTmp)->ProcessState_00535a60();
+                            ((FUN_00535a60_Class*)&pTmp)->FILE_TEX_DATA_Endian();
                         AppendChunk(0x54585441, &pTmp, 8);
                         if (TESForm_QEndianSwapOnSave())
-                            ((FUN_00535a60_Class*)&pTmp)->ProcessState_00535a60();
+                            ((FUN_00535a60_Class*)&pTmp)->FILE_TEX_DATA_Endian();
                     }
                     {
                         Entry538110 t7[289];

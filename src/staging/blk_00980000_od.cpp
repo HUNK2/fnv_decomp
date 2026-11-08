@@ -9528,7 +9528,7 @@ int __cdecl BSsprintf(char*, int, const char*, ...);
 const char* __cdecl PrepareScriptMessage(const char*, bool);
 struct DebugEntryLabel
 {
-    void UpdateState_009aa150(char*, unsigned int, int);
+    void CombatWorldState_GetDebugText(char*, unsigned int, int);
 };
 // Recursively inserts a debug tree node and its children into the tree, formatting labels with cost and membership details.
 // @fnv 0x00995ef0
@@ -9584,7 +9584,7 @@ void DebugTree::InsertDebugTreeRecursively(int parent, DebugNode* node)
             DebugEntryLabel* entry = (DebugEntryLabel*)object->entries[i].object;
             if (entry)
             {
-                entry->UpdateState_009aa150(text, 260, -1);
+                entry->CombatWorldState_GetDebugText(text, 260, -1);
                 insert.text = (char*)PrepareScriptMessage(text, false);
                 insert.image = 6;
                 insert.selectedImage = insert.image;

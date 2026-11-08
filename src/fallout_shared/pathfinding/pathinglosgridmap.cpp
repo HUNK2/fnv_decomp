@@ -252,13 +252,13 @@ struct FUN_006df9c0_shell
     BSSimpleArray<signed char> m_aiIndexedValues;
     unsigned char pad2[0x14];
 
-    void __thiscall SaveFields_006df9c0(BGSSaveGameBuffer*);
+    void __thiscall PathingLOSGridCell_SaveGame(BGSSaveGameBuffer*);
 };
 
 // Saves the byte, a 4-byte value at offset 0x18, and, when m_byte is zero, the count and each element returned by FUN_006e0ed0.
 // @fnv 0x006df9c0
-// src: GUESS 0x006df9c0 (confidence: medium)
-void __thiscall FUN_006df9c0_shell::SaveFields_006df9c0(BGSSaveGameBuffer* buffer)
+// src: COMMUNITY 0x006df9c0
+void __thiscall FUN_006df9c0_shell::PathingLOSGridCell_SaveGame(BGSSaveGameBuffer* buffer)
 {
     buffer->SaveData(this, 1, 0);
     buffer->SaveData((void*)((char*)this + 0x18), 4, 0);

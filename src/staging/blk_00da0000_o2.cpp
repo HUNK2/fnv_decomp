@@ -56,8 +56,8 @@ void* __cdecl InitAndReturnTail(void* apUnused1, void* apUnused2, void* apStruct
 }
 
 // @fnv 0x00da08c0
-// src: GUESS 0x00da08c0 (confidence: low)
-void __cdecl Object_InvokeVirtualMethod_00da08c0(void** a)
+// src: COMMUNITY 0x00da08c0
+void __cdecl cleanupLoadedObject_hkpMaxSizeMotion(void** a)
 {
     (**(void(__thiscall**)(void*, int))(*a))(a, 0);
 }
@@ -67,8 +67,8 @@ extern int DAT_010c6bec;
 
 // If a is non-null, sets its vtable pointer to DAT_010c59f4, optionally writes a 16-bit value at offset 0x11e, then sets the vtable to DAT_010c6bec.
 // @fnv 0x00da08e0
-// src: GUESS 0x00da08e0 (confidence: low)
-void __cdecl Object_UpdateFields_00da08e0(void* pObject, int bSetField)
+// src: COMMUNITY 0x00da08e0
+void __cdecl finishLoadedObject_hkpKeyframedRigidMotion(void* pObject, int bSetField)
 {
     if (pObject)
     {
@@ -85,8 +85,8 @@ void __cdecl Object_UpdateFields_00da08e0(void* pObject, int bSetField)
 
 extern int DAT_010c6fd0;
 // @fnv 0x00da0b10
-// src: GUESS 0x00da0b10 (confidence: low)
-void __cdecl Runtime_UpdateState_00da0b10(int* p)
+// src: COMMUNITY 0x00da0b10
+void __cdecl finishLoadedObject_hkpSingleShapeContainer(int* p)
 {
     if (p)
         *p = (int)&DAT_010c6fd0;
@@ -207,8 +207,8 @@ struct FUN_00da0740_vt
     virtual void v0(int);
 };
 // @fnv 0x00da0740
-// src: GUESS 0x00da0740 (confidence: low)
-void __cdecl Object_InvokeVirtualMethod_00da0740(FUN_00da0740_vt* p)
+// src: COMMUNITY 0x00da0740
+void __cdecl cleanupLoadedObject_hkSimpleLocalFrame(FUN_00da0740_vt* p)
 {
     p->v0(0);
 }
@@ -218,8 +218,8 @@ struct FUN_00cb0a70_class
     void __thiscall ReturnSelf(int);
 };
 // @fnv 0x00da0760
-// src: GUESS 0x00da0760 (confidence: low)
-void __cdecl Object_UpdateFields_00da0760(void* pObject, void* b)
+// src: COMMUNITY 0x00da0760
+void __cdecl finishLoadedObject_hkLocalFrameGroup(void* pObject, void* b)
 {
     if (pObject)
     {
@@ -281,8 +281,8 @@ struct FUN_00da0720_Class
 };
 
 // @fnv 0x00da0720
-// src: GUESS 0x00da0720 (confidence: low)
-void __cdecl Object_InvokeVirtualMethod_00da0720(FUN_00da0720_Class* param_1)
+// src: COMMUNITY 0x00da0720
+void __cdecl cleanupLoadedObject_hkLocalFrameGroup(FUN_00da0720_Class* param_1)
 {
     param_1->vf00(0);
 }
@@ -320,8 +320,8 @@ struct FUN_00da08a0_cls
 };
 
 // @fnv 0x00da08a0
-// src: GUESS 0x00da08a0 (confidence: low)
-int __cdecl Object_InvokeVirtualMethod_00da08a0(FUN_00da08a0_cls* pObj)
+// src: COMMUNITY 0x00da08a0
+int __cdecl cleanupLoadedObject_hkpKeyframedRigidMotion(FUN_00da08a0_cls* pObj)
 {
     return pObj->v00(0);
 }
@@ -673,8 +673,8 @@ struct FUN_00da0af0_Class
 };
 
 // @fnv 0x00da0af0
-// src: GUESS 0x00da0af0 (confidence: low)
-void __cdecl Runtime_ForwardCall_00da0af0(FUN_00da0af0_Class* param_1)
+// src: COMMUNITY 0x00da0af0
+void __cdecl cleanupLoadedObject_hkpSingleShapeContainer(FUN_00da0af0_Class* param_1)
 {
     param_1->vf00(0);
 }

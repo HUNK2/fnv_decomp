@@ -143,8 +143,8 @@ void* FUN_00d27570Writer::DestroyWriter(unsigned char deletingFlag)
 extern int DAT_012689e4;
 
 // @fnv 0x00d27560
-// src: GUESS 0x00d27560 (confidence: low)
-void* __cdecl Object_GetGlobalObjectAddress_00d27560()
+// src: EXE 0x00d27560
+void* __cdecl hkBufferedStreamWriter_getClassType()
 {
     return &DAT_012689e4;
 }

@@ -4219,8 +4219,8 @@ FUN_00ca9860_cls::~FUN_00ca9860_cls()
 extern int DAT_01268310;
 
 // @fnv 0x00ca9910
-// src: GUESS 0x00ca9910 (confidence: low)
-int __cdecl Runtime_EvaluateValue_00ca9910()
+// src: EXE 0x00ca9910
+int __cdecl bhkMalleableConstraint_GetRTTI()
 {
     return reinterpret_cast<int>(&DAT_01268310);
 }
@@ -6319,8 +6319,8 @@ FUN_00cb9b80::FUN_00cb9b80(CB9B80Info* pkInfo)
 struct CpuOpaque;
 extern CpuOpaque DAT_01268610;
 // @fnv 0x00cb9c00
-// src: GUESS 0x00cb9c00 (confidence: low)
-CpuOpaque* __cdecl Object_GetGlobalObjectAddress_00cb9c00()
+// src: EXE 0x00cb9c00
+CpuOpaque* __cdecl bhkRagdollConstraint_GetRTTI()
 {
     return &DAT_01268610;
 }

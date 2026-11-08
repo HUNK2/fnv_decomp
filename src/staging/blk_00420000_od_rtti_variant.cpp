@@ -424,7 +424,7 @@ void __cdecl TESForm_AddChunk_00485910(unsigned int, unsigned int);
 void __cdecl TESForm_AddChunk_00485950(unsigned int, unsigned int);
 struct FUN_00438c10_Class : public FNStub
 {
-    void __thiscall ReleaseStorage_00438c10();
+    void __thiscall MapMarkerData_Save();
 };
 extern "C" void TESForm_AddChunkArray_00485710(unsigned int, unsigned int*, unsigned int);
 struct FUN_00438f90_Class

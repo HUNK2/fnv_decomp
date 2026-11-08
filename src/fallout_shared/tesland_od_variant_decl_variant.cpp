@@ -105,7 +105,7 @@ template<int> struct EndianSizeTag {};
 void BSEndian(int*, EndianSizeTag<2>);
 void BSEndian(unsigned short*, EndianSizeTag<2>);
 struct FUN_00535a60_Class {
-    void ProcessState_00535a60();
+    void FILE_TEX_DATA_Endian();
 };
 extern int DAT_011c9f04;
 int TESLandTexture_GetDefaultTexture();

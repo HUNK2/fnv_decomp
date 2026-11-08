@@ -203,8 +203,8 @@ void __thiscall Own_00cc0470::ForwardCall_00cc0470(void* a)
 extern int g_unk01268560;
 
 // @fnv 0x00cc04c0
-// src: GUESS 0x00cc04c0 (confidence: low)
-int* __cdecl Object_GetGlobalObjectAddress_00cc04c0()
+// src: EXE 0x00cc04c0
+int* __cdecl hkOstream_getClassType()
 {
     return &g_unk01268560;
 }
@@ -212,8 +212,8 @@ int* __cdecl Object_GetGlobalObjectAddress_00cc04c0()
 extern int DAT_01268ad8;
 
 // @fnv 0x00cc0770
-// src: GUESS 0x00cc0770 (confidence: low)
-int __cdecl hkOstream_EvaluateValue_00cc0770()
+// src: EXE 0x00cc0770
+int __cdecl hkArrayStreamWriter_getClassType()
 {
     return reinterpret_cast<int>(&DAT_01268ad8);
 }

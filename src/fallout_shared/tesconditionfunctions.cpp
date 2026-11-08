@@ -2970,8 +2970,8 @@ extern __declspec(thread) bool bConditionPrint;
 
 
 // @fnv 0x005a2e20
-// src: GUESS 0x005a2e20 (confidence: low)
-bool __cdecl TESObjectREFR_ProcessAndReturnValue_005a2e20(TESObjectREFR* reference, void* pOwner, void* pUnused, double& result)
+// src: EXE 0x005a2e20
+bool __cdecl Cmd_IsOwner_Eval(TESObjectREFR* reference, void* pOwner, void* pUnused, double& result)
 {
     TESForm* owner = static_cast<TESForm*>(pOwner);
     if (!owner)
@@ -7039,8 +7039,8 @@ bool __cdecl Script_IsLimbGoneConditionFunction(TESObjectREFR* reference, void* 
 
 
 // @fnv 0x005a4160
-// src: GUESS 0x005a4160 (confidence: low)
-bool TESObjectREFR_ProcessAndReturnValue_005a4160(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
+// src: EXE 0x005a4160
+bool Cmd_IsTurning_Eval(TESObjectREFR* reference, void* arg1, void* arg2, double& result)
 {
     result = 0.0;
     if (reference && reference->IsActor())

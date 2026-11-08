@@ -2950,8 +2950,8 @@ class SmoothListV
 extern SmoothListV g_kSmoothListV;
 
 // @fnv 0x0062ab60
-// src: GUESS 0x0062ab60 (confidence: low)
-void __cdecl hkVector4_ProcessEntries_0062ab60(const hkVector4& kTarget, void* pvRef)
+// src: COMMUNITY 0x0062ab60
+void __cdecl TESArrowTargetListener_RemoveArrowTarget(const hkVector4& kTarget, void* pvRef)
 {
     SmoothEntryV* pkEntry = 0;
     if (!g_kSmoothListV.IsEmpty())

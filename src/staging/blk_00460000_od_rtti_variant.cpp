@@ -594,7 +594,7 @@ struct FUN_0047bcf0_class
 struct FUN_0047eb90_Class
 {
     void FUN_005fc970(int, char);
-    void ForwardCall_0047eb90(int value);
+    void TESFaction_SetPCAnEnemy(int value);
 };
 class FUN_00462dc0_cls
 {
@@ -1025,7 +1025,7 @@ struct FUN_0047ead0_cls
     FUN_0047ead0_cls* FUN_00726070();
     void TESFaction_SetPCAttack(int v);
     void TESFaction_SetPCMurder(int v);
-    void ForwardCall_0047eb90(int v);
+    void TESFaction_SetPCAnEnemy(int v);
     void TESActorBaseData_SetPCFactionFlags(int mode);
 };
 extern FUN_0047ead0_cls* DAT_011dea3c;

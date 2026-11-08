@@ -92,8 +92,8 @@ struct FUN_00c9ce00_cls
 };
 
 // @fnv 0x00d1f180
-// src: GUESS 0x00d1f180 (confidence: low)
-void __cdecl Object_ProcessState_00d1f180(FUN_00c9ce00_cls* obj, int v)
+// src: COMMUNITY 0x00d1f180
+void __cdecl finishLoadedObject_hkpEntity(FUN_00c9ce00_cls* obj, int v)
 {
     if (obj)
         obj->FUN_00c9ce00(v);
@@ -272,8 +272,8 @@ class D1F150Object
 };
 
 // @fnv 0x00d1f150
-// src: GUESS 0x00d1f150 (confidence: low)
-void Runtime_DestroySubobject_00d1f150(D1F150Object* pkObject)
+// src: COMMUNITY 0x00d1f150
+void cleanupLoadedObject_hkpEntity(D1F150Object* pkObject)
 {
     pkObject->~D1F150Object();
 }

@@ -5043,7 +5043,7 @@ struct FUN_00865f60_shell
 };
 struct FUN_006df9c0_shell
 {
-    void SaveFields_006df9c0(FUN_00865db0_shell* buf);
+    void PathingLOSGridCell_SaveGame(FUN_00865db0_shell* buf);
 };
 struct FUN_006dffc0_Class
 {
@@ -5064,7 +5064,7 @@ void FUN_006dffc0_Class::WriteToBuffer(FUN_00865db0_shell* buffer)
     for (unsigned int index = 0; index < count; ++index)
     {
         unsigned int* item = &((FUN_006a7ad0_shell*)this)->BSSimpleArray_NiAVObject_1024_GetAt(index);
-        ((FUN_006df9c0_shell*)*item)->SaveFields_006df9c0(buffer);
+        ((FUN_006df9c0_shell*)*item)->PathingLOSGridCell_SaveGame(buffer);
     }
 }
 
