@@ -438,7 +438,8 @@ struct CombatGroupMethods
     int FindRefInRadius(int);
 };
 // @fnv 0x00990ac0
-bool CombatGroupStrategy::CheckGroup(ActorCombatGroup* group)
+// src: COMMUNITY 0x00990ac0
+bool CombatGroupStrategy::CombatGroupStrategyFlank_Update(ActorCombatGroup* group)
 {
     bool bFound = false;
     unsigned count = group->GetCount();

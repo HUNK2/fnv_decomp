@@ -1190,7 +1190,8 @@ extern NiFixedString DAT_011f49e0;
 
 // Allocates a FUN_00c63ab0 with argument 0, sets its name to DAT_011f49e0, and returns it.
 // @fnv 0x00c64530
-void* CreateNamedNode()
+// src: EXE 0x00c64530
+void* BSDecalPlacementVectorExtraData_CreateObject()
 {
     FUN_00c63ab0* result = new FUN_00c63ab0(0);
     reinterpret_cast<NiAVObject*>(result)->SetName(DAT_011f49e0);
@@ -1661,7 +1662,8 @@ struct PositionModifierObject_b9439
 };
 // Allocates and constructs a PositionModifierObject_b9439 via its custom operator new and returns the pointer.
 // @fnv 0x00c63880
-PositionModifierObject_b9439* CreatePositionModifierObject()
+// src: EXE 0x00c63880
+PositionModifierObject_b9439* BSParentVelocityModifier_CreateObject()
 {
     return new PositionModifierObject_b9439();
 }

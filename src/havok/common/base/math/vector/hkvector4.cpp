@@ -198,7 +198,7 @@ struct Node
     State* state;
 };
 
-extern float __fastcall GetSettingFloat(bhkCharacterController* controller);
+extern float __fastcall bhkCharacterController_GetRadius(bhkCharacterController* controller);
 
 extern float DAT_01011d78;
 extern float DAT_01267bcc;
@@ -213,7 +213,7 @@ bool bhkCharacterController::CheckInsideOfObject()
     Node* node = *(Node**)((char*)this + 0x594);
     State* state = node ? node->state : 0;
     float advance = *(float*)((char*)this + 0x564) * DAT_010290b0;
-    float range = DAT_01267bcc * DAT_0102f070 + GetSettingFloat(this);
+    float range = DAT_01267bcc * DAT_0102f070 + bhkCharacterController_GetRadius(this);
     CastVector value;
     *(__m128*)&value = _mm_setr_ps(DAT_01011d78, range, DAT_01011d78, DAT_01011d78);
     State* transformState = node ? node->state : 0;

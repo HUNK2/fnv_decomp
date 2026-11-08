@@ -920,7 +920,7 @@ struct FUN_00d0bc20_Vtable
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void Method(FUN_00d0bc20_Outer* owner, unsigned int value);

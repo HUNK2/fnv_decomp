@@ -151,7 +151,7 @@ unsigned int __fastcall Archive_GetRuntimeID(const char* pThis)
 class bhkCharacterController;
 
 int __fastcall bhkCharacterController_GetState(bhkCharacterController*);
-float __fastcall GetSettingFloat(bhkCharacterController*);
+float __fastcall bhkCharacterController_GetRadius(bhkCharacterController*);
 float __cdecl HK2NI(float);
 bool __fastcall bhkCharacterListener_QQuadruped(void*);
 int __cdecl LengthCheck_004b5470(const NiPoint3&, float);
@@ -176,7 +176,7 @@ bool MobileObject::Actor_IsAtPoint(const NiPoint3& targetPos, float radius, bool
             }
             else
             {
-                float height = GetActorHeight();
+                float height = Actor_GetHeight();
                 if (height == gModifierZero)
                 {
                     height = 128.0f;
@@ -197,7 +197,7 @@ bool MobileObject::Actor_IsAtPoint(const NiPoint3& targetPos, float radius, bool
                 float charRadius;
                 if (charCtrl)
                 {
-                    charRadius = HK2NI(GetSettingFloat(charCtrl));
+                    charRadius = HK2NI(bhkCharacterController_GetRadius(charCtrl));
                     if (bhkCharacterListener_QQuadruped((char*)charCtrl + 0x410))
                     {
                         charRadius *= 2.0f;
@@ -236,7 +236,7 @@ bool __fastcall BuildLinkedRefChain(char* _this)
 {
     bool bLoop;
     TESObjectREFR* pRef =
-        PatrolActorPackageData::GetPatrolReference(*(Actor**)(_this + 0x10), *(TESPackage**)(_this + 0x14));
+        PatrolActorPackageData::GetInitialReferenceForSetup(*(Actor**)(_this + 0x10), *(TESPackage**)(_this + 0x14));
     *(bool*)(_this + 0x2c) = false;
     ((BSSimpleArray<unsigned int, 1024>*)(_this + 0x1c))->SetSize(0, true);
     bLoop =
@@ -3395,7 +3395,7 @@ ArchiveFile::~ArchiveFile()
 
 extern int DAT_010a2484;
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-__forceinline void RenderCopyData(void* dest, const void* source, unsigned int size)
+__forceinline void CopyBuffer(void* dest, const void* source, unsigned int size)
 {
     FUN_00ec44d0(dest, source, size);
 }
@@ -3453,7 +3453,7 @@ unsigned int ArchiveFile::ReadAtOffset(char* output, unsigned int size, unsigned
         int available = reinterpret_cast<ArchiveRead*>(GetArchive())->GetReadSize() - bufferOffset;
         if (available > (int)size)
             available = size;
-        RenderCopyData(output, reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_GetBuffer() + bufferOffset, available);
+        CopyBuffer(output, reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_GetBuffer() + bufferOffset, available);
         output += available;
         if (size == available)
         {
@@ -3483,7 +3483,7 @@ unsigned int ArchiveFile::ReadAtOffset(char* output, unsigned int size, unsigned
             reinterpret_cast<ArchiveRead*>(GetArchive())->SetPos(result);
             reinterpret_cast<ArchiveRead*>(GetArchive())->SetReadSize(result);
             copied = result < size ? result : size;
-            RenderCopyData(output, reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_GetBuffer(), copied);
+            CopyBuffer(output, reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_GetBuffer(), copied);
         }
         else
         {

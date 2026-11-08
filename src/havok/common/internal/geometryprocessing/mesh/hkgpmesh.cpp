@@ -2335,13 +2335,13 @@ FUN_00e22f20_cls& FUN_00e22f20_cls::hkgpMeshBase_Triangle_Triangle(const FUN_00e
 }
 
 struct SearchItem { int unk00; int unk04; unsigned int hashX; unsigned int hashY; };
-struct SearchPath { SearchItem** nodes; int depth; };
+struct NavMeshSearchSLPoint_FindStraightLinePath { SearchItem** nodes; int depth; };
 struct HashEntry { SearchItem* left; SearchItem* right; int result; };
 struct HashBucket { HashEntry* entries; int count; int unk08; };
 struct HashTableBase { HashBucket* buckets; unsigned int bucketCount; };
-struct SearchOwner { int LookupPairResult(SearchPath* path); };
+struct SearchOwner { int LookupPairResult(NavMeshSearchSLPoint_FindStraightLinePath* path); };
 // @fnv 0x00e23900
-int SearchOwner::LookupPairResult(SearchPath* path)
+int SearchOwner::LookupPairResult(NavMeshSearchSLPoint_FindStraightLinePath* path)
 {
     SearchItem** nodes = path->nodes;
     HashTableBase* table;
@@ -8839,7 +8839,7 @@ struct Factory360 { Builder360* hkgpMesh_clone();
 int* hkgpMesh_cutAndCap(int* result, int input, Pieces* output, float low, float high); };
 void __cdecl ResizeAudioStream(void*, void*, int);
 struct Hull360 {
-    float ComputeScaledPowerRatio();
+    float hkgpConvexHull_getSphericity();
     float hkgpConvexHull_getVolume();
 };
 // Builds pieces and checks each hull against high/low; on success appends all pieces to output, else destroys them; the status is written through result.
@@ -8859,7 +8859,7 @@ int* Factory360::hkgpMesh_cutAndCap(int* result, int input, Pieces* output, floa
         for (int i = 0; i < pieces.GetLogicalSize(); ++i) {
             Hull360* hull = (Hull360*)pieces[i]->GetConvexHull();
             if (!hull) *out = 2;
-            else if (hull->ComputeScaledPowerRatio() < high || hull->hkgpConvexHull_getVolume() < low) *out = 8;
+            else if (hull->hkgpConvexHull_getSphericity() < high || hull->hkgpConvexHull_getVolume() < low) *out = 8;
         }
         if (*out == 0) {
             for (int i = 0; i < pieces.GetLogicalSize(); ++i) {

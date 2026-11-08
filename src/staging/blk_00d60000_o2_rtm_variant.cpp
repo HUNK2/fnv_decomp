@@ -265,7 +265,7 @@ class hkDerivedD6A : public hkBaseD6A
     hkMemberD6A m_kMemberDescriptor;
     int m_iType;
 };
-void __cdecl ConstructHkDerived(void* pvObject, int iFinishFlag);
+void __cdecl finishLoadedObject_hkpConstraintInstance(void* pvObject, int iFinishFlag);
 class FUN_00d60540 : public hkReferencedObject
 {
   public:

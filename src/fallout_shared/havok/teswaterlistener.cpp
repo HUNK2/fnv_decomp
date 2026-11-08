@@ -455,7 +455,7 @@ FUN_00631230_shell* FUN_00631180_shell::TESWaterListener_CreateZoneEntry(TESObje
 {
     FUN_00631230_shell* apWZone = new FUN_00631230_shell(apRef, apCol);
     apWZone->pGroup = ((TESWaterSystem*)(void*)((EffectSetting*)g_TES)->GetEffectID())
-                          ->GetWaterZone(apRef, (TESObjectREFR*)0, 0.0f);
+                          ->FindWaterGroup(apRef, (TESObjectREFR*)0, 0.0f);
     return apWZone;
 }
 

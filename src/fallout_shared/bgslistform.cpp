@@ -149,7 +149,7 @@ void _FUN_00485910(unsigned int, unsigned int);
 // src: XBOX_PDB 0x0058fcc0
 void BGSListForm::Save_0058fcc0()
 {
-    reinterpret_cast<TESForm*>(this)->BeginFormRecord();
+    reinterpret_cast<TESForm*>(this)->TESForm_StartForm();
     BSSimpleList<TESForm*>* pCondition = GetList();
     while (pCondition && !pCondition->IsEmpty())
     {
@@ -158,7 +158,7 @@ void BGSListForm::Save_0058fcc0()
         _FUN_00485910(0x4d414e4c, formID6);
         pCondition = pCondition->GetNext();
     }
-    reinterpret_cast<TESForm*>(this)->FinishFormRecord();
+    reinterpret_cast<TESForm*>(this)->TESForm_CloseForm();
 }
 
 // @fnv 0x0058fbc0
@@ -202,7 +202,8 @@ void BGSListForm::CopyConditionsFromListForm(TESForm* apCopy)
 }
 
 // @fnv 0x0058ff60
-int BGSListForm::GetConditionIndex(TESForm* apForm)
+// src: COMMUNITY 0x0058ff60
+int BGSListForm::GetItemIndex(TESForm* apForm)
 {
     int iElementIndex = 0;
     BSSimpleList<TESForm*>* pCurrentElementNext = GetList();

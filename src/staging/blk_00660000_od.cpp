@@ -913,7 +913,7 @@ void DetectionViewData::ActorCause_LoadGameBGS(BGSLoadGameBuffer* buffer)
     buffer->ReadTypedData(&value, 4);
     buffer->ReadFormIdentifier(this);
 
-    unsigned int count = buffer->ReadElementCount();
+    unsigned int count = buffer->LoadVariableSizedValue();
     if (count)
     {
         if (list)
@@ -1525,7 +1525,7 @@ void SaveE6D0Items(BGSSaveFormBuffer* pkBuffer)
 struct ComparisonEntry
 {
     int PackageLocation_GetLocType();
-    int GetSecondByte();
+    int PackageSchedule_GetStartDayOfWeek();
     signed char Main_GameReset();
     signed char FUN_0086a460();
 };
@@ -1545,8 +1545,8 @@ int ComparisonOwner::CompareTo(ComparisonEntry* other)
         if ((entry->Main_GameReset() == 0 && other->Main_GameReset() == -1) ||
             entry->Main_GameReset() == other->Main_GameReset())
         {
-            if ((entry->GetSecondByte() == -1 && other->GetSecondByte() == -1) ||
-                entry->GetSecondByte() == other->GetSecondByte())
+            if ((entry->PackageSchedule_GetStartDayOfWeek() == -1 && other->PackageSchedule_GetStartDayOfWeek() == -1) ||
+                entry->PackageSchedule_GetStartDayOfWeek() == other->PackageSchedule_GetStartDayOfWeek())
             {
                 if ((entry->FUN_0086a460() == -1 && other->FUN_0086a460() == -1) ||
                     entry->FUN_0086a460() == other->FUN_0086a460())
@@ -1568,8 +1568,8 @@ int ComparisonOwner::CompareTo(ComparisonEntry* other)
             }
             else
             {
-                if (entry->GetSecondByte() != -1 &&
-                    (other->GetSecondByte() == -1 || entry->GetSecondByte() < other->GetSecondByte()))
+                if (entry->PackageSchedule_GetStartDayOfWeek() != -1 &&
+                    (other->PackageSchedule_GetStartDayOfWeek() == -1 || entry->PackageSchedule_GetStartDayOfWeek() < other->PackageSchedule_GetStartDayOfWeek()))
                 {
                     return -1;
                 }

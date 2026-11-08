@@ -124,7 +124,7 @@ struct TileValue_00a0a270 {
     void Tile_Value_SetFloat_00a0a270(float afValue, bool abClearActions);
 };
 struct TileValueOwner_00a01000 {
-    TileValue_00a0a270* GetOrCreateTraitValue(int aiTrait);
+    TileValue_00a0a270* Tile_AddValue(int aiTrait);
 };
 struct FUN_00a012d0_t {
     void Tile_Set(int aiTrait, float afValue, bool abClearActions);
@@ -474,10 +474,10 @@ struct Item_00a0ba50 {
 };
 void __cdecl Tile_DeleteGlobalItems();
 void __cdecl AutoTileLock_AutoTileLock();
-extern "C" void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+extern "C" void __cdecl Tile_Unlock();
 struct TileSearchLock {
     TileSearchLock() { AutoTileLock_AutoTileLock(); }
-    ~TileSearchLock() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~TileSearchLock() { Tile_Unlock(); }
 };
 struct TileFloatList {
     void* m_vtbl;
@@ -518,7 +518,7 @@ struct FUN_00a0ac80 {
     FUN_00a0ac80();
 };
 void AutoTileLock_AutoTileLock();
-void Object___imp__LeaveCriticalSection_Thunk();
+void Tile_Unlock();
 class TileV;
 class TileValueV
 {
@@ -532,7 +532,7 @@ class FnvTileLock
 {
 public:
     FnvTileLock() { AutoTileLock_AutoTileLock(); }
-    ~FnvTileLock() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~FnvTileLock() { Tile_Unlock(); }
 };
 inline bool HasValue(TileValueV* pList, int m_iValueId)
 {
@@ -795,11 +795,11 @@ public:
 extern const char* DAT_011f34cc;
 
 void AutoTileLock_AutoTileLock();
-void Object___imp__LeaveCriticalSection_Thunk();
+void Tile_Unlock();
 
 struct TileListLock {
     TileListLock() { AutoTileLock_AutoTileLock(); }
-    ~TileListLock() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~TileListLock() { Tile_Unlock(); }
 };
 
 struct ExtraNode {
@@ -837,11 +837,11 @@ int Tile_GetTileFromNode(ExtraNode* pkNode)
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* lpAddend);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+void __cdecl Tile_Unlock();
 class MenuLockA01 {
 public:
     MenuLockA01() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockA01() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~MenuLockA01() { Tile_Unlock(); }
 };
 class RefObjectA01 {
 public:
@@ -951,7 +951,7 @@ struct ClipTile {
     unsigned int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     ClipNode* model;
     __forceinline ClipNode* Model() { return model; }
-    bool IsTraitNonZero(int);
+    bool Tile_IsTrue(int);
     bool FUN_00a03c60();
     void Tile_ReClipChildren(float left, float top, float right, float bottom);
 };
@@ -1071,12 +1071,12 @@ struct MenuArray {
 extern MenuArray DAT_011f3508;
 int __cdecl Tile_GetMenuByClass(int id);
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+void __cdecl Tile_Unlock();
 extern const double _gModifierZero;
 class MenuLockB35 {
 public:
     MenuLockB35() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockB35() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~MenuLockB35() { Tile_Unlock(); }
 };
 unsigned int __cdecl BSstrlen(const char* text);
 unsigned int __cdecl BSMAX(unsigned int a, unsigned int b);
@@ -1471,7 +1471,7 @@ extern void __cdecl FormHeapFreeAndLog_00401030(void*);
 extern void* __cdecl FUN_00401460(void*, const void*, unsigned);
 __forceinline void* __cdecl operator new[](unsigned size) { return ((TilePool_ac80*)&DAT_011f6238)->Game_DoHeapAlloc(size); }
 __forceinline void __cdecl operator delete[](void* data) { DAT_011f6238.MemoryManager_Deallocate(data); }
-__forceinline int RenderCopyData(char* dest, unsigned capacity, const char* source) { return FUN_00ec65a6(dest, capacity, source); }
+__forceinline int CopyBuffer(char* dest, unsigned capacity, const char* source) { return FUN_00ec65a6(dest, capacity, source); }
 __forceinline void CopyPrefix(char* dest, const char* source, const char* begin) {
     unsigned length = begin - source;
     FUN_00ec8d5f(dest, length + 1, source, length);
@@ -1575,7 +1575,7 @@ bool __cdecl Tile_InsertIncludedFiles(Input02D40* arg) {
         }
         delete[] arg->m04;
         arg->m04 = new char[i.Length() + 1];
-        RenderCopyData(arg->m04, i.Length() + 1, i.String());
+        CopyBuffer(arg->m04, i.Length() + 1, i.String());
         arg->m00 = i.Length();
         delete[] p9;
         Tile_InsertIncludedFiles(arg);

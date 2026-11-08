@@ -318,7 +318,7 @@ int SerializeData(unsigned int a1, unsigned int a2, unsigned int a3, unsigned in
 }
 
 void __cdecl hkArrayUtil__reserve(void* alloc, void* array, int numElements, int sizeElem);
-void* __cdecl AllocateWithHeader(void* alloc, int size);
+void* __cdecl hkMemoryRouter_easyAlloc(void* alloc, int size);
 void __cdecl hkMemoryRouter_easyFree(void* alloc, void* p);
 
 struct hkStreamReader
@@ -439,7 +439,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     }
 
     int iAllocationSize = *outAllocSize;
-    char* buffer = (char*)AllocateWithHeader(&GetAudioAllocator(hkMemoryRouter_getInstance()), iAllocationSize);
+    char* buffer = (char*)hkMemoryRouter_easyAlloc(&GetAudioAllocator(hkMemoryRouter_getInstance()), iAllocationSize);
     stream->read(buffer, *outAllocSize);
     if (!stream->IsStreamValid())
     {

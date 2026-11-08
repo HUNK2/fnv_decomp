@@ -696,7 +696,7 @@ struct S_00dbac90_Obj
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40(void* arg);
 };
@@ -1132,11 +1132,11 @@ FUN_00dba650_cls* FUN_00dba650_cls::SetField00(unsigned int value)
 struct CpuObject
 {
     int value;
-    bool TestValue();
+    bool hkDataClass_isNull();
 };
 // @fnv 0x00dba670
-// src: GUESS 0x00dba670 (confidence: low)
-bool CpuObject::TestValue()
+// src: COMMUNITY 0x00dba670
+bool CpuObject::hkDataClass_isNull()
 {
     return value == 0;
 }

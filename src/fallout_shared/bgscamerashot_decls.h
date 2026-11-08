@@ -15,12 +15,12 @@ int __cdecl Warning(const char*, ...);
 class VATS
 {
   public:
-    void ProcessVATSCommands();
+    void ClearCommandList();
 };
 class StateNode
 {
   public:
-    void ResetCameraState();
+    void BGSCameraShot_FreeCamera();
 };
 class ImageSpaceModifierInstanceDOF;
 void ImageSpaceModifierInstance_Stop(ImageSpaceModifierInstanceDOF*);

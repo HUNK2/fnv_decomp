@@ -131,7 +131,7 @@ struct CompareReference
 {
     CompareValue* value;
 };
-struct CompareObject
+struct MagicItemObject_Compare
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
@@ -140,7 +140,7 @@ struct CompareObject
 };
 // Sets result to whether the key of left's referenced value is less than the key of right's referenced value.
 // @fnv 0x00d02220
-void __cdecl CompareObjectKeys(bool* result, CompareObject* left, CompareObject* right)
+void __cdecl CompareObjectKeys(bool* result, MagicItemObject_Compare* left, MagicItemObject_Compare* right)
 {
     *result = left->reference->value->key < right->reference->value->key;
 }
@@ -2108,12 +2108,13 @@ struct FUN_00d02e70_cls
     Event* items30;
     int count34;
     unsigned int capacity38;
-    void AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTION* cs);
+    void hkpMultiThreadedSimulation_addToiEventWithCriticalSectionLock(char* input, EventMeta* meta, CRITICAL_SECTION* cs);
 };
 
 // If the event array is full, logs a TOI queue-full message and returns; otherwise appends an Event under cs and fills it from input and meta.
 // @fnv 0x00d02e70
-void FUN_00d02e70_cls::AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTION* cs)
+// src: COMMUNITY 0x00d02e70
+void FUN_00d02e70_cls::hkpMultiThreadedSimulation_addToiEventWithCriticalSectionLock(char* input, EventMeta* meta, CRITICAL_SECTION* cs)
 {
     if (count34 == (capacity38 & 0x3fffffff))
     {
@@ -2294,7 +2295,7 @@ struct Job
 struct Jobs : RuntimeBase
 {
     virtual void start(Job*, int);
-    virtual void wait();
+    virtual void hkSemaphore_release();
 };
 
 struct Entity;
@@ -3340,7 +3341,7 @@ struct StepPair
     Handle* second;
 };
 
-void __cdecl hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(Island**, int, int, void(__cdecl*)(bool*, CompareObject*, CompareObject*));
+void __cdecl hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(Island**, int, int, void(__cdecl*)(bool*, MagicItemObject_Compare*, MagicItemObject_Compare*));
 
 void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(PairArray*, PairArray*);
 
@@ -3546,7 +3547,7 @@ struct Stepper
 
     int f100;
 
-    void AddToiEvent(Output*, Agent*, void*);
+    void hkpMultiThreadedSimulation_addToiEventWithCriticalSectionLock(Output*, Agent*, void*);
 
     int hkpMultiThreadedSimulation_finishMtStep(Job*, Jobs*);
 };
@@ -3722,7 +3723,7 @@ int Stepper::hkpMultiThreadedSimulation_finishMtStep(Job* job, Jobs* jobs)
                         agent->manager->process(*savedA, *scratch.db, *d, out);
 
                     if (out.hasToi())
-                        AddToiEvent(&out, agent, &f100);
+                        hkpMultiThreadedSimulation_addToiEventWithCriticalSectionLock(&out, agent, &f100);
                 }
             }
 
@@ -3897,7 +3898,7 @@ int Stepper::hkpMultiThreadedSimulation_finishMtStep(Job* job, Jobs* jobs)
         }
         job->SetSimulationEnabled(0);
         job->SetValue(jobState.prior);
-        jobs->wait();
+        jobs->hkSemaphore_release();
         {
             TraceBuffer* p = (TraceBuffer*)TlsGetValue(DAT_0126835c);
             TraceRecord* r = p->next;

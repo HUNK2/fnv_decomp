@@ -108,8 +108,8 @@ public:
     float Length2() const;
     float Length() const;
     float Len() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
 
     void Unitize_004a0c10();
     LocalPt3* SubtractIntoVector(LocalPt3* out, LocalPt3* other);
@@ -201,8 +201,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -833,7 +833,7 @@ int BSMultiBoundShape::BSMultiBoundOBB_CheckBound_00c369b0(BSMultiBound* p)
 struct C37050_Plane
 {
     float a, b, c, d;
-    int ClassifyPoint(const PodPoint3& point) const;
+    int NiPlane_WhichSide(const PodPoint3& point) const;
 };
 inline bool NiFrustumPlanes::IsPlaneActive(unsigned int i)
 {
@@ -860,7 +860,7 @@ bool C37050_Bound::BSMultiBoundOBB_CompletelyWithinFrustum(const NiFrustumPlanes
         {
             for (int j = 0; j < 8; j++)
             {
-                if (reinterpret_cast<const C37050_Plane&>(frustum.m_akPlanes[i]).ClassifyPoint(corners[j]) == 2)
+                if (reinterpret_cast<const C37050_Plane&>(frustum.m_akPlanes[i]).NiPlane_WhichSide(corners[j]) == 2)
                     return false;
             }
         }
@@ -1871,7 +1871,7 @@ struct Plane
 {
     PodPoint3 normal;
     float distance;
-    int ClassifyPoint(const PodPoint3&) const;
+    int NiPlane_WhichSide(const PodPoint3&) const;
 };
 
 struct FloatMatrix3
@@ -1936,7 +1936,7 @@ bool OrientedBox::BSMultiBoundOBB_WithinFrustum(NiFrustumPlanes* frustum)
             {
                 if (!flat || vertex % 2)
                 {
-                    if (reinterpret_cast<const Plane&>(frustum->m_akPlanes[plane]).ClassifyPoint(vertices[vertex]) != 2)
+                    if (reinterpret_cast<const Plane&>(frustum->m_akPlanes[plane]).NiPlane_WhichSide(vertices[vertex]) != 2)
                         outside = false;
                 }
             }

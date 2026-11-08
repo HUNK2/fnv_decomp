@@ -736,7 +736,7 @@ void FUN_007aa2a0_shell::UpdateMenuAction()
         {
             if (static_cast<unsigned char>(GetByteAtOffset56(reinterpret_cast<char*>(GetCurrentArrayElement()))) == 0)
             {
-                if (m_pTiles[0]->IsTraitNonZero(0xfa3))
+                if (m_pTiles[0]->Tile_IsTrue(0xfa3))
                 {
                     if (FUN_0059bb30() == 4)
                     {
@@ -1198,7 +1198,7 @@ void MsgMenu::PopulateFromMessageData()
     else
         fMaxWidthCur = DAT_011da4f0->FUN_00726070()->FUN_00a011b0(Tile_TextToTrait(s_szMaxMenuWidth));
     fMaxWidthCur = fMaxWidthCur - fHorBuf * 2;
-    if (DAT_011da4f0->m_pTiles[2]->IsTraitNonZero(0xfa3))
+    if (DAT_011da4f0->m_pTiles[2]->Tile_IsTrue(0xfa3))
         fMaxWidthCur = fMaxWidthCur - 120.0;
     DAT_011da4f0->m_pTiles[3]->Tile_Set(0xfba, fMaxWidthCur, true);
     MsgSize kSizeFinal = FUN_005bd5b0()->FUN_00a1b020(pMessagePtr->kText.Modelloader_GetReferencedThis(), 2,

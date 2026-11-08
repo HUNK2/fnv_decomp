@@ -1458,7 +1458,7 @@ bool FUN_00720f90_shell::MenuManager_IsMenuOpen(int param_1)
             {
                 if (menu->GetClass() == param_1)
                 {
-                    if (menu->FUN_00726070()->IsTraitNonZero(0xfa3) &&
+                    if (menu->FUN_00726070()->Tile_IsTrue(0xfa3) &&
                         menu->GetVisibilityState() != 2)
                         return true;
                     else

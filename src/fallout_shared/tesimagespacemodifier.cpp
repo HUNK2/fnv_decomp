@@ -532,7 +532,8 @@ void TESImageSpaceModifier::Apply(float startTime, float strength, NiAVObject* t
 }
 
 // @fnv 0x00531d20
-void TESImageSpaceModifier::EvaluateInterpolators(float startTime, float strength)
+// src: COMMUNITY 0x00531d20
+void TESImageSpaceModifier::ApplyWeather(float startTime, float strength)
 {
     float effectTime;
     if (Data.m_bOverride)
@@ -1199,18 +1200,18 @@ extern "C" void __fastcall CacheObjectValues(TESImageSpaceModifier* modifier)
 }
 
 bool TESForm_QEndianSwapOnSave();
-void AppendChunk(unsigned int, void*, unsigned int);
+void TESForm___AddChunkData(unsigned int, void*, unsigned int);
 void TESForm_AddChunk_00485910(unsigned int, unsigned int);
 void* __memcpy(void*, const void*, unsigned int);
 // Serializes the image space modifier: writes a header, then each data array (endian-swapped when needed) with its tag, plus intro/outro sound form IDs.
 // @fnv 0x0052f250
 void TESImageSpaceModifier::Save()
 {
-    TESForm::BeginFormRecord();
+    TESForm::TESForm_StartForm();
     CacheObjectValues(this);
     if (TESForm_QEndianSwapOnSave())
         Data.Endian();
-    AppendChunk(0x4d414e44, &Data, 0xf4);
+    TESForm___AddChunkData(0x4d414e44, &Data, 0xf4);
     if (TESForm_QEndianSwapOnSave())
         Data.Endian();
     {
@@ -1221,7 +1222,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e42, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e42, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1232,7 +1233,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e56, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e56, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1243,7 +1244,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e54, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e54, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1254,7 +1255,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x334d414e, dataTmp, count * 4);
+        TESForm___AddChunkData(0x334d414e, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1265,7 +1266,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e52, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e52, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1276,7 +1277,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e53, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e53, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1287,7 +1288,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e55, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e55, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1298,7 +1299,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x314d414e, dataTmp, count * 4);
+        TESForm___AddChunkData(0x314d414e, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1309,7 +1310,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x324d414e, dataTmp, count * 4);
+        TESForm___AddChunkData(0x324d414e, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1320,7 +1321,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e57, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e57, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1331,7 +1332,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e58, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e58, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1342,7 +1343,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x4d414e59, dataTmp, count * 4);
+        TESForm___AddChunkData(0x4d414e59, dataTmp, count * 4);
         delete[] dataTmp;
     }
     {
@@ -1353,7 +1354,7 @@ void TESImageSpaceModifier::Save()
         if (TESForm_QEndianSwapOnSave())
             for (unsigned int idx = 0; idx < count; idx++)
                 BSEndian(dataTmp + idx, EndianSizeTag<4>());
-        AppendChunk(0x344d414e, dataTmp, count * 4);
+        TESForm___AddChunkData(0x344d414e, dataTmp, count * 4);
         delete[] dataTmp;
     }
     for (int i = 0; i < 21; i++)
@@ -1367,7 +1368,7 @@ void TESImageSpaceModifier::Save()
             if (TESForm_QEndianSwapOnSave())
                 for (unsigned int idx = 0; idx < count2; idx++)
                     BSEndian(dataTmp + idx, EndianSizeTag<4>());
-            AppendChunk(tag, dataTmp, count2 * 4);
+            TESForm___AddChunkData(tag, dataTmp, count2 * 4);
             delete[] dataTmp;
         }
     if (pIntroSound)
@@ -1380,7 +1381,7 @@ void TESImageSpaceModifier::Save()
         unsigned int outro = pOutroSound->GetFormID();
         TESForm_AddChunk_00485910(0x49534452, outro);
     }
-    TESForm::FinishFormRecord();
+    TESForm::TESForm_CloseForm();
 }
 
 extern char _DAT_011862b8;
@@ -1490,7 +1491,8 @@ struct BlendPoint
 BlendPoint FUN_00532fd0(float, const BlendPoint&);
 // Interpolates two TESImageSpaceModifiers by blend and strength and pushes the blended values into the ImageSpaceManager.
 // @fnv 0x00532220
-void TESImageSpaceModifier::BlendModifiers(float blend, TESImageSpaceModifier* pPreviousModifier,
+// src: COMMUNITY 0x00532220
+void TESImageSpaceModifier::BlendApply(float blend, TESImageSpaceModifier* pPreviousModifier,
                               TESImageSpaceModifier* pNextModifier, float previousStrength, float nextStrength,
                               NiAVObject* previousTarget, NiAVObject* nextTarget)
 {

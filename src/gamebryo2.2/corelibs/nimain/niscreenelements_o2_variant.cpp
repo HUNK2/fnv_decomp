@@ -59,7 +59,8 @@ extern "C" void __cdecl ScreenElementsBaseCopyMembers();
 
 // The shared class has no default constructor or clone override declaration.
 // @fnv 0x00a87860
-NiObject* __fastcall CloneScreenElements(NiScreenElements* self, void*, CloningProcess& process)
+// src: EXE 0x00a87860
+NiObject* __fastcall NiScreenElements_CreateClone(NiScreenElements* self, void*, CloningProcess& process)
 {
     NiScreenElements* pChild = static_cast<NiScreenElements*>(NiScreenElements::operator new(sizeof(NiScreenElements)));
     if (pChild)

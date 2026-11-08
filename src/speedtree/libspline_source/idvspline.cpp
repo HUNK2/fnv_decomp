@@ -466,7 +466,7 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
         }
         else
         {
-            if (IsIntegerString(token.text))
+            if (IsStringInteger(token.text))
             {
                 Value.Type = 0;
                 Value.m_lIntegerValue = atol(token.text);

@@ -883,13 +883,13 @@ SplitNode* SplitBuilder::hkpMoppDefaultSplitter_split(SplitNode* parent, SplitLi
     return node;
 }
 
-void* __cdecl AllocateWithHeader(void* pvAllocator, int iNumBytes);
+void* __cdecl hkMemoryRouter_easyAlloc(void* pvAllocator, int iNumBytes);
 void __cdecl hkMemoryRouter_easyFree(void* pvAllocator, void* pvMem);
 
 template <typename T> inline T* hkAllocateStackE0A5(int n)
 {
     void* pvAllocator = (void*)hkMemoryRouter_getInstance()->pListener;
-    return (T*)AllocateWithHeader(pvAllocator, n * sizeof(T));
+    return (T*)hkMemoryRouter_easyAlloc(pvAllocator, n * sizeof(T));
 }
 
 template <typename T> inline void hkDeallocateStackE0A5(T* p)

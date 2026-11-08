@@ -15,10 +15,11 @@ extern "C" __declspec(dllimport) int __stdcall ReleaseSemaphore(void* h, long re
 struct FUN_00d04390
 {
     void* handle;
-    unsigned long wait(unsigned long amount);
+    unsigned long hkSemaphore_release(unsigned long amount);
 };
 // @fnv 0x00d04390
-unsigned long FUN_00d04390::wait(unsigned long amount)
+// src: COMMUNITY 0x00d04390
+unsigned long FUN_00d04390::hkSemaphore_release(unsigned long amount)
 {
     return (unsigned long)ReleaseSemaphore(*(void**)this, (long)amount, 0);
 }

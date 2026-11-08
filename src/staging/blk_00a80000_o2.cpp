@@ -1834,7 +1834,8 @@ struct NiParticleObject : NiParticleBase {
 extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern const char DAT_010a1024;
 // @fnv 0x00a9aea0
-NiParticleObject* __cdecl CreateNiParticleObject() {
+// src: EXE 0x00a9aea0
+NiParticleObject* __cdecl NiBSPNode_CreateObject() {
     NiParticleObject* object =
         (NiParticleObject*)Object_DispatchCommandFour(0xcc);
     if (object) {
@@ -2288,7 +2289,8 @@ public:
 
 // Allocates and default-constructs a new BA87920Object, returning the pointer.
 // @fnv 0x00a87920
-BA87920Object* __cdecl CreateBA87920Object()
+// src: EXE 0x00a87920
+BA87920Object* __cdecl NiScreenElementsData_CreateObject()
 {
     return new BA87920Object;
 }
@@ -2391,7 +2393,8 @@ struct NiPairHolder {
 };
 
 // @fnv 0x00a8a700
-NiPairHolder* __cdecl CreateNiPairHolder(void)
+// src: EXE 0x00a8a700
+NiPairHolder* __cdecl NiLinesData_CreateObject(void)
 {
     NiPairHolder* obj = (NiPairHolder*)BSFadeNode::operator new(0x44);
     if (obj != 0) {

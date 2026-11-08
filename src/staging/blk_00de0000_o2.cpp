@@ -1371,8 +1371,8 @@ struct FUN_00dfcf00_vt
     virtual void m_iWordAt00(int);
 };
 // @fnv 0x00dfcf00
-// src: GUESS 0x00dfcf00 (confidence: medium)
-void __cdecl Object_M_iWordAt00_Thunk(FUN_00dfcf00_vt* p)
+// src: COMMUNITY 0x00dfcf00
+void __cdecl cleanupLoadedObject_hkpSimpleMeshShape(FUN_00dfcf00_vt* p)
 {
     p->m_iWordAt00(0);
 }
@@ -3398,7 +3398,7 @@ void* Object_GetGlobalObjectAddress_00dfb8a0()
     return &g_target_00dfb8a0;
 }
 
-// ResetVTable -- installs a fixed vtable on an object and, when the second
+// finishLoadedObject_hkaSplineCompressedAnimation -- installs a fixed vtable on an object and, when the second
 // argument is set, runs the object's update step afterwards.
 
 extern int DAT_010de0ec;  // vtable that gets installed
@@ -3414,7 +3414,8 @@ struct ResetVTableTarget
 };
 
 // @fnv 0x00dfb8b0
-void __cdecl ResetVTable(ResetVTableObj* pObj, int bUpdate)
+// src: COMMUNITY 0x00dfb8b0
+void __cdecl finishLoadedObject_hkaSplineCompressedAnimation(ResetVTableObj* pObj, int bUpdate)
 {
     if (pObj != 0)
     {
@@ -6277,7 +6278,8 @@ extern int DAT_010debf4;
 extern int DAT_010debe4;
 
 // @fnv 0x00dfeac0
-void __cdecl InitObjectVtables(int* pObject, int bFlag)
+// src: COMMUNITY 0x00dfeac0
+void __cdecl finishLoadedObject_hkpVehicleRayCastWheelCollide(int* pObject, int bFlag)
 {
     if (pObject == 0)
         return;
@@ -6759,8 +6761,8 @@ class DFF2E0Object
 };
 
 // @fnv 0x00dff2e0
-// src: GUESS 0x00dff2e0 (confidence: medium)
-void Object_ConstructInPlace(void* apMemory, int finishing)
+// src: COMMUNITY 0x00dff2e0
+void finishLoadedObject_hkpMountedBallGun(void* apMemory, int finishing)
 {
     if (apMemory)
     {
@@ -6945,8 +6947,8 @@ struct DFF4E0Object
 };
 
 // @fnv 0x00dff4e0
-// src: GUESS 0x00dff4e0 (confidence: medium)
-void Object_Destroy_Thunk(DFF4E0Object* pkObject)
+// src: COMMUNITY 0x00dff4e0
+void cleanupLoadedObject_hkpGravityGun(DFF4E0Object* pkObject)
 {
     pkObject->Destroy(false);
 }
@@ -7443,7 +7445,8 @@ inline void* operator new(unsigned int, void* where)
 
 // Placement-constructs a SpawnedDerived at p when p is non-null, forwarding flag to the constructor.
 // @fnv 0x00dffde0
-void ConstructSpawnedDerived(SpawnedObject* apObject, int flag)
+// src: COMMUNITY 0x00dffde0
+void finishLoadedObject_hkpThinBoxMotion(SpawnedObject* apObject, int flag)
 {
     if (apObject != 0)
     {
@@ -7595,7 +7598,8 @@ struct SpawnedObject
 
 // Sets the object's vtable pointer and, when flag is non-zero, notifies the sub-object with its stored value.
 // @fnv 0x00dfff20
-void __cdecl InitSpawnedObject(SpawnedObject* pObject, int iNotifyFlag)
+// src: COMMUNITY 0x00dfff20
+void __cdecl finishLoadedObject_hkpPointToPathConstraintData(SpawnedObject* pObject, int iNotifyFlag)
 {
     if (pObject != 0)
     {
@@ -7630,7 +7634,8 @@ struct S_00dfff80_Foo
 };
 
 // @fnv 0x00dfff80
-void __cdecl CallFooMethodIfNotNull(S_00dfff80_Foo* pFoo, int aiValue)
+// src: COMMUNITY 0x00dfff80
+void __cdecl finishLoadedObject_hkpMalleableConstraintData(S_00dfff80_Foo* pFoo, int aiValue)
 {
     if (pFoo != 0)
     {
@@ -9153,8 +9158,8 @@ struct DestructibleDFF
     virtual ~DestructibleDFF();
 };
 // @fnv 0x00dff5a0
-// src: GUESS 0x00dff5a0 (confidence: medium)
-void __cdecl Object_DestructibleDFF_Thunk(DestructibleDFF* pkObject)
+// src: COMMUNITY 0x00dff5a0
+void __cdecl cleanupLoadedObject_hkpDisplayBindingDataPhysicsSystem(DestructibleDFF* pkObject)
 {
     pkObject->~DestructibleDFF();
 }

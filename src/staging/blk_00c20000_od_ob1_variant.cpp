@@ -278,9 +278,9 @@ NiObject* __cdecl BSNodeReferences_CreateObject();
 NiObject* __cdecl NiBSBoneLODController_CreateObject();
 NiObject* __cdecl BSBound_CreateObject();
 NiObject* __cdecl BSXFlags_CreateObject();
-NiObject* __cdecl CreateNamedNode();
+NiObject* __cdecl BSDecalPlacementVectorExtraData_CreateObject();
 FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
-NiObject* __cdecl CreatePositionModifierObject();
+NiObject* __cdecl BSParentVelocityModifier_CreateObject();
 NiObject* __cdecl BSFurnitureMarker_CreateObject();
 FUN_00c61b10* __cdecl BSPSysArrayEmitter_CreateObject();
 NiObject* __cdecl BSWArray_CreateObject();
@@ -290,14 +290,14 @@ NiObject* __cdecl BSValueNode_CreateObject();
 NiObject* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject();
 NiObject* __cdecl BSMasterParticleSystem_CreateObject();
 NiObject* __cdecl BSMultiBound_CreateObject();
-NiObject* __cdecl CreateNewObject();
+NiObject* __cdecl BSMultiBoundNode_CreateObject();
 NiObject* __cdecl CreateNewBodyCls();
 NiObject* __cdecl CreateBC36500Object();
 NiObject* __cdecl BSMultiBoundCapsule_CreateObject();
 FUN_00c4fb10_shell* __cdecl BSMultiBoundSphere_CreateObject();
 NiObject* __cdecl BSPSysSimpleColorModifier_CreateObject();
 NiObject* __cdecl BSDebrisNode_CreateObject();
-NiObject* __cdecl CreatePositionModifierInstance();
+NiObject* __cdecl BSPSysStripUpdateModifier_CreateObject();
 extern char const g_012043dc_arg0[];
 extern char const g_012043e4_arg0[];
 extern char const g_012031b8_arg0[];
@@ -981,7 +981,7 @@ struct FUN_00a699d0
 {
     float x, y, z, w;
     FUN_00a699d0(const LocalPoint&, const LocalPoint&, const LocalPoint&);
-    int ClassifyPoint(const LocalPoint*);
+    int NiPlane_WhichSide(const LocalPoint*);
 };
 struct FUN_00a699d0s
 {
@@ -1051,7 +1051,7 @@ void Builder::BSOcclusionPlane_UpdateFrustumPlanes(LocalPoint eye, FUN_00a699d0s
     BSOcclusionPlane_GetVertices(corners5);
     out->active = 63;
     FUN_00a699d0 test7(corners5[0], corners5[1], corners5[2]);
-    if (test7.ClassifyPoint(&eye) != 1)
+    if (test7.NiPlane_WhichSide(&eye) != 1)
     {
         out->SetWaterColorParameter(0, FUN_00a699d0(corners5[0], corners5[1], corners5[2]));
         out->DisablePlane(1);
@@ -5499,7 +5499,7 @@ bool OccluderC358::BSOcclusionPlane_ViewerOnCorrectSide(LocalPoint point)
     ((Builder*)this)->BSOcclusionPlane_UpdateFrustumPlanes(point, (FUN_00a699d0s*)&frustum);
     BSOcclusionPlane_GetVertices(verts);
     FUN_00a699d0 plane(verts[0], verts[1], verts[2]);
-    if (plane.ClassifyPoint(&point) != 2)
+    if (plane.NiPlane_WhichSide(&point) != 2)
         return false;
     else
         return true;

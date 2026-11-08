@@ -1696,7 +1696,7 @@ void S_00ca8f50_Src::WriteToInfo(S_00ca8f50_Info* info)
     info->m98 = mE0.m_kMotionState.m_fAngularDamping;
     info->m30.m_vComponents = mE0.m_kTranslationalVelocity.m_vComponents;
     info->m40.m_vComponents = mE0.m_kAngularVelocity.m_vComponents;
-    info->m90 = mE0.GetMassValue();
+    info->m90 = mE0.getMass();
     motionVirtual<void(__thiscall*)(hkpMotion*, hkRotation&)>(mE0, 5)(&mE0, info->m50);
     info->mB4 = *reinterpret_cast<unsigned char*>(&mE0.m_type);
     info->mB6 = mE0.m_kMotionState.m_uiDeactivationClass;

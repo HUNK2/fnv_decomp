@@ -277,8 +277,8 @@ void* __fastcall Object_ProcessAndReturnValue_00c37ec0(void* this_ptr)
 }
 
 // @fnv 0x004a6100
-// src: GUESS 0x004a6100 (confidence: high)
-int __fastcall Object_Return0x1e(int this_)
+// src: COMMUNITY 0x004a6100
+int __fastcall BSOcclusionPlane_QDebugGeomShapeSize(int this_)
 {
     return 0x1e;
 }
@@ -706,7 +706,7 @@ void* BGSPrimitiveSphere::FUN_004a71f0(unsigned int flags)
 // src: XBOX_PDB 0x004a7240
 bool BGSPrimitiveSphere::IsInside(TESCombatStyle& aPoint)
 {
-    return (double)*(float*)((char*)this + 0x18) * *(float*)((char*)this + 0x18) > aPoint.UpdateCombatStyle();
+    return (double)*(float*)((char*)this + 0x18) * *(float*)((char*)this + 0x18) > aPoint.NiPoint3_SqrLength();
 }
 
 extern int DAT_0101ea8c;
@@ -1113,7 +1113,7 @@ void FUN_00c50370_shell::BSMultiBoundSphere_CreateDebugGeometry(int a, int b, in
 extern float _DAT_010162c0;
 
 void* __cdecl BGSPrimitivePlane_CreateObject(NiPoint2*, NiColorA*);
-void* __cdecl CreatePrimitiveBox(NiPoint3*, NiColorA*);
+void* __cdecl BGSPrimitive_CreateBox(NiPoint3*, NiColorA*);
 void* __cdecl BGSPrimitive_CreateSphere(float, NiColorA*);
 
 // @fnv 0x004a4e90
@@ -1128,7 +1128,7 @@ void* __cdecl BGSPrimitive_CreateObjects(int eType, NiPoint3* apPoint, NiColorA*
     }
     case 1: {
         NiPoint3 extents = *static_cast<const NiPoint3*>(apPoint) * _DAT_010162c0;
-        return CreatePrimitiveBox(&extents, apTextColor);
+        return BGSPrimitive_CreateBox(&extents, apTextColor);
     }
     case 2:
         return BGSPrimitive_CreateSphere(apPoint->x, apTextColor);
@@ -1608,7 +1608,8 @@ void* FUN_004a7aa0_cls::BGSPrimitiveSphere_MakeMultiBoundShape(int aiUnused)
 
 // Allocates and constructs a new OBB.
 // @fnv 0x00c36500
-BSMultiBoundOBB* __cdecl CreateMultiBoundOBB()
+// src: EXE 0x00c36500
+BSMultiBoundOBB* __cdecl BSMultiBoundOBB_CreateObject()
 {
     return new BSMultiBoundOBB;
 }
@@ -1641,7 +1642,8 @@ void MultiBoundOBBPlanes::GetPlanes(NiPlane* pkPlanes)
 extern "C" void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // @fnv 0x00c381a0
-BSMultiBoundAABB* __cdecl CreateMultiBoundAABB()
+// src: EXE 0x00c381a0
+BSMultiBoundAABB* __cdecl BSMultiBoundAABB_CreateObject()
 {
     return new BSMultiBoundAABB();
 }
@@ -1669,7 +1671,7 @@ struct ProbeSet
 
 struct FUN_0049da80_shell
 {
-    int __thiscall ClassifyPoint(Vec12* p);
+    int __thiscall NiPlane_WhichSide(Vec12* p);
 };
 
 struct FUN_00c38920_cls
@@ -1703,7 +1705,7 @@ bool __thiscall FUN_00c38920_cls::BSMultiBoundAABB_CompletelyWithinFrustum(Probe
         {
             for (j = 0; j < 8; j++)
             {
-                if (((FUN_0049da80_shell*)&pProbeSet->elems[i])->ClassifyPoint(&boxPts[j]) == 2)
+                if (((FUN_0049da80_shell*)&pProbeSet->elems[i])->NiPlane_WhichSide(&boxPts[j]) == 2)
                 {
                     return false;
                 }

@@ -4393,7 +4393,7 @@ struct RenderParams {
     unsigned unk334;
     unsigned unk338;
     unsigned batchCount;
-    void __thiscall EnterLock(unsigned);
+    void __thiscall hkpWorld_lockIslandForConstraintUpdate(unsigned);
     void __thiscall hkpWorld_unlockIslandForConstraintUpdate(unsigned);
 };
 struct CompressedBounds {
@@ -4570,7 +4570,7 @@ void __stdcall hkpContinuousSimulation_collideEntitiesBroadPhaseContinuous(Sourc
     }
     if(primary.count+secondary.count>0) {
         Trace((unsigned char*)&DAT_010cc5e4);
-        context->EnterLock(sources[0]->handle);
+        context->hkpWorld_lockIslandForConstraintUpdate(sources[0]->handle);
         context->sink->DispatchPairs(secondary.start,secondary.count);
         int pairs=primary.count;
         if(!S00d0d3f0_router()->heap().Available(pairs<<10)) {

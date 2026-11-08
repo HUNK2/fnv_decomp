@@ -407,7 +407,8 @@ struct ObstacleInfo
 // The shared task has no declaration for this bool-returning commit routine.
 // A single fastcall argument preserves its original this-in-ECX calling convention.
 // @fnv 0x006c85e0
-bool __fastcall CommitObstacleTask(ObstacleTaskData* task)
+// src: COMMUNITY 0x006c85e0
+bool __fastcall ObstacleTaskData_ReplaceNavMesh(ObstacleTaskData* task)
 {
     if (!(NavMesh*)task->m_spSourceNavMesh)
         return false;

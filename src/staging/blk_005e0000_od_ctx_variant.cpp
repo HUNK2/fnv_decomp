@@ -704,7 +704,7 @@ struct FUN_005ff520_shell
 };
 struct FUN_005ff560_shell
 {
-    void RemoveChildAndRelinkNeighbors(unsigned int);
+    void TESIdleForm_RemoveChildAtIndex(unsigned int);
 };
 struct FUN_005ff5d0_class
 {
@@ -1058,7 +1058,7 @@ struct FloatStringEntryRecord
     float f1C;
     StrArray strings;
     EntryArray entries;
-    void AssignEntriesStringsAndFloats(FloatStringEntryRecord* other);
+    void FootIK_DATA_Copy(FloatStringEntryRecord* other);
 };
 // FUN_005eedc0 : returns &m_pEntries[index] (element size 0x38)
 struct FUN_005eedc0_item
@@ -1148,7 +1148,7 @@ class FUN_005f21c0_cls : public RootCls_b9637
     int unk38;
 
     FUN_005f21c0_cls(unsigned short a);
-    void SetAnimGroupType(unsigned short a);
+    void TESAnimGroup_SetType(unsigned short a);
 };
 struct PairRecord16
 {
@@ -1433,7 +1433,7 @@ struct FUN_005f2b60_cls
     unsigned int GetCount();
     Entry* GetAt(unsigned int i);
     int GetKind();
-    void ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Script* script);
+    void TESAnimGroup_PlaySounds(Ref* ref, float fFrom, float fTo, Script* script);
 };
 // GetEntryByte0d: lookup of a per-entry byte value by index.
 // The class holds a count of entries at +0x0c and a pointer to a table of
@@ -1728,7 +1728,7 @@ struct SkinPartObj_S
 };
 SkinPartObj_S* NiDynamicCast(const NiRTTI_S* rtti, SkinInst_S* obj);
 extern const NiRTTI_S g_011f49d8;
-void SetPartitionVisibility(int partition, AVObj_S* root);
+void BGSBodyPart_ShowLimb(int partition, AVObj_S* root);
 struct CompareEntry
 {
     bool Differs(CompareEntry*);
@@ -1950,7 +1950,7 @@ struct SoundData
     int unk20;
 };
 void __cdecl TESForm_AddChunk_3(unsigned int chunkId, unsigned char value);
-void __cdecl AppendChunk(unsigned int chunkId, void* data, unsigned int size);
+void __cdecl TESForm___AddChunkData(unsigned int chunkId, void* data, unsigned int size);
 unsigned char __cdecl TESForm_QEndianSwapOnSave();
 struct FUN_005e2fa0_SoundFile
 {
@@ -1991,8 +1991,8 @@ struct FUN_005e2fa0_standin
     FUN_005e2fa0_SoundData unk44;
     unsigned char unk68;
 
-    void __thiscall BeginFormRecord();
-    void __thiscall FinishFormRecord();
+    void __thiscall TESForm_StartForm();
+    void __thiscall TESForm_CloseForm();
     void __thiscall WriteToStream();
 };
 class TESSound;
@@ -2050,7 +2050,7 @@ struct FUN_005e50f0_Obj
 };
 struct FUN_005e5190_Class
 {
-    unsigned char GetByte63();
+    unsigned char BGSBodyPart_GetActorValue();
 };
 struct Obj5e5300
 {
@@ -2356,7 +2356,7 @@ class FUN_005e4bc0 : public FUN_00483630_holder, public TESModel, public BGSPrel
 struct Skin55;
 struct Part55
 {
-    void SetEntryStateByKey(unsigned short partition, bool visible);
+    void BSDismemberSkinInstance_SetBodyPartEnabled(unsigned short partition, bool visible);
 };
 struct Node55;
 struct BaseObject55
@@ -2405,7 +2405,7 @@ struct Body55
     int unk2C;
     int unk30;
     Name55* names[15];
-    void HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int excluded, Object55* object);
+    void BGSBodyPartData_HideChildLimbs(Object55* ancestor, Object55* root, int excluded, Object55* object);
 };
 namespace s5e5d20 {
 

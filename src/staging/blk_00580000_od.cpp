@@ -665,7 +665,7 @@ unsigned int __thiscall FUN_0058b680_Class::BGSCameraPath_GetIndexForChild(TESFo
 {
     unsigned int result = 0xFFFFFFFF;
     if (reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x2C)[0])
-        result = reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x2C)[0]->GetIndexOfForm(form);
+        result = reinterpret_cast<NiFormArray**>(reinterpret_cast<char*>(this) + 0x2C)[0]->GetIndexForForm(form);
     return result;
 }
 
@@ -676,10 +676,11 @@ struct FUN_0058b630_shell
 };
 struct FUN_0058b6c0_shell
 {
-    void RemoveSoundAt(unsigned int index);
+    void BGSCameraPath_RemoveChildAtIndex(unsigned int index);
 };
 // @fnv 0x0058b6c0
-void FUN_0058b6c0_shell::RemoveSoundAt(unsigned int index)
+// src: COMMUNITY 0x0058b6c0
+void FUN_0058b6c0_shell::BGSCameraPath_RemoveChildAtIndex(unsigned int index)
 {
     TESSound* next;
     TESSound* prev;
@@ -700,7 +701,7 @@ struct Holder680
 };
 struct Holder6c0
 {
-    void __thiscall RemoveSoundAt(int);
+    void __thiscall BGSCameraPath_RemoveChildAtIndex(int);
 };
 struct Holder730
 {
@@ -708,7 +709,7 @@ struct Holder730
     int m_2c;
     void __thiscall BGSCameraPath_RemoveChild(int);
 };
-// If a1 and m_2c are both nonzero, calls FUN_0058b680 with a1 and passes its result to RemoveSoundAt.
+// If a1 and m_2c are both nonzero, calls FUN_0058b680 with a1 and passes its result to BGSCameraPath_RemoveChildAtIndex.
 // @fnv 0x0058b730
 // src: COMMUNITY 0x0058b730
 void __thiscall Holder730::BGSCameraPath_RemoveChild(int a1)
@@ -717,7 +718,7 @@ void __thiscall Holder730::BGSCameraPath_RemoveChild(int a1)
     if (a1 != 0 && m_2c != 0)
     {
         v = ((Holder680*)this)->BGSCameraPath_GetIndexForChild(a1);
-        ((Holder6c0*)this)->RemoveSoundAt(v);
+        ((Holder6c0*)this)->BGSCameraPath_RemoveChildAtIndex(v);
     }
 }
 
@@ -1467,10 +1468,11 @@ struct CameraState
     NP node70;
     unsigned char unk74;
     bool active;
-    void ResetCameraState();
+    void BGSCameraShot_FreeCamera();
 };
 // @fnv 0x0058ce50
-void CameraState::ResetCameraState()
+// src: COMMUNITY 0x0058ce50
+void CameraState::BGSCameraShot_FreeCamera()
 {
     node60 = static_cast<void*>(0);
     node64 = static_cast<void*>(0);

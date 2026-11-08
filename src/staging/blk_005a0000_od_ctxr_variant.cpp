@@ -173,7 +173,7 @@ struct FUN_005a78a0 : FUN_00483370, FUN_00402d00
 };
 struct FUN_004855a0_shell
 {
-    void BeginFormRecord();
+    void TESForm_StartForm();
 };
 struct FUN_00487010_shell
 {
@@ -189,7 +189,7 @@ struct FUN_00485e20_shell
 };
 struct FUN_00485680_shell
 {
-    void FinishFormRecord();
+    void TESForm_CloseForm();
 };
 unsigned char __cdecl TESForm_QEndianSwapOnSave();
 struct FUN_005a7a90_shell

@@ -125,8 +125,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -8362,7 +8362,7 @@ void __stdcall Lighting30ShaderProperty_GetViewerStrings(FUN_00bb5fa0_cls* self)
 struct FUN_00a59d30_Class
 {
     void* __thiscall FUN_00a59d30(int);
-    void __thiscall ForwardToSubobject(void*);
+    void __thiscall NiAVObject_DetachProperty(void*);
 };
 
 struct FUN_00bb5ff0_Class
@@ -8408,7 +8408,7 @@ bool FUN_00bb5ff0_Class::Lighting30ShaderProperty_SetupGeometry(FUN_00a59d30_Cla
     void* prop = a1->FUN_00a59d30(10);
     if (prop)
     {
-        a1->ForwardToSubobject(prop);
+        a1->NiAVObject_DetachProperty(prop);
     }
     return result;
 }
@@ -14298,7 +14298,7 @@ struct Root248
     int unk98;
     Holder holder;
     void UpdateProperties();
-    void ForwardToSubobject(void*);
+    void NiAVObject_DetachProperty(void*);
 };
 inline Holder* GetHolder(Root248* p)
 {
@@ -14416,7 +14416,7 @@ bool nbb::Owner::PrecipitationShaderProperty_SetupGeometry(Root248* apRoot)
         m_90 = d ? d->m_08 : 0;
         d = *item->m_20;
         SetMode(d ? (d->m_04 >> 12) & 3 : 3);
-        apRoot->ForwardToSubobject(item);
+        apRoot->NiAVObject_DetachProperty(item);
         return true;
     }
     return false;

@@ -2265,12 +2265,13 @@ struct FUN_0086ce40_class
     int padding_04;
     unsigned int value_08;
 
-    void __thiscall InitAudioCallbacks();
+    void __thiscall Main_Main_AudioInit();
 };
 
 // Registers audio callbacks and a value on the BSAudio singleton, then calls FUN_0082f830.
 // @fnv 0x0086ce40
-void FUN_0086ce40_class::InitAudioCallbacks()
+// src: COMMUNITY 0x0086ce40
+void FUN_0086ce40_class::Main_Main_AudioInit()
 {
     BSWin32Audio_Create();
 
@@ -2476,13 +2477,13 @@ void FUN_0087ea80_shell::bhkRagdollController_Setphkobject090(unsigned int a)
 
 struct FlagHelper
 {
-    bool GetFlag8();
+    bool TESActorBaseData_GetRespawn();
 };
 // @fnv 0x0087f4a0
 // src: XBOX_PDB 0x0087f4a0
 bool __fastcall Actor_GetRespawn(Actor* actor)
 {
-    return reinterpret_cast<FlagHelper*>(reinterpret_cast<char*>(actor->GetActorBase()) + 0x30)->GetFlag8();
+    return reinterpret_cast<FlagHelper*>(reinterpret_cast<char*>(actor->GetActorBase()) + 0x30)->TESActorBaseData_GetRespawn();
 }
 
 class MapDtorWrap_b9629 : public NiTPointerMap<int, int>
@@ -3990,7 +3991,7 @@ struct FUN_0086c160
     bool flag9c;
     FUN_00633c90 acca0;
     FUN_0086c160(int, int);
-    void InitAudioCallbacks();
+    void Main_Main_AudioInit();
 };
 // @fnv 0x0086c160
 FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
@@ -4034,7 +4035,7 @@ FUN_0086c160::FUN_0086c160(int aiArg1, int aiArg2)
     Controls_GetInstance()->LoadControlsFromIni();
     context.Leave();
     context.Enter(11, true, const_cast<char*>(DAT_010829c4), 3541);
-    InitAudioCallbacks();
+    Main_Main_AudioInit();
     context.Leave();
 }
 

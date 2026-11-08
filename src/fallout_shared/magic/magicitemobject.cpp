@@ -57,12 +57,12 @@ bool MagicItemObject::Load(TESFile* file)
 // @fnv 0x0040c5f0
 void MagicItemObject::ClearData()
 {
-    TESForm::BeginFormRecord();
+    TESForm::TESForm_StartForm();
     TESFullName::Save_00487010();
     ClearMagicItemData();
     SaveMagicItemData();
     FUN_004056d0(reinterpret_cast<char*>(this) + kEffectListOffset);
-    TESForm::FinishFormRecord();
+    TESForm::TESForm_CloseForm();
 }
 
 // The shared classes do not declare these comparison and copy entry points yet.
@@ -71,18 +71,19 @@ class EffectListOperations : public EffectItemList
 {
 public:
     bool CompareEffects(EffectItemList* other);
-    void CopyItemsFromList(EffectItemList* other);
+    void EffectItemList_Copy(EffectItemList* other);
 };
 
 class MagicItemObjectOperations : public MagicItemObject
 {
 public:
-    bool CompareObject(TESForm* other);
-    void CopyObject(TESForm* other);
+    bool MagicItemObject_Compare(TESForm* other);
+    void MagicItemObject_CopyFrom(TESForm* other);
 };
 
 // @fnv 0x0040c870
-bool MagicItemObjectOperations::CompareObject(TESForm* other)
+// src: EXE 0x0040c870
+bool MagicItemObjectOperations::MagicItemObject_Compare(TESForm* other)
 {
     MagicItemObject* converted = dynamic_cast<MagicItemObject*>(other);
     if (!converted)
@@ -102,7 +103,8 @@ extern int DAT_011830e8;
 MagicItemObject* __cdecl FUN_00ec43fb(TESForm* arg, int a, int* b, int* c, int d);
 
 // @fnv 0x0040c930
-void MagicItemObjectOperations::CopyObject(TESForm* pForm)
+// src: EXE 0x0040c930
+void MagicItemObjectOperations::MagicItemObject_CopyFrom(TESForm* pForm)
 {
     MagicItemObject* result = FUN_00ec43fb(pForm, 0, &DAT_01183028, &DAT_011830e8, 0);
     if (!result)
@@ -112,5 +114,5 @@ void MagicItemObjectOperations::CopyObject(TESForm* pForm)
 
     CopyMagicItemData(result ? reinterpret_cast<MagicItem*>(reinterpret_cast<char*>(result) + kMagicItemOffset) : 0);
 
-    reinterpret_cast<EffectListOperations*>(reinterpret_cast<char*>(this) + kEffectListOffset)->CopyItemsFromList(result ? reinterpret_cast<EffectItemList*>(reinterpret_cast<char*>(result) + kEffectListOffset) : 0);
+    reinterpret_cast<EffectListOperations*>(reinterpret_cast<char*>(this) + kEffectListOffset)->EffectItemList_Copy(result ? reinterpret_cast<EffectItemList*>(reinterpret_cast<char*>(result) + kEffectListOffset) : 0);
 }

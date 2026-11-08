@@ -89,8 +89,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -245,11 +245,12 @@ BSExtraData* TESObjectREFR::GetExtraData(unsigned char type) const
 struct ABD_005f92d0
 {
     bool GetFlag(unsigned int) const;
-    bool GetFlag8();
+    bool TESActorBaseData_GetRespawn();
 };
 
 // @fnv 0x0056af00
-bool ABD_005f92d0::GetFlag8()
+// src: COMMUNITY 0x0056af00
+bool ABD_005f92d0::TESActorBaseData_GetRespawn()
 {
     return GetFlag(8);
 }
@@ -435,7 +436,7 @@ bool FUN_00456630_helper::NiAVObject_GetHasMovingSound()
     return NiAVObject_GetBit(0x20000);
 }
 
-int __fastcall GetByteAtOffset38(void*);
+int __fastcall TESObjectCELL_GetState(void*);
 struct FUN_00570ec0
 {
     int __thiscall Get();
@@ -443,7 +444,7 @@ struct FUN_00570ec0
 // @fnv 0x00570ec0
 int __thiscall FUN_00570ec0::Get()
 {
-    return !(GetByteAtOffset38(this) - 1);
+    return !(TESObjectCELL_GetState(this) - 1);
 }
 
 struct FUN_00570ee0_class
@@ -1692,7 +1693,7 @@ struct FUN_0056ae60_Class
     bool TESObjectREFR_IsLeveledCreature();
     SceneObject* BGSSaveFormBuffer_GetForm();
 };
-// Returns false if FUN_0056af40 is true; otherwise switches on the type from FUN_007af430 and calls GetFlag8 or IsFlag2Set on the object.
+// Returns false if FUN_0056af40 is true; otherwise switches on the type from FUN_007af430 and calls TESActorBaseData_GetRespawn or IsFlag2Set on the object.
 // @fnv 0x0056ae60
 // src: XBOX_PDB 0x0056ae60
 bool FUN_0056ae60_Class::TESObjectREFR_GetRespawn()
@@ -1709,7 +1710,7 @@ bool FUN_0056ae60_Class::TESObjectREFR_GetRespawn()
                 SceneObject* object = BGSSaveFormBuffer_GetForm();
                 if (object)
                 {
-                    result = reinterpret_cast<ABD_005f92d0*>(reinterpret_cast<char*>(object) + 0x30)->GetFlag8();
+                    result = reinterpret_cast<ABD_005f92d0*>(reinterpret_cast<char*>(object) + 0x30)->TESActorBaseData_GetRespawn();
                 }
             }
             break;
@@ -2158,7 +2159,7 @@ void SceneSounds57::TESObjectREFR_UpdateAddonNodeSoundsRecursive(NiAVObject* obj
             {
                 if (extra.operator->())
                 {
-                    object->DeleteExtraDataByKey(BGSAddonNodeSoundHandleExtra_Tag());
+                    object->NiObjectNET_RemoveExtraData(BGSAddonNodeSoundHandleExtra_Tag());
                     extra->handle.Stop();
                     extra->handle.Release();
                 }

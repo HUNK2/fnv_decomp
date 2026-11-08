@@ -483,7 +483,7 @@ CF845* __thiscall FUN_009c1a00_Class::ConstructCF845(CF845* pObject)
 
 struct FUN_0058d510_class
 {
-    NiPoint3* GetCameraPosition(NiPoint3*);
+    NiPoint3* GetTargetPos(NiPoint3*);
 };
 
 
@@ -518,7 +518,7 @@ NiPoint3* FUN_009c8ac0_class::VATS_GetCamshotTargetPos(NiPoint3* result)
     {
         // Output storage avoids introducing a default-constructor call in this /Od unit.
         float sourcePoint[sizeof(NiPoint3) / sizeof(float)];
-        point = *m_10->GetCameraPosition(reinterpret_cast<NiPoint3*>(sourcePoint));
+        point = *m_10->GetTargetPos(reinterpret_cast<NiPoint3*>(sourcePoint));
     }
 
     if (point.HasEqualComponents(NiPoint3::ZERO))
@@ -628,7 +628,7 @@ struct OrientationObject
 {
     void** vtable;
     float __thiscall FUN_00931d70();
-    void __thiscall ClampLookAngle(float value);
+    void __thiscall MobileObject_SetLooking(float value);
     OrientationSource* __thiscall FUN_004181e0();
     void __thiscall SetOrientationFromDirection(NiPoint3 input);
 };
@@ -660,7 +660,7 @@ void OrientationObject::SetOrientationFromDirection(NiPoint3 aDirection)
     {
         ((SetAngleFn*)vtable)[177](this, e);
     }
-    ClampLookAngle(d);
+    MobileObject_SetLooking(d);
 }
 
 struct InputX
@@ -2619,13 +2619,13 @@ struct ImpImpact
     float GetModifierValue();
     float GetNestedValue();
     unsigned char BGSImpactData_GetIsAlphaBlend();
-    unsigned char CallMemberAtOffset54();
+    unsigned char BGSImpactData_GetAlphaTesting();
     unsigned char BGSImpactData_GetIsParallax();
     unsigned char BGSImpactData_GetParallaxPasses();
     float FUN_004a41c0();
     float FUN_004a40e0();
     float TESCombatStyle_GetWeaponMinRangeMult();
-    unsigned int GetNextFromSubobject();
+    unsigned int BGSImpactData_GetDecalColor();
     int FUN_005f36f0();
     float GetEndKeyTime_00508100();
     int GetGlobalValue();
@@ -2968,7 +2968,7 @@ void* __cdecl hkpGetRigidBody(ImpSurface* apSurface);
 ImpAttachHandle __cdecl bhkWorldObject_GetProperty(void* apObject, void* apType);
 ImpAttach* __cdecl bhkUtilFunctions_GetNiAVObject(ImpSurface* apSurface);
 void* __cdecl TESObjectREFR_FindReferenceFor3D(ImpAttach* apAttach);
-bool __cdecl IsAcousticSpaceFormTypeAllowed(void* apGeometry, int aiFlags);
+bool __cdecl BGSDecalManager_IsValidDecalImpact(void* apGeometry, int aiFlags);
 ImpPoint __cdecl FUN_004a3760(float afScale, const ImpPoint& arPoint);
 void __cdecl BSTempEffectParticle_Spawn(ImpCell* apCell, float afSize, const char* apTexture, ImpPoint kWorldPosition, ImpPoint kPos,
                           float afScale, int aiFlags, int a7);
@@ -3166,7 +3166,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                 }
                                 void* pGeometryRef = TESObjectREFR_FindReferenceFor3D(pAttach);
                                 if (!bHasAnimation &&
-                                    (!pGeometryRef || !IsAcousticSpaceFormTypeAllowed(pGeometryRef, 1)))
+                                    (!pGeometryRef || !BGSDecalManager_IsValidDecalImpact(pGeometryRef, 1)))
                                     continue;
                                 ImpDecalManager* pManager = DAT_011dea10->TES_GetCellForPoint(*apPos);
                                 ImpDecalParams kParamsCur;
@@ -3180,17 +3180,17 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                 kParamsCur.fPathHeading = fPathHeading;
                                 kParamsCur.m_ucClipIdentifier = m_ucClipIdentifier;
                                 kParamsCur.ucFlagC = pImpactTmp->BGSImpactData_GetIsAlphaBlend();
-                                kParamsCur.ucFlagB = pImpactTmp->CallMemberAtOffset54();
+                                kParamsCur.ucFlagB = pImpactTmp->BGSImpactData_GetAlphaTesting();
                                 kParamsCur.ucFlagA = pImpactTmp->BGSImpactData_GetIsParallax();
                                 kParamsCur.fParallax = pImpactTmp->FUN_004a41c0();
                                 kParamsCur.ucFlagD = pImpactTmp->BGSImpactData_GetParallaxPasses();
                                 kParamsCur.m_fShininess = pImpactTmp->FUN_004a40e0();
                                 kParamsCur.m_fSpecularStrength = pImpactTmp->TESCombatStyle_GetWeaponMinRangeMult();
                                 kParamsCur.kColor = ImpPoint(
-                                    (unsigned char)(pImpactTmp->GetNextFromSubobject() & 0xff) / 255.0,
-                                    (unsigned char)(((unsigned short)pImpactTmp->GetNextFromSubobject() >> 8) & 0xff) /
+                                    (unsigned char)(pImpactTmp->BGSImpactData_GetDecalColor() & 0xff) / 255.0,
+                                    (unsigned char)(((unsigned short)pImpactTmp->BGSImpactData_GetDecalColor() >> 8) & 0xff) /
                                         255.0,
-                                    (unsigned char)((pImpactTmp->GetNextFromSubobject() >> 16) & 0xff) / 255.0);
+                                    (unsigned char)((pImpactTmp->BGSImpactData_GetDecalColor() >> 16) & 0xff) / 255.0);
                                 if (iSurfaceMaterialCur == 3)
                                     kParamsCur.ucSkinned = 1;
                                 pManager->TESObjectCELL_AddDecal(&kParamsCur, 1, 0);

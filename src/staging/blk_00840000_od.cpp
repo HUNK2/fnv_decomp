@@ -1760,7 +1760,7 @@ FUN_0084fe50_class::~FUN_0084fe50_class()
 
 struct FUN_0084fec0_shell
 {
-    void EnsureFosExtension(char* a, char* b);
+    void GetFullFileName(char* a, char* b);
 };
 struct FUN_0084ff30_shell
 {
@@ -1770,16 +1770,17 @@ int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
 
 struct FUN_0084ff90_shell : FUN_0084fec0_shell
 {
-    void BuildWeaponPath(char* weapon, char* name, bool tmp);
+    void BGSSaveLoadManager_GetFullPath(char* weapon, char* name, bool tmp);
 };
 
 // Builds a path from the weapon and this object, copies it into name, appends the buffer, and adds ".tmp" when tmp is set.
 // @fnv 0x0084ff90
-void FUN_0084ff90_shell::BuildWeaponPath(char* weapon, char* name, bool tmp)
+// src: COMMUNITY 0x0084ff90
+void FUN_0084ff90_shell::BGSSaveLoadManager_GetFullPath(char* weapon, char* name, bool tmp)
 {
     char buffer[260];
     char path[260];
-    EnsureFosExtension(weapon, buffer);
+    GetFullFileName(weapon, buffer);
     ((FUN_0084ff30_shell*)this)->CreateScriptMessageDirectory(path);
     TaskQueueInterface::CopyStringToBuffer(name, 260, path);
     strcat_s(name, 260, buffer);
@@ -2773,13 +2774,13 @@ struct FUN_00850360_class : public FUN_0084ff90_shell
 };
 
 
-// Builds a file path from weapon via BuildWeaponPath and deletes that file with DeleteFileA.
+// Builds a file path from weapon via BGSSaveLoadManager_GetFullPath and deletes that file with DeleteFileA.
 // @fnv 0x00850360
 void FUN_00850360_class::DeleteWeaponFile(char* weapon, int flags)
 {
     char path[260];
 
-    BuildWeaponPath(weapon, path, false);
+    BGSSaveLoadManager_GetFullPath(weapon, path, false);
     DeleteFileA(path);
 }
 
@@ -2931,10 +2932,11 @@ struct SaveGameReferenceReconstruction : public TESSaveLoadGame
     TESForm* TESSaveLoadGame_CreateReference(unsigned int key, BinaryRecord36* data);
     TESForm* TESSaveLoadGame_CreateReferenceFromFile(unsigned int key, BinaryRecord44* data);
     void TESSaveLoadGame_LoadForm(TESForm*);
-    void ProcessSourceItem(unsigned int key);
+    void TESSaveLoadGame_CreateChangedReference(unsigned int key);
 };
 // @fnv 0x008598d0
-void SaveGameReferenceReconstruction::ProcessSourceItem(unsigned int key)
+// src: COMMUNITY 0x008598d0
+void SaveGameReferenceReconstruction::TESSaveLoadGame_CreateChangedReference(unsigned int key)
 {
     SourceItem* item = reinterpret_cast<SourceItemMap*>(m_pChangesMap)->FUN_00855100(key);
     if (item != 0)
@@ -4267,7 +4269,7 @@ struct SaveGameCellReconstruction : public TESSaveLoadGame
 {
     bool FUN_0047c850();
     bool TESSaveLoadGame_LoadForm(Cell859*);
-    void ProcessSourceItem(unsigned);
+    void TESSaveLoadGame_CreateChangedReference(unsigned);
     bool TESSaveLoadGame_LoadCell(Cell859* cell);
 };
 // @fnv 0x00859690
@@ -4290,7 +4292,7 @@ bool SaveGameCellReconstruction::TESSaveLoadGame_LoadCell(Cell859* cell)
             Entry859* entry7 = *node2->FUN_006815c0();
             if (entry7)
             {
-                ProcessSourceItem((unsigned)entry7);
+                TESSaveLoadGame_CreateChangedReference((unsigned)entry7);
                 result5 = true;
             }
             node2 = node2->FUN_00726070();
@@ -4314,7 +4316,7 @@ bool SaveGameCellReconstruction::TESSaveLoadGame_LoadCell(Cell859* cell)
             Entry859* entryExterior2 = *nodeExterior8->FUN_006815c0();
             if (entryExterior2 && x7 == entryExterior2->x && y7 == entryExterior2->y)
             {
-                ProcessSourceItem(entryExterior2->key);
+                TESSaveLoadGame_CreateChangedReference(entryExterior2->key);
                 result5 = true;
                 if (_previous)
                 {
@@ -4348,7 +4350,7 @@ struct RestoredObject;
 struct RestoreAction
 {
     unsigned int x, y, z;
-    void SetPositionExtraData();
+    void ExtraDataList_SetStartingLocation();
     void SetStartingPosition();
 };
 struct RestoredObject
@@ -4494,9 +4496,9 @@ struct RestoreLink
 };
 struct RestoreForm
 {
-    int GetSourceFileCount();
+    int TESForm_GetFileCount();
     RestoreLink* FUN_00484e60(int);
-    bool SeekToCellInWorld(RestoreRef*, int, int);
+    bool TESWorldSpace_FindCellInFile(RestoreRef*, int, int);
 };
 struct RestoredActor
 {
@@ -4512,7 +4514,7 @@ extern char DAT_01183028, DAT_01183fb4, DAT_01183fd0, DAT_011841cc, DAT_011846d4
 extern const char DAT_01080958[], DAT_01080900[];
 extern void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 
-extern bool __cdecl HasFormInGroup(RestoreRef*, unsigned int);
+extern bool __cdecl TESObjectCELL_FindReferenceInFile(RestoreRef*, unsigned int);
 extern RestoredObject* __cdecl TESObjectREFR_CreateReference(unsigned char, int);
 extern void __cdecl FUN_004601d0(RestoredObject*, RestoreRef*);
 extern int __cdecl FloatToInt(float);
@@ -4537,11 +4539,11 @@ RestoredObject* ObjectRestorer::TESSaveLoadGame_CreateReferenceFromFile(unsigned
     int i;
     if (cellTmp)
     {
-        count9 = cellTmp->GetSourceFileCount();
+        count9 = cellTmp->TESForm_GetFileCount();
         for (i = 0; i < count9; ++i)
         {
             RestoreRef* reference = cellTmp->FUN_00484e60(i)->FUN_004739b0();
-            if (reference->FindForm(cellTmp) && HasFormInGroup(reference, id))
+            if (reference->FindForm(cellTmp) && TESObjectCELL_FindReferenceInFile(reference, id))
             {
                 unsigned int type = reference->FUN_00472660();
                 object5 = TESObjectREFR_CreateReference((unsigned char)type, 1);
@@ -4551,13 +4553,13 @@ RestoredObject* ObjectRestorer::TESSaveLoadGame_CreateReferenceFromFile(unsigned
     }
     else if (world)
     {
-        count9 = world->GetSourceFileCount();
+        count9 = world->TESForm_GetFileCount();
         x6 = FloatToInt(location->x) >> 12;
         y4 = FloatToInt(location->y) >> 12;
         for (i = 0; i < count9; ++i)
         {
             RestoreRef* reference = world->FUN_00484e60(i)->FUN_004739b0();
-            if (world->SeekToCellInWorld(reference, x6, y4) && HasFormInGroup(reference, id))
+            if (world->TESWorldSpace_FindCellInFile(reference, x6, y4) && TESObjectCELL_FindReferenceInFile(reference, id))
             {
                 unsigned int type = reference->FUN_00472660();
                 object5 = TESObjectREFR_CreateReference((unsigned char)type, 1);
@@ -4580,7 +4582,7 @@ RestoredObject* ObjectRestorer::TESSaveLoadGame_CreateReferenceFromFile(unsigned
         actor->SetPlacement(world, cellTmp, object5->Position(), object5->FUN_00430830()->z);
     else
     {
-        object5->BSFile_GetDevice(object5, *object5->Position()).SetPositionExtraData();
+        object5->BSFile_GetDevice(object5, *object5->Position()).ExtraDataList_SetStartingLocation();
         object5->BSFile_GetDevice(object5, *object5->FUN_00430830()).SetStartingPosition();
     }
     return object5;
@@ -5055,7 +5057,7 @@ struct FullPositionRecord
 
 struct DataHandler
 {
-    void PlaceObjectReference(TESBoundObject* pkBase, NiPoint3* pkPos, NiPoint3* pkAngle, TESObjectCELL* pkCell,
+    void TESDataHandler_CreateReferenceAtLocation(TESBoundObject* pkBase, NiPoint3* pkPos, NiPoint3* pkAngle, TESObjectCELL* pkCell,
                               TESWorldSpace* pkWorld, TESObjectREFR* pkRef, int iArg0, int iArg1);
 };
 
@@ -5120,7 +5122,7 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
         if (kMoveData.m_iType != 2)
         {
             TESBoundObject* pkBase = dynamic_cast<TESBoundObject*>(TESForm_GetFormByNumericID(kMoveData.m_uiBaseID));
-            DAT_011c3f2c->PlaceObjectReference(pkBase, &kMoveData.m_kPos, &kMoveData.m_kAngle, pkCell, pkWorld, pkRef,
+            DAT_011c3f2c->TESDataHandler_CreateReferenceAtLocation(pkBase, &kMoveData.m_kPos, &kMoveData.m_kAngle, pkCell, pkWorld, pkRef,
                                                0, 0);
             TESSaveLoadGame_SafetyCheckReferencePositionAndAngle(pkRef);
         }

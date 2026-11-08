@@ -125,7 +125,7 @@ void ActorValueModifierList::ModifyModifier(char key, float delta, ClampStyle cl
         float value = ModifyAndClamp(modifier->GetValue(), delta, clamp);
         modifier->SetValue(value);
         if (modifier->GetValue() == gModifierZero && !m_bAllowZeroValueModifiers)
-            EraseModifier(modifier);
+            ModifierList_DeleteModifier(modifier);
     }
 }
 
@@ -183,7 +183,7 @@ void ActorValueModifierList::ModifierList_SetModifier(char key, float value)
     }
     else if (value == gModifierZero && !m_bAllowZeroValueModifiers)
     {
-        EraseModifier(modifier);
+        ModifierList_DeleteModifier(modifier);
     }
     else
     {
@@ -428,7 +428,8 @@ ActorValueInfo* GetActorValueInfo(Index aeActorValueIndex);
 
 // Removes a modifier from the list, or from m_ppModifiedActorValues when the actor value is flagged and tracked there.
 // @fnv 0x00937400
-void ActorValueModifierList::EraseModifier(Modifier* modifier)
+// src: COMMUNITY 0x00937400
+void ActorValueModifierList::ModifierList_DeleteModifier(Modifier* modifier)
 {
     if (!modifier)
         return;

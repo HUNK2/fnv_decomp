@@ -661,9 +661,9 @@ NiObject* __cdecl BSNodeReferences_CreateObject();
 NiObject* __cdecl NiBSBoneLODController_CreateObject();
 NiObject* __cdecl BSBound_CreateObject();
 NiObject* __cdecl BSXFlags_CreateObject();
-NiObject* __cdecl CreateNamedNode();
+NiObject* __cdecl BSDecalPlacementVectorExtraData_CreateObject();
 FUN_00c465a0* __cdecl BSWindModifier_CreateObject();
-NiObject* __cdecl CreatePositionModifierObject();
+NiObject* __cdecl BSParentVelocityModifier_CreateObject();
 NiObject* __cdecl BSFurnitureMarker_CreateObject();
 FUN_00c61b10* __cdecl BSPSysArrayEmitter_CreateObject();
 NiObject* __cdecl BSWArray_CreateObject();
@@ -673,14 +673,14 @@ NiObject* __cdecl BSValueNode_CreateObject();
 NiObject* __cdecl BSPSysMultiTargetEmitterCtlr_CreateObject();
 NiObject* __cdecl BSMasterParticleSystem_CreateObject();
 NiObject* __cdecl BSMultiBound_CreateObject();
-NiObject* __cdecl CreateNewObject();
+NiObject* __cdecl BSMultiBoundNode_CreateObject();
 NiObject* __cdecl CreateNewBodyCls();
 NiObject* __cdecl CreateBC36500Object();
 NiObject* __cdecl BSMultiBoundCapsule_CreateObject();
 FUN_00c4fb10_shell* __cdecl BSMultiBoundSphere_CreateObject();
 NiObject* __cdecl BSPSysSimpleColorModifier_CreateObject();
 NiObject* __cdecl BSDebrisNode_CreateObject();
-NiObject* __cdecl CreatePositionModifierInstance();
+NiObject* __cdecl BSPSysStripUpdateModifier_CreateObject();
 
 extern char const g_012043dc_arg0[];
 extern char const g_012043e4_arg0[];
@@ -717,9 +717,9 @@ void BSStream_InitLoaders()
     NiStream::RegisterObjectLoader(g_012031b8_arg0, NiBSBoneLODController_CreateObject);
     NiStream::RegisterObjectLoader(g_012031e8_arg0, BSBound_CreateObject);
     NiStream::RegisterObjectLoader(g_01202de0_arg0, BSXFlags_CreateObject);
-    NiStream::RegisterObjectLoader(g_012043d4_arg0, CreateNamedNode);
+    NiStream::RegisterObjectLoader(g_012043d4_arg0, BSDecalPlacementVectorExtraData_CreateObject);
     NiStream::RegisterObjectLoader(g_01202e60_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSWindModifier_CreateObject));
-    NiStream::RegisterObjectLoader(g_012043c8_arg0, CreatePositionModifierObject);
+    NiStream::RegisterObjectLoader(g_012043c8_arg0, BSParentVelocityModifier_CreateObject);
     NiStream::RegisterObjectLoader(g_012031c4_arg0, BSFurnitureMarker_CreateObject);
     NiStream::RegisterObjectLoader(g_012043b0_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSPSysArrayEmitter_CreateObject));
     NiStream::RegisterObjectLoader(g_012043a4_arg0, BSWArray_CreateObject);
@@ -729,14 +729,14 @@ void BSStream_InitLoaders()
     NiStream::RegisterObjectLoader(g_01203340_arg0, BSPSysMultiTargetEmitterCtlr_CreateObject);
     NiStream::RegisterObjectLoader(g_0120436c_arg0, BSMasterParticleSystem_CreateObject);
     NiStream::RegisterObjectLoader(g_01202810_arg0, BSMultiBound_CreateObject);
-    NiStream::RegisterObjectLoader(g_01202e74_arg0, CreateNewObject);
+    NiStream::RegisterObjectLoader(g_01202e74_arg0, BSMultiBoundNode_CreateObject);
     NiStream::RegisterObjectLoader(g_01202820_arg0, CreateNewBodyCls);
     NiStream::RegisterObjectLoader(g_01202818_arg0, CreateBC36500Object);
     NiStream::RegisterObjectLoader(g_01204398_arg0, BSMultiBoundCapsule_CreateObject);
     NiStream::RegisterObjectLoader(g_01203108_arg0, reinterpret_cast<PFN_NiObjectLoader>(BSMultiBoundSphere_CreateObject));
     NiStream::RegisterObjectLoader(g_01204390_arg0, BSPSysSimpleColorModifier_CreateObject);
     NiStream::RegisterObjectLoader(g_01202e84_arg0, BSDebrisNode_CreateObject);
-    NiStream::RegisterObjectLoader(g_01204388_arg0, CreatePositionModifierInstance);
+    NiStream::RegisterObjectLoader(g_01204388_arg0, BSPSysStripUpdateModifier_CreateObject);
 }
 
 extern "C" void __cdecl operator delete(void*, unsigned int);
@@ -828,12 +828,13 @@ struct FUN_00c32fb0_cls
     int m_00;
     int m_04;
     const char* m_08;
-    int GetFormatSize();
+    int Setting_DataSize();
 };
 
 // Returns a size based on the first character of m_08: 1 for b/c/h, 4 for a/f/i/r/u, and for S/s the result of FUN_00ec6130 on m_04 plus 1, else 0.
 // @fnv 0x00c32fb0
-int FUN_00c32fb0_cls::GetFormatSize()
+// src: COMMUNITY 0x00c32fb0
+int FUN_00c32fb0_cls::Setting_DataSize()
 {
     int result = 0;
     if (m_08 != 0)

@@ -1395,7 +1395,7 @@ struct FUN_0064bda0_Class
     virtual void vf2c();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3c();
     virtual void vf40();
     virtual void vf44();
@@ -1404,7 +1404,7 @@ struct FUN_0064bda0_Class
     virtual void vf50();
     virtual void vf54();
     virtual void vf58();
-    virtual void vf5c();
+    virtual void applyForce();
     virtual void vf60();
     virtual void vf64();
     virtual void vf68();
@@ -1448,7 +1448,7 @@ inline void FUN_0064bda0_Class::vf30()
 {}
 inline void FUN_0064bda0_Class::vf34()
 {}
-inline void FUN_0064bda0_Class::vf38()
+inline void FUN_0064bda0_Class::PrintInfo()
 {}
 inline void FUN_0064bda0_Class::vf3c()
 {}
@@ -1466,7 +1466,7 @@ inline void FUN_0064bda0_Class::vf54()
 {}
 inline void FUN_0064bda0_Class::vf58()
 {}
-inline void FUN_0064bda0_Class::vf5c()
+inline void FUN_0064bda0_Class::applyForce()
 {}
 inline void FUN_0064bda0_Class::vf60()
 {}
@@ -1534,7 +1534,7 @@ struct FUN_0064be40_shell
     bool BSFaceGenAnimationData_UpdateEyeTracking(float elapsed, int unused);
     int BSFaceGenAnimationData_GetCurrentExpression();
     void FUN_0064bf90(int deltaY, float* deltaX, float* limit, float elapsed);
-    void SetEyeHeadingAndPitch(float x, float y);
+    void BSFaceGenAnimationData_SetEyePosition(float x, float y);
 };
 struct FUN_00403e20_setting
 {
@@ -1935,7 +1935,7 @@ struct S_006503b0_Owner
 };
 struct ModelHelper
 {
-    void EnsureMorphData();
+    void BSFaceGenModel_LoadEGMData();
 };
 struct InnerPointer
 {

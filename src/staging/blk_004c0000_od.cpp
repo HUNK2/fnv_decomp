@@ -1744,7 +1744,7 @@ void __cdecl BSstrncpy(char* dst, const char* src, unsigned int count);
 
 struct ObjClass : public FUN_004d7d50_StandIn
 {
-    ItemClass* __thiscall GetByIndex(unsigned int);
+    ItemClass* __thiscall NiParticleSystem_GetModifierAt(unsigned int);
 };
 
 typedef int(__stdcall* DAT_00fdf28c_fn)(void*, int, int, void*);
@@ -1787,7 +1787,7 @@ void __thiscall HostClass::SendModifierMessages(int a1, NiObject* apObject)
 
         for (cnt2 = 0; cnt2 < res->NiParticleSystem_GetModifierCount(); ++cnt2)
         {
-            qB = res->GetByIndex(cnt2);
+            qB = res->NiParticleSystem_GetModifierAt(cnt2);
             if (qB)
             {
                 BSstrncpy(i4, qB->GetName().Modelloader_GetReferencedThis(), 0x3f);
@@ -3416,11 +3416,12 @@ class Owner
     int unkc0;
     int unkc4;
     ListT kList;
-    void* GetByIndex(unsigned int idx);
+    void* NiParticleSystem_GetModifierAt(unsigned int idx);
 };
 // Returns the element at the given index from the list, or null if the index is out of range.
 // @fnv 0x004d7d70
-void* Owner::GetByIndex(unsigned int idx)
+// src: COMMUNITY 0x004d7d70
+void* Owner::NiParticleSystem_GetModifierAt(unsigned int idx)
 {
     if (idx >= kList.FUN_0044ddc0())
         return 0;

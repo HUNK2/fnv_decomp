@@ -2398,14 +2398,15 @@ namespace fnv_0097fa90 {
 struct FUN_0097fa90_Class
 {
     float value;
-    float GetClampedDifference();
+    float CombatTimeStamp_DisplayElapsedTime();
 };
 extern double __cdecl CombatTimer_GetTimer();
 extern double _DAT_01017b70;
 
 // Returns the difference between FUN_00435dd0() and value, clamped to at most _DAT_01017b70.
 // @fnv 0x0097fa90
-float FUN_0097fa90_Class::GetClampedDifference()
+// src: COMMUNITY 0x0097fa90
+float FUN_0097fa90_Class::CombatTimeStamp_DisplayElapsedTime()
 {
     return (float)(CombatTimer_GetTimer() - value > _DAT_01017b70 ? _DAT_01017b70 : CombatTimer_GetTimer() - value);
 }
@@ -7387,7 +7388,7 @@ struct MoveTarget
     bool CombatLocation_GetFlag(int);
     void CombatLocation_SetTarget(void*);
     MovePoint* ref_006815c0();
-    void AssignV4(MovePoint*);
+    void CombatLocation_SetWorldLocation(MovePoint*);
 };
 struct MoveActor
 {
@@ -7713,7 +7714,7 @@ void CombatMove::CombatController_UpdateLow()
                     MovePoint current3 = actor->TESObjectREFR_GetWorldLocation();
                     if (current3.BGSWorldLocation_GetDistanceSquared(&position7) > 100.0)
                     {
-                        goal.AssignV4(&position7);
+                        goal.CombatLocation_SetWorldLocation(&position7);
                         SetMovementProcedure(new TravelAction(&goal, DAT_011a5654, 15));
                         next = 3;
                     }

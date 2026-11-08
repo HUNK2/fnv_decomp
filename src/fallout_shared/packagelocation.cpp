@@ -487,12 +487,13 @@ struct FUN_0067f430_shell
     char pad0[7];
     TESForm* m_pLocationObject;
 
-    TESForm* GetLocationObject();
+    TESForm* PackageLocation_GetLocObject();
 };
 
 // Returns the stored TESForm pointer if the leading byte equals 4, otherwise returns null.
 // @fnv 0x0067f430
-TESForm* FUN_0067f430_shell::GetLocationObject()
+// src: COMMUNITY 0x0067f430
+TESForm* FUN_0067f430_shell::PackageLocation_GetLocObject()
 {
     if (m_ucLocationType == 4)
         return m_pLocationObject;
@@ -517,14 +518,14 @@ void FUN_0067f460_shell::SetValue(int aiValue)
 namespace fnv_0067f600 {
 struct FUN_0067f430_shell : public LocationDescriptor
 {
-    TESForm* GetLocationObject();
+    TESForm* PackageLocation_GetLocObject();
 };
 
 struct FUN_0067f600_shell : public LocationDescriptor
 {
     bool IsDifferentFrom(LocationDescriptor* other);
     unsigned int PackageLocation_GetRadius();
-    int GetObjectType();
+    int PackageLocation_GetLocObjectType();
 };
 
 // @fnv 0x0067f600
@@ -540,10 +541,10 @@ bool FUN_0067f600_shell::IsDifferentFrom(LocationDescriptor* other)
         return true;
     if (GetLocationCellReference() != other->GetLocationCellReference())
         return true;
-    if (reinterpret_cast<FUN_0067f430_shell*>(this)->GetLocationObject() !=
-        reinterpret_cast<FUN_0067f430_shell*>(other)->GetLocationObject())
+    if (reinterpret_cast<FUN_0067f430_shell*>(this)->PackageLocation_GetLocObject() !=
+        reinterpret_cast<FUN_0067f430_shell*>(other)->PackageLocation_GetLocObject())
         return true;
-    if (GetObjectType() != reinterpret_cast<FUN_0067f600_shell*>(other)->GetObjectType())
+    if (PackageLocation_GetLocObjectType() != reinterpret_cast<FUN_0067f600_shell*>(other)->PackageLocation_GetLocObjectType())
         return true;
     return false;
 }
@@ -556,12 +557,13 @@ struct FUN_0067f480_shell
     char pad1[3];
     char pad2[4];
     PACKAGE_OBJECT_TYPE eObjType;
-    PACKAGE_OBJECT_TYPE GetObjectType();
+    PACKAGE_OBJECT_TYPE PackageLocation_GetLocObjectType();
 };
 
 // Returns eObjType when the leading byte equals 5, otherwise returns 0.
 // @fnv 0x0067f480
-PACKAGE_OBJECT_TYPE FUN_0067f480_shell::GetObjectType()
+// src: COMMUNITY 0x0067f480
+PACKAGE_OBJECT_TYPE FUN_0067f480_shell::PackageLocation_GetLocObjectType()
 {
     if (m_ucLocationType == 5)
         return eObjType;
@@ -583,7 +585,7 @@ typedef FUN_0067eff0_Class ChunkPayloadHandler;
 
 struct FUN_0067f480_shell
 {
-    int GetObjectType();
+    int PackageLocation_GetLocObjectType();
 };
 
 struct FUN_0067f1c0_shell
@@ -610,7 +612,7 @@ void FUN_0067f6c0_shell::PackageLocation_Save(unsigned int chunkId)
     locStruct.m_ucLocationType = (char)GetLocType();
 
     if (GetLocType() == PLT_TYPE)
-        locStruct.m_pLocationData = reinterpret_cast<FUN_0067f480_shell*>(this)->GetObjectType();
+        locStruct.m_pLocationData = reinterpret_cast<FUN_0067f480_shell*>(this)->PackageLocation_GetLocObjectType();
     else if (pObject != 0)
         locStruct.m_pLocationData = pObject->GetFormID();
 
@@ -940,12 +942,13 @@ TESForm* TESForm_GetFormByNumericID(unsigned int formID);
 
 struct FUN_0067fc50_shell : LocationDescriptor
 {
-    void ResolveObject(int unused);
+    void PackageLocation_InitLoadGame(int unused);
 };
 
 // For PLT_REFERENCE, PLT_CELL, PLT_CURRLOC, PLT_EDITORLOC, or PLT_OBJECT, resolves non-null pObject through FUN_004839c0.
 // @fnv 0x0067fc50
-void FUN_0067fc50_shell::ResolveObject(int unused)
+// src: COMMUNITY 0x0067fc50
+void FUN_0067fc50_shell::PackageLocation_InitLoadGame(int unused)
 {
     switch (m_ucLocationType)
     {

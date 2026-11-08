@@ -553,14 +553,14 @@ template <int N> struct EndianSizeTag
 };
 void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
 bool __cdecl TESForm_QEndianSwapOnSave();
-void __cdecl AppendChunk(void*, void*, unsigned int);
+void __cdecl TESForm___AddChunkData(void*, void*, unsigned int);
 // @fnv 0x00485950
 // src: XBOX_PDB 0x00485950
 void __cdecl TESForm_AddChunk_00485950(void* apDest, unsigned short ausValue)
 {
     if (TESForm_QEndianSwapOnSave())
         BSEndian((unsigned short*)&ausValue, EndianSizeTag<2>());
-    AppendChunk(apDest, &ausValue, 2);
+    TESForm___AddChunkData(apDest, &ausValue, 2);
 }
 
 void __cdecl _Deallocate(void*);
@@ -931,7 +931,8 @@ void DecalManager_Destroy_()
 }
 
 // @fnv 0x00481090
-TESModelTextureSwap* GetBipedModelTextureSwap(TESForm* form, TESObjectREFR* refr)
+// src: COMMUNITY 0x00481090
+TESModelTextureSwap* TESBipedModelForm_GetBipedTESModel(TESForm* form, TESObjectREFR* refr)
 {
     TESBipedModelForm* model2 = dynamic_cast<TESBipedModelForm*>(form);
     if (!model2)
@@ -1038,7 +1039,7 @@ void __thiscall FUN_0049a920_s::Animation_RevertTES(unsigned int a)
     *(int*)((char*)this + 0xfc) = 0;
     Animation_ClearGroup(7, 0.0f);
     if (*(Flt*)((char*)this + 0xd8))
-        ((NiControllerManager*)(unsigned int)*(Flt*)((char*)this + 0xd8))->DeactivateAllSequences(0.0f);
+        ((NiControllerManager*)(unsigned int)*(Flt*)((char*)this + 0xd8))->DeactivateAll(0.0f);
     Animation_ClearControllersInterpolators(((KFModel*)this)->GetControllerSequence());
     ((H00499080*)this)->Animation_ClearBlendInterps();
     ((H00499240*)this)->Animation_ReloadTargets(true);
@@ -1260,7 +1261,7 @@ void __cdecl TESForm_AddChunkArray16(void* destination, void* source, unsigned i
 // src: COMMUNITY 0x004858f0
 void __cdecl TESForm_AddChunk_3(unsigned int a, unsigned char ucValue)
 {
-    AppendChunk((void*)a, &ucValue, 1);
+    TESForm___AddChunkData((void*)a, &ucValue, 1);
 }
 
 int __cdecl strcpy_s(char*, unsigned int, char*);
@@ -2001,11 +2002,12 @@ struct Node487a60
 struct Owner487a60
 {
     Node487a60* GetList();
-    Entry487a60* InsertEntryByPriority(unsigned short priority, unsigned short type, int value, int data);
+    Entry487a60* TESLeveledList_AddLeveledObject(unsigned short priority, unsigned short type, int value, int data);
 };
 
 // @fnv 0x00487a60
-Entry487a60* Owner487a60::InsertEntryByPriority(unsigned short priority, unsigned short type, int value, int data)
+// src: COMMUNITY 0x00487a60
+Entry487a60* Owner487a60::TESLeveledList_AddLeveledObject(unsigned short priority, unsigned short type, int value, int data)
 {
     Entry487a60* entry = 0;
     Node487a60* node = GetList();
@@ -2752,12 +2754,13 @@ struct AnimDataN
     int unk12c, unk130;
     ListN m_kList;
 
-    void SaveAnimData(BGSSaveFormBuffer* pBuffer);
+    void Animation_Save(BGSSaveFormBuffer* pBuffer);
 };
 
 // Serializes animation data fields, the list of items, the current sequence and per-slot group state into the save buffer.
 // @fnv 0x0049ab40
-void AnimDataN::SaveAnimData(BGSSaveFormBuffer* pBuffer)
+// src: COMMUNITY 0x0049ab40
+void AnimDataN::Animation_Save(BGSSaveFormBuffer* pBuffer)
 {
     Actor* pObject = pBuffer->GetActor();
     pBuffer->SaveData(&m_10c, 4, 0);
@@ -3123,7 +3126,8 @@ extern "C" void __cdecl FUN_00489670();
 
 // Reads a chunk from pFile, allocates m_ppElementArray, and loads texture archive entries for each FileEntryList from pOwner's model list.
 // @fnv 0x0048a0d0
-void FileEntryListCollection::LoadFromTESFile(TESModelList* pOwner, TESFile* pFile)
+// src: COMMUNITY 0x0048a0d0
+void FileEntryListCollection::TESTextureListArray_Load(TESModelList* pOwner, TESFile* pFile)
 {
     unsigned int uiElapsedMilliseconds;
     {
@@ -3132,7 +3136,7 @@ void FileEntryListCollection::LoadFromTESFile(TESModelList* pOwner, TESFile* pFi
             char* pBuffer;
             {
                 unsigned int uiSize;
-                ClearAndDeleteArray();
+                TESTextureListArray_ClearData();
                 uiSize = pFile->GetChunkSize();
                 pBuffer = (char*)_alloca(uiSize);
                 pFile->GetChunkData(pBuffer, uiSize);

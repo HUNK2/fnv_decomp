@@ -275,7 +275,8 @@ unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
 unsigned int __cdecl BSStringLength(const char*);
 // Returns 0 if either string is null, otherwise counts positions up to the shorter length where the two strings have equal characters.
 // @fnv 0x00768a10
-unsigned int __thiscall HackingMenu::CountMatchingChars(const char* pcStringA, const char* pcStringB)
+// src: COMMUNITY 0x00768a10
+unsigned int __thiscall HackingMenu::CommonPositions(const char* pcStringA, const char* pcStringB)
 {
     if (!pcStringA || !pcStringB)
         return 0;
@@ -433,7 +434,8 @@ float __thiscall MyHack::InterfaceManager_GetPipboyMouseX()
 
 // Writes "0x" followed by the four hex digits of v (most significant first) into dst and null-terminates it.
 // @fnv 0x00768970
-void __thiscall HackingMenu::FormatHexWord(unsigned short ausValue, char* pDest)
+// src: COMMUNITY 0x00768970
+void __thiscall HackingMenu::MakeHexString(unsigned short ausValue, char* pDest)
 {
     __memcpy(pDest, "0x", 2);
     for (int i = 0; i < 4; i++)
@@ -600,7 +602,8 @@ struct EntryListNode
 };
 // Adds count to the 0xfac value of each existing row, then creates count new rows with descending 0xfac values and the given values at 0xfc4, appending each.
 // @fnv 0x00767ef0
-void __thiscall HackingMenu::AddValueRows(unsigned int count, const unsigned int* puiValues)
+// src: COMMUNITY 0x00767ef0
+void __thiscall HackingMenu::ScrollLog(unsigned int count, const unsigned int* puiValues)
 {
     ValueRow* item;
     {
@@ -822,7 +825,7 @@ struct MenuWidgetLookup
 };
 struct Widget
 {
-    bool __thiscall IsTraitNonZero();
+    bool __thiscall Tile_IsTrue();
 };
 // Toggles the fade at offset 0x1d4 between 0 and 1 on a timer, creating it from resource 0xfa3 when absent, unless menu state 4 with widget 0x1006 is active.
 // @fnv 0x0076a9d0
@@ -830,7 +833,7 @@ void HackingMenu::UpdateFade()
 {
     static float delay = (*reinterpret_cast<Resources**>(reinterpret_cast<char*>(this) + 0x11c))
                              ->FUN_00a011b0(Tile_AddUserTrait(&str_01072108, -1));
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c4) == 4 && reinterpret_cast<MenuWidgetLookup*>(this)->FUN_00726070(0x1006)->IsTraitNonZero())
+    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c4) == 4 && reinterpret_cast<MenuWidgetLookup*>(this)->FUN_00726070(0x1006)->Tile_IsTrue())
     {
         return;
     }
@@ -854,7 +857,7 @@ void HackingMenu::UpdateFade()
 
 struct Node
 {
-    bool __thiscall IsTraitNonZero(int property);
+    bool __thiscall Tile_IsTrue(int property);
     Node* __thiscall Tile_GetString(int property);
     Node* __thiscall FUN_0045cd60();
     void __thiscall FUN_00a011b0(int property);
@@ -870,7 +873,7 @@ void HackingMenu::UpdateActiveNodeProperty()
     {
         int multiplier = 0;
         total = 0;
-        if (reinterpret_cast<Node*>(m_pTiles[5])->IsTraitNonZero(0xfa3))
+        if (reinterpret_cast<Node*>(m_pTiles[5])->Tile_IsTrue(0xfa3))
         {
             selected = reinterpret_cast<Node*>(m_pTiles[5])->Tile_GetString(0xfc4);
             if (selected)
@@ -885,7 +888,7 @@ void HackingMenu::UpdateActiveNodeProperty()
     }
 }
 
-// BuildHackingGuessTemplate - hacking menu guess template formatting
+// MakeGuessBlock - hacking menu guess template formatting
 struct FUN_00a1ddb0_res
 {
     void __thiscall FUN_00715c60(unsigned int id, int cnt);
@@ -910,7 +913,8 @@ struct FUN_0044ddc0_sub
 
 
 // @fnv 0x0076ad50
-void HackingMenu::BuildHackingGuessTemplate()
+// src: COMMUNITY 0x0076ad50
+void HackingMenu::MakeGuessBlock()
 {
     FUN_00a1ddb0_res* p = reinterpret_cast<FUN_00a1ddb0_owner*>(DAT_011d95b8)->FUN_00a1ddb0(reinterpret_cast<char*>(m_pTiles[1]), "hacking_guess_template", 0);
     p->FUN_00715c60(0xfac, (*reinterpret_cast<FUN_0044ddc0_sub*>(&list174)).FUN_0044ddc0());
@@ -1410,7 +1414,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
                 for (WordsView* selected = ((WordsView*)((char*)this + 0x180));
                      accepted && selected && (aimed = *selected->FUN_006815c0()); selected = selected->FUN_00726070())
                 {
-                    unsigned int similarity = CountMatchingChars(chosen, aimed);
+                    unsigned int similarity = CommonPositions(chosen, aimed);
                     if (similarity == *(unsigned int*)((char*)this + 0x1ac))
                     {
                         accepted = false;
@@ -1468,7 +1472,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
         {
             ((EntryRow*)&bonus.Modelloader_GetReferencedThis()[row])->Modelloader_GetReferencedThis()[columnIndex] =
                 (currentNode == col) ? 0xFF
-                                     : this->CountMatchingChars(*currentNode->FUN_006815c0(), *col->FUN_006815c0());
+                                     : this->CommonPositions(*currentNode->FUN_006815c0(), *col->FUN_006815c0());
             ++columnIndex;
         }
         ++row;
@@ -1540,7 +1544,7 @@ void HackingMenu::BuildHackingPasswordFile()
     reinterpret_cast<Entry83**>(entries)[3]->AnimatingText_SetTraits(0, reinterpret_cast<Tile83*>(m_pTiles[1])->Tile_GetValue(4100));
     int entryIndex7x39 = 4;
     for (unsigned int i = 0; i < (unsigned int)unk1a4; i++)
-        BuildHackingGuessTemplate();
+        MakeGuessBlock();
     unsigned int alphabetSize17x2 = BSstrlen("!@#$%^*()_+=-`[]{}|;':,./<>?\\\"");
     int spacing35x61 = 2;
     int bufferSize12x1 = 409;
@@ -1615,7 +1619,7 @@ void HackingMenu::BuildHackingPasswordFile()
             current28x7[12] = 0;
         }
         char address[8];
-        FormatHexWord((unsigned short)current28x7, address);
+        MakeHexString((unsigned short)current28x7, address);
         text24x17.PrintfString("%s %s", address, current28x7);
         reinterpret_cast<Entry83**>(entries)[entryIndex7x39] =
             new Entry83(text24x17.String(), reinterpret_cast<Tile83*>(m_pTiles[2]), "hacking_password_file_template", -1, 2);
@@ -2303,7 +2307,7 @@ namespace H769769 {
 struct H769TileV
 {
     void FUN_00700320(int id, int value);
-    bool IsTraitNonZero(int id);
+    bool Tile_IsTrue(int id);
     const char* Tile_GetString(int id);
 };
 struct H769Line
@@ -2354,7 +2358,7 @@ void HackingMenu::DoIntro()
         {
             if (reinterpret_cast<H769Line**>(entries)[i]->kArgumentPosition)
             {
-                if (!reinterpret_cast<H769Line**>(entries)[i]->kArgumentPosition->IsTraitNonZero(0xfa3))
+                if (!reinterpret_cast<H769Line**>(entries)[i]->kArgumentPosition->Tile_IsTrue(0xfa3))
                 {
                     reinterpret_cast<H769Line**>(entries)[i]->kArgumentPosition->FUN_00700320(0xfa3, 1);
                     DAT_011d969c = Cmd_GetSessionTime_Execute() + 1000;
@@ -3422,7 +3426,7 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
         if (word && *word)
         {
             reinterpret_cast<BSSoundHandle&>(sounds[4]).Play(false);
-            unsigned int matched = CountMatchingChars(word, reinterpret_cast<const char*>(unk19c));
+            unsigned int matched = CommonPositions(word, reinterpret_cast<const char*>(unk19c));
             if (!fnv_00766b80::FUN_00ec86e1(*word) && fnv_00766b80::BSStringLength(word) > 1)
             {
                 BSStringT<char> c[3];
@@ -3454,11 +3458,11 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
                     unk1d9[0] = true;
                     (*reinterpret_cast<HackNumberList*>(&list188)).Add(12 * (unsigned int)(reinterpret_cast<fnv_00766b80::HackTile*>(tile)->Float(0x1004) * 17.0 + reinterpret_cast<fnv_00766b80::HackTile*>(tile)->Float(0xfac)) + GetScaledValue() - 7);
                     while ((*reinterpret_cast<fnv_00766b80::HackList*>(&list174)).Count() < static_cast<unsigned int>(unk1a4))
-                        BuildHackingGuessTemplate();
+                        MakeGuessBlock();
                     j = 3;
                 }
                 const char* e[3] = {c[0], c[1], c[2]};
-                AddValueRows(j, reinterpret_cast<const unsigned int*>(e));
+                ScrollLog(j, reinterpret_cast<const unsigned int*>(e));
             }
             else if (matched == static_cast<unsigned int>(unk1ac))
             {
@@ -3469,7 +3473,7 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
                 c[3].PrintfString("%s%s", ">", g_011d4858.String());
                 c[4].PrintfString("%s%s", ">", g_011d4ae0.String());
                 const char* e[5] = {c[0], c[1], c[2], c[3], c[4]};
-                AddValueRows(5, reinterpret_cast<const unsigned int*>(e));
+                ScrollLog(5, reinterpret_cast<const unsigned int*>(e));
                 reinterpret_cast<BSSoundHandle&>(sounds[1]).PlayAfter(250, 0);
                 reinterpret_cast<unsigned int&>(unk1d0) = fnv_00766b80::gm_GetTickCount() + 3000;
                 m_iStage = 4;
@@ -3504,7 +3508,7 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
                 {
                     lines3[2].PrintfString("%s%d/%d %s.", ">", matched, static_cast<unsigned int>(unk1ac), g_011d2b2c.String());
                     const char* values3[3] = {lines3[0], lines3[1], lines3[2]};
-                    AddValueRows(3, reinterpret_cast<const unsigned int*>(values3));
+                    ScrollLog(3, reinterpret_cast<const unsigned int*>(values3));
                     if (reinterpret_cast<unsigned int&>(unk1a0) == 1)
                     {
                         reinterpret_cast<fnv_00766b80::HackTile**>(entries)[1]->SetText(g_011d1f74.GetString());
@@ -3517,7 +3521,7 @@ void HackingMenu::HandleSelection(int aiButtonIndex, Tile* tile)
                     lines3[2].PrintfString("%s%s", ">", g_011d3144.String());
                     lines3[3].PrintfString("%s", g_011d339c.String());
                     const char* values4[4] = {lines3[0], lines3[1], lines3[2], lines3[3]};
-                    AddValueRows(4, reinterpret_cast<const unsigned int*>(values4));
+                    ScrollLog(4, reinterpret_cast<const unsigned int*>(values4));
                     m_iStage = 3;
                     if (reinterpret_cast<HackTarget*>(unk194))
                         FailRef(reinterpret_cast<HackRef*>(unk198), true);

@@ -1292,7 +1292,7 @@ struct TreeData
 };
 bool __cdecl TESForm_QEndianSwapOnSave();
 void __cdecl TESForm_AddChunkArray_00485710(unsigned int, unsigned int*, unsigned int);
-void __cdecl AppendChunk(unsigned int, void*, unsigned int);
+void __cdecl TESForm___AddChunkData(unsigned int, void*, unsigned int);
 void __cdecl ourMemset(void*, int, unsigned int);
 struct SaveTree
 {
@@ -1303,15 +1303,15 @@ struct SaveTree
     NiTPrimitiveArray<unsigned int> seeds;
     TreeData data;
     float billboardX, billboardY;
-    void BeginFormRecord();
-    void FinishFormRecord();
+    void TESForm_StartForm();
+    void TESForm_CloseForm();
     void TESObjectTREE_Save();
 };
 // @fnv 0x0051bfb0
 // src: XBOX_PDB 0x0051bfb0
 void SaveTree::TESObjectTREE_Save()
 {
-    BeginFormRecord();
+    TESForm_StartForm();
     model.WriteToBuffer(0x4c444f4d, 0x54444f4d);
     icon.TESTexture_Save(0x4e4f4349);
     destruct.FUN_00477f20();
@@ -1335,11 +1335,11 @@ void SaveTree::TESObjectTREE_Save()
         data.unk14 = 128;
     if (TESForm_QEndianSwapOnSave())
         data.FUN_00414290();
-    AppendChunk(0x4d414e43, &data, 32);
+    TESForm___AddChunkData(0x4d414e43, &data, 32);
     if (TESForm_QEndianSwapOnSave())
         data.FUN_00414290();
     TESForm_AddChunkArray_00485710(0x4d414e42, (unsigned int*)&billboardX, 2);
-    FinishFormRecord();
+    TESForm_CloseForm();
 }
 
 class TreeNameView
@@ -1356,12 +1356,13 @@ class TreeNameView
 class FUN_0051c3b0_cls : public TESObjectTREE
 {
   public:
-    void BuildBillboardTexturePath(char* dst);
+    void TESObjectTREE_GetBillboardTextureFilename(char* dst);
 };
 
 // Writes the billboard texture folder path, appends the tree name up to its extension, then adds ".dds" and a null terminator.
 // @fnv 0x0051c3b0
-void FUN_0051c3b0_cls::BuildBillboardTexturePath(char* dst)
+// src: COMMUNITY 0x0051c3b0
+void FUN_0051c3b0_cls::TESObjectTREE_GetBillboardTextureFilename(char* dst)
 {
     const char* src2 = "Textures\\Trees\\Billboards";
     char* out4 = dst;
@@ -1480,10 +1481,11 @@ class TreeObj
     int field84;
     int field88;
     NiPoint2 m_kBillboardDimensions;
-    void CreateTreeGeometry(bool flag, SpPtr<CreatedObj>* out);
+    void TESObjectTREE_CreateBillboardGeomData(bool flag, SpPtr<CreatedObj>* out);
 };
 // @fnv 0x0051c490
-void TreeObj::CreateTreeGeometry(bool abVertical, SpPtr<CreatedObj>* out)
+// src: COMMUNITY 0x0051c490
+void TreeObj::TESObjectTREE_CreateBillboardGeomData(bool abVertical, SpPtr<CreatedObj>* out)
 {
     AutoMemContext ctx3((MEM_CONTEXT)0x23, true,
                         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectTREE.cpp", 409);
@@ -1835,18 +1837,19 @@ TreeSceneObject* GetFloatAsUInt();
 class TreeBillboardBuilder : public FUN_0051d250_Class
 {
   public:
-    void CreateTreeGeometry(bool variant, NiPointer<BillboardTexture>* texture);
-    void BuildBillboardTexturePath(char* path);
-    TreeSceneObject* CreateBillboardSceneObject(bool variant);
+    void TESObjectTREE_CreateBillboardGeomData(bool variant, NiPointer<BillboardTexture>* texture);
+    void TESObjectTREE_GetBillboardTextureFilename(char* path);
+    TreeSceneObject* TESObjectTREE_BuildDistant3D(bool variant);
 };
 // @fnv 0x0051cba0
-TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
+// src: COMMUNITY 0x0051cba0
+TreeSceneObject* TreeBillboardBuilder::TESObjectTREE_BuildDistant3D(bool variant)
 {
     if (!TESObjectTREE_IsLargeEnoughForDistantLOD())
         return 0;
     AutoMemContext eb(0x23, true, treeSourceFile, 470);
     NiPointer<BillboardTexture> a(0);
-    CreateTreeGeometry(variant, &a);
+    TESObjectTREE_CreateBillboardGeomData(variant, &a);
     FUN_00a74480* h = new FUN_00a74480((unsigned int)(BillboardTexture*)a);
     TreeSceneObject* f = GetFloatAsUInt();
     if (f)
@@ -1854,7 +1857,7 @@ TreeSceneObject* TreeBillboardBuilder::CreateBillboardSceneObject(bool variant)
     FUN_00ba8630* i = new FUN_00ba8630;
     h->AttachProperty((NiObject*)i);
     char q[260];
-    BuildBillboardTexturePath(q);
+    TESObjectTREE_GetBillboardTextureFilename(q);
     FUN_0051d0d0* cf = new FUN_0051d0d0;
     cf->SetTexture(0, q);
     i->BSShaderPPLightingProperty_LoadTextureSet("STBB", cf);

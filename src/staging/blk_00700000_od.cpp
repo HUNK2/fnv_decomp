@@ -2279,7 +2279,7 @@ struct MenuComponent
 {
     virtual ~MenuComponent();
     bool FUN_00712380();
-    bool IsTraitNonZero(int);
+    bool Tile_IsTrue(int);
     void FUN_00700320(int trait, int enable);
     MenuComponent* GetModel_0056c7f0();
     void FUN_00450f90(int);
@@ -2350,7 +2350,7 @@ void MenuState::UpdateMenuSelection()
                 if (actor && leftSlot)
                 {
                     actor->FUN_007037c0(4);
-                    if (actor->FUN_00726070()->IsTraitNonZero(0x1772))
+                    if (actor->FUN_00726070()->Tile_IsTrue(0x1772))
                     {
                         if (actor->FUN_00726070())
                         {
@@ -2676,11 +2676,11 @@ extern int DAT_011dea3c;
 extern void* DAT_011c3b3c;
 
 void* __cdecl FUN_004bf220(int arg);
-void* __cdecl GetBipedModelTextureSwap(unsigned int a, int b);
+void* __cdecl TESBipedModelForm_GetBipedTESModel(unsigned int a, int b);
 
 struct GameObjStub
 {
-    void* FindEntryWithExtraListType(int index);
+    void* InventoryChanges_GetHotkeyItem(int index);
     unsigned int FUN_0044ddc0();
 };
 
@@ -2711,11 +2711,11 @@ void FUN_00701520_cls::ProcessModelPaths()
 
     for (int i = 0; i < 8; i++)
     {
-        void* b = ((GameObjStub*)a)->FindEntryWithExtraListType(i);
+        void* b = ((GameObjStub*)a)->InventoryChanges_GetHotkeyItem(i);
 
         if (b != 0 && ((GameObjStub*)b)->FUN_0044ddc0() != 0)
         {
-            void* c = GetBipedModelTextureSwap(((TESObjectREFR_GetFlags_Helper*)b)->CallGetFlags(), DAT_011dea3c);
+            void* c = TESBipedModelForm_GetBipedTESModel(((TESObjectREFR_GetFlags_Helper*)b)->CallGetFlags(), DAT_011dea3c);
 
             if (c == 0)
             {

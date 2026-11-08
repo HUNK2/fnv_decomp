@@ -34,7 +34,7 @@ TESDialoguePackageData::~TESDialoguePackageData()
 
 struct FUN_0067fc50_impl
 {
-    void ResolveObject(BGSLoadFormBuffer*);
+    void PackageLocation_InitLoadGame(BGSLoadFormBuffer*);
 };
 struct FUN_0067b920_host
 {
@@ -44,13 +44,13 @@ struct FUN_0067b920_host
     FUN_0067fc50_impl* padC;
     void TESDialoguePackageData_InitLoadGame(BGSLoadFormBuffer*);
 };
-// If padC is non-null, forwards apLoadGameBuffer to padC's ResolveObject.
+// If padC is non-null, forwards apLoadGameBuffer to padC's PackageLocation_InitLoadGame.
 // @fnv 0x0067b920
 // src: XBOX_PDB 0x0067b920
 void FUN_0067b920_host::TESDialoguePackageData_InitLoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     if (padC != 0)
-        padC->ResolveObject(apLoadGameBuffer);
+        padC->PackageLocation_InitLoadGame(apLoadGameBuffer);
 }
 
 struct LocationDescriptor

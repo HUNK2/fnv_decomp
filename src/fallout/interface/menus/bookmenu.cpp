@@ -179,7 +179,7 @@ void BookMenu::UpdateMenuTile()
     if (ptile && ptile->GetMenu())
     {
         ptile->Set(0x1772, 1);
-        ptile->GetMenu()->LoadMenuData();
+        ptile->GetMenu()->StartFadeOut();
         if (reinterpret_cast<TESObject*>(unk34)->TESObjectBOOK_GetScroll())
             InterfaceManager_PlayMenuSound(0x19);
         else
@@ -537,7 +537,7 @@ void __cdecl InterfaceManager_PlayMenuSound(int);
 void BookMenu::HandleScrollInput(int a1, int a2)
 {
     InterfaceManager* interfaceManager6 = InterfaceManager::Instance();
-    if (!static_cast<Tile*>(this->FUN_00726070())->IsTraitNonZero(0x1004))
+    if (!static_cast<Tile*>(this->FUN_00726070())->Tile_IsTrue(0x1004))
     {
         int iVar1 = (int)this->m_pHighlightedTile->FUN_00a011b0(0x100b);
         int iVar6 = interfaceManager6->GetMouseWheel() / 120;

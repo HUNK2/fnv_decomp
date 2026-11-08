@@ -63,7 +63,8 @@ TESObject* TESFormList::InsertObjectAfter(TESObject* after, TESObject* object)
 }
 
 // @fnv 0x0050f9e0
-bool TESObject::HasLoaded3D()
+// src: COMMUNITY 0x0050f9e0
+bool TESObject::IsMarker()
 {
     if (!this)
         return false;
@@ -125,7 +126,7 @@ NiNode* TESCreature::Create3DModel(TESObjectREFR* reference)
 {
     if (GetUsesLeveledTemplate() && reference && !reference->HasLeveledCreatureCalced())
     {
-        SetTemplateReference(reference);
+        CalcTemplateForRef(reference);
         return reference->GetObjectReference()->Clone3DAlt(reference);
     }
     NiNode* node = 0;
@@ -137,7 +138,7 @@ NiNode* TESCreature::Create3DModel(TESObjectREFR* reference)
         {
             if (SceneObjectLookup::GetObjectByName(node, "Bip01"))
             {
-                biped->InitBoneSlots(node);
+                biped->BipedAnim_InitRoot(node);
                 node->UpdateSceneObject();
                 NiUpdateData update(0.0f, false, false);
                 node->Update(update);
@@ -223,7 +224,7 @@ NiNode* TESObjectLIGH::Create3DModel(TESObjectREFR* reference)
             {
                 node = new BSFadeNode;
             }
-            CreateLight(reference, node, false);
+            GenDynamic(reference, node, false);
             node->UpdateSceneObject();
             return node;
         }
@@ -615,10 +616,11 @@ int __cdecl TruncateFloatToInt(float);
 int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 struct FUN_0050fdf0_cls
 {
-    void FormatScaledName(PlayerCharacter* apPlayer, char* apBuffer);
+    void TESObject_GetScaledModelFileName(PlayerCharacter* apPlayer, char* apBuffer);
 };
 // @fnv 0x0050fdf0
-void FUN_0050fdf0_cls::FormatScaledName(PlayerCharacter* apPlayer, char* apBuffer)
+// src: COMMUNITY 0x0050fdf0
+void FUN_0050fdf0_cls::TESObject_GetScaledModelFileName(PlayerCharacter* apPlayer, char* apBuffer)
 {
     const char* name = ((FUN_0050fd90_stub*)this)->GetModelPathHook(apPlayer);
     sprintf_s(apBuffer, 260, "%s%i", name, TruncateFloatToInt((float)(apPlayer->GetScale() * g_d100)));
@@ -1070,15 +1072,15 @@ struct FUN_0050ece0_class
     void TESBoundObject_SaveObjectBound();
 };
 bool __cdecl TESForm_QEndianSwapOnSave();
-void __cdecl AppendChunk(char*, char*, int);
-// Calls FUN_00401500 twice around a AppendChunk call on the bound member with 0xc, invoking bound.FUN_0050ed30 when it returns true.
+void __cdecl TESForm___AddChunkData(char*, char*, int);
+// Calls FUN_00401500 twice around a TESForm___AddChunkData call on the bound member with 0xc, invoking bound.FUN_0050ed30 when it returns true.
 // @fnv 0x0050ece0
 // src: XBOX_PDB 0x0050ece0
 void FUN_0050ece0_class::TESBoundObject_SaveObjectBound()
 {
     if (TESForm_QEndianSwapOnSave())
         bound.TESBoundObject_BOUND_DATA_SwapEndian();
-    AppendChunk((char*)0x444e424f, (char*)&bound, 0xc);
+    TESForm___AddChunkData((char*)0x444e424f, (char*)&bound, 0xc);
     if (TESForm_QEndianSwapOnSave())
         bound.TESBoundObject_BOUND_DATA_SwapEndian();
 }
@@ -1586,7 +1588,7 @@ struct Param
 };
 struct FUN_00664f50_class
 {
-    Record* CreateTreeInstance(Param*, Owner*);
+    Record* BSTreeManager_CreateTreeForReference(Param*, Owner*);
 };
 struct Owner
 {
@@ -1691,7 +1693,7 @@ struct Owner
     Record* CreateRecord(Param* target, int unused);
 };
 void* __cdecl BSTreeManager_GetInstance(unsigned int);
-// If FUN_00401170 returns 0x25, creates a Record via CreateTreeInstance, notifies it, and passes its secondary effect's FUN_008d6f30 result to target.
+// If FUN_00401170 returns 0x25, creates a Record via BSTreeManager_CreateTreeForReference, notifies it, and passes its secondary effect's FUN_008d6f30 result to target.
 // @fnv 0x0050f810
 Record* Owner::CreateRecord(Param* target, int unused)
 {
@@ -1700,7 +1702,7 @@ Record* Owner::CreateRecord(Param* target, int unused)
         return 0;
     if (BSTreeManager_GetInstance(1))
     {
-        created = static_cast<FUN_00664f50_class*>(BSTreeManager_GetInstance(1))->CreateTreeInstance(target, this);
+        created = static_cast<FUN_00664f50_class*>(BSTreeManager_GetInstance(1))->BSTreeManager_CreateTreeForReference(target, this);
     }
     Notify(created);
     if (created && created->GetSecondary() && target)
@@ -1770,7 +1772,7 @@ extern unsigned int DAT_011c90ac;
 struct ModelOwner
 {
     const char* GetModelPathHook(ModelReference*);
-    void FormatScaledName(ModelReference*, char*);
+    void TESObject_GetScaledModelFileName(ModelReference*, char*);
     NiNode* GetModelNode(ModelReference*);
 };
 unsigned int TES_GetLODMult(ModelOwner*);
@@ -1793,7 +1795,7 @@ NiNode* ModelOwner::GetModelNode(ModelReference* reference)
         if (reference && reference->TESObjectREFR_GetScale_00567400() != 1.0)
         {
             char scaledName[260];
-            FormatScaledName(reference, scaledName);
+            TESObject_GetScaledModelFileName(reference, scaledName);
             CachedModelPointer cachedScaled(0);
             DAT_011c3b3c->ModelLoader_FindModel(scaledName, &cachedScaled);
             if (cachedScaled.Modelloader_GetReferencedThis())
@@ -1974,7 +1976,7 @@ void FUN_005f8bf0_shell::CalcLeveledCreature(TESObjectREFR* pRef)
 {
     if (GetUsesLeveledTemplate() && pRef && !pRef->HasLeveledCreatureCalced())
     {
-        SetTemplateReference(pRef);
+        CalcTemplateForRef(pRef);
         reinterpret_cast<FUN_005f8bf0_form*>(reinterpret_cast<FUN_007af430_ref*>(pRef)->BGSSaveFormBuffer_GetForm())->slot94(pRef);
     }
     else
@@ -2272,7 +2274,7 @@ struct ObjectOps
 {
     bool FUN_0050d4a0();
     unsigned int FUN_00401170();
-    void FormatScaledName(TESObjectREFR*, char*);
+    void TESObject_GetScaledModelFileName(TESObjectREFR*, char*);
 };
 struct NodeOps
 {
@@ -2550,7 +2552,7 @@ NiAVObject* CloneObject17::TESBoundObject_Clone3D_0050ee50(TESObjectREFR* refere
             {
                 ((NodeOps*)p)->NiAVObject_SetScale(scale);
                 char filename[260];
-                ((ObjectOps*)this)->FormatScaledName(reference, filename);
+                ((ObjectOps*)this)->TESObject_GetScaledModelFileName(reference, filename);
                 NiPointer<Model> model(0);
                 DAT_011c3b3c->ModelLoader_FindModel(filename, model);
                 if (!((ModelPointerOps*)&model)->Modelloader_GetReferencedThis())

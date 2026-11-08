@@ -333,7 +333,7 @@ struct S_00dbac90_Obj
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40(void* arg);
 };
@@ -527,7 +527,7 @@ struct FUN_00dba650_cls
 struct CpuObject
 {
     int value;
-    bool TestValue();
+    bool hkDataClass_isNull();
 };
 struct VirtualTarget
 {

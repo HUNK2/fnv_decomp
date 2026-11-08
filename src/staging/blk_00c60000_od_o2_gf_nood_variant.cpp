@@ -705,7 +705,7 @@ struct PositionModifierObject_b9439
         return Object_DispatchCommandFour(size);
     }
 };
-PositionModifierObject_b9439* CreatePositionModifierObject();
+PositionModifierObject_b9439* BSParentVelocityModifier_CreateObject();
 struct Pad32
 {
     unsigned int a0, a1, a2, a3, a4, a5, a6, a7;

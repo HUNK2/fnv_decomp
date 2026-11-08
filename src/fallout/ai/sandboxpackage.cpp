@@ -237,7 +237,7 @@ void SandBoxActorPackageData::LoadGame(BGSLoadFormBuffer* apBuffer)
     apBuffer->ReadFormIdentifier(&pLocation);
     apBuffer->ReadFormIdentifier(&m_pCurrentTarget);
     apBuffer->ReadFormIdentifier(&m_pCurrentFurniture);
-    ItemUpdateArray = apBuffer->ReadElementCount();
+    ItemUpdateArray = apBuffer->LoadVariableSizedValue();
     m_kProcedureList.SetSize(ItemUpdateArray, true);
     for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
     {

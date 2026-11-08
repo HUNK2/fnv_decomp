@@ -1350,7 +1350,7 @@ struct FUN_00aea9d0_Listener
     {}
     virtual void vf34()
     {}
-    virtual void vf38()
+    virtual void PrintInfo()
     {}
     virtual void __stdcall vf3C(float value, int flag)
     {}
@@ -1405,7 +1405,7 @@ struct S_00aeaa10_Obj
     virtual void vf9();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();

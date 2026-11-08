@@ -887,11 +887,12 @@ FUN_00405250::~FUN_00405250()
 // The shared list lacks this filtered magnitude/duration total (0x00405c00).
 struct EffectListMagnitudeQuery : EffectItemList
 {
-    float GetTotalMagnitude(int iArchetype, int m_eRange, int m_eAssociatedActorValue);
+    float EffectItemList_GetEffectScore(int iArchetype, int m_eRange, int m_eAssociatedActorValue);
 };
 
 // @fnv 0x00405c00
-float EffectListMagnitudeQuery::GetTotalMagnitude(int iArchetype, int m_eRange, int m_eAssociatedActorValue)
+// src: COMMUNITY 0x00405c00
+float EffectListMagnitudeQuery::EffectItemList_GetEffectScore(int iArchetype, int m_eRange, int m_eAssociatedActorValue)
 {
     float fTotal = 0.0f;
     EffectListMagnitudeQuery* pkList = this;

@@ -574,12 +574,13 @@ struct FUN_009835d0_cls
     CoverLockCalls lock;
 
     bool FUN_00853130(void* key, CoverItem** out);
-    bool TryUseCoverItem(unsigned int key, unsigned int p2, unsigned int p3, float x, void* target, unsigned char d,
+    bool CombatCoverMap_CanReserveCoverLocation(unsigned int key, unsigned int p2, unsigned int p3, float x, void* target, unsigned char d,
                          unsigned char e);
 };
 
 // @fnv 0x009835d0
-bool FUN_009835d0_cls::TryUseCoverItem(unsigned int key, unsigned int p2, unsigned int p3, float fValue, void* target,
+// src: COMMUNITY 0x009835d0
+bool FUN_009835d0_cls::CombatCoverMap_CanReserveCoverLocation(unsigned int key, unsigned int p2, unsigned int p3, float fValue, void* target,
                                        unsigned char d, unsigned char e)
 {
     bool ok = true;

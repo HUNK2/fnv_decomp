@@ -565,7 +565,8 @@ struct A51BF0
     void FUN_00a5d3a0();
 };
 // @fnv 0x00a415a0
-A51BF0* CreateA51BF0()
+// src: EXE 0x00a415a0
+A51BF0* NiMorphData_CreateObject()
 {
     A51BF0* p = (A51BF0*)NiObject::operator new(0x18);
     if (p)
@@ -857,12 +858,13 @@ class FUN_00a41410_cls
     unsigned short unk08;
     unsigned short m_uiItemCount;
 
-    void DispatchByKey(HandlerArg* a1);
+    void BSAnimNoteListener_Update(HandlerArg* a1);
 };
 
 // Iterates the entry table and calls Handle on each entry whose m_key matches the argument's m_key.
 // @fnv 0x00a41410
-void FUN_00a41410_cls::DispatchByKey(HandlerArg* a1)
+// src: COMMUNITY 0x00a41410
+void FUN_00a41410_cls::BSAnimNoteListener_Update(HandlerArg* a1)
 {
     for (unsigned int i = 0; i < m_uiItemCount; ++i)
     {
@@ -1139,7 +1141,8 @@ struct ControllerAllocation : FUN_00a44f90_class
 };
 
 // @fnv 0x00a44ff0
-ControllerAllocation* CreateControllerAllocation()
+// src: EXE 0x00a44ff0
+ControllerAllocation* NiUVData_CreateObject()
 {
     return new ControllerAllocation;
 }
@@ -2442,7 +2445,7 @@ struct Obj
     Obj* next;
     Obj* Cast(const RTT*) throw();
     bool RemoveExtraDataAt(unsigned short) throw();
-    void ClearExtraData() throw();
+    void NiObjectNET_RemoveAllExtraData() throw();
     void IncRefCount() throw()
     {
         InterlockedIncrement(&refs);
@@ -2693,7 +2696,7 @@ Result* __cdecl CreateResultFromStreamObject(Stream* stream, unsigned int index,
         }
         controller = next.m_pObject;
     }
-    source->ClearExtraData();
+    source->NiObjectNET_RemoveAllExtraData();
     return result;
 }
 
@@ -4410,7 +4413,7 @@ struct FUN_00a5fa50_Obj
     {}
     virtual void vf34()
     {}
-    virtual void vf38()
+    virtual void PrintInfo()
     {}
     virtual void vf3C()
     {}

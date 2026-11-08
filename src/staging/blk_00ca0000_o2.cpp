@@ -766,7 +766,8 @@ struct ConstructionAllocation
 
 // Allocates and constructs a new bhkPackedNiTriStripsShape and returns it.
 // @fnv 0x00ca53b0
-bhkPackedNiTriStripsShape* CreatePackedNiTriStripsShape()
+// src: EXE 0x00ca53b0
+bhkPackedNiTriStripsShape* bhkPackedNiTriStripsShape_CreateObject()
 {
     bhkPackedNiTriStripsShape* shape = (bhkPackedNiTriStripsShape*)
         bhkPackedNiTriStripsShape::operator new(sizeof(bhkPackedNiTriStripsShape));
@@ -5354,7 +5355,7 @@ struct FUN_00cac110_Class
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -5947,13 +5948,13 @@ struct CB0AD0MemoryRouter
 };
 
 extern "C" CB0AD0MemoryRouter& __cdecl hkMemoryRouter_getInstance();
-char* AllocateWithHeader(CB0AD0Allocator* pkHeap, int iSize);
+char* hkMemoryRouter_easyAlloc(CB0AD0Allocator* pkHeap, int iSize);
 void CopyIfNonEmpty(char* pcDst, const char* pcSrc, int iCount);
 
 static inline char* CB0AD0AllocateChars(int iCount)
 {
     CB0AD0Allocator* pkHeap = hkMemoryRouter_getInstance().m_pStreamAllocator;
-    return AllocateWithHeader(pkHeap, iCount);
+    return hkMemoryRouter_easyAlloc(pkHeap, iCount);
 }
 
 // @fnv 0x00cb0ad0
@@ -6837,7 +6838,8 @@ struct FUN_00cbc550
 };
 // Allocates and constructs a new FUN_00cbc550 object, returning its pointer.
 // @fnv 0x00cbc5e0
-FUN_00cbc550* __cdecl CreateFUN_00cbc550()
+// src: EXE 0x00cbc5e0
+FUN_00cbc550* __cdecl bhkLiquidAction_CreateObject()
 {
     return new FUN_00cbc550;
 }
@@ -8536,7 +8538,8 @@ class BA2D0Object
 };
 // Allocates and constructs a new BA2D0Object, returning the pointer.
 // @fnv 0x00cba2d0
-BA2D0Object* CreateBA2D0Object()
+// src: EXE 0x00cba2d0
+BA2D0Object* bhkRagdollTemplateData_CreateObject()
 {
     return new BA2D0Object;
 }
@@ -11349,7 +11352,7 @@ struct FNVTaskMemoryRouter;
 
 extern "C" int __cdecl hkString_strLen(int);
 extern "C" FNVTaskMemoryRouter* __cdecl hkMemoryRouter_getInstance();
-extern "C" void* __cdecl AllocateWithHeader(void* allocator, unsigned int count);
+extern "C" void* __cdecl hkMemoryRouter_easyAlloc(void* allocator, unsigned int count);
 extern "C" void __cdecl hkString_strCpy(void* block, int value);
 
 struct CbobRouter
@@ -11368,7 +11371,7 @@ static __declspec(noinline) void* strDup(char* s)
 {
     unsigned int count = (unsigned int)(hkString_strLen((int)s) + 1);
     CbobRouter* router = (CbobRouter*)hkMemoryRouter_getInstance();
-    void* block = AllocateWithHeader(router->allocator, count);
+    void* block = hkMemoryRouter_easyAlloc(router->allocator, count);
     hkString_strCpy(block, (int)s);
     return block;
 }
@@ -11691,7 +11694,8 @@ struct FUN_00cbaf20_class
 
 // Allocates a FUN_00cbaf20_class instance and assigns it the fixed string stored at DAT_011f49e0.
 // @fnv 0x00cbb0c0
-FUN_00cbaf20_class* CreateNamedObject()
+// src: EXE 0x00cbb0c0
+FUN_00cbaf20_class* bhkRagdollTemplate_CreateObject()
 {
     FUN_00cbaf20_class* obj = new FUN_00cbaf20_class();
     obj->AssignFixedString(*(const NiFixedString*)&DAT_011f49e0);
@@ -12109,7 +12113,7 @@ static __declspec(noinline) char* strNdup(char* text, int count)
     int length = hkString_strLen((int)text);
     if (length > count)
         length = count;
-    char* result = (char*)AllocateWithHeader(hkMemoryRouter_getInstance()->allocator, length + 1);
+    char* result = (char*)hkMemoryRouter_easyAlloc(hkMemoryRouter_getInstance()->allocator, length + 1);
     CopyIfNonEmpty(result, text, length);
     result[length] = 0;
     return result;
@@ -12118,7 +12122,7 @@ static __declspec(noinline) char* strNdup(char* text, int count)
 static __declspec(noinline) void* strDup(char* text)
 {
     int length = hkString_strLen((int)text) + 1;
-    void* result = AllocateWithHeader(hkMemoryRouter_getInstance()->allocator, length);
+    void* result = hkMemoryRouter_easyAlloc(hkMemoryRouter_getInstance()->allocator, length);
     hkString_strCpy(result, (int)text);
     return result;
 }
@@ -12184,7 +12188,7 @@ extern "C" char* __cdecl strNdup(const char* text, int count);
 static __declspec(noinline) void* strDup(char* s)
 {
     int n = hkString_strLen((int)s) + 1;
-    void* block = AllocateWithHeader(hkMemoryRouter_getInstance()->allocator, n);
+    void* block = hkMemoryRouter_easyAlloc(hkMemoryRouter_getInstance()->allocator, n);
     hkString_strCpy(block, (int)s);
     return block;
 }
@@ -13689,7 +13693,7 @@ struct FUN_00cb8610_Class
     {}
     virtual void vf34()
     {}
-    virtual void vf38()
+    virtual void PrintInfo()
     {}
     virtual void vf3C()
     {}
@@ -14761,7 +14765,7 @@ static __declspec(noinline) void* strNdup(char* s, int maxLen)
     int len = hkString_strLen((int)s);
     if (len > maxLen)
         len = maxLen;
-    char* p = (char*)AllocateWithHeader(hkMemoryRouter_getInstance()->allocator, len + 1);
+    char* p = (char*)hkMemoryRouter_easyAlloc(hkMemoryRouter_getInstance()->allocator, len + 1);
     CopyIfNonEmpty(p, (int)s, len);
     p[len] = 0;
     return p;

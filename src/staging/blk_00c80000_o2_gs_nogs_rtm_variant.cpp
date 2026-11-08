@@ -1533,7 +1533,7 @@ struct S_00c85ce0
     virtual void vf0f();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -1585,7 +1585,7 @@ struct FUN_00c87600_Base
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -6698,7 +6698,7 @@ struct C817D0Cls
     virtual void vf2c();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3c();
     virtual void vf40();
     virtual void vf44();
@@ -6707,7 +6707,7 @@ struct C817D0Cls
     virtual void vf50();
     virtual void vf54();
     virtual void vf58();
-    virtual void vf5c();
+    virtual void applyForce();
     virtual void vf60();
     virtual void vf64();
     virtual void vf68();
@@ -7083,7 +7083,7 @@ struct AttachObject
 };
 struct AttachData
 {
-    unsigned char HasObjectOfType()
+    unsigned char HasObject()
     {
         return object08 != 0;
     }
@@ -9904,7 +9904,7 @@ struct S00c90090_Self
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();

@@ -691,7 +691,7 @@ struct CloningProcess;
 struct TileShaderProperty_00a14a20;
 struct blob16 { char b[16]; };
 struct FUN_00a14a20_shell : public Font {
-    NiTriShape* CreateTextShape(int, void*, bool);
+    NiTriShape* Font_MakeTriShape(int, void*, bool);
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
@@ -749,7 +749,8 @@ struct FUN_00c5cf30 : NiAVObject {
 
 // Builds a NiTriShape with vertex, texture and index buffers, attaches a TileShaderProperty_00a14a20, copies the color, and optionally prepares the object.
 // @fnv 0x00a14a20
-NiTriShape* FUN_00a14a20_shell::CreateTextShape(int aiChars, void* axColor, bool abPrepareObject)
+// src: COMMUNITY 0x00a14a20
+NiTriShape* FUN_00a14a20_shell::Font_MakeTriShape(int aiChars, void* axColor, bool abPrepareObject)
 {
     unsigned short* pvert_order;
     TileShaderProperty_00a14a20* ptsp;
@@ -2673,7 +2674,7 @@ RunNode* FontData::CreateTextRunNode(SStr* text, Info_* info) {
     if (info->GetStart() < 2) info->iStart = 0x7fffffff;
     if (info->GetEnd() < 2) info->iEnd = 0x7fffffff;
     RunNode* pNode = 0;
-    pNode = ParseLayout(text, info);
+    pNode = FontManager_PrepHypertext(text, info);
     if (pNode) return pNode;
     pNode = new RunNode(info->GetStart(), info->GetEnd(), info->GetLeading());
     Pad38();
@@ -2879,7 +2880,7 @@ struct FontRenderer : Font {
     unsigned int GetIconCount() { return ((FinalizerView*)ButtonIcons)->count; }
     void Font_CreateText(int*,int*,int*,int,int,int,char,int,ShapeView**,ShapeView**);
     void CheckForVariablesInText(int,FUN_00759330*);
-    ShapeView* CreateTextShape(int,int,int);
+    ShapeView* Font_MakeTriShape(int,int,int);
     ShapeView* MakeButton();
     void UpdateIconGeometry(int,ShapeView*,FontPoint3&);
     void BuildGlyphQuad(GlyphData*,int,ShapeView*,FontPoint3&,int);
@@ -2923,7 +2924,7 @@ void FontRenderer::Font_CreateText(int* source,int* width,int* height,int count,
     position6.x=(float)linePositionTmp;
     position6.z=(pFontData->fBaseLine-fFontHeight)*2.0f;
     position6.y=0.0f;
-    *primary=CreateTextShape(layoutX.GetGeometryKey(),flags,1);
+    *primary=Font_MakeTriShape(layoutX.GetGeometryKey(),flags,1);
     FontPoint3 kIter;
     kIter.x=0.0f; kIter.y=position6.y; kIter.z=position6.z;
     (*primary)->SetPosition(kIter);
@@ -3277,12 +3278,13 @@ struct FUN_00a17390_shell : FontManager {
     Font* GetFont(unsigned int number) { return pFont[number]; }
     const char* GetFontFile(unsigned int number) { return GetFont(number)->pFontFile; }
     LayoutString Font_CollectTo(const char* input, int* index, unsigned int stopMask, unsigned int allowedMask, unsigned int* outFlags, char* currentChar, bool parseEntities);
-    LayoutBlock* ParseLayout(LayoutString& source, LayoutResult* result);
+    LayoutBlock* FontManager_PrepHypertext(LayoutString& source, LayoutResult* result);
 };
 inline ButtonIcon& GetIcon(Font* font, unsigned int index) { return ((FontButtonIconArray*)font->ButtonIcons)->pBuffer[index]; }
 // Parses HTML-like markup from source into a LayoutBlock, tracking font, color, alignment, and image attributes, then updates result dimensions.
 // @fnv 0x00a17390
-LayoutBlock* FUN_00a17390_shell::ParseLayout(LayoutString& source, LayoutResult* result) {
+// src: COMMUNITY 0x00a17390
+LayoutBlock* FUN_00a17390_shell::FontManager_PrepHypertext(LayoutString& source, LayoutResult* result) {
     bool layout=false;
     char* input=AllocateText(source.Length()+1);
     strcpy(input,source.Get());
@@ -3948,7 +3950,7 @@ void Builder::BuildPage(Node* node,Layout* layout){
 
 Page* pageSlot35=0;int remainingSlot28=index;int iconIndexSlot11=0;Shape* shapesSlot32[8];int indices[8];Link<Page*>* cursorSlot10=pages.Head();while(cursorSlot10&&remainingSlot28--)pages.Next(cursorSlot10);if(cursorSlot10)pageSlot35=cursorSlot10->value;else return;
 
-for(unsigned int fontIndex=0;fontIndex<8;fontIndex++){indices[fontIndex]=0;shapesSlot32[fontIndex]=0;int count=pageSlot35->CountEmptyNameEntries(fontIndex);if(count>0){shapesSlot32[fontIndex]=GetDebrisManager()->GetFont(fontIndex)->CreateTextShape(count,&Color(117.0f/255.0f,59.0f/255.0f,33.0f/255.0f,1.0f),true);shapesSlot32[fontIndex]->SetPosition(DAT_011f426c);}}
+for(unsigned int fontIndex=0;fontIndex<8;fontIndex++){indices[fontIndex]=0;shapesSlot32[fontIndex]=0;int count=pageSlot35->CountEmptyNameEntries(fontIndex);if(count>0){shapesSlot32[fontIndex]=GetDebrisManager()->GetFont(fontIndex)->Font_MakeTriShape(count,&Color(117.0f/255.0f,59.0f/255.0f,33.0f/255.0f,1.0f),true);shapesSlot32[fontIndex]->SetPosition(DAT_011f426c);}}
 
 List<Shape*> imagesSlot52;Shape* iconsSlot17=0;if(!((Icons*)GetDebrisManager()->GetFont(0)->ButtonIcons)->Empty()){iconsSlot17=GetDebrisManager()->GetFont(0)->MakeButton();iconsSlot17->SetPositionThroughShape(DAT_011f426c);imagesSlot52.Add(iconsSlot17);}
 
@@ -4452,7 +4454,7 @@ struct StringShapeBuilder : public Font {
     NiTriShape* Font_MakeString(float fX, float fY, float fZ, SStr* text, int* piX,
                              int iFlags, void* pUnk, bool bShift, bool bSkip);
     void Font_GetLineOffsets(char* str, float* pSize, float* pOut, int iFlags, int iStart);
-    NiTriShape* CreateTextShape(int count, void* p, bool b);
+    NiTriShape* Font_MakeTriShape(int count, void* p, bool b);
 };
 
 // Builds a NiTriShape for a text string by mapping each character to glyph geometry, handling newlines and tabs, and updating the output x-offset.
@@ -4483,7 +4485,7 @@ NiTriShape* StringShapeBuilder::Font_MakeString(float fX, float fY, float fZ, SS
     if (kColor == 0)
         return 0;
 
-    NiTriShape* kPos = this->CreateTextShape((int)kColor, pUnk, bSkip);
+    NiTriShape* kPos = this->Font_MakeTriShape((int)kColor, pUnk, bSkip);
 
     FontPoint3 kOrigin2;
     kOrigin2.x = fX;

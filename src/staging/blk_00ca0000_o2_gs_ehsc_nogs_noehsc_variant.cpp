@@ -239,7 +239,7 @@ struct S_00cb79d0_Base : public A51BF0Base
 
     S_00cb79d0_Base();
 };
-bhkPackedNiTriStripsShape* CreatePackedNiTriStripsShape();
+bhkPackedNiTriStripsShape* bhkPackedNiTriStripsShape_CreateObject();
 struct HC1Base
 {
     bool BSPackedAdditionalGeometryData_RegisterStreamables(NiStream*);
@@ -2621,7 +2621,7 @@ struct FUN_00cac110_Class
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -4199,7 +4199,7 @@ class BA2D0Object
     int unk38;
     int unk3C;
 };
-BA2D0Object* CreateBA2D0Object();
+BA2D0Object* bhkRagdollTemplateData_CreateObject();
 // Prelude helper whose body the unit prelude omits.
 // NiTMap destructor: remove all entries, then the base map frees its hash table.
 void __cdecl CBC740NiFree(void* pvMem);
@@ -5601,7 +5601,7 @@ struct FUN_00caff80 : CAFBase
 struct FNVTaskMemoryRouter;
 extern "C" int __cdecl hkString_strLen(int);
 extern "C" FNVTaskMemoryRouter* __cdecl hkMemoryRouter_getInstance();
-extern "C" void* __cdecl AllocateWithHeader(void* allocator, unsigned int count);
+extern "C" void* __cdecl hkMemoryRouter_easyAlloc(void* allocator, unsigned int count);
 extern "C" void __cdecl hkString_strCpy(void* block, int value);
 struct CbobRouter
 {
@@ -5754,7 +5754,7 @@ struct FUN_00cbaf20_class
     FUN_00cbaf20_class();
     void AssignFixedString(const NiFixedString& name);
 };
-FUN_00cbaf20_class* CreateNamedObject();
+FUN_00cbaf20_class* bhkRagdollTemplate_CreateObject();
 struct FUN_00cbf540_class
 {
     void __thiscall CreateObjects(int* a, int b);

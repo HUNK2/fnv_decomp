@@ -450,7 +450,7 @@ if(input.m_collisionQuality.val()&&m_uiMaterialIndex>0)
 const hkpSphereShape*sphereA=static_cast<const hkpSphereShape*>(bodyA.getShape());
 hkVec4X weldedNormal=reinterpret_cast<const hkVec4X&>(event.m_kPoint.getSeparatingNormal());
 hkVec4X pointPos=reinterpret_cast<const hkVec4X&>(event.m_kPoint.getPosition());
-hkpConvexShape::WeldResult weldResult=static_cast<hkpConvexShape::WeldResult>(triB->WeldContactPoint(&featureOutput.m_auiVertexIds[0],m_uiMaterialIndex,reinterpret_cast<hkVector4&>(pointPos),&bodyB.getTransform(),sphereA,&bodyA.getTransform(),reinterpret_cast<hkVector4&>(weldedNormal)));
+hkpConvexShape::WeldResult weldResult=static_cast<hkpConvexShape::WeldResult>(triB->hkpTriangleShape_weldContactPointImpl(&featureOutput.m_auiVertexIds[0],m_uiMaterialIndex,reinterpret_cast<hkVector4&>(pointPos),&bodyB.getTransform(),sphereA,&bodyA.getTransform(),reinterpret_cast<hkVector4&>(weldedNormal)));
 if(weldResult==hkpConvexShape::WELD_RESULT_REJECT_CONTACT_POINT)
 {
 return;

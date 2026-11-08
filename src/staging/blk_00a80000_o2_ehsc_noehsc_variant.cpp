@@ -800,7 +800,7 @@ struct NiParticleObject : NiParticleBase {
 };
 extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern const char DAT_010a1024;
-NiParticleObject* __cdecl CreateNiParticleObject();
+NiParticleObject* __cdecl NiBSPNode_CreateObject();
 extern int DAT_010a13ac;
 void __declspec(noreturn) FUN_00aa0dc0();
 struct FUN_00a9b4a0_Class {
@@ -1114,7 +1114,7 @@ public:
     unsigned short m_usG;
     bool m_bFlag;
 };
-BA87920Object* __cdecl CreateBA87920Object();
+BA87920Object* __cdecl NiScreenElementsData_CreateObject();
 extern float g_fRadiansPerRevolution;
 extern float DAT_011f52e0[];
 extern float DAT_011f4ae0[];
@@ -1169,7 +1169,7 @@ struct NiPairHolder {
     unsigned int unk40;
     void FUN_00a67c00();
 };
-NiPairHolder* __cdecl CreateNiPairHolder(void);
+NiPairHolder* __cdecl NiLinesData_CreateObject(void);
 struct AlphaBlockDecoder {
     unsigned int unk00;
     unsigned int unk04;

@@ -92,8 +92,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -2003,12 +2003,12 @@ struct MeshOwner
     int m_children;
     S_00d56880_Elem* AppendElement();
     int hkpExtendedMeshShape__getNumChildShapesInShapesSubpart(int);
-    int AppendShapeAndExpandBounds(volatile int);
+    int hkpExtendedMeshShape_addShapesSubpart(volatile int);
 };
 // Appends a shape element, expands the owner AABB to include it, and returns the new element index.
 // @fnv 0x00d56900
-// src: GUESS 0x00d56900 (confidence: medium)
-int MeshOwner::AppendShapeAndExpandBounds(volatile int key)
+// src: COMMUNITY 0x00d56900
+int MeshOwner::hkpExtendedMeshShape_addShapesSubpart(volatile int key)
 {
     S_00d56880_Elem* elem = AppendElement();
     ((MeshEntry*)elem)->CopySubpartFields(key);

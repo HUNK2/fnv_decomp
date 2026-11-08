@@ -4078,7 +4078,8 @@ inline void* __cdecl operator new(unsigned int, void* memory) throw() {
 }
 // Allocates a NiFloatInterpolator via NiMemObject::operator new and placement-constructs it, returning null on allocation failure.
 // @fnv 0x00a3c570
-NiFloatInterpolator* __cdecl CreateNiFloatInterpolator() {
+// src: EXE 0x00a3c570
+NiFloatInterpolator* __cdecl NiFloatInterpolator_CreateObject() {
     void* memory = NiMemObject::operator new(sizeof(NiFloatInterpolator));
     if (memory)
         return ::new (memory) NiFloatInterpolator;

@@ -60,7 +60,7 @@ void SomeClass::Destroy()
     vtable = &DAT_0102e388;
 }
 
-char* __cdecl AllocateWithHeader(hkMemoryAllocator* alloc, int numBytes);
+char* __cdecl hkMemoryRouter_easyAlloc(hkMemoryAllocator* alloc, int numBytes);
 void __cdecl hkMemoryRouter_easyFree(hkMemoryAllocator* alloc, void* p);
 extern "C" void __cdecl hkString_memSet(void* dst, int c, int n);
 extern "C" void __cdecl hkString_memCpy(void* dst, const void* src, int nbytes);
@@ -80,7 +80,7 @@ struct E06490Stack
 void E06490Stack::GrowBuffer()
 {
     int newCapacity = m_pRayCursor * 2;
-    char* newBuffer = AllocateWithHeader(&GetMoppMemoryRouter().heap(), newCapacity);
+    char* newBuffer = hkMemoryRouter_easyAlloc(&GetMoppMemoryRouter().heap(), newCapacity);
     hkString_memSet(newBuffer, 0xcd, m_pRayCursor);
     hkString_memCpy(newBuffer + m_pRayCursor, m_buffer, m_pRayCursor);
     char* oldBuffer = m_buffer;

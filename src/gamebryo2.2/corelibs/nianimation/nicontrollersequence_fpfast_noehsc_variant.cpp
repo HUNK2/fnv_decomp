@@ -20,7 +20,7 @@ struct BaseH
 extern "C" void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 struct FUN_00a30580_shell
 {
-    bool __thiscall IsNotInChain(void* arg);
+    bool __thiscall VerifyDependencies(void* arg);
 };
 void __cdecl ReleaseObjectArray(void*);
 struct MM_00a34450
@@ -292,7 +292,7 @@ struct SequenceA30970 : NiObject
 };
 struct FUN_00a30c80_shell
 {
-    unsigned __int64 __thiscall IsNotInChain(void* arg);
+    unsigned __int64 __thiscall VerifyDependencies(void* arg);
     bool __thiscall CanSyncTo(void* arg);
 };
 bool __stdcall MatchesTextKeys(void* arg);
@@ -576,7 +576,7 @@ struct FUN_00a32bc0_cls
     SlotInfo* m_pInfos;
 
     bool NiControllerSequence_ReallocateArrays();
-    int AssignSlot(RefObj* p1, unsigned int p2, unsigned char p3);
+    int AddInterpolator(RefObj* p1, unsigned int p2, unsigned char p3);
 };
 struct FUN_00a34480_obj
 {
@@ -917,7 +917,7 @@ struct UpdateNote
 };
 struct UpdateNoteManager
 {
-    void DispatchByKey(UpdateNote* note);
+    void BSAnimNoteListener_Update(UpdateNote* note);
 };
 struct UpdateOwner
 {

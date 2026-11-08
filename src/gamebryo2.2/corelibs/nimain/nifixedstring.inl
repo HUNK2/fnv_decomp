@@ -22,7 +22,8 @@ NiFixedString& NiFixedString::operator=(const char* pcString)
 #include "nifixedstring_facegen.h"
 
 // @fnv 0x0065b410
-bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer<NiTexture>& texture, unsigned int uiLimit)
+// src: COMMUNITY 0x0065b410
+bool BSFaceGenModel::ApplyCoordinateTexturingToMesh(FaceGenCoordinates* coord, NiPointer<NiTexture>& texture, unsigned int uiLimit)
 {
     // MSVC9 local allocation depends on these names and declaration scopes.
     unsigned int uiWidth; // EGT basis group selected for accumulation
@@ -134,7 +135,8 @@ bool BSFaceGenModel::ApplyTextureCoordinate(FaceGenCoordinates* coord, NiPointer
 }
 
 // @fnv 0x0065c3a0
-void BSFaceGenModel::ClearTextureData()
+// src: COMMUNITY 0x0065c3a0
+void BSFaceGenModel::UnloadEGTData()
 {
     if (m_kTextureSlots && m_kTextureSlots->m_pTextureData) {
         delete m_kTextureSlots->m_pTextureData;

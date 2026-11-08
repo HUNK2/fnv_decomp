@@ -57,7 +57,8 @@ BGSMenuIcon* BGSEquipType::GetEquipTypeIcon(int aiIndex)
 
 // Looks up the BGSMenuIcon for aeType and returns its full name, or a fallback string when none exists.
 // @fnv 0x00479540
-char* BGSEquipType::GetEquipTypeName(int aeType)
+// src: COMMUNITY 0x00479540
+char* BGSEquipType::GetEquipTypeIconFilename(int aeType)
 {
     BGSMenuIcon* picon = GetEquipTypeIcon(aeType);
     if (picon)

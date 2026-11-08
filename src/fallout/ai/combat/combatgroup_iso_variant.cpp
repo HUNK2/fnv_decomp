@@ -223,7 +223,7 @@ TESForm* __cdecl _ref_004839c0(unsigned int);
 struct Holder00985930
 {
     unsigned int m_data;
-    void __thiscall ResolveStoredActor(int a1, int a2);
+    void __thiscall CombatTarget_InitLoadGame(int a1, int a2);
 };
 struct FUN_0098f560
 {
@@ -671,7 +671,7 @@ struct FUN_0098a3c0_shell
 };
 struct FUN_0098c590_shell
 {
-    CombatSearchDoor* FindParentSpaceNode(int param);
+    CombatSearchDoor* CombatGroup_GetCombatSearchDoor(int param);
 };
 struct FUN_0098c780_shell
 {
@@ -925,7 +925,7 @@ struct CombatTimeStampLoadGame
 extern double DAT_0101db88;
 struct FUN_00985be0_shell : public FUN_00985bb0_Class
 {
-    NiColorA* GetEffectColor(NiColorA* result);
+    NiColorA* CombatSearchLocation_GetColor(NiColorA* result);
 };
 void __cdecl UnTintScenegraph(NiAVObject*);
 struct ActorDispatchBase
@@ -1391,7 +1391,7 @@ struct FUN_00986150_shell
     void CombatGroup_Update();
     void RecountActors();
     void CombatGroup_UpdateTargets();
-    void UpdateChoiceSelection();
+    void CombatGroup_UpdateGroupStrategy();
     void CombatGroup_UpdateSearch();
     void CombatGroup_UpdateCombatStrength();
     void UpdateGroups();
@@ -3669,7 +3669,7 @@ struct DebugSearchPoint
 {
     const DebugPoint& FUN_006815c0();
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
-    DebugColor GetEffectColor();
+    DebugColor CombatSearchLocation_GetColor();
 };
 struct DebugMember
 {
@@ -4310,7 +4310,7 @@ struct Group
     unsigned int CombatGroup_GetMemberCount();
     Actor* GetIntAt(unsigned int);
     bool CombatGroup_IsSearching();
-    void StoreRecord(Position*, float, int);
+    void CombatGroup_AddSearchLocation(Position*, float, int);
     void UpdateTargetPerception(Actor*, Actor*, int*, Time*, bool*, bool*);
 };
 // @fnv 0x009887b0
@@ -4491,7 +4491,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                         strengthLocal6 = (highestLocal52 - (int)*DAT_011cd45c.Setting_Float_00403e20()) / 2.0 + 40.0;
                     impactLocal48.BGSWorldLocation_BGSWorldLocation();
                     impactLocal48.SetTripleAndValue(&hitLocal9->point, subject->TESObjectREFR_GetSpace());
-                    StoreRecord(&impactLocal48, strengthLocal6, 0);
+                    CombatGroup_AddSearchLocation(&impactLocal48, strengthLocal6, 0);
                     targetLocal40->hitTime = hitLocal9->time;
                 }
             }
@@ -4990,7 +4990,7 @@ void Group::CombatGroup_UpdateSearch()
                     {
                         regionsSlot11.FUN_006cf1b0(memberRegionSlot0);
                         // The local Heading(0) view dispatched this same 0x2BC virtual slot.
-                        headingsSlot11.AppendFloat(FUN_004b1480(member->GetCurrentTargetDistance(false)));
+                        headingsSlot11.AppendFloat(FUN_004b1480(member->GetHeading(false)));
                     }
                 }
                 if (regionsSlot11.FUN_0044ddc0())
@@ -5278,7 +5278,7 @@ struct UpdateOwner;
 struct UpdateElement
 {
     unsigned int data;
-    void ResolveStoredActor(unsigned int, UpdateOwner*);
+    void CombatTarget_InitLoadGame(unsigned int, UpdateOwner*);
 };
 struct UpdateArray
 {
@@ -5748,7 +5748,7 @@ struct AssessmentProcess
 struct AssessmentActor : Actor
 {
     float Actor_GetWeaponDamagePerSecond();
-    float GetModifiedDamagePerSecond(float);
+    float Actor_CalculateCombatStrength(float);
     bool Actor_IsFleeing(int);
 };
 struct TargetAssessmentEntry

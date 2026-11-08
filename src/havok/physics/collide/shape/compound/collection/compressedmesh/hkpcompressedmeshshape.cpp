@@ -122,8 +122,8 @@ void* __thiscall CompressedMeshDeleteCall::FUN_00e3deb0(unsigned int uiFlags)
 }
 
 // @fnv 0x00e3c9d0
-// src: GUESS 0x00e3c9d0 (confidence: high)
-__declspec(noinline) unsigned int __stdcall hkpCompressedMeshShape_ReturnConstant_0xF0(unsigned int a1, unsigned int a2)
+// src: EXE 0x00e3c9d0
+__declspec(noinline) unsigned int __stdcall hkpCompressedMeshShape_calcSizeForSpu(unsigned int a1, unsigned int a2)
 {
     return 0xF0;
 }

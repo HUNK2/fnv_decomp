@@ -1004,7 +1004,8 @@ struct FUN_004fee20_shell
 };
 // Returns true if form is a talking activator (type 0x16) that is a radio station and passes the FUN_004fee20 check.
 // @fnv 0x004fee60
-bool IsRadioStationTalkingActivator(TESForm* form)
+// src: COMMUNITY 0x004fee60
+bool BGSTalkingActivator_IsNonPipboyRadioStation(TESForm* form)
 {
     bool result = false;
     if (form && form->GetFormType() == 0x16)
@@ -1019,7 +1020,7 @@ bool IsRadioStationTalkingActivator(TESForm* form)
 
 struct FUN_004e83e0_class
 {
-    bool __thiscall IsPlayerNearWaterActor(void* arg);
+    bool __thiscall TESWaterSystem_ActorWithinRangeOfWadingWater(void* arg);
 };
 struct ReferenceList4e
 {
@@ -1033,7 +1034,7 @@ struct FUN_004e8950_class
 {
     bool __thiscall TESWaterSystem_CheckUpdateActorsInWater();
 };
-// Iterates the list at offset 0x3c and returns true if IsPlayerNearWaterActor accepts any referenced object, otherwise false.
+// Iterates the list at offset 0x3c and returns true if TESWaterSystem_ActorWithinRangeOfWadingWater accepts any referenced object, otherwise false.
 // @fnv 0x004e8950
 // src: COMMUNITY 0x004e8950
 bool __thiscall FUN_004e8950_class::TESWaterSystem_CheckUpdateActorsInWater()
@@ -1051,7 +1052,7 @@ bool __thiscall FUN_004e8950_class::TESWaterSystem_CheckUpdateActorsInWater()
                 TESObjectREFR* item = *reinterpret_cast<TESObjectREFR**>(
                     reinterpret_cast<FUN_006317a0_struct*>(reinterpret_cast<unsigned char*>(this) + 0x3c)
                         ->AddEight(count));
-                if (reinterpret_cast<FUN_004e83e0_class*>(this)->IsPlayerNearWaterActor(item))
+                if (reinterpret_cast<FUN_004e83e0_class*>(this)->TESWaterSystem_ActorWithinRangeOfWadingWater(item))
                     return true;
             }
             count = reinterpret_cast<unsigned int>(next);

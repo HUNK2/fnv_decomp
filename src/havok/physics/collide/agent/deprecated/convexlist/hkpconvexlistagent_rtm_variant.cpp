@@ -45,7 +45,7 @@ typedef union __declspec(intrin_type) __declspec(align(16)) {
 #include "../../../../../../../include/hkpGskfAgent.h"
 
 extern "C" void __cdecl hkpAgent1nSector_ProcessEntries_00da3510(void*, void*);
-extern "C" void __cdecl hkpConvexListAgent_QueryClosestPointsAfterHullTest(int, int, int, int);
+extern "C" void __cdecl hkpConvexListAgent_staticGetClosestPoints(int, int, int, int);
 extern "C"
 {
     void __cdecl hkpConvexListAgent_staticGetPenetrations(void* a, void* b, void* c, void* d);
@@ -288,8 +288,8 @@ struct ContactPointPair
     const void* m_pBodyB;
 };
 // @fnv 0x00d339d0
-// src: GUESS 0x00d339d0 (confidence: medium)
-extern "C" void __cdecl hkpConvexListAgent_QueryClosestPointsAfterHullTest(int a1, int a2, int a3, int a4)
+// src: COMMUNITY 0x00d339d0
+extern "C" void __cdecl hkpConvexListAgent_staticGetClosestPoints(int a1, int a2, int a3, int a4)
 {
     {
         hkMonitorStream* pForm = (hkMonitorStream*)TlsGetValue(DAT_0126835c);

@@ -521,17 +521,17 @@ public:
 };
 int TruncateFloatToInt(float value);
 bool TESForm_QEndianSwapOnSave();
-void __cdecl AppendChunk(unsigned int fourcc, void* buf, unsigned int size);
+void __cdecl TESForm___AddChunkData(unsigned int fourcc, void* buf, unsigned int size);
 void __cdecl TESForm_AddChunkArray(unsigned int fourcc, void* buf, unsigned int size);
 int __cdecl FUN_00ec7d40(int v);
 void __cdecl FNV_Warning(const char* fmt, ...);
-void __cdecl CompressSaveLoadRecord();
+void __cdecl TESForm_CompressSaveBuffer();
 int TESLandTexture_GetDefaultTexture();
 void __fastcall QuestPerkEntryData_Endian(void* p);
 struct FUN_0084e3a0_Class { int GetHavokWorldObjectCountInSceneGraph_0084e3a0(); };
 struct FUN_00535aa0_Class { void OBJ_WEAP_CRITICAL_Endian(); };
-struct FUN_004855a0_shell { void BeginFormRecord(); };
-struct FUN_00485680_shell { void FinishFormRecord(); };
+struct FUN_004855a0_shell { void TESForm_StartForm(); };
+struct FUN_00485680_shell { void TESForm_CloseForm(); };
 extern double DAT_0102dfe0;
 extern double DAT_0101e568;
 extern double DAT_01012060;
@@ -1355,7 +1355,7 @@ struct Format_5345c0 {
 };
 struct Geometry_5345c0 {
     unsigned int NiGeometry_GetNormals();
-    NiColorA* GetNextProc();
+    NiColorA* NiGeometry_GetColors();
     NiGeometryData* NiGeometry_GetModelData();
 };
 struct Node_5345c0 { Geometry_5345c0* FUN_0043b4a0(unsigned int); };
@@ -1466,7 +1466,7 @@ extern NiPoint3 DAT_011f426c;
 extern float DAT_01016970, DAT_01015f5c, DAT_010236e0;
 struct UpdateData {float time; bool a,b; int c; UpdateData(float,bool,bool);};
 struct Shape;
-struct GeomData {void FUN_00a67090(int); void FUN_00a67050(int); void FUN_004410f0(bool); void SetByteAtOffset38(int);};
+struct GeomData {void FUN_00a67090(int); void FUN_00a67050(int); void FUN_004410f0(bool); void SetKeepFlags(int);};
 
 struct Property {int FUN_008d8520(); void* GetStringAtOffset();};
 struct Model {struct Scene* NiObjectNET_GetControllers();};
@@ -2202,7 +2202,7 @@ struct LandTexturing : LandMemObject {
     char pad00[0x30];
     LandShaderSlot kShader;
     char pad34[0x6c];
-    void SetFullNameByType(int aiIndex, const char* apPath);
+    void BGSTextureSet_SetBGSTextureFilename(int aiIndex, const char* apPath);
 };
 
 struct LandShaderData {
@@ -2291,9 +2291,9 @@ void __cdecl TESObjectLAND_InitializeStatics() {
     DAT_011c9f08 = new LandTexturing();
     char acPath[260];
     BSsprintf(acPath, 260, s_szLandscapeFormat, DAT_011ca004.FUN_00403df0());
-    DAT_011c9f08->SetFullNameByType(0, acPath);
+    DAT_011c9f08->BGSTextureSet_SetBGSTextureFilename(0, acPath);
     BSsprintf(acPath, 260, s_szLandscapeFormat, DAT_011c9f8c.FUN_00403df0());
-    DAT_011c9f08->SetFullNameByType(1, acPath);
+    DAT_011c9f08->BGSTextureSet_SetBGSTextureFilename(1, acPath);
     DAT_011c3f2c->FUN_00726070()->RemoveNode(DAT_011c9f08);
     DAT_011c9f04 = new LandShaderData();
     DAT_011c9f04->FUN_00984f60(DAT_011c9f08);

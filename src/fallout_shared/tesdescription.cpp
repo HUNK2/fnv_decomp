@@ -71,18 +71,19 @@ void TESDescription::InitializeComponent()
     m_uiDescriptionFileOffset = 0;
 }
 
-void __cdecl WriteDescChunk(void*, int);
+void __cdecl TESDescription_SaveDescriptionData(void*, int);
 
 // @fnv 0x00482cb0
 // src: COMMUNITY 0x00482cb0
 void __thiscall TESDescription::Save_00482cb0()
 {
-    WriteDescChunk(this, 0x43534544);
+    TESDescription_SaveDescriptionData(this, 0x43534544);
 }
 
 void __cdecl TESForm_AddChunkArray(unsigned int, void*, unsigned int);
 // @fnv 0x00482cd0
-void __cdecl WriteDescChunk(void* apDesc, int aiChunk)
+// src: COMMUNITY 0x00482cd0
+void __cdecl TESDescription_SaveDescriptionData(void* apDesc, int aiChunk)
 {
     char empty;
     if (apDesc)

@@ -378,11 +378,12 @@ struct FUN_009b7060_shell
     int iValue;
     bool EffectSetting_IsFlagSetAny(int aeFlag);
     void FUN_00407e00(int aeFlag, bool abSet);
-    void ApplyCriticalHit();
+    void HitData_CheckCriticalStrike();
 };
 
 // @fnv 0x009b7060
-void FUN_009b7060_shell::ApplyCriticalHit()
+// src: COMMUNITY 0x009b7060
+void FUN_009b7060_shell::HitData_CheckCriticalStrike()
 {
     if (pTarget && reinterpret_cast<MagicTarget*>((char*)pTarget + 0x94)->CanReceiveMagicEffects())
         return;

@@ -234,7 +234,7 @@ void* __cdecl PrecipitationShader_CreateShader()
     pObj->v13c();
     pObj->v148();
     pObj->InitShaderConstants();
-    pObj->UseShaderDeclaration(pHost);
+    pObj->NiD3DShader_SetShaderDecl(pHost);
     return pObj;
 }
 

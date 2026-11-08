@@ -10,7 +10,8 @@
 #include "../../../../../include/NiBinaryStream.h"
 
 // @fnv 0x00c903b0
-__declspec(noinline) void __fastcall ReleaseUnserializedReference(hkReferencedObject* object)
+// src: COMMUNITY 0x00c903b0
+__declspec(noinline) void __fastcall hkReferencedObject_removeReferenceLockUnchecked(hkReferencedObject* object)
 {
     if (object->m_usMemSizeAndFlags)
     {
@@ -930,7 +931,7 @@ extern hkReferencedObjectLock* DAT_012681d4;
 static inline void replaceInstanceC904(hkReferencedObjectLock* p)
 {
     if (hkSingletonC904::DAT_012681d4)
-        ReleaseUnserializedReference(hkSingletonC904::DAT_012681d4);
+        hkReferencedObject_removeReferenceLockUnchecked(hkSingletonC904::DAT_012681d4);
     hkSingletonC904::DAT_012681d4 = p;
 }
 
@@ -1391,7 +1392,7 @@ void __cdecl hkReferencedObject_removeReferences(void* items, int count, int str
             char* item = (char*)items;
             do
             {
-                ReleaseUnserializedReference(*((hkReferencedObject**)item));
+                hkReferencedObject_removeReferenceLockUnchecked(*((hkReferencedObject**)item));
                 item += stride;
             } while (--count);
         }
@@ -1410,7 +1411,7 @@ void __cdecl hkReferencedObject_removeReferences(void* items, int count, int str
             char* item = (char*)items;
             do
             {
-                ReleaseUnserializedReference(*((hkReferencedObject**)item));
+                hkReferencedObject_removeReferenceLockUnchecked(*((hkReferencedObject**)item));
                 item += step;
             } while (--remaining);
         }

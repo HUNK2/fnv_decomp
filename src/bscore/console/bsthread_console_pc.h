@@ -13,7 +13,7 @@ extern "C"
     extern void(__stdcall* fnv_LeaveCriticalSection)(void*);
     __declspec(dllimport) void* __stdcall GetCurrentThread();
     __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-    __declspec(dllimport) void* __stdcall CreateThread(void*, unsigned long, unsigned long(__stdcall*)(void*), void*,
+    __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void*, unsigned long, unsigned long(__stdcall*)(void*), void*,
                                                        unsigned long, unsigned int*);
     __declspec(dllimport) unsigned long __stdcall ResumeThread(void*);
     __declspec(dllimport) int __stdcall SetThreadPriority(void*, int);

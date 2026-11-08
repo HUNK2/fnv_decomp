@@ -244,7 +244,7 @@ void ActiveEffect::Finalize()
 void ActiveEffect::LoadActiveEffectList(BGSLoadFormBuffer* buffer, BSSimpleList<ActiveEffect*>* list)
 {
     ActiveEffect_RevertActiveEffectList(buffer, list);
-    unsigned int count = buffer->ReadElementCount();
+    unsigned int count = buffer->LoadVariableSizedValue();
     for (unsigned int i = 0; i < count; ++i)
     {
         ActiveEffect* effect = ReadActiveEffect(buffer);
@@ -309,19 +309,19 @@ ActiveEffect* ActiveEffect::ReadActiveEffect(BGSLoadFormBuffer* buffer)
     spell = spell ? MagicItem::GetMagicItemByID(reinterpret_cast<unsigned int>(spell)) : 0;
     index = 0;
     buffer->ReadTypedData(static_cast<void*>(&index), 1u);
-    formID = buffer->ReadElementCount();
+    formID = buffer->LoadVariableSizedValue();
     if (spell)
     {
-        EffectItem* effect = spell->GetEffectItemAtIndex(index);
+        EffectItem* effect = spell->GetEffectItemByIndex(index);
         if (effect && effect->GetEffectSetting()->GetArchetype() == formID)
         {
-            buffer->ReadElementCount();
+            buffer->LoadVariableSizedValue();
             ActiveEffect* active = MagicEffectSystem_activeeffect::Activate(0, spell, effect, 0);
             active->LoadGame(buffer);
             return active;
         }
     }
-    buffer->AddToOffset(buffer->ReadElementCount());
+    buffer->AddToOffset(buffer->LoadVariableSizedValue());
     LogWarning(DAT_010794a8, archetype, index, formID);
     return 0;
 }

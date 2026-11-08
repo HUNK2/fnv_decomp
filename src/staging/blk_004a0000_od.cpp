@@ -293,11 +293,11 @@ bool FUN_004a4160_Class::ImpactDecalData_GetIsAlphaBlend()
 
 struct FUN_004a41a0_Class
 {
-    bool GetMaskedValue4();
+    bool DecalData_GetAlphaTesting();
 };
 // @fnv 0x004a41a0
-// src: GUESS 0x004a41a0 (confidence: medium)
-bool FUN_004a41a0_Class::GetMaskedValue4()
+// src: COMMUNITY 0x004a41a0
+bool FUN_004a41a0_Class::DecalData_GetAlphaTesting()
 {
     return ((unsigned char*)this)[0x1d] & 4;
 }
@@ -1656,7 +1656,7 @@ namespace fnv_004b0eb0 {
 int __cdecl GetOrCreateInstance(int);
 struct FUN_004b0910_This
 {
-    void __thiscall AddKeyedItems(void* a, void* b);
+    void __thiscall BSClonePools_MakeClones(void* a, void* b);
 };
 struct FUN_004b0eb0_class
 {
@@ -1664,13 +1664,13 @@ struct FUN_004b0eb0_class
     void* f4;
     void __thiscall BSCloneReserver_MakeClones();
 };
-// If both f0 and f4 are set, obtains an object via GetOrCreateInstance(1) and calls AddKeyedItems with f0 and f4.
+// If both f0 and f4 are set, obtains an object via GetOrCreateInstance(1) and calls BSClonePools_MakeClones with f0 and f4.
 // @fnv 0x004b0eb0
 // src: COMMUNITY 0x004b0eb0
 void __thiscall FUN_004b0eb0_class::BSCloneReserver_MakeClones()
 {
     if (f0 && f4)
-        ((FUN_004b0910_This*)GetOrCreateInstance(1))->AddKeyedItems(f0, f4);
+        ((FUN_004b0910_This*)GetOrCreateInstance(1))->BSClonePools_MakeClones(f0, f4);
 }
 }  // namespace fnv_004b0eb0
 
@@ -2226,7 +2226,8 @@ char* FUN_004a46b0_class::GetEntryAt(int aiIndex)
 
 // Allocates a box, applies its color and half extents, and sets its primitive type.
 // @fnv 0x004a5040
-BGSPrimitiveBox* __cdecl CreatePrimitiveBox(NiPoint3* point, int iSize)
+// src: COMMUNITY 0x004a5040
+BGSPrimitiveBox* __cdecl BGSPrimitive_CreateBox(NiPoint3* point, int iSize)
 {
     BGSPrimitiveBox* box = new BGSPrimitiveBox;
     // BGSPrimitive still declares its shared color API with NiColorA.
@@ -3709,7 +3710,7 @@ void* __cdecl BGSPrimitive_Copy(Target004a4d40* pTarget)
             {
                 NiPoint3 point = pTarget->FUN_00413fc0() * 2.0f;
                 pTarget->BGSPrimitive_GetColor(reinterpret_cast<NiColorA*>(colorA));
-                bResult = CreatePrimitiveBox(&point, (int)&colorA);
+                bResult = BGSPrimitive_CreateBox(&point, (int)&colorA);
             }
         }
 
@@ -3805,7 +3806,7 @@ void BipedAB::BipedAnim_RecursivelyRemoveAllDecalPlacementVectorDataFromWeaponBo
 
 struct AGItem
 {
-    void* GetExtraLeveledItem();
+    void* ExtraDataList_GetLeveledItem();
     void BaseExtraList_RemoveExtra(void* p, int n);
     bool FUN_004bca60();
 };
@@ -3833,9 +3834,9 @@ void* AGOwner::ItemChange_RemoveLeveledItemExtra()
     while (pNode && *pNode->_ref_006815c0())
     {
         AGItem* pItem = *pNode->_ref_006815c0();
-        if (pItem && pItem->GetExtraLeveledItem())
+        if (pItem && pItem->ExtraDataList_GetLeveledItem())
         {
-            pResult = pItem->GetExtraLeveledItem();
+            pResult = pItem->ExtraDataList_GetLeveledItem();
             pItem->BaseExtraList_RemoveExtra(pResult, 0);
             if (pItem->FUN_004bca60())
                 m_pEntries->RemoveMatchingItem(&pItem);

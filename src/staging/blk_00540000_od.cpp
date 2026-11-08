@@ -157,13 +157,13 @@ void __thiscall FUN_00554650_Class::UpdateState_00554650()
     *(char**)((char*)this) = "pFU";
 }
 
-void __cdecl WriteRenderStatsFile(int);
+void __cdecl TESObjectCELL_SaveRenderFailureData(int);
 
 // @fnv 0x005586c0
 // src: COMMUNITY 0x005586c0
 void __cdecl TESObjectCELL_DefaultRenderTestCallback(int a)
 {
-    WriteRenderStatsFile(a);
+    TESObjectCELL_SaveRenderFailureData(a);
 }
 
 extern int DAT_0102f448;
@@ -1576,7 +1576,7 @@ struct CellStandin
 };
 struct ExtraStandin
 {
-    void __thiscall SetFlagOnChildren(bool flag);
+    void __thiscall TESObjectCELL_SetActorCollisionGeometry(bool flag);
 };
 void __cdecl EnsureLightingProperty(void* p);
 
@@ -1589,7 +1589,7 @@ void __thiscall ExtraDataList::TESObjectCELL_SetCollisionGeometryDisplay(bool fl
     if (world && a)
     {
         ((VObj*)world)->VCall(a, flag);
-        ((ExtraStandin*)this)->SetFlagOnChildren(flag);
+        ((ExtraStandin*)this)->TESObjectCELL_SetActorCollisionGeometry(flag);
         EnsureLightingProperty(a);
     }
 }
@@ -2077,7 +2077,7 @@ struct Cell
     virtual void v15();
     virtual void v16();
     virtual void v17();
-    virtual void MarkChanged(unsigned int);
+    virtual void TESObjectLIGH_SaveGame(unsigned int);
     bool FUN_00425fd0();
     float TESObjectCELL_GetNorthRotation();
     void AdjustCoordForNorthRotation(const NiPoint3*, NiPoint3*, bool);
@@ -2089,10 +2089,11 @@ struct Cell
     int FUN_00544c30();
     void TESObjectCELL_ClearSeenData();
     void TESObjectCELL_SetFullySeen(bool);
-    void UpdateLightingAtPoint(const NiPoint3*);
+    void TESObjectCELL_UpdateSeenData(const NiPoint3*);
 };
 // @fnv 0x00555f60
-void Cell::UpdateLightingAtPoint(const NiPoint3* apPoint)
+// src: COMMUNITY 0x00555f60
+void Cell::TESObjectCELL_UpdateSeenData(const NiPoint3* apPoint)
 {
     // NiPoint3 assignment preserves the original bitwise copies under /Od.
     if (FUN_00425fd0())
@@ -2184,7 +2185,7 @@ void Cell::UpdateLightingAtPoint(const NiPoint3* apPoint)
         {
             light = new LightData();
             GetExtraDataList()->ExtraDataList_SetSeenData(light);
-            MarkChanged(0x80000000);
+            TESObjectLIGH_SaveGame(0x80000000);
         }
         NiPoint3 center2(FUN_00544c30() << 12, FUN_00544c60() << 12, apPoint->z);
         bool changed = light->HasEnoughSeenPoints(apPoint, &center2);
@@ -2316,7 +2317,8 @@ struct FUN_00456fc0_cls
 bool __cdecl NiObject_IsExactKindOf(GlobalObject_00a7b610* g, NiAVObject* p);
 
 // @fnv 0x00554a20
-void ExtraStandin::SetFlagOnChildren(bool flag)
+// src: COMMUNITY 0x00554a20
+void ExtraStandin::TESObjectCELL_SetActorCollisionGeometry(bool flag)
 {
     NiNode* node7 = reinterpret_cast<FUN_0054a050_shell*>(this)->GetActorNode();
     unsigned int count = node7->FUN_0043b480();

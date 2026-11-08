@@ -26,7 +26,7 @@ bool CoordinateTriple::BGSWorldLocation_IsLocationLoaded()
     TESObjectCELL* pcell = BGSWorldLocation_GetCell();
     if (!pcell)
         return false;
-    return g_TES->IsCellBuffered(pcell, false);
+    return g_TES->IsCellLoaded(pcell, false);
 }
 
 namespace fnv_00527a40 {
@@ -47,7 +47,7 @@ float CoordinateTriple::BGSWorldLocation_GetDistanceSquared(const CoordinateTrip
     {
         return 3.4028234663852886e+38f;
     }
-    return (arWorldLocation.pos - this->pos).UpdateCombatStyle();
+    return (arWorldLocation.pos - this->pos).NiPoint3_SqrLength();
 }
 }  // namespace fnv_00527a40
 
@@ -60,11 +60,12 @@ struct FUN_00527a80_shell
 {
     NiPoint3 pos;
     int cell;
-    float DistanceTo(FUN_00527a80_shell*);
+    float BGSWorldLocation_GetDistance(FUN_00527a80_shell*);
 };
 // Returns the distance between this position and p's position if both are in the same cell, otherwise returns FLT_MAX.
 // @fnv 0x00527a80
-float FUN_00527a80_shell::DistanceTo(FUN_00527a80_shell* apOther)
+// src: COMMUNITY 0x00527a80
+float FUN_00527a80_shell::BGSWorldLocation_GetDistance(FUN_00527a80_shell* apOther)
 {
     if (cell != apOther->cell)
         return 3.4028234663852886e+38F;
@@ -147,7 +148,7 @@ float FUN_00527ac0_shell::ComputeWeightedDistance(FUN_00527ac0_shell* apOther, N
     diff.x = diff.x * apDir->x;
     diff.y = diff.y * apDir->y;
     diff.z = diff.z * apDir->z;
-    return ((TESCombatStyle*)&diff)->UpdateCombatStyle();
+    return ((TESCombatStyle*)&diff)->NiPoint3_SqrLength();
 }
 
 struct FUN_00425fd0_shell

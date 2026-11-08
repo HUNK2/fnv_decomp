@@ -228,7 +228,8 @@ void NiBoneLODController::UpdateLOD(NiUpdateData& UpdateData)
 }
 
 // @fnv 0x00a55300
-NiBoneLODController* CreateBoneLODController()
+// src: EXE 0x00a55300
+NiBoneLODController* NiBoneLODController_CreateObject()
 {
     NiBoneLODController* p = (NiBoneLODController*)BSFadeNode::operator new(0x68);
     if (p)

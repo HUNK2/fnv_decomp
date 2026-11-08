@@ -575,7 +575,7 @@ void UpdateRadioSignals(bool abUpdateSignals)
 
     if (abUpdateSignals)
     {
-        BGSTalkingActivator::FindRadioStations((TESObjectREFR*)g_thePlayer, &stationlist, &stationDistances);
+        BGSTalkingActivator::GetRadioStationsInRangeOfRef((TESObjectREFR*)g_thePlayer, &stationlist, &stationDistances);
         for (BSSimpleList<RadioStationRef*>* pstationObj = &stationlist; pstationObj && pstationObj->GetItem();
              pstationObj = pstationObj->GetNext())
         {
@@ -1573,7 +1573,7 @@ bool FalloutRadio_TunePipboyToStation(RefView* form, bool flag)
     if (!form)
     {
         BSSimpleList<RadioStationRef*> item;
-        BGSTalkingActivator::FindRadioStations((TESObjectREFR*)g_thePlayer, &item, 0);
+        BGSTalkingActivator::GetRadioStationsInRangeOfRef((TESObjectREFR*)g_thePlayer, &item, 0);
         BSSimpleList<RadioStationRef*>* list = &item;
         if (list && list->GetItem() && ((RefView*)list->GetItem())->BGSSaveFormBuffer_GetForm())
             form = (RefView*)list->GetItem();
@@ -2091,7 +2091,7 @@ struct RadioStation
 };
 struct RadioRef
 {
-    void SetRefFlag40000000(bool);
+    void TESObjectACTI_SetContinuousBroadcast(bool);
 };
 struct RadioSource
 {
@@ -2115,7 +2115,7 @@ void FalloutRadio_SetBroadcastState(RadioSource* source, bool enabled)
         return;
     RadioStation* station = FalloutRadio_GetActiveStation(source->BGSSaveFormBuffer_GetForm());
     g_011dd5e8.BSCriticalSection_Enter("FalloutRadio::SetBroadcastState");
-    source->BGSSaveFormBuffer_GetForm()->SetRefFlag40000000(enabled);
+    source->BGSSaveFormBuffer_GetForm()->TESObjectACTI_SetContinuousBroadcast(enabled);
     if (station)
     {
         if (station->data.IsFlag20Set() && !enabled)
@@ -2730,7 +2730,7 @@ struct RadioUpdateVec3
 class RadioUpdateSnd
 {
   public:
-    unsigned char GetField45();
+    unsigned char GetMaxDistance();
 };
 
 
@@ -2795,7 +2795,7 @@ class RadioUpdateRefObj
     virtual void vf9();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -2821,7 +2821,7 @@ class RadioUpdateRefObj
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -3395,7 +3395,7 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                         bNpcVal = true;
                 }
                 if (aData && !bNpcVal)
-                    aBound = aData->GetField45() * 110.0;
+                    aBound = aData->GetMaxDistance() * 110.0;
                 else if (bNpcVal)
                     aBound = *DAT_011dd62c.Setting_Float_00403e20() * 1.100000023841858;
 
@@ -3419,7 +3419,7 @@ void __cdecl FalloutRadio_UpdateStation(FalloutRadio::RadioStationState* apState
                         (*aNext->FUN_006815c0())->snd4 =
                             ((RadioUpdateAudio*)::BSAudio_QInstance())->BSAudio_GetSoundHandleByFilename(buf, flags | 0x500102, 0);
                         (*aNext->FUN_006815c0())
-                            ->snd4.SetMinMax(*DAT_011dd5b0.Setting_Float_00403e20(), *DAT_011dd62c.Setting_Float_00403e20());
+                            ->snd4.SetMinMaxDistance(*DAT_011dd5b0.Setting_Float_00403e20(), *DAT_011dd62c.Setting_Float_00403e20());
                     }
                     else
                     {

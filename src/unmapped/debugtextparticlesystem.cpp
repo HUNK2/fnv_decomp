@@ -76,7 +76,8 @@ class CA34C0Derived : public CA34C0Base
 
 // Allocates and constructs a new CA34C0Derived object, returning it as a CA34C0Object pointer.
 // @fnv 0x00ca34c0
-CA34C0Object* __cdecl CreateCA34C0Derived()
+// src: EXE 0x00ca34c0
+CA34C0Object* __cdecl hkPackedNiTriStripsData_CreateObject()
 {
     return new CA34C0Derived;
 }

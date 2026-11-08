@@ -357,9 +357,9 @@ void GridCellArray::SwapCells(unsigned int aiX1, unsigned int aiY1, unsigned int
 
 struct FUN_00552970_Call
 {
-    void UpdateCellScene(NiNode* apRoot);
+    void TESObjectCELL_AttachToWorld(NiNode* apRoot);
 };
-// Gets the grid cell at (aiX, aiY) and, if it has a cell, forwards apRoot to that cell's UpdateCellScene.
+// Gets the grid cell at (aiX, aiY) and, if it has a cell, forwards apRoot to that cell's TESObjectCELL_AttachToWorld.
 // @fnv 0x004ba960
 // src: COMMUNITY 0x004ba960
 void GridCellArray::AttachToWorld(NiNode* apRoot, unsigned int aiX, unsigned int aiY)
@@ -367,7 +367,7 @@ void GridCellArray::AttachToWorld(NiNode* apRoot, unsigned int aiX, unsigned int
     GridCell* pgridcell;
     pgridcell = Get(aiX, aiY);
     if (pgridcell->pCell)
-        ((FUN_00552970_Call*)pgridcell->pCell)->UpdateCellScene(apRoot);
+        ((FUN_00552970_Call*)pgridcell->pCell)->TESObjectCELL_AttachToWorld(apRoot);
 }
 
 struct Arr
@@ -476,9 +476,9 @@ void GridCellArray::RunAnimations_004baba0()
 
 struct CellOwner
 {
-    void PlayCellSoundEffects();
+    void TESObjectCELL_UpdateRefSounds();
 };
-// Iterates every grid cell and calls PlayCellSoundEffects on each cell's pCell when both the cell and its pCell are non-null.
+// Iterates every grid cell and calls TESObjectCELL_UpdateRefSounds on each cell's pCell when both the cell and its pCell are non-null.
 // @fnv 0x004bac20
 // src: COMMUNITY 0x004bac20
 void GridCellArray::UpdateRefSounds_004bac20()
@@ -489,7 +489,7 @@ void GridCellArray::UpdateRefSounds_004bac20()
         {
             GridCell* cell = Get(x, y);
             if (cell && cell->pCell)
-                ((CellOwner*)cell->pCell)->PlayCellSoundEffects();
+                ((CellOwner*)cell->pCell)->TESObjectCELL_UpdateRefSounds();
         }
     }
 }

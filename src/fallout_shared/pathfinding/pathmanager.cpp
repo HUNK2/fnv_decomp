@@ -5527,13 +5527,13 @@ struct Obj_006eb980_obj
 struct Shell_006eb980
 {
     Obj_006eb980_obj* m0;
-    void ReleaseAndClearObject();
+    void PathManager_Release();
 };
 
 // Calls FUN_006eac40 on m0, then FUN_006eb890(1) on m0 if non-null, and clears m0.
 // @fnv 0x006eb980
-// src: GUESS 0x006eb980 (confidence: medium)
-void Shell_006eb980::ReleaseAndClearObject()
+// src: COMMUNITY 0x006eb980
+void Shell_006eb980::PathManager_Release()
 {
     m0->PathManagerImpl_Release();
     Obj_006eb980_obj* QQ = m0;

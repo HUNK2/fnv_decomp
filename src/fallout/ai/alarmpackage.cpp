@@ -44,7 +44,7 @@ void TESSpellList::LoadGame(BGSLoadFormBuffer* buffer)
         leveledSpellList.RemoveAll();
 
         {
-            unsigned int spellCount = buffer->ReadElementCount();
+            unsigned int spellCount = buffer->LoadVariableSizedValue();
             for (unsigned int i = 0; i < spellCount; ++i)
             {
                 SpellItem* pLevSpell = 0;
@@ -55,7 +55,7 @@ void TESSpellList::LoadGame(BGSLoadFormBuffer* buffer)
         }
 
         {
-            unsigned int leveledSpellCount = buffer->ReadElementCount();
+            unsigned int leveledSpellCount = buffer->LoadVariableSizedValue();
             for (unsigned int i = 0; i < leveledSpellCount; ++i)
             {
                 TESLevSpell* pLevSpell = 0;
@@ -72,10 +72,11 @@ TESForm* __cdecl GetFormByID(unsigned int);
 class TESSaveLoadGameUnitOperations : public TESSaveLoadGame
 {
 public:
-    void DeleteFormById(unsigned int id);
+    void TESSaveLoadGame_ClearFormID(unsigned int id);
 };
 // @fnv 0x0085a290
-void TESSaveLoadGameUnitOperations::DeleteFormById(unsigned int uiFormId)
+// src: COMMUNITY 0x0085a290
+void TESSaveLoadGameUnitOperations::TESSaveLoadGame_ClearFormID(unsigned int uiFormId)
 {
     TESForm* pForm = GetFormByID(uiFormId);
     if (pForm)
@@ -511,7 +512,7 @@ void AlarmPackage::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 void AlarmPackage::LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESPackage::LoadGame(static_cast<BGSLoadFormBuffer*>(apLoadGameBuffer));
-    unsigned int isaveGameCount = static_cast<BGSLoadFormBuffer*>(apLoadGameBuffer)->ReadElementCount();
+    unsigned int isaveGameCount = static_cast<BGSLoadFormBuffer*>(apLoadGameBuffer)->LoadVariableSizedValue();
     for (unsigned int iIndex = 0; iIndex < isaveGameCount; ++iIndex)
     {
         char ccrimeType = 0;
@@ -757,7 +758,7 @@ struct SaveLocal
 struct AuxLocal
 {
     unsigned int value;
-    void SaveTimeStamp(SaveLocal*);
+    void CombatTimeStamp_SaveGame(SaveLocal*);
 };
 struct NodeLocal
 {
@@ -794,7 +795,7 @@ void Candidate::SaveToStream(SaveLocal* buffer)
     buffer->FUN_00865e50(&unk28, 4, 0);
     buffer->FUN_00865e50(&flag2c, 1, 0);
     buffer->FUN_00865e50(&unk30, 4, 0);
-    aux34.SaveTimeStamp(buffer);
+    aux34.CombatTimeStamp_SaveGame(buffer);
     buffer->FUN_00865df0(form08, 0);
     buffer->FUN_00865df0(form0c, 0);
     buffer->FUN_00865df0(form14, 0);

@@ -275,7 +275,7 @@ struct FUN_00e75840_shell {
 extern "C" void* g_01270900;
 void* __cdecl NiShaderDeclaration_GetRTTI();
 struct FUN_00e758f0_shell {
-    void PackColorToUInt(float* floats);
+    void NiDX9Renderer_SetBackgroundColorAlpha(float* floats);
 };
 extern int DAT_0126f580[];
 void __cdecl NiDX92DBufferData_ClearRenderTarget(int* param1, int param2);
@@ -648,11 +648,11 @@ struct CpDevice {
 };
 char* __cdecl GetHRESULTText(unsigned int);
 struct CopyRendererData { char pad[0x14]; CpSurf* surface; };
-struct RenderCopyData { char pad[8]; unsigned int width; unsigned int height; CopyRendererData* data; };
+struct CopyBuffer { char pad[8]; unsigned int width; unsigned int height; CopyRendererData* data; };
 struct CpRectNi { int left, right, top, bottom; };
 typedef void (__cdecl *CopyMsgFn)(const char*, ...);
 struct FUN_00e6f840_shell {
-    bool CopySurface(RenderCopyData* src, RenderCopyData* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
+    bool CopySurface(CopyBuffer* src, CopyBuffer* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
 };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e76c30_Info {
@@ -2675,7 +2675,7 @@ struct GeomData_e6da60
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -2701,7 +2701,7 @@ struct GeomData_e6da60
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual unsigned int GetStreamValue(unsigned int uiIndex);
     virtual void vf41();
@@ -12705,7 +12705,7 @@ struct VB108 { unsigned int FUN_00e8bf90(); void* NiDX9VertexBufferManager_PackU
 struct IB108 { void* FUN_00e8f200(void*,unsigned int,unsigned int,void*,unsigned int*,unsigned int,unsigned int);};
 extern bool DAT_0126f0d0;
 
-__declspec(noreturn) void __cdecl AddGeometryToBatch();
+__declspec(noreturn) void __cdecl NiDX9Renderer_AddToBatch();
 void __cdecl NiDX9Renderer_BatchRenderShape();
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct StridedDataTransfer {

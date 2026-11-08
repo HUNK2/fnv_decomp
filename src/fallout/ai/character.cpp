@@ -2103,7 +2103,7 @@ void FUN_0093a8f0_shell::PlayerCharacter_ModActorBaseValueI(int aiAV, int aiAmou
     NotifyAVChange(this, aiAV, fOld, (float)aiAmount, 0);
 }
 
-extern "C" void* __cdecl CreatePackageByType(int);
+extern "C" void* __cdecl TESPackage_CreatePackage(int);
 
 struct XA8a
 {
@@ -2772,7 +2772,7 @@ void XObj::PlayerCharacter_InitiateCannibalPackage(void* arg0)
     PlayerCharacter_ForceTemp3rdPerson(1);
     member68->Attach(0, this);
     member68->Detach(0);
-    XAObj* A5 = (XAObj*)CreatePackageByType(0x26);
+    XAObj* A5 = (XAObj*)TESPackage_CreatePackage(0x26);
     A5->FUN_00826b40(1);
     A5->FUN_00826b90(1);
     XPObj* P = new XPObj;
@@ -2846,7 +2846,7 @@ struct DataBF
 };
 struct PackBF
 {
-    void SetPackageType(int);
+    void SetPackType(int);
     void FUN_00826b40(bool);
     void FUN_00826b90(bool);
     void SetPackageLocation(LocBF*);
@@ -2854,7 +2854,7 @@ struct PackBF
     void FUN_00984f60(int);
     DataBF* FUN_00671d10();
 };
-void* __cdecl CreatePackageByType(int);
+void* __cdecl TESPackage_CreatePackage(int);
 struct GlobalBF
 {
     void PlayerCharacter_IssueStealWarning();
@@ -2876,8 +2876,8 @@ void PackageAssignment::Actor_InitiateStealWarning(void* arg, int unused)
     void* old3 = ((ProcBF*)GetProcess())->get();
     if (FUN_009344a0() && ((TargetBF*)FUN_009344a0())->FUN_00678610())
         Unk_A2();
-    PackBF* pack = (PackBF*)CreatePackageByType(0x22);
-    pack->SetPackageType(0x22);
+    PackBF* pack = (PackBF*)TESPackage_CreatePackage(0x22);
+    pack->SetPackType(0x22);
     pack->FUN_00826b40(true);
     pack->FUN_00826b90(true);
     LocBF* loc = new LocBF;
@@ -3540,7 +3540,7 @@ void AssignedCharacter::Character_InitiateCannibalPackage(AssignedArgument* argu
     // Location data installed into the travel package.
     XPObj* package;
     // AI package for travel to the supplied location.
-    XAObj* location = (XAObj*)CreatePackageByType(38);
+    XAObj* location = (XAObj*)TESPackage_CreatePackage(38);
     location->FUN_00826b40(1);
     location->FUN_00826b90(1);
     package = new XPObj;

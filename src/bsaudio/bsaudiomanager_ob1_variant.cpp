@@ -110,8 +110,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -435,7 +435,7 @@ struct FUN_00ada1d0_shell
 {
     unsigned char _pad[0x134];
     bool m_bUISoundsEnabled;
-    void __thiscall InitUISounds(bool);
+    void __thiscall BSAudioManager_Update(bool);
 };
 struct BADC7D0Item
 {
@@ -1769,7 +1769,7 @@ class AudioMgr70
         return m_18.count == 0;
     }
 
-    void __thiscall InitUISounds(bool);
+    void __thiscall BSAudioManager_Update(bool);
     void __thiscall BSAudioManager_SetVoiceState(int, int);
     void __thiscall AddSound(int);
     void BSAudioManager_Shutdown();
@@ -1861,9 +1861,9 @@ void AudioMgr70::BSAudioManager_Shutdown()
 {
     if (!IsMultiThreaded70(GetAudio70()))
     {
-        InitUISounds(false);
-        InitUISounds(false);
-        InitUISounds(false);
+        BSAudioManager_Update(false);
+        BSAudioManager_Update(false);
+        BSAudioManager_Update(false);
     }
 
     BSSoundMsg70* pInfo = 0;
@@ -4268,7 +4268,7 @@ bool BSAudioManager::ProcessMessage_00adf080(::SoundMessageRecord* message)
             while (iterator)
             {
                 (*reinterpret_cast<AudioSoundMap_adf080*>(SoundList)).GetNext(iterator, soundHandle, pkSound);
-                if (!pkSound->HasStatusFlag0x80000() && pkSound->IsPlaying() && (pkSound->GetFlags() & mask) == mask &&
+                if (!pkSound->IsInDecay() && pkSound->IsPlaying() && (pkSound->GetFlags() & mask) == mask &&
                     !(pkSound->GetFlags() & 0x800) && !(pkSound->GetFlags() & 0x100000) &&
                     !(pkSound->GetFlags() & 0x400000) && !(pkSound->GetFlags() & 0x2000) &&
                     !(pkSound->GetFlags() & 0x1000) && !pkSound->Stopped10())

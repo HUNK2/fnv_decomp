@@ -49,8 +49,8 @@ public:
     Menu();
     void SetTileMenu(TileMenu*, bool);
     void SetMenuVisibility(bool);
-    void LoadMenuData();
-    void UnloadMenuData();
+    void StartFadeOut();
+    void StartFadeIn();
     void ParseMenuXML(const char*);
     void SetModal(int id) { m_iModalMenuId = id; }
     Tile* CreateTileFromTemplate(Tile*, const char*, Tile*);

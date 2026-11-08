@@ -1138,12 +1138,13 @@ struct FUN_00b0b920_self
     unsigned short GetNumLeafLodLevels();
     short CSpeedTreeRT_GetDiscreteFrondLodLevel(float f);
     float CSpeedTreeRT_GetLodLevel();
-    void FillFrondGeometry(FUN_00b0b920_arg* arg, short type);
+    void CSpeedTreeRT_GetFrondGeometry(FUN_00b0b920_arg* arg, short type);
 };
 
 // Copies frond geometry counts and indices from m_60 into arg->m_sub, resolves the type, and computes arg->m_74 from FUN_00b0c8d0 when DAT_011f8b78 is set.
 // @fnv 0x00b0b920
-void FUN_00b0b920_self::FillFrondGeometry(FUN_00b0b920_arg* arg, short type)
+// src: COMMUNITY 0x00b0b920
+void FUN_00b0b920_self::CSpeedTreeRT_GetFrondGeometry(FUN_00b0b920_arg* arg, short type)
 {
     if (m_60)
     {

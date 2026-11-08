@@ -689,7 +689,7 @@ void SaveE6D0Items(BGSSaveFormBuffer* pkBuffer);
 struct ComparisonEntry
 {
     int PackageLocation_GetLocType();
-    int GetSecondByte();
+    int PackageSchedule_GetStartDayOfWeek();
     signed char Main_GameReset();
     signed char FUN_0086a460();
 };

@@ -126,7 +126,7 @@ INITIAL_DATA_TYPE BGSSaveLoadInitialData::LoadInitialDataForForm(BGSLoadFormBuff
                 else if (pWorld)
                 {
                     if ((pLocationCell && (pLocationCell == m_pWorldReferenceInfo->GetParentCell() ||
-                                           g_TES->IsCellBuffered(pLocationCell, false))) ||
+                                           g_TES->IsCellLoaded(pLocationCell, false))) ||
                         m_pWorldReferenceInfo->GetReferencePersistence())
                     {
                         if (!pLocationCell || pLocationCell != m_pWorldReferenceInfo->GetParentCell())
@@ -144,7 +144,7 @@ INITIAL_DATA_TYPE BGSSaveLoadInitialData::LoadInitialDataForForm(BGSLoadFormBuff
                     LogWarning(DAT_0107f894, kRefData.m_uiLocationFormID, m_pWorldReferenceInfo->GetName(),
                                m_pWorldReferenceInfo->GetFormID());
                 }
-                if (m_pWorldReferenceInfo->GetNiNode() && (!pLocationCell || !g_TES->IsCellBuffered(pLocationCell, false)))
+                if (m_pWorldReferenceInfo->GetNiNode() && (!pLocationCell || !g_TES->IsCellLoaded(pLocationCell, false)))
                 {
                     m_pWorldReferenceInfo->Set3D(0, 0);
                 }

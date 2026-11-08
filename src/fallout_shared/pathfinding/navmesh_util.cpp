@@ -835,7 +835,8 @@ extern double _gModifierZero;
 
 // Builds per-vertex edge lists from triangle edges, pairs edges into portals, and assigns each triangle the nearest portal vertex within a radius.
 // @fnv 0x00699b60
-void NavMesh::BuildPortalPOVs()
+// src: COMMUNITY 0x00699b60
+void NavMesh::CreatePOVs()
 {
     reinterpret_cast<NavMeshPOVMap&>(POVPointerArray).RemoveAll();
     m_kAdditionalIndexList.Clear(true);
@@ -1007,7 +1008,7 @@ void NavMesh::BuildPortalPOVs()
             NavMeshPOVData data;
             reinterpret_cast<NavMeshPOVMap&>(POVPointerArray).GetNext(it, usCurrentVertexIndex, data);
             NiPoint3 delta = GetVertex_0068f0a0(usCurrentVertexIndex) - circumCenter;
-            float fsqrDist = delta.GetSquaredXYLength();
+            float fsqrDist = delta.NiPoint3_SqrXYLength();
             if (fsqrDist < fclosestPOVSqrDist && std::abs(delta.z) < 180.0)
             {
                 fclosestPOVSqrDist = fsqrDist;
@@ -1084,7 +1085,8 @@ Holder* Holder::hkpShapeRayCastCollectorOutput_hkpShapeRayCastCollectorOutput_00
 
 // Returns true if FindTriangleForLocation finds a triangle (result not 0xFFFF) for the given position and filter.
 // @fnv 0x00697670
-bool NavMesh::IsLocationOnNavMesh(const NiPoint3& aPos, FindTriangleForLocationFilter* apFilter)
+// src: COMMUNITY 0x00697670
+bool NavMesh::IsPointInsideNavmesh(const NiPoint3& aPos, FindTriangleForLocationFilter* apFilter)
 {
     if (FindTriangleForLocation(aPos, apFilter) != 0xFFFF)
         return true;
@@ -1159,7 +1161,8 @@ struct S0069afb0
 
 // The shared one-argument bool overload cannot represent this two-argument integer entry.
 // @fnv 0x006997b0
-int __fastcall ForwardTriangleObstacle(NavMesh* self, USW a, IW b)
+// src: COMMUNITY 0x006997b0
+int __fastcall NavMesh_GetObstacleForTriangle(NavMesh* self, USW a, IW b)
 {
     return reinterpret_cast<S0069afb0*>(self->pTriangleToObstacleMap)->ProcessEntries_0069afb0(a.v, b.v);
 }
@@ -1323,7 +1326,7 @@ typedef char _sizecheck_PathingLocation[sizeof(PathingLocation) == 40 ? 1 : -1];
 // @fnv 0x006dcee0
 PathingLocation::PathingLocation(const NiPoint3& a1, TESObjectCELL* apCell, TESWorldSpace* apWorldspace)
 {
-    SetLocationData(a1, apCell, apWorldspace);
+    SetupData(a1, apCell, apWorldspace);
 }
 
 // Computes index as c * m0 + b and calls the array element's method with a.
@@ -1407,7 +1410,7 @@ void* __thiscall FUN_0069b360_shell::ConstructBuffer(unsigned int a)
 
 // Tests arPoint against triangle ausTri, computes arZ, and if a callback is given calls its Test with the point raised by arZ.
 // @fnv 0x00697810
-bool NavMesh::TestPointOnTriangle(unsigned short ausTri, const NiPoint3& arPoint, float& arZ,
+bool NavMesh::IsPointInsideTriangle(unsigned short ausTri, const NiPoint3& arPoint, float& arZ,
                                          FindTriangleForLocationFilter* apCallback)
 {
     if (!apCallback)
@@ -1441,7 +1444,7 @@ bool NavMesh::TestPointOnTriangle(unsigned short ausTri, const NiPoint3& arPoint
 
 // Tests whether arPoint lies inside triangle ausTriangle in XY, writes the interpolated Z to apfZ, and checks the Z offset against afAbove/afBelow.
 // @fnv 0x00697980
-bool NavMesh::GetTriangleHeightAtPoint(unsigned short ausTriangle, const NiPoint3& arPoint, float afAbove,
+bool NavMesh::ComputeTriangleZForLocation(unsigned short ausTriangle, const NiPoint3& arPoint, float afAbove,
                                               float afBelow, float* apfHeight)
 {
     float fY0;
@@ -1568,7 +1571,8 @@ NiPoint3 NavMesh::GetCircumCenter(unsigned short apTriangle)
 
 // Tests each triangle edge except aIgnoreEdge for intersection with the segment aStartPoint-aEndPoint and returns the first crossing edge index, or -1.
 // @fnv 0x00698320
-int NavMesh::FindCrossedEdge(unsigned short ausTri, int aIgnoreEdge, const NiPoint3* aStartPoint,
+// src: COMMUNITY 0x00698320
+int NavMesh::FindIntersectingEdgeFast(unsigned short ausTri, int aIgnoreEdge, const NiPoint3* aStartPoint,
                                     const NiPoint3* aEndPoint)
 {
     NiPoint3 edgeVerts[3];
@@ -1625,7 +1629,8 @@ struct GlobalObject_00869f00
 }  // namespace fnv_0069a830
 
 // @fnv 0x0069a830
-int NavMesh::CollectTrianglePOVs(unsigned short triangle, BSSimpleArray<unsigned short, 1024>* povs)
+// src: COMMUNITY 0x0069a830
+int NavMesh::GetPOVsForTriangle(unsigned short triangle, BSSimpleArray<unsigned short, 1024>* povs)
 {
     if (reinterpret_cast<NavMeshPOVMap&>(POVPointerArray).IsEmpty())
         InitializeNavMeshData();
@@ -1845,8 +1850,8 @@ struct SwapTriangle : NavMeshTriangle
     void SetSlotValue(int edge, unsigned short neighbor);
     void SetArrayValue(int edge, unsigned short neighbor);
     bool NavMeshTriangle_HasCoverOrWallFlags();
-    void GetPackedFlags(int edge, unsigned short*, unsigned char*, unsigned char*);
-    void SetPackedField(int edge, unsigned short, unsigned char, unsigned char);
+    void NavMeshTriangle_GetEdgeCoverData(int edge, unsigned short*, unsigned char*, unsigned char*);
+    void NavMeshTriangle_SetEdgeCover(int edge, unsigned short, unsigned char, unsigned char);
 };
 
 // @fnv 0x00695660
@@ -1879,10 +1884,10 @@ void NavMesh::SwapTriangleEdges(unsigned short triangle)
         unsigned char secondEdge9;
         unsigned char firstFlags;
         unsigned char secondFlags;
-        tri5->GetPackedFlags(0, &aFirstLink, &firstEdge8, &firstFlags);
-        tri5->GetPackedFlags(1, &secondLinkB, &secondEdge9, &secondFlags);
-        tri5->SetPackedField(0, secondLinkB, secondFlags, secondEdge9);
-        tri5->SetPackedField(1, aFirstLink, firstFlags, firstEdge8);
+        tri5->NavMeshTriangle_GetEdgeCoverData(0, &aFirstLink, &firstEdge8, &firstFlags);
+        tri5->NavMeshTriangle_GetEdgeCoverData(1, &secondLinkB, &secondEdge9, &secondFlags);
+        tri5->NavMeshTriangle_SetEdgeCover(0, secondLinkB, secondFlags, secondEdge9);
+        tri5->NavMeshTriangle_SetEdgeCover(1, aFirstLink, firstFlags, firstEdge8);
     }
 }
 
@@ -1970,7 +1975,7 @@ bool NavMesh::FindClosestOpenEdgeForLocation(const NiPoint3& arPoint, float afRa
                 NiPoint3 mid3 =
                     (reinterpret_cast<const NiPoint3&>(*verts8.p1) + reinterpret_cast<const NiPoint3&>(*verts8.p2)) * 0.5f;
                 NiPoint3 diff = mid3 - reinterpret_cast<const NiPoint3&>(arPoint);
-                float fDist2D = diff.GetSquaredXYLength();
+                float fDist2D = diff.NiPoint3_SqrXYLength();
                 float fDZ = diff.z * diff.z;
                 float fDist_2 = fDist2D + fDZ;
                 if (fDist2D < fBest2 && ((mid3.z < fMaxZ7 && mid3.z > fMinZ8) || fDist_2 <= fRadiusSq2 - fDZ))
@@ -2055,7 +2060,7 @@ struct TriangleList
     const unsigned short& BSSimpleArray_unsigned_short_1024_GetAt(unsigned int index);
 };
 
-// Looks up the triangle list at point, tests each triangle with GetTriangleHeightAtPoint, and returns true on the first hit, writing z.
+// Looks up the triangle list at point, tests each triangle with ComputeTriangleZForLocation, and returns true on the first hit, writing z.
 // @fnv 0x00697b70
 bool NavMesh::FindTriangleZ(const NiPoint3& point, float above, float below, float* z)
 {
@@ -2067,7 +2072,7 @@ bool NavMesh::FindTriangleZ(const NiPoint3& point, float above, float below, flo
     for (unsigned int index = 0; index < count; ++index)
     {
         unsigned short triangle = triangles->BSSimpleArray_unsigned_short_1024_GetAt(index);
-        if (GetTriangleHeightAtPoint(triangle, point, above, below, z))
+        if (ComputeTriangleZForLocation(triangle, point, above, below, z))
             return true;
     }
     return false;
@@ -2092,7 +2097,8 @@ extern int DAT_011dea10;
 
 // Keep the original bool result; the shared member is currently declared void.
 // @fnv 0x006986d0
-bool __fastcall InitializeNavMeshInfo(NavMesh* self)
+// src: COMMUNITY 0x006986d0
+bool __fastcall NavMesh_UpdateNavMeshInfo(NavMesh* self)
 {
     NavMeshInfo* r =
         ((b9_tab*)DAT_011dea10)->TES_GetNavMeshInfoMap(reinterpret_cast<void*>(self->GetHavokWorldObjectCountInSceneGraph_0084e3a0()))->FUN_00693d70();
@@ -2470,7 +2476,7 @@ void __cdecl RemoveNavMeshId(unsigned int id)
                             reinterpret_cast<P507Edge*>(mesh.Modelloader_GetReferencedThis()->GetEdge((unsigned short)k));
                         if (edge->owner == id)
                         {
-                            mesh.Modelloader_GetReferencedThis()->UpdateTriangleExtraInfo((unsigned short)k);
+                            mesh.Modelloader_GetReferencedThis()->DeleteExtraEdgeInfo((unsigned short)k);
                             --k;
                         }
                     }
@@ -2549,8 +2555,8 @@ extern const float DAT_01016970;
 
 // For each triangle index from ausStart to ausEnd, computes its XY bounds, finds the grid cells it spans and marks the triangle in each cell's list.
 // @fnv 0x006967f0
-// src: GUESS 0x006967f0 (confidence: high)
-bool NavMesh::AddTrianglesToXYGridCells(unsigned short ausStart, unsigned short ausEnd)
+// src: COMMUNITY 0x006967f0
+bool NavMesh::RemoveTrianglesFromGrid(unsigned short ausStart, unsigned short ausEnd)
 {
     unsigned int i;
     for (i = ausStart; i <= ausEnd; i++)
@@ -2593,7 +2599,7 @@ extern const double DAT_010240c0;
 
 struct FUN_00696a50_HeightSource
 {
-    void CheckWaterHeight(const NiPoint3* apPos, float* apfHeight);
+    void GetWaterHeight(const NiPoint3* apPos, float* apfHeight);
 };
 
 }  // namespace fnv_00696a50
@@ -2612,7 +2618,7 @@ unsigned short NavMesh::FindTriangleForLocation_00696a50(const NiPoint3* apPos, 
     float m_fGlyphExtent = DAT_01015f5c;
     if (reinterpret_cast<fnv_00696a50::FUN_00696a50_HeightSource*>(m_pOwningCell))
         reinterpret_cast<fnv_00696a50::FUN_00696a50_HeightSource*>(m_pOwningCell)
-            ->CheckWaterHeight(apPos, &m_fGlyphExtent);
+            ->GetWaterHeight(apPos, &m_fGlyphExtent);
     bool bBelowGround = apPos->z < (float)(m_fGlyphExtent + 50.0);
     for (unsigned int i = 0; i < uiEntries; i++)
     {
@@ -2620,7 +2626,8 @@ unsigned short NavMesh::FindTriangleForLocation_00696a50(const NiPoint3* apPos, 
         if (Triangles.GetAt(usTri).GetFlag(0x20))
             continue;
         float fDistance;
-        if (TestPointOnTriangle(usTri, apPos, &fDistance, aiArg))
+        // src: COMMUNITY 0x00697810
+        if (IsPointInsideTriangle(usTri, apPos, &fDistance, aiArg))
         {
             if (!bBelowGround && fDistance < -180.0)
                 continue;
@@ -2841,7 +2848,8 @@ bool __cdecl NavMeshMath_Find2DIntersectionStable(const NiPoint3& start, const N
 
 // Tests the triangle's edges (skipping aiSkipEdge) for an intersection with the segment arFrom-arTo and returns the hit edge index and point, or a type-0 miss.
 // @fnv 0x00698160
-NavEdgeHit NavMesh::FindEdgeIntersection(unsigned short ausTriangle, int aiSkipEdge, const NiPoint3& arFrom,
+// src: COMMUNITY 0x00698160
+NavEdgeHit NavMesh::FindInterectingEdge2(unsigned short ausTriangle, int aiSkipEdge, const NiPoint3& arFrom,
                                                 const NiPoint3& arTo)
 {
     NiPoint3 verts[3];
@@ -3360,7 +3368,7 @@ bool NavMesh::FindRandomPointWithinRadius(const NiPoint3& aPosition, float aRadi
         fY = RandomFloat(-fY, fY);
         kIntersectionOffset.x = fX;
         kIntersectionOffset.y = fY;
-        bFound = IsLocationOnNavMesh(kIntersectionOffset.FUN_00439e90(aPosition), 0);
+        bFound = IsPointInsideNavmesh(kIntersectionOffset.FUN_00439e90(aPosition), 0);
     }
     if (!bFound)
     {

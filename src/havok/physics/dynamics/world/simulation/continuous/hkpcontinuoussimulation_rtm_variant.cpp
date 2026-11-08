@@ -3436,7 +3436,7 @@ struct RenderParams {
     unsigned unk334;
     unsigned unk338;
     unsigned batchCount;
-    void __thiscall EnterLock(unsigned);
+    void __thiscall hkpWorld_lockIslandForConstraintUpdate(unsigned);
     void __thiscall hkpWorld_unlockIslandForConstraintUpdate(unsigned);
 };
 struct CompressedBounds {

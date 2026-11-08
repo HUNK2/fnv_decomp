@@ -2352,7 +2352,8 @@ class E00B60Object
 };
 
 // @fnv 0x00e00b60
-void ConstructObjectWithFinishFlag(void* apMemory, int finishing)
+// src: COMMUNITY 0x00e00b60
+void finishLoadedObject_hkpGroupFilter(void* apMemory, int finishing)
 {
     E00B60FinishFlag flag;
     flag.m_bFinishing = finishing;
@@ -2632,7 +2633,8 @@ struct InitObject
 };
 
 // @fnv 0x00e01070
-void __cdecl InitObjectFields(volatile InitObject* pObject, int iFlag)
+// src: COMMUNITY 0x00e01070
+void __cdecl finishLoadedObject_hkpConvexListShape(volatile InitObject* pObject, int iFlag)
 {
     if (pObject != 0)
     {
@@ -3332,7 +3334,8 @@ class FUN_00e01e20_cls
 };
 
 // @fnv 0x00e01e20
-void __cdecl CallHandleIfNotNull(FUN_00e01e20_cls* pObject, int aiValue)
+// src: COMMUNITY 0x00e01e20
+void __cdecl finishLoadedObject_hkxMesh(FUN_00e01e20_cls* pObject, int aiValue)
 {
     if (pObject != 0)
     {
@@ -4574,7 +4577,8 @@ class hkDerivedE00 : public hkMidE00
 };
 // If pvObject is non-null, placement-constructs an hkDerivedE00 at that address using iFinishing as the finish-loaded flag.
 // @fnv 0x00e00240
-void __cdecl ConstructDerivedObject(void* pvObject, int iFinishing)
+// src: COMMUNITY 0x00e00240
+void __cdecl finishLoadedObject_hkpConstraintChainInstance(void* pvObject, int iFinishing)
 {
     if (pvObject)
     {

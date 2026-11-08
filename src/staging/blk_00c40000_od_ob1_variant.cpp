@@ -188,8 +188,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -594,7 +594,7 @@ struct StrArr;
 struct Caller74690
 {
     void FUN_00a74690(StrArr*);
-    void ForwardTo74690(StrArr* p);
+    void BSScissorTriShape_GetViewerStrings(StrArr* p);
 };
 extern "C" void* g_01203348;
 struct FUN_00c5d2a0_Class
@@ -1883,7 +1883,7 @@ struct NewObject_b9649
         return Object_DispatchCommandFour(size);
     }
 };
-NewObject_b9649* CreateNewObject();
+NewObject_b9649* BSMultiBoundNode_CreateObject();
 struct UpdateContext
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -3930,7 +3930,7 @@ struct SwitchChild
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -4027,7 +4027,7 @@ struct FUN_00c5ed60 : FUN_00a7b300
     FUN_007530a0 m_00c;
     virtual ~FUN_00c5ed60();
 };
-NiObject* __cdecl CreateShaderAccumulator(void);
+NiObject* __cdecl BSTextureData_CreateObject(void);
 struct FUN_00a7b4a0_cls
 {
     void __thiscall FUN_00a7b4a0(int a);
@@ -4168,7 +4168,7 @@ struct PositionModifierInstance
         return Object_DispatchCommandFour(amount);
     }
 };
-FUN_00c5fd30* __cdecl CreatePositionModifierInstance();
+FUN_00c5fd30* __cdecl BSPSysStripUpdateModifier_CreateObject();
 struct MyStream;
 void NiStreamLoadBinary_float(MyStream* stream, void* value);
 struct ParticlePositionModifier
@@ -4876,7 +4876,7 @@ struct FUN_00c42dd0
 // @fnv 0x00c42dd0
 FUN_00c42dd0::FUN_00c42dd0(int, const char* name)
 {
-    thread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)BSTaskThread_ThreadProc, this, 4, &threadId);
+    thread = AITaskThreadManager_AddThread(0, 0, (LPTHREAD_START_ROUTINE)BSTaskThread_ThreadProc, this, 4, &threadId);
     if (name)
         FUN_00aa2740(threadId, name);
     unk24 = 0;
@@ -9706,7 +9706,7 @@ struct FUN_00a699d0
     float distance;
     FUN_00a699d0();
     FUN_00a699d0(const GeometryPoint*, const GeometryPoint*, const GeometryPoint*);
-    int ClassifyPoint(const GeometryPoint* point)
+    int NiPlane_WhichSide(const GeometryPoint* point)
     {
         float value = normal.x * point->x + normal.y * point->y + normal.z * point->z - distance;
         if (value < 0.0)
@@ -9834,11 +9834,11 @@ void GeometryCommands::BSCompoundFrustum_AddOcclusionPlane(CommandPolygon* polyg
         polygon->BSOcclusionPlane_UpdateFrustumPlanes(origin, &record2_2);
         polygon->BSOcclusionPlane_GetVertices(verticesCheck2);
         FUN_00a699d0 plane4(&verticesCheck2[0], &verticesCheck2[1], &verticesCheck2[2]);
-        side = plane4.ClassifyPoint(&origin);
+        side = plane4.NiPlane_WhichSide(&origin);
         neighborTriangleA->BSOcclusionPlane_UpdateFrustumPlanes(origin, &record2_2);
         neighborTriangleA->BSOcclusionPlane_GetVertices(verticesCheck2);
         plane4 = FUN_00a699d0(&verticesCheck2[0], &verticesCheck2[1], &verticesCheck2[2]);
-        kA1_1 = side == plane4.ClassifyPoint(&origin);
+        kA1_1 = side == plane4.NiPlane_WhichSide(&origin);
     }
     if ((neighborTriangleA && neighborTriangleA->GetType() != 1) || !kA1_1)
     {
@@ -15524,7 +15524,7 @@ __forceinline void* operator new[](unsigned int size)
 }
 extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
 extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-extern "C" __declspec(dllimport) void* __stdcall CreateThread(void*, unsigned int, unsigned long(__stdcall*)(void*),
+extern "C" __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void*, unsigned int, unsigned long(__stdcall*)(void*),
                                                               void*, unsigned long, unsigned long*);
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
@@ -15545,7 +15545,7 @@ inline void BSThread::FUN_00aa6430(int stackSize, const char* name, bool suspend
         return;
     m_pCurrentThreadHandle = fnv_00c44980::GetCurrentThread();
     m_uiCurrentThreadId = fnv_00c44980::GetCurrentThreadId();
-    m_pThreadHandle = fnv_00c44980::CreateThread(0, stackSize, fnv_00c44980::RunThreadProc, this, suspended ? 4 : 0, reinterpret_cast<unsigned long*>(&m_uiCreatedThreadId));
+    m_pThreadHandle = fnv_00c44980::AITaskThreadManager_AddThread(0, stackSize, fnv_00c44980::RunThreadProc, this, suspended ? 4 : 0, reinterpret_cast<unsigned long*>(&m_uiCreatedThreadId));
     EnterCriticalSection(&CriticalSection);
     FUN_00aa6560(-1);
     m_bThreadStarted = true;
@@ -17762,7 +17762,7 @@ struct WorkerQueue
     }
 };
 // src: COMMUNITY 0x00c40e70
-inline bool WorkerQueue::LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(WorkerEvent* event, unsigned __int64* output, WorkerJobRef* job, bool wait)
+inline bool WorkerQueue::LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(WorkerEvent* event, unsigned __int64* output, WorkerJobRef* job, bool hkSemaphore_release)
 {
     lock.Lock(0);
     bool found = false;
@@ -17791,7 +17791,7 @@ inline bool WorkerQueue::LockFreeMap_int64_NiPointer_BSTask_int64_GetNext(Worker
                 {
                     event->SetFlag(2, true);
                 }
-                else if (wait)
+                else if (hkSemaphore_release)
                 {
                     event->SetFlag(1, false);
                     continue;
@@ -18561,7 +18561,7 @@ struct C5Base
             collision->SetOwner(this);
     }
     bool NiObject_IsKindOf_006532c0(const void* pkRTTI);
-    void ForwardToSubobject(int iValue)
+    void NiAVObject_DetachProperty(int iValue)
     {
         NiPointer<C5RefObj> property(reinterpret_cast<C5RefObj*>(iValue));
         C5List& propertyList = properties;
@@ -18646,7 +18646,7 @@ FUN_00c5f680::FUN_00c5f680(C5Src* pkSource, bool bCopy) : C5Base(0)
         {
             void* pkProperty = pkSource->properties.GetHead();
             AttachProperty(pkProperty);
-            pkSource->ForwardToSubobject((int)pkProperty);
+            pkSource->NiAVObject_DetachProperty((int)pkProperty);
         }
 
         translation = pkSource->translation;

@@ -107,8 +107,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -1879,7 +1879,7 @@ struct FUN_00c662d0_Obj
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void* vf3C();
 };
 
@@ -2358,7 +2358,7 @@ struct FUN_00c66f90_Class
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -2920,7 +2920,7 @@ struct FUN_00c671b0_dispatch
     virtual void vf2c();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3c();
     virtual FUN_00561580_class* vf40();
 };
@@ -8427,13 +8427,14 @@ struct FUN_00c6e280_cls
     unsigned int unk5e8;
     unsigned int unk5ec;
     float m_5f0;
-    float GetSettingFloat();
+    float bhkCharacterController_GetRadius();
 };
 extern char DAT_0126832c;
 extern float DAT_010c72bc;
 
 // @fnv 0x00c6e280
-float FUN_00c6e280_cls::GetSettingFloat()
+// src: COMMUNITY 0x00c6e280
+float FUN_00c6e280_cls::bhkCharacterController_GetRadius()
 {
     volatile float result;
     SettingHolder* h = m_5a4;
@@ -9758,7 +9759,7 @@ struct FUN_00c747b0_Class
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -17357,10 +17358,11 @@ class FUN_00c75b40_cls
     unsigned unk29c;
     unsigned unk2a0;
     Holder_c75* m_2a4;
-    void UpdateBoneLocalTransforms();
+    void bhkRagdollController_ApplyBoneTransforms();
 };
 // @fnv 0x00c75b40
-void FUN_00c75b40_cls::UpdateBoneLocalTransforms()
+// src: COMMUNITY 0x00c75b40
+void FUN_00c75b40_cls::bhkRagdollController_ApplyBoneTransforms()
 {
     int iCount = m_2a4->m_pkInfo->m_iArrayLength;
     float fInv = 1.0f / m_58->m_fScale;

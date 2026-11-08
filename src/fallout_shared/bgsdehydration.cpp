@@ -263,7 +263,7 @@ BGSDehydrationStage* BGSDehydrationStage::GetStage(unsigned int index)
 {
     return index >= 0 && index < DAT_011c3180 ? DAT_011c3184[index] : 0;
 }
-// Waits on the references handle and calls vfn_0004 when the wait succeeds without timeout.
+// Waits on the references handle and calls vfn_0004 when the hkSemaphore_release succeeds without timeout.
 // @fnv 0x00401970
 // src: XBOX_PDB 0x00401970
 void WaitableObject::NiRefObject_DecRefCount()
@@ -521,11 +521,12 @@ bool TESObjectLIGH::Activate_0050e4b0(unsigned int a1, unsigned int a2, bool bFl
 struct Unk515010
 {
     void InvokeAction(int, int, bool, int, int);
-    void ForwardToF670(int, int, bool, int, int);
+    void TESObjectBOOK_Activate(int, int, bool, int, int);
 };
 // Calls InvokeAction with the same five arguments, forwarding the call unchanged.
 // @fnv 0x00515010
-void Unk515010::ForwardToF670(int aiArg1, int aiArg2, bool abFlag, int aiArg4, int aiArg5)
+// src: EXE 0x00515010
+void Unk515010::TESObjectBOOK_Activate(int aiArg1, int aiArg2, bool abFlag, int aiArg4, int aiArg5)
 {
     InvokeAction(aiArg1, aiArg2, abFlag, aiArg4, aiArg5);
 }

@@ -1400,7 +1400,7 @@ Tile* __cdecl RouletteMenu_Create(RoulettePlayerStandIn* casino, int bet, int ar
         ((RouletteMenu*)DAT_011da878)->unk3fe8 = bet;
         ((RouletteMenu*)DAT_011da878)->unk3ff0 =
             DAT_011dea3c->FUN_00575610(((CasinoForRoulette*)DAT_011da880)->TESCasino_GetChipType());
-        ((RouletteMenu*)DAT_011da878)->unk3FF4 = DAT_011dea3c->av.GetActorValueAsInteger(11);
+        ((RouletteMenu*)DAT_011da878)->unk3FF4 = DAT_011dea3c->av.GetClampedActorValueI(11);
         ((RouletteMenu*)DAT_011da878)->unk3fec = 0;
         DAT_011da878->FUN_00a1dc70(reinterpret_cast<TileMenu*>(ui), false);
         if (!static_cast<unsigned char>(DAT_011da878->HasAllTiles()))
@@ -2350,7 +2350,7 @@ extern CasinoX* DAT_011da880;
 
 struct GamepadX
 {
-    int GetAxisState(int a1, int a2);
+    int OSInputGlobals_GetControllerValue(int a1, int a2);
     int Controls_GetMouseAxis(int a1);
 };
 struct InputX
@@ -2477,8 +2477,8 @@ void RouletteMenu::DoIdle_007bd2a0()
     InterfaceManager_GetSingleton();
     if (InterfaceManager_Has360Controller())
     {
-        iStickX3 = DAT_011dea0c->Main_GetControls()->GetAxisState(0, 7);
-        iStickY5 = DAT_011dea0c->Main_GetControls()->GetAxisState(0, 8);
+        iStickX3 = DAT_011dea0c->Main_GetControls()->OSInputGlobals_GetControllerValue(0, 7);
+        iStickY5 = DAT_011dea0c->Main_GetControls()->OSInputGlobals_GetControllerValue(0, 8);
         if (NiAbs_00408820((float)iStickX3) <= 7849.0)
         {
             iStickX3 = 0;

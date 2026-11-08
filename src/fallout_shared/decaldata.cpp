@@ -75,7 +75,7 @@ void FUN_00593370_shell::SwapEndianFields()
 }
 
 bool __cdecl TESForm_QEndianSwapOnSave();
-void __cdecl AppendChunk(void*, void*, unsigned int);
+void __cdecl TESForm___AddChunkData(void*, void*, unsigned int);
 struct FUN_00593320_shell
 {
     void DecalData_Save(void*);
@@ -86,7 +86,7 @@ void FUN_00593320_shell::DecalData_Save(void* a1)
 {
     if (TESForm_QEndianSwapOnSave())
         ((DecalData*)this)->SwapEndianFields();
-    AppendChunk(a1, this, 0x24);
+    TESForm___AddChunkData(a1, this, 0x24);
     if (TESForm_QEndianSwapOnSave())
         ((DecalData*)this)->SwapEndianFields();
 }

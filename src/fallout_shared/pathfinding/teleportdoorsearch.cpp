@@ -85,7 +85,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
                     continue;
                 }
             }
-            if (reinterpret_cast<TESObjectDOOR*>(a00->GetObjectReference())->IsTeleportDoor() && disposition != 3)
+            if (reinterpret_cast<TESObjectDOOR*>(a00->GetObjectReference())->IsMinimalUse() && disposition != 3)
                 a06 = 409600.0f;
             reinterpret_cast<NiPoint3&>(a04) = *static_cast<const TESObjectREFR*>(a00)->GetPos();
             float b00;

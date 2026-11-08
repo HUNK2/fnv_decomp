@@ -275,10 +275,11 @@ struct TileProcessor
 };
 struct FUN_00759470_Class
 {
-    void UpdateNoteDisplay(BGSNote* a1);
+    void ComputersMenu_DisplayNoteImage(BGSNote* a1);
 };
 // @fnv 0x00759470
-void FUN_00759470_Class::UpdateNoteDisplay(BGSNote* pNote)
+// src: COMMUNITY 0x00759470
+void FUN_00759470_Class::ComputersMenu_DisplayNoteImage(BGSNote* pNote)
 {
     ((TileProcessor*)*((int*)this + 0x3a))->ProcessAllTiles();
     ((Tile*)*((int*)this + 0xb))->Set(0xfa3, 0);
@@ -290,7 +291,7 @@ void FUN_00759470_Class::UpdateNoteDisplay(BGSNote* pNote)
         ((Tile*)*((int*)this + 0x11))->Set(0xfa3, 0);
         ((Tile*)*((int*)this + 0x19))->Set(0xfa3, 0);
     }
-    ((Tile*)*((int*)this + 0xc))->Set(0xfcc, reinterpret_cast<TESFullName*>(pNote->GetNoteTexture())->GetFullName(), true);
+    ((Tile*)*((int*)this + 0xc))->Set(0xfcc, reinterpret_cast<TESFullName*>(pNote->GetNoteImage())->GetFullName(), true);
 }
 
 

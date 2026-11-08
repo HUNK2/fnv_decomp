@@ -268,7 +268,7 @@ extern "C" void* g_01270900;
 void* __cdecl NiShaderDeclaration_GetRTTI();
 struct FUN_00e758f0_shell
 {
-    void PackColorToUInt(float* floats);
+    void NiDX9Renderer_SetBackgroundColorAlpha(float* floats);
 };
 extern int DAT_0126f580[];
 void __cdecl NiDX92DBufferData_ClearRenderTarget(int* param1, int param2);
@@ -791,7 +791,7 @@ struct CopyRendererData
     char pad[0x14];
     CpSurf* surface;
 };
-struct RenderCopyData
+struct CopyBuffer
 {
     char pad[8];
     unsigned int width;
@@ -805,7 +805,7 @@ struct CpRectNi
 typedef void(__cdecl* CopyMsgFn)(const char*, ...);
 struct FUN_00e6f840_shell
 {
-    bool CopySurface(RenderCopyData* src, RenderCopyData* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
+    bool CopySurface(CopyBuffer* src, CopyBuffer* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
 };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e76c30_Info
@@ -2951,7 +2951,7 @@ struct GeomData_e6da60
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -2977,7 +2977,7 @@ struct GeomData_e6da60
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual unsigned int GetStreamValue(unsigned int uiIndex);
     virtual void vf41();

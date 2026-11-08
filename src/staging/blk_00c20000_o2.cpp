@@ -485,7 +485,8 @@ struct FUN_00c24c90
 extern int DAT_010be514;
 // Allocates a 0x90-byte FUN_00c24c90, runs its constructor, sets the vtable to DAT_010be514 and clears m_7c, returning the object or null.
 // @fnv 0x00c25ca0
-FUN_00c24c90* __cdecl CreateFUN_00c24c90()
+// src: EXE 0x00c25ca0
+FUN_00c24c90* __cdecl BSStripPSysData_CreateObject()
 {
     FUN_00c24c90* p = (FUN_00c24c90*)BSFadeNode::operator new(0x90);
     if (p)
@@ -725,7 +726,8 @@ class C29E50Object : public C29E50Base
 
 // Allocates and constructs a new C29E50Object and returns it.
 // @fnv 0x00c29e50
-C29E50Object* __cdecl CreateC29E50Object()
+// src: EXE 0x00c29e50
+C29E50Object* __cdecl NiPSysInitialRotSpeedVarCtlr_CreateObject()
 {
     return new C29E50Object;
 }
@@ -734,7 +736,8 @@ extern int DAT_010bedbc;
 
 // Allocates a ParticleFactoryObject, calls Initialize, sets its vtable to DAT_010bedbc, and returns it (or null on allocation failure).
 // @fnv 0x00c29f50
-BSFadeNode* CreateParticleFactoryObject()
+// src: EXE 0x00c29f50
+BSFadeNode* NiPSysInitialRotSpeedCtlr_CreateObject()
 {
     BSFadeNode* object =
         static_cast<BSFadeNode*>(BSFadeNode::operator new(0x40));
@@ -756,7 +759,8 @@ void* operator new(unsigned int, void* memory)
 
 // Allocates a ParticleObjectFactoryType with BSFadeNode::operator new and constructs it in place, returning null if allocation fails.
 // @fnv 0x00c2a160
-BSFadeNode* CreateParticleObjectFactory()
+// src: EXE 0x00c2a160
+BSFadeNode* NiPSysInitialRotAngleCtlr_CreateObject()
 {
     BSFadeNode* object = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x40));
     if (object)
@@ -794,7 +798,8 @@ extern int DAT_010bf654;
 
 // Allocates a ParticleEmitterAllocation, calls Initialize, sets its vtable to DAT_010bf654, and returns it (or null on allocation failure).
 // @fnv 0x00c2b330
-BSFadeNode* CreateParticleEmitterAllocation()
+// src: EXE 0x00c2b330
+BSFadeNode* NiPSysEmitterSpeedCtlr_CreateObject()
 {
     BSFadeNode* emitter =
         static_cast<BSFadeNode*>(BSFadeNode::operator new(0x40));
@@ -822,7 +827,8 @@ class NiPSysModC2D : public NiPSysPositionModifier
 
 // Allocates and constructs a new NiPSysModC2D object, returning it as a NiPSysPositionModifier pointer.
 // @fnv 0x00c2d690
-NiPSysPositionModifier* CreateNiPSysModC2D()
+// src: EXE 0x00c2d690
+NiPSysPositionModifier* NiPSysBoundUpdateModifier_CreateObject()
 {
     return new NiPSysModC2D;
 }
@@ -902,11 +908,12 @@ FUN_00c31440_cls* FUN_00c31440_cls::AssignString(char** src)
 }
 
 // Factory: allocates a 0x40-byte object, runs the FUN_00c32d80 base constructor and
-// installs this type's vtable (same pattern as ParticleObjectFactoryType / CreateParticleObjectFactory).
+// installs this type's vtable (same pattern as ParticleObjectFactoryType / NiPSysInitialRotAngleCtlr_CreateObject).
 extern int DAT_010bf754;
 // Allocates and constructs a PSysFactoryObject, returning the new instance.
 // @fnv 0x00c2b420
-BSFadeNode* __cdecl CreatePSysFactoryObject()
+// src: EXE 0x00c2b420
+BSFadeNode* __cdecl NiPSysEmitterPlanarAngleVarCtlr_CreateObject()
 {
     BSFadeNode* object = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x40));
     if (object)
@@ -938,7 +945,8 @@ BSFadeNode* NiPSysEmitterDeclinationCtlr_CreateObject()
 extern int DAT_010bf854;
 // Allocates and constructs a new PSysFactoryObjectB52 and returns it.
 // @fnv 0x00c2b520
-BSFadeNode* __cdecl CreatePSysFactoryObjectB52()
+// src: EXE 0x00c2b520
+BSFadeNode* __cdecl NiPSysEmitterPlanarAngleCtlr_CreateObject()
 {
     BSFadeNode* object = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x40));
     if (object)

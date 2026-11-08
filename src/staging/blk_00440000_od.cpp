@@ -122,7 +122,8 @@ template <class T> class LayoutNiPointer
 #undef __local_vftable_ctor_closure
 
 // @fnv 0x004410d0
-void NiGeometryData::SetByteAtOffset38(unsigned char aucValue)
+// src: COMMUNITY 0x004410d0
+void NiGeometryData::SetKeepFlags(unsigned char aucValue)
 {
     m_ucKeepFlags = aucValue;
 }
@@ -580,33 +581,34 @@ void FUN_00450b60_Class::ClearList()
     ((List_009e03e0*)((char*)this + 0x94))->RemoveAll();
 }
 
-int __fastcall GetByteAtOffset38(void*);
+int __fastcall TESObjectCELL_GetState(void*);
 
 // @fnv 0x00450fb0
 // src: XBOX_PDB 0x00450fb0
 bool __fastcall TESObjectCELL_GetLoaded(void* pThis)
 {
-    return GetByteAtOffset38(pThis) == 3;
+    return TESObjectCELL_GetState(pThis) == 3;
 }
 
 struct FUN_00450fd0_class
 {
-    unsigned int GetByteAtOffset38() const;
+    unsigned int TESObjectCELL_GetState() const;
 };
 
 // @fnv 0x00450fd0
-unsigned int FUN_00450fd0_class::GetByteAtOffset38() const
+// src: COMMUNITY 0x00450fd0
+unsigned int FUN_00450fd0_class::TESObjectCELL_GetState() const
 {
     return ((const unsigned char*)this)[0x26];
 }
 
-int __fastcall GetByteAtOffset38(void*);
+int __fastcall TESObjectCELL_GetState(void*);
 
 // @fnv 0x00450ff0
 // src: XBOX_PDB 0x00450ff0
 bool __fastcall TESObjectCELL_GetAttached(void* self)
 {
-    return GetByteAtOffset38(self) == 6;
+    return TESObjectCELL_GetState(self) == 6;
 }
 
 struct FUN_004524f0_Class
@@ -2569,7 +2571,7 @@ void TES_SetCollisionDisableFlag(unsigned char a)
 
 struct FUN_00541570_shell
 {
-    unsigned int __thiscall GetField1C();
+    unsigned int __thiscall TESLandTexture_GetHavokMaterialType();
 };
 struct FUN_00457880_Class
 {
@@ -2585,7 +2587,7 @@ unsigned int __thiscall FUN_00457880_Class::TES_GetLandMaterialType(int arg)
     pRes = 2;
     pObj = TES_GetLandTexture(arg);
     if (pObj)
-        pRes = pObj->GetField1C();
+        pRes = pObj->TESLandTexture_GetHavokMaterialType();
     return pRes;
 }
 
@@ -2811,11 +2813,12 @@ struct FUN_0045c4e0_This
     unsigned char pad[0xCC];
     int fieldCC;
     void __thiscall BSMultiBoundRoom_RemoveFrustum();
-    void __thiscall SetFieldCC(int);
+    void __thiscall BSMultiBoundRoom_SetCompoundFrustum(int);
 };
 // If fieldCC is set and differs from a, calls FUN_0045c520, then stores a into fieldCC.
 // @fnv 0x0045c4e0
-void __thiscall FUN_0045c4e0_This::SetFieldCC(int aiValue)
+// src: COMMUNITY 0x0045c4e0
+void __thiscall FUN_0045c4e0_This::BSMultiBoundRoom_SetCompoundFrustum(int aiValue)
 {
     if (fieldCC != 0 && fieldCC != aiValue)
         BSMultiBoundRoom_RemoveFrustum();

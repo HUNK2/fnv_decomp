@@ -165,8 +165,8 @@ extern void* DAT_01269024;
 void hkpMidphaseViewer_Create();
 
 // @fnv 0x00d6a850
-// src: GUESS 0x00d6a850 (confidence: low)
-void hkpMidphaseViewer_Create_SetDAT01269024()
+// src: COMMUNITY 0x00d6a850
+void hkpMidphaseViewer_registerViewer()
 {
     DAT_01269024 = DAT_01269cd0->Register(DAT_010d22e0, hkpMidphaseViewer_Create);
 }

@@ -53,9 +53,9 @@ void BGSCameraShot::InitItem()
 // @fnv 0x009c6ba0
 void BGSCameraShot::ResetCameraShot()
 {
-    ((VATS*)this)->ProcessVATSCommands();
+    ((VATS*)this)->ClearCommandList();
     if (((CameraTargetResetFields*)this)->node)
-        ((CameraTargetResetFields*)this)->node->ResetCameraState();
+        ((CameraTargetResetFields*)this)->node->BGSCameraShot_FreeCamera();
     ((CameraTargetResetFields*)this)->field0c = 0;
     ((CameraTargetResetFields*)this)->node = 0;
     ((CameraTargetResetFields*)this)->f14 = 0.0f;
@@ -236,7 +236,7 @@ public:
 // @fnv 0x0058c4d0
 void BGSCameraShotRecordWriter::SaveForm()
 {
-    TESForm::BeginFormRecord();
+    TESForm::TESForm_StartForm();
     ((TESModel*)((char*)this + 0x18))->WriteToBuffer(0x4C444F4D, 0x54444F4D);
     if (TESForm_QEndianSwapOnSave())
         Data.BGSCameraShot_CAMERA_SHOT_DATA_Endian();
@@ -244,7 +244,7 @@ void BGSCameraShotRecordWriter::SaveForm()
     if (TESForm_QEndianSwapOnSave())
         Data.BGSCameraShot_CAMERA_SHOT_DATA_Endian();
     ((FUN_00487450_shell*)((char*)this + 0x30))->FUN_00487450();
-    TESForm::FinishFormRecord();
+    TESForm::TESForm_CloseForm();
 }
 
 // Byte-swaps each of the ten 32-bit fields of the object via BSEndian.
@@ -267,7 +267,7 @@ void BGSCameraShot__CAMERA_SHOT_DATA::BGSCameraShot_CAMERA_SHOT_DATA_Endian()
 // @fnv 0x0058be90
 BGSCameraShot::~BGSCameraShot()
 {
-    ((StateNode*)this)->ResetCameraState();
+    ((StateNode*)this)->BGSCameraShot_FreeCamera();
 }
 
 // @fnv 0x0058d4f0
@@ -306,7 +306,8 @@ struct VATSLocation
 };
 extern VATSLocation DAT_011f2250;
 // @fnv 0x0058d510
-NiPoint3 BGSCameraShot::GetCameraPosition()
+// src: COMMUNITY 0x0058d510
+NiPoint3 BGSCameraShot::GetTargetPos()
 {
     NiPoint3 position = NiPoint3_ZERO;
     if (((CameraShotAccess*)this)->GetPositionTime() > 0.0)
@@ -477,7 +478,7 @@ public:
     void PlayerCharacter_RewardKarma(int);
     float TESObjectREFR_GetScale_00567400();
     void PlayActorSound(TESBoundObject* o, int a1, int a2);
-    void SyncHolderValue();
+    void PlayerCharacter_Setup3rdPersonCameraCaster();
 };
 extern PlayerObj_bgscamerashot* DAT_011dea3c;
 
@@ -606,7 +607,7 @@ void BGSCameraShot::SetupCamera(void* param1, int iMode)
             bannerOutPtr.Play(false);
         }
     }
-    DAT_011dea3c->SyncHolderValue();
+    DAT_011dea3c->PlayerCharacter_Setup3rdPersonCameraCaster();
 }
 
 struct M3
@@ -922,6 +923,6 @@ void BGSCameraShot::UpdateCamera(float afTime)
             }
         }
     }
-    if ((GetCameraPosition() - pt).Length() <= *Setting_Float_00403e20(&DAT_011ca7d0))
+    if ((GetTargetPos() - pt).Length() <= *Setting_Float_00403e20(&DAT_011ca7d0))
         m_bFlag74 = 1;
 }

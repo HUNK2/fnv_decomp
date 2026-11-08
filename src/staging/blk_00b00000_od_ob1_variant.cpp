@@ -181,7 +181,7 @@ class FUN_00b00b40_cls
     virtual void v14();
     virtual bool v18(void* a, void* b, bool c);
     bool m_04;
-    bool TryProcessPair(void** a, void** b, bool c);
+    bool BSTaskletManager_AttachTask(void** a, void** b, bool c);
 };
 class B00C20Item
 {

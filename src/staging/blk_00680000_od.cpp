@@ -3441,7 +3441,7 @@ extern int DAT_011f426c;
 void* operator new(unsigned int n);
 void* __cdecl Object_DispatchCommandFour(unsigned int n);
 void* __cdecl FormHeap_Allocate(unsigned int n);
-void* __stdcall GetPathManager(void* p, int a);
+void* __stdcall PathManager_QInstance(void* p, int a);
 void* __cdecl BSTestObjects_CreateSphere(float f, int a, int b, void* p);
 void __cdecl AttachLightingPropertyRecursive(void* p);
 void __cdecl FUN_00b57e30(void* p, int a, int b);
@@ -3614,7 +3614,7 @@ struct ResObj
     virtual void vf9();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -3640,7 +3640,7 @@ struct ResObj
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -3727,7 +3727,7 @@ struct VRes
     virtual void vf9();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -3753,7 +3753,7 @@ struct VRes
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -5895,7 +5895,7 @@ bool ThisCls::NavMeshPOVSearch_BuildPath(Vec3Obj* apStart, Vec3Obj* apEnd, void*
         {
             if (DAT_011d6ddc.FUN_0052aa80(0))
             {
-                ((GRes2*)GetPathManager(&DAT_011d6ddc, 0))->ForwardToHost();
+                ((GRes2*)PathManager_QInstance(&DAT_011d6ddc, 0))->ForwardToHost();
             }
             DAT_011d6ddc.FUN_0066b0d0(new ObjX(0));
         }
@@ -5981,7 +5981,7 @@ bool ThisCls::NavMeshPOVSearch_BuildPath(Vec3Obj* apStart, Vec3Obj* apEnd, void*
             DAT_011d6ddc.Modelloader_GetReferencedThis()->UpdateProperties();
             VecObj vobj(0.0f, 0, 0);
             DAT_011d6ddc.Modelloader_GetReferencedThis()->NiAVObject_Update(&vobj);
-            ((GRes2*)GetPathManager(&DAT_011d6ddc, 1))->ForwardToHost();
+            ((GRes2*)PathManager_QInstance(&DAT_011d6ddc, 1))->ForwardToHost();
         }
         {
             unsigned int m;

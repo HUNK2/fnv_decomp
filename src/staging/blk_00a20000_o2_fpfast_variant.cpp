@@ -2323,7 +2323,7 @@ public:
 inline void* __cdecl operator new(unsigned int, void* memory) throw() {
     return memory;
 }
-NiFloatInterpolator* __cdecl CreateNiFloatInterpolator();
+NiFloatInterpolator* __cdecl NiFloatInterpolator_CreateObject();
 int __cdecl AreFloatsEqual(const float* pfA, const float* pfB);
 // AccumulateAnimSink: dispatch a request to the animation sink found at +0x24c
 // of the object passed in, and accumulate the returned count.

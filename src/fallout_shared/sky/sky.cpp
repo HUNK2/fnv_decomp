@@ -97,7 +97,8 @@ unsigned char TESObjectCELL::GetFakeExterior()
 
 // Updates sky colors, calls FUN_0063bce0, updates the two optional sky objects with time, and sets the renderer background color.
 // @fnv 0x0063b0a0
-void Sky::UpdateWeatherTransition(float time)
+// src: COMMUNITY 0x0063b0a0
+void Sky::UpdateInterior(float time)
 {
     UpdateColors();
     UpdateFog();
@@ -729,7 +730,7 @@ void Sky::UpdateColors_0063b120()
         reinterpret_cast<NiPoint3&>(m_kSkyColors[3]) = NiPoint3(g_011c7200_arg1, g_011c7200_arg1, runtimeFloatSettingDefault538);
         if (m_pClouds)
         {
-            for (int i = 0; i < m_pClouds->GetOffset58(); i++)
+            for (int i = 0; i < m_pClouds->Clouds_GetNumLayers(); i++)
             {
                 NiPoint3 Color(0.1f, 0.1f, 0.1f);
                 static_cast<CloudColorMethods*>(m_pClouds)->Clouds_SetColor(i, (NiColor*)&Color);
@@ -748,7 +749,7 @@ void Sky::UpdateColors_0063b120()
             m_kSkyColors[8] = reinterpret_cast<NiColor&>(m_kSkyColor) = m_kSkyColors[1];
         if (m_pClouds)
         {
-            for (int i = 0; i < m_pClouds->GetOffset58(); i++)
+            for (int i = 0; i < m_pClouds->Clouds_GetNumLayers(); i++)
             {
                 static_cast<CloudColorMethods*>(m_pClouds)->Clouds_SetColor(i, &m_kSkyColors[1]);
             }
@@ -776,7 +777,7 @@ void Sky::UpdateColors_0063b120()
         }
         if (m_pClouds)
         {
-            for (int i = 0; i < m_pClouds->GetOffset58(); i++)
+            for (int i = 0; i < m_pClouds->Clouds_GetNumLayers(); i++)
             {
                 static_cast<SkyCloudColorCallMethods*>(this)
                     ->QueryTwoSources(&cb, m_pRegionWeather, m_pPreviousWeather, i, &aeTime1,
@@ -949,7 +950,7 @@ void Sky::Update_0063ac70(float afSecondsPassed)
 
     if (eMode == 1 && !g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading())
     {
-        UpdateWeatherTransition(afSecondsPassed);
+        UpdateInterior(afSecondsPassed);
         return;
     }
 
@@ -1395,7 +1396,7 @@ public:
 // src: XBOX_PDB 0x00634930
 void CloudLayerResetMethods::Clouds_ClearTransTextures()
 {
-    for (int i = 0; i < GetOffset58(); i++)
+    for (int i = 0; i < Clouds_GetNumLayers(); i++)
     {
         reinterpret_cast<ElemA_b9476&>(m_pCloudLayerTexture[i]).Clear(0);
         if (reinterpret_cast<ElemA_b9476&>(m_pCloudLayerGeometry[i]).Test())
@@ -1616,7 +1617,7 @@ void Sky::UpdateFog()
             if (eMode == 3 || eMode == 2)
             {
                 bool hidden = blend8 > DAT_01011588;
-                for (int i = 0; i < static_cast<FogSkyMethods*>(this)->FUN_0055b980()->GetOffset58(); ++i)
+                for (int i = 0; i < static_cast<FogSkyMethods*>(this)->FUN_0055b980()->Clouds_GetNumLayers(); ++i)
                     static_cast<FogSkyMethods*>(this)->FUN_0055b980()->Clouds_GetLayer(i)->FUN_00450f90(hidden);
                 static_cast<FogSkyMethods*>(this)->BGSSaveFormBuffer_GetForm()->FUN_005585e0()->FUN_00450f90(hidden);
                 static_cast<FogSkyMethods*>(this)->FUN_0045cd60()->FUN_005585e0()->FUN_00450f90(hidden);
@@ -1916,7 +1917,7 @@ void SkyTextureRefreshMethods::Sky_ReloadAllTextures()
                        "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Sky\\Sky.cpp", 2268);
     if (m_pClouds && m_pRegionWeather && !g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading())
     {
-        for (int i = 0; i < m_pClouds->GetOffset58(); i++)
+        for (int i = 0; i < m_pClouds->Clouds_GetNumLayers(); i++)
         {
             if (m_pRegionWeather->GetCloudTexture(i) &&
                 m_pRegionWeather->GetCloudTexture(i)->GetTextureNameLength())
@@ -2416,7 +2417,7 @@ void Sky::FillColorBlend(SkyInterpolationData* pData, TESWeather* m_pWeatherObje
 }
 
 
-struct SetHelper
+struct TESObjectCELL_SetNavMeshArray
 {
     float x, y, z;
     NiPoint3* Set(float a, float b, float c);
@@ -2468,7 +2469,7 @@ void Sky::SetColor_0063c690(NiColor* apOutRgb, SkyColorData* pSkyColorData, floa
     t = BSMIN(1.0f, t);
     if (t > 0.0)
     {
-        SetHelper sh;
+        TESObjectCELL_SetNavMeshArray sh;
         ((Sh63c8a0*)reinterpret_cast<float*>(apOutRgb))->ComputeValue_0063c8a0(sh.Set(t, t, t));
         if (m_pRegionWeather)
         {

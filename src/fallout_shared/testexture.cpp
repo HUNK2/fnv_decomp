@@ -26,7 +26,8 @@ void TESTexture::InitializeComponent()
 }
 
 // @fnv 0x0048e6c0
-void TESTexture::ConvertTexturePath(const char* path, char* output)
+// src: COMMUNITY 0x0048e6c0
+void TESTexture::GetAsSkinFile(const char* path, char* output)
 {
     TaskQueueInterface::CopyStringToBuffer(output, 0x104, path);
     char* extension = strrchr_0040ab30(output, '.');
@@ -69,7 +70,8 @@ void TESTexture::ReadTextureData(TESTexture* texture, TESFile* file)
 
 // Builds the normal-map path by replacing the extension of path with "_n.dds", stores it in result and returns the string.
 // @fnv 0x0048e5b0
-const char* TESTexture::NormalizeTextureFilePath(BSStringT<char>& result, const char* path)
+// src: COMMUNITY 0x0048e5b0
+const char* TESTexture::GetAsNormalFile(BSStringT<char>& result, const char* path)
 {
     char* extension = 0;
     {
@@ -114,7 +116,8 @@ bool __cdecl IsChunkTypeIcon(int aChunk)
 }
 
 // @fnv 0x0048e660
-void __cdecl AppendNormalMapSuffix(const char* source, char* dest)
+// src: COMMUNITY 0x0048e660
+void __cdecl TESTexture_GetAsNormalFile(const char* source, char* dest)
 {
     TaskQueueInterface::CopyStringToBuffer(dest, 0x104, source);
     char* dot = strrchr_0040ab30(dest, '.');
@@ -151,7 +154,7 @@ struct FUN_0048e580_shell : FNStub
 // src: COMMUNITY 0x0048e580
 const char* __thiscall FUN_0048e580_shell::TESTexture_GetNormalMap(BSStringT<char>& result)
 {
-    return TESTexture::NormalizeTextureFilePath(result, this->GetFullName());
+    return TESTexture::GetAsNormalFile(result, this->GetFullName());
 }
 
 struct TESTexture_shell

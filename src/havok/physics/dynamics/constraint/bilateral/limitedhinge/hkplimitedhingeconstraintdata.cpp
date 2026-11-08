@@ -42,7 +42,8 @@ void __thiscall hkpLimitedHingeConstraintData::vf03(float v)
 
 // The shared header has no motor setter; keep its implementation as a local helper.
 // @fnv 0x00cb8ac0
-void __fastcall SetLimitedHingeMotor(hkpLimitedHingeConstraintData* self, void*, hkReferencedObject* pObject)
+// src: COMMUNITY 0x00cb8ac0
+void __fastcall hkpLimitedHingeConstraintData_setMotor(hkpLimitedHingeConstraintData* self, void*, hkReferencedObject* pObject)
 {
     if (pObject)
         pObject->addReference();

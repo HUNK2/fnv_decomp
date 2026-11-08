@@ -1721,7 +1721,8 @@ public:
 };
 // Placement-constructs an ObjD2C840 with the given count into the provided storage.
 // @fnv 0x00d2c840
-void __cdecl ConstructObjD2C840(void* storage, int count)
+// src: COMMUNITY 0x00d2c840
+void __cdecl finishLoadedObject_hkLiquidAction(void* storage, int count)
 {
     new(storage) ObjD2C840(count);
 }
@@ -2105,7 +2106,7 @@ struct D34970Context {
     float maxDistance;
     int option;
 };
-extern "C" void __cdecl hkpConvexListAgent_QueryClosestPointsAfterHullTest(int first, int second, int third, D34970Context* context);
+extern "C" void __cdecl hkpConvexListAgent_staticGetClosestPoints(int first, int second, int third, D34970Context* context);
 // Builds a D34970Context from DAT_010ce7fc, DAT_0104da48, and arg3, then calls FUN_00d339d0 with arg1, arg0, arg2, and the context.
 // @fnv 0x00d34970
 // src: GUESS 0x00d34970 (confidence: low)
@@ -2114,7 +2115,7 @@ void __cdecl Runtime_UpdateState_00d34970(int arg0, int arg1, int arg2, int aiOp
     context.pointer = &DAT_010ce7fc;
     context.maxDistance = DAT_0104da48;
     context.option = aiOption;
-    hkpConvexListAgent_QueryClosestPointsAfterHullTest(arg1, arg0, arg2, &context);
+    hkpConvexListAgent_staticGetClosestPoints(arg1, arg0, arg2, &context);
 }
 
 extern int DAT_010ce81c;

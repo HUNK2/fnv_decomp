@@ -27,7 +27,7 @@ class NiNode;
 class BSShaderRenderUtility_main
 {
 public:
-    bool IsRenderTargetId(unsigned int value);
+    bool TESDataHandler_IsFormIDCreated(unsigned int value);
     static void InitializeMultiBounds();
     static void SetRenderCamera(NiCamera* camera, BSShaderAccumulator* accumulator, bool unused);
     static void SetRenderCamera(AnimIdle* camera, AnimIdle* accumulator, bool unused);
@@ -1534,7 +1534,7 @@ void MainStandIn::Main_OnIdle_UpdateCurrentGridCell()
 {
     if (!DAT_011dea2b && !DAT_011d8907 && !flag7)
     {
-        g_TES->FindCellAtPosition(((TopicH*)g_thePlayer)->GetAddTopicList(), true);
+        g_TES->UpdateCurrentGridCell(((TopicH*)g_thePlayer)->GetAddTopicList(), true);
         if (TESCheck_00451530(g_TES) && !((BGSCameraPath*)g_TES)->GetPrevPath())
         {
             if (((RefrHelper*)g_thePlayer)->GetParentWorldSpace() == (TESWorldSpace*)g_TES->GetHitSound())
@@ -5215,7 +5215,7 @@ struct Receiver86
     void* FUN_0086bee0(unsigned int);
     void* FUN_0086bf10(unsigned int);
     void* FUN_0086bf40(unsigned int);
-    void ReleaseAndClearObject();
+    void PathManager_Release();
     void* FUN_00717e50();
     void INISettingCollection_SaveAll(void*);
     void RemoveEntryFromBothLists(void*);
@@ -5430,7 +5430,7 @@ int __cdecl BSTreeManager_SetCamera(...);
 Receiver86* __cdecl AILinearTaskThreadManager_GetSingleton();
 int __cdecl FUN_008c7290(...);
 int __cdecl Pathing_Init(...);
-Receiver86* __cdecl GetPathManager();
+Receiver86* __cdecl PathManager_QInstance();
 int __cdecl FUN_006eb8c0(...);
 Receiver86* __cdecl GetNavMeshObstacleManager();
 int __cdecl NavMeshObstacleManager_CreateListeners(...);
@@ -5512,7 +5512,7 @@ int __cdecl DecalCaster_ClearInstance(...);
 int __cdecl Runtime_ReleaseStorage_00626f10(...);
 int __cdecl NavMeshObstacleManager_Release(...);
 int __cdecl FUN_0086bee0(...);
-int __cdecl ReleaseAndClearObject(...);
+int __cdecl PathManager_Release(...);
 int __cdecl BSFaceGenManager_DestroySystem(...);
 int __cdecl CombatManager_FreeAll(...);
 int __cdecl BSTreeManager_Destroy_(...);
@@ -5825,7 +5825,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                     AILinearTaskThreadManager_GetSingleton()->FUN_008c7290();
                 }
                 Pathing_Init();
-                GetPathManager()->FUN_006eb8c0();
+                PathManager_QInstance()->FUN_006eb8c0();
                 if (*g_011d73e4.FUN_00408d60())
                 {
                     GetNavMeshObstacleManager()->NavMeshObstacleManager_CreateListeners();
@@ -6014,7 +6014,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 tesDeleteTarget23 = tesToDelete37;
                 tesDeleteTarget23 ? tesDeleteTarget23->FUN_0086bee0(1) : 0;
                 BGSTerrainManager_FreeLODNodes();
-                GetPathManager()->ReleaseAndClearObject();
+                PathManager_QInstance()->PathManager_Release();
                 BSFaceGenManager_DestroySystem();
                 CombatManager_FreeAll();
                 ((Manager86*)FUN_00b00a00())->Stop();
@@ -7920,7 +7920,7 @@ bool __cdecl BSTexturePalette_IsPartiallyPurged();
 Service* __cdecl FUN_0049fef0();
 Service* __cdecl Main_GetWorldSceneGraph();
 Service* __cdecl AILinearTaskThreadManager_GetSingleton();
-Service* __cdecl GetPathManager();
+Service* __cdecl PathManager_QInstance();
 Service* __cdecl NavMeshRender_GetSingleton();
 Service* __cdecl GetNavMeshObstacleManager();
 bool __cdecl NiParallelUpdateTaskManager_IsActive();
@@ -8136,7 +8136,7 @@ void MainLoop::Main_OnIdle()
             Interface_LastMinuteUpdate();
     }
     if (!paused)
-        GetPathManager()->FUN_006ebc50();
+        PathManager_QInstance()->FUN_006ebc50();
     NavMeshRender_GetSingleton()->NavMeshRender_Update();
     if (*DAT_011c3ea4.Setting_Int() == 1)
     {
@@ -8996,7 +8996,7 @@ struct MTRenderer
 };
 MTRenderer* FUN_004ea970();
 void AutoTileLock_AutoTileLock();
-void Object___imp__LeaveCriticalSection_Thunk();
+void Tile_Unlock();
 struct MenuTarget
 {
     unsigned int BSRenderedTexture_GetWidth(unsigned int);
@@ -9157,7 +9157,7 @@ void FUN_00871dc0_class::Main_RenderMenuBackground()
     FUN_004ea970()->MTRenderingSystem_WaitForThreads();
     DAT_011dea29 = true;
     Main_WorldRootCamera()->FUN_00712e60(Rect(0, 1, 1, 0));
-    Object___imp__LeaveCriticalSection_Thunk();
+    Tile_Unlock();
     NiXenonRenderer_GetRenderer()->NiXenonRenderer_UnlockRenderer();
     unk9c = false;
     DAT_011ad884 = menu;
@@ -11821,12 +11821,13 @@ extern bool DAT_011f35c8;
 
 struct FUN_00a23390_t
 {
-    int GetAxisState(int device, int axis);
+    int OSInputGlobals_GetControllerValue(int device, int axis);
 };
 
 // Returns the state of the specified controller axis, reading from per-device state or global fallback values for axes 7-10.
 // @fnv 0x00a23390
-int FUN_00a23390_t::GetAxisState(int device, int axis)
+// src: COMMUNITY 0x00a23390
+int FUN_00a23390_t::OSInputGlobals_GetControllerValue(int device, int axis)
 {
     int* pAxisState = (int*)((char*)this + device * 0xa0 + 0x34);
     switch (axis)
@@ -12553,7 +12554,7 @@ struct CameraHolder
 };
 struct ProjectionResult
 {
-    bool ProjectPointToScreen();
+    bool NiCamera_WorldPtToScreenPt3();
 };
 struct ProjectionView
 {
@@ -12764,7 +12765,7 @@ void RenderCoordinator::TESMain_DrawWorldStandard(int arg, bool skip)
         float w, u, n;
         w = u = n = 0.0f;
         ProjectionView* a = (ProjectionView*)Main_GetWorldSceneGraph();
-        bool f = a->FUN_006629f0(v, w, u, n, 0.00001f)->ProjectPointToScreen();
+        bool f = a->FUN_006629f0(v, w, u, n, 0.00001f)->NiCamera_WorldPtToScreenPt3();
         ((ImageView*)BSShaderManager_GetImageSpaceManager())->ImageSpaceManager_SetSunPosition(NiPoint2(w, u));
     }
     if (BSShaderManager_GetImageSpaceEffects())
@@ -13402,7 +13403,7 @@ class PlayerUpdate : public TESObjectREFR
     virtual void Unk_AC(void);
     virtual void Unk_AD(void);
     virtual void Unk_AE(void);
-    virtual float GetCurrentTargetDistance(bool ignoreImmobile);
+    virtual float GetHeading(bool ignoreImmobile);
     virtual void Unk_B0(void);
     virtual void SetFurnitureHeading(float heading);
     virtual TESObjectREFR* GetCurrentTarget();
@@ -13578,7 +13579,7 @@ struct ResourceObject
     void BSMultiBoundNode_SetCullingMode(int);
     void FUN_005467c0(int);
     void NiAVObject_SetAlwaysDraw(int);
-    void SetDepthParams(float);
+    void BSFogProperty_SetDepth(float);
     void NiAlphaProperty_SetAlphaBlending(int);
     void NiAVObject_AttachProperty(void*);
     void NiAVObject_SetTranslate_004bc1f0(float, float, float);
@@ -13688,7 +13689,7 @@ struct InputObject : ModuleRoot
     void SetBaseTexture(int);
     void FUN_0060aeb0(int);
     void FUN_004f3200(int);
-    void SetDepthParams(float);
+    void BSFogProperty_SetDepth(float);
     void NiAlphaProperty_SetAlphaBlending(int);
     void NiScreenElements_Insert(int, int, int);
     void NiScreenElements_SetRectangle(int, float, float, float, float);
@@ -14292,7 +14293,7 @@ void RenderSystem::TESMain_InitSceneGraph()
 
     DAT_011deb00.FUN_0066b0d0((InputObject*)new BSFogProperty());
     DAT_011deb00.Modelloader_GetReferencedThis()->NiAlphaProperty_SetAlphaBlending(1);
-    DAT_011deb00.Modelloader_GetReferencedThis()->SetDepthParams(1.0f);
+    DAT_011deb00.Modelloader_GetReferencedThis()->BSFogProperty_SetDepth(1.0f);
     FUN_00b55540(0, DAT_011deb00.Modelloader_GetReferencedThis());
 
     DAT_011deb34.FUN_0066b0d0((InputObject*)new FUN_00c46970());

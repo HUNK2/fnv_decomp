@@ -1328,7 +1328,8 @@ struct DerivedStandin : A51BF0Base, S_00cb79d0_Base {
 
 // Allocates and constructs a DerivedStandin object, returning its pointer.
 // @fnv 0x00cc2bc0
-void* CreateDerivedStandin()
+// src: EXE 0x00cc2bc0
+void* bhkSpringAction_CreateObject()
 {
     return new DerivedStandin;
 }
@@ -1411,7 +1412,8 @@ struct Derived5130 : S_00cb79d0_Base {
 
 // Allocates and constructs a Derived5130 object, returning the new instance.
 // @fnv 0x00cc5130
-void* CreateDerived5130()
+// src: EXE 0x00cc5130
+void* bhkWheelConstraint_CreateObject()
 {
     return new Derived5130;
 }
@@ -1859,7 +1861,8 @@ inline bhkBvTreeShape::bhkBvTreeShape()
 namespace fnv_00cc9e60 {
 // Allocates and constructs a new bhkBvTreeShape, returning the pointer.
 // @fnv 0x00cc9e60
-bhkBvTreeShape* CreateBhkBvTreeShape()
+// src: EXE 0x00cc9e60
+bhkBvTreeShape* bhkMoppBvTreeShape_CreateObject()
 {
     return new bhkBvTreeShape;
 }
@@ -1954,7 +1957,8 @@ struct BD70_Object : S_00cb79d0_Base {
 
 // Allocates and constructs a BD70_Object, returning it as an S_00cb79d0_Base pointer.
 // @fnv 0x00ccbd70
-S_00cb79d0_Base* __cdecl CreateBD70Object()
+// src: EXE 0x00ccbd70
+S_00cb79d0_Base* __cdecl bhkExtendedMeshShape_CreateObject()
 {
     return new BD70_Object;
 }
@@ -2473,7 +2477,8 @@ struct FUN_00cc1d80_object {
 };
 extern "C" char DAT_011f49e0;
 // @fnv 0x00cc1ef0
-FUN_00cc1d80_object* __cdecl CreateObjectWithGlobal()
+// src: EXE 0x00cc1ef0
+FUN_00cc1d80_object* __cdecl bhkExtraData_CreateObject()
 {
     FUN_00cc1d80_object* value = new FUN_00cc1d80_object;
     value->AssignFixedString(&DAT_011f49e0);
@@ -2665,7 +2670,8 @@ struct RefObject24_b9018 {
 
 // Allocates and constructs a RefObject24_b9018 via its operator new and returns the pointer.
 // @fnv 0x00cc2410
-RefObject24_b9018* CreateRefObject24() {
+// src: EXE 0x00cc2410
+RefObject24_b9018* bhkCachingShapePhantom_CreateObject() {
     return new RefObject24_b9018();
 }
 
@@ -3582,7 +3588,8 @@ struct PhysicsElement {
 
 // Allocates and constructs a new PhysicsElement, returning the pointer.
 // @fnv 0x00cc33a0
-PhysicsElement* __cdecl CreatePhysicsElement() {
+// src: EXE 0x00cc33a0
+PhysicsElement* __cdecl bhkMotorAction_CreateObject() {
     return new PhysicsElement();
 }
 }  // namespace fnv_00cc33a0
@@ -4127,7 +4134,8 @@ struct DerivedStandin2 : A51BF0Base, S_00cb79d0_Base {
 
 // Allocates and constructs a DerivedStandin2 object, returning its pointer.
 // @fnv 0x00cc3b30
-void* CreateDerivedStandin2() {
+// src: EXE 0x00cc3b30
+void* bhkDashpotAction_CreateObject() {
     return new DerivedStandin2();
 }
 
@@ -5980,7 +5988,8 @@ struct CC5930_Obj : CC5930_Base {
 
 // Allocates and constructs a CC5930_Obj, returning the new object.
 // @fnv 0x00cc5930
-CC5930_Obj* __cdecl CreateCC5930Obj()
+// src: EXE 0x00cc5930
+CC5930_Obj* __cdecl bhkStiffSpringConstraint_CreateObject()
 {
     return new CC5930_Obj;
 }
@@ -6098,8 +6107,8 @@ FUN_00cc5e60::~FUN_00cc5e60()
 extern int DAT_01268604;
 
 // @fnv 0x00cc5ed0
-// src: GUESS 0x00cc5ed0 (confidence: low)
-int* __cdecl Runtime_GetDAT01268604Address()
+// src: EXE 0x00cc5ed0
+int* __cdecl bhkRagdollLimitsConstraint_GetRTTI()
 {
     return &DAT_01268604;
 }
@@ -7338,7 +7347,8 @@ struct PhysicsObject : PhysicsAllocator, PhysicsReference {
 
 // Allocates and constructs a new PhysicsObject via PhysicsAllocator::operator new and returns it.
 // @fnv 0x00cc9700
-PhysicsObject* __cdecl CreatePhysicsObject()
+// src: EXE 0x00cc9700
+PhysicsObject* __cdecl bhkBallAndSocketConstraint_CreateObject()
 {
     return new PhysicsObject;
 }
@@ -8011,7 +8021,8 @@ public:
 
 // Allocates and constructs a new CCAA80Object, returning the pointer.
 // @fnv 0x00ccaa80
-CCAA80Object* __cdecl CreateCCAA80Object()
+// src: EXE 0x00ccaa80
+CCAA80Object* __cdecl bhkTriangleShape_CreateObject()
 {
     return new CCAA80Object;
 }
@@ -8862,7 +8873,8 @@ struct TargetObject : AllocationBase, S_00c87c30_Base {
 
 // Allocates and constructs a TargetObject, returning the new instance.
 // @fnv 0x00ccb200
-TargetObject* __cdecl CreateTargetObject() {
+// src: EXE 0x00ccb200
+TargetObject* __cdecl bhkPlaneShape_CreateObject() {
     return new TargetObject();
 }
 
@@ -9089,7 +9101,7 @@ struct FUN_00ccb3e0_Class {
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -9115,7 +9127,7 @@ struct FUN_00ccb3e0_Class {
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -9579,7 +9591,8 @@ struct FunObj_b9645 : public FunObjBase_b9645 {
 
 // Allocates and constructs a new FunObj_b9645, returning the new object.
 // @fnv 0x00ccb9a0
-FunObj_b9645* CreateFunObj() {
+// src: EXE 0x00ccb9a0
+FunObj_b9645* bhkExtendedMeshShapeData_CreateObject() {
     return new FunObj_b9645();
 }
 
@@ -11311,7 +11324,8 @@ struct RefObject20_b9084 {
 
 // Allocates and constructs a RefObject20_b9084 via its operator new and returns the new object.
 // @fnv 0x00ccdd00
-RefObject20_b9084* CreateRefObject20() {
+// src: EXE 0x00ccdd00
+RefObject20_b9084* bhkConvexVerticesShape_CreateObject() {
     return new RefObject20_b9084();
 }
 
@@ -15125,7 +15139,8 @@ struct Constraint78 : ConstraintBase78 {
 };
 // Allocates and constructs a new Constraint78 object, returning the pointer.
 // @fnv 0x00cc67a0
-Constraint78* __cdecl CreateConstraint()
+// src: EXE 0x00cc67a0
+Constraint78* __cdecl bhkRagdollConstraint_CreateObject()
 {
     return new Constraint78;
 }
@@ -15682,7 +15697,7 @@ struct CcaOwner {
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -15708,7 +15723,7 @@ struct CcaOwner {
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41(int a);
@@ -17981,7 +17996,8 @@ inline bhkGenericConstraint::bhkGenericConstraint() { ++DAT_01268f74; }
 inline bhkFixedConstraint::bhkFixedConstraint() { ++DAT_01268624; }
 // Allocates and constructs a new bhkFixedConstraint object and returns it.
 // @fnv 0x00cc7e70
-bhkFixedConstraint* CreateFixedConstraint() { return new bhkFixedConstraint; }
+// src: EXE 0x00cc7e70
+bhkFixedConstraint* bhkFixedConstraint_CreateObject() { return new bhkFixedConstraint; }
 
 struct FUN_00d53d90 : hkReferencedObject {
     int unk08;
@@ -19152,7 +19168,8 @@ void BhkShapeLinkObject();
 
 // Reads and links the child shapes. The shared class omits LinkObject; retain its ECX receiver and stack argument here.
 // @fnv 0x00cd0170
-void __fastcall LinkConvexListShape(bhkConvexListShape* shape, void*, NiStream& kStream)
+// src: EXE 0x00cd0170
+void __fastcall bhkConvexListShape_LinkObject(bhkConvexListShape* shape, void*, NiStream& kStream)
 {
     AutoMemContext kContext(0x10);
     char cTmp;
@@ -19291,7 +19308,8 @@ struct CC1290Object {
 
 // Allocates and returns a new CC1290Object instance via its operator new.
 // @fnv 0x00cc1290
-CC1290Object* __cdecl CreateCC1290Object()
+// src: EXE 0x00cc1290
+CC1290Object* __cdecl bhkPoseArray_CreateObject()
 {
     return new CC1290Object;
 }
@@ -19534,7 +19552,7 @@ struct CC3D60Owner
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -19560,7 +19578,7 @@ struct CC3D60Owner
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -19736,7 +19754,8 @@ struct CC42A0Object : CC42A0Base
 };
 // Allocates and returns a new CC42A0Object instance via its operator new.
 // @fnv 0x00cc42a0
-CC42A0Object* CreateCC42A0Object()
+// src: EXE 0x00cc42a0
+CC42A0Object* bhkAngularDashpotAction_CreateObject()
 {
     return new CC42A0Object;
 }
@@ -20376,7 +20395,7 @@ struct CCD460Owner
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -20402,7 +20421,7 @@ struct CCD460Owner
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -22155,7 +22174,7 @@ struct FUN_00cdfe00_Object {
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual int* vf40();
 };

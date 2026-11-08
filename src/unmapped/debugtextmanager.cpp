@@ -68,7 +68,7 @@ int __thiscall FUN_00802860_class::ResetField()
 // Stand-in for the page registry object passed to FUN_00802220.
 struct PageTable
 {
-    void SetEntryStateByKey(int index, int value);
+    void BSDismemberSkinInstance_SetBodyPartEnabled(int index, int value);
 };
 
 // Stand-in for the class that owns FUN_00802220 (this pointer is unused by it).
@@ -77,8 +77,8 @@ struct PageTable
 // src: COMMUNITY 0x00802220
 void FontManager::VATSEffect_SetBodyPartEnabled(PageTable* pPages, int index, unsigned char value)
 {
-    pPages->SetEntryStateByKey((unsigned short)index, value);
-    pPages->SetEntryStateByKey(index * 1000, value);
+    pPages->BSDismemberSkinInstance_SetBodyPartEnabled((unsigned short)index, value);
+    pPages->BSDismemberSkinInstance_SetBodyPartEnabled(index * 1000, value);
 }
 
 struct FUN_00450f90_cls
@@ -737,7 +737,7 @@ struct NodeObj
 
 struct MgrObj
 {
-    void __thiscall SetEntryStateByKey(int index, int value);
+    void __thiscall BSDismemberSkinInstance_SetBodyPartEnabled(int index, int value);
 };
 
 bool __cdecl Animation_FindSkinnedNode(NiObj* o);
@@ -946,10 +946,10 @@ void __thiscall This8022::FOVATSEffectManager_RestoreBodyParts()
                             int ptr;
                             for (ptr = 0; 15 > ptr; ptr++)
                             {
-                                f23->SetEntryStateByKey((unsigned short)ptr, 1);
-                                f23->SetEntryStateByKey(ptr * 1000, 1);
-                                f23->SetEntryStateByKey(ptr + 100, 0);
-                                f23->SetEntryStateByKey(ptr + 200, 0);
+                                f23->BSDismemberSkinInstance_SetBodyPartEnabled((unsigned short)ptr, 1);
+                                f23->BSDismemberSkinInstance_SetBodyPartEnabled(ptr * 1000, 1);
+                                f23->BSDismemberSkinInstance_SetBodyPartEnabled(ptr + 100, 0);
+                                f23->BSDismemberSkinInstance_SetBodyPartEnabled(ptr + 200, 0);
                             }
                         }
                         x30 = 0;

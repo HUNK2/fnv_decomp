@@ -629,7 +629,8 @@ struct AllocationCleanup
 };
 
 // Construct through the shared layout while retaining the original inline initialization.
-__forceinline bhkBlendCollisionObject* AllocateBlendCollisionObject()
+// src: EXE 0x00c81730
+__forceinline bhkBlendCollisionObject* bhkBlendCollisionObject_CreateObject()
 {
     bhkBlendCollisionObject* object = (bhkBlendCollisionObject*)NiRefObject::operator new(sizeof(bhkBlendCollisionObject));
     AllocationCleanup cleanup(object);
@@ -656,9 +657,10 @@ __forceinline bhkBlendCollisionObject* AllocateBlendCollisionObject()
 }
 
 // @fnv 0x00c81670
-bhkBlendCollisionObject* __fastcall CloneBlendCollisionObject(bhkBlendCollisionObject* self, void*, int value)
+// src: EXE 0x00c81670
+bhkBlendCollisionObject* __fastcall bhkBlendCollisionObject_CreateClone(bhkBlendCollisionObject* self, void*, int value)
 {
-    bhkBlendCollisionObject* p = AllocateBlendCollisionObject();
+    bhkBlendCollisionObject* p = bhkBlendCollisionObject_CreateObject();
 
     ((void(__thiscall*)(bhkBlendCollisionObject*, void*, int))&CopyBlendCollisionObject)(self, p, value);
 
@@ -674,7 +676,7 @@ namespace fnv_00c81730 {
 // @fnv 0x00c81730
 bhkBlendCollisionObject* CreateBlendCollisionObject()
 {
-    return AllocateBlendCollisionObject();
+    return bhkBlendCollisionObject_CreateObject();
 }
 }  // namespace fnv_00c81730
 
@@ -2768,7 +2770,7 @@ struct S_00c85ce0
     virtual void vf0f();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -2833,7 +2835,7 @@ struct FUN_00c87600_Base
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -7936,12 +7938,13 @@ struct ScopedInternedName
 // The shared bhkWorldObject supplies m_pHavokObject; its debug-node helper is not declared yet.
 struct WorldObjectDebugView : bhkWorldObject
 {
-    NiNode* AddDebugNodeToWorld(NiNode* node);
+    NiNode* bhkWorldObject_CreateDisplayGeometry(NiNode* node);
 };
 
 // Ensures node has a name, computes a point via GetLayerColor and adds the node to the world's debug nodes, returning the node.
 // @fnv 0x00c85d70
-NiNode* WorldObjectDebugView::AddDebugNodeToWorld(NiNode* node)
+// src: COMMUNITY 0x00c85d70
+NiNode* WorldObjectDebugView::bhkWorldObject_CreateDisplayGeometry(NiNode* node)
 {
     PhantomData* data;
     WorldHolder* holder;
@@ -10251,7 +10254,7 @@ struct C817D0Cls
     virtual void vf2c();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3c();
     virtual void vf40();
     virtual void vf44();
@@ -10260,7 +10263,7 @@ struct C817D0Cls
     virtual void vf50();
     virtual void vf54();
     virtual void vf58();
-    virtual void vf5c();
+    virtual void applyForce();
     virtual void vf60();
     virtual void vf64();
     virtual void vf68();
@@ -10557,7 +10560,8 @@ char* __cdecl NiGetViewerString_00a7d4d0(const char*, int);
 
 // @fnv 0x00c87de0
 extern "C" void AppendBhkRefBaseStrings();
-void __fastcall AddBhkRefObjectDebugStrings(bhkRefObject* self, void*, ViewerStrings* pkStrings)
+// src: EXE 0x00c87de0
+void __fastcall bhkRefObject_GetViewerStrings(bhkRefObject* self, void*, ViewerStrings* pkStrings)
 {
     MemContextScope kScope(16);
 
@@ -10860,7 +10864,7 @@ struct AttachObject
 };
 struct AttachData
 {
-    unsigned char HasObjectOfType()
+    unsigned char HasObject()
     {
         return object08 != 0;
     }
@@ -15175,7 +15179,7 @@ struct S00c90090_Self
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();

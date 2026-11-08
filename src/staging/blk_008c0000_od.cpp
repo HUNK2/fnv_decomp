@@ -77,7 +77,7 @@ public:
     float TESObjectREFR_GetRelevantWaterHeight();
     void* TESObjectREFR_GetWorldSpace();
     void* FUN_008d6f30();
-    void PathToLocation(PathingRequest*, PathPoint_blk_008c0000_od*, void*, void*, float, int);
+    void Actor_BuildRequest(PathingRequest*, PathPoint_blk_008c0000_od*, void*, void*, float, int);
     void SetPathingRequestAvoidNodes(PathingRequest*);
     void StopMoving_008b3ab0();
     void UpdatePathing(PathActor_blk_008c0000_od* actor);
@@ -98,7 +98,7 @@ public:
     PathPoint_blk_008c0000_od operator+(const PathPoint_blk_008c0000_od& pt) const;
     PathPoint_blk_008c0000_od operator*(float fScalar) const;
     void ScaleByInverse(float);
-    float GetSquaredXYLength();
+    float NiPoint3_SqrXYLength();
     NiPoint3 FastNavMeshTriLocation_GetLocation();
 };
 
@@ -935,7 +935,7 @@ void FUN_008d6f50_Class::HighActorCuller_Run(int pCamera)
         ((MagicCaster*)((char*)this + 8))->SetSelectedMagicItem(pCamera);
         ((S694a0*)((char*)this + 8))->NiCullingProcess_SetFrustum((void*)&((NiCamera*)pCamera)->GetViewFrustum());
     }
-    DAT_011e0e80.ProcessMobileObjects(this);
+    DAT_011e0e80.ProcessLists_IterateMobs(this);
 }
 
 extern "C" void __cdecl _delete(void* p, unsigned int size);
@@ -3558,7 +3558,7 @@ void PathActor_blk_008c0000_od::UpdatePathing(PathActor_blk_008c0000_od* actor)
                 PathPoint_blk_008c0000_od position4 = *reinterpret_cast<PathPoint_blk_008c0000_od*>(reinterpret_cast<const TESObjectREFR*>(actor)->GetPos());
                 position4.z = actor->TESObjectREFR_GetRelevantWaterHeight() + smoothing;
                 PathingRequest request;
-                actor->PathToLocation(&request, &position4, actor->FUN_008d6f30(), actor->TESObjectREFR_GetWorldSpace(), smoothing, 0);
+                actor->Actor_BuildRequest(&request, &position4, actor->FUN_008d6f30(), actor->TESObjectREFR_GetWorldSpace(), smoothing, 0);
                 request.SetSmoothingRandomness(smoothing);
                 request.SetByteAtA1(1);
                 actor->SetPathingRequestAvoidNodes(&request);

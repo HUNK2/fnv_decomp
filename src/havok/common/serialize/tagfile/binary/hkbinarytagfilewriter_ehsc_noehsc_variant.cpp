@@ -187,7 +187,7 @@ struct FUN_00dc05b0_writer
     void __thiscall FUN_00dc0500(int, int);
     void __thiscall WriteInt(unsigned int);
     void __thiscall WriteVarint(unsigned int, unsigned int);
-    void __thiscall WriteReferencedObjectRecursively(int, int);
+    void __thiscall Writer_scanObject(int, int);
     void __thiscall ProcessEntries_00dc00b0(int);
     void __thiscall ProcessState_00dc0460();
 };

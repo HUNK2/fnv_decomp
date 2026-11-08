@@ -208,7 +208,7 @@ void* Owner::DestroyOwner(unsigned int flags)
 Owner force_vtable;
 }  // namespace fnv_00d6a1f0
 
-// AttachAndDispatch: thiscall, one stack parameter (ArgOwner*).
+// hkpRigidBodyCentreOfMassViewer_removeWorld: thiscall, one stack parameter (ArgOwner*).
 
 struct SubList
 {
@@ -283,12 +283,13 @@ struct FUN_00d69b20_cls
     Fn_SlotObj m_28;
     int m_2c;
 
-    void AttachAndDispatch(ArgOwner* a1);
+    void hkpRigidBodyCentreOfMassViewer_removeWorld(ArgOwner* a1);
 };
 
 // Attaches and detaches this object's slots on a1, then dispatches every element of a1's three lists through m_28.v08.
 // @fnv 0x00d69b20
-void FUN_00d69b20_cls::AttachAndDispatch(ArgOwner* apOwner)
+// src: COMMUNITY 0x00d69b20
+void FUN_00d69b20_cls::hkpRigidBodyCentreOfMassViewer_removeWorld(ArgOwner* apOwner)
 {
     apOwner->Attach(this != 0 ? (void*)&m_28 : 0);
     apOwner->Detach(this != 0 ? (void*)&m_2c : 0);
@@ -566,17 +567,17 @@ struct FUN_00d6a0a0 : Base00, Base08, Base20, Base28, Base2C
 {
     Array unk30;
     virtual ~FUN_00d6a0a0();
-    void AttachAndDispatch(void* item) throw();
+    void hkpRigidBodyCentreOfMassViewer_removeWorld(void* item) throw();
 };
 
-// Destructor: iterates the Source's unk70 entries and calls AttachAndDispatch on each pointer in unk6C when unk24 is set.
+// Destructor: iterates the Source's unk70 entries and calls hkpRigidBodyCentreOfMassViewer_removeWorld on each pointer in unk6C when unk24 is set.
 // @fnv 0x00d6a0a0
 FUN_00d6a0a0::~FUN_00d6a0a0()
 {
     if (unk24)
     {
         for (int i = 0; i < unk24->unk70; i++)
-            AttachAndDispatch(unk24->unk6C[i]);
+            hkpRigidBodyCentreOfMassViewer_removeWorld(unk24->unk6C[i]);
     }
 }
 }  // namespace fnv_00d6a0a0

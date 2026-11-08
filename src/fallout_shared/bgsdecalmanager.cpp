@@ -30,7 +30,8 @@
 #include "../../include/BSCullingProcess.h"
 
 // @fnv 0x004a0030
-void BGSDecalManager::RenderDecals()
+// src: COMMUNITY 0x004a0030
+void BGSDecalManager::UpdateSimpleDecals()
 {
     if (reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&m_kSimpleDecalList)->GetSize() > 0)
     {
@@ -60,7 +61,7 @@ void BGSDecalManager::RenderDecals()
 
                 if (decal->m_pRenderQuery != 0)
                 {
-                    if (decal->ReleaseTextureObject())
+                    if (decal->CheckOcclusionQueryResults())
                     {
                         if (decal->m_uiTextureReferenceCount > 0)
                         {
@@ -95,12 +96,12 @@ void BGSDecalManager::RenderDecals()
                         if (DAT_011c57f4 & 1)
                         {
                             NiColorA color(0.0f, 1.0f, 0.0f, 1.0f);
-                            decal->SetDecalTint(reinterpret_cast<NiColorA&>(color), true);
+                            decal->CreateDebugBox(reinterpret_cast<NiColorA&>(color), true);
                         }
                         if (DAT_011c57f4 & 2)
                         {
                             NiColorA color(0.0f, 1.0f, 0.0f, 0.25f);
-                            decal->SetDecalTint(reinterpret_cast<NiColorA&>(color), false);
+                            decal->CreateDebugBox(reinterpret_cast<NiColorA&>(color), false);
                         }
                     }
                     else if (DAT_011c57f4 & 0x10)
@@ -108,12 +109,12 @@ void BGSDecalManager::RenderDecals()
                         if (DAT_011c57f4 & 1)
                         {
                             NiColorA color(1.0f, 0.0f, 0.0f, 1.0f);
-                            decal->SetDecalTint(reinterpret_cast<NiColorA&>(color), true);
+                            decal->CreateDebugBox(reinterpret_cast<NiColorA&>(color), true);
                         }
                         if (DAT_011c57f4 & 2)
                         {
                             NiColorA color(1.0f, 0.0f, 0.0f, 0.25f);
-                            decal->SetDecalTint(reinterpret_cast<NiColorA&>(color), false);
+                            decal->CreateDebugBox(reinterpret_cast<NiColorA&>(color), false);
                         }
                     }
                     reinterpret_cast<DecalNiTPointerListBase<DecalNiTPointerAllocator<unsigned int>, DecalNiPointer<NiProperty> >*>(
@@ -1108,7 +1109,7 @@ struct S004a03f0
 void __fastcall BGSDecalManager_UpdateDecals(BGSDecalManager* p)
 {
     BGSDecalManager_ClearDecalsThisFrame();
-    p->RenderDecals();
+    p->UpdateSimpleDecals();
     ((S004a03f0*)p)->CleanupDecalEmitters();
 }
 
@@ -1721,7 +1722,8 @@ class Refr_C
 
 // Returns false when the reference's acoustic space form type is 35, 42, 43 or 51; otherwise returns true.
 // @fnv 0x004a1060
-bool __cdecl IsAcousticSpaceFormTypeAllowed(Refr_C* apRef, int aiArg)
+// src: COMMUNITY 0x004a1060
+bool __cdecl BGSDecalManager_IsValidDecalImpact(Refr_C* apRef, int aiArg)
 {
     int iUnused = aiArg;
     switch (apRef->GetAcousticSpace()->GetFormType())
@@ -2105,7 +2107,7 @@ void __cdecl ProgramFlow(const char* apText, int aiFlags);
 float __cdecl BSMAX_00404010(float a, float b);
 DecalEmitter* __cdecl FUN_00622a70(float afSize, int aiFlags);
 void* __cdecl TESObjectREFR_FindReferenceFor3D(DecalNode* apNode);
-bool __cdecl IsAcousticSpaceFormTypeAllowed(void* apGeometry, int aiFlags);
+bool __cdecl BGSDecalManager_IsValidDecalImpact(void* apGeometry, int aiFlags);
 
 static const char s_szSourceFile[] = "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\BGSDecalManager.cpp";
 static const char s_szSimpleDecal[] = "DECAL: Simple Decal Instantiated";
@@ -2236,7 +2238,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
                     kHitNormal.Unitize_004a0c10();
                     void* m_pShaderGeometry = TESObjectREFR_FindReferenceFor3D(pHitTmp);
                     if (pHitTmp->NiAVObject_GetNoDecals() || !m_pShaderGeometry ||
-                        !IsAcousticSpaceFormTypeAllowed(m_pShaderGeometry, 1))
+                        !BGSDecalManager_IsValidDecalImpact(m_pShaderGeometry, 1))
                         continue;
                     if (!kHits.FUN_0049c680(&pHitTmp, 0))
                     {

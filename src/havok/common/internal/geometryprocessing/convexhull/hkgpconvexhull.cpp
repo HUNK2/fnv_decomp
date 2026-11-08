@@ -1616,12 +1616,13 @@ extern const double DAT_010d35e0;
 struct FUN_00d75440_cls {
     float hkgpConvexHull_getVolume();
     double GetMass();
-    float ComputeScaledPowerRatio();
+    float hkgpConvexHull_getSphericity();
 };
 
 // Raises the value from FUN_00d752e0 to DAT_010d35e8, scales by DAT_010d35e0, divides by GetMass and returns the float result.
 // @fnv 0x00d75440
-float FUN_00d75440_cls::ComputeScaledPowerRatio()
+// src: COMMUNITY 0x00d75440
+float FUN_00d75440_cls::hkgpConvexHull_getSphericity()
 {
     float base = this->hkgpConvexHull_getVolume();
     float powered = (float)pow((double)base, DAT_010d35e8);

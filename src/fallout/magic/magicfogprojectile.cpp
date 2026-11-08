@@ -189,7 +189,7 @@ struct Controller
 struct Particle : NiObject
 {
     unsigned NiParticleSystem_GetModifierCount();
-    NiObject* GetByIndex(unsigned);
+    NiObject* NiParticleSystem_GetModifierAt(unsigned);
 };
 // Retained: MagicFogProjectile does not declare ScaleEffect.
 struct Effect
@@ -260,7 +260,7 @@ void Effect::ScaleEffect(NiObject* object)
                     {
                         Emitter* emitter;
                         {
-                            NiObject* entry = particle->GetByIndex(i);
+                            NiObject* entry = particle->NiParticleSystem_GetModifierAt(i);
                             emitter = (Emitter*)NiObject_DynamicCast(&DAT_01202550, entry);
                             if (emitter)
                                 emitter->NiPSysSpawnModifier_SetLifeSpan(emitter->NiPSysSpawnModifier_GetLifeSpan() * fSizeFactor);
@@ -527,7 +527,7 @@ void FogProjectileInit::InitProjectileEffect()
 
 struct ItemB
 {
-    unsigned char FindEffectItemIndex();
+    unsigned char EffectItemList_GetEffectItemIndex();
 };
 struct ItemC
 {
@@ -614,7 +614,7 @@ void FUN_0081ade0_cls::SaveToStream(int a1)
             unsigned char flag = 0;
             if (FUN_00810fd0() != 0 && cur->m4 != 0)
             {
-                flag = ((ItemB*)(FUN_00810fd0((int)cur->m4) + 0xc))->FindEffectItemIndex();
+                flag = ((ItemB*)(FUN_00810fd0((int)cur->m4) + 0xc))->EffectItemList_GetEffectItemIndex();
             }
             TESForm_SaveGameDataOLD(&flag, 1);
             cnt++;

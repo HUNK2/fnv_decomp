@@ -9,7 +9,7 @@ class NiNode;
 class BSShaderRenderUtility_blackjackmenu
 {
 public:
-    bool IsRenderTargetId(unsigned int value);
+    bool TESDataHandler_IsFormIDCreated(unsigned int value);
     static void InitializeMultiBounds();
     static void SetRenderCamera(NiCamera* camera, BSShaderAccumulator* accumulator, bool unused);
     static void SetRenderCamera(AnimIdle* camera, AnimIdle* accumulator, bool unused);
@@ -543,11 +543,12 @@ struct FUN_007393f0_shell
     int DrawCard(G2* hand, int a1, int a2);
     void BlackJackMenu_GetHandValue(G2* hand);
 
-    void __thiscall DealInitialCards();
+    void __thiscall BlackJackMenu_DealHand();
 };
 
 // @fnv 0x007393f0
-void __thiscall FUN_007393f0_shell::DealInitialCards()
+// src: COMMUNITY 0x007393f0
+void __thiscall FUN_007393f0_shell::BlackJackMenu_DealHand()
 {
     int cardindex;
 
@@ -3567,7 +3568,7 @@ struct InputMenu
     int BlackJackMenu_GetHandValue(CardHand*);
     void ClearField();
     void BlackJackMenu_SetTileTextAlpha(int, float);
-    void DealInitialCards();
+    void BlackJackMenu_DealHand();
     bool BlackJackMenu_CanDoubleDown(bool);
     void UpdateChipPositions();
     void BlackJackMenu_SwapCardTextures(int, int, CardInfo*);
@@ -3668,7 +3669,7 @@ void InputMenu::HandleAction(int action, void* tile)
                 BlackJackMenu_SetTileTextAlpha(6, DAT_0101e704);
                 BlackJackMenu_SetTileTextAlpha(7, DAT_0101e704);
                 BlackJackMenu_SetTileTextAlpha(8, DAT_0101e704);
-                DealInitialCards();
+                BlackJackMenu_DealHand();
             }
             else if (state == 4)
             {

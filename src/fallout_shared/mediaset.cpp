@@ -79,10 +79,10 @@ bool MediaSet::Update(unsigned int time, bool force, MediaLocationController* co
         switch (Type)
         {
         case LAYER_LOCATION:
-            return UpdateLayerLocation(time, force, controller);
+            return UpdateLocation(time, force, controller);
             break;
         case LAYER_DUNGEON:
-            return PointLocation(time, force, controller);
+            return UpdateDungeon(time, force, controller);
             break;
         case BATTLE:
             return UpdateBattleState(force, time, 4);
@@ -129,7 +129,8 @@ MediaSet::MediaSet()
 
 // Selects an incidental media layer for the controller based on scale and layer percentages, then starts or stops playback and updates cached state.
 // @fnv 0x00597a60
-bool MediaSet::UpdateLayerLocation(unsigned int time, bool force, MediaLocationController* controller)
+// src: COMMUNITY 0x00597a60
+bool MediaSet::UpdateLocation(unsigned int time, bool force, MediaLocationController* controller)
 {
     bool bReturn;
     bool bPlaying = FalloutAudioMedia::IsMediaPlaying(MEDIATYPE_MEDIA_LOCATION, false);
@@ -534,7 +535,7 @@ void __cdecl _FUN_00485910(unsigned int, float);
 // @fnv 0x005991b0
 void MediaSet::SaveMediaSet()
 {
-    TESForm::BeginFormRecord();
+    TESForm::TESForm_StartForm();
     TESFullName::Save_00487010();
 
     _FUN_00485910(0x314d414e, *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x44));
@@ -622,7 +623,7 @@ void MediaSet::SaveMediaSet()
     }
 
     reinterpret_cast<MediaFormWriter*>(this)->Finish();
-    TESForm::FinishFormRecord();
+    TESForm::TESForm_CloseForm();
 }
 
 // @fnv 0x005978b0
@@ -638,11 +639,12 @@ unsigned int GetRandomNumberInRange(int aiMin, int aiMax);
 
 struct MediaSetBattle : public MediaSet
 {
-    bool UpdateBattleMusic(unsigned int auiTime);
+    bool MediaSet_UpdateIncidentals(unsigned int auiTime);
 };
 
 // @fnv 0x00598890
-bool MediaSetBattle::UpdateBattleMusic(unsigned int auiTime)
+// src: COMMUNITY 0x00598890
+bool MediaSetBattle::MediaSet_UpdateIncidentals(unsigned int auiTime)
 {
     if (auiTime <= DAT_011ca9fc)
     {
@@ -769,7 +771,8 @@ void __cdecl FUN_008304c0();
 extern unsigned int DAT_011ca9fc;
 
 // @fnv 0x00598060
-bool MediaSet::PointLocation(unsigned int auiTime, bool abEnabled, MediaLocationController* apCtrl)
+// src: COMMUNITY 0x00598060
+bool MediaSet::UpdateDungeon(unsigned int auiTime, bool abEnabled, MediaLocationController* apCtrl)
 {
     bool flagDTmp;
     bool retVal;
@@ -902,11 +905,12 @@ void ResetThreadFlags();
 void StartFade(int, int);
 struct DungeonMediaSet : MediaSet
 {
-    bool UpdatePlayback(bool active, unsigned int time, int mediaType);
+    bool MediaSet_UpdateBattle(bool active, unsigned int time, int mediaType);
 };
 // Starts, refreshes or fades the media set's audio based on active, time and mediaType, updating DAT_011ca9fc and the playing flag.
 // @fnv 0x00598550
-bool DungeonMediaSet::UpdatePlayback(bool active, unsigned int time, int mediaType)
+// src: COMMUNITY 0x00598550
+bool DungeonMediaSet::MediaSet_UpdateBattle(bool active, unsigned int time, int mediaType)
 {
     bool changed;
     if (active)

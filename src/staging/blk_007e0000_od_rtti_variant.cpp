@@ -142,7 +142,7 @@ struct Tile
 struct Menu
 {
     virtual ~Menu();  // the original class is polymorphic (rtti_variants.py)
-    void __thiscall LoadMenuData();
+    void __thiscall StartFadeOut();
 };
 struct SimpleList
 {

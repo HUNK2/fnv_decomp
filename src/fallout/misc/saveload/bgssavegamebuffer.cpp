@@ -180,8 +180,8 @@ struct FUN_0083d690_shell
 // src: COMMUNITY 0x0083d690
 void __thiscall FUN_0083d690_shell::DialogueResponse_SaveGame(BGSSaveFormBuffer* apBuffer)
 {
-    apBuffer->SaveGameString((const char*)((Flt*)this)->operator unsigned int(), 0);
-    apBuffer->SaveGameString((const char*)((Flt*)((char*)this + 0x10))->operator unsigned int(), 0);
+    apBuffer->SaveString((const char*)((Flt*)this)->operator unsigned int(), 0);
+    apBuffer->SaveString((const char*)((Flt*)((char*)this + 0x10))->operator unsigned int(), 0);
     apBuffer->SaveData((char*)this + 8, 4, 0);
     apBuffer->SaveData((char*)this + 0xc, 4, 0);
     apBuffer->SaveData((char*)this + 0x24, 1, 0);
@@ -317,7 +317,7 @@ struct FUN_0083fb10_shell
 // src: COMMUNITY 0x0083fb10
 void __thiscall FUN_0083fb10_shell::MenuTopic_SaveGame(BGSSaveFormBuffer* apBuffer)
 {
-    apBuffer->SaveGameString((const char*)(unsigned int)*(Flt*)this, 0);
+    apBuffer->SaveString((const char*)(unsigned int)*(Flt*)this, 0);
     apBuffer->SaveData((char*)this + 8, 1, 0);
     apBuffer->SaveData((char*)this + 0x24, 1, 0);
     apBuffer->SaveData((char*)this + 0x25, 1, 0);
@@ -332,7 +332,8 @@ void __thiscall FUN_0083fb10_shell::MenuTopic_SaveGame(BGSSaveFormBuffer* apBuff
 unsigned int __cdecl _strlen(const char*);
 // Writes a string to the save buffer: computes its length, writes the 2-byte length, then the string bytes if non-empty.
 // @fnv 0x00865e70
-void BGSSaveGameBuffer::SaveGameString(const char* apString, int aiUnusedMetaDataArg)
+// src: COMMUNITY 0x00865e70
+void BGSSaveGameBuffer::SaveString(const char* apString, int aiUnusedMetaDataArg)
 {
     unsigned short usLength = apString ? _strlen(apString) : 0;
     unsigned short usSavedLength = usLength;

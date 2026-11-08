@@ -129,7 +129,7 @@ struct BlkOffset08View
 };
 struct FUN_00519020_Class
 {
-    void SetField688(int value);
+    void PlayerCharacter_SetForceActivateRef(int value);
 };
 struct FUN_008256d0_list
 {
@@ -277,7 +277,7 @@ float __cdecl NiSqrt_004579e0(float);
 float __fastcall NiNPShortPoint3_Length(short* p);
 struct AVH
 {
-    static int __cdecl GetActorValueForSectionIndex(int, unsigned char);
+    static int __cdecl ToActorValue(int, unsigned char);
 };
 struct FUN_00514fd0_class
 {
@@ -389,7 +389,7 @@ struct TESObjectREFR_Flags
     unsigned int GetFlags();
     void SetFlags(unsigned int flags);
     void MarkAsModified(int change);
-    void __thiscall SetRefFlag40000000(bool set);
+    void __thiscall TESObjectACTI_SetContinuousBroadcast(bool set);
 };
 struct S_004ed780
 {
@@ -428,7 +428,7 @@ extern Actor* g_thePlayer;
 extern TESBoundObject* g_pLockpickItem;
 struct FUN_00516cd0_class
 {
-    bool __thiscall CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick);
+    bool __thiscall TESObjectCONT_CanActivate(TESObjectREFR* ref, Actor* actor, bool useLockpick);
 };
 extern int DAT_011c6200;
 int FixedStrings_GetArrowQuiver();
@@ -1206,7 +1206,7 @@ struct SelectionMap
 struct Selector
 {
     Node* List();
-    void* FindRandomSelection(Reference*, int);
+    void* TESObjectDOOR_FindRandomTeleportTarget(Reference*, int);
 };
 struct PlayerSelection
 {

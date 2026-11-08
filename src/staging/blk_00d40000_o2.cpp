@@ -5052,7 +5052,8 @@ struct Entity35D0
 };
 // Gets the owning entity's world, calls UpdateEntity on m_phkObject, invokes OnRemoved, and returns the world's result or false if no world.
 // @fnv 0x00d535d0
-bool __fastcall RemovePhysicsWorldObject(bhkWorldObject* self, void*)
+// src: EXE 0x00d535d0
+bool __fastcall bhkConstraintChain_Remove(bhkWorldObject* self, void*)
 {
     AutoMemContext kContext(0x10);
     // This unit uses slot +0x94; the shared GetWorld declaration currently occupies +0x98.

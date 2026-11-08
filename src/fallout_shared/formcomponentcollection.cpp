@@ -49,7 +49,8 @@ FormComponentArray::FormComponentArray()
 
 // Clears all component pointers, then stores form and dynamic_cast results for each supported component type into the component array.
 // @fnv 0x0047c070
-void FormComponentArray::InitializeFromForm(TESForm* form)
+// src: COMMUNITY 0x0047c070
+void FormComponentArray::FormComponentCollection_InitFormComponentArray(TESForm* form)
 {
     ClearDataAllComponents();
     m_pComponents[0] = form;

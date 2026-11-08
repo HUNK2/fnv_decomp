@@ -169,7 +169,7 @@ void FUN_0067fdb0_shell::PackageSchedule_SetStartDayOfWeek(bool abValue)
 }
 
 extern "C" unsigned char __cdecl TESForm_QEndianSwapOnSave();
-extern "C" void __cdecl AppendChunk(int, void*, int);
+extern "C" void __cdecl TESForm___AddChunkData(int, void*, int);
 
 struct FUN_0067fec0_shell
 {
@@ -181,7 +181,7 @@ void FUN_0067fec0_shell::Save()
 {
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<QuestData*>(this)->Endian();
-    AppendChunk(0x54445350, this, 8);
+    TESForm___AddChunkData(0x54445350, this, 8);
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<QuestData*>(this)->Endian();
 }
@@ -231,7 +231,7 @@ struct BoundHolder
 };
 struct DurationData : BoundHolder
 {
-    int GetSecondByte();
+    int PackageSchedule_GetStartDayOfWeek();
     char Main_GameReset();
     char FUN_0086a460();
     int _ref_00726070();
@@ -244,7 +244,7 @@ char DurationData::PackageSchedule_Compare(DurationData* other)
 {
     if (!other)
         return 1;
-    if (GetSecondByte() != other->GetSecondByte())
+    if (PackageSchedule_GetStartDayOfWeek() != other->PackageSchedule_GetStartDayOfWeek())
         return 1;
     if (GetBoundingRadius() != other->GetBoundingRadius())
         return 1;

@@ -1329,7 +1329,8 @@ __forceinline void freeExtendedListeners(hkpEntityExtendedListeners* listeners)
 
 // Deletes p98 after FUN_00c9c140, then frees storage of p60, master, slave, runtime, contact, actions and extended when each is empty.
 // @fnv 0x00c9c8f0
-void __fastcall rebuildEntity(hkpEntity* self)
+// src: COMMUNITY 0x00c9c8f0
+void __fastcall hkpEntity_deallocateInternalArrays(hkpEntity* self)
 {
     FnvRef* old = static_cast<FnvRef*>(self->m_pEntityUserData);
     if (old)

@@ -3880,7 +3880,7 @@ class EDBC0Builder
     EDBC0EntryArray m_kOpen;
 
     EDBC0Entry* CreateEntry();
-    void AddLocationToOpenAndAllArrays();
+    void PathSmoother_AddStartVert();
 };
 struct PBTriangle
 {
@@ -5357,7 +5357,7 @@ struct PathSmoother
     PointList m40;
     PointList m54;
 
-    void AddLocationToOpenAndAllArrays();
+    void PathSmoother_AddStartVert();
     void PathSmoother_AddFirstEdge(NiPoint3& a, NiPoint3& b);
     void AddPathFromEdge(NiPoint3& p, unsigned int i);
     void AddPathFromContext(NiPoint3& p, unsigned int i);

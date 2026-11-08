@@ -1775,7 +1775,7 @@ struct S00d094a0_Job;
 struct S00d094a0_Queue { void hkJobQueue_addJob(S00d094a0_Job*, int); void hkJobQueue_processAllJobs(); };
 struct S00d094a0_Sync {
     virtual void f00(); virtual void f04(); virtual void f08();
-    virtual void signal(S00d094a0_Queue*, int); virtual void wait();
+    virtual void signal(S00d094a0_Queue*, int); virtual void hkSemaphore_release();
 };
 struct S00d094a0_Helper { int hkSemaphore_acquire(); };
 struct S00d094a0_JobHead {
@@ -1872,7 +1872,7 @@ void S00d094a0_Owner::hkpAabbTreeWorldManager_buildKdTree(S00d094a0_Tree** tree,
         S00d094a0_timer(str_010cd0f4);
         sync->signal(queue,3);queue->hkJobQueue_processAllJobs();
         S00d094a0_timer(str_010cd0e0);
-        sync->wait();S00d094a0_timer(str_010cd0d0);
+        sync->hkSemaphore_release();S00d094a0_timer(str_010cd0d0);
         m_6c->hkSemaphore_acquire();S00d094a0_timer(str_010cd0c4);
         hkKdTreeBuildingUtils_completeDistributedBuild(*tree,count,task.m_30,task.m_34);
         S00d094a0_timer(str_01076f38);S00d094a0_timer(str_010cd0b8);S00d094a0_timer(str_01076f38);

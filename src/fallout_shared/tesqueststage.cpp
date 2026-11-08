@@ -348,11 +348,12 @@ StageItemNode* __fastcall _ref_00726070(void*);
 char __fastcall BGSBodyPart_GetToHitChance(char const*);
 struct FUN_0060f2c0_shell
 {
-    const char* FindItemByDoneFlag(unsigned char);
+    const char* TESQuestStage_GetStageItem(unsigned char);
 };
 // Walks the linked StageItemNode list, returning the first item whose FUN_005dc980 result equals done, or null.
 // @fnv 0x0060f2c0
-const char* FUN_0060f2c0_shell::FindItemByDoneFlag(unsigned char done)
+// src: COMMUNITY 0x0060f2c0
+const char* FUN_0060f2c0_shell::TESQuestStage_GetStageItem(unsigned char done)
 {
     StageItemNode* pNode = FUN_00717e50(this);
     while (pNode)

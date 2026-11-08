@@ -101,8 +101,8 @@ bool MagicModelHitEffect::Init()
                                     targetManager->FindSequenceByName(NiFixedString(kMagicModelHitEffectName));
                                 if (targetSequence)
                                 {
-                                    targetManager->DeactivateAllSequences(0.0f);
-                                    targetManager->ActivateControllerSequence(targetSequence, 0, false, 1.0f, 0.0f, (NiControllerSequence*)0);
+                                    targetManager->DeactivateAll(0.0f);
+                                    targetManager->ActivateSequence(targetSequence, 0, false, 1.0f, 0.0f, (NiControllerSequence*)0);
                                     targetManager->FUN_0047aa40(true);
                                     if (this->m_fFirstFloatValue > 0.0f)
                                         targetSequence->SetSequenceTime(this->m_fFirstFloatValue, false);
@@ -324,7 +324,7 @@ void MagicModelHitEffect::SaveGame(BGSSaveGameBuffer* apSaveGameBuffer)
 {
     NiControllerManager* pmanager;
     ((fnv_0081d800::FUN_0081be80_s*)this)->MagicHitEffect_SaveGameBGS((BGSSaveFormBuffer*)apSaveGameBuffer);
-    apSaveGameBuffer->SaveGameString(pFilename, 0);
+    apSaveGameBuffer->SaveString(pFilename, 0);
     pmanager = 0;
     if (*reinterpret_cast<fnv_0081d800::Flt*>(&spRetainedObject))
         pmanager = (NiControllerManager*)NiObject_DynamicCast(

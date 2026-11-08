@@ -31,8 +31,8 @@ void ShaderCache::BindGPUProgram()
             PoolAllocatorBase<unsigned int>::ms_kPoolState.m_uiOwningThreadID = 0;
         --count;
         ShaderData* data = entry->data;
-        typedef void(__stdcall * SetFunction)(Device*, unsigned int, unsigned int);
-        ((SetFunction)device->vtable[53])(device, data->handle, 0);
+        typedef void(__stdcall * SetDefaultDataForFunction)(Device*, unsigned int, unsigned int);
+        ((SetDefaultDataForFunction)device->vtable[53])(device, data->handle, 0);
         data->active = false;
     }
     current = initial;

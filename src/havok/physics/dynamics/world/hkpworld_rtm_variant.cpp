@@ -397,7 +397,7 @@ struct FUN_00c91190_Class {
 };
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 struct FUN_00c911d0_Class {
-    void __thiscall EnterLock(void*);
+    void __thiscall hkpWorld_lockIslandForConstraintUpdate(void*);
 };
 extern void (__stdcall *DAT_00fdf05c)(void*);
 struct FUN_00c911f0_Class {
@@ -628,7 +628,7 @@ public:
     virtual void vf00(); virtual void vf01(); virtual void vf02(); virtual void vf03();
     virtual void vf04(); virtual void vf05(); virtual void vf06(); virtual void vf07();
     virtual void vf08(); virtual void vf09(); virtual void vf10(); virtual void vf11();
-    virtual void vf12(); virtual void vf13(); virtual void vf14(); virtual void vf15();
+    virtual void SetMapName(); virtual void vf13(); virtual void vf14(); virtual void vf15();
     virtual void vf16(); virtual void vf17(); virtual void vf18(); virtual void vf19();
     virtual void vf20(); virtual void vf21(); virtual void vf22(); virtual void vf23();
     virtual void vf24(); virtual void vf25(); virtual void vf26(); virtual void vf27();
@@ -7362,7 +7362,7 @@ struct ObjectVtableCtor {
     void (__thiscall* vf2c)(ObjectCtor*);
     void (__thiscall* vf30)(ObjectCtor*);
     void (__thiscall* vf34)(ObjectCtor*);
-    void (__thiscall* vf38)(ObjectCtor*);
+    void (__thiscall* PrintInfo)(ObjectCtor*);
     void (__thiscall* vf3c)(ObjectCtor*);
     void (__thiscall* vf40)(ObjectCtor*);
     void (__thiscall* vf44)(ObjectCtor*);
@@ -7371,7 +7371,7 @@ struct ObjectVtableCtor {
     void (__thiscall* vf50)(ObjectCtor*);
     void (__thiscall* vf54)(ObjectCtor*);
     void (__thiscall* vf58)(ObjectCtor*);
-    void (__thiscall* vf5c)(ObjectCtor*);
+    void (__thiscall* applyForce)(ObjectCtor*);
     void (__thiscall* vf60)(ObjectCtor*);
     void (__thiscall* vf64)(ObjectCtor*);
     void (__thiscall* vf68)(ObjectCtor*);

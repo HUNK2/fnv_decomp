@@ -252,7 +252,8 @@ void NiMeshPSysData::ProcessClone_00c30920(CloningProcess& kCloning)
 }
 
 // @fnv 0x00c30ca0
-NiMeshPSysData* __cdecl CreateNiMeshPSysData()
+// src: EXE 0x00c30ca0
+NiMeshPSysData* __cdecl NiMeshPSysData_CreateObject()
 {
     void* object = BSFadeNode::operator new(0x98);
     if (object)

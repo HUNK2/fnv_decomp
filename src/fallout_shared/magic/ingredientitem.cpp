@@ -470,7 +470,7 @@ struct Blk
 };
 }
 bool __cdecl TESForm_QEndianSwapOnSave();
-void __cdecl AppendChunk(void* stream, void* data, unsigned int size);
+void __cdecl TESForm___AddChunkData(void* stream, void* data, unsigned int size);
 
 class PrimaryBase409
 {
@@ -511,7 +511,7 @@ void Obj409::IngredientItem_Endian()
 {
     if (TESForm_QEndianSwapOnSave())
         m_70.QuestPerkEntryData_Endian();
-    AppendChunk(v9(), &m_70, 8);
+    TESForm___AddChunkData(v9(), &m_70, 8);
     if (TESForm_QEndianSwapOnSave())
         m_70.QuestPerkEntryData_Endian();
 }

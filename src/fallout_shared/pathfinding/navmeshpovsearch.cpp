@@ -115,7 +115,7 @@ int NavMeshPOVSearch::FindSphereTangents(const Sphere& aSphereA, const Sphere& a
         count = aSphereB.fRadius / aSphereA.fRadius;
         r1.ScaleByInverse(aSphereA.fRadius);
     }
-    float r2 = r1.GetSquaredXYLength();
+    float r2 = r1.NiPoint3_SqrXYLength();
     if (r2 == 0.0)
     {
         aTangents.count = 0;
@@ -3438,7 +3438,7 @@ struct VertPair
 };
 struct Mesh
 {
-    unsigned int CollectTrianglePOVs(unsigned short, Words*);
+    unsigned int GetPOVsForTriangle(unsigned short, Words*);
     unsigned int AppendTriangleVerticesInList(unsigned short, Words*);
     bool LookupPOVValueWithInitialization(unsigned short, EdgePair*);
     const NiPoint3& GetVertex_0068f0a0(unsigned short);
@@ -5605,7 +5605,7 @@ bool Owner::BuildGroups(Input* input, Groups* output)
     Words indices3;
     for (unsigned int outer = 0; outer < input->Count(); outer++)
     {
-        unsigned int count = input->At(outer)->mesh->CollectTrianglePOVs(input->At(outer)->index, &indices3);
+        unsigned int count = input->At(outer)->mesh->GetPOVsForTriangle(input->At(outer)->index, &indices3);
         for (unsigned int inner = 0; inner < count; inner++)
         {
             Handle handle(input->At(outer)->mesh, indices3.At(inner));
@@ -5719,7 +5719,7 @@ struct P072Point
     P072Point SubtractIntoVector(const P072Point&) const;
     P072Point FUN_00439e90(const P072Point&) const;
     P072Point FUN_004b3800(const P072Point&) const;
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength() const;
     float FUN_00457990() const;
 };
 struct P072Angle
@@ -7938,7 +7938,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 continue;
             P072Point tangents = object->pos.SubtractIntoVector(info->object->pos);
             int self;
-            float other = tangents.GetSquaredXYLength();
+            float other = tangents.NiPoint3_SqrXYLength();
             {
                 float heightSquared = tangents.z * tangents.z;
                 if (other * 1.2000000476837158 * 1.2000000476837158 < heightSquared)
@@ -8262,7 +8262,7 @@ struct Vertices
 };
 struct Mesh
 {
-    Hit FindEdgeIntersection(unsigned short, int, const NiPoint3&, const NiPoint3&);
+    Hit FindInterectingEdge2(unsigned short, int, const NiPoint3&, const NiPoint3&);
     bool MatchNavMesh(const Handle&, NeighborEdgeHandle&);
     Triangle* FUN_005582f0(unsigned short);
     EdgeInfo* GetEdgeExtraInfo(unsigned short, int);
@@ -10381,7 +10381,7 @@ bool Walker::FindPath(const Start* start, const NiPoint3& target, Output* output
     handle8.FastNavMeshEdgeHandle_FastNavMeshEdgeHandle(start->handle);
     while (true)
     {
-        Hit hit2 = handle8.mesh->FindEdgeIntersection(handle8.triangle, handle8.edge, current, destination5);
+        Hit hit2 = handle8.mesh->FindInterectingEdge2(handle8.triangle, handle8.edge, current, destination5);
         if (!hit2.mesh)
         {
             output->CopyFields_006cf900(PathResult(handle8, destination5));

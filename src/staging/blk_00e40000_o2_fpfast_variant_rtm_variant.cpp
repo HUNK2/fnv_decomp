@@ -46,9 +46,9 @@ struct GlobalObjectO2_00d472a0
     int x;
 };
 extern GlobalObjectO2_00d472a0 g_0126e600;
-void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, GlobalObjectO2_00d472a0*);
 void __stdcall Runtime_ForwardCall_00e5c5b0(int a);
-extern "C" void __stdcall FindResourceWithExpectedName(int, int);
+extern "C" void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, int);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126c5f0;
 void __stdcall Runtime_ForwardCall_00e5c5f0(int a);
@@ -142,15 +142,15 @@ struct FUN_00e58b10_class
     void hkaSparseLSQMatrix_float_Multiply(int a, int b, int c);
 };
 extern const char* const g_0126c5f0_arg1;
-void __stdcall FindResourceWithExpectedName(int, int);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, int);
 void __stdcall Runtime_ForwardCall_00e5c5d0(int a);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eb10;
-void __stdcall FindResourceWithExpectedName(int a, GlobalObjectO2_00d472a0* b);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int a, GlobalObjectO2_00d472a0* b);
 void __stdcall Runtime_ForwardCall_00e5c630(int a);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eac8;
-void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, GlobalObjectO2_00d472a0*);
 void __stdcall CallWithGlobalObject(int a);
 struct FUN_00e406d0_cls
 {
@@ -841,7 +841,7 @@ class FUN_00e5c6b0_cls
   public:
     AttrEntry_b5103* FindPrimary(const char* name) throw();
     AttrEntry_b5103* FindSecondary(const char* name) throw();
-    int GetBoolAttribute(const char* name, bool required, unsigned char* out);
+    int hkxAttributeGroup_getBoolValue(const char* name, bool required, unsigned char* out);
 };
 struct ConfigValue
 {

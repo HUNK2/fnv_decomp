@@ -405,8 +405,8 @@ struct LinearCastResult
 
 // Performs a sphere linear cast in the physics world and stores the hit point, normal, rigid body, and shape key in the result.
 // @fnv 0x00e464e0
-// src: GUESS 0x00e464e0 (confidence: medium)
-hkResult hkpWorldq_CastSphereAndStoreHit(hkpWorldq* world, const hkVector4q& from, float radius, const hkVector4q& to,
+// src: COMMUNITY 0x00e464e0
+hkResult hkpFirstPersonGun_sweepSphere(hkpWorldq* world, const hkVector4q& from, float radius, const hkVector4q& to,
                       LinearCastResult* result)
 {
     hkpSphereShapeq* sphere = new hkpSphereShapeq(radius);

@@ -318,12 +318,13 @@ void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize);
 
 struct FUN_00d1f690_Member : hkpSimpleShapePhantom
 {
-    void AddCollisionDetail(void* object);
+    void hkpSimpleShapePhantom_addOverlappingCollidable(void* object);
 };
 
 // If the object's first pointer is non-null and FUN_00ca94c0 returns 0, appends the object to the collision detail array, growing it when full, and sets a flag.
 // @fnv 0x00d1f690
-void FUN_00d1f690_Member::AddCollisionDetail(void* object)
+// src: COMMUNITY 0x00d1f690
+void FUN_00d1f690_Member::hkpSimpleShapePhantom_addOverlappingCollidable(void* object)
 {
     if (*reinterpret_cast<void**>(object) != 0)
     {

@@ -88,8 +88,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -877,7 +877,7 @@ void DialogueItem_shell::LoadDialogueItem(BGSLoadFormBuffer* buffer)
 {
     short currentID;
     {
-        unsigned int count = ((BGSLoadGameBuffer*)buffer)->ReadElementCount();
+        unsigned int count = ((BGSLoadGameBuffer*)buffer)->LoadVariableSizedValue();
         for (unsigned int i = 0; i < count; ++i)
         {
             FUN_0083d1e0* response = new FUN_0083d1e0;
@@ -2328,7 +2328,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                             static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(&BSAudio::BSAudio_GetSoundHandleByFilename)))(
                                 sndA->TESSound_GetFilename(), (unsigned int)iflags, (unsigned int)sndA);
                     gb31 = (unsigned char)sndA->GetByteAtOffset44();
-                    cg59 = sndA->GetField45();
+                    cg59 = sndA->GetMaxDistance();
                 }
                 if (sndB != 0)
                 {
@@ -2339,7 +2339,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                             static_cast<BSSoundHandle (BSAudio::*)(const char*, unsigned int, unsigned int)>(&BSAudio::BSAudio_GetSoundHandleByFilename)))(
                                 sndB->TESSound_GetFilename(), (unsigned int)iflags, (unsigned int)sndB);
                     qb75 = (unsigned char)sndB->GetByteAtOffset44();
-                    sb0d = sndB->GetField45();
+                    sb0d = sndB->GetMaxDistance();
                 }
                 if (!a3 && apListObj != 0)
                 {
@@ -2370,8 +2370,8 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
                 }
                 if (!ib15)
                 {
-                    aentry140->ch0.SetMinMax((float)gb31 * 5.0, (float)cg59 * yf50 * 100.0);
-                    aentry140->ch1.SetMinMax((float)gb31 * 5.0, (float)cg59 * yf50 * 100.0);
+                    aentry140->ch0.SetMinMaxDistance((float)gb31 * 5.0, (float)cg59 * yf50 * 100.0);
+                    aentry140->ch1.SetMinMaxDistance((float)gb31 * 5.0, (float)cg59 * yf50 * 100.0);
                     aentry140->ch0.SetPosition(jvec.x, jvec.y, jvec.z);
                     aentry140->ch1.SetPosition(jvec.x, jvec.y, jvec.z);
                 }
@@ -2589,14 +2589,14 @@ unsigned int __cdecl ApplySoundFormToGameSound(BSSoundHandle* apSound, void* apF
     SoundAssetTmp = (TESSound*)apForm;
     apSound->SetStaticAttenuation(GetSoundStaticAttenuation(SoundAssetTmp));
     uiMin = (unsigned char)SoundAssetTmp->GetByteAtOffset44();
-    uiMax2 = SoundAssetTmp->GetField45();
+    uiMax2 = SoundAssetTmp->GetMaxDistance();
     if (!uiMin)
         uiMin = 0xe;
     if (!uiMax2)
         uiMax2 = 0x3c;
     if (SoundAssetTmp->GetHighByteOfField4E() || SoundAssetTmp->GetEndTime_0082d700())
         apSound->SetTimeConstraints(SoundAssetTmp->GetHighByteOfField4E(), SoundAssetTmp->GetEndTime_0082d700());
-    apSound->SetMinMax(uiMin * 5.0, uiMax2 * 100.0);
+    apSound->SetMinMaxDistance(uiMin * 5.0, uiMax2 * 100.0);
     apSound->SetAttenuationCurve(SoundAssetTmp->GetShortAt(0), SoundAssetTmp->GetShortAt(1), SoundAssetTmp->GetShortAt(2), SoundAssetTmp->GetShortAt(3),
                           SoundAssetTmp->GetShortAt(4));
     apSound->SetReverbAttenuation(SoundAssetTmp->GetShortAtOffset5A());

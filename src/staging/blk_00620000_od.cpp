@@ -2345,7 +2345,7 @@ extern const char* const DAT_012005b8;
 void __fastcall Clouds_RemoveTextures(void* self)
 {
     int i = 0;
-    for (; i < ((Clouds*)self)->GetOffset58(); ++i)
+    for (; i < ((Clouds*)self)->Clouds_GetNumLayers(); ++i)
     {
         if (((Flt*)((char*)self + 8 + i * 4))->operator unsigned int())
         {
@@ -2491,10 +2491,11 @@ void __thiscall FUN_0062a0b0_Class::UpdateState_0062a0b0(int pTarget)
 extern double DAT_010231e8;
 struct FUN_006347c0_Class
 {
-    float InterpolateByIndex(int a, float b, float c);
+    float TESWeather_GetCloudLayerSpeed(int a, float b, float c);
 };
 // @fnv 0x006347c0
-float FUN_006347c0_Class::InterpolateByIndex(int aiIndex, float b, float c)
+// src: COMMUNITY 0x006347c0
+float FUN_006347c0_Class::TESWeather_GetCloudLayerSpeed(int aiIndex, float b, float c)
 {
     unsigned char v = 0x33;
     if (*(int*)((char*)this + 0x368) > 0)
@@ -7210,11 +7211,12 @@ float __cdecl FUN_00408840(float);
 struct Mover628
 {
     void LoadedAreaBound_GetGroundPos(Body628*, NiPoint3*, NiPoint3*);
-    void MoveToDestination(Body628*, Group628*);
+    void LoadedAreaBound_WarpBody(Body628*, Group628*);
 };
 // Moves body, or its group, to a destination from FUN_006296d0 plus a bounds height, setting position and rotation, and zero velocity for group members.
 // @fnv 0x00628f90
-void Mover628::MoveToDestination(Body628* body, Group628* moved)
+// src: COMMUNITY 0x00628f90
+void Mover628::LoadedAreaBound_WarpBody(Body628* body, Group628* moved)
 {
     if (body && !body->IsNonZero(32))
     {

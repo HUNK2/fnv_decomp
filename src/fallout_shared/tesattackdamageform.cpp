@@ -119,12 +119,12 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             SetFlags(flags.inherited | flags.current);
             if (templateSelection.creature->GetCreatureSounds())
             {
-                CreatureSounds* sounds = GetMutableCreatureSounds();
+                CreatureSounds* sounds = CreateCreatureSounds();
                 sounds->Copy(templateSelection.creature->GetCreatureSounds());
             }
             else
             {
-                SetCreatureSoundsFrom(templateSelection.creature->GetSoundCreature());
+                SetSoundCreature(templateSelection.creature->GetSoundCreature());
             }
             m_eSoundLevel = templateSelection.creature->FUN_009c0070();
         }
@@ -132,12 +132,12 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
         {
             if (templateSelection.creature->GetCreatureSounds())
             {
-                CreatureSounds* sounds = GetMutableCreatureSounds();
+                CreatureSounds* sounds = CreateCreatureSounds();
                 sounds->Copy(templateSelection.creature->GetCreatureSounds());
             }
             else
             {
-                SetCreatureSoundsFrom(templateSelection.creature->GetSoundCreature());
+                SetSoundCreature(templateSelection.creature->GetSoundCreature());
             }
         }
         if (GetTemplateUseFlag(TU_TRAITS))
@@ -149,7 +149,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
                              ->FUN_00441110());
             reinterpret_cast<TESResponse*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))
                 ->SetSpeakerIdle((TESIdleForm*)static_cast<const TESCreature*>(templateSelection.creature)->GetVoiceType());
-            SetKarmaValue(static_cast<const TESCreature*>(templateSelection.creature)->GetHealthRegeneration());
+            SetKarma(static_cast<const TESCreature*>(templateSelection.creature)->GetHealthRegeneration());
             SetTypeAtOffset12C(templateSelection.creature->FUN_0059f3a0());
             FUN_005f8bd0(templateSelection.creature->GetField158());
             SetCombatStyle(static_cast<const TESCreature*>(templateSelection.creature)->GetCombatStyle());
@@ -179,7 +179,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             BGSTouchSpellForm::BaseFormRecord((BGSTouchSpellForm*)templateSelection.creature);
         }
         if (GetTemplateUseFlag(TU_AIDATA))
-            CopyAISettings((TESAIForm*)templateSelection.creature);
+            CopyAIData((TESAIForm*)templateSelection.creature);
         if (GetTemplateUseFlag(TU_AIPACKAGES))
             CopyAIPackageList((TESAIForm*)templateSelection.creature);
 

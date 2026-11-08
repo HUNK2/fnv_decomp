@@ -16,7 +16,7 @@ extern "C" void* const DAT_010cb1e4[];
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 void __cdecl hkpBroadphaseViewer_registerViewer();
-void __cdecl hkpMidphaseViewer_Create_SetDAT01269024();
+void __cdecl hkpMidphaseViewer_registerViewer();
 void __cdecl RegisterCenterOfMass();
 void __cdecl RegisterConstraintsProcessFactory();
 void __cdecl RegisterConvexRadius();
@@ -40,7 +40,7 @@ void __cdecl RegisterWeldingViewer();
 void __cdecl hkpPhysicsContext_registerAllPhysicsProcesses()
 {
     hkpBroadphaseViewer_registerViewer();
-    hkpMidphaseViewer_Create_SetDAT01269024();
+    hkpMidphaseViewer_registerViewer();
     RegisterCenterOfMass();
     RegisterConstraintsProcessFactory();
     RegisterConvexRadius();

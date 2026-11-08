@@ -461,7 +461,7 @@ class BGSNote
     TESTopic* GetNoteTopic();
     TESBoundObject* GetNoteSpeaker();
     bool GetUnk7d();
-    void SetSoundNotePlayed(bool);
+    void SetHasBeenRead(bool);
 };
 class TESTopicInfo
 {
@@ -619,7 +619,7 @@ class MapMenu : public Menu
     BSSimpleArray<Tile*> m_kMapMarkerTiles;
     MapMenu();
     static Tile* Create();
-    static void MenuDepthController();
+    static void UpdateMenu();
     void UpdateDialog();
     static void StopMapMenuSounds();
     static void SetMapPositionToPlayer();
@@ -627,17 +627,17 @@ class MapMenu : public Menu
     static void OpenMap();
     void UpdateSelectedQuestMarkers();
     void SelectNote(BGSNote*);
-    void RefreshMapData();
+    void StopNoteSound();
     void SetMapDisplayMode(bool);
     void ResetWaveform();
     static void MapMenu_SetKnobPosition(bool);
-    NiPoint3 WorldToMapPosition(NiPoint3, TESWorldSpace*);
+    NiPoint3 WorldToMapCoord(NiPoint3, TESWorldSpace*);
     NiPoint3 MapToWorldPosition(NiPoint3, TESWorldSpace*);
     TESObjectREFR* GetTeleportDestination(TESObjectREFR*, PathingPath*);
     TESWorldSpace* CalculatePlayerMarkerSpace(NiPoint3);
     void RefreshMapMarkers();
     void UpdateMapObjectives();
-    void UpdateMapHighlight();
+    void MapMenu_HighlightCenterMarker();
     void SetFlag8000();
     bool HasNoZeroEntries();
     void Menu_SetRenderedMenu();

@@ -1696,7 +1696,7 @@ void __cdecl BSFaceGenManager_RandomizeFaceGenetic(float a1, int a2, int a3)
 {
     if (a3 != 0 && a2 != 0)
     {
-        ((Holder00aad6b0*)((char*)BSFaceGenManager::GetFaceGenManager(a1, a2, a3) + 0x118))->ProcessEntries_00aad6b0();
+        ((Holder00aad6b0*)((char*)BSFaceGenManager::GetInstance(a1, a2, a3) + 0x118))->ProcessEntries_00aad6b0();
     }
 }
 
@@ -3874,7 +3874,7 @@ struct FUN_0064bda0_Class
     virtual void vf2c();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3c();
     virtual void vf40();
     virtual void vf44();
@@ -3883,7 +3883,7 @@ struct FUN_0064bda0_Class
     virtual void vf50();
     virtual void vf54();
     virtual void vf58();
-    virtual void vf5c();
+    virtual void applyForce();
     virtual void vf60();
     virtual void vf64();
     virtual void vf68();
@@ -3931,7 +3931,7 @@ inline void FUN_0064bda0_Class::vf30()
 {}
 inline void FUN_0064bda0_Class::vf34()
 {}
-inline void FUN_0064bda0_Class::vf38()
+inline void FUN_0064bda0_Class::PrintInfo()
 {}
 inline void FUN_0064bda0_Class::vf3c()
 {}
@@ -3949,7 +3949,7 @@ inline void FUN_0064bda0_Class::vf54()
 {}
 inline void FUN_0064bda0_Class::vf58()
 {}
-inline void FUN_0064bda0_Class::vf5c()
+inline void FUN_0064bda0_Class::applyForce()
 {}
 inline void FUN_0064bda0_Class::vf60()
 {}
@@ -4019,7 +4019,7 @@ struct FUN_0064be40_shell
     bool BSFaceGenAnimationData_UpdateEyeTracking(float elapsed, int unused);
     int BSFaceGenAnimationData_GetCurrentExpression();
     void FUN_0064bf90(int deltaY, float* deltaX, float* limit, float elapsed);
-    void SetEyeHeadingAndPitch(float x, float y);
+    void BSFaceGenAnimationData_SetEyePosition(float x, float y);
 };
 struct FUN_00403e20_setting
 {
@@ -4049,7 +4049,7 @@ bool FUN_0064be40_shell::BSFaceGenAnimationData_UpdateEyeTracking(float elapsed,
         BSClamp_float(&stage, -desiredY, desiredY);
         *(float*)((char*)this + 0x140) += desiredX;
         *(float*)((char*)this + 0x144) += stage;
-        SetEyeHeadingAndPitch(*(float*)((char*)this + 0x140), *(float*)((char*)this + 0x144));
+        BSFaceGenAnimationData_SetEyePosition(*(float*)((char*)this + 0x140), *(float*)((char*)this + 0x144));
     }
     ((FUN_0040fbf0_lock*)((char*)this + 0x1a0))->BSSpinLock_Unlock();
     return updateNeeded;
@@ -4651,7 +4651,7 @@ void S_006503b0_Owner::BSFaceGenModelMap_RemoveAllUnusedModels()
 
 struct ModelHelper
 {
-    void EnsureMorphData();
+    void BSFaceGenModel_LoadEGMData();
 };
 struct InnerPointer
 {
@@ -4706,7 +4706,7 @@ bool Target::BSFaceGenModelMap_LoadEGMData(FileNames* pFileNames)
     {
         a.Modelloader_GetReferencedThis()->time = gm_GetTickCount();
         BSFaceGenModelMap_VerifyData(a.Modelloader_GetReferencedThis());
-        a.Modelloader_GetReferencedThis()->model.Modelloader_GetReferencedThis()->EnsureMorphData();
+        a.Modelloader_GetReferencedThis()->model.Modelloader_GetReferencedThis()->BSFaceGenModel_LoadEGMData();
         dirty = true;
         p = true;
     }
@@ -7604,7 +7604,7 @@ bool BSFaceGenModel::CloneTriBasedGeom(NiPointer<NiTriBasedGeom>& out)
     out = (NiTriBasedGeom*)m_pGeometryModel->spGeom->Clone();
 
     NiPointer<NiObject> spDataCopy3(0);
-    m_pGeometryModel->spGeom->GetModelData()->ResolveObjectPointer(spDataCopy3);
+    m_pGeometryModel->spGeom->GetModelData()->CreateDeepCopy(spDataCopy3);
     spModelData = (NiGeometryData*)(NiObject*)spDataCopy3;
     out->ReplaceModelData(spModelData);
 
@@ -7612,7 +7612,7 @@ bool BSFaceGenModel::CloneTriBasedGeom(NiPointer<NiTriBasedGeom>& out)
     if (pObjectInstance && pObjectInstance->NiObjectNET_GetControllers())
     {
         NiPointer<NiObject> spPartitionCopy(0);
-        pObjectInstance->NiObjectNET_GetControllers()->ResolveObjectPointer(spPartitionCopy);
+        pObjectInstance->NiObjectNET_GetControllers()->CreateDeepCopy(spPartitionCopy);
         spSkinPartition = (NiSkinPartition*)(NiObject*)spPartitionCopy;
         pObjectInstance->BSMultiBound_SetShape(spSkinPartition);
     }

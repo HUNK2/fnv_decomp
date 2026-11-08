@@ -539,7 +539,8 @@ class DA0920Object : public DA0920Base
 
 // Place-constructs a DA0920Object at p with a DA0920FinishFlag built from finishing, when p is non-null.
 // @fnv 0x00da0920
-void ConstructDA0920Object(void* apMemory, int finishing)
+// src: COMMUNITY 0x00da0920
+void finishLoadedObject_hkpMaxSizeMotion(void* apMemory, int finishing)
 {
     if (apMemory)
     {
@@ -1687,8 +1688,8 @@ struct FUN_00db7c00_obj
 };
 
 // @fnv 0x00db7c00
-// src: GUESS 0x00db7c00 (confidence: medium)
-void __cdecl Object_Vslot00_Thunk(FUN_00db7c00_obj* p)
+// src: COMMUNITY 0x00db7c00
+void __cdecl cleanupLoadedObject_hkpPhysicsSystem(FUN_00db7c00_obj* p)
 {
     p->vslot00(0);
 }
@@ -1725,7 +1726,8 @@ struct hkLoadedObjectDB7C
 };
 
 // @fnv 0x00db7c20
-void __cdecl InitLoadedObject(void* pvObject, int iFinishing)
+// src: COMMUNITY 0x00db7c20
+void __cdecl finishLoadedObject_hkpPhysicsSystem(void* pvObject, int iFinishing)
 {
     if (pvObject)
     {

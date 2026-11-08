@@ -603,7 +603,7 @@ void FUN_009f8900_class::SpectatorPackage_LoadGame_009f8900(BGSLoadFormBuffer* a
     apLoadGameBuffer->ReadTypedData(static_cast<void*>(field94), 12u);
 
     {
-        unsigned int isaveGameCount = apLoadGameBuffer->ReadElementCount();
+        unsigned int isaveGameCount = apLoadGameBuffer->LoadVariableSizedValue();
 
         reinterpret_cast<FUN_009f8b30_class*>(reinterpret_cast<unsigned char*>(this) + 0xA0)
             ->BSSimpleArray_SpectatorThreatInfo_1024_SetSize(isaveGameCount, 1);
@@ -756,14 +756,14 @@ class FUN_009f72f0 : public Base_9f72f0
     SubB0 m_b0;
     FUN_009f72f0();
     virtual ~FUN_009f72f0();
-    void SetPackageType(int a);
+    void SetPackType(int a);
     void FUN_00984f60(int a);
 };
 
 // @fnv 0x009f72f0
 FUN_009f72f0::FUN_009f72f0() : m_v94(DAT_011f426c), m_a0(0x20, 0), m_b0(0)
 {
-    SetPackageType(0x18);
+    SetPackType(0x18);
     m_i80 = 0;
     m_f88 = 0.0f;
     m_f8c = 0.0f;

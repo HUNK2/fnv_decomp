@@ -1779,24 +1779,24 @@ extern int DAT_0102583c;
 // @fnv 0x006dcea0
 PathingLocation::PathingLocation(const NiPoint3* apArg, TESWorldSpace* apOther)
 {
-    SetLocationData(const_cast<NiPoint3*>(apArg), 0, apOther);
+    SetupData(const_cast<NiPoint3*>(apArg), 0, apOther);
 }
 
 struct FUN_006dfd70_Class
 {
-    unsigned int InitFromLookup();
+    unsigned int PathingLOSGridCell_SetSeenTrianglesFromLOSMap();
     unsigned int GetFlags();
     unsigned int* GetAt(int, unsigned int);
     bool PathingLOSGrid_SetSeenTrianglesFromLOSMap(unsigned int idx);
 };
-// Iterates over all entries up to GetFlags(), calls InitFromLookup on each element obtained via GetAt(i, idx), and returns true.
+// Iterates over all entries up to GetFlags(), calls PathingLOSGridCell_SetSeenTrianglesFromLOSMap on each element obtained via GetAt(i, idx), and returns true.
 // @fnv 0x006dfd70
 // src: COMMUNITY 0x006dfd70
 bool FUN_006dfd70_Class::PathingLOSGrid_SetSeenTrianglesFromLOSMap(unsigned int idx)
 {
     unsigned int i = 0;
     for (; i < GetFlags(); ++i)
-        ((FUN_006dfd70_Class*)*GetAt(i, idx))->InitFromLookup();
+        ((FUN_006dfd70_Class*)*GetAt(i, idx))->PathingLOSGridCell_SetSeenTrianglesFromLOSMap();
     return true;
 }
 
@@ -3697,7 +3697,7 @@ struct FUN_006ac0e0
     unsigned int unk2100;
     FUN_006ac0e0();
     ~FUN_006ac0e0();
-    bool SearchPath(PathingRequest*, MeshTriangle*, MeshTriangle*);
+    bool NavMeshSearchSLPoint_FindStraightLinePath(PathingRequest*, MeshTriangle*, MeshTriangle*);
     void NavMeshSearchSLPoint_GetGoalLocation(NiPoint3&);
 };
 bool Pathing_GetAllLoadedNavmeshes(PathBuilderDetailedPathMeshes_blk_006c0000_od*);
@@ -3729,7 +3729,8 @@ bool __cdecl FindPathToTarget(PathingRequest* request, NiPoint3* output)
     FUN_006ac0e0 _search;
     PathBuilderDetailedPathMeshes_blk_006c0000_od kList;
     Pathing_GetAllLoadedNavmeshes(&kList);
-    if (!_search.SearchPath(request, &origin_, &target3))
+    // src: COMMUNITY 0x006ac220
+    if (!_search.NavMeshSearchSLPoint_FindStraightLinePath(request, &origin_, &target3))
     {
         PathingRequestHelper aOrigin;
         request->PathingRequest::CopyTo(reinterpret_cast<PathingRequest*>(&aOrigin));
@@ -4262,7 +4263,7 @@ PathingLocation::PathingLocation(Location16* source)
     int b = 0;
     int a = 0;
     reinterpret_cast<FUN_00527990_shell*>(source)->BGSWorldLocation_GetCellOrWorld(&b, &a);
-    SetLocationData(&reinterpret_cast<BSSimpleList<BGSPerk*>*>(source)->GetItem(),
+    SetupData(&reinterpret_cast<BSSimpleList<BGSPerk*>*>(source)->GetItem(),
                     reinterpret_cast<TESObjectCELL*>(b), reinterpret_cast<TESWorldSpace*>(a));
 }
 

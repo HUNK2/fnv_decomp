@@ -51,7 +51,7 @@ float TESHavokUtilities_GetSceneGraphMass(NiAVObject* object)
     float fmass = 0.0f;
     if (object)
     {
-        bhkCollisionObject* pCollisionObject = bhkCollisionObject::GetFromNiAVObject(object);
+        bhkCollisionObject* pCollisionObject = bhkCollisionObject::GetbhkCollisionObject(object);
         bhkWorldObject* pWorldObject = pCollisionObject ? pCollisionObject->bhkNiCollisionObject_GetWorldObject() : 0;
         if (pWorldObject)
             fmass += pWorldObject->bhkRigidBody_GetMass();
@@ -183,7 +183,7 @@ void __cdecl TESHavokUtilities_RemoveHavokFromSceneGraph(NiAVObject* pObject)
         void* r = pObject->NiAVObject_GetCollisionObject();
         if (r != 0)
         {
-            pObject->AssignCollisionObject(0);
+            pObject->SetCollisionObject(0);
         }
         if (pObject->IsSceneNode() != 0)
         {
@@ -236,7 +236,7 @@ void CountCollisionShapes(NiAVObject* object, unsigned int* firstCount, unsigned
 {
     if (object)
     {
-        bhkCollisionObject* collision4 = bhkCollisionObject::GetFromNiAVObject(object);
+        bhkCollisionObject* collision4 = bhkCollisionObject::GetbhkCollisionObject(object);
         if (collision4)
         {
             bhkWorldObject* world7 = collision4->bhkNiCollisionObject_GetWorldObject();
@@ -368,7 +368,8 @@ class Handle62B
 };
 
 // @fnv 0x0062bc90
-void NiAVObject::AssignCollisionObject(NiCollisionObject* pvTarget)
+// src: COMMUNITY 0x0062bc90
+void NiAVObject::SetCollisionObject(NiCollisionObject* pvTarget)
 {
     reinterpret_cast<Handle62B&>(m_spCollisionObject).Reset(pvTarget);
     if (reinterpret_cast<Handle62B&>(m_spCollisionObject).Get() && reinterpret_cast<Handle62B&>(m_spCollisionObject).Get()->GetOwner() != this)
@@ -525,7 +526,7 @@ void __cdecl SetCollisionScale(NiAVObject* node, unsigned int operation, float s
 {
     if (node)
     {
-        bhkCollisionObject* runtime = bhkCollisionObject::GetFromNiAVObject(node);
+        bhkCollisionObject* runtime = bhkCollisionObject::GetbhkCollisionObject(node);
         if (runtime)
         {
             PhysicsObject* body = reinterpret_cast<PhysicsObject*>(runtime->bhkNiCollisionObject_GetWorldObject());

@@ -699,7 +699,7 @@ struct MsgStruct
 void __cdecl BSstrncpy(char* dst, const char* src, unsigned int count);
 struct ObjClass : public FUN_004d7d50_StandIn
 {
-    ItemClass* __thiscall GetByIndex(unsigned int);
+    ItemClass* __thiscall NiParticleSystem_GetModifierAt(unsigned int);
 };
 typedef int(__stdcall* DAT_00fdf28c_fn)(void*, int, int, void*);
 struct HostClass
@@ -1352,7 +1352,7 @@ class Owner
     int unkc0;
     int unkc4;
     ListT kList;
-    void* GetByIndex(unsigned int idx);
+    void* NiParticleSystem_GetModifierAt(unsigned int idx);
 };
 struct FUN_004d91b0_Class
 {

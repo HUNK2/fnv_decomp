@@ -4773,7 +4773,7 @@ struct kDec
 
 struct kG1
 {
-    void UpdateRelationStates(int a);
+    void ModelLoader_UpdateQueuedReferencePriorities(int a);
 };
 extern kG1* DAT_011c3b3c;
 struct kG2
@@ -6103,7 +6103,7 @@ void kSelf::PlayerCharacter_SetParentCell(kActor* p)
         bool idle = !busy && !PlayerCharacter_IsSleeping();
         if (idle)
             v494();
-        DAT_011c3b3c->UpdateRelationStates(0);
+        DAT_011c3b3c->ModelLoader_UpdateQueuedReferencePriorities(0);
         FUN_0046dd00(p->TESObjectCELL_GetClimate(0))->FUN_0063c8f0();
         BSShaderManager_SetImageSpaceParameters(p->TESObjectCELL_GetUsableImageSpace()->FUN_00500940());
         kCell* cell = p->FUN_0054ddd0();

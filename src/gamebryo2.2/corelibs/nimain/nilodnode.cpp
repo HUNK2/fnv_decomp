@@ -214,7 +214,7 @@ void NiLODNode::UpdateTargetIndex(Arg99* arg)
     if (m_bLODActive && m_pkTarget)
     {
         const NiCamera* camera = reinterpret_cast<const NiCullingProcess*>(arg)->m_pkCamera;
-        // The shared vf35/vf38 declarations lack these parameters and return types.
+        // The shared vf35/PrintInfo declarations lack these parameters and return types.
         m_iIndex = reinterpret_cast<int(__thiscall*)(NiLODData*, const NiCamera*, NiLODNode*)>(
             (*reinterpret_cast<void***>(m_pkTarget))[35])(m_pkTarget, camera, this);
         int iGlobalIndex = DAT_011abdf4;

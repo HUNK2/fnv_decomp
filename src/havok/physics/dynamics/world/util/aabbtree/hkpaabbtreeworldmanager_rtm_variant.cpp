@@ -736,7 +736,7 @@ struct S00d094a0_Job;
 struct S00d094a0_Queue { void hkJobQueue_addJob(S00d094a0_Job*, int); void hkJobQueue_processAllJobs(); };
 struct S00d094a0_Sync {
     virtual void f00(); virtual void f04(); virtual void f08();
-    virtual void signal(S00d094a0_Queue*, int); virtual void wait();
+    virtual void signal(S00d094a0_Queue*, int); virtual void hkSemaphore_release();
 };
 struct S00d094a0_Helper { int hkSemaphore_acquire(); };
 struct S00d094a0_JobHead {

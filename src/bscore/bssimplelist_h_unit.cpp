@@ -214,11 +214,12 @@ struct FUN_006138b0_node
 struct FUN_006138b0_shell
 {
     FUN_006138b0_node* GetBGSRecipeCategoryList();
-    TESForm* FindRecipeCategoryById(int id);
+    TESForm* TESRace_GetRaceEyeColor(int id);
 };
 // Walks the recipe category list and returns the item whose referenced id equals id, or null if none matches.
 // @fnv 0x006138b0
-TESForm* FUN_006138b0_shell::FindRecipeCategoryById(int id)
+// src: COMMUNITY 0x006138b0
+TESForm* FUN_006138b0_shell::TESRace_GetRaceEyeColor(int id)
 {
     FUN_006138b0_node* node = GetBGSRecipeCategoryList();
     while (node && *node->_ref_006815c0())
@@ -237,17 +238,17 @@ struct SoundListView
 };
 struct FUN_00613910_shell
 {
-    int FindRecipeCategoryById(int);
+    int TESRace_GetRaceEyeColor(int);
     void TESRace_AddEyeColor(char* item);
 };
 SoundListView* __fastcall GetBackTexture(FUN_00613910_shell*);
 
-// Adds item to the list returned by FUN_00503650 unless item is null or FindRecipeCategoryById on its FUN_0084e3a0 result is nonzero.
+// Adds item to the list returned by FUN_00503650 unless item is null or TESRace_GetRaceEyeColor on its FUN_0084e3a0 result is nonzero.
 // @fnv 0x00613910
 // src: COMMUNITY 0x00613910
 void FUN_00613910_shell::TESRace_AddEyeColor(char* item)
 {
-    if (item == 0 || FindRecipeCategoryById(((TESForm*)item)->GetHavokWorldObjectCountInSceneGraph_0084e3a0()))
+    if (item == 0 || TESRace_GetRaceEyeColor(((TESForm*)item)->GetHavokWorldObjectCountInSceneGraph_0084e3a0()))
         return;
     GetBackTexture(this)->AddTail(item);
 }
@@ -340,12 +341,13 @@ struct FUN_0083e110_shell
 {
     char pad[0x20];
     FUN_0083e110_node* cur;
-    bool AdvanceAndCheckNode();
+    bool MenuTopic_NextResponse();
 };
 
 // Advances cur to cur->FUN_00726070() when set, then returns whether cur is non-null and its referenced value is non-zero.
 // @fnv 0x0083e110
-bool FUN_0083e110_shell::AdvanceAndCheckNode()
+// src: COMMUNITY 0x0083e110
+bool FUN_0083e110_shell::MenuTopic_NextResponse()
 {
     if (cur)
         cur = cur->FUN_00726070();
@@ -1132,12 +1134,13 @@ struct FUN_00591a40_class
     int unk24;
     FUN_005ae380_node m_kNode;
     int m_lastIndex;
-    void* GetRandomItem();
+    void* BGSMusicType_GetRandomEntry();
 };
 
 // Returns a random item from the list, avoiding repeating the last index, or falls back to m_fallback when the list is empty or the pick is null.
 // @fnv 0x00591a40
-void* FUN_00591a40_class::GetRandomItem()
+// src: COMMUNITY 0x00591a40
+void* FUN_00591a40_class::BGSMusicType_GetRandomEntry()
 {
     int count = m_kNode.FUN_005ae380();
     if (m_kNode.IsEmpty() && count == 0)

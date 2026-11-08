@@ -247,7 +247,8 @@ static inline int S_Rev(int v)
 }
 
 // @fnv 0x00dbc6f0
-void __stdcall WriteNodeDiff(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apSource, int aiDiff)
+// src: COMMUNITY 0x00dbc6f0
+void __stdcall hkBinaryPackfileWriter_writeClassName(FUN_00dbc6f0_cls_owner* apOwner, FUN_00dbc6f0_cls_source* apSource, int aiDiff)
 {
     int x = apSource->Lookup(0);
     if (apOwner->m_byReverse != 0)
@@ -2017,7 +2018,7 @@ struct ThisCls
     int unk24;
     int unk28;
     PairMap map2c;
-    void WriteNodeDiff(Src* src, void* glob, int diff);
+    void hkBinaryPackfileWriter_writeClassName(Src* src, void* glob, int diff);
     int GetOrAddString(int v);
     void hkBinaryPackfileWriter_writeAllObjects(Src* arg);
 };
@@ -2162,7 +2163,7 @@ __forceinline MapIter NextPair(PairMap* map, MapIter previous)
     }
     return (MapIter)i;
 }
-// Calls WriteNodeDiff for four globals and unseen entries, writes per-counter data, records timings, and resizes two arrays.
+// Calls hkBinaryPackfileWriter_writeClassName for four globals and unseen entries, writes per-counter data, records timings, and resizes two arrays.
 // @fnv 0x00dbcea0
 // src: XBOX_PDB 0x00dbcea0
 void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* apSrc)
@@ -2186,7 +2187,7 @@ void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* apSrc)
             FUN_00d46d40_s* g = (FUN_00d46d40_s*)tbl[i];
             const char* name = g->FUN_00d46d40();
             locObj.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(name, 1);
-            WriteNodeDiff(apSrc, tbl[i], stats->start);
+            hkBinaryPackfileWriter_writeClassName(apSrc, tbl[i], stats->start);
         }
         for (j = 0, objectBytes = 0; j < entries.m_iElementCount; j++, objectBytes += sizeof(ThisEntry))
         {
@@ -2196,7 +2197,7 @@ void ThisCls::hkBinaryPackfileWriter_writeAllObjects(Src* apSrc)
             {
                 const char* name = ((ThisEntry*)((char*)entries.m_data + objectBytes))->getName();
                 locObj.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(name, 1);
-                WriteNodeDiff(apSrc, (void*)((ThisEntry*)((char*)entries.m_data + objectBytes))->t04, stats->start);
+                hkBinaryPackfileWriter_writeClassName(apSrc, (void*)((ThisEntry*)((char*)entries.m_data + objectBytes))->t04, stats->start);
             }
         }
         hkMemoryRouter_UpdateState_00dbcdd0(apSrc->clock1c, 16);

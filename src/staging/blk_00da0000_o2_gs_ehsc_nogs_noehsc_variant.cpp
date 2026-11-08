@@ -271,7 +271,7 @@ class DA0920Object : public DA0920Base
     {}
     virtual void vfunc00();
 };
-void ConstructDA0920Object(void* p, int finishing);
+void finishLoadedObject_hkpMaxSizeMotion(void* p, int finishing);
 extern int g_unk010c6c64;
 void* __cdecl Runtime_GetUnk010c6c64Address();
 extern int DAT_0126979c;
@@ -761,7 +761,7 @@ struct FUN_00db7c00_obj
 {
     virtual void vslot00(int value);
 };
-void __cdecl Object_Vslot00_Thunk(FUN_00db7c00_obj* p);
+void __cdecl cleanupLoadedObject_hkpPhysicsSystem(FUN_00db7c00_obj* p);
 // 0x00db7c10  /MT /O2 /GS /EHsc /Gy   target: B8 28 9B 26 01 C3  (mov eax, offset DAT_01269b28; ret)
 extern int DAT_01269b28;
 int* Runtime_GetDAT01269b28Address();
@@ -784,7 +784,7 @@ struct hkLoadedObjectDB7C
     int unk34;
     FUN_00cb0a70_class m_name;
 };
-void __cdecl InitLoadedObject(void* pvObject, int iFinishing);
+void __cdecl finishLoadedObject_hkpPhysicsSystem(void* pvObject, int iFinishing);
 extern "C" void __cdecl FUN_00ec658f(const void*);
 extern unsigned char DAT_01269b80;
 extern void* DAT_010d6260;

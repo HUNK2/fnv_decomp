@@ -521,7 +521,8 @@ Menu* __cdecl FindMenuById(int id);
 // This visibility entry point is not declared by the shared header yet.
 // Looks up three tiles by id and, for each enabled flag at offsets 0xd2/0xd0/0xd1, un-culls that tile's node.
 // @fnv 0x007fc8d0
-void __fastcall RestoreRenderedMenuVisibility(FORenderedMenu* menu)
+// src: COMMUNITY 0x007fc8d0
+void __fastcall FORenderedMenu_UnhidePopupMenus(FORenderedMenu* menu)
 {
     Tile* pquantity2 = (Tile*)FindMenuById(0x3e9);
     Tile* pmessage = (Tile*)FindMenuById(0x3f8);
@@ -612,8 +613,8 @@ struct PipboyMenuTransitions : FOPipboyManager
 {
     void FOPipboyManager_ResetColors();
     void FUN_007fa010(unsigned int);
-    void OpenPipboyMenu();
-    void ClosePipboyMenu();
+    void FOPipboyManager_OnMenuOpen();
+    void FOPipboyManager_OnMenuClose();
 };
 
 void __cdecl Interface_IsolateMenuElements(bool, bool);
@@ -624,7 +625,8 @@ extern Setting g_011db43c;
 extern Setting g_011db480;
 
 // @fnv 0x007f8010
-void PipboyMenuTransitions::OpenPipboyMenu()
+// src: COMMUNITY 0x007f8010
+void PipboyMenuTransitions::FOPipboyManager_OnMenuOpen()
 {
     if (!GetInitialized())
         return;
@@ -738,7 +740,8 @@ struct FUN_00456630_helper : NiAVObject
 };
 
 // @fnv 0x007fc790
-void __fastcall HideRenderedMenuTiles(FORenderedMenu* menu)
+// src: COMMUNITY 0x007fc790
+void __fastcall FORenderedMenu_HidePopupMenus(FORenderedMenu* menu)
 {
     Tile* pMenu;
 
@@ -1902,12 +1905,12 @@ void FORenderedMenu::Render_007fba00(void* pRenderArg1, void* pRenderArg2, Targe
     ((NiAVObject*)((Tile*)menu1->Tile_GetMenuTile())->GetModel_0056c7f0())->FUN_00450f90(true);
     if (this != Interface_GetPipboy())
         ((ObjectPointer82*)&m_pRenderedMenuObject)->Modelloader_GetReferencedThis()->FUN_00450f90(false);
-    HideRenderedMenuTiles(this);
+    FORenderedMenu_HidePopupMenus(this);
     render4->BSCullingProcess_PushCullMode(1);
     BSShaderUtil_AccumulateScene(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pRenderedMenuObject)->Modelloader_GetReferencedThis(), render4);
     FUN_00b6c0d0(scene3->FUN_006629f0(), ((ObjectPointer82*)&m_pMenuLightNode)->Modelloader_GetReferencedThis(), 0);
     render4->BSCullingProcess_PopCullMode();
-    RestoreRenderedMenuVisibility(this);
+    FORenderedMenu_UnhidePopupMenus(this);
     render4->BSCullingProcess_SetAccumulator(0);
     if (this != Interface_GetPipboy())
         ((ObjectPointer82*)&m_pRenderedMenuObject)->Modelloader_GetReferencedThis()->FUN_00450f90(true);
@@ -2081,7 +2084,8 @@ void __cdecl TESImageSpaceModifier_AllowGetHit(char c);
 extern bool DAT_011db378;
 }
 // @fnv 0x007f8170
-void PipboyMenuTransitions::ClosePipboyMenu()
+// src: COMMUNITY 0x007f8170
+void PipboyMenuTransitions::FOPipboyManager_OnMenuClose()
 {
     using namespace n7f8;
     reinterpret_cast<RenderedMenuInterface*>(this)->FOPipboyManager_SetRefractive(((Player*)DAT_011dea3c)->IsRefractive());

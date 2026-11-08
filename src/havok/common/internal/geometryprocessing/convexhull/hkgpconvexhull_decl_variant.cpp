@@ -1240,7 +1240,7 @@ struct FUN_00d75440_cls
 {
     float hkgpConvexHull_getVolume();
     double GetMass();
-    float ComputeScaledPowerRatio();
+    float hkgpConvexHull_getSphericity();
 };
 struct FUN_00d75820_Tmp8
 {

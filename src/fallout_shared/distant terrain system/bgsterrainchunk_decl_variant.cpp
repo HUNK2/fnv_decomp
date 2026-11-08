@@ -32,7 +32,7 @@ struct Flt
 };
 struct FUN_006fb6e0_shell
 {
-    void SetAllAppCulled();
+    void BGSTerrainChunk_Hide();
 };
 struct FUN_006fb940_shell
 {
@@ -479,7 +479,7 @@ struct Target006fac
     void UpdateWaterReferences(int);
     void BGSTerrainChunk_InitializeShaderProperty();
     void AddSelfToList();
-    void SetAllAppCulled();
+    void BGSTerrainChunk_Hide();
 };
 struct B5D0Status
 {
@@ -489,7 +489,7 @@ struct B5D0Item
 {
     B5D0Status* Modelloader_GetReferencedThis();
     void BGSTerrainChunk_Show();
-    void SetAllAppCulled();
+    void BGSTerrainChunk_Hide();
 };
 struct B5D0List
 {

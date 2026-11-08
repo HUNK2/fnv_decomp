@@ -292,7 +292,7 @@ class TaskQueueInterface
     void ProcessTaskQueue();
     NiPoint3& QueueActorAnimationTask(NiPoint3& akDest);
     static void CopyStringToBuffer(char* apBuffer, unsigned int auiSize, const char* apSource);
-    void QueueActorDisarm(bool abCritical);
+    void NiAVObject_SetAppCulled(bool abCritical);
     void QueueReferenceStateTask(bool abOpen);
     void SetTaskFlagDWord(bool abSet, unsigned int auiMask);
     void SetTaskFlagWord(bool abSet, unsigned short ausMask);
@@ -389,7 +389,8 @@ void TaskQueueInterface::CopyStringToBuffer(char* apBuffer, unsigned int auiSize
 }
 
 // @fnv 0x00450f90
-void TaskQueueInterface::QueueActorDisarm(bool abCritical)
+// src: COMMUNITY 0x00450f90
+void TaskQueueInterface::NiAVObject_SetAppCulled(bool abCritical)
 {
     SetTaskFlagDWord(abCritical, 1);
 }
@@ -499,7 +500,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
                              akTask.m_akPackedTaskVariantData[4].fData);
                 break;
             case 0x113c:
-                Script::SetReferenceScale(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].fData);
+                Script::SetScaleBase(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].fData);
                 break;
             case 0x1156:
                 Script_SetRigidBodyMassBase(m_pWorldReferenceInfo, akTask.m_akPackedTaskVariantData[3].fData);
@@ -589,7 +590,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
             bTestMultibounds = true;
         UpdateSceneGraph(pObject);
         if (bTestMultibounds && reinterpret_cast<FUN_0087ce50_cls*>(pObject)->GetHeadTail() > 0.0)
-            reinterpret_cast<DetailedActorPathHandler*>(g_TES->GetDetailedActorPathHandler())
+            reinterpret_cast<DetailedActorPathHandler*>(g_TES->GetCurrentCell())
                 ->HandleReferenceUpdate(TESObjectREFR::GetReferenceFromNiAVObject(pObject), false, false);
         pObject->NiRefObject_DecRefCount();
         break;
@@ -1070,11 +1071,12 @@ void FUN_0087b400_shell::TaskQueueInterface_QueueSet3DNull(TESObjectREFR* apRef)
 
 struct FUN_0087b650_shell : public TaskQueueInterface
 {
-    void QueueActorLocationTask(Actor*, void*);
+    void TaskQueueInterface_QueueActorSetPosition(Actor*, void*);
 };
 
 // @fnv 0x0087b650
-void FUN_0087b650_shell::QueueActorLocationTask(Actor* apActor, void* aLocation)
+// src: COMMUNITY 0x0087b650
+void FUN_0087b650_shell::TaskQueueInterface_QueueActorSetPosition(Actor* apActor, void* aLocation)
 {
     union
     {

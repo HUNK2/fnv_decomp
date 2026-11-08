@@ -180,7 +180,7 @@ struct e2f910_Cls
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual int vf40(int value);
 

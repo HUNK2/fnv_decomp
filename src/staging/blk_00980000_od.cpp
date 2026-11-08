@@ -909,7 +909,7 @@ NiTMapBase<DFALL<NiTMapItem<unsigned int, ReservedCoverLocation*> >, unsigned in
 
 struct FUN_0098c590_shell
 {
-    CombatSearchDoor* FindParentSpaceNode(int);
+    CombatSearchDoor* CombatGroup_GetCombatSearchDoor(int);
 };
 struct FUN_0098c6e0_class
 {
@@ -919,7 +919,7 @@ struct FUN_0098c6e0_class
 // src: XBOX_PDB 0x0098c6e0
 void FUN_0098c6e0_class::CombatGroup_InvestigatedSearchDoor(int arg)
 {
-    CombatSearchDoor* result = ((FUN_0098c590_shell*)this)->FindParentSpaceNode(arg);
+    CombatSearchDoor* result = ((FUN_0098c590_shell*)this)->CombatGroup_GetCombatSearchDoor(arg);
     if (result)
         result->pad[9] = 1;
 }
@@ -927,7 +927,7 @@ void FUN_0098c6e0_class::CombatGroup_InvestigatedSearchDoor(int arg)
 namespace fnv_0098c750 {
 struct FUN_0098c590_shell
 {
-    CombatSearchDoor* FindParentSpaceNode(int);
+    CombatSearchDoor* CombatGroup_GetCombatSearchDoor(int);
 };
 struct FUN_0098c750_class
 {
@@ -937,7 +937,7 @@ struct FUN_0098c750_class
 // src: XBOX_PDB 0x0098c750
 void __thiscall FUN_0098c750_class::CombatGroup_ReserveSearchDoor(int arg)
 {
-    CombatSearchDoor* p = ((FUN_0098c590_shell*)this)->FindParentSpaceNode(arg);
+    CombatSearchDoor* p = ((FUN_0098c590_shell*)this)->CombatGroup_GetCombatSearchDoor(arg);
     if (p)
         p->bReserved = true;
 }
@@ -1053,7 +1053,8 @@ struct BSSimpleArray_ParentSpaceNode
 
 // Scans the array at offset 0x120 for a node whose a or b equals formID and returns it, otherwise returns 0.
 // @fnv 0x0098c590
-CombatSearchDoor* FUN_0098c590_shell::FindParentSpaceNode(int formID)
+// src: COMMUNITY 0x0098c590
+CombatSearchDoor* FUN_0098c590_shell::CombatGroup_GetCombatSearchDoor(int formID)
 {
     for (unsigned int i = 0; i < ((BSSimpleArray_ParentSpaceNode*)((char*)this + 0x120))->GetFlags(); ++i)
     {
@@ -2111,11 +2112,12 @@ struct FUN_0098bfb0_Record
 
 struct FUN_0098bfb0_Class
 {
-    void __thiscall StoreRecord(void* header, float value, int extra);
+    void __thiscall CombatGroup_AddSearchLocation(void* header, float value, int extra);
 };
 
 // @fnv 0x0098bfb0
-void __thiscall FUN_0098bfb0_Class::StoreRecord(void* header, float value, int extra)
+// src: COMMUNITY 0x0098bfb0
+void __thiscall FUN_0098bfb0_Class::CombatGroup_AddSearchLocation(void* header, float value, int extra)
 {
     unsigned int index = reinterpret_cast<S006bfd40*>(reinterpret_cast<char*>(this) + 0x110)->BSSimpleArray_CombatSearchLocation_1024_AddUninitialized();
 
@@ -2167,7 +2169,7 @@ struct FUN_0098c600_class
 // @fnv 0x0098c600
 void __thiscall FUN_0098c600_class::AddRadioReference(TESObjectREFR* pRef)
 {
-    if (reinterpret_cast<FUN_0098c590_shell*>(this)->FindParentSpaceNode(reinterpret_cast<int>(pRef)) != 0)
+    if (reinterpret_cast<FUN_0098c590_shell*>(this)->CombatGroup_GetCombatSearchDoor(reinterpret_cast<int>(pRef)) != 0)
     {
         return;
     }
@@ -2573,12 +2575,13 @@ struct FUN_00993fd0_class
 {
     void** m_p;
     int m_uiItemCount;
-    void __thiscall AllocateItemArray(int arg);
+    void __thiscall CombatPlan_AllocateSteps(int arg);
 };
 
 // Stores arg as the count, allocates an array of that many pointers, and fills each with a new item.
 // @fnv 0x00993fd0
-void __thiscall FUN_00993fd0_class::AllocateItemArray(int aiCount)
+// src: COMMUNITY 0x00993fd0
+void __thiscall FUN_00993fd0_class::CombatPlan_AllocateSteps(int aiCount)
 {
     m_uiItemCount = aiCount;
     m_p = new void*[m_uiItemCount];
@@ -3930,7 +3933,7 @@ struct CombatSearchMgr : FUN_0098c590_shell
 // src: XBOX_PDB 0x0098c710
 void CombatSearchMgr::CombatGroup_FailedToInvestigateSearchDoor(int arg)
 {
-    DoorExtraFields* door = (DoorExtraFields*)FindParentSpaceNode(arg);
+    DoorExtraFields* door = (DoorExtraFields*)CombatGroup_GetCombatSearchDoor(arg);
     if (door != 0)
     {
         door->unk0a = 0;
@@ -4051,11 +4054,12 @@ struct FUN_0098d1a0_shell
     int unk40;
     CombatTargetTimestamp stamp;
     unsigned int CombatGroup_GetMemberCount();
-    void UpdateChoiceSelection();
+    void CombatGroup_UpdateGroupStrategy();
 };
 // When more than one entry exists, picks a choice on the select timer, validates it on the validate timer, and clears it otherwise.
 // @fnv 0x0098d1a0
-void FUN_0098d1a0_shell::UpdateChoiceSelection()
+// src: COMMUNITY 0x0098d1a0
+void FUN_0098d1a0_shell::CombatGroup_UpdateGroupStrategy()
 {
     if (CombatGroup_GetMemberCount() > 1)
     {
@@ -6171,7 +6175,7 @@ void Center::UpdateCenter()
 
 struct NearbyPosition : ClusterPosition
 {
-    float DistanceTo(const NearbyPosition& other);
+    float BGSWorldLocation_GetDistance(const NearbyPosition& other);
 };
 struct NearbyActor
 {
@@ -6226,7 +6230,7 @@ void NearbyGroup::CollectNearbyRefs()
                 {
                     NearbyActor* actor = GetIntAt(i);
                     NearbyPosition point = actor->TESObjectREFR_GetWorldLocation();
-                    if (position.DistanceTo(point) < memberRadius * memberRadius)
+                    if (position.BGSWorldLocation_GetDistance(point) < memberRadius * memberRadius)
                         continue;
                     Pathing_FindTeleportDoorsForLocation(point.GetHavokWorldObjectCountInSceneGraph_0084e3a0(), point.FUN_006815c0(), searchRadius, &entries);
                 }
@@ -6390,7 +6394,7 @@ struct PositionGroup : GroupReset
     unsigned unk10c;
     ExpiringPositions positions;
     void CombatGroup_CalculateTargetSearchLocationScores(WeightedMember*, float*, float*, float*);
-    void StoreRecord(WeightedPosition*, float, unsigned);
+    void CombatGroup_AddSearchLocation(WeightedPosition*, float, unsigned);
     void UpdateExpiringPositions();
 };
 float __cdecl BSMAX_00404010(float, float);
@@ -6420,9 +6424,9 @@ void PositionGroup::UpdateExpiringPositions()
             if (member > firstWeight || secondWeight > firstWeight)
             {
                 if (member >= secondWeight)
-                    StoreRecord(&currentWeight->first, member, currentWeight->actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                    CombatGroup_AddSearchLocation(&currentWeight->first, member, currentWeight->actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                 else
-                    StoreRecord(&currentWeight->second, secondWeight, currentWeight->actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                    CombatGroup_AddSearchLocation(&currentWeight->second, secondWeight, currentWeight->actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
             }
             else if (firstWeight > 0.0)
             {
@@ -6443,11 +6447,11 @@ void PositionGroup::UpdateExpiringPositions()
                     combinedVector.ScaleByInverse(closest + firstWeight);
                     WeightedPosition position;
                     position.FUN_0043a3c0(combinedVector, currentWeight->current.GetHavokWorldObjectCountInSceneGraph_0084e3a0());
-                    StoreRecord(&position, firstWeight, currentWeight->actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                    CombatGroup_AddSearchLocation(&position, firstWeight, currentWeight->actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                 }
                 else
                 {
-                    StoreRecord(&currentWeight->current, firstWeight, currentWeight->actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
+                    CombatGroup_AddSearchLocation(&currentWeight->current, firstWeight, currentWeight->actor->GetHavokWorldObjectCountInSceneGraph_0084e3a0());
                 }
             }
         }
@@ -6908,7 +6912,7 @@ struct CombatPair
 struct CombatValue
 {
     unsigned int value;
-    void SaveTimeStamp(CombatWriter*);
+    void CombatTimeStamp_SaveGame(CombatWriter*);
 };
 struct CombatRecord
 {
@@ -7023,7 +7027,7 @@ void SavedCombatState::WriteToStream(CombatWriter* writer)
     pair30.FUN_009a5eb0(writer);
     pair38.FUN_009a5eb0(writer);
     writer->FUN_00865e50(&flags40, 4, 0);
-    value44.SaveTimeStamp(writer);
+    value44.CombatTimeStamp_SaveGame(writer);
     pair48.FUN_009a5eb0(writer);
     pairb0.FUN_009a5eb0(writer);
     paira8.FUN_009a5eb0(writer);
@@ -7036,7 +7040,7 @@ void SavedCombatState::WriteToStream(CombatWriter* writer)
         writer->FUN_00865e50(&x, 12, 0);
         paird8.FUN_009a5eb0(writer);
         paire0.FUN_009a5eb0(writer);
-        valuee8.SaveTimeStamp(writer);
+        valuee8.CombatTimeStamp_SaveGame(writer);
         record.BGSWorldLocation_SaveGame(writer);
         writer->FUN_00865e50(&field10c, 4, 0);
         {
@@ -7048,7 +7052,7 @@ void SavedCombatState::WriteToStream(CombatWriter* writer)
                 item->BGSWorldLocation_SaveGame(writer);
                 writer->FUN_00865e50(&item->flags, 4, 0);
                 writer->FUN_00865db0(item->form, 0);
-                item->value.SaveTimeStamp(writer);
+                item->value.CombatTimeStamp_SaveGame(writer);
             }
         }
         {
@@ -7303,7 +7307,7 @@ struct CM993List
     int m_0c;
     int m_10;
     int m_14;
-    void AllocateItemArray(int count);
+    void CombatPlan_AllocateSteps(int count);
     void UpdateAllItems(int arg);
     CM993List* InitFromSources(int a1, int a2, CM993DstArray* keys, CM993SrcArray* srcs, int a5);
 };
@@ -7316,7 +7320,7 @@ CM993List* CM993List::InitFromSources(int a1, int a2, CM993DstArray* keys, CM993
     m_0c = a2;
     m_10 = -1;
     m_14 = a1;
-    AllocateItemArray(srcs->FUN_0044ddc0());
+    CombatPlan_AllocateSteps(srcs->FUN_0044ddc0());
     for (unsigned int i = 0; i < m_uiItemCount; i++)
     {
         CM993Src* src = srcs->BSSimpleArray_NiAVObject_1024_GetAt(m_uiItemCount - i - 1);
@@ -8424,8 +8428,8 @@ struct History
 State* __fastcall GameSettingCollection_File(Actor* owner);
 struct Evaluator
 {
-    void LockCombatTargetMap();
-    bool TryUseCoverItem(unsigned int, Node*, int, float, Params*, int, int);
+    void CombatCoverMap_LockForWrite();
+    bool CombatCoverMap_CanReserveCoverLocation(unsigned int, Node*, int, float, Params*, int, int);
     void CombatCoverMap_UnlockForWrite();
 };
 struct Danger
@@ -8515,7 +8519,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
     if (FindNearbyTriangles(&searchSlot20, &stateSlot21->nodes))
     {
         if (!quiet)
-            DAT_011f1958->NiAVObject_GetParent()->LockCombatTargetMap();
+            DAT_011f1958->NiAVObject_GetParent()->CombatCoverMap_LockForWrite();
         for (unsigned int i = 0; i < stateSlot21->nodes.FUN_0044ddc0(); i++)
         {
 
@@ -8528,7 +8532,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
             }
 
             Params params;
-            if (!DAT_011f1958->NiAVObject_GetParent()->TryUseCoverItem(idSlot31, node, 0, owner->GetFloatAtOffset68(), &params,
+            if (!DAT_011f1958->NiAVObject_GetParent()->CombatCoverMap_CanReserveCoverLocation(idSlot31, node, 0, owner->GetFloatAtOffset68(), &params,
                                                                1, 0))
             {
                 node->status = 9;
@@ -8904,7 +8908,7 @@ struct Out99
     void CombatLocation_SetTarget(Ref99*);
     void CombatLocation_SetRadius(float);
     void CombatLocation_SetPoint(void*, void*);
-    void AssignV4(Pos99*);
+    void CombatLocation_SetWorldLocation(Pos99*);
     void SetFlags(unsigned int, bool);
 };
 int Pathing_FindTeleportDoorsForLocation(void*, Pos99*, float, Array99*);
@@ -9180,7 +9184,7 @@ bool Self99::CombatState_FindBestFleeLocation(void* arg, Out99* output, int mode
             }
         }
         else
-            output->AssignV4(&fallback->point);
+            output->CombatLocation_SetWorldLocation(&fallback->point);
         return true;
     }
     output->SetFlags(1, 1);

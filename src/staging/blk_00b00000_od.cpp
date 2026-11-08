@@ -537,11 +537,12 @@ class FUN_00b00b40_cls
     virtual void v14();
     virtual bool v18(void* a, void* b, bool c);
     bool m_04;
-    bool TryProcessPair(void** a, void** b, bool c);
+    bool BSTaskletManager_AttachTask(void** a, void** b, bool c);
 };
 
 // @fnv 0x00b00b40
-bool FUN_00b00b40_cls::TryProcessPair(void** apFirst, void** b, bool abFlag)
+// src: COMMUNITY 0x00b00b40
+bool FUN_00b00b40_cls::BSTaskletManager_AttachTask(void** apFirst, void** b, bool abFlag)
 {
     bool flagTmp = m_04;
     void* p4;
@@ -1595,7 +1596,7 @@ typedef DWORD(__stdcall* ThreadStartFn)(void*);
 extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(BSThreadCriticalSectionPC*);
 extern "C" __declspec(dllimport) HANDLE __stdcall CreateSemaphoreA(void*, long, long, const char*);
 extern "C" __declspec(dllimport) HANDLE
-    __stdcall CreateThread(void*, unsigned long, ThreadStartFn, void*, DWORD, DWORD*);
+    __stdcall AITaskThreadManager_AddThread(void*, unsigned long, ThreadStartFn, void*, DWORD, DWORD*);
 
 struct CriticalSectionInit
 {
@@ -1670,7 +1671,7 @@ FUN_00b01d50::FUN_00b01d50(unsigned int count)
     }
     for (i = 0; i < numThreads; i++)
     {
-        threads[i] = CreateThread(0, 0, WorkerThreadProc, this, 4, &threadIDs[i]);
+        threads[i] = AITaskThreadManager_AddThread(0, 0, WorkerThreadProc, this, 4, &threadIDs[i]);
         if (threads[i] == 0)
             break;
         else
@@ -1678,7 +1679,7 @@ FUN_00b01d50::FUN_00b01d50(unsigned int count)
     }
     bActive = numCreated > 0;
     if (bActive)
-        mainThread = CreateThread(0, 0, MainThreadProc, this, 0, &threadID);
+        mainThread = AITaskThreadManager_AddThread(0, 0, MainThreadProc, this, 0, &threadID);
 }
 
 extern int DAT_010a48ac;

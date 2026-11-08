@@ -273,11 +273,12 @@ int FUN_004fb7d0_shell::BGSExplosion_GetImpactData(int a)
 
 struct FUN_00477950_shell : public BGSExplosion
 {
-    bool HasAnyFlags(unsigned int mask);
+    bool BGSExplosion_IsFlagSet(unsigned int mask);
 };
 
 // @fnv 0x00477950
-bool FUN_00477950_shell::HasAnyFlags(unsigned int mask)
+// src: COMMUNITY 0x00477950
+bool FUN_00477950_shell::BGSExplosion_IsFlagSet(unsigned int mask)
 {
     return (GetData_004fadc0()->iFlags & mask) ? true : false;
 }

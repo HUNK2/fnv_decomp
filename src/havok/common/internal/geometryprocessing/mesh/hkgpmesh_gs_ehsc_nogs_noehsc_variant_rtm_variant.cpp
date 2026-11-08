@@ -1135,7 +1135,7 @@ struct SearchItem
     unsigned int hashX;
     unsigned int hashY;
 };
-struct SearchPath
+struct NavMeshSearchSLPoint_FindStraightLinePath
 {
     SearchItem** nodes;
     int depth;
@@ -1159,7 +1159,7 @@ struct HashTableBase
 };
 struct SearchOwner
 {
-    int LookupPairResult(SearchPath* path);
+    int LookupPairResult(NavMeshSearchSLPoint_FindStraightLinePath* path);
 };
 struct Entry
 {

@@ -22,13 +22,14 @@ void FUN_005c1ae0_class::CombatController_ForceStopCombat()
     *reinterpret_cast<char*>(this + 0x125) = 1;
 }
 
-extern "C" void* __cdecl GetObjectScale(void* a, void* b, void* c, void* d);
+extern "C" void* __cdecl Cmd_GetScale_Eval(void* a, void* b, void* c, void* d);
 
 // @fnv 0x005c1b60
-void* __cdecl CallWithZeroedArgs(void* apArg1, void* apArg2, void* apArg3, void* apArg4, void* apArg5, void* apArg6,
+// src: EXE 0x005c1b60
+void* __cdecl Cmd_GetScale_Execute(void* apArg1, void* apArg2, void* apArg3, void* apArg4, void* apArg5, void* apArg6,
                                  void* apArg7)
 {
-    return GetObjectScale(apArg3, 0, 0, apArg7);
+    return Cmd_GetScale_Eval(apArg3, 0, 0, apArg7);
 }
 
 extern int g_TES;

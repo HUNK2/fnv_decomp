@@ -888,7 +888,7 @@ struct StrX
 {
     int m_00;
     void SetField00(void* a) throw();
-    int TestValue() throw();
+    int hkDataClass_isNull() throw();
     void Object_DoNothing_00dba660() throw();
 };
 struct HelperX
@@ -1220,7 +1220,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                 int key = ce->m_04 ? ce->m_04 : saved;
                 StrX oStr;
                 oStr.SetField00(world.hkDataWorldDict_findClass(key));
-                if (oStr.TestValue())
+                if (oStr.hkDataClass_isNull())
                 {
                     ClassCinfo oCinfo;
                     oCinfo.name = key;

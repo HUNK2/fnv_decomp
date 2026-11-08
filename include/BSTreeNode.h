@@ -37,7 +37,7 @@ class BSTreeNode : public BSFadeNode
     virtual bool SetLeavesVisible(bool);
     virtual bool SetBranchTextureVariant(unsigned short, unsigned char);
     virtual bool SetFrondTextureVariant(unsigned short, unsigned char);
-    virtual bool SetLeafTextureVariant(unsigned char);
+    virtual bool SetVisibilityOnBillboard(unsigned char);
     virtual bool SetTexturingProperty(NiTexturingProperty*);
     virtual void SetWindAmplitude(float);
 

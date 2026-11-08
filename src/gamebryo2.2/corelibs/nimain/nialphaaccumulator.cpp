@@ -227,7 +227,8 @@ struct Derived_a43370 : Base1_a43370
 
 // Allocates and default-constructs a Derived_a43370 object via its operator new and returns the pointer.
 // @fnv 0x00a43370
-Derived_a43370* __cdecl CreateDerivedA43370()
+// src: EXE 0x00a43370
+Derived_a43370* __cdecl BSTreadTransfInterpolator_CreateObject()
 {
     return new Derived_a43370();
 }
@@ -605,7 +606,7 @@ class S00a9b790_NiGeometry
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -631,7 +632,7 @@ class S00a9b790_NiGeometry
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();

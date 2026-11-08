@@ -1296,7 +1296,7 @@ bool Pathing_GetNavMeshZForLocation(NiPoint3 const& pos, TESObjectCELL* cell, TE
 
 struct FUN_00697980_t
 {
-    bool GetTriangleHeightAtPoint(unsigned short, const NiPoint3&, float, float, float&);
+    bool ComputeTriangleZForLocation(unsigned short, const NiPoint3&, float, float, float&);
 };
 
 // @fnv 0x006d9830
@@ -1324,7 +1324,8 @@ bool GetNavMeshHeight(PathingLocation* pathingLocation, float* pfOutZ)
     }
 
     if (!reinterpret_cast<FUN_00697980_t*>(reinterpret_cast<GO&>(navMeshPtr).operator unsigned int())
-             ->GetTriangleHeightAtPoint(m_usTriangleID, pathingLocation->GetLocation(), 180.0f, 180.0f, *pfOutZ))
+             // src: COMMUNITY 0x00697980
+             ->ComputeTriangleZForLocation(m_usTriangleID, pathingLocation->GetLocation(), 180.0f, 180.0f, *pfOutZ))
     {
         *pfOutZ = pathingLocation->GetLocation().z;
         return false;
@@ -1513,7 +1514,7 @@ struct TwoComponentVector
     TwoComponentVector();
     TwoComponentVector Subtract(const TwoComponentVector* rhs) const;
     TwoComponentVector AddPointComponents(const TwoComponentVector& rhs) const;
-    double GetSquaredXYLength() const;
+    double NiPoint3_SqrXYLength() const;
 };
 extern "C" TwoComponentVector __cdecl FUN_00532fd0(float scale, const TwoComponentVector& value);
 extern "C" const double DAT_01012060;
@@ -1538,7 +1539,7 @@ TwoComponentVector* __cdecl NavMeshMath_ClosestPointOnSegmentToLine(TwoComponent
     TwoComponentVector crossC = apPointC->AddPointComponents(FUN_00532fd0(fraction, apPointD->Subtract(apPointC)));
     if (crossB * total > DAT_01012060)
     {
-        if (crossC.Subtract(apPointA).GetSquaredXYLength() < crossC.Subtract(apPointB).GetSquaredXYLength())
+        if (crossC.Subtract(apPointA).NiPoint3_SqrXYLength() < crossC.Subtract(apPointB).NiPoint3_SqrXYLength())
         {
             *result = *apPointA;
             return result;
@@ -1618,10 +1619,11 @@ struct FUN_006f4d00
 // the missing member-call interface, without duplicating PathingSolution's layout.
 struct PathingSolutionPointAppender
 {
-    unsigned int AddPathingLocation(const NiPoint3& pos, TESObjectCELL* cell, TESWorldSpace* world);
+    unsigned int PathingSolution_AddVirtualPathingNode(const NiPoint3& pos, TESObjectCELL* cell, TESWorldSpace* world);
 };
 // @fnv 0x006d1520
-unsigned int PathingSolutionPointAppender::AddPathingLocation(const NiPoint3& pos, TESObjectCELL* cell, TESWorldSpace* world)
+// src: COMMUNITY 0x006d1520
+unsigned int PathingSolutionPointAppender::PathingSolution_AddVirtualPathingNode(const NiPoint3& pos, TESObjectCELL* cell, TESWorldSpace* world)
 {
     void* heap;
     unsigned int index;
@@ -2045,9 +2047,9 @@ bool __cdecl InitSolutionEndpoints(PFRequest* apRequest, PathingSolution* apSolu
             kGoal9.z = m_fGlyphExtent;
     }
 
-    ((PathingSolutionPointAppender*)apSolution)->AddPathingLocation(
+    ((PathingSolutionPointAppender*)apSolution)->PathingSolution_AddVirtualPathingNode(
         (const NiPoint3&)rkStart5, (TESObjectCELL*)pCellA, (TESWorldSpace*)uiSpace2);
-    ((PathingSolutionPointAppender*)apSolution)->AddPathingLocation(
+    ((PathingSolutionPointAppender*)apSolution)->PathingSolution_AddVirtualPathingNode(
         (const NiPoint3&)kGoal9, (TESObjectCELL*)pCellA, (TESWorldSpace*)uiSpace2);
     apSolution->unk18 = 0;
     apSolution->unk1c = 1;
@@ -2788,7 +2790,7 @@ struct Triangle
     NiPoint3 FUN_00558220(unsigned short);
     NiPoint3 FUN_006971e0(unsigned short);
     void* FUN_005582f0();
-    void GetPackedFlags(unsigned short, unsigned short*, bool*, bool*);
+    void NavMeshTriangle_GetEdgeCoverData(unsigned short, unsigned short*, bool*, bool*);
 };
 struct TriangleRef
 {
@@ -2956,7 +2958,7 @@ unsigned int __cdecl FindNearbyTriangles(GeometrySource* geometry, OutputList* o
                 for (unsigned short side = 0; side < 2; ++side)
                 {
 
-                    triangle16->GetPackedFlags(side, &edgeType4, &specialEdge5, &boundary8);
+                    triangle16->NavMeshTriangle_GetEdgeCoverData(side, &edgeType4, &specialEdge5, &boundary8);
                     if (edgeType4 < 4u)
                     {
                         switch (edgeType4)
@@ -3027,7 +3029,7 @@ struct NiPoint3Ex : NiPoint3
 struct MeshQuery
 {
     bool FindRandomPointWithinRadius(const NiPoint3& origin, float radius, NiPoint3& result);
-    bool IsLocationOnNavMesh(const NiPoint3& point, FindTriangleForLocationFilter* filter);
+    bool IsPointInsideNavmesh(const NiPoint3& point, FindTriangleForLocationFilter* filter);
     bool FindClosestTriangleForLocation(const NiPoint3& point, unsigned short& triangle, bool& flag);
 };
 // @fnv 0x006d7110
@@ -3051,7 +3053,7 @@ bool __cdecl Pathing_FindPointOnNavMesh(TESWorldSpace* world, TESObjectCELL* cel
         return true;
     }
     if (!((MeshQuery*)c.operator NavMesh*())->FindRandomPointWithinRadius(origin, radius, result) ||
-        !((MeshQuery*)c.operator NavMesh*())->IsLocationOnNavMesh(result, 0))
+        !((MeshQuery*)c.operator NavMesh*())->IsPointInsideNavmesh(result, 0))
     {
         unsigned short triangle = 0xffff;
         bool flag = false;
@@ -5335,7 +5337,7 @@ class P110Data
     void SetByteAt(int, int);
     char GetByteAtOffset56();
     char GetByteAt39();
-    void SetByteAtOffset38(char);
+    void SetKeepFlags(char);
     void FUN_004410f0(char);
 };
 class P110DataPtr
@@ -5502,7 +5504,7 @@ bool __cdecl MarkReachableTriangles(PathingLocation* location, P110DataPtr* data
                     if (data->Modelloader_GetReferencedThis()->GetByteAtOffset56() == 3)
                         break;
                     if ((char)currentOffset.GetElement(b).value > data->Modelloader_GetReferencedThis()->GetByteAtOffset56())
-                        data->Modelloader_GetReferencedThis()->SetByteAtOffset38(currentOffset.GetElement(b).value);
+                        data->Modelloader_GetReferencedThis()->SetKeepFlags(currentOffset.GetElement(b).value);
                 }
             }
             else
@@ -8856,7 +8858,7 @@ struct CandidateSearch : SearchStorage
     CandidateSearch();
     ~CandidateSearch();
     void SetFieldAtOffset20A4_006d2c60(float);
-    bool StartSearch(PathingRequestOptimalLocation*, TriangleCandidate*, PathingLocation*, CandidateArray*,
+    bool BuildNodePath(PathingRequestOptimalLocation*, TriangleCandidate*, PathingLocation*, CandidateArray*,
                      DestinationArray*);
     SearchNode* GetField2048();
 };
@@ -8935,7 +8937,8 @@ bool __cdecl BuildOptimalPathSolution(PathingRequestOptimalLocation* request, Pa
     PathMeshArray c;
     Pathing_GetAllLoadedNavmeshes(&c);
     SearchPoint triangleFilter;
-    if (eb.StartSearch(request, &b, &tolerance, &memory, &f))
+    // src: COMMUNITY 0x006ab4a0
+    if (eb.BuildNodePath(request, &b, &tolerance, &memory, &f))
     {
         originTriangle = memory.GetIndexedValue_006b3160(memory.FUN_0044ddc0() - 1);
         if (!tolerance.PathingLocation_QUnused())

@@ -427,7 +427,7 @@ struct FUN_00dc05b0_writer
     void __thiscall FUN_00dc0500(int, int);
     void __thiscall WriteInt(unsigned int);
     void __thiscall WriteVarint(unsigned int, unsigned int);
-    void __thiscall WriteReferencedObjectRecursively(int, int);
+    void __thiscall Writer_scanObject(int, int);
     void __thiscall ProcessEntries_00dc00b0(int);
     void __thiscall ProcessState_00dc0460();
 };
@@ -455,7 +455,7 @@ int __stdcall WriteAudioObject(int value, CallbackTarget* target, int source)
     writer.WriteInt(0xd011face);
     writer.WriteVarint(1, 0);
     writer.WriteVarint(0, 0);
-    writer.WriteReferencedObjectRecursively(value, 0);
+    writer.Writer_scanObject(value, 0);
     writer.ProcessEntries_00dc00b0(value);
     target->Complete();
     writer.ProcessState_00dc0460();
@@ -2049,12 +2049,12 @@ struct ScanWriter
     ScanResources resources;
     __declspec(nothrow) void WriteHandle(const ScanClass& type);
     __declspec(nothrow) int EvaluateNode(const ScanValue& value);
-    __declspec(nothrow) void WriteReferencedObjectRecursively(const ScanObject& source, int supplemental);
+    __declspec(nothrow) void Writer_scanObject(const ScanObject& source, int supplemental);
 };
 // Resolves a ScanObject, deduplicates it in the reference map, and recursively writes its class handle, member mask, and nested values to the writer's bit buffer.
 // @fnv 0x00dbf450
-// src: GUESS 0x00dbf450 (confidence: medium)
-void ScanWriter::WriteReferencedObjectRecursively(const ScanObject& source, int supplemental)
+// src: COMMUNITY 0x00dbf450
+void ScanWriter::Writer_scanObject(const ScanObject& source, int supplemental)
 {
     ScanObject object = resources.AllocateStorage_00dbedd0(source);
     if (object.hkDataObject_isNull())
@@ -2091,7 +2091,7 @@ void ScanWriter::WriteReferencedObjectRecursively(const ScanObject& source, int 
                     {
                     case 8:
                     case 9:
-                        WriteReferencedObjectRecursively(value.GetWrappedDataObject(), 0);
+                        Writer_scanObject(value.GetWrappedDataObject(), 0);
                         break;
                     case 25:
                     case 41: {
@@ -2107,7 +2107,7 @@ void ScanWriter::WriteReferencedObjectRecursively(const ScanObject& source, int 
                                 int count = elements.InvokeVirtualMethod_00dbac00();
                                 for (int i = 0; i < count; ++i)
                                 {
-                                    WriteReferencedObjectRecursively(elements.UpdateState_00dbab90(i).CreateValueInto(), 0);
+                                    Writer_scanObject(elements.UpdateState_00dbab90(i).CreateValueInto(), 0);
                                 }
                             }
                         }
@@ -2118,7 +2118,7 @@ void ScanWriter::WriteReferencedObjectRecursively(const ScanObject& source, int 
                         int count = value.GetResult().InvokeVirtualMethod_00dbac00();
                         for (int i = 0; i < count; ++i)
                         {
-                            WriteReferencedObjectRecursively(value.GetResult().UpdateState_00dbab90(i).CreateValueInto(), 0);
+                            Writer_scanObject(value.GetResult().UpdateState_00dbab90(i).CreateValueInto(), 0);
                         }
                         break;
                     }

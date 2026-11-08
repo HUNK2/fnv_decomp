@@ -335,11 +335,12 @@ unsigned int BlkOffset08View::HasFlag10000000()
 
 struct FUN_00519020_Class
 {
-    void SetField688(int value);
+    void PlayerCharacter_SetForceActivateRef(int value);
 };
 
 // @fnv 0x00519020
-void FUN_00519020_Class::SetField688(int value)
+// src: COMMUNITY 0x00519020
+void FUN_00519020_Class::PlayerCharacter_SetForceActivateRef(int value)
 {
     *(int*)((char*)this + 0x688) = value;
 }
@@ -678,7 +679,7 @@ float __fastcall NiNPShortPoint3_Length(short* pComponents)
 
 struct AVH
 {
-    static int __cdecl GetActorValueForSectionIndex(int, unsigned char);
+    static int __cdecl ToActorValue(int, unsigned char);
 };
 struct FUN_00514fd0_class
 {
@@ -690,7 +691,7 @@ int __thiscall FUN_00514fd0_class::TESObjectBOOK_GetTeaches()
 {
     if (reinterpret_cast<const signed char*>(this)[0xc1] == -1)
         return -1;
-    return AVH::GetActorValueForSectionIndex(2, reinterpret_cast<const unsigned char*>(this)[0xc1]);
+    return AVH::ToActorValue(2, reinterpret_cast<const unsigned char*>(this)[0xc1]);
 }
 
 bool __cdecl TESObjectDOOR_CanBeRandomTeleport(int);
@@ -819,11 +820,12 @@ struct TESObjectREFR_Flags
     unsigned int GetFlags();
     void SetFlags(unsigned int flags);
     void MarkAsModified(int change);
-    void __thiscall SetRefFlag40000000(bool set);
+    void __thiscall TESObjectACTI_SetContinuousBroadcast(bool set);
 };
 
 // @fnv 0x00511370
-void __thiscall TESObjectREFR_Flags::SetRefFlag40000000(bool set)
+// src: COMMUNITY 0x00511370
+void __thiscall TESObjectREFR_Flags::TESObjectACTI_SetContinuousBroadcast(bool set)
 {
     unsigned int flags = GetFlags();
     if (set)
@@ -900,11 +902,12 @@ extern TESBoundObject* g_pLockpickItem;
 
 struct FUN_00516cd0_class
 {
-    bool __thiscall CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick);
+    bool __thiscall TESObjectCONT_CanActivate(TESObjectREFR* ref, Actor* actor, bool useLockpick);
 };
 
 // @fnv 0x00516cd0
-bool __thiscall FUN_00516cd0_class::CanUseLockedRef(TESObjectREFR* ref, Actor* actor, bool useLockpick)
+// src: COMMUNITY 0x00516cd0
+bool __thiscall FUN_00516cd0_class::TESObjectCONT_CanActivate(TESObjectREFR* ref, Actor* actor, bool useLockpick)
 {
     int pLock;
     Actor* pActor;
@@ -2113,7 +2116,7 @@ struct SelectionMap
 struct Selector
 {
     Node* List();
-    void* FindRandomSelection(Reference*, int);
+    void* TESObjectDOOR_FindRandomTeleportTarget(Reference*, int);
 };
 struct PlayerSelection
 {
@@ -2125,7 +2128,8 @@ unsigned int DialogueRandom();
 void* FindSelection(void*, Region*, void**);
 // Picks a random unvisited entry from the selector's list, resolves it via FindSelection against the reference's region, and records the chosen index.
 // @fnv 0x005195e0
-void* Selector::FindRandomSelection(Reference* apReference, int unused)
+// src: COMMUNITY 0x005195e0
+void* Selector::TESObjectDOOR_FindRandomTeleportTarget(Reference* apReference, int unused)
 {
     void* fallback = 0;
     void* result = 0;

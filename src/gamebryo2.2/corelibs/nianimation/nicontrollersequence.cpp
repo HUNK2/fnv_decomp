@@ -70,7 +70,8 @@ void* NiControllerSequence::FUN_00a35820(unsigned int flags)
 
 // Walks the linked list at offset 0x58 from arg and returns false if this is found in it, true otherwise.
 // @fnv 0x00a30580
-bool __thiscall NiControllerSequence::IsNotInChain(void* pStart)
+// src: COMMUNITY 0x00a30580
+bool __thiscall NiControllerSequence::VerifyDependencies(void* pStart)
 {
     void* next = *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(pStart) + 0x58);
     if (next == 0)
@@ -506,7 +507,7 @@ bool NiControllerSequence::CanSyncTo(void* arg)
             if (linked == this)
                 goto failure;
             typedef unsigned __int64 (__thiscall NiControllerSequence::*ChainQuery)(void*);
-            unsigned __int64 result = (this->*reinterpret_cast<ChainQuery>(&NiControllerSequence::IsNotInChain))(linked);
+            unsigned __int64 result = (this->*reinterpret_cast<ChainQuery>(&NiControllerSequence::VerifyDependencies))(linked);
             if (!static_cast<unsigned char>(result))
                 goto failure;
             arg = reinterpret_cast<void*>(static_cast<unsigned int>(result >> 32));
@@ -911,7 +912,8 @@ struct SlotInfo
 
 
 // @fnv 0x00a32bc0
-int NiControllerSequence::AssignSlot(NiRefObject* apRef, unsigned int auiValue, unsigned char aucFlag)
+// src: COMMUNITY 0x00a32bc0
+int NiControllerSequence::AddInterpolator(NiRefObject* apRef, unsigned int auiValue, unsigned char aucFlag)
 {
     unsigned int count = m_uiNumControlledBlocks;
     unsigned int idx = 0;
@@ -1503,7 +1505,7 @@ struct UpdateNote
 };
 struct UpdateNoteManager
 {
-    void DispatchByKey(UpdateNote* note);
+    void BSAnimNoteListener_Update(UpdateNote* note);
 };
 struct UpdateOwner
 {
@@ -1647,7 +1649,7 @@ void NiControllerSequence::Update_00a34ba0(float time, bool update)
                 if (!(((UpdateNote**)m_pkAnimNotes)[i]->time < localTime))
                     break;
                 m_sAnimNotesExtraDataIndex = i;
-                ((UpdateOwner*)m_pkOwnerManager)->noteManager->DispatchByKey(((UpdateNote**)m_pkAnimNotes)[i]);
+                ((UpdateOwner*)m_pkOwnerManager)->noteManager->BSAnimNoteListener_Update(((UpdateNote**)m_pkAnimNotes)[i]);
             }
         }
     }
@@ -3363,7 +3365,7 @@ bool NiControllerSequence::AssignControllers(void* apObjectName, NiInterpControl
         Assign33130(tag.m_kCtlrID, controller->V52());
         Assign33130(tag.m_kInterpolatorID, controller->V46(i));
         NiRefObject* interpolator = controller->V49(i);
-        int index = ((NiControllerSequence*)this)->AssignSlot(interpolator, (unsigned int)&tag, 255);
+        int index = ((NiControllerSequence*)this)->AddInterpolator(interpolator, (unsigned int)&tag, 255);
         if (index == -1)
         {
             tag.~FUN_00a312d0();
@@ -3714,7 +3716,7 @@ void NiControllerSequence::PopulatePoseSequence(NiControllerSequence* destinatio
             {
                 NiRefObject* interpolator = controller->GetInterpolator(index);
                 S00a32fa0_Tag tag;
-                unsigned int newIndex = destination->AssignSlot(
+                unsigned int newIndex = destination->AddInterpolator(
                     interpolator,
                     (unsigned int)new (&tag)
                         FUN_00a312d0((NiFixedString&)DAT_011f49e0, (NiFixedString&)DAT_011f49e0, (NiFixedString&)DAT_011f49e0,

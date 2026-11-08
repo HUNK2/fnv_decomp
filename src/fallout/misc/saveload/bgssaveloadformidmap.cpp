@@ -55,7 +55,7 @@ struct SaveLoadFile
     void SeekCurrent(int);
     char* GetFileName();
     static SaveLoadFile* CreateFileA(char*, bool, unsigned int);
-    void SetSaveFileName(char*);
+    void SetMostRecentSaveGame(char*);
     char* GetSaveFileName();
     BSFile* QFile();
     unsigned int GetSimulatedFileSize();
@@ -193,7 +193,7 @@ struct SaveLoadFile
     void SeekCurrent(int);
     char* GetFileName();
     static SaveLoadFile* CreateFileA(char*, bool, unsigned int);
-    void SetSaveFileName(char*);
+    void SetMostRecentSaveGame(char*);
     char* GetSaveFileName();
     BSFile* QFile();
     unsigned int GetSimulatedFileSize();

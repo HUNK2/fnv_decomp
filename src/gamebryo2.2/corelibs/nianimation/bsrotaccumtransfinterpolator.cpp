@@ -31,7 +31,8 @@ extern int DAT_011a9eb0;
 
 // Allocates a 0x58-byte BSRotAccumTransfInterpolator, initializes its vtable and quaternion fields from NiQuaternion::IDENTITY and globals, and returns it.
 // @fnv 0x00a43e40
-BSRotAccumTransfInterpolator* CreateRotAccumTransfInterpolator()
+// src: EXE 0x00a43e40
+BSRotAccumTransfInterpolator* BSRotAccumTransfInterpolator_CreateObject()
 {
     BSRotAccumTransfInterpolator* pInterpolator = (BSRotAccumTransfInterpolator*)BSFadeNode::operator new(0x58);
     if (pInterpolator)

@@ -1693,7 +1693,7 @@ struct Owner
     void LoadedAreaBound_CheckForDynamicBodiesOutsideBound();
     void FUN_00628da0();
     void LoadedAreaBound_WarpActor(Ref*);
-    void MoveToDestination(Node*, ObjArray*);
+    void LoadedAreaBound_WarpBody(Node*, ObjArray*);
     void LoadedAreaBound_Update(Cell*, int);
 };
 // @fnv 0x006271b0
@@ -1786,7 +1786,7 @@ void Owner::LoadedAreaBound_Update(Cell* next, int flag)
                         else
                         {
                             ObjArray more;
-                            MoveToDestination(other, &more);
+                            LoadedAreaBound_WarpBody(other, &more);
                             for (int k = 0; k < more.FUN_00726070(); k++)
                                 seen.hkArray_hkpRigidBody_hkContainerHeapAllocator_pushBack(&more.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(k));
                         }

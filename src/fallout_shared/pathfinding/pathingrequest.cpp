@@ -74,7 +74,7 @@ void PathingRequest::LoadGame(BGSLoadFormBuffer* buffer)
     {
         buffer->ReadTypedData(static_cast<void*>(&m_bCanOpenDoors), 1u);
     }
-    unsigned int count = buffer->ReadElementCount();
+    unsigned int count = buffer->LoadVariableSizedValue();
     if (count)
     {
         reinterpret_cast<PathingAvoidPointerView*>(&m_pPathingAvoidNodeArray)->Assign(reinterpret_cast<PathingAvoidNodeArray*>(new PathingAvoidNodeArrayStorage));

@@ -292,7 +292,7 @@ struct TileValue_00a0a270 {
     void Tile_Value_SetFloat_00a0a270(float afValue, bool abClearActions);
 };
 struct TileValueOwner_00a01000 {
-    TileValue_00a0a270* GetOrCreateTraitValue(int aiTrait);
+    TileValue_00a0a270* Tile_AddValue(int aiTrait);
 };
 struct FUN_00a012d0_t {
     void Tile_Set(int aiTrait, float afValue, bool abClearActions);
@@ -302,7 +302,7 @@ struct FUN_00a012d0_t {
 // src: XBOX_PDB 0x00a012d0
 void FUN_00a012d0_t::Tile_Set(int aiTrait, float afValue, bool abClearActions)
 {
-    TileValue_00a0a270* pvalue = ((TileValueOwner_00a01000*)this)->GetOrCreateTraitValue(aiTrait);
+    TileValue_00a0a270* pvalue = ((TileValueOwner_00a01000*)this)->Tile_AddValue(aiTrait);
     if (pvalue != 0)
     {
         AutoTileLock __my_auto_tile_lock;
@@ -322,7 +322,7 @@ struct FUN_00a01350_shell : public Tile {
 
 struct FUN_00a01350_Value;
 struct FUN_00a01350_Obj {
-    FUN_00a01350_Value* GetOrCreateTraitValue(int);
+    FUN_00a01350_Value* Tile_AddValue(int);
 };
 struct FUN_00a01350_Value {
     void SetString(char*, bool);
@@ -332,7 +332,7 @@ struct FUN_00a01350_Value {
 // src: XBOX_PDB 0x00a01350
 void FUN_00a01350_shell::Tile_Set_00a01350(int aiTrait, char* apValue, bool abClearActions)
 {
-    FUN_00a01350_Value* pvalue = ((FUN_00a01350_Obj*)this)->GetOrCreateTraitValue(aiTrait);
+    FUN_00a01350_Value* pvalue = ((FUN_00a01350_Obj*)this)->Tile_AddValue(aiTrait);
     if (pvalue) {
         AutoTileLock __my_auto_tile_lock;
         pvalue->SetString(apValue, abClearActions);
@@ -1158,11 +1158,11 @@ void __cdecl Tile_DeleteGlobalItems()
 }
 
 void __cdecl AutoTileLock_AutoTileLock();
-extern "C" void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+extern "C" void __cdecl Tile_Unlock();
 
 struct TileSearchLock {
     TileSearchLock() { AutoTileLock_AutoTileLock(); }
-    ~TileSearchLock() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~TileSearchLock() { Tile_Unlock(); }
 };
 
 struct TileFloatList {
@@ -1246,7 +1246,7 @@ FUN_00a0ac80::FUN_00a0ac80()
 }
 
 void AutoTileLock_AutoTileLock();
-void Object___imp__LeaveCriticalSection_Thunk();
+void Tile_Unlock();
 
 class TileV;
 
@@ -1264,7 +1264,7 @@ class FnvTileLock
 {
 public:
     FnvTileLock() { AutoTileLock_AutoTileLock(); }
-    ~FnvTileLock() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~FnvTileLock() { Tile_Unlock(); }
 };
 
 inline bool HasValue(TileValueV* pList, int m_iValueId)
@@ -1714,8 +1714,8 @@ struct MemoryContextGuard {
     __forceinline ~MemoryContextGuard() { SetMemoryContext(previous); }
 };
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl Object___imp__LeaveCriticalSection_Thunk();
-struct TileReleaseLock { __forceinline ~TileReleaseLock() { Object___imp__LeaveCriticalSection_Thunk(); } };
+void __cdecl Tile_Unlock();
+struct TileReleaseLock { __forceinline ~TileReleaseLock() { Tile_Unlock(); } };
 extern MemoryManager DAT_011f6238;
 struct ReleaseValue {
     __forceinline ~ReleaseValue();
@@ -1834,7 +1834,7 @@ struct ReleaseTile {
     void Tile_SetMenuDeleting();
     void Tile_SeverExtraData();
     void Tile_SetParent(Tile*, Tile*);
-    void RemoveFadeItemsForTile(unsigned int);
+    void Tile_EndGradualSetFloat(unsigned int);
     void Tile_Release();
 };
 void __cdecl ClearInterfaceRefs(ReleaseTile*);
@@ -1854,7 +1854,7 @@ void ReleaseTile::Tile_Release() {
         delete values.buffer[i];
     }
     values.FUN_008454f0(true);
-    RemoveFadeItemsForTile(0x80000000);
+    Tile_EndGradualSetFloat(0x80000000);
     if (node && node->GetParent()) {
         node->GetParent()->RemoveObject(node);
     }
@@ -1869,7 +1869,7 @@ namespace fnv_00a00a30 {
 extern MemoryManager DAT_011f6238;
 
 void __cdecl AutoTileLock_AutoTileLock(); // EnterCriticalSection on the menu lock
-void __cdecl Object___imp__LeaveCriticalSection_Thunk(); // LeaveCriticalSection
+void __cdecl Tile_Unlock(); // LeaveCriticalSection
 
 class TileTemplateA00 {
 public:
@@ -1945,7 +1945,7 @@ extern SimpleListA00<FadeNodeA00*> DAT_011f3348;
 class MenuLockA00 {
 public:
     MenuLockA00() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockA00() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~MenuLockA00() { Tile_Unlock(); }
 };
 
 // @fnv 0x00a00a30
@@ -2048,11 +2048,11 @@ public:
 extern const char* DAT_011f34cc;
 
 void AutoTileLock_AutoTileLock();
-void Object___imp__LeaveCriticalSection_Thunk();
+void Tile_Unlock();
 
 struct TileListLock {
     TileListLock() { AutoTileLock_AutoTileLock(); }
-    ~TileListLock() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~TileListLock() { Tile_Unlock(); }
 };
 
 struct ExtraNode {
@@ -2092,12 +2092,12 @@ extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volati
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile* lpAddend);
 
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+void __cdecl Tile_Unlock();
 
 class MenuLockA01 {
 public:
     MenuLockA01() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockA01() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~MenuLockA01() { Tile_Unlock(); }
 };
 
 class RefObjectA01 {
@@ -2548,11 +2548,11 @@ void __cdecl Tile_UpdateAll(bool update)
 
 namespace fnv_00a07580 {
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+void __cdecl Tile_Unlock();
 
 struct LockGuard_00a07580 {
     LockGuard_00a07580() { ::AutoTileLock_AutoTileLock(); }
-    ~LockGuard_00a07580() { ::Object___imp__LeaveCriticalSection_Thunk(); }
+    ~LockGuard_00a07580() { ::Tile_Unlock(); }
 };
 
 struct TileResult_00a07580 {
@@ -2661,7 +2661,7 @@ struct ClipTile {
     unsigned int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     ClipNode* model;
     __forceinline ClipNode* Model() { return model; }
-    bool IsTraitNonZero(int);
+    bool Tile_IsTrue(int);
     bool FUN_00a03c60();
     void Tile_ReClipChildren(float left, float top, float right, float bottom);
 };
@@ -2688,7 +2688,7 @@ void ClipTile::Tile_ReClipChildren(float left, float top, float right, float bot
         ClipTile*& entry = position->m_element;
         position = position->m_pkNext;
         child = entry;
-        if (child->IsTraitNonZero(0xfae)) {
+        if (child->Tile_IsTrue(0xfae)) {
             ClipNode* modelCheck = child->model;
             if (modelCheck) {
             index = 0;
@@ -2913,13 +2913,13 @@ void __cdecl Tile_AddReaction(int iKey, int iItem)
 }  // namespace fnv_00a0a130
 
 void __cdecl AutoTileLock_AutoTileLock();
-void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+void __cdecl Tile_Unlock();
 extern const double _gModifierZero;
 
 class MenuLockB35 {
 public:
     MenuLockB35() { AutoTileLock_AutoTileLock(); }
-    ~MenuLockB35() { Object___imp__LeaveCriticalSection_Thunk(); }
+    ~MenuLockB35() { Tile_Unlock(); }
 };
 
 class ChildTraitInvalidator;
@@ -3362,7 +3362,7 @@ extern MemoryManager g_memoryManager;
 extern __declspec(thread) int DAT_000002b4;
 extern void (__stdcall *DAT_00fdf05c)(void*);
 extern void (__stdcall *DAT_00fdf100)(void*);
-struct FUN_00a031b0_shell { Tile* CreateMenuTiles(void*); };
+struct FUN_00a031b0_shell { Tile* Tile_BuildAndNameTree(void*); };
 struct Tile__TileTemplate;
 
 struct TemplateListNode {
@@ -3450,7 +3450,7 @@ Tile* TileLoader::Tile_ReadFile(void* arg0) {
     if (DAT_011f32c8)
         return 0;
 
-    pTile7 = this->CreateMenuTiles(pTemplate->unk0c ? pTemplate->unk0c : pTemplate->unk00);
+    pTile7 = this->Tile_BuildAndNameTree(pTemplate->unk0c ? pTemplate->unk0c : pTemplate->unk00);
     if (DAT_011f32c8)
         return 0;
 
@@ -3927,17 +3927,17 @@ UITile* Tile_GetTileByName(UITile* pTile, const char* pcPath)
 __declspec(dllimport) unsigned long __stdcall GetTickCount();
 extern "C" double __cdecl fabs(double);
 
-struct FadeTile {
+struct StartMenu_Fade {
     virtual void V0(); virtual void V1(); virtual void V2(); virtual int GetType();
     int field04; int field08; int field0c; int field10; int field14; int field18; int field1c;
-    int field20; int field24; FadeTile* parent; NiAVObject* model;
+    int field20; int field24; StartMenu_Fade* parent; NiAVObject* model;
     float FUN_00a011b0(int);
     void Tile_Set(int,float,bool);
     void Tile_FadeIn3D(NiAVObject*,float);
 };
-struct FadePtr { FadeTile* ptr; inline FadeTile* operator->() const { return ptr; } };
+struct FadePtr { StartMenu_Fade* ptr; inline StartMenu_Fade* operator->() const { return ptr; } };
 struct FadeRecord {
-    float start; float end; unsigned int time; float duration; int trait; FadeTile* tile; unsigned int type;
+    float start; float end; unsigned int time; float duration; int trait; StartMenu_Fade* tile; unsigned int type;
 };
 extern MemoryManager g_memoryManager;
 struct FadeList {
@@ -3975,7 +3975,7 @@ struct FadePendingClear { void ProcessEntries_00ae83e0(); };
 extern const float DAT_01094c18;
 extern const float DAT_01094c0c;
 extern const double DAT_01011590;
-inline NiAVObject* modelOf(FadeTile* tile) { NiAVObject* model=tile->model; return model; }
+inline NiAVObject* modelOf(StartMenu_Fade* tile) { NiAVObject* model=tile->model; return model; }
 inline unsigned tick() { unsigned time=GetTickCount(); return time; }
 inline float minFloat(float a, float b) { return a < b ? a : b; }
 inline float linear(float x, float x0, float x1, float y0, float y1) { return ((x-x0)/(x1-x0)) * (y1-y0) + y0; }
@@ -4002,7 +4002,7 @@ void __cdecl Tile_UpdateFadeControls()
         case 0: {
             fraction5 = (tick()-local1->item->time)/local1->item->duration;
             fraction5 = minFloat(fraction5, 1.0f);
-            if (static_cast<FadeTile* volatile&>(local1->item->tile)->GetType() == 0x388 && trait2 == 0xfa9) {
+            if (static_cast<StartMenu_Fade* volatile&>(local1->item->tile)->GetType() == 0x388 && trait2 == 0xfa9) {
                 local1->item->tile->Tile_FadeIn3D(modelOf(local1->item->tile),(start13+(local11-start13)*fraction5)/255.0);
             }
             local1->item->tile->Tile_Set(trait2,start13+(local11-start13)*fraction5,true);
@@ -4116,7 +4116,7 @@ struct R_SetF { void Tile_Set(int, float, bool); };
 
 struct R_SetS { void Tile_Set_00a01350(int, const char*, bool); };
 
-struct R_ValOwner { R_Val* GetOrCreateTraitValue(int); };
+struct R_ValOwner { R_Val* Tile_AddValue(int); };
 
 struct R_P03 { void AppendFloatAction(int, float); };
 
@@ -4349,7 +4349,7 @@ void C00a033b0::Tile_ConnectTraitsToTree(R_Menu* a1)
 
             if (aa)
 
-                ((R_P03*)((R_ValOwner*)ad)->GetOrCreateTraitValue(aa))->AppendFloatAction(ao->m10, ao->fvalue);
+                ((R_P03*)((R_ValOwner*)ad)->Tile_AddValue(aa))->AppendFloatAction(ao->m10, ao->fvalue);
 
             else
 
@@ -4371,7 +4371,7 @@ void C00a033b0::Tile_ConnectTraitsToTree(R_Menu* a1)
 
                 {
 
-                    ((R_P09*)((R_ValOwner*)ad)->GetOrCreateTraitValue(aa))->Tile_Value_AddRefValueAction(ao->m10, aj, fnv_FloatToInt(ao->fvalue));
+                    ((R_P09*)((R_ValOwner*)ad)->Tile_AddValue(aa))->Tile_Value_AddRefValueAction(ao->m10, aj, fnv_FloatToInt(ao->fvalue));
 
                 }
 
@@ -4391,7 +4391,7 @@ void C00a033b0::Tile_ConnectTraitsToTree(R_Menu* a1)
 
             {
 
-                ((R_P03*)((R_ValOwner*)ad)->GetOrCreateTraitValue(aa))->AppendFloatAction(2024, (float)fnv_FloatToInt(ao->fvalue));
+                ((R_P03*)((R_ValOwner*)ad)->Tile_AddValue(aa))->AppendFloatAction(2024, (float)fnv_FloatToInt(ao->fvalue));
 
             }
 
@@ -4409,7 +4409,7 @@ void C00a033b0::Tile_ConnectTraitsToTree(R_Menu* a1)
 
             {
 
-                ((R_P03*)((R_ValOwner*)ad)->GetOrCreateTraitValue(aa))->AppendFloatAction(2025, (float)fnv_FloatToInt(ao->fvalue));
+                ((R_P03*)((R_ValOwner*)ad)->Tile_AddValue(aa))->AppendFloatAction(2025, (float)fnv_FloatToInt(ao->fvalue));
 
             }
 

@@ -157,7 +157,7 @@ class LockExtraData
 
     void SetLocked(bool aLocked);
     int GetLevel(TESObjectREFR*);
-    static int ConvertLockLevel(int);
+    static int REFR_LOCK_NumericValueToEnum(int);
     static int EnumToNumericValue(LOCK_LEVEL);
     int GetLockLevel(TESObjectREFR*);
     bool MeetsMinimumLockLevel();
@@ -426,7 +426,7 @@ void BaseProcess::SetPackageInfoState(int aiCastingType)
 int LockExtraData::GetLockLevel(TESObjectREFR* ref)
 {
     int level = GetLevel(ref);
-    return ConvertLockLevel(level);
+    return REFR_LOCK_NumericValueToEnum(level);
 }
 
 // @fnv 0x004310d0
@@ -450,7 +450,8 @@ bool ExtraLeveledItem::Compare(BSExtraData* extra)
 }
 // Walks the quest info list and returns true if any perk entry's faction matches the given faction.
 // @fnv 0x0047ebf0
-bool ExtraFactionChanges::HasFactionEntry(TESFaction* faction)
+// src: COMMUNITY 0x0047ebf0
+bool ExtraFactionChanges::TESActorBaseData_IsInFaction(TESFaction* faction)
 {
     BSSimpleList<BGSPerkEntry*>* node =
         reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(reinterpret_cast<TESTopic*>(this)->GetQuestInfoList());
@@ -476,7 +477,8 @@ bool LockExtraData::MeetsMinimumLockLevel()
 
 // Maps a lock level value to a difficulty index 0-5 by comparing it against the GameSettingCollection lock level maximums.
 // @fnv 0x00430b40
-int LockExtraData::ConvertLockLevel(int aiLockLevel)
+// src: COMMUNITY 0x00430b40
+int LockExtraData::REFR_LOCK_NumericValueToEnum(int aiLockLevel)
 {
     if (aiLockLevel <= GameSettingCollection::iLockLevelMaxVeryEasy.Int()->i)
         return 0;
@@ -811,8 +813,8 @@ struct Animation
     void SetEquipModifier(float);
     float GetReloadModifier();
     float GetEquipModifier();
-    BSAnimGroupSequence* GetAnimationSequence(BSAnimGroupSequence*, unsigned short, int);
-    BSAnimGroupSequence* GetAnimationSequence(unsigned short, int);
+    BSAnimGroupSequence* StartGroup(BSAnimGroupSequence*, unsigned short, int);
+    BSAnimGroupSequence* StartGroup(unsigned short, int);
     void AssignControllerManager(void*);
     static void FindHighestPriorityCallback(NiAVObject*, FindData*);
     BSAnimGroupSequence* GetHighestPriority(NiAVObject*);
@@ -899,7 +901,8 @@ void* FUN_004308f0_stub::ConstructExtraDataWithPointer(void* p)
 
 // Returns the iLockLevelMax game setting value for the given difficulty index (0-5), or 0 if out of range.
 // @fnv 0x00430bc0
-int __cdecl GetLockLevelMax(int aiDifficulty)
+// src: COMMUNITY 0x00430bc0
+int __cdecl REFR_LOCK_EnumToNumericValue(int aiDifficulty)
 {
     int result = 0;
     switch (aiDifficulty)
@@ -2634,11 +2637,12 @@ struct FUN_00438260
 {
     int pad[3];
     Str6a70 m_str;
-    void SetStr(const char* param);
+    void ExtraSecuritronFace_SetPersonality(const char* param);
 };
 
 // @fnv 0x00438260
-void FUN_00438260::SetStr(const char* apStr)
+// src: COMMUNITY 0x00438260
+void FUN_00438260::ExtraSecuritronFace_SetPersonality(const char* apStr)
 {
     m_str = apStr;
 }
@@ -5252,7 +5256,7 @@ bool ExtraLock::Compare(BSExtraData* other)
     {
         return true;
     }
-    if (LockExtraData::ConvertLockLevel(pLock->m_uiLockState) != LockExtraData::ConvertLockLevel(otherLock->pLock->m_uiLockState))
+    if (LockExtraData::REFR_LOCK_NumericValueToEnum(pLock->m_uiLockState) != LockExtraData::REFR_LOCK_NumericValueToEnum(otherLock->pLock->m_uiLockState))
     {
         return true;
     }

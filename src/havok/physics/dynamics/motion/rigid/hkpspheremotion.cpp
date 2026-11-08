@@ -201,8 +201,8 @@ void hkpSphereMotion::getInertiaLocal(int out)
 
 // Writes a diagonal hkMatrix3 with m_kInertiaAndMassInv.x on the diagonal and zeros elsewhere into out.
 // @fnv 0x00d1e3d0
-// src: GUESS 0x00d1e390 (confidence: medium)
-void hkpSphereMotion::GetDiagonalInverseInertia(hkMatrix3* out) const
+// src: COMMUNITY 0x00d1e390
+void hkpSphereMotion::getInertiaInvLocal(hkMatrix3* out) const
 {
     float inverse = m_kInertiaAndMassInv.x;
     LocalM128 zero = _mm_setzero_ps();

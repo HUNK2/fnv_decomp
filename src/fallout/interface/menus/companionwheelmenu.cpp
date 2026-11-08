@@ -148,7 +148,8 @@ void CompanionWheelMenu::Do_Backup()
 }
 
 // @fnv 0x007560c0
-void CompanionWheelMenu::ToggleFollowersTacticsDistance()
+// src: COMMUNITY 0x007560c0
+void CompanionWheelMenu::Do_ToggleNearFar()
 {
     bool bSuccess;
     followersTacticsDistance = !followersTacticsDistance;
@@ -156,7 +157,7 @@ void CompanionWheelMenu::ToggleFollowersTacticsDistance()
     if (followersTacticsDistance)
     {
         TESTopic* pRelatedTopic =
-            dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID("FollowersTacticsDistanceLong"));
+            dynamic_cast<TESTopic*>(TESForm::GetFormByEditorID("FollowersTacticsDistanceLong"));
         PlayTopicResponse(pRelatedTopic);
         RunTopicResultScripts(pRelatedTopic);
         bSuccess = true;
@@ -164,7 +165,7 @@ void CompanionWheelMenu::ToggleFollowersTacticsDistance()
     else
     {
         TESTopic* pRelatedTopic =
-            dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID("FollowersTacticsDistanceDefault"));
+            dynamic_cast<TESTopic*>(TESForm::GetFormByEditorID("FollowersTacticsDistanceDefault"));
         PlayTopicResponse(pRelatedTopic);
         RunTopicResultScripts(pRelatedTopic);
         bSuccess = true;
@@ -239,7 +240,7 @@ void CompanionWheelMenu::HandleSelection(int aiID, Tile* apTarget)
         break;
 
     case 2:
-        ToggleFollowerWait();
+        Do_ToggleStayFollow();
         this->SelectTile(aiID, true);
         InterfaceManager_PlayMenuSound(1);
         break;
@@ -273,7 +274,7 @@ void CompanionWheelMenu::HandleSelection(int aiID, Tile* apTarget)
         break;
 
     case 5:
-        ToggleFollowersTacticsDistance();
+        Do_ToggleNearFar();
         this->SelectTile(aiID, true);
         InterfaceManager_PlayMenuSound(1);
         break;
@@ -294,7 +295,7 @@ void CompanionWheelMenu::ToggleRelatedTopic()
 
         if (relatedTopicVisible)
         {
-            TESTopic* pRelatedTopic = dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID(str_01071f40));
+            TESTopic* pRelatedTopic = dynamic_cast<TESTopic*>(TESForm::GetFormByEditorID(str_01071f40));
 
             PlayTopicResponse(pRelatedTopic);
             RunTopicResultScripts(pRelatedTopic);
@@ -302,7 +303,7 @@ void CompanionWheelMenu::ToggleRelatedTopic()
         }
         else
         {
-            TESTopic* pRelatedTopic = dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID(str_01071f24));
+            TESTopic* pRelatedTopic = dynamic_cast<TESTopic*>(TESForm::GetFormByEditorID(str_01071f24));
 
             PlayTopicResponse(pRelatedTopic);
             RunTopicResultScripts(pRelatedTopic);
@@ -2457,7 +2458,7 @@ void __cdecl CloseMenuAndRefresh(bool bFade)
         if (!g_pkSaveLoad755->IsLoading())
             g_kManager755.Refresh();
         g_pkMenu755->GetTile()->SetInt(0x1772, 1);
-        g_pkMenu755->LoadMenuData();
+        g_pkMenu755->StartFadeOut();
     }
 }
 
@@ -2538,14 +2539,14 @@ void Wheel256::ToggleAggressive()
     if (aggressive)
     {
         TESTopic* pAggressiveTopic =
-            dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID("FollowersTacticsCombatAggressive"));
+            dynamic_cast<TESTopic*>(TESForm::GetFormByEditorID("FollowersTacticsCombatAggressive"));
         PlayTopicResponse(pAggressiveTopic);
         RunTopicResultScripts(pAggressiveTopic);
     }
     else
     {
         TESTopic* pPassiveTopic =
-            dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID("FollowersTacticsCombatPassive"));
+            dynamic_cast<TESTopic*>(TESForm::GetFormByEditorID("FollowersTacticsCombatPassive"));
         PlayTopicResponse(pPassiveTopic);
         RunTopicResultScripts(pPassiveTopic);
     }
@@ -3360,20 +3361,21 @@ void WheelSelection::SelectTile(int next, bool force)
 
 // Toggles followerWait, plays the matching follower topic, and updates the tile set helper state.
 // @fnv 0x007563a0
-void CompanionWheelMenu::ToggleFollowerWait()
+// src: COMMUNITY 0x007563a0
+void CompanionWheelMenu::Do_ToggleStayFollow()
 {
     bool bSuccess = false;
     followerWait = !followerWait;
     if (!followerWait)
     {
-        TESTopic* pRelatedTopic = dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID("FollowersWait"));
+        TESTopic* pRelatedTopic = dynamic_cast<TESTopic*>(TESForm::GetFormByEditorID("FollowersWait"));
         PlayTopicResponse(pRelatedTopic);
         RunTopicResultScripts(pRelatedTopic);
         bSuccess = true;
     }
     else
     {
-        TESTopic* pRelatedTopic = dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID("FollowersLetsGo"));
+        TESTopic* pRelatedTopic = dynamic_cast<TESTopic*>(TESForm::GetFormByEditorID("FollowersLetsGo"));
         PlayTopicResponse(pRelatedTopic);
         RunTopicResultScripts(pRelatedTopic);
         bSuccess = true;

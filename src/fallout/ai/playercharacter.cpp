@@ -7025,7 +7025,7 @@ struct MatchService
     bool TES_CellTestRunning();
     int FUN_005f36f0();
     MatchWorld* FUN_004fd3e0();
-    void AttachScene(MatchCell*, const MatchPoint*);
+    void TES_LoadInterior(MatchCell*, const MatchPoint*);
     void TES_LeaveInterior(const MatchPoint*);
     MatchNode* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     MatchNode* FUN_0044ddc0();
@@ -7058,7 +7058,7 @@ struct MatchMovie
 };
 struct MatchProcess
 {
-    void RemoveDetectionEventsFromActors();
+    void ProcessLists_RemoveDetectionEventsOnActors();
     void ProcessLists_MoveFollowersOnToPlayer();
 };
 struct MatchCalendar
@@ -8237,7 +8237,7 @@ struct MatchPlayer
     void TESObjectREFR_SetParentCell(MatchCell*);
     void PlayerCharacter_CheckForQuestTargetUpdate(MatchPlayer*);
     void MobileObject_Move(float, MatchPoint*, int);
-    void UpdateFaceAnimation(float);
+    void Character_Update(float);
     void* FUN_00950a60(bool);
     void Actor_UpdateAnimationMovement(void*, float);
     void PlayerCharacter_UpdateCamera(bool, bool);
@@ -8254,7 +8254,7 @@ void MatchPlayer::PlayerCharacter_PositionPlayer(MatchPoint position, float rise
 {
     if (!DAT_011dea10->TES_CellTestRunning())
         DAT_011dea0c->Main_RenderMenuBackground();
-    DAT_011e0e80.RemoveDetectionEventsFromActors();
+    DAT_011e0e80.ProcessLists_RemoveDetectionEventsOnActors();
     if (StartMenu_MainMenuIsActive())
     {
         Interface_CloseLoadingMenu();
@@ -8289,7 +8289,7 @@ void MatchPlayer::PlayerCharacter_PositionPlayer(MatchPoint position, float rise
     if (cell && cell->FUN_00425fd0())
     {
         cellState = cell->TESObjectCELL_GetMusicType(0);
-        DAT_011dea10->AttachScene(cell, &position);
+        DAT_011dea10->TES_LoadInterior(cell, &position);
         FUN_00665860();
     }
     else
@@ -8382,10 +8382,10 @@ void MatchPlayer::PlayerCharacter_PositionPlayer(MatchPoint position, float rise
                 SetPosition(&original);
         }
         thirdPerson = !thirdPerson;
-        UpdateFaceAnimation(0.0f);
+        Character_Update(0.0f);
         Actor_UpdateAnimationMovement(FUN_00950a60(!thirdPerson), 0.0f);
         thirdPerson = !thirdPerson;
-        UpdateFaceAnimation(0.0f);
+        Character_Update(0.0f);
         Actor_UpdateAnimationMovement(FUN_00950a60(!thirdPerson), 0.0f);
         PlayerCharacter_UpdateCamera(false, false);
     }
@@ -11490,7 +11490,7 @@ struct Effect
 };
 struct Collection
 {
-    bool FindNextRef(ReferenceFilter*, void**, int*, int);
+    bool BGSLoadedReferenceCollection_GetNextObject(ReferenceFilter*, void**, int*, int);
 };
 extern Collection* DAT_011c95c8;
 struct DataAccess
@@ -11527,7 +11527,7 @@ void Owner::PlayerCharacter_ShaderNearbyItems()
     void* ba = DAT_011c3f2c->TESDataHandler_GetItemDetectedEffect();
     if (!ba)
         return;
-    while (DAT_011c95c8->FindNextRef(&b, &k, &e, 3))
+    while (DAT_011c95c8->BGSLoadedReferenceCollection_GetNextObject(&b, &k, &e, 3))
     {
         Effect* action0 = new Effect(k, ba, l);
         if (action0->Apply())
@@ -11535,7 +11535,7 @@ void Owner::PlayerCharacter_ShaderNearbyItems()
         else
             delete action0;
     }
-    while (DAT_011c95c8->FindNextRef(&j, &k, &e, 3))
+    while (DAT_011c95c8->BGSLoadedReferenceCollection_GetNextObject(&j, &k, &e, 3))
     {
         Effect* action1 = new Effect(k, ba, l);
         if (action1->Apply())
@@ -11543,7 +11543,7 @@ void Owner::PlayerCharacter_ShaderNearbyItems()
         else
             delete action1;
     }
-    while (DAT_011c95c8->FindNextRef(&q, &k, &e, 3))
+    while (DAT_011c95c8->BGSLoadedReferenceCollection_GetNextObject(&q, &k, &e, 3))
     {
         Effect* action2 = new Effect(k, ba, l);
         if (action2->Apply())
@@ -11551,7 +11551,7 @@ void Owner::PlayerCharacter_ShaderNearbyItems()
         else
             delete action2;
     }
-    while (DAT_011c95c8->FindNextRef(&c, &k, &e, 3))
+    while (DAT_011c95c8->BGSLoadedReferenceCollection_GetNextObject(&c, &k, &e, 3))
     {
         Effect* action3 = new Effect(k, ba, l);
         if (action3->Apply())
@@ -12491,7 +12491,7 @@ struct AimPlayerProcess
 };
 struct AimInput
 {
-    int GetAxisState(int, int);
+    int OSInputGlobals_GetControllerValue(int, int);
     int Controls_GetMouseAxis(int);
 };
 struct AimInputOwner
@@ -13047,7 +13047,7 @@ struct AimPlayer : AimObject
     unsigned int unk6e0;
     float aimingPitch;
     double TESObjectREFR_GetDistanceFromPoint(const AimVector*);
-    void ClampLookAngle(float);
+    void MobileObject_SetLooking(float);
     unsigned int GetVtbl20Result();
     void UpdateScopeZoom(float);
     float FUN_00931d70();
@@ -13060,7 +13060,7 @@ struct AimPlayer : AimObject
     int GameSettingCollection_File();
     int GetAnimAction_008a7570();
     void FUN_00931d30(float);
-    void AddModAngle(float);
+    void MobileObject_ModLooking(float);
     bool PlayerCharacter_UpdateHeadingAndLooking(float, bool, unsigned short*, int);
 };
 AimNode* BSUtilities_GetObjectByName(AimNode*, const char*);
@@ -13163,7 +13163,7 @@ bool AimPlayer::PlayerCharacter_UpdateHeadingAndLooking(float delta, bool force,
                 positionScope4.z += TESObjectREFR_GetDistanceFromPoint(&positionScope4) * *DAT_011ce768.Setting_Float_00403e20();
             AimVector anglesScope2 = CombatUtilities_GetAngleToProjectedPoint(this, positionScope4);
             SetYaw(anglesScope2.z);
-            ClampLookAngle(anglesScope2.x);
+            MobileObject_SetLooking(anglesScope2.x);
         }
         DAT_011f2250.VATS_Update();
         *flags = GetVtbl20Result() & 0xcc00;
@@ -13366,7 +13366,7 @@ bool AimPlayer::PlayerCharacter_UpdateHeadingAndLooking(float delta, bool force,
             float yawScope54 = DAT_011e0774->NonLinearInterpolator_GetCurrent();
             float pitchScope55 = DAT_011e0760->NonLinearInterpolator_GetCurrent();
             SetYaw(yawScope54);
-            ClampLookAngle(pitchScope55);
+            MobileObject_SetLooking(pitchScope55);
             if (DAT_011e0774->NonLinearInterpolator_GetFinished() && DAT_011e0760->NonLinearInterpolator_GetFinished() && DAT_011a3b31)
                 VATSMenu_SetHeadingReached(true);
             else
@@ -13392,11 +13392,11 @@ bool AimPlayer::PlayerCharacter_UpdateHeadingAndLooking(float delta, bool force,
                 if (DAT_011e07c1)
                 {
                     int axisScope62 = 0;
-                    axisScope62 = inputScope7->GetAxisState(0, 10);
+                    axisScope62 = inputScope7->OSInputGlobals_GetControllerValue(0, 10);
                     if (FUN_00ec7d40(axisScope62) < 8689)
                         axisScope62 = 0;
                     wheelScope61Local16 = (int)(axisScope62 * DAT_0101ffa0 * delta);
-                    horizontalScope59 = inputScope7->GetAxisState(0, 9);
+                    horizontalScope59 = inputScope7->OSInputGlobals_GetControllerValue(0, 9);
                     if (FUN_00ec7d40(horizontalScope59) < 8689)
                         horizontalScope59 = 0;
                     horizontalScope59 /= 5;
@@ -13410,8 +13410,8 @@ bool AimPlayer::PlayerCharacter_UpdateHeadingAndLooking(float delta, bool force,
                 }
                 else
                 {
-                    horizontalScope59 = inputScope7->GetAxisState(0, 9);
-                    verticalScope9 = inputScope7->GetAxisState(0, 10);
+                    horizontalScope59 = inputScope7->OSInputGlobals_GetControllerValue(0, 9);
+                    verticalScope9 = inputScope7->OSInputGlobals_GetControllerValue(0, 10);
                     if (FUN_00ec7d40(horizontalScope59) < 8689)
                         horizontalScope59 = 0;
                     if (FUN_00ec7d40(verticalScope9) < 8689)
@@ -13556,7 +13556,7 @@ bool AimPlayer::PlayerCharacter_UpdateHeadingAndLooking(float delta, bool force,
                     }
                 }
                 if (verticalScope9)
-                    AddModAngle(verticalScope9 * *DAT_011e0a6c.Setting_Float_00403e20() * scaleScope2);
+                    MobileObject_ModLooking(verticalScope9 * *DAT_011e0a6c.Setting_Float_00403e20() * scaleScope2);
             }
             if (horizontalScope59 || verticalScope9 || wheelScope61Local16)
                 handledScope4 = true;
@@ -13674,7 +13674,7 @@ struct AnimationCursor
 };
 struct AnimationSequenceList
 {
-    AnimationCursor* GetFormIfType55();
+    AnimationCursor* BGSAmmoForm_GetAmmoFormList();
 };
 struct AnimationSequenceFactory
 {
@@ -13682,7 +13682,7 @@ struct AnimationSequenceFactory
 };
 struct AnimationCollection
 {
-    AnimationSequenceFactory* GetFormIfType55();
+    AnimationSequenceFactory* BGSAmmoForm_GetAmmoFormList();
     int TESObjectWEAP_GetCurrentAmmo(int);
 };
 struct AnimationData;
@@ -13975,7 +13975,7 @@ void __thiscall ActorAnimation::PlayerCharacter_AmmoSwapHelper(unsigned char all
     {
         AnimationData* a = process->GetState();
         AnimationData* b = a ? a->FUN_0044ddc0() : 0;
-        if (b && b->animations.GetFormIfType55())
+        if (b && b->animations.BGSAmmoForm_GetAmmoFormList())
         {
             {
                 AnimationHandle* h;
@@ -13995,7 +13995,7 @@ void __thiscall ActorAnimation::PlayerCharacter_AmmoSwapHelper(unsigned char all
                                             void* e;
                                             {
                                                 int k;
-                                                c = b->animations.GetFormIfType55()->FUN_00500940();
+                                                c = b->animations.BGSAmmoForm_GetAmmoFormList()->FUN_00500940();
                                                 j = b->TESObjectWEAP_GetCurrentAmmo(DAT_011dea3c);
                                                 f = 0;
                                                 i = false;
@@ -14046,7 +14046,7 @@ void __thiscall ActorAnimation::PlayerCharacter_AmmoSwapHelper(unsigned char all
                                                         }
                                                     }
                                                     if (!c || !*c->FUN_006815c0())
-                                                        c = b->animations.GetFormIfType55()->FUN_00500940();
+                                                        c = b->animations.BGSAmmoForm_GetAmmoFormList()->FUN_00500940();
                                                 }
                                                 if (i)
                                                 {
@@ -16740,7 +16740,7 @@ unsigned int FUN_0094a0a0_Class::TESObjectWEAP_GetPowerAttackOverride()
 namespace fnv_0094a8c0 {
 struct InputCamera
 {
-    int GetAxisState(int device, int axis);
+    int OSInputGlobals_GetControllerValue(int device, int axis);
     int Controls_GetMouseAxis(int axis);
     int Controls_GetUserAction(int control, int mode);
 };
@@ -17339,8 +17339,8 @@ void CameraPlayer::PlayerCharacter_HandleFlycamMovement()
     InterfaceManager_GetSingleton();
     if (InterfaceManager_Has360Controller())
     {
-        h = s->GetAxisState(0, 9);
-        q = s->GetAxisState(0, 10);
+        h = s->OSInputGlobals_GetControllerValue(0, 9);
+        q = s->OSInputGlobals_GetControllerValue(0, 10);
         if (NiAbs_00408820((float)h) <= 7849.0)
             h = 0;
         if (NiAbs_00408820((float)q) <= 7849.0)
@@ -17377,8 +17377,8 @@ void CameraPlayer::PlayerCharacter_HandleFlycamMovement()
     InterfaceManager_GetSingleton();
     if (InterfaceManager_Has360Controller())
     {
-        h = s->GetAxisState(0, 7);
-        q = s->GetAxisState(0, 8);
+        h = s->OSInputGlobals_GetControllerValue(0, 7);
+        q = s->OSInputGlobals_GetControllerValue(0, 8);
         if (NiAbs_00408820((float)h) <= 7849.0)
             h = 0;
         i = h / 32767.0;
@@ -18548,12 +18548,12 @@ struct Obj117
     bool FUN_00933840();
     Obj117* GetBiped();
     Obj117* FUN_004ab230();
-    float GetMinBlendValue();
+    float Animation_GetSmallestHavokBlendValue();
     void* CameraCaster_GetWorld();
     void CameraCaster_Remove();
     Obj117* PlayerCharacter_Get3D_00950bb0(int);
     float TESObjectREFR_GetScale_00567400();
-    void SyncHolderValue();
+    void PlayerCharacter_Setup3rdPersonCameraCaster();
     void PlayerCharacter_UpdateChaseCamera(V117&, V117&, bool);
     Obj117* Actor_GetAnimation();
     float FUN_00453700();
@@ -18754,7 +18754,7 @@ void Obj117::PlayerCharacter_UpdateCamera(bool force, bool skip)
         if (DAT_011e07d0)
             position17 = DAT_011e07d0->NiAVObject_GetWorldTranslate();
         Obj117* proc15 = process;
-        float blend7 = proc15->v1b8(GetBiped()->FUN_004ab230(), 0, 0)->GetMinBlendValue();
+        float blend7 = proc15->v1b8(GetBiped()->FUN_004ab230(), 0, 0)->Animation_GetSmallestHavokBlendValue();
         if (blend7 < 1.0)
         {
             V117 delta = DAT_011e07d4->NiAVObject_GetWorldTranslate() - position17;
@@ -18809,7 +18809,7 @@ void Obj117::PlayerCharacter_UpdateCamera(bool force, bool skip)
         rotation52 = rotation52 * temp29;
         target22 = base6 + rotation52 * (V117(0, -DAT_011e0b5c, 0) + offset1);
         V117 look7 = base6 + rotation52 * desired14;
-        SyncHolderValue();
+        PlayerCharacter_Setup3rdPersonCameraCaster();
         base6 += rotation52 * offset1;
         V117 origin43(px, py, base6.z);
         PlayerCharacter_UpdateChaseCamera(target22, origin43, force);
@@ -19444,7 +19444,7 @@ void PlayerCharacter_Cand::PlayerCharacter_PlayerSleep()
                 DAT_011e0e80.MiddleHighProcess_CalculateLightValue(3600.0f, true);
                 DAT_011e0e80.ProcessLists_UpdateMiddleHighList(3600.0f, true);
                 DAT_011e0e80.UpdateLowListProcessLists(3600.0f, true);
-                DAT_011e0e80.UpdateLowProcesses(3600.0f, true);
+                DAT_011e0e80.ProcessLists_UpdateLowList(3600.0f, true);
                 DAT_011f11a0.Unlock();
             }
         }
@@ -22744,7 +22744,7 @@ struct FUN_0094ed40_cls
     xNode m_6b0;
     int m_pad_6b8[0x71];
     xNode m_87c;
-    void WriteProgressData(int);
+    void PlayerCharacter_ExportProgressData(int);
     void* GetObjectReference();
     const char* GetFullName();
     int GetSex();
@@ -22757,7 +22757,8 @@ struct FUN_0094ed40_cls
 
 // Writes a tab-separated progress data line for the player to a save file, including stats, inventory, quests, cell, and death details when difficulty is 1.
 // @fnv 0x0094ed40
-void FUN_0094ed40_cls::WriteProgressData(int aiDifficulty)
+// src: COMMUNITY 0x0094ed40
+void FUN_0094ed40_cls::PlayerCharacter_ExportProgressData(int aiDifficulty)
 {
     char qSVM[0x104];
     void* qfTOqo;
@@ -23744,7 +23745,7 @@ class FUN_009503d0_Target
     {}
     virtual void vf34()
     {}
-    virtual void vf38()
+    virtual void PrintInfo()
     {}
     virtual void vf3c()
     {}
@@ -23762,7 +23763,7 @@ class FUN_009503d0_Target
     {}
     virtual void vf58()
     {}
-    virtual void vf5c()
+    virtual void applyForce()
     {}
     virtual void vf60()
     {}
@@ -26247,7 +26248,7 @@ void FUN_00951940_Class::PlayerCharacter_RecursiveReadyInventoryNode(NiNode* nod
             node->ReplaceControllers(controller);
         controller = next;
     }
-    node->AssignCollisionObject(0);
+    node->SetCollisionObject(0);
     for (unsigned int index = 0; index < node->GetNumChildren(); ++index)
     {
         NiAVObject* object = node->GetAt(index);
@@ -27926,7 +27927,7 @@ struct PlayerView
     virtual void Slot172();
     virtual void Slot173();
     virtual void Slot174();
-    virtual float GetCurrentTargetDistance(bool);
+    virtual float GetHeading(bool);
     int unk004;
     int unk008;
     int unk00c;
@@ -28388,7 +28389,7 @@ void PlayerView::PlayerCharacter_UpdateArmRotation()
     }
     Matrix rotation_;
     Matrix look;
-    float headingTmp = GetCurrentTargetDistance(false);
+    float headingTmp = GetHeading(false);
     if (DAT_011e07cc)
         rotation_.Pitch(GetLooking());
     else
@@ -29567,7 +29568,7 @@ class xActor
     virtual void v172();
     virtual void v173();
     virtual void v174();
-    virtual float GetCurrentTargetDistance(int i);
+    virtual float GetHeading(int i);
     int m_aiPad0[99];
     xHigh* m_pkHigh;
     char m_acPad1[0x4b6];
@@ -29584,7 +29585,7 @@ class xActor
     xWorld* GetParentWorldSpace();
     bool IsTalkingActivator();
     xActor* GetProgress();
-    void AddModAngle(float f);
+    void MobileObject_ModLooking(float f);
     void FUN_00931d30(float f);
     float GetLooking();
     float GetAdjustedValue(int i);
@@ -29594,7 +29595,7 @@ class xActor
     void PickAnimations(float a, float b);
     xAnim* GetAnimation(bool b);
     void UpdateAnimationMovement(xAnim* pAnim, float f);
-    void UpdateFaceAnimation(float f);
+    void Character_Update(float f);
     float PlayerCharacter_SetFOV(float f);
     const char* GetNameX();
     void PlayerCharacter_FocusOnActor(xActor* pActor, float fRate, bool bSkip);
@@ -29737,13 +29738,13 @@ void xActor::PlayerCharacter_FocusOnActor(xActor* pActor, float fRate, bool bSki
             if (xPitchOn)
             {
                 if (xFocus < 1.0)
-                    AddModAngle(xMin(xTime.GetMovementDelta() / (*xS3ee0.Float() * (1.0f - xFocus)), 1.0f) * qAXSCg);
+                    MobileObject_ModLooking(xMin(xTime.GetMovementDelta() / (*xS3ee0.Float() * (1.0f - xFocus)), 1.0f) * qAXSCg);
                 else
-                    AddModAngle(qAXSCg * *xS0958.Float() * xTime.GetMovementDelta());
+                    MobileObject_ModLooking(qAXSCg * *xS0958.Float() * xTime.GetMovementDelta());
                 if (xAbs(qAXSCg) < *xS0900.Float() * 0.01745329238474369 * qYePyBl)
                     xPitchOn = false;
             }
-            qAXSCg = xHeading(qSVM.Neg()) - GetCurrentTargetDistance(0);
+            qAXSCg = xHeading(qSVM.Neg()) - GetHeading(0);
             while (qAXSCg > 3.1415927410125732)
                 qAXSCg -= 6.2831854820251465;
             while (qAXSCg < -3.1415927410125732)
@@ -29776,7 +29777,7 @@ void xActor::PlayerCharacter_FocusOnActor(xActor* pActor, float fRate, bool bSki
                 if (xAbs(qAXSCg) < *xS08c4.Float() * 0.01745329238474369 * qYePyBl)
                     xYawOn = false;
             }
-            xLastHeading = GetCurrentTargetDistance(0);
+            xLastHeading = GetHeading(0);
             xLastLooking = GetLooking();
             PlayerCharacter_SetFirstPerson(true);
             UpdateCameraMode();
@@ -29788,7 +29789,7 @@ void xActor::PlayerCharacter_FocusOnActor(xActor* pActor, float fRate, bool bSki
             PickAnimations(1.0f, 1.0f);
             UpdateAnimationMovement(GetAnimation(false), 0.0f);
             m_b64a = false;
-            UpdateFaceAnimation(xTime.GetMovementDelta());
+            Character_Update(xTime.GetMovementDelta());
             UpdateAnimationMovement(GetAnimation(!m_b64a), xTime.GetMovementDelta());
         }
         if (!qrEZrs && qsSDDgz)
@@ -33788,7 +33789,7 @@ struct TopicInfoX
 };
 struct ProgressX
 {
-    char GetKeyForForm(void* apChallenge);
+    char TESQuest_GetStageIndexForStageItem(void* apChallenge);
 };
 struct ChallengeX
 {
@@ -33802,7 +33803,7 @@ struct FormByteX
 };
 struct ElementX
 {
-    void SavePerkList(BufferX* apBuffer);
+    void ItemChange_SaveGame(BufferX* apBuffer);
 };
 struct ArrayX
 {
@@ -33812,7 +33813,7 @@ struct ArrayX
 struct SubObjX
 {
     int iDummy;
-    void SaveAnimData(BufferX* apBuffer);
+    void Animation_Save(BufferX* apBuffer);
     void ForwardToInner(BufferX* apBuffer);
 };
 struct CountX
@@ -34134,7 +34135,7 @@ void PlayerX::PlayerCharacter_SaveGame_009590f0(BufferX* apBuffer)
     {
         unsigned int uiStartQ = apBuffer->StartVariableSizedValue();
         int iBeginNew = apBuffer->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
-        p690->SaveAnimData(apBuffer);
+        p690->Animation_Save(apBuffer);
         int iEndNew = apBuffer->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         apBuffer->SaveVariableSizedValue_00865ff0(iEndNew - iBeginNew, uiStartQ);
     }
@@ -34257,7 +34258,7 @@ void PlayerX::PlayerCharacter_SaveGame_009590f0(BufferX* apBuffer)
         for (unsigned int n = 0; n < uiArraySize; n++)
         {
             ElementX*& rElement = kArraydf4.GetAt(n);
-            rElement->SavePerkList(apBuffer);
+            rElement->ItemChange_SaveGame(apBuffer);
         }
     }
     {
@@ -34378,7 +34379,7 @@ void PlayerX::PlayerCharacter_SaveGame_009590f0(BufferX* apBuffer)
             if (pChallenge)
             {
                 ProgressX* pProgress = pChallenge->FUN_005e3fa0();
-                char pProcessData = pProgress->GetKeyForForm(pChallenge);
+                char pProcessData = pProgress->TESQuest_GetStageIndexForStageItem(pChallenge);
                 char cFlag = xFUN_005dc980(pChallenge);
                 apBuffer->SerializeFormData(pProgress, 0);
                 apBuffer->SaveData(&pProcessData, 1, 0);
@@ -36005,9 +36006,9 @@ struct ResetPlayer
     void PlayerCharacter_DestroyMouseSpring();
     void PlayerCharacter_ClearRockItLauncher();
     void PlayerCharacter_FreeCompassTargets();
-    void ClearHelper();
+    void PlayerCharacter_RemovePlayerMapMarker();
     void PlayerCharacter_SetInCharGen(int);
-    void SetSightingNode(int);
+    void PlayerCharacter_SetWeaponSightingNode(int);
     void* GetSelfOffset6A8();
     void FUN_00947d10();
     void PlayerCharacter_ClearMapMarkerStructList();
@@ -36105,7 +36106,7 @@ void ResetPlayer::PlayerCharacter_Revert(ResetFlagState* buffer)
     unk208 = 0;
     unk224 = 0;
     unk1f0 = 0;
-    ClearHelper();
+    PlayerCharacter_RemovePlayerMapMarker();
     unk604 = 0;
     PlayerCharacter_SetInCharGen(0);
     while (unk60c && *unk60c->FUN_006815c0())
@@ -36137,7 +36138,7 @@ void ResetPlayer::PlayerCharacter_Revert(ResetFlagState* buffer)
     unk1ec = 0;
     unke38 = true;
     unke0c = 0;
-    SetSightingNode(0);
+    PlayerCharacter_SetWeaponSightingNode(0);
     ActiveEffect_RevertActiveEffectList(buffer, unk210);
     ResetList* node = DAT_011c3f2c->FUN_004612e0();
     while (node)
@@ -37775,7 +37776,7 @@ struct FUN_0095edf0_cls
     int unk0218;
     FUN_00621440_cls* m_pHolder21c;
     FUN_008d6f30_cls* FUN_008d6f30();
-    void SyncHolderValue();
+    void PlayerCharacter_Setup3rdPersonCameraCaster();
 };
 
 struct FUN_004543c0_cls
@@ -37795,7 +37796,8 @@ struct FUN_00621440_cls
 
 // If m_pHolder21c and FUN_008d6f30() are non-null, sets the holder to FUN_008d6f30()->FUN_004543c0() when its FUN_00621440 value differs.
 // @fnv 0x0095edf0
-void FUN_0095edf0_cls::SyncHolderValue()
+// src: COMMUNITY 0x0095edf0
+void FUN_0095edf0_cls::PlayerCharacter_Setup3rdPersonCameraCaster()
 {
     if (m_pHolder21c != 0 && FUN_008d6f30() != 0)
     {
@@ -44937,7 +44939,7 @@ public:
     BGSNote* GetAVEffect();
     bool BGSTerminal_IsUnlocked_00501ae0(TESObjectREFR* refr);
     int BGSTerminal_GetRawDifficulty(Script* script);
-    bool IsSkillSufficient(TESObjectREFR* refr, float value);
+    bool BGSTerminal_IsHackEligible(TESObjectREFR* refr, float value);
 };
 
 class MemberA4
@@ -44981,7 +44983,7 @@ int PlayerCharShell::GetTerminalAccessResult(TESObjectREFR* refr)
     {
         return 2;
     }
-    else if (((PlayerTerminalOperations*)terminal)->IsSkillSufficient(refr, ((MemberA4*)((char*)this + 0xa4))->FUN_0066ef50(0x28)))
+    else if (((PlayerTerminalOperations*)terminal)->BGSTerminal_IsHackEligible(refr, ((MemberA4*)((char*)this + 0xa4))->FUN_0066ef50(0x28)))
     {
         return 3;
     }
@@ -48161,11 +48163,12 @@ struct TESObjectREFR_FindReference
 };
 struct FUN_00967950_class
 {
-    TESObjectREFR* GetReferenceFromPhysicsController();
+    TESObjectREFR* PlayerCharacter_GetBumpedRef();
 };
 // Returns the TESObjectREFR associated with the physics character controller's current rigid body, or null if unavailable.
 // @fnv 0x00967950
-TESObjectREFR* FUN_00967950_class::GetReferenceFromPhysicsController()
+// src: COMMUNITY 0x00967950
+TESObjectREFR* FUN_00967950_class::PlayerCharacter_GetBumpedRef()
 {
     TESObjectREFR* pRef = 0;
     bhkCharacterController* controller8 = ((MobileObject_GetCharController*)this)->GetPhysicsCharacterController();
@@ -48198,12 +48201,13 @@ struct bhkCharacterController;
 class FUN_00967a00_Class
 {
   public:
-    TESObjectREFR* GetActorFromPhysicsController();
+    TESObjectREFR* PlayerCharacter_GetBumpedActor();
 };
 
 // Gets the physics character controller, resolves its reference via GetReferenceFromNiAVObject, and returns it if it is an actor, otherwise null.
 // @fnv 0x00967a00
-TESObjectREFR* FUN_00967a00_Class::GetActorFromPhysicsController()
+// src: COMMUNITY 0x00967a00
+TESObjectREFR* FUN_00967a00_Class::PlayerCharacter_GetBumpedActor()
 {
     TESObjectREFR* pActor = 0;
     bhkCharacterController* controller8 = ((MobileObject*)this)->GetPhysicsCharacterController();
@@ -48774,16 +48778,16 @@ struct Obj8
     virtual void slot36();
     virtual unsigned char slot37();
     int FUN_00401170();
-    unsigned char IsFlag80Clear();
+    unsigned char TESObjectWEAP_GetIsPlayable();
 };
 struct ScriptObj
 {
-    int GetConditionIndex(void*);
+    int GetItemIndex(void*);
 };
 struct SubA4
 {
     void* FUN_00474a00();
-    ScriptObj* GetFormIfType55();
+    ScriptObj* BGSAmmoForm_GetAmmoFormList();
 };
 struct WeapObj
 {
@@ -48856,7 +48860,7 @@ bool Cls::PlayerCharacter_CanEquipOrUseObject(ArgObj* arg)
     slotC7 = (arg->Modelloader_GetReferencedThis() && *arg->Modelloader_GetReferencedThis()->FUN_006815c0()) ? *arg->Modelloader_GetReferencedThis()->FUN_006815c0() : 0;
     if (obj2->slot37())
     {
-        if (!((obj2->FUN_00401170() == 0x28 || obj2->FUN_00401170() == 0x18) && obj2->IsFlag80Clear()))
+        if (!((obj2->FUN_00401170() == 0x28 || obj2->FUN_00401170() == 0x18) && obj2->TESObjectWEAP_GetIsPlayable()))
             flag_ = false;
     }
     if (slotC7 && slotC7->ExtraDataList_GetCanNotWear())
@@ -48896,10 +48900,10 @@ bool Cls::PlayerCharacter_CanEquipOrUseObject(ArgObj* arg)
         else
         {
             formRes2 = kObj18->sub.FUN_00474a00();
-            scriptRes = kObj18->sub.GetFormIfType55();
+            scriptRes = kObj18->sub.BGSAmmoForm_GetAmmoFormList();
             if (formRes2 != obj1c9)
             {
-                if (scriptRes == 0 || scriptRes->GetConditionIndex(obj1c9) == -1)
+                if (scriptRes == 0 || scriptRes->GetItemIndex(obj1c9) == -1)
                     flag_ = false;
             }
         }
@@ -50006,7 +50010,7 @@ unsigned int DialoguePlayer::PlayerCharacter_GetRandomRockItAmmoItem()
 
 struct FUN_004bc780_shell
 {
-    void ClearExtraDataList();
+    void ItemChange_DeleteAllExtra();
 };
 
 struct Arr
@@ -50033,7 +50037,7 @@ void FUN_009690a0_shell::PlayerCharacter_ClearRockItLauncher()
     unsigned int i = 0;
     for (; i < ((PlayercharacterOffset08View*)((char*)this + 0xdf4))->GetFlags(); ++i)
     {
-        ((FUN_004bc780_shell*)*(((Arr*)((char*)this + 0xdf4))->GetAt(i)))->ClearExtraDataList();
+        ((FUN_004bc780_shell*)*(((Arr*)((char*)this + 0xdf4))->GetAt(i)))->ItemChange_DeleteAllExtra();
     }
     ((GlobalObject_00869f00*)((char*)this + 0xdf4))->Clear(true);
     ((FUN_00969110_shell*)this)->PlayerCharacter_ResetRockItAmmoWeight(0);
@@ -53212,7 +53216,7 @@ class SelfQ
   public:
     char pad[0x80];
     V3Q m_kPos;
-    void SetPackageType(int n);
+    void SetPackType(int n);
     void FUN_00826b40(int n);
     void FUN_00826b90(int n);
     void SetPackageLocation(FUN_0067f030* p);
@@ -53227,7 +53231,7 @@ class SelfQ
 // src: COMMUNITY 0x009ed0d0
 void SelfQ::BackUpPackage_InitializeBackUpPackage(FormQ* pkA, FormQ* pkB, FormQ* pkC)
 {
-    SetPackageType(0x27);
+    SetPackType(0x27);
     FUN_00826b40(1);
     FUN_00826b90(1);
     if (pkA)
@@ -53411,7 +53415,7 @@ struct Mat
 
 struct Controller
 {
-    float GetSettingFloat();
+    float bhkCharacterController_GetRadius();
 };
 struct Filter
 {
@@ -54285,7 +54289,7 @@ float asin_004b5510(float);
 bool Player::PlayerCharacter_GetDropPoint(Bound* object, V3* output, bool search, bool rotate)
 {
     float size = object->TESBoundObject_GetBoundSize() * DAT_01011590;
-    float height = HK2NI(DAT_011dea3c->FUN_009306d0()->GetSettingFloat());
+    float height = HK2NI(DAT_011dea3c->FUN_009306d0()->bhkCharacterController_GetRadius());
     float distance = TESObjectREFR_GetScale_00567400() * *DAT_011d0628.Setting_Float_00403e20();
     V3 origin, direction;
     GetCameraPosAndDir(&origin, &direction, true);
@@ -54898,7 +54902,7 @@ struct InputAction
 };
 struct InputKeys
 {
-    int GetAxisState(int, int);
+    int OSInputGlobals_GetControllerValue(int, int);
     int Controls_GetUserAction(int, int);
     void Controls_ForceUserAction(int);
 };
@@ -55732,7 +55736,7 @@ struct InputPlayer : InputCharacter
     void bhkRigidBody_SetLinearVelocity(const InputPoint&);
     void FUN_008c3c40(int, int);
     InputAnimation* FUN_00950a60(bool);
-    void UpdateFaceAnimation(float);
+    void Character_Update(float);
     void Actor_UpdateAnimationMovement(InputAnimation*, float);
     void ProcessEvents();
     void PlayerCharacter_UpdateFlyCamera(float, bool);
@@ -55771,8 +55775,8 @@ void InputPlayer::PlayerCharacter_UpdateFlyCamera(float dt, bool paused)
     InterfaceManager_GetSingleton();
     if (InterfaceManager_Has360Controller())
     {
-        axisX = input->GetAxisState(0, 7);
-        axisY = input->GetAxisState(0, 8);
+        axisX = input->OSInputGlobals_GetControllerValue(0, 7);
+        axisY = input->OSInputGlobals_GetControllerValue(0, 8);
     }
     if (!paused)
     {
@@ -56036,10 +56040,10 @@ void InputPlayer::PlayerCharacter_UpdateFlyCamera(float dt, bool paused)
         first_31->SetMoveSpeed(third7->GetMoveSpeed_009442a0());
         first_31->Animation_SetAttackSpeed(third7->Projectile_GetDistanceMoved());
         firstPerson = !firstPerson;
-        UpdateFaceAnimation(dt);
+        Character_Update(dt);
         Actor_UpdateAnimationMovement(FUN_00950a60(!firstPerson), dt);
         firstPerson = !firstPerson;
-        UpdateFaceAnimation(dt);
+        Character_Update(dt);
         Actor_UpdateAnimationMovement(FUN_00950a60(!firstPerson), dt);
         ProcessEvents();
         if (process->Extra())
@@ -56941,7 +56945,7 @@ struct WkPt
 };
 struct WkStage
 {
-    void* FindItemByDoneFlag(unsigned char a);
+    void* TESQuestStage_GetStageItem(unsigned char a);
 };
 struct WkMgr
 {
@@ -56975,7 +56979,7 @@ void* FUN_00ec43fb(void* p, int d, void* s, void* t, int r);
 void SortTopicList(int a, void* list);
 void FUN_00806a90(WkBuf* buf, int v);
 void SetCameraShakeData(float a, float b);
-void LoadReferenceLists(WkBuf* buf);
+void Script_LoadPendingReferences(WkBuf* buf);
 struct WkPV
 {
     virtual void v000();
@@ -58468,7 +58472,7 @@ void PlayerLoadState::PlayerCharacter_LoadGame_0095a3b0(WkBuf* buf)
                 WkStage* stage = (WkStage*)quest->GetStage(stageIdx);
                 if (stage)
                 {
-                    void* entry = stage->FindItemByDoneFlag(logIdx);
+                    void* entry = stage->TESQuestStage_GetStageItem(logIdx);
                     if (entry)
                         ((WkList*)(&((PlayerLoadFields*)this)->unk6b0))->Add2(&entry);
                 }
@@ -58584,7 +58588,7 @@ void PlayerLoadState::PlayerCharacter_LoadGame_0095a3b0(WkBuf* buf)
     }
     PlayerCharacter_AmmoSwapHelper(0, 1);
     if (buf->GetVersion() >= 0x1b)
-        LoadReferenceLists(buf);
+        Script_LoadPendingReferences(buf);
 }
 
 struct FloatMatrix3
@@ -59707,7 +59711,7 @@ struct PlayerAudio : Character
     float GetCachedSpeed(int type);
     bool Actor_IsAttacking();
     bool Actor_GetIronSights();
-    void AddModAngle(float value);
+    void MobileObject_ModLooking(float value);
     void FUN_00931d30(float value);
     void PlayerCharacter_AddGunWobble();
 };
@@ -59867,7 +59871,7 @@ void PlayerAudio::PlayerCharacter_AddGunWobble()
                         volume *= *DAT_011cf718.Setting_Float_00403e20();
                         float zTmp, x, y_;
                         rotation.DecomposeToEulerAngles(&x, &y_, &zTmp);
-                        AddModAngle(x * volume);
+                        MobileObject_ModLooking(x * volume);
                         FUN_00931d30(zTmp * volume);
                         DAT_011e09ec.FUN_00a59540(-zTmp * volume, y_ * volume, x * volume);
                     }

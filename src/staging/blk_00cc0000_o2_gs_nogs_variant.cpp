@@ -350,7 +350,7 @@ struct DerivedStandin : A51BF0Base, S_00cb79d0_Base
         DAT_012685ac += count;
     }
 };
-void* CreateDerivedStandin();
+void* bhkSpringAction_CreateObject();
 struct FUN_00cc4180_Class
 {
     void __thiscall FUN_00cc4180();
@@ -1051,7 +1051,7 @@ struct FUN_00cc1d80_object
     void __thiscall AssignFixedString(void* value);
 };
 extern "C" char DAT_011f49e0;
-FUN_00cc1d80_object* __cdecl CreateObjectWithGlobal();
+FUN_00cc1d80_object* __cdecl bhkExtraData_CreateObject();
 extern __declspec(thread) int g_iCC1F80AllocTag;
 struct BCC1F80AllocTagScope
 {
@@ -1227,7 +1227,7 @@ struct RefObject24_b9018
         return Object_DispatchCommandFour(size);
     }
 };
-RefObject24_b9018* CreateRefObject24();
+RefObject24_b9018* bhkCachingShapePhantom_CreateObject();
 struct TlsBlock_t
 {
     int unk000;
@@ -2235,7 +2235,7 @@ struct DerivedStandin2 : A51BF0Base, S_00cb79d0_Base
         DAT_012685c4 += count;
     }
 };
-void* CreateDerivedStandin2();
+void* bhkDashpotAction_CreateObject();
 struct FUN_00cc3bd0_arg
 {
     unsigned int unk00;
@@ -3233,7 +3233,7 @@ struct CC5930_Obj : CC5930_Base
         DAT_012685f4 += count;
     }
 };
-CC5930_Obj* __cdecl CreateCC5930Obj();
+CC5930_Obj* __cdecl bhkStiffSpringConstraint_CreateObject();
 struct CC5D40BinaryStream
 {
     void* m_ppVirtualMethodTable;
@@ -3677,7 +3677,7 @@ struct FUN_00cc5e60 : bhkConstraint
     ~FUN_00cc5e60();
 };
 extern int DAT_01268604;
-int* __cdecl Runtime_GetDAT01268604Address();
+int* __cdecl bhkRagdollLimitsConstraint_GetRTTI();
 struct FUN_00cc5ee0_interface
 {
     virtual void __thiscall FUN_00cc5ee0_call(int value) = 0;
@@ -4355,7 +4355,7 @@ struct PhysicsObject : PhysicsAllocator, PhysicsReference
         DAT_01268648 += count;
     }
 };
-PhysicsObject* __cdecl CreatePhysicsObject();
+PhysicsObject* __cdecl bhkBallAndSocketConstraint_CreateObject();
 // MakeClone for a Havok wrapper: under the world lock, create a new wrapper and copy our data into it.
 extern __declspec(thread) int g_iCC9940AllocTag;
 struct CC9940AllocTagScope
@@ -5065,7 +5065,7 @@ class CCAA80Object
     int unk0C;
     int unk10;
 };
-CCAA80Object* __cdecl CreateCCAA80Object();
+CCAA80Object* __cdecl bhkTriangleShape_CreateObject();
 extern "C" void _ReadWriteBarrier(void);
 struct FUN_00ccab60_arg
 {
@@ -5571,7 +5571,7 @@ struct TargetObject : AllocationBase, S_00c87c30_Base
         DAT_0126866c += count;
     }
 };
-TargetObject* __cdecl CreateTargetObject();
+TargetObject* __cdecl bhkPlaneShape_CreateObject();
 struct FUN_00ccb2b0_Param
 {
     int unk00;
@@ -5880,7 +5880,7 @@ struct FUN_00ccb3e0_Class
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -5906,7 +5906,7 @@ struct FUN_00ccb3e0_Class
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -6008,7 +6008,7 @@ struct FunObj_b9645 : public FunObjBase_b9645
         m_0c = 0;
     }
 };
-FunObj_b9645* CreateFunObj();
+FunObj_b9645* bhkExtendedMeshShapeData_CreateObject();
 // Decompilation candidate for FUN_00ccba30 (0x00ccba30, 32 bytes).
 //
 // Shape: a member function that (1) forwards its single argument to a virtual
@@ -7160,7 +7160,7 @@ struct RefObject20_b9084
         return Object_DispatchCommandFour(size);
     }
 };
-RefObject20_b9084* CreateRefObject20();
+RefObject20_b9084* bhkConvexVerticesShape_CreateObject();
 struct FUN_00ccdd70_arg
 {
     unsigned int m_u00;
@@ -10074,7 +10074,7 @@ struct Constraint78 : ConstraintBase78
     }
     virtual ~Constraint78();
 };
-Constraint78* __cdecl CreateConstraint();
+Constraint78* __cdecl bhkRagdollConstraint_CreateObject();
 // Create a counted shape wrapper under the Havok allocation tag and the world lock, then register it with this owner.
 extern __declspec(thread) int g_iCC69D0AllocTag;
 struct CC69D0AllocTagScope
@@ -10811,7 +10811,7 @@ struct CcaOwner
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -10837,7 +10837,7 @@ struct CcaOwner
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41(int a);
@@ -13091,7 +13091,7 @@ class Constraint348 : public FUN_00c87c30
     }
     virtual ~Constraint348();
 };
-bhkFixedConstraint* CreateFixedConstraint();
+bhkFixedConstraint* bhkFixedConstraint_CreateObject();
 struct FUN_00d53d90 : S_00cc4b90_RefObj
 {
     int unk08;
@@ -14059,7 +14059,7 @@ struct CC1290Object
     unsigned int m_uiData2;
     unsigned int m_uiData3;
 };
-CC1290Object* __cdecl CreateCC1290Object();
+CC1290Object* __cdecl bhkPoseArray_CreateObject();
 struct LoadMM
 {
     void* Allocate(unsigned int);
@@ -14508,7 +14508,7 @@ struct CC3D60Owner
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -14534,7 +14534,7 @@ struct CC3D60Owner
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -14700,7 +14700,7 @@ struct CC42A0Object : CC42A0Base
         DAT_012685d0 += count;
     }
 };
-CC42A0Object* CreateCC42A0Object();
+CC42A0Object* bhkAngularDashpotAction_CreateObject();
 struct SaveValues460
 {
     unsigned long unk00, unk04, unk08, unk0C;
@@ -15366,7 +15366,7 @@ struct CCD460Owner
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -15392,7 +15392,7 @@ struct CCD460Owner
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -16727,7 +16727,7 @@ struct FUN_00cdfe00_Object
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual int* vf40();
 };

@@ -49,8 +49,8 @@ public:
     void SetTile(int id, Tile* tile);
     int __thiscall vf13();
     int __thiscall GetMenuID_00753340();
-    void UpdateValueString(Tile*);
-    void UpdatePointsDisplay();
+    void SetDisplayString(Tile*);
+    void UpdatePointCounter();
     bool HasAllSlotsSet();
     void HandleTileClick(int, Tile*);
     void InitMenu();

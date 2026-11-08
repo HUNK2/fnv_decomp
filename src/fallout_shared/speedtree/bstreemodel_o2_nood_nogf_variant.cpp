@@ -55,7 +55,7 @@ struct FUN_006699d0_shell
     void* m_auiShapeKeys;
     void* m_pAuxiliaryObject;
     CSpeedTreeRT* m_pTreeRuntime;
-    unsigned short GetUnsignedShort();
+    unsigned short BSTreeModel_GetNumLeafLODLevels();
 };
 extern "C" void* __cdecl BSTreeManager_GetInstance(bool);
 extern "C" unsigned char __cdecl GetByteAtOffset1B();
@@ -136,7 +136,7 @@ struct StripsDataX : public MemObjX
     StripsDataX(unsigned int a1, NiPoint3* a2, NiPoint3* a3, unsigned int a4, Point2X* a5, unsigned int a6,
                 unsigned int a7, unsigned int a8, unsigned int a9, unsigned short* a10, unsigned short* a11);
     void FUN_00a67050(unsigned int auiFlags);
-    void SetByteAtOffset38(unsigned char aucFlags);
+    void SetKeepFlags(unsigned char aucFlags);
     void SetCompressFlags(unsigned char aucFlags);
 };
 struct LeafShapeX : public MemObjX
@@ -219,7 +219,7 @@ struct ModelHolder_b5531
 struct GlobalObject_0044fae0
 {
     void BSCriticalSection_Enter(int);
-    void WaitForTasksDuringRendering();
+    void BSCriticalSection_Leave();
 };
 extern GlobalObject_0044fae0 g_011d5df8;
 extern unsigned char treeCloneActive;
@@ -253,7 +253,7 @@ struct TreeCloneView
     bool CombatProcedure_GetFinished();
     unsigned short GetNumBranchLODLevels();
     unsigned short FUN_006699d0();
-    bool CloneFromModel(TreeCloneView*);
+    bool BSTreeModel_InitAsInstance(TreeCloneView*);
 };
 struct PathingSolutionBase
 {

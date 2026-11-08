@@ -33,9 +33,10 @@
 // virtual destructor changes the code at 0x008c83a0. Its constructor and message
 // processing implementations below use the shared class.
 
-// The rendering wait helper forwards the lock at the start of this object.
+// The rendering hkSemaphore_release helper forwards the lock at the start of this object.
 // @fnv 0x004538c0
-void ActorTaskManager::WaitForTasksDuringRendering()
+// src: COMMUNITY 0x004538c0
+void ActorTaskManager::BSCriticalSection_Leave()
 {
     reinterpret_cast<RecursiveLock*>(this)->Leave();
 }
@@ -153,8 +154,8 @@ struct FUN_008c8490_shell
 void FUN_008c8490_shell::DetectionTaskData_HandleEndMessage(unsigned int)
 {
     PlayerCharacter_UpdateAutoAimActor(g_thePlayer);
-    g_011dfc04.WaitForTasksDuringRendering();
-    g_011dfbe8.WaitForTasksDuringRendering();
+    g_011dfc04.BSCriticalSection_Leave();
+    g_011dfbe8.BSCriticalSection_Leave();
 }
 
 extern int DAT_01085768;
@@ -227,13 +228,13 @@ struct FUN_008c88e0_shell
 {
     void AnimationTaskData_HandleEndMessage(int a);
 };
-// Calls WaitForTasksDuringRendering on g_011dfc04 and g_011dfc38.
+// Calls BSCriticalSection_Leave on g_011dfc04 and g_011dfc38.
 // @fnv 0x008c88e0
 // src: XBOX_PDB 0x008c88e0
 void FUN_008c88e0_shell::AnimationTaskData_HandleEndMessage(int aiUnused)
 {
-    g_011dfc04.WaitForTasksDuringRendering();
-    g_011dfc38.WaitForTasksDuringRendering();
+    g_011dfc04.BSCriticalSection_Leave();
+    g_011dfc38.BSCriticalSection_Leave();
 }
 }  // namespace fnv_008c88e0
 
@@ -312,7 +313,7 @@ struct FUN_008c8a50_shell
 // src: XBOX_PDB 0x008c8a50
 void FUN_008c8a50_shell::ActorUpdateTaskData_HandleEndMessage(int aiUnused)
 {
-    g_011dfc38.WaitForTasksDuringRendering();
+    g_011dfc38.BSCriticalSection_Leave();
 }
 }  // namespace fnv_008c8a50
 
@@ -374,7 +375,7 @@ void PackageUpdateTaskData::RunPackageUpdateTask(unsigned int aiThread)
 {
     using namespace fnv_008c8ff0;
     fnv_008c8ff0::DAT_011e0e80.ProcessLists_DisableExcessDeadActors(fnv_008c8ff0::g_timeGlobal.GetStoredFloatValue());
-    fnv_008c8ff0::g_011dfbe8.WaitForTasksDuringRendering();
+    fnv_008c8ff0::g_011dfbe8.BSCriticalSection_Leave();
 }
 
 
@@ -438,14 +439,14 @@ struct FUN_008c90e0_shell
 {
     void ActorsScriptTaskData_HandleEndMessage(unsigned int);
 };
-// Calls WaitForTasksDuringRendering on three global ActorTaskManager instances to wait for their tasks during rendering.
+// Calls BSCriticalSection_Leave on three global ActorTaskManager instances to hkSemaphore_release for their tasks during rendering.
 // @fnv 0x008c90e0
 // src: XBOX_PDB 0x008c90e0
 void FUN_008c90e0_shell::ActorsScriptTaskData_HandleEndMessage(unsigned int)
 {
-    g_011dfbe8.WaitForTasksDuringRendering();
-    g_011dfc04.WaitForTasksDuringRendering();
-    g_011dfc38.WaitForTasksDuringRendering();
+    g_011dfbe8.BSCriticalSection_Leave();
+    g_011dfc04.BSCriticalSection_Leave();
+    g_011dfc38.BSCriticalSection_Leave();
 }
 }  // namespace fnv_008c90e0
 
@@ -526,13 +527,13 @@ struct FUN_008c9300_shell
 {
     void MovementTaskData_HandleEndMessage(int a);
 };
-// Calls WaitForTasksDuringRendering on g_011dfbe8 and g_011dfc04.
+// Calls BSCriticalSection_Leave on g_011dfbe8 and g_011dfc04.
 // @fnv 0x008c9300
 // src: XBOX_PDB 0x008c9300
 void FUN_008c9300_shell::MovementTaskData_HandleEndMessage(int aiUnused)
 {
-    g_011dfbe8.WaitForTasksDuringRendering();
-    g_011dfc04.WaitForTasksDuringRendering();
+    g_011dfbe8.BSCriticalSection_Leave();
+    g_011dfc04.BSCriticalSection_Leave();
 }
 }  // namespace fnv_008c9300
 
@@ -969,10 +970,11 @@ struct FUN_008c9ae0_mgr
 {
     FUN_008c9bd0* threads[3];
     int count;
-    void CreateThread(unsigned int aiThread);
+    void AITaskThreadManager_AddThread(unsigned int aiThread);
 };
 // @fnv 0x008c9ae0
-void FUN_008c9ae0_mgr::CreateThread(unsigned int aiThread)
+// src: COMMUNITY 0x008c9ae0
+void FUN_008c9ae0_mgr::AITaskThreadManager_AddThread(unsigned int aiThread)
 {
     if (count < 3)
     {
@@ -1161,7 +1163,8 @@ void* FUN_008ca710_shell::FUN_008ca710(unsigned int flags)
 
 // If apMob is an actor with a flag at offset 0xbc set, or a talking activator, calls Unk_9A with 0.0f.
 // @fnv 0x008c8910
-void AnimationTaskData::ProcessMobileObject(MobileObject* apMob)
+// src: COMMUNITY 0x008c8910
+void AnimationTaskData::HandleMobMessage(MobileObject* apMob)
 {
     MobileObject* pmob = apMob;
     if (pmob && pmob->IsActor())
@@ -1179,7 +1182,8 @@ void AnimationTaskData::ProcessMobileObject(MobileObject* apMob)
 }
 
 // @fnv 0x008c8240
-void MobileObjectTaskletData::ProcessMessages(int eType)
+// src: COMMUNITY 0x008c8240
+void MobileObjectTaskletData::RunToCompletion(int eType)
 {
     this->eType = eType;
     // Raw storage preserves the original constructor-only lifetime.
@@ -1208,7 +1212,7 @@ struct ProcessActorScriptMethods : ActorsScriptTaskData
 void ProcessActorScriptMethods::Run(MobileObject* apMob)
 {
     MobileObject* pmob = apMob;
-    if (pmob && pmob->IsActor() && Script::IsConsolePlatform())
+    if (pmob && pmob->IsActor() && Script::GetProcessScripts())
     {
         ((MobileObjectExt*)pmob)->TESObjectREFR_RunScript();
         uiRunCount++;
@@ -1227,7 +1231,7 @@ bool MobileObjectTaskletData::ProcessMessage(void* aMessage, int aThread)
         SetMobileObjectCount(static_cast<const MobileObjectTaskletContext*>(aMessage)->uiObjectCount);
         break;
     case 1:
-        ProcessMobileObject(static_cast<MobileObject*>(static_cast<const MobileObjectTaskletContext*>(aMessage)->pObject));
+        HandleMobMessage(static_cast<MobileObject*>(static_cast<const MobileObjectTaskletContext*>(aMessage)->pObject));
         break;
     case 2:
         SetThreadNumber(aThread);
@@ -1401,7 +1405,7 @@ unsigned int FUN_008c9c70_cls::RunTaskletLoop()
         {
             pTaskletData = g_011dfb98.AITaskQueue_Dequeue();
             if (pTaskletData)
-                pTaskletData->ProcessMessages(arg);
+                pTaskletData->RunToCompletion(arg);
         } while (pTaskletData);
         finish.Signal();
     }
@@ -1604,7 +1608,7 @@ void __cdecl HUDMainMenu_ShowQuestName(TESQuest* quest)
 
     QuestUpdateManager_AddQuestNamesTail(reinterpret_cast<char*>(task));
 
-    g_011d96cc.WaitForTasksDuringRendering();
+    g_011d96cc.BSCriticalSection_Leave();
 }
 }  // namespace fnv_0077a480
 
@@ -1730,7 +1734,7 @@ extern BoolSettingView DAT_011dfb68, DAT_011dfc70, DAT_011dfb88;
 extern IntSettingView DAT_011c3ea4, DAT_011d10d4;
 struct ThreadManagerView
 {
-    void CreateThread(unsigned);
+    void AITaskThreadManager_AddThread(unsigned);
     void CallAllElements();
     void AITaskThreadManager_WaitForThreads();
 };
@@ -1846,9 +1850,9 @@ void TaskOwnerTarget::AITaskManager_UpdateTasks()
     {
         if (*DAT_011dfb68.Bool())
         {
-            DAT_011dfc24.CreateThread(1);
-            DAT_011dfc24.CreateThread(3);
-            DAT_011dfc24.CreateThread(5);
+            DAT_011dfc24.AITaskThreadManager_AddThread(1);
+            DAT_011dfc24.AITaskThreadManager_AddThread(3);
+            DAT_011dfc24.AITaskThreadManager_AddThread(5);
         }
         DAT_011a34e7 = false;
     }
@@ -2443,7 +2447,7 @@ struct Obj_008c9cf0
     int AITaskQueue_Dequeue();
 };
 
-// Pops the next task from a circular buffer of 10 items, wrapping the index, then calls WaitForTasksDuringRendering.
+// Pops the next task from a circular buffer of 10 items, wrapping the index, then calls BSCriticalSection_Leave.
 // @fnv 0x008c9cf0
 // src: XBOX_PDB 0x008c9cf0
 int Obj_008c9cf0::AITaskQueue_Dequeue()
@@ -2458,7 +2462,7 @@ int Obj_008c9cf0::AITaskQueue_Dequeue()
         if (m_next >= 10)
             m_next = 0;
     }
-    reinterpret_cast<ActorTaskManager*>(this)->WaitForTasksDuringRendering();
+    reinterpret_cast<ActorTaskManager*>(this)->BSCriticalSection_Leave();
     return result;
 }
 

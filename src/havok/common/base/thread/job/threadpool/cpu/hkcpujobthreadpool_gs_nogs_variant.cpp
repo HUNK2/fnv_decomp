@@ -152,7 +152,7 @@ struct ClsD2C : VBaseD2C, ArrBaseD2C
     void ProcessEntries_00d2cf00();
 };
 
-extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* lpThreadAttributes, unsigned long dwStackSize,
+extern "C" __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void* lpThreadAttributes, unsigned long dwStackSize,
                                                               unsigned long(__stdcall* lpStartAddress)(void*),
                                                               void* lpParameter, unsigned long dwCreationFlags,
                                                               unsigned long* lpThreadId);
@@ -183,7 +183,7 @@ struct Thr_00d87940
 // src: HAVOK_LIB 0x00d87940
 int Thr_00d87940::hkThread_startThread(unsigned long a0, unsigned long a1, const char* a2, unsigned long a3)
 {
-    m0 = (unsigned int)CreateThread(0, a3, (unsigned long(__stdcall*)(void*))a0, (void*)a1, 0, &a1);
+    m0 = (unsigned int)AITaskThreadManager_AddThread(0, a3, (unsigned long(__stdcall*)(void*))a0, (void*)a1, 0, &a1);
     if (m0 == 0)
     {
         return 1;

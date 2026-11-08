@@ -25,22 +25,24 @@
 
 struct FUN_005224c0_Class
 {
-    unsigned int __thiscall GetField22C();
+    unsigned int __thiscall TESObjectWEAP_GetAttackFailSound();
 };
 
 // @fnv 0x005224c0
-unsigned int __thiscall FUN_005224c0_Class::GetField22C()
+// src: COMMUNITY 0x005224c0
+unsigned int __thiscall FUN_005224c0_Class::TESObjectWEAP_GetAttackFailSound()
 {
     return *(unsigned int*)((char*)this + 0x22c);
 }
 
 struct FUN_005224e0_class
 {
-    unsigned int GetField230();
+    unsigned int TESObjectWEAP_GetMeleeBlockSound();
 };
 
 // @fnv 0x005224e0
-unsigned int FUN_005224e0_class::GetField230()
+// src: COMMUNITY 0x005224e0
+unsigned int FUN_005224e0_class::TESObjectWEAP_GetMeleeBlockSound()
 {
     return *(unsigned int*)((char*)this + 0x230);
 }
@@ -1591,11 +1593,12 @@ struct Collection
     BlkMapView third;
     BlkMapView fourth;
     BlkMapView fifth;
-    bool FindNextRef(State*, Ref**, Ref**, unsigned int);
+    bool BGSLoadedReferenceCollection_GetNextObject(State*, Ref**, Ref**, unsigned int);
 };
 // Walks the collection's maps by stage and flags, skipping disabled, deleted, excluded or filtered refs, and returns the next matching ref and its item.
 // @fnv 0x005273c0
-bool Collection::FindNextRef(State* state, Ref** result, Ref** item, unsigned int flags)
+// src: COMMUNITY 0x005273c0
+bool Collection::BGSLoadedReferenceCollection_GetNextObject(State* state, Ref** result, Ref** item, unsigned int flags)
 {
     while (state->map)
     {
@@ -2084,10 +2087,11 @@ struct Thing
     char pad[0x118];
     int m_uiFilterValue;
     Obj* TESObjectWEAP_GetCurrentAmmo(int arg);
-    int GetOrFallback(int arg);
+    int TESObjectWEAP_GetProjectile(int arg);
 };
 // @fnv 0x00525a90
-int Thing::GetOrFallback(int arg)
+// src: COMMUNITY 0x00525a90
+int Thing::TESObjectWEAP_GetProjectile(int arg)
 {
     Obj* result = TESObjectWEAP_GetCurrentAmmo(arg);
     if (result != 0)

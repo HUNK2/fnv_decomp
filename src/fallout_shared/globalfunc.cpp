@@ -754,13 +754,14 @@ struct FourDimensionalVector
 };
 struct FUN_004b4e50_shell : public FourDimensionalVector
 {
-    FourDimensionalVector* SetFromScaledVector3(void*);
+    FourDimensionalVector* bhkVector4_NI2HK(void*);
 };
 
 extern float runtimeInitializationFloat2127;
 
 // @fnv 0x004b4e50
-FourDimensionalVector* FUN_004b4e50_shell::SetFromScaledVector3(void* arSrc)
+// src: COMMUNITY 0x004b4e50
+FourDimensionalVector* FUN_004b4e50_shell::bhkVector4_NI2HK(void* arSrc)
 {
     fX = runtimeInitializationFloat2127 * ((const float*)arSrc)[0];
     fY = runtimeInitializationFloat2127 * ((const float*)arSrc)[1];
@@ -1599,7 +1600,7 @@ NiAVObject* FindFirstCollisionObject(NiAVObject* object)
     NiAVObject* result = 0;
     if (object)
     {
-        result = reinterpret_cast<NiAVObject*>(bhkCollisionObject::GetFromNiAVObject(object));
+        result = reinterpret_cast<NiAVObject*>(bhkCollisionObject::GetbhkCollisionObject(object));
         if (!result)
         {
             NiNode* node = object->IsSceneNode();
@@ -1625,7 +1626,7 @@ int LengthCheck_004b5470(TESCombatStyle* apCombatStyle, float afValue)
 {
     float f1;
     float f2;
-    f1 = apCombatStyle->UpdateCombatStyle();
+    f1 = apCombatStyle->NiPoint3_SqrLength();
     f2 = afValue * afValue;
     if (f1 < f2)
         return -1;
@@ -2012,7 +2013,7 @@ void UnTintScenegraph(NiAVObject* object)
 // src: XBOX_PDB 0x004b4ea0
 float TESDataHandler::hkpRigidBody_getMass()
 {
-    return reinterpret_cast<hkpMotion*>(GetBGSRagdollList())->GetMassValue();
+    return reinterpret_cast<hkpMotion*>(GetBGSRagdollList())->getMass();
 }
 
 struct FUN_004b5020_shell

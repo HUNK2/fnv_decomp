@@ -130,8 +130,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -5063,7 +5063,7 @@ struct S_00bcce10
     virtual void vf09();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -5089,7 +5089,7 @@ struct S_00bcce10
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -5953,7 +5953,7 @@ struct S_00bd04a0_Res
     virtual void vf2c();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3c();
     virtual void vf40();
     virtual void vf44();
@@ -5962,7 +5962,7 @@ struct S_00bd04a0_Res
     virtual void vf50();
     virtual void vf54();
     virtual void vf58();
-    virtual void vf5c();
+    virtual void applyForce();
     virtual void vf60();
     virtual void vf64();
     virtual void vf68();
@@ -9429,7 +9429,7 @@ struct FUN_00bc5050_base
     virtual void vf0f() = 0;
     virtual void vf10() = 0;
     virtual void vf11() = 0;
-    virtual void vf12() = 0;
+    virtual void SetMapName() = 0;
     virtual void vf13() = 0;
     virtual void vf14() = 0;
     virtual void vf15() = 0;
@@ -9467,7 +9467,7 @@ struct FUN_00bc5050_base
     virtual void vf35() = 0;
     virtual void vf36() = 0;
     virtual void vf37() = 0;
-    virtual void vf38() = 0;
+    virtual void PrintInfo() = 0;
     virtual void vf39() = 0;
     virtual void vf3a() = 0;
     virtual void vf3b() = 0;
@@ -17047,7 +17047,7 @@ class PropBD3F
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -23377,7 +23377,7 @@ struct FUN_00bd44c0 : NiMemObject
     virtual void Unk_2D();
     virtual void Unk_2E();
     virtual void Unk_2F();
-    virtual void UseShaderDeclaration(NiD3DShaderDeclaration* apDecl);
+    virtual void NiD3DShader_SetShaderDecl(NiD3DShaderDeclaration* apDecl);
     virtual void Unk_31();
     virtual void Unk_32();
     virtual void Unk_33();
@@ -23507,7 +23507,7 @@ FUN_00bd44c0* SpeedTreeBranchShader_CreateShader()
     pShader->Unk_51();
     pShader->Unk_54();
     pShader->Unk_47();
-    pShader->UseShaderDeclaration(pDecl);
+    pShader->NiD3DShader_SetShaderDecl(pDecl);
     return pShader;
 }
 

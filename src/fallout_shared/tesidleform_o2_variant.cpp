@@ -46,7 +46,7 @@ struct FUN_005ff4a0_shell : public TESIdleForm
 };
 struct FUN_005ff160_shell : public TESIdleForm
 {
-    int GetFlagsMasked();
+    int TESIdleForm_GetIdleAnimGroupSection();
 };
 struct FUN_00600d90_shell
 {

@@ -591,7 +591,7 @@ public:
     static void* operator new(unsigned int, void* p) throw() { return p; }
     static void operator delete(void*, void*) throw() {}
 };
-void __cdecl ConstructObjD2C840(void* storage, int count);
+void __cdecl finishLoadedObject_hkLiquidAction(void* storage, int count);
 struct FUN_00d04350_Obj
 {
     void __thiscall Create(int a, int b);
@@ -775,7 +775,7 @@ struct D34970Context {
     float maxDistance;
     int option;
 };
-extern "C" void __cdecl hkpConvexListAgent_QueryClosestPointsAfterHullTest(int first, int second, int third, D34970Context* context);
+extern "C" void __cdecl hkpConvexListAgent_staticGetClosestPoints(int first, int second, int third, D34970Context* context);
 void __cdecl Runtime_UpdateState_00d34970(int arg0, int arg1, int arg2, int arg3);
 extern int DAT_010ce81c;
 struct D34ac0Struct {

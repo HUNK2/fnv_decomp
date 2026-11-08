@@ -867,7 +867,7 @@ class CellUpdateAccess : public TESObjectCELL
     bool TESObjectCELL_ShouldDisplayHighDetail();
     void TESObjectCELL_FadeToHighDetail();
     CellWaterOwner* FUN_0054ddd0();
-    int GetByteAtOffset38();
+    int TESObjectCELL_GetState();
     void TESObjectCELL_UpdateManagedNodes(float fTimeSinceScaleStart, bool bSkipLoaded);
 };
 // @fnv 0x00551890
@@ -900,7 +900,7 @@ void CellUpdateAccess::TESObjectCELL_UpdateManagedNodes(float fTimeSinceScaleSta
     }
     if ((*reinterpret_cast<short*>(formData + 0x86)) > 0 && TESObjectCELL_All3DWithVisibleDistantLoaded() && TESObjectCELL_ShouldDisplayHighDetail())
         TESObjectCELL_FadeToHighDetail();
-    if ((*reinterpret_cast<bool*>(formData + 0xAE)) && FUN_0054ddd0() && GetByteAtOffset38() == 6)
+    if ((*reinterpret_cast<bool*>(formData + 0xAE)) && FUN_0054ddd0() && TESObjectCELL_GetState() == 6)
     {
         (*reinterpret_cast<bool*>(formData + 0xAC)) = true;
         (*reinterpret_cast<bool*>(formData + 0xAA)) = false;

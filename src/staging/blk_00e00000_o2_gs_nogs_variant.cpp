@@ -922,7 +922,7 @@ class E00B60Object
 
     int unk00;
 };
-void ConstructObjectWithFinishFlag(void* p, int finishing);
+void finishLoadedObject_hkpGroupFilter(void* p, int finishing);
 // FUN_00e00ba0: thiscall ctor-like (flag arg) storing a primary vtable at +0 and
 // secondary vtables at +8, +0xc, +0x10, +0x14, then an optional int at +0x20.
 struct E00ba0_b0
@@ -1040,7 +1040,7 @@ struct InitObject
     int m_i10;        // +0x10
     void* m_pSlot;    // +0x14
 };
-void __cdecl InitObjectFields(volatile InitObject* pObject, int iFlag);
+void __cdecl finishLoadedObject_hkpConvexListShape(volatile InitObject* pObject, int iFlag);
 extern int DAT_010d10c4;
 void* __cdecl Runtime_GetDAT010d10c4Address();
 extern int DAT_0126e1c8;
@@ -1194,7 +1194,7 @@ class FUN_00e01e20_cls
   public:
     void __thiscall Handle(int a1);
 };
-void __cdecl CallHandleIfNotNull(FUN_00e01e20_cls* pObject, int a1);
+void __cdecl finishLoadedObject_hkxMesh(FUN_00e01e20_cls* pObject, int a1);
 extern int DAT_0126e768;
 int* __cdecl Runtime_GetDAT0126e768Address();
 extern int DAT_010e9acc;
@@ -1625,7 +1625,7 @@ class hkDerivedE00 : public hkMidE00
     {}
     virtual ~hkDerivedE00();
 };
-void __cdecl ConstructDerivedObject(void* pvObject, int iFinishing);
+void __cdecl finishLoadedObject_hkpConstraintChainInstance(void* pvObject, int iFinishing);
 char* __cdecl ReadPaddedString(char* base, int* offset);
 class BE04D90Allocator;
 class BE04D90Router

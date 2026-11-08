@@ -1178,7 +1178,7 @@ struct MissileQueue
 };
 struct MissileManager
 {
-    MissileQueue* GetOffset70Ptr();
+    MissileQueue* ProcessLists_GetProjectilePostProcessList();
 };
 extern MissileManager DAT_011e0e80;
 struct MissileReference
@@ -1381,7 +1381,7 @@ void MissileProjectile::HandleMissileImpact()
                 if (!reinterpret_cast<bool(__thiscall*)(void*, unsigned)>(MissileLocal::IsImpactFlagSet)(this, 128))
                 {
                     reinterpret_cast<void(__thiscall*)(void*, unsigned, bool)>(MissileLocal::SetImpactFlag)(this, 128, true);
-                    MissileQueue* queue = DAT_011e0e80.GetOffset70Ptr();
+                    MissileQueue* queue = DAT_011e0e80.ProcessLists_GetProjectilePostProcessList();
                     if (queue)
                         queue->FUN_005ae3d0(this);
                 }

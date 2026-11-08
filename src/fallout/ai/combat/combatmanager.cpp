@@ -185,7 +185,7 @@ struct blob12
 };
 struct FUN_00991770_shell : public CombatManager
 {
-    void UpdateDetectionVisuals();
+    void CombatManager_UpdateDebugGeometry();
 };
 
 
@@ -240,7 +240,8 @@ extern TeleportableReference DAT_011e0e80;
 extern ProcessListsView g_011f197c;
 
 // @fnv 0x00991770
-void FUN_00991770_shell::UpdateDetectionVisuals()
+// src: COMMUNITY 0x00991770
+void FUN_00991770_shell::CombatManager_UpdateDebugGeometry()
 {
     (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x14))->TESForm::ClearData();
     (*reinterpret_cast<TESForm**>(reinterpret_cast<char*>(this) + 0x18))->TESForm::ClearData();
@@ -383,7 +384,7 @@ struct blob12
 };
 struct FUN_00992d90_shell : public CombatManager
 {
-    bool UpdateCombatMusic();
+    bool CombatManager_ShouldPlayCombatMusic();
 };
 
 
@@ -418,7 +419,8 @@ extern BGSSaveLoadGame* g_BGSSaveLoadGame;
 
 // Checks combat groups against the player to decide whether combat music should play, updating the music timer and timestamp fields accordingly.
 // @fnv 0x00992d90
-bool FUN_00992d90_shell::UpdateCombatMusic()
+// src: COMMUNITY 0x00992d90
+bool FUN_00992d90_shell::CombatManager_ShouldPlayCombatMusic()
 {
     bool bplayingMusic =
         (reinterpret_cast<RegionPoint*>(reinterpret_cast<char*>(this) + 0x20)->GetX() != -DAT_0108d9b0) ? true : false;
@@ -891,10 +893,11 @@ FUN_00985d10* FUN_00991e80_shell::CombatManager_CreateCombatGroup()
 
 struct FUN_009922b0_shell : public CombatManager
 {
-    CombatController* GetOrCreateCombatController(Actor* apActor, ActorCombatGroup* apGroup);
+    CombatController* CombatManager_AddGroupMember(Actor* apActor, ActorCombatGroup* apGroup);
 };
 // @fnv 0x009922b0
-CombatController* FUN_009922b0_shell::GetOrCreateCombatController(Actor* apActor, ActorCombatGroup* apGroup)
+// src: COMMUNITY 0x009922b0
+CombatController* FUN_009922b0_shell::CombatManager_AddGroupMember(Actor* apActor, ActorCombatGroup* apGroup)
 {
     CombatController* pcombatController;
     AutoMemContext tempMemContext((MEM_CONTEXT)0x2b, true,
@@ -1032,11 +1035,12 @@ struct FUN_00992920_shell : CombatMapOwner
     char pad_18[4];
     Member1C* member_1c;
 
-    void ProcessCombatTarget(TargetObj* arg1);
+    void CombatManager_ClearReferencePointers(TargetObj* arg1);
 };
 
 // @fnv 0x00992920
-void FUN_00992920_shell::ProcessCombatTarget(TargetObj* pTarget)
+// src: COMMUNITY 0x00992920
+void FUN_00992920_shell::CombatManager_ClearReferencePointers(TargetObj* pTarget)
 {
     if (g_BGSSaveLoadGame->BGSSaveLoadGame_GetSaveGameLoading())
         return;
@@ -1101,7 +1105,7 @@ struct FUN_00991600_shell : public CombatManager
 
 struct FUN_00991770_obj
 {
-    void UpdateDetectionVisuals();
+    void CombatManager_UpdateDebugGeometry();
 };
 int __fastcall NiTArray_char_NiTMallocInterface_char_GetEffectiveSize(void*);
 // @fnv 0x00991600
@@ -1145,7 +1149,7 @@ void FUN_00991600_shell::CombatManager_UpdateMainThread(bool abTimeStopped)
             }
         }
     }
-    ((FUN_00991770_obj*)this)->UpdateDetectionVisuals();
+    ((FUN_00991770_obj*)this)->CombatManager_UpdateDebugGeometry();
 }
 }  // namespace fnv_00991600
 
@@ -1182,12 +1186,13 @@ bool FUN_00992640_shell::CombatManager_GetWantToHelpTarget(Actor* apActor, Actor
 namespace fnv_009931c0 {
 struct FUN_009931c0_shell : public CombatManager
 {
-    unsigned int CountCombatGroupMembers(Actor*, unsigned int*);
+    unsigned int CombatManager_GetCombatantCount(Actor*, unsigned int*);
 };
 
 extern Actor* _g_thePlayer;
 // @fnv 0x009931c0
-unsigned int FUN_009931c0_shell::CountCombatGroupMembers(Actor* apActor, unsigned int* apNumLost)
+// src: COMMUNITY 0x009931c0
+unsigned int FUN_009931c0_shell::CombatManager_GetCombatantCount(Actor* apActor, unsigned int* apNumLost)
 {
     unsigned int icount = 0;
     if (apNumLost)
@@ -1221,7 +1226,7 @@ struct SaveLoadFile;
 typedef char _sizecheck_BGSLoadGameBuffer[sizeof(BGSLoadGameBuffer) == 16 ? 1 : -1];
 struct FUN_00993440_shell : public CombatManager
 {
-    void LoadCombatState(BGSLoadGameBuffer*);
+    void CombatManager_LoadGame(BGSLoadGameBuffer*);
 };
 
 
@@ -1246,11 +1251,12 @@ struct CMView
     ThreatShim* m_pThreatMap;
 };
 // @fnv 0x00993440
-void FUN_00993440_shell::LoadCombatState(BGSLoadGameBuffer* apLoadGameBuffer)
+// src: COMMUNITY 0x00993440
+void FUN_00993440_shell::CombatManager_LoadGame(BGSLoadGameBuffer* apLoadGameBuffer)
 {
     ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadTypedData((void*)((char*)this + 0x34), 4u);
     unsigned int icount;
-    unsigned int inumCombatGroups = ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadElementCount();
+    unsigned int inumCombatGroups = ((BGSLoadFormBuffer*)apLoadGameBuffer)->LoadVariableSizedValue();
     for (unsigned int i = 0; i < inumCombatGroups; i++)
     {
         ActorCombatGroup* pgroup;
@@ -1265,7 +1271,7 @@ void FUN_00993440_shell::LoadCombatState(BGSLoadGameBuffer* apLoadGameBuffer)
         m_kCombatGroups.SetAtGrow(igroupNum, pgroup);
     }
     ((CMView*)this)->m_pThreatMap->CombatThreatMap_LoadGame(apLoadGameBuffer);
-    icount = ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadElementCount();
+    icount = ((BGSLoadFormBuffer*)apLoadGameBuffer)->LoadVariableSizedValue();
     for (unsigned int i = 0; i < icount; i++)
     {
         Actor* pactor = 0;
@@ -1293,7 +1299,7 @@ struct S009a59e0
 };
 struct S009a5f90
 {
-    void SaveTimeStamp(void*);
+    void CombatTimeStamp_SaveGame(void*);
 };
 
 struct FUN_009932d0_shell
@@ -1342,7 +1348,7 @@ void FUN_009932d0_shell::CombatManager_SaveGame(BGSSaveFormBuffer* apBuffer)
         }
         apBuffer->SaveVariableSizedValue_00865ff0(uiMapCount, uiPos2);
     }
-    ((S009a5f90*)((char*)this + 0x20))->SaveTimeStamp(apBuffer);
+    ((S009a5f90*)((char*)this + 0x20))->CombatTimeStamp_SaveGame(apBuffer);
     reinterpret_cast<TimeoutTimer*>((char*)this + 0x24)->SaveGame(apBuffer);
     reinterpret_cast<TimeoutTimer*>((char*)this + 0x2c)->SaveGame(apBuffer);
 }
@@ -1765,7 +1771,7 @@ CombatController::CombatController(Actor* apActor, int a2, TESPackage* apPackage
     memset(&this->unk14C, 0, sizeof(this->unk14C));
     this->actor = apActor;
     this->unkC0 = 0;
-    this->SetPackageType(0x12);
+    this->SetPackType(0x12);
     this->floatE0 = -1.0f;
     this->byteC4 = 0;
     this->byteE4 = 0;

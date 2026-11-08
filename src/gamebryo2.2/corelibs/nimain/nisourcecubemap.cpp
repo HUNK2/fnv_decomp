@@ -89,7 +89,8 @@ GlobalObjectO2_00a7b610* __cdecl NiSourceCubeMap_GetRTTI()
 }
 
 // @fnv 0x00a60f30
-NiSourceCubeMap* __cdecl CreateNiSourceCubeMap()
+// src: EXE 0x00a60f30
+NiSourceCubeMap* __cdecl NiSourceCubeMap_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x4c);
     if (p)

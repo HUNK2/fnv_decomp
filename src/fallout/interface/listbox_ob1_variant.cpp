@@ -814,7 +814,7 @@ extern void* DAT_01070890;
 void __cdecl AddToHeadList(FUN_00730810*);
 struct FUN_00730e20_inner
 {
-    bool IsTraitNonZero(void* apKey);
+    bool Tile_IsTrue(void* apKey);
 };
 struct FUN_00730e20_cls
 {
@@ -2045,7 +2045,7 @@ void AGOwner::Tile_Value_AddRefValueAction(int iIndex, Tile* pTile, int iValue)
     AGValueItem* pLast = m_pHead;
     AGValueItem* pItem = new AGValueItem;
     pItem->m_iIndex = iIndex;
-    pItem->m_pIntegerData = (TileValue*)pTile->GetOrCreateTraitValue(iValue);
+    pItem->m_pIntegerData = (TileValue*)pTile->Tile_AddValue(iValue);
     if (pLast)
     {
         while (pLast->m_pNext)

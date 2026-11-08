@@ -10,7 +10,7 @@
 // src/havok/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/capsuletriangle/hkpcapsuletriangleagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 void CreateObjectFromFactory();
-void Object_CollectPenetratingBodyPair();
+void hkpCapsuleTriangleAgent_staticGetPenetrations();
 void staticGetClosestPoints();
 void Object_ProcessEntries_00daf8e0();
 void Object_InitializeAgentFunctionTable_00d3ab60(void* apObject);
@@ -528,7 +528,7 @@ __declspec(noinline) void Object_InitializeAgentFunctionTable_00d3ab60(void* p)
 {
     S_00d389f0_AgentFuncs* s = (S_00d389f0_AgentFuncs*)p;
     s->m_pCreateFunc = (S_00d389f0_Func)CreateObjectFromFactory;
-    s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)Object_CollectPenetratingBodyPair;
+    s->m_pQueryPenetrationsFunc = (S_00d389f0_Func)hkpCapsuleTriangleAgent_staticGetPenetrations;
     s->m_getClosestPointsFunc = (S_00d389f0_Func)(FnA_d3a280)staticGetClosestPoints;
     s->m_pLinearCastFunc = (S_00d389f0_Func)(FnB_daf8e0)Object_ProcessEntries_00daf8e0;
     s->m_bIsFlipped = 0;

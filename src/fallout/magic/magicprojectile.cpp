@@ -405,7 +405,7 @@ void MagicProjectile::ResolveMagicReferences(unsigned int aiFlags, unsigned int 
     ispellID = reinterpret_cast<unsigned int>(m_magicItem);
     m_magicItem = MagicItem::GetMagicItemByID(ispellID);
 
-    m_effectItem = m_magicItem->FindCostliestEffectItem(2, 0);
+    m_effectItem = m_magicItem->GetCostliestEffect(2, 0);
     m_avEffect = m_magicItem->GetEffectSettingForRange(MagicSystem::SELF);
 
     this->GenerateNiNode(false);

@@ -221,15 +221,15 @@ float FUN_00e587c0_Class::GetFloatAt(int iIndex, int base) {
 
 struct GlobalObjectO2_00d472a0 { int x; };
 GlobalObjectO2_00d472a0 g_0126e600;
-void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c5b0
 // src: GUESS 0x00e5c5b0 (confidence: low)
 void __stdcall Runtime_ForwardCall_00e5c5b0(int a)
 {
-    FindResourceWithExpectedName(a, &g_0126e600);
+    hkxAttributeGroup_findAttributeObjectByName(a, &g_0126e600);
 }
 
-extern "C" void __stdcall FindResourceWithExpectedName(int, int);
+extern "C" void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, int);
 
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126c5f0;
@@ -239,43 +239,43 @@ extern GlobalObjectO2_00d472a0 g_0126c5f0;
 // src: GUESS 0x00e5c5f0 (confidence: low)
 void __stdcall Runtime_ForwardCall_00e5c5f0(int aiValue)
 {
-    FindResourceWithExpectedName(aiValue, (int)&g_0126c5f0);
+    hkxAttributeGroup_findAttributeObjectByName(aiValue, (int)&g_0126c5f0);
 }
 
 namespace fnv_00e5c610 {
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126e570;
-extern "C" void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
+extern "C" void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c610
 // src: GUESS 0x00e5c610 (confidence: low)
 void __stdcall Runtime_ForwardCall_00e5c610(int aiValue)
 {
-    FindResourceWithExpectedName(aiValue, &g_0126e570);
+    hkxAttributeGroup_findAttributeObjectByName(aiValue, &g_0126e570);
 }
 }  // namespace fnv_00e5c610
 
 namespace fnv_00e5c650 {
 struct GlobalObjectO2_00d472a0 {};
 extern GlobalObjectO2_00d472a0 g_0126ea38;
-void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c650
 // src: GUESS 0x00e5c650 (confidence: low)
 void __stdcall Runtime_ForwardCall_00e5c650(int aiValue)
 {
-    FindResourceWithExpectedName(aiValue, &g_0126ea38);
+    hkxAttributeGroup_findAttributeObjectByName(aiValue, &g_0126ea38);
 }
 }  // namespace fnv_00e5c650
 
 namespace fnv_00e5c670 {
 struct GlobalObjectO2_00d472a0;
-extern "C" void* __stdcall FindResourceWithExpectedName(void*, void*);
+extern "C" void* __stdcall hkxAttributeGroup_findAttributeObjectByName(void*, void*);
 extern GlobalObjectO2_00d472a0 g_0126ea80;
 
 // @fnv 0x00e5c670
 // src: GUESS 0x00e5c670 (confidence: low)
 void* __stdcall Runtime_ForwardCall_00e5c670(void* apArg)
 {
-    return FindResourceWithExpectedName(apArg, &g_0126ea80);
+    return hkxAttributeGroup_findAttributeObjectByName(apArg, &g_0126ea80);
 }
 }  // namespace fnv_00e5c670
 
@@ -503,31 +503,31 @@ void FUN_00e58b10_class::hkaSparseLSQMatrix_float_Multiply(int a, int aiArg2, in
 }
 
 extern const char* const g_0126c5f0_arg1;
-void __stdcall FindResourceWithExpectedName(int, int);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, int);
 // @fnv 0x00e5c5d0
 // src: GUESS 0x00e5c5d0 (confidence: low)
 void __stdcall Runtime_ForwardCall_00e5c5d0(int aiValue)
 {
-    FindResourceWithExpectedName(aiValue, (int)&g_0126c5f0_arg1);
+    hkxAttributeGroup_findAttributeObjectByName(aiValue, (int)&g_0126c5f0_arg1);
 }
 
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eb10;
-void __stdcall FindResourceWithExpectedName(int a, GlobalObjectO2_00d472a0* b);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int a, GlobalObjectO2_00d472a0* b);
 // @fnv 0x00e5c630
 // src: GUESS 0x00e5c630 (confidence: low)
 void __stdcall Runtime_ForwardCall_00e5c630(int aiValue)
 {
-    FindResourceWithExpectedName(aiValue, &g_0126eb10);
+    hkxAttributeGroup_findAttributeObjectByName(aiValue, &g_0126eb10);
 }
 
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126eac8;
-void __stdcall FindResourceWithExpectedName(int, GlobalObjectO2_00d472a0*);
+void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, GlobalObjectO2_00d472a0*);
 // @fnv 0x00e5c690
 void __stdcall CallWithGlobalObject(int aiValue)
 {
-    FindResourceWithExpectedName(aiValue, &g_0126eac8);
+    hkxAttributeGroup_findAttributeObjectByName(aiValue, &g_0126eac8);
 }
 
 struct FUN_00e406d0_cls
@@ -2353,12 +2353,13 @@ class FUN_00e5c6b0_cls {
 public:
     AttrEntry_b5103* FindPrimary(const char* name) throw();
     AttrEntry_b5103* FindSecondary(const char* name) throw();
-    int GetBoolAttribute(const char* name, bool required, unsigned char* out);
+    int hkxAttributeGroup_getBoolValue(const char* name, bool required, unsigned char* out);
 };
 
 // Looks up a bool attribute by name in the primary then secondary table, writes it to out, and asserts if a required attribute is missing.
 // @fnv 0x00e5c6b0
-int FUN_00e5c6b0_cls::GetBoolAttribute(const char* name, bool required, unsigned char* pucOut)
+// src: COMMUNITY 0x00e5c6b0
+int FUN_00e5c6b0_cls::hkxAttributeGroup_getBoolValue(const char* name, bool required, unsigned char* pucOut)
 {
     AttrEntry_b5103* e = FindPrimary(name);
     if (e != 0) {
@@ -5092,13 +5093,13 @@ template <class T> struct hkRefPtr_e5c5 {
 
 struct Registry_e5c5 {
     hkRefPtr_e5c5<Resource_e5c5> FindOrCreateEntryReference(const char* name) throw();
-    Resource_e5c5* FindResourceWithExpectedName(const char* name, Resource_e5c5* expected);
+    Resource_e5c5* hkxAttributeGroup_findAttributeObjectByName(const char* name, Resource_e5c5* expected);
 };
 
 // Looks up a resource by name and returns it if expected is null or its name matches case-insensitively, otherwise returns null.
 // @fnv 0x00e5c540
-// src: GUESS 0x00e5c540 (confidence: medium)
-Resource_e5c5* Registry_e5c5::FindResourceWithExpectedName(const char* name, Resource_e5c5* expected)
+// src: COMMUNITY 0x00e5c540
+Resource_e5c5* Registry_e5c5::hkxAttributeGroup_findAttributeObjectByName(const char* name, Resource_e5c5* expected)
 {
     hkRefPtr_e5c5<Resource_e5c5> found = FindOrCreateEntryReference(name);
     if (found.m_pRetainedObject) {

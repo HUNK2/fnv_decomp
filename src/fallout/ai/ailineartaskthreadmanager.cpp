@@ -194,7 +194,7 @@ struct TaskQueueInterface
     void QueueWaterSplashEffects(float, void*);
     void QueueAddRipple(float, void*);
     void QueueActorTriggerPain(Actor*, bool, bool);
-    void QueueActorDisarm(Actor*);
+    void NiAVObject_SetAppCulled(Actor*);
     void QueueActorResetLoadedAnims(Actor*);
     void QueueActorAnimationTask(Actor*);
     void QueueDeleteActiveEffect(ActiveEffect*);
@@ -311,11 +311,12 @@ struct FUN_008c74b0_shell
 {
     unsigned char layoutPadding[0x48];
     CountingSemaphore semaphore;
-    void SignalThread();
+    void BSLinearTaskThread_Shutdown();
 };
 
 // @fnv 0x008c74b0
-void FUN_008c74b0_shell::SignalThread()
+// src: COMMUNITY 0x008c74b0
+void FUN_008c74b0_shell::BSLinearTaskThread_Shutdown()
 {
     ((unsigned char*)this)[0x48] = 1;
     ((CountingSemaphore*)((unsigned char*)this + 0x30))->Signal();
@@ -544,7 +545,7 @@ struct FUN_00991500_shell
 
 struct FUN_0096cb50_shell
 {
-    void UpdateHighProcessActors();
+    void ProcessLists_RunActorRagdollAnimationUpdates();
 };
 
 struct FUN_009784c0_shell
@@ -622,8 +623,8 @@ void __cdecl AILinearTaskThreadManager_AIThreadCombined()
     reinterpret_cast<GlobalObject_0096d020*>(&DAT_011e0e80)->ProcessLists_UpdateActorsMovement(0.0f, 0, 0);
     reinterpret_cast<SkyObject*>(&DAT_011e0e80)->Update(0.0f, 0);
     reinterpret_cast<ProcessListsView*>(&DAT_011e0e80)->RunActorUpdates();
-    reinterpret_cast<FUN_0096cb50_shell*>(&DAT_011e0e80)->UpdateHighProcessActors();
-    BGSDestructibleObjectForm::UpdateDestructionMap();
+    reinterpret_cast<FUN_0096cb50_shell*>(&DAT_011e0e80)->ProcessLists_RunActorRagdollAnimationUpdates();
+    BGSDestructibleObjectForm::UpdateDestructibleObjects();
     DAT_011f11a0.Unlock();
 
     reinterpret_cast<Zt5TES*>(g_TES)->TES_UpdateCellAnimations(Main_QFrameAnimTime());
@@ -687,7 +688,7 @@ struct FUN_008c7a70_shell
 
 struct FUN_0096cb50_shell
 {
-    void UpdateHighProcessActors();
+    void ProcessLists_RunActorRagdollAnimationUpdates();
 };
 
 void* __stdcall AILinearTaskThreadManager_GetSingleton(int);
@@ -715,10 +716,10 @@ void AILinearTaskThreadManager_AIThread2TaskFunc()
 
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(3);
     reinterpret_cast<SkyObject*>(&DAT_011e0e80)->Update(0.0f, 0);
-    reinterpret_cast<FUN_0096cb50_shell*>(&DAT_011e0e80)->UpdateHighProcessActors();
+    reinterpret_cast<FUN_0096cb50_shell*>(&DAT_011e0e80)->ProcessLists_RunActorRagdollAnimationUpdates();
 
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(4);
-    BGSDestructibleObjectForm::UpdateDestructionMap();
+    BGSDestructibleObjectForm::UpdateDestructibleObjects();
 
     reinterpret_cast<FUN_008c79e0_shell*>(AILinearTaskThreadManager_GetSingleton(1))->SignalThreadEvent(5);
     reinterpret_cast<FUN_008c7a70_shell*>(AILinearTaskThreadManager_GetSingleton(0))->WaitForEvent(4);

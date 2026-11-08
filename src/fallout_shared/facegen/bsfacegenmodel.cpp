@@ -136,7 +136,7 @@ class BSFaceGenTexture
 void BSFaceGenManager_LockFaceGenAccess();
 void BSFaceGenManager_UnlockFaceGenAccess();
 bool BSFaceGenManager_LoadEGMData(BSFaceGenModel*);
-BSFaceGenBaseMorphExtraData* GetExtraDataIfPresent(NiTriBasedGeom*);
+BSFaceGenBaseMorphExtraData* BSFaceGenManager_GetFaceGenBaseMorphExtraData(NiTriBasedGeom*);
 class CloningProcess
 {
   public:
@@ -871,7 +871,7 @@ void FUN_0065a840_t::BSFaceGenModel_ForceLoadModelTexture()
 namespace fnv_0065bf80 {
 struct FUN_0065bf80_shell : public BSFaceGenModel
 {
-    bool EnsureMorphData();
+    bool BSFaceGenModel_LoadEGMData();
 };
 
 struct S7010
@@ -897,7 +897,8 @@ struct FUN_00659560
 };
 
 // @fnv 0x0065bf80
-bool FUN_0065bf80_shell::EnsureMorphData()
+// src: COMMUNITY 0x0065bf80
+bool FUN_0065bf80_shell::BSFaceGenModel_LoadEGMData()
 {
     AutoMemHelper tempMemContext(
         0x38, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\FaceGen\\BSFaceGenModel.cpp", 0x4f0);
@@ -917,12 +918,13 @@ bool FUN_0065bf80_shell::EnsureMorphData()
 int __fastcall Object_GetPointerSpanCount_00657bc0(FaceGenVector<ThreeComponentVector<short> >* pDeltas);
 struct FUN_0065c110_t : public BSFaceGenModel
 {
-    unsigned int GetEGMSize();
+    unsigned int BSFaceGenModel_GetEGMDataSize();
 };
 
 // Sums the size of the EGM data: base struct plus per-morph list and delta sizes for both morph lists, returning the total.
 // @fnv 0x0065c110
-unsigned int FUN_0065c110_t::GetEGMSize()
+// src: COMMUNITY 0x0065c110
+unsigned int FUN_0065c110_t::BSFaceGenModel_GetEGMDataSize()
 {
     unsigned int uiSize = 0;
     unsigned int i;
@@ -1231,12 +1233,13 @@ FUN_00659ae0::FUN_00659ae0()
 
 struct FUN_0065a970_shell : BSFaceGenModel
 {
-    bool ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBasedGeom* apGeometry, bool abIncludeZero);
+    bool BSFaceGenModel_ApplyCoordinateToExistingMesh(FaceGenCoordinate* apCoordinate, NiTriBasedGeom* apGeometry, bool abIncludeZero);
 };
 
 // Applies face-gen morph data to apGeometry vertices using apCoordinate weights, updating positions and additional geometry data in place.
 // @fnv 0x0065a970
-bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBasedGeom* apGeometry, bool abIncludeZero)
+// src: COMMUNITY 0x0065a970
+bool FUN_0065a970_shell::BSFaceGenModel_ApplyCoordinateToExistingMesh(FaceGenCoordinate* apCoordinate, NiTriBasedGeom* apGeometry, bool abIncludeZero)
 {
     if (!m_pGeometryModel)
         return false;
@@ -1268,7 +1271,7 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
     NiPoint3* pAdditional = 0;
     NiPoint3* pVerticesCount = 0;
     NiPoint3* pThePositions = 0;
-    BSFaceGenBaseMorphExtraData* pLastMorphExtra = GetExtraDataIfPresent(apGeometry);
+    BSFaceGenBaseMorphExtraData* pLastMorphExtra = BSFaceGenManager_GetFaceGenBaseMorphExtraData(apGeometry);
     NiPoint3* pExtraVerticesTmp = pLastMorphExtra ? pLastMorphExtra->GetVertices() : 0;
     NiPoint3* pExtra = 0;
     bool bPackedResult = false;

@@ -78,8 +78,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -734,7 +734,7 @@ struct FUN_00b0b920_self
     unsigned short GetNumLeafLodLevels();
     short CSpeedTreeRT_GetDiscreteFrondLodLevel(float f);
     float CSpeedTreeRT_GetLodLevel();
-    void FillFrondGeometry(FUN_00b0b920_arg* arg, short type);
+    void CSpeedTreeRT_GetFrondGeometry(FUN_00b0b920_arg* arg, short type);
 };
 struct HelperC780
 {
@@ -14158,7 +14158,7 @@ struct SpeedTreeImpl
     unsigned char unk6c;
 
     void CSpeedTreeRT_GetBranchGeometry(void* m_pShaderGeometry, unsigned short nBranchLodLevel);
-    void FillFrondGeometry(void* m_pShaderGeometry, unsigned short nFrondLodLevel);
+    void CSpeedTreeRT_GetFrondGeometry(void* m_pShaderGeometry, unsigned short nFrondLodLevel);
     void CSpeedTreeRT_GetLeafGeometry(void* m_pShaderGeometry, unsigned short nLeafLodLevel);
     void CSpeedTreeRT_Get360BillboardGeometry(void* m_pShaderGeometry, unsigned long ulGeometryFlags);
     void FillSpeedTreeOutput(void* m_pShaderGeometry);
@@ -14180,7 +14180,7 @@ void SpeedTreeImpl::CSpeedTreeRT_GetGeometry(void* m_pShaderGeometry, unsigned l
         }
         if (ulGeometryFlags & 2)
         {
-            this->FillFrondGeometry(m_pShaderGeometry, nFrondLodLevel);
+            this->CSpeedTreeRT_GetFrondGeometry(m_pShaderGeometry, nFrondLodLevel);
         }
         if (ulGeometryFlags & 4)
         {

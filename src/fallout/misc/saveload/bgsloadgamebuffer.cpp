@@ -383,7 +383,7 @@ void ActorCause_LoadActorCausesList(BGSLoadGameBuffer* apLoadGameBuffer)
     unsigned int isaveGameCount;
 
     apLoadGameBuffer->LoadData(&DAT_011d60cc, 4);
-    iloop = apLoadGameBuffer->ReadElementCount();
+    iloop = apLoadGameBuffer->LoadVariableSizedValue();
 
     for (isaveGameCount = 0; isaveGameCount < iloop; ++isaveGameCount)
     {
@@ -425,7 +425,8 @@ FUN_0081db60_shell* FUN_0081db60_shell::FUN_0081db60(unsigned int deletingFlags)
 
 // Reads a tag byte, dispatches on its low two bits to read a 1, 2 or 4 byte value, and returns that value shifted right by two.
 // @fnv 0x00864a60
-int BGSLoadGameBuffer::ReadElementCount()
+// src: COMMUNITY 0x00864a60
+int BGSLoadGameBuffer::LoadVariableSizedValue()
 {
     unsigned char tag = (unsigned char)pBuffer[iBufferPosition];
     unsigned int flags9 = tag & 3;

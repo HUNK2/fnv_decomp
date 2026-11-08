@@ -56,7 +56,7 @@ struct CameraShotExtra : BGSCameraShot
 {
     bool IsInitialized();
     float TESCombatStyle_GetTargetingFOV();
-    void __thiscall ResetCameraState();
+    void __thiscall BGSCameraShot_FreeCamera();
     float __thiscall GetFloatAtOffset58();
     bool __thiscall BGSCameraShot_IsFirstPerson();
     int GetField38();
@@ -93,14 +93,14 @@ class VATS
     void FUN_009c6c30(int, bool);
     void ForceTargetKillShot(TESObjectREFR*, int);
     void UpdateVATSLight(Actor*);
-    void ProcessVATSCommands();
+    void ClearCommandList();
     bool FUN_008256d0();
     Node* FUN_006815c0();
     void FUN_0063f7b0();
     void RemoveCommandsForTarget(TESObjectREFR*);
     bool IsValidCommand(VATSCommand*);
     bool VATS_GetLineOfSight(VATSCommand*);
-    void ExecuteVATSMeleeAttack(VATSCommand*);
+    void UpdateMeleeAttack(VATSCommand*);
     void FreeHeadAction();
     bool UseNextCamera();
     VATSCommand* VATS_GetCurrentAction();
@@ -188,7 +188,8 @@ struct StandIn
 };
 
 // @fnv 0x009ca410
-void VATS::ProcessVATSCommands()
+// src: COMMUNITY 0x009ca410
+void VATS::ClearCommandList()
 {
     if (*(void**)((char*)this + 0x24))
     {
@@ -612,7 +613,8 @@ void FNV_Warning(const char*, ...);
 
 
 // @fnv 0x009c9280
-void VATS::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
+// src: COMMUNITY 0x009c9280
+void VATS::UpdateMeleeAttack(VATSCommand* pAttackCmd)
 {
     if (pAttackCmd->m_ucFirstActionCode)
     {
@@ -685,7 +687,7 @@ void VATS::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
         this->m_pIdleForm = DAT_011cb6a0->FUN_00600950(DAT_011f21f0, pAttackCmd->pTarget);
         if (this->m_pIdleForm)
         {
-            if (this->m_pIdleForm->GetFlagsMasked() != 4)
+            if (this->m_pIdleForm->TESIdleForm_GetIdleAnimGroupSection() != 4)
             {
                 FNV_Warning(
                     "COMBAT: Bad VATS Melee Attack '%s' in the idle manager. Attacks should be tagged for 'Weapon' anim group section.",
@@ -763,7 +765,7 @@ void VATS::UpdateVATSLight(Actor* apActor)
                     float fA9 = 0.0f;
                     float fB_ = 0.0f;
 
-                    NiPoint3 _kSpawn = *(const NiPoint3*)((const Actor*)pOwner)->GetPos() + NiPoint3(0.0f, 0.0f, ((const Actor*)pOwner)->GetActorHeight());
+                    NiPoint3 _kSpawn = *(const NiPoint3*)((const Actor*)pOwner)->GetPos() + NiPoint3(0.0f, 0.0f, ((const Actor*)pOwner)->Actor_GetHeight());
 
                     float fScaleTmp =
                         ((ShadowSceneNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0U))->FUN_00b5b610(_kSpawn, &iOutVal, &fA9, &fB_, *(const NiPoint3*)((const Actor*)g_pkPlayer9c9)->GetPos(),
@@ -1051,7 +1053,7 @@ bool __thiscall VATS::UseNextCamera()
     {
         if (pCamera)
         {
-            static_cast<CameraShotExtra*>(pCamera)->ResetCameraState();
+            static_cast<CameraShotExtra*>(pCamera)->BGSCameraShot_FreeCamera();
             pCamera = 0;
         }
         pCamera = nextCamera->GetItem();
@@ -1071,7 +1073,7 @@ bool __thiscall VATS::UseNextCamera()
     }
     else if (!nextCamera && pCamera && !static_cast<CameraShotExtra*>(pCamera)->IsInitialized())
     {
-        static_cast<CameraShotExtra*>(pCamera)->ResetCameraState();
+        static_cast<CameraShotExtra*>(pCamera)->BGSCameraShot_FreeCamera();
         pCamera = 0;
     }
     return found;

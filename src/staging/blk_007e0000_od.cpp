@@ -311,7 +311,7 @@ void TextInputCloseHook()
     if (DAT_011daec4)
     {
         ((Tile*)DAT_011daec4->GetNext())->Set(0x1772, 1);
-        ((Menu*)DAT_011daec4)->LoadMenuData();
+        ((Menu*)DAT_011daec4)->StartFadeOut();
         DAT_011daec4 = 0;
     }
 }

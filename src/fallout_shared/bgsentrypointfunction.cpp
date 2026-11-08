@@ -566,7 +566,7 @@ BGSEntryPointFunctionData* BGSEntryPointFunctionDataActivateChoice::Duplicate_00
     BGSEntryPointFunctionDataActivateChoice* pduplicate = new BGSEntryPointFunctionDataActivateChoice();
 
     pduplicate->SetLabel(this->choiceText);
-    pduplicate->GetName().CopyScriptContents(&this->GetName());
+    pduplicate->GetName().CopyResultScript(&this->GetName());
     pduplicate->flags = this->flags;
 
     return pduplicate;

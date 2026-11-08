@@ -592,8 +592,8 @@ struct FUN_009a4e90_shell
 void FUN_009a4e90_shell::SaveState_009a4e90(BGSSaveFormBuffer* buffer)
 {
     buffer->SaveData((char*)this + 4, 4, 0);
-    ((CombatTargetTimestamp*)((char*)this + 8))->SaveTimeStamp(buffer);
-    ((CombatTargetTimestamp*)((char*)this + 12))->SaveTimeStamp(buffer);
+    ((CombatTargetTimestamp*)((char*)this + 8))->CombatTimeStamp_SaveGame(buffer);
+    ((CombatTargetTimestamp*)((char*)this + 12))->CombatTimeStamp_SaveGame(buffer);
     buffer->SaveData((char*)this + 16, 4, 0);
 }
 
@@ -731,7 +731,7 @@ struct FourDimensionalVector
 };
 struct FUN_004b4e50_shell
 {
-    FourDimensionalVector* SetFromScaledVector3(void*);
+    FourDimensionalVector* bhkVector4_NI2HK(void*);
 };
 struct FUN_009ae4d0_shell
 {
@@ -742,13 +742,13 @@ struct FUN_009ae4a0_class
 {
     void* __thiscall bhkTransform_NI2HK(void* arg);
 };
-// Calls FUN_009ae4d0 on this with arg, then SetFromScaledVector3 on the object at this+0x30 with arg+0x24, and returns this.
+// Calls FUN_009ae4d0 on this with arg, then bhkVector4_NI2HK on the object at this+0x30 with arg+0x24, and returns this.
 // @fnv 0x009ae4a0
 // src: COMMUNITY 0x009ae4a0
 void* __thiscall FUN_009ae4a0_class::bhkTransform_NI2HK(void* arg)
 {
     ((FUN_009ae4d0_shell*)this)->bhkMatrix3_NI2HKNS(arg);
-    ((FUN_004b4e50_shell*)((char*)this + 0x30))->SetFromScaledVector3((char*)arg + 0x24);
+    ((FUN_004b4e50_shell*)((char*)this + 0x30))->bhkVector4_NI2HK((char*)arg + 0x24);
     return this;
 }
 
@@ -881,10 +881,11 @@ struct Flt
 };
 struct FUN_009bb7f0_shell
 {
-    void UpdateLightFromChallenge();
+    void MuzzleFlash_AttachLight();
 };
 // @fnv 0x009bb7f0
-void FUN_009bb7f0_shell::UpdateLightFromChallenge()
+// src: COMMUNITY 0x009bb7f0
+void FUN_009bb7f0_shell::MuzzleFlash_AttachLight()
 {
     if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xc)->operator unsigned int() &&
         reinterpret_cast<TESChallenge*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x14))->GetFormOne())
@@ -895,7 +896,7 @@ void FUN_009bb7f0_shell::UpdateLightFromChallenge()
                 reinterpret_cast<TESObjectLIGH*>(
                     reinterpret_cast<TESChallenge*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x14))
                         ->GetFormOne())
-                    ->CreateLight(
+                    ->GenDynamic(
                         0,
                         reinterpret_cast<NiAVObject*>(
                             reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xc)->operator unsigned int()),
@@ -1216,7 +1217,7 @@ struct BooleanFloatQuery
     float p_18;
     int p_30;
     float p_34;
-    void ApplyCriticalHit();
+    void HitData_CheckCriticalStrike();
     void HitData_ReduceDamage(bool);
     void HitData_SetTargetedLimb(void*);
     void ApplyDamageEffects();
@@ -1235,7 +1236,7 @@ void InitFromObjects(BooleanFloatQuery* hd, void* target, void* weapon, void* so
     if (target)
         ((float*)hd)[5] *= ((TESObjectREFR*)target)->GetScale();
     ((float*)hd)[6] = ((float*)hd)[5];
-    hd->ApplyCriticalHit();
+    hd->HitData_CheckCriticalStrike();
     hd->HitData_ReduceDamage(true);
     hd->HitData_SetTargetedLimb(extra);
     hd->ApplyDamageEffects();
@@ -1257,10 +1258,11 @@ struct FUN_009bb8a0_Class
     int m8;
     int mc;
     Flt mf;
-    void __thiscall UpdateLightVisibility();
+    void __thiscall MuzzleFlash_UpdateLight();
 };
 // @fnv 0x009bb8a0
-void __thiscall FUN_009bb8a0_Class::UpdateLightVisibility()
+// src: COMMUNITY 0x009bb8a0
+void __thiscall FUN_009bb8a0_Class::MuzzleFlash_UpdateLight()
 {
     char b;
     if ((unsigned int)mf)
@@ -1464,7 +1466,7 @@ void FUN_009b1260_Class::UpdateCastSound()
         ((GO*)((char*)this + 0xc4))
             ->
             operator=(((TESObjectLIGH*)((const EffectSetting*)((XActor*)this)->GetActorBase())->GetCastSound())
-                          ->CreateLight((XActor*)this, vf_1d0(), false));
+                          ->GenDynamic((XActor*)this, vf_1d0(), false));
     }
 }
 
@@ -1792,7 +1794,7 @@ void FUN_009acd00_Class::Explosion_AttachDistant()
     void* p = ((void*(__thiscall*)(void*))(*(void***)this)[0x1d0 / 4])(this);
     if (p != 0)
     {
-        void* c = ((KFModel*)((TESWorldSpace*)((TESSaveLoadGame*)g_TES)->GetHitSound())->GetWorldTerrainManager())
+        void* c = ((KFModel*)((TESWorldSpace*)((TESSaveLoadGame*)g_TES)->GetHitSound())->GetTerrainManager())
                       ->GetControllerSequence();
         if (c != 0)
         {
@@ -6444,7 +6446,7 @@ struct Obj082
     bool Explosion_RunLOSPick(NiPoint3, Obj082*);
     void Actor_HitMe(Hit082*, int);
     void InitFromPoints(const NiPoint2&, const NiPoint2&, const NiPoint2&);
-    bool HasAnyFlags(int);
+    bool BGSExplosion_IsFlagSet(int);
     void Explosion_PushActor(Obj082*, float);
     Obj082* PlayerCharacter_Get3D_00950bb0(int);
     void NiAVObject_Update(NiUpdateData*);
@@ -6531,8 +6533,8 @@ void Obj082::ProcessHits()
                                     ->Apply(data ? &((Obj082*)data)->unk18 : 0, 0, amount ? &amount->unk94 : 0, 1.0f,
                                             0);
                         }
-                        if (!amount->State(0) && (FUN_004181e0()->HasAnyFlags(4) ||
-                                                  (FUN_004181e0()->HasAnyFlags(8) &&
+                        if (!amount->State(0) && (FUN_004181e0()->BGSExplosion_IsFlagSet(4) ||
+                                                  (FUN_004181e0()->BGSExplosion_IsFlagSet(8) &&
                                                    ActorValueOwner_ShouldDamageKnockdownTarget(amount ? &amount->hits : 0, (int)hit.unk14))))
                             Explosion_PushActor(amount, distance);
                         if (amount->State(0))

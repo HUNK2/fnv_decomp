@@ -433,7 +433,7 @@ bool __thiscall FUN_0075ab20_shell::IsTileTraitEnabled()
 {
     static int trait = GetTileValueID("_enabled", -1);
 
-    return m_pTile && m_pTile->IsTraitNonZero(trait);
+    return m_pTile && m_pTile->Tile_IsTrue(trait);
 }
 
 void* __cdecl operator new(unsigned int);
@@ -716,7 +716,7 @@ bool SetTileHelper::HasEnabledTrait(Tile* apTile)
 {
     if (((Shell*)this)->IsTileTraitEnabled() &&
         (apTile == 0 || (((Shell*)this)->ContainsKey(apTile) &&
-                         apTile->IsTraitNonZero((int)Tile_AddUserTrait("_enabled", -1)))))
+                         apTile->Tile_IsTrue((int)Tile_AddUserTrait("_enabled", -1)))))
     {
         m_pTile10 = apTile;
         ((Shell*)this)->UpdateHighlight();
@@ -1545,13 +1545,13 @@ Tile* MyListBox::GetScrollTargetTile(int aiScrollCode)
                 }
             }
 
-            if (pFound_ && !pFound_->IsTraitNonZero((int)Tile_AddUserTrait("_enabled", -1)))
+            if (pFound_ && !pFound_->Tile_IsTrue((int)Tile_AddUserTrait("_enabled", -1)))
             {
                 pFound_ = 0;
                 if (iTileIndex > 0 && ++curIdx > maxIdxTmp)
                 {
                     curIdx = maxIdxTmp - 1;
-                    while ((!pFound_ || !pFound_->IsTraitNonZero((int)Tile_AddUserTrait("_enabled", -1))) && curIdx >= 0)
+                    while ((!pFound_ || !pFound_->Tile_IsTrue((int)Tile_AddUserTrait("_enabled", -1))) && curIdx >= 0)
                     {
                         pFound_ = FUN_0075a955(curIdx--, 0);
                     }
@@ -1560,7 +1560,7 @@ Tile* MyListBox::GetScrollTargetTile(int aiScrollCode)
                 else if (iTileIndex < 0 && --curIdx < 0)
                 {
                     curIdx = 1;
-                    while ((!pFound_ || !pFound_->IsTraitNonZero((int)Tile_AddUserTrait("_enabled", -1))) &&
+                    while ((!pFound_ || !pFound_->Tile_IsTrue((int)Tile_AddUserTrait("_enabled", -1))) &&
                            curIdx <= maxIdxTmp)
                     {
                         pFound_ = FUN_0075a955(curIdx++, 0);
@@ -2168,7 +2168,7 @@ struct ConstructorAudio
 ConstructorAudio* BSAudioManager_QInstance_00ad9060();
 void PlayNoteSound();
 void SetTextSource();
-void UpdateNoteDisplay();
+void ComputersMenu_DisplayNoteImage();
 
 
 // Initializes the hacking menu by zeroing tiles, setting up audio handles for fan hum and character sounds, and assigning callback functions.
@@ -2179,7 +2179,7 @@ ComputersMenu::ComputersMenu()
     manager = reinterpret_cast<TextAnimator*>(GetStorageSingleton());
     callbackec = ::PlayNoteSound;
     callbackf0 = ::SetTextSource;
-    callbackf4 = UpdateNoteDisplay;
+    callbackf4 = ComputersMenu_DisplayNoteImage;
     unkf8 = 0;
     ConstructorAudio* audio = BSAudioManager_QInstance_00ad9060();
     reinterpret_cast<BSSoundHandle&>(sounds[0]) = audio->ResolveAudioHandle("UIHackingFanHumLP", 0x31);

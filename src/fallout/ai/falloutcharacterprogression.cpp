@@ -250,7 +250,7 @@ void NiNodeBooleanState_falloutcharacterprogression::CharacterProgression_Finish
         }
         if (g_011e0a30.GetBoolValue())
         {
-            _g_thePlayer->WriteProgressData(0);
+            _g_thePlayer->PlayerCharacter_ExportProgressData(0);
         }
     }
 }
@@ -265,11 +265,12 @@ extern PlayerCharacter* _g_thePlayer;
 
 struct FUN_008d5300_shell
 {
-    void SetPlayerLevel(int aLevel);
+    void CharacterProgression_ForceLevel(int aLevel);
 };
 
 // @fnv 0x008d5300
-void FUN_008d5300_shell::SetPlayerLevel(int aLevel)
+// src: COMMUNITY 0x008d5300
+void FUN_008d5300_shell::CharacterProgression_ForceLevel(int aLevel)
 {
     if (aLevel == _g_thePlayer->Actor::GetLevel())
         return;

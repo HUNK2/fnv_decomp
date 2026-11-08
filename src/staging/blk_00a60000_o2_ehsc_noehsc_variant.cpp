@@ -105,7 +105,7 @@ extern int DAT_0109ca08;
 extern MemoryManager _g_memoryManager;
 void _NiFree(void* p);
 extern int DAT_0109cd44;
-void* CreateNiTriStrips();
+void* NiTriStrips_CreateObject();
 struct FUN_00a72ca0_Class
 {
     void SetSize_Thunk(unsigned int size);
@@ -670,7 +670,7 @@ struct SceneFactoryObject
     void* m_vtbl;
     void Initialize();
 };
-SceneFactoryObject* CreateSceneFactoryObject();
+SceneFactoryObject* NiLines_CreateObject();
 extern int DAT_011aa04c;
 void __cdecl NiProcessorSpecificCode_SetVectorTransformFunction(int param_1);
 // FUN_00a74d90 - installs a callback pointer into the global slot at 0x011aa050.
@@ -1200,7 +1200,7 @@ struct A5FC10Stub
     A5FC10Stub* __thiscall NiSourceTexture_NiSourceTexture();
 };
 void* __cdecl Object_DispatchCommandFour(unsigned int size);
-A5FC10Stub* __cdecl CreateA5FC10Stub();
+A5FC10Stub* __cdecl NiSourceTexture_CreateObject();
 struct This;
 struct T
 {

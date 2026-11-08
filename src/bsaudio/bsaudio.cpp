@@ -739,7 +739,8 @@ inline bool BSAudio::IsAudioEnabled() const
 }
 
 // @fnv 0x00ad7230
-void BSAudio::SetUseMultipleThreads(bool abUseMultipleThreads)
+// src: COMMUNITY 0x00ad7230
+void BSAudio::SetMultiThreaded(bool abUseMultipleThreads)
 {
     MemContextScope tempMemContext(11);
     if (!IsAudioEnabled())

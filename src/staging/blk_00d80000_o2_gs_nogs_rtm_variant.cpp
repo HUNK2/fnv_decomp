@@ -2494,7 +2494,7 @@ public:
     inline PacketResult(bool b) { value=static_cast<char>(b); }
     inline operator bool() const { return value!=0; }
 };
-inline const PacketNode* readPacketNode(const PacketNode* n,PacketResult wait=true) { return n; }
+inline const PacketNode* readPacketNode(const PacketNode* n,PacketResult hkSemaphore_release=true) { return n; }
 __forceinline const PacketNode* packetLeft(const PacketNode& cached,const PacketNode* n) { return n->left(); }
 __forceinline const PacketNode* packetRight(const PacketNode& cached,const PacketNode* n) { return n->right(); }
 __forceinline const PacketLeaf* packetEntry(const PacketNode& n,const PacketLeaf* data,int index=0) {

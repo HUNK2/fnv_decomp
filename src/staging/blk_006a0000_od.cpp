@@ -27,7 +27,7 @@ public:
     PathPoint_blk_006a0000_od operator+(const PathPoint_blk_006a0000_od& pt) const;
     PathPoint_blk_006a0000_od operator*(float fScalar) const;
     void ScaleByInverse(float);
-    float GetSquaredXYLength();
+    float NiPoint3_SqrXYLength();
     NiPoint3 FastNavMeshTriLocation_GetLocation();
 };
 #include "../../include/PathNodeArray.h"
@@ -616,12 +616,13 @@ struct FUN_006bb510_shell
     Point3Storage a;
     Point3Storage b;
     Point3Storage c;
-    void AddToPoints(Point3Storage* p);
+    void Segment_Offset(Point3Storage* p);
 };
 
 // Adds the given point to both stored points a and b.
 // @fnv 0x006bb510
-void FUN_006bb510_shell::AddToPoints(Point3Storage* apPoint)
+// src: COMMUNITY 0x006bb510
+void FUN_006bb510_shell::Segment_Offset(Point3Storage* apPoint)
 {
     a += *apPoint;
     b += *apPoint;
@@ -4345,11 +4346,12 @@ struct FUN_006ad2f0_cls
     unsigned int unk04;
     unsigned int unk08;
     unsigned int m_0c;
-    void SetPackedField(unsigned short a, unsigned short b, unsigned char c, unsigned char d);
+    void NavMeshTriangle_SetEdgeCover(unsigned short a, unsigned short b, unsigned char c, unsigned char d);
 };
 
 // @fnv 0x006ad2f0
-void FUN_006ad2f0_cls::SetPackedField(unsigned short uiFieldIndex, unsigned short uiValue, unsigned char uiExtra1,
+// src: COMMUNITY 0x006ad2f0
+void FUN_006ad2f0_cls::NavMeshTriangle_SetEdgeCover(unsigned short uiFieldIndex, unsigned short uiValue, unsigned char uiExtra1,
                                       unsigned char uiExtra2)
 {
     if (uiFieldIndex == 2)
@@ -7546,7 +7548,7 @@ struct Tri120
     unsigned char extra;
     Tri120();
     void SetValues(unsigned short, unsigned short, unsigned short);
-    void SetPackedField(int, unsigned short, unsigned char, unsigned char);
+    void NavMeshTriangle_SetEdgeCover(int, unsigned short, unsigned char, unsigned char);
     void SetSlotValue(int, unsigned short);
 };
 struct Vertex120
@@ -7655,8 +7657,8 @@ bool Host120::BuildTrianglesFromEdgePairs()
                         if (l.z < 0.0f)
                         {
                             triangle.SetValues(shared->index, outer2->index, outer1->index);
-                            triangle.SetPackedField(0, second->property, second->flag1, second->flag2);
-                            triangle.SetPackedField(1, third->property, third->flag1, third->flag2);
+                            triangle.NavMeshTriangle_SetEdgeCover(0, second->property, second->flag1, second->flag2);
+                            triangle.NavMeshTriangle_SetEdgeCover(1, third->property, third->flag1, third->flag2);
                             if (first->type == 4)
                                 triangle.SetSlotValue(2, first->extra);
                             if (second->type == 4)
@@ -7667,8 +7669,8 @@ bool Host120::BuildTrianglesFromEdgePairs()
                         else
                         {
                             triangle.SetValues(shared->index, outer1->index, outer2->index);
-                            triangle.SetPackedField(0, first->property, first->flag1, first->flag2);
-                            triangle.SetPackedField(1, third->property, third->flag1, third->flag2);
+                            triangle.NavMeshTriangle_SetEdgeCover(0, first->property, first->flag1, first->flag2);
+                            triangle.NavMeshTriangle_SetEdgeCover(1, third->property, third->flag1, third->flag2);
                             if (first->type == 4)
                                 triangle.SetSlotValue(0, first->extra);
                             if (second->type == 4)
@@ -8619,7 +8621,7 @@ struct Line
 {
     PathPoint_blk_006a0000_od start, end;
     Line(const Line&);
-    void AddToPoints(const PathPoint_blk_006a0000_od&);
+    void Segment_Offset(const PathPoint_blk_006a0000_od&);
     void SubtractFromC(PathPoint_blk_006a0000_od&);
 };
 struct Circle
@@ -8653,7 +8655,7 @@ bool IntersectLineCircle(Circle* circle, const Line* pLine, Result* result)
     Hit* firstSlot0 = &result->first;
     Hit* secondSlot21 = &result->second;
     Line lineSlot1(*pLine);
-    lineSlot1.AddToPoints(circle->GetNegatedVector());
+    lineSlot1.Segment_Offset(circle->GetNegatedVector());
     float radiusSlot20 = 1.0f;
     lineSlot1.start.ScaleByInverse(circle->radius);
     lineSlot1.end.ScaleByInverse(circle->radius);
@@ -8831,7 +8833,7 @@ bool IntersectLineCircle(Circle* circle, const Line* pLine, Result* result)
         }
         else
         {
-            if (lineSlot1.start.GetSquaredXYLength() < radiusSquaredSlot0)
+            if (lineSlot1.start.NiPoint3_SqrXYLength() < radiusSquaredSlot0)
             {
                 result->type = 5;
                 return false;
@@ -8864,7 +8866,7 @@ bool __cdecl NavMeshMath_CheckArcAgainstCircle(const NiBound* pSphereA, Obstacle
         return true;
     NiPoint3 c = pSphereB->m_kCenter.SubtractIntoVector(pSphereA->m_kCenter);
     float p = c.FUN_004a7290();
-    float l = c.GetSquaredXYLength();
+    float l = c.NiPoint3_SqrXYLength();
     if (l == 0.0)
         return false;
     float h = pSphereA->m_fRadius + pSphereB->m_fRadius;
@@ -9337,7 +9339,7 @@ struct TriX
     bool IsEdgeFlagSet(int);
     unsigned short GetEdgeExtraInfo_0068f2c0(int);
     unsigned short GetVert_005582d0(int);
-    void GetPackedFlags(unsigned short, unsigned short*, bool*, bool*);
+    void NavMeshTriangle_GetEdgeCoverData(unsigned short, unsigned short*, bool*, bool*);
 };
 struct MeshX
 {
@@ -9477,7 +9479,7 @@ void HostB60::BuildNavMeshEdges()
                 }
                 edges.FUN_007cb2e0(&ed);
                 if ((unsigned int)j < 2)
-                    tri->GetPackedFlags((unsigned short)j, &ed->property, &ed->flag1, &ed->flag2);
+                    tri->NavMeshTriangle_GetEdgeCoverData((unsigned short)j, &ed->property, &ed->flag1, &ed->flag2);
             }
         }
     }
@@ -9627,7 +9629,7 @@ struct Vec74
     float x, y, z;
     Vec74();
     Vec74 SubtractIntoVector(const Vec74&);
-    float GetSquaredXYLength();
+    float NiPoint3_SqrXYLength();
 };
 struct VertexData74
 {
@@ -9730,25 +9732,25 @@ void Processor74::SplitCrossingEdges()
                 bool splitFirst21 = false;
                 bool splitSecond20 = false;
                 Vertex74* intersection6;
-                if (pc21->SubtractIntoVector(crossing2).GetSquaredXYLength() < tolerance8)
+                if (pc21->SubtractIntoVector(crossing2).NiPoint3_SqrXYLength() < tolerance8)
                 {
                     intersection6 = c5;
                     splitFirst21 = true;
                     splitSecond20 = false;
                 }
-                else if (pd20->SubtractIntoVector(crossing2).GetSquaredXYLength() < tolerance8)
+                else if (pd20->SubtractIntoVector(crossing2).NiPoint3_SqrXYLength() < tolerance8)
                 {
                     intersection6 = d5;
                     splitFirst21 = true;
                     splitSecond20 = false;
                 }
-                else if (pa51->SubtractIntoVector(crossing2).GetSquaredXYLength() < tolerance8)
+                else if (pa51->SubtractIntoVector(crossing2).NiPoint3_SqrXYLength() < tolerance8)
                 {
                     intersection6 = a2;
                     splitFirst21 = false;
                     splitSecond20 = true;
                 }
-                else if (pb32->SubtractIntoVector(crossing2).GetSquaredXYLength() < tolerance8)
+                else if (pb32->SubtractIntoVector(crossing2).NiPoint3_SqrXYLength() < tolerance8)
                 {
                     intersection6 = b10;
                     splitFirst21 = false;
@@ -10638,7 +10640,7 @@ struct FUN_00b00a00_Interface
     virtual void Unknown0();
     virtual void Unknown4();
     virtual void Unknown8();
-    virtual bool TestValue(int value);
+    virtual bool hkDataClass_isNull(int value);
 };
 
 FUN_00b00a00_Interface* FUN_00b00a00();
@@ -10655,7 +10657,7 @@ class FUN_006a1630_class : public FUN_006a1cf0_shell
 // @fnv 0x006a1630
 bool FUN_006a1630_class::ProcessSearchNode(FUN_006b3cb0_arg2* param_2, FUN_006b3cb0_arg3* param_3, bool useBestNode)
 {
-    bYield = FUN_00b00a00()->TestValue(FUN_0040fc90());
+    bYield = FUN_00b00a00()->hkDataClass_isNull(FUN_0040fc90());
 
     PathSearchNode* selectedNode;
     bool result2;

@@ -2383,7 +2383,7 @@ struct FUN_00b6b930_Object
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -2437,7 +2437,7 @@ class FUN_00b6c1a0_obj
     virtual void vf9();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -2463,7 +2463,7 @@ class FUN_00b6c1a0_obj
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -2488,7 +2488,7 @@ class FUN_00b6c1a0_cls
     virtual void vf9();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -2514,7 +2514,7 @@ class FUN_00b6c1a0_cls
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();
@@ -6668,13 +6668,13 @@ FUN_00b60cb0_Clone* CloneSource::CloneObject(void* pvCloningProcess)
     return pkClone;
 }
 
-struct CopyObject;
+struct MagicItemObject_CopyFrom;
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct CopyBase
 {
-    void CopyBaseFields(CopyObject*, int);
+    void CopyBaseFields(MagicItemObject_CopyFrom*, int);
 };
 struct CopyNode
 {
@@ -6693,7 +6693,7 @@ extern unsigned DAT_011c5f80;
 extern unsigned DAT_011c5f84;
 extern CopyNode* DAT_011c5f58;
 void GrowPool();
-struct CopyObject : CopyBase
+struct MagicItemObject_CopyFrom : CopyBase
 {
     unsigned f000;
     unsigned f004;
@@ -6785,7 +6785,7 @@ struct CopyObject : CopyBase
     NiRefObject* f140;
     NiRefObject* f144;
     NiRefObject* f148;
-    void WaterShaderProperty_CopyMembers(CopyObject* dst, int arg);
+    void WaterShaderProperty_CopyMembers(MagicItemObject_CopyFrom* dst, int arg);
 };
 static __forceinline void AssignRef(NiRefObject*& dst, NiRefObject* const& src)
 {
@@ -6835,7 +6835,7 @@ static __forceinline void AppendCopy(CopyList* dest, void* const& value, unsigne
 // Copies base fields and a fixed set of member values into dst, reassigns the reference-counted pointers, and deep-copies the list into dst->list.
 // @fnv 0x00b6a6c0
 // src: XBOX_PDB 0x00b6a6c0
-void CopyObject::WaterShaderProperty_CopyMembers(CopyObject* dst, int arg)
+void MagicItemObject_CopyFrom::WaterShaderProperty_CopyMembers(MagicItemObject_CopyFrom* dst, int arg)
 {
     CopyBaseFields(dst, arg);
     AssignRef(dst->f148, f148);
@@ -7735,7 +7735,7 @@ class TextureEffectPropertyView
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -7809,7 +7809,7 @@ class FUN_00b7ad00_Class
     virtual void vf2C();
     virtual void vf30();
     virtual void vf34();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf3C();
     virtual void vf40();
     virtual void vf44();
@@ -8002,7 +8002,7 @@ struct FUN_00b63320_Geometry
     virtual void vf0f();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -10526,7 +10526,7 @@ struct GeometryInput
     int unka0, unka4, unka8, unkac, unkb0, unkb4;
     MorphGeomData* geometry;
     ExtraGeometryData* FUN_00a5bdd0(void*);
-    void DeleteExtraDataByKey(void*);
+    void NiObjectNET_RemoveExtraData(void*);
 };
 struct AuxiliaryVertices
 {
@@ -10637,7 +10637,7 @@ FUN_00537bf0* ShaderGeometryOwner::BuildShaderGeometry(GeometryInput* input)
             buffer->NiAdditionalGeometryData_SetDataStream(1, 1, 16, 4, count, 16, 32);
             extra->count = 0;
             extra->data = 0;
-            input->DeleteExtraDataByKey(DAT_011f94bc);
+            input->NiObjectNET_RemoveExtraData(DAT_011f94bc);
             return buffer;
         }
     }

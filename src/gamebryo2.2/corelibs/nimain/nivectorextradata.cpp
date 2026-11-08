@@ -101,7 +101,8 @@ int __cdecl _NiSprintf(char* pBuffer, unsigned int uiSize, const char* pFormat, 
                        double fSecondFunctionValue, double fValue3, double fValue4);
 
 // @fnv 0x00a92290
-void __fastcall AppendVectorViewerStrings(NiVectorExtraData* self, void* unused, StrArr* pStringArray)
+// src: EXE 0x00a92290
+void __fastcall NiVectorExtraData_GetViewerStrings(NiVectorExtraData* self, void* unused, StrArr* pStringArray)
 {
     GetExtraDataViewerStrings(self, unused, pStringArray);
 

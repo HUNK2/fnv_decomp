@@ -213,11 +213,12 @@ struct FUN_00ec2a10_class
     int m_0008;
     int m_000c;
     int m_0010;
-    void __thiscall PauseMovie();
+    void __thiscall MoviePlayer_Pause();
 };
 // If a movie is set, warns when another is already paused, calls DisableThreadPriorityBoost on it, stores it as the paused movie and clears the active movie pointer.
 // @fnv 0x00ec2a10
-void __thiscall FUN_00ec2a10_class::PauseMovie()
+// src: COMMUNITY 0x00ec2a10
+void __thiscall FUN_00ec2a10_class::MoviePlayer_Pause()
 {
     if (!m_000c)
         return;
@@ -808,7 +809,7 @@ void FUN_00ec1680_cls::EnableSoundSystem(bool bEnableSound)
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* pvSecurity, unsigned long ulStackSize,
+extern "C" __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void* pvSecurity, unsigned long ulStackSize,
                                                               unsigned long(__stdcall* pfnStart)(void*), void* pvParam,
                                                               unsigned long ulFlags, unsigned long* pulThreadId);
 extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void* hThread);
@@ -862,7 +863,7 @@ void BEC16D0MoviePlayerThread::MoviePlayer_StartSequence(void* pvParam, bool bFl
                                             float fValue28)
 {
     unsigned long ulThreadId3;
-    m_hThread = CreateThread(0, 0, (unsigned long(__stdcall*)(void*))MoviePlayer_PlaySequenceThread, pvParam, 4, &ulThreadId3);
+    m_hThread = AITaskThreadManager_AddThread(0, 0, (unsigned long(__stdcall*)(void*))MoviePlayer_PlaySequenceThread, pvParam, 4, &ulThreadId3);
     FUN_00aa2740(ulThreadId3, "MoviePlayer");
     m_bFlag22 = bFlag22;
     m_bFlag23 = bFlag23;
@@ -2423,7 +2424,7 @@ void FUN_00ec1940_cls::MoviePlayer_ThreadLoadMovie(void* apThreadArg, int value)
 {
     DWORD threadId;
     m_1c = value;
-    m_04 = CreateThread(NULL, 0, MoviePlayer_MovieLoadingThread, apThreadArg, CREATE_SUSPENDED, &threadId);
+    m_04 = AITaskThreadManager_AddThread(NULL, 0, MoviePlayer_MovieLoadingThread, apThreadArg, CREATE_SUSPENDED, &threadId);
     FUN_00aa2740(threadId, "MovieLoader");
     ResumeThread(m_04);
     threadId = 0;
@@ -2469,7 +2470,8 @@ extern "C" __declspec(dllimport) long __stdcall DispatchMessageA(const PlaybackM
 
 // Pumps pending Windows messages and returns false if the playback was interrupted, otherwise true.
 // @fnv 0x00ec1840
-bool __thiscall BGSMoviePlayer::CheckPlaybackContinue(bool allowInterruption)
+// src: COMMUNITY 0x00ec1840
+bool __thiscall BGSMoviePlayer::MoviePlayer_CheckContinuePlaying(bool allowInterruption)
 {
     PlaybackMessage msg;
     while (PeekMessageA(&msg, 0, 0, 0, 1))

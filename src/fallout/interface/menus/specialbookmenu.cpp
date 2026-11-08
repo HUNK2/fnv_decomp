@@ -82,7 +82,7 @@ void __cdecl SPECIALBookMenu_Close()
     if (DAT_011daa38)
     {
         ((Tile*)menu5)->Set(0x1772, 1);
-        ((Menu*)DAT_011daa38)->LoadMenuData();
+        ((Menu*)DAT_011daa38)->StartFadeOut();
     }
 }
 
@@ -619,7 +619,7 @@ bool SPECIALBookMenu::TurnPage(bool forward)
             if (sequence)
             {
                 manager->FUN_0048fef0(0.0f);
-                manager->ActivateControllerSequence(sequence, 0, true, 1.0f, 0.0f, 0);
+                manager->ActivateSequence(sequence, 0, true, 1.0f, 0.0f, 0);
                 manager->FUN_0047aa40(true);
                 SetNegatedGlobal(sequence);
             }
@@ -636,7 +636,7 @@ void __cdecl Runtime_TurnPageForwardAndInvokeCallbacks(void* p);
 void __cdecl Object_ProcessState_007ca8a0(void* p);
 void __cdecl Runtime_TurnPageBackwardAndInvokeCallbacks(void* p);
 void __cdecl DispatchSourceCallback(void* p);
-void __cdecl BSAudio_CloseBookMenuOrPlayInactiveSound(void* p);
+void __cdecl SPECIALBookMenu_CloseCallback(void* p);
 void __cdecl UpdateEntryRankText(void* p);
 void __cdecl DispatchStateCallback(void* p);
 void __cdecl UpdateLodVisibility(void* p);
@@ -1026,7 +1026,7 @@ void SPECIALBookMenu::InitMenu()
     m_groups[8].displays.FUN_007cb2e0(kMsg);
     pDigits = new BkDisplay(UpdateLodVisibility, (char*)"Index_PointsRemainDigit1:0", "Index_PointsRemainDigit2:0", -1);
     m_groups[8].displays.FUN_007cb2e0(pDigits);
-    next = new BkButton(BSAudio_CloseBookMenuOrPlayInactiveSound, DispatchSourceCallback, "AllDone_Btn:0");
+    next = new BkButton(SPECIALBookMenu_CloseCallback, DispatchSourceCallback, "AllDone_Btn:0");
     m_groups[8].buttons.FUN_007cb2e0(next);
     pLeft = new BkButton(Runtime_TurnPageBackwardAndInvokeCallbacks, Object_ProcessState_007ca8a0, "Index_LT_Btn:0");
     m_groups[8].buttons.FUN_007cb2e0(pLeft);

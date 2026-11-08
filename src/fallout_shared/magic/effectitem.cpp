@@ -117,7 +117,8 @@ bool EffectItem::IsHostile()
 
 // Returns whether GetEffectSetting() equals GetUsageMonitorEffectSetting().
 // @fnv 0x00404730
-bool EffectItem::IsScriptBasedEffect()
+// src: COMMUNITY 0x00404730
+bool EffectItem::IsUsageMonitorEffect()
 {
     return GetEffectSetting() == GetUsageMonitorEffectSetting();
 }
@@ -142,7 +143,7 @@ EffectItem* EffectItem::Delete(unsigned int flags)
 // @fnv 0x00405d20
 void EffectItemList::AddItem(EffectItem* item)
 {
-    if (item->IsScriptBasedEffect() && GetScriptEffect())
+    if (item->IsUsageMonitorEffect() && GetUsageMonitorEffect())
         return;
 
     AddTail(item);
@@ -299,8 +300,8 @@ float EffectItem::GetCost(Actor* apActor)
     if (apActor != 0)
     {
         fcost = ScaleBySettingBlend(fcost,
-                                    ((ActorValueOwner*)((char*)apActor + 0xa4))->GetActorValueAsInteger(GetEffectID()),
-                                    ((ActorValueOwner*)((char*)apActor + 0xa4))->GetActorValueAsInteger(0xb));
+                                    ((ActorValueOwner*)((char*)apActor + 0xa4))->GetClampedActorValueI(GetEffectID()),
+                                    ((ActorValueOwner*)((char*)apActor + 0xa4))->GetClampedActorValueI(0xb));
     }
     fcost = FloatFloor(fcost);
     return BSMAX_00404010(fcost, 1.0f);
@@ -331,7 +332,7 @@ bool EffectItem::Compare(EffectItem* apCompare)
     bool bDifferent = apCompare->GetEffectSetting() != GetEffectSetting() ||
                       apCompare->GetMagnitude() != GetMagnitude() || apCompare->GetArea() != GetArea() ||
                       apCompare->GetDuration() != GetDuration() || apCompare->GetRange() != GetRange() ||
-                      apCompare->GetAffectedActorValue() != GetAffectedActorValue();
+                      apCompare->GetActorValueIndex() != GetActorValueIndex();
 
     if (GetConditions())
     {
@@ -474,14 +475,14 @@ MagicCaster* __fastcall GetActiveEffectCaster(ActiveEffect* effect)
 }
 
 extern "C" bool __cdecl TESForm_QEndianSwapOnSave();
-extern "C" void __cdecl AppendChunk(unsigned int, void*, unsigned int);
+extern "C" void __cdecl TESForm___AddChunkData(unsigned int, void*, unsigned int);
 
 // @fnv 0x004040b0
 void EffectItem::Save()
 {
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(this)->Endian();
-    AppendChunk(0x54494645, this, 0x14);
+    TESForm___AddChunkData(0x54494645, this, 0x14);
     if (TESForm_QEndianSwapOnSave())
         reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(this)->Endian();
     if (GetConditions())

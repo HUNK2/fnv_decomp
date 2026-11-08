@@ -50,7 +50,7 @@ void Hkpheightfieldagent_UpdateState_00d323f0();
 void AllocateTargetObj();
 void hkpHeightFieldAgent_staticGetPenetrations();
 void hkpHeightFieldAgent_staticGetClosestPoints();
-void hkpHeightFieldAgent_ProcessSphereQueries();
+void hkpHeightFieldAgent_staticLinearCast();
 struct S_00d321e0_AgentFuncs {
     S_00d321e0_Func m_pCreateFunc;
     S_00d321e0_Func m_pQueryPenetrationsFunc;
@@ -99,13 +99,13 @@ struct Owner {
     int count;
     void NotifyAndClear(int value);
 };
-extern "C" void __cdecl hkpHeightFieldAgent_ProcessSphereQueries(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
+extern "C" void __cdecl hkpHeightFieldAgent_staticLinearCast(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4);
 // Forwards all five arguments unchanged to FUN_00d31d30.
 // @fnv 0x00d32030
 // src: HAVOK_SRC 0x00d32030
 extern "C" void __stdcall hkpHeightFieldAgent_linearCast(void* arg0, void* arg1, void* arg2, void* arg3, void* arg4)
 {
-    hkpHeightFieldAgent_ProcessSphereQueries(arg0, arg1, arg2, arg3, arg4);
+    hkpHeightFieldAgent_staticLinearCast(arg0, arg1, arg2, arg3, arg4);
 }
 extern "C" void __cdecl hkpHeightFieldAgent_staticGetPenetrations(void* arg0, void* arg1, void* arg2, void* arg3);
 // @fnv 0x00d32150

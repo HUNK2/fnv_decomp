@@ -134,7 +134,7 @@ template <class T> __forceinline void hkArrayBase<T>::_pushBack(hkMemoryAllocato
     m_iElementCount++;
 }
 
-char* __cdecl AllocateWithHeader(hkMemoryAllocator* pkAlloc, int iNumBytes) throw();
+char* __cdecl hkMemoryRouter_easyAlloc(hkMemoryAllocator* pkAlloc, int iNumBytes) throw();
 
 // @fnv 0x00dc5d90
 char* hkBinaryTagfileReader::ReadString()
@@ -142,7 +142,7 @@ char* hkBinaryTagfileReader::ReadString()
     int iLen = ReadSignedVarInt32();
     if (iLen > 0)
     {
-        char* pcString = AllocateWithHeader(&readerHeap(hkMemoryRouter_getInstance()), iLen + 1);
+        char* pcString = hkMemoryRouter_easyAlloc(&readerHeap(hkMemoryRouter_getInstance()), iLen + 1);
         ForwardCall_00dd90d0(pcString, iLen);
         pcString[iLen] = 0;
         m_pStringFunctions.pushBack(pcString);

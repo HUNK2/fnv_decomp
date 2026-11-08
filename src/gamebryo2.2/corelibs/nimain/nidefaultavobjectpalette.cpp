@@ -54,7 +54,8 @@ void AddObjectToPalette(NiAVObject* object, NiDefaultAVObjectPalette* palette)
 }
 
 // @fnv 0x00a6e960
-void NiDefaultAVObjectPalette::BuildPalette()
+// src: COMMUNITY 0x00a6e960
+void NiDefaultAVObjectPalette::ResetAndFillFromScenegraph()
 {
     if (m_pkScene)
     {

@@ -563,8 +563,8 @@ void __cdecl SPECIALBookMenu_Close();
 
 // If DAT_011daa38 is set and FUN_00794d80 returns its element 22, calls FUN_007c6120; otherwise plays the "UIActivateNothing" sound via BSAudio.
 // @fnv 0x007cac30
-// src: GUESS 0x007cac30 (confidence: high)
-void __cdecl BSAudio_CloseBookMenuOrPlayInactiveSound()
+// src: COMMUNITY 0x007cac30
+void __cdecl SPECIALBookMenu_CloseCallback()
 {
     if (DAT_011daa38 && SPECIALBookMenu_GetTotalPointsUsed(DAT_011daa38) == DAT_011daa38[22])
     {

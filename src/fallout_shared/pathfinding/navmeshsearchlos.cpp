@@ -214,10 +214,11 @@ struct FUN_006aac10_shell
 {
     unsigned char m_bLOS;
     NavMeshTriangleReference m_node;
-    void InitNavMeshPoint(void* p, NavMesh* n, unsigned short t);
+    void NavMeshSearchLOS_SetNodeData(void* p, NavMesh* n, unsigned short t);
 };
 // @fnv 0x006aac10
-void FUN_006aac10_shell::InitNavMeshPoint(void* p, NavMesh* n, unsigned short t)
+// src: COMMUNITY 0x006aac10
+void FUN_006aac10_shell::NavMeshSearchLOS_SetNodeData(void* p, NavMesh* n, unsigned short t)
 {
     ((unsigned int*)((char*)p + 8))[0] = (unsigned int)n;
     ((unsigned short*)((char*)p + 12))[0] = t;
@@ -327,7 +328,7 @@ struct PathSearch
     NodeInternals destination;
     int GetKeyForNode_006a94f0(NavMesh* mesh, unsigned short triangle, float cost, SearchNode** out);
     int FUN_006a7e00(int handle);
-    void InitNavMeshPoint(SearchNode* target, NavMesh* mesh, unsigned short triangle);
+    void NavMeshSearchLOS_SetNodeData(SearchNode* target, NavMesh* mesh, unsigned short triangle);
     unsigned char ExpandNeighbors(NodeCost* origin, FlagCollection* output);
 };
 struct ConfigValue
@@ -447,7 +448,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                             FUN_006a7e00(GetKeyForNode_006a94f0(connectedMesh, connectedTri, cost, &nextNode)))
                                         {
                                         case 0:
-                                            InitNavMeshPoint(nextNode, connectedMesh, connectedTri);
+                                            NavMeshSearchLOS_SetNodeData(nextNode, connectedMesh, connectedTri);
                                         case 1:
                                             nextNode->mesh = origin->node.mesh;
                                             nextNode->triangle = origin->node.triangle;
@@ -518,7 +519,7 @@ bool FUN_006ab180_shell::NavMeshSearchLOS_IsGoalNode(SeqObj* pkObj)
         {
             NiPoint3 kTargetCenter = pkObj->m_kNode.FastNavMeshTriLocation_GetLocation();
             NiPoint3 kDiff = kTargetCenter - pkArray->Object_GetIndexedValue_006a1440(i);
-            if (kDiff.GetSquaredXYLength() < GetLOSRoomRadius(m_pkRoom) * GetLOSRoomRadius(m_pkRoom))
+            if (kDiff.NiPoint3_SqrXYLength() < GetLOSRoomRadius(m_pkRoom) * GetLOSRoomRadius(m_pkRoom))
             {
                 if (!m_pkInside)
                     m_pkInside = pkObj;

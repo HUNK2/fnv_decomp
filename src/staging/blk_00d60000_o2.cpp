@@ -490,7 +490,8 @@ class hkDerivedD6A : public hkBaseD6A
 
 // Placement-constructs an hkDerivedD6A at pvObject with a finish-loaded flag built from iFinishing, if pvObject is non-null.
 // @fnv 0x00d6ae10
-void __cdecl ConstructHkDerived(void* pvObject, int iFinishFlag)
+// src: COMMUNITY 0x00d6ae10
+void __cdecl finishLoadedObject_hkpConstraintInstance(void* pvObject, int iFinishFlag)
 {
     if (pvObject)
     {

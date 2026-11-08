@@ -152,12 +152,13 @@ char* FUN_00a011f0_shell::Tile_GetString(int trait) {
 }
 
 struct FUN_00a01230_shell : public Tile {
-    bool IsTraitNonZero(int);
+    bool Tile_IsTrue(int);
 };
 
 // Looks up the Value for aeTrait and returns whether its fValue is non-zero, or false if no Value exists.
 // @fnv 0x00a01230
-bool FUN_00a01230_shell::IsTraitNonZero(int aeTrait)
+// src: COMMUNITY 0x00a01230
+bool FUN_00a01230_shell::Tile_IsTrue(int aeTrait)
 {
     Value* pvalue = GetValue(aeTrait);
     if (pvalue)
@@ -295,8 +296,8 @@ extern _RTL_CRITICAL_SECTION DAT_011f3330;
 extern void (__stdcall * const __imp__LeaveCriticalSection)(_RTL_CRITICAL_SECTION *);
 
 // @fnv 0x00a04500
-// src: GUESS 0x00a04500 (confidence: medium)
-void __cdecl Object___imp__LeaveCriticalSection_Thunk()
+// src: COMMUNITY 0x00a04500
+void __cdecl Tile_Unlock()
 {
     __imp__LeaveCriticalSection(&DAT_011f3330);
 }
@@ -566,7 +567,7 @@ struct ListNode_00a079d0 {
     Tile* item;
 };
 
-// Walks the linked list at this+4 and, for each Tile, calls FUN_00a07530(0x80) if IsTraitNonZero(0xfa6) is true, otherwise recurses into UpdateTileChildren.
+// Walks the linked list at this+4 and, for each Tile, calls FUN_00a07530(0x80) if Tile_IsTrue(0xfa6) is true, otherwise recurses into UpdateTileChildren.
 // @fnv 0x00a079d0
 void FUN_00a079d0_shell::UpdateTileChildren()
 {
@@ -580,7 +581,7 @@ void FUN_00a079d0_shell::UpdateTileChildren()
         Tile** xelem = &kPos->item;
         kPos = kPos->next;
         pitem = *xelem;
-        if (((FUN_00a01230_shell*)pitem)->IsTraitNonZero(0xfa6))
+        if (((FUN_00a01230_shell*)pitem)->Tile_IsTrue(0xfa6))
             ((FUN_00a07530_shell*)pitem)->Tile_SetChangeFlag(0x80);
         else
             ((FUN_00a079d0_shell*)pitem)->UpdateTileChildren();
@@ -674,7 +675,7 @@ void* FUN_00a00e90_shell::FindTraitValue(int aiTrait)
 
 namespace fnv_00a01000 {
 struct FUN_00a01000_shell : public Tile {
-    void* GetOrCreateTraitValue(int);
+    void* Tile_AddValue(int);
 };
 
 extern MemoryManager g_memoryManager;
@@ -697,7 +698,8 @@ extern void* DAT_011f339c;
 extern unsigned int DAT_011f33a0;
 // Looks up a P09Value by aiTrait in the map at this+0x10, allocating and inserting a new one if absent, under a critical section.
 // @fnv 0x00a01000
-void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
+// src: COMMUNITY 0x00a01000
+void* FUN_00a01000_shell::Tile_AddValue(int aiTrait)
 {
     P09Value* preturnVal = 0;
     EnterCriticalSection(&DAT_011f3330);
@@ -733,7 +735,7 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
 }  // namespace fnv_00a01000
 
 struct FUN_00a031b0_shell : public Tile {
-    Tile* CreateMenuTiles(void*);
+    Tile* Tile_BuildAndNameTree(void*);
 };
 
 struct P09Item { int eType; float fValue; void* pName; int i0c; Tile* pTile; };
@@ -745,7 +747,8 @@ extern double DAT_01094a80;
 Tile* __cdecl Tile_CreateByID(int);
 void __cdecl _FNV_Warning(const char*, ...);
 // @fnv 0x00a031b0
-Tile* FUN_00a031b0_shell::CreateMenuTiles(void* apTemplate)
+// src: COMMUNITY 0x00a031b0
+Tile* FUN_00a031b0_shell::Tile_BuildAndNameTree(void* apTemplate)
 {
  Tile* pfirst_tile;
  {
@@ -816,7 +819,7 @@ struct FUN_00a03d40_shell : public Tile {
 };
 
 void __cdecl AutoTileLock_AutoTileLock();
-namespace fnv_00a04500 { void __cdecl Object___imp__LeaveCriticalSection_Thunk(); }
+namespace fnv_00a04500 { void __cdecl Tile_Unlock(); }
 
 // @fnv 0x00a03d40
 // src: XBOX_PDB 0x00a03d40
@@ -835,7 +838,7 @@ Tile* FUN_00a03d40_shell::Tile_GetMenuTile()
             ptile = *(Tile**)((char*)ptile + 0x28);
     }
     r = ptile;
-    fnv_00a04500::Object___imp__LeaveCriticalSection_Thunk();
+    fnv_00a04500::Tile_Unlock();
     return r;
 }
 
@@ -958,7 +961,7 @@ void FUN_00a07c60_shell::StartFade(int aiTrait, float afStart, float afEnd, floa
 
 namespace fnv_00a07dc0 {
 struct FUN_00a07dc0_shell : public Tile {
-    void RemoveFadeItemsForTile(int);
+    void Tile_EndGradualSetFloat(int);
 };
 
 extern MemoryManager g_memoryManager;
@@ -969,7 +972,8 @@ extern P03FadeList DAT_011f3348;
 struct FUN_00a0c7c0_Helper { void AddToHead(Tile__TileTemplate**); };
 struct FUN_00ae83e0 { P03FadeItem* item; P03FadeNode* next; ~FUN_00ae83e0(); };
 // @fnv 0x00a07dc0
-void FUN_00a07dc0_shell::RemoveFadeItemsForTile(int aiTrait)
+// src: COMMUNITY 0x00a07dc0
+void FUN_00a07dc0_shell::Tile_EndGradualSetFloat(int aiTrait)
 {
     FUN_00ae83e0 ptoBeDeleted = { 0, 0 };
     P03FadeNode* removeList;
@@ -1496,7 +1500,7 @@ int __cdecl Tile_ValueSortFunc(int** pFirst, int** pSecond)
     return 0;
 }
 
-extern "C" void __cdecl Object___imp__LeaveCriticalSection_Thunk();
+extern "C" void __cdecl Tile_Unlock();
 
 struct FUN_00a0baf0_class {
     void ForwardCall_00a0baf0();
@@ -1506,7 +1510,7 @@ struct FUN_00a0baf0_class {
 // src: GUESS 0x00a0baf0 (confidence: low)
 void FUN_00a0baf0_class::ForwardCall_00a0baf0()
 {
-    Object___imp__LeaveCriticalSection_Thunk();
+    Tile_Unlock();
 }
 
 // @fnv 0x00a0bbe0
@@ -2380,10 +2384,10 @@ Tile_AddToTable(&DAT_01093f84, 5007);
 }
 }
 
-struct MenuDepthController;
+struct UpdateMenu;
 struct UpdateTreeNode;
 struct UpdateNode { UpdateNode* next; UpdateNode* prev; UpdateTreeNode* data; };
-struct MenuDepthController {
+struct UpdateMenu {
  virtual void m0(); virtual void SetDepth(int, UpdateTreeNode*);
  int unk04, unk08, unk0c, unk10, unk14;
  int depth;
@@ -2397,7 +2401,7 @@ struct UpdateTreeNode {
  __forceinline UpdateNode* GetChildren() { return children; }
  float FUN_00a011b0(int);
  const char* Tile_GetString(int);
- MenuDepthController* Tile_GetMenu();
+ UpdateMenu* Tile_GetMenu();
  UpdateTreeNode* Tile_GetMenuTile();
  void Tile_SetChangeFlag(int);
  void Tile_Set(int,float,bool);
@@ -2407,8 +2411,8 @@ struct UpdateTreeNode {
 // src: XBOX_PDB 0x00a037e0
 UpdateTreeNode* UpdateTreeNode::Tile_FinalPostParse(int trait, float value, int unused)
 {
- UpdateTreeNode* aBound; MenuDepthController* aCurrent; float aLast; UpdateTreeNode* aReadObject;
- UpdateNode* aBipedNode; MenuDepthController* aOther; UpdateTreeNode* aContext; UpdateTreeNode* aList1; UpdateTreeNode* aPrevious; int aMargin; UpdateNode* aOuter2; UpdateTreeNode** aLocation;
+ UpdateTreeNode* aBound; UpdateMenu* aCurrent; float aLast; UpdateTreeNode* aReadObject;
+ UpdateNode* aBipedNode; UpdateMenu* aOther; UpdateTreeNode* aContext; UpdateTreeNode* aList1; UpdateTreeNode* aPrevious; int aMargin; UpdateNode* aOuter2; UpdateTreeNode** aLocation;
  if (trait == 0xfa1 || trait == 0xfa2 || trait == 0xfad) {
   if (trait == 0xfad) {
    aLast = value;

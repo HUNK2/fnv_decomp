@@ -32,7 +32,7 @@ struct Holder00592cc0
 {
     char _pad[56];
     FullNameEx _arr[6];
-    void SetFullNameByType(int, char const*);
+    void BGSTextureSet_SetBGSTextureFilename(int, char const*);
 };
 
 float __cdecl BSMIN(float, float);

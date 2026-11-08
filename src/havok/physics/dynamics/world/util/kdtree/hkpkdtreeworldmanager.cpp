@@ -1239,7 +1239,7 @@ struct Workers
     virtual void slot01();
     virtual void slot02();
     virtual void start(Queue*, int);
-    virtual void wait();
+    virtual void hkSemaphore_release();
 };
 struct TimerRecord
 {
@@ -1424,7 +1424,7 @@ void Manager::hkpKdTreeWorldManager_buildTreeDistributed(Tree** tree, Input* inp
             stream->current = r + 12;
         }
     }
-    workers->wait();
+    workers->hkSemaphore_release();
     timerEvent(str_010cd0d0);
     semaphore->hkSemaphore_acquire();
     timerEvent(str_010cd0c4);

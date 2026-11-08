@@ -65,7 +65,8 @@ void* BSTreeNode::FUN_0066b680(unsigned int flags)
 }
 
 // @fnv 0x0066be30
-bool BSTreeNode::SetLeafTextureVariant(unsigned char acTest)
+// src: COMMUNITY 0x0066be30
+bool BSTreeNode::SetVisibilityOnBillboard(unsigned char acTest)
 {
     if (!static_cast<NiTriBasedGeom*>(m_spLeafMesh))
     {

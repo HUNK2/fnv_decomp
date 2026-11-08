@@ -132,7 +132,8 @@ extern void __splitpath_s(const char*, char*, unsigned, char*, unsigned, char*, 
 extern void FUN_00ec825b(char*, unsigned, const char*, const char*, const char*, const char*);
 
 // @fnv 0x00be0c00
-void __cdecl BSShader::GetShaderPath(const char* path, char* result)
+// src: COMMUNITY 0x00be0c00
+void __cdecl BSShader::MakePath(const char* path, char* result)
 {
     char drive[0x10];
     char dir[0x104];

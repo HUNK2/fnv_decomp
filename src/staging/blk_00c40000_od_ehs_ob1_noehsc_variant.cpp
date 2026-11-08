@@ -285,7 +285,7 @@ struct FUN_00c5cfb0 {
 struct StrArr;
 struct Caller74690 {
     void FUN_00a74690(StrArr*);
-    void ForwardTo74690(StrArr* p);
+    void BSScissorTriShape_GetViewerStrings(StrArr* p);
 };
 extern "C" void* g_01203348;
 struct FUN_00c5d2a0_Class {
@@ -1380,7 +1380,7 @@ struct NewObject_b9649 {
     NewObject_b9649();
     static void* operator new(unsigned int size) { return Object_DispatchCommandFour(size); }
 };
-NewObject_b9649* CreateNewObject();
+NewObject_b9649* BSMultiBoundNode_CreateObject();
 struct UpdateContext {
  int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;
  int unk20,unk24,unk28,unk2c,unk30,unk34,unk38,unk3c;
@@ -3094,7 +3094,7 @@ struct SwitchChild {
     virtual void vf00(); virtual void vf04(); virtual void vf08(); virtual void vf0C();
     virtual void vf10(); virtual void vf14(); virtual void vf18(); virtual void vf1C();
     virtual void vf20(); virtual void vf24(); virtual void vf28(); virtual void vf2C();
-    virtual void vf30(); virtual void vf34(); virtual void vf38(); virtual void vf3C();
+    virtual void vf30(); virtual void vf34(); virtual void PrintInfo(); virtual void vf3C();
     virtual void vf40(); virtual void vf44(); virtual void vf48(); virtual void vf4C();
     virtual void vf50(); virtual void vf54(); virtual void vf58();
     virtual bool IsEqual(SwitchChild* pOther);
@@ -3178,7 +3178,7 @@ struct FUN_00c5ed60 : FUN_00a7b300 {
     FUN_007530a0 m_00c;
     virtual ~FUN_00c5ed60();
 };
-NiObject* __cdecl CreateShaderAccumulator(void);
+NiObject* __cdecl BSTextureData_CreateObject(void);
 struct FUN_00a7b4a0_cls {
     void __thiscall FUN_00a7b4a0(int a);
 };
@@ -3311,7 +3311,7 @@ struct PositionModifierInstance {
         return Object_DispatchCommandFour(amount);
     }
 };
-FUN_00c5fd30* __cdecl CreatePositionModifierInstance();
+FUN_00c5fd30* __cdecl BSPSysStripUpdateModifier_CreateObject();
 struct MyStream;
 void NiStreamLoadBinary_float(MyStream* stream, void* value);
 struct ParticlePositionModifier {

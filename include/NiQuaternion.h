@@ -61,13 +61,13 @@ public:
 
     void MakeUnitLength();
     void Normalize();
-    void EnsureCanonicalSign();
+    void FastNormalize();
     void Snap();
     void Slerp(float t, const NiQuaternion& a, const NiQuaternion& b);
     void Slerp(float t, NiQuaternion* a, NiQuaternion* b);
     void InterpolateSquad(float t, NiQuaternion* a, NiQuaternion* b, NiQuaternion* c, NiQuaternion* d);
-    void GetAngleAxis(float& angle, NiPoint3& axis);
-    void GetAngleAxis(float* angle, NiPoint3* axis);
+    void ToAngleAxis(float& angle, NiPoint3& axis);
+    void ToAngleAxis(float* angle, NiPoint3* axis);
     void FromAngleAxis(float angle, NiPoint3* axis);
     void FromAngleAxisX(float angle);
     void FromAngleAxisY(float angle);

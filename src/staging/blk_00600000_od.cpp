@@ -949,7 +949,7 @@ void __thiscall FUN_00616c20_shell::TESReputation_CommitCrime(bool abUseFirstSet
 
 struct FUN_00619a90_shell
 {
-    void ProcessTopicInfoList(int a);
+    void TESTopic_ClearSaidOnceInfosForQuest(int a);
 };
 struct BSSimpleListShell
 {
@@ -962,7 +962,7 @@ struct DH
     BSSimpleListShell* FUN_004612e0();
 };
 extern DH* g_dataHandler;
-// If a is non-zero, walks the list from g_dataHandler and calls ProcessTopicInfoList(a) on each item until _ref_008256d0 is true.
+// If a is non-zero, walks the list from g_dataHandler and calls TESTopic_ClearSaidOnceInfosForQuest(a) on each item until _ref_008256d0 is true.
 // @fnv 0x00619b60
 // src: COMMUNITY 0x00619b60
 void TESTopic_ClearAllSaidOnceInfosForQuest(int a)
@@ -972,7 +972,7 @@ void TESTopic_ClearAllSaidOnceInfosForQuest(int a)
         BSSimpleListShell* list = g_dataHandler->FUN_004612e0();
         while (list && !list->_ref_008256d0())
         {
-            (*list->GetItem())->ProcessTopicInfoList(a);
+            (*list->GetItem())->TESTopic_ClearSaidOnceInfosForQuest(a);
             list = list->GetNext();
         }
     }
@@ -1024,7 +1024,7 @@ void* __cdecl Object_ProcessAndReturnValue_0060c3c0(void* pBegin, void* pEnd, vo
 
 struct GlobalObject_0040c150 : public StartMenu
 {
-    bool __thiscall GetReputationRank(int value);
+    bool __thiscall TESReputation_GetReputationLevel(int value);
     char const* TESReputation_GetThresholdIcon();
 };
 
@@ -1056,8 +1056,8 @@ char const* GlobalObject_0040c150::TESReputation_GetThresholdIcon()
 
     char row = 0;
     char column = 0;
-    row = this->GetReputationRank(1);
-    column = this->GetReputationRank(0);
+    row = this->TESReputation_GetReputationLevel(1);
+    column = this->TESReputation_GetReputationLevel(0);
     return menuTable[column][row]->GetMenuTitle();
 }
 
@@ -1318,7 +1318,7 @@ float __thiscall FUN_00616a40_cls::TESReputation_GetNegativeRatio()
 
 struct Comparison
 {
-    char __thiscall GetReputationRank(int);
+    char __thiscall TESReputation_GetReputationLevel(int);
     char __thiscall TESReputation_GetReputationThreshold(char mode);
 };
 // Reads two comparison results and maps their combination, depending on mode, to a result code (0-6).
@@ -1326,8 +1326,8 @@ struct Comparison
 // src: COMMUNITY 0x00616a90
 char Comparison::TESReputation_GetReputationThreshold(char mode)
 {
-    char second = GetReputationRank(1);
-    char first = GetReputationRank(0);
+    char second = TESReputation_GetReputationLevel(1);
+    char first = TESReputation_GetReputationLevel(0);
     if (second == 0 && first == 0)
         return 1;
     if (mode == 0)
@@ -1687,12 +1687,13 @@ class F1A0Owner
 {
   public:
     F1A0Node* GetList();
-    unsigned char GetKeyForForm(F1A0Form* pkForm);
+    unsigned char TESQuest_GetStageIndexForStageItem(F1A0Form* pkForm);
 };
 
 // Walks the owner's list and returns the key of the entry whose form matches pkForm, or 0 if none matches.
 // @fnv 0x0060f1a0
-unsigned char F1A0Owner::GetKeyForForm(F1A0Form* pkForm)
+// src: COMMUNITY 0x0060f1a0
+unsigned char F1A0Owner::TESQuest_GetStageIndexForStageItem(F1A0Form* pkForm)
 {
     F1A0Node* pkNode = GetList();
     while (pkNode && !pkNode->IsEmpty())
@@ -1732,12 +1733,13 @@ class B616890Menu
 {
   public:
     char GetIndex(bool bFirst);
-    const char* GetSelectedSettingString();
+    const char* TESReputation_GetReputationDesc();
 };
 
 // Reads the selected row and column via GetIndex, then returns the String() of the matching entry in the 4x4 settings table.
 // @fnv 0x00616890
-const char* B616890Menu::GetSelectedSettingString()
+// src: COMMUNITY 0x00616890
+const char* B616890Menu::TESReputation_GetReputationDesc()
 {
     B616890Setting* aapkSettings3[4][4] = {{&g_k616890A0, &g_k616890A1, &g_k616890A2, &g_k616890A3},
                                            {&g_k616890B0, &g_k616890B1, &g_k616890B2, &g_k616890B3},
@@ -1774,7 +1776,7 @@ struct CleanupList
     CleanupTopic** FUN_006815c0();
     void FUN_0063f7b0();
 };
-CleanupItem* GetTopicInfoByIndex(CleanupTopic*, unsigned int);
+CleanupItem* TESTopic_GetInfoByIndex(CleanupTopic*, unsigned int);
 struct CleanupBase
 {
     virtual ~CleanupBase();
@@ -1815,7 +1817,7 @@ FUN_006186d0::~FUN_006186d0()
         unsigned int count = topic->FUN_00717e50()->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
         for (unsigned int i = 0; i < count; ++i)
         {
-            CleanupItem* item = GetTopicInfoByIndex(topic, i);
+            CleanupItem* item = TESTopic_GetInfoByIndex(topic, i);
             if (item)
             {
                 CleanupItem* pNullItem = 0;

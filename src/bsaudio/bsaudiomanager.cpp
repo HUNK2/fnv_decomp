@@ -586,11 +586,12 @@ struct FUN_00ada1d0_shell
 {
     unsigned char _pad[0x134];
     bool m_bUISoundsEnabled;
-    void __thiscall InitUISounds(bool);
+    void __thiscall BSAudioManager_Update(bool);
 };
 
 // @fnv 0x00ada1d0
-void FUN_00ada1d0_shell::InitUISounds(bool abPlayGameWorldSounds)
+// src: COMMUNITY 0x00ada1d0
+void FUN_00ada1d0_shell::BSAudioManager_Update(bool abPlayGameWorldSounds)
 {
     if (!m_bUISoundsEnabled)
     {

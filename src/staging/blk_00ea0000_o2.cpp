@@ -108,8 +108,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -1056,8 +1056,8 @@ class Node
 
 // Allocates a new Node object on the heap and returns its pointer.
 // @fnv 0x00ead090
-// src: GUESS 0x00ead090 (confidence: high)
-Node* Runtime_CreateNode()
+// src: EXE 0x00ead090
+Node* NiCollisionData_CreateObject()
 {
     return new Node;
 }

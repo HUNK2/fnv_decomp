@@ -8056,13 +8056,13 @@ class EDBC0Builder
     EDBC0EntryArray m_kOpen;
 
     EDBC0Entry* CreateEntry();
-    void AddLocationToOpenAndAllArrays();
+    void PathSmoother_AddStartVert();
 };
 
 // Creates an entry from the source location's nav mesh info and triangle, copies the builder's point, and adds it to both the all and open arrays.
 // @fnv 0x006edbc0
-// src: GUESS 0x006edbc0 (confidence: medium)
-void EDBC0Builder::AddLocationToOpenAndAllArrays()
+// src: COMMUNITY 0x006edbc0
+void EDBC0Builder::PathSmoother_AddStartVert()
 {
     EDBC0Entry* pkEntry = CreateEntry();
     EDBC0Location* pkLocation = m_pkSource->GetLocation();
@@ -10583,7 +10583,7 @@ struct PathSmoother
     PointList m40;
     PointList m54;
 
-    void AddLocationToOpenAndAllArrays();
+    void PathSmoother_AddStartVert();
     void PathSmoother_AddFirstEdge(NiPoint3& a, NiPoint3& b);
     void AddPathFromEdge(NiPoint3& p, unsigned int i);
     void AddPathFromContext(NiPoint3& p, unsigned int i);
@@ -10596,7 +10596,7 @@ struct PathSmoother
 // src: COMMUNITY 0x006ed850
 void PathSmoother::BuildInternalArrays()
 {
-    AddLocationToOpenAndAllArrays();
+    PathSmoother_AddStartVert();
     for (unsigned int i8 = 0; i8 < m24->Size(); i8++)
     {
         NiPoint3 a;

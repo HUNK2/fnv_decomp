@@ -580,7 +580,7 @@ struct HUDList
 
 struct HUDProcessLists
 {
-    HUDList* GetOffset70Ptr();
+    HUDList* ProcessLists_GetProjectilePostProcessList();
 };
 
 extern PlayerCharacter* g_pHUDPlayer;
@@ -609,7 +609,7 @@ FUN_00811e10::~FUN_00811e10()
     if (GetTarget() != g_pHUDPlayer)
         _11DC778_Subtract(*g_kHUDSetting.Float());
 
-    HUDList* pList = g_kHUDProcessLists.GetOffset70Ptr();
+    HUDList* pList = g_kHUDProcessLists.ProcessLists_GetProjectilePostProcessList();
     if (pList)
         pList->Remove(this);
 

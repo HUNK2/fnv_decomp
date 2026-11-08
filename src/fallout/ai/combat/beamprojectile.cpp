@@ -84,7 +84,7 @@ extern NiPoint3 NiPoint3_ZERO;
 struct FUN_004d7d50_StandIn
 {
     unsigned int NiParticleSystem_GetModifierCount();
-    NiAVObject* GetByIndex(unsigned int i);
+    NiAVObject* NiParticleSystem_GetModifierAt(unsigned int i);
 };
 struct CtlV
 {
@@ -170,7 +170,7 @@ void BeamProjectile::ScaleBeamGeometryLength(NiAVObject* apObject, float scale)
                     FUN_004d7d50_StandIn* node = (FUN_004d7d50_StandIn*)apObject;
                     for (unsigned int i = 0; i < node->NiParticleSystem_GetModifierCount(); i++)
                     {
-                        NiAVObject* child = node->GetByIndex(i);
+                        NiAVObject* child = node->NiParticleSystem_GetModifierAt(i);
                         if (NiObject_IsKindOf(&g_01202508, child))
                         {
                             TESGrass* effect = (TESGrass*)child;
@@ -758,7 +758,7 @@ struct BeamEffect
     void StopSound();
     void Projectile_SetFlag(int, bool);
     Form* TESObjectREFR_GetOwner();
-    bool IsFightReactionAllowed(int, Actor*, Form*);
+    bool Projectile_GetMineReactsToTarget(int, Actor*, Form*);
     bool Projectile_DisarmPlacedExplosives(int, bool);
 };
 // @fnv 0x009c43e0
@@ -798,7 +798,7 @@ bool BeamEffect::Projectile_DisarmPlacedExplosives(int value, bool silent)
                     }
                 }
                 if (!silent &&
-                    (lifetime != 3.4028234663852886e+38 || IsFightReactionAllowed(value, shooter, container)))
+                    (lifetime != 3.4028234663852886e+38 || Projectile_GetMineReactsToTarget(value, shooter, container)))
                 {
                     FUN_004d5c60(11);
                     if (*DAT_011cecdc.Setting_Int() > 0)
@@ -1161,7 +1161,7 @@ float BeamProjectile::FindBeamGeometryLength(NiGeometry* arg)
                 FUN_004d7d50_StandIn* owner = (FUN_004d7d50_StandIn*)arg;
                 for (unsigned int i = 0; best == 0.0f && i < owner->NiParticleSystem_GetModifierCount(); ++i)
                 {
-                    NiAVObject* item = owner->GetByIndex(i);
+                    NiAVObject* item = owner->NiParticleSystem_GetModifierAt(i);
                     if (NiObject_IsKindOf(&DAT_01202508, item))
                     {
                         TESGrass* p = (TESGrass*)item;

@@ -151,7 +151,8 @@ struct Collider : BSFadeNode
     Collider* __thiscall NiPSysSphericalCollider_NiPSysSphericalCollider(float, int, int, int, int, float);
 };
 // @fnv 0x00c282a0
-Collider* CreateCollider()
+// src: EXE 0x00c282a0
+Collider* NiPSysSphericalCollider_CreateObject()
 {
     Collider* p = (Collider*)BSFadeNode::operator new(0xb0);
     if (p)

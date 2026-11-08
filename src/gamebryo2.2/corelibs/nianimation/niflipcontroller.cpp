@@ -36,7 +36,8 @@ const void* __cdecl NiFlipController_GetRTTI()
 }
 
 // @fnv 0x00a4f970
-void* __cdecl CreateNiFlipController()
+// src: EXE 0x00a4f970
+void* __cdecl NiFlipController_CreateObject()
 {
     void* p = BSFadeNode::operator new(0x54);
     if (p)

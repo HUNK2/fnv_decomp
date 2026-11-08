@@ -492,11 +492,11 @@ TESForm* __cdecl _ref_004839c0(unsigned int);
 struct Holder00985930
 {
     unsigned int m_data;
-    void __thiscall ResolveStoredActor(int a1, int a2);
+    void __thiscall CombatTarget_InitLoadGame(int a1, int a2);
 };
 // @fnv 0x00985930
-// src: GUESS 0x00985930 (confidence: medium)
-void __thiscall Holder00985930::ResolveStoredActor(int a1, int aiUnused)
+// src: COMMUNITY 0x00985930
+void __thiscall Holder00985930::CombatTarget_InitLoadGame(int a1, int aiUnused)
 {
     *(Actor**)&m_data = m_data ? dynamic_cast<Actor*>(_ref_004839c0(m_data)) : (Actor*)0;
 }
@@ -1290,7 +1290,7 @@ bool FUN_0098a470_shell::CombatGroup_CheckGroupStrategyChosenTimeStamp(unsigned 
 
 struct FUN_0098c590_shell
 {
-    CombatSearchDoor* FindParentSpaceNode(int param);
+    CombatSearchDoor* CombatGroup_GetCombatSearchDoor(int param);
 };
 struct FUN_0098c780_shell
 {
@@ -1300,7 +1300,7 @@ struct FUN_0098c780_shell
 // @fnv 0x0098c780
 void FUN_0098c780_shell::ClearReservedFlag(int param)
 {
-    CombatSearchDoor* psearchDoor = ((FUN_0098c590_shell*)this)->FindParentSpaceNode(param);
+    CombatSearchDoor* psearchDoor = ((FUN_0098c590_shell*)this)->CombatGroup_GetCombatSearchDoor(param);
     if (psearchDoor)
         psearchDoor->bReserved = false;
 }
@@ -1801,12 +1801,12 @@ void CombatTarget::SaveGame_009856e0(CombatWriter* pBuffer, SavedCombatState* pG
     ((CoordinateTriple*)((char*)this + 0x28))->BGSWorldLocation_SaveGame(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
     ((CoordinateTriple*)((char*)this + 0x38))->BGSWorldLocation_SaveGame(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
 
-    ((CombatTargetTimestamp*)((char*)this + 0x50))->SaveTimeStamp(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
-    ((CombatTargetTimestamp*)((char*)this + 0x54))->SaveTimeStamp(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
-    ((CombatTargetTimestamp*)((char*)this + 0x58))->SaveTimeStamp(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
-    ((CombatTargetTimestamp*)((char*)this + 0x4C))->SaveTimeStamp(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
-    ((CombatTargetTimestamp*)((char*)this + 0x5C))->SaveTimeStamp(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
-    ((CombatTargetTimestamp*)((char*)this + 0x60))->SaveTimeStamp(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
+    ((CombatTargetTimestamp*)((char*)this + 0x50))->CombatTimeStamp_SaveGame(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
+    ((CombatTargetTimestamp*)((char*)this + 0x54))->CombatTimeStamp_SaveGame(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
+    ((CombatTargetTimestamp*)((char*)this + 0x58))->CombatTimeStamp_SaveGame(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
+    ((CombatTargetTimestamp*)((char*)this + 0x4C))->CombatTimeStamp_SaveGame(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
+    ((CombatTargetTimestamp*)((char*)this + 0x5C))->CombatTimeStamp_SaveGame(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
+    ((CombatTargetTimestamp*)((char*)this + 0x60))->CombatTimeStamp_SaveGame(reinterpret_cast<BGSSaveFormBuffer*>(pBuffer));
 }
 
 struct FUN_00527ba0_Class
@@ -1873,12 +1873,13 @@ double DAT_0101db88;
 
 struct FUN_00985be0_shell : public FUN_00985bb0_Class
 {
-    NiColorA* GetEffectColor(NiColorA* result);
+    NiColorA* CombatSearchLocation_GetColor(NiColorA* result);
 };
 
 // Reads a value from FUN_00985bb0 and returns a color: magenta above 50, blue above DAT_0101db88, otherwise yellow, all with alpha 0.5.
 // @fnv 0x00985be0
-NiColorA* FUN_00985be0_shell::GetEffectColor(NiColorA* result)
+// src: COMMUNITY 0x00985be0
+NiColorA* FUN_00985be0_shell::CombatSearchLocation_GetColor(NiColorA* result)
 {
     NiColorA color(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -2110,7 +2111,7 @@ void FUN_00989eb0_shell::CombatGroup_ComputeTargetBoundingSphere(NiPoint3* resul
 
     NiPoint3 difference = ((NiPoint3*)&points[0])->operator-(*(NiPoint3*)&points[7]);
 
-    ((const TESCombatStyle*)&difference)->UpdateCombatStyle();
+    ((const TESCombatStyle*)&difference)->NiPoint3_SqrLength();
 }
 
 struct FUN_0098a390_shell
@@ -2520,7 +2521,7 @@ struct FUN_00986150_shell
     void CombatGroup_Update();
     void RecountActors();
     void CombatGroup_UpdateTargets();
-    void UpdateChoiceSelection();
+    void CombatGroup_UpdateGroupStrategy();
     void CombatGroup_UpdateSearch();
     void CombatGroup_UpdateCombatStrength();
     void UpdateGroups();
@@ -2546,7 +2547,7 @@ void FUN_00986150_shell::CombatGroup_Update()
         reinterpret_cast<FUN_008d7f40_shell*>(reinterpret_cast<char*>(this) + 0xa8)->FUN_008d7f40(_DAT_010162c0);
     }
 
-    this->UpdateChoiceSelection();
+    this->CombatGroup_UpdateGroupStrategy();
     this->CombatGroup_UpdateSearch();
 
     if (reinterpret_cast<TimeoutTimer*>(reinterpret_cast<char*>(this) + 0x50)->CheckTimer())
@@ -5999,7 +6000,7 @@ struct DebugSearchPoint
 {
     const DebugPoint& FUN_006815c0();
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
-    NiColorA GetEffectColor();
+    NiColorA CombatSearchLocation_GetColor();
 };
 struct DebugMember
 {
@@ -6265,7 +6266,7 @@ void DebugGroup::RebuildDebugVisuals(bool clearOnly)
             DebugSearchPoint* point = ForwardToMember(p);
             if (point->GetHavokWorldObjectCountInSceneGraph_0084e3a0() != space)
                 continue;
-            NiColorA pointColor3 = point->GetEffectColor();
+            NiColorA pointColor3 = point->CombatSearchLocation_GetColor();
             DebugNode* sphere = BSTestObjects_CreateSphere(32.0f, 10, 10, &pointColor3);
             sphere->NiAVObject_SetTranslate(point->FUN_006815c0());
             debug.Modelloader_GetReferencedThis()->Attach(sphere, true);
@@ -6793,7 +6794,7 @@ struct Group
     unsigned int CombatGroup_GetMemberCount();
     Actor* GetIntAt(unsigned int);
     bool CombatGroup_IsSearching();
-    void StoreRecord(Position*, float, int);
+    void CombatGroup_AddSearchLocation(Position*, float, int);
     void UpdateTargetPerception(Actor*, Actor*, int*, Time*, bool*, bool*);
 };
 // @fnv 0x009887b0
@@ -6974,7 +6975,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
                         strengthLocal6 = (highestLocal52 - (int)*DAT_011cd45c.Setting_Float_00403e20()) / 2.0 + 40.0;
                     impactLocal48.BGSWorldLocation_BGSWorldLocation();
                     impactLocal48.SetTripleAndValue(reinterpret_cast<NiPoint3*>(hitLocal9->pointStorage), subject->TESObjectREFR_GetSpace());
-                    StoreRecord(&impactLocal48, strengthLocal6, 0);
+                    CombatGroup_AddSearchLocation(&impactLocal48, strengthLocal6, 0);
                     targetLocal40->hitTime = hitLocal9->time;
                 }
             }
@@ -7518,7 +7519,7 @@ void Group::CombatGroup_UpdateSearch()
                     if (memberRegionSlot0.PathingLocation_HasNavMesh())
                     {
                         regionsSlot11.FUN_006cf1b0(memberRegionSlot0);
-                        headingsSlot11.AppendFloat(FUN_004b1480(member->GetCurrentTargetDistance(false)));
+                        headingsSlot11.AppendFloat(FUN_004b1480(member->GetHeading(false)));
                     }
                 }
                 if (regionsSlot11.FUN_0044ddc0())
@@ -7932,7 +7933,7 @@ struct UpdateOwner;
 struct UpdateElement
 {
     unsigned int data;
-    void ResolveStoredActor(unsigned int, UpdateOwner*);
+    void CombatTarget_InitLoadGame(unsigned int, UpdateOwner*);
 };
 struct UpdateArray
 {
@@ -8016,7 +8017,7 @@ void UpdateOwner::UpdateElements(unsigned int argument)
     {
         bool removeFirst = false;
         UpdateElement* elementFirst = first.BSSimpleArray_CombatTarget_1024_GetAt(indexFirst2);
-        elementFirst->ResolveStoredActor(argument, this);
+        elementFirst->CombatTarget_InitLoadGame(argument, this);
         if (elementFirst->data)
             DAT_011f1958->TargetLocalActor(reinterpret_cast<Actor*>(elementFirst->data),
                                             reinterpret_cast<ActorCombatGroup*>(this));
@@ -8035,7 +8036,7 @@ void UpdateOwner::UpdateElements(unsigned int argument)
         {
             bool removeSecond3 = false;
             UpdateElement* elementSecond3 = second.BSSimpleArray_CombatMember_1024_GetAt(indexSecond);
-            elementSecond3->ResolveStoredActor(argument, this);
+            elementSecond3->CombatTarget_InitLoadGame(argument, this);
             if (!elementSecond3->data)
                 removeSecond3 = true;
             if (removeSecond3)
@@ -8807,7 +8808,7 @@ struct AssessmentProcess
 struct AssessmentActor : FUN_0098cb30_inner
 {
     float Actor_GetWeaponDamagePerSecond();
-    float GetModifiedDamagePerSecond(float);
+    float Actor_CalculateCombatStrength(float);
     bool Actor_IsFleeing(int);
 };
 
@@ -8911,7 +8912,7 @@ void TargetAssessmentGroup::CombatGroup_UpdateCombatStrength()
         if (_itemBuffer->actor == (AssessmentActor*)_g_thePlayer)
         {
             _itemBuffer->unk08 = ((AssessmentActor*)_g_thePlayer)->Actor_GetWeaponDamagePerSecond();
-            _itemBuffer->unk0C = ((AssessmentActor*)_g_thePlayer)->GetModifiedDamagePerSecond(_itemBuffer->unk08);
+            _itemBuffer->unk0C = ((AssessmentActor*)_g_thePlayer)->Actor_CalculateCombatStrength(_itemBuffer->unk08);
         }
         else
         {
@@ -8948,7 +8949,7 @@ void TargetAssessmentGroup::CombatGroup_UpdateCombatStrength()
         _TargetModeCur = CombatGroup_GetTarget(_curIdx);
         if (_TargetModeCur == (AssessmentActor*)_g_thePlayer)
         {
-            _ValPitch6 = ((AssessmentActor*)_g_thePlayer)->GetModifiedDamagePerSecond(-1.0f);
+            _ValPitch6 = ((AssessmentActor*)_g_thePlayer)->Actor_CalculateCombatStrength(-1.0f);
         }
         else if (!_TargetModeCur->Actor_IsFleeing(0))
         {
@@ -8959,7 +8960,7 @@ void TargetAssessmentGroup::CombatGroup_UpdateCombatStrength()
             }
             else
             {
-                _ValPitch6 = _TargetModeCur->GetModifiedDamagePerSecond(-1.0f);
+                _ValPitch6 = _TargetModeCur->Actor_CalculateCombatStrength(-1.0f);
             }
         }
 

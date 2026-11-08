@@ -323,7 +323,7 @@ void _FUN_00485910(int, int);
 // src: XBOX_PDB 0x0058e450
 void BGSImpactData::Save_0058e450()
 {
-    TESForm::BeginFormRecord();
+    TESForm::TESForm_StartForm();
 
     reinterpret_cast<TESModel*>(reinterpret_cast<unsigned char*>(this) + 0x18)
         ->WriteToBuffer(0x4c444f4d, 0x54444f4d);
@@ -377,7 +377,7 @@ void BGSImpactData::Save_0058e450()
         }
     }
 
-    TESForm::FinishFormRecord();
+    TESForm::TESForm_CloseForm();
 }
 
 void* __fastcall BGSTextureSet_GetDecalData(char*);

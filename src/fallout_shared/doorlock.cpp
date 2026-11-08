@@ -368,7 +368,7 @@ struct TeleportableReference
     void SetLinkedDoor(TESObjectREFR*);
     void SetTeleportPosition(void*);
     void SetTeleportRotation(void*);
-    void SetLinkedDoorReference(TESObjectREFR*, bool);
+    void DoorTeleportData_SetConnectedCellsPublic(TESObjectREFR*, bool);
     void Save();
     void Load(TESFile*);
     bool InitItem(TESForm*);
@@ -468,7 +468,7 @@ struct LockActor
     virtual void vf9();
     virtual void vf10();
     virtual void vf11();
-    virtual void vf12();
+    virtual void SetMapName();
     virtual void vf13();
     virtual void vf14();
     virtual void vf15();
@@ -494,7 +494,7 @@ struct LockActor
     virtual void vf35();
     virtual void vf36();
     virtual void vf37();
-    virtual void vf38();
+    virtual void PrintInfo();
     virtual void vf39();
     virtual void vf40();
     virtual void vf41();

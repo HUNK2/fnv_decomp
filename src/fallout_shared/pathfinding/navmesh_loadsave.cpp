@@ -994,7 +994,7 @@ bool FUN_00692950_shell::NavMesh_Load(TESFile* apFile)
             for (int i = isize - 1; i >= 0; --i)
             {
                 int imodified = *((Arr*)&oldDoorPortalIndices)->GetAt(i);
-                UpdateTriangleExtraInfo((unsigned short)imodified);
+                DeleteExtraEdgeInfo((unsigned short)imodified);
             }
         }
         if (ifileVersionNumber < 6)

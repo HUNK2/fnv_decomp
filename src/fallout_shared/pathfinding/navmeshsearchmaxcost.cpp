@@ -259,7 +259,7 @@ struct NavMeshSearchLocation
     NiPoint3 FastNavMeshTriLocation_GetLocation();
 };
 // @fnv 0x006ab4a0
-bool NavMeshSearchMaxCost::StartSearch(int aiSearchType, NavMeshSearchLocation* apStart, PathingLocation* apGoal,
+bool NavMeshSearchMaxCost::BuildNodePath(int aiSearchType, NavMeshSearchLocation* apStart, PathingLocation* apGoal,
                                      PathBuilderDetailedPathInfos* apInfos, PathBuilderDetailedPathInfos* apAltInfos)
 {
     (*(NavMeshSearchLocation*)&unk205c) = *apStart;

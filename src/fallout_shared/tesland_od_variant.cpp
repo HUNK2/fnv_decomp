@@ -858,7 +858,7 @@ struct FUN_00541540_Class {
 void FUN_00541540_Class::TESLandTexture_QueueTexture(int a, QueuedFile* b)
 {
     if (*(BGSTextureSet**)((char*)this + 0x18))
-        ((BGSTextureSet**)((char*)this + 0x18))[0]->LoadTextures(a, b, true);
+        ((BGSTextureSet**)((char*)this + 0x18))[0]->QueueTextureSet(a, b, true);
 }
 
 struct FUN_00541590_Class {
@@ -1220,17 +1220,17 @@ FUN_00537d40::~FUN_00537d40()
 
 int TruncateFloatToInt(float value);
 bool TESForm_QEndianSwapOnSave();
-void __cdecl AppendChunk(unsigned int fourcc, void* buf, unsigned int size);
+void __cdecl TESForm___AddChunkData(unsigned int fourcc, void* buf, unsigned int size);
 void __cdecl TESForm_AddChunkArray(unsigned int fourcc, void* buf, unsigned int size);
 int __cdecl FUN_00ec7d40(int v);
 void __cdecl FNV_Warning(const char* fmt, ...);
-void __cdecl CompressSaveLoadRecord();
+void __cdecl TESForm_CompressSaveBuffer();
 int TESLandTexture_GetDefaultTexture();
 void __fastcall QuestPerkEntryData_Endian(void* p);
 struct FUN_0084e3a0_Class { int GetHavokWorldObjectCountInSceneGraph_0084e3a0(); };
 struct FUN_00535aa0_Class { void OBJ_WEAP_CRITICAL_Endian(); };
-struct FUN_004855a0_shell { void BeginFormRecord(); };
-struct FUN_00485680_shell { void FinishFormRecord(); };
+struct FUN_004855a0_shell { void TESForm_StartForm(); };
+struct FUN_00485680_shell { void TESForm_CloseForm(); };
 extern double DAT_0102dfe0;
 extern double DAT_0101e568;
 extern double DAT_01012060;
@@ -1294,10 +1294,10 @@ void This538110::TESObjectLAND_Save()
     } else {
     if (!((FUN_005341e0_Class*)this)->TESObjectLAND_HasGoodNormals())
         ((FUN_0053db20_Class*)this)->TESObjectLAND_ForceGoodNormals();
-    ((FUN_004855a0_shell*)this)->BeginFormRecord();
+    ((FUN_004855a0_shell*)this)->TESForm_StartForm();
     if (TESForm_QEndianSwapOnSave())
         QuestPerkEntryData_Endian(&m_1c);
-    AppendChunk(0x41544144, &m_1c, 4);
+    TESForm___AddChunkData(0x41544144, &m_1c, 4);
     if (TESForm_QEndianSwapOnSave())
         QuestPerkEntryData_Endian(&m_1c);
     if (m_1c & 1) {
@@ -1355,7 +1355,7 @@ void This538110::TESObjectLAND_Save()
         }
         if (TESForm_QEndianSwapOnSave())
             QuestPerkEntryData_Endian(&B);
-        AppendChunk(0x54474856, &B, 0x448);
+        TESForm___AddChunkData(0x54474856, &B, 0x448);
         if (TESForm_QEndianSwapOnSave())
             QuestPerkEntryData_Endian(&B);
         if (wVal)
@@ -1401,7 +1401,7 @@ void This538110::TESObjectLAND_Save()
                 v.m_00 = ((FUN_0084e3a0_Class*)m_28->m_20arr[w])->GetHavokWorldObjectCountInSceneGraph_0084e3a0();
                 if (TESForm_QEndianSwapOnSave())
                     ((FUN_00535a60_Class*)&v)->FILE_TEX_DATA_Endian();
-                AppendChunk(0x54585442, &v, 8);
+                TESForm___AddChunkData(0x54585442, &v, 8);
                 if (TESForm_QEndianSwapOnSave())
                     ((FUN_00535a60_Class*)&v)->FILE_TEX_DATA_Endian();
             }
@@ -1420,7 +1420,7 @@ void This538110::TESObjectLAND_Save()
                         pTmp.m_00 = (w1 != TESLandTexture_GetDefaultTexture()) ? ((FUN_0084e3a0_Class*)w1)->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : 0;
                         if (TESForm_QEndianSwapOnSave())
                             ((FUN_00535a60_Class*)&pTmp)->FILE_TEX_DATA_Endian();
-                        AppendChunk(0x54585441, &pTmp, 8);
+                        TESForm___AddChunkData(0x54585441, &pTmp, 8);
                         if (TESForm_QEndianSwapOnSave())
                             ((FUN_00535a60_Class*)&pTmp)->FILE_TEX_DATA_Endian();
                     }
@@ -1447,7 +1447,7 @@ void This538110::TESObjectLAND_Save()
                                 for (w7 = 0; w7 < (unsigned int)v4; w7++)
                                     ((FUN_00535aa0_Class*)&t7[w7])->OBJ_WEAP_CRITICAL_Endian();
                             }
-                            AppendChunk(0x54585456, t7, v4 * 8);
+                            TESForm___AddChunkData(0x54585456, t7, v4 * 8);
                             if (TESForm_QEndianSwapOnSave()) {
                                 for (v5 = 0; v5 < (unsigned int)v4; v5++)
                                     ((FUN_00535aa0_Class*)&t7[v5])->OBJ_WEAP_CRITICAL_Endian();
@@ -1459,8 +1459,8 @@ void This538110::TESObjectLAND_Save()
             }
         }
     }
-    ((FUN_00485680_shell*)this)->FinishFormRecord();
-    CompressSaveLoadRecord();
+    ((FUN_00485680_shell*)this)->TESForm_CloseForm();
+    TESForm_CompressSaveBuffer();
     }
 }
 
@@ -2814,7 +2814,7 @@ struct TerrainColorStreamAccess {
 };
 struct Geometry_5345c0 {
     unsigned int NiGeometry_GetNormals();
-    NiColorA* GetNextProc();
+    NiColorA* NiGeometry_GetColors();
     TerrainColorStreamAccess* NiGeometry_GetModelData();
 };
 struct Node_5345c0 { Geometry_5345c0* FUN_0043b4a0(unsigned int); };
@@ -2850,7 +2850,7 @@ void FUN_005345c0_shell::TESObjectLAND_GetColorA(unsigned int group, unsigned in
     } else if (store->nodes && store->nodes[group]) {
         Geometry_5345c0* geometry = store->nodes[group]->FUN_0043b4a0(0);
         if (geometry->NiGeometry_GetNormals()) {
-            out = geometry->GetNextProc()[index];
+            out = geometry->NiGeometry_GetColors()[index];
             found = true;
         } else {
             TerrainColorStreamAccess* data = geometry->NiGeometry_GetModelData();
@@ -3073,7 +3073,7 @@ struct Range {float x,y;};
 extern float DAT_01016970, DAT_01015f5c, DAT_010236e0;
 struct UpdateData {float time; bool a,b; int c; UpdateData(float,bool,bool);};
 struct Shape;
-struct GeomData {void FUN_00a67090(int); void FUN_00a67050(int); void FUN_004410f0(bool); void SetByteAtOffset38(int);};
+struct GeomData {void FUN_00a67090(int); void FUN_00a67050(int); void FUN_004410f0(bool); void SetKeepFlags(int);};
 
 struct Property {int FUN_008d8520(); void* GetStringAtOffset();};
 struct Model {struct Scene* NiObjectNET_GetControllers();};
@@ -3311,7 +3311,7 @@ if (!data->nodes) {
   if(shapesB[index]) {
    GeomData* geometryB=shapesB[index]->NiGeometry_GetModelData();
    geometryB->FUN_00a67050(0x4000); geometryB->FUN_004410f0(true);
-   int flags5=17; flags5|=6; geometryB->SetByteAtOffset38(flags5);
+   int flags5=17; flags5|=6; geometryB->SetKeepFlags(flags5);
    Property* property3=shapesB[index]->CombatController_GetTarget();
    Property* shader6=property3==0 ? 0 : ((property3->FUN_008d8520()>=1 && property3->FUN_008d8520()<=5) ? property3 : 0);
    if(shader6) {
@@ -4660,7 +4660,7 @@ struct LandTexturing : LandMemObject {
     char pad00[0x30];
     LandShaderSlot kShader;
     char pad34[0x6c];
-    void SetFullNameByType(int aiIndex, const char* apPath);
+    void BGSTextureSet_SetBGSTextureFilename(int aiIndex, const char* apPath);
 };
 
 struct LandShaderData {
@@ -4745,9 +4745,9 @@ void __cdecl TESObjectLAND_InitializeStatics() {
     DAT_011c9f08 = new LandTexturing();
     char acPath[260];
     BSsprintf(acPath, 260, s_szLandscapeFormat, DAT_011ca004.FUN_00403df0());
-    DAT_011c9f08->SetFullNameByType(0, acPath);
+    DAT_011c9f08->BGSTextureSet_SetBGSTextureFilename(0, acPath);
     BSsprintf(acPath, 260, s_szLandscapeFormat, DAT_011c9f8c.FUN_00403df0());
-    DAT_011c9f08->SetFullNameByType(1, acPath);
+    DAT_011c9f08->BGSTextureSet_SetBGSTextureFilename(1, acPath);
     DAT_011c3f2c->FUN_00726070()->RemoveNode(DAT_011c9f08);
     DAT_011c9f04 = new LandShaderData();
     DAT_011c9f04->FUN_00984f60(DAT_011c9f08);

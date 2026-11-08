@@ -159,7 +159,7 @@ void Menu::SetMenuVisibility(bool abVisible)
     TileMenu* pTileMenu = pMenu;
     pTileMenu->Set(0xFA3, 0.0f, true);
     if (!abVisible)
-        UnloadMenuData();
+        StartFadeIn();
     ClearInterfaceState(0);
     (void)GetMenuScale();
 }
@@ -225,7 +225,8 @@ void __cdecl Interface_NewTimer(Menu* m, float f);
 void __cdecl Interface_PopFromEnterStack(int a, int b);
 void __cdecl Interface_UpdateAllTimers();
 // @fnv 0x00a1d910
-void Menu::LoadMenuData()
+// src: COMMUNITY 0x00a1d910
+void Menu::StartFadeOut()
 {
     Tile* t = pMenu;
     float ffade;
@@ -252,7 +253,8 @@ void __cdecl Interface_NewTimer(Menu* apMenu, float afFade);
 void __cdecl Interface_UpdateAllTimers();
 
 // @fnv 0x00a1db20
-void Menu::UnloadMenuData()
+// src: COMMUNITY 0x00a1db20
+void Menu::StartFadeIn()
 {
     float ffade = pMenu ? pMenu->GetFloat(0xfc1) : 0.25f;
     if (ffade == 0.0)
@@ -878,7 +880,7 @@ struct FUN_00a0ac80 : public FUN_00a0ad40
 
 extern FUN_00a0ac80* DAT_011f32d0;
 
-Tile* __fastcall CreateMenuTiles(Tile*, void*);
+Tile* __fastcall Tile_BuildAndNameTree(Tile*, void*);
 
 void __fastcall ApplyTileTemplate(Tile*, Tile__TileTemplate*);
 
@@ -904,7 +906,7 @@ Tile* Menu::CreateTileFromTemplate(Tile* apParent, const char* axName, Tile* apL
         FUN_00a0ac80* pbuild = DAT_011f32d0;
         DAT_011f32d0 = new FUN_00a0ac80;
         ((Tile__BuildStorage*)DAT_011f32d0)->SetTileTemplate(ptemplate);
-        preturn_val = ((Tile*(__thiscall*)(Tile*, void*)) &CreateMenuTiles)(apParent, ptemplate);
+        preturn_val = ((Tile*(__thiscall*)(Tile*, void*)) &Tile_BuildAndNameTree)(apParent, ptemplate);
         ((void(__thiscall*)(Tile*, Tile__TileTemplate*)) &ApplyTileTemplate)(preturn_val, ptemplate);
         DAT_011f32d0->pTemplate = 0;
         delete DAT_011f32d0;

@@ -31,7 +31,8 @@ void* __cdecl NiVertWeightsExtraData_GetRTTI()
 extern void* DAT_0109ee9c;
 
 // @fnv 0x00a89b80
-void* __cdecl CreateNiExtraData()
+// src: EXE 0x00a89b80
+void* __cdecl NiVertWeightsExtraData_CreateObject()
 {
     NiExtraData* p = (NiExtraData*)BSFadeNode::operator new(0xc);
     if (p)

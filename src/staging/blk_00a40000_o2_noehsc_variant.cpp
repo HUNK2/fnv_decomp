@@ -147,7 +147,7 @@ struct A51BF0
     bool d;
     void FUN_00a5d3a0();
 };
-A51BF0* CreateA51BF0();
+A51BF0* NiMorphData_CreateObject();
 float Runtime_UpdateState_00a42070(float param_1, float param_2, float param_3, float param_4, float param_5);
 struct FUN_00a44f90_class
 {
@@ -237,7 +237,7 @@ class FUN_00a41410_cls
     unsigned short unk08;
     unsigned short m_uiItemCount;
 
-    void DispatchByKey(HandlerArg* a1);
+    void BSAnimNoteListener_Update(HandlerArg* a1);
 };
 struct S_00a42290_Q : NiRefObject
 {
@@ -1127,7 +1127,7 @@ struct Obj
     Obj* next;
     Obj* Cast(const NiRTTI*) throw();
     bool RemoveExtraDataAt(unsigned short) throw();
-    void ClearExtraData() throw();
+    void NiObjectNET_RemoveAllExtraData() throw();
     void Inc() throw()
     {
         InterlockedIncrement(&refs);
@@ -1475,7 +1475,8 @@ inline NiPointer<T>& NiPointer<T>::operator=(const NiPointer<T>& ptr)
 }
 
 // @fnv 0x00a5d510
-void NiObject::ResolveObjectPointer(NiPointer<NiObject>& spCopy)
+// src: COMMUNITY 0x00a5d510
+void NiObject::CreateDeepCopy(NiPointer<NiObject>& spCopy)
 {
     NiStream kStream;
     kStream.InsertObject(this);

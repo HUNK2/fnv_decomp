@@ -120,8 +120,8 @@ public:
     float DotProduct(const LocalVec3* other) const;
     float Length() const;
     float LengthSquared() const;
-    float GetSquaredXYLength();
-    float GetSquaredXYLength() const;
+    float NiPoint3_SqrXYLength();
+    float NiPoint3_SqrXYLength() const;
     Elem16& expand(Allocator& allocator);
 
     void SetComponents(float x, float y, float z);
@@ -656,7 +656,8 @@ extern int DAT_0109cd44;
 
 // Allocates 0xc4 bytes, constructs a NiTriStrips in place, sets its vtable to DAT_0109cd44, and returns the pointer or 0 on failure.
 // @fnv 0x00a71ce0
-void* CreateNiTriStrips()
+// src: EXE 0x00a71ce0
+void* NiTriStrips_CreateObject()
 {
     NiTriStrips* p = (NiTriStrips*)NiMemObject::operator new(0xc4);
     if (p)
@@ -2141,7 +2142,8 @@ struct SceneFactoryObject
 
 // Allocates a 196-byte SceneFactoryObject, initializes it, sets its vtable to DAT_0109d55c, and returns it (or null on allocation failure).
 // @fnv 0x00a74750
-SceneFactoryObject* CreateSceneFactoryObject()
+// src: EXE 0x00a74750
+SceneFactoryObject* NiLines_CreateObject()
 {
     SceneFactoryObject* object = static_cast<SceneFactoryObject*>(BSFadeNode::operator new(196));
     if (object)
@@ -3001,7 +3003,8 @@ struct A5FC10Stub
 void* __cdecl Object_DispatchCommandFour(unsigned int size);
 
 // @fnv 0x00a60070
-A5FC10Stub* __cdecl CreateA5FC10Stub()
+// src: EXE 0x00a60070
+A5FC10Stub* __cdecl NiSourceTexture_CreateObject()
 {
     A5FC10Stub* object = (A5FC10Stub*)Object_DispatchCommandFour(0x48);
 
@@ -3511,7 +3514,7 @@ inline unsigned int NiStream::version()
 {
     return *reinterpret_cast<const unsigned int*>(reinterpret_cast<const char*>(this) + 0xd8);
 }
-static inline void ReleaseTextureObject(NiRefObject* object)
+static inline void CheckOcclusionQueryResults(NiRefObject* object)
 {
     if (InterlockedDecrement((volatile long*)&object->m_uiRefCount) == 0)
         object->DeleteThis();
@@ -3558,7 +3561,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
             stream.ReadFixedString(m_kFilename);
             if (m_spSrcPixelData.m_pObject)
             {
-                ReleaseTextureObject(reinterpret_cast<NiRefObject*>(m_spSrcPixelData.m_pObject));
+                CheckOcclusionQueryResults(reinterpret_cast<NiRefObject*>(m_spSrcPixelData.m_pObject));
                 m_spSrcPixelData.m_pObject = 0;
             }
             bOldVersion = true;
@@ -3581,7 +3584,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
         }
         if (m_spPersistentSrcRendererData.m_pObject)
         {
-            ReleaseTextureObject(reinterpret_cast<NiRefObject*>(m_spPersistentSrcRendererData.m_pObject));
+            CheckOcclusionQueryResults(reinterpret_cast<NiRefObject*>(m_spPersistentSrcRendererData.m_pObject));
             m_spPersistentSrcRendererData.m_pObject = 0;
         }
     }
@@ -3628,7 +3631,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
             }
         }
         if (pkTexture)
-            ReleaseTextureObject(pkTexture);
+            CheckOcclusionQueryResults(pkTexture);
     }
     else if (m_kPlatformFilename.m_kHandle != NiGlobalStringTable::ms_pcEmptyString)
     {
@@ -3639,7 +3642,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
         else
             stream.ChangeObject(pkTexture);
         if (pkTexture)
-            ReleaseTextureObject(pkTexture);
+            CheckOcclusionQueryResults(pkTexture);
     }
     {
         SourcePixelLayout value;
@@ -3677,7 +3680,7 @@ void NiSourceTexture::LoadBinary(NiStream& stream)
     {
         ReadTextureValue(stream, m_bSrcRendererDataIsPersistent);
     }
-    ReleaseTextureObject(this);
+    CheckOcclusionQueryResults(this);
 }
 
 class GlobalObjectO2_00a7b610;

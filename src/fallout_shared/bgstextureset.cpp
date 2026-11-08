@@ -10,8 +10,8 @@
 struct BGSTextureSetMethods : public BGSTextureSet
 {
     void* DeleteTextureSet(unsigned int flags);
-    void SetFullNameByType(int aeType, const char* apFilename);
-    void SaveTextureSet();
+    void BGSTextureSet_SetBGSTextureFilename(int aeType, const char* apFilename);
+    void BGSTextureSet_SaveForm();
     bool CompareTextureSet(TESForm* apCompare);
     void CopyFromTextureSet(TESForm* apForm);
     using BSTextureSet::GetTexture;
@@ -81,7 +81,8 @@ const char* BGSTextureSet::GetTexture(BSShaderProperty::TextureTypeEnum aeTextur
 
 // Queues each non-null texture in the set to the model loader with the given priority and queued file.
 // @fnv 0x005930e0
-void BGSTextureSet::LoadTextures(int aePriority, QueuedFile* apQueuedFile, bool abFlag)
+// src: COMMUNITY 0x005930e0
+void BGSTextureSet::QueueTextureSet(int aePriority, QueuedFile* apQueuedFile, bool abFlag)
 {
     for (int i = 0; i < 6; i++)
     {
@@ -92,7 +93,8 @@ void BGSTextureSet::LoadTextures(int aePriority, QueuedFile* apQueuedFile, bool 
 
 // Creates the null texture set once, assigns it ref ID 40 and editor ID "NullTextureSet", and registers it with the data handler.
 // @fnv 0x00593140
-void BGSTextureSet::InitializeNullTextureSet()
+// src: COMMUNITY 0x00593140
+void BGSTextureSet::CreateNullTextureSet()
 {
     if (!s_pNullTextureSet)
     {
@@ -222,7 +224,8 @@ struct FullNameEx
 };
 // If aeType is below 6, assigns the filename to that texture entry.
 // @fnv 0x00592cc0
-void BGSTextureSetMethods::SetFullNameByType(int aeType, char const* apFilename)
+// src: COMMUNITY 0x00592cc0
+void BGSTextureSetMethods::BGSTextureSet_SetBGSTextureFilename(int aeType, char const* apFilename)
 {
     if (aeType < 6)
         ((FullNameEx*)&pTextures[aeType])->SetFullName(apFilename);
@@ -239,16 +242,17 @@ struct FUN_00593320_shell
 void __cdecl TESForm_AddChunk_00485950(unsigned int, unsigned int);
 extern unsigned int DAT_0118c574[6];
 // @fnv 0x00592810
-void BGSTextureSetMethods::SaveTextureSet()
+// src: EXE 0x00592810
+void BGSTextureSetMethods::BGSTextureSet_SaveForm()
 {
     int i;
-    TESForm::BeginFormRecord();
+    TESForm::TESForm_StartForm();
     for (i = 0; i < 6; ++i)
         ((FUN_0048e370_obj*)&pTextures[i])->TESTexture_Save(DAT_0118c574[i]);
     if (m_pDecalData)
         ((FUN_00593320_shell*)m_pDecalData)->DecalData_Save((void*)0x54444f44);
     TESForm_AddChunk_00485950(0x4d414e44, iFlags);
-    TESForm::FinishFormRecord();
+    TESForm::TESForm_CloseForm();
 }
 
 struct FUN_005e79a0_t : public TESForm

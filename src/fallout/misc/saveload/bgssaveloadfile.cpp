@@ -218,11 +218,12 @@ void __fastcall Bgssaveloadfile_ReleaseStorage_00846690(void** pThis)
 
 struct FUN_008467b0_shell : public BGSSaveLoadFileEntry
 {
-    bool LoadSaveEntry();
+    bool BGSSaveLoadFileEntry_LoadGame();
 };
 
 // @fnv 0x008467b0
-bool FUN_008467b0_shell::LoadSaveEntry()
+// src: COMMUNITY 0x008467b0
+bool FUN_008467b0_shell::BGSSaveLoadFileEntry_LoadGame()
 {
     return DAT_011de134->LoadGame(*(const char**)this, *(int*)((char*)this + 0x34), false, false);
 }

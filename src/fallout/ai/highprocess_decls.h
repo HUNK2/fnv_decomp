@@ -292,7 +292,7 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting137;
 class CombatDamageCalculator
 {
   public:
-    static double GetDamageMultiplier(float, float);
+    static double CombatFormulas_GetRandomBetween(float, float);
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting148;
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting147;

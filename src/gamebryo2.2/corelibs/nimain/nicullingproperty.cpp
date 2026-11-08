@@ -262,7 +262,8 @@ inline void* __cdecl operator new(unsigned int, void* p)
 }
 // Allocates a NiProperty, clears the low bit of the 0x18 field, sets the vtable to DAT_0109f68c, and returns it.
 // @fnv 0x00a8f580
-NiProperty* __cdecl CreateProperty()
+// src: EXE 0x00a8f580
+NiProperty* __cdecl NiCullingProperty_CreateObject()
 {
     NiCullingProperty* pProperty = (NiCullingProperty*)BSFadeNode::operator new(0x1c);
     if (pProperty)

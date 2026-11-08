@@ -854,7 +854,7 @@ struct NiParticleObject : NiParticleBase
 };
 extern void* __cdecl Object_DispatchCommandFour(unsigned int);
 extern const char DAT_010a1024;
-NiParticleObject* __cdecl CreateNiParticleObject();
+NiParticleObject* __cdecl NiBSPNode_CreateObject();
 extern int DAT_010a13ac;
 void __declspec(noreturn) FUN_00aa0dc0();
 struct FUN_00a9b4a0_Class

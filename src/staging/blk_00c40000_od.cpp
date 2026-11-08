@@ -871,11 +871,12 @@ FUN_00c5cfb0::~FUN_00c5cfb0()
 
 struct Caller74690 {
     void FUN_00a74690(NiTPrimitiveArray<char*>*);
-    void ForwardTo74690(NiTPrimitiveArray<char*>* p);
+    void BSScissorTriShape_GetViewerStrings(NiTPrimitiveArray<char*>* p);
 };
 
 // @fnv 0x00c5d0f0
-void Caller74690::ForwardTo74690(NiTPrimitiveArray<char*>* pStrArr)
+// src: EXE 0x00c5d0f0
+void Caller74690::BSScissorTriShape_GetViewerStrings(NiTPrimitiveArray<char*>* pStrArr)
 {
     FUN_00a74690(pStrArr);
 }
@@ -4173,7 +4174,8 @@ struct NewObject_b9649 {
 
 // Allocates and constructs a NewObject_b9649 via its operator new and returns the pointer.
 // @fnv 0x00c46df0
-NewObject_b9649* CreateNewObject() {
+// src: EXE 0x00c46df0
+NewObject_b9649* BSMultiBoundNode_CreateObject() {
     return new NewObject_b9649();
 }
 
@@ -6840,7 +6842,7 @@ bool RegStore::WriteSetting(Setting* pSetting)
             Open(true);
         hKey2 = hKey;
         if (hKey2 != 0) {
-            uiSize = pSetting->GetFormatSize();
+            uiSize = pSetting->Setting_DataSize();
             iType7 = Setting_DataType_00c33090((int)pName4);
             if (iType7 == 1) {
                 strcpy_s(acName, 64, pName4);
@@ -6888,7 +6890,7 @@ bool RegSettingCollection::ReadFromRegistry(Setting* pSetting) {
         {
             HKEY hCurKey5 = hKey;
             if (hCurKey5) {
-                dwSize3 = pSetting->GetFormatSize();
+                dwSize3 = pSetting->Setting_DataSize();
                 kDwType = GetStateResult((int*)pSetting);
                 if (kDwType == 1) {
                     strcpy_s(shortName6, 0x40, pName4);
@@ -7398,7 +7400,7 @@ struct SwitchChild {
     virtual void vf00(); virtual void vf04(); virtual void vf08(); virtual void vf0C();
     virtual void vf10(); virtual void vf14(); virtual void vf18(); virtual void vf1C();
     virtual void vf20(); virtual void vf24(); virtual void vf28(); virtual void vf2C();
-    virtual void vf30(); virtual void vf34(); virtual void vf38(); virtual void vf3C();
+    virtual void vf30(); virtual void vf34(); virtual void PrintInfo(); virtual void vf3C();
     virtual void vf40(); virtual void vf44(); virtual void vf48(); virtual void vf4C();
     virtual void vf50(); virtual void vf54(); virtual void vf58();
     virtual bool IsEqual(SwitchChild* pOther);
@@ -7556,7 +7558,8 @@ BSTextureData::~BSTextureData() {}
 
 // BSTextureData::CreateObject: allocates a BSTextureData and returns it as a NiObject pointer.
 // @fnv 0x00c5eed0
-NiObject* __cdecl CreateShaderAccumulator(void) {
+// src: EXE 0x00c5eed0
+NiObject* __cdecl BSTextureData_CreateObject(void) {
     NiObject* obj = (NiObject*)new BSTextureData();
     return obj;
 }
@@ -7762,7 +7765,8 @@ void FUN_00c5fd50_cls::UpdateState_00c5fd50()
 
 // Allocates a BSPSysStripUpdateModifier.
 // @fnv 0x00c5fee0
-BSPSysStripUpdateModifier* __cdecl CreatePositionModifierInstance() {
+// src: EXE 0x00c5fee0
+BSPSysStripUpdateModifier* __cdecl BSPSysStripUpdateModifier_CreateObject() {
     BSPSysStripUpdateModifier* instance = new BSPSysStripUpdateModifier;
     return instance;
 }

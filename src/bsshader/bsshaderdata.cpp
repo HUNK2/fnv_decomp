@@ -174,7 +174,7 @@ void __fastcall CreatePrecipitationPixelShaders(BSShader* shader, void*)
     char acPath[260];
     for (int i = 0; i < 2; i++)
     {
-        BSShader::GetShaderPath(ShaderDefs[i].pFile, acPath);
+        BSShader::MakePath(ShaderDefs[i].pFile, acPath);
         _sprintf_s(acName, 260, "PRECIP%03i.pso", i);
         DAT_012005c8[i] = shader->CompilePixelShader(acPath, ShaderDefs[i].Macros,
                                              NiD3DGPUProgramCache::GetPixelShaderProfile(false), acName);
@@ -226,7 +226,7 @@ void __fastcall CreatePrecipitationVertexShaders(BSShader* shader, void*)
     {
         char shaderName[260];
         char shaderPath[260];
-        BSShader::GetShaderPath(shaderDefs[i].pFile, shaderPath);
+        BSShader::MakePath(shaderDefs[i].pFile, shaderPath);
         _sprintf_s(shaderName, 260, "PRECIP%03i.vso", i);
         DAT_012005d0[i] =
             shader->CompileVertexShader(shaderPath, shaderDefs[i].Macros, NiD3DGPUProgramCache::GetVertexShaderProfile(), shaderName);

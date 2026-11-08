@@ -352,7 +352,7 @@ struct FUN_00dfcf00_vt
 {
     virtual void m_iWordAt00(int);
 };
-void __cdecl Object_M_iWordAt00_Thunk(FUN_00dfcf00_vt* p);
+void __cdecl cleanupLoadedObject_hkpSimpleMeshShape(FUN_00dfcf00_vt* p);
 struct FUN_00dfd240_vt
 {
     virtual void __thiscall cleanupLoadedObject_hkpConvexVerticesShape(int);
@@ -1276,7 +1276,7 @@ void* Object_GetGlobalObjectAddress_00dfb880();
 // FUN_00dfb8a0 : a one-line function - getter
 extern int g_target_00dfb8a0;
 void* Object_GetGlobalObjectAddress_00dfb8a0();
-// ResetVTable -- installs a fixed vtable on an object and, when the second
+// finishLoadedObject_hkaSplineCompressedAnimation -- installs a fixed vtable on an object and, when the second
 // argument is set, runs the object's update step afterwards.
 extern int DAT_010de0ec;
 // vtable that gets installed
@@ -1288,7 +1288,7 @@ struct ResetVTableTarget
 {
     void __thiscall m_update();
 };
-void __cdecl ResetVTable(ResetVTableObj* p, int bUpdate);
+void __cdecl finishLoadedObject_hkaSplineCompressedAnimation(ResetVTableObj* p, int bUpdate);
 extern int DAT_010de0ec;
 void* Runtime_GetDAT010de0ecAddress();
 struct CpuOpaque;
@@ -2168,7 +2168,7 @@ extern int DAT_010e5ae4;
 extern int DAT_010c925c;
 extern int DAT_010debf4;
 extern int DAT_010debe4;
-void __cdecl InitObjectVtables(int* p, int b);
+void __cdecl finishLoadedObject_hkpVehicleRayCastWheelCollide(int* p, int b);
 extern int DAT_010e5ae4;
 int* Object_GetGlobalObjectAddress_00dfeb00();
 extern int DAT_0126ce60;
@@ -2300,7 +2300,7 @@ class DFF2E0Object
         return p;
     }
 };
-void Object_ConstructInPlace(void* p, int finishing);
+void finishLoadedObject_hkpMountedBallGun(void* p, int finishing);
 extern int DAT_0126d370;
 int* __cdecl Runtime_GetDAT0126d370Address();
 extern int DAT_0126d3d0;
@@ -2319,7 +2319,7 @@ struct DFF4E0Object
 {
     virtual void Destroy(bool bFree);
 };
-void Object_Destroy_Thunk(DFF4E0Object* pkObject);
+void cleanupLoadedObject_hkpGravityGun(DFF4E0Object* pkObject);
 extern unsigned char DAT_0126d448;
 void* __cdecl Runtime_GetDAT0126d448Address();
 struct DFF520FinishFlag
@@ -2526,7 +2526,7 @@ struct SpawnedObject
     int unk08;
     SpawnedSub m_0c;
 };
-void __cdecl InitSpawnedObject(SpawnedObject* p, int flag);
+void __cdecl finishLoadedObject_hkpPointToPathConstraintData(SpawnedObject* p, int flag);
 extern int DAT_010da004;
 int* __cdecl Runtime_GetDAT010da004Address();
 extern int DAT_0126d910;
@@ -2535,7 +2535,7 @@ struct S_00dfff80_Foo
 {
     void __thiscall FUN_00cdf760(int a);
 };
-void __cdecl CallFooMethodIfNotNull(S_00dfff80_Foo* p, int a);
+void __cdecl finishLoadedObject_hkpMalleableConstraintData(S_00dfff80_Foo* p, int a);
 // FUN_00dfffd0 : a one-line function - getter
 extern int g_target_00dfffd0;
 void* Runtime_GetTarget00dfffd0Address();
@@ -3141,7 +3141,7 @@ struct DestructibleDFF
 {
     virtual ~DestructibleDFF();
 };
-void __cdecl Object_DestructibleDFF_Thunk(DestructibleDFF* pkObject);
+void __cdecl cleanupLoadedObject_hkpDisplayBindingDataPhysicsSystem(DestructibleDFF* pkObject);
 struct S00de0fe0_Element
 {
     virtual void vf00(int value);

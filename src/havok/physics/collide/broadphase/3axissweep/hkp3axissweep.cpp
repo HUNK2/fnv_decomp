@@ -1576,7 +1576,7 @@ struct SweepRouter {
     int unk00, unk04, unk08, unk0c;
     Allocator* heap;
 };
-void* AllocateWithHeader(Allocator*, int);
+void* hkMemoryRouter_easyAlloc(Allocator*, int);
 void __cdecl hkArrayUtil__reserve(Allocator*, void*, int, int);
 void __cdecl ResizeAudioStream(Allocator*, void*, int);
 BSAudio* __cdecl hkMemoryRouter_getInstance();
@@ -1668,7 +1668,7 @@ FUN_00d13bd0::FUN_00d13bd0(const int* low,const int* high,int count):lowBound((v
         SweepRouter* r = (SweepRouter*)hkMemoryRouter_getInstance();
         Allocator* heap = r->heap;
         int iAllocationSize = scratch.markerCount * 16;
-        markers = (SweepMarker*)AllocateWithHeader(heap, iAllocationSize);
+        markers = (SweepMarker*)hkMemoryRouter_easyAlloc(heap, iAllocationSize);
     }
     scratch.index=0;
     if(scratch.index<mask) { scratch.byteOffset=0; for(;scratch.index<mask;++scratch.index,scratch.byteOffset+=16) {

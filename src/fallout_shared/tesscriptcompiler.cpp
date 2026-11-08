@@ -26,7 +26,8 @@ int TESForm::GetFormEditorIDLength()
 }
 
 // @fnv 0x005b1120
-ScriptFunctionInfo* GetFunctionByOpcode(SCRIPT_OUTPUT output)
+// src: COMMUNITY 0x005b1120
+ScriptFunctionInfo* ScriptCompiler_GetFunctionDef(SCRIPT_OUTPUT output)
 {
     ScriptFunctionInfo* result = 0;
     if (output >= 0x100 && output < 0x1cd)
@@ -87,7 +88,8 @@ void S7f::SetValue(unsigned char aucValue)
 
 // Returns 1 if the string is a valid integer (optional leading '-', then digits only), otherwise 0.
 // @fnv 0x004b1230
-int IsIntegerString(const char* pcString)
+// src: COMMUNITY 0x004b1230
+int IsStringInteger(const char* pcString)
 {
     char c = *pcString;
     pcString++;
@@ -278,7 +280,7 @@ bool __cdecl ScriptCompiler_IsValidVariableName(const char* apVarName)
 {
     if (!apVarName || !apVarName[0])
         return false;
-    TESForm* pform = TESForm::LookupFormByEditorID(apVarName);
+    TESForm* pform = TESForm::GetFormByEditorID(apVarName);
     if (pform)
         return false;
     ScriptVariableData checkword;
@@ -471,7 +473,8 @@ void __cdecl ScriptCompileError(ScriptSource* apData, const char* apFormat, ...)
 
 // Reads one line from the script source into the line buffer, skipping comments and leading whitespace and trimming trailing spaces and tabs.
 // @fnv 0x005af3f0
-int __cdecl ReadScriptLine(ScriptSource* apData, ScriptLineBuffer* apBuffer)
+// src: COMMUNITY 0x005af3f0
+int __cdecl ScriptCompiler_GetNextLine(ScriptSource* apData, ScriptLineBuffer* apBuffer)
 {
     char* pText5 = apData->pInput + apData->m_uiInputOffset;
     int _iOffset = 0;
@@ -1033,7 +1036,7 @@ struct Name95
     void FUN_004037f0(const char*, int);
 };
 unsigned int __cdecl FUN_00ec6130(const char*);
-int __cdecl ReadScriptLine(CStringArgument*, Line95*);
+int __cdecl ScriptCompiler_GetNextLine(CStringArgument*, Line95*);
 int __cdecl ScriptCompiler_GetNextWord(CStringArgument*, Word95*, const char*, unsigned int*, int, int);
 void __cdecl ReportScriptError(CStringArgument*, const char*, ...);
 void __cdecl FUN_00406d30(char*, unsigned int, const char*);
@@ -1044,7 +1047,7 @@ unsigned int ScriptCompiler::ParseLine(CStringArgument* pCompile)
         return 65535;
     Line95* line8 = new Line95;
     line8->number = pCompile->m_uiLastLineNumber + 1;
-    int consumed38 = ReadScriptLine(pCompile, line8);
+    int consumed38 = ScriptCompiler_GetNextLine(pCompile, line8);
     if (!consumed38)
     {
         pCompile->m_eErrorCode = line8->error;
@@ -1124,12 +1127,13 @@ void __cdecl ReportCompileError(CStringArgument* apData, const char* apFormat, .
 
 struct ScriptBlockScanner
 {
-    int ScanBlockLines(CStringArgument* apData, unsigned int* apStartLine);
+    int ScriptCompiler_CountIfLines(CStringArgument* apData, unsigned int* apStartLine);
 };
 
 // Counts lines until the if/else/endif block starting after *apStartLine closes.
 // @fnv 0x005b13e0
-int ScriptBlockScanner::ScanBlockLines(CStringArgument* apData, unsigned int* apStartLine)
+// src: COMMUNITY 0x005b13e0
+int ScriptBlockScanner::ScriptCompiler_CountIfLines(CStringArgument* apData, unsigned int* apStartLine)
 {
     int iCount8 = 0;
     int iDepthA = 0;
@@ -1224,11 +1228,12 @@ ScriptFunctionB15* __cdecl FUN_005b1120(unsigned int m_uiReferenceID);
 
 struct FUN_005b1570_Class
 {
-    int CompileScriptLine(CStringArgument* pkData, unsigned int* puiLineNumber, char* pInput, char* pOutput);
+    int ScriptCompiler_ReplaceVariablesAndFunctions(CStringArgument* pkData, unsigned int* puiLineNumber, char* pInput, char* pOutput);
 };
 
 // @fnv 0x005b1570
-int FUN_005b1570_Class::CompileScriptLine(CStringArgument* pkData, unsigned int* puiLineNumber, char* pInput,
+// src: COMMUNITY 0x005b1570
+int FUN_005b1570_Class::ScriptCompiler_ReplaceVariablesAndFunctions(CStringArgument* pkData, unsigned int* puiLineNumber, char* pInput,
                                           char* pOutput)
 {
     unsigned int uiIndex;
@@ -1691,11 +1696,12 @@ void ReportScriptError(CStringArgument* apData, const char* apMsg, ...);
 
 struct FUN_005b12c0_owner
 {
-    int CountLinesInBeginBlock(CStringArgument* apData, unsigned int* apLineNumber);
+    int ScriptCompiler_CountBlockLines(CStringArgument* apData, unsigned int* apLineNumber);
 };
 
 // @fnv 0x005b12c0
-int FUN_005b12c0_owner::CountLinesInBeginBlock(CStringArgument* apData, unsigned int* apLineNumber)
+// src: COMMUNITY 0x005b12c0
+int FUN_005b12c0_owner::ScriptCompiler_CountBlockLines(CStringArgument* apData, unsigned int* apLineNumber)
 {
     int count = 0;
     int type;
@@ -1985,7 +1991,7 @@ bool FUN_005afa50_shell::ScriptCompileData_VerifyReferencedObjectList()
 }  // namespace fnv_005afa50
 
 #include <stdlib.h>
-int __cdecl IsIntegerString(const char*);
+int __cdecl IsStringInteger(const char*);
 void* __cdecl FUN_00401460(void*, const void*, unsigned int);
 unsigned int __cdecl BSstrlen(const char*);
 
@@ -2226,7 +2232,7 @@ bool __cdecl Cmd_NonDefault_Parse(unsigned short opcode, MessageParameter_5b3c* 
                                                         false, false);
                                     if (size > 0)
                                     {
-                                        if (!IsIntegerString(word.text))
+                                        if (!IsStringInteger(word.text))
                                         {
                                             ReportScriptError(
                                                 context,

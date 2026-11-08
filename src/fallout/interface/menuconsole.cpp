@@ -381,7 +381,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                             Script script;
                                             script.NotifySaveLoadGameOfFormChange();
                                             script.SetText(batchLine);
-                                            script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER,
+                                            script.CompileAndRun(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER,
                                                                      InterfaceManager_GetSingleton()->GetCurrentWeapon());
                                         }
                                     }
@@ -454,7 +454,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     Script script;
                     script.NotifySaveLoadGameOfFormChange();
                     script.SetText(text);
-                    script.CompileScriptText(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER, InterfaceManager_GetSingleton()->GetCurrentWeapon());
+                    script.CompileAndRun(m_pScriptCompiler, COMPILER_NAME_SYSTEM_WINDOW_COMPILER, InterfaceManager_GetSingleton()->GetCurrentWeapon());
                 }
             }
         }
