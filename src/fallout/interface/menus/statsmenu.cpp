@@ -1509,7 +1509,7 @@ struct G2
 {
     void AddHead(int*);
 };
-struct FUN_007e0b20_shell
+struct StatsMenu_StatusDataList
 {
     int pad00;
     G2 kList;  // +0x4
@@ -1518,7 +1518,7 @@ struct FUN_007e0b20_shell
 };
 
 // @fnv 0x007e0b20
-void FUN_007e0b20_shell::AddEffectItem(EffectItem* apEffect)
+void StatsMenu_StatusDataList::AddEffectItem(EffectItem* apEffect)
 {
     if (apEffect)
     {
@@ -2960,7 +2960,7 @@ struct ListBoxInsert : ListBox_enum_ActorValue__Index_
     bool ListBox_unsigned_int_GetFlag(unsigned int);
     void ProcessSlots();
     void AccumulateTileHeight(Tile*);
-    void UpdateScrollTraits();
+    void ListBox_UpdateScrollBar();
     int GetRaceCount();
     Tile* StatsMenu_ReputationList_Append(ActorValue::Index value, const char* text,
                        int(__cdecl* comparator)(FUN_007a62e0*, FUN_007a62e0*), const char* templateName);
@@ -2993,7 +2993,7 @@ Tile* ListBoxInsert::StatsMenu_ReputationList_Append(ActorValue::Index value, co
             if (ListBox_unsigned_int_GetFlag(0))
             {
                 AccumulateTileHeight(tile);
-                UpdateScrollTraits();
+                ListBox_UpdateScrollBar();
             }
             tile->Set(0xFAC, m_usSelectedIndex++);
         }

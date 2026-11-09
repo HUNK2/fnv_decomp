@@ -36,7 +36,7 @@ struct bhkFilteredCdBodyCollector
 };
 void __cdecl hkaPose_syncModelSpace();
 void __cdecl FUN_00cd9fe0();
-struct FUN_00cda4b0_cls
+struct hkaPose
 {
     void __thiscall hkaPose_accessSyncedPoseModelSpace();
 };
@@ -332,7 +332,7 @@ struct FUN_00c7d890_cls
     void* _0;
     int _4;
     unsigned int _8;
-    void ProcessEntries_00c7d890();
+    void hkArray_clearAndDeallocate();
 };
 void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
 void __stdcall BSSimpleArray_bhkUtilFunctions_AVLevel_1024_CopyItems(char* dst, char* src, unsigned int count);
@@ -488,7 +488,7 @@ struct FUN_00c7d5c0_cls
     int m_iArrayLength;
     unsigned int m_uCap;
 
-    void ProcessEntries_00c7d5c0();
+    void hkArray_clearAndDeallocate();
 };
 extern unsigned int g_01268188;
 extern unsigned int g_012685f4;

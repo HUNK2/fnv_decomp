@@ -314,7 +314,7 @@ TESRecipe::TESRecipe()
 }
 
 // FUN_005bd580 : float member getter, returns *m_pIntegerData if present else 0.0f
-struct FUN_005bd580_cls
+struct Font
 {
     int m_i00;
     int m_i01;
@@ -336,7 +336,7 @@ struct FUN_005bd580_cls
 
 // @fnv 0x005bd580
 // src: COMMUNITY 0x005bd580
-float FUN_005bd580_cls::Font_GetFontSize()
+float Font::Font_GetFontSize()
 {
     return this->m_pIntegerData != 0 ? *this->m_pIntegerData : 0.0f;
 }

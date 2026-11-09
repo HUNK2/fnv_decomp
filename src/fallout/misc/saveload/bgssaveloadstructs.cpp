@@ -184,12 +184,12 @@ struct BgssaveloadstructsOffset08View
 };
 struct BGSSaveLoadGame;
 extern BGSSaveLoadGame* g_BGSSaveLoadGame;
-struct FUN_00853570_shell
+struct BGSNumericIDIndex
 {
     void WriteFormIDBytes(unsigned int numericID);
 };
 // @fnv 0x00853570
-void FUN_00853570_shell::WriteFormIDBytes(unsigned int numericID)
+void BGSNumericIDIndex::WriteFormIDBytes(unsigned int numericID)
 {
     unsigned int iElementIndex = reinterpret_cast<FormIDConverter*>(reinterpret_cast<BgssaveloadstructsOffset08View*>(g_BGSSaveLoadGame)->GetFlags())
                               ->RegisterFormID(numericID);

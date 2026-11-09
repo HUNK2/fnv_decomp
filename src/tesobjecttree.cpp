@@ -279,14 +279,14 @@ float FUN_006447b0_shell::GetField84Float()
 }
 
 // float field getter at +0x38 (no RTTI evidence for its class)
-struct FUN_009a9350_shell
+struct NiMaterialProperty
 {
     float TESCombatStyle_GetWeaponMinRangeMult() const;
 };
 
 // @fnv 0x009a9350
 // src: XBOX_PDB 0x009a9350
-float FUN_009a9350_shell::TESCombatStyle_GetWeaponMinRangeMult() const
+float NiMaterialProperty::TESCombatStyle_GetWeaponMinRangeMult() const
 {
     return *(const float*)((const char*)this + 0x38);
 }
@@ -392,12 +392,12 @@ void FUN_00821600_shell::TileShaderProperty_SetTileAlpha(float value)
 }
 
 struct NiMemObject;
-struct FUN_009b0900_shell
+struct Explosion
 {
     unsigned int __thiscall GetFieldE0();
 };
 // @fnv 0x009b0900
-unsigned int __thiscall FUN_009b0900_shell::GetFieldE0()
+unsigned int __thiscall Explosion::GetFieldE0()
 {
     return *(unsigned int*)((char*)this + 0xe0);
 }
@@ -1289,7 +1289,7 @@ struct TreeData
     float unk00, unk04, unk08, unk0c, unk10;
     int unk14;
     float unk18, unk1c;
-    void FUN_00414290();
+    void OBJ_TREE();
 };
 bool __cdecl TESForm_QEndianSwapOnSave();
 void __cdecl TESForm_AddChunkArray_00485710(unsigned int, unsigned int*, unsigned int);
@@ -1335,10 +1335,10 @@ void SaveTree::TESObjectTREE_Save()
     if (data.unk14 < 0)
         data.unk14 = 128;
     if (TESForm_QEndianSwapOnSave())
-        data.FUN_00414290();
+        data.OBJ_TREE();
     TESForm___AddChunkData(0x4d414e43, &data, 32);
     if (TESForm_QEndianSwapOnSave())
-        data.FUN_00414290();
+        data.OBJ_TREE();
     TESForm_AddChunkArray_00485710(0x4d414e42, (unsigned int*)&billboardX, 2);
     TESForm_CloseForm();
 }
@@ -1700,7 +1700,7 @@ class FUN_00a74480 : public TreeSceneObject
     FUN_00a74480(unsigned int texture);
     void AttachProperty(NiObject* property);
 };
-class FUN_00ba8630 : public TreeSceneObject
+class SpeedTreeBillboardShaderProperty : public TreeSceneObject
 {
   public:
     unsigned int unk04;
@@ -1767,7 +1767,7 @@ class FUN_00ba8630 : public TreeSceneObject
     unsigned int unkF8;
     unsigned int unkFC;
     unsigned int unk100;
-    FUN_00ba8630();
+    SpeedTreeBillboardShaderProperty();
     void BSShaderPPLightingProperty_LoadTextureSet(const char* name, TreeSceneObject* object);
 };
 class FUN_0051d0d0 : public TreeSceneObject
@@ -1855,7 +1855,7 @@ TreeSceneObject* TreeBillboardBuilder::TESObjectTREE_BuildDistant3D(bool variant
     TreeSceneObject* f = GetFloatAsUInt();
     if (f)
         h->AttachProperty((NiObject*)f);
-    FUN_00ba8630* i = new FUN_00ba8630;
+    SpeedTreeBillboardShaderProperty* i = new SpeedTreeBillboardShaderProperty;
     h->AttachProperty((NiObject*)i);
     char q[260];
     TESObjectTREE_GetBillboardTextureFilename(q);
@@ -2022,7 +2022,7 @@ struct FUN_0066deb0_vec
 FUN_0066deb0_vec::FUN_0066deb0_vec()
 {}
 
-struct FUN_0051d2c0_shell
+struct TREE_BILLBOARD_DATA
 {
     void* field0;
     void* field4;
@@ -2032,7 +2032,7 @@ struct FUN_0051d2c0_shell
     FUN_0066deb0_vec* items;
     int* itemIDs;
 
-    FUN_0051d2c0_shell* __thiscall Init(void* arg0, void* arg4, void* arg8, void* argC, unsigned int itemCount,
+    TREE_BILLBOARD_DATA* __thiscall Init(void* arg0, void* arg4, void* arg8, void* argC, unsigned int itemCount,
                                         const void* itemSource, const void* idSource);
 };
 
@@ -2042,7 +2042,7 @@ extern unsigned int _data_011c16bc;
 
 // Initializes the shell object by copying four pointers, allocating and copying arrays of items and IDs, then returns this.
 // @fnv 0x0051d2c0
-FUN_0051d2c0_shell* FUN_0051d2c0_shell::Init(void* apField0, void* apField4, void* apField8, void* apFieldC,
+TREE_BILLBOARD_DATA* TREE_BILLBOARD_DATA::Init(void* apField0, void* apField4, void* apField8, void* apFieldC,
                                              unsigned int itemCount, const void* itemSource, const void* idSource)
 {
     field0 = apField0;

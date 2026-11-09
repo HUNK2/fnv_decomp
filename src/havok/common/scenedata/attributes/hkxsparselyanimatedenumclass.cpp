@@ -37,21 +37,22 @@ struct S_00dfdb90_Base
     {}
     int unk04;
 };
-struct __declspec(novtable) FUN_00dfdb90 : S_00dfdb90_Base
+struct __declspec(novtable) hkxSparselyAnimatedInt : S_00dfdb90_Base
 {
     hkArray<int> m_kPointA;
     hkArray<int> m_kPointB;
-    virtual ~FUN_00dfdb90() throw();
+    virtual ~hkxSparselyAnimatedInt() throw();
 };
 // Destructor for the container: implicitly destroys the two int arrays, which deallocate their buffers through the heap allocator.
 // @fnv 0x00dfdb90
-FUN_00dfdb90::~FUN_00dfdb90() throw()
+// src: GUESS 0x00dfdb90 (confidence: high)
+hkxSparselyAnimatedInt::~hkxSparselyAnimatedInt() throw()
 {}
 
 namespace fnv_00dfdc10 {
 struct Helper
 {
-    void FUN_00dfdb90();
+    void hkxSparselyAnimatedInt();
 };
 struct Owner
 {
@@ -67,11 +68,11 @@ struct Owner
     Owner* DestroyOwner(unsigned int flags);
 };
 extern hkMemoryRouter* hkMemoryRouter_getInstance();
-// Calls FUN_00dfdb90 on this, and if flags has bit 0 set, frees this through the holder's heap using unk04; returns this.
+// Calls hkxSparselyAnimatedInt on this, and if flags has bit 0 set, frees this through the holder's heap using unk04; returns this.
 // @fnv 0x00dfdc10
 Owner* Owner::DestroyOwner(unsigned int flags)
 {
-    ((Helper*)this)->FUN_00dfdb90();
+    ((Helper*)this)->hkxSparselyAnimatedInt();
     if (flags & 1)
     {
         hkMemoryRouter* holder = hkMemoryRouter_getInstance();
@@ -148,7 +149,7 @@ struct Ref
 };
 struct Helper
 {
-    void FUN_00dfdb90();
+    void hkxSparselyAnimatedInt();
 };
 struct Owner
 {
@@ -165,14 +166,14 @@ struct Owner
     Owner* Destroy(unsigned int flags);
 };
 extern hkMemoryRouter* hkMemoryRouter_getInstance();
-// Releases the reference at unk20, calls FUN_00dfdb90, and if flags bit 0 is set frees this through the holder's heap using unk04.
+// Releases the reference at unk20, calls hkxSparselyAnimatedInt, and if flags bit 0 is set frees this through the holder's heap using unk04.
 // @fnv 0x00dfdcb0
 Owner* Owner::Destroy(unsigned int flags)
 {
     if (unk20)
         unk20->removeReference();
     unk20 = 0;
-    ((Helper*)this)->FUN_00dfdb90();
+    ((Helper*)this)->hkxSparselyAnimatedInt();
     if (flags & 1)
     {
         hkMemoryRouter* holder = hkMemoryRouter_getInstance();

@@ -930,11 +930,11 @@ float __cdecl ConvertDoubleResult(float);
 struct FUN_004f71f0_Class
 {
     float SquaredDistanceTo(int);
-    float EvaluateValue_004f71f0(int);
+    float RegionPoint_GetDistanceTo(int);
 };
 // @fnv 0x004f71f0
-// src: GUESS 0x004f71f0 (confidence: low)
-float FUN_004f71f0_Class::EvaluateValue_004f71f0(int a)
+// src: GUESS 0x004f71f0 (confidence: medium)
+float FUN_004f71f0_Class::RegionPoint_GetDistanceTo(int a)
 {
     if (a == 0)
         return -1.0f;
@@ -1032,14 +1032,14 @@ struct FUN_006317a0_struct
 {
     int AddEight(int);
 };
-struct FUN_004e8950_class
+struct TESWaterSystem
 {
     bool __thiscall TESWaterSystem_CheckUpdateActorsInWater();
 };
 // Iterates the list at offset 0x3c and returns true if TESWaterSystem_ActorWithinRangeOfWadingWater accepts any referenced object, otherwise false.
 // @fnv 0x004e8950
 // src: COMMUNITY 0x004e8950
-bool __thiscall FUN_004e8950_class::TESWaterSystem_CheckUpdateActorsInWater()
+bool __thiscall TESWaterSystem::TESWaterSystem_CheckUpdateActorsInWater()
 {
     if (Water_bUseWaterDisplacements_Get())
     {
@@ -1405,13 +1405,13 @@ struct GlobalObject_00633c90 : BSStringT<char>
 {
 };
 extern GlobalObject_00633c90 g_011d86a8;
-struct FUN_004ea9a0_Class
+struct BGSTerrainManager
 {
     const char* BGSTerrainManager_GetLODLandRoot();
 };
 // @fnv 0x004ea9a0
 // src: COMMUNITY 0x004ea9a0
-const char* FUN_004ea9a0_Class::BGSTerrainManager_GetLODLandRoot()
+const char* BGSTerrainManager::BGSTerrainManager_GetLODLandRoot()
 {
     return g_011d86a8.String();
 }
@@ -3226,7 +3226,7 @@ bool Polygon::TESRegionPointList_IsInsideRegion(PolygonPoint* pPoint)
 struct RegionPointMatch
 {
     float SquaredDistanceTo(RegionPointMatch* other);
-    float EvaluateValue_004f71f0(RegionPointMatch* other);
+    float RegionPoint_GetDistanceTo(RegionPointMatch* other);
     void TESRegionPoint_Copy(void* destination);
 };
 struct RegionNodeMatch
@@ -3286,7 +3286,7 @@ float RegionMatch::ComputeRegionValue(RegionPointMatch* point, float range)
         }
         j = point->SquaredDistanceTo(*g->FUN_006815c0());
         a = point->SquaredDistanceTo(*l->FUN_006815c0());
-        c = (*g->FUN_006815c0())->EvaluateValue_004f71f0(*l->FUN_006815c0());
+        c = (*g->FUN_006815c0())->RegionPoint_GetDistanceTo(*l->FUN_006815c0());
         b = (*g->FUN_006815c0())->SquaredDistanceTo(*l->FUN_006815c0());
         e = b - a + j;
         e /= (2.0 * c);
@@ -3412,18 +3412,19 @@ class List_009e03e0
 };
 
 // The terminal description component follows the activator base at 0x90.
-class FUN_004ffba0 : public TESObjectACTI, public TESDescription
+class BGSTerminal : public TESObjectACTI, public TESDescription
 {
   public:
     List_009e03e0 m_kList;
 
     void FUN_004ffc90();
-    virtual ~FUN_004ffba0();
+    virtual ~BGSTerminal();
 };
 
 // Destructor that calls FUN_004ffc90.
 // @fnv 0x004ffba0
-FUN_004ffba0::~FUN_004ffba0()
+// src: GUESS 0x004ffba0 (confidence: high)
+BGSTerminal::~BGSTerminal()
 {
     FUN_004ffc90();
 }

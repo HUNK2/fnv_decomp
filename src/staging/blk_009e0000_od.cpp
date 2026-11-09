@@ -302,15 +302,16 @@ void* FUN_009e99f0_Class::AssignFromSource(const void* apSource)
 }
 
 extern float DAT_01015f5c;
-struct FUN_009e9af0_Class
+struct ActorAvoidanceData
 {
     int m_iWordAt00;
     float m_iWordAt04;
-    FUN_009e9af0_Class();
+    ActorAvoidanceData();
 };
 // Initializes the object's integer field to 0 and its float field to DAT_01015f5c.
 // @fnv 0x009e9af0
-FUN_009e9af0_Class::FUN_009e9af0_Class()
+// src: GUESS 0x009e9af0 (confidence: medium)
+ActorAvoidanceData::ActorAvoidanceData()
 {
     m_iWordAt00 = 0;
     m_iWordAt04 = DAT_01015f5c;

@@ -541,7 +541,7 @@ struct FUN_009905a0_shell
     void UpdateMinProgress();
 };
 
-struct FUN_00990540_shell
+struct CombatGroupData
 {
     int m_00;
     int m_04;
@@ -552,7 +552,7 @@ struct FUN_00990540_shell
 
 // @fnv 0x00990540
 // src: XBOX_PDB 0x00990540
-int __thiscall FUN_00990540_shell::CombatGroupData_GetMemberMinimumTargetDetection()
+int __thiscall CombatGroupData::CombatGroupData_GetMemberMinimumTargetDetection()
 {
     if (m_0c == 0x7fffffff)
         reinterpret_cast<FUN_009905a0_shell*>(this)->UpdateMinProgress();
@@ -650,12 +650,12 @@ FUN_00993960* __thiscall FUN_00993960::Init(int a, int b)
 struct FUN_00993bf0_class
 {
     void __thiscall FUN_00993cd0();
-    void __thiscall ForwardCall_00993bf0();
+    void __thiscall NiTMap_NewItem();
 };
 
 // @fnv 0x00993bf0
-// src: GUESS 0x00993bf0 (confidence: low)
-void __thiscall FUN_00993bf0_class::ForwardCall_00993bf0()
+// src: GUESS 0x00993bf0 (confidence: high)
+void __thiscall FUN_00993bf0_class::NiTMap_NewItem()
 {
     reinterpret_cast<FUN_00993bf0_class*>(reinterpret_cast<char*>(this) + 0xc)->FUN_00993cd0();
 }
@@ -686,7 +686,7 @@ int FUN_009948b0::GetItem(int index)
     return *m_p[index];
 }
 
-struct FUN_00aa62e0_shell
+struct BSReadWriteLock
 {
     void BSReadWriteLock_UnlockWrite();
 };
@@ -700,7 +700,7 @@ struct FUN_00995890_shell
 // src: XBOX_PDB 0x00995890
 void FUN_00995890_shell::CombatCoverMap_UnlockForWrite()
 {
-    ((FUN_00aa62e0_shell*)((char*)this + 0x14))->BSReadWriteLock_UnlockWrite();
+    ((BSReadWriteLock*)((char*)this + 0x14))->BSReadWriteLock_UnlockWrite();
 }
 
 struct QuantityData
@@ -886,14 +886,14 @@ FUN_00996db0* FUN_00996db0::Init()
 }
 }  // namespace fnv_00996db0
 
-struct FUN_0099e010_Class
+struct PathingRequestCover
 {
     void PathingRequestCover_SetActorLocation(const NiPoint3& akPoint);
 };
 // Stores akPoint into the NiPoint3 located at offset 0xe0 of this object.
 // @fnv 0x0099e010
 // src: XBOX_PDB 0x0099e010
-void FUN_0099e010_Class::PathingRequestCover_SetActorLocation(const NiPoint3& akPoint)
+void PathingRequestCover::PathingRequestCover_SetActorLocation(const NiPoint3& akPoint)
 {
     *reinterpret_cast<NiPoint3*>(reinterpret_cast<char*>(this) + 0xe0) = reinterpret_cast<const NiPoint3&>(akPoint);
 }
@@ -1210,7 +1210,7 @@ void __cdecl CombatGroupStrategy_InitGroupStrategies()
 
 struct FUN_00991150_class
 {
-    void __thiscall FUN_00991150();
+    void __thiscall CombatManager();
 };
 struct FUN_00991050_class
 {
@@ -1219,7 +1219,7 @@ struct FUN_00991050_class
 // @fnv 0x00991050
 void* __thiscall FUN_00991050_class::FUN_00991050(unsigned int flags)
 {
-    ((FUN_00991150_class*)this)->FUN_00991150();
+    ((FUN_00991150_class*)this)->CombatManager();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -1816,7 +1816,7 @@ bool FUN_00982df0_class::ReservedCoverLocation_CanReserveCoverLocation(unsigned 
 unsigned int __cdecl FUN_0042f5a0(unsigned int, unsigned int);
 struct FUN_006c0010_Class
 {
-    void ProcessEntries_006c0010(void*, void*, unsigned int);
+    void BSSimpleArray_MoveElements(void*, void*, unsigned int);
 };
 struct FUN_0072ba80_shell
 {
@@ -1837,7 +1837,7 @@ void FUN_0098f430_Class::BSSimpleArray_CombatSearchLocation_1024_RemoveFast(unsi
     unsigned int c = FUN_0042f5a0(m_08 - uiStartIndex - b, b);
     ((FUN_0072ba80_shell*)this)->FUN_0072ba80((char*)m_04 + uiStartIndex * 0x1c, b);
     ((FUN_006c0010_Class*)this)
-        ->ProcessEntries_006c0010((char*)m_04 + uiStartIndex * 0x1c, (char*)m_04 + m_08 * 0x1c - c * 0x1c, c);
+        ->BSSimpleArray_MoveElements((char*)m_04 + uiStartIndex * 0x1c, (char*)m_04 + m_08 * 0x1c - c * 0x1c, c);
     m_08 -= b;
 }
 
@@ -2021,12 +2021,12 @@ struct FUN_00982630_class
     unsigned char m_00;
     unsigned char m_01;
 
-    void __thiscall UpdateState_00982630(FUN_00982630_arg* arg);
+    void __thiscall CoverReservationInfo_CalculateSegmentInfo(FUN_00982630_arg* arg);
 };
 
 // @fnv 0x00982630
-// src: GUESS 0x00982630 (confidence: low)
-void FUN_00982630_class::UpdateState_00982630(FUN_00982630_arg* arg)
+// src: GUESS 0x00982630 (confidence: high)
+void FUN_00982630_class::CoverReservationInfo_CalculateSegmentInfo(FUN_00982630_arg* arg)
 {
     NiPoint3 distanceVector = arg->a - arg->b;
     float distance = distanceVector.Length();
@@ -2091,7 +2091,7 @@ struct S006bfd40
 
 struct FUN_006bf670_Class
 {
-    int* GetElementAddress_006bf670(int);
+    int* BSSimpleArray_GetAt(int);
 };
 
 float __cdecl GetActorScale(void);
@@ -2124,22 +2124,22 @@ void __thiscall FUN_0098bfb0_Class::CombatGroup_AddSearchLocation(void* header, 
     unsigned int index = reinterpret_cast<S006bfd40*>(reinterpret_cast<char*>(this) + 0x110)->BSSimpleArray_CombatSearchLocation_1024_AddUninitialized();
 
     reinterpret_cast<FUN_0098bfb0_Record*>(
-        reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->GetElementAddress_006bf670(index))
+        reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->BSSimpleArray_GetAt(index))
         ->m_kHeader = *reinterpret_cast<const FUN_0098bfb0_Header*>(header);
 
     {
         CombatTargetTimestamp timestamp(GetActorScale());
 
         reinterpret_cast<FUN_0098bfb0_Record*>(
-            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->GetElementAddress_006bf670(index))
+            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->BSSimpleArray_GetAt(index))
             ->m_timestamp = *reinterpret_cast<int*>(&timestamp.fTimeStamp);
 
         reinterpret_cast<FUN_0098bfb0_Record*>(
-            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->GetElementAddress_006bf670(index))
+            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->BSSimpleArray_GetAt(index))
             ->m_uiFilterValue = extra;
 
         reinterpret_cast<FUN_0098bfb0_Record*>(
-            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->GetElementAddress_006bf670(index))
+            reinterpret_cast<FUN_006bf670_Class*>(reinterpret_cast<char*>(this) + 0x110)->BSSimpleArray_GetAt(index))
             ->m_float = value;
     }
 }
@@ -4361,7 +4361,7 @@ void ClusterWork::UpdateGroups()
     RecenterClusters();
 }
 
-struct FUN_0098dc00_cls
+struct CombatGroupCluster
 {
     int unk00;
     int unk04;
@@ -4370,13 +4370,13 @@ struct FUN_0098dc00_cls
     int m_10;
 
     void Reset();
-    FUN_0098dc00_cls* InitializeFields_0098dc00();
+    CombatGroupCluster* InitializeFields_0098dc00();
 };
 
 // Calls Reset(), sets m_10 to 0, and returns this.
 // @fnv 0x0098dc00
 // src: GUESS 0x0098dc00 (confidence: low)
-FUN_0098dc00_cls* FUN_0098dc00_cls::InitializeFields_0098dc00()
+CombatGroupCluster* CombatGroupCluster::InitializeFields_0098dc00()
 {
     Reset();
     m_10 = 0;
@@ -4795,10 +4795,10 @@ class B1150ThreatList
     int unk08;
 };
 
-class FUN_00991150 : public B1150ThreatMapBase
+class CombatManager : public B1150ThreatMapBase
 {
   public:
-    ~FUN_00991150();
+    ~CombatManager();
     void Clear(int iFlags);
 
     B1150ThreatList m_kThreats;
@@ -4806,7 +4806,8 @@ class FUN_00991150 : public B1150ThreatMapBase
 
 // Destructor that calls Clear(0) to reset the threat map.
 // @fnv 0x00991150
-FUN_00991150::~FUN_00991150()
+// src: GUESS 0x00991150 (confidence: medium)
+CombatManager::~CombatManager()
 {
     Clear(0);
 }
@@ -9237,7 +9238,7 @@ struct Slot_009827c0_This
     unsigned char m_03;
     unsigned char m_04;
     unsigned char m_05;
-    void UpdateState_00982630(Slot_009827c0_Arg* a);
+    void CoverReservationInfo_CalculateSegmentInfo(Slot_009827c0_Arg* a);
     unsigned char UpdateState_00982750(float a);
     int ComputeBitMask();
     void ClearFields_00982b50();
@@ -9259,7 +9260,7 @@ bool Slot_009827c0_This::CoverReservationInfo_FindCoverReservation(Slot_009827c0
     }
     else
     {
-        UpdateState_00982630(arg);
+        CoverReservationInfo_CalculateSegmentInfo(arg);
     }
     if (!m_00 || !m_01)
         return false;
@@ -9463,16 +9464,16 @@ NiTMap<unsigned int, ReservedCoverLocation*>::~NiTMap()
     RemoveAll();
 }
 
-struct FUN_004d61b0
+struct NiTreeCtrl
 {
     unsigned char m_auiShapeKeys[0x30];
 
-    FUN_004d61b0(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, unsigned int,
+    NiTreeCtrl(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, unsigned int,
                  unsigned int);
-    ~FUN_004d61b0();
+    ~NiTreeCtrl();
 };
 
-struct FUN_009959f0_class : public FUN_004d61b0
+struct FUN_009959f0_class : public NiTreeCtrl
 {
     int m_30;
     int m_34;
@@ -9489,7 +9490,7 @@ extern unsigned int _data_011c16bc;
 // Constructs the base object with title "Combat Plan" and size 0x320 by 0x258, stores arg1, arg2, arg3 in m_30, m_34, m_38, then calls PopulateTree.
 // @fnv 0x009959f0
 FUN_009959f0_class::FUN_009959f0_class(int arg1, int arg2, int arg3)
-    : FUN_004d61b0(reinterpret_cast<TESSound*>(g_osGlobals)->Deallocate(),
+    : NiTreeCtrl(reinterpret_cast<TESSound*>(g_osGlobals)->Deallocate(),
                    reinterpret_cast<BlkOffset08View*>(g_osGlobals)->GetFlags(), 0, "Combat Plan", 0x80000000, 0x80000000, 0x320,
                    0x258),
       m_30(arg1), m_34(arg2), m_38(arg3)

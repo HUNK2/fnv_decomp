@@ -10,7 +10,7 @@ struct FUN_00b3ede0_shell
     void* prev;
     unsigned int used;
     unsigned int size;
-    void* AdvanceBlockAllocationCursor();
+    void* ReadInt();
 };
 
 unsigned int __cdecl FUN_00ec7c56(void);
@@ -18,7 +18,7 @@ unsigned int __cdecl FUN_00ec7c56(void);
 // Checks the block has room for alloc bytes, calls FUN_00ec7c56 if not, advances p twice and returns the pointer at used+alloc.
 // @fnv 0x00b3ede0
 // src: GUESS 0x00b3ede0 (confidence: medium)
-void* FUN_00b3ede0_shell::AdvanceBlockAllocationCursor()
+void* FUN_00b3ede0_shell::ReadInt()
 {
     unsigned int alloc = *(unsigned int*)this;
     FUN_00b3ede0_shell* block = (FUN_00b3ede0_shell*)((char*)this + 4);

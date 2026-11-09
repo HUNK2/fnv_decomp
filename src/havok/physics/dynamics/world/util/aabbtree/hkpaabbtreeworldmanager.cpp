@@ -938,11 +938,11 @@ struct FUN_00d0a1e0_class {
     int unk60;
     int unk64;
     char unk68;
-    char __thiscall GetUnk68_00d0a1e0();
+    char __thiscall hkpAabbTreeWorldManager_isUpToDate();
 };
 // @fnv 0x00d0a1e0
-// src: GUESS 0x00d0a1e0 (confidence: low)
-char __thiscall FUN_00d0a1e0_class::GetUnk68_00d0a1e0() {
+// src: GUESS 0x00d0a1e0 (confidence: high)
+char __thiscall FUN_00d0a1e0_class::hkpAabbTreeWorldManager_isUpToDate() {
     return unk68;
 }
 

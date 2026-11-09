@@ -97,7 +97,7 @@ struct FUN_0071a670_shell
     void UpdateItems();
 };
 
-struct FUN_00730b80_shell
+struct ListBox
 {
     char pad[4];
     BSSimpleList<WeatherEntry*> list;
@@ -106,7 +106,7 @@ struct FUN_00730b80_shell
 
 // Sorts the weather entry list with the given comparison function, then calls UpdateItems on this object.
 // @fnv 0x00730b80
-void FUN_00730b80_shell::SortWeatherEntries(int(__cdecl* fn)(WeatherEntry*, WeatherEntry*))
+void ListBox::SortWeatherEntries(int(__cdecl* fn)(WeatherEntry*, WeatherEntry*))
 {
     list.Sort(fn);
     reinterpret_cast<FUN_0071a670_shell*>(this)->UpdateItems();

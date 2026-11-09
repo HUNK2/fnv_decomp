@@ -761,12 +761,12 @@ void __thiscall S_004963e0::SetFromFourInts(FourInts* apValues)
 
 struct FUN_00497bc0_Class
 {
-    void SaveFields_00497bc0(BGSSaveFormBuffer* buffer, int a);
+    void AnimIdle_SaveGame(BGSSaveFormBuffer* buffer, int a);
 };
 // Saves three 4-byte fields at offsets 8, 0xc and 0x14 of this object into the given BGSSaveFormBuffer.
 // @fnv 0x00497bc0
 // src: GUESS 0x00497bc0 (confidence: medium)
-void FUN_00497bc0_Class::SaveFields_00497bc0(BGSSaveFormBuffer* buffer, int aiUnused)
+void FUN_00497bc0_Class::AnimIdle_SaveGame(BGSSaveFormBuffer* buffer, int aiUnused)
 {
     buffer->SaveData(this + 8, 4, 0);
     buffer->SaveData(this + 0xc, 4, 0);
@@ -1137,12 +1137,12 @@ struct FUN_0049f510
     int m0;
     ActorAvoidanceEntry* m1;
     unsigned int m2;
-    void RemoveLastEntry();
+    void BSSimpleArray_PopBack();
 };
 // If m2 is nonzero, calls FUN_0072ba80 on the last element of the m1 array and decrements m2.
 // @fnv 0x0049f510
 // src: GUESS 0x0049f510 (confidence: medium)
-void FUN_0049f510::RemoveLastEntry()
+void FUN_0049f510::BSSimpleArray_PopBack()
 {
     if (!m2)
         return;
@@ -2282,7 +2282,7 @@ struct PtrBox
     void* p;
     void* Modelloader_GetReferencedThis();
 };
-struct FUN_004f0040_shell
+struct BSBipNode
 {
     void UpdateControls(float a);
 };
@@ -2300,7 +2300,7 @@ struct F497c10
 };
 extern "C" unsigned int __cdecl FUN_0044ddc0();
 
-struct FUN_0047b470_This
+struct bhkCollisionObject
 {
     bool bhkCollisionObject_GetUseVelocity();
 };
@@ -2494,9 +2494,9 @@ void __thiscall AnimSelf::Load(BGSLoadFormBuffer* apBuffer)
         }
     }
     Animation_UpdateBipOnly(m_d0, &m_1c, 1);
-    ((FUN_004f0040_shell*)m_08.Modelloader_GetReferencedThis())->UpdateControls(m_d0);
+    ((BSBipNode*)m_08.Modelloader_GetReferencedThis())->UpdateControls(m_d0);
     MyNode* node9 = bhkUtilFunctions_FindNextCollisionObject((MyNode*)m_08.Modelloader_GetReferencedThis());
-    unsigned char valid6 = node9 != 0 ? ((FUN_0047b470_This*)node9)->bhkCollisionObject_GetUseVelocity() : false;
+    unsigned char valid6 = node9 != 0 ? ((bhkCollisionObject*)node9)->bhkCollisionObject_GetUseVelocity() : false;
     if (valid6)
         SetFlagRecursive(0, m_08.Modelloader_GetReferencedThis());
     ((ThisStub*)this)->Animation_UpdateSceneGraphNoController();
@@ -2605,7 +2605,7 @@ void __thiscall AnimSelf::Load(BGSLoadFormBuffer* apBuffer)
         }
     }
     Animation_UpdateBipOnly(m_d0, &m_1c, 1);
-    ((FUN_004f0040_shell*)m_08.Modelloader_GetReferencedThis())->UpdateControls(m_d0);
+    ((BSBipNode*)m_08.Modelloader_GetReferencedThis())->UpdateControls(m_d0);
 }
 
 struct ArrElem12

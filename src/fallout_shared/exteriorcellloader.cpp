@@ -60,7 +60,7 @@ bool FUN_005287e0_shell::BSTask_IsCompleted()
 
 extern int DAT_0102d078;
 
-struct FUN_00528800_shell
+struct LockFreeMapIterator
 {
     int m_val;
     void UpdateFields_00528800();
@@ -68,7 +68,7 @@ struct FUN_00528800_shell
 
 // @fnv 0x00528800
 // src: GUESS 0x00528800 (confidence: low)
-void FUN_00528800_shell::UpdateFields_00528800()
+void LockFreeMapIterator::UpdateFields_00528800()
 {
     m_val = (int)&DAT_0102d078;
 }
@@ -127,7 +127,7 @@ void ExteriorCellLoaderTask::Cancel(BS_TASK_STATE, void*)
     (*(TESWorldSpace**)((char*)this + 0x18))->GetCellAtGridCoord(((IntPoint2D*)*(void**)((char*)this + 0x1c))->iX, ((IntPoint2D*)*(void**)((char*)this + 0x1c))->iY);
 }
 
-struct FUN_00528840_shell : public FUN_00528800_shell
+struct FUN_00528840_shell : public LockFreeMapIterator
 {
     void* ScalarDeletingDestructor(unsigned int flags);
 };

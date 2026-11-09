@@ -142,7 +142,7 @@ struct C3
     float r, g, b;
 };
 
-struct FUN_004bc280_S
+struct NiLight
 {
     char pad[0xc8];
     C3 c;
@@ -151,7 +151,7 @@ struct FUN_004bc280_S
 // Copies the C3 value pointed to by k into c, then calls IncRevisionID.
 // @fnv 0x004bc280
 // src: COMMUNITY 0x004bc280
-void FUN_004bc280_S::NiLight_SetAmbientColor(const C3* apColor)
+void NiLight::NiLight_SetAmbientColor(const C3* apColor)
 {
     c = *apColor;
     reinterpret_cast<NiDynamicEffect*>(this)->IncRevisionID();
@@ -181,7 +181,7 @@ struct C3
 {
     float r, g, b;
 };
-struct FUN_004bc450_S
+struct NiMaterialProperty
 {
     char pad[0x28];
     C3 c;
@@ -191,7 +191,7 @@ struct FUN_004bc450_S
 // Copies the C3 value pointed to by k into the c member and calls FUN_004bc480 with 1.
 // @fnv 0x004bc450
 // src: XBOX_PDB 0x004bc450
-void FUN_004bc450_S::NiMaterialProperty_SetEmittance(const C3* apColor)
+void NiMaterialProperty::NiMaterialProperty_SetEmittance(const C3* apColor)
 {
     c = *apColor;
     NiMaterialProperty_SetChanged(1);

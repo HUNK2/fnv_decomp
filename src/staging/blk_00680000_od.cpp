@@ -157,7 +157,7 @@ FUN_006836f0_class* __thiscall FUN_006836f0_class::BSList_BSTempEffectDebris_BSL
     return this;
 }
 
-struct FUN_00683740_class
+struct BSList
 {
     void FUN_006837f0();
     void BSList_BSTempEffectDebris_Free();
@@ -165,7 +165,7 @@ struct FUN_00683740_class
 
 // @fnv 0x00683740
 // src: COMMUNITY 0x00683740
-void FUN_00683740_class::BSList_BSTempEffectDebris_Free()
+void BSList::BSList_BSTempEffectDebris_Free()
 {
     FUN_006837f0();
 }
@@ -273,12 +273,12 @@ struct FUN_00691a30_class
 {
     GO m0;
     void UpdateFields_00659080(int);
-    void ClearEntryPointerAndForward(int a);
+    void NiTMapBase_DeleteItem(int a);
 };
 // Clears the pointer at offset 8 of the passed object and forwards it to FUN_00659080 on this+0xc.
 // @fnv 0x00691a30
 // src: GUESS 0x00691a30 (confidence: medium)
-void FUN_00691a30_class::ClearEntryPointerAndForward(int pObject)
+void FUN_00691a30_class::NiTMapBase_DeleteItem(int pObject)
 {
     ((GO*)((char*)pObject + 8))->operator=(0);
     ((FUN_00691a30_class*)((char*)this + 0xc))->UpdateFields_00659080(pObject);
@@ -573,12 +573,12 @@ struct FUN_0069b8a0_class
 
 struct FUN_0069b760_class
 {
-    void InvokeVirtualMethod_0069b760();
+    void NiTMap_NewItem();
 };
 
 // @fnv 0x0069b760
-// src: GUESS 0x0069b760 (confidence: low)
-void FUN_0069b760_class::InvokeVirtualMethod_0069b760()
+// src: GUESS 0x0069b760 (confidence: high)
+void FUN_0069b760_class::NiTMap_NewItem()
 {
     ((FUN_0069b8a0_class*)((char*)this + 0xc))->CreateObj();
 }
@@ -592,12 +592,12 @@ struct FUN_0069b780_class
     int a;
     int b;
     int c;
-    void ReleaseStorage_0069b780(void* p);
+    void NiTMap_DeleteItem(void* p);
 };
 // Clears the int at offset 0xc of p, then calls FreeMemory on this+0xc with p.
 // @fnv 0x0069b780
-// src: GUESS 0x0069b780 (confidence: medium)
-void FUN_0069b780_class::ReleaseStorage_0069b780(void* p)
+// src: GUESS 0x0069b780 (confidence: high)
+void FUN_0069b780_class::NiTMap_DeleteItem(void* p)
 {
     *(int*)((char*)p + 0xc) = 0;
     ((Unk6b*)((char*)this + 0xc))->FreeMemory(p);
@@ -832,13 +832,13 @@ Fake683760* Fake683760::Init()
     return this;
 }
 
-struct FUN_0062e290_shell
+struct BSPointerListBase
 {
     void ClearList();
     void UpdateState_00683850();
-    virtual ~FUN_0062e290_shell();
+    virtual ~BSPointerListBase();
 };
-struct FUN_006837f0_t : public FUN_0062e290_shell
+struct FUN_006837f0_t : public BSPointerListBase
 {
     ~FUN_006837f0_t();
 };
@@ -1355,7 +1355,7 @@ struct AStarConnectionArray
     NavMeshTriangleEdgeReference* links;
 };
 void AddNavMeshToGarbageCollector(NavMeshPtr&);
-struct FUN_0069bca0_class : public FUN_0042f830_struct
+struct NavMeshArray : public FUN_0042f830_struct
 {
     void NavMeshArray_AddToGarbageCollector();
     AStarConnectionArray* BSSimpleArray_FastNavMeshEdgeHandle_1024_BSSimpleArray_FastNavMeshEdgeHandle_1024(int);
@@ -1363,7 +1363,7 @@ struct FUN_0069bca0_class : public FUN_0042f830_struct
 };
 // @fnv 0x0069bca0
 // src: COMMUNITY 0x0069bca0
-void FUN_0069bca0_class::NavMeshArray_AddToGarbageCollector()
+void NavMeshArray::NavMeshArray_AddToGarbageCollector()
 {
     unsigned int i = 0;
     for (; i < GetFlags(); ++i)
@@ -1655,7 +1655,7 @@ int UInt16_CompareValues(const unsigned short* a, const unsigned short* b)
 
 struct FUN_006e1280_Class
 {
-    void VisitPlacementAddresses(char*, unsigned int);
+    void BSScrapArray_ConstructElements(char*, unsigned int);
 };
 
 struct FUN_0069b940_class
@@ -1684,7 +1684,7 @@ void FUN_0069b940_class::BSSimpleArray_char_1024_InitialSetup(unsigned int auiRe
     }
     if (savedSize > 0)
     {
-        ((FUN_006e1280_Class*)this)->VisitPlacementAddresses((char*)iSize, savedSize);
+        ((FUN_006e1280_Class*)this)->BSScrapArray_ConstructElements((char*)iSize, savedSize);
         iPosition = savedSize;
     }
 }
@@ -1907,13 +1907,13 @@ int FUN_00693cd0_class::EdgeExtraInfo_GetSizeOfV9()
     return b.GetSix() + 4;
 }
 
-struct FUN_00693dc0_class
+struct NavMeshSaveStruct
 {
     void SwapEndian();
 };
 
 // @fnv 0x00693dc0
-void FUN_00693dc0_class::SwapEndian()
+void NavMeshSaveStruct::SwapEndian()
 {
     BSEndian(reinterpret_cast<unsigned char*>(this), BSIntToType0());
     BSEndian(reinterpret_cast<unsigned char*>(this) + 4, BSIntToType0());
@@ -2360,14 +2360,14 @@ struct NavMeshSearchList_0068aa50
     NavMeshNode_0068aa50** FUN_00877a30(unsigned int);
 };
 extern float DAT_0102b3c8;
-struct FUN_0068aa50_shell
+struct BSTempEffectParticle
 {
     void CollectUniqueChildValues(void*, NavMeshSearchList_0068aa50*, unsigned int*);
     void BSTempEffectParticle_ResetGravity(void*);
 };
 // @fnv 0x0068aa50
 // src: XBOX_PDB 0x0068aa50
-void FUN_0068aa50_shell::BSTempEffectParticle_ResetGravity(void* searchArg)
+void BSTempEffectParticle::BSTempEffectParticle_ResetGravity(void* searchArg)
 {
     NavMeshSearchList_0068aa50 items(10, 1);
     {
@@ -2664,12 +2664,12 @@ struct KeyStruct
 
 struct FUN_0069b680_cls
 {
-    void Equals_Thunk(KeyStruct k1, KeyStruct k2);
+    void NiTMapBase_IsKeysEqual(KeyStruct k1, KeyStruct k2);
 };
 
 // @fnv 0x0069b680
-// src: GUESS 0x0069b680 (confidence: medium)
-void FUN_0069b680_cls::Equals_Thunk(KeyStruct aKey1, KeyStruct aKey2)
+// src: GUESS 0x0069b680 (confidence: high)
+void FUN_0069b680_cls::NiTMapBase_IsKeysEqual(KeyStruct aKey1, KeyStruct aKey2)
 {
     aKey1.Equals(&aKey2);
 }
@@ -5996,7 +5996,7 @@ bool ThisCls::NavMeshPOVSearch_BuildPath(Vec3Obj* apStart, Vec3Obj* apEnd, void*
 }
 }  // namespace fnv_0069f010
 
-struct ScalarDeleteOwner : FUN_00683740_class
+struct ScalarDeleteOwner : BSList
 {
     void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };

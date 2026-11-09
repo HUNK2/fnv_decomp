@@ -68,7 +68,7 @@ struct Map_00a4da90
 };
 void __fastcall FUN_00a57f80(void*);
 void __cdecl _delete(void*, unsigned int);
-struct FUN_00a51af0_class
+struct NiBSplineCompPoint3Interpolator
 {
     void* __thiscall FUN_00a51af0(unsigned char flags);
 };

@@ -575,12 +575,12 @@ void hkOArchive::write16(short i)
 struct FUN_00d60600_class
 {
     void __thiscall WriteSwapped(int a, int b, int c);
-    void __thiscall WriteSwapped_Thunk(int a, int b);
+    void __thiscall hkOArchive_write64(int a, int b);
 };
 
 // @fnv 0x00d60b20
 // src: GUESS 0x00d60b20 (confidence: medium)
-void __thiscall FUN_00d60600_class::WriteSwapped_Thunk(int a, int aiValue)
+void __thiscall FUN_00d60600_class::hkOArchive_write64(int a, int aiValue)
 {
     WriteSwapped(a, 8, aiValue);
 }

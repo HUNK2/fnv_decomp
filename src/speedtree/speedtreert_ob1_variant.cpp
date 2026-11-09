@@ -292,7 +292,7 @@ struct FUN_00b078e0_Class
 };
 struct FUN_00b2bdc0_shell
 {
-    void UpdateFields_00b2bdc0(float, float);
+    void CTreeEngine_SetLodDistances(float, float);
 };
 struct FUN_00b08500_shell
 {
@@ -372,7 +372,7 @@ struct FUN_00657f60_class
     void* d;
     void* e;
     void* f;
-    void ReleaseStorage_00657f60();
+    void vector__Tidy();
 };
 struct CSpeedTreeRT_STextures
 {
@@ -2360,7 +2360,7 @@ struct Inner59 : VectorValue59
         operator delete(allocation);
     }
 // src: GUESS 0x00657f60 (confidence: medium)
-    void ReleaseStorage_00657f60()
+    void vector__Tidy()
     {
         if (d != 0)
         {
@@ -2383,7 +2383,7 @@ struct Inner59 : VectorValue59
     }
     __forceinline ~Inner59()
     {
-        ReleaseStorage_00657f60();
+        vector__Tidy();
     }
 };
 extern unsigned char DAT_011f8c04;

@@ -5664,17 +5664,17 @@ void* FUN_005417e0_class::FUN_005417e0(unsigned int flags)
 
 struct FUN_00541a30_StandIn
 {
-    void FUN_00541a60();
+    void NavMeshArray();
     void* FUN_00541a30(unsigned int flags);
 };
 
 void __cdecl _Deallocate(void* pointer);
 
-// Calls FUN_00541a60, then deallocates this when flags has bit 0 set, and returns this.
+// Calls NavMeshArray, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00541a30
 void* FUN_00541a30_StandIn::FUN_00541a30(unsigned int flags)
 {
-    FUN_00541a60();
+    NavMeshArray();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -9349,7 +9349,7 @@ struct FUN_005594e0_node
     void* m_pkValue;
 };
 
-struct FUN_005594e0_cls
+struct BSScrapMap
 {
     virtual void FUN_005594e0_v0();
     virtual unsigned int FUN_005594e0_hash(unsigned int key);
@@ -9365,7 +9365,7 @@ struct FUN_005594e0_cls
 
 // @fnv 0x005594e0
 // src: XBOX_PDB 0x005594e0
-void FUN_005594e0_cls::BSMapBase_TESObjectREFR_bool_SetAt(unsigned int key, bool flag)
+void BSScrapMap::BSMapBase_TESObjectREFR_bool_SetAt(unsigned int key, bool flag)
 {
     unsigned int index = FUN_005594e0_hash(key);
     FUN_005594e0_node* item = m_ppkHashTable[index];
@@ -19273,14 +19273,15 @@ struct FUN_0042f830
 {
     ~FUN_0042f830();
 };
-struct FUN_00541a60 : FUN_0042f830
+struct NavMeshArray : FUN_0042f830
 {
     void NavMeshArray_AddToGarbageCollector();
-    ~FUN_00541a60();
+    ~NavMeshArray();
 };
 // Calls FUN_0069bca0; the base class destructor runs after this destructor body.
 // @fnv 0x00541a60
-FUN_00541a60::~FUN_00541a60()
+// src: GUESS 0x00541a60 (confidence: high)
+NavMeshArray::~NavMeshArray()
 {
     NavMeshArray_AddToGarbageCollector();
 }

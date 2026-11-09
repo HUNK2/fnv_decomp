@@ -1473,13 +1473,13 @@ void __cdecl Runtime_ForwardCall_00dfdd50(S_00e3eaa0_Elem* p)
     p->S_00e3eaa0_Elem::~S_00e3eaa0_Elem();
 }
 
-struct FUN_00e3f900_class
+struct hkxAttribute
 {
     int ProcessAndReturnValue_00e3f900(int);
 };
 // @fnv 0x00dfdd60
 // src: GUESS 0x00dfdd60 (confidence: low)
-void __cdecl Object_ProcessState_00dfdd60(FUN_00e3f900_class* p, int a)
+void __cdecl Object_ProcessState_00dfdd60(hkxAttribute* p, int a)
 {
     if (p)
         p->ProcessAndReturnValue_00e3f900(a);
@@ -2828,7 +2828,7 @@ void* __cdecl Runtime_GetUnk126a3a8Address()
     return &g_unk126a3a8;
 }
 
-class FUN_00de8780_cls
+class hkMatrix4
 {
   public:
     float m_fValues[16];
@@ -2838,7 +2838,7 @@ class FUN_00de8780_cls
 
 // Checks all 16 floats for NaN or infinity via exponent bits and writes 0 to pResult if any is found, otherwise 1.
 // @fnv 0x00de8780
-unsigned char* FUN_00de8780_cls::HasNoNaNOrInf(unsigned char* pResult)
+unsigned char* hkMatrix4::HasNoNaNOrInf(unsigned char* pResult)
 {
     for (int i = 0; i < 16; ++i)
     {
@@ -3480,14 +3480,14 @@ int* __cdecl Runtime_GetDAT0126aee0Address()
     return &DAT_0126aee0;
 }
 
-struct FUN_00ce5370_cls
+struct hkaSkeletonMapperData
 {
     void __thiscall UpdateState_00ce5370();
 };
 
 // @fnv 0x00dfb980
 // src: GUESS 0x00dfb980 (confidence: low)
-void __cdecl Object_ForwardCall_00dfb980(FUN_00ce5370_cls* p)
+void __cdecl Object_ForwardCall_00dfb980(hkaSkeletonMapperData* p)
 {
     p->UpdateState_00ce5370();
 }
@@ -3945,7 +3945,7 @@ struct BufferBase
     {}
 };
 
-struct FUN_00dfc150_cls : public BufferBase
+struct hkpVehicleData : public BufferBase
 {
     int unk04;
     int unk08;
@@ -3994,7 +3994,7 @@ struct FUN_00dfc150_cls : public BufferBase
 // Frees both owned buffers through the global allocator, resets their data pointers, counts and capacities, then destroys the base object.
 // @fnv 0x00dfc150
 // src: GUESS 0x00dfc150 (confidence: medium)
-void FUN_00dfc150_cls::FreeOwnedBuffersAndDestroyBase()
+void hkpVehicleData::FreeOwnedBuffersAndDestroyBase()
 {
     hkMemoryRouter* h = hkMemoryRouter_getInstance();
     Allocator* alloc = reinterpret_cast<Allocator*>(h->m_heap);
@@ -9566,7 +9566,7 @@ void dummy_caller(void)
 
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
-struct FUN_00dfb5a0_cls
+struct hkaAnnotationTrack
 {
     int unk00;
     char* m_pData;
@@ -9596,7 +9596,7 @@ struct ElemDFB5A0
 // Destructs the array elements, frees m_pData unless the top capacity bit is set, resets it to empty, then calls FUN_00cb0c00 on this.
 // @fnv 0x00dfb5a0
 // src: GUESS 0x00dfb5a0 (confidence: low)
-void FUN_00dfb5a0_cls::UpdateFields_00dfb5a0()
+void hkaAnnotationTrack::UpdateFields_00dfb5a0()
 {
     hkMemoryAllocator* pAlloc = reinterpret_cast<hkMemoryAllocator*>(hkMemoryRouter_getInstance()->m_heap);
     DestructElementsDFB5A0((ElemDFB5A0*)m_pData, m_iArrayLength);
@@ -12532,17 +12532,18 @@ class SuspensionObject
     short m_sReferenceCount;
 };
 
-class FUN_00dfbf70 : public SuspensionObject
+class hkpVehicleDefaultSuspension : public SuspensionObject
 {
   public:
-    ~FUN_00dfbf70() throw();
+    ~hkpVehicleDefaultSuspension() throw();
     hkArray<SuspensionWheel, SuspensionArrayPolicy> m_wheels;
     hkArray<SuspensionSpring, SuspensionArrayPolicy> m_springs;
 };
 
 // Destructor for the suspension object that owns m_wheels and m_springs arrays.
 // @fnv 0x00dfbf70
-FUN_00dfbf70::~FUN_00dfbf70() throw()
+// src: GUESS 0x00dfbf70 (confidence: high)
+hkpVehicleDefaultSuspension::~hkpVehicleDefaultSuspension() throw()
 {}
 
 extern "C" void _mm_store_ps(float*, __m128);

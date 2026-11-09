@@ -103,17 +103,18 @@ int SPECIALBookMenu::LoveTesterMenu_GetCurrentStatesActorValue()
 }
 
 
-struct FUN_007ca080
+struct SPECIALBookMenu_SpecialBookButton
 {
     int m_00;
     int m_04;
     NiPointer<NiAVObject> m_pController;
     void* m_0c;
-    FUN_007ca080(int a, int b, const char* name);
+    SPECIALBookMenu_SpecialBookButton(int a, int b, const char* name);
 };
 
 // @fnv 0x007ca080
-FUN_007ca080::FUN_007ca080(int aiValueA, int aiValueB, const char* name) : m_pController(0)
+// src: GUESS 0x007ca080 (confidence: high)
+SPECIALBookMenu_SpecialBookButton::SPECIALBookMenu_SpecialBookButton(int aiValueA, int aiValueB, const char* name) : m_pController(0)
 {
     m_00 = aiValueA;
     m_04 = aiValueB;
@@ -341,10 +342,10 @@ class C7CA200NavMeshArray
     int unk0C;
 };
 
-class FUN_007ca200 : public C7CA200Base
+class SPECIALBookMenu_ActorValueButton : public C7CA200Base
 {
   public:
-    FUN_007ca200(int iArg1, int iArg2, int iArg3, int iArg4, int iNumNavMeshes, ...);
+    SPECIALBookMenu_ActorValueButton(int iArg1, int iArg2, int iArg3, int iArg4, int iNumNavMeshes, ...);
 
     C7CA200NavMeshArray m_kNavMeshes;
     int m_iArg4;
@@ -352,7 +353,8 @@ class FUN_007ca200 : public C7CA200Base
 
 // Initializes the base with three arguments, stores iArg4, and adds iNumNavMeshes nav mesh pointers from the variadic argument list to m_kNavMeshes.
 // @fnv 0x007ca200
-FUN_007ca200::FUN_007ca200(int iArg1, int iArg2, int iArg3, int iArg4, int iNumNavMeshes, ...)
+// src: GUESS 0x007ca200 (confidence: high)
+SPECIALBookMenu_ActorValueButton::SPECIALBookMenu_ActorValueButton(int iArg1, int iArg2, int iArg3, int iArg4, int iNumNavMeshes, ...)
     : C7CA200Base(iArg1, iArg2, iArg3)
 {
     m_iArg4 = iArg4;
@@ -363,7 +365,7 @@ FUN_007ca200::FUN_007ca200(int iArg1, int iArg2, int iArg3, int iArg4, int iNumN
     pcArgs = 0;
 }
 
-struct FUN_007ca2c0
+struct SPECIALBookMenu_SpecialBookTextItem
 {
     int m_00;
     NiTimeController* m_04;
@@ -371,11 +373,12 @@ struct FUN_007ca2c0
     NiAVObject* m_0c;
     NiAVObject* m_10;
     int m_14;
-    FUN_007ca2c0(int a, const char* first, const char* second, int d);
+    SPECIALBookMenu_SpecialBookTextItem(int a, const char* first, const char* second, int d);
 };
 // Stores the given ints, looks up two named objects under the scene root, and caches each object's property 3 controller when its value is between 8 and 12.
 // @fnv 0x007ca2c0
-FUN_007ca2c0::FUN_007ca2c0(int a, const char* apFirstName, const char* apSecondName, int d)
+// src: GUESS 0x007ca2c0 (confidence: high)
+SPECIALBookMenu_SpecialBookTextItem::SPECIALBookMenu_SpecialBookTextItem(int a, const char* apFirstName, const char* apSecondName, int d)
 {
     m_00 = a;
     m_14 = d;

@@ -2324,7 +2324,7 @@ struct FUN_0063f790_shell
 {
     void FUN_0063f790(float fValue);
 };
-struct FUN_00621b20_Class
+struct hkpConvexShape
 {
     void NiTimeController_SetPhase(float fValue);
 };
@@ -2602,7 +2602,7 @@ void TreeLeafModel::BSTreeModel_CreateLeafGeometry(TreeLeafRef* pRef)
     ((FUN_0063f790_shell*)(NiAVObject*)m_spLeafMaterial)->FUN_0063f790(m_fLeafScale);
     if (m_pLeafTreeRuntime && TESMain_GetThread(m_pLeafTreeRuntime))
     {
-        ((FUN_00621b20_Class*)(NiAVObject*)m_spLeafMaterial)
+        ((hkpConvexShape*)(NiAVObject*)m_spLeafMaterial)
             ->NiTimeController_SetPhase(((TESObjectREFR*)TESMain_GetThread(m_pLeafTreeRuntime))->GetScale());
         ((FUN_006694c0_shell*)(NiAVObject*)m_spLeafMaterial)
             ->SetPad5(((FUN_00792760_shell*)TESMain_GetThread(m_pLeafTreeRuntime))->QueuedModel_GetOverriddenVisualDistance());

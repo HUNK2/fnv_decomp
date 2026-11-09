@@ -2638,14 +2638,14 @@ void __cdecl GetControlLabel(int control, char* output, bool prefix)
 #include <string.h>
 extern int DAT_010a2488;
 
-struct FUN_0071dd90_shell
+struct MenuConsole
 {
     void WriteLine(const char* apText);
 };
 
 // If the path at offset 0x810 is non-empty and apText is not, opens it as a BSFile, seeks, and writes apText followed by CRLF.
 // @fnv 0x0071dd90
-void FUN_0071dd90_shell::WriteLine(const char* apText)
+void MenuConsole::WriteLine(const char* apText)
 {
     if (!*((char*)this + 0x810))
         return;

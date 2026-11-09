@@ -475,12 +475,12 @@ unsigned int BSTexturePalette_GetContainerNumber(const char* str)
 }
 
 
-struct FUN_00a755f0_Class : NiCullingProperty
+struct NiMaterialProperty : NiCullingProperty
 {
     void __thiscall CopyCullingData(void* dst, CloningProcess& proc);
 };
 // @fnv 0x00a755f0
-void __thiscall FUN_00a755f0_Class::CopyCullingData(void* dst, CloningProcess& proc)
+void __thiscall NiMaterialProperty::CopyCullingData(void* dst, CloningProcess& proc)
 {
     NiProperty_CopyMembers(dst, proc);
     char* a = (char*)this;
@@ -601,18 +601,18 @@ template NiTPointerMap<const char*, unsigned short>::~NiTPointerMap();
 template NiTPointerMap<const NiObject*, unsigned int>::~NiTPointerMap();
 
 
-struct FUN_00a699d0_Class
+struct NiPlane
 {
     NiPoint3 normal;
     float distance;
 
-    FUN_00a699d0_Class* __thiscall SetPlaneFromThreePoints(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
+    NiPlane* __thiscall SetPlaneFromThreePoints(NiPoint3 const* point0, NiPoint3 const* point1, NiPoint3 const* point2);
 };
 
 // Computes the normal as the cross product of the two edge vectors and sets distance to the dot product of the normal with point0.
 // @fnv 0x00a699d0
 // src: GUESS 0x00a699d0 (confidence: medium)
-FUN_00a699d0_Class* __thiscall FUN_00a699d0_Class::SetPlaneFromThreePoints(NiPoint3 const* point0, NiPoint3 const* point1,
+NiPlane* __thiscall NiPlane::SetPlaneFromThreePoints(NiPoint3 const* point0, NiPoint3 const* point1,
                                                                 NiPoint3 const* point2)
 {
     NiPoint3 edge1;
@@ -888,7 +888,7 @@ struct FUN_00a61920_Node
     short unk0e;
 };
 
-class FUN_00a61920_Class
+class BSTexturePalette
 {
   public:
     FUN_00a61920_Node* m_pBuckets[1];
@@ -897,7 +897,7 @@ class FUN_00a61920_Class
 };
 
 // @fnv 0x00a61920
-bool __thiscall FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, int iHashKey, NiShader** ppOutShader)
+bool __thiscall BSTexturePalette::FindShaderByHash(int iBucketIndex, int iHashKey, NiShader** ppOutShader)
 {
     FUN_00a61920_Node* node = m_pBuckets[iBucketIndex];
     bool found = false;
@@ -1769,7 +1769,7 @@ void FUN_00a6dbd0_cls::Negate(float* __restrict out)
     out[3] = -m_f3;
 }
 
-class FUN_00a71b80_cls
+class NiFrustum
 {
   public:
     float m_00;
@@ -1780,14 +1780,14 @@ class FUN_00a71b80_cls
     float m_14;
     unsigned char m_18;
 
-    FUN_00a71b80_cls* Init(float a1, float a2, float a3, float a4, float a5, float a6, unsigned char flag);
+    NiFrustum* Init(float a1, float a2, float a3, float a4, float a5, float a6, unsigned char flag);
 };
 
 // Stores six float arguments and a flag byte into the object's fields and returns the object.
 // @fnv 0x00a71b80
-FUN_00a71b80_cls* FUN_00a71b80_cls::Init(float a1, float a2, float a3, float a4, float a5, float a6, unsigned char flag)
+NiFrustum* NiFrustum::Init(float a1, float a2, float a3, float a4, float a5, float a6, unsigned char flag)
 {
-    FUN_00a71b80_cls* p = this;
+    NiFrustum* p = this;
     p->m_00 = a1;
     p->m_18 = flag;
     p->m_04 = a2;

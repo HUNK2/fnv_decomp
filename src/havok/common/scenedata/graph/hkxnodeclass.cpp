@@ -78,16 +78,17 @@ template <class T, class A> __forceinline hkArray<T, A>::~hkArray()
     
 }
 
-class FUN_00dfd840 : public DFD840Base
+class hkxAttributeGroup : public DFD840Base
 {
   public:
-    ~FUN_00dfd840() throw();
+    ~hkxAttributeGroup() throw();
 
     hkArray<DFD840Entry> m_kEntries;
 };
 
 // @fnv 0x00dfd840
-FUN_00dfd840::~FUN_00dfd840() throw()
+// src: GUESS 0x00dfd840 (confidence: medium)
+hkxAttributeGroup::~hkxAttributeGroup() throw()
 {}
 
 struct CpuAllocator

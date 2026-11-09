@@ -129,11 +129,11 @@ void FUN_007cc680_Class::SetFlag80(bool set)
         *(unsigned int*)((char*)this + 0x244) &= ~0x80;
 }
 
-struct FUN_00570f40_Class
+struct BGSSaveLoadGame
 {
     bool BGSSaveLoadGame_GetGlobalAllowChanges() const;
 };
-struct FUN_007d6bd0_Class : FUN_00570f40_Class
+struct FUN_007d6bd0_Class : BGSSaveLoadGame
 {
     unsigned int m_uiInitializationFlags;
     bool BGSSaveLoadGame_SetGlobalAllowChanges(bool abValue);

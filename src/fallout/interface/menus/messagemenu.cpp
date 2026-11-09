@@ -1006,7 +1006,7 @@ struct MsgString
     MsgString(const char* apText);
     ~MsgString();
     unsigned int FUN_00825c00();
-    unsigned int ProcessState_005103a0(const char* apDelimiter, unsigned int auiStart);
+    unsigned int string_find(const char* apDelimiter, unsigned int auiStart);
     MsgString Substr(unsigned int auiStart, unsigned int auiLength);
     const char* std_string_debug_c_str();
 };
@@ -1142,13 +1142,13 @@ void MsgMenu::PopulateFromMessageData()
         MsgString kButtonText(pMessagePtr->kButtons.Modelloader_GetReferencedThis());
         for (iIndex = 0; uiPosNum < kButtonText.FUN_00825c00() - 1; iIndex++)
         {
-            MsgString kPart = kButtonText.Substr(uiPosNum, kButtonText.ProcessState_005103a0(DAT_01063d7c, uiPosNum) - uiPosNum);
+            MsgString kPart = kButtonText.Substr(uiPosNum, kButtonText.string_find(DAT_01063d7c, uiPosNum) - uiPosNum);
             if (kPart.FUN_00825c00() > 0)
             {
                 Tile* pText = 0;
                 pItemNew = DAT_011da4f0->kButtons.ListBox_int_AddItem(
                     pMessagePtr->cButtonBase + iIndex,
-                    kButtonText.Substr(uiPosNum, kButtonText.ProcessState_005103a0(DAT_01063d7c, uiPosNum) - uiPosNum)
+                    kButtonText.Substr(uiPosNum, kButtonText.string_find(DAT_01063d7c, uiPosNum) - uiPosNum)
                         .std_string_debug_c_str(),
                     0, 0);
                 pText = pItemNew->GetNamedChild(s_szListItemText);
@@ -1164,7 +1164,7 @@ void MsgMenu::PopulateFromMessageData()
                 }
                 fListHeightTmp = pItemNew->FUN_00a011b0(0xfb0) + fListHeightTmp;
             }
-            uiPosNum = kButtonText.ProcessState_005103a0(DAT_01063d7c, uiPosNum);
+            uiPosNum = kButtonText.string_find(DAT_01063d7c, uiPosNum);
             if (uiPosNum < kButtonText.FUN_00825c00() - 1)
                 uiPosNum = uiPosNum + 1;
         }

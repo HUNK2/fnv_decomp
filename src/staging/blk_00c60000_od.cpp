@@ -1095,7 +1095,7 @@ struct A51BF0Base
     static void* __cdecl operator new(unsigned int size);
 };
 
-struct FUN_00c61bc0_class
+struct BSPSysArrayEmitter
 {
     void __thiscall BSPSysArrayEmitter_CopyMembers(FUN_00c61b10* object, int arg);
     FUN_00c61b10* __thiscall CreateObject(int arg);
@@ -1103,7 +1103,7 @@ struct FUN_00c61bc0_class
 
 // Allocates a new FUN_00c61b10, initialises it via FUN_00c61c50 with arg, and returns the object.
 // @fnv 0x00c61bc0
-FUN_00c61b10* __thiscall FUN_00c61bc0_class::CreateObject(int arg)
+FUN_00c61b10* __thiscall BSPSysArrayEmitter::CreateObject(int arg)
 {
     FUN_00c61b10* object = new FUN_00c61b10;
     BSPSysArrayEmitter_CopyMembers(object, arg);
@@ -2036,7 +2036,7 @@ SimpleColorModifierClone* SimpleColorModifierCloner::CloneObject(CloningProcess&
     return pkClone;
 }
 
-struct FUN_00c615a0_class
+struct BSWArray
 {
     int unk00;
     int unk04;
@@ -2057,7 +2057,7 @@ struct Unused20
 };
 // Calls FUN_00a99b20, then appends the result of FUN_00a7d330 on g_012043a4 and of FUN_00a7d510(str_0109df4c, unk0c) to the values array.
 // @fnv 0x00c615a0
-void FUN_00c615a0_class::AppendGlobalAndFormatValues(NiTPrimitiveArray<unsigned int>* values)
+void BSWArray::AppendGlobalAndFormatValues(NiTPrimitiveArray<unsigned int>* values)
 {
     FUN_00a99b20(values);
     void* global_ptr = g_012043a4;

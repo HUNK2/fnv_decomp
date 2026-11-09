@@ -822,7 +822,7 @@ int IsBitmapBitSet(void* table, int index, unsigned int* bits)
 
 extern int DAT_011b37a4[];
 
-class FUN_00d11120_cls {
+class hkp3AxisSweep_hkpBpAxis {
 public:
     Endpoint* m_endpoints;
     void MergeEndpoints(char* cells, int n, int m,
@@ -830,7 +830,7 @@ public:
 };
 
 // @fnv 0x00d11120
-void FUN_00d11120_cls::MergeEndpoints(char* cells, int aiCount, int aiExtraCount,
+void hkp3AxisSweep_hkpBpAxis::MergeEndpoints(char* cells, int aiCount, int aiExtraCount,
                                     unsigned int axis, Endpoint* scratch)
 {
     for (int i = 0; i < aiCount; i++) {

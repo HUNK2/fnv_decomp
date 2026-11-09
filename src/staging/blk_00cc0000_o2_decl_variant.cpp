@@ -390,7 +390,7 @@ struct FUN_00cc7090_Constraint
     float m_fPlaneMinAngle;
     float m_fPlaneMaxAngle;
 };
-struct FUN_00cc7090_class
+struct hkRagdollConstraintCinfo
 {
     void* m_pVtable;
     FUN_00cc7090_Constraint* m_pConstraint;
@@ -1633,7 +1633,7 @@ class FUN_00cc2a00_obj
   public:
     void Init();
 };
-class FUN_00cc2a00_cls
+class bhkSimpleShapePhantom
 {
   public:
     unsigned int m_00;
@@ -3680,7 +3680,7 @@ struct FUN_00cc5ee0_interface
 {
     virtual void __thiscall FUN_00cc5ee0_call(int value) = 0;
 };
-struct FUN_00cc5ee0_class
+struct bhkRagdollConstraint
 {
     void* unk00;
     void* unk04;
@@ -8706,7 +8706,7 @@ struct FUN_00cdeac0_cls
     unsigned char unkA0;
     unsigned char unkA1;
     unsigned char m_bA2;
-    unsigned char* __thiscall CopyFieldA2ToOutput_00cdeac0(unsigned char* pOut);
+    unsigned char* __thiscall hkpRagdollConstraintData_getMotorsActive(unsigned char* pOut);
 };
 class RefObj
 {
@@ -12414,7 +12414,7 @@ struct SaveCtx
     unsigned int unk024C;
     SaveStream* m_pBinaryStream;
 };
-class FUN_00cc8a10_cls
+class hkHingeLimitsConstraintCinfo
 {
   public:
     void* unk00;

@@ -1229,7 +1229,7 @@ void __cdecl TESForm_CompressSaveBuffer();
 int TESLandTexture_GetDefaultTexture();
 void __fastcall QuestPerkEntryData_Endian(void* p);
 struct FUN_0084e3a0_Class { int GetHavokWorldObjectCountInSceneGraph_0084e3a0(); };
-struct FUN_00535aa0_Class { void OBJ_WEAP_CRITICAL_Endian(); };
+struct FILE_TEX_VERT_DATA { void OBJ_WEAP_CRITICAL_Endian(); };
 struct FUN_004855a0_shell { void TESForm_StartForm(); };
 struct FUN_00485680_shell { void TESForm_CloseForm(); };
 extern double DAT_0102dfe0;
@@ -1446,12 +1446,12 @@ void This538110::TESObjectLAND_Save()
                         if (v4 != 0) {
                             if (TESForm_QEndianSwapOnSave()) {
                                 for (w7 = 0; w7 < (unsigned int)v4; w7++)
-                                    ((FUN_00535aa0_Class*)&t7[w7])->OBJ_WEAP_CRITICAL_Endian();
+                                    ((FILE_TEX_VERT_DATA*)&t7[w7])->OBJ_WEAP_CRITICAL_Endian();
                             }
                             TESForm___AddChunkData(0x54585456, t7, v4 * 8);
                             if (TESForm_QEndianSwapOnSave()) {
                                 for (v5 = 0; v5 < (unsigned int)v4; v5++)
-                                    ((FUN_00535aa0_Class*)&t7[v5])->OBJ_WEAP_CRITICAL_Endian();
+                                    ((FILE_TEX_VERT_DATA*)&t7[v5])->OBJ_WEAP_CRITICAL_Endian();
                             }
                         }
                     }
@@ -3531,7 +3531,7 @@ struct Buffer538c00
 
     unsigned int m04;
 
-    void __thiscall UpdateState_00540750(unsigned int size);
+    void __thiscall setSize(unsigned int size);
 
     void* __thiscall Modelloader_GetReferencedThis();
 
@@ -3597,7 +3597,7 @@ char __thiscall FUN_00538c00_Class::TESObjectLAND_ReadMoppCodeFromBuffer(
             remainingSize = remainingSize + fixedHeaderSize;
             if (readPosition > 0)
             {
-                object->buffer.UpdateState_00540750(readPosition);
+                object->buffer.setSize(readPosition);
                 void* bufferData = object->buffer.Modelloader_GetReferencedThis();
                 FUN_00401460(bufferData, remainingSize, readPosition);
                 success = 1;

@@ -1767,7 +1767,7 @@ const void* __cdecl getVtable_hkpConstrainedSystemFilter()
 class __declspec(align(16)) S00dffbb0_Object
 {
   public:
-    S00dffbb0_Object(FinishingFlag flag);  // FUN_00e46f20
+    S00dffbb0_Object(FinishingFlag flag);  // hkpBallGun
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;

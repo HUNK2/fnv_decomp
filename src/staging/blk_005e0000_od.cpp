@@ -1878,7 +1878,7 @@ class FNVObject
 };
 int __cdecl FNVCompare(void* key, void* a1);
 
-class FUN_005e0860_cls
+class SettingCollectionList
 {
   public:
     int unk000;
@@ -1954,7 +1954,7 @@ class FUN_005e0860_cls
 
 // Searches the cursor list for an object whose key matches a1, stores it in a2 and returns true, otherwise returns false.
 // @fnv 0x005e0860
-bool FUN_005e0860_cls::FindByKey(void* pKey, FNVObject** ppFound)
+bool SettingCollectionList::FindByKey(void* pKey, FNVObject** ppFound)
 {
     if (pKey == 0)
     {
@@ -2295,12 +2295,12 @@ struct FUN_005eedc0_cls
 {
     int m_unk00;
     FUN_005eedc0_item* m_pEntries;
-    FUN_005eedc0_item* GetIndexedValue_005eedc0(int index);
+    FUN_005eedc0_item* BSSimpleArray_GetAt(int index);
 };
 
 // @fnv 0x005eedc0
-// src: GUESS 0x005eedc0 (confidence: low)
-FUN_005eedc0_item* FUN_005eedc0_cls::GetIndexedValue_005eedc0(int index)
+// src: GUESS 0x005eedc0 (confidence: medium)
+FUN_005eedc0_item* FUN_005eedc0_cls::BSSimpleArray_GetAt(int index)
 {
     return &m_pEntries[index];
 }

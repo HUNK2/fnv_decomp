@@ -82,14 +82,14 @@ void TaskQueueInterface::SetTaskFlag(bool enabled)
 }
 
 
-struct FUN_00549610_Class
+struct BSPortal
 {
     void BSPortal_SetSharedGeometryNode(void* arg);
 };
 
 // @fnv 0x00549610
 // src: XBOX_PDB 0x00549610
-void FUN_00549610_Class::BSPortal_SetSharedGeometryNode(void* arg)
+void BSPortal::BSPortal_SetSharedGeometryNode(void* arg)
 {
     *(GO*)((char*)this + 0x104) = arg;
 }
@@ -184,13 +184,13 @@ FUN_00559e50_Class* __thiscall FUN_00559e50_Class::InitializeWithGlobal(int arg)
 
 struct FUN_0055a020_Class
 {
-    void __thiscall CreateRuntimeWorkItem_Thunk();
+    void __thiscall NiTMap_NewItem();
     void __thiscall CreateRuntimeWorkItem();
 };
 
 // @fnv 0x0055a020
-// src: GUESS 0x0055a020 (confidence: medium)
-void __thiscall FUN_0055a020_Class::CreateRuntimeWorkItem_Thunk()
+// src: GUESS 0x0055a020 (confidence: high)
+void __thiscall FUN_0055a020_Class::NiTMap_NewItem()
 {
     ((FUN_0055a020_Class*)((char*)this + 0xc))->CreateRuntimeWorkItem();
 }
@@ -558,13 +558,13 @@ struct Flt
     int v;
     operator unsigned int();
 };
-struct FUN_00540570_Owner
+struct BSShaderPPLightingProperty
 {
     unsigned int GetFltValue(int);
 };
 // Returns the unsigned int value of the Flt element at index from the Flt array stored at offset 0xb0 of this object.
 // @fnv 0x00540570
-unsigned int FUN_00540570_Owner::GetFltValue(int index)
+unsigned int BSShaderPPLightingProperty::GetFltValue(int index)
 {
     return (*(Flt**)((char*)this + 0xb0))[index];
 }
@@ -659,7 +659,7 @@ void __thiscall FUN_00540b70_Class::hkArrayBase_unsigned_char_clearAndDeallocate
     m1 = 0x80000000;
 }
 
-struct FUN_00540c20_Holder
+struct hkThreadMemory
 {
     virtual void f0()
     {}
@@ -675,7 +675,7 @@ struct FUN_00540c20_Holder
 };
 // Calls the virtual function vf with the two arguments and returns.
 // @fnv 0x00540c20
-void __thiscall FUN_00540c20_Holder::CallVirtualWithArgs(int aiArg1, int aiArg2)
+void __thiscall hkThreadMemory::CallVirtualWithArgs(int aiArg1, int aiArg2)
 {
     int v = 1;
     vf(aiArg1, aiArg2);
@@ -1040,15 +1040,16 @@ void* __thiscall FUN_00559df0::FUN_00559e20(unsigned int flags)
     return this;
 }
 
-struct FUN_0055a0c0
+struct QUEUED_ATTACH
 {
     NiPointer<AnimIdle> a;
     NiPointer<BSFaceGenModelExtraData> b;
     char c;
-    FUN_0055a0c0(int);
+    QUEUED_ATTACH(int);
 };
 // @fnv 0x0055a0c0
-FUN_0055a0c0::FUN_0055a0c0(int) : a(0), b(0)
+// src: GUESS 0x0055a0c0 (confidence: medium)
+QUEUED_ATTACH::QUEUED_ATTACH(int) : a(0), b(0)
 {
     c = 0;
 }
@@ -1166,15 +1167,15 @@ struct FUN_0055a040_Class
     void* m0;
     void* m1;
     FUN_0055a2b0_Class m2;
-    void __thiscall ProcessState_0055a040(FUN_0055a240_Obj* a);
+    void __thiscall NiTMap_DeleteItem(FUN_0055a240_Obj* a);
 };
-// Constructs a temporary FUN_0055a0c0 with 0, passes it to a's AssignFrom at offset 8, then calls FUN_0055a1e0 on this+12 with a.
+// Constructs a temporary QUEUED_ATTACH with 0, passes it to a's AssignFrom at offset 8, then calls FUN_0055a1e0 on this+12 with a.
 // @fnv 0x0055a040
-// src: GUESS 0x0055a040 (confidence: low)
-void __thiscall FUN_0055a040_Class::ProcessState_0055a040(FUN_0055a240_Obj* a)
+// src: GUESS 0x0055a040 (confidence: high)
+void __thiscall FUN_0055a040_Class::NiTMap_DeleteItem(FUN_0055a240_Obj* a)
 {
     {
-        FUN_0055a0c0 t(0);
+        QUEUED_ATTACH t(0);
         ((FUN_00559900_Struct*)((char*)a + 8))->AssignFrom(*(FUN_00559900_Struct*)&t);
     }
     ((FUN_0055a1e0_Class*)((char*)this + 12))->UpdateFields_0055a1e0(a);
@@ -1405,14 +1406,14 @@ struct FUN_00540860_Class
     void __thiscall SetSize(int arg1, int arg2);
 };
 
-struct FUN_00540750_Class : public FUN_00540860_Class
+struct hkArray : public FUN_00540860_Class
 {
-    void __thiscall UpdateState_00540750(int arg);
+    void __thiscall setSize(int arg);
 };
 
 // @fnv 0x00540750
-// src: GUESS 0x00540750 (confidence: low)
-void __thiscall FUN_00540750_Class::UpdateState_00540750(int aiValue)
+// src: GUESS 0x00540750 (confidence: medium)
+void __thiscall hkArray::setSize(int aiValue)
 {
     FUN_004a4840_Class local = {};
     this->SetSize(local.hkContainerHeapAllocator_get((int)this), aiValue);
@@ -1801,7 +1802,7 @@ struct ItemNode
     FUN_00559900_Struct m8;
 };
 
-class FUN_005593a0_cls
+class NiTMap
 {
   public:
     virtual void unk0();
@@ -1813,7 +1814,7 @@ class FUN_005593a0_cls
 
 // @fnv 0x005593a0
 // src: COMMUNITY 0x005593a0
-void FUN_005593a0_cls::NiTMap_NiAVObject_TESObjectCELL_QUEUED_ATTACH_GetNext(ItemNode** apNode, int* piValue, FUN_00559900_Struct* apStruct)
+void NiTMap::NiTMap_NiAVObject_TESObjectCELL_QUEUED_ATTACH_GetNext(ItemNode** apNode, int* piValue, FUN_00559900_Struct* apStruct)
 {
     ItemNode* node = *apNode;
     *piValue = node->m4;
@@ -1853,7 +1854,7 @@ struct FUN_00559bc0_node
     FUN_00559bc0_node* m_next;
 };
 
-class FUN_00559bc0_cls
+class BSScrapMap
 {
   public:
     virtual void v00();
@@ -1872,7 +1873,7 @@ class FUN_00559bc0_cls
 // Calls v10 on every node in each of the m_04 buckets of m_08, then resets m_0c to 0.
 // @fnv 0x00559bc0
 // src: COMMUNITY 0x00559bc0
-void FUN_00559bc0_cls::BSScrapMap_TESObjectREFR_bool_ClearAll()
+void BSScrapMap::BSScrapMap_TESObjectREFR_bool_ClearAll()
 {
     for (unsigned int i = 0; i < m_04; i++)
     {

@@ -327,14 +327,14 @@ NiAVObject* BSFaceGenModel::GetFaceGenModelNode(NiAVObject* object)
     return result ? reinterpret_cast<ResolveNode>((*reinterpret_cast<void***>(result))[0x94 / 4])(result) : 0;
 }
 
-void* __fastcall FUN_00659670(void* pThis, int, const char* apEGTFilename);
+void* __fastcall EGTData(void* pThis, int, const char* apEGTFilename);
 
 struct Dummy_00659780
 {
     char pad[0x34];
     Dummy_00659780(const char* apEGTFilename)
     {
-        FUN_00659670(this, 0, apEGTFilename);
+        EGTData(this, 0, apEGTFilename);
     }
 };
 
@@ -391,7 +391,7 @@ struct StatisticalEntry;
 class StatisticalArray
 {
   public:
-    unsigned int EvaluateValue_0065cc30();
+    unsigned int vector_size();
     StatisticalEntry* GetElementChecked_00662890(unsigned int);
 };
 
@@ -400,7 +400,7 @@ class StatisticalArray
 unsigned int FaceGenTriData::ProcessEntries_0065a5a0()
 {
     unsigned int uiMinValue = std_vector_FR2Vect3TC_float_std_allocator_FR2Vect3TC_float_size();
-    for (unsigned int uiIndex = 0; uiIndex < ((StatisticalArray*)((char*)this + 0xd8))->EvaluateValue_0065cc30(); ++uiIndex)
+    for (unsigned int uiIndex = 0; uiIndex < ((StatisticalArray*)((char*)this + 0xd8))->vector_size(); ++uiIndex)
     {
         if (*(unsigned int*)((char*)((StatisticalArray*)((char*)this + 0xd8))->GetElementChecked_00662890(uiIndex) + 0x1c) <
             uiMinValue)
@@ -1186,12 +1186,12 @@ struct FUN_0065c090_shell
     int unk00;
     int unk04;
     FUN_0065c090_Inner* unk08;
-    bool UpdateState_0065c090();
+    bool BSFaceGenModel_TryUnloadEGMData();
 };
 
 // @fnv 0x0065c090
-// src: GUESS 0x0065c090 (confidence: low)
-bool FUN_0065c090_shell::UpdateState_0065c090()
+// src: GUESS 0x0065c090 (confidence: medium)
+bool FUN_0065c090_shell::BSFaceGenModel_TryUnloadEGMData()
 {
     if (unk08 && unk08->unk08)
     {

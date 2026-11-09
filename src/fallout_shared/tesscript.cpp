@@ -1044,12 +1044,12 @@ void __thiscall FUN_00857ba0_class::ReadFromStream(int a, int b, int c)
 
 struct FUN_008586d0_class
 {
-    void __thiscall ReadFromStream_Thunk(int a, int b, int c);
+    void __thiscall TESSaveLoadGame_ReadBuffer(int a, int b, int c);
 };
 
 // @fnv 0x008586d0
 // src: GUESS 0x008586d0 (confidence: medium)
-void __thiscall FUN_008586d0_class::ReadFromStream_Thunk(int a, int b, int c)
+void __thiscall FUN_008586d0_class::TESSaveLoadGame_ReadBuffer(int a, int b, int c)
 {
     reinterpret_cast<FUN_00857ba0_class*>(this)->ReadFromStream(a, b, c);
 }

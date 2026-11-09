@@ -5,13 +5,13 @@
 #include "../../include/SL.h"
 #include "../../include/StartMenu.h"
 
-struct FUN_0085fbb0 : public BSFile
+struct SaveGameFile : public BSFile
 {
     void Method_0085fbb0();
 };
 
 // @fnv 0x0085fbb0
-void FUN_0085fbb0::Method_0085fbb0()
+void SaveGameFile::Method_0085fbb0()
 {
     BSFile::~BSFile();
 }
@@ -366,7 +366,7 @@ void __thiscall FUN_0085fbd0_class::DeleteAllItems()
 
 void __cdecl operator delete(void*);
 
-struct SaveGameFileDeleteEntry85 : public FUN_0085fbb0
+struct SaveGameFileDeleteEntry85 : public SaveGameFile
 {
     void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
@@ -376,7 +376,7 @@ struct SaveGameFileDeleteEntry85 : public FUN_0085fbb0
 // src: EXE 0x0085fb80
 void* __thiscall SaveGameFileDeleteEntry85::ScalarDeletingDestructor(unsigned int flags)
 {
-    FUN_0085fbb0::Method_0085fbb0();
+    SaveGameFile::Method_0085fbb0();
     if (flags & 1)
         ::operator delete(this);
     return this;

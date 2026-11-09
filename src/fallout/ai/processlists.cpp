@@ -2327,9 +2327,9 @@ struct MobileLightHelper
     void SetByteAt14E(bool);
 };
 void __cdecl UpdateAnimSceneGraph(unsigned int, void*);
-struct FUN_0087cf10_shell
+struct BSParallelArrayTask
 {
-    FUN_0087cf10_shell* Construct(void(__cdecl*)(unsigned int, void*), void*, unsigned int);
+    BSParallelArrayTask* Construct(void(__cdecl*)(unsigned int, void*), void*, unsigned int);
 };
 struct TaskQueueParallelManager
 {
@@ -2374,7 +2374,7 @@ void FUN_0096c970_shell::ProcessLists_ParallelUpdateAnimationScenegraph()
         if (animationArray.GetTarget())
         {
             IndexedTaskData animationArrayTask;
-            ((FUN_0087cf10_shell*)&animationArrayTask)
+            ((BSParallelArrayTask*)&animationArrayTask)
                 ->Construct(UpdateAnimSceneGraph, &animationArray, animationArray.GetTarget());
             DAT_01202df4->BSParallelTaskManager_RunTask_1(&animationArrayTask);
         }
@@ -10344,7 +10344,7 @@ struct FUN_008f25e0
     ~FUN_008f25e0();
     TESForm* GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     TESForm* FUN_0044ddc0();
-    void RemoveActorAndDecrementCount(Actor*);
+    void Crime_RemoveWitness(Actor*);
 };
 struct CrimeListView
 {
@@ -10385,7 +10385,7 @@ void CrimeProcess::ProcessLists_NullOutActorInCrimeList(TESForm* form)
             else if (form->IsActor())
             {
                 Actor* actor = static_cast<Actor*>(form);
-                removed->RemoveActorAndDecrementCount(actor);
+                removed->Crime_RemoveWitness(actor);
             }
             if (!crime)
             {

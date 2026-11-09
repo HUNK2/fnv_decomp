@@ -198,7 +198,7 @@ void GlobalObject_00869f00::SetVtableAndProcessState_009a3810()
 
 CombatTargetTimestamp* __fastcall CombatTargetTimestamp_ClearTimeStamp(CombatTargetTimestamp*);
 
-struct FUN_009a3d90_class
+struct UnreachableCoverLocation
 {
     int m0;
     CombatTargetTimestamp* __thiscall EvaluateValue_009a3d90();
@@ -206,7 +206,7 @@ struct FUN_009a3d90_class
 
 // @fnv 0x009a3d90
 // src: GUESS 0x009a3d90 (confidence: low)
-CombatTargetTimestamp* __thiscall FUN_009a3d90_class::EvaluateValue_009a3d90()
+CombatTargetTimestamp* __thiscall UnreachableCoverLocation::EvaluateValue_009a3d90()
 {
     CombatTargetTimestamp_ClearTimeStamp(reinterpret_cast<CombatTargetTimestamp*>(this + 1));
     return reinterpret_cast<CombatTargetTimestamp*>(this);
@@ -586,11 +586,11 @@ void* __thiscall FUN_009a44b0_Class::FUN_009a44b0(unsigned int flags)
 
 struct FUN_009a4e90_shell
 {
-    void SaveState_009a4e90(BGSSaveFormBuffer* buffer);
+    void CombatThreat_SaveGame(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x009a4e90
 // src: GUESS 0x009a4e90 (confidence: medium)
-void FUN_009a4e90_shell::SaveState_009a4e90(BGSSaveFormBuffer* buffer)
+void FUN_009a4e90_shell::CombatThreat_SaveGame(BGSSaveFormBuffer* buffer)
 {
     buffer->SaveData((char*)this + 4, 4, 0);
     ((CombatTargetTimestamp*)((char*)this + 8))->CombatTimeStamp_SaveGame(buffer);
@@ -1682,7 +1682,7 @@ void CombatThreatMap::SaveThreats(BGSSaveFormBuffer* buffer)
         if (key)
         {
             reinterpret_cast<FUN_00865db0_shell*>(buffer)->FUN_00865db0(uiThreatKey, 0);
-            reinterpret_cast<FUN_009a4e90_shell*>(key)->SaveState_009a4e90(buffer);
+            reinterpret_cast<FUN_009a4e90_shell*>(key)->CombatThreat_SaveGame(buffer);
             ++position;
         }
     }
@@ -1963,14 +1963,14 @@ struct FUN_008256d0_shell
     bool __thiscall FUN_008256d0();
 };
 
-struct FUN_009b8a20_class
+struct MissileProjectile
 {
-    void __thiscall AdvanceStateAtOffset150_009b8a20();
+    void __thiscall UpdateImpaleState();
 };
 
 // @fnv 0x009b8a20
-// src: GUESS 0x009b8a20 (confidence: low)
-void FUN_009b8a20_class::AdvanceStateAtOffset150_009b8a20()
+// src: GUESS 0x009b8a20 (confidence: medium)
+void MissileProjectile::UpdateImpaleState()
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) == 3)
     {

@@ -689,7 +689,7 @@ bool MissileProjectile::AddImpact_009b8900(int aiArg1, int aiArg2, int aiArg3, C
         (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x150) != 3 || h == 1 || h == 2 || h == 9 || h == 17 || h == 13 || h == 20) &&
         reinterpret_cast<bool(__thiscall*)(void*, int, int, int, Collider890*, int, int)>(MissileLocal::ProcessHit)(this, aiArg1, aiArg2, aiArg3, collider, aiArg5, aiArg6))
     {
-        AdvanceStateAtOffset150_009b8a20();
+        UpdateImpaleState();
         return true;
     }
     return false;

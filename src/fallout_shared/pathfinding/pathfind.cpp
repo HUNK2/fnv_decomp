@@ -580,14 +580,14 @@ unsigned int S5460::BSSimpleArray_NiPoint3_1024_AddUninitialized()
     return count - 1;
 }
 
-struct FUN_0099e040_shell : public PathingRequestOptimalLocation
+struct SceneGraph : public PathingRequestOptimalLocation
 {
     float BSSceneGraph_GetCameraFOV();
 };
 
 // @fnv 0x0099e040
 // src: COMMUNITY 0x0099e040
-float FUN_0099e040_shell::BSSceneGraph_GetCameraFOV()
+float SceneGraph::BSSceneGraph_GetCameraFOV()
 {
     return *(float*)((char*)this + 0xbc);
 }
@@ -617,12 +617,12 @@ void* __cdecl FUN_00ec7230(void*, void const*, unsigned int);
 
 struct FUN_006d0730_shell
 {
-    void ProcessEntries_006d0730(void* dst, void const* src, unsigned int count);
+    void BSSimpleArray_MoveElements(void* dst, void const* src, unsigned int count);
 };
 
 // @fnv 0x006d0730
-// src: GUESS 0x006d0730 (confidence: low)
-void FUN_006d0730_shell::ProcessEntries_006d0730(void* pDest, void const* pSource, unsigned int count)
+// src: GUESS 0x006d0730 (confidence: medium)
+void FUN_006d0730_shell::BSSimpleArray_MoveElements(void* pDest, void const* pSource, unsigned int count)
 {
     if (!(count > 0))
         return;
@@ -657,7 +657,7 @@ void __cdecl RandomFloatNegPiToPi()
     MersenneTwister::GetRandomGenerator()->BSRandom_FloatNegPiToPi();
 }
 
-struct FUN_006d6d60_shell
+struct PathingRequestCover
 {
     NiPoint3& PathingRequestCover_GetThreat(NiPoint3& akDest);
 };
@@ -665,7 +665,7 @@ struct FUN_006d6d60_shell
 // Copies the NiPoint3 stored at offset 0xb0 of this object into akDest and returns it.
 // @fnv 0x006d6d60
 // src: COMMUNITY 0x006d6d60
-NiPoint3& FUN_006d6d60_shell::PathingRequestCover_GetThreat(NiPoint3& akDest)
+NiPoint3& PathingRequestCover::PathingRequestCover_GetThreat(NiPoint3& akDest)
 {
     akDest = *reinterpret_cast<const NiPoint3*>((char*)this + 0xb0);
     return akDest;
@@ -840,13 +840,13 @@ void __cdecl Pathing_FindPotentialNavmeshesForLocation(int aiArg1, float f, int 
 
 struct FUN_006d0540_shell
 {
-    void __thiscall CopyOverlappingElements30(void* dst, void* src, unsigned int count);
+    void __thiscall BSSimpleArray_MoveElements(void* dst, void* src, unsigned int count);
 };
 
 // Copies count 0x30-byte elements from src to dst, iterating forward or backward depending on the relative addresses.
 // @fnv 0x006d0540
 // src: GUESS 0x006d0540 (confidence: medium)
-void __thiscall FUN_006d0540_shell::CopyOverlappingElements30(void* dst, void* src, unsigned int count)
+void __thiscall FUN_006d0540_shell::BSSimpleArray_MoveElements(void* dst, void* src, unsigned int count)
 {
     extern void* __cdecl FUN_00ec7230(void*, void const*, unsigned int);
 
@@ -1567,15 +1567,15 @@ class FUN_006d0680_cls
     int m_04;
     int unk08;
     int m_0c;
-    void ProcessEntries_006d0730(int a, int b, int c);
+    void BSSimpleArray_MoveElements(int a, int b, int c);
     void FUN_006a8500();
-    void UpdateFields_006d0680(int a1, int a2);
+    void BSSimpleArray_Reallocate(int a1, int a2);
 };
 
 // Updates m_04 from a1 via v04/v0c, rebuilding through FUN_006d0730 and FUN_006a8500 when a2 differs from m_0c, and records a1 in m_0c on first use.
 // @fnv 0x006d0680
-// src: GUESS 0x006d0680 (confidence: low)
-void FUN_006d0680_cls::UpdateFields_006d0680(int a1, int a2)
+// src: GUESS 0x006d0680 (confidence: medium)
+void FUN_006d0680_cls::BSSimpleArray_Reallocate(int a1, int a2)
 {
     if (m_04 != 0)
     {
@@ -1586,7 +1586,7 @@ void FUN_006d0680_cls::UpdateFields_006d0680(int a1, int a2)
         else
         {
             int tmp = v04(a1);
-            ProcessEntries_006d0730(tmp, m_04, a2);
+            BSSimpleArray_MoveElements(tmp, m_04, a2);
             FUN_006a8500();
             m_04 = tmp;
         }
@@ -1602,7 +1602,7 @@ void* __cdecl Memory_ReturnPlacementAddress(unsigned int bytes, void* heap);
 struct S006d1520_Container
 {
     unsigned int AdvanceCounter();
-    void* GetElementAddress30_006e8f40(unsigned int value);
+    void* BSSimpleArray_GetAt(unsigned int value);
 };
 struct FUN_006f4d00
 {
@@ -1631,7 +1631,7 @@ unsigned int PathingSolutionPointAppender::PathingSolution_AddVirtualPathingNode
         PathingLocation location(pos, cell, world);
         location.FUN_006dd6f0(0);
         index = reinterpret_cast<S006d1520_Container*>(&((PathingSolution*)this)->member1)->AdvanceCounter();
-        heap = reinterpret_cast<S006d1520_Container*>(&((PathingSolution*)this)->member1)->GetElementAddress30_006e8f40(index);
+        heap = reinterpret_cast<S006d1520_Container*>(&((PathingSolution*)this)->member1)->BSSimpleArray_GetAt(index);
         new (heap) FUN_006f4d00(location);
         return index;
     }
@@ -2491,7 +2491,7 @@ struct FUN_006abbb0
     unsigned int FUN_0044ddc0();
     void SetPosition(unsigned int);
     RoutePoint* BSSimpleArray_CombatMember_1024_GetAt(unsigned int);
-    void RemoveArrayTail(unsigned int, unsigned int, int);
+    void BSScrapArray_RemoveRange(unsigned int, unsigned int, int);
 };
 struct RouteEdge
 {
@@ -2712,7 +2712,7 @@ bool __cdecl Pathing_ComputeApproximatePathingDistance(PathingLocation* start, P
             if (j752 > i + 2)
             {
                 unsigned int remove = j752 - i - 2;
-                path8->RemoveArrayTail(i + 1, remove, 0);
+                path8->BSScrapArray_RemoveRange(i + 1, remove, 0);
                 edges33.BSSimpleArray_NiPoint3_1024_RemoveRange(i, remove, 0);
             }
         }
@@ -8857,7 +8857,7 @@ struct CandidateSearch : SearchStorage
     bool enabled;
     CandidateSearch();
     ~CandidateSearch();
-    void SetFieldAtOffset20A4_006d2c60(float);
+    void SetMaxCost(float);
     bool BuildNodePath(PathingRequestOptimalLocation*, TriangleCandidate*, PathingLocation*, CandidateArray*,
                      DestinationArray*);
     SearchNode* GetField2048();
@@ -8933,7 +8933,7 @@ bool __cdecl BuildOptimalPathSolution(PathingRequestOptimalLocation* request, Pa
     CandidateSearch eb;
     CandidateArray memory(32, 0, 0);
     DestinationArray f(32, 0, 0);
-    eb.SetFieldAtOffset20A4_006d2c60(cf * 2.0f);
+    eb.SetMaxCost(cf * 2.0f);
     PathMeshArray c;
     Pathing_GetAllLoadedNavmeshes(&c);
     SearchPoint triangleFilter;

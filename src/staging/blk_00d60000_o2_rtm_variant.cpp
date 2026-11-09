@@ -291,7 +291,7 @@ void __stdcall FUN_00d60900(char* p);
 struct FUN_00d60600_class
 {
     void __thiscall WriteSwapped(int a, int b, int c);
-    void __thiscall WriteSwapped_Thunk(int a, int b);
+    void __thiscall hkOArchive_write64(int a, int b);
 };
 struct FUN_00d61470_Class
 {

@@ -689,14 +689,14 @@ void* FUN_0060da90_shell::GetOffsetPointer()
     return reinterpret_cast<char*>(this) + 0x6B0;
 }
 
-struct FUN_00737e30_shell
+struct TESCasino
 {
     unsigned int m_210;
     unsigned int GetFieldAt210();
 };
 
 // @fnv 0x00737e30
-unsigned int FUN_00737e30_shell::GetFieldAt210()
+unsigned int TESCasino::GetFieldAt210()
 {
     return ((unsigned int*)this)[0x210 / 4];
 }

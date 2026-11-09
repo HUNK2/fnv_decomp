@@ -316,12 +316,12 @@ void FUN_00438bf0_shell::ForwardCall_00438bf0()
 
 struct FUN_00438f10_Class
 {
-    bool EvaluateValue_00438f10();
+    bool MapMarkerData_IsShowAllHidden();
 };
 
 // @fnv 0x00438f10
-// src: GUESS 0x00438f10 (confidence: low)
-bool FUN_00438f10_Class::EvaluateValue_00438f10()
+// src: GUESS 0x00438f10 (confidence: medium)
+bool FUN_00438f10_Class::MapMarkerData_IsShowAllHidden()
 {
     if (*(unsigned char*)((char*)this + 0xc) & 4)
         return true;
@@ -436,28 +436,28 @@ void FUN_0043b9f0_shell::NiControllerSequence_SetName(FUN_0043ba10_shell* p)
 }
 
 
-struct FUN_0043baa0_class
+struct BSAnimGroupSequence
 {
     void BSAnimGroupSequence_SetAnimGroup(void* p);
 };
 
 // @fnv 0x0043baa0
 // src: COMMUNITY 0x0043baa0
-void FUN_0043baa0_class::BSAnimGroupSequence_SetAnimGroup(void* p)
+void BSAnimGroupSequence::BSAnimGroupSequence_SetAnimGroup(void* p)
 {
     *(GO*)((char*)this + 0x74) = p;
 }
 
 bool __cdecl MLGetFlag_1(unsigned char);
 
-struct FUN_0043fab0_class
+struct QueuedHelmet
 {
     bool __thiscall QueuedHelmet_GetFinishedQueuing();
 };
 
 // @fnv 0x0043fab0
 // src: XBOX_PDB 0x0043fab0
-bool __thiscall FUN_0043fab0_class::QueuedHelmet_GetFinishedQueuing()
+bool __thiscall QueuedHelmet::QueuedHelmet_GetFinishedQueuing()
 {
     return MLGetFlag_1(reinterpret_cast<unsigned char*>(this)[0x120]);
 }
@@ -1463,14 +1463,14 @@ NiPoint3* FUN_00439ef0_class::SubtractIntoVector(NiPoint3* apResult, const NiPoi
     return apResult;
 }
 
-struct FUN_0043b3b0_class
+struct NiMultiTargetTransformController
 {
     unsigned short NiMultiTargetTransformController_HasTarget(unsigned int value);
 };
 // Scans the array at offset 0x38 up to the count at 0x3c and returns the index of the first element equal to value, or INVALID_INDEX if none matches.
 // @fnv 0x0043b3b0
 // src: COMMUNITY 0x0043b3b0
-unsigned short FUN_0043b3b0_class::NiMultiTargetTransformController_HasTarget(unsigned int value)
+unsigned short NiMultiTargetTransformController::NiMultiTargetTransformController_HasTarget(unsigned int value)
 {
     unsigned short i = 0;
     for (; i < *(unsigned short*)((char*)this + 0x3c); ++i)
@@ -1927,7 +1927,7 @@ struct FloatGlobal
 extern FloatGlobal DAT_011cd78c;
 float CombatTimer_GetTimer();
 
-class FUN_00435d40_cls
+class ExtraFriendHits
 {
   public:
     int unk00;
@@ -1941,7 +1941,7 @@ class FUN_00435d40_cls
 
 // @fnv 0x00435d40
 // src: COMMUNITY 0x00435d40
-void FUN_00435d40_cls::ExtraFriendHits_AddHit()
+void ExtraFriendHits::ExtraFriendHits_AddHit()
 {
     Reset();
     int n = m_0c.FUN_0044ddc0();
@@ -3477,12 +3477,12 @@ struct FUN_00438df0
     void* vtbl;
     int unk4;
     int unk8;
-    void __thiscall UpdateState_00438df0(FUN_00438df0* src);
+    void __thiscall MapMarkerData_CopyFrom(FUN_00438df0* src);
 };
 
 // @fnv 0x00438df0
-// src: GUESS 0x00438df0 (confidence: low)
-void __thiscall FUN_00438df0::UpdateState_00438df0(FUN_00438df0* apSource)
+// src: GUESS 0x00438df0 (confidence: medium)
+void __thiscall FUN_00438df0::MapMarkerData_CopyFrom(FUN_00438df0* apSource)
 {
     ((void(__thiscall*)(void*, FUN_00438df0*))(*((void***)this))[2])(this, apSource);
     *(char*)((char*)this + 0xc) = *(char*)((char*)apSource + 0xc);

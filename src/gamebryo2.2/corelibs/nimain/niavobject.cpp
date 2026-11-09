@@ -635,16 +635,16 @@ NiAVObject* __fastcall ConstructAVObject(NiAVObject* object)
     return object;
 }
 
-struct FUN_00a71b70_cls
+struct NiFrustum
 {
     char _pad_00[0x18];
     unsigned char m_18;
-    FUN_00a71b70_cls* SetField18(unsigned char v);
+    NiFrustum* SetField18(unsigned char v);
 };
 
 // @fnv 0x00a71b70
 // src: GUESS 0x00a71b70 (confidence: low)
-FUN_00a71b70_cls* FUN_00a71b70_cls::SetField18(unsigned char v)
+NiFrustum* NiFrustum::SetField18(unsigned char v)
 {
     m_18 = v;
     return this;

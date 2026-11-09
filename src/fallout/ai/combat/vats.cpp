@@ -434,7 +434,7 @@ struct NiLight;
 struct ShadowSceneLight;
 
 
-struct FUN_009c9a50_shell
+struct VATSCameraData
 {
     char pad_00[0x34];
     GO m_34;
@@ -443,7 +443,7 @@ struct FUN_009c9a50_shell
 };
 
 // @fnv 0x009c9a50
-void FUN_009c9a50_shell::SetLight(NiLight* apLight, bool abClear)
+void VATSCameraData::SetLight(NiLight* apLight, bool abClear)
 {
     if (abClear && m_34 != 0)
     {
@@ -460,14 +460,14 @@ void FUN_009c9a50_shell::SetLight(NiLight* apLight, bool abClear)
 void* __cdecl operator new(unsigned int);
 
 
-struct FUN_009ca500_shell : public VATSCommand
+struct VATSTargetInfo : public VATSCommand
 {
     void VATS_COMMAND_Initialize();
 };
 
 // @fnv 0x009ca500
 // src: XBOX_PDB 0x009ca500
-void FUN_009ca500_shell::VATS_COMMAND_Initialize()
+void VATSTargetInfo::VATS_COMMAND_Initialize()
 {
     eAction = 0x16;
     bSuccess = false;

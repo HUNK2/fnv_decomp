@@ -202,7 +202,7 @@ namespace fnv_00dfe360 {
 
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
-struct FUN_00dfe360_cls
+struct hkaInterleavedUncompressedAnimation
 {
     int unk00;
     int unk04;
@@ -227,7 +227,7 @@ struct FUN_00dfe360_cls
 
 // @fnv 0x00dfe360
 // src: GUESS 0x00dfe360 (confidence: low)
-void FUN_00dfe360_cls::UpdateFields_00dfe360()
+void hkaInterleavedUncompressedAnimation::UpdateFields_00dfe360()
 {
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);

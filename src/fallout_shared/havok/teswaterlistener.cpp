@@ -127,14 +127,14 @@ float __cdecl SignOfFloat(float afValue)
     return result;
 }
 
-struct FUN_005631e0_shell
+struct bhkWorldObject
 {
     int __thiscall MaskWithField(int a);
     bool __thiscall IsNonZero(int a);
 };
 
 // @fnv 0x005631e0
-bool __thiscall FUN_005631e0_shell::IsNonZero(int aiValue)
+bool __thiscall bhkWorldObject::IsNonZero(int aiValue)
 {
     return MaskWithField(aiValue) != 0;
 }
@@ -185,7 +185,7 @@ void __thiscall FUN_0062e940_shell::ProcessAndForward(const void* p)
     ((FUN_00c9a520_shell*)this)->bhkEntityListener_RemoveEntity(q);
 }
 
-struct FUN_00576830_shell
+struct BGSZoneTargetListener
 {
     void* __thiscall BGSZoneTargetListener_GetZoneEntry(BSOcclusionPlane* pPlane);
 };
@@ -198,7 +198,7 @@ void* TESWaterListener_FindWater(BSOcclusionPlane* pPlane)
     void* result = 0;
     unsigned int cull = GetOcclusionPlaneThreadID(pPlane);
     if (cull)
-        result = reinterpret_cast<FUN_00576830_shell*>(reinterpret_cast<char*>(cull) + 0x14)->BGSZoneTargetListener_GetZoneEntry(pPlane);
+        result = reinterpret_cast<BGSZoneTargetListener*>(reinterpret_cast<char*>(cull) + 0x14)->BGSZoneTargetListener_GetZoneEntry(pPlane);
     return result;
 }
 
@@ -990,15 +990,15 @@ void __cdecl TESWaterListener_PlaySplashEffects(float a1, NiPoint3 aPosition)
 }
 
 #include <xmmintrin.h>
-struct FUN_00630d30_cls
+struct hkVector4
 {
     __m128 m_vec;
-    void AddComponentProductInPlace(const __m128* a, const __m128* b);
+    void addMul(const __m128* a, const __m128* b);
 };
 // Adds the element-wise product of two vectors to m_vec using SSE intrinsics.
 // @fnv 0x00630d30
-// src: GUESS 0x00630d30 (confidence: high)
-void FUN_00630d30_cls::AddComponentProductInPlace(const __m128* apFirst, const __m128* apSecond)
+// src: GUESS 0x00630d30 (confidence: medium)
+void hkVector4::addMul(const __m128* apFirst, const __m128* apSecond)
 {
     m_vec = _mm_add_ps(m_vec, _mm_mul_ps(*apFirst, *apSecond));
 }

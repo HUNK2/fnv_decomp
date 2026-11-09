@@ -937,7 +937,7 @@ struct __declspec(align(16)) Renderer
     void FireMotionEvent(Collidable*, void*, void*, void*);
     void UpdateFields_00de7f20(Collidable*, void*, void*, void*);
     void ComputeValues_00de7730(Collidable*, void*, void*, void*);
-    void UpdateFields_00de7580(Collidable*, void*, void*, void*);
+    void drawConstraint(Collidable*, void*, void*, void*);
     void ComputeValues_00de71d0(Collidable*, void*, void*, void*);
     void UpdateViewerAndDrawPointLines(Collidable*, void*, void*, void*);
     void ProcessEntries_00de6d80(Collidable*, void*, void*, void*);
@@ -1215,7 +1215,7 @@ void ConstraintDrawDetail::Viewer::hkpConstraintViewer_draw(int aiCollidable, En
     case 8: {
         renderer.InitializeDefaults();
         renderer.hkpConstraintDrawer_setScale(DAT_011b6168);
-        renderer.UpdateFields_00de7580(object, context, position, DAT_0126901c);
+        renderer.drawConstraint(object, context, position, DAT_0126901c);
         break;
     }
     case 9: {

@@ -336,7 +336,7 @@ void __thiscall FUN_0044abd0_Class::ForwardCall_0044abd0(int aiValue)
     std_allocator_SIdvLeafTexture_allocator_SIdvLeafTexture(aiValue, 0);
 }
 
-struct FUN_0044ac20_class
+struct FOVATSEffectManager
 {
     int m;
     void FOVATSEffectManager_SetEffectMode(const int* p);
@@ -344,12 +344,12 @@ struct FUN_0044ac20_class
 
 // @fnv 0x0044ac20
 // src: COMMUNITY 0x0044ac20
-void FUN_0044ac20_class::FOVATSEffectManager_SetEffectMode(const int* piValue)
+void FOVATSEffectManager::FOVATSEffectManager_SetEffectMode(const int* piValue)
 {
     m = *piValue;
 }
 
-struct FUN_0044caa0_class
+struct LockFreeMap
 {
     int m_iWordAt00;
     int m_iWordAt04;
@@ -357,7 +357,7 @@ struct FUN_0044caa0_class
     unsigned int ModuloByField(unsigned int a);
 };
 // @fnv 0x0044caa0
-unsigned int FUN_0044caa0_class::ModuloByField(unsigned int auiValue)
+unsigned int LockFreeMap::ModuloByField(unsigned int auiValue)
 {
     return auiValue % m_8;
 }
@@ -819,14 +819,14 @@ int NiGeometryData::GetConsistency_00457b80()
     return m_usDirtyFlags & 0x7000;
 }
 
-struct FUN_00457ff0_class
+struct BSWin32FileCache
 {
     void BSFileCache_PauseFileCaching();
 };
 
 // @fnv 0x00457ff0
 // src: COMMUNITY 0x00457ff0
-void FUN_00457ff0_class::BSFileCache_PauseFileCaching()
+void BSWin32FileCache::BSFileCache_PauseFileCaching()
 {
     if (reinterpret_cast<int*>(this)[0x5c / 4] == 1)
         reinterpret_cast<int*>(this)[0x5c / 4] = 2;
@@ -1694,7 +1694,7 @@ struct Inner00446de0
     virtual void f3();
     virtual int f4();
 };
-struct FUN_00446de0_Class
+struct BackgroundCloneThread
 {
     char _pad[0x34];
     volatile int m34;
@@ -1704,7 +1704,7 @@ struct FUN_00446de0_Class
 // Returns the value from m38's f4() plus the volatile m34 field.
 // @fnv 0x00446de0
 // src: COMMUNITY 0x00446de0
-int __thiscall FUN_00446de0_Class::BackgroundCloneThread_GetQueuedCount()
+int __thiscall BackgroundCloneThread::BackgroundCloneThread_GetQueuedCount()
 {
     return m38->f4() + m34;
 }
@@ -1887,12 +1887,12 @@ char* __thiscall FUN_0044a970_Cls::std_string__Myptr()
 struct FUN_0044a9d0_Class
 {
     unsigned int __thiscall std_allocator_char_max_size();
-    unsigned int __thiscall GetAllocatorLimitMinusTerminator();
+    unsigned int __thiscall basic_string_max_size();
 };
 // Calls FUN_0065f7f0 and returns 1 when the result is at most 1, otherwise the result minus 1.
 // @fnv 0x0044a9d0
-// src: GUESS 0x0044a9d0 (confidence: medium)
-unsigned int __thiscall FUN_0044a9d0_Class::GetAllocatorLimitMinusTerminator()
+// src: GUESS 0x0044a9d0 (confidence: high)
+unsigned int __thiscall FUN_0044a9d0_Class::basic_string_max_size()
 {
     unsigned int a = std_allocator_char_max_size();
     return (a <= 1) ? 1 : a - 1;
@@ -3020,15 +3020,15 @@ struct FUN_00446dc0_Class
 // src: COMMUNITY 0x00446dc0
 int FUN_00446dc0_Class::ModelLoader_GetBackgroundCloningCount()
 {
-    return ((FUN_00446de0_Class*)*(void**)((char*)this + 0x28))->BackgroundCloneThread_GetQueuedCount();
+    return ((BackgroundCloneThread*)*(void**)((char*)this + 0x28))->BackgroundCloneThread_GetQueuedCount();
 }
 
-struct FUN_0044e0d0_Class
+struct QueuedFileEntry
 {
     unsigned long long GetValue64();
 };
 // @fnv 0x0044e0d0
-unsigned long long FUN_0044e0d0_Class::GetValue64()
+unsigned long long QueuedFileEntry::GetValue64()
 {
     return *(unsigned long long*)((char*)this + 0x10);
 }

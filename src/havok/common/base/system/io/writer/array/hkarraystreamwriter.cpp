@@ -63,14 +63,14 @@ struct FUN_00d467c0
 {
     void write(const char* a, unsigned int b);
 };
-struct FUN_00d468a0_obj
+struct hkMemoryTrackStreamWriter
 {
     unsigned int pad[2];
     FUN_00d467c0* p;
     unsigned int WriteToStream(unsigned int arg, unsigned int b);
 };
 // @fnv 0x00d468a0
-unsigned int FUN_00d468a0_obj::WriteToStream(unsigned int apData, unsigned int auiSize)
+unsigned int hkMemoryTrackStreamWriter::WriteToStream(unsigned int apData, unsigned int auiSize)
 {
     p->write((const char*)apData, auiSize);
     return auiSize;
@@ -222,7 +222,7 @@ struct FUN_00d469e0_Obj
 {
     void FreeAllChunks();
 };
-struct FUN_00d46be0_Cls
+struct hkMemoryTrack
 {
     int m00;
     int m04;
@@ -233,7 +233,7 @@ struct FUN_00d46be0_Cls
 };
 // @fnv 0x00d46be0
 // src: GUESS 0x00d46be0 (confidence: low)
-void FUN_00d46be0_Cls::UpdateFields_00d46be0()
+void hkMemoryTrack::UpdateFields_00d46be0()
 {
     reinterpret_cast<FUN_00d469e0_Obj*>(this)->FreeAllChunks();
     hkMemoryRouter* res = &HavokHeap::hkMemoryRouter_getInstance();

@@ -366,17 +366,18 @@ void __thiscall FUN_00978f10_shell::Projectile_IsPermanent()
     Projectile_IsEditorCreated();
 }
 
-struct FUN_009bb940
+struct hkRefPtr
 {
     char _pad[0x1c];
     hkReferencedObject* ref;
-    ~FUN_009bb940();
+    ~hkRefPtr();
     void* FUN_009b3490(unsigned int flags);  // scalar deleting destructor
 };
 
 // Releases the referenced object if present and clears the pointer.
 // @fnv 0x009bb940
-FUN_009bb940::~FUN_009bb940()
+// src: GUESS 0x009bb940 (confidence: medium)
+hkRefPtr::~hkRefPtr()
 {
     if (this->ref)
         this->ref->removeReference();
@@ -458,9 +459,9 @@ bool PathingRequest::IsRandomBelowRadiusThreshold()
 void __cdecl _Deallocate(void*);
 // Runs the destructor (0x009bb940), then frees the object when the low flag bit is set, and returns the object pointer.
 // @fnv 0x009b3490
-void* FUN_009bb940::FUN_009b3490(unsigned int flags)
+void* hkRefPtr::FUN_009b3490(unsigned int flags)
 {
-    this->FUN_009bb940::~FUN_009bb940();
+    this->hkRefPtr::~hkRefPtr();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -858,14 +859,14 @@ void ST_00931e50::Projectile_SetProjectileOrientation(ST_00a59400* p)
     MobileObject_SetLooking(a);
 }
 
-struct FUN_00563200_Struct
+struct bhkWorldObject
 {
     int pad[4];
     int field10;
     int MaskWithField(int);
 };
 // @fnv 0x00563200
-int FUN_00563200_Struct::MaskWithField(int a)
+int bhkWorldObject::MaskWithField(int a)
 {
     return field10 & a;
 }
@@ -895,7 +896,7 @@ unsigned int FUN_009b4440_shell::Projectile_GetDesiredTarget()
     return _val100;
 }
 
-struct FUN_009baba0_shell
+struct MissileProjectile
 {
     char pad[0x150];
     unsigned int val;
@@ -903,7 +904,7 @@ struct FUN_009baba0_shell
 };
 // @fnv 0x009baba0
 // src: COMMUNITY 0x009baba0
-bool FUN_009baba0_shell::MissileProjectile_IsPermanent()
+bool MissileProjectile::MissileProjectile_IsPermanent()
 {
     return val == 4 || ((Projectile*)this)->Projectile::IsProximityDetonationTriggered();
 }

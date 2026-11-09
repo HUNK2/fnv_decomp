@@ -70,16 +70,16 @@ void* S006949d0::GetFirst()
     return GetAt(0);
 }
 
-struct FUN_006a1490_class
+struct PathingAvoidNodeArray
 {
     int m_iWordAt00;
     int m_iWordAt04;
-    int EvaluateValue_006a1490(int index);
+    int GetNodeAt(int index);
 };
 
 // @fnv 0x006a1490
-// src: GUESS 0x006a1490 (confidence: low)
-int FUN_006a1490_class::EvaluateValue_006a1490(int index)
+// src: GUESS 0x006a1490 (confidence: medium)
+int PathingAvoidNodeArray::GetNodeAt(int index)
 {
     return index * 0x24 + m_iWordAt04;
 }
@@ -189,12 +189,12 @@ void* _Reallocate(void* base, unsigned int count);
 
 struct FUN_006a1900_Class
 {
-    void* __thiscall _Reallocate_Thunk(void* base, unsigned int count);
+    void* __thiscall BSSimpleArray_Reallocate(void* base, unsigned int count);
 };
 
 // @fnv 0x006a1900
 // src: GUESS 0x006a1900 (confidence: medium)
-void* __thiscall FUN_006a1900_Class::_Reallocate_Thunk(void* base, unsigned int count)
+void* __thiscall FUN_006a1900_Class::BSSimpleArray_Reallocate(void* base, unsigned int count)
 {
     return _Reallocate(base, count << 6);
 }
@@ -596,14 +596,14 @@ struct FUN_00aa5410_Helper
     int InitWithAlignedSize(unsigned int);
 };
 
-struct FUN_006b9400_Class
+struct ScrapHeap
 {
     int AStarNodeHeap_AStarNodeHeap_0();
 };
 
 // @fnv 0x006b9400
 // src: COMMUNITY 0x006b9400
-int FUN_006b9400_Class::AStarNodeHeap_AStarNodeHeap_0()
+int ScrapHeap::AStarNodeHeap_AStarNodeHeap_0()
 {
     ((FUN_00aa5410_Helper*)this)->InitWithAlignedSize(0x4800);
     return (int)this;
@@ -644,12 +644,12 @@ void* FUN_006bec20_Class::NavMeshObstacleCutter_UpdateCoverArray()
 
 struct FUN_006bf670_Class
 {
-    int* GetElementAddress_006bf670(int a);
+    int* BSSimpleArray_GetAt(int a);
 };
 
 // @fnv 0x006bf670
-// src: GUESS 0x006bf670 (confidence: low)
-int* FUN_006bf670_Class::GetElementAddress_006bf670(int aiIndex)
+// src: GUESS 0x006bf670 (confidence: medium)
+int* FUN_006bf670_Class::BSSimpleArray_GetAt(int aiIndex)
 {
     return (int*)((char*)*(int*)((char*)this + 4) + aiIndex * 0x1c);
 }
@@ -3087,12 +3087,12 @@ unsigned int S006bf170::FindIndexByValue(unsigned short ausValue)
 
 struct FUN_006bf340_Class
 {
-    bool ComputeValue_006bf340(unsigned char** a);
+    bool IsEdgeInvalid(unsigned char** a);
 };
 
 // @fnv 0x006bf340
-// src: GUESS 0x006bf340 (confidence: low)
-bool FUN_006bf340_Class::ComputeValue_006bf340(unsigned char** apBuffers)
+// src: GUESS 0x006bf340 (confidence: medium)
+bool FUN_006bf340_Class::IsEdgeInvalid(unsigned char** apBuffers)
 {
     if (!apBuffers[0][2] && apBuffers[0][6])
         return true;
@@ -3103,7 +3103,7 @@ bool FUN_006bf340_Class::ComputeValue_006bf340(unsigned char** apBuffers)
     return false;
 }
 
-struct FUN_006bf480_Class
+struct NavMeshObstacleVertex
 {
     unsigned short m_iWordAt00;
     unsigned char m_cByteAtOffset2;
@@ -3111,12 +3111,13 @@ struct FUN_006bf480_Class
     unsigned char m_iWordAt04;
     unsigned char m_5;
     unsigned char m_6;
-    FUN_006bf480_Class(unsigned short a, unsigned char b, unsigned char c, unsigned char d);
+    NavMeshObstacleVertex(unsigned short a, unsigned char b, unsigned char c, unsigned char d);
 };
 
 // Initializes the object's fields from the four constructor arguments and zeroes the two trailing bytes.
 // @fnv 0x006bf480
-FUN_006bf480_Class::FUN_006bf480_Class(unsigned short a, unsigned char b, unsigned char c, unsigned char d)
+// src: GUESS 0x006bf480 (confidence: medium)
+NavMeshObstacleVertex::NavMeshObstacleVertex(unsigned short a, unsigned char b, unsigned char c, unsigned char d)
 {
     m_iWordAt00 = a;
     m_cByteAtOffset2 = b;
@@ -3368,14 +3369,14 @@ struct FUN_006bbc30_ScrapHeap
     void __thiscall ScrapHeapBuffer();
 };
 
-struct FUN_006bbc30_class
+struct AStarDefaultHeap
 {
-    FUN_006bbc30_class* __thiscall EvaluateValue_006bbc30();
+    AStarDefaultHeap* __thiscall EvaluateValue_006bbc30();
 };
 
 // @fnv 0x006bbc30
 // src: GUESS 0x006bbc30 (confidence: low)
-FUN_006bbc30_class* __thiscall FUN_006bbc30_class::EvaluateValue_006bbc30()
+AStarDefaultHeap* __thiscall AStarDefaultHeap::EvaluateValue_006bbc30()
 {
     reinterpret_cast<FUN_006bbc30_ScrapHeap*>(this)->ScrapHeapBuffer();
     return this;
@@ -4481,14 +4482,14 @@ struct FUN_006b3cb0_node
     FUN_006b3cb0_node* m_54;
 };
 
-class FUN_006b3cb0_cls
+class PathSmootherPOVSearch
 {
   public:
     bool CopyNodeListToArrays(FUN_006b3cb0_node* head, FUN_006b3cb0_arg2* a2, FUN_006b3cb0_arg3* a3);
 };
 
 // @fnv 0x006b3cb0
-bool FUN_006b3cb0_cls::CopyNodeListToArrays(FUN_006b3cb0_node* head, FUN_006b3cb0_arg2* pItemArray,
+bool PathSmootherPOVSearch::CopyNodeListToArrays(FUN_006b3cb0_node* head, FUN_006b3cb0_arg2* pItemArray,
                                             FUN_006b3cb0_arg3* pPointArray)
 {
     if (head == 0)
@@ -4588,12 +4589,12 @@ struct FUN_006b3fd0_cls
     bool BSSimpleArray_NavMeshInfo_1024_ShouldGrow();
     int BSSimpleArray_NavMeshInfo_1024_GetNewSizeForGrow();
     void AllocateStorage_006b4590(int a, int b);
-    unsigned int UpdateState_006b3fd0();
+    unsigned int BSSimpleArray_AddIndex();
 };
 
 // @fnv 0x006b3fd0
-// src: GUESS 0x006b3fd0 (confidence: low)
-unsigned int FUN_006b3fd0_cls::UpdateState_006b3fd0()
+// src: GUESS 0x006b3fd0 (confidence: medium)
+unsigned int FUN_006b3fd0_cls::BSSimpleArray_AddIndex()
 {
     if (BSSimpleArray_NavMeshInfo_1024_ShouldGrow())
     {
@@ -7005,7 +7006,7 @@ struct FUN_006b8ec0_Node
     int m_i08;
 };
 
-struct FUN_006b8ec0_cls
+struct NavMeshInfoSearch
 {
     int FUN_006b8fe0(int a1, float zero, FUN_006b8ec0_Node** out);
     int InsertNode(FUN_006b8ec0_Node* node);
@@ -7014,7 +7015,7 @@ struct FUN_006b8ec0_cls
 
 // @fnv 0x006b8ec0
 // src: XBOX_PDB 0x006b8ec0
-FUN_006b8ec0_Node* FUN_006b8ec0_cls::AStarSearch_NavMeshInfo_const_TESObjectREFR_AddStartNode(int a1, int* piValue, float afValue)
+FUN_006b8ec0_Node* NavMeshInfoSearch::AStarSearch_NavMeshInfo_const_TESObjectREFR_AddStartNode(int a1, int* piValue, float afValue)
 {
     FUN_006b8ec0_Node* node;
     switch (FUN_006b8fe0(a1, 0.0f, &node))
@@ -7022,7 +7023,7 @@ FUN_006b8ec0_Node* FUN_006b8ec0_cls::AStarSearch_NavMeshInfo_const_TESObjectREFR
     case 0:
         node->m_f04 = afValue;
         node->m_i08 = *piValue;
-        reinterpret_cast<FUN_006b8ec0_cls*>(reinterpret_cast<char*>(this) + 0x1ff4)->InsertNode(node);
+        reinterpret_cast<NavMeshInfoSearch*>(reinterpret_cast<char*>(this) + 0x1ff4)->InsertNode(node);
         *reinterpret_cast<FUN_006b8ec0_Node**>(reinterpret_cast<char*>(this) + 0x2050) = node;
         return node;
     case 1:
@@ -7789,14 +7790,14 @@ class FUN_006bf3c0_cls
     void* NavMeshObstacleCutter_CreateVertex(unsigned short a, unsigned char b, unsigned char c, unsigned char d);
 };
 
-// Allocates an 8-byte FUN_006bf480_Class with the four arguments, sets its m_5 from FUN_006bf1d0, and returns it.
+// Allocates an 8-byte NavMeshObstacleVertex with the four arguments, sets its m_5 from FUN_006bf1d0, and returns it.
 // @fnv 0x006bf3c0
 // src: COMMUNITY 0x006bf3c0
 void* FUN_006bf3c0_cls::NavMeshObstacleCutter_CreateVertex(unsigned short a, unsigned char b, unsigned char c, unsigned char d)
 {
     void* raw = m_0c.Allocate(8, DAT_010a2720);
-    new (raw) FUN_006bf480_Class(a, b, c, d);
-    ((FUN_006bf480_Class*)raw)->m_5 = NavMeshObstacleCutter_IsVertInOverlappedArea((P_006bf1d0*)raw);
+    new (raw) NavMeshObstacleVertex(a, b, c, d);
+    ((NavMeshObstacleVertex*)raw)->m_5 = NavMeshObstacleCutter_IsVertInOverlappedArea((P_006bf1d0*)raw);
     return raw;
 }
 }  // namespace fnv_006bf3c0
@@ -7970,14 +7971,14 @@ struct FUN_006bff60_Class
     int unk08;
     int unk0c;
 
-    void __thiscall ProcessEntries_006c0010(void* newItem, void* oldItem, int count);
+    void __thiscall BSSimpleArray_MoveElements(void* newItem, void* oldItem, int count);
     void __thiscall FUN_006a8500();
-    void __thiscall UpdateFields_006bff60(int value, int count);
+    void __thiscall BSSimpleArray_Resize(int value, int count);
 };
 
 // @fnv 0x006bff60
-// src: GUESS 0x006bff60 (confidence: low)
-void __thiscall FUN_006bff60_Class::UpdateFields_006bff60(int value, int count)
+// src: GUESS 0x006bff60 (confidence: medium)
+void __thiscall FUN_006bff60_Class::BSSimpleArray_Resize(int value, int count)
 {
     if (this->unk04 != 0)
     {
@@ -7988,7 +7989,7 @@ void __thiscall FUN_006bff60_Class::UpdateFields_006bff60(int value, int count)
         else
         {
             void* newItem = this->vf04(value);
-            this->ProcessEntries_006c0010(newItem, this->unk04, count);
+            this->BSSimpleArray_MoveElements(newItem, this->unk04, count);
             this->FUN_006a8500();
             this->unk04 = newItem;
         }
@@ -8921,7 +8922,7 @@ struct BuildCollection
     unsigned int capacity;
     unsigned int grow;
     unsigned int FUN_0044ddc0() const;
-    FUN_006bc8b0* GetElementAddress_006bf670(unsigned int index);
+    FUN_006bc8b0* BSSimpleArray_GetAt(unsigned int index);
     unsigned short* GetBufferEntry(unsigned int index);
     BuildItem* Object_GetIndexedValue_006a1440(unsigned int index);
     int FUN_004b9ba0();
@@ -9112,8 +9113,8 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
             int entry;
             {
                 BuildBounds bounds;
-                ((BuildName*)&bounds.mC)->CopyFromNavMeshEdge(input->annotationCollection.GetElementAddress_006bf670(i));
-                ((BuildName*)&bounds.m0)->CopyFromNavMeshEdge(&input->annotationCollection.GetElementAddress_006bf670(i)->mC);
+                ((BuildName*)&bounds.mC)->CopyFromNavMeshEdge(input->annotationCollection.BSSimpleArray_GetAt(i));
+                ((BuildName*)&bounds.m0)->CopyFromNavMeshEdge(&input->annotationCollection.BSSimpleArray_GetAt(i)->mC);
                 bounds.processed = false;
                 entry = catalog->primary.FindIndexIf((BuildName*)&bounds.m0, 0, CallWithInt);
                 if (entry != -1)
@@ -10176,7 +10177,7 @@ bool FUN_006bde50::CanAddEdge(void* pVertexA, void* pVertexB)
     return true;
 }
 
-struct FUN_006bf570
+struct NavMeshObstacleEdge
 {
     int unk00;
     int unk04;
@@ -10191,10 +10192,11 @@ struct FUN_006bf570
     unsigned char unk19;
     NP ref;
     hkQuaternion data;
-    FUN_006bf570(int, int, int);
+    NavMeshObstacleEdge(int, int, int);
 };
 // @fnv 0x006bf570
-FUN_006bf570::FUN_006bf570(int aiFirst, int aiSecond, int aiThird) : ref(0)
+// src: GUESS 0x006bf570 (confidence: medium)
+NavMeshObstacleEdge::NavMeshObstacleEdge(int aiFirst, int aiSecond, int aiThird) : ref(0)
 {
     unk00 = aiFirst;
     unk04 = aiSecond;

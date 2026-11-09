@@ -847,7 +847,7 @@ class SimpleColorModifierCloner : public BSPSysSimpleColorModifier
     void CopyMemberData(SimpleColorModifierClone* pkDest, CloningProcess& kCloning);
     SimpleColorModifierClone* CloneObject(CloningProcess& kCloning);
 };
-struct FUN_00c615a0_class
+struct BSWArray
 {
     int unk00;
     int unk04;

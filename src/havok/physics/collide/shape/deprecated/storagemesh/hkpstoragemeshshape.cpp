@@ -201,16 +201,16 @@ FUN_00d4be00_cls* FUN_00d4be00_cls::ScalarDeletingDestructor(int flags)
 }
 }  // namespace fnv_00d4be00
 
-class FUN_00d4bd60 : public hkpShapeCollection
+class hkpMeshShape : public hkpShapeCollection
 {
   public:
     int unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C, unk40;
     int unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
 
-    virtual ~FUN_00d4bd60() throw();
+    virtual ~hkpMeshShape() throw();
 };
 
-class hkpStorageMeshShape : public FUN_00d4bd60
+class hkpStorageMeshShape : public hkpMeshShape
 {
   public:
     hkArray<hkReferencedObject*> m_children;
@@ -650,10 +650,10 @@ class MeshShapeCollectionD4BD : public hkpShapeCollection
     virtual const hkpShape* GetShapeForKey(hkpShapeKey, hkpShapeBuffer&) const;
 };
 
-class FUN_00d4bd60
+class hkpMeshShape
 {
   public:
-    ~FUN_00d4bd60() throw();
+    ~hkpMeshShape() throw();
 
     MeshShapeCollectionD4BD m_kCollection;
     int unk18, unk1C, unk20, unk24, unk28, unk2C, unk30;
@@ -663,7 +663,8 @@ class FUN_00d4bd60
 
 // Destructor for a triangle collection object that owns a shape collection, a triangle array, and a material index array.
 // @fnv 0x00d4bd60
-FUN_00d4bd60::~FUN_00d4bd60() throw()
+// src: GUESS 0x00d4bd60 (confidence: medium)
+hkpMeshShape::~hkpMeshShape() throw()
 {}
 }  // namespace fnv_00d4bd60
 

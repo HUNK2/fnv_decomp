@@ -388,12 +388,12 @@ hkpBroadPhaseCastCollector::hkpBroadPhaseCastCollector(int aiFlags)
 
 extern int DAT_010c3af8;
 void __stdcall UpdateFields_00cbf1a0();
-struct FUN_00c66540_class
+struct bhkMemoryAllocator
 {
     int __thiscall InitVtableAndCall(int);
 };
 // @fnv 0x00c66540
-int __thiscall FUN_00c66540_class::InitVtableAndCall(int aiUnused)
+int __thiscall bhkMemoryAllocator::InitVtableAndCall(int aiUnused)
 {
     *(int*)this = (int)&DAT_010c3af8;
     UpdateFields_00cbf1a0();
@@ -897,14 +897,14 @@ struct FUN_009ba5f0_shell
 {
     void SetChildObject(int);
 };
-struct FUN_00c7fb40
+struct hkConstraintCinfo
 {
     int* p;
     void UpdateFields_00c7fb40();
 };
 // @fnv 0x00c7fb40
 // src: GUESS 0x00c7fb40 (confidence: low)
-void FUN_00c7fb40::UpdateFields_00c7fb40()
+void hkConstraintCinfo::UpdateFields_00c7fb40()
 {
     p = &DAT_0108ffb4;
     ((FUN_009ba5f0_shell*)this)->SetChildObject(0);
@@ -1301,7 +1301,7 @@ struct FUN_00c6aac0_Class
     void __thiscall bhkWorld_AddBatchedActions();
 };
 
-struct FUN_00c67850_Class
+struct bhkWorldM
 {
     void __thiscall ProcessConstraints();
 };
@@ -1422,7 +1422,7 @@ void __thiscall FUN_00c6b320_Class::bhkWorld_Add_00c6b320(hkReferencedObject* a)
             ((FUN_00c68a40_Class*)this)->bhkWorld_AddBatchedEntities();
             ((FUN_00c676e0_Class*)this)->ClearIndexedValues();
             ((FUN_00c6aac0_Class*)this)->bhkWorld_AddBatchedActions();
-            ((FUN_00c67850_Class*)this)->ProcessConstraints();
+            ((bhkWorldM*)this)->ProcessConstraints();
         }
 
         ((AddReferenceHelper*)a)->RetainReference();
@@ -12158,12 +12158,12 @@ struct FUN_00c7b0b0_class
     volatile int unk04;
     volatile int unk08;
 
-    void __thiscall UpdateState_00c7b0b0();
+    void __thiscall hkArray_clearAndDeallocate();
 };
 
 // @fnv 0x00c7b0b0
-// src: GUESS 0x00c7b0b0 (confidence: low)
-void FUN_00c7b0b0_class::UpdateState_00c7b0b0()
+// src: GUESS 0x00c7b0b0 (confidence: medium)
+void FUN_00c7b0b0_class::hkArray_clearAndDeallocate()
 {
     void* pObject = hkMemoryRouter_getInstance();
     FUN_00c85750_Object* pTarget = reinterpret_cast<FUN_00c85750_Object*>(
@@ -12284,12 +12284,12 @@ struct FUN_00c7bf50_cls
     int m_04;
     unsigned int m_08;
 
-    void UpdateState_00c7bf50();
+    void hkArray_clearAndDeallocate();
 };
 
 // @fnv 0x00c7bf50
-// src: GUESS 0x00c7bf50 (confidence: low)
-void FUN_00c7bf50_cls::UpdateState_00c7bf50()
+// src: GUESS 0x00c7bf50 (confidence: medium)
+void FUN_00c7bf50_cls::hkArray_clearAndDeallocate()
 {
     hkMemoryRouter* holder = ::GetAllocHolder();
     SpawnedAllocator* alloc = reinterpret_cast<SpawnedAllocator*>(holder->m_heap);
@@ -13066,7 +13066,7 @@ struct WorldImpl : public FUN_00c6b320_Base
 };
 
 // @fnv 0x00c67850
-void FUN_00c67850_Class::ProcessConstraints()
+void bhkWorldM::ProcessConstraints()
 {
     WorldImpl* self = (WorldImpl*)this;
     ScopedMemContext_00c67850 ctx(16);
@@ -15341,12 +15341,12 @@ struct FUN_00c7bf10_cls
     void* m_obj;
     int m_flags;
     int m_uiContentCount;
-    void __thiscall UpdateState_00c7bf10();
+    void __thiscall hkArray_clearAndDeallocate();
 };
 
 // @fnv 0x00c7bf10
-// src: GUESS 0x00c7bf10 (confidence: low)
-void __thiscall FUN_00c7bf10_cls::UpdateState_00c7bf10()
+// src: GUESS 0x00c7bf10 (confidence: medium)
+void __thiscall FUN_00c7bf10_cls::hkArray_clearAndDeallocate()
 {
     hkMemoryRouter* holder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* obj = &GetRouterHeap(*holder);
@@ -18051,13 +18051,13 @@ struct FUN_00c6cbc0_class
     float unk528;
     float unk52C;
 
-    void __thiscall UpdateLargestAbsoluteThreshold(float threshold, float value);
+    void __thiscall bhkCharacterController_SetImpulseIfStronger(float threshold, float value);
 };
 
 // Stores threshold and value into unk528 and unk52C when the absolute value of threshold exceeds the absolute value of unk528.
 // @fnv 0x00c6cbc0
 // src: GUESS 0x00c6cbc0 (confidence: medium)
-void __thiscall FUN_00c6cbc0_class::UpdateLargestAbsoluteThreshold(float threshold, float value)
+void __thiscall FUN_00c6cbc0_class::bhkCharacterController_SetImpulseIfStronger(float threshold, float value)
 {
     if (fabs(threshold) > fabs(unk528))
     {

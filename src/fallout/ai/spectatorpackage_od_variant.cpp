@@ -261,12 +261,12 @@ void BSSimpleArray<S009f9180, 1024>::Clear(bool freeStorage)
 
 struct FUN_009f8d60_Class
 {
-    void* __thiscall AllocateStorage_009f8d60(int size);
+    void* __thiscall BSSimpleArray_Allocate(int size);
 };
 
 // @fnv 0x009f8d60
-// src: GUESS 0x009f8d60 (confidence: medium)
-void* __thiscall FUN_009f8d60_Class::AllocateStorage_009f8d60(int size)
+// src: GUESS 0x009f8d60 (confidence: high)
+void* __thiscall FUN_009f8d60_Class::BSSimpleArray_Allocate(int size)
 {
     void* memory = operator new(size * 0x34);
     return memory;

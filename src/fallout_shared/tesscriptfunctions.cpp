@@ -1750,13 +1750,13 @@ struct MobileObjectProcessArrayApi {
     char m_auiNextUpdateIndices[16];
 };
 typedef char _sizecheck_ProcessArray[sizeof(MobileObjectProcessArrayApi) == 64 ? 1 : -1];
-struct FUN_005be5c0_shell : public MobileObjectProcessArrayApi {
+struct ProcessArray : public MobileObjectProcessArrayApi {
     unsigned int ProcessArray_GetProcessLevelTail(int);
 };
 
 // @fnv 0x005be5c0
 // src: XBOX_PDB 0x005be5c0
-unsigned int FUN_005be5c0_shell::ProcessArray_GetProcessLevelTail(int aProcessLevel)
+unsigned int ProcessArray::ProcessArray_GetProcessLevelTail(int aProcessLevel)
 {
     return ((unsigned int*)m_auiProcessTailIndices)[aProcessLevel];
 }
@@ -10337,10 +10337,10 @@ void* __cdecl TESMain_Get3DMenuRoot();
 bool __cdecl ScreenSplatter_IsActiveSplatter();
 NiNode* __cdecl ScreenSplatter_GetRoot();
 
-class FUN_004d61b0
+class NiTreeCtrl
 {
 public:
-    FUN_004d61b0(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, unsigned int, unsigned int);
+    NiTreeCtrl(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, unsigned int, unsigned int);
     void NiTreeCtrl_CreateTree(void*, const char*);
     void ProcessTreeItemHandles_004d65a0(unsigned int);
 
@@ -10348,7 +10348,7 @@ private:
     unsigned char m_data[0x30];
 };
 
-FUN_004d61b0::FUN_004d61b0(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, unsigned int, unsigned int)
+NiTreeCtrl::NiTreeCtrl(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, unsigned int, unsigned int)
 {
 }
 
@@ -10360,7 +10360,7 @@ bool Cmd_ShowScenegraph_Execute_005bac90(const ScriptParameter*, const char*, TE
 {
     NiTreeCtrl_SetCallback(TreeCtrlCallback);
 
-    FUN_004d61b0* sceneGraph = new FUN_004d61b0(
+    NiTreeCtrl* sceneGraph = new NiTreeCtrl(
         g_osGlobals->Deallocate(),
         g_osGlobals->GetFlags(),
         Main_GetWorldSceneGraph(),
@@ -10391,13 +10391,13 @@ bool Cmd_ShowScenegraph_Execute_005bac90(const ScriptParameter*, const char*, TE
 }  // namespace fnv_005bac90
 
 namespace fnv_005bb610 {
-class FUN_0044ac20_class
+class FOVATSEffectManager
 {
 public:
     void FOVATSEffectManager_SetEffectMode(int const*);
 };
 
-class FUN_00800e50_Class : public FUN_0044ac20_class
+class FUN_00800e50_Class : public FOVATSEffectManager
 {
 public:
     void FOVATSEffectManager_SetMultiTarget(int);
@@ -12349,7 +12349,7 @@ public:
     void FOVATSEffectManager_ClearMultiTargets();
 };
 
-class FUN_0044ac20_class : public FUN_00800ed0_This
+class FOVATSEffectManager : public FUN_00800ed0_This
 {
 public:
     void FOVATSEffectManager_SetTarget(int, int, int);
@@ -12360,7 +12360,7 @@ public:
 class TesscriptfunctionsInterfaceView
 {
 public:
-    static FUN_0044ac20_class* GetVATSEffect();
+    static FOVATSEffectManager* GetVATSEffect();
 };
 
 class VirtualOffsetBase
@@ -42176,11 +42176,11 @@ struct PathRef {
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
 const char* __fastcall GetHavokWorldObjectCountInSceneGraph_0084e3a0(int);
-class FUN_006f48b0 : public H3
+class TeleportPath : public H3
 {
 public:
-    FUN_006f48b0();
-    ~FUN_006f48b0();
+    TeleportPath();
+    ~TeleportPath();
     float FUN_006f49c0();
     int m_00;
     int m_04;
@@ -42197,7 +42197,7 @@ struct FUN_00502670_stand
     FUN_00502670_stand* FUN_00502670(XActor*);
     int m_00; int m_04; int m_08;
 };
-bool __cdecl FUN_006d4f70(PathingLocation*, PathingLocation*, FUN_006f48b0*, FUN_00502670_stand*, int);
+bool __cdecl FUN_006d4f70(PathingLocation*, PathingLocation*, TeleportPath*, FUN_00502670_stand*, int);
 // Call surface of PathBuilderDetailedPathInfos; the shared header cannot be read in this unit (its own layout_support template copies).
 class PathBuilderDetailedPathInfosApi
 {
@@ -42489,7 +42489,7 @@ bool __cdecl Script_CalcLowPathToPointFunction(const ScriptParameter* apParamete
     int outB4 = 0;
     int aAim = 0;
     if (!Script_ParseParameters(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &outA8, &outB4, &aAim)) return false;
-    FUN_006f48b0 aBId;
+    TeleportPath aBId;
     FUN_00502670_stand wrap8;
     wrap8.FUN_00502670((XActor*)DAT_011dea3c);
     PathingLocation locA6(reinterpret_cast<TESObjectREFR*>(DAT_011dea3c));

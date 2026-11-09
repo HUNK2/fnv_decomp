@@ -22,7 +22,7 @@ struct VecList
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* allocator, VecList* list, unsigned int elemSize);
 
-struct FUN_00e3afb0_cls
+struct hkArray
 {
     int unk00;
     int unk04;
@@ -37,7 +37,7 @@ struct FUN_00e3afb0_cls
 
 // Grows the VecList if full, then appends a VecElem built from two __m128 values and a float.
 // @fnv 0x00e3afb0
-void FUN_00e3afb0_cls::Push(const __m128* apFirst, const __m128* apSecond, float afValue)
+void hkArray::Push(const __m128* apFirst, const __m128* apSecond, float afValue)
 {
     VecList* list = &m_kNode;
     hkMemoryRouter* holder = hkMemoryRouter_getInstance();

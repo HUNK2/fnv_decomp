@@ -2709,7 +2709,7 @@ struct FUN_00c1cf20 : CountedObjectBase
     FUN_00c1cf20();
     virtual ~FUN_00c1cf20();
 };
-struct FUN_00c1f4e0_cls
+struct NiPSysModifier
 {
     int unk00;
     int unk04;

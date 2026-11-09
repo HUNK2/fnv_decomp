@@ -531,14 +531,14 @@ void InterfaceInterfaceView::SetHUDVisible(bool visible)
     HUDMainMenu::SetHUDVisible(visible);
 }
 
-struct FUN_00424940_shell : public InterfaceManager
+struct BGSSaveLoadManager : public InterfaceManager
 {
     char InterfaceManager_GetMenuMode();
 };
 
 // @fnv 0x00424940
 // src: XBOX_PDB 0x00424940
-char FUN_00424940_shell::InterfaceManager_GetMenuMode()
+char BGSSaveLoadManager::InterfaceManager_GetMenuMode()
 {
     return *((char*)this + 0xc);
 }
@@ -2911,14 +2911,14 @@ void* FORenderedTerminal::DestroyIfFlagged(unsigned int flags)
 
 int __cdecl MinInt(int, int);
 
-struct FUN_00706810_Class
+struct InterfaceManager_TutorialManager
 {
     int __thiscall InterfaceManager_TutorialManager_GetSaveLoadSize();
 };
 
 // @fnv 0x00706810
 // src: COMMUNITY 0x00706810
-int __thiscall FUN_00706810_Class::InterfaceManager_TutorialManager_GetSaveLoadSize()
+int __thiscall InterfaceManager_TutorialManager::InterfaceManager_TutorialManager_GetSaveLoadSize()
 {
     return MinInt(1, 1) + 5;
 }

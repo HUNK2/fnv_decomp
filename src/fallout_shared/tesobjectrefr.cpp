@@ -2793,7 +2793,7 @@ void __fastcall bhkSphereShape_Init(_bhkSphereShape_vtbl_helper* pThis, float af
 }
 
 // This forwarding shell only needs the shared configuration base.
-struct FUN_0056ea90_shell : public hkSerializableCinfo
+struct hkSimpleShapePhantomCinfo : public hkSerializableCinfo
 {
     void ForwardCall_0056ea90();
 };
@@ -2802,7 +2802,7 @@ void __fastcall TESObjectREFR_ForwardCall_0056d730(void*);
 
 // @fnv 0x0056ea90
 // src: GUESS 0x0056ea90 (confidence: low)
-void FUN_0056ea90_shell::ForwardCall_0056ea90()
+void hkSimpleShapePhantomCinfo::ForwardCall_0056ea90()
 {
     TESObjectREFR_ForwardCall_0056d730(this);
 }
@@ -4776,14 +4776,14 @@ float Obj577::bhkRigidBody_GethkMaxLinearVelocity()
 
 struct Dummy_00577bd0
 {
-    void FindFloatTableIndex(float*);
+    void SetReal(float*);
 };
 
 // @fnv 0x00577bd0
 // src: COMMUNITY 0x00577bd0
 Dummy_00577bd0* __fastcall hkUFloat8_hkUFloat8(Dummy_00577bd0* thisPtr, float afValue)
 {
-    thisPtr->FindFloatTableIndex(&afValue);
+    thisPtr->SetReal(&afValue);
     return thisPtr;
 }
 
@@ -9572,18 +9572,19 @@ void* bhkWorldObject::FUN_0056d4c0(unsigned int flags)
     return this;
 }
 
-struct FUN_0056e2a0
+struct bhkMatrix3
 {
     void bhkVector4_bhkVector4();
-    FUN_0056e2a0();
+    bhkMatrix3();
 };
 
 // @fnv 0x0056e2a0
-FUN_0056e2a0::FUN_0056e2a0()
+// src: GUESS 0x0056e2a0 (confidence: high)
+bhkMatrix3::bhkMatrix3()
 {
     bhkVector4_bhkVector4();
-    (reinterpret_cast<FUN_0056e2a0*>(reinterpret_cast<char*>(this) + 0x10))->bhkVector4_bhkVector4();
-    (reinterpret_cast<FUN_0056e2a0*>(reinterpret_cast<char*>(this) + 0x20))->bhkVector4_bhkVector4();
+    (reinterpret_cast<bhkMatrix3*>(reinterpret_cast<char*>(this) + 0x10))->bhkVector4_bhkVector4();
+    (reinterpret_cast<bhkMatrix3*>(reinterpret_cast<char*>(this) + 0x20))->bhkVector4_bhkVector4();
 }
 
 
@@ -9996,14 +9997,14 @@ struct Flt
     operator unsigned int();
 };
 
-struct FUN_006546e0_Class
+struct Explosion
 {
     unsigned int Explosion_GetActorCause();
 };
 
 // @fnv 0x006546e0
 // src: COMMUNITY 0x006546e0
-unsigned int FUN_006546e0_Class::Explosion_GetActorCause()
+unsigned int Explosion::Explosion_GetActorCause()
 {
     return ((Flt*)((char*)this + 0xd0))->operator unsigned int();
 }
@@ -11031,21 +11032,21 @@ float FUN_00568cb0_shell::TESObjectREFR_GetRadius()
 }  // namespace fnv_00568cb0
 
 namespace fnv_0056e270 {
-struct FUN_0056e2a0
+struct bhkMatrix3
 {
     char _pad[0x30];
-    FUN_0056e2a0();
+    bhkMatrix3();
 };
 struct Mem4fa0
 {
     void bhkVector4_bhkVector4();
 };
-struct FUN_0056e270 : FUN_0056e2a0
+struct FUN_0056e270 : bhkMatrix3
 {
     Mem4fa0 m30;
     FUN_0056e270();
 };
-// Constructs the base FUN_0056e2a0 and then calls FUN_004b4fa0 on the m30 member.
+// Constructs the base bhkMatrix3 and then calls FUN_004b4fa0 on the m30 member.
 // @fnv 0x0056e270
 FUN_0056e270::FUN_0056e270()
 {
@@ -14600,7 +14601,7 @@ class TgtOps
 class Dummy_00577bd0 : public TESDataHandler
 {
   public:
-    void FindFloatTableIndex(float* value);
+    void SetReal(float* value);
     void hkpEntity_setMaxLinearVelocity(float value);
 };
 
@@ -14610,7 +14611,7 @@ class Dummy_00577bd0 : public TESDataHandler
 void Dummy_00577bd0::hkpEntity_setMaxLinearVelocity(float value)
 {
     reinterpret_cast<Dummy_00577bd0*>(reinterpret_cast<char*>(reinterpret_cast<TgtOps*>(GetBGSRagdollList())->GetSourceFiles()) + 0xac)
-        ->FindFloatTableIndex(&value);
+        ->SetReal(&value);
 }
 }  // namespace fnv_00577c70
 

@@ -79,14 +79,14 @@ void __thiscall bhkFilteredCdBodyCollector::UpdateFields_00cb9900()
 void __cdecl hkaPose_syncModelSpace();
 void __cdecl FUN_00cd9fe0();
 
-struct FUN_00cda4b0_cls
+struct hkaPose
 {
     void __thiscall hkaPose_accessSyncedPoseModelSpace();
 };
 
 // @fnv 0x00cda4b0
 // src: COMMUNITY 0x00cda4b0
-void __thiscall FUN_00cda4b0_cls::hkaPose_accessSyncedPoseModelSpace()
+void __thiscall hkaPose::hkaPose_accessSyncedPoseModelSpace()
 {
     hkaPose_syncModelSpace();
     ((void(__thiscall*)(void*))FUN_00cd9fe0)(this);
@@ -595,12 +595,12 @@ struct FUN_00c7d890_cls
     void* _0;
     int _4;
     unsigned int _8;
-    void ProcessEntries_00c7d890();
+    void hkArray_clearAndDeallocate();
 };
 
 // @fnv 0x00c7d890
-// src: GUESS 0x00c7d890 (confidence: low)
-void FUN_00c7d890_cls::ProcessEntries_00c7d890()
+// src: GUESS 0x00c7d890 (confidence: medium)
+void FUN_00c7d890_cls::hkArray_clearAndDeallocate()
 {
     VObjExt* p = (VObjExt*)_FUN_00c85750()->p;
     int count = _4;
@@ -910,12 +910,12 @@ struct FUN_00c7d5c0_cls
     int m_iArrayLength;
     unsigned int m_uCap;
 
-    void ProcessEntries_00c7d5c0();
+    void hkArray_clearAndDeallocate();
 };
 
 // @fnv 0x00c7d5c0
-// src: GUESS 0x00c7d5c0 (confidence: low)
-void FUN_00c7d5c0_cls::ProcessEntries_00c7d5c0()
+// src: GUESS 0x00c7d5c0 (confidence: medium)
+void FUN_00c7d5c0_cls::hkArray_clearAndDeallocate()
 {
     hkMemoryRouter* pHolder = hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);

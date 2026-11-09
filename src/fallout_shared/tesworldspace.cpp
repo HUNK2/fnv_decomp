@@ -795,7 +795,7 @@ void FUN_004f6800_shell::TESRegionList_GetDerivedData_(void* a1, float* a2, void
     ((FUN_004f6850_shell*)this)->TESRegionList_GetDerivedData(a1, &tmp, a3);
 }
 
-struct FUN_00528560_Host
+struct ExteriorCellLoader
 {
     virtual void v0() = 0;
     virtual void v1() = 0;
@@ -807,7 +807,7 @@ struct FUN_00528560_Host
 };
 // Computes a grid key from the X and Y coordinates and returns the cell obtained from v5 for that key.
 // @fnv 0x00528560
-TESObjectCELL* FUN_00528560_Host::GetCellAtGridCoord(unsigned short ausGridX, unsigned short ausGridY)
+TESObjectCELL* ExteriorCellLoader::GetCellAtGridCoord(unsigned short ausGridX, unsigned short ausGridY)
 {
     int key;
     key = TESWorldSpace::BuildCellKey(ausGridX, ausGridY);

@@ -86,18 +86,18 @@ struct FUN_00dd4b70_class
     void __thiscall hkpMoppCompiler_enableInterleavedBuilding(unsigned char value);
 };
 extern int DAT_0102e388;
-struct FUN_00dd51d0_class
+struct hkBaseObject
 {
     int m_00;
     int m_04;
     int m_08;
     void InitializeFields_00dd51d0();
 };
-struct FUN_00ddfb70_cls
+struct hkpShapeDisplayBuilderEnvironment
 {
     int m_00;
     int m_04;
-    FUN_00ddfb70_cls* hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
+    hkpShapeDisplayBuilderEnvironment* hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
 };
 struct FUN_00dccb70_Class
 {

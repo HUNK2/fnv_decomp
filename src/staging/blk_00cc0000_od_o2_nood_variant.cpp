@@ -580,14 +580,14 @@ struct BaseB
     SourceHolder* m_holder;
 };
 
-struct FUN_00cc91c0_cls : public BaseA, public BaseB
+struct bhkBallSocketConstraintChain : public BaseA, public BaseB
 {
     void bhkBallSocketConstraintChain_CopyCinfo(VectorOutput* out);
 };
 
 // @fnv 0x00cc91c0
 // src: XBOX_PDB 0x00cc91c0
-void FUN_00cc91c0_cls::bhkBallSocketConstraintChain_CopyCinfo(VectorOutput* out)
+void bhkBallSocketConstraintChain::bhkBallSocketConstraintChain_CopyCinfo(VectorOutput* out)
 {
     CopyContainerKeysToInfo(out);
     SourceHolder* holder = this ? m_holder : 0;
@@ -965,7 +965,7 @@ PoseTransform& PoseState::hkaPose_accessBoneLocalSpace(int index)
     return local[index];
 }
 
-struct FUN_00d4f2a0
+struct hkpRagdollLimitsData
 {
     int unk00;
     unsigned short m_iElementCount;
@@ -999,14 +999,14 @@ struct FUN_00d4f2a0
     int unkB8;
     int unkBC;
 
-    FUN_00d4f2a0();
+    hkpRagdollLimitsData();
     static void operator delete(void* p) throw()
     {}
     static __forceinline void* operator new(unsigned int size) throw()
     {
         hkMemoryRouter* h = (hkMemoryRouter*)hkMemoryRouter_getInstance();
         void* p = h->m_heap->blockAlloc(size);
-        ((FUN_00d4f2a0*)p)->m_iElementCount = (unsigned short)size;
+        ((hkpRagdollLimitsData*)p)->m_iElementCount = (unsigned short)size;
         return p;
     }
 };
@@ -1014,20 +1014,20 @@ struct FUN_00d4f2a0
 struct hkRagdollLimitsConstraintCinfo
 {
     int unk00;
-    FUN_00d4f2a0* m_pSrc;
+    hkpRagdollLimitsData* m_pSrc;
 
-    void hkRagdollLimitsConstraintCinfo_CloneData(FUN_00d4f2a0* dst, int a2);
-    void ReleaseObject(FUN_00d4f2a0* dst, int a2);
+    void hkRagdollLimitsConstraintCinfo_CloneData(hkpRagdollLimitsData* dst, int a2);
+    void ReleaseObject(hkpRagdollLimitsData* dst, int a2);
 };
 
 // @fnv 0x00cc5f30
 // src: XBOX_PDB 0x00cc5f30
-void hkRagdollLimitsConstraintCinfo::hkRagdollLimitsConstraintCinfo_CloneData(FUN_00d4f2a0* dst, int a2)
+void hkRagdollLimitsConstraintCinfo::hkRagdollLimitsConstraintCinfo_CloneData(hkpRagdollLimitsData* dst, int a2)
 {
-    FUN_00d4f2a0* src = m_pSrc;
+    hkpRagdollLimitsData* src = m_pSrc;
     if (dst == 0)
     {
-        dst = new FUN_00d4f2a0();
+        dst = new hkpRagdollLimitsData();
     }
     _mm_store_ps((float*)&dst->m_20, src->m_20);
     _mm_store_ps((float*)&dst->m_30, src->m_30);
@@ -1964,7 +1964,7 @@ struct ScratchGeometry
     Lane128Q dimensions;
     float tolerance, radius, margin;
     unsigned char useA, useB, specialShape, useD, useE;
-    void FUN_00d54de0();
+    void hkpMoppCompilerInput();
 };
 struct LunaAction
 {
@@ -1996,7 +1996,7 @@ unsigned int LunaTarget::bhkMoppBvTreeShape_Init(LunaArgument* argument)
     action.defaultValue = 1.0f;
     _ReadWriteBarrier();
     action.source = argument->value;
-    action.scratch.FUN_00d54de0();
+    action.scratch.hkpMoppCompilerInput();
     if (argument->value->typeCode == 14)
         action.scratch.specialShape = 1;
     const void* attrs = argument->value;
@@ -3124,7 +3124,7 @@ void OutputHandler::bhkMoppBvTreeShape_Init_00cca6f0(InitializePathingRequestFro
     if (!request->cachedGeometry)
     {
         ScratchGeometry scratch;
-        scratch.FUN_00d54de0();
+        scratch.hkpMoppCompilerInput();
         if (request->type->typeCode == 14)
             scratch.specialShape = 1;
         const void* attrs = request->type ? &request->type->attributes : 0;

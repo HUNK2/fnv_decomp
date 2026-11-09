@@ -913,14 +913,14 @@ struct FUN_006e5cc0_shell
 };
 
 // The shared task header does not yet declare this one-argument member.
-struct FUN_006f6250_shell
+struct BGSTerrainChunkLoadTask
 {
     void BGSDistantObjectBlockLoadTask_GetWaterGeometry(FUN_006e5cc0_shell* apObject);
 };
 
 // @fnv 0x006f6250
 // src: COMMUNITY 0x006f6250
-void FUN_006f6250_shell::BGSDistantObjectBlockLoadTask_GetWaterGeometry(FUN_006e5cc0_shell* apObject)
+void BGSTerrainChunkLoadTask::BGSDistantObjectBlockLoadTask_GetWaterGeometry(FUN_006e5cc0_shell* apObject)
 {
     apObject->FUN_006e5cc0((void*)((char*)this + 0x4c));
 }

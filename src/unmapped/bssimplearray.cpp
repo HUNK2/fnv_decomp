@@ -69,11 +69,11 @@ void* __thiscall FUN_006cf250_Class::AllocateBuffer(unsigned int count)
 extern "C" void* __cdecl _Reallocate(void* p, unsigned int size);
 struct FUN_006cf280_Class
 {
-    void* __thiscall _Reallocate_Thunk_006cf280(void* p, unsigned int n);
+    void* __thiscall BSSimpleArray_Reallocate(void* p, unsigned int n);
 };
 // @fnv 0x006cf280
-// src: GUESS 0x006cf280 (confidence: medium)
-void* __thiscall FUN_006cf280_Class::_Reallocate_Thunk_006cf280(void* p, unsigned int n)
+// src: GUESS 0x006cf280 (confidence: high)
+void* __thiscall FUN_006cf280_Class::BSSimpleArray_Reallocate(void* p, unsigned int n)
 {
     return _Reallocate(p, n * 0x18);
 }
@@ -500,7 +500,7 @@ void* __thiscall FUN_006cfd40_Class::FUN_006cfd40(unsigned int flags)
 struct FUN_006e9410_shell
 {
     void FUN_006e90a0(int a, int b);
-    void* GetElementAddress30_006e8f40(int a, void* b);
+    void* BSSimpleArray_GetAt(int a, void* b);
 };
 struct FUN_006e9530_shell
 {
@@ -516,7 +516,7 @@ void __thiscall FUN_006e9410_class::BSSimpleArray_VirtualPathingNode_1024_Copy(v
 {
     ((FUN_006e9410_shell*)arg)->FUN_006e90a0(*(int*)((char*)this + 8), 1);
     for (unsigned int i = 0; i < *(unsigned int*)((char*)this + 8); ++i)
-        ((FUN_006e9530_shell*)((FUN_006e9410_shell*)arg)->GetElementAddress30_006e8f40(i, (char*)*(void**)((char*)this + 4) + i * 0x30))
+        ((FUN_006e9530_shell*)((FUN_006e9410_shell*)arg)->BSSimpleArray_GetAt(i, (char*)*(void**)((char*)this + 4) + i * 0x30))
             ->VirtualPathingNode_Copy();
 }
 
@@ -638,11 +638,11 @@ struct FUN_006dc590
     TypeValueCount* pBuffer;
     unsigned int iSize;
     unsigned int SimpleArrayStorage;
-    void __thiscall UpdateState_006dc590(unsigned int aiNewSize, unsigned int aiCopyCount);
+    void __thiscall BSSimpleArray_Resize(unsigned int aiNewSize, unsigned int aiCopyCount);
 };
 // @fnv 0x006dc590
-// src: GUESS 0x006dc590 (confidence: low)
-void __thiscall FUN_006dc590::UpdateState_006dc590(unsigned int aiNewSize, unsigned int aiCopyCount)
+// src: GUESS 0x006dc590 (confidence: medium)
+void __thiscall FUN_006dc590::BSSimpleArray_Resize(unsigned int aiNewSize, unsigned int aiCopyCount)
 {
     if (pBuffer)
     {
@@ -812,7 +812,7 @@ void FUN_009f6540_Class::BSSimpleArray_TeleportLink_1024_ReallocateBuffer(unsign
 
 struct FUN_006e1280_Class
 {
-    void VisitPlacementAddresses(char* p, unsigned int n);
+    void BSScrapArray_ConstructElements(char* p, unsigned int n);
 };
 
 struct FUN_006cf520_Class
@@ -831,7 +831,7 @@ int __thiscall FUN_006cf520_Class::BSScrapArray_bool_1024_Add(const unsigned cha
 {
     int iVar1;
     iVar1 = ((FUN_006d0450_Class*)this)->GetNextIndex();
-    ((FUN_006e1280_Class*)this)->VisitPlacementAddresses((char*)(*(int*)((char*)this + 4) + iVar1), 1);
+    ((FUN_006e1280_Class*)this)->BSScrapArray_ConstructElements((char*)(*(int*)((char*)this + 4) + iVar1), 1);
     *(unsigned char*)(*(int*)((char*)this + 4) + iVar1) = *aValue;
     return iVar1;
 }
@@ -1813,7 +1813,7 @@ struct FUN_006d0540_shell
     int unk08;
     int unk0c;
 
-    void __thiscall CopyOverlappingElements30(void* newItem, void* oldItem, unsigned int count);
+    void __thiscall BSSimpleArray_MoveElements(void* newItem, void* oldItem, unsigned int count);
 };
 
 struct FUN_006cfe70_Class : public FUN_006d0540_shell
@@ -1834,7 +1834,7 @@ void __thiscall FUN_006cfe70_Class::BSSimpleArray_VirtualPathingNode_1024_Reallo
         else
         {
             void* newItem = this->vf04(value);
-            this->CopyOverlappingElements30(newItem, this->unk04, count);
+            this->BSSimpleArray_MoveElements(newItem, this->unk04, count);
             FreeSimpleArrayStorage(this);
             this->unk04 = newItem;
         }

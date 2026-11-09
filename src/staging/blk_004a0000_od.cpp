@@ -532,12 +532,12 @@ NiTPointerMap<NiObject*, bool>::NiTPointerMap(unsigned int uiHashSize)
     : NiTMapBase<NiTPointerAllocator<unsigned int>, NiObject*, bool>(uiHashSize)
 {}
 
-struct FUN_004afb80_shell
+struct LockFreeCaseInsensitiveStringMap
 {
     void LockAtOffset();
 };
 // @fnv 0x004afb80
-void FUN_004afb80_shell::LockAtOffset()
+void LockFreeCaseInsensitiveStringMap::LockAtOffset()
 {
     ((RecursiveSpinLock*)((char*)this + 0x20))->Lock(0);
 }
@@ -718,14 +718,14 @@ struct FUN_004b9de0_class
     void FUN_004b9de0();
 };
 
-struct FUN_004b9d60_class
+struct NiTMap
 {
     void ForwardCall_004b9d60();
 };
 
 // @fnv 0x004b9d60
 // src: GUESS 0x004b9d60 (confidence: low)
-void FUN_004b9d60_class::ForwardCall_004b9d60()
+void NiTMap::ForwardCall_004b9d60()
 {
     ((FUN_004b9de0_class*)((char*)this + 0xc))->FUN_004b9de0();
 }
@@ -741,13 +741,13 @@ struct Unk6b
 
 struct FUN_004b9d80_Class
 {
-    void ReleaseStorage_004b9d80(void* param);
+    void NiTMap_DeleteItem(void* param);
 };
 
 // Calls FUN_0065de30(0) on the object at param+8, then FreeMemory(param) on the object at this+0xc.
 // @fnv 0x004b9d80
-// src: GUESS 0x004b9d80 (confidence: medium)
-void FUN_004b9d80_Class::ReleaseStorage_004b9d80(void* pObject)
+// src: GUESS 0x004b9d80 (confidence: high)
+void FUN_004b9d80_Class::NiTMap_DeleteItem(void* pObject)
 {
     ((Unk65*)((char*)pObject + 8))->FUN_0065de30(0);
     ((Unk6b*)((char*)this + 0xc))->FreeMemory(pObject);
@@ -1259,14 +1259,14 @@ void __thiscall FUN_004a4930_class::NiTPointerListBase_NiTPointerAllocator_unsig
     _m.Deallocate(apObject);
 }
 
-struct FUN_004a4960_class
+struct hkArray
 {
     void* __thiscall hkArrayBase_hkpWorldRayCastOutput_hkArrayBase_hkpWorldRayCastOutput(void* a, void* b, unsigned int c);
 };
 // Stores a, b and c (with the high bit set) into the object's first three fields and returns this.
 // @fnv 0x004a4960
 // src: XBOX_PDB 0x004a4960
-void* __thiscall FUN_004a4960_class::hkArrayBase_hkpWorldRayCastOutput_hkArrayBase_hkpWorldRayCastOutput(void* pFirst, void* pSecond, unsigned int c)
+void* __thiscall hkArray::hkArrayBase_hkpWorldRayCastOutput_hkArrayBase_hkpWorldRayCastOutput(void* pFirst, void* pSecond, unsigned int c)
 {
     *(void**)((char*)this) = pFirst;
     *(void**)((char*)this + 4) = pSecond;
@@ -1301,7 +1301,7 @@ void __thiscall FUN_004a4990_s::hkArrayBase_hkpWorldRayCastOutput_clearAndDeallo
     b = 0x80000000;
 }
 
-struct FUN_004a4a10_Holder
+struct hkThreadMemory
 {
     virtual void v0();
     virtual void v1();
@@ -1313,7 +1313,7 @@ struct FUN_004a4a10_Holder
 // Calls vf10 with a1 and a2 multiplied by 0x60.
 // @fnv 0x004a4a10
 // src: XBOX_PDB 0x004a4a10
-void __thiscall FUN_004a4a10_Holder::hkMemoryAllocator_bufFree_hkpWorldRayCastOutput(int aiArg1, int aiArg2)
+void __thiscall hkThreadMemory::hkMemoryAllocator_bufFree_hkpWorldRayCastOutput(int aiArg1, int aiArg2)
 {
     int v = 0x60;
     vf10(aiArg1, aiArg2 * 0x60);

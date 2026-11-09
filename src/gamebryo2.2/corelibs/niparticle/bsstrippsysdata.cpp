@@ -710,13 +710,13 @@ void FUN_00c26630_cls::BSStripPSysData_GetViewerStrings(void* pArray)
     a->Add(pArray);
 }
 
-struct FUN_00a817b0_shell : NiPSysData
+struct NiTriBasedGeomData : NiPSysData
 {
     bool __thiscall BSStripPSysData_RegisterStreamables(NiStream& a);
 };
 // @fnv 0x00a817b0
 // src: XBOX_PDB 0x00a817b0
-bool __thiscall FUN_00a817b0_shell::BSStripPSysData_RegisterStreamables(NiStream& a)
+bool __thiscall NiTriBasedGeomData::BSStripPSysData_RegisterStreamables(NiStream& a)
 {
     return NiPSysData::RegisterStreamables(a);
 }

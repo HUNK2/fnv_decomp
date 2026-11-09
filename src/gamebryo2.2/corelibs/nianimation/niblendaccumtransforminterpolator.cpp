@@ -498,7 +498,7 @@ struct Inner_00a6db50
     float w, x, y, z;
     void Set(float w, float x, float y, float z);
     Inner_00a6db50 Negate() const;
-    Inner_00a6db50 ScaleFourComponents(float factor) const;
+    Inner_00a6db50 NiQuaternion_Scale(float factor) const;
     Inner_00a6db50& operator+=(const Inner_00a6db50& other)
     {
         w = other.w + w;
@@ -592,7 +592,7 @@ bool __fastcall BlendAccumulatedValues(NiBlendAccumTransformInterpolator* self, 
             {
                 bFirstRotation = false;
             }
-            kSourceRotation = kSourceRotation.ScaleFourComponents(temp);
+            kSourceRotation = kSourceRotation.NiQuaternion_Scale(temp);
             firstRotation += kSourceRotation;
             hasRotation = true;
         }

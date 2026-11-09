@@ -174,11 +174,11 @@ struct MersenneTwister
 {
     unsigned int GetRandomUInt(unsigned int);
 };
-struct FUN_00476be0_Class
+struct BSRandom
 {
     unsigned int BSRandom_UnsignedInt();
 };
-struct FUN_00476c70_Class
+struct Explosion
 {
     void Explosion_SetSourceWeapon(int value);
 };
@@ -475,7 +475,7 @@ struct FUN_004791f0_holder2
 {
     void* __thiscall InitArrayHolder(int a);
 };
-struct FUN_0047b470_This
+struct bhkCollisionObject
 {
     bool __thiscall bhkCollisionObject_GetUseVelocity();
 };
@@ -1250,7 +1250,7 @@ struct Ref_47ab40
     Cell_47ab40* GetParentCell();
 };
 bool BGSOpenCloseForm_HandleAnimEndHavok(Ref_47ab40* ref, NamedObject_47ab40* obj);
-FUN_0047b470_This* __cdecl bhkUtilFunctions_FindNextCollisionObject(NiNode*);
+bhkCollisionObject* __cdecl bhkUtilFunctions_FindNextCollisionObject(NiNode*);
 void __cdecl SetFlagRecursive(int, void*);
 struct RefWithGetNiNode
 {

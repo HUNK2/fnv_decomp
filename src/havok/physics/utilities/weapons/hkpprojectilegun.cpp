@@ -548,11 +548,11 @@ class FUN_00e466a0
     char unk08;
 };
 
-class FUN_00e46f20 : public FUN_00e466a0
+class hkpBallGun : public FUN_00e466a0
 {
   public:
-    FUN_00e46f20(FinishingFlag flag) throw();
-    virtual ~FUN_00e46f20() throw();
+    hkpBallGun(FinishingFlag flag) throw();
+    virtual ~hkpBallGun() throw();
 
     int unk0C[9];
     void* m_pOwningWorld;
@@ -562,7 +562,8 @@ class FUN_00e46f20 : public FUN_00e466a0
 
 // Initializes the object and, when finishing, allocates a helper and binds it to the owning world.
 // @fnv 0x00e46f20
-FUN_00e46f20::FUN_00e46f20(FinishingFlag flag) throw() : FUN_00e466a0(flag)
+// src: GUESS 0x00e46f20 (confidence: high)
+hkpBallGun::hkpBallGun(FinishingFlag flag) throw() : FUN_00e466a0(flag)
 {
     if (flag.m_bFinishing)
     {

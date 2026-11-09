@@ -355,12 +355,12 @@ struct MapH
 {
     bool RemoveAt(unsigned int);
 };
-struct FUN_00526c40_Class
+struct LoadedReferenceMap
 {
     bool RemoveSound(TESSound*);
 };
 // @fnv 0x00526c40
-bool FUN_00526c40_Class::RemoveSound(TESSound* apSound)
+bool LoadedReferenceMap::RemoveSound(TESSound* apSound)
 {
     if (((MapH*)this)->RemoveAt(apSound->Deallocate()))
     {
@@ -412,15 +412,16 @@ char* __thiscall FUN_005271b0_Class::GetFieldByType(unsigned int type)
     }
 }
 
-struct FUN_00527270 : public InventoryStackRecord
+struct InventoryIterator : public InventoryStackRecord
 {
     int m_iThirdValue;
     int m_10;
     unsigned char m_14;
-    FUN_00527270();
+    InventoryIterator();
 };
 // @fnv 0x00527270
-FUN_00527270::FUN_00527270()
+// src: GUESS 0x00527270 (confidence: high)
+InventoryIterator::InventoryIterator()
 {
     m_iThirdValue = 0;
     m_10 = 0;
@@ -640,14 +641,14 @@ template <int N> struct EndianSizeTag
 void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
 void __cdecl BSEndian(unsigned short*, EndianSizeTag<1>);
 
-struct FUN_00535aa0_Class
+struct FILE_TEX_VERT_DATA
 {
     void __thiscall OBJ_WEAP_CRITICAL_Endian();
 };
 
 // @fnv 0x00535aa0
 // src: XBOX_PDB 0x00535aa0
-void __thiscall FUN_00535aa0_Class::OBJ_WEAP_CRITICAL_Endian()
+void __thiscall FILE_TEX_VERT_DATA::OBJ_WEAP_CRITICAL_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<0>());
     BSEndian((unsigned short*)((char*)this + 4), EndianSizeTag<1>());

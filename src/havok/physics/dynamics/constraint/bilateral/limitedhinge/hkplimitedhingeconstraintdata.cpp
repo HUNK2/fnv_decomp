@@ -152,7 +152,7 @@ struct FUN_00b5aea0_self
     void BSSimpleArray_ShadowSceneLight_1024_MoveItems(int* a, int* b, unsigned int c);
 };
 
-struct FUN_00cb9ce0_cls
+struct BSSimpleArray
 {
     virtual void v0();
     virtual void* v1(int a);
@@ -167,7 +167,7 @@ struct FUN_00cb9ce0_cls
 
 // @fnv 0x00cb9ce0
 // src: COMMUNITY 0x00cb9ce0
-void FUN_00cb9ce0_cls::BSSimpleArray_Resize(int a, int b)
+void BSSimpleArray::BSSimpleArray_Resize(int a, int b)
 {
     if (m_004)
     {

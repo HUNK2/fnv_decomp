@@ -439,14 +439,14 @@ struct MersenneTwister
     unsigned int mti;
 };
 typedef char _sizecheck_BSRandom[sizeof(MersenneTwister) == 2508 ? 1 : -1];
-struct FUN_00476b90_shell : public MersenneTwister
+struct BSRandom : public MersenneTwister
 {
     float BSRandom_Float(float, float);
 };
 
 // @fnv 0x00476b90
 // src: XBOX_PDB 0x00476b90
-float FUN_00476b90_shell::BSRandom_Float(float afMin, float afMax)
+float BSRandom::BSRandom_Float(float afMin, float afMax)
 {
     unsigned int r = GetRandomUInt();
     return (float)(r * (afMax - afMin) / 4294967296.0 + afMin);

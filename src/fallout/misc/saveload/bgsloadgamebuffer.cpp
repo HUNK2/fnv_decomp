@@ -75,14 +75,14 @@ struct SandboxProcedureData
     int m_iProcedureData;
 };
 typedef char _sizecheck_SandBoxChoiceListItem[sizeof(SandboxProcedureData) == 16 ? 1 : -1];
-struct FUN_009f38b0_shell : public SandboxProcedureData
+struct SandBoxChoiceListItem : public SandboxProcedureData
 {
     void SandBoxChoiceListItem_LoadGame(BGSLoadFormBuffer*);
 };
 
 // @fnv 0x009f38b0
 // src: XBOX_PDB 0x009f38b0
-void FUN_009f38b0_shell::SandBoxChoiceListItem_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
+void SandBoxChoiceListItem::SandBoxChoiceListItem_LoadGame(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     apLoadGameBuffer->ReadTypedData(static_cast<void*>(&eProcedure), 4u);
     apLoadGameBuffer->ReadTypedData(static_cast<void*>(&m_iActivityState), 4u);
@@ -339,7 +339,7 @@ struct PackedFormID
     unsigned char m_ucIDByte2;
 };
 typedef char _sizecheck_BGSNumericIDIndex[sizeof(PackedFormID) == 3 ? 1 : -1];
-struct FUN_00853500_shell : public PackedFormID
+struct BGSNumericIDIndex : public PackedFormID
 {
     unsigned int BGSNumericIDIndex_GetNumericID();
 };
@@ -350,7 +350,7 @@ struct FUN_00846d20_shell
 };
 // @fnv 0x00853500
 // src: XBOX_PDB 0x00853500
-unsigned int FUN_00853500_shell::BGSNumericIDIndex_GetNumericID()
+unsigned int BGSNumericIDIndex::BGSNumericIDIndex_GetNumericID()
 {
     unsigned int uiValue = (unsigned int)((unsigned char)m_ucIDByte0 << 0x10) +
                            (unsigned int)((unsigned char)m_ucIDByte1 << 8) + (unsigned int)(unsigned char)m_ucIDByte2;

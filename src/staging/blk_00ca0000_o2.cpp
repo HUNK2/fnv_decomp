@@ -1848,7 +1848,7 @@ int Owner::GetValueByIndex(unsigned int a1)
     return pSearchEntries->m_pValues[iIndex * 3];
 }
 
-struct FUN_00ca3b10_cls
+struct hkpShapeContainer
 {
     int m_iWordAt00;
     unsigned char m_iWordAt04;
@@ -1859,7 +1859,7 @@ struct FUN_00ca3b10_cls
 
 // @fnv 0x00ca3b10
 // src: COMMUNITY 0x00ca3b10
-bool FUN_00ca3b10_cls::hkpMeshShape_isWeldingEnabled()
+bool hkpShapeContainer::hkpMeshShape_isWeldingEnabled()
 {
     return m_iWordAt04 == 0;
 }
@@ -4040,7 +4040,7 @@ FUN_00ca7310::FUN_00ca7310()
 
 struct MotionByte
 {
-    void FindFloatTableIndex(const float*);
+    void SetReal(const float*);
 };
 struct MotionInstance
 {
@@ -4160,8 +4160,8 @@ void hkpRigidBody_createDynamicRigidMotion(int type, const void* position, const
         motion->SetGridPosition(center);
         motion->SetMass(mass);
     }
-    motion->linearDamping.FindFloatTableIndex(&linearDamping);
-    motion->angularDamping.FindFloatTableIndex(&angularDamping);
+    motion->linearDamping.SetReal(&linearDamping);
+    motion->angularDamping.SetReal(&angularDamping);
 }
 
 struct Ctx
@@ -4862,7 +4862,7 @@ int FUN_00ca9da0_cls::EnsureSpawnedObject()
 
 struct FUN_00ca9b40_Obj
 {
-    void __thiscall UpdateFields_00ca9b40(int value);
+    void __thiscall SetConstraintData(int value);
 };
 
 struct FUN_00ca9e50_Obj
@@ -4870,16 +4870,16 @@ struct FUN_00ca9e50_Obj
     int unk00;
     FUN_00ca9b40_Obj* unk04;
 
-    void __thiscall ProcessState_00ca9e50(int value);
+    void __thiscall hkMalleableConstraintCinfo_SetConstraintData(int value);
 };
 
 // @fnv 0x00ca9e50
-// src: GUESS 0x00ca9e50 (confidence: low)
-void __thiscall FUN_00ca9e50_Obj::ProcessState_00ca9e50(int value)
+// src: GUESS 0x00ca9e50 (confidence: medium)
+void __thiscall FUN_00ca9e50_Obj::hkMalleableConstraintCinfo_SetConstraintData(int value)
 {
     if (this->unk04 != 0)
     {
-        this->unk04->UpdateFields_00ca9b40(value);
+        this->unk04->SetConstraintData(value);
     }
 }
 
@@ -5347,7 +5347,7 @@ void S_00cac0b0_cls::bhkCharacterProxy_SaveBinary(S_00cac0b0_Arg* a)
     SaveSerializeData(a);
 }
 
-struct FUN_00cac110_Class
+struct bhkCharacterController
 {
     virtual void vf00();
     virtual void vf04();
@@ -5392,7 +5392,7 @@ struct FUN_00cac110_Class
 
 // @fnv 0x00cac110
 // src: COMMUNITY 0x00cac110
-void __thiscall FUN_00cac110_Class::bhkCharacterController_UnMarkWrite()
+void __thiscall bhkCharacterController::bhkCharacterController_UnMarkWrite()
 {
     this->bhkCharacterController_UnMarkWrite();
 }
@@ -10104,13 +10104,13 @@ struct FUN_00CAFEC0_This
     int unk9C;
     int unkA0;
 };
-struct FUN_00CAFEC0_Class
+struct hkBSHeightFieldShape
 {
     float __thiscall GetTableValue(int param_2, int param_3);
 };
 // Reads a float from the table at unk60 using an index computed from param_2, param_3, unk64 and unk10, and adds unk68.
 // @fnv 0x00cafec0
-float FUN_00CAFEC0_Class::GetTableValue(int param_2, int param_3)
+float hkBSHeightFieldShape::GetTableValue(int param_2, int param_3)
 {
     int v0_64 = ((FUN_00CAFEC0_This*)this)->unk64;
     int v0_10 = ((FUN_00CAFEC0_This*)this)->unk10;
@@ -11994,7 +11994,7 @@ BufferC520* BufferOwnerC520::GetBuffer(bool* pbCreated)
 // 0xcac990 (mov eax,[ecx+0x30]; ret) that the pack does not index.
 // Twin drafted below so a re-indexer has the neighbor shape.
 
-struct FUN_00cac980_class
+struct ahkpCharacterProxy
 {
     int unk00;
     int unk04;
@@ -12014,7 +12014,7 @@ struct FUN_00cac980_class
 
 // @fnv 0x00cac980
 // src: XBOX_PDB 0x00cac980
-void* FUN_00cac980_class::hkpCharacterProxy_getShapePhantom()
+void* ahkpCharacterProxy::hkpCharacterProxy_getShapePhantom()
 {
     return m_30;
 }
@@ -14187,7 +14187,7 @@ struct FUN_00cbda30_rec
     unsigned int m3C;
 };
 
-struct FUN_00cbda30_cls
+struct hkHingeConstraintCinfo
 {
     virtual void v00()
     {}
@@ -14203,7 +14203,7 @@ unsigned int* __cdecl SwapEndianBlocks(unsigned int* arg);
 
 // Calls FUN_00c8a230, reads two 0x40-byte blocks at offsets 0x20 and 0x60 of m04 via a1->m24C, and byte-swaps them unless a1->m1E5 is 1.
 // @fnv 0x00cbda30
-void FUN_00cbda30_cls::ReadRecord(FUN_00cbda30_arg* a1)
+void hkHingeConstraintCinfo::ReadRecord(FUN_00cbda30_arg* a1)
 {
     hkConstraintCinfo_LoadBinary(a1);
     FUN_00cbda30_rec* p = m04;
@@ -14550,7 +14550,7 @@ struct Rec9bd0
     Sub9bd0 sub;
     int pad2[2];
     float score;
-    void UpdateFields_00ca9b40(Item9bd0*);
+    void SetConstraintData(Item9bd0*);
     void hkpMalleableConstraintData();
     static void* operator new(unsigned int size)
     {
@@ -14601,7 +14601,7 @@ void Owner9bd0::hkMalleableConstraintCinfo_CloneData(Rec9bd0* apRecord, Key9bd0 
     Item9bd0* pItem = coll ? CreateF4A30Result(coll, k) : 0;
     if (pItem)
     {
-        rec->UpdateFields_00ca9b40(pItem);
+        rec->SetConstraintData(pItem);
         pItem->FUN_00c905b0();
     }
     float sc = c->score;

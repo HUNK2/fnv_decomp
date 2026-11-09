@@ -997,7 +997,7 @@ struct TlsFlagGuard
     }
 };
 
-class FUN_00c871c0_cls
+class bhkBoxShape
 {
   public:
     unsigned int unk00;
@@ -1009,7 +1009,7 @@ class FUN_00c871c0_cls
 
 // @fnv 0x00c871c0
 // src: XBOX_PDB 0x00c871c0
-void FUN_00c871c0_cls::bhkBoxShape_KillCinfo(bool flag)
+void bhkBoxShape::bhkBoxShape_KillCinfo(bool flag)
 {
     TlsFlagGuard guard;
     if (flag)

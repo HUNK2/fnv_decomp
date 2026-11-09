@@ -78,12 +78,12 @@ struct S_004063e0
 {
     float GetTotalCost(int);
 };
-struct FUN_00403660_shell
+struct AlchemyItem
 {
     float GetValue(int);
 };
 // @fnv 0x00403660
-float FUN_00403660_shell::GetValue(int)
+float AlchemyItem::GetValue(int)
 {
     if (((FUN_004029d0_shell*)((char*)this - 0x3c))->AlchemyItem_IsFlagSet(1))
     {

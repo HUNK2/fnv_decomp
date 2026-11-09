@@ -2393,7 +2393,7 @@ class FUN_00c47980_vec3
     int y;
     int z;
 };
-class FUN_00c47980_cls
+class BSCompoundFrustum
 {
   public:
     void InitFromArg(FUN_00c47980_arg* a1);

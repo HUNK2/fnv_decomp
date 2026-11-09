@@ -37,7 +37,7 @@ extern int DAT_01268fc0;
 void __cdecl hkpWorldSnapshotViewer_createNative();
 void __cdecl AllocateRecordWithData();
 void __cdecl RegisterSnapshotCommands();
-struct FUN_00c7be20_cls;
+struct bhkRagdollController;
 struct FUN_00c7be20_src
 {
     int unk00;
@@ -52,7 +52,7 @@ struct FUN_00c7be20_arr
     unsigned int m_capFlags;
 };
 void* __cdecl hkMemoryRouter_getInstance() throw();
-struct FUN_00c7be20_cls
+struct bhkRagdollController
 {
     int unk00;
     int unk04;

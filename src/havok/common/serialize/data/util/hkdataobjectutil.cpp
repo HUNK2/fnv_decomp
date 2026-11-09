@@ -1052,7 +1052,7 @@ struct ValueQ
     int ForwardCall_00dba990() const throw();
     float InvokeVirtualMethod_00dbaa00() const throw();
     const float* DispatchToInterface(int n) const throw();
-    S_00dc5970_Object GetWrappedDataObject() const throw();
+    S_00dc5970_Object asObject() const throw();
     const char* hkDataObject_Value_asString() const throw();
     void ForwardCall_00dbaa30(int i) throw();
     void DispatchFloatToVtbl(float r) throw();
@@ -1084,7 +1084,7 @@ void Cloner::CopyValue(ValueQ dst, const ValueQ& src) throw()
     }
     case 8:
     case 9:
-        dst.DispatchToObject(CloneObject(src.GetWrappedDataObject()));
+        dst.DispatchToObject(CloneObject(src.asObject()));
         break;
     case 10:
         dst.ForwardCall_00dbab30(src.hkDataObject_Value_asString());
@@ -1707,7 +1707,7 @@ void DC3710Transform::InitializeFields_00dc3710(const DC3710Transform& akSource)
 struct S_00dc4a80_Reader
 {
     void* __thiscall DispatchToVTableSlot8(int count) throw();
-    const char* __thiscall ForwardCall_00dbac70() throw();
+    const char* __thiscall hkDataArray_Value_asString() throw();
     float __thiscall ApplyValue() throw();
     int __thiscall CallVirtualWithArg() throw();
     S_00dc5970_Object __thiscall CreateValueInto() throw();
@@ -1897,9 +1897,9 @@ int __thiscall S_00dc4a80::ReadValue(void* out, int type, S_00dc4a80_Reader* rea
             return 1;
         }
         char* copy;
-        if (reader->ForwardCall_00dbac70())
+        if (reader->hkDataArray_Value_asString())
         {
-            copy = hkString_strDup_00cb1410(reader->ForwardCall_00dbac70());
+            copy = hkString_strDup_00cb1410(reader->hkDataArray_Value_asString());
             unk04->m_pStringFunctions.pushBack(copy);
         }
         else
@@ -1911,9 +1911,9 @@ int __thiscall S_00dc4a80::ReadValue(void* out, int type, S_00dc4a80_Reader* rea
     }
     case 33: {
         int val;
-        if (reader->ForwardCall_00dbac70())
+        if (reader->hkDataArray_Value_asString())
         {
-            char* copy = hkString_strDup_00cb1410(reader->ForwardCall_00dbac70());
+            char* copy = hkString_strDup_00cb1410(reader->hkDataArray_Value_asString());
             unk04->m_pStringFunctions.pushBack(copy);
             val = (int)copy;
         }
@@ -1963,7 +1963,7 @@ struct S_00dc4fa0_Reader
     const char* __thiscall hkDataObject_Value_asString() throw();
     float __thiscall InvokeVirtualMethod_00dbaa00() throw();
     int __thiscall ForwardCall_00dba990() throw();
-    S_00dc5970_Object __thiscall GetWrappedDataObject() throw();
+    S_00dc5970_Object __thiscall asObject() throw();
 };
 
 struct S_00dc4fa0_M3
@@ -2076,7 +2076,7 @@ int __thiscall S_00dc4fa0::Copier_fillNativeSimpleMember_hkDataObject__Value_(vo
     case 20:
         if (aiFlag)
         {
-            S_00dc5970_Object obj = reader->GetWrappedDataObject();
+            S_00dc5970_Object obj = reader->asObject();
             if (!obj.GetObjectKind())
             {
                 __declspec(align(8)) S_00dc5970_Handle h;
@@ -2093,7 +2093,7 @@ int __thiscall S_00dc4fa0::Copier_fillNativeSimpleMember_hkDataObject__Value_(vo
         if (aiFlag)
         {
             bool err;
-            if (err = (ReadObject(out, reader->GetWrappedDataObject()) == 1))
+            if (err = (ReadObject(out, reader->asObject()) == 1))
             {
                 return 1;
             }
@@ -2164,7 +2164,7 @@ int __thiscall S_00dc4fa0::Copier_fillNativeSimpleMember_hkDataObject__Value_(vo
             return 1;
         }
         {
-            S_00dc5970_Object obj = reader->GetWrappedDataObject();
+            S_00dc5970_Object obj = reader->asObject();
             if (!obj.GetObjectKind())
             {
                 __declspec(align(8)) S_00dc5970_Handle h;
@@ -2430,7 +2430,7 @@ struct DWC_MemberArray
 
 struct DWC_Class
 {
-    int ForwardCall_00dba730() const throw();
+    int hkDataClass_getNumMembers() const throw();
     void DispatchItems(DWC_MemberArray& infos) const throw();
 };
 
@@ -2446,13 +2446,13 @@ struct DWC_Cloner
 void DWC_Cloner::Cloner_getClassMemberInfos(DWC_MemberArray& dstInfos, const DWC_Class& dstClass, const DWC_Class& srcClass) throw()
 {
     DWC_MemberArray srcInfos;
-    srcInfos.SetSizeAndGrow(srcClass.ForwardCall_00dba730());
+    srcInfos.SetSizeAndGrow(srcClass.hkDataClass_getNumMembers());
     srcClass.DispatchItems(srcInfos);
 
-    dstInfos.SetSizeAndGrow(dstClass.ForwardCall_00dba730());
+    dstInfos.SetSizeAndGrow(dstClass.hkDataClass_getNumMembers());
     dstClass.DispatchItems(dstInfos);
 
-    for (int i = 0; i < srcClass.ForwardCall_00dba730(); ++i)
+    for (int i = 0; i < srcClass.hkDataClass_getNumMembers(); ++i)
     {
         if (srcInfos[i].m_class && !dstInfos[i].m_class)
         {
@@ -2544,7 +2544,7 @@ struct Value355
     int index;
     Array355 GetResult() throw();
     Object355 CreateValueInto() throw();
-    Object355 GetWrappedDataObject() throw();
+    Object355 asObject() throw();
 };
 struct Object355
 {
@@ -2687,7 +2687,7 @@ int NativeObjectCopier::ReadObject(char* destination, Object355* object) throw()
                     if (count == 1)
                     {
 
-                        result = Copier_fillNativeSimpleMember_hkDataObject__Value_(output, kind, &value, Copier_getMemberClassAndCheck(member, &value.GetWrappedDataObject()), owned);
+                        result = Copier_fillNativeSimpleMember_hkDataObject__Value_(output, kind, &value, Copier_getMemberClassAndCheck(member, &value.asObject()), owned);
                     }
                     else
                     {
@@ -2978,7 +2978,7 @@ struct Element
     int CallVirtualWithArg() const throw();
     float ApplyValue() const throw();
     const float* DispatchToVTableSlot8(int) const throw();
-    const char* ForwardCall_00dbac70() const throw();
+    const char* hkDataArray_Value_asString() const throw();
     Object CreateValueInto() const throw();
     void InvokeOnInterface(int) throw();
     void Apply_Thunk(float) throw();
@@ -3015,7 +3015,7 @@ void Cloner::CopyValueByType(Element dst, const Element& src)
         break;
     }
     case 10:
-        dst.InvokeVirtualMethod_00dbadc0(src.ForwardCall_00dbac70());
+        dst.InvokeVirtualMethod_00dbadc0(src.hkDataArray_Value_asString());
         break;
     }
 }
@@ -3347,7 +3347,7 @@ struct DValue
     int CallVirtualWithArg() throw();
     float ApplyValue() throw();
     const float* DispatchToVTableSlot8(int n) throw();
-    const char* ForwardCall_00dbac70() throw();
+    const char* hkDataArray_Value_asString() throw();
     DObj CreateValueInto() throw();
     DArray GetMemberArrayValue() throw();
     void InvokeOnInterface(int v) throw();
@@ -3428,7 +3428,7 @@ struct DMembers
 struct DClass
 {
     int impl;
-    int ForwardCall_00dba730() throw();
+    int hkDataClass_getNumMembers() throw();
     void DispatchItems(DMembers& out) throw();
     void Object_DoNothing_00dba660() throw();
     __forceinline ~DClass() throw()
@@ -3492,7 +3492,7 @@ void DCloner::Cloner_copyArray(DArray& destination, const DArray& source, int ai
     case 9: {
         destination.Get_Thunk(aiCount);
         DClass pClassInfo = src.ProcessAndReturnValue_00dbac20();
-        int numMembers = pClassInfo.ForwardCall_00dba730();
+        int numMembers = pClassInfo.hkDataClass_getNumMembers();
         DMembers members(numMembers);
         members.setSizeUnchecked(numMembers);
         pClassInfo.DispatchItems(members);
@@ -3526,7 +3526,7 @@ void DCloner::Cloner_copyArray(DArray& destination, const DArray& source, int ai
     }
     case 10:
         for (int i = 0; i < aiCount; ++i)
-            destination.UpdateState_00dbab90(i).InvokeVirtualMethod_00dbadc0(src.CreateResultPair(i).ForwardCall_00dbac70());
+            destination.UpdateState_00dbab90(i).InvokeVirtualMethod_00dbadc0(src.CreateResultPair(i).hkDataArray_Value_asString());
         break;
     }
 }

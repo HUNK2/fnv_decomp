@@ -6103,7 +6103,7 @@ struct FUN_00c9a430_arg
     FUN_00653290_cls* unk0C;
 };
 
-struct FUN_00c9a430_cls
+struct bhkEntityListener
 {
     int unk00;
     int unk04;
@@ -6113,7 +6113,7 @@ struct FUN_00c9a430_cls
 extern int DAT_012681c0;
 
 // @fnv 0x00c9a430
-FUN_00653290_cls* __thiscall FUN_00c9a430_cls::GetMatchingObject(FUN_00c9a430_arg* arg)
+FUN_00653290_cls* __thiscall bhkEntityListener::GetMatchingObject(FUN_00c9a430_arg* arg)
 {
     if (arg == 0)
         return 0;
@@ -16440,7 +16440,7 @@ extern float DAT_010c7948[];
 struct Z577
 {
     unsigned char index;
-    void __thiscall FindFloatTableIndex(float* value);
+    void __thiscall SetReal(float* value);
 };
 
 struct Y577
@@ -16483,7 +16483,7 @@ float __thiscall S_00c8cd20_object::GetFloatValue()
         else
         {
             ret = DAT_010c7948[owner->unk19d];
-            local_z.FindFloatTableIndex((float*)&ret);
+            local_z.SetReal((float*)&ret);
             z = &local_z;
         }
         ret = DAT_010c7948[z->index];

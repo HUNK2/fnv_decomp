@@ -786,7 +786,7 @@ struct FUN_004d61b0_sub
     ~FUN_004d61b0_sub();
 };
 
-class FUN_004d61b0
+class NiTreeCtrl
 {
   public:
     int m00;
@@ -805,11 +805,12 @@ class FUN_004d61b0
     void CreateTreeWindows(int a5, int a6, int a7, int a8);
     void NiTreeCtrl_SetImageList();
     void NiTreeCtrl_CreateTree(int aValue, int aFlag);
-    FUN_004d61b0(int a1, int a2, int a3, const char* a4, int a5, int a6, int a7, int a8);
+    NiTreeCtrl(int a1, int a2, int a3, const char* a4, int a5, int a6, int a7, int a8);
 };
 
 // @fnv 0x004d61b0
-FUN_004d61b0::FUN_004d61b0(int a1, int a2, int a3, const char* apName, int a5, int a6, int a7, int a8) : m18(0x25)
+// src: GUESS 0x004d61b0 (confidence: medium)
+NiTreeCtrl::NiTreeCtrl(int a1, int a2, int a3, const char* apName, int a5, int a6, int a7, int a8) : m18(0x25)
 {
     m00 = a1;
     m04 = a2;

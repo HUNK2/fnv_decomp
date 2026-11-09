@@ -13,7 +13,7 @@ struct FUN_00b3ede0_shell
     void* prev;
     unsigned int used;
     unsigned int size;
-    void* AdvanceBlockAllocationCursor();
+    void* ReadInt();
 };
 unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00b3ef80_shell

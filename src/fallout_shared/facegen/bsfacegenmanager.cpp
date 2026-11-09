@@ -282,13 +282,14 @@ struct EBase
     int b;
     ~EBase();
 };
-struct FUN_006501a0_shell : EBase
+struct Entry : EBase
 {
     NiPointer<NiNode> sp;
-    ~FUN_006501a0_shell();
+    ~Entry();
 };
 // @fnv 0x006501a0
-FUN_006501a0_shell::~FUN_006501a0_shell()
+// src: GUESS 0x006501a0 (confidence: high)
+Entry::~Entry()
 {}
 
 
@@ -1764,19 +1765,20 @@ struct FUN_00651670
     FUN_00651670();
     ~FUN_00651670();
 };
-struct FUN_00651450
+struct FanGenCtlsGrpC
 {
     bool initialized;
     FUN_00651520 m_kFaceGenRecords[5];
     FUN_00651630 attr[20];
     FUN_00651670 race[25];
     FaceGenMatrix<float> basis[20];
-    FUN_00651450();
+    FanGenCtlsGrpC();
 };
 
 // Initializes the object by setting the initialized flag to false; the member arrays are default-constructed.
 // @fnv 0x00651450
-FUN_00651450::FUN_00651450() : initialized(false)
+// src: GUESS 0x00651450 (confidence: medium)
+FanGenCtlsGrpC::FanGenCtlsGrpC() : initialized(false)
 {}
 }  // namespace fnv_00651450
 
@@ -2813,7 +2815,7 @@ unsigned int __cdecl BSFaceGenManager_GetMaxControlID(int a, int b)
 }  // namespace fnv_006521b0
 
 
-struct FUN_007b3810Class
+struct RaceSexMenu_MenuOption
 {
     Tile* m_tile;
     void RaceSexMenu_MenuOption_SetDisplay(const char* a1);
@@ -2822,7 +2824,7 @@ struct FUN_007b3810Class
 // If m_tile and a1 are non-null, calls m_tile->Set with id 0x1009, the string a1 and true.
 // @fnv 0x007b3810
 // src: COMMUNITY 0x007b3810
-void FUN_007b3810Class::RaceSexMenu_MenuOption_SetDisplay(const char* a1)
+void RaceSexMenu_MenuOption::RaceSexMenu_MenuOption_SetDisplay(const char* a1)
 {
     if (m_tile && a1)
         m_tile->Set(0x1009, a1, true);
@@ -2859,12 +2861,12 @@ struct FUN_0065fd10_class
 {
     int _p[3];
     int _f;
-    FUN_0065e000_class* EvaluateValue_0065fd10(FUN_0065e000_class*);
+    FUN_0065e000_class* vector_begin(FUN_0065e000_class*);
 };
 // Calls FUN_0065da80 on a with this object's _f and this pointer, then returns a.
 // @fnv 0x0065fd10
-// src: GUESS 0x0065fd10 (confidence: low)
-FUN_0065e000_class* FUN_0065fd10_class::EvaluateValue_0065fd10(FUN_0065e000_class* a)
+// src: GUESS 0x0065fd10 (confidence: medium)
+FUN_0065e000_class* FUN_0065fd10_class::vector_begin(FUN_0065e000_class* a)
 {
     a->FaceGenData_Iterator_Set_(_f, (int)this);
     return a;
@@ -2879,12 +2881,12 @@ struct FUN_0065fd40_class
 {
     char pad[16];
     int f10;
-    FUN_0065e000_class* ProcessAndReturnValue_0065fd40(FUN_0065e000_class*);
+    FUN_0065e000_class* vector_end(FUN_0065e000_class*);
 };
 // Calls FUN_0065da80 on a with f10 and this, then returns a.
 // @fnv 0x0065fd40
-// src: GUESS 0x0065fd40 (confidence: low)
-FUN_0065e000_class* FUN_0065fd40_class::ProcessAndReturnValue_0065fd40(FUN_0065e000_class* a)
+// src: GUESS 0x0065fd40 (confidence: medium)
+FUN_0065e000_class* FUN_0065fd40_class::vector_end(FUN_0065e000_class* a)
 {
     a->FaceGenData_Iterator_Set_(f10, (int)this);
     return a;
@@ -4585,8 +4587,8 @@ FaceGenMatrix<float>* FaceGenMatrix<float>::AddMatrix(FaceGenMatrix<float>* othe
         ReportAssertionViolation("d:\\_fallout3\\platforms\\common\\code\\sdk\\facegen\\matrixVT.hpp", 0x24f);
     }
     MxIter a = begin();
-    MxConstIter b5 = other->EvaluateValue_0065fd10();
-    for (; a != end() && b5 != other->ProcessAndReturnValue_0065fd40(); a++, b5.ProcessAndReturnValue_00659100(0))
+    MxConstIter b5 = other->vector_begin();
+    for (; a != end() && b5 != other->vector_end(); a++, b5.ProcessAndReturnValue_00659100(0))
     {
         *a += double(b5.ProcessEntries_0064dda0());
     }

@@ -1528,7 +1528,7 @@ struct FUN_00cc7090_Constraint {
     float m_fPlaneMaxAngle;
 };
 
-struct FUN_00cc7090_class {
+struct hkRagdollConstraintCinfo {
     void* m_pVtable;
     FUN_00cc7090_Constraint* m_pConstraint;
 
@@ -1537,7 +1537,7 @@ struct FUN_00cc7090_class {
 };
 
 // @fnv 0x00cc7090
-void FUN_00cc7090_class::AppendConstraintParams(StrArr* strArr)
+void hkRagdollConstraintCinfo::AppendConstraintParams(StrArr* strArr)
 {
     this->hkConstraintCinfo_GetViewerStrings(strArr);
 
@@ -3106,7 +3106,7 @@ public:
     void Init();
 };
 
-class FUN_00cc2a00_cls {
+class bhkSimpleShapePhantom {
 public:
     unsigned int m_00;
     unsigned int m_04;
@@ -3120,7 +3120,7 @@ public:
 // Returns m_0c, allocating and initialising a new object first if it is null; sets *out to whether it was created.
 // @fnv 0x00cc2a00
 // src: COMMUNITY 0x00cc2a00
-FUN_00cc2a00_obj* FUN_00cc2a00_cls::bhkShapePhantom_CreateCInfo(bool* abCreated) {
+FUN_00cc2a00_obj* bhkSimpleShapePhantom::bhkShapePhantom_CreateCInfo(bool* abCreated) {
     TlsFlagGuard guard;
     bool created = (m_0c == 0);
     *abCreated = created;
@@ -6127,7 +6127,7 @@ struct FUN_00cc5ee0_interface
     virtual void __thiscall FUN_00cc5ee0_call(int value) = 0;
 };
 
-struct FUN_00cc5ee0_class
+struct bhkRagdollConstraint
 {
     void* unk00;
     void* unk04;
@@ -6138,7 +6138,7 @@ struct FUN_00cc5ee0_class
 };
 
 // @fnv 0x00cc5ee0
-void __thiscall FUN_00cc5ee0_class::ClearInterface(char abClear)
+void __thiscall bhkRagdollConstraint::ClearInterface(char abClear)
 {
     if (abClear != 0)
     {
@@ -14308,12 +14308,12 @@ struct FUN_00cdeac0_cls {
     unsigned char unkA0;
     unsigned char unkA1;
     unsigned char m_bA2;
-    unsigned char* __thiscall CopyFieldA2ToOutput_00cdeac0(unsigned char* pOut);
+    unsigned char* __thiscall hkpRagdollConstraintData_getMotorsActive(unsigned char* pOut);
 };
 
 // @fnv 0x00cdeac0
-// src: GUESS 0x00cdeac0 (confidence: low)
-unsigned char* FUN_00cdeac0_cls::CopyFieldA2ToOutput_00cdeac0(unsigned char* pOut)
+// src: GUESS 0x00cdeac0 (confidence: medium)
+unsigned char* FUN_00cdeac0_cls::hkpRagdollConstraintData_getMotorsActive(unsigned char* pOut)
 {
     *pOut = m_bA2;
     return pOut;
@@ -17344,7 +17344,7 @@ struct SaveCtx {
     SaveStream* m_pBinaryStream;
 };
 
-class FUN_00cc8a10_cls {
+class hkHingeLimitsConstraintCinfo {
 public:
     void* unk00;
     unsigned char* m_pSub;
@@ -17357,7 +17357,7 @@ static inline void CC8A10Write(SaveCtx* c, void* p, unsigned int n)
     c->m_pBinaryStream->Write(p, n);
 }
 // @fnv 0x00cc8a10
-void FUN_00cc8a10_cls::WriteSubData(int apCtx) {
+void hkHingeLimitsConstraintCinfo::WriteSubData(int apCtx) {
     SaveCtx* c = (SaveCtx*)apCtx;
     unsigned char* sub = m_pSub;
     CC8A10Write(c, sub + 0x20, 0x30);
@@ -19991,13 +19991,13 @@ void DataViewer::hkBreakableConstraintCinfo_GetViewerStrings(ViewerStrings* stri
     }
 }
 
-struct FUN_00d4f2a0 {
+struct hkpRagdollLimitsData {
     int unk00;
     unsigned short m_us4;
-    FUN_00d4f2a0();
+    hkpRagdollLimitsData();
     void* operator new(unsigned int, unsigned int n) {
         void* b = hkMemoryRouter_getInstance()->heap().AllocateMemoryBlock(n);
-        ((FUN_00d4f2a0*)b)->m_us4 = (unsigned short)n;
+        ((hkpRagdollLimitsData*)b)->m_us4 = (unsigned short)n;
         return b;
     }
     void operator delete(void*, unsigned int) {}
@@ -20005,18 +20005,18 @@ struct FUN_00d4f2a0 {
 
 struct S00cc6030_Cls {
     void* unk00;
-    FUN_00d4f2a0* unk04;
+    hkpRagdollLimitsData* unk04;
     int hkRagdollLimitsConstraintCinfo_CreateData();
 };
 
-// Allocates a FUN_00d4f2a0 object of 0xc0 bytes into unk04 if it is null, then returns 0xc0.
+// Allocates a hkpRagdollLimitsData object of 0xc0 bytes into unk04 if it is null, then returns 0xc0.
 // @fnv 0x00cc6030
 // src: XBOX_PDB 0x00cc6030
 int S00cc6030_Cls::hkRagdollLimitsConstraintCinfo_CreateData()
 {
     if (unk04 == 0)
     {
-        unk04 = new (0xc0u) FUN_00d4f2a0();
+        unk04 = new (0xc0u) hkpRagdollLimitsData();
     }
     return 0xc0;
 }
@@ -20971,13 +20971,13 @@ const LocalM128* __fastcall ScaleMatrixColumns(hkMatrix3* matrix, int, const Loc
     return scale;
 }
 
-struct FUN_00cd7d20_Class {
+struct hkCharControllerShape {
     void __thiscall hkCharControllerShape_getAabb(float* param1, float param2, float* param3);
 };
 
 // @fnv 0x00cd7d20
 // src: XBOX_PDB 0x00cd7d20
-void FUN_00cd7d20_Class::hkCharControllerShape_getAabb(float* param1, float afScalar, float* apResult) {
+void hkCharControllerShape::hkCharControllerShape_getAabb(float* param1, float afScalar, float* apResult) {
 
     LocalM128 v_this30 = *reinterpret_cast<LocalM128*>(reinterpret_cast<char*>(this) + 0x30);
 
@@ -21333,7 +21333,7 @@ extern float DAT_0104da48;
 struct CdfSubObject
 {
     volatile unsigned char m_00;
-    void FindFloatTableIndex(float* value);
+    void SetReal(float* value);
 };
 
 class CdfObject
@@ -21659,7 +21659,7 @@ CdfObject* CdfObject::hkpRagdollConstraintData_Atoms_Atoms()
     m_116 = 1;
     m_12a = 0;
     m_128 = 5;
-    m_12b.FindFloatTableIndex(&one);
+    m_12b.SetReal(&one);
     m_12c = DAT_0104da48;
     return this;
 }

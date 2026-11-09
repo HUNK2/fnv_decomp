@@ -119,7 +119,7 @@ struct FUN_00438bf0_shell : FUN_00591300_shell
 };
 struct FUN_00438f10_Class
 {
-    bool EvaluateValue_00438f10();
+    bool MapMarkerData_IsShowAllHidden();
 };
 struct FUN_00438f30_Class
 {
@@ -156,12 +156,12 @@ struct FUN_0043b9f0_shell
 {
     void NiControllerSequence_SetName(FUN_0043ba10_shell* p);
 };
-struct FUN_0043baa0_class
+struct BSAnimGroupSequence
 {
     void BSAnimGroupSequence_SetAnimGroup(void* p);
 };
 bool __cdecl MLGetFlag_1(unsigned char);
-struct FUN_0043fab0_class
+struct QueuedHelmet
 {
     bool __thiscall QueuedHelmet_GetFinishedQueuing();
 };
@@ -586,7 +586,7 @@ struct FUN_00439ef0_class : public NiPoint3
 {
     NiPoint3* SubtractIntoVector(NiPoint3* a, const NiPoint3& b);
 };
-struct FUN_0043b3b0_class
+struct NiMultiTargetTransformController
 {
     unsigned short NiMultiTargetTransformController_HasTarget(unsigned int value);
 };
@@ -815,7 +815,7 @@ struct FloatGlobal
 };
 extern FloatGlobal DAT_011cd78c;
 float CombatTimer_GetTimer();
-class FUN_00435d40_cls
+class ExtraFriendHits
 {
   public:
     int unk00;

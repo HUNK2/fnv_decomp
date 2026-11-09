@@ -301,12 +301,12 @@ struct FUN_00dd5660_cls
     int unk10;
     int unk14;
     int unk18;
-    int GetUnk18_00dd5660();
+    int hkpMoppCachedShapeMediator_getNumPrimitives();
 };
 
 // @fnv 0x00dd5660
-// src: GUESS 0x00dd5660 (confidence: low)
-int FUN_00dd5660_cls::GetUnk18_00dd5660()
+// src: GUESS 0x00dd5660 (confidence: high)
+int FUN_00dd5660_cls::hkpMoppCachedShapeMediator_getNumPrimitives()
 {
     return unk18;
 }

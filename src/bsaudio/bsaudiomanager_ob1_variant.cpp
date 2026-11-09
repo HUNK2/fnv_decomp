@@ -687,7 +687,7 @@ struct AE8470List
 };
 struct FUN_00ae8550_shell
 {
-    void __thiscall SortValuesByComparison(int* values, int(__cdecl* compare)(int, int), int count);
+    void __thiscall ShellSort(int* values, int(__cdecl* compare)(int, int), int count);
 };
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(long volatile* plAddend);
@@ -4932,8 +4932,8 @@ template <class T> struct BSSimpleList_00ae81e0
             }
         }
     }
-// src: GUESS 0x00ae8550 (confidence: high)
-    void SortValuesByComparison(T* arr, int(__cdecl* cmp)(T, T), int count)
+// src: GUESS 0x00ae8550 (confidence: medium)
+    void ShellSort(T* arr, int(__cdecl* cmp)(T, T), int count)
     {
         int gap = 0;
         int left = 0;
@@ -4979,7 +4979,7 @@ template <> void BSSimpleList_00ae81e0<unsigned char*>::ProcessEntries_00ae81e0(
     node2 = this;
     for (i = 0; i < _num; i++, node2 = node2->m_pkNext)
         arr5[i] = node2->m_item;
-    SortValuesByComparison(arr5, cmp, _num);
+    ShellSort(arr5, cmp, _num);
     RemoveAll();
     node2 = this;
     prev6 = 0;

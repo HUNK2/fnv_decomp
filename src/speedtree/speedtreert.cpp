@@ -213,7 +213,7 @@ void* FUN_00b078e0_Class::GetFieldAt0C()
 
 struct FUN_00b2bdc0_shell
 {
-    void UpdateFields_00b2bdc0(float, float);
+    void CTreeEngine_SetLodDistances(float, float);
 };
 
 struct FUN_00b08500_shell
@@ -226,7 +226,7 @@ struct FUN_00b08500_shell
 // src: COMMUNITY 0x00b08500
 void __thiscall FUN_00b08500_shell::CSpeedTreeRT_SetNearFarDists(float afValue, float afOther)
 {
-    ((FUN_00b2bdc0_shell*)*reinterpret_cast<int*>(this))->UpdateFields_00b2bdc0(afValue, afOther);
+    ((FUN_00b2bdc0_shell*)*reinterpret_cast<int*>(this))->CTreeEngine_SetLodDistances(afValue, afOther);
 }
 
 struct FUN_00b086f0_class
@@ -373,12 +373,12 @@ struct FUN_00657f60_class
     void* d;
     void* e;
     void* f;
-    void ReleaseStorage_00657f60();
+    void vector__Tidy();
 };
 // Frees the buffer at d via FUN_0065f2b0 and deallocate, then clears d, e and f.
 // @fnv 0x00657f60
 // src: GUESS 0x00657f60 (confidence: medium)
-void FUN_00657f60_class::ReleaseStorage_00657f60()
+void FUN_00657f60_class::vector__Tidy()
 {
     if (d)
     {

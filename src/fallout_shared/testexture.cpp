@@ -222,13 +222,13 @@ void TESIcon::DestroyTexture()
     TESTexture::~TESTexture();
 }
 
-struct FUN_00487410_shell
+struct TESIconTree
 {
     const char* GetLeafTexturePath();
 };
 
 // @fnv 0x00487410
-const char* FUN_00487410_shell::GetLeafTexturePath()
+const char* TESIconTree::GetLeafTexturePath()
 {
     return "Data\\Textures\\Trees\\Leaves\\";
 }

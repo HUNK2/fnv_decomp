@@ -1633,7 +1633,7 @@ struct ObjArray
     Node*& NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(unsigned);
     void hkLocalArray_hkpRigidBody_hkLocalArray_hkpRigidBody(int);
     void hkArray_hkpRigidBody_hkContainerHeapAllocator_pushBack(Node**);
-    int ProcessEntries_00629f10(Node**, int, int);
+    int hkArray_indexOf(Node**, int, int);
 };
 struct ItemList
 {
@@ -1758,7 +1758,7 @@ void Owner::LoadedAreaBound_Update(Cell* next, int flag)
             for (int j = 0; j < second.FUN_00726070(); j++)
             {
                 Node* node = second.NiTSet_NiControllerSequence_NiTMallocInterface_NiControllerSequence_GetAt(j);
-                if (seen.ProcessEntries_00629f10(&node, 0, -1) == -1)
+                if (seen.hkArray_indexOf(&node, 0, -1) == -1)
                 {
                     Ref* ref = TESHavokUtilities_FindCollidableRef(node->TESDataHandler_GetWorldSpaceList());
                     if (node && node->hkpRigidBody_getMotionType() != 4 && node->hkpRigidBody_getMotionType() != 5 && node->hkpRigidBody_getMotionType() != 7)

@@ -419,7 +419,7 @@ struct FUN_00e11d60_class
 struct BSAudio;
 BSAudio* __cdecl hkMemoryRouter_getInstance();
 extern int DAT_0102e388;
-struct FUN_00e00000_cls
+struct hkpLinearParametricCurve
 {
     int m_vptr00;
     int unk04;
@@ -3185,7 +3185,7 @@ struct TimedEntryCollection
     TimedEntry* lastRemoved;
     void RemoveExpiredEntries(float threshold);
 };
-struct FUN_00e00dd0_cls
+struct hkpConvexVerticesConnectivity
 {
     int vptr00;
     int unk04;
@@ -3307,7 +3307,7 @@ struct FUN_00e11670_Node
     __m128 m_10;
 };
 
-class FUN_00e11670_cls
+class hkgpMesh
 {
   public:
     int unk00, unk04, unk08, unk0c, unk10;
@@ -3322,12 +3322,12 @@ class FUN_00e11670_cls
     int unkE0;
     FUN_00d752d0_obj* m_e4;
 
-    __m128* ProcessEntries_00e11670(__m128* __restrict out);
+    __m128* getCentroid(__m128* __restrict out);
 };
 
 // @fnv 0x00e11670
-// src: GUESS 0x00e11670 (confidence: low)
-__m128* FUN_00e11670_cls::ProcessEntries_00e11670(__m128* __restrict out)
+// src: GUESS 0x00e11670 (confidence: medium)
+__m128* hkgpMesh::getCentroid(__m128* __restrict out)
 {
     struct Words
     {

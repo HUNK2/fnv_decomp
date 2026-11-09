@@ -7,7 +7,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct FUN_00d87430_class
+struct hkStringMap
 {
     int* m_p;
     int m_kPointB;
@@ -16,7 +16,7 @@ struct FUN_00d87430_class
 };
 
 // @fnv 0x00d87430
-int FUN_00d87430_class::GetEntry(int idx)
+int hkStringMap::GetEntry(int idx)
 {
     return m_p[m_iThirdValue + idx + 1];
 }
@@ -130,12 +130,12 @@ struct FUN_00d87820_Class
     char* SetBoolFromThreshold(char* p, int value);
     int FindStringKey(int);
     void ProcessEntries_00d876a0(int);
-    int ProcessAndReturnValue_00d87820(int a);
+    int hkStringMap_remove(int a);
 };
 
 // @fnv 0x00d87820
-// src: GUESS 0x00d87820 (confidence: low)
-int FUN_00d87820_Class::ProcessAndReturnValue_00d87820(int a)
+// src: GUESS 0x00d87820 (confidence: medium)
+int FUN_00d87820_Class::hkStringMap_remove(int a)
 {
     int v = FindStringKey(a);
     char r;

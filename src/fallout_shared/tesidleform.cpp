@@ -417,14 +417,14 @@ struct FUN_00600d90_shell
     void FUN_00600d90();
 };
 
-struct FUN_00600d70_shell
+struct NiTStringMap
 {
     void ForwardCall_00600d70();
 };
 
 // @fnv 0x00600d70
 // src: GUESS 0x00600d70 (confidence: low)
-void FUN_00600d70_shell::ForwardCall_00600d70()
+void NiTStringMap::ForwardCall_00600d70()
 {
     ((FUN_00600d90_shell*)this)->FUN_00600d90();
 }

@@ -13,10 +13,10 @@ struct FUN_00cd06c0_t
     void __thiscall hkFreeListMemorySystem_setAllocator(int v);
 };
 extern int DAT_010cacd0;
-struct FUN_00cd06a0
+struct hkThreadMemory
 {
     void* m_p00;
-    FUN_00cd06a0(int aiArg);
+    hkThreadMemory(int aiArg);
     void hkThreadMemory_releaseCachedMemory();
     void UpdateFields_00cbf1a0();
 };

@@ -643,7 +643,7 @@ extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long milliseconds
 extern int DAT_0106c800;
 extern int DAT_0106c814;
 
-struct FUN_00b00ec0
+struct BSWin32TaskletData
 {
     int unk00;
     int unk04;
@@ -651,11 +651,12 @@ struct FUN_00b00ec0
     int unk0c;
     long m_10;
 
-    ~FUN_00b00ec0() throw();
+    ~BSWin32TaskletData() throw();
 };
 
 // @fnv 0x00b00ec0
-FUN_00b00ec0::~FUN_00b00ec0() throw()
+// src: GUESS 0x00b00ec0 (confidence: high)
+BSWin32TaskletData::~BSWin32TaskletData() throw()
 {
     *(void* volatile*)this = (void*)&DAT_0106c800;
     while (InterlockedCompareExchange(&m_10, 1, 0) != 0)
@@ -795,13 +796,13 @@ class FUN_00b0e510_cls
     unsigned int m_0c;
     unsigned int m_10;
 
-    FUN_00b0e510_pair* ProcessEntries_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1, unsigned int a2,
+    FUN_00b0e510_pair* vector_erase(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1, unsigned int a2,
                                     unsigned int a3);
 };
 
 // @fnv 0x00b0e510
 // src: GUESS 0x00b0e510 (confidence: low)
-FUN_00b0e510_pair* FUN_00b0e510_cls::ProcessEntries_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1,
+FUN_00b0e510_pair* FUN_00b0e510_cls::vector_erase(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1,
                                                   unsigned int a2, unsigned int a3)
 {
     FUN_00b0e510_pair lo;
@@ -1212,7 +1213,7 @@ struct BufferPos
     char* pcData;
     unsigned int uiElapsedMilliseconds;
 };
-struct FUN_00b01800_shell
+struct ArchiveFile
 {
     char pad00[0x10];
     unsigned int m_uiBufferSize;
@@ -1226,7 +1227,7 @@ struct FUN_00b01800_shell
 
 // @fnv 0x00b01800
 // src: COMMUNITY 0x00b01800
-unsigned int FUN_00b01800_shell::ArchiveFile_ReadFromBuffer(void* pDst, unsigned int uiSize)
+unsigned int ArchiveFile::ArchiveFile_ReadFromBuffer(void* pDst, unsigned int uiSize)
 {
     unsigned int uiDone = 0;
     unsigned int uiAvail = m_uiBufferFill - m_uiBufferPos;
@@ -1831,7 +1832,7 @@ struct FUN_00b15600_cls
     int m_0c;
     int m_10;
     int m_14;
-    void ReleaseEntries_00b15600();
+    void vector__Tidy();
 };
 
 struct Rng
@@ -1842,7 +1843,7 @@ struct Rng
 // If m_0c is set, passes it to FUN_00401030; then zeroes m_0c, m_10 and m_14.
 // @fnv 0x00b15600
 // src: GUESS 0x00b15600 (confidence: medium)
-void FUN_00b15600_cls::ReleaseEntries_00b15600()
+void FUN_00b15600_cls::vector__Tidy()
 {
     if (!!m_0c)
     {

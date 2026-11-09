@@ -95,7 +95,7 @@ struct Value
     int InvokeVirtualMethod_00dbac40();
     int CallVirtualWithArg();
     float ApplyValue();
-    void* ForwardCall_00dbac70();
+    void* hkDataArray_Value_asString();
     __declspec(nothrow) ObjectHandle GetMemberArrayValue();
     __declspec(nothrow) StringHandle CreateValueInto();
 };
@@ -123,7 +123,7 @@ int __stdcall IsTruthy(Value* value)
     case 16:
         return value->GetMemberArrayValue().InvokeVirtualMethod_00dbac00() != 0;
     case 10:
-        return value->ForwardCall_00dbac70() != 0;
+        return value->hkDataArray_Value_asString() != 0;
     default:
         return 0;
     }
@@ -1250,7 +1250,7 @@ struct Node50
 struct ObjC
 {
     void* m_00;
-    __declspec(nothrow) int ForwardCall_00dba730();
+    __declspec(nothrow) int hkDataClass_getNumMembers();
     __declspec(nothrow) void DispatchItems(hkArrayBase<Rec>& a);
     __declspec(nothrow) void Object_DoNothing_00dba660();
     ~ObjC()
@@ -1391,7 +1391,7 @@ void Host::WriteArray(const Wrap& arg0, int count)
     break;
     case 9: {
         Obj2 packedBits;
-        int iCount = arg0.ProcessAndReturnValue_00dbac20().ForwardCall_00dba730();
+        int iCount = arg0.ProcessAndReturnValue_00dbac20().hkDataClass_getNumMembers();
         hkArrayBase<Rec> items;
         initializeRecords(items,iCount);
         arg0.ProcessAndReturnValue_00dbac20().DispatchItems(items);
@@ -1474,7 +1474,7 @@ void Host::WriteArray(const Wrap& arg0, int count)
     case 10: {
         for (i = 0; i < count; i++)
         {
-            WriteString(arg0.CreateResultPair(i).ForwardCall_00dbac70());
+            WriteString(arg0.CreateResultPair(i).hkDataArray_Value_asString());
         }
     }
     break;
@@ -1501,7 +1501,7 @@ struct S_00dbfef0_Node
     float InvokeVirtualMethod_00dbaa00();
     int DispatchToInterface(int n);
     int hkDataObject_Value_asString();
-    int GetWrappedDataObject(S_00dbfef0_B* out);
+    int asObject(S_00dbfef0_B* out);
     void GetResult(S_00dbfef0_A* out);
 };
 
@@ -1601,7 +1601,7 @@ void S_00dbfef0_Visitor::WriteNode(S_00dbfef0_Node* node, S_00dbfef0_B b)
     }
     case 8:
     case 9:
-        ProcessEntries_00dc00b0(node->GetWrappedDataObject(&b));
+        ProcessEntries_00dc00b0(node->asObject(&b));
         b.ReleaseStorage_00dba7f0();
         break;
     case 10:
@@ -1616,7 +1616,7 @@ struct HkNodeE980
     int ForwardCall_00dba990();
     int hkDataObject_Value_asString();
     float InvokeVirtualMethod_00dbaa00();
-    __declspec(nothrow) StringHandle GetWrappedDataObject();
+    __declspec(nothrow) StringHandle asObject();
     __declspec(nothrow) ObjectHandle GetResult();
 };
 // Evaluates a node by dispatching on its type code and returning the corresponding boolean result.
@@ -1642,7 +1642,7 @@ int __stdcall EvaluateNode(HkNodeE980* node)
         return 1;
     case 8:
     case 9:
-        return node->GetWrappedDataObject().hkDataObject_isNull() == 0;
+        return node->asObject().hkDataObject_isNull() == 0;
     case 16:
         return node->GetResult().InvokeVirtualMethod_00dbac00() != 0;
     case 10:
@@ -1677,7 +1677,7 @@ struct FUN_00dba650
         Object_DoNothing_00dba660();
     }
     __declspec(nothrow) void __thiscall Object_DoNothing_00dba660();
-    __declspec(nothrow) int __thiscall ForwardCall_00dba730();
+    __declspec(nothrow) int __thiscall hkDataClass_getNumMembers();
     __declspec(nothrow) void __thiscall DispatchItems(void* arr);
 };
 struct MyDesc
@@ -1875,7 +1875,7 @@ void __thiscall ResourceWriter::ProcessEntries_00dc00b0(MyDesc* apSoundDesc)
     WriteVarint(reqBytes);
 
     int c;
-    c = k.ForwardCall_00dba730();
+    c = k.hkDataClass_getNumMembers();
     MyCharArray charArr(c);
 
     int res;
@@ -1942,7 +1942,7 @@ struct ScanMember
 struct ScanClass
 {
     void* object;
-    __declspec(nothrow) int ForwardCall_00dba730() const;
+    __declspec(nothrow) int hkDataClass_getNumMembers() const;
     __declspec(nothrow) int InvokeVirtualMethod_00dba740(int name) const;
     __declspec(nothrow) void InvokeVirtualMethod_00dba720(int index, ScanMember& member) const;
     __declspec(nothrow) void Object_DoNothing_00dba660();
@@ -1969,7 +1969,7 @@ struct ScanValue
     void* object;
     int index;
     __declspec(nothrow) int QueryAndWriteResult() const;
-    __declspec(nothrow) ScanObject GetWrappedDataObject() const;
+    __declspec(nothrow) ScanObject asObject() const;
     __declspec(nothrow) ScanArray GetResult() const;
 };
 struct ScanItem
@@ -2077,7 +2077,7 @@ void ScanWriter::Writer_scanObject(const ScanObject& source, int supplemental)
         }
         ScanClass type = object.GetObjectValue();
         WriteHandle(type);
-        ScanMask mask(type.ForwardCall_00dba730());
+        ScanMask mask(type.hkDataClass_getNumMembers());
         for (int iterator = object.ForwardCall_00dba8b0(); object.InvokeVirtualMethod_00dba8c0(iterator);
              iterator = object.ForwardCall_00dba8d0(iterator))
         {
@@ -2092,13 +2092,13 @@ void ScanWriter::Writer_scanObject(const ScanObject& source, int supplemental)
                     {
                     case 8:
                     case 9:
-                        Writer_scanObject(value.GetWrappedDataObject(), 0);
+                        Writer_scanObject(value.asObject(), 0);
                         break;
                     case 25:
                     case 41: {
                         ScanClass elementType = value.GetResult().ProcessAndReturnValue_00dbac20();
                         WriteHandle(elementType);
-                        for (int member = 0; member < elementType.ForwardCall_00dba730(); ++member)
+                        for (int member = 0; member < elementType.hkDataClass_getNumMembers(); ++member)
                         {
                             ScanMember description;
                             elementType.InvokeVirtualMethod_00dba720(member, description);

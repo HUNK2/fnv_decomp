@@ -1644,7 +1644,7 @@ struct FUN_00c47770
 struct FUN_00c3a620
 {  // member at +0xb0; destructor at 0x00c3a620
     unsigned int unk00, unk04, unk08, unk0C;
-    void UpdateFields_00b5af80(int iMode);
+    void BSSimpleArray_RemoveAll(int iMode);
     ~FUN_00c3a620();
 };
 
@@ -1672,7 +1672,7 @@ class Owner_c4f550 : public FUN_00a5e930
 Owner_c4f550::~Owner_c4f550()
 {
     delete m_pkOwned;
-    m_kList.UpdateFields_00b5af80(1);
+    m_kList.BSSimpleArray_RemoveAll(1);
     m_uiCount = 0;
 }
 }  // namespace fnv_00c4f550

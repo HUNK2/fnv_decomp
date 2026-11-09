@@ -527,7 +527,7 @@ class TileShaderProperty;
 class TESObjectREFR;
 namespace fnv_00720e60 {
 struct MenuValueDescriptor;
-struct FUN_00720e60_shell : public MenuSystem
+struct MenuManager : public MenuSystem
 {
     Menu* FindTopMenu();
 };
@@ -553,7 +553,7 @@ template <class T> struct NiTPointerList_00720e60
 };
 
 // @fnv 0x00720e60
-Menu* FUN_00720e60_shell::FindTopMenu()
+Menu* MenuManager::FindTopMenu()
 {
     Menu* ptop = 0;
     float fMaxDepth = -100000000.0f;
@@ -1324,18 +1324,19 @@ struct FUN_007df140_Tail
     FUN_007df140_Tail();
 };
 
-struct FUN_007df140_cls
+struct StatsMenu_StatusEffect
 {
     int m_00;
     FUN_007df140_Sub m_04;
     FUN_007df140_Tail m_10;
 
-    FUN_007df140_cls(int aValue);
+    StatsMenu_StatusEffect(int aValue);
 };
 
 // Initializes the object's first field with the given value.
 // @fnv 0x007df140
-FUN_007df140_cls::FUN_007df140_cls(int aValue)
+// src: GUESS 0x007df140 (confidence: high)
+StatsMenu_StatusEffect::StatsMenu_StatusEffect(int aValue)
 {
     m_00 = aValue;
 }

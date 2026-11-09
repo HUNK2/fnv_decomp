@@ -878,7 +878,7 @@ struct BSPSysSimpleColorModifierCand
     void UpdateParticleColors(float fTime, NiPSysData* pkData);
 };
 // The unused clone declarations targeted BSPSysSimpleColorModifier (constructor 0x00c60240), not NiObject.
-struct FUN_00c615a0_class
+struct BSWArray
 {
     int unk00;
     int unk04;
@@ -4125,7 +4125,7 @@ struct S00c70550_Point3
 };
 void __stdcall SubtractVectors(S00c70550_Vector* pOut);
 void __cdecl FUN_00458620(S00c70550_Point3* pOut, const S00c70550_Vector* pIn);
-class FUN_00c70550_cls
+class bhkCharacterController
 {
   public:
     float bhkCharacterController_GetFallDistance();

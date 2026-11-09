@@ -237,11 +237,11 @@ struct FUN_00d66330_StandIn
     void* unk14;
     void* unk18;
     hkpPhysicsContext* m_pShapeCollection;
-    void ProcessEntries_00d66330();
+    void hkpPhantomDisplayViewer_init();
 };
 // @fnv 0x00d66330
-// src: GUESS 0x00d66330 (confidence: low)
-void FUN_00d66330_StandIn::ProcessEntries_00d66330()
+// src: GUESS 0x00d66330 (confidence: medium)
+void FUN_00d66330_StandIn::hkpPhantomDisplayViewer_init()
 {
     if (m_pShapeCollection)
     {

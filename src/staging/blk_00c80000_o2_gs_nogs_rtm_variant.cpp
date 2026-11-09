@@ -4182,7 +4182,7 @@ struct FUN_00c9a430_arg
     int unk08;
     FUN_00653290_cls* unk0C;
 };
-struct FUN_00c9a430_cls
+struct bhkEntityListener
 {
     int unk00;
     int unk04;
@@ -10654,7 +10654,7 @@ extern float DAT_010c7948[];
 struct Z577
 {
     unsigned char index;
-    void __thiscall FindFloatTableIndex(float* value);
+    void __thiscall SetReal(float* value);
 };
 struct Y577
 {

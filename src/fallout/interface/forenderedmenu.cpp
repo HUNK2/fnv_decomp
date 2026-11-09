@@ -1492,7 +1492,7 @@ extern bool DAT_011ad884;
 extern Setting DAT_01203144, DAT_01203150, DAT_011db5ec;
 extern int DAT_011a9448;
 float __cdecl tan_0057dd70(float);
-struct FUN_007fd6c0_Class
+struct FORenderedMenuRaceSex
 {
     int unk000;
     int unk004;
@@ -1575,7 +1575,7 @@ struct FUN_007fd6c0_Class
     void UpdatePlayerFaceScene();
 };
 // @fnv 0x007fd6c0
-void FUN_007fd6c0_Class::UpdatePlayerFaceScene()
+void FORenderedMenuRaceSex::UpdatePlayerFaceScene()
 {
     DAT_011dea0c->Main_RenderMenuBackground();
     DAT_011ad884 = false;

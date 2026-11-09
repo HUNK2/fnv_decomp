@@ -86,7 +86,7 @@ struct FUN_00831e00_class
 extern "C" void __stdcall ReceiveConnection(int, int, int);
 struct FUN_00831f40_Class
 {
-    void ReceiveConnection_Thunk(int a, int b);
+    void CAsyncReader_ReceiveConnection(int a, int b);
 };
 struct FUN_008321c0_Class
 {
@@ -177,7 +177,7 @@ struct FalloutRadio_FORadioStation
     void __thiscall RadioEntry_Save(BGSLoadFormBuffer* buffer);
     void __thiscall RadioEntry_Data_Save(BGSLoadFormBuffer* buffer);
 };
-struct FUN_00837280_Class
+struct QueuedFileEntry
 {
     char RadioConvTask_GetFileIndex();
 };
@@ -427,7 +427,7 @@ struct Str6a70
 };
 TESForm* __cdecl _ref_004839c0(unsigned int formID);
 extern void* _DAT_01183028;
-struct FUN_0083fbe0_Class
+struct MenuTopic
 {
     void __thiscall ExtraInfoGeneralTopic_Data_LoadGame(BGSLoadGameBuffer* buffer);
 };

@@ -7,11 +7,11 @@
 #include "../../../../../../../../include/hkVector4.h"
 #include <string.h>
 
-struct FUN_00d93330 {
+struct hkpDeferredConstraintOwner {
     void __thiscall UpdateConstraint(int);
 };
 // @fnv 0x00d93330
-void __thiscall FUN_00d93330::UpdateConstraint(int v)
+void __thiscall hkpDeferredConstraintOwner::UpdateConstraint(int v)
 {
     ++(*(int*)((char*)this + 0x18));
     *(int*)((char*)this + 0x1c) = v;

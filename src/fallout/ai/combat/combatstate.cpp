@@ -339,14 +339,14 @@ struct CombatAvoidanceSphere
     unsigned int iFlags;
 };
 typedef char _sizecheck_CombatLocation[sizeof(CombatAvoidanceSphere) == 32 ? 1 : -1];
-struct FUN_00819a50_shell : public CombatAvoidanceSphere
+struct BSMultiBoundSphere : public CombatAvoidanceSphere
 {
     void CombatLocation_SetRadius(float);
 };
 
 // @fnv 0x00819a50
 // src: COMMUNITY 0x00819a50
-void FUN_00819a50_shell::CombatLocation_SetRadius(float afRadius)
+void BSMultiBoundSphere::CombatLocation_SetRadius(float afRadius)
 {
     fRadius = afRadius;
 }
@@ -622,13 +622,13 @@ bool UnknownClass::IsElapsedTimeAtLeastSetting()
     return (ts.GetElapsedTime() >= *originalRuntimeFloatSetting413.Float() ? 1 : 0);
 }
 
-struct FUN_0097ef30_shell
+struct CombatGroup
 {
     bool CombatGroup_IsSearching();
 };
 // @fnv 0x0097ef30
 // src: XBOX_PDB 0x0097ef30
-bool FUN_0097ef30_shell::CombatGroup_IsSearching()
+bool CombatGroup::CombatGroup_IsSearching()
 {
     return 0 < *(unsigned int*)((char*)this + 0xd0);
 }

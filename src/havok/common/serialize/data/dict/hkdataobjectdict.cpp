@@ -8301,7 +8301,7 @@ class AF70Variant
     int ForwardCall_00dba990() const throw();
     float InvokeVirtualMethod_00dbaa00() const throw();
     int DispatchToInterface(int sz) const throw();
-    FUN_00dba7f0* GetWrappedDataObject(FUN_00dba7f0* out) const throw();
+    FUN_00dba7f0* asObject(FUN_00dba7f0* out) const throw();
     int hkDataObject_Value_asString() const throw();
 };
 class AF70Owner
@@ -8365,7 +8365,7 @@ void AF70Owner::hkDataArrayImpl_set(int aiIndex, AF70Variant avVariant)
     case 8:
     case 9: {
         FUN_00dba7f0 t;
-        FUN_00dba7f0* r = avVariant.GetWrappedDataObject(&t);
+        FUN_00dba7f0* r = avVariant.asObject(&t);
         Set54(aiIndex, r->m_p);
     }
     break;
@@ -8571,7 +8571,7 @@ struct FUN_00d479e0_class
     int m_unk0c;
 
     void* GetValue(const void* key, const void* defVal) throw();
-    void ProcessAndReturnValue_00d87820(const void* key) throw();
+    void hkStringMap_remove(const void* key) throw();
 };
 
 struct TargetInfo
@@ -8757,9 +8757,9 @@ void ManagerClass::hkDataWorldDict_ObjectTracker_untrackClass(Node* apNode) thro
     }
 
     hkReferencedObject* refObj = (hkReferencedObject*)this->m_map5c.GetValue(target, 0);
-    this->m_map5c.ProcessAndReturnValue_00d87820(target);
+    this->m_map5c.hkStringMap_remove(target);
     refObj->removeReference();
-    this->ProcessAndReturnValue_00d87820(target);
+    this->hkStringMap_remove(target);
 }
 
 struct hkDataObjectImpl : hkDataRefCounted

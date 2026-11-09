@@ -50,7 +50,7 @@ struct VTableObj
 
 extern "C" void* __cdecl hkMemoryRouter_getInstance();
 
-struct FUN_00c7b0f0_shell
+struct hkArray
 {
     int m_kPointA;
     int m_kPointB;
@@ -60,7 +60,7 @@ struct FUN_00c7b0f0_shell
 
 // @fnv 0x00c7b0f0
 // src: GUESS 0x00c7b0f0 (confidence: low)
-void FUN_00c7b0f0_shell::UpdateState_00c7b0f0()
+void hkArray::UpdateState_00c7b0f0()
 {
     void* p = hkMemoryRouter_getInstance();
     VTableObj* pTarget = *(VTableObj**)((char*)p + 0x10);

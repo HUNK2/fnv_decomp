@@ -1108,18 +1108,18 @@ bool FUN_0087cee0_shell::bhkCharacterController_QHitDamage()
     return ((DummyFlags*)((char*)this + 0x410))->FUN_00621270(0x80) != 0;
 }
 
-struct FUN_0087cf10_shell
+struct BSParallelArrayTask
 {
     void* a;
     void* b;
     void* c;
     void* d;
-    FUN_0087cf10_shell* __thiscall Construct(void* a, void* b, void* c);
+    BSParallelArrayTask* __thiscall Construct(void* a, void* b, void* c);
 };
 
 // Stores the three arguments into fields a, b and c, clears field d, and returns this.
 // @fnv 0x0087cf10
-FUN_0087cf10_shell* __thiscall FUN_0087cf10_shell::Construct(void* apArg1, void* apArg2, void* apArg3)
+BSParallelArrayTask* __thiscall BSParallelArrayTask::Construct(void* apArg1, void* apArg2, void* apArg3)
 {
     this->a = apArg1;
     this->b = apArg2;
@@ -1167,13 +1167,13 @@ void __cdecl BSParallelTask_UpdateHavokSync(void* apData, int aiIndex)
 
 extern int __cdecl InitScriptRunLock(void*);
 
-struct FUN_0087adf0_shell
+struct HitData
 {
     int __thiscall InitScriptRunLockForSelf();
 };
 
 // @fnv 0x0087adf0
-int __thiscall FUN_0087adf0_shell::InitScriptRunLockForSelf()
+int __thiscall HitData::InitScriptRunLockForSelf()
 {
     return InitScriptRunLock((char*)this + 0x60);
 }
@@ -1424,17 +1424,17 @@ void Host::TaskQueueInterface_QueueObjectUpdate(G00559a40* a1)
 }  // namespace fnv_0087ad50
 
 namespace fnv_0087ada0 {
-struct FUN_0087adf0_shell
+struct HitData
 {
     int InitScriptRunLockForSelf();
 };
 struct FUN_0087ada0_shell : public TaskQueueInterface
 {
-    void TaskQueueInterface_QueueActorCreateBlood(int, FUN_0087adf0_shell*);
+    void TaskQueueInterface_QueueActorCreateBlood(int, HitData*);
 };
 // @fnv 0x0087ada0
 // src: XBOX_PDB 0x0087ada0
-void FUN_0087ada0_shell::TaskQueueInterface_QueueActorCreateBlood(int aiTaskArg, FUN_0087adf0_shell* a2)
+void FUN_0087ada0_shell::TaskQueueInterface_QueueActorCreateBlood(int aiTaskArg, HitData* a2)
 {
     char buf[32];
     if (a2)
@@ -1449,24 +1449,24 @@ void FUN_0087ada0_shell::TaskQueueInterface_QueueActorCreateBlood(int aiTaskArg,
 }  // namespace fnv_0087ada0
 
 namespace fnv_0087ae10 {
-struct FUN_0087adf0_shell
+struct HitData
 {
     int InitScriptRunLockForSelf();
 };
 struct FUN_0087ae10_shell : TaskQueueInterface
 {
-    void TaskQueueInterface_QueueActorHitMe(int, FUN_0087adf0_shell*);
+    void TaskQueueInterface_QueueActorHitMe(int, HitData*);
 };
 // @fnv 0x0087ae10
 // src: COMMUNITY 0x0087ae10
-void FUN_0087ae10_shell::TaskQueueInterface_QueueActorHitMe(int a, FUN_0087adf0_shell* b)
+void FUN_0087ae10_shell::TaskQueueInterface_QueueActorHitMe(int a, HitData* b)
 {
     char task[32];
     if (b)
     {
         ((int*)task)[0] = 17;
         ((int*)task)[1] = a;
-        ((FUN_0087adf0_shell**)task)[2] = b;
+        ((HitData**)task)[2] = b;
         b->InitScriptRunLockForSelf();
         ProcessPackedTask(*(BSPackedTask*)task);
     }

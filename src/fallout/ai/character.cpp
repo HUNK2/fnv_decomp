@@ -1638,19 +1638,20 @@ class PoolEntryArray
     void SetAt(unsigned int uiIndex, PoolEntry* const& rpEntry);
 };
 
-class FUN_0096a850 : public PoolEntryArray
+class ProcessArray : public PoolEntryArray
 {
   public:
     void* m_apActive[4];
     void* m_apPending[4];
     void* m_apFree[4];
 
-    FUN_0096a850();
+    ProcessArray();
 };
 
 // Constructs a PoolEntryArray with size 1000, nulls all 1000 entries, and clears the four active, pending and free slots.
 // @fnv 0x0096a850
-FUN_0096a850::FUN_0096a850() : PoolEntryArray(0, 1)
+// src: GUESS 0x0096a850 (confidence: medium)
+ProcessArray::ProcessArray() : PoolEntryArray(0, 1)
 {
     SetSize(1000);
     for (unsigned int i = 0; i < 1000; i++)

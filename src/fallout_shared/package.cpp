@@ -9594,7 +9594,7 @@ bool IsValidPickTarget(PickForm* form, PickContext* pContext)
 
 struct Location679120
 {
-    void SaveTargetReference();
+    void PackageLocation_SaveGameOld();
 };
 struct Target679120
 {
@@ -9643,7 +9643,7 @@ void Package679120::SavePackage()
         presence |= 2;
     TESForm_SaveGameDataOLD(&presence, 1);
     if (location)
-        ((Location679120*)location)->SaveTargetReference();
+        ((Location679120*)location)->PackageLocation_SaveGameOld();
     if (target)
         ((Target679120*)target)->SaveLoad();
     DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&procedureArrayIndex, 4);

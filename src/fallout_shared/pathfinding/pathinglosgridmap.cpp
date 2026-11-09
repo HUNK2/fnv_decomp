@@ -225,7 +225,7 @@ struct FUN_00aa6060_shell
 class PathingLOSGrid;
 // RTTI: the map at 8 is NiTMap<unsigned int,PathingLOSGrid *> (vftable 0x0106ceb8).
 typedef NiTMap<unsigned int, PathingLOSGrid*> PathingLOSGridTable;
-struct FUN_00aa62e0_shell
+struct BSReadWriteLock
 {
     void __thiscall BSReadWriteLock_UnlockWrite();
 };
@@ -243,7 +243,7 @@ void PathingLOSGridMap::ClearMap()
         delete value;
     }
     ((PathingLOSGridTable*)((char*)this + 8))->RemoveAll();
-    ((FUN_00aa62e0_shell*)((char*)this + 0x4c))->BSReadWriteLock_UnlockWrite();
+    ((BSReadWriteLock*)((char*)this + 0x4c))->BSReadWriteLock_UnlockWrite();
 }
 
 struct FUN_006df9c0_shell

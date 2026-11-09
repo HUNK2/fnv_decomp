@@ -318,15 +318,16 @@ struct Sub
     Sub();
     ~Sub();
 };
-struct FUN_00699450_S
+struct TaskPortalSwap
 {
     Sub a;
     Sub b;
-    FUN_00699450_S();
+    TaskPortalSwap();
 };
 // Constructs the object by default-constructing its two Sub members.
 // @fnv 0x00699450
-FUN_00699450_S::FUN_00699450_S()
+// src: GUESS 0x00699450 (confidence: medium)
+TaskPortalSwap::TaskPortalSwap()
 {}
 
 struct FUN_0069af60
@@ -1156,7 +1157,7 @@ unsigned int MaxUnsigned(unsigned int auiValue, unsigned short ausValue)
 
 struct S0069afb0
 {
-    int ProcessEntries_0069afb0(unsigned short, int);
+    int NiTMap_GetAt(unsigned short, int);
 };
 
 // The shared one-argument bool overload cannot represent this two-argument integer entry.
@@ -1164,7 +1165,7 @@ struct S0069afb0
 // src: COMMUNITY 0x006997b0
 int __fastcall NavMesh_GetObstacleForTriangle(NavMesh* self, USW a, IW b)
 {
-    return reinterpret_cast<S0069afb0*>(self->pTriangleToObstacleMap)->ProcessEntries_0069afb0(a.v, b.v);
+    return reinterpret_cast<S0069afb0*>(self->pTriangleToObstacleMap)->NiTMap_GetAt(a.v, b.v);
 }
 
 // Exe 0x00699a30: local storage view; GetFlags binds the folded DWORD-at-+8 accessor 0x0044ddc0.
@@ -1668,12 +1669,12 @@ struct FUN_0069afb0_shell
     virtual bool v2(unsigned short a, unsigned short b);
     void* p;
     void** list;
-    bool ProcessEntries_0069afb0(unsigned short a, Helper62d0& out);
+    bool NiTMap_GetAt(unsigned short a, Helper62d0& out);
 };
 
 // @fnv 0x0069afb0
-// src: GUESS 0x0069afb0 (confidence: low)
-bool FUN_0069afb0_shell::ProcessEntries_0069afb0(unsigned short a, Helper62d0& out)
+// src: GUESS 0x0069afb0 (confidence: high)
+bool FUN_0069afb0_shell::NiTMap_GetAt(unsigned short a, Helper62d0& out)
 {
     void* item = v1(a);
     void* node = list[*(unsigned int*)&item];
@@ -3191,7 +3192,7 @@ struct NavObstaclePtr
 struct NavMap
 {
     unsigned int unk00, unk04, unk08, unk0C;
-    bool ProcessEntries_0069afb0(unsigned short, NavObstaclePtr&);
+    bool NiTMap_GetAt(unsigned short, NavObstaclePtr&);
     void NiTMapBase_DFALL_NiTMapItem_unsigned_short_NiPointer_NavMeshObstacleData_unsigned_short_NiPointer_NavMeshObstacleData_SetAt(unsigned short, NavObstaclePtr);
     void FUN_0049c250(unsigned short);
 };
@@ -3314,7 +3315,7 @@ bool NavChangeBuilder::NavMeshObstacleCutter_SplitNavMeshFromObstacle(NavMesh* a
     {
         unsigned short index = change->affected.GetBufferEntry(k);
         NavObstaclePtr entry(0);
-        if (reinterpret_cast<NavMap*>(mesh->pTriangleToObstacleMap)->ProcessEntries_0069afb0(index, entry))
+        if (reinterpret_cast<NavMap*>(mesh->pTriangleToObstacleMap)->NiTMap_GetAt(index, entry))
         {
             change->obstacleMap.NiTMapBase_DFALL_NiTMapItem_unsigned_short_NiPointer_NavMeshObstacleData_unsigned_short_NiPointer_NavMeshObstacleData_SetAt(index, entry);
             reinterpret_cast<NavMap*>(mesh->pTriangleToObstacleMap)->FUN_0049c250(index);

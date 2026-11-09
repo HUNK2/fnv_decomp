@@ -89,7 +89,7 @@ public:
     void RaceSexMenu_SetFlag(int, bool);
     bool RaceSexMenu_IsFlagged(int);
     bool RaceSexMenu_RotatePlayer(float, int);
-    void UpdateScrollTraits_007a7700();
+    void ListBox_UpdateScrollDelta();
     void UpdateHighlightTraits_007a73e0();
     void ProcessEntries_007a7260();
     void FUN_00a1dc70(TileMenu*, bool);

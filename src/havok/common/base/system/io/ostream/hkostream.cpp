@@ -110,13 +110,13 @@ void DDCC60WorldStandIn::UpdateFields_00cc0480(hkReferencedObject* pNew)
     m_ref = pNew;
 }
 
-struct FUN_00cc0680
+struct hkMemoryTrackStreamWriter
 {
     int tell();
 };
 
 // @fnv 0x00cc0680
-int FUN_00cc0680::tell()
+int hkMemoryTrackStreamWriter::tell()
 {
     char* p = *(char**)(this + 8);
     int n = *(int*)(p + 0xc) - 1;

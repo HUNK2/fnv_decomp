@@ -217,14 +217,14 @@ void __thiscall FUN_004d9190_Class::ForwardCall_004d9190()
     FUN_004d91b0();
 }
 
-struct FUN_004dc020_Class
+struct NiDX9Renderer
 {
     unsigned int m_p288;
     unsigned int NiXenonRenderer_GetD3DDevice();
 };
 // @fnv 0x004dc020
 // src: XBOX_PDB 0x004dc020
-unsigned int FUN_004dc020_Class::NiXenonRenderer_GetD3DDevice()
+unsigned int NiDX9Renderer::NiXenonRenderer_GetD3DDevice()
 {
     return *(unsigned int*)((char*)this + 0x288);
 }
@@ -387,7 +387,7 @@ void FUN_004def90_Class::NiNode_RemoveAllChildren()
 }
 
 
-struct FUN_004dfe80_Class
+struct BSShaderBloodSplatterProperty
 {
     GO m_p[12];
     void SetSlotValue(int index, void* value);
@@ -395,7 +395,7 @@ struct FUN_004dfe80_Class
 
 // Stores value into the slot at index within the array starting at offset 0x60 of this object.
 // @fnv 0x004dfe80
-void FUN_004dfe80_Class::SetSlotValue(int index, void* value)
+void BSShaderBloodSplatterProperty::SetSlotValue(int index, void* value)
 {
     *(GO*)((char*)this + index * 4 + 0x60) = value;
 }
@@ -1346,7 +1346,7 @@ struct FUN_004d9070
     ~FUN_004d9070();
 };
 
-struct FUN_004d62a0_Class
+struct NiTreeCtrl
 {
     int m_00;
     int m_04;
@@ -1364,12 +1364,13 @@ struct FUN_004d62a0_Class
     void __thiscall NiTreeCtrl_DestroyTree();
     void __thiscall NiTreeCtrl_DestroyImageList();
     void __thiscall NiTreeCtrl_DestroyWindows();
-    ~FUN_004d62a0_Class();
+    ~NiTreeCtrl();
 };
 
 // Frees m_p2C, calls the three cleanup methods, then resets DAT_011f36f8 and DAT_011f36f4 to zero.
 // @fnv 0x004d62a0
-FUN_004d62a0_Class::~FUN_004d62a0_Class()
+// src: GUESS 0x004d62a0 (confidence: medium)
+NiTreeCtrl::~NiTreeCtrl()
 {
     void* p = m_p2C;
     _Deallocate(p);
@@ -3302,14 +3303,14 @@ C4DF040Node* __cdecl CreateDebrisNode(unsigned int uiPieceCount, float fWidthSca
 
 extern double DAT_010229b8;
 extern double DAT_01012070;
-struct FUN_004dfec0_Class
+struct BSRandom
 {
     unsigned int BSRandom_UnsignedInt();
     float BSRandom_FloatNeg1To1();
 };
 // @fnv 0x004dfec0
 // src: XBOX_PDB 0x004dfec0
-float FUN_004dfec0_Class::BSRandom_FloatNeg1To1()
+float BSRandom::BSRandom_FloatNeg1To1()
 {
     unsigned int randomValue = BSRandom_UnsignedInt();
     return static_cast<float>(static_cast<double>(randomValue) * DAT_010229b8 - DAT_01012070);

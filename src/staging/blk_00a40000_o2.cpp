@@ -245,14 +245,14 @@ void* __fastcall DeleteSequenceStringMap(SequenceStringMap* map, void*, int aiFl
 void __fastcall FUN_00a57f80(void*);
 void __cdecl _delete(void*, unsigned int);
 
-struct FUN_00a51af0_class
+struct NiBSplineCompPoint3Interpolator
 {
     void* __thiscall FUN_00a51af0(unsigned char flags);
 };
 
 // Calls FUN_00a57f80 on this, then frees this with _delete when bit 0 of flags is set, and returns this.
 // @fnv 0x00a51af0
-void* __thiscall FUN_00a51af0_class::FUN_00a51af0(unsigned char flags)
+void* __thiscall NiBSplineCompPoint3Interpolator::FUN_00a51af0(unsigned char flags)
 {
     FUN_00a57f80(this);
     if (flags & 1)
@@ -684,14 +684,14 @@ struct A51BF0Base
 {
     void* __thiscall FUN_00a57fd0(void* dst, void* proc);
 };
-struct FUN_00a50aa0_class : A51BF0Base
+struct NiBSplineCompFloatInterpolator : A51BF0Base
 {
     void NiBSplineFloatInterpolator_CopyMembers(void* dst, void* proc);
 };
 // Copies the base part via FUN_00a57fd0, then copies the float at offset 0x1c and the int at offset 0x20 from this into dst.
 // @fnv 0x00a50aa0
 // src: GAMEBRYO_LIB 0x00a50aa0
-void FUN_00a50aa0_class::NiBSplineFloatInterpolator_CopyMembers(void* apDest, void* proc)
+void NiBSplineCompFloatInterpolator::NiBSplineFloatInterpolator_CopyMembers(void* apDest, void* proc)
 {
     FUN_00a57fd0(apDest, proc);
     *(float*)((char*)apDest + 0x1c) = *(float*)((char*)this + 0x1c);

@@ -48,7 +48,7 @@ struct FUN_00e2f8b0_Obj
     int unk24;
     int unk28;
 
-    int GetUnk28();
+    int hkaWaveletCompressedAnimation_getNumOriginalFrames();
 };
 class FUN_00e2f860
 {

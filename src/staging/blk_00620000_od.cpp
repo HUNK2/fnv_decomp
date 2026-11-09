@@ -160,7 +160,7 @@ void __thiscall FUN_00621ad0_Class::bhkCharacterController_GetWorld()
     bhkWorld_Getbhk(((BlkOffset08View*)((ObjHelper*)this)->bhkCharacterProxy_GethkShapePhantom())->GetFlags());
 }
 
-struct FUN_00621b20_Class
+struct hkpConvexShape
 {
     int m_vtbl;
     int m_kPointA;
@@ -172,7 +172,7 @@ struct FUN_00621b20_Class
 
 // @fnv 0x00621b20
 // src: XBOX_PDB 0x00621b20
-void __thiscall FUN_00621b20_Class::NiTimeController_SetPhase(float value)
+void __thiscall hkpConvexShape::NiTimeController_SetPhase(float value)
 {
     m_iThirdValue = value;
 }
@@ -383,13 +383,13 @@ struct FUN_00626560_Class
 {
     void __thiscall FUN_00626560(int);
 };
-struct FUN_00626450_Class
+struct hkMapBase
 {
-    FUN_00626450_Class* __thiscall EvaluateValue_00626450();
+    hkMapBase* __thiscall EvaluateValue_00626450();
 };
 // @fnv 0x00626450
 // src: GUESS 0x00626450 (confidence: low)
-FUN_00626450_Class* __thiscall FUN_00626450_Class::EvaluateValue_00626450()
+hkMapBase* __thiscall hkMapBase::EvaluateValue_00626450()
 {
     ((FUN_00626560_Class*)this)->FUN_00626560(0);
     return this;
@@ -496,14 +496,14 @@ struct Dummy629670
     void __thiscall bhkCharacterListener_SetFlag(int value, bool flag);
 };
 
-struct FUN_00629650_Class
+struct bhkCharacterListener
 {
     void __thiscall bhkCharacterListener_SetStuckQuadruped(bool flag);
 };
 
 // @fnv 0x00629650
 // src: XBOX_PDB 0x00629650
-void __thiscall FUN_00629650_Class::bhkCharacterListener_SetStuckQuadruped(bool flag)
+void __thiscall bhkCharacterListener::bhkCharacterListener_SetStuckQuadruped(bool flag)
 {
     ((Dummy629670*)this)->bhkCharacterListener_SetFlag(0x20, flag);
 }
@@ -568,13 +568,13 @@ FUN_006299f0_Class* __thiscall FUN_006299f0_Class::Construct(int aiValue)
 
 struct FUN_00629e20_Class
 {
-    void __thiscall UpdateFields_00629e20(int a, int b, int c);
+    void __thiscall NiTMapBase_SetValue(int a, int b, int c);
 };
 
 // Stores c at offset 4 and the low 16 bits of b at offset 8 of the object at a.
 // @fnv 0x00629e20
-// src: GUESS 0x00629e20 (confidence: low)
-void __thiscall FUN_00629e20_Class::UpdateFields_00629e20(int pObject, int iValue, int sValue)
+// src: GUESS 0x00629e20 (confidence: high)
+void __thiscall FUN_00629e20_Class::NiTMapBase_SetValue(int pObject, int iValue, int sValue)
 {
     *(int*)((char*)pObject + 4) = iValue;
     *(short*)((char*)pObject + 8) = (short)sValue;
@@ -590,13 +590,13 @@ struct FUN_00629ee0_Class
     int m_vtbl;
     int m_auiShapeKeys;
     Unk6b m_unk;
-    void __thiscall ReleaseStorage_00629ee0(void* param);
+    void __thiscall NiTMap_DeleteItem(void* param);
 };
 
 // Clears the short at offset 8 of param, then calls FreeMemory on the object at this+0xc with param.
 // @fnv 0x00629ee0
-// src: GUESS 0x00629ee0 (confidence: medium)
-void __thiscall FUN_00629ee0_Class::ReleaseStorage_00629ee0(void* param)
+// src: GUESS 0x00629ee0 (confidence: high)
+void __thiscall FUN_00629ee0_Class::NiTMap_DeleteItem(void* param)
 {
     *(short*)((char*)param + 8) = 0;
     ((Unk6b*)((char*)this + 0xc))->FreeMemory(param);
@@ -650,14 +650,14 @@ void __thiscall FUN_0062a290_Class::hkpClosestRayHitCollector_reset()
     hkpRayHitCollector_reset(this);
 }
 
-struct FUN_0062a2b0_Class
+struct hkpWorldRayCastOutput
 {
     void* __thiscall hkpShapeRayCastOutput_reset();
     void __thiscall hkpWorldRayCastOutput_reset();
 };
 // @fnv 0x0062a2b0
 // src: XBOX_PDB 0x0062a2b0
-void __thiscall FUN_0062a2b0_Class::hkpWorldRayCastOutput_reset()
+void __thiscall hkpWorldRayCastOutput::hkpWorldRayCastOutput_reset()
 {
     *(int*)((char*)this + 0x50) = 0;
     hkpShapeRayCastOutput_reset();
@@ -1108,13 +1108,13 @@ void __thiscall Stand::CameraCaster_SetPlayerGroup(unsigned int aiGroup)
     ((S_00c85ce0*)(unsigned int)*this)->bhkWorldObject_SetCollisionGroup(aiGroup);
 }
 
-struct FUN_006218f0_Owner
+struct hkpCollisionDispatcher
 {
     int GetIndexedValue(int a, int b);
 };
 // Reads a byte from the table at offset 0x1A0 indexed by (a<<5)+b, then returns the int at offset 0x9A8 indexed by that byte.
 // @fnv 0x006218f0
-int FUN_006218f0_Owner::GetIndexedValue(int a, int b)
+int hkpCollisionDispatcher::GetIndexedValue(int a, int b)
 {
     int idx = *(unsigned char*)((char*)this + ((a << 5) + b) + 0x1A0);
     return *(int*)((char*)this + idx * 20 + 0x9A8);
@@ -1401,13 +1401,13 @@ FUN_00621e40Class* __thiscall FUN_00621e40Class::NiTObjectArray_NiPointer_bhkRig
 }
 
 namespace fnv_00622f20 {
-struct FUN_00622f20_Class
+struct bhkSimpleShapePhantom
 {
     void bhkWorldObject_SetName(const char* s);
 };
 // @fnv 0x00622f20
 // src: XBOX_PDB 0x00622f20
-void FUN_00622f20_Class::bhkWorldObject_SetName(const char* s)
+void bhkSimpleShapePhantom::bhkWorldObject_SetName(const char* s)
 {
     void* flag = ((NullablePhysicsObjectAccess*)this)->GetLocalData();
     if (flag)
@@ -1455,7 +1455,7 @@ void __thiscall FUN_00623310_Class::DecalCaster_SetRadius(float scale)
 {
     if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x3a0)->operator unsigned int())
     {
-        FUN_00621b20_Class* dst = reinterpret_cast<FUN_00621b20_Class*>(GetStringCStr(reinterpret_cast<void*>(
+        hkpConvexShape* dst = reinterpret_cast<hkpConvexShape*>(GetStringCStr(reinterpret_cast<void*>(
             reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x3a0)->operator unsigned int())));
         if (dst)
             dst->NiTimeController_SetPhase(NI2HK_004a3e90(scale));
@@ -1689,12 +1689,12 @@ struct FUN_00629f10_Class
 {
     int m_vtbl;
     int m_uiItemCount;
-    int ProcessEntries_00629f10(int* p, int start, int count);
+    int hkArray_indexOf(int* p, int start, int count);
 };
 
 // @fnv 0x00629f10
-// src: GUESS 0x00629f10 (confidence: low)
-int FUN_00629f10_Class::ProcessEntries_00629f10(int* pValue, int start, int count)
+// src: GUESS 0x00629f10 (confidence: medium)
+int FUN_00629f10_Class::hkArray_indexOf(int* pValue, int start, int count)
 {
     if (count < 0)
         count = m_uiItemCount;
@@ -1713,11 +1713,11 @@ struct H_A100
 void __cdecl hkArrayUtil__reserve(int a, int b, int c, int d);
 struct FUN_00629f70_Class
 {
-    void __thiscall UpdateState_00629f70(int a, int c);
+    void __thiscall hkArray_reserve(int a, int c);
 };
 // @fnv 0x00629f70
-// src: GUESS 0x00629f70 (confidence: low)
-void __thiscall FUN_00629f70_Class::UpdateState_00629f70(int a, int c)
+// src: GUESS 0x00629f70 (confidence: medium)
+void __thiscall FUN_00629f70_Class::hkArray_reserve(int a, int c)
 {
     int d = (int)((H_A100*)this)->GetSizeMasked();
     if (d < c)
@@ -1743,13 +1743,13 @@ void* __thiscall FUN_0062a050_Struct::FUN_0062a050(unsigned int flags)
     return (void*)this;
 }
 
-struct FUN_0062a160_Class
+struct hkThreadMemory
 {
     void __thiscall CallVirtualWithScaledArg(int a, int b);
 };
 // Calls the virtual method at vtable slot 4 on this, passing a and b multiplied by 4.
 // @fnv 0x0062a160
-void __thiscall FUN_0062a160_Class::CallVirtualWithScaledArg(int a, int b)
+void __thiscall hkThreadMemory::CallVirtualWithScaledArg(int a, int b)
 {
     int local = 4;
     ((void(__thiscall*)(void*, int, int))(*reinterpret_cast<void***>(this))[4])(this, a, b * 4);
@@ -2316,13 +2316,13 @@ FUN_00622870_Class* __thiscall FUN_00622870_Class::NiTArray_NiPointer_bhkRigidBo
 
 char* __cdecl FUN_00ec7750(char* haystack, const char* needle);
 void __cdecl BSstrncpy(char* dst, const char* src, unsigned int count);
-struct FUN_00624d70_Class
+struct HavokError
 {
     void __thiscall ExtractTes4Prefix(char* path);
 };
 // Searches path for "TES4" or "tes4" and, if found, copies the text before it into the buffer at this+0x20 and null-terminates it.
 // @fnv 0x00624d70
-void __thiscall FUN_00624d70_Class::ExtractTes4Prefix(char* path)
+void __thiscall HavokError::ExtractTes4Prefix(char* path)
 {
     char* found = FUN_00ec7750(path, "TES4");
     if (!found)
@@ -2475,16 +2475,16 @@ struct FUN_0062a0b0_Class
     int m_vtbl;
     int m_auiShapeKeys;
     int m_flags;
-    void __thiscall UpdateState_0062a0b0(int arg);
+    void __thiscall hkArray_clearAndDeallocate(int arg);
 };
 // @fnv 0x0062a0b0
-// src: GUESS 0x0062a0b0 (confidence: low)
-void __thiscall FUN_0062a0b0_Class::UpdateState_0062a0b0(int pTarget)
+// src: GUESS 0x0062a0b0 (confidence: medium)
+void __thiscall FUN_0062a0b0_Class::hkArray_clearAndDeallocate(int pTarget)
 {
     ((FUN_00540b70_Class*)this)->DestroyRange();
     if (!(m_flags & 0x80000000))
     {
-        ((FUN_0062a160_Class*)pTarget)->CallVirtualWithScaledArg(*(int*)this, (int)((H_A100*)this)->GetSizeMasked());
+        ((hkThreadMemory*)pTarget)->CallVirtualWithScaledArg(*(int*)this, (int)((H_A100*)this)->GetSizeMasked());
     }
     m_vtbl = 0;
     m_flags = 0x80000000;
@@ -2764,11 +2764,11 @@ struct FUN_006211b0_Class
     ~FUN_006211b0_Class();
 };
 
-struct FUN_00622d00_Class : public FUN_006211b0_Class
+struct DecalCaster : public FUN_006211b0_Class
 {
     FUN_0045cec0_Class m_3a0;
 
-    ~FUN_00622d00_Class();
+    ~DecalCaster();
 };
 
 FUN_0045cec0_Class::~FUN_0045cec0_Class()
@@ -2779,7 +2779,8 @@ FUN_006211b0_Class::~FUN_006211b0_Class()
 
 // Destructor for the class; destroys the embedded member and the base class.
 // @fnv 0x00622d00
-FUN_00622d00_Class::~FUN_00622d00_Class()
+// src: GUESS 0x00622d00 (confidence: medium)
+DecalCaster::~DecalCaster()
 {}
 
 class PhysicsDebugTarget;
@@ -3330,17 +3331,18 @@ struct FUN_00633c90
     {}
 };
 
-struct FUN_006268b0
+struct HitCaster
 {
     FUN_00620ff0 m_pHeadNode;
     FUN_00633c90 m_iSecondInteger;
     void __thiscall HitCaster_Init(float, int);
-    FUN_006268b0(float, int);
+    HitCaster(float, int);
 };
 
 // Constructs the object by initialising its two members and forwarding the float and int arguments to FUN_006269a0.
 // @fnv 0x006268b0
-FUN_006268b0::FUN_006268b0(float afValue, int aiValue) : m_pHeadNode(), m_iSecondInteger(0)
+// src: GUESS 0x006268b0 (confidence: medium)
+HitCaster::HitCaster(float afValue, int aiValue) : m_pHeadNode(), m_iSecondInteger(0)
 {
     this->HitCaster_Init(afValue, aiValue);
 }
@@ -5135,7 +5137,7 @@ void __cdecl HavokSystem_Init()
         hkSingleton_hkError_replaceInstance((int)created);
         hkSingleton_hkFileSystem_replaceInstance((int)(new FUN_00624de0));
         GetCurrentDirectoryA(0x104, path);
-        ((FUN_00624d70_Class*)created)->ExtractTes4Prefix(path);
+        ((HavokError*)created)->ExtractTes4Prefix(path);
         bhkWorldCinfo_SetSimulationType(*((GlobalObject_0045cfe0*)&DAT_011cc2e8)->Int());
     }
 }
@@ -5462,7 +5464,7 @@ struct FUN_00629a20_State
 };
 struct FUN_00629a20_Class
 {
-    void UpdateState_00629f70(int result);
+    void hkArray_reserve(int result);
     void hkLocalArray_hkpRigidBody_hkLocalArray_hkpRigidBody(int input);
 };
 // Calls FUN_004a4840 with this and input, then passes the returned value to FUN_00629f70.
@@ -5471,7 +5473,7 @@ struct FUN_00629a20_Class
 void FUN_00629a20_Class::hkLocalArray_hkpRigidBody_hkLocalArray_hkpRigidBody(int input)
 {
     FUN_00629a20_State state = {};
-    UpdateState_00629f70(state.hkContainerHeapAllocator_get(this, input));
+    hkArray_reserve(state.hkContainerHeapAllocator_get(this, input));
 }
 
 struct HeapAllocator629;

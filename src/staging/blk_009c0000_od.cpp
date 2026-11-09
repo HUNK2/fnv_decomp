@@ -203,14 +203,14 @@ unsigned int __thiscall FUN_009d9f00_Class::Projectile_GetSecondaryItemChange()
     return *(unsigned int*)((char*)this + 0x144);
 }
 
-struct FUN_009d9f40_Class
+struct hkpEntity
 {
     void* CombatGroup_GetLastSearchAreaUpdateTimer();
 };
 
 // @fnv 0x009d9f40
 // src: XBOX_PDB 0x009d9f40
-void* FUN_009d9f40_Class::CombatGroup_GetLastSearchAreaUpdateTimer()
+void* hkpEntity::CombatGroup_GetLastSearchAreaUpdateTimer()
 {
     return reinterpret_cast<char*>(this) + 0xE0;
 }
@@ -221,7 +221,7 @@ void* FUN_009d9f40_Class::CombatGroup_GetLastSearchAreaUpdateTimer()
 // src: XBOX_PDB 0x009dfd50
 void* PathBuilder::BSSimpleArray_VirtualPathingNode_1024_GetLast()
 {
-    return GetElementAddress30_006e8f40((char*)m_pAllocator - 1);
+    return BSSimpleArray_GetAt((char*)m_pAllocator - 1);
 }
 
 
@@ -402,7 +402,7 @@ bool CombatProcedureMove::CombatProcedureMove_CreatePath()
 
 extern int DAT_011f21b8;
 
-struct FUN_009c6a30 : SL
+struct VATSCameraData : SL
 {
     int a_8;
     int a_c;
@@ -420,11 +420,12 @@ struct FUN_009c6a30 : SL
     int a_3c;
     int a_40;
     int a_44;
-    FUN_009c6a30();
+    VATSCameraData();
 };
 
 // @fnv 0x009c6a30
-FUN_009c6a30::FUN_009c6a30() : a_34(0)
+// src: GUESS 0x009c6a30 (confidence: medium)
+VATSCameraData::VATSCameraData() : a_34(0)
 {
     a_8 = 0;
     DAT_011f21b8 = 0;

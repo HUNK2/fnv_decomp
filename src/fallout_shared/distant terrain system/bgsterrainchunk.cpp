@@ -38,13 +38,13 @@ inline bool NiPoint3::operator==(const NiPoint3& other) const
 #include "../../../include/QueuedFile.h"
 #include "../../../include/QueuedFileEntry.h"
 
-struct FUN_006fa840_shell
+struct BGSTerrainNode
 {
     unsigned char GetByteAt5D();
 };
 
 // @fnv 0x006fa840
-unsigned char FUN_006fa840_shell::GetByteAt5D()
+unsigned char BGSTerrainNode::GetByteAt5D()
 {
     return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x5d);
 }
@@ -488,7 +488,7 @@ void UpdateSoundListItems()
         {
             go = current->_ref_006815c0()[0];
             if (((FUN_006fb150_shell*)static_cast<const GO*>(go)->operator unsigned int())->GetByteAtOffset5C() &&
-                ((FUN_006fa840_shell*)static_cast<const GO*>(go)->operator unsigned int())->GetByteAt5D() && static_cast<FUN_006fea10_Class*>(go->m_pObject)->BGSTerrainNode_CheckMeshSolidUnderMe(false))
+                ((BGSTerrainNode*)static_cast<const GO*>(go)->operator unsigned int())->GetByteAt5D() && static_cast<FUN_006fea10_Class*>(go->m_pObject)->BGSTerrainNode_CheckMeshSolidUnderMe(false))
             {
                 ((BGSTerrainChunk*)go)->BGSTerrainChunk_Hide();
             }

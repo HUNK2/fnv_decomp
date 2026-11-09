@@ -166,12 +166,12 @@ struct FUN_00da0840_Obj
     int unk58;
     int unk5C;
 
-    int GetUnk5C_00da0840();
+    int hkSimpleLocalFrame_getParentFrame();
 };
 
 // @fnv 0x00da0840
-// src: GUESS 0x00da0840 (confidence: low)
-int FUN_00da0840_Obj::GetUnk5C_00da0840()
+// src: GUESS 0x00da0840 (confidence: high)
+int FUN_00da0840_Obj::hkSimpleLocalFrame_getParentFrame()
 {
     return unk5C;
 }

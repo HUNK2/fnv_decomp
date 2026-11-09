@@ -847,7 +847,7 @@ class FNVObject
     void* Key();
 };
 int __cdecl FNVCompare(void* key, void* a1);
-class FUN_005e0860_cls
+class SettingCollectionList
 {
   public:
     int unk000;
@@ -1082,7 +1082,7 @@ struct FUN_005eedc0_cls
 {
     int m_unk00;
     FUN_005eedc0_item* m_pEntries;
-    FUN_005eedc0_item* GetIndexedValue_005eedc0(int index);
+    FUN_005eedc0_item* BSSimpleArray_GetAt(int index);
 };
 struct FUN_005efa80_cls
 {

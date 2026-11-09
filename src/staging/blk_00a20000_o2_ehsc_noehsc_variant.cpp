@@ -108,13 +108,13 @@ struct FUN_00a2ceb0_cls {
 extern unsigned char DAT_01096968;
 typedef int (__stdcall *FnInterlockedDecrement)(void*);
 extern FnInterlockedDecrement DAT_00fdf1c4;
-struct FUN_00a31260_StandIn {
+struct ControlledBlock {
     void* p0;
     void* p1;
     void* p2;
     unsigned char b3;
     unsigned char b4;
-    void ReleaseReferencedObjectsAndResetFlags();
+    void ClearValues();
 };
 struct FUN_00a30700_T {
     void* p0;
@@ -154,7 +154,7 @@ extern void __cdecl _NiFree(void*);
 extern MemoryManager _g_memoryManager;
 struct FUN_00a39120_cls {
     float x, y, z, w;
-    Inner_00a6db50* ScaleFourComponents(Inner_00a6db50* out, float s);
+    Inner_00a6db50* NiQuaternion_Scale(Inner_00a6db50* out, float s);
 };
 struct FloatRecord_b5532
 {

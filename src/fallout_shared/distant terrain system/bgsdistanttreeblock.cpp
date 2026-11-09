@@ -1002,7 +1002,7 @@ struct Callee
     void FUN_0045cec0();
 };
 
-struct FUN_006f9080_owner
+struct TreeType
 {
     char unk1b[0x1c];
     Callee callee;
@@ -1015,7 +1015,7 @@ void Callee::FUN_0045cec0()
 
 // @fnv 0x006f9080
 // src: GUESS 0x006f9080 (confidence: low)
-void FUN_006f9080_owner::ForwardCall_006f9080()
+void TreeType::ForwardCall_006f9080()
 {
     callee.FUN_0045cec0();
 }

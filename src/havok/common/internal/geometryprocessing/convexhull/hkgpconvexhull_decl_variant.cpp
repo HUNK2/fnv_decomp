@@ -284,7 +284,7 @@ struct TextBuffer
     void FUN_00cb1600(char* buffer, int capacity);
     TextBuffer* ProcessAndReturnValue_00cc01c0(const char* first, const char* middle, const char* last);
     TextBuffer* ProcessAndReturnValue_00cc01c0();
-    TextBuffer* EvaluateValue_00cc02d0();
+    TextBuffer* hkOstream_printf();
     void FUN_00cc00e0();
 };
 struct ChildData
@@ -1101,7 +1101,7 @@ struct DiagStream
     unsigned int m_buf[128];
     void FUN_00cb1600(unsigned int* buf, unsigned int size);
     DiagStream* ProcessAndReturnValue_00cc01c0(const char* fmt, unsigned int count, const char* tail);
-    DiagStream* EvaluateValue_00cc02d0();
+    DiagStream* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };

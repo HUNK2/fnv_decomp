@@ -994,7 +994,7 @@ void Holder::TESBoundObject_ReplaceModel()
 
 struct FUN_0044a9d0_Class
 {
-    unsigned int GetAllocatorLimitMinusTerminator();
+    unsigned int basic_string_max_size();
 };
 extern void __cdecl FUN_00ec30b0();
 struct FUN_0044a8d0_Class : FUN_0044a9d0_Class
@@ -1008,7 +1008,7 @@ struct FUN_0044a8d0_Class : FUN_0044a9d0_Class
 // src: COMMUNITY 0x0044a8d0
 bool FUN_0044a8d0_Class::std_basic_string_char_std_char_traits_char_std_allocator_char_Grow(unsigned int uiNewSize, bool bTrim)
 {
-    if (GetAllocatorLimitMinusTerminator() < uiNewSize)
+    if (basic_string_max_size() < uiNewSize)
         FUN_00ec30b0();
     if (*(unsigned int*)((char*)this + 0x18) < uiNewSize)
         ResizeBuffer(uiNewSize, *(unsigned int*)((char*)this + 0x14));
@@ -1126,7 +1126,7 @@ void* FUN_0050f7c0_Class::DestroyIfFlagged(unsigned int flags)
 }
 
 // 0x005e7f90 reads the form's name through TESForm vftable slot 0x130 (GetName).
-struct FUN_005e7f90_class : public TESForm
+struct BGSIdleMarker : public TESForm
 {
   public:
 
@@ -1135,7 +1135,7 @@ struct FUN_005e7f90_class : public TESForm
 
 // Creates a new BSFadeNode, sets its name from this object's model name, and returns it.
 // @fnv 0x005e7f90
-NiAVObject* FUN_005e7f90_class::CreateFadeNode(const char* pfilename)
+NiAVObject* BGSIdleMarker::CreateFadeNode(const char* pfilename)
 {
     NiAVObject* pData3D = 0;
     pData3D = new BSFadeNode;
@@ -2799,7 +2799,7 @@ struct InsertVector
     InsertValue* first;
     InsertValue* last;
     InsertValue* end;
-    unsigned int GetPointerSpanCount_0064e300();
+    unsigned int vector_capacity();
     unsigned int GetFieldAtOffset10();
     unsigned int max_size_0064de90();
     InsertValue* ForwardCall_0064e480(InsertValue*, InsertValue*, InsertValue*);
@@ -2811,7 +2811,7 @@ struct InsertVector
 // @fnv 0x0064df50
 void InsertVector::Insert(InsertIterator _Where, unsigned int _Count, const InsertValue& _Val)
 {
-    unsigned int _Capacity = GetPointerSpanCount_0064e300();
+    unsigned int _Capacity = vector_capacity();
     if (_Count == 0)
         ;
     else if (max_size_0064de90() - GetFieldAtOffset10() < _Count)
@@ -2880,7 +2880,7 @@ struct GrowString
     unsigned int unk10;
     unsigned int size;
     unsigned int capacity;
-    unsigned int GetAllocatorLimitMinusTerminator();
+    unsigned int basic_string_max_size();
     char* std_allocator_char_allocate(unsigned int);
     void fopen_0044a730(bool, unsigned int);
     char* std_string__Myptr();
@@ -2892,9 +2892,9 @@ struct GrowString
 void GrowString::ResizeBuffer(unsigned int requested, unsigned int oldSize)
 {
     unsigned int uiNewCapacity = requested | 15;
-    if (GetAllocatorLimitMinusTerminator() < uiNewCapacity)
+    if (basic_string_max_size() < uiNewCapacity)
         uiNewCapacity = requested;
-    else if (uiNewCapacity / 3 < capacity / 2 && capacity <= GetAllocatorLimitMinusTerminator() - capacity / 2)
+    else if (uiNewCapacity / 3 < capacity / 2 && capacity <= basic_string_max_size() - capacity / 2)
         uiNewCapacity = capacity + capacity / 2;
     char* pNewData = 0;
     try

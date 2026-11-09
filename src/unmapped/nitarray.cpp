@@ -35,13 +35,13 @@ struct FUN_009ba5f0_shell
     void SetChildObject(int);
 };
 
-struct FUN_00c89c80_obj
+struct bhkConstraint
 {
     void CopyFromSource(unsigned int uiMaxSize);
 };
 
 // @fnv 0x00c89c80
-void FUN_00c89c80_obj::CopyFromSource(unsigned int pDest)
+void bhkConstraint::CopyFromSource(unsigned int pDest)
 {
     if (this && *(void**)((char*)this + 8))
     {
@@ -671,7 +671,7 @@ struct ColorA
     {}
 };
 
-struct FUN_00b8a9e0 : FUN_004eba20
+struct ImageSpaceShaderParam : FUN_004eba20
 {
     int m_24;
     int m_28;
@@ -687,13 +687,14 @@ struct FUN_00b8a9e0 : FUN_004eba20
     NiTPrimitiveArray<int> m_68;
     RenderStateGroup<int> m_78;
 
-    FUN_00b8a9e0();
-    virtual ~FUN_00b8a9e0();
+    ImageSpaceShaderParam();
+    virtual ~ImageSpaceShaderParam();
 };
 
 // Zero-initializes m_24, m_28, m_3c, m_40, m_44, m_48 and the m_abFlags array; other members use their default constructors.
 // @fnv 0x00b8a9e0
-FUN_00b8a9e0::FUN_00b8a9e0() : m_24(0), m_28(0), m_3c(0), m_40(0), m_44(0), m_48(0)
+// src: GUESS 0x00b8a9e0 (confidence: high)
+ImageSpaceShaderParam::ImageSpaceShaderParam() : m_24(0), m_28(0), m_3c(0), m_40(0), m_44(0), m_48(0)
 {
     memset(m_abFlags, 0, sizeof(m_abFlags));
 }

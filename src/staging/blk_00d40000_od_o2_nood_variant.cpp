@@ -188,18 +188,18 @@ inline bool equals3(const hkVector4& a, const hkVector4& b, float fEpsilon)
 
 extern hkVector4 DAT_01267e30;
 
-struct FUN_00d56470_cls
+struct ShapesSubpart
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     hkQuaternion m_rotation;
     hkVector4 m_vTranslation;
 
-    FUN_00d56470_cls* hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(int bCompute);
+    ShapesSubpart* hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(int bCompute);
 };
 
 // @fnv 0x00d56470
 // src: XBOX_PDB 0x00d56470
-FUN_00d56470_cls* FUN_00d56470_cls::hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(int bCompute)
+ShapesSubpart* ShapesSubpart::hkpExtendedMeshShape_ShapesSubpart_ShapesSubpart(int bCompute)
 {
     if (bCompute)
     {

@@ -4179,7 +4179,7 @@ struct FnvCpu_FUN_00e68800_CpuObject
     int value;
     int NiDX9TextureData_GetD3DTexture();
 };
-struct FUN_00e76620_cls
+struct NiDX9ShaderDeclaration
 {
     int unk00;
     int unk04;

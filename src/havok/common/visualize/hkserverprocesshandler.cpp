@@ -531,19 +531,20 @@ class hkListenerBaseDD9C
     virtual ~hkListenerBaseDD9C() throw();
 };
 
-class FUN_00dd9cc0 : public hkReferencedObject, public hkListenerBaseDD9C
+class hkServerDebugDisplayHandler : public hkReferencedObject, public hkListenerBaseDD9C
 {
   public:
     void* m_pOwnerObject;
     FUN_00cf6da0* m_kNodePool;
 
-    FUN_00dd9cc0(void* pvOwner) throw();
-    virtual ~FUN_00dd9cc0() throw();
+    hkServerDebugDisplayHandler(void* pvOwner) throw();
+    virtual ~hkServerDebugDisplayHandler() throw();
 };
 
 // Stores pvOwner and allocates a FUN_00cf6da0 with capacity 1000 into the second member.
 // @fnv 0x00dd9cc0
-FUN_00dd9cc0::FUN_00dd9cc0(void* pvOwner) throw()
+// src: GUESS 0x00dd9cc0 (confidence: high)
+hkServerDebugDisplayHandler::hkServerDebugDisplayHandler(void* pvOwner) throw()
 {
     m_pOwnerObject = pvOwner;
     m_kNodePool = new FUN_00cf6da0(1000);
@@ -810,11 +811,11 @@ struct ChildBase
 {
     virtual void ChildBase_v0();
 };
-struct FUN_00dd9cc0 : hkReferencedObject, ChildBase
+struct hkServerDebugDisplayHandler : hkReferencedObject, ChildBase
 {
     int unk0c;
     int unk10;
-    FUN_00dd9cc0(FUN_00dda6e0* src) throw();
+    hkServerDebugDisplayHandler(FUN_00dda6e0* src) throw();
 };
 
 struct FUN_00d60f30 : hkReferencedObject, ListenerB, ListenerC
@@ -841,7 +842,7 @@ FUN_00d60f30::FUN_00d60f30(const hkArray<int>& apArray, void* first, void* secon
     m_arr44 = apArray;
     m_pHeadNode = first ? new FUN_00ddabe0(first) : 0;
     m_iSecondInteger = second ? new FUN_00dda6e0(second) : 0;
-    m_pChildAtom = new FUN_00dd9cc0(m_iSecondInteger);
+    m_pChildAtom = new hkServerDebugDisplayHandler(m_iSecondInteger);
     m_kListener = this;
 }
 }  // namespace fnv_00d60f30

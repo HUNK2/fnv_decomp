@@ -5219,14 +5219,14 @@ void KFModel::ReleaseKFModelReference()
 
 int __cdecl InitScriptRunLock(void*);
 
-struct FUN_0044b2a0_Class
+struct BSFaceGenModelMeshData
 {
     void __thiscall InitScriptRunLock_Thunk();
 };
 
 // @fnv 0x0044b2a0
 // src: GUESS 0x0044b2a0 (confidence: medium)
-void __thiscall FUN_0044b2a0_Class::InitScriptRunLock_Thunk()
+void __thiscall BSFaceGenModelMeshData::InitScriptRunLock_Thunk()
 {
     InitScriptRunLock((char*)this + 0x20);
 }
@@ -5521,13 +5521,13 @@ struct FUN_00449c50_class
     int __thiscall FUN_00449c50();
 };
 
-struct FUN_00449c30_class : FUN_00449c50_class
+struct LockFreeCaseInsensitiveStringMap : FUN_00449c50_class
 {
     int __thiscall CallBaseMethod();
 };
 
 // @fnv 0x00449c30
-int __thiscall FUN_00449c30_class::CallBaseMethod()
+int __thiscall LockFreeCaseInsensitiveStringMap::CallBaseMethod()
 {
     return FUN_00449c50();
 }
@@ -5561,7 +5561,7 @@ char Object_IsMask0x20Set(unsigned char param_1)
 }  // namespace fnv_0044afa0
 
 namespace fnv_0044b270 {
-struct FUN_0044b2a0_Class
+struct BSFaceGenModelMeshData
 {
     void InitScriptRunLock_Thunk(void);
 };
@@ -5569,14 +5569,14 @@ struct FUN_0044b2a0_Class
 class FUN_0044b270_Class
 {
   public:
-    FUN_0044b2a0_Class* m_pData;
-    FUN_0044b270_Class* SetDataAndNotify(FUN_0044b2a0_Class* a);
+    BSFaceGenModelMeshData* m_pData;
+    FUN_0044b270_Class* SetDataAndNotify(BSFaceGenModelMeshData* a);
 };
 
 // Stores the given object in m_pData and, if it is non-null, calls its FUN_0044b2a0 method; returns this.
 // @fnv 0x0044b270
 // src: GUESS 0x0044b270 (confidence: medium)
-FUN_0044b270_Class* FUN_0044b270_Class::SetDataAndNotify(FUN_0044b2a0_Class* apData)
+FUN_0044b270_Class* FUN_0044b270_Class::SetDataAndNotify(BSFaceGenModelMeshData* apData)
 {
     m_pData = apData;
     if (m_pData != 0)
@@ -5936,13 +5936,13 @@ struct FUN_00905330
 {
     void __thiscall Remove(void*);
 };
-struct FUN_0044f870
+struct SettingCollectionList
 {
     void __thiscall Remove_Thunk(void* ap);
 };
 // @fnv 0x0044f870
 // src: GUESS 0x0044f870 (confidence: medium)
-void __thiscall FUN_0044f870::Remove_Thunk(void* ap)
+void __thiscall SettingCollectionList::Remove_Thunk(void* ap)
 {
     ((FUN_00905330*)((char*)this + 0x10c))->Remove(&ap);
 }
@@ -8313,19 +8313,19 @@ FUN_00449ec0::~FUN_00449ec0()
 }  // namespace fnv_00449ec0
 
 namespace fnv_0044b300 {
-struct FUN_0044b2a0_Class
+struct BSFaceGenModelMeshData
 {
     void InitScriptRunLock_Thunk();
 };
 void __fastcall FUN_0044b2e0(void*);
 struct FUN_0044b300_Class
 {
-    FUN_0044b2a0_Class* m_pObject;
-    FUN_0044b300_Class* ProcessAndReturnValue_0044b300(FUN_0044b2a0_Class* value);
+    BSFaceGenModelMeshData* m_pObject;
+    FUN_0044b300_Class* ProcessAndReturnValue_0044b300(BSFaceGenModelMeshData* value);
 };
 // @fnv 0x0044b300
 // src: GUESS 0x0044b300 (confidence: low)
-FUN_0044b300_Class* FUN_0044b300_Class::ProcessAndReturnValue_0044b300(FUN_0044b2a0_Class* apObject)
+FUN_0044b300_Class* FUN_0044b300_Class::ProcessAndReturnValue_0044b300(BSFaceGenModelMeshData* apObject)
 {
     if (m_pObject != apObject)
     {
@@ -10916,7 +10916,7 @@ class LoaderNode
     LoaderNode* Next();
 };
 
-class FUN_004f05c0_cls
+class BSBipNode
 {
   public:
     LoaderNode* First();
@@ -10925,7 +10925,7 @@ class FUN_004f05c0_cls
 
 // Iterates the node list from First(), looks up two entries per node via FUN_00653270 and calls Method(flags) on each non-null entry.
 // @fnv 0x004f05c0
-void FUN_004f05c0_cls::ApplyFlagsToEntries(unsigned int flags)
+void BSBipNode::ApplyFlagsToEntries(unsigned int flags)
 {
     for (LoaderNode* node = First(); node != 0; node = node->Next())
     {
@@ -10966,7 +10966,7 @@ class QueueSubmitter
     void Submit(void* item);
 };
 
-class FUN_00527fc0_cls
+class ExteriorCellLoader
 {
   public:
     bool Step(QueueCursor* cursor, int* index, QueueSlot* slot, int mode);
@@ -10975,7 +10975,7 @@ class FUN_00527fc0_cls
 
 // Iterates the cursor until it reaches the end, calling Step on each slot and submitting the taken item through the submitter at DAT_01202d98 when Step succeeds.
 // @fnv 0x00527fc0
-void FUN_00527fc0_cls::SubmitQueuedItems()
+void ExteriorCellLoader::SubmitQueuedItems()
 {
     unsigned int pad[3];
     {

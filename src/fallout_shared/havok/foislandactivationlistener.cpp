@@ -101,14 +101,14 @@ hkpIslandActivationListener* __fastcall InitializeIslandActivationListener(hkpIs
 }
 
 extern "C" int __cdecl bhkUtilFunctions_GetNiAVObject(int);
-struct FUN_00807730_shell
+struct bhkCharacterListenerSpell
 {
     TESObjectREFR* bhkCharacterListenerSpell_GetObjectREFR(void* p);
 };
 // Calls FUN_00c7fa90 on p; if it returns non-zero, resolves that value to a TESObjectREFR and returns it, otherwise returns null.
 // @fnv 0x00807730
 // src: XBOX_PDB 0x00807730
-TESObjectREFR* FUN_00807730_shell::bhkCharacterListenerSpell_GetObjectREFR(void* p)
+TESObjectREFR* bhkCharacterListenerSpell::bhkCharacterListenerSpell_GetObjectREFR(void* p)
 {
     TESObjectREFR* result = 0;
     int blood = bhkUtilFunctions_GetNiAVObject((int)p);

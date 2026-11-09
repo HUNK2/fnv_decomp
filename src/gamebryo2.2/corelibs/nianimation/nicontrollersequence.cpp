@@ -804,7 +804,7 @@ struct FUN_00a317e0_interp
     void* unk04;
     void* unk08;
     void* unk0C;
-    void __thiscall ReleaseReferencedObjectsAndResetFlags();
+    void __thiscall ClearValues();
 };
 
 struct FUN_00a317e0_tag
@@ -826,7 +826,7 @@ __declspec(noalias) void __thiscall NiControllerSequence::AssignInterpolatorRef(
     if (pNewRef)
         DAT_00fdf1c0((int*)&pNewRef->m_uiRefCount);
 
-    reinterpret_cast<FUN_00a317e0_interp*>(m_pInterpArray + index)->ReleaseReferencedObjectsAndResetFlags();
+    reinterpret_cast<FUN_00a317e0_interp*>(m_pInterpArray + index)->ClearValues();
 
     reinterpret_cast<FUN_00a317e0_tag*>(m_pkIDTags + index)->ResetStrings();
 

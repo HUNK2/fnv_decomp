@@ -94,7 +94,7 @@ struct FUN_0043f220_cls
     FUN_0043f220_cls* __thiscall GetEntryAt(int b);
 };
 
-struct FUN_00802260_cls
+struct FOVATSEffectManager
 {
     virtual void v00();
     virtual void v01();
@@ -219,12 +219,12 @@ struct FUN_00802260_cls
     virtual void v78();
     virtual void v79();
     virtual FUN_0043f220_cls* v7a();
-    void __thiscall FOVATSEffectManager_ShowBipedObjectOnActor(FUN_00802260_cls* a1, int a2, unsigned char a3);
+    void __thiscall FOVATSEffectManager_ShowBipedObjectOnActor(FOVATSEffectManager* a1, int a2, unsigned char a3);
 };
 
 // @fnv 0x00802260
 // src: COMMUNITY 0x00802260
-void __thiscall FUN_00802260_cls::FOVATSEffectManager_ShowBipedObjectOnActor(FUN_00802260_cls* a1, int a2, unsigned char abFlag)
+void __thiscall FOVATSEffectManager::FOVATSEffectManager_ShowBipedObjectOnActor(FOVATSEffectManager* a1, int a2, unsigned char abFlag)
 {
     FUN_0043f220_cls* p = a1->v7a();
     if (p != 0)

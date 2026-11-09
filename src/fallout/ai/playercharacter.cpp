@@ -1784,7 +1784,7 @@ struct C68E30Owner
 
 int __cdecl PackBytesBigEndian(int value1, int value2, int value3, int value4);
 
-struct FUN_00621370Owner : GO
+struct CameraCaster : GO
 {
     GO member1;
 
@@ -1794,7 +1794,7 @@ struct FUN_00621370Owner : GO
 // For each nonzero handle (base and member1), calls its FUN_00c68df0 with owner and, if owner is non-null, owner->FUN_00c68e30 with it and a packed value.
 // @fnv 0x00621370
 // src: XBOX_PDB 0x00621370
-void FUN_00621370Owner::CameraCaster_Add(C68E30Owner* owner)
+void CameraCaster::CameraCaster_Add(C68E30Owner* owner)
 {
     if (static_cast<const GO&>(*this).operator unsigned int() != 0)
     {
@@ -32180,7 +32180,7 @@ struct FUN_008d32b0_shell
 {
     unsigned short __thiscall Character_GetSaveSize(int a1);
 };
-struct FUN_008d54e0_shell
+struct CharacterProgressionData
 {
     unsigned int unknown;
     unsigned short __thiscall GetSaveSizeFive(int a1);
@@ -32847,7 +32847,7 @@ struct This954
     unsigned int unk86c;
     unsigned int unk870;
     unsigned int unk874;
-    FUN_008d54e0_shell unk878;
+    CharacterProgressionData unk878;
     void* __thiscall BGSSaveFormBuffer_GetForm();
     unsigned short PlayerCharacter_GetSaveSize(int param);
 };

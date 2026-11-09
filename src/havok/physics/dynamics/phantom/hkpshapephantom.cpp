@@ -190,7 +190,7 @@ struct S00c9e830_Owner
 
     void hkpWorld_queueOperation(S00c9e830_Operation* operation);
     void FUN_00c91120();
-    void UpdateFields_00c91140();
+    void hkpWorld_internalExecutePendingBodyOperations();
     __forceinline void unlockAndAttemptToExecutePendingOperations()
     {
         --unk94;
@@ -199,7 +199,7 @@ struct S00c9e830_Owner
             if (unk8C != 0)
                 FUN_00c91120();
             if (unkA4 == 1 && unk90 != 0)
-                UpdateFields_00c91140();
+                hkpWorld_internalExecutePendingBodyOperations();
         }
     }
 };
@@ -324,7 +324,7 @@ struct __declspec(align(16)) FUN_00c9e910_Temporary
     int unk1C;
 };
 
-class FUN_00c9e910_Class
+class hkpShapePhantom
 {
   public:
     void* m_pVtable;
@@ -383,7 +383,7 @@ class FUN_00c9e910_Class
 // Copies 16 floats from value into unkB0..unkE0; if unk08 is set, calls unk10's method with value and a scaled factor, then passes the result to FUN_00d07ec0.
 // @fnv 0x00c9e910
 // src: XBOX_PDB 0x00c9e910
-void FUN_00c9e910_Class::hkpShapePhantom_setTransform(int value)
+void hkpShapePhantom::hkpShapePhantom_setTransform(int value)
 {
     const float* pMatrixData = reinterpret_cast<const float*>(value);
 

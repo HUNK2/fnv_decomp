@@ -492,7 +492,7 @@ char* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
 void __cdecl hkpWorldAgentUtil_addAgent(char* a, char* b, char* c);
 
-struct FUN_00d026e0_cls
+struct MtEntityEntityBroadPhaseListener
 {
     int unk00;
     char* m_04;
@@ -501,7 +501,7 @@ struct FUN_00d026e0_cls
 
 // Resolves two records from pr, and either appends the pair to the array at world+0x6c or updates sub+0x14 and calls FUN_00cc0f40 based on a grid lookup.
 // @fnv 0x00d026e0
-void FUN_00d026e0_cls::ProcessPair(int* aiPair)
+void MtEntityEntityBroadPhaseListener::ProcessPair(int* aiPair)
 {
     int a = aiPair[0];
     int x = a + *(signed char*)(a + 5);
@@ -3328,7 +3328,7 @@ struct StepWorld
     void IncrementCounter();
     void nullsub_6();
     void FUN_00c91120();
-    void UpdateFields_00c91140();
+    void hkpWorld_internalExecutePendingBodyOperations();
     void hkpWorld_unlock();
     int hkpWorld_getMemoryWatchDog();
 };
@@ -3792,7 +3792,7 @@ int Stepper::hkpMultiThreadedSimulation_finishMtStep(Job* job, Jobs* jobs)
             world->FUN_00c91120();
 
         if (world->f0a4 == 1 && world->f090)
-            world->UpdateFields_00c91140();
+            world->hkpWorld_internalExecutePendingBodyOperations();
     }
 
     result = 0;
@@ -5992,7 +5992,7 @@ struct SubObj
         return m_78;
     }
     void FUN_00c91120();
-    void UpdateFields_00c91140();
+    void hkpWorld_internalExecutePendingBodyOperations();
 };
 
 struct ElemSub
@@ -6499,7 +6499,7 @@ void ThisCls::hkpMultiThreadedSimulation_collideEntitiesNeedingPsiCollisionDetec
         if (sub->m_8c != 0)
             sub->FUN_00c91120();
         if (sub->m_a4 == 1 && sub->m_90 != 0)
-            sub->UpdateFields_00c91140();
+            sub->hkpWorld_internalExecutePendingBodyOperations();
     }
     TraceBuffer* pTraceBuf2 = (TraceBuffer*)TlsGetValue(DAT_0126835c);
     if (pTraceBuf2->next < pTraceBuf2->end)

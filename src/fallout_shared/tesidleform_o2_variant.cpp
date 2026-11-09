@@ -52,7 +52,7 @@ struct FUN_00600d90_shell
 {
     void FUN_00600d90();
 };
-struct FUN_00600d70_shell
+struct NiTStringMap
 {
     void ForwardCall_00600d70();
 };

@@ -485,7 +485,7 @@ MorphPoint3* __fastcall GetMorphVertices(NiGeomMorpherController* self, int)
 extern float DAT_011a854c[5];
 extern float DAT_011a8538[5];
 
-struct FUN_00a3e680_shell
+struct NiPathInterpolator
 {
     float SampleLength(int iA, int iB, float fT);
     float NiPathInterpolator_PathLength(int iA, int iB, float fT);
@@ -494,7 +494,7 @@ struct FUN_00a3e680_shell
 // Samples SampleLength at five scaled points from DAT_011a854c, weights each by DAT_011a8538, sums them and multiplies by fT.
 // @fnv 0x00a3e680
 // src: XBOX_PDB 0x00a3e680
-float FUN_00a3e680_shell::NiPathInterpolator_PathLength(int iA, int iB, float fT)
+float NiPathInterpolator::NiPathInterpolator_PathLength(int iA, int iB, float fT)
 {
     float fWeightedSum = 0.0f;
     for (int i = 0; i < 5; i++)

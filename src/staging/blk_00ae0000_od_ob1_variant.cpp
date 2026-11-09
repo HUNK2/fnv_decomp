@@ -132,7 +132,7 @@ struct FUN_00afd960_Class
 {
     void* vtbl;
     int iField;
-    void ProcessState_00afd960();
+    void SwapEndian();
 };
 struct FileFinder
 {
@@ -192,7 +192,7 @@ struct BSSystemUtilitiesStrings
     void* __thiscall BSSystemUtilitiesStrings_BSSystemUtilitiesStrings();
 };
 void __cdecl _sprintf_s(char* dst, unsigned int size, const char* fmt, ...);
-struct FUN_00afd860_Class
+struct BSHash
 {
     unsigned char m_acCharacterBuffer[4];
     int iValue;
@@ -2357,7 +2357,7 @@ struct FUN_00afdb80_cls
     char pad00[8];
     unsigned int* m_08;
 
-    void UpdateFields_00afdb80();
+    void SwapEndian();
 };
 unsigned int* __cdecl FUN_00ec3bad(unsigned int* value);
 struct FUN_00afdc00_Item

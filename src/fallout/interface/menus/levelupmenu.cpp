@@ -2179,7 +2179,7 @@ struct IMStandIn
 {
     void InterfaceManager_SetCurrentFocusTarget(int aiA, int aiB, int aiC);
 };
-struct FUN_00787600_shell
+struct ListBox
 {
     virtual void Unk_00(Tile* apTile);
     virtual void Unk_01();
@@ -2198,7 +2198,7 @@ struct FUN_00787600_shell
     void UpdateScrollTile(bool abFlag);
 };
 // @fnv 0x00787600
-void FUN_00787600_shell::UpdateScrollTile(bool abFlag)
+void ListBox::UpdateScrollTile(bool abFlag)
 {
     Tile* pTile = 0;
     if (m_pFourthMenuObject && pScrollTile)

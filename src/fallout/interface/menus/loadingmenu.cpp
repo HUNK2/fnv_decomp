@@ -994,7 +994,7 @@ class NiRendererV
     virtual void SetBackgroundColor(int*);
 };
 
-struct FUN_00424940_shell
+struct BGSSaveLoadManager
 {
     char InterfaceManager_GetMenuMode();
 };
@@ -1052,7 +1052,7 @@ void LoadingMenu::InitLoadingMenu(TESForm* apLocation)
         (*(Tile**)((char*)this + 4))->Set(0xfad, Tile::GetInterfaceScale(), true);
     }
 
-    if (((fnv_007890e0::FUN_00424940_shell*)InterfaceManager_GetSingleton())->InterfaceManager_GetMenuMode() != 3)
+    if (((fnv_007890e0::BGSSaveLoadManager*)InterfaceManager_GetSingleton())->InterfaceManager_GetMenuMode() != 3)
         ((fnv_007890e0::FUN_0041fd00_shell*)InterfaceManager_GetSingleton())->FUN_0041fd00(2);
 
     HUDMainMenu::UpdateVisibilityState(5);

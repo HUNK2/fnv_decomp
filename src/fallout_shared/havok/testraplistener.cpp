@@ -73,13 +73,13 @@ void FUN_0062d740_shell::UpdateFields_0062d740()
 struct FUN_0062dee0_shell
 {
     CombatWorldStateListNode* m_kNode;
-    bool ProcessEntries_0062dee0(int arg);
+    bool TESTrapListener_HasEntryForRef(int arg);
 };
 
 // Walks the linked list at this+0x20 and returns true if any node's _ref_0084e3a0() equals arg.
 // @fnv 0x0062dee0
-// src: GUESS 0x0062dee0 (confidence: low)
-bool __thiscall FUN_0062dee0_shell::ProcessEntries_0062dee0(int arg)
+// src: GUESS 0x0062dee0 (confidence: medium)
+bool __thiscall FUN_0062dee0_shell::TESTrapListener_HasEntryForRef(int arg)
 {
     CombatWorldStateListNode* p = *(CombatWorldStateListNode**)((char*)this + 0x20);
     while (p)
@@ -105,7 +105,7 @@ void FUN_0062e040_shell::SetVirtualTable_0062e040()
     *(int*)this = (int)&DAT_0104e3f4;
 }
 
-struct FUN_0062c700_shell
+struct BSList
 {
     void ForwardCall_0062c700();
 };
@@ -117,7 +117,7 @@ struct FUN_0062dfe0_shell
 
 // @fnv 0x0062c700
 // src: GUESS 0x0062c700 (confidence: low)
-void FUN_0062c700_shell::ForwardCall_0062c700()
+void BSList::ForwardCall_0062c700()
 {
     ((FUN_0062dfe0_shell*)this)->FUN_0062dfe0();
 }
@@ -203,7 +203,7 @@ TrapEventList* TrapEventList::bhkTTNode_RemoveFromList(TrapEventList* pHead)
     return pHead;
 }
 
-struct FUN_0062c720_shell : FUN_0062c700_shell
+struct FUN_0062c720_shell : BSList
 {
     void* ScalarDeletingDestructor(unsigned int flags);
 };
@@ -218,11 +218,11 @@ void* FUN_0062c720_shell::ScalarDeletingDestructor(unsigned int flags)
 }
 
 extern int DAT_0104e308;
-struct FUN_0062dfa0_shell
+struct BSListBase
 {
     void BSListBase_TriggerEntry_TriggerEvent_BSListBase_TriggerEntry_TriggerEvent();
 };
-struct FUN_0062c750_shell : FUN_0062dfa0_shell
+struct FUN_0062c750_shell : BSListBase
 {
     void* vtbl;
     FUN_0062c750_shell();
@@ -398,7 +398,7 @@ struct FUN_0062d550_shell
 };
 struct FUN_0062df60_shell
 {
-    FUN_0062d550_shell* BhkTTNode_TESObjectREFR_GetEntry_Thunk(int);
+    FUN_0062d550_shell* TESTrapListener_GetEntryForRef(int);
 };
 struct FUN_0062df20_shell
 {
@@ -411,7 +411,7 @@ struct FUN_0062df20_shell
 // src: COMMUNITY 0x0062df20
 bool FUN_0062df20_shell::TESTrapListener_IsRefInTrigger(int a1, int a2)
 {
-    FUN_0062d550_shell* t = m_32->BhkTTNode_TESObjectREFR_GetEntry_Thunk(a2);
+    FUN_0062d550_shell* t = m_32->TESTrapListener_GetEntryForRef(a2);
     if (!t)
         return false;
     return t->ForwardToMember(a1);
@@ -424,17 +424,17 @@ struct FUN_0057c400_shell
 };
 struct FUN_0062df60_shell
 {
-    void __thiscall BhkTTNode_TESObjectREFR_GetEntry_Thunk(unsigned int a);
+    void __thiscall TESTrapListener_GetEntryForRef(unsigned int a);
 };
 // @fnv 0x0062df60
 // src: GUESS 0x0062df60 (confidence: medium)
-void __thiscall FUN_0062df60_shell::BhkTTNode_TESObjectREFR_GetEntry_Thunk(unsigned int a)
+void __thiscall FUN_0062df60_shell::TESTrapListener_GetEntryForRef(unsigned int a)
 {
     ((FUN_0057c400_shell*)this)->bhkTTNode_TESObjectREFR_GetEntry(a);
 }
 }  // namespace fnv_0062df60
 
-struct FUN_0062df80_shell
+struct hkArray
 {
     void ForwardCall_0062df80();
 };
@@ -446,7 +446,7 @@ struct FUN_0062e170_shell
 
 // @fnv 0x0062df80
 // src: GUESS 0x0062df80 (confidence: low)
-void FUN_0062df80_shell::ForwardCall_0062df80()
+void hkArray::ForwardCall_0062df80()
 {
     reinterpret_cast<FUN_0062e170_shell*>(this)->FUN_0062e170();
 }
@@ -525,7 +525,7 @@ struct FUN_0062e290_Node
 {
     FUN_0062e290_Node* m_next;
 };
-struct FUN_0062e290_shell
+struct BSPointerListBase
 {
     virtual void vf0();
     virtual void vf1();
@@ -536,7 +536,7 @@ struct FUN_0062e290_shell
     void ClearList();
 };
 // @fnv 0x0062e290
-void FUN_0062e290_shell::ClearList()
+void BSPointerListBase::ClearList()
 {
     FUN_0062e290_Node* pNode = m_iWordAt04;
     while (pNode)
@@ -795,7 +795,7 @@ void FUN_0062db40_shell::TriggerEntry_GetTriggerEntry(int aiValue)
 }
 
 namespace fnv_0062dfa0 {
-struct FUN_0062dfa0_shell
+struct BSListBase
 {
     void* BSListBase_TriggerEntry_TriggerEvent_BSListBase_TriggerEntry_TriggerEvent();
 };
@@ -803,7 +803,7 @@ struct FUN_0062dfa0_shell
 // Sets the vtable pointer and clears the three pointer fields at offsets 4, 8 and 12, then returns this.
 // @fnv 0x0062dfa0
 // src: COMMUNITY 0x0062dfa0
-void* __thiscall FUN_0062dfa0_shell::BSListBase_TriggerEntry_TriggerEvent_BSListBase_TriggerEntry_TriggerEvent()
+void* __thiscall BSListBase::BSListBase_TriggerEntry_TriggerEvent_BSListBase_TriggerEntry_TriggerEvent()
 {
     *(void**)this = &DAT_0104e3f4;
     *(int**)((char*)this + 0xc) = 0;
@@ -1247,7 +1247,7 @@ class FUN_0062dfe0 : public FUN_0062e040_base
 // @fnv 0x0062dfe0
 FUN_0062dfe0::~FUN_0062dfe0()
 {
-    ((FUN_0062e290_shell*)this)->ClearList();
+    ((BSPointerListBase*)this)->ClearList();
 }
 
 // FUN_0062e150 : thiscall, one stack argument (index), returns a pointer.

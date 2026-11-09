@@ -280,12 +280,12 @@ struct FUN_00afd960_Class
 {
     void* vtbl;
     int iField;
-    void ProcessState_00afd960();
+    void SwapEndian();
 };
 
 // @fnv 0x00afd960
-// src: GUESS 0x00afd960 (confidence: low)
-void FUN_00afd960_Class::ProcessState_00afd960()
+// src: GUESS 0x00afd960 (confidence: medium)
+void FUN_00afd960_Class::SwapEndian()
 {
     void* pUnused[6];
     SwapByteQuadWords((char*)this + 4, 1);
@@ -468,7 +468,7 @@ void* __thiscall BSSystemUtilitiesStrings::BSSystemUtilitiesStrings_BSSystemUtil
 
 void __cdecl _sprintf_s(char* dst, unsigned int size, const char* fmt, ...);
 
-struct FUN_00afd860_Class
+struct BSHash
 {
     unsigned char m_acCharacterBuffer[4];
     int iValue;
@@ -477,7 +477,7 @@ struct FUN_00afd860_Class
 
 // @fnv 0x00afd860
 // src: COMMUNITY 0x00afd860
-void __thiscall FUN_00afd860_Class::BSHash_MakeHashString(char* dst)
+void __thiscall BSHash::BSHash_MakeHashString(char* dst)
 {
     if (dst)
         _sprintf_s(dst, 0x20, "%c%02X%c%c%08X", m_acCharacterBuffer[3], m_acCharacterBuffer[2], m_acCharacterBuffer[1],
@@ -3664,14 +3664,14 @@ struct FUN_00afdb80_cls
     char pad00[8];
     unsigned int* m_08;
 
-    void UpdateFields_00afdb80();
+    void SwapEndian();
 };
 
 unsigned int* __cdecl FUN_00ec3bad(unsigned int* value);
 
 // @fnv 0x00afdb80
-// src: GUESS 0x00afdb80 (confidence: low)
-void FUN_00afdb80_cls::UpdateFields_00afdb80()
+// src: GUESS 0x00afdb80 (confidence: medium)
+void FUN_00afdb80_cls::SwapEndian()
 {
     Flag flag_ = {};
     bool copy = flag_.m_kPointB;
@@ -5583,12 +5583,12 @@ struct FUN_00afdb20_Class
     int unk04;
     int m_08;
     int m_0c;
-    void UpdateFields_00afdb20();
+    void SwapEndian();
 };
 // Replaces m_08 and m_0c with FUN_00ec3bad applied to each of their current values.
 // @fnv 0x00afdb20
-// src: GUESS 0x00afdb20 (confidence: low)
-void FUN_00afdb20_Class::UpdateFields_00afdb20()
+// src: GUESS 0x00afdb20 (confidence: medium)
+void FUN_00afdb20_Class::SwapEndian()
 {
     Marker c0 = {};
     Marker f0 = c0;

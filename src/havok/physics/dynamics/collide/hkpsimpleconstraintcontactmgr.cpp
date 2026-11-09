@@ -464,14 +464,14 @@ struct OffsetDescriptor {
     signed char relativeOffset;
 };
 
-struct FUN_00cfd780_class {
+struct Factory {
     void* unk00;
     void* unk04;
     void* m_08;
     hkpSimpleConstraintContactMgr* AllocateContactObject(OffsetDescriptor* first, OffsetDescriptor* second, int unused);
 };
 // @fnv 0x00cfd780
-hkpSimpleConstraintContactMgr* FUN_00cfd780_class::AllocateContactObject(OffsetDescriptor* first, OffsetDescriptor* second, int unused)
+hkpSimpleConstraintContactMgr* Factory::AllocateContactObject(OffsetDescriptor* first, OffsetDescriptor* second, int unused)
 {
     void* relativeFirst = (char*)first + first->relativeOffset;
     void* relativeSecond = (char*)second + second->relativeOffset;

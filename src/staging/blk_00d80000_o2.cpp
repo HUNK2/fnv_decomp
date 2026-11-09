@@ -3031,13 +3031,13 @@ int __cdecl GetTypeCodeFromString(const char* name) throw()
     return 0;
 }
 
-struct FUN_00d87180_cls : S {
-    FUN_00d87180_cls* hkClassMemberAccessor_hkClassMemberAccessor(unsigned int a, B* b);
+struct hkClassMemberAccessor : S {
+    hkClassMemberAccessor* hkClassMemberAccessor_hkClassMemberAccessor(unsigned int a, B* b);
 };
 
 // @fnv 0x00d87180
 // src: HAVOK_LIB 0x00d87180
-FUN_00d87180_cls* FUN_00d87180_cls::hkClassMemberAccessor_hkClassMemberAccessor(unsigned int auiValue, B* apPtr)
+hkClassMemberAccessor* hkClassMemberAccessor::hkClassMemberAccessor_hkClassMemberAccessor(unsigned int auiValue, B* apPtr)
 {
     void (S::*call)(unsigned int, B*) = &S::SetValueAndPtr;
     (static_cast<S*>(this)->*call)(auiValue, apPtr);

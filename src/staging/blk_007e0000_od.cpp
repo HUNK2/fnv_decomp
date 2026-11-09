@@ -116,14 +116,14 @@ struct Flt
     operator unsigned int();
 };
 
-struct FUN_007fd640Class
+struct InterfaceManager
 {
     unsigned int RaceSexMenu_GetProjectorFile();
 };
 
 // @fnv 0x007fd640
 // src: XBOX_PDB 0x007fd640
-unsigned int FUN_007fd640Class::RaceSexMenu_GetProjectorFile()
+unsigned int InterfaceManager::RaceSexMenu_GetProjectorFile()
 {
     return ((Flt*)((char*)this + 0x90))->operator unsigned int();
 }

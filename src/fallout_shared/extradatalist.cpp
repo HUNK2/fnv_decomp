@@ -2403,7 +2403,7 @@ struct FUN_0041cf30_shell : public ExtraDataList
 
 struct Crime
 {
-    void RemoveActorAndDecrementCount(Actor*);
+    void Crime_RemoveWitness(Actor*);
 };
 
 struct ExtraPlayerCrimeList_local : public LegacyExtraData
@@ -2418,7 +2418,7 @@ struct BaseExtraList_local
 
 extern "C"
 {
-    void __cdecl RemoveActorAndDecrementCount();
+    void __cdecl Crime_RemoveWitness();
     void __cdecl BaseExtraList_RemoveExtra();
 }
 
@@ -2436,7 +2436,7 @@ void FUN_0041cf30_shell::ExtraDataList_RemovePlayerCrimeListExtra(Actor* apActor
             while (pCurrentElementNext && pCurrentElementNext->GetItem() != 0)
             {
                 Crime* pcrime = pCurrentElementNext->GetItem();
-                reinterpret_cast<void(__thiscall*)(Crime*, Actor*)>(&RemoveActorAndDecrementCount)(pcrime, apActor);
+                reinterpret_cast<void(__thiscall*)(Crime*, Actor*)>(&Crime_RemoveWitness)(pcrime, apActor);
                 pCurrentElementNext = pCurrentElementNext->GetNext();
             }
             reinterpret_cast<BSSimpleList<int>*>(pExtra->pCrimeList)->RemoveAll();
@@ -6503,7 +6503,8 @@ void _Deallocate(void*);
 
 // Calls FUN_00432f30 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0041b680
-void* ExtraAction::FUN_0041b680(unsigned int flags)
+// src: GUESS 0x0041b680 (confidence: medium)
+void* ExtraAction::BSExtraData_ScalarDeletingDestructor(unsigned int flags)
 {
     DestroyActionExtra(this);
     if (flags & 1)
@@ -7105,7 +7106,7 @@ template <class T> class NiPointer_0069bb00
     ~NiPointer_0069bb00();
     T* m_pObject;
 };
-struct FUN_0069bb00_t
+struct NavMeshArray
 {
     int FindIndex(NiPointer_0069bb00<NavMesh> apSearchNavMesh);
     void RemoveAndCollect(int iIndex);
@@ -7113,7 +7114,7 @@ struct FUN_0069bb00_t
 };
 // @fnv 0x0069bb00
 // src: COMMUNITY 0x0069bb00
-void FUN_0069bb00_t::NavMeshArray_RemoveNavMesh(NiPointer_0069bb00<NavMesh> apNavMesh)
+void NavMeshArray::NavMeshArray_RemoveNavMesh(NiPointer_0069bb00<NavMesh> apNavMesh)
 {
     int iIndex = FindIndex(apNavMesh);
     if (iIndex != -1)
@@ -7159,14 +7160,14 @@ template <int N> struct EndianSizeTag
 
 void __cdecl BSEndian(int*, EndianSizeTag<2>);
 
-struct FUN_004140f0_struct
+struct OCCLUSION_PLANE_DATA
 {
     void ProcessState_004140f0();
 };
 
 // @fnv 0x004140f0
 // src: GUESS 0x004140f0 (confidence: low)
-void FUN_004140f0_struct::ProcessState_004140f0()
+void OCCLUSION_PLANE_DATA::ProcessState_004140f0()
 {
     BSEndian((int*)(this + 0), EndianSizeTag<2>());
     BSEndian((int*)(this + 4), EndianSizeTag<2>());
@@ -13426,7 +13427,7 @@ FUN_00420630_cls::~FUN_00420630_cls()
 
 struct FUN_00420690_tex
 {
-    int FUN_004206e0(unsigned int flags);
+    int RoomLinkedRefData(unsigned int flags);
 };
 
 struct FUN_00420690_cls
@@ -13448,7 +13449,7 @@ void FUN_00420690_cls::ExtraRoomRefData_Clear()
     {
         copy = m_0c;
         tmp = copy;
-        tmp != 0 ? tmp->FUN_004206e0(1) : 0;
+        tmp != 0 ? tmp->RoomLinkedRefData(1) : 0;
     }
     m_0c = 0;
 }
@@ -14508,7 +14509,7 @@ struct PrimitiveRecord
     Color4 color;
     unsigned int type;
     void FUN_004143f0();
-    void FUN_00414290();
+    void OBJ_TREE();
 };
 struct PrimitiveData
 {
@@ -15014,10 +15015,10 @@ void ExtraList::WriteToSave()
             recordSlot10.color = primitiveSlot0->BGSPrimitive_GetColor();
             recordSlot10.type = primitiveSlot0->FUN_00726070();
             if (TESForm_QEndianSwapOnSave())
-                recordSlot10.FUN_00414290();
+                recordSlot10.OBJ_TREE();
             TESForm___AddChunkData('MRPX', &recordSlot10, 32);
             if (TESForm_QEndianSwapOnSave())
-                recordSlot10.FUN_00414290();
+                recordSlot10.OBJ_TREE();
             break;
         }
         case 111: {
@@ -15378,7 +15379,7 @@ struct Primitive
     float r, g, b, a;
     int type;
     Primitive();
-    void FUN_00414290();
+    void OBJ_TREE();
 };
 void* __cdecl BGSPrimitive_CreateObjects(int, void*, void*);
 struct OcclusionLoad
@@ -16094,7 +16095,7 @@ void loader::List::LoadExtraData(File* file, void* owner)
         memset(&data, 0, 32);
         file->FUN_00472890(&data, 32);
         if (file->FUN_00401680())
-            data.FUN_00414290();
+            data.OBJ_TREE();
         void* primitive = BGSPrimitive_CreateObjects(data.type, &data, &data.r);
         if (primitive)
             ExtraDataList_AddPrimitive(primitive);
@@ -20799,13 +20800,14 @@ void FUN_0041db50_Class::ExtraDataList_SetEnableStateInverse(bool bFlag)
     }
 }
 
-struct FUN_004206e0
+struct RoomLinkedRefData
 {
-    virtual ~FUN_004206e0();
+    virtual ~RoomLinkedRefData();
 };
-// Empty destructor for the FUN_004206e0 class.
+// Empty destructor for the RoomLinkedRefData class.
 // @fnv 0x004206e0
-FUN_004206e0::~FUN_004206e0()
+// src: GUESS 0x004206e0 (confidence: high)
+RoomLinkedRefData::~RoomLinkedRefData()
 {}
 
 // Constructs this object with base type 0x60 and initializes actorCause to null.

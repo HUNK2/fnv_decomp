@@ -38,7 +38,7 @@ struct bhkSpringDamperConstraintMotor {
     int vtable;
     bhkSpringDamperConstraintMotor();
 };
-struct FUN_00cf4ca0_class {
+struct hkpBinaryAction {
     int m_auiShapeKeys[6];
     hkReferencedObject* m_kPointA;
     hkReferencedObject* m_kPointB;
@@ -97,7 +97,7 @@ struct FUN_00cf86d0_cls {
 extern int DAT_010cb864;
 extern int DAT_0102e388;
 // Sub-object at +0x10; FUN_00ce5370 is the game's constructor for it.
-struct FUN_00ce5370_cls {
+struct hkaSkeletonMapperData {
     void UpdateState_00ce5370();
 };
 struct hkaSkeletonMapper {
@@ -105,7 +105,7 @@ struct hkaSkeletonMapper {
     int unk04;               // +0x04
     int unk08;               // +0x08
     int unk0C;               // +0x0C
-    FUN_00ce5370_cls m_sub;  // +0x10
+    hkaSkeletonMapperData m_sub;  // +0x10
     void UpdateFields_00ce29e0();
 };
 struct FnvSpawnedObject;
@@ -1048,7 +1048,7 @@ struct RotationX {
     __forceinline const hkVector4& imag() const { return vec; }
     void ComputeValues_00cd9d10(const hkVector4&, const hkVector4&) throw();
     void setMulInverse(const RotationX&, const RotationX&) throw();
-    void SetQuaternionProduct(const RotationX&) throw();
+    void hkQuaternion_mul(const RotationX&) throw();
     void setMul(const RotationX&, const RotationX&) throw();
 };
 static __forceinline void RotateVector(hkVector4& out,const RotationX& q,const hkVector4& dir) {
@@ -1106,7 +1106,7 @@ inline void RotationX::setMul(const RotationX& a,const RotationX& b) throw() {
     vec.setXYZW(result,real);
 }
 // src: GUESS 0x00ce0ca0 (confidence: medium)
-inline void RotationX::SetQuaternionProduct(const RotationX& b) throw() {
+inline void RotationX::hkQuaternion_mul(const RotationX& b) throw() {
     hkVector4 result; result.setCross(imag(),b.imag());
     result.addMul4(vec.getSimdAt(3),b.imag());
     result.addMul4(b.vec.getSimdAt(3),imag());
@@ -1330,7 +1330,7 @@ void __cdecl MapperX::hkaSkeletonMapper_mapPoseLocalSpace(const PoseX* original,
             RotationX shortest; shortest.ComputeValues_00cd9d10(posB,posA);
             RotationX offset; offset.vec=r.end.translation;
             RotationX applied; applied.setMulInverse(shortest,offset);
-            output[c].rotation.SetQuaternionProduct(applied);
+            output[c].rotation.hkQuaternion_mul(applied);
             output[d].rotation.setMul(r.end.rotation,input[b].rotation);
         }
     }

@@ -1436,7 +1436,7 @@ BSAudio* __cdecl hkMemoryRouter_getInstance();
 
 extern int DAT_0102e388;
 
-struct FUN_00e00000_cls
+struct hkpLinearParametricCurve
 {
     int m_vptr00;
     int unk04;
@@ -1459,7 +1459,7 @@ struct FUN_00e00000_cls
 // Frees both allocated arrays through the audio allocator, resets their counts and capacity bits, and sets the vtable pointer.
 // @fnv 0x00e00000
 // src: GUESS 0x00e00000 (confidence: medium)
-void FUN_00e00000_cls::ReleaseBothArrays()
+void hkpLinearParametricCurve::ReleaseBothArrays()
 {
     hkMemoryRouter* pHolder = (hkMemoryRouter*)hkMemoryRouter_getInstance();
     hkMemoryAllocator* pAllocator = reinterpret_cast<hkMemoryAllocator*>(pHolder->m_heap);
@@ -3027,16 +3027,17 @@ struct S_00e01750_Base
     virtual ~S_00e01750_Base() throw()
     {}
 };
-struct __declspec(novtable) FUN_00e01750 : S_00e01750_Base
+struct __declspec(novtable) hkxTextureInplace : S_00e01750_Base
 {
     S_00e01750_Array arr;
     S_Handle h18;
     S_Handle h1c;
-    ~FUN_00e01750() throw();
+    ~hkxTextureInplace() throw();
 };
 // Destroys the object, releasing its array and the two handles through their destructors.
 // @fnv 0x00e01750
-FUN_00e01750::~FUN_00e01750() throw()
+// src: GUESS 0x00e01750 (confidence: high)
+hkxTextureInplace::~hkxTextureInplace() throw()
 {}
 }  // namespace fnv_00e01750
 
@@ -3148,17 +3149,18 @@ struct S_00e01a50_Base
     {}
 };
 
-struct __declspec(novtable) FUN_00e01a50 : S_00e01a50_Base
+struct __declspec(novtable) hkxSparselyAnimatedBool : S_00e01a50_Base
 {
     int unk04;
     hkArray<char, S_00e01a50_ArrayPolicy> m_bytes;
     hkArray<int, S_00e01a50_ArrayPolicy> m_auiHeaderValues;
-    ~FUN_00e01a50() throw();
+    ~hkxSparselyAnimatedBool() throw();
 };
 
 // Destructor that releases the char and int arrays through the router's heap allocator.
 // @fnv 0x00e01a50
-FUN_00e01a50::~FUN_00e01a50() throw()
+// src: GUESS 0x00e01a50 (confidence: high)
+hkxSparselyAnimatedBool::~hkxSparselyAnimatedBool() throw()
 {}
 }  // namespace fnv_00e01a50
 
@@ -3280,16 +3282,17 @@ struct S_00e01b30_Base
     {}
     int unk04;
 };
-struct __declspec(novtable) FUN_00e01b30 : S_00e01b30_Base
+struct __declspec(novtable) hkxSkinBinding : S_00e01b30_Base
 {
     S_00e01b30_RefPtr m_ref;
     hkArray<S_00e01b30_Elem4, S_00e01b30_ArrayPolicy> m_kPointA;
     hkArray<S_00e01b30_Elem64, S_00e01b30_ArrayPolicy> m_kPointB;
-    virtual ~FUN_00e01b30() throw();
+    virtual ~hkxSkinBinding() throw();
 };
 // Destroys the object, releasing its reference-counted target and both arrays through their member destructors.
 // @fnv 0x00e01b30
-FUN_00e01b30::~FUN_00e01b30() throw()
+// src: GUESS 0x00e01b30 (confidence: high)
+hkxSkinBinding::~hkxSkinBinding() throw()
 {}
 }  // namespace fnv_00e01b30
 
@@ -3467,7 +3470,7 @@ struct FUN_00cb0c00_class
     void __thiscall Object_UpdateFields_00cb0c00();
 };
 
-struct FUN_00e021d0_class
+struct hkxMaterialShader
 {
     int* unk00;
     int unk04;
@@ -3486,7 +3489,7 @@ struct FUN_00e021d0_class
 extern int DAT_0102e388;
 
 // @fnv 0x00e021d0
-void FUN_00e021d0_class::ClearAndReset()
+void hkxMaterialShader::ClearAndReset()
 {
     hkMemoryRouter& manager = hkMemoryRouter::getInstance();
     FUN_00e021d0_allocator* allocator = reinterpret_cast<FUN_00e021d0_allocator*>(manager.m_heap);
@@ -3599,10 +3602,10 @@ class E023C0BaseObject
     {}
 };
 
-class __declspec(novtable) FUN_00e023c0 : public E023C0BaseObject
+class __declspec(novtable) hkxIndexBuffer : public E023C0BaseObject
 {
   public:
-    virtual ~FUN_00e023c0();
+    virtual ~hkxIndexBuffer();
 
     int m_usMemSizeAndFlags;
     int unk08;
@@ -3612,7 +3615,8 @@ class __declspec(novtable) FUN_00e023c0 : public E023C0BaseObject
 
 // Empty destructor for the object; member arrays are destroyed by their own destructors.
 // @fnv 0x00e023c0
-FUN_00e023c0::~FUN_00e023c0()
+// src: GUESS 0x00e023c0 (confidence: high)
+hkxIndexBuffer::~hkxIndexBuffer()
 {}
 }  // namespace fnv_00e023c0
 
@@ -7246,7 +7250,7 @@ void TimedEntryCollection::RemoveExpiredEntries(float threshold)
     }
 }
 
-struct FUN_00e00dd0_cls
+struct hkpConvexVerticesConnectivity
 {
     int vptr00;
     int unk04;
@@ -7263,7 +7267,7 @@ struct FUN_00e00dd0_cls
 // Frees the two dynamic arrays held by the object via the audio allocator, resets their pointers and sizes, then sets the vtable pointer.
 // @fnv 0x00e00dd0
 // src: GUESS 0x00e00dd0 (confidence: low)
-void __thiscall FUN_00e00dd0_cls::UpdateState_00e00dd0()
+void __thiscall hkpConvexVerticesConnectivity::UpdateState_00e00dd0()
 {
     hkMemoryRouter* holder = reinterpret_cast<hkMemoryRouter*>(hkMemoryRouter_getInstance());
     hkMemoryAllocator* allocator = reinterpret_cast<hkMemoryAllocator*>(holder->m_heap);

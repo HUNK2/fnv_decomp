@@ -640,12 +640,12 @@ struct FUN_00a1e4d0_shell
     unsigned char pad2[4];
     unsigned short m_usGrowBy;
     void Resize(unsigned int);
-    unsigned int SetAtWithGrowth(unsigned int uiIndex, Tile*& element);
+    unsigned int NiTArray_SetAtGrow(unsigned int uiIndex, Tile*& element);
 };
 // Grows the array if uiIndex is beyond m_usMaxSize, stores element at uiIndex via SetAt, and returns uiIndex.
 // @fnv 0x00a1e4d0
-// src: GUESS 0x00a1e4d0 (confidence: high)
-unsigned int FUN_00a1e4d0_shell::SetAtWithGrowth(unsigned int uiIndex, Tile*& element)
+// src: GUESS 0x00a1e4d0 (confidence: medium)
+unsigned int FUN_00a1e4d0_shell::NiTArray_SetAtGrow(unsigned int uiIndex, Tile*& element)
 {
     unsigned int a;
     unsigned int b;
@@ -851,10 +851,10 @@ struct FUN_00a0ad40
     ~FUN_00a0ad40();
 };
 
-struct FUN_00a0ac80 : public FUN_00a0ad40
+struct Tile_BuildStorage : public FUN_00a0ad40
 {
     void Init(int*, int);
-    FUN_00a0ac80()
+    Tile_BuildStorage()
     {
         int* pkItem = data;
         int iIndex = 0;
@@ -878,7 +878,7 @@ struct FUN_00a0ac80 : public FUN_00a0ad40
     }
 };
 
-extern FUN_00a0ac80* DAT_011f32d0;
+extern Tile_BuildStorage* DAT_011f32d0;
 
 Tile* __fastcall Tile_BuildAndNameTree(Tile*, void*);
 
@@ -903,8 +903,8 @@ Tile* Menu::CreateTileFromTemplate(Tile* apParent, const char* axName, Tile* apL
     }
     if (ptemplate)
     {
-        FUN_00a0ac80* pbuild = DAT_011f32d0;
-        DAT_011f32d0 = new FUN_00a0ac80;
+        Tile_BuildStorage* pbuild = DAT_011f32d0;
+        DAT_011f32d0 = new Tile_BuildStorage;
         ((Tile__BuildStorage*)DAT_011f32d0)->SetTileTemplate(ptemplate);
         preturn_val = ((Tile*(__thiscall*)(Tile*, void*)) &Tile_BuildAndNameTree)(apParent, ptemplate);
         ((void(__thiscall*)(Tile*, Tile__TileTemplate*)) &ApplyTileTemplate)(preturn_val, ptemplate);

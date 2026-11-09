@@ -5111,7 +5111,7 @@ struct ListInserter
     const char* templateName;
     unsigned short nextID, unk1e;
     bool ListBox_unsigned_int_GetFlag(unsigned int);
-    void ProcessEntries_007a6480();
+    void ListBox_UpdateTileIndices();
     void AccumulateTileHeight(InsertTile*);
     void UpdateScrollTraits_007a6920();
     int GetRaceCount();
@@ -5133,7 +5133,7 @@ InsertTile* ListInserter::InsertTileFromTemplate(void* data, const char* text, I
         {
             items.BSSimpleList_ActiveEffect_Insert(new FUN_007a62e0(pTile, data), compare);
             if (ListBox_unsigned_int_GetFlag(0))
-                ProcessEntries_007a6480();
+                ListBox_UpdateTileIndices();
         }
         else
         {
@@ -5426,7 +5426,7 @@ struct InsertBox
     void AccumulateTileHeight(Tile*);
     int GetRaceCount();
     void ProcessEntries_007a7260();
-    void UpdateScrollTraits_007a7700();
+    void ListBox_UpdateScrollDelta();
     Tile* ListBox_TESObjectREFR_AddItem(int item, const char* text, int (*sortFunc)(LBItem*, LBItem*), const char* altTemplate);
 };
 // Creates a tile for an item via the parent menu, sets its text and value, adds it to the list (sorted or appended), and updates the filtered-count value.
@@ -5454,7 +5454,7 @@ Tile* InsertBox::ListBox_TESObjectREFR_AddItem(int item, const char* text, int (
             if (ListBox_unsigned_int_GetFlag(0))
             {
                 AccumulateTileHeight(tile);
-                UpdateScrollTraits_007a7700();
+                ListBox_UpdateScrollDelta();
             }
             tile->Set(0xfac, itemCount++);
         }
@@ -5737,12 +5737,12 @@ struct FUN_007a7700_Menu
     char pad18[8];
     float fScrollRange;
     unsigned int GetUnfilteredRaceCount();
-    void UpdateScrollTraits_007a7700();
+    void ListBox_UpdateScrollDelta();
 };
 // Computes the scroll page count from fScrollRange and the tile's page size, then stores _scroll_delta and _number_of_items on the tiles.
 // @fnv 0x007a7700
 // src: GUESS 0x007a7700 (confidence: medium)
-void FUN_007a7700_Menu::UpdateScrollTraits_007a7700()
+void FUN_007a7700_Menu::ListBox_UpdateScrollDelta()
 {
     if (m_pHighlightedTile)
     {
@@ -5909,14 +5909,14 @@ void ScrollList::ListBox_BGSQuestObjective_SetTotalListHeight()
     }
 }
 
-struct FUN_006f48b0
+struct TeleportPath
 {
     int d[14];
-    FUN_006f48b0();
-    ~FUN_006f48b0();
+    TeleportPath();
+    ~TeleportPath();
     float GetPathLength();
 };
-typedef FUN_006f48b0 D6200Obj;
+typedef TeleportPath D6200Obj;
 bool __cdecl BuildPathWithDoors(void* a, void* b, D6200Obj* o, int c, int d);
 // Builds a D6200Obj via BuildPathWithDoors; on success writes o.GetPathLength() to out and returns true, otherwise writes 0.0f and returns false.
 // @fnv 0x006d6200
@@ -6029,7 +6029,7 @@ struct FUN_007a3d20_cls
     float unk20;
 
     void ListBox_TESObjectREFR_Filter(bool (*pfnFilter)(int));
-    void UpdateScrollTraits_007a7700();
+    void ListBox_UpdateScrollDelta();
     Tile* ForwardCall_007a6250();
     void UpdateHighlightTraits_007a73e0();
     void AccumulateTileHeight(Tile*);
@@ -6071,7 +6071,7 @@ void FUN_007a3d20_cls::ListBox_TESObjectREFR_Filter(bool (*pfnFilter)(int))
     }
 
     this->parentTile->Set(numFiltered, (unsigned int)count);
-    this->UpdateScrollTraits_007a7700();
+    this->ListBox_UpdateScrollDelta();
     if (this->selected == 0 && selIdx >= 0)
         this->selected = this->vfn14(selIdx, 0);
     if (this->selected == 0 && selIdx >= 0)

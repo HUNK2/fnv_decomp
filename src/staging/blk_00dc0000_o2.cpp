@@ -171,7 +171,7 @@ void __thiscall FUN_00dd4b70_class::hkpMoppCompiler_enableInterleavedBuilding(un
 
 extern int DAT_0102e388;
 
-struct FUN_00dd51d0_class
+struct hkBaseObject
 {
     int m_00;
     int m_04;
@@ -181,22 +181,22 @@ struct FUN_00dd51d0_class
 
 // @fnv 0x00dd51d0
 // src: GUESS 0x00dd51d0 (confidence: low)
-void FUN_00dd51d0_class::InitializeFields_00dd51d0()
+void hkBaseObject::InitializeFields_00dd51d0()
 {
     m_08 = 0;
     m_00 = (int)&DAT_0102e388;
 }
 
-struct FUN_00ddfb70_cls
+struct hkpShapeDisplayBuilderEnvironment
 {
     int m_00;
     int m_04;
-    FUN_00ddfb70_cls* hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
+    hkpShapeDisplayBuilderEnvironment* hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment();
 };
 
 // @fnv 0x00ddfb70
 // src: HAVOK_LIB 0x00ddfb70
-FUN_00ddfb70_cls* FUN_00ddfb70_cls::hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment()
+hkpShapeDisplayBuilderEnvironment* hkpShapeDisplayBuilderEnvironment::hkpShapeDisplayBuilder_hkpShapeDisplayBuilderEnvironment_hkpShapeDisplayBuilderEnvironment()
 {
     m_00 = 8;
     m_04 = 8;
@@ -787,14 +787,14 @@ struct FnvCpu_FUN_00dcd480_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00d4bd60();
+    void hkpMeshShape();
     FnvCpu_FUN_00dcd480_CpuObject* hkpMeshShape_Destroy(unsigned int flags);
 };
 // @fnv 0x00dcd480
 // src: COMMUNITY 0x00dcd480
 FnvCpu_FUN_00dcd480_CpuObject* FnvCpu_FUN_00dcd480_CpuObject::hkpMeshShape_Destroy(unsigned int flags)
 {
-    FUN_00d4bd60();
+    hkpMeshShape();
     if (flags & 1)
     {
         hkMemoryRouter* holder = hkMemoryRouter_getInstance();

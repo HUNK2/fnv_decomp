@@ -52,7 +52,7 @@ extern "C" void __stdcall hkxAttributeGroup_findAttributeObjectByName(int, int);
 struct GlobalObjectO2_00d472a0;
 extern GlobalObjectO2_00d472a0 g_0126c5f0;
 void __stdcall Runtime_ForwardCall_00e5c5f0(int a);
-struct FUN_00e459c0_class
+struct hkpGroupFilter
 {
     void SetBitMaskFlags(int a, int b);
 };
@@ -93,7 +93,7 @@ struct FUN_00e407d0_class
 {
     void SetSlotValue(int idx, char b);
 };
-struct FUN_00e426f0_class
+struct hkpVehicleCastBatchingManager
 {
     unsigned short m_00;
     unsigned short m_02;
@@ -1653,13 +1653,13 @@ struct Base
         refs = 1;
     }
 };
-struct FUN_00e4a1d0 : Base
+struct hkMemoryMeshShape : Base
 {
     Arr<Entry> entries;
     Arr<unsigned short> shorts;
     Arr<unsigned int> ints;
     String label;
-    FUN_00e4a1d0(const Entry* source, int count);
+    hkMemoryMeshShape(const Entry* source, int count);
     virtual void dummy();
 };
 struct E51F00Format

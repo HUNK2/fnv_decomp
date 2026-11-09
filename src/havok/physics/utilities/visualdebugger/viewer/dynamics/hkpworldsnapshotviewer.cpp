@@ -64,7 +64,7 @@ void __cdecl RegisterSnapshotCommands()
     DAT_01268fc0 = DAT_01269cd0->hkProcessFactory_registerProcess("* Grab World Snapshot PC", AllocateRecordWithData);
 }
 
-struct FUN_00c7be20_cls;
+struct bhkRagdollController;
 
 struct FUN_00c7be20_src
 {
@@ -84,7 +84,7 @@ struct FUN_00c7be20_arr
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 void __cdecl hkArrayUtil__reserve(void* allocator, FUN_00c7be20_arr* self, unsigned int newCap, int elemSize);
 
-struct FUN_00c7be20_cls
+struct bhkRagdollController
 {
     int unk00;
     int unk04;
@@ -111,7 +111,7 @@ struct FUN_00c7be20_cls
 
 // Grows the output array to hold m_48's element count, sets its size, then copies the elements from m_48->m_08 into it.
 // @fnv 0x00c7be20
-void FUN_00c7be20_cls::CopySourceArray(FUN_00c7be20_arr* out)
+void bhkRagdollController::CopySourceArray(FUN_00c7be20_arr* out)
 {
     FUN_00c7be20_src* pSource = m_48;
     if (pSource != 0)

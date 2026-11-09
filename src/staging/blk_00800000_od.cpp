@@ -846,14 +846,14 @@ struct FUN_0080d930 : FUN_00803ed0
 FUN_0080d930::~FUN_0080d930()
 {}
 
-struct FUN_00622290_cls
+struct CFilter
 {
     void __thiscall SetPackedValue(int a, int b, int c);
 };
 struct FUN_00810590_Class
 {
     char pad[0x84];
-    FUN_00622290_cls sub;
+    CFilter sub;
     void bhkCharacterControllerCinfo_SetColFilter(int a, int b);
 };
 // Calls the sub-object's method with the two arguments and a zero third argument.

@@ -1272,7 +1272,7 @@ void NiGeometry::CalculateNormals()
 
 namespace fnv_004a2c00 {
 
-struct FUN_004a2c00_shell
+struct BSTempEffectGeometryDecal
 {
     char pad[0x34];
     GO m_go;
@@ -1280,7 +1280,7 @@ struct FUN_004a2c00_shell
 };
 
 // @fnv 0x004a2c00
-void FUN_004a2c00_shell::AssignGo(void* arg)
+void BSTempEffectGeometryDecal::AssignGo(void* arg)
 {
     m_go = arg;
 }

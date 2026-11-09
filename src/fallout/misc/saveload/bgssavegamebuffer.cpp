@@ -132,14 +132,14 @@ void __thiscall FUN_009f3850_shell::SandBoxChoiceListItem_SaveGame(BGSSaveFormBu
     apBuffer->SerializeFormData(m_00, 0);
 }
 
-struct FUN_006e2350_shell
+struct PathingNode
 {
     void __thiscall SaveState_006e2350(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x006e2350
 // src: GUESS 0x006e2350 (confidence: medium)
-void __thiscall FUN_006e2350_shell::SaveState_006e2350(BGSSaveFormBuffer* apBuffer)
+void __thiscall PathingNode::SaveState_006e2350(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData(this, 4, 0);
     apBuffer->SaveData((char*)this + 0x2c, 12, 0);
@@ -148,7 +148,7 @@ void __thiscall FUN_006e2350_shell::SaveState_006e2350(BGSSaveFormBuffer* apBuff
                                                                                               apBuffer);
 }
 
-struct FUN_006f50b0_shell
+struct VirtualPathingNode
 {
     int m_00;
     int m_04;
@@ -158,12 +158,12 @@ struct FUN_006f50b0_shell
 // Saves 4 bytes of this object, saves the pointer at offset 0x2c, then calls the virtual save on the sub-object at offset 4.
 // @fnv 0x006f50b0
 // src: COMMUNITY 0x006f50b0
-void __thiscall FUN_006f50b0_shell::VirtualPathingNode_Save(BGSSaveFormBuffer* apBuffer)
+void __thiscall VirtualPathingNode::VirtualPathingNode_Save(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveData(this, 4, 0);
     apBuffer->SerializeFormData(*(void**)((char*)this + 0x2c), 0);
-    ((void(__thiscall*)(FUN_006f50b0_shell*, BGSSaveFormBuffer*))(*(void**)(*(void**)((char*)this + 4))))(
-        (FUN_006f50b0_shell*)((char*)this + 4), apBuffer);
+    ((void(__thiscall*)(VirtualPathingNode*, BGSSaveFormBuffer*))(*(void**)(*(void**)((char*)this + 4))))(
+        (VirtualPathingNode*)((char*)this + 4), apBuffer);
 }
 
 struct Flt
@@ -171,14 +171,14 @@ struct Flt
     operator unsigned int();
 };
 
-struct FUN_0083d690_shell
+struct DialogueResponse
 {
     void __thiscall DialogueResponse_SaveGame(BGSSaveFormBuffer* apBuffer);
 };
 
 // @fnv 0x0083d690
 // src: COMMUNITY 0x0083d690
-void __thiscall FUN_0083d690_shell::DialogueResponse_SaveGame(BGSSaveFormBuffer* apBuffer)
+void __thiscall DialogueResponse::DialogueResponse_SaveGame(BGSSaveFormBuffer* apBuffer)
 {
     apBuffer->SaveString((const char*)((Flt*)this)->operator unsigned int(), 0);
     apBuffer->SaveString((const char*)((Flt*)((char*)this + 0x10))->operator unsigned int(), 0);

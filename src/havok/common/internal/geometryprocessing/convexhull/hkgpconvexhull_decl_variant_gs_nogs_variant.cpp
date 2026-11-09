@@ -290,7 +290,7 @@ struct TextBuffer
     void FUN_00cb1600(char* buffer, int capacity);
     TextBuffer* ProcessAndReturnValue_00cc01c0(const char* first, const char* middle, const char* last);
     TextBuffer* ProcessAndReturnValue_00cc01c0();
-    TextBuffer* EvaluateValue_00cc02d0();
+    TextBuffer* hkOstream_printf();
     void FUN_00cc00e0();
 };
 struct ChildData
@@ -1107,7 +1107,7 @@ struct DiagStream
     unsigned int m_buf[128];
     void FUN_00cb1600(unsigned int* buf, unsigned int size);
     DiagStream* ProcessAndReturnValue_00cc01c0(const char* fmt, unsigned int count, const char* tail);
-    DiagStream* EvaluateValue_00cc02d0();
+    DiagStream* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
@@ -1731,7 +1731,7 @@ struct DiagnosticStream
     int unk00, unk04, unk08;
     void FUN_00cb1600(char*, int);
     DiagnosticStream& ProcessAndReturnValue_00cc01c0(const char*);
-    DiagnosticStream& EvaluateValue_00cc02d0(int);
+    DiagnosticStream& hkOstream_printf(int);
     void FUN_00cc00e0();
 };
 struct QuantizedHull
@@ -1908,7 +1908,7 @@ bool QuantizedHull::hkgpConvexHullImpl_isPointInside(const QuantVector& point, b
         char buffer[512];
         DiagnosticStream stream;
         stream.FUN_00cb1600(buffer, 512);
-        stream.ProcessAndReturnValue_00cc01c0("No index available (").EvaluateValue_00cc02d0(indexCount).ProcessAndReturnValue_00cc01c0(")");
+        stream.ProcessAndReturnValue_00cc01c0("No index available (").hkOstream_printf(indexCount).ProcessAndReturnValue_00cc01c0(")");
         if (DAT_01268360->message(3, 0x79f9d886, buffer, ".\\GeometryProcessing\\ConvexHull\\hkgpConvexHull.cpp", 328))
             __debugbreak();
         stream.FUN_00cc00e0();

@@ -845,7 +845,7 @@ struct BSPSysSimpleColorModifierCand
 
     void UpdateParticleColors(float fTime, NiPSysData* pkData);
 };
-struct FUN_00c615a0_class
+struct BSWArray
 {
     int unk00;
     int unk04;
@@ -4088,7 +4088,7 @@ struct S00c70550_Point3
 };
 void __stdcall SubtractVectors(Vec4* pOut);
 void __cdecl FUN_00458620(S00c70550_Point3* pOut, const Vec4* pIn);
-class FUN_00c70550_cls
+class bhkCharacterController
 {
   public:
     float bhkCharacterController_GetFallDistance();
@@ -8296,7 +8296,7 @@ struct __declspec(align(16)) FUN_008cd6a0_Class
     void hkRotation_set(void*);
     void hkMatrix3f_mul(Rotation*);
 };
-struct FUN_00c9e910_Class
+struct hkpShapePhantom
 {
     unsigned int unk000;
     unsigned int unk004;
@@ -8348,7 +8348,7 @@ struct FUN_00c9e910_Class
 struct TargetObject
 {
     unsigned int unk00, unk04;
-    FUN_00c9e910_Class* object;
+    hkpShapePhantom* object;
     void Object_DoNothing();
 };
 
@@ -8722,7 +8722,7 @@ void RotationOwner::bhkCharacterController_ApplyPitchAndRoll(FUN_005611c0_t* arg
     vector.value = arg->value;
     vector.normalize_005611c0();
     TargetObject* t = target;
-    FUN_00c9e910_Class* object = t ? t->object : 0;
+    hkpShapePhantom* object = t ? t->object : 0;
     FUN_008cd6a0_Class transform;
     transform.r0 = object->transform.r0;
     transform.r1 = object->transform.r1;
@@ -8750,7 +8750,7 @@ void RotationOwner::bhkCharacterController_ApplyPitchAndRoll(FUN_005611c0_t* arg
     }
     if (t)
     {
-        FUN_00c9e910_Class* object = t->object;
+        hkpShapePhantom* object = t->object;
         if (object)
         {
             t->Object_DoNothing();

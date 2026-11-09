@@ -1725,12 +1725,12 @@ struct FUN_00d77bd0_cls
     int unk00;
     int unk04;
     Inner* m_pInner;
-    void ForwardCall_00d77bd0();
+    void hkgpConvexHull_decimateVertices();
 };
 
 // @fnv 0x00d77bd0
-// src: GUESS 0x00d77bd0 (confidence: low)
-void FUN_00d77bd0_cls::ForwardCall_00d77bd0()
+// src: GUESS 0x00d77bd0 (confidence: medium)
+void FUN_00d77bd0_cls::hkgpConvexHull_decimateVertices()
 {
     m_pInner->Run();
 }
@@ -2711,7 +2711,7 @@ struct S00d78b90_Node {
     virtual void Release(int flags);
     void ForwardCall_00d762f0();
     float hkgpConvexHull_getVolume();
-    bool ForwardCall_00d77bd0(int idx, int arg);
+    bool hkgpConvexHull_decimateVertices(int idx, int arg);
 };
 
 struct S00d78b90_Node2 {
@@ -2741,7 +2741,7 @@ S00d78b90_Node* hkgpConvexHull_volumeSimplify(S00d78b90_Store* apStore, float fT
             int mid = (hi + lo) >> 1;
             S00d78b90_Node* node = ((S00d78b90_Store2*)apStore)->hkgpConvexHull_clone();
             node->ForwardCall_00d762f0();
-            if (!node->ForwardCall_00d77bd0(mid, arg3)) {
+            if (!node->hkgpConvexHull_decimateVertices(mid, arg3)) {
                 if (node != 0)
                     node->Release(1);
                 break;

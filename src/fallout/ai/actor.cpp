@@ -31585,12 +31585,12 @@ float FUN_0094c460Class::PlayerCharacter_GetMagicActorValueF(int arg)
 
 struct FUN_0094c870_Class : MagicCaster
 {
-    void __thiscall CastSpellOnCaster_Thunk(::SpellItem* apSpell, bool abImmediate);
+    void __thiscall MagicCaster_CastSpellOnCaster(::SpellItem* apSpell, bool abImmediate);
 };
 
 // @fnv 0x0094c870
 // src: GUESS 0x0094c870 (confidence: medium)
-void __thiscall FUN_0094c870_Class::CastSpellOnCaster_Thunk(::SpellItem* apSpell, bool abImmediate)
+void __thiscall FUN_0094c870_Class::MagicCaster_CastSpellOnCaster(::SpellItem* apSpell, bool abImmediate)
 {
     MagicCaster::CastSpellOnCaster(reinterpret_cast< ::SpellItem*>(apSpell), abImmediate);
 }
@@ -31600,12 +31600,12 @@ void MagicCaster::CastSpellAtTarget(::SpellItem* spell, MagicTarget* target, boo
 
 struct FUN_0094c890_Class
 {
-    void CastSpellAtTarget_Thunk(::SpellItem* spell, MagicTarget* target, bool immediate);
+    void MagicCaster_CastSpellAtTarget(::SpellItem* spell, MagicTarget* target, bool immediate);
 };
 
 // @fnv 0x0094c890
 // src: GUESS 0x0094c890 (confidence: medium)
-void FUN_0094c890_Class::CastSpellAtTarget_Thunk(::SpellItem* spell, MagicTarget* target, bool immediate)
+void FUN_0094c890_Class::MagicCaster_CastSpellAtTarget(::SpellItem* spell, MagicTarget* target, bool immediate)
 {
     reinterpret_cast<MagicCaster*>(this)->MagicCaster::CastSpellAtTarget(reinterpret_cast< ::SpellItem*>(spell), target, immediate);
 }
@@ -89048,7 +89048,7 @@ extern "C" void* __cdecl fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 unsigned int gm_GetTickCount();
 
-struct FUN_008d6000_Class
+struct FollowerBarks_FollowerBarkEntry
 {
     unsigned int key1;
     unsigned int key2;
@@ -89060,7 +89060,7 @@ struct FUN_008d6000_Class
 
 int GetKeyRank(unsigned int key);
 
-extern BSSimpleList<FUN_008d6000_Class*> g_timedEntryList;
+extern BSSimpleList<FollowerBarks_FollowerBarkEntry*> g_timedEntryList;
 
 // Scans g_timedEntryList for entries matching a and b, removes duplicates, allocates a new entry, adds it to the head, initializes it and refreshes it if needed.
 // @fnv 0x008d5cb0
@@ -89069,10 +89069,10 @@ void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
     unsigned int now = gm_GetTickCount();
     bool bRefresh = true;
     bool bAdd = true;
-    BSSimpleList<FUN_008d6000_Class*>* iter2;
+    BSSimpleList<FollowerBarks_FollowerBarkEntry*>* iter2;
     for (iter2 = &g_timedEntryList; iter2;)
     {
-        FUN_008d6000_Class* entry8 = iter2->GetItem();
+        FollowerBarks_FollowerBarkEntry* entry8 = iter2->GetItem();
         iter2 = iter2->GetNext();
         if (entry8 && auiKey1 == entry8->key1)
         {
@@ -89089,7 +89089,7 @@ void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
     {
         for (iter2 = &g_timedEntryList; iter2;)
         {
-            FUN_008d6000_Class* itemB = iter2->GetItem();
+            FollowerBarks_FollowerBarkEntry* itemB = iter2->GetItem();
             bool bMatch = false;
             if (itemB && auiKey1 == itemB->key1 && itemB->key2 == auiKey2)
                 bMatch = true;
@@ -89098,15 +89098,15 @@ void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
             else
                 iter2 = iter2->GetNext();
         }
-        FUN_008d6000_Class* pNewX;
+        FollowerBarks_FollowerBarkEntry* pNewX;
         {
-            unsigned int size5 = sizeof(FUN_008d6000_Class);
+            unsigned int size5 = sizeof(FollowerBarks_FollowerBarkEntry);
             void* mem = operator new(size5);
-            FUN_008d6000_Class* tmp4;
+            FollowerBarks_FollowerBarkEntry* tmp4;
             if (mem)
             {
                 fnv_zlib_memset(mem, 0, size5);
-                tmp4 = (FUN_008d6000_Class*)mem;
+                tmp4 = (FollowerBarks_FollowerBarkEntry*)mem;
             }
             else
                 tmp4 = 0;
@@ -134046,7 +134046,7 @@ struct MB8
 };
 struct MDoor : MA8, MB8
 {
-    bool ProcessEntries_0062dee0(MRef*);
+    bool TESTrapListener_HasEntryForRef(MRef*);
 };
 struct MWorld
 {
@@ -134969,7 +134969,7 @@ bool MActor::Actor_ObjectHit(bool abUseAnim)
                 MCell* refCell = hitRef ? hitRef->FUN_008d6f30() : 0;
                 MWorld* refWorld = refCell ? refCell->TESObjectCELL_GetbhkWorld() : 0;
                 MDoor* door = refWorld ? static_cast<MDoor*>(refWorld->BGSSaveFormBuffer_GetForm()) : 0;
-                if (door && hitRef == FUN_00703350() && door->ProcessEntries_0062dee0(hitRef))
+                if (door && hitRef == FUN_00703350() && door->TESTrapListener_HasEntryForRef(hitRef))
                 {
                     MExtra* extra = hitRef->BSFile_GetDevice();
                     if (extra)

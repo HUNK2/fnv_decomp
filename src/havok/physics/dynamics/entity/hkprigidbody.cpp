@@ -1250,7 +1250,7 @@ struct S_00ca84b0_World
 {
     void hkpWorld_queueOperation(const S_00ca84b0_Op& op);
     void FUN_00c91120();
-    void UpdateFields_00c91140();
+    void hkpWorld_internalExecutePendingBodyOperations();
 
     __forceinline void lockCriticalOperations()
     {
@@ -1264,7 +1264,7 @@ struct S_00ca84b0_World
             if (unk8c)
                 FUN_00c91120();
             if (unka4 == 1 && unk90)
-                UpdateFields_00c91140();
+                hkpWorld_internalExecutePendingBodyOperations();
         }
     }
 
@@ -1824,7 +1824,7 @@ struct World
     unsigned char m_d6;
     void __thiscall hkpWorld_queueOperation(void* op);
     void __thiscall FUN_00c91120();
-    void __thiscall UpdateFields_00c91140();
+    void __thiscall hkpWorld_internalExecutePendingBodyOperations();
 };
 
 struct Entity
@@ -1948,7 +1948,7 @@ void __cdecl hkpRigidBody_updateBroadphaseAndResetCollisionInformationOfWarpedBo
         if (world->m_8c != 0)
             world->FUN_00c91120();
         if (world->m_a4 == 1 && world->m_90 != 0)
-            world->UpdateFields_00c91140();
+            world->hkpWorld_internalExecutePendingBodyOperations();
     }
 }
 

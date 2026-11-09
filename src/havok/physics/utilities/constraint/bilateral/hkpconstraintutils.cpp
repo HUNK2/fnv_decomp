@@ -39,7 +39,7 @@ struct CloneDataA : CloneDataBase
     Block5 unk80;
     Block5b unk94;
     Block5 unka8;
-    CloneDataA* FUN_00d4f2a0();
+    CloneDataA* hkpRagdollLimitsData();
     void hkpRagdollLimitsData_setConeLimitStabilization(hkBool flag);
 };
 
@@ -115,7 +115,7 @@ Instance* __cdecl CloneInstanceFromSource(Instance* apSource)
     {
     case 7: {
         SourceDataA* s = (SourceDataA*)data;
-        CloneDataA* pCloneTyped = ((CloneDataA*)hkAlloc(0xc0))->FUN_00d4f2a0();
+        CloneDataA* pCloneTyped = ((CloneDataA*)hkAlloc(0xc0))->hkpRagdollLimitsData();
         clone = pCloneTyped;
         pCloneTyped->unk20 = s->unk20;
         pCloneTyped->unk30 = s->unk30;

@@ -381,7 +381,7 @@ struct PairArray
 char* __cdecl hkMemoryRouter_getInstance();
 void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
 void __cdecl hkpWorldAgentUtil_addAgent(char* a, char* b, char* c);
-struct FUN_00d026e0_cls
+struct MtEntityEntityBroadPhaseListener
 {
     int unk00;
     char* m_04;
@@ -2060,7 +2060,7 @@ struct StepWorld
     void IncrementCounter();
     void nullsub_6();
     void FUN_00c91120();
-    void UpdateFields_00c91140();
+    void hkpWorld_internalExecutePendingBodyOperations();
     void hkpWorld_unlock();
     int hkpWorld_getMemoryWatchDog();
 };
@@ -4331,7 +4331,7 @@ struct SubObj
         return m_78;
     }
     void FUN_00c91120();
-    void UpdateFields_00c91140();
+    void hkpWorld_internalExecutePendingBodyOperations();
 };
 struct ElemSub
 {
@@ -5181,13 +5181,13 @@ struct Obj
             if (m_8c)
                 FUN_00c91120();
             if (m_a4 == 1 && m_90)
-                UpdateFields_00c91140();
+                hkpWorld_internalExecutePendingBodyOperations();
         }
     }
     void* hkpWorld_getMemoryWatchDog();
     void ComputeMemoryUsage(MemoryInfo* out);
     void FUN_00c91120();
-    void UpdateFields_00c91140();
+    void hkpWorld_internalExecutePendingBodyOperations();
     void nullsub_6();
 };
 struct Simulation

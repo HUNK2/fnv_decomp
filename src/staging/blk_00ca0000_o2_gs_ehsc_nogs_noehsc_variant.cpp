@@ -774,7 +774,7 @@ struct Owner
 
     int GetValueByIndex(unsigned int a1);
 };
-struct FUN_00ca3b10_cls
+struct hkpShapeContainer
 {
     int m_iWordAt00;
     unsigned char m_iWordAt04;
@@ -2066,7 +2066,7 @@ struct FUN_00ca7310 : S_00ca7310_Root
 };
 struct MotionByte
 {
-    void FindFloatTableIndex(const float*);
+    void SetReal(const float*);
 };
 struct MotionInstance
 {
@@ -2448,14 +2448,14 @@ class BCA9D50Wrapper : public BCA9D50Base
 };
 struct FUN_00ca9b40_Obj
 {
-    void __thiscall UpdateFields_00ca9b40(int value);
+    void __thiscall SetConstraintData(int value);
 };
 struct FUN_00ca9e50_Obj
 {
     int unk00;
     FUN_00ca9b40_Obj* unk04;
 
-    void __thiscall ProcessState_00ca9e50(int value);
+    void __thiscall hkMalleableConstraintCinfo_SetConstraintData(int value);
 };
 extern int DAT_01268318;
 class PolyBase
@@ -2605,7 +2605,7 @@ struct S_00cac0b0_cls
     void bhkCharacterProxy_SaveBinary(S_00cac0b0_Arg* a);
     void SaveSerializeData(S_00cac0b0_Arg* a);
 };
-struct FUN_00cac110_Class
+struct bhkCharacterController
 {
     virtual void vf00();
     virtual void vf04();
@@ -4916,7 +4916,7 @@ struct FUN_00CAFEC0_This
     int unk9C;
     int unkA0;
 };
-struct FUN_00CAFEC0_Class
+struct hkBSHeightFieldShape
 {
     float __thiscall GetTableValue(int param_2, int param_3);
 };

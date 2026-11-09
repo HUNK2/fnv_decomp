@@ -87,13 +87,13 @@ BSSimpleArray<PerkActivation*, 1024>::~BSSimpleArray()
     Clear(true);
 }
 
-struct FUN_007adcc0_class
+struct RaceSexMenu
 {
     void SetAllow(bool abAllow);
 };
 
 // @fnv 0x007adcc0
-void FUN_007adcc0_class::SetAllow(bool abAllow)
+void RaceSexMenu::SetAllow(bool abAllow)
 {
     ((unsigned char*)this)[0x75d] = abAllow;
 }
@@ -671,6 +671,6 @@ void Menu::ProcessEntries_007a7260()
             AccumulateTileHeight(it->FUN_006815c0()->m_pFlagTarget);
         }
     }
-    UpdateScrollTraits_007a7700();
+    ListBox_UpdateScrollDelta();
     UpdateHighlightTraits_007a73e0();
 }

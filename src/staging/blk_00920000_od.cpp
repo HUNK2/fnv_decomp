@@ -128,7 +128,7 @@ void ActorValueModifierList::InitLoadGame(BGSLoadFormBuffer* apBuffer)
 
 extern int DAT_011e0750;
 
-struct FUN_00937f40_Class
+struct FastModifierCollection
 {
     void** m_Array;
     void FreeArrayItems();
@@ -136,7 +136,7 @@ struct FUN_00937f40_Class
 
 // If DAT_011e0750 is nonzero and m_Array is set, deletes each non-null element, deletes the array, and clears m_Array.
 // @fnv 0x00937f40
-void FUN_00937f40_Class::FreeArrayItems()
+void FastModifierCollection::FreeArrayItems()
 {
     void* pArray;
     void* pItem2;
@@ -568,12 +568,12 @@ void Actor::PlayerCharacter_RemoveActorFromPlayercombatList(Actor* apActor)
     ((FUN_00986500_shell*)*(void**)((char*)this + 0xd64))->RemoveByTarget(reinterpret_cast<int>(apActor));
 }
 
-struct FUN_0093e840_shell : GameTimerRecord
+struct BSTimer : GameTimerRecord
 {
     void ApplyGlobalTimeMultiplier();
 };
 // @fnv 0x0093e840
-void FUN_0093e840_shell::ApplyGlobalTimeMultiplier()
+void BSTimer::ApplyGlobalTimeMultiplier()
 {
     SetGlobalTimeMultiplier(DAT_011ac3a8, false);
 }

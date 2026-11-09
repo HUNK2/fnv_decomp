@@ -786,14 +786,14 @@ FUN_008d0270_Class* __thiscall FUN_008d0270_Class::BaseProcess_BaseProcess()
 
 void __cdecl CallWithParam(int);
 
-struct FUN_008d1130_Class : FUN_008d1160_Class
+struct ProjectileListener : FUN_008d1160_Class
 {
-    FUN_008d1130_Class* __thiscall FUN_008d1130(unsigned int flags);
+    ProjectileListener* __thiscall FUN_008d1130(unsigned int flags);
 };
 
 // Calls the base constructor, then if bit 0 of flags is set calls CallWithParam on this, and returns this.
 // @fnv 0x008d1130
-FUN_008d1130_Class* __thiscall FUN_008d1130_Class::FUN_008d1130(unsigned int flags)
+ProjectileListener* __thiscall ProjectileListener::FUN_008d1130(unsigned int flags)
 {
     ForwardCall_008d1160();
     if (flags & 1)
@@ -861,13 +861,13 @@ FUN_008d1d30::FUN_008d1d30() : FUN_0087d4a0(true)
     *(char*)(this + 0x144) = 0;
 }
 
-struct FUN_008d56c0_class
+struct CharacterProgressionData
 {
     void __thiscall SaveToBuffer(int a);
 };
 // Writes this object's first byte and the 4 bytes at offset 4 into the BGSSaveFormBuffer passed in.
 // @fnv 0x008d56c0
-void __thiscall FUN_008d56c0_class::SaveToBuffer(int pBuffer)
+void __thiscall CharacterProgressionData::SaveToBuffer(int pBuffer)
 {
     ((BGSSaveFormBuffer*)pBuffer)->SaveData(this, 1, 0);
     ((BGSSaveFormBuffer*)pBuffer)->SaveData((char*)this + 4, 4, 0);
@@ -888,7 +888,7 @@ void __thiscall FUN_008d56f0_Class::CharacterProgressionData_LoadGameBGS(BGSLoad
 
 unsigned int __cdecl gm_GetTickCount();
 unsigned int __cdecl FollowerBarks_GetBarkNoRepeatDuration(unsigned int a);
-struct FUN_008d6000_Class
+struct FollowerBarks_FollowerBarkEntry
 {
     unsigned int m_iWordAt00;
     unsigned int m_iWordAt04;
@@ -897,7 +897,7 @@ struct FUN_008d6000_Class
     void __thiscall InitTiming(unsigned int a, unsigned int b);
 };
 // @fnv 0x008d6000
-void __thiscall FUN_008d6000_Class::InitTiming(unsigned int a, unsigned int b)
+void __thiscall FollowerBarks_FollowerBarkEntry::InitTiming(unsigned int a, unsigned int b)
 {
     m_iWordAt04 = b;
     m_iWordAt00 = a;
@@ -1043,14 +1043,15 @@ struct FUN_0052d240_obj
 {
     ~FUN_0052d240_obj();
 };
-struct FUN_008c7860_Class : FUN_008c77c0_Class
+struct AILinearTaskThread : FUN_008c77c0_Class
 {
     unsigned char m_00[0x13];
     FUN_0052d240_obj m_008c78b0;
-    ~FUN_008c7860_Class();
+    ~AILinearTaskThread();
 };
 // @fnv 0x008c7860
-FUN_008c7860_Class::~FUN_008c7860_Class()
+// src: GUESS 0x008c7860 (confidence: medium)
+AILinearTaskThread::~AILinearTaskThread()
 {}
 
 struct Call741e0
@@ -1099,18 +1100,18 @@ void FUN_008d17d0_Class::BSPlayerDistanceCheckController_CopyMembers(BGSAcoustic
     reinterpret_cast<CloneableObj*>(this)->FUN_00a6cfe0(reinterpret_cast<CloneableObj*>(dst), arg);
 }
 
-struct FUN_0087adf0_shell
+struct HitData
 {
     int InitScriptRunLockForSelf();
 };
 struct FUN_008c1c30_Class
 {
-    FUN_0087adf0_shell* m_iWordAt00;
-    FUN_008c1c30_Class* UpdateState_008c1c30(FUN_0087adf0_shell* a);
+    HitData* m_iWordAt00;
+    FUN_008c1c30_Class* UpdateState_008c1c30(HitData* a);
 };
 // @fnv 0x008c1c30
 // src: GUESS 0x008c1c30 (confidence: low)
-FUN_008c1c30_Class* FUN_008c1c30_Class::UpdateState_008c1c30(FUN_0087adf0_shell* pObject)
+FUN_008c1c30_Class* FUN_008c1c30_Class::UpdateState_008c1c30(HitData* pObject)
 {
     m_iWordAt00 = pObject;
     if (m_iWordAt00)
@@ -1428,7 +1429,7 @@ struct Date
 };
 struct FUN_008ca770_Class
 {
-    void ProcessEntries_008ca8d0(Date**);
+    void BSTStaticFreeList_Free(Date**);
     void ProcessState_008ca770(Date**);
 };
 // Destroys the Date object pointed to by pp, then calls FUN_008ca8d0 on pp.
@@ -1437,7 +1438,7 @@ struct FUN_008ca770_Class
 void FUN_008ca770_Class::ProcessState_008ca770(Date** ppDate)
 {
     (*ppDate)->Date::~Date();
-    ProcessEntries_008ca8d0(ppDate);
+    BSTStaticFreeList_Free(ppDate);
 }
 
 int __cdecl BSAtomicCompareExchange(long volatile*, long, long);
@@ -1453,12 +1454,12 @@ struct FUN_008ca8d0_Class
     int m_iWordAt00;
     long volatile m_iWordAt04;
     int m_8;
-    void __thiscall ProcessEntries_008ca8d0(int* arg);
+    void __thiscall BSTStaticFreeList_Free(int* arg);
 };
 
 // @fnv 0x008ca8d0
-// src: GUESS 0x008ca8d0 (confidence: low)
-void __thiscall FUN_008ca8d0_Class::ProcessEntries_008ca8d0(int* arg)
+// src: GUESS 0x008ca8d0 (confidence: medium)
+void __thiscall FUN_008ca8d0_Class::BSTStaticFreeList_Free(int* arg)
 {
     while (true)
     {
@@ -1492,7 +1493,7 @@ void* __thiscall FUN_008caae0_Class::BSTFreeListElem_MobileObjectMessage_BSTFree
     return this;
 }
 
-struct FUN_008cc6f0_Class
+struct ArrowProjectile_CollisionInfo
 {
     void* EvaluateValue_008cc6f0();
 };
@@ -1500,7 +1501,7 @@ struct FUN_008cc6f0_Class
 // Calls GetItem on four BSSimpleList<BGSPerk*> members at offsets 4, 0x10, 0x1c and 0x30, then returns this.
 // @fnv 0x008cc6f0
 // src: GUESS 0x008cc6f0 (confidence: low)
-void* FUN_008cc6f0_Class::EvaluateValue_008cc6f0()
+void* ArrowProjectile_CollisionInfo::EvaluateValue_008cc6f0()
 {
     reinterpret_cast<BGSPerk*& (__thiscall*)(BSSimpleList<BGSPerk*>*)>(GetPerkListItem)((BSSimpleList<BGSPerk*>*)((char*)this + 4));
     reinterpret_cast<BGSPerk*& (__thiscall*)(BSSimpleList<BGSPerk*>*)>(GetPerkListItem)((BSSimpleList<BGSPerk*>*)((char*)this + 0x10));
@@ -1510,12 +1511,12 @@ void* FUN_008cc6f0_Class::EvaluateValue_008cc6f0()
 }
 
 
-struct FUN_008d3f40_Class
+struct NiMorphData
 {
     void __thiscall GetEntryAt(int arg);
 };
 
-struct FUN_008d3f10_Class
+struct NiGeomMorpherController
 {
     unsigned char pad[0x38];
     GO m_38;
@@ -1526,13 +1527,13 @@ struct FUN_008d3f10_Class
 // Calls GetEntryAt on the object obtained by converting m_38 to an unsigned int, passing arg through.
 // @fnv 0x008d3f10
 // src: XBOX_PDB 0x008d3f10
-void FUN_008d3f10_Class::NiGeomMorpherController_GetTarget(int arg)
+void NiGeomMorpherController::NiGeomMorpherController_GetTarget(int arg)
 {
-    reinterpret_cast<FUN_008d3f40_Class*>(m_38.operator unsigned int())->GetEntryAt(arg);
+    reinterpret_cast<NiMorphData*>(m_38.operator unsigned int())->GetEntryAt(arg);
 }
 
 namespace fnv_008d3f40 {
-struct FUN_008d3f40_Class
+struct NiMorphData
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
@@ -1544,7 +1545,7 @@ struct FUN_008d3f40_Class
 
 // Returns a pointer to the entry at the given index within m_10 if index is below m_8, otherwise returns null.
 // @fnv 0x008d3f40
-void* FUN_008d3f40_Class::GetEntryAt(unsigned int index)
+void* NiMorphData::GetEntryAt(unsigned int index)
 {
     if (index < m_8)
     {
@@ -1731,7 +1732,7 @@ void SpawnedElemB_Ctor(void* p)
 void SpawnedElemB_Dtor(void* p)
 {}
 
-struct FUN_008c71d0_cls
+struct AILinearTaskThreadManager
 {
     unsigned int m_00[3];
     unsigned int m_0c[3];
@@ -1740,13 +1741,13 @@ struct FUN_008c71d0_cls
     unsigned int m_6c[8];
     unsigned int* m_8c;
     unsigned int* m_90;
-    FUN_008c71d0_cls* AILinearTaskThreadManager_AILinearTaskThreadManager();
+    AILinearTaskThreadManager* AILinearTaskThreadManager_AILinearTaskThreadManager();
 };
 
 // Constructs the three m_18 elements, zeroes m_00 and m_0c, points m_8c at m_3c and m_90 at m_6c, and returns this.
 // @fnv 0x008c71d0
 // src: COMMUNITY 0x008c71d0
-FUN_008c71d0_cls* FUN_008c71d0_cls::AILinearTaskThreadManager_AILinearTaskThreadManager()
+AILinearTaskThreadManager* AILinearTaskThreadManager::AILinearTaskThreadManager_AILinearTaskThreadManager()
 {
     SpawnedArrayCtor(m_18, 12, 3, SpawnedElemB_Ctor, SpawnedElemB_Dtor);
     for (int i = 0; i < 3; i++)

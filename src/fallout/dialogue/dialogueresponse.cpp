@@ -7,13 +7,13 @@
 struct FUN_0083d420_shell
 {
     unsigned char Length_Thunk();
-    unsigned short ProcessAndReturnValue_0083d420();
+    unsigned short DialogueResponse_GetSaveSize();
 };
 
 // Sums the sizes returned by two FUN_0083d890 calls plus one each, then adds 8, and returns the total.
 // @fnv 0x0083d420
-// src: GUESS 0x0083d420 (confidence: low)
-unsigned short FUN_0083d420_shell::ProcessAndReturnValue_0083d420()
+// src: GUESS 0x0083d420 (confidence: medium)
+unsigned short FUN_0083d420_shell::DialogueResponse_GetSaveSize()
 {
     unsigned short result = 0;
     unsigned char b2 = Length_Thunk();

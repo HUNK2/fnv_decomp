@@ -84,7 +84,7 @@ struct Value
     int InvokeVirtualMethod_00dbac40();
     int CallVirtualWithArg();
     float ApplyValue();
-    void* ForwardCall_00dbac70();
+    void* hkDataArray_Value_asString();
     __declspec(nothrow) ObjectHandle GetMemberArrayValue();
     __declspec(nothrow) StringHandle CreateValueInto();
 };
@@ -566,7 +566,7 @@ struct Node50
 struct ObjC
 {
     void* m_00;
-    __declspec(nothrow) int ForwardCall_00dba730();
+    __declspec(nothrow) int hkDataClass_getNumMembers();
     __declspec(nothrow) void DispatchItems(hkArrayBase<Rec>& a);
     __declspec(nothrow) void Object_DoNothing_00dba660();
     ~ObjC()
@@ -646,7 +646,7 @@ struct S_00dbfef0_Node
     float InvokeVirtualMethod_00dbaa00();
     int DispatchToInterface(int n);
     int hkDataObject_Value_asString();
-    int GetWrappedDataObject(S_00dbfef0_B* out);
+    int asObject(S_00dbfef0_B* out);
     void GetResult(S_00dbfef0_A* out);
 };
 struct S_00dbfef0_B

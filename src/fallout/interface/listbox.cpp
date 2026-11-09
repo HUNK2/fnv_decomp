@@ -502,12 +502,12 @@ unsigned int __thiscall FUN_0071ae60_shell::ListBox_ItemChange_NumUnfiltered()
     return reinterpret_cast<VATSMenu*>(this)->GetSelectedTargetIndex() - (unsigned int)(*(Tile**)((char*)this + 12))->GetFloat(numFiltered);
 }
 
-void __cdecl ProcessEntries_00724930();
+void __cdecl ListBox_UpdateTileIndices();
 struct FUN_00721bc0_shell
 {
     int x;
     void __thiscall SortEntriesAndRefresh(int(__cdecl* param)(void*, void*));
-    void __thiscall ProcessEntries_00724930();
+    void __thiscall ListBox_UpdateTileIndices();
 };
 // Sorts the ListBoxSortList at offset 4 using the given comparison function, then calls FUN_00724930 on this object.
 // @fnv 0x00721bc0
@@ -515,7 +515,7 @@ struct FUN_00721bc0_shell
 void __thiscall FUN_00721bc0_shell::SortEntriesAndRefresh(int(__cdecl* param)(void*, void*))
 {
     reinterpret_cast<ListBoxSortList*>((char*)this + 4)->Sort(param);
-    this->ProcessEntries_00724930();
+    this->ListBox_UpdateTileIndices();
 }
 
 struct FUN_00723030_Holder
@@ -729,7 +729,7 @@ Member_007a8b10* __thiscall FUN_007643c0_p07::DestroySelf(unsigned int flags)
 struct ListBoxSortList;
 struct FUN_007a6480_shell
 {
-    void __thiscall ProcessEntries_007a6480();
+    void __thiscall ListBox_UpdateTileIndices();
 };
 struct FUN_007a22a0_shell
 {
@@ -741,7 +741,7 @@ struct FUN_007a22a0_shell
 void __thiscall FUN_007a22a0_shell::SortEntriesAndRefresh_007a22a0(int(__cdecl* cmp)(void*, void*))
 {
     ((ListBoxSortList*)((char*)this + 4))->Sort(cmp);
-    ((FUN_007a6480_shell*)this)->ProcessEntries_007a6480();
+    ((FUN_007a6480_shell*)this)->ListBox_UpdateTileIndices();
 }
 
 struct FUN_007a30a0_Holder
@@ -2125,12 +2125,12 @@ struct FUN_00724930_cls
     void __thiscall AccumulateTileHeight(Tile* p);
     void __thiscall UpdateState_00724dd0();
     void __thiscall UpdateTraitDisplay();
-    void ProcessEntries_00724930();
+    void ListBox_UpdateTileIndices();
 };
 
 // @fnv 0x00724930
-// src: GUESS 0x00724930 (confidence: low)
-void FUN_00724930_cls::ProcessEntries_00724930()
+// src: GUESS 0x00724930 (confidence: medium)
+void FUN_00724930_cls::ListBox_UpdateTileIndices()
 {
     m_1c = 0;
     m_20 = 0.0f;
@@ -2599,12 +2599,12 @@ struct FUN_007a6480_cls
     void AccumulateTileHeight(Tile* p);
     void UpdateScrollTraits_007a6920();
     void UpdateHighlightTraits_007a6600();
-    void ProcessEntries_007a6480();
+    void ListBox_UpdateTileIndices();
 };
 
 // @fnv 0x007a6480
-// src: GUESS 0x007a6480 (confidence: low)
-void FUN_007a6480_cls::ProcessEntries_007a6480()
+// src: GUESS 0x007a6480 (confidence: medium)
+void FUN_007a6480_cls::ListBox_UpdateTileIndices()
 {
     unk1c = 0;
     unk20 = 0.0f;
@@ -3911,7 +3911,7 @@ struct ListBoxClear
     float m_fFirstListValue;
 
     bool ListBox_unsigned_int_GetFlag(unsigned int flags);
-    void UpdateScrollTraits();
+    void ListBox_UpdateScrollBar();
     void UpdateHighlightTiles();
     void ProcessEntries_007230e0();
 };
@@ -3945,7 +3945,7 @@ void ListBoxClear::ProcessEntries_007230e0()
     m_fFirstListValue = 0.0f;
     if (m_pListTile)
         m_pListTile->Set(Tile_TextToTrait("_num_filtered"), 0.0f, true);
-    UpdateScrollTraits();
+    ListBox_UpdateScrollBar();
     m_pSelectedTile = 0;
     UpdateHighlightTiles();
 }
@@ -5445,14 +5445,14 @@ class FUN_007a3ac0_ListBox
     float m_fFirstListValue;
 
     bool ListBox_unsigned_int_GetFlag(unsigned int flags);
-    void UpdateScrollTraits_007a7700();
+    void ListBox_UpdateScrollDelta();
     void UpdateHighlightTraits_007a73e0();
-    void ProcessEntries_007a3ac0();
+    void ListBox_RemoveAll();
 };
 
 // @fnv 0x007a3ac0
-// src: GUESS 0x007a3ac0 (confidence: low)
-void FUN_007a3ac0_ListBox::ProcessEntries_007a3ac0()
+// src: GUESS 0x007a3ac0 (confidence: high)
+void FUN_007a3ac0_ListBox::ListBox_RemoveAll()
 {
     while (pNext && *pNext->GetItem())
     {
@@ -5481,7 +5481,7 @@ void FUN_007a3ac0_ListBox::ProcessEntries_007a3ac0()
     m_fFirstListValue = 0.0f;
     if (m_pListTile)
         m_pListTile->Set(Tile_TextToTrait("_num_filtered"), 0.0f, true);
-    UpdateScrollTraits_007a7700();
+    ListBox_UpdateScrollDelta();
     unk10 = 0;
     UpdateHighlightTraits_007a73e0();
 }

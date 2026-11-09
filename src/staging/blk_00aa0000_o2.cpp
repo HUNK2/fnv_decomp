@@ -683,7 +683,7 @@ void FUN_00aa24f0_cls::SetVptr00()
 // the thread is suspended and, if the suspend succeeded, the flag is raised.
 extern "C" __declspec(dllimport) unsigned long __stdcall SuspendThread(void*);
 
-class FUN_00aa2710_cls
+class NiThread
 {
   public:
     void* m_pVtable;             // +0x00
@@ -701,7 +701,7 @@ class FUN_00aa2710_cls
 };
 
 // @fnv 0x00aa2710
-unsigned int FUN_00aa2710_cls::SuspendThreadHandle()
+unsigned int NiThread::SuspendThreadHandle()
 {
     void* pThread = m_pThreadHandle;
     if (pThread == 0)
@@ -1467,7 +1467,7 @@ void __cdecl NiStaticDataManager_Init(void* value)
     DAT_011f610c = 1;
 }
 
-class ThreadSuspendForward : public FUN_00aa2710_cls
+class ThreadSuspendForward : public NiThread
 {
   public:
     unsigned int SuspendThreadHandle();

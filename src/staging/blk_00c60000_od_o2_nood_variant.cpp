@@ -909,7 +909,7 @@ struct BSPSysSimpleColorModifierCand
 
     void UpdateParticleColors(float fTime, NiPSysData* pkData);
 };
-struct FUN_00c615a0_class
+struct BSWArray
 {
     int unk00;
     int unk04;
@@ -6221,7 +6221,7 @@ struct S00c70550_Point3
 void __stdcall SubtractVectors(hkVector4* pOut);
 void __cdecl FUN_00458620(S00c70550_Point3* pOut, const hkVector4* pIn);
 
-class FUN_00c70550_cls
+class bhkCharacterController
 {
   public:
     float bhkCharacterController_GetFallDistance();
@@ -6569,7 +6569,7 @@ class FUN_00c70550_cls
 #pragma strict_gs_check(push, on)
 // @fnv 0x00c70550
 // src: XBOX_PDB 0x00c70550
-float FUN_00c70550_cls::bhkCharacterController_GetFallDistance()
+float bhkCharacterController::bhkCharacterController_GetFallDistance()
 {
     float fResult = 0.0f;
     if (m_fOriginZ != 0.0f)

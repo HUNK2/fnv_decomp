@@ -127,14 +127,14 @@ void CombatProcedureAttackGrenade::Shutdown_009cafc0()
     CombatProcedure::RunProcedure();
 }
 
-struct FUN_009cb440_shell
+struct CombatState
 {
     void __thiscall CombatState_SetTargetFlushed(unsigned char b);
 };
 
 // @fnv 0x009cb440
 // src: XBOX_PDB 0x009cb440
-void __thiscall FUN_009cb440_shell::CombatState_SetTargetFlushed(unsigned char b)
+void __thiscall CombatState::CombatState_SetTargetFlushed(unsigned char b)
 {
     *reinterpret_cast<unsigned char*>(this + 0x73) = b;
 }
@@ -178,7 +178,7 @@ void FUN_009cafa0_shell::UpdateFields_009cafa0()
 extern Setting originalRuntimeFloatSetting375;
 struct IMH
 {
-    struct FUN_009cb440_shell* CombatController_GetCombatState();
+    struct CombatState* CombatController_GetCombatState();
 };
 struct Helper_caae0
 {

@@ -393,7 +393,7 @@ struct VATS
     void QuitVATSPlayback(bool abForceQuit, bool abFinishCommandPlayback);
 };
 extern unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
-struct FUN_00766a10_shell
+struct AnimatingText
 {
     void SetCapacity(unsigned int a);
 };

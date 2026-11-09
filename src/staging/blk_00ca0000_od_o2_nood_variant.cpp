@@ -729,7 +729,7 @@ struct Base_ca5360
 {
     void bhkShape_CopyCinfo(MassInfo_ca5360* pkInfo);
 };
-struct FUN_00ca5360_cls : Base_ca5360
+struct bhkPackedNiTriStripsShape : Base_ca5360
 {
     int unk00;
     int unk04;
@@ -738,7 +738,7 @@ struct FUN_00ca5360_cls : Base_ca5360
 };
 // @fnv 0x00ca5360
 // src: XBOX_PDB 0x00ca5360
-void FUN_00ca5360_cls::bhkPackedNiTriStripsShape_CopyCinfo(MassInfo_ca5360* pkInfo)
+void bhkPackedNiTriStripsShape::bhkPackedNiTriStripsShape_CopyCinfo(MassInfo_ca5360* pkInfo)
 {
     Base_ca5360::bhkShape_CopyCinfo(pkInfo);
     if (this != 0 && m_pShape != 0)

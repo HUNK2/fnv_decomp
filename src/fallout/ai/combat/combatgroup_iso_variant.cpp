@@ -185,7 +185,7 @@ struct FUN_0098ed30_class
 };
 struct FUN_0098efa0_shell
 {
-    void* __thiscall AllocateElements68(int count);
+    void* __thiscall BSSimpleArray_Allocate(int count);
 };
 extern "C" void* __cdecl Reallocate(void*, unsigned int);
 struct FUN_0098efd0_shell
@@ -870,7 +870,7 @@ struct FUN_0098f040_shell
     virtual void v0();
     virtual CombatClusterMember* Allocate(unsigned int);
     void UpdateThreat(unsigned int, unsigned int);
-    void ResizeBufferStorage(unsigned int auiNewSize, bool abFreeMemory);
+    void BSSimpleArray_SetSize(unsigned int auiNewSize, bool abFreeMemory);
 };
 struct FUN_00986500_shell : ActorCombatGroup
 {
@@ -2716,7 +2716,7 @@ class B8EB30Group
 class B98EBC0Array
 {
   public:
-    int* GetElementAddress_006bf670(int iIndex);
+    int* BSSimpleArray_GetAt(int iIndex);
     int* GetElementAt(int iIndex);
 };
 struct SimpleArrayRemove
@@ -5204,7 +5204,7 @@ struct ArrNodes
 struct ArrMembers
 {
     int x0, x4, x8, xc;
-    void ResizeBufferStorage(unsigned int, bool);
+    void BSSimpleArray_SetSize(unsigned int, bool);
     MemberNode* BSSimpleArray_CombatMember_1024_GetAt(unsigned int) const;
 };
 struct ArrExtra

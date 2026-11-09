@@ -100,13 +100,13 @@ void __cdecl finishLoadedObject_hkpEntity(FUN_00c9ce00_cls* obj, int v)
         obj->FUN_00c9ce00(v);
 }
 
-struct FUN_00d1fa20_t
+struct hkaDetectRagdollPenetration
 {
     int m_uiCount;
     void ResetEntries();
 };
 // @fnv 0x00d1fa20
-void FUN_00d1fa20_t::ResetEntries()
+void hkaDetectRagdollPenetration::ResetEntries()
 {
     for (int i = 0; i < *(int*)((char*)this + 0x1c); ++i)
         *(unsigned int*)((char*)*(unsigned char**)((char*)this + 0x18) + i * 4) = 1;
@@ -151,7 +151,7 @@ extern "C" void __cdecl hkSmallArrayUtil__reserve(FUN_00d06c30_cls* self, unsign
     self->m_usCap = (unsigned short)((self->m_usCap & 0x4000) | (unsigned short)newCap);
 }
 
-class FUN_00d07910_cls;
+class hkpPhantom;
 
 class FUN_00d07910_elem
 {
@@ -160,10 +160,10 @@ class FUN_00d07910_elem
     virtual void v04();
     virtual void v08();
     virtual void v0C();
-    virtual void v10(FUN_00d07910_cls* owner);
+    virtual void v10(hkpPhantom* owner);
 };
 
-class FUN_00d07910_cls
+class hkpPhantom
 {
   public:
     int unk00;
@@ -211,7 +211,7 @@ class FUN_00d07910_cls
 
 // Iterates the m_98 element array backwards and calls v10(this) on each non-null element.
 // @fnv 0x00d07910
-void FUN_00d07910_cls::NotifyElements()
+void hkpPhantom::NotifyElements()
 {
     for (int i = m_9C - 1; i >= 0; --i)
     {
@@ -576,12 +576,12 @@ int FnvCpu_FUN_00d04440_CpuObject::hkJobQueue_getMasterThreadFinishingFlags()
 void nullsub_9()
 {}
 
-struct FUN_00d06f70_s
+struct hkBaseObject
 {
     void InitializeFields_00d06f70();
 };
 
-struct hkStatisticsCollector : FUN_00d06f70_s
+struct hkStatisticsCollector : hkBaseObject
 {
     int unk00;
     unsigned short unk04;

@@ -603,13 +603,13 @@ template <> BSSimpleArray<NavMeshClosedDoorInfo, 1024>::~BSSimpleArray()
 
 struct FUN_00691e70_shell
 {
-    void UpdateState_00691e70(unsigned char* param1, unsigned short param2, unsigned int param3);
+    void NiTMapBase_SetValue(unsigned char* param1, unsigned short param2, unsigned int param3);
 };
 
 // Stores a 16-bit value at offset 4 and a 32-bit value at offset 6 of the given buffer.
 // @fnv 0x00691e70
-// src: GUESS 0x00691e70 (confidence: low)
-void __thiscall FUN_00691e70_shell::UpdateState_00691e70(unsigned char* pBuffer, unsigned short usValue, unsigned int uiValue)
+// src: GUESS 0x00691e70 (confidence: high)
+void __thiscall FUN_00691e70_shell::NiTMapBase_SetValue(unsigned char* pBuffer, unsigned short usValue, unsigned int uiValue)
 {
     *reinterpret_cast<unsigned short*>(pBuffer + 4) = usValue;
     *reinterpret_cast<unsigned int*>(pBuffer + 6) = uiValue;

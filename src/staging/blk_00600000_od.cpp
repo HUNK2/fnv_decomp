@@ -33,7 +33,7 @@ FUN_00600ad0_cls* __thiscall FUN_00600ad0_cls::BSTCaseInsensitiveStringMap_IDLE_
     return this;
 }
 
-struct FUN_00600d70_shell
+struct NiTStringMap
 {
     void ForwardCall_00600d70();
 };
@@ -317,13 +317,13 @@ bool Object_ComputeValue_0061f420(unsigned int auiValue, unsigned int auiOther)
 }
 
 
-struct FUN_0061f440 : TESResponseList
+struct ResponseListWrapper : TESResponseList
 {
     void ClearResponses();
 };
 
 // @fnv 0x0061f440
-void FUN_0061f440::ClearResponses()
+void ResponseListWrapper::ClearResponses()
 {
     TESResponseList::ClearResponses();
 }
@@ -696,14 +696,14 @@ void __cdecl Runtime_FillFloatRange(float* afDest, unsigned int auiCount, float*
 }
 
 void Deallocate(void*);
-struct FUN_0060f410_class
+struct TESQuestStageItem
 {
     void* __thiscall FUN_0060f410(unsigned int flags);
     void __thiscall FUN_0060f5f0();
 };
 // Calls FUN_0060f5f0, then frees this via Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x0060f410
-void* __thiscall FUN_0060f410_class::FUN_0060f410(unsigned int flags)
+void* __thiscall TESQuestStageItem::FUN_0060f410(unsigned int flags)
 {
     FUN_0060f5f0();
     if (flags & 1)

@@ -18,7 +18,7 @@
 
 // src/fallout_shared/distant terrain system/bgsterrainchunk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsterrainchunk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
-struct FUN_006fa840_shell
+struct BGSTerrainNode
 {
     unsigned char GetByteAt5D();
 };

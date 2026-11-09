@@ -115,14 +115,14 @@ unsigned int __thiscall TESDescription::GetDescriptionLength()
 void __cdecl _Deallocate(void*);
 struct ClassFFB70
 {
-    void __thiscall FUN_004ffba0();
+    void __thiscall BGSTerminal();
     void* __thiscall DestroyIfFlagged(unsigned int);
 };
-// Calls FUN_004ffba0 on this, frees this with _Deallocate when flags has bit 1 set, and returns this.
+// Calls BGSTerminal on this, frees this with _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x004ffb70
 void* __thiscall ClassFFB70::DestroyIfFlagged(unsigned int flags)
 {
-    this->FUN_004ffba0();
+    this->BGSTerminal();
     if (flags & 1)
         _Deallocate(this);
     return this;

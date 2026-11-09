@@ -32,7 +32,7 @@ extern "C" double __cdecl _exp(double);
 float ExpFloat(float value);
 extern float _gModifierZero;
 float __cdecl SignOfFloat(float a);
-struct FUN_005631e0_shell
+struct bhkWorldObject
 {
     int __thiscall MaskWithField(int a);
     bool __thiscall IsNonZero(int a);
@@ -561,7 +561,7 @@ bool HeightGridW::TESWaterListener_ShouldProcessRigidBody(TESObjectREFRW* pkRef,
 {
     if (pkRef)
     {
-        FUN_005631e0_shell* pkCharacter = (FUN_005631e0_shell*)bhkEntity_Getbhk(pkRef);
+        bhkWorldObject* pkCharacter = (bhkWorldObject*)bhkEntity_Getbhk(pkRef);
         if (!pkCharacter)
             return false;
 

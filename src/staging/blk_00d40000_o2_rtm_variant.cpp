@@ -1519,12 +1519,12 @@ struct hkContainerD539
     int* m_keys;
     int m_numKeys;
 };
-class FUN_00c89c80_obj
+class bhkConstraint
 {
   public:
     void CopyFromSource(unsigned int info) throw();
 };
-class hkShapeD539 : public FUN_00c89c80_obj
+class hkShapeD539 : public bhkConstraint
 {
   public:
     int unk00;
@@ -1645,7 +1645,7 @@ struct hkDisplayGeometry
 };
 extern "C" void __cdecl FUN_00da2560();
 extern double DAT_010229c0;
-struct FUN_00d5d660_cls
+struct hkPseudoRandomGenerator
 {
     int m_i00;
     int m_i04;
@@ -3092,14 +3092,14 @@ class RefPtrD482
     FUN_00d46d40_s* hkRefVariant_getClass() const throw();
     void AssignObject(int iParam) throw();
 };
-class FUN_00d48250
+class NamedVariant
 {
   public:
     FUN_00cb0a60 m_name;
     FUN_00cb0a60 m_pClassName;
     RefPtrD482 m_object;
 
-    FUN_00d48250(const char* pcName, int iParam) throw();
+    NamedVariant(const char* pcName, int iParam) throw();
 };
 struct S_00d4f0f0_B1
 {
@@ -3205,11 +3205,11 @@ struct hkpRagdollDataS : hkpConstraintData
 {
     void setConeStab(hkBool b);
 };
-struct FUN_00d4f2a0 : hkpRagdollDataS
+struct hkpRagdollLimitsData : hkpRagdollDataS
 {
     hkpRagdollAtomsS m_kBridgeAtoms;
-    FUN_00d4f2a0();
-    virtual ~FUN_00d4f2a0();
+    hkpRagdollLimitsData();
+    virtual ~hkpRagdollLimitsData();
 };
 extern int DAT_010d0be4;
 extern float DAT_0106b648;
@@ -3269,7 +3269,7 @@ extern int DAT_010d0cd4;
 extern float DAT_0104da48;
 struct FUN_00ca9360_sub
 {
-    void __fastcall FindFloatTableIndex(int count, float* value);
+    void __fastcall SetReal(int count, float* value);
 };
 struct hkpBallAndSocketConstraintData
 {
@@ -3301,9 +3301,9 @@ static inline char& MoppInputSetBool(char& rcBool, bool b)
     rcBool = static_cast<char>(b);
     return rcBool;
 }
-struct FUN_00d54de0
+struct hkpMoppCompilerInput
 {
-    FUN_00d54de0();
+    hkpMoppCompilerInput();
 
     ::hkVector4 m_vector;
     float m_value10;

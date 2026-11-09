@@ -195,13 +195,13 @@ void* BGSSceneInfo::InitializeFields_004a7c40()
 
 void* __cdecl memset(void* dest, int c, unsigned int n);
 
-struct FUN_004a7c80_shell
+struct SCENE_INFO_DATA_STRUCT
 {
     void* ClearToZero();
 };
 
 // @fnv 0x004a7c80
-void* FUN_004a7c80_shell::ClearToZero()
+void* SCENE_INFO_DATA_STRUCT::ClearToZero()
 {
     memset(this, 0, 0x40);
     return this;

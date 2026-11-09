@@ -109,7 +109,7 @@ void* __thiscall FUN_00404d50_class::ConstructWithVTable(int aiArg, char acArg)
     return this;
 }
 
-struct FUN_00405230_Class
+struct NiTStringMap
 {
     void __thiscall FUN_00405250();
     void __thiscall ForwardCall_00405230();
@@ -117,7 +117,7 @@ struct FUN_00405230_Class
 
 // @fnv 0x00405230
 // src: GUESS 0x00405230 (confidence: low)
-void __thiscall FUN_00405230_Class::ForwardCall_00405230()
+void __thiscall NiTStringMap::ForwardCall_00405230()
 {
     FUN_00405250();
 }
@@ -241,14 +241,14 @@ void FUN_004098d0_class::EnchantmentItem_Endian_0()
 
 int __cdecl FinishScriptRunLock(void*);
 
-struct FUN_0040c130_Class
+struct Model
 {
     int Model_DecRefCount();
 };
 
 // @fnv 0x0040c130
 // src: XBOX_PDB 0x0040c130
-int FUN_0040c130_Class::Model_DecRefCount()
+int Model::Model_DecRefCount()
 {
     return FinishScriptRunLock((char*)this + 4);
 }
@@ -511,7 +511,7 @@ struct FUN_004055a0_Class
 // @fnv 0x004055a0
 void* __thiscall FUN_004055a0_Class::FUN_004055a0(unsigned int flags)
 {
-    ((FUN_00405230_Class*)this)->ForwardCall_00405230();
+    ((NiTStringMap*)this)->ForwardCall_00405230();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -729,13 +729,13 @@ template <int N> struct EndianSizeTag
 };
 void __cdecl BSEndian(unsigned char*, EndianSizeTag<0>);
 void __cdecl BSEndian(unsigned char*, EndianSizeTag<10>);
-struct FUN_004141e0_class
+struct NAVMESH_PORTAL
 {
     void __thiscall CHUNK_Endian();
 };
 // @fnv 0x004141e0
 // src: XBOX_PDB 0x004141e0
-void __thiscall FUN_004141e0_class::CHUNK_Endian()
+void __thiscall NAVMESH_PORTAL::CHUNK_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<0>());
     BSEndian((unsigned char*)this + 4, EndianSizeTag<10>());
@@ -1172,7 +1172,7 @@ void __thiscall FUN_00405370_Class::SetVtableAndProcessState_00405370()
     _NiFree_00aa10f0(reinterpret_cast<NiTPointerMap<const char*, Setting*>*>(this)->m_ppkHashTable);
 }
 
-struct StringMapDeletingEntry : FUN_00405230_Class
+struct StringMapDeletingEntry : NiTStringMap
 {
     void* __thiscall FUN_00405400(unsigned int flags);
 };

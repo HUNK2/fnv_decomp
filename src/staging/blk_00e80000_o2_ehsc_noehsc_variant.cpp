@@ -7093,7 +7093,7 @@ struct FUN_00e8bf80_Object {
     int m_uiItemCount;
     void __thiscall NiDX9VertexBufferManager_EndFrame();
 };
-struct FUN_00e8d350_Class {
+struct NiDX9FragmentShader {
     int unk00;
     int unk04;
     int unk08;

@@ -922,7 +922,7 @@ struct MgrA
     void FUN_00d87790(int a) throw();
     void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(int a, void* b) throw();
     void* GetValue(int a, int b) throw();
-    void ProcessAndReturnValue_00d87820(int a) throw();
+    void hkStringMap_remove(int a) throw();
     int hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator() throw();
     void SetBoolFromThreshold(void* valid, int iterator) throw();
     void* hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getValue(int a) throw();
@@ -940,7 +940,7 @@ struct MgrB
     int m_08;
     int m_0c;
     void FUN_00d87790(MapTag a) throw();
-    void ProcessAndReturnValue_00d87820(int a) throw();
+    void hkStringMap_remove(int a) throw();
     void FreeBuffer() throw();
     void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(int a, void* b) throw();
     void* GetValue(int a, int b) throw();
@@ -1322,7 +1322,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
             if (mga.GetValue(r, 0))
             {
                 int r2 = ((VObj*)pSource.m_pData[j5])->FUN_v2();
-                mga.ProcessAndReturnValue_00d87820(r2);
+                mga.hkStringMap_remove(r2);
             }
         }
         int si = mga.hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_getIterator();

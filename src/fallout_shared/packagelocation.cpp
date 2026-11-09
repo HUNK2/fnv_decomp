@@ -572,7 +572,7 @@ PACKAGE_OBJECT_TYPE FUN_0067f480_shell::PackageLocation_GetLocObjectType()
 }
 
 namespace fnv_0067f6c0 {
-struct FUN_0067eff0_Class
+struct PACK_LOC_FILE
 {
     char m_ucLocationType;
     unsigned int m_pLocationData;
@@ -581,7 +581,7 @@ struct FUN_0067eff0_Class
     void PACK_LOC_FILE_Endian();
 };
 
-typedef FUN_0067eff0_Class ChunkPayloadHandler;
+typedef PACK_LOC_FILE ChunkPayloadHandler;
 
 struct FUN_0067f480_shell
 {
@@ -733,12 +733,12 @@ bool FUN_0067f220_cls::LookupAndStore(int a1, int a2, unsigned char* pucOut)
 extern TESSaveLoadGame* DAT_011de45c;
 struct FUN_0067fa00_shell : public LocationDescriptor
 {
-    void SaveTargetReference();
+    void PackageLocation_SaveGameOld();
 };
 // Serializes a form ID and object reference through the save/load game, writing the object's form ID for cases 0-4 and the pointer for case 5.
 // @fnv 0x0067fa00
 // src: GUESS 0x0067fa00 (confidence: medium)
-void FUN_0067fa00_shell::SaveTargetReference()
+void FUN_0067fa00_shell::PackageLocation_SaveGameOld()
 {
     DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(this, 1);
     DAT_011de45c->TESSaveLoadGame_SaveGameDataOLD(&m_pLocationData, 4);

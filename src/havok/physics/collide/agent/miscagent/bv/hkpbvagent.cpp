@@ -532,7 +532,7 @@ struct FUN_00d461a0_Args
 
 extern char DAT_010ce81c[];
 
-struct FUN_00d461a0_Owner
+struct hkpSymmetricAgent
 {
     int unk00;
     int unk04;
@@ -545,7 +545,7 @@ struct FUN_00d461a0_Owner
 
 // Builds an argument struct from DAT_010ce81c and a4, then forwards a2, a1, a3 and the struct to FUN_00d45c50.
 // @fnv 0x00d461a0
-void FUN_00d461a0_Owner::DispatchWithArgs(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void hkpSymmetricAgent::DispatchWithArgs(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     FUN_00d461a0_Args l;
     l.unk08 = aiArg4;
@@ -568,13 +568,13 @@ struct Rec
 struct FUN_00d461e0_Cls
 {
     void GetPenetrations(int, int, int, Rec*);
-    void UpdateFields_00d461e0(int a1, int a2, int a3, int a4);
+    void hkpSymmetricAgent_getClosestPoints(int a1, int a2, int a3, int a4);
 };
 
 // Builds a Rec from a4, DAT_0104da48 and DAT_010ce7fc, then calls GetPenetrations with a2, a1, a3 and the Rec.
 // @fnv 0x00d461e0
-// src: GUESS 0x00d461e0 (confidence: low)
-void FUN_00d461e0_Cls::UpdateFields_00d461e0(int aiArg1, int aiArg2, int aiArg3, int aiValue)
+// src: GUESS 0x00d461e0 (confidence: medium)
+void FUN_00d461e0_Cls::hkpSymmetricAgent_getClosestPoints(int aiArg1, int aiArg2, int aiArg3, int aiValue)
 {
     Rec rec;
     rec.m_i = aiValue;

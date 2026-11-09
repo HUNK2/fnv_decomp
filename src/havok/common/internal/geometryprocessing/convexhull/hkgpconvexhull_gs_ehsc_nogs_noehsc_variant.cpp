@@ -386,7 +386,7 @@ struct TextBuffer {
     void FUN_00cb1600(char* buffer, int capacity);
     TextBuffer* ProcessAndReturnValue_00cc01c0(const char* first, const char* middle, const char* last);
     TextBuffer* ProcessAndReturnValue_00cc01c0();
-    TextBuffer* EvaluateValue_00cc02d0();
+    TextBuffer* hkOstream_printf();
     void FUN_00cc00e0();
 };
 struct ChildData {
@@ -1115,7 +1115,7 @@ struct DiagStream {
     unsigned int m_buf[128];
     void FUN_00cb1600(unsigned int* buf, unsigned int size);
     DiagStream* ProcessAndReturnValue_00cc01c0(const char* fmt, unsigned int count, const char* tail);
-    DiagStream* EvaluateValue_00cc02d0();
+    DiagStream* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
@@ -1609,7 +1609,7 @@ struct FnvCpu_FUN_00d74e00_CpuObject {
     int GetValue_00d74e00();
 };
 struct S_00cc01c0_Class {
-    S_00cc01c0_Class* EvaluateValue_00cc02d0();
+    S_00cc01c0_Class* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     S_00cc01c0_Class* ProcessAndReturnValue_00cc01c0(const char*, int, char*);
 };
@@ -2181,12 +2181,12 @@ struct FUN_00cc02d0_cls {
     int m_04;
     Cc0080Stream* m_08;
 
-    FUN_00cc02d0_cls* EvaluateValue_00cc02d0(int arg);
+    FUN_00cc02d0_cls* hkOstream_printf(int arg);
 };
 
 // @fnv 0x00cc02d0
-// src: GUESS 0x00cc02d0 (confidence: low)
-FUN_00cc02d0_cls* FUN_00cc02d0_cls::EvaluateValue_00cc02d0(int arg) {
+// src: GUESS 0x00cc02d0 (confidence: medium)
+FUN_00cc02d0_cls* FUN_00cc02d0_cls::hkOstream_printf(int arg) {
     char buf[0x2728];
     Vsnprintf(buf, 0x2728, str_010c1a98, arg);
     writeString(m_08, buf);
@@ -2252,7 +2252,7 @@ struct S00d756a0_Ostream {
     int m_08;
     void FUN_00cb1600(char* buf, int size);
     S00d756a0_Ostream* ProcessAndReturnValue_00cc01c0(const char* s);
-    S00d756a0_Ostream* EvaluateValue_00cc02d0(int v);
+    S00d756a0_Ostream* hkOstream_printf(int v);
     void FUN_00cc00e0();
     S00d756a0_Ostream(char* buf, int size) { FUN_00cb1600(buf, size); }
     ~S00d756a0_Ostream() { FUN_00cc00e0(); }
@@ -2290,7 +2290,7 @@ void S00d756a0_Shape::UpdateFields_00d756a0(S00d756a0_Plain& out)
     if (*(bool*)(obj + 0x1b4) == false) {
         char buf[0x200];
         S00d756a0_Ostream os(buf, 0x200);
-        os.ProcessAndReturnValue_00cc01c0(str_010d358c)->EvaluateValue_00cc02d0(*(int*)(obj + 0x1b0))->ProcessAndReturnValue_00cc01c0(&DAT_0103d078);
+        os.ProcessAndReturnValue_00cc01c0(str_010d358c)->hkOstream_printf(*(int*)(obj + 0x1b0))->ProcessAndReturnValue_00cc01c0(&DAT_0103d078);
         if (DAT_01268360->message(3, 0x79f9d887, buf, str_010d3540, 0x14e)) {
             __debugbreak();
         }
@@ -3052,7 +3052,7 @@ struct ExportStream {
     int unk00,unk04,unk08;
     void FUN_00cb1600(char*,int);
     ExportStream* ProcessAndReturnValue_00cc01c0(const char*,int,char*);
-    ExportStream* EvaluateValue_00cc02d0();
+    ExportStream* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
@@ -3122,7 +3122,7 @@ void S_00d79f90_Result::hkgpConvexHull_absoluteScale(float f,const S_00d79f90_Op
         char buffer[512];
         ExportStream& stream=work.stream;
         stream.FUN_00cb1600(buffer,512);
-        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,state->unk1b0,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,state->unk1b0,&DAT_0103d078)->hkOstream_printf()->ProcessAndReturnValue_00cc01c0();
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -3683,7 +3683,7 @@ struct ExportStream {
     int unk00,unk04,unk08;
     void FUN_00cb1600(char*,int);
     ExportStream* ProcessAndReturnValue_00cc01c0(const char*,int,char*);
-    ExportStream* EvaluateValue_00cc02d0();
+    ExportStream* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
@@ -3801,7 +3801,7 @@ int ExportShape::hkgpConvexHullImpl_generateIndexedFaces_unsigned_char_unsigned_
         char buffer[512];
         ExportStream& stream=workspace.stream;
         stream.FUN_00cb1600(buffer,512);
-        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,index,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,index,&DAT_0103d078)->hkOstream_printf()->ProcessAndReturnValue_00cc01c0();
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -3910,7 +3910,7 @@ struct __declspec(align(16)) FUN_00d7a0b0_Vertex {
     LocalM128 m_pos;
 };
 
-struct FUN_00d7a0b0_cls {
+struct hkgpConvexHullImpl {
     int unk00;
     int unk04;
     int unk08;
@@ -3921,12 +3921,12 @@ struct FUN_00d7a0b0_cls {
     int unk1C;
     int unk20;
     FUN_00d7a0b0_Vertex* m_kVertices;
-    void ProcessEntries_00d7a0b0(const FUN_00d7a0b0_Matrix* m, const LocalM128* scale, LocalM128* out);
+    void getSupportingVertex(const FUN_00d7a0b0_Matrix* m, const LocalM128* scale, LocalM128* out);
 };
 
 // @fnv 0x00d7a0b0
-// src: GUESS 0x00d7a0b0 (confidence: low)
-void FUN_00d7a0b0_cls::ProcessEntries_00d7a0b0(const FUN_00d7a0b0_Matrix* m, const LocalM128* scale, LocalM128* out)
+// src: GUESS 0x00d7a0b0 (confidence: medium)
+void hkgpConvexHullImpl::getSupportingVertex(const FUN_00d7a0b0_Matrix* m, const LocalM128* scale, LocalM128* out)
 {
 
     float best = 0.0f;
@@ -4029,7 +4029,7 @@ struct PolygonStream {
     int unk00, unk04, unk08;
     void FUN_00cb1600(char*, int) throw();
     PolygonStream& ProcessAndReturnValue_00cc01c0(const char*) throw();
-    PolygonStream& EvaluateValue_00cc02d0(unsigned int) throw();
+    PolygonStream& hkOstream_printf(unsigned int) throw();
     void FUN_00cc00e0() throw();
 };
 
@@ -4199,7 +4199,7 @@ int PolygonMesh::hkgpConvexHullImpl_generateIndexedFaces_int_int(PolygonArray<in
         char buffer[512];
         PolygonStream& stream = *(PolygonStream*)&scratch;
         stream.FUN_00cb1600(buffer, sizeof(buffer));
-        stream.ProcessAndReturnValue_00cc01c0(str_010d3574).EvaluateValue_00cc02d0((unsigned int)errorValue).ProcessAndReturnValue_00cc01c0((const char*)&DAT_0103d078);
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574).hkOstream_printf((unsigned int)errorValue).ProcessAndReturnValue_00cc01c0((const char*)&DAT_0103d078);
         if (DAT_01268360->message(3, 0x79f9d886, buffer, str_010d3540, 0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -4301,7 +4301,7 @@ struct D81340Dbg {
     int unk08;
     void __thiscall FUN_00cb1600(char* buf, unsigned int n);
     D81340Dbg* __thiscall ProcessAndReturnValue_00cc01c0(const char* fmt, int a, const char* b);
-    D81340Dbg* __thiscall EvaluateValue_00cc02d0();
+    D81340Dbg* __thiscall hkOstream_printf();
     void __thiscall ProcessAndReturnValue_00cc01c0();
     void __thiscall FUN_00cc00e0();
 };
@@ -4451,7 +4451,7 @@ void D81340Cls::ProcessEntries_00d81340(D81340Vec4& a0, D81340Transform& a1) {
         char buffer[0x200];
         D81340Dbg& stream = workspace.stream;
         stream.FUN_00cb1600(buffer, 0x200);
-        stream.ProcessAndReturnValue_00cc01c0(str_010d3574, (int)m_1b0, &DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574, (int)m_1b0, &DAT_0103d078)->hkOstream_printf()->ProcessAndReturnValue_00cc01c0();
         if (DAT_01268360->message(3, 0x79f9d886, buffer, str_010d3540, 0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -5409,7 +5409,7 @@ struct S_00d827b0_Owner {
     FixBool m_b1b5;
 
     float ProcessEntries_00d7a810(S_00d827b0_Param* p, S_00d827b0_Xf* xf, hkVector4* out);
-    void ProcessEntries_00d7a0b0(S_00d827b0_Xf* xf, hkVector4* dir, hkVector4* out);
+    void getSupportingVertex(S_00d827b0_Xf* xf, hkVector4* dir, hkVector4* out);
     void hkgpConvexHullImpl_build(hkVector4* data, int n, int a, int b);
     void ProcessEntries_00d7d2a0();
     void hkgpConvexHullImpl_buildMassProperties_hkgpConvexHullImpl_PositionAsTransform();
@@ -5529,7 +5529,7 @@ void S_00d827b0_Owner::CopyMemory_00d827b0(S_00d827b0_Param* param)
             S_00d827b0_uput(&support.quad.m128_f32[1], gy);
             S_00d827b0_uput(&support.quad.m128_f32[2], gz);
             S_00d827b0_uput(&support.quad.m128_f32[3], gw);
-            ProcessEntries_00d7a0b0(&xf, &neg, &support);
+            getSupportingVertex(&xf, &neg, &support);
 
             const float& wkeep = plane.m128_f32[3];
             LocalM128 prod = _mm_mul_ps(support.quad, plane);
@@ -6579,7 +6579,7 @@ struct MessageStream {
     int unk00, unk04, unk08;
     void FUN_00cb1600(void*, int);
     MessageStream* ProcessAndReturnValue_00cc01c0(const char*, int, const char*);
-    MessageStream* EvaluateValue_00cc02d0();
+    MessageStream* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
@@ -6631,7 +6631,7 @@ void PlaneShape::ProcessEntries_00d76a20(PlaneVector* planes) {
         char message[512];
         MessageStream stream;
         stream.FUN_00cb1600(message,512);
-        stream.ProcessAndReturnValue_00cc01c0(str_010d358c,data->unk1b0,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d358c,data->unk1b0,&DAT_0103d078)->hkOstream_printf()->ProcessAndReturnValue_00cc01c0();
         if (DAT_01268360->message(3,0x79f9d887,(char*)message,str_010d3540,334)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -7529,7 +7529,7 @@ struct ClipStream {
     int unk00,unk04,unk08;
     void FUN_00cb1600(char*,int);
     ClipStream* ProcessAndReturnValue_00cc01c0(const char*,int,char*);
-    ClipStream* EvaluateValue_00cc02d0();
+    ClipStream* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
@@ -7682,7 +7682,7 @@ __forceinline void ClipHull::mustHaveIndex() const
         char buffer[512];
         ClipStream stream;
         stream.FUN_00cb1600(buffer,512);
-        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,index,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574,index,&DAT_0103d078)->hkOstream_printf()->ProcessAndReturnValue_00cc01c0();
         if(DAT_01268360->message(3,0x79f9d886,buffer,str_010d3540,0x148)) __debugbreak();
         stream.FUN_00cc00e0();
     }
@@ -7900,7 +7900,7 @@ struct BevelStream {
     void* vtable; int unk04,unk08;
     void FUN_00cb1600(char*,int) throw();
     BevelStream& ProcessAndReturnValue_00cc01c0(const char*) throw();
-    BevelStream& EvaluateValue_00cc02d0(unsigned int) throw();
+    BevelStream& hkOstream_printf(unsigned int) throw();
     void FUN_00cc00e0() throw();
 };
 // @fnv 0x00d7caa0
@@ -7910,7 +7910,7 @@ void BevelHull::ProcessEntries_00d7caa0(float maxCos, BevelArray& out) const {
         char msg[512];
         BevelStream stream;
         stream.FUN_00cb1600(msg,512);
-        stream.ProcessAndReturnValue_00cc01c0(str_010d3574).EvaluateValue_00cc02d0(m_uiUniqueId).ProcessAndReturnValue_00cc01c0((const char*)&DAT_0103d078);
+        stream.ProcessAndReturnValue_00cc01c0(str_010d3574).hkOstream_printf(m_uiUniqueId).ProcessAndReturnValue_00cc01c0((const char*)&DAT_0103d078);
         if(((S_00d75210_Error*)DAT_01268360)->message(3,0x79f9d886,msg,str_010d3540,328)) { __debugbreak(); stream.FUN_00cc00e0(); } else stream.FUN_00cc00e0();
     }
     if(m_eVertexFloatDimensions!=3) return;
@@ -7954,7 +7954,7 @@ struct BoxStream {
     int unk08;
     BoxStream* FUN_00cb1600(void* buf, int size);
     BoxStream* ProcessAndReturnValue_00cc01c0(const char*,int,char*);
-    BoxStream* EvaluateValue_00cc02d0();
+    BoxStream* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
@@ -8195,7 +8195,7 @@ float BoxHull::hkgpConvexHullImpl_getOrientedRectangle(BoxPointer<const BoxVecto
         unsigned int buf[128];
         BoxStream s;
         s.FUN_00cb1600(buf, 0x200);
-        s.ProcessAndReturnValue_00cc01c0(str_010d3574,m_uiEdgeIndex,&DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
+        s.ProcessAndReturnValue_00cc01c0(str_010d3574,m_uiEdgeIndex,&DAT_0103d078)->hkOstream_printf()->ProcessAndReturnValue_00cc01c0();
 int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 0x148);
         if (result == 0) {
             s.FUN_00cc00e0();
@@ -9059,7 +9059,7 @@ struct S83_Fmt {
     void FUN_00cb1600(char* buffer, int capacity);
     S83_Fmt* ProcessAndReturnValue_00cc01c0(const char* text);
     S83_Fmt* ProcessAndReturnValue_00cc01c0(const char* text, int code, const char* tail);
-    S83_Fmt* EvaluateValue_00cc02d0();
+    S83_Fmt* hkOstream_printf();
     void ProcessAndReturnValue_00cc01c0();
     void FUN_00cc00e0();
 };
@@ -9280,7 +9280,7 @@ void S83_Mesh::ProcessEntries_00d83f30(S83_Options* options)
             int text[128];
             S83_Fmt fmt;
             fmt.FUN_00cb1600((char*)text, 0x200);
-            fmt.ProcessAndReturnValue_00cc01c0(str_010d3574, diagnosticCode, &DAT_0103d078)->EvaluateValue_00cc02d0()->ProcessAndReturnValue_00cc01c0();
+            fmt.ProcessAndReturnValue_00cc01c0(str_010d3574, diagnosticCode, &DAT_0103d078)->hkOstream_printf()->ProcessAndReturnValue_00cc01c0();
             if (DAT_01268360->message(3, 0x79f9d886, (char*)text, str_010d3540, 0x148))
                 fnv_Breakpoint();
             fmt.FUN_00cc00e0();

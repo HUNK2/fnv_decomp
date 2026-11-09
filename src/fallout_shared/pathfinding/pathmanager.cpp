@@ -532,7 +532,7 @@ void* DelStandIn::DestroyAndFree(unsigned int flags)
 }
 }
 
-struct FUN_006e9f60_shell
+struct RayCastPathRequest
 {
     void* FUN_006e9f60(unsigned int flags);
     void FUN_006cb410();
@@ -540,7 +540,7 @@ struct FUN_006e9f60_shell
 
 // Calls FUN_006cb410, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x006e9f60
-void* FUN_006e9f60_shell::FUN_006e9f60(unsigned int flags)
+void* RayCastPathRequest::FUN_006e9f60(unsigned int flags)
 {
     FUN_006cb410();
     if (flags & 1)
@@ -613,13 +613,13 @@ void __thiscall FUN_006ebcb0_shell::CallMemberFunction()
 
 extern int DAT_0106d644;
 
-struct FUN_006ebdc0_shell
+struct LockFreeMapIterator
 {
     void __thiscall SetVtable();
 };
 
 // @fnv 0x006ebdc0
-void __thiscall FUN_006ebdc0_shell::SetVtable()
+void __thiscall LockFreeMapIterator::SetVtable()
 {
     *(int*)this = (int)&DAT_0106d644;
 }
@@ -725,7 +725,7 @@ FUN_006ec970_shell::FUN_006ec970_shell()
 }  // namespace fnv_006ec970
 
 namespace fnv_006ebe60 {
-struct FUN_006ebdc0_shell
+struct LockFreeMapIterator
 {
     void __thiscall SetVtable();
 };
@@ -741,7 +741,7 @@ struct FUN_006ebe60_shell
 // @fnv 0x006ebe60
 void* __thiscall FUN_006ebe60_shell::FUN_006ebe60(unsigned int flags)
 {
-    ((FUN_006ebdc0_shell*)this)->SetVtable();
+    ((LockFreeMapIterator*)this)->SetVtable();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -799,16 +799,16 @@ void* Holder006e9f90::ReleaseIfFlagged(unsigned int flags)
     return this;
 }
 
-struct FUN_006ea9d0_shell
+struct PathingMessage
 {
     int f0;
     int f4;
-    FUN_006ea9d0_shell* PathingMessage_PathingMessage();
+    PathingMessage* PathingMessage_PathingMessage();
 };
 // Sets f0 to -1 and f4 to 0, then returns this.
 // @fnv 0x006ea9d0
 // src: COMMUNITY 0x006ea9d0
-FUN_006ea9d0_shell* FUN_006ea9d0_shell::PathingMessage_PathingMessage()
+PathingMessage* PathingMessage::PathingMessage_PathingMessage()
 {
     f0 = -1;
     f4 = 0;
@@ -872,14 +872,14 @@ bool HostA::DispatchToInner(int aiValue, bool abUseFirst)
     return true;
 }
 
-struct FUN_006eb670_Holder
+struct BSTaskletGroup
 {
     PatrolActorPackageData* field0;
     void BSTaskletGroup_WaitForCompletion(bool);
 };
 // @fnv 0x006eb670
 // src: COMMUNITY 0x006eb670
-void FUN_006eb670_Holder::BSTaskletGroup_WaitForCompletion(bool a1)
+void BSTaskletGroup::BSTaskletGroup_WaitForCompletion(bool a1)
 {
     if (field0 != 0)
     {
@@ -7203,7 +7203,7 @@ void DrainManager::Drain()
     timer.Begin(taskName);
     EnterTasks(this);
     active = true;
-    ((FUN_006eb670_Holder*)this)->BSTaskletGroup_WaitForCompletion(false);
+    ((BSTaskletGroup*)this)->BSTaskletGroup_WaitForCompletion(false);
     PathTaskCompletionRecord message;
     while (incoming.Pop(message))
     {

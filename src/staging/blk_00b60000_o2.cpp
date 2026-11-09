@@ -325,7 +325,7 @@ int __cdecl Object_ComputeValue_00b66760(int a)
     return 1;
 }
 
-void __cdecl FUN_00b6a520();
+void __cdecl WaterShaderProperty();
 
 void __cdecl operator delete(void* p, unsigned int size);
 
@@ -334,11 +334,11 @@ struct FUN_00b6adb0_class
     void* FUN_00b6adb0(int flags);
 };
 
-// Calls FUN_00b6a520, frees this with operator delete when flags has bit 0 set, and returns this.
+// Calls WaterShaderProperty, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00b6adb0
 void* FUN_00b6adb0_class::FUN_00b6adb0(int flags)
 {
-    FUN_00b6a520();
+    WaterShaderProperty();
     if (flags & 1)
         operator delete(this, 336);
     return this;
@@ -445,7 +445,7 @@ struct NiObjectNET_stub
 {
     void NiObjectNET_PostLinkObject(int);
 };
-struct FUN_00b6f4f0_class
+struct BSShaderNoLightingProperty
 {
     int m_0x64;
     NiTexture* m_tex;
@@ -453,7 +453,7 @@ struct FUN_00b6f4f0_class
 };
 // Calls FUN_00a5c6a0 with a, then if the name at offset 0x64 is set, looks up that texture via BSShaderManager::GetTexture into the pointer at 0x60.
 // @fnv 0x00b6f4f0
-void FUN_00b6f4f0_class::SetTextureByName(int a)
+void BSShaderNoLightingProperty::SetTextureByName(int a)
 {
     ((NiObjectNET_stub*)this)->NiObjectNET_PostLinkObject(a);
     if (*(int*)((char*)this + 0x64))
@@ -2245,15 +2245,16 @@ struct B6List
         FUN_004ed900();
     }
 };
-struct FUN_00b6a520 : B6Base
+struct WaterShaderProperty : B6Base
 {
     B6List list;
     NiPointer<NiRefObject> p134, p138, p13c, p140, p144;
     NiRefObject* p148;
-    virtual ~FUN_00b6a520();
+    virtual ~WaterShaderProperty();
 };
 // @fnv 0x00b6a520
-FUN_00b6a520::~FUN_00b6a520()
+// src: GUESS 0x00b6a520 (confidence: medium)
+WaterShaderProperty::~WaterShaderProperty()
 {
     list.FUN_004ed900();
     NiRefObject* p = p148;
@@ -4902,7 +4903,7 @@ class BaseObj_b60
     BaseObj_b60();
     virtual ~BaseObj_b60();
 };
-class FUN_00b60cb0 : public BaseObj_b60
+class TallGrassShaderProperty : public BaseObj_b60
 {
   public:
     unsigned int m_1c;
@@ -4935,12 +4936,13 @@ class FUN_00b60cb0 : public BaseObj_b60
     NiPointer<NiRefObject> m_88;
     unsigned short m_8c;
     unsigned short m_8e;
-    FUN_00b60cb0();
-    virtual ~FUN_00b60cb0();
+    TallGrassShaderProperty();
+    virtual ~TallGrassShaderProperty();
 };
 // Initializes the object: clears m_88.m_pObject, m_8c, m_8e, m_80, m_7c and sets m_1c to 4.
 // @fnv 0x00b60cb0
-FUN_00b60cb0::FUN_00b60cb0()
+// src: GUESS 0x00b60cb0 (confidence: medium)
+TallGrassShaderProperty::TallGrassShaderProperty()
 {
     m_88.m_pObject = 0;
     m_8c = 0;

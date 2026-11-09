@@ -1242,14 +1242,14 @@ bool LipSynchAnim_ChangeFilenameToLipSynch(BSStringT<char>& path)
     return true;
 }
 
-struct FUN_00810f90_shell
+struct CFilter
 {
     void SetFlag4000(bool flag);
 };
 
 // Sets or clears bit 0x4000 in the first int of this object based on flag.
 // @fnv 0x00810f90
-void FUN_00810f90_shell::SetFlag4000(bool abSet)
+void CFilter::SetFlag4000(bool abSet)
 {
     if (abSet)
         ((int*)this)[0] |= 0x4000;
@@ -8952,7 +8952,7 @@ struct B9B1450ModelLoader
 };
 extern B9B1450ModelLoader* g_pModelLoader;
 
-class FUN_009b1450_Mobile : public MobileObject
+class Explosion : public MobileObject
 {
   public:
     bool Explosion_ChangeProcessLevel();
@@ -8960,7 +8960,7 @@ class FUN_009b1450_Mobile : public MobileObject
 
 // @fnv 0x009b1450
 // src: COMMUNITY 0x009b1450
-bool FUN_009b1450_Mobile::Explosion_ChangeProcessLevel()
+bool Explosion::Explosion_ChangeProcessLevel()
 {
     bool bResult = true;
     int eCurrent = m_pBaseProcess->GetProcessLevel();

@@ -328,7 +328,7 @@ class DetectionEvent
     int state;
     TESObjectREFR* source;
     DetectionEvent();
-    void LoadFields_008d72e0(BGSLoadFormBuffer*);
+    void DetectionEvent_LoadGame(BGSLoadFormBuffer*);
     void SetTargetReference(BGSLoadFormBuffer*);
 };
 class TopicInfoRecord

@@ -536,7 +536,7 @@ void HighProcess::LoadGame(BGSLoadFormBuffer* buffer)
         if (eventPresent)
         {
             m_pDetectionEvent = new DetectionEvent;
-            m_pDetectionEvent->LoadFields_008d72e0(buffer);
+            m_pDetectionEvent->DetectionEvent_LoadGame(buffer);
         }
         g_BGSSaveLoadGame->QueueSubBuffer(1, buffer, 0);
     }
@@ -4400,12 +4400,12 @@ struct FUN_008d72e0_Class
     CombatTargetTimestamp f10;
     unsigned int f14;
     unsigned int f18;
-    void LoadFields_008d72e0(BGSLoadFormBuffer* buffer);
+    void DetectionEvent_LoadGame(BGSLoadFormBuffer* buffer);
 };
 
 // @fnv 0x008d72e0
 // src: GUESS 0x008d72e0 (confidence: medium)
-void FUN_008d72e0_Class::LoadFields_008d72e0(BGSLoadFormBuffer* buffer)
+void FUN_008d72e0_Class::DetectionEvent_LoadGame(BGSLoadFormBuffer* buffer)
 {
     buffer->ReadTypedData((void*)this, 4u);
     buffer->ReadTypedData((void*)&f4, 0xcu);
@@ -5180,7 +5180,7 @@ char FUN_008f3fe0::Method(Actor* actor, Actor*)
     return 1;
 }
 
-struct FUN_008f6120
+struct StartCombatStates
 {
     void* m00;
     void* m04;
@@ -5191,11 +5191,12 @@ struct FUN_008f6120
     bool m0C;
     bool m0D;
     int m10;
-    FUN_008f6120();
+    StartCombatStates();
 };
 // Initializes all members of the object to zero and false.
 // @fnv 0x008f6120
-FUN_008f6120::FUN_008f6120()
+// src: GUESS 0x008f6120 (confidence: high)
+StartCombatStates::StartCombatStates()
 {
     m00 = 0;
     m04 = 0;
@@ -5630,7 +5631,7 @@ void This00902640::HighProcess_ProcessGuardStartTravelToLocation(int a, Arg00902
     b->ResetValue();
 }
 
-struct FUN_00902680_Class
+struct GuardActorPackageData
 {
     char pad[0x10];
     float m_0x10;
@@ -5638,7 +5639,7 @@ struct FUN_00902680_Class
 };
 
 // @fnv 0x00902680
-void FUN_00902680_Class::ResetValue()
+void GuardActorPackageData::ResetValue()
 {
     m_0x10 = 0.0f;
 }
@@ -6016,7 +6017,7 @@ struct FUN_006dc890_Class
 {
     void PathingAvoidNode_SaveGame(BGSSaveFormBuffer*);
 };
-struct FUN_008d73b0_Class : FUN_006dc890_Class
+struct AvoidAreaStruct : FUN_006dc890_Class
 {
     void SaveAvoidNodeFields(BGSSaveFormBuffer* buffer);
 };
@@ -6024,7 +6025,7 @@ struct FUN_008d73b0_Class : FUN_006dc890_Class
 // Calls the base save routine, writes the 4-byte values at offsets 0x24 and 0x2c, then saves the form IDs at 0x28 and 0x30.
 // @fnv 0x008d73b0
 // src: GUESS 0x008d73b0 (confidence: medium)
-void FUN_008d73b0_Class::SaveAvoidNodeFields(BGSSaveFormBuffer* buffer)
+void AvoidAreaStruct::SaveAvoidNodeFields(BGSSaveFormBuffer* buffer)
 {
     PathingAvoidNode_SaveGame(buffer);
     buffer->SaveData((char*)this + 0x24, 4, 0);
@@ -22191,7 +22192,7 @@ struct Owner8ffe50
     int unk280;
     int unk284;
     int unk288;
-    BSSimpleList<FUN_008f6120*> kList28c;
+    BSSimpleList<StartCombatStates*> kList28c;
     bool AddTargetIfEligible(Actor* apActor, Actor* apTarget);
 };
 
@@ -22211,7 +22212,7 @@ bool Owner8ffe50::AddTargetIfEligible(Actor* apActor, Actor* apTarget)
             !((ActorShell8ffe50*)apActor)->Check493bb0() &&
             ((RefDist8ffe50*)apTarget)->GetDist5723b0(apActor, 0, 1) <= *originalRuntimeFloatSetting186.Float())
         {
-            FUN_008f6120* pNode = new FUN_008f6120;
+            StartCombatStates* pNode = new StartCombatStates;
             pNode->m00 = apTarget;
             pNode->m04 = (void*)((Actor*)apTarget)->GetCombatGroup();
             pNode->m0D = true;

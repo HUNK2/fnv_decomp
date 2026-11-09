@@ -1245,7 +1245,7 @@ struct HairOption
 };
 struct HairOptions
 {
-    void ReleaseStorage_007b45b0();
+    void RaceSexMenu_MenuOptionList_Clear();
     HairOption* RaceSexMenu_List_AddListItemWithID(const char*, int);
     HairOption* BGSSaveFormBuffer_GetForm();
     bool RaceSexMenu_MenuOptionList_DoGamepad(int);
@@ -1316,7 +1316,7 @@ struct HairMenu
 // @fnv 0x007af300
 void HairMenu::PopulateHairOptions()
 {
-    options->ReleaseStorage_007b45b0();
+    options->RaceSexMenu_MenuOptionList_Clear();
     HairOption* pChosenOption = 0;
     for (HairNode* node = (HairNode*)DAT_011c3f2c->GetTESHairList(); node && *node->FUN_006815c0(); node = node->FUN_00726070())
     {
@@ -2617,7 +2617,7 @@ struct FUN_007b3af0 : S_007b3af0_Base
     int unk0c;
     int unk10;
     S_007b3af0_Item* m_item;
-    void ReleaseStorage_007b45b0();
+    void RaceSexMenu_MenuOptionList_Clear();
     ~FUN_007b3af0();
 };
 // Deletes m_item, clears it to null, then calls FUN_007b45b0.
@@ -2626,7 +2626,7 @@ FUN_007b3af0::~FUN_007b3af0()
 {
     delete m_item;
     m_item = 0;
-    ReleaseStorage_007b45b0();
+    RaceSexMenu_MenuOptionList_Clear();
 }
 
 struct TempString_007b3bb0
@@ -2843,13 +2843,13 @@ struct FUN_007b45b0_shell
     void* Modelloader_GetReferencedThis();
     NodeT*& NiTPointerListBase_NiTPointerAllocator_unsigned_int_Tile_GetNext(void*& it);
     void FUN_004ed900();
-    void ReleaseStorage_007b45b0();
+    void RaceSexMenu_MenuOptionList_Clear();
 };
 
 // Iterates the list from FUN_00559450, deleting each node's m_item and the node, then calls FUN_004ed900 and clears m_20.
 // @fnv 0x007b45b0
-// src: GUESS 0x007b45b0 (confidence: low)
-void FUN_007b45b0_shell::ReleaseStorage_007b45b0()
+// src: GUESS 0x007b45b0 (confidence: medium)
+void FUN_007b45b0_shell::RaceSexMenu_MenuOptionList_Clear()
 {
     void* it = Modelloader_GetReferencedThis();
     while (it != 0)

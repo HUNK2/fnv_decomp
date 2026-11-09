@@ -110,7 +110,7 @@ unsigned char FUN_006aabf0_shell::GetByteAt39()
     return *(unsigned char*)((char*)this + 0x39);
 }
 
-struct FUN_006ab150_shell
+struct PathingRequestLOS
 {
     char m_data[0xc8];
     NiPoint3 m_kPoint;
@@ -120,7 +120,7 @@ struct FUN_006ab150_shell
 // Copies the stored point into akDest and returns akDest.
 // @fnv 0x006ab150
 // src: COMMUNITY 0x006ab150
-NiPoint3& FUN_006ab150_shell::PathingRequestLOS_GetSearchCenter(NiPoint3& akDest)
+NiPoint3& PathingRequestLOS::PathingRequestLOS_GetSearchCenter(NiPoint3& akDest)
 {
     akDest = m_kPoint;
     return akDest;

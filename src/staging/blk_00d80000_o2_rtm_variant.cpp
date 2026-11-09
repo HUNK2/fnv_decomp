@@ -1569,8 +1569,8 @@ struct FUN_00d61b10 {
     }
 };
 int __cdecl GetTypeCodeFromString(const char* name) throw();
-struct FUN_00d87180_cls : S {
-    FUN_00d87180_cls* hkClassMemberAccessor_hkClassMemberAccessor(unsigned int a, B* b);
+struct hkClassMemberAccessor : S {
+    hkClassMemberAccessor* hkClassMemberAccessor_hkClassMemberAccessor(unsigned int a, B* b);
 };
 class OwnerD87A {
 public:

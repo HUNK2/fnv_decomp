@@ -151,15 +151,16 @@ void ObstacleTaskData::Process()
 ObstacleTaskData::~ObstacleTaskData()
 {}
 
-struct FUN_006c7e00
+struct ObstacleTaskNavMeshOperation
 {
     NiPointer<ObstacleData> node;
     int pad[2];
     NavMeshPtr mesh;
-    ~FUN_006c7e00();
+    ~ObstacleTaskNavMeshOperation();
 };
 // @fnv 0x006c7e00
-FUN_006c7e00::~FUN_006c7e00()
+// src: GUESS 0x006c7e00 (confidence: medium)
+ObstacleTaskNavMeshOperation::~ObstacleTaskNavMeshOperation()
 {}
 
 void __cdecl CompareObstacleEntries();

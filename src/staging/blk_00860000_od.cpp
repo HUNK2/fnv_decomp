@@ -76,14 +76,14 @@ struct FUN_00865900_Class
     void __thiscall CreateInstance();
 };
 
-struct FUN_00865870_Class
+struct NiTMap
 {
     void __thiscall NiTMap_TESForm_BGSLoadGameSubBuffer_NewItem();
 };
 
 // @fnv 0x00865870
 // src: COMMUNITY 0x00865870
-void __thiscall FUN_00865870_Class::NiTMap_TESForm_BGSLoadGameSubBuffer_NewItem()
+void __thiscall NiTMap::NiTMap_TESForm_BGSLoadGameSubBuffer_NewItem()
 {
     ((FUN_00865900_Class*)((char*)this + 0xc))->CreateInstance();
 }
@@ -266,12 +266,12 @@ void FUN_00869e30_class::UpdateState_00869e30()
     j_Deallocate_NiTNewInterface_V_NiPointer_VNiAVObject_SAXPAV_NiPointer_VNiAVObject_Z(f);
 }
 
-struct FUN_0086c600_shell
+struct BSPackedTaskQueue
 {
     void SignalAtOffset();
 };
 // @fnv 0x0086c600
-void FUN_0086c600_shell::SignalAtOffset()
+void BSPackedTaskQueue::SignalAtOffset()
 {
     ((CountingSemaphore*)((char*)this + 0x14))->Signal();
 }
@@ -416,7 +416,7 @@ int FUN_00878130_Class::ResetAndGetValue()
 }
 
 namespace fnv_0087a6f0 {
-struct FUN_0086c600_shell
+struct BSPackedTaskQueue
 {
     void* __thiscall SignalAtOffset();
 };
@@ -430,7 +430,7 @@ struct FUN_0087a6f0_shell
 // src: COMMUNITY 0x0087a6f0
 void* __thiscall FUN_0087a6f0_shell::TaskQueueInterface_ThreadBeginSecondaryInput()
 {
-    return reinterpret_cast<FUN_0086c600_shell*>(reinterpret_cast<void**>(this)[1])->SignalAtOffset();
+    return reinterpret_cast<BSPackedTaskQueue*>(reinterpret_cast<void**>(this)[1])->SignalAtOffset();
 }
 }  // namespace fnv_0087a6f0
 
@@ -451,14 +451,14 @@ void __thiscall FUN_0087a710_shell::TaskQueueInterface_ThreadEndSecondaryInput()
     p->FUN_0086cdd0();
 }
 
-struct FUN_0087a770
+struct BSTCommonScrapHeapMessageQueue
 {
     bool IsEmpty();
     void DoWork();
 };
 
 // @fnv 0x0087a770
-void FUN_0087a770::DoWork()
+void BSTCommonScrapHeapMessageQueue::DoWork()
 {
     IsEmpty();
 }
@@ -609,14 +609,14 @@ struct ABD_005f92d0
     bool GetFlag(unsigned int) const;
 };
 
-struct FUN_0087f480_Class
+struct TESActorBaseData
 {
     bool TESActorBaseData_GetEssential();
 };
 
 // @fnv 0x0087f480
 // src: COMMUNITY 0x0087f480
-bool FUN_0087f480_Class::TESActorBaseData_GetEssential()
+bool TESActorBaseData::TESActorBaseData_GetEssential()
 {
     return ((ABD_005f92d0*)this)->GetFlag(2);
 }
@@ -1186,11 +1186,11 @@ void* __thiscall FUN_00877d50_Class::FUN_00877d50(unsigned int flags)
 struct FUN_00877e10_Class
 {
     void SetEntry(unsigned int, unsigned int);
-    unsigned int EvaluateValue_00877e10(unsigned int a, unsigned int b);
+    unsigned int NiTArray_SetAtGrow(unsigned int a, unsigned int b);
 };
 // @fnv 0x00877e10
-// src: GUESS 0x00877e10 (confidence: low)
-unsigned int FUN_00877e10_Class::EvaluateValue_00877e10(unsigned int a, unsigned int b)
+// src: GUESS 0x00877e10 (confidence: medium)
+unsigned int FUN_00877e10_Class::NiTArray_SetAtGrow(unsigned int a, unsigned int b)
 {
     if (a >= reinterpret_cast<unsigned short*>(this)[4])
         reinterpret_cast<StrArr*>(this)->SetSize(reinterpret_cast<unsigned short*>(this)[7] + a);
@@ -1441,7 +1441,7 @@ FUN_00864160::FUN_00864160(unsigned int ItemUpdateArray, int iExtra)
 
 struct TESForm;
 TESForm* __cdecl _ref_004839c0(int id);
-struct FUN_00867890_shell
+struct Calendar
 {
     TESForm* f0;
     TESForm* f1;
@@ -1456,7 +1456,7 @@ struct FUN_00867890_shell
 // Looks up six forms by id, adds the f3 global's value divided by 24 to the f4 global, stores it, resets f6 and calls FUN_00867a20.
 // @fnv 0x00867890
 // src: COMMUNITY 0x00867890
-void FUN_00867890_shell::Calendar_InitGlobals()
+void Calendar::Calendar_InitGlobals()
 {
     f0 = _ref_004839c0(0x35);
     f1 = _ref_004839c0(0x36);
@@ -3529,7 +3529,7 @@ void Owner_008783a0::CallSubCallee()
 
 struct FUN_0087a730_target
 {
-    bool FUN_0087a770();
+    bool BSTCommonScrapHeapMessageQueue();
     bool GetField24();
 };
 
@@ -3539,12 +3539,12 @@ struct FUN_0087a730_cls
     bool TaskQueueInterface_QQueueFurtherTasks();
 };
 
-// Returns true when unk00's FUN_0087a770 and GetField24 both return false, otherwise false.
+// Returns true when unk00's BSTCommonScrapHeapMessageQueue and GetField24 both return false, otherwise false.
 // @fnv 0x0087a730
 // src: XBOX_PDB 0x0087a730
 bool FUN_0087a730_cls::TaskQueueInterface_QQueueFurtherTasks()
 {
-    if (!this->unk00->FUN_0087a770() && !this->unk00->GetField24())
+    if (!this->unk00->BSTCommonScrapHeapMessageQueue() && !this->unk00->GetField24())
         return true;
     return false;
 }

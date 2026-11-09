@@ -29,14 +29,14 @@ unsigned int FUN_00740960_Class::TESDataHandler_GetBarterContainer()
     return *(unsigned int*)((char*)this + 0x628);
 }
 
-struct FUN_00752df0_class
+struct CaravanMenu
 {
     int CompareToTwentyOneToTwentySix(int value);
 };
 
 // Returns -1 if value is below 0x15, 1 if above 0x1a, and 0 when value is in that range.
 // @fnv 0x00752df0
-int FUN_00752df0_class::CompareToTwentyOneToTwentySix(int value)
+int CaravanMenu::CompareToTwentyOneToTwentySix(int value)
 {
     if (value < 0x15)
         return -1;

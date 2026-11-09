@@ -19,16 +19,17 @@ void __thiscall FUN_00cd06c0_t::hkFreeListMemorySystem_setAllocator(int v)
 
 extern int DAT_010cacd0;
 
-struct FUN_00cd06a0
+struct hkThreadMemory
 {
     void* m_p00;
-    FUN_00cd06a0(int aiArg);
+    hkThreadMemory(int aiArg);
     void hkThreadMemory_releaseCachedMemory();
     void UpdateFields_00cbf1a0();
 };
 
 // @fnv 0x00cd06a0
-FUN_00cd06a0::FUN_00cd06a0(int aiArg)
+// src: GUESS 0x00cd06a0 (confidence: medium)
+hkThreadMemory::hkThreadMemory(int aiArg)
 {
     m_p00 = &DAT_010cacd0;
     hkThreadMemory_releaseCachedMemory();
@@ -1558,7 +1559,7 @@ struct FUN_00cbf1a0_t
     void UpdateFields_00cbf1a0();
 };
 
-struct FUN_00cd0c50_cls
+struct hkLeakDetectAllocator
 {
     int unk00;
     int unk04;
@@ -1568,11 +1569,11 @@ struct FUN_00cd0c50_cls
     int unk14;
     CRITICAL_SECTION m_cs;
 
-    FUN_00cd0c50_cls* Destroy(int a1);
+    hkLeakDetectAllocator* Destroy(int a1);
 };
 
 // @fnv 0x00cd0c50
-FUN_00cd0c50_cls* FUN_00cd0c50_cls::Destroy(int a1)
+hkLeakDetectAllocator* hkLeakDetectAllocator::Destroy(int a1)
 {
     DeleteCriticalSection((LPCRITICAL_SECTION)((char*)this + 0x18));
     reinterpret_cast<FUN_00cbf1a0_t*>(this)->UpdateFields_00cbf1a0();

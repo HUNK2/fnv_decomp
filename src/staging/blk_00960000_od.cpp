@@ -228,13 +228,13 @@ struct Unk6b
 
 struct FUN_0096a540_class
 {
-    void ReleaseStorage_0096a540(void* arg);
+    void NiTMap_DeleteItem(void* arg);
 };
 
 // Clears the byte at offset 8 of arg, then calls FreeMemory on the object at this+0xc with arg.
 // @fnv 0x0096a540
 // src: GUESS 0x0096a540 (confidence: medium)
-void FUN_0096a540_class::ReleaseStorage_0096a540(void* arg)
+void FUN_0096a540_class::NiTMap_DeleteItem(void* arg)
 {
     *(unsigned char*)((char*)arg + 8) = 0;
     ((Unk6b*)((char*)this + 0xc))->FreeMemory(arg);
@@ -910,14 +910,14 @@ void* __thiscall FUN_00978e40_Class::FUN_00978e40(unsigned int flags)
 }
 
 void __cdecl Deallocate(void*);
-struct FUN_00978f40_Class
+struct BeamProjectile
 {
     void __thiscall FUN_00978f70();
     void* __thiscall FUN_00978f40(unsigned int flags);
 };
 // Calls FUN_00978f70, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00978f40
-void* __thiscall FUN_00978f40_Class::FUN_00978f40(unsigned int flags)
+void* __thiscall BeamProjectile::FUN_00978f40(unsigned int flags)
 {
     FUN_00978f70();
     if (flags & 1)
@@ -1627,7 +1627,7 @@ struct FUN_0096a400_Node
     unsigned char m_08;
 };
 
-class FUN_0096a400_cls
+class NiTMap
 {
   public:
     virtual void v00();
@@ -1638,7 +1638,7 @@ class FUN_0096a400_cls
 };
 
 // @fnv 0x0096a400
-void FUN_0096a400_cls::GetNextEntry(FUN_0096a400_Node** cursor, unsigned int* outKey, unsigned char* outFlag)
+void NiTMap::GetNextEntry(FUN_0096a400_Node** cursor, unsigned int* outKey, unsigned char* outFlag)
 {
     FUN_0096a400_Node* cur = *cursor;
     *outKey = cur->m_04;
@@ -7744,12 +7744,12 @@ using ::memset;
 
 extern void(__stdcall* DAT_00fdf0a4)(_RTL_CRITICAL_SECTION*);
 
-struct FUN_0096a850
+struct ProcessArray
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    FUN_0096a850();
-    ~FUN_0096a850();
+    ProcessArray();
+    ~ProcessArray();
 };
 struct GlobalObject_004ee810
 {
@@ -7823,7 +7823,7 @@ extern __int64 DAT_011e0e20;
 struct ProcessLists
 {
     int unk00000;
-    FUN_0096a850 map;
+    ProcessArray map;
     BSSimpleList<TESForm*>* lists[5];
     GlobalObject_004ee810 list58;
     GlobalObject_004ee810 list60;

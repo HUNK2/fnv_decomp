@@ -152,7 +152,7 @@ CpuObject* CpuObject::ScalarDeletingDestructor(unsigned int flags)
 
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void* apSection);
 
-struct FUN_00d97050_cls
+struct hkCriticalSection
 {
     int unk00;
     int unk04;
@@ -165,7 +165,7 @@ struct FUN_00d97050_cls
 
 // @fnv 0x00d97050
 // src: XBOX_PDB 0x00d97050
-void FUN_00d97050_cls::hkpBroadPhase_lockImplementation()
+void hkCriticalSection::hkpBroadPhase_lockImplementation()
 {
     EnterCriticalSection(m_pSection);
 }

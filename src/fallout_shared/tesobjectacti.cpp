@@ -139,14 +139,14 @@ bool TESObjectACTI::Load(TESFile* file)
     return true;
 }
 
-struct FUN_004fd3a0_shell : public TESObjectACTI
+struct TESChallenge : public TESObjectACTI
 {
     TESSound* TESChallenge_GetFormOne();
 };
 
 // @fnv 0x004fd3a0
 // src: COMMUNITY 0x004fd3a0
-TESSound* FUN_004fd3a0_shell::TESChallenge_GetFormOne()
+TESSound* TESChallenge::TESChallenge_GetFormOne()
 {
     return *(TESSound**)((char*)this + 0x74);
 }

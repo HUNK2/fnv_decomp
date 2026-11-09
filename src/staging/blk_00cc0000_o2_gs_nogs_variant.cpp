@@ -412,7 +412,7 @@ struct FUN_00cc7090_Constraint
     float m_fPlaneMinAngle;
     float m_fPlaneMaxAngle;
 };
-struct FUN_00cc7090_class
+struct hkRagdollConstraintCinfo
 {
     void* m_pVtable;
     FUN_00cc7090_Constraint* m_pConstraint;
@@ -1642,7 +1642,7 @@ class FUN_00cc2a00_obj
   public:
     void Init();
 };
-class FUN_00cc2a00_cls
+class bhkSimpleShapePhantom
 {
   public:
     unsigned int m_00;
@@ -3682,7 +3682,7 @@ struct FUN_00cc5ee0_interface
 {
     virtual void __thiscall FUN_00cc5ee0_call(int value) = 0;
 };
-struct FUN_00cc5ee0_class
+struct bhkRagdollConstraint
 {
     void* unk00;
     void* unk04;
@@ -8703,7 +8703,7 @@ struct FUN_00cdeac0_cls
     unsigned char unkA0;
     unsigned char unkA1;
     unsigned char m_bA2;
-    unsigned char* __thiscall CopyFieldA2ToOutput_00cdeac0(unsigned char* pOut);
+    unsigned char* __thiscall hkpRagdollConstraintData_getMotorsActive(unsigned char* pOut);
 };
 class RefObj
 {
@@ -12409,7 +12409,7 @@ struct SaveCtx
     unsigned int unk024C;
     SaveStream* m_pBinaryStream;
 };
-class FUN_00cc8a10_cls
+class hkHingeLimitsConstraintCinfo
 {
   public:
     void* unk00;
@@ -14944,15 +14944,15 @@ struct DataViewer
     }
     void hkBreakableConstraintCinfo_GetViewerStrings(StrArr* strings);
 };
-struct FUN_00d4f2a0
+struct hkpRagdollLimitsData
 {
     int unk00;
     unsigned short m_us4;
-    FUN_00d4f2a0();
+    hkpRagdollLimitsData();
     void* operator new(unsigned int, unsigned int n)
     {
         void* b = hkMemoryRouter_getInstance()->heap().AllocateMemoryBlock(n);
-        ((FUN_00d4f2a0*)b)->m_us4 = (unsigned short)n;
+        ((hkpRagdollLimitsData*)b)->m_us4 = (unsigned short)n;
         return b;
     }
     void operator delete(void*, unsigned int)
@@ -14961,7 +14961,7 @@ struct FUN_00d4f2a0
 struct S00cc6030_Cls
 {
     void* unk00;
-    FUN_00d4f2a0* unk04;
+    hkpRagdollLimitsData* unk04;
     int hkRagdollLimitsConstraintCinfo_CreateData();
 };
 struct hkpHingeLimitsData : S_00cc4b90_RefObj
@@ -15963,7 +15963,7 @@ struct __declspec(align(16)) hkMatrix3_Scaled
     __m128 col2;
     const __m128* __thiscall FUN_00cd4d40(const __m128* scale, const hkMatrix3_Scaled* source);
 };
-struct FUN_00cd7d20_Class
+struct hkCharControllerShape
 {
     void __thiscall hkCharControllerShape_getAabb(float* param1, float param2, float* param3);
 };
@@ -16217,7 +16217,7 @@ extern float DAT_0104da48;
 struct CdfSubObject
 {
     volatile unsigned char m_00;
-    void FindFloatTableIndex(float* value);
+    void SetReal(float* value);
 };
 class CdfObject
 {

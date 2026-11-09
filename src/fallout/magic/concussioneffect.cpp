@@ -94,14 +94,14 @@ TESImageSpaceModifier* TESImageSpaceModifier::GetConcussion()
     return DAT_011c9704;
 }
 
-struct FUN_0052d240_shell
+struct PathingSpline
 {
     void FUN_00483710();
     void BGSStaticCollection_ClearData();
 };
 // @fnv 0x0052d240
 // src: COMMUNITY 0x0052d240
-void FUN_0052d240_shell::BGSStaticCollection_ClearData()
+void PathingSpline::BGSStaticCollection_ClearData()
 {
     FUN_00483710();
 }

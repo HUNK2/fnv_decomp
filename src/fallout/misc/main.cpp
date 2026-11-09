@@ -2548,7 +2548,7 @@ struct FUN_00877a50Class
 {
     unsigned char _pad_000a[0xa];
     unsigned short m_000a;
-    void EvaluateValue_00877e10(unsigned short a, int b);
+    void NiTArray_SetAtGrow(unsigned short a, int b);
     void ForwardCall_00877a50(int param_2);
 };
 
@@ -2557,7 +2557,7 @@ struct FUN_00877a50Class
 // src: GUESS 0x00877a50 (confidence: low)
 void FUN_00877a50Class::ForwardCall_00877a50(int param_2)
 {
-    EvaluateValue_00877e10(m_000a, param_2);
+    NiTArray_SetAtGrow(m_000a, param_2);
 }
 
 struct FUN_00a23490_Class
@@ -2599,14 +2599,14 @@ int __thiscall FUN_00a236d0_class::Controls_GetHatCount(int index)
 
 extern "C" void __cdecl _Deallocate(void*);
 
-struct FUN_0086bd40_class
+struct FileFinderImpl
 {
     void __thiscall FUN_00afdcf0();
     void* __thiscall FUN_0086bd40(unsigned int flags);
 };
 
 // @fnv 0x0086bd40
-void* __thiscall FUN_0086bd40_class::FUN_0086bd40(unsigned int flags)
+void* __thiscall FileFinderImpl::FUN_0086bd40(unsigned int flags)
 {
     FUN_00afdcf0();
     if (flags & 1)
@@ -3413,10 +3413,10 @@ void __cdecl BSShaderManager_ReturnSceneDepthTexture();
 void __cdecl BSBatchRenderer_EndPass();
 void __cdecl ImageSpaceEffectHDR_ClearAdaptedLight();
 void __cdecl BSShaderProperty_PreviousTransform_SaveCamera(void*);
-struct FUN_004d61b0
+struct NiTreeCtrl
 {
     char pad[0x30];
-    FUN_004d61b0(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, int, int);
+    NiTreeCtrl(unsigned int, unsigned int, unsigned int, const char*, unsigned int, unsigned int, int, int);
 };
 extern unsigned char DAT_011f9440;
 extern Flt DAT_011fa008;
@@ -3450,7 +3450,7 @@ void FUN_00876850_shell::TESMain_DrawWorld_End(BSRenderedTexture* apRenderTextur
         NiParallelUpdateTaskManager_SignalRenderSema();
     if ((unsigned int)DAT_011fa008)
     {
-        new FUN_004d61b0(((TESForm*)this)->GetFormID(), ((MainOffset08View*)this)->GetFlags(), (unsigned int)DAT_011fa008,
+        new NiTreeCtrl(((TESForm*)this)->GetFormID(), ((MainOffset08View*)this)->GetFlags(), (unsigned int)DAT_011fa008,
                          "Render Passes", 0x80000000, 0x80000000, 800, 600);
         (GO&)DAT_011fa008 = 0;
     }
@@ -5201,7 +5201,7 @@ struct Point86
 };
 struct Receiver86
 {
-    Receiver86* FUN_00afdc60(const char*, int, int);
+    Receiver86* FileFinder(const char*, int, int);
     Receiver86* FUN_0086c160(unsigned int, unsigned int);
     Receiver86* FUN_007005d0();
 
@@ -5757,7 +5757,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 FUN_00aff100()->BSFileCache_SetFileCacheList(g_011dee78.FUN_00403df0(), g_011ded2c.FUN_00403df0());
                 fileAllocation4 = (Receiver86*)operator new(16);
                 fileSystem2 = fileAllocation4
-                                  ? fileAllocation4->FUN_00afdc60(g_011dece4.FUN_00403df0(), *g_011dee6c.Int(), 0)
+                                  ? fileAllocation4->FileFinder(g_011dece4.FUN_00403df0(), *g_011dee6c.Int(), 0)
                                   : 0;
                 FileFinder_AddPath_0(&UNK_0105bb14);
                 MessageHandler_Init(enableMemory0, *g_011dec88.FUN_00408d60(), *g_011dee20.FUN_00408d60(),
@@ -6309,7 +6309,7 @@ bool FUN_0086ba10_target::NiXenonRenderer_BeginOffScreenFrame()
     return true;
 }
 
-extern FUN_0086bd40_class* DAT_011f81dc;
+extern FileFinderImpl* DAT_011f81dc;
 
 // If the global object pointer DAT_011f81dc is non-null, calls its FUN_0086bd40 method with 1.
 // @fnv 0x0086bd00
@@ -6318,8 +6318,8 @@ void __cdecl Object_UpdateFields_0086bd00(void)
 {
     if (DAT_011f81dc)
     {
-        FUN_0086bd40_class* pObject = DAT_011f81dc;
-        FUN_0086bd40_class* pThis = pObject;
+        FileFinderImpl* pObject = DAT_011f81dc;
+        FileFinderImpl* pThis = pObject;
 
         {
             void* pResult;

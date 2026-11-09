@@ -471,13 +471,13 @@ struct FUN_007b5330_shell
     void __thiscall NiTPointerListBase_InsertBefore_0(void*, void*);
 };
 
-struct FUN_00759da0_shell : FUN_007b5330_shell
+struct ComputersMenu_AnimatingTextManager : FUN_007b5330_shell
 {
     void __thiscall InsertAtPosition(char const*, int, int, int);
 };
 
 // @fnv 0x00759da0
-void FUN_00759da0_shell::InsertAtPosition(char const* aParam1, int aParam2, int aParam3, int aParam4)
+void ComputersMenu_AnimatingTextManager::InsertAtPosition(char const* aParam1, int aParam2, int aParam3, int aParam4)
 {
     FUN_00759eb0* pNewObject = new FUN_00759eb0(aParam1);
 
@@ -2374,21 +2374,21 @@ void ComputersMenu::BuildAnimation()
         unsigned int introDelay = *reinterpret_cast<unsigned int*>(g_011d3de4.Setting_Int()) > 0 ? 1000 / *reinterpret_cast<unsigned int*>(g_011d3de4.Setting_Int()) : 1000;
         promptDelay = *reinterpret_cast<unsigned int*>(g_011d4e4c.Setting_Int()) > 0 ? 1000 / *reinterpret_cast<unsigned int*>(g_011d4e4c.Setting_Int()) : 1000;
         fnv_00758ad0::DAT_0119f278 = introDelay;
-        reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(g_011d3a38.FUN_004c69f0(), (int)tile4c->Tile_GetValue(0xfc4),
+        reinterpret_cast<ComputersMenu_AnimatingTextManager*>(manager)->InsertAtPosition(g_011d3a38.FUN_004c69f0(), (int)tile4c->Tile_GetValue(0xfc4),
                                     (int)reinterpret_cast<TileCompatibility*>(tile4c)->FindTraitValue(0xfa3), -1);
         fnv_00758ad0::DAT_0119f278 = promptDelay;
         BSStringT_char_SPrintF(&text, "%s%s", "> ", g_011d2ee0.FUN_00403df0());
-        reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(text.Modelloader_GetReferencedThis(), (int)tile50->Tile_GetValue(0xfc4),
+        reinterpret_cast<ComputersMenu_AnimatingTextManager*>(manager)->InsertAtPosition(text.Modelloader_GetReferencedThis(), (int)tile50->Tile_GetValue(0xfc4),
                                     (int)reinterpret_cast<TileCompatibility*>(tile50)->FindTraitValue(0xfa3), -1);
         fnv_00758ad0::DAT_0119f278 = introDelay;
-        reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(g_011d430c.FUN_004c69f0(), (int)tile54->Tile_GetValue(0xfc4),
+        reinterpret_cast<ComputersMenu_AnimatingTextManager*>(manager)->InsertAtPosition(g_011d430c.FUN_004c69f0(), (int)tile54->Tile_GetValue(0xfc4),
                                     (int)reinterpret_cast<TileCompatibility*>(tile54)->FindTraitValue(0xfa3), -1);
         fnv_00758ad0::DAT_0119f278 = promptDelay;
         char password[16];
         ourMemset(password, 0, 16);
         ourMemset(password, '*', reinterpret_cast<TerminalReference*>(terminal)->BGSTerminal_GetHackMiniGameValue(reference));
         BSStringT_char_SPrintF(&text, "%s%s", "> ", password);
-        reinterpret_cast<FUN_00759da0_shell*>(manager)->InsertAtPosition(text.Modelloader_GetReferencedThis(), (int)tile58->Tile_GetValue(0xfc4),
+        reinterpret_cast<ComputersMenu_AnimatingTextManager*>(manager)->InsertAtPosition(text.Modelloader_GetReferencedThis(), (int)tile58->Tile_GetValue(0xfc4),
                                     (int)reinterpret_cast<TileCompatibility*>(tile58)->FindTraitValue(0xfa3), -1);
     }
 }

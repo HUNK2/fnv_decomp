@@ -71,7 +71,7 @@ struct BlkInterfaceView
     static void __cdecl PrintDebugMessage(void);
 };
 int __cdecl BSAtomicCompareExchange(long volatile* a1, long a2, long a3);
-struct FUN_006ec0d0_Class
+struct BSTCommonMessageQueue
 {
     bool __thiscall BSTCommonMessageQueue_TryPush(int a1);
 };
@@ -328,7 +328,7 @@ struct FUN_006ffac0_Class
 };
 struct FUN_006ffb10_Class
 {
-    int __thiscall ReturnConstant_0x98();
+    int __thiscall CCallback_GetCallbackSizeBytes();
 };
 extern void* __cdecl NiFreeAlias(void*);
 extern void* DAT_0106ced8;
@@ -380,7 +380,7 @@ struct FUN_006e1250_Class
 void* __cdecl operator new(unsigned int, void*);
 struct FUN_006e1280_Class
 {
-    void __thiscall VisitPlacementAddresses(char* a1, unsigned int a2);
+    void __thiscall BSScrapArray_ConstructElements(char* a1, unsigned int a2);
 };
 void* __cdecl _NiMalloc(unsigned int);
 void* memset(void* p, int v, unsigned int n);
@@ -453,7 +453,7 @@ struct FUN_006ebbd0_Cls
     HostA* h;
     bool __thiscall ForwardToHost(int, bool);
 };
-struct FUN_006ebbf0_Class
+struct PathManager
 {
     void __thiscall CallVirtualObjectMethod(void* a1, void* a2, void* a3, void* a4, bool a5);
     void __thiscall PathManager_GetRayCastPathToNavmesh(void* a1, void* a2, void* a3, void* a4, bool a5);
@@ -855,7 +855,7 @@ struct FUN_006ff920 : public CCallbackBase
 void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_006e3e70_Class
 {
-    void __thiscall ProcessEntries_006e3e70(char* a, char* b, unsigned int c);
+    void __thiscall BSSimpleArray_MoveElements(char* a, char* b, unsigned int c);
 };
 struct SaveGameSizeState
 {
@@ -914,7 +914,7 @@ struct Arr
 };
 struct FUN_006ed7d0_Class
 {
-    bool ProcessEntries_006ed7d0(unsigned int a1, unsigned int a2, const NiPoint3& a3, const NiPoint3& a4);
+    bool PathSmoother_IsRangeClear(unsigned int a1, unsigned int a2, const NiPoint3& a3, const NiPoint3& a4);
 };
 struct S5460
 {
@@ -1055,7 +1055,7 @@ struct FUN_006c8a30_Class
 };
 struct FUN_006dc640_Class
 {
-    void CopyOverlappingElements20(char*, char*, unsigned int);
+    void BSSimpleArray_MoveElements(char*, char*, unsigned int);
 };
 struct FUN_006f9eb0_Class
 {
@@ -1118,7 +1118,7 @@ struct FUN_006ff9f0 : CCallbackBase
 };
 struct FUN_006ffa70 : CCallbackBase
 {
-    int __thiscall ProcessAndReturnValue_006ffc20(int a1, int a2);
+    int __thiscall CCallbackBase_Register(int a1, int a2);
     int m_i;
     int m_iUnknownValue;
     FUN_006ffa70(int a1, int a2);
@@ -1238,9 +1238,9 @@ struct FUN_006f47f0_Class
 {
     void* __thiscall Constructor();
 };
-struct FUN_006f4340_Class : public ScrapHeapBuffer
+struct AStarSearch : public ScrapHeapBuffer
 {
-    void* __thiscall ProcessAndReturnValue_006f4340();
+    void* __thiscall AllocateNode();
 };
 struct FUN_006f4430_Class
 {
@@ -1250,7 +1250,7 @@ struct QIdlePtr : public GO
 {
     QIdlePtr& operator=(void* a1);
 };
-struct FUN_006faa50_Class
+struct BGSTerrainChunkLoadTask
 {
     void __thiscall CopyHelperFromOffset(void* a1);
 };
@@ -1410,7 +1410,7 @@ struct FUN_006e3d30_cls
     int m_08;
     int m_0c;
     void BSSimpleArray_PathingAvoidNode_1024_ReallocateBuffer(int a1, int a2);
-    void ProcessEntries_006e3e70(int a, int b, int c);
+    void BSSimpleArray_MoveElements(int a, int b, int c);
     void FUN_006a8500();
 };
 struct TESObjectCELL_s
@@ -1821,7 +1821,7 @@ struct FUN_006ec2e0_Out
 {
     void __thiscall AssignFields_006eaa00(int value);
 };
-struct FUN_006ec2e0_Class
+struct BSTCommonLLMessageQueue
 {
     int unk00;
     int unk04;
@@ -1837,7 +1837,7 @@ class FUN_006ec4b0_item
     unsigned int m_unk00;
     FUN_006ec4b0_item(void* arg);
 };
-class FUN_006ec4b0_cls
+class BSTCommonStaticMessageQueue
 {
   public:
     unsigned int m_unk00;
@@ -3532,7 +3532,7 @@ struct FUN_006ffc20_shell : CCallbackBase
     {
         kGameServerCallback = 0
     };
-    void ProcessAndReturnValue_006ffc20(int object, int target);
+    void CCallbackBase_Register(int object, int target);
 };
 struct FUN_006ffda0_cls
 {
@@ -4446,7 +4446,7 @@ struct AvoidPoints
     unsigned int FUN_0044ddc0();
     FUN_006dd0d0* FUN_00691750(unsigned int);
     void RemoveRange(unsigned int, unsigned int, int);
-    void InsertPathingLocation(unsigned int, const FUN_006dd0d0&);
+    void BSSimpleArray_InsertAt(unsigned int, const FUN_006dd0d0&);
 };
 struct AvoidPath
 {
@@ -5316,7 +5316,7 @@ struct EntryEC7E
 {
     bool InsertOrReplaceNode();
 };
-class FUN_006ec7e0_C
+class LockFreeMap
 {
   public:
     int unk00[8];

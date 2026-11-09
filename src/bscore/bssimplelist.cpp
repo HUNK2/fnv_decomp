@@ -188,7 +188,7 @@ struct B006815c0
     float y;
     B006815c0();
 };
-struct FUN_004f7680 : public SL
+struct TESRegionPointList : public SL
 {
     void* m_pScaleResult;
     bool m_bOwnsPointMemory;
@@ -198,7 +198,7 @@ struct FUN_004f7680 : public SL
     unsigned int m_uiDistanceInsideAtMax;
     unsigned int iCount;
 
-    FUN_004f7680(bool abOwnsPointMemory);
+    TESRegionPointList(bool abOwnsPointMemory);
 };
 
 struct ItemChange
@@ -273,7 +273,8 @@ GObj* GList::TESRegionDataList_Find(int key)
 extern float _DAT_01015f5c;
 
 // @fnv 0x004f7680
-FUN_004f7680::FUN_004f7680(bool abOwnsPointMemory)
+// src: GUESS 0x004f7680 (confidence: high)
+TESRegionPointList::TESRegionPointList(bool abOwnsPointMemory)
 {
     m_bOwnsPointMemory = abOwnsPointMemory;
     m_uiDistanceInsideAtMax = 0x400;
@@ -304,15 +305,16 @@ struct TERMINAL_MENU_ITEM
     TERMINAL_MENU_ITEM();
 };
 
-struct FUN_00500910 : StrMem
+struct SCRIPT_REFERENCED_OBJECT : StrMem
 {
     unsigned int a;
     unsigned int b;
-    FUN_00500910();
+    SCRIPT_REFERENCED_OBJECT();
 };
-// Constructor for FUN_00500910 that zero-initializes the two unsigned int members a and b.
+// Constructor for SCRIPT_REFERENCED_OBJECT that zero-initializes the two unsigned int members a and b.
 // @fnv 0x00500910
-FUN_00500910::FUN_00500910()
+// src: GUESS 0x00500910 (confidence: high)
+SCRIPT_REFERENCED_OBJECT::SCRIPT_REFERENCED_OBJECT()
 {
     a = 0;
     b = 0;
@@ -476,18 +478,19 @@ struct Dummy_0061bf20
     char b[0x10];
 };
 Dummy_0061bf20* __fastcall ConstructDummy(Dummy_0061bf20*);
-struct FUN_00619740
+struct QUEST_INFO
 {
     void* pQuest;
     TopicInfoArray arr;
     Dummy_0061bf20 d;
     void* m_pAlternateQuest;
     bool bInitialized;
-    FUN_00619740();
+    QUEST_INFO();
 };
 // Constructs the embedded dummy, sets both quest pointers to null, and clears the initialized flag.
 // @fnv 0x00619740
-FUN_00619740::FUN_00619740()
+// src: GUESS 0x00619740 (confidence: medium)
+QUEST_INFO::QUEST_INFO()
 {
     ConstructDummy(&d);
     pQuest = 0;

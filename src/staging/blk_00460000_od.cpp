@@ -505,26 +505,26 @@ struct MersenneTwister
     unsigned int GetRandomUInt(unsigned int);
 };
 
-struct FUN_00476be0_Class
+struct BSRandom
 {
     unsigned int BSRandom_UnsignedInt();
 };
 
 // @fnv 0x00476be0
 // src: XBOX_PDB 0x00476be0
-unsigned int FUN_00476be0_Class::BSRandom_UnsignedInt()
+unsigned int BSRandom::BSRandom_UnsignedInt()
 {
     return reinterpret_cast<MersenneTwister*>(this)->GetRandomUInt(0xffffffff);
 }
 
-struct FUN_00476c70_Class
+struct Explosion
 {
     void Explosion_SetSourceWeapon(int value);
 };
 
 // @fnv 0x00476c70
 // src: COMMUNITY 0x00476c70
-void FUN_00476c70_Class::Explosion_SetSourceWeapon(int value)
+void Explosion::Explosion_SetSourceWeapon(int value)
 {
     *(int*)((char*)this + 0xe0) = value;
 }
@@ -1282,14 +1282,14 @@ void* __thiscall FUN_004791f0_holder2::InitArrayHolder(int aiCount)
     return this;
 }
 
-struct FUN_0047b470_This
+struct bhkCollisionObject
 {
     bool __thiscall bhkCollisionObject_GetUseVelocity();
 };
 // Returns true when bit 0x20 is set in the word at offset 0xc and the result of FUN_0047b4b0 is zero.
 // @fnv 0x0047b470
 // src: COMMUNITY 0x0047b470
-bool __thiscall FUN_0047b470_This::bhkCollisionObject_GetUseVelocity()
+bool __thiscall bhkCollisionObject::bhkCollisionObject_GetUseVelocity()
 {
     return (((*(unsigned short*)((char*)this + 0xc) & 0x20) != 0) &&
             ((unsigned char)((FUN_00573eb0_Class*)this)->bhkNiCollisionObject_IsReset() == 0));
@@ -2816,7 +2816,7 @@ bool BGSOpenCloseForm_HandleAnimEndHavok(Ref_47ab40* ref, NamedObject_47ab40* ob
 
 
 
-FUN_0047b470_This* __cdecl bhkUtilFunctions_FindNextCollisionObject(NiNode*);
+bhkCollisionObject* __cdecl bhkUtilFunctions_FindNextCollisionObject(NiNode*);
 void __cdecl SetFlagRecursive(int, void*);
 
 struct RefWithGetNiNode
@@ -2947,7 +2947,7 @@ void __cdecl BGSOpenCloseForm_SnapHavokTo3D(RefWithGetNiNode* apRef)
     NiPointer<NiNode> spNode7(apRef->GetNiNode());
     if (spNode7)
     {
-        FUN_0047b470_This* pObj2 = bhkUtilFunctions_FindNextCollisionObject(spNode7);
+        bhkCollisionObject* pObj2 = bhkUtilFunctions_FindNextCollisionObject(spNode7);
         bool bFlag3 = pObj2 ? pObj2->bhkCollisionObject_GetUseVelocity() : false;
         if (bFlag3)
         {

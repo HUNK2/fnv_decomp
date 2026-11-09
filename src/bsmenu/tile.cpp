@@ -474,7 +474,7 @@ NiNode* Tile::GetUnderlyingNode()
 }
 
 struct FUN_00a0a0b0_shell : public Tile {
-    void* GetIndexedTraitValue(int, int);
+    void* Tile_GetUnderscoreValue(int, int);
 };
 
 const char* __cdecl Tile_TraitToText(int);
@@ -484,7 +484,7 @@ int __cdecl Tile_TextToTrait(const char*);
 // Builds a value name from the base trait name and ID, then returns the value looked up by that name.
 // @fnv 0x00a0a0b0
 // src: GUESS 0x00a0a0b0 (confidence: high)
-void* FUN_00a0a0b0_shell::GetIndexedTraitValue(int aiBaseTrait, int aiID)
+void* FUN_00a0a0b0_shell::Tile_GetUnderscoreValue(int aiBaseTrait, int aiID)
 {
     char strValueName[260];
     const char* strBaseName = Tile_TraitToText(aiBaseTrait);
@@ -1446,13 +1446,13 @@ void FUN_00a0c900_shell::NiTStringPointerMap_XMLStorage_SetAt(const char* pcKey,
     m_uiCount++;
 }
 
-struct FUN_007000b0_shell {
+struct AnimatingText {
     void HasFlag(int);
     void AnimatingText_GetDisplayMode();
 };
 // @fnv 0x007000b0
 // src: XBOX_PDB 0x007000b0
-void FUN_007000b0_shell::AnimatingText_GetDisplayMode()
+void AnimatingText::AnimatingText_GetDisplayMode()
 {
     HasFlag(1);
 }
@@ -1502,13 +1502,13 @@ int __cdecl Tile_ValueSortFunc(int** pFirst, int** pSecond)
 
 extern "C" void __cdecl Tile_Unlock();
 
-struct FUN_00a0baf0_class {
+struct AutoTileLock {
     void ForwardCall_00a0baf0();
 };
 
 // @fnv 0x00a0baf0
 // src: GUESS 0x00a0baf0 (confidence: low)
-void FUN_00a0baf0_class::ForwardCall_00a0baf0()
+void AutoTileLock::ForwardCall_00a0baf0()
 {
     Tile_Unlock();
 }
@@ -1527,11 +1527,11 @@ const char* __thiscall Tile3D::GetTypeName_00a0bdd0()
     return "3DAN";
 }
 
-struct FUN_00a0c060_shell {
+struct RefValueAction {
     int GetField0C();
 };
 // @fnv 0x00a0c060
-int FUN_00a0c060_shell::GetField0C()
+int RefValueAction::GetField0C()
 {
     return *(int*)((char*)this + 0xc);
 }
@@ -2534,10 +2534,10 @@ int __cdecl GetTrait(const char*, int);
 extern int DAT_011d8e64;
 extern int DAT_011d8e68;
 struct ListOwner { int Mode(); };
-struct FUN_00726920_StandIn { char pad0[0xc]; Tile* pTile; int GetUnfilteredItemCount(); };
+struct ListBox { char pad0[0xc]; Tile* pTile; int GetUnfilteredItemCount(); };
 // @fnv 0x00726920
 // src: GUESS 0x00726920 (confidence: medium)
-int FUN_00726920_StandIn::GetUnfilteredItemCount()
+int ListBox::GetUnfilteredItemCount()
 {
     static int numFiltered = GetTrait("_num_filtered", -1);
     return ((ListOwner*)this)->Mode() - (unsigned int)pTile->GetFloat(numFiltered);

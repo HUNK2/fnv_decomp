@@ -25,7 +25,7 @@ struct FUN_00d65f70_class
     int m_14;
     int m_18;
     int m_1c;
-    void ProcessEntries_00d65f70();
+    void hkpShapeDisplayViewer_init();
 };
 struct S_00c6d840_Pair
 {
@@ -223,7 +223,7 @@ struct FUN_00d66160_cls
     int m_14;
     int m_18;
     int m_1c;
-    void UpdateFields_00d66160(int arg);
+    void hkpShapeDisplayViewer_worldDeletedCallback(int arg);
 };
 struct D66180PropertyValue
 {
@@ -341,7 +341,7 @@ template <class T> inline void hkArrayConstruct(T* p, int n, const T& t)
     for (int i = 0; i < n; ++i)
         p[i] = t;
 }
-struct FUN_00d64650_cls
+struct hkpSweptTransformDisplayViewer
 {
     int unk00;
     int unk04;

@@ -2164,7 +2164,7 @@ float TESRace::GetWeight(SEX aiIndex)
     return (aiIndex >= 0 && aiIndex < 2) ? Data.fWeight[aiIndex] : 0.0f;
 }
 
-struct FUN_0060b860_Cls
+struct FloatVec
 {
     char _pad0[12];
     int _c;
@@ -2174,7 +2174,7 @@ struct FUN_0060b860_Cls
 };
 // @fnv 0x0060b860
 // src: COMMUNITY 0x0060b860
-int FUN_0060b860_Cls::FaceGenData_GetUnk014MinusMinDivBy4()
+int FloatVec::FaceGenData_GetUnk014MinusMinDivBy4()
 {
     return _c == 0 ? 0 : (_t - _c) >> 2;
 }

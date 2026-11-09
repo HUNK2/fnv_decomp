@@ -25,7 +25,7 @@ struct bhkSpringDamperConstraintMotor
     int vtable;
     bhkSpringDamperConstraintMotor();
 };
-struct FUN_00cf4ca0_class
+struct hkpBinaryAction
 {
     int m_auiShapeKeys[6];
     hkReferencedObject* m_kPointA;
@@ -93,7 +93,7 @@ struct FUN_00cf86d0_cls
 extern int DAT_010cb864;
 extern int DAT_0102e388;
 // Sub-object at +0x10; FUN_00ce5370 is the game's constructor for it.
-struct FUN_00ce5370_cls
+struct hkaSkeletonMapperData
 {
     void UpdateState_00ce5370();
 };
@@ -103,7 +103,7 @@ struct hkaSkeletonMapper
     int unk04;               // +0x04
     int unk08;               // +0x08
     int unk0C;               // +0x0C
-    FUN_00ce5370_cls m_sub;  // +0x10
+    hkaSkeletonMapperData m_sub;  // +0x10
     void UpdateFields_00ce29e0();
 };
 struct FnvSpawnedObject;

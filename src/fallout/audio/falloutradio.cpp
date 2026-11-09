@@ -696,7 +696,7 @@ void __cdecl FalloutRadio_RadioSynchPaused()
         FalloutRadio_UpdateStation((FalloutRadio::RadioStationState*)DAT_011dd42c);
 }
 
-struct FUN_00833040_shell
+struct FalloutRadio_StationState
 {
     int m_00;
     int m_04;
@@ -708,7 +708,7 @@ struct FUN_00833040_shell
 };
 
 // @fnv 0x00833040
-bool __thiscall FUN_00833040_shell::IsFlag20Set()
+bool __thiscall FalloutRadio_StationState::IsFlag20Set()
 {
     return ((m_14 & 0x20) != 0);
 }
@@ -942,14 +942,14 @@ void* Holder00832160::FUN_00832160(unsigned int flags)
 void _Deallocate(void*);
 struct FUN_00832190_shell
 {
-    void FUN_008321e0();
+    void FalloutRadio_FORadioReceiver();
     void* FUN_00832190(unsigned int);
 };
-// Calls FUN_008321e0, then deallocates this if flags has bit 0 set, and returns this.
+// Calls FalloutRadio_FORadioReceiver, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00832190
 void* FUN_00832190_shell::FUN_00832190(unsigned int flags)
 {
-    FUN_008321e0();
+    FalloutRadio_FORadioReceiver();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -1019,7 +1019,7 @@ struct FNVHelper00835b90
 {
     BGSTalkingActivator* _FNV_GetObjectReference();
 };
-struct FUN_00833040_shell
+struct FalloutRadio_StationState
 {
     bool IsFlag20Set();
 };
@@ -1035,7 +1035,7 @@ bool FalloutRadio_GetBroadcastState(TESObjectREFR* apTargetStation)
     bretValue = false;
     pstation = FalloutRadio::GetRadioConversation(((FNVHelper00835b90*)apTargetStation)->_FNV_GetObjectReference());
     if (pstation)
-        bretValue = ((FUN_00833040_shell*)((char*)pstation + 4))->IsFlag20Set();
+        bretValue = ((FalloutRadio_StationState*)((char*)pstation + 4))->IsFlag20Set();
     return bretValue;
 }
 }  // namespace fnv_00835b90
@@ -2407,7 +2407,7 @@ class FUN_00833100_shell
     void FalloutRadio_StationState_SetContBroadcast(bool);
 };
 
-class FUN_00833040_shell
+class FalloutRadio_StationState
 {
   public:
     bool IsFlag20Set();
@@ -2542,7 +2542,7 @@ FalloutRadio::RadioStationState* CreateRadioStationState(TESObjectREFR* a1, TESO
 
     ((FUN_00833100_shell*)((char*)state3 + 4))
         ->FalloutRadio_StationState_SetContBroadcast(((P01ObjA*)((StationData*)state3)->form)->GetNext()->Unk_2D());
-    ((FUN_008330b0_shell*)((char*)state3 + 4))->SetFlag(((FUN_00833040_shell*)((char*)state3 + 4))->IsFlag20Set());
+    ((FUN_008330b0_shell*)((char*)state3 + 4))->SetFlag(((FalloutRadio_StationState*)((char*)state3 + 4))->IsFlag20Set());
     ((FUN_00833060_shell*)((char*)state3 + 4))->FalloutRadio_StationState_SetJustTurnedOn(true);
 
     ((StationData*)state3)->unk14 = 0x64;

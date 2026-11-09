@@ -474,14 +474,15 @@ struct S12
     int b;
     int c;
 };
-struct FUN_006a0c10
+struct FastNavMeshEdgeLocation
 {
     NavMeshEdgeData m1;
     S12 m2;
-    FUN_006a0c10(NavMeshEdgeData const&, S12 const&);
+    FastNavMeshEdgeLocation(NavMeshEdgeData const&, S12 const&);
 };
 // @fnv 0x006a0c10
-FUN_006a0c10::FUN_006a0c10(NavMeshEdgeData const& aSource, S12 const& aOther) : m1(aSource), m2(aOther)
+// src: GUESS 0x006a0c10 (confidence: medium)
+FastNavMeshEdgeLocation::FastNavMeshEdgeLocation(NavMeshEdgeData const& aSource, S12 const& aOther) : m1(aSource), m2(aOther)
 {}
 
 struct AX

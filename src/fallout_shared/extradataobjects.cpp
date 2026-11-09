@@ -2473,12 +2473,13 @@ extern "C" void __cdecl _Deallocate(void*);
 struct FUN_00435710_Class
 {
     void FUN_00435740();
-    void* FUN_00435710(unsigned int flags);
+    void* ExtraOcclusionPlane_ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00435740, then frees this object with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00435710
-void* FUN_00435710_Class::FUN_00435710(unsigned int flags)
+// src: GUESS 0x00435710 (confidence: medium)
+void* FUN_00435710_Class::ExtraOcclusionPlane_ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00435740();
     if (flags & 1)
@@ -4680,13 +4681,13 @@ class FUN_004331c0_cls
     unsigned int unk08;
     ContNode* m_0c;
 
-    void SetOrCreateKeyedFlag(unsigned int a1, unsigned char a2);
+    void ExtraRunOncePacks_AddOrUpdatePackage(unsigned int a1, unsigned char a2);
 };
 
 // Searches the list at m_0c for a record whose key equals a1, creates and inserts one if missing, then sets its key and flag.
 // @fnv 0x004331c0
 // src: GUESS 0x004331c0 (confidence: medium)
-void FUN_004331c0_cls::SetOrCreateKeyedFlag(unsigned int uiKey, unsigned char ucFlag)
+void FUN_004331c0_cls::ExtraRunOncePacks_AddOrUpdatePackage(unsigned int uiKey, unsigned char ucFlag)
 {
     FUN_004331c0_rec* item = 0;
     FUN_004331c0_rec* found = 0;

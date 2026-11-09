@@ -24,12 +24,12 @@ struct FUN_00d65f70_class
     int m_14;
     int m_18;
     int m_1c;
-    void ProcessEntries_00d65f70();
+    void hkpShapeDisplayViewer_init();
 };
 // If m_1c is set, iterates its count at offset 0x70 and calls FUN_00d65970 on each entry from the array at 0x6c.
 // @fnv 0x00d65f70
-// src: GUESS 0x00d65f70 (confidence: low)
-void FUN_00d65f70_class::ProcessEntries_00d65f70()
+// src: GUESS 0x00d65f70 (confidence: medium)
+void FUN_00d65f70_class::hkpShapeDisplayViewer_init()
 {
     if (m_1c)
     {
@@ -376,13 +376,13 @@ struct FUN_00d66160_cls
     int m_14;
     int m_18;
     int m_1c;
-    void UpdateFields_00d66160(int arg);
+    void hkpShapeDisplayViewer_worldDeletedCallback(int arg);
 };
 
 // Calls FindItemIndex on the owner object at this-0x20 and, if the result is non-negative, passes it to FUN_00d65fc0.
 // @fnv 0x00d66160
-// src: GUESS 0x00d66160 (confidence: low)
-void FUN_00d66160_cls::UpdateFields_00d66160(int arg)
+// src: GUESS 0x00d66160 (confidence: medium)
+void FUN_00d66160_cls::hkpShapeDisplayViewer_worldDeletedCallback(int arg)
 {
     OwnerObject* pOwner = (OwnerObject*)((char*)this - 0x20);
     int result = pOwner->FindItemIndex(arg);
@@ -530,7 +530,7 @@ template <class T> inline void hkArrayConstruct(T* p, int n, const T& t)
         p[i] = t;
 }
 
-struct FUN_00d64650_cls
+struct hkpSweptTransformDisplayViewer
 {
     int unk00;
     int unk04;
@@ -551,7 +551,7 @@ struct FUN_00d64650_cls
 
 // @fnv 0x00d64650
 // src: HAVOK_LIB 0x00d64650
-void FUN_00d64650_cls::hkpSweptTransformDisplayViewer_addWorld(SpawnOwner* apOwner)
+void hkpSweptTransformDisplayViewer::hkpSweptTransformDisplayViewer_addWorld(SpawnOwner* apOwner)
 {
     void* pSubA;
     if (this != 0)

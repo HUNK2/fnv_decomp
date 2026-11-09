@@ -8427,7 +8427,7 @@ struct FUN_0043c490_shell
     AnimationVector& GetTranslate_0043c490();
 };
 
-struct FUN_004f0040_shell
+struct BSBipNode
 {
     void UpdateControls(float);
 };
@@ -8489,7 +8489,7 @@ void AnimationShell::Animation_UpdateMovementNoWorldUpdate(TESObjectREFR* apRef)
     float fOldZ =
         reinterpret_cast<FUN_0043c490_shell*>(static_cast<_FakeNiNode*>(m_pObjectNode)->FUN_0043b4a0(0))->GetTranslate_0043c490().z;
 
-    reinterpret_cast<FUN_004f0040_shell*>((NiNode*)m_acHeaderData)->UpdateControls(time);
+    reinterpret_cast<BSBipNode*>((NiNode*)m_acHeaderData)->UpdateControls(time);
 
     m_kNodeTranslation.z = reinterpret_cast<FUN_0043c490_shell*>(static_cast<_FakeNiNode*>(m_pObjectNode)->FUN_0043b4a0(0))
                           ->GetTranslate_0043c490()

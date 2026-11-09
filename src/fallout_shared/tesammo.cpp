@@ -212,14 +212,14 @@ template <int N> struct EndianSizeTag
 
 void __cdecl BSEndian(int*, EndianSizeTag<4>);
 
-struct FUN_00503240_shell
+struct AMMO_DATA_NV
 {
     void SwapEndianFields();
 };
 
 // Byte-swaps the 4-byte values at offsets 8 and 0x10 of this object via BSEndian.
 // @fnv 0x00503240
-void FUN_00503240_shell::SwapEndianFields()
+void AMMO_DATA_NV::SwapEndianFields()
 {
     BSEndian(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 8), EndianSizeTag<4>());
     BSEndian(reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10), EndianSizeTag<4>());

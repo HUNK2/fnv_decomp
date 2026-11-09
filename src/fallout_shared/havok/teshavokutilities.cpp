@@ -28,7 +28,7 @@ public:
 extern float DAT_0104da48;
 extern float DAT_0104e148;
 
-struct FUN_006295a0_shell
+struct hkAabb
 {
     void __thiscall hkVector4_setAll(float);
     void hkAabb_setEmpty();
@@ -37,10 +37,10 @@ struct FUN_006295a0_shell
 // Calls FUN_004589c0 with DAT_0104da48 on this object and with DAT_0104e148 on the object at offset 0x10.
 // @fnv 0x006295a0
 // src: COMMUNITY 0x006295a0
-void FUN_006295a0_shell::hkAabb_setEmpty()
+void hkAabb::hkAabb_setEmpty()
 {
     hkVector4_setAll(DAT_0104da48);
-    ((FUN_006295a0_shell*)((char*)this + 0x10))->hkVector4_setAll(DAT_0104e148);
+    ((hkAabb*)((char*)this + 0x10))->hkVector4_setAll(DAT_0104e148);
 }
 
 float TESHavokUtilities_GetSceneGraphMass(NiAVObject* object);
@@ -389,7 +389,7 @@ struct Ref
 {
     BGSAcousticSpace* GetNext();
 };
-struct FUN_0061f890_shell
+struct BGSAcousticSpaceListener
 {
     char pad[0x18];
     MapH m_map;
@@ -397,7 +397,7 @@ struct FUN_0061f890_shell
 };
 // @fnv 0x0061f890
 // src: XBOX_PDB 0x0061f890
-bool FUN_0061f890_shell::BGSAcousticSpaceListener_DequeueRemoval(NiAVObject* object, bool flag)
+bool BGSAcousticSpaceListener::BGSAcousticSpaceListener_DequeueRemoval(NiAVObject* object, bool flag)
 {
     bool removed = m_map.RemoveAt((unsigned int)object);
     if (removed && flag)

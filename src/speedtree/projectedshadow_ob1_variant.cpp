@@ -147,13 +147,13 @@ struct V3
         z = 0.0f;
     }
 };
-struct FUN_00b3e6c0_cls
+struct CProjectedShadow
 {
     V3 a;
     V3 b;
     V3 c;
     Sub s;
-    FUN_00b3e6c0_cls* ClearVectors();
+    CProjectedShadow* ClearVectors();
 };
 
 struct Vec2

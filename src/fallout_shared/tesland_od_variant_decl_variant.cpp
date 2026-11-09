@@ -504,7 +504,7 @@ void __cdecl TESForm_CompressSaveBuffer();
 int TESLandTexture_GetDefaultTexture();
 void __fastcall QuestPerkEntryData_Endian(void* p);
 struct FUN_0084e3a0_Class { int GetHavokWorldObjectCountInSceneGraph_0084e3a0(); };
-struct FUN_00535aa0_Class { void OBJ_WEAP_CRITICAL_Endian(); };
+struct FILE_TEX_VERT_DATA { void OBJ_WEAP_CRITICAL_Endian(); };
 struct FUN_004855a0_shell { void TESForm_StartForm(); };
 struct FUN_00485680_shell { void TESForm_CloseForm(); };
 extern double DAT_0102dfe0;
@@ -1745,7 +1745,7 @@ struct Buffer538c00
 
     unsigned int m04;
 
-    void __thiscall UpdateState_00540750(unsigned int size);
+    void __thiscall setSize(unsigned int size);
 
     void* __thiscall Modelloader_GetReferencedThis();
 

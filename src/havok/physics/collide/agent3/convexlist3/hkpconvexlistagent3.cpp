@@ -215,7 +215,7 @@ struct PackTarget
     virtual void v24();
 };
 
-struct FUN_00d33210_cls
+struct hkpMapPointsToSubShapeContactMgr
 {
     int unk00;
     int unk04;
@@ -226,7 +226,7 @@ struct FUN_00d33210_cls
 
 // @fnv 0x00d33210
 // src: HAVOK_LIB 0x00d33210
-void FUN_00d33210_cls::hkpMapPointsToSubShapeContactMgr_cleanup()
+void hkpMapPointsToSubShapeContactMgr::hkpMapPointsToSubShapeContactMgr_cleanup()
 {
     m_0c->v24();
 }

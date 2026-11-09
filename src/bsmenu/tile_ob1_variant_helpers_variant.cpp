@@ -376,7 +376,7 @@ struct FUN_00a0d280_cls {
     int m_08;
     Sub_0043a010 m_sub;
 
-    void ProcessState_00a0d280();
+    void NiTMapBase_NewItem();
 };
 struct MM {
     void* Allocate(unsigned int auiSize);
@@ -510,12 +510,12 @@ struct TileTemplateNew_ac80 {
     static void* operator new(unsigned int auiSize) { return ((TilePool_ac80*)&DAT_011f6238)->Game_DoHeapAlloc(auiSize); }
     static void operator delete(void* apMem) { DAT_011f6238.MemoryManager_Deallocate(apMem); }
 };
-struct FUN_00a0ac80 {
+struct Tile_BuildStorage {
     TileCollection* pTemplate;
     TileTemplateList_ac80 xList;
     int iUnk0C;
     bool bOwns;
-    FUN_00a0ac80();
+    Tile_BuildStorage();
 };
 void AutoTileLock_AutoTileLock();
 void Tile_Unlock();
@@ -1320,7 +1320,7 @@ struct EvalTile {
  int unk04,unk08,unk0c,unk10,unk14,unk18,unk1c,unk20,unk24,unk28,unk2c;
  unsigned flags;
  __forceinline bool Flag(unsigned mask) { return (flags&mask)!=0; }
- EvalReference* GetIndexedTraitValue(int,int);
+ EvalReference* Tile_GetUnderscoreValue(int,int);
  void Tile_FinalPostParse(int,float,const char*);
 };
 struct TraitLookup { bool FUN_00a1e380(int,int*); };
@@ -1375,7 +1375,7 @@ void EvalValue::Tile_Value_SetFloat(bool update) {
    text3=reference5->text;
    if(reference5->trait>=10000) DAT_011f3308.FUN_00a1e380(reference5->trait,&lookup4);
    if(lookup4==-1) {
-    resolvedA=reference5->tile->GetIndexedTraitValue(reference5->trait,fnv_FloatToInt(fValue));
+    resolvedA=reference5->tile->Tile_GetUnderscoreValue(reference5->trait,fnv_FloatToInt(fValue));
     if(resolvedA) { operandTmp=resolvedA->value; text3=resolvedA->text; }
    }
   }

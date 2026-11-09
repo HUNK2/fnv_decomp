@@ -829,7 +829,7 @@ struct Owner
 
     int GetValueByIndex(unsigned int a1);
 };
-struct FUN_00ca3b10_cls
+struct hkpShapeContainer
 {
     int m_iWordAt00;
     unsigned char m_iWordAt04;
@@ -2063,7 +2063,7 @@ struct FUN_00ca7310 : S_00ca7310_Root
 };
 struct MotionByte
 {
-    void FindFloatTableIndex(const float*);
+    void SetReal(const float*);
 };
 struct MotionInstance
 {
@@ -2445,14 +2445,14 @@ class BCA9D50Wrapper : public BCA9D50Base
 };
 struct FUN_00ca9b40_Obj
 {
-    void __thiscall UpdateFields_00ca9b40(int value);
+    void __thiscall SetConstraintData(int value);
 };
 struct FUN_00ca9e50_Obj
 {
     int unk00;
     FUN_00ca9b40_Obj* unk04;
 
-    void __thiscall ProcessState_00ca9e50(int value);
+    void __thiscall hkMalleableConstraintCinfo_SetConstraintData(int value);
 };
 extern int DAT_01268318;
 class PolyBase
@@ -2602,7 +2602,7 @@ struct S_00cac0b0_cls
     void bhkCharacterProxy_SaveBinary(S_00cac0b0_Arg* a);
     void SaveSerializeData(S_00cac0b0_Arg* a);
 };
-struct FUN_00cac110_Class
+struct bhkCharacterController
 {
     virtual void vf00();
     virtual void vf04();
@@ -5064,7 +5064,7 @@ struct FUN_00CAFEC0_This
     int unk9C;
     int unkA0;
 };
-struct FUN_00CAFEC0_Class
+struct hkBSHeightFieldShape
 {
     float __thiscall GetTableValue(int param_2, int param_3);
 };
@@ -5979,7 +5979,7 @@ class BufferOwnerC520
 // 12 bytes of int3 COMDAT pad, then a byte-identical anonymous twin getter at
 // 0xcac990 (mov eax,[ecx+0x30]; ret) that the pack does not index.
 // Twin drafted below so a re-indexer has the neighbor shape.
-struct FUN_00cac980_class
+struct ahkpCharacterProxy
 {
     int unk00;
     int unk04;
@@ -7374,7 +7374,7 @@ struct FUN_00cbda30_rec
     unsigned int m38;
     unsigned int m3C;
 };
-struct FUN_00cbda30_cls
+struct hkHingeConstraintCinfo
 {
     virtual void v00()
     {}
@@ -7636,7 +7636,7 @@ struct Rec9bd0
     Sub9bd0 sub;
     int pad2[2];
     float score;
-    void UpdateFields_00ca9b40(Item9bd0*);
+    void SetConstraintData(Item9bd0*);
     void hkpMalleableConstraintData();
     static void* operator new(unsigned int size)
     {

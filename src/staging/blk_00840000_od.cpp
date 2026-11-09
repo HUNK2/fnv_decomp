@@ -1560,13 +1560,13 @@ void* FUN_00853440_class::FUN_008534d0(unsigned int flags)
 }
 
 
-struct FUN_00854b80_class
+struct BGSSaveLoadStatsMap
 {
     void __thiscall BGSSaveLoadStatsMap_WriteFile(const char* p);
 };
 // @fnv 0x00854b80
 // src: XBOX_PDB 0x00854b80
-void __thiscall FUN_00854b80_class::BGSSaveLoadStatsMap_WriteFile(const char* pcString)
+void __thiscall BGSSaveLoadStatsMap::BGSSaveLoadStatsMap_WriteFile(const char* pcString)
 {
     if (*(int*)((char*)this + 0x18))
         ((BSFile*)*(int*)((char*)this + 0x18))->NiBinaryStream_Write(pcString, BSStringLength(pcString));
@@ -2669,7 +2669,7 @@ struct FUN_0084e4f0_triple
     unsigned int unk08;
 };
 
-class FUN_0084e4f0_cls
+class ReferenceInitialData
 {
   public:
     unsigned int m_00;
@@ -2686,7 +2686,7 @@ class FUN_0084e4f0_cls
 // Reads two values via FUN_00853500 from src and src+0x1c, zeroes m_08/m_0c/m_10, copies two triples from src+3 and src+0xf, and stores the byte at src+0x1b.
 // @fnv 0x0084e4f0
 // src: COMMUNITY 0x0084e4f0
-void FUN_0084e4f0_cls::ReferenceInitialData_Initialize_CREATED(void* pSource)
+void ReferenceInitialData::ReferenceInitialData_Initialize_CREATED(void* pSource)
 {
     m_00 = BGSNumericIDIndex_GetNumericID(pSource);
     m_04 = BGSNumericIDIndex_GetNumericID((char*)pSource + 0x1c);
@@ -4102,7 +4102,7 @@ struct ProbeTarget
 
 unsigned int __cdecl BSstrlen(int value);
 
-struct FUN_00856300_cls
+struct SaveStats
 {
     int unk00;
 
@@ -4112,7 +4112,7 @@ struct FUN_00856300_cls
 // Computes a key from value, calls target->Probe with it, and returns true when Probe returns zero.
 // @fnv 0x00856300
 // src: COMMUNITY 0x00856300
-bool FUN_00856300_cls::SaveDataDebugInfo_Write(ProbeTarget* target, int value)
+bool SaveStats::SaveDataDebugInfo_Write(ProbeTarget* target, int value)
 {
     bool result = false;
     unsigned __int64 key = BSstrlen(value);

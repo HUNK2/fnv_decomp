@@ -504,7 +504,7 @@ struct FUN_00874480_shell
 {
     unsigned int Projectile_GetShooter();
 };
-struct FUN_005be5c0_shell
+struct ProcessArray
 {
     unsigned int ProcessArray_GetProcessLevelTail();
 };

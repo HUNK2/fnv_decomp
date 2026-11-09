@@ -151,7 +151,7 @@ struct SweptEntry
     SweptItemArray m_04;
 };
 
-struct FUN_00d641f0_cls
+struct hkpSweptTransformDisplayViewer
 {
     int unk00;
     int unk04;
@@ -172,7 +172,7 @@ struct FUN_00d641f0_cls
 };
 
 // @fnv 0x00d641f0
-void FUN_00d641f0_cls::ClearSweptEntry(int aiIndex)
+void hkpSweptTransformDisplayViewer::ClearSweptEntry(int aiIndex)
 {
     SweptEntry* pEntry = m_30[aiIndex];
     int i = 0;

@@ -10509,7 +10509,7 @@ void __thiscall FUN_00e8bf80_Object::NiDX9VertexBufferManager_EndFrame() {
     ++m_uiItemCount;
 }
 
-struct FUN_00e8d350_Class {
+struct NiDX9FragmentShader {
     int unk00;
     int unk04;
     int unk08;
@@ -10532,7 +10532,7 @@ struct FUN_00e8d350_Class {
 
 // @fnv 0x00e8d350
 // src: COMMUNITY 0x00e8d350
-int* __thiscall FUN_00e8d350_Class::NiDX9FragmentShader_GetShaderInstanceDesc() {
+int* __thiscall NiDX9FragmentShader::NiDX9FragmentShader_GetShaderInstanceDesc() {
     return &unk3C;
 }
 
@@ -14364,7 +14364,7 @@ struct FUN_00e8b0c0_Class {
     char m_6e[0x84 - 0x6e];
     int m_84;
 
-    void __thiscall UpdateChangedEntries();
+    void __thiscall NiDX9SourceCubeMapData_UpdateTexture();
     void __thiscall NiDX9SourceCubeMapData_CopyDataToSurface(FUN_00e8b0c0_Ret* p, int idx);
 };
 
@@ -14373,7 +14373,7 @@ extern "C" bool __stdcall SetProgram(void* a);
 // If the item at m_08->m_3c changed (m_68 != m_84 or FUN_00e68760 true), calls v5, sets m_84, and calls FUN_00e8aaf0 per entry of the result if m_64.
 // @fnv 0x00e8b0c0
 // src: GUESS 0x00e8b0c0 (confidence: medium)
-void FUN_00e8b0c0_Class::UpdateChangedEntries()
+void FUN_00e8b0c0_Class::NiDX9SourceCubeMapData_UpdateTexture()
 {
     if (m_6c != 0) {
         return;

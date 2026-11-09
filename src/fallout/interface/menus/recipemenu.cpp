@@ -110,7 +110,7 @@ struct FUN_0072b580_shell
     int m_auiShapeKeys;
     BSSimpleList_WeatherEntry m_kNode;
     void __thiscall SortWeatherEntries_0072b580(int(__cdecl*)(WeatherEntry*, WeatherEntry*));
-    void __thiscall UpdateEntryMetrics_0072c700();
+    void __thiscall ListBox_UpdateTileIndices();
 };
 
 // Sorts the weather entry list using the given comparison function, then calls FUN_0072c700.
@@ -119,7 +119,7 @@ struct FUN_0072b580_shell
 void __thiscall FUN_0072b580_shell::SortWeatherEntries_0072b580(int(__cdecl* cmp)(WeatherEntry*, WeatherEntry*))
 {
     m_kNode.Sort(cmp);
-    UpdateEntryMetrics_0072c700();
+    ListBox_UpdateTileIndices();
 }
 
 struct FUN_0072b9c0_shell
@@ -2034,7 +2034,7 @@ struct RecipeListOwner
     unsigned short flags;
     float value;
     bool ListBox_unsigned_int_GetFlag(unsigned int flags);
-    void UpdateScrollTraits_0072cba0();
+    void ListBox_UpdateScrollBar();
     void UpdateHighlightTraits();
     void ClearEntries();
 };
@@ -2066,7 +2066,7 @@ void RecipeListOwner::ClearEntries()
     value = 0.0f;
     if (tile)
         tile->Set(Tile_TextToTrait("_num_filtered"), 0.0f, true);
-    UpdateScrollTraits_0072cba0();
+    ListBox_UpdateScrollBar();
     selected = 0;
     UpdateHighlightTraits();
 }

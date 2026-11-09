@@ -2220,7 +2220,7 @@ void* _Reallocate(void* buffer, unsigned int size);
 void _FUN_00485910(int value, int size);
 unsigned char _FUN_00401500();
 
-struct FUN_004141e0_class
+struct NAVMESH_PORTAL
 {
     unsigned int chunk;
     unsigned short length;
@@ -2245,14 +2245,14 @@ void TESForm___AddChunkData(unsigned int chunk, const void* data, unsigned int s
             {
                 unsigned char* dataDestination;
                 {
-                    FUN_004141e0_class* newChunk;
+                    NAVMESH_PORTAL* newChunk;
 
                     offset = DAT_011c54d0;
                     DAT_011c54d0 = DAT_011c54d0 + size + 6;
                     DAT_011c54cc = _Reallocate(DAT_011c54cc, DAT_011c54d0);
 
                     newChunk =
-                        reinterpret_cast<FUN_004141e0_class*>(static_cast<unsigned char*>(DAT_011c54cc) + offset);
+                        reinterpret_cast<NAVMESH_PORTAL*>(static_cast<unsigned char*>(DAT_011c54cc) + offset);
                     chunkData = static_cast<unsigned char*>(DAT_011c54cc) + offset;
 
                     newChunk->chunk = chunk;
@@ -2272,14 +2272,14 @@ void TESForm___AddChunkData(unsigned int chunk, const void* data, unsigned int s
 }
 
 namespace fnv_00485a70 {
-struct FUN_004141e0_class
+struct NAVMESH_PORTAL
 {
     unsigned char _padding[3];
 
     void CHUNK_Endian();
 };
 
-struct CHUNK : public FUN_004141e0_class
+struct CHUNK : public NAVMESH_PORTAL
 {
     unsigned short length;
 };
@@ -2673,14 +2673,14 @@ bool ActionCaller::InvokeAction(int target, void* key, unsigned char mode, int u
     return false;
 }
 
-struct FUN_0050f780_Class
+struct TESBoundAnimObject
 {
     void __thiscall ForwardTo008d0600(int arg1, unsigned char arg2);
     void __thiscall FUN_008d0600(int arg1, unsigned char arg2);
 };
 
 // @fnv 0x0050f780
-void FUN_0050f780_Class::ForwardTo008d0600(int arg1, unsigned char arg2)
+void TESBoundAnimObject::ForwardTo008d0600(int arg1, unsigned char arg2)
 {
     FUN_008d0600(arg1, arg2);
 }

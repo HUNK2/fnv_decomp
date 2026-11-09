@@ -381,11 +381,11 @@ struct S_00e3eaa0_Elem
     ~S_00e3eaa0_Elem();
 };
 void __cdecl Runtime_ForwardCall_00dfdd50(S_00e3eaa0_Elem* p);
-struct FUN_00e3f900_class
+struct hkxAttribute
 {
     int ProcessAndReturnValue_00e3f900(int);
 };
-void __cdecl Object_ProcessState_00dfdd60(FUN_00e3f900_class* p, int a);
+void __cdecl Object_ProcessState_00dfdd60(hkxAttribute* p, int a);
 void CallHelperWithInt(FUN_00cb0a70_m_helper* p, int a);
 struct ArrayPair
 {
@@ -1003,7 +1003,7 @@ extern int DAT_0126a378;
 void* __cdecl Runtime_GetDAT0126a378Address();
 extern int g_unk126a3a8;
 void* __cdecl Runtime_GetUnk126a3a8Address();
-class FUN_00de8780_cls
+class hkMatrix4
 {
   public:
     float m_fValues[16];
@@ -1304,11 +1304,11 @@ class CalleeObj
 void __cdecl Runtime_ProcessState_00dfb950(CalleeObj* pFirst, void* pSecond);
 extern int DAT_0126aee0;
 int* __cdecl Runtime_GetDAT0126aee0Address();
-struct FUN_00ce5370_cls
+struct hkaSkeletonMapperData
 {
     void __thiscall UpdateState_00ce5370();
 };
-void __cdecl Object_ForwardCall_00dfb980(FUN_00ce5370_cls* p);
+void __cdecl Object_ForwardCall_00dfb980(hkaSkeletonMapperData* p);
 extern int DAT_0126af10;
 int* __cdecl Runtime_GetDAT0126af10Address();
 // FUN_00dfb9a0 : __cdecl, 13 bytes
@@ -3313,7 +3313,7 @@ static __declspec(noinline) float rand01(void)
 static void WriteFloatToVector(float a, float b, float* out);
 void dummy_caller(void);
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
-struct FUN_00dfb5a0_cls
+struct hkaAnnotationTrack
 {
     int unk00;
     char* m_pData;

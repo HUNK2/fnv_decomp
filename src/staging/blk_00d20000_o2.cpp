@@ -788,12 +788,12 @@ void* __cdecl hkpListAgent_createListAAgent(int a1, int a2, int a3, int a4)
 
 struct FUN_00d36cc0_Obj {
     void __thiscall FUN_00d368c0(int a1, int a2, int a3, int a4);
-    void __thiscall ForwardCall_00d36cc0(int param_1, int param_2, int param_3, int param_4);
+    void __thiscall hkpSymmetricAgent_updateShapeCollectionFilter(int param_1, int param_2, int param_3, int param_4);
 };
 
 // @fnv 0x00d36cc0
-// src: GUESS 0x00d36cc0 (confidence: low)
-void __thiscall FUN_00d36cc0_Obj::ForwardCall_00d36cc0(int param_1, int param_2, int param_3, int param_4) {
+// src: GUESS 0x00d36cc0 (confidence: medium)
+void __thiscall FUN_00d36cc0_Obj::hkpSymmetricAgent_updateShapeCollectionFilter(int param_1, int param_2, int param_3, int param_4) {
     this->FUN_00d368c0(param_2, param_1, param_3, param_4);
 }
 
@@ -1832,11 +1832,11 @@ struct FUN_00d34aa0_Obj {
     virtual void vf1C();
 
     void __thiscall hkpConvexListAgent_updateShapeCollectionFilter(int a, int b, int c, int d);
-    virtual void __thiscall HkpConvexListAgent_updateShapeCollectionFilter_Thunk(int a, int b, int c, int d);
+    virtual void __thiscall hkpSymmetricAgent_updateShapeCollectionFilter(int a, int b, int c, int d);
 };
 // @fnv 0x00d34aa0
 // src: GUESS 0x00d34aa0 (confidence: medium)
-void __thiscall FUN_00d34aa0_Obj::HkpConvexListAgent_updateShapeCollectionFilter_Thunk(int param_1, int param_2, int param_3, int param_4)
+void __thiscall FUN_00d34aa0_Obj::hkpSymmetricAgent_updateShapeCollectionFilter(int param_1, int param_2, int param_3, int param_4)
 {
     hkpConvexListAgent_updateShapeCollectionFilter(param_2, param_1, param_3, param_4);
 }
@@ -2128,13 +2128,13 @@ struct D34ac0Struct {
 
 struct FUN_00d33c80_class {
     void hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
-    void UpdateFields_00d34ac0(void* a, void* b, void* c, void* d);
+    void hkpSymmetricAgent_getPenetrations(void* a, void* b, void* c, void* d);
 };
 
 // Builds a local struct holding &DAT_010ce81c, 0 and d, then calls FUN_00d33c80 with b, a, c and a pointer to the struct.
 // @fnv 0x00d34ac0
-// src: GUESS 0x00d34ac0 (confidence: low)
-void FUN_00d33c80_class::UpdateFields_00d34ac0(void* a, void* b, void* c, void* d)
+// src: GUESS 0x00d34ac0 (confidence: medium)
+void FUN_00d33c80_class::hkpSymmetricAgent_getPenetrations(void* a, void* b, void* c, void* d)
 {
     D34ac0Struct s;
     s.g = d;
@@ -2947,13 +2947,13 @@ struct FUN_00d32970_Collector {
 
 struct FUN_00d32970_Agent {
     void hkpHeightFieldAgent_getPenetrations(void* a, void* b, void* c, FUN_00d32970_Collector* collector);
-    void SetVtableAndProcessState_00d32970(void* a1, void* a2, void* a3, unsigned int a4);
+    void hkpSymmetricAgent_getPenetrations(void* a1, void* a2, void* a3, unsigned int a4);
 };
 
 // Initialises a Collector with a4 and passes it to FUN_00d32150 with a2, a1 and a3.
 // @fnv 0x00d32970
-// src: GUESS 0x00d32970 (confidence: low)
-void FUN_00d32970_Agent::SetVtableAndProcessState_00d32970(void* a1, void* a2, void* a3, unsigned int uiValue)
+// src: GUESS 0x00d32970 (confidence: medium)
+void FUN_00d32970_Agent::hkpSymmetricAgent_getPenetrations(void* a1, void* a2, void* a3, unsigned int uiValue)
 {
     FUN_00d32970_Collector collector;
     collector.value = uiValue;

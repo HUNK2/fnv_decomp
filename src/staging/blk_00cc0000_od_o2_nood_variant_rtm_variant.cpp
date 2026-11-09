@@ -420,7 +420,7 @@ struct SpawnHolder {
     int unk0C;
     SpawnAllocator* m_pAllocator;
 };
-struct FUN_00d4f2a0 {
+struct hkpRagdollLimitsData {
     int unk00;
     unsigned short m_iElementCount;
     unsigned short unk06;
@@ -453,21 +453,21 @@ struct FUN_00d4f2a0 {
     int unkB8;
     int unkBC;
 
-    FUN_00d4f2a0();
+    hkpRagdollLimitsData();
     static void operator delete(void* p) throw() {}
     static __forceinline void* operator new(unsigned int size) throw() {
         SpawnHolder* h = (SpawnHolder*)&hkMemoryRouter::getInstance();
         void* p = h->m_pAllocator->Alloc(size);
-        ((FUN_00d4f2a0*)p)->m_iElementCount = (unsigned short)size;
+        ((hkpRagdollLimitsData*)p)->m_iElementCount = (unsigned short)size;
         return p;
     }
 };
 struct hkRagdollLimitsConstraintCinfo {
     int unk00;
-    FUN_00d4f2a0* m_pSrc;
+    hkpRagdollLimitsData* m_pSrc;
 
-    void hkRagdollLimitsConstraintCinfo_CloneData(FUN_00d4f2a0* dst, int a2);
-    void ReleaseObject(FUN_00d4f2a0* dst, int a2);
+    void hkRagdollLimitsConstraintCinfo_CloneData(hkpRagdollLimitsData* dst, int a2);
+    void ReleaseObject(hkpRagdollLimitsData* dst, int a2);
 };
 struct S_00ccbce0_Source
 {
@@ -1157,7 +1157,7 @@ struct ScratchGeometry {
     Lane128Q dimensions;
     float tolerance, radius, margin;
     unsigned char useA, useB, specialShape, useD, useE;
-    void FUN_00d54de0();
+    void hkpMoppCompilerInput();
 };
 struct LunaAction {
     unsigned int id;

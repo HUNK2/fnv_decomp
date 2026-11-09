@@ -616,7 +616,7 @@ struct S00a1bc20_Guard
 class S00a1bc20_Obj
 {
   public:
-    void ClearLinkedNodes();
+    void NiTListBase_RemoveAll();
     void ProcessState_00a1bc20();
 };
 
@@ -625,7 +625,7 @@ class S00a1bc20_Obj
 void S00a1bc20_Obj::ProcessState_00a1bc20()
 {
     S00a1bc20_Guard guard;
-    this->ClearLinkedNodes();
+    this->NiTListBase_RemoveAll();
 }
 
 void __cdecl NiFreeE900(void* pvMem);

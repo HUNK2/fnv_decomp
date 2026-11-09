@@ -654,14 +654,14 @@ extern float _NiPoint3_ZERO;
 extern int _DAT_011f4270;
 extern int _DAT_011f4274;
 
-struct FUN_00bc2bd0_class
+struct BSOrderedNode
 {
     int* __thiscall BSOrderedNode_BSOrderedNode();
 };
 
 // @fnv 0x00bc2bd0
 // src: XBOX_PDB 0x00bc2bd0
-int* __thiscall FUN_00bc2bd0_class::BSOrderedNode_BSOrderedNode()
+int* __thiscall BSOrderedNode::BSOrderedNode_BSOrderedNode()
 {
     FUN_00c5f570();
     *(int**)(char*)this = &DAT_010ba730;
@@ -1342,29 +1342,29 @@ void __stdcall BSRefractionStrengthController_GetViewerStrings(StrArr* pStrArr)
     pStrArr->SetAt(idx, p);
 }
 
-struct FUN_00bc3750_class : BSShaderProperty
+struct VolumetricFogShaderProperty : BSShaderProperty
 {
     // BSShaderProperty does not yet declare its stream override.
     void BSShaderProperty_LoadBinary(NiStream&);
     void LoadFromStream(NiStream& stream);
 };
 // @fnv 0x00bc3750
-void FUN_00bc3750_class::LoadFromStream(NiStream& stream)
+void VolumetricFogShaderProperty::LoadFromStream(NiStream& stream)
 {
     BSShaderProperty_LoadBinary(stream);
     ((void (__thiscall*)(NiColorA*, NiStream&))NiColorA_LoadBinary)((NiColorA*)((char*)this + 0x60), stream);
 }
 
-void __cdecl FUN_00bc39f0();
+void __cdecl HairShaderProperty();
 struct FUN_00bc3d80_class
 {
     void* FUN_00bc3d80(int flags);
 };
-// Calls FUN_00bc39f0, then if flags has bit 0 set deletes this with size 0x180, and returns this.
+// Calls HairShaderProperty, then if flags has bit 0 set deletes this with size 0x180, and returns this.
 // @fnv 0x00bc3d80
 void* FUN_00bc3d80_class::FUN_00bc3d80(int flags)
 {
-    FUN_00bc39f0();
+    HairShaderProperty();
     if (flags & 1)
         _delete(this, 0x180);
     return this;
@@ -3392,7 +3392,7 @@ struct Base_b67380
     int unk0fc;
     int unk100;
 };
-struct FUN_00bc39f0 : Base_b67380
+struct HairShaderProperty : Base_b67380
 {
     StagingNiPointer<RefObj> m_sp104;
     StagingNiPointer<RefObj> m_sp108;
@@ -3415,11 +3415,12 @@ struct FUN_00bc39f0 : Base_b67380
     int unk174;
     int unk178;
     StagingNiPointer<RefObj> m_sp17c;
-    virtual ~FUN_00bc39f0();
+    virtual ~HairShaderProperty();
 };
 // Clears the three NiPointer members and resets each of the three m_akPts points to NiPoint3_ZERO and each m_afVals entry to 0.0f.
 // @fnv 0x00bc39f0
-FUN_00bc39f0::~FUN_00bc39f0()
+// src: GUESS 0x00bc39f0 (confidence: medium)
+HairShaderProperty::~HairShaderProperty()
 {
     m_sp17c = 0;
     m_sp104 = 0;
@@ -4326,16 +4327,17 @@ struct FUN_00be2200
     float matrix[16];
     FUN_00be2200();
 };
-struct FUN_00bc4830 : FUN_00be2200
+struct BloodSplatterBeamShader : FUN_00be2200
 {
     PassPtr pass;
     RefPtr first;
     RefPtr second;
-    FUN_00bc4830(CountedRef* source);
-    virtual ~FUN_00bc4830();
+    BloodSplatterBeamShader(CountedRef* source);
+    virtual ~BloodSplatterBeamShader();
 };
 // @fnv 0x00bc4830
-FUN_00bc4830::FUN_00bc4830(CountedRef* pSource)
+// src: GUESS 0x00bc4830 (confidence: medium)
+BloodSplatterBeamShader::BloodSplatterBeamShader(CountedRef* pSource)
 {
     mode = 16;
     flag24 = 1;
@@ -6099,7 +6101,7 @@ struct Elem540
     int f48;
 };
 
-struct FUN_00bd0540_class
+struct HairShader
 {
     char pad00[0x94];
     RefObject* m_arr94[7];
@@ -6110,7 +6112,7 @@ struct FUN_00bd0540_class
 };
 
 // @fnv 0x00bd0540
-void FUN_00bd0540_class::InitRefObjects()
+void HairShader::InitRefObjects()
 {
     Elem540 arrB[7];
     Elem540 arrA[7];
@@ -9538,7 +9540,7 @@ struct Config_bc5070
 void __cdecl FUN_00be0c00(const char*, char*);
 int __cdecl sprintf_s(char*, unsigned int, const char*, ...);
 extern bool DAT_011ad80e;
-struct FUN_00bc5070_shell
+struct VolumetricFogShader
 {
     int unk00;
     int unk04;
@@ -9575,7 +9577,7 @@ struct FUN_00bc5070_shell
     void LoadVolumetricFogShaders();
 };
 // @fnv 0x00bc5070
-void FUN_00bc5070_shell::LoadVolumetricFogShaders()
+void VolumetricFogShader::LoadVolumetricFogShaders()
 {
     const char* profileNames[2] = {"vs_2_0", "vs_3_0"};
     Config_bc5070 configs[2] = {Config_bc5070("vfog\\VolumetricFog.v.hlsl"),

@@ -1625,7 +1625,7 @@ class FUN_00841250_guard
     void Init();
 };
 
-class FUN_00841250_cls
+class BGSReconstructFormsMap
 {
   public:
     void Helper(int v);
@@ -1634,7 +1634,7 @@ class FUN_00841250_cls
 };
 
 // @fnv 0x00841250
-void FUN_00841250_cls::ProcessRef(TESFormReferenceAccess* apRef, void* apFallback, unsigned int auiValue)
+void BGSReconstructFormsMap::ProcessRef(TESFormReferenceAccess* apRef, void* apFallback, unsigned int auiValue)
 {
     void* p = apRef ? (void*)apRef->GetHavokWorldObjectCountInSceneGraph_0084e3a0() : apFallback;
     FUN_00841250_guard gTmp;

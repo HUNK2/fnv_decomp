@@ -1001,12 +1001,12 @@ struct FUN_00a0d280_cls {
     int m_08;
     Sub_0043a010 m_sub;
 
-    void ProcessState_00a0d280();
+    void NiTMapBase_NewItem();
 };
 
 // @fnv 0x00a0d280
-// src: GUESS 0x00a0d280 (confidence: low)
-void FUN_00a0d280_cls::ProcessState_00a0d280()
+// src: GUESS 0x00a0d280 (confidence: medium)
+void FUN_00a0d280_cls::NiTMapBase_NewItem()
 {
     TileScratch_00a0d280 scratch;
     (void)scratch;
@@ -1231,15 +1231,16 @@ struct TileTemplateNew_ac80 {
     static void* operator new(unsigned int auiSize) { return DAT_011f6238.Allocate(auiSize); }
     static void operator delete(void* apMem) { DAT_011f6238.Deallocate(apMem); }
 };
-struct FUN_00a0ac80 {
+struct Tile_BuildStorage {
     TileCollection* pTemplate;
     TileTemplateList_ac80 xList;
     int iUnk0C;
     bool bOwns;
-    FUN_00a0ac80();
+    Tile_BuildStorage();
 };
 // @fnv 0x00a0ac80
-FUN_00a0ac80::FUN_00a0ac80()
+// src: GUESS 0x00a0ac80 (confidence: medium)
+Tile_BuildStorage::Tile_BuildStorage()
 {
     pTemplate = (TileCollection*)new TileTemplateNew_ac80("main", this);
     iUnk0C = 0;
@@ -2175,14 +2176,14 @@ void UpdateRegistration::Tile_SeverExtraData()
 
 namespace fnv_00a01e20 {
 extern MemoryManager DAT_011f6238;
-struct FUN_00a0ac80;
-typedef FUN_00a0ac80 XmlNode;
-struct FUN_00a0ac80 {
+struct Tile_BuildStorage;
+typedef Tile_BuildStorage XmlNode;
+struct Tile_BuildStorage {
     static __forceinline void* operator new(unsigned int bytes) {
         return DAT_011f6238.Allocate(bytes);
     }
     static __forceinline void operator delete(void*) {}
-    FUN_00a0ac80();
+    Tile_BuildStorage();
     XmlNode* m_pTreeNode;
     XmlNode* m_parent;
     XmlNode* m_iFirstChild;

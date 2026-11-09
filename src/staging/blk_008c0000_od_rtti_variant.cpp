@@ -309,9 +309,9 @@ struct FUN_008d0270_Class
     FUN_008d0270_Class* __thiscall BaseProcess_BaseProcess();
 };
 void __cdecl CallWithParam(int);
-struct FUN_008d1130_Class : FUN_008d1160_Class
+struct ProjectileListener : FUN_008d1160_Class
 {
-    FUN_008d1130_Class* __thiscall FUN_008d1130(unsigned int flags);
+    ProjectileListener* __thiscall FUN_008d1130(unsigned int flags);
 };
 extern "C" void __fastcall FUN_00a6d220(void*);
 extern int DAT_010867fc;
@@ -339,7 +339,7 @@ struct FUN_008d1d30 : FUN_0087d4a0
 {
     FUN_008d1d30();
 };
-struct FUN_008d56c0_class
+struct CharacterProgressionData
 {
     void __thiscall SaveToBuffer(int a);
 };
@@ -349,7 +349,7 @@ struct FUN_008d56f0_Class
 };
 unsigned int __cdecl gm_GetTickCount();
 unsigned int __cdecl FollowerBarks_GetBarkNoRepeatDuration(unsigned int a);
-struct FUN_008d6000_Class
+struct FollowerBarks_FollowerBarkEntry
 {
     unsigned int m_iWordAt00;
     unsigned int m_iWordAt04;
@@ -415,11 +415,11 @@ struct FUN_0052d240_obj
 {
     ~FUN_0052d240_obj();
 };
-struct FUN_008c7860_Class : FUN_008c77c0_Class
+struct AILinearTaskThread : FUN_008c77c0_Class
 {
     unsigned char m_00[0x13];
     FUN_0052d240_obj m_008c78b0;
-    ~FUN_008c7860_Class();
+    ~AILinearTaskThread();
 };
 struct Call741e0
 {
@@ -444,14 +444,14 @@ struct FUN_008d17d0_Class
 {
     void BSPlayerDistanceCheckController_CopyMembers(BGSAcousticSpace* dst, void* arg);
 };
-struct FUN_0087adf0_shell
+struct HitData
 {
     int InitScriptRunLockForSelf();
 };
 struct FUN_008c1c30_Class
 {
-    FUN_0087adf0_shell* m_iWordAt00;
-    FUN_008c1c30_Class* UpdateState_008c1c30(FUN_0087adf0_shell* a);
+    HitData* m_iWordAt00;
+    FUN_008c1c30_Class* UpdateState_008c1c30(HitData* a);
 };
 struct FUN_008c45a0_Result
 {
@@ -730,7 +730,7 @@ struct Date
 };
 struct FUN_008ca770_Class
 {
-    void ProcessEntries_008ca8d0(Date**);
+    void BSTStaticFreeList_Free(Date**);
     void ProcessState_008ca770(Date**);
 };
 int __cdecl BSAtomicCompareExchange(long volatile*, long, long);
@@ -744,7 +744,7 @@ struct FUN_008ca8d0_Class
     int m_iWordAt00;
     long volatile m_iWordAt04;
     int m_8;
-    void __thiscall ProcessEntries_008ca8d0(int* arg);
+    void __thiscall BSTStaticFreeList_Free(int* arg);
 };
 struct FUN_008caae0_Class
 {
@@ -754,15 +754,15 @@ struct FUN_008caae0_Class
     int m_iThirdValue;
     void* __thiscall BSTFreeListElem_MobileObjectMessage_BSTFreeListElem_MobileObjectMessage();
 };
-struct FUN_008cc6f0_Class
+struct ArrowProjectile_CollisionInfo
 {
     void* EvaluateValue_008cc6f0();
 };
-struct FUN_008d3f40_Class
+struct NiMorphData
 {
     void __thiscall GetEntryAt(int arg);
 };
-struct FUN_008d3f10_Class
+struct NiGeomMorpherController
 {
     unsigned char pad[0x38];
     GO m_38;
@@ -869,7 +869,7 @@ void SpawnedElemB_Ctor(void* p)
 {}
 void SpawnedElemB_Dtor(void* p)
 {}
-struct FUN_008c71d0_cls
+struct AILinearTaskThreadManager
 {
     unsigned int m_00[3];
     unsigned int m_0c[3];
@@ -878,7 +878,7 @@ struct FUN_008c71d0_cls
     unsigned int m_6c[8];
     unsigned int* m_8c;
     unsigned int* m_90;
-    FUN_008c71d0_cls* AILinearTaskThreadManager_AILinearTaskThreadManager();
+    AILinearTaskThreadManager* AILinearTaskThreadManager_AILinearTaskThreadManager();
 };
 // Stand-in for the game's class (the pack's own unit file does not declare it):
 //   +0x00  two element pointers          +0x0c  two ints

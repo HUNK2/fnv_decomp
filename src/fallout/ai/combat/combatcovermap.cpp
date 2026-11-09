@@ -370,7 +370,7 @@ struct MemberVt
     virtual void* GetB();
     virtual void* GetA();
 };
-struct FUN_008a88f0_cls
+struct Actor
 {
     unsigned int unk00;
     unsigned int unk04;
@@ -405,7 +405,7 @@ extern const double DAT_01012060;
 // Gets two values from m68's members and returns their ratio, or 1.0 when either member is null or the divisor equals DAT_01012060.
 // @fnv 0x008a88f0
 // src: XBOX_PDB 0x008a88f0
-float FUN_008a88f0_cls::Actor_GetCurrentAmmoClipPercent()
+float Actor::Actor_GetCurrentAmmoClipPercent()
 {
     Pair3Pool* ywqVal = (Pair3Pool*)m68->GetA();
     if (ywqVal != 0)

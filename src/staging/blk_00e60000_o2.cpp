@@ -6774,7 +6774,7 @@ int FnvCpu_FUN_00e68800_CpuObject::NiDX9TextureData_GetD3DTexture()
     return value;
 }
 
-struct FUN_00e76620_cls
+struct NiDX9ShaderDeclaration
 {
     int unk00;
     int unk04;
@@ -6795,7 +6795,7 @@ struct FUN_00e76620_cls
 
 // @fnv 0x00e76620
 // src: COMMUNITY 0x00e76620
-unsigned char FUN_00e76620_cls::NiDX9ShaderDeclaration_GetSoftwareVertexProcessing()
+unsigned char NiDX9ShaderDeclaration::NiDX9ShaderDeclaration_GetSoftwareVertexProcessing()
 {
     return unk34;
 }

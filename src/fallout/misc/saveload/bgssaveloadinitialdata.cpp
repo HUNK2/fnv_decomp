@@ -493,7 +493,7 @@ struct BGSSaveLoadGame_SubAccessor
     unsigned short FUN_00846c90(unsigned int);
 };
 
-struct FUN_00853570_shell
+struct BGSNumericIDIndex
 {
     void WriteFormIDBytes(unsigned int);
 };
@@ -638,7 +638,7 @@ INITIAL_DATA_TYPE __cdecl BGSSaveLoadInitialData_SaveInitialData(BGSSaveFormBuff
         }
         RefLocData refData;
         refData.ReferenceLocationInitialData_ReferenceLocationInitialData();
-        ((FUN_00853570_shell*)&refData)->WriteFormIDBytes(cell->GetFormID());
+        ((BGSNumericIDIndex*)&refData)->WriteFormIDBytes(cell->GetFormID());
         *(NiPoint3*)&refData.pos = pos3;
         *(NiPoint3*)&refData.rot = rot_2;
         apFile->SaveData(&refData, 0x1b, 0);
@@ -653,7 +653,7 @@ INITIAL_DATA_TYPE __cdecl BGSSaveLoadInitialData_SaveInitialData(BGSSaveFormBuff
         }
         CreatedRefInitialData createdRefData;
         createdRefData.CreatedReferenceInitialData_CreatedReferenceInitialData();
-        ((FUN_00853570_shell*)&createdRefData)->WriteFormIDBytes(kLoc->GetFormID());
+        ((BGSNumericIDIndex*)&createdRefData)->WriteFormIDBytes(kLoc->GetFormID());
         *(NiPoint3*)&createdRefData.base.pos = *((const TESObjectREFR*)pRefr)->GetPos();
         *(NiPoint3*)&createdRefData.base.rot = *pRefr->FUN_00430830();
         TESBoundObject* baseObject3 = pRefr->GetObjectReference();
@@ -665,7 +665,7 @@ INITIAL_DATA_TYPE __cdecl BGSSaveLoadInitialData_SaveInitialData(BGSSaveFormBuff
                 baseObject3 = boundObj4;
             }
         }
-        ((FUN_00853570_shell*)&createdRefData.bound0)->WriteFormIDBytes(baseObject3->GetFormID());
+        ((BGSNumericIDIndex*)&createdRefData.bound0)->WriteFormIDBytes(baseObject3->GetFormID());
         createdRefData.flags = 1;
         if (pRefr->TESObjectREFR_GetRefPersists_005653d0())
         {
@@ -706,7 +706,7 @@ INITIAL_DATA_TYPE __cdecl BGSSaveLoadInitialData_SaveInitialData(BGSSaveFormBuff
         }
         MovedRefInitialData movedRefDataTmp;
         movedRefDataTmp.MovedReferenceInitialData_MovedReferenceInitialData();
-        ((FUN_00853570_shell*)&movedRefDataTmp)->WriteFormIDBytes(locMain->GetFormID());
+        ((BGSNumericIDIndex*)&movedRefDataTmp)->WriteFormIDBytes(locMain->GetFormID());
         *(NiPoint3*)&movedRefDataTmp.base.pos = pos3;
         *(NiPoint3*)&movedRefDataTmp.base.rot = rot_2;
         NiPoint3 editorPos;
@@ -714,7 +714,7 @@ INITIAL_DATA_TYPE __cdecl BGSSaveLoadInitialData_SaveInitialData(BGSSaveFormBuff
         TESForm* editorCell = 0;
         if (pRefr->GetStartingPosition(&editorPos, &editorRot5, &editorCell, 0))
         {
-            ((FUN_00853570_shell*)&movedRefDataTmp.orig0)->WriteFormIDBytes(editorCell->GetFormID());
+            ((BGSNumericIDIndex*)&movedRefDataTmp.orig0)->WriteFormIDBytes(editorCell->GetFormID());
             movedRefDataTmp.originalCellX = (short)(TruncateFloatToInt(editorPos.x) >> 12);
             movedRefDataTmp.originalCellY = (short)(TruncateFloatToInt(editorPos.y) >> 12);
         }

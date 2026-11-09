@@ -108,7 +108,7 @@ struct FUN_00a964a0_Class
 };
 struct NiBinaryExtraData;
 struct NiFloatsExtraData;
-struct FUN_00a99c40_shell : public NiExtraData
+struct BSDecalPlacementVectorExtraData : public NiExtraData
 {
     void NiIntegerExtraData_CopyMembers(NiBinaryExtraData* dst, CloningProcess* cp);
 };
@@ -123,7 +123,7 @@ extern const void* DAT_010a0a6c;
 NiParticleMeshes* __cdecl NiParticleMeshes_CreateObject();
 void __cdecl NiFree(void*);
 void* __cdecl NiMalloc(unsigned int);
-struct FUN_00a99800_shell
+struct NiIntegersExtraData
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
@@ -147,12 +147,12 @@ struct NiShaderConstantMap
 extern volatile long DAT_011f4400;
 extern const void* DAT_010a1478;
 extern const void* vftable_NiRefObject;
-struct FUN_00a84c90_class
+struct BoneData
 {
     char pad[0x44];
     int field44;
     short field48;
-    FUN_00a84c90_class* ResetFields();
+    BoneData* ResetFields();
 };
 extern unsigned char DAT_011f5fb4;
 extern unsigned char DAT_011f5fb5;
@@ -246,7 +246,7 @@ struct FUN_00a87140_class
     void FUN_00a87140_ctor();
 };
 FUN_00a87140_class* BSSegmentedTriShape_CreateObject();
-struct FUN_00a94c00_shell
+struct NiSpotLight
 {
     char m_iWordAt00[0xfc];
     int m_fc;
@@ -480,7 +480,7 @@ struct FUN_00a84ca0_entry
     int unk48;
 };
 extern MemoryManager g_memoryManager;
-struct FUN_00a84ca0_class
+struct NiSkinData
 {
     int unk00;
     int unk04;
@@ -650,7 +650,7 @@ struct BaseCls
 };
 extern "C" void* __cdecl _NiMalloc_00aa1070(int);
 extern int DAT_0109f23c;
-struct FUN_00a8a680_cls
+struct NiLinesData
 {
     void* m_vft;
     int m_iWordAt04;

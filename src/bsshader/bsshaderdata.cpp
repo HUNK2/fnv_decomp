@@ -94,14 +94,14 @@ struct ShaderPropertyConversionData
     int m_iShaderDataFlags;
 };
 typedef char _sizecheck_BSShaderData[sizeof(ShaderPropertyConversionData) == 184 ? 1 : -1];
-struct FUN_00bb0180_shell : public ShaderPropertyConversionData
+struct BSShaderData : public ShaderPropertyConversionData
 {
     void AddProperties(NiAVObject*, unsigned int);
 };
 
 // Adds an alpha, material and/or shader property to apTarget according to the bits set in auiProperties.
 // @fnv 0x00bb0180
-void FUN_00bb0180_shell::AddProperties(NiAVObject* apTarget, unsigned int auiProperties)
+void BSShaderData::AddProperties(NiAVObject* apTarget, unsigned int auiProperties)
 {
     if (auiProperties & 1)
         AddAlphaProperty(apTarget);

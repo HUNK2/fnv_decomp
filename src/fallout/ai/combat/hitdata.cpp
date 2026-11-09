@@ -18,13 +18,13 @@ float FUN_009b7040_shell::GetField168()
     return *(float*)((char*)this + 0x168);
 }
 
-struct FUN_009b73b0_shell
+struct CombatState
 {
     char GetByteAtOffset() const;
 };
 
 // @fnv 0x009b73b0
-char FUN_009b73b0_shell::GetByteAtOffset() const
+char CombatState::GetByteAtOffset() const
 {
     return *(char*)((char*)this + 0x1c8);
 }

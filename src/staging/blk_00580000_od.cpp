@@ -104,14 +104,14 @@ void FUN_005805a0_t::SetFlag8000000(bool abEnabled)
 }
 }  // namespace fnv_005805a0
 
-struct FUN_00581fb0_Class
+struct TESImageSpaceModifiableCountForm
 {
     void __thiscall TESImageSpaceModifiableCountForm_6_SetFormImageSpaceModifying(int index, int value);
 };
 
 // @fnv 0x00581fb0
 // src: XBOX_PDB 0x00581fb0
-void __thiscall FUN_00581fb0_Class::TESImageSpaceModifiableCountForm_6_SetFormImageSpaceModifying(int index, int value)
+void __thiscall TESImageSpaceModifiableCountForm::TESImageSpaceModifiableCountForm_6_SetFormImageSpaceModifying(int index, int value)
 {
     *(int*)((char*)this + index * 4 + 4) = value;
 }
@@ -1057,7 +1057,7 @@ extern char DAT_01183040;
 extern char DAT_01186ab0;
 extern "C" void* __cdecl FUN_00ec43fb(int input, int mode, const void* type, const void* name, int flags);
 
-struct ControllerArchive : FUN_00581fb0_Class
+struct ControllerArchive : TESImageSpaceModifiableCountForm
 {
     void __thiscall LoadControllerArchive(int source);
 };

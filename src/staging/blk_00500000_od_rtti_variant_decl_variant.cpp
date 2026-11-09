@@ -82,7 +82,7 @@ struct FUN_00509890_class
     void __thiscall _ref_006815c0();
     void* __thiscall UpdateState_00509890(bool);
 };
-struct FUN_0050d1d0_class
+struct TESObjectLIGH
 {
     bool IsFlag8Set() const;
 };
@@ -115,7 +115,7 @@ extern "C" int __cdecl _BSStringLength(const char*);
 struct FUN_005103a0_class
 {
     void __thiscall FindSubstring(const char* a, const char* b, int c);
-    void __thiscall ProcessState_005103a0(const char* a, const char* b);
+    void __thiscall string_find(const char* a, const char* b);
 };
 extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
 void __cdecl std_char_traits_char_compare(const void* s1, const void* s2, unsigned int n);
@@ -267,7 +267,7 @@ struct FUN_00508090_shell
     void UpdateEnvelope(float, float, float, unsigned char, float, float, float, float, float);
     void TESEffectShader_AnimateFillEffectAlpha(float a, float b, float c, unsigned char d);
 };
-struct FUN_0050e640_Holder
+struct SettingT
 {
     char _0[4];
     unsigned char _4;

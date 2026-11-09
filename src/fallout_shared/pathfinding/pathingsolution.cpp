@@ -82,14 +82,14 @@ void __fastcall ResetPathingSolution(PathingSolution* self)
 // SolutionNodePool: unit-local view of PathingSolution's node pool (member1), not PathBuilder: 0x006e78b0 and 0x006e8f60 call its slot lookup 0x006e8f40
 struct SolutionNodePool
 {
-    void* GetElementAddress30_006e8f40(void*);
+    void* BSSimpleArray_GetAt(void*);
 };
 
 // @fnv 0x006e78b0
 // src: XBOX_PDB 0x006e78b0
 LocationDescriptor* PathingSolution::GetVirtualNode_006e78b0(unsigned int aiIndex)
 {
-    return (LocationDescriptor*)((SolutionNodePool*)&member1)->GetElementAddress30_006e8f40((void*)aiIndex);
+    return (LocationDescriptor*)((SolutionNodePool*)&member1)->BSSimpleArray_GetAt((void*)aiIndex);
 }
 
 struct Dummy_006e8f80
@@ -329,7 +329,7 @@ namespace fnv_006e8f60 {
 class SolutionNodePool
 {
   public:
-    void* GetElementAddress30_006e8f40(void*);
+    void* BSSimpleArray_GetAt(void*);
     void* BSSimpleArray_VirtualPathingNode_1024_GetAt(void* a1);
 };
 
@@ -337,7 +337,7 @@ class SolutionNodePool
 // src: XBOX_PDB 0x006e8f60
 void* SolutionNodePool::BSSimpleArray_VirtualPathingNode_1024_GetAt(void* apArg)
 {
-    return GetElementAddress30_006e8f40(apArg);
+    return BSSimpleArray_GetAt(apArg);
 }
 }  // namespace fnv_006e8f60
 
@@ -413,12 +413,12 @@ NiPoint3 PathingSpline::PathingSpline_InterpolateNoZ(char* pFirst, char* pSecond
 
 struct FUN_006e8f40_shell
 {
-    int GetElementAddress30_006e8f40(int a) const;
+    int BSSimpleArray_GetAt(int a) const;
 };
 
 // @fnv 0x006e8f40
-// src: GUESS 0x006e8f40 (confidence: low)
-int FUN_006e8f40_shell::GetElementAddress30_006e8f40(int aiIndex) const
+// src: GUESS 0x006e8f40 (confidence: high)
+int FUN_006e8f40_shell::BSSimpleArray_GetAt(int aiIndex) const
 {
     return aiIndex * 0x30 + *(int*)((char*)this + 4);
 }

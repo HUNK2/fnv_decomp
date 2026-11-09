@@ -4819,7 +4819,7 @@ public:
     int z;
 };
 
-class FUN_00c47980_cls
+class BSCompoundFrustum
 {
 public:
     void InitFromArg(FUN_00c47980_arg* a1);
@@ -4866,7 +4866,7 @@ public:
 };
 
 // @fnv 0x00c47980
-void FUN_00c47980_cls::InitFromArg(FUN_00c47980_arg* a1)
+void BSCompoundFrustum::InitFromArg(FUN_00c47980_arg* a1)
 {
     if (a1 != 0)
     {
@@ -6054,7 +6054,7 @@ extern "C" void __cdecl FUN_00c516d0();
 extern "C" void __stdcall FUN_00ec5fce(void* objects, unsigned int objectSize, unsigned int count, void (__cdecl *destructor)());
 
 struct DynamicObject {
-    void FUN_00b00ec0();
+    void BSWin32TaskletData();
     void* VectorDeletingDestructor(unsigned int flags);
 };
 // @fnv 0x00c515d0
@@ -6068,7 +6068,7 @@ void* DynamicObject::VectorDeletingDestructor(unsigned int flags)
         }
         return reinterpret_cast<char*>(this) - 4;
     }
-    FUN_00b00ec0();
+    BSWin32TaskletData();
     if (flags & 1) {
         DAT_011f6238.MemoryManager_Deallocate(this);
     }

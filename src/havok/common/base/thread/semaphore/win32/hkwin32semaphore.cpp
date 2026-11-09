@@ -24,7 +24,7 @@ unsigned long FUN_00d04390::hkSemaphore_release(unsigned long amount)
     return (unsigned long)ReleaseSemaphore(*(void**)this, (long)amount, 0);
 }
 
-struct FUN_00d97970_cls
+struct hkKdTree
 {
     unsigned int m_00;
     unsigned int m_04;
@@ -38,11 +38,11 @@ struct FUN_00d97970_cls
     unsigned int m_24;
 
     void InitBase(unsigned int aValue);
-    FUN_00d97970_cls* Init(unsigned int aValue);
+    hkKdTree* Init(unsigned int aValue);
 };
 
 // @fnv 0x00d97970
-FUN_00d97970_cls* FUN_00d97970_cls::Init(unsigned int aValue)
+hkKdTree* hkKdTree::Init(unsigned int aValue)
 {
     volatile unsigned int* pWords = (volatile unsigned int*)this;
     pWords[0] = 0;

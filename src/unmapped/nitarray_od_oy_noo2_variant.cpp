@@ -17,7 +17,7 @@ struct FUN_009ba5f0_shell
 {
     void SetChildObject(int);
 };
-struct FUN_00c89c80_obj
+struct bhkConstraint
 {
     void CopyFromSource(unsigned int uiMaxSize);
 };

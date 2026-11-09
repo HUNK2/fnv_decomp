@@ -5839,7 +5839,7 @@ struct FUN_007e6620_Button
 };
 struct FUN_007e6620_t : public Menu
 {
-    void ProcessState_007e6700();
+    void TextEditMenu_UpdateDisplayText();
     bool HandleTileClick(int aiTileID);
 };
 
@@ -5861,7 +5861,7 @@ bool FUN_007e6620_t::HandleTileClick(int aiTileID)
         if (((FUN_007e6620_Button*)((char*)this + 0x34))->GetByteAtOffset33())
         {
             ((FUN_007e6620_Button*)((char*)this + 0x34))->TextEditMenu_Data_HandleKey(aiTileID);
-            ProcessState_007e6700();
+            TextEditMenu_UpdateDisplayText();
             return true;
         }
         else
@@ -5987,7 +5987,7 @@ bool InterfaceManager_TutorialManager::SetFlag2(int index)
 
 char __fastcall GetByteAtOffset33(char*);
 void __fastcall ToggleFlagOnInterval(char*);
-void __fastcall ProcessState_007e6700(void*);
+void __fastcall TextEditMenu_UpdateDisplayText(void*);
 
 
 // @fnv 0x007e65f0
@@ -5997,7 +5997,7 @@ void InterfaceTextEditAccess::TextEditMenu_Update()
     if ((unsigned char)GetByteAtOffset33((char*)this + 0x34))
     {
         ToggleFlagOnInterval((char*)this + 0x34);
-        ::ProcessState_007e6700(this);
+        ::TextEditMenu_UpdateDisplayText(this);
     }
 }
 
@@ -7931,19 +7931,19 @@ struct FUN_00717230_bsobj
 
 FUN_00717230_bsobj* __stdcall FUN_005bd5b0(float* out, int arg, void* holder, float scale, int zero);
 
-class FUN_00717230_cls
+class EditableTextField
 {
   public:
     char unk00[0x14];
     int m_14;
     void* m_18;
 
-    unsigned char EvaluateValue_00717230(int arg);
+    unsigned char DoesTextFit(int arg);
 };
 
 // @fnv 0x00717230
-// src: GUESS 0x00717230 (confidence: low)
-unsigned char FUN_00717230_cls::EvaluateValue_00717230(int arg)
+// src: GUESS 0x00717230 (confidence: medium)
+unsigned char EditableTextField::DoesTextFit(int arg)
 {
     struct
     {
@@ -8003,7 +8003,7 @@ struct FUN_00719340_value_obj
     int* GetValuePtr();
 };
 
-struct FUN_00719340_cls
+struct SoftSystemColor
 {
     char unk00[0x0c];
     FUN_00719340_value_obj* m_pValueObj;
@@ -8011,7 +8011,7 @@ struct FUN_00719340_cls
 };
 
 // @fnv 0x00719340
-void FUN_00719340_cls::SetValue(int value)
+void SoftSystemColor::SetValue(int value)
 {
     *m_pValueObj->GetValuePtr() = value;
 }
@@ -8076,13 +8076,13 @@ struct FUN_007e6700_Class
     char padding38[0x58 - 0x38];
     FUN_007e6700_Callback callback;
 
-    void __thiscall ProcessState_007e6700();
+    void __thiscall TextEditMenu_UpdateDisplayText();
 };
 
 // Calls object28 with 0xFC4 and a helper result, then if callback is set calls object2C with 0xFAF and the callback's result.
 // @fnv 0x007e6700
-// src: GUESS 0x007e6700 (confidence: low)
-void __thiscall FUN_007e6700_Class::ProcessState_007e6700()
+// src: GUESS 0x007e6700 (confidence: medium)
+void __thiscall FUN_007e6700_Class::TextEditMenu_UpdateDisplayText()
 {
     object28->Set(0xFC4, (const char*)helper.GetDisplayText(1));
 
@@ -11881,7 +11881,7 @@ struct TextInputField
     int BSStringT_char_Length();
     const char* Modelloader_GetReferencedThis();
     void FUN_00438390(const char* text);
-    bool EvaluateValue_00717230(const char* text);
+    bool DoesTextFit(const char* text);
     void TextEditMenu_Data_HandleKey(int key);
 };
 
@@ -11992,7 +11992,7 @@ void TextInputField::TextEditMenu_Data_HandleKey(int key)
             abuf[iM] = abuf[iM - 1];
         abuf[iM] = (char)key;
         abuf[len + 1] = 0;
-        if (iMaxWidth == -1 || EvaluateValue_00717230(abuf))
+        if (iMaxWidth == -1 || DoesTextFit(abuf))
         {
             len++;
             iCursor++;

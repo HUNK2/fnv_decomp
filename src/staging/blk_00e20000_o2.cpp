@@ -109,7 +109,7 @@ void* __thiscall FUN_00e3f340_Class::GetEntryByArg(int arg)
     return 0;
 }
 
-struct FUN_00e3f900_class
+struct hkxAttribute
 {
     int __thiscall ReturnSelf(int a);
     int __thiscall ProcessAndReturnValue_00e3f900(int a);
@@ -117,7 +117,7 @@ struct FUN_00e3f900_class
 
 // @fnv 0x00e3f900
 // src: GUESS 0x00e3f900 (confidence: low)
-int __thiscall FUN_00e3f900_class::ProcessAndReturnValue_00e3f900(int a)
+int __thiscall hkxAttribute::ProcessAndReturnValue_00e3f900(int a)
 {
     ReturnSelf(a);
     return (int)this;
@@ -2453,7 +2453,7 @@ struct FUN_00e3f230_Entry
     unsigned int unk04;
 };
 
-struct FUN_00e3f230_cls
+struct hkxEnvironment
 {
     int unk00;
     int unk04;
@@ -2464,7 +2464,7 @@ struct FUN_00e3f230_cls
 
 // Scans m_pEntries for the first entry whose masked key matches arg via CompareStringsCaseInsensitive, returning its index or -1.
 // @fnv 0x00e3f230
-int FUN_00e3f230_cls::FindEntryByKey(int arg)
+int hkxEnvironment::FindEntryByKey(int arg)
 {
     int i = 0;
     if (m_uiItemCount > 0)

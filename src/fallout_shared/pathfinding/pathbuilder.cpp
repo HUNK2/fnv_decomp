@@ -187,7 +187,7 @@ struct Item48
 PathingInfoEntry* PathingSolution::GetPathingInfoEntry(PathingInfoEntry& aItem)
 {
     void* v1 = ((PathBuilder*)((char*)this + 8))->AdvanceCounter();
-    void* v2 = ((PathBuilder*)((char*)this + 8))->GetElementAddress30_006e8f40(v1);
+    void* v2 = ((PathBuilder*)((char*)this + 8))->BSSimpleArray_GetAt(v1);
     new (v2) Item48(aItem);
     return (PathingInfoEntry*)v1;
 }
@@ -323,7 +323,7 @@ struct Item48
 unsigned int PathingSolution::AddPathingItem(void* a, TESObjectREFR* pRefr)
 {
     void* idx = ((PathBuilder*)((char*)this + 8))->AdvanceCounter();
-    void* mem = ((PathBuilder*)((char*)this + 8))->GetElementAddress30_006e8f40(idx);
+    void* mem = ((PathBuilder*)((char*)this + 8))->BSSimpleArray_GetAt(idx);
     new (mem) fnv_006c99c0::Item48(a, pRefr);
     return (unsigned int)idx;
 }
@@ -721,13 +721,13 @@ void Mid::PathingNode_SetActionAtNode(int aiValue)
     *(int*)this = *(int*)this | 3;
 }
 
-struct FUN_006cd880_shell
+struct NavMeshSearch
 {
     void SetField2084(int param_2);
 };
 
 // @fnv 0x006cd880
-void FUN_006cd880_shell::SetField2084(int aiValue)
+void NavMeshSearch::SetField2084(int aiValue)
 {
     *(int*)((char*)this + 0x2084) = aiValue;
 }

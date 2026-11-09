@@ -208,13 +208,13 @@ void* __thiscall FUN_00509890_class::UpdateState_00509890(bool flag)
     return this;
 }
 
-struct FUN_0050d1d0_class
+struct TESObjectLIGH
 {
     bool IsFlag8Set() const;
 };
 
 // @fnv 0x0050d1d0
-bool FUN_0050d1d0_class::IsFlag8Set() const
+bool TESObjectLIGH::IsFlag8Set() const
 {
     return (*(const int*)((const char*)this + 0xa8) & 8) ? true : false;
 }
@@ -292,12 +292,12 @@ extern "C" int __cdecl _BSStringLength(const char*);
 struct FUN_005103a0_class
 {
     void __thiscall FindSubstring(const char* a, const char* b, int c);
-    void __thiscall ProcessState_005103a0(const char* a, const char* b);
+    void __thiscall string_find(const char* a, const char* b);
 };
 
 // @fnv 0x005103a0
-// src: GUESS 0x005103a0 (confidence: low)
-void __thiscall FUN_005103a0_class::ProcessState_005103a0(const char* a, const char* b)
+// src: GUESS 0x005103a0 (confidence: medium)
+void __thiscall FUN_005103a0_class::string_find(const char* a, const char* b)
 {
     FindSubstring(a, b, _BSStringLength(a));
 }
@@ -655,7 +655,7 @@ void __thiscall FUN_00508090_shell::TESEffectShader_AnimateFillEffectAlpha(float
     UpdateEnvelope(a, b, c, d, TESCombatStyle_GetWeaponMinRangeMult(), GetActorRadius(), GetEndKeyTime_00508100(), NiControllerSequence_GetLastTime(), NiPSysSpawnModifier_GetLifeSpan());
 }
 
-struct FUN_0050e640_Holder
+struct SettingT
 {
     char _0[4];
     unsigned char _4;
@@ -663,7 +663,7 @@ struct FUN_0050e640_Holder
 };
 // Returns true when the holder's byte at offset 4 equals the given value, or false if the holder is null.
 // @fnv 0x0050e640
-bool __thiscall FUN_0050e640_Holder::MatchesValue(unsigned char v)
+bool __thiscall SettingT::MatchesValue(unsigned char v)
 {
     return this ? _4 == v : false;
 }
@@ -2249,7 +2249,7 @@ struct TERMINAL_MENU_ITEM
 TERMINAL_MENU_ITEM::~TERMINAL_MENU_ITEM()
 {}
 
-struct FUN_005098e0_Object
+struct ProcessLists
 {
     unsigned int unk000;
     unsigned int unk004;
@@ -2346,7 +2346,7 @@ struct FUN_005098e0_Object
 
 // Returns true if unk15C or unk15D is nonzero.
 // @fnv 0x005098e0
-bool FUN_005098e0_Object::IsFlagged() const
+bool ProcessLists::IsFlagged() const
 {
     return unk15C || unk15D;
 }

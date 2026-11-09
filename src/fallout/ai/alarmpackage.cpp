@@ -104,11 +104,11 @@ bool Crime::IsActorInList(Actor* apActor)
 struct FUN_009eba00_t
 {
     int m_uiItemCount;
-    void RemoveActorAndDecrementCount(Actor* a);
+    void Crime_RemoveWitness(Actor* a);
 };
 // @fnv 0x009eba00
 // src: GUESS 0x009eba00 (confidence: medium)
-void FUN_009eba00_t::RemoveActorAndDecrementCount(Actor* apActor)
+void FUN_009eba00_t::Crime_RemoveWitness(Actor* apActor)
 {
     reinterpret_cast<BSSimpleList<Actor*>*>(reinterpret_cast<char*>(this) + 0x1c)->Remove(apActor);
     m_uiItemCount = m_uiItemCount - 1;

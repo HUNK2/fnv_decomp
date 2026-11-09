@@ -352,13 +352,13 @@ void* FUN_0098ed30_class::BSSimpleArray_CombatTarget_1024_BSSimpleArray_CombatTa
 
 struct FUN_0098efa0_shell
 {
-    void* __thiscall AllocateElements68(int count);
+    void* __thiscall BSSimpleArray_Allocate(int count);
 };
 
 // Allocates a byte array of count * 0x68 bytes and returns the pointer.
 // @fnv 0x0098efa0
-// src: GUESS 0x0098efa0 (confidence: medium)
-void* FUN_0098efa0_shell::AllocateElements68(int count)
+// src: GUESS 0x0098efa0 (confidence: high)
+void* FUN_0098efa0_shell::BSSimpleArray_Allocate(int count)
 {
     return new char[count * 0x68];
 }
@@ -1638,13 +1638,13 @@ struct FUN_0098f040_shell
     virtual void v0();
     virtual CombatClusterMember* Allocate(unsigned int);
     void UpdateThreat(unsigned int, unsigned int);
-    void ResizeBufferStorage(unsigned int auiNewSize, bool abFreeMemory);
+    void BSSimpleArray_SetSize(unsigned int auiNewSize, bool abFreeMemory);
 };
 
 // Resizes the buffer to auiNewSize: clears when zero, reallocates and grows when larger than capacity, shrinks and optionally frees when smaller.
 // @fnv 0x0098f040
 // src: GUESS 0x0098f040 (confidence: medium)
-void FUN_0098f040_shell::ResizeBufferStorage(unsigned int auiNewSize, bool abFreeMemory)
+void FUN_0098f040_shell::BSSimpleArray_SetSize(unsigned int auiNewSize, bool abFreeMemory)
 {
     if (!auiNewSize)
     {
@@ -4908,14 +4908,14 @@ void B8EB30Group::RemoveActorsNotInGroup(void* pvUnused)
 class B98EBC0Array
 {
   public:
-    int* GetElementAddress_006bf670(int iIndex);
+    int* BSSimpleArray_GetAt(int iIndex);
     int* GetElementAt(int iIndex);
 };
 
 // @fnv 0x0098ebc0
 int* B98EBC0Array::GetElementAt(int iIndex)
 {
-    return GetElementAddress_006bf670(iIndex);
+    return BSSimpleArray_GetAt(iIndex);
 }
 
 struct SimpleArrayRemove
@@ -7759,7 +7759,7 @@ struct ArrItems
 struct ArrMembers
 {
     int x0, x4, x8, xc;
-    void ResizeBufferStorage(unsigned int, bool);
+    void BSSimpleArray_SetSize(unsigned int, bool);
     MemberNode* BSSimpleArray_CombatMember_1024_GetAt(unsigned int) const;
 };
 struct ArrExtra
@@ -7855,7 +7855,7 @@ void GroupLoad::CombatGroup_LoadGame(BGSLoadFormBuffer* buffer)
     }
     {
         unsigned int countMembers = buffer->FUN_00864a60();
-        members.ResizeBufferStorage(countMembers, true);
+        members.BSSimpleArray_SetSize(countMembers, true);
         for (unsigned int indexMembers = 0; indexMembers < countMembers; indexMembers++)
         {
             MemberNode* member = members.BSSimpleArray_CombatMember_1024_GetAt(indexMembers);

@@ -622,18 +622,18 @@ struct FUN_008c9ef0 : FUN_00aa63c0_base
 FUN_008c9ef0::~FUN_008c9ef0()
 {}
 
-struct FUN_008c9fb0_shell
+struct AILinearTaskThread
 {
     void SignalAtOffset30();
 };
 // @fnv 0x008c9fb0
-void FUN_008c9fb0_shell::SignalAtOffset30()
+void AILinearTaskThread::SignalAtOffset30()
 {
     ((CountingSemaphore*)((char*)this + 0x30))->Signal();
 }
 
 namespace fnv_008ca2e0 {
-struct FUN_008c9fb0_shell
+struct AILinearTaskThread
 {
     void SignalAtOffset30();
 };
@@ -644,7 +644,7 @@ struct FUN_008ca2e0_shell
 // @fnv 0x008ca2e0
 void FUN_008ca2e0_shell::CallAt(int iIndex)
 {
-    ((FUN_008c9fb0_shell**)this)[iIndex]->SignalAtOffset30();
+    ((AILinearTaskThread**)this)[iIndex]->SignalAtOffset30();
 }
 }  // namespace fnv_008ca2e0
 

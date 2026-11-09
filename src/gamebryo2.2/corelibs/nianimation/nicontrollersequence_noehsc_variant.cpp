@@ -547,7 +547,7 @@ struct FUN_00a317e0_interp
     void* unk04;
     void* unk08;
     void* unk0C;
-    void __thiscall ReleaseReferencedObjectsAndResetFlags();
+    void __thiscall ClearValues();
 };
 struct FUN_00a317e0_tag
 {

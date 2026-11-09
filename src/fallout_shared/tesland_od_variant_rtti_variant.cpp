@@ -646,7 +646,7 @@ struct FUN_0084e3a0_Class
 {
     int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
 };
-struct FUN_00535aa0_Class
+struct FILE_TEX_VERT_DATA
 {
     void OBJ_WEAP_CRITICAL_Endian();
 };
@@ -2313,7 +2313,7 @@ struct Buffer538c00
 
     unsigned int m04;
 
-    void __thiscall UpdateState_00540750(unsigned int size);
+    void __thiscall setSize(unsigned int size);
 
     void* __thiscall Modelloader_GetReferencedThis();
 };

@@ -988,13 +988,13 @@ void AE8470List::SortList(int(__cdecl* pfnCompare)(AE8470Item*, AE8470Item*))
 
 struct FUN_00ae8550_shell
 {
-    void __thiscall SortValuesByComparison(int* values, int(__cdecl* compare)(int, int), int count);
+    void __thiscall ShellSort(int* values, int(__cdecl* compare)(int, int), int count);
 };
 
 // Sorts the values array in place using a Shell sort with a Knuth gap sequence and the given comparison function.
 // @fnv 0x00ae8550
 // src: GUESS 0x00ae8550 (confidence: high)
-void __thiscall FUN_00ae8550_shell::SortValuesByComparison(int* values, int(__cdecl* compare)(int, int), int count)
+void __thiscall FUN_00ae8550_shell::ShellSort(int* values, int(__cdecl* compare)(int, int), int count)
 {
     int offset;
     {

@@ -528,13 +528,13 @@ bool TESObjectDOOR::IsFlag4Set()
         return false;
 }
 
-struct FUN_00519270_shell
+struct NavMeshTriangle
 {
     void ClearFlags(unsigned int mask);
 };
 
 // @fnv 0x00519270
-void FUN_00519270_shell::ClearFlags(unsigned int mask)
+void NavMeshTriangle::ClearFlags(unsigned int mask)
 {
     *(unsigned int*)((char*)this + 0xc) &= ~mask;
 }

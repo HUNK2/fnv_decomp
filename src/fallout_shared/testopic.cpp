@@ -266,13 +266,13 @@ struct FUN_006195d0_shell : public TESTopic
 };
 
 void* __cdecl operator new(unsigned int);
-QuestDialogueInfo* __fastcall FUN_00619740(void*);
+QuestDialogueInfo* __fastcall QUEST_INFO(void*);
 
 struct QuestInfoStub : public QuestDialogueInfo
 {
     QuestInfoStub()
     {
-        FUN_00619740(this);
+        QUEST_INFO(this);
     }
 };
 

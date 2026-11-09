@@ -279,13 +279,13 @@ void* __stdcall Runtime_ForwardCall_00e5c670(void* apArg)
 }
 }  // namespace fnv_00e5c670
 
-struct FUN_00e459c0_class {
+struct hkpGroupFilter {
     void SetBitMaskFlags(int a, int b);
 };
 
 // If both masks are zero sets byte 0x30 to 1; otherwise ORs each set bit's mask into the corresponding int at offset 0x34.
 // @fnv 0x00e459c0
-void FUN_00e459c0_class::SetBitMaskFlags(int a, int b)
+void hkpGroupFilter::SetBitMaskFlags(int a, int b)
 {
     if (!a && !b)
     {
@@ -427,7 +427,7 @@ void FUN_00e407d0_class::SetSlotValue(int aiIndex, char b)
         *(float*)(*(int*)((char*)this + 0x74) + aiIndex * 4) = 1.0f;
 }
 
-struct FUN_00e426f0_class {
+struct hkpVehicleCastBatchingManager {
     unsigned short m_00;
     unsigned short m_02;
     unsigned short m_04;
@@ -444,7 +444,7 @@ struct FUN_00e426f0_class {
 };
 
 // @fnv 0x00e428d0
-void FUN_00e426f0_class::AddByteFromObject(void* p)
+void hkpVehicleCastBatchingManager::AddByteFromObject(void* p)
 {
     AddObject(p);
     m_14 += ((unsigned char*)*(void**)((char*)p + 0x1c))[0x20];
@@ -3169,14 +3169,15 @@ template<class T> struct Arr : ArrayBase {
  T* expand(hkMemoryAllocator& heap,int n) {int old=size; reserve(heap,old+n); size+=n; return (T*)data+old;}
 };
 struct Base { virtual void dummy(); unsigned short flags; short refs; Base(){refs=1;} };
-struct FUN_00e4a1d0:Base {
+struct hkMemoryMeshShape:Base {
  Arr<Entry> entries; Arr<unsigned short> shorts; Arr<unsigned int> ints; String label;
- FUN_00e4a1d0(const Entry* source,int count);
+ hkMemoryMeshShape(const Entry* source,int count);
  virtual void dummy();
 };
 // Initializes label, reserves shorts/ints/entries from the router heap, copies each source Entry and its data into the matching storage array.
 // @fnv 0x00e4a1d0
-FUN_00e4a1d0::FUN_00e4a1d0(const Entry* source,int count) {
+// src: GUESS 0x00e4a1d0 (confidence: medium)
+hkMemoryMeshShape::hkMemoryMeshShape(const Entry* source,int count) {
  label.init(); label.assign(0);
  int iShortCount=0; int iIntCount=0;
  for(int i=0;i<count;++i) { int n=source[i].length(); switch(source[i].storage){case 1:iShortCount+=n;break;case 2:iIntCount+=n;break;} }
@@ -4344,14 +4345,14 @@ struct LoadedObject {
     void* vtable;
     int unk04;
     unsigned char type;
-    void FUN_00e46f20(LoadedFlag flag);
+    void hkpBallGun(LoadedFlag flag);
     LoadedObject* Initialize(LoadedFlag flag);
 };
-// Calls FUN_00e46f20, sets vtable to DAT_010ec004, sets type to 4 when flag.finishing is true, and returns this.
+// Calls hkpBallGun, sets vtable to DAT_010ec004, sets type to 4 when flag.finishing is true, and returns this.
 // @fnv 0x00e45120
 LoadedObject* LoadedObject::Initialize(LoadedFlag flag)
 {
-    FUN_00e46f20(flag);
+    hkpBallGun(flag);
     vtable = &DAT_010ec004;
     if (flag.finishing) type = 4;
     return this;

@@ -62,7 +62,7 @@ class DifferentialArray
 class StatisticalArray
 {
   public:
-    unsigned int EvaluateValue_0065cc30();
+    unsigned int vector_size();
     StatisticalEntry* GetElementChecked_00662890(unsigned int);
     unsigned int data[6];
 };
@@ -237,7 +237,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
             continue;
     }
     // Statistical morphs replace differential morphs with the same name.
-    for (local.i = 0; local.i < tri->statistical.EvaluateValue_0065cc30(); local.i++)
+    for (local.i = 0; local.i < tri->statistical.vector_size(); local.i++)
     {
         local.found = false;
         for (local.expression = 0; local.expression < 15; local.expression++)

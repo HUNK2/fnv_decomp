@@ -33,7 +33,7 @@ struct FUN_00e3f340_Class
     int __thiscall FindEntryByKey(int arg);
     void* __thiscall GetEntryByArg(int arg);
 };
-struct FUN_00e3f900_class
+struct hkxAttribute
 {
     int __thiscall ReturnSelf(int a);
     int __thiscall ProcessAndReturnValue_00e3f900(int a);
@@ -1489,7 +1489,7 @@ struct FUN_00e3f230_Entry
     unsigned int m_flagged;
     unsigned int unk04;
 };
-struct FUN_00e3f230_cls
+struct hkxEnvironment
 {
     int unk00;
     int unk04;

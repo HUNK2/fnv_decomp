@@ -5180,20 +5180,20 @@ ArchiveStreamFile::ArchiveStreamFile()
 
 unsigned char __fastcall BSHash_ExtensionIndex(void*);
 
-struct FUN_00afcf00_t
+struct BSHash
 {
     char pad_0[2];
     unsigned char field_2;
     unsigned char field_3;
     unsigned int field_4;
 
-    int BSHash_WildCardCompare(FUN_00afcf00_t* other);
+    int BSHash_WildCardCompare(BSHash* other);
 };
 
-// Compares two FUN_00afcf00_t objects by field_4, field_2, and FUN_00afcfe0 result, returning -1, 0, or 1.
+// Compares two BSHash objects by field_4, field_2, and FUN_00afcfe0 result, returning -1, 0, or 1.
 // @fnv 0x00afcf00
 // src: COMMUNITY 0x00afcf00
-int FUN_00afcf00_t::BSHash_WildCardCompare(FUN_00afcf00_t* other)
+int BSHash::BSHash_WildCardCompare(BSHash* other)
 {
     if ((unsigned char)(field_3 & 0x7f) == 0x2a)
     {

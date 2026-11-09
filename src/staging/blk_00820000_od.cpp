@@ -356,12 +356,12 @@ extern "C" void __stdcall ReceiveConnection(int, int, int);
 
 struct FUN_00831f40_Class
 {
-    void ReceiveConnection_Thunk(int a, int b);
+    void CAsyncReader_ReceiveConnection(int a, int b);
 };
 
 // @fnv 0x00831f40
 // src: GUESS 0x00831f40 (confidence: medium)
-void FUN_00831f40_Class::ReceiveConnection_Thunk(int aiArg1, int aiArg2)
+void FUN_00831f40_Class::CAsyncReader_ReceiveConnection(int aiArg1, int aiArg2)
 {
     ReceiveConnection((int)this + 0x104, aiArg1, aiArg2);
 }
@@ -619,13 +619,13 @@ void __thiscall FalloutRadio_FORadioStation::RadioEntry_Save(BGSLoadFormBuffer* 
     reinterpret_cast<FalloutRadio_FORadioStation*>(reinterpret_cast<char*>(this) + 4)->RadioEntry_Data_Save(buffer);
 }
 
-struct FUN_00837280_Class
+struct QueuedFileEntry
 {
     char RadioConvTask_GetFileIndex();
 };
 // @fnv 0x00837280
 // src: COMMUNITY 0x00837280
-char FUN_00837280_Class::RadioConvTask_GetFileIndex()
+char QueuedFileEntry::RadioConvTask_GetFileIndex()
 {
     return 3;
 }
@@ -1285,14 +1285,14 @@ struct BGSLoadFormBufferHelper
 TESForm* __cdecl _ref_004839c0(unsigned int formID);
 extern void* _DAT_01183028;
 
-struct FUN_0083fbe0_Class
+struct MenuTopic
 {
     void __thiscall ExtraInfoGeneralTopic_Data_LoadGame(BGSLoadGameBuffer* buffer);
 };
 
 // @fnv 0x0083fbe0
 // src: COMMUNITY 0x0083fbe0
-void __thiscall FUN_0083fbe0_Class::ExtraInfoGeneralTopic_Data_LoadGame(BGSLoadGameBuffer* buffer)
+void __thiscall MenuTopic::ExtraInfoGeneralTopic_Data_LoadGame(BGSLoadGameBuffer* buffer)
 {
     char string[500];
 
@@ -3644,18 +3644,19 @@ class List8321E0
     void* m_pkTail;
     unsigned int m_uiCount;
 };
-class FUN_008321e0
+class FalloutRadio_FORadioReceiver
 {
   public:
-    ~FUN_008321e0();
+    ~FalloutRadio_FORadioReceiver();
     int unk00;
     List8321E0 m_kFirst;
     List8321E0 m_kSecond;
 };
 
-// Destructor for the FUN_008321e0 class, which contains two List8321E0 members and an int field.
+// Destructor for the FalloutRadio_FORadioReceiver class, which contains two List8321E0 members and an int field.
 // @fnv 0x008321e0
-FUN_008321e0::~FUN_008321e0()
+// src: GUESS 0x008321e0 (confidence: high)
+FalloutRadio_FORadioReceiver::~FalloutRadio_FORadioReceiver()
 {}
 
 struct FUN_0082f260_tex

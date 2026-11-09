@@ -1185,12 +1185,12 @@ namespace fnv_006c1e40 {
 
 struct FUN_006c1e40_shell
 {
-    void RemoveEntityListener_006c1e40(void* arg1);
+    void bhkRigidBody_AddEntityListener(void* arg1);
 };
 
 // @fnv 0x006c1e40
 // src: GUESS 0x006c1e40 (confidence: medium)
-void FUN_006c1e40_shell::RemoveEntityListener_006c1e40(void* arg1)
+void FUN_006c1e40_shell::bhkRigidBody_AddEntityListener(void* arg1)
 {
     void* result = ((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     if (result)
@@ -1209,12 +1209,12 @@ struct FUN_00c9c0f0_shell
 
 struct FUN_006c1e70_shell
 {
-    void RemoveWorldObjectListener(int a1);
+    void bhkRigidBody_RemoveEntityActivationListener(int a1);
 };
 
 // @fnv 0x006c1e70
 // src: GUESS 0x006c1e70 (confidence: medium)
-void FUN_006c1e70_shell::RemoveWorldObjectListener(int a1)
+void FUN_006c1e70_shell::bhkRigidBody_RemoveEntityActivationListener(int a1)
 {
     int result = (int)((bhkWorldObject*)this)->Bipedanim_GetReferenceFlagsOrZero();
     if (result)
@@ -1493,8 +1493,8 @@ void HavokBodyListenerAccess::bhkEntity_AddEntityListener(int a)
 
 struct S_param
 {
-    void RemoveWorldObjectListener(int);
-    void RemoveEntityListener_006c1e40(int);
+    void bhkRigidBody_RemoveEntityActivationListener(int);
+    void bhkRigidBody_AddEntityListener(int);
 };
 struct S_this
 {
@@ -1507,8 +1507,8 @@ struct S_this
 // src: COMMUNITY 0x006c1e00
 void S_this::NavMeshObstacleManager_RemoveActivationListener(S_param* apParam)
 {
-    apParam->RemoveWorldObjectListener(f120);
-    apParam->RemoveEntityListener_006c1e40(f124);
+    apParam->bhkRigidBody_RemoveEntityActivationListener(f120);
+    apParam->bhkRigidBody_AddEntityListener(f124);
 }
 
 struct C006c6fe0

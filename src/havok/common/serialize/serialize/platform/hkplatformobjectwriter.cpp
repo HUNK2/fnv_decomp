@@ -321,9 +321,9 @@ struct E02DE0Map
     void reserve(E02DE0Allocator& alloc, int numElements);
 };
 
-struct FUN_00e02de0
+struct hkPlatformObjectWriter_Cache
 {
-    FUN_00e02de0();
+    hkPlatformObjectWriter_Cache();
 
     E02DE0Map m_map0;
     E02DE0Map m_map1;
@@ -332,7 +332,8 @@ struct FUN_00e02de0
 
 // Initializes the two maps and the array member by running their default constructors.
 // @fnv 0x00e02de0
-FUN_00e02de0::FUN_00e02de0()
+// src: GUESS 0x00e02de0 (confidence: high)
+hkPlatformObjectWriter_Cache::hkPlatformObjectWriter_Cache()
 {}
 
 namespace fnv_00e02e40 {

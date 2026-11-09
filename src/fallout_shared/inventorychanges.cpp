@@ -1242,14 +1242,14 @@ float __thiscall InventoryWeapon::TESObjectWEAP_GetModValue(int a1, unsigned cha
 
 extern unsigned int __cdecl BSStringCapacityMaximum(unsigned int, unsigned int);
 
-struct FUN_00766a10_shell
+struct AnimatingText
 {
     void SetCapacity(unsigned int a);
 };
 
 // Stores the result of BSStringCapacityMaximum(1, a) at offset 0x10 of this object.
 // @fnv 0x00766a10
-void FUN_00766a10_shell::SetCapacity(unsigned int auiCapacity)
+void AnimatingText::SetCapacity(unsigned int auiCapacity)
 {
     *(unsigned int*)((char*)this + 0x10) = BSStringCapacityMaximum(1, auiCapacity);
 }

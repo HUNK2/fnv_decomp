@@ -1514,7 +1514,7 @@ class SpawnedObject
 
 hkMemoryRouter* hkMemoryRouter_getInstance();
 
-class FUN_00d50140_cls
+class hkGenericConstraintCinfo
 {
   public:
     unsigned int unk00;
@@ -1532,7 +1532,7 @@ void* SpawnedObject::operator new(unsigned int size)
 
 // If m_04 is null, allocates a SpawnedObject via operator new and stores it in m_04; returns sizeof(SpawnedObject).
 // @fnv 0x00d50140
-int FUN_00d50140_cls::EnsureSpawnedObject()
+int hkGenericConstraintCinfo::EnsureSpawnedObject()
 {
     AutoMemContext guard(16);
     if (m_04 == 0)
@@ -3481,13 +3481,13 @@ struct hkContainerD539
     int m_numKeys;
 };
 
-class FUN_00c89c80_obj
+class bhkConstraint
 {
   public:
     void CopyFromSource(unsigned int info) throw();
 };
 
-class hkShapeD539 : public FUN_00c89c80_obj
+class hkShapeD539 : public bhkConstraint
 {
   public:
     int unk00;
@@ -3706,7 +3706,7 @@ int __thiscall hkDisplayGeometry::FUN_00d58ce0(unsigned char flag)
 }
 
 extern double DAT_010229c0;
-struct FUN_00d5d660_cls
+struct hkPseudoRandomGenerator
 {
     int m_i00;
     int m_i04;
@@ -3714,7 +3714,7 @@ struct FUN_00d5d660_cls
 };
 // Advances the linear congruential state four times and writes each new state, scaled to [0,1), into pOut[0..3].
 // @fnv 0x00d5d660
-void __thiscall FUN_00d5d660_cls::NextFloat4(float* pOut)
+void __thiscall hkPseudoRandomGenerator::NextFloat4(float* pOut)
 {
     m_i04 = (int)((long long)m_i04 * 0x19660dLL + 0x3c6ef35fLL);
     *pOut = (float)(unsigned int)m_i04 * 2.3283064365386963e-10;
@@ -5615,19 +5615,20 @@ class RefPtrD482
     void AssignObject(int iParam) throw();
 };
 
-class FUN_00d48250
+class NamedVariant
 {
   public:
     hkStringPtr m_name;
     hkStringPtr m_pClassName;
     RefPtrD482 m_object;
 
-    FUN_00d48250(const char* pcName, int iParam) throw();
+    NamedVariant(const char* pcName, int iParam) throw();
 };
 
 // Stores pcName in m_name, builds a ref-counted object via FUN_00d47750(iParam) into m_object, and sets m_pClassName from FUN_00d46d40 if available.
 // @fnv 0x00d48250
-FUN_00d48250::FUN_00d48250(const char* pcName, int iParam) throw() : m_object(0)
+// src: GUESS 0x00d48250 (confidence: medium)
+NamedVariant::NamedVariant(const char* pcName, int iParam) throw() : m_object(0)
 {
     m_name = pcName;
     {
@@ -5812,21 +5813,22 @@ struct hkpRagdollDataS : hkpConstraintDataS
     void setConeStab(hkBool b);
 };
 
-struct FUN_00d4f2a0 : hkpRagdollDataS
+struct hkpRagdollLimitsData : hkpRagdollDataS
 {
     hkpRagdollAtomsS m_kBridgeAtoms;
-    FUN_00d4f2a0();
-    virtual ~FUN_00d4f2a0();
+    hkpRagdollLimitsData();
+    virtual ~hkpRagdollLimitsData();
 };
 
 __declspec(noinline) void hkpRagdollDataS::setConeStab(hkBool b)
 {
-    static_cast<FUN_00d4f2a0*>(this)->m_kBridgeAtoms.m_kConeLimit.m_ucAngleMeasurementMode = b.m_cBooleanValue ? 16 : 0;
+    static_cast<hkpRagdollLimitsData*>(this)->m_kBridgeAtoms.m_kConeLimit.m_ucAngleMeasurementMode = b.m_cBooleanValue ? 16 : 0;
 }
 
 // Initializes bridge ragdoll atoms with identity rotations, twist limits of +/-0.5236 rad, cone limits, and plane limits with tau factor 0.8.
 // @fnv 0x00d4f2a0
-FUN_00d4f2a0::FUN_00d4f2a0()
+// src: GUESS 0x00d4f2a0 (confidence: high)
+hkpRagdollLimitsData::hkpRagdollLimitsData()
 {
     m_kBridgeAtoms.m_kLocalRotations.m_kRotationA.setIdentity();
     m_kBridgeAtoms.m_kLocalRotations.m_kRotationB.setIdentity();
@@ -5935,7 +5937,7 @@ extern int DAT_010d0cd4;
 extern float DAT_0104da48;
 struct FUN_00ca9360_sub
 {
-    void __fastcall FindFloatTableIndex(int count, float* value);
+    void __fastcall SetReal(int count, float* value);
 };
 struct hkpBallAndSocketConstraintData
 {
@@ -5969,7 +5971,7 @@ hkpBallAndSocketConstraintData::hkpBallAndSocketConstraintData()
     m_word10 = 3;
     m_byte42 = 0;
     m_word40 = 5;
-    m_data43.FindFloatTableIndex(5, &one);
+    m_data43.SetReal(5, &one);
     m_float44 = DAT_0104da48;
     ::D4F2A0Simd::_mm_store_ps((float*)&m_zero20, ::D4F2A0Simd::_mm_setzero_ps());
     ::D4F2A0Simd::_mm_store_ps((float*)&m_zero30, ::D4F2A0Simd::_mm_setzero_ps());
@@ -5989,9 +5991,9 @@ static inline char& MoppInputSetBool(char& rcBool, bool b)
     return rcBool;
 }
 
-struct FUN_00d54de0
+struct hkpMoppCompilerInput
 {
-    FUN_00d54de0();
+    hkpMoppCompilerInput();
 
     ::hkVector4 m_vector;
     float m_value10;
@@ -6004,9 +6006,10 @@ struct FUN_00d54de0
     char m_flag20;
 };
 
-// Initializes a FUN_00d54de0 with default vector, scalar values, and boolean flags.
+// Initializes a hkpMoppCompilerInput with default vector, scalar values, and boolean flags.
 // @fnv 0x00d54de0
-FUN_00d54de0::FUN_00d54de0()
+// src: GUESS 0x00d54de0 (confidence: medium)
+hkpMoppCompilerInput::hkpMoppCompilerInput()
 {
     m_value18 = DAT_01017870;
     m_value10 = DAT_010231a8;

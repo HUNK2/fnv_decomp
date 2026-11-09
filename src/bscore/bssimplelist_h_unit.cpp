@@ -140,14 +140,14 @@ struct FUN_0060f3a0_node
     bool _ref_008256d0();
     void _ref_0063f7b0();
 };
-struct FUN_0060f3a0_shell
+struct TESQuestStage
 {
     FUN_0060f3a0_node* GetPosition();
-    void ProcessEntries_0060f3a0();
+    void ClearItems();
 };
 // @fnv 0x0060f3a0
-// src: GUESS 0x0060f3a0 (confidence: low)
-void FUN_0060f3a0_shell::ProcessEntries_0060f3a0()
+// src: GUESS 0x0060f3a0 (confidence: medium)
+void TESQuestStage::ClearItems()
 {
     FUN_0060f3a0_node* node = GetPosition();
     while (node && !node->_ref_008256d0())
@@ -447,14 +447,14 @@ struct FUN_00964100_node
     FUN_00964100_item** _ref_006815c0();
     FUN_00964100_node* FUN_00726070();
 };
-struct FUN_00964100_shell
+struct PlayerCharacter
 {
     FUN_00964100_item* PlayerCharacter_GetPlayerAction(int id);
 };
 // Walks the node list starting at this+0x60c and returns the first item whose id matches, or null if none is found.
 // @fnv 0x00964100
 // src: XBOX_PDB 0x00964100
-FUN_00964100_item* FUN_00964100_shell::PlayerCharacter_GetPlayerAction(int id)
+FUN_00964100_item* PlayerCharacter::PlayerCharacter_GetPlayerAction(int id)
 {
     FUN_00964100_item* item = 0;
     if (!*(FUN_00964100_node**)((char*)this + 0x60c))
@@ -670,7 +670,7 @@ struct Standin_ListBase
     Standin_ListBase* FUN_00726070();
 };
 
-struct FUN_007d8040_shell : public Standin_ListBase
+struct ListBox : public Standin_ListBase
 {
     virtual void Dummy();
     bool RemoveItemNode(Standin_ListBase* cur, Standin_ListBase* prev);
@@ -679,7 +679,7 @@ struct FUN_007d8040_shell : public Standin_ListBase
 
 // Searches the list for the node whose item key equals param1 and removes it via RemoveItemNode, returning false if param1 is null or the list is empty.
 // @fnv 0x007d8040
-bool FUN_007d8040_shell::RemoveByKey(void* pKey)
+bool ListBox::RemoveByKey(void* pKey)
 {
     if (!pKey || _ref_008256d0())
         return false;

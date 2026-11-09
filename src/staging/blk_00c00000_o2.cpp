@@ -4744,7 +4744,7 @@ FUN_00c1d9b0_cls* FUN_00c1d9b0_cls::FUN_00c1d9b0(unsigned char acFlags)
 }
 }  // namespace fnv_00c1d9b0
 
-struct FUN_00c1f4e0_cls
+struct NiPSysModifier
 {
     int unk00;
     int unk04;
@@ -4758,7 +4758,7 @@ struct FUN_00c1f4e0_cls
 
 // @fnv 0x00c1f4e0
 // src: XBOX_PDB 0x00c1f4e0
-void FUN_00c1f4e0_cls::NiPSysModifier_SetActive(unsigned char value)
+void NiPSysModifier::NiPSysModifier_SetActive(unsigned char value)
 {
     m_b14 = value;
 }

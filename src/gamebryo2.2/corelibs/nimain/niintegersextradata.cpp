@@ -360,8 +360,8 @@ struct FUN_00c54b70_cls
     unsigned short m_0a;
     unsigned short unk0c;
     unsigned short m_0e;
-    void AllocateStorage_00c54850(unsigned int n);
-    void FUN_00c54a30(unsigned int idx, NiIntegerStreamEntry& e);
+    void NiTObjectArray_SetSize(unsigned int n);
+    void NiTObjectArray(unsigned int idx, NiIntegerStreamEntry& e);
     unsigned int NiTArray_FurnitureMark_NiTNewInterface_FurnitureMark_Add(NiIntegerStreamEntry& e);
 };
 
@@ -375,9 +375,9 @@ unsigned int FUN_00c54b70_cls::NiTArray_FurnitureMark_NiTNewInterface_FurnitureM
         unsigned int index = m_0a;
         if (index >= m_08)
         {
-            AllocateStorage_00c54850(m_0e + index);
+            NiTObjectArray_SetSize(m_0e + index);
         }
-        FUN_00c54a30(index, aEntry);
+        NiTObjectArray(index, aEntry);
         return index;
     }
 }

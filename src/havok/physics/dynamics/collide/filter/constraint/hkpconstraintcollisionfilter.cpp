@@ -89,7 +89,7 @@ __forceinline void hkpWorld::unlockAndAttemptToExecutePendingOperations()
         if (m_iPendingOperationCount)
             FUN_00c91120();
         if (m_iPendingOperationQueueCount == 1 && m_iQueuedOperationCount)
-            UpdateFields_00c91140();
+            hkpWorld_internalExecutePendingBodyOperations();
     }
 }
 
@@ -274,7 +274,7 @@ void FUN_00d87d70_cls::hkpConstraintCollisionFilter_constraintAddedCallback(A* p
     {
         return;
     }
-    d->UpdateFields_00c91140();
+    d->hkpWorld_internalExecutePendingBodyOperations();
 }
 
 struct S_00d87f60_Arg

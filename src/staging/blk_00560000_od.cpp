@@ -255,13 +255,13 @@ bool ABD_005f92d0::TESActorBaseData_GetRespawn()
     return GetFlag(8);
 }
 
-struct FUN_0056af20_Class
+struct TESObjectCONT
 {
     bool __thiscall IsFlag2Set();
 };
 
 // @fnv 0x0056af20
-bool __thiscall FUN_0056af20_Class::IsFlag2Set()
+bool __thiscall TESObjectCONT::IsFlag2Set()
 {
     return (signed char)((char*)this)[0x98] & 2;
 }
@@ -461,14 +461,14 @@ void FUN_00570ee0_class::BSFadeNode_HasMovingSound()
     NiAVObject_GetHasMovingSound();
 }
 
-struct FUN_00570f40_Class
+struct BGSSaveLoadGame
 {
     bool BGSSaveLoadGame_GetGlobalAllowChanges() const;
 };
 
 // @fnv 0x00570f40
 // src: COMMUNITY 0x00570f40
-bool FUN_00570f40_Class::BGSSaveLoadGame_GetGlobalAllowChanges() const
+bool BGSSaveLoadGame::BGSSaveLoadGame_GetGlobalAllowChanges() const
 {
     return (((*reinterpret_cast<const unsigned int*>(reinterpret_cast<const char*>(this) + 0x244)) & 1) == 0) ? true
                                                                                                               : false;
@@ -479,7 +479,7 @@ struct FUN_006205e0_shell
 {
     void __thiscall RemoveNode(void*);
 };
-struct FUN_00576830_shell
+struct BGSZoneTargetListener
 {
     void* BGSZoneTargetListener_GetZoneEntry(BSOcclusionPlane*);
     void BGSZoneTargetListener_RemoveZone(BSOcclusionPlane* p);
@@ -487,7 +487,7 @@ struct FUN_00576830_shell
 // Calls FUN_00576830 on the occlusion plane, then passes the result to RemoveNode on this object.
 // @fnv 0x00576800
 // src: COMMUNITY 0x00576800
-void FUN_00576830_shell::BGSZoneTargetListener_RemoveZone(BSOcclusionPlane* apPlane)
+void BGSZoneTargetListener::BGSZoneTargetListener_RemoveZone(BSOcclusionPlane* apPlane)
 {
     ((FUN_006205e0_shell*)this)->RemoveNode(BGSZoneTargetListener_GetZoneEntry(apPlane));
 }
@@ -669,7 +669,7 @@ void* FUN_0057ca90_Class::FUN_0057ca90(unsigned int flags)
 
 struct FUN_00560d10_shell
 {
-    float& __thiscall GetVectorElement_Thunk(unsigned int);
+    float& __thiscall bhkCharacterController_GetVectorElement(unsigned int);
 };
 struct Modifier
 {
@@ -684,10 +684,10 @@ struct AlphaColor
 // @fnv 0x00560c80
 Modifier* CopyModifierSettings(Modifier* apModifier, FUN_00560d10_shell* apSource)
 {
-    apModifier->SetValue(apSource->GetVectorElement_Thunk(0));
-    ((FUN_00560cf0_Class*)apModifier)->MuzzleFlash_SetDurationTimer(apSource->GetVectorElement_Thunk(1));
-    ((PackageTargetRecord*)apModifier)->SetTargAcquireRadius(apSource->GetVectorElement_Thunk(2));
-    ((AlphaColor*)apModifier)->TESRegionPoint_SetX(apSource->GetVectorElement_Thunk(3));
+    apModifier->SetValue(apSource->bhkCharacterController_GetVectorElement(0));
+    ((FUN_00560cf0_Class*)apModifier)->MuzzleFlash_SetDurationTimer(apSource->bhkCharacterController_GetVectorElement(1));
+    ((PackageTargetRecord*)apModifier)->SetTargAcquireRadius(apSource->bhkCharacterController_GetVectorElement(2));
+    ((AlphaColor*)apModifier)->TESRegionPoint_SetX(apSource->bhkCharacterController_GetVectorElement(3));
     return apModifier;
 }
 
@@ -1009,7 +1009,7 @@ struct PhysicsAccessHook
 {
     void __thiscall CheckAccess();
 };
-struct FUN_00c9e910_Class
+struct hkpShapePhantom
 {
     void __thiscall hkpShapePhantom_setTransform(int a);
 };
@@ -1025,7 +1025,7 @@ void __thiscall FUN_0056e050_Class::bhkShapePhantom_setTransform(int a)
     if (p)
     {
         ((PhysicsAccessHook*)this)->CheckAccess();
-        ((FUN_00c9e910_Class*)p)->hkpShapePhantom_setTransform(a);
+        ((hkpShapePhantom*)p)->hkpShapePhantom_setTransform(a);
         ((PhysicsAccessHook*)this)->CheckAccess();
     }
 }
@@ -1055,7 +1055,7 @@ void __thiscall ReferencePositionAccess::SetZ(float afZ)
 
 struct FUN_00577110_shell
 {
-    void ProcessState_00577110();
+    void hkMatrix3_setZero();
 };
 struct FUN_00577090_shell : FUN_005770e0_shell
 {
@@ -1066,7 +1066,7 @@ struct FUN_00577090_shell : FUN_005770e0_shell
 // src: COMMUNITY 0x00577090
 void FUN_00577090_shell::hkMatrix3_setIdentity()
 {
-    ((FUN_00577110_shell*)this)->ProcessState_00577110();
+    ((FUN_00577110_shell*)this)->hkMatrix3_setZero();
     float f = 1.0f;
     FUN_005770e0_shell::GetCharacterControllerValue(0, 0) = f;
     FUN_005770e0_shell::GetCharacterControllerValue(1, 1) = f;
@@ -1685,7 +1685,7 @@ bool ReferenceAnimationAccess::TESObjectREFR_CheckSaveAnimation()
     return false;
 }
 
-struct SceneObject : FUN_0056af20_Class
+struct SceneObject : TESObjectCONT
 {
     int FUN_00401170();
 };
@@ -2434,7 +2434,7 @@ void C_56d250::ForwardCall_0056d250()
 
 // @fnv 0x00560d10
 // src: GUESS 0x00560d10 (confidence: medium)
-float& FUN_00560d10_shell::GetVectorElement_Thunk(unsigned int i)
+float& FUN_00560d10_shell::bhkCharacterController_GetVectorElement(unsigned int i)
 {
     return reinterpret_cast<bhkCharacterController*>(this)->GetVectorElement(i);
 }
@@ -2446,7 +2446,7 @@ struct FUN_00576870_class
 // Calls FUN_00576870 on the object at offset 4 when that pointer is non-null, passing p, and returns the result or 0.
 // @fnv 0x00576830
 // src: COMMUNITY 0x00576830
-void* FUN_00576830_shell::BGSZoneTargetListener_GetZoneEntry(BSOcclusionPlane* apOcclusionPlane)
+void* BGSZoneTargetListener::BGSZoneTargetListener_GetZoneEntry(BSOcclusionPlane* apOcclusionPlane)
 {
     return *(FUN_00576870_class**)((char*)this + 4)
                ? (*(FUN_00576870_class**)((char*)this + 4))->ZoneEntry_GetZoneEntry_0(apOcclusionPlane)

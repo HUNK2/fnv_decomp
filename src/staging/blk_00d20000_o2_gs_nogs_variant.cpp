@@ -266,7 +266,7 @@ struct FUN_00d36b20_Class {
 };
 struct FUN_00d36cc0_Obj {
     void __thiscall FUN_00d368c0(int a1, int a2, int a3, int a4);
-    void __thiscall ForwardCall_00d36cc0(int param_1, int param_2, int param_3, int param_4);
+    void __thiscall hkpSymmetricAgent_updateShapeCollectionFilter(int param_1, int param_2, int param_3, int param_4);
 };
 struct FnvCpu_FUN_00d36ce0_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
@@ -661,7 +661,7 @@ struct FUN_00d34aa0_Obj {
     virtual void vf1C();
 
     void __thiscall hkpConvexListAgent_updateShapeCollectionFilter(int a, int b, int c, int d);
-    virtual void __thiscall HkpConvexListAgent_updateShapeCollectionFilter_Thunk(int a, int b, int c, int d);
+    virtual void __thiscall hkpSymmetricAgent_updateShapeCollectionFilter(int a, int b, int c, int d);
 };
 struct FnvCpu_FUN_00d34b00_CpuCallData { void* descriptor; float bound; unsigned int value; };
 extern float DAT_0104da48;
@@ -805,7 +805,7 @@ struct D34ac0Struct {
 };
 struct FUN_00d33c80_class {
     void hkpConvexListAgent_getPenetrations(void* a, void* b, void* c, void* d);
-    void UpdateFields_00d34ac0(void* a, void* b, void* c, void* d);
+    void hkpSymmetricAgent_getPenetrations(void* a, void* b, void* c, void* d);
 };
 struct D3C380_Allocator {
     virtual void v0();

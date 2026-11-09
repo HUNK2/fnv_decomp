@@ -361,7 +361,7 @@ struct FUN_00d0a1e0_class {
     int unk60;
     int unk64;
     char unk68;
-    char __thiscall GetUnk68_00d0a1e0();
+    char __thiscall hkpAabbTreeWorldManager_isUpToDate();
 };
 extern int DAT_010ccfcc;
 extern int DAT_010ccfe0;

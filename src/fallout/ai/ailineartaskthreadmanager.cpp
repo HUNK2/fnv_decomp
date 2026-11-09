@@ -273,13 +273,13 @@ int TESObjectREFR_GetBackgroundLoadingRef()
     return DAT_tls_0264;
 }
 
-struct FUN_0086c600_shell
+struct BSPackedTaskQueue
 {
     void SignalAtOffset();
 };
 struct FUN_0087a6b0_shell
 {
-    FUN_0086c600_shell* p;
+    BSPackedTaskQueue* p;
     void TaskQueueInterface_ThreadBeginInput();
 };
 // @fnv 0x0087a6b0

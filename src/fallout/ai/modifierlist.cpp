@@ -362,16 +362,17 @@ void FUN_00938060_s::FreeModifierEntry(int aiIndex)
 extern unsigned int _data_011c16bc;
 extern int DAT_011e0750;
 
-struct FUN_00937e10
+struct FastModifierCollection
 {
     Modifier** m_ppModifiers;
 
-    FUN_00937e10(FUN_00937e10* other);
+    FastModifierCollection(FastModifierCollection* other);
 };
 
 // Copy constructor: allocates an array of DAT_011e0750 Modifier pointers and deep-copies each non-null element from other, or stores null.
 // @fnv 0x00937e10
-FUN_00937e10::FUN_00937e10(FUN_00937e10* other)
+// src: GUESS 0x00937e10 (confidence: medium)
+FastModifierCollection::FastModifierCollection(FastModifierCollection* other)
 {
     if (other->m_ppModifiers)
     {
