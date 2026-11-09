@@ -39594,7 +39594,7 @@ struct ItemLoadState913e80
 
 // Reads an object, index, and state bytes from buffer, resolving the inventory entry via the reference's extra data view when the index is valid.
 // @fnv 0x00913e80
-// src: GUESS 0x00913e80 (confidence: medium)
+// src: COMMUNITY 0x00913e80
 void ItemLoadState913e80::QueuedItem_LoadGame(BufferView* buffer)
 {
     ReferenceView* ref = buffer->GetRef();

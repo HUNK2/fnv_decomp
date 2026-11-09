@@ -587,7 +587,7 @@ struct ContactPointPair
 
 // If TestGsk reports a hit calls QueryClosestPoints; else adds the closest point to a4 when its distance exceeds b's shape threshold, otherwise calls QueryClosestPoints.
 // @fnv 0x00d339d0
-// src: GUESS 0x00d339d0 (confidence: medium)
+// src: COMMUNITY 0x00d339d0
 extern "C" void __cdecl hkpConvexListAgent_staticGetClosestPoints(int apBodyA, int apBodyB, int a3, int apCollector)
 {
     {
