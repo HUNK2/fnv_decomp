@@ -2410,7 +2410,7 @@ struct FUN_00b06090
     }
     int GetNextElement();
     float CTreeFileAccess_ParseFloat();
-// src: GUESS 0x00b06180 (confidence: low)
+// src: COMMUNITY 0x00b06180
     bool CTreeFileAccess_ParseBool()
     {
         return m_in.at(m_pos++) != 0;

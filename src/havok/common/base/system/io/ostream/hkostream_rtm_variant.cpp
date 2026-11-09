@@ -315,7 +315,7 @@ __forceinline void MoppCastMachine::AddHit(hkUint32_X key, const hkUint32_X prop
     m_fFirstRayCastValue = m_pPointCollector->getEarlyOutDistance();
 }
 // @fnv 0x00da71c0
-// src: GUESS 0x00da71c0 (confidence: low)
+// src: COMMUNITY 0x00da71c0
 void MoppCastMachine::hkpMoppAabbCastVirtualMachine_queryRayOnTree(const VectorPropertyRecord* query, const unsigned char* PC,
                                    TwoPointVectorBundles fQuery[1], int chunkOffset)
 {

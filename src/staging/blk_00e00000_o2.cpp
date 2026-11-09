@@ -2202,7 +2202,7 @@ extern "C" struct FUN_00e009c0_vt
 };
 
 // @fnv 0x00e009c0
-// src: GUESS 0x00e009c0 (confidence: low)
+// src: COMMUNITY 0x00e009c0
 extern "C" void __cdecl cleanupLoadedObject_hkpPlaneShape(FUN_00e009c0_vt* p)
 {
     p->m0(0);
