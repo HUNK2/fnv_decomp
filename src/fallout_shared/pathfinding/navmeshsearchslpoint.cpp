@@ -195,13 +195,14 @@ struct FUN_006ac1b0_sub
     ~FUN_006ac1b0_sub();
 };
 
-struct FUN_006ac1b0_cls : NavMeshSearch
+struct NavMeshSearchSLPoint : NavMeshSearch
 {
     FUN_006ac1b0_sub m_20a4;
-    virtual ~FUN_006ac1b0_cls();
+    virtual ~NavMeshSearchSLPoint();
 };
 
 // The destructor body is empty.
 // @fnv 0x006ac1b0
-FUN_006ac1b0_cls::~FUN_006ac1b0_cls()
+// src: EXE 0x006ac1b0
+NavMeshSearchSLPoint::~NavMeshSearchSLPoint()
 {}

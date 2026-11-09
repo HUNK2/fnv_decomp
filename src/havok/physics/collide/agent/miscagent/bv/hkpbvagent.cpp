@@ -385,10 +385,10 @@ struct FUN_00d453d0_args
     int m_0C;
 };
 
-class FUN_00d453d0_cls
+class hkpBvAgent
 {
   public:
-    FUN_00d453d0_cls* Construct(FUN_00d452a0* a1, void* a2, void* a3, int a4);
+    hkpBvAgent* Construct(FUN_00d452a0* a1, void* a2, void* a3, int a4);
 
     int* m_vptr;           // 0x00
     unsigned short unk04;  // 0x04
@@ -400,7 +400,7 @@ class FUN_00d453d0_cls
 
 // Initialises the object's vtable and fields, builds an argument struct from a1/a2/a3, and calls a function pointer selected by an index from a table.
 // @fnv 0x00d453d0
-FUN_00d453d0_cls* FUN_00d453d0_cls::Construct(FUN_00d452a0* a1, void* apArg2, void* apArg3, int aiValue)
+hkpBvAgent* hkpBvAgent::Construct(FUN_00d452a0* a1, void* apArg2, void* apArg3, int aiValue)
 {
     m_vptr = (int*)&DAT_010cf3cc;
     m_06 = 1;

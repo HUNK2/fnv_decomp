@@ -213,7 +213,7 @@ float __fastcall GetFloatAtOffset1C(void* self);
 unsigned short __fastcall GetLevel_0087f9f0(SpawnedObject* obj);
 bool __cdecl MagicFormulas_CheckTargetLevelMagnitude(unsigned short a, float b);
 
-struct FUN_0080b450_cls
+struct CommandCreatureEffect
 {
     bool CommandCreatureEffect_CheckTarget(int p);
     int unk0;
@@ -221,7 +221,7 @@ struct FUN_0080b450_cls
 
 // @fnv 0x0080b450
 // src: XBOX_PDB 0x0080b450
-bool FUN_0080b450_cls::CommandCreatureEffect_CheckTarget(int p)
+bool CommandCreatureEffect::CommandCreatureEffect_CheckTarget(int p)
 {
     SpawnedObject* a = p != 0 ? FUN_00822b40(p) : 0;
     SpawnedObject* b = (a != 0 && a->vf87()) ? a : 0;

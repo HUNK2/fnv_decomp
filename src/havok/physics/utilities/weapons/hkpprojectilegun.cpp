@@ -80,7 +80,7 @@ public:
     __declspec(noinline) void ResetVtables();
     void ReleaseBody();
     void UpdateState_00e450b0(int);
-    hkpGunProjectile* FUN_00e450c0(unsigned int);
+    hkpGunProjectile* ScalarDeletingDestructor(unsigned int);
     __declspec(noinline) void addToWorld_00e44c90(hkpWorld* scene) throw();
 };
 
@@ -354,7 +354,8 @@ FUN_00e44fc0::FUN_00e44fc0(int a, int b) throw() : m_items(FinishingFlag(0))
 }
 
 // @fnv 0x00e450c0
-hkpGunProjectile* hkpGunProjectile::FUN_00e450c0(unsigned int flags)
+// src: EXE 0x00e450c0
+hkpGunProjectile* hkpGunProjectile::ScalarDeletingDestructor(unsigned int flags)
 {
     ResetVtables();
     if (flags & 1)

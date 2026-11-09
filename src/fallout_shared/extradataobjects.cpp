@@ -1476,15 +1476,16 @@ struct NP_0081c630
 {
     NP_0081c630& operator=(void*);
 };
-struct FUN_004357a0_holder : public BE
+struct ExtraOcclusionPlane : public BE
 {
     GO m;
-    FUN_004357a0_holder();
+    ExtraOcclusionPlane();
     virtual void v0();
 };
 // Constructs the holder: initializes base BE with 0x71, constructs m with 0, then assigns 0 to m via NP_0081c630.
 // @fnv 0x004357a0
-FUN_004357a0_holder::FUN_004357a0_holder() : BE(0x71), m(0)
+// src: EXE 0x004357a0
+ExtraOcclusionPlane::ExtraOcclusionPlane() : BE(0x71), m(0)
 {
     ((NP_0081c630*)&m)->operator=(0);
 }
@@ -1939,13 +1940,14 @@ struct BE
     void* pNext;
     unsigned char cType;
 };
-struct FUN_004322c0 : public BE
+struct ExtraGhost : public BE
 {
-    FUN_004322c0();
-    virtual ~FUN_004322c0();
+    ExtraGhost();
+    virtual ~ExtraGhost();
 };
 // @fnv 0x004322c0
-FUN_004322c0::FUN_004322c0() : BE(31)
+// src: EXE 0x004322c0
+ExtraGhost::ExtraGhost() : BE(31)
 {}
 }  // namespace fnv_004322c0
 
@@ -1957,14 +1959,15 @@ struct BE
     void* pNext;
     unsigned char cType;
 };
-struct FUN_00432320 : public BE
+struct ExtraWornLeft : public BE
 {
-    FUN_00432320();
-    virtual ~FUN_00432320();
+    ExtraWornLeft();
+    virtual ~ExtraWornLeft();
 };
 // Constructs a BE with type 23 by delegating to the BE(unsigned char) constructor.
 // @fnv 0x00432320
-FUN_00432320::FUN_00432320() : BE(23)
+// src: EXE 0x00432320
+ExtraWornLeft::ExtraWornLeft() : BE(23)
 {}
 }  // namespace fnv_00432320
 
@@ -1977,13 +1980,14 @@ class BE
     BE(unsigned char);
 };
 
-struct FUN_00432350 : BE
+struct ExtraCannotWear : BE
 {
-    FUN_00432350();
+    ExtraCannotWear();
 };
 
 // @fnv 0x00432350
-FUN_00432350::FUN_00432350() : BE(0x3e)
+// src: EXE 0x00432350
+ExtraCannotWear::ExtraCannotWear() : BE(0x3e)
 {
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_01015bf4);
 }
@@ -2570,17 +2574,18 @@ struct BE
 {
     BE(unsigned char);
 };
-struct FUN_00435920 : BE
+struct ExtraItemDropper : BE
 {
     int m_00;
     int m_04;
     int m_08;
     int m_0c;
-    FUN_00435920();
+    ExtraItemDropper();
 };
 // Initializes the base with 0x39, stores the address of DAT_01015e88 in m_00 and zeroes m_0c.
 // @fnv 0x00435920
-FUN_00435920::FUN_00435920() : BE(0x39)
+// src: EXE 0x00435920
+ExtraItemDropper::ExtraItemDropper() : BE(0x39)
 {
     m_00 = (int)&DAT_01015e88;
     m_0c = 0;
@@ -3274,13 +3279,14 @@ struct BE
     BE(unsigned char);
 };
 
-struct FUN_00432810 : BE
+struct ExtraPackage : BE
 {
-    FUN_00432810();
+    ExtraPackage();
 };
 
 // @fnv 0x00432810
-FUN_00432810::FUN_00432810() : BE(0x19)
+// src: EXE 0x00432810
+ExtraPackage::ExtraPackage() : BE(0x19)
 {
     *(int*)this = (int)&_DAT_01015c24;
     *(int*)((char*)this + 0xc) = 0;
@@ -3337,14 +3343,15 @@ struct BE
 
 extern int DAT_01015ccc;
 
-struct FUN_004336c0 : BE
+struct ExtraAshPileRef : BE
 {
     unsigned int DroppedItemList;
-    FUN_004336c0();
+    ExtraAshPileRef();
 };
 
 // @fnv 0x004336c0
-FUN_004336c0::FUN_004336c0() : BE(0x89)
+// src: EXE 0x004336c0
+ExtraAshPileRef::ExtraAshPileRef() : BE(0x89)
 {
     *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_01015ccc);
     DroppedItemList = 0;
@@ -4086,15 +4093,16 @@ struct SubObject_cls
     unsigned int unk00;
 };
 
-struct FUN_00435690 : public NiObjectBase_cls
+struct ExtraMultiBound : public NiObjectBase_cls
 {
-    FUN_00435690();
+    ExtraMultiBound();
     SubObject_cls m_sub;
 };
 
 // Constructs the object with base type 0x61, initialises m_sub with 0 and calls m_sub.Do(0).
 // @fnv 0x00435690
-FUN_00435690::FUN_00435690() : NiObjectBase_cls(0x61), m_sub(0)
+// src: EXE 0x00435690
+ExtraMultiBound::ExtraMultiBound() : NiObjectBase_cls(0x61), m_sub(0)
 {
     m_sub.Do(0);
 }
@@ -4734,18 +4742,19 @@ class B433260Form
     int unk08;
 };
 
-class FUN_00433260_cls : public B433260Form
+class ExtraDistantData : public B433260Form
 {
   public:
-    FUN_00433260_cls();
-    virtual ~FUN_00433260_cls();
+    ExtraDistantData();
+    virtual ~ExtraDistantData();
 
     B433260Point3 m_kOffset;
 };
 
 // Constructs a B433260Form with type 0x13 and initializes m_kOffset to (0, 0, g_f433260DefaultZ).
 // @fnv 0x00433260
-FUN_00433260_cls::FUN_00433260_cls() : B433260Form(0x13)
+// src: EXE 0x00433260
+ExtraDistantData::ExtraDistantData() : B433260Form(0x13)
 {
     m_kOffset = B433260Point3(0.0f, 0.0f, g_f433260DefaultZ);
 }
@@ -5797,15 +5806,16 @@ struct ObjectPointer435820
     ObjectPointer435820& operator=(void* object);
 };
 
-struct FUN_00435820 : ExtraDataBase435820
+struct ExtraPortal : ExtraDataBase435820
 {
     ObjectPointer435820 m_object;
-    FUN_00435820();
+    ExtraPortal();
 };
 
 // Constructs an ExtraData record of type 0x78, initializing its object pointer to null.
 // @fnv 0x00435820
-FUN_00435820::FUN_00435820() : ExtraDataBase435820(0x78), m_object(0)
+// src: EXE 0x00435820
+ExtraPortal::ExtraPortal() : ExtraDataBase435820(0x78), m_object(0)
 {
     m_object = 0;
 }

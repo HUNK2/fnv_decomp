@@ -1879,7 +1879,7 @@ FUN_00de3050::FUN_00de3050() : m_iWordAt00(DAT_01017d00)
 
 extern int DAT_010d8214;
 
-class FUN_00de3060
+class hkpConvexRadiusBuilder
 {
   public:
     void* m_00;
@@ -1888,12 +1888,13 @@ class FUN_00de3060
     unsigned int m_08;
     unsigned int m_0c;
 
-    FUN_00de3060(const unsigned int* src);
+    hkpConvexRadiusBuilder(const unsigned int* src);
 };
 
 // Initializes the object: sets m_06 to 1, points m_00 at DAT_010d8214, copies *src into m_08 and zeroes m_0c.
 // @fnv 0x00de3060
-FUN_00de3060::FUN_00de3060(const unsigned int* src)
+// src: EXE 0x00de3060
+hkpConvexRadiusBuilder::hkpConvexRadiusBuilder(const unsigned int* src)
 {
     m_06 = 1;
     m_00 = (void*)&DAT_010d8214;
@@ -3186,7 +3187,7 @@ int* __cdecl Object_GetGlobalObjectAddress_00dfb280()
 
 struct FUN_00dfb2d0_class
 {
-    void __thiscall FUN_00dfb2d0(int a);
+    void __thiscall hkpMoppBvTreeShape(int a);
 };
 
 // @fnv 0x00dfb290
@@ -3194,7 +3195,7 @@ struct FUN_00dfb2d0_class
 void __cdecl finishLoadedObject_hkpMoppBvTreeShape(FUN_00dfb2d0_class* pObject, int a)
 {
     if (pObject)
-        pObject->FUN_00dfb2d0(a);
+        pObject->hkpMoppBvTreeShape(a);
 }
 
 extern int DAT_0126aac0;
@@ -4466,7 +4467,7 @@ class SpawnedMid
     }
 };
 
-class FUN_00dfc850 : public SpawnedBase, public SpawnedMid
+class hkpSimpleShapePhantom : public SpawnedBase, public SpawnedMid
 {
   public:
     int m_a4;
@@ -4519,12 +4520,13 @@ class FUN_00dfc850 : public SpawnedBase, public SpawnedMid
     int m_160;
     int m_164;
     int m_168;
-    virtual ~FUN_00dfc850();
-    FUN_00dfc850(int a1);
+    virtual ~hkpSimpleShapePhantom();
+    hkpSimpleShapePhantom(int a1);
 };
 
 // @fnv 0x00dfc850
-FUN_00dfc850::FUN_00dfc850(int aiValue) : SpawnedBase(aiValue)
+// src: EXE 0x00dfc850
+hkpSimpleShapePhantom::hkpSimpleShapePhantom(int aiValue) : SpawnedBase(aiValue)
 {
     *(volatile int*)&m_160 = 0;
     *(volatile int*)&m_164 = 0;
@@ -5099,7 +5101,7 @@ extern "C" void* DAT_010cc344;
 extern "C" void* DAT_010e2144;
 extern "C" void* DAT_010e2124;
 
-struct FUN_00dfcf60_cls
+struct hkpSimpleMeshShape
 {
     void* m_vptr00;
     int m_04;
@@ -5111,11 +5113,11 @@ struct FUN_00dfcf60_cls
     unsigned char m_16;
     unsigned char m_17;
 
-    FUN_00dfcf60_cls* InitializeVtables(int flag);
+    hkpSimpleMeshShape* InitializeVtables(int flag);
 };
 
 // @fnv 0x00dfcf60
-FUN_00dfcf60_cls* FUN_00dfcf60_cls::InitializeVtables(int flag)
+hkpSimpleMeshShape* hkpSimpleMeshShape::InitializeVtables(int flag)
 {
     *(void* volatile*)&m_vptr00 = (void*)&DAT_010305a8;
     if (flag != 0)
@@ -6333,14 +6335,14 @@ struct FnvCpu_FUN_00dfeb80_CpuObject
 {
     unsigned int unk00;
     unsigned short size;
-    void FUN_00e42740();
+    void hkpVehicleManager();
     FnvCpu_FUN_00dfeb80_CpuObject* FUN_00dfeb80(unsigned int flags);
 };
-// Calls FUN_00e42740, and if bit 0 of flags is set, frees this through the allocator using size, then returns this.
+// Calls hkpVehicleManager, and if bit 0 of flags is set, frees this through the allocator using size, then returns this.
 // @fnv 0x00dfeb80
 FnvCpu_FUN_00dfeb80_CpuObject* FnvCpu_FUN_00dfeb80_CpuObject::FUN_00dfeb80(unsigned int flags)
 {
-    FUN_00e42740();
+    hkpVehicleManager();
     if (flags & 1)
     {
         hkMemoryRouter* holder = hkMemoryRouter_getInstance();
@@ -6904,14 +6906,14 @@ struct SpawnedBase4
     {}
 };
 
-struct FUN_00dff470_cls : SpawnedBase0, SpawnedBase1, SpawnedBase2, SpawnedBase3, SpawnedBase4
+struct hkpCollisionFilter : SpawnedBase0, SpawnedBase1, SpawnedBase2, SpawnedBase3, SpawnedBase4
 {
-    FUN_00dff470_cls* DestroySelf(unsigned char acFlags);
+    hkpCollisionFilter* DestroySelf(unsigned char acFlags);
 };
 
 // Runs the base-class destructors, then, if acFlags has bit 0 set, frees this object through the audio allocator using m_uSize.
 // @fnv 0x00dff470
-FUN_00dff470_cls* FUN_00dff470_cls::DestroySelf(unsigned char acFlags)
+hkpCollisionFilter* hkpCollisionFilter::DestroySelf(unsigned char acFlags)
 {
     this->SpawnedBase4::~SpawnedBase4();
     this->SpawnedBase3::~SpawnedBase3();
@@ -7158,7 +7160,7 @@ void* __cdecl Object_GetGlobalObjectAddress_00dffa40()
 // when that object is present.
 struct FUN_00dffa50_cls
 {
-    void __thiscall FUN_00dffa90(int value);
+    void __thiscall hkpConstrainedSystemFilter(int value);
 };
 
 // @fnv 0x00dffa50
@@ -7167,7 +7169,7 @@ void __cdecl finishLoadedObject_hkpConstrainedSystemFilter(FUN_00dffa50_cls* pOb
 {
     if (pObject != 0)
     {
-        pObject->FUN_00dffa90(value);
+        pObject->hkpConstrainedSystemFilter(value);
     }
 }
 
@@ -7234,7 +7236,7 @@ class DFFA90ListenerE
     virtual ~DFFA90ListenerE();
 };
 
-class FUN_00dffa90 : public DFFA90ReferencedObject,
+class hkpConstrainedSystemFilter : public DFFA90ReferencedObject,
                      public DFFA90ListenerA,
                      public DFFA90ListenerB,
                      public DFFA90ListenerC,
@@ -7242,13 +7244,14 @@ class FUN_00dffa90 : public DFFA90ReferencedObject,
                      public DFFA90ListenerE
 {
   public:
-    FUN_00dffa90(DFFA90FinishFlag flag);
-    virtual ~FUN_00dffa90();
+    hkpConstrainedSystemFilter(DFFA90FinishFlag flag);
+    virtual ~hkpConstrainedSystemFilter();
 };
 
 // Empty constructor that initializes the referenced object and all five listener base classes with the given flag.
 // @fnv 0x00dffa90
-FUN_00dffa90::FUN_00dffa90(DFFA90FinishFlag flag)
+// src: EXE 0x00dffa90
+hkpConstrainedSystemFilter::hkpConstrainedSystemFilter(DFFA90FinishFlag flag)
     : DFFA90ReferencedObject(flag), DFFA90ListenerA(flag), DFFA90ListenerB(flag), DFFA90ListenerC(flag),
       DFFA90ListenerD(flag), DFFA90ListenerE(flag)
 {}
@@ -7630,7 +7633,7 @@ int* __cdecl Runtime_GetDAT0126d910Address()
 
 struct S_00dfff80_Foo
 {
-    void __thiscall FUN_00cdf760(int a);
+    void __thiscall hkpMalleableConstraintData(int a);
 };
 
 // @fnv 0x00dfff80
@@ -7639,7 +7642,7 @@ void __cdecl finishLoadedObject_hkpMalleableConstraintData(S_00dfff80_Foo* pFoo,
 {
     if (pFoo != 0)
     {
-        pFoo->FUN_00cdf760(aiValue);
+        pFoo->hkpMalleableConstraintData(aiValue);
     }
 }
 
@@ -7733,10 +7736,10 @@ class DE1FC0Transform : public DE1FC0ReferencedObject
     int unk5C;
 };
 
-class FUN_00de1fc0 : public DE1FC0Transform
+class hkDisplayBox : public DE1FC0Transform
 {
   public:
-    FUN_00de1fc0();
+    hkDisplayBox();
     virtual void vfunc01();
 
     hkVector4 m_extra;
@@ -7744,7 +7747,8 @@ class FUN_00de1fc0 : public DE1FC0Transform
 
 // Constructs the transform, zeroing the extra vector member.
 // @fnv 0x00de1fc0
-FUN_00de1fc0::FUN_00de1fc0()
+// src: EXE 0x00de1fc0
+hkDisplayBox::hkDisplayBox()
 {
     m_extra.setZero4();
 }
@@ -7836,10 +7840,10 @@ class DE5450Shape : public DE5450ReferencedObject
     int unk5C;
 };
 
-class FUN_00de5450 : public DE5450Shape
+class hkDisplayCone : public DE5450Shape
 {
   public:
-    FUN_00de5450();
+    hkDisplayCone();
     virtual void unk00();
 
     hkVector4 m_vecA;
@@ -7850,7 +7854,8 @@ class FUN_00de5450 : public DE5450Shape
 };
 
 // @fnv 0x00de5450
-FUN_00de5450::FUN_00de5450()
+// src: EXE 0x00de5450
+hkDisplayCone::hkDisplayCone()
 {
     m_valueA = 0.0f;
     m_uiItemCount = 0;
@@ -12452,7 +12457,7 @@ struct PulleyObjectBase
     }
 };
 
-struct FUN_00deefd0 : PulleyObjectBase
+struct hkpPulleyConstraintData : PulleyObjectBase
 {
     unsigned int unk0c;
     unsigned short translationType;
@@ -12464,12 +12469,13 @@ struct FUN_00deefd0 : PulleyObjectBase
     volatile float ropeLength;
     volatile float leverage;
 
-    FUN_00deefd0();
+    hkpPulleyConstraintData();
 };
 
 // Default-constructs a pulley: sets translationType to 3, pulleyType to 0x14, ropeLength to 0.0, leverage to 1.0, and zeroes the translation and pivot vectors.
 // @fnv 0x00deefd0
-FUN_00deefd0::FUN_00deefd0()
+// src: EXE 0x00deefd0
+hkpPulleyConstraintData::hkpPulleyConstraintData()
 {
     vtable = &DAT_010da04c;
     translationType = 3;
@@ -12543,7 +12549,7 @@ extern "C" void _mm_store_ps(float*, __m128);
 
 extern "C" int DAT_010d8274;
 
-struct FUN_00de4a80
+struct hkDisplaySemiCircle
 {
     unsigned int unk00;
     unsigned short unk04;
@@ -12587,12 +12593,13 @@ struct FUN_00de4a80
     volatile float m_98;
     volatile int m_9c;
 
-    FUN_00de4a80();
+    hkDisplaySemiCircle();
 };
 
 // Stores &DAT_010d8274 at offset 0, sets m_06=1, m_50=5, m_10/m_24/m_38=1.0f, and zeroes m_08, m_90-m_9c and several 16-byte blocks.
 // @fnv 0x00de4a80
-FUN_00de4a80::FUN_00de4a80()
+// src: EXE 0x00de4a80
+hkDisplaySemiCircle::hkDisplaySemiCircle()
 {
     int zero = 0;
     m_06 = 1;

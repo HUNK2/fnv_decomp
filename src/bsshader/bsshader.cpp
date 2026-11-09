@@ -1318,14 +1318,14 @@ struct LodShaderBase
     void FUN_00e814b0();
 };
 
-struct FUN_00b71b90_class : LodShaderBase
+struct NiDX9FragmentShader : LodShaderBase
 {
     void NiDX9FragmentShader_RecreateRendererData();
 };
 
 // @fnv 0x00be08b0
 // src: XBOX_PDB 0x00be08b0
-void FUN_00b71b90_class::NiDX9FragmentShader_RecreateRendererData()
+void NiDX9FragmentShader::NiDX9FragmentShader_RecreateRendererData()
 {
     FUN_00e814b0();
 }

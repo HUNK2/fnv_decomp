@@ -103,10 +103,10 @@ void __cdecl Object_OurMemalign_Thunk(unsigned int blocksize)
     ourMemalign(16, blocksize);
 }
 
-struct FUN_00554590_Class
+struct TESWindListener
 {
     void* vtbl;
-    void __thiscall FUN_00c74760();
+    void __thiscall bhkWindListener();
     void* __thiscall SetVtableAndProcessState_00554590();
 };
 
@@ -114,9 +114,9 @@ extern int DAT_0102f10c;
 
 // @fnv 0x00554590
 // src: GUESS 0x00554590 (confidence: low)
-void* __thiscall FUN_00554590_Class::SetVtableAndProcessState_00554590()
+void* __thiscall TESWindListener::SetVtableAndProcessState_00554590()
 {
-    FUN_00c74760();
+    bhkWindListener();
     vtbl = &DAT_0102f10c;
     return this;
 }
@@ -132,7 +132,7 @@ void FUN_005545b0::Call()
     ForwardCall_005545d0();
 }
 
-struct FUN_005545d0_Class
+struct bhkEntityListener
 {
     void FUN_005545f0();
     void ForwardCall_005545d0();
@@ -140,19 +140,19 @@ struct FUN_005545d0_Class
 
 // @fnv 0x005545d0
 // src: GUESS 0x005545d0 (confidence: low)
-void FUN_005545d0_Class::ForwardCall_005545d0()
+void bhkEntityListener::ForwardCall_005545d0()
 {
     FUN_005545f0();
 }
 
-struct FUN_00554650_Class
+struct hkpEntityListener
 {
     void __thiscall UpdateState_00554650();
 };
 
 // @fnv 0x00554650
 // src: GUESS 0x00554650 (confidence: low)
-void __thiscall FUN_00554650_Class::UpdateState_00554650()
+void __thiscall hkpEntityListener::UpdateState_00554650()
 {
     *(char**)((char*)this) = "pFU";
 }
@@ -336,11 +336,12 @@ void __cdecl operator delete(void*);
 struct FUN_005407d0_Class
 {
     void FUN_005409b0();
-    void* __thiscall FUN_005407d0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_005409b0, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x005407d0
-void* __thiscall FUN_005407d0_Class::FUN_005407d0(unsigned int flags)
+// src: EXE 0x005407d0
+void* __thiscall FUN_005407d0_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_005409b0();
     if (flags & 1)
@@ -405,7 +406,7 @@ void* FUN_00540aa0_Class::FUN_00540aa0(unsigned int flags)
 
 void __cdecl Deallocate(void*);
 
-struct FUN_00554670_Class : public FUN_00554650_Class
+struct FUN_00554670_Class : public hkpEntityListener
 {
     void* FUN_00554670(unsigned int flags);
 };

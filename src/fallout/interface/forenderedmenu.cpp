@@ -1722,7 +1722,7 @@ struct FUN_007ff650_g
 extern FUN_007ff650_g DAT_011db63c;
 extern float DAT_01017130;
 
-struct FUN_007ff650_cls : public FORenderedMenu
+struct FORenderedTerminal : public FORenderedMenu
 {
     int unkD8;
     int unkDC;
@@ -1740,7 +1740,7 @@ ShadowSceneNode* FUN_00450b80(unsigned int);
 
 // @fnv 0x007ff650
 // src: COMMUNITY 0x007ff650
-void FUN_007ff650_cls::FORenderedTerminal_OnMenuOpen()
+void FORenderedTerminal::FORenderedTerminal_OnMenuOpen()
 {
     FUN_007ff650_h local2;
     FUN_007ff650_p* a = this->FUN_005585e0();

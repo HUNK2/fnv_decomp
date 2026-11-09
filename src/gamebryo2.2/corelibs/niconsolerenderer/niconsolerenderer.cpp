@@ -1080,7 +1080,8 @@ extern int DAT_010edb1c;
 extern MemoryManager g_memoryManager;
 
 // @fnv 0x00e6e9b0
-void* __fastcall FUN_00e6e9b0(NiTPointerMap<HWND__*, NiPointer<NiRenderTargetGroup> >* self, void*, unsigned int auiFlags)
+// src: EXE 0x00e6e9b0
+void* __fastcall ScalarDeletingDestructor(NiTPointerMap<HWND__*, NiPointer<NiRenderTargetGroup> >* self, void*, unsigned int auiFlags)
 {
     *(void**)self = &DAT_010edb1c;
     self->RemoveAll();

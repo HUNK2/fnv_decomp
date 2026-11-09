@@ -483,7 +483,7 @@ struct FUN_00c4afa0_class
     void __thiscall CopyStateTo(int a, int b);
     void __thiscall BSDamageStage_CopyMembers(int a, int b);
 };
-struct FUN_00c4b000_class
+struct BSDamageStage
 {
     void __thiscall BSRangeNode_LoadBinary(int);
     void __thiscall BSDamageStage_LoadBinary(int a);
@@ -578,9 +578,9 @@ struct FUN_00a744a0
 };
 FUN_00a744a0::FUN_00a744a0()
 {}
-struct FUN_00c5ceb0 : public FUN_00a744a0
+struct BSScissorTriShape : public FUN_00a744a0
 {
-    FUN_00c5ceb0();
+    BSScissorTriShape();
 };
 extern "C" void __fastcall FUN_00a89760(void*);
 extern int DAT_010c2e7c;
@@ -655,7 +655,7 @@ void __cdecl FUN_00c3f8c0();
 struct FUN_00c40930_Class
 {
     void __thiscall FUN_00c3f8c0();
-    void* __thiscall FUN_00c40930(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 void __cdecl SetVtableAndProcessState_00c43070(void*);
 struct FUN_00c43620_Class
@@ -673,7 +673,7 @@ extern "C" char* __cdecl _strchr(const char*, int);
 extern "C" int __cdecl _strcpy_s(char*, unsigned int, const char*);
 void __cdecl CopyMainNameFromPath(int param_1, char* param_2);
 void __cdecl EnsureArenaAllocated(void*);
-struct FUN_00c448f0_Class
+struct BSParallelTaskThread
 {
     char pad[0x50];
     int m50;
@@ -726,12 +726,12 @@ struct FUN_00c4a640_class
 extern "C" void* g_01202e7c;
 extern "C" void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
 
-struct FUN_00c4ab00_Class
+struct BSBlastNode
 {
     void __thiscall BSRangeNode_GetViewerStrings(int);
     void __thiscall BSBlastNode_GetViewerStrings(int a);
 };
-struct FUN_00c4f2d0_class
+struct BSCullingProcess
 {
     void __thiscall BSCullingProcess_PopCullMode();
 };
@@ -754,7 +754,7 @@ struct FUN_00c50f30_class
 };
 extern int DAT_0106c814;
 extern int DAT_010c256c;
-struct FUN_00c51640_Class
+struct UpdateMasterPsysTaskletData
 {
     const char* s;
     int i;
@@ -769,7 +769,7 @@ struct FUN_00878690_shell
     void __thiscall FUN_00c51df0();
 };
 void __cdecl operator delete(void* ptr, unsigned int size);
-struct FUN_00c52830_class
+struct BSSceneGraph
 {
     void* __thiscall FUN_00c52830(unsigned int flags);
 };
@@ -1330,7 +1330,7 @@ struct FUN_00c4ab80_class
     char BSBlastNode_RegisterStreamables(int a);
 };
 unsigned int __cdecl _FUN_00a7d330(int a);
-struct FUN_00c4ad60_class : public FUN_00c4ab00_Class
+struct FUN_00c4ad60_class : public BSBlastNode
 {
     void __thiscall AddFirstEmptyFromGlobal(int a);
 };
@@ -3118,10 +3118,10 @@ struct FNV_Base
     virtual void vfn();
     ~FNV_Base();
 };
-struct FUN_00c53fa0_Class : public FNV_Base
+struct BSFurnitureMarker : public FNV_Base
 {
     FNV_SubObject m_sub;  // +0x0c
-    ~FUN_00c53fa0_Class();
+    ~BSFurnitureMarker();
 };
 struct SpawnedSubObject
 {
@@ -4861,7 +4861,7 @@ struct Semaphore42B
     }
     ~Semaphore42B();
 };
-struct FUN_00c42dd0
+struct BSTaskThread
 {
     virtual void vfn();
     HANDLE thread;
@@ -4871,10 +4871,11 @@ struct FUN_00c42dd0
     int unk24;
     int unk28;
     unsigned long unk2c;
-    FUN_00c42dd0(int, const char* name);
+    BSTaskThread(int, const char* name);
 };
 // @fnv 0x00c42dd0
-FUN_00c42dd0::FUN_00c42dd0(int, const char* name)
+// src: EXE 0x00c42dd0
+BSTaskThread::BSTaskThread(int, const char* name)
 {
     thread = AITaskThreadManager_AddThread(0, 0, (LPTHREAD_START_ROUTINE)BSTaskThread_ThreadProc, this, 4, &threadId);
     if (name)
@@ -6967,12 +6968,13 @@ struct FUN_00c5f680
             m_ucFlags &= ~ucMask;
     }
 };
-struct FUN_00c436a0 : FUN_00c5f680
+struct BSValueNode : FUN_00c5f680
 {
-    FUN_00c436a0(AVX* pkObj);
+    BSValueNode(AVX* pkObj);
 };
 // @fnv 0x00c436a0
-FUN_00c436a0::FUN_00c436a0(AVX* pkObj) : FUN_00c5f680(pkObj, 0)
+// src: EXE 0x00c436a0
+BSValueNode::BSValueNode(AVX* pkObj) : FUN_00c5f680(pkObj, 0)
 {
     *(int**)this = &DAT_010c195c;
     if (IsKindOfType(DAT_011f4aa0, pkObj))
@@ -8857,14 +8859,15 @@ struct IntData_c42ff0 : IntMid_c42ff0
     ~IntData_c42ff0();
 };
 
-struct FUN_00c42ff0 : IntData_c42ff0
+struct BSXFlags : IntData_c42ff0
 {
-    FUN_00c42ff0(int v);
+    BSXFlags(int v);
     void BSXFlags_Init();
 };
 
 // @fnv 0x00c42ff0
-FUN_00c42ff0::FUN_00c42ff0(int v) : IntData_c42ff0(v)
+// src: EXE 0x00c42ff0
+BSXFlags::BSXFlags(int v) : IntData_c42ff0(v)
 {
     m_vtbl = (int)&DAT_010c1854;
     BSXFlags_Init();
@@ -11675,6 +11678,7 @@ FUN_00c504e0_mgr* __cdecl FUN_00b00a00(void);
 struct FUN_00c504e0_task
 {
 // @fnv 0x00c504e0
+// src: EXE 0x00c504e0
     ~FUN_00c504e0_task()
     {}
     static void operator delete(void* p)
@@ -11688,9 +11692,9 @@ struct ScopeBase_c5
     virtual ~ScopeBase_c5();
 };
 
-struct FUN_00c504e0 : ScopeBase_c5
+struct BSParticleSystemManager : ScopeBase_c5
 {
-    virtual ~FUN_00c504e0();
+    virtual ~BSParticleSystemManager();
     int unk04;
     int unk08;
     int unk0C;
@@ -11738,7 +11742,7 @@ struct FUN_00c504e0 : ScopeBase_c5
     FUN_00c504e0_task* m_b4;
 };
 
-FUN_00c504e0::~FUN_00c504e0()
+BSParticleSystemManager::~BSParticleSystemManager()
 {
     void* old = m_ac;
     ((FUN_00c504e0_pool*)&DAT_011f6238)->MemoryManager_Deallocate(old);
@@ -13238,7 +13242,7 @@ template <> inline void NiTArray<fnv_00c5ac00::PTElement, NiTNewInterface<fnv_00
 }
 
 namespace fnv_00c5ac00 {
-struct FUN_00c5ac00 : NiRefObject
+struct BSPortalGraph : NiRefObject
 {
     FUN_004ed900_class sub08;
     FUN_00b71300_class sub14;
@@ -13249,10 +13253,11 @@ struct FUN_00c5ac00 : NiRefObject
     PTSmart ptr4c;
     FUN_00e74d40_class sub50, sub5c;
     FUN_0087d480_class sub68;
-    virtual ~FUN_00c5ac00();
+    virtual ~BSPortalGraph();
 };
 // @fnv 0x00c5ac00
-FUN_00c5ac00::~FUN_00c5ac00()
+// src: EXE 0x00c5ac00
+BSPortalGraph::~BSPortalGraph()
 {
     sub14.FUN_00b71300();
     sub20.NiTPointerListBase_NiTPointerAllocator_unsigned_int_NiPointer_BSMultiBoundRoom_RemoveAll();
@@ -14686,7 +14691,7 @@ template <> inline NiTPrimitiveArray<NiParticles*>::NiTPrimitiveArray(unsigned i
 {
     DeadQ1();
 }
-struct FUN_00c5da70 : NodeBaseQ
+struct BSMasterParticleSystem : NodeBaseQ
 {
     virtual void v0();
     ListQ m_kNode;
@@ -14695,10 +14700,11 @@ struct FUN_00c5da70 : NodeBaseQ
     int m_c4, m_c8;
     NiTPrimitiveArray<NiParticles*> m_aiIndexedValues;
     float m_dc;
-    FUN_00c5da70();
+    BSMasterParticleSystem();
 };
 // @fnv 0x00c5da70
-FUN_00c5da70::FUN_00c5da70() : NodeBaseQ(0)
+// src: EXE 0x00c5da70
+BSMasterParticleSystem::BSMasterParticleSystem() : NodeBaseQ(0)
 {
     m_c4 = -1;
     m_c8 = -1;
@@ -15554,10 +15560,10 @@ inline void BSThread::FUN_00aa6430(int stackSize, const char* name, bool suspend
 }
 namespace fnv_00c44980 {
 
-struct FUN_00c44980;
+struct BSParallelTaskManager;
 struct WorkerThread : BSLinearTaskThread
 {
-    FUN_00c44980* manager;
+    BSParallelTaskManager* manager;
     int unk50, unk54, unk58;
     static __forceinline void* operator new(unsigned int size)
     {
@@ -15565,21 +15571,22 @@ struct WorkerThread : BSLinearTaskThread
     }
     static void operator delete(void*);
     virtual ~WorkerThread();
-    WorkerThread(FUN_00c44980* owner)
+    WorkerThread(BSParallelTaskManager* owner)
     {
         manager = owner;
     }
 };
-struct FUN_00c44980
+struct BSParallelTaskManager
 {
     WorkerThread** threads;
     int unk04;
     int unk08;
     bool unk0c;
-    FUN_00c44980();
+    BSParallelTaskManager();
 };
 // @fnv 0x00c44980
-FUN_00c44980::FUN_00c44980()
+// src: COMMUNITY 0x00c44980
+BSParallelTaskManager::BSParallelTaskManager()
 {
     threads = 0;
     unk04 = 0;

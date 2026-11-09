@@ -93,7 +93,7 @@ void FormComponentArray::FormComponentCollection_InitFormComponentArray(TESForm*
     m_pComponents[37] = dynamic_cast<BGSPickupPutdownSounds*>(form);
 }
 
-struct FUN_0047c540_shell : public FormComponentArray
+struct FormComponentCollection : public FormComponentArray
 {
     void FormComponentCollection_ClearFormComponentArray();
 };
@@ -102,7 +102,7 @@ void* __cdecl memset(void*, int, unsigned int);
 
 // @fnv 0x0047c540
 // src: COMMUNITY 0x0047c540
-void FUN_0047c540_shell::FormComponentCollection_ClearFormComponentArray()
+void FormComponentCollection::FormComponentCollection_ClearFormComponentArray()
 {
     memset(this, 0, 0x98);
 }

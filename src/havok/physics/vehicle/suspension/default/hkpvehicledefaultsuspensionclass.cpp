@@ -68,23 +68,24 @@ inline DFBFF0Allocator& heap(hkMemoryRouter& holder)
     return *reinterpret_cast<DFBFF0Allocator*>(holder.m_heap);
 }
 
-struct FUN_00dfbff0
+struct hkpVehicleDefaultSuspension
 {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    FUN_00dfbff0();
-    virtual ~FUN_00dfbff0();
+    hkpVehicleDefaultSuspension();
+    virtual ~hkpVehicleDefaultSuspension();
 
     static void operator delete(void* p, unsigned int nbytes)
     {
-        FUN_00dfbff0* b = static_cast<FUN_00dfbff0*>(p);
+        hkpVehicleDefaultSuspension* b = static_cast<hkpVehicleDefaultSuspension*>(p);
         heap(hkMemoryRouter_getInstance()).ReleaseBlock(p, b->m_usMemSizeAndFlags);
     }
 };
 
 // Empty default constructor; the class's operator delete releases the block through the heap allocator of FUN_00c85750.
 // @fnv 0x00dfbff0
-FUN_00dfbff0::FUN_00dfbff0()
+// src: EXE 0x00dfbff0
+hkpVehicleDefaultSuspension::hkpVehicleDefaultSuspension()
 {}
 }  // namespace fnv_00dfbff0

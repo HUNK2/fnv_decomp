@@ -237,7 +237,7 @@ void TESDataHandler::ClearHairList()
 
 void* __cdecl memset(void* dst, int c, unsigned int n);
 
-struct FUN_005af370_shell
+struct SCRIPT_LINE
 {
     unsigned int m_uiValueBeforeData;
     char m_data[0x200];
@@ -247,11 +247,12 @@ struct FUN_005af370_shell
     unsigned int m_uiValueAfterSecondBuffer;
     char m_pAuxiliaryObject[8];
     unsigned int m_uiTrailingValue;
-    FUN_005af370_shell();
+    SCRIPT_LINE();
 };
 
 // @fnv 0x005af370
-FUN_005af370_shell::FUN_005af370_shell()
+// src: COMMUNITY 0x005af370
+SCRIPT_LINE::SCRIPT_LINE()
 {
     m_uiValueBeforeData = 0;
     uiSize = 0;
@@ -306,7 +307,7 @@ class Str6a70
 void* __memcpy(void*, const void*, unsigned int);
 extern const char* DAT_0118ca7c[];
 
-struct FUN_005ae490;
+struct ScriptCompileData;
 struct FUN_005ae5c0;
 template <class A, class B> class ScriptCompileDataT
 {
@@ -326,7 +327,7 @@ template <class A, class B> class ScriptCompileDataT
     ScriptCompileDataT();
     ~ScriptCompileDataT();
 };
-typedef ScriptCompileDataT<FUN_005ae490, FUN_005ae5c0> CStringArgument;
+typedef ScriptCompileDataT<ScriptCompileData, FUN_005ae5c0> CStringArgument;
 
 }  // namespace fnv_005aedb0
 
@@ -367,7 +368,7 @@ char* __cdecl AllocateZeroed(int, int);
 extern char $SG3295[];
 extern int _data_011c16bc;
 
-struct FUN_005ae490
+struct ScriptCompileData
 {
     unsigned char _padding0[4];
     int _field04;
@@ -384,11 +385,12 @@ struct FUN_005ae490
     int _field4c;
     SL _field50;
 
-    FUN_005ae490();
+    ScriptCompileData();
 };
 
 // @fnv 0x005ae490
-FUN_005ae490::FUN_005ae490()
+// src: COMMUNITY 0x005ae490
+ScriptCompileData::ScriptCompileData()
 {
     _field1c = 0;
     _field04 = 0;
@@ -1207,7 +1209,7 @@ int strcpy_s(char* dst, unsigned int size, const char* src);
 void* __memcpy(void* dst, const void* src, unsigned int size);
 
 typedef bool(__cdecl* ScriptParseFunctionB15)(unsigned short usParamCount, void* pParams,
-                                              FUN_005af370_shell* pkLineBuffer, CStringArgument* pkData);
+                                              SCRIPT_LINE* pkLineBuffer, CStringArgument* pkData);
 
 struct ScriptFunctionB15
 {
@@ -1299,7 +1301,7 @@ int FUN_005b1570_Class::ScriptCompiler_ReplaceVariablesAndFunctions(CStringArgum
                     void* pParams = pkFunction->pParameters;
                     ScriptParseFunctionB15 pfnCompile = pkFunction->m_pfnCompile;
                     unsigned short usParamCount = pkFunction->usParamCount;
-                    FUN_005af370_shell kLineBuffer;
+                    SCRIPT_LINE kLineBuffer;
                     strcpy_s(kLineBuffer.m_data, 0x200, pInput + uiIndex);
                     kLineBuffer.m_uiValueAfterSecondBuffer = 0;
                     kLineBuffer.m_uiValueBeforeData = *puiLineNumber;

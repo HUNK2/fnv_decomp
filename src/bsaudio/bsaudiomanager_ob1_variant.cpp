@@ -7810,11 +7810,12 @@ struct S00ae9150_Obj
     int m_08;
 
     void __thiscall ClearAll();
-    S00ae9150_Obj* FUN_00ae9150(unsigned int aFlags);
+    S00ae9150_Obj* ScalarDeletingDestructor(unsigned int aFlags);
 };
 
 // @fnv 0x00ae9150
-S00ae9150_Obj* S00ae9150_Obj::FUN_00ae9150(unsigned int aFlags)
+// src: EXE 0x00ae9150
+S00ae9150_Obj* S00ae9150_Obj::ScalarDeletingDestructor(unsigned int aFlags)
 {
     int u1;
     int u2;

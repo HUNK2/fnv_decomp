@@ -140,7 +140,8 @@ void* bhkHingeConstraint::FUN_009ba520(unsigned int flags)
 
 void __cdecl _Deallocate(void*);
 // @fnv 0x009b7a20
-void* MissileProjectile::FUN_009b7a20(unsigned int flags)
+// src: EXE 0x009b7a20
+void* MissileProjectile::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_009b7bc0();
     if (flags & 1)
@@ -244,15 +245,16 @@ struct BaseS
     int d;
     BaseS();
 };
-struct FUN_009ba570
+struct hkConstraintCinfo
 {
     int v0;
     BaseS m;
-    FUN_009ba570();
+    hkConstraintCinfo();
 };
 // Initializes v0 to the address of DAT_0108ffb4 and sets the embedded BaseS fields to 0, 1, 0, 0.
 // @fnv 0x009ba570
-FUN_009ba570::FUN_009ba570()
+// src: EXE 0x009ba570
+hkConstraintCinfo::hkConstraintCinfo()
 {
     v0 = (int)&DAT_0108ffb4;
     m.a = 0;
@@ -747,14 +749,15 @@ struct SpawnedBase
     SpawnedBase();
 };
 
-struct FUN_009ba550 : SpawnedBase
+struct hkHingeConstraintCinfo : SpawnedBase
 {
-    FUN_009ba550();
-    virtual ~FUN_009ba550();
+    hkHingeConstraintCinfo();
+    virtual ~hkHingeConstraintCinfo();
 };
 
 // @fnv 0x009ba550
-FUN_009ba550::FUN_009ba550()
+// src: EXE 0x009ba550
+hkHingeConstraintCinfo::hkHingeConstraintCinfo()
 {}
 
 struct UpdateVec

@@ -78,7 +78,7 @@ struct FUN_00ec15e0_shell
 };
 struct FUN_00ec19d0_class
 {
-    void* __thiscall FUN_00ec19d0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 struct FUN_00ec0cd0_Class
 {

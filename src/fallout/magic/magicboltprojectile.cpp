@@ -55,14 +55,14 @@ void FUN_008133d0_shell::MagicBoltProjectile_SetState(int value)
 }
 
 void __cdecl Deallocate(void* p);
-struct FUN_00811950_shell
+struct MagicBoltProjectile
 {
     void FUN_00811e10();
     void* DestroyIfFlagged(unsigned int flags);
 };
 // Calls FUN_00811e10, then frees this via Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00811950
-void* FUN_00811950_shell::DestroyIfFlagged(unsigned int flags)
+void* MagicBoltProjectile::DestroyIfFlagged(unsigned int flags)
 {
     FUN_00811e10();
     if (flags & 1)

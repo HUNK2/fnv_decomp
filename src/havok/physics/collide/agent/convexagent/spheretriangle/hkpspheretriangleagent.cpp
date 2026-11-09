@@ -101,7 +101,7 @@ struct SpawnedInner
     virtual void unk14(unsigned short flags, void* param);
 };
 
-class FUN_00d3d200_cls
+class hkpSphereTriangleAgent
 {
   public:
     virtual void unk00(int flags);
@@ -115,7 +115,7 @@ class FUN_00d3d200_cls
 // If m_wFlags is not 0xFFFF, forwards m_wFlags and param to m_pInner->unk14, then calls unk00(1) on this object.
 // @fnv 0x00d3d200
 // src: HAVOK_SRC 0x00d3d200
-void FUN_00d3d200_cls::hkpSphereTriangleAgent_cleanup(void* param)
+void hkpSphereTriangleAgent::hkpSphereTriangleAgent_cleanup(void* param)
 {
     if (m_wFlags != 0xFFFF)
     {

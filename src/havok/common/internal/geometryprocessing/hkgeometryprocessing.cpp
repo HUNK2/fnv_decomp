@@ -56,12 +56,13 @@ struct FUN_00dee6c0_cls
 {
     int m_vptr;
 
-    FUN_00dee6c0_cls* FUN_00dee6c0(unsigned char acFlags);
+    FUN_00dee6c0_cls* ScalarDeletingDestructor(unsigned char acFlags);
 };
 
 // Sets the vtable pointer and, when acFlags has bit 0 set, frees this 0x40-byte object through the allocator from FUN_00c85750.
 // @fnv 0x00dee6c0
-FUN_00dee6c0_cls* FUN_00dee6c0_cls::FUN_00dee6c0(unsigned char acFlags)
+// src: EXE 0x00dee6c0
+FUN_00dee6c0_cls* FUN_00dee6c0_cls::ScalarDeletingDestructor(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010cd664;
     if (acFlags & 1)

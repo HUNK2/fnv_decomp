@@ -694,7 +694,7 @@ struct FUN_0083ed50_ref
     virtual void v12(unsigned int auiFlags);
 };
 
-struct FUN_0083ed50_shell : public TopicMenuController
+struct MenuTopicManager : public TopicMenuController
 {
     void MenuTopicManager_FillTopicList(BSSimpleList<TESTopic*>* apList, bool abFlag, bool abNoSort, TESTopic* apTopic);
 };
@@ -702,7 +702,7 @@ struct FUN_0083ed50_shell : public TopicMenuController
 // Iterates a TESTopic list, filters by flag and type against an actor value, builds MenuTopic entries, adds new ones to the list, and optionally sorts it.
 // @fnv 0x0083ed50
 // src: COMMUNITY 0x0083ed50
-void FUN_0083ed50_shell::MenuTopicManager_FillTopicList(BSSimpleList<TESTopic*>* apList, bool abFlag, bool abNoSort, TESTopic* apTopic)
+void MenuTopicManager::MenuTopicManager_FillTopicList(BSSimpleList<TESTopic*>* apList, bool abFlag, bool abNoSort, TESTopic* apTopic)
 {
     bool bStateChanged = false;
     Actor* pActorCur = dynamic_cast<Actor*>(m_pDialogueSpeaker);

@@ -191,14 +191,14 @@ BGSTextureSet* __cdecl BGSTextureSet_GetNullTextureSet()
 void __cdecl _Deallocate(void*);
 struct S591140
 {
-    void FUN_00591170();
+    void MESSAGEBOX_BUTTON();
     void* FUN_00591140(unsigned int);
 };
-// Calls FUN_00591170, deallocates this when flags has bit 1 set, and returns this.
+// Calls MESSAGEBOX_BUTTON, deallocates this when flags has bit 1 set, and returns this.
 // @fnv 0x00591140
 void* S591140::FUN_00591140(unsigned int flags)
 {
-    FUN_00591170();
+    MESSAGEBOX_BUTTON();
     if (flags & 1)
         _Deallocate(this);
     return this;

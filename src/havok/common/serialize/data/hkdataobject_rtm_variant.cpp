@@ -258,7 +258,7 @@ struct FUN_00dbab70_obj
     int m_iRefCount;
     virtual ~FUN_00dbab70_obj();
 };
-struct FUN_00dbab70_cls
+struct hkDataArray
 {
     FUN_00dbab70_obj* m_pEntryObject;
     void ReleaseStorage_00dbab70();
@@ -597,11 +597,11 @@ struct RefObj
     unsigned short m_w06;
     int m_i08;
 };
-struct FUN_00dba780_cls
+struct hkDataObject
 {
     RefObj* m_pReference;
 
-    FUN_00dba780_cls* AssignRef(FUN_00dba780_cls* apOther);
+    hkDataObject* AssignRef(hkDataObject* apOther);
 };
 struct RefCountedObj
 {

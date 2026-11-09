@@ -69,7 +69,8 @@ bool FUN_006e08f0_shell::PathingLOSGrid_GetNavMesh(NavMeshPtr& aArg)
 void __cdecl _delete(void*, unsigned int);
 // Calls FUN_006e02a0, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x006e0270
-void* __thiscall PathingLOSGridMap::FUN_006e0270(unsigned int flags)
+// src: EXE 0x006e0270
+void* __thiscall PathingLOSGridMap::ScalarDeletingDestructor(unsigned int flags)
 {
     this->FUN_006e02a0();
     if (flags & 1)
@@ -433,7 +434,7 @@ struct NavMeshKey
 
 typedef BSSimpleArray<signed char> NavMeshResults;
 
-struct FUN_006df440_owner
+struct PathingLOSGridCell
 {
     union
     {
@@ -449,7 +450,7 @@ struct FUN_006df440_owner
 // Copies bytes indexed by the lookup's index list into results, clears valid if any byte is <=0 or 0x7f, and returns false on missing data.
 // @fnv 0x006df440
 // src: COMMUNITY 0x006df440
-bool FUN_006df440_owner::PathingLOSGridCell_SetSeenTrianglesFromLOSMap(NavMeshLookup* apLookup)
+bool PathingLOSGridCell::PathingLOSGridCell_SetSeenTrianglesFromLOSMap(NavMeshLookup* apLookup)
 {
     unsigned char* const bytes = apLookup->Modelloader_GetReferencedThis()->GetTriangleScore(lookup->Modelloader_GetReferencedThis());
     if (!bytes)

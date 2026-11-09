@@ -68,7 +68,7 @@ struct BGSSaveFormBuffer;
 struct TESForm;
 struct TESObjectREFR;
 typedef char _sizecheck_PackageTarget[sizeof(PackageTargetRecord) == 16 ? 1 : -1];
-struct FUN_006801a0_shell : public PackageTargetRecord
+struct PackageTarget : public PackageTargetRecord
 {
     void PackageTarget_Copy(PackageTargetRecord*);
 };
@@ -506,7 +506,7 @@ void _Deallocate(void*);
 struct S9145e0
 {
     void FUN_00914610();
-    void* FUN_009145e0(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 void __cdecl _Deallocate(void*);
 struct Unk147

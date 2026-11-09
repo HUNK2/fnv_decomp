@@ -198,7 +198,7 @@ unsigned getVtable_hkpNullCollisionFilter()
 class __declspec(align(16)) S00e000e0_Object
 {
   public:
-    S00e000e0_Object(FinishingFlag flag);  // FUN_00d50c00
+    S00e000e0_Object(FinishingFlag flag);  // hkpGenericConstraintData
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;
@@ -288,7 +288,7 @@ int* __cdecl getVtablehkpConstraintChainInstance()
 class __declspec(align(16)) S00e003b0_Object
 {
   public:
-    S00e003b0_Object(FinishingFlag flag);  // FUN_00e003d0
+    S00e003b0_Object(FinishingFlag flag);  // hkpCachingShapePhantom
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;
@@ -396,7 +396,7 @@ const void* __cdecl getVtable_hkpCachingShapePhantom()
 class __declspec(align(16)) S00e004d0_Object
 {
   public:
-    S00e004d0_Object(FinishingFlag flag);  // FUN_00e004f0
+    S00e004d0_Object(FinishingFlag flag);  // hkpAabbPhantom
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;
@@ -468,7 +468,7 @@ const void* __cdecl getVtable_hkpAabbPhantom()
 class __declspec(align(16)) S00e006b0_Object
 {
   public:
-    S00e006b0_Object(FinishingFlag flag);  // FUN_00e006d0
+    S00e006b0_Object(FinishingFlag flag);  // hkpTriSampledHeightFieldBvTreeShape
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;
@@ -497,7 +497,7 @@ const void* __cdecl getVtable_hkpTriSampledHeightFieldBvTreeShape()
 class __declspec(align(16)) S00e00b80_Object
 {
   public:
-    S00e00b80_Object(FinishingFlag flag);  // FUN_00e00ba0
+    S00e00b80_Object(FinishingFlag flag);  // hkpGroupFilter
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;
@@ -577,7 +577,7 @@ const void* __cdecl getVtablehkpGroupFilter()
 class __declspec(align(16)) S00e00f90_Object
 {
   public:
-    S00e00f90_Object(FinishingFlag flag);  // FUN_00e00fb0
+    S00e00f90_Object(FinishingFlag flag);  // hkpConvexPieceMeshShape
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;
@@ -606,7 +606,7 @@ const void* __cdecl getVtable_hkpConvexPieceMeshShape()
 class __declspec(align(16)) S00e01230_Object
 {
   public:
-    S00e01230_Object(FinishingFlag flag);  // FUN_00e01250
+    S00e01230_Object(FinishingFlag flag);  // hkpCollisionFilterList
     virtual void vf00();
     int unk04;
     int unk08;
@@ -748,7 +748,7 @@ int* __cdecl getVtable_hkxMaterialShader()
 class __declspec(align(16)) S00e02730_Object
 {
   public:
-    S00e02730_Object(FinishingFlag flag);  // FUN_00e4af80
+    S00e02730_Object(FinishingFlag flag);  // hkAlignSceneToNodeOptions
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;

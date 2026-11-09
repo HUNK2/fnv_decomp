@@ -2787,19 +2787,19 @@ struct SpawnedEntry
     SpawnedEntry();
 };
 
-struct FUN_004bc810_cls
+struct ItemChange
 {
     SpawnedEntry* m_afEntries;
     unsigned int unk04;
     unsigned int m_08;
     unsigned int unk0C;
     ContNode* Modelloader_GetReferencedThis();
-    void ItemChange_Copy2(FUN_004bc810_cls* src);
+    void ItemChange_Copy2(ItemChange* src);
 };
 
 // @fnv 0x004bc810
 // src: COMMUNITY 0x004bc810
-void FUN_004bc810_cls::ItemChange_Copy2(FUN_004bc810_cls* apSource)
+void ItemChange::ItemChange_Copy2(ItemChange* apSource)
 {
     if (apSource != 0)
     {

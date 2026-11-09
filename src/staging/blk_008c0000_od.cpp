@@ -624,7 +624,7 @@ void* __thiscall FUN_008c5e20_Class::InitializeFields_008c5e20()
     return this;
 }
 
-struct FUN_008c7790_Class
+struct BSLinearTaskThread
 {
     void __thiscall FUN_008c77c0();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
@@ -632,7 +632,7 @@ struct FUN_008c7790_Class
 
 // Calls FUN_008c77c0, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x008c7790
-void* __thiscall FUN_008c7790_Class::DestroyIfFlagged(unsigned int flags)
+void* __thiscall BSLinearTaskThread::DestroyIfFlagged(unsigned int flags)
 {
     FUN_008c77c0();
     if (flags & 1)
@@ -803,14 +803,14 @@ FUN_008d1130_Class* __thiscall FUN_008d1130_Class::FUN_008d1130(unsigned int fla
 
 extern "C" void __fastcall FUN_00a6d220(void*);
 extern int DAT_010867fc;
-struct FUN_008d15d0_Class
+struct BSPlayerDistanceCheckController
 {
     void* __thiscall BSPlayerDistanceCheckController_BSPlayerDistanceCheckController();
 };
 // Calls FUN_00a6d220 on this, sets the vtable to DAT_010867fc, zeroes the float at +0x34 and the int at +0x38, and returns this.
 // @fnv 0x008d15d0
 // src: EXE 0x008d15d0
-void* __thiscall FUN_008d15d0_Class::BSPlayerDistanceCheckController_BSPlayerDistanceCheckController()
+void* __thiscall BSPlayerDistanceCheckController::BSPlayerDistanceCheckController_BSPlayerDistanceCheckController()
 {
     FUN_00a6d220(this);
     *(int*)this = (int)&DAT_010867fc;
@@ -943,12 +943,13 @@ extern "C" void __cdecl _delete(void* p, unsigned int size);
 struct FUN_008df980_Class
 {
     void __thiscall FUN_008df9b0();
-    void* __thiscall FUN_008df980(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_008df9b0, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x008df980
-void* __thiscall FUN_008df980_Class::FUN_008df980(unsigned int flags)
+// src: EXE 0x008df980
+void* __thiscall FUN_008df980_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_008df9b0();
     if (flags & 1)
@@ -1059,13 +1060,13 @@ struct Call741e0
 extern int DAT_01086658;
 extern int DAT_01086674;
 extern int DAT_01086684;
-struct FUN_008d10e0_Class : Call741e0
+struct bhkCharacterListenerArrow : Call741e0
 {
     void* bhkCharacterListenerArrow_bhkCharacterListenerArrow(int a, int b);
 };
 // @fnv 0x008d10e0
 // src: EXE 0x008d10e0
-void* FUN_008d10e0_Class::bhkCharacterListenerArrow_bhkCharacterListenerArrow(int aiArg, int aiValue)
+void* bhkCharacterListenerArrow::bhkCharacterListenerArrow_bhkCharacterListenerArrow(int aiArg, int aiValue)
 {
     FUN_00c741e0(aiArg);
     *reinterpret_cast<int**>(this) = &DAT_01086684;
@@ -3524,7 +3525,7 @@ struct Sub08_b7397
     ~Sub08_b7397();
 };
 
-class FUN_008d6af0_cls
+class HighActorCuller
 {
   public:
     int unk04;
@@ -3532,12 +3533,13 @@ class FUN_008d6af0_cls
     Small_b7397 m_98;
     Small_b7397 m_9c;
     Small_b7397 m_a0;
-    virtual ~FUN_008d6af0_cls();
+    virtual ~HighActorCuller();
 };
 
 // Destructor that resets the three Small_b7397 members m_a0, m_9c and m_98 to zero before the object is destroyed.
 // @fnv 0x008d6af0
-FUN_008d6af0_cls::~FUN_008d6af0_cls()
+// src: EXE 0x008d6af0
+HighActorCuller::~HighActorCuller()
 {
     m_a0.Reset(0);
     m_9c.Reset(0);

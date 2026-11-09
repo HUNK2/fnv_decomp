@@ -611,7 +611,7 @@ int FUN_006b9400_Class::AStarNodeHeap_AStarNodeHeap_0()
 
 
 
-struct FUN_006bb510_shell
+struct Segment
 {
     Point3Storage a;
     Point3Storage b;
@@ -622,7 +622,7 @@ struct FUN_006bb510_shell
 // Adds the given point to both stored points a and b.
 // @fnv 0x006bb510
 // src: COMMUNITY 0x006bb510
-void FUN_006bb510_shell::Segment_Offset(Point3Storage* apPoint)
+void Segment::Segment_Offset(Point3Storage* apPoint)
 {
     a += *apPoint;
     b += *apPoint;
@@ -931,11 +931,12 @@ bool __thiscall T006a1b20::MatchesPair(int* aiPair)
 void __cdecl _Deallocate(void* p);
 struct C_006a1ba0
 {
-    void* __thiscall FUN_006a1ba0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_006a14e0 on this, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x006a1ba0
-void* __thiscall C_006a1ba0::FUN_006a1ba0(unsigned int flags)
+// src: EXE 0x006a1ba0
+void* __thiscall C_006a1ba0::ScalarDeletingDestructor(unsigned int flags)
 {
     ((GlobalObject_00869f00*)this)->ResetVirtualTableAndClear_006a14e0();
     if (flags & 1)
@@ -1252,15 +1253,15 @@ extern "C" void __cdecl Deallocate(void*);
 
 struct FUN_006a3580_class
 {
-    void __thiscall FUN_006a3580();
+    void __thiscall NavMeshRender();
     void* __thiscall FUN_006a29f0(unsigned int flags);
 };
 
-// Calls FUN_006a3580, then frees this with Deallocate if flags has bit 0 set, and returns this.
+// Calls NavMeshRender, then frees this with Deallocate if flags has bit 0 set, and returns this.
 // @fnv 0x006a29f0
 void* FUN_006a3580_class::FUN_006a29f0(unsigned int flags)
 {
-    FUN_006a3580();
+    NavMeshRender();
     if (flags & 1)
         Deallocate(this);
     return this;
@@ -2656,13 +2657,14 @@ struct FUN_006a7b10 : BaseS
     FUN_006a7b10();
 };
 extern int DAT_0106b78c;
-struct FUN_006a9200 : FUN_006a7b10
+struct NavMeshSearchFlee : FUN_006a7b10
 {
-    FUN_006a9200();
+    NavMeshSearchFlee();
 };
 // Sets the vtable pointer, constructs two BaseS subobjects at offsets 0x2070 and 0x2084, and zeroes the int at 0x2058 and byte at 0x2080.
 // @fnv 0x006a9200
-FUN_006a9200::FUN_006a9200()
+// src: EXE 0x006a9200
+NavMeshSearchFlee::NavMeshSearchFlee()
 {
     *(int*)this = (int)&DAT_0106b78c;
     ((BaseS*)((char*)this + 0x2070))->BaseS::BaseS();
@@ -2756,7 +2758,7 @@ struct EdgeArr
     unsigned short& Object_GetIndexedValue_006a1440(unsigned int index);
 };
 unsigned int __cdecl MaxUnsigned(unsigned int, unsigned short);
-struct FUN_006bc940_class
+struct NavMeshObstacleCutter
 {
     NavMesh* mesh;
     void* p1;
@@ -2765,7 +2767,7 @@ struct FUN_006bc940_class
 };
 // @fnv 0x006bc940
 // src: COMMUNITY 0x006bc940
-unsigned int FUN_006bc940_class::NavMeshObstacleCutter_GetTrianglesMaxObstacleCount()
+unsigned int NavMeshObstacleCutter::NavMeshObstacleCutter_GetTrianglesMaxObstacleCount()
 {
     unsigned int result = 0;
     for (unsigned int i = 0; i < ((BlkOffset08View*)((char*)flags + 0x20))->GetFlags(); ++i)
@@ -3322,13 +3324,14 @@ void FUN_006a68d0_Class::ForwardCall_006a68d0()
 
 extern int DAT_0106b6fc;
 
-struct FUN_006a8a80 : public FUN_006a7b10
+struct NavMeshSearchClosePoint : public FUN_006a7b10
 {
-    FUN_006a8a80();
+    NavMeshSearchClosePoint();
 };
 
 // @fnv 0x006a8a80
-FUN_006a8a80::FUN_006a8a80() : FUN_006a7b10()
+// src: EXE 0x006a8a80
+NavMeshSearchClosePoint::NavMeshSearchClosePoint() : FUN_006a7b10()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106b6fc);
 
@@ -4312,13 +4315,14 @@ struct FUN_006aa620_CallTarget
     void __thiscall FUN_00633c90(int value);
 };
 
-struct FUN_006aa620 : public FUN_006a7b10
+struct NavMeshSearchLOS : public FUN_006a7b10
 {
-    FUN_006aa620();
+    NavMeshSearchLOS();
 };
 
 // @fnv 0x006aa620
-FUN_006aa620::FUN_006aa620()
+// src: EXE 0x006aa620
+NavMeshSearchLOS::NavMeshSearchLOS()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106b830);
 
@@ -11917,7 +11921,7 @@ struct FUN_006a6550
     int unk00;
     ~FUN_006a6550();
 };
-struct FUN_006a3580
+struct NavMeshRender
 {
     FUN_0045cec0 unk00;
     FUN_0045cec0 unk04;
@@ -11997,11 +12001,12 @@ struct FUN_006a3580
     FUN_0045cec0 unk1ec;
     FUN_006a6450 unk1f0;
     FUN_006a6550 unk200;
-    ~FUN_006a3580();
+    ~NavMeshRender();
 };
 // Calls FUN_0066b0d0(0) on each of the 17 entries of slots50, slots94 and slots0c.
 // @fnv 0x006a3580
-FUN_006a3580::~FUN_006a3580()
+// src: COMMUNITY 0x006a3580
+NavMeshRender::~NavMeshRender()
 {
     for (unsigned int i = 0; i < 17; i++)
     {

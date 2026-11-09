@@ -1525,7 +1525,7 @@ extern FormHolder* g_formHolder;
 int __cdecl Tile_AddUserTrait(const char*, int);
 extern int g_traitValue;
 extern int g_traitX;
-struct FUN_007c06f0 : Menu
+struct SlotMachineMenu : Menu
 {
     int unk28;
     int unk2C;
@@ -1596,11 +1596,12 @@ struct FUN_007c06f0 : Menu
     int unk14C;
     int unk150;
     int unk154;
-    FUN_007c06f0();
-    virtual ~FUN_007c06f0();
+    SlotMachineMenu();
+    virtual ~SlotMachineMenu();
 };
 // @fnv 0x007c06f0
-FUN_007c06f0::FUN_007c06f0()
+// src: EXE 0x007c06f0
+SlotMachineMenu::SlotMachineMenu()
 {
     g_traitValue = Tile_AddUserTrait("_Value", -1);
     g_traitX = Tile_AddUserTrait("_x", -1);

@@ -2927,10 +2927,11 @@ void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct Target
 {
     void FUN_0064fe10();
-    Target* FUN_0064fde0(unsigned int flags);
+    Target* ScalarDeletingDestructor(unsigned int flags);
 };
 // @fnv 0x0064fde0
-Target* Target::FUN_0064fde0(unsigned int flags)
+// src: EXE 0x0064fde0
+Target* Target::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_0064fe10();
     if (flags & 1)

@@ -1286,11 +1286,11 @@ struct FUN_00906f60
     FUN_00906f60();
 };
 
-struct FUN_0097ee20_shell
+struct CombatLocation
 {
     int data[4];
     void BGSWorldLocation_BGSWorldLocation();
-    FUN_0097ee20_shell()
+    CombatLocation()
     {
         BGSWorldLocation_BGSWorldLocation();
     }
@@ -1318,8 +1318,8 @@ struct FUN_009d3a00 : public FUN_009ca680
     FUN_00906f60 m28;
     bool b30, b31, b32, b33;
     NiPoint3_T pt34;
-    FUN_0097ee20_shell m40;
-    FUN_0097ee20_shell m50;
+    CombatLocation m40;
+    CombatLocation m50;
     FUN_00435de0_ctor m60;
 
     FUN_009d3a00();

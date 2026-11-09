@@ -94,10 +94,11 @@ extern MM_00a34450 g_memoryManager;
 extern int DAT_01096620;
 struct FUN_00a34450_shell
 {
-    void* __thiscall FUN_00a34450(unsigned int);
+    void* __thiscall ScalarDeletingDestructor(unsigned int);
 };
 // @fnv 0x00a34450
-void* __thiscall FUN_00a34450_shell::FUN_00a34450(unsigned int auiFlags)
+// src: EXE 0x00a34450
+void* __thiscall FUN_00a34450_shell::ScalarDeletingDestructor(unsigned int auiFlags)
 {
     void* p = *(void**)((char*)this + 4);
     *(void**)this = (void*)&DAT_01096620;
@@ -2050,7 +2051,7 @@ struct MorphController31910 : NiSingleInterpControllerBase
     unsigned short BSMultiTargetTreadTransfController_AddInterpolatorTarget(Node31910*, unsigned short, MorphItem31910*);
     void SetSlotEntry(unsigned short, Node31910*, unsigned short, MorphItem31910*);
     Blend31910* FUN_00a358a0(unsigned short);
-    MorphController31910* FUN_00a36070(unsigned short, unsigned short);
+    MorphController31910* BSMultiTargetTreadTransfController(unsigned short, unsigned short);
 };
 struct Owner31910
 {
@@ -2276,7 +2277,7 @@ bool NiControllerSequence::ResolveTransformInterpolators(NiAVObject* targetObjec
             MorphController31910* tag = (MorphController31910*)Object_DispatchCommandFour(0x44);
             if (tag)
             {
-                tag = tag->FUN_00a36070(uiMorphEntries, usMorphTargetCount);
+                tag = tag->BSMultiTargetTreadTransfController(uiMorphEntries, usMorphTargetCount);
                 if (tag)
                 {
                     pMorphCtrl = tag;

@@ -586,7 +586,7 @@ struct HitSource
     NiPoint3 normal;
 };
 struct BaseData;
-struct FUN_004a37b0;
+struct DECAL_CREATION_DATA;
 struct AppliedEffect;
 struct ProcessView
 {
@@ -702,9 +702,9 @@ struct ProcessView
 };
 struct AppliedEffect
 {
-    void TESObjectCELL_AddDecal(FUN_004a37b0*, int, char);
+    void TESObjectCELL_AddDecal(DECAL_CREATION_DATA*, int, char);
 };
-struct FUN_004a37b0
+struct DECAL_CREATION_DATA
 {
     NiPoint3 point, normal;
     int unk18, unk1c, unk20, unk24;
@@ -719,7 +719,7 @@ struct FUN_004a37b0
     int unk6c;
     unsigned char f70, f71, f72, f73, f74, f75, f76, f77, f78, f79, f7a, f7b;
     int unk7c;
-    FUN_004a37b0();
+    DECAL_CREATION_DATA();
 };
 struct BaseData
 {
@@ -1186,7 +1186,7 @@ void SpellActor::Actor_CreateBloodOnWeapon(float distance, HitSource* hit, Spell
                 memcpy(&normal9, &playerNormal4, sizeof(normal9));
             else
                 memcpy(&normal9, &hit->normal.GetNegatedVector(), sizeof(normal9));
-            FUN_004a37b0 data;
+            DECAL_CREATION_DATA data;
             memcpy(&data.point, &point, sizeof(data.point));
             memcpy(&data.normal, &normal9, sizeof(data.normal));
             data.node = node2;

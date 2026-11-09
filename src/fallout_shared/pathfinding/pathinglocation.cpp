@@ -574,17 +574,18 @@ void PathingLocationOwner::PathSmoother_AddPathingNode(const NiPoint3& position,
     PathSmoother_AddPathingNode_0(&location);
 }
 
-struct FUN_006f4da0
+struct VirtualPathingNode
 {
     unsigned int flags;
     PathingLocation path;
     int context;
-    FUN_006f4da0(int, int);
+    VirtualPathingNode(int, int);
 };
 
 // Initialises the path from source, stores contextValue, sets flags to 6 and adds bit 1 when the path check for 0 succeeds.
 // @fnv 0x006f4da0
-FUN_006f4da0::FUN_006f4da0(int source, int contextValue) : path()
+// src: COMMUNITY 0x006f4da0
+VirtualPathingNode::VirtualPathingNode(int source, int contextValue) : path()
 {
     path = *reinterpret_cast<const PathingLocation*>(source);
     context = contextValue;

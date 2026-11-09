@@ -686,14 +686,14 @@ void FUN_006c9380_shell::PathingSolution_RemoveNode(int aiValue)
 
 void __fastcall FUN_006cf180(void*);
 
-struct FUN_006cb480_shell
+struct RayCastPath
 {
     void* ProcessAndReturnValue_006cb480();
 };
 
 // @fnv 0x006cb480
 // src: GUESS 0x006cb480 (confidence: low)
-void* FUN_006cb480_shell::ProcessAndReturnValue_006cb480()
+void* RayCastPath::ProcessAndReturnValue_006cb480()
 {
     FUN_006cf180(this + 8);
     return this;
@@ -1158,7 +1158,7 @@ struct FUN_006cb3a0_Tail
     void Call0();
 };
 
-struct FUN_006cb3a0_cls
+struct RayCastPathRequest
 {
     int unk00;
     int unk04;
@@ -1166,11 +1166,12 @@ struct FUN_006cb3a0_cls
     FUN_006cb3a0_Sub m_30;
     FUN_006cb3a0_Tail m_58;
 
-    FUN_006cb3a0_cls();
+    RayCastPathRequest();
 };
 
 // @fnv 0x006cb3a0
-FUN_006cb3a0_cls::FUN_006cb3a0_cls()
+// src: COMMUNITY 0x006cb3a0
+RayCastPathRequest::RayCastPathRequest()
 {
     m_58.Call0();
 }

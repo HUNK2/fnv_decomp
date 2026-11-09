@@ -72,11 +72,12 @@ struct FUN_0081b6d0_s
 {
     void FUN_0081b7b0();
     static void __Dummy_00b6fef0(void* p, unsigned int size);
-    void* FUN_0081b6d0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // @fnv 0x0081b6d0
-void* FUN_0081b6d0_s::FUN_0081b6d0(unsigned int flags)
+// src: EXE 0x0081b6d0
+void* FUN_0081b6d0_s::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_0081b7b0();
     if (flags & 1)

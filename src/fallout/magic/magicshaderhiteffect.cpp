@@ -467,12 +467,13 @@ void __fastcall FUN_0081f770(void* pThis);
 
 struct FUN_0081f320_helper
 {
-    void* FUN_0081f320(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_0081f770 on this, then deletes this with NiMemObject::operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x0081f320
-void* FUN_0081f320_helper::FUN_0081f320(unsigned int flags)
+// src: EXE 0x0081f320
+void* FUN_0081f320_helper::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_0081f770(this);
     if (flags & 1)

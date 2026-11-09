@@ -368,12 +368,13 @@ void __cdecl operator delete(void*);
 
 struct SaveGameFileDeleteEntry85 : public FUN_0085fbb0
 {
-    void* __thiscall FUN_0085fb80(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls Method_0085fbb0 of the base, deletes this when bit 0 of flags is set, and returns this.
 // @fnv 0x0085fb80
-void* __thiscall SaveGameFileDeleteEntry85::FUN_0085fb80(unsigned int flags)
+// src: EXE 0x0085fb80
+void* __thiscall SaveGameFileDeleteEntry85::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_0085fbb0::Method_0085fbb0();
     if (flags & 1)

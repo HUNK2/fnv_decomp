@@ -280,10 +280,11 @@ struct FnvCpu_FUN_00cfa7a0_CpuObject {
     unsigned int unk00;
     unsigned short size;
     void SetVtableAndProcessState_00cf86d0();
-    FnvCpu_FUN_00cfa7a0_CpuObject* FUN_00cfa7a0(unsigned int flags);
+    FnvCpu_FUN_00cfa7a0_CpuObject* ScalarDeletingDestructor(unsigned int flags);
 };
 // @fnv 0x00cfa7a0
-FnvCpu_FUN_00cfa7a0_CpuObject* FnvCpu_FUN_00cfa7a0_CpuObject::FUN_00cfa7a0(unsigned int flags)
+// src: EXE 0x00cfa7a0
+FnvCpu_FUN_00cfa7a0_CpuObject* FnvCpu_FUN_00cfa7a0_CpuObject::ScalarDeletingDestructor(unsigned int flags)
 {
     SetVtableAndProcessState_00cf86d0();
     if (flags & 1) {

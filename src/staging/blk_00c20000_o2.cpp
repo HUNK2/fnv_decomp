@@ -611,7 +611,7 @@ extern int DAT_011a946c;
 extern int DAT_011a9470;
 extern int DAT_011a9474;
 
-struct FUN_00c22a80_cls : NiPSysPositionModifier
+struct NiPSysGravityModifier : NiPSysPositionModifier
 {
     int m_18;
     int m_1c;
@@ -623,12 +623,12 @@ struct FUN_00c22a80_cls : NiPSysPositionModifier
     float m_34;
     float m_38;
 
-    FUN_00c22a80_cls* InitDefaults();
+    NiPSysGravityModifier* InitDefaults();
 };
 
 // Calls InitBase, sets the vtable pointer and initialises the object's fields to zero, one and the DAT_011a946c/9470/9474 values, then returns this.
 // @fnv 0x00c22a80
-FUN_00c22a80_cls* FUN_00c22a80_cls::InitDefaults()
+NiPSysGravityModifier* NiPSysGravityModifier::InitDefaults()
 {
     this->NiPSysPositionModifier::NiPSysPositionModifier();
     m_18 = 0;
@@ -862,7 +862,7 @@ struct NiStringBaseHelper
     void FUN_00a38e00();
 };
 
-struct FUN_00c31440_cls
+struct NiPSysModifierCtlr
 {
     void* vptr;
     int unk04;
@@ -881,11 +881,11 @@ struct FUN_00c31440_cls
     char* m_38;
     int m_3c;
 
-    FUN_00c31440_cls* AssignString(char** src);
+    NiPSysModifierCtlr* AssignString(char** src);
 };
 
 // @fnv 0x00c31440
-FUN_00c31440_cls* FUN_00c31440_cls::AssignString(char** src)
+NiPSysModifierCtlr* NiPSysModifierCtlr::AssignString(char** src)
 {
     reinterpret_cast<NiStringBaseHelper*>(this)->FUN_00a38e00();
     vptr = (void*)&DAT_010c08ac;

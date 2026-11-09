@@ -1122,7 +1122,7 @@ void FUN_00c91270_cls::ahkpWorld_updateKdTree(int a)
     m_5C->Forward(a);
 }
 
-struct FUN_00c98250_Class {
+struct hkpNullContactMgrFactory {
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
@@ -1131,7 +1131,7 @@ struct FUN_00c98250_Class {
 
 // @fnv 0x00c98250
 // src: XBOX_PDB 0x00c98250
-void* __thiscall FUN_00c98250_Class::hkpNullContactMgrFactory_createContactMgr(int, int, int)
+void* __thiscall hkpNullContactMgrFactory::hkpNullContactMgrFactory_createContactMgr(int, int, int)
 {
     return (void*)((char*)this + 8);
 }
@@ -3795,10 +3795,11 @@ struct FnvCpu_FUN_00c983b0_CpuObject {
     unsigned int unk00;
     unsigned short size;
     void FUN_00c93e50();
-    FnvCpu_FUN_00c983b0_CpuObject* FUN_00c983b0(unsigned int flags);
+    FnvCpu_FUN_00c983b0_CpuObject* ScalarDeletingDestructor(unsigned int flags);
 };
 // @fnv 0x00c983b0
-FnvCpu_FUN_00c983b0_CpuObject* FnvCpu_FUN_00c983b0_CpuObject::FUN_00c983b0(unsigned int flags)
+// src: EXE 0x00c983b0
+FnvCpu_FUN_00c983b0_CpuObject* FnvCpu_FUN_00c983b0_CpuObject::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00c93e50();
     if (flags & 1) {

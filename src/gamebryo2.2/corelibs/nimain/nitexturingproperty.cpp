@@ -2147,12 +2147,13 @@ NiTexturingProperty::Map::~Map()
 
 struct MapScalarDtorCandidate : NiTexturingProperty::Map
 {
-    void* FUN_00a6a9f0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls the base Map destructor, then frees this object via g_memoryManager when flags has bit 0 set, and returns this.
 // @fnv 0x00a6a9f0
-void* MapScalarDtorCandidate::FUN_00a6a9f0(unsigned int flags)
+// src: EXE 0x00a6a9f0
+void* MapScalarDtorCandidate::ScalarDeletingDestructor(unsigned int flags)
 {
     this->NiTexturingProperty::Map::~Map();
     if (flags & 1)

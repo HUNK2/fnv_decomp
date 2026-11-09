@@ -1809,7 +1809,7 @@ extern "C" void __cdecl Warning_005b5e40(const char* format, ...);
 extern char DAT_01014168[];
 extern char DAT_01014100[];
 
-struct FUN_0040e7f0_owner
+struct ContainerItemExtra
 {
     TESForm* primary;
     TESGlobal* secondary;
@@ -1819,7 +1819,7 @@ struct FUN_0040e7f0_owner
 // Resolves primary and secondary form references through the file context, logging failures and clearing secondary when primary is null.
 // @fnv 0x0040e7f0
 // src: COMMUNITY 0x0040e7f0
-void FUN_0040e7f0_owner::ContainerItemExtra_InitItem(FormContext* context)
+void ContainerItemExtra::ContainerItemExtra_InitItem(FormContext* context)
 {
     if (primary != 0)
     {

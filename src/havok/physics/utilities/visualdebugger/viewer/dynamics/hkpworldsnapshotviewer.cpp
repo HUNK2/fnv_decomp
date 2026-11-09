@@ -11,14 +11,14 @@ extern int DAT_010d1700;
 extern int DAT_010d1720;
 extern void __cdecl FUN_00ddcc60();
 
-struct FUN_00d62fe0_cls
+struct hkpWorldSnapshotViewer
 {
     void __thiscall UpdateFields_00d62fe0();
 };
 
 // @fnv 0x00d62fe0
 // src: GUESS 0x00d62fe0 (confidence: low)
-void __thiscall FUN_00d62fe0_cls::UpdateFields_00d62fe0()
+void __thiscall hkpWorldSnapshotViewer::UpdateFields_00d62fe0()
 {
     *(int*)this = (int)&DAT_010d1720;
     *(int*)((char*)this + 8) = (int)&DAT_010d1700;
@@ -216,7 +216,7 @@ struct SubObject
     void Init(int a, int b);
 };
 
-struct FUN_00d63280_cls
+struct hkpWorldMemoryViewer
 {
     void* m_vtbl0;
     int unk04;
@@ -231,12 +231,12 @@ struct FUN_00d63280_cls
     SubObject m_sub28;
 
     void Setup(int b);
-    FUN_00d63280_cls* hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b);
+    hkpWorldMemoryViewer* hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b);
 };
 
 // @fnv 0x00d63280
 // src: HAVOK_LIB 0x00d63280
-FUN_00d63280_cls* FUN_00d63280_cls::hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b)
+hkpWorldMemoryViewer* hkpWorldMemoryViewer::hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b)
 {
     Setup(b);
     m_vtbl0 = (void*)&DAT_010d1794;

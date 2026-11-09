@@ -288,11 +288,12 @@ void* __thiscall FUN_009f8d90::Reallocate(void* p, int n)
 struct FUN_009f8b10_class
 {
     void SetVtableAndProcessState_009f8b10();
-    void* FUN_009f8db0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // @fnv 0x009f8db0
-void* FUN_009f8b10_class::FUN_009f8db0(unsigned int flags)
+// src: EXE 0x009f8db0
+void* FUN_009f8b10_class::ScalarDeletingDestructor(unsigned int flags)
 {
     SetVtableAndProcessState_009f8b10();
     if (flags & 1)

@@ -1195,11 +1195,12 @@ BSAudio* __cdecl hkMemoryRouter_getInstance();
 struct D7f060Owner {
     int unk00;
     unsigned short soundId;
-    D7f060Owner* FUN_00d7f060(unsigned int flags);
+    D7f060Owner* ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_00d76940, and if flags has bit 0 set, releases this object's soundId through the audio service, then returns this.
 // @fnv 0x00d7f060
-D7f060Owner* D7f060Owner::FUN_00d7f060(unsigned int flags)
+// src: EXE 0x00d7f060
+D7f060Owner* D7f060Owner::ScalarDeletingDestructor(unsigned int flags)
 {
     ((D76940Shell*)this)->ReleaseStorage_00d76940();
     if (flags & 1) {

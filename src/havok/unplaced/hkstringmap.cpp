@@ -158,7 +158,7 @@ extern int _DAT_0102e388;
 
 hkMemoryRouter* _D1A0E0GetMemoryRouter();
 
-struct FUN_00dc8080_class
+struct hkDataWorldDict
 {
     void* m_vptr;
     int m_iWordAt04;
@@ -168,7 +168,7 @@ struct FUN_00dc8080_class
 };
 
 // src: GUESS 0x00dc8080 (confidence: medium)
-void FUN_00dc8080_class::ReleaseStorage_00dc8080()
+void hkDataWorldDict::ReleaseStorage_00dc8080()
 {
     FUN_00dc7750_class* object = m_8;
     m_vptr = &DAT_010d7510;

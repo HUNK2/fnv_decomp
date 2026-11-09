@@ -4321,15 +4321,16 @@ struct FUN_00a3ca30 {
 
 extern "C" void __cdecl _NiFree_00aa10f0(void*) throw();
 
-struct FUN_00a3dd40 : FUN_00a3ca30 {
+struct NiPathInterpolator : FUN_00a3ca30 {
     S_a3dd40_Ptr m_kPointA;
     S_a3dd40_Ptr m_kPointB;
     void* m_p;
-    virtual ~FUN_00a3dd40() throw();
+    virtual ~NiPathInterpolator() throw();
 };
 
 // @fnv 0x00a3dd40
-FUN_00a3dd40::~FUN_00a3dd40() throw()
+// src: EXE 0x00a3dd40
+NiPathInterpolator::~NiPathInterpolator() throw()
 {
     m_kPointA = 0;
     m_kPointB = 0;

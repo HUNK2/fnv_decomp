@@ -383,7 +383,7 @@ extern const float runtimeFloatSettingDefault255;
 extern const float g_011c7344_arg1;
 extern int DAT_010e62a4;
 
-struct FUN_00e44280_struct {
+struct hkpVehicleDefaultEngine {
     int* m_00;
     unsigned short m_06;
     float m_08;
@@ -396,11 +396,11 @@ struct FUN_00e44280_struct {
     float m_24;
     float m_28;
     float m_2c;
-    FUN_00e44280_struct* InitializeDefaults();
+    hkpVehicleDefaultEngine* InitializeDefaults();
 };
 
 // @fnv 0x00e44280
-FUN_00e44280_struct* __thiscall FUN_00e44280_struct::InitializeDefaults()
+hkpVehicleDefaultEngine* __thiscall hkpVehicleDefaultEngine::InitializeDefaults()
 {
     m_08 = 1000.0f;
     m_0c = runtimeFloatSettingDefault132;
@@ -472,16 +472,16 @@ extern int DAT_010ec1fc;
 struct FUN_00cb0a70 {
     void m(int);
 };
-struct FUN_00e4af80 {
+struct hkAlignSceneToNodeOptions {
     int vtbl;
     int m_04;
     int m_08;
     int m_0c;
     int m_10;
-    FUN_00e4af80* Set(int arg);
+    hkAlignSceneToNodeOptions* Set(int arg);
 };
 // @fnv 0x00e4af80
-FUN_00e4af80* FUN_00e4af80::Set(int aiValue)
+hkAlignSceneToNodeOptions* hkAlignSceneToNodeOptions::Set(int aiValue)
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010ec1fc);
     reinterpret_cast<FUN_00cb0a70*>(reinterpret_cast<char*>(this) + 0x14)->m(aiValue);
@@ -615,17 +615,18 @@ public:
 
 
 
-class FUN_00e41df0_cls : public BE41DF0ReferencedObject {
+class hkaAnimationPreviewColorContainer : public BE41DF0ReferencedObject {
 public:
-    FUN_00e41df0_cls() throw();
-    virtual ~FUN_00e41df0_cls();
+    hkaAnimationPreviewColorContainer() throw();
+    virtual ~hkaAnimationPreviewColorContainer();
 
     hkArrayBase<void*> m_kEntries;
 };
 
 // Default constructor that initializes the reference count to 1 and leaves the entry array empty.
 // @fnv 0x00e41df0
-FUN_00e41df0_cls::FUN_00e41df0_cls() throw()
+// src: EXE 0x00e41df0
+hkaAnimationPreviewColorContainer::hkaAnimationPreviewColorContainer() throw()
 {
 }
 
@@ -696,18 +697,19 @@ void FUN_00e42680_cls::CallItemsVirtual() {
 
 extern "C" int DAT_010e5e9c;
 
-struct FUN_00e43ac0_cls {
+struct hkpVehicleDefaultVelocityDamper {
     void* m_00;
     unsigned short m_04;
     unsigned short m_06;
     float m_08;
     float m_0c;
     float m_10;
-    FUN_00e43ac0_cls();
+    hkpVehicleDefaultVelocityDamper();
 };
 
 // @fnv 0x00e43ac0
-FUN_00e43ac0_cls::FUN_00e43ac0_cls() {
+// src: EXE 0x00e43ac0
+hkpVehicleDefaultVelocityDamper::hkpVehicleDefaultVelocityDamper() {
     m_08 = 0.0f;
     m_0c = 0.0f;
     m_06 = 1;
@@ -732,7 +734,7 @@ float __cdecl ComputeScaledRatio(float param_1, float afDivisor, float afValue, 
 
 extern "C" int DAT_010e5ff4;
 
-struct FUN_00e43f30_cls {
+struct hkpVehicleDefaultTransmission {
     void* volatile m_00;
     unsigned short m_04;
     volatile unsigned short m_06;
@@ -747,11 +749,12 @@ struct FUN_00e43f30_cls {
     volatile int m_28;
     volatile int m_2c;
     volatile unsigned int m_30;
-    FUN_00e43f30_cls();
+    hkpVehicleDefaultTransmission();
 };
 
 // @fnv 0x00e43f30
-FUN_00e43f30_cls::FUN_00e43f30_cls() {
+// src: EXE 0x00e43f30
+hkpVehicleDefaultTransmission::hkpVehicleDefaultTransmission() {
     m_06 = 1;
     m_00 = (void*)&DAT_010e5ff4;
     m_1c = 0;
@@ -815,10 +818,10 @@ public:
 
 
 
-class FUN_00e468b0_cls : public BE468B0Shape, public BE468B0Listener {
+class hkpDisableEntityCollisionFilter : public BE468B0Shape, public BE468B0Listener {
 public:
-    FUN_00e468b0_cls();
-    virtual ~FUN_00e468b0_cls();
+    hkpDisableEntityCollisionFilter();
+    virtual ~hkpDisableEntityCollisionFilter();
     virtual void OnA();
     virtual void OnB();
     virtual void OnC();
@@ -829,7 +832,8 @@ public:
 };
 
 // @fnv 0x00e468b0
-FUN_00e468b0_cls::FUN_00e468b0_cls()
+// src: EXE 0x00e468b0
+hkpDisableEntityCollisionFilter::hkpDisableEntityCollisionFilter()
 {
 }
 
@@ -847,7 +851,7 @@ struct S_e49fe0_Arr {
     unsigned m_cap;
     S_e49fe0_Arr() : m_data(0), m_iElementCount(0), m_cap(0x80000000) {}
 };
-struct FUN_00e49fe0 : FUN_00cbfba0 {
+struct hkpCollisionFilterList : FUN_00cbfba0 {
     int unk18;
     int unk1c;
     int unk20;
@@ -855,16 +859,17 @@ struct FUN_00e49fe0 : FUN_00cbfba0 {
     int unk28;
     int unk2c;
     S_e49fe0_Arr arr;
-    FUN_00e49fe0();
+    hkpCollisionFilterList();
     virtual void d0();
     virtual void d8();
     virtual void dc();
     virtual void d10();
     virtual void d14();
 };
-// Initializes the FUN_00e49fe0 object, including its embedded S_e49fe0_Arr member.
+// Initializes the hkpCollisionFilterList object, including its embedded S_e49fe0_Arr member.
 // @fnv 0x00e49fe0
-FUN_00e49fe0::FUN_00e49fe0() {}
+// src: EXE 0x00e49fe0
+hkpCollisionFilterList::hkpCollisionFilterList() {}
 
 struct E4AAA0Allocator;
 
@@ -2914,7 +2919,7 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
 
 extern int DAT_010e60c4;
 
-struct FUN_00e44070 {
+struct hkpVehicleDefaultSteering {
     int* volatile m_00;
     unsigned short unk04;
     volatile unsigned short m_06;
@@ -2924,11 +2929,12 @@ struct FUN_00e44070 {
     volatile int m_14;
     volatile unsigned int m_18;
 
-    FUN_00e44070();
+    hkpVehicleDefaultSteering();
 };
 
 // @fnv 0x00e44070
-FUN_00e44070::FUN_00e44070()
+// src: EXE 0x00e44070
+hkpVehicleDefaultSteering::hkpVehicleDefaultSteering()
 {
     m_06 = 1;
     m_00 = &DAT_010e60c4;
@@ -3058,10 +3064,10 @@ public:
     void* m_pv7C;
 };
 
-class FUN_00e45530_Manager : public BaseE45 {
+class hkpGroupCollisionFilter : public BaseE45 {
 public:
-    FUN_00e45530_Manager();
-    virtual ~FUN_00e45530_Manager();
+    hkpGroupCollisionFilter();
+    virtual ~hkpGroupCollisionFilter();
 
     EnabledFlagE45 m_kEnabled;
     SlotTableE45 m_kSlots;
@@ -3069,7 +3075,8 @@ public:
 
 // Initializes the manager by constructing its base and default-constructing the enabled flag and slot table members.
 // @fnv 0x00e45530
-FUN_00e45530_Manager::FUN_00e45530_Manager()
+// src: EXE 0x00e45530
+hkpGroupCollisionFilter::hkpGroupCollisionFilter()
 {
 }
 
@@ -3472,12 +3479,12 @@ struct FUN_00e46b30_Layout {
     void* volatile listenerVtable;
     FUN_00c90510_Reference* reference;
 };
-struct FUN_00e46b30_Class : FUN_00e46b30_Layout {
-    FUN_00e46b30_Class* InitializeWithReference(FUN_00c90510_Reference* value);
+struct hkpConstrainedSystemFilter : FUN_00e46b30_Layout {
+    hkpConstrainedSystemFilter* InitializeWithReference(FUN_00c90510_Reference* value);
 };
 // Calls the base initializer, installs the vtable pointers, stores value in reference and, if non-null, calls FUN_00c90510 on it; returns this.
 // @fnv 0x00e46b30
-FUN_00e46b30_Class* FUN_00e46b30_Class::InitializeWithReference(FUN_00c90510_Reference* value)
+hkpConstrainedSystemFilter* hkpConstrainedSystemFilter::InitializeWithReference(FUN_00c90510_Reference* value)
 {
     reinterpret_cast<FUN_00cbfba0_Base*>(this)->FUN_00cbfba0();
     listenerVtable = &DAT_010cb1e4;
@@ -3585,12 +3592,13 @@ struct E473C0Owner {
     unsigned short unk04;
 
     void __thiscall FUN_00e47020();
-    E473C0Owner* __thiscall FUN_00e473c0(unsigned char flags);
+    E473C0Owner* __thiscall ScalarDeletingDestructor(unsigned char flags);
 };
 
 // Calls FUN_00e47020, then if bit 0 of flags is set, invokes vf02 on the allocator target with unk04, and returns this.
 // @fnv 0x00e473c0
-E473C0Owner* __thiscall E473C0Owner::FUN_00e473c0(unsigned char flags) {
+// src: EXE 0x00e473c0
+E473C0Owner* __thiscall E473C0Owner::ScalarDeletingDestructor(unsigned char flags) {
     FUN_00e47020();
 
     if ((flags & 1) != 0) {
@@ -3618,16 +3626,17 @@ void FnvCpu_FUN_00e473f0_CpuObject::SetValue(unsigned char arg0)
 
 extern int DAT_010e81a4;
 
-struct FUN_00e48240 {
+struct hkpDefaultWorldMemoryWatchDog {
     void* m_vTable;
     short m_flags;
     short m_sState;
     int m_uiFilterValue;
-    FUN_00e48240(int value);
+    hkpDefaultWorldMemoryWatchDog(int value);
 };
 
 // @fnv 0x00e48240
-FUN_00e48240::FUN_00e48240(int value)
+// src: EXE 0x00e48240
+hkpDefaultWorldMemoryWatchDog::hkpDefaultWorldMemoryWatchDog(int value)
 {
     m_sState = 1;
     m_vTable = &DAT_010e81a4;
@@ -3743,17 +3752,17 @@ extern "C" int DAT_010e8a90;
 struct FUN_00e48db0_holder {
     void FUN_00dcd310(float f, void* p);
 };
-struct FUN_00e48db0_class {
+struct hkpFastMeshShape {
     void* m_00;
     int m_04;
     int m_08;
     int m_0c;
     int m_10;
-    FUN_00e48db0_class* __thiscall InitFromFloatAndPointer(float f, void* p);
+    hkpFastMeshShape* __thiscall InitFromFloatAndPointer(float f, void* p);
 };
 // Calls FUN_00dcd310 with f and p, then stores pointers to DAT_010e8ab0 and DAT_010e8a90 in m_00 and m_10, returning this.
 // @fnv 0x00e48db0
-FUN_00e48db0_class* FUN_00e48db0_class::InitFromFloatAndPointer(float f, void* p)
+hkpFastMeshShape* hkpFastMeshShape::InitFromFloatAndPointer(float f, void* p)
 {
     ((FUN_00e48db0_holder*)this)->FUN_00dcd310(f, p);
     m_00 = &DAT_010e8ab0;
@@ -4031,10 +4040,10 @@ public:
     unsigned char m_type;
 };
 
-class FUN_00e48390 : public TypedObjectE483 {
+class hkpCallbackConstraintMotor : public TypedObjectE483 {
 public:
-    FUN_00e48390(int a, int b);
-    virtual ~FUN_00e48390();
+    hkpCallbackConstraintMotor(int a, int b);
+    virtual ~hkpCallbackConstraintMotor();
     volatile float m_fCoefficientA;
     float m_fB;
     int m_iB;
@@ -4042,7 +4051,8 @@ public:
 };
 // Constructor: stores a and b in m_iA and m_iB, sets m_fCoefficientA to -1e6, m_fB from DAT_0108cb00 and m_type to 4.
 // @fnv 0x00e48390
-FUN_00e48390::FUN_00e48390(int a, int b)
+// src: EXE 0x00e48390
+hkpCallbackConstraintMotor::hkpCallbackConstraintMotor(int a, int b)
 {
     m_iA = a;
     m_fCoefficientA = -1e6f;
@@ -4548,7 +4558,7 @@ public:
     SpawnedBase(unsigned int flags, int one);
 };
 
-class FUN_00e49900 : public SpawnedBase
+class hkpCompressedSampledHeightFieldShape : public SpawnedBase
 {
 public:
     virtual void unkBase();
@@ -4582,11 +4592,12 @@ public:
     float m_fTimeA;
     float m_fTimeB;
 
-    FUN_00e49900(unsigned int flags, SrcArray* src, float a, float b);
+    hkpCompressedSampledHeightFieldShape(unsigned int flags, SrcArray* src, float a, float b);
 };
 
 // @fnv 0x00e49900
-FUN_00e49900::FUN_00e49900(unsigned int flags, SrcArray* src, float afTimeA, float afTimeB)
+// src: EXE 0x00e49900
+hkpCompressedSampledHeightFieldShape::hkpCompressedSampledHeightFieldShape(unsigned int flags, SrcArray* src, float afTimeA, float afTimeB)
     : SpawnedBase(flags, 1)
 {
     m_pData = 0;
@@ -6042,10 +6053,10 @@ struct FUN_00cb9090 : Se5b160_Data {
     void SetReferencedObject(Se5b160_Motor* motor);
     void hkpLimitedHingeConstraintData_setMotorActive(void* info, bool enabled);
 };
-struct FUN_00cdf2f0 : Se5b160_Data {
+struct hkpRagdollConstraintData : Se5b160_Data {
     Se5b160_RagdollAtoms m_kBridgeAtoms;
     int unkec; int unkf0; int unkf4; int unkf8; int unkfc; int unk100; int unk104; int unk108; int unk10c; int unk110; int unk114; int unk118; int unk11c; int unk120; int unk124; int unk128; int unk12c; int unk130; int unk134; int unk138; int unk13c; 
-    FUN_00cdf2f0() throw();
+    hkpRagdollConstraintData() throw();
     void hkpRagdollConstraintData_setTwistMotor(Se5b160_Motor* motor);
     void hkpRagdollConstraintData_setPlaneMotor(Se5b160_Motor* motor);
     void hkpRagdollConstraintData_setConeMotor(Se5b160_Motor* motor);
@@ -6100,8 +6111,8 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
         break;
     }
     case hkpConstraintData::CONSTRAINT_TYPE_RAGDOLL: {
-        FUN_00cdf2f0* oldData = static_cast<FUN_00cdf2f0*>(constraintData);
-        FUN_00cdf2f0* newData = new FUN_00cdf2f0();
+        hkpRagdollConstraintData* oldData = static_cast<hkpRagdollConstraintData*>(constraintData);
+        hkpRagdollConstraintData* newData = new hkpRagdollConstraintData();
         _copyAtoms_00e5b130(&oldData->m_kBridgeAtoms, &newData->m_kBridgeAtoms);
         newData->hkpRagdollConstraintData_setTwistMotor(motor);
         newData->hkpRagdollConstraintData_setPlaneMotor(motor);

@@ -132,10 +132,10 @@ struct FUN_00b3c470_class
     int i14;
     FUN_00b3c470_class();
 };
-struct FUN_00b3f030_Class
+struct CIdvCamera
 {
     int* vtbl;
-    FUN_00b3f030_Class();
+    CIdvCamera();
 };
 extern const int vftable_Random[];
 void _Deallocate(void*);

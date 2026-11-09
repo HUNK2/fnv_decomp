@@ -315,12 +315,13 @@ extern "C" void Deallocate(void*);
 struct FUN_00589030_Class
 {
     void __thiscall FUN_00589130();
-    void* __thiscall FUN_00589030(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00589130, frees this via Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x00589030
-void* __thiscall FUN_00589030_Class::FUN_00589030(unsigned int flags)
+// src: EXE 0x00589030
+void* __thiscall FUN_00589030_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00589130();
     if (flags & 1)
@@ -725,14 +726,15 @@ void __thiscall Holder730::BGSCameraPath_RemoveChild(int a1)
 class BGSCameraPath;
 
 namespace fnv_0058b770 {
-struct FUN_0058b770
+struct BGSCameraPathManager
 {
     NiFormArray forms;
     NiTPrimitiveArray<BGSCameraPath*> arr;
-    FUN_0058b770();
+    BGSCameraPathManager();
 };
 // @fnv 0x0058b770
-FUN_0058b770::FUN_0058b770() : arr(0, 1)
+// src: COMMUNITY 0x0058b770
+BGSCameraPathManager::BGSCameraPathManager() : arr(0, 1)
 {}
 }  // namespace fnv_0058b770
 
@@ -793,7 +795,7 @@ int __thiscall FUN_0058cb60_Class::NiTransformData_GetRotAnim(unsigned int* a, i
     return m_20;
 }
 
-struct FUN_0058f7f0_Class
+struct ImpactSwap
 {
     int* __thiscall ImpactSwap_GetAltFootstepMaterialName(int a);
 };
@@ -801,7 +803,7 @@ struct FUN_0058f7f0_Class
 // Returns a pointer to the entry at offset 0x30 plus a*0x1e if its first byte is nonzero, otherwise returns 0.
 // @fnv 0x0058f7f0
 // src: COMMUNITY 0x0058f7f0
-int* __thiscall FUN_0058f7f0_Class::ImpactSwap_GetAltFootstepMaterialName(int aiIndex)
+int* __thiscall ImpactSwap::ImpactSwap_GetAltFootstepMaterialName(int aiIndex)
 {
     if (*(char*)((char*)this + 0x30 + aiIndex * 0x1e))
         return (int*)((char*)this + 0x30 + aiIndex * 0x1e);
@@ -863,14 +865,15 @@ void* FUN_0058f9a0_Class::FUN_0058f9a0(unsigned int flags)
 }
 
 
-struct FUN_00591170 : ::BSStringT<char>
+struct MESSAGEBOX_BUTTON : ::BSStringT<char>
 {
     PerkEntryConditionSet cond;
-    ~FUN_00591170();
+    ~MESSAGEBOX_BUTTON();
 };
 // Destructor that destroys the contained condition object and the base object.
 // @fnv 0x00591170
-FUN_00591170::~FUN_00591170()
+// src: COMMUNITY 0x00591170
+MESSAGEBOX_BUTTON::~MESSAGEBOX_BUTTON()
 {}
 
 // @fnv 0x005912d0
@@ -1509,14 +1512,15 @@ struct FUN_00402c20
     virtual ~FUN_00402c20();
     FUN_00402c20();
 };
-struct FUN_00590210 : FUN_00483370, FUN_00402c20
+struct BGSMenuIcon : FUN_00483370, FUN_00402c20
 {
-    FUN_00590210();
-    virtual ~FUN_00590210();
+    BGSMenuIcon();
+    virtual ~BGSMenuIcon();
 };
 // Initializes the object by calling FUN_00483710 and then FUN_004f15a0 with a count of 5.
 // @fnv 0x00590210
-FUN_00590210::FUN_00590210()
+// src: EXE 0x00590210
+BGSMenuIcon::BGSMenuIcon()
 {
     FUN_00483710();
     FUN_004f15a0(5);
@@ -1556,18 +1560,19 @@ struct FUN_00591200_member
 
 extern float g_00591200_const;
 
-struct FUN_00591200_cls : FUN_00591200_base0, FUN_00591200_base1
+struct BGSMusicType : FUN_00591200_base0, FUN_00591200_base1
 {
     float m_24;
     FUN_00591200_member m_28;
 
     void Setup(int aArg);
-    FUN_00591200_cls();
+    BGSMusicType();
 };
 
 // Initializes the object by calling Setup with 0x66 and then assigning g_00591200_const to m_24.
 // @fnv 0x00591200
-FUN_00591200_cls::FUN_00591200_cls()
+// src: EXE 0x00591200
+BGSMusicType::BGSMusicType()
 {
     Setup(0x66);
     m_24 = g_00591200_const;
@@ -1676,7 +1681,7 @@ struct NodePtr_58bd30
     ~NodePtr_58bd30();
     NodePtr_58bd30& operator=(void* object);
 };
-struct FUN_0058bd30 : Form_58bd30, TESModel, ISMForm_58bd30
+struct BGSCameraShot : Form_58bd30, TESModel, ISMForm_58bd30
 {
     unsigned int unk38;
     unsigned int unk3C;
@@ -1696,14 +1701,15 @@ struct FUN_0058bd30 : Form_58bd30, TESModel, ISMForm_58bd30
     unsigned char unk74;
     bool unk75;
     bool unk76;
-    FUN_0058bd30();
-    virtual ~FUN_0058bd30();
+    BGSCameraShot();
+    virtual ~BGSCameraShot();
     void Reset();
 };
 
 // Initializes the form: sets form type 0x5b, calls Reset, clears the node pointers and unk68, and sets unk74 to 0xff with unk75/unk76 false.
 // @fnv 0x0058bd30
-FUN_0058bd30::FUN_0058bd30() : node60(0), node64(0), node6c(0), node70(0)
+// src: EXE 0x0058bd30
+BGSCameraShot::BGSCameraShot() : node60(0), node64(0), node6c(0), node70(0)
 {
     SetFormType(0x5b);
     Reset();

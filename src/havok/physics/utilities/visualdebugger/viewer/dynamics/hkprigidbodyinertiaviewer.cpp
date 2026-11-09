@@ -223,7 +223,7 @@ struct FUN_00d66f30_params {
     void ClearValue(void* apTarget);
 };
 
-struct FUN_00d66f30_cls {
+struct hkpRigidBodyInertiaViewer {
     int unk00;
     int unk04;
     int unk08;
@@ -242,7 +242,7 @@ struct FUN_00d66f30_cls {
 
 // @fnv 0x00d66f30
 // src: COMMUNITY 0x00d66f30
-void FUN_00d66f30_cls::hkpRigidBodyInertiaViewer_removeWorld(FUN_00d66f30_params* apParams)
+void hkpRigidBodyInertiaViewer::hkpRigidBodyInertiaViewer_removeWorld(FUN_00d66f30_params* apParams)
 {
     apParams->hkpWorld_removeEntityListener(this != 0 ? &m_kInner : 0);
     apParams->ClearValue(this != 0 ? &m_iN : 0);
@@ -865,7 +865,7 @@ struct Shape {
     int type;
     int unk54, unk58, unk5c;
     ShapeVec4 halfExtents;
-    void FUN_00de1fc0();
+    void hkDisplayBox();
     void InitializeFields_00de2010(const Vec* dimensions, const Transform* transform);
 };
 void __cdecl hkArrayUtil__reserve(void* allocator, void* array, int capacity, int elementSize);
@@ -885,7 +885,7 @@ inline void destroyShapes(Shape* begin, int count) {
 inline void createShapes(Shape* begin, int count) {
     for (int k=0; k<count; ++k) {
         Shape* at = begin+k;
-        if (at) at->FUN_00de1fc0();
+        if (at) at->hkDisplayBox();
     }
 }
 template <>

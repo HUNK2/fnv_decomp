@@ -179,7 +179,7 @@ template <int N> class EndianSizeTag
 
 void __cdecl BSEndian(int*, EndianSizeTag<3>);
 
-struct FUN_005f6c90_shell
+struct OLD_CLASS_DATA
 {
     int m_data[4];
     void OLD_CLASS_DATA_Endian();
@@ -187,7 +187,7 @@ struct FUN_005f6c90_shell
 
 // @fnv 0x005f6c90
 // src: COMMUNITY 0x005f6c90
-void FUN_005f6c90_shell::OLD_CLASS_DATA_Endian()
+void OLD_CLASS_DATA::OLD_CLASS_DATA_Endian()
 {
     BSEndian(&m_data[4], EndianSizeTag<3>());
     for (int i = 0; i < 3; ++i)

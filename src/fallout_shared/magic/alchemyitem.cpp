@@ -168,13 +168,13 @@ template <int N> struct EndianSizeTag
 
 void __cdecl BSEndian(int*, EndianSizeTag<2>);
 
-struct FUN_00403720_shell
+struct AlchemyItemData
 {
     void __thiscall SwapEndian();
 };
 
 // @fnv 0x00403720
-void __thiscall FUN_00403720_shell::SwapEndian()
+void __thiscall AlchemyItemData::SwapEndian()
 {
     BSEndian((int*)this, EndianSizeTag<2>());
     BSEndian((int*)((char*)this + 8), EndianSizeTag<2>());
@@ -292,7 +292,7 @@ void FUN_00402f10_shell::AlchemyItem_SaveMagicItemComponents()
 }
 
 namespace fnv_00403790 {
-struct FUN_00403720_shell
+struct AlchemyItemData
 {
     void SwapEndian();
 };
@@ -303,7 +303,7 @@ struct FUN_00403790_shell
 // @fnv 0x00403790
 void FUN_00403790_shell::CallNestedAtOffsetB8()
 {
-    ((FUN_00403720_shell*)((char*)this + 0xb8))->SwapEndian();
+    ((AlchemyItemData*)((char*)this + 0xb8))->SwapEndian();
 }
 }  // namespace fnv_00403790
 

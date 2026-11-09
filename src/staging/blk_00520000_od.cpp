@@ -108,14 +108,14 @@ void TESQueuedCellManager::ExteriorCellLoader_CancelAllCellLoads()
 
 extern "C" int __cdecl sprintf_s(char*, int, const char*, ...);
 
-struct FUN_0052a980_Class
+struct ImageSpaceModifierInstanceTemp
 {
     int __thiscall ImageSpaceModifierInstanceTemp_PrintInfo(char* dst);
 };
 
 // @fnv 0x0052a980
 // src: XBOX_PDB 0x0052a980
-int __thiscall FUN_0052a980_Class::ImageSpaceModifierInstanceTemp_PrintInfo(char* pcBuffer)
+int __thiscall ImageSpaceModifierInstanceTemp::ImageSpaceModifierInstanceTemp_PrintInfo(char* pcBuffer)
 {
     return sprintf_s(pcBuffer, 0x800, "  Temp");
 }
@@ -285,12 +285,13 @@ void* FUN_00526ef0_Class::Destroy(unsigned int flags)
 struct FUN_005277a0_Class
 {
     void __thiscall FUN_00527840();
-    void* FUN_005277a0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00527840, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x005277a0
-void* FUN_005277a0_Class::FUN_005277a0(unsigned int flags)
+// src: EXE 0x005277a0
+void* FUN_005277a0_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00527840();
     if (flags & 1)
@@ -513,15 +514,16 @@ void* __thiscall FUN_005278d0_Class::FUN_005278d0(unsigned int flags)
     return this;
 }
 
-struct FUN_00527c00 : public IOTask
+struct ExteriorCellLoaderTask : public IOTask
 {
     int m_18;
     int m_1c;
-    FUN_00527c00(int a, int b);
+    ExteriorCellLoaderTask(int a, int b);
 };
 // Initializes the IOTask base with 0 and stores the two constructor arguments into m_18 and m_1c.
 // @fnv 0x00527c00
-FUN_00527c00::FUN_00527c00(int aiValue18, int aiValue1c) : IOTask(0)
+// src: EXE 0x00527c00
+ExteriorCellLoaderTask::ExteriorCellLoaderTask(int aiValue18, int aiValue1c) : IOTask(0)
 {
     m_18 = aiValue18;
     m_1c = aiValue1c;
@@ -554,15 +556,15 @@ void __cdecl ExteriorCellLoader_Release()
 
 struct FUN_00527f90_Holder
 {
-    void __thiscall FUN_00527e50();
+    void __thiscall ExteriorCellLoader();
     void* __thiscall FUN_00527f90(unsigned int);
 };
 void __cdecl _Deallocate(void*);
-// Calls FUN_00527e50, then deallocates this if bit 0 of flags is set, and returns this.
+// Calls ExteriorCellLoader, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x00527f90
 void* __thiscall FUN_00527f90_Holder::FUN_00527f90(unsigned int flags)
 {
-    FUN_00527e50();
+    ExteriorCellLoader();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -793,7 +795,7 @@ struct C5271F0Change
     ~C5271F0Change();
 };
 
-struct FUN_005271f0
+struct FindObjectIterator
 {
     int m_iOwner;
     int m_iArrayLength;
@@ -804,12 +806,13 @@ struct FUN_005271f0
     int unk18;
     C5271F0Change m_kChange;
 
-    FUN_005271f0(int owner, int type);
+    FindObjectIterator(int owner, int type);
     void Reset();
 };
 
 // @fnv 0x005271f0
-FUN_005271f0::FUN_005271f0(int owner, int type) : m_iOwner(owner), m_iArrayLength(0), m_iType(type)
+// src: COMMUNITY 0x005271f0
+FindObjectIterator::FindObjectIterator(int owner, int type) : m_iOwner(owner), m_iArrayLength(0), m_iType(type)
 {
     Reset();
 }
@@ -894,14 +897,15 @@ struct FUN_00528be0
     ~FUN_00528be0();
 };
 
-struct FUN_00527e50 : FUN_00528be0
+struct ExteriorCellLoader : FUN_00528be0
 {
     void SubmitQueuedItems();
-    ~FUN_00527e50();
+    ~ExteriorCellLoader();
 };
 
 // @fnv 0x00527e50
-FUN_00527e50::~FUN_00527e50()
+// src: COMMUNITY 0x00527e50
+ExteriorCellLoader::~ExteriorCellLoader()
 {
     SubmitQueuedItems();
 }
@@ -1272,7 +1276,7 @@ class FUN_00537bf0_sub
     unsigned int m_unk04;
 };
 
-class FUN_00537bf0 : public FUN_00537bf0_base
+class NiAdditionalGeometryData : public FUN_00537bf0_base
 {
   public:
     unsigned int m_unk04;
@@ -1282,12 +1286,13 @@ class FUN_00537bf0 : public FUN_00537bf0_base
     unsigned int m_unk14;
     unsigned int m_unk18;
     FUN_00537bf0_sub m_sub;
-    FUN_00537bf0(unsigned short id);
-    virtual ~FUN_00537bf0();
+    NiAdditionalGeometryData(unsigned short id);
+    virtual ~NiAdditionalGeometryData();
 };
 
 // @fnv 0x00537bf0
-FUN_00537bf0::FUN_00537bf0(unsigned short id) : m_sub(0, 1)
+// src: EXE 0x00537bf0
+NiAdditionalGeometryData::NiAdditionalGeometryData(unsigned short id) : m_sub(0, 1)
 {
     m_unk08 = 0;
     m_iOwnerObjectOffset = id;

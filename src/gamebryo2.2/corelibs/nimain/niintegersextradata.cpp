@@ -106,14 +106,14 @@ int* __thiscall FUN_00c54d60_shell::BSFurnitureMarker_GetRTTI()
     return &g_012031c4;
 }
 
-struct FUN_00c54030_shell
+struct BSFurnitureMarker
 {
     int __thiscall BSFurnitureMarker_CreateClone(int param_1);
 };
 
 // @fnv 0x00c54030
 // src: COMMUNITY 0x00c54030
-int __thiscall FUN_00c54030_shell::BSFurnitureMarker_CreateClone(int param_1)
+int __thiscall BSFurnitureMarker::BSFurnitureMarker_CreateClone(int param_1)
 {
     return (int)this;
 }
@@ -173,11 +173,12 @@ struct S_FUN_00c53fa0
 };
 struct S_FUN_00c547e0
 {
-    void* __thiscall FUN_00c547e0(unsigned int);
+    void* __thiscall ScalarDeletingDestructor(unsigned int);
 };
 // Calls FUN_00c53fa0 on this, then frees this with _delete when bit 0 of flags is set, and returns this.
 // @fnv 0x00c547e0
-void* __thiscall S_FUN_00c547e0::FUN_00c547e0(unsigned int flags)
+// src: EXE 0x00c547e0
+void* __thiscall S_FUN_00c547e0::ScalarDeletingDestructor(unsigned int flags)
 {
     reinterpret_cast<S_FUN_00c53fa0*>(this)->FUN_00c53fa0();
     if (flags & 1)
@@ -325,7 +326,7 @@ extern double DAT_01017b70;
 void __cdecl NiStreamLoadBinary_unsigned_short(NiStream&, void*);
 void __cdecl NiStreamLoadBinary_char_00a643b0(NiStream&, void*);
 
-struct FUN_00c545d0_cls
+struct FurnitureMark
 {
     unsigned int baseData[3];
     void __thiscall FUN_00a59be0(NiStream&);
@@ -337,7 +338,7 @@ struct FUN_00c545d0_cls
 
 // @fnv 0x00c545d0
 // src: COMMUNITY 0x00c545d0
-void FUN_00c545d0_cls::FurnitureMark_LoadBinary(NiStream& aStream)
+void FurnitureMark::FurnitureMark_LoadBinary(NiStream& aStream)
 {
     unsigned char flag;
     FUN_00a59be0(aStream);

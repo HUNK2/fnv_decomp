@@ -253,7 +253,7 @@ void NiPSysData::SaveBinary(NiStream& stream)
 
 extern int DAT_010be45c;
 
-struct FUN_00c25850_cls
+struct NiPSysUpdateTask
 {
     void* m_pVTable;
     int m_iValue04;
@@ -262,12 +262,12 @@ struct FUN_00c25850_cls
     volatile float m_fValue10;
 
     void BaseCtor();
-    FUN_00c25850_cls* NiPSysUpdateTask_NiPSysUpdateTask();
+    NiPSysUpdateTask* NiPSysUpdateTask_NiPSysUpdateTask();
 };
 
 // @fnv 0x00c25850
 // src: EXE 0x00c25850
-FUN_00c25850_cls* FUN_00c25850_cls::NiPSysUpdateTask_NiPSysUpdateTask()
+NiPSysUpdateTask* NiPSysUpdateTask::NiPSysUpdateTask_NiPSysUpdateTask()
 {
     BaseCtor();
     m_iValue08 = 0;

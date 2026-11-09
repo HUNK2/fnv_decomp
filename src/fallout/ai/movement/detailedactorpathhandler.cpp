@@ -2894,18 +2894,19 @@ const NiPoint3& Actor::GetCachedMoveDelta()
 
 void __fastcall SetVtable(void*);
 extern int DAT_01092484;
-struct FUN_009e2690
+struct DoorInPathFilter
 {
     void* f0;
     int f4;
     unsigned char f8;
     unsigned char f9;
     unsigned char f10;
-    FUN_009e2690(int);
+    DoorInPathFilter(int);
 };
 // Initializes the object: calls SetVtable, sets f0 to &DAT_01092484, stores a in f4, and sets f8, f9 to 0 and f10 to 1.
 // @fnv 0x009e2690
-FUN_009e2690::FUN_009e2690(int aiValue)
+// src: EXE 0x009e2690
+DoorInPathFilter::DoorInPathFilter(int aiValue)
 {
     SetVtable(this);
     f0 = &DAT_01092484;
@@ -4670,7 +4671,7 @@ struct FUN_006dcd70
     bool FUN_006dd640(NiPointer<NavMesh>& aspNavMesh, unsigned short& ausTriangle);
 };
 
-void __cdecl FUN_006d7490(FUN_006dcd70* apLocation, void* apPoint, int a3, FUN_009e2690* apFilter);
+void __cdecl FUN_006d7490(FUN_006dcd70* apLocation, void* apPoint, int a3, DoorInPathFilter* apFilter);
 unsigned int __fastcall GetObjectFlags(char* apPath);
 
 struct FUN_006e7a10_Class
@@ -4689,7 +4690,7 @@ bool FUN_009e22d0_shell::DetailedActorPathHandler_IsDoorInPath(unsigned int auiF
 {
     if (!(PathingSolution*)pCurrentPathingSolution)
     {
-        FUN_009e2690 kFilterTmp(auiFlags);
+        DoorInPathFilter kFilterTmp(auiFlags);
         FUN_006dcd70 _kLocation((TESObjectREFR*)pActor);
         _kLocation.FUN_006dd6f0(0);
         NiPointer<NavMesh> spNavMeshCur;
@@ -4725,7 +4726,7 @@ bool FUN_009e22d0_shell::DetailedActorPathHandler_IsDoorInPath(unsigned int auiF
                     ->ComputeLocationFromParameter(aFT, kStart4);
                 ((FUN_006e7a10_Class*)(PathingSolution*)pCurrentPathingSolution)
                     ->ComputeLocationFromParameter(fNextTCur, kEnd2);
-                FUN_009e2690 kSegFilterCur(auiFlags);
+                DoorInPathFilter kSegFilterCur(auiFlags);
                 FUN_006dcd70 kSegLocation3(kStart4, (TESObjectREFR*)pActor);
                 kSegLocation3.FUN_006dd6f0(0);
                 NiPointer<NavMesh> spSegNavMeshCur;

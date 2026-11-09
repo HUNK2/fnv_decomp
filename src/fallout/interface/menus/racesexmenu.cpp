@@ -362,13 +362,13 @@ struct TileValueAccessor
     int _00;
     unsigned int _04;
 };
-struct FUN_007b4210_shell
+struct RaceSexMenu_MenuOptionList
 {
     TileValueAccessor* FindByColor(unsigned int);
 };
 // Walks the tile list from this object, returning the first entry whose _04 equals aiColor, or null if none matches.
 // @fnv 0x007b4210
-TileValueAccessor* FUN_007b4210_shell::FindByColor(unsigned int aiColor)
+TileValueAccessor* RaceSexMenu_MenuOptionList::FindByColor(unsigned int aiColor)
 {
     void* piter;
     TileValueAccessor* popt;
@@ -782,7 +782,7 @@ struct GlobalObject_0045cf30
 extern GlobalObject_0045cf30 g_011db620;
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-struct FUN_007ac9f0
+struct FORenderedMenuRaceSex
 {
     int unk000;
     int unk004;
@@ -876,7 +876,7 @@ struct FUN_007ac9f0
     int unk164;
     int unk168;
     int unk16c;
-    FUN_007ac9f0();
+    FORenderedMenuRaceSex();
     void FUN_007ac9d0(int);
 };
 
@@ -934,7 +934,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
         if (*g_011db620.Bool())
         {
             Tile::UpdateAll(false);
-            FUN_007ac9f0* pRenderData = new FUN_007ac9f0;
+            FORenderedMenuRaceSex* pRenderData = new FORenderedMenuRaceSex;
             pRenderData->FUN_007ac9d0(param);
             ((MagicHitEffect*)pRenderData)->FUN_00984f60((unsigned int)tile);
             ((NiPick*)pRenderData)->SetTarget_00705fc0((void*)tile->GetModel_0056c7f0());

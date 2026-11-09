@@ -185,7 +185,7 @@ struct FUN_00527900_Cell
     TESObjectCELL* FUN_005875a0(int cellX, int y);
 };
 
-struct FUN_00527900_shell
+struct BGSWorldLocation
 {
     float m_f0;
     float m_f4;
@@ -198,7 +198,7 @@ struct FUN_00527900_shell
 // Returns pForm for type 0x39, resolves type 0x41 using m_f0 and m_f4, and otherwise returns null.
 // @fnv 0x00527900
 // src: XBOX_PDB 0x00527900
-TESObjectCELL* FUN_00527900_shell::BGSWorldLocation_GetCell()
+TESObjectCELL* BGSWorldLocation::BGSWorldLocation_GetCell()
 {
     if (pForm == 0)
         return 0;

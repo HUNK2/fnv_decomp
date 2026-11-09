@@ -188,11 +188,12 @@ class FUN_00e46750_Obj : public hkpFirstPersonGun
 {
   public:
     void FUN_00e466e0();
-    int FUN_00e46750(unsigned char flag);
+    int ScalarDeletingDestructor(unsigned char flag);
 };
 
 // @fnv 0x00e46750
-int FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
+// src: EXE 0x00e46750
+int FUN_00e46750_Obj::ScalarDeletingDestructor(unsigned char flag)
 {
     FUN_00e466e0();
 

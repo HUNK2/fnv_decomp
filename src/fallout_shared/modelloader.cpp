@@ -5747,13 +5747,14 @@ struct FUN_004411d0
     int m_kPointB;
     FUN_004411d0(int a, int b);
 };
-struct FUN_00441920 : FUN_004411d0
+struct QueuedCreature : FUN_004411d0
 {
-    FUN_00441920(int a, int b);
+    QueuedCreature(int a, int b);
 };
 // Constructs the object by forwarding a and b to the base constructor and setting m_vft to DAT_01016d34.
 // @fnv 0x00441920
-FUN_00441920::FUN_00441920(int a, int b) : FUN_004411d0(a, b)
+// src: EXE 0x00441920
+QueuedCreature::QueuedCreature(int a, int b) : FUN_004411d0(a, b)
 {
     m_vft = &DAT_01016d34;
 }
@@ -11064,7 +11065,7 @@ struct Local_00626c50
     void CFilter_SetGroup(unsigned int a);
 };
 
-struct FUN_00626c50_cls
+struct HitCaster
 {
     unsigned int unk000;
     unsigned int unk004;
@@ -11306,7 +11307,7 @@ struct FUN_00626c50_cls
 // Stores a1 in m_3a8, passes it to local.FUN_0059ce80, and calls FUN_0043b4f0/FUN_00626cb0 on objects obtained from m_3a0.FUN_00559450.
 // @fnv 0x00626c50
 // src: XBOX_PDB 0x00626c50
-void FUN_00626c50_cls::HitCaster_SetShapeGroup(unsigned int auiValue)
+void HitCaster::HitCaster_SetShapeGroup(unsigned int auiValue)
 {
     Local_00626c50 local;
     reinterpret_cast<Z_00626c50*>(m_3a0.Modelloader_GetReferencedThis((unsigned int)&local))->bhkWorldObject_GetCollisionFilter();

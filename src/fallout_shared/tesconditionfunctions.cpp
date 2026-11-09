@@ -892,7 +892,7 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
     char _pad_ad[3];
 };
 typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
-struct FUN_0059ceb0_shell : public BhkPickData
+struct bhkPickData : public BhkPickData
 {
     void bhkPickData_SetClosestCollector(hkpClosestRayHitCollector*);
 };
@@ -900,7 +900,7 @@ struct FUN_0059ceb0_shell : public BhkPickData
 // Stores apCollector as the closest-hit collector and clears the all-hit collector pointer.
 // @fnv 0x0059ceb0
 // src: XBOX_PDB 0x0059ceb0
-void FUN_0059ceb0_shell::bhkPickData_SetClosestCollector(hkpClosestRayHitCollector* apCollector)
+void bhkPickData::bhkPickData_SetClosestCollector(hkpClosestRayHitCollector* apCollector)
 {
     m_pClosestCollector = apCollector;
     m_pAllCollector = 0;
@@ -18063,7 +18063,7 @@ struct __declspec(align(16)) RayQuery
     void bhkPickData_SetFilter(unsigned int);
     void bhkPickData_SetTo(NiPoint3*);
 };
-struct __declspec(align(16)) FUN_0062a190
+struct __declspec(align(16)) SpecificItemCollector
 {
     __m128 from;
     unsigned int unk10;
@@ -18094,8 +18094,8 @@ struct __declspec(align(16)) FUN_0062a190
     unsigned int unk74;
     unsigned int unk78;
     unsigned int unk7c;
-    FUN_0062a190(int, VisibilityRef*);
-    ~FUN_0062a190();
+    SpecificItemCollector(int, VisibilityRef*);
+    ~SpecificItemCollector();
 };
 struct Filter
 {
@@ -18157,7 +18157,7 @@ bool __cdecl Cmd_GetLineOfSight_Eval(TESObjectREFR* reference, void* target, voi
                     VisibilityRef* targetActor = 0;
                     if (other && other->IsNPC())
                         targetActor = other;
-                    FUN_0062a190 rayCollector(0x25, targetActor);
+                    SpecificItemCollector rayCollector(0x25, targetActor);
                     rayQuery.bhkPickData_SetClosestCollector(&rayCollector);
                     Pos3 destination = *reinterpret_cast<Pos3*>(other->GetPos());
                     rayQuery.bhkPickData_SetFrom(reinterpret_cast<NiPoint3*>(&origin));

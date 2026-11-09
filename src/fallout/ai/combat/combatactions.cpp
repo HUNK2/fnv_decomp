@@ -1172,7 +1172,7 @@ void CombatActionMove_StartMovementProcedure(CombatController* apCombatControlle
 //
 // The original reads a 32-bit field at this+0x1C, masks it with the
 // stack argument and returns the (non-zero) result of that test.
-struct FUN_0097be60_cls
+struct CombatLocation
 {
     int unk00;
     int unk04;
@@ -1187,7 +1187,7 @@ struct FUN_0097be60_cls
 
 // @fnv 0x0097be60
 // src: COMMUNITY 0x0097be60
-unsigned char FUN_0097be60_cls::CombatLocation_GetFlag(unsigned int aValue)
+unsigned char CombatLocation::CombatLocation_GetFlag(unsigned int aValue)
 {
     return (m_1c & aValue) != 0;
 }

@@ -26,7 +26,7 @@ void __cdecl finishLoadedObject_hkpKeyframedRigidMotion(void* a, int b);
 extern int DAT_010c6fd0;
 void __cdecl finishLoadedObject_hkpSingleShapeContainer(int* p);
 extern int DAT_010d6014;
-struct FUN_00db7ab0_class
+struct hkStaticClassNameRegistry
 {
     void* __thiscall SetVtableAndProcessState_00db7ab0(void* a, void* b, void* c);
 };

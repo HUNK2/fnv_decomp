@@ -260,19 +260,20 @@ class Member_5effc0
     ~Member_5effc0();
 };
 
-class FUN_005effc0 : public TESForm
+class BGSVoiceType : public TESForm
 {
   public:
     virtual void v00();
     unsigned char m_18;
     Member_5effc0 m_1c;
 
-    FUN_005effc0();
+    BGSVoiceType();
 };
 
 // Initializes the form type and clears its flag.
 // @fnv 0x005effc0
-FUN_005effc0::FUN_005effc0()
+// src: EXE 0x005effc0
+BGSVoiceType::BGSVoiceType()
 {
     SetFormType((ENUM_FORM_ID)0x5d);
     m_18 = 0;

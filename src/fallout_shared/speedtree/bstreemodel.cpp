@@ -1134,13 +1134,13 @@ void Warning_005b5e40(const char*, ...);
 float BSTreeManager_GetSizeConversion();
 float fTreeFarDistanceBase_Get();
 float fTreeNearDistance_Get();
-struct FUN_00b02e20
+struct CSpeedTreeRT_STextures
 {
     unsigned int unk00;
     unsigned int leafMaps;
     unsigned int unk08, unk0c, unk10, unk14, unk18;
-    FUN_00b02e20();
-    ~FUN_00b02e20();
+    CSpeedTreeRT_STextures();
+    ~CSpeedTreeRT_STextures();
 };
 struct CSpeedTreeRT_Load
 {
@@ -1188,7 +1188,7 @@ struct CSpeedTreeRT_Load
     static void* operator new(unsigned int);
     ~CSpeedTreeRT_Load();
     bool CSpeedTreeRT_LoadTree(const char*);
-    void GetTextures_00b0d040(FUN_00b02e20*);
+    void GetTextures_00b0d040(CSpeedTreeRT_STextures*);
     void CSpeedTreeRT_SetLeafRockingState(int);
     void SetField14(bool);
     void CSpeedTreeRT_GetTreeSize(float*, float*);
@@ -1269,7 +1269,7 @@ bool TreeModelLoader::BSTreeModel_InitFromBase(TreeModelInput* model, int seed)
         CSpeedTreeRT_Load* pTree = new CSpeedTreeRT_Load;
         if (pTree->CSpeedTreeRT_LoadTree(szPath))
         {
-            FUN_00b02e20 treeInfo;
+            CSpeedTreeRT_STextures treeInfo;
             pTree->GetTextures_00b0d040(&treeInfo);
             if (treeInfo.leafMaps <= 3)
                 pTree->CSpeedTreeRT_SetLeafRockingState(2);
@@ -1938,7 +1938,7 @@ Tree* Model::CreateTree(float scale)
 }
 }
 
-struct FUN_00b02e20
+struct CSpeedTreeRT_STextures
 {
     const char* branchMaps[2];
     const char** leafMaps;
@@ -1946,8 +1946,8 @@ struct FUN_00b02e20
     const char** billboardMaps;
     const char* compositeMap;
     const char* shadowMap;
-    FUN_00b02e20();
-    ~FUN_00b02e20();
+    CSpeedTreeRT_STextures();
+    ~CSpeedTreeRT_STextures();
 };
 struct TexturePtr
 {
@@ -2103,7 +2103,7 @@ struct TreeRuntime
     void SetField98(float);
     void FUN_00b07490(float);
     void SetFieldD0(float);
-    void GetTextures_00b0d040(FUN_00b02e20*);
+    void GetTextures_00b0d040(CSpeedTreeRT_STextures*);
 };
 struct TreeTarget
 {
@@ -2164,7 +2164,7 @@ void TreeTarget::ApplyInput(TreeInput* input)
                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\SpeedTree\\BSTreeModel.cpp", 145);
     if (!branches.Modelloader_GetReferencedThis())
     {
-        FUN_00b02e20 mapBank5;
+        CSpeedTreeRT_STextures mapBank5;
         char branchPath[260];
         char normalPathA[260];
         unsigned int length2 = 0;
@@ -2329,7 +2329,7 @@ struct FUN_00621b20_Class
     void NiTimeController_SetPhase(float fValue);
 };
 
-struct FUN_00b029f0
+struct CSpeedTreeRT_SGeometry
 {
     int m_aiPad00[0x84 / 4];
     unsigned short m_usNumLeaves;
@@ -2345,24 +2345,24 @@ struct FUN_00b029f0
     float* m_pfWidths;
     unsigned char* m_pucSizes;
     int m_aiPadB4[(0x130 - 0xb4) / 4];
-    FUN_00b029f0();
-    ~FUN_00b029f0();
+    CSpeedTreeRT_SGeometry();
+    ~CSpeedTreeRT_SGeometry();
 };
-struct FUN_00b02e20
+struct CSpeedTreeRT_STextures
 {
     int m_iPad00;
     unsigned short m_usValue;
     unsigned short m_usPad06;
     const char** m_ppTextures;
     int m_aiPad0C[4];
-    FUN_00b02e20();
-    ~FUN_00b02e20();
+    CSpeedTreeRT_STextures();
+    ~CSpeedTreeRT_STextures();
 };
 struct SpeedTreeRT
 {
     float* CSpeedTreeRT_GetLeafLodSizeAdjustments();
-    void GetTextures_00b0d040(FUN_00b02e20* pTextures);
-    void CSpeedTreeRT_GetGeometry(FUN_00b029f0* m_pShaderGeometry, unsigned int uiBits, short sBranch, short sFrond, short sLeaf);
+    void GetTextures_00b0d040(CSpeedTreeRT_STextures* pTextures);
+    void CSpeedTreeRT_GetGeometry(CSpeedTreeRT_SGeometry* m_pShaderGeometry, unsigned int uiBits, short sBranch, short sFrond, short sLeaf);
     void FreeLeafLODDataArrays();
 };
 struct FUN_00bb3950 : public NiMemObject
@@ -2532,14 +2532,14 @@ class TreeLeafModel
 void TreeLeafModel::BSTreeModel_CreateLeafGeometry(TreeLeafRef* pRef)
 {
     unsigned short usJ;
-    FUN_00b029f0 kLeafGeom;
+    CSpeedTreeRT_SGeometry kLeafGeom;
     unsigned short* pusTris;
     unsigned short usVertCount;
     unsigned short usLeafCount;
     unsigned short usLevels;
     unsigned short* pusIndex;
     unsigned short usTex;
-    FUN_00b02e20 kTexData;
+    CSpeedTreeRT_STextures kTexData;
     NiPoint3* pkSrcPos = 0;
     NiPoint3* pkCardNormals = 0;
     float* pfCoords = 0;
@@ -2692,13 +2692,13 @@ struct TreeEval
 {
     TreeEval()
     {
-        FUN_00b029f0();
+        CSpeedTreeRT_SGeometry();
     }
     ~TreeEval()
     {
         FUN_00b02ac0();
     }
-    void FUN_00b029f0();
+    void CSpeedTreeRT_SGeometry();
     void FUN_00b02ac0();
     unsigned int unk00;
     unsigned int unk04;

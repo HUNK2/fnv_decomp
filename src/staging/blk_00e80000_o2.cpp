@@ -1470,7 +1470,7 @@ struct FUN_00e89970_Object {
     virtual void __stdcall FUN_00e89970_Object_2();
 };
 
-struct FUN_00e96c90_Class {
+struct NiD3DHLSLPixelShader {
     void* m_ppVirtualMethodTable;
     unsigned char m_auiShapeKeys[0x2c];
     void* m_30;
@@ -1483,7 +1483,7 @@ struct FUN_00e96c90_Class {
 
 // @fnv 0x00e96c90
 // src: GUESS 0x00e96c90 (confidence: low)
-void __thiscall FUN_00e96c90_Class::UpdateState_00e96c90()
+void __thiscall NiD3DHLSLPixelShader::UpdateState_00e96c90()
 {
     m_ppVirtualMethodTable = &DAT_010f10f4;
     NiFree(m_30);
@@ -1501,13 +1501,14 @@ extern "C" void __cdecl operator delete(void* p, unsigned int size);
 void __cdecl FUN_00e989c0();
 extern int DAT_010f1550;
 
-struct FUN_00e97870_Class {
+struct NiDX9ShaderConstantManager {
     void* m_ppVirtualMethodTable;
-    FUN_00e97870_Class(unsigned char flag);
+    NiDX9ShaderConstantManager(unsigned char flag);
 };
 
 // @fnv 0x00e97870
-FUN_00e97870_Class::FUN_00e97870_Class(unsigned char flag) {
+// src: EXE 0x00e97870
+NiDX9ShaderConstantManager::NiDX9ShaderConstantManager(unsigned char flag) {
     m_ppVirtualMethodTable = &DAT_010f1550;
     FUN_00e989c0();
     if (flag & 1)
@@ -6669,7 +6670,7 @@ struct ReleaseInterface {
     virtual void __stdcall GetFlags();
     virtual void __stdcall Release();
 };
-struct FUN_00e89840_Class {
+struct NiD3DShaderProgram {
     void* m_ppVirtualMethodTable;
     int m_04;
     int m_08;
@@ -6685,7 +6686,7 @@ struct FUN_00e89840_Class {
 };
 // @fnv 0x00e89840
 // src: GUESS 0x00e89840 (confidence: low)
-void FUN_00e89840_Class::UpdateFields_00e89840()
+void NiD3DShaderProgram::UpdateFields_00e89840()
 {
     m_ppVirtualMethodTable = &DAT_010ef73c;
     _NiFree_00aa10f0(m_0c);
@@ -8079,7 +8080,7 @@ struct FUN_00e8a9e0_owner {
     int unk00;
 };
 
-struct FUN_00e8a9e0_cls {
+struct NiDX9TextureData {
     int m_vptr;
     int unk04;
     int unk08;
@@ -8108,12 +8109,13 @@ struct FUN_00e8a9e0_cls {
     FUN_00e8a9e0_child* m_pChildObject;
 
     void BaseCleanup();
-    FUN_00e8a9e0_cls* FUN_00e8a9e0(unsigned char acFlags);
+    NiDX9TextureData* ScalarDeletingDestructor(unsigned char acFlags);
 };
 
 // Releases the child object through the manager, resets the vtable, runs BaseCleanup and frees this (0x6c bytes) when acFlags bit 0 is set.
 // @fnv 0x00e8a9e0
-FUN_00e8a9e0_cls* FUN_00e8a9e0_cls::FUN_00e8a9e0(unsigned char acFlags)
+// src: EXE 0x00e8a9e0
+NiDX9TextureData* NiDX9TextureData::ScalarDeletingDestructor(unsigned char acFlags)
 {
     FUN_00e8a9e0_child* pChild = m_pChildObject;
     m_vptr = (int)&DAT_010efb7c;
@@ -14411,7 +14413,7 @@ struct FUN_00e98910_Target {
 extern int DAT_0101dce4;
 extern int DAT_010f16cc;
 
-struct FUN_00e98910_Class {
+struct NiD3DShaderConstantManager {
     int* unk00;
     int unk04;
     int unk08;
@@ -14447,13 +14449,13 @@ struct FUN_00e98910_Class {
     FUN_00e98910_Target* unk80;
     void* unk84;
 
-    FUN_00e98910_Class* __thiscall NiD3DShaderConstantManager_NiD3DShaderConstantManager(int* context);
+    NiD3DShaderConstantManager* __thiscall NiD3DShaderConstantManager_NiD3DShaderConstantManager(int* context);
 };
 
 // @fnv 0x00e98910
-FUN_00e98910_Class* __thiscall
+NiD3DShaderConstantManager* __thiscall
 // src: EXE 0x00e98910
-FUN_00e98910_Class::NiD3DShaderConstantManager_NiD3DShaderConstantManager(int* context) {
+NiD3DShaderConstantManager::NiD3DShaderConstantManager_NiD3DShaderConstantManager(int* context) {
     this->unk00 = &DAT_0101dce4;
     this->unk04 = 0;
 

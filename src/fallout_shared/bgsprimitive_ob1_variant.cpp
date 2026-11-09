@@ -1161,7 +1161,7 @@ bool OccShape::BSMultiBoundAABB_WithinFrustum(NiFrustumPlanes* pkPlanes)
 
 class CloningProcess;
 void* __cdecl Object_DispatchCommandFour(unsigned int size);
-struct FUN_00c4f8e0
+struct BSPortal
 {
     int unk000;
     int unk004;
@@ -1235,18 +1235,18 @@ struct FUN_00c4f8e0
         (void)unused;
         return Object_DispatchCommandFour(size);
     }
-    FUN_00c4f8e0();
+    BSPortal();
 };
 struct C4F390_Owner
 {
-    void CopyFields(FUN_00c4f8e0* clone, CloningProcess& cloning);
-    FUN_00c4f8e0* BSPortal_CreateClone(CloningProcess& cloning);
+    void CopyFields(BSPortal* clone, CloningProcess& cloning);
+    BSPortal* BSPortal_CreateClone(CloningProcess& cloning);
 };
 // @fnv 0x00c4f390
 // src: XBOX_PDB 0x00c4f390
-FUN_00c4f8e0* C4F390_Owner::BSPortal_CreateClone(CloningProcess& cloning)
+BSPortal* C4F390_Owner::BSPortal_CreateClone(CloningProcess& cloning)
 {
-    FUN_00c4f8e0* clone = new FUN_00c4f8e0;
+    BSPortal* clone = new BSPortal;
     CopyFields(clone, cloning);
     return clone;
 }
@@ -1784,16 +1784,17 @@ struct NodePointer
     }
     NodePointer& FUN_0066b0d0(RefObject*);
 };
-class FUN_00c4f8e0 : public FUN_00c335d0
+class BSPortal : public FUN_00c335d0
 {
   public:
     NodePointer node;
-    FUN_00c4f8e0();
+    BSPortal();
     virtual void vf0();
 };
 extern void* DAT_0101e82c;
 // @fnv 0x00c4f8e0
-FUN_00c4f8e0::FUN_00c4f8e0()
+// src: EXE 0x00c4f8e0
+BSPortal::BSPortal()
 {
     Dead2();
     node.FUN_0066b0d0(0);

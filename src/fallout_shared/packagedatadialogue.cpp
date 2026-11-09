@@ -58,7 +58,7 @@ struct LocationDescriptor
     void Save(int);
 };
 
-struct FUN_0067b100_Class
+struct PACK_DIALOGUE_DATA
 {
     float m_fFirstFloat;
     unsigned int m_uiTopicFormID;
@@ -71,7 +71,7 @@ struct FUN_0067b100_Class
     void PACK_DIALOGUE_DATA_Endian();
 };
 
-typedef FUN_0067b100_Class FunctionObject;
+typedef PACK_DIALOGUE_DATA FunctionObject;
 
 void* memset(void*, int, unsigned int);
 bool _FUN_00401500();

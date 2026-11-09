@@ -1037,13 +1037,13 @@ struct FUN_00bb7170_Class
     FUN_00bb7170_Class();
     static void* operator new(unsigned int);
 };
-struct FUN_00bb7300_Class
+struct BSDistantTreeShaderProperty
 {
     FUN_00bb7170_Class* __thiscall CreateInstance();
 };
 // Allocates and constructs a new FUN_00bb7170_Class object, returning the pointer.
 // @fnv 0x00bb7300
-FUN_00bb7170_Class* FUN_00bb7300_Class::CreateInstance()
+FUN_00bb7170_Class* BSDistantTreeShaderProperty::CreateInstance()
 {
     return new FUN_00bb7170_Class;
 }

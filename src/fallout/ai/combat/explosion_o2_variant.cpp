@@ -67,11 +67,12 @@ void __cdecl FUN_00cbc740();
 struct FUN_00cbd4e0_shell
 {
     char m_auiShapeKeys[0x14];
-    void* FUN_00cbd4e0(unsigned char flag);
+    void* ScalarDeletingDestructor(unsigned char flag);
 };
 
 // @fnv 0x00cbd4e0
-void* FUN_00cbd4e0_shell::FUN_00cbd4e0(unsigned char flag)
+// src: EXE 0x00cbd4e0
+void* FUN_00cbd4e0_shell::ScalarDeletingDestructor(unsigned char flag)
 {
     FUN_00cbc740();
     if (flag & 1)

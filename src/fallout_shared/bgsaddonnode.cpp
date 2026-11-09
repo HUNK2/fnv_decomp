@@ -171,10 +171,11 @@ void _Deallocate(void*);
 struct Proxy_004f8b90
 {
     void FUN_004f8bc0();
-    void* FUN_004f8b90(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 // @fnv 0x004f8b90
-void* Proxy_004f8b90::FUN_004f8b90(unsigned int flags)
+// src: EXE 0x004f8b90
+void* Proxy_004f8b90::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_004f8bc0();
     if (flags & 1)

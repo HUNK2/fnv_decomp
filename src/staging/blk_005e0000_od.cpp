@@ -709,11 +709,12 @@ void* __thiscall FUN_005dd810_Class::NiTObjectArray_NiPointer_NiTexture_Destroy(
 void __cdecl Deallocate(void* p);
 struct FUN_005e0680_Class : FUN_005e0340Class
 {
-    void* __thiscall FUN_005e0680(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls the base destructor, frees this when flags has bit 0 set, and returns this.
 // @fnv 0x005e0680
-void* __thiscall FUN_005e0680_Class::FUN_005e0680(unsigned int flags)
+// src: EXE 0x005e0680
+void* __thiscall FUN_005e0680_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     ReleaseStorage_005e0340();
     if (flags & 1)
@@ -1805,14 +1806,14 @@ void hkDeallocateStack_char(void* p)
         ->hkStackMemory_deallocateStack((unsigned int)p);
 }
 
-struct FUN_005e3fe0_class
+struct PART_DATA
 {
     void __thiscall SwapEndianFields();
 };
 
 // Byte-swaps the fields at offsets 0x0, 0x14, 0x18, 0x28 through 0x40 and 0x50 of this object via BSEndian.
 // @fnv 0x005e3fe0
-void FUN_005e3fe0_class::SwapEndianFields()
+void PART_DATA::SwapEndianFields()
 {
     BSEndian(reinterpret_cast<unsigned char*>(this), EndianSizeTag<0>());
     BSEndian(reinterpret_cast<unsigned char*>(this) + 0x14, EndianSizeTag<0>());
@@ -2388,7 +2389,7 @@ struct RootCls_b9637
     ~RootCls_b9637();
 };
 
-class FUN_005f21c0_cls : public RootCls_b9637
+class TESAnimGroup : public RootCls_b9637
 {
   public:
     virtual void unk00();
@@ -2403,12 +2404,13 @@ class FUN_005f21c0_cls : public RootCls_b9637
     int unk34;
     int unk38;
 
-    FUN_005f21c0_cls(unsigned short a);
+    TESAnimGroup(unsigned short a);
     void TESAnimGroup_SetType(unsigned short a);
 };
 
 // @fnv 0x005f21c0
-FUN_005f21c0_cls::FUN_005f21c0_cls(unsigned short a) : RootCls_b9637(), m_1c()
+// src: EXE 0x005f21c0
+TESAnimGroup::TESAnimGroup(unsigned short a) : RootCls_b9637(), m_1c()
 {
     unk18 = 0;
     unk28 = 0;
@@ -3278,18 +3280,19 @@ class ThisMember_b3969
     ~ThisMember_b3969();
 };
 
-class FUN_005ffaf0 : public ThisBase_b3969
+class TESIdleManager : public ThisBase_b3969
 {
   public:
     unsigned char m_14;
     ThisMember_b3969 m_18;
 
-    FUN_005ffaf0();
+    TESIdleManager();
 };
 
 // Initialises the base with value 0x25 and flag true, constructs m_18 with 0 and true, and sets m_14 to 0.
 // @fnv 0x005ffaf0
-FUN_005ffaf0::FUN_005ffaf0() : ThisBase_b3969(0x25, true), m_18(0, true)
+// src: COMMUNITY 0x005ffaf0
+TESIdleManager::TESIdleManager() : ThisBase_b3969(0x25, true), m_18(0, true)
 {
     m_14 = 0;
 }

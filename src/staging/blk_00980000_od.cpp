@@ -469,7 +469,7 @@ Inner097* __thiscall FUN_0098fda0_Class::UnreachableLocation_UnreachableLocation
 
 extern int DAT_0108d93c;
 void __cdecl FUN_0098ffb0(void* self, int arg);
-struct FUN_0098ff80_class
+struct CombatGroupStrategyFlank
 {
     int* vfn;
     void __thiscall FUN_0098ffb0(int arg);
@@ -477,7 +477,7 @@ struct FUN_0098ff80_class
 };
 // @fnv 0x0098ff80
 // src: EXE 0x0098ff80
-int* __thiscall FUN_0098ff80_class::CombatGroupStrategyFlank_CombatGroupStrategyFlank(int arg)
+int* __thiscall CombatGroupStrategyFlank::CombatGroupStrategyFlank_CombatGroupStrategyFlank(int arg)
 {
     FUN_0098ffb0(arg);
     *reinterpret_cast<int**>(this) = &DAT_0108d93c;
@@ -502,16 +502,16 @@ FUN_0098ffb0::FUN_0098ffb0(int flag)
 }
 
 extern int DAT_0108d95c;
-struct FUN_0098ffe0_class
+struct CombatGroupStrategyFallBack
 {
     int* m_p;
     void FUN_0098ffb0(int arg);
-    FUN_0098ffe0_class* CombatGroupStrategyFallBack_CombatGroupStrategyFallBack(int arg);
+    CombatGroupStrategyFallBack* CombatGroupStrategyFallBack_CombatGroupStrategyFallBack(int arg);
 };
 // Calls FUN_0098ffb0 with arg, sets m_p to the address of DAT_0108d95c, and returns this.
 // @fnv 0x0098ffe0
 // src: EXE 0x0098ffe0
-FUN_0098ffe0_class* FUN_0098ffe0_class::CombatGroupStrategyFallBack_CombatGroupStrategyFallBack(int arg)
+CombatGroupStrategyFallBack* CombatGroupStrategyFallBack::CombatGroupStrategyFallBack_CombatGroupStrategyFallBack(int arg)
 {
     FUN_0098ffb0(arg);
     m_p = &DAT_0108d95c;
@@ -520,16 +520,17 @@ FUN_0098ffe0_class* FUN_0098ffe0_class::CombatGroupStrategyFallBack_CombatGroupS
 
 extern int DAT_0108d96c;
 
-struct FUN_00990010_class
+struct CombatGroupStrategyAmbush
 {
     int* vfn;
     void __thiscall FUN_0098ffb0(int arg);
-    FUN_00990010_class(int arg);
+    CombatGroupStrategyAmbush(int arg);
 };
 
 // Calls FUN_0098ffb0 with arg, then sets the vfn field to point at DAT_0108d96c.
 // @fnv 0x00990010
-FUN_00990010_class::FUN_00990010_class(int arg)
+// src: EXE 0x00990010
+CombatGroupStrategyAmbush::CombatGroupStrategyAmbush(int arg)
 {
     FUN_0098ffb0(arg);
     vfn = &DAT_0108d96c;
@@ -980,12 +981,12 @@ unsigned char FUN_00982750_Class::UpdateState_00982750(float afValue)
     return r;
 }
 
-struct FUN_00982c20
+struct CoverReservationInfo
 {
     void Save(BGSSaveFormBuffer* buffer);
 };
 // @fnv 0x00982c20
-void __thiscall FUN_00982c20::Save(BGSSaveFormBuffer* buffer)
+void __thiscall CoverReservationInfo::Save(BGSSaveFormBuffer* buffer)
 {
     buffer->SaveData(this, 1, 0);
     buffer->SaveData(this + 1, 1, 0);
@@ -1345,14 +1346,14 @@ CombatGoal* CombatGoal_GetGoal(int index)
     return DAT_011f17a0[index];
 }
 
-struct FUN_00994e60_class
+struct CombatPlanNode
 {
     int m_dc;
     int m_e0;
     CombatWorldStateArray* __thiscall ResetState(CombatWorldStateArray* a);
 };
 // @fnv 0x00994e60
-CombatWorldStateArray* FUN_00994e60_class::ResetState(CombatWorldStateArray* a)
+CombatWorldStateArray* CombatPlanNode::ResetState(CombatWorldStateArray* a)
 {
     ((CombatWorldStateArray*)this)->CombatWorldStateArray_0(a);
     ((int*)((char*)this + 0xdc))[0] = 0;
@@ -1375,20 +1376,20 @@ void __thiscall FUN_00994ea0_class::AppendPair(int aiFirst, int aiSecond)
 
 void* __cdecl memset(void* dst, int value, unsigned int count);
 
-struct FUN_009958b0_Class
+struct CombatPlannerData
 {
     int m_00;
     char m_04[4];
     char m_08[0x58];
     char m_60[0x58];
     char m_b8[0x58];
-    FUN_009958b0_Class* CombatPlannerData_CombatPlannerData();
+    CombatPlannerData* CombatPlannerData_CombatPlannerData();
 };
 
 // Zeroes m_00 and clears the three 0x58-byte blocks at m_08, m_60 and m_b8, then returns this.
 // @fnv 0x009958b0
 // src: COMMUNITY 0x009958b0
-FUN_009958b0_Class* FUN_009958b0_Class::CombatPlannerData_CombatPlannerData()
+CombatPlannerData* CombatPlannerData::CombatPlannerData_CombatPlannerData()
 {
     m_00 = 0;
     memset(m_08, 0, 0x58);
@@ -1979,11 +1980,12 @@ FUN_00982430* FUN_00982430::DeserializeFromFile()
 void __cdecl Deallocate(void*);
 struct FUN_009825b0_shell : FUN_00982460
 {
-    void* FUN_009825b0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls Init, then if the low bit of flags is set calls Deallocate on this, and returns this.
 // @fnv 0x009825b0
-void* FUN_009825b0_shell::FUN_009825b0(unsigned int flags)
+// src: EXE 0x009825b0
+void* FUN_009825b0_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     Init();
     if (flags & 1)
@@ -2410,13 +2412,14 @@ int __thiscall FUN_0098fdd0_class::CombatGroupStrategy_GetName()
 }
 
 extern int DAT_0108d97c;
-struct FUN_00990040 : public FUN_0098ffb0
+struct CombatGroupStrategyAdvance : public FUN_0098ffb0
 {
-    FUN_00990040(int arg);
+    CombatGroupStrategyAdvance(int arg);
 };
 // Constructs the object by forwarding arg to the base constructor and setting mVtbl to DAT_0108d97c.
 // @fnv 0x00990040
-FUN_00990040::FUN_00990040(int arg) : FUN_0098ffb0(arg)
+// src: EXE 0x00990040
+CombatGroupStrategyAdvance::CombatGroupStrategyAdvance(int arg) : FUN_0098ffb0(arg)
 {
     mVtbl = &DAT_0108d97c;
 }
@@ -3508,11 +3511,11 @@ class PMX
     int unk00;
 };
 
-class FUN_00983080 : public B83080Base
+class CombatCoverMap : public B83080Base
 {
   public:
-    FUN_00983080();
-    virtual ~FUN_00983080();
+    CombatCoverMap();
+    virtual ~CombatCoverMap();
 
     S4ee810 m_kHandle;
     PMX m_kData;
@@ -3520,7 +3523,8 @@ class FUN_00983080 : public B83080Base
 
 // Constructs the object: initializes the B83080Base base with type 0x25 and the m_kHandle member with 0.
 // @fnv 0x00983080
-FUN_00983080::FUN_00983080() : B83080Base(0x25), m_kHandle(0)
+// src: EXE 0x00983080
+CombatCoverMap::CombatCoverMap() : B83080Base(0x25), m_kHandle(0)
 {}
 
 struct GroupStamp

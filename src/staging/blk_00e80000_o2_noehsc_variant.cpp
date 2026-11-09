@@ -410,7 +410,7 @@ struct FUN_00e89970_Object
     virtual void FUN_00e89970_Object_1();
     virtual void __stdcall FUN_00e89970_Object_2();
 };
-struct FUN_00e96c90_Class
+struct NiD3DHLSLPixelShader
 {
     void* m_ppVirtualMethodTable;
     unsigned char m_auiShapeKeys[0x2c];
@@ -424,10 +424,10 @@ struct FUN_00e96c90_Class
 extern "C" void __cdecl operator delete(void* p, unsigned int size);
 void __cdecl FUN_00e989c0();
 extern int DAT_010f1550;
-struct FUN_00e97870_Class
+struct NiDX9ShaderConstantManager
 {
     void* m_ppVirtualMethodTable;
-    FUN_00e97870_Class(unsigned char flag);
+    NiDX9ShaderConstantManager(unsigned char flag);
 };
 extern unsigned int DAT_011c1118;
 extern int DAT_0126fa58;
@@ -4754,7 +4754,7 @@ struct ReleaseInterface
     virtual void __stdcall GetFlags();
     virtual void __stdcall Release();
 };
-struct FUN_00e89840_Class
+struct NiD3DShaderProgram
 {
     void* m_ppVirtualMethodTable;
     int m_04;
@@ -7133,7 +7133,7 @@ struct FUN_00e8a9e0_owner
 {
     int unk00;
 };
-struct FUN_00e8a9e0_cls
+struct NiDX9TextureData
 {
     int m_vptr;
     int unk04;
@@ -7163,7 +7163,7 @@ struct FUN_00e8a9e0_cls
     FUN_00e8a9e0_child* m_pChildObject;
 
     void BaseCleanup();
-    FUN_00e8a9e0_cls* FUN_00e8a9e0(unsigned char acFlags);
+    NiDX9TextureData* ScalarDeletingDestructor(unsigned char acFlags);
 };
 struct CubeMapSource
 {

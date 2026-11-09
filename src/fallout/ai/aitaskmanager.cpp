@@ -77,17 +77,17 @@ void QuestUpdateManager_AddQuestNamesTail(char* name)
     ((BSSimpleList<WeatherEntry*>*)&g_011d970c)->Sort(QuestUpdateManager_SortQuestNamesByPriorityFunction);
 }
 
-struct FUN_008c8190_shell
+struct MobileObjectMessage
 {
     int a;
     int b;
     int c;
-    FUN_008c8190_shell* InitializeFields_008c8190();
+    MobileObjectMessage* InitializeFields_008c8190();
 };
 // Sets the object's a field to 2 and clears b and c, then returns this.
 // @fnv 0x008c8190
 // src: GUESS 0x008c8190 (confidence: low)
-FUN_008c8190_shell* FUN_008c8190_shell::InitializeFields_008c8190()
+MobileObjectMessage* MobileObjectMessage::InitializeFields_008c8190()
 {
     a = 2;
     b = 0;
@@ -98,11 +98,12 @@ FUN_008c8190_shell* FUN_008c8190_shell::InitializeFields_008c8190()
 struct FUN_008c8370_shell
 {
     void FUN_008c83a0();
-    FUN_008c8370_shell* FUN_008c8370(unsigned int flags);
+    FUN_008c8370_shell* ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_008c83a0, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x008c8370
-FUN_008c8370_shell* FUN_008c8370_shell::FUN_008c8370(unsigned int flags)
+// src: EXE 0x008c8370
+FUN_008c8370_shell* FUN_008c8370_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_008c83a0();
     if (flags & 1)
@@ -966,7 +967,7 @@ struct FUN_008c9bd0 : BSThread
     char e[0x48];
     FUN_008c9bd0(unsigned int aiThread);
 };
-struct FUN_008c9ae0_mgr
+struct AITaskThreadManager
 {
     FUN_008c9bd0* threads[3];
     int count;
@@ -974,7 +975,7 @@ struct FUN_008c9ae0_mgr
 };
 // @fnv 0x008c9ae0
 // src: COMMUNITY 0x008c9ae0
-void FUN_008c9ae0_mgr::AITaskThreadManager_AddThread(unsigned int aiThread)
+void AITaskThreadManager::AITaskThreadManager_AddThread(unsigned int aiThread)
 {
     if (count < 3)
     {
@@ -1529,7 +1530,7 @@ struct M6
 
 // ActorTaskManager.h lacks the constructor at 0x008c9330.
 // Retain this lifetime view until that constructor can be declared there.
-struct FUN_008c9330
+struct AITaskManager
 {
     M0 m0;
     M1 m1;
@@ -1540,12 +1541,13 @@ struct FUN_008c9330
     M6 m6;
     char m_flag;
 
-    FUN_008c9330();
+    AITaskManager();
 };
 
 // Constructs the object, initializing m0 through m5 with a pointer to m6, calling m6.FUN_008ca680(), and setting m_flag to 0.
 // @fnv 0x008c9330
-FUN_008c9330::FUN_008c9330() : m0(&m6), m1(&m6), m2(&m6), m3(&m6), m4(&m6), m5(&m6)
+// src: COMMUNITY 0x008c9330
+AITaskManager::AITaskManager() : m0(&m6), m1(&m6), m2(&m6), m3(&m6), m4(&m6), m5(&m6)
 {
     m6.FUN_008ca680();
     m_flag = 0;

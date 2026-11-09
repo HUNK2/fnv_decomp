@@ -72,7 +72,7 @@ struct FUN_008c71b0
     void CFilter_SetLayer(int);
     unsigned int CFilter_GetGroup();
 };
-struct FUN_004a37b0
+struct DECAL_CREATION_DATA
 {
     NiPoint3 position, normal, tangent;
     int unk24;
@@ -89,7 +89,7 @@ struct FUN_004a37b0
     int unk6c;
     unsigned char rotation, unk71, unk72, flag73, flag74, flag75, flag76, unk77;
     int unk78, unk7c;
-    FUN_004a37b0();
+    DECAL_CREATION_DATA();
 };
 struct World
 {
@@ -115,7 +115,7 @@ struct Ref
     float ActorPackage_GetPackageStartTime();
     float FUN_00488d50();
     Ref* NiAVObject_GetParent();
-    void TESObjectCELL_AddDecal(FUN_004a37b0*, int, char);
+    void TESObjectCELL_AddDecal(DECAL_CREATION_DATA*, int, char);
 };
 struct RefHandle
 {
@@ -286,7 +286,7 @@ void ImpactTask::BGSDecalEmitter_Update()
                     if (!landscape && (!object || !BGSDecalManager_IsValidDecalImpact(object, true)))
                         continue;
                     Ref* owner = g_TES->TES_GetCellForPoint(position);
-                    FUN_004a37b0 decal;
+                    DECAL_CREATION_DATA decal;
                     decal.position = position;
                     decal.normal = normal;
                     decal.width = radius;

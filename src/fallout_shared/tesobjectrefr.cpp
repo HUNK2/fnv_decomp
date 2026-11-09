@@ -9289,7 +9289,7 @@ void* bhkPhantom::FUN_0056e420(unsigned int flags)
     return this;
 }
 
-struct FUN_0056e4b0_Class
+struct bhkSimpleShapePhantom
 {
     void* FUN_0056e4b0(unsigned int flags);
 };
@@ -9302,7 +9302,7 @@ struct FUN_00c9eec0_Class
 void __cdecl __Dummy_00b6fef0(void* obj, unsigned int size);
 
 // @fnv 0x0056e4b0
-void* FUN_0056e4b0_Class::FUN_0056e4b0(unsigned int flags)
+void* bhkSimpleShapePhantom::FUN_0056e4b0(unsigned int flags)
 {
     reinterpret_cast<FUN_00c9eec0_Class*>(this)->FUN_00c9eec0();
     if (flags & 1)
@@ -17381,14 +17381,14 @@ FUN_0056e3e0_cls* FUN_0056e3e0_cls::bhkPhantom_bhkPhantom()
 
 void __cdecl FUN_00aa1460(void* pObject, unsigned int uSize);
 
-struct FUN_0056e460_cls
+struct bhkShapePhantom
 {
     void FUN_00c9eb30();
     void* FUN_0056e460(int iFlags);
 };
 
 // @fnv 0x0056e460
-void* FUN_0056e460_cls::FUN_0056e460(int iFlags)
+void* bhkShapePhantom::FUN_0056e460(int iFlags)
 {
     this->FUN_00c9eb30();
     if (iFlags & 1)
@@ -17478,17 +17478,17 @@ FUN_0056e860_cls* FUN_0056e860_cls::hkBoxShapeCinfo_hkBoxShapeCinfo()
 
 void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
 
-struct FUN_0056e920_cls
+struct bhkBoxShape
 {
     int unk00;
 
     void BaseCleanup();
 
-    FUN_0056e920_cls* FUN_0056e920(unsigned int acFlags);
+    bhkBoxShape* FUN_0056e920(unsigned int acFlags);
 };
 
 // @fnv 0x0056e920
-FUN_0056e920_cls* FUN_0056e920_cls::FUN_0056e920(unsigned int acFlags)
+bhkBoxShape* bhkBoxShape::FUN_0056e920(unsigned int acFlags)
 {
     BaseCleanup();
     if (acFlags & 1)

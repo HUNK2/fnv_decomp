@@ -329,7 +329,7 @@ bool FUN_0048af90_shell::Equals(const char* apOther)
     return _NiStricmp(m_str, apOther) == 0;
 }
 
-struct FUN_00409aa0_shell
+struct IngredientItem
 {
     void IngredientItem_SetFlag(unsigned int flags, bool set);
 };
@@ -337,7 +337,7 @@ struct FUN_00409aa0_shell
 // Sets or clears the given flag bits in the byte at offset 0xa0 of this object.
 // @fnv 0x00409aa0
 // src: COMMUNITY 0x00409aa0
-void FUN_00409aa0_shell::IngredientItem_SetFlag(unsigned int flags, bool set)
+void IngredientItem::IngredientItem_SetFlag(unsigned int flags, bool set)
 {
     set ? ((unsigned char*)this)[0xa0] |= flags : ((unsigned char*)this)[0xa0] &= ~flags;
 }

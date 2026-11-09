@@ -68,7 +68,7 @@ void __cdecl FUN_00cbc740();
 struct FUN_00cbd4e0_shell
 {
     char m_auiShapeKeys[0x14];
-    void* FUN_00cbd4e0(unsigned char flag);
+    void* ScalarDeletingDestructor(unsigned char flag);
 };
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long);
 struct FUN_00cbc650_obj

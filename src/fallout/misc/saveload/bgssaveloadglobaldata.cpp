@@ -498,7 +498,7 @@ struct FormLoadContext
 int __cdecl ReadValueBySizeType(const char* apBuffer, unsigned int* apValue, int aiSize);
 void __cdecl WriteValueByType(SaveLoadFile* apFile, unsigned int auiValue, int aiSize);
 
-struct FUN_00866200_owner
+struct BGSUnloadedFormBuffer
 {
     char* pBuffer;
     void BGSUnloadedFormBuffer_Save(SaveLoadFile* apFile, unsigned int auiFormID, BGSSaveLoadChangeFlags aChangeFlags);
@@ -506,7 +506,7 @@ struct FUN_00866200_owner
 
 // @fnv 0x00866200
 // src: COMMUNITY 0x00866200
-void FUN_00866200_owner::BGSUnloadedFormBuffer_Save(SaveLoadFile* apFile, unsigned int auiFormID, BGSSaveLoadChangeFlags aChangeFlags)
+void BGSUnloadedFormBuffer::BGSUnloadedFormBuffer_Save(SaveLoadFile* apFile, unsigned int auiFormID, BGSSaveLoadChangeFlags aChangeFlags)
 {
     char* pData = pBuffer;
     char* pCurrent = pBuffer + 2;

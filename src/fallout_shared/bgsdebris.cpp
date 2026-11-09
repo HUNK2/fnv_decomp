@@ -236,7 +236,7 @@ bool __fastcall InsertDebrisIfValid(char* self, DArg aDebrisArg)
     return true;
 }
 
-struct FUN_004fa670_shell : public DebrisModelEntry
+struct BGSDebrisData : public DebrisModelEntry
 {
     void BGSDebrisData_SetFileName(char*);
 };
@@ -252,7 +252,7 @@ class TaskQueueInterface
 
 // @fnv 0x004fa670
 // src: COMMUNITY 0x004fa670
-void FUN_004fa670_shell::BGSDebrisData_SetFileName(char* apFileName)
+void BGSDebrisData::BGSDebrisData_SetFileName(char* apFileName)
 {
     if (*(char**)((char*)this + 4))
     {

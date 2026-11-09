@@ -46,10 +46,10 @@ __forceinline void Vec4::set(float start, float end)
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 extern "C" void __cdecl Deallocate(void*);
 extern int DAT_010c63bc;
-struct FUN_00d04300
+struct hkpBroadPhaseListener
 {
     int* m_p;
-    FUN_00d04300(bool del);
+    hkpBroadPhaseListener(bool del);
 };
 int __fastcall hkpMultiThreadedSimulation_getMultithreadConfig(int self, int, int* out);
 void __fastcall hkpMultiThreadedSimulation_setMultithreadConfig(void* this_, int, int* arg, int);
@@ -272,7 +272,7 @@ struct FUN_00c90f30
     int value;
     __declspec(nothrow) FUN_00c90f30();
 };
-struct FUN_00d02c80 : FUN_00d0d020
+struct hkpMultiThreadedSimulation : FUN_00d0d020
 {
     virtual void method0();
     ListenerA a;
@@ -313,7 +313,7 @@ struct FUN_00d02c80 : FUN_00d0d020
     int unk138;
     int unk13C;
     FUN_00cf6da0 workLock;
-    FUN_00d02c80(World*);
+    hkpMultiThreadedSimulation(World*);
 };
 // FUN_00d01fc0  (0x00d01fc0, 89 bytes)
 //

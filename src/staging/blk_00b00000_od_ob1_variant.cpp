@@ -44,7 +44,7 @@ struct FUN_00b01be0_Class
     bool __thiscall IsFlag4Clear(unsigned int flags, unsigned int unused);
 };
 extern int DAT_010a48e8;
-struct FUN_00b029a0_class
+struct BSTaskletGroupData
 {
     void __thiscall SetVirtualTable_00b029a0();
 };
@@ -76,14 +76,14 @@ struct FUN_00afeac0_shell
 {
     int __thiscall OpenFile(int arg);
 };
-struct FUN_00b00900
+struct BSSystemFile
 {
     int m0;
     int m4;
     int m8;
     char mc;
     int OpenFile(int arg);
-    FUN_00b00900(int a, int b, int c, char d);
+    BSSystemFile(int a, int b, int c, char d);
 };
 struct FUN_00b00cf0_vt
 {
@@ -114,9 +114,9 @@ struct FUN_00b01020
 {
     virtual ~FUN_00b01020();
 };
-struct FUN_00b01c20 : public FUN_00b01020
+struct BSWin32FileCache : public FUN_00b01020
 {
-    virtual ~FUN_00b01c20();
+    virtual ~BSWin32FileCache();
 };
 extern int DAT_010a4880;
 extern int DAT_010a48ac;
@@ -15477,7 +15477,7 @@ struct SplineCurve
     static void operator delete(void* p);
 };
 
-class FUN_00b17fd0
+class CFrondEngine
 {
   public:
     int unk00;
@@ -15498,11 +15498,12 @@ class FUN_00b17fd0
     float unk78;
     int unk7C;
     int unk80;
-    FUN_00b17fd0();
+    CFrondEngine();
 };
 
 // @fnv 0x00b17fd0
-FUN_00b17fd0::FUN_00b17fd0()
+// src: COMMUNITY 0x00b17fd0
+CFrondEngine::CFrondEngine()
     : unk00(0), unk04(0), unk38(1), unk3C(2), unk44(4), unk48(1), unk4C(false), unk68(4), unk6C(1.0f), unk70(0.0f),
       unk74(0.0f), unk78(0.05f), unk7C(2), unk80(1)
 {

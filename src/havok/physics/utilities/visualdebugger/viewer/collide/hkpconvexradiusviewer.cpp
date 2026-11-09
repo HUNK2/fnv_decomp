@@ -1223,7 +1223,7 @@ struct S_00d68c00_Query
     int unk04;
     int unk08;
     int unk0c;
-    void FUN_00de3060(S_00d68c00_Real* r) throw();
+    void hkpConvexRadiusBuilder(S_00d68c00_Real* r) throw();
     void UpdateFields_00de4420(int a, S_00d68c00_Arr* arr) throw();
 };
 
@@ -1286,7 +1286,7 @@ void S_00d68c00_Sub::hkpConvexRadiusViewer_entityAddedCallback(S_00d68c00_Arg* a
     S_00d68c00_Real radius;
     radius.FUN_00de3050();
     S_00d68c00_Query query;
-    query.FUN_00de3060(&radius);
+    query.hkpConvexRadiusBuilder(&radius);
     query.UpdateFields_00de4420(a2->unk10, &arr);
     for (int i = arr.size - 1; i >= 0; i--)
     {

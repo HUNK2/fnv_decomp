@@ -1744,11 +1744,12 @@ void _Deallocate(void*);
 struct S0078d3f0
 {
     void FUN_0078d420();
-    void* FUN_0078d3f0(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 // Calls FUN_0078d420 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0078d3f0
-void* S0078d3f0::FUN_0078d3f0(unsigned int flags)
+// src: EXE 0x0078d3f0
+void* S0078d3f0::ScalarDeletingDestructor(unsigned int flags)
 {
     this->FUN_0078d420();
     if (flags & 1)

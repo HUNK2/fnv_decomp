@@ -174,7 +174,7 @@ struct FUN_00aa4c40_class
     void __thiscall BSCoreMessage_DisableContextMessages(int a);
 };
 extern "C" void* DAT_010a2708;
-struct FUN_00aa4c60_class
+struct BSCoreMessage
 {
     void* m_p;
     void* BSCoreMessage_BSCoreMessage();
@@ -497,7 +497,7 @@ extern MemoryManager DAT_011f6238;
 struct FUN_00aa4bb0_Class
 {
     void FUN_00aa4a60();
-    int __thiscall FUN_00aa4bb0(int arg);
+    int __thiscall ScalarDeletingDestructor(int arg);
 };
 struct FUN_00aa4bb0_Local
 {
@@ -6433,13 +6433,13 @@ struct ReaderChars
         return first;
     }
 };
-struct FUN_00ac5490 : FUN_00aaaa80
+struct BSFaceGenBinaryFile : FUN_00aaaa80
 {
     int m40;
     int m44;
-    FUN_00ac5490(std::Str s) : FUN_00aaaa80(s), m40(0), m44(0)
+    BSFaceGenBinaryFile(std::Str s) : FUN_00aaaa80(s), m40(0), m44(0)
     {}
-    virtual ~FUN_00ac5490()
+    virtual ~BSFaceGenBinaryFile()
     {
         ClearHolders();
     }
@@ -6510,7 +6510,7 @@ unsigned char __cdecl fffReadEgmFile(const std::Str& pStr, int* pOut, Arr28* pA,
     long p2;
     unsigned short* _res;
     {
-        FUN_00ac5490 obj4((std::Str(signatureText)));
+        BSFaceGenBinaryFile obj4((std::Str(signatureText)));
         if (!obj4.BSFaceGenBinaryFile_openForRead(pStr, 0))
         {
             return 0;
@@ -17995,11 +17995,11 @@ struct FUN_00aaaa80
     TriString signature;
     unsigned int unk3c;
 };
-struct FUN_00ac5490 : FUN_00aaaa80
+struct BSFaceGenBinaryFile : FUN_00aaaa80
 {
     unsigned int unk40, unk44;
-    FUN_00ac5490(TriString);
-    virtual ~FUN_00ac5490()
+    BSFaceGenBinaryFile(TriString);
+    virtual ~BSFaceGenBinaryFile()
     {
         ClearHolders();
     }
@@ -18289,7 +18289,7 @@ bool __cdecl fffReadTriFile(const TriString& filename, Geometry* geometry)
 {
     TriHeader triHeader;
     fnv_zlib_memset(&triHeader, 0, 56);
-    FUN_00ac5490 reader("FRTRI003");
+    BSFaceGenBinaryFile reader("FRTRI003");
     if (!reader.BSFaceGenBinaryFile_openForRead(filename, 0))
         return false;
     if (!reader.BSFaceGenBinaryFile_readHeader(&triHeader, 1, 56))
@@ -21748,9 +21748,9 @@ struct LoadedFile
 {
     void LoadedFile_DecRefCount();
 };
-struct FUN_00ac5490 : ImageReaderTypes::FUN_00aaaa80
+struct BSFaceGenBinaryFile : ImageReaderTypes::FUN_00aaaa80
 {
-    FUN_00ac5490(ReaderString);
+    BSFaceGenBinaryFile(ReaderString);
     VirtualFile* unk40;
     LoadedFile* unk44;
 
@@ -21771,7 +21771,7 @@ struct FUN_00ac5490 : ImageReaderTypes::FUN_00aaaa80
             unk40 = 0;
         }
     }
-    virtual inline ~FUN_00ac5490()
+    virtual inline ~BSFaceGenBinaryFile()
     {
         ClearHolders();
     }
@@ -21892,7 +21892,7 @@ struct ImageHeader
 // src: GUESS 0x00ab2640 (confidence: low)
 bool __cdecl Object_ProcessEntries_00ab2640(const ReaderString& filename, unsigned int* format, Images* first, Images* second)
 {
-    FUN_00ac5490 stream3((ReaderString(&DAT_010a2d3c)));
+    BSFaceGenBinaryFile stream3((ReaderString(&DAT_010a2d3c)));
     if (!stream3.BSFaceGenBinaryFile_openForRead(filename, 0))
         return false;
     ImageHeader kHeader;

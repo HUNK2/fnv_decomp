@@ -304,11 +304,12 @@ void _Deallocate(void*);
 struct Fake406e40
 {
     void FUN_00406de0();
-    void* FUN_00406e40(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 // Calls FUN_00406de0, then frees this via _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x00406e40
-void* Fake406e40::FUN_00406e40(unsigned int flags)
+// src: EXE 0x00406e40
+void* Fake406e40::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00406de0();
     if (flags & 1)

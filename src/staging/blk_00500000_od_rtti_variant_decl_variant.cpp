@@ -178,10 +178,10 @@ struct FUN_00519c50_class
     void __thiscall ReleaseStorage_00519c50();
 };
 extern "C" void __cdecl _Deallocate(void*);
-void __cdecl FUN_005010f0();
+void __cdecl TERMINAL_MENU_ITEM();
 struct FUN_005010c0_class
 {
-    void __thiscall FUN_005010f0();
+    void __thiscall TERMINAL_MENU_ITEM();
     void* __thiscall FUN_005010c0(unsigned int flags);
 };
 struct FUN_00507660_class
@@ -192,7 +192,7 @@ void __cdecl Deallocate(void*);
 struct FUN_00519b50_class
 {
     void __thiscall FUN_00519bf0();
-    void* __thiscall FUN_00519b50(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 struct FUN_00519c50_class;
 void __cdecl _Deallocate(void* p);
@@ -279,7 +279,7 @@ struct AVH
 {
     static int __cdecl ToActorValue(int, unsigned char);
 };
-struct FUN_00514fd0_class
+struct TESObjectBOOK
 {
     int __thiscall TESObjectBOOK_GetTeaches();
 };
@@ -358,10 +358,10 @@ struct TESGrassModel
     ~TESGrassModel();
     void* vft;
 };
-struct FUN_00509a10 : TESGrassBase
+struct TESGrass : TESGrassBase
 {
     TESGrassModel m_30;
-    FUN_00509a10();
+    TESGrass();
     void ResetFormData();
 };
 extern int DAT_01028364;
@@ -426,7 +426,7 @@ struct P01RefA
 };
 extern Actor* g_thePlayer;
 extern TESBoundObject* g_pLockpickItem;
-struct FUN_00516cd0_class
+struct TESObjectCONT
 {
     bool __thiscall TESObjectCONT_CanActivate(TESObjectREFR* ref, Actor* actor, bool useLockpick);
 };
@@ -639,10 +639,10 @@ class ActorStateSub
     int m_28;
     int m_2c;
 };
-class FUN_00508450_cls : public ActorStateBase
+class TESFlora : public ActorStateBase
 {
   public:
-    FUN_00508450_cls();
+    TESFlora();
     ActorStateSub m_0c;
     void* m_3c;
     int m_40;
@@ -726,11 +726,11 @@ class B0B8F0Component
     B0B8F0Component();
     virtual ~B0B8F0Component();
 };
-class FUN_0050b8f0 : public B0B8F0Form, public B0B8F0Component
+class TESLevSpell : public B0B8F0Form, public B0B8F0Component
 {
   public:
-    FUN_0050b8f0();
-    virtual ~FUN_0050b8f0();
+    TESLevSpell();
+    virtual ~TESLevSpell();
 };
 class Obj50DDB0
 {

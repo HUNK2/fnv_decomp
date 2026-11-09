@@ -29,10 +29,10 @@ unsigned int TESTerrainLODManager_GetGrassNode();
 NiAVObject* TESMain_GetWeatherRoot();
 
 
-struct FUN_0040f410 : BSExtraData
+struct ExtraProcessMiddleLow : BSExtraData
 {
     unsigned int references;
-    FUN_0040f410();
+    ExtraProcessMiddleLow();
 };
 // BaseExtraList.h lacks the pointer-and-destroy removal overload at 0x00410020.
 // Keep only that declaration here; the data layout comes from the shared base.
@@ -410,10 +410,10 @@ extern GlobalObject_0096d020 g_011e0e80;
 // src: XBOX_PDB 0x00551480
 void Cell3DReferenceAccess::TESObjectCELL_SetLowestProcessToMiddleLow(bool RetainReference)
 {
-    FUN_0040f410* extra = static_cast<FUN_0040f410*>((*reinterpret_cast<ExtraDataList*>(formData + 0x04)).GetExtraData(9));
+    ExtraProcessMiddleLow* extra = static_cast<ExtraProcessMiddleLow*>((*reinterpret_cast<ExtraDataList*>(formData + 0x04)).GetExtraData(9));
     if (!extra && RetainReference)
     {
-        extra = new FUN_0040f410;
+        extra = new ExtraProcessMiddleLow;
         (*reinterpret_cast<ExtraDataList*>(formData + 0x04)).AddExtra(extra);
         CellRefLockEnter();
         RefList548* position = reinterpret_cast<RefList548*>(GetRefList_009604f0());

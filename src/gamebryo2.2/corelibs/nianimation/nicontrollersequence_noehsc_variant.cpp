@@ -63,7 +63,7 @@ extern MM_00a34450 g_memoryManager;
 extern int DAT_01096620;
 struct FUN_00a34450_shell
 {
-    void* __thiscall FUN_00a34450(unsigned int);
+    void* __thiscall ScalarDeletingDestructor(unsigned int);
 };
 struct SeqInterpArrayItem
 {

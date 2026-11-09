@@ -450,14 +450,14 @@ unsigned int FUN_0069b310_S::AppendElement(const NavMeshEdgeData* apElement)
 float __cdecl cos(float);
 float __cdecl sin_004e44b0(float);
 
-struct FUN_006a04e0_helper : public SineCosine
+struct AngleSinCos : public SineCosine
 {
     void* SetFromAngle(float afAngle);
 };
 
 // Stores cos(afAngle) and FUN_004e44b0(afAngle) into the first two floats of this object and returns this.
 // @fnv 0x006a04e0
-void* FUN_006a04e0_helper::SetFromAngle(float afAngle)
+void* AngleSinCos::SetFromAngle(float afAngle)
 {
     ((float*)this)[0] = cos(afAngle);
     ((float*)this)[1] = sin_004e44b0(afAngle);
@@ -1825,7 +1825,7 @@ struct FUN_006bfa10
     FUN_006bfa10(int, int, int);
 };
 
-struct FUN_006bbb80
+struct NavMeshObstacleCutter
 {
     int base;
     GO go;
@@ -1834,12 +1834,13 @@ struct FUN_006bbb80
     FUN_006bf7d0 member1C;
     FUN_006bfa10 member30;
 
-    FUN_006bbb80();
+    NavMeshObstacleCutter();
 };
 
 // Initializes the object's members, constructing go with 0 and member1C and member30 with 0x100, 0, and the result of memberC._ref_006815c0().
 // @fnv 0x006bbb80
-FUN_006bbb80::FUN_006bbb80()
+// src: COMMUNITY 0x006bbb80
+NavMeshObstacleCutter::NavMeshObstacleCutter()
     : go(0), memberC(), member1C(0x100, 0, memberC._ref_006815c0()), member30(0x100, 0, memberC._ref_006815c0())
 {}
 }  // namespace fnv_006bbb80

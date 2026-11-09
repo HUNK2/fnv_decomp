@@ -115,11 +115,12 @@ struct FUN_00dbe760_s : public FUN_00dbc6e0_s
 {
     unsigned short m_uiFilterValue;
 
-    FUN_00dbe760_s* __thiscall FUN_00dbe760(int a);
+    FUN_00dbe760_s* __thiscall ScalarDeletingDestructor(int a);
 };
 
 // @fnv 0x00dbe760
-FUN_00dbe760_s* __thiscall FUN_00dbe760_s::FUN_00dbe760(int aiFlags)
+// src: EXE 0x00dbe760
+FUN_00dbe760_s* __thiscall FUN_00dbe760_s::ScalarDeletingDestructor(int aiFlags)
 {
     FUN_00dbc6e0_s::FUN_00dbdf60();
 

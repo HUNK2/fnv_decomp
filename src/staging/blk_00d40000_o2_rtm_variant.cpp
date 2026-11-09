@@ -289,7 +289,7 @@ struct FnvVtObj
 };
 extern int DAT_010cfd44;
 extern int DAT_010cfd20;
-struct FUN_00d49c50_cls
+struct hkpStorageExtendedMeshShape
 {
     volatile void* m_pVtbl;
     int m_unk04;
@@ -426,7 +426,7 @@ void __cdecl Object_InvokeVirtualMethod_00d4b380(TailTarget* pTarget);
 // member state.
 extern int DAT_010d055c;
 extern int DAT_010d053c;
-struct FUN_00d4b3c0_cls
+struct hkpStorageMeshShape
 {
     volatile void* m_pVtbl;
     int m_unk04;
@@ -1477,10 +1477,10 @@ class FUN_00d48320
   public:
     FUN_00d48320(FinishingFlag flag);
 };
-class FUN_00dcc160_cls
+class hkIstream
 {
   public:
-    FUN_00dcc160_cls* InitFromValue(void* pvSource);
+    hkIstream* InitFromValue(void* pvSource);
     void SetVirtualTable_00dcc160();
 
     int m_iUnk00;
@@ -1636,7 +1636,7 @@ struct FUN_00d58ce0_DisplayObj
     virtual void vf04();
     virtual void vf08(int, int);
 };
-struct FUN_00d58ce0_Class
+struct hkDisplayGeometry
 {
     int unk00;
     unsigned short unk04;
@@ -1894,11 +1894,11 @@ class FUN_00dd0420_Class
 
     int unk00;
 };
-class FUN_00d50c00
+class hkpGenericConstraintData
 {
   public:
-    FUN_00d50c00(FinishingFlag flag);
-    virtual ~FUN_00d50c00();
+    hkpGenericConstraintData(FinishingFlag flag);
+    virtual ~hkpGenericConstraintData();
 
     int unk04;
     int unk08;
@@ -3132,7 +3132,7 @@ struct S_00d4f0f0_S
     __forceinline S_00d4f0f0_S() : unk40(6)
     {}
 };
-struct FUN_00d4f0f0 : S_00d4f0f0_B2
+struct hkpStiffSpringConstraintData : S_00d4f0f0_B2
 {
     S_00d4f0f0_H h;
     int unk14;
@@ -3142,7 +3142,7 @@ struct FUN_00d4f0f0 : S_00d4f0f0_B2
     hkVector4 unk30;
     S_00d4f0f0_S s;
     float unk44;
-    FUN_00d4f0f0();
+    hkpStiffSpringConstraintData();
     virtual void v0();
 };
 inline void setZero4(hkVector4& v)
@@ -3239,7 +3239,7 @@ struct Matrix
     }
 };
 }
-class FUN_00d52fc0
+class hkpHingeLimitsData
 {
   public:
     int* m_vptr;
@@ -3263,7 +3263,7 @@ class FUN_00d52fc0
     unsigned short m_90;
     unsigned char m_92;
 
-    FUN_00d52fc0();
+    hkpHingeLimitsData();
 };
 extern int DAT_010d0cd4;
 extern float DAT_0104da48;
@@ -3271,7 +3271,7 @@ struct FUN_00ca9360_sub
 {
     void __fastcall FindFloatTableIndex(int count, float* value);
 };
-struct FUN_00d54290
+struct hkpBallAndSocketConstraintData
 {
     void* volatile m_vptr;
     unsigned short m_unk04;
@@ -3289,7 +3289,7 @@ struct FUN_00d54290
     volatile unsigned char m_byte42;
     FUN_00ca9360_sub m_data43;
     volatile float m_float44;
-    FUN_00d54290();
+    hkpBallAndSocketConstraintData();
 };
 static const float DAT_010181bc = 0.05f;
 static const float DAT_01011d78 = 0.0f;
@@ -3417,7 +3417,7 @@ struct PointArray380
     }
 };
 
-struct FUN_00d59760 : ConvexBase380
+struct hkpConvexVerticesShape : ConvexBase380
 {
     hkVector4 halfExtents, center;
     PointArray380 vertices;
@@ -3426,10 +3426,11 @@ struct FUN_00d59760 : ConvexBase380
     Array380<hkVector4> planes;
     void* connectivity;
 
-    FUN_00d59760(TransposedPoints380*, int, hkVector4*, int, const hkAabb&, float);
+    hkpConvexVerticesShape(TransposedPoints380*, int, hkVector4*, int, const hkAabb&, float);
 };
 // @fnv 0x00d59760
-FUN_00d59760::FUN_00d59760(TransposedPoints380* vertexData, int count, hkVector4* planeData, int planeCount,
+// src: EXE 0x00d59760
+hkpConvexVerticesShape::hkpConvexVerticesShape(TransposedPoints380* vertexData, int count, hkVector4* planeData, int planeCount,
                            const hkAabb& bounds, float r)
     : ConvexBase380(r), vertices((vtable = DAT_010d0fc4, references = 1, vertexData), count), vertexCount(count),
       unk50(0), planes(planeData, planeCount), connectivity(0)

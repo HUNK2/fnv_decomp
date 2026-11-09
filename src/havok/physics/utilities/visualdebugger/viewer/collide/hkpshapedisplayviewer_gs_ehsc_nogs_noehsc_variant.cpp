@@ -426,7 +426,7 @@ extern int DAT_01268fe8;
 extern int DAT_01268fe4;
 void* __cdecl hkMemoryRouter_getInstance();
 int __cdecl hkString_strCmp(const char* name, void* obj);
-struct FUN_00d657d0_cls
+struct hkpShapeDisplayViewer
 {
     void* m_vptr00;
     int unk04;
@@ -458,7 +458,7 @@ struct FUN_00d657d0_cls
     int m_70;
 
     void FUN_00ddccb0(ShapeList* a1);
-    FUN_00d657d0_cls* hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* a1);
+    hkpShapeDisplayViewer* hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* a1);
 };
 inline hkMemoryAllocator& getMemory_d65f()
 {
@@ -1036,7 +1036,7 @@ struct S65_NewObj
     S65_V4 c1;
     S65_V4 c2;
     S65_V4 t;
-    S65_NewObj* FUN_00de1d20(void* v);
+    S65_NewObj* hkDisplayConvex(void* v);
     float& cell(int row, int col)
     {
         return ((float*)&c0)[col * 4 + row];
@@ -1221,7 +1221,7 @@ void S65_Self::hkpShapeDisplayViewer_entityAddedCallback(S65_Param* param)
                 param->hkpWorldObject_removeProperty(0x1131);
             S65_NewObj* mem = (S65_NewObj*)s65Heap().blockAlloc(0x60);
             mem->s04 = (short)0x60;
-            S65_NewObj* obj = mem->FUN_00de1d20(a ? a : alt);
+            S65_NewObj* obj = mem->hkDisplayConvex(a ? a : alt);
             obj->c0.q = _mm_setzero_ps();
             obj->c1.q = _mm_setzero_ps();
             obj->c2.q = _mm_setzero_ps();

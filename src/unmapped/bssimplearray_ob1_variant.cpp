@@ -170,7 +170,7 @@ struct FUN_006cf230_Class
 };
 struct FUN_006cfc80_Class
 {
-    void* __thiscall FUN_006cfc80(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 void __cdecl Deallocate(void* p);
 struct FUN_006cf340_Class

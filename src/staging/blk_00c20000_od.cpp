@@ -298,11 +298,12 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3a140_Class
 {
     void __thiscall FUN_00c39770();
-    void* __thiscall FUN_00c3a140(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_00c39770, then deletes this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00c3a140
-void* FUN_00c3a140_Class::FUN_00c3a140(unsigned int flags)
+// src: EXE 0x00c3a140
+void* FUN_00c3a140_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00c39770();
     if (flags & 1)
@@ -424,12 +425,12 @@ void __cdecl Object_ProcessEntries_00c3c0c0()
 }
 
 namespace fnv_00c3d380 {
-struct FUN_00c3d380_Class : public FUN_00c3c520_class
+struct QueuedChildren : public FUN_00c3c520_class
 {
     void* __thiscall FUN_00c3d380(unsigned int flags);
 };
 // @fnv 0x00c3d380
-void* __thiscall FUN_00c3d380_Class::FUN_00c3d380(unsigned int flags)
+void* __thiscall QueuedChildren::FUN_00c3d380(unsigned int flags)
 {
     SetVirtualTable_00c3c520();
     if (flags & 1)
@@ -443,13 +444,13 @@ struct _Base_00441d20
 {
     ~_Base_00441d20();
 };
-struct FUN_00c3d410_Class : _Base_00441d20
+struct QueuedFileEntry : _Base_00441d20
 {
     void* __thiscall DestroySelf(unsigned int flags);
 };
 // Runs the base destructor, frees this via the memory manager when flags has bit 0 set, and returns this.
 // @fnv 0x00c3d410
-void* __thiscall FUN_00c3d410_Class::DestroySelf(unsigned int flags)
+void* __thiscall QueuedFileEntry::DestroySelf(unsigned int flags)
 {
     _Base_00441d20::~_Base_00441d20();
     if (flags & 1)
@@ -807,13 +808,13 @@ void* QueuedParents::FUN_00c3d3b0(unsigned int flags)
     return this;
 }
 
-struct FUN_00c42f00_Class
+struct BSTaskThread
 {
     void __thiscall DestroyResources();
     void* __thiscall FUN_00c3f130(unsigned int flags);
 };
 // @fnv 0x00c3f130
-void* __thiscall FUN_00c42f00_Class::FUN_00c3f130(unsigned int flags)
+void* __thiscall BSTaskThread::FUN_00c3f130(unsigned int flags)
 {
     this->DestroyResources();
     if (flags & 1)
@@ -823,7 +824,7 @@ void* __thiscall FUN_00c42f00_Class::FUN_00c3f130(unsigned int flags)
 
 int __cdecl FUN_00ec6130(int value);
 
-struct FUN_00c32fb0_cls
+struct Setting
 {
     int m_00;
     int m_04;
@@ -834,7 +835,7 @@ struct FUN_00c32fb0_cls
 // Returns a size based on the first character of m_08: 1 for b/c/h, 4 for a/f/i/r/u, and for S/s the result of FUN_00ec6130 on m_04 plus 1, else 0.
 // @fnv 0x00c32fb0
 // src: COMMUNITY 0x00c32fb0
-int FUN_00c32fb0_cls::Setting_DataSize()
+int Setting::Setting_DataSize()
 {
     int result = 0;
     if (m_08 != 0)

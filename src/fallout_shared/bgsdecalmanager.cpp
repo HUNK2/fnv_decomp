@@ -501,7 +501,7 @@ struct BhkPickData : public WorldRayCastInput, public WorldRayCastOutput
     char _pad_ad[3];
 };
 typedef char _sizecheck_bhkPickData[sizeof(BhkPickData) == 176 ? 1 : -1];
-struct FUN_004a3da0_shell : public BhkPickData
+struct bhkPickData : public BhkPickData
 {
     void bhkPickData_SetFrom(void*);
 };
@@ -517,7 +517,7 @@ hkVector4& __cdecl NI2HK(hkVector4&, NiPoint3 const&);
 // Converts the NiPoint3 at arFrom into a hkVector4 and passes it to FUN_0056d340 on this object.
 // @fnv 0x004a3da0
 // src: XBOX_PDB 0x004a3da0
-void FUN_004a3da0_shell::bhkPickData_SetFrom(void* arFrom)
+void bhkPickData::bhkPickData_SetFrom(void* arFrom)
 {
     // Raw storage preserves the original initialization call and stack protection.
     __declspec(align(16)) char hkv[16];
@@ -881,12 +881,12 @@ struct FUN_004a4440
 {
     ~FUN_004a4440();
 };
-struct FUN_004a3ae0
+struct hkpRayHitCollector
 {
-    virtual ~FUN_004a3ae0();
+    virtual ~hkpRayHitCollector();
     char pad04[0xc];
 };
-class FUN_004a3bc0 : public FUN_004a3ae0
+class FUN_004a3bc0 : public hkpRayHitCollector
 {
   public:
     FUN_004a4440 hits;
@@ -1132,7 +1132,8 @@ void* StandIn::FUN_004a0490(unsigned int flags)
 void _Deallocate(void*);
 // Calls FUN_004a0f60, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004a0ff0
-void* BSCullingProcess::FUN_004a0ff0(unsigned int flags)
+// src: EXE 0x004a0ff0
+void* BSCullingProcess::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_004a0f60();
     if (flags & 1)
@@ -1154,16 +1155,16 @@ void __thiscall Unk::DecalCaster_SetCollision(int aiArg, unsigned char b)
 
 namespace fnv_004a3b00 {
 void _Deallocate(void*);
-struct FUN_004a3ae0
+struct hkpRayHitCollector
 {
-    virtual ~FUN_004a3ae0();
+    virtual ~hkpRayHitCollector();
     void* DestroyAndFree(unsigned int);
 };
 // Runs the destructor and, when bit 0 of flags is set, deallocates this object; returns this.
 // @fnv 0x004a3b00
-void* FUN_004a3ae0::DestroyAndFree(unsigned int flags)
+void* hkpRayHitCollector::DestroyAndFree(unsigned int flags)
 {
-    this->FUN_004a3ae0::~FUN_004a3ae0();
+    this->hkpRayHitCollector::~hkpRayHitCollector();
     if (flags & 1)
         _Deallocate(this);
     return this;

@@ -291,14 +291,14 @@ template <int N> struct EndianSizeTag
 
 void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
 
-struct FUN_005fea20_shell
+struct IDLE_DATA
 {
     void SwapEndian();
 };
 
 // Swaps the byte order of the 16-bit value at object offset 4 using BSEndian.
 // @fnv 0x005fea20
-void FUN_005fea20_shell::SwapEndian()
+void IDLE_DATA::SwapEndian()
 {
     BSEndian((unsigned short*)((char*)this + 4), EndianSizeTag<2>());
 }
@@ -433,11 +433,12 @@ void __cdecl _Deallocate(void*);
 struct FUN_005fe130_shell
 {
     void FUN_005fe180();
-    void* FUN_005fe130(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 // Calls FUN_005fe180, then deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x005fe130
-void* FUN_005fe130_shell::FUN_005fe130(unsigned int flags)
+// src: EXE 0x005fe130
+void* FUN_005fe130_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_005fe180();
     if (flags & 1)

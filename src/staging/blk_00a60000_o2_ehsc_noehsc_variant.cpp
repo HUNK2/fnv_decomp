@@ -110,10 +110,10 @@ struct FUN_00a72ca0_Class
 {
     void SetSize_Thunk(unsigned int size);
 };
-struct FUN_00a7f810
+struct NiGeometryGroupManager
 {
     int m_p;
-    FUN_00a7f810();
+    NiGeometryGroupManager();
 };
 struct HashValue_00a61670
 {
@@ -1611,7 +1611,7 @@ void __cdecl NiPSysData_LinkObject();
 void __cdecl AddScaledPoints(NiPoint3* dest, float scale, const NiPoint3* src, unsigned int count);
 extern int DAT_0109b944;
 extern int DAT_0109df8c;
-struct FUN_00a7fb80_Class
+struct NiRenderedTexture
 {
     void* m_ppVirtualMethodTable;
     int m_04;

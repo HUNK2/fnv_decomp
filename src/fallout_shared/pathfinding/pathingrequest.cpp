@@ -97,7 +97,7 @@ PathingRequest* PathingRequest::CreateRequestForType(PATHING_REQUEST_TYPE type)
     case 0:
         return new PathingRequest;
     case 1:
-        return new FUN_006e4080;
+        return new PathingRequestCover;
     case 2:
         return new PathingRequestClosePoint;
     case 3:
@@ -219,12 +219,13 @@ void __cdecl FUN_00aa1460(void*, unsigned int);
 
 struct FUN_006e25e0_impl
 {
-    void* FUN_006e25e0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_006e2620 on this, then if bit 0 of flags is set calls FUN_00aa1460 with size 0xb0, and returns this.
 // @fnv 0x006e25e0
-void* FUN_006e25e0_impl::FUN_006e25e0(unsigned int flags)
+// src: EXE 0x006e25e0
+void* FUN_006e25e0_impl::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_006e2620(this);
     if (flags & 1)

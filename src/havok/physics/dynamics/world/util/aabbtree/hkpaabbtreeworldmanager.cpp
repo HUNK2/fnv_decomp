@@ -72,13 +72,13 @@ __forceinline void hkArrayBase<T>::removeAt(int index)
 }
 
 extern "C" void __cdecl Deallocate(void*);
-struct FUN_00d083a0_class {
+struct hkpAabbTreeWorldManager {
     void __thiscall hkpAabbTreeWorldManager_setWorkingBuffer(int a);
 };
 
 // @fnv 0x00d083a0
 // src: HAVOK_LIB 0x00d083a0
-void __thiscall FUN_00d083a0_class::hkpAabbTreeWorldManager_setWorkingBuffer(int aiValue)
+void __thiscall hkpAabbTreeWorldManager::hkpAabbTreeWorldManager_setWorkingBuffer(int aiValue)
 {
     *(int*)((char*)this + 0x30) = aiValue;
     *(int*)((char*)this + 0x34) = (*(int*)((char*)this + 0x38) << 4) + aiValue;
@@ -401,7 +401,7 @@ public:
     virtual float processLeaf() throw();
 };
 
-class FUN_00d9a040 : public hkpRayCastCollectorBaseD084, public hkpTreeCastCallbackD084 {
+class hkpAabbTreeCollidableRaycaster : public hkpRayCastCollectorBaseD084, public hkpTreeCastCallbackD084 {
 public:
     const hkpWorldRayCastInput* m_pRayCastInput;
     const hkpRayCollidableFilter* m_iFilter;
@@ -410,7 +410,7 @@ public:
     hkpRayHitCollectorD084* m_kCollector;
     int m_1c;
 
-    FUN_00d9a040() throw();
+    hkpAabbTreeCollidableRaycaster() throw();
 };
 
 // Vtable 0x010ccfb8 dispatches to kd-tree ray casting at 0x00d97a40, unlike hkpWorldRayCaster::CastRay at 0x00cbf710.
@@ -447,7 +447,7 @@ public:
 // @fnv 0x00d08420
 void hkpRayCastQueryD084::CastRay(const hkpWorldRayCastInput& kInput, const hkpCollisionFilter* pkFilter, hkpRayHitCollectorD084* pkCollector) const throw()
 {
-    FUN_00d9a040 kTreeCaster;
+    hkpAabbTreeCollidableRaycaster kTreeCaster;
     kTreeCaster.m_pRayCastInput = &kInput;
     kTreeCaster.m_kCollector = pkCollector;
     kTreeCaster.m_iFilter = pkFilter;
@@ -1610,7 +1610,7 @@ struct FUN_00d085e0_class {
 void FUN_00d085e0_class::hkpAabbTreeWorldManager_castRay(const hkpWorldRayCastInput& input, const OtherObject* apFilters, hkpWorldRayCastOutput* apRayCastOutput)
 {
     Scratch scratch;
-    class FUN_00d9a040 ctx;
+    class hkpAabbTreeCollidableRaycaster ctx;
     ctx.m_pRayCastOutput = apRayCastOutput;
     ctx.m_pRayCastInput = &input;
     if (apFilters) {
@@ -1900,12 +1900,13 @@ public:
     {
         heap<hkMemoryAllocator>(hkMemoryRouter_getInstance()).blockFree(p, sizeof(CollectorD0A1));
     }
-    CollectorD0A1* FUN_00d0a170(unsigned int uiFlags);
+    CollectorD0A1* ScalarDeletingDestructor(unsigned int uiFlags);
 };
 
 // Destroys the hkKdTreeCastCollector base and, when uiFlags has bit 0 set, frees the CollectorD0A1 object via operator delete.
 // @fnv 0x00d0a170
-CollectorD0A1* CollectorD0A1::FUN_00d0a170(unsigned int uiFlags)
+// src: EXE 0x00d0a170
+CollectorD0A1* CollectorD0A1::ScalarDeletingDestructor(unsigned int uiFlags)
 {
     this->hkKdTreeCastCollector::~hkKdTreeCastCollector();
     if (uiFlags & 1)
@@ -2204,7 +2205,7 @@ void __thiscall EntListSelf::hkpAabbTreeWorldManager_fullBuild(void* p1, void* p
 
 namespace RaycasterRework {
 
-class FUN_00d9a040 : public hkpRayCastCollectorBaseD084,
+class hkpAabbTreeCollidableRaycaster : public hkpRayCastCollectorBaseD084,
                      public hkpTreeCastCallbackD084 {
 public:
     const hkpWorldRayCastInput* m_pRayCastInput;
@@ -2214,12 +2215,13 @@ public:
     hkpRayHitCollectorD084* m_kCollector;
     float m_fEarlyOutHitFraction;
 
-    FUN_00d9a040() throw();
+    hkpAabbTreeCollidableRaycaster() throw();
 };
 
 // Default constructor that nulls all hkpRayCast pointers and sets m_fEarlyOutHitFraction to 1.0f.
 // @fnv 0x00d9a040
-FUN_00d9a040::FUN_00d9a040() throw()
+// src: EXE 0x00d9a040
+hkpAabbTreeCollidableRaycaster::hkpAabbTreeCollidableRaycaster() throw()
     : m_pRayCastInput(0), m_iFilter(0), m_shapeFilter(0), m_pRayCastOutput(0),
       m_kCollector(0), m_fEarlyOutHitFraction(1.0f)
 {

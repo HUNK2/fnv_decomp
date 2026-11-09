@@ -152,15 +152,16 @@ NiPoint3& FUN_006ab380_shell::GetDest(NiPoint3& akDest)
 
 struct SD_006aa6e0
 {
-    void FUN_006aa710();
-    void* FUN_006aa6e0(unsigned int);
+    void NavMeshSearchLOS();
+    void* ScalarDeletingDestructor(unsigned int);
 };
 void _Deallocate(void*);
-// Calls FUN_006aa710, deallocates this when flags has bit 0 set, and returns this.
+// Calls NavMeshSearchLOS, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006aa6e0
-void* SD_006aa6e0::FUN_006aa6e0(unsigned int flags)
+// src: EXE 0x006aa6e0
+void* SD_006aa6e0::ScalarDeletingDestructor(unsigned int flags)
 {
-    FUN_006aa710();
+    NavMeshSearchLOS();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -199,15 +200,16 @@ struct FUN_006a7bc0_Class
 {
     virtual ~FUN_006a7bc0_Class();
 };
-struct FUN_006aa710 : public FUN_006a7bc0_Class
+struct NavMeshSearchLOS : public FUN_006a7bc0_Class
 {
     char m_000000[0x206c];
     GO m_002070;
-    ~FUN_006aa710();
+    ~NavMeshSearchLOS();
 };
 // Destructor for the class; destroys the embedded GO member and the base class.
 // @fnv 0x006aa710
-FUN_006aa710::~FUN_006aa710()
+// src: EXE 0x006aa710
+NavMeshSearchLOS::~NavMeshSearchLOS()
 {}
 
 struct FUN_006aac10_shell

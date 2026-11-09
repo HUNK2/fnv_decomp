@@ -465,17 +465,17 @@ void __thiscall FUN_00519c50_class::ReleaseStorage_00519c50()
 }
 
 extern "C" void __cdecl _Deallocate(void*);
-void __cdecl FUN_005010f0();
+void __cdecl TERMINAL_MENU_ITEM();
 struct FUN_005010c0_class
 {
-    void __thiscall FUN_005010f0();
+    void __thiscall TERMINAL_MENU_ITEM();
     void* __thiscall FUN_005010c0(unsigned int flags);
 };
-// Calls FUN_005010f0, then deallocates this if flags has bit 0 set, and returns this.
+// Calls TERMINAL_MENU_ITEM, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x005010c0
 void* __thiscall FUN_005010c0_class::FUN_005010c0(unsigned int flags)
 {
-    FUN_005010f0();
+    TERMINAL_MENU_ITEM();
     if (flags & 1)
         _Deallocate(this);
     return this;
@@ -498,11 +498,12 @@ void __cdecl Deallocate(void*);
 struct FUN_00519b50_class
 {
     void __thiscall FUN_00519bf0();
-    void* __thiscall FUN_00519b50(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_00519bf0, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x00519b50
-void* __thiscall FUN_00519b50_class::FUN_00519b50(unsigned int flags)
+// src: EXE 0x00519b50
+void* __thiscall FUN_00519b50_class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00519bf0();
     if (flags & 1)
@@ -681,13 +682,13 @@ struct AVH
 {
     static int __cdecl ToActorValue(int, unsigned char);
 };
-struct FUN_00514fd0_class
+struct TESObjectBOOK
 {
     int __thiscall TESObjectBOOK_GetTeaches();
 };
 // @fnv 0x00514fd0
 // src: COMMUNITY 0x00514fd0
-int __thiscall FUN_00514fd0_class::TESObjectBOOK_GetTeaches()
+int __thiscall TESObjectBOOK::TESObjectBOOK_GetTeaches()
 {
     if (reinterpret_cast<const signed char*>(this)[0xc1] == -1)
         return -1;
@@ -793,14 +794,15 @@ struct TESGrassModel
     ~TESGrassModel();
     void* vft;
 };
-struct FUN_00509a10 : TESGrassBase
+struct TESGrass : TESGrassBase
 {
     TESGrassModel m_30;
-    FUN_00509a10();
+    TESGrass();
     void ResetFormData();
 };
 // @fnv 0x00509a10
-FUN_00509a10::FUN_00509a10()
+// src: EXE 0x00509a10
+TESGrass::TESGrass()
 {
     ((void**)this)[0] = (void*)DAT_0102814c;
     ((void**)((char*)this + 0x30))[0] = (void*)DAT_01028128;
@@ -900,14 +902,14 @@ struct LockExtraData
 extern Actor* g_thePlayer;
 extern TESBoundObject* g_pLockpickItem;
 
-struct FUN_00516cd0_class
+struct TESObjectCONT
 {
     bool __thiscall TESObjectCONT_CanActivate(TESObjectREFR* ref, Actor* actor, bool useLockpick);
 };
 
 // @fnv 0x00516cd0
 // src: COMMUNITY 0x00516cd0
-bool __thiscall FUN_00516cd0_class::TESObjectCONT_CanActivate(TESObjectREFR* ref, Actor* actor, bool useLockpick)
+bool __thiscall TESObjectCONT::TESObjectCONT_CanActivate(TESObjectREFR* ref, Actor* actor, bool useLockpick)
 {
     int pLock;
     Actor* pActor;
@@ -1260,10 +1262,10 @@ class ActorStateSub
     int m_2c;
 };
 
-class FUN_00508450_cls : public ActorStateBase
+class TESFlora : public ActorStateBase
 {
   public:
-    FUN_00508450_cls();
+    TESFlora();
     ActorStateSub m_0c;
     void* m_3c;
     int m_40;
@@ -1285,7 +1287,8 @@ class FUN_00508450_cls : public ActorStateBase
 };
 
 // @fnv 0x00508450
-FUN_00508450_cls::FUN_00508450_cls()
+// src: EXE 0x00508450
+TESFlora::TESFlora()
 {
     this->m_00 = (void*)&DAT_01026bd0;
     this->m_0c.m_00 = (void*)&DAT_01026a4c;
@@ -1372,15 +1375,16 @@ class B0B8F0Component
     virtual ~B0B8F0Component();
 };
 
-class FUN_0050b8f0 : public B0B8F0Form, public B0B8F0Component
+class TESLevSpell : public B0B8F0Form, public B0B8F0Component
 {
   public:
-    FUN_0050b8f0();
-    virtual ~FUN_0050b8f0();
+    TESLevSpell();
+    virtual ~TESLevSpell();
 };
 
 // @fnv 0x0050b8f0
-FUN_0050b8f0::FUN_0050b8f0()
+// src: EXE 0x0050b8f0
+TESLevSpell::TESLevSpell()
 {
     SetFormType(0x4c);
     SetFlag(1);
@@ -2209,7 +2213,7 @@ struct S_5010f0_Cond
     ~S_5010f0_Cond();
 };
 
-struct FUN_005010f0
+struct TERMINAL_MENU_ITEM
 {
     S_5010f0_Str m00;
     S_5010f0_Str m08;
@@ -2236,12 +2240,13 @@ struct FUN_005010f0
     int unk60;
     S_5010f0_Cond m64;
 
-    ~FUN_005010f0();
+    ~TERMINAL_MENU_ITEM();
 };
 
-// Destructor for the FUN_005010f0 object; the body is empty and member destructors run implicitly.
+// Destructor for the TERMINAL_MENU_ITEM object; the body is empty and member destructors run implicitly.
 // @fnv 0x005010f0
-FUN_005010f0::~FUN_005010f0()
+// src: COMMUNITY 0x005010f0
+TERMINAL_MENU_ITEM::~TERMINAL_MENU_ITEM()
 {}
 
 struct FUN_005098e0_Object

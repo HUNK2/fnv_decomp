@@ -374,7 +374,7 @@ struct FUN_00657f60_class
     void* f;
     void ReleaseStorage_00657f60();
 };
-struct FUN_00b02e20
+struct CSpeedTreeRT_STextures
 {
     void* p0;
     void* p4;
@@ -383,7 +383,7 @@ struct FUN_00b02e20
     void* p10;
     void* p14;
     void* p18;
-    FUN_00b02e20();
+    CSpeedTreeRT_STextures();
 };
 struct GlobalObject_00b3f100
 {
@@ -10992,7 +10992,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     pointer _Mylast;
     pointer _Myend;
 };
-class FUN_00b06180_Reader
+class CTreeFileAccess
 {
   public:
     bool CTreeFileAccess_ParseBool();
@@ -11002,7 +11002,7 @@ class FUN_00b06180_Reader
 
 // @fnv 0x00b06180
 // src: COMMUNITY 0x00b06180
-bool FUN_00b06180_Reader::CTreeFileAccess_ParseBool()
+bool CTreeFileAccess::CTreeFileAccess_ParseBool()
 {
     return m_kFlags[m_uiPosition++] != 0;
 }

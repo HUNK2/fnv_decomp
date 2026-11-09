@@ -30,7 +30,7 @@ struct Flt
 {
     operator unsigned int() const;
 };
-struct FUN_006fb6e0_shell
+struct BGSTerrainChunk
 {
     void BGSTerrainChunk_Hide();
 };

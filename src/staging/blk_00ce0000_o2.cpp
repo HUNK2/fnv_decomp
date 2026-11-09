@@ -74,14 +74,15 @@ template <typename T> __forceinline void hkMemoryAllocator::_bufFree(void* p, in
 extern int DAT_010cc164;
 void __cdecl FUN_00d86220();
 
-struct FUN_00cf45d0_class
+struct bhkSpringDamperConstraintMotor
 {
     int vtable;
-    FUN_00cf45d0_class();
+    bhkSpringDamperConstraintMotor();
 };
 
 // @fnv 0x00cf45d0
-FUN_00cf45d0_class::FUN_00cf45d0_class()
+// src: EXE 0x00cf45d0
+bhkSpringDamperConstraintMotor::bhkSpringDamperConstraintMotor()
 {
     FUN_00d86220();
     vtable = (int)&DAT_010cc164;
@@ -218,18 +219,19 @@ void FUN_00cf86e0_class::hkpSimulation_setFrameTimeMarker(float f)
 
 extern int DAT_010cc2e0;
 
-struct FUN_00cf4820_class
+struct hkPointToPathConstraintCinfo
 {
     int* vtbl;
     int m1;
     int m2;
     int m3;
     int m4;
-    FUN_00cf4820_class();
+    hkPointToPathConstraintCinfo();
 };
 
 // @fnv 0x00cf4820
-FUN_00cf4820_class::FUN_00cf4820_class()
+// src: EXE 0x00cf4820
+hkPointToPathConstraintCinfo::hkPointToPathConstraintCinfo()
 {
     m1 = 0;
     m2 = 1;
@@ -265,7 +267,7 @@ struct FUN_00ce5370_cls
     void UpdateState_00ce5370();
 };
 
-struct FUN_00ce29e0_cls
+struct hkaSkeletonMapper
 {
     int* m_pVTable;          // +0x00
     int unk04;               // +0x04
@@ -277,7 +279,7 @@ struct FUN_00ce29e0_cls
 
 // @fnv 0x00ce29e0
 // src: GUESS 0x00ce29e0 (confidence: low)
-void FUN_00ce29e0_cls::UpdateFields_00ce29e0()
+void hkaSkeletonMapper::UpdateFields_00ce29e0()
 {
     m_pVTable = &DAT_010cb864;
     m_sub.UpdateState_00ce5370();
@@ -601,7 +603,7 @@ struct SubObject_b3813
     void Release();
 };
 
-struct FUN_00cf4eb0_cls
+struct hkpAction
 {
     int m_vptr;
     unsigned short m_uSize;
@@ -611,11 +613,11 @@ struct FUN_00cf4eb0_cls
     int unk10;
     SubObject_b3813 m_sub;
 
-    FUN_00cf4eb0_cls* Destroy(unsigned char acFlags);
+    hkpAction* Destroy(unsigned char acFlags);
 };
 
 // @fnv 0x00cf4eb0
-FUN_00cf4eb0_cls* FUN_00cf4eb0_cls::Destroy(unsigned char acFlags)
+hkpAction* hkpAction::Destroy(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010cc2fc;
     m_sub.Release();
@@ -1220,19 +1222,20 @@ extern "C" unsigned int __cdecl SaveUIntArray(NiStream& kStream, const ArrayData
 }
 
 extern int DAT_010cc064;
-struct FUN_00cdf560
+struct hkpPositionConstraintMotor
 {
     int m0;
     int m4;
     int m8;
-    FUN_00cdf560(float);
+    hkpPositionConstraintMotor(float);
 };
-struct FUN_00cf4190 : FUN_00cdf560
+struct bhkPositionConstraintMotor : hkpPositionConstraintMotor
 {
-    FUN_00cf4190();
+    bhkPositionConstraintMotor();
 };
 // @fnv 0x00cf4190
-FUN_00cf4190::FUN_00cf4190() : FUN_00cdf560(0.0f)
+// src: EXE 0x00cf4190
+bhkPositionConstraintMotor::bhkPositionConstraintMotor() : hkpPositionConstraintMotor(0.0f)
 {
     m0 = (int)&DAT_010cc064;
 }
@@ -1614,7 +1617,7 @@ struct S_00cfc5a0
     unsigned short unkAA;
 };
 
-struct FUN_00cfc5a0
+struct hkpReportContactMgr
 {
     int* vtbl;
     unsigned short unk04;
@@ -1625,12 +1628,13 @@ struct FUN_00cfc5a0
     S_00cfc5a0* unk14;
     unsigned short unk18;
 
-    FUN_00cfc5a0(int a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
+    hkpReportContactMgr(int a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
 };
 
 // Sets up the object with a1, stores a2 and a3, and records the smaller of their unkAA values in unk18.
 // @fnv 0x00cfc5a0
-FUN_00cfc5a0::FUN_00cfc5a0(int aiValue, S_00cfc5a0* apFirst, S_00cfc5a0* apSecond)
+// src: EXE 0x00cfc5a0
+hkpReportContactMgr::hkpReportContactMgr(int aiValue, S_00cfc5a0* apFirst, S_00cfc5a0* apSecond)
 {
     unk06 = 1;
     unk08 = 1;

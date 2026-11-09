@@ -138,15 +138,16 @@ struct TT005fc900
     virtual ~TT005fc900();
     char p[0xc];
 };
-struct FUN_005fc900 : public SB005fc900
+struct RANK_DATA : public SB005fc900
 {
     SB005fc900 s;
     TT005fc900 t;
-    ~FUN_005fc900();
+    ~RANK_DATA();
 };
-// Destructor for FUN_005fc900 that destroys its embedded SB005fc900 and TT005fc900 members.
+// Destructor for RANK_DATA that destroys its embedded SB005fc900 and TT005fc900 members.
 // @fnv 0x005fc900
-FUN_005fc900::~FUN_005fc900()
+// src: COMMUNITY 0x005fc900
+RANK_DATA::~RANK_DATA()
 {}
 
 

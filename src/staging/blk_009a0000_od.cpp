@@ -473,11 +473,12 @@ void __fastcall CombatState_UpdateState_009a3410(GlobalObject_00869f00*);
 void __cdecl operator delete(void*);
 struct FUN_009a3850_Class : public GlobalObject_00869f00
 {
-    void* __thiscall FUN_009a3850(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_009a3410 on this, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x009a3850
-void* __thiscall FUN_009a3850_Class::FUN_009a3850(unsigned int flags)
+// src: EXE 0x009a3850
+void* __thiscall FUN_009a3850_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     CombatState_UpdateState_009a3410(this);
     if (flags & 1)
@@ -729,7 +730,7 @@ struct FourDimensionalVector
 {
     float x, y, z, w;
 };
-struct FUN_004b4e50_shell
+struct bhkVector4
 {
     FourDimensionalVector* bhkVector4_NI2HK(void*);
 };
@@ -738,17 +739,17 @@ struct FUN_009ae4d0_shell
     void bhkMatrix3_NI2HKNS(void*);
 };
 void __cdecl bhkMatrix3_NI2HKNS(void*);
-struct FUN_009ae4a0_class
+struct bhkTransform
 {
     void* __thiscall bhkTransform_NI2HK(void* arg);
 };
 // Calls FUN_009ae4d0 on this with arg, then bhkVector4_NI2HK on the object at this+0x30 with arg+0x24, and returns this.
 // @fnv 0x009ae4a0
 // src: COMMUNITY 0x009ae4a0
-void* __thiscall FUN_009ae4a0_class::bhkTransform_NI2HK(void* arg)
+void* __thiscall bhkTransform::bhkTransform_NI2HK(void* arg)
 {
     ((FUN_009ae4d0_shell*)this)->bhkMatrix3_NI2HKNS(arg);
-    ((FUN_004b4e50_shell*)((char*)this + 0x30))->bhkVector4_NI2HK((char*)arg + 0x24);
+    ((bhkVector4*)((char*)this + 0x30))->bhkVector4_NI2HK((char*)arg + 0x24);
     return this;
 }
 
@@ -1285,7 +1286,7 @@ int _sprintf_s(char*, unsigned int, const char*, ...);
 int __cdecl CombatWorldState_GetStateValueText(int a, int b);
 int __cdecl GetKeywordName(int a);
 extern char $SG3667[];
-struct FUN_009aa150_Class
+struct CombatWorldState
 {
     int m0;
     int m4;
@@ -1294,7 +1295,7 @@ struct FUN_009aa150_Class
 };
 // @fnv 0x009aa150
 // src: COMMUNITY 0x009aa150
-void __thiscall FUN_009aa150_Class::CombatWorldState_GetDebugText(char* pBuffer, unsigned int uiBufferSize, int c)
+void __thiscall CombatWorldState::CombatWorldState_GetDebugText(char* pBuffer, unsigned int uiBufferSize, int c)
 {
     if (c == -1)
         c = m4;
@@ -1312,13 +1313,13 @@ struct FUN_009ae540_Class
     void* p10;
     void* p20;
 };
-struct FUN_009ae4d0_Class : FUN_009ae540_Class
+struct bhkMatrix3 : FUN_009ae540_Class
 {
     FUN_009ae540_Class* __thiscall bhkMatrix3_NI2HKNS(void* a);
 };
 // @fnv 0x009ae4d0
 // src: COMMUNITY 0x009ae4d0
-FUN_009ae540_Class* __thiscall FUN_009ae4d0_Class::bhkMatrix3_NI2HKNS(void* a)
+FUN_009ae540_Class* __thiscall bhkMatrix3::bhkMatrix3_NI2HKNS(void* a)
 {
     Point3Value l;
     ((NiPoint3*)&l)->FUN_006815c0();
@@ -2049,7 +2050,7 @@ extern "C" int __fastcall CombatController_GetTarget(void* obj);
 extern "C" float __cdecl TESAIForm_GetConfidenceLevel(unsigned int v);
 extern const double DAT_01012060;
 
-class FUN_009a1380_cls
+class CombatState
 {
   public:
     unsigned int m_00;
@@ -2181,7 +2182,7 @@ class FUN_009a1380_cls
 // Returns 1 if m_08 is less than a value derived from m_c9 (reduced by m_cc when above DAT_01012060), or 0 if FUN_004030b0(m_1c4) is zero.
 // @fnv 0x009a1380
 // src: COMMUNITY 0x009a1380
-unsigned char FUN_009a1380_cls::CombatState_CheckShouldFlee()
+unsigned char CombatState::CombatState_CheckShouldFlee()
 {
     float f;
     if (CombatController_GetTarget(m_1c4) == 0)
@@ -2968,13 +2969,14 @@ struct FUN_008c71b0_Class
 {
     void FUN_008c71b0(int value);
 };
-struct FUN_009a7bc0 : FUN_0062a220
+struct SpecificItemCollector : FUN_0062a220
 {
-    FUN_009a7bc0(unsigned int first, unsigned int second);
+    SpecificItemCollector(unsigned int first, unsigned int second);
 };
 // Sets the vtable, initialises the object at offset 0x70 with 0, then calls SetFilter with first and second.
 // @fnv 0x009a7bc0
-FUN_009a7bc0::FUN_009a7bc0(unsigned int first, unsigned int second)
+// src: EXE 0x009a7bc0
+SpecificItemCollector::SpecificItemCollector(unsigned int first, unsigned int second)
 {
     vtable = &DAT_0104e1dc;
     reinterpret_cast<FUN_008c71b0_Class*>(reinterpret_cast<char*>(this) + 0x70)->FUN_008c71b0(0);

@@ -205,11 +205,12 @@ struct CpuObject
     unsigned int unk00;
     unsigned short size;
     void Destroy();
-    CpuObject* FUN_00e066c0(unsigned int flags);
+    CpuObject* ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_00e06650, then if the low bit of flags is set, invokes the global CpuAllocator with this and size, and returns this.
 // @fnv 0x00e066c0
-CpuObject* CpuObject::FUN_00e066c0(unsigned int flags)
+// src: EXE 0x00e066c0
+CpuObject* CpuObject::ScalarDeletingDestructor(unsigned int flags)
 {
     Destroy();
     if (flags & 1)

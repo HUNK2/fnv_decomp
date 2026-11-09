@@ -126,7 +126,7 @@ struct FUN_00c61810_class
 {
     void* BSWArray_GetRTTI();
 };
-struct FUN_00c61820_class
+struct PArrayPoint
 {
     void* PArrayPoint_Copy(int);
 };
@@ -204,10 +204,10 @@ struct FUN_00c65680_Class
     void* m_iWordAt04;
     void __thiscall FUN_00c65680();
 };
-struct FUN_00c600c0_class
+struct BSPSysStripUpdateModifier
 {
     void* __thiscall UpdateState_00c5fd50();
-    void* __thiscall FUN_00c600c0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c613a0_Class
@@ -248,7 +248,7 @@ struct FUN_00c64610_Class
     void __thiscall FUN_00c63b40();
     void* __thiscall FUN_00c64610(unsigned int flags);
 };
-struct FUN_00c64930_Class
+struct BSReference
 {
     void BSReference_LinkObject(int a);
 };
@@ -2316,9 +2316,9 @@ struct FUN_00cab710 : ShapeRef
     }
     static void operator delete(void*);
 };
-struct FUN_00c6d290 : ShapeRef
+struct bhkListShape : ShapeRef
 {
-    FUN_00c6d290(CompoundInfo const&);
+    bhkListShape(CompoundInfo const&);
     static void* operator new(unsigned int n)
     {
         return Object_DispatchCommandFour(n);
@@ -2361,10 +2361,10 @@ struct __declspec(align(16)) AuxInfo
 struct ShapeInput;
 struct ShapeOwner;
 extern MemoryManager DAT_011f6238;
-struct FUN_00c6d1e0 : ShapeRef
+struct bhkCollisionBox : ShapeRef
 {
     int unk14, unk18, unk1c;
-    FUN_00c6d1e0(AuxInfo const&, ShapeOwner*);
+    bhkCollisionBox(AuxInfo const&, ShapeOwner*);
     static void* operator new(unsigned int n)
     {
         unsigned char* p = (unsigned char*)DAT_011f6238.Game_DoHeapAlloc(n + 16);

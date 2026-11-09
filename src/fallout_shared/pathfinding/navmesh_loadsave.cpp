@@ -431,12 +431,13 @@ void _Deallocate(void*);
 
 struct FUN_006950a0_shell
 {
-    void* FUN_006950a0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00694e10 on this, frees this with _Deallocate when flags has bit 1 set, and returns this.
 // @fnv 0x006950a0
-void* FUN_006950a0_shell::FUN_006950a0(unsigned int flags)
+// src: EXE 0x006950a0
+void* FUN_006950a0_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     NavmeshLoadsave_UpdateState_00694e10(this);
     if (flags & 1)

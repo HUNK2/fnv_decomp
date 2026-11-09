@@ -444,17 +444,18 @@ NiAlphaAccumulator* CreateNiAlphaAccumulator()
     return 0;
 }
 
-struct FUN_00a9be80 {
+struct NiShaderConstantMap {
     const void* m_vft;
     int m_ref;
     int m_data;
-    FUN_00a9be80(int data);
+    NiShaderConstantMap(int data);
 };
 extern volatile long DAT_011f4400;
 extern const void* DAT_010a1478;
 extern const void* vftable_NiRefObject;
 // @fnv 0x00a9be80
-FUN_00a9be80::FUN_00a9be80(int data) {
+// src: EXE 0x00a9be80
+NiShaderConstantMap::NiShaderConstantMap(int data) {
     m_vft = &vftable_NiRefObject;
     m_ref = 0;
     InterlockedIncrement(&DAT_011f4400);
@@ -646,7 +647,7 @@ void FUN_00a94c00_shell::NiSpotLight_CopyMembers(NiDirectionalLight* dst, Clonin
 
 extern MemoryManager g_memoryManager;
 extern char* DAT_010a05e4;
-struct FUN_00a96800_shell {
+struct NiParticlesData {
     char m_auiShapeKeys[0x44];
     void* m_44;
     void* m_48;
@@ -663,7 +664,7 @@ struct FUN_00a96800_shell {
 };
 // @fnv 0x00a96800
 // src: GUESS 0x00a96800 (confidence: medium)
-void FUN_00a96800_shell::ReleaseStorage_00a96800()
+void NiParticlesData::ReleaseStorage_00a96800()
 {
     void* pOld = m_4c;
     *(void**)this = &DAT_010a05e4;
@@ -714,13 +715,13 @@ extern void* _EmptyFS;
 extern int (__stdcall* DAT_00fdf1c4)(void*);
 extern const void* vftable_NiRefObject;
 
-struct FUN_00a8f810_class {
+struct NiMaterial {
     void SetVtableAndProcessState_00a8f810();
 };
 
 // @fnv 0x00a8f810
 // src: GUESS 0x00a8f810 (confidence: low)
-void FUN_00a8f810_class::SetVtableAndProcessState_00a8f810()
+void NiMaterial::SetVtableAndProcessState_00a8f810()
 {
     *(const void**)this = &DAT_0109f73c;
     Stub* s = (Stub*)DAT_011f5e34;
@@ -764,11 +765,12 @@ struct SdmDerived {
     void* m_vt;
     void* m_iWordAt04;
     void* m_8;
-    void* FUN_00a8fa10(char flag);
+    void* ScalarDeletingDestructor(char flag);
 };
 
 // @fnv 0x00a8fa10
-void* SdmDerived::FUN_00a8fa10(char flag)
+// src: EXE 0x00a8fa10
+void* SdmDerived::ScalarDeletingDestructor(char flag)
 {
     m_vt = (void*)&vftable_SdmDerived;
     ((NiTFixedStringMap_NiAVObject___*)this)->RemoveAll();

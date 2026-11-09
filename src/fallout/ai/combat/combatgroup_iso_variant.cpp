@@ -201,7 +201,7 @@ struct FUN_00985a50_shell
     void* p10;
     void CombatMember_LoadGame(BGSLoadFormBuffer* buffer, FUN_0098de60_shell* obj);
 };
-struct FUN_00985ae0_shell
+struct CombatGroupCluster
 {
     void __thiscall CombatGroupCluster_SaveGame(BGSSaveFormBuffer* buffer, int a1);
 };
@@ -230,12 +230,12 @@ struct FUN_0098f560
     char data[16];
     ~FUN_0098f560();
 };
-struct FUN_009863b0
+struct CombatGroupData
 {
     char pad[24];
     FUN_0098f560 m18;
     FUN_0098f560 m28;
-    ~FUN_009863b0();
+    ~CombatGroupData();
 };
 struct FUN_009865b0_shell : ActorCombatGroup
 {
@@ -718,7 +718,7 @@ struct FUN_0098de30_class
 {
     unsigned char CombatGroup_GetClusterIndex(unsigned int*);
 };
-struct FUN_009859c0_shell
+struct CombatMember
 {
     void __thiscall CombatMember_SaveGame(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
 };
@@ -923,7 +923,7 @@ struct CombatTimeStampLoadGame
     void __thiscall LoadGame(BGSLoadFormBuffer* pBuffer);
 };
 extern double DAT_0101db88;
-struct FUN_00985be0_shell : public FUN_00985bb0_Class
+struct CombatSearchLocation : public FUN_00985bb0_Class
 {
     NiColorA* CombatSearchLocation_GetColor(NiColorA* result);
 };
@@ -3887,7 +3887,7 @@ struct SenseData
     bool visible;
     char unk1f;
     int score20;
-    void FUN_0066e590();
+    void DetectionState();
 };
 typedef SenseData Sense;
 struct Target
@@ -4373,7 +4373,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
             {
                 memberLocal19 = GetIntAt(indexLocal5);
                 senseLocal1 = reinterpret_cast<Process*>(memberLocal19->FUN_008d8520())->v504(subject, 0);
-                fallbackLocal15.FUN_0066e590();
+                fallbackLocal15.DetectionState();
                 if (memberLocal19->FUN_00931850() && subject->FUN_00931850())
                 {
                     memberLocal19->TESObjectREFR_GetWorldLocation(reinterpret_cast<::Position*>(&originLocal30));
@@ -5967,7 +5967,7 @@ struct Member138_985d10
     Member138_985d10();
     ~Member138_985d10();
 };
-struct FUN_00985d10
+struct CombatGroup
 {
     int m_00;
     int m_04;
@@ -6009,7 +6009,7 @@ struct FUN_00985d10
     char m_154;
     MemberD4_985d10 m_158;
 
-    FUN_00985d10(int a1);
+    CombatGroup(int a1);
 };
 struct AvoidNode9894 : AvoidanceVectorData
 {

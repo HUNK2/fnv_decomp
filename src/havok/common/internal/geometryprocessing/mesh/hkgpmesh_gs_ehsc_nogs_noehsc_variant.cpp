@@ -20,10 +20,10 @@ struct FUN_00e12140_cls
 };
 extern "C" void __cdecl Deallocate(void*);
 extern int DAT_010eadfc;
-struct FUN_00e22450
+struct hkGskShape
 {
     void* m_p;
-    FUN_00e22450(char f);
+    hkGskShape(char f);
 };
 struct FUN_00e234e0_
 {

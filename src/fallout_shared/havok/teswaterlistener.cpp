@@ -25,7 +25,7 @@
 
 struct FUN_0062e750_shell
 {
-    void* __thiscall FUN_0062e750(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
     void __thiscall FUN_0062e860();
 };
 
@@ -33,7 +33,8 @@ void __cdecl _Deallocate(void* p);
 
 // Calls FUN_0062e860, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0062e750
-void* FUN_0062e750_shell::FUN_0062e750(unsigned int flags)
+// src: EXE 0x0062e750
+void* FUN_0062e750_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_0062e860();
     if (flags & 1)
@@ -553,9 +554,9 @@ struct SpawnedSub
     void FUN_007cb2e0(const int* a);
 };
 
-struct FUN_0062e590 : SpawnedBase
+struct WaterTargetEntry : SpawnedBase
 {
-    FUN_0062e590(int a1, int a2);
+    WaterTargetEntry(int a1, int a2);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -580,7 +581,8 @@ struct FUN_0062e590 : SpawnedBase
 
 // Constructs the base with a1 and zero, then initializes m_50 from a2, falling back to FUN_007cb2e0 when FUN_00719b20 returns -1.
 // @fnv 0x0062e590
-FUN_0062e590::FUN_0062e590(int a1, int aiValue) : SpawnedBase(a1, 0), m_50()
+// src: EXE 0x0062e590
+WaterTargetEntry::WaterTargetEntry(int a1, int aiValue) : SpawnedBase(a1, 0), m_50()
 {
     if (m_50.FUN_00719b20(&aiValue, 0, Actor_AreReferencedValuesEqual) == -1)
     {
@@ -610,7 +612,7 @@ struct FUN_0048f200
     FUN_0048f200();
     ~FUN_0048f200();
 };
-struct FUN_0062e630 : FUN_00cb75d0, FUN_0061ffb0
+struct TESWaterListener : FUN_00cb75d0, FUN_0061ffb0
 {
     float scale;
     int* data;
@@ -619,11 +621,12 @@ struct FUN_0062e630 : FUN_00cb75d0, FUN_0061ffb0
     int predecessor;
     int successor;
     FUN_0048f200 synchronization;
-    FUN_0062e630(float value);
+    TESWaterListener(float value);
 };
 // Initializes the object: sets scale to 1.0, enabled to 1, allocates data, calls SetValueAt with value, and clears predecessor and successor.
 // @fnv 0x0062e630
-FUN_0062e630::FUN_0062e630(float value) : scale(1.0f)
+// src: EXE 0x0062e630
+TESWaterListener::TESWaterListener(float value) : scale(1.0f)
 {
     enabled = 1;
     data = new int;
@@ -1013,18 +1016,19 @@ class B631230Base
     int unk14;
 };
 
-class FUN_00631230 : public B631230Base
+class WaterZone : public B631230Base
 {
   public:
     float m_fStartValue;
     int m_iArrayLength;
 
-    FUN_00631230(TESObjectREFR* pkActor, unsigned int uiType);
-    virtual ~FUN_00631230();
+    WaterZone(TESObjectREFR* pkActor, unsigned int uiType);
+    virtual ~WaterZone();
 };
 
 // @fnv 0x00631230
-FUN_00631230::FUN_00631230(TESObjectREFR* pkActor, unsigned int uiType) : B631230Base(pkActor, uiType)
+// src: EXE 0x00631230
+WaterZone::WaterZone(TESObjectREFR* pkActor, unsigned int uiType) : B631230Base(pkActor, uiType)
 {
     m_fStartValue = pkActor ? static_cast<const TESObjectREFR*>(pkActor)->GetPos()->z : 0.0f;
     m_iArrayLength = 0;

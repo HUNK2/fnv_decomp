@@ -28,7 +28,7 @@ struct FUN_00dee6c0_cls
 {
     int m_vptr;
 
-    FUN_00dee6c0_cls* FUN_00dee6c0(unsigned char acFlags);
+    FUN_00dee6c0_cls* ScalarDeletingDestructor(unsigned char acFlags);
 };
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {

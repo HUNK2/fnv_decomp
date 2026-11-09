@@ -267,16 +267,16 @@ struct AngleSinCosHelper
     int d[2];
     AngleSinCosHelper& operator=(const AngleSinCosHelper&);
 };
-struct FUN_006a05e0_cls
+struct AngleSinCosArc
 {
     AngleSinCosHelper a;
     AngleSinCosHelper b;
     int dir;
-    FUN_006a05e0_cls* Init(const AngleSinCosHelper* aStart, const AngleSinCosHelper* aEnd, int aeDir);
+    AngleSinCosArc* Init(const AngleSinCosHelper* aStart, const AngleSinCosHelper* aEnd, int aeDir);
 };
 // Copies the start and end angle values and the direction into the object and returns this.
 // @fnv 0x006a05e0
-FUN_006a05e0_cls* FUN_006a05e0_cls::Init(const AngleSinCosHelper* aStart, const AngleSinCosHelper* aEnd, int aeDir)
+AngleSinCosArc* AngleSinCosArc::Init(const AngleSinCosHelper* aStart, const AngleSinCosHelper* aEnd, int aeDir)
 {
     a = *aStart;
     b = *aEnd;

@@ -95,7 +95,7 @@ void __stdcall hkOffsetOnlyStreamWriter_seekTellSupported(unsigned char* output)
     *output = 1;
 }
 
-struct FUN_00e02ee0_cls
+struct hkOffsetOnlyStreamWriter
 {
     virtual void vf00();
     int unk04;
@@ -106,7 +106,7 @@ struct FUN_00e02ee0_cls
 
 // @fnv 0x00e02ee0
 // src: EXE 0x00e02ee0
-int FUN_00e02ee0_cls::hkOffsetOnlyStreamWriter_tell()
+int hkOffsetOnlyStreamWriter::hkOffsetOnlyStreamWriter_tell()
 {
     return unk08;
 }

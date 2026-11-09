@@ -1162,14 +1162,14 @@ struct FUN_00aa4ee0_shell : public GameTimerRecord
 extern "C" __declspec(dllimport) void __stdcall Sleep(unsigned long dwMilliseconds);
 extern double _gModifierZero;
 extern float DAT_011ac3a0;
-struct FUN_00aa4ee0_t : public GameTimerRecord
+struct BSTimer : public GameTimerRecord
 {
     void BSTimer_Update(unsigned int aiTime);
 };
 
 // @fnv 0x00aa4ee0
 // src: XBOX_PDB 0x00aa4ee0
-void FUN_00aa4ee0_t::BSTimer_Update(unsigned int aiTime)
+void BSTimer::BSTimer_Update(unsigned int aiTime)
 {
     unsigned int iscaleTime = aiTime - m_uiSecondTimerValue;
     if ((bool)(m_ucFirstTimerByte ? 0 : 1))

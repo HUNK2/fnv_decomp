@@ -392,7 +392,7 @@ struct CombatTargetMapLock
     void AcquireLock();
 };
 
-struct FUN_0099c210_shell
+struct CombatCoverMap
 {
     int m_kPointA;
     int m_kPointB;
@@ -405,7 +405,7 @@ struct FUN_0099c210_shell
 
 // @fnv 0x0099c210
 // src: COMMUNITY 0x0099c210
-void __thiscall FUN_0099c210_shell::CombatCoverMap_LockForWrite()
+void __thiscall CombatCoverMap::CombatCoverMap_LockForWrite()
 {
     m_lock.AcquireLock();
 }
@@ -447,7 +447,7 @@ struct CoordinateTriple
     void BGSWorldLocation_SaveGame(void*);
 };
 
-struct FUN_009a2d80_shell
+struct UnreachableLocation
 {
     void UnreachableLocation_SaveGame(void* buffer);
 };
@@ -455,7 +455,7 @@ struct FUN_009a2d80_shell
 // Calls FUN_00527b70 on this and CombatTimeStamp_SaveGame on the object at offset 0x10, passing buffer to both.
 // @fnv 0x009a2d80
 // src: COMMUNITY 0x009a2d80
-void FUN_009a2d80_shell::UnreachableLocation_SaveGame(void* buffer)
+void UnreachableLocation::UnreachableLocation_SaveGame(void* buffer)
 {
     reinterpret_cast<CoordinateTriple*>(this)->BGSWorldLocation_SaveGame(buffer);
     reinterpret_cast<CombatTargetTimestamp*>(reinterpret_cast<char*>(this) + 0x10)->CombatTimeStamp_SaveGame(buffer);
@@ -812,14 +812,14 @@ bool CombatState::GetHasBuffered360LineOfSight_00998980()
 }
 
 
-struct FUN_009989d0_shell
+struct TESCombatStyle
 {
     bool HasCombatFlag(int);
     bool TESCombatStyle_GetIgnoreThreats();
 };
 // @fnv 0x009989d0
 // src: XBOX_PDB 0x009989d0
-bool FUN_009989d0_shell::TESCombatStyle_GetIgnoreThreats()
+bool TESCombatStyle::TESCombatStyle_GetIgnoreThreats()
 {
     return HasCombatFlag(0x10);
 }
@@ -1187,7 +1187,7 @@ struct Inner097
     void BGSWorldLocation_BGSWorldLocation();
     NiPoint3* FUN_006815c0();
 };
-struct FUN_009a08d0_Cls
+struct CombatLocationTarget
 {
     unsigned char b0;
     unsigned char b1;
@@ -1195,11 +1195,11 @@ struct FUN_009a08d0_Cls
     Inner097 u8;
     float f18;
     float f1c;
-    FUN_009a08d0_Cls* CombatLocationTarget_CombatLocationTarget();
+    CombatLocationTarget* CombatLocationTarget_CombatLocationTarget();
 };
 // @fnv 0x009a08d0
 // src: XBOX_PDB 0x009a08d0
-FUN_009a08d0_Cls* FUN_009a08d0_Cls::CombatLocationTarget_CombatLocationTarget()
+CombatLocationTarget* CombatLocationTarget::CombatLocationTarget_CombatLocationTarget()
 {
     b0 = 0;
     b1 = 0;
@@ -1725,7 +1725,7 @@ void CombatSaveGameData::CombatCoverSearch_LoadGameBGS(BGSLoadFormBuffer* buffer
 }
 }  // namespace fnv_009a3050
 
-struct FUN_0097ee20_shell
+struct CombatLocation
 {
     char _pad[0x10];
     int f10;
@@ -1733,13 +1733,13 @@ struct FUN_0097ee20_shell
     float f18;
     int f1c;
     void BGSWorldLocation_BGSWorldLocation();
-    FUN_0097ee20_shell* CombatLocation_CombatLocation();
+    CombatLocation* CombatLocation_CombatLocation();
 };
 
 // Calls FUN_0097ede0, then sets f10 to 0, f14 to -1, f18 to 0.0f and f1c to 0, returning this.
 // @fnv 0x0097ee20
 // src: XBOX_PDB 0x0097ee20
-FUN_0097ee20_shell* FUN_0097ee20_shell::CombatLocation_CombatLocation()
+CombatLocation* CombatLocation::CombatLocation_CombatLocation()
 {
     BGSWorldLocation_BGSWorldLocation();
     f10 = 0;
@@ -2153,11 +2153,11 @@ struct Base_009a3410
     }
 };
 
-struct FUN_006e4d00_shell
+struct CombatCoverSearchInfo
 {
     int pad;
     void CallMemberFunction();
-    ~FUN_006e4d00_shell()
+    ~CombatCoverSearchInfo()
     {
         CallMemberFunction();
     }
@@ -2192,9 +2192,9 @@ struct Ptr2_006e9e20
 struct FUN_00997aa0 : PrimaryBase, Base_009a3410
 {
     char pad_28[0xec - 0x28];
-    FUN_006e4d00_shell m_ec;
+    CombatCoverSearchInfo m_ec;
     char pad_f0[0x128 - 0xf0];
-    FUN_006e4d00_shell m_128;
+    CombatCoverSearchInfo m_128;
     char pad_12c[0x164 - 0x12c];
     FUN_009a3460_shell m_164;
     char pad_168[0x174 - 0x168];
@@ -3091,7 +3091,7 @@ struct Member14
     virtual void SaveGame(BGSSaveFormBuffer*);
 };
 
-struct FUN_00982c20
+struct CoverReservationInfo
 {
     void Save(BGSSaveFormBuffer*);
 };
@@ -3108,7 +3108,7 @@ struct FUN_009a2de0_struct
     char pad18[0x68 - 0x14 - sizeof(Member14)];
     int dword68;
     int dword6c;
-    FUN_00982c20 member70;
+    CoverReservationInfo member70;
 
     void CombatCoverLocation_SaveGameBGS(BGSSaveFormBuffer* buffer);
 };
@@ -3281,7 +3281,7 @@ bool CombatUtilities_IsActorUsingMelee(void* apActor)
 
 namespace fnv_009a0910 {
 struct FUN_009a0a40_shell;
-struct FUN_009a08d0_Cls;
+struct CombatLocationTarget;
 
 struct FUN_009a0910_Vector
 {
@@ -3298,7 +3298,7 @@ unsigned int _data_011c16bc;
 
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting423;
 
-struct FUN_009a08d0_Cls
+struct CombatLocationTarget
 {
     unsigned char flag;
     int field4;
@@ -3306,25 +3306,25 @@ struct FUN_009a08d0_Cls
     float value18;
     float value1c;
 
-    FUN_009a08d0_Cls();
+    CombatLocationTarget();
 };
 
 struct FUN_009a0910_shell
 {
     unsigned char padding[0xc4];
-    FUN_009a08d0_Cls* fieldC4;
+    CombatLocationTarget* fieldC4;
 
     void CombatState_SetLocationTargetLocation(FUN_009a0910_Vector* value, unsigned char flag, float value10, float value14);
 };
 
-// Calls CombatState_ClearLocationTarget, allocates a FUN_009a08d0_Cls into fieldC4 and stores the flag, vector, and two clamped float values.
+// Calls CombatState_ClearLocationTarget, allocates a CombatLocationTarget into fieldC4 and stores the flag, vector, and two clamped float values.
 // @fnv 0x009a0910
 // src: XBOX_PDB 0x009a0910
 void FUN_009a0910_shell::CombatState_SetLocationTargetLocation(FUN_009a0910_Vector* apVector, unsigned char flag, float value10, float value14)
 {
     CombatState_ClearLocationTarget(reinterpret_cast<FUN_009a0a40_shell*>(this));
 
-    fieldC4 = new FUN_009a08d0_Cls;
+    fieldC4 = new CombatLocationTarget;
 
     fieldC4->flag = flag;
     fieldC4->field4 = 0;

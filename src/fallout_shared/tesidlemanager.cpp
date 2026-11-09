@@ -367,26 +367,26 @@ void TESIdleManager_SetUsedItemActivate(unsigned char value)
 void _Deallocate(void*);
 struct S005fff90
 {
-    void FUN_005fffc0();
+    void IDLE_ANIM_ROOT();
     void* FUN_005fff90(unsigned int);
 };
 // @fnv 0x005fff90
 void* S005fff90::FUN_005fff90(unsigned int flags)
 {
-    FUN_005fffc0();
+    IDLE_ANIM_ROOT();
     if (flags & 1)
         _Deallocate(this);
     return this;
 }
 
-struct FUN_006005c0_shell : public IdleAnimationManager
+struct TESIdleManager : public IdleAnimationManager
 {
     NiFormArray* _TESIdleManager_GetIdleAnimRoot(const char* path);
 };
 
 // @fnv 0x006005c0
 // src: COMMUNITY 0x006005c0
-NiFormArray* FUN_006005c0_shell::_TESIdleManager_GetIdleAnimRoot(const char* path)
+NiFormArray* TESIdleManager::_TESIdleManager_GetIdleAnimRoot(const char* path)
 {
     NiFormArray* result = 0;
     if (path)
@@ -405,17 +405,18 @@ struct S_005fffc0_C
     ~S_005fffc0_C();
 };
 
-struct FUN_005fffc0
+struct IDLE_ANIM_ROOT
 {
     NiFormArray unk00;
     NiFormArray unk18;
     S_005fffc0_C unk30;
-    ~FUN_005fffc0();
+    ~IDLE_ANIM_ROOT();
 };
 
 // Destroys the directory entry's form arrays and list data.
 // @fnv 0x005fffc0
-FUN_005fffc0::~FUN_005fffc0()
+// src: COMMUNITY 0x005fffc0
+IDLE_ANIM_ROOT::~IDLE_ANIM_ROOT()
 {}
 
 struct FilenameList

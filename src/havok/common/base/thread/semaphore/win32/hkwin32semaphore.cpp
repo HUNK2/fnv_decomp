@@ -56,14 +56,14 @@ FUN_00d97970_cls* FUN_00d97970_cls::Init(unsigned int aValue)
 }
 
 #include <windows.h>
-struct FUN_00d04350_cls
+struct hkSemaphore
 {
     void* handle;
-    FUN_00d04350_cls* Create(long initialCount, long maximumCount);
+    hkSemaphore* Create(long initialCount, long maximumCount);
 };
 
 // @fnv 0x00d04350
-FUN_00d04350_cls* FUN_00d04350_cls::Create(long initialCount, long maximumCount)
+hkSemaphore* hkSemaphore::Create(long initialCount, long maximumCount)
 {
     handle = CreateSemaphoreA(0, initialCount, maximumCount, 0);
     return this;

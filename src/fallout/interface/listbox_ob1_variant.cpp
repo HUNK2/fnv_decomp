@@ -181,7 +181,7 @@ struct FUN_00723fd0_shell : GlobalObject_00869f00
 struct FUN_00724090_shell
 {
     void __thiscall FUN_00721150();
-    void* __thiscall FUN_00724090(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 struct FUN_00721920_shell
 {

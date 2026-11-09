@@ -160,10 +160,11 @@ struct FUN_009f9f70_class
 };
 struct FUN_009fbb30_class
 {
-    void* __thiscall FUN_009fbb30(int flag);
+    void* __thiscall ScalarDeletingDestructor(int flag);
 };
 // @fnv 0x009fbb30
-void* __thiscall FUN_009fbb30_class::FUN_009fbb30(int aiFlags)
+// src: EXE 0x009fbb30
+void* __thiscall FUN_009fbb30_class::ScalarDeletingDestructor(int aiFlags)
 {
     ((FUN_009f9f70_class*)this)->FUN_009f9f70();
     if (aiFlags & 1)
@@ -280,7 +281,7 @@ FUN_009fddd0_class* __thiscall FUN_009fddd0_class::FUN_009fddd0(int a)
     return this;
 }
 
-void __fastcall FUN_009fdc10(void*);
+void __fastcall CAsyncReader(void*);
 void __cdecl _Deallocate(void*);
 
 struct FUN_009fdeb0_class
@@ -291,7 +292,7 @@ struct FUN_009fdeb0_class
 // @fnv 0x009fdeb0
 int __thiscall FUN_009fdeb0_class::FUN_009fdeb0(int flag)
 {
-    FUN_009fdc10(this);
+    CAsyncReader(this);
     if (flag & 1)
         _Deallocate(this);
     return (int)this;
@@ -803,13 +804,13 @@ void __thiscall FUN_009fae70_class::ReleaseAndClearMember34()
     }
 }
 
-struct FUN_009fc580_class
+struct CMemAllocator
 {
     void ProcessState_009fb1c0();
-    FUN_009fc580_class* Destroy(bool);
+    CMemAllocator* Destroy(bool);
 };
 // @fnv 0x009fc580
-FUN_009fc580_class* FUN_009fc580_class::Destroy(bool abFree)
+CMemAllocator* CMemAllocator::Destroy(bool abFree)
 {
     ProcessState_009fb1c0();
     if (abFree & 1)
@@ -1085,10 +1086,10 @@ class FUN_009f9f70_member
     int unk00;
 };
 
-class FUN_009f9f70_cls
+class CEnumPins
 {
   public:
-    virtual ~FUN_009f9f70_cls();
+    virtual ~CEnumPins();
     int unk04;
     int unk08;
     FUN_009f9f70_holder* m_0c;
@@ -1099,7 +1100,8 @@ class FUN_009f9f70_cls
 
 // Destructor that fetches the leaf callback from m_0c and invokes it with the leaf and the holder's m_0c address.
 // @fnv 0x009f9f70
-FUN_009f9f70_cls::~FUN_009f9f70_cls()
+// src: EXE 0x009f9f70
+CEnumPins::~CEnumPins()
 {
     FUN_009f9f70_holder* pLeafHolder = m_0c;
     FUN_009f9f70_leaf* pLeaf = pLeafHolder->m_0c;
@@ -1242,7 +1244,7 @@ struct VkInner
     VkCallback* m_pCallback;
 };
 
-struct FUN_009fa100_cls
+struct CEnumMediaTypes
 {
     void* m_pVTable;
     int m_iUnknown04;
@@ -1251,7 +1253,7 @@ struct FUN_009fa100_cls
 };
 
 // @fnv 0x009fa100
-void FUN_009fa100_cls::InitVTableAndInvokeCallback()
+void CEnumMediaTypes::InitVTableAndInvokeCallback()
 {
     m_pVTable = DAT_01093c74;
 
@@ -2332,7 +2334,7 @@ class FDC10InterfaceB
     virtual long __stdcall QueryInterface(const void* riid, void** ppv);
 };
 
-class FUN_009fdc10 : public FDC10BaseFilter, public FDC10InterfaceA, public FDC10InterfaceB
+class CAsyncReader : public FDC10BaseFilter, public FDC10InterfaceA, public FDC10InterfaceB
 {
   public:
     int unk014;
@@ -2355,12 +2357,13 @@ class FUN_009fdc10 : public FDC10BaseFilter, public FDC10InterfaceA, public FDC1
     FDC10ListB m_kListB;
     FDC10ListC m_kListC;
 
-    virtual ~FUN_009fdc10();
+    virtual ~CAsyncReader();
 };
 
 // Destructor for the filter object; the body is empty, member destructors run automatically.
 // @fnv 0x009fdc10
-FUN_009fdc10::~FUN_009fdc10()
+// src: EXE 0x009fdc10
+CAsyncReader::~CAsyncReader()
 {}
 
 struct FUN_009fded0_cls

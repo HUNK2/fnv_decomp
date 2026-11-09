@@ -421,7 +421,7 @@ struct Tmp53a510
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     int unk40, unk44, unk48, unk4c;
-    void FUN_0053a510();
+    void COORD_DATA();
 };
 NiRenderer* NiXenonRenderer_GetRenderer();
 struct CamNode
@@ -489,7 +489,7 @@ void __cdecl TESTerrainLODManager_UpdateGrassForCell(Mgr* apMgr, int aiParam, Ni
     BSSimpleList<const char*> kModelList;
     CellForm* pBase = 0;
     Tmp53a510 kHelper;
-    kHelper.FUN_0053a510();
+    kHelper.COORD_DATA();
     unsigned short usW = 0;
     unsigned char bFlagA6 = 0;
     unsigned char bFlagB = 0;

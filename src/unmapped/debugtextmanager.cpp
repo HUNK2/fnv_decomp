@@ -404,7 +404,7 @@ class FUN_008027d0
 FUN_008027d0::FUN_008027d0() : m_iSlotCount(1), m_kFormatEntries(37), m_iArrayLength(0), m_iFirst(0), m_iLast(0)
 {}
 
-struct FUN_008029c0_class
+struct DebugTextManager
 {
     int unk00;
     int unk04;
@@ -420,7 +420,7 @@ struct FUN_008029c0_class
 
 // @fnv 0x008029c0
 // src: COMMUNITY 0x008029c0
-bool FUN_008029c0_class::DebugTextManager_SetScreenDebugPage(const char* apPage, int value)
+bool DebugTextManager::DebugTextManager_SetScreenDebugPage(const char* apPage, int value)
 {
     int result = reinterpret_cast<FUN_00802a20_class*>(this)->DebugTextManager_FindPageIndex(apPage);
 

@@ -278,7 +278,8 @@ void __cdecl Deallocate(void*);
 
 // Calls FUN_0097e3e0, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x0097e460
-void* CombatPlanner::FUN_0097e460(unsigned int flags)
+// src: EXE 0x0097e460
+void* CombatPlanner::ScalarDeletingDestructor(unsigned int flags)
 {
     this->CombatPlanner::~CombatPlanner();
     if (flags & 1)

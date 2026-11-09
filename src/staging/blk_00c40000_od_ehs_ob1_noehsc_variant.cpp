@@ -203,7 +203,7 @@ struct FUN_00c4afa0_class {
     void __thiscall CopyStateTo(int a, int b);
     void __thiscall BSDamageStage_CopyMembers(int a, int b);
 };
-struct FUN_00c4b000_class {
+struct BSDamageStage {
     void __thiscall BSRangeNode_LoadBinary(int);
     void __thiscall BSDamageStage_LoadBinary(int a);
 };
@@ -272,8 +272,8 @@ struct FUN_00a744a0 {
 FUN_00a744a0::FUN_00a744a0()
 {
 }
-struct FUN_00c5ceb0 : public FUN_00a744a0 {
-    FUN_00c5ceb0();
+struct BSScissorTriShape : public FUN_00a744a0 {
+    BSScissorTriShape();
 };
 extern "C" void __fastcall FUN_00a89760(void*);
 extern int DAT_010c2e7c;
@@ -333,7 +333,7 @@ struct FUN_00c5eb60_Class {
 void __cdecl FUN_00c3f8c0();
 struct FUN_00c40930_Class {
     void __thiscall FUN_00c3f8c0();
-    void* __thiscall FUN_00c40930(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 void __cdecl SetVtableAndProcessState_00c43070(void*);
 struct FUN_00c43620_Class {
@@ -349,7 +349,7 @@ extern "C" char* __cdecl _strchr(const char*, int);
 extern "C" int __cdecl _strcpy_s(char*, unsigned int, const char*);
 void __cdecl CopyMainNameFromPath(int param_1, char* param_2);
 void __cdecl EnsureArenaAllocated(void*);
-struct FUN_00c448f0_Class {
+struct BSParallelTaskThread {
     char pad[0x50];
     int m50;
     int m54;
@@ -390,11 +390,11 @@ struct FUN_00c4a640_class {
 };
 extern "C" void* g_01202e7c;
 extern "C" void* __cdecl NiViewerStrings_NiGetViewerString_Title(void*);
-struct FUN_00c4ab00_Class {
+struct BSBlastNode {
     void __thiscall BSRangeNode_GetViewerStrings(int);
     void __thiscall BSBlastNode_GetViewerStrings(int a);
 };
-struct FUN_00c4f2d0_class {
+struct BSCullingProcess {
     void __thiscall BSCullingProcess_PopCullMode();
 };
 struct FUN_00c5dcd0_Class {
@@ -412,7 +412,7 @@ struct FUN_00c50f30_class {
 };
 extern int DAT_0106c814;
 extern int DAT_010c256c;
-struct FUN_00c51640_Class {
+struct UpdateMasterPsysTaskletData {
     const char* s;
     int i;
     unsigned char b;
@@ -425,7 +425,7 @@ struct FUN_00878690_shell {
     void __thiscall FUN_00c51df0();
 };
 void __cdecl operator delete(void* ptr, unsigned int size);
-struct FUN_00c52830_class {
+struct BSSceneGraph {
     void* __thiscall FUN_00c52830(unsigned int flags);
 };
 struct NiExtraDataSaveHelper {
@@ -861,7 +861,7 @@ struct FUN_00c4ab80_class {
     char BSBlastNode_RegisterStreamables(int a);
 };
 unsigned int __cdecl _FUN_00a7d330(int a);
-struct FUN_00c4ad60_class : public FUN_00c4ab00_Class {
+struct FUN_00c4ad60_class : public BSBlastNode {
     void __thiscall AddFirstEmptyFromGlobal(int a);
 };
 unsigned int __cdecl _FUN_00a7d330(void*);
@@ -2508,9 +2508,9 @@ struct FNV_Base {
     virtual void vfn();
     ~FNV_Base();
 };
-struct FUN_00c53fa0_Class : public FNV_Base {
+struct BSFurnitureMarker : public FNV_Base {
     FNV_SubObject m_sub;    // +0x0c
-    ~FUN_00c53fa0_Class();
+    ~BSFurnitureMarker();
 };
 struct SpawnedSubObject
 {
@@ -4041,7 +4041,7 @@ struct FUN_00c5efb0_Class : NiExtraData {
 // then count via FUN_0044f890 and "Total INISettings" message + AddFirstEmpty).
 // SinkSave is a stand-in for the TU's local aggregate frame reservation.
 struct SinkSave { unsigned int data[15]; };
-struct FUN_00c43d00_Host {
+struct INISettingCollection {
     unsigned int SettingCollectionList_Setting_GetViewerStrings(NiTPrimitiveArray<unsigned int>& arr);
     unsigned int INISettingCollection_GetViewerStrings(NiTPrimitiveArray<unsigned int>& arr);
 };

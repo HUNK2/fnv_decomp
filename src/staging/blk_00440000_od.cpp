@@ -407,15 +407,15 @@ void FUN_0044d6f0_This::InitVtblAndCall()
 
 extern int DAT_01017458;
 
-struct FUN_0044d7f0_class
+struct InterfacedClass
 {
     int* vfn;
-    FUN_0044d7f0_class* __thiscall InterfacedClass_InterfacedClass();
+    InterfacedClass* __thiscall InterfacedClass_InterfacedClass();
 };
 
 // @fnv 0x0044d7f0
 // src: EXE 0x0044d7f0
-FUN_0044d7f0_class* __thiscall FUN_0044d7f0_class::InterfacedClass_InterfacedClass()
+InterfacedClass* __thiscall InterfacedClass::InterfacedClass_InterfacedClass()
 {
     vfn = &DAT_01017458;
     return this;
@@ -1820,11 +1820,12 @@ void Dummy44a3a0::SetVtableAndProcessState_0044a3d0()
 
 struct FUN_0044a420_Class
 {
-    void* __thiscall FUN_0044a420(unsigned int);
+    void* __thiscall ScalarDeletingDestructor(unsigned int);
 };
 // Calls FUN_0044a400 on this, then deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x0044a420
-void* __thiscall FUN_0044a420_Class::FUN_0044a420(unsigned int flags)
+// src: EXE 0x0044a420
+void* __thiscall FUN_0044a420_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     ((Dummy44a400*)this)->UpdateFields_0044a400();
     if (flags & 1)
@@ -2352,12 +2353,13 @@ namespace fnv_004505f0 {
 
 extern int DAT_010178bc;
 // The constructor assigns its original vtable explicitly.
-struct __declspec(novtable) FUN_004505f0 : NiNode
+struct __declspec(novtable) BSTempNodeManager : NiNode
 {
-    FUN_004505f0();
+    BSTempNodeManager();
 };
 // @fnv 0x004505f0
-FUN_004505f0::FUN_004505f0() : NiNode(0)
+// src: EXE 0x004505f0
+BSTempNodeManager::BSTempNodeManager() : NiNode(0)
 {
     *(int*)this = (int)&DAT_010178bc;
 }
@@ -2808,7 +2810,7 @@ unsigned int __thiscall S_FUN_0045bc00::NiNode_GetAtChecked(unsigned int uiIndex
     }
 }
 
-struct FUN_0045c4e0_This
+struct BSMultiBoundRoom
 {
     unsigned char pad[0xCC];
     int fieldCC;
@@ -2818,7 +2820,7 @@ struct FUN_0045c4e0_This
 // If fieldCC is set and differs from a, calls FUN_0045c520, then stores a into fieldCC.
 // @fnv 0x0045c4e0
 // src: COMMUNITY 0x0045c4e0
-void __thiscall FUN_0045c4e0_This::BSMultiBoundRoom_SetCompoundFrustum(int aiValue)
+void __thiscall BSMultiBoundRoom::BSMultiBoundRoom_SetCompoundFrustum(int aiValue)
 {
     if (fieldCC != 0 && fieldCC != aiValue)
         BSMultiBoundRoom_RemoveFrustum();
@@ -3141,13 +3143,13 @@ void FUN_00452eb0_Class::TES_ClearCellLoaderTasks()
     DAT_011c9618->ExteriorCellLoader_CancelAllCellLoads();
 }
 
-struct FUN_004538e0_Class
+struct BSCriticalSection
 {
     void __thiscall BSCriticalSection_Lock(int);
 };
 // @fnv 0x004538e0
 // src: XBOX_PDB 0x004538e0
-void __thiscall FUN_004538e0_Class::BSCriticalSection_Lock(int)
+void __thiscall BSCriticalSection::BSCriticalSection_Lock(int)
 {
     EnterCriticalSection((LPCRITICAL_SECTION)this);
 }
@@ -5525,7 +5527,7 @@ struct FUN_004f3660
     int unk04;
     FUN_004f3660();
 };
-struct FUN_005ffaf0
+struct TESIdleManager
 {
     int unk00;
     int unk04;
@@ -5537,9 +5539,9 @@ struct FUN_005ffaf0
     int unk1c;
     int unk20;
     int unk24;
-    FUN_005ffaf0();
+    TESIdleManager();
 };
-struct FUN_0058b770
+struct BGSCameraPathManager
 {
     int unk00;
     int unk04;
@@ -5551,12 +5553,12 @@ struct FUN_0058b770
     int unk1c;
     int unk20;
     int unk24;
-    FUN_0058b770();
+    BGSCameraPathManager();
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-extern FUN_005ffaf0* DAT_011cb6a0;
-extern FUN_0058b770* DAT_011ca700;
+extern TESIdleManager* DAT_011cb6a0;
+extern BGSCameraPathManager* DAT_011ca700;
 void __cdecl ourMemset(void*, int, unsigned int);
 struct GlobalObject_0048f200_d0054da00 : GlobalObject_0048f200
 {
@@ -5930,8 +5932,8 @@ FUN_0045d270::FUN_0045d270() : unk1dc(0, 1), unk1ec(0, 1)
     unk62c = 0;
     unk1dc.NiTArray_SetGrowBy(100);
     unk624 = new FUN_004f3660;
-    DAT_011cb6a0 = new FUN_005ffaf0;
-    DAT_011ca700 = new FUN_0058b770;
+    DAT_011cb6a0 = new TESIdleManager;
+    DAT_011ca700 = new BGSCameraPathManager;
     unk61f = 0;
     unk638 = 0;
     unk630 = 0;

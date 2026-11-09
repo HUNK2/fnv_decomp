@@ -458,7 +458,8 @@ template <> unsigned int FaceGenMatrix<float>::std_vector_float_std_allocator_fl
 void __cdecl _delete(void*, unsigned int);
 // Destroys this head morph data, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x00661db0
-void* BSFaceGenMorphDataHead::FUN_00661db0(unsigned int flags)
+// src: EXE 0x00661db0
+void* BSFaceGenMorphDataHead::ScalarDeletingDestructor(unsigned int flags)
 {
     BSFaceGenMorphDataHead::~BSFaceGenMorphDataHead();
     if (flags & 1)

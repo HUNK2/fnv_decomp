@@ -921,14 +921,14 @@ float TESPackage::GetPackageLocationRadius(MobileObject* apMobileObject, bool ab
 
 
 
-struct FUN_00678cc0_shell : public DurationData
+struct PackageSchedule : public DurationData
 {
     int PackageSchedule_GetStartDayOfWeek();
 };
 
 // @fnv 0x00678cc0
 // src: COMMUNITY 0x00678cc0
-int FUN_00678cc0_shell::PackageSchedule_GetStartDayOfWeek()
+int PackageSchedule::PackageSchedule_GetStartDayOfWeek()
 {
     return *((signed char*)this + 1);
 }
@@ -1550,7 +1550,7 @@ void* DelStandIn::FUN_00670b30(unsigned int flags)
 }
 
 
-struct FUN_006801a0_shell
+struct PackageTarget
 {
     void PackageTarget_Copy(PackageTargetRecord*);
 };
@@ -1563,7 +1563,7 @@ void TESPackage::SetPackageTarget(PackageTargetRecord* apPackTarg)
     {
         if (!*(PackageTargetRecord**)((char*)this + 0x30))
             *(PackageTargetRecord**)((char*)this + 0x30) = new PackageTargetRecord;
-        ((FUN_006801a0_shell*)*(PackageTargetRecord**)((char*)this + 0x30))->PackageTarget_Copy(apPackTarg);
+        ((PackageTarget*)*(PackageTargetRecord**)((char*)this + 0x30))->PackageTarget_Copy(apPackTarg);
     }
     else
     {

@@ -752,7 +752,7 @@ struct FourDimensionalVector
     float fZ;
     float fW;
 };
-struct FUN_004b4e50_shell : public FourDimensionalVector
+struct bhkVector4 : public FourDimensionalVector
 {
     FourDimensionalVector* bhkVector4_NI2HK(void*);
 };
@@ -761,7 +761,7 @@ extern float runtimeInitializationFloat2127;
 
 // @fnv 0x004b4e50
 // src: COMMUNITY 0x004b4e50
-FourDimensionalVector* FUN_004b4e50_shell::bhkVector4_NI2HK(void* arSrc)
+FourDimensionalVector* bhkVector4::bhkVector4_NI2HK(void* arSrc)
 {
     fX = runtimeInitializationFloat2127 * ((const float*)arSrc)[0];
     fY = runtimeInitializationFloat2127 * ((const float*)arSrc)[1];
@@ -1512,7 +1512,7 @@ struct Mem4fa0
     char _d[0x10];
     void bhkVector4_bhkVector4();
 };
-struct FUN_004b4f40 : Base537
+struct hkMouseSpringActionCinfo : Base537
 {
     Mem4fa0 m10;
     Mem4fa0 m20;
@@ -1520,11 +1520,12 @@ struct FUN_004b4f40 : Base537
     float f34;
     float f38;
     float f3c;
-    FUN_004b4f40();
+    hkMouseSpringActionCinfo();
 };
 // Calls base and member initializers, then sets f30 to 0.5, f34 to 0.3, f38 to DAT_0101b2d0 and f3c to g_011cc6cc_arg1.
 // @fnv 0x004b4f40
-FUN_004b4f40::FUN_004b4f40()
+// src: COMMUNITY 0x004b4f40
+hkMouseSpringActionCinfo::hkMouseSpringActionCinfo()
 {
     hkUnaryActionCinfo_hkUnaryActionCinfo();
     m10.bhkVector4_bhkVector4();

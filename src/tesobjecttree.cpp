@@ -416,12 +416,13 @@ void FUN_0051b8a0_shell::TESObjectTREE_SetShadowRadius(float afValue)
 struct S_0051b900
 {
     void FUN_0051b9d0();
-    void* FUN_0051b900(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 void _Deallocate(void*);
 // Calls FUN_0051b9d0, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0051b900
-void* S_0051b900::FUN_0051b900(unsigned int flags)
+// src: EXE 0x0051b900
+void* S_0051b900::ScalarDeletingDestructor(unsigned int flags)
 {
     this->FUN_0051b9d0();
     if (flags & 1)

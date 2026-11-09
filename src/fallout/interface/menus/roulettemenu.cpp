@@ -1581,17 +1581,18 @@ extern int DAT_011daf68;
 extern int DAT_011daf78;
 extern int DAT_011daf5c;
 extern int DAT_011daf70;
-struct FUN_007e6780 : Menu
+struct TraitMenu : Menu
 {
     unsigned char layoutExtension[0x54 - sizeof(Menu)];
     Member08 member54;
     List08 list84;
-    FUN_007e6780();
-    virtual ~FUN_007e6780();
+    TraitMenu();
+    virtual ~TraitMenu();
 };
 // Initializes eight global string handles by calling FUN_00a00940 with string constants and -1.
 // @fnv 0x007e6780
-FUN_007e6780::FUN_007e6780()
+// src: EXE 0x007e6780
+TraitMenu::TraitMenu()
 {
     DAT_011daf6c = Tile_AddUserTrait(DAT_01071ba0, -1);
     DAT_011daf60 = Tile_AddUserTrait(DAT_01071b94, -1);

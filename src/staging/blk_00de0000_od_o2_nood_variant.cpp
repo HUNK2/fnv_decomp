@@ -293,10 +293,10 @@ class __declspec(novtable) S00de49b0_Base : public S00de49b0_RefObject
     int m_type;
 };
 
-class FUN_00de49b0 : public S00de49b0_Base
+class hkDisplaySemiCircle : public S00de49b0_Base
 {
   public:
-    FUN_00de49b0(const Vec4& kC, const Vec4& kA, const Vec4& kB, float f1, float f2,
+    hkDisplaySemiCircle(const Vec4& kC, const Vec4& kA, const Vec4& kB, float f1, float f2,
                  float f3, int i1);
     virtual void vf00();
 
@@ -310,7 +310,8 @@ class FUN_00de49b0 : public S00de49b0_Base
 };
 
 // @fnv 0x00de49b0
-FUN_00de49b0::FUN_00de49b0(const Vec4& kC, const Vec4& kA, const Vec4& kB, float f1,
+// src: EXE 0x00de49b0
+hkDisplaySemiCircle::hkDisplaySemiCircle(const Vec4& kC, const Vec4& kA, const Vec4& kB, float f1,
                            float f2, float f3, int i1)
     : m_kA(kA), m_kB(kB), m_kC(kC), m_f90(f1), m_f94(f2), m_f98(f3), m_i9C(i1)
 {}
@@ -403,10 +404,10 @@ class __declspec(novtable) S00de53b0_Base : public S00de53b0_RefObject
     int m_type;
 };
 
-class FUN_00de53b0 : public S00de53b0_Base
+class hkDisplayCone : public S00de53b0_Base
 {
   public:
-    FUN_00de53b0(float f1, float f2, int i1, const Vec4& p1, const Vec4& p2);
+    hkDisplayCone(float f1, float f2, int i1, const Vec4& p1, const Vec4& p2);
     virtual void vf00();
 
     Vec4 m_v60;
@@ -417,7 +418,8 @@ class FUN_00de53b0 : public S00de53b0_Base
 };
 
 // @fnv 0x00de53b0
-FUN_00de53b0::FUN_00de53b0(float f1, float f2, int i1, const Vec4& p1, const Vec4& p2)
+// src: EXE 0x00de53b0
+hkDisplayCone::hkDisplayCone(float f1, float f2, int i1, const Vec4& p1, const Vec4& p2)
     : m_v60(p2), m_v70(p1), m_i80(i1), m_f84(f1), m_f88(f2)
 {}
 
@@ -784,7 +786,7 @@ void* getVtablehkpWorld()
 class __declspec(align(16)) S00dfb2b0_Object
 {
   public:
-    S00dfb2b0_Object(FinishingFlag flag);  // FUN_00dfb2d0
+    S00dfb2b0_Object(FinishingFlag flag);  // hkpMoppBvTreeShape
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;
@@ -831,7 +833,7 @@ struct ShapeChild
     int unk24;
 };
 
-struct FUN_00dfb2d0
+struct hkpMoppBvTreeShape
 {
     char* unk00;
     int unk04;
@@ -847,11 +849,12 @@ struct FUN_00dfb2d0
     __m128 unk20;
     char* unk30;
 
-    FUN_00dfb2d0(FinishingFlag flag);
+    hkpMoppBvTreeShape(FinishingFlag flag);
 };
 
 // @fnv 0x00dfb2d0
-FUN_00dfb2d0::FUN_00dfb2d0(FinishingFlag flag)
+// src: EXE 0x00dfb2d0
+hkpMoppBvTreeShape::hkpMoppBvTreeShape(FinishingFlag flag)
 {
     this->unk00 = &DAT_010305a8;
 
@@ -1094,7 +1097,7 @@ struct __declspec(align(16)) DFC830Obj
     int unk164;
     int unk168;
     int unk16C;
-    void FUN_00dfc850(FinishingFlag arg);
+    void hkpSimpleShapePhantom(FinishingFlag arg);
 };
 
 // @fnv 0x00dfc830
@@ -1103,7 +1106,7 @@ void* Runtime_EvaluateValue_00dfc830()
 {
     DFC830Obj holder;
     FinishingFlag zero(0);
-    holder.FUN_00dfc850(zero);
+    holder.hkpSimpleShapePhantom(zero);
     return *(void**)&holder.unk00;
 }
 
@@ -1731,7 +1734,7 @@ const void* __cdecl getVtable_hkpDisableEntityCollisionFilter()
 class __declspec(align(16)) S00dffa70_Object
 {
   public:
-    S00dffa70_Object(FinishingFlag flag);  // FUN_00dffa90
+    S00dffa70_Object(FinishingFlag flag);  // hkpConstrainedSystemFilter
     void* m_ppVirtualMethodTable;
     int unk04;
     int unk08;
@@ -1805,7 +1808,7 @@ const void* __cdecl getVtable_hkpBallGun()
 class __declspec(align(16)) S00dfffa0_Object
 {
   public:
-    S00dfffa0_Object(FinishingFlag flag);  // FUN_00cdf760
+    S00dfffa0_Object(FinishingFlag flag);  // hkpMalleableConstraintData
     virtual void vf00();
     int m_kNextStreamField[7];
 };

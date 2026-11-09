@@ -281,14 +281,15 @@ S6* __cdecl CopyTripleShorts(S6* apBegin, S6* apEnd, S6* apDest)
     return apDest;
 }
 
-struct FUN_00661d40_shell
+struct BSFaceGenMorphData
 {
     void __thiscall SetVTableAndDestroy();
-    void* __thiscall FUN_00661d60(unsigned int);
+    void* __thiscall ScalarDeletingDestructor(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
 // @fnv 0x00661d60
-void* __thiscall FUN_00661d40_shell::FUN_00661d60(unsigned int flags)
+// src: EXE 0x00661d60
+void* __thiscall BSFaceGenMorphData::ScalarDeletingDestructor(unsigned int flags)
 {
     this->SetVTableAndDestroy();
     if (flags & 1)
@@ -444,7 +445,7 @@ struct T_
 {
     void SetValue(void*);
 };
-struct FUN_0066c9c0_Class
+struct hkContactPoint
 {
     T_ a;
     T_ b;
@@ -452,7 +453,7 @@ struct FUN_0066c9c0_Class
 };
 // @fnv 0x0066c9c0
 // src: XBOX_PDB 0x0066c9c0
-void FUN_0066c9c0_Class::hkContactPoint_set(T_& x, T_& y, float afValue)
+void hkContactPoint::hkContactPoint_set(T_& x, T_& y, float afValue)
 {
     a.SetValue(&x);
     ((T_*)((char*)&a) + 16)->SetValue(&y);
@@ -759,7 +760,7 @@ void TESPackage::SetPackageFlag(bool abFlag)
 
 void __cdecl BSEndian(unsigned char* p, EndianSizeTag<1>);
 
-struct FUN_0067b100_Class
+struct PACK_DIALOGUE_DATA
 {
     unsigned char b0;
     unsigned char b4;
@@ -770,7 +771,7 @@ struct FUN_0067b100_Class
 
 // @fnv 0x0067b100
 // src: XBOX_PDB 0x0067b100
-void __thiscall FUN_0067b100_Class::PACK_DIALOGUE_DATA_Endian()
+void __thiscall PACK_DIALOGUE_DATA::PACK_DIALOGUE_DATA_Endian()
 {
     BSEndian((unsigned char*)this, EndianSizeTag<1>());
     BSEndian((unsigned char*)this + 4, EndianSizeTag<1>());
@@ -779,12 +780,13 @@ void __thiscall FUN_0067b100_Class::PACK_DIALOGUE_DATA_Endian()
 }
 
 extern int DAT_01268324;
-struct FUN_0066d6a0 : bhkConvexShape
+struct bhkCapsuleShape : bhkConvexShape
 {
-    FUN_0066d6a0(int a);
+    bhkCapsuleShape(int a);
 };
 // @fnv 0x0066d6a0
-FUN_0066d6a0::FUN_0066d6a0(int a)
+// src: EXE 0x0066d6a0
+bhkCapsuleShape::bhkCapsuleShape(int a)
 {
     bhkCapsuleShape_Init_00cab820(a);
     ++DAT_01268324;

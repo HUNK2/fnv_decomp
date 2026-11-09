@@ -219,11 +219,12 @@ char FUN_00905510_Class::LockAndCall(int aiArg)
 struct FUN_00905690_Class
 {
     void __thiscall SetVtableAndProcessState_00905650();
-    void* __thiscall FUN_00905690(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // @fnv 0x00905690
-void* FUN_00905690_Class::FUN_00905690(unsigned int flags)
+// src: EXE 0x00905690
+void* FUN_00905690_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     SetVtableAndProcessState_00905650();
     if (flags & 1)

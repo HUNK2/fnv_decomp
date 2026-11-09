@@ -111,10 +111,10 @@ struct S6
     short c;
 };
 S6* __cdecl CopyTripleShorts(S6* a1, S6* a2, S6* a3);
-struct FUN_00661d40_shell
+struct BSFaceGenMorphData
 {
     void __thiscall SetVTableAndDestroy();
-    void* __thiscall FUN_00661d60(unsigned int);
+    void* __thiscall ScalarDeletingDestructor(unsigned int);
 };
 void __cdecl _delete(void*, unsigned int);
 extern const char* DAT_0119b49c[];
@@ -184,7 +184,7 @@ struct T_
 {
     void SetValue(void*);
 };
-struct FUN_0066c9c0_Class
+struct hkContactPoint
 {
     T_ a;
     T_ b;
@@ -310,7 +310,7 @@ struct FUN_0067b170
     FUN_0067b170();
 };
 void __cdecl BSEndian(unsigned char* p, EndianSizeTag<1>);
-struct FUN_0067b100_Class
+struct PACK_DIALOGUE_DATA
 {
     unsigned char b0;
     unsigned char b4;
@@ -320,10 +320,10 @@ struct FUN_0067b100_Class
 };
 extern int DAT_01066e2c;
 extern int DAT_01268324;
-struct FUN_0066d6a0 : bhkConvexShape
+struct bhkCapsuleShape : bhkConvexShape
 {
     int* vtbl;
-    FUN_0066d6a0(int a);
+    bhkCapsuleShape(int a);
 };
 struct GlobalObject_0045cfe0
 {

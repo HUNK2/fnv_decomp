@@ -357,13 +357,13 @@ template <int N> struct EndianSizeTag
 
 void BSEndian(unsigned char*, EndianSizeTag<0>);
 
-struct FUN_004fccf0_shell
+struct BGSProjectileData
 {
     void SwapEndianFields();
 };
 
 // @fnv 0x004fccf0
-void FUN_004fccf0_shell::SwapEndianFields()
+void BGSProjectileData::SwapEndianFields()
 {
     BSEndian(reinterpret_cast<unsigned char*>(this), EndianSizeTag<0>());
     BSEndian(reinterpret_cast<unsigned char*>(this) + 4, EndianSizeTag<0>());

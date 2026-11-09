@@ -2346,7 +2346,7 @@ struct FUN_00558da0
     FUN_00558da0(int);
     ~FUN_00558da0();
 };
-struct FUN_00544f60 : public GO
+struct LOADED_CELL_DATA : public GO
 {
     SL a;
     FUN_00558d40 b;
@@ -2356,11 +2356,12 @@ struct FUN_00544f60 : public GO
     SL f;
     SL g;
     SL h;
-    FUN_00544f60();
+    LOADED_CELL_DATA();
 };
 // Constructs the object, initializing base GO with 0 and members b, c, d, e with 0x25.
 // @fnv 0x00544f60
-FUN_00544f60::FUN_00544f60() : GO(0), b(0x25), c(0x25), d(0x25), e(0x25)
+// src: COMMUNITY 0x00544f60
+LOADED_CELL_DATA::LOADED_CELL_DATA() : GO(0), b(0x25), c(0x25), d(0x25), e(0x25)
 {}
 
 
@@ -9476,16 +9477,17 @@ class Sub_b5143
     ~Sub_b5143();
 };
 
-class FUN_006208d0_cls : public Base_b5143
+class TESObjectCELL_QUEUED_ATTACH : public Base_b5143
 {
   public:
     Sub_b5143 m_04;
-    ~FUN_006208d0_cls();
+    ~TESObjectCELL_QUEUED_ATTACH();
 };
 
 // Destructor for the class; destroys the embedded Sub_b5143 member and the base.
 // @fnv 0x006208d0
-FUN_006208d0_cls::~FUN_006208d0_cls()
+// src: COMMUNITY 0x006208d0
+TESObjectCELL_QUEUED_ATTACH::~TESObjectCELL_QUEUED_ATTACH()
 {}
 
 struct WorkerMobile

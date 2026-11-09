@@ -193,13 +193,13 @@ void FUN_008b3b10_class::ActorMover_ResumeMoving()
     *(char*)((char*)this + 0x72) = 0;
 }
 
-struct FUN_008b4cd0_class
+struct BGSBodyPart
 {
     bool IsFlag40Set();
 };
 
 // @fnv 0x008b4cd0
-bool FUN_008b4cd0_class::IsFlag40Set()
+bool BGSBodyPart::IsFlag40Set()
 {
     return ((unsigned char*)this)[0x60] & 0x40;
 }

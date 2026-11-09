@@ -389,7 +389,7 @@ float PathingSolution::ComputeDetailedPathLength()
     return ftotalLength;
 }
 
-struct FUN_006e7d60_stub
+struct PathingSpline
 {
     float ComputeWeightedSum(float*, float*, float*, float*);
     NiPoint3 PathingSpline_InterpolateNoZ(char* p3, char* p4);
@@ -397,7 +397,7 @@ struct FUN_006e7d60_stub
 // Computes a vector from two structures by calling ComputeWeightedSum on each of the x, y and z component pairs.
 // @fnv 0x006e7d60
 // src: COMMUNITY 0x006e7d60
-NiPoint3 FUN_006e7d60_stub::PathingSpline_InterpolateNoZ(char* pFirst, char* pSecond)
+NiPoint3 PathingSpline::PathingSpline_InterpolateNoZ(char* pFirst, char* pSecond)
 {
     NiPoint3 vecResult;
     vecResult.x = ComputeWeightedSum((float*)pFirst, (float*)pSecond, (float*)(pFirst + 0xc), (float*)(pSecond + 0xc));

@@ -31,7 +31,7 @@ struct HackEntry
 // src/fallout/interface/menus/hackingmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/hackingmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-struct FUN_006ffe80_shell
+struct AnimatingText
 {
     int x;
     int y;
@@ -42,7 +42,7 @@ struct FUN_006ffe80_shell
 
 // @fnv 0x006ffe80
 // src: XBOX_PDB 0x006ffe80
-void FUN_006ffe80_shell::AnimatingText_SetTraits(int aiFirst, int aiSecond)
+void AnimatingText::AnimatingText_SetTraits(int aiFirst, int aiSecond)
 {
     this->a = aiFirst;
     this->b = aiSecond;
@@ -370,13 +370,13 @@ struct G2
 {
     void AddHead(int*);
 };
-struct FUN_0076b240_shell
+struct HackingMenu_WordList
 {
     void __thiscall tList_AppendStr(const char* s);
 };
 // @fnv 0x0076b240
 // src: COMMUNITY 0x0076b240
-void __thiscall FUN_0076b240_shell::tList_AppendStr(const char* apString)
+void __thiscall HackingMenu_WordList::tList_AppendStr(const char* apString)
 {
     unsigned int size = BSStringLength(apString) + 1;
     char* buffer = new char[size];
@@ -478,17 +478,18 @@ Tile* __thiscall HackingMenu::FindTile(int iColumn, int iNewRow)
 
 void* __cdecl operator new(unsigned int);
 
-struct FUN_00768810
+struct HackingMenu_Grid
 {
     STR_0076b200* pItems;
     unsigned int uiSize;
 
-    FUN_00768810(unsigned int aiSize);
+    HackingMenu_Grid(unsigned int aiSize);
 };
 
 // Stores aiSize, allocates an STR_0076b200 array of that size, and initializes each element via FUN_00768920(uiSize).
 // @fnv 0x00768810
-FUN_00768810::FUN_00768810(unsigned int aiSize)
+// src: COMMUNITY 0x00768810
+HackingMenu_Grid::HackingMenu_Grid(unsigned int aiSize)
 {
     unsigned int i;
 
@@ -1239,16 +1240,17 @@ struct ConstructorTile : FUN_00a1ddb0_res
 };
 extern const char DAT_0107293c[];
 extern const char DAT_010692d0[];
-struct FUN_0076b300 : FUN_00759eb0
+struct HackingMenu_TerminalIO : FUN_00759eb0
 {
     ConstructorTile* tile;
     ConstructorTile* label;
     void __thiscall SetCapacity(unsigned int);
     void __thiscall AnimatingText_SetTraits(int, int);
-    FUN_0076b300(const char*, char*, const char*, int, unsigned char);
+    HackingMenu_TerminalIO(const char*, char*, const char*, int, unsigned char);
 };
 // @fnv 0x0076b300
-FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int value, unsigned char kind)
+// src: COMMUNITY 0x0076b300
+HackingMenu_TerminalIO::HackingMenu_TerminalIO(const char* name, char* parent, const char* path, int value, unsigned char kind)
     : FUN_00759eb0(name)
 {
     label = 0;
@@ -1390,7 +1392,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
                 continue;
         }
         if (BSStringLength(line) == *(unsigned int*)((char*)this + 0x1ac))
-            ((FUN_0076b240_shell*)&available)->tList_AppendStr(line);
+            ((HackingMenu_WordList*)&available)->tList_AppendStr(line);
     }
     delete openedFile;
     ((FUN_007687b0_shell*)&available)->SortWeatherEntries();
@@ -1430,7 +1432,7 @@ void __thiscall HackingMenu::SelectWordSet(unsigned int requestedCount)
                 }
                 if (accepted)
                 {
-                    ((FUN_0076b240_shell*)((WordsView*)((char*)this + 0x180)))->tList_AppendStr(chosen);
+                    ((HackingMenu_WordList*)((WordsView*)((char*)this + 0x180)))->tList_AppendStr(chosen);
                     ++*(unsigned int*)((char*)this + 0x1a8);
                 }
             }

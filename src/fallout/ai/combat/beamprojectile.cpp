@@ -81,7 +81,7 @@ extern const NiRTTI g_01202680_arg1;
 extern const NiRTTI g_01202538_arg1;
 extern const NiRTTI g_01202508;
 extern NiPoint3 NiPoint3_ZERO;
-struct FUN_004d7d50_StandIn
+struct NiParticleSystem
 {
     unsigned int NiParticleSystem_GetModifierCount();
     NiAVObject* NiParticleSystem_GetModifierAt(unsigned int i);
@@ -167,7 +167,7 @@ void BeamProjectile::ScaleBeamGeometryLength(NiAVObject* apObject, float scale)
             {
                 if (NiObject_IsKindOf(&g_01202538_arg1, apObject))
                 {
-                    FUN_004d7d50_StandIn* node = (FUN_004d7d50_StandIn*)apObject;
+                    NiParticleSystem* node = (NiParticleSystem*)apObject;
                     for (unsigned int i = 0; i < node->NiParticleSystem_GetModifierCount(); i++)
                     {
                         NiAVObject* child = node->NiParticleSystem_GetModifierAt(i);
@@ -1158,7 +1158,7 @@ float BeamProjectile::FindBeamGeometryLength(NiGeometry* arg)
         {
             if (NiObject_IsKindOf(&DAT_012024e0, arg))
             {
-                FUN_004d7d50_StandIn* owner = (FUN_004d7d50_StandIn*)arg;
+                NiParticleSystem* owner = (NiParticleSystem*)arg;
                 for (unsigned int i = 0; best == 0.0f && i < owner->NiParticleSystem_GetModifierCount(); ++i)
                 {
                     NiAVObject* item = owner->NiParticleSystem_GetModifierAt(i);
@@ -1299,7 +1299,7 @@ struct S9b8b10_Manager
 };
 extern S9b8b10_Manager DAT_011f2250;
 
-struct FUN_009b8b10_cls
+struct MissileProjectile
 {
     unsigned char unk00[0x88];
     S9b8b10_Sub88 m_k88;
@@ -1323,7 +1323,7 @@ struct FUN_009b8b10_cls
 
 // @fnv 0x009b8b10
 // src: XBOX_PDB 0x009b8b10
-bool FUN_009b8b10_cls::MissileProjectile_ProcessImpacts()
+bool MissileProjectile::MissileProjectile_ProcessImpacts()
 {
     bool bResult = false;
     if (!m_b90 && !m_k88.FUN_008256d0())

@@ -4693,11 +4693,12 @@ struct FUN_00c1d980_cls
     int m_vptr;
     int m_04;
 
-    FUN_00c1d980_cls* FUN_00c1d980(unsigned char acFlags);
+    FUN_00c1d980_cls* ScalarDeletingDestructor(unsigned char acFlags);
 };
 
 // @fnv 0x00c1d980
-FUN_00c1d980_cls* FUN_00c1d980_cls::FUN_00c1d980(unsigned char acFlags)
+// src: EXE 0x00c1d980
+FUN_00c1d980_cls* FUN_00c1d980_cls::ScalarDeletingDestructor(unsigned char acFlags)
 {
     int value = m_04;
     m_vptr = (int)&DAT_010bd698;

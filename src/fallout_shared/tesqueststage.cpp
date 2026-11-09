@@ -299,7 +299,7 @@ void StageHolder::TESQuestStage_SetDone(TESQuest* quest, bool done)
     }
 }
 
-struct FUN_0060f520
+struct TESQuestStageItem
 {
     char b0[4];
     PerkEntryConditionSet cond;
@@ -311,10 +311,11 @@ struct FUN_0060f520
     int v68;
     int v6c;
     int v70;
-    FUN_0060f520();
+    TESQuestStageItem();
 };
 // @fnv 0x0060f520
-FUN_0060f520::FUN_0060f520()
+// src: COMMUNITY 0x0060f520
+TESQuestStageItem::TESQuestStageItem()
 {
     memset(this, 0, 1);
     v70 = 0;
@@ -346,14 +347,14 @@ StageItemNode* __fastcall FUN_00717e50(void*);
 const char** __fastcall _ref_006815c0(void*);
 StageItemNode* __fastcall _ref_00726070(void*);
 char __fastcall BGSBodyPart_GetToHitChance(char const*);
-struct FUN_0060f2c0_shell
+struct TESQuestStage
 {
     const char* TESQuestStage_GetStageItem(unsigned char);
 };
 // Walks the linked StageItemNode list, returning the first item whose FUN_005dc980 result equals done, or null.
 // @fnv 0x0060f2c0
 // src: COMMUNITY 0x0060f2c0
-const char* FUN_0060f2c0_shell::TESQuestStage_GetStageItem(unsigned char done)
+const char* TESQuestStage::TESQuestStage_GetStageItem(unsigned char done)
 {
     StageItemNode* pNode = FUN_00717e50(this);
     while (pNode)

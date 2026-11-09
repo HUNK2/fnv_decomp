@@ -328,16 +328,16 @@ struct FUN_00e0ac80_Alloc
 
 BSAudio* __cdecl hkMemoryRouter_getInstance(void);
 
-struct FUN_00e0ac80_class
+struct hkpMoppDefaultSplitter
 {
     int unk00;
     unsigned short m_04;
 
-    FUN_00e0ac80_class* __thiscall Construct(int flags);
+    hkpMoppDefaultSplitter* __thiscall Construct(int flags);
 };
 
 // @fnv 0x00e0ac80
-FUN_00e0ac80_class* FUN_00e0ac80_class::Construct(int flags)
+hkpMoppDefaultSplitter* hkpMoppDefaultSplitter::Construct(int flags)
 {
     reinterpret_cast<FUN_00e09bd0_Obj*>(this)->Hkpmoppdefaultsplitter_UpdateState_00e09bd0();
 

@@ -9519,15 +9519,16 @@ struct FUN_008784b0
     virtual ~FUN_008784b0();
 };
 
-struct FUN_008783c0 : FUN_008784b0
+struct MemoryManagerFile : FUN_008784b0
 {
     FileSizeInfo file;
-    FUN_008783c0(const char* path);
-    virtual ~FUN_008783c0();
+    MemoryManagerFile(const char* path);
+    virtual ~MemoryManagerFile();
 };
 
 // @fnv 0x008783c0
-FUN_008783c0::FUN_008783c0(const char* path) : file(path, 1, 2, false)
+// src: EXE 0x008783c0
+MemoryManagerFile::MemoryManagerFile(const char* path) : file(path, 1, 2, false)
 {
 }
 
@@ -22038,7 +22039,7 @@ bool __cdecl Cmd_RemoveAllTypedItems_Execute(const ScriptParameter* args, const 
 class MemoryManager;
 namespace fnv_005b5e60 {
 // Local scopes and identifiers preserve VC9 /Od stack allocation and GS array padding.
-struct FUN_008783c0 { unsigned int unk00,unk04,unk08,unk0c,unk10,unk14; FUN_008783c0(const char*); ~FUN_008783c0(); };
+struct MemoryManagerFile { unsigned int unk00,unk04,unk08,unk0c,unk10,unk14; MemoryManagerFile(const char*); ~MemoryManagerFile(); };
 class ScriptParameter;
 
 struct ModelLoader;
@@ -22148,7 +22149,7 @@ bool __cdecl Cmd_OutputMemStats_Execute(const ScriptParameter* apParameters, con
                 FUN_00406d30(tmp, 0x104, buf11);
                 _sprintf_s(buf11, 0x200, "MemStats%s.mhd", tmp);
             }
-            FUN_008783c0 helper(buf11);
+            MemoryManagerFile helper(buf11);
             ((FUN_00aa47c0_Class*)MemoryManager_Instance())->MemoryManager_OutputDebugInfo((int)&helper, 0);
             _sprintf_s(buf11, 0x200, "ModelDump%s.txt", tmp);
             BSFile file41(buf11, true, 0x4000, false);
@@ -37857,7 +37858,7 @@ struct Member94_115 { unsigned int a; unsigned int b; unsigned int c; unsigned i
 struct MemberA4_115 { unsigned int a; unsigned int b; unsigned int c; unsigned int d; ~MemberA4_115(); };
 struct MemberB4_115 { unsigned int a; unsigned int b; unsigned int c; unsigned int d; ~MemberB4_115(); };
 struct MemberC4_115 { unsigned int a; unsigned int b; unsigned int c; unsigned int d; ~MemberC4_115(); };
-struct FUN_005dd6f0 {
+struct FaceGenNpcData {
     ArrayElem115 mArray[4];
     unsigned int unk80; unsigned int unk84; unsigned int unk88; unsigned int unk8c; unsigned int unk90;
     Member94_115 m94;
@@ -37866,10 +37867,11 @@ struct FUN_005dd6f0 {
     MemberC4_115 mC4;
     unsigned int unkD4; unsigned int unkD8; unsigned int unkDC; unsigned int unkE0;
     BSSimpleList<void*> mE4;
-    ~FUN_005dd6f0();
+    ~FaceGenNpcData();
 };
 // @fnv 0x005dd6f0
-FUN_005dd6f0::~FUN_005dd6f0() { mE4.RemoveAll(); }
+// src: COMMUNITY 0x005dd6f0
+FaceGenNpcData::~FaceGenNpcData() { mE4.RemoveAll(); }
 
 class Form5DD {
 public:
@@ -42607,7 +42609,7 @@ struct DecalParams {
     unsigned char angle;
     unsigned char unk71,unk72,unk73;
     int unk74,unk78;
-    void FUN_004a37b0();
+    void DECAL_CREATION_DATA();
 };
 struct DecalEffect {void TESObjectCELL_AddDecal(DecalParams*,int,int);};
 struct DecalImpact {
@@ -42806,7 +42808,7 @@ bool Cmd_AddDecal_Execute(const ScriptParameter* parameters,const char* data,Dec
     DecalEffect* effect4=0;
     DecalCamera* camera3=Main_GetWorldSceneGraph()->FUN_006629f0();
     DecalParams params;
-    params.FUN_004a37b0();
+    params.DECAL_CREATION_DATA();
     params.position=*camera3->NiAVObject_GetWorldTranslate();
     float size;
     if(reference) {

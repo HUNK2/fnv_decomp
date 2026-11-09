@@ -30374,7 +30374,7 @@ void FUN_004a4100_Class::BGSImpactData_GetIsParallax()
     reinterpret_cast<FUN_004a4120_Class*>(reinterpret_cast<char*>(this) + 0x54)->ImpactDecalData_GetIsParallax();
 }
 
-struct FUN_004a4140_class
+struct BGSImpactData
 {
     void BGSImpactData_GetIsAlphaBlend();
 };
@@ -30386,7 +30386,7 @@ struct FUN_004a4160_class
 
 // @fnv 0x004a4140
 // src: COMMUNITY 0x004a4140
-void FUN_004a4140_class::BGSImpactData_GetIsAlphaBlend()
+void BGSImpactData::BGSImpactData_GetIsAlphaBlend()
 {
     reinterpret_cast<FUN_004a4160_class*>(reinterpret_cast<char*>(this) + 0x54)->ImpactDecalData_GetIsAlphaBlend();
 }

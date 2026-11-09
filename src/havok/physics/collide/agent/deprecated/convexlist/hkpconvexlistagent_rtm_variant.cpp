@@ -434,7 +434,7 @@ struct Workspace
 {
     L4096 contacts;
     L128 state;
-    void __thiscall FUN_00d33670(Arg4&);
+    void __thiscall hkpProcessCollisionOutputBackup(Arg4&);
     void __thiscall hkpProcessCollisionOutputBackup_rollbackOutput(const Shape&, const Shape&, Arg4&, void*);
 };
 
@@ -589,7 +589,7 @@ struct Big
     Vec4 vec;
 };
 
-void FUN_00d33670(void* a);
+void hkpProcessCollisionOutputBackup(void* a);
 void hkpProcessCollisionOutputBackup_rollbackOutput(void* a, void* b, void* c, void* d);
 void* hkTransform_setMulInverseMul(void* a, void* b);
 int hkpGsk_getClosestPoint(SStruct* a, void* b, void* c, void* d);
@@ -850,7 +850,7 @@ void __thiscall Agent::hkpConvexListAgent_processCollision(const Shape& a, const
     scratch.last.shape = b.m_00;
     scratch.first.dt = c.m_58;
     calculateMotion(*a.m_08, *b.m_08, scratch, vec);
-    ws.FUN_00d33670(d);
+    ws.hkpProcessCollisionOutputBackup(d);
     if (m_84 != 0)
         goto project;
 stream: {

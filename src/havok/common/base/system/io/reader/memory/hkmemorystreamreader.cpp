@@ -56,10 +56,10 @@ hkMemoryRouter* __cdecl _D1A0E0GetMemoryRouter();
 struct FUN_00e05bf0Class : hkMemoryStreamReader
 {
     void __thiscall FUN_00e05bb0();
-    hkMemoryStreamReader* __thiscall FUN_00e05bf0(int flags);
+    hkMemoryStreamReader* __thiscall ScalarDeletingDestructor(int flags);
 };
 
-hkMemoryStreamReader* __thiscall FUN_00e05bf0Class::FUN_00e05bf0(int flags)
+hkMemoryStreamReader* __thiscall FUN_00e05bf0Class::ScalarDeletingDestructor(int flags)
 {
     FUN_00e05bb0();
 

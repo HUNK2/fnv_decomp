@@ -644,7 +644,7 @@ struct SubRecord
     void hkMapBase_hkDataObject_Handle_void_Copier_HandleOps_resizeTable(int aiValue, int aiZero);
 };
 
-struct FUN_00dc4f20_cls
+struct Copier
 {
     ObjectRef* m_pReference;
     int m_i04;
@@ -655,11 +655,11 @@ struct FUN_00dc4f20_cls
     int unk28;
     unsigned int m_uFlags2c;
 
-    FUN_00dc4f20_cls* Construct(ObjectRef* apRef, int aiSecond);
+    Copier* Construct(ObjectRef* apRef, int aiSecond);
 };
 
 // @fnv 0x00dc4f20
-FUN_00dc4f20_cls* FUN_00dc4f20_cls::Construct(ObjectRef* apRef, int aiSecond)
+Copier* Copier::Construct(ObjectRef* apRef, int aiSecond)
 {
     if (apRef != 0)
     {

@@ -219,7 +219,7 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3a140_Class
 {
     void __thiscall FUN_00c39770();
-    void* __thiscall FUN_00c3a140(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 struct FUN_00c3a620_Class
 {
@@ -342,7 +342,7 @@ struct GlobalObject_00c3bcf0
     void* __thiscall DestroyAndFree(unsigned int flags);
 };
 extern MemoryManager g_memoryManager;
-struct FUN_00c42f00_Class
+struct BSTaskThread
 {
     void __thiscall DestroyResources();
     void* __thiscall FUN_00c3f130(unsigned int flags);
@@ -1105,7 +1105,7 @@ struct MemberX
 {
     MemberX();
 };
-struct FUN_00c39640 : FUN_00c46970
+struct BSMultiBoundRoom : FUN_00c46970
 {
     char pad04[0x2c];
     unsigned int m_uiValue1;
@@ -1123,11 +1123,12 @@ struct FUN_00c39640 : FUN_00c46970
         else
             m_uiValue1 &= ~uiMask;
     }
-    FUN_00c39640();
-    virtual ~FUN_00c39640();
+    BSMultiBoundRoom();
+    virtual ~BSMultiBoundRoom();
 };
 // @fnv 0x00c39640
-FUN_00c39640::FUN_00c39640()
+// src: EXE 0x00c39640
+BSMultiBoundRoom::BSMultiBoundRoom()
 {
     SetBit(0x800, true);
     m_uiCC = 0;

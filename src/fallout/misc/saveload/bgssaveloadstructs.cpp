@@ -161,14 +161,14 @@ FUN_00854830_shell::FUN_00854830_shell()
 }
 
 int __fastcall BGSSaveLoadFormInfo_GetFormType(unsigned char* param_1);
-struct FUN_00849220_shell
+struct BGSUnloadedFormBuffer
 {
     unsigned char* p;
     int __thiscall BGSUnloadedFormBuffer_GetFormType();
 };
 // @fnv 0x00849220
 // src: XBOX_PDB 0x00849220
-int __thiscall FUN_00849220_shell::BGSUnloadedFormBuffer_GetFormType()
+int __thiscall BGSUnloadedFormBuffer::BGSUnloadedFormBuffer_GetFormType()
 {
     return BGSSaveLoadFormInfo_GetFormType(p);
 }
@@ -438,17 +438,18 @@ struct FUN_0096a2d0_shell
     FUN_0096a2d0_shell();
 };
 
-struct FUN_00853810 : FUN_00854c80_shell
+struct BGSSaveLoadStatsMap : FUN_00854c80_shell
 {
     FUN_0096a2d0_shell m_data;
     int m_18;
-    FUN_00853810();
-    virtual ~FUN_00853810();
+    BGSSaveLoadStatsMap();
+    virtual ~BGSSaveLoadStatsMap();
 };
 
 // Constructs the object with base form type 0x25 and initializes m_18 to 0.
 // @fnv 0x00853810
-FUN_00853810::FUN_00853810() : FUN_00854c80_shell(0x25)
+// src: EXE 0x00853810
+BGSSaveLoadStatsMap::BGSSaveLoadStatsMap() : FUN_00854c80_shell(0x25)
 {
     m_18 = 0;
 }

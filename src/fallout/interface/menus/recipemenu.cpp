@@ -124,7 +124,7 @@ void __thiscall FUN_0072b580_shell::SortWeatherEntries_0072b580(int(__cdecl* cmp
 
 struct FUN_0072b9c0_shell
 {
-    void* FUN_0072b9c0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
     void FUN_00729a70();
 };
 
@@ -132,7 +132,8 @@ void __cdecl _Deallocate(void*);
 
 // Calls FUN_00729a70, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0072b9c0
-void* FUN_0072b9c0_shell::FUN_0072b9c0(unsigned int flags)
+// src: EXE 0x0072b9c0
+void* FUN_0072b9c0_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00729a70();
     if (flags & 1)

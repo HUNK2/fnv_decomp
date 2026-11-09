@@ -63,12 +63,13 @@ extern MemoryManager g_memoryManager;
 struct NiShaderInstanceDescriptor
 {
     void* m_p;
-    void* __thiscall FUN_00e8d370(unsigned int mode);
+    void* __thiscall ScalarDeletingDestructor(unsigned int mode);
 };
 
 // Sets m_p to the address of DAT_010efeb4 and, when mode has bit 0 set, deallocates this via g_memoryManager, then returns this.
 // @fnv 0x00e8d370
-void* __thiscall NiShaderInstanceDescriptor::FUN_00e8d370(unsigned int mode)
+// src: EXE 0x00e8d370
+void* __thiscall NiShaderInstanceDescriptor::ScalarDeletingDestructor(unsigned int mode)
 {
     m_p = &DAT_010efeb4;
     if (mode & 1)
@@ -507,13 +508,13 @@ struct ShaderStandIn
 {
     unsigned int __thiscall FUN_00e81170(void*, void*, void*, void*, void*, void*, void*);
 };
-struct FUN_00bd16e0_shell : ShaderStandIn
+struct NiDX9FragmentShader : ShaderStandIn
 {
     unsigned int __thiscall NiDX9FragmentShader_PreProcessPipeline(void* a, void* b, void* c, void* d, void* e, void* f, void* g);
 };
 // @fnv 0x00bd16e0
 // src: XBOX_PDB 0x00bd16e0
-unsigned int __thiscall FUN_00bd16e0_shell::NiDX9FragmentShader_PreProcessPipeline(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
+unsigned int __thiscall NiDX9FragmentShader::NiDX9FragmentShader_PreProcessPipeline(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
 {
     return FUN_00e81170(a, b, c, d, e, f, g);
 }

@@ -241,14 +241,14 @@ struct RegionPoint
     float GetX();
 };
 
-struct FUN_004a40a0_Class
+struct BGSImpactData
 {
     float BGSImpactData_GetDecalMinWidth();
 };
 
 // @fnv 0x004a40a0
 // src: XBOX_PDB 0x004a40a0
-float FUN_004a40a0_Class::BGSImpactData_GetDecalMinWidth()
+float BGSImpactData::BGSImpactData_GetDecalMinWidth()
 {
     return ((RegionPoint*)((char*)this + 0x54))->GetX();
 }
@@ -267,14 +267,14 @@ float FUN_004a40c0_Class::GetModifierValue()
     return ((Modifier*)((char*)this + 0x54))->GetValue();
 }
 
-struct FUN_004a4120_class
+struct DecalData
 {
     char ImpactDecalData_GetIsParallax();
 };
 
 // @fnv 0x004a4120
 // src: COMMUNITY 0x004a4120
-char FUN_004a4120_class::ImpactDecalData_GetIsParallax()
+char DecalData::ImpactDecalData_GetIsParallax()
 {
     return (((const unsigned char*)this)[0x1d] & 1) != 0;
 }
@@ -605,14 +605,14 @@ bool FUN_004b0460_class::LightRefData_IsEqual(const void** other)
 
 extern int DAT_0101fc80;
 
-struct FUN_004b0530_Class
+struct IBSAnimNoteReceiver
 {
     void __thiscall SetVtableAndProcessState_004b0530();
 };
 
 // @fnv 0x004b0530
 // src: GUESS 0x004b0530 (confidence: low)
-void __thiscall FUN_004b0530_Class::SetVtableAndProcessState_004b0530()
+void __thiscall IBSAnimNoteReceiver::SetVtableAndProcessState_004b0530()
 {
     *(int*)this = (int)&DAT_0101fc80;
 }
@@ -769,7 +769,7 @@ void* __thiscall FUN_004b9de0::Alloc()
 
 extern "C" void* DAT_01020634;
 
-struct FUN_004b9e00_cls
+struct GridArray
 {
     void* m_vftable;
     void* GridArray_GridArray();
@@ -777,7 +777,7 @@ struct FUN_004b9e00_cls
 
 // @fnv 0x004b9e00
 // src: EXE 0x004b9e00
-void* FUN_004b9e00_cls::GridArray_GridArray()
+void* GridArray::GridArray_GridArray()
 {
     m_vftable = &DAT_01020634;
     return this;
@@ -785,7 +785,7 @@ void* FUN_004b9e00_cls::GridArray_GridArray()
 
 extern double g_d100;
 
-struct FUN_004be080_Class
+struct TESObjectARMO
 {
     float TESObjectARMO_GetCalculatedArmorRating();
 };
@@ -793,7 +793,7 @@ struct FUN_004be080_Class
 // Returns the unsigned short at offset 0x178 divided by g_d100, cast to float.
 // @fnv 0x004be080
 // src: XBOX_PDB 0x004be080
-float FUN_004be080_Class::TESObjectARMO_GetCalculatedArmorRating()
+float TESObjectARMO::TESObjectARMO_GetCalculatedArmorRating()
 {
     return (float)((double)*(unsigned short*)((char*)this + 0x178) / g_d100);
 }
@@ -963,11 +963,12 @@ void __cdecl Deallocate(void*);
 struct FUN_004a4bd0_shell
 {
     void __thiscall FUN_004a4bd0();
-    void* __thiscall FUN_004a4ba0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_004a4bd0, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x004a4ba0
-void* __thiscall FUN_004a4bd0_shell::FUN_004a4ba0(unsigned int flags)
+// src: EXE 0x004a4ba0
+void* __thiscall FUN_004a4bd0_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_004a4bd0();
     if (flags & 1)
@@ -1658,7 +1659,7 @@ struct FUN_004b0910_This
 {
     void __thiscall BSClonePools_MakeClones(void* a, void* b);
 };
-struct FUN_004b0eb0_class
+struct BSCloneReserver
 {
     void* f0;
     void* f4;
@@ -1667,7 +1668,7 @@ struct FUN_004b0eb0_class
 // If both f0 and f4 are set, obtains an object via GetOrCreateInstance(1) and calls BSClonePools_MakeClones with f0 and f4.
 // @fnv 0x004b0eb0
 // src: COMMUNITY 0x004b0eb0
-void __thiscall FUN_004b0eb0_class::BSCloneReserver_MakeClones()
+void __thiscall BSCloneReserver::BSCloneReserver_MakeClones()
 {
     if (f0 && f4)
         ((FUN_004b0910_This*)GetOrCreateInstance(1))->BSClonePools_MakeClones(f0, f4);
@@ -2810,10 +2811,10 @@ struct Base_b9135
     virtual ~Base_b9135();
 };
 
-class FUN_004b0480_cls : public Base_b9135
+class BSAnimNoteReceiver : public Base_b9135
 {
   public:
-    virtual ~FUN_004b0480_cls();
+    virtual ~BSAnimNoteReceiver();
     virtual void FUN_004b0480_vslot();
 
     char unk04[4];
@@ -2821,7 +2822,8 @@ class FUN_004b0480_cls : public Base_b9135
 };
 
 // @fnv 0x004b0480
-FUN_004b0480_cls::~FUN_004b0480_cls()
+// src: EXE 0x004b0480
+BSAnimNoteReceiver::~BSAnimNoteReceiver()
 {
     unsigned int count = ((FUN_00658930_cls*)((char*)this + 8))->GetShortAtOffsetA();
     for (unsigned int i = 0; i < count; ++i)
@@ -3246,7 +3248,7 @@ FUN_004ba280::FUN_004ba280() : m_pController(0)
 
 extern const NiPoint3 NiPoint3_ZERO_v;
 
-struct FUN_004a37b0
+struct DECAL_CREATION_DATA
 {
     NiPoint3 pos0;
     NiPoint3 pos1;
@@ -3278,12 +3280,13 @@ struct FUN_004a37b0
     bool unk77;
     bool unk78;
     bool unk79;
-    FUN_004a37b0();
+    DECAL_CREATION_DATA();
 };
 
 // Initialises the object's positions to zero, sets default flags, numeric fields and a unit scale.
 // @fnv 0x004a37b0
-FUN_004a37b0::FUN_004a37b0() : scale(0.0f, 0.0f, 0.0f)
+// src: COMMUNITY 0x004a37b0
+DECAL_CREATION_DATA::DECAL_CREATION_DATA() : scale(0.0f, 0.0f, 0.0f)
 {
     pos0 = NiPoint3_ZERO_v;
     pos1 = NiPoint3_ZERO_v;

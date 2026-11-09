@@ -268,7 +268,7 @@ struct ArgOwner
     void Detach(void* p);
 };
 
-struct FUN_00d69b20_cls
+struct hkpRigidBodyCentreOfMassViewer
 {
     int unk00;
     int unk04;
@@ -289,7 +289,7 @@ struct FUN_00d69b20_cls
 // Attaches and detaches this object's slots on a1, then dispatches every element of a1's three lists through m_28.v08.
 // @fnv 0x00d69b20
 // src: COMMUNITY 0x00d69b20
-void FUN_00d69b20_cls::hkpRigidBodyCentreOfMassViewer_removeWorld(ArgOwner* apOwner)
+void hkpRigidBodyCentreOfMassViewer::hkpRigidBodyCentreOfMassViewer_removeWorld(ArgOwner* apOwner)
 {
     apOwner->Attach(this != 0 ? (void*)&m_28 : 0);
     apOwner->Detach(this != 0 ? (void*)&m_2c : 0);
@@ -325,7 +325,7 @@ void FUN_00d69b20_cls::hkpRigidBodyCentreOfMassViewer_removeWorld(ArgOwner* apOw
 namespace fnv_00d69fa0 {
 class SpawnedObject;
 
-class FUN_00d69b20_cls
+class hkpRigidBodyCentreOfMassViewer
 {
   public:
     void FUN_00d69b20_target();
@@ -341,7 +341,7 @@ class FUN_00d69fa0_cls
 // src: GUESS 0x00d69fa0 (confidence: low)
 void FUN_00d69fa0_cls::ForwardCall_00d69fa0()
 {
-    ((FUN_00d69b20_cls*)((char*)this - 0x20))->FUN_00d69b20_target();
+    ((hkpRigidBodyCentreOfMassViewer*)((char*)this - 0x20))->FUN_00d69b20_target();
 }
 }  // namespace fnv_00d69fa0
 

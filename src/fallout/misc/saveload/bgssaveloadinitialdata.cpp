@@ -278,7 +278,7 @@ void TESObjectREFR::Actor_SetEditorLocationForm(TESForm* value)
     ((Actor*)this)->FormReferenceState = value;
 }
 
-struct FUN_0084e6a0_shell
+struct ReferenceInitialData
 {
     int f0;
     int f4;
@@ -290,7 +290,7 @@ struct FUN_0084e6a0_shell
 
 // @fnv 0x0084e6a0
 // src: XBOX_PDB 0x0084e6a0
-bool FUN_0084e6a0_shell::ReferenceInitialData_GetOriginalLocationCellAndWorld(TESObjectCELL*& cell, TESWorldSpace*& world)
+bool ReferenceInitialData::ReferenceInitialData_GetOriginalLocationCellAndWorld(TESObjectCELL*& cell, TESWorldSpace*& world)
 {
     TESForm* form = TESForm::GetFormByID(f8);
     bool bResolved = GetCellAndWorldspaceForForm(form, cell, world);

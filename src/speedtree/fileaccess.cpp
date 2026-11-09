@@ -124,7 +124,7 @@ struct FUN_00b40150_base
     FUN_00b40150_base();
 };
 
-struct FUN_00b40150_cls : public FUN_00b40150_base
+struct CBillboardLeaf : public FUN_00b40150_base
 {
     int m_unk04;
     int m_unk08;
@@ -140,11 +140,12 @@ struct FUN_00b40150_cls : public FUN_00b40150_base
     float m_f44;
     int m_i48;
 
-    FUN_00b40150_cls();
+    CBillboardLeaf();
 };
 
 // @fnv 0x00b40150
-FUN_00b40150_cls::FUN_00b40150_cls()
+// src: EXE 0x00b40150
+CBillboardLeaf::CBillboardLeaf()
 {
     m_unk10 = 0;
     m_i14 = -1;

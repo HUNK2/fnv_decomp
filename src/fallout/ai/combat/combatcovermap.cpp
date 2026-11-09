@@ -6,7 +6,8 @@
 
 // Calls FUN_00983130, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x00983100
-void* CombatCoverMap::FUN_00983100(unsigned int flags)
+// src: EXE 0x00983100
+void* CombatCoverMap::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00983130();
     if (flags & 1)
@@ -116,7 +117,7 @@ struct Calendar
     FUN_00983520_obj* GetDaysPassed();
 };
 extern Calendar* BGSSaveLoadGlobalDataWorldspacePtr;
-struct FUN_009a05b0_shell
+struct CombatState
 {
     unsigned char pad[0x1c4];
     int fld1c4;
@@ -125,7 +126,7 @@ struct FUN_009a05b0_shell
 // If a1 is non-null and done, passes fld1c4 and a1 to FUN_00983520 via the worldspace save-load global's days-passed object.
 // @fnv 0x009a05b0
 // src: XBOX_PDB 0x009a05b0
-void __thiscall FUN_009a05b0_shell::CombatState_UnreserveCoverLocation(StageHolder* pStage)
+void __thiscall CombatState::CombatState_UnreserveCoverLocation(StageHolder* pStage)
 {
     if (pStage && pStage->GetDone())
     {

@@ -338,12 +338,13 @@ void __cdecl operator delete(void*);
 struct FUN_0075aa20_shell
 {
     void __thiscall FUN_0075a060();
-    void* __thiscall FUN_0075aa20(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_0075a060, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x0075aa20
-void* __thiscall FUN_0075aa20_shell::FUN_0075aa20(unsigned int flags)
+// src: EXE 0x0075aa20
+void* __thiscall FUN_0075aa20_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_0075a060();
     if (flags & 1)
@@ -448,7 +449,7 @@ struct AnimationPointerList
     void* __thiscall DereferenceIfNotNull(void*);
 };
 
-struct FUN_006ffe80_shell
+struct AnimatingText
 {
     void __thiscall AnimatingText_SetTraits(int, int);
 };
@@ -480,7 +481,7 @@ void FUN_00759da0_shell::InsertAtPosition(char const* aParam1, int aParam2, int 
 {
     FUN_00759eb0* pNewObject = new FUN_00759eb0(aParam1);
 
-    reinterpret_cast<FUN_006ffe80_shell*>(pNewObject)->AnimatingText_SetTraits(aParam2, aParam3);
+    reinterpret_cast<AnimatingText*>(pNewObject)->AnimatingText_SetTraits(aParam2, aParam3);
 
     if (aParam4 == -1)
     {

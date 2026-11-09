@@ -109,7 +109,8 @@ void FUN_00822a20_shell::CheckModifierNonZero(float a)
 void _Deallocate(void*);
 
 // @fnv 0x0080f7e0
-void* MagicBallProjectile::FUN_0080f7e0(unsigned int flags)
+// src: EXE 0x0080f7e0
+void* MagicBallProjectile::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_0080fb30();
     if (flags & 1)
@@ -164,7 +165,7 @@ unsigned short FUN_00811070_shell::MagicBallProjectile_GetSaveSize(unsigned int 
     return isize;
 }
 
-struct FUN_008229d0_shell
+struct MagicSprayProjectile
 {
     void ForwardCall_00822a00();
     void* FUN_008229d0(unsigned int);
@@ -172,7 +173,7 @@ struct FUN_008229d0_shell
 void _Deallocate(void*);
 // Calls FUN_00822a00, then deallocates this when bit 0 of flags is set, and returns this.
 // @fnv 0x008229d0
-void* FUN_008229d0_shell::FUN_008229d0(unsigned int flags)
+void* MagicSprayProjectile::FUN_008229d0(unsigned int flags)
 {
     ForwardCall_00822a00();
     if (flags & 1)
@@ -2136,14 +2137,14 @@ float __cdecl FUN_00406cc0(float);
 
 int __cdecl FUN_00ec62c0();
 
-struct FUN_0081a320_class;
+struct MagicFogProjectile;
 
 struct FUN_009306d0_shell
 {
     FUN_008106b0_shell* FUN_009306d0();
 };
 
-struct FUN_0081a320_class
+struct MagicFogProjectile
 {
 
     virtual void v0();
@@ -2634,7 +2635,7 @@ struct FUN_0081a320_class
 
     FUN_0081c320_shell* m_cc;
 
-    int FUN_008d6f30(NiPoint3 position, FUN_0081a320_class* owner, int x, int y, float ratio, float weight);
+    int FUN_008d6f30(NiPoint3 position, MagicFogProjectile* owner, int x, int y, float ratio, float weight);
 
     int FUN_00810fd0(int);
 
@@ -2645,7 +2646,7 @@ struct FUN_0081a320_class
 
 // @fnv 0x0081a320
 // src: COMMUNITY 0x0081a320
-void FUN_0081a320_class::MagicFogProjectile_Update(float afDeltaTime)
+void MagicFogProjectile::MagicFogProjectile_Update(float afDeltaTime)
 {
 
     if (afDeltaTime >= DAT_01012638)
@@ -6412,7 +6413,7 @@ struct FUN_004e3cc0_Class
     float GetFloatAtOffset9C();
 };
 
-struct FUN_009ae5d0_shell
+struct Explosion
 {
     int unk00[36];
     float f90;
@@ -6445,7 +6446,7 @@ struct FUN_009ae5d0_shell
 // Checks iE4, goal Z delta, bD5, and actor-base values while conditionally calling four functions.
 // @fnv 0x009ae5d0
 // src: COMMUNITY 0x009ae5d0
-void FUN_009ae5d0_shell::Explosion_Update(int a1)
+void Explosion::Explosion_Update(int a1)
 {
     if (iE4 == 0)
     {

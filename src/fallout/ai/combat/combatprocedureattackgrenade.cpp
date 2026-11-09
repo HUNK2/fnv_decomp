@@ -144,12 +144,13 @@ void __cdecl Deallocate(void*);
 struct FUN_009caeb0_shell
 {
     void __thiscall UpdateFields_009cafa0();
-    void* __thiscall FUN_009caeb0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_009cafa0, then frees this object with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x009caeb0
-void* __thiscall FUN_009caeb0_shell::FUN_009caeb0(unsigned int flags)
+// src: EXE 0x009caeb0
+void* __thiscall FUN_009caeb0_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     UpdateFields_009cafa0();
     if (flags & 1)

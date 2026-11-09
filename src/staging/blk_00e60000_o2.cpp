@@ -994,14 +994,14 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(long volatile*);
 
-struct FUN_00e7dbc0_Class
+struct NiDX9AdditionalDepthStencilBufferData
 {
     void ReleaseStorage_00e7dbc0();
 };
 
 // @fnv 0x00e7dbc0
 // src: GUESS 0x00e7dbc0 (confidence: low)
-void FUN_00e7dbc0_Class::ReleaseStorage_00e7dbc0()
+void NiDX9AdditionalDepthStencilBufferData::ReleaseStorage_00e7dbc0()
 {
     *(int*)this = (int)&DAT_010ef184;
     EnterCriticalSection(&DAT_0126f600);
@@ -3346,11 +3346,12 @@ struct FUN_00e68ea0_cls
 
     void BaseCleanup();
 
-    FUN_00e68ea0_cls* FUN_00e68ea0(unsigned char acFlags);
+    FUN_00e68ea0_cls* ScalarDeletingDestructor(unsigned char acFlags);
 };
 
 // @fnv 0x00e68ea0
-FUN_00e68ea0_cls* FUN_00e68ea0_cls::FUN_00e68ea0(unsigned char acFlags)
+// src: EXE 0x00e68ea0
+FUN_00e68ea0_cls* FUN_00e68ea0_cls::ScalarDeletingDestructor(unsigned char acFlags)
 {
     *(void* volatile*)&m_vptr = DAT_010ed37c;
     FUN_00e68ea0_held* pRefCounted = *(FUN_00e68ea0_held* volatile*)&m_74;

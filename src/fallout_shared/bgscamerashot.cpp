@@ -140,7 +140,7 @@ template <int N> struct EndianSizeTag
 };
 void __cdecl BSEndian(int*, EndianSizeTag<3>);
 
-struct FUN_0058c2e0_shell
+struct BGSCameraShot_OLD_CAMERA_SHOT_DATA
 {
     int field_0x00;
     int field_0x04;
@@ -156,7 +156,7 @@ struct FUN_0058c2e0_shell
 // Byte-swaps all eight 32-bit fields of the object via BSEndian, in the order 0x10, 0x14, 0x00, 0x04, 0x08, 0x0c, 0x18, 0x1c.
 // @fnv 0x0058c2e0
 // src: COMMUNITY 0x0058c2e0
-void FUN_0058c2e0_shell::BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian()
+void BGSCameraShot_OLD_CAMERA_SHOT_DATA::BGSCameraShot_OLD_CAMERA_SHOT_DATA_Endian()
 {
     BSEndian(&field_0x10, EndianSizeTag<3>());
     BSEndian(&field_0x14, EndianSizeTag<3>());

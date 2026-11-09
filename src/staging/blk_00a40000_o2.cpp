@@ -180,16 +180,17 @@ float NiInterpScalar_Linear(float afT, float afFrom, float afTo)
 void __fastcall NiBlendInterpolator_NiBlendInterpolator(void*);
 extern int DAT_01097904;
 
-struct FUN_00a42f60
+struct BSBlendTreadTransfInterpolator
 {
     void* m_pVTable;
     char m_auiShapeKeys[0x2C];
     float m_f;
-    FUN_00a42f60();
+    BSBlendTreadTransfInterpolator();
 };
 
 // @fnv 0x00a42f60
-FUN_00a42f60::FUN_00a42f60()
+// src: EXE 0x00a42f60
+BSBlendTreadTransfInterpolator::BSBlendTreadTransfInterpolator()
 {
     NiBlendInterpolator_NiBlendInterpolator(this);
     m_f = 0.0f;
@@ -539,11 +540,12 @@ struct FUN_00a414c0_class
 {
     void* m_pVTable;
     void* m_p;
-    FUN_00a414c0_class* __thiscall FUN_00a414c0(unsigned char flags);
+    FUN_00a414c0_class* __thiscall ScalarDeletingDestructor(unsigned char flags);
 };
 
 // @fnv 0x00a414c0
-FUN_00a414c0_class* __thiscall FUN_00a414c0_class::FUN_00a414c0(unsigned char flags)
+// src: EXE 0x00a414c0
+FUN_00a414c0_class* __thiscall FUN_00a414c0_class::ScalarDeletingDestructor(unsigned char flags)
 {
     m_pVTable = &DAT_010976ec;
     NiFree(m_p);
@@ -594,7 +596,7 @@ float Runtime_UpdateState_00a42070(float param_1, float param_2, float param_3, 
     return param_2 + ((param_1 * fTerm1 + fTerm2) * param_1 + param_3) * param_1;
 }
 
-struct FUN_00a44f90_class
+struct NiUVData
 {
     void* vtbl;
     int m_04;
@@ -618,13 +620,14 @@ struct FUN_00a44f90_class
     char m_49;
     char m_4a;
     char m_4b;
-    FUN_00a44f90_class();
+    NiUVData();
 };
 
 extern int DAT_01097f84;
 
 // @fnv 0x00a44f90
-FUN_00a44f90_class::FUN_00a44f90_class()
+// src: EXE 0x00a44f90
+NiUVData::NiUVData()
 {
     _Call_a5d3a0(this);
     m_38 = 0.0f;
@@ -850,7 +853,7 @@ struct HandlerArg
     unsigned int m_key;
 };
 
-class FUN_00a41410_cls
+class BSAnimNoteListener
 {
   public:
     int unk00;
@@ -864,7 +867,7 @@ class FUN_00a41410_cls
 // Iterates the entry table and calls Handle on each entry whose m_key matches the argument's m_key.
 // @fnv 0x00a41410
 // src: COMMUNITY 0x00a41410
-void FUN_00a41410_cls::BSAnimNoteListener_Update(HandlerArg* a1)
+void BSAnimNoteListener::BSAnimNoteListener_Update(HandlerArg* a1)
 {
     for (unsigned int i = 0; i < m_uiItemCount; ++i)
     {
@@ -1123,17 +1126,18 @@ struct FUN_00a44830_base
     virtual ~FUN_00a44830_base();
 };
 
-struct FUN_00a44830_cls : FUN_00a44830_base
+struct BSAnimNote : FUN_00a44830_base
 {
-    virtual ~FUN_00a44830_cls();
+    virtual ~BSAnimNote();
 };
 
 // @fnv 0x00a44830
-FUN_00a44830_cls::~FUN_00a44830_cls()
+// src: EXE 0x00a44830
+BSAnimNote::~BSAnimNote()
 {}
 
 namespace fnv_00a44ff0 {
-struct ControllerAllocation : FUN_00a44f90_class
+struct ControllerAllocation : NiUVData
 
 {
     static void* operator new(unsigned int size) { return NiObject::operator new(size); }
@@ -1835,7 +1839,7 @@ NiObjectBase* __cdecl NiNode_CreateObject()
 // Constructor of a derived object: base ctor call, then a 16-bit field and the vtable pointer.
 extern int DAT_0109b72c;
 
-struct FUN_00a5f1e0_cls
+struct NiVertexColorProperty
 {
     void* m_pVTable;       // +0x00
     int m_i04;             // +0x04
@@ -1848,11 +1852,12 @@ struct FUN_00a5f1e0_cls
 
     void Init();  // base constructor (external)
 
-    FUN_00a5f1e0_cls();
+    NiVertexColorProperty();
 };
 
 // @fnv 0x00a5f1e0
-FUN_00a5f1e0_cls::FUN_00a5f1e0_cls()
+// src: EXE 0x00a5f1e0
+NiVertexColorProperty::NiVertexColorProperty()
 {
     Init();
     m_w18 = 8;
@@ -1872,17 +1877,18 @@ class A5F4D0Property
     int unk14;
 };
 
-class FUN_00a5f4d0 : public A5F4D0Property
+class NiZBufferProperty : public A5F4D0Property
 {
   public:
     unsigned short m_usFlags;
 
-    FUN_00a5f4d0();
-    virtual ~FUN_00a5f4d0();
+    NiZBufferProperty();
+    virtual ~NiZBufferProperty();
 };
 
 // @fnv 0x00a5f4d0
-FUN_00a5f4d0::FUN_00a5f4d0()
+// src: EXE 0x00a5f4d0
+NiZBufferProperty::NiZBufferProperty()
 {
     m_usFlags = 0xf;
 }

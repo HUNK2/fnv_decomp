@@ -70,7 +70,7 @@ unsigned int TESModelList::BaseFormRecord(unsigned int type)
     return result;
 }
 
-struct FUN_00478690_shell
+struct BGSDestructibleObjectForm
 {
     void BGSDestructibleObjectForm_RemoveData();
 };
@@ -79,7 +79,7 @@ struct FUN_00478690_shell
 // Releases the object stored at offset 4 by calling its virtual method with 1, then sets that pointer to null.
 // @fnv 0x00478690
 // src: XBOX_PDB 0x00478690
-void FUN_00478690_shell::BGSDestructibleObjectForm_RemoveData()
+void BGSDestructibleObjectForm::BGSDestructibleObjectForm_RemoveData()
 {
     delete *(FileEntryListCollection**)((char*)this + 4);
     *(void**)((char*)this + 4) = 0;

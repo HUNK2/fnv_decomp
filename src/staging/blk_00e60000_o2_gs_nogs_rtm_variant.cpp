@@ -1996,7 +1996,7 @@ struct FUN_00e68ea0_cls
 
     void BaseCleanup();
 
-    FUN_00e68ea0_cls* FUN_00e68ea0(unsigned char acFlags);
+    FUN_00e68ea0_cls* ScalarDeletingDestructor(unsigned char acFlags);
 };
 void __cdecl NiFree(void* pvMem);
 // RTTI vftables 0x010eec54 (base) and 0x010eec7c (pointer map).

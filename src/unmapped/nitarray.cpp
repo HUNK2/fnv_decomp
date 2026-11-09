@@ -441,7 +441,7 @@ FUN_00e87690::~FUN_00e87690() throw()
     unk40 = 0;
 }
 
-struct FUN_00e878c0_cls
+struct NiD3DShaderConstantMap
 {
     int unk00;
     int unk04;
@@ -464,7 +464,7 @@ struct FUN_00e878c0_cls
 // Holds a reference on apObj while calling FUN_00e87800 on the sub-object at unk0c; sets m_34 to 0x30 if it returns -1, and returns m_34.
 // @fnv 0x00e878c0
 // src: COMMUNITY 0x00e878c0
-int FUN_00e878c0_cls::NiD3DShaderConstantMap_InsertEntry(NiShaderConstantMapEntry* apObj)
+int NiD3DShaderConstantMap::NiD3DShaderConstantMap_InsertEntry(NiShaderConstantMapEntry* apObj)
 {
     NiShaderConstantMapEntry* pObj = apObj;
     *(NiShaderConstantMapEntry* volatile*)&apObj = pObj;

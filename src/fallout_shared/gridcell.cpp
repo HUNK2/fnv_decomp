@@ -756,7 +756,7 @@ float BSMIN(float a, float b);
 extern const float g_011c7294_arg1;
 extern const float DAT_01012054;
 extern double DAT_01017a40;
-struct FUN_004bcdb0_shell
+struct ItemChange
 {
     HealthList4bcdb0* m_pkExtendData;
     int m_iArrayLength;
@@ -766,7 +766,7 @@ struct FUN_004bcdb0_shell
 };
 // @fnv 0x004bcdb0
 // src: XBOX_PDB 0x004bcdb0
-float FUN_004bcdb0_shell::ItemChange_GetItemHealth(bool bPercent)
+float ItemChange::ItemChange_GetItemHealth(bool bPercent)
 {
     HealthForm4bcdb0* pkHealth = GetHealthForm(m_pkForm);
     if (pkHealth)

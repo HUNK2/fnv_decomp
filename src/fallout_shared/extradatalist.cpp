@@ -569,7 +569,7 @@ BSExtraData* __cdecl BaseExtraList_GetLastExtra(BaseExtraList* apList, int aeTyp
     return pretval;
 }
 
-struct FUN_0040fbf0_shell : public RecursiveSpinLock
+struct BSSpinLock : public RecursiveSpinLock
 {
     void BSSpinLock_Lock(char*);
 };
@@ -584,7 +584,7 @@ struct DebugInterface
 
 // @fnv 0x0040fbf0
 // src: XBOX_PDB 0x0040fbf0
-void FUN_0040fbf0_shell::BSSpinLock_Lock(char* apName)
+void BSSpinLock::BSSpinLock_Lock(char* apName)
 {
     __declspec(align(32)) unsigned int uicurrentThread = gm_GetCurrentThreadId();
     if (m_uiOwningThreadID == uicurrentThread)
@@ -5720,10 +5720,10 @@ struct FUN_0041bd10_shell : public ExtraDataList
     void ExtraDataList_SetMusicType(BGSMusicType*);
 };
 
-struct FUN_0040ef30 : public LegacyExtraData
+struct ExtraCellMusicType : public LegacyExtraData
 {
     BGSMusicType* pData;
-    FUN_0040ef30(BGSMusicType*);
+    ExtraCellMusicType(BGSMusicType*);
 };
 
 struct Dummy_00410020
@@ -5746,12 +5746,12 @@ void FUN_0041bd10_shell::ExtraDataList_SetMusicType(BGSMusicType* apData)
     }
     else if (!pExtra)
     {
-        pExtra = reinterpret_cast<BSExtraData*>(new FUN_0040ef30(apData));
+        pExtra = reinterpret_cast<BSExtraData*>(new ExtraCellMusicType(apData));
         ((BaseExtraList*)this)->AddExtra(reinterpret_cast<BSExtraData*>(pExtra));
     }
     else
     {
-        ((FUN_0040ef30*)pExtra)->pData = apData;
+        ((ExtraCellMusicType*)pExtra)->pData = apData;
     }
 }
 }  // namespace fnv_0041bd10
@@ -6941,14 +6941,15 @@ struct BE
     BE(unsigned char c);
 };
 
-struct FUN_0042c900 : BE
+struct ExtraPoison : BE
 {
-    FUN_0042c900();
+    ExtraPoison();
 };
 
 // Constructs the object with byte value 0x3f, sets its vftable to DAT_0101595c and clears m_0c.
 // @fnv 0x0042c900
-FUN_0042c900::FUN_0042c900() : BE(0x3f)
+// src: EXE 0x0042c900
+ExtraPoison::ExtraPoison() : BE(0x3f)
 {
     m_vftable = &DAT_0101595c;
     m_0c = 0;
@@ -7904,14 +7905,15 @@ struct BE
     BE(unsigned char x);
 };
 
-struct FUN_0041e750 : BE
+struct ExtraOpenCloseActivateRef : BE
 {
-    FUN_0041e750();
+    ExtraOpenCloseActivateRef();
 };
 
 // Constructs the object with BE(0x6c), sets its vtbl to DAT_010151a8 and clears field c.
 // @fnv 0x0041e750
-FUN_0041e750::FUN_0041e750() : BE(0x6c)
+// src: EXE 0x0041e750
+ExtraOpenCloseActivateRef::ExtraOpenCloseActivateRef() : BE(0x6c)
 {
     vtbl = &DAT_010151a8;
     c = 0;
@@ -8062,9 +8064,9 @@ struct BE
 {
     BE(unsigned char);
 };
-struct FUN_0042c6a0 : BE
+struct ExtraHealth : BE
 {
-    FUN_0042c6a0();
+    ExtraHealth();
     int m_uiStandInValue;
     int m_iValueAfterStandIn;
     int m_pAuxiliaryObject;
@@ -8072,7 +8074,8 @@ struct FUN_0042c6a0 : BE
 };
 // Initialises the object: sets its vtable pointer to DAT_010158e4 and clears the float field to 0.0f.
 // @fnv 0x0042c6a0
-FUN_0042c6a0::FUN_0042c6a0() : BE(0x25)
+// src: EXE 0x0042c6a0
+ExtraHealth::ExtraHealth() : BE(0x25)
 {
     *reinterpret_cast<int**>(this) = &DAT_010158e4;
     fHealthPercent = 0.0f;
@@ -8087,18 +8090,19 @@ struct BE
 
 extern const void* DAT_01015908;
 
-struct FUN_0042c730 : BE
+struct ExtraCharge : BE
 {
     int m_auiShapeKeys;
     int m_pAuxiliaryObject;
     int m_pad3;
     float m_f;
-    FUN_0042c730();
+    ExtraCharge();
 };
 
 // Initialises the object: sets its vtable pointer to DAT_01015908 and sets m_f to 0.0f.
 // @fnv 0x0042c730
-FUN_0042c730::FUN_0042c730() : BE(0x28)
+// src: EXE 0x0042c730
+ExtraCharge::ExtraCharge() : BE(0x28)
 {
     *reinterpret_cast<const void**>(this) = &DAT_01015908;
     m_f = 0.0f;
@@ -8113,14 +8117,15 @@ struct BE
     BE()
     {}
 };
-struct FUN_0042c830 : BE
+struct ExtraReferencePointer : BE
 {
     int m_p;
-    FUN_0042c830();
+    ExtraReferencePointer();
 };
 // Initializes the object: sets the vtable pointer at offset 0 and clears the int at offset 0xc.
 // @fnv 0x0042c830
-FUN_0042c830::FUN_0042c830() : BE(0x1c)
+// src: EXE 0x0042c830
+ExtraReferencePointer::ExtraReferencePointer() : BE(0x1c)
 {
     *(int**)((char*)this + 0) = &DAT_01015938;
     *(int*)((char*)this + 0xc) = 0;
@@ -8192,7 +8197,7 @@ class BE
     BE(unsigned char);
 };
 
-struct FUN_0042c990 : public BE
+struct ExtraHasNoRumors : public BE
 {
     int* m_p;
     unsigned char m_kPointB;
@@ -8200,12 +8205,13 @@ struct FUN_0042c990 : public BE
     unsigned char m_b2;
     char _pad2[3];
     unsigned char m_b3;
-    FUN_0042c990();
+    ExtraHasNoRumors();
 };
 
 // Initializes the base with 0x4e, points m_p at DAT_01015974 and clears m_b3.
 // @fnv 0x0042c990
-FUN_0042c990::FUN_0042c990() : BE(0x4e)
+// src: EXE 0x0042c990
+ExtraHasNoRumors::ExtraHasNoRumors() : BE(0x4e)
 {
     m_p = &DAT_01015974;
     m_b3 = 0;
@@ -8365,16 +8371,17 @@ struct BE
     BE(unsigned char);
 };
 
-struct FUN_0041b790 : BE
+struct ExtraObjectHealth : BE
 {
     void* vfn;
     unsigned char pad[8];
     float f;
-    FUN_0041b790(float value);
+    ExtraObjectHealth(float value);
 };
 
 // @fnv 0x0041b790
-FUN_0041b790::FUN_0041b790(float value) : BE(0x56)
+// src: EXE 0x0041b790
+ExtraObjectHealth::ExtraObjectHealth(float value) : BE(0x56)
 {
     vfn = &_DAT_01015184;
     f = value;
@@ -8389,13 +8396,14 @@ struct BE
     BE(unsigned char);
 };
 
-struct FUN_0042c640 : BE
+struct ExtraRank : BE
 {
-    FUN_0042c640();
+    ExtraRank();
 };
 
 // @fnv 0x0042c640
-FUN_0042c640::FUN_0042c640() : BE(0x23)
+// src: EXE 0x0042c640
+ExtraRank::ExtraRank() : BE(0x23)
 {
     *(int**)(this) = &DAT_010158cc;
     *(int*)((char*)this + 0xc) = 0;
@@ -8458,10 +8466,10 @@ struct ExtraListRemover
 {
     void BaseExtraList_RemoveExtra(BSExtraData*, bool);
 };
-struct FUN_004361e0 : LegacyExtraData
+struct ExtraCreatureAwakeSound : LegacyExtraData
 {
     char data[0xc];
-    FUN_004361e0(BSSoundHandle);
+    ExtraCreatureAwakeSound(BSSoundHandle);
 };
 
 // @fnv 0x0041a090
@@ -8480,7 +8488,7 @@ void FUN_0041a090_shell::ExtraDataList_SetCreatureAwakeSound(void* afSound)
     {
         if ((*static_cast<const BSSoundHandle*>(afSound) != BSSoundHandle()))
         {
-            SoundAssetTmp = reinterpret_cast<BSExtraData*>(new FUN_004361e0(*(const BSSoundHandle*)afSound));
+            SoundAssetTmp = reinterpret_cast<BSExtraData*>(new ExtraCreatureAwakeSound(*(const BSSoundHandle*)afSound));
             AddExtra(reinterpret_cast<BSExtraData*>(SoundAssetTmp));
         }
     }
@@ -8498,17 +8506,17 @@ struct ExtraListRemover
 {
     void BaseExtraList_RemoveExtra(BSExtraData*, bool);
 };
-struct FUN_00436420 : LegacyExtraData
+struct ExtraWeaponIdleSound : LegacyExtraData
 {
     BSSoundHandle kSound;
-    FUN_00436420(BSSoundHandle);
+    ExtraWeaponIdleSound(BSSoundHandle);
 };
 
 // @fnv 0x0041a3e0
 // src: XBOX_PDB 0x0041a3e0
 void FUN_0041a3e0_shell::ExtraDataList_SetWeaponIdleSound(void* afSound)
 {
-    FUN_00436420* SoundAssetTmp = (FUN_00436420*)GetExtraData(0x83);
+    ExtraWeaponIdleSound* SoundAssetTmp = (ExtraWeaponIdleSound*)GetExtraData(0x83);
     if (SoundAssetTmp)
     {
         if ((*static_cast<const BSSoundHandle*>(afSound) == BSSoundHandle()))
@@ -8518,7 +8526,7 @@ void FUN_0041a3e0_shell::ExtraDataList_SetWeaponIdleSound(void* afSound)
     }
     else if ((*static_cast<const BSSoundHandle*>(afSound) != BSSoundHandle()))
     {
-        SoundAssetTmp = new FUN_00436420(*(const BSSoundHandle*)afSound);
+        SoundAssetTmp = new ExtraWeaponIdleSound(*(const BSSoundHandle*)afSound);
         AddExtra(reinterpret_cast<BSExtraData*>(SoundAssetTmp));
     }
 }
@@ -8535,10 +8543,10 @@ struct ExtraListRemover
 {
     void BaseExtraList_RemoveExtra(BSExtraData*, bool);
 };
-struct FUN_00436540 : LegacyExtraData
+struct ExtraWeaponAttackSound : LegacyExtraData
 {
     BSSoundHandle kSound;
-    FUN_00436540(BSSoundHandle);
+    ExtraWeaponAttackSound(BSSoundHandle);
 };
 // @fnv 0x0041a540
 // src: XBOX_PDB 0x0041a540
@@ -8550,13 +8558,13 @@ void FUN_0041a540_shell::ExtraDataList_SetWeaponAttackSound(void* afSound)
         if ((*static_cast<const BSSoundHandle*>(afSound) == BSSoundHandle()))
             ((ExtraListRemover*)this)->BaseExtraList_RemoveExtra(reinterpret_cast<BSExtraData*>(SoundAssetTmp), true);
         else
-            ((FUN_00436540*)SoundAssetTmp)->kSound = *(const BSSoundHandle*)afSound;
+            ((ExtraWeaponAttackSound*)SoundAssetTmp)->kSound = *(const BSSoundHandle*)afSound;
     }
     else
     {
         if ((*static_cast<const BSSoundHandle*>(afSound) != BSSoundHandle()))
         {
-            SoundAssetTmp = reinterpret_cast<BSExtraData*>(new FUN_00436540(*(const BSSoundHandle*)afSound));
+            SoundAssetTmp = reinterpret_cast<BSExtraData*>(new ExtraWeaponAttackSound(*(const BSSoundHandle*)afSound));
             AddExtra(reinterpret_cast<BSExtraData*>(SoundAssetTmp));
         }
     }
@@ -8850,14 +8858,15 @@ struct BE
     int m0C_pad;
 };
 extern int DAT_010158f0;
-struct FUN_0042c6d0 : BE
+struct ExtraUses : BE
 {
     unsigned char f0c;
-    FUN_0042c6d0();
+    ExtraUses();
 };
 // Constructs the object with base value 0x26, sets its vtable pointer to DAT_010158f0 and clears f0c.
 // @fnv 0x0042c6d0
-FUN_0042c6d0::FUN_0042c6d0() : BE(0x26)
+// src: EXE 0x0042c6d0
+ExtraUses::ExtraUses() : BE(0x26)
 {
     *(int*)this = (int)&DAT_010158f0;
     f0c = 0;
@@ -8873,13 +8882,14 @@ struct BE
     int _0c;
 };
 extern int DAT_010158fc;
-struct FUN_0042c700 : BE
+struct ExtraTimeLeft : BE
 {
     float _10;
-    FUN_0042c700();
+    ExtraTimeLeft();
 };
 // @fnv 0x0042c700
-FUN_0042c700::FUN_0042c700() : BE(0x27)
+// src: EXE 0x0042c700
+ExtraTimeLeft::ExtraTimeLeft() : BE(0x27)
 {
     *(int*)this = (int)&DAT_010158fc;
     _10 = 0.0f;
@@ -8895,14 +8905,15 @@ struct BE
     BE(unsigned char);
 };
 extern int DAT_01015920;
-struct FUN_0042c7d0 : BE
+struct ExtraScale : BE
 {
     float m00C;
-    FUN_0042c7d0();
+    ExtraScale();
 };
 // Initializes the base with 0x30, sets the vtable to DAT_01015920 and zeroes m00C.
 // @fnv 0x0042c7d0
-FUN_0042c7d0::FUN_0042c7d0() : BE(0x30)
+// src: EXE 0x0042c7d0
+ExtraScale::ExtraScale() : BE(0x30)
 {
     _vtbl = (void*)&DAT_01015920;
     m00C = 0.0f;
@@ -8923,15 +8934,16 @@ struct BE
     BE(unsigned char);
 };
 extern int DAT_01015208;
-struct FUN_0042ca30 : BE
+struct ExtraRadius : BE
 {
     int _08;
     float _0c;
-    FUN_0042ca30();
+    ExtraRadius();
 };
 // Initialises the object: installs the vtable pointer from DAT_01015208 and sets the float at offset 0x0c to 0.0f.
 // @fnv 0x0042ca30
-FUN_0042ca30::FUN_0042ca30() : BE(0x5c)
+// src: EXE 0x0042ca30
+ExtraRadius::ExtraRadius() : BE(0x5c)
 {
     *(int*)this = (int)&DAT_01015208;
     _0c = 0.0f;
@@ -8966,14 +8978,15 @@ struct BE
     int _m2;
 };
 extern int DAT_010159a4;
-struct FUN_0042cc40 : BE
+struct ExtraWeaponModFlags : BE
 {
     unsigned char _m3;
-    FUN_0042cc40();
+    ExtraWeaponModFlags();
 };
 // Initialises the object: sets its vtable pointer to DAT_010159a4 and clears the byte at offset 0xC.
 // @fnv 0x0042cc40
-FUN_0042cc40::FUN_0042cc40() : BE(0x8d)
+// src: EXE 0x0042cc40
+ExtraWeaponModFlags::ExtraWeaponModFlags() : BE(0x8d)
 {
     *(int*)this = (int)&DAT_010159a4;
     *(unsigned char*)((char*)this + 0xC) = 0;
@@ -9348,27 +9361,27 @@ struct FUN_0041e690 : public BaseExtraList
     void SetLinkedReference(TESObjectREFR* apRef);
 };
 
-struct FUN_0041e750 : public LegacyExtraData
+struct ExtraOpenCloseActivateRef : public LegacyExtraData
 {
     void* m_pFourthReference;
-    FUN_0041e750();
+    ExtraOpenCloseActivateRef();
 };
 
 // Stores apRef in extra data of type 0x6c, creating it if missing, or removes that extra data when apRef is null.
 // @fnv 0x0041e690
 void FUN_0041e690::SetLinkedReference(TESObjectREFR* apRef)
 {
-    FUN_0041e750* pextra;
+    ExtraOpenCloseActivateRef* pextra;
     if (apRef)
     {
-        pextra = (FUN_0041e750*)GetExtraData(0x6c);
+        pextra = (ExtraOpenCloseActivateRef*)GetExtraData(0x6c);
         if (pextra)
         {
             pextra->m_pFourthReference = apRef;
         }
         else
         {
-            pextra = new FUN_0041e750;
+            pextra = new ExtraOpenCloseActivateRef;
             pextra->m_pFourthReference = apRef;
             AddExtra(reinterpret_cast<BSExtraData*>(pextra));
         }
@@ -9666,10 +9679,10 @@ void FUN_00421850_shell::ExtraDataList_SetDetachTime(BSExtraData* extra)
 
 namespace fnv_00422050 {
 
-struct FUN_00435690
+struct ExtraMultiBound
 {
-    FUN_00435690();
-    ~FUN_00435690();
+    ExtraMultiBound();
+    ~ExtraMultiBound();
     unsigned char layoutPadding[12];
     GO m_uiFilterValue;
 };
@@ -9691,12 +9704,12 @@ void FUN_00422050_shell::ExtraDataList_SetMultiBound(void* pValue)
 {
     if (pValue)
     {
-        FUN_00435690* pExtra = (FUN_00435690*)this->GetExtraData(0x61);
+        ExtraMultiBound* pExtra = (ExtraMultiBound*)this->GetExtraData(0x61);
         if (pExtra)
             pExtra->m_uiFilterValue = pValue;
         else
         {
-            pExtra = new FUN_00435690;
+            pExtra = new ExtraMultiBound;
             pExtra->m_uiFilterValue = pValue;
             this->AddExtra((BSExtraData*)pExtra);
         }
@@ -10389,10 +10402,10 @@ void FUN_00484af0_t::TESForm_SetDisabled(bool set)
     MarkAsModified(1);
 }
 
-struct FUN_0041b790 : LegacyExtraData
+struct ExtraObjectHealth : LegacyExtraData
 {
     float fValue;
-    FUN_0041b790(float value);
+    ExtraObjectHealth(float value);
 };
 
 struct ExtraListHelper : BaseExtraList
@@ -10400,7 +10413,7 @@ struct ExtraListHelper : BaseExtraList
     void ExtraDataList_SetObjectHealth(float value);
 };
 
-// Finds extra data of type 0x56; if absent, creates a new FUN_0041b790 with value and adds it, otherwise writes value at offset 0xc.
+// Finds extra data of type 0x56; if absent, creates a new ExtraObjectHealth with value and adds it, otherwise writes value at offset 0xc.
 // @fnv 0x0041b6e0
 // src: COMMUNITY 0x0041b6e0
 void ExtraListHelper::ExtraDataList_SetObjectHealth(float value)
@@ -10408,7 +10421,7 @@ void ExtraListHelper::ExtraDataList_SetObjectHealth(float value)
     BSExtraData* extra = GetExtraData(0x56);
     if (!extra)
     {
-        extra = reinterpret_cast<BSExtraData*>(new FUN_0041b790(value));
+        extra = reinterpret_cast<BSExtraData*>(new ExtraObjectHealth(value));
         AddExtra(reinterpret_cast<BSExtraData*>(extra));
     }
     else
@@ -10770,12 +10783,12 @@ struct FUN_0041adf0_shell
     void RemoveExtra(unsigned char type);
 };
 
-struct FUN_004322c0 : public LegacyExtraData
+struct ExtraGhost : public LegacyExtraData
 {
-    FUN_004322c0();
+    ExtraGhost();
 };
 
-FUN_004322c0::FUN_004322c0()
+ExtraGhost::ExtraGhost()
 {}
 
 struct FUN_0041a960_shell : public BaseExtraList
@@ -10791,7 +10804,7 @@ void FUN_0041a960_shell::SetGhost(bool abGhost)
 
     if (abGhost && !bHasGhost)
     {
-        BaseExtraList::AddExtra(reinterpret_cast<BSExtraData*>(new FUN_004322c0()));
+        BaseExtraList::AddExtra(reinterpret_cast<BSExtraData*>(new ExtraGhost()));
     }
     else if (!abGhost && bHasGhost)
     {
@@ -10857,11 +10870,11 @@ PodPoint3 FUN_0041b080_shell::ExtraDataList_UpdateExtraStartingPosition_getRotVe
 namespace fnv_0041b7e0 {
 extern unsigned int _data_011c16bc;
 
-struct FUN_0040ec00 : LegacyExtraData
+struct ExtraCell3D : LegacyExtraData
 {
     NiPointer<NiNode> field;
 
-    FUN_0040ec00();
+    ExtraCell3D();
 };
 
 struct FUN_0041b7e0_cls : public BaseExtraList
@@ -10892,7 +10905,7 @@ void FUN_0041b7e0_cls::ExtraDataList_SetCell3D(void* data)
 
     if (extra == 0)
     {
-        extra = reinterpret_cast<BSExtraData*>(new FUN_0040ec00);
+        extra = reinterpret_cast<BSExtraData*>(new ExtraCell3D);
         AddExtra(reinterpret_cast<BSExtraData*>(extra));
     }
 
@@ -11619,14 +11632,15 @@ struct BE
 
 extern int DAT_01015980;
 
-struct FUN_0042c9f0 : BE
+struct ExtraModelSwap : BE
 {
-    FUN_0042c9f0();
+    ExtraModelSwap();
 };
 
 // Initializes the object: sets the vtable pointer to DAT_01015980 and zeroes the fields at offsets 0xC and 0x10.
 // @fnv 0x0042c9f0
-FUN_0042c9f0::FUN_0042c9f0() : BE(0x5B)
+// src: EXE 0x0042c9f0
+ExtraModelSwap::ExtraModelSwap() : BE(0x5B)
 {
     *(int*)this = (int)&DAT_01015980;
     *(int*)((char*)this + 0xC) = 0;
@@ -11677,7 +11691,7 @@ void FUN_0042e4a0_owner::EnsureLeveledListExtra(unsigned char type)
 
     if (!extra)
     {
-        extra = reinterpret_cast<TESLeveledList*>(new fnv_0042cc40::FUN_0042cc40);
+        extra = reinterpret_cast<TESLeveledList*>(new fnv_0042cc40::ExtraWeaponModFlags);
         extra->ExtraWeaponModFlags_SetWeaponModFlags(type);
         AddExtra(reinterpret_cast<BSExtraData*>(extra));
     }
@@ -12489,15 +12503,16 @@ struct FUN_0041c5e0_str_cls
     bool Set(const char* s, unsigned int n);
 };
 
-struct FUN_0041c5e0_cls : FUN_0041c5e0_base_cls
+struct ExtraEditorID : FUN_0041c5e0_base_cls
 {
     FUN_0041c5e0_str_cls str;
-    FUN_0041c5e0_cls(const char* s);
+    ExtraEditorID(const char* s);
 };
 
 // Initializes the base with 6 and constructs str, then sets str from s with length 0.
 // @fnv 0x0041c5e0
-FUN_0041c5e0_cls::FUN_0041c5e0_cls(const char* apString) : FUN_0041c5e0_base_cls(6), str()
+// src: EXE 0x0041c5e0
+ExtraEditorID::ExtraEditorID(const char* apString) : FUN_0041c5e0_base_cls(6), str()
 {
     str.Set(apString, 0);
 }

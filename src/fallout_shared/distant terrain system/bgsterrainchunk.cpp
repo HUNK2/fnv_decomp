@@ -65,7 +65,7 @@ struct Flt
     operator unsigned int() const;
 };
 
-struct FUN_006fb6e0_shell
+struct BGSTerrainChunk
 {
     void BGSTerrainChunk_Hide();
 };
@@ -73,7 +73,7 @@ struct FUN_006fb6e0_shell
 // For each of the three pointers at offsets 4, 8 and 12, if non-null, calls SetAppCulled(true) on it.
 // @fnv 0x006fb6e0
 // src: COMMUNITY 0x006fb6e0
-void FUN_006fb6e0_shell::BGSTerrainChunk_Hide()
+void BGSTerrainChunk::BGSTerrainChunk_Hide()
 {
     if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())
         reinterpret_cast<NiAVObject*>(
@@ -490,7 +490,7 @@ void UpdateSoundListItems()
             if (((FUN_006fb150_shell*)static_cast<const GO*>(go)->operator unsigned int())->GetByteAtOffset5C() &&
                 ((FUN_006fa840_shell*)static_cast<const GO*>(go)->operator unsigned int())->GetByteAt5D() && static_cast<FUN_006fea10_Class*>(go->m_pObject)->BGSTerrainNode_CheckMeshSolidUnderMe(false))
             {
-                ((FUN_006fb6e0_shell*)go)->BGSTerrainChunk_Hide();
+                ((BGSTerrainChunk*)go)->BGSTerrainChunk_Hide();
             }
             else
             {

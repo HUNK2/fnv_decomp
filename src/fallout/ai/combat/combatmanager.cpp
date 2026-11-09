@@ -857,11 +857,11 @@ void _FNV_Warning(const char*, ...);
 
 
 // Retained allocation definition: ActorCombatGroup.h lacks the 0x15C layout and unsigned-id constructor (0x00985d10).
-struct FUN_00985d10
+struct CombatGroup
 {
     char pad[0x15c];
     void* operator new(size_t size);
-    FUN_00985d10(unsigned int);
+    CombatGroup(unsigned int);
 };
 
 struct FUN_00991e80_shell
@@ -869,16 +869,16 @@ struct FUN_00991e80_shell
     char pad_00[0x34];
     unsigned int m_uiDebugFlags;
 
-    FUN_00985d10* CombatManager_CreateCombatGroup();
+    CombatGroup* CombatManager_CreateCombatGroup();
 };
 
 // Allocates a combat group with the next id, adds it to the manager, warns if the returned position exceeds 0x40, and sets that position as its quantity.
 // @fnv 0x00991e80
 // src: XBOX_PDB 0x00991e80
-FUN_00985d10* FUN_00991e80_shell::CombatManager_CreateCombatGroup()
+CombatGroup* FUN_00991e80_shell::CombatManager_CreateCombatGroup()
 {
     AutoMemHelper tempMemContext(0x2b, true, $SG8126, 0x161);
-    FUN_00985d10* pgroup = new FUN_00985d10(m_uiDebugFlags++);
+    CombatGroup* pgroup = new CombatGroup(m_uiDebugFlags++);
     unsigned int ipos = reinterpret_cast<NiTPrimitiveArray<ActorCombatGroup*>*>(this)->Add(
         reinterpret_cast<ActorCombatGroup* const&>(pgroup));
     if (ipos > 0x40)
@@ -1231,9 +1231,9 @@ struct FUN_00993440_shell : public CombatManager
 
 
 // Retained allocation definition: ActorCombatGroup.h lacks the 0x15C layout and unsigned-id constructor (0x00985d10).
-struct FUN_00985d10
+struct CombatGroup
 {
-    FUN_00985d10(unsigned int);
+    CombatGroup(unsigned int);
     char pad[0x15c];
 };
 struct ThreatShim
@@ -1264,7 +1264,7 @@ void FUN_00993440_shell::CombatManager_LoadGame(BGSLoadGameBuffer* apLoadGameBuf
         ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadTypedData((void*)&igroupNum, 4u);
         unsigned int igroupID = 0;
         ((BGSLoadFormBuffer*)apLoadGameBuffer)->ReadTypedData((void*)&igroupID, 4u);
-        pgroup = (ActorCombatGroup*)new FUN_00985d10(0);
+        pgroup = (ActorCombatGroup*)new CombatGroup(0);
         reinterpret_cast<void (__thiscall*)(ActorCombatGroup*, unsigned int)>(&ActorCombatGroup_SetQuantity)(pgroup, igroupNum);
         ((TESRaceForm*)pgroup)->Initialize(igroupID);
         reinterpret_cast<void (__thiscall*)(ActorCombatGroup*, BGSLoadGameBuffer*)>(&ActorCombatGroup_LoadGame)(pgroup, apLoadGameBuffer);
@@ -1419,11 +1419,11 @@ extern const char UNK_0108dab0[];
 void __cdecl Warning_005b5e40(const char*, unsigned int, unsigned int);
 struct FUN_00991f80_shell : CombatManager
 {
-    FUN_00985d10* CombatManager_SplitPlayerCombatGroup(Actor* actor);
+    CombatGroup* CombatManager_SplitPlayerCombatGroup(Actor* actor);
 };
 // @fnv 0x00991f80
 // src: EXE 0x00991f80
-FUN_00985d10* FUN_00991f80_shell::CombatManager_SplitPlayerCombatGroup(Actor* apActor)
+CombatGroup* FUN_00991f80_shell::CombatManager_SplitPlayerCombatGroup(Actor* apActor)
 {
     ActorCombatGroup* pGroup = g_thePlayer->GetCombatGroup();
     reinterpret_cast<void (__thiscall*)(ActorCombatGroup*, Actor*)>(&ActorCombatGroup_RemoveActor)(pGroup, apActor);
@@ -1458,7 +1458,7 @@ FUN_00985d10* FUN_00991f80_shell::CombatManager_SplitPlayerCombatGroup(Actor* ap
         }
     }
     pGroup->CombatGroup_AddTarget(apActor);
-    FUN_00985d10* pResult = ((FUN_00991e80_shell*)this)->CombatManager_CreateCombatGroup();
+    CombatGroup* pResult = ((FUN_00991e80_shell*)this)->CombatManager_CreateCombatGroup();
     reinterpret_cast<bool (__thiscall*)(ActorCombatGroup*, Actor*)>(&ActorCombatGroup_AddActor)(reinterpret_cast<ActorCombatGroup*>(pResult), apActor);
     return pResult;
 }

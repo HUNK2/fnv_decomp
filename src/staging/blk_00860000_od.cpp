@@ -1935,12 +1935,13 @@ float __cdecl BSFadeNode_GetLinkedActorAlpha(BSFadeNode* node)
 struct FUN_00863f30_shell
 {
     void __thiscall NiTLargePrimitiveArray_unsigned_int_Free();
-    void* __thiscall FUN_00863f30(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_008640e0, then deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00863f30
-void* __thiscall FUN_00863f30_shell::FUN_00863f30(unsigned int flags)
+// src: EXE 0x00863f30
+void* __thiscall FUN_00863f30_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     NiTLargePrimitiveArray_unsigned_int_Free();
     if (flags & 1)
@@ -2054,7 +2055,7 @@ unsigned int __cdecl GetSizeTypeForSize(unsigned int value);
 unsigned int __cdecl GetSizeTypeSize(unsigned int value);
 void __cdecl WriteTypedValue(void* destination, unsigned int source, unsigned int count);
 
-struct FUN_008665d0_class
+struct BGSUnloadedFormBuffer
 {
     void* m_pData;
     void __thiscall BGSUnloadedFormBuffer_Initialize(void* source, unsigned int size, int value, unsigned char flag);
@@ -2063,7 +2064,7 @@ struct FUN_008665d0_class
 // Allocates a buffer sized from size, writes a flag and encoded size/value header, then copies size bytes from source into it.
 // @fnv 0x008665d0
 // src: COMMUNITY 0x008665d0
-void FUN_008665d0_class::BGSUnloadedFormBuffer_Initialize(void* source, unsigned int size, int value, unsigned char flag)
+void BGSUnloadedFormBuffer::BGSUnloadedFormBuffer_Initialize(void* source, unsigned int size, int value, unsigned char flag)
 {
     unsigned int data4 = GetSizeTypeForSize(size);
     unsigned int totalSize = GetSizeTypeSize(data4);
@@ -2259,7 +2260,7 @@ struct SoundPlaybackManager
 
 
 
-struct FUN_0086ce40_class
+struct Main
 {
     int vfn_00;
     int padding_04;
@@ -2271,7 +2272,7 @@ struct FUN_0086ce40_class
 // Registers audio callbacks and a value on the BSAudio singleton, then calls FUN_0082f830.
 // @fnv 0x0086ce40
 // src: COMMUNITY 0x0086ce40
-void FUN_0086ce40_class::Main_Main_AudioInit()
+void Main::Main_Main_AudioInit()
 {
     BSWin32Audio_Create();
 
@@ -2305,14 +2306,15 @@ struct FUN_00a69400
     FUN_00a69400(NiVisibleArray*);
 };
 extern void* DAT_01082ccc;
-struct FUN_00872ea0 : FUN_00a69400
+struct BSFadeNodeCuller : FUN_00a69400
 {
     void* m_vft;
-    FUN_00872ea0(NiVisibleArray*);
+    BSFadeNodeCuller(NiVisibleArray*);
 };
 // Constructs the object by forwarding the NiVisibleArray pointer to the base constructor and setting the vtable pointer to DAT_01082ccc.
 // @fnv 0x00872ea0
-FUN_00872ea0::FUN_00872ea0(NiVisibleArray* apVisibleArray) : FUN_00a69400(apVisibleArray)
+// src: EXE 0x00872ea0
+BSFadeNodeCuller::BSFadeNodeCuller(NiVisibleArray* apVisibleArray) : FUN_00a69400(apVisibleArray)
 {
     m_vft = &DAT_01082ccc;
 }
@@ -2322,12 +2324,13 @@ struct FUN_0044f600_class
 {
     void FUN_0044f700();
 };
-struct FUN_008779f0_class : FUN_0044f600_class
+struct RegSettingCollection : FUN_0044f600_class
 {
-    FUN_008779f0_class();
+    RegSettingCollection();
 };
 // @fnv 0x008779f0
-FUN_008779f0_class::FUN_008779f0_class()
+// src: EXE 0x008779f0
+RegSettingCollection::RegSettingCollection()
 {
     FUN_0044f700();
     *reinterpret_cast<void**>(this) = &DAT_01082ed8;
@@ -2549,7 +2552,7 @@ struct FUN_00866570_Input
     unsigned int GetHavokWorldObjectCountInSceneGraph_0084e3a0();
     void* FUN_00726070();
 };
-struct FUN_00866570_Class : public FUN_008665d0_class
+struct FUN_00866570_Class : public BGSUnloadedFormBuffer
 {
     void InitFromInput(FUN_00866570_Input* input);
 };
@@ -3450,7 +3453,7 @@ struct ManagedEntry
 };
 void* __cdecl MemoryManager_Instance();
 ManagedEntry* __stdcall MemoryManager_Instance(int mode, unsigned int index, bool* enabled);
-struct FUN_00878080_Class
+struct MemoryLevelManager
 {
     int unk00;
     int unk04;
@@ -3462,7 +3465,7 @@ struct FUN_00878080_Class
 };
 // @fnv 0x00878080
 // src: COMMUNITY 0x00878080
-void FUN_00878080_Class::MemoryLevelManager_CheckMemoryLevel(int unused)
+void MemoryLevelManager::MemoryLevelManager_CheckMemoryLevel(int unused)
 {
     if (!control.BSCriticalSection_TryLock())
         return;
@@ -5975,9 +5978,9 @@ struct FUN_005d8b10
     int unk04;
     FUN_005d8b10();
 };
-struct FUN_00872ea0
+struct BSFadeNodeCuller
 {
-    virtual ~FUN_00872ea0();
+    virtual ~BSFadeNodeCuller();
     int unk04;
     int unk08;
     int unk0c;
@@ -6013,7 +6016,7 @@ struct FUN_00872ea0
     int unk84;
     int unk88;
     int unk8c;
-    FUN_00872ea0(int a);
+    BSFadeNodeCuller(int a);
 };
 struct FUN_00633c90
 {
@@ -6026,17 +6029,18 @@ struct S_00872e00_Raw
     void* m_p;
     S_00872e00_Raw* FUN_00633c90(int a);
 };
-struct FUN_00872e00 : FUN_005d8b10
+struct HighActorCuller : FUN_005d8b10
 {
-    FUN_00872ea0 m08;
+    BSFadeNodeCuller m08;
     FUN_00633c90 m98;
     FUN_00633c90 m9c;
     S_00872e00_Raw ma0;
-    FUN_00872e00();
-    virtual ~FUN_00872e00();
+    HighActorCuller();
+    virtual ~HighActorCuller();
 };
 // @fnv 0x00872e00
-FUN_00872e00::FUN_00872e00() : m08(0), m98(0), m9c(0)
+// src: EXE 0x00872e00
+HighActorCuller::HighActorCuller() : m08(0), m98(0), m9c(0)
 {
     ma0.FUN_00633c90(0);
 }

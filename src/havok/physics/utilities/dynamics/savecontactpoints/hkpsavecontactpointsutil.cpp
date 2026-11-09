@@ -3172,15 +3172,16 @@ struct FUN_00e05d10_Base
     }
 };
 
-struct FUN_00dce9e0 : FUN_00e05d10_Base
+struct hkpSerializedAgentNnEntry : FUN_00e05d10_Base
 {
-    FUN_00dce9e0(int);
-    virtual ~FUN_00dce9e0();
+    hkpSerializedAgentNnEntry(int);
+    virtual ~hkpSerializedAgentNnEntry();
 };
 
 // Constructor taking an unused int argument; the written body is empty.
 // @fnv 0x00dce9e0
-FUN_00dce9e0::FUN_00dce9e0(int)
+// src: EXE 0x00dce9e0
+hkpSerializedAgentNnEntry::hkpSerializedAgentNnEntry(int)
 {}
 }  // namespace fnv_00dce9e0
 

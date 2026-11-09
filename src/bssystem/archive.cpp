@@ -555,12 +555,13 @@ void __fastcall DestroyCompressedArchiveFile(void* pThis);
 
 struct FUN_00afc6c0_shell2 : public CompressedArchiveFile
 {
-    void* FUN_00afc6c0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls DestroyCompressedArchiveFile on this, deallocates this via g_memoryManager when flags has bit 1 set, and returns this.
 // @fnv 0x00afc6c0
-void* FUN_00afc6c0_shell2::FUN_00afc6c0(unsigned int flags)
+// src: EXE 0x00afc6c0
+void* FUN_00afc6c0_shell2::ScalarDeletingDestructor(unsigned int flags)
 {
     fnv_00afc6c0::DestroyCompressedArchiveFile(this);
     if (flags & 1)

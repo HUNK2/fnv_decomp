@@ -166,10 +166,11 @@ struct FUN_00ec15e0_shell
 };
 struct FUN_00ec19d0_class
 {
-    void* __thiscall FUN_00ec19d0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // @fnv 0x00ec19d0
-void* __thiscall FUN_00ec19d0_class::FUN_00ec19d0(unsigned int flags)
+// src: EXE 0x00ec19d0
+void* __thiscall FUN_00ec19d0_class::ScalarDeletingDestructor(unsigned int flags)
 {
     ((FUN_00ec15e0_shell*)this)->FUN_00ec15e0();
     if (flags & 1)

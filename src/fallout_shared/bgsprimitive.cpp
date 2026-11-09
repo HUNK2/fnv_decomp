@@ -496,7 +496,8 @@ void PrimitiveSphereDestruction::Destroy()
 
 // Calls DestroyBase, frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x004a7bf0
-void* BSMultiBoundSphere::FUN_004a7bf0(unsigned int flags)
+// src: EXE 0x004a7bf0
+void* BSMultiBoundSphere::ScalarDeletingDestructor(unsigned int flags)
 {
     DestroyBase();
     if (flags & 1)
@@ -520,14 +521,14 @@ unsigned char __thiscall FUN_00c38020_shell::BSMultiBoundAABB_RegisterStreamable
     return 1;
 }
 
-struct FUN_00c4f6c0_shell
+struct BSPortalSharedNode
 {
     void BSPortalSharedNode_CopyMembers(int, int);
 };
 
 // @fnv 0x00c4f6c0
 // src: XBOX_PDB 0x00c4f6c0
-void FUN_00c4f6c0_shell::BSPortalSharedNode_CopyMembers(int, int)
+void BSPortalSharedNode::BSPortalSharedNode_CopyMembers(int, int)
 {}
 
 struct FUN_00c4f550_shell
@@ -1349,7 +1350,7 @@ struct FUN_00c4f460 : public A51BF0Base
     FUN_00c4f460(int);
 };
 
-struct FUN_00c4f6c0_shell
+struct BSPortalSharedNode
 {
     void BSPortalSharedNode_CopyMembers(int, int);
     FUN_00c4f460* BSPortalSharedNode_CreateClone(int);
@@ -1358,7 +1359,7 @@ struct FUN_00c4f6c0_shell
 // Allocates a FUN_00c4f460 using the int at this+0xc0, passes it and arg to FUN_00c4f6c0, and returns the new object.
 // @fnv 0x00c4f620
 // src: XBOX_PDB 0x00c4f620
-FUN_00c4f460* FUN_00c4f6c0_shell::BSPortalSharedNode_CreateClone(int arg)
+FUN_00c4f460* BSPortalSharedNode::BSPortalSharedNode_CreateClone(int arg)
 {
     FUN_00c4f460* object = new FUN_00c4f460(*(int*)((char*)this + 0xc0));
 

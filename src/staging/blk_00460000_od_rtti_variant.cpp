@@ -143,10 +143,10 @@ struct FUN_008c6060_shell
 {
     void FUN_008c6060();
 };
-struct FUN_004748f0 : BFC_s
+struct BGSAmmoForm : BFC_s
 {
     void* vtbl;
-    FUN_004748f0();
+    BGSAmmoForm();
 };
 struct FUN_00475a90_cls
 {
@@ -239,7 +239,7 @@ struct FUN_004792c0_Class : NiTPointerMap<int, int>
 struct FUN_0045d930_class
 {
     void __thiscall SetVtableAndProcessState_0046ffd0();
-    void* __thiscall FUN_00470320(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 struct FUN_0045d950_Class
 {
@@ -320,7 +320,7 @@ struct TlsBlock462480
 };
 extern __declspec(thread) TlsBlock462480 g_tls462480;
 extern int __tls_index;
-struct FUN_00462480_Class
+struct BGSSaveLoadGame
 {
     unsigned char __thiscall BGSSaveLoadGame_GetThreadAllowChanges();
 };
@@ -484,7 +484,7 @@ struct LH
 {
     bool IsInList(Actor*&);
 };
-struct FUN_0047ba80_This
+struct BGSRepairItemList
 {
     int _0;
     Script* m4;
@@ -520,7 +520,7 @@ bool __cdecl NiObject_IsKindOf(GlobalObject_00a7b610*, NiAVObject*);
 extern GlobalObject_00a7b610 g_01202e8c;
 void __cdecl BGSDestructibleObjectForm_UpdateDamageStageNodes(NiAVObject*, int);
 void __cdecl BGSDestructibleObjectForm_UpdateDamageStageNodes(NiAVObject* object, int flag);
-struct FUN_00478130_class
+struct SAVE_DESTRUCTIBLE_OBJECT_STAGE
 {
     void __thiscall SAVE_DESTRUCTIBLE_OBJECT_STAGE_Endian();
 };
@@ -570,7 +570,7 @@ struct FUN_0046ebd0_Class
 {
     unsigned int NiTexturingProperty_GetDecalMapCount();
 };
-struct FUN_0046fdd0_Class
+struct TESObjectANIO
 {
     char m_iWordAt00[0x38];
     int m_38;

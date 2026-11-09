@@ -30,7 +30,7 @@ struct FUN_00e049d0_Class : Object
     unsigned int m_auiShapeKeys;
     unsigned short m_type;
 
-    FUN_00e049d0_Class* FUN_00e049d0(int flags);
+    FUN_00e049d0_Class* ScalarDeletingDestructor(int flags);
 };
 extern "C" char str_010cf830[];
 void* __cdecl hkVersionUtil_getCurrentVersion();

@@ -383,14 +383,14 @@ FUN_009bb940::~FUN_009bb940()
     this->ref = 0;
 }
 
-struct FUN_009c19e0_shell
+struct CFilter
 {
     int mFlags;
     bool __thiscall IsFlagSet();
 };
 
 // @fnv 0x009c19e0
-bool __thiscall FUN_009c19e0_shell::IsFlagSet()
+bool __thiscall CFilter::IsFlagSet()
 {
     return (mFlags & 0x4000) != 0;
 }
@@ -413,7 +413,7 @@ struct hkVector4;
 
 NiPoint3& __cdecl SetNiPoint3FromHkVector4(NiPoint3&, hkVector4 const&);
 
-struct FUN_004587f0_shell
+struct bhkPickData
 {
     hkVector4& bhkPickData_GethkTo();
     NiPoint3& bhkPickData_NiGetTo(NiPoint3& a);
@@ -421,7 +421,7 @@ struct FUN_004587f0_shell
 
 // @fnv 0x004587f0
 // src: COMMUNITY 0x004587f0
-NiPoint3& FUN_004587f0_shell::bhkPickData_NiGetTo(NiPoint3& aPoint)
+NiPoint3& bhkPickData::bhkPickData_NiGetTo(NiPoint3& aPoint)
 {
     return SetNiPoint3FromHkVector4(aPoint, bhkPickData_GethkTo());
 }
@@ -1532,7 +1532,7 @@ struct Proxy
     NiPoint3& bhkPickData_NiGetFrom(NiPoint3&);
 };
 
-struct FUN_004587f0_shell
+struct bhkPickData
 {
     NiPoint3& bhkPickData_NiGetTo(NiPoint3&);
 };
@@ -1554,7 +1554,7 @@ bool FUN_009c5af0_shell::Projectile_PickAutoWater(Proxy* apProxy, float* apWater
         _ref_006815c0 kPos9;
         apProxy->bhkPickData_NiGetFrom(*(NiPoint3*)&kPos9);
         _ref_006815c0 kPos2;
-        ((FUN_004587f0_shell*)apProxy)->bhkPickData_NiGetTo(*(NiPoint3*)&kPos2);
+        ((bhkPickData*)apProxy)->bhkPickData_NiGetTo(*(NiPoint3*)&kPos2);
 
         if (kPos9.z > fRate && kPos2.z <= fRate)
         {
@@ -1724,7 +1724,7 @@ namespace fnv_009bb970 {
 int __cdecl GetHavokWorldObjectCountInSceneGraph(NiAVObject*);
 int __cdecl GetHavokWorldObjectIndexInSceneGraph(NiAVObject*, void*);
 
-struct FUN_009bb970_shell
+struct Projectile_ImpactData
 {
     TESObjectREFR* m_object;
     unsigned char m_data4[12];
@@ -1742,7 +1742,7 @@ struct FUN_009bb970_shell
 
 // Writes m_data4, m_data10, m_field20/24/28 to the buffer, computes m_field2a/m_field2c from m_object and m_field1c, saves them, then saves m_object's form ID.
 // @fnv 0x009bb970
-void FUN_009bb970_shell::SaveToBuffer(BGSSaveFormBuffer* buffer)
+void Projectile_ImpactData::SaveToBuffer(BGSSaveFormBuffer* buffer)
 {
     buffer->SaveData(&m_data4, 12, 0);
     buffer->SaveData(&m_data10, 12, 0);
@@ -2929,14 +2929,14 @@ struct ProjectileCalls
 extern Setting setting11cf3f0, setting11cea74, setting11ceabc, setting11cf764;
 float ComputeExplosionDamageFalloff(float, float, float);
 extern float DAT_0108e2b0;
-struct FUN_009a52f0_shell
+struct CombatThreatMap
 {
     void AddOrUpdateItem(ProjectileCalls*, float, float, float, float);
     void UpdateExplosion(ProjectileCalls*);
 };
 // Checks the projectile's explosion source and, when its radius and length pass the settings thresholds, computes elapsed/duration and calls AddOrUpdateItem.
 // @fnv 0x009a52f0
-void FUN_009a52f0_shell::UpdateExplosion(ProjectileCalls* projectile)
+void CombatThreatMap::UpdateExplosion(ProjectileCalls* projectile)
 {
     if (projectile->Projectile_IsFlagSet(1))
         return;

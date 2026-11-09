@@ -93,7 +93,7 @@ struct FUN_00c87670_Class : NiObject
 extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c88a20_cls
 {
-    void __thiscall FUN_00c88930();
+    void __thiscall WeaponObject();
     void* __thiscall FUN_00c88a20(unsigned int flags);
 };
 struct FUN_00cf4ce0_cls
@@ -150,7 +150,7 @@ struct FUN_00c6aca0_holder
 {
     void* __thiscall FUN_00c6aca0();
 };
-struct FUN_00c9a040_cls
+struct bhkWorldM
 {
     void* __thiscall FUN_00c9a040(bool b);
 };
@@ -195,7 +195,7 @@ struct FUN_00c80660_t
     int* m_p4;
     int* m_p8;
     int* m_pc;
-    void* __thiscall FUN_00c80660(bool b);
+    void* __thiscall ScalarDeletingDestructor(bool b);
 };
 struct FUN_00c9aeb0_t
 {
@@ -339,7 +339,7 @@ struct FUN_00c88410_t
 int __fastcall bhkConstraint_GethkEntityB(char* p, int edx);
 struct FUN_00c8a7e0_t
 {
-    void FUN_00c8a720();
+    void bhkBinaryAction();
     void* FUN_00c8a7e0(bool b);
 };
 struct FUN_00cf4d30_holder
@@ -2449,12 +2449,12 @@ class C88930Base
   public:
     virtual ~C88930Base();
 };
-class FUN_00c88930 : public C88930Base
+class WeaponObject : public C88930Base
 {
   public:
     void Release();
 
-    virtual ~FUN_00c88930();
+    virtual ~WeaponObject();
 };
 class SpawnedBase_b7559
 {
@@ -4137,7 +4137,7 @@ struct C90830CriticalSection
 
     C90830CriticalSection(int iSpinCount) throw();
 };
-class FUN_00c90830 : public C90830ReferencedObject
+class hkReferencedObjectLock : public C90830ReferencedObject
 {
   public:
     int m_iFadeIndex;
@@ -4145,11 +4145,11 @@ class FUN_00c90830 : public C90830ReferencedObject
     C90830Stream m_kVertexStream;
     C90830CriticalSection m_kLock;
 
-    FUN_00c90830();
-    virtual ~FUN_00c90830();
+    hkReferencedObjectLock();
+    virtual ~hkReferencedObjectLock();
 };
 extern const double DAT_01012060;
-struct FUN_00c90e00
+struct hkpWorldCinfo
 {
     virtual void unk00();
     int unk04;
@@ -4162,7 +4162,7 @@ struct FUN_00c90e00
     int unk20;
     float m_24;
 
-    FUN_00c90e00(int flag);
+    hkpWorldCinfo(int flag);
 };
 extern int DAT_012681e8;
 void* __cdecl bhkWorldM_GetRTTI();
@@ -4189,7 +4189,7 @@ struct FUN_00c9a430_cls
     FUN_00653290_cls* __thiscall GetMatchingObject(FUN_00c9a430_arg* arg);
 };
 extern int DAT_012681c0;
-struct FUN_00c9a840_cls
+struct bhkBlendController
 {
     int unk00;
     int unk04;
@@ -4211,8 +4211,8 @@ struct FUN_00c9a840_cls
     int unk44;
     unsigned int m_uiItemCount;
 
-    bool NiTimeController_IsEqual(FUN_00c9a840_cls* other);
-    bool bhkBlendController_IsEqual(FUN_00c9a840_cls* other);
+    bool NiTimeController_IsEqual(bhkBlendController* other);
+    bool bhkBlendController_IsEqual(bhkBlendController* other);
 };
 extern double DAT_010231b0;
 extern double DAT_010241b0;
@@ -4591,11 +4591,11 @@ struct FUN_00c9ea90_Base
     virtual void b0();
     FUN_00c9ea90_Base(int a, int b);
 };
-struct FUN_00c9ea90 : FUN_00c9ea90_Base
+struct hkpPhantom : FUN_00c9ea90_Base
 {
     virtual void v0();
 
-    FUN_00c9ea90(int a1);
+    hkpPhantom(int a1);
 };
 struct TreeResultData
 {
@@ -6869,14 +6869,14 @@ void __cdecl bhkCollisionObject_RegisterStreamables();
 void bhkNiCollisionObject_IsEqual();
 void bhkCollisionObject_IsEqual();
 extern int DAT_010c5dc0;
-struct FUN_00c88430_t
+struct hkLimitedHingeConstraintCinfo
 {
     int* m_p0;
     int m_i4;
     int m_i8;
     int m_ic;
     int m_i10;
-    FUN_00c88430_t();
+    hkLimitedHingeConstraintCinfo();
 };
 extern int DAT_01267b70;
 struct Flagged_c891
@@ -7856,9 +7856,9 @@ struct ActorBase
 {
     virtual ~ActorBase();
 };
-struct FUN_00c8a720 : ActorBase
+struct bhkBinaryAction : ActorBase
 {
-    virtual ~FUN_00c8a720();
+    virtual ~bhkBinaryAction();
     void bhkSerializable_Kill();
 };
 class C8AAResult
@@ -7924,7 +7924,7 @@ struct Arr9
 {
     int v[9];
 };
-struct FUN_00c8ffd0
+struct bhkBlendCollisionObjectAddRotation
 {
     void* m_vtbl;
     int unk04;
@@ -7938,7 +7938,7 @@ struct FUN_00c8ffd0
     int unk24;
     int unk28;
     Arr9 tab;
-    FUN_00c8ffd0();
+    bhkBlendCollisionObjectAddRotation();
 };
 void Object_DoNothing_00c910c0();
 bool Object_ReturnTrue();
@@ -8032,11 +8032,11 @@ struct C99F10Base
     {}
     int unk04;
 };
-struct FUN_00c99f10 : C99F10Base
+struct hkDebugDisplay : C99F10Base
 {
     C99F10Array m_kArray;
     void* m_pUserData;
-    virtual ~FUN_00c99f10() throw();
+    virtual ~hkDebugDisplay() throw();
 };
 struct FUN_00c9a520_shell
 {
@@ -9288,10 +9288,10 @@ struct FUN_00cf43b0_class : Base674
     FUN_00cf43b0_class();
     void bhkVelocityConstraintMotor_LoadBinary(Stream674*);
 };
-struct FUN_00cf45d0_class : Base674
+struct bhkSpringDamperConstraintMotor : Base674
 {
     int unk08, unk0C, unk10, unk14, unk18;
-    FUN_00cf45d0_class();
+    bhkSpringDamperConstraintMotor();
     void SaveToArchive(Stream674*);
 };
 void* __stdcall hkConstraintCinfo_LoadMotor(Stream674* stream);
@@ -10045,7 +10045,7 @@ static __declspec(noinline) void InvokeOnAllOwners(void* a, void* b)
     if (b)
         sink = 3;
 }
-class FUN_00c929e0_ThisClass
+class hkpWorld
 {
   public:
     void* hkpWorld_getWorldAsOneSystem();

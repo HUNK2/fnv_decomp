@@ -529,7 +529,7 @@ inline void* const& NextHolder(HolderNode*& pos)
     return element;
 }
 
-struct FUN_00b631d0_cls
+struct BSShaderAccumulator
 {
     int unk00;
     int unk04;
@@ -612,7 +612,7 @@ struct FUN_00b631d0_cls
 
 // @fnv 0x00b631d0
 // src: XBOX_PDB 0x00b631d0
-void FUN_00b631d0_cls::BSShaderAccumulator_ClearAllQueries()
+void BSShaderAccumulator::BSShaderAccumulator_ClearAllQueries()
 {
     unsigned int state;
     int i = 0;

@@ -182,10 +182,10 @@ struct DD5D50Source
     virtual void unk00();
     virtual int getCount();
 };
-class FUN_00dd5d50 : public DD5D50ReferencedObject
+class hkpMoppCachedShapeMediator : public DD5D50ReferencedObject
 {
   public:
-    FUN_00dd5d50(DD5D50Source* source);
+    hkpMoppCachedShapeMediator(DD5D50Source* source);
     virtual void unk00();
 
     DD5D50Array m_items;

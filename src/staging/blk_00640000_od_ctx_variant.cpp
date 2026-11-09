@@ -78,7 +78,7 @@ struct FUN_00645c20_Class
 {
     unsigned short GetShortAtOffset1C0();
 };
-struct FUN_00645c80_Class
+struct TESObjectWEAP
 {
     bool __thiscall IsFlagSet() const;
 };
@@ -640,7 +640,7 @@ struct FUN_00658bb0_Class
 };
 struct FUN_00658d00_Class
 {
-    void* __thiscall FUN_00658d00(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 void _Deallocate(void*);
 struct FUN_00658ea0_cls
@@ -972,7 +972,7 @@ struct PropHelper
 void* DynamicCastByRTTI(const NiRTTI*, NiProperty*);
 extern int DAT_011f49e0;
 extern const char* const DAT_012005b8;
-struct FUN_00642940_class
+struct Sun
 {
     int a;
     int b;
@@ -1609,14 +1609,14 @@ struct S_0064ccf0_Member
     S_0064ccf0_Member();
     ~S_0064ccf0_Member();
 };
-struct FUN_0064ccf0 : S_0064ccf0_Base
+struct BSFaceGenImage : S_0064ccf0_Base
 {
     S_0064ccf0_Ptr unk08;
     S_0064ccf0_Member unk0c;
     int unk24;
     int unk28;
-    FUN_0064ccf0(S_0064ccf0_Obj* a);
-    virtual ~FUN_0064ccf0();
+    BSFaceGenImage(S_0064ccf0_Obj* a);
+    virtual ~BSFaceGenImage();
 };
 extern unsigned char DAT_011f94b0;
 unsigned char __cdecl BSShaderManager_GetTintMipMaps();
@@ -2844,7 +2844,7 @@ struct CloneVector
 {
     float x, y, z;
 };
-struct FUN_00649680 : NiMemObject
+struct BSFaceGenAnimationData : NiMemObject
 {
     int value00, value04, value08;
     FUN_0064ec10_obj* extra;
@@ -2901,8 +2901,8 @@ struct FUN_00649680 : NiMemObject
     int value1b4;
     int value1b8;
     int value1bc;
-    FUN_00649680();
-    FUN_00649680* BSFaceGenAnimationData_CreateCopyBS();
+    BSFaceGenAnimationData();
+    BSFaceGenAnimationData* BSFaceGenAnimationData_CreateCopyBS();
 };
 template <class T> struct FGPointer
 {

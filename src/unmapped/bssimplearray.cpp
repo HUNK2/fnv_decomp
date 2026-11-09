@@ -404,12 +404,13 @@ struct FUN_006cf230_Class
 
 struct FUN_006cfc80_Class
 {
-    void* __thiscall FUN_006cfc80(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_006cf230 on this, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x006cfc80
-void* __thiscall FUN_006cfc80_Class::FUN_006cfc80(unsigned int flags)
+// src: EXE 0x006cfc80
+void* __thiscall FUN_006cfc80_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     ((FUN_006cf230_Class*)this)->FUN_006cf230();
     if (flags & 1)

@@ -280,7 +280,7 @@ struct FUN_00c61810_class
 {
     void* BSWArray_GetRTTI();
 };
-struct FUN_00c61820_class
+struct PArrayPoint
 {
     void* PArrayPoint_Copy(int);
 };
@@ -354,10 +354,10 @@ struct FUN_00c65680_Class
     void* m_iWordAt04;
     void __thiscall FUN_00c65680();
 };
-struct FUN_00c600c0_class
+struct BSPSysStripUpdateModifier
 {
     void* __thiscall UpdateState_00c5fd50();
-    void* __thiscall FUN_00c600c0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c613a0_Class
@@ -393,7 +393,7 @@ struct FUN_00c63970_class : NiPSysModifier
 };
 void __cdecl FUN_00c63b40(void* p);
 void __cdecl operator delete(void* p, unsigned int size);
-struct FUN_00c64930_Class
+struct BSReference
 {
     void BSReference_LinkObject(int a);
 };
@@ -1066,10 +1066,10 @@ class NiPSysPositionModifierBase
     unsigned char m_16;
     unsigned char m_17;
 };
-class FUN_00c633b0 : public NiPSysPositionModifierBase
+class BSParentVelocityModifier : public NiPSysPositionModifierBase
 {
   public:
-    FUN_00c633b0(const char* pcName);
+    BSParentVelocityModifier(const char* pcName);
     float m_f18;
     int m_1c;
     float m_f20;
@@ -1077,7 +1077,8 @@ class FUN_00c633b0 : public NiPSysPositionModifierBase
     NiPoint3 m_kPoint30;
 };
 // @fnv 0x00c633b0
-FUN_00c633b0::FUN_00c633b0(const char* pcName) : NiPSysPositionModifierBase(NiFixedString(pcName), 0xbb8)
+// src: EXE 0x00c633b0
+BSParentVelocityModifier::BSParentVelocityModifier(const char* pcName) : NiPSysPositionModifierBase(NiFixedString(pcName), 0xbb8)
 {
     m_kPoint24 = NiPoint3::ZERO;
     m_kPoint30 = NiPoint3::ZERO;
@@ -1927,17 +1928,18 @@ struct BaseObj
     void BSPSysArrayEmitter_SetupArray();
 };
 
-struct FUN_00c61a10 : BaseObj
+struct BSPSysArrayEmitter : BaseObj
 {
     int m_58;
     SubObj m_5c;
-    FUN_00c61a10(int p1, int p2, int p3, float f0, float f1, float f2, float f3, float f4, float f5, NiColorA q, float g0,
+    BSPSysArrayEmitter(int p1, int p2, int p3, float f0, float f1, float f2, float f3, float f4, float f5, NiColorA q, float g0,
                  float g1, float g2, float g3);
-    virtual ~FUN_00c61a10();
+    virtual ~BSPSysArrayEmitter();
 };
 
 // @fnv 0x00c61a10
-FUN_00c61a10::FUN_00c61a10(int p1, int p2, int p3, float f0, float f1, float f2, float f3, float f4, float f5, NiColorA q,
+// src: EXE 0x00c61a10
+BSPSysArrayEmitter::BSPSysArrayEmitter(int p1, int p2, int p3, float f0, float f1, float f2, float f3, float f4, float f5, NiColorA q,
                            float g0, float g1, float g2, float g3)
     : BaseObj(p1, p2, f0, f1, f2, f3, f4, f5, q, g0, g1, g2, g3), m_58(p3)
 {

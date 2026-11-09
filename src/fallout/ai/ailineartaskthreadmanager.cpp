@@ -467,14 +467,14 @@ struct TaskThreadStandin
     virtual ~TaskThreadStandin();
 };
 
-struct FUN_008c73a0_shell : public AIThreadManager
+struct AILinearTaskThreadManager : public AIThreadManager
 {
     void AILinearTaskThreadManager_Kill();
 };
 
 // @fnv 0x008c73a0
 // src: COMMUNITY 0x008c73a0
-void FUN_008c73a0_shell::AILinearTaskThreadManager_Kill()
+void AILinearTaskThreadManager::AILinearTaskThreadManager_Kill()
 {
     unsigned int i;
     int j;

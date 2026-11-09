@@ -513,7 +513,7 @@ struct FUN_00de3050
     FUN_00de3050();
 };
 extern int DAT_010d8214;
-class FUN_00de3060
+class hkpConvexRadiusBuilder
 {
   public:
     void* m_00;
@@ -522,7 +522,7 @@ class FUN_00de3060
     unsigned int m_08;
     unsigned int m_0c;
 
-    FUN_00de3060(const unsigned int* src);
+    hkpConvexRadiusBuilder(const unsigned int* src);
 };
 class FUN_00de3090_cls
 {
@@ -1201,7 +1201,7 @@ extern int g_unk0126aa18;
 int* __cdecl Object_GetGlobalObjectAddress_00dfb280();
 struct FUN_00dfb2d0_class
 {
-    void __thiscall FUN_00dfb2d0(int a);
+    void __thiscall hkpMoppBvTreeShape(int a);
 };
 void __cdecl finishLoadedObject_hkpMoppBvTreeShape(FUN_00dfb2d0_class* p, int a);
 extern int DAT_0126aac0;
@@ -1599,7 +1599,7 @@ class SpawnedMid
         *(volatile int*)&m_a0 = (int)0x80000000;
     }
 };
-class FUN_00dfc850 : public SpawnedBase, public SpawnedMid
+class hkpSimpleShapePhantom : public SpawnedBase, public SpawnedMid
 {
   public:
     int m_a4;
@@ -1652,8 +1652,8 @@ class FUN_00dfc850 : public SpawnedBase, public SpawnedMid
     int m_160;
     int m_164;
     int m_168;
-    virtual ~FUN_00dfc850();
-    FUN_00dfc850(int a1);
+    virtual ~hkpSimpleShapePhantom();
+    hkpSimpleShapePhantom(int a1);
 };
 extern int DAT_0126b9c0;
 int* __cdecl Object_GetGlobalObjectAddress_00dfc8c0();
@@ -1851,7 +1851,7 @@ extern "C" void* DAT_010cc364;
 extern "C" void* DAT_010cc344;
 extern "C" void* DAT_010e2144;
 extern "C" void* DAT_010e2124;
-struct FUN_00dfcf60_cls
+struct hkpSimpleMeshShape
 {
     void* m_vptr00;
     int m_04;
@@ -1863,7 +1863,7 @@ struct FUN_00dfcf60_cls
     unsigned char m_16;
     unsigned char m_17;
 
-    FUN_00dfcf60_cls* InitializeVtables(int flag);
+    hkpSimpleMeshShape* InitializeVtables(int flag);
 };
 extern int DAT_0126c068;
 void* Object_GetGlobalObjectAddress_00dfd0c0();
@@ -2403,7 +2403,7 @@ void* __cdecl Object_GetGlobalObjectAddress_00dffa40();
 // when that object is present.
 struct FUN_00dffa50_cls
 {
-    void __thiscall FUN_00dffa90(int value);
+    void __thiscall hkpConstrainedSystemFilter(int value);
 };
 void __cdecl finishLoadedObject_hkpConstrainedSystemFilter(FUN_00dffa50_cls* pObject, int value);
 struct DFFA90FinishFlag
@@ -2462,7 +2462,7 @@ class DFFA90ListenerE
     {}
     virtual ~DFFA90ListenerE();
 };
-class FUN_00dffa90 : public DFFA90ReferencedObject,
+class hkpConstrainedSystemFilter : public DFFA90ReferencedObject,
                      public DFFA90ListenerA,
                      public DFFA90ListenerB,
                      public DFFA90ListenerC,
@@ -2470,8 +2470,8 @@ class FUN_00dffa90 : public DFFA90ReferencedObject,
                      public DFFA90ListenerE
 {
   public:
-    FUN_00dffa90(DFFA90FinishFlag flag);
-    virtual ~FUN_00dffa90();
+    hkpConstrainedSystemFilter(DFFA90FinishFlag flag);
+    virtual ~hkpConstrainedSystemFilter();
 };
 class FUN_00dffba0_cls
 {
@@ -2541,7 +2541,7 @@ extern int DAT_0126d910;
 int* __cdecl Runtime_GetDAT0126d910Address();
 struct S_00dfff80_Foo
 {
-    void __thiscall FUN_00cdf760(int a);
+    void __thiscall hkpMalleableConstraintData(int a);
 };
 void __cdecl finishLoadedObject_hkpMalleableConstraintData(S_00dfff80_Foo* p, int a);
 // FUN_00dfffd0 : a one-line function - getter
@@ -2610,10 +2610,10 @@ class DE1FC0Transform : public DE1FC0ReferencedObject
     int unk58;
     int unk5C;
 };
-class FUN_00de1fc0 : public DE1FC0Transform
+class hkDisplayBox : public DE1FC0Transform
 {
   public:
-    FUN_00de1fc0();
+    hkDisplayBox();
     virtual void vfunc01();
 
     hkVector4 m_extra;
@@ -2694,10 +2694,10 @@ class DE5450Shape : public DE5450ReferencedObject
     int unk58;
     int unk5C;
 };
-class FUN_00de5450 : public DE5450Shape
+class hkDisplayCone : public DE5450Shape
 {
   public:
-    FUN_00de5450();
+    hkDisplayCone();
     virtual void unk00();
 
     hkVector4 m_vecA;

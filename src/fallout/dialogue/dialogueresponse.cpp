@@ -148,7 +148,7 @@ struct FUN_0083d280_Src
 
 unsigned int __cdecl FUN_0083d280_Helper(int aValue);
 
-struct FUN_0083d280_cls
+struct DialogueResponse
 {
     FUN_0083d280_Sub m_sub00;
     int m_08;
@@ -161,11 +161,12 @@ struct FUN_0083d280_cls
     int m_28;
 
     void Set(const FUN_0083d280_Obj& aValue);
-    FUN_0083d280_cls(int a1, int a2, int a3, int a4, FUN_0083d280_Src* apSrc);
+    DialogueResponse(int a1, int a2, int a3, int a4, FUN_0083d280_Src* apSrc);
 };
 
 // @fnv 0x0083d280
-FUN_0083d280_cls::FUN_0083d280_cls(int aiArg1, int aiArg2, int aiArg3, int aiArg4, FUN_0083d280_Src* apSrc)
+// src: COMMUNITY 0x0083d280
+DialogueResponse::DialogueResponse(int aiArg1, int aiArg2, int aiArg3, int aiArg4, FUN_0083d280_Src* apSrc)
 {
     if (apSrc != 0)
     {

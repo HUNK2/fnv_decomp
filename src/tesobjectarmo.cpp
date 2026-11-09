@@ -515,12 +515,12 @@ struct FoleyNode : BSSimpleList<SoundDescriptor*>
     SoundDescriptor*& FUN_006815c0();
     FoleyNode* FUN_00726070();
 };
-struct FUN_00513d60
+struct FOLEY_SOUND
 {
     unsigned int formID;
     unsigned char soundType;
     int value;
-    FUN_00513d60();
+    FOLEY_SOUND();
     void FUN_00483710();
 };
 struct ArmorSerializer : TESObjectARMO
@@ -565,7 +565,7 @@ void ArmorSerializer::Save()
             node = node->FUN_00726070();
             if (sound && sound->SoundAssetTmp)
             {
-                FUN_00513d60 saved;
+                FOLEY_SOUND saved;
                 saved.formID = ((RefObj*)sound->SoundAssetTmp)->_ref_0084e3a0();
                 saved.soundType = sound->layoutPadding4[0];
                 saved.value = sound->eType;

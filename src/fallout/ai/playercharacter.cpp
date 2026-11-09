@@ -2475,12 +2475,13 @@ void __cdecl operator delete(void* p);
 struct FUN_009398a0_Class
 {
     void __thiscall FUN_009398d0();
-    void* __thiscall FUN_009398a0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_009398d0, deletes this if bit 0 of flags is set, and returns this.
 // @fnv 0x009398a0
-void* __thiscall FUN_009398a0_Class::FUN_009398a0(unsigned int flags)
+// src: EXE 0x009398a0
+void* __thiscall FUN_009398a0_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_009398d0();
     if (flags & 1)
@@ -2488,14 +2489,14 @@ void* __thiscall FUN_009398a0_Class::FUN_009398a0(unsigned int flags)
     return this;
 }
 
-struct FUN_00985d10
+struct CombatGroup
 {
     bool AddMember(Actor*);
     void CombatGroup_AddTarget(Actor*);
 };
 struct FUN_00991e80_shell
 {
-    FUN_00985d10* CombatManager_CreateCombatGroup();
+    CombatGroup* CombatManager_CreateCombatGroup();
 };
 extern void* BGSSaveLoadGlobalDataWorldspacePtr;
 struct FUN_0093a690_shell
@@ -2507,13 +2508,13 @@ struct FUN_0093a690_shell
 // src: XBOX_PDB 0x0093a690
 void FUN_0093a690_shell::PlayerCharacter_AddActorToPlayerCombatList(Actor* apActor)
 {
-    if (!*(FUN_00985d10**)((char*)this + 0xd64))
+    if (!*(CombatGroup**)((char*)this + 0xd64))
     {
-        *(FUN_00985d10**)((char*)this + 0xd64) =
+        *(CombatGroup**)((char*)this + 0xd64) =
             ((FUN_00991e80_shell*)BGSSaveLoadGlobalDataWorldspacePtr)->CombatManager_CreateCombatGroup();
-        (*(FUN_00985d10**)((char*)this + 0xd64))->AddMember((Actor*)this);
+        (*(CombatGroup**)((char*)this + 0xd64))->AddMember((Actor*)this);
     }
-    (*(FUN_00985d10**)((char*)this + 0xd64))->CombatGroup_AddTarget(apActor);
+    (*(CombatGroup**)((char*)this + 0xd64))->CombatGroup_AddTarget(apActor);
 }
 
 struct FUN_0093a740_s
@@ -13615,7 +13616,7 @@ float __cdecl LinearInterpolate(float a, float b, float c, float d, float e);
 extern "C" double DAT_01075d30;
 extern "C" double DAT_01012060;
 
-class FUN_00946190_cls
+class NonLinearInterpolator
 {
   public:
     float m_table[99];
@@ -13630,7 +13631,7 @@ class FUN_00946190_cls
 // Calls FUN_00406cc0 with a value derived from m_198 and m_19c, then returns m_18c or a linear interpolation of m_table entries picked by FUN_00ec62c0().
 // @fnv 0x00946190
 // src: XBOX_PDB 0x00946190
-float FUN_00946190_cls::NonLinearInterpolator_GetCurrent()
+float NonLinearInterpolator::NonLinearInterpolator_GetCurrent()
 {
     FUN_00406cc0((float)((m_19c - BSMAX_00404010(m_198, 0.0f)) / m_19c * DAT_01075d30));
     int idx = FUN_00ec62c0();
@@ -64423,7 +64424,7 @@ void PlayerAIControl::PlayerCharacter_SetAIControlledFromPos(char abUnderAIContr
         reinterpret_cast<PlayerAIControlDispatch*>(this)->SetControl(1);
 }
 
-struct InterpolatorStep : FUN_00946190_cls
+struct InterpolatorStep : NonLinearInterpolator
 {
     bool NonLinearInterpolator_Interpolate(float elapsed);
 };

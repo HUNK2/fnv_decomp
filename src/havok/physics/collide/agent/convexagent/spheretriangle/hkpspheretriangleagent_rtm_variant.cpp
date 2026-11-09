@@ -158,7 +158,7 @@ struct SpawnedInner
     virtual void unk10();
     virtual void unk14(unsigned short flags, void* param);
 };
-class FUN_00d3d200_cls
+class hkpSphereTriangleAgent
 {
 public:
     virtual void unk00(int flags);

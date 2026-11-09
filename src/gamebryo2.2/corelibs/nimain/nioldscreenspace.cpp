@@ -366,10 +366,11 @@ struct FUN_00a90560_host : NiRefObject
     void* m1;
     void* m2;
     void* m3;
-    void* __thiscall FUN_00a90560(unsigned int);
+    void* __thiscall ScalarDeletingDestructor(unsigned int);
 };
 // @fnv 0x00a90560
-void* __thiscall FUN_00a90560_host::FUN_00a90560(unsigned int auiFlags)
+// src: EXE 0x00a90560
+void* __thiscall FUN_00a90560_host::ScalarDeletingDestructor(unsigned int auiFlags)
 {
     *(void**)this = (void*)&DAT_0109f914;
     g_memoryManager.Deallocate(m1);

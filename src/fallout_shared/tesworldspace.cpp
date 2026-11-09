@@ -744,7 +744,7 @@ template <int N> struct EndianSizeTag
 void __cdecl BSEndian(int*, EndianSizeTag<2>);
 void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
 
-struct FUN_005840b0_shell
+struct WORLD_MAP_DATA
 {
     void __thiscall WORLD_MAP_DATA_Endian();
 };
@@ -752,7 +752,7 @@ struct FUN_005840b0_shell
 // Byte-swaps the two ints and four shorts stored in this object via BSEndian.
 // @fnv 0x005840b0
 // src: COMMUNITY 0x005840b0
-void __thiscall FUN_005840b0_shell::WORLD_MAP_DATA_Endian()
+void __thiscall WORLD_MAP_DATA::WORLD_MAP_DATA_Endian()
 {
     BSEndian((int*)this, EndianSizeTag<2>());
     BSEndian((int*)(this + 4), EndianSizeTag<2>());
@@ -1024,7 +1024,7 @@ struct CameraPathManager
     char m_kCameraPathList[16];
 };
 typedef char _sizecheck_BGSCameraPathManager[sizeof(CameraPathManager) == 40 ? 1 : -1];
-struct FUN_0095f530_shell : public CameraPathManager
+struct PlayerCharacter : public CameraPathManager
 {
     BGSCameraPath* PlayerCharacter_SetControlsDisabled(TESObjectREFR*, TESObjectREFR*);
 };
@@ -1035,7 +1035,7 @@ struct Caller_0095f590
 };
 // @fnv 0x0095f530
 // src: XBOX_PDB 0x0095f530
-BGSCameraPath* FUN_0095f530_shell::PlayerCharacter_SetControlsDisabled(TESObjectREFR* apActionRef, TESObjectREFR* apTargetRef)
+BGSCameraPath* PlayerCharacter::PlayerCharacter_SetControlsDisabled(TESObjectREFR* apActionRef, TESObjectREFR* apTargetRef)
 {
     unsigned char nv;
     if ((unsigned char)apActionRef)

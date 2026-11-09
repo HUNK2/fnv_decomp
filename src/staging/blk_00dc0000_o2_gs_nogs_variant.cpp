@@ -310,14 +310,14 @@ struct FUN_00dd5150_component
 {
     void hkpMoppCostFunction_hkpMoppSplitCostParams_hkpMoppSplitCostParams(int value);
 };
-struct FUN_00dd51a0
+struct hkpMoppCostFunction
 {
     void** vftable;
     short unk04;
     short enabled06;
     FUN_00dd5150_component component08;
 
-    FUN_00dd51a0(const int* data);
+    hkpMoppCostFunction(const int* data);
     void CopySixInts(const int* data);
 };
 unsigned char* __cdecl LessThan(unsigned char* output, const unsigned int* left, const unsigned int* right);
@@ -526,7 +526,7 @@ struct FUN_00ddfbb0_cls
     void ClearField10();
 };
 void __cdecl FUN_00c90510();
-struct FUN_00dcc130_Class
+struct hkIstream
 {
     int* m_vtbl;
     unsigned short unk04;
@@ -578,11 +578,11 @@ struct Bool1
 struct Base_00d60b40
 {
     void* vft;
-    void __thiscall FUN_00d60b40(int a, Bool1 b);
+    void __thiscall hkOArchive(int a, Bool1 b);
 };
-struct FUN_00dda690 : Base_00d60b40
+struct hkDisplaySerializeOStream : Base_00d60b40
 {
-    FUN_00dda690(int a);
+    hkDisplaySerializeOStream(int a);
 };
 struct S_00dcc240_Reader
 {

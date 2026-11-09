@@ -1527,12 +1527,13 @@ void __cdecl _Deallocate(void* p);
 
 struct FUN_007cb580_Class
 {
-    void* FUN_007cb580(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_007cb560 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x007cb580
-void* FUN_007cb580_Class::FUN_007cb580(unsigned int flags)
+// src: EXE 0x007cb580
+void* FUN_007cb580_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     Object_ForwardCall_007cb560(this);
     if (flags & 1)

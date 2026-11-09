@@ -72,7 +72,7 @@ class BGSReconstructCellSubBlocksMap;
 
 extern int DAT_0107ea60;
 
-struct FUN_00843190_class
+struct BGSOffsetDataArray
 {
     void* vtbl;
     void FUN_00844f00(int, int, int);
@@ -82,7 +82,7 @@ struct FUN_00843190_class
 // Calls FUN_00844f00 with (0x20, 0, 0), sets vtbl to &DAT_0107ea60, and returns this.
 // @fnv 0x00843190
 // src: EXE 0x00843190
-void* FUN_00843190_class::BGSOffsetDataArray_BGSOffsetDataArray()
+void* BGSOffsetDataArray::BGSOffsetDataArray_BGSOffsetDataArray()
 {
     FUN_00844f00(0x20, 0, 0);
     vtbl = &DAT_0107ea60;
@@ -1891,11 +1891,12 @@ void __thiscall FUN_008431c0_Class::ConstructAndForward(void* pFirst, void* pSec
 
 struct FUN_008431f0_Class : FUN_00843220_Class
 {
-    void* __thiscall FUN_008431f0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls the base constructor, then deallocates this if bit 0 of flags is set, and returns this.
 // @fnv 0x008431f0
-void* __thiscall FUN_008431f0_Class::FUN_008431f0(unsigned int flags)
+// src: EXE 0x008431f0
+void* __thiscall FUN_008431f0_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00843220_Class::ForwardCall_00843220();
     if (flags & 1)

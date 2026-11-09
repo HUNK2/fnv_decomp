@@ -53,14 +53,15 @@ struct BaseE02c70
     virtual __declspec(nothrow) ~BaseE02c70()
     {}
 };
-struct FUN_00e02c70_Class : BaseE02c70
+struct hkPlatformObjectWriter : BaseE02c70
 {
     hkReferencedObject* unk08;
     FUN_00e02d40_helper* unk0c;
-    virtual __declspec(nothrow) ~FUN_00e02c70_Class();
+    virtual __declspec(nothrow) ~hkPlatformObjectWriter();
 };
 // @fnv 0x00e02c70
-FUN_00e02c70_Class::~FUN_00e02c70_Class()
+// src: EXE 0x00e02c70
+hkPlatformObjectWriter::~hkPlatformObjectWriter()
 {
     hkReferencedObject* reference = unk08;
     reference->removeReference();

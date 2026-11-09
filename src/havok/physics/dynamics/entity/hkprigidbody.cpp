@@ -649,15 +649,16 @@ struct FUN_00ca9240_Base
     virtual void unk00();
 };
 
-struct FUN_00ca9240 : FUN_00ca9240_Base
+struct hkpCharacterMotion : FUN_00ca9240_Base
 {
-    FUN_00ca9240(int a, int b);
+    hkpCharacterMotion(int a, int b);
     virtual void unk04();
 };
 
 // Constructs the base with a and b and a zero, then sets type to 7.
 // @fnv 0x00ca9240
-FUN_00ca9240::FUN_00ca9240(int aiValueA, int aiValueB) : FUN_00ca9240_Base(aiValueA, aiValueB, 0)
+// src: EXE 0x00ca9240
+hkpCharacterMotion::hkpCharacterMotion(int aiValueA, int aiValueB) : FUN_00ca9240_Base(aiValueA, aiValueB, 0)
 {
     type = 7;
 }
@@ -672,14 +673,15 @@ struct BaseRecord
     BaseRecord(void* apFirst, void* apSecond, int aiFlag);
 };
 
-struct FUN_00ca9270 : BaseRecord
+struct hkpSphereMotion : BaseRecord
 {
-    FUN_00ca9270(void* apFirst, void* apSecond);
+    hkpSphereMotion(void* apFirst, void* apSecond);
 };
 
 // Constructs the object by forwarding apFirst and apSecond to BaseRecord with flag 0, then sets m_c08 to 2.
 // @fnv 0x00ca9270
-FUN_00ca9270::FUN_00ca9270(void* apFirst, void* apSecond) : BaseRecord(apFirst, apSecond, 0)
+// src: EXE 0x00ca9270
+hkpSphereMotion::hkpSphereMotion(void* apFirst, void* apSecond) : BaseRecord(apFirst, apSecond, 0)
 {
     m_c08 = 2;
 }

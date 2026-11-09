@@ -190,14 +190,14 @@ struct FUN_00578870_host
 {
     void TESObjectREFR_GetMapNameForLocation(::BSStringT<char>*);
 };
-struct FUN_0043a2e0_host
+struct DoorTeleportData
 {
     FUN_00578870_host* m;
     void SetString(::BSStringT<char>*);
 };
 // If m is non-null, calls m->FUN_00578870(a); otherwise calls a->Set($SG4382, 0).
 // @fnv 0x0043a2e0
-void FUN_0043a2e0_host::SetString(::BSStringT<char>* apStr)
+void DoorTeleportData::SetString(::BSStringT<char>* apStr)
 {
     if (m)
         m->TESObjectREFR_GetMapNameForLocation(apStr);

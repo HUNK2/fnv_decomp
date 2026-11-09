@@ -16,7 +16,7 @@ extern int DAT_010d16f0;
 extern int DAT_010d1700;
 extern int DAT_010d1720;
 extern void __cdecl FUN_00ddcc60();
-struct FUN_00d62fe0_cls
+struct hkpWorldSnapshotViewer
 {
     void __thiscall UpdateFields_00d62fe0();
 };
@@ -96,7 +96,7 @@ struct SubObject
 {
     void Init(int a, int b);
 };
-struct FUN_00d63280_cls
+struct hkpWorldMemoryViewer
 {
     void* m_vtbl0;
     int unk04;
@@ -111,7 +111,7 @@ struct FUN_00d63280_cls
     SubObject m_sub28;
 
     void Setup(int b);
-    FUN_00d63280_cls* hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b);
+    hkpWorldMemoryViewer* hkpWorldMemoryViewer_hkpWorldMemoryViewer(int a, int b);
 };
 
 

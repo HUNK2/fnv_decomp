@@ -1367,17 +1367,18 @@ void ReportAssertionViolation(const char* file, int line);
 }
 using namespace binac3;
 
-struct FUN_00ac3df0
+struct FutBinaryFileC
 {
     BxString kPath;
     BxString kName;
     int unk3c;
-    FUN_00ac3df0(BxString name);
+    FutBinaryFileC(BxString name);
     virtual void v00();
 };
 
 // @fnv 0x00ac3df0
-FUN_00ac3df0::FUN_00ac3df0(BxString name)
+// src: EXE 0x00ac3df0
+FutBinaryFileC::FutBinaryFileC(BxString name)
 {
     kName = name;
     if (kName.size() == 8)

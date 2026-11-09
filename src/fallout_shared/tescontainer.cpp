@@ -463,7 +463,7 @@ struct CompareHelper
     bool Compare(ContainerItemExtra* other);
 };
 
-struct FUN_00481470_shell
+struct ContainerObject
 {
     int count;
     void* object;
@@ -473,7 +473,7 @@ struct FUN_00481470_shell
 
 // Returns true when apCompare is null or its count, object or extra differ from this shell's, comparing extras via CompareHelper::Compare.
 // @fnv 0x00481470
-bool FUN_00481470_shell::IsNotEqual(InventoryItemEntry* apCompare)
+bool ContainerObject::IsNotEqual(InventoryItemEntry* apCompare)
 {
     if (!apCompare)
         return true;
@@ -974,7 +974,7 @@ bool TESContainer::CompareWithBase(BaseFormComponent* other)
                 InventoryItemEntry* compareItem = *_ref_006815c0(otherCurrent);
                 if (compareItem != 0)
                 {
-                    if (!reinterpret_cast<FUN_00481470_shell*>(compareItem)->IsNotEqual(itemBeingChecked))
+                    if (!reinterpret_cast<ContainerObject*>(compareItem)->IsNotEqual(itemBeingChecked))
                     {
                         differenceFound = true;
                         break;

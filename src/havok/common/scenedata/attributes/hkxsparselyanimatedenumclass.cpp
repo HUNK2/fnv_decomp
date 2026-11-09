@@ -186,7 +186,7 @@ namespace fnv_00dfdcf0 {
 
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
-struct FUN_00dfdcf0_cls
+struct hkxEnum
 {
     int unk00;
     unsigned short m_uSize;
@@ -194,13 +194,14 @@ struct FUN_00dfdcf0_cls
 
     void FUN_00dfdc40();
 
-    FUN_00dfdcf0_cls* FUN_00dfdcf0(unsigned char acFlags);
+    hkxEnum* ScalarDeletingDestructor(unsigned char acFlags);
     static void operator delete(void* apMemory) throw();
 };
 
 // Calls FUN_00dfdc40, and if acFlags has bit 0 set, frees this via the hkMemoryAllocator from FUN_00c85750, then returns this.
 // @fnv 0x00dfdcf0
-FUN_00dfdcf0_cls* FUN_00dfdcf0_cls::FUN_00dfdcf0(unsigned char acFlags)
+// src: EXE 0x00dfdcf0
+hkxEnum* hkxEnum::ScalarDeletingDestructor(unsigned char acFlags)
 {
     FUN_00dfdc40();
     if (acFlags & 1)

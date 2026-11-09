@@ -2860,7 +2860,7 @@ int GetFlagMask(int);
 void BGSOpenCloseForm_HandleActivate(ActivationRef*, ActivationRef*, int);
 int FUN_0047b250(ActivationRef*);
 void FalloutRadio_ActivateRadio(ActivationRef*, bool);
-struct FUN_005113f0_shell
+struct TESObjectACTI
 {
     int unk00;
     int unk04;
@@ -2902,7 +2902,7 @@ struct FUN_005113f0_shell
 // Checks the activator, may update actor state and play a sound, then calls Activate on the stored pointer when present.
 // @fnv 0x005113f0
 // src: XBOX_PDB 0x005113f0
-bool FUN_005113f0_shell::TESObjectACTI_Activate(ActivationRef* ref, ActivationRef* activator, bool arg3, int arg4, int arg5)
+bool TESObjectACTI::TESObjectACTI_Activate(ActivationRef* ref, ActivationRef* activator, bool arg3, int arg4, int arg5)
 {
     ActivationRef* h = 0;
     bool p = false;

@@ -266,7 +266,7 @@ bool __thiscall FUN_0056af20_Class::IsFlag2Set()
     return (signed char)((char*)this)[0x98] & 2;
 }
 
-struct FUN_0056d360_Class
+struct bhkRigidBodyCinfo
 {
     void bhkRigidBodyCinfo_SetMotionType(int a);
 };
@@ -278,7 +278,7 @@ struct FUN_005407b0_Class
 
 // @fnv 0x0056d360
 // src: COMMUNITY 0x0056d360
-void FUN_0056d360_Class::bhkRigidBodyCinfo_SetMotionType(int aiValue)
+void bhkRigidBodyCinfo::bhkRigidBodyCinfo_SetMotionType(int aiValue)
 {
     ((FUN_005407b0_Class*)((char*)this + 0xd4))->UpdateState_005407b0(aiValue);
 }
@@ -290,7 +290,7 @@ struct FUN_0056d610_base
     virtual ~FUN_0056d610_base();
 };
 
-struct FUN_0056d5f0_class : FUN_0056d610_base
+struct bhkWaterPhantomCallbackShape : FUN_0056d610_base
 {
     void SetVtableAndProcessState_0056d610();
     void* bhkWaterPhantomCallbackShape_bhkWaterPhantomCallbackShape();
@@ -298,7 +298,7 @@ struct FUN_0056d5f0_class : FUN_0056d610_base
 
 // @fnv 0x0056d5f0
 // src: EXE 0x0056d5f0
-void* FUN_0056d5f0_class::bhkWaterPhantomCallbackShape_bhkWaterPhantomCallbackShape()
+void* bhkWaterPhantomCallbackShape::bhkWaterPhantomCallbackShape_bhkWaterPhantomCallbackShape()
 {
     SetVtableAndProcessState_0056d610();
     *reinterpret_cast<void**>(this) = &DAT_01030534;
@@ -307,16 +307,16 @@ void* FUN_0056d5f0_class::bhkWaterPhantomCallbackShape_bhkWaterPhantomCallbackSh
 
 extern int DAT_01030570;
 
-struct FUN_0056d610Class
+struct hkpPhantomCallbackShape
 {
     void __thiscall FUN_0056d640(int);
-    FUN_0056d610Class* __thiscall SetVtableAndProcessState_0056d610();
+    hkpPhantomCallbackShape* __thiscall SetVtableAndProcessState_0056d610();
 };
 
 // Calls FUN_0056d640 with 0x1d, stores the address of DAT_01030570 at the start of this, and returns this.
 // @fnv 0x0056d610
 // src: GUESS 0x0056d610 (confidence: low)
-FUN_0056d610Class* __thiscall FUN_0056d610Class::SetVtableAndProcessState_0056d610()
+hkpPhantomCallbackShape* __thiscall hkpPhantomCallbackShape::SetVtableAndProcessState_0056d610()
 {
     FUN_0056d640(0x1d);
     *reinterpret_cast<int**>(this) = &DAT_01030570;
@@ -412,12 +412,13 @@ struct FUN_0056d610
 {
     void __thiscall Init();
 };
-struct FUN_0056f690
+struct bhkAcousticSpacePhantomCallbackShape
 {
-    FUN_0056f690();
+    bhkAcousticSpacePhantomCallbackShape();
 };
 // @fnv 0x0056f690
-FUN_0056f690::FUN_0056f690()
+// src: EXE 0x0056f690
+bhkAcousticSpacePhantomCallbackShape::bhkAcousticSpacePhantomCallbackShape()
 {
     ((FUN_0056d610*)this)->Init();
     *(int*)this = (int)&DAT_01030dc0;
@@ -606,11 +607,12 @@ void* __thiscall FUN_0057c370_Class::FUN_0057c370(unsigned int flags)
 struct FUN_0057c4a0_Class
 {
     void __thiscall FUN_0057c780();
-    void* __thiscall FUN_0057c4a0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_0057c780, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x0057c4a0
-void* FUN_0057c4a0_Class::FUN_0057c4a0(unsigned int flags)
+// src: EXE 0x0057c4a0
+void* FUN_0057c4a0_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_0057c780();
     if (flags & 1)

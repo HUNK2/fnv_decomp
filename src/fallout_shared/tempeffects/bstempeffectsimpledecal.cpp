@@ -140,11 +140,12 @@ struct S_0068b080
 };
 struct S_0068ace0
 {
-    void* FUN_0068ace0(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 // Calls FUN_0068b080 on this, then frees this with _delete when flags has bit 0 set, and returns this.
 // @fnv 0x0068ace0
-void* S_0068ace0::FUN_0068ace0(unsigned int flags)
+// src: EXE 0x0068ace0
+void* S_0068ace0::ScalarDeletingDestructor(unsigned int flags)
 {
     ((S_0068b080*)this)->FUN_0068b080();
     if (flags & 1)

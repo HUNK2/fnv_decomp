@@ -150,7 +150,8 @@ extern "C" void __cdecl FUN_00c44e20(BSTempNodeManager*);
 extern void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 // @fnv 0x00450630
-void* BSTempNodeManager::FUN_00450630(unsigned int flags)
+// src: EXE 0x00450630
+void* BSTempNodeManager::ScalarDeletingDestructor(unsigned int flags)
 {
     this->BSTempNodeManager::~BSTempNodeManager();
     if (flags & 1)

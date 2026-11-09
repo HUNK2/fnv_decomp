@@ -103,22 +103,23 @@ struct hkpCollisionDetailD4CE
     void* m_pCollisionAgent;
 };
 
-class FUN_00d4ce10 : public FUN_00c9ea40
+class hkpCachingShapePhantom : public FUN_00c9ea40
 {
   public:
     hkArray<hkpCollisionDetailD4CE> m_kCollisionDetails;
     hkBool m_bOrderDirty;
 
-    FUN_00d4ce10(const hkpShape* pkShape, const hkTransform& kTransform,
+    hkpCachingShapePhantom(const hkpShape* pkShape, const hkTransform& kTransform,
                  hkUint32 uiCollisionFilterInfo) throw();
-    virtual ~FUN_00d4ce10() throw();
+    virtual ~hkpCachingShapePhantom() throw();
 };
 
-typedef char fnv_check_d4ce10[(sizeof(FUN_00d4ce10) == 0x170) ? 1 : -1];
+typedef char fnv_check_d4ce10[(sizeof(hkpCachingShapePhantom) == 0x170) ? 1 : -1];
 
 // Constructs the object from a shape and transform, clears the bool flag, and stores the collision filter info in the collidable.
 // @fnv 0x00d4ce10
-FUN_00d4ce10::FUN_00d4ce10(const hkpShape* pkShape, const hkTransform& kTransform,
+// src: EXE 0x00d4ce10
+hkpCachingShapePhantom::hkpCachingShapePhantom(const hkpShape* pkShape, const hkTransform& kTransform,
                            hkUint32 uiCollisionFilterInfo) throw()
     : FUN_00c9ea40(pkShape, kTransform)
 {

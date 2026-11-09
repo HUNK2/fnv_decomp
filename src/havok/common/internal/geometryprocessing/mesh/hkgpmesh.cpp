@@ -220,14 +220,15 @@ void FUN_00e12140_cls::hkgpMesh_setPartIdsAsPlaneIndices()
 extern "C" void __cdecl Deallocate(void*);
 extern int DAT_010eadfc;
 
-struct FUN_00e22450 {
+struct hkGskShape {
     void* m_p;
-    FUN_00e22450(char f);
+    hkGskShape(char f);
 };
 
 // Constructor that sets m_p to DAT_010eadfc and, if bit 0 of f is set, calls Deallocate on this.
 // @fnv 0x00e22450
-FUN_00e22450::FUN_00e22450(char acFlags)
+// src: EXE 0x00e22450
+hkGskShape::hkGskShape(char acFlags)
 {
     m_p = &DAT_010eadfc;
     if (acFlags & 1)
@@ -3434,12 +3435,13 @@ namespace fnvc_adapt { hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() thro
 struct FUN_00e21e00_cls {
     int m_vptr;
 
-    FUN_00e21e00_cls* FUN_00e21e00(unsigned char acFlags);
+    FUN_00e21e00_cls* ScalarDeletingDestructor(unsigned char acFlags);
 };
 
 // Sets the vtable pointer and, if bit 0 of acFlags is set, frees this object through the audio allocator.
 // @fnv 0x00e21e00
-FUN_00e21e00_cls* FUN_00e21e00_cls::FUN_00e21e00(unsigned char acFlags)
+// src: EXE 0x00e21e00
+FUN_00e21e00_cls* FUN_00e21e00_cls::ScalarDeletingDestructor(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010eacf4;
     if (acFlags & 1) {

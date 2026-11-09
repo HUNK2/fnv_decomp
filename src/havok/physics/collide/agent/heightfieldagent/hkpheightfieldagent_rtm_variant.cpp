@@ -31,14 +31,14 @@ struct SizeSource {
 struct SourceRef {
     SizeSource* m_p;
 };
-struct FUN_00d32060_Class {
+struct hkpHeightFieldAgent {
     void* m_vtbl;
     short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     int m_flag;
     hkArray<unsigned short> m_aiIndexedValues;
 
-    FUN_00d32060_Class* Init(const SourceRef& src, int b, int c, int flag);
+    hkpHeightFieldAgent* Init(const SourceRef& src, int b, int c, int flag);
 };
 extern void __cdecl hkpHeightFieldAgent_staticGetClosestPoints(void*, void*, void*, void*);
 void __stdcall hkpHeightFieldAgent_getClosestPoints(void* apArg1, void* apArg2, void* apArg3, void* apArg4);

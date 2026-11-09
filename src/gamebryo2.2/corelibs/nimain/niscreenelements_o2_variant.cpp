@@ -19,7 +19,8 @@ void* __cdecl NiScreenElements_GetRTTI()
 extern "C" void _delete(void*, unsigned int);
 
 // @fnv 0x00a87830
-NiScreenElements* __thiscall NiScreenElements::FUN_00a87830(unsigned int flags)
+// src: EXE 0x00a87830
+NiScreenElements* __thiscall NiScreenElements::ScalarDeletingDestructor(unsigned int flags)
 {
     *reinterpret_cast<void**>(this) = (void*)&DAT_0109e984;
     FUN_00a89760();

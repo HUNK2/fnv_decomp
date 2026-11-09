@@ -596,12 +596,13 @@ void __thiscall FUN_00723fd0_shell::UpdateState_00723fd0()
 struct FUN_00724090_shell
 {
     void __thiscall FUN_00721150();
-    void* __thiscall FUN_00724090(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00721150, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00724090
-void* FUN_00724090_shell::FUN_00724090(unsigned int flags)
+// src: EXE 0x00724090
+void* FUN_00724090_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00721150();
     if (flags & 1)

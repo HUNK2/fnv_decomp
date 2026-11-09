@@ -1412,15 +1412,15 @@ void _Deallocate(void*);
 
 struct FUN_0071f9c0_class
 {
-    void FUN_0071f9f0();
+    void StatsMenu_StatusEffect();
     void* FUN_0071f9c0(unsigned int flags);
 };
 
-// Calls FUN_0071f9f0, then deallocates this when flags has bit 0 set, and returns this.
+// Calls StatsMenu_StatusEffect, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0071f9c0
 void* FUN_0071f9c0_class::FUN_0071f9c0(unsigned int flags)
 {
-    FUN_0071f9f0();
+    StatsMenu_StatusEffect();
     if (flags & 1)
         _Deallocate(this);
     return this;

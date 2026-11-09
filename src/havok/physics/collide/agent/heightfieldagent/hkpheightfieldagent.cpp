@@ -186,19 +186,19 @@ __forceinline void hkArrayBase<T>::_setSize(hkMemoryAllocator& alloc, int n, con
     m_iElementCount = n;
 }
 
-struct FUN_00d32060_Class {
+struct hkpHeightFieldAgent {
     void* m_vtbl;
     short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     int m_flag;
     hkArray<unsigned short> m_aiIndexedValues;
 
-    FUN_00d32060_Class* Init(const SourceRef& src, int b, int c, int flag);
+    hkpHeightFieldAgent* Init(const SourceRef& src, int b, int c, int flag);
 };
 
 // Sets the vtable, flag and count fields, initialises the array, and if flag is set fills it with 0xffff up to src.m_p->GetCount().
 // @fnv 0x00d32060
-FUN_00d32060_Class* FUN_00d32060_Class::Init(const SourceRef& aSource, int aiUnused1, int aiUnused2, int aiFlags)
+hkpHeightFieldAgent* hkpHeightFieldAgent::Init(const SourceRef& aSource, int aiUnused1, int aiUnused2, int aiFlags)
 {
     m_sReferenceCount = 1;
     m_flag = aiFlags;

@@ -16,13 +16,13 @@ struct FUN_00da0860_manager
     virtual void FUN_00da0860_release(void*, unsigned short);
 };
 BSAudio* hkMemoryRouter_getInstance();
-struct FUN_00da0860_class : FUN_00df67d0_Base
+struct hkSimpleLocalFrame : FUN_00df67d0_Base
 {
     unsigned short unk04;
-    FUN_00da0860_class* FUN_00da0860(unsigned int flags);
+    hkSimpleLocalFrame* FUN_00da0860(unsigned int flags);
 };
 // @fnv 0x00da0860
-FUN_00da0860_class* FUN_00da0860_class::FUN_00da0860(unsigned int flags)
+hkSimpleLocalFrame* hkSimpleLocalFrame::FUN_00da0860(unsigned int flags)
 {
     FUN_00df67d0_Base::FUN_00df67d0();
     if (flags & 1)

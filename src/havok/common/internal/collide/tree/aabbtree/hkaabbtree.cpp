@@ -1018,12 +1018,13 @@ struct TreeDeleteD9C2 {
     TreeDeleteNodeManagerD9C2 m_kNodeCollection;
 
     void UpdateState_00d9be30();
-    TreeDeleteD9C2* FUN_00d9c2e0(unsigned char flags);
+    TreeDeleteD9C2* ScalarDeletingDestructor(unsigned char flags);
 };
 
 // Assigns a global address to a field, calls two member functions, optionally deallocates this when flags bit 0 is set, then returns this.
 // @fnv 0x00d9c2e0
-TreeDeleteD9C2* TreeDeleteD9C2::FUN_00d9c2e0(unsigned char flags)
+// src: EXE 0x00d9c2e0
+TreeDeleteD9C2* TreeDeleteD9C2::ScalarDeletingDestructor(unsigned char flags)
 {
     m_ppVirtualMethodTable = DAT_010d40a4;
     UpdateState_00d9be30();

@@ -8,7 +8,7 @@
 #include "../../../../include/IntSeenData.h"
 #include "../../../../include/NiQuaternion.h"
 
-struct FUN_00835f80_shell
+struct FalloutRadio_FORadioReceiver
 {
     char _0[0x1c];
     char _1c;
@@ -20,7 +20,7 @@ struct FUN_00835f80_shell
 
 // @fnv 0x00835f80
 // src: COMMUNITY 0x00835f80
-void __thiscall FUN_00835f80_shell::DynamicRadio_Load(BGSLoadFormBuffer* apBuffer)
+void __thiscall FalloutRadio_FORadioReceiver::DynamicRadio_Load(BGSLoadFormBuffer* apBuffer)
 {
     apBuffer->ReadFormIdentifier(this);
     apBuffer->ReadTypedData(&this->_1c, 1u);
@@ -292,7 +292,7 @@ char* BGSLoadGameBuffer::LoadString(char* apString)
 }
 
 namespace fnv_0043aaa0 {
-struct FUN_0043aaa0_shell
+struct DoorTeleportData
 {
     char pad1[4];
     char pad2[4];
@@ -311,7 +311,7 @@ struct FUN_0043aaa0_shell
 };
 
 // @fnv 0x0043aaa0
-void FUN_0043aaa0_shell::LoadGame(BGSLoadFormBuffer* buffer)
+void DoorTeleportData::LoadGame(BGSLoadFormBuffer* buffer)
 {
     buffer->ReadTypedData((char*)this + 4, 0xcu);
     buffer->ReadTypedData((char*)this + 0x10, 0xcu);

@@ -93,7 +93,7 @@ struct FUN_00c61810_class
 {
     void* BSWArray_GetRTTI();
 };
-struct FUN_00c61820_class
+struct PArrayPoint
 {
     void* PArrayPoint_Copy(int);
 };
@@ -176,10 +176,10 @@ struct FUN_00c65680_Class
     void* m_iWordAt04;
     void __thiscall FUN_00c65680();
 };
-struct FUN_00c600c0_class
+struct BSPSysStripUpdateModifier
 {
     void* __thiscall UpdateState_00c5fd50();
-    void* __thiscall FUN_00c600c0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c613a0_Class
@@ -223,7 +223,7 @@ struct FUN_00c64610_Class
     void __thiscall FUN_00c63b40();
     void* __thiscall FUN_00c64610(unsigned int flags);
 };
-struct FUN_00c64930_Class
+struct BSReference
 {
     void BSReference_LinkObject(int a);
 };

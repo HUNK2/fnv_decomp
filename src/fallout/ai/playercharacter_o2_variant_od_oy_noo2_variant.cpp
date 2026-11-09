@@ -59,7 +59,7 @@ struct GrabConstraintData
     GrabPosition angular;
     GrabPosition position;
     float f30, f34, f38, f3c;
-    void FUN_004b4f40();
+    void hkMouseSpringActionCinfo();
 };
 struct GrabRay
 {
@@ -978,7 +978,7 @@ void GrabHost::PlayerCharacter_CreateMouseSpring(GrabRef* ref, int newMode, floa
             mode = newMode;
             distance = range;
             GrabConstraintData data;
-            data.FUN_004b4f40();
+            data.hkMouseSpringActionCinfo();
             float ignored = 0.0f;
             GrabVector center;
             center.FUN_006815c0();

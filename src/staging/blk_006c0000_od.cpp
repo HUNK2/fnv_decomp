@@ -300,14 +300,14 @@ void* FUN_006c78d0_Class::InitializeFields_006c78d0()
 
 extern int DAT_0106c814;
 
-struct FUN_006c78f0_Class
+struct BSTaskletData
 {
     void SetVtableAndProcessState_006c78f0();
 };
 
 // @fnv 0x006c78f0
 // src: GUESS 0x006c78f0 (confidence: low)
-void FUN_006c78f0_Class::SetVtableAndProcessState_006c78f0()
+void BSTaskletData::SetVtableAndProcessState_006c78f0()
 {
     *(int*)this = (int)&DAT_0106c814;
 }
@@ -1997,14 +1997,14 @@ struct FUN_006df780_S
     bool UpdateNavMeshResults(PathingLocation*, bool);
 };
 
-struct FUN_006dfe90_S
+struct PathingLOSGrid
 {
     bool PathingLOSGrid_SetLocationSeen(PathingLocation* loc, bool b);
 };
 
 // @fnv 0x006dfe90
 // src: XBOX_PDB 0x006dfe90
-bool FUN_006dfe90_S::PathingLOSGrid_SetLocationSeen(PathingLocation* pLocation, bool bFlag)
+bool PathingLOSGrid::PathingLOSGrid_SetLocationSeen(PathingLocation* pLocation, bool bFlag)
 {
     NavMeshPtr apSearchNavMesh;
     bool bResult;

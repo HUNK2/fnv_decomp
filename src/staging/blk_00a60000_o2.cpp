@@ -367,11 +367,12 @@ extern void* g_memoryManager;
 
 struct FUN_00a63b30_Class
 {
-    void* __thiscall FUN_00a63b30(bool);
+    void* __thiscall ScalarDeletingDestructor(bool);
 };
 
 // @fnv 0x00a63b30
-void* __thiscall FUN_00a63b30_Class::FUN_00a63b30(bool abFree)
+// src: EXE 0x00a63b30
+void* __thiscall FUN_00a63b30_Class::ScalarDeletingDestructor(bool abFree)
 {
     void* p = *(void**)((char*)this + 4);
     *(int**)((char*)this) = &DAT_0109bc3c;
@@ -680,14 +681,15 @@ void FUN_00a72ca0_Class::SetSize_Thunk(unsigned int size)
     ((NiTPrimitiveArray<ImageSpaceTexture*>*)((char*)this + 0x1c))->SetSize(size);
 }
 
-struct FUN_00a7f810
+struct NiGeometryGroupManager
 {
     int m_p;
-    FUN_00a7f810();
+    NiGeometryGroupManager();
 };
 
 // @fnv 0x00a7f810
-FUN_00a7f810::FUN_00a7f810()
+// src: EXE 0x00a7f810
+NiGeometryGroupManager::NiGeometryGroupManager()
 {
     m_p = (int)&DAT_0109df2c;
     DAT_011f4ab4 = (int)this;
@@ -3837,7 +3839,7 @@ void __cdecl AddScaledPoints(NiPoint3* dest, float scale, const NiPoint3* src, u
 
 extern int DAT_0109b944;
 extern int DAT_0109df8c;
-struct FUN_00a7fb80_Class
+struct NiRenderedTexture
 {
     void* m_ppVirtualMethodTable;
     int m_04;
@@ -3861,7 +3863,7 @@ struct Z2Setup
 };
 // @fnv 0x00a7fb80
 // src: GAMEBRYO_LIB 0x00a7fb80
-void* FUN_00a7fb80_Class::NiRenderedTexture_NiRenderedTexture()
+void* NiRenderedTexture::NiRenderedTexture_NiRenderedTexture()
 {
     FUN_00a5c200();
     m_ppVirtualMethodTable = &DAT_0109b944;

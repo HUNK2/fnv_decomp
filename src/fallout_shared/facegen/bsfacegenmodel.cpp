@@ -352,12 +352,13 @@ void __fastcall FUN_00659b50(void*);
 
 struct FUN_00659b20_thiscall
 {
-    void* FUN_00659b20(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00659b50 on this, frees this with NiMemObject::operator delete when flags has bit 1 set, and returns this.
 // @fnv 0x00659b20
-void* FUN_00659b20_thiscall::FUN_00659b20(unsigned int flags)
+// src: EXE 0x00659b20
+void* FUN_00659b20_thiscall::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00659b50(this);
     if (flags & 1)
@@ -744,16 +745,17 @@ struct FUN_0065cca0
     ~FUN_0065cca0();
 };
 void __cdecl fffReadEgmFile(const NarrowString& kName, void* pHeader, void* pSym, void* pAsym);
-struct FUN_00659560
+struct EGMData
 {
     unsigned int m_uiScaleCount;
     FUN_0065cca0 kMorphs[2];
-    FUN_00659560(const char* apcPath);
+    EGMData(const char* apcPath);
 };
 
 // Constructs a name from apcPath and passes it with this and both kMorphs entries to FUN_00aafc80.
 // @fnv 0x00659560
-FUN_00659560::FUN_00659560(const char* apcPath)
+// src: COMMUNITY 0x00659560
+EGMData::EGMData(const char* apcPath)
 {
     NarrowString kName(apcPath);
     fffReadEgmFile(kName, this, &kMorphs[0], &kMorphs[1]);
@@ -822,15 +824,16 @@ struct FaceGenTextureFile
 {
     ~FaceGenTextureFile();
 };
-struct FUN_00659a20
+struct BSFaceGenModelTextureData
 {
     BSStringT<char> strName;
     FaceGenTextureFile* m_pTextureData;
-    ~FUN_00659a20();
+    ~BSFaceGenModelTextureData();
 };
 
 // @fnv 0x00659a20
-FUN_00659a20::~FUN_00659a20()
+// src: COMMUNITY 0x00659a20
+BSFaceGenModelTextureData::~BSFaceGenModelTextureData()
 {
     if (m_pTextureData)
         delete m_pTextureData;
@@ -889,11 +892,11 @@ struct FUN_0065cca0
     void* pEnd;
     FUN_0065cca0();
 };
-struct FUN_00659560
+struct EGMData
 {
     unsigned int m_uiScaleCount;
     FUN_0065cca0 kMorphs[2];
-    FUN_00659560(const char*);
+    EGMData(const char*);
 };
 
 // @fnv 0x0065bf80
@@ -904,12 +907,12 @@ bool FUN_0065bf80_shell::BSFaceGenModel_LoadEGMData()
         0x38, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\FaceGen\\BSFaceGenModel.cpp", 0x4f0);
     if (!m_pGeometryModel)
         return false;
-    if (!*(FUN_00659560**)((char*)m_pGeometryModel + 8))
+    if (!*(EGMData**)((char*)m_pGeometryModel + 8))
     {
         if (!((S7010*)m_pGeometryModel)->Length())
             return false;
-        *(FUN_00659560**)((char*)m_pGeometryModel + 8) =
-            new FUN_00659560((const char*)Modelloader_GetReferencedThis((int*)m_pGeometryModel));
+        *(EGMData**)((char*)m_pGeometryModel + 8) =
+            new EGMData((const char*)Modelloader_GetReferencedThis((int*)m_pGeometryModel));
     }
     return true;
 }
@@ -1446,11 +1449,11 @@ FUN_0065c630::FUN_0065c630() : Base65C630(Allocator65C630())
 
 namespace fnv_00659c40 {
 extern "C" void __cdecl _Deallocate(void*);
-struct FUN_00659a20
+struct BSFaceGenModelTextureData
 {
-    ~FUN_00659a20();
+    ~BSFaceGenModelTextureData();
 };
-struct FUN_00659c40_shell : FUN_00659a20
+struct FUN_00659c40_shell : BSFaceGenModelTextureData
 {
     void* FUN_00659c40(unsigned int flags);
 };

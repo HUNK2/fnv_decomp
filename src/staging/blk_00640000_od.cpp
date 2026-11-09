@@ -170,13 +170,13 @@ unsigned short FUN_00645c20_Class::GetShortAtOffset1C0()
     return *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x1c0);
 }
 
-struct FUN_00645c80_Class
+struct TESObjectWEAP
 {
     bool __thiscall IsFlagSet() const;
 };
 
 // @fnv 0x00645c80
-bool __thiscall FUN_00645c80_Class::IsFlagSet() const
+bool __thiscall TESObjectWEAP::IsFlagSet() const
 {
     return (*(reinterpret_cast<const unsigned int*>(this) + 75) & 0x200) ? true : false;
 }
@@ -1755,11 +1755,12 @@ struct FUN_00658bb0_Class
 };
 struct FUN_00658d00_Class
 {
-    void* __thiscall FUN_00658d00(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_00658bb0 on this, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x00658d00
-void* __thiscall FUN_00658d00_Class::FUN_00658d00(unsigned int flags)
+// src: EXE 0x00658d00
+void* __thiscall FUN_00658d00_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     reinterpret_cast<FUN_00658bb0_Class*>(this)->FUN_00658bb0();
     if (flags & 1)
@@ -2797,7 +2798,7 @@ struct PropHelper
 void* DynamicCastByRTTI(const NiRTTI*, NiProperty*);
 extern int DAT_011f49e0;
 extern const char* const DAT_012005b8;
-struct FUN_00642940_class
+struct Sun
 {
     int a;
     int b;
@@ -2819,7 +2820,7 @@ struct FUN_00642940_class
 };
 // @fnv 0x00642940
 // src: COMMUNITY 0x00642940
-void FUN_00642940_class::Sun_RemoveTextures()
+void Sun::Sun_RemoveTextures()
 {
     void* pProperty;
     SkyShaderProperty* obj;
@@ -4122,18 +4123,19 @@ struct S_0064ccf0_Member
     S_0064ccf0_Member();
     ~S_0064ccf0_Member();
 };
-struct FUN_0064ccf0 : S_0064ccf0_Base
+struct BSFaceGenImage : S_0064ccf0_Base
 {
     S_0064ccf0_Ptr unk08;
     S_0064ccf0_Member unk0c;
     int unk24;
     int unk28;
-    FUN_0064ccf0(S_0064ccf0_Obj* a);
-    virtual ~FUN_0064ccf0();
+    BSFaceGenImage(S_0064ccf0_Obj* a);
+    virtual ~BSFaceGenImage();
 };
 // Stores the given object pointer and, if non-null, caches its vfn_94 and vfn_98 results in unk24 and unk28; otherwise zeroes both.
 // @fnv 0x0064ccf0
-FUN_0064ccf0::FUN_0064ccf0(S_0064ccf0_Obj* pObj) : unk08(0)
+// src: EXE 0x0064ccf0
+BSFaceGenImage::BSFaceGenImage(S_0064ccf0_Obj* pObj) : unk08(0)
 {
     unk08 = pObj;
     if (unk08)
@@ -6780,7 +6782,7 @@ struct CloneVector
 {
     float x, y, z;
 };
-struct FUN_00649680 : NiMemObject
+struct BSFaceGenAnimationData : NiMemObject
 {
     int value00, value04, value08;
     FUN_0064ec10_obj* extra;
@@ -6837,14 +6839,14 @@ struct FUN_00649680 : NiMemObject
     int value1b4;
     int value1b8;
     int value1bc;
-    FUN_00649680();
-    FUN_00649680* BSFaceGenAnimationData_CreateCopyBS();
+    BSFaceGenAnimationData();
+    BSFaceGenAnimationData* BSFaceGenAnimationData_CreateCopyBS();
 };
 // @fnv 0x0064c5a0
 // src: COMMUNITY 0x0064c5a0
-FUN_00649680* FUN_00649680::BSFaceGenAnimationData_CreateCopyBS()
+BSFaceGenAnimationData* BSFaceGenAnimationData::BSFaceGenAnimationData_CreateCopyBS()
 {
-    FUN_00649680* copy = new FUN_00649680;
+    BSFaceGenAnimationData* copy = new BSFaceGenAnimationData;
     copy->member10.CopyFrom(&member10);
     copy->member24.CopyFrom(&member24);
     copy->member74.CopyFrom(&member74);

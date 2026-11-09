@@ -292,14 +292,15 @@ void CameraShotExtra::SetByteAt76(unsigned char param_2)
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x76) = param_2;
 }
 
-struct FUN_009ca4a0
+struct VATS_COMMAND
 {
     void VATS_COMMAND_Initialize();
-    FUN_009ca4a0();
+    VATS_COMMAND();
 };
 
 // @fnv 0x009ca4a0
-FUN_009ca4a0::FUN_009ca4a0()
+// src: COMMUNITY 0x009ca4a0
+VATS_COMMAND::VATS_COMMAND()
 {
     VATS_COMMAND_Initialize();
 }

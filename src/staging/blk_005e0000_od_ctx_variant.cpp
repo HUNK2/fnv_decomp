@@ -253,7 +253,7 @@ void __cdecl Deallocate(void* p);
 void __cdecl Deallocate(void* p);
 struct FUN_005e0680_Class : FUN_005e0340Class
 {
-    void* __thiscall FUN_005e0680(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 void __cdecl Deallocate(void*);
 struct FUN_005dd7b0_class
@@ -811,7 +811,7 @@ struct FUN_005e0600_Class
 };
 void* __cdecl FUN_00885750();
 void hkDeallocateStack_char(void* p);
-struct FUN_005e3fe0_class
+struct PART_DATA
 {
     void __thiscall SwapEndianFields();
 };
@@ -1132,7 +1132,7 @@ struct RootCls_b9637
     RootCls_b9637();
     ~RootCls_b9637();
 };
-class FUN_005f21c0_cls : public RootCls_b9637
+class TESAnimGroup : public RootCls_b9637
 {
   public:
     virtual void unk00();
@@ -1147,7 +1147,7 @@ class FUN_005f21c0_cls : public RootCls_b9637
     int unk34;
     int unk38;
 
-    FUN_005f21c0_cls(unsigned short a);
+    TESAnimGroup(unsigned short a);
     void TESAnimGroup_SetType(unsigned short a);
 };
 struct PairRecord16
@@ -1639,13 +1639,13 @@ class ThisMember_b3969
     ThisMember_b3969(unsigned int aValue, bool aFlag);
     ~ThisMember_b3969();
 };
-class FUN_005ffaf0 : public ThisBase_b3969
+class TESIdleManager : public ThisBase_b3969
 {
   public:
     unsigned char m_14;
     ThisMember_b3969 m_18;
 
-    FUN_005ffaf0();
+    TESIdleManager();
 };
 // Thiscall dtor, 98 bytes /MT /Od /GS /EHsc: body call on this (state 1),
 // member sub-object at +0x18 released (state 0), then base sub-object dtor on this (state -1).
@@ -2581,16 +2581,17 @@ struct LocalState
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     int unk18, unk1c, unk20, unk24, unk28, unk2c;
 };
-struct FUN_005ff890
+struct IDLE_ANIM_ROOT
 {
     LocalFormArray first;
     LocalFormArray second;
     LocalString name;
     LocalState state;
-    FUN_005ff890(const char*);
+    IDLE_ANIM_ROOT(const char*);
 };
 // @fnv 0x005ff890
-FUN_005ff890::FUN_005ff890(const char* text)
+// src: COMMUNITY 0x005ff890
+IDLE_ANIM_ROOT::IDLE_ANIM_ROOT(const char* text)
 {
     name.Set(text, 0);
     first.SetSize(1);

@@ -184,7 +184,7 @@ struct FUN_00dc05b0_writer
     int unk50;
     int unk54;
     Dc0380Layout audio;
-    void __thiscall FUN_00dc0500(int, int);
+    void __thiscall Writer(int, int);
     void __thiscall WriteInt(unsigned int);
     void __thiscall WriteVarint(unsigned int, unsigned int);
     void __thiscall Writer_scanObject(int, int);
@@ -367,7 +367,7 @@ struct S_00dc0500_Arr
     S_00dc0500_Arr() : a(0), b(0), c(0x80000000)
     {}
 };
-struct FUN_00dc0500 : FUN_00d60830
+struct Writer : FUN_00d60830
 {
     FUN_00d87790 m_10;
     FUN_00d87790 m_20;
@@ -376,7 +376,7 @@ struct FUN_00dc0500 : FUN_00d60830
     S_00dc0500_Arr m_40;
     S_00dc0500_Arr m_4c;
     FUN_00dc0380 m_58;
-    FUN_00dc0500(BSAudio* a1, BSAudio* a2);
+    Writer(BSAudio* a1, BSAudio* a2);
 };
 inline void* operator new(size_t, void* p) throw()
 {

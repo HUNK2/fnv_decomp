@@ -22,16 +22,17 @@ struct FUN_00dbdf30_s
 {
     void hkPackfileWriter_setSectionForClass(GlobalObjectO2_00d472a0*, int);
 };
-struct FUN_00dbc670
+struct hkBinaryPackfileWriter
 {
     void* m_vft;
     void hkPackfileWriter_addSection(int);
-    FUN_00dbc670();
+    hkBinaryPackfileWriter();
 };
 extern void FUN_00dbe4d0();
 // Calls FUN_00dbe4d0, sets m_vft, then calls FUN_00dbdef0 and FUN_00dbdf30 on four global objects with DAT_011b7aec.
 // @fnv 0x00dbc670
-FUN_00dbc670::FUN_00dbc670()
+// src: EXE 0x00dbc670
+hkBinaryPackfileWriter::hkBinaryPackfileWriter()
 {
     FUN_00dbe4d0();
     m_vft = &DAT_010d65bc;
@@ -274,7 +275,7 @@ struct Target
     virtual void unk14();
 };
 
-struct FUN_00dbd760_cls
+struct hkSubStreamWriter
 {
     int unk00;
     int unk04;
@@ -284,7 +285,7 @@ struct FUN_00dbd760_cls
 
 // @fnv 0x00dbd760
 // src: XBOX_PDB 0x00dbd760
-void FUN_00dbd760_cls::hkSubStreamWriter_flush()
+void hkSubStreamWriter::hkSubStreamWriter_flush()
 {
     m_08->unk14();
 }
@@ -389,7 +390,7 @@ struct S_00dbd8a0_Mem30
 
 extern char DAT_011b7b89;
 
-struct FUN_00dbd8a0
+struct hkBinaryPackfileWriter_SaveContext
 {
     S_00dbd8a0_Arg* unk00;
     Triple first;
@@ -399,12 +400,13 @@ struct FUN_00dbd8a0
     S_00dbd8a0_Mem30 unk30;
     Triple third;
     bool unk4c;
-    FUN_00dbd8a0(S_00dbd8a0_Arg* p);
+    hkBinaryPackfileWriter_SaveContext(S_00dbd8a0_Arg* p);
 };
 
 // Initialises members from p: stores p, builds unk20 from p->unk04 and unk30 from byte 0, and sets unk4c by comparing DAT_011b7b89 with p->unk04.unk1.
 // @fnv 0x00dbd8a0
-FUN_00dbd8a0::FUN_00dbd8a0(S_00dbd8a0_Arg* apArg) : unk00(apArg), unk20(&apArg->unk04), unk30(S_00dbd8a0_Byte(0))
+// src: COMMUNITY 0x00dbd8a0
+hkBinaryPackfileWriter_SaveContext::hkBinaryPackfileWriter_SaveContext(S_00dbd8a0_Arg* apArg) : unk00(apArg), unk20(&apArg->unk04), unk30(S_00dbd8a0_Byte(0))
 {
     unk4c = DAT_011b7b89 != apArg->unk04.unk1;
 }
@@ -571,7 +573,7 @@ struct S_00dbd620_Obj
     int unk48;
     char unk4c;
     S_00dbd620_Obj(S_00dbd620_Arg* p);
-    void FUN_00dbd8a0(S_00dbd620_Arg* p);
+    void hkBinaryPackfileWriter_SaveContext(S_00dbd620_Arg* p);
 };
 
 struct S_00dbd620_Dtor

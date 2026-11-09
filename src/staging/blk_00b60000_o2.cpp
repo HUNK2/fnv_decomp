@@ -3504,7 +3504,7 @@ typedef void(__thiscall* FUN_00b71b90_VirtualFunction)(FUN_00b71b90_VirtualObjec
 extern FUN_00b71b90_VirtualObject* DAT_011fdd88[0x270 / sizeof(void*)];
 extern FUN_00b71b90_VirtualObject* DAT_011fda48[0x340 / sizeof(void*)];
 
-struct FUN_00b71b90_class
+struct NiDX9FragmentShader
 {
     int unk00;
     int unk04;
@@ -3524,7 +3524,7 @@ struct FUN_00b71b90_class
 
 // @fnv 0x00b71b90
 // src: COMMUNITY 0x00b71b90
-void FUN_00b71b90_class::ShadowLightShader_RecreateRendererData()
+void NiDX9FragmentShader::ShadowLightShader_RecreateRendererData()
 {
     if (unk28 != 0)
     {
@@ -10542,10 +10542,10 @@ struct AuxiliaryVertices
         return second;
     }
 };
-struct FUN_00537bf0
+struct NiAdditionalGeometryData
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
-    FUN_00537bf0(unsigned int);
+    NiAdditionalGeometryData(unsigned int);
     static void* operator new(unsigned int n)
     {
         return Object_DispatchCommandFour(n);
@@ -10589,7 +10589,7 @@ struct ShaderGeometryOwner
             cached = 0;
         flags &= ~0x4000;
     }
-    FUN_00537bf0* BuildShaderGeometry(GeometryInput* input);
+    NiAdditionalGeometryData* BuildShaderGeometry(GeometryInput* input);
 };
 inline void* __cdecl operator new[](unsigned int size)
 {
@@ -10597,7 +10597,7 @@ inline void* __cdecl operator new[](unsigned int size)
 }
 // Merges auxiliary vertex streams into geometry and allocates a vertex buffer from extra geometry data, returning it or null.
 // @fnv 0x00b69be0
-FUN_00537bf0* ShaderGeometryOwner::BuildShaderGeometry(GeometryInput* input)
+NiAdditionalGeometryData* ShaderGeometryOwner::BuildShaderGeometry(GeometryInput* input)
 {
     unsigned int count = input->geometry->vertexCount;
     MorphGeomData* geometry = input->geometry;
@@ -10629,7 +10629,7 @@ FUN_00537bf0* ShaderGeometryOwner::BuildShaderGeometry(GeometryInput* input)
                 SetExtra();
             else
                 ClearExtra();
-            FUN_00537bf0* buffer = new FUN_00537bf0(count);
+            NiAdditionalGeometryData* buffer = new NiAdditionalGeometryData(count);
             buffer->SetSize_Thunk(2);
             buffer->NiAdditionalGeometryData_SetDataStreamCount(2);
             buffer->NiAdditionalGeometryData_SetDataBlock(1, extraVertices, (unsigned short)count * 32, 0);

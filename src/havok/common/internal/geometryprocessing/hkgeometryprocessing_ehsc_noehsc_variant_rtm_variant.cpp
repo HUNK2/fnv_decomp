@@ -64,7 +64,7 @@ struct FUN_00dee6c0_cls
 {
     int m_vptr;
 
-    FUN_00dee6c0_cls* FUN_00dee6c0(unsigned char acFlags);
+    FUN_00dee6c0_cls* ScalarDeletingDestructor(unsigned char acFlags);
 };
 inline hkSimdReal::hkSimdReal()
 {}

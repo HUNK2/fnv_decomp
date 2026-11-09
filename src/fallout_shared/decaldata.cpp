@@ -55,14 +55,14 @@ template <int N> struct EndianSizeTag
 
 void __cdecl BSEndian(int*, EndianSizeTag<4>);
 
-struct FUN_00593370_shell
+struct DECAL_DATA_DATA
 {
     void SwapEndianFields();
 };
 
 // Byte-swaps eight 4-byte fields of this object via BSEndian, in the order 0,1,2,3,6,4,5,8.
 // @fnv 0x00593370
-void FUN_00593370_shell::SwapEndianFields()
+void DECAL_DATA_DATA::SwapEndianFields()
 {
     BSEndian((int*)this, EndianSizeTag<4>());
     BSEndian((int*)this + 1, EndianSizeTag<4>());

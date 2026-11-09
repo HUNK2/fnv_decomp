@@ -128,7 +128,8 @@ extern "C" void __cdecl operator delete(void*, unsigned int);
 
 // Calls FUN_00e96c90, frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00e95cd0
-void* __thiscall NiD3DHLSLPixelShader::FUN_00e95cd0(unsigned int flags)
+// src: EXE 0x00e95cd0
+void* __thiscall NiD3DHLSLPixelShader::ScalarDeletingDestructor(unsigned int flags)
 {
     UpdateState_00e96c90();
     if (flags & 1)

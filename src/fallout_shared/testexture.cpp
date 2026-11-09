@@ -175,14 +175,14 @@ void TESEyes::InitializeData_005fc1b0()
     cFlags = 0;
 }
 
-struct FUN_005fdc30_shell
+struct TESHair
 {
     void TESHair_InitializeData();
 };
 
 // @fnv 0x005fdc30
 // src: XBOX_PDB 0x005fdc30
-void FUN_005fdc30_shell::TESHair_InitializeData()
+void TESHair::TESHair_InitializeData()
 {
     ((char*)this)[0x48] = 0;
 }
@@ -194,7 +194,7 @@ void TESSkill::InitializeData_00617e80()
     ResetData();
 }
 
-struct FUN_005eac70_shell
+struct BGSPerk
 {
     void BGSPerk_SetDefault();
 };
@@ -202,7 +202,7 @@ struct FUN_005eac70_shell
 // Clears the bytes at offsets 0x38, 0x39 and 0x3C of this and sets the bytes at 0x3A and 0x3B to 1.
 // @fnv 0x005eac70
 // src: COMMUNITY 0x005eac70
-void FUN_005eac70_shell::BGSPerk_SetDefault()
+void BGSPerk::BGSPerk_SetDefault()
 {
     *(unsigned char*)((char*)this + 0x38) = 0;
     *(unsigned char*)((char*)this + 0x39) = 0;
@@ -211,13 +211,13 @@ void FUN_005eac70_shell::BGSPerk_SetDefault()
     *(unsigned char*)((char*)this + 0x3C) = 0;
 }
 
-struct FUN_00402c40_shell : public TESTexture
+struct TESIcon : public TESTexture
 {
     void DestroyTexture();
 };
 
 // @fnv 0x00402c40
-void FUN_00402c40_shell::DestroyTexture()
+void TESIcon::DestroyTexture()
 {
     TESTexture::~TESTexture();
 }

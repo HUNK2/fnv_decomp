@@ -21,13 +21,14 @@ inline void* hkReferencedObject::operator new(std::size_t size)
 
 extern int DAT_010d1508;
 void __cdecl Deallocate(void*);
-struct FUN_00d60bb0
+struct hkProcess
 {
     int* m_p;
-    FUN_00d60bb0(unsigned char);
+    hkProcess(unsigned char);
 };
 // @fnv 0x00d60bb0
-FUN_00d60bb0::FUN_00d60bb0(unsigned char p)
+// src: EXE 0x00d60bb0
+hkProcess::hkProcess(unsigned char p)
 {
     m_p = &DAT_010d1508;
     if (p & 1)
@@ -215,7 +216,7 @@ struct FUN_00d61260_Class
     void* m_p;
     unsigned short m_iElementCount;
 
-    void FUN_00d610e0();
+    void hkServerProcessHandler();
     void* hkServerProcessHandler_Destroy(int flags);
 };
 
@@ -223,7 +224,7 @@ struct FUN_00d61260_Class
 // src: COMMUNITY 0x00d61260
 void* FUN_00d61260_Class::hkServerProcessHandler_Destroy(int flags)
 {
-    FUN_00d610e0();
+    hkServerProcessHandler();
 
     if (flags & 1)
     {
@@ -253,11 +254,12 @@ class hkBaseD60B
 class hkObjD60B : public hkBaseD60B
 {
   public:
-    hkObjD60B* FUN_00d60bd0(unsigned int uiFlags) throw();
+    hkObjD60B* ScalarDeletingDestructor(unsigned int uiFlags) throw();
 };
 
 // @fnv 0x00d60bd0
-hkObjD60B* hkObjD60B::FUN_00d60bd0(unsigned int uiFlags) throw()
+// src: EXE 0x00d60bd0
+hkObjD60B* hkObjD60B::ScalarDeletingDestructor(unsigned int uiFlags) throw()
 {
     this->hkBaseD60B::~hkBaseD60B();
     if (uiFlags & 1)
@@ -438,10 +440,10 @@ class hkOwnedD610
     virtual ~hkOwnedD610() throw();
 };
 
-class FUN_00d610e0 : public hkReferencedObject, public hkInterfaceAD610, public hkInterfaceBD610
+class hkServerProcessHandler : public hkReferencedObject, public hkInterfaceAD610, public hkInterfaceBD610
 {
   public:
-    virtual ~FUN_00d610e0() throw();
+    virtual ~hkServerProcessHandler() throw();
 
     hkOwnedD610* m_14;
     hkOwnedD610* m_18;
@@ -455,7 +457,8 @@ class FUN_00d610e0 : public hkReferencedObject, public hkInterfaceAD610, public 
 
 // Destructor: deletes every element of m_38, then deletes m_14, m_18 and m_1c; member destructors run afterwards.
 // @fnv 0x00d610e0
-FUN_00d610e0::~FUN_00d610e0() throw()
+// src: EXE 0x00d610e0
+hkServerProcessHandler::~hkServerProcessHandler() throw()
 {
     for (int i = 0; i < m_38.m_iElementCount; i++)
         delete m_38.m_data[i];

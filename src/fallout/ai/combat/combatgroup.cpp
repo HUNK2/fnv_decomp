@@ -425,7 +425,7 @@ void FUN_00985a50_shell::CombatMember_LoadGame(BGSLoadFormBuffer* buffer, FUN_00
         p10 = 0;
 }
 
-struct FUN_00985ae0_shell
+struct CombatGroupCluster
 {
     void __thiscall CombatGroupCluster_SaveGame(BGSSaveFormBuffer* buffer, int a1);
 };
@@ -433,7 +433,7 @@ struct FUN_00985ae0_shell
 // Writes the object's first 0x10 bytes and the 4 bytes at offset 0x10 to the save buffer.
 // @fnv 0x00985ae0
 // src: COMMUNITY 0x00985ae0
-void __thiscall FUN_00985ae0_shell::CombatGroupCluster_SaveGame(BGSSaveFormBuffer* buffer, int aiUnused)
+void __thiscall CombatGroupCluster::CombatGroupCluster_SaveGame(BGSSaveFormBuffer* buffer, int aiUnused)
 {
     buffer->SaveData(this, 0x10u, 0);
     buffer->SaveData((char*)this + 0x10, 4u, 0);
@@ -506,16 +506,17 @@ struct FUN_0098f560
     char data[16];
     ~FUN_0098f560();
 };
-struct FUN_009863b0
+struct CombatGroupData
 {
     char pad[24];
     FUN_0098f560 m18;
     FUN_0098f560 m28;
-    ~FUN_009863b0();
+    ~CombatGroupData();
 };
 // Destructor for a structure holding two 16-byte members, destroying both in turn.
 // @fnv 0x009863b0
-FUN_009863b0::~FUN_009863b0()
+// src: COMMUNITY 0x009863b0
+CombatGroupData::~CombatGroupData()
 {}
 
 // @fnv 0x009865b0
@@ -1414,14 +1415,14 @@ struct FUN_0098de30_class
 {
     unsigned char CombatGroup_GetClusterIndex(unsigned int*);
 };
-struct FUN_009859c0_shell
+struct CombatMember
 {
     void __thiscall CombatMember_SaveGame(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj);
 };
 // Saves the form ID, three 4-byte fields, and a byte derived from the object at offset 16 (0xFF if null) to the buffer.
 // @fnv 0x009859c0
 // src: COMMUNITY 0x009859c0
-void __thiscall FUN_009859c0_shell::CombatMember_SaveGame(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj)
+void __thiscall CombatMember::CombatMember_SaveGame(BGSSaveFormBuffer* buffer, FUN_0098de30_class* obj)
 {
     buffer->SerializeFormData(*(void**)this, 0);
     buffer->SaveData((char*)this + 4, 4u, 0);
@@ -1871,7 +1872,7 @@ void FUN_00985800_shell::CombatTarget_LoadGame(BGSLoadFormBuffer* pBuffer, Actor
 double DAT_0101db88;
 
 
-struct FUN_00985be0_shell : public FUN_00985bb0_Class
+struct CombatSearchLocation : public FUN_00985bb0_Class
 {
     NiColorA* CombatSearchLocation_GetColor(NiColorA* result);
 };
@@ -1879,7 +1880,7 @@ struct FUN_00985be0_shell : public FUN_00985bb0_Class
 // Reads a value from FUN_00985bb0 and returns a color: magenta above 50, blue above DAT_0101db88, otherwise yellow, all with alpha 0.5.
 // @fnv 0x00985be0
 // src: COMMUNITY 0x00985be0
-NiColorA* FUN_00985be0_shell::CombatSearchLocation_GetColor(NiColorA* result)
+NiColorA* CombatSearchLocation::CombatSearchLocation_GetColor(NiColorA* result)
 {
     NiColorA color(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -6366,7 +6367,7 @@ struct SenseData
     bool visible;
     char unk1f;
     int score20;
-    void FUN_0066e590();
+    void DetectionState();
 };
 typedef SenseData Sense;
 struct Target
@@ -6857,7 +6858,7 @@ void Group::UpdateTargetPerception(Actor* selected, Actor* subject, int* result,
             {
                 memberLocal19 = GetIntAt(indexLocal5);
                 senseLocal1 = reinterpret_cast<Process*>(memberLocal19->FUN_008d8520())->v504(subject, 0);
-                fallbackLocal15.FUN_0066e590();
+                fallbackLocal15.DetectionState();
                 if (memberLocal19->FUN_00931850() && subject->FUN_00931850())
                 {
                     memberLocal19->TESObjectREFR_GetWorldLocation(reinterpret_cast<::Position*>(&originLocal30));
@@ -9176,7 +9177,7 @@ struct Member138_985d10
     ~Member138_985d10();
 };
 
-struct FUN_00985d10
+struct CombatGroup
 {
     int m_00;
     int m_04;
@@ -9218,12 +9219,13 @@ struct FUN_00985d10
     char m_154;
     MemberD4_985d10 m_158;
 
-    FUN_00985d10(int a1);
+    CombatGroup(int a1);
 };
 
-// Initializes all members of FUN_00985d10, setting m_04 to a1 and several float fields to DAT_01012054.
+// Initializes all members of CombatGroup, setting m_04 to a1 and several float fields to DAT_01012054.
 // @fnv 0x00985d10
-FUN_00985d10::FUN_00985d10(int a1)
+// src: COMMUNITY 0x00985d10
+CombatGroup::CombatGroup(int a1)
     : m_00(0), m_04(a1), m_28(0), m_2c(false), m_40(0), m_c0(DAT_01012054), m_c4(DAT_01012054), m_c8(DAT_01012054),
       m_cc(DAT_01012054), m_d0(0), m_d4(0), m_e8(-DAT_0108d540), m_ec(0), m_100(reinterpret_cast<const NiPoint3_helper_combatgroup&>(NiPoint3_ZERO)), m_10c(0.0f), m_130(0),
       m_134(false), m_148(0), m_14c(0), m_150(0), m_154(-1), m_158(0)

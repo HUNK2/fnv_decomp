@@ -96,14 +96,14 @@ struct ParticleStripData : NiPSysData
     float fEndCapSize;
     bool bDoZPrePass;
 };
-struct FUN_00c25cd0_shell : ParticleStripData
+struct BSStripPSysData : ParticleStripData
 {
     bool __thiscall BSStripPSysData_IsEqual(NiObject* pkObject);
 };
 // Compares the base fields and then usMaxPointCount, fStartCapSize, fEndCapSize and bDoZPrePass against another ParticleStripData, returning true if all match.
 // @fnv 0x00c25cd0
 // src: XBOX_PDB 0x00c25cd0
-bool __thiscall FUN_00c25cd0_shell::BSStripPSysData_IsEqual(NiObject* pkObject)
+bool __thiscall BSStripPSysData::BSStripPSysData_IsEqual(NiObject* pkObject)
 {
     ParticleStripData* pkDest = (ParticleStripData*)pkObject;
     if (NiPSysData::IsEqual(pkObject) && pkDest->usMaxPointCount == usMaxPointCount && pkDest->fStartCapSize == fStartCapSize &&

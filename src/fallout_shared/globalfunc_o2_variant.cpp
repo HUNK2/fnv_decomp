@@ -267,7 +267,7 @@ struct SkelHolder_S
     char pad[0xc];
     void* pSkeleton;
 };
-struct FUN_00c75460_S
+struct bhkRagdollController
 {
     char pad000[0x42];
     bool bEnabled;
@@ -282,7 +282,7 @@ struct FUN_00c75460_S
 };
 // @fnv 0x00c75460
 // src: XBOX_PDB 0x00c75460
-bool FUN_00c75460_S::bhkRagdollController_InitGrabIK()
+bool bhkRagdollController::bhkRagdollController_InitGrabIK()
 {
     bool bResult = bEnabled;
     if (bResult)
@@ -2675,7 +2675,7 @@ struct FUN_00c86790_t
 {
     void bhkUnaryAction_LoadBinary(NiStream86* pkStream);
 };
-class FUN_00c86e80_t
+class bhkMouseSpringAction
 {
   public:
     virtual void v00();
@@ -2728,7 +2728,7 @@ class FUN_00c86e80_t
 };
 // @fnv 0x00c86e80
 // src: XBOX_PDB 0x00c86e80
-void FUN_00c86e80_t::bhkMouseSpringAction_LoadBinary(NiStream86* pkStream)
+void bhkMouseSpringAction::bhkMouseSpringAction_LoadBinary(NiStream86* pkStream)
 {
     ((FUN_00c86790_t*)this)->bhkUnaryAction_LoadBinary(pkStream);
     if (pkStream->m_bSameEndian == 1)

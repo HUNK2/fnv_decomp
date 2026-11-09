@@ -100,7 +100,7 @@ struct FUN_00d85360_cls {
     int m_i48;
     int m_i4c;
 
-    FUN_00d85360_cls* FUN_00d54290();
+    FUN_00d85360_cls* hkpBallAndSocketConstraintData();
 };
 FUN_00d85360_cls* __cdecl hkpConstraintDataUtils_copyAtoms_hkpBallAndSocketConstraintData_(int pSource);
 struct S_00d85af0_Base {
@@ -927,7 +927,7 @@ static __declspec(noinline) D85Ctn* Object_ProcessEntries_00d85d40(D85Ctn* c) {
 }
 void __cdecl hkpConstraintCallbackUtil_fireConstraintBroken(D85Msg a);
 extern int DAT_010d3838;
-struct FUN_00d86220_Class {
+struct hkpSpringDamperConstraintMotor {
     unsigned int m_vptr;
     unsigned short m_word04;
     unsigned short m_word06;
@@ -936,7 +936,7 @@ struct FUN_00d86220_Class {
     float m_float10;
     float m_float14;
     float m_float18;
-    FUN_00d86220_Class();
+    hkpSpringDamperConstraintMotor();
 };
 extern __declspec(thread) unsigned int tlsArr[0xb0];
 void __cdecl Object_UpdateFields_00c9eae0(void* p);
@@ -999,7 +999,7 @@ struct FUN_00dee750 {
 
     FUN_00dee750();
 };
-struct FUN_00d86470_cls {
+struct hkPointToPathConstraintCinfo {
     int unk00;
     FUN_00dee750* m_04;
 
@@ -2286,7 +2286,7 @@ static const F128U V4C = { { 196608.0f, 196608.0f, 196608.0f, 196608.0f } };
 float Object_ComputeBisectionMidpoint();
 extern "C" void _mm_store_ps(float* p, __m128 a);
 extern int DAT_010d37e4;
-struct FUN_00d84bd0
+struct hkpPointToPlaneConstraintData
 {
     unsigned int m_00;
     unsigned short unk04;
@@ -2333,7 +2333,7 @@ struct FUN_00d84bd0
     volatile unsigned short m_a0;
     volatile unsigned char m_a2;
 
-    FUN_00d84bd0();
+    hkpPointToPlaneConstraintData();
 };
 
 extern "C" __m128 _mm_rsqrt_ps(__m128);

@@ -1122,17 +1122,18 @@ void __thiscall FUN_006ff880_Class::SteamAPI_SetNoCloud(unsigned char aucValue)
 
 extern int DAT_0106e7b4;
 
-struct FUN_006ff970_Class
+struct CCallbackBase
 {
     int* m_p;
     char m_kPointB;
     int m_i;
-    FUN_006ff970_Class();
+    CCallbackBase();
 };
 
 // Initializes the object: points m_p at DAT_0106e7b4 and zeroes the byte and int members.
 // @fnv 0x006ff970
-FUN_006ff970_Class::FUN_006ff970_Class()
+// src: EXE 0x006ff970
+CCallbackBase::CCallbackBase()
 {
     m_p = &DAT_0106e7b4;
     m_kPointB = 0;
@@ -1265,12 +1266,13 @@ int* __thiscall FUN_006ed010_Class::BSTFreeList_ActorPathingMessage_BSTFreeList_
 struct FUN_006e0f90_Class
 {
     void __thiscall FUN_006e0f90();
-    void* __thiscall FUN_006e0ef0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 void __cdecl Deallocate(void*);
 
 // @fnv 0x006e0ef0
-void* __thiscall FUN_006e0f90_Class::FUN_006e0ef0(unsigned int flags)
+// src: EXE 0x006e0ef0
+void* __thiscall FUN_006e0f90_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_006e0f90();
     if (flags & 1)
@@ -1380,26 +1382,28 @@ FUN_006e2280_Class::FUN_006e2280_Class(void* pObject, const NiPoint3& a2)
 }  // namespace fnv_006e2280
 
 extern int DAT_0106d414;
-struct FUN_006e5fa0 : public PathingRequestClosePoint
+struct PathingRequestSafeStraightLine : public PathingRequestClosePoint
 {
     int m_B8;
-    FUN_006e5fa0();
+    PathingRequestSafeStraightLine();
 };
 // @fnv 0x006e5fa0
-FUN_006e5fa0::FUN_006e5fa0()
+// src: EXE 0x006e5fa0
+PathingRequestSafeStraightLine::PathingRequestSafeStraightLine()
 {
     m_B8 = 0;
 }
 
-struct FUN_006e62b0_Class
+struct PathingSearchRayCast
 {
-    virtual ~FUN_006e62b0_Class();
+    virtual ~PathingSearchRayCast();
     PathingLocation m1;
     PathingLocation m2;
 };
 // Destructor for the class; destroys the two embedded PathingLocation members and does nothing else.
 // @fnv 0x006e62b0
-FUN_006e62b0_Class::~FUN_006e62b0_Class()
+// src: EXE 0x006e62b0
+PathingSearchRayCast::~PathingSearchRayCast()
 {}
 
 struct S006e7620_R2
@@ -2311,14 +2315,14 @@ class FindTriangleForLocationFilter;
 namespace fnv_006f5060 {
 
 
-struct FUN_006f5060_Class
+struct VirtualPathingNode
 {
     int m_type;
     PathingLocation m_loc;
     void __thiscall SetLocation(const PathingLocation& location);
 };
 // @fnv 0x006f5060
-void __thiscall FUN_006f5060_Class::SetLocation(const PathingLocation& location)
+void __thiscall VirtualPathingNode::SetLocation(const PathingLocation& location)
 {
     *(PathingLocation*)((char*)this + 4) = location;
     m_type = 2;
@@ -2659,7 +2663,7 @@ struct FUN_006ffb20_Class
 {
     void __thiscall SetSourceAndTarget(int a1, int a2);
 };
-struct FUN_006ff920 : public FUN_006ff970_Class
+struct FUN_006ff920 : public CCallbackBase
 {
     FUN_006ff920(int a1, int a2);
 };
@@ -3422,7 +3426,7 @@ struct FUN_006ffb90_Class
 {
     void __thiscall SetParams(int a1, int a2);
 };
-struct FUN_006ff9f0 : FUN_006ff970_Class
+struct FUN_006ff9f0 : CCallbackBase
 {
     int m_kPointA;
     int m_kPointB;
@@ -3439,7 +3443,7 @@ FUN_006ff9f0::FUN_006ff9f0(int iFirst, int iSecond)
         ((FUN_006ffb90_Class*)this)->SetParams(iFirst, iSecond);
 }
 
-struct FUN_006ffa70 : FUN_006ff970_Class
+struct FUN_006ffa70 : CCallbackBase
 {
     int __thiscall ProcessAndReturnValue_006ffc20(int a1, int a2);
     int m_i;
@@ -5735,7 +5739,7 @@ class Member_6f33b0_20a4
     ~Member_6f33b0_20a4();
 };
 
-class FUN_006f33b0_cls : public Base_6f33b0
+class TeleportDoorSearch : public Base_6f33b0
 {
   public:
     virtual void v00();
@@ -6002,12 +6006,13 @@ class FUN_006f33b0_cls : public Base_6f33b0
     int unk208C, unk2090, unk2094, unk2098, unk209C, unk20A0;
     Member_6f33b0_20a4 m_20a4;
 
-    FUN_006f33b0_cls();
+    TeleportDoorSearch();
 };
 
 // Empty constructor for the class; the base and member subobjects are initialized by their own constructors.
 // @fnv 0x006f33b0
-FUN_006f33b0_cls::FUN_006f33b0_cls()
+// src: EXE 0x006f33b0
+TeleportDoorSearch::TeleportDoorSearch()
 {}
 
 extern unsigned int DAT_0106d90c;
@@ -7376,7 +7381,7 @@ FUN_006ff7b0_Class::~FUN_006ff7b0_Class()
 //   ecx, the int argument on the stack, and the handler pops it (ret 4).
 typedef void(__thiscall* FUN_006ff9d0_Handler)(void* self, int a1);
 
-struct FUN_006ff9d0_cls : public FUN_006ff970_Class
+struct FUN_006ff9d0_cls : public CCallbackBase
 {
     void* m_pFlagTarget;
     FUN_006ff9d0_Handler m_pHandler;
@@ -7473,7 +7478,7 @@ void FFB90Request::SetParams(int param1, int param2)
 
 extern "C" __declspec(dllimport) void __cdecl SteamAPI_RegisterCallback(void* callback, int callbackId);
 
-struct FUN_006ffc20_shell : FUN_006ff970_Class
+struct FUN_006ffc20_shell : CCallbackBase
 {
     int callbackObject;
     int callbackTarget;
@@ -11477,20 +11482,21 @@ FUN_006f3c80::~FUN_006f3c80()
 {}
 }  // namespace fnv_006f3c80
 
-struct FUN_006e4080 : PathingRequest
+struct PathingRequestCover : PathingRequest
 {
     NiPoint3 pointb0;
     float unkbc, unkc0, unkc4;
     int unkc8;
     bool unkcc, unkcd, unkce, unkcf, unkd0, unkd1;
     NiPoint3 pointd4, pointe0;
-    FUN_006e4080();
-    virtual ~FUN_006e4080();
+    PathingRequestCover();
+    virtual ~PathingRequestCover();
 };
 extern const float DAT_0104e0e8, DAT_0101e704, DAT_0101e6ec, DAT_010236e0;
 // Constructor: sets unk68, unk6c, unkbc, unkc0, unkc4 from globals, unkc8 to 50, unkcc to true, the other flags to false, and two points to zero.
 // @fnv 0x006e4080
-FUN_006e4080::FUN_006e4080()
+// src: EXE 0x006e4080
+PathingRequestCover::PathingRequestCover()
 {
     m_fFirstValueAfterActorData = DAT_0104e0e8;
     m_fSecondValueAfterActorData = DAT_0101e704;

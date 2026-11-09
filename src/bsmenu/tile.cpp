@@ -1550,12 +1550,13 @@ void __cdecl __Dummy_00b6fef0(void*, unsigned int);
 
 struct FUN_00a0c090_Class {
     void FUN_00a0abe0();
-    void* FUN_00a0c090(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00a0abe0, then if bit 0 of flags is set calls __Dummy_00b6fef0 with this and 0x14, and returns this.
 // @fnv 0x00a0c090
-void* FUN_00a0c090_Class::FUN_00a0c090(unsigned int flags)
+// src: EXE 0x00a0c090
+void* FUN_00a0c090_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     this->FUN_00a0abe0();
     if (flags & 1)

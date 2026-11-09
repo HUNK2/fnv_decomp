@@ -213,14 +213,14 @@ const char* BSstristr(const char* apString1, const char* apString2)
     return 0;
 }
 
-struct FUN_00634830_cls
+struct Clouds
 {
     unsigned int __thiscall Clouds_GetNumLayers();
 };
 
 // @fnv 0x00634830
 // src: COMMUNITY 0x00634830
-unsigned int __thiscall FUN_00634830_cls::Clouds_GetNumLayers()
+unsigned int __thiscall Clouds::Clouds_GetNumLayers()
 {
     return *(unsigned short*)((char*)this + 0x58);
 }

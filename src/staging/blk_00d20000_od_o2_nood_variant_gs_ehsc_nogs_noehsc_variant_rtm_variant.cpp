@@ -496,12 +496,12 @@ struct D37D30ArrayPolicy
     static __forceinline void destroy(hkArrayBase<T>& self) { D37D30Array_destroy(self); }
 };
 
-class FUN_00d37d30 : public hkReferencedObject {
+class hkpMultiRayConvexAgent : public hkReferencedObject {
 public:
     int unk08;
     hkArray<unsigned short, D37D30ArrayPolicy> m_ppIndices;
 
-    FUN_00d37d30();
+    hkpMultiRayConvexAgent();
 
     static void operator delete(void* p) {
         HeapD37D30(hkMemoryRouter_getInstance()).blockFree(p, static_cast<hkReferencedObject*>(p)->m_usMemSizeAndFlags);
@@ -509,7 +509,8 @@ public:
 };
 
 // @fnv 0x00d37d30
-FUN_00d37d30::FUN_00d37d30() {
+// src: EXE 0x00d37d30
+hkpMultiRayConvexAgent::hkpMultiRayConvexAgent() {
 }
 }  // namespace fnv_00d37d30
 

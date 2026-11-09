@@ -140,11 +140,12 @@ void __cdecl _Deallocate(void*);
 struct FUN_008d1f10_shell : public Character
 {
     void FUN_008d2060();
-    FUN_008d1f10_shell* FUN_008d1f10(unsigned int aiFlags);
+    FUN_008d1f10_shell* ScalarDeletingDestructor(unsigned int aiFlags);
 };
 // Calls FUN_008d2060, then deallocates this if bit 0 of aiFlags is set, and returns this.
 // @fnv 0x008d1f10
-FUN_008d1f10_shell* FUN_008d1f10_shell::FUN_008d1f10(unsigned int aiFlags)
+// src: EXE 0x008d1f10
+FUN_008d1f10_shell* FUN_008d1f10_shell::ScalarDeletingDestructor(unsigned int aiFlags)
 {
     FUN_008d2060();
     if (aiFlags & 1)

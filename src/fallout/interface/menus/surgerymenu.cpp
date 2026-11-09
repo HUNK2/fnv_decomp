@@ -2207,7 +2207,7 @@ struct DecalCell
 };
 extern DecalCell* DAT_011dea3c;
 extern float __cdecl RandomFloatTwoPi();
-struct FUN_004a37b0
+struct DECAL_CREATION_DATA
 {
     NiPoint3 position, direction, unknown18;
     unsigned int unknown24;
@@ -2224,9 +2224,9 @@ struct FUN_004a37b0
     unsigned int unknown6c;
     unsigned char unknown70, unknown71, unknown72, unknown73, unknown74, unknown75, unknown76, unknown77, unknown78,
         unknown79;
-    FUN_004a37b0();
+    DECAL_CREATION_DATA();
 };
-typedef struct FUN_004a37b0 DecalInfo;
+typedef struct DECAL_CREATION_DATA DecalInfo;
 struct DecalManager
 {
     void AddGeometryDecal(DecalInfo*, bool, bool);

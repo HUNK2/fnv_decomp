@@ -564,7 +564,7 @@ struct FUN_00c91270_cls
     Target* m_5C;
     void ahkpWorld_updateKdTree(int a);
 };
-struct FUN_00c98250_Class {
+struct hkpNullContactMgrFactory {
     void* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
@@ -7461,13 +7461,13 @@ struct ObjectCtor {
     ObjectCtor* hkpCollisionDispatcher_hkpCollisionDispatcher(void*,ObjectCtor*);
     ObjectCtor* FUN_00cbfba0();
     ObjectCtor* ProcessAndReturnValue_00cf6da0(int);
-    ObjectCtor* FUN_00d02c80(WorldCtor*);
+    ObjectCtor* hkpMultiThreadedSimulation(WorldCtor*);
     ObjectCtor* InitializeFields_00d0d020(WorldCtor*);
     ObjectCtor* FUN_00cf87c0(WorldCtor*);
     ObjectCtor* FUN_00d07830(WorldCtor*);
     ObjectCtor* AllocateStorage_00ca8c90(void*);
     ObjectCtor* FUN_00d0b710(WorldCtor*,int,int);
-    ObjectCtor* FUN_00d0b250();
+    ObjectCtor* hkpDefaultWorldMaintenanceMgr();
     ObjectCtor* FUN_00d0a2d0(WorldCtor*,int);
     ObjectCtor* FUN_00d08cf0(WorldCtor*,int,float);
     ObjectCtor* FUN_00cfca20(WorldCtor*);
@@ -8136,7 +8136,7 @@ WorldCtor* WorldCtor::hkpWorld_hkpWorld(WorldInfoCtor* info, int version) {
         modifyLock=object ? object->ProcessAndReturnValue_00cf6da0(4000) : 0;
         object=(ObjectCtor*)worldAlloc(0x18);
         propertyLock=object ? object->ProcessAndReturnValue_00cf6da0(4000) : 0;
-        simulation=allocObject<ObjectCtor>(0x180)->FUN_00d02c80(this);
+        simulation=allocObject<ObjectCtor>(0x180)->hkpMultiThreadedSimulation(this);
         minIsland=info->minIsland;
         break;
     case 2: simulation=allocObject<ObjectCtor>(0x50)->InitializeFields_00d0d020(this); break;
@@ -8184,7 +8184,7 @@ WorldCtor* WorldCtor::hkpWorld_hkpWorld(WorldInfoCtor* info, int version) {
         int behavior=info->borderBehavior;
         broadphaseBorder=pendingBorder->FUN_00d0b710(this,behavior,info->postponeBorder);
     } else broadphaseBorder=0;
-    kdTree=allocObject<ObjectCtor>(0x10)->FUN_00d0b250();
+    kdTree=allocObject<ObjectCtor>(0x10)->hkpDefaultWorldMaintenanceMgr();
     kdTree->vtable->vf0c(kdTree,this);
     callbackUtil=0;
     if(info->flagE0) hkpCollisionCallbackUtil_addCollisionCallbackUtil(this);

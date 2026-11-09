@@ -187,16 +187,17 @@ void BookMenu::UpdateMenuTile()
     }
 }
 
-struct FUN_007e7a80 : Menu
+struct TraitSelectMenu : Menu
 {
     char _pad[0x50];
     int m_78;
     int m_7c;
-    FUN_007e7a80();
+    TraitSelectMenu();
 };
 // Initialises the menu object: sets the vtable pointer, then sets m_78 and m_7c to -1.
 // @fnv 0x007e7a80
-FUN_007e7a80::FUN_007e7a80()
+// src: EXE 0x007e7a80
+TraitSelectMenu::TraitSelectMenu()
 {
     m_78 = -1;
     m_7c = -1;

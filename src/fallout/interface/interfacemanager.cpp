@@ -5807,7 +5807,7 @@ struct GlobalObject_0045cfe0
 };
 extern GlobalObject_0045cfe0 g_011d8cfc;
 
-struct FUN_0071d380_t
+struct MenuConsole
 {
     void MenuConsole_ScrollBy(int aiDelta);
 };
@@ -5815,7 +5815,7 @@ struct FUN_0071d380_t
 // Adds aiDelta to the value at offset 0x24, clamps it to the array's flags and to the global int, then stores it back.
 // @fnv 0x0071d380
 // src: COMMUNITY 0x0071d380
-void FUN_0071d380_t::MenuConsole_ScrollBy(int aiDelta)
+void MenuConsole::MenuConsole_ScrollBy(int aiDelta)
 {
     int iIndex = *(int*)((char*)this + 0x24) + aiDelta;
     if (iIndex > (int)((InterfacemanagerOffset08View*)((char*)this + 4))->GetFlags())
@@ -5961,7 +5961,7 @@ void FUN_007123d0_class::SetByteAtOffset60(unsigned char aucValue)
     *reinterpret_cast<unsigned char*>((char*)this + 0x60) = aucValue;
 }
 
-struct FUN_007185e0_class
+struct InterfaceManager_TutorialManager
 {
     int m_data[0x29];
     int& operator[](int index)
@@ -5973,7 +5973,7 @@ struct FUN_007185e0_class
 
 // If index is within 0x29, clears bit 0 and sets bit 1 of m_data[index] and returns true; otherwise returns false.
 // @fnv 0x007185e0
-bool FUN_007185e0_class::SetFlag2(int index)
+bool InterfaceManager_TutorialManager::SetFlag2(int index)
 {
     if (index >= 0 && index < 0x29)
     {

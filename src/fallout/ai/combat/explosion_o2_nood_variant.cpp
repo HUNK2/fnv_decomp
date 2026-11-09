@@ -507,14 +507,14 @@ struct BaseObject
         hkpCdPointCollector_hkpCdPointCollector();
     }
 };
-struct FUN_009afaf0 : BaseObject
+struct hkpFixedBufferCdPointCollector : BaseObject
 {
     VectorHolder first;
     VectorHolder second;
     VectorHolder third;
     VectorHolder fourth;
-    FUN_009afaf0(unsigned int firstValue, unsigned int secondValue);
-    virtual ~FUN_009afaf0();
+    hkpFixedBufferCdPointCollector(unsigned int firstValue, unsigned int secondValue);
+    virtual ~hkpFixedBufferCdPointCollector();
 };
 struct FUN_009afca0_holder
 {

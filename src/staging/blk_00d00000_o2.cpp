@@ -69,17 +69,18 @@ D107A0RTTI* __cdecl Runtime_GetD107A0RTTIAddress()
 
 extern int DAT_010cd54c;
 
-struct FUN_00d107b0
+struct hkpNullAgent
 {
     void** vft;
     unsigned short a;
     unsigned short b;
     int c;
-    FUN_00d107b0();
+    hkpNullAgent();
 };
 
 // @fnv 0x00d107b0
-FUN_00d107b0::FUN_00d107b0()
+// src: EXE 0x00d107b0
+hkpNullAgent::hkpNullAgent()
 {
     b = 1;
     c = 0;
@@ -580,16 +581,17 @@ struct FUN_00d06f70_s
     void InitializeFields_00d06f70();
 };
 
-struct FUN_00d07070_s : FUN_00d06f70_s
+struct hkStatisticsCollector : FUN_00d06f70_s
 {
     int unk00;
     unsigned short unk04;
 
-    int __thiscall FUN_00d07070(unsigned char flag);
+    int __thiscall ScalarDeletingDestructor(unsigned char flag);
 };
 
 // @fnv 0x00d07070
-int __thiscall FUN_00d07070_s::FUN_00d07070(unsigned char flag)
+// src: EXE 0x00d07070
+int __thiscall hkStatisticsCollector::ScalarDeletingDestructor(unsigned char flag)
 {
     this->InitializeFields_00d06f70();
 
@@ -958,7 +960,7 @@ extern int DAT_010c63bc;
 extern int DAT_010cd588;
 extern int DAT_010cd598;
 
-struct FUN_00d107d0_t
+struct hkpEntityEntityBroadPhaseListener
 {
     void* p0;
     unsigned short a;
@@ -969,13 +971,13 @@ struct FUN_00d107d0_t
         void* p8b;
     };
     int c;
-    FUN_00d107d0_t* InitializeFields_00d107d0(int v);
+    hkpEntityEntityBroadPhaseListener* InitializeFields_00d107d0(int v);
 };
 
 // Sets b to 1, points p8a/p0/p8b at DAT_010c63bc/DAT_010cd598/DAT_010cd588, stores v in c, and returns this.
 // @fnv 0x00d107d0
 // src: GUESS 0x00d107d0 (confidence: low)
-FUN_00d107d0_t* FUN_00d107d0_t::InitializeFields_00d107d0(int v)
+hkpEntityEntityBroadPhaseListener* hkpEntityEntityBroadPhaseListener::InitializeFields_00d107d0(int v)
 {
     b = 1;
     p8a = &DAT_010c63bc;

@@ -45,11 +45,12 @@ struct FUN_00e049d0_Class : Object
     unsigned int m_auiShapeKeys;
     unsigned short m_type;
 
-    FUN_00e049d0_Class* FUN_00e049d0(int flags);
+    FUN_00e049d0_Class* ScalarDeletingDestructor(int flags);
 };
 
 // @fnv 0x00e049d0
-FUN_00e049d0_Class* FUN_00e049d0_Class::FUN_00e049d0(int flags)
+// src: EXE 0x00e049d0
+FUN_00e049d0_Class* FUN_00e049d0_Class::ScalarDeletingDestructor(int flags)
 {
     Object::SetVirtualTable_00e03160();
 

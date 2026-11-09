@@ -230,14 +230,15 @@ struct QBase
     char _pad[44];
     QBase(int);
 };
-struct FUN_00837250 : QBase
+struct RadioConvTask : QBase
 {
     int field_30;
-    FUN_00837250(unsigned int iflags);
+    RadioConvTask(unsigned int iflags);
 };
 // Calls the QBase constructor with 0 and stores the given flags in field_30.
 // @fnv 0x00837250
-FUN_00837250::FUN_00837250(unsigned int auiFlags) : QBase(0)
+// src: EXE 0x00837250
+RadioConvTask::RadioConvTask(unsigned int auiFlags) : QBase(0)
 {
     field_30 = auiFlags;
 }

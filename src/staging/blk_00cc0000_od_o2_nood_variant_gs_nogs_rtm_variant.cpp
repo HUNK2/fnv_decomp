@@ -442,7 +442,7 @@ struct FUN_00d4f2a0
         return p;
     }
 };
-struct FUN_00cc5f30_cls
+struct hkRagdollLimitsConstraintCinfo
 {
     int unk00;
     FUN_00d4f2a0* m_pSrc;
@@ -2178,7 +2178,7 @@ struct Shape : RefCountedObject
         kind = 2;
     }
 };
-struct FUN_00cc9d00 : RefCountedObject
+struct hkScaledMoppBvTreeShape : RefCountedObject
 {
     unsigned int unk00;
     unsigned short size;
@@ -2186,11 +2186,11 @@ struct FUN_00cc9d00 : RefCountedObject
     unsigned int unk08, unk0c;
     __m128 dimensions;
     unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
-    FUN_00cc9d00(ObjectType* type, Shape* shape, SourceGeometry* geometry);
+    hkScaledMoppBvTreeShape(ObjectType* type, Shape* shape, SourceGeometry* geometry);
     static void* operator new(unsigned int bytes)
     {
         hkMemoryRouter& router = hkMemoryRouter::getInstance();
-        FUN_00cc9d00* result = static_cast<FUN_00cc9d00*>(router.heap().blockAlloc(bytes));
+        hkScaledMoppBvTreeShape* result = static_cast<hkScaledMoppBvTreeShape*>(router.heap().blockAlloc(bytes));
         result->size = (unsigned short)bytes;
         return result;
     }

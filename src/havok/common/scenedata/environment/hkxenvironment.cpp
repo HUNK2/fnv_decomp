@@ -28,14 +28,15 @@ struct HKXEnvironmentStandIn
     char padding[4];
     unsigned short size;
     void DestroyEnvironment();
-    HKXEnvironmentStandIn* FUN_00e3f8a0(unsigned char flags);
+    HKXEnvironmentStandIn* ScalarDeletingDestructor(unsigned char flags);
 };
 
 HKXMemoryRouter* _D1A0E0GetMemoryRouter();
 
 // Calls DestroyEnvironment, then if bit 0 of flags is set frees this through the memory router's manager, and returns this.
 // @fnv 0x00e3f8a0
-HKXEnvironmentStandIn* HKXEnvironmentStandIn::FUN_00e3f8a0(unsigned char flags)
+// src: EXE 0x00e3f8a0
+HKXEnvironmentStandIn* HKXEnvironmentStandIn::ScalarDeletingDestructor(unsigned char flags)
 {
     DestroyEnvironment();
 

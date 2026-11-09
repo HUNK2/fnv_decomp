@@ -111,7 +111,7 @@ int __cdecl MinInt(int iA, int iB)
     return result;
 }
 
-struct FUN_004a8f50_shell
+struct BGSTextureUseMap
 {
     void NiTMap_NiTexture_TEX_USER_DATA_NiTMap(int a);
     void* BGSTextureUseMap_BGSTextureUseMap();
@@ -119,9 +119,9 @@ struct FUN_004a8f50_shell
 
 // @fnv 0x004a8f50
 // src: XBOX_PDB 0x004a8f50
-void* __thiscall FUN_004a8f50_shell::BGSTextureUseMap_BGSTextureUseMap()
+void* __thiscall BGSTextureUseMap::BGSTextureUseMap_BGSTextureUseMap()
 {
-    ((FUN_004a8f50_shell*)((char*)this + 4))->NiTMap_NiTexture_TEX_USER_DATA_NiTMap(0x25);
+    ((BGSTextureUseMap*)((char*)this + 4))->NiTMap_NiTexture_TEX_USER_DATA_NiTMap(0x25);
     return this;
 }
 
@@ -153,7 +153,7 @@ SceneInfo& BSSimpleArray<SceneInfo, 1024>::GetAt(unsigned int a)
 
 struct FUN_004a9630_shell
 {
-    void* FUN_004a9630(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 struct FUN_004a9850_shell
@@ -164,7 +164,8 @@ struct FUN_004a9850_shell
 void __cdecl _Deallocate(void* p);
 
 // @fnv 0x004a9630
-void* FUN_004a9630_shell::FUN_004a9630(unsigned int flags)
+// src: EXE 0x004a9630
+void* FUN_004a9630_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     ((FUN_004a9850_shell*)this)->FUN_004a9850();
     if (flags & 1)
@@ -175,7 +176,7 @@ void* FUN_004a9630_shell::FUN_004a9630(unsigned int flags)
 extern int DAT_0101ec68;
 void* __cdecl memset(void*, int, unsigned int);
 
-struct FUN_004a7c40_shell
+struct BGSSceneInfo
 {
     void* InitializeFields_004a7c40();
     void ClearToZero();
@@ -183,10 +184,10 @@ struct FUN_004a7c40_shell
 
 // @fnv 0x004a7c40
 // src: GUESS 0x004a7c40 (confidence: low)
-void* FUN_004a7c40_shell::InitializeFields_004a7c40()
+void* BGSSceneInfo::InitializeFields_004a7c40()
 {
     *(int*)this = (int)&DAT_0101ec68;
-    ((FUN_004a7c40_shell*)((char*)this + 4))->ClearToZero();
+    ((BGSSceneInfo*)((char*)this + 4))->ClearToZero();
     memset((char*)this + 4, 0, 0x40);
     *(int*)((char*)this + 0x44) = 0;
     return this;
@@ -236,14 +237,14 @@ void FUN_004a7cd0_shell::SetField0000()
     m_0000 = &DAT_0101ec68;
 }
 
-struct FUN_004a8030_shell
+struct NiGeometry
 {
     unsigned int NiGeometry_GetNormals();
 };
 // Returns the thread ID of the BSThread stored at offset 0xb8 of this object.
 // @fnv 0x004a8030
 // src: XBOX_PDB 0x004a8030
-unsigned int FUN_004a8030_shell::NiGeometry_GetNormals()
+unsigned int NiGeometry::NiGeometry_GetNormals()
 {
     return ((BSThread*)((Flt*)((char*)this + 0xb8))->operator unsigned int())->GetThreadID();
 }

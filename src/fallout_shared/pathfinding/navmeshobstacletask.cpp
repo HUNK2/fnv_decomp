@@ -218,11 +218,12 @@ struct BaseT
 };
 struct FUN_006c7940_shell : BaseT
 {
-    void* FUN_006c7940(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 // Runs the base destructor, frees this when bit 0 of flags is set, and returns this.
 // @fnv 0x006c7940
-void* FUN_006c7940_shell::FUN_006c7940(unsigned int flags)
+// src: EXE 0x006c7940
+void* FUN_006c7940_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     BaseT::~BaseT();
     if (flags & 1)

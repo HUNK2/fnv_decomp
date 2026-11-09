@@ -29,12 +29,13 @@ class FUN_00dff640_cls : public RefBase_cls
     RefElem_t* m_pA;
     RefElem_t* m_pB;
 
-    FUN_00dff640_cls* FUN_00dff640(unsigned char acFlags);
+    FUN_00dff640_cls* ScalarDeletingDestructor(unsigned char acFlags);
 };
 
 // Releases m_pB and m_pA, destroys the base, and if acFlags bit 0 is set frees this through the allocator with m_uSize.
 // @fnv 0x00dff640
-FUN_00dff640_cls* FUN_00dff640_cls::FUN_00dff640(unsigned char acFlags)
+// src: EXE 0x00dff640
+FUN_00dff640_cls* FUN_00dff640_cls::ScalarDeletingDestructor(unsigned char acFlags)
 {
     if (m_pB != 0)
     {

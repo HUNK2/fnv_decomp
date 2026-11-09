@@ -2239,20 +2239,20 @@ struct Triple12
 };
 extern "C" Triple12 DAT_011f426c;
 
-struct FUN_0097ede0_cls
+struct BGSWorldLocation
 {
     unsigned int m_00;
     unsigned int m_04;
     unsigned int m_08;
     unsigned int m_0c;
 
-    FUN_0097ede0_cls* BGSWorldLocation_BGSWorldLocation();
+    BGSWorldLocation* BGSWorldLocation_BGSWorldLocation();
 };
 
 // Copies the global Triple12 into this object, clears m_0c, and returns this.
 // @fnv 0x0097ede0
 // src: XBOX_PDB 0x0097ede0
-FUN_0097ede0_cls* FUN_0097ede0_cls::BGSWorldLocation_BGSWorldLocation()
+BGSWorldLocation* BGSWorldLocation::BGSWorldLocation_BGSWorldLocation()
 {
     *(Triple12*)this = DAT_011f426c;
     m_0c = 0;
@@ -2395,7 +2395,7 @@ void FUN_0097f270_cls::InitFromArg(FUN_0097f270_arg* arg)
 }
 
 namespace fnv_0097fa90 {
-struct FUN_0097fa90_Class
+struct CombatTimeStamp
 {
     float value;
     float CombatTimeStamp_DisplayElapsedTime();
@@ -2406,7 +2406,7 @@ extern double _DAT_01017b70;
 // Returns the difference between FUN_00435dd0() and value, clamped to at most _DAT_01017b70.
 // @fnv 0x0097fa90
 // src: COMMUNITY 0x0097fa90
-float FUN_0097fa90_Class::CombatTimeStamp_DisplayElapsedTime()
+float CombatTimeStamp::CombatTimeStamp_DisplayElapsedTime()
 {
     return (float)(CombatTimer_GetTimer() - value > _DAT_01017b70 ? _DAT_01017b70 : CombatTimer_GetTimer() - value);
 }
@@ -7772,7 +7772,7 @@ struct Pool96
     unsigned int count;
     PoolEntry96 entries[4096];
 };
-struct FUN_008c9330
+struct AITaskManager
 {
     int unk000, unk004, unk008, unk00c, unk010, unk014, unk018, unk01c;
     int unk020, unk024, unk028, unk02c, unk030, unk034, unk038, unk03c;
@@ -7788,8 +7788,8 @@ struct FUN_008c9330
     int unk160, unk164, unk168, unk16c, unk170;
     Pool96 pool;
     bool unk10180;
-    FUN_008c9330();
-    ~FUN_008c9330();
+    AITaskManager();
+    ~AITaskManager();
 };
 struct GlobalObject_0096a2d0
 {
@@ -7820,7 +7820,7 @@ struct SettingFloatHelper
 extern SettingFloatHelper originalRuntimeFloatSetting1024;
 extern __int64 DAT_011e0e20;
 
-struct FUN_0096d020
+struct ProcessLists
 {
     int unk00000;
     FUN_0096a850 map;
@@ -7832,7 +7832,7 @@ struct FUN_0096d020
     int unk00150;
     float unk00154, unk00158;
     bool unk0015c, unk0015d;
-    FUN_008c9330 pool;
+    AITaskManager pool;
     BSSimpleList<TESForm*> list102e4;
     int unk102ec, unk102f0, unk102f4, unk102f8, unk102fc;
     GlobalObject_0096a2d0 lock;
@@ -7850,12 +7850,13 @@ struct FUN_0096d020
     int unk103b8;
     float unk103bc;
     FUN_0086c6a0 semaphore;
-    FUN_0096d020();
+    ProcessLists();
 };
 
 // Constructor: sets flag bytes, zeroes lists and entries under lock, copies a float setting into unk103bc, and calls DAT_00fdf0a4 on DAT_011e0e20.
 // @fnv 0x0096d020
-FUN_0096d020::FUN_0096d020() : semaphore(0, 40)
+// src: COMMUNITY 0x0096d020
+ProcessLists::ProcessLists() : semaphore(0, 40)
 {
     unk103a1 = true;
     unk103a0 = true;

@@ -164,7 +164,7 @@ int* __thiscall FUN_00dc9ab0_class::VecArrayImplementation_asVec(int aiIndex)
 
 extern int DAT_010d707c;
 
-struct FUN_00dca1c0
+struct ByteArrayImplementation
 {
     void* m0;
     unsigned short m4;
@@ -173,11 +173,12 @@ struct FUN_00dca1c0
     int m12;
     int m16;
     int m20;
-    FUN_00dca1c0();
+    ByteArrayImplementation();
 };
 
 // @fnv 0x00dca1c0
-FUN_00dca1c0::FUN_00dca1c0()
+// src: EXE 0x00dca1c0
+ByteArrayImplementation::ByteArrayImplementation()
 {
     m6 = 0;
     m8 = 0;
@@ -1086,7 +1087,7 @@ struct FUN_00dc8a00_Array
     virtual void ArrayOfTuplesImplementation_reserve(int value) = 0;
 };
 
-struct FUN_00dc8a00_class
+struct ArrayOfTuplesImplementation
 {
     char m_00[0x20];
     FUN_00dc8a00_Array* m_p20;
@@ -1097,7 +1098,7 @@ struct FUN_00dc8a00_class
 
 // @fnv 0x00dc8a00
 // src: XBOX_PDB 0x00dc8a00
-void FUN_00dc8a00_class::ArrayOfTuplesImplementation_reserve(int value)
+void ArrayOfTuplesImplementation::ArrayOfTuplesImplementation_reserve(int value)
 {
     m_p20->ArrayOfTuplesImplementation_reserve(m_24 * value);
 }
@@ -1393,7 +1394,7 @@ int __thiscall FUN_00dca080_StandIn::GetIndexedValue_00dca080(int i)
 }
 
 extern int DAT_010d7114;
-struct FUN_00dca260_Class
+struct IntArrayImplementation
 {
     int m0;
     unsigned short m4;
@@ -1402,10 +1403,11 @@ struct FUN_00dca260_Class
     int mc;
     int m10;
     int m14;
-    FUN_00dca260_Class();
+    IntArrayImplementation();
 };
 // @fnv 0x00dca260
-FUN_00dca260_Class::FUN_00dca260_Class()
+// src: EXE 0x00dca260
+IntArrayImplementation::IntArrayImplementation()
 {
     m6 = 0;
     m8 = 0;
@@ -1484,7 +1486,7 @@ void FUN_00dca4e0_Class::AssignIntArray(int* src, int count)
 
 extern int DAT_010d71ac;
 
-struct FUN_00dca5a0_Class
+struct RealArrayImplementation
 {
     void* m0;
     unsigned short m4;
@@ -1493,11 +1495,12 @@ struct FUN_00dca5a0_Class
     int m12;
     int m16;
     int m20;
-    FUN_00dca5a0_Class();
+    RealArrayImplementation();
 };
 
 // @fnv 0x00dca5a0
-FUN_00dca5a0_Class::FUN_00dca5a0_Class()
+// src: EXE 0x00dca5a0
+RealArrayImplementation::RealArrayImplementation()
 {
     m6 = 0;
     m8 = 0;
@@ -1509,7 +1512,7 @@ FUN_00dca5a0_Class::FUN_00dca5a0_Class()
 
 extern int DAT_010d7244;
 
-struct FUN_00dca650
+struct CstringArrayImplementation
 {
     int* m0;
     unsigned short m4;
@@ -1519,11 +1522,12 @@ struct FUN_00dca650
     int m16;
     int m20;
 
-    FUN_00dca650();
+    CstringArrayImplementation();
 };
 
 // @fnv 0x00dca650
-FUN_00dca650::FUN_00dca650()
+// src: EXE 0x00dca650
+CstringArrayImplementation::CstringArrayImplementation()
 {
     m6 = 0;
     m8 = 0;
@@ -6383,12 +6387,13 @@ class hkObjDC8C : public hkRefObjDC8C
         m_pSharedObject->release();
     }
 
-    hkObjDC8C* FUN_00dc8cd0(unsigned int flags);
+    hkObjDC8C* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls the hkObjDC8C destructor and, when the low bit of flags is set, frees the object via operator delete, then returns this.
 // @fnv 0x00dc8cd0
-hkObjDC8C* hkObjDC8C::FUN_00dc8cd0(unsigned int flags)
+// src: EXE 0x00dc8cd0
+hkObjDC8C* hkObjDC8C::ScalarDeletingDestructor(unsigned int flags)
 {
     this->hkObjDC8C::~hkObjDC8C();
     if (flags & 1)
@@ -6879,7 +6884,7 @@ extern int DAT_010d6fe4;
 
 extern "C" void _ReadWriteBarrier(void);
 
-struct FUN_00dca040_class
+struct PointerArrayImplementation
 {
     void* m0;
     unsigned short m4;
@@ -6893,7 +6898,7 @@ struct FUN_00dca040_class
 };
 
 // @fnv 0x00dca040
-void* FUN_00dca040_class::Init(void* arg)
+void* PointerArrayImplementation::Init(void* arg)
 {
     m6 = 0;
     _ReadWriteBarrier();

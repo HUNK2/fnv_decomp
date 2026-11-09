@@ -390,14 +390,14 @@ struct TeleportableReference
     char _pad_1d[3];
 };
 typedef char _sizecheck_DoorTeleportData[sizeof(TeleportableReference) == 32 ? 1 : -1];
-struct FUN_00501e80_shell : public DoorAccessData
+struct DoorLock : public DoorAccessData
 {
     void DoorLock_SetFromDoorRef(TESObjectREFR*);
 };
 
 // @fnv 0x00501e80
 // src: XBOX_PDB 0x00501e80
-void FUN_00501e80_shell::DoorLock_SetFromDoorRef(TESObjectREFR* apDoorRef)
+void DoorLock::DoorLock_SetFromDoorRef(TESObjectREFR* apDoorRef)
 {
     ExtraRadioData* ptel;
     LockExtraData* pDoorLock;

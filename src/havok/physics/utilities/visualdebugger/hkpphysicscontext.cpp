@@ -1326,7 +1326,7 @@ struct EmptyArray
     }
 };
 
-struct FUN_00cd25d0 : hkReferencedObject,
+struct hkpPhysicsContext : hkReferencedObject,
                       hkProcessContext,
                       hkpWorldDeletionListener,
                       hkpEntityListener,
@@ -1338,14 +1338,15 @@ struct FUN_00cd25d0 : hkReferencedObject,
     EmptyArray m_78;
     EmptyArray m_84;
 
-    FUN_00cd25d0();
+    hkpPhysicsContext();
     virtual void d04();
     virtual void d08();
 };
 
 // Constructs the object; the base classes and member arrays are initialized by their own constructors.
 // @fnv 0x00cd25d0
-FUN_00cd25d0::FUN_00cd25d0()
+// src: EXE 0x00cd25d0
+hkpPhysicsContext::hkpPhysicsContext()
 {}
 
 inline hkMemoryAllocator& physicsContextHeap(AllocatorState* state)
@@ -1789,13 +1790,14 @@ CD28F0Derived::CD28F0Derived()
 struct FUN_00cd1eb0_StandIn
 {
     int unk00;
-    int __thiscall FUN_00cd1eb0(int param);
+    int __thiscall ScalarDeletingDestructor(int param);
 };
 
 extern void __cdecl FormHeapFreeAndLog_00401030(void* ptr);
 
 // @fnv 0x00cd1eb0
-int __thiscall FUN_00cd1eb0_StandIn::FUN_00cd1eb0(int aiFlags)
+// src: EXE 0x00cd1eb0
+int __thiscall FUN_00cd1eb0_StandIn::ScalarDeletingDestructor(int aiFlags)
 {
     unk00 = (int)DAT_010cb1e4;
     if (aiFlags & 1)

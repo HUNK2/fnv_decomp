@@ -286,14 +286,14 @@ void FUN_009cd410_shell::CombatProcedureAttackMelee_StartEngage()
     SetMode(0);
 }
 
-struct FUN_009cdde0_shell
+struct CombatMovementRestrictions
 {
     bool CombatMovementRestrictions_CanMove(unsigned short mask);
 };
 // Returns true when the 16-bit flags at offset 8 do not contain any bit of mask.
 // @fnv 0x009cdde0
 // src: COMMUNITY 0x009cdde0
-bool FUN_009cdde0_shell::CombatMovementRestrictions_CanMove(unsigned short mask)
+bool CombatMovementRestrictions::CombatMovementRestrictions_CanMove(unsigned short mask)
 {
     return !(*(unsigned short*)((char*)this + 8) & mask) != 0;
 }
@@ -425,7 +425,7 @@ void FUN_009cf660_shell::SetMode(int mode)
 }
 
 namespace fnv_009cfbd0 {
-struct FUN_009cdde0_shell
+struct CombatMovementRestrictions
 {
     char CombatMovementRestrictions_CanMove(unsigned short mask);
 };
@@ -439,7 +439,7 @@ struct FUN_009cfbd0_shell
 char FUN_009cfbd0_shell::CombatProcedureAttackMelee_CheckDodge(unsigned short mask)
 {
     char result = 1;
-    result = ((FUN_009cdde0_shell*)((char*)this + 0x64))->CombatMovementRestrictions_CanMove(mask);
+    result = ((CombatMovementRestrictions*)((char*)this + 0x64))->CombatMovementRestrictions_CanMove(mask);
     return result;
 }
 }  // namespace fnv_009cfbd0

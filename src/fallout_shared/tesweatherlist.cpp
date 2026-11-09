@@ -288,18 +288,19 @@ class SrcRecord_b6402
     SrcListItem_b6402 m_08;
 };
 
-class FUN_004f5140 : public SrcListBase_b6402
+class TESRegionDataWeather : public SrcListBase_b6402
 {
   public:
-    virtual ~FUN_004f5140();
+    virtual ~TESRegionDataWeather();
     SrcListItem_b6402 m_08;
 
-    FUN_004f5140(SrcRecord_b6402* aSrc);
+    TESRegionDataWeather(SrcRecord_b6402* aSrc);
 };
 
 // Constructs a list copy from a source record, copying its item list without appending.
 // @fnv 0x004f5140
-FUN_004f5140::FUN_004f5140(SrcRecord_b6402* aSrc) : SrcListBase_b6402(aSrc)
+// src: EXE 0x004f5140
+TESRegionDataWeather::TESRegionDataWeather(SrcRecord_b6402* aSrc) : SrcListBase_b6402(aSrc)
 {
     m_08.CopyFrom(&aSrc->m_08, false);
 }

@@ -136,7 +136,7 @@ template <int N> struct EndianSizeTag
 
 void __cdecl BSEndian(int* p, EndianSizeTag<4>);
 
-struct FUN_004d9280
+struct RagDollBone
 {
     void __thiscall RagDollBone_Endian();
 };
@@ -144,7 +144,7 @@ struct FUN_004d9280
 // Byte-swaps the six 4-byte words following the object's first word via BSEndian.
 // @fnv 0x004d9280
 // src: COMMUNITY 0x004d9280
-void __thiscall FUN_004d9280::RagDollBone_Endian()
+void __thiscall RagDollBone::RagDollBone_Endian()
 {
     BSEndian((int*)this + 1, EndianSizeTag<4>());
     BSEndian((int*)this + 2, EndianSizeTag<4>());
@@ -203,11 +203,11 @@ template <int N> struct EndianSizeTag
 {
 };
 void __cdecl BSEndian(unsigned char*, EndianSizeTag<1>);
-struct FUN_004d9280
+struct RagDollBone
 {
     void RagDollBone_Endian();
 };
-struct FUN_0055a400 : FUN_004d9280
+struct FUN_0055a400 : RagDollBone
 {
     char pad[0x1c];
     FUN_0055a400();

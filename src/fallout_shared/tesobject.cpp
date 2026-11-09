@@ -768,14 +768,15 @@ namespace fnv_0050f710 {
 struct FUN_0050f740_shell
 {
     void UpdateFields_0050f740(void);
-    void* FUN_0050f710(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 void* _Deallocate(void* p);
 
 // Calls FUN_0050f740, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x0050f710
-void* FUN_0050f740_shell::FUN_0050f710(unsigned int flags)
+// src: EXE 0x0050f710
+void* FUN_0050f740_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     UpdateFields_0050f740();
     if (flags & 1)
@@ -871,7 +872,7 @@ void __thiscall S_4029f0::AlchemyItem_SetAutoCalc(bool b)
     AlchemyItem_SetFlag(1, !b);
 }
 
-struct FUN_00409aa0_shell
+struct IngredientItem
 {
     void IngredientItem_SetFlag(unsigned int, bool);
     void IngredientItem_SetAutoCalc_0(bool);
@@ -879,7 +880,7 @@ struct FUN_00409aa0_shell
 // Calls FUN_00409aa0 with 1 and the inverse of b.
 // @fnv 0x00409a70
 // src: COMMUNITY 0x00409a70
-void FUN_00409aa0_shell::IngredientItem_SetAutoCalc_0(bool b)
+void IngredientItem::IngredientItem_SetAutoCalc_0(bool b)
 {
     IngredientItem_SetFlag(1, !b);
 }
@@ -1024,14 +1025,14 @@ template <int N> struct EndianSizeTag
 };
 void __cdecl BSEndian(unsigned char*, EndianSizeTag<10>);
 
-struct FUN_0050ed30_class
+struct TESBoundObject_BOUND_DATA
 {
     void TESBoundObject_BOUND_DATA_SwapEndian();
 };
 
 // @fnv 0x0050ed30
 // src: COMMUNITY 0x0050ed30
-void FUN_0050ed30_class::TESBoundObject_BOUND_DATA_SwapEndian()
+void TESBoundObject_BOUND_DATA::TESBoundObject_BOUND_DATA_SwapEndian()
 {
     BSEndian((unsigned char*)this + 6, EndianSizeTag<10>());
     BSEndian((unsigned char*)this + 8, EndianSizeTag<10>());
@@ -2169,7 +2170,7 @@ struct Scratch44
     unsigned int unk3c;
 };
 
-struct FUN_00ac5430_cls
+struct FutBinaryFileC
 {
     unsigned int unk00;
     FUN_0044a7f0_sub m_04;
@@ -2179,7 +2180,7 @@ struct FUN_00ac5430_cls
 
 // @fnv 0x00ac5430
 // src: XBOX_PDB 0x00ac5430
-void FUN_00ac5430_cls::FutBinaryFileC_close()
+void FutBinaryFileC::FutBinaryFileC_close()
 {
     if (m_3c != 0)
     {

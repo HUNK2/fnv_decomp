@@ -98,7 +98,8 @@ void __fastcall DestroyRenderTargetGroup(NiRenderTargetGroup* pkGroup);
 
 // Calls FUN_00ee8560, then if bit 0 of flags is set calls __Dummy_00b6fef0 on this with 0x28, and returns this.
 // @fnv 0x00ee87e0
-void* __thiscall NiRenderTargetGroup::FUN_00ee87e0(unsigned int flags)
+// src: EXE 0x00ee87e0
+void* __thiscall NiRenderTargetGroup::ScalarDeletingDestructor(unsigned int flags)
 {
     NiRenderTargetGroup* p = this;
     DestroyRenderTargetGroup(this);

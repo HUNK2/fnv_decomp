@@ -299,12 +299,12 @@ struct FUN_006ff880_Class
     void __thiscall SteamAPI_SetNoCloud(unsigned char a1);
 };
 extern int DAT_0106e7b4;
-struct FUN_006ff970_Class
+struct CCallbackBase
 {
     int* m_p;
     char m_kPointB;
     int m_i;
-    FUN_006ff970_Class();
+    CCallbackBase();
 };
 extern int DAT_0106e7a4;
 struct FUN_006ffc00_Class
@@ -355,7 +355,7 @@ struct FUN_006ed010_Class
 struct FUN_006e0f90_Class
 {
     void __thiscall FUN_006e0f90();
-    void* __thiscall FUN_006e0ef0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 void __cdecl Deallocate(void*);
 void __cdecl _Deallocate(void*);
@@ -400,18 +400,18 @@ struct FUN_006e21e0_Class
     FUN_006e21e0_Class* __thiscall FUN_006e21e0(unsigned int flags);
 };
 extern int DAT_0106d414;
-struct FUN_006e5fa0 : public PathingRequestClosePoint
+struct PathingRequestSafeStraightLine : public PathingRequestClosePoint
 {
     int m_B8;
-    FUN_006e5fa0();
+    PathingRequestSafeStraightLine();
 };
 struct _Mem_2064
 {
     ~_Mem_2064();
 };
-struct FUN_006e62b0_Class
+struct PathingSearchRayCast
 {
-    virtual ~FUN_006e62b0_Class();
+    virtual ~PathingSearchRayCast();
     _Mem_2064 m1;
     char pad[0x27];
     _Mem_2064 m2;
@@ -848,7 +848,7 @@ struct FUN_006ffb20_Class
 {
     void __thiscall SetSourceAndTarget(int a1, int a2);
 };
-struct FUN_006ff920 : public FUN_006ff970_Class
+struct FUN_006ff920 : public CCallbackBase
 {
     FUN_006ff920(int a1, int a2);
 };
@@ -1110,13 +1110,13 @@ struct FUN_006ffb90_Class
 {
     void __thiscall SetParams(int a1, int a2);
 };
-struct FUN_006ff9f0 : FUN_006ff970_Class
+struct FUN_006ff9f0 : CCallbackBase
 {
     int m_kPointA;
     int m_kPointB;
     FUN_006ff9f0(int a1, int a2);
 };
-struct FUN_006ffa70 : FUN_006ff970_Class
+struct FUN_006ffa70 : CCallbackBase
 {
     int __thiscall ProcessAndReturnValue_006ffc20(int a1, int a2);
     int m_i;
@@ -2277,7 +2277,7 @@ class Member_6f33b0_20a4
     Member_6f33b0_20a4();
     ~Member_6f33b0_20a4();
 };
-class FUN_006f33b0_cls : public Base_6f33b0
+class TeleportDoorSearch : public Base_6f33b0
 {
   public:
     virtual void v00();
@@ -2545,7 +2545,7 @@ class FUN_006f33b0_cls : public Base_6f33b0
         unk2098, unk209C, unk20A0;
     Member_6f33b0_20a4 m_20a4;
 
-    FUN_006f33b0_cls();
+    TeleportDoorSearch();
 };
 extern unsigned int DAT_0106d90c;
 struct FUN_006f4320
@@ -3475,7 +3475,7 @@ struct FUN_006ff7b0_Class
 //   handler is called as handler(this->m_pFlagTarget, a1): the target object goes in
 //   ecx, the int argument on the stack, and the handler pops it (ret 4).
 typedef void(__thiscall* FUN_006ff9d0_Handler)(void* self, int a1);
-struct FUN_006ff9d0_cls : public FUN_006ff970_Class
+struct FUN_006ff9d0_cls : public CCallbackBase
 {
     void* m_pFlagTarget;
     FUN_006ff9d0_Handler m_pHandler;
@@ -3524,7 +3524,7 @@ struct FFB90Request
     void SetParams(int param1, int param2);
 };
 extern "C" __declspec(dllimport) void __cdecl SteamAPI_RegisterCallback(void* callback, int callbackId);
-struct FUN_006ffc20_shell : FUN_006ff970_Class
+struct FUN_006ffc20_shell : CCallbackBase
 {
     int callbackObject;
     int callbackTarget;
@@ -5665,15 +5665,15 @@ struct PtB006815c0
     float x, y, z;
     PtB006815c0();
 };
-struct FUN_006e4080 : PathingRequest
+struct PathingRequestCover : PathingRequest
 {
     PtB006815c0 pointb0;
     float unkbc, unkc0, unkc4;
     int unkc8;
     bool unkcc, unkcd, unkce, unkcf, unkd0, unkd1;
     PtB006815c0 pointd4, pointe0;
-    FUN_006e4080();
-    virtual ~FUN_006e4080();
+    PathingRequestCover();
+    virtual ~PathingRequestCover();
 };
 extern const float DAT_0104e0e8, DAT_0101e704, DAT_0101e6ec, DAT_010236e0;
 struct QueueDeletingView : public FUN_006ec1e0_Class

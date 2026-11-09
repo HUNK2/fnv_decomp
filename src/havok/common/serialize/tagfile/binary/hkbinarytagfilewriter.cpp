@@ -424,7 +424,7 @@ struct FUN_00dc05b0_writer
     int unk50;
     int unk54;
     Dc0380Layout audio;
-    void __thiscall FUN_00dc0500(int, int);
+    void __thiscall Writer(int, int);
     void __thiscall WriteInt(unsigned int);
     void __thiscall WriteVarint(unsigned int, unsigned int);
     void __thiscall Writer_scanObject(int, int);
@@ -450,7 +450,7 @@ struct CallbackTarget
 int __stdcall WriteAudioObject(int value, CallbackTarget* target, int source)
 {
     FUN_00dc05b0_writer writer;
-    writer.FUN_00dc0500((int)target, source);
+    writer.Writer((int)target, source);
     writer.WriteInt(0xcab00d1e);
     writer.WriteInt(0xd011face);
     writer.WriteVarint(1, 0);
@@ -932,7 +932,7 @@ struct S_00dc0500_Arr
     S_00dc0500_Arr() : a(0), b(0), c(0x80000000)
     {}
 };
-struct FUN_00dc0500 : FUN_00d60830
+struct Writer : FUN_00d60830
 {
     FUN_00d87790 m_10;
     FUN_00d87790 m_20;
@@ -941,10 +941,11 @@ struct FUN_00dc0500 : FUN_00d60830
     S_00dc0500_Arr m_40;
     S_00dc0500_Arr m_4c;
     FUN_00dc0380 m_58;
-    FUN_00dc0500(BSAudio* a1, BSAudio* a2);
+    Writer(BSAudio* a1, BSAudio* a2);
 };
 // @fnv 0x00dc0500
-FUN_00dc0500::FUN_00dc0500(BSAudio* pAudio, BSAudio* a2)
+// src: COMMUNITY 0x00dc0500
+Writer::Writer(BSAudio* pAudio, BSAudio* a2)
     : FUN_00d60830(pAudio, S_00dc0500_Opt(false)), m_10(S_00dc0500_Flag(false)), m_20(S_00dc0500_Flag(false)), m_30(0),
       m_58(a2)
 {

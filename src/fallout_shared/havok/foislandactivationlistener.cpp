@@ -77,14 +77,15 @@ unsigned int FUN_006228e0_shell::NiTObjectArray_NiPointer_bhkRigidBody_SetAtGrow
 }
 
 extern "C" void __cdecl _Deallocate(void*);
-struct FUN_00624190_shell
+struct FOIslandActivationListener
 {
     void FUN_00624230();
-    void* FUN_00624190(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_00624230, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00624190
-void* FUN_00624190_shell::FUN_00624190(unsigned int flags)
+// src: EXE 0x00624190
+void* FOIslandActivationListener::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00624230();
     if (flags & 1)

@@ -160,7 +160,8 @@ extern int DAT_0109a2d4;
 void _delete(void*, unsigned int);
 
 // @fnv 0x00a553f0
-void* NiBoneLODController::FUN_00a553f0(unsigned int flags)
+// src: EXE 0x00a553f0
+void* NiBoneLODController::ScalarDeletingDestructor(unsigned int flags)
 {
     *(void**)this = (void*)&DAT_0109a2d4;
     ClearEntries();

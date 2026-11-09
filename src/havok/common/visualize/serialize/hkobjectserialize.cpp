@@ -608,7 +608,7 @@ struct ObjectWriteZ
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00cc06f0(ObjectWriteArrByte* y, int one);
+    void hkArrayStreamWriter(ObjectWriteArrByte* y, int one);
     void FUN_00cc0780();
 };
 
@@ -644,7 +644,7 @@ int __cdecl hkObjectSerialize_writeObject(Sink* p1, ObjectWriteInfo* p2, unsigne
     y.m_iElementCount = 0;
     y.m_cap = 0x80000000;
     ObjectWriteZ z;
-    z.FUN_00cc06f0(&y, 1);
+    z.hkArrayStreamWriter(&y, 1);
     ObjectWriteW w;
     w.m_a0.m_data = 0;
     w.m_a0.m_iElementCount = 0;

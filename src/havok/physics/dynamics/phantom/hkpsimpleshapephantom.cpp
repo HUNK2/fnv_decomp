@@ -68,12 +68,13 @@ struct FUN_00d1f9c0_StandIn
     unsigned short size;
 
     void FUN_00d1f780();
-    void* FUN_00d1f9c0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00d1f780, then if flags has bit 1 set frees this through the memory router's free with this->size, and returns this.
 // @fnv 0x00d1f9c0
-void* FUN_00d1f9c0_StandIn::FUN_00d1f9c0(unsigned int flags)
+// src: EXE 0x00d1f9c0
+void* FUN_00d1f9c0_StandIn::ScalarDeletingDestructor(unsigned int flags)
 {
     this->FUN_00d1f780();
 

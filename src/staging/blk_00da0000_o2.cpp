@@ -94,14 +94,14 @@ void __cdecl finishLoadedObject_hkpSingleShapeContainer(int* p)
 
 extern int DAT_010d6014;
 
-struct FUN_00db7ab0_class
+struct hkStaticClassNameRegistry
 {
     void* __thiscall SetVtableAndProcessState_00db7ab0(void* a, void* b, void* c);
 };
 
 // @fnv 0x00db7ab0
 // src: GUESS 0x00db7ab0 (confidence: low)
-void* __thiscall FUN_00db7ab0_class::SetVtableAndProcessState_00db7ab0(void* a, void* b, void* c)
+void* __thiscall hkStaticClassNameRegistry::SetVtableAndProcessState_00db7ab0(void* a, void* b, void* c)
 {
     *(short*)((char*)this + 6) = 1;
     *(int*)((char*)this + 12) = (int)a;

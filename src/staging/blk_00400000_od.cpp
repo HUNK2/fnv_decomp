@@ -210,14 +210,14 @@ int __thiscall FUN_00409130_Class::EnchantmentItem_GetChunkID()
     return 0x54494e45;
 }
 
-struct FUN_00409700_Class
+struct TESObjectBOOK
 {
     bool TESObjectBOOK_GetScroll();
 };
 
 // @fnv 0x00409700
 // src: XBOX_PDB 0x00409700
-bool FUN_00409700_Class::TESObjectBOOK_GetScroll()
+bool TESObjectBOOK::TESObjectBOOK_GetScroll()
 {
     return (((const unsigned char*)this)[0xc0] & 1) ? true : false;
 }
@@ -348,11 +348,12 @@ void __fastcall ExtraDataList_RemovePoison(BaseExtraList* extras)
 struct GlobalObject_0040c150
 {
     ~GlobalObject_0040c150();
-    GlobalObject_0040c150* __thiscall FUN_004049d0(unsigned int flags);
+    GlobalObject_0040c150* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Runs the destructor and, when flags has bit 0 set, frees the object with operator delete; returns this.
 // @fnv 0x004049d0
-GlobalObject_0040c150* __thiscall GlobalObject_0040c150::FUN_004049d0(unsigned int flags)
+// src: EXE 0x004049d0
+GlobalObject_0040c150* __thiscall GlobalObject_0040c150::ScalarDeletingDestructor(unsigned int flags)
 {
     GlobalObject_0040c150::~GlobalObject_0040c150();
     if (flags & 1)
@@ -740,12 +741,13 @@ void __thiscall FUN_004141e0_class::CHUNK_Endian()
     BSEndian((unsigned char*)this + 4, EndianSizeTag<10>());
 }
 
-struct FUN_0041fcd0 : BSExtraData
+struct ExtraPatrolRefData : BSExtraData
 {
-    FUN_0041fcd0();
+    ExtraPatrolRefData();
 };
 // @fnv 0x0041fcd0
-FUN_0041fcd0::FUN_0041fcd0() : BSExtraData(0x6f)
+// src: EXE 0x0041fcd0
+ExtraPatrolRefData::ExtraPatrolRefData() : BSExtraData(0x6f)
 {
 }
 
@@ -1090,18 +1092,19 @@ class FUN_00633c90
     ~FUN_00633c90();
 };
 
-class FUN_0040ec00 : public BSExtraData
+class ExtraCell3D : public BSExtraData
 {
   public:
     FUN_00633c90 m_ref;
 
-    FUN_0040ec00();
-    virtual ~FUN_0040ec00();
+    ExtraCell3D();
+    virtual ~ExtraCell3D();
 };
 
 // Constructs the base with 2 and m_ref with 0, then calls Reset(0) on m_ref viewed as NiPointer<NiRefObject>.
 // @fnv 0x0040ec00
-FUN_0040ec00::FUN_0040ec00() : BSExtraData(2), m_ref(0)
+// src: EXE 0x0040ec00
+ExtraCell3D::ExtraCell3D() : BSExtraData(2), m_ref(0)
 {
     reinterpret_cast<NiPointer<NiRefObject>*>(&m_ref)->operator=(static_cast<NiRefObject*>(0));
 }

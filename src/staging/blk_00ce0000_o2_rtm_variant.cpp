@@ -20,10 +20,10 @@
 #include "../../include/hkpBroadPhaseListener.h"
 extern int DAT_010cc164;
 void __cdecl FUN_00d86220();
-struct FUN_00cf45d0_class
+struct bhkSpringDamperConstraintMotor
 {
     int vtable;
-    FUN_00cf45d0_class();
+    bhkSpringDamperConstraintMotor();
 };
 struct FUN_00cf4ca0_class
 {
@@ -72,14 +72,14 @@ struct FUN_00cf86e0_class
     void hkpSimulation_setFrameTimeMarker(float f);
 };
 extern int DAT_010cc2e0;
-struct FUN_00cf4820_class
+struct hkPointToPathConstraintCinfo
 {
     int* vtbl;
     int m1;
     int m2;
     int m3;
     int m4;
-    FUN_00cf4820_class();
+    hkPointToPathConstraintCinfo();
 };
 extern int DAT_0102e388;
 struct FUN_00cf86d0_cls
@@ -97,7 +97,7 @@ struct FUN_00ce5370_cls
 {
     void UpdateState_00ce5370();
 };
-struct FUN_00ce29e0_cls
+struct hkaSkeletonMapper
 {
     int* m_pVTable;          // +0x00
     int unk04;               // +0x04
@@ -242,7 +242,7 @@ struct SubObject_b3813
     int unk00;
     void Release();
 };
-struct FUN_00cf4eb0_cls
+struct hkpAction
 {
     int m_vptr;
     unsigned short m_uSize;
@@ -252,7 +252,7 @@ struct FUN_00cf4eb0_cls
     int unk10;
     SubObject_b3813 m_sub;
 
-    FUN_00cf4eb0_cls* Destroy(unsigned char acFlags);
+    hkpAction* Destroy(unsigned char acFlags);
 };
 struct S_00cf4f00
 {
@@ -578,16 +578,16 @@ extern "C" unsigned int __cdecl SaveUIntArray(NiStream& kStream, const ArrayData
     return totalSize;
 }
 extern int DAT_010cc064;
-struct FUN_00cdf560
+struct hkpPositionConstraintMotor
 {
     int m0;
     int m4;
     int m8;
-    FUN_00cdf560(float);
+    hkpPositionConstraintMotor(float);
 };
-struct FUN_00cf4190 : FUN_00cdf560
+struct bhkPositionConstraintMotor : hkpPositionConstraintMotor
 {
-    FUN_00cf4190();
+    bhkPositionConstraintMotor();
 };
 extern int DAT_01268730;
 int* bhkPositionConstraintMotor_GetRTTI();
@@ -785,7 +785,7 @@ struct S_00cfc5a0
     unsigned short unkA8;
     unsigned short unkAA;
 };
-struct FUN_00cfc5a0
+struct hkpReportContactMgr
 {
     int* vtbl;
     unsigned short unk04;
@@ -796,7 +796,7 @@ struct FUN_00cfc5a0
     S_00cfc5a0* unk14;
     unsigned short unk18;
 
-    FUN_00cfc5a0(int a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
+    hkpReportContactMgr(int a1, S_00cfc5a0* a2, S_00cfc5a0* a3);
 };
 void Object_DoNothing_00cfdb40();
 // Per-thread profiler ring: TlsGetValue(index) -> buffer with head@+4 / end@+0xc,

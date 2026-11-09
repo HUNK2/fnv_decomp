@@ -587,12 +587,13 @@ FUN_004ffa60_class* FUN_004ffa60_class::BSSimpleList_float_BSSimpleList_float(co
 extern "C" void __cdecl Deallocate(void*);
 struct FUN_004ed830_Class
 {
-    void* __thiscall FUN_004ed830(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
     void __thiscall FUN_004ed9d0();
 };
 // Calls FUN_004ed9d0, then frees this with Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x004ed830
-void* __thiscall FUN_004ed830_Class::FUN_004ed830(unsigned int flags)
+// src: EXE 0x004ed830
+void* __thiscall FUN_004ed830_Class::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_004ed9d0();
     if (flags & 1)
@@ -818,16 +819,17 @@ FUN_004f5590::FUN_004f5590(int aiFirst, int aiSecond)
 }
 
 namespace fnv_004f5db0 {
-struct FUN_004f5db0 : SL
+struct TESRegionGrassObjectList : SL
 {
-    virtual ~FUN_004f5db0();
+    virtual ~TESRegionGrassObjectList();
     unsigned char mC;
     int m10;
-    FUN_004f5db0(unsigned char a);
+    TESRegionGrassObjectList(unsigned char a);
 };
 // Initializes the object by storing the byte argument in mC and setting m10 to zero.
 // @fnv 0x004f5db0
-FUN_004f5db0::FUN_004f5db0(unsigned char aucValue)
+// src: EXE 0x004f5db0
+TESRegionGrassObjectList::TESRegionGrassObjectList(unsigned char aucValue)
 {
     mC = aucValue;
     m10 = 0;
@@ -1944,16 +1946,17 @@ class FUN_004f50e0_base
     ~FUN_004f50e0_base();
 };
 
-class FUN_004f50e0_cls : public FUN_004f50e0_base
+class TESRegionDataWeather : public FUN_004f50e0_base
 {
   public:
     FUN_004f50e0_sub m_08;
-    ~FUN_004f50e0_cls();
+    ~TESRegionDataWeather();
 };
 
-// Destructor for FUN_004f50e0_cls; empty body, base and member destructors run implicitly.
+// Destructor for TESRegionDataWeather; empty body, base and member destructors run implicitly.
 // @fnv 0x004f50e0
-FUN_004f50e0_cls::~FUN_004f50e0_cls()
+// src: EXE 0x004f50e0
+TESRegionDataWeather::~TESRegionDataWeather()
 {}
 
 struct SL_4f6320
@@ -2979,17 +2982,18 @@ struct FUN_004f5e20
     int m_10;
 };
 
-struct FUN_004f15f0 : TESRegionData
+struct TESRegionDataGrass : TESRegionData
 {
-    FUN_004f15f0();
-    ~FUN_004f15f0();
+    TESRegionDataGrass();
+    ~TESRegionDataGrass();
     virtual void v0();
     FUN_004f5e20* m_08;
 };
 
 // Constructs the object and allocates a new FUN_004f5e20 with flag 1, storing it in m_08.
 // @fnv 0x004f15f0
-FUN_004f15f0::FUN_004f15f0()
+// src: EXE 0x004f15f0
+TESRegionDataGrass::TESRegionDataGrass()
 {
     m_08 = new FUN_004f5e20(1);
 }
@@ -3025,11 +3029,11 @@ class List4F4
     void* m_pkNext;
 };
 
-class FUN_004f42a0 : public Base4F4
+class TESRegionDataSound : public Base4F4
 {
   public:
-    FUN_004f42a0();
-    virtual ~FUN_004f42a0();
+    TESRegionDataSound();
+    virtual ~TESRegionDataSound();
 
     RegionSoundCollectionState m_kData;
     List4F4 m_kList;
@@ -3037,7 +3041,8 @@ class FUN_004f42a0 : public Base4F4
 
 // Initializes the data range to zero and clears the list.
 // @fnv 0x004f42a0
-FUN_004f42a0::FUN_004f42a0()
+// src: EXE 0x004f42a0
+TESRegionDataSound::TESRegionDataSound()
 {
     m_kData.m_iFirst = 0;
     m_kData.m_iLast = 0;

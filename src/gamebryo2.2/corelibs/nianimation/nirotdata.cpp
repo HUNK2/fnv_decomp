@@ -54,10 +54,11 @@ struct Struct00a47ba0
 {
     int _0;
     void* _4;
-    void* FUN_00a47ba0(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 // @fnv 0x00a47ba0
-void* Struct00a47ba0::FUN_00a47ba0(unsigned int auiFlags)
+// src: EXE 0x00a47ba0
+void* Struct00a47ba0::ScalarDeletingDestructor(unsigned int auiFlags)
 {
     void* p = _4;
     ((void**)this)[0] = (void*)&DAT_0109844c;

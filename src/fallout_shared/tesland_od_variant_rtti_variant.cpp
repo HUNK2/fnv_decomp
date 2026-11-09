@@ -126,7 +126,7 @@ template <int> struct EndianSizeTag
 };
 void BSEndian(int*, EndianSizeTag<2>);
 void BSEndian(unsigned short*, EndianSizeTag<2>);
-struct FUN_00535a60_Class
+struct FILE_TEX_DATA
 {
     void FILE_TEX_DATA_Endian();
 };
@@ -154,7 +154,7 @@ struct FUN_00540800_Class
     void ForwardCall_00537ce0();
 };
 extern "C" void* g_011f4aac;
-struct FUN_00537d00_Class
+struct BSPackedAdditionalGeometryData
 {
     void* __thiscall BSPackedAdditionalGeometryData_GetRTTI();
 };
@@ -182,12 +182,12 @@ struct FUN_00537e90
     unsigned int quantity;
     void SetQuantity(unsigned int value);
 };
-struct FUN_00538e30_class
+struct hkBaseObject
 {
     void __fastcall SetVtable();
 };
 extern int DAT_0102e378;
-struct FUN_00538e10_class
+struct hkReferencedObject
 {
     int* m_vtbl;
     void __fastcall UpdateState_00538e10();
@@ -240,7 +240,7 @@ struct FUN_005394c0_Class
 };
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4ab8;
-struct FUN_00539fc0_Class
+struct NiBinaryExtraData
 {
     GlobalObjectO2_00a7b610* NiBinaryExtraData_GetRTTI();
 };
@@ -261,7 +261,7 @@ struct B006815c0
 {
     B006815c0();
 };
-struct FUN_0053a510
+struct COORD_DATA
 {
     B006815c0 m0;
     char _p1[7];
@@ -270,7 +270,7 @@ struct FUN_0053a510
     B006815c0 m2;
     char _p3[19];
     B006815c0 m3;
-    FUN_0053a510();
+    COORD_DATA();
 };
 struct FUN_0053a760_Class
 {
@@ -328,7 +328,7 @@ struct Buf50
     int m44;
     int m48;
     int m4C;
-    void FUN_0053a510();
+    void COORD_DATA();
 };
 struct Owner
 {
@@ -362,7 +362,7 @@ struct Tmp53e210
     int m44;
     int m48;
     int m4C;
-    void FUN_0053a510();
+    void COORD_DATA();
 };
 struct Host53e210
 {
@@ -751,12 +751,12 @@ struct MC
     MC();
     void Fin(int);
 };
-struct FUN_00538d70_cls : Base8ef0
+struct hkpMoppCode : Base8ef0
 {
     MA a;
     MB b;
     MC c;
-    FUN_00538d70_cls();
+    hkpMoppCode();
     virtual void v0();
 };
 extern void* DAT_01187020;
@@ -1066,7 +1066,7 @@ struct LocalObj53a5e0
     int m4c;
     int m50;
     int m54;
-    void FUN_0053a510();
+    void COORD_DATA();
 };
 struct FUN_0053a5e0_cls
 {

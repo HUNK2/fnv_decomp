@@ -482,7 +482,7 @@ extern "C" hkMemoryRouter& __cdecl hkMemoryRouter_getInstance() throw();
 class hkObjD0AD : public FUN_00d0a4f0
 {
   public:
-    hkObjD0AD* FUN_00d0adc0(unsigned int uiFlags) throw();
+    hkObjD0AD* ScalarDeletingDestructor(unsigned int uiFlags) throw();
 
     static void operator delete(void* p) throw()
     {
@@ -496,7 +496,8 @@ class hkObjD0AD : public FUN_00d0a4f0
 
 // Runs the base destructor, and if bit 0 of uiFlags is set, frees this object through the heap allocator; returns this.
 // @fnv 0x00d0adc0
-hkObjD0AD* hkObjD0AD::FUN_00d0adc0(unsigned int uiFlags) throw()
+// src: EXE 0x00d0adc0
+hkObjD0AD* hkObjD0AD::ScalarDeletingDestructor(unsigned int uiFlags) throw()
 {
     this->FUN_00d0a4f0::~FUN_00d0a4f0();
     if (uiFlags & 1)

@@ -405,12 +405,13 @@ void __cdecl Deallocate(void*);
 
 struct FUN_00600ee0_cls
 {
-    void* FUN_00600ee0(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00600eb0 on this, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00600ee0
-void* FUN_00600ee0_cls::FUN_00600ee0(unsigned int flags)
+// src: EXE 0x00600ee0
+void* FUN_00600ee0_cls::ScalarDeletingDestructor(unsigned int flags)
 {
     ((FUN_00600eb0_cls*)this)->SetVtableAndProcessState_00600eb0();
     if (flags & 1)
@@ -732,14 +733,14 @@ void __thiscall S_00616a60::TESReputation_GetReputationPct(int a)
 
 struct FUN_00618890_cls
 {
-    void __thiscall FUN_006188c0();
+    void __thiscall QUEST_INFO();
     FUN_00618890_cls* __thiscall FUN_00618890(unsigned int flags);
 };
-// Calls FUN_006188c0, then deletes this if bit 0 of flags is set, and returns this.
+// Calls QUEST_INFO, then deletes this if bit 0 of flags is set, and returns this.
 // @fnv 0x00618890
 FUN_00618890_cls* __thiscall FUN_00618890_cls::FUN_00618890(unsigned int flags)
 {
-    FUN_006188c0();
+    QUEST_INFO();
     if (flags & 1)
         operator delete(this);
     return this;
@@ -802,14 +803,14 @@ void __thiscall TESTopicInfo::MarkAsRefusal()
     }
 }
 
-struct FUN_005545d0_Class
+struct bhkEntityListener
 {
     void FUN_005545f0();
     void* FUN_0061f550(unsigned int flags);
 };
 // Calls FUN_005545f0, deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x0061f550
-void* __thiscall FUN_005545d0_Class::FUN_0061f550(unsigned int flags)
+void* __thiscall bhkEntityListener::FUN_0061f550(unsigned int flags)
 {
     FUN_005545f0();
     if (flags & 1)
@@ -1066,12 +1067,13 @@ struct FUN_0061fea0_shell
 {
     void ClearList();
 };
-struct FUN_0061fc50 : FUN_0061fea0_shell
+struct ZoneEntry : FUN_0061fea0_shell
 {
-    virtual ~FUN_0061fc50();
+    virtual ~ZoneEntry();
 };
 // @fnv 0x0061fc50
-FUN_0061fc50::~FUN_0061fc50()
+// src: EXE 0x0061fc50
+ZoneEntry::~ZoneEntry()
 {
     reinterpret_cast<FUN_0061fea0_shell*>(this)->ClearList();
 }
@@ -1285,7 +1287,7 @@ float B616A20Meter::TESReputation_GetPositiveRatio()
 }
 
 // variant A: direct member expression
-struct FUN_00616a40_cls
+struct TESReputation
 {
     unsigned int m_i00;
     unsigned int m_i04;
@@ -1311,7 +1313,7 @@ struct FUN_00616a40_cls
 
 // @fnv 0x00616a40
 // src: XBOX_PDB 0x00616a40
-float __thiscall FUN_00616a40_cls::TESReputation_GetNegativeRatio()
+float __thiscall TESReputation::TESReputation_GetNegativeRatio()
 {
     return m_f48 / m_f40;
 }
@@ -1397,7 +1399,7 @@ struct FUN_00616c70_flag
     bool m_bValue;
 };
 
-struct FUN_00616c70_cls
+struct RESPONSE_DATA
 {
     int unk00;
     int unk04;
@@ -1409,7 +1411,7 @@ struct FUN_00616c70_cls
 
 // Initializes the four fields at offsets 0, 4, 8 and 0x10 by calling FUN_00401080 on each with a default flag value.
 // @fnv 0x00616c70
-void FUN_00616c70_cls::InitializeFields()
+void RESPONSE_DATA::InitializeFields()
 {
     FUN_00616c70_flag a = {};
     BSEndian_00401080(this, a.m_bValue);
@@ -1570,19 +1572,20 @@ class ThisMember_b5727
     ~ThisMember_b5727();
 };
 
-class FUN_0061f460 : public ThisBase_b5727
+class BGSAcousticSpaceListener : public ThisBase_b5727
 {
   public:
-    virtual ~FUN_0061f460();
+    virtual ~BGSAcousticSpaceListener();
     unsigned char m_14;
     ThisMember_b5727 m_18;
 
-    FUN_0061f460();
+    BGSAcousticSpaceListener();
 };
 
 // Initializes the base with 0, sets m_14 to 1 and constructs m_18 with 0x25.
 // @fnv 0x0061f460
-FUN_0061f460::FUN_0061f460() : ThisBase_b5727(0), m_18(0x25)
+// src: EXE 0x0061f460
+BGSAcousticSpaceListener::BGSAcousticSpaceListener() : ThisBase_b5727(0), m_18(0x25)
 {
     m_14 = 1;
 }
@@ -2213,17 +2216,18 @@ struct Queue618
     ~Queue618();
 };
 
-struct FUN_006188c0
+struct QUEST_INFO
 {
     int m_iId;
     Path618 m_kPath;
     Queue618 m_kQueue;
-    ~FUN_006188c0();
+    ~QUEST_INFO();
 };
 
 // Destructor with an empty body; members m_kPath and m_kQueue are destroyed implicitly.
 // @fnv 0x006188c0
-FUN_006188c0::~FUN_006188c0()
+// src: COMMUNITY 0x006188c0
+QUEST_INFO::~QUEST_INFO()
 {}
 
 

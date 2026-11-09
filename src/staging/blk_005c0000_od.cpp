@@ -10,14 +10,14 @@
 #include "../../include/EffectSetting.h"
 #include "../../include/Reset3DMobIterator.h"
 
-struct FUN_005c1ae0_class
+struct CombatController
 {
     void CombatController_ForceStopCombat();
 };
 
 // @fnv 0x005c1ae0
 // src: XBOX_PDB 0x005c1ae0
-void FUN_005c1ae0_class::CombatController_ForceStopCombat()
+void CombatController::CombatController_ForceStopCombat()
 {
     *reinterpret_cast<char*>(this + 0x125) = 1;
 }

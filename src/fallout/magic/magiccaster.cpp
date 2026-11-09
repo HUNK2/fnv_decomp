@@ -1211,7 +1211,7 @@ struct SpellFeedback : MagicItem
     EffectSetting* FUN_0040a300(int);
     ::BSStringT<char> GetNameForType(int);
 };
-struct FUN_0081c470_shell
+struct MagicLight
 {
     void MagicLight_Fade(bool, float);
 };
@@ -1259,7 +1259,7 @@ bool CastingCheck::TryCast(TESBoundObject* source)
     MagicCaster_FindTargets(cost, source, false, 1.0f, false);
     SpellCast(spell, true);
     if (apTargetLight)
-        ((FUN_0081c470_shell*)apTargetLight)->MagicLight_Fade(false, 0.75f);
+        ((MagicLight*)apTargetLight)->MagicLight_Fade(false, 0.75f);
     return true;
 }
 

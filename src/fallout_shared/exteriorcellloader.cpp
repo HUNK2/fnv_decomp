@@ -129,12 +129,13 @@ void ExteriorCellLoaderTask::Cancel(BS_TASK_STATE, void*)
 
 struct FUN_00528840_shell : public FUN_00528800_shell
 {
-    void* FUN_00528840(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_00528800, then deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x00528840
-void* FUN_00528840_shell::FUN_00528840(unsigned int flags)
+// src: EXE 0x00528840
+void* FUN_00528840_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     UpdateFields_00528800();
     if (flags & 1)

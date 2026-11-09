@@ -2521,11 +2521,11 @@ struct FUN_00a3ca30 {
     int unk14;
 };
 extern "C" void __cdecl _NiFree_00aa10f0(void*) throw();
-struct FUN_00a3dd40 : FUN_00a3ca30 {
+struct NiPathInterpolator : FUN_00a3ca30 {
     S_a3dd40_Ptr m_kPointA;
     S_a3dd40_Ptr m_kPointB;
     void* m_p;
-    virtual ~FUN_00a3dd40() throw();
+    virtual ~NiPathInterpolator() throw();
 };
 extern "C" float __cdecl func_0x00a42070(float input, float leftStart, float leftExtent, float rightStart, float rightEnd);
 void __cdecl NiBezFloatKey_Interpolate(float a, const float* b, const float* c, float* out);

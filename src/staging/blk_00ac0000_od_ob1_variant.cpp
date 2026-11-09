@@ -82,7 +82,7 @@ extern int DAT_010a2f9c;
 struct FUN_00ac9c30_class
 {
     void* m_p;
-    void* __thiscall FUN_00ac9c30(int flags);
+    void* __thiscall ScalarDeletingDestructor(int flags);
 };
 struct FUN_00acad30_class
 {

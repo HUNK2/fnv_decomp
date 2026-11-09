@@ -863,7 +863,7 @@ FnvVtObj* FnvVtObj::SetVirtualTable_00d49c40(unsigned int unusedArg)
 extern int DAT_010cfd44;
 extern int DAT_010cfd20;
 
-struct FUN_00d49c50_cls
+struct hkpStorageExtendedMeshShape
 {
     volatile void* m_pVtbl;
     int m_unk04;
@@ -938,7 +938,7 @@ struct FUN_00d49c50_cls
 // Calls FUN_00d569c0, sets both vtables, and initializes the six fields at offsets 0xF0-0x104, returning this.
 // @fnv 0x00d49c50
 // src: HAVOK_LIB 0x00d49c50
-void* FUN_00d49c50_cls::hkpStorageExtendedMeshShape_hkpStorageExtendedMeshShape(float afValue, int i)
+void* hkpStorageExtendedMeshShape::hkpStorageExtendedMeshShape_hkpStorageExtendedMeshShape(float afValue, int i)
 {
     FUN_00d569c0(afValue, i);
     m_pVtbl = (void*)&DAT_010cfd44;
@@ -1135,7 +1135,7 @@ FnvVtObj* FnvVtObj::SetVptr(unsigned int unusedArg)
 extern int DAT_010d055c;
 extern int DAT_010d053c;
 
-struct FUN_00d4b3c0_cls
+struct hkpStorageMeshShape
 {
     volatile void* m_pVtbl;
     int m_unk04;
@@ -1170,7 +1170,7 @@ struct FUN_00d4b3c0_cls
 
 // @fnv 0x00d4b3c0
 // src: HAVOK_LIB 0x00d4b3c0
-void* FUN_00d4b3c0_cls::hkpStorageMeshShape_hkpStorageMeshShape(float afValue, int aiValue)
+void* hkpStorageMeshShape::hkpStorageMeshShape_hkpStorageMeshShape(float afValue, int aiValue)
 {
     FUN_00dcd310(afValue, aiValue);
     m_pVtbl = (void*)&DAT_010d055c;
@@ -1402,15 +1402,16 @@ struct S_00d4ce60_Base
     int unk158;
     int unk15C;
 };
-struct FUN_00d4ce60 : S_00d4ce60_Base
+struct hkpCachingShapePhantom : S_00d4ce60_Base
 {
     S_00d4ce60_Entry* m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    ~FUN_00d4ce60() throw();
+    ~hkpCachingShapePhantom() throw();
 };
 // @fnv 0x00d4ce60
-FUN_00d4ce60::~FUN_00d4ce60() throw()
+// src: EXE 0x00d4ce60
+hkpCachingShapePhantom::~hkpCachingShapePhantom() throw()
 {
     S_00d4ce60_Msg msg;
     for (int i = m_iElementCount - 1; i >= 0; i--)
@@ -1438,10 +1439,11 @@ struct FnvCpu_FUN_00d4de00_CpuObject
     unsigned int unk00;
     unsigned short size;
     void ReleaseReferencedObjectsAndLock();
-    FnvCpu_FUN_00d4de00_CpuObject* FUN_00d4de00(unsigned int flags);
+    FnvCpu_FUN_00d4de00_CpuObject* ScalarDeletingDestructor(unsigned int flags);
 };
 // @fnv 0x00d4de00
-FnvCpu_FUN_00d4de00_CpuObject* FnvCpu_FUN_00d4de00_CpuObject::FUN_00d4de00(unsigned int flags)
+// src: EXE 0x00d4de00
+FnvCpu_FUN_00d4de00_CpuObject* FnvCpu_FUN_00d4de00_CpuObject::ScalarDeletingDestructor(unsigned int flags)
 {
     ReleaseReferencedObjectsAndLock();
     if (flags & 1)
@@ -3384,10 +3386,10 @@ class FUN_00d48320
 FUN_00d48320::FUN_00d48320(FinishingFlag flag)
 {}
 
-class FUN_00dcc160_cls
+class hkIstream
 {
   public:
-    FUN_00dcc160_cls* InitFromValue(void* pvSource);
+    hkIstream* InitFromValue(void* pvSource);
     void SetVirtualTable_00dcc160();
 
     int m_iUnk00;
@@ -3399,7 +3401,7 @@ class FUN_00dcc160_cls
 // src: XBOX_PDB 0x00d491b0
 void* __cdecl hkSerializeUtil_loadOnHeap_00d491b0(void* pvSource, void* pvArg, void* pvArgCur, void* kvArg)
 {
-    FUN_00dcc160_cls kData;
+    hkIstream kData;
     void* pvData = kData.InitFromValue(pvSource)->m_pResource;
     void* pvResult = hkSerializeUtil_loadOnHeap(pvData, pvArg, pvArgCur, kvArg);
     kData.SetVirtualTable_00dcc160();
@@ -3678,7 +3680,7 @@ struct FUN_00d58ce0_DisplayObj
     virtual void vf08(int, int);
 };
 
-struct FUN_00d58ce0_Class
+struct hkDisplayGeometry
 {
     int unk00;
     unsigned short unk04;
@@ -3689,7 +3691,7 @@ struct FUN_00d58ce0_Class
 extern "C" void __cdecl FUN_00da2560();
 
 // @fnv 0x00d58ce0
-int __thiscall FUN_00d58ce0_Class::FUN_00d58ce0(unsigned char flag)
+int __thiscall hkDisplayGeometry::FUN_00d58ce0(unsigned char flag)
 {
     FUN_00da2560();
 
@@ -4168,11 +4170,11 @@ class FUN_00dd0420_Class
     int unk00;
 };
 
-class FUN_00d50c00
+class hkpGenericConstraintData
 {
   public:
-    FUN_00d50c00(FinishingFlag flag);
-    virtual ~FUN_00d50c00();
+    hkpGenericConstraintData(FinishingFlag flag);
+    virtual ~hkpGenericConstraintData();
 
     int unk04;
     int unk08;
@@ -4181,7 +4183,8 @@ class FUN_00d50c00
 };
 
 // @fnv 0x00d50c00
-FUN_00d50c00::FUN_00d50c00(FinishingFlag flag) : m_kListeners(flag)
+// src: EXE 0x00d50c00
+hkpGenericConstraintData::hkpGenericConstraintData(FinishingFlag flag) : m_kListeners(flag)
 {
     m_data.hkpGenericConstraintDataScheme_hkpGenericConstraintDataScheme(flag.m_bFinishing);
     if (flag.m_bFinishing)
@@ -5676,7 +5679,7 @@ struct S_00d4f0f0_S
     __forceinline S_00d4f0f0_S() : unk40(6)
     {}
 };
-struct FUN_00d4f0f0 : S_00d4f0f0_B2
+struct hkpStiffSpringConstraintData : S_00d4f0f0_B2
 {
     S_00d4f0f0_H h;
     int unk14;
@@ -5686,13 +5689,14 @@ struct FUN_00d4f0f0 : S_00d4f0f0_B2
     hkVector4 unk30;
     S_00d4f0f0_S s;
     float unk44;
-    FUN_00d4f0f0();
+    hkpStiffSpringConstraintData();
     virtual void v0();
 };
 
-// Constructor for FUN_00d4f0f0 that zero-initializes unk44 and the two hkVector4 fields unk20 and unk30.
+// Constructor for hkpStiffSpringConstraintData that zero-initializes unk44 and the two hkVector4 fields unk20 and unk30.
 // @fnv 0x00d4f0f0
-FUN_00d4f0f0::FUN_00d4f0f0()
+// src: EXE 0x00d4f0f0
+hkpStiffSpringConstraintData::hkpStiffSpringConstraintData()
 {
     unk44 = 0.0f;
     SpringSimd::_mm_store_ps(unk20.m_vComponents.m128_f32, SpringSimd::_mm_setzero_ps());
@@ -5879,7 +5883,7 @@ struct Matrix
 };
 }
 
-class FUN_00d52fc0
+class hkpHingeLimitsData
 {
   public:
     int* m_vptr;
@@ -5903,12 +5907,13 @@ class FUN_00d52fc0
     unsigned short m_90;
     unsigned char m_92;
 
-    FUN_00d52fc0();
+    hkpHingeLimitsData();
 };
 
 // Constructor: sets the vptr, several small integer fields, two identity matrices, and three floats (two from globals, one 1.0).
 // @fnv 0x00d52fc0
-FUN_00d52fc0::FUN_00d52fc0()
+// src: EXE 0x00d52fc0
+hkpHingeLimitsData::hkpHingeLimitsData()
 {
     m_vptr = &DAT_010d0be4;
     m_06 = 1;
@@ -5932,7 +5937,7 @@ struct FUN_00ca9360_sub
 {
     void __fastcall FindFloatTableIndex(int count, float* value);
 };
-struct FUN_00d54290
+struct hkpBallAndSocketConstraintData
 {
     void* volatile m_vptr;
     unsigned short m_unk04;
@@ -5950,11 +5955,12 @@ struct FUN_00d54290
     volatile unsigned char m_byte42;
     FUN_00ca9360_sub m_data43;
     volatile float m_float44;
-    FUN_00d54290();
+    hkpBallAndSocketConstraintData();
 };
-// Initializes a FUN_00d54290 object, setting m_word06 to 1, m_word10 to 3, m_word40 to 5, and calling m_data43.FUN_00ca9360(5, &one).
+// Initializes a hkpBallAndSocketConstraintData object, setting m_word06 to 1, m_word10 to 3, m_word40 to 5, and calling m_data43.FUN_00ca9360(5, &one).
 // @fnv 0x00d54290
-FUN_00d54290::FUN_00d54290()
+// src: EXE 0x00d54290
+hkpBallAndSocketConstraintData::hkpBallAndSocketConstraintData()
 {
     float one = 1.0f;
     m_word06 = 1;

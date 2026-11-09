@@ -809,12 +809,12 @@ struct __declspec(align(16)) CapsuleParams
     int unk08, unk0c;
     hkVector4 endpoints[2];
 };
-struct FUN_0066d6a0 : MemObjX
+struct bhkCapsuleShape : MemObjX
 {
     int unk00, unk04;
     void* shape;
     int unk0c, material;
-    FUN_0066d6a0(CapsuleParams*);
+    bhkCapsuleShape(CapsuleParams*);
 };
 struct AllocatorC813
 {
@@ -906,7 +906,7 @@ NiNode* __cdecl NiNode_ProcessAndReturnValue_00c81380(float a, float b)
     params.endpoints[1].m_vComponents.m128_f32[1] = 0.0f;
     params.endpoints[1].m_vComponents.m128_f32[2] = params.radius;
     NiNode* result = 0;
-    FUN_0066d6a0* desc = new FUN_0066d6a0(&params);
+    bhkCapsuleShape* desc = new bhkCapsuleShape(&params);
     if (desc)
     {
         desc->material = 9;

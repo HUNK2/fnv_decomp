@@ -198,14 +198,14 @@ void* FUN_00c61810_class::BSWArray_GetRTTI()
     return &g_012043a4;
 }
 
-struct FUN_00c61820_class
+struct PArrayPoint
 {
     void* PArrayPoint_Copy(int);
 };
 
 // @fnv 0x00c61820
 // src: COMMUNITY 0x00c61820
-void* FUN_00c61820_class::PArrayPoint_Copy(int)
+void* PArrayPoint::PArrayPoint_Copy(int)
 {
     return this;
 }
@@ -308,13 +308,13 @@ void* __thiscall FUN_00c632e0_Class::PArrayPoint_GetRTTI()
 }
 
 namespace fnv_00c63930 {
-struct FUN_00c63930_Class : public NiPSysModifier
+struct BSParentVelocityModifier : public NiPSysModifier
 {
     void BSParentVelocityModifier_LinkObject(NiStream&);
 };
 // @fnv 0x00c63930
 // src: XBOX_PDB 0x00c63930
-void FUN_00c63930_Class::BSParentVelocityModifier_LinkObject(NiStream& stream)
+void BSParentVelocityModifier::BSParentVelocityModifier_LinkObject(NiStream& stream)
 {
     NiPSysModifier::LinkObject(stream);
 }
@@ -494,16 +494,17 @@ NiTArray<BSAttachPointPair*, NiTMallocInterface<BSAttachPointPair*> >::~NiTArray
     NiFreeAlias(p);
 }
 
-struct FUN_00c600c0_class
+struct BSPSysStripUpdateModifier
 {
     void* __thiscall UpdateState_00c5fd50();
-    void* __thiscall FUN_00c600c0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
     static void __cdecl operator delete(void* p, unsigned int size);
 };
 
 // Calls FUN_00c5fd50, then frees this with operator delete when flags has bit 0 set, and returns this.
 // @fnv 0x00c600c0
-void* __thiscall FUN_00c600c0_class::FUN_00c600c0(unsigned int flags)
+// src: EXE 0x00c600c0
+void* __thiscall BSPSysStripUpdateModifier::ScalarDeletingDestructor(unsigned int flags)
 {
     UpdateState_00c5fd50();
     if (flags & 1)
@@ -632,14 +633,14 @@ void FUN_00c64710_Class::ReleaseStorage_00c64710()
 }
 }  // namespace fnv_00c64710
 
-struct FUN_00c64930_Class
+struct BSReference
 {
     void BSReference_LinkObject(int a);
 };
 
 // @fnv 0x00c64930
 // src: COMMUNITY 0x00c64930
-void FUN_00c64930_Class::BSReference_LinkObject(int a)
+void BSReference::BSReference_LinkObject(int a)
 {}
 
 struct FUN_00c64940_Class

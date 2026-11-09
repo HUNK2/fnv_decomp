@@ -32,14 +32,15 @@ public:
 extern "C" void __cdecl Deallocate(void*);
 extern int DAT_010c63bc;
 
-struct FUN_00d04300
+struct hkpBroadPhaseListener
 {
     int* m_p;
-    FUN_00d04300(bool del);
+    hkpBroadPhaseListener(bool del);
 };
 
 // @fnv 0x00d04300
-FUN_00d04300::FUN_00d04300(bool del)
+// src: EXE 0x00d04300
+hkpBroadPhaseListener::hkpBroadPhaseListener(bool del)
 {
     m_p = &DAT_010c63bc;
     if (del & 1)
@@ -300,7 +301,7 @@ struct FUN_00c90f30
     int value;
     __declspec(nothrow) FUN_00c90f30();
 };
-struct FUN_00d02c80 : FUN_00d0d020
+struct hkpMultiThreadedSimulation : FUN_00d0d020
 {
     virtual void method0();
     ListenerA a;
@@ -341,10 +342,11 @@ struct FUN_00d02c80 : FUN_00d0d020
     int unk138;
     int unk13C;
     FUN_00cf6da0 workLock;
-    FUN_00d02c80(World*);
+    hkpMultiThreadedSimulation(World*);
 };
 // @fnv 0x00d02c80
-FUN_00d02c80::FUN_00d02c80(World* world)
+// src: EXE 0x00d02c80
+hkpMultiThreadedSimulation::hkpMultiThreadedSimulation(World* world)
     : FUN_00d0d020(world), firstLock(4000), secondLock(4000), queueLock(4000), workLock(4000)
 {
 
@@ -1123,11 +1125,12 @@ struct CpuObject
     unsigned int unk00;
     unsigned short size;
     void FUN_00d02da0();
-    CpuObject* FUN_00d04320(unsigned int flags);
+    CpuObject* ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_00d02da0, then if bit 0 of flags is set, invokes the allocator from FUN_00c85750 on this with size, and returns this.
 // @fnv 0x00d04320
-CpuObject* CpuObject::FUN_00d04320(unsigned int flags)
+// src: EXE 0x00d04320
+CpuObject* CpuObject::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00d02da0();
     if (flags & 1)

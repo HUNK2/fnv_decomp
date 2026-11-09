@@ -398,15 +398,16 @@ FUN_00b3c470_class::FUN_00b3c470_class()
     i14 = 3;
 }
 
-struct FUN_00b3f030_Class
+struct CIdvCamera
 {
     int* vtbl;
-    FUN_00b3f030_Class();
+    CIdvCamera();
 };
 
 // Constructor: sets vtbl to DAT_010a5890 and zeroes three floats stored after the object.
 // @fnv 0x00b3f030
-FUN_00b3f030_Class::FUN_00b3f030_Class()
+// src: EXE 0x00b3f030
+CIdvCamera::CIdvCamera()
 {
     vtbl = &DAT_010a5890;
     float* p = (float*)(this + 1);

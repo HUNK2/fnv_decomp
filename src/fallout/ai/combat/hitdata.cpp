@@ -194,13 +194,13 @@ void WeightedResultList::BSWeightedRandom_BGSBodyPart_AddWeightedResult(BGSBodyP
 }
 
 extern "C" void __cdecl Deallocate(void*);
-struct FUN_009ca4c0_shell
+struct VATS_COMMAND
 {
     void FreeStoredPointer();
 };
 // If the pointer at offset 0x14 is set, deallocates it and clears that field.
 // @fnv 0x009ca4c0
-void FUN_009ca4c0_shell::FreeStoredPointer()
+void VATS_COMMAND::FreeStoredPointer()
 {
     if (*(void**)((char*)this + 0x14))
     {

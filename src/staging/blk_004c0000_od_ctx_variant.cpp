@@ -61,7 +61,7 @@ struct BlkOffset08View
 {
     unsigned int GetFlags();
 };
-struct FUN_004d7d50_StandIn
+struct NiParticleSystem
 {
     unsigned int __thiscall NiParticleSystem_GetModifierCount();
 };
@@ -234,7 +234,7 @@ struct FUN_004d4e40_Class
 void __cdecl _Deallocate(void*);
 struct FUN_004d4f40_StandIn
 {
-    void* __thiscall FUN_004d4f40(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 struct FUN_004d5c20_Base
 {
@@ -429,14 +429,14 @@ struct FUN_004de550_StandIn
 };
 extern NiPointer<NiTexture> DAT_011c7804[];
 bool __cdecl Runtime_EvaluateValue_004deed0(char const* a, unsigned char b);
-struct FUN_004d4f70
+struct LipSynchAnim
 {
     unsigned int m_uiCount;
     int m_iParam;
     float** m_ppfA;
     float** m_ppfB;
 
-    FUN_004d4f70(unsigned int ItemUpdateArray, int iParam);
+    LipSynchAnim(unsigned int ItemUpdateArray, int iParam);
 };
 extern "C" void __cdecl FormHeapFreeAndLog_00401030(void*);
 struct FUN_004d5080_Class
@@ -481,11 +481,11 @@ struct FUN_0040c150
     int value8;
     FUN_0040c150(char* text, int index);
 };
-struct FUN_004d5b60
+struct MiscStat
 {
     FUN_0040c150* object;
     int value;
-    FUN_004d5b60(int index, int number, int extra);
+    MiscStat(int index, int number, int extra);
 };
 extern void* DAT_011c6d50[43];
 extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
@@ -697,7 +697,7 @@ struct MsgStruct
     int unk3C;
 };
 void __cdecl BSstrncpy(char* dst, const char* src, unsigned int count);
-struct ObjClass : public FUN_004d7d50_StandIn
+struct ObjClass : public NiParticleSystem
 {
     ItemClass* __thiscall NiParticleSystem_GetModifierAt(unsigned int);
 };

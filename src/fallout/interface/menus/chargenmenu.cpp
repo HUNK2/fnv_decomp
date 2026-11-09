@@ -1451,11 +1451,11 @@ class Handle754
     int unk08;
 };
 
-class FUN_00754b40 : public Menu
+class CompanionWheelMenu : public Menu
 {
   public:
-    FUN_00754b40();
-    virtual ~FUN_00754b40();
+    CompanionWheelMenu();
+    virtual ~CompanionWheelMenu();
 
     // Menu ctor is 0x00a1c4a0; this derived layout starts its own fields at 0x70.
     unsigned char layoutExtension[0x48];
@@ -1467,7 +1467,8 @@ class FUN_00754b40 : public Menu
 
 // Initializes the menu: clears m_bFlag, sets m_iIndex to -1, and assigns a zero-valued Handle754 to m_kHandle.
 // @fnv 0x00754b40
-FUN_00754b40::FUN_00754b40()
+// src: EXE 0x00754b40
+CompanionWheelMenu::CompanionWheelMenu()
 {
     m_bFlag = false;
     m_iIndex = -1;

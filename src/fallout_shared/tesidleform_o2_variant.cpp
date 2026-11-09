@@ -12,7 +12,7 @@ template <int N> struct EndianSizeTag
 {
 };
 void __cdecl BSEndian(unsigned short*, EndianSizeTag<2>);
-struct FUN_005fea20_shell
+struct IDLE_DATA
 {
     void SwapEndian();
 };
@@ -58,7 +58,7 @@ struct FUN_00600d70_shell
 };
 
 // FUN_005ff880 : 8-byte MSVC this-adjusting (virtual) thunk.
-//     sub ecx, 0x18 ; jmp FUN_005fe130
+//     sub ecx, 0x18 ; jmp ScalarDeletingDestructor
 //
 // MSVC emits such a stub in the vtable of a class that inherits the same
 // virtual slot through two bases: the slot of the second base holds a tiny

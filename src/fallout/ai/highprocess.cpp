@@ -11502,19 +11502,19 @@ bool HighProcess::HasGroupEntry(ActorCombatGroup* group)
 }
 
 void* operator new(unsigned int);
-struct FUN_0066e590
+struct DetectionState
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-    FUN_0066e590();
+    DetectionState();
 };
 struct FUN_0096a2d0
 {
-    FUN_0066e590* result;
+    DetectionState* result;
     FUN_0096a2d0* next;
     FUN_0096a2d0();
-    FUN_0066e590** FUN_006815c0();
+    DetectionState** FUN_006815c0();
     FUN_0096a2d0* FUN_00726070();
-    void FUN_005ae3d0(FUN_0066e590*&);
+    void FUN_005ae3d0(DetectionState*&);
 };
 struct CopyProcess : HighProcess
 {
@@ -11524,13 +11524,13 @@ struct CopyProcess : HighProcess
 FUN_0096a2d0* CopyProcess::CopyProcessList(int unused)
 {
     FUN_0096a2d0* item = reinterpret_cast<FUN_0096a2d0*>(m_pDetectionEventList);
-    FUN_0066e590* result = 0;
+    DetectionState* result = 0;
     FUN_0096a2d0* list = new FUN_0096a2d0;
     while (item && *item->FUN_006815c0())
     {
         result = *item->FUN_006815c0();
         item = item->FUN_00726070();
-        FUN_0066e590* copy = new FUN_0066e590;
+        DetectionState* copy = new DetectionState;
         *copy = *result;
         list->FUN_005ae3d0(copy);
     }

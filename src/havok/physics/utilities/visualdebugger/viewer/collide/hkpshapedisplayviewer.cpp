@@ -740,7 +740,7 @@ extern int DAT_01268fe4;
 void* __cdecl hkMemoryRouter_getInstance();
 int __cdecl hkString_strCmp(const char* name, void* obj);
 
-struct FUN_00d657d0_cls
+struct hkpShapeDisplayViewer
 {
     void* m_vptr00;
     int unk04;
@@ -772,13 +772,13 @@ struct FUN_00d657d0_cls
     int m_70;
 
     void FUN_00ddccb0(ShapeList* a1);
-    FUN_00d657d0_cls* hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* a1);
+    hkpShapeDisplayViewer* hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* a1);
 };
 
 // Initializes vtables, ShapeSub members, and flags, then searches a1 for a ShapeDisplayViewerOptions item to set m_60.
 // @fnv 0x00d657d0
 // src: HAVOK_LIB 0x00d657d0
-FUN_00d657d0_cls* FUN_00d657d0_cls::hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* apShapes)
+hkpShapeDisplayViewer* hkpShapeDisplayViewer::hkpShapeDisplayViewer_hkpShapeDisplayViewer(ShapeList* apShapes)
 {
     int i;
     FUN_00ddccb0(apShapes);
@@ -820,7 +820,7 @@ FUN_00d657d0_cls* FUN_00d657d0_cls::hkpShapeDisplayViewer_hkpShapeDisplayViewer(
         pShapeSub3->EnsureCapacity(val3, 0);
     }
 
-    FUN_00d657d0_cls* __restrict self = this;
+    hkpShapeDisplayViewer* __restrict self = this;
     *(unsigned char volatile*)&self->m_60 = 1;
     *(unsigned char volatile*)&self->m_61 = 0;
     *(unsigned char volatile*)&self->m_62 = 0;

@@ -336,7 +336,7 @@ struct FUN_00a0d220_cls {
 
     void BaseCleanup();
 
-    FUN_00a0d220_cls* FUN_00a0d220(unsigned int auiFlags);
+    FUN_00a0d220_cls* ScalarDeletingDestructor(unsigned int auiFlags);
 };
 // Claim: clm_0814eff69ec3418ebf5d -> FUN_00a0d280 (0x00a0d280, 24 bytes)
 // Flags: /MT /Od /Oy- /GS /EHsc /Gy /Ob1
@@ -697,7 +697,7 @@ struct S00ac5490_Base {
     S00ac5490_Base(S00ac5490_Str s);
     virtual ~S00ac5490_Base();
 };
-struct FUN_00ac5490 : public S00ac5490_Base {
+struct BSFaceGenBinaryFile : public S00ac5490_Base {
     int unk08;
     int unk0C;
     int unk10;
@@ -714,7 +714,7 @@ struct FUN_00ac5490 : public S00ac5490_Base {
     int unk3C;
     int unk40;
     int unk44;
-    FUN_00ac5490(S00ac5490_Str a);
+    BSFaceGenBinaryFile(S00ac5490_Str a);
 };
 struct _RTL_CRITICAL_SECTION;
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(_RTL_CRITICAL_SECTION*);

@@ -205,10 +205,11 @@ TrapEventList* TrapEventList::bhkTTNode_RemoveFromList(TrapEventList* pHead)
 
 struct FUN_0062c720_shell : FUN_0062c700_shell
 {
-    void* FUN_0062c720(unsigned int flags);
+    void* ScalarDeletingDestructor(unsigned int flags);
 };
 // @fnv 0x0062c720
-void* FUN_0062c720_shell::FUN_0062c720(unsigned int flags)
+// src: EXE 0x0062c720
+void* FUN_0062c720_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     ForwardCall_0062c700();
     if (flags & 1)
@@ -865,21 +866,21 @@ void FUN_0062de90_shell::TESTrapListener_ClearCurrentRefs(CombatWorldStateListNo
     }
 }
 
-struct FUN_0062d840_shell
+struct TrapEntry
 {
     char _pad[24];
-    FUN_0062d840_shell(unsigned int, unsigned int);
+    TrapEntry(unsigned int, unsigned int);
 };
 struct FUN_0062d7c0_shell
 {
-    FUN_0062d840_shell* TESTrapListener_CreateZoneEntry(unsigned int a, unsigned int b);
+    TrapEntry* TESTrapListener_CreateZoneEntry(unsigned int a, unsigned int b);
 };
-// Allocates and constructs a FUN_0062d840_shell with the two given unsigned int arguments and returns the new object.
+// Allocates and constructs a TrapEntry with the two given unsigned int arguments and returns the new object.
 // @fnv 0x0062d7c0
 // src: XBOX_PDB 0x0062d7c0
-FUN_0062d840_shell* FUN_0062d7c0_shell::TESTrapListener_CreateZoneEntry(unsigned int a, unsigned int b)
+TrapEntry* FUN_0062d7c0_shell::TESTrapListener_CreateZoneEntry(unsigned int a, unsigned int b)
 {
-    return new FUN_0062d840_shell(a, b);
+    return new TrapEntry(a, b);
 }
 
 TESObjectREFR* __cdecl TESHavokUtilities_FindCollidableRef(void*);
@@ -1037,9 +1038,9 @@ struct FUN_00620720_shell
 };
 struct FUN_0062c640_shell
 {
-    void FUN_0062c640();
+    void TriggerEntry_RefList();
 };
-struct FUN_0062dc50_shell
+struct TriggerEntry
 {
     void* m_iWordAt00;
     void* m_iWordAt04;
@@ -1047,13 +1048,13 @@ struct FUN_0062dc50_shell
     void* m_iThirdValue;
     void* TriggerEntry_TriggerEntry(unsigned int a, unsigned int b);
 };
-// Calls FUN_00620720 with a and b, then FUN_0062c640 on the object at offset 0x10, and returns this.
+// Calls FUN_00620720 with a and b, then TriggerEntry_RefList on the object at offset 0x10, and returns this.
 // @fnv 0x0062dc50
 // src: COMMUNITY 0x0062dc50
-void* FUN_0062dc50_shell::TriggerEntry_TriggerEntry(unsigned int auiArg1, unsigned int auiArg2)
+void* TriggerEntry::TriggerEntry_TriggerEntry(unsigned int auiArg1, unsigned int auiArg2)
 {
     ((FUN_00620720_shell*)this)->bhkTTNode_TESObjectREFR_bhkTTNode_TESObjectREFR(auiArg1, auiArg2);
-    ((FUN_0062c640_shell*)((char*)this + 0x10))->FUN_0062c640();
+    ((FUN_0062c640_shell*)((char*)this + 0x10))->TriggerEntry_RefList();
     return this;
 }
 
@@ -1098,17 +1099,18 @@ struct FX62c640_Member : FUN_0062c6e0_shell
     ~FX62c640_Member();
 };
 
-struct FUN_0062c640
+struct TriggerEntry_RefList
 {
     TrigEntry* m_aiIndexedValues;
     int unk4;
     int m_uiItemCount;
     FX62c640_Member m_kMemberDescriptor;
-    FUN_0062c640();
+    TriggerEntry_RefList();
 };
 
 // @fnv 0x0062c640
-FUN_0062c640::FUN_0062c640()
+// src: COMMUNITY 0x0062c640
+TriggerEntry_RefList::TriggerEntry_RefList()
 {
     m_uiItemCount = 20;
     unk4 = 0;

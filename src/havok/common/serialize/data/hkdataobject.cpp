@@ -522,7 +522,7 @@ struct FUN_00dbab70_obj
     virtual ~FUN_00dbab70_obj();
 };
 
-struct FUN_00dbab70_cls
+struct hkDataArray
 {
     FUN_00dbab70_obj* m_pEntryObject;
     void ReleaseStorage_00dbab70();
@@ -530,7 +530,7 @@ struct FUN_00dbab70_cls
 
 // @fnv 0x00dbab70
 // src: GUESS 0x00dbab70 (confidence: low)
-void FUN_00dbab70_cls::ReleaseStorage_00dbab70()
+void hkDataArray::ReleaseStorage_00dbab70()
 {
     FUN_00dbab70_obj* pObj = m_pEntryObject;
     if (pObj)
@@ -1238,15 +1238,15 @@ struct RefObj
     int m_i08;
 };
 
-struct FUN_00dba780_cls
+struct hkDataObject
 {
     RefObj* m_pReference;
 
-    FUN_00dba780_cls* AssignRef(FUN_00dba780_cls* apOther);
+    hkDataObject* AssignRef(hkDataObject* apOther);
 };
 
 // @fnv 0x00dba780
-FUN_00dba780_cls* FUN_00dba780_cls::AssignRef(FUN_00dba780_cls* apOther)
+hkDataObject* hkDataObject::AssignRef(hkDataObject* apOther)
 {
     RefObj* pRef = apOther->m_pReference;
     m_pReference = pRef;

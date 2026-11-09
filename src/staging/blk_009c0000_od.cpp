@@ -68,14 +68,14 @@ void FUN_009c8660_Class::BGSCameraShot_GetTargetNode()
 
 extern int DAT_01090874;
 
-struct FUN_009ca6c0_class
+struct CombatProcedure
 {
     void SetVirtualTable_009ca6c0();
 };
 
 // @fnv 0x009ca6c0
 // src: GUESS 0x009ca6c0 (confidence: low)
-void FUN_009ca6c0_class::SetVirtualTable_009ca6c0()
+void CombatProcedure::SetVirtualTable_009ca6c0()
 {
     *(int*)this = (int)&DAT_01090874;
 }
@@ -309,13 +309,13 @@ struct Call741e0
 {
     void FUN_00c741e0(int);
 };
-struct FUN_009c6440_Class
+struct ProjectileListener
 {
     int ProjectileListener_ProjectileListener(int a, int b);
 };
 // @fnv 0x009c6440
 // src: EXE 0x009c6440
-int FUN_009c6440_Class::ProjectileListener_ProjectileListener(int a, int aiStoredValue)
+int ProjectileListener::ProjectileListener_ProjectileListener(int a, int aiStoredValue)
 {
     ((Call741e0*)this)->FUN_00c741e0(a);
     *(int*)this = (int)&DAT_01090594;
@@ -356,14 +356,14 @@ void bhkWorld_SetVatsReplay(unsigned char value)
     DAT_012677cc = value;
 }
 
-struct FUN_009ca4c0_shell
+struct VATS_COMMAND
 {
     void FreeStoredPointer();
 };
 
 void __cdecl Deallocate(void*);
 
-struct FUN_009c8870_Class : FUN_009ca4c0_shell
+struct FUN_009c8870_Class : VATS_COMMAND
 {
     void* FUN_009c8870(unsigned int flags);
 };
@@ -385,7 +385,7 @@ struct PathingRequestAvoidPointer
     PathingAvoidNodeArray* p;
     PathingRequestAvoidPointer& operator=(PathingRequestAvoidPointer const&);
 };
-struct FUN_009d7c80_Class
+struct CombatProcedureMove
 {
     bool CombatProcedureMove_CreatePath();
     void UpdateOutput(PathingRequestAvoidPointer*);
@@ -393,7 +393,7 @@ struct FUN_009d7c80_Class
 };
 // @fnv 0x009d7c80
 // src: XBOX_PDB 0x009d7c80
-bool FUN_009d7c80_Class::CombatProcedureMove_CreatePath()
+bool CombatProcedureMove::CombatProcedureMove_CreatePath()
 {
     PathingRequestAvoidPointer t(0);
     UpdateOutput(&t);
@@ -539,7 +539,7 @@ struct FUN_009ca680
 {
     FUN_009ca680();
 };
-struct FUN_009cbad0 : FUN_009ca680
+struct CombatProcedureAttackLow : FUN_009ca680
 {
     int m_iWordAt00;
     int m_iWordAt04;
@@ -549,11 +549,12 @@ struct FUN_009cbad0 : FUN_009ca680
     float m_14;
     int m_18;
     int m_1c;
-    FUN_009cbad0();
+    CombatProcedureAttackLow();
 };
 // Initializes the object: stores the address of DAT_01090aec and zeroes m_10, m_14 and m_1c.
 // @fnv 0x009cbad0
-FUN_009cbad0::FUN_009cbad0()
+// src: EXE 0x009cbad0
+CombatProcedureAttackLow::CombatProcedureAttackLow()
 {
     m_iWordAt00 = (int)&DAT_01090aec;
     m_10 = 0;
@@ -2239,7 +2240,7 @@ struct FUN_009d4f50_obj
     TESObjectREFR* GetFieldBC();
 };
 
-struct FUN_009d4f50_cls
+struct CombatProcedureEngageTarget
 {
     int unk00;
     FUN_009d4f50_obj* m_04;
@@ -2248,7 +2249,7 @@ struct FUN_009d4f50_cls
 
 // @fnv 0x009d4f50
 // src: XBOX_PDB 0x009d4f50
-bool FUN_009d4f50_cls::CombatProcedureEngageTarget_CanAttackerSneak()
+bool CombatProcedureEngageTarget::CombatProcedureEngageTarget_CanAttackerSneak()
 {
     // Keep the original uninitialized vector buffers and explicit output-parameter call.
     float local24[sizeof(NiPoint3) / sizeof(float)];
@@ -2393,7 +2394,7 @@ struct FUN_009dfd70_Sub
     ~FUN_009dfd70_Sub();
 };
 
-struct FUN_009dfd70_cls
+struct ActorPathHandler
 {
     void* m_vptr;
     int m_04;
@@ -2401,12 +2402,13 @@ struct FUN_009dfd70_cls
     FUN_009dfd70_Sub m_0c;
     FUN_009dfd70_Sub m_10;
 
-    FUN_009dfd70_cls(int aA, int aB);
+    ActorPathHandler(int aA, int aB);
 };
 
 // Initializes the object: sets the vtable pointer, stores aA in m_04 and aB in m_08, and default-constructs m_0c and m_10 with 0.
 // @fnv 0x009dfd70
-FUN_009dfd70_cls::FUN_009dfd70_cls(int aA, int aB) : m_vptr(&DAT_0109231c), m_04(aA), m_08(aB), m_0c(0), m_10(0)
+// src: EXE 0x009dfd70
+ActorPathHandler::ActorPathHandler(int aA, int aB) : m_vptr(&DAT_0109231c), m_04(aA), m_08(aB), m_0c(0), m_10(0)
 {}
 
 struct FUN_009dfe40_Sub

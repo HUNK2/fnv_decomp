@@ -333,14 +333,14 @@ bool __cdecl bhkWorld_DebugDisplayObject(void* pObject, void* pOther)
 namespace fnv_00c66480 {
 extern int DAT_010c3b98;
 
-struct FUN_00c66480_cls
+struct hkpShapeCollectionFilter
 {
     void* p;
-    FUN_00c66480_cls* FUN_00c66480(bool f);
+    hkpShapeCollectionFilter* FUN_00c66480(bool f);
 };
 // Sets p to point at DAT_010c3b98 and, when f has bit 0 set, deallocates this via _g_memoryManager, then returns this.
 // @fnv 0x00c66480
-FUN_00c66480_cls* FUN_00c66480_cls::FUN_00c66480(bool abFree)
+hkpShapeCollectionFilter* hkpShapeCollectionFilter::FUN_00c66480(bool abFree)
 {
     p = (void*)&DAT_010c3b98;
     if (abFree & 1)
@@ -352,13 +352,13 @@ FUN_00c66480_cls* FUN_00c66480_cls::FUN_00c66480(bool abFree)
 namespace fnv_00c664b0 {
 extern int DAT_010c3bac;
 
-struct FUN_00c664b0_cls
+struct hkpRayShapeCollectionFilter
 {
     int* m_p;
-    FUN_00c664b0_cls* __thiscall FUN_00c664b0(int flag);
+    hkpRayShapeCollectionFilter* __thiscall FUN_00c664b0(int flag);
 };
 // @fnv 0x00c664b0
-FUN_00c664b0_cls* __thiscall FUN_00c664b0_cls::FUN_00c664b0(int aiFlags)
+hkpRayShapeCollectionFilter* __thiscall hkpRayShapeCollectionFilter::FUN_00c664b0(int aiFlags)
 {
     m_p = &DAT_010c3bac;
     if (aiFlags & 1)
@@ -370,14 +370,15 @@ FUN_00c664b0_cls* __thiscall FUN_00c664b0_cls::FUN_00c664b0(int aiFlags)
 namespace fnv_00c664e0 {
 extern char DAT_010c3bb8;
 
-struct FUN_00c664e0
+struct hkpBroadPhaseCastCollector
 {
     void* vft;
-    FUN_00c664e0(int);
+    hkpBroadPhaseCastCollector(int);
 };
 // Sets the vtable pointer and, when bit 0 of f is set, deallocates this object through the memory manager.
 // @fnv 0x00c664e0
-FUN_00c664e0::FUN_00c664e0(int aiFlags)
+// src: EXE 0x00c664e0
+hkpBroadPhaseCastCollector::hkpBroadPhaseCastCollector(int aiFlags)
 {
     vft = &DAT_010c3bb8;
     if (aiFlags & 1)
@@ -420,7 +421,7 @@ FUN_00c66600::FUN_00c66600(void* p)
 
 extern "C" void* __cdecl bhkUtilFunctions_GetNiAVObject(void*);
 
-struct FUN_00c66fb0_Class
+struct bhkPickData
 {
     void* m_pObject;
     void* bhkPickData_GetNiAVObject();
@@ -428,7 +429,7 @@ struct FUN_00c66fb0_Class
 
 // @fnv 0x00c66fb0
 // src: XBOX_PDB 0x00c66fb0
-void* FUN_00c66fb0_Class::bhkPickData_GetNiAVObject()
+void* bhkPickData::bhkPickData_GetNiAVObject()
 {
     void* p = *(void**)((char*)this + 0x80);
     if (p)
@@ -1125,14 +1126,14 @@ FUN_00c7a6e0_class* __thiscall FUN_00c7a6e0_class::FUN_00c7a6e0(unsigned int fla
 }
 
 extern int DAT_010c3b80;
-struct FUN_00c66420
+struct hkpCollidableCollidableFilter
 {
     int* vtbl;
     int __thiscall Init(int a);
 };
 // Sets the object's vtbl to DAT_010c3b80 and, if bit 0 of a is set, deallocates this via the memory manager; returns this.
 // @fnv 0x00c66420
-int FUN_00c66420::Init(int aiFlags)
+int hkpCollidableCollidableFilter::Init(int aiFlags)
 {
     vtbl = &DAT_010c3b80;
     if (aiFlags & 1)
@@ -1142,15 +1143,16 @@ int FUN_00c66420::Init(int aiFlags)
 
 extern int DAT_010c3b8c;
 
-struct FUN_00c66450
+struct hkpRayCollidableFilter
 {
     int* vtbl;
-    FUN_00c66450(char a);
+    hkpRayCollidableFilter(char a);
 };
 
 // Sets the object's vtbl to DAT_010c3b8c and, if bit 0 of a is set, deallocates the object via _g_memoryManager.
 // @fnv 0x00c66450
-FUN_00c66450::FUN_00c66450(char acFlags)
+// src: EXE 0x00c66450
+hkpRayCollidableFilter::hkpRayCollidableFilter(char acFlags)
 {
     vtbl = &DAT_010c3b8c;
     if (acFlags & 1)
@@ -1542,14 +1544,14 @@ void __thiscall FUN_00c6c720_class::AccumulateValue(int index, float value)
 }
 
 extern int DAT_010c446c;
-struct FUN_00c6c770_Class
+struct hkpCharacterProxyListener
 {
     int* vtbl;
-    FUN_00c6c770_Class* __thiscall FUN_00c6c770(unsigned int a);
+    hkpCharacterProxyListener* __thiscall FUN_00c6c770(unsigned int a);
 };
 // Sets the vtable pointer and, when bit 0 of a is set, frees this object through the memory manager; returns this.
 // @fnv 0x00c6c770
-FUN_00c6c770_Class* __thiscall FUN_00c6c770_Class::FUN_00c6c770(unsigned int auiFlags)
+hkpCharacterProxyListener* __thiscall hkpCharacterProxyListener::FUN_00c6c770(unsigned int auiFlags)
 {
     vtbl = &DAT_010c446c;
     if (auiFlags & 1)
@@ -1558,14 +1560,14 @@ FUN_00c6c770_Class* __thiscall FUN_00c6c770_Class::FUN_00c6c770(unsigned int aui
 }
 
 extern int DAT_010c446c;
-struct FUN_00c6cb70_class
+struct bhkCharacterListener
 {
     int* vtbl;
     void* __thiscall FUN_00c6cb70(int a);
 };
 // Sets the vtable pointer and, when bit 0 of a is set, frees the object via the memory manager, then returns this.
 // @fnv 0x00c6cb70
-void* __thiscall FUN_00c6cb70_class::FUN_00c6cb70(int aiFlags)
+void* __thiscall bhkCharacterListener::FUN_00c6cb70(int aiFlags)
 {
     vtbl = &DAT_010c446c;
     if (aiFlags & 1)
@@ -1579,13 +1581,13 @@ struct FUN_00cd2de0
     int m_iWordAt00;
     void Init();
 };
-struct FUN_00c6cda0_cls : FUN_00cd2de0
+struct bhkShapeCollection : FUN_00cd2de0
 {
-    FUN_00c6cda0_cls* FUN_00c6cda0(int ab);
+    bhkShapeCollection* FUN_00c6cda0(int ab);
 };
 // Calls Init, then if bit 0 of ab is set deletes this with size 0x14 and returns this.
 // @fnv 0x00c6cda0
-FUN_00c6cda0_cls* FUN_00c6cda0_cls::FUN_00c6cda0(int abDelete)
+bhkShapeCollection* bhkShapeCollection::FUN_00c6cda0(int abDelete)
 {
     FUN_00cd2de0::Init();
     if (abDelete & 1)
@@ -1652,18 +1654,19 @@ char* FUN_00c70c60_Class::FUN_00c70c60(unsigned char abFree)
 }
 
 extern int DAT_010c4b2c;
-struct FUN_00c74760
+struct bhkWindListener
 {
     int* vtbl;
     int m_uiRefCount;
     unsigned char m_bFlag;
     int m_iFadeIndex;
     int m_iState2;
-    FUN_00c74760();
+    bhkWindListener();
 };
 
 // @fnv 0x00c74760
-FUN_00c74760::FUN_00c74760()
+// src: EXE 0x00c74760
+bhkWindListener::bhkWindListener()
 {
     m_iFadeIndex = 0;
     m_iState2 = 0;
@@ -1730,17 +1733,18 @@ void* __fastcall DeleteObjectMap(NiTMap<NiAVObject*, short>* self, void*, unsign
 }
 
 extern int DAT_010c5398;
-struct FUN_00c7fb20
+struct hkStiffSpringConstraintCinfo
 {
     int* m_vtbl;
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
     int m_10;
-    FUN_00c7fb20();
+    hkStiffSpringConstraintCinfo();
 };
 // @fnv 0x00c7fb20
-FUN_00c7fb20::FUN_00c7fb20()
+// src: EXE 0x00c7fb20
+hkStiffSpringConstraintCinfo::hkStiffSpringConstraintCinfo()
 {
     m_iWordAt04 = 0;
     m_8 = 1;
@@ -1927,19 +1931,19 @@ extern int DAT_010c3bc4;
 
 hkMemoryRouter* __cdecl hkMemoryRouter_getInstance() throw();
 
-struct FUN_00c66510_cls
+struct ahkpWorld
 {
     int m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
 
     void BaseRelease();
-    FUN_00c66510_cls* FUN_00c66510(unsigned char acFlags);
+    ahkpWorld* FUN_00c66510(unsigned char acFlags);
 };
 
 // Sets the vtable pointer, calls BaseRelease, and if bit 0 of acFlags is set frees this through the allocator from FUN_00c85750 using m_uSize.
 // @fnv 0x00c66510
-FUN_00c66510_cls* FUN_00c66510_cls::FUN_00c66510(unsigned char acFlags)
+ahkpWorld* ahkpWorld::FUN_00c66510(unsigned char acFlags)
 {
     m_vptr = (int)&DAT_010c3bc4;
     BaseRelease();
@@ -7015,17 +7019,18 @@ struct SpawnSlot
     {}
 };
 
-struct FUN_00c6ce80_cls : SpawnBase, SpawnSlot
+struct bhkCharacterProxy : SpawnBase, SpawnSlot
 {
-    virtual ~FUN_00c6ce80_cls();
+    virtual ~bhkCharacterProxy();
     SpawnField m_10;
 
-    FUN_00c6ce80_cls();
+    bhkCharacterProxy();
 };
 
 // Increments g_spawnCount and initializes the SpawnField member m_10 with 0.
 // @fnv 0x00c6ce80
-FUN_00c6ce80_cls::FUN_00c6ce80_cls() : m_10(0)
+// src: EXE 0x00c6ce80
+bhkCharacterProxy::bhkCharacterProxy() : m_10(0)
 {
     ++g_spawnCount;
 }
@@ -7112,18 +7117,19 @@ class C6D1E0Base
     virtual ~C6D1E0Base();
 };
 
-class FUN_00c6d1e0 : public C6D1E0Base
+class bhkCollisionBox : public C6D1E0Base
 {
   public:
-    FUN_00c6d1e0(int a, int b);
-    virtual ~FUN_00c6d1e0();
+    bhkCollisionBox(int a, int b);
+    virtual ~bhkCollisionBox();
 
     void Init(int a, int b);
 };
 
 // Constructs the object and forwards both arguments to Init.
 // @fnv 0x00c6d1e0
-FUN_00c6d1e0::FUN_00c6d1e0(int a, int b)
+// src: EXE 0x00c6d1e0
+bhkCollisionBox::bhkCollisionBox(int a, int b)
 {
     Init(a, b);
 }
@@ -7203,15 +7209,16 @@ struct ChainB_cls : public ChainA_cls
     }
 };
 
-struct FUN_00c6d290 : public ChainB_cls
+struct bhkListShape : public ChainB_cls
 {
     virtual void unkC2();
-    FUN_00c6d290(unsigned int a);
+    bhkListShape(unsigned int a);
 };
 
 // Calls the base SetListShape with a, then increments DAT_012681a0.
 // @fnv 0x00c6d290
-FUN_00c6d290::FUN_00c6d290(unsigned int a)
+// src: EXE 0x00c6d290
+bhkListShape::bhkListShape(unsigned int a)
 {
     ((FUN_00c8b090_owner*)this)->SetListShape(a);
     DAT_012681a0 += 1;
@@ -8044,7 +8051,7 @@ struct SettingHolder
 {
     void* FUN_00653290(const void* key);
 };
-struct FUN_00c6e280_cls
+struct bhkCharacterController
 {
     unsigned int unk000;
     unsigned int unk004;
@@ -8434,7 +8441,7 @@ extern float DAT_010c72bc;
 
 // @fnv 0x00c6e280
 // src: COMMUNITY 0x00c6e280
-float FUN_00c6e280_cls::bhkCharacterController_GetRadius()
+float bhkCharacterController::bhkCharacterController_GetRadius()
 {
     volatile float result;
     SettingHolder* h = m_5a4;
@@ -15637,7 +15644,7 @@ unsigned int __stdcall bhkCharacterController_Getbhk(SearchOwner* owner)
 
 extern int DAT_010c4b60;
 
-struct FUN_00c747a0_Class
+struct hkaRaycastInterface
 {
     int* vtbl;
     void SetVirtualTable_00c747a0();
@@ -15645,7 +15652,7 @@ struct FUN_00c747a0_Class
 
 // @fnv 0x00c747a0
 // src: GUESS 0x00c747a0 (confidence: low)
-void FUN_00c747a0_Class::SetVirtualTable_00c747a0()
+void hkaRaycastInterface::SetVirtualTable_00c747a0()
 {
     vtbl = &DAT_010c4b60;
 }
@@ -16518,15 +16525,16 @@ struct S00c6d040_C : public S00c6d040_B
     }
 };
 
-struct FUN_00c6d040 : public S00c6d040_C
+struct bhkCachingShapePhantom : public S00c6d040_C
 {
-    FUN_00c6d040(unsigned int a);
+    bhkCachingShapePhantom(unsigned int a);
     void bhkCachingShapePhantom_Init(unsigned int a);
 };
 
 // Constructs the object by setting the vft, calling FUN_00cc2530 with a, incrementing DAT_012685a0, and zeroing m_14.
 // @fnv 0x00c6d040
-FUN_00c6d040::FUN_00c6d040(unsigned int a)
+// src: EXE 0x00c6d040
+bhkCachingShapePhantom::bhkCachingShapePhantom(unsigned int a)
 {
     m_vft = (unsigned int)&DAT_010c4694;
     bhkCachingShapePhantom_Init(a);
@@ -20996,11 +21004,11 @@ struct EntryBase
     }
     static void operator delete(void* p, unsigned int n);
 };
-struct FUN_00cbc460 : EntryBase
+struct hkpCharacterStateManager : EntryBase
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     int unk20, unk24, unk28, unk2c, unk30;
-    FUN_00cbc460();
+    hkpCharacterStateManager();
     void registerState(hkReferencedObject* obj, int id);
 };
 struct FUN_00cd47e0 : EntryBase
@@ -21018,10 +21026,10 @@ struct FUN_00cd4260 : EntryBase
     int unk00, unk04;
     FUN_00cd4260();
 };
-struct FUN_00cd3f90 : EntryBase
+struct bhkCharacterStateInAir : EntryBase
 {
     int unk00, unk04, unk08;
-    FUN_00cd3f90();
+    bhkCharacterStateInAir();
 };
 struct FUN_00cd3c90 : EntryBase
 {
@@ -21092,7 +21100,7 @@ struct InitialDefaults
         m_a0 = 0;
     }
 };
-struct FUN_00c6da50 : FUN_00c6cde0
+struct bhkCharacterControllerCinfo : FUN_00c6cde0
 {
     Vec4f m_00;
     Vec4f m_10;
@@ -21126,11 +21134,12 @@ struct FUN_00c6da50 : FUN_00c6cde0
     float m_ac;
     int m_b0;
     int m_b4;
-    FUN_00c6da50(bool a1);
+    bhkCharacterControllerCinfo(bool a1);
 };
 // Initializes fields and a wrapping counter; if a1, creates the global DAT_01267bb8 with seven entries on first use and stores it in m_a4.
 // @fnv 0x00c6da50
-FUN_00c6da50::FUN_00c6da50(bool a1)
+// src: COMMUNITY 0x00c6da50
+bhkCharacterControllerCinfo::bhkCharacterControllerCinfo(bool a1)
 {
     m_a8 = (float)(DAT_01267bcc * 31.0);
     m_b0 = 1;
@@ -21159,32 +21168,32 @@ FUN_00c6da50::FUN_00c6da50(bool a1)
     {
         if (DAT_01267bb8 == 0)
         {
-            FUN_00cbc460* sm = new FUN_00cbc460();
+            hkpCharacterStateManager* sm = new hkpCharacterStateManager();
             DAT_01267bb8 = (CallbackTarget*)sm;
             FUN_00cd47e0* pEntry0 = new FUN_00cd47e0();
-            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry0, 0);
+            ((hkpCharacterStateManager*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry0, 0);
             ((CallbackTarget*)pEntry0)->FUN_00c905b0();
             FUN_00cd44c0* pEntry5 = new FUN_00cd44c0();
-            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry5, 5);
+            ((hkpCharacterStateManager*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry5, 5);
             ((CallbackTarget*)pEntry5)->FUN_00c905b0();
             FUN_00cd4260* pEntry1 = new FUN_00cd4260();
-            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry1, 1);
+            ((hkpCharacterStateManager*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry1, 1);
             ((CallbackTarget*)pEntry1)->FUN_00c905b0();
-            FUN_00cd3f90* pEntry2 = new FUN_00cd3f90();
-            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry2, 2);
+            bhkCharacterStateInAir* pEntry2 = new bhkCharacterStateInAir();
+            ((hkpCharacterStateManager*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry2, 2);
             ((CallbackTarget*)pEntry2)->FUN_00c905b0();
             char* pEntry3 = (char*)AllocEntry(8);
             ((AllocHeader*)pEntry3)->m_refs = 1;
             ((AllocHeader*)pEntry3)->m_ppVirtualMethodTable = &DAT_010c4944;
-            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry3, 3);
+            ((hkpCharacterStateManager*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry3, 3);
             ((CallbackTarget*)pEntry3)->FUN_00c905b0();
             char* pEntry4 = (char*)AllocEntry(8);
             ((AllocHeader*)pEntry4)->m_refs = 1;
             ((AllocHeader*)pEntry4)->m_ppVirtualMethodTable = &DAT_010c496c;
-            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry4, 4);
+            ((hkpCharacterStateManager*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry4, 4);
             ((CallbackTarget*)pEntry4)->FUN_00c905b0();
             FUN_00cd3c90* pEntry6 = new FUN_00cd3c90();
-            ((FUN_00cbc460*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry6, 6);
+            ((hkpCharacterStateManager*)DAT_01267bb8)->registerState((hkReferencedObject*)pEntry6, 6);
             ((CallbackTarget*)pEntry6)->FUN_00c905b0();
         }
         m_a4 = DAT_01267bb8;

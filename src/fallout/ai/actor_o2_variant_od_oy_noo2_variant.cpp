@@ -30,7 +30,7 @@ struct FUN_00c7fa70_Class
 };
 extern "C" void __cdecl FUN_0062d4b0();
 extern int DAT_01084e54;
-struct FUN_00cb9900_cls
+struct bhkFilteredCdBodyCollector
 {
     void __thiscall UpdateFields_00cb9900();
 };
@@ -67,7 +67,7 @@ struct Outer
     int _0;
     unsigned short _4;
     void __thiscall FUN_00c7dc40();
-    Outer* __thiscall FUN_00c7e970(unsigned int);
+    Outer* __thiscall ScalarDeletingDestructor(unsigned int);
 };
 struct MyNode
 {
@@ -511,9 +511,9 @@ struct MiddleObject : BaseObject
     }
     ~MiddleObject();
 };
-struct FUN_00c7f9e0 : MiddleObject
+struct bhkStiffSpringConstraint : MiddleObject
 {
-    FUN_00c7f9e0(void* context);
+    bhkStiffSpringConstraint(void* context);
     void SpawnAndAttach(void* context);
 };
 extern __declspec(thread) int g_iCB9810AllocTag;

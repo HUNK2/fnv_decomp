@@ -745,7 +745,7 @@ FUN_00b4e150::FUN_00b4e150() : B4E150SortAdjustNode(0)
     m_iF = 0;
 }
 
-struct FUN_0040fbf0_shell
+struct BSSpinLock
 {
     void BSSpinLock_Lock(char* name);
 };
@@ -766,7 +766,7 @@ extern unsigned int DAT_011f6238;
 void NiAVObject::UpdateProperties()
 {
     NiPropertyState* ps = 0;
-    ((FUN_0040fbf0_shell*)&DAT_011f42a0)->BSSpinLock_Lock(0);
+    ((BSSpinLock*)&DAT_011f42a0)->BSSpinLock_Lock(0);
     if (reinterpret_cast<FUN_00a5e3a0_Helper*>(m_pkParent) != 0)
     {
         reinterpret_cast<FUN_00a5e3a0_Helper*>(m_pkParent)->NiNode_UpdatePropertiesUpward(ps);

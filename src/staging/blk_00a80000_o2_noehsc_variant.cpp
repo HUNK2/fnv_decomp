@@ -137,12 +137,12 @@ void __fastcall FUN_00a71f60(void*);
 void* __cdecl NiAmbientLight_CreateObject();
 extern unsigned int kVtbl_NiAlphaAccumulator;
 NiAlphaAccumulator* CreateNiAlphaAccumulator();
-struct FUN_00a9be80
+struct NiShaderConstantMap
 {
     const void* m_vft;
     int m_ref;
     int m_data;
-    FUN_00a9be80(int data);
+    NiShaderConstantMap(int data);
 };
 extern volatile long DAT_011f4400;
 extern const void* DAT_010a1478;
@@ -259,7 +259,7 @@ struct FUN_00a94c00_shell
 };
 extern MemoryManager g_memoryManager;
 extern char* DAT_010a05e4;
-struct FUN_00a96800_shell
+struct NiParticlesData
 {
     char m_auiShapeKeys[0x44];
     void* m_44;
@@ -296,7 +296,7 @@ extern int DAT_0109f73c;
 extern void* _EmptyFS;
 extern int(__stdcall* DAT_00fdf1c4)(void*);
 extern const void* vftable_NiRefObject;
-struct FUN_00a8f810_class
+struct NiMaterial
 {
     void SetVtableAndProcessState_00a8f810();
 };
@@ -316,7 +316,7 @@ struct SdmDerived
     void* m_vt;
     void* m_iWordAt04;
     void* m_8;
-    void* FUN_00a8fa10(char flag);
+    void* ScalarDeletingDestructor(char flag);
 };
 extern char DAT_0109f9a4[];
 extern void __cdecl _NiFree(void*);
@@ -1151,15 +1151,16 @@ class S911d0_Base
     unsigned int unk5C;
 };
 
-class FUN_00a911d0 : public S911d0_Base
+class NiScreenGeometryData : public S911d0_Base
 {
   public:
-    virtual ~FUN_00a911d0();
+    virtual ~NiScreenGeometryData();
     NiTArray<S911d0_Entry*, NiTMallocInterface<S911d0_Entry*> > m_kEntries;
 };
 
 // @fnv 0x00a911d0
-FUN_00a911d0::~FUN_00a911d0()
+// src: EXE 0x00a911d0
+NiScreenGeometryData::~NiScreenGeometryData()
 {
     for (unsigned int i = 0; i < m_kEntries.GetSize(); i++)
     {

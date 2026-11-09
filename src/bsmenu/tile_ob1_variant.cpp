@@ -944,11 +944,12 @@ struct FUN_00a0d220_cls {
 
     void BaseCleanup();
 
-    FUN_00a0d220_cls* FUN_00a0d220(unsigned int auiFlags);
+    FUN_00a0d220_cls* ScalarDeletingDestructor(unsigned int auiFlags);
 };
 
 // @fnv 0x00a0d220
-FUN_00a0d220_cls* FUN_00a0d220_cls::FUN_00a0d220(unsigned int auiFlags)
+// src: EXE 0x00a0d220
+FUN_00a0d220_cls* FUN_00a0d220_cls::ScalarDeletingDestructor(unsigned int auiFlags)
 {
     FUN_00a0d220_frame frame;
     m_vptr = (int)&DAT_01094d9c;
@@ -1586,7 +1587,7 @@ struct S00ac5490_Base {
     virtual ~S00ac5490_Base();
 };
 
-struct FUN_00ac5490 : public S00ac5490_Base {
+struct BSFaceGenBinaryFile : public S00ac5490_Base {
     int unk08;
     int unk0C;
     int unk10;
@@ -1603,11 +1604,12 @@ struct FUN_00ac5490 : public S00ac5490_Base {
     int unk3C;
     int unk40;
     int unk44;
-    FUN_00ac5490(S00ac5490_Str a);
+    BSFaceGenBinaryFile(S00ac5490_Str a);
 };
 
 // @fnv 0x00ac5490
-FUN_00ac5490::FUN_00ac5490(S00ac5490_Str a) : S00ac5490_Base(a)
+// src: EXE 0x00ac5490
+BSFaceGenBinaryFile::BSFaceGenBinaryFile(S00ac5490_Str a) : S00ac5490_Base(a)
 {
     int d1;
     unk40 = 0;
@@ -2012,8 +2014,8 @@ struct Tile3D_FactoryView : ::Tile {
     SmallArray second;
 };
 }
-struct FUN_00a21660 : TileImage {
-    FUN_00a21660();
+struct RadialTile : TileImage {
+    RadialTile();
 };
 // @fnv 0x00a00c20
 // src: COMMUNITY 0x00a00c20
@@ -2026,7 +2028,7 @@ Tile* __cdecl Tile_CreateByID(int aiType)
     case 0x388: return (Tile*)new tile_factory::Tile3D_FactoryView;
     case 0x387: return (Tile*)new TileText;
     case 0x389: return (Tile*)new TileMenu;
-    case 0x38c: return (Tile*)new FUN_00a21660;
+    case 0x38c: return (Tile*)new RadialTile;
     }
     return 0;
 }
@@ -3098,7 +3100,7 @@ namespace fnv_00aaa7d0 {
 // references.  They are the frames of two /Ob1 inline candidates that the compiler
 // started to inline and then declined (it allocates their locals in the caller's
 // frame anyway, see the "declined inline" reservation behaviour of VC9 /Od+/Ob1):
-//   * the FUN_00ac5490 constructor (12 dwords) -- reserved after the bool temps,
+//   * the BSFaceGenBinaryFile constructor (12 dwords) -- reserved after the bool temps,
 //     which is what puts the argument-address temp at [ebp-0xc0] (-0x30).
 //   * FractalHeader::FUN_00aaa720 (9 dwords) -- reserved after it, which is what
 //     puts the discarded call-result temps at [ebp-0xe8..-0xf1] (-0x54).
@@ -3134,14 +3136,14 @@ struct FUN_00aaaa80 {
     FUN_00aaaa80();
     virtual ~FUN_00aaaa80();
 };
-struct FUN_00ac5490 : FUN_00aaaa80 {
+struct BSFaceGenBinaryFile : FUN_00aaaa80 {
     void* file;
     void* archive;
-    FUN_00ac5490(GameString signature);
+    BSFaceGenBinaryFile(GameString signature);
     bool BSFaceGenBinaryFile_openForRead(GameString filename, bool binary);
     bool BSFaceGenBinaryFile_readHeader(void* buffer, unsigned int size, unsigned int count);
     void ClearHolders();
-    __forceinline ~FUN_00ac5490() {
+    __forceinline ~BSFaceGenBinaryFile() {
         ClearHolders();
     }
 };
@@ -3151,10 +3153,10 @@ struct FractalHeader {
     unsigned int values[2][2];
     void nullsub_321();
 };
-struct FractalReaderA { bool FanLinCtlGrpS_readFromFile(FUN_00ac5490*, unsigned int (*)[2]); };
-struct FractalReaderB { bool FanGenCtlsGrpC_readFromFile(FUN_00ac5490*, unsigned int (*)[2]); };
+struct FractalReaderA { bool FanLinCtlGrpS_readFromFile(BSFaceGenBinaryFile*, unsigned int (*)[2]); };
+struct FractalReaderB { bool FanGenCtlsGrpC_readFromFile(BSFaceGenBinaryFile*, unsigned int (*)[2]); };
 
-inline FUN_00ac5490::FUN_00ac5490(GameString signature)
+inline BSFaceGenBinaryFile::BSFaceGenBinaryFile(GameString signature)
 {
     int c00, c01, c02, c03, c04, c05, c06, c07, c08, c09, c10;
     c00 = (int)&signature; c01 = c00 + 1; c02 = c01 + 1; c03 = c02 + 1;
@@ -3178,7 +3180,7 @@ inline void FractalHeader::nullsub_321()
 bool __cdecl fanReadCtlFile(const GameString& filename, unsigned int* width,
     unsigned int* height, unsigned int values[2][2], FractalReaderA* a, FractalReaderB* b)
 {
-    FUN_00ac5490 stream("FRCTL001");
+    BSFaceGenBinaryFile stream("FRCTL001");
     if (!stream.BSFaceGenBinaryFile_openForRead(filename, true))
         return false;
     FractalHeader header;

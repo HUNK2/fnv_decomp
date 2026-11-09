@@ -82,7 +82,7 @@ void __thiscall FUN_00aa4c40_class::BSCoreMessage_DisableContextMessages(int a)
 
 extern "C" void* DAT_010a2708;
 
-struct FUN_00aa4c60_class
+struct BSCoreMessage
 {
     void* m_p;
     void* BSCoreMessage_BSCoreMessage();
@@ -90,7 +90,7 @@ struct FUN_00aa4c60_class
 
 // @fnv 0x00aa4c60
 // src: COMMUNITY 0x00aa4c60
-void* FUN_00aa4c60_class::BSCoreMessage_BSCoreMessage()
+void* BSCoreMessage::BSCoreMessage_BSCoreMessage()
 {
     m_p = &DAT_010a2708;
     return this;
@@ -760,7 +760,7 @@ extern MemoryManager DAT_011f6238;
 struct FUN_00aa4bb0_Class
 {
     void FUN_00aa4a60();
-    int __thiscall FUN_00aa4bb0(int arg);
+    int __thiscall ScalarDeletingDestructor(int arg);
 };
 
 struct FUN_00aa4bb0_Local
@@ -772,7 +772,8 @@ struct FUN_00aa4bb0_Local
 
 // Calls FUN_00aa4a60, then deallocates this via DAT_011f6238 when bit 0 of arg is set, and returns this.
 // @fnv 0x00aa4bb0
-int __thiscall FUN_00aa4bb0_Class::FUN_00aa4bb0(int aiFlags)
+// src: EXE 0x00aa4bb0
+int __thiscall FUN_00aa4bb0_Class::ScalarDeletingDestructor(int aiFlags)
 {
     FUN_00aa4bb0_Local local;
 

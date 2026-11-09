@@ -1163,14 +1163,15 @@ struct FUN_00723fa0
 {
     FUN_00723fa0();
 };
-struct FUN_007207a0 : FUN_00724040
+struct LoveTesterMenu_LoveTesterPage : FUN_00724040
 {
     FUN_00723fa0 m;
-    FUN_007207a0();
+    LoveTesterMenu_LoveTesterPage();
 };
 // Empty constructor for a class that inherits FUN_00724040 and contains a FUN_00723fa0 member.
 // @fnv 0x007207a0
-FUN_007207a0::FUN_007207a0()
+// src: COMMUNITY 0x007207a0
+LoveTesterMenu_LoveTesterPage::LoveTesterMenu_LoveTesterPage()
 {}
 
 struct FUN_00724070

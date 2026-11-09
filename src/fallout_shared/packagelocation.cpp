@@ -213,14 +213,14 @@ void FUN_0067f110_shell::InitializeFields_0067f110()
     pObject = 0;
 }
 
-struct FUN_0067f140_shell : public LocationDescriptor
+struct PackageLocation : public LocationDescriptor
 {
     void PackageLocation_SetLocType(int);
 };
 
 // @fnv 0x0067f140
 // src: XBOX_PDB 0x0067f140
-void FUN_0067f140_shell::PackageLocation_SetLocType(int aeLoctype)
+void PackageLocation::PackageLocation_SetLocType(int aeLoctype)
 {
     if (aeLoctype != m_ucLocationType)
     {
@@ -359,7 +359,7 @@ class P01ObjA
 #include "../../include/TESResponse.h"
 void __cdecl StartHostilityAndCombat(Actor*, Actor*);
 void __cdecl CommandEffect_UpdateCommandedActor(Actor*, Actor*);
-struct FUN_00826be0_shell : public ActiveEffect
+struct ReanimateEffect : public ActiveEffect
 {
     void ReanimateEffect_Update(float);
 };
@@ -368,7 +368,7 @@ struct FUN_00826be0_shell : public ActiveEffect
 #pragma strict_gs_check(push, on)
 // @fnv 0x00826be0
 // src: XBOX_PDB 0x00826be0
-void FUN_00826be0_shell::ReanimateEffect_Update(float afSecondsElapsed)
+void ReanimateEffect::ReanimateEffect_Update(float afSecondsElapsed)
 {
     Actor* ptarget =
         ((BSThread*)this)->GetThreadID() ? ((MagicTarget*)((BSThread*)this)->GetThreadID())->GetOwnerActor() : 0;

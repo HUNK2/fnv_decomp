@@ -1244,14 +1244,14 @@ void* __thiscall ObstacleData_shell::FUN_006c2490(unsigned int flags)
 void __fastcall NavMeshObstacleManager_UpdateState_006c5e70(int**);
 void __cdecl operator delete(void*);
 
-struct FUN_006c5e90_shell
+struct BSTasklet
 {
     void* __thiscall FUN_006c5e90(unsigned int flags);
 };
 
 // Calls FUN_006c5e70 on this object, deletes it when flags has bit 0 set, and returns this.
 // @fnv 0x006c5e90
-void* __thiscall FUN_006c5e90_shell::FUN_006c5e90(unsigned int flags)
+void* __thiscall BSTasklet::FUN_006c5e90(unsigned int flags)
 {
     NavMeshObstacleManager_UpdateState_006c5e70((int**)this);
     if (flags & 1)
@@ -1382,17 +1382,18 @@ void bhkObstacleDeactivationListener::entityActivatedCallback(hkpEntity* entity)
     }
 }
 
-struct FUN_006c0210_shell
+struct bhkObstacleRemovalListener
 {
     int* vtbl;
-    FUN_006c0210_shell();
+    bhkObstacleRemovalListener();
     void ComputeValue_0061f580();
 };
 
 extern int DAT_0106c3d4;
 
 // @fnv 0x006c0210
-FUN_006c0210_shell::FUN_006c0210_shell()
+// src: EXE 0x006c0210
+bhkObstacleRemovalListener::bhkObstacleRemovalListener()
 {
     ComputeValue_0061f580();
     vtbl = &DAT_0106c3d4;
@@ -2330,7 +2331,7 @@ extern int DAT_011da348;
 extern int DAT_011da34c;
 extern int DAT_011da350;
 
-struct FUN_00799dc0_class
+struct MapMenu
 {
     unsigned int unk00;
     unsigned int unk04;
@@ -2392,7 +2393,7 @@ struct FUN_00799dc0_class
 // Finds the nearest map marker tile to the cursor within range, marks it highlighted, plays a sound and updates the title and highlight state.
 // @fnv 0x00799dc0
 // src: COMMUNITY 0x00799dc0
-void FUN_00799dc0_class::MapMenu_HighlightCenterMarker()
+void MapMenu::MapMenu_HighlightCenterMarker()
 {
     if (!m_pMapTile)
         return;
@@ -2475,17 +2476,18 @@ struct HavokBodyListenerAccess
     void bhkEntity_AddEntityListener(void* p);
     void bhkEntity_AddEntityActivationListener(void* p);
 };
-struct FUN_00807790 : public FUN_006234b0, public FUN_0061f580, public FUN_006c0100
+struct bhkTelekinesisListener : public FUN_006234b0, public FUN_0061f580, public FUN_006c0100
 {
     int m_0c;
     HavokBodyListenerAccess* m_10;
     CF845 m_kFlags;
     bool m_18;
-    FUN_00807790(int a1, HavokBodyListenerAccess* a2, unsigned int a3);
+    bhkTelekinesisListener(int a1, HavokBodyListenerAccess* a2, unsigned int a3);
 };
 
 // @fnv 0x00807790
-FUN_00807790::FUN_00807790(int a1, HavokBodyListenerAccess* a2, unsigned int auiFlags) : m_kFlags(0)
+// src: EXE 0x00807790
+bhkTelekinesisListener::bhkTelekinesisListener(int a1, HavokBodyListenerAccess* a2, unsigned int auiFlags) : m_kFlags(0)
 {
     m_0c = a1;
     m_10 = a2;

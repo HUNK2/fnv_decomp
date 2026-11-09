@@ -2016,15 +2016,16 @@ struct Base0071
     void* vtable;
     unsigned int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
 };
-struct FUN_0071f240 : Base0071
+struct TutorialMenu : Base0071
 {
     unsigned int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44;
     unsigned int unk48, unk4c, unk50;
-    FUN_0071f240();
+    TutorialMenu();
 };
 // Sets the vtable, zeroes the 0x20-byte block at unk28, and clears unk4c, unk48 and unk50.
 // @fnv 0x0071f240
-FUN_0071f240::FUN_0071f240()
+// src: EXE 0x0071f240
+TutorialMenu::TutorialMenu()
 {
     vtable = &DAT_0106ff84;
     ourMemset(&unk28, 0, 0x20);

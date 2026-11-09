@@ -830,17 +830,17 @@ struct PB
 };
 int NiObjectNET_GetDefaultCopyType();
 char NiObjectNET_GetDefaultAppendCharacter();
-struct FUN_004ad0c0_S
+struct NiCloningProcess
 {
     PA* a;
     PB* b;
     int c;
     char d;
-    FUN_004ad0c0_S* Init(int x);
+    NiCloningProcess* Init(int x);
 };
 // Allocates a PA and a PB from x, stores results of FUN_004ad1b0 and FUN_004ad1c0, and returns this.
 // @fnv 0x004ad0c0
-FUN_004ad0c0_S* FUN_004ad0c0_S::Init(int aiValue)
+NiCloningProcess* NiCloningProcess::Init(int aiValue)
 {
     a = new PA(aiValue);
     b = new PB(aiValue);

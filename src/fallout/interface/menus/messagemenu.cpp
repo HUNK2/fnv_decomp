@@ -338,7 +338,7 @@ void* DelStandIn::Destroy(unsigned int flags)
 
 InterfaceManager* __cdecl InterfaceManager_GetSingleton();
 int __cdecl Tile_TextToTrait(const char* apTraitName);
-struct FUN_007a8850
+struct MessageMenu_MessageMenuEntry
 {
     StrMem strMessage;
     int iIcon;
@@ -355,10 +355,11 @@ struct FUN_007a8850
     float fDisplayTime;
     float fBackgroundAlpha;
     int iFlags;
-    FUN_007a8850();
+    MessageMenu_MessageMenuEntry();
 };
 // @fnv 0x007a8850
-FUN_007a8850::FUN_007a8850()
+// src: COMMUNITY 0x007a8850
+MessageMenu_MessageMenuEntry::MessageMenu_MessageMenuEntry()
 {
     iIcon = 0;
     bHasButtons = false;

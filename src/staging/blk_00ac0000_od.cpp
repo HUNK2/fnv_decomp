@@ -239,11 +239,12 @@ extern int DAT_010a2f9c;
 struct FUN_00ac9c30_class
 {
     void* m_p;
-    void* __thiscall FUN_00ac9c30(int flags);
+    void* __thiscall ScalarDeletingDestructor(int flags);
 };
 
 // @fnv 0x00ac9c30
-void* __thiscall FUN_00ac9c30_class::FUN_00ac9c30(int flags)
+// src: EXE 0x00ac9c30
+void* __thiscall FUN_00ac9c30_class::ScalarDeletingDestructor(int flags)
 {
     m_p = &DAT_010a2f9c;
     FUN_00ec3205(this);

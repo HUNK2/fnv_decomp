@@ -261,16 +261,17 @@ struct FUN_006234b0
     ~FUN_006234b0();
     virtual void Run();
 };
-struct FUN_00623430 : FUN_006234b0
+struct FOCollisionListener : FUN_006234b0
 {
     SL list;
-    FUN_00623430();
+    FOCollisionListener();
     virtual void Run();
 };
-extern FUN_00623430* DAT_011cc224;
+extern FOCollisionListener* DAT_011cc224;
 // Sets DAT_011cc224 to this and clears the list by calling RemoveAll.
 // @fnv 0x00623430
-FUN_00623430::FUN_00623430()
+// src: EXE 0x00623430
+FOCollisionListener::FOCollisionListener()
 {
     DAT_011cc224 = this;
     list.RemoveAll();
@@ -337,7 +338,7 @@ struct FUN_0083e110_node
     int** _ref_006815c0();
     FUN_0083e110_node* FUN_00726070();
 };
-struct FUN_0083e110_shell
+struct MenuTopic
 {
     char pad[0x20];
     FUN_0083e110_node* cur;
@@ -347,7 +348,7 @@ struct FUN_0083e110_shell
 // Advances cur to cur->FUN_00726070() when set, then returns whether cur is non-null and its referenced value is non-zero.
 // @fnv 0x0083e110
 // src: COMMUNITY 0x0083e110
-bool FUN_0083e110_shell::MenuTopic_NextResponse()
+bool MenuTopic::MenuTopic_NextResponse()
 {
     if (cur)
         cur = cur->FUN_00726070();

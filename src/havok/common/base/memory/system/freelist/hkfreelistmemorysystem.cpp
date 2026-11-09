@@ -364,10 +364,10 @@ struct S_00cd0a60_sub8
     int unk08;
     int unk0c;
     int unk10;
-    void FUN_00d60500(int a1, int a2);
+    void hkSystemMemoryBlockServer(int a1, int a2);
     __forceinline S_00cd0a60_sub8()
     {
-        FUN_00d60500(0, 0);
+        hkSystemMemoryBlockServer(0, 0);
     }
 };
 
@@ -1323,7 +1323,7 @@ struct S_00cd0a60_arr
     }
 };
 
-struct FUN_00cd0a60
+struct hkFreeListMemorySystem
 {
     virtual void v0();
     int unk04;
@@ -1336,12 +1336,13 @@ struct FUN_00cd0a60
     S_00cd0a60_sub0b30 m0b30;
     S_00cd0a60_arr arr;
     S_00cd0a60_sub0ad0 m336c;
-    FUN_00cd0a60();
+    hkFreeListMemorySystem();
 };
 
 // Initializes unk04 to 0, links m1c to m08, stores the address of m1c in DAT_012686cc and in m0b00.unk08.
 // @fnv 0x00cd0a60
-FUN_00cd0a60::FUN_00cd0a60() : unk04(0), m1c(&m08)
+// src: EXE 0x00cd0a60
+hkFreeListMemorySystem::hkFreeListMemorySystem() : unk04(0), m1c(&m08)
 {
     unsigned int r = (unsigned int)&m1c;
     DAT_012686cc = r;

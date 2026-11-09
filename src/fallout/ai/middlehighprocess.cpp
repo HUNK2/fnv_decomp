@@ -353,7 +353,7 @@ struct TESForm;
 struct TESObjectREFR;
 
 typedef char _sizecheck_PackageTarget[sizeof(PackageTargetRecord) == 16 ? 1 : -1];
-struct FUN_006801a0_shell : public PackageTargetRecord
+struct PackageTarget : public PackageTargetRecord
 {
     void PackageTarget_Copy(PackageTargetRecord*);
 };
@@ -361,7 +361,7 @@ struct FUN_006801a0_shell : public PackageTargetRecord
 // Copies the target object, type, value and acquire radius from apCopy into this instance when apCopy is non-null.
 // @fnv 0x006801a0
 // src: XBOX_PDB 0x006801a0
-void FUN_006801a0_shell::PackageTarget_Copy(PackageTargetRecord* apCopy)
+void PackageTarget::PackageTarget_Copy(PackageTargetRecord* apCopy)
 {
     if (apCopy != 0)
     {
@@ -3521,11 +3521,12 @@ void _Deallocate(void*);
 struct S9145e0
 {
     void FUN_00914610();
-    void* FUN_009145e0(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 // Calls FUN_00914610, then if bit 0 of flags is set calls _Deallocate on this, and returns this.
 // @fnv 0x009145e0
-void* S9145e0::FUN_009145e0(unsigned int flags)
+// src: EXE 0x009145e0
+void* S9145e0::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00914610();
     if (flags & 1)

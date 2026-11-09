@@ -450,7 +450,7 @@ int __cdecl Runtime_EvaluateValue_00e000b0();
 // Forward a value to the owner object when the owner pointer is present.
 struct FUN_00d50c00_cls
 {
-    void __thiscall FUN_00d50c00(int value);
+    void __thiscall hkpGenericConstraintData(int value);
 };
 void __cdecl finishLoadedObject_hkpGenericConstraintData(FUN_00d50c00_cls* pOwner, int value);
 struct CpuOpaque;
@@ -547,7 +547,7 @@ struct S_00e003d0_Arrs
     S_00e003d0_Arr arr8c;
     S_00e003d0_Arr arr98;
 };
-struct FUN_00e003d0 : S_00e003d0_Base, S_00e003d0_Arrs
+struct hkpCachingShapePhantom : S_00e003d0_Base, S_00e003d0_Arrs
 {
     int unka4;
     int unka8;
@@ -597,7 +597,7 @@ struct FUN_00e003d0 : S_00e003d0_Base, S_00e003d0_Arrs
     int unk158;
     int unk15c;
     S_00e003d0_Arr arr160;
-    FUN_00e003d0(int flag);
+    hkpCachingShapePhantom(int flag);
 };
 void S_00e003d0_Base::unk00()
 {}
@@ -614,7 +614,7 @@ extern int DAT_0126dc28;
 int* __cdecl Object_GetGlobalObjectAddress_00e004a0();
 struct FUN_00e004f0_class
 {
-    void __thiscall FUN_00e004f0(int value);
+    void __thiscall hkpAabbPhantom(int value);
 };
 void __cdecl finishLoadedObject_hkpAabbPhantom(FUN_00e004f0_class* object, int value);
 extern int DAT_0126dc70;
@@ -668,9 +668,9 @@ void S_00e00610_S::unk00()
 {}
 void S_00e00610_Mid::unk00()
 {}
-struct FUN_00e00610 : S_00e00610_Mid
+struct hkpTriSampledHeightFieldCollection : S_00e00610_Mid
 {
-    FUN_00e00610(int flag);
+    hkpTriSampledHeightFieldCollection(int flag);
 };
 extern int DAT_0126dd00;
 int* Object_GetGlobalObjectAddress_00e00680();
@@ -679,7 +679,7 @@ int* Object_GetGlobalObjectAddress_00e00680();
 class FUN_00e00690_cls
 {
   public:
-    void FUN_00e006d0(int a1);
+    void hkpTriSampledHeightFieldBvTreeShape(int a1);
 };
 void __cdecl finishLoadedObject_hkpTriSampledHeightFieldBvTreeShape(FUN_00e00690_cls* pObject, int aiValue);
 extern int DAT_010c6fd0;
@@ -708,11 +708,11 @@ struct S_00e006d0_B : S_00e006d0_A
         }
     }
 };
-struct FUN_00e006d0 : S_00e006d0_B
+struct hkpTriSampledHeightFieldBvTreeShape : S_00e006d0_B
 {
     int* unk14;
     virtual void v0();
-    FUN_00e006d0(int flag);
+    hkpTriSampledHeightFieldBvTreeShape(int flag);
 };
 extern int DAT_0126dd48;
 int __cdecl Runtime_EvaluateValue_00e00730();
@@ -825,13 +825,13 @@ struct S_00e00830_Base
     virtual ~S_00e00830_Base() throw()
     {}
 };
-struct FUN_00e00830 : S_00e00830_Base
+struct hkpShapeInfo : S_00e00830_Base
 {
     S_00e00830_Ptr m_ptr;
     int unk0c;
     S_00e00830_Array<S_00e00830_Ref> m_refs;
     S_00e00830_Array<S_00e00830_Elem64> m_pElements;
-    ~FUN_00e00830() throw();
+    ~hkpShapeInfo() throw();
 };
 // FUN_00e00940 : a one-line function - getter
 extern int g_target_00e00940;
@@ -894,15 +894,15 @@ class BE00A80InterfaceD
   public:
     virtual void OnD();
 };
-class FUN_00e00a80_cls : public BE00A80Base,
+class hkpNullCollisionFilter : public BE00A80Base,
                          public BE00A80InterfaceA,
                          public BE00A80InterfaceB,
                          public BE00A80InterfaceC,
                          public BE00A80InterfaceD
 {
   public:
-    FUN_00e00a80_cls(int iEnabled);
-    virtual ~FUN_00e00a80_cls();
+    hkpNullCollisionFilter(int iEnabled);
+    virtual ~hkpNullCollisionFilter();
     virtual void OnA();
     virtual void OnB();
     virtual void OnC();
@@ -934,7 +934,7 @@ class E00B60Object
     int unk00;
 };
 void finishLoadedObject_hkpGroupFilter(void* apMemory, int finishing);
-// FUN_00e00ba0: thiscall ctor-like (flag arg) storing a primary vtable at +0 and
+// hkpGroupFilter: thiscall ctor-like (flag arg) storing a primary vtable at +0 and
 // secondary vtables at +8, +0xc, +0x10, +0x14, then an optional int at +0x20.
 struct E00ba0_b0
 {
@@ -957,13 +957,13 @@ struct E00ba0_b4
 {
     virtual void unk00();
 };
-class FUN_00e00ba0 : E00ba0_b0, E00ba0_b1, E00ba0_b2, E00ba0_b3, E00ba0_b4
+class hkpGroupFilter : E00ba0_b0, E00ba0_b1, E00ba0_b2, E00ba0_b3, E00ba0_b4
 {
   public:
     int unk18;
     int unk1c;
     int m_20;
-    FUN_00e00ba0(int flag);
+    hkpGroupFilter(int flag);
 };
 struct CpuOpaque;
 extern CpuOpaque DAT_0126df88;
@@ -1010,7 +1010,7 @@ int* __cdecl Object_GetGlobalObjectAddress_00e00f60();
 // when that object is present.
 struct FUN_00e00f70_cls
 {
-    void __thiscall FUN_00e00fb0(int value);
+    void __thiscall hkpConvexPieceMeshShape(int value);
 };
 void __cdecl finishLoadedObject_hkpConvexPieceMeshShape(FUN_00e00f70_cls* pObject, int value);
 extern int DAT_010305a8;
@@ -1019,7 +1019,7 @@ extern int DAT_010cc364;
 extern int DAT_010cc344;
 extern int DAT_010e8e94;
 extern int DAT_010e8e74;
-class FUN_00e00fb0
+class hkpConvexPieceMeshShape
 {
   public:
     void* m_vptr;
@@ -1030,7 +1030,7 @@ class FUN_00e00fb0
     unsigned char m_14;
     unsigned char m_15;
 
-    FUN_00e00fb0(int flag);
+    hkpConvexPieceMeshShape(int flag);
 };
 struct VirtualSlotObject
 {
@@ -1060,7 +1060,7 @@ extern int DAT_010e901c;
 void* __cdecl Runtime_GetDAT010e901cAddress();
 extern int DAT_0126e210;
 void* __cdecl Object_GetGlobalObjectAddress_00e01200();
-// FUN_00e01250: thiscall ctor (flag arg) storing secondary vtables at +8,+0xc,+0x10,+0x14
+// hkpCollisionFilterList: thiscall ctor (flag arg) storing secondary vtables at +8,+0xc,+0x10,+0x14
 // from inline base ctors, then the primary vtable at +0, then the secondary vtables again,
 // then an optional int at +0x20.
 struct E01250_b0
@@ -1084,13 +1084,13 @@ struct E01250_b4
 {
     virtual void unk00();
 };
-class FUN_00e01250 : E01250_b0, E01250_b1, E01250_b2, E01250_b3, E01250_b4
+class hkpCollisionFilterList : E01250_b0, E01250_b1, E01250_b2, E01250_b3, E01250_b4
 {
   public:
     int unk18;
     int unk1c;
     int m_20;
-    FUN_00e01250(int flag);
+    hkpCollisionFilterList(int flag);
 };
 struct FUN_00e01320_cls
 {
@@ -3393,7 +3393,7 @@ struct ColorRegistry
     void hkMonitorStreamColorTable_addColor(const char* name, unsigned int color);
     void RegisterDefaultColors();
 };
-struct FUN_00e004f0 : S_00e003d0_Base, S_00e003d0_Arrs
+struct hkpAabbPhantom : S_00e003d0_Base, S_00e003d0_Arrs
 {
     int unka4;
     int unka8;
@@ -3407,7 +3407,7 @@ struct FUN_00e004f0 : S_00e003d0_Base, S_00e003d0_Arrs
     int unkc8;
     int unkcc;
     S_00e003d0_Arr arrd0;
-    FUN_00e004f0(int flag);
+    hkpAabbPhantom(int flag);
 };
 // sub ecx,8; jmp target  ==  MSVC adjustor thunk (second base of a multiple-inheritance override)
 struct SpawnedPrimaryBase

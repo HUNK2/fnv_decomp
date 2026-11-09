@@ -421,18 +421,19 @@ void LoveTesterMenu_Draw3DElements()
 }
 
 
-struct FUN_00794e70
+struct LoveTesterMenu_LoveTesterButton
 {
     int unk00;
     int unk04;
     NiPointer<NiAVObject> spRetainedObject;
     NiProperty* pProperty;
-    FUN_00794e70(int a, int b, const char* name);
+    LoveTesterMenu_LoveTesterButton(int a, int b, const char* name);
 };
 
 // Stores two ints, looks up a scene object by name, and stores its property 3 if its type is between 8 and 12, else null.
 // @fnv 0x00794e70
-FUN_00794e70::FUN_00794e70(int iFirst, int iSecond, const char* pcObjectName) : spRetainedObject(0)
+// src: COMMUNITY 0x00794e70
+LoveTesterMenu_LoveTesterButton::LoveTesterMenu_LoveTesterButton(int iFirst, int iSecond, const char* pcObjectName) : spRetainedObject(0)
 {
     unk00 = iFirst;
     unk04 = iSecond;
@@ -444,7 +445,7 @@ FUN_00794e70::FUN_00794e70(int iFirst, int iSecond, const char* pcObjectName) : 
 }
 
 namespace fnv_007950b0 {
-struct FUN_007950b0
+struct LoveTesterMenu_LoveTesterTextItem
 {
     int unk00;
     NiProperty* unk04;
@@ -454,12 +455,13 @@ struct FUN_007950b0
     int unk14;
     int unk18;
 
-    FUN_007950b0(int a1, const char* pcName, const char* pcName2, int a4, bool bFirst, int a6);
+    LoveTesterMenu_LoveTesterTextItem(int a1, const char* pcName, const char* pcName2, int a4, bool bFirst, int a6);
 };
 
 // Looks up two named NiAVObjects on one of two scene nodes and stores their property of type 3 when its value is between 8 and 12.
 // @fnv 0x007950b0
-FUN_007950b0::FUN_007950b0(int a1, const char* pcObjectName, const char* pcSecondObjectName, int aiParam4,
+// src: COMMUNITY 0x007950b0
+LoveTesterMenu_LoveTesterTextItem::LoveTesterMenu_LoveTesterTextItem(int a1, const char* pcObjectName, const char* pcSecondObjectName, int aiParam4,
                            bool abUseFirstNode, int aiParam6)
 {
     unk00 = a1;
@@ -2219,18 +2221,19 @@ struct FUN_00723fa0
     ~FUN_00723fa0();
 };
 
-struct FUN_00794ff0 : FUN_00794e70
+struct LoveTesterMenu_ActorValueButton : LoveTesterMenu_LoveTesterButton
 {
     int m_10;
     FUN_00723fa0 m_kAnims;
     int m_24;
-    FUN_00794ff0(int a, int b, const char* pName, int iParam, int iCount, ...);
+    LoveTesterMenu_ActorValueButton(int a, int b, const char* pName, int iParam, int iCount, ...);
 };
 
 // Initialises m_24 with iParam and appends iCount Animation* arguments from the variadic list to m_kAnims.
 // @fnv 0x00794ff0
-FUN_00794ff0::FUN_00794ff0(int aiParam1, int aiParam2, const char* pName, int iParam, int aiAnimCount, ...)
-    : FUN_00794e70(aiParam1, aiParam2, pName)
+// src: COMMUNITY 0x00794ff0
+LoveTesterMenu_ActorValueButton::LoveTesterMenu_ActorValueButton(int aiParam1, int aiParam2, const char* pName, int iParam, int aiAnimCount, ...)
+    : LoveTesterMenu_LoveTesterButton(aiParam1, aiParam2, pName)
 {
     m_24 = iParam;
     va_list kArgs;

@@ -122,7 +122,7 @@ struct FUN_00534570_shell { char* m_pkDeltas; unsigned int stride; void NiGeomet
 template<int> struct EndianSizeTag {};
 void BSEndian(int*, EndianSizeTag<2>);
 void BSEndian(unsigned short*, EndianSizeTag<2>);
-struct FUN_00535a60_Class {
+struct FILE_TEX_DATA {
     void FILE_TEX_DATA_Endian();
 };
 extern int DAT_011c9f04;
@@ -145,7 +145,7 @@ struct FUN_00540800_Class {
     void ForwardCall_00537ce0();
 };
 extern "C" void* g_011f4aac;
-struct FUN_00537d00_Class {
+struct BSPackedAdditionalGeometryData {
     void* __thiscall BSPackedAdditionalGeometryData_GetRTTI();
 };
 struct FUN_00537d10_Class {
@@ -163,11 +163,11 @@ struct FUN_00537e90 {
     unsigned int quantity;
     void SetQuantity(unsigned int value);
 };
-struct FUN_00538e30_class {
+struct hkBaseObject {
     void __fastcall SetVtable();
 };
 extern int DAT_0102e378;
-struct FUN_00538e10_class {
+struct hkReferencedObject {
     int* m_vtbl;
     void __fastcall UpdateState_00538e10();
 };
@@ -210,7 +210,7 @@ struct FUN_005394c0_Class {
 };
 struct GlobalObjectO2_00a7b610;
 extern GlobalObjectO2_00a7b610 g_011f4ab8;
-struct FUN_00539fc0_Class
+struct NiBinaryExtraData
 {
     GlobalObjectO2_00a7b610* NiBinaryExtraData_GetRTTI();
 };
@@ -224,7 +224,7 @@ struct FUN_00539fd0 : public FUN_0053a000 {
 struct FUN_0053a070_Class {
     void __thiscall NiBinaryExtraData_SetValue(int a, int b);
 };
-struct FUN_0053a510 {
+struct COORD_DATA {
     NiPoint3 m0;
     char _p1[7];
     NiPoint3 m1;
@@ -232,7 +232,7 @@ struct FUN_0053a510 {
     NiPoint3 m2;
     char _p3[19];
     NiPoint3 m3;
-    FUN_0053a510();
+    COORD_DATA();
 };
 struct FUN_0053a760_Class {
     int m_00;
@@ -269,7 +269,7 @@ struct Buf50
     int m00; int m04; int m08; int m0C; int m10; int m14; int m18; int m1C;
     int m20; int m24; int m28; int m2C; int m30; int m34; int m38; int m3C;
     int m40; int m44; int m48; int m4C;
-    void FUN_0053a510();
+    void COORD_DATA();
 };
 struct Owner
 {
@@ -301,7 +301,7 @@ struct Tmp53e210 {
     int m44;
     int m48;
     int m4C;
-    void FUN_0053a510();
+    void COORD_DATA();
 };
 struct Host53e210 {
     bool TESObjectLAND_GetCoordData(Tmp53e210* p, int a, int b);
@@ -585,9 +585,9 @@ struct Base8ef0 { virtual void v0(); int a; int b; int c; Base8ef0(); ~Base8ef0(
 struct MA { int x[4]; MA(); void Go(); };
 struct MB { int x[3]; MB(); ~MB(); };
 struct MC { int x[4]; MC(); void Fin(int); };
-struct FUN_00538d70_cls : Base8ef0 {
+struct hkpMoppCode : Base8ef0 {
     MA a; MB b; MC c;
-    FUN_00538d70_cls();
+    hkpMoppCode();
     virtual void v0();
 };
 extern void* DAT_01187020;
@@ -726,7 +726,7 @@ struct LocalObj53a5e0 {
     int m4c;
     int m50;
     int m54;
-    void FUN_0053a510();
+    void COORD_DATA();
 };
 struct FUN_0053a5e0_cls {
     bool TESObjectLAND_GetCoordData(LocalObj53a5e0* p, int a, int b);

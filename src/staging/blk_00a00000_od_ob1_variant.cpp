@@ -188,7 +188,7 @@ struct FUN_00a0d5c0_Local
 };
 struct FUN_00a0d5c0_Class
 {
-    int __thiscall FUN_00a0d5c0(int arg);
+    int __thiscall ScalarDeletingDestructor(int arg);
 };
 struct FUN_00a0d7c0_Arg
 {

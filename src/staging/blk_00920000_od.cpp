@@ -342,7 +342,7 @@ struct Item_00937b50
     int b;
 };
 // Retained: the shared modifier list does not declare its save routine.
-struct FUN_00937b50_cls
+struct ModifierList
 {
     unsigned int unk00;
     unsigned int unk04;
@@ -352,7 +352,7 @@ struct FUN_00937b50_cls
 };
 // @fnv 0x00937b50
 // src: COMMUNITY 0x00937b50
-void FUN_00937b50_cls::ModifierList_SaveGameBGS(BGSSaveFormBuffer* buf)
+void ModifierList::ModifierList_SaveGameBGS(BGSSaveFormBuffer* buf)
 {
     unsigned int uiPos;
     int iCount = 0;
@@ -509,7 +509,7 @@ void MobileObject_SoundFileCallBack(int param_1)
 }
 }  // namespace fnv_00935cc0
 
-struct FUN_009369a0_shell
+struct ResponseListWrapper
 {
     TESResponse* m_next;
     int ResponseListWrapper_GetListCount();
@@ -517,7 +517,7 @@ struct FUN_009369a0_shell
 // Returns the result of GetResponseCount on m_next, or 0 when m_next is null.
 // @fnv 0x009369a0
 // src: COMMUNITY 0x009369a0
-int FUN_009369a0_shell::ResponseListWrapper_GetListCount()
+int ResponseListWrapper::ResponseListWrapper_GetListCount()
 {
     return m_next ? GetResponseCount(m_next) : 0;
 }

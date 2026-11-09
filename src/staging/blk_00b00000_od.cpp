@@ -79,14 +79,14 @@ bool __thiscall FUN_00b01be0_Class::IsFlag4Clear(unsigned int flags, unsigned in
 
 extern int DAT_010a48e8;
 
-struct FUN_00b029a0_class
+struct BSTaskletGroupData
 {
     void __thiscall SetVirtualTable_00b029a0();
 };
 
 // @fnv 0x00b029a0
 // src: GUESS 0x00b029a0 (confidence: low)
-void __thiscall FUN_00b029a0_class::SetVirtualTable_00b029a0()
+void __thiscall BSTaskletGroupData::SetVirtualTable_00b029a0()
 {
     *(int**)(this) = &DAT_010a48e8;
 }
@@ -191,19 +191,20 @@ struct FUN_00afeac0_shell
     int __thiscall OpenFile(int arg);
 };
 
-struct FUN_00b00900
+struct BSSystemFile
 {
     int m0;
     int m4;
     int m8;
     char mc;
     int OpenFile(int arg);
-    FUN_00b00900(int a, int b, int c, char d);
+    BSSystemFile(int a, int b, int c, char d);
 };
 
 // Initialises the object: stores b, c and d into m4, m8 and mc, then sets m0 from OpenFile(a).
 // @fnv 0x00b00900
-FUN_00b00900::FUN_00b00900(int aiValue, int aiSecond, int aiThird, char d)
+// src: COMMUNITY 0x00b00900
+BSSystemFile::BSSystemFile(int aiValue, int aiSecond, int aiThird, char d)
 {
     m0 = 0;
     m4 = aiSecond;
@@ -313,12 +314,13 @@ struct FUN_00b01020
 {
     virtual ~FUN_00b01020();
 };
-struct FUN_00b01c20 : public FUN_00b01020
+struct BSWin32FileCache : public FUN_00b01020
 {
-    virtual ~FUN_00b01c20();
+    virtual ~BSWin32FileCache();
 };
 // @fnv 0x00b01c20
-FUN_00b01c20::~FUN_00b01c20()
+// src: EXE 0x00b01c20
+BSWin32FileCache::~BSWin32FileCache()
 {}
 
 extern int DAT_010a4880;
@@ -1704,12 +1706,12 @@ void* __thiscall FUN_00b02720_shell::Init()
 }
 
 extern int DAT_010a48d8;
-struct FUN_00b027c0
+struct BSWin32TaskletGroupData
 {
     void* vtable;
     char bActive;
     void* pGroup;
-    FUN_00b027c0();
+    BSWin32TaskletGroupData();
 };
 struct CSFields
 {
@@ -1719,7 +1721,8 @@ struct CSFields
 };
 // Constructor that sets the vtable and bActive, creates a semaphore (max count 1) and a critical section, and zeroes several fields.
 // @fnv 0x00b027c0
-FUN_00b027c0::FUN_00b027c0()
+// src: EXE 0x00b027c0
+BSWin32TaskletGroupData::BSWin32TaskletGroupData()
 {
     vtable = &DAT_010a48e8;
     bActive = 1;

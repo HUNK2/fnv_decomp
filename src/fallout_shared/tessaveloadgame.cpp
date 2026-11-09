@@ -110,7 +110,7 @@ public:
     void* table;
     char pad[0x2c];
     void* manager;
-    void FUN_00c42dd0(unsigned int, const char*);
+    void BSTaskThread(unsigned int, const char*);
     BSTaskManagerThread(void*, unsigned int);
 };
 extern void* DAT_010c1740[];
@@ -142,11 +142,11 @@ void TESSaveLoadGame::FinalizeForm(TESForm* form)
     if (m_kDeferredDeletionList.IsInList(form))
         m_kDeferredDeletionList.Remove(form);
 }
-// Initializes the task manager thread: calls FUN_00c42dd0 with arg and DAT_010c1748, then stores DAT_010c1740 in table and owner in manager.
+// Initializes the task manager thread: calls BSTaskThread with arg and DAT_010c1748, then stores DAT_010c1740 in table and owner in manager.
 // @fnv 0x00c3ee70
 BSTaskManagerThread::BSTaskManagerThread(void* owner, unsigned int arg)
 {
-    FUN_00c42dd0(arg, DAT_010c1748);
+    BSTaskThread(arg, DAT_010c1748);
     table = DAT_010c1740;
     manager = owner;
 }
@@ -373,7 +373,8 @@ void _Deallocate(void* p);
 
 // Calls FUN_00855310, then frees this with _Deallocate when flags has bit 0 set, and returns this.
 // @fnv 0x008552e0
-void* InteriorCellNewReferencesMap::FUN_008552e0(unsigned int flags)
+// src: EXE 0x008552e0
+void* InteriorCellNewReferencesMap::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00855310();
     if (flags & 1)

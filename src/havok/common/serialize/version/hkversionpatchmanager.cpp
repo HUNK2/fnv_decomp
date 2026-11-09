@@ -18,13 +18,13 @@ struct FUN_00d874d0_s
 {
     void hkCachedHashMap_hkStringMapOperations_hkContainerHeapAllocator_insert(const char* a, int b);
 };
-struct FUN_00db7d00_class
+struct hkVersionPatchManager_UidFromClassVersion
 {
     void* __thiscall hkVersionPatchManager_UidFromClassVersion_cache(unsigned int a);
 };
 // @fnv 0x00db7d00
 // src: XBOX_PDB 0x00db7d00
-void* __thiscall FUN_00db7d00_class::hkVersionPatchManager_UidFromClassVersion_cache(unsigned int a)
+void* __thiscall hkVersionPatchManager_UidFromClassVersion::hkVersionPatchManager_UidFromClassVersion_cache(unsigned int a)
 {
     if (a)
     {
@@ -1572,11 +1572,12 @@ struct CpuObject
     unsigned int unk00;
     unsigned short size;
     void FUN_00db85e0();
-    CpuObject* FUN_00dba580(unsigned int flags);
+    CpuObject* ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_00db85e0, then if flags has bit 0 set, releases this object through the allocator with its size, and returns this.
 // @fnv 0x00dba580
-CpuObject* CpuObject::FUN_00dba580(unsigned int flags)
+// src: EXE 0x00dba580
+CpuObject* CpuObject::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00db85e0();
     if (flags & 1)

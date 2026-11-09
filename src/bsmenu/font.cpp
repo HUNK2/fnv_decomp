@@ -299,14 +299,14 @@ void __cdecl BuildAssetPath(const char* pcSourcePath, char* pcDestPath, unsigned
 
 void __cdecl BuildAssetPath(int, char*, int);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
-struct FUN_00c3d090_shell2 {
+struct QueuedFileEntry {
     char pad[0x28];
     char* p;
     void QueuedFileEntry_GetLookupFileName(int flag, char* dst);
 };
 // @fnv 0x00c3d090
 // src: XBOX_PDB 0x00c3d090
-void FUN_00c3d090_shell2::QueuedFileEntry_GetLookupFileName(int flag, char* dst)
+void QueuedFileEntry::QueuedFileEntry_GetLookupFileName(int flag, char* dst)
 {
     if (flag == 0) {
         BuildAssetPath((int)p, dst, 0x104);
@@ -2781,16 +2781,16 @@ struct CharacterPosition {
     }
     ~CharacterPosition() { RemoveAll(); }
 };
-struct FUN_00759330 {
+struct Font_TextData {
     LayoutText text; int width; int height;
     int startOffset; int layoutVersion; int geometryKey; int layoutFlags;
     CharacterPosition firstPosition;
-    FUN_00759330(int newWidth,int newHeight,int newCount,int newLimit,unsigned char separator) {
+    Font_TextData(int newWidth,int newHeight,int newCount,int newLimit,unsigned char separator) {
         text=DAT_01011584;
         width=newWidth; height=newHeight; startOffset=newCount; layoutVersion=newLimit;
         geometryKey=0; layoutFlags=separator;
     }
-    ~FUN_00759330() { firstPosition.RemoveAll(); }
+    ~Font_TextData() { firstPosition.RemoveAll(); }
     int GetCharacterOffset(int index) {
         CharacterPosition* node = &firstPosition;
         int current=0;
@@ -2879,7 +2879,7 @@ struct FontRenderer : Font {
     bool HasNoIcons() { return ((FinalizerView*)ButtonIcons)->count==0; }
     unsigned int GetIconCount() { return ((FinalizerView*)ButtonIcons)->count; }
     void Font_CreateText(int*,int*,int*,int,int,int,char,int,ShapeView**,ShapeView**);
-    void CheckForVariablesInText(int,FUN_00759330*);
+    void CheckForVariablesInText(int,Font_TextData*);
     ShapeView* Font_MakeTriShape(int,int,int);
     ShapeView* MakeButton();
     void UpdateIconGeometry(int,ShapeView*,FontPoint3&);
@@ -2912,7 +2912,7 @@ void FontRenderer::Font_CreateText(int* source,int* width,int* height,int count,
     GlyphData* glyph;
     int secondaryActive_2;
     float lineB=Manager()->LinePadding(iFontNum);
-    FUN_00759330 layoutX(*width,*height,count,limit,separator);
+    Font_TextData layoutX(*width,*height,count,limit,separator);
     CheckForVariablesInText(SourceValue(source),&layoutX);
     *width=layoutX.GetWidth();
     *height=layoutX.GetHeight();

@@ -70,13 +70,13 @@ DummyObj* __fastcall InitFromGlobals(DummyObj* pThis)
     return pThis;
 }
 
-struct FUN_00a43350_shell
+struct BSTreadTransfInterpolator
 {
     unsigned int BSTreadTransfInterpolator_GetKeyContent(unsigned short usChannel);
 };
 // @fnv 0x00a43350
 // src: XBOX_PDB 0x00a43350
-unsigned int FUN_00a43350_shell::BSTreadTransfInterpolator_GetKeyContent(unsigned short usChannel)
+unsigned int BSTreadTransfInterpolator::BSTreadTransfInterpolator_GetKeyContent(unsigned short usChannel)
 {
     return usChannel ? 6 : 0;
 }

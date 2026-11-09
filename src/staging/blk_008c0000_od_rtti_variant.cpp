@@ -231,7 +231,7 @@ struct FUN_008c5e20_Class
     int f;
     void* __thiscall InitializeFields_008c5e20();
 };
-struct FUN_008c7790_Class
+struct BSLinearTaskThread
 {
     void __thiscall FUN_008c77c0();
     void* __thiscall DestroyIfFlagged(unsigned int flags);
@@ -315,7 +315,7 @@ struct FUN_008d1130_Class : FUN_008d1160_Class
 };
 extern "C" void __fastcall FUN_00a6d220(void*);
 extern int DAT_010867fc;
-struct FUN_008d15d0_Class
+struct BSPlayerDistanceCheckController
 {
     void* __thiscall BSPlayerDistanceCheckController_BSPlayerDistanceCheckController();
 };
@@ -375,7 +375,7 @@ extern "C" void __cdecl _delete(void* p, unsigned int size);
 struct FUN_008df980_Class
 {
     void __thiscall FUN_008df9b0();
-    void* __thiscall FUN_008df980(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 struct NiFixedStr
 {
@@ -428,7 +428,7 @@ struct Call741e0
 extern int DAT_01086658;
 extern int DAT_01086674;
 extern int DAT_01086684;
-struct FUN_008d10e0_Class : Call741e0
+struct bhkCharacterListenerArrow : Call741e0
 {
     void* bhkCharacterListenerArrow_bhkCharacterListenerArrow(int a, int b);
 };
@@ -2402,7 +2402,7 @@ struct Sub08_b7397
     int unk8C;
     ~Sub08_b7397();
 };
-class FUN_008d6af0_cls
+class HighActorCuller
 {
   public:
     int unk04;
@@ -2410,7 +2410,7 @@ class FUN_008d6af0_cls
     Small_b7397 m_98;
     Small_b7397 m_9c;
     Small_b7397 m_a0;
-    virtual ~FUN_008d6af0_cls();
+    virtual ~HighActorCuller();
 };
 extern const float DAT_010181e8;
 struct B8DF9B0Queue

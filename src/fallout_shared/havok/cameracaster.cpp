@@ -186,11 +186,12 @@ bool DummyFlagsShell::bhkCharacterController_QChaseBip()
 
 struct FUN_006210a0_shell : FUN_00621100_shell
 {
-    void* __thiscall FUN_006210a0(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // @fnv 0x006210a0
-void* __thiscall FUN_006210a0_shell::FUN_006210a0(unsigned int flags)
+// src: EXE 0x006210a0
+void* __thiscall FUN_006210a0_shell::ScalarDeletingDestructor(unsigned int flags)
 {
     SetVtable();
     if (flags & 1)

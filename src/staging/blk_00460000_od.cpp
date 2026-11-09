@@ -408,13 +408,14 @@ struct FUN_008c6060_shell
 {
     void FUN_008c6060();
 };
-struct FUN_004748f0 : BaseFormComponent
+struct BGSAmmoForm : BaseFormComponent
 {
-    FUN_004748f0();
+    BGSAmmoForm();
 };
 // Sets the vtable pointer to DAT_0101a3b8 and then calls FUN_008c6060 on this object.
 // @fnv 0x004748f0
-FUN_004748f0::FUN_004748f0()
+// src: EXE 0x004748f0
+BGSAmmoForm::BGSAmmoForm()
 {
     ((FUN_008c6060_shell*)this)->FUN_008c6060();
 }
@@ -427,14 +428,15 @@ struct FUN_00475100_shell
     void SetClipRounds();
 };
 
-struct FUN_004750b0 : BaseFormComponent
+struct BGSClipRoundsForm : BaseFormComponent
 {
-    FUN_004750b0();
+    BGSClipRoundsForm();
 };
 
 // Sets the object's vtable pointer to DAT_0101a644, then calls SetClipRounds on this object.
 // @fnv 0x004750b0
-FUN_004750b0::FUN_004750b0()
+// src: EXE 0x004750b0
+BGSClipRoundsForm::BGSClipRoundsForm()
 {
     reinterpret_cast<FUN_00475100_shell*>(this)->SetClipRounds();
 }
@@ -688,12 +690,13 @@ void __thiscall FUN_004792c0_Class::ReleaseStorage_004792c0()
 struct FUN_0045d930_class
 {
     void __thiscall SetVtableAndProcessState_0046ffd0();
-    void* __thiscall FUN_00470320(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_0046ffd0, then deletes this when flags has bit 0 set, and returns this.
 // @fnv 0x00470320
-void* __thiscall FUN_0045d930_class::FUN_00470320(unsigned int flags)
+// src: EXE 0x00470320
+void* __thiscall FUN_0045d930_class::ScalarDeletingDestructor(unsigned int flags)
 {
     SetVtableAndProcessState_0046ffd0();
     if (flags & 1)
@@ -907,14 +910,14 @@ struct TlsBlock462480
 };
 __declspec(thread) TlsBlock462480 g_tls462480;
 extern int __tls_index;
-struct FUN_00462480_Class
+struct BGSSaveLoadGame
 {
     unsigned char __thiscall BGSSaveLoadGame_GetThreadAllowChanges();
 };
 // Returns true when the TLS flag at g_tls462480 has bit 0 clear.
 // @fnv 0x00462480
 // src: XBOX_PDB 0x00462480
-unsigned char __thiscall FUN_00462480_Class::BGSSaveLoadGame_GetThreadAllowChanges()
+unsigned char __thiscall BGSSaveLoadGame::BGSSaveLoadGame_GetThreadAllowChanges()
 {
     return (g_tls462480.flag & 1) == 0;
 }
@@ -1293,7 +1296,7 @@ bool __thiscall FUN_0047b470_This::bhkCollisionObject_GetUseVelocity()
 }
 
 // 0x00474a40 selects form type 0x55 (FLST); 0x00500940 returns its form list at +0x18.
-struct FUN_0047ba80_This
+struct BGSRepairItemList
 {
     int _0;
     BGSListForm* m4;
@@ -1301,7 +1304,7 @@ struct FUN_0047ba80_This
 };
 // Returns true if m4 is set and its form list contains actor; otherwise returns false.
 // @fnv 0x0047ba80
-bool __thiscall FUN_0047ba80_This::IsActorInList(Actor* actor)
+bool __thiscall BGSRepairItemList::IsActorInList(Actor* actor)
 {
     bool flag = false;
     if (m4 != 0)
@@ -1398,14 +1401,14 @@ void __cdecl BGSDestructibleObjectForm_UpdateDamageStageNodes(NiAVObject* object
             BGSDestructibleObjectForm_UpdateDamageStageNodes(node->GetAt(i), flag);
 }
 
-struct FUN_00478130_class
+struct SAVE_DESTRUCTIBLE_OBJECT_STAGE
 {
     void __thiscall SAVE_DESTRUCTIBLE_OBJECT_STAGE_Endian();
 };
 // Applies BSEndian to the four fields at offsets 4, 8, 12 and 16 of this object.
 // @fnv 0x00478130
 // src: XBOX_PDB 0x00478130
-void __thiscall FUN_00478130_class::SAVE_DESTRUCTIBLE_OBJECT_STAGE_Endian()
+void __thiscall SAVE_DESTRUCTIBLE_OBJECT_STAGE::SAVE_DESTRUCTIBLE_OBJECT_STAGE_Endian()
 {
     BSEndian((unsigned char*)this + 4, EndianSizeTag<0>());
     BSEndian((unsigned char*)this + 8, EndianSizeTag<0>());
@@ -1590,14 +1593,14 @@ unsigned int FUN_0046ebd0_Class::NiTexturingProperty_GetDecalMapCount()
     return (unsigned int)(unsigned short)reinterpret_cast<FUN_0046ebf0_Class*>(this)->GetMaskedShifted(0xff0, 4);
 }
 
-struct FUN_0046fdd0_Class
+struct TESObjectANIO
 {
     char m_iWordAt00[0x38];
     int m_38;
     char IsFieldEqual(int param_2);
 };
 // @fnv 0x0046fdd0
-char FUN_0046fdd0_Class::IsFieldEqual(int aiValue)
+char TESObjectANIO::IsFieldEqual(int aiValue)
 {
     return m_38 == aiValue;
 }

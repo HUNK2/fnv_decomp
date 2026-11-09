@@ -5313,7 +5313,7 @@ struct Text86
     int unk0c;
     int unk10;
     int unk14;
-    void FUN_008783c0(void*);
+    void MemoryManagerFile(void*);
     void FUN_008784d0();
 };
 extern Setting86 g_011dee78, g_011ded2c, g_011dece4, g_011dee6c, g_011de72c, g_011d73e4;
@@ -5533,7 +5533,7 @@ int __cdecl Object_UpdateFields_00c5d520(...);
 int __cdecl FreeNiNodeBlocks(...);
 int __cdecl Runtime_ReleaseStorage_00a1c790(...);
 int __cdecl NiStaticDataManager_Shutdown(...);
-int __cdecl FUN_008783c0(...);
+int __cdecl MemoryManagerFile(...);
 Receiver86* __cdecl MemoryManager_Instance();
 int __cdecl MemoryManager_OutputDebugInfo(...);
 int __cdecl FUN_008784d0(...);
@@ -6043,7 +6043,7 @@ int __stdcall WinMain_0086a850(unsigned int param_1, unsigned int param_2, unsig
                 FreeNiNodeBlocks();
                 Runtime_ReleaseStorage_00a1c790();
                 NiStaticDataManager_Shutdown();
-                shutdownText46.FUN_008783c0(&UNK_010828ec);
+                shutdownText46.MemoryManagerFile(&UNK_010828ec);
                 MemoryManager_Instance()->MemoryManager_OutputDebugInfo(&shutdownText46, 0);
                 result5 = 0;
                 shutdownText46.FUN_008784d0();
@@ -11819,7 +11819,7 @@ extern short DAT_011f35b4;
 extern short DAT_011f35b6;
 extern bool DAT_011f35c8;
 
-struct FUN_00a23390_t
+struct OSInputGlobals
 {
     int OSInputGlobals_GetControllerValue(int device, int axis);
 };
@@ -11827,7 +11827,7 @@ struct FUN_00a23390_t
 // Returns the state of the specified controller axis, reading from per-device state or global fallback values for axes 7-10.
 // @fnv 0x00a23390
 // src: COMMUNITY 0x00a23390
-int FUN_00a23390_t::OSInputGlobals_GetControllerValue(int device, int axis)
+int OSInputGlobals::OSInputGlobals_GetControllerValue(int device, int axis)
 {
     int* pAxisState = (int*)((char*)this + device * 0xa0 + 0x34);
     switch (axis)
@@ -13676,7 +13676,7 @@ struct InputObject : ModuleRoot
     InputObject* FUN_00c46970();
     InputObject* FUN_00a5ecb0(int);
     InputObject* FUN_00bc2980();
-    InputObject* FUN_00c503d0();
+    InputObject* BSParticleSystemManager();
     InputObject* FUN_00a87810(void*);
     InputObject* FUN_00a881e0(int, int, int, int, int, int, int, int, int);
     InputObject* Lighting30shaderproperty_StoreAndAddReference_00a75650();
@@ -14075,9 +14075,9 @@ struct FUN_00bc2980 : NiMemObject
     unsigned int unknown_b0;
     unsigned int unknown_b4;
 };
-struct FUN_00c503d0 : NiMemObject
+struct BSParticleSystemManager : NiMemObject
 {
-    FUN_00c503d0();
+    BSParticleSystemManager();
     unsigned int unknown_00;
     unsigned int unknown_04;
     unsigned int unknown_08;
@@ -14348,7 +14348,7 @@ void RenderSystem::TESMain_InitSceneGraph()
     ((InputObject*)DAT_011dea18)->AssignFixedString(NiFixedString(str_01082c40));
     p->virtual_f8(3, ((InputObject*)DAT_011dea18));
 
-    DAT_011ded58.FUN_0066b0d0((InputObject*)new FUN_00c503d0());
+    DAT_011ded58.FUN_0066b0d0((InputObject*)new BSParticleSystemManager());
     DAT_011ded58.Modelloader_GetReferencedThis()->AssignFixedString(NiFixedString(str_01082c28));
     p->virtual_f8(5, DAT_011ded58.Modelloader_GetReferencedThis());
 

@@ -99,13 +99,13 @@ struct BlkOffset08View
 {
     unsigned int GetFlags();
 };
-struct FUN_004d7d50_StandIn
+struct NiParticleSystem
 {
     unsigned int __thiscall NiParticleSystem_GetModifierCount();
 };
 // @fnv 0x004d7d50
 // src: XBOX_PDB 0x004d7d50
-unsigned int __thiscall FUN_004d7d50_StandIn::NiParticleSystem_GetModifierCount()
+unsigned int __thiscall NiParticleSystem::NiParticleSystem_GetModifierCount()
 {
     return ((BlkOffset08View*)((char*)this + 0xC8))->GetFlags();
 }
@@ -528,11 +528,12 @@ FUN_004d4e40_Class::FUN_004d4e40_Class(unsigned int size)
 void __cdecl _Deallocate(void*);
 struct FUN_004d4f40_StandIn
 {
-    void* __thiscall FUN_004d4f40(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 // Calls FUN_004d4f10 on this, deallocates this when flags has bit 0 set, and returns this.
 // @fnv 0x004d4f40
-void* __thiscall FUN_004d4f40_StandIn::FUN_004d4f40(unsigned int flags)
+// src: EXE 0x004d4f40
+void* __thiscall FUN_004d4f40_StandIn::ScalarDeletingDestructor(unsigned int flags)
 {
     ((FUN_004d4f10_StandIn*)this)->ReleaseStorage_004d4f10();
     if (flags & 1)
@@ -1099,19 +1100,20 @@ bool __cdecl Runtime_EvaluateValue_004deed0(char const* a, unsigned char aucInde
     return true;
 }
 
-struct FUN_004d4f70
+struct LipSynchAnim
 {
     unsigned int m_uiCount;
     int m_iParam;
     float** m_ppfA;
     float** m_ppfB;
 
-    FUN_004d4f70(unsigned int ItemUpdateArray, int iParam);
+    LipSynchAnim(unsigned int ItemUpdateArray, int iParam);
 };
 
 // Stores the count and param, allocates two pointer arrays and a zeroed float block, then splits the block into per-index A and B slices.
 // @fnv 0x004d4f70
-FUN_004d4f70::FUN_004d4f70(unsigned int auiCount, int iParam)
+// src: COMMUNITY 0x004d4f70
+LipSynchAnim::LipSynchAnim(unsigned int auiCount, int iParam)
 {
     m_uiCount = auiCount;
     m_iParam = iParam;
@@ -1257,16 +1259,17 @@ struct FUN_0040c150
     FUN_0040c150(char* text, int index);
 };
 
-struct FUN_004d5b60
+struct MiscStat
 {
     FUN_0040c150* object;
     int value;
-    FUN_004d5b60(int index, int number, int extra);
+    MiscStat(int index, int number, int extra);
 };
 
 // Formats number into a 13-byte buffer, stores extra in value, and constructs a FUN_0040c150 from the text and index.
 // @fnv 0x004d5b60
-FUN_004d5b60::FUN_004d5b60(int index, int number, int extra)
+// src: COMMUNITY 0x004d5b60
+MiscStat::MiscStat(int index, int number, int extra)
 {
     value = extra;
     char* text = new char[13];
@@ -1275,12 +1278,12 @@ FUN_004d5b60::FUN_004d5b60(int index, int number, int extra)
 }
 
 namespace fnv_004d5c80 {
-struct FUN_004d5b60
+struct MiscStat
 {
     char* m_p0;
     unsigned short m_w4;
     unsigned short m_w6;
-    FUN_004d5b60(const char* name, unsigned int index, unsigned short flags);
+    MiscStat(const char* name, unsigned int index, unsigned short flags);
 };
 extern void* DAT_011c6d50[43];
 extern const char* DAT_01189280[43];
@@ -1292,7 +1295,7 @@ void* __fastcall InitNameTable(void* pThis)
     {
         for (unsigned int i = 0; i < 43; i++)
         {
-            DAT_011c6d50[i] = new FUN_004d5b60(DAT_01189280[i], i, 0);
+            DAT_011c6d50[i] = new MiscStat(DAT_01189280[i], i, 0);
         }
     }
     return pThis;
@@ -1742,7 +1745,7 @@ struct MsgStruct
 
 void __cdecl BSstrncpy(char* dst, const char* src, unsigned int count);
 
-struct ObjClass : public FUN_004d7d50_StandIn
+struct ObjClass : public NiParticleSystem
 {
     ItemClass* __thiscall NiParticleSystem_GetModifierAt(unsigned int);
 };

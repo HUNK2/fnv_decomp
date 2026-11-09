@@ -2822,7 +2822,7 @@ namespace fnv_0069d9a0 {
 struct S_0069d9a0_cls
 {
     void FUN_00691800();
-    void* FUN_0069d9a0(unsigned int flags);
+    void* VectorDeletingDestructor(unsigned int flags);
 };
 
 extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count, void (S_0069d9a0_cls::*callback)());
@@ -2830,7 +2830,8 @@ extern "C" void __stdcall FUN_00ec5fce(void* object, int elementSize, int count,
 extern "C" void __cdecl FormHeapFreeAndLog_00401030(void* apMemory);
 
 // @fnv 0x0069d9a0
-void* S_0069d9a0_cls::FUN_0069d9a0(unsigned int flags)
+// src: EXE 0x0069d9a0
+void* S_0069d9a0_cls::VectorDeletingDestructor(unsigned int flags)
 {
     if (flags & 2)
     {
@@ -5997,12 +5998,13 @@ bool ThisCls::NavMeshPOVSearch_BuildPath(Vec3Obj* apStart, Vec3Obj* apEnd, void*
 
 struct ScalarDeleteOwner : FUN_00683740_class
 {
-    void* __thiscall FUN_00683780(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 
 // Calls FUN_006837f0, deallocates this if flags has bit 0 set, and returns this.
 // @fnv 0x00683780
-void* __thiscall ScalarDeleteOwner::FUN_00683780(unsigned int flags)
+// src: EXE 0x00683780
+void* __thiscall ScalarDeleteOwner::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_006837f0();
     if (flags & 1)

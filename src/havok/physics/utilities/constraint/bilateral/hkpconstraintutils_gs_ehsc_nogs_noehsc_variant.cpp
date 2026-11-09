@@ -48,7 +48,7 @@ struct CloneDataA : CloneDataBase
 struct CloneDataB : CloneDataBase
 {
     Block5 unk80;
-    CloneDataB* FUN_00d52fc0();
+    CloneDataB* hkpHingeLimitsData();
 };
 struct SourceDataHeader
 {

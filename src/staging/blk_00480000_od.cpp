@@ -195,13 +195,14 @@ struct FUN_008c6060_shell
     void FUN_008c6060();
 };
 extern int DAT_0101d398;
-struct FUN_0048b800 : BFC_s
+struct TESRaceForm : BFC_s
 {
-    FUN_0048b800();
+    TESRaceForm();
 };
 // Sets the object's vtable pointer to DAT_0101d398 and then calls FUN_008c6060 on this object.
 // @fnv 0x0048b800
-FUN_0048b800::FUN_0048b800()
+// src: EXE 0x0048b800
+TESRaceForm::TESRaceForm()
 {
     *(int*)this = (int)&DAT_0101d398;
     ((FUN_008c6060_shell*)this)->FUN_008c6060();
@@ -217,14 +218,15 @@ struct BFC_s
 {
     BFC_s();
 };
-struct FUN_0048e7a0 : BFC_s
+struct TESValueForm : BFC_s
 {
     void FUN_008c6060();
-    FUN_0048e7a0();
+    TESValueForm();
 };
 // Sets the object's first field to point at DAT_0101d81c, then calls FUN_008c6060.
 // @fnv 0x0048e7a0
-FUN_0048e7a0::FUN_0048e7a0()
+// src: EXE 0x0048e7a0
+TESValueForm::TESValueForm()
 {
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0101d81c);
     FUN_008c6060();
@@ -434,11 +436,12 @@ void __thiscall FUN_0049c570::Reset()
 struct S_486a60
 {
     void FUN_00486a60();
-    void* __thiscall FUN_00486c00(unsigned int flags);
+    void* __thiscall ScalarDeletingDestructor(unsigned int flags);
 };
 void __cdecl Deallocate(void*);
 // @fnv 0x00486c00
-void* __thiscall S_486a60::FUN_00486c00(unsigned int flags)
+// src: EXE 0x00486c00
+void* __thiscall S_486a60::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_00486a60();
     if (flags & 1)
@@ -656,13 +659,14 @@ struct FUN_0048b590_shell
     void __thiscall ClearFields();
 };
 extern int DAT_0101d2a4;
-struct FUN_0048b560 : BFC_s
+struct TESProduceForm : BFC_s
 {
-    FUN_0048b560();
+    TESProduceForm();
 };
 // Sets the object's vtable pointer to DAT_0101d2a4 and then calls ClearFields on this.
 // @fnv 0x0048b560
-FUN_0048b560::FUN_0048b560() : BFC_s()
+// src: EXE 0x0048b560
+TESProduceForm::TESProduceForm() : BFC_s()
 {
     *(int*)this = (int)&DAT_0101d2a4;
     ((FUN_0048b590_shell*)this)->ClearFields();
@@ -1487,33 +1491,34 @@ struct GameMember
     unsigned int unk0c;
     ~GameMember();
 };
-struct FUN_004876d0
+struct TESLeveledList
 {
-    virtual ~FUN_004876d0();
+    virtual ~TESLeveledList();
     GameMember firstMember;
     GameMember secondMember;
     void FUN_00487770();
 };
 // @fnv 0x004876d0
-FUN_004876d0::~FUN_004876d0()
+// src: EXE 0x004876d0
+TESLeveledList::~TESLeveledList()
 {
     FUN_00487770();
 }
 
-struct FUN_004899f0_cls
+struct TESTextureList
 {
     unsigned char m_uiItemCount;
     unsigned int* m_pData;
 
     void Reset();
-    void TESTextureList_Copy(const FUN_004899f0_cls* src);
+    void TESTextureList_Copy(const TESTextureList* src);
 };
 
 void* __cdecl CopyMemory_Thunk(void* dst, const void* src, unsigned int size);
 
 // @fnv 0x004899f0
 // src: COMMUNITY 0x004899f0
-void FUN_004899f0_cls::TESTextureList_Copy(const FUN_004899f0_cls* apSource)
+void TESTextureList::TESTextureList_Copy(const TESTextureList* apSource)
 {
     Reset();
     m_uiItemCount = apSource->m_uiItemCount;
@@ -2895,13 +2900,13 @@ class FUN_00439260
     ~FUN_00439260();
     unsigned int unk[6];
 };
-class FUN_0049ec80 : public FUN_00439260
+class NiStencilProperty : public FUN_00439260
 {
   public:
     unsigned short m_usFlags;
     unsigned int m_uiCount;
     int m_iIndex;
-    FUN_0049ec80();
+    NiStencilProperty();
     void NiAlphaProperty_SetAlphaBlending(int a);
     void NiStencilProperty_SetStencilFunction(int a);
     void NiStencilProperty_SetStencilFailAction(int a);
@@ -2911,7 +2916,8 @@ class FUN_0049ec80 : public FUN_00439260
 };
 // Constructor that sets the vtable, initialises m_usFlags, m_uiCount and m_iIndex, then calls the member initialisers.
 // @fnv 0x0049ec80
-FUN_0049ec80::FUN_0049ec80()
+// src: EXE 0x0049ec80
+NiStencilProperty::NiStencilProperty()
 {
     *(void**)this = &DAT_0101e07c;
     m_usFlags = 0;

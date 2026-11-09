@@ -947,10 +947,11 @@ void __cdecl _Deallocate(void*);
 struct S006ebe00
 {
     void FUN_006ebd30();
-    void* FUN_006ebe00(unsigned int);
+    void* ScalarDeletingDestructor(unsigned int);
 };
 // @fnv 0x006ebe00
-void* S006ebe00::FUN_006ebe00(unsigned int flags)
+// src: EXE 0x006ebe00
+void* S006ebe00::ScalarDeletingDestructor(unsigned int flags)
 {
     FUN_006ebd30();
     if (flags & 1)
