@@ -445,8 +445,7 @@ unsigned char BGSSaveFormBuffer::GetVersion()
 }
 
 // @fnv 0x00865120
-// src: COMMUNITY 0x00865120
-void BGSLoadGameSubBuffer::CopyBuffer(BGSSaveFormBuffer* apSaveGameBuffer)
+void BGSLoadGameSubBuffer::RenderCopyData(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     char* pbuffer;
     unsigned int isize;
@@ -577,7 +576,7 @@ void BGSLoadGameSubBuffer::SaveAnimation(TESForm* pkRef)
         kResponse.Init(pkRef->GetFormID(), F4F20Param(4), pkRef->GetFormType(), g_pF4F20Counter->GetCount());
         kResponse.SetSpeaker(pkRef);
         pkActor->SaveAnimation(&kResponse);
-        CopyBuffer(reinterpret_cast<BGSSaveFormBuffer*>(&kResponse));
+        RenderCopyData(reinterpret_cast<BGSSaveFormBuffer*>(&kResponse));
     }
     else
     {
@@ -626,7 +625,7 @@ void BGSLoadGameSubBuffer::SaveFormState(TESForm* form)
                             DAT_011de134->GetConstant27());
         buffer.FUN_0050f9c0(form);
         ref->SaveHavokData(&buffer);
-        CopyBuffer(reinterpret_cast<BGSSaveFormBuffer*>(&buffer));
+        RenderCopyData(reinterpret_cast<BGSSaveFormBuffer*>(&buffer));
     }
     else
     {

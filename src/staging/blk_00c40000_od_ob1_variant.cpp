@@ -4877,7 +4877,7 @@ struct BSTaskThread
 // src: EXE 0x00c42dd0
 BSTaskThread::BSTaskThread(int, const char* name)
 {
-    thread = AITaskThreadManager_AddThread(0, 0, (LPTHREAD_START_ROUTINE)BSTaskThread_ThreadProc, this, 4, &threadId);
+    thread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)BSTaskThread_ThreadProc, this, 4, &threadId);
     if (name)
         FUN_00aa2740(threadId, name);
     unk24 = 0;
@@ -15530,7 +15530,7 @@ __forceinline void* operator new[](unsigned int size)
 }
 extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
 extern "C" __declspec(dllimport) unsigned long __stdcall GetCurrentThreadId();
-extern "C" __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void*, unsigned int, unsigned long(__stdcall*)(void*),
+extern "C" __declspec(dllimport) void* __stdcall CreateThread(void*, unsigned int, unsigned long(__stdcall*)(void*),
                                                               void*, unsigned long, unsigned long*);
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(void*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(void*);
@@ -15551,7 +15551,7 @@ inline void BSThread::FUN_00aa6430(int stackSize, const char* name, bool suspend
         return;
     m_pCurrentThreadHandle = fnv_00c44980::GetCurrentThread();
     m_uiCurrentThreadId = fnv_00c44980::GetCurrentThreadId();
-    m_pThreadHandle = fnv_00c44980::AITaskThreadManager_AddThread(0, stackSize, fnv_00c44980::RunThreadProc, this, suspended ? 4 : 0, reinterpret_cast<unsigned long*>(&m_uiCreatedThreadId));
+    m_pThreadHandle = fnv_00c44980::CreateThread(0, stackSize, fnv_00c44980::RunThreadProc, this, suspended ? 4 : 0, reinterpret_cast<unsigned long*>(&m_uiCreatedThreadId));
     EnterCriticalSection(&CriticalSection);
     FUN_00aa6560(-1);
     m_bThreadStarted = true;

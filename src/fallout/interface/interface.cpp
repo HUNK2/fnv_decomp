@@ -3217,7 +3217,7 @@ void __cdecl UpdatePipboyMapVisibility(bool abVisibility, bool abAnyVisibleState
             if (pmap != 0)
                 reinterpret_cast<Menu*>(pmap->GetMenu())->StartFadeIn();
 
-            MapMenu::UpdateMenu();
+            MapMenu::MenuDepthController();
         }
         else if (!abVisibility && bMapVisible)
         {

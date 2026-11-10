@@ -1656,15 +1656,15 @@ struct CpDevice {
 };
 char* __cdecl GetHRESULTText(unsigned int);
 struct CopyRendererData { char pad[0x14]; CpSurf* surface; };
-struct CopyBuffer { char pad[8]; unsigned int width; unsigned int height; CopyRendererData* data; };
+struct RenderCopyData { char pad[8]; unsigned int width; unsigned int height; CopyRendererData* data; };
 struct CpRectNi { int left, right, top, bottom; };
 typedef void (__cdecl *CopyMsgFn)(const char*, ...);
 struct FUN_00e6f840_shell {
-    bool CopySurface(CopyBuffer* src, CopyBuffer* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
+    bool CopySurface(RenderCopyData* src, RenderCopyData* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
 };
 // Copies a source surface to a destination surface via StretchRect, using explicit or full-surface rects, logging and returning false on failure.
 // @fnv 0x00e6f840
-bool FUN_00e6f840_shell::CopySurface(CopyBuffer* pSource, CopyBuffer* pDest, CpRectNi* srcRect, CpRectNi* dstRect, int filter)
+bool FUN_00e6f840_shell::CopySurface(RenderCopyData* pSource, RenderCopyData* pDest, CpRectNi* srcRect, CpRectNi* dstRect, int filter)
 {
     if (*((char*)this + 0x6fc))
         return false;

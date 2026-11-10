@@ -2385,10 +2385,10 @@ Tile_AddToTable(&DAT_01093f84, 5007);
 }
 }
 
-struct UpdateMenu;
+struct MenuDepthController;
 struct UpdateTreeNode;
 struct UpdateNode { UpdateNode* next; UpdateNode* prev; UpdateTreeNode* data; };
-struct UpdateMenu {
+struct MenuDepthController {
  virtual void m0(); virtual void SetDepth(int, UpdateTreeNode*);
  int unk04, unk08, unk0c, unk10, unk14;
  int depth;
@@ -2402,7 +2402,7 @@ struct UpdateTreeNode {
  __forceinline UpdateNode* GetChildren() { return children; }
  float FUN_00a011b0(int);
  const char* Tile_GetString(int);
- UpdateMenu* Tile_GetMenu();
+ MenuDepthController* Tile_GetMenu();
  UpdateTreeNode* Tile_GetMenuTile();
  void Tile_SetChangeFlag(int);
  void Tile_Set(int,float,bool);
@@ -2412,8 +2412,8 @@ struct UpdateTreeNode {
 // src: XBOX_PDB 0x00a037e0
 UpdateTreeNode* UpdateTreeNode::Tile_FinalPostParse(int trait, float value, int unused)
 {
- UpdateTreeNode* aBound; UpdateMenu* aCurrent; float aLast; UpdateTreeNode* aReadObject;
- UpdateNode* aBipedNode; UpdateMenu* aOther; UpdateTreeNode* aContext; UpdateTreeNode* aList1; UpdateTreeNode* aPrevious; int aMargin; UpdateNode* aOuter2; UpdateTreeNode** aLocation;
+ UpdateTreeNode* aBound; MenuDepthController* aCurrent; float aLast; UpdateTreeNode* aReadObject;
+ UpdateNode* aBipedNode; MenuDepthController* aOther; UpdateTreeNode* aContext; UpdateTreeNode* aList1; UpdateTreeNode* aPrevious; int aMargin; UpdateNode* aOuter2; UpdateTreeNode** aLocation;
  if (trait == 0xfa1 || trait == 0xfa2 || trait == 0xfad) {
   if (trait == 0xfad) {
    aLast = value;

@@ -220,7 +220,7 @@ void FUN_00511860_holder::TESObjectACTI_SaveGame(BGSSaveFormBuffer* apSaveGameBu
     if (((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(4).operator bool())
     {
         const char* pfullname = ((FNStub*)((char*)this + 0x30))->GetFullName();
-        ((BGSSaveGameBuffer*)apSaveGameBuffer)->SaveString(pfullname, 0);
+        ((BGSSaveGameBuffer*)apSaveGameBuffer)->SaveGameString(pfullname, 0);
     }
 }
 

@@ -29,7 +29,7 @@ void BSThread::Initialize(StackSize stackSize, const char* name, bool suspended)
 
     m_pCurrentThreadHandle = GetCurrentThread();
     m_uiCurrentThreadId = GetCurrentThreadId();
-    m_pThreadHandle = AITaskThreadManager_AddThread(0, stackSize, RunThreadProc, this, suspended ? 4 : 0, &m_uiCreatedThreadId);
+    m_pThreadHandle = CreateThread(0, stackSize, RunThreadProc, this, suspended ? 4 : 0, &m_uiCreatedThreadId);
     fnv_EnterCriticalSection(&CriticalSection);
     SetThreadPriority(-1);
     m_bThreadStarted = true;

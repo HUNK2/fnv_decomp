@@ -985,7 +985,7 @@ struct Slot_8001b0
     ~Slot_8001b0();
 };
 
-class FOVATSEffectManager
+class FUN_008001b0
 {
   public:
     int unk00;
@@ -1045,13 +1045,12 @@ class FOVATSEffectManager
     int unk2C8;
     NiPointer<AnimIdle> sp2CC;
     void Cleanup();
-    ~FOVATSEffectManager();
+    ~FUN_008001b0();
 };
 
 // Clears the slot, zeroes both 16-entry value arrays, deletes and nulls the owned pointers, releases sp2C4, then calls Cleanup.
 // @fnv 0x008001b0
-// src: COMMUNITY 0x008001b0
-FOVATSEffectManager::~FOVATSEffectManager()
+FUN_008001b0::~FUN_008001b0()
 {
     kSlot.unk00 = 0;
     kSlot.spRetainedObject = 0;

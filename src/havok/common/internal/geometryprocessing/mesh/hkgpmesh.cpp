@@ -2336,13 +2336,13 @@ FUN_00e22f20_cls& FUN_00e22f20_cls::hkgpMeshBase_Triangle_Triangle(const FUN_00e
 }
 
 struct SearchItem { int unk00; int unk04; unsigned int hashX; unsigned int hashY; };
-struct NavMeshSearchSLPoint_FindStraightLinePath { SearchItem** nodes; int depth; };
+struct SearchPath { SearchItem** nodes; int depth; };
 struct HashEntry { SearchItem* left; SearchItem* right; int result; };
 struct HashBucket { HashEntry* entries; int count; int unk08; };
 struct HashTableBase { HashBucket* buckets; unsigned int bucketCount; };
-struct SearchOwner { int LookupPairResult(NavMeshSearchSLPoint_FindStraightLinePath* path); };
+struct SearchOwner { int LookupPairResult(SearchPath* path); };
 // @fnv 0x00e23900
-int SearchOwner::LookupPairResult(NavMeshSearchSLPoint_FindStraightLinePath* path)
+int SearchOwner::LookupPairResult(SearchPath* path)
 {
     SearchItem** nodes = path->nodes;
     HashTableBase* table;

@@ -949,7 +949,7 @@ void MapMenu::HandleSelection(int aiID, Tile* apTarget)
             InterfaceManager_GetSingleton()->GetParent()->Set(0xfa9, 255.0f, true);
         m_pTiles[13]->Set(0xfa3, 0);
         m_pTiles[12]->Set(0xfaf, 1);
-        UpdateMenu();
+        MenuDepthController();
         if (((MapInterface*)InterfaceManager_GetSingleton())->GetPipboyManager()->IsUnk28Set())
             MapMenu_SetKnobPosition(true);
         break;
@@ -3065,8 +3065,7 @@ extern SettingT_GameSettingCollection_ localeSetting;
 extern SettingT_GameSettingCollection_ g_011d4aec;
 int TraitID(const char*);
 // @fnv 0x0079aba0
-// src: COMMUNITY 0x0079aba0
-void MapMenu::UpdateMenu()
+void MapMenu::MenuDepthController()
 {
     if (DAT_011da368 && GetRenderState()->IsReady())
     {

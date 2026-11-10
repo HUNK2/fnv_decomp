@@ -127,7 +127,7 @@ public:
     void RefreshMapMenu(bool selected);
     MapMenu();
     static Tile* Create();
-    static void UpdateMenu();
+    static void MenuDepthController();
     static void StopMapMenuSounds();
     static void SetMapPositionToPlayer();
     static void UpdateMapPosition();

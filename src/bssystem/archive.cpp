@@ -3396,7 +3396,7 @@ ArchiveFile::~ArchiveFile()
 
 extern int DAT_010a2484;
 void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-__forceinline void CopyBuffer(void* dest, const void* source, unsigned int size)
+__forceinline void RenderCopyData(void* dest, const void* source, unsigned int size)
 {
     FUN_00ec44d0(dest, source, size);
 }
@@ -3454,7 +3454,7 @@ unsigned int ArchiveFile::ReadAtOffset(char* output, unsigned int size, unsigned
         int available = reinterpret_cast<ArchiveRead*>(GetArchive())->GetReadSize() - bufferOffset;
         if (available > (int)size)
             available = size;
-        CopyBuffer(output, reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_GetBuffer() + bufferOffset, available);
+        RenderCopyData(output, reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_GetBuffer() + bufferOffset, available);
         output += available;
         if (size == available)
         {
@@ -3484,7 +3484,7 @@ unsigned int ArchiveFile::ReadAtOffset(char* output, unsigned int size, unsigned
             reinterpret_cast<ArchiveRead*>(GetArchive())->SetPos(result);
             reinterpret_cast<ArchiveRead*>(GetArchive())->SetReadSize(result);
             copied = result < size ? result : size;
-            CopyBuffer(output, reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_GetBuffer(), copied);
+            RenderCopyData(output, reinterpret_cast<ArchiveRead*>(GetArchive())->NiFile_GetBuffer(), copied);
         }
         else
         {

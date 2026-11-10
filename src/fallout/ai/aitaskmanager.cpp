@@ -971,11 +971,10 @@ struct AITaskThreadManager
 {
     FUN_008c9bd0* threads[3];
     int count;
-    void AITaskThreadManager_AddThread(unsigned int aiThread);
+    void CreateThread(unsigned int aiThread);
 };
 // @fnv 0x008c9ae0
-// src: COMMUNITY 0x008c9ae0
-void AITaskThreadManager::AITaskThreadManager_AddThread(unsigned int aiThread)
+void AITaskThreadManager::CreateThread(unsigned int aiThread)
 {
     if (count < 3)
     {
@@ -1736,7 +1735,7 @@ extern BoolSettingView DAT_011dfb68, DAT_011dfc70, DAT_011dfb88;
 extern IntSettingView DAT_011c3ea4, DAT_011d10d4;
 struct ThreadManagerView
 {
-    void AITaskThreadManager_AddThread(unsigned);
+    void CreateThread(unsigned);
     void CallAllElements();
     void AITaskThreadManager_WaitForThreads();
 };
@@ -1852,9 +1851,9 @@ void TaskOwnerTarget::AITaskManager_UpdateTasks()
     {
         if (*DAT_011dfb68.Bool())
         {
-            DAT_011dfc24.AITaskThreadManager_AddThread(1);
-            DAT_011dfc24.AITaskThreadManager_AddThread(3);
-            DAT_011dfc24.AITaskThreadManager_AddThread(5);
+            DAT_011dfc24.CreateThread(1);
+            DAT_011dfc24.CreateThread(3);
+            DAT_011dfc24.CreateThread(5);
         }
         DAT_011a34e7 = false;
     }

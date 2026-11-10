@@ -1471,7 +1471,7 @@ extern void __cdecl FormHeapFreeAndLog_00401030(void*);
 extern void* __cdecl FUN_00401460(void*, const void*, unsigned);
 __forceinline void* __cdecl operator new[](unsigned size) { return ((TilePool_ac80*)&DAT_011f6238)->Game_DoHeapAlloc(size); }
 __forceinline void __cdecl operator delete[](void* data) { DAT_011f6238.MemoryManager_Deallocate(data); }
-__forceinline int CopyBuffer(char* dest, unsigned capacity, const char* source) { return FUN_00ec65a6(dest, capacity, source); }
+__forceinline int RenderCopyData(char* dest, unsigned capacity, const char* source) { return FUN_00ec65a6(dest, capacity, source); }
 __forceinline void CopyPrefix(char* dest, const char* source, const char* begin) {
     unsigned length = begin - source;
     FUN_00ec8d5f(dest, length + 1, source, length);
@@ -1575,7 +1575,7 @@ bool __cdecl Tile_InsertIncludedFiles(Input02D40* arg) {
         }
         delete[] arg->m04;
         arg->m04 = new char[i.Length() + 1];
-        CopyBuffer(arg->m04, i.Length() + 1, i.String());
+        RenderCopyData(arg->m04, i.Length() + 1, i.String());
         arg->m00 = i.Length();
         delete[] p9;
         Tile_InsertIncludedFiles(arg);

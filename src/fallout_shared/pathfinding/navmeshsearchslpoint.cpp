@@ -61,13 +61,13 @@ struct FUN_006ac220_shell : NavMeshSearch
     float fLowerBound;
     float m_fCenterRadius;
     float fUnk20FC;
-    bool NavMeshSearchSLPoint_FindStraightLinePath(PathingRequest* request, NavMeshTriangleReference const& start,
+    bool SearchPath(PathingRequest* request, NavMeshTriangleReference const& start,
                     NavMeshTriangleReference const& end);
 };
 
 // Copies the request's location and radius bounds into the search object, then runs the path search between start and end using fresh node and link arrays.
 // @fnv 0x006ac220
-bool FUN_006ac220_shell::NavMeshSearchSLPoint_FindStraightLinePath(PathingRequest* request, NavMeshTriangleReference const& start,
+bool FUN_006ac220_shell::SearchPath(PathingRequest* request, NavMeshTriangleReference const& start,
                                     NavMeshTriangleReference const& end)
 {
     pLocation = *request->NiAVObject_GetRotate_006a9540();

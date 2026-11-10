@@ -6670,13 +6670,13 @@ FUN_00b60cb0_Clone* CloneSource::CloneObject(void* pvCloningProcess)
     return pkClone;
 }
 
-struct MagicItemObject_CopyFrom;
+struct CopyObject;
 
 extern "C" __declspec(dllimport) long __stdcall InterlockedDecrement(volatile long*);
 extern "C" __declspec(dllimport) long __stdcall InterlockedIncrement(volatile long*);
 struct CopyBase
 {
-    void CopyBaseFields(MagicItemObject_CopyFrom*, int);
+    void CopyBaseFields(CopyObject*, int);
 };
 struct CopyNode
 {
@@ -6695,7 +6695,7 @@ extern unsigned DAT_011c5f80;
 extern unsigned DAT_011c5f84;
 extern CopyNode* DAT_011c5f58;
 void GrowPool();
-struct MagicItemObject_CopyFrom : CopyBase
+struct CopyObject : CopyBase
 {
     unsigned f000;
     unsigned f004;
@@ -6787,7 +6787,7 @@ struct MagicItemObject_CopyFrom : CopyBase
     NiRefObject* f140;
     NiRefObject* f144;
     NiRefObject* f148;
-    void WaterShaderProperty_CopyMembers(MagicItemObject_CopyFrom* dst, int arg);
+    void WaterShaderProperty_CopyMembers(CopyObject* dst, int arg);
 };
 static __forceinline void AssignRef(NiRefObject*& dst, NiRefObject* const& src)
 {
@@ -6837,7 +6837,7 @@ static __forceinline void AppendCopy(CopyList* dest, void* const& value, unsigne
 // Copies base fields and a fixed set of member values into dst, reassigns the reference-counted pointers, and deep-copies the list into dst->list.
 // @fnv 0x00b6a6c0
 // src: XBOX_PDB 0x00b6a6c0
-void MagicItemObject_CopyFrom::WaterShaderProperty_CopyMembers(MagicItemObject_CopyFrom* dst, int arg)
+void CopyObject::WaterShaderProperty_CopyMembers(CopyObject* dst, int arg)
 {
     CopyBaseFields(dst, arg);
     AssignRef(dst->f148, f148);

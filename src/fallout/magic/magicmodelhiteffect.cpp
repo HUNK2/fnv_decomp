@@ -324,7 +324,7 @@ void MagicModelHitEffect::SaveGame(BGSSaveGameBuffer* apSaveGameBuffer)
 {
     NiControllerManager* pmanager;
     ((fnv_0081d800::FUN_0081be80_s*)this)->MagicHitEffect_SaveGameBGS((BGSSaveFormBuffer*)apSaveGameBuffer);
-    apSaveGameBuffer->SaveString(pFilename, 0);
+    apSaveGameBuffer->SaveGameString(pFilename, 0);
     pmanager = 0;
     if (*reinterpret_cast<fnv_0081d800::Flt*>(&spRetainedObject))
         pmanager = (NiControllerManager*)NiObject_DynamicCast(

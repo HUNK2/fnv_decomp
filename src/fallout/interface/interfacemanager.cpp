@@ -749,7 +749,6 @@ void FUN_007123f0_shell::ImageSpaceManager_SetMenuBGBlendValue(float afValue)
 
 // Copies the given port rectangle into the camera's m_kPort field.
 // @fnv 0x00712e60
-// src: COMMUNITY 0x00712e60
 void InterfaceCameraAccess::SetPort(const NiRect<float>& kPort)
 {
     m_kPort = kPort;

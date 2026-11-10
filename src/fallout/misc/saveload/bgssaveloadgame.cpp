@@ -721,7 +721,7 @@ void SaveLoadGameFileLists::BGSSaveLoadGame_SavePluginList(void* apFile)
     {
         TESFile* pFile = reinterpret_cast<TESDataHandlerSaveLoad*>(g_dataHandler)->GetCompiledFile(i);
         const char* pFileName = pFile->GetName();
-        pbuffer->SaveString(pFileName, 0);
+        pbuffer->SaveGameString(pFileName, 0);
     }
     buffer.FUN_00865c40(apFile);
 }

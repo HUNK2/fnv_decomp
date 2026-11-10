@@ -3930,17 +3930,17 @@ UITile* Tile_GetTileByName(UITile* pTile, const char* pcPath)
 __declspec(dllimport) unsigned long __stdcall GetTickCount();
 extern "C" double __cdecl fabs(double);
 
-struct StartMenu_Fade {
+struct FadeTile {
     virtual void V0(); virtual void V1(); virtual void V2(); virtual int GetType();
     int field04; int field08; int field0c; int field10; int field14; int field18; int field1c;
-    int field20; int field24; StartMenu_Fade* parent; NiAVObject* model;
+    int field20; int field24; FadeTile* parent; NiAVObject* model;
     float FUN_00a011b0(int);
     void Tile_Set(int,float,bool);
     void Tile_FadeIn3D(NiAVObject*,float);
 };
-struct FadePtr { StartMenu_Fade* ptr; inline StartMenu_Fade* operator->() const { return ptr; } };
+struct FadePtr { FadeTile* ptr; inline FadeTile* operator->() const { return ptr; } };
 struct FadeRecord {
-    float start; float end; unsigned int time; float duration; int trait; StartMenu_Fade* tile; unsigned int type;
+    float start; float end; unsigned int time; float duration; int trait; FadeTile* tile; unsigned int type;
 };
 extern MemoryManager g_memoryManager;
 struct FadeList {
@@ -3978,7 +3978,7 @@ struct FadePendingClear { void ProcessEntries_00ae83e0(); };
 extern const float DAT_01094c18;
 extern const float DAT_01094c0c;
 extern const double DAT_01011590;
-inline NiAVObject* modelOf(StartMenu_Fade* tile) { NiAVObject* model=tile->model; return model; }
+inline NiAVObject* modelOf(FadeTile* tile) { NiAVObject* model=tile->model; return model; }
 inline unsigned tick() { unsigned time=GetTickCount(); return time; }
 inline float minFloat(float a, float b) { return a < b ? a : b; }
 inline float linear(float x, float x0, float x1, float y0, float y1) { return ((x-x0)/(x1-x0)) * (y1-y0) + y0; }
@@ -4005,7 +4005,7 @@ void __cdecl Tile_UpdateFadeControls()
         case 0: {
             fraction5 = (tick()-local1->item->time)/local1->item->duration;
             fraction5 = minFloat(fraction5, 1.0f);
-            if (static_cast<StartMenu_Fade* volatile&>(local1->item->tile)->GetType() == 0x388 && trait2 == 0xfa9) {
+            if (static_cast<FadeTile* volatile&>(local1->item->tile)->GetType() == 0x388 && trait2 == 0xfa9) {
                 local1->item->tile->Tile_FadeIn3D(modelOf(local1->item->tile),(start13+(local11-start13)*fraction5)/255.0);
             }
             local1->item->tile->Tile_Set(trait2,start13+(local11-start13)*fraction5,true);

@@ -289,7 +289,7 @@ void TESActorBase::SaveGame_005f1f30(unsigned int buffer)
     if (((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x20u).operator bool())
     {
         const char* pfullname = ((FNStub*)((char*)this + 0xd0))->GetFullName();
-        ((BGSSaveGameBuffer*)buffer)->SaveString(pfullname, 0);
+        ((BGSSaveGameBuffer*)buffer)->SaveGameString(pfullname, 0);
     }
 }
 

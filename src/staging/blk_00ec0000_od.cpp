@@ -810,7 +810,7 @@ void FUN_00ec1680_cls::EnableSoundSystem(bool bEnableSound)
     }
 }
 
-extern "C" __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void* pvSecurity, unsigned long ulStackSize,
+extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* pvSecurity, unsigned long ulStackSize,
                                                               unsigned long(__stdcall* pfnStart)(void*), void* pvParam,
                                                               unsigned long ulFlags, unsigned long* pulThreadId);
 extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void* hThread);
@@ -864,7 +864,7 @@ void BEC16D0MoviePlayerThread::MoviePlayer_StartSequence(void* pvParam, bool bFl
                                             float fValue28)
 {
     unsigned long ulThreadId3;
-    m_hThread = AITaskThreadManager_AddThread(0, 0, (unsigned long(__stdcall*)(void*))MoviePlayer_PlaySequenceThread, pvParam, 4, &ulThreadId3);
+    m_hThread = CreateThread(0, 0, (unsigned long(__stdcall*)(void*))MoviePlayer_PlaySequenceThread, pvParam, 4, &ulThreadId3);
     FUN_00aa2740(ulThreadId3, "MoviePlayer");
     m_bFlag22 = bFlag22;
     m_bFlag23 = bFlag23;
@@ -2425,7 +2425,7 @@ void FUN_00ec1940_cls::MoviePlayer_ThreadLoadMovie(void* apThreadArg, int value)
 {
     DWORD threadId;
     m_1c = value;
-    m_04 = AITaskThreadManager_AddThread(NULL, 0, MoviePlayer_MovieLoadingThread, apThreadArg, CREATE_SUSPENDED, &threadId);
+    m_04 = CreateThread(NULL, 0, MoviePlayer_MovieLoadingThread, apThreadArg, CREATE_SUSPENDED, &threadId);
     FUN_00aa2740(threadId, "MovieLoader");
     ResumeThread(m_04);
     threadId = 0;

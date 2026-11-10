@@ -385,7 +385,7 @@ class FUN_00ec1680_cls
   public:
     void EnableSoundSystem(bool bEnableSound);
 };
-extern "C" __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void* pvSecurity, unsigned long ulStackSize,
+extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* pvSecurity, unsigned long ulStackSize,
                                                               unsigned long(__stdcall* pfnStart)(void*), void* pvParam,
                                                               unsigned long ulFlags, unsigned long* pulThreadId);
 extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void* hThread);

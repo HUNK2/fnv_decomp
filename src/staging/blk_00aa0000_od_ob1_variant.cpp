@@ -19307,7 +19307,7 @@ struct IOFreeQueue
 };
 
 extern "C" __declspec(dllimport) void* __stdcall GetCurrentThread();
-extern "C" __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void*, unsigned int, unsigned long(__stdcall*)(void*),
+extern "C" __declspec(dllimport) void* __stdcall CreateThread(void*, unsigned int, unsigned long(__stdcall*)(void*),
                                                               void*, unsigned long, unsigned long*);
 extern "C" __declspec(dllimport) unsigned long __stdcall ResumeThread(void*);
 unsigned long __stdcall RunThreadProc(void*);
@@ -19328,7 +19328,7 @@ struct IOThread
             return;
         self->creator = GetCurrentThread();
         self->creatorId = GetCurrentThreadId();
-        self->worker = AITaskThreadManager_AddThread(0, stackSize, RunThreadProc, self, suspended ? 4 : 0, &self->workerId);
+        self->worker = CreateThread(0, stackSize, RunThreadProc, self, suspended ? 4 : 0, &self->workerId);
         DAT_00fdf05c(&self->critical);
         self->FUN_00aa6560(-1);
         self->running = true;
@@ -19540,7 +19540,7 @@ struct EntryString
         return *this;
     }
     static void InsertLengthError();
-    void CopyBuffer(unsigned int, unsigned int);
+    void RenderCopyData(unsigned int, unsigned int);
     unsigned int max_size() const
     {
         unsigned int n = 0xffffffff;
@@ -19552,7 +19552,7 @@ struct EntryString
         if (maximum < n)
             InsertLengthError();
         if (reserved < n)
-            CopyBuffer(n, length);
+            RenderCopyData(n, length);
         else if (trim && n < 16)
             Tidy(true, n < length ? n : length);
         else if (n == 0)
@@ -19688,7 +19688,7 @@ struct FirstString
         return *this;
     }
     static void InsertLengthError();
-    void CopyBuffer(unsigned int, unsigned int);
+    void RenderCopyData(unsigned int, unsigned int);
     unsigned int max_size() const
     {
         unsigned int n = 0xffffffff;
@@ -19699,7 +19699,7 @@ struct FirstString
         if (max_size() < n)
             InsertLengthError();
         if (reserved < n)
-            CopyBuffer(n, length);
+            RenderCopyData(n, length);
         else if (trim && n < 16)
             Tidy(true, n < length ? n : length);
         else if (n == 0)
@@ -19956,7 +19956,7 @@ struct FinalString
         return *this;
     }
     static void InsertLengthError();
-    void CopyBuffer(unsigned int, unsigned int);
+    void RenderCopyData(unsigned int, unsigned int);
     unsigned int max_size() const
     {
         unsigned int n = 0xffffffff;
@@ -19968,7 +19968,7 @@ struct FinalString
         if (maximum < n)
             InsertLengthError();
         if (reserved < n)
-            CopyBuffer(n, length);
+            RenderCopyData(n, length);
         else if (trim && n < 16)
             Tidy(true, n < length ? n : length);
         else if (n == 0)

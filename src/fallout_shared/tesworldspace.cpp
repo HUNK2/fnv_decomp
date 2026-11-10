@@ -1882,7 +1882,7 @@ struct SaveOffset
     unsigned int unk00, unk04, unk08;
     void TESRegionSound_Endian();
 };
-struct SaveString
+struct SaveGameString
 {
     unsigned int unk00, unk04, unk08;
     int FUN_0048cee0();
@@ -1983,8 +1983,8 @@ void WorldSpaceSaveMethods::TESWorldSpace_Save()
         formID = CombatController_GetCombatState()->GetFormID();
         TESForm_AddChunk_00485910(0x4d414e5a, formID);
     }
-    TESForm_AddChunkArray(0x4d414e4e, (*reinterpret_cast<SaveString*>(&CanopyShadowTexture)).TESModel_GetModel(), (*reinterpret_cast<SaveString*>(&CanopyShadowTexture)).FUN_0048cee0() + 1);
-    TESForm_AddChunkArray(0x4d414e58, (*reinterpret_cast<SaveString*>(&m_kLeafShadowTexture)).TESModel_GetModel(), (*reinterpret_cast<SaveString*>(&m_kLeafShadowTexture)).FUN_0048cee0() + 1);
+    TESForm_AddChunkArray(0x4d414e4e, (*reinterpret_cast<SaveGameString*>(&CanopyShadowTexture)).TESModel_GetModel(), (*reinterpret_cast<SaveGameString*>(&CanopyShadowTexture)).FUN_0048cee0() + 1);
+    TESForm_AddChunkArray(0x4d414e58, (*reinterpret_cast<SaveGameString*>(&m_kLeafShadowTexture)).TESModel_GetModel(), (*reinterpret_cast<SaveGameString*>(&m_kLeafShadowTexture)).FUN_0048cee0() + 1);
     if (reinterpret_cast<::SaveForm*>(data))
         reinterpret_cast<::SaveForm*>(data)->Save();
     TESForm_CloseForm();

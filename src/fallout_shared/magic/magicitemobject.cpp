@@ -77,13 +77,12 @@ public:
 class MagicItemObjectOperations : public MagicItemObject
 {
 public:
-    bool MagicItemObject_Compare(TESForm* other);
-    void MagicItemObject_CopyFrom(TESForm* other);
+    bool CompareObject(TESForm* other);
+    void CopyObject(TESForm* other);
 };
 
 // @fnv 0x0040c870
-// src: EXE 0x0040c870
-bool MagicItemObjectOperations::MagicItemObject_Compare(TESForm* other)
+bool MagicItemObjectOperations::CompareObject(TESForm* other)
 {
     MagicItemObject* converted = dynamic_cast<MagicItemObject*>(other);
     if (!converted)
@@ -103,8 +102,7 @@ extern int DAT_011830e8;
 MagicItemObject* __cdecl FUN_00ec43fb(TESForm* arg, int a, int* b, int* c, int d);
 
 // @fnv 0x0040c930
-// src: EXE 0x0040c930
-void MagicItemObjectOperations::MagicItemObject_CopyFrom(TESForm* pForm)
+void MagicItemObjectOperations::CopyObject(TESForm* pForm)
 {
     MagicItemObject* result = FUN_00ec43fb(pForm, 0, &DAT_01183028, &DAT_011830e8, 0);
     if (!result)

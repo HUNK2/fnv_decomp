@@ -5571,7 +5571,7 @@ long CAsyncIo::WaitForCompletion(unsigned long dwTimeout, void** ppContext, unsi
 }
 
 extern "C" __declspec(dllimport) int __stdcall ResetEvent(void* hEvent);
-extern "C" __declspec(dllimport) void* __stdcall AITaskThreadManager_AddThread(void* lpThreadAttributes, unsigned long dwStackSize,
+extern "C" __declspec(dllimport) void* __stdcall CreateThread(void* lpThreadAttributes, unsigned long dwStackSize,
                                                               unsigned long(__stdcall* lpStartAddress)(void*),
                                                               void* lpParameter, unsigned long dwCreationFlags,
                                                               unsigned long* lpThreadId);
@@ -5599,7 +5599,7 @@ static inline long HResultFromWin32(unsigned long x)
 {
     return (long)x <= 0 ? (long)x : (long)((x & 0x0000FFFF) | (7 << 16) | 0x80000000);
 }
-// Creates a worker thread via AITaskThreadManager_AddThread if m_hThread is null, resetting m_evStop first and returning an HRESULT on failure.
+// Creates a worker thread via CreateThread if m_hThread is null, resetting m_evStop first and returning an HRESULT on failure.
 // @fnv 0x009fe780
 long AsyncIoStandIn::StartThread()
 {
@@ -5607,7 +5607,7 @@ long AsyncIoStandIn::StartThread()
         return 0;
     m_evStop.Reset();
     unsigned long dwThreadID;
-    m_hThread = AITaskThreadManager_AddThread(0, 0, (ThreadStartFn)Object_InvokeVirtualMethod_009fe560, this, 0, &dwThreadID);
+    m_hThread = CreateThread(0, 0, (ThreadStartFn)Object_InvokeVirtualMethod_009fe560, this, 0, &dwThreadID);
     if (!m_hThread)
     {
         unsigned long dwErr = GetLastError();

@@ -1599,7 +1599,7 @@ typedef DWORD(__stdcall* ThreadStartFn)(void*);
 extern "C" __declspec(dllimport) void __stdcall InitializeCriticalSection(BSThreadCriticalSectionPC*);
 extern "C" __declspec(dllimport) HANDLE __stdcall CreateSemaphoreA(void*, long, long, const char*);
 extern "C" __declspec(dllimport) HANDLE
-    __stdcall AITaskThreadManager_AddThread(void*, unsigned long, ThreadStartFn, void*, DWORD, DWORD*);
+    __stdcall CreateThread(void*, unsigned long, ThreadStartFn, void*, DWORD, DWORD*);
 
 struct CriticalSectionInit
 {
@@ -1674,7 +1674,7 @@ FUN_00b01d50::FUN_00b01d50(unsigned int count)
     }
     for (i = 0; i < numThreads; i++)
     {
-        threads[i] = AITaskThreadManager_AddThread(0, 0, WorkerThreadProc, this, 4, &threadIDs[i]);
+        threads[i] = CreateThread(0, 0, WorkerThreadProc, this, 4, &threadIDs[i]);
         if (threads[i] == 0)
             break;
         else
@@ -1682,7 +1682,7 @@ FUN_00b01d50::FUN_00b01d50(unsigned int count)
     }
     bActive = numCreated > 0;
     if (bActive)
-        mainThread = AITaskThreadManager_AddThread(0, 0, MainThreadProc, this, 0, &threadID);
+        mainThread = CreateThread(0, 0, MainThreadProc, this, 0, &threadID);
 }
 
 extern int DAT_010a48ac;

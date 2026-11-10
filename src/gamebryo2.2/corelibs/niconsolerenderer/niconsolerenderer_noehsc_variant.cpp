@@ -791,7 +791,7 @@ struct CopyRendererData
     char pad[0x14];
     CpSurf* surface;
 };
-struct CopyBuffer
+struct RenderCopyData
 {
     char pad[8];
     unsigned int width;
@@ -805,7 +805,7 @@ struct CpRectNi
 typedef void(__cdecl* CopyMsgFn)(const char*, ...);
 struct FUN_00e6f840_shell
 {
-    bool CopySurface(CopyBuffer* src, CopyBuffer* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
+    bool CopySurface(RenderCopyData* src, RenderCopyData* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
 };
 void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e76c30_Info

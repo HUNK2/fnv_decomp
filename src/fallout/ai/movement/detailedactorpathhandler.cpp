@@ -3930,14 +3930,14 @@ struct P3Update
     P3Update& operator*=(float);
     void Normalize();
 };
-struct UpdateDungeon
+struct PointLocation
 {
     bool Valid();
     P3Update Point() const;
 };
 struct UpdateNode
 {
-    UpdateDungeon* Location();
+    PointLocation* Location();
 };
 struct UpdateNodeList
 {
@@ -3995,8 +3995,8 @@ struct UpdateRequest
     UpdateRequest();
     static void* operator new(unsigned);
     void CopyTo(UpdateRequest*);
-    void SetDestination(UpdateDungeon*);
-    UpdateDungeon* Destination();
+    void SetDestination(PointLocation*);
+    PointLocation* Destination();
     void Prepare();
 };
 struct UpdatePtr

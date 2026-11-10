@@ -1235,7 +1235,7 @@ struct Ref
     operator Accum*() const;
 };
 // Not the shared (int, int) Pair: an int and a NiPointer-style Ref (ctor 0x00800170 constructs the Ref at +4 from 0,
-// dtor 0x00800190 releases it); real name unknown. FOVATSEffectManager holds one at +4 and 32 at +0x14.
+// dtor 0x00800190 releases it); real name unknown. FUN_007ffec0 holds one at +4 and 32 at +0x14.
 struct FUN_007ffec0_ValueRef
 {
     int value;
@@ -1261,7 +1261,7 @@ extern StringSetting g_011db744;
 extern "C" int __cdecl rand();
 
 void __cdecl LoadTexture(const char*, bool, Ref&, bool, bool);
-struct FOVATSEffectManager
+struct FUN_007ffec0
 {
     int unk000;
     FUN_007ffec0_ValueRef first;
@@ -1351,12 +1351,11 @@ struct FOVATSEffectManager
     Ref unk2c4;
     int unk2c8;
     Ref unk2cc;
-    FOVATSEffectManager();
+    FUN_007ffec0();
 };
 // Initializes the object's fields, loads a texture, creates a disabled Accum, and clears the 16 per-slot arrays.
 // @fnv 0x007ffec0
-// src: COMMUNITY 0x007ffec0
-FOVATSEffectManager::FOVATSEffectManager()
+FUN_007ffec0::FUN_007ffec0()
 {
     unk118 = false;
     unk129 = true;

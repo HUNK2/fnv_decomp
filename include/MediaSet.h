@@ -53,7 +53,7 @@ public:
     void ResetFormData();
     void SaveMediaSet();
     bool UpdateLocation(unsigned int, bool, MediaLocationController*);
-    bool UpdateDungeon(unsigned int, bool, MediaLocationController*);
+    bool PointLocation(unsigned int, bool, MediaLocationController*);
     bool UpdateBattleState(bool, unsigned int, int);
     void UpdateIncidental(unsigned int);
     bool Update(unsigned int auiTime, bool abForce, MediaLocationController* apController);

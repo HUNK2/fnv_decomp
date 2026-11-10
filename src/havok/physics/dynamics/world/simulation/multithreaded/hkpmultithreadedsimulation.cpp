@@ -132,7 +132,7 @@ struct CompareReference
 {
     CompareValue* value;
 };
-struct MagicItemObject_Compare
+struct CompareObject
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     unsigned int unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
@@ -141,7 +141,7 @@ struct MagicItemObject_Compare
 };
 // Sets result to whether the key of left's referenced value is less than the key of right's referenced value.
 // @fnv 0x00d02220
-void __cdecl CompareObjectKeys(bool* result, MagicItemObject_Compare* left, MagicItemObject_Compare* right)
+void __cdecl CompareObjectKeys(bool* result, CompareObject* left, CompareObject* right)
 {
     *result = left->reference->value->key < right->reference->value->key;
 }
@@ -3344,7 +3344,7 @@ struct StepPair
     Handle* second;
 };
 
-void __cdecl hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(Island**, int, int, void(__cdecl*)(bool*, MagicItemObject_Compare*, MagicItemObject_Compare*));
+void __cdecl hkAlgorithm_quickSortRecursive_hkFreeList_Block_hkBool_cdecl_hkFreeList_Block_const_hkFreeList_Block_const(Island**, int, int, void(__cdecl*)(bool*, CompareObject*, CompareObject*));
 
 void __cdecl hkpTypedBroadPhaseDispatcher_removeDuplicates(PairArray*, PairArray*);
 

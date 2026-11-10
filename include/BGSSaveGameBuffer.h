@@ -53,8 +53,8 @@ public:
     void SerializeFormData(TESForm*, unsigned int);
     void SerializeFormData(unsigned int, unsigned int);
     void SerializeFormData(void*, int);
-    void SaveString(char*, unsigned int);
-    void SaveString(const char*, int);
+    void SaveGameString(char*, unsigned int);
+    void SaveGameString(const char*, int);
     unsigned int GetBufferLength();
     void SetBufferPosition(unsigned int, unsigned int);
     void SetBufferPosition(unsigned int);

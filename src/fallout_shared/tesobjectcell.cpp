@@ -7013,7 +7013,7 @@ void FUN_00555630_holder::TESObjectCELL_SaveGame(BGSSaveFormBuffer* apSaveGameBu
         if (apSaveGameBuffer->GetChangeFlags(4).operator bool())
         {
             pfullname = reinterpret_cast<TESFullName*>(reinterpret_cast<unsigned char*>(this) + 0x18)->GetFullName();
-            apSaveGameBuffer->SaveString(pfullname, 0);
+            apSaveGameBuffer->SaveGameString(pfullname, 0);
         }
 
         if (apSaveGameBuffer->GetChangeFlags(8).operator bool())

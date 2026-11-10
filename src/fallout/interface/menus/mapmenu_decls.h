@@ -619,7 +619,7 @@ class MapMenu : public Menu
     BSSimpleArray<Tile*> m_kMapMarkerTiles;
     MapMenu();
     static Tile* Create();
-    static void UpdateMenu();
+    static void MenuDepthController();
     void UpdateDialog();
     static void StopMapMenuSounds();
     static void SetMapPositionToPlayer();

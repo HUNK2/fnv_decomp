@@ -193,7 +193,7 @@ void FUN_0084e250_shell::DeleteItemsFrom(unsigned int uiStartIndex)
     UpdateEntryValue(uiStartIndex, (unsigned int)size - uiStartIndex);
 }
 
-// 0x00865e70 is SaveString; this view iterates history note strings, not NavMeshInfo objects.
+// 0x00865e70 is SaveGameString; this view iterates history note strings, not NavMeshInfo objects.
 class HistoryNotesView
 {
   public:
@@ -214,7 +214,7 @@ void HistoryNotesView::SaveTo(SaveLoadFile* pkTarget)
     for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
     {
         char* note = GetAt(uiIndex);
-        pkBuffer6->SaveString(static_cast<const char*>(note), 0);
+        pkBuffer6->SaveGameString(static_cast<const char*>(note), 0);
     }
 
     kBuffer.Save(pkTarget);

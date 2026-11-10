@@ -2417,7 +2417,7 @@ void Sky::FillColorBlend(SkyInterpolationData* pData, TESWeather* m_pWeatherObje
 }
 
 
-struct TESObjectCELL_SetNavMeshArray
+struct SetHelper
 {
     float x, y, z;
     NiPoint3* Set(float a, float b, float c);
@@ -2469,7 +2469,7 @@ void Sky::SetColor_0063c690(NiColor* apOutRgb, SkyColorData* pSkyColorData, floa
     t = BSMIN(1.0f, t);
     if (t > 0.0)
     {
-        TESObjectCELL_SetNavMeshArray sh;
+        SetHelper sh;
         ((Sh63c8a0*)reinterpret_cast<float*>(apOutRgb))->ComputeValue_0063c8a0(sh.Set(t, t, t));
         if (m_pRegionWeather)
         {

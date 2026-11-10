@@ -13641,7 +13641,7 @@ void FUN_00563650_Class::TESObjectREFR_SaveAnimationBGS(BGSSaveFormBuffer* apSav
     d = reinterpret_cast<NiObject*>(
         reinterpret_cast<FUN_004228f0_Class*>(reinterpret_cast<XActor*>(this)->GetExtra())->ExtraDataList_GetLastFinishedSequence());
 
-    apSaveGameBuffer->SaveString(reinterpret_cast<char const*>(d), 0);
+    apSaveGameBuffer->SaveGameString(reinterpret_cast<char const*>(d), 0);
     TESObjectREFR_SaveControllerManagerBGS(b, apSaveGameBuffer, -1.0f);
 }
 }  // namespace fnv_00563650
@@ -13701,7 +13701,7 @@ void TESObjectREFR_SaveControllerManagerBGS(AnimationInterpolatorNode* transCon,
             Idle_008b2010* state = transCon->GetSequenceAt(index);
             if (state && state->GetState())
             {
-                buffer->SaveString(state->GetName(), 0);
+                buffer->SaveGameString(state->GetName(), 0);
                 state->SaveGameBGS_004efc90(buffer, value);
                 ++savedCount;
             }

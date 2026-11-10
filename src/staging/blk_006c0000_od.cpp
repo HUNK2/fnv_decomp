@@ -3698,7 +3698,7 @@ struct FUN_006ac0e0
     unsigned int unk2100;
     FUN_006ac0e0();
     ~FUN_006ac0e0();
-    bool NavMeshSearchSLPoint_FindStraightLinePath(PathingRequest*, MeshTriangle*, MeshTriangle*);
+    bool SearchPath(PathingRequest*, MeshTriangle*, MeshTriangle*);
     void NavMeshSearchSLPoint_GetGoalLocation(NiPoint3&);
 };
 bool Pathing_GetAllLoadedNavmeshes(PathBuilderDetailedPathMeshes_blk_006c0000_od*);
@@ -3730,8 +3730,7 @@ bool __cdecl FindPathToTarget(PathingRequest* request, NiPoint3* output)
     FUN_006ac0e0 _search;
     PathBuilderDetailedPathMeshes_blk_006c0000_od kList;
     Pathing_GetAllLoadedNavmeshes(&kList);
-    // src: COMMUNITY 0x006ac220
-    if (!_search.NavMeshSearchSLPoint_FindStraightLinePath(request, &origin_, &target3))
+    if (!_search.SearchPath(request, &origin_, &target3))
     {
         PathingRequestHelper aOrigin;
         request->PathingRequest::CopyTo(reinterpret_cast<PathingRequest*>(&aOrigin));

@@ -5286,12 +5286,11 @@ struct Helper_cls
 
 struct ReferenceHelperOwner : public TESObjectREFR
 {
-    void TESObjectCELL_SetNavMeshArray(Helper_cls*);
+    void SetHelper(Helper_cls*);
 };
 
 // @fnv 0x00557760
-// src: COMMUNITY 0x00557760
-void ReferenceHelperOwner::TESObjectCELL_SetNavMeshArray(Helper_cls* pHelper)
+void ReferenceHelperOwner::SetHelper(Helper_cls* pHelper)
 {
     if (reinterpret_cast<Helper_cls*&>(m_pRenderData) != 0)
     {

@@ -319,7 +319,7 @@ struct MenuSI
     Tile* t78;
     char pad2[0x68];
     VObj e4;
-    void StartMenu_Fade(int, int, unsigned int, float);
+    void FadeTile(int, int, unsigned int, float);
     void PopulateListBoxTiles(void*, int, int, int, bool);
 };
 struct ListBoxSI
@@ -340,7 +340,7 @@ void MenuSI::PopulateListBoxTiles(void* apListBox, int aiValueA, int aiValueB, i
     unsigned int i;
     this->e4.v7();
     this->e4.ListBox_StartMenu_Option_SetEnabled(1);
-    this->StartMenu_Fade(7, 1, 0x80000000, -1.0f);
+    this->FadeTile(7, 1, 0x80000000, -1.0f);
     ((Tile*)this->t44)->Set(0xfa1, (float)(aiValueA - ((Tile*)this->t44->GetParent())->GetTotalFloat()), true);
     ((Tile*)this->t44)->Set(0xfa2, (float)(aiValueB - ((Tile*)this->t44->GetParent())->GetScreenY()), true);
     ((Tile*)this->t44)->Set(0xfb1, (unsigned int)auiValueC);

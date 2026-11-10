@@ -82,7 +82,7 @@ bool MediaSet::Update(unsigned int time, bool force, MediaLocationController* co
             return UpdateLocation(time, force, controller);
             break;
         case LAYER_DUNGEON:
-            return UpdateDungeon(time, force, controller);
+            return PointLocation(time, force, controller);
             break;
         case BATTLE:
             return UpdateBattleState(force, time, 4);
@@ -771,8 +771,7 @@ void __cdecl FUN_008304c0();
 extern unsigned int DAT_011ca9fc;
 
 // @fnv 0x00598060
-// src: COMMUNITY 0x00598060
-bool MediaSet::UpdateDungeon(unsigned int auiTime, bool abEnabled, MediaLocationController* apCtrl)
+bool MediaSet::PointLocation(unsigned int auiTime, bool abEnabled, MediaLocationController* apCtrl)
 {
     bool flagDTmp;
     bool retVal;
